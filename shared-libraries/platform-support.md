@@ -26,7 +26,7 @@ You need to add a flag when you configure
 There has been some churn in how dynamic libraries are built since the introduction of the new build system in ghc HEAD (6.11). The only platforms that have been tested with the new system are currently Linux/x86 and Linux/x86-64. The current target is to have GHC itself built statically but to build dynamic libraries such that GHC is capable of linking libraries and programs that use dynamic libraries.
 
 
-If anyone would like to help, report to the cvs-ghc mailing list or directly to wolfgang.thaller@… or duncan@….
+If anyone would like to help, report to the ghc-devs mailing list or directly to wolfgang.thaller@… or duncan@….
 
 # Platform-Specific TODO
 
@@ -161,7 +161,7 @@ dynamic librariesstatic codedynamically linked executablesstatically linked plug
 -fPIC         NO               YES        NO                            YES           NO
 -dynamic -fPICYES              NO         YES                           NO            YES
 `-fPIC` is ignored.
-Download in other formats:[Plain Text](/trac/ghc/wiki/SharedLibraries/PlatformSupport?version=1&format=txt)[](http://trac.edgewall.org/)Powered by [Trac 1.2.2](/trac/ghc/about)
+Download in other formats:[Plain Text](/trac/ghc/wiki/SharedLibraries/PlatformSupport?version=2&format=txt)[](http://trac.edgewall.org/)Powered by [Trac 1.2.2](/trac/ghc/about)
 
         By [Edgewall Software](http://www.edgewall.org/).Visit the Trac open source project at
 [http://trac.edgewall.org/](http://trac.edgewall.org/)**</th>
