@@ -8,7 +8,7 @@ Buildbot is currently [down](status/apr10#nightly-builds), and we are working on
 # Setting up a nightly build
 
 
-The GHC buildbot builds GHC on various platforms in various different ways each night, runs the test suite and performance benchmarks, and mails the results to the `cvs-ghc@haskell.org` mailing list.  We're always keen to add more build slaves to the setup, especially if you have a platform that doesn't already have a build slave, so if you'd like to join the fun, please let us know at cvs-ghc@….  If a platform is represented in the nightly builds, it's more likely we'll be able to identify and fix problems specific to that platform quickly.
+The GHC buildbot builds GHC on various platforms in various different ways each night, runs the test suite and performance benchmarks, and mails the results to the `ghc-builds@haskell.org` mailing list.  We're always keen to add more build slaves to the setup, especially if you have a platform that doesn't already have a build slave, so if you'd like to join the fun, please let us know at ghc-devs@….  If a platform is represented in the nightly builds, it's more likely we'll be able to identify and fix problems specific to that platform quickly.
         
 To see the current status of the builds:
 
