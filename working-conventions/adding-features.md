@@ -6,7 +6,7 @@ We welcome your involvement in making GHC able to do more.  Here's how to do it
 1. **Add a Trac feature request** for your proposed new feature (unless it's there already).  Use "feature request" in the "Type" field. 
 1. **Take ownership of the ticket in Trac**, by using the "Action" chunk at the bottom of the Trac bug display (you need to be logged in to see it), and putting your name in the "reassign to" box.  This makes sure that two people don't work on the same feature.  If you later decide you can't do it after all, remove your name.
 1. **Write down the specification of the feature** and either add it directly to Trac, or put it on a web page somewhere else and link to it.  Specifying before implementing is obviously a good idea; and it makes it possible for others to comment on your design before you invest heavily in building the feature.
-1. **Get feedback** by emailing a suitable list (`cvs-ghc` for nitty-gritty GHC internals, `glasgow-haskell-users` for user-visible features).  Often you'll get useful ideas.
+1. **Get feedback** by emailing a suitable list (`ghc-devs` for nitty-gritty GHC internals, `glasgow-haskell-users` for user-visible features).  Often you'll get useful ideas.
 1. **Implement the feature**!
 
   - Please follow our [coding conventions](working-conventions#)
