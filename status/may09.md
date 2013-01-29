@@ -42,7 +42,7 @@ You can read more about the [design rationale](design/build-system) on the wiki.
 We also advertised our [intent to switch to Git](design/version-control-system) as our
 version control system (VCS).  We always planned to change the build system first, and only
 then tackle the VCS.  Since then, there has been lots of activity on the Darcs front, so
-it's not clear how high priority making this change is.  We'd welcome your opinion (email `cvs-ghc@haskell.org`).
+it's not clear how high priority making this change is.  We'd welcome your opinion (email `ghc-devs@haskell.org`).
 
 ## The GHC 6.12 branch
 
