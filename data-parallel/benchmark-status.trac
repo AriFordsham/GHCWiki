@@ -7,7 +7,7 @@
 
 This page gives an overview of how well the benchmarks in the [http://darcs.haskell.org/packages/dph/dph-examples dph-examples/] directory of package dph are currently working.
 
-The benchmarks are run each night by [http://darcs.haskell.org/packages/dph/dph-buildbot DPH BuildBot]. The results are posted to cvs-ghc and uploaded to [http://log.ouroborus.net/limitingfactor/dph/]. Check there for the latest numbers.
+The benchmarks are run each night by [http://darcs.haskell.org/packages/dph/dph-buildbot DPH BuildBot]. The results are posted to ghc-builds and uploaded to [http://log.ouroborus.net/limitingfactor/dph/]. Check there for the latest numbers.
 
 [[br]]
 = Summary =
