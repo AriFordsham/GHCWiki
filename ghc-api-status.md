@@ -222,7 +222,7 @@ There are also a few non-functional requirements:
   - David Waern mentions [ deriving \`Data.Traversable\`](http://www.haskell.org/pipermail/haskell-cafe/2008-May/042961.html) for GHC's AST
 - **GHC library directory in GHC API clients**
 
-  - the need to hardcode the libdir is very fragile and troublesome (cf. the [ Haddock version during build](http://www.haskell.org/pipermail/cvs-libraries/2008-June/008942.html) thread on `cvs-ghc` for just one example). would it be possible to integrate the path for the compiling GHC as a default, so that one only needs to specify an explicit path if the default doesn't work (compiling GHC moved/unavailable)? (Claus Reinke) 
+  - the need to hardcode the libdir is very fragile and troublesome (cf. the [ Haddock version during build](http://www.haskell.org/pipermail/cvs-libraries/2008-June/008942.html) thread on `cvs-libraries` for just one example). would it be possible to integrate the path for the compiling GHC as a default, so that one only needs to specify an explicit path if the default doesn't work (compiling GHC moved/unavailable)? (Claus Reinke) 
   - this has been addressed by the new [ ghc-paths](http://hackage.haskell.org/cgi-bin/hackage-scripts/package/ghc-paths) package
 - **binary incompatibility of GHC versions**
 

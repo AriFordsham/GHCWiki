@@ -196,7 +196,7 @@ There are also a few non-functional requirements:
    - Is it possible to use standalone deriving to get a '''generic programming framework over the ASTs''' without blowing up GHC's code for its own use (deriving Data, etc.)? (Claus Reinke)
    - David Waern mentions [http://www.haskell.org/pipermail/haskell-cafe/2008-May/042961.html deriving `Data.Traversable`] for GHC's AST
  * '''GHC library directory in GHC API clients'''
-   - the need to hardcode the libdir is very fragile and troublesome (cf. the [http://www.haskell.org/pipermail/cvs-libraries/2008-June/008942.html Haddock version during build] thread on `cvs-ghc` for just one example). would it be possible to integrate the path for the compiling GHC as a default, so that one only needs to specify an explicit path if the default doesn't work (compiling GHC moved/unavailable)? (Claus Reinke) 
+   - the need to hardcode the libdir is very fragile and troublesome (cf. the [http://www.haskell.org/pipermail/cvs-libraries/2008-June/008942.html Haddock version during build] thread on `cvs-libraries` for just one example). would it be possible to integrate the path for the compiling GHC as a default, so that one only needs to specify an explicit path if the default doesn't work (compiling GHC moved/unavailable)? (Claus Reinke) 
    - this has been addressed by the new [http://hackage.haskell.org/cgi-bin/hackage-scripts/package/ghc-paths ghc-paths] package
  * '''binary incompatibility of GHC versions'''
    - this also affects GHC Api clients, see [http://www.haskell.org/pipermail/cvs-ghc/2008-July/043568.html the Haddock 2 in GHC build issues] for an infamous example
