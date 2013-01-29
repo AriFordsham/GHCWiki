@@ -4,7 +4,7 @@
 The **GHC builder** is a client/server system that allows us to build and test GHC on lots of different computers scattered around the world (the *clients*, or *build slaves*), and aggregate the test results centrally (the *server*).
 
 
-Each night we build GHC on each slave, in various different ways, run the test suite and performance benchmarks, and mail the results to the `cvs-ghc@haskell.org` mailing list.  
+Each night we build GHC on each slave, in various different ways, run the test suite and performance benchmarks, and mail the results to the `ghc-builds@haskell.org` mailing list.  
 
 ## Seeing build results
 
@@ -14,7 +14,7 @@ The build results are uploaded to [ http://darcs.haskell.org/ghcBuilder/builders
 ## Can you offer a build slave?
 
 
-We're always keen to add more build slaves to the setup. If a platform is represented in the nightly builds, it's we can identify and fix problems specific to that platform much more quickly.  If you'd like to join the fun, please let us know at cvs-ghc@…. 
+We're always keen to add more build slaves to the setup. If a platform is represented in the nightly builds, it's we can identify and fix problems specific to that platform much more quickly.  If you'd like to join the fun, please let us know at ghc-devs@…. 
 
 # How to set up a build slave
 
