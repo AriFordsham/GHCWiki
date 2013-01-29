@@ -155,7 +155,7 @@ There is a slight tweak to this workflow that you might find more convenient: do
 Please write your patch and then rebase to the latest version of GHC HEAD before sending to us. You can use the following command to send patches via email:
 
 ```wiki
-git send-email --to=cvs-ghc@haskell.org <hash-id> -1
+git send-email --to=ghc-devs@haskell.org <hash-id> -1
 ```
 
 
