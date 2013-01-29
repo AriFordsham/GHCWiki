@@ -65,7 +65,38 @@ $ make
 ```
 
 ```wiki
-$ <</path/to/ghc/tree>>/distrib/compare <<previous_release_files>> <<this_release_files>>
+$ <</path/to/ghc/tree>>/distrib/compare/compare <<previous_release_files>> <<this_release_files>>
 ```
 
 ## Check that the build can build the release
+
+
+Install the release, set your `$PATH`, then just untar and:
+
+```wiki
+$ ./configure
+$ make
+```
+
+## Prepare the library documentation
+
+```wiki
+haskell.org$ mkdir /srv/web/haskell.org/ghc/docs/<<VERSION>>
+```
+
+```wiki
+$ <</path/to/ghc/tree>>/distrib/mkDocs/mkDocs ghc-*-x86_64-unknown-linux.tar.bz2 ghc-*-i386-unknown-mingw32.tar.bz2
+$ cd docs
+$ scp * haskell.org:/srv/web/haskell.org/ghc/docs/<<VERSION>>
+```
+
+```wiki
+haskell.org$ cd /srv/web/haskell.org/ghc/docs/<<VERSION>>
+haskell.org$ mkdir html
+haskell.org$ cd html
+haskell.org$ mv ../index.html .
+haskell.org$ for i in ../*.tar.bz2; do tar -jxf $i; done
+```
+
+
+Sanity check `http://www.haskell.org/ghc/docs/<<VERSION>>/`. In particular, check that the libraries docs include both Win32 and unix.
