@@ -142,3 +142,7 @@ Mail `ANNOUNCE` to `glasgow-haskell-users@haskell.org, haskell@haskell.org`, sub
 
 
 Also `git tag <<LIBRARY>>-<<VERSION>>-release`[libraries that we maintain](repositories) (other than `ghc-prim`).
+
+```wiki
+./sync-all push --tags
+```
