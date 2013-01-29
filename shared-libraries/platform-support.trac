@@ -22,7 +22,7 @@ You need to add a flag when you configure
 
 There has been some churn in how dynamic libraries are built since the introduction of the new build system in ghc HEAD (6.11). The only platforms that have been tested with the new system are currently Linux/x86 and Linux/x86-64. The current target is to have GHC itself built statically but to build dynamic libraries such that GHC is capable of linking libraries and programs that use dynamic libraries.
 
-If anyone would like to help, report to the cvs-ghc mailing list or directly to wolfgang.thaller@gmx.net or duncan@well-typed.com.
+If anyone would like to help, report to the ghc-devs mailing list or directly to wolfgang.thaller@gmx.net or duncan@well-typed.com.
 
 = Platform-Specific TODO =
 
