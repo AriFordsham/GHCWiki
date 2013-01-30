@@ -72,7 +72,7 @@ g (toList -> [x,y,z]) = ...
 }}}
 
 GHC, during the typechecking and desugaring phases, uses whatever is in scope
-with the names of {{{fromList}}} and {{{fromListN}}} (i.e., {{{fromList}}} and
+with the names of {{{fromList}}}, {{{toList}}} and {{{fromListN}}} (i.e., {{{fromList}}}, {{{toList}}} and
 {{{fromListN}}} are rebindable).
 
 That said, the {{{GHC.Exts}}} module exports the {{{IsList}}} class that can
@@ -147,7 +147,7 @@ instance IsList (Vector a) where
 
 == Defaulting ==
 
-Currently, the {{{FromList}}} class is not accompanied with defaulting rules.
+Currently, the {{{IsList}}} class is not accompanied with defaulting rules.
 Although feasible, not much thought has gone into how to specify the meaning
 of the default declarations like: {{{default ([a])}}}
 
@@ -156,7 +156,7 @@ of the default declarations like: {{{default ([a])}}}
 The current implementation of the {{{OverloadedLists}}} extension can be
 improved by handling the lists that are only populated with literals in a
 special way. More specifically, the compiler could allocate such lists
-statically using a compact representation and allow {{{FromList}}} instances
+statically using a compact representation and allow {{{IsList}}} instances
 to take advantage of the compact representation. Equipped with this capability
 the {{{OverloadedLists}}} extension will be in a good position to subsume the
 {{{OverloadedStrings}}} extension (currently, as a special case, string
