@@ -99,7 +99,7 @@ First you want to install a C compiler and related tools that generate code for 
 (basically gcc + binutils + libc).  These need to be installed somewhere different from your native gcc & binutils so they don't conflict.  We assume that your `gcc` knows where its libraries live, otherwise you will probably need to add more flags to your `build.mk` settings to tell it.
 
 
-(ToDo: what if we're using LLVM?)
+If you are using LLVM as your compiler back end, you will need to make sure the llc and opt executables are in your search path. No other configuration is necessary. Also see the ARM-specific note below.
 
 
 Also install the other tools needed to build GHC on your platform: see [Building/Preparation](building/preparation).
@@ -144,6 +144,9 @@ Note: if you are cross-compiling for a platform that doesn't have a native code 
 
 
 (the build system will probably do this automatically for you anyway, but it doesn't hurt to be explicit)
+
+
+Your target triplet must have the general form `<arch>-<os>-<abi>` or `<arch>-<vendor>-<os>-<abi>`. If configure complains that your arch, vendor or OS is unknown, then you will need to modify the checkArch(), checkVendor() or checkOS() function in **aclocal.m4**, then get autotools to re-create the configure script using the **autoreconf** command.
 
 ## `build.mk` settings
 
@@ -192,3 +195,10 @@ install-dirs user
 
 
 Unfortunately this **does not work** at the moment, because `cabal` uses the wrong values for `$arch` and `$os`, see [ https://github.com/haskell/cabal/issues/1184](https://github.com/haskell/cabal/issues/1184).
+
+## CPU/platform specific notes
+
+### ARM
+
+
+Only llvm versions == 3.0 and \>= 3.2 support GHC for ARM targets. There was a regression in llvm version 3.1, the result of which is bad generated code that crashes.
