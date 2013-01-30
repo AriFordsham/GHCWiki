@@ -146,7 +146,7 @@ Note: if you are cross-compiling for a platform that doesn't have a native code 
 (the build system will probably do this automatically for you anyway, but it doesn't hurt to be explicit)
 
 
-Your target triplet must have the general form `<arch>-<os>-<abi>` or `<arch>-<vendor>-<os>-<abi>`. If configure complains that your arch, vendor or OS is unknown, then you will need to modify the checkArch(), checkVendor() or checkOS() function in **aclocal.m4**, then get autotools to re-create the configure script using the **autoreconf** command.
+Your target triplet/quad must have the general form `<arch>-<os>-<abi>` or `<arch>-<vendor>-<os>-<abi>`. If configure complains that your arch, vendor or OS is unknown, then you will need to modify the checkArch(), checkVendor() or checkOS() function in **aclocal.m4**, then get autotools to re-create the configure script using the **autoreconf** command.
 
 ## `build.mk` settings
 
