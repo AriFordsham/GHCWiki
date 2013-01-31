@@ -149,3 +149,16 @@ Also `git tag <<LIBRARY>>-<<VERSION>>-release`[libraries that we maintain](repos
 ```wiki
 ./sync-all push --tags
 ```
+
+## Uploading libraries
+
+
+If any library [that we maintain](repositories) (other than bin-package-db, ghc-prim, integer-gmp and integer-simple which don't get uploaded) has been changed, then the new version should be uploaded to hackage.
+
+
+For example, for `base`, in a built tree:
+
+```wiki
+make sdist_base
+cabal upload libraries/base/dist-install/*.tar.gz
+```
