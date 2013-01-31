@@ -153,7 +153,7 @@ Also `git tag <<LIBRARY>>-<<VERSION>>-release`[libraries that we maintain](repos
 ## Uploading libraries
 
 
-If any library [that we maintain](repositories) (other than bin-package-db and ghc-prim, which don't get uploaded) has been changed, then the new version should be uploaded to hackage.
+If any library [that we maintain](repositories) (other than bin-package-db, ghc-prim, integer-gmp and integer-simple which don't get uploaded) has been changed, then the new version should be uploaded to hackage.
 
 
 For example, for `base`, in a built tree:
