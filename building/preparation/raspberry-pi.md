@@ -36,7 +36,8 @@ The build should go successfully all the way to stage 2.  You can then use the s
 ## Using LLVM
 
 
-Note that LLVM 2.9 does not work for registerised code generation on ARM (it crashes), and LLVM 3.1 has been reported to generate incorrect code.  Success has been reported with LLVM 3.0 and 3.2.
+Note that LLVM 2.9 does not work for registerised code generation on ARM as it does not support GHC calling convention for ARM platform. This was added into LLVM 3.0 release but due to management issue was missing in LLVM 3.1
+and later merged for inclusion in LLVM 3.2. So please use either LLVM 3.0 or LLVM 3.2 when cross-compiling to ARM. This also applies if you are doing native compilation on ARM/Linux system.
 
 - When **unregisterised**, the C backend will be used by default, but you can optionally use LLVM (see below).  Code generated using LLVM is compatible with code generated using the C backend.
 - When **registerised**, LLVM is the only backend that supports registerised compilation on ARM, so it will be used automatically.  You don't have to do anything except ensure that a suitable version of LLVM is installed.
