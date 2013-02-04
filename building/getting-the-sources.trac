@@ -81,7 +81,7 @@ To check out a specific version of GHC, run
 
 {{{
   $ export VERSION=7.6.1
-  $ git clone https://github.com/ghc/ghc
+  $ git clone http://darcs.haskell.org/ghc.git/
   $ cd ghc
   $ git checkout -b ghc-${VERSION} ghc-${VERSION}-release
   $ ./sync-all --no-dph get
