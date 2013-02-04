@@ -93,6 +93,23 @@ To get one, run
   $ ./sync-all --testsuite get -b branch-name
 ```
 
+## Getting a tag
+
+
+Each release is tagged in the git repository, making it possible to check out an old version of GHC by tag. To see all available tags, run `git tag` in the GHC repository.
+
+
+To check out a specific version of GHC, run
+
+```wiki
+  $ export VERSION=7.6.1
+  $ git clone http://darcs.haskell.org/ghc.git/
+  $ cd ghc
+  $ git checkout -b ghc-${VERSION} ghc-${VERSION}-release
+  $ ./sync-all --no-dph get
+  $ ./sync-all checkout -b ghc-${VERSION} ghc-${VERSION}-release
+```
+
 ## Getting a GHC repository from GitHub
 
 
