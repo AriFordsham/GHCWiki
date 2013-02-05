@@ -1,0 +1,61 @@
+This page collects ideas about definitions to support type-level (propositional) reasoning in Haskell programs. Much of the initial content comes from the thread "RHC: Singleton equality witnesses" on ghc-devs. Currently (Feb 2013), these ideas are implemented in {{{GHC.TypeLits}}}.
+
+Gabor Greif's proposal:
+
+{{{
+class (kparam ~ KindParam, SingE (kparam :: OfKind k)) => SingEquality (kparam :: OfKind k) where
+  type SameSing kparam :: k -> k -> *
+  type SameSing kparam = (:~:)
+  sameSing :: Sing a -> Sing b -> Maybe (SameSing kparam a b)
+
+instance SingEquality (KindParam :: OfKind Nat) where
+  sameSing = eqSingNat
+
+instance SingEquality (KindParam :: OfKind Symbol) where
+  sameSing = eqSingSym
+}}}
+
+Richard Eisenberg's proposal:
+
+{{{
+-- Void and absurd are borrowed from Edward Kmett's 'void' package:
+data Void
+absurd :: Void -> a
+absurd x = case x of {}
+
+type PropNot a = a -> Void
+
+type Decision a = Either a (PropNot a)
+
+class SingE kparam => SingEquality (kparam :: OfKind k) where
+  sameSing :: forall (a :: k) (b :: k). Sing a -> Sing b -> Decision (a :~: b)
+}}}
+
+I (Richard) think that using {{{Decision}}} instead of {{{Maybe}}} allows tighter programs to be written, because programmers can escape from impossible situations using {{{absurd}}}. If {{{sameSing}}} returns only a {{{Maybe}}}, then a programmer gets no information usable at the type level when the two singletons do not equal.
+
+Other variations:
+
+ * In Edward Kmett's ''void'' package, he uses a different definition of {{{Void}}}:
+{{{
+newtype Void = Void Void
+}}}
+I'm not sure of the advantages/disadvantages of the choice of representation here. My guess is that Edward did this so his absurd function could spin infinitely. With empty case, we don't need that.
+
+ * I'm not at all happy with the name {{{PropNot}}}, but I wanted to reserve {{{Not}}} for Boolean equality, as a parallel to {{{not}}}. Please suggest something better.
+
+== Other thoughts (Richard) ==
+
+ * The ''singletons'' package contains these definitions:
+
+{{{
+data SingInstance (a :: k) where
+  SingInstance :: SingRep a => SingInstance a
+class (kparam ~ KindParam) => SingKind (kparam :: OfKind k) where
+  singInstance :: forall (a :: k). Sing a -> SingInstance a
+}}}
+
+{{{SingKind (KindParam :: OfKind k)}}} states that the kind {{{k}}} has an associated singleton. I think that's a better superclass for {{{SingEquality}}} than just {{{SingE}}}.
+
+ * I don't love having the functions {{{unsafeSingNat}}} and {{{unsafeSingSymbol}}} in {{{GHC.TypeLits}}}. I envision a future where, some day, a programmer could statically declare that they avoid the partial features of Haskell (along the lines of Safe Haskell, but stricter). Having these functions here means that this module would not be safe. (I am not bothered by various uses of {{{unsafeCoerce}}} within the module -- those uses certainly seem safe to me.) Instead, I propose that we move them to {{{GHC.TypeLits.Unsafe}}}.
+
+ * Perhaps we should move some of what we're discussing out of {{{GHC.TypeLits}}}. After all, {{{(:~:)}}} does not interact directly with singletons, and neither do some of the definitions I mentioned above. I'm at a bit of a loss for a name, though...
