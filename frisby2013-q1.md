@@ -134,4 +134,60 @@ We discovered that the worker-wrapper was removing the void argument from join p
 
 SPJ was expecting no such non-lambda join points to exist. We identified where it was happening (WwLib.mkWorkerArgs) and switched it off.
 
-TODO the result?
+```wiki
+protect-no  = allow wwlib to remove the last value argument
+              (ie the previous behavior)
+
+protect-yes = protect the last value argument from being removed
+              (ie the experimental behavior)
+
+Allocations
+
+-------------------------------------------------------------------------------
+        Program           protect-no     protect-yes
+-------------------------------------------------------------------------------
+        circsim           1326468688           -0.7%
+         hidden           1165299720           -0.7%
+            scs           1029909256           -0.1%
+      transform            738757608           -0.1%
+      cacheprof            479313187           -0.1%
+       listcopy            334710912           -0.4%
+  comp_lab_zift            330889440           -5.0%
+         fulsom            321534872           -0.3%
+      listcompr            304662896           -0.4%
+           anna             70685104           +0.1%
+         gamteb             59846096           -0.3%
+         parser             32406448           +0.2%
+             gg              8970344           -0.2%
+        -1 s.d.                -----           -0.6%
+        +1 s.d.                -----           +0.5%
+        Average                -----           -0.1%
+
+Run Time
+
+-------------------------------------------------------------------------------
+        Program           protect-no     protect-yes
+-------------------------------------------------------------------------------
+    constraints                 5.23           -9.6%
+        integer                 2.63           +1.8%
+        circsim                 1.73           +1.2%
+          power                 1.18           +1.0%
+       maillist                 0.49          -16.9%
+   wheel-sieve2                 0.37          +11.5%
+      integrate                 0.35          +26.0%
+
+        -1 s.d.                -----           -6.5%
+        +1 s.d.                -----           +6.8%
+        Average                -----           -0.1%
+```
+
+
+I'm now investigating further.
+
+##### Continuation
+
+
+SPJ thought this may be another means of hoisting the let-no-escape functionality from the code generator into the core2core pipeline. LLF would handle let-no-escape lambdas, but it does not handle let-no-escape thunks (which we didn't initially realize were being identified).
+
+
+Changing the let-no-escape thunks to \\void -\> ... closures upstream would then subject the binding to more optimisations. Formerly, it's non-lambda status meant that inlining it, eg, would lose sharing.
