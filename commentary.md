@@ -94,7 +94,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
   - [ Cloud Haskell](http://haskell.org/haskellwiki/GHC/CouldAndHPCHaskell)
   - [A modular package language for Haskell](package-language) Scott Kilpatrick and Derek Dreyer are designing a new “package language” for Haskell in the style of the ML module system.
   - [Pattern synonyms](pattern-synonyms)
-  - [Type level naturals](type-nats)
+  - [Type level naturals](type-nats) and [type level reasoning](type-level-reasoning).
   - [The solve for type-level naturals](commentary/compiler/type-nat-solver)
   - [Polymorphic Dynamic](polymorphic-dynamic): Notes on adding ad-hoc polymorphic dynamic types
   - [Proposal to allow classes to give default implementations for their superclasses](default-superclass-instances)
