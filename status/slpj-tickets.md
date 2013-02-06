@@ -47,7 +47,7 @@ See also [TemplateHaskell](template-haskell)
 - [\#2439](https://gitlab.haskell.org//ghc/ghc/issues/2439): Strict dictionaries
 - [\#5916](https://gitlab.haskell.org//ghc/ghc/issues/5916): `runST` isn't free
 - [\#5522](https://gitlab.haskell.org//ghc/ghc/issues/5522), [\#6092](https://gitlab.haskell.org//ghc/ghc/issues/6092): liberate-case runs out of memory
-- [\#3990](https://gitlab.haskell.org//ghc/ghc/issues/3990): UNPACK for data families, and with phantom types, needs data con wrapper refactoring
+- [\#3990](https://gitlab.haskell.org//ghc/ghc/issues/3990), [\#7647](https://gitlab.haskell.org//ghc/ghc/issues/7647): UNPACK for data families, and with phantom types, needs data con wrapper refactoring
 - [\#5928](https://gitlab.haskell.org//ghc/ghc/issues/5928): running Specialise more than once
 
 ## Compile time
