@@ -3,6 +3,9 @@
 
 The NoFib benchmark suite is a collection of (mostly old) Haskell programs that we use for benchmarking GHC. 
 
+
+Trac [\#5793](https://gitlab.haskell.org//ghc/ghc/issues/5793) is about improving NoFib.
+
 ## Getting nofib
 
 
