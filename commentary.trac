@@ -82,7 +82,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
    * [http://haskell.org/haskellwiki/GHC/CouldAndHPCHaskell Cloud Haskell]
    * [wiki:PackageLanguage A modular package language for Haskell] Scott Kilpatrick and Derek Dreyer are designing a new “package language” for Haskell in the style of the ML module system.
    * [wiki:PatternSynonyms Pattern synonyms]
-   * [wiki:TypeNats Type level naturals]
+   * [wiki:TypeNats Type level naturals] and [wiki:TypeLevelReasoning type level reasoning].
    * [wiki:Commentary/Compiler/TypeNatSolver The solve for type-level naturals]
    * [wiki:PolymorphicDynamic Polymorphic Dynamic]: Notes on adding ad-hoc polymorphic dynamic types
    * [wiki:DefaultSuperclassInstances Proposal to allow classes to give default implementations for their superclasses]
