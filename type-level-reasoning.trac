@@ -61,3 +61,7 @@ class (kparam ~ KindParam) => SingKind (kparam :: OfKind k) where
  * I don't love having the functions {{{unsafeSingNat}}} and {{{unsafeSingSymbol}}} in {{{GHC.TypeLits}}}. I envision a future where, some day, a programmer could statically declare that they avoid the partial features of Haskell (along the lines of Safe Haskell, but stricter). Having these functions here means that this module would not be safe. (I am not bothered by various uses of {{{unsafeCoerce}}} within the module -- those uses certainly seem safe to me.) Instead, I propose that we move them to {{{GHC.TypeLits.Unsafe}}}.
 
  * Perhaps we should move some of what we're discussing out of {{{GHC.TypeLits}}}. After all, {{{(:~:)}}} does not interact directly with singletons, and neither do some of the definitions I mentioned above. I'm at a bit of a loss for a name, though...
+
+== Course of Implementation ==
+
+Gabor: I have created a new branch `type-reasoning` and pushed everything I have so far to the `libraries/base` repo. [http://www.haskell.org/pipermail/ghc-devs/2013-February/000304.html Richard's mail] summarizes what still needs to be done.
