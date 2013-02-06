@@ -1,5 +1,5 @@
 
-This page collects ideas about definitions to support type-level (propositional) reasoning in Haskell programs. Much of the initial content comes from the thread "RHC: Singleton equality witnesses" on ghc-devs. Currently (Feb 2013), these ideas are implemented in `GHC.TypeLits`.
+This page collects ideas about definitions to support type-level (propositional) reasoning in Haskell programs. Much of the initial content comes from the thread "RFC: Singleton equality witnesses" on ghc-devs. Currently (Feb 2013), these ideas are implemented in `GHC.TypeLits`.
 
 
 See also [TypeNats](type-nats).
