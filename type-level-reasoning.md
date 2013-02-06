@@ -52,7 +52,7 @@ Other variations:
 
 I'm not sure of the advantages/disadvantages of the choice of representation here. My guess is that Edward did this so his absurd function could spin infinitely. With empty case, we don't need that.
 
-- I'm not at all happy with the name `PropNot`, but I wanted to reserve `Not` for Boolean equality, as a parallel to `not`. Please suggest something better. Gabor suggests `Falsified`.
+- I'm not at all happy with the name `PropNot`, but I wanted to reserve `Not` for Boolean equality, as a parallel to `not`. Please suggest something better. Gabor suggests `Falsified`, or even better `Refuted`.
 
 ## Other thoughts (Richard)
 
