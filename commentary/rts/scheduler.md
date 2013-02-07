@@ -13,6 +13,9 @@ version of the runtime that uses multiple OS threads, because it is by
 far the most complex beast.
 
 
+See also [ Edward Yang's blog post](http://blog.ezyang.com/2013/01/the-ghc-scheduler/) (2013).
+
+
 We begin by discussing the basic abstractions used in the scheduler.
 
 ## OS Threads
