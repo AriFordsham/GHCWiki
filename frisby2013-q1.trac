@@ -8,7 +8,7 @@ Compared to 351a8c6bbd53ce07d687b5a96afff77c4c9910cc, we implemented OPTIMIZATIO
 
 == general core knowledge ==
 
-  * Max's page about code generation: really good.
+  * Max's [wiki:Commentary/Compiler/GeneratedCode page about code generation]: really good!
   * document ticky profiling
   * Core -> STG -> CMM and _what you can learn by looking at each one_
 
@@ -116,7 +116,7 @@ CTX[case a of [p1 -> let f x = ... in case a of ...]]
 
 We discovered that the worker-wrapper was removing the void argument from join points (eg knights and mandel2). This ultimately resulted in LLF *increasing* allocation. A thunk was let-no-escape before LLF but not after, since it occurred free in the right-hand side of a floated binding and hence now occurred (escapingly) as an argument.
 
-SPJ was expecting no such non-lambda join points to exist. We identified where it was happening (WwLib.mkWorkerArgs) and switched it off.
+SPJ was expecting no such non-lambda join points to exist. We identified where it was happening (WwLib.mkWorkerArgs) and switched it off. Here are the programs that with affected allocation.
 
 {{{
 protect-no  = allow wwlib to remove the last value argument
@@ -124,6 +124,8 @@ protect-no  = allow wwlib to remove the last value argument
 
 protect-yes = protect the last value argument from being removed
               (ie the experimental behavior)
+
+Both are applied to both the libraries and the program.
 
 Allocations
 
@@ -134,7 +136,7 @@ Allocations
          hidden           1165299720           -0.7%
             scs           1029909256           -0.1%
       transform            738757608           -0.1%
-      cacheprof            479313187           -0.1%
+      cacheprof            478120432           +0.3%
        listcopy            334710912           -0.4%
   comp_lab_zift            330889440           -5.0%
          fulsom            321534872           -0.3%
@@ -143,29 +145,48 @@ Allocations
          gamteb             59846096           -0.3%
          parser             32406448           +0.2%
              gg              8970344           -0.2%
+
         -1 s.d.                -----           -0.6%
         +1 s.d.                -----           +0.5%
         Average                -----           -0.1%
-
-Run Time
-
--------------------------------------------------------------------------------
-        Program           protect-no     protect-yes
--------------------------------------------------------------------------------
-    constraints                 5.23           -9.6%
-        integer                 2.63           +1.8%
-        circsim                 1.73           +1.2%
-          power                 1.18           +1.0%
-       maillist                 0.49          -16.9%
-   wheel-sieve2                 0.37          +11.5%
-      integrate                 0.35          +26.0%
-
-        -1 s.d.                -----           -6.5%
-        +1 s.d.                -----           +6.8%
-        Average                -----           -0.1%
 }}}
 
-I'm now investigating further.
+In circsim, put gets 1,000,000 better and Text.Read.Lex gets a tiny bit better.
+
+In hidden, it's Text.Read.Lex, Text.ParserCombinators.ReadP, and GHC.Read.
+
+In cacheprof, $wpreparseline gets a bit worse.
+
+In comp_lab_zift: f_make_tree gets 2,060,000 better and f_union_br gets 1,500 better.
+
+In anna, StrictAn6.$wsa, SmallerLattice.$w$sslDijkstra_aux, SmallerLattice.$w$sslDijkstra_unlink get worse (10,000, 400, 400).
+
+In parser, Main.leLex gets worse (5000).
+
+In gg, Graph.$wprintFloat gets worse (12 -> 84).
+
+Bigger swings in allocation (mostly good) took place in the programs themselves (eg transform.f_prmdef ~130,000 better, listcopy.f_se ~150,000 better).
+
+Many of the Core differences were of the following form. For example, see circsim's `put` function. When protecting the last argument from being removed by `WwLib.mkWorkerArgs`, the Core looks like this:
+
+{{{
+let x :: RealWorld# -> ...
+    x = \_void -> let d = ... in Ctor(... d ...) (... d ...) ...
+in CTX[x]
+}}}
+
+Without protection, it looks like:
+
+{{{
+let d = ...
+in CTX[Ctor(... d ...) (... d ...) ...]
+}}}
+
+Simon explained that it is probably the simplifier floating d out of the unprotected `x` binding *in order to reveal `x` as let-bound to a constructor*. Thus revealed, `x` is immediately inlined. Because of the `\_void`, this doesn't happen when the last argument is protected.
+
+With protection, `d` isn't allocated unless `x` is entered, which might not always happen in `CTX`. This is a potential win because `x` might be let-no-escape.
+
+A potential detriment of protection is that `x` is not exposed as a let-bound constructor. Simon conjectures that's not actually harmful because ... I CANNOT REMEMBER.
 
 ===== Continuation =====
 
