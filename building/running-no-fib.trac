@@ -17,7 +17,13 @@ It will be pulled into the a "nofib" subdirectory.
 
 == Benchmarking ==
 
-To run the tests:
+Firstly, the `nofib-analyse` program requires the `html` cabal package be installed:
+
+{{{
+  $ cabal install html
+}}}
+
+Then, to run the tests execute:
 
 {{{
   $ cd nofib
