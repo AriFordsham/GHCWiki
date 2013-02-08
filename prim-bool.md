@@ -262,4 +262,37 @@ Another problem with this approach is that it would introduce primitive logical 
 ## Places of interest in the source code
 
 
-The file [prelude/primops.txt.pp](/trac/ghc/browser/ghc/prelude/primops.txt.pp) defines PrimOps and their type signatures.
+The file [prelude/primops.txt.pp](/trac/ghc/browser/ghc/prelude/primops.txt.pp) defines PrimOps and their type signatures. An example definition looks like this:
+
+```wiki
+primop   IntGtOp  ">#"   Compare   Int# -> Int# -> Bool
+   with fixity = infix 4
+```
+
+
+Existing definitions should remain unchanged or the code using them would break and that is a Very Bad Thing. This would require creating new PrimOps:
+
+```wiki
+primop   IntGtOpB  ".>#"   Compare   Int# -> Int# -> Bool#
+   with fixity = infix 4
+```
+
+
+The tricky part here is `Compare`. This a value constructor of `PrimOpInfo` data type defined in [prelude/PrimOp.lhs](/trac/ghc/browser/ghc/prelude/PrimOp.lhs):
+
+```wiki
+data PrimOpInfo
+  = Dyadic      OccName         -- string :: T -> T -> T
+                Type
+  | Monadic     OccName         -- string :: T -> T
+                Type
+  | Compare     OccName         -- string :: T -> T -> Bool
+                Type
+  | GenPrimOp   OccName         -- string :: \/a1..an . T1 -> .. -> Tk -> T
+                [TyVar]
+                [Type]
+                Type
+```
+
+
+We would need new `PrimOpInfo` value to denote PrimOps of type `T -> T -> Bool#`. Appropriate functions like `primOpSig` and `getPrimOpResultInfo` would have to be adjusted accordingly.
