@@ -88,25 +88,52 @@ The poly prefix is vestigial: in the past, floated bindings could never cross la
 
 These are the various negative consequences that we discovered on the way. We discuss mitigation below.
 
-- Unapplied occurrences of f in BODY results in the creation of PAPs, which increases allocation. For example: `map f xs` becomes `map (f a b c) xs`. Max had identified this issue earlier.
+- Unapplied occurrences of f in BODY results in the creation of PAPs, which increases allocation. For example: `map f xs` becomes `map (poly_f a b c) xs`. Max had identified this issue earlier.
 - Abstracting over a known function might change a fast entry call in RHS to a slow entry call. For example, if CTX binds `a` to a lambda, that information is lost in the right-hand side of poly_f. This can increase runtime.
-- Replacing a floated binder's occurrence (ie `f` becomes `f a b c`) can add free variables to a thunk's closure, which increases allocation.
+- Replacing a floated binder's occurrence (ie `f` becomes `poly_f a b c`) can add free variables to a thunk's closure, which increases allocation.
 - TODO putStr (eg sphere)
 
 #### Mitigating PAP Creation
 
-TODO
+
+This is the simplest to mitigate: we do not float `f` if it ever occurs unapplied.
+
+#### Mitigating Thunk Growth
+
+
+In nucleic2, we floated a binding with 11 free variables. But this binder occurred in about 60 thunks, so many closures grew by \~11 pointers, giving a +2.2% allocation change (as opposed to -0.9%).
+
+
+We've considered three heuristics for avoiding this. In ascending complexity:
+
+1. (easy) Limit the number of free variables the binding is allowed.
+1. in-thunk: If `f` occurs inside of a thunk in `BODY`, then limit its free variables.
+1. thunk-growth: Approximate the maximum number of free variables that floating `f `would add to a thunk in `BODY`, and limit that.
+
+
+We did not implement the first one, since in-thunk is not very complicated. thunk-growth is significantly more complicated.
+
+- The question of whether `f` occurs in a thunk is not simple.
+
+  - We count non-trivial arguments as thunks; but not all non-trivial arguments end up as thunks.
+  - We do not count lambda-forms as thunks, since the lambda will hopefully be floated.
+- Estimating the effect of floating `f` on such a thunk's (call it `t`) closure size is more complicated.
+
+  - Another floated function (say `g`) may also add some of `f`'s free variables to `t`; we shouldn't penal both `f` and `g` for that.
+  - If `f` itself has a free variable, say `h`, which is a binder that gets floated, then floating `f` will also add `h`'s free variables to `t`.
+
+
+Therefore, these are rough approximations. Being more accurate would require changing the setLevels pass instead of just the simpler first pass (the one that only analyzes the original term).
+
+
+We tried limits of 32, 16, 8, and 4 to differentiate between the last two. At a limit of 8, the allocation increase in ida and puzzle were 1.3 and 2.9 percentage points better with thunk-growth than with in-thunk. But there were no differences around 10 --- which is the lowest we can go while improving nucleic2, anyway --- so we're adopting in-thunk for now.
+
+
+There might have been some potential benefits to run-time from thunk-growth versus in-thunk (with limit=8, 35 percentage points better on constraint, eg), but we're not confident in those measurements.
 
 #### Preserving Fast Entries
 
 TODO
-
-#### Mitigating Thunk Growth
-
-TODO
-
-- easier: if f occurs inside of a thunk in BODY, then limit its free variables.
-- harder: approximate the maximum number of free variables that floating f would add to a thunk in BODY, and limit that.
 
 ### Discovered Benefits of LLF
 
