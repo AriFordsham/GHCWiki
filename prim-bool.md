@@ -107,7 +107,7 @@ ghci>
 ```
 
 
-Having the possibility of converting `Bool` to an unboxed `Int#` allows us to compute results of logical expression by means of logical bitwise operations. The result can be converted back to a `Bool` so this is transparent on the Haskell source level, except for the fact that defined logical binary operators will be strict in both their arguments.
+Having the possibility of converting `Bool` to an unboxed `Int#` allows us to compute results of logical expression by means of logical bitwise operations. The result can be converted back to a `Bool` so this is transparent on the Haskell source level, except for the fact that defined logical binary operators will be strict in both their arguments. 
 
 **NOTE: Validity of this solution is based on assumption that `True` will always have a tag of `1#`, while `False` will have a tag of `0#`. Changing this invariant in the future would make these primitive logical operators invalid.**
 
@@ -185,12 +185,114 @@ of _ {
 
 Primitive logical operators `&&#` and `not#` can be defined in a similar matter.
 
+**NOTE: Neither of this two workarounds produces good object code. The reason is that comparison operators return a `Bool` as a thunk that needs to be evaluated. The real solution requires that no thunk is created.**
+
 ## Solutions
 
 
-It seems that the best solution to the problem would be implementing second of the above workarounds as a separate primop. Alternatively we can implement primitive bitwise `or`, `and` and `xor` that work on `Int`s instead of `Word`s and define new logical operators using bitwise operators in one of the libraries.
+A good beginning would be to implementing second of the above workarounds as a primop. Then we need to create primops that return unboxed values instead of a thunk. The big question is should an unboxed version of Bool be introduced into the language?
+
+### First approach
+
+
+Treat `Bool` as a boxed version of primitive `Bool#`. `True` would be equivalent of `B# True#`, `False` of `B# False#`:
+
+```wiki
+data Bool = B# True# | B# False#
+
+-- B# :: Bool# -> Bool
+```
+
+
+Not sure if this can be considered equivalent to what the Haskell Report says about Bool. We need to ensure that `Bool#` is populated only by `True#` and `False#` and that these two are translated to `1#` and `0#` in the Core. It should be **impossible** to write such a function at Haskell level:
+
+```wiki
+g :: Bool -> Int -> Int
+g (B# b) (I# i) = I# (b + i)
+```
+
+
+This approach might require one additional case expression to inspect the value of `Bool` at the Core level. For example:
+
+```wiki
+f :: Int -> Int -> Int
+f x y = if x > y
+        then x
+        else y
+```
+
+
+would compile to:
+
+```wiki
+case x of _ { I# xP ->
+ case y of _ { I# yP ->
+   case ># xP yP of _ {
+     B# bP -> case bP of _ { 1# -> e1; 0# -> e2 }
+   }
+ }
+}
+```
+
+
+This would complicate Core a bit but it should be possible to compile such Core to exactly the same result as with normal `Bool`. This code assumes that `>#` has type `Int# -> Int# -> Bool`, but to truly avoid branching in the Core we need `.># :: Int# -> Int# -> Bool#` so that we get a primitive value that doesn't need to be inspected using case expression but can be directly used by primitive logical operators.
+
+### Second approach
+
+
+Second approach assumes creating type `Bool#` that is independent of type `Bool`. Boxing and unboxing would have to be done explicitly via additional functions:
+
+```wiki
+data Bool = True | False -- no changes here
+
+bBox :: Bool# -> Bool
+bBox 1# = True
+bBox 0# = False
+
+bUnbox :: Bool -> Bool#
+bUnbox True  = 1#
+bUnbox False = 0#
+```
+
+`Bool#` could not be implemented as an ADT because it is unlifted and unboxed, while ADT value constructors need to be boxed and lifted (see comments in [compiler/types/TyCon.lhs](/trac/ghc/browser/ghc/compiler/types/TyCon.lhs)). There would need to be some magical way of ensuring that `Bool#` is populated only by `#0` and `1#` and that these values cannot be mixed with unboxed integers. Perhaps this could be done by preventing programmer from explicitly creating values of that type (can this be done?) and allow her only to use values returned from functions.
+
+
+Another problem with this approach is that it would introduce primitive logical operations `||#` and `&&#` with type `Int# -> Int# -> Int#` - it is questionable whether anyone would want such operations available to the programmer. I think it is desirable to have primitive logical operators of type `Bool# -> Bool# -> Bool#`.
 
 ## Places of interest in the source code
 
 
-The file [prelude/primops.txt.pp](/trac/ghc/browser/ghc/prelude/primops.txt.pp) defines PrimOps and their type signatures.
+The file [prelude/primops.txt.pp](/trac/ghc/browser/ghc/prelude/primops.txt.pp) defines PrimOps and their type signatures. An example definition looks like this:
+
+```wiki
+primop   IntGtOp  ">#"   Compare   Int# -> Int# -> Bool
+   with fixity = infix 4
+```
+
+
+Existing definitions should remain unchanged or the code using them would break and that is a Very Bad Thing. This would require creating new PrimOps:
+
+```wiki
+primop   IntGtOpB  ".>#"   Compare   Int# -> Int# -> Bool#
+   with fixity = infix 4
+```
+
+
+The tricky part here is `Compare`. This a value constructor of `PrimOpInfo` data type defined in [prelude/PrimOp.lhs](/trac/ghc/browser/ghc/prelude/PrimOp.lhs):
+
+```wiki
+data PrimOpInfo
+  = Dyadic      OccName         -- string :: T -> T -> T
+                Type
+  | Monadic     OccName         -- string :: T -> T
+                Type
+  | Compare     OccName         -- string :: T -> T -> Bool
+                Type
+  | GenPrimOp   OccName         -- string :: \/a1..an . T1 -> .. -> Tk -> T
+                [TyVar]
+                [Type]
+                Type
+```
+
+
+We would need new `PrimOpInfo` value to denote PrimOps of type `T -> T -> Bool#`. Appropriate functions like `primOpSig` and `getPrimOpResultInfo` would have to be adjusted accordingly.
