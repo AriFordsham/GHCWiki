@@ -21,10 +21,10 @@ It will be pulled into the a "nofib" subdirectory.
 ## Benchmarking
 
 
-Firstly, the `nofib-analyse` program requires the `html` cabal package be installed:
+Firstly, the `nofib-analyse` program requires the `html` and `regex-compat` cabal packages be installed:
 
 ```wiki
-  $ cabal install html
+  $ cabal install html regex-compat
 ```
 
 
