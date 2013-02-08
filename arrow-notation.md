@@ -7,14 +7,14 @@ This page describes a couple of proposed changes to the notation enabled with -X
 ## Changing the types of arrow operators
 
 
-Currently, the type of each argument of an operator (and its result) is required have the form
+Currently, the type of each argument of an operator (and its result) is required to have the form
 
 ```wiki
 a (...(e,t1), ... tn) t
 ```
 
 
-where `e` is a type variable shared by all these types, but the arrow types `a` can vary.  The User's Guide has these examples:
+where `e` is a polymorphic type variable shared by all these types, but the arrow types `a` can vary.  The *User's Guide* has these examples:
 
 ```wiki
 ArrowPlus a => (<+>) :: a e c -> a e c -> a e c
