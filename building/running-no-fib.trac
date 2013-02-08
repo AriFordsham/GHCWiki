@@ -1,5 +1,3 @@
-
-
 = The !NoFib Benchmark Suite =
 
 The !NoFib benchmark suite is a collection of (mostly old) Haskell programs that we use for benchmarking GHC. 
@@ -17,10 +15,10 @@ It will be pulled into the a "nofib" subdirectory.
 
 == Benchmarking ==
 
-Firstly, the `nofib-analyse` program requires the `html` cabal package be installed:
+Firstly, the `nofib-analyse` program requires the `html` and `regex-compat` cabal packages be installed:
 
 {{{
-  $ cabal install html
+  $ cabal install html regex-compat
 }}}
 
 Then, to run the tests execute:
