@@ -8,7 +8,7 @@ Compared to [351a8c6bbd53ce07d687b5a96afff77c4c9910cc](/trac/ghc/changeset/351a8
 
 ## general core knowledge
 
-- Max's page about code generation: really good.
+- Max's [page about code generation](commentary/compiler/generated-code): really good!
 - document ticky profiling
 - Core -\> STG -\> CMM and _what you can learn by looking at each one_
 
