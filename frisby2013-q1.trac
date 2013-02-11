@@ -79,7 +79,7 @@ These are the various negative consequences that we discovered on the way. We di
   * Unapplied occurrences of f in BODY results in the creation of PAPs, which increases allocation. For example: `map f xs` becomes `map (poly_f a b c) xs`. Max had identified this issue earlier.
   * Abstracting over a known function might change a fast entry call in RHS to a slow entry call. For example, if CTX binds `a` to a lambda, that information is lost in the right-hand side of poly_f. This can increase runtime.
   * Replacing a floated binder's occurrence (ie `f` becomes `poly_f a b c`) can add free variables to a thunk's closure, which increases allocation.
-  * TODO putStr (eg sphere)
+  * Floating a binding in which a let-no-escape binder occurs abstracts over the let-no-escape binder, rendering it a normal let!
 
 ==== Mitigating PAP Creation ====
 
@@ -113,6 +113,56 @@ There might have been some potential benefits to run-time from thunk-growth vers
 ==== Preserving Fast Entries ====
 
 TODO
+
+Using -flate-float-in-thunk-limit=10, -fprotect-last-arg, and -O1, I tested the libraries+NoFib for four variants.
+
+  * nn - do not float a binding that applies one of its free variables.
+  * yn - do not float a binding that applies one of its free variables saturated or oversaturated.
+  * ny - do not float a binding that applies one of its free variables undersaturated.
+  * yy - do not restrict application of bindings free variables
+
+Roughly, we expect that more floating means (barely) less allocation but worse runtime (by how much?) because some known calls become unknown calls.
+
+==== Abstracting over let-no-escapes ====
+
+We had actually already seen this for a non-lambda join point in knights, but we were preoccupied with the unintentional existence of non-lambda join points and moved on after fixing those. I re-discovered this while experimenting with the fast preservation variants above.
+
+TODO: Mitigate it. First step: only make fast preservation apply to free variables that are known functions... duh!
+
+In fish (1.6%), hpg (~4.5%), and sphere (10.4%), allocation gets worse for ny and yy compared to nn and yn. The nn and ny do not change the allocation compared to the baseline library (ie no LLF).
+
+The nn -> ny comparison is counter to our rough idea: floating more bindings (those that saturate/oversaturate some free variables) worsens allocation. Thus, I investigate.
+
+The sphere program hammers `hPutStr`. Its extra allocation is mostly due to a regression in `GHC.IO.Encoding.UTF8`. Here's the situation.
+
+With the nn variant:
+
+{{{
+outer a b c ... =
+  let-no-escape f x = CTX[let-no-escape $j y = ... (f ...) ... in CTX2[$j]]
+  in ...
+}}}
+
+In this case, `$j` is not floated because it applies `f`. With the ny variant, `$j` gets floated.
+
+{{{
+poly_$j a b c ... f y = ...
+
+outer a b c ... =
+  let f x = CTX[CTX2[poly_$j a b c ... f]]
+  in ...
+}}}
+
+Thus `f` cannot be let-no-escape because it now occurs as an argument to `poly_$j`.
+
+This contributes to sphere's 1 megabyte of extra allocation for two reasons:
+
+  * `outer` is entered about 60,000 times.
+  * The RHS of `f` has 13 free variables, so it's closure is rather large.
+
+13*60,000 ~ 750,000. I suspect the rest of sphere's increase is due to a similar issue in `GHC.IO.Handle`.
+
+In hpg, it's principally due to GHC`.IO.Encoding.UTF8` again, with a second place contributor of `GHC.IO.FD`, where the function `$wa17` is again like the `outer` example above, but with fewer free variables and thus less effect.
 
 === Discovered Benefits of LLF ===
 
