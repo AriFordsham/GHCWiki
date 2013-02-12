@@ -128,7 +128,7 @@ Roughly, we expect that more floating means (barely) less allocation but worse r
 
 We had actually already seen this for a non-lambda join point in knights, but we were preoccupied with the unintentional existence of non-lambda join points and moved on after fixing those. I re-discovered this while experimenting with the fast preservation variants above.
 
-NB I think this will be mitigated "for free", since I'm predicting that we will never abstract over saturated and oversaturated functions, which is all LNEs. If that's not the case, we may want to consider mitigating this separately.
+NB I think this will be mitigated "for free", since I'm predicting that we will never abstract variables that occur exactly saturated and an LNE binder can only be exactly saturated. If we do end up abstracting over saturated functions, we may want to consider mitigating this separately.
 
 In fish (1.6%), hpg (~4.5%), and sphere (10.4%), allocation gets worse for ny and yy compared to nn and yn. The nn and ny do not change the allocation compared to the baseline library (ie no LLF).
 
