@@ -8,9 +8,20 @@ Compared to 351a8c6bbd53ce07d687b5a96afff77c4c9910cc, we implemented OPTIMIZATIO
 
 == general core knowledge ==
 
-  * Max's [wiki:Commentary/Compiler/GeneratedCode page about code generation]: really good!
-  * document ticky profiling
-  * Core -> STG -> CMM and _what you can learn by looking at each one_
+[wiki:Commentary/Compiler/GeneratedCode Max's page about code generation] is really helpful!
+
+=== Ticky Counters ===
+
+TODO
+
+ * UNKNOWN_CALL_ctr            - put arguments on stack and call the RTS's stg_ap_<PAT>_fast routine for that argument pattern
+ * KNOWN_CALL_ctr              - "fast call": put arguments in registers and call the function's the fast entry point
+ * KNOWN_CALL_TOO_FEW_ARGS_ctr - "PAP": creates a Partial APplication closure
+ * KNOWN_CALL_EXTRA_ARGS_ctr   - like a fast call, but first push a continuation onto the stack that effectively uses stg_ap_<PAT>_fast for the extra args
+
+=== Core -> STG -> CMM ===
+
+TODO and _what you can learn by looking at each one_
 
 == Late Lambda Float ==
 
@@ -69,7 +80,7 @@ The poly prefix is vestigial: in the past, floated bindings could never cross la
 === Background ===
 
   * join points
-  * let-no-escape
+  * let-no-escape (LNE)
   * Note [join point abstraction]
 
 === Discovered Detriments of LLF ===
@@ -79,7 +90,7 @@ These are the various negative consequences that we discovered on the way. We di
   * Unapplied occurrences of f in BODY results in the creation of PAPs, which increases allocation. For example: `map f xs` becomes `map (poly_f a b c) xs`. Max had identified this issue earlier.
   * Abstracting over a known function might change a fast entry call in RHS to a slow entry call. For example, if CTX binds `a` to a lambda, that information is lost in the right-hand side of poly_f. This can increase runtime.
   * Replacing a floated binder's occurrence (ie `f` becomes `poly_f a b c`) can add free variables to a thunk's closure, which increases allocation.
-  * Floating a binding in which a let-no-escape binder occurs abstracts over the let-no-escape binder, rendering it a normal let!
+  * Abstracting over a let-no-escape binder renders it a normal let, which increases allocation.
 
 ==== Mitigating PAP Creation ====
 
@@ -112,24 +123,39 @@ There might have been some potential benefits to run-time from thunk-growth vers
 
 ==== Preserving Fast Entries ====
 
-TODO
+The first idea here was simply: do not float a binding if its RHS applies a free variable.
 
-Using -flate-float-in-thunk-limit=10, -fprotect-last-arg, and -O1, I tested the libraries+NoFib for four variants.
+But since the idea was to avoid losing fast entries, this only applies to saturated and oversaturated calls. As a sanity check, however, I added two flags.
+
+  * `-f(no-)late-float-abstract-undersat-var` don't allow undersaturated applications
+  * `-f(no-)late-float-abstract-sat-var`      don't allow saturated or oversaturated applications
+
+Ever since, I've been doing parameter sweeps over these as we make other refinements to the system.
 
   * nn - do not float a binding that applies one of its free variables.
   * yn - do not float a binding that applies one of its free variables saturated or oversaturated.
   * ny - do not float a binding that applies one of its free variables undersaturated.
-  * yy - do not restrict application of bindings free variables
+  * yy - do not restrict application of the binding's free variables
 
-Roughly, we expect that more floating means (barely) less allocation but worse runtime (by how much?) because some known calls become unknown calls.
+I have yet to see a clear results; there's no variant that's bested the others on most programs' runtime.
 
-==== Abstracting over let-no-escapes ====
+This is even after I developed some bash script (I'm so sorry) to transpose the NoFib loops; instead of running the entire NoFib suite for one set of switches and then running it again for the next set of switches, and so on, I build all the variants, and then run each variant's version of each program sequentially. I intend for this to reduce noise by improving the time locality of the measurements of the same test. Even so, the noise was bad.
+
+So I turned my attention to allocation instead, for now. Roughly, we expect that more floating means (barely) less allocation but worse runtime (by how much?) because some known calls become unknown calls. But, eg, going from nn -> yn --- ie floating functions that undersaturate free variables instead of not floating them --- caused worse allocation! This investigation led to [#MitigatingLNEAbstraction].
+
+Based on that example, it occurred to me that we should only restrict the binding's saturation of its *known* free variables. For example, I was not floating a binding because its RHS applied a free variable, even though that free variable was lambda bound. That decision has no benefit, and indeed was causing knock-on effects that increase allocation (eg [#MitigatingLNEAbstraction]).
+
+I have yet to determine that the preservation of fast entries is worth the trouble --- I certainly hope so... the parameter sweeps have taken a lot of time!
+
+To enable further measurements, I have identified the semantics of some ticky counters, cf [#TickyCounters].
+
+==== Mitigating LNE Abstraction ====
 
 We had actually already seen this for a non-lambda join point in knights, but we were preoccupied with the unintentional existence of non-lambda join points and moved on after fixing those. I re-discovered this while experimenting with the fast preservation variants above.
 
-TODO: Mitigate it. First step: only make fast preservation apply to free variables that are known functions... duh!
+NB I think this will be mitigated "for free", since I'm predicting that we will never abstract variables that occur exactly saturated and an LNE binder can only be exactly saturated. If we do end up abstracting over saturated functions, we may want to consider mitigating this separately.
 
-In fish (1.6%), hpg (~4.5%), and sphere (10.4%), allocation gets worse for ny and yy compared to nn and yn. The nn and ny do not change the allocation compared to the baseline library (ie no LLF).
+Using -flate-float-in-thunk-limit=10, -fprotect-last-arg, and -O1, I tested the libraries+NoFib for the four variants from [#PreservingFastEntries]. In fish (1.6%), hpg (~4.5%), and sphere (10.4%), allocation gets worse for ny and yy compared to nn and yn. The nn and ny do not change the allocation compared to the baseline library (ie no LLF).
 
 The nn -> ny comparison is counter to our rough idea: floating more bindings (those that saturate/oversaturate some free variables) worsens allocation. Thus, I investigate.
 
@@ -162,7 +188,7 @@ This contributes to sphere's 1 megabyte of extra allocation for two reasons:
 
 13*60,000 ~ 750,000. I suspect the rest of sphere's increase is due to a similar issue in `GHC.IO.Handle`.
 
-In hpg, it's principally due to GHC`.IO.Encoding.UTF8` again, with a second place contributor of `GHC.IO.FD`, where the function `$wa17` is again like the `outer` example above, but with fewer free variables and thus less effect.
+In hpg, it's principally due to `GHC.IO.Encoding.UTF8` again, with a second place contributor of `GHC.IO.FD`, where the function `$wa17` is again like the `outer` example above, but with fewer free variables and thus less effect.
 
 === Discovered Benefits of LLF ===
 
@@ -184,7 +210,7 @@ CTX[case a of [p1 -> let f x = ... in case a of ...]]
 
 We discovered that the worker-wrapper was removing the void argument from join points (eg knights and mandel2). This ultimately resulted in LLF *increasing* allocation. A thunk was let-no-escape before LLF but not after, since it occurred free in the right-hand side of a floated binding and hence now occurred (escapingly) as an argument.
 
-SPJ was expecting no such non-lambda join points to exist. We identified where it was happening (WwLib.mkWorkerArgs) and switched it off. Here are the programs that with affected allocation.
+SPJ was expecting no such non-lambda join points to exist. We identified where it was happening (`WwLib.mkWorkerArgs`) and switched it off. Here are the programs that with affected allocation.
 
 {{{
 protect-no  = allow wwlib to remove the last value argument
@@ -254,7 +280,19 @@ Simon explained that it is probably the simplifier floating d out of the unprote
 
 With protection, `d` isn't allocated unless `x` is entered, which might not always happen in `CTX`. This is a potential win because `x` might be let-no-escape.
 
-A potential detriment of protection is that `x` is not exposed as a let-bound constructor. Simon conjectures that's not actually harmful because ... I CANNOT REMEMBER.
+A potential detriment of protection is that `x` is not exposed as a let-bound constructor. Simon conjectures that's not actually harmful. The reasoning is as follows.
+
+These void arguments arise in two ways.
+
+  * when join points are created
+
+  * the strictness pass on constant functions
+
+In both cases, it is unlikely that revealing the binding's RHS as a HNF will lead to any beneficial optimizations.
+
+  * Join points are unlikely to be case-scrutinized. It's unlikely that further simplification will render them scrutinized.
+
+  * Removing the value arg from constant functions would create sharing, which SPJ says is always a "dodgy" thing to do. If the programmer defines and uses a constant function, they may be trying to avoid retention of large data structures. I was concerned that such constant functions might arise upstream (eg from use of generics), but he regards that unlikely/not worth it (because the optimization is not always a good thing).
 
 ===== Continuation =====
 
