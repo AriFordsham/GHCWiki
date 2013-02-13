@@ -90,7 +90,7 @@ outer = CTX[BODY[f FVS]]
 wbere FVS are the free variables of RHS\[x\]. We'll use `a`, `b`, `c`, ... for particular variables in FVS.
 
 
-The poly prefix is vestigial: in the past, floated bindings could never cross lambdas, so the abstracted variables were only type variables. Hence the machinery that adds the new parameters was only ever adding type parameters; it was creating polymorphic functions. This scheme was not updated even when the machinery was enriched to also abstract over values.
+The poly prefix is vestigial: in the past, floated bindings could never cross lambdas, so the abstracted variables were only type variables. Hence the machinery that adds the new parameters was only ever adding type parameters; it was creating polymorphic functions. The naming scheme was not updated when the machinery was enriched to also abstract over values.
 
 ### Background
 
