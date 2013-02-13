@@ -11,6 +11,9 @@ One package for all standard ADTs (Bool, [], Maybe...) and other pure definition
 Question: Do we want this to include Int and Integer? It is required for, e.g. length, but already includes assumptions about the target. But probably they’d need to go in here as well.
 
 Question: Any reason to keep Char and String separate? Maybe the requirement on the unicode data? Presumably there are interesting targets that do not need String (embedded devices), but what about functions like `error`?
+Answer: Probably not possible: The monad class needs String for `fail`, and also error for the default instance. Also there are classes (Exception) with Show class constraints.
+
+What about `Data` and `Typeable`? Looks as if we can avoid them, but then `Data.Int` requires `throw DivideByZero` which in turn pulls in exceptions and hence `Typeable`
 
  * [http://hackage.haskell.org/packages/archive/base/4.6.0.1/doc/html/Control-Applicative.html Control.Applicative]
  * [http://hackage.haskell.org/packages/archive/base/4.6.0.1/doc/html/Control-Arrow.html Control.Arrow]
