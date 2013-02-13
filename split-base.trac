@@ -4,13 +4,21 @@ In a [http://www.haskell.org/pipermail/glasgow-haskell-users/2013-February/02376
 
 The following is a list of all modules in Base, with a suggested re-grouping. Whether this makes sense WRT interdependencies has not yet been verified:
 
+=== Non-Obvious interdependencies ===
+
+This is a list of interdependencies between seemingly unrelated parts that need to be taken into consideration:
+
+ * class Monad mentions `String`, hence pulling Char
+ * class Monad mentions `error` and `Data.Int` requires `throw DivideByZero`, hence pulling in exceptions
+ * Exceptions pull in `Typeable`
+ * `Typeable` pulls in `GHC.Fingerprint`
+ * GHC.Fingerprint pulls in `Foreign` and `IO`
+
 === base-pure ===
 
 One package for all standard ADTs (Bool, [], Maybe...) and other pure definitions that are expected to work even with strange targets.
 
-Question: Do we want this to include Int and Integer? It is required for, e.g. length, but already includes assumptions about the target. But probably they’d need to go in here as well.
-
-Question: Any reason to keep Char and String separate? Maybe the requirement on the unicode data? Presumably there are interesting targets that do not need String (embedded devices), but what about functions like `error`?
+By the list from above, this also needs to have `Char`, Exceptions, `Typeable` and from there much other stuff...
 
  * [http://hackage.haskell.org/packages/archive/base/4.6.0.1/doc/html/Control-Applicative.html Control.Applicative]
  * [http://hackage.haskell.org/packages/archive/base/4.6.0.1/doc/html/Control-Arrow.html Control.Arrow]
