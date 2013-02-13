@@ -36,6 +36,10 @@ As the GHC optimization papers explain, it is an early design decision to \*not\
 - The original conjecture was that doing it would save allocation: a dynamically allocated closure becomes a static top-level function.
 - Max Bolingbroke did a quick implementation of this idea some years ago (\~mid 2000s), but it seems it was abandoned. I don't know why.
 
+### Notes for Write-up
+
+- puzzle"s $fEnumItemType.$cenumFromThen has a nice demonstration: a cascade of let-no-escapes becomes a series of top-level functions, all tail-calls
+
 ### Method
 
 
@@ -162,22 +166,22 @@ Ever since, I've been doing parameter sweeps over these as we make other refinem
 - yy - do not restrict application of the binding's free variables
 
 
-I have yet to see a clear results; there's no variant that's bested the others on most programs' runtime.
+There was no variant that bested the others on most programs' runtime. And the data was so noisy that it was difficult to choose which tests to investigate. I eventually developed some bash script (I'm so sorry) to transpose the NoFib loops; instead of running the entire NoFib suite for one set of switches and then running it again for the next set of switches, and so on, I build all the variants, and then run each variant's version of each program sequentially. I intend for this to reduce noise by improving the time locality of the measurements of the same test. Even so, the noise in Runtime was bad. Eventually, I turned the iterations up to the 40/50 range and found some steadiness. To my surprise, there were a couple tests that had the best Runtime if we \*do\* abstract over functions with fast calls! This happens. More on this later (cf [\#puzzle-time-issue](frisby2013-q1#)).
 
 
-This is even after I developed some bash script (I'm so sorry) to transpose the NoFib loops; instead of running the entire NoFib suite for one set of switches and then running it again for the next set of switches, and so on, I build all the variants, and then run each variant's version of each program sequentially. I intend for this to reduce noise by improving the time locality of the measurements of the same test. Even so, the noise was bad.
+I also saw some surprises in allocation. Roughly, we expect that more floating means (barely) less allocation but worse runtime (by how much?) because some known calls become unknown calls. But, eg, going from nn -\> yn --- ie floating functions that undersaturate free variables instead of not floating them --- caused worse allocation! This investigation led to [\#MitigatingLNEAbstraction](frisby2013-q1#mitigating-lne-abstraction).
 
 
-So I turned my attention to allocation instead, for now. Roughly, we expect that more floating means (barely) less allocation but worse runtime (by how much?) because some known calls become unknown calls. But, eg, going from nn -\> yn --- ie floating functions that undersaturate free variables instead of not floating them --- caused worse allocation! This investigation led to [\#MitigatingLNEAbstraction](frisby2013-q1#mitigating-lne-abstraction).
+Based on that example, it occurred to me that we should only restrict the binding's saturation of its \*known\* free variables... duh. For example, we should floating a binding even if its RHS exactly applies a free variable when that free variable is lambda bound. Not floating in that case has no benefit, and indeed was causing knock-on effects that increase allocation (eg [\#MitigatingLNEAbstraction](frisby2013-q1#mitigating-lne-abstraction)).
 
 
-Based on that example, it occurred to me that we should only restrict the binding's saturation of its \*known\* free variables. For example, I was not floating a binding because its RHS applied a free variable, even though that free variable was lambda bound. That decision has no benefit, and indeed was causing knock-on effects that increase allocation (eg [\#MitigatingLNEAbstraction](frisby2013-q1#mitigating-lne-abstraction)).
+After allocation leads to some code tweaks, I reran the Run time tests with high iterations. hpg and puzzle were odd cases where ny did the best, by far. Both have low run times, so I cranked the iterations up to 200. hpg's results change drastically, which I haven't yet resolved. But puzzle remained; see [\#puzzle-time-issue](frisby2013-q1#).
 
 
 I have yet to determine that the preservation of fast entries is worth the trouble --- I certainly hope so... the parameter sweeps have taken a lot of time!
 
 
-To enable further measurements, I have identified the semantics of some ticky counters, cf [\#TickyCounters](frisby2013-q1#ticky-counters).
+To enable further measurements, I have identified the semantics of some ticky counters, cf [\#TickyCounters](frisby2013-q1#ticky-counters), and started resurrecting useful ones that are no longer enabled.
 
 #### Mitigating LNE Abstraction
 
@@ -234,18 +238,57 @@ In hpg, it's principally due to `GHC.IO.Encoding.UTF8` again, with a second plac
 ### Discovered Benefits of LLF
 
 
-We didn't see as much decrease in allocation as we would have liked.
+We haven't seen as much decrease in allocation as we would have liked, but there have been some nice benefits:
 
-- nice demonstration of the basic effect in puzzle
+#### Creates Inliner Opportunities
+
+
+Floating functions to the top-level creates more opportunities for the inliner. We've found two ways.
+
 - [\#7663](https://gitlab.haskell.org//ghc/ghc/issues/7663) - simulates having the inliner discount for free variables like it discounts for parameters
-- Floating functions to the top-level creates more opportunities for the simplifier.
+
+- It also decreases size of functions by floating out internal let-bindings (eg big join points, etc).
+
+
+Both of these have been observed on puzzle, with commit feec91b71, it-thunk-limit=10, protect-last-arg. We get a big improvement in both allocation (-15.1%) and runtime (-1.4%) by allowing fast entries to be abstracted over. Oddly, if we additionally disallow undersat known calls to be abstract over, we get another runtime boost (up to -3.9%). These are both unfortunate from the fast-entry perspective, but demonstrate a big win.
+
+
+In particular, the worker for the derived equality function for the `StateType` contains a join-point. When the join-point is floated, the worker's Guidance goes from
+
+`IF_ARGS [70 70 80 0 60 60 60 0] 360 20`
+
+
+to
+
+`IF_ARGS [130 0 0 0 60 0 0 0] 220 20`
+
+
+while the floated join point itself gets a Guidance of
+
+`IF_ARGS [170 160 0 60 120 0 0] 300 60`}
+
+
+The loss of parameter discounts may be bad, but the reduction in size exemplifies a good thing.
+
+
+But there's a bigger change in puzzle's main loop: `$wtransfer` gets a 28% reduction in allocation. Furthermore, one of its contained letrecs gets a 56% percent reduction. This results in a %15 percent reduction for the whole program.b
+
+TODO I need ticky to track LNEs in order to pin down what's happening there.
+
+#### Creates Simplifier Opportunities
+
+
+Floating functions to the top-level creates more opportunities for the simplifier.
+
+
+Abstracted from boyer2 (where `f` is a join point):
 
 ```wiki
 CTX[case a of [p1 -> let f x = ... in case a of ...]]
 ```
 
-> >
-> > The let prevents the cases from being merged. Since LLF is so aggressive, it floats f when it otherwise wouldn't be.
+
+The let prevents the cases from being merged. Since LLF is so aggressive, it floats f when it otherwise wouldn't be, enabling the case merge.
 
 ### Miscellaneous Findings
 
