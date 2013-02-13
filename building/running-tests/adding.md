@@ -283,14 +283,32 @@ There are many pre-defined functions which can be used in this field:
 
 There are a number of predicates which can be used:
 
-- **doing_ghci**            GHCi is available
+- **doing_ghci()**          GHCi is available
+- **ghci_dynamic()**        GHCi uses dynamic libraries
 
-- **fast**                  the testsuite is running in "fast" mode
-
-- **compiler_type(ct)**     a compiler of type `ct` (which could be `'ghc'`, `'hug'`, etc) is being tested
+- **fast()**                the testsuite is running in "fast" mode
 
 - **platform(plat)**        the testsuite is running on platform `plat` (which could be `'x86_64-unknown-mingw32'` etc)
+- **opsys(os)**             the testsuite is running on operating system `os` (which could be `'mingw32'` etc)
+- **arch(a)**               the testsuite is running on architecture `a` (which could be `'x86_64'` etc)
+- **wordsize(w)**           the testsuite is running on a platform with word size `w` bits (which could be `32` or `64`)
+- **msys()**                the testsuite is running on msys
+- **cygwin()**              the testsuite is running on cygwin
 
+- **have_vanilla()**        the compiler has built vanilla libraries
+- **have_dynamic()**        the compiler has built dynamic libraries
+- **have_profiling()**      the compiler has built profiling libraries
+
+- **in_tree_compiler()**    the compiler being tested is in a source tree, as opposed to installed
+
+- **compiler_type(ct)**     a compiler of type `ct` (which could be `'ghc'`, `'hug'`, etc) is being tested
+- **compiler_lt(ct, v)**    compiler type is `ct`, and the version is less than `v`
+- **compiler_le(ct, v)**    compiler type is `ct`, and the version is less than or equal to `v`
+- **compiler_gt(ct, v)**    compiler type is `ct`, and the version is greater than `v`
+- **compiler_ge(ct, v)**    compiler type is `ct`, and the version is greater than or equal to `v`
+- **unregisterised()**      the compiler is unregisterised
+- **compiler_profiled()**   the compiler is build with a profiling RTS
+- **compiler_debugged()**   the compiler is build with a debug RTS
 - **tag(t)**                the compiler has tag `t`
 
 
