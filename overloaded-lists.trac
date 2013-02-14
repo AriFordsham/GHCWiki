@@ -3,20 +3,6 @@
 This wiki page documens the design and
 implementation of the GHC extension for overloading Haskell's list notation.
 
-A preliminary implementation of the extension can be pulled from the following
-repositories:
-
-{{{
-git://github.com/achimkrause/ghc.git
-git://github.com/achimkrause/packages-base.git
-git://github.com/achimkrause/packages-dph.git
-git://github.com/achimkrause/testsuite.git
-}}}
-
-We would very much welcome contributions. If you would like to make a change
-in the current design and implementation, please document it (e.g., on this
-wiki page) and/or send us a GHC patch or a pull request.
-
 == Current Implementation ==
 
 Let us briefly recap the notation for constructing lists. In Haskell, the list
