@@ -81,7 +81,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
   - [DPH](data-parallel): Notes about the implementation of Data Parallel Haskell
   - [Safe Haskell](safe-haskell): The design of the GHC Safe Haskell extension
   - [SQL-Like Comprehensions](sql-like-comprehensions): Notes on SPJs "Comprehensive Comprehensions" (TransformComprehensions)
-  - [Deferring compilation type errors to runtime (\`-fwarn-type-errors\`)](defer-errors-to-runtime)
+  - [Deferring compilation type errors to runtime (\`-fdefer-type-errors\`)](defer-errors-to-runtime)
   - [Demand analyser](commentary/compiler/demand) Notes on the meanings, worker-wrapper splitting of demand signatures and relevant components of the compiler
 
 - Notes on proposed or in progress (but out of tree) GHC compiler features:
