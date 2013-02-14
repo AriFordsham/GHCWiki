@@ -14,6 +14,16 @@ This is a list of interdependencies between seemingly unrelated parts that need 
  * `Typeable` pulls in `GHC.Fingerprint`
  * GHC.Fingerprint pulls in `Foreign` and `IO`
 
+=== Other issues ===
+
+ * Some names of base are hardcoded in GHC and hence cannot be moved to a different package name without changes in GHC. This includes:
+  * The `Num` constraint on polymorphic literals. Can be avoided by writing `fromIntegral 0` instead of `0`.
+  * Similar, the `[x..y]` syntax generates a `base:GHC.Enum.Enum` constraint, `RebindableSyntax` does not help (GHC bug?)
+  * `StablePtr`, as used in `GHC.Stable`
+  * `Typeable`, `Show` when used in `deriving`. Can probably be avoided by hand-writing instances. `Read` can probably move completely out.
+  * `error` has its type wired in GHC when in package base; This is used in a hack in [https://github.com/ghc/packages-base/blob/master/GHC/Err.lhs-boot GHC/Err.hs-boot]. Work-around: Import `GHC.Types` in `GHC/Err.lhs-boot`
+  * The `Monad` constraint on do-notation expects the definition to live in base. `RebindableSyntax` helps, but requires to define a local `ifThenElse` function.
+  
 === base-pure ===
 
 One package for all standard ADTs (Bool, [], Maybe...) and other pure definitions that are expected to work even with strange targets.
