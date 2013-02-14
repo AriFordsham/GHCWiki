@@ -50,6 +50,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
    * [wiki:Commentary/Compiler/OptOrdering Optimisation Ordering] Describe the ordering and interaction of optimisation passes (Old).
 
  * Notes on implemented GHC features:
+   * [wiki:OverloadedLists Overloaded list syntax] allows you to use list notation for things other than lists.
    * [wiki:GhcKinds Kind polymorphism and data type promotion]
    * [wiki:KindFact A kind for class constraints. Implemented as ConstraintKinds]
    * [wiki:Commentary/Compiler/Backends/LLVM LLVM back end]
@@ -95,6 +96,9 @@ The above commentary covers the source code of GHC. For material that doesn't co
    * [wiki:ExplicitTypeApplication Syntax for explicit type application and scoped type variables]
    * [wiki:GhcKinds/KindsWithoutData Syntax for defining kinds that do not arise from datatype promotion]
    * [wiki:LambdasVsPatternMatching Lambda-Case]: Syntax for full (with branching) pattern matching on arguments of lambda abstractions
+
+ * Library issues
+    * [wiki:SplitBase Splitting up the base package]
 
  * GHCi Debuger
    * [wiki:GhciDebugger GHCi Debugger]: Some notes about the implementation of the GHCi debugger. Probably uninteresting unless you want to work on the debugger.

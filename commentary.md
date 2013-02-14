@@ -61,6 +61,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
 
 - Notes on implemented GHC features:
 
+  - [Overloaded list syntax](overloaded-lists) allows you to use list notation for things other than lists.
   - [Kind polymorphism and data type promotion](ghc-kinds)
   - [A kind for class constraints. Implemented as ConstraintKinds](kind-fact)
   - [LLVM back end](commentary/compiler/backends/llvm)
@@ -107,6 +108,10 @@ The above commentary covers the source code of GHC. For material that doesn't co
   - [Syntax for explicit type application and scoped type variables](explicit-type-application)
   - [Syntax for defining kinds that do not arise from datatype promotion](ghc-kinds/kinds-without-data)
   - [Lambda-Case](lambdas-vs-pattern-matching): Syntax for full (with branching) pattern matching on arguments of lambda abstractions
+
+- Library issues
+
+  - [Splitting up the base package](split-base)
 
 - GHCi Debuger
 
