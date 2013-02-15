@@ -5,6 +5,7 @@ David Terei wrote a new code generator for GHC which targets the LLVM compiler i
 Documentation:
  * [wiki:Commentary/Compiler/Backends/LLVM/Installing Installing & Using]
  * [wiki:Commentary/Compiler/Backends/LLVM/Design Design & Implementation]
+ * [wiki:Commentary/Compiler/Backends/LLVM/Mangler LLVM Mangler]
  * [wiki:Commentary/Compiler/Backends/LLVM/DevelopmentNotes Bugs & Other Problems]
  * [wiki:Commentary/Compiler/Backends/LLVM/GHC_LLVMPorting Porting GHC/LLVM to another platform]
 
