@@ -397,6 +397,33 @@ In both cases, it is unlikely that revealing the binding's RHS as a HNF will lea
 
 - Removing the value arg from constant functions would create sharing, which SPJ says is always a "dodgy" thing to do. If the programmer defines and uses a constant function, they may be trying to avoid retention of large data structures. I was concerned that such constant functions might arise upstream (eg from use of generics), but he regards that unlikely/not worth it (because the optimization is not always a good thing).
 
+##### Affect on Expression Sizes
+
+
+When we protect the void arguments from being removed by WwLib.mkWorkerArgs, we effect unfolding decisions.
+
+- The body of the let that keeps its void argument is bigger because of the void arg's lambda
+- It also gets a different result discount because of the lambda (instead of the lambda's body's result discount)
+- The entire let expression itself is larger because:
+
+  - The let's body is larger (see above)
+  - The occurrences of the let have the additional application (supplying the void actual)
+- Parameters' scrut discounts have also changed, but I didn't try figuring out why --- it was already clear we should do something about this.
+
+
+Just turning on the -fprotect-last-arg flag was generally helpful for allocation. It was also generally helpful for runtime: somewhere between +1% and -3%. But a couple were \> +4%. In a couple of those cases, I discovered that the increased expression size was breaching the unfolding creation threshold (in a base library module). This actual prevented some inlining.
+
+
+I implemented the -funfolding-ignore-RealWorld flag by ignoring arguments of type State\# RealWorld when measuring applications and lambdas. The only subtlety was that we still need to count the void args when considering whether to award the partial application result discount. Otherwise, every invocation of a join point meant a huge discount (ufFunAppDiscount). In a couple programs, this increased allocation drastically because the newly inlined function's RHS included a join point that lost its LNE status at the call-site because the entire inlined RHS was case-scrutinized.
+
+
+The switch improved the runtimes of -fprotect-last-arg, especially the formerly bad ones. Two exceptional cases:
+
+- rewrite gets +3% allocation when ignoring RealWorld (regardless of protection) and
+- hidden gets +15% run time with both protecting and ignoring.
+
+TODO I'm investigating these now.
+
 ##### Continuation
 
 
