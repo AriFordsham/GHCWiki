@@ -97,3 +97,21 @@ The output looks something like this:
 
 
 which is great for pointing to the hotspots.  You can also annotate the source code (of the RTS) or the assembly, using `perf annotate`.
+
+## Perf with NoFib
+
+
+There is a caveat to using perf on an executable built by the nofib Makefiles.
+
+
+To more accurately measure changes in binary sizes, nofib strips the symbols out of the final executable. Therefore, the useful names like "stg_ap_p_info" and "s1ql_info" will not show up in the perf report output. IE The following commands will yield information that is difficult to use.
+
+```wiki
+$ cd nofib/your/favorite/test
+$ make clean; make boot; make NoFibRuns=0 >& log
+$ perf record ./test <test inputs>
+$ perf report
+```
+
+
+One workaround is to find the ghc options used in the log file and invoke `ghc <options from log> --make Main.hs -o test` directly. The useful symbol names will then show up in the `perf report` output. NB The symbols **are** in the .o files that nofib's make generates; only the linking must be done without using the Makefiles.
