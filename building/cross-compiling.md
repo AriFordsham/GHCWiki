@@ -151,6 +151,9 @@ Your target triplet/quad must have the general form `<arch>-<os>-<abi>` or `<arc
 ## `build.mk` settings
 
 
+Note: when you name your `build.mk` as \<target\>`-build.mk` then its settings will be effective for \<target\> and the regular `build.mk` will be ignored. This is handy if you build a regular GHC and/or cross-compilers from the same working directory, as it avoids the hassle of juggling with settings files.
+
+
 If you are only interested in building a cross-compiler, then you can add
 
 ```wiki
