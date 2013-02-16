@@ -1,7 +1,7 @@
 # Overloaded list notation
 
 
-This wiki page documens the design and
+This wiki page documents the design and
 implementation of the GHC extension for overloading Haskell's list notation.
 
 ## Current Implementation
