@@ -1,7 +1,7 @@
 # Porting GHC to a new platform
 
 
-(See also [CrossCompilation](cross-compilation))
+(**This is no longer supported. See [CrossCompilation](cross-compilation) instead**)
 
 
 This section describes how to port GHC to a currently
