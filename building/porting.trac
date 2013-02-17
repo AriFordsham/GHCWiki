@@ -3,7 +3,7 @@
 
 = Porting GHC to a new platform =
 
-(See also [wiki:CrossCompilation])
+('''This is no longer supported. See [wiki:CrossCompilation] instead''')
 
 This section describes how to port GHC to a currently
 unsupported platform.  To avoid confusion, when we say
