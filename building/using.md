@@ -343,9 +343,10 @@ longer to build libraries this way, though.
 (default: `NO`)
 
 When set to `YES`, dependencies on the ghc executable will be turned into
-order-only dependencies. What this means in practice is that less needless
-recompilation will be done while you are making changes to ghc's sources,
-but for certain types of changes it means the build will fail.
+order-only dependencies (c.f. [ relevant make documentation](http://www.gnu.org/software/make/manual/html_node/Prerequisite-Types.html)).
+What this means in practice is that less needless recompilation will be
+done while you are making changes to ghc's sources, but for certain types
+of changes it means the build will fail. 
 </td></tr></table>
 
 <table><tr><th>`BUILD_DOCBOOK_HTML`</th>
