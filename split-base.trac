@@ -12,7 +12,9 @@ This is a list of interdependencies between seemingly unrelated parts that need 
  * class Monad mentions `error` and `Data.Int` requires `throw DivideByZero`, hence pulling in exceptions
  * Exceptions pull in `Typeable`
  * `Typeable` pulls in `GHC.Fingerprint`
- * GHC.Fingerprint pulls in `Foreign` and `IO`
+ * GHC.Fingerprint pulls in `Foreign` and `IO` (but could be replaced by a pure implementation)
+ * The Monad instance of `IO` calls `failIO`, which creates an `IOException`, which has fields for handles and devices, and hence pulls in some `Foreign` stuff and some file-related `IO`, preventing the creation of a clean base-io package.
+ 
 
 === Other issues ===
 
