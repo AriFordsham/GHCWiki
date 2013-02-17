@@ -14,7 +14,7 @@ This is a list of interdependencies between seemingly unrelated parts that need 
  * `Typeable` pulls in `GHC.Fingerprint`
  * GHC.Fingerprint pulls in `Foreign` and `IO` (but could be replaced by a pure implementation)
  * The Monad instance of `IO` calls `failIO`, which creates an `IOException`, which has fields for handles and devices, and hence pulls in some `Foreign` stuff and some file-related `IO`, preventing the creation of a clean base-io package.
- 
+ * The ST Monad can (and should) be provided independently of IO, but currently functions like `unsafeIOToST` are provided in the `Control.Monad.ST` namespace.
 
 === Other issues ===
 
