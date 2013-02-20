@@ -10,6 +10,26 @@ Compared to [351a8c6bbd53ce07d687b5a96afff77c4c9910cc](/trac/ghc/changeset/351a8
 
 [Max's page about code generation](commentary/compiler/generated-code) is really helpful!
 
+### Core Diving
+
+- emacs scroll-all-mode
+
+- navigate -ddump-\*'s output via the **\* headers
+  **
+
+- lots of information: -dverbose-core2core + -ddump-inlinings
+
+  - simplCore/Simplify has many pprTraces that are commented out
+
+- diff -w can highlight major changes
+
+  - with -dppr-cols=999999999
+  - -dsuppress-uniques or sed -r 's/_:alnum:?{2,4}*g' (or leave out the underscore)
+    *
+
+    - removes *most* uniques
+    - sed is handy also for diffing .ticky files
+
 ### Ticky Counters
 
 TODO
