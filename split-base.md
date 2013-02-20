@@ -37,4 +37,5 @@ Joachim has started a first attempt to pull stuff out of the bottom of base; the
 
 - [ base-pure](https://github.com/nomeata/packages-base/tree/base-pure) Basic stuff without `IO`, `Foreign` or floating point arithmetic. Requires reimplementing `GHC.Fingerprint` without using FFI (or at least without using FFI types and without `IO`).
 - [ base-io](https://github.com/nomeata/packages-base/tree/base-io) (uses base-pure). The `IO` and `ST` monads.
+- \[[ https://github.com/nomeata/packages-base/tree/base-foreign](https://github.com/nomeata/packages-base/tree/base-foreign) foreign (uses base-io). Everything related to `Foreign`. Set of modules determined, but does not compile yet.
 - [ base-io-file](https://github.com/nomeata/packages-base/tree/base-io-file) (uses base-io). WIP, currently `IOException` and dependencies (e.g. `Handle`)
