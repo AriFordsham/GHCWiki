@@ -1,7 +1,10 @@
 # The I/O Manager
 
 
-This page describes the internals of the I/O manager, the latest version of which can be found in [ GHC.Conc](http://darcs.haskell.org/libraries/base/GHC/Conc.lhs), in the "Thread IO API" section. The I/O manager's job is to to provide a blocking I/O API to the user without forcing the RTS to create one operating system thread per Haskell thread. We here focus on the *threaded* RTS on non-Windows platforms.
+This page describes the internals of the I/O manager, the latest version of which can be found in [ GHC.Event](http://hackage.haskell.org/packages/archive/base/latest/doc/html/GHC-Event.html). The I/O manager's job is to to provide a blocking I/O API to the user without forcing the RTS to create one operating system thread per Haskell thread. We here focus on the *threaded* RTS on non-Windows platforms.
+
+
+ezyang: **WARNING: some of this information may be out of date**
 
 
 The RTS keeps a global list of pending events, unsuprising called `pendingEvents`, containing a elements of the following data type:
