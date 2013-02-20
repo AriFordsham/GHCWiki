@@ -18,7 +18,7 @@ Here is where the upstream repositories are, and their mirrors.  The <span style
 <tr><td colspan="2">darcs</td><td colspan="4">git</td></tr>
 <tr><td>darcs upstream</td><td>darcs mirror</td><td>git upstream</td><td>git mirror</td><td>ghc (validated) repo</td><td>in-tree</td></tr>
 <tr><td></td><td></td><td style="color: green;">git://github.com/kolmodin/binary.git</td><td>http://darcs.haskell.org/git-mirrors/binary/binary.git/</td><td>http://darcs.haskell.org/packages/.git/</td><td>libraries/binary</td></tr>
-<tr><td style="color: green;">http://darcs.haskell.org/bytestring/</td><td></td><td></td><td>http://darcs.haskell.org/git-mirrors/bytestring/.git/</td><td>http://darcs.haskell.org/packages/bytestring.git/</td><td>libraries/bytestring</td></tr>
+<tr><td></td><td></td><td style="color: green;">git://github.com/haskell/bytestring.git</td><td>http://darcs.haskell.org/git-mirrors/bytestring/.git/</td><td>http://darcs.haskell.org/packages/bytestring.git/</td><td>libraries/bytestring</td></tr>
 <tr><td></td><td></td><td style="color: green;">git://github.com/haskell/cabal.git</td><td>http://darcs.haskell.org/git-mirrors/Cabal/.git/</td><td>http://darcs.haskell.org/packages/Cabal.git/</td><td>libraries/Cabal</td></tr>
 <tr><td></td><td></td><td style="color: green;">git://github.com/haskell/containers.git</td><td>http://darcs.haskell.org/git-mirrors/containers/.git/</td><td>http://darcs.haskell.org/packages/containers.git/</td><td>libraries/containers</td></tr>
 <tr><td style="color: green;">http://code.haskell.org/haskeline/</td><td>http://darcs.haskell.org/darcs-mirrors/haskeline/</td><td></td><td>http://darcs.haskell.org/git-mirrors/haskeline/.git/</td><td>http://darcs.haskell.org/packages/haskeline.git/</td><td>libraries/haskeline</td></tr>
