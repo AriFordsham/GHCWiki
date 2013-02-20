@@ -34,9 +34,9 @@ Here is where the upstream repositories are, and their mirrors.  The master repo
 <th>http://darcs.haskell.org/git-mirrors/binary/binary.git/</th>
 <th>http://darcs.haskell.org/packages/.git/</th>
 <th>libraries/binary</th></tr>
-<tr><th>http://darcs.haskell.org/bytestring/</th>
+<tr><th></th>
 <th></th>
-<th></th>
+<th>git://github.com/haskell/bytestring.git</th>
 <th>http://darcs.haskell.org/git-mirrors/bytestring/.git/</th>
 <th>http://darcs.haskell.org/packages/bytestring.git/</th>
 <th>libraries/bytestring</th></tr>
