@@ -16,7 +16,7 @@ This is a list of interdependencies between seemingly unrelated parts that need 
 - Exceptions pull in `Typeable`
 - `Typeable` pulls in `GHC.Fingerprint`
 - GHC.Fingerprint pulls in `Foreign` and `IO` (but could be replaced by a pure implementation)
-- The Monad instance of `IO` calls `failIO`, which creates an `IOException`, which has fields for handles and devices, and hence pulls in some `Foreign` stuff and some file-related `IO`, preventing the creation of a clean base-io package. With [ some bad tricks](http://www.haskell.org/pipermail/glasgow-haskell-users/2013-February/023795.html) this can be distangled, but would change or prevent a `Show` and `Eq` instances for `IOException` in base-io.
+- The Monad instance of `IO` calls `failIO`, which creates an `IOException`, which has fields for handles and devices, and hence pulls in some `Foreign` stuff and some file-related `IO`, preventing the creation of a clean base-io package. There exists a [ somewhat backwards compatible work-around](http://www.haskell.org/pipermail/glasgow-haskell-users/2013-February/023796.html).
 
 ### Other issues
 
@@ -36,4 +36,5 @@ This is a list of interdependencies between seemingly unrelated parts that need 
 Joachim has started a first attempt to pull stuff out of the bottom of base; these chunks often contain more than initially intended:
 
 - [ base-pure](https://github.com/nomeata/packages-base/tree/base-pure) Basic stuff without `IO`, `Foreign` or floating point arithmetic. Requires reimplementing `GHC.Fingerprint` without using FFI (or at least without using FFI types and without `IO`).
-- [ base-io](https://github.com/nomeata/packages-base/tree/base-io) (uses base-pure). The `IO` and `ST` monads. Unfortunately pulls in `Handle`-related stuff via `IOException`.
+- [ base-io](https://github.com/nomeata/packages-base/tree/base-io) (uses base-pure). The `IO` and `ST` monads.
+- [ base-io-file](https://github.com/nomeata/packages-base/tree/base-io-file) (uses base-io). WIP, currently `IOException` and dependencies (e.g. `Handle`)
