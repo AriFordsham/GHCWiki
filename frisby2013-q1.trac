@@ -12,18 +12,29 @@ Compared to 351a8c6bbd53ce07d687b5a96afff77c4c9910cc, we implemented OPTIMIZATIO
 
 === Core Diving ===
 
+  * use nofib's EXTRA_HC_OPTs="..." command line parameter to apply the -ddump-* flags
+
   * emacs scroll-all-mode
+      * use C-o to fix up horizontal alignment without skewing the cursors
 
   * navigate -ddump-*'s output via the *** headers
 
   * lots of information: -dverbose-core2core + -ddump-inlinings
     * simplCore/Simplify has many pprTraces that are commented out
 
+  * ghc --show-iface M.hi will dump its definitions
+      * the unfolding of a wrapper is not shown, because it is actually not in the `.hi` file; it is reconstructed by `TcIface.tcIfaceWrapper` based on the type of it and the worker and the worker's demand information
+
   * diff -w can highlight major changes
-    * with -dppr-cols=999999999
+    * with -dppr-cols=999999999 to changes in names or number of arguments from moving lots of things around
     * -dsuppress-uniques or sed -r 's/_[[:alnum:]]{2,4}//g' (or leave out the underscore)
       * removes ''most'' uniques
-      * sed is handy also for diffing .ticky files
+      * this sed is handy also for diffing .ticky files
+  * other diffs
+     * diff -y --width=180
+     * diff -y --suppress-common-lines
+
+  * a strictly demanded let and a thunk with an unlifted type both become cases in the STG.
 
 === Ticky Counters ===
 
@@ -33,12 +44,59 @@ TODO
  * KNOWN_CALL_ctr              - "fast call": put arguments in registers and call the function's the fast entry point
  * KNOWN_CALL_TOO_FEW_ARGS_ctr - "PAP": creates a Partial APplication closure
  * KNOWN_CALL_EXTRA_ARGS_ctr   - like a fast call, but first push a continuation onto the stack that effectively uses stg_ap_<PAT>_fast for the extra args
-
  * ALLOC_HEAP_tot is in words, and so are the allocation numbers for each id
 
 === Core -> STG -> CMM ===
 
 TODO and _what you can learn by looking at each one_
+
+TODO "estimations of various run time consequences"
+
+=== The !NoFib Experimental Method ===
+
+ * start with -O1, both for the libraries and for the individual test programs
+   * proceed to -O2 once you've identified the primary interesting scenarios
+   * (also saves some compile time)
+ * always compile with -ticky (unless you're concerned about delicate optimizations at CMMand below)
+ * to manage compilation of the libraries, use build.mk's !GhcLibOpts
+ * to manage compilation of the nofib tests, use
+    * nofib's EXTRA_HC_OPTs="..." command line parameter
+    * or build.mk's !NofibHcOpts
+    * I recommend EXTRA_HC_OPTS because it's more flexible and more explicit
+ * there are four basic combinations
+   * (1) libs w/ baseline    , (nofib) tests w/ baseline
+   * (2) libs w/ baseline    , (nofib) tests w/ your change
+   * (3) libs w/ your change , (nofib) tests w/ baseline
+   * (4) libs w/ your change , (nofib) tests w/ your change
+ * ultimately the comparison that matters is (1) versus (4)
+ * though, (1) versus (2) and (1) versus (3) isolate the changes
+   * for allocation changes, ticky usually makes isolation a moot point
+   * for runtime, though, there's so many factors and so much noise that isolating the changes can benefit your sanity
+ * get a reproducible measurement before you start inspecting code
+   * alloc is *almost* always consistent
+   * runtime is rarely :/ so I iteratively crank up the iterations
+     * use nofib's !NoFibRuns command line parameter
+     * alternatively, use nofib's mode=slow, mode=norm, mode=fast command line flags
+ * inspect the ticky per-closure allocation, per-closure entry, and the general counters to hopefully isolate the change
+    * run the test (just once) with `+RTS -rFILENAME -RTS`
+      * use nofib's EXTRA_RUNTEST_OPTS="+RTS -rFILENAME -RTS"
+    * for allocation, the only subtlety is that allocation "inside" an LNE is assigned to the (most recent non-LNE) caller
+       * (also, it seems that we're not tracking allocation by the array cloning primops, but I don't know how prevalent that is)
+    * for runtime, entry counts and the general counters tracking the variety of closure entries will hopefully help
+      * cf [#TickyCounters]
+  * inspect the compilation outputs for differences
+    * cf [#CoreDiving] [#Core-STG-CMM]
+  * allocation changes probably won't require more work (unless its delicate GC stuff, I suppose)
+  * for runtime, isolate the changes
+    * to evaluate a change, write a simpler test that hammers just that code in order to estimate its consequences
+    * see [#Core-STG-CMM] for estimations of various run time consequences
+    * if the change seems to be in a library, slice out the relevant code into its own module so you can mutate it to experiment
+
+Running the full nofib suite with one set of flags and then again with another is fine for allocation, but pretty bad for runtime. The two measurements for a particular test are separated by a large amount of time, so the load is bad. My workaround has been a hacky shell script that transposes the two for-loops: outer for tests, inner for compilation method.
+
+Moreover, I usually include the baseline variant twice. For example, I'll compare "baseline" "idea 1" "baseline again" "idea 2"; this has two benefits.
+  * if the two baseline runtimes are significantly difference, then there's too much noise
+  * (I'm unsure about this) it leaves the machine in a comparable state before executing the two ideas
 
 == Late Lambda Float ==
 
@@ -141,6 +199,67 @@ Therefore, these are rough approximations. Being more accurate would require cha
 We tried limits of 32, 16, 8, and 4 to differentiate between the last two. At a limit of 8, the allocation increase in ida and puzzle were 1.3 and 2.9 percentage points better with thunk-growth than with in-thunk. But there were no differences around 10 --- which is the lowest we can go while improving nucleic2, anyway --- so we're adopting in-thunk for now.
 
 There might have been some potential benefits to run-time from thunk-growth versus in-thunk (with limit=8, 35 percentage points better on constraint, eg), but we're not confident in those measurements.
+
+===== Revisited =====
+
+The first one was actually already implemented, so we compared in-thunk-limit=10 with late-nonrec-lam-limit=10.
+
+We avoid PAP creation, -flate-float-simpl, and do not abstract known calls.
+
+TODO try it with -fprotect-last-arg
+
+TODO try it with -flate-abstract-sat-var
+
+Binary sizes increase +5.5% with the first, and only +2.5 with the second. It's so consistent that it's probably in the base library.
+
+Allocation was within 0.1%, except for cacheprof (worse by 1%), but cacheprof is always wiggly.
+
+Elapsed time changes
+
+{{{
+driver.sh x 15
+                              baseline       in-thunk=10   late-nonrec-lam=10
+           atom                 3.66           -0.8%           -1.2%
+  comp_lab_zift                 1.34           +2.3%           -0.1%
+         hidden                 1.97           +2.8%           +1.1%
+            hpg                 0.50           +4.0%           -9.2%
+            ida                 0.59           +6.2%           +2.8%
+      integrate                 0.66           -0.2%           -1.9%
+           para                 1.64           +0.2%           -3.0%
+          solid                 0.91           -0.1%           -1.1%
+      transform                 1.86           -1.9%           -2.7%
+      typecheck                 0.70           +1.4%           -2.9%
+   wheel-sieve2                 1.37           +0.6%           -1.0%
+
+          boyer                 0.23           -0.6%           +2.0%
+   cryptarithm1                 2.35           -0.2%           +1.8%
+          power                 4.26           -1.4%           -0.3%
+         simple                 1.33           -2.7%           -1.7%
+       treejoin                 1.72           +1.0%           +2.4%
+
+reproduced with local-driver x15
+
+                              baseline      baseline again   in-thunk=10   late-nonrec-lam=10
+           atom                 3.67           -0.2%           -0.9%           -1.6%
+  comp_lab_zift                 1.34           -0.4%           +1.2%           -0.5%
+         hidden                 1.94           -0.1%           +2.9%           +1.0%
+            hpg                 0.46           +1.9%           +5.5%           -0.4%
+            ida                 0.59           +0.1%           +5.2%           +3.2%
+      integrate                 0.67           -0.5%           -0.4%           -3.4%
+           para                 1.64           -0.0%           -0.4%           -3.0%
+          solid                 0.91           -0.1%           +0.0%           -1.4%
+      transform                 1.86           -0.1%           -2.1%           -2.7%
+      typecheck                 0.69           +0.2%           +1.5%           -1.7%
+   wheel-sieve2                 1.37           +0.3%           -0.8%           -1.7%
+
+          boyer                 0.23           -0.3%           -0.3%           +3.2%
+   cryptarithm1                 2.36           +0.0%           -0.1%           +1.5%
+          power                 4.26           +0.0%           -1.5%           -0.7%
+         simple                 1.31           +0.2%           -2.3%           -1.2%
+       treejoin                 1.61           -0.1%           +1.2%           +2.7%
+}}}
+
+TODO: investigate
 
 ==== Preserving Fast Entries ====
 
@@ -255,6 +374,112 @@ CTX[case a of [p1 -> let f x = ... in case a of ...]]
 
 The let prevents the cases from being merged. Since LLF is so aggressive, it floats f when it otherwise wouldn't be, enabling the case merge.
 
+==== Lifting Recursive Lambdas ====
+
+I arbitrarily went with flate-rec-lam-limit=10.
+
+We avoid creating PAPs and there is a -flate-float-simpl.
+
+TODO try it with no free-variable restriction on recursive lams
+
+TODO try it with -flate-protect-last-arg
+
+TODO try it with -flate-abstract-sat-var?
+
+Binary size increases another 1% to 1.5%.
+
+Allocation swings > 0.5%
+
+{{{
+                           baseline          it10+norec     it10+rec10
+           anna             70678152           -0.0%           -1.3%
+           ansi               128632           -0.1%           -1.1%
+         awards               292416           -0.1%           -0.5%
+       calendar               838008           -0.0%           -0.9%
+        circsim           1326471120           -0.0%           -0.9%
+       clausify             34268616           -0.0%           -1.8%
+   cryptarithm1           2051852480           -0.0%           -2.4%
+         expert               373048           -0.0%           -1.0%
+          fluid              9308464           -0.0%           -6.3%
+         gamteb             59846096           -0.8%           -0.9%
+         hidden           1165309432           -0.0%           -1.2%
+          infer             29637224           -0.0%           -0.6%
+          kahan            405812520           -0.0%           +1.5%
+        knights              2258392           +0.3%           -0.3%
+        mandel2              8970176           -0.0%           -0.8%
+        mkhprog              3371224           -0.0%           -1.2%
+           para            500173128           -0.4%           -1.7%
+        reptile             16634048           -0.0%           -1.0%
+           rfib               115688           -0.0%           -1.2%
+            tak               110136           -0.1%           -3.5%
+      transform            738806200           -2.2%           -2.8%
+      typecheck            317783904           -0.0%           -2.5%
+           x2n1              2463160           -0.0%           -3.3%
+
+      cacheprof            476193896           +0.1%           +2.1%
+    constraints           2142833608           -0.0%           +0.9%
+   cryptarithm2             26560976           -0.0%          +22.4%
+            cse              1257128           -0.0%           +0.5%
+            fem             53059480           -0.0%           +1.0%
+       fibheaps             47494928           -0.5%           +7.5%
+           fish             19083736           -0.0%           +1.6%
+       nucleic2             98472096           -0.9%           +0.5%
+            rsa             17910680           -0.0%           +0.6%
+         simple            226413112           -0.3%          +23.5%
+         sphere             95134112           -0.0%           +4.3%
+}}}
+
+Run time changes
+
+{{{
+x15 driver and reproduced with x15 local-driver
+
+        Program         log-baseline        log-it10  log-it10-rec10
+           anna                 0.44           -3.0%           -6.8%  good
+     bernouilli                 0.92           +0.1%           -1.7%
+    constraints                21.47           -0.0%           -1.5%
+  comp_lab_zift                 1.34           +1.7%           +0.3%
+       compress                 0.91           +1.9%           -0.5%
+      compress2                 1.97           -3.2%           -9.9%  excellent
+   cryptarithm1                 2.35           +0.3%           -3.9%  great
+            fft                 0.23           +0.0%           -2.9%  good
+         hidden                 1.95           +4.4%           -1.4%  -- reproduced-ish: it wiggled
+            hpg                 0.47           +3.5%           +0.4%
+            ida                 0.59           +5.7%           +3.1%
+          infer                 0.36           -1.7%           -6.2%  good
+        integer                 5.69           +0.8%           +0.0%
+          kahan                 0.85           -0.6%           -1.7%
+           lcss                 3.49           -0.7%           -1.4%
+           life                 1.85           +2.8%           -2.0%
+       listcopy                 0.44           +1.5%           -0.5%
+     multiplier                 0.71           -0.3%           -1.6%
+           para                 1.63           +0.7%           -2.4%  good
+      paraffins                 0.89           -0.9%           -3.3%  good
+      transform                 1.86           -2.4%           -4.5%
+       treejoin                 1.72           +1.1%           +0.2%
+      typecheck                 0.69           +1.0%           -0.2%
+           wang                 0.89           -1.3%           -3.2%
+
+          event                 1.02           -2.7%           -1.4%
+      listcompr                 0.40           -0.2%           +2.7%
+          power                 4.27           -1.6%           -0.2%
+         primes                 0.45           +0.0%           +2.8%
+            scs                 3.55           +2.6%           +3.2%
+         simple                 1.32           -2.5%          +28.3%
+   wheel-sieve1                 0.93           +0.6%           +1.9%
+
+}}}
+
+===== Analysis =====
+
+  * cryptarithm2 - we're lifting the letrec out of a SAT-transformed function. In particular, the `>>=` for `[]` can no longer be specialized on the second argument; this has disastrous effects
+
+  * simple - similar to cryptarithm2, so I'm not digging in for now.
+
+  * compress2 - it10-rec10 is a big win, even though it has 165 SLOW_CALL_OTHER_ctr (previously 0). Using the baseline libraries for both variants, rec10 actually worsens by 1.1%. So it's in the libraries. Ticky shows an additional $wa15 in GHC.IO.Handle.Text. TODO
+
+TODO
+
 === Miscellaneous Findings ===
 
 ==== Thunk Join Points ====
@@ -358,17 +583,270 @@ When we protect the void arguments from being removed by WwLib.mkWorkerArgs, we 
 
 Just turning on the -fprotect-last-arg flag was generally helpful for allocation. It was also generally helpful for runtime: somewhere between +1% and -3%. But a couple were > +4%. In a couple of those cases, I discovered that the increased expression size was breaching the unfolding creation threshold (in a base library module). This actual prevented some inlining.
 
-I implemented the -funfolding-ignore-RealWorld flag by ignoring arguments of type State# RealWorld when measuring applications and lambdas. The only subtlety was that we still need to count the void args when considering whether to award the partial application result discount. Otherwise, every invocation of a join point meant a huge discount (ufFunAppDiscount). In a couple programs, this increased allocation drastically because the newly inlined function's RHS included a join point that lost its LNE status at the call-site because the entire inlined RHS was case-scrutinized.
+I implemented the -funfolding-ignore-RealWorld flag by ignoring arguments of type State# RealWorld when measuring applications and lambdas. The only subtlety was that we still need to count the void args when considering whether to award the partial application result discount --- not counting the void args incorrectly awards the discount. That mistake means every invocation of a join point awards the rather large ufFunAppDiscount. In a couple programs, this increased allocation drastically because the newly inlined function's RHS included a join point that lost its LNE status at the call-site because the entire inlined RHS was case-scrutinized.
 
-The switch improved the runtimes of -fprotect-last-arg, especially the formerly bad ones. Two exceptional cases:
+==== Measurements ====
 
-  * rewrite gets +3% allocation when ignoring RealWorld (regardless of protection) and
-  * hidden gets +15% run time with both protecting and ignoring.
+Allocation; only good things happen with protect-last-arg, unfolding-ignore-RealWorld doesn't make much of a difference.
 
-TODO: I'm investigating these now.
+{{{
+                          baseline       protect-no-ignore   protect-ignore
+        circsim           1326471120           -0.7%           -0.7%
+  comp_lab_zift            330889440           -5.0%           -5.0%
+         hidden           1165309432           -0.7%           -0.7%
+      listcompr            304662896           -0.4%           -0.4%
+       listcopy            334710912           -0.4%           -0.4%
+       maillist             92431136           +0.0%           -0.7%
+}}}
+
+Repeatable Elapsed Times
+
+There are some good ones in the -3 to -5% range. This table is just the bad ones/ones where ignore made things worse.
+
+{{{
+                          baseline         baseline2     protect-no-ignore   protect-ignore
+
+x5
+
+           atom                 3.66           -0.1%           -2.2%           +2.0%
+     bernouilli                 0.91           -0.4%           +0.7%           +1.8%
+       cichelli                 0.34           +0.0%           -2.4%           +2.9%
+       compress                 0.92           +0.0%           +0.4%           +1.3%
+           fft2                 0.28           +0.0%           +0.0%           +5.7%
+         genfft                 0.21           -0.9%           +2.8%           +3.8%
+            hpg                 0.48           -1.3%           -2.5%           +4.2%
+          infer                 0.36           -1.1%           -2.2%           -2.8%
+       nucleic2                 0.26           +1.5%           +3.0%           +5.3%
+            scs                 3.54           +0.2%           +0.8%           +2.7%
+         simple                 1.33           -0.2%           -0.2%           +2.1%
+          solid                 0.91           -0.0%           -1.1%           +0.4%
+      transform                 1.86           -0.3%           -0.8%           +0.1%
+
+x15
+
+           atom                 3.66           +0.2%           -2.1%           +1.8%
+     bernouilli                 0.92           -0.6%           -0.1%           +0.1%
+       cichelli                 0.34           +0.0%           -2.0%           +0.4%
+       compress                 0.92           -0.5%           +0.1%           +1.3%
+           fft2                 0.28           -0.2%           +0.2%           +5.5%
+         genfft                 0.21           +0.3%           +4.7%           +4.1%
+            hpg                 0.47           +0.3%           -1.6%           +4.9%
+          infer                 0.36           +0.2%           -1.3%           -2.2%
+       nucleic2                 0.26           +0.5%           +5.3%           +4.0%
+            scs                 3.55           -0.1%           +0.7%           +2.4%
+         simple                 1.32           +0.2%           -0.1%           +2.4%
+          solid                 0.91           +0.4%           -0.3%           +0.6%
+      transform                 1.85           +0.5%           -0.1%           +0.9%
+
+x50
+
+       cichelli                 0.34           +0.0%           -1.7%           +0.5%
+         genfft                 0.21           -0.5%           +4.3%           +4.1%
+       nucleic2                 0.26           -0.1%           +4.0%           +4.3%
+          solid                 0.91           -0.1%           -0.9%           +0.7%
+
+}}}
+
+TODO: investigate
+
+===== Interaction with LLF =====
+
+TODO try with -flate-float-abstract-sat?
+
+Baseline sizes tend to increase another 1% to 1.5%.
+
+Allocation changes > 0.5%:
+
+{{{
+                           baseline             it10     it10-protect-ignore
+  comp_lab_zift            330889440           -0.0%           -5.0%
+         gamteb             59846096           -0.8%           -1.4%
+         hidden           1165309432           -0.0%           -0.7%
+       maillist             92431136           -0.2%           -0.8%
+         puzzle            165864160           -0.0%          -15.1%
+
+        rewrite             17800064           -0.0%           +3.1%
+}}}
+
+NB The rewrite bump is likely the same as in the non-LLF case: it happens because some recursive bindings end up in a different order for some reason and consequently some intermediate data structures don't get compiled away.
+
+Elapsed time changes:
+
+{{{
+x15 driver and then reproduced with x15 local-driver 
+
+                              baseline        baseline2        it10      it10-protect-ignore
+       cichelli                 0.34           +0.0%           -1.5%           -2.9%
+  comp_lab_zift                 1.34           +0.1%           +1.6%           -4.4%
+           life                 1.85           -1.1%           +3.0%           +0.3%
+           para                 1.64           -0.1%           +0.0%           -3.0%
+      paraffins                 0.89           -0.1%           -0.7%           -2.5%
+         puzzle                 0.49           -0.2%           +0.8%          -10.2%
+            scs                 3.56           +0.1%           +1.7%           -0.6%
+   wheel-sieve2                 1.37           +0.4%           -0.7%           -1.7%
+
+           anna                 0.44           +0.0%           -3.6%           +0.0%   -- reproduced at x50
+        circsim                 5.82           -0.2%           -1.7%           +0.5%
+   cryptarithm1                 2.36           -0.0%           +0.2%           +1.4%
+          event                 1.02           +0.0%           -3.2%           +0.0%
+         exp3_8                 1.88           -0.3%           +0.2%           +1.6%
+        integer                 5.69           -0.2%           +0.7%           +2.6%
+           lcss                 3.49           -0.3%           -1.1%           +0.6%
+      typecheck                 0.69           -0.4%           +0.7%           +3.0%   -- reproduced at x50
+}}}
+
+ * event - no Core diff
+ * integer - no Core diff
+ * typecheck - a few nested LNEs become top-level functions
+
+TODO: investigate the bad ones
 
 ===== Continuation =====
 
 SPJ thought this may be another means of hoisting the let-no-escape functionality from the code generator into the core2core pipeline. LLF would handle let-no-escape lambdas, but it does not handle let-no-escape thunks (which we didn't initially realize were being identified).
 
 Changing the let-no-escape thunks to \void -> ... closures upstream would then subject the binding to more optimisations. Formerly, it's non-lambda status meant that inlining it, eg, would lose sharing.
+
+== Late Strictness/WW ==
+
+There are two core-to-core passes related to demand (= strictness & usage & CPR):
+
+  * the demand analyzer pass (stranal/DmdAnal) and
+  * the worker-wrapper split (stranal/WorkWrap).
+
+The split currently happens once in the pipeline, and the demand analysis happens immediately before it.
+
+{{{
+sat
+vectorise
+specialize
+float-out
+float-in
+simpl
+HERE
+float-out
+cse
+float-in
+liberate-case;simpl
+spec-constr
+simpl
+}}}
+
+This pair of passes can be enabled/disabled by `-fstrictness` flag.
+
+Additionally, the demand analyzer is optionally be ran before each execution of some arbitrary phases of the simplifier using the `-fstrictness-before` flag. A few direct invocations of the simplifier, eg, after vectorisation, are not affected by this flag.
+
+=== The Idea ===
+
+The demands change as we optimize Core terms. The passes are careful to remove the demand info annotation when transforming a term in a way that invalidates the current demand info. Doing so, however, can hinder downstream optimizations. Running the strictness analyzer a second time may therefore be helpful.
+
+=== The Design ===
+
+I added to flags `-flate-strictness` and `-flate-wwsplit`.
+
+  * `-flate-strictness` invokes the demand analyzer after !SpecConstr.
+  * `-flat-wwsplit` implies `-flate-strictness` and immediately follows it with a worker-wrapper split.
+
+I placed them arbitrarily in the pipeline. But phase-ordering is known to have an impact, so maybe we should try running in between all other passes.
+
+==== Initial Core Lint error ====
+
+Enabling either flag caused a core lint error when compiling `GHC.Float`. (I anticipate that `-fstrictness-before` would have done the same.) Some cleverness in the `.hi` files was surreptitiously creating an ill-typed unfolding for `GHC.Real.even`. Here's why.
+
+The unfolding for a wrapper function is not actually stored in a `.hi` file. This unfolding can be reconstructed based on the type of the function and the demand info it had when the split was performed. Thus only the name of the worker is stored in the `.hi` file and `TcIface.tcIfaceWrapper` rebuilds the wrapper's unfolding.
+
+However, re-running the demand analyzer after the worker wrapper split may change the wrapper's demand info. In the program offending Core Lint, the new demand info results in a worker with an arity of 4 while the old info had an arity of 5.
+
+For now, I've merely disabled the `.hi` cleverness;thusly storing the wrapper's actual unfolding works fine.
+
+=== The initial measurements ===
+
+Using different flag combinations, I built the libraries and ran nofib tests.
+
+  1. baseline        = -O1
+  1. late-strictness = -O1 -flate-strictness
+  1. late-wwsplit    = -O1 -flate-wwsplit
+
+NB the libraries are usually compiled with -O2.
+
+Allocation changes:
+
+  * allocation for late-strictness and late-wwsplit are always the same.
+
+  * The big changes are all good, but nothing truly spectacular.
+
+{{{
+knights  2258392    -5.70%
+fulsom   335718008  -2.50%
+scs      1030151712 -1.60%
+simple   226413112  -1.20%
+pic      3528968    -0.20%
+gamteb   59846096   -0.10%
+gg       9159680    -0.10%
+
+ansi     128632      0.10%
+awards   292416      0.10%
+expert   373048      0.10%
+pretty   145640      0.10%
+rfib     115688      0.10%
+grep     72992       0.20%
+mkhprog  3371224     0.20%
+scc      59568       0.20%
+tak      110136      0.30%
+maillist 92431136    0.50%
+
+}}}
+
+Repeatable Elapsed time changes:
+
+ * These don't necessarily include all *good* changes, but I think I caught all the bad ones.
+
+{{{
+              baseline   baseline2  late-strictness  wwsplit
+atom          3.66       0.10%       3.00%            -1.10%
+compress2     1.97       0.10%      -3.80%            -3.40%
+fft           0.23       0.00%      -2.30%           -10.40%
+integrate     0.66       0.30%      -0.20%            -4.10%
+life          1.85       0.10%       1.90%             1.30%
+para          1.65      -0.40%       0.20%            -3.40%
+scs           3.59       0.60%      -0.90%           -12.50%
+wave4main     1.18      -0.10%       1.90%             0.40%
+
+cryptarithm1  2.36       0.10%      -1.90%             2.90%
+fft2          0.28      -0.20%       0.10%             2.10%
+genfft        0.21      -0.30%       1.90%             5.30%
+hpg           0.47       0.10%      -3.00%             2.80%
+integer       5.69      -0.20%      -0.70%             2.90%
+transform     1.86      -0.20%      -0.20%             2.20%
+treejoin      1.61       0.40%       1.10%             2.30%
+}}}
+
+=== Analysis ===
+
+==== Allocation ====
+
+ * knights - `possibleMoves`'s letrec includes a join point: baseline, there's no demand info, but late-strictness records that it's strict in its first argument. Thus after CoreTidy, calls `$j (case sNo {I# x -> I# (x -# 1)})` become `case sNo {I# x -> $j (I# (x -# 1))}`. By STG, the -# 1 gets floated out, and the sat thunk's closure is instead just the `I#` constructor's closure. This has many benefits, including saving us a word since we don't need the free variable. This is approximately what the ww-split version ends up doing, too, ww-split just makes the change more explicit in the Core and STG.
+
+  * fulsom - A constructor argument `(let a = case fv1 of D# x -> case fv2 of D# y -> D# (x +## y) in GHC.Float.timesDouble a a)` becomes `case fv1 of D# x -> case fv2 of D# y -> let a = x +## y in D# (a *## a)`. The let at an unlifted type is actually a case, and hence not allocated, eliminating a two-free-variable closure altogether. Moreover, the entry count of `GHC.Float.timesDouble` is halved.
+
+  * scs - a hot recursive LNE has some lets converted to cases, since their strict demand is identified. 79,751,836 reduces to 77,930,374.
+
+  * scs - `GHC.Float.$w$sfloatToDigits1` allocates 95% as much as before (1070916 on 14098 entries).
+
+  * scs - `GHC.Float.$wfromRat''` no longer allocates, saving 170315 allocation on 37304 entries.
+
+  * simple - a number of lets become cases, partly because `revised_temperature` is newly found strict in its second arg
+
+==== Runtime ====
+
+TODO
+
+== Other Tasks ==
+
+  * Johan pointed out regressions; look into them --- there might be some easy wins
+
+  * try making all dictionaries strict (simultaneously drop the newtype-single-method trick)
+
+  * late CSE; make lvlMFE very aggressive
+
+  * consider adding a void parameter to LNEs earlyish in the pipeline so they do not appear to share work
