@@ -58,7 +58,7 @@ TODO and _what you can learn by looking at each one_
 
   - proceed to -O2 once you've identified the primary interesting scenarios
   - (also saves some compile time)
-- always compile with -ticky
+- always compile with -ticky (unless you're concerned about delicate optimizations at CMMand below)
 - to manage compilation of the libraries, use build.mk's GhcLibOpts
 - to manage compilation of the nofib tests, use
 
@@ -97,10 +97,11 @@ TODO and _what you can learn by looking at each one_
 - inspect the compilation outputs for differences
 
   - cf [\#CoreDiving](frisby2013-q1#core-diving)[\#Core-STG-CMM](frisby2013-q1#)
-- allocation changes probably won't require more work (unless its delication GC stuff, I suppose)
-- run runtime, isolate the changes
+- allocation changes probably won't require more work (unless its delicate GC stuff, I suppose)
+- for runtime, isolate the changes
 
-  - for a given change, write a simpler test that hammers just that code in order to estimate its affect
+  - to evaluate a change, write a simpler test that hammers just that code in order to estimate its affect
+  - see [\#Core-STG-CMM](frisby2013-q1#) for an estimation of run time effects
   - if the change seems to be in a library, slice out the relevant code into its own module so you can mutate it to experiment
 
 

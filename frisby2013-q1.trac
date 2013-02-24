@@ -50,7 +50,7 @@ TODO and _what you can learn by looking at each one_
  * start with -O1, both for the libraries and for the individual test programs
    * proceed to -O2 once you've identified the primary interesting scenarios
    * (also saves some compile time)
- * always compile with -ticky
+ * always compile with -ticky (unless you're concerned about delicate optimizations at CMMand below)
  * to manage compilation of the libraries, use build.mk's !GhcLibOpts
  * to manage compilation of the nofib tests, use
     * nofib's EXTRA_HC_OPTs="..." command line parameter
@@ -79,9 +79,10 @@ TODO and _what you can learn by looking at each one_
       * cf [#TickyCounters]
   * inspect the compilation outputs for differences
     * cf [#CoreDiving] [#Core-STG-CMM]
-  * allocation changes probably won't require more work (unless its delication GC stuff, I suppose)
-  * run runtime, isolate the changes
-    * for a given change, write a simpler test that hammers just that code in order to estimate its affect
+  * allocation changes probably won't require more work (unless its delicate GC stuff, I suppose)
+  * for runtime, isolate the changes
+    * to evaluate a change, write a simpler test that hammers just that code in order to estimate its affect
+    * see [#Core-STG-CMM] for an estimation of run time effects
     * if the change seems to be in a library, slice out the relevant code into its own module so you can mutate it to experiment
 
 Running the full nofib suite with one set of flags and then again with another is fine for allocation, but pretty bad for runtime. The two measurements for a particular test are separated by a large amount of time, so the load is bad. My workaround has been a hacky shell script that transposes the two for-loops: outer for tests, inner for compilation method.
