@@ -78,7 +78,7 @@ TODO and _what you can learn by looking at each one_
     * for runtime, entry counts and the general counters tracking the variety of closure entries will hopefully help
       * cf [#TickyCounters]
   * inspect the compilation outputs for differences
-    * cf [#CoreDiving] [#Core->STG->CMM]
+    * cf [#CoreDiving] [#Core-STG-CMM]
   * allocation changes probably won't require more work (unless its delication GC stuff, I suppose)
   * run runtime, isolate the changes
     * for a given change, write a simpler test that hammers just that code in order to estimate its affect
