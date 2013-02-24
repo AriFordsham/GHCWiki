@@ -39,12 +39,56 @@ TODO
  * KNOWN_CALL_ctr              - "fast call": put arguments in registers and call the function's the fast entry point
  * KNOWN_CALL_TOO_FEW_ARGS_ctr - "PAP": creates a Partial APplication closure
  * KNOWN_CALL_EXTRA_ARGS_ctr   - like a fast call, but first push a continuation onto the stack that effectively uses stg_ap_<PAT>_fast for the extra args
-
  * ALLOC_HEAP_tot is in words, and so are the allocation numbers for each id
 
 === Core -> STG -> CMM ===
 
 TODO and _what you can learn by looking at each one_
+
+=== The !NoFib Experimental Method ===
+
+ * start with -O1, both for the libraries and for the individual test programs
+   * proceed to -O2 once you've identified the primary interesting scenarios
+   * (also saves some compile time)
+ * always compile with -ticky
+ * to manage compilation of the libraries, use build.mk's !GhcLibOpts
+ * to manage compilation of the nofib tests, use
+    * nofib's EXTRA_HC_OPTs="..." command line parameter
+    * or build.mk's !NofibHcOpts
+    * I recommend EXTRA_HC_OPTS because it's more flexible and more explicit
+ * there are four basic combinations
+   * (1) libs w/ baseline    , (nofib) tests w/ baseline
+   * (2) libs w/ baseline    , (nofib) tests w/ your change
+   * (3) libs w/ your change , (nofib) tests w/ baseline
+   * (4) libs w/ your change , (nofib) tests w/ your change
+ * ultimately the comparison that matters is (1) versus (4)
+ * though, (1) versus (2) and (1) versus (3) isolate the changes
+   * for allocation changes, ticky usually makes isolation a moot point
+   * for runtime, though, there's so many factors and so much noise that isolating the changes can benefit your sanity
+ * get a reproducible measurement before you start inspecting code
+   * alloc is *almost* always consistent
+   * runtime is rarely :/ so I iteratively crank up the iterations
+     * use nofib's !NoFibRuns command line parameter
+     * alternatively, use nofib's mode=slow, mode=norm, mode=fast command line flags
+ * inspect the ticky per-closure allocation, per-closure entry, and the general counters to hopefully isolate the change
+    * run the test (just once) with `+RTS -rFILENAME -RTS`
+      * use nofib's EXTRA_RUNTEST_OPTS="+RTS -rFILENAME -RTS"
+    * for allocation, the only subtlety is that allocation "inside" an LNE is assigned to the (most recent non-LNE) caller
+       * (also, it seems that we're not tracking allocation by the array cloning primops, but I don't know how prevalent that is)
+    * for runtime, entry counts and the general counters tracking the variety of closure entries will hopefully help
+      * cf [#TickyCounters]
+  * inspect the compilation outputs for differences
+    * cf [#CoreDiving] [#Core->STG->CMM]
+  * allocation changes probably won't require more work (unless its delication GC stuff, I suppose)
+  * run runtime, isolate the changes
+    * for a given change, write a simpler test that hammers just that code in order to estimate its affect
+    * if the change seems to be in a library, slice out the relevant code into its own module so you can mutate it to experiment
+
+Running the full nofib suite with one set of flags and then again with another is fine for allocation, but pretty bad for runtime. The two measurements for a particular test are separated by a large amount of time, so the load is bad. My workaround has been a hacky shell script that transposes the two for-loops: outer for tests, inner for compilation method.
+
+Moreover, I usually include the baseline variant twice. For example, I'll compare "baseline" "idea #1" "baseline again" "idea #2"; this has two benefits.
+  * if the two baseline runtimes are significantly difference, then there's too much noise
+  * (I'm unsure about this) it leaves the machine in a comparable state before executing the two ideas
 
 == Late Lambda Float ==
 
