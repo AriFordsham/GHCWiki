@@ -12,6 +12,8 @@ Compared to [351a8c6bbd53ce07d687b5a96afff77c4c9910cc](/trac/ghc/changeset/351a8
 
 ### Core Diving
 
+- use nofib's EXTRA_HC_OPTs="..." command line parameter to apply the -ddump-\* flags
+
 - emacs scroll-all-mode
 
   - use C-o to fix up horizontal alignment without skewing the cursors
@@ -29,12 +31,16 @@ Compared to [351a8c6bbd53ce07d687b5a96afff77c4c9910cc](/trac/ghc/changeset/351a8
 
 - diff -w can highlight major changes
 
-  - with -dppr-cols=999999999
+  - with -dppr-cols=999999999 to changes in names or number of arguments from moving lots of things around
   - -dsuppress-uniques or sed -r 's/_:alnum:?{2,4}*g' (or leave out the underscore)
     *
 
     - removes *most* uniques
     - this sed is handy also for diffing .ticky files
+- other diffs
+
+  - diff -y
+  - diff -y --suppress-common-lines
 
 - a strictly demanded let and a thunk with an unlifted type both become cases in the STG.
 
@@ -51,6 +57,8 @@ TODO
 ### Core -\> STG -\> CMM
 
 TODO and _what you can learn by looking at each one_
+
+TODO "estimations of various run time consequences"
 
 ### The NoFib Experimental Method
 
@@ -100,8 +108,8 @@ TODO and _what you can learn by looking at each one_
 - allocation changes probably won't require more work (unless its delicate GC stuff, I suppose)
 - for runtime, isolate the changes
 
-  - to evaluate a change, write a simpler test that hammers just that code in order to estimate its affect
-  - see [\#Core-STG-CMM](frisby2013-q1#) for an estimation of run time effects
+  - to evaluate a change, write a simpler test that hammers just that code in order to estimate its consequences
+  - see [\#Core-STG-CMM](frisby2013-q1#) for estimations of various run time consequences
   - if the change seems to be in a library, slice out the relevant code into its own module so you can mutate it to experiment
 
 
