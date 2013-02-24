@@ -39,7 +39,7 @@ Compared to [351a8c6bbd53ce07d687b5a96afff77c4c9910cc](/trac/ghc/changeset/351a8
     - this sed is handy also for diffing .ticky files
 - other diffs
 
-  - diff -y
+  - diff -y --width=180
   - diff -y --suppress-common-lines
 
 - a strictly demanded let and a thunk with an unlifted type both become cases in the STG.
@@ -116,7 +116,7 @@ TODO "estimations of various run time consequences"
 Running the full nofib suite with one set of flags and then again with another is fine for allocation, but pretty bad for runtime. The two measurements for a particular test are separated by a large amount of time, so the load is bad. My workaround has been a hacky shell script that transposes the two for-loops: outer for tests, inner for compilation method.
 
 
-Moreover, I usually include the baseline variant twice. For example, I'll compare "baseline" "idea [\#1](https://gitlab.haskell.org//ghc/ghc/issues/1)" "baseline again" "idea [\#2](https://gitlab.haskell.org//ghc/ghc/issues/2)"; this has two benefits.
+Moreover, I usually include the baseline variant twice. For example, I'll compare "baseline" "idea 1" "baseline again" "idea 2"; this has two benefits.
 
 - if the two baseline runtimes are significantly difference, then there's too much noise
 - (I'm unsure about this) it leaves the machine in a comparable state before executing the two ideas
