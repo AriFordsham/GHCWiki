@@ -260,7 +260,34 @@ TODO try it with -flate-abstract-sat-var
 Binary sizes increase +5.5% with the first, and only +2.5 with the second. It's so consistent that it's probably in the base library.
 
 
-Allocation was within 0.1%, except for cacheprof (worse by 1%), but cacheprof is always wiggly.
+Allocation was within 0.2%, except for cacheprof (worse by 1%), but cacheprof is always wiggly.
+
+###### With baseline libraries
+
+
+Reproducible elapsed time changes
+
+```wiki
+                   baseline       baseline2        it10             lam10
+           anna     0.44           -0.2%           +0.2%           -3.8%
+         genfft     0.21           +0.0%           +3.9%           +5.5%
+          event     1.02           +0.1%           -0.8%           +0.0%
+            scs     3.57           -0.2%           +1.1%           -0.4%
+```
+
+- event - a joinpoint Int\# -\> \[...\] gets floated, gains LSSELiS parameters, called 103999 times. Also, one of the abstracted variables keeps a case binder alive.
+
+- scs - LinearAlgebra - several changes. uses of accumArray and listArray get inlined, and then joinpoints get floated out; adding 10 abstracted variables. Other similar functions (like unit) don't do this, so I'm not totally sure what triggers it. 
+
+- scs - Simulate - changes here too TODO
+
+TODO inspect the event CMM to see the sort of difference that this makes; find that 1%!
+
+TODO Why is the it10 float good in event but bad in scs? Maybe it's mostly the Simulate changes?
+
+TODO switching on protect-ignore seems to even out scs, but it does not affect event... ACK it's that darn "inlining putStr some how slows things down" again. Why's it being inlined if the libraries are baseline?
+
+###### With matching libraries
 
 
 Elapsed time changes
