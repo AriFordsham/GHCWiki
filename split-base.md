@@ -6,6 +6,31 @@ In a [ thread on glasglow-haskell-users](http://www.haskell.org/pipermail/glasgo
 
 This has been discussed before, e.g. in \[2008 [ http://www.haskell.org/pipermail/libraries/2008-August/010543.html](http://www.haskell.org/pipermail/libraries/2008-August/010543.html)\].
 
+### Goals
+
+
+Structural changes to the base package can be attempted towards the following goals:
+
+#### To allow changes to internals without forcing a version-bump on ‘base’, on which every package depends
+
+
+SPJ: But that goal needs a bit of unpacking. Suppose we divided base into six, base1, base2, base3, etc, but each was a vertical silo and every other package depended on all six.  Then nothing would be gained; bumping any of them would cause a ripple of bumps down the line.
+
+#### To allow packages to be explictly about what they need
+
+
+A library that does not use the IO monad could communicate that just by not depending on some base-io package. Similar with the Foreign Function Interface or unsafe operations.
+
+#### To allow alternative implementations/targets
+
+
+A Haskell-to-Javascript compiler will not support File IO, or maybe not even IO at all. It would be desirable such an implementation has a chance to at least provide a complete and API compatible base-pure package, and that one can hence reasonably assume that packages and libraries depending only on `base-pure` will indeed work without modification. This might be subsumed by fulfilling the previous goal.
+
+#### Split base into as FEW packages as possible, consistent with meeting the other goals
+
+
+In contrast to the non-goal of splitting base as much as possible. Johan points out, a split now could paint us into a corner later, so we should not gratuitously split things up.
+
 ### Non-Obvious interdependencies
 
 
@@ -33,4 +58,4 @@ This is a list of interdependencies between seemingly unrelated parts that need 
 ### First attempt
 
 
-Joachim has started a first attempt to pull stuff out of the bottom of base. See [ https://github.com/nomeata/packages-base/blob/base-split/README.md](https://github.com/nomeata/packages-base/blob/base-split/README.md) for an overview of progress and a description of changes. Use `git clone git://github.com/nomeata/packages-base.git; git checkout base-split` to experiment.
+Joachim has started a first attempt to pull stuff out of the bottom of base. See [ https://github.com/nomeata/packages-base/blob/base-split/README.md](https://github.com/nomeata/packages-base/blob/base-split/README.md) for an overview of progress and a description of changes. Use `git clone git://github.com/nomeata/packages-base.git; git checkout base-split` to experiment. This \*does\* try to split out as many packages as possible, just to see what is possible.
