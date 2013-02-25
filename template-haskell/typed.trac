@@ -13,11 +13,26 @@ In the case of terms (only), we know from MetaML that we can have typed quotatio
 
  4.   '''Add a constant which takes a typed quote and returns an untyped one''': {{{unType :: TExp a -> Q Exp}}} 
 
- 5.   '''Run these new typed splices in the typechecker, not the renamer.''' 
+ 5.   '''Run these new typed splices in the typechecker, not the renamer.'''
 
  6.   '''Use renaming of binding forms to insure capture-avoidance''' (a la MetaML).
 
  7.   '''Cross-stage persistence will remain unchanged.'''  To be able to use an identifier at future stages, it must be fully available, which means that it needs to be defined in a previous compilation unit if it will be spliced (by name) into a term.
 
-The justification for 2 and 3 are classical.  For ensuring type-safety (at the current state of knowledge), it is important that `TExp` be abstract, as sound typed-expression manipulation is very hard to achieve, especially in the presence of binders.  A future extension may open this up, whenever this particular tough nut is cracked, but for now we must have 1.  In theory, `unType` (4) is not needed; in practice, it probably will be.  5 is obvious: type information needs to be available for typed splices, and this is not available in the renamer.  6 comes from MetaML, and basically just means that the renamer will be applied to typed splices as well.  7 documents a non-change [which is a little awkward in code, was not present in the old metaocaml, but is actually in the new metaocaml).
+The justification for (2) and (3) are classical.  For ensuring type-safety (at the current state of knowledge), it is important that `TExp` be abstract, as sound typed-expression manipulation is very hard to achieve, especially in the presence of binders.  A future extension may open this up, whenever this particular tough nut is cracked, but for now we must have (1).  In theory, `unType` (4) is not needed; in practice, it probably will be.  (5) is obvious: type information needs to be available for typed splices, and this is not available in the renamer.  6 comes from MetaML, and basically just means that the renamer will be applied to typed splices as well.  (7) documents a non-change [which is a little awkward in code, was not present in the old metaocaml, but is actually in the new metaocaml -- see the [http://okmij.org/ftp/ML/MetaOCaml.html#ctors data constructor restriction]).
 
+=== Syntax ===
+
+As for syntax, it would obviously be best if one could simply use `[| |]` for typed quotes as, in the Haskell world, one would want to have as many things as possible be typed.  But this is entirely unrealistic: surely there will be "correct" TH code out there which will not type.  It would be quite interesting to see what these codes are, but it would also be unfair to inflict such random pain on TH users.  Furthermore, as `[| |]` would be typed only for terms (at least until a lot more research is done, to provide "types" for the other syntactic categories of Haskell), this would likely end up more frustrating than anything else.  Thus, at present, a new syntactic category is best.  As was documented in the proposal, there are a lot of options here, but it is probably simplest to just double-up, aka `[|| e ||]` and `$$e`, rather than steal another sort of generalized bracket for this purpose.  
+{{{ 
+#!html
+Of course, it would be nice to also use Unicode for something nicer; &lang; e &rang; is certainly tempting. &#10218; e &#10219; too.  Using ''denotation brackets'' would definitely be wrong though.  But, to go back to logic, most tempting is actually &#x2e22; e &#x2e23; which logicians have used for quite some time.  Then splice could be denoted by &#x2e24; e &#x2e25; .  The official suggestion is for the latter two, aka unicode points 2e22, 2e23, 2e24 and 2e25 respectively.
+}}} 
+
+Quite a number of other items have already been described in detail in the [http://hackage.haskell.org/trac/ghc/blog/Template%20Haskell%20Proposal Proposal], so there is no point in repeating them here.
+
+=== Scope Extrusion and effects ===
+
+Since effects in Haskell are typed quite differently than in ocaml, [http://okmij.org/ftp/ML/MetaOCaml.html#got-away scope extrusion] is unlikely to be much of a problem.  However, these items should be tested.
+
+Note that there should be no restriction on `a` to be a pure type, i.e. it could be `m a` for some `Monad m`.  Normal Haskell typing rules would just apply.  Since top-level declarations cannot be generated as (typed) terms, all such effects would have to be present in the environment already for things to be typeable.
