@@ -208,7 +208,17 @@ We avoid PAP creation, -flate-float-simpl, and do not abstract known calls.
 
 TODO try it with -fprotect-last-arg
 
-TODO try it with -flate-abstract-sat-var
+{{{
+with baseline libraries
+
+Allocations
+-------------------------------------------------------------------------------
+        Program          ll-baselinell-protect-ignor     ll-lam10pin      ll-it10pin
+-------------------------------------------------------------------------------
+         puzzle            165864160           +0.0%           +0.0%          -15.1%
+}}}
+
+The difference: a join point inside a letrec in $wtransfer (itself also recursive) gets floated out and then inlined back in. This ultimately eliminates several lets. A considerable amount of code duplication, but with a big pay off. The (LNE) join point has 15 free variables, but does not occur in a thunk. The free variables are probably getting parameter scrutinization discounts once floated.
 
 Binary sizes increase +5.5% with the first, and only +2.5 with the second. It's so consistent that it's probably in the base library.
 
