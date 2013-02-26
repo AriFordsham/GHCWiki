@@ -71,6 +71,10 @@ class (kparam ~ KindParam) => SingKind (kparam :: OfKind k) where
 
 - Perhaps we should move some of what we're discussing out of `GHC.TypeLits`. After all, `(:~:)` does not interact directly with singletons, and neither do some of the definitions I mentioned above. I'm at a bit of a loss for a name, though...
 
+## Other thoughts (Gabor)
+
+- Ultimately we want GHC to derive the `SingEquality` instance (`sameSing`, `decideSing` methods) for any singleton instance. GHC libraries should be laid out in a way that GHC's deriving engine can access all vital parts. IISC, this criterion rules out a completely detached library.
+
 ## Course of Implementation
 
 
