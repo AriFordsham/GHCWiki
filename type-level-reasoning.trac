@@ -62,6 +62,10 @@ class (kparam ~ KindParam) => SingKind (kparam :: OfKind k) where
 
  * Perhaps we should move some of what we're discussing out of {{{GHC.TypeLits}}}. After all, {{{(:~:)}}} does not interact directly with singletons, and neither do some of the definitions I mentioned above. I'm at a bit of a loss for a name, though...
 
+== Other thoughts (Gabor) ==
+
+ * Ultimately we want GHC to derive the {{{SingEquality}}} instance ({{{sameSing}}}, {{{decideSing}}} methods) for any singleton instance. GHC libraries should be laid out in a way that GHC's deriving engine can access all vital parts. IISC, this criterion rules out a completely detached library.
+
 == Course of Implementation ==
 
 Gabor: I have created a new branch `type-reasoning` and pushed everything I have so far to the `libraries/base` repo. [http://www.haskell.org/pipermail/ghc-devs/2013-February/000304.html Richard's mail] summarizes what still needs to be done.
