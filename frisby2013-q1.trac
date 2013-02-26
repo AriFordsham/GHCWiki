@@ -208,7 +208,17 @@ We avoid PAP creation, -flate-float-simpl, and do not abstract known calls.
 
 TODO try it with -fprotect-last-arg
 
-TODO try it with -flate-abstract-sat-var
+{{{
+with baseline libraries
+
+Allocations
+-------------------------------------------------------------------------------
+        Program          ll-baselinell-protect-ignor     ll-lam10pin      ll-it10pin
+-------------------------------------------------------------------------------
+         puzzle            165864160           +0.0%           +0.0%          -15.1%
+}}}
+
+The difference: a join point inside a letrec in $wtransfer (itself also recursive) gets floated out and then inlined back in. This ultimately eliminates several lets. A considerable amount of code duplication, but with a big pay off. The (LNE) join point has 15 free variables, but does not occur in a thunk. The free variables are probably getting parameter scrutinization discounts once floated.
 
 Binary sizes increase +5.5% with the first, and only +2.5 with the second. It's so consistent that it's probably in the base library.
 
@@ -505,6 +515,85 @@ x15 driver and reproduced with x15 local-driver
   * compress2 - it10-rec10 is a big win, even though it has 165 SLOW_CALL_OTHER_ctr (previously 0). Using the baseline libraries for both variants, rec10 actually worsens by 1.1%. So it's in the libraries. Ticky shows an additional $wa15 in GHC.IO.Handle.Text. TODO
 
 TODO
+
+===== An example where it worsens allocation =====
+
+{{{
+-------------------------------------------------------------------------------
+Program ll-baseline ll-protect-ignore ll-lam10pin ll-it10pin ll-lam10pin-rec10 ll-it10pin-rec10 ll-lam10pin-rec10-stab ll-it10pin-rec10-stab
+-------------------------------------------------------------------------------
+kahan   405812520        +0.0%           +0.0%       +0.0%         +1.5%          +1.5%           +1.5%           +1.5%
+}}}
+
+(Note: kahan is one of the programs Johan sees as a regression: he once had it not allocating at all, IIRC. It allocates plenty with 7.6 and HEAD, however.)
+
+Before the late lambda lift in imaginary/kahan (some compact array munging code Johan wrote), we have
+
+{{{
+f ... = ... letrec inner ... = ... inner ...
+        in
+            letrec-no-escape outer ... =
+              case ... of
+                False -> terminate
+                True -> case inner ... of ... -> ... outer ...
+            in ... outer ...
+}}}
+
+Both letrecs are floated to the top in a SAT'd shape (explained below).
+
+{{{
+poly_inner ... = letrec-no-escape inner ... = ... in inner ...
+
+poly_outer ... = letrec-no-escape outer ... = ... poly_inner ... in outer ...
+
+f ... = ... poly_outer ...
+}}}
+
+Consequently, the simplifier immediately (and silently) inlines them both. However, it happens in an unfortunate order, so we end up with
+
+{{{
+f ... = ... let-no-escape outer ... =
+              case ... of
+                False -> terminate
+                True -> letrec inner ... = ... inner ...
+                        in case inner ... of ... -> ... outer ...
+            in ... outer ...
+}}}
+
+outer loops 2500000 times, and now allocates inner (size = 3 words) once per iteration.
+
+The SAT'd shape of each letrec (which triggers pre-inline-unconditionally, I'm suspecting) is due to some existing code in SetLevels. This is from a match for lvlBind (Rec pairs):
+
+{{{
+-- ToDo: when enabling the floatLambda stuff,
+--       I think we want to stop doing this
+  | isSingleton pairs && count isId abs_vars > 1
+  = do      -- Special case for self recursion where there are
+      -- several variables carried around: build a local loop:    
+      --    poly_f = \abs_vars. \lam_vars . letrec f = \lam_vars. rhs in f lam_vars
+      -- This just makes the closures a bit smaller.  If we don't do
+      -- this, allocation rises significantly on some programs
+      --
+      -- We could elaborate it for the case where there are several
+      -- mutually functions, but it's quite a bit more complicated
+      -- 
+      -- This all seems a bit ad hoc -- sigh
+}}}
+
+If floating a singly recursive binding with more than one abstracted value variable, this immediately does a SAT while marking it FloatMe.
+
+The comment is doubly confusing:
+
+ * "when enabling the floatLambda stuff" seems contradictory to the guard count isId abs_vars > 1
+ * I'm not sure how this improves allocation, unless ... perhaps it is an alternative way to prevent the float from precluding specialization?
+    * ie It's an alternative approach to the problem that we mitigated by instead stabilizing the binding for the sake of the .hi file?
+    * this SAT didn't prevent our 20% allocation explosion in cryptharithm2 because the letrec there had exactly one abs_var, and so didn't use this lvlBind alternative
+
+Questions:
+
+ 1. Is it worrisome that the chosen inlining ends up nesting a loop inside another, simultaneously spoiling the LNE? 
+ 1. If it can be refined to avoid this sort of problem, this SAT-based transform could potentially get the benefits of both the late lambda float and specialization
+   * actually, might another (normal) FloatOut pass float inner (back) out of outer?
 
 === Miscellaneous Findings ===
 
