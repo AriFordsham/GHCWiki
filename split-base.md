@@ -36,6 +36,14 @@ Johan would like to have text Handles use the Text type and binary Handles use t
 
 Johan says: The I/O manager currently has a copy of IntMap inside its implementation because base cannot use containers. Splitting base would let us get rid of this code duplication. 
 
+#### Installable base
+
+
+Right now, if a package depends on a specific version of base, there's no way to compile it with GHC that provides a different version of base.
+
+
+After the split, hopefully, many subpackages of base will lose their «magic» status and become installable via cabal.
+
 #### Split base into as FEW packages as possible, consistent with meeting the other goals
 
 
