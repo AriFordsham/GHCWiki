@@ -205,3 +205,8 @@ Unfortunately this **does not work** at the moment, because `cabal` uses the wro
 
 
 Only llvm versions == 3.0 and \>= 3.2 support GHC for ARM targets. There was a regression in llvm version 3.1, the result of which is bad generated code that crashes.
+
+### iOS
+
+
+See the [Cross Compiling to iOS](building/cross-compiling/i-os) page, but also take note of the ARM-specific notes above.
