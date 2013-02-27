@@ -1,4 +1,4 @@
-= Cross-compiling GHC to iOS =
+= Building a GHC cross-compiler to target iOS =
 
 Status of cross-compilation to iOS is in ticket #7724. It also requires a pull request for Cabal, which is at https://github.com/haskell/cabal/pull/1214
 
@@ -96,7 +96,7 @@ sudo make install
 
 === 6. Compile your Haskell code ===
 
-Open a terminal and add /usr/local/ghc-ios/bin to your PATH environment variable.
+Open a terminal and add {{{/usr/local/ghc-ios/bin}}} to your {{{PATH}}} environment variable.
 
 Here's a skeleton '''haskell.hs''' to get you started:
 
