@@ -54,7 +54,7 @@ PrimOps are divided into two categories for the purposes of implementation: inli
 ### Inline PrimOps
 
 
-Inline PrimOps are operations that can be compiled into a short sequence of code that never needs to allocate, block, or return to the scheduler for any reason.  An inline PrimOp is compiled directly into Cmm? by the [code generator](commentary/compiler/code-gen).  The code for doing this is in [compiler/codeGen/CgPrimOp.hs](/trac/ghc/browser/ghc/compiler/codeGen/CgPrimOp.hs).
+Inline PrimOps are operations that can be compiled into a short sequence of code that never needs to allocate, block, or return to the scheduler for any reason.  An inline PrimOp is compiled directly into Cmm? by the [code generator](commentary/compiler/code-gen).  The code for doing this is in [compiler/codeGen/StgCmmPrim.hs](/trac/ghc/browser/ghc/compiler/codeGen/StgCmmPrim.hs).
 
 ### Out-of-line PrimOps
 
@@ -101,7 +101,7 @@ To add a new primop, you currently need to update the following files:
   examples are in the file.
 
 - if the primop is inline, then:
-  [compiler/codeGen/CgPrimOp.hs](/trac/ghc/browser/ghc/compiler/codeGen/CgPrimOp.hs) defines the translation of
+  [compiler/codeGen/StgCmmPrim.hs](/trac/ghc/browser/ghc/compiler/codeGen/StgCmmPrim.hs) defines the translation of
   the primop into `Cmm`.
 
 - for an out-of-line primop:

@@ -48,7 +48,7 @@ The {{{primops.txt.pp}}} file is processed first by CPP, and then by the {{{genp
 
 === Inline !PrimOps ===
 
-Inline !PrimOps are operations that can be compiled into a short sequence of code that never needs to allocate, block, or return to the scheduler for any reason.  An inline !PrimOp is compiled directly into [wiki:Commentary/Compiler/Cmm Cmm] by the [wiki:Commentary/Compiler/CodeGen code generator].  The code for doing this is in [[GhcFile(compiler/codeGen/CgPrimOp.hs)]].
+Inline !PrimOps are operations that can be compiled into a short sequence of code that never needs to allocate, block, or return to the scheduler for any reason.  An inline !PrimOp is compiled directly into [wiki:Commentary/Compiler/Cmm Cmm] by the [wiki:Commentary/Compiler/CodeGen code generator].  The code for doing this is in [[GhcFile(compiler/codeGen/StgCmmPrim.hs)]].
 
 === Out-of-line !PrimOps ===
 
@@ -88,7 +88,7 @@ To add a new primop, you currently need to update the following files:
    examples are in the file.
 
  * if the primop is inline, then:
-   [[GhcFile(compiler/codeGen/CgPrimOp.hs)]] defines the translation of
+   [[GhcFile(compiler/codeGen/StgCmmPrim.hs)]] defines the translation of
    the primop into {{{Cmm}}}.
 		
  * for an out-of-line primop:
