@@ -81,7 +81,7 @@ Here is a list of the repositories that GHC uses.  The columns have the followin
 <th> yes </th>
 <th></th>
 <th></th>
-<th>packages/.git/</th></tr>
+<th>packages/binary.git/</th></tr>
 <tr><th>libraries/bytestring</th>
 <th> yes </th>
 <th></th>
