@@ -1,7 +1,7 @@
 # Profiling
 
 
-GHC includes at least two types of profiling: cost-centre profiling and ticky-ticky profiling. 
+GHC includes two types of profiling: cost-centre profiling and ticky-ticky profiling. Additionally, HPC code coverage is not "technically" profiling, but it uses a lot of the same mechanisms as cost-centre profiling (you can read more about it at [Commentary/Hpc](commentary/hpc)).
 
 
 Cost-centre profiling operates at something close to the source level, and ticky-ticky profiling operates at something much closer to the machine level. This means that the two types of profiling are useful for different tasks. Ticky-ticky profiling is mainly meant for compiler implementors, and cost-centre profiling for mortals. However, because cost-centre profiling operates at a high level, it can be difficult (if not impossible) to use it to profile optimized code. Personally, I (Kirsten) have had a lot of success using cost-centre profiling to find problems that were due to my own bad algorithms, but less success once I was fairly sure that I wasn't doing anything obviously stupid and was trying to figure out why my code didn't get optimized as well as it could have been.
@@ -12,14 +12,17 @@ You can't use cost-centre profiling and ticky-ticky profiling at the same time; 
 ## Cost-centre profiling
 
 
-(add more details)
+Cost-center profiling in GHC, e.g. of SCCs, consists of the following components:
+
+- Data-structures for representing cost-centres in [compiler/profiling/CostCentre.lhs](/trac/ghc/browser/ghc/compiler/profiling/CostCentre.lhs).
+- Front-end support in [compiler/deSugar/DsExpr.lhs](/trac/ghc/browser/ghc/compiler/deSugar/DsExpr.lhs), for converting `SCC` pragma into the `Tick` constructor in Core.
+- Modifications to optimization behavior in [compiler/coreSyn/CoreUtils.lhs](/trac/ghc/browser/ghc/compiler/coreSyn/CoreUtils.lhs) and [compiler/coreSyn/CorePrep.lhs](/trac/ghc/browser/ghc/compiler/coreSyn/CorePrep.lhs) to prevent optimizations which would result in misleading profile information. Most of this is to handle the fact that SCCs also count entries (tickishCounts, also applies to [Commentary/Hpc](commentary/hpc)); otherwise the only relevant optimization is avoiding floating expressions out of SCCs.
+- The `StgSCC` constructor in STG, and code generation for it \[\[\]\]
+- A pass over STG in [compiler/profiling/SCCfinal.lhs](/trac/ghc/browser/ghc/compiler/profiling/SCCfinal.lhs) to collect cost centres so that they can be statically declared by [compiler/profiling/ProfInit.hs](/trac/ghc/browser/ghc/compiler/profiling/ProfInit.hs), and add extra SCCs in the case of {{{-auto-all}}; see also [compiler/profiling/NOTES](/trac/ghc/browser/ghc/compiler/profiling/NOTES)
+- Code-generation for setting labels found in [compiler/codeGen/StgCmmProf.hs](/trac/ghc/browser/ghc/compiler/codeGen/StgCmmProf.hs), in particular saving and restoring CC labels and well as counting ticks; note that cost-centres even get their own constructor in C-- as CC_Labels (cost-centre labels).
+- Runtime support for initializing and manipulating the actual runtime {{CostCentre}} structs which store information, in [rts/Profiling.c](/trac/ghc/browser/ghc/rts/Profiling.c); headers are located in [includes/rts/prof/CCS.h](/trac/ghc/browser/ghc/includes/rts/prof/CCS.h)
 
 ## Ticky-ticky profiling
-
-
-Ticky-ticky should now be working in the HEAD, though not in any so-far-released version.
-
-TODO update the GHC manual section on this.
 
 ### Using ticky-ticky profiling
 
