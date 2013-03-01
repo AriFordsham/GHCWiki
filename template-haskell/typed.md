@@ -46,3 +46,8 @@ Since effects in Haskell are typed quite differently than in ocaml, [ scope extr
 
 
 Note that there should be no restriction on `a` to be a pure type, i.e. it could be `m a` for some `Monad m`.  Normal Haskell typing rules would just apply.  Since top-level declarations cannot be generated as (typed) terms, all such effects would have to be present in the environment already for things to be typeable.
+
+### Implementation Details
+
+
+It is implicit in the above, but should be made explicit: untyped quotes/splices/quasiquotes should continue to work as they are -- which in detail means that they should be run in the renamer.  Typed quotes/splices/quasiquotes, should be run by the typechecker.
