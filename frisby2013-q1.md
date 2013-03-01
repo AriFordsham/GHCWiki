@@ -1124,6 +1124,7 @@ TODO
 
 - use a specialized demand transformer for eliminators (record selectors, class selectors)
 
+  - usually they get inlined, but this would help in case they're applied to a lambda-bound variable: we'd be able to better transfer its demand
   - it would be dual to the existing specialized transformer for data cons
   - cf dmdTransformDataConSig, MkId.dictSelRule
   - will need to stash which field is selected in the IdDetails (RecSelId and ClassOpId)
