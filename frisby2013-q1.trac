@@ -956,12 +956,31 @@ treejoin      1.61       0.40%       1.10%             2.30%
 
 TODO
 
+== Make all dictionaries strict ==
+
+  * we also considered not newtyping dictionaries, but it had little effect
+    * the only thing it prevents us from doing is "be strict in anything of kind Constraint"
+
+  * look inside used superclass dictionaries too
+
+  * abstract to <S,U> if we suspect that the dictionary is being reboxed
+    * be suspicious reboxing, eg, if 3/4 or more of the components are Used
+      * or maybe if they are UHead?
+    * the consequence of <S,U> is that ww will use CBV but not unbox it
+
 == Other Tasks ==
 
   * Johan pointed out regressions; look into them --- there might be some easy wins
 
-  * try making all dictionaries strict (simultaneously drop the newtype-single-method trick)
-
   * late CSE; make lvlMFE very aggressive
 
   * consider adding a void parameter to LNEs earlyish in the pipeline so they do not appear to share work
+
+  * use a specialized demand transformer for eliminators (record selectors, class selectors)
+    * usually they get inlined, but this would help in case they're applied to a lambda-bound variable: we'd be able to better transfer its demand
+    * it would be dual to the existing specialized transformer for data cons
+    * cf dmdTransformDataConSig, MkId.dictSelRule
+    * will need to stash which field is selected in the IdDetails (RecSelId and ClassOpId)
+      * add a corresponding type synonym for Int alongside the ConTag synonym
+    * it's a property that could potentially be recognized of user functions...
+    * I spotted a case (interesting-programs/strict-dicts-something/SuperClasses.hs) where the worker has, eg, LU LU LU demand, but it does *not* use some of those arguments; this  particular case would not happen with the special transformer 
