@@ -32,6 +32,14 @@ Here is a list of the repositories that GHC uses.  The columns have the followin
 
 - **GHC repo**: in every case there is a repo on `http://darcs.haskell.org/`, which contains the bits we use for building GHC every night. For libraries with upstream repos, this is just a lagging mirror of the master (see [Repositories/Upstream](repositories/upstream)).  The read-only HTTP URL for the repo is `http://darcs.haskell.org/<table-entry>`.  To get a read/write URL, replace HTTP prefix `http://darcs.haskell.org` with the SSH prefix `darcs.haskell.org:/srv/darcs`. 
 
+**Note**: the URLs 
+
+- `http://darcs.haskell.org/libraries` and 
+- `http://darcs.haskell.org/packages`
+
+
+are sym-linked together, they are just synonyms.  (For historical reasons.)
+
 <table><tr><th>**Location in tree**</th>
 <th>**Upstream repo?**</th>
 <th>**Reqd to build?**</th>
