@@ -152,4 +152,4 @@ Only llvm versions == 3.0 and >= 3.2 support GHC for ARM targets. There was a re
 
 === iOS ===
 
-See the [wiki:Building/CrossCompiling/iOS Cross Compiling to iOS] page, but also take note of the ARM-specific notes above.
+See the [wiki:Building/CrossCompiling/iOS Building a GHC cross-compiler for Apple iOS targets] page, but also take note of the ARM-specific notes above.
