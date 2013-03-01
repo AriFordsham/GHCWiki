@@ -179,3 +179,16 @@ Run the project again as usual, and Xcode will pick up the haskell.a file and yo
 
 
 Each time you modify your Haskell code you'll need to re-compile from the command line before re-building in Xcode. It is possible to automate this in Xcode if you wish.
+
+## Loose Ends
+
+
+Outstanding issues we should fix in rough priority order.
+
+- Fat binaries
+- Cross-compiler for the iOS simulator
+- Would be nice to not have to disable dead-code removal. (Simon Marlow says "we have special hacks so that you don't have to disable dead-code removal on OS X, in the native code generator and (I presume) in the LLVM backend. Perhaps this just needs to be adapted to work on iOS too?")
+- Packaging with the wrapper scripts and perhaps release of binaries of official ghc releases
+- Test cabal more, as there are likely to be some areas where cross-compiling isn't quite right yet
+- Fix the copious link warnings
+- Stop llvm generating an unnecessary 'bx lr' (return) instruction after the GHC calling convention (which is actually a goto)
