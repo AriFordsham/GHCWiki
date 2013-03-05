@@ -39,6 +39,8 @@ However, these are not proper releases. For example:
  * Building future GHC releases with them will not be supported.
  * They are not suitable for incorporation into the Haskell Platform.
  * We do not expect that library maintainers will support them.
+ * There will be no release notes.
+ * There may be some failing tests, minor bugs, etc.
 
 This last point means that if you want to use libraries from Hackage with the snapshot, then you should expect to have to make changes to them to allow them to build with the snapshot; at the very least, it is likely that some version bounds in `.cabal` files will need updating.
 
