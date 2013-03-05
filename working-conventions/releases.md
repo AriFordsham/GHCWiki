@@ -1,7 +1,7 @@
 # Release management and branches
 
 
-Releases are made by the release manager, currently either Ian Lynagh or Paolo Capriotti.  The release manager is also the maintainer of the stable branch, see [\#Branches](working-conventions/releases#branches).
+Releases are made by the release manager, currently Ian Lynagh. The release manager is also the maintainer of the stable branch, see [\#Branches](working-conventions/releases#branches).
 
 ## Release Schedule
 
@@ -14,6 +14,46 @@ Releases are made by the release manager, currently either Ian Lynagh or Paolo C
 ## Release policies
 
 - Tier 1 platforms must all be in a working state before the release is made.  We make every effort to fix bugs in other platforms too, but bugs on Tier 2/3 platforms are not treated as release-blockers.
+
+### Major releases
+
+
+Major releases have a version number `x.y.1`, where `y` is even.
+
+
+They may include new compiler features (and remove old features), and new major versions of libraries.
+
+### Minor releases
+
+
+Minor releases have a version number `x.y.z`, where `y` is even and `z` is `2` or higher.
+
+
+They generally do not add or remove any features, or include new major versions of libraries. They only fix bugs and performance issues in the previous release on that branch.
+
+### Snapshots
+
+
+We may, from time to time, recommend a particular snapshot of HEAD, for example for people interested in testing a new feature or who want to check that there have been no performance regressions. Snapshots will have a version number `x.y.z`, where `y` is odd.
+
+
+The advantages over using one of these recommended snapshots, rather than any other snapshot of HEAD, are:
+
+- They provide a common base for everyone testing a particular feature.
+- We will make binary builds for all the tier-1 platforms of these snapshots.
+- In general, at any given time there may be major bugs in HEAD while development progresses. However, the recommended snapshots will not have any known major bugs.
+
+
+However, these are not proper releases. For example:
+
+- Building future GHC releases with them will not be supported.
+- They are not suitable for incorporation into the Haskell Platform.
+- We do not expect that library maintainers will support them.
+- There will be no release notes.
+- There may be some failing tests, minor bugs, etc.
+
+
+This last point means that if you want to use libraries from Hackage with the snapshot, then you should expect to have to make changes to them to allow them to build with the snapshot; at the very least, it is likely that some version bounds in `.cabal` files will need updating.
 
 ## Release Checklist
 
