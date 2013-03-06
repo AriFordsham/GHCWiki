@@ -46,6 +46,9 @@ The `primops.txt.pp` file is processed first by CPP, and then by the `genprimopc
   in its documentation for the `base` package.  The file `GHC/Prim.hs` is never
   actually compiled, only processed by Haddock.
 
+
+Note that if you want to create a polymorphic primop, you need to return `(# a #)`, not `a`.
+
 ## Implementation of PrimOps
 
 
