@@ -68,7 +68,8 @@ Advantages:
 
 - Forces disentanglement of the implementation (i.e. `IOError`-less `error`)
 - Hence further development may be easier ([ according to Ian](http://www.haskell.org/pipermail/glasgow-haskell-users/2013-February/023818.html))
-- Some base-foo package can use other libraries like containers (IntMap issue)
+- Some base-foo package can use other libraries like containers in their implementation (IntMap issue)
+- More appropriate types like ByteString and Text can be used in, say, base-io-file
 - Alternative compilers/targets may only have to reimplement some of the base-\* packages.
 - Possibly fewer modules in “magic” packages that cannot be installed via cabal.
 
