@@ -125,7 +125,7 @@ In addition, if new primtypes are being added, the following files need to be up
 
 - [compiler/prelude/PrelNames.lhs](/trac/ghc/browser/ghc/compiler/prelude/PrelNames.lhs) -- add a new unique id using mkPreludeTyConUnique
 
-- [compiler/prelude/TysPrim.lhs](/trac/ghc/browser/ghc/compiler/prelude/TysPrim.lhs) -- TODO
+- [compiler/prelude/TysPrim.lhs](/trac/ghc/browser/ghc/compiler/prelude/TysPrim.lhs) -- there are a raft of changes here; you need to create `*PrimTy`, `*PrimTyCon` and  `*PrimTyConName` variables. The most important thing to make sure you get right is when you make a PrimTyCon, you pick the correct `PrimRep` for your type.  For example, if you’ve introduced a new GC'able object, you should use `PtrRep`; however, if it's a pointer that shouldn't be GC'd, you should use `AddrRep` instead.  The full list is in [compiler/types/TyCon.lhs](/trac/ghc/browser/ghc/compiler/types/TyCon.lhs)
 
 
 See also [AddingNewPrimitiveOperations](adding-new-primitive-operations), a blow-by-blow description of the process for adding a new out-of-line primop from someone who went through the process.
