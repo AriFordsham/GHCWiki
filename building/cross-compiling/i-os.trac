@@ -1,6 +1,15 @@
 = Building a GHC cross-compiler for Apple iOS targets =
 
-Status of cross-compilation to iOS is in ticket #7724. It also requires a pull request for Cabal, which is at https://github.com/haskell/cabal/pull/1214
+Status of cross-compilation to iOS is in ticket #7724. 
+
+The pull request for changes to Cabal (https://github.com/haskell/cabal/pull/1214) has now been integrated into mainline Cabal, but this is not in GHC at the time of writing. Type 'git log' in the libraries/Cabal directory and search for these commits:
+ https://github.com/haskell/cabal/commit/69af83ec243cf49b849dcf6c449e8d782095b570, https://github.com/haskell/cabal/commit/fa448266af549336ab29db1978c47120de3deef7 and https://github.com/haskell/cabal/commit/7a0941c88a010dda66ad55c70eea5c33a4b25cef
+
+If they're not there, then do this to work around it:
+{{{
+git remote add lukes git@github.com:ghc-ios/packages-Cabal.git
+git pull lukes master
+}}}
 
 Currently we do not build fat binaries (we'd like to fix this), which means you need to choose the right architecture for your device.
 
