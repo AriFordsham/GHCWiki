@@ -22,11 +22,11 @@ A Haskell-to-Javascript compiler will not support File IO, or maybe not even IO 
 
 ==== More appropriate string types in IO ====
 
-Johan would like to have text Handles use the Text type and binary Handles use the ByteString type. Right now we have this somewhat awkward setup where the I/O APIs are spread out and bundled with pure types. Splitting base would let us fix this and write a better I/O layer.
+Johan would like to have text Handles use the Text type and binary Handles use the !ByteString type. Right now we have this somewhat awkward setup where the I/O APIs are spread out and bundled with pure types. Splitting base would let us fix this and write a better I/O layer.
 
 ==== Avoid code copies ====
 
-Johan says: The I/O manager currently has a copy of IntMap inside its implementation because base cannot use containers. Splitting base would let us get rid of this code duplication. 
+Johan says: The I/O manager currently has a copy of !IntMap inside its implementation because base cannot use containers. Splitting base would let us get rid of this code duplication. 
 
 ==== Installable base ====
 Right now, if a package depends on a specific version of base, there's no way to compile it with GHC that provides a different version of base.
@@ -55,7 +55,8 @@ Advantages:
 
  * Forces disentanglement of the implementation (i.e. `IOError`-less `error`)
  * Hence further development may be easier ([http://www.haskell.org/pipermail/glasgow-haskell-users/2013-February/023818.html according to Ian])
- * Some base-foo package can use other libraries like containers (IntMap issue)
+ * Some base-foo package can use other libraries like containers in their implementation (!IntMap issue)
+ * More appropriate types like !ByteString and Text can be used in, say, base-io-file
  * Alternative compilers/targets may only have to reimplement some of the base-* packages.
  * Possibly fewer modules in “magic” packages that cannot be installed via cabal.
 
