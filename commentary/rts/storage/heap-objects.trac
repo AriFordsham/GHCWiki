@@ -434,19 +434,19 @@ Forwarding pointers appear temporarily during [wiki:Commentary/Rts/Storage/GC ga
 
 There are quite a lot of files to touch if you add a heap object. Here is an (incomplete!) list:
 
- * [source:includes/rts/storage/ClosureTypes.h]: Add the new closure type
- * [source:rts/ClosureFlags.c]: Update the closure flags (see [source:includes/rts/storage/InfoTables.h] for info on what the flags mean "Closure flags")
- * [source:includes/rts/storage/Closures.h]: Define a struct for the closure, including the ''header'' as well as your payloads
- * [source:includes/rts/storage/ClosureMacros.h]: Add a case to ''closure_sizeW''
- * [source:includes/stg/MiscClosures.h]: Add an ''RTS_ENTRY'' for all your new types.
- * [source:rts/Linker.c]: if you have any "RTS internal" info tables, for example, a DIRTY header
- * [source:rts/Printer.c]: print out a description of the closure
- * [source:rts/StgMiscClosures.cmm]: actually define the info tables for your objects, also, provide entry points if they represent runnable code
- * [source:rts/sm/Sanity.c]: update sanity checks for your closure
- * [source:rts/sm/Scav.c], [source:rts/sm/Evac.c], [source:rts/sm/Compact.c]: teach the garbage collector how to follow live pointers from your object
- * [source:rts/LdvProfile.c], [source:rts/RetainerProfile.c], [source:rts/ProfHeap.c]: teach the profiler how to recognize your closure
- * If you add any nullary closures (e.g. END_TSO_QUEUE), you need to register these too:
-   * [source:includes/stg/MiscClosures.h]: Add an ''RTS_CLOSURE'' for the closure
-   * [source:includes/Cmm.h]: so you can refer to it from C-- code
+ * [[GhcFile(includes/rts/storage/ClosureTypes.h)]]: Add the new closure type
+ * [[GhcFile(includes/rts/storage/Closures.h)]]: Define a struct for the closure, including the ''header'' as well as your payloads. Sometimes, you will have more than one info table per struct, e.g. if you have {{{DIRTY}}} and {{{CLEAN}}} variants.
+ * [[GhcFile(includes/rts/storage/ClosureMacros.h)]]: Add a case to {{{closure_sizeW}}} for your struct. However, if your structure is really simple (i.e. can be completely described by the info table, an entry here is not necessary.
+ * [[GhcFile(includes/stg/MiscClosures.h)]]: Define your info tables with {{{RTS_ENTRY}}}.
+ * [[GhcFile(rts/ClosureFlags.c)]]: Update the closure flags (see [[GhcFile(includes/rts/storage/InfoTables.h)]] for info on what the flags mean "Closure flags") and the sanity check at the bottom of the file
+ * [[GhcFile(rts/Linker.c)]]: Add your info tables so they are linked correctly
+ * [[GhcFile(rts/Printer.c)]]: Print out a description of the closure. You need to handle all of the info tables you defined.
+ * [[GhcFile(rts/StgMiscClosures.cmm)]]: Actually define the info tables for your objects, also, provide entry points if they represent runnable code
+ * [[GhcFile(rts/sm/Sanity.c)]]: Update sanity checks so they know about your new closure type
+ * [[GhcFile(rts/sm/Scav.c)]], [[GhcFile(rts/sm/Evac.c)]], [[GhcFile(rts/sm/Compact.c)]]: teach the garbage collector how to follow live pointers from your object.
+ * [[GhcFile(rts/LdvProfile.c)]], [[GhcFile(rts/RetainerProfile.c)]], [[GhcFile(rts/ProfHeap.c)]]: teach the profiler how to recognize your closure
+ * If you add any nullary closures (e.g. {{{END_TSO_QUEUE}}}), you need to register these too:
+   * [[GhcFile(includes/stg/MiscClosures.h)]]: Add an ''RTS_CLOSURE'' for the closure
+   * [[GhcFile(includes/Cmm.h)]]: so you can refer to it from C-- code
 
 When in doubt, look at how an existing heap object similar to the one you are implementing is implemented. (Of course, if they're identical, why are you defining a new heap object...)
