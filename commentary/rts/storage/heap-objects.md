@@ -537,23 +537,30 @@ Forwarding pointers appear temporarily during [garbage collection](commentary/rt
 ## How to add new heap objects
 
 
-There are quite a lot of files to touch if you add a heap object. Here is an (incomplete!) list:
+There are two “levels” at which a new object can be added. The simplest way to add a new object is to simply define a custom new info table:
+
+- [includes/stg/MiscClosures.h](/trac/ghc/browser/ghc/includes/stg/MiscClosures.h): Declare your info table with `RTS_ENTRY`.
+- [rts/StgMiscClosures.cmm](/trac/ghc/browser/ghc/rts/StgMiscClosures.cmm): Define the info table, also, provide entry points if they represent runnable code (though this is pretty uncommon if you’re not also adding a new closure type; most just error).  To find out what `INFO_TABLE` and all its variants do, check the C-- parser at [compiler/cmm/CmmParse.y](/trac/ghc/browser/ghc/compiler/cmm/CmmParse.y) The most important thing is to pick the correct closure type.
+
+
+You also will need to define primops to manipulate your new object type, if you want to manipulate it from Haskell-land (and not have it be RTS-only).  See [wiki:Commentary/PrimOps](commentary/prim-ops) for more details.
+
+
+An object defined this way is completely unknown to the code generator, so it tends to be pretty inflexible.  However, GHC defines lots of these, esp. of the nullary kind; they’re a convenient way of getting non-NULL sentinel values for important pieces of the runtime (e.g. `END_TSO_QUEUE`).  A particularly complicated example of an object of this kind is `StgMVarTSOQueue`, which even has a definition in [includes/rts/storage/Closures.h](/trac/ghc/browser/ghc/includes/rts/storage/Closures.h), but is simply has closure type `PRIM`. When you use a pre-existing closure type, you must follow their layout; for example, `PRIM` must have pointers first, non-pointers after, and you can’t do anything fancy (like have attached variable size payloads, e.g. for arrays.)
+
+
+To go the whole hog, you need to add a new closure type. This is considerably more involved:
 
 - [includes/rts/storage/ClosureTypes.h](/trac/ghc/browser/ghc/includes/rts/storage/ClosureTypes.h): Add the new closure type
-- [includes/rts/storage/Closures.h](/trac/ghc/browser/ghc/includes/rts/storage/Closures.h): Define a struct for the closure, including the *header* as well as your payloads. Sometimes, you will have more than one info table per struct, e.g. if you have `DIRTY` and `CLEAN` variants.
 - [includes/rts/storage/ClosureMacros.h](/trac/ghc/browser/ghc/includes/rts/storage/ClosureMacros.h): Add a case to `closure_sizeW` for your struct. However, if your structure is really simple (i.e. can be completely described by the info table, an entry here is not necessary.
-- [includes/stg/MiscClosures.h](/trac/ghc/browser/ghc/includes/stg/MiscClosures.h): Define your info tables with `RTS_ENTRY`.
+- [includes/rts/storage/Closures.h](/trac/ghc/browser/ghc/includes/rts/storage/Closures.h): Define a struct for the closure, including the *header* as well as your payloads. Sometimes, you will have more than one info table per struct, e.g. if you have `DIRTY` and `CLEAN` variants. As a general rule, GC'd pointers should go before general fields.
+- [utils/deriveConstants/DeriveConstants.hs](/trac/ghc/browser/ghc/utils/deriveConstants/DeriveConstants.hs): Tell the deriveConstants script to generate a bunch of accessors so you can manipulate the struct from C-- code.
 - [rts/ClosureFlags.c](/trac/ghc/browser/ghc/rts/ClosureFlags.c): Update the closure flags (see [includes/rts/storage/InfoTables.h](/trac/ghc/browser/ghc/includes/rts/storage/InfoTables.h) for info on what the flags mean "Closure flags") and the sanity check at the bottom of the file
 - [rts/Linker.c](/trac/ghc/browser/ghc/rts/Linker.c): Add your info tables so they are linked correctly
 - [rts/Printer.c](/trac/ghc/browser/ghc/rts/Printer.c): Print out a description of the closure. You need to handle all of the info tables you defined.
-- [rts/StgMiscClosures.cmm](/trac/ghc/browser/ghc/rts/StgMiscClosures.cmm): Actually define the info tables for your objects, also, provide entry points if they represent runnable code
 - [rts/sm/Sanity.c](/trac/ghc/browser/ghc/rts/sm/Sanity.c): Update sanity checks so they know about your new closure type
 - [rts/sm/Scav.c](/trac/ghc/browser/ghc/rts/sm/Scav.c), [rts/sm/Evac.c](/trac/ghc/browser/ghc/rts/sm/Evac.c), [rts/sm/Compact.c](/trac/ghc/browser/ghc/rts/sm/Compact.c): teach the garbage collector how to follow live pointers from your object.
 - [rts/LdvProfile.c](/trac/ghc/browser/ghc/rts/LdvProfile.c), [rts/RetainerProfile.c](/trac/ghc/browser/ghc/rts/RetainerProfile.c), [rts/ProfHeap.c](/trac/ghc/browser/ghc/rts/ProfHeap.c): teach the profiler how to recognize your closure
-- If you add any nullary closures (e.g. `END_TSO_QUEUE`), you need to register these too:
-
-  - [includes/stg/MiscClosures.h](/trac/ghc/browser/ghc/includes/stg/MiscClosures.h): Add an *RTS_CLOSURE* for the closure
-  - [includes/Cmm.h](/trac/ghc/browser/ghc/includes/Cmm.h): so you can refer to it from C-- code
 
 
 When in doubt, look at how an existing heap object similar to the one you are implementing is implemented. (Of course, if they're identical, why are you defining a new heap object...)
