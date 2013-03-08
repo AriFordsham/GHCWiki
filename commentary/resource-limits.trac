@@ -25,6 +25,9 @@ f n =
     let xs = [1..n::Integer]
     in  sum xs * product xs
 
+newCostCentreStack :: IO CostCentreStack
+newCostCentreStack = pushCostCentre ccsDynamic =<< newCostCentre
+
 main = do
   m <- newEmptyMVar
   forkIO $ do
