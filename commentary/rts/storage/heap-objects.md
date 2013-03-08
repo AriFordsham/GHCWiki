@@ -540,7 +540,7 @@ Forwarding pointers appear temporarily during [garbage collection](commentary/rt
 There are quite a lot of files to touch if you add a heap object. Here is an (incomplete!) list:
 
 - [includes/rts/storage/ClosureTypes.h](/trac/ghc/browser/ghc/includes/rts/storage/ClosureTypes.h): Add the new closure type
-- [includes/rts/storage/Closures.h](/trac/ghc/browser/ghc/includes/rts/storage/Closures.h): Define a struct for the closure, including the *header* as well as your payloads. Sometimes, you will have more than one info table per struct, e.g. if you have `DIRTY` and `CLEAN` variants.
+- [includes/rts/storage/Closures.h](/trac/ghc/browser/ghc/includes/rts/storage/Closures.h): Define a struct for the closure, including the *header* as well as your payloads. Sometimes, you will have more than one info table per struct, e.g. if you have `DIRTY` and `CLEAN` variants. As a general rule, GC'd pointers should go before general fields.
 - [includes/rts/storage/ClosureMacros.h](/trac/ghc/browser/ghc/includes/rts/storage/ClosureMacros.h): Add a case to `closure_sizeW` for your struct. However, if your structure is really simple (i.e. can be completely described by the info table, an entry here is not necessary.
 - [includes/stg/MiscClosures.h](/trac/ghc/browser/ghc/includes/stg/MiscClosures.h): Define your info tables with `RTS_ENTRY`.
 - [rts/ClosureFlags.c](/trac/ghc/browser/ghc/rts/ClosureFlags.c): Update the closure flags (see [includes/rts/storage/InfoTables.h](/trac/ghc/browser/ghc/includes/rts/storage/InfoTables.h) for info on what the flags mean "Closure flags") and the sanity check at the bottom of the file
