@@ -169,3 +169,17 @@ http://hackage.haskell.org/trac/ghc/ticket/5218
 http://www.serpentine.com/blog/2012/09/12/the-case-of-the-mysterious-explosion-in-space/
 http://www.mail-archive.com/haskell-cafe@haskell.org/msg101412.html
 ```
+
+## Heterogeneous Lists
+
+
+The `OverloadedLists` extension as, implemented above, would not be able to be used on heterogeneous lists, for example, as implemented below:
+
+```wiki
+data HList :: [*] -> * where
+    HNil :: HList '[]
+    HCons :: a -> HList xs -> HList (a ': xs)
+```
+
+
+This is a bit disappointing. However, I'm not really sure how you could make this extension support this use case, even if you added some hacks to the `IsList` class.
