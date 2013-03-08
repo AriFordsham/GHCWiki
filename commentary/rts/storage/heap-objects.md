@@ -539,21 +539,21 @@ Forwarding pointers appear temporarily during [garbage collection](commentary/rt
 
 There are quite a lot of files to touch if you add a heap object. Here is an (incomplete!) list:
 
-- [includes/rts/storage/ClosureTypes.h](/trac/ghc/browser/includes/rts/storage/ClosureTypes.h)[](/trac/ghc/export/HEAD/ghc/includes/rts/storage/ClosureTypes.h): Add the new closure type
-- [rts/ClosureFlags.c](/trac/ghc/browser/rts/ClosureFlags.c)[](/trac/ghc/export/HEAD/ghc/rts/ClosureFlags.c): Update the closure flags (see [includes/rts/storage/InfoTables.h](/trac/ghc/browser/includes/rts/storage/InfoTables.h)[](/trac/ghc/export/HEAD/ghc/includes/rts/storage/InfoTables.h) for info on what the flags mean "Closure flags")
-- [includes/rts/storage/Closures.h](/trac/ghc/browser/includes/rts/storage/Closures.h)[](/trac/ghc/export/HEAD/ghc/includes/rts/storage/Closures.h): Define a struct for the closure, including the *header* as well as your payloads
-- [includes/rts/storage/ClosureMacros.h](/trac/ghc/browser/includes/rts/storage/ClosureMacros.h)[](/trac/ghc/export/HEAD/ghc/includes/rts/storage/ClosureMacros.h): Add a case to *closure_sizeW*
-- [includes/stg/MiscClosures.h](/trac/ghc/browser/includes/stg/MiscClosures.h)[](/trac/ghc/export/HEAD/ghc/includes/stg/MiscClosures.h): Add an *RTS_ENTRY* for all your new types.
-- [rts/Linker.c](/trac/ghc/browser/rts/Linker.c)[](/trac/ghc/export/HEAD/ghc/rts/Linker.c): if you have any "RTS internal" info tables, for example, a DIRTY header
-- [rts/Printer.c](/trac/ghc/browser/rts/Printer.c)[](/trac/ghc/export/HEAD/ghc/rts/Printer.c): print out a description of the closure
-- [rts/StgMiscClosures.cmm](/trac/ghc/browser/rts/StgMiscClosures.cmm)[](/trac/ghc/export/HEAD/ghc/rts/StgMiscClosures.cmm): actually define the info tables for your objects, also, provide entry points if they represent runnable code
-- [rts/sm/Sanity.c](/trac/ghc/browser/rts/sm/Sanity.c)[](/trac/ghc/export/HEAD/ghc/rts/sm/Sanity.c): update sanity checks for your closure
-- [rts/sm/Scav.c](/trac/ghc/browser/rts/sm/Scav.c)[](/trac/ghc/export/HEAD/ghc/rts/sm/Scav.c), [rts/sm/Evac.c](/trac/ghc/browser/rts/sm/Evac.c)[](/trac/ghc/export/HEAD/ghc/rts/sm/Evac.c), [rts/sm/Compact.c](/trac/ghc/browser/rts/sm/Compact.c)[](/trac/ghc/export/HEAD/ghc/rts/sm/Compact.c): teach the garbage collector how to follow live pointers from your object
-- [rts/LdvProfile.c](/trac/ghc/browser/rts/LdvProfile.c)[](/trac/ghc/export/HEAD/ghc/rts/LdvProfile.c), [rts/RetainerProfile.c](/trac/ghc/browser/rts/RetainerProfile.c)[](/trac/ghc/export/HEAD/ghc/rts/RetainerProfile.c), [rts/ProfHeap.c](/trac/ghc/browser/rts/ProfHeap.c)[](/trac/ghc/export/HEAD/ghc/rts/ProfHeap.c): teach the profiler how to recognize your closure
-- If you add any nullary closures (e.g. END_TSO_QUEUE), you need to register these too:
+- [includes/rts/storage/ClosureTypes.h](/trac/ghc/browser/ghc/includes/rts/storage/ClosureTypes.h): Add the new closure type
+- [includes/rts/storage/Closures.h](/trac/ghc/browser/ghc/includes/rts/storage/Closures.h): Define a struct for the closure, including the *header* as well as your payloads. Sometimes, you will have more than one info table per struct, e.g. if you have `DIRTY` and `CLEAN` variants.
+- [includes/rts/storage/ClosureMacros.h](/trac/ghc/browser/ghc/includes/rts/storage/ClosureMacros.h): Add a case to `closure_sizeW` for your struct. However, if your structure is really simple (i.e. can be completely described by the info table, an entry here is not necessary.
+- [includes/stg/MiscClosures.h](/trac/ghc/browser/ghc/includes/stg/MiscClosures.h): Define your info tables with `RTS_ENTRY`.
+- [rts/ClosureFlags.c](/trac/ghc/browser/ghc/rts/ClosureFlags.c): Update the closure flags (see [includes/rts/storage/InfoTables.h](/trac/ghc/browser/ghc/includes/rts/storage/InfoTables.h) for info on what the flags mean "Closure flags") and the sanity check at the bottom of the file
+- [rts/Linker.c](/trac/ghc/browser/ghc/rts/Linker.c): Add your info tables so they are linked correctly
+- [rts/Printer.c](/trac/ghc/browser/ghc/rts/Printer.c): Print out a description of the closure. You need to handle all of the info tables you defined.
+- [rts/StgMiscClosures.cmm](/trac/ghc/browser/ghc/rts/StgMiscClosures.cmm): Actually define the info tables for your objects, also, provide entry points if they represent runnable code
+- [rts/sm/Sanity.c](/trac/ghc/browser/ghc/rts/sm/Sanity.c): Update sanity checks so they know about your new closure type
+- [rts/sm/Scav.c](/trac/ghc/browser/ghc/rts/sm/Scav.c), [rts/sm/Evac.c](/trac/ghc/browser/ghc/rts/sm/Evac.c), [rts/sm/Compact.c](/trac/ghc/browser/ghc/rts/sm/Compact.c): teach the garbage collector how to follow live pointers from your object.
+- [rts/LdvProfile.c](/trac/ghc/browser/ghc/rts/LdvProfile.c), [rts/RetainerProfile.c](/trac/ghc/browser/ghc/rts/RetainerProfile.c), [rts/ProfHeap.c](/trac/ghc/browser/ghc/rts/ProfHeap.c): teach the profiler how to recognize your closure
+- If you add any nullary closures (e.g. `END_TSO_QUEUE`), you need to register these too:
 
-  - [includes/stg/MiscClosures.h](/trac/ghc/browser/includes/stg/MiscClosures.h)[](/trac/ghc/export/HEAD/ghc/includes/stg/MiscClosures.h): Add an *RTS_CLOSURE* for the closure
-  - [includes/Cmm.h](/trac/ghc/browser/includes/Cmm.h)[](/trac/ghc/export/HEAD/ghc/includes/Cmm.h): so you can refer to it from C-- code
+  - [includes/stg/MiscClosures.h](/trac/ghc/browser/ghc/includes/stg/MiscClosures.h): Add an *RTS_CLOSURE* for the closure
+  - [includes/Cmm.h](/trac/ghc/browser/ghc/includes/Cmm.h): so you can refer to it from C-- code
 
 
 When in doubt, look at how an existing heap object similar to the one you are implementing is implemented. (Of course, if they're identical, why are you defining a new heap object...)
