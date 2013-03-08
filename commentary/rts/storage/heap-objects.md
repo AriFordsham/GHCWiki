@@ -539,11 +539,14 @@ Forwarding pointers appear temporarily during [garbage collection](commentary/rt
 
 There are two “levels” at which a new object can be added. The simplest way to add a new object is to simply define a custom new info table:
 
-- [includes/stg/MiscClosures.h](/trac/ghc/browser/ghc/includes/stg/MiscClosures.h): Define your info tables with `RTS_ENTRY`.
-- [rts/StgMiscClosures.cmm](/trac/ghc/browser/ghc/rts/StgMiscClosures.cmm): Actually define the info tables for your objects, also, provide entry points if they represent runnable code.  To find out what `INFO_TABLE` and all its variants do, check the C-- parser at [compiler/cmm/CmmParse.y](/trac/ghc/browser/ghc/compiler/cmm/CmmParse.y)
+- [includes/stg/MiscClosures.h](/trac/ghc/browser/ghc/includes/stg/MiscClosures.h): Declare your info table with `RTS_ENTRY`.
+- [rts/StgMiscClosures.cmm](/trac/ghc/browser/ghc/rts/StgMiscClosures.cmm): Define the info table, also, provide entry points if they represent runnable code (though this is pretty uncommon if you’re not also adding a new closure type; most just error).  To find out what `INFO_TABLE` and all its variants do, check the C-- parser at [compiler/cmm/CmmParse.y](/trac/ghc/browser/ghc/compiler/cmm/CmmParse.y) The most important thing is to pick the correct closure type.
 
 
-An object defined this way is completely unknown to the code generator, so it tends to be pretty inflexible.  However, GHC defines lots of these, esp. of the nullary kind; they’re a convenient way of getting non-NULL sentinel values for important pieces of the runtime.  A particularly complicated example of an object of this kind is `StgMVarTSOQueue`, which even has a definition in [includes/rts/storage/Closures.h](/trac/ghc/browser/ghc/includes/rts/storage/Closures.h), but is simply has closure type `PRIM`. You must have pointers first, non-pointers later, and you can’t do anything fancy (like have attached variable size payloads, e.g. for arrays.)
+You also will need to define primops to manipulate your new object type, if you want to manipulate it from Haskell-land (and not have it be RTS-only).  See [wiki:Commentary/PrimOps](commentary/prim-ops) for more details.
+
+
+An object defined this way is completely unknown to the code generator, so it tends to be pretty inflexible.  However, GHC defines lots of these, esp. of the nullary kind; they’re a convenient way of getting non-NULL sentinel values for important pieces of the runtime (e.g. `END_TSO_QUEUE`).  A particularly complicated example of an object of this kind is `StgMVarTSOQueue`, which even has a definition in [includes/rts/storage/Closures.h](/trac/ghc/browser/ghc/includes/rts/storage/Closures.h), but is simply has closure type `PRIM`. When you use a pre-existing closure type, you must follow their layout; for example, `PRIM` must have pointers first, non-pointers after, and you can’t do anything fancy (like have attached variable size payloads, e.g. for arrays.)
 
 
 To go the whole hog, you need to add a new closure type. This is considerably more involved:
