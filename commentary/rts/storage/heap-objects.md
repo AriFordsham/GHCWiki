@@ -546,7 +546,7 @@ There are quite a lot of files to touch if you add a heap object. Here is an (in
 - [rts/ClosureFlags.c](/trac/ghc/browser/ghc/rts/ClosureFlags.c): Update the closure flags (see [includes/rts/storage/InfoTables.h](/trac/ghc/browser/ghc/includes/rts/storage/InfoTables.h) for info on what the flags mean "Closure flags") and the sanity check at the bottom of the file
 - [rts/Linker.c](/trac/ghc/browser/ghc/rts/Linker.c): Add your info tables so they are linked correctly
 - [rts/Printer.c](/trac/ghc/browser/ghc/rts/Printer.c): Print out a description of the closure. You need to handle all of the info tables you defined.
-- [rts/StgMiscClosures.cmm](/trac/ghc/browser/ghc/rts/StgMiscClosures.cmm): Actually define the info tables for your objects, also, provide entry points if they represent runnable code
+- [rts/StgMiscClosures.cmm](/trac/ghc/browser/ghc/rts/StgMiscClosures.cmm): Actually define the info tables for your objects, also, provide entry points if they represent runnable code.  To find out what `INFO_TABLE` and all its variants do, check the C-- parser at [compiler/cmm/CmmParse.y](/trac/ghc/browser/ghc/compiler/cmm/CmmParse.y)
 - [rts/sm/Sanity.c](/trac/ghc/browser/ghc/rts/sm/Sanity.c): Update sanity checks so they know about your new closure type
 - [rts/sm/Scav.c](/trac/ghc/browser/ghc/rts/sm/Scav.c), [rts/sm/Evac.c](/trac/ghc/browser/ghc/rts/sm/Evac.c), [rts/sm/Compact.c](/trac/ghc/browser/ghc/rts/sm/Compact.c): teach the garbage collector how to follow live pointers from your object.
 - [rts/LdvProfile.c](/trac/ghc/browser/ghc/rts/LdvProfile.c), [rts/RetainerProfile.c](/trac/ghc/browser/ghc/rts/RetainerProfile.c), [rts/ProfHeap.c](/trac/ghc/browser/ghc/rts/ProfHeap.c): teach the profiler how to recognize your closure

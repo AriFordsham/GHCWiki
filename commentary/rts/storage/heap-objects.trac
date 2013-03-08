@@ -441,7 +441,7 @@ There are quite a lot of files to touch if you add a heap object. Here is an (in
  * [[GhcFile(rts/ClosureFlags.c)]]: Update the closure flags (see [[GhcFile(includes/rts/storage/InfoTables.h)]] for info on what the flags mean "Closure flags") and the sanity check at the bottom of the file
  * [[GhcFile(rts/Linker.c)]]: Add your info tables so they are linked correctly
  * [[GhcFile(rts/Printer.c)]]: Print out a description of the closure. You need to handle all of the info tables you defined.
- * [[GhcFile(rts/StgMiscClosures.cmm)]]: Actually define the info tables for your objects, also, provide entry points if they represent runnable code
+ * [[GhcFile(rts/StgMiscClosures.cmm)]]: Actually define the info tables for your objects, also, provide entry points if they represent runnable code.  To find out what {{{INFO_TABLE}}} and all its variants do, check the C-- parser at [[GhcFile(compiler/cmm/CmmParse.y)]]
  * [[GhcFile(rts/sm/Sanity.c)]]: Update sanity checks so they know about your new closure type
  * [[GhcFile(rts/sm/Scav.c)]], [[GhcFile(rts/sm/Evac.c)]], [[GhcFile(rts/sm/Compact.c)]]: teach the garbage collector how to follow live pointers from your object.
  * [[GhcFile(rts/LdvProfile.c)]], [[GhcFile(rts/RetainerProfile.c)]], [[GhcFile(rts/ProfHeap.c)]]: teach the profiler how to recognize your closure
