@@ -44,7 +44,7 @@ main = do
 
 Another use-case is more fine-grained SCCs based on runtime properties, not source-level features.
 
-I am planning on providing semantics, based on GHC’s current profiling semantics.
+I am planning on providing semantics, based on GHC’s current profiling semantics. Notice that this current story says nothing about RETAINERS (so there is some careful library writing to be done, to prevent untrusted code from holding onto large system structures for too long).
 
 Some points to bikeshed:
 
@@ -73,7 +73,7 @@ Note that ordinary (source-generated) ticks could also be converted into prim-op
 == Runtime changes ==
 
  * {{{Listener}}} is a new garbage collected object; we expect it can be implemented as a simple {{{PRIM}}} using techniques similar to {{{StgMVarTSOQueue}}}.
- * Checks for listeners occur during heap census; you'll need to pass the {{{-hc}}} flag for this machinery to do anything. See also #7751 which will dramatically improve performance.
+ * Checks for listeners occur during heap census; you'll need to pass the {{{-hc}}} flag for this machinery to do anything. See also #7751 which will dramatically improve performance. Right now, running heap census is very slow; if we can make censuses incremental their cost can be amortized with ordinary garbage collector behavior.
 
 == Commentary ==
 
