@@ -112,3 +112,11 @@ On the cost centre front, the runtime currently assumes that cost centres are pe
 
 
 Finalizer could trigger a new finalizer, ad infinitum. Maybe we don't have to do anything.
+
+### Discussion
+
+
+These mailing list threads may be of interest:
+
+- [ http://www.haskell.org/pipermail/ghc-devs/2013-March/000680.html](http://www.haskell.org/pipermail/ghc-devs/2013-March/000680.html) (first announce of this)
+- [ http://www.haskell.org/pipermail/glasgow-haskell-users/2012-April/022258.html](http://www.haskell.org/pipermail/glasgow-haskell-users/2012-April/022258.html) (earlier discussion about space resource limits)
