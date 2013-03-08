@@ -79,7 +79,7 @@ Note that ordinary (source-generated) ticks could also be converted into prim-op
 
 === Support currentCostCentre? ===
 
-This is obviously fine to support if you are in IO; however, the situation is dicey when considering pure code; an expression {{{currentCostCentre :: CostCentre}}} is not referentially transparent. Rather, we want some semantics like implicit parameters, but no one really likes implicit parameters. Maybe it’s better just to note support it (and let someone {{{unsafePerformIO}}} if they reaaally  care.)
+This is obviously fine to support if you are in IO; however, the situation is dicey when considering pure code; an expression {{{currentCostCentre :: CostCentre}}} is not referentially transparent. Rather, we want some semantics like implicit parameters, but no one really likes implicit parameters. Maybe it’s better to only support it in IO (and let someone {{{unsafePerformIO}}} if they reaaally want to.)
 
 === Interaction with traditional profiling ===
 
