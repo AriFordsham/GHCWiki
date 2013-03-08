@@ -55,6 +55,10 @@ Some points to bikeshed:
 
  * Another useful thing to measure, besides residency, is overall allocation. Provide an API for that too.
 
+ * Instead of the current interface, we could publish STM variables which are updated by the GC; listening is then just an ordinary STM transaction. This might be tricky to implement.
+
+ * A useful API would be one to just query what the residence of some cost centre is.
+
 If we implement something like {{{withCostCentre}}}, we also need to adjust Core slightly. There are two choices:
 
  * Modify Tick so that it can take an optional argument (cost-centre); modify the type-checker appropriately. This is not so great because we’re making an already ad hoc addition to the Core language even more complicated, even if the extra typing rules are not that complicated.
