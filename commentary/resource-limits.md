@@ -58,6 +58,8 @@ Some points to bikeshed:
 
 - Should listeners automatically deregister themselves when their event triggers? Active listeners are considered roots so they must be handled with care to avoid leaks.
 
+- Another useful thing to measure, besides residency, is overall allocation. Provide an API for that too.
+
 
 If we implement something like `withCostCentre`, we also need to adjust Core slightly. There are two choices:
 
