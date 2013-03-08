@@ -54,7 +54,7 @@ Some points to bikeshed:
 
  * Provide {{{withCostCentre :: CostCentre -> (a -> b) -> (a -> b)}}} which provides the equivalent of function entry (adds the CC to what ever the CCCS is). I don't have a good case for complicated cost-centre stacks and listeners and have not implemented it yet.
 
- * Should listeners automatically deregister themselves when their event triggers? Active listeners are considered roots so they must be handled with care to avoid leaks.
+ * Active listeners are considered roots so they must be handled with care to avoid leaks. They should be automatically deregistered to avoid thread bombs.
 
  * Another useful thing to measure, besides residency, is overall allocation. Provide an API for that too.
 
