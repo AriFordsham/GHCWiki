@@ -13,7 +13,7 @@ of the runtime (see [wiki:Commentary/Rts/Config]), that is, the
 version of the runtime that uses multiple OS threads, because it is by
 far the most complex beast.
 
-See also [http://blog.ezyang.com/2013/01/the-ghc-scheduler/ Edward Yang's blog post] (2013).
+See also [http://blog.ezyang.com/2013/01/the-ghc-scheduler/ Edward Yang's blog post] (2013); some of the material there has been incorporated here.
 
 We begin by discussing the basic abstractions used in the scheduler.
 
@@ -60,6 +60,8 @@ two kinds of Haskell thread:
    thread are made by an arbitrary OS thread.
 
 Initialization of TSOs is handled in {{{createThread}}} in [[GhcFile(rts/Threads.c)]]; this function is in turn invoked by {{{createGenThread}}}, {{{createIOThread}}} and {{{createStrictIOThread}}} in [[GhcFile(rts/RtsAPI.c)]]. These functions setup the initial stack state, which controls what the thread executes when it actually gets run. These functions are the ones invoked by the {{{fork#}}} and other primops (recall entry-points for primops are located in [[GhcFile(rts/PrimOps.cmm)]]).
+
+Being garbage collected has two major implications for TSOs. First, TSOs are not GC roots, so they will get GC'd if there is nothing holding on to them (e.g. [http://blog.ezyang.com/2011/07/blockedindefinitelyonmvar in the case of deadlock]), and their space is not automatically reclaimed when they finish executing (so {{{ThreadId}}} can cause memory leaks}}}. Usually, a TSO will be retained by a Capability’s run queue (a GC root), or in the list of waiting threads of some concurrency variable, e.g. an MVar. Second, a TSO must be considered a mutable object, and is thus subject to the conventional GC write barriers necessary for any mutable object in a generational garbage collector. The {{{dirty}}} bit tracks whether or not a TSO has been modified; it is always set when a thread is run and also when any of the pointer fields on a TSO are modified.
 
 == Tasks ==
 
@@ -208,6 +210,38 @@ scheduler(cap)
 }
 }}}
 
+=== The run queue ===
+
+The run queue is at the heart of the scheduler, as any runnable thread will hit the run queue before the scheduler actually pops it off the queue and runs it.  There’s one per capability [[GhcFile(rts/Capability.h)]] (in the bad old days, there was a global run queue, but this performed badly for multithreaded processes), and it is implemented as a doubly-linked list {{{run_queue_hd}}} and {{{run_queue_tl}}}. (It is doubly linked due to ticket #3838). The head and tail pointers mean that the queue is actually a deque: this is important because the scheduler will often have to handle threads that were interrupted in some way, and should let the threads get back on.  The links themselves are on the TSOs and modified with {{{setTSOLink}}} and {{{setTSOPrev}}}, so modifying the queue dirties the TSOs involved. Otherwise, the run queue is exclusively owned by the scheduler. If there are idle capabilities and if we have more than one thread left in our run queue, threads will be pushed to other queues with {{{schedulePushWork}}}.
+
+In general, if the thread has exhausted its time slice (`context_switch != 0`), then it goes to the back of the queue, otherwise, it goes on the front and we keep running it.
+
+In more detail, threads are put '''in front''' ({{{pushOnRunQueue}}}) if:
+
+ * A stack overflow occurs;
+
+ * A heap overflow occurs; (Sometimes, a heap overflow and a context switch occur simultaneously. If the thread requested a large block, we still always push it in front (because we don’t want another thread to steal our large block); however, otherwise, the context switch takes precedence and the thread is booted to the end of the queue—the context switch is checked as ''late'' as possible. (See commit [changeset:05881ecab/repo]))
+
+ * A task attempts to run a thread, but it is [http://hackage.haskell.org/packages/archive/base/latest/doc/html/Control-Concurrent.html#v:forkOS bound] and the current task is the wrong one;
+
+ * A thread is associated with a black hole (a thunk that is being evaluated), and another thread, possibly on another capability, has blocked on its evaluation (see ticket #3838);
+
+ * In the threaded runtime, if a thread was interrupted because another Capability needed to do a stop-the-world GC (see commit [changeset:6d18141d8/repo]);
+
+ * In the non-threaded runtime, when a thread waiting on IO unblocks.
+
+Threads are put in '''back''' ({{{appendToRunQueue}}}) in the case of pre-emption, or if it’s new; particularly, if
+
+ * A thread was pre-empted via the context switch flag (e.g. incoming message from another thread, the timer fired, the thread cooperatively yielded, etc);
+
+ * It is a new thread (so large amounts of thread creation do not starve old threads, see [[GhcFile(nofib/smp/conc004)]] and commit [changeset:05881ecab/repo]);
+
+ * A thread becomes unblocked;
+
+ * A thread is migrated to another capability (though, in this case, the queue was empty anyway);
+
+ * A thread finishes, but for some reason we need to keep it around (this is related to in-calls, though I’m not a 100% sure what is going on here; if you know, please update this page.)
+
 == Sparks and the par operator ==
 
 Source files: [[GhcFile(rts/Sparks.c)]], [[GhcFile(rts/Sparks.h)]].
@@ -218,8 +252,28 @@ Par itself is implemented in terms of the `par#` primop, which the code generato
 
 Par doesn't actually create a new thread immediately; instead it places a pointer to its first argument in the ''spark pool''.  The spark pool is a circular buffer, when it is full we have the choice of either overwriting the oldest entry or dropping the new entry - currently we drop the new entry (see code for `newSpark`).  Each capability has its own spark pool, so this operation can be performed without taking a lock.
 
-So how does the spark turn into a thread?  When the scheduler spots that the current capability has no runnable threads, it checks the spark pool, and if there is a valid spark (a spark that points to a THUNK), then the spark is turned into a real thread and placed on the run queue: see `createSparkThread` in [[GhcFile(rts/Sparks.c)]].  Also, the scheduler attempts to share its available sparks with any other idle capabilities: see `schedulePushWork` in [[GhcFile(rts/Scheduler.c)]].
+So how does the spark turn into a thread?  When the scheduler spots that the current capability has no runnable threads, it checks the spark pool, and if there is a valid spark (a spark that points to a THUNK), then the spark is turned into a real thread and placed on the run queue: see {{{createSparkThread}}} in [[GhcFile(rts/Sparks.c)]].  Also, the scheduler attempts to share its available sparks with any other idle capabilities: see {{{schedulePushWork}}} in [[GhcFile(rts/Scheduler.c)]].
 
 == Affinity and migration ==
 
 == Shutting Down ==
+
+== nofib benchmarks ==
+
+When making changes to the scheduler, be sure to run the `smp` nofib benchmarks, because the ordinary set doesn't test threads. Here are some brief descriptions of the benchmarks:
+
+ * `callback001` (also known as `ffi014`) performs a large number of incalls to Haskell from C from a large number of threads. This is a rather specific test related to how we place threads in the run queue even if they’ve finished, if they finished in an in-call.
+
+ * `callback002` measures how quickly we can perform incalls to Haskell from C.
+
+ * `chan` measures how scheduling order effects memory usage: if threads are allowed to run for a bit without getting context switched, they build up data in channels.  This is related to when we reset the context switch flag.
+
+ * `sieve` implements the Sieve of Eratosthenes, spawning many threads to evaluate thunks of a lazy list in parallel. It performs a bit of allocation, and sensitive to what happens to threads after a HeapOverflow.
+
+ * `threads001` tests how quickly we can create a thread and then context switch to it.
+
+ * `threads003` tests how quickly many threads can communicate by reading and writing MVars. It is a bit sensitive to what happens to threads after they wake up from sleeping.
+
+ * `threads006` tests how quickly threads can be created and destroyed, as well as `throwTo` blocking performance.  It is very sensitive to the number of major GCs that occur (which can be influenced if TSO size changes).
+
+ * `threads007` generates a lot of threads waiting on MVars, and then sees how shutdown behavior is affected. It was due to bad behavior in the MVar queue and fixed in [changset:f4692220c7/repo].
