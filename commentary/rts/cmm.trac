@@ -4,6 +4,6 @@
 
 A `.cmm` file is rather like C--.  The syntax is almost C-- (a few constructs are missing), and it is augmented with some macros that are expanded by GHC's code generator (eg. `INFO_TABLE()`).  A `.cmm` file is compiled by GHC itself: the syntax is parsed by [[GhcFile(compiler/cmm/CmmParse.y)]] and [[GhcFile(compiler/cmm/CmmLex.x)]] into the [wiki:Commentary/Compiler/CmmType Cmm] data type, where it is then passed through one of the [wiki:Commentary/Compiler/Backends back-ends].
 
-We use the C preprocessor on `.cmm` files, making extensive use of macros to make writing this low-level code a bit less tedious and error-prone.  Most of our C-- macros are in [[GhcFile(includes/Cmm.h)]].
+We use the C preprocessor on `.cmm` files, making extensive use of macros to make writing this low-level code a bit less tedious and error-prone.  Most of our C-- macros are in [[GhcFile(includes/Cmm.h)]]. One useful fact about the macros is `P_` is an alias for `gcptr`, and you should not use it for non-garbage-collected pointers.
 
 For more information on Cmm (GHC's implementation of C--), see [wiki:Commentary/Compiler/CmmType the Cmm language] page.
