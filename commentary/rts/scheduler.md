@@ -52,7 +52,7 @@ threads in [includes/rts/OSThreads.h](/trac/ghc/browser/ghc/includes/rts/OSThrea
 
 
 A Haskell thread is represented by a Thread State Object
-([TSO](commentary/rts/storage/heap-objects#thread-state-objects)).  There are
+([TSO](commentary/rts/storage/heap-objects#thread-state-objects)). These objects are *garbage-collected*, like other closures in Haskell.  The TSO, along with the stack allocated with it (STACK), constitute the primary memory overhead of a thread.  Default stack size, in particular, is controlled by the GC flag `-ki`, and is 1k by default (Actually, your usable stack will be a little smaller than that because this size also includes the size of the `StgTSO` struct, so that a lot of allocated threads will fit nicely into a single block.)  There are
 two kinds of Haskell thread:
 
 - A *bound* thread is created as the result of a *call-in* from
@@ -66,6 +66,9 @@ two kinds of Haskell thread:
 - An *unbound* thread is created by
   `Control.Concurrent.forkIO`.  Foreign calls made by an unbound
   thread are made by an arbitrary OS thread.
+
+
+Initialization of TSOs is handled in `createThread` in [rts/Threads.c](/trac/ghc/browser/ghc/rts/Threads.c); this function is in turn invoked by `createGenThread`, `createIOThread` and `createStrictIOThread` in [rts/RtsAPI.c](/trac/ghc/browser/ghc/rts/RtsAPI.c). These functions setup the initial stack state, which controls what the thread executes when it actually gets run. These functions are the ones invoked by the `fork#` and other primops (recall entry-points for primops are located in [rts/PrimOps.cmm](/trac/ghc/browser/ghc/rts/PrimOps.cmm)).
 
 ## Tasks
 
