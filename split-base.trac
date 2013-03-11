@@ -8,52 +8,69 @@ This has been discussed before, e.g. in [http://www.haskell.org/pipermail/librar
 
 Structural changes to the base package can be attempted towards the following goals:
 
-==== To allow changes to internals without forcing a version-bump on ‘base’, on which every package depends ====
+==== (G1) To allow changes to internals without forcing a version-bump on ‘base’, on which every package depends ====
 
 SPJ: But that goal needs a bit of unpacking. Suppose we divided base into six, base1, base2, base3, etc, but each was a vertical silo and every other package depended on all six.  Then nothing would be gained; bumping any of them would cause a ripple of bumps down the line.
 
-==== To allow packages to be explictly about what they need ====
+==== (G2) To allow packages to be explict about what they need ====
 
 A library that does not use the IO monad could communicate that just by not depending on some base-io package. Similar with the Foreign Function Interface or unsafe operations.
 
-==== To allow alternative implementations/targets ====
+==== (G3) To allow alternative implementations/targets ====
 
-A Haskell-to-Javascript compiler will not support File IO, or maybe not even IO at all. It would be desirable such an implementation has a chance to at least provide a complete and API compatible base-pure package, and that one can hence reasonably assume that packages and libraries depending only on `base-pure` will indeed work without modification. This might be subsumed by fulfilling the previous goal.
+A Haskell-to-Javascript compiler will not support File IO, or maybe not even IO at all. It would be desirable such an implementation has a chance to at least provide a complete and API compatible base-pure package, and that one can hence reasonably assume that packages and libraries depending only on `base-pure` will indeed work without modification. This might be subsumed by fulfilling (G2).
 
-==== More appropriate string types in IO ====
+==== (G4) More appropriate string types in IO ====
 
 Johan would like to have text Handles use the Text type and binary Handles use the !ByteString type. Right now we have this somewhat awkward setup where the I/O APIs are spread out and bundled with pure types. Splitting base would let us fix this and write a better I/O layer.
 
-==== Avoid code copies ====
+'''SPJ''': I don't understand either the problem or the solution.
 
-Johan says: The I/O manager currently has a copy of !IntMap inside its implementation because base cannot use containers. Splitting base would let us get rid of this code duplication. 
+==== (G5) Avoid code copies ====
 
-==== Installable base ====
+Johan says: The I/O manager currently has a copy of !IntMap inside its implementation because base cannot use containers. Why?  Becuase `containers` depends on `base`, so `base` can't depend on `containers`.  Splitting base would let us get rid of this code duplication. For example:
+ * `base-pure` doesn't need `containers`
+ * `containser` depends on `base-pure`
+ * `base-io` depends on `containers`
+
+==== (G6) Installable base ====
+
 Right now, if a package depends on a specific version of base, there's no way to compile it with GHC that provides a different version of base.
 
 After the split, hopefully, many subpackages of base will lose their «magic» status and become installable via cabal.
 
-==== Split base into as FEW packages as possible, consistent with meeting the other goals ====
+==== (G7) Split base into as FEW packages as possible, consistent with meeting the other goals ====
 
-In contrast to the non-goal of splitting base as much as possible. Johan points out, a split now could paint us into a corner later, so we should not gratuitously split things up.
+Other things being equal, we should split `base` into as few packages as necessary to meet other goals. Johan points out, a split now could paint us into a corner later, so we should not gratuitously split things up.
 
 
 === Approaches ===
 
 ==== Large base, re-exporting API packages ====
 
+Here we would keep one large `base` package, as now, with a number of wrapper packages that selectively expose stable sub-APIs.
+
+Meets goals (G1), (G2), (G3)
+
 Advantages:
 
- * No to little changes to the actual code in base
+ * Cheap: little or no changes to the actual code in base
  * Easier to define the APIs as desired, i.e. focused and stable, without worrying about implementation-imposed cycles
  * No need to include internal modules in the API packages
  * Alternative compilers/targets can provide these APIs with totally independent implementations
 
 ==== Actual base split ====
 
+Here we genuinely split the code in `base` into sub-packages.
+
+Meets goals (G4), (G5), (G6), I think (G3) 
+
+Could meet goals (G1), (G2), though shim packages might still be needed.
+
 Advantages:
 
- * Forces disentanglement of the implementation (i.e. `IOError`-less `error`)
+ * Quite a bit of work
+ * Narrows implementation choices, because packages can't be mutually recursive. (i.e. forces `IOError`-less `error`)
  * Hence further development may be easier ([http://www.haskell.org/pipermail/glasgow-haskell-users/2013-February/023818.html according to Ian])
  * Some base-foo package can use other libraries like containers in their implementation (!IntMap issue)
  * More appropriate types like !ByteString and Text can be used in, say, base-io-file
