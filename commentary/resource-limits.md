@@ -6,18 +6,27 @@ This page describes a proposed resource limits capabilities for GHC. The idea is
 ## Front-end changes
 
 ```wiki
-type CostCentreStack
-type CostCentre
+type CCS
+type CC
 type Listener
 
-ccsDynamic :: CostCentreStack
+data ProfType = Residence | Allocated
 
-newCostCentre :: IO CostCentre
-pushCostCentre :: CostCentreStack -> CostCentre -> IO CostCentreStack
-setCostCentreStack :: CostCentreStack -> a -> IO ()
-listenCostCentreStack :: CostCentreStack -> Int -> IO () -> IO Listener
-unlistenCostCentreStack :: Listener -> IO ()
+ccsDynamic :: CCS
+
+newCC :: IO CC
+pushCC :: CCS -> CC -> IO CCS
+setCCS :: CCS -> a -> IO ()
+withCCS :: CCS -> IO a -> IO a
+listenCCS :: CCS -> ProfType -> Int -> IO () -> IO Listener
+unlistenCCS :: Listener -> IO ()
+getCCSOf :: a -> IO CCS -- already exists
+getCurrentCCS :: IO CCS -- already exists
+queryCCS :: CCS -> ProfType -> Int
 ```
+
+
+Listeners automatically deregister themselves when they trigger.
 
 
 The general usage of this API goes like:
@@ -27,18 +36,17 @@ f n =
     let xs = [1..n::Integer]
     in  sum xs * product xs
 
-newCostCentreStack :: IO CostCentreStack
-newCostCentreStack = pushCostCentre ccsDynamic =<< newCostCentre
+newCCS :: IO CCS
+newCCS = pushCC ccsDynamic =<< newCC
 
 main = do
   m <- newEmptyMVar
   forkIO $ do
-    x <- newCostCentreStack
+    x <- newCCS
     tid <- myThreadId
-    l <- listenCostCentreStack x 2000 (putStrLn "Too much memory is being used" >> killThread tid)
-    let thunk = f 20000
-    setCostCentreStack x thunk
-    evaluate thunk
+    l <- listenCCS x 2000 (putStrLn "Too much memory is being used" >> killThread tid)
+    withCCS x $ do
+      evaluate (f 20000)
     unlistenCostCentreStack l
     putMVar m ()
   takeMVar m
@@ -53,41 +61,16 @@ I am planning on providing semantics, based on GHC’s current profiling semanti
 
 Some points to bikeshed:
 
-- Naming: CostCentreStack/CostCentre or CCS/CC?
-
-- Provide `withCostCentreStack :: CostCentreStack -> a -> a` which is simply a `IND_PERM` with the CCS set? In my testing, this had to be done very carefully, because if the inner value was a thunk, then this is a no-op
-
-- Provide `withCostCentre :: CostCentre -> (a -> b) -> (a -> b)` which provides the equivalent of function entry (adds the CC to what ever the CCCS is). I don't have a good case for complicated cost-centre stacks and listeners and have not implemented it yet.
-
-- Active listeners are considered roots so they must be handled with care to avoid leaks. They should be automatically deregistered to avoid thread bombs.
-
-- Another useful thing to measure, besides residency, is overall allocation. Provide an API for that too.
+- Naming: CostCentreStack/CostCentre or CCS/CC? Old API used CCS/CC
 
 - Instead of the current interface, we could publish STM variables which are updated by the GC; listening is then just an ordinary STM transaction. This might be tricky to implement.
-
-- A useful API would be one to just query what the residence of some cost centre is.
-
-
-If we implement something like `withCostCentre`, we also need to adjust Core slightly. There are two choices:
-
-- Modify Tick so that it can take an optional argument (cost-centre); modify the type-checker appropriately. This is not so great because we’re making an already ad hoc addition to the Core language even more complicated, even if the extra typing rules are not that complicated.
-
-- Add a new Tickish type, which has no impact on code-generation but still appropriately modifies optimization behavior, and introduce new prim-ops to actually set cost-centers.
-
-
-Note that ordinary (source-generated) ticks could also be converted into prim-ops; but while this sounds appealing, it gets complicated because true source-level SCCs need to be statically initialized (so the runtime system knows about them and can assign an integer ID to them), and moving them into hard-wired constants would complicate the late-stage STG passes. (It's possible, but probably loses out as far as overall complexity goes.)
 
 ## Runtime changes
 
 - `Listener` is a new garbage collected object; we expect it can be implemented as a simple `PRIM` using techniques similar to `StgMVarTSOQueue`.
-- Checks for listeners occur during heap census; you'll need to pass the `-hc` flag for this machinery to do anything. See also [\#7751](https://gitlab.haskell.org//ghc/ghc/issues/7751) which will dramatically improve performance. Right now, running heap census is very slow; if we can make censuses incremental their cost can be amortized with ordinary garbage collector behavior.
+- Checks for listeners occur during heap census; you'll need to pass the `-hc` flag for this machinery to do anything. Actually, we added a new flag `-hl` which is `-hc` but without writing an `.hp` file. See also [\#7751](https://gitlab.haskell.org//ghc/ghc/issues/7751) which will dramatically improve performance. Right now, running heap census is very slow; if we can make censuses incremental their cost can be amortized with ordinary garbage collector behavior.
 
 ## Commentary
-
-### Support currentCostCentre?
-
-
-This is obviously fine to support if you are in IO; however, the situation is dicey when considering pure code; an expression `currentCostCentre :: CostCentre` is not referentially transparent. Rather, we want some semantics like implicit parameters, but no one really likes implicit parameters. Maybe it’s better to only support it in IO (and let someone `unsafePerformIO` if they reaaally want to.)
 
 ### Interaction with traditional profiling
 
@@ -111,7 +94,7 @@ On the cost centre front, the runtime currently assumes that cost centres are pe
 ### Callback triple fault
 
 
-Finalizer could trigger a new finalizer, ad infinitum. Maybe we don't have to do anything.
+Finalizer could trigger a new finalizer, ad infinitum. However, if you don't allocate a new finalizer in the callback, you should be fine.
 
 ### Discussion
 
