@@ -52,7 +52,7 @@ Other things being equal, we should split `base` into as few packages as necessa
 
 === Approaches ===
 
-==== Large base, re-exporting API packages ====
+==== (A) Large base, re-exporting API packages ====
 
 Here we would keep one large `base` package, as now, with a number of wrapper packages that selectively expose stable sub-APIs.
 
@@ -65,7 +65,7 @@ Advantages:
  * No need to include internal modules in the API packages
  * Alternative compilers/targets can provide these APIs with totally independent implementations
 
-==== Actual base split ====
+==== (B) Actual base split ====
 
 Here we genuinely split the code in `base` into sub-packages.
 
@@ -82,6 +82,29 @@ Advantages:
  * More appropriate types like !ByteString and Text can be used in, say, base-io-file
  * Alternative compilers/targets may only have to reimplement some of the base-* packages.
  * Possibly fewer modules in “magic” packages that cannot be installed via cabal.
+
+=== Handling Prelude ===
+
+If there is no longer one base package that all package depend on, the question where the Prelude will be arises. This is issue is mostly independent of the choice of approaches to splitting base.
+
+Some options to handling Prelude include:
+
+ * (P1) Prelude stays in base, packages wanting to use the shim packages exclusively have to use `{-# LANGUAGE NoImplicitPrelude #-}` everywhere and import stuff explicitly. base-pure would probably provide its subset of the Prelude in Prelude.Pure, to be imported explicitly.
+ * (P2) Prelude goes to the first shim package that has everything required for Haskell98 (probably something like base-io-file). Packages that want to only use base-io have no Prelude to use (see (P1)).
+ * (P3) Prelude goes to a separate shim package, base-prelude. Packages that want to only use base-io have no Prelude to use (see (P1)). Allows packages to mix the shim-packages easily with other, non-standard Prelude providing packages, e.g. classy-prelude.
+ * (P4) Multiple shim packages have a Prelude module, providing the part of the Prelude that belongs to that shim package.. Good for those who depend on base-pure, but those who require both base-pure and base-io have now an ambiguous import.
+ * (P5) Separate packages base-io-prelude and base-pure-prelude providing Prelude’s containing stuff of base-* (+ dependencies). Packages can pull in precisely the Prelude they want, but yet more packages.
+
+None of these look particularly appealing. Here some ideas to make it more convenient for the programmer that require changes to GHC and how it treats packages:
+
+ * (I1) It automatically imports _all_ visible Prelude modules. So base-pure provides the pure Prelude and base-io adds the IO functions.
+ * (I2) Same, but a bit more explicit: We extend the package configuration by a "prelude-modules" field. Every module listed in that field of every visible package is treated as a Prelude and automatically imported (unless `{-# LANGUAGE NoImplicitPreldue #-}` is active.)
+ * (I3) Ambiguous module imports do not cause an error if, among the modules, there is one that is a superset of all others, i.e. reexports all other modules.
+
+Joachim's preference: I find (P4)+(I1) quilte elegant and appealing.
+
+SPJ’s gut feeling prefers (P2): The minority who do not want to depend on enough base-X packages to get the Haskell-98 Prelude should use NoImplicitPrelude (since indeed you don't depend on enough to get the H98 Prelude) and import what they want explicitly.
+
 
 === Non-Obvious interdependencies ===
 
