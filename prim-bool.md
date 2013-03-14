@@ -259,40 +259,85 @@ bUnbox False = 0#
 
 Another problem with this approach is that it would introduce primitive logical operations `||#` and `&&#` with type `Int# -> Int# -> Int#` - it is questionable whether anyone would want such operations available to the programmer. I think it is desirable to have primitive logical operators of type `Bool# -> Bool# -> Bool#`.
 
-## Places of interest in the source code
+## Proposed patch (13/03/2013)
 
 
-The file [prelude/primops.txt.pp](/trac/ghc/browser/ghc/prelude/primops.txt.pp) defines PrimOps and their type signatures. An example definition looks like this:
+The prototype patch posted on the trac implements six new prototype comparison primops:
 
 ```wiki
-primop   IntGtOp  ">#"   Compare   Int# -> Int# -> Bool
-   with fixity = infix 4
+.>#  :: Int# -> Int# -> Int#
+.<#  :: Int# -> Int# -> Int#
+.>=# :: Int# -> Int# -> Int#
+.<=# :: Int# -> Int# -> Int#
+.==# :: Int# -> Int# -> Int#
+./=# :: Int# -> Int# -> Int#
 ```
 
 
-Existing definitions should remain unchanged or the code using them would break and that is a Very Bad Thing. This would require creating new PrimOps:
+Each of these new primops takes two `Int#`s that are to be compared. The result is also an `Int#`: `0#` if the relation between the operands does not hold and `1#` when it does hold. For example `5# .># 3#` returns `1#` and `3# .># 3#` returns `0#`. With the new primops we can rewrite the original expression that motivated the problem:
 
 ```wiki
-primop   IntGtOpB  ".>#"   Compare   Int# -> Int# -> Bool#
-   with fixity = infix 4
+case (x <# 0#) || (x >=# width) || (y <# 0#) || (y >=# height) of
+  True  -> E1
+  False -> E2
 ```
 
 
-The tricky part here is `Compare`. This a value constructor of `PrimOpInfo` data type defined in [prelude/PrimOp.lhs](/trac/ghc/browser/ghc/prelude/PrimOp.lhs):
+as
 
 ```wiki
-data PrimOpInfo
-  = Dyadic      OccName         -- string :: T -> T -> T
-                Type
-  | Monadic     OccName         -- string :: T -> T
-                Type
-  | Compare     OccName         -- string :: T -> T -> Bool
-                Type
-  | GenPrimOp   OccName         -- string :: \/a1..an . T1 -> .. -> Tk -> T
-                [TyVar]
-                [Type]
-                Type
+case (x .<# 0#) `orI#` (x .>=# width) `orI#` (y .<# 0#) `orI#` (y .>=# height) of
+  True  -> E1
+  False -> E2
 ```
 
 
-We would need new `PrimOpInfo` value to denote PrimOps of type `T -> T -> Bool#`. Appropriate functions like `primOpSig` and `getPrimOpResultInfo` would have to be adjusted accordingly.
+(Note: `orI#` is a bitwise OR operation on operands of type `Int#`. It was introduced together with `andI#`, `notI#` and `xor#` in [\#7689](https://gitlab.haskell.org//ghc/ghc/issues/7689)). Using the LLVM backend this compiles to:
+
+```wiki
+# BB#0:                                 # %c1nK
+	movq	%rsi, %rax
+	orq	%r14, %rax
+	shrq	$63, %rax
+	cmpq	%rdi, %r14
+	setge	%cl
+	movzbl	%cl, %ecx
+	orq	%rax, %rcx
+	cmpq	%r8, %rsi
+	setge	%al
+	movzbl	%al, %eax
+	orq	%rcx, %rax
+	jne	.LBB2_1
+# BB#3:                                 # %c1ol
+	movq	(%rbp), %rax
+	movl	$r1m6_closure+1, %ebx
+	jmpq	*%rax  # TAILCALL
+.LBB2_1:                                # %c1nK
+	cmpq	$1, %rax
+	jne	.LBB2_2
+# BB#4:                                 # %c1ov
+	movq	(%rbp), %rax
+	movl	$r1m7_closure+1, %ebx
+	jmpq	*%rax  # TAILCALL
+.LBB2_2:                                # %c1ob
+	movq	r1m5_closure(%rip), %rax
+	movl	$r1m5_closure, %ebx
+	jmpq	*%rax  # TAILCALL
+```
+
+
+The assembly does not contain comparisons and jumps in the scrutinee of the case expression, but still does jumps for selecting an appropriate branch of the case expression.
+
+
+An alternative design decision is to make the new primops return a `Word#`. I decided to use `Int#` because `Int` is used more often than `Word`. If new primops returned a `Word#` the user would have to use `int2Word#`/`word2Int#` primops to do conversions if she ever wished to box the result.
+
+
+Comparisons for `Word#`, `Float#` and `Double#` will be implemented once we make sure that the prototype implementation is correct.
+
+
+Some concerns:
+
+- should the primops return an `Int#` or `Word#` as their result?
+- what names should the new primops have? I planned to use names with a dot preceeding the operator for `Int#` and `Double#` comparisons (e.g. `./=#`, `.>##`) and names with "St" suffix for `Word#` and `Float#`, e.g. `gtWordSt#`, `gtFloatSt#` (`St` stands for 'strict' because the result can be used with the strict bitwise logical operators).
+- how to remove the old `Compare` primops (ones of type `T -> T -> Bool`)?
+- once we have the new primops do we really care about the unboxed `Bool#`?
