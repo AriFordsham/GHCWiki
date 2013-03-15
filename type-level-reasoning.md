@@ -103,3 +103,11 @@ Unfortunately, the code doesn't compile now. This is because it needs SingI inst
 
 
 Please tear any of these ideas (or my whole commit) to shreds! It really is meant to be a strawman proposal, but committing these changes seemed the best way of communicating on possible set of design decisions.
+
+## Background Material
+
+[ Richard's blog](http://typesandkinds.wordpress.com/2012/12/01/decidable-propositional-equality-in-haskell/).
+
+[ Edwin Brady's explanation](http://vimeo.com/61576198#t=59m40s) how this is done in Idris.
+
+[ Gabor's article](http://heisenbug.blogspot.com/2012/12/decidable-equality.html).
