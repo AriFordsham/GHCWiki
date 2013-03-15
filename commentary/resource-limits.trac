@@ -102,6 +102,10 @@ Some points to bikeshed:
 
 == Commentary ==
 
+=== CAFs ===
+
+A CAF is never attributed to a dynamic CCs, because CAFs are always get their own cost-centre for their evaluation.  This is correct in a sense, because multiple dynamic CCs can attempt to evaluate a CAF, and we should not unduly penalize the first one to evaluate the CAF.  However, this means you have to be very careful about optimizations that introduce CAFs that were not present at the source level, e.g. `-ffull-laziness`. Dynamically loaded CAFs from untrusted code, of course, need to be relabeled appropriately.
+
 === Interaction with traditional profiling ===
 
 Resource limits must be compiled with {{{-prof}}}; we’d like to treat profiling as semantics preserving but resource limits are anything but.  In the long term, it is probably desirable to consider these distinctive systems which happen to share a common mechanism. As a first draft, we don’t intend on supporting profiling and resource limits simultaneously; the dynamic SCC machinery can be used for enhanced profiling or for marking resource limits, but not both. It may be possible to extend the resource limit machinery to handle “superfluous” cost-centres, but this would be more complicated and costly, since a costs will now be spattered over many {{{CostCentre}}} objects and need to be recombined. Currently, the profiling machinery can perform this calculation, but only calculates inherited resource usage at the very end, so this could be expensive.
