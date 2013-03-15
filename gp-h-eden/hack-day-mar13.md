@@ -21,7 +21,7 @@ So far: Hans-Wolfgang Loidl\] (Host), Jost Berthold, Vladimir Janjic, Vladimir K
 
 
 .  GHC parallel RTS, 
-.  Eden/GpH programming (nbody etc),
+.  Eden/GpH programming (nbody, paraffins etc),
 .  serialisation
-.  eventolg and visualisation
+.  eventlog and visualisation
  
