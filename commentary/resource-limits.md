@@ -108,6 +108,11 @@ Some points to bikeshed:
 
 ## Commentary
 
+### CAFs
+
+
+A CAF is never attributed to a dynamic CCs, because CAFs are always get their own cost-centre for their evaluation.  This is correct in a sense, because multiple dynamic CCs can attempt to evaluate a CAF, and we should not unduly penalize the first one to evaluate the CAF.  However, this means you have to be very careful about optimizations that introduce CAFs that were not present at the source level, e.g. `-ffull-laziness`. Dynamically loaded CAFs from untrusted code, of course, need to be relabeled appropriately.
+
 ### Interaction with traditional profiling
 
 
