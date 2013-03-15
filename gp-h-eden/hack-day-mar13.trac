@@ -1,0 +1,22 @@
+
+= Parallel Haskell HackDay =
+
+== Organisation ==
+
+Dates : 19.3.2013, starting 10:30
+
+Location : Heriot-Watt University, Edinburgh, Earl Mountbatten Buildings, EM 1.70
+
+It's building 2 on [[http://www.macs.hw.ac.uk/~hwloidl/hw_map_colour.pdf this map]], with entrance from Boundary Road North.
+ 
+
+== Participants ==
+So far: Hans-Wolfgang Loidl] (Host), Jost Berthold, Vladimir Janjic, Vladimir Komendantsky, Malak Aljabri, Robert Stewart, Evgenij Belikov, Prabhat Totoo
+
+== Agenda ==
+
+.  GHC parallel RTS, 
+.  Eden/GpH programming (nbody etc),
+.  serialisation
+.  eventolg and visualisation
+ 
