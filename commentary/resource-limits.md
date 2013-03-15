@@ -5,28 +5,64 @@ This page describes a proposed resource limits capabilities for GHC. The idea is
 
 ## Front-end changes
 
+
+The basic idea behind this patch is that data collected during **profiling** can also be used at runtime to enforce limits. So most of the API involves (1) dynamically setting cost-centres, which GHC uses to do profiling, and (2) querying and receiving callbacks when certain events happen during profiling.  Costs can be collected anywhere you could have placed an `SCC` annotation statically.
+
 ```wiki
-type CCS
-type CC
-type Listener
+-- | A cost-centre; not garbage-collected.
+data CostCentre
 
-data ProfType = Residence | Allocated
+-- | A cost-centre stack.  Cost-centres are composed into cost-centre
+-- stacks, for which costs are actually attributed.  Cost-centre stacks
+-- are not garbage-collected.
+data CostCentreStack
 
-ccsDynamic :: CCS
+-- | A listener on a cost-centre stack.  Active listeners are considered
+-- roots, so be sure to unlisten when you are done.
+data Listener
 
-newCC :: IO CC
-pushCC :: CCS -> CC -> IO CCS
-setCCS :: CCS -> a -> IO ()
-withCCS :: CCS -> IO a -> IO a
-listenCCS :: CCS -> ProfType -> Int -> IO () -> IO Listener
+-- | Type of profiling information to track.  We currently support two
+-- types: instantaneous heap residence, and overall memory allocation
+-- (which is monotonically increasing).
+data ProfType = Resident | Allocated
+
+-- | Allocates a new cost-centre.
+newCC :: IO CostCentre
+
+-- | Pushes a cost-centre onto a new cost-centre stack.  This function
+-- is memoized, so if you push the same CostCentre onto the same CostCentreStack, you will
+-- get the same CostCentreStack back.
+pushCC :: CostCentreStack -> CostCentre -> IO CostCentreStack
+
+-- | Attaches a listener to a cost-centre.  The resolution of the
+-- listener depends on the type and runtime options.  For resident
+-- memory listeners, listeners are checked whenever a heap census is run
+-- (which is controllable using @-i@).  For allocated memory listeners,
+-- listeners are checked every GC.  When you are no longer interested
+-- in events from a listener, make sure you unregister the listener, or
+-- you will leak memory.
+listenCCS :: CostCentreStack -> ProfType -> Int -> IO () -> IO Listener
+
+-- | Unregisters a listener, so that it action will no longer be run.
 unlistenCCS :: Listener -> IO ()
-getCCSOf :: a -> IO CCS -- already exists
-getCurrentCCS :: IO CCS -- already exists
-queryCCS :: CCS -> ProfType -> Int
+
+-- | Sets the cost-centre of a object on the heap.
+setCCSOf :: CostCentreStack -> a -> IO ()
+
+-- | Runs an IO action with the CostCentreCS set to @ccs@.
+withCCS :: CostCentreStack -> IO a -> IO a
+
+-- | Allocates a new dynamic cost-centre stack; generally, if you want
+-- something to check usage, this is what you want.
+newCCS :: IO CostCentreStack
+
+-- | Queries for memory statistics about a cost-centre stack.
+queryCCS :: CostCentreStack -> ProfType -> IO Int
+
+-- | Root cost-center stack for dynamically allocated cost center
+-- stacks.
+ccsDynamic :: CostCentreStack
 ```
-
-
-Listeners automatically deregister themselves when they trigger.
 
 
 The general usage of this API goes like:
