@@ -10,7 +10,7 @@ St Andrews has hosted the [HackPar](hack-par) parallel hackathon in December 200
 Heriot-Watt will host a [HackSprint](hack-sprint) meeting 12-14th December 2010. 
 
 
-Heriot-Watt will host the Blessed Clement of Dunblane [HackDay](gp-h-eden/hack-day-mar13) on Tue March 19th, 2013.
+Heriot-Watt will host the [ http://saints.sqpn.com/blessed-clement-of-dunblane/ Blessed Clement of Dunblane](http://saints.sqpn.com/blessed-clement-of-dunblane/ Blessed Clement of Dunblane)[HackDay](gp-h-eden/hack-day-mar13) on Tue March 19th, 2013.
 
 
 A series of [Parallel Hacker Meetings](gp-h-eden/meetings) has been launched.
