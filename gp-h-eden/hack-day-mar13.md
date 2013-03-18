@@ -28,6 +28,8 @@ So far: Hans-Wolfgang Loidl (HWL), Jost Berthold (JB), Vladimir Janjic (VJ), Vla
 <tr><th> 11:00 </th>
 <th> Pair programming on selected topics 
 </th></tr>
+<tr><th></th>
+<th></th></tr>
 <tr><th> 13:00 </th>
 <th> Lunch 
 </th></tr>
@@ -41,6 +43,17 @@ So far: Hans-Wolfgang Loidl (HWL), Jost Berthold (JB), Vladimir Janjic (VJ), Vla
 <th> Summary Reports and Future Work
 </th></tr></table>
 
+## Groups
+
+- RTS group (MSA,EB,JB,HWL)
+- Algorithms (PT,JB,HWL)
+- Serialisation (VK,JB,HWL)
+- Visualisation (MMAA,PWT,JB,HWL) 
+
+## General Info
+
+[ http://james.mathematik.uni-marburg.de:8080/gitweb/ Eden gitweb](http://james.mathematik.uni-marburg.de:8080/gitweb/ Eden gitweb)[ http://www.macs.hw.ac.uk/\~hwloidl/hackspace/IDX IDX file](http://www.macs.hw.ac.uk/~hwloidl/hackspace/IDX IDX file)
+
 ## Potential Topics
 
 - GHC parallel RTS: general house-keeping and fixes  (MSA,EB,VJ,HWL,JB)
@@ -50,12 +63,14 @@ So far: Hans-Wolfgang Loidl (HWL), Jost Berthold (JB), Vladimir Janjic (VJ), Vla
   - Start script optimisations
   - eliminating start script in parcp way (i.e. in-RTS log archiving)
   - change PrimOps.cmm to work with LLVM-way
-  - role of THUNK_SELECTOR in packing code
-  - RTTables in GUM execution
-  - Eden- vs GUM-style execution
-  - PAP un/packing (GUM)
-  - clean-up issue
-  - usage of GhostTSOs (GUM)
+  - debugging issues:
+
+    - role of THUNK_SELECTOR in packing code
+    - RTTables in GUM execution
+    - Eden- vs GUM-style execution
+    - PAP un/packing (GUM)
+    - clean-up issue
+    - usage of GhostTSOs (GUM)
   - ParTicky profiling (GUM)
 
     - fix \#fetches issue
@@ -66,7 +81,9 @@ So far: Hans-Wolfgang Loidl (HWL), Jost Berthold (JB), Vladimir Janjic (VJ), Vla
     - migration
     - bounded sparks
     - sharks
-- Light-weight concurrency?
+- Light-weight concurrency
+
+  - See [ http://hackage.haskell.org/trac/ghc/wiki/LightweightConcurrency this Wiki page](http://hackage.haskell.org/trac/ghc/wiki/LightweightConcurrency this Wiki page) and checkout the ghc-lwc2 branch in the main GHC repo
 - Eden/GpH programming (nbody, paraffins, sp mat mult etc) (PT,RS,EB,HWL,JB)
 
   - nbody using Eden and GpH skeletons
