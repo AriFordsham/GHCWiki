@@ -56,6 +56,11 @@ So far: Hans-Wolfgang Loidl (HWL), Jost Berthold (JB), Vladimir Janjic (VJ), Vla
   - PAP un/packing (GUM)
   - clean-up issue
   - usage of GhostTSOs (GUM)
+  - ParTicky profiling (GUM)
+
+    - fix \#fetches issue
+    - fix cmd line parsing (-N) + stats output (-qPg)
+    - discuss futher parameters to monitor
   - code integration:
 
     - migration
@@ -64,6 +69,7 @@ So far: Hans-Wolfgang Loidl (HWL), Jost Berthold (JB), Vladimir Janjic (VJ), Vla
 - Eden/GpH programming (nbody, paraffins, sp mat mult etc) (PT,RS,EB,HWL,JB)
 
   - nbody using Eden and GpH skeletons
+  - seq and par sp mat mult optimisation (-threaded Array/AssocList vs QuadTrees)
   - move forward wrt. test suite
 - Serialisation: (VK,RS,HWL,JB)
 
