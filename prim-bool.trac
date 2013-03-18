@@ -305,3 +305,74 @@ Some concerns:
   - what names should the new primops have? I planned to use names with a dot preceeding the operator for `Int#` and `Double#` comparisons (e.g. `./=#`, `.>##`) and names with "St" suffix for `Word#` and `Float#`, e.g. `gtWordSt#`, `gtFloatSt#` (`St` stands for 'strict' because the result can be used with the strict bitwise logical operators).
   - how to remove the old `Compare` primops (ones of type `T -> T -> Bool`)?
   - once we have the new primops do we really care about the unboxed `Bool#`?
+
+=== Benchmarks for the proposed patch ===
+
+Below is a benchmark for the proof-of-concept filter function that demonstrates performance gains possible with the new primops:
+
+{{{
+{-# LANGUAGE BangPatterns, MagicHash #-}
+module Main (
+             main
+            ) where
+
+import Control.Monad.ST                  (runST)
+import Criterion.Config                  (Config, cfgPerformGC,
+                                          defaultConfig, ljust)
+import Criterion.Main
+import Data.Vector.Unboxed.Mutable       (unsafeNew, unsafeSlice, unsafeWrite)
+import Data.Vector.Unboxed               as U (Vector, filter, foldM',
+                                               fromList, length, unsafeFreeze)
+import GHC.Exts                          (Int (I#), (.>=#))
+import System.Random                     (RandomGen, mkStdGen, randoms)
+import Prelude                    hiding (filter, length)
+
+
+filterN :: U.Vector Int -> U.Vector Int
+filterN vec = runST $ do
+  let !size = length vec
+  fVec <- unsafeNew size
+  let put i x = do
+        let !(I# v) = x
+            inc     = I# (v .>=# 0#)
+        unsafeWrite fVec i x
+        return $ i + inc
+  fSize <- foldM' put 0 vec
+  unsafeFreeze $ unsafeSlice 0 fSize fVec
+
+
+main :: IO ()
+main = return (mkStdGen 1232134332) >>=
+       defaultMainWith benchConfig (return ()) . benchmarks
+
+
+benchmarks :: RandomGen g => g -> [Benchmark]
+benchmarks gen =
+    let dataSize   = 10 ^ (7 :: Int)
+        inputList  = take dataSize . randoms $ gen :: [Int]
+        inputVec   = fromList inputList
+        isPositive = (> 0)
+    in [
+       bgroup "Filter"
+         [
+           bench "New"    $ whnf (filterN)            inputVec
+         , bench "Vector" $ whnf (filter  isPositive) inputVec
+         ]
+      ]
+
+
+benchConfig :: Config
+benchConfig = defaultConfig {
+             cfgPerformGC = ljust True
+           }
+
+}}}
+
+Compile and run with:
+
+{{{
+ghc -O2 -fllvm -optlo-O3 Main.hs
+./Main -o report.html
+}}}
+
+Benchmarking shows that `filterN` function is 60% faster than the `filter` function based on stream fusion (tested for unboxed vectors containing 10 thousand and 10 million elements).
