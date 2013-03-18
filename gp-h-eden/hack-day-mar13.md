@@ -1,4 +1,4 @@
-# Parallel Haskell HackDay
+# Parallel Haskell Hack Day
 
 ## Organisation
 
