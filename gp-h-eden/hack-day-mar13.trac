@@ -31,12 +31,13 @@ So far: Hans-Wolfgang Loidl (HWL), Jost Berthold (JB), Vladimir Janjic (VJ), Vla
    * Start script optimisations
    * eliminating start script in parcp way (i.e. in-RTS log archiving)
    * change PrimOps.cmm to work with LLVM-way
-   * role of THUNK_SELECTOR in packing code
-   * RTTables in GUM execution
-   * Eden- vs GUM-style execution
-   * PAP un/packing (GUM)
-   * clean-up issue
-   * usage of GhostTSOs (GUM)
+   * debugging issues:
+    * role of THUNK_SELECTOR in packing code
+    * RTTables in GUM execution
+    * Eden- vs GUM-style execution
+    * PAP un/packing (GUM)
+    * clean-up issue
+    * usage of GhostTSOs (GUM)
    * ParTicky profiling (GUM)
      * fix #fetches issue
      * fix cmd line parsing (-N) + stats output (-qPg)
