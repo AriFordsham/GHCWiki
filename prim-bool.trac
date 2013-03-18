@@ -305,3 +305,23 @@ Some concerns:
   - what names should the new primops have? I planned to use names with a dot preceeding the operator for `Int#` and `Double#` comparisons (e.g. `./=#`, `.>##`) and names with "St" suffix for `Word#` and `Float#`, e.g. `gtWordSt#`, `gtFloatSt#` (`St` stands for 'strict' because the result can be used with the strict bitwise logical operators).
   - how to remove the old `Compare` primops (ones of type `T -> T -> Bool`)?
   - once we have the new primops do we really care about the unboxed `Bool#`?
+
+=== Benchmarks for the proposed patch ===
+
+Below is a proof-of-concept filter function that demonstrates performance gains possible with the new primops:
+
+{{{
+filterN :: Vector Int -> Vector Int
+filterN vec = runST $ do
+  let !size = length vec
+  fVec <- unsafeNew size
+  let put i x = do
+        let !(I# v) = x
+            inc     = I# (v .>=# 0#)
+        unsafeWrite fVec i x
+        return $ i + inc
+  fSize <- foldM' put 0 vec
+  unsafeFreeze $ unsafeSlice 0 fSize fVec
+}}}
+
+Benchmarking with criterion shows that this function is 60% faster than the filter function based on stream fusion (tested for unboxed vectors containing 10 thousand and 10 million elements).
