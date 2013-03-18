@@ -15,7 +15,7 @@ It's building 2 on [ http://www.macs.hw.ac.uk/\~hwloidl/hw_map_colour.pdf this m
 ## Participants
 
 
-So far: Hans-Wolfgang Loidl (Host), Jost Berthold, Vladimir Janjic, Vladimir Komendantsky, Malak Aljabri, Robert Stewart, Evgenij Belikov, Prabhat Totoo
+So far: Hans-Wolfgang Loidl (HWL), Jost Berthold (JB), Vladimir Janjic (VJ), Vladimir Komendantsky (VK), Malak Aljabri (MSA), Majed Al-Saeed (MMAA), Robert Stewart (RS), Evgenij Belikov (EB), Prabhat Totoo (PT)
 
 ## Agenda
 
@@ -43,19 +43,31 @@ So far: Hans-Wolfgang Loidl (Host), Jost Berthold, Vladimir Janjic, Vladimir Kom
 
 ## Potential Topics
 
-- GHC parallel RTS: general house-keeping and fixes
+- GHC parallel RTS: general house-keeping and fixes  (MSA,EB,VJ,HWL,JB)
 
   - Cleaning up non-main PEs in parcp way
   - Behaviour of primops in non-parallel ways
   - Start script optimisations
   - eliminating start script in parcp way (i.e. in-RTS log archiving)
   - change PrimOps.cmm to work with LLVM-way
-- Eden/GpH programming (nbody, paraffins etc)
+  - role of THUNK_SELECTOR in packing code
+  - RTTables in GUM execution
+  - Eden- vs GUM-style execution
+  - PAP un/packing (GUM)
+  - clean-up issue
+  - usage of GhostTSOs (GUM)
+  - code integration:
+
+    - migration
+    - bounded sparks
+    - sharks
+- Eden/GpH programming (nbody, paraffins, sp mat mult etc) (PT,RS,EB,HWL,JB)
 
   - nbody using Eden and GpH skeletons
   - move forward wrt. test suite
-- Serialisation:
+- Serialisation: (VK,RS,HWL,JB)
 
   - Factor out from PARALLEL_RTS
+  - review API (for Par Sci usage)
   - make good use of it 
-- Eventlog and visualisation
+- Eventlog and visualisation (MMAA,JB)
