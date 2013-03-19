@@ -18,6 +18,11 @@ So far: Hans-Wolfgang Loidl (HWL), Jost Berthold (JB), Vladimir Janjic (VJ), Vla
 || 10:30 || Welcome and Setup ||
 || 10:45 || Exchange of ideas and brainstorm ||
 || 11:00 || Pair programming on selected topics || 
+||       ||
+            RTS group (MSA,EB,JB,HWL)
+            Algorithms (PT,JB,HWL)
+            Serialisation (VK,JB,HWL)
+            Visualisation (MMAA,PWT,JB,HWL) ||
 || 13:00 || Lunch || 
 || 14:00 || Short round of summaries and discussion || 
 || 14:15 || TBC (pair programming, short talks...) ||
@@ -57,4 +62,5 @@ So far: Hans-Wolfgang Loidl (HWL), Jost Berthold (JB), Vladimir Janjic (VJ), Vla
    * review API (for Par Sci usage)
    * make good use of it 
  * Eventlog and visualisation (MMAA,JB)
+
 

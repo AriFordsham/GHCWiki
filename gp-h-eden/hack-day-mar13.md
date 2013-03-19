@@ -28,7 +28,18 @@ So far: Hans-Wolfgang Loidl (HWL), Jost Berthold (JB), Vladimir Janjic (VJ), Vla
 <tr><th> 11:00 </th>
 <th> Pair programming on selected topics 
 </th></tr>
-<tr><th> 13:00 </th>
+<tr><th></th>
+<th></th></tr></table>
+
+>
+> RTS group (MSA,EB,JB,HWL)
+> Algorithms (PT,JB,HWL)
+> Serialisation (VK,JB,HWL)
+>
+> <table><tr><td>Visualisation (MMAA,PWT,JB,HWL) 
+> </td></tr></table>
+
+<table><tr><th> 13:00 </th>
 <th> Lunch 
 </th></tr>
 <tr><th> 14:00 </th>
