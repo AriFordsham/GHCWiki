@@ -52,7 +52,9 @@ So far: Hans-Wolfgang Loidl (HWL), Jost Berthold (JB), Vladimir Janjic (VJ), Vla
 
 ## General Info
 
-[ http://james.mathematik.uni-marburg.de:8080/gitweb/ Eden gitweb](http://james.mathematik.uni-marburg.de:8080/gitweb/ Eden gitweb)[ http://www.macs.hw.ac.uk/\~hwloidl/hackspace/IDX IDX file](http://www.macs.hw.ac.uk/~hwloidl/hackspace/IDX IDX file)
+[ http://james.mathematik.uni-marburg.de:8080/gitweb/ Eden gitweb](http://james.mathematik.uni-marburg.de:8080/gitweb/ Eden gitweb)
+(ghc-lwc2 branch)
+[ http://www.macs.hw.ac.uk/\~hwloidl/hackspace/IDX IDX file](http://www.macs.hw.ac.uk/~hwloidl/hackspace/IDX IDX file)
 
 ## Potential Topics
 
