@@ -68,7 +68,9 @@ So far: Hans-Wolfgang Loidl (HWL), Jost Berthold (JB), Vladimir Janjic (VJ), Vla
     - migration
     - bounded sparks
     - sharks
-- Light-weight concurrency?
+- Light-weight concurrency
+
+  - [ http://hackage.haskell.org/trac/ghc/wiki/LightweightConcurrency Wiki](http://hackage.haskell.org/trac/ghc/wiki/LightweightConcurrency Wiki)
 - Eden/GpH programming (nbody, paraffins, sp mat mult etc) (PT,RS,EB,HWL,JB)
 
   - nbody using Eden and GpH skeletons
