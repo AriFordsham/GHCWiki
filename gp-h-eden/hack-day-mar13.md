@@ -50,6 +50,12 @@ So far: Hans-Wolfgang Loidl (HWL), Jost Berthold (JB), Vladimir Janjic (VJ), Vla
 - Serialisation (VK,JB,HWL)
 - Visualisation (MMAA,PWT,JB,HWL) 
 
+## General Info
+
+
+\<a href="[ http://james.mathematik.uni-marburg.de:8080/gitweb/](http://james.mathematik.uni-marburg.de:8080/gitweb/)"\>Eden gitweb\</a\>
+\<a href="[ http://www.macs.hw.ac.uk/\~hwloidl/hackspace/IDX](http://www.macs.hw.ac.uk/~hwloidl/hackspace/IDX)"\>IDX file \</a\>
+
 ## Potential Topics
 
 - GHC parallel RTS: general house-keeping and fixes  (MSA,EB,VJ,HWL,JB)
