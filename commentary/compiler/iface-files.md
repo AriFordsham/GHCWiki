@@ -19,6 +19,7 @@ This textual format is not particularly designed for machine parsing.  Doing so 
 
 Here are some of the things stored in an interface file `M.hi`
 
+- The version of GHC used to compile the module, as well as the compilation way and other knick-knacks
 - A list of what `M` exports.
 - The types of exported functions, definition of exported types, and so on.
 - Version information, used to drive the [recompilation checker](commentary/compiler/recompilation-avoidance).
