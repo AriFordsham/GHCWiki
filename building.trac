@@ -52,7 +52,7 @@ can extend it, modify it, and use it to build your code.
  * [wiki:Building/Modifying Modifying the build system]
  * [wiki:Commentary/Libraries The libraries on which GHC depends]
 
-'''Porting GHC'''
+'''Porting GHC and building cross compilers'''
 
  * [wiki:Building/CrossCompiling Cross-compilation]
 
