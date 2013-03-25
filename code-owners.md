@@ -34,6 +34,9 @@ Ownership means being the "first among equals" rather than "having exclusive con
  
 When contacting an owner, always cc `ghc-devs@haskell.org`, so that others can contribute.  It's a community thing.
 
+
+The GHC repository is held on a machine called "[ Abott](http://www.haskell.org/haskellwiki/Abbot)".
+
 ## Current Owners
 
 
