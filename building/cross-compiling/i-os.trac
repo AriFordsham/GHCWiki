@@ -168,40 +168,6 @@ Run the project again as usual, and Xcode will pick up the haskell.a file and yo
 
 Each time you modify your Haskell code you'll need to re-compile from the command line before re-building in Xcode. It is possible to automate this in Xcode if you wish.
 
-== Adjustor pools ==
-
-A declaration for a "wrapper" callback looks like this:
-
-{{{
-foreign import ccall safe "wrapper"
-        mkDelegate :: IO () -> IO (FunPtr (IO ()))
-}}}
-
-To implement these, GHC normally generates a small piece of executable code at runtime, called an "adjustor".  The purpose of these "wrapper" declarations is to generate a C-callable function pointer that executes Haskell code.
-
-Due to Apple's requirements for code-signing, the iOS kernel enforces a ban on self-modifying code.
-
-We solve this conundrum by pre-compiling a pool of functions, and allocating from it.  Because the pool size for each wrapper is fixed, this creates the problem that the pool can run out.  If this happens, the application will die with this message:
-
-{{{
-HaskellDraw: internal error: createPooledAdjustor - adjustor pool 'Main_d1tU' is empty (capacity 32)
-}}}
-
-(The name of the module where the "wrapper" was declared appears before the underscore character.)
-
-Each "wrapper" declaration has its own pool, whose size defaults to 32.  This means that at any one time, there can exist no more than 32 adjustors created by the defined wrapper constructor function (in this example, mkDelegate).  '''Foreign.Ptr.freeHaskellFunPtr''' is the IO action to free an adjustor, and in this implementation this returns it to the pool.
-
-If the pool is too small for a given application, you can increase it by using a {-# POOLSIZE x #-} pragma, which must appear after the "wrapper" token.  e.g.
-
-{{{
-foreign import ccall safe "wrapper" {-# POOLSIZE 100 #-}
-        mkDelegate :: IO () -> IO (FunPtr (IO ()))
-}}}
-
-Because pool sizes are limited, it should be considered unsafe to call freeHaskellFunPtr in a finalizer, because garbage collection is not predictable.
-
-The {{{POOLSIZE}}} pragma generates a compiler warning only on GHC versions where it isn't supported, so in practice it's portable.
-
 == Loose ends ==
 
 Outstanding issues we should fix in rough priority order.
