@@ -35,6 +35,9 @@ GhcThreaded = NO
 ## Ticky-ticky overview
 
 
+(This is a high-level overview, see the following section for details.)
+
+
 It is possible to compile Haskell programs so that they will count several kinds of interesting things, e.g., number of updates, number of data constructors entered, etc.  We call this "ticky-ticky" profiling because that's the sound a CPU makes when it is running up all those counters (*slowly*).
 
 
@@ -56,7 +59,23 @@ There are currently two coarse classes of ticky-ticky counters: name-specific co
 > >
 > > Each "global counter" describes some aspect of the entire program execution. For example, one global counter tracks total heap allocation; another tracks allocation for PAPs.
 
-## Enabling ticky-ticky and its extension flags
+## Flags: ticky-ticky and its extensions
+
+<table><tr><th> flag </th>
+<th> effect 
+</th></tr>
+<tr><th>`-ticky`</th>
+<th> count entries and allocation ticky-ticky (both global and name-specific counters) 
+</th></tr>
+<tr><th>`-ticky-dyn`</th>
+<th> also use name-specific counters for dynamic thunks 
+</th></tr>
+<tr><th>`-ticky-LNE`</th>
+<th> also use name-specific counters for let-no-escapes 
+</th></tr>
+<tr><th>`-ticky-allocd`</th>
+<th> also track allocation *of* each named thing in addition to allocation *by* that thing 
+</th></tr></table>
 
 
 Ticky-ticky counters are enabled in two ways.
@@ -130,13 +149,15 @@ The first three columns show the three name-specific counters: entries, allocati
 </th></tr></table>
 
 
-The final column is the CorePrep/STG name to which the counters in this row refer. Each entry in this column uses an encoding that differentiations between exported names (`main:Main.puzzle`) and non-exported names (`go1{v r2Hj} (main:Main)`). Some non-exported names indicate that they are let-no-escape (`(LNE)`) or a dynamically allocated thunk (`(thk)`). All let-bound names also specify the unique of the parent (`in s2T4`). The "parent", here, is the innermost enclosing definition that has a ticky counter; the parent is affected by `-ticky-LNE` and `-ticky-dyn-thunk`).
+The final column is the CorePrep/STG name to which the counters in this row refer. Each entry in this column uses an encoding that differentiations between exported names (`main:Main.puzzle`) and non-exported names (`go1{v r2Hj} (main:Main)`). Some non-exported names indicate that they are let-no-escape (`(LNE)`) or a dynamically allocated thunk (`(thk)`). All let-bound names also specify the unique of the parent (`in s2T4`). The "parent", here, is the innermost enclosing definition that has a ticky counter; the parent is thus affected by `-ticky-LNE` and `-ticky-dyn-thunk`.
 
 ```wiki
 $ ghc ... -ticky -ticky-LNE -ticky-dyn-thunk -ticky-allocd ... -o foo
 $ ./foo +RTS -rticky -RTS
 $ cat ticky # I'm just showing an excerpt
 ...
+**************************************************
+
     Entries      Alloc    Alloc'd  Non-void Arguments      STG Name
 --------------------------------------------------------------------------------
          10        240        240   0                      sat_s2T2{v} (main:Main) (thk) in s2T4
@@ -194,7 +215,7 @@ $ cat ticky # I'm just showing an excerpt
 ```
 
 
-The formatting of the information above the row of asterisks is subject to change, but hopefully provides a useful human-readable summary.  Below the asterisks *all counters* maintained by the ticky-ticky system are dumped, in a format intended to be machine-readable: zero or more spaces, an integer, a space, the counter name, and a newline.
+The omitted information above the first row of asterisks is just human-readable summaries; its content and format should not be relied upon.  Below the first row of asterisks the name-specific counters are dumped in a fixed format. Below the second row of asterisks, *all global counters* are dumped, in a format intended to be machine-readable: zero or more spaces, an integer, a space, the counter name, and a newline.
 
 
 In fact, not *all* counters are necessarily dumped; compile- or run-time flags can render certain counters invalid.  In this case, either the counter will simply not appear, or it will appear with a modified counter name, possibly along with an explanation for the omission. Software analysing this output should always check that it has the counters it expects.  Also, beware: some of the counters can have very large values.
