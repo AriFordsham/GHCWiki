@@ -24,6 +24,8 @@ let baz = lazyF p in
 
 = Ticky =
 
+(NB out-of-date, but maybe historically useful; cf [wiki:Debugging/TickyTicky])
+
 The following code inserts extra fields into closures when ticky is enabled (and so had to be commented out):
 {{{
 staticTickyHdr :: [CmmLit]
