@@ -93,6 +93,8 @@ $ ghc ... -ticky -ticky-LNE -ticky-dyn-thunk -ticky-allocd ... -o foo
 $ ./foo +RTS -rticky -RTS
 $ cat ticky # I'm just showing an excerpt
 ...
+**************************************************
+
     Entries      Alloc    Alloc'd  Non-void Arguments      STG Name
 --------------------------------------------------------------------------------
          10        240        240   0                      sat_s2T2{v} (main:Main) (thk) in s2T4
@@ -149,7 +151,7 @@ $ cat ticky # I'm just showing an excerpt
 ...
 }}}
 
-The formatting of the information above the row of asterisks is subject to change, but hopefully provides a useful human-readable summary.  Below the asterisks ''all counters'' maintained by the ticky-ticky system are dumped, in a format intended to be machine-readable: zero or more spaces, an integer, a space, the counter name, and a newline.
+The omitted information above the first row of asterisks is just human-readable summaries; its content and format should not be relied upon.  Below the first row of asterisks the name-specific counters are dumped in a fixed format. Below the second row of asterisks, ''all global counters'' are dumped, in a format intended to be machine-readable: zero or more spaces, an integer, a space, the counter name, and a newline.
 
 In fact, not ''all'' counters are necessarily dumped; compile- or run-time flags can render certain counters invalid.  In this case, either the counter will simply not appear, or it will appear with a modified counter name, possibly along with an explanation for the omission. Software analysing this output should always check that it has the counters it expects.  Also, beware: some of the counters can have very large values.
 
