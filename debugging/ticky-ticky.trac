@@ -86,7 +86,7 @@ The first three columns show the three name-specific counters: entries, allocati
 || `.` || other type ||
 || `-` || reserved for others to mark as "uninteresting" ||
 
-The final column is the !CorePrep/STG name to which the counters in this row refer. Each entry in this column uses an encoding that differentiations between exported names (`main:Main.puzzle`) and non-exported names (`go1{v r2Hj} (main:Main)`). Some non-exported names indicate that they are let-no-escape (`(LNE)`) or a dynamically allocated thunk (`(thk)`). All let-bound names also specify the unique of the parent (`in s2T4`). The "parent", here, is the innermost enclosing definition that has a ticky counter; the parent is affected by `-ticky-LNE` and `-ticky-dyn-thunk`).
+The final column is the !CorePrep/STG name to which the counters in this row refer. Each entry in this column uses an encoding that differentiations between exported names (`main:Main.puzzle`) and non-exported names (`go1{v r2Hj} (main:Main)`). Some non-exported names indicate that they are let-no-escape (`(LNE)`) or a dynamically allocated thunk (`(thk)`). All let-bound names also specify the unique of the parent (`in s2T4`). The "parent", here, is the innermost enclosing definition that has a ticky counter; the parent is thus affected by `-ticky-LNE` and `-ticky-dyn-thunk`.
 
 {{{
 $ ghc ... -ticky -ticky-LNE -ticky-dyn-thunk -ticky-allocd ... -o foo
