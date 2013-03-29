@@ -1,3 +1,6 @@
+
+(NB out-of-date, but maybe historically useful; cf [Debugging/TickyTicky](debugging/ticky-ticky))
+
 # Kirsten's sketchy notes on getting ticky to work
 
 

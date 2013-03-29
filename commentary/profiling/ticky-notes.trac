@@ -1,3 +1,5 @@
+(NB out-of-date, but maybe historically useful; cf [wiki:Debugging/TickyTicky])
+
 = Kirsten's sketchy notes on getting ticky to work =
 
 Macros for bumping ticky counters are now defined in [[GhcFile(includes/Cmm.h)]]. Currently, code compiled with the {{{-fticky-ticky}}} flag fails to link because the macros rely on counter variables (things with names like {{{ENT_DYN_IND_ctr}}} being declared, but there are actually no declarations for them. I'll add those declarations to [[GhcFile(includes/RtsExternal.h)]] so I can get something working. Really, there should be something that automatically generates both the macros that are in [[GhcFile(includes/Cmm.h)]] and the declarations for the corresponding variables, so that they stay in sync.
