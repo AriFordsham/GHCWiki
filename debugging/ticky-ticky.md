@@ -110,8 +110,13 @@ This report includes all global counters as well as the name-specific counters f
 
 Below is an excerpt from a ticky report. The executable was compiled with all of the extensions above.
 
+- **Entries:** the number of times this closure was entered
 
-The first three columns show the three name-specific counters: entries, allocation-by, and allocation-of. The fourth column gives a short summary of the named things's non-void arguments: how many there are and a terse description of each, according to the following table.
+- **Allocs:** the number of bytes allocated by the code for this closure.
+
+- **Allod'd:** the number of bytes allocated that have this closure's info pointer.  You need `-ticky-allocd` to activate this column.  (Otherwise it shows up as all zeros)
+
+- **Non-void arguments:** gives a short summary of the named things's non-void arguments: how many there are and a terse description of each, according to the following table.
 
 <table><tr><th> Classification </th>
 <th> Description 
@@ -156,8 +161,7 @@ The first three columns show the three name-specific counters: entries, allocati
 <th> reserved for others to mark as "uninteresting" 
 </th></tr></table>
 
-
-The final column is the CorePrep/STG name to which the counters in this row refer. Each entry in this column uses an encoding that differentiations between exported names (`main:Main.puzzle`) and non-exported names (`go1{v r2Hj} (main:Main)`). Some non-exported names indicate that they are let-no-escape (`(LNE)`) or a dynamically allocated thunk (`(thk)`). All let-bound names also specify the unique of the parent (`in s2T4`). The "parent", here, is the innermost enclosing definition that has a ticky counter; the parent is thus affected by `-ticky-LNE` and `-ticky-dyn-thunk`.
+- **CorePrep/STG name:** the name to which the counters in this row refer. Each entry in this column uses an encoding that differentiates between exported names (`main:Main.puzzle`) and non-exported names (`go1{v r2Hj} (main:Main)`). Some non-exported names indicate that they are let-no-escape (`(LNE)`) or a dynamically allocated thunk (`(thk)`). All let-bound names also specify the unique of the parent (`in s2T4`). The "parent", here, is the innermost enclosing definition that has a ticky counter; the parent is thus affected by `-ticky-LNE` and `-ticky-dyn-thunk`.
 
 ```wiki
 $ ghc ... -ticky -ticky-LNE -ticky-dyn-thunk -ticky-allocd ... -o foo
