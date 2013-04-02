@@ -35,6 +35,9 @@ GhcThreaded = NO
 ## Ticky-ticky overview
 
 
+(This is a high-level overview, see the following section for details.)
+
+
 It is possible to compile Haskell programs so that they will count several kinds of interesting things, e.g., number of updates, number of data constructors entered, etc.  We call this "ticky-ticky" profiling because that's the sound a CPU makes when it is running up all those counters (*slowly*).
 
 
@@ -56,7 +59,23 @@ There are currently two coarse classes of ticky-ticky counters: name-specific co
 > >
 > > Each "global counter" describes some aspect of the entire program execution. For example, one global counter tracks total heap allocation; another tracks allocation for PAPs.
 
-## Enabling ticky-ticky and its extension flags
+## Flags: ticky-ticky and its extensions
+
+<table><tr><th> flag </th>
+<th> effect 
+</th></tr>
+<tr><th>`-ticky`</th>
+<th> count entries and allocation ticky-ticky (both global and name-specific counters) 
+</th></tr>
+<tr><th>`-ticky-dyn`</th>
+<th> also use name-specific counters for dynamic thunks 
+</th></tr>
+<tr><th>`-ticky-LNE`</th>
+<th> also use name-specific counters for let-no-escapes 
+</th></tr>
+<tr><th>`-ticky-allocd`</th>
+<th> also track allocation *of* each named thing in addition to allocation *by* that thing 
+</th></tr></table>
 
 
 Ticky-ticky counters are enabled in two ways.
