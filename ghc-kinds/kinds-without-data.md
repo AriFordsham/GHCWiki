@@ -80,3 +80,18 @@ types and kinds, so things like `D`/`I` above will become impossible.
 
 
 Currently we are planning to implement the second solution. If we do get `* :: *` other things will break due to name clashes, so that shouldn't prevent us from going ahead now. This ticket to track this request is [\#6024](https://gitlab.haskell.org//ghc/ghc/issues/6024).
+
+## Thoughts (Gabor Greif)
+
+
+I'd prefer writing
+
+```wiki
+'data Universe = Sum  Universe Universe
+               | Prod Universe Universe
+               | K *
+```
+
+
+over `data kind` to only obtain the `Universe` kind and `Sum`, `Prod` and `K` types. This would extrapolate the `'Universe` notation for grabbing the kind when a type also exists with the same name.
+I am also a bit less enthusiastic with `data only`. Why not `data data`? (Still does not feel right.)
