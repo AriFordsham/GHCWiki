@@ -100,8 +100,8 @@ Two flags enable LNE and dynamically allocated thunks to be tracked by name-spec
 Any GHC executable linked with `-rtsopts` will generate a ticky-ticky profiling report if provided the `-r` RTS option.  Thus
 
 ```wiki
-ghc -ticky -rtsopts Main.hs -o main
-./main +RTS -rmain.ticky
+$ ghc -ticky -rtsopts Main.hs -o main
+$ ./main +RTS -rmain.ticky
 ```
 
 
