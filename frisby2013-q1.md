@@ -3,7 +3,9 @@ This pages serves as a public log what I did for my GHC internship from 21 Jan 2
 
 ## Helpful wiki pages
 
-- [Commentary/Compiler/Demand](commentary/compiler/demand) (esp [Commentary/Compiler/Demand/RelevantParts](commentary/compiler/demand/relevant-parts))
+- [Commentary/Compiler/Demand](commentary/compiler/demand)
+
+  - esp [Commentary/Compiler/Demand/RelevantParts](commentary/compiler/demand/relevant-parts)
 - [Commentary/Compiler/OptOrdering](commentary/compiler/opt-ordering)
 - [Building/RunningTests/Updating](building/running-tests/updating)
 - [Commentary/Compiler/GeneratedCode](commentary/compiler/generated-code)
