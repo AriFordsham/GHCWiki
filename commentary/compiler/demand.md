@@ -142,4 +142,4 @@ do the rest, transformations the compiler does anyway.
 ## Relevant compiler parts
 
 
-Multiple parts of GHC are sensitive to changes in the nature of demand signatures and results of the demand analysis, which might cause unexpected errors when hacking into demands. Below, some of the demand-sensitive compiler parts are enumerated with indications, which bits of the demand information are actually used. See the [full list of relevant compiler parts](commentary/compiler/demand/relevant-parts) for more details.
+Multiple parts of GHC are sensitive to changes in the nature of demand signatures and results of the demand analysis, which might cause unexpected errors when hacking into demands. [This list](commentary/compiler/demand/relevant-parts) enumerates the parts of the compiler that are sensitive to demand, with brief summaries of how so.
