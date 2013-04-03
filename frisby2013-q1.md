@@ -1,14 +1,23 @@
 
 This pages serves as a public log what I did for my GHC internship from 21 Jan 2013 to 12 April 2013.
 
+## Helpful wiki pages
+
+- [Commentary/Compiler/Demand](commentary/compiler/demand)
+
+  - esp [Commentary/Compiler/Demand/RelevantParts](commentary/compiler/demand/relevant-parts)
+- [Commentary/Compiler/OptOrdering](commentary/compiler/opt-ordering)
+- [Building/RunningTests/Updating](building/running-tests/updating)
+- [Commentary/Compiler/GeneratedCode](commentary/compiler/generated-code)
+- [ReadingList](reading-list) - I heartily recommend the Optimisation section
+
+  - esp "Let-floating", "Transformation-based", and "secrets" for low-level stuff (also "fast curry" from the Code generation and virtual machine section)
+  - esp foldr/build, RULES, and SpecConstr for the higher-level fusion stuff
+
 ## Plan for my internship summary
 
 
 Compared to [351a8c6bbd53ce07d687b5a96afff77c4c9910cc](/trac/ghc/changeset/351a8c6bbd53ce07d687b5a96afff77c4c9910cc/ghc), we implemented OPTIMIZATIONS with a cumulative effect of EFFECT on the generated code as well as EFFECT on the compiler's code. The hope is for the optimizations to have beneficial non-trivial interactions and to simplify/tidy the GHC code base.
-
-## general core knowledge
-
-[Max's page about code generation](commentary/compiler/generated-code) is really helpful!
 
 ### Core Diving
 
