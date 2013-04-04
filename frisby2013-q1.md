@@ -9,6 +9,10 @@ This pages serves as a public log what I did for my GHC internship from 21 Jan 2
 - [Commentary/Compiler/OptOrdering](commentary/compiler/opt-ordering)
 - [Building/RunningTests/Updating](building/running-tests/updating)
 - [Commentary/Compiler/GeneratedCode](commentary/compiler/generated-code)
+- [ReadingList](reading-list) - I heartily recommend the Optimisation section
+
+  - esp "Let-floating", "Transformation-based", and "secrets" for low-level stuff (also "fast curry" from the Code generation and virtual machine section)
+  - esp foldr/build, RULES, and SpecConstr for the higher-level fusion stuff
 
 ## Plan for my internship summary
 
