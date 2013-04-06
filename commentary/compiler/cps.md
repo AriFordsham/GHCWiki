@@ -78,7 +78,7 @@ This pass takes Cmm with native proceedure calls and an implicit stack and produ
   ```
 
   - Could make a for each that shuffles the arguments into a common format.
-  - Could make one branch primary and shuffle the other to match it, but that might entail unnessisary memory writes.
+  - Could make one branch primary and shuffle the other to match it, but that might entail unnecessary memory writes.
 
 ## Pipeline
 
