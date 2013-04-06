@@ -41,7 +41,7 @@ The basic idea is to call a function `cmmMakeDynamicReference` for all labels ac
 
 We extend Cmm and the `CLabel` module by a few things to allow us to express all the different things that occur on different platforms:
 
-The `Cmm.GlobalReg` datatype has a constructor `PicBaseReg`. This PIC base register is the register relative to which position-independent references are calculated. This can be a general-purpose register that is allocated on a per-CmmProc basis, or it can be a dedicated register, like the instruction pointer `%rip` on x86_64.
+The `Cmm.GlobalReg` datatype has a constructor `PicBaseReg`. This PIC base register is the register relative to which position-independent references are calculated. This can be a general-purpose register that is allocated on a per-!CmmProc basis, or it can be a dedicated register, like the instruction pointer `%rip` on x86_64.
 
 == How things are done on different platforms ==
 
