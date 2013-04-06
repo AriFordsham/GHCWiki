@@ -269,7 +269,7 @@ to a `[CmmStatic]`.
     }
     ```
 
-- We need the NCG to do aliasing analysis.  At present the CPS pass will generate the following, and will assume that the NCG can figure out when the loads and stores can be eliminated.  (The global saves part of a CmmProc is dead b/c of this.)
+- We need the NCG to do aliasing analysis.  At present the CPS pass will generate the following, and will assume that the NCG can figure out when the loads and stores can be eliminated.  (The global saves part of a `CmmProc` is dead b/c of this.)
 
   ```wiki
   foo () {
