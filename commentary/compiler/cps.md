@@ -1,8 +1,7 @@
 # CPS Conversion
 
 
-This part of the compiler is still under construction and it not presently in ghc-HEAD.
-These notes are to document it for when it does get merged in.
+This part of the compiler is now merged in ghc-HEAD.
 
 ## Overview
 
