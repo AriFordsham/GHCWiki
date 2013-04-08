@@ -338,12 +338,8 @@ Performance tests can specify ranges for certain statistics in the `<setup>` fie
 
 ```wiki
 test('perf001',
-     [ if_wordsize(32,
-          compiler_stats_range_field('bytes allocated', 40000000, 10)),
-       if_wordsize(64,
-          compiler_stats_range_field('bytes allocated', 79110184, 10))
-     ],
-     compile,[''])
+     [ compiler_stats_num_field('bytes allocated', [(wordsize(32), 40000000, 10), (wordsize(64), 79110184, 10)]) ],
+     compile, [''])
 ```
 
 
@@ -352,9 +348,9 @@ This is testing the performance of GHC itself, and requiring that the statistic 
 
 The kinds of constraint that can be used are:
 
-- **compiler_stats_range_field(stat, baseline, deviation)**  tests the performance of GHC, and should be used with **compile** or **compile_fail** tests.  **stat** is one of the following: `'bytes allocated'`, `'peak_megabytes_allocated'`, or `'max_bytes_used'`; **baseline** is the baseline value obtained by running the benchmark, and **deviation** is the percentage deviation from the baseline that the framework will allow for the test to pass.
+- **compiler_stats_num_field(stat, expecteds)**  tests the performance of GHC, and should be used with **compile** or **compile_fail** tests.  **stat** is one of the following: `'bytes allocated'`, `'peak_megabytes_allocated'`, or `'max_bytes_used'`; **expecteds** is a list of triples. Each triple has the form: `(predicate, baseline, deviation)`. **predicate** is a boolean value indicating which triple to use. In the above example, if the machine word size is 32 bits, the first triple's **baseline** and **deviation** values will be used. If the word size is 64 bits, the second triple's values will be used. **baseline** is the baseline value obtained by running the benchmark, and **deviation** is the percentage deviation from the baseline that the framework will allow for the test to pass.
 
-- **stats_range_field(stat, baseline, deviation)**  is the same, but tests the performance of the *program*, not the compiler.  It should be used in conjunction with a **compile_and_run** test.
+- **stats_num_field(stat, expecteds)**  is the same, but tests the performance of the *program*, not the compiler.  It should be used in conjunction with a **compile_and_run** test.
 
 ### The \<test-fn\> field
 
