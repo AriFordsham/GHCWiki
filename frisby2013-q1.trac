@@ -8,6 +8,7 @@ This pages serves as a public log what I did for my GHC internship from 21 Jan 2
     * esp [wiki:Commentary/Compiler/Demand/RelevantParts]
  * [wiki:Commentary/Compiler/OptOrdering]
  * [wiki:Building/RunningTests/Updating]
+ * [wiki:Commentary/Rts/HaskellExecution] nice overview
  * [wiki:Commentary/Compiler/GeneratedCode]
  * ReadingList - I heartily recommend the Optimisation section
     * esp "Let-floating", "Transformation-based", and "secrets" for low-level stuff (also "fast curry" from the Code generation and virtual machine section)
