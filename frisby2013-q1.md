@@ -8,6 +8,7 @@ This pages serves as a public log what I did for my GHC internship from 21 Jan 2
   - esp [Commentary/Compiler/Demand/RelevantParts](commentary/compiler/demand/relevant-parts)
 - [Commentary/Compiler/OptOrdering](commentary/compiler/opt-ordering)
 - [Building/RunningTests/Updating](building/running-tests/updating)
+- [Commentary/Rts/HaskellExecution](commentary/rts/haskell-execution) nice overview
 - [Commentary/Compiler/GeneratedCode](commentary/compiler/generated-code)
 - [ReadingList](reading-list) - I heartily recommend the Optimisation section
 
