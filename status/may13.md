@@ -2,3 +2,15 @@
 
 
 \[work in progress\]
+
+- polykinded Typeable library
+- major improvements in DPH (vectorisation avoidance, new vectoriser)
+- type holes
+- rebindable list syntax
+- major changes to the type inference engine
+- type level natural numbers
+- overlapping type families
+- the new code generator
+- support for vector (SSE/AVX) instructions
+- Scheduler changes to the RTS to improve latency
+- dynamic ghci
