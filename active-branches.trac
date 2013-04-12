@@ -16,6 +16,10 @@ Nick Frisby. We lift some lambdas before !CorePrep. I'm still determining when t
 
 Iavor S. Diatchki.  An experimental solver for discharging constraints involving natural numbers.
 
+=== `type-reasoning` on ''base'' Experiments with type-level reasoning definitions ===
+
+Richard Eisenberg / Gabor Greif. Changes to !TypeLits and related files to support type-level reasoning. Mostly superseded by conversations summarized at TypeLevelReasoning.
+
 == Inactive branches ==
 
 This is a list of inactive branches, including the date of their last commit.

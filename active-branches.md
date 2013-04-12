@@ -21,6 +21,11 @@ Nick Frisby. We lift some lambdas before CorePrep. I'm still determining when to
 
 Iavor S. Diatchki.  An experimental solver for discharging constraints involving natural numbers.
 
+### `type-reasoning` on *base* Experiments with type-level reasoning definitions
+
+
+Richard Eisenberg / Gabor Greif. Changes to TypeLits and related files to support type-level reasoning. Mostly superseded by conversations summarized at [TypeLevelReasoning](type-level-reasoning).
+
 ## Inactive branches
 
 
