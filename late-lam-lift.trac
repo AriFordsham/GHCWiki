@@ -6,6 +6,7 @@
     * SPJ says it's reasonable to implement FV-scrut directly in the simplifier --- have a brave go at implementing this
     * another benefit from lifting an LNE comes from reducing the size of the enclosing expression --- I don't see how to recover this benefit outside of the late lambda lift
     * on the other hand, some programs get slower if we leave the LNEs in --- investigate: is this solely due to inhibited simplification?
+    * so maybe lift an LNE if it's huge?
   * related easy win? Reformulating a recursive function as an LNE (if that's possible for its RHS) may give a slight speed boost
   * do not use the delayed lift-cost estimation
     * currently, we delay the cost estimation so that we can take into account free variables ("freebies") added by lifting enclosing functions
