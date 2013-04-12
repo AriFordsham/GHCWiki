@@ -42,3 +42,13 @@
     - pinning relationships
   - dynamic: total allocation change wrt to each lambda (via ticky, I guess), etc
   - **refinement 6** (experiment): is the closure growth `n` correlated to other more easily-computed characteristics of `f`
+
+- consider more possibilities for stabilisation
+
+- try running it before `SpecConstr` again (I think I missed an -O2 last time)
+
+- re-consider the partial float, if pinnings are a major issue
+
+- the residual PAPs though probably have a runtime cost
+
+- run it at the beginning of the Core2Core pipeline to demonstrate how/why that's bad
