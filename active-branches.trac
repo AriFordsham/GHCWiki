@@ -12,6 +12,10 @@ Nick Frisby. See #7782. It's stowed in a branch become of some nofib slowdowns I
 
 Nick Frisby. We lift some lambdas before !CorePrep. I'm still determining when to 'not' lift a lambda. My terse notes [wiki:LateLamLift here].
 
+=== `ticky-for-all-lets` Ticky for all `let`s ===
+
+Nick Frisby. I think this patch is in mostly good shape, but I had to revert it because of a silly mistake. Need to double-check it. It adds ticky counters for lets, even those that don't end up as proper closures.
+
 === `type-nats` Solver for Type-Level Naturals ===
 
 Iavor S. Diatchki.  An experimental solver for discharging constraints involving natural numbers.
