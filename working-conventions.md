@@ -10,7 +10,7 @@ This page has pointers to information you'll need.
 
 - Talk to other [GHC contributors](contributors).
 
-- Read the [GHC reading list](reading-list).
+- Read the [GHC reading list](reading-list) and the [commentary on the source code](commentary).
 
 - Read the [building guide](building) (link always in the left hand margin) to learn how to build and test GHC.
 
