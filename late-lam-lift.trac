@@ -8,6 +8,7 @@
     * on the other hand, some programs get slower if we leave the LNEs in --- investigate: is this solely due to inhibited simplification?
     * so maybe lift an LNE if it's huge?
   * related easy win? Reformulating a recursive function as an LNE (if that's possible for its RHS) may give a slight speed boost
+  * also, CPR sum for "nested" things was disrupting LNEs... we'd like to enable it
   * do not use the delayed lift-cost estimation
     * currently, we delay the cost estimation so that we can take into account free variables ("freebies") added by lifting enclosing functions
     * '''refinement 1''' (experiment with this as a simplification that might still be effective): be very conservative
@@ -33,13 +34,12 @@
       * pinning relationships
     * dynamic: total allocation change wrt to each lambda (via ticky, I guess), etc
     * '''refinement 6''' (experiment): is the closure growth `n` correlated to other more easily-computed characteristics of `f`
-
   * consider more possibilities for stabilisation
-
   * try running it before `SpecConstr` again (I think I missed an -O2 last time)
-
-  * re-consider the partial float, if pinnings are a major issue
-
+  * '''refinement 7''': re-consider the partial float, if pinnings are a major issue
     * the residual PAPs though probably have a runtime cost
-
+    * but is it any different than the PAP created by !CorePrep?
+    * '''refinement 7.5''': partial float PAP
+      * ie just wrt PAP creation avoidance, can we leave a residual PAP instead of not floating at all?
   * run it at the beginning of the Core2Core pipeline to demonstrate how/why that's bad
+  * measure how much cardinality=1 helps us
