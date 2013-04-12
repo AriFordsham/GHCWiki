@@ -6,6 +6,9 @@ This tree of wiki pages is a "commentary" on the GHC source code.  It contains a
 
 For the dedicated, there are [videos of Simon and Simon giving an overview of GHC](about-videos), at the 2006 [GHC Hackathon](hackathon).
 
+
+Also check out the [GHC Reading List](reading-list), which gives lots of background reading that will help you understand the actual implementation.
+
 ## Editing the Commentary
 
 
@@ -66,7 +69,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
   - [A kind for class constraints. Implemented as ConstraintKinds](kind-fact)
   - [LLVM back end](commentary/compiler/backends/llvm)
   - [Support for generic programming](commentary/compiler/generic-deriving)
-  - Notes about Template Haskell?
+  - [Notes about Template Haskell](template-haskell/conversions)
   - [Rewrite Rules](rewrite-rules): Notes about the implementation of RULEs in GHC
   - [Monad Comprehensions](monad-comprehensions): Translation rules and some implementation details 
   - [Haddock](haddock-comments): Some notes about how the Haddock comment support is implemented.  
