@@ -3,6 +3,10 @@
 
 [work in progress]
 
+As planned, we made another minor release 7.6.2 from the 7.6 branch in January 2013. This included only bug and performance fixes; no new features were added.
+
+We plan to put out a new major release 7.8.1 in November 2013. This will include several significant changes, including:
+
   * polykinded Typeable library ['''Jose Pedro Magalhaes''']
 
   * major improvements in DPH (vectorisation avoidance, new vectoriser) ['''Ben Lippmeier''']
@@ -24,3 +28,7 @@
   * Scheduler changes to the RTS to improve latency ['''Simon Marlow''']
 
   * dynamic ghci ['''Ian Lynagh''']
+
+  * cross-compilation ['''Stephen Blackheath''']
+
+There remains more to do than we will ever have time for, so please do come and join in the fun!
