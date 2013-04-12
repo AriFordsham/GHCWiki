@@ -1,8 +1,131 @@
 
-This page collects ideas about definitions to support type-level (propositional) reasoning in Haskell programs. Much of the initial content comes from the thread "RFC: Singleton equality witnesses" on ghc-devs. Currently (Feb 2013), these ideas are implemented in `GHC.TypeLits`.
+This page collects ideas about definitions to support type-level (propositional) reasoning in Haskell programs. Much of the initial content comes from the threads "RFC: Singleton equality witnesses" and "Proxy and new-typeable" on the ghc-devs and libraries mailing lists.
+
+## Current Proxy/Typeable Proposal (Apr 11, 2013)
+
+
+This proposal was sent to ghc-devs and libraries under the subject "Proxy, new Typeable, and type-level equality" on April 3, 2013. The version below has edits that incorporate the feedback from responses to that email.
+
+```wiki
+module Data.Type.Equality where
+
+data a :=: b where
+ Refl :: a :=: a
+
+-- with credit to Conal Elliott for 'ty', Erik Hesselink & Martijn van Steenbergen for 'type-equality', Edward Kmett for 'eq', and Gabor Greif for 'type-eq'
+sym :: (a :=: b) -> (b :=: a)
+trans :: (a :=: b) -> (b :=: c) -> (a :=: c)
+coerce :: (a :=: b) -> a -> b
+liftEq :: (a :=: b) -> (f a :=: f b)
+liftEq2 :: (a :=: a') -> (b :=: b') -> (f a b :=: f a' b')
+liftEq3 :: ...
+liftEq4 :: ...
+lower :: (f a :=: f b) -> a :=: b
+
+instance Eq (a :=: b) where ...
+instance Show (a :=: b) where ...
+instance Read (a :=: a) where ...
+instance Ord (a :=: b) where ...
+instance Category (:=:) where ...
+-- what other instances?
+
+data Void
+-- instances as in Edward Kmett's 'void' package
+
+absurd :: Void -> a
+
+type Refuted a = a -> Void
+data Decision a = Proved a
+                | Disproved (Refuted a)
+
+class EqT f where
+ eqT :: f a -> f b -> Maybe (a :=: b)
+
+class EqT f => DecideEqT f where
+ decideEqT :: f a -> f b -> Decision (a :=: b)
+
+defaultEqT :: DecideEqT f => f a -> f b -> Maybe (a :=: b) -- for easy writing of EqT instances
+
+instance EqT ((:=:) a) where ...
+instance DecideEqT ((:=:) a) where ...
+```
+
+```wiki
+module Data.Proxy where
+-- as in Ben Gamari's version [1]
+```
+
+\[1\]: [ https://github.com/bgamari/packages-base/blob/proxy/Data/Proxy.hs](https://github.com/bgamari/packages-base/blob/proxy/Data/Proxy.hs)
+
+```wiki
+module Data.Typeable ( … , Proxy(..), (:=:)(..) ) where
+
+...
+import GHC.TypeReasoning
+import {-# SOURCE #-} Data.Proxy
+
+...
+eqTypeable :: (Typeable a, Typeable b) => Maybe (a :=: b)
+decideEqTypeable :: (Typeable a, Typeable b) => Decision (a :=: b)
+-- can't use EqT and DecideEqT because Typeable is in Constraint, not *
+
+gcast :: (Typeable a, Typeable b) => c a -> Maybe (c b) -- it is now polykinded
+
+{-# DEPRECATED gcast1 ... #-}
+{-# DEPRECATED gcast2 ... #-}
+...
+```
+
+### Why are all of these in *base*?
+
+
+This is a great question. The reason the Data.Type.Equality module is in base
+is so that it can be used in Data.Typeable for `eqTypeable`. Does
+`eqTypeable`*need* to be in *base*? No, I (Richard) don't think so.
+If `gcast` is in *base*, `eqTypeable` can be implemented as `gcast Refl`. It seems a little strange to have something like `eqTypeable`
+defined somewhere other than Data.Typeable, but there is no technical
+restriction here. By moving `eqTypeable` out of Data.Typeable, then
+it seems we can also move Data.Type.Equality out, too.
+
+
+What about Data.Proxy? `Proxy` is re-exported from Data.Typeable, but
+it is not used in that module. The idea here is that there should be a
+canonical type to pass to `typeRep`, and `Proxy` is that canonical
+type.
+
+## Updating TypeLits/singletons
 
 
 See also [TypeNats](type-nats).
+
+
+Proposed update to GHC.TypeLits, using the definitions above:
+
+```wiki
+instance EqT (Sing :: Nat -> *) where
+  eqT = defaultEqT
+instance DecideEqT (Sing :: Nat -> *) where
+  decideEqT (SNat m) (SNat n)
+    | m == n    = Proved (unsafeCoerce Refl)
+    | otherwise = Disproved (error "...")
+
+-- similar for Symbol
+```
+
+
+With these definitions, there's an even stronger argument for keeping `(:=:)`
+in *base*: these instances would have to be orphans otherwise.
+
+
+Separate from the introduction of these instances, I would argue that
+`unsafeSingNat` and `unsafeSingSymbol` should be moved from
+GHC.TypeLits to GHC.TypeLits.Internal, which would be a new exposed module.
+These two functions are very unsafe indeed, and their inclusion in
+GHC.TypeLits seems to violate a design principle of separating out unsafe
+code. (Note that the uses of `unsafeCoerce` in GHC.TypeLits seem benign,
+and I think they should stay where they are.)
+
+## Older proposals
 
 
 Gabor Greif's proposal:
@@ -10,7 +133,7 @@ Gabor Greif's proposal:
 ```wiki
 class (kparam ~ KindParam, SingE (kparam :: OfKind k)) => SingEquality (kparam :: OfKind k) where
   type SameSing kparam :: k -> k -> *
-  type SameSing kparam = (:~:)
+  type SameSing kparam = (:=:)
   sameSing :: Sing a -> Sing b -> Maybe (SameSing kparam a b)
 
 instance SingEquality (KindParam :: OfKind Nat) where
@@ -24,35 +147,13 @@ instance SingEquality (KindParam :: OfKind Symbol) where
 Richard Eisenberg's proposal:
 
 ```wiki
--- Void and absurd are borrowed from Edward Kmett's 'void' package:
-data Void
-absurd :: Void -> a
-absurd x = case x of {}
-
-type PropNot a = a -> Void
-
-type Decision a = Either a (PropNot a)
-
 class SingE kparam => SingEquality (kparam :: OfKind k) where
-  sameSing :: forall (a :: k) (b :: k). Sing a -> Sing b -> Decision (a :~: b)
+  sameSing   :: forall (a :: k) (b :: k). Sing a -> Sing b -> 
+  decideSing :: forall (a :: k) (b :: k). Sing a -> Sing b -> Decision (a :=: b)
 ```
 
 
 I (Richard) think that using `Decision` instead of `Maybe` allows tighter programs to be written, because programmers can escape from impossible situations using `absurd`. If `sameSing` returns only a `Maybe`, then a programmer gets no information usable at the type level when the two singletons do not equal.
-
-
-Other variations:
-
-- In Edward Kmett's *void* package, he uses a different definition of `Void`:
-
-  ```wiki
-  newtype Void = Void Void
-  ```
-
-
-I'm not sure of the advantages/disadvantages of the choice of representation here. My guess is that Edward did this so his absurd function could spin infinitely. With empty case, we don't need that.
-
-- I'm not at all happy with the name `PropNot`, but I wanted to reserve `Not` for Boolean equality, as a parallel to `not`. Please suggest something better. Gabor suggests `Falsified`, or even better `Refuted`.
 
 ## Other thoughts (Richard)
 
@@ -69,7 +170,7 @@ class (kparam ~ KindParam) => SingKind (kparam :: OfKind k) where
 
 - I don't love having the functions `unsafeSingNat` and `unsafeSingSymbol` in `GHC.TypeLits`. I envision a future where, some day, a programmer could statically declare that they avoid the partial features of Haskell (along the lines of Safe Haskell, but stricter). Having these functions here means that this module would not be safe. (I am not bothered by various uses of `unsafeCoerce` within the module -- those uses certainly seem safe to me.) Instead, I propose that we move them to `GHC.TypeLits.Unsafe`.
 
-- Perhaps we should move some of what we're discussing out of `GHC.TypeLits`. After all, `(:~:)` does not interact directly with singletons, and neither do some of the definitions I mentioned above. I'm at a bit of a loss for a name, though...
+- Perhaps we should move some of what we're discussing out of `GHC.TypeLits`. After all, `(:=:)` does not interact directly with singletons, and neither do some of the definitions I mentioned above. I'm at a bit of a loss for a name, though...
 
 ## Other thoughts (Gabor)
 
@@ -83,7 +184,7 @@ Gabor: I have created a new branch `type-reasoning` and pushed everything I have
 
 Richard (11 Feb 2013): I've just pushed a commit to the type-reasoning branch with a strawman proposal of a reorganization of these definitions. Specifically, this commit breaks TypeLits into the following five files:
 
-- GHC.TypeEq, which contains the definitions for (:\~:), Void, Refuted, etc.
+- GHC.TypeEq, which contains the definitions for (:=:), Void, Refuted, etc.
 - GHC.Singletons, which contains the definitions about singletons in general, such as SingI and SingEquality
 - GHC.TypeLits.Unsafe, which contains just unsafeSingNat and unsafeSingSymbol
 - GHC.TypeLits.Internals, which is necessary to get GHC.TypeLits.Unsafe to have access to the right internals; this module is not exported from the 'base' package
