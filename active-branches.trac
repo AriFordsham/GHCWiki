@@ -6,7 +6,7 @@ Nick Frisby. See #7782. It's stowed in a branch become of some nofib slowdowns I
 
 === `late-lam-lift` Late Lambda Lift ===
 
-Nick Frisby. We lift some lambdas before CorePrep. I'm still determining when to 'not' lift a lambda.
+Nick Frisby. We lift some lambdas before !CorePrep. I'm still determining when to 'not' lift a lambda. My terse notes [wiki:LateLamLift here].
 
 === `dicts-strict` Strict Dictionaries ===
 
