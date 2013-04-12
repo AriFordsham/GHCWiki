@@ -20,7 +20,7 @@
       * if lifting `g` actually reduces the size of a closure (since, `g`'s abs_ids are freebies), then should lifting other functions (say `f`) be allowed to grow that closure accordingly?
       * this could be good: it might unpin other functions that fast-call `f`
       * it could be bad: if `f` wasn't pinning anything important, then we just wasted `g`'s improvement
-    * '''refinement 4''' (experiment): ignore !CoreProp floats
+    * '''refinement 4''' (experiment): ignore !CorePrep floats
       * measure how much it matters that we approximate !CorePrep's floats
     * '''refinement 5''' (not sure): integrate PAP-avoidance into the closure-growth estimates
   * formulate the specification as `e ~> (ups,e')`
