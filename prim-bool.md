@@ -1,7 +1,7 @@
 # Implementing primitive Bool\#
 
 
-This page gathers the notes about implementing primitive logical operations and thus resolving ticket [\#6135](https://gitlab.haskell.org//ghc/ghc/issues/6135).
+This page gathers the notes about implementing new primitive logical operations and thus resolving ticket [\#6135](https://gitlab.haskell.org//ghc/ghc/issues/6135).
 
 ## The problem
 
@@ -84,185 +84,55 @@ and in following assembler code:
 ```
 
 
-There are five possible branches to take, although four of them have the same result. This is caused by code duplication introduced by case-of-case transform (see [ this blog post](http://ics.p.lodz.pl/~stolarek/blog/2013/01/taking-magic-out-of-ghc-or-tracing-compilation-by-transformation/) for a step by step derivation). According to Ben Lippmeier, who submitted the original bug report, mis-predicted branches are bad in object code because they stall the pipeline.
+There are five possible branches to take, although four of them have the same result. This is caused by code duplication introduced by case-of-case transform (see [ this blog post](http://lambda.jstolarek.com/2013/01/taking-magic-out-of-ghc-or-tracing-compilation-by-transformation/) for a step by step derivation). According to Ben Lippmeier, who submitted the original bug report, mis-predicted branches are bad in object code because they stall the pipeline.
 
-## Workarounds
+## Solution
 
 
-It is possible to work around the issue of code duplication by using GHC primops `tagToEnum#` and `dataToTag#`. These allow to distinguish between `True` and `False` by means of accessing the tag of a data type constructor. This means that `dataToTag#` can convert `True` to `1#` and `False` to `0#`, while `tagToEnum#` does the opposite (see paper [ Faster Laziness Using Dynamic Pointer Tagging](http://research.microsoft.com/en-us/um/people/simonpj/papers/ptr-tag/index.htm) for more details): 
+The idea behind the solution is to modify comparison primops to return unboxed unlifted `Int#` instead of `Bool` (which is lifted and thus is returned as a thunk that needs to be evaluated). This will be implemented in the following way:
+
+- existing comparison primops will have their return type changed to `Int#`. Also, their names will be changed. Operators will have `$` added before `#`, others will have `I` added before the `#` (this is a mnemonic denoting that this primop returns and `Int#`). Examples:
 
 ```wiki
-ghci> import GHC.Exts
-ghci> import GHC.Prim
-ghci> :set -XMagicHash
-ghci> I# (dataToTag# True)
-1
-ghci> I# (dataToTag# False)
-0
-ghci> (tagToEnum# 0#) :: Bool
-False
-ghci> (tagToEnum# 1#) :: Bool
-True
-ghci>
+>=$#      :: Int#    -> Int#    -> Int#
+/=$##     :: Double# -> Double# -> Int#
+gtCharI#  :: Char#   -> Char#   -> Int#
+eqWordI#  :: Word#   -> Word#   -> Int#
+ltFloatI# :: Float#  -> Float#  -> Int#
+leAddrI#  :: Addr#   -> Addr#   -> Int#
+```
+
+- a new module `GHC.PrimWrappers` will be added to ghc-prim library. This module will contain wrappers for comparison primops. These wrappers will have names identical to removed primops and will return a `Bool`. Examples:
+
+```wiki
+gtChar# :: Char# -> Char# -> Bool
+gtChar# a b = tagToEnum# (a `gtCharI#` b)
+
+(>=#) :: Int# -> Int# -> Bool
+(>=#) a b = tagToEnum# (a >=$# b)
+
+eqWord# :: Word# -> Word# -> Bool
+eqWord# a b = tagToEnum# (a `eqWordI#` b)
+
+(/=##) :: Double# -> Double# -> Bool
+(/=##) a b = tagToEnum# (a /=$## b)
+
+ltFloat# :: Float# -> Float# -> Bool
+ltFloat# a b = tagToEnum# (a `ltFloatI#` b)
+
+leAddr# :: Addr# -> Addr# -> Bool
+leAddr# a b = tagToEnum# (a `leAddrI#` b)
 ```
 
 
-Having the possibility of converting `Bool` to an unboxed `Int#` allows us to compute results of logical expression by means of logical bitwise operations. The result can be converted back to a `Bool` so this is transparent on the Haskell source level, except for the fact that defined logical binary operators will be strict in both their arguments. 
+Thanks to these wrappers the change will be almost backwards compatible. The only thing primop users will need to change in their existing code to make it work again is adding import of !GHC.PrimWrappers module.
 
-**NOTE: Validity of this solution is based on assumption that `True` will always have a tag of `1#`, while `False` will have a tag of `0#`. Changing this invariant in the future would make these primitive logical operators invalid.**
+- The following boot libraries require modification in order to work with the new primops: base, ghc-prim and integer-gmp. The only required modifications are imports of the !GHC.PrimWrappers module in modules that use the primops.
 
-### First workaround
-
-
-First workaround assumes converting each result of comparison into an unboxed `Int` and replacing `||` with `+#`:
-
-```wiki
- case (dataToTag# (x <# 0#)) +# (dataToTag# (x >=# width)) +#
-      (dataToTag# (y <# 0#)) +# (dataToTag# (y >=# height)) of
-  0# -> E2 -- note that branch order is reversed
-  _  -> E1
-```
+## Proof of concept
 
 
-This compiles to:
-
-```wiki
-case +#
-       (+#
-          (+# (dataToTag# (<# x 0)) (dataToTag# (>=# x width)))
-          (dataToTag# (<# y 0)))
-       (dataToTag# (>=# y height))
-of _ {
-  __DEFAULT -> E1;
-  0 -> E2
-}
-```
-
-
-Similarly we can convert logical && into multiplication.
-
-### Second workaround
-
-
-The above workaround is a bit clumsy: `dataToTag#`s make the code verbose and it may not be very obvious what the code is doing. Hence the second workaround, that defines an alternative logical `or` operator:
-
-```wiki
-(||#) :: Bool -> Bool -> Bool
-(||#) x y = let xW = int2Word# (dataToTag# x)
-                yW = int2Word# (dataToTag# y)
-                zI = word2Int# (yW `or#` xW)
-            in tagToEnum# zI
-```
-
-
-This operator is defined in terms of primops `dataToTag#`, `tagToEnum#` and a bitwise or primop `or#`. Since the last one operates only on `Word`s we need to use `int2Word#` and `word2Int#` for conversion between these data types. Luckily, GHC does a good job of removing unnecessary conversions between data types. This means that:
-
-```wiki
- case (x <# 0#) ||# (x >=# width) ||# (y <# 0#) ||# (y >=# height) of
-  True  -> E1
-  False -> E2
-```
-
-
-compiles to:
-
-```wiki
-case tagToEnum#
-       (word2Int#
-          (or#
-             (int2Word# (dataToTag# (>=# y height)))
-             (or#
-                (int2Word# (dataToTag# (<# y 0)))
-                (or#
-                   (int2Word# (dataToTag# (>=# x width)))
-                   (int2Word# (dataToTag# (<# x 0)))))))
-of _ {
-  False -> E2;
-  True  -> E1
-}
-```
-
-
-Primitive logical operators `&&#` and `not#` can be defined in a similar matter.
-
-**NOTE: Neither of this two workarounds produces good object code. The reason is that comparison operators return a `Bool` as a thunk that needs to be evaluated. The real solution requires that no thunk is created.**
-
-## Solutions
-
-
-A good beginning would be to implementing second of the above workarounds as a primop. Then we need to create primops that return unboxed values instead of a thunk. The big question is should an unboxed version of Bool be introduced into the language?
-
-### First approach
-
-
-Treat `Bool` as a boxed version of primitive `Bool#`. `True` would be equivalent of `B# True#`, `False` of `B# False#`:
-
-```wiki
-data Bool = B# True# | B# False#
-
--- B# :: Bool# -> Bool
-```
-
-
-Not sure if this can be considered equivalent to what the Haskell Report says about Bool. We need to ensure that `Bool#` is populated only by `True#` and `False#` and that these two are translated to `1#` and `0#` in the Core. It should be **impossible** to write such a function at Haskell level:
-
-```wiki
-g :: Bool -> Int -> Int
-g (B# b) (I# i) = I# (b + i)
-```
-
-
-This approach might require one additional case expression to inspect the value of `Bool` at the Core level. For example:
-
-```wiki
-f :: Int -> Int -> Int
-f x y = if x > y
-        then x
-        else y
-```
-
-
-would compile to:
-
-```wiki
-case x of _ { I# xP ->
- case y of _ { I# yP ->
-   case ># xP yP of _ {
-     B# bP -> case bP of _ { 1# -> e1; 0# -> e2 }
-   }
- }
-}
-```
-
-
-This would complicate Core a bit but it should be possible to compile such Core to exactly the same result as with normal `Bool`. This code assumes that `>#` has type `Int# -> Int# -> Bool`, but to truly avoid branching in the Core we need `.># :: Int# -> Int# -> Bool#` so that we get a primitive value that doesn't need to be inspected using case expression but can be directly used by primitive logical operators.
-
-### Second approach
-
-
-Second approach assumes creating type `Bool#` that is independent of type `Bool`. Boxing and unboxing would have to be done explicitly via additional functions:
-
-```wiki
-data Bool = True | False -- no changes here
-
-bBox :: Bool# -> Bool
-bBox 1# = True
-bBox 0# = False
-
-bUnbox :: Bool -> Bool#
-bUnbox True  = 1#
-bUnbox False = 0#
-```
-
-`Bool#` could not be implemented as an ADT because it is unlifted and unboxed, while ADT value constructors need to be boxed and lifted (see comments in [compiler/types/TyCon.lhs](/trac/ghc/browser/ghc/compiler/types/TyCon.lhs)). There would need to be some magical way of ensuring that `Bool#` is populated only by `#0` and `1#` and that these values cannot be mixed with unboxed integers. Perhaps this could be done by preventing programmer from explicitly creating values of that type (can this be done?) and allow her only to use values returned from functions.
-
-
-Another problem with this approach is that it would introduce primitive logical operations `||#` and `&&#` with type `Int# -> Int# -> Int#` - it is questionable whether anyone would want such operations available to the programmer. I think it is desirable to have primitive logical operators of type `Bool# -> Bool# -> Bool#`.
-
-## Proposed patch (13/03/2013)
-
-
-The prototype patch posted on the trac implements six new prototype comparison primops:
+The prototype patch posted on the trac on 13th of March implemented six new prototype comparison primops:
 
 ```wiki
 .>#  :: Int# -> Int# -> Int#
@@ -296,51 +166,37 @@ case (x .<# 0#) `orI#` (x .>=# width) `orI#` (y .<# 0#) `orI#` (y .>=# height) o
 
 ```wiki
 # BB#0:                                 # %c1nK
-	movq	%rsi, %rax
-	orq	%r14, %rax
-	shrq	$63, %rax
-	cmpq	%rdi, %r14
-	setge	%cl
-	movzbl	%cl, %ecx
-	orq	%rax, %rcx
-	cmpq	%r8, %rsi
-	setge	%al
-	movzbl	%al, %eax
-	orq	%rcx, %rax
-	jne	.LBB2_1
+  movq  %rsi, %rax
+  orq %r14, %rax
+  shrq  $63, %rax
+  cmpq  %rdi, %r14
+  setge %cl
+  movzbl  %cl, %ecx
+  orq %rax, %rcx
+  cmpq  %r8, %rsi
+  setge %al
+  movzbl  %al, %eax
+  orq %rcx, %rax
+  jne .LBB2_1
 # BB#3:                                 # %c1ol
-	movq	(%rbp), %rax
-	movl	$r1m6_closure+1, %ebx
-	jmpq	*%rax  # TAILCALL
+  movq  (%rbp), %rax
+  movl  $r1m6_closure+1, %ebx
+  jmpq  *%rax  # TAILCALL
 .LBB2_1:                                # %c1nK
-	cmpq	$1, %rax
-	jne	.LBB2_2
+  cmpq  $1, %rax
+  jne .LBB2_2
 # BB#4:                                 # %c1ov
-	movq	(%rbp), %rax
-	movl	$r1m7_closure+1, %ebx
-	jmpq	*%rax  # TAILCALL
+  movq  (%rbp), %rax
+  movl  $r1m7_closure+1, %ebx
+  jmpq  *%rax  # TAILCALL
 .LBB2_2:                                # %c1ob
-	movq	r1m5_closure(%rip), %rax
-	movl	$r1m5_closure, %ebx
-	jmpq	*%rax  # TAILCALL
+  movq  r1m5_closure(%rip), %rax
+  movl  $r1m5_closure, %ebx
+  jmpq  *%rax  # TAILCALL
 ```
 
 
 The assembly does not contain comparisons and jumps in the scrutinee of the case expression, but still does jumps for selecting an appropriate branch of the case expression.
-
-
-An alternative design decision is to make the new primops return a `Word#`. I decided to use `Int#` because `Int` is used more often than `Word`. If new primops returned a `Word#` the user would have to use `int2Word#`/`word2Int#` primops to do conversions if she ever wished to box the result.
-
-
-Comparisons for `Word#`, `Float#` and `Double#` will be implemented once we make sure that the prototype implementation is correct.
-
-
-Some concerns:
-
-- should the primops return an `Int#` or `Word#` as their result?
-- what names should the new primops have? I planned to use names with a dot preceeding the operator for `Int#` and `Double#` comparisons (e.g. `./=#`, `.>##`) and names with "St" suffix for `Word#` and `Float#`, e.g. `gtWordSt#`, `gtFloatSt#` (`St` stands for 'strict' because the result can be used with the strict bitwise logical operators).
-- how to remove the old `Compare` primops (ones of type `T -> T -> Bool`)?
-- once we have the new primops do we really care about the unboxed `Bool#`?
 
 ### Benchmarks for the proposed patch
 
