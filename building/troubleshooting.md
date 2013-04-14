@@ -26,8 +26,11 @@ ghc.mk:96: *** Make has restarted itself 3 times; is there a makefile bug?.  Sto
 ```
 
 
-Simon M says: this can happen if you modify something while the build is in progress - I
+Simon M says: this can happen if you modify something while tenhe build is in progress - I
 see this quite often.  In this case the error is just overly conservative, and restarting is the right workaround.
+
+
+pgj adds: This can also happen if you are building the sources on FreeBSD in a really fast environment, i.e. on a multi-core Xeon with multiple parallel threads (`make -j`) or a memory-backed file system (`mfs`, `tmpfs`), see [\#7592](https://gitlab.haskell.org//ghc/ghc/issues/7592).  It is because precision of file timestamps is not fine-grained enough by default (due to the common VFS layer).  You can change this granularity by adjusting the value of the `vfs.timestamp_precision` sysctl(3) variable.
 
 
 If you encounter this without touching any files after typing 'make',
