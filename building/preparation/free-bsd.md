@@ -55,7 +55,8 @@ To use a more recent GCC (this is `gcc46` here) and GNU toolchain from the Ports
 
 ```wiki
   --with-gcc=$LOCALBASE/bin/gcc46 --with-gcc-4.2=$LOCALBASE/bin/gcc46 \
-  --with-ld=$LOCALBASE/bin/ld --with-ar=$LOCALBASE/bin/ar --with-ranlib=$LOCALBASE/bin/ranlib
+  --with-ld=$LOCALBASE/bin/ld --with-ar=$LOCALBASE/bin/ar \
+  --with-ranlib=$LOCALBASE/bin/ranlib
 ```
 
 
