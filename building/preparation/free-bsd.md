@@ -84,7 +84,29 @@ $ gmake
 
 Here is a random list of thoughts about things that are good to know when working on FreeBSD.
 
-- binutils / gcc
-- ncurses
-- gmp
-- tmpfs
+- The FreeBSD base system contains GCC and the GNU toolchain (at least for the time being) but they are not or only slowly updated.  GCC is technically stuck at version 4.2.1 which may not be optimal for building GHC these days.  Hence it is highly recommended to use the toolchain (`devel/binutils`) and GCC (`lang/gcc`) from the Ports Collectiom instead.
+
+- The FreeBSD base system is shipped with a version of `ncurses` but this may not be the latest.  Unfortunately, when `devel/ncurses` is installed one should add some extra lines to `mk/build.mk` to tell GNU make we want to use `ncurses` from `$LOCALBASE` (see above) instead, otherwise `terminfo` (which uses `ncurses`) becomes linked to `ncurses` in the base:
+
+```wiki
+SRC_HC_OPTS += -I$LOCALBASE/include -L$LOCALBASE/lib
+libraries/terminfo_CONFIGURE_OPTS += --configure-option=--with-curses-includes=$LOCALBASE/include --configure-option=--with-curses-libraries=$LOCALBASE/lib
+```
+
+>
+> See [\#7472](https://gitlab.haskell.org//ghc/ghc/issues/7472) for possible symptoms.
+
+- The GHC source code have an in-tree version of `libffi` and `gmp` which may work by accident -- especially if the version of `libgmp.so` and `libffi.so` matches the version installed by the ports.  But using them is not recommended as they could result in various strange build and run-time errors.  See the `configure` options to work around them.
+
+- Building GHC sources and Haskell sources in general could be sped up by setting up a `tmpfs(5)` partition.  (This is not created by the default install.)  Just replace the `/tmp` parition with a tmpfs-backed entry in `/etc/fstab`:
+
+```wiki
+tmpfs /tmp tmpfs rw,mode=777 0 0
+```
+
+>
+> and use your original `/tmp` partition as a swap device (substitute `ada0s1` with your device):
+
+```wiki
+/dev/ada0s1d none swap sw 0 0
+```
