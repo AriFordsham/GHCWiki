@@ -22,8 +22,8 @@ Criteria for Tier 1 platforms:
 || x86-64       || Linux           || x86_64-unknown-linux    || Yes          || Yes  || Yes                   || Yes          || Yes               || || ||
 || x86          || MacOS X         || i386-apple-darwin       || Yes          || Yes  || Yes                   || Yes          || No                || || [wiki:Attic/X86OSXGhc] ||
 || x86-64       || MacOS X         || x86_64-apple-darwin     || Yes          || Yes  || Yes    || Yes          || Yes               || || ||
-|| x86          || FreeBSD         || i386-unknown-freebsd    || Yes          || Yes  || Yes    || Yes          || No                || Gabor PALI || ||
-|| x86-64       || FreeBSD         || amd64-unknown-freebsd   || Yes          || Yes  || Yes    || Yes          || No                || Gabor PALI || ||
+|| x86          || FreeBSD         || i386-portbld-freebsd    || Yes          || Yes  || Yes    || Yes          || Yes                || Gabor Pali || [wiki:FreeBSDGhc] ||
+|| x86-64       || FreeBSD         || amd64-portbld-freebsd   || Yes          || Yes  || Yes    || Yes          || Yes                || Gabor Pali || [wiki:FreeBSDGhc] ||
 
 '''*W''' Win32 DLL support bitrotten[[BR]]
 
