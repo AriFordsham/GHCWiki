@@ -12,7 +12,7 @@ There are two ways to help: the Quick Fix and the True Way.
 Some bugs are easy to fix: improvements to documentation, misleading comments, poorly-worded error messages, or egregious little bugs.  In these cases, please just
 
 - Fix the code
-- Use `git send-email`, or just mail a patch to ghc-devs@….  Make sure you include in the patch description a summary of what the problem is, and the nature of your fix.
+- Use `git send-email`, or just mail a patch to ghc-devs@… (you'll need to be subscribed to the list or the mail will be silently rejected).  Make sure you include in the patch description a summary of what the problem is, and the nature of your fix.
 
 
 This route is easy for you, but more work for us; we have to [test your fix](testing-patches).  But it's a low-overhead route for easy fixes.
