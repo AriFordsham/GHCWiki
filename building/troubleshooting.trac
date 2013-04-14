@@ -21,8 +21,10 @@ If you see this when building:
 {{{
 ghc.mk:96: *** Make has restarted itself 3 times; is there a makefile bug?.  Stop.
 }}}
-Simon M says: this can happen if you modify something while the build is in progress - I
+Simon M says: this can happen if you modify something while tenhe build is in progress - I
 see this quite often.  In this case the error is just overly conservative, and restarting is the right workaround.
+
+pgj adds: This can also happen if you are building the sources on FreeBSD in a really fast environment, i.e. on a multi-core Xeon with multiple parallel threads ({{{make -j}}}) or a memory-backed file system ({{{mfs}}}, {{{tmpfs}}}), see #7592.  It is because precision of file timestamps is not fine-grained enough by default (due to the common VFS layer).  You can change this granularity by adjusting the value of the {{{vfs.timestamp_precision}}} sysctl(3) variable.
 
 If you encounter this without touching any files after typing 'make',
 then it's probably a bug in the build system.  Though unfortunately it's
@@ -428,6 +430,5 @@ Bootstrapping GHC was version 6.12.1.
 As far as I could tell all .dyn_o files had been built to allow relocation, but StgCRun.c contains some inline assembler code that specifically targets the x86 and x86_64. Upon removal and using the generic version (the part that's protected by the #ifdef USE_MINIINTERPRETER), the error shifted to another file, so the problem did not seem to be with that specific symbol that was referenced in RtsStartup.c 
 
 There was another GCC on the system however (4.3.3). Using that version did allow GHC to build. 
-
 
 
