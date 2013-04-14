@@ -8,6 +8,7 @@ This section describes how to set up your system with all the tools you need to 
 - [MacOS X](building/preparation/mac-osx)
 - [Solaris](building/preparation/solaris)
 - [Raspberry Pi](building/preparation/raspberry-pi) (cross-compiling from Linux)
+- [FreeBSD](building/preparation/free-bsd)
 
 
 Alternatively:
