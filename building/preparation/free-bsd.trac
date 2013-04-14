@@ -1,7 +1,7 @@
 
 [[PageOutline]]
 
-= Setting Up a FreeBSD system for Building GHC =
+= Setting Up a FreeBSD System for Building GHC =
 
 Building GHC on FreeBSD is currently supported on 8.1-RELEASE or later, on {{{i386}}} (x86) and {{{amd64}}} (x86_64) architectures.  One might be able to build GHC on different architectures and earlier versions but they are not maintained actively.  Note that 8.1-RELEASE is used for the FreeBSD nightly builds ([http://darcs.haskell.org/ghcBuilder/builders/pgj/ amd64 head], [http://darcs.haskell.org/ghcBuilder/builders/pgj2/ i386 head], [http://darcs.haskell.org/ghcBuilder/builders/pgj-freebsd-amd64-stable/ amd64 stable], [http://darcs.haskell.org/ghcBuilder/builders/pgj-freebsd-i386-stable/ i386 stable]).
 
