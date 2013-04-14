@@ -3,7 +3,7 @@
 
 Building GHC on FreeBSD is currently supported on 8.1-RELEASE or later, on `i386` (x86) and `amd64` (x86_64) architectures.  One might be able to build GHC on different architectures and earlier versions but they are not maintained actively.  Note that 8.1-RELEASE is used for the FreeBSD nightly builds ([ amd64 head](http://darcs.haskell.org/ghcBuilder/builders/pgj/), [ i386 head](http://darcs.haskell.org/ghcBuilder/builders/pgj2/), [ amd64 stable](http://darcs.haskell.org/ghcBuilder/builders/pgj-freebsd-amd64-stable/), [ i386 stable](http://darcs.haskell.org/ghcBuilder/builders/pgj-freebsd-i386-stable/)).
 
-*Note that this section is intended for developers and early adopters primarily.  If you are just want to install GHC on your system, simply use the [ devel/hs-haskell-platform](http://www.freshports.org/devel/hs-haskell-platform) port instead.  This port does all the things described below for you.  It is usually kept updated to match the latest Haskell Platform specifications.*
+**Note that this section is primarily intended for developers and early adopters.***If you are just want to install GHC on your system, simply use the [ devel/hs-haskell-platform](http://www.freshports.org/devel/hs-haskell-platform) port instead.  This port does all the things described below for you.  It is usually kept updated to match the latest Haskell Platform specifications.*
 
 ## Required Ports
 
