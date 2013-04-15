@@ -1,47 +1,25 @@
 
 This list overviews the active branches in the main GHC repository.
 
-### `dicts-strict` Strict Dictionaries
+# Active branches
 
+- `dicts-strict`: **Strict Dictionaries**.  Nick Frisby. Make most dictionary arguments strict. It's stowed in a branch until `cardinality` is merged. It should be easier to implement after `cardinality`'s refactoring.
 
-Nick Frisby. Make most dictionary arguments strict. It's stowed in a branch until `cardinality` is merged. It should be easier to implement after `cardinality`'s refactoring.
+- `late-dmd`: **Late Demand Analysis**. Nick Frisby. See [\#7782](https://gitlab.haskell.org//ghc/ghc/issues/7782). It's stowed in a branch become of some nofib slowdowns I'm struggling to understand.
 
-### `late-dmd` Late Demand Analysis
+- `late-lam-lift`: **Late Lambda Lift**.  Nick Frisby. We lift some lambdas before CorePrep. I'm still determining when to 'not' lift a lambda. My terse notes [here](late-lam-lift).
 
+- `ticky-for-all-lets`: **Ticky for all `let`s**.  Nick Frisby. I think this patch is in mostly good shape, but I had to revert it because of a silly mistake. Need to double-check it. It adds ticky counters for lets, even those that don't end up as proper closures.
 
-Nick Frisby. See [\#7782](https://gitlab.haskell.org//ghc/ghc/issues/7782). It's stowed in a branch become of some nofib slowdowns I'm struggling to understand.
+- `type-nats`: **Solver for Type-Level Naturals**. Iavor S. Diatchki.  An experimental solver for discharging constraints involving natural numbers.
 
-### `late-lam-lift` Late Lambda Lift
+- `type-reasoning` on *base*: ** Experiments with type-level reasoning definitions**.  Richard Eisenberg / Gabor Greif. Changes to TypeLits and related files to support type-level reasoning. Mostly superseded by conversations summarized at [TypeLevelReasoning](type-level-reasoning).
 
-
-Nick Frisby. We lift some lambdas before CorePrep. I'm still determining when to 'not' lift a lambda. My terse notes [here](late-lam-lift).
-
-### `ticky-for-all-lets` Ticky for all `let`s
-
-
-Nick Frisby. I think this patch is in mostly good shape, but I had to revert it because of a silly mistake. Need to double-check it. It adds ticky counters for lets, even those that don't end up as proper closures.
-
-### `type-nats` Solver for Type-Level Naturals
-
-
-Iavor S. Diatchki.  An experimental solver for discharging constraints involving natural numbers.
-
-### `type-reasoning` on *base* Experiments with type-level reasoning definitions
-
-
-Richard Eisenberg / Gabor Greif. Changes to TypeLits and related files to support type-level reasoning. Mostly superseded by conversations summarized at [TypeLevelReasoning](type-level-reasoning).
-
-## Inactive branches
+# Inactive branches
 
 
 This is a list of inactive branches, including the date of their last commit.
 
-### `ghc-axioms` First attempt at branched type family instances
+- `ghc-axioms`: **First attempt at branched type family instances**. Richard Eisenberg / José Pedro Magalhães / Simon PJ. Last commit was Jan 3, 2012. This was an early attempt at implementing branched type family instances. Superseded by `overlapping-tyfams`.
 
-
-Richard Eisenberg / José Pedro Magalhães / Simon PJ. Last commit was Jan 3, 2012. This was an early attempt at implementing branched type family instances. Superseded by `overlapping-tyfams`.
-
-### `overlapping-tyfams` Proper implementation of branched type family instances
-
-
-Richard Eisenberg. Last commit was Dec 21, 2012. Merged into master on Dec 21, 2012, as commit [8366792eede3c8eb486ff15d8c8e62e9363f1959](/trac/ghc/changeset/8366792eede3c8eb486ff15d8c8e62e9363f1959/ghc). See [NewAxioms](new-axioms).
+- `overlapping-tyfams`: **Proper implementation of branched type family instances**.  Richard Eisenberg. Last commit was Dec 21, 2012. Merged into master on Dec 21, 2012, as commit [8366792eede3c8eb486ff15d8c8e62e9363f1959](/trac/ghc/changeset/8366792eede3c8eb486ff15d8c8e62e9363f1959/ghc). See [NewAxioms](new-axioms).
