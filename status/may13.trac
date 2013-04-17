@@ -13,7 +13,7 @@ We plan to put out a new major release 7.8.1 in November 2013. This will include
 
   * type holes ['''Thijs Alkemade''']
 
-  * rebindable list syntax ['''Achim Krause''']
+  * '''Rebindable list syntax.''' A GHC extension called OverloadedLists was added. When this is turned on, the way GHC desugars explicit lists and lists in arithmetic sequence notation is changed. Instead of directly desugaring to built-in lists, a polymorphic witness function is used, similar to the desugaring of numeric literals. This allows for a more flexible use of list notations, supporting many different list-like types. In addition, the functions used in this desugaring process are completely rebindable.
 
   * major changes to the type inference engine ['''Simon Peyton Jones''']
 
