@@ -1,5 +1,21 @@
 # Making Releases
 
+## Make release notes
+
+
+In `docs/users_guide`, add a `$VERSION-notes.xml` file and write the release notes.
+
+
+Add a corresponding `relnotes$PATCH_LEVEL` entity to `ug-ent.xml.in`, and use the entity at the end of the chapter in `intro.xml`.
+
+## Updating the tree
+
+
+Update the `ANNOUNCE` file in the root of the tree.
+
+
+In the `AC_INIT` line of `configure.ac`, set the version number. A few lines below, set `RELEASE=YES`.
+
 ## Making the source tarball
 
 
