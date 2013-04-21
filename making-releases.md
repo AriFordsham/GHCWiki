@@ -155,15 +155,15 @@ Mail `ANNOUNCE` to `glasgow-haskell-users@haskell.org, haskell@haskell.org`, sub
 
 ## Tagging repositories
 
-
-Set `RELEASE` back to `NO` and commit.
-
 ```wiki
 ./sync-all tag ghc-7.6.2-release
 ```
 
 
 Also `git tag <<LIBRARY>>-<<VERSION>>-release`[libraries that we maintain](repositories) (other than `ghc-prim`).
+
+
+Set `RELEASE` back to `NO` and commit.
 
 ```wiki
 ./sync-all push --tags
