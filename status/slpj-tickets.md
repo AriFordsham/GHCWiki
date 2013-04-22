@@ -113,7 +113,7 @@ See also [TemplateHaskell](template-haskell)
 - [\#2346](https://gitlab.haskell.org//ghc/ghc/issues/2346): desugaring let-bindings
 - Use wildcards for dead variables in interface files.
 
-## Tiresome arithmetic things
+## Better numerics
 
 - [\#5615](https://gitlab.haskell.org//ghc/ghc/issues/5615): poor code for div with powers of 2
 - [\#4101](https://gitlab.haskell.org//ghc/ghc/issues/4101): constant folding for `(**)`

@@ -100,7 +100,7 @@ See also [wiki:TemplateHaskell]
  * #2346: desugaring let-bindings
  * Use wildcards for dead variables in interface files.
 
-== Tiresome arithmetic things ==
+== Better numerics ==
  * #5615: poor code for div with powers of 2
  * #4101: constant folding for `(**)`
  * #3676: `realToFrac` conversions
