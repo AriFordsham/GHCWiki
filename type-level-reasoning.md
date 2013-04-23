@@ -65,7 +65,7 @@ import GHC.TypeReasoning
 import {-# SOURCE #-} Data.Proxy
 
 ...
-eqTypeable :: (Typeable a, Typeable b) => Maybe (a :=: b)
+eqTypeable       :: (Typeable a, Typeable b) => Maybe    (a :=: b)
 decideEqTypeable :: (Typeable a, Typeable b) => Decision (a :=: b)
 -- can't use EqT and DecideEqT because Typeable is in Constraint, not *
 
