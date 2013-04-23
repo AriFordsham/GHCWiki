@@ -164,11 +164,11 @@ See also [TemplateHaskell](template-haskell)
 
 ### Better error messages
 
+- [\#7856](https://gitlab.haskell.org//ghc/ghc/issues/7856): function type decomposed a bit too eagerly =\> worse error
 - [\#4921](https://gitlab.haskell.org//ghc/ghc/issues/4921): ambiguous type variables
 - [\#1330](https://gitlab.haskell.org//ghc/ghc/issues/1330): another bad error message (Church2)
 - [\#2648](https://gitlab.haskell.org//ghc/ghc/issues/2648): Report out of date interface files robustly        
 - [\#1928](https://gitlab.haskell.org//ghc/ghc/issues/1928): Confusing type error message (Claus makes suggestions)        
-- [\#2900](https://gitlab.haskell.org//ghc/ghc/issues/2900): Improve decomposition of function types
 
 ---
 
