@@ -115,6 +115,7 @@ See also [TemplateHaskell](template-haskell)
 
 ## Better numerics
 
+- [\#7858](https://gitlab.haskell.org//ghc/ghc/issues/7858): `abs` on negative zero
 - [\#5615](https://gitlab.haskell.org//ghc/ghc/issues/5615): poor code for div with powers of 2
 - [\#4101](https://gitlab.haskell.org//ghc/ghc/issues/4101): constant folding for `(**)`
 - [\#3676](https://gitlab.haskell.org//ghc/ghc/issues/3676): `realToFrac` conversions
