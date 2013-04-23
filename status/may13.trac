@@ -7,7 +7,24 @@ As planned, we made another minor release 7.6.2 from the 7.6 branch in January 2
 
 We plan to put out a new major release 7.8.1 in November 2013. This will include several significant changes, including:
 
-  * polykinded Typeable library ['''Jose Pedro Magalhaes''']
+  * '''Poly-kinded `Typeable`.'''
+  The `Typeable` class is now poly-kinded, meaning we can finally drop the boilerplate `TypeableN` classes.
+  The new definition of `Typeable` is as follows:
+
+  {{{class Typeable (a :: k) where typeRep :: proxy a -> TypeRep}}}
+
+  With this change comes the ability to derive `Typeable` instances for every user datatype, and even for
+  type classes. This means user defined instances of `Typeable` are unnecessary. Furthermore, since ill-defined
+  user instances can lead to runtime errors, they are now forbidden; the only way to get `Typeable` instances
+  is by using the deriving mechanism. User-defined instances will be ignored, with a warning.
+
+  Migrating to this new `Typeable` is easy. Code that only derived `Typeable` instances, and did not mention
+  any of the `TypeableN` classes, should work as before. Code that mentioned the `TypeableN` classes should be
+  adapted to replace these by the poly-kinded `Typeable` class. User-defined instances of `Typeable` should be
+  replaced by derived instances.
+
+  Additionally, a new compiler pragma `AutoDeriveTypeable` triggers automatic derivation of `Typeable` instances
+  for all datatypes and classes defined in the module.
 
   * major improvements in DPH (vectorisation avoidance, new vectoriser) ['''Ben Lippmeier''']
 
