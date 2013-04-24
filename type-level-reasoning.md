@@ -1,7 +1,7 @@
 
 This page collects ideas about definitions to support type-level (propositional) reasoning in Haskell programs. Much of the initial content comes from the threads "RFC: Singleton equality witnesses" and "Proxy and new-typeable" on the ghc-devs and libraries mailing lists.
 
-## Current Proxy/Typeable Proposal (Apr 11, 2013)
+## Current Proxy/Typeable Proposal (Apr 24, 2013)
 
 
 This proposal was sent to ghc-devs and libraries under the subject "Proxy, new Typeable, and type-level equality" on April 3, 2013. The version below has edits that incorporate the feedback from responses to that email.
@@ -29,25 +29,10 @@ instance Ord (a :=: b) where ...
 instance Category (:=:) where ...
 -- what other instances?
 
-data Void
--- instances as in Edward Kmett's 'void' package
-
-absurd :: Void -> a
-
-type Refuted a = a -> Void
-data Decision a = Proved a
-                | Disproved (Refuted a)
-
 class EqT f where
  eqT :: f a -> f b -> Maybe (a :=: b)
 
-class EqT f => DecideEqT f where
- decideEqT :: f a -> f b -> Decision (a :=: b)
-
-defaultEqT :: DecideEqT f => f a -> f b -> Maybe (a :=: b) -- for easy writing of EqT instances
-
 instance EqT ((:=:) a) where ...
-instance DecideEqT ((:=:) a) where ...
 ```
 
 ```wiki
@@ -171,6 +156,26 @@ class (kparam ~ KindParam) => SingKind (kparam :: OfKind k) where
 - I don't love having the functions `unsafeSingNat` and `unsafeSingSymbol` in `GHC.TypeLits`. I envision a future where, some day, a programmer could statically declare that they avoid the partial features of Haskell (along the lines of Safe Haskell, but stricter). Having these functions here means that this module would not be safe. (I am not bothered by various uses of `unsafeCoerce` within the module -- those uses certainly seem safe to me.) Instead, I propose that we move them to `GHC.TypeLits.Unsafe`.
 
 - Perhaps we should move some of what we're discussing out of `GHC.TypeLits`. After all, `(:=:)` does not interact directly with singletons, and neither do some of the definitions I mentioned above. I'm at a bit of a loss for a name, though...
+
+- I wanted the following to be in Data.Type.Equality, but I think I'm the only one, so I've removed these definitions from the original proposal. If you want them, please do shout -- I'd love company!
+
+```wiki
+data Void
+-- instances as in Edward Kmett's 'void' package
+
+absurd :: Void -> a
+
+type Refuted a = a -> Void
+data Decision a = Proved a
+                | Disproved (Refuted a)
+
+class EqT f => DecideEqT f where
+ decideEqT :: f a -> f b -> Decision (a :=: b)
+
+defaultEqT :: DecideEqT f => f a -> f b -> Maybe (a :=: b) -- for easy writing of EqT instances
+
+instance DecideEqT ((:=:) a) where ...
+```
 
 ## Other thoughts (Gabor)
 
