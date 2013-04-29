@@ -3,7 +3,10 @@
 
 This page summarises a possible design that would allow
 different records to share a single field label.  Although it's a simple enough
-idea there are numerous ramifications.  Records are a swamp!
+idea there are numerous ramifications.  Records are a swamp! 
+
+**Nevertheless, this is the simplest proposal that I know that satisfies the main
+request, that of having multiple records with the same field name.**
 
 
 See also a similar [ 2003 proposal by Simon PJ and Greg Morrisset](http://research.microsoft.com/en-us/um/people/simonpj/Haskell/records.html).  It is essentially the same as the proposal below, but (a) has less detail and (b) adds anonymous record types.   Anonymous type could be an add-on feature to the design described here.
@@ -447,7 +450,15 @@ There are three problems:
   upd r = r { x = True }
   ```
 
-  But `set` cannot accomodate this change of type, at least not without much more complexity.  Maybe one solution here is to give up on type-checking updates.
+  But `set` cannot accomodate this change of type, at least not without much more complexity.  Moreover, **NO** field-at-a-time encoding can deal with the case when more than one field shares the changed type. For example, this is legal Haskell:
+
+  ```wiki
+  data S a = S { x,y :: a }
+  upd :: S Int -> S Bool
+  upd s = s { x = True, y = False }
+  ```
+
+  But any system that updates `x` and then `y` will have an ill-typed intermediate in which `x` has a `Bool` while `y` has an `Int`.  This is really the death-knell for any field-at-a-time story that seeks to be compatible with Haskell as she is now.
 
 - This approach doesn't work at all in the higher-rank case.  For example, if `r :: HR`, we are currently allowed to say
 
