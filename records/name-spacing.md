@@ -54,22 +54,9 @@ type IN = InconvenientName
 
 ## Agda: A case for why name-spacing alone is a good enough solution
 
-- You can use a type synonym to abbreviate the namespace part (as
-
-
-shown above.)
-
-- If there's no ambiguity you don't need to use a namespace (e.g. you
-
-
-can use 'a' instead of 'Record.a').
-
-- The namespace name is predictable (e.g. \<Typename\>.\<fieldname\>)
-
-
-while ad-hoc prefixes tend to use different conventions e.g. the whole
-record name (e.g. 'recordA') or some abbreviation thereof (e.g.
-'rcrdA'.)
+- You can use a type synonym to abbreviate the namespace part (as shown above.)
+- If there's no ambiguity you don't need to use a namespace (e.g. you can use 'a' instead of 'Record.a').
+- The namespace name is predictable (e.g. \<Typename\>.\<fieldname\>) while ad-hoc prefixes tend to use different conventions e.g. the whole record name (e.g. 'recordA') or some abbreviation thereof (e.g. 'rcrdA'.)
 
 
 The main argument for this approach is its simplicity; it's simple to
