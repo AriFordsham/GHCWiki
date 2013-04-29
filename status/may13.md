@@ -1,16 +1,29 @@
 # GHC Status Report May 2013
 
 
-\[work in progress\]
-
-
 As planned, we made another minor release 7.6.2 from the 7.6 branch in January 2013. This included only bug and performance fixes; no new features were added.
+We plan to put out a new major release 7.8.1 soon after ICFP 2013, including
+some significant changes described below.
 
 
-We plan to put out a new major release 7.8.1 in November 2013. This will include several significant changes, including:
+There remains more to do than we will ever have time for, so please do come and join in the fun!
+
+## Source language and type system
+
+
+Simon and Dimitrios overhauled the solver for type constraints,
+once more.  No new functionality, but the result is smaller,
+faster, and lacks many of the bugs of its predecessor.  You don't
+want to know all the details, but it reminded us again of how
+valuable it is that the constraint solve is now one coherent
+piece of code, with a well-defined task, than being spread out in
+bits and pieces across the type checker.
+
+
+Meanwhile others have been adding new features.
 
 - **Poly-kinded `Typeable`.**
-  The `Typeable` class is now poly-kinded, meaning we can finally drop the boilerplate `TypeableN` classes.
+  The `Typeable` class is now kind-polymorphic, meaning we can finally drop the boilerplate `TypeableN` classes.
   The new definition of `Typeable` is as follows:
 
 > `class Typeable (a :: k) where typeRep :: proxy a -> TypeRep`
@@ -31,17 +44,15 @@ We plan to put out a new major release 7.8.1 in November 2013. This will include
 > Additionally, a new compiler pragma `AutoDeriveTypeable` triggers automatic derivation of `Typeable` instances
 > for all datatypes and classes defined in the module.
 
-- major improvements in DPH (vectorisation avoidance, new vectoriser) \[**Ben Lippmeier**\]
+- Type holes \[**Thijs Alkemade**\]
 
-- type holes \[**Thijs Alkemade**\]
-
-- **Rebindable list syntax.** A GHC extension called [OverloadedLists](overloaded-lists) was added. When this is turned on, the way GHC desugars explicit lists and lists in arithmetic sequence notation is changed. Instead of directly desugaring to built-in lists, a polymorphic witness function is used, similar to the desugaring of numeric literals. This allows for a more flexible use of list notations, supporting many different list-like types. In addition, the functions used in this desugaring process are completely rebindable.
-
-- major changes to the type inference engine \[**Simon Peyton Jones**\]
+- **Rebindable list syntax.** A GHC extension called [overloaded lists](overloaded-lists) was added by Achim Krause, George Giorgidze, and colleagues. When this is turned on, the way GHC desugars explicit lists and lists in arithmetic sequence notation is changed. Instead of directly desugaring to built-in lists, a polymorphic witness function is used, similar to the desugaring of numeric literals. This allows for a more flexible use of list notations, supporting many different list-like types. In addition, the functions used in this desugaring process are completely rebindable.
 
 - type level natural numbers \[**Iavor S. Diatchki**\]
 
 - overlapping type families \[**Richard Eisenberg**\]
+
+## Back end and code generation
 
 - **The new code generator.** \[entry copied from Oct 2012 status report\] Several years since this project was started, the new code generator is finally working  \[1\], and is now switched on by default in `master`.  It will be in GHC 7.8.1.  From a user's perspective there should be very little difference, though some programs will be faster.
 
@@ -56,13 +67,18 @@ We plan to put out a new major release 7.8.1 in November 2013. This will include
 
 - support for vector (SSE/AVX) instructions \[**Geoffrey Mainland**\]
 
+## Data Parallel Haskell
+
+- major improvements in DPH (vectorisation avoidance, new vectoriser) \[**Ben Lippmeier**\]
+
+## The runtime system
+
 - The new parallel I/O manager \[**Andreas Voellmy**\]
+
+## Building and linking
 
 - **Dynamic ghci.** Ian Lynagh has changed GHCi to use dynamic libraries rather than static libraries. This means that we are now able to use the system linker to load packages, rather than having to implement our own linker. From the user's point of view, that means that a number of long-standing bugs in GHCi will be fixed, and it also reduces the amount of work needed to get a fully functional GHC port to a new platform. Currently, on Windows GHCi still uses static libraries, but we hope to have dynamic libraries working on Windows too by the time we release.
 
 - cross-compilation \[**Stephen Blackheath**\]
-
-
-There remains more to do than we will ever have time for, so please do come and join in the fun!
 
 \[1\] The new codegen is nearly ready to go live [ http://hackage.haskell.org/trac/ghc/blog/newcg-update](http://hackage.haskell.org/trac/ghc/blog/newcg-update)
