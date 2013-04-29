@@ -3,7 +3,10 @@
 
 This page summarises a possible design that would allow
 different records to share a single field label.  Although it's a simple enough
-idea there are numerous ramifications.  Records are a swamp!
+idea there are numerous ramifications.  Records are a swamp! 
+
+**Nevertheless, this is the simplest proposal that I know that satisfies the main
+request, that of having multiple records with the same field name.**
 
 
 See also a similar [ 2003 proposal by Simon PJ and Greg Morrisset](http://research.microsoft.com/en-us/um/people/simonpj/Haskell/records.html).  It is essentially the same as the proposal below, but (a) has less detail and (b) adds anonymous record types.   Anonymous type could be an add-on feature to the design described here.
