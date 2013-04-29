@@ -332,7 +332,13 @@ data R a = R { x :: a }
 upd :: R Int -> R Bool
 upd r = r { x = True }
 }}}
- But `set` cannot accomodate this change of type, at least not without much more complexity.  Maybe one solution here is to give up on type-checking updates.
+ But `set` cannot accomodate this change of type, at least not without much more complexity.  Moreover, '''NO''' field-at-a-time encoding can deal with the case when more than one field shares the changed type. For example, this is legal Haskell:
+{{{
+data S a = S { x,y :: a }
+upd :: S Int -> S Bool
+upd s = s { x = True, y = False }
+}}}
+ But any system that updates `x` and then `y` will have an ill-typed intermediate in which `x` has a `Bool` while `y` has an `Int`.  This is really the death-knell for any field-at-a-time story that seeks to be compatible with Haskell as she is now.
 
  * This approach doesn't work at all in the higher-rank case.  For example, if `r :: HR`, we are currently allowed to say
 {{{
