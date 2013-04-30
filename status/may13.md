@@ -60,11 +60,11 @@ type instance where
 ```
 
 
-Details can be found in the wiki page \[2\].
+Details can be found in the wiki page \[1\].
 
 ## Back end and code generation
 
-- **The new code generator.** \[entry copied from Oct 2012 status report\] Several years since this project was started, the new code generator is finally working  \[1\], and is now switched on by default in `master`.  It will be in GHC 7.8.1.  From a user's perspective there should be very little difference, though some programs will be faster.
+- **The new code generator.** \[entry copied from Oct 2012 status report\] Several years since this project was started, the new code generator is finally working  \[2\], and is now switched on by default in `master`.  It will be in GHC 7.8.1.  From a user's perspective there should be very little difference, though some programs will be faster.
 
 >
 > There are three important improvements in the generated code.  One is that `let-no-escape` functions are now compiled much more efficiently: a recursive `let-no-escape` now turns into a real loop in C--.  The second improvement is that global registers (R1, R2, etc.) are now available for the register allocator to use within a function, provided they aren't in use for argument passing.  This means that there are more registers available for complex code sequences.  The third improvement is that we have a new sinking pass that replaces the old "mini-inliner" from the native code generator, and is capable of optimisations that the old pass couldn't do.
@@ -91,4 +91,5 @@ Details can be found in the wiki page \[2\].
 
 - Three connected projects: **registerised ARM support** added using David Terei's LLVM compiler back end with Stephen Blackheath doing an initial ARMv5 version and LLVM patch and Karel Gardas working on floating point support, ARMv7 compatibility and LLVM headaches. Ben Gamari did work on the runtime linker for ARM; **general cross-compiling** with much work by Stephen Blackheath and Gabor Greif (though many others have worked on this); culminating in the ability to compile GHC into a **cross compiler for iOS** (see [ http://hackage.haskell.org/trac/ghc/wiki/Building/CrossCompiling/iOS](http://hackage.haskell.org/trac/ghc/wiki/Building/CrossCompiling/iOS)) iOS-specific parts were mostly Stephen Blackheath with Luke Iannini on the Cabal patch, testing and supporting infrastructure, also with assistance and testing by Miëtek Bak and Jonathan Fischoff, and thanks to many others for testing; The iOS cross compiler was started back in 2009 by Stephen Blackheath with funding from Ryan Trinkle of iPwn Studios. Thanks to Ian Lynagh for making it easy for us with integration, makefile refactoring and patience, and to David Terei for LLVM assistance.
 
-\[1\] Overlapping type family instances:  [ http://hackage.haskell.org/trac/ghc/wiki/NewAxioms](http://hackage.haskell.org/trac/ghc/wiki/NewAxioms)\[2\] The new codegen is nearly ready to go live [ http://hackage.haskell.org/trac/ghc/blog/newcg-update](http://hackage.haskell.org/trac/ghc/blog/newcg-update)
+\[1\] Overlapping type family instances:  [ http://hackage.haskell.org/trac/ghc/wiki/NewAxioms](http://hackage.haskell.org/trac/ghc/wiki/NewAxioms)
+\[2\] The new codegen is nearly ready to go live [ http://hackage.haskell.org/trac/ghc/blog/newcg-update](http://hackage.haskell.org/trac/ghc/blog/newcg-update)
