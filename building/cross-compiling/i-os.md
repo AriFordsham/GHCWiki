@@ -8,7 +8,7 @@ Currently we do not build fat binaries (we'd like to fix this), which means you 
 ### 1. Read ARM-specific notes
 
 
-See [Cross-compiling GHC](building/cross-compiling) at the bottom. In particular, you need to install llvm version 3.0 or \>= 3.2.
+See [Cross-compiling GHC](building/cross-compiling) at the bottom. In particular, you need to install llvm version 3.0 or \>= 3.2. Version 3.0 definitely works. There may be outstanding issues with version 3.2.
 
 ### 2. Scripts
 
