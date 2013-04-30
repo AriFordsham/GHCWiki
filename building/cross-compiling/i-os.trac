@@ -1,23 +1,12 @@
 = Building a GHC cross-compiler for Apple iOS targets =
 
-Status of cross-compilation to iOS is in ticket #7724. 
-
-The pull request for changes to Cabal (https://github.com/haskell/cabal/pull/1214) has now been integrated into mainline Cabal, but this is not in GHC at the time of writing. Type 'git log' in the libraries/Cabal directory and search for these commits:
- https://github.com/haskell/cabal/commit/69af83ec243cf49b849dcf6c449e8d782095b570, https://github.com/haskell/cabal/commit/fa448266af549336ab29db1978c47120de3deef7 and https://github.com/haskell/cabal/commit/7a0941c88a010dda66ad55c70eea5c33a4b25cef
-
-If they're not there, then do this to work around it:
-{{{
-git remote add lukes git@github.com:ghc-ios/packages-Cabal.git
-git pull lukes master
-}}}
-
 Currently we do not build fat binaries (we'd like to fix this), which means you need to choose the right architecture for your device.
 
 == Steps ==
 
 === 1. Read ARM-specific notes ===
 
-See [wiki:Building/CrossCompiling Cross-compiling GHC] at the bottom. In particular, you need to install llvm version 3.0 or >= 3.2.
+See [wiki:Building/CrossCompiling Cross-compiling GHC] at the bottom. In particular, you need to install llvm version 3.0 or >= 3.2. Version 3.0 definitely works. There may be outstanding issues with version 3.2.
 
 === 2. Scripts ===
 
@@ -179,5 +168,4 @@ Outstanding issues we should fix in rough priority order.
  * Would be nice to not have to disable dead-code removal. (Simon Marlow says "we have special hacks so that you don't have to disable dead-code removal on OS X, in the native code generator and (I presume) in the LLVM backend. Perhaps this just needs to be adapted to work on iOS too?")
  * Test cabal more, as there are likely to be some areas where cross-compiling isn't quite right yet
  * Fix the copious link warnings
- * Could we have a global adjustor pool instead of one per "wrapper"?
  * Stop llvm generating an unnecessary 'bx lr' (return) instruction after the GHC calling convention (which is actually a goto)
