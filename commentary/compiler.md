@@ -15,7 +15,13 @@ The compiler itself is written entirely in Haskell, and lives in the many sub-di
   - Some details of the [parser](commentary/compiler/parser)
   - Some details of the [renamer](commentary/compiler/renamer)
   - Some details of the [typechecker](commentary/compiler/type-checker)
-  - Some details of the [code generator](commentary/compiler/code-gen)
+  - Some details of the [code generator](commentary/compiler/code-gen) converts STG to Cmm
+  - [Backends](commentary/compiler/backends) convert Cmm to native code:
+
+    - [C code generator](commentary/compiler/backends/ppr-c)
+    - [Native code generator](commentary/compiler/backends/ncg)
+    - [LLVM backend](commentary/compiler/backends/llvm)
+    - [GHCi backend](commentary/compiler/backends/gh-ci)
   - A guide to the [generated assembly code](commentary/compiler/generated-code)
 
 - [Key data types](commentary/compiler/key-data-types)
@@ -35,19 +41,13 @@ The compiler itself is written entirely in Haskell, and lives in the many sub-di
   - [The Cmm language](commentary/compiler/cmm-type)
   - [Back end types](commentary/compiler/back-end-types)
 
-- [Data types](commentary/compiler/data-types)
+- [How data type declarations are compiled](commentary/compiler/data-types)
 - [The GHC API](commentary/compiler/api)
 - [Symbol names and the Z-encoding](commentary/compiler/symbol-names)
-- Template Haskell?
+- [Template Haskell](template-haskell/conversions)
 - [Wired-in and known-key things](commentary/compiler/wired-in)
 - [Packages](commentary/compiler/packages)
 - [Recompilation Avoidance](commentary/compiler/recompilation-avoidance)
-- [Backends](commentary/compiler/backends):
-
-  - [C code generator](commentary/compiler/backends/ppr-c)
-  - [Native code generator](commentary/compiler/backends/ncg)
-  - [LLVM backend](commentary/compiler/backends/llvm)
-  - [GHCi backend](commentary/compiler/backends/gh-ci)
 
 
 Case studies:

@@ -15,7 +15,12 @@ The compiler itself is written entirely in Haskell, and lives in the many sub-di
    * Some details of the [wiki:Commentary/Compiler/Parser parser]
    * Some details of the [wiki:Commentary/Compiler/Renamer renamer]
    * Some details of the [wiki:Commentary/Compiler/TypeChecker typechecker]
-   * Some details of the [wiki:Commentary/Compiler/CodeGen code generator]
+   * Some details of the [wiki:Commentary/Compiler/CodeGen code generator] converts STG to Cmm
+   * [wiki:Commentary/Compiler/Backends Backends] convert Cmm to native code:
+     * [wiki:Commentary/Compiler/Backends/PprC C code generator]
+     * [wiki:Commentary/Compiler/Backends/NCG Native code generator]
+     * [wiki:Commentary/Compiler/Backends/LLVM LLVM backend]
+     * [wiki:Commentary/Compiler/Backends/GHCi GHCi backend]
    * A guide to the [wiki:Commentary/Compiler/GeneratedCode generated assembly code]
 
  * [wiki:Commentary/Compiler/KeyDataTypes Key data types]
@@ -33,18 +38,13 @@ The compiler itself is written entirely in Haskell, and lives in the many sub-di
    * [wiki:Commentary/Compiler/CmmType The Cmm language]
    * [wiki:Commentary/Compiler/BackEndTypes Back end types]
  
- * [wiki:Commentary/Compiler/DataTypes Data types]
+ * [wiki:Commentary/Compiler/DataTypes How data type declarations are compiled]
  * [wiki:Commentary/Compiler/API The GHC API]
  * [wiki:Commentary/Compiler/SymbolNames Symbol names and the Z-encoding]
- * [wiki:Commentary/Compiler/TemplateHaskell Template Haskell]
+ * [wiki:TemplateHaskell/Conversions Template Haskell]
  * [wiki:Commentary/Compiler/WiredIn Wired-in and known-key things]
  * [wiki:Commentary/Compiler/Packages Packages]
  * [wiki:Commentary/Compiler/RecompilationAvoidance Recompilation Avoidance]
- * [wiki:Commentary/Compiler/Backends Backends]:
-   * [wiki:Commentary/Compiler/Backends/PprC C code generator]
-   * [wiki:Commentary/Compiler/Backends/NCG Native code generator]
-   * [wiki:Commentary/Compiler/Backends/LLVM LLVM backend]
-   * [wiki:Commentary/Compiler/Backends/GHCi GHCi backend]
 
 Case studies:
 
