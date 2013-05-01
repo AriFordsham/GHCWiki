@@ -16,7 +16,7 @@ This page summarises work that Norman Ramsey, Simon M, Simon PJ, and John Dias a
 
  * Simon M added a [blog:newcg-update Blog Post] about the new code generator status
 
- * Link to [http://research.microsoft.com/en-us/um/people/simonpj/papers/other-authors/krzysztof-wos-project Krzysztof Wos's project], in which he reports great performance improvements by turning tail recursion into loops in C--.
+ * Link to [http://research.microsoft.com/en-us/um/people/simonpj/papers/other-authors/krzysztof-wos-project Krzysztof Wos's project] [http://research.microsoft.com/en-us/um/people/simonpj/tmp/wos-diss-draft.pdf fixed link], in which he reports great performance improvements by turning tail recursion into loops in C--.
 
  * Norman added a [wiki:Commentary/Compiler/HooplPerformance Hoopl performance page]
 
@@ -85,7 +85,6 @@ We currently have a code generator that is correct, but slow and stupid. The pri
 1. We teach the register spiller about another location: a value may be in a register, on the stack in a register slot, OR (and this is the new bit) inside a call area. If it’s in a call area, reload from that instead of of its slot location. This might require borrowing some code from the code motion improvements in my private branch (http://github.com/ezyang/ghc).
 
 2. We change the stack layout code to perform interference on a per-word, rather than per-area level. Because this may cause a very huge interference graph, we bound the number of conflicts we remember; instead of recording every slot a slot may conflict with, we remember some number, and if there are more, we just say it conflicts with everything. (There is some potential for statistics and tuning parameters here.)
-
 
 
 
