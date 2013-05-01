@@ -75,10 +75,7 @@ Details can be found in the wiki page [1].
 
  * '''Vectorisation Avoidance'''. Gabriele Keller and Manuel Chakravarty have extended the DPH vectoriser with an analysis that determines when expressions cannot profitably be vectorised. Vectorisation avoidance improves compile times for DPH programs, as well as simplifying the handling of vectorised primitive operations. This work is now complete and will be in GHC 7.8. 
 
- * '''New Fusion Framework'''.  Ben Lippmeier has been waging a protracted battle with the problem of array fusion. Absolute performance in DPH is critically dependent on a good array fusion system. However, methods such as stream fusion used in Data.Vector and delayed array fusion used in Repa do not handle the case where an array is consumed by multiple consumers.  
-
-
-  * major improvements in DPH (vectorisation avoidance, new vectoriser) ['''Ben Lippmeier''']
+ * '''New Fusion Framework'''.  Ben Lippmeier has been waging a protracted battle with the problem of array fusion. Absolute performance in DPH is critically dependent on a good array fusion system, but existing methods cannot properly fuse the code produced by the DPH vectoriser. An important case is when a produced array is consumed by multiple consumers. In vectorised code this is very common, but none of the "short cut" array fusion approaches can handle it -- eg stream fusion used in Data.Vector, delayed array fusion in Repa, build/foldr fusion etc. The good news is that we've found a solution that handles this case and others, based on Richard Waters's series expressions, and are now working on an implementation. The new fusion system is embodied by a GHC plugin that performs a custom core-to-core transformation, and some added support to the existing Repa library. We've pushing to get the first version working for a paper at the upcoming Haskell Symposium.
 
 == The runtime system ==
 
