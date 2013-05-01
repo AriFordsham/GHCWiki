@@ -73,6 +73,11 @@ Details can be found in the wiki page [1].
 
 == Data Parallel Haskell ==
 
+ * '''Vectorisation Avoidance'''. Gabriele Keller and Manuel Chakravarty have extended the DPH vectoriser with an analysis that determines when expressions cannot profitably be vectorised. Vectorisation avoidance improves compile times for DPH programs, as well as simplifying the handling of vectorised primitive operations. This work is now complete and will be in GHC 7.8. 
+
+ * '''New Fusion Framework'''.  Ben Lippmeier has been waging a protracted battle with the problem of array fusion. Absolute performance in DPH is critically dependent on a good array fusion system. However, methods such as stream fusion used in Data.Vector and delayed array fusion used in Repa do not handle the case where an array is consumed by multiple consumers.  
+
+
   * major improvements in DPH (vectorisation avoidance, new vectoriser) ['''Ben Lippmeier''']
 
 == The runtime system ==
