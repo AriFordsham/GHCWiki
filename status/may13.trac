@@ -56,7 +56,7 @@ type instance where
   Equals x y = False
 }}}
 
-Details can be found in the wiki page [1].
+   Details can be found in the wiki page [1].
 
 == Back end and code generation ==
 
@@ -77,25 +77,37 @@ Details can be found in the wiki page [1].
 
  * '''New Fusion Framework'''.  Ben Lippmeier has been waging a protracted battle with the problem of array fusion. Absolute performance in DPH is critically dependent on a good array fusion system, but existing methods cannot properly fuse the code produced by the DPH vectoriser. An important case is when a produced array is consumed by multiple consumers. In vectorised code this is very common, but none of the "short cut" array fusion approaches can handle it -- eg stream fusion used in Data.Vector, delayed array fusion in Repa, build/foldr fusion etc. The good news is that we've found a solution that handles this case and others, based on Richard Waters's series expressions, and are now working on an implementation. The new fusion system is embodied by a GHC plugin that performs a custom core-to-core transformation, and some added support to the existing Repa library. We're pushing to get the first version working for a paper at the upcoming Haskell Symposium.
 
-== The runtime system ==
+== A faster I/O manager ==
 
-  * '''Faster I/O Manager'''
-  Andreas Voellmy performed a significant reworking of the IO manager to improve multicore scaling and sequential speed.  The most significant problems of the old IO manager were (1) severe contention (under some workloads) on a single MVar holding the table of callbacks, (2) invoking a callback typically requires messaging across capabilities, (3) polling for ready files performs an OS context switch, causing excessive context switching.  These problems contribute greatly to the response time of servers written in Haskell.
+Andreas Voellmy performed a significant reworking of the IO manager to improve multicore scaling and sequential speed.  The most significant problems of the old IO manager were (1) severe contention (under some workloads) on a single MVar holding the table of callbacks, (2) invoking a callback typically requires messaging across capabilities, (3) polling for ready files performs an OS context switch, causing excessive context switching.  These problems contribute greatly to the response time of servers written in Haskell.
 
-  The redesigned IO manager addresses these problems in the following ways. We replace the single MVar for the callback table with a simple concurrent hash table, allowing for more concurrent registrations and callbacks. We use one IO manager service thread per capability, each with its own callback table and with the service thread for a given capability serving the waiting Haskell threads that were running (and will be woken up) on that capability. This further reduces contention on callback tables, ensures that notifying a thread is typically done without cross-capability messaging and allows the work of polling and notifying threads to be parallelized across cores.  To reduce context switching, we modify the service loops to first poll without waiting, which can be done without releasing the HEC (which would typically incur an OS context switch). 
+The redesigned IO manager addresses these problems in the following ways. We replace the single MVar for the callback table with a simple concurrent hash table, allowing for more concurrent registrations and callbacks. We use one IO manager service thread per capability, each with its own callback table and with the service thread for a given capability serving the waiting Haskell threads that were running (and will be woken up) on that capability. This further reduces contention on callback tables, ensures that notifying a thread is typically done without cross-capability messaging and allows the work of polling and notifying threads to be parallelized across cores.  To reduce context switching, we modify the service loops to first poll without waiting, which can be done without releasing the HEC (which would typically incur an OS context switch). 
 
-  The new IO manager also takes advantage of the edge-triggered and one-shot modes of epoll on Linux to achieve further performance improvements on Linux.
+The new IO manager also takes advantage of the edge-triggered and one-shot modes of epoll on Linux to achieve further performance improvements on Linux.
 
-  These changes result in substantial performance improvements in some applications. In particular, we implemented a minimal web server and found that performance with the new "parallel" IO manager improved by a factor of 19 versus the old IO manager; with the old IO manager, our server achieved a peak performance of roughly 45000 http requests per second using 8 cores (performance degraded after 8 cores), while the same server using the parallel IO manager serves 860000 requests/sec using 18 cores.  (See https://twitter.com/bos31337/status/284701554458640384 for more details.) We have measured similar improvements in the response time of servers written in Haskell. 
+These changes result in substantial performance improvements in some applications. In particular, we implemented a minimal web server and found that performance with the new "parallel" IO manager improved by a factor of 19 versus the old IO manager; with the old IO manager, our server achieved a peak performance of roughly 45000 http requests per second using 8 cores (performance degraded after 8 cores), while the same server using the parallel IO manager serves 860000 requests/sec using 18 cores [3].  We have measured similar improvements in the response time of servers written in Haskell. 
 
-  Kazu Yamamoto contributed greatly to the project by implementing the redesign for BSD-based systems using kqueue and by improving the code in order to bring it up to GHC's standards. In addition, Bryan O'Sullivan and Johan Tibell provided critical guidance and reviews.
+Kazu Yamamoto contributed greatly to the project by implementing the redesign for BSD-based systems using kqueue and by improving the code in order to bring it up to GHC's standards. In addition, Bryan O'Sullivan and Johan Tibell provided critical guidance and reviews.
 
-== Building and linking ==
+== Dynamic linking ==
 
-  * '''Dynamic ghci.''' Ian Lynagh has changed GHCi to use dynamic libraries rather than static libraries. This means that we are now able to use the system linker to load packages, rather than having to implement our own linker. From the user's point of view, that means that a number of long-standing bugs in GHCi will be fixed, and it also reduces the amount of work needed to get a fully functional GHC port to a new platform. Currently, on Windows GHCi still uses static libraries, but we hope to have dynamic libraries working on Windows too by the time we release.
+Ian Lynagh has changed GHCi to use dynamic libraries rather than static libraries. This means that we are now able to use the system linker to load packages, rather than having to implement our own linker. From the user's point of view, that means that a number of long-standing bugs in GHCi will be fixed, and it also reduces the amount of work needed to get a fully functional GHC port to a new platform. Currently, on Windows GHCi still uses static libraries, but we hope to have dynamic libraries working on Windows too by the time we release.
 
-  * Three connected projects: '''registerised ARM support''' added using David Terei's LLVM compiler back end with Stephen Blackheath doing an initial ARMv5 version and LLVM patch and Karel Gardas working on floating point support, ARMv7 compatibility and LLVM headaches. Ben Gamari did work on the runtime linker for ARM; '''general cross-compiling''' with much work by Stephen Blackheath and Gabor Greif (though many others have worked on this); culminating in the ability to compile GHC into a '''cross compiler for iOS''' (see http://hackage.haskell.org/trac/ghc/wiki/Building/CrossCompiling/iOS) iOS-specific parts were mostly Stephen Blackheath with Luke Iannini on the Cabal patch, testing and supporting infrastructure, also with assistance and testing by Miëtek Bak and Jonathan Fischoff, and thanks to many others for testing; The iOS cross compiler was started back in 2009 by Stephen Blackheath with funding from Ryan Trinkle of iPwn Studios. Thanks to Ian Lynagh for making it easy for us with integration, makefile refactoring and patience, and to David Terei for LLVM assistance.
+== Cross compilation ==
+
+Three connected projects concerned cross-compilation
+
+* '''Registerised ARM support''' added using David Terei's LLVM compiler back end with Stephen Blackheath doing an initial ARMv5 version and LLVM patch and Karel Gardas working on floating point support, ARMv7 compatibility and LLVM headaches. Ben Gamari did work on the runtime linker for ARM.
+
+* '''General cross-compiling''' with much work by Stephen Blackheath and Gabor Greif (though many others have worked on this).
+
+* '''A cross-compiler for Apple iOS''' [4]. iOS-specific parts were mostly Stephen Blackheath with Luke Iannini on the Cabal patch, testing and supporting infrastructure, also with assistance and testing by Miëtek Bak and Jonathan Fischoff, and thanks to many others for testing; The iOS cross compiler was started back in 2009 by Stephen Blackheath with funding from Ryan Trinkle of iPwn Studios.
+
+Thanks to Ian Lynagh for making it easy for us with integration, makefile refactoring and patience, and to David Terei for LLVM assistance.
 
 [1] Overlapping type family instances:  http://hackage.haskell.org/trac/ghc/wiki/NewAxioms 
 [[br]]
 [2] The new codegen is nearly ready to go live [http://hackage.haskell.org/trac/ghc/blog/newcg-update] [[BR]]
+[3] The results are amazing [https://twitter.com/bos31337/status/284701554458640384]]
+[[br]]
+[4] Building for Apple iOS targets [http://hackage.haskell.org/trac/ghc/wiki/Building/CrossCompiling/iOS]
