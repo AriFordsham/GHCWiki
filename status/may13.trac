@@ -88,7 +88,7 @@ Details can be found in the wiki page [1].
 
   These changes result in substantial performance improvements in some applications. In particular, we implemented a minimal web server and found that performance with the new "parallel" IO manager improved by a factor of 19 versus the old IO manager; with the old IO manager, our server achieved a peak performance of roughly 45000 http requests per second using 8 cores (performance degraded after 8 cores), while the same server using the parallel IO manager serves 860000 requests/sec using 18 cores.  (See https://twitter.com/bos31337/status/284701554458640384 for more details.) We have measured similar improvements in the response time of servers written in Haskell. 
 
-  Kazu Yamamoto contributed greatly to the project by implementing the redesign for BSD-based systems using kqueue and by improving the code in order to bring it up to GHC's standards. In addition, Bryan O'Sullivan and Johan Tibbel provided critical guidance and reviews.
+  Kazu Yamamoto contributed greatly to the project by implementing the redesign for BSD-based systems using kqueue and by improving the code in order to bring it up to GHC's standards. In addition, Bryan O'Sullivan and Johan Tibell provided critical guidance and reviews.
 
 == Building and linking ==
 
