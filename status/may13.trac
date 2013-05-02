@@ -108,7 +108,7 @@ Three connected projects concerned cross-compilation
 Thanks to Ian Lynagh for making it easy for us with integration, makefile refactoring and patience, and to David Terei for LLVM assistance.
 
 [TYH] Type holes [http://www.haskell.org/haskellwiki/GHC/TypeHoles Type Holes] [[br]]
-[OL] Overloaded lists [wiki:OverloadedLists overloaded lists]
+[OL] Overloaded lists [wiki:OverloadedLists overloaded lists] [[br]]
 [KD] Kinds without data [http://hackage.haskell.org/trac/ghc/wiki/GhcKinds/KindsWithoutData] [[br]]
 [OTF] Overlapping type family instances [http://hackage.haskell.org/trac/ghc/wiki/NewAxioms] [[br]]
 [CG] The new codegen is nearly ready to go live [http://hackage.haskell.org/trac/ghc/blog/newcg-update] [[BR]]
