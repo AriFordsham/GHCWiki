@@ -97,11 +97,11 @@ Ian Lynagh has changed GHCi to use dynamic libraries rather than static librarie
 
 Three connected projects concerned cross-compilation
 
-* '''Registerised ARM support''' added using David Terei's LLVM compiler back end with Stephen Blackheath doing an initial ARMv5 version and LLVM patch and Karel Gardas working on floating point support, ARMv7 compatibility and LLVM headaches. Ben Gamari did work on the runtime linker for ARM.
+ * '''Registerised ARM support''' added using David Terei's LLVM compiler back end with Stephen Blackheath doing an initial ARMv5 version and LLVM patch and Karel Gardas working on floating point support, ARMv7 compatibility and LLVM headaches. Ben Gamari did work on the runtime linker for ARM.
 
-* '''General cross-compiling''' with much work by Stephen Blackheath and Gabor Greif (though many others have worked on this).
+ * '''General cross-compiling''' with much work by Stephen Blackheath and Gabor Greif (though many others have worked on this).
 
-* '''A cross-compiler for Apple iOS''' [4]. iOS-specific parts were mostly Stephen Blackheath with Luke Iannini on the Cabal patch, testing and supporting infrastructure, also with assistance and testing by Miëtek Bak and Jonathan Fischoff, and thanks to many others for testing; The iOS cross compiler was started back in 2009 by Stephen Blackheath with funding from Ryan Trinkle of iPwn Studios.
+ * '''A cross-compiler for Apple iOS''' [4]. iOS-specific parts were mostly Stephen Blackheath with Luke Iannini on the Cabal patch, testing and supporting infrastructure, also with assistance and testing by Miëtek Bak and Jonathan Fischoff, and thanks to many others for testing; The iOS cross compiler was started back in 2009 by Stephen Blackheath with funding from Ryan Trinkle of iPwn Studios.
 
 Thanks to Ian Lynagh for making it easy for us with integration, makefile refactoring and patience, and to David Terei for LLVM assistance.
 
