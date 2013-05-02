@@ -79,7 +79,16 @@ Details can be found in the wiki page [1].
 
 == The runtime system ==
 
-  * The new parallel I/O manager ['''Andreas Voellmy''']
+  * '''Faster I/O Manager'''
+  Andreas Voellmy performed a significant reworking of the IO manager to improve multicore scaling and sequential speed.  The most significant problems of the old IO manager were (1) severe contention (under some workloads) on a single MVar holding the table of callbacks, (2) invoking a callback typically requires messaging across capabilities, (3) polling for ready files performs an OS context switch, causing excessive context switching.  These problems contribute greatly to the response time of servers written in Haskell.
+
+  The redesigned IO manager addresses these problems in the following ways. We replace the single MVar for the callback table with a simple concurrent hash table, allowing for more concurrent registrations and callbacks. We use one IO manager service thread per capability, each with its own callback table and with the service thread for a given capability serving the waiting Haskell threads that were running (and will be woken up) on that capability. This further reduces contention on callback tables, ensures that notifying a thread is typically done without cross-capability messaging and allows the work of polling and notifying threads to be parallelized across cores.  To reduce context switching, we modify the service loops to first poll without waiting, which can be done without releasing the HEC (which would typically incur an OS context switch). 
+
+  The new IO manager also takes advantage of the edge-triggered and one-shot modes of epoll on Linux to achieve further performance improvements on Linux.
+
+  These changes result in substantial performance improvements in some applications. In particular, we implemented a minimal web server and found that performance with the new "parallel" IO manager improved by a factor of 19 versus the old IO manager; with the old IO manager, our server achieved a peak performance of roughly 45000 http requests per second using 8 cores (performance degraded after 8 cores), while the same server using the parallel IO manager serves 860000 requests/sec using 18 cores.  (See https://twitter.com/bos31337/status/284701554458640384 for more details.) We have measured similar improvements in the response time of servers written in Haskell. 
+
+  Kazu Yamamoto contributed greatly to the project by implementing the redesign for BSD-based systems using kqueue and by improving the code in order to bring it up to GHC's standards. In addition, Bryan O'Sullivan and Johan Tibell provided critical guidance and reviews.
 
 == Building and linking ==
 
