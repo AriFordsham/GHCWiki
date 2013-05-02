@@ -52,3 +52,17 @@ from the root of your tree. To find unpushed patches, run:
 ./sync-all new
 }}}
 also from the root of your tree.
+
+== Validate has failing tests without any local patches; what do I do? ==
+
+The best thing to do is to fix them! This will help make the world a better place, and gain you the admiration and thanks of your colleagues.
+
+Fixing them could mean one of two things: Fix a bug in GHC (or the libraries) that the test is reporting, or fixing a broken test to not report a failure when nothing is actually going wrong.
+
+=== I tried to fix them, but I got stuck ===
+
+If you can't fix them yourself, then first file a ticket for the problem so that it doesn't get forgotten about. First run the testsuite for just that test (e.g. `make fast TEST=thefailingtest`), and include the full testsuite output in the ticket description. If you found any information out that might be useful to someone later fixing the bug, add that too. Also, add the name of the test in the `Test Case` field.
+
+'''If several tests are failing''', then file a ticket for each one ''individually'', unless it is clear that a single problem is causing all the failures.
+
+Then add `expect_broken(123)` to the test options for that test, where `123` is the number of the ticket you just opened. If the problem only appplies in certain circumstances, then only mark it broken for those circumstances, e.g. `when(opsys('mingw32'), expect_broken(123))`.
