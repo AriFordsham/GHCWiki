@@ -54,15 +54,14 @@ Meanwhile others have been adding new features.
 
 - **Ordered overlapping type family instances.** Richard Eisenberg has implemented support for ordered overlapping type family instances, called *branched* instances. This allows type-level functions to use patterns in a similar way to term-level functions. For example:
 
-```wiki
-type family Equals (x :: *) (y :: *) :: Bool
-type instance where
-  Equals x x = True
-  Equals x y = False
-```
+  ```wiki
+  type family Equals (x :: *) (y :: *) :: Bool
+  type instance where
+    Equals x x = True
+    Equals x y = False
+  ```
 
->
-> Details can be found in the wiki page \[OTF\].
+  Details can be found in the wiki page \[OTF\].
 
 ## Back end and code generation
 
