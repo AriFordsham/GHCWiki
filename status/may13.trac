@@ -37,14 +37,14 @@ Meanwhile others have been adding new features.
   Additionally, a new compiler pragma `AutoDeriveTypeable` triggers automatic derivation of `Typeable` instances
   for all datatypes and classes defined in the module.
 
-  * '''Type holes.''' A GHC extension called [http://www.haskell.org/haskellwiki/GHC/TypeHoles Type Holes] was added by Thijs Alkemade, under supervision of Sean Leather and with help from Simon Peyton Jones. When GHC encounters a hole in an expression, written as "`_`", it will generate an error message describing the type that is needed in place of that hole. It gives some helpful additional information, such as the origins of the type variables in the hole's type and the local bindings that can be used. Together with {{{-fdefer-type-errors}}} this should make it easier to write code step-by-step, using hints from the compiler about the unfinished parts.
+  * '''Type holes.''' A GHC extension called "type holes" [TYH] was added by Thijs Alkemade, under supervision of Sean Leather and with help from Simon Peyton Jones. When GHC encounters a hole in an expression, written as "`_`", it will generate an error message describing the type that is needed in place of that hole. It gives some helpful additional information, such as the origins of the type variables in the hole's type and the local bindings that can be used. Together with {{{-fdefer-type-errors}}} this should make it easier to write code step-by-step, using hints from the compiler about the unfinished parts.
 
   * '''Rebindable list syntax.''' A GHC extension called [wiki:OverloadedLists overloaded lists] was added by Achim Krause, George Giorgidze, and colleagues. When this is turned on, the way GHC desugars explicit lists and lists in arithmetic sequence notation is changed. Instead of directly desugaring to built-in lists, a polymorphic witness function is used, similar to the desugaring of numeric literals. This allows for a more flexible use of list notations, supporting many different list-like types. In addition, the functions used in this desugaring process are completely rebindable.
 
   * '''Type level natural numbers'''.  Iavor S. Diatchki has been working on a solver for equations involving type-level natural numbers.  This allows simplifying and reasoning about type-level terms involving
     arithmetic. Currently, the solver can evaluate equations and inequalities mentioning the type functions `(+)`, `(*)`, `(^)`, and `(<=)`.  The solver works pretty well when it can use evaluation to prove equalities (e.g., examples like `2 + 5 = x`, `2 + x = 5`).  There is also some support for taking advantage of the commutativity and associativity of `(+)`, `(*)`.   More experimental features include:  support for `(-)`, which, currently is implemented by desugaring to `(+)`;  the type-level function `FromNat1`, which has special support for working with natural number literals, and thus can be used to expose some of their inductive structure.  This work is currently on the `type-nats` branch, and the plan is to merge it into HEAD into the next few months.
 
-  * '''Kinds without data''' Trevor Elliott, Eric Mertens, and Iavor Diatchki have began implementing support for "data kind" declarations, described in more detail on the GHC wiki:    http://hackage.haskell.org/trac/ghc/wiki/GhcKinds/KindsWithoutData   The idea is to allow a new form of declaration that introduces a new kind, whose members are described by the (type) constructors in the declaration.   This is similar to promoting `data` declarations, except that no new value-level-constructors are declared, and it also allows the constructors to mention other kinds that do not have corresponding type-level representation (e.g., `*`).
+  * '''Kinds without data''' Trevor Elliott, Eric Mertens, and Iavor Diatchki have began implementing support for "data kind" declarations, described in more detail on the GHC wiki [KD]. The idea is to allow a new form of declaration that introduces a new kind, whose members are described by the (type) constructors in the declaration.   This is similar to promoting `data` declarations, except that no new value-level-constructors are declared, and it also allows the constructors to mention other kinds that do not have corresponding type-level representation (e.g., `*`).
 
 
   * '''Ordered overlapping type family instances.''' Richard Eisenberg has implemented support for ordered overlapping type family instances, called ''branched'' instances. This allows type-level functions to use patterns in a similar way to term-level functions. For example:
@@ -56,11 +56,11 @@ type instance where
   Equals x y = False
 }}}
 
-  Details can be found in the wiki page [1].
+  Details can be found in the wiki page [OTF].
 
 == Back end and code generation ==
 
-  * '''The new code generator.''' [entry copied from Oct 2012 status report] Several years since this project was started, the new code generator is finally working  [2], and is now switched on by default in `master`.  It will be in GHC 7.8.1.  From a user's perspective there should be very little difference, though some programs will be faster.
+  * '''The new code generator.''' [entry copied from Oct 2012 status report] Several years since this project was started, the new code generator is finally working  [CG], and is now switched on by default in `master`.  It will be in GHC 7.8.1.  From a user's perspective there should be very little difference, though some programs will be faster.
 
  There are three important improvements in the generated code.  One is that `let-no-escape` functions are now compiled much more efficiently: a recursive `let-no-escape` now turns into a real loop in C--.  The second improvement is that global registers (R1, R2, etc.) are now available for the register allocator to use within a function, provided they aren't in use for argument passing.  This means that there are more registers available for complex code sequences.  The third improvement is that we have a new sinking pass that replaces the old "mini-inliner" from the native code generator, and is capable of optimisations that the old pass couldn't do.
 
@@ -85,7 +85,13 @@ The redesigned IO manager addresses these problems in the following ways. We rep
 
 The new IO manager also takes advantage of the edge-triggered and one-shot modes of epoll on Linux to achieve further performance improvements on Linux.
 
-These changes result in substantial performance improvements in some applications. In particular, we implemented a minimal web server and found that performance with the new "parallel" IO manager improved by a factor of 19 versus the old IO manager; with the old IO manager, our server achieved a peak performance of roughly 45000 http requests per second using 8 cores (performance degraded after 8 cores), while the same server using the parallel IO manager serves 860000 requests/sec using 18 cores [3].  We have measured similar improvements in the response time of servers written in Haskell. 
+These changes result in substantial performance improvements in some applications. In particular, we implemented a minimal web server and found that performance with the new "parallel" IO manager improved by a factor of 19 versus the old IO manager;
+with the old IO manager, our server achieved a peak performance of
+roughly 45,000 http requests per second using 8 cores (performance
+degraded after 8 cores), while the same server using the parallel IO
+manager serves 860,000 requests/sec using 18 cores [PIO].  We have
+measured similar improvements in the response time of servers written
+in Haskell.
 
 Kazu Yamamoto contributed greatly to the project by implementing the redesign for BSD-based systems using kqueue and by improving the code in order to bring it up to GHC's standards. In addition, Bryan O'Sullivan and Johan Tibell provided critical guidance and reviews.
 
@@ -101,13 +107,14 @@ Three connected projects concerned cross-compilation
 
  * '''General cross-compiling''' with much work by Stephen Blackheath and Gabor Greif (though many others have worked on this).
 
- * '''A cross-compiler for Apple iOS''' [4]. iOS-specific parts were mostly Stephen Blackheath with Luke Iannini on the Cabal patch, testing and supporting infrastructure, also with assistance and testing by Miëtek Bak and Jonathan Fischoff, and thanks to many others for testing; The iOS cross compiler was started back in 2009 by Stephen Blackheath with funding from Ryan Trinkle of iPwn Studios.
+ * '''A cross-compiler for Apple iOS''' [IOS]. iOS-specific parts were mostly Stephen Blackheath with Luke Iannini on the Cabal patch, testing and supporting infrastructure, also with assistance and testing by Miëtek Bak and Jonathan Fischoff, and thanks to many others for testing; The iOS cross compiler was started back in 2009 by Stephen Blackheath with funding from Ryan Trinkle of iPwn Studios.
 
 Thanks to Ian Lynagh for making it easy for us with integration, makefile refactoring and patience, and to David Terei for LLVM assistance.
 
-[1] Overlapping type family instances:  http://hackage.haskell.org/trac/ghc/wiki/NewAxioms 
+[KD] Kinds without data [http://hackage.haskell.org/trac/ghc/wiki/GhcKinds/KindsWithoutData] [[br]]
+[TYH] Type holes [http://www.haskell.org/haskellwiki/GHC/TypeHoles Type Holes] [[br]]
+[OTF] Overlapping type family instances [http://hackage.haskell.org/trac/ghc/wiki/NewAxioms] [[br]]
+[CG] The new codegen is nearly ready to go live [http://hackage.haskell.org/trac/ghc/blog/newcg-update] [[BR]]
+[PIO] The results are amazing [https://twitter.com/bos31337/status/284701554458640384]]
 [[br]]
-[2] The new codegen is nearly ready to go live [http://hackage.haskell.org/trac/ghc/blog/newcg-update] [[BR]]
-[3] The results are amazing [https://twitter.com/bos31337/status/284701554458640384]]
-[[br]]
-[4] Building for Apple iOS targets [http://hackage.haskell.org/trac/ghc/wiki/Building/CrossCompiling/iOS]
+[IOS] Building for Apple iOS targets [http://hackage.haskell.org/trac/ghc/wiki/Building/CrossCompiling/iOS]
