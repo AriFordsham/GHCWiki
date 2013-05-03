@@ -2,7 +2,7 @@
 
 The big event in late 2012 was the news of Simon Marlow's move to Facebook.  Simon is the absolute master of huge tracts of GHC, including especially its runtime system, garbage collection, code generation, and support for parallelism. His contribution to GHC is a massive one, and this makes a good occasion for us to acknowledge it: '''thank you Simon'''!
 
-Simon isn't going to disappear, of couuse, but he'll have less time to work on GHC than before. That means that everyone else, including  you, gentle reader, has new opportunities to contribute to the huge shared community endeavour that we call GHC. 
+Simon isn't going to disappear, of course, but he'll have less time to work on GHC than before. That means that everyone else, including  you, gentle reader, has new opportunities to contribute to the huge shared community endeavour that we call GHC. 
 
 As planned, we made another minor release 7.6.2 from the 7.6 branch in January 2013. This included only bug and performance fixes; no new features were added.
 We plan to put out a new major release 7.8.1 soon after ICFP 2013, including
