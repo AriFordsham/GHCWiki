@@ -2,7 +2,7 @@
 
 == Type inference ==
 
- * (no ticket yet): make the fingerprint in a `TypeRep` be a proper fingerprint, including the type definition all the way down (see [http://hackage.haskell.org/trac/ghc/wiki/DependencyTracking Recompilation avoidance])
+ * #7897: make the fingerprint in a `TypeRep` be a proper fingerprint, including the type definition all the way down (see [http://hackage.haskell.org/trac/ghc/wiki/DependencyTracking Recompilation avoidance])
  * #7558: Terrible error message in inaccessible code
  * #5682: Parsing of pomoted kinds
  * #6022: over-general types are inferred
