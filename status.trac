@@ -29,3 +29,5 @@ Here are our release plans for
 
 Here is our [wiki:GhcPlanning current planning document], intended mainly to help Simon, Simon, and Ian coordinate with each other.
 
+== SPJ Tickets ==
+a curation of interesting tickets by SPJ, not discoverable otherwise on the wiki [http://hackage.haskell.org/trac/ghc/wiki/WorkingConventions here ]
