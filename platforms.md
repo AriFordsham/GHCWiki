@@ -136,26 +136,9 @@ Tier 2 platforms as possible to Tier 1, as soon as they meet the Tier 1 criteria
 <th> Yes    </th>
 <th> Yes          </th>
 <th> No                </th>
-<th></th></tr>
-<tr><th> x86          </th>
-<th> NetBSD          </th>
-<th> i386-unknown-netbsd     </th>
-<th> Yes          </th>
-<th> Yes  </th>
-<th> Yes    </th>
-<th> Yes          </th>
-<th> No                </th>
-<th></th></tr>
-<tr><th> x86          </th>
-<th> DragonFlyBSD    </th>
-<th> i386-unknown-dflybsd    </th>
-<th> Yes          </th>
-<th> No(\*S1) </th>
-<th> Yes    </th>
-<th> Yes          </th>
-<th> No                </th>
-<th></th></tr>
-<tr><th> x86          </th>
+<th></th></tr></table>
+
+<table><tr><th> x86          </th>
 <th> Solaris         </th>
 <th> i386-unknown-solaris2   </th>
 <th> Yes          </th>
@@ -167,15 +150,6 @@ Tier 2 platforms as possible to Tier 1, as soon as they meet the Tier 1 criteria
 <tr><th> x86-64       </th>
 <th> OpenBSD         </th>
 <th> amd64-unknown-openbsd   </th>
-<th> Yes          </th>
-<th> Yes  </th>
-<th> Yes    </th>
-<th> Yes          </th>
-<th> No                </th>
-<th></th></tr>
-<tr><th> x86-64       </th>
-<th> NetBSD          </th>
-<th> amd64-unknown-netbsd    </th>
 <th> Yes          </th>
 <th> Yes  </th>
 <th> Yes    </th>
@@ -375,7 +349,34 @@ Tier 3 platforms worked in the past, but probably do not work now.
 <th> No     </th>
 <th> No           </th>
 <th> No                      </th>
-<th>[ArmLinuxGhc](arm-linux-ghc)</th></tr></table>
+<th>[ArmLinuxGhc](arm-linux-ghc)</th></tr>
+<tr><th> x86          </th>
+<th> NetBSD          </th>
+<th> i386-unknown-netbsd     </th>
+<th> Yes          </th>
+<th> Yes  </th>
+<th> Yes    </th>
+<th> Yes          </th>
+<th> No                </th>
+<th></th></tr>
+<tr><th> x86          </th>
+<th> DragonFlyBSD    </th>
+<th> i386-unknown-dflybsd    </th>
+<th> Yes          </th>
+<th> No(\*S1) </th>
+<th> Yes    </th>
+<th> Yes          </th>
+<th> No                </th>
+<th></th></tr>
+<tr><th> x86-64       </th>
+<th> NetBSD          </th>
+<th> amd64-unknown-netbsd    </th>
+<th> Yes          </th>
+<th> Yes  </th>
+<th> Yes    </th>
+<th> Yes          </th>
+<th> No                </th>
+<th></th></tr></table>
 
 ## Definitions
 
