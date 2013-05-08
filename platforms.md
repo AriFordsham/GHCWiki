@@ -157,15 +157,6 @@ Tier 2 platforms as possible to Tier 1, as soon as they meet the Tier 1 criteria
 <th> No                </th>
 <th></th></tr>
 <tr><th> PowerPC      </th>
-<th> AIX             </th>
-<th> powerpc-ibm-aix         </th>
-<th> Yes          </th>
-<th></th>
-<th> Yes    </th>
-<th> Yes          </th>
-<th> No                </th>
-<th></th></tr>
-<tr><th> PowerPC      </th>
 <th> Linux           </th>
 <th> powerpc-unknown-linux   </th>
 <th> Yes          </th>
@@ -373,6 +364,15 @@ Tier 3 platforms worked in the past, but probably do not work now.
 <th> amd64-unknown-netbsd    </th>
 <th> Yes          </th>
 <th> Yes  </th>
+<th> Yes    </th>
+<th> Yes          </th>
+<th> No                </th>
+<th></th></tr>
+<tr><th> PowerPC      </th>
+<th> AIX             </th>
+<th> powerpc-ibm-aix         </th>
+<th> Yes          </th>
+<th></th>
 <th> Yes    </th>
 <th> Yes          </th>
 <th> No                </th>
