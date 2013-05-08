@@ -45,7 +45,6 @@ Tier 2 platforms as possible to Tier 1, as soon as they meet the Tier 1 criteria
 
 || x86          || Solaris         || i386-unknown-solaris2   || Yes          || Yes  || Yes    || Yes          || No                || ||
 || x86-64       || OpenBSD         || amd64-unknown-openbsd   || Yes          || Yes  || Yes    || Yes          || No                || ||
-|| PowerPC      || AIX             || powerpc-ibm-aix         || Yes          ||      || Yes    || Yes          || No                || ||
 || PowerPC      || Linux           || powerpc-unknown-linux   || Yes          || Yes  || Yes    || Yes          || No                || ||
 || PowerPC      || MacOS X         || powerpc-apple-darwin    || Yes          || Yes  || Yes    || Yes          || Yes               || ||
 || PowerPC64    || Linux           || powerpc64-unknown-linux || Yes          || No   || No     || Yes          || No                || ||
@@ -79,6 +78,7 @@ Tier 3 platforms worked in the past, but probably do not work now.
 || x86          || NetBSD          || i386-unknown-netbsd     || Yes          || Yes  || Yes    || Yes          || No                || ||
 || x86          || DragonFlyBSD    || i386-unknown-dflybsd    || Yes          || No(*S1) || Yes    || Yes          || No                || ||
 || x86-64       || NetBSD          || amd64-unknown-netbsd    || Yes          || Yes  || Yes    || Yes          || No                || ||
+|| PowerPC      || AIX             || powerpc-ibm-aix         || Yes          ||      || Yes    || Yes          || No                || ||
 
 == Definitions ==
 
