@@ -236,15 +236,6 @@ Tier 2 platforms as possible to Tier 1, as soon as they meet the Tier 1 criteria
 <th> Yes          </th>
 <th> No                </th>
 <th></th></tr>
-<tr><th> Sparc        </th>
-<th> OpenBSD         </th>
-<th> sparc-unknown-openbsd   </th>
-<th> Yes          </th>
-<th> Yes  </th>
-<th> Yes </th>
-<th> Yes          </th>
-<th> No                </th>
-<th></th></tr>
 <tr><th> IA-64        </th>
 <th> Linux           </th>
 <th> ia64-unknown-linux      </th>
