@@ -7,6 +7,9 @@ various platforms.  To find out who is responsible for each platform, see [Contr
 
 For information about what distributions GHC is part of, see the [ distribution packages](http://haskell.org/ghc/distribution_packages.html) page.
 
+
+Please be aware that this page is highly unmaintained and may list platforms as tier 2 that didn't see any updates for years.
+
 ## Tier 1 platforms
 
 

@@ -5,6 +5,8 @@ various platforms.  To find out who is responsible for each platform, see [wiki:
 
 For information about what distributions GHC is part of, see the [http://haskell.org/ghc/distribution_packages.html distribution packages] page.
 
+Please be aware that this page is highly unmaintained and may list platforms as tier 2 that didn't see any updates for years.
+
 == Tier 1 platforms ==
 
 Tier 1 platforms are our top priority.  We only release GHC when they all work.
