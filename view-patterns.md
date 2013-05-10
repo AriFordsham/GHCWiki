@@ -15,6 +15,7 @@ This page has been revised to reflect what we've implemented.
 
 
 View patterns are a convenient way of pattern-matching against values of abstract types.  For example, in a programming language implementation, we might represent the syntax of the types of the language as follows:
+[ aksesoris mobil](http://www.detikauto.com/) - [ baby pink](http://www.grosir-kosmetik.com/6-baby-pink-cream-pemutih-kulit) - [ rumah dijual](http://www.propertykita.com/rumah.html)
 
 ```wiki
    type Typ
