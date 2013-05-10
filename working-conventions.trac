@@ -41,15 +41,4 @@ The following pages guide you step-by-step through making a contribution:
 
 == Old stuff ==
 
-{{{
-#!div style="text-align: left"
-{{{
-#!html
-<a href="http://www.grosir-kosmetik.com/6-baby-pink-cream-pemutih-kulit" rel="dofollow" title="Baby Pink">Baby Pink</a> 
-<a href="http://www.propertykita.com/rumah.html" rel="dofollow" title="Rumah Dijual">Rumah Dijual</a> 
-<a href="http://www.detikauto.com" rel="dofollow" title="Aksesoris Mobil">Aksesoris Mobil</a> 
-}}}
-}}}
-
-
  * '''Using Darcs''': Our conventions and some useful tips for using darcs are here: [wiki:WorkingConventions/Darcs Using Darcs].
