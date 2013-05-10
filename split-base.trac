@@ -22,8 +22,8 @@ A Haskell-to-Javascript compiler will not support File IO, or maybe not even IO 
 
 ==== (G4) Allow well-engineered libraries to be used in what is currently base ====
 
-At the moment we cannot use libraries like `containers` or `bytestring` in code that is in
-the `base` package.  (Why?  Because those libraries in turn depend on `base` and we don't allow mutual recursion between packages.)  If we split `base` up, we could use these libraries, and perhaps others, in at least parts of what is currently `base`.   Two examples:
+At the moment we cannot use libraries like `containers`, `bytestring`, `unix` and `Win32` in code that is in
+the `base` package.  (Why?  Because those libraries in turn depend on `base` and we don't allow mutual recursion between packages.)  If we split `base` up, we could use these libraries, and perhaps others, in at least parts of what is currently `base`.   Some examples:
 
  * We would like to be able to use the Text and !ByteString types in the I/O layer. For example, we'd like to have:
 {{{
@@ -36,8 +36,10 @@ write :: Handle -> ByteString -> IO ()
 
  * The I/O manager currently has a copy of !IntMap inside its implementation because base cannot use containers. Why?  Becuase `containers` depends on `base`, so `base` can't depend on `containers`.  Splitting base would let us get rid of this code duplication. For example:
    * `base-pure` doesn't need `containers`
-   * `containser` depends on `base-pure`
+   * `containers` depends on `base-pure`
    * `base-io` depends on `containers`
+
+ * In #7427, we would like to use functions from the `unix` package in `base:System.Environment`
 
 ==== (G5) Installable base ====
 
