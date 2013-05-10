@@ -12,7 +12,7 @@ This page has been revised to reflect what we've implemented.
 == Basic view patterns == 
 
 View patterns are a convenient way of pattern-matching against values of abstract types.  For example, in a programming language implementation, we might represent the syntax of the types of the language as follows:
-[http://www.detikauto.com/ aksesoris mobil] - [http://www.grosir-kosmetik.com/6-baby-pink-cream-pemutih-kulit baby pink] - [http://www.propertykita.com/rumah.html rumah dijual]
+
 {{{
    type Typ
  
