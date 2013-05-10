@@ -45,6 +45,4 @@ The following pages guide you step-by-step through making a contribution:
 
 ## Old stuff
 
-[Baby Pink](http://www.grosir-kosmetik.com/6-baby-pink-cream-pemutih-kulit)[Rumah Dijual](http://www.propertykita.com/rumah.html)[Aksesoris Mobil](http://www.detikauto.com)
-
 - **Using Darcs**: Our conventions and some useful tips for using darcs are here: [Using Darcs](working-conventions/darcs).
