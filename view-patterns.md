@@ -16,16 +16,18 @@ This page has been revised to reflect what we've implemented.
 
 View patterns are a convenient way of pattern-matching against values of abstract types.  For example, in a programming language implementation, we might represent the syntax of the types of the language as follows:
 
-```wiki
-   type Typ
- 
-   data TypView = Unit
-                | Arrow Typ Typ
-
-   view :: Typ -> TypView
-
-   -- additional operations for constructing Typ's ...
-```
+> [ aksesoris mobil](http://www.detikauto.com/) -  [ baby pink](http://www.grosir-kosmetik.com/6-baby-pink-cream-pemutih-kulit) -  [ rumah dijual](http://www.propertykita.com/rumah.html)
+>
+> ```wiki
+>    type Typ
+>  
+>    data TypView = Unit
+>                 | Arrow Typ Typ
+>
+>    view :: Typ -> TypView
+>
+>    -- additional operations for constructing Typ's ...
+> ```
 
 
 The representation of `Typ` is held abstract, permitting implementations to use a fancy representation (e.g., hash-consing to manage sharing).
