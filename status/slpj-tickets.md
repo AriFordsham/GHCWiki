@@ -142,6 +142,7 @@ See also [TemplateHaskell](template-haskell)
 ## Type inference (longer term)
 
 - [TypeFunctionsStatus](type-functions-status)
+- [\#7908](https://gitlab.haskell.org//ghc/ghc/issues/7908): Kind polymorphism notation
 - [\#7503](https://gitlab.haskell.org//ghc/ghc/issues/7503): Kind polymorphism and mutual recursion
 - [\#6018](https://gitlab.haskell.org//ghc/ghc/issues/6018), [\#4259](https://gitlab.haskell.org//ghc/ghc/issues/4259): Injective type families and type family overlap
 - [\#7259](https://gitlab.haskell.org//ghc/ghc/issues/7259): Eta-expansion of products in System FC
