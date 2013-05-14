@@ -70,6 +70,9 @@ $ make             2>&1 | tee ../make.log
 $ make binary-dist 2>&1 | tee ../bd.log
 ```
 
+
+Nightly builders will automatically produce release builds on FreeBSD, putting the results [ here](http://haskell.inf.elte.hu/ghc/dist/freebsd8/).
+
 ## Sanity checking the binary builds
 
 
