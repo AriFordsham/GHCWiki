@@ -67,7 +67,7 @@ There are currently two coarse classes of ticky-ticky counters: name-specific co
 <tr><th>`-ticky`</th>
 <th> count entries and allocation ticky-ticky (both global and name-specific counters) 
 </th></tr>
-<tr><th>`-ticky-dyn`</th>
+<tr><th>`-ticky-dyn-thunk`</th>
 <th> also use name-specific counters for dynamic thunks 
 </th></tr>
 <tr><th>`-ticky-LNE`</th>
