@@ -53,7 +53,7 @@ There are currently two coarse classes of ticky-ticky counters: name-specific co
 
 || flag || effect ||
 || `-ticky` || count entries and allocation ticky-ticky (both global and name-specific counters) ||
-|| `-ticky-dyn` || also use name-specific counters for dynamic thunks ||
+|| `-ticky-dyn-thunk` || also use name-specific counters for dynamic thunks ||
 || `-ticky-LNE` || also use name-specific counters for let-no-escapes ||
 || `-ticky-allocd` || also track allocation ''of'' each named thing in addition to allocation ''by'' that thing ||
 
