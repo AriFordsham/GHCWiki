@@ -1,8 +1,3 @@
-## Template Haskell design
-
-
-See [ New directions for Template Haskell](http://hackage.haskell.org/trac/ghc/blog/Template%20Haskell%20Proposal) for the general overview of changes.  There are some details about  [Part B:Add new MetaML-style constructs for strongly-typed metaprogramming.](template-haskell/typed)
-
 ## Template Haskell Conversions
 
 
