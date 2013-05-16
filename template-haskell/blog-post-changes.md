@@ -16,7 +16,7 @@ But I'd like to get the design right; hence this post.  I'm going to treat it as
 I'm going to assume that you are more or less familiar with Template Haskell.  If not, there's lots of background on the [ Template Haskell page](http://www.haskell.org/haskellwiki/Template_Haskell).  It's a Wiki so you can help to improve it.
 
 
-Here's the implementation page? the describes how we are going to implement this stuff.
+Here's the [implementation page](template-haskell/typed) the describes how we are going to implement this stuff.
 
 # Some brief background
 
