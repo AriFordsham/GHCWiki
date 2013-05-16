@@ -1,7 +1,7 @@
 = Template Haskell =
 
 Stuff about Template Haskell
- * Simon's [http://hackage.haskell.org/trac/ghc/blog/Template%20Haskell%20Proposal blog post describing proposed changes to Template Haskell]
+ * [wiki:TemplateHaskell/BlogPostChanges Major revision of Template Haskell] propsed in Simon's blog post.  
  * [wiki:TemplateHaskell/Typed Implementation page for typed Template Haskell] implementing the blog-post proposals.
  * [wiki:TemplateHaskell/RichKinds Polymorphic kinds in Template Haskell]
  * [wiki:TemplateHaskell/UsingHaskellSrcExts Unifying TH syntax with `haskell-src-exts`]
