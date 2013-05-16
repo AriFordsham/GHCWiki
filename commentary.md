@@ -69,7 +69,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
   - [A kind for class constraints. Implemented as ConstraintKinds](kind-fact)
   - [LLVM back end](commentary/compiler/backends/llvm)
   - [Support for generic programming](commentary/compiler/generic-deriving)
-  - [Notes about Template Haskell](template-haskell/conversions)
+  - [Notes about Template Haskell](template-haskell)
   - [Rewrite Rules](rewrite-rules): Notes about the implementation of RULEs in GHC
   - [Monad Comprehensions](monad-comprehensions): Translation rules and some implementation details 
   - [Haddock](haddock-comments): Some notes about how the Haddock comment support is implemented.  
