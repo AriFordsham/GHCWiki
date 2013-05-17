@@ -24,7 +24,7 @@ View patterns are a convenient way of pattern-matching against values of abstrac
 }}}
 
 The representation of `Typ` is held abstract, permitting implementations to use a fancy representation (e.g., hash-consing to manage sharing).
-
+[http://www.detikauto.com/ aksesoris mobil] -  [http://www.grosir-kosmetik.com/6-baby-pink-cream-pemutih-kulit baby pink] - [http://www.propertykita.com/rumah.html rumah dijual] 
 In current Haskell, using this signature is a little inconvenient:
 {{{
    size :: Typ -> Integer
