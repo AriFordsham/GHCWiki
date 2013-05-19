@@ -26,17 +26,16 @@ ghc.mk:96: *** Make has restarted itself 3 times; is there a makefile bug?.  Sto
 ```
 
 
-Simon M says: this can happen if you modify something while tenhe build is in progress - I
-see this quite often.  In this case the error is just overly conservative, and restarting is the right workaround.
+then it could mean you have introduced a build system bug, causing an infinite loop.
 
 
-pgj adds: This can also happen if you are building the sources on FreeBSD in a really fast environment, i.e. on a multi-core Xeon with multiple parallel threads (`make -j`) or a memory-backed file system (`mfs`, `tmpfs`), see [\#7592](https://gitlab.haskell.org//ghc/ghc/issues/7592).  It is because precision of file timestamps is not fine-grained enough by default (due to the common VFS layer).  You can change this granularity by adjusting the value of the `vfs.timestamp_precision` sysctl(3) variable.
+This can also happen (although we don't know precisely why) if you modify something in a built tree, and then re-run `make`. In this case the error is just overly conservative, and restarting is the right workaround.
 
 
-If you encounter this without touching any files after typing 'make',
-then it's probably a bug in the build system.  Though unfortunately it's
-going to be almost impossible to track down unless we can find a way to
-reproduce it.
+It can also happen if you are building the sources on FreeBSD in a really fast environment, e.g. on a multi-core Xeon with multiple parallel threads (`make -j`) or a memory-backed file system (`mfs`, `tmpfs`) (see [\#7592](https://gitlab.haskell.org//ghc/ghc/issues/7592)). It is because precision of file timestamps is not fine-grained enough by default (due to the common VFS layer).  You can change this granularity by adjusting the value of the `vfs.timestamp_precision` sysctl(3) variable (`sudo -w vfs.timestamp_precision=1`).
+
+
+If you encounter this without touching any files after typing 'make', then it's probably a bug in the build system. The `make -d` output will be useful in tracking it down, but depending on when it happens there might be a lot of it!
 
 ## libraries/ghc-prim/GHC/PrimopWrappers.hs:48:18: Not in scope: \`GHC.Prim.gcdInt\#'
 
