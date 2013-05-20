@@ -25,7 +25,7 @@ then it could mean you have introduced a build system bug, causing an infinite l
 
 This can also happen (although we don't know precisely why) if you modify something in a built tree, and then re-run `make`. In this case the error is just overly conservative, and restarting is the right workaround.
 
-It can also happen if you are building the sources on FreeBSD in a really fast environment, e.g. on a multi-core Xeon with multiple parallel threads ({{{make -j}}}) or a memory-backed file system ({{{mfs}}}, {{{tmpfs}}}) (see #7592). It is because precision of file timestamps is not fine-grained enough by default (due to the common VFS layer).  You can change this granularity by adjusting the value of the {{{vfs.timestamp_precision}}} sysctl(3) variable (`sudo -w vfs.timestamp_precision=1`).
+It can also happen if you are building the sources on FreeBSD in a really fast environment, e.g. on a multi-core Xeon with multiple parallel threads ({{{make -j}}}) or a memory-backed file system ({{{mfs}}}, {{{tmpfs}}}) (see #7592). It is because precision of file timestamps is not fine-grained enough by default (due to the common VFS layer).  You can change this granularity by adjusting the value of the {{{vfs.timestamp_precision}}} sysctl(3) variable (`sudo sysctl -w vfs.timestamp_precision=1`).
 
 If you encounter this without touching any files after typing 'make', then it's probably a bug in the build system. The `make -d` output will be useful in tracking it down, but depending on when it happens there might be a lot of it!
 
