@@ -1,4 +1,4 @@
-= Implementing primitive Bool# =
+= Implementing new primitive comparisons to allow branchless algorithms =
 
 This page gathers the notes about implementing new primitive logical operations and thus resolving ticket #6135.
 
@@ -80,9 +80,15 @@ There are five possible branches to take, although four of them have the same re
 
 == Solution ==
 
-The idea behind the solution is to modify comparison primops to return unboxed unlifted `Int#` instead of `Bool` (which is lifted and thus is returned as a thunk that needs to be evaluated). This will be implemented in the following way:
+This problem was solved by modifying comparison primops to return unboxed unlifted `Int#` instead of `Bool` (which is lifted and thus is returned as a thunk that needs to be evaluated). Having `Int#` returned as a result of logical comparison will allow to use branchless bitwise logical operators instead of branching logical operators defined by Haskell.
 
-  * existing comparison primops will have their return type changed to `Int#`. Also, their names will be changed. Operators will have `$` added before `#`, others will have `I` added before the `#` (this is a mnemonic denoting that this primop returns and `Int#`). Examples:
+== Implementation details ==
+ 
+Below is a summary of implementation details and decisions:
+
+  * the new comparison primops return a value of type `Int#`: `1#` represents `True` and `0#` represents `False`. The `Int#` type was chosen because on Haskell it is more common to use signed Int type insetad of unsigned Word. By using `Int#` the users can easily convert unboxed result into a boxed value, without need to use `word2Int#` and `int2word#` primops.
+  * as a small side-task, four new logical bitwise primops have been implemented: `andI#`, `orI#`, `xorI#` and `negI#` (#7689). These operate on values of type `Int#`. Earlier we had only bitwise logical primops operating on values of type `Word#`.
+  * names of the existing comparison primops were changed. Operators will have `$` added before `#`, others will have `I` added before the `#` (this is a mnemonic denoting that this primop returns and `Int#`). Examples:
 
 {{{
 >=$#      :: Int#    -> Int#    -> Int#
@@ -93,7 +99,7 @@ ltFloatI# :: Float#  -> Float#  -> Int#
 leAddrI#  :: Addr#   -> Addr#   -> Int#
 }}}
 
-  * a new module `GHC.PrimWrappers` will be added to ghc-prim library. This module will contain wrappers for comparison primops. These wrappers will have names identical to removed primops and will return a `Bool`. Examples:
+  * a new module `GHC.PrimWrappers` was added to ghc-prim library. This module contains wrappers for comparison primops. These wrappers have names identical to removed primops and return a `Bool`. Examples:
 
 {{{
 gtChar# :: Char# -> Char# -> Bool
@@ -115,9 +121,20 @@ leAddr# :: Addr# -> Addr# -> Bool
 leAddr# a b = tagToEnum# (a `leAddrI#` b)
 }}}
 
-Thanks to these wrappers the change will be almost backwards compatible. The only thing primop users will need to change in their existing code to make it work again is adding import of !GHC.PrimWrappers module.
+Thanks to these wrappers the change is almost backwards compatible. The only thing primop users need to change in their existing code to make it work again is adding import of !GHC.PrimWrappers module.
 
-  * The following boot libraries require modification in order to work with the new primops: base, ghc-prim and integer-gmp. The only required modifications are imports of the !GHC.PrimWrappers module in modules that use the primops.
+  * functions for comparing `Integer` type, implemented in integer-gmp and integer-simple libraries, received a similar treatment. Technically they are not primops, because they are implemented in Haskell (in case of integer-gmp also with FFI), but they pretend to be ones. There are six primops for comparing `Integer` values:
+{{{
+eqInteger#  :: Integer -> Integer -> Int#
+neqInteger# :: Integer -> Integer -> Int#
+leInteger#  :: Integer -> Integer -> Int#
+ltInteger#  :: Integer -> Integer -> Int#
+gtInteger#  :: Integer -> Integer -> Int#
+geInteger#  :: Integer -> Integer -> Int#
+}}} 
+Each of these functions has a wrapper that calls `tagToEnum#` and returns a `Bool`. These wrappers are: `eqInteger`, `neqInteger`, `leInteger`, `ltInteger`, `gtInteger` and `geInteger`.
+
+  * Other libraries that were modified to work with the new primops are: base, ghc-prim and primitive. The only required modifications were imports of the !GHC.PrimWrappers module in modules that use the primops.
 
 == Proof of concept ==
 
