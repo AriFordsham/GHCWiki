@@ -76,7 +76,7 @@ Example 2: once you say `instance Monad M`, the instances for `Functor M` and `A
 
 Example 3: once you say `instance Traversable T` you can derive `Foldable` and `Functor`.
 
-Obvious question: if something is both `Foldable` and `Applicative`, which `Functor` instance do you get?
+Obvious question: if something is both `Foldable` and `Applicative`, which `Functor` instance do you get?  Answer: the programmer must be able to control this (see "the opt-out mechanism" below).
 
 
 
