@@ -31,7 +31,7 @@ default.
 
 The major design goal is this:
 
- * '''Design goal 1: a class C can be re-factored into a class C with a superclass S, without disturbing any clients.'''
+===  Design goal 1: a class C can be re-factored into a class C with a superclass S, without disturbing any clients ===
 
 The difficulty is that if you start with
 {{{
@@ -57,7 +57,28 @@ class S a => C a where
 }}}
 Design goal 1 is that this change should not force clients to change their code.  Haskell 98 does not satisfy this goal.  In Haskell 98 the client function `foo` is fine unmodified, but the instance declaration would have to be split into two.
 
-'''SLPJ''': are there any other design goals?
+=== Design goal 2: write implementations of sub-classes that imply their superclass implementations ===
+
+Example 1: once you say
+{{{
+instance Ord (T a) where
+  compare = ...
+}}}
+then the implementation of `(==)` in `Eq` is obvious.  So, in the class decl for `Ord` we'd like to say (modulo syntax, see below)
+{{{
+class Eq a => Ord a where
+  ...
+  instance Eq a where
+    (==) a b = case compare a b of { EQ -> True; _ -> False }
+}}}
+
+Example 2: once you say `instance Monad M`, the instances for `Functor M` and `Applicative M` can be derivived from the definitions of `(>>=)` and `return`.  And similarly if you say `instance Applicative M`, the `Functor M` instance is derivable.
+
+Example 3: once you say `instance Traversable T` you can derive `Foldable` and `Functor`.
+
+Obvious question: if something is both `Foldable` and `Applicative`, which `Functor` instance do you get?
+
+
 
 ------------------------------
 == The proposal ==
