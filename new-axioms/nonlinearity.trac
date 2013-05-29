@@ -1,0 +1,30 @@
+This page discusses problems and solutions that come up when thinking about type family instances with repeated variables on the left-hand side.
+
+== The Problem ==
+
+Consider the following:
+
+{{{
+type family F a b
+type instance F x   x = Int
+type instance F [x] x = Bool
+
+type family G
+type instance G = [G]
+}}}
+
+Here, {{{G}}} is a nullary type family, but its nullariness is just for convenience -- no peculiarity of nullary type families is involved.
+
+These declarations compile just fine in GHC 7.6.3 (with {{{-XUndecidableInstances}}}), and on the surface, this seems OK. After all, the two instances of {{{F}}} cannot unify. Thus, no usage site of {{{F}}} can be ambiguous, right? Wrong. Consider {{{F G G}}}. We might simplify this to {{{Int}}}, using the first instance, or we might first simplify to {{{F [G] G}}} and then to {{{Bool}}}. Yuck!
+
+I (Richard/goldfire) have tried to use this inconsistency to cause a seg fault, but after a few hours, I was unable to do so. However, my inability to do so seems more closely related to the fact the type families are strict than anything more fundamental.
+
+It's worth noting that {{{-XUndecidableInstances}}} is necessary to exploit this problem. However, we still want {{{-XUndecidableInstances}}} programs to be type-safe (as long as GHC terminates).
+
+== The Solution ==
+
+We need to consider the two instances of {{{F}}} to be overlapping and inadmissible. There are a handful of ways to do this, but the best seems to be this: when performing the overlap check, check a version of the instance where all variables are distinct. Using such a check, the two instances for {{{F}}} above indeed conflict.
+
+This can break existing code. But, a medium-intensity search did not find ''any'' uses of non-linear (i.e. with a repeated variable) family instances in existing code, so I think we should be OK. However, a change needs to be made -- the current system is subtly broken and has been so for years.
+
+(Interestingly, proofs of the soundness of the existing system have been published. For example, see here and here.
