@@ -53,3 +53,5 @@ type instance F a where
 The only problematic ordering is {{{F Bool}}} before {{{F a}}}. Why? Let's consider this piece by piece. {{{F Int}}} can have no problematic previous branches, because it has no previous branches. A use site that matches {{{F Bool}}} will never later match {{{F Int}}}, {{{F Int}}} is not a problematic previous branch of {{{F Bool}}}. {{{F Int}}} might later match something that matches {{{F a}}}, but the right-hand sides coincide, so {{{F Int}}} is not problematic here either. On the other hand, {{{F Bool}}} might also later match something that matches {{{F a}}} and the right-hand sides ''don't'' coincide, so {{{F Bool}}} ''is'' problematic. The upshot is that, if {{{F a}}} matches a use site, we have to make sure that {{{F Bool}}} cannot later apply. Otherwise, we can skip that check.
 
 This is perhaps somewhat subtle, but it seems to be the right way to do it.
+
+The ideas discussed here stem from posts by AntC, Andy Adams-Moran, and Richard on Richard's [http://typesandkinds.wordpress.com/2013/04/29/coincident-overlap-in-type-families/ blog post] on the subject.
