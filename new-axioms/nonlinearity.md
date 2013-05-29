@@ -101,7 +101,7 @@ The declared type space will be checked for overlap with other instances using t
 
 ## Concrete Proposal
 
-- Among unbranched instances, check linearized forms of the instances when doing overlap checking. Thus, our two problematic instances of `F`, at the top, will conflict.
+- Among unbranched instances, check linearized forms of the LHS of instances when doing overlap checking. Thus, our two problematic instances of `F`, at the top, will conflict.
 
 - After linearizing a left-hand side, the right-hand side of the instance is ill-defined. Thus, the current coincidence check (see [here](new-axioms/coincident-overlap) for more information) is no longer possible and will be removed. (Don't yell yet. Keep reading.)
 
