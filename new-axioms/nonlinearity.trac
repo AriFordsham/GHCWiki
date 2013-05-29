@@ -72,6 +72,19 @@ The declared type space will be checked for overlap with other instances using t
 
  * Add new syntax {{{type family Foo a b where { Foo ... = ... ; Foo ... = ... } }}} to declare a type family with one branched instance covering the entire type space. This would be a ''closed'' type family.
 
+== Discussion about coincident overlap ==
+
+This proposal has the net effect of forcing all uses of coincident overlap to appear in one module, instead of spread across modules. That's admittedly not great, but it's possible that no one will be negatively affected. The only alternative we've (Simon, Dimitrios, Richard) thought of is to disallow coincident overlap when the left-hand sides are non-linear, but that seems very ugly and ad-hoc.
+
+To see why disallowing coincident overlap checking for unbranched axioms is vitally necessary, consider this example:
+
+{{{
+type instance F a a Int = a
+type instance F c d d   = Int
+}}}
+
+No, they most certainly are not OK (think about {{{F G G G}}}, where this is the malignant {{{G}}} from the beginning of this page), but they do coincide in the region of overlap. Yuck Yuck! So, we give up and just say "no" to coincident overlap in this case.
+
 == Alternative (Non-)Solution ==
 
 One way we (Simon, Dimitrios, and Richard) considered proceeding was to prohibit nonlinear unbranched instances entirely. Unfortunately, that doesn't work. Consider this:
