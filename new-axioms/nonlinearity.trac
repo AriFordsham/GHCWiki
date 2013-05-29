@@ -98,7 +98,7 @@ type instance F a a Int = a
 type instance F c d d   = Int
 }}}
 
-No, they most certainly are not OK (think about {{{F G G G}}}, where this is the malignant {{{G}}} from the beginning of this page), but they do coincide in the region of overlap. Yuck Yuck! So, we give up and just say "no" to coincident overlap in this case.
+This overlap is most certainly are not OK (think about {{{F G G G}}}, where this is the malignant {{{G}}} from the beginning of this page), but they do coincide in the region of overlap. Yuck Yuck! So, we give up and just say "no" to coincident overlap in this case.
 
 == Alternative (Non-)Solution ==
 
