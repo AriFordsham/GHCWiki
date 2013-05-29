@@ -47,7 +47,9 @@ type instance F a   = a
 
 These instances surely overlap, but in the case when they do, the right-hand sides coincide. We call this '''coincident overlap'''.
 
-However, the above proposal of linearising the LHS before checking overlap makes a nonsense of exploiting coincident overlap, because when we freshen the LHS we no longer bind the variables in the RHS. '''So the proposal abandons support for coincident overlap between standalone type instances'''.  However, we can recover coincident overlap with in a branched instance: see [wiki:NewAxioms/CoincidentOverlap here]. 
+However, the above proposal of linearising the LHS before checking overlap makes a nonsense of exploiting coincident overlap, because when we freshen the LHS we no longer bind the variables in the RHS. '''So the proposal abandons support for coincident overlap between standalone type instances'''.  (It's worth noting, though, that there is already no support for coincident overlap between branched type instances, or between a singelton type instance and a branched one; it is currently only supported between singleton type instances.)
+
+However, we can recover coincident overlap with in a branched instance: see [wiki:NewAxioms/CoincidentOverlap here]. 
 
 
 == Branched instances ==
