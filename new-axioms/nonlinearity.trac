@@ -23,46 +23,86 @@ I (Richard/goldfire) have tried to use this inconsistency to cause a seg fault, 
 
 It's worth noting that {{{-XUndecidableInstances}}} is necessary to exploit this problem. However, we still want {{{-XUndecidableInstances}}} programs to be type-safe (as long as GHC terminates).
 
-== The Solution ==
+== General idea for the solution ==
 
-We need to consider the two instances of {{{F}}} to be overlapping and inadmissible. There are a handful of ways to do this, but the best seems to be this: when performing the overlap check, check a version of the instance where all variables are distinct. Using such a check, the two instances for {{{F}}} above indeed conflict.
+We need to consider the two instances of {{{F}}} to be overlapping and inadmissible. There are a handful of ways to do this, but the best seems to be this: 
+ * '''when performing the overlap check between two instances, check a version of the instances where all variables are distinct'''
+We call the "version of the instance where all variables are distinct" the "linearised form" of the instance.
+Using such a check, the two instances for {{{F}}} above indeed conflict, because we would compare `(F a b)` against `(F [c] d)`, where a,b,c,d are the fresh distinct variables.
 
 This can break existing code. But, a medium-intensity search did not find ''any'' uses of nonlinear (i.e. with a repeated variable) family instances in existing code, so I think we should be OK. However, a change needs to be made -- the current system is subtly broken and has been so for years.
 
 (Interestingly, proofs of the soundness of the existing system have been published. For example, see [http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/fc-tldi.pdf here] and [http://www.cis.upenn.edu/~stevez/papers/WVPJZ11.pdf here]. These proofs are not necessarily incorrect, but they implicitly don't allow nonlinear family instances.)
 
-== Branched instances ==
 
-But, how does this interact with branched instances (those new instance forms that allow for ordered overlapping)? We still need nonlinear branched instances, as the canonical example of a nonlinear instance is an equality test. The solution is to declare a ''type space'' that all branches fit within.
+== Problem: coincident overlap == 
 
-Here are some examples, leaving off the {{{type family}}} headers:
+In the official release of GHC, it is permitted to write something like this (see [http://www.haskell.org/ghc/docs/latest/html/users_guide/type-families.html#type-family-overlap manual]):
 
 {{{
+type instance F Int = Int
+type instance F a   = a
+}}}
+
+These instances surely overlap, but in the case when they do, the right-hand sides coincide. We call this '''coincident overlap'''.
+
+However, the above proposal of linearising the LHS before checking overlap makes a nonsense of exploiting coincident overlap, because when we freshen the LHS we no longer bind the variables in the RHS. '''So the proposal abandons support for coincident overlap between standalone type instances'''.  (It's worth noting, though, that there is already no support for coincident overlap between branched type instances, or between a singelton type instance and a branched one; it is currently only supported between singleton type instances.)
+
+However, we can recover coincident overlap with in a branched instance: see [wiki:NewAxioms/CoincidentOverlap here]. 
+
+
+== Problem: branched instances ==
+
+But, how does this interact with branched instances (those new instance forms that allow for ordered overlapping)? We still need nonlinear branched instances, as the canonical example of a nonlinear instance is an equality test:
+{{{
+type family Equals a b :: Bool
+
+type instance where
+  Equals x x = True
+  Equals x y = False
+}}}
+...
+
+The solution is to declare a ''type space'' that all branches fit within.
+
+For example: 
+{{{
+type family Equals a b :: Bool
+
 type instance Equals x y where
   Equals x x = True
   Equals x y = False
 }}}
+The header "`type instance Equals x y`" declares the "type space" of the declaration; the `where` part says how to match calls within that type space (top to bottom).
 
+In this case the type space is the whole space, but that need not be the case:
 {{{
+type family F a b :: *
+
 type instance F Int x where
   F Int Bool = Double
   F Int Int  = Char
   F Int a    = Bool
-}}}
 
-And thiswill be disallowed:
+type instance F Bool y = Int
+}}}
+Here the first `type instance` covers calls of form `(F Int x)`, while the second covers
+calls of form `(F Bool y)`.
+
+All the equations in the `where` part must be part of (i.e. an instance of) the 
+type space declared in the header.  For example, this will be disallowed:
 
 {{{
-type instance G [x] y where
-  G [Int] Int = Bool -- OK
-  G a     b   = ()   -- not OK: outside the type space (G [x] y)
+type instance Bad [x] y where
+  Bad [Int] Int = Bool -- OK
+  Bad a     b   = ()   -- not OK: outside the type space (Bad [x] y)
 }}}
 
 The declared type space will be checked for overlap with other instances using the same linearization check that unbranched instances use.
 
 == Concrete Proposal ==
 
- * Among unbranched instances, check linearized forms of the instances when doing overlap checking. Thus, our two problematic instances of {{{F}}}, at the top, will conflict.
+ * Among unbranched instances, check linearized forms of the LHS of instances when doing overlap checking. Thus, our two problematic instances of {{{F}}}, at the top, will conflict.
 
  * After linearizing a left-hand side, the right-hand side of the instance is ill-defined. Thus, the current coincidence check (see [wiki:NewAxioms/CoincidentOverlap here] for more information) is no longer possible and will be removed. (Don't yell yet. Keep reading.)
 
@@ -70,7 +110,7 @@ The declared type space will be checked for overlap with other instances using t
 
  * Allow coincident overlap within branched instances. This recovers the lost coincident overlap check on unbranched instances. See [wiki:NewAxioms/CoincidentOverlap here] for more information.
 
- * Add new syntax {{{type family Foo a b where { Foo ... = ... ; Foo ... = ... } }}} to declare a type family with one branched instance covering the entire type space. This would be a ''closed'' type family.
+ * Optional: Add new syntax {{{type family Foo a b where { Foo ... = ... ; Foo ... = ... } }}} to declare a type family with one branched instance covering the entire type space. This would be a ''closed'' type family.
 
 == Discussion about coincident overlap ==
 
@@ -83,7 +123,7 @@ type instance F a a Int = a
 type instance F c d d   = Int
 }}}
 
-No, they most certainly are not OK (think about {{{F G G G}}}, where this is the malignant {{{G}}} from the beginning of this page), but they do coincide in the region of overlap. Yuck Yuck! So, we give up and just say "no" to coincident overlap in this case.
+This overlap is most certainly are not OK (think about {{{F G G G}}}, where this is the malignant {{{G}}} from the beginning of this page), but they do coincide in the region of overlap. Yuck Yuck! So, we give up and just say "no" to coincident overlap in this case.
 
 == Alternative (Non-)Solution ==
 
