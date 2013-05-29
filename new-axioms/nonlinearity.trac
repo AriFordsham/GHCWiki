@@ -85,7 +85,7 @@ The declared type space will be checked for overlap with other instances using t
 
  * Allow coincident overlap within branched instances. This recovers the lost coincident overlap check on unbranched instances. See [wiki:NewAxioms/CoincidentOverlap here] for more information.
 
- * Add new syntax {{{type family Foo a b where { Foo ... = ... ; Foo ... = ... } }}} to declare a type family with one branched instance covering the entire type space. This would be a ''closed'' type family.
+ * Optional: Add new syntax {{{type family Foo a b where { Foo ... = ... ; Foo ... = ... } }}} to declare a type family with one branched instance covering the entire type space. This would be a ''closed'' type family.
 
 == Discussion about coincident overlap ==
 
