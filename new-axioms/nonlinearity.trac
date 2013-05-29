@@ -38,7 +38,7 @@ This can break existing code. But, a medium-intensity search did not find ''any'
 
 == Coincident overlap == 
 
-In the official release of GHC, it is permitted to write something like this:
+In the official release of GHC, it is permitted to write something like this (see [http://www.haskell.org/ghc/docs/latest/html/users_guide/type-families.html#type-family-overlap manual]):
 
 {{{
 type instance F Int = Int
