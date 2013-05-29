@@ -32,6 +32,9 @@ These instances surely overlap, but in the case when they do, the right-hand sid
 ## Coincident overlap within a branched instance
 
 
+This section discusses a part of the "Concrete Proposal" on [this page](new-axioms/nonlinearity) to patch a potential hole in Haskell's type system.
+
+
 I (Richard) would like to be able to say this:
 
 ```wiki
@@ -65,3 +68,7 @@ This is perhaps somewhat subtle, but it seems to be the right way to do it.
 
 
 The ideas discussed here stem from posts by AntC, Andy Adams-Moran, and Richard on Richard's [ blog post](http://typesandkinds.wordpress.com/2013/04/29/coincident-overlap-in-type-families/) on the subject.
+
+## Cross-module coincident overlap (or lack thereof)
+
+[This proposal](new-axioms/nonlinearity) has the net effect of forcing all uses of coincident overlap to appear in one module, instead of spread across modules. That's admittedly not great, but it's possible that no one will be negatively affected. The only alternative we've (Simon, Dimitrios, Richard) thought of is to disallow coincident overlap when the left-hand sides are non-linear, but that seems very ugly and ad-hoc.
