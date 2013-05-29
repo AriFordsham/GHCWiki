@@ -37,7 +37,7 @@ We need to consider the two instances of `F` to be overlapping and inadmissible.
 - **when performing the overlap check between two instances, check a version of the instances where all variables are distinct**
 
 
-We call the "version of the instance where all variables are distinct" the "linearised form" of the instance.
+We call the "version of the instance where all variables are distinct" the "linearized form" of the instance.
 Using such a check, the two instances for `F` above indeed conflict, because we would compare `(F a b)` against `(F [c] d)`, where a,b,c,d are the fresh distinct variables.
 
 
@@ -60,7 +60,7 @@ type instance F a   = a
 These instances surely overlap, but in the case when they do, the right-hand sides coincide. We call this **coincident overlap**.
 
 
-However, the above proposal of linearising the LHS before checking overlap makes a nonsense of exploiting coincident overlap, because when we freshen the LHS we no longer bind the variables in the RHS. **So the proposal abandons support for coincident overlap between standalone type instances**.  (It's worth noting, though, that there is already no support for coincident overlap between branched type instances, or between a singelton type instance and a branched one; it is currently only supported between singleton type instances.)
+However, the above proposal of linearizing the LHS before checking overlap makes a nonsense of exploiting coincident overlap, because when we freshen the LHS we no longer bind the variables in the RHS. **So the proposal abandons support for coincident overlap between standalone type instances**.  (It's worth noting, though, that there is already no support for coincident overlap between branched type instances, or between a singleton type instance and a branched one; it is currently only supported between singleton type instances.)
 
 
 However, we can recover coincident overlap with in a branched instance: see [here](new-axioms/coincident-overlap). 
@@ -135,9 +135,9 @@ The declared type space will be checked for overlap with other instances using t
 
 - After linearizing a left-hand side, the right-hand side of the instance is ill-defined. Thus, the current coincidence check (see [here](new-axioms/coincident-overlap) for more information) is no longer possible and will be removed. (Don't yell yet. Keep reading.)
 
-- Add type space declarations to the `type instance where` syntax, checking to make sure that branches fit within the declared space.
-
 - Allow coincident overlap within branched instances. This recovers the lost coincident overlap check on unbranched instances. See [here](new-axioms/coincident-overlap) for more information.
+
+- Optional: Add type space declarations to the `type instance where` syntax, checking to make sure that branches fit within the declared space. [This page](new-axioms/type-spaces) has the details.
 
 - Optional: Add new syntax `type family Foo a b where { Foo ... = ... ; Foo ... = ... } ` to declare a type family with one branched instance covering the entire type space. This would be a *closed* type family.
 
