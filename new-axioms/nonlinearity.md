@@ -37,6 +37,7 @@ We need to consider the two instances of `F` to be overlapping and inadmissible.
 - **when performing the overlap check between two instances, check a version of the instances where all variables are distinct**
 
 
+We call the "version of the instance where all variables are distinct" the "linearised form" of the instance.
 Using such a check, the two instances for `F` above indeed conflict, because we would compare `(F a b)` against `(F [c] d)`, where a,b,c,d are the fresh distinct variables.
 
 
@@ -44,6 +45,9 @@ This can break existing code. But, a medium-intensity search did not find *any* 
 
 
 (Interestingly, proofs of the soundness of the existing system have been published. For example, see [ here](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/fc-tldi.pdf) and [ here](http://www.cis.upenn.edu/~stevez/papers/WVPJZ11.pdf). These proofs are not necessarily incorrect, but they implicitly don't allow nonlinear family instances.)
+
+
+This new overlap check only looks at the *left hand side* of the instance. The alert reader will know that GHC currently also looks at the *right hand side*, which we return to in "coincident overlap" below.
 
 ## Branched instances
 
