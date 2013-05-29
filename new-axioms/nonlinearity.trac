@@ -1,0 +1,84 @@
+= Nonlinear type family instances considered dangerous =
+
+This page discusses problems and solutions that come up when thinking about type family instances with repeated variables on the left-hand side.
+
+== The Problem ==
+
+Consider the following:
+
+{{{
+type family F a b
+type instance F x   x = Int
+type instance F [x] x = Bool
+
+type family G
+type instance G = [G]
+}}}
+
+Here, {{{G}}} is a nullary type family, but its nullariness is just for convenience -- no peculiarity of nullary type families is involved.
+
+These declarations compile just fine in GHC 7.6.3 (with {{{-XUndecidableInstances}}}), and on the surface, this seems OK. After all, the two instances of {{{F}}} cannot unify. Thus, no usage site of {{{F}}} can be ambiguous, right? Wrong. Consider {{{F G G}}}. We might simplify this to {{{Int}}}, using the first instance, or we might first simplify to {{{F [G] G}}} and then to {{{Bool}}}. Yuck!
+
+I (Richard/goldfire) have tried to use this inconsistency to cause a seg fault, but after a few hours, I was unable to do so. However, my inability to do so seems more closely related to the fact the type families are strict than anything more fundamental.
+
+It's worth noting that {{{-XUndecidableInstances}}} is necessary to exploit this problem. However, we still want {{{-XUndecidableInstances}}} programs to be type-safe (as long as GHC terminates).
+
+== The Solution ==
+
+We need to consider the two instances of {{{F}}} to be overlapping and inadmissible. There are a handful of ways to do this, but the best seems to be this: when performing the overlap check, check a version of the instance where all variables are distinct. Using such a check, the two instances for {{{F}}} above indeed conflict.
+
+This can break existing code. But, a medium-intensity search did not find ''any'' uses of nonlinear (i.e. with a repeated variable) family instances in existing code, so I think we should be OK. However, a change needs to be made -- the current system is subtly broken and has been so for years.
+
+(Interestingly, proofs of the soundness of the existing system have been published. For example, see [http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/fc-tldi.pdf here] and [http://www.cis.upenn.edu/~stevez/papers/WVPJZ11.pdf here]. These proofs are not necessarily incorrect, but they implicitly don't allow nonlinear family instances.)
+
+== Branched instances ==
+
+But, how does this interact with branched instances (those new instance forms that allow for ordered overlapping)? We still need nonlinear branched instances, as the canonical example of a nonlinear instance is an equality test. The solution is to declare a ''type space'' that all branches fit within.
+
+Here are some examples, leaving off the {{{type family}}} headers:
+
+{{{
+type instance Equals x y where
+  Equals x x = True
+  Equals x y = False
+}}}
+
+{{{
+type instance F Int x where
+  F Int Bool = Double
+  F Int Int  = Char
+  F Int a    = Bool
+}}}
+
+And thiswill be disallowed:
+
+{{{
+type instance G [x] y where
+  G [Int] Int = Bool -- OK
+  G a     b   = ()   -- not OK: outside the type space (G [x] y)
+}}}
+
+The declared type space will be checked for overlap with other instances using the same linearization check that unbranched instances use.
+
+== Concrete Proposal ==
+
+ * Among unbranched instances, check linearized forms of the instances when doing overlap checking. Thus, our two problematic instances of {{{F}}}, at the top, will conflict.
+
+ * After linearizing a left-hand side, the right-hand side of the instance is ill-defined. Thus, the current coincidence check (see [wiki:NewAxioms/CoincidentOverlap here] for more information) is no longer possible and will be removed. (Don't yell yet. Keep reading.)
+
+ * Add type space declarations to the {{{type instance where}}} syntax, checking to make sure that branches fit within the declared space.
+
+ * Allow coincident overlap within branched instances. This recovers the lost coincident overlap check on unbranched instances. See [wiki:NewAxioms/CoincidentOverlap here] for more information.
+
+ * Add new syntax {{{type family Foo a b where { Foo ... = ... ; Foo ... = ... } }}} to declare a type family with one branched instance covering the entire type space. This would be a ''closed'' type family.
+
+== Alternative (Non-)Solution ==
+
+One way we (Simon, Dimitrios, and Richard) considered proceeding was to prohibit nonlinear unbranched instances entirely. Unfortunately, that doesn't work. Consider this:
+
+{{{
+type family H (x :: [k]) :: *
+type instance H '[] = Bool
+}}}
+
+Innocent enough, it seems. However, that instance expands to {{{type instance H k ('[] k) = Bool}}} internally. And that expansion contains a repeated variable! Yuck. We Thought Hard about this and came up with various proposals to fix it, but we weren't convinced that any of them were any good. So, we concluded to allow nonlinear unbranched instances, but we linearize them when checking overlap. This may surprise some users, but we will put in a helpful error message in this case.
