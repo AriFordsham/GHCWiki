@@ -23,7 +23,7 @@ I (Richard/goldfire) have tried to use this inconsistency to cause a seg fault, 
 
 It's worth noting that {{{-XUndecidableInstances}}} is necessary to exploit this problem. However, we still want {{{-XUndecidableInstances}}} programs to be type-safe (as long as GHC terminates).
 
-== The Solution ==
+== General idea for the solution ==
 
 We need to consider the two instances of {{{F}}} to be overlapping and inadmissible. There are a handful of ways to do this, but the best seems to be this: 
  * '''when performing the overlap check between two instances, check a version of the instances where all variables are distinct'''
@@ -35,8 +35,7 @@ This can break existing code. But, a medium-intensity search did not find ''any'
 (Interestingly, proofs of the soundness of the existing system have been published. For example, see [http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/fc-tldi.pdf here] and [http://www.cis.upenn.edu/~stevez/papers/WVPJZ11.pdf here]. These proofs are not necessarily incorrect, but they implicitly don't allow nonlinear family instances.)
 
 
-
-== Coincident overlap == 
+== Problem: coincident overlap == 
 
 In the official release of GHC, it is permitted to write something like this (see [http://www.haskell.org/ghc/docs/latest/html/users_guide/type-families.html#type-family-overlap manual]):
 
@@ -52,9 +51,19 @@ However, the above proposal of linearising the LHS before checking overlap makes
 However, we can recover coincident overlap with in a branched instance: see [wiki:NewAxioms/CoincidentOverlap here]. 
 
 
-== Branched instances ==
+== Problem: branched instances ==
 
-But, how does this interact with branched instances (those new instance forms that allow for ordered overlapping)? We still need nonlinear branched instances, as the canonical example of a nonlinear instance is an equality test. The solution is to declare a ''type space'' that all branches fit within.
+But, how does this interact with branched instances (those new instance forms that allow for ordered overlapping)? We still need nonlinear branched instances, as the canonical example of a nonlinear instance is an equality test:
+{{{
+type family Equals a b :: Bool
+
+type instance where
+  Equals x x = True
+  Equals x y = False
+}}}
+...
+
+The solution is to declare a ''type space'' that all branches fit within.
 
 For example: 
 {{{
