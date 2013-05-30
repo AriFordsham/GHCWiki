@@ -25,7 +25,7 @@ It's worth noting that {{{-XUndecidableInstances}}} is necessary to exploit this
 
 == General idea for the solution ==
 
-We need to consider the two instances of {{{F}}} to be overlapping and inadmissible. There are a handful of ways to do this, but the best seems to be this: 
+We need to consider the two instances of {{{F}}} to be overlapping and inadmissible. There are a handful of ways to do this:
  * (A) '''when performing the overlap check between two instances, check a version of the instances where all variables are distinct'''
 We call the "version of the instance where all variables are distinct" the "linearized form" of the instance.
 Using such a check, the two instances for {{{F}}} above indeed conflict, because we would compare `(F a b)` against `(F [c] d)`, where a,b,c,d are the fresh distinct variables.
@@ -35,15 +35,28 @@ This can break existing code. But, a medium-intensity search did not find ''any'
 (Interestingly, proofs of the soundness of the existing system have been published. For example, see [http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/fc-tldi.pdf here] and [http://www.cis.upenn.edu/~stevez/papers/WVPJZ11.pdf here]. These proofs are not  incorrect, but they  don't allow both undecidable instances and nonlinear family instances.)
 
 Conor's alternative general idea:
- * (B) '''when performing the overlap check, during unification succeed (instead of failing) if the occurs check happens'''
-Remember "unification succeeds" means "overlap detected", so (B) is a bit more permissive than (A).  For example
+ * (B) '''when performing the overlap check, allow two types to overlap even if only infinite types would witness the overlap'''
+The idea here is that our root problem comes from a combination of nonlinearity and infinite types. So, simply make the overlap checker consider the possibility of types that contain themselves (the only possible form of infinite types).
+(B) is a bit more permissive than (A).  For example
 {{{
   type instance Good x   x    = blah
   type instance Good Int Bool = boo
 }}}
-These would be considered overlapping by (A), but accepted as non-overlapping (ie unification fails) by (B).  And indeed these two are fine (ie cannot give rise to unsoundness).
+These would be considered overlapping by (A), but accepted as non-overlapping by (B).  And indeed these two are fine (ie cannot give rise to unsoundness).
 
-Intuition: under (B) the only way that unification fails is because of a definite conflict (eg `Int` ~ `Bool`).  And unification failing is what allows us to accept the two equations as non-overlapping.  So if we accept them, they have a definite conflict.
+Intuition: under (B) the only way that two types don't overlap is because of a definite conflict (eg `Int` ~ `Bool`). 
+
+How to implement (B)? It may be as easy as omitting the occurs check during unification. The way GHC detects overlap is by trying to unify the left-hand sides of two instances. If they can unify, then they overlap. Currently (GHC 7.6.3), unification fails for the two instances for `F` above, so they don't overlap. The unification fails because of the so-called "occurs check": when we are unifying a type variable (say, `x`) against a non-type-variable, (say `[x]`), we check to make sure that the type variable does not appear anywhere within the non-type-variable. (If the variable does appear in the other type, then the substitution has no fixpoint.) We could simply turn this check off, in this particular case. The net effect is to consider the possibility of infinite types.
+
+But, it just might not be so easy. What, exactly, should the unification algorithm do when the occurs check notes an occurrence in this case? Normally, the algorithm builds a substitution, but that would be impossible here. Yet, we need to record ''something'' about what we've discovered. For example, take this:
+
+{{{
+type family NotSure x y
+type instance NotSure x x = Int
+type instance NotSure [x] (Maybe x) = Bool
+}}}
+
+It seems that these do not overlap, even in the presence of infinite types. But, a naive omission of the occurs check might say that these types do overlap. Getting this case wrong isn't terrible, but it would be nice to get it right. (Note that we would end up too conservative, which is OK in this case.)
 
 == Problem: coincident overlap == 
 
@@ -56,84 +69,21 @@ type instance F a   = a
 
 These instances surely overlap, but in the case when they do, the right-hand sides coincide. We call this '''coincident overlap'''.
 
-However, the above proposal of linearizing the LHS before checking overlap makes a nonsense of exploiting coincident overlap, because when we freshen the LHS we no longer bind the variables in the RHS. '''So the proposal abandons support for coincident overlap between standalone type instances'''.  (It's worth noting, though, that there is already no support for coincident overlap between branched type instances, or between a singleton type instance and a branched one; it is currently only supported between singleton type instances.)
+However, the above proposal of linearizing the LHS before checking overlap (plan (A)) makes a nonsense of exploiting coincident overlap, because when we freshen the LHS we no longer bind the variables in the RHS. '''So the proposal abandons support for coincident overlap between standalone type instances'''.  (It's worth noting, though, that there is already no support for coincident overlap between branched type instances, or between a singleton type instance and a branched one; it is currently only supported between singleton type instances.)
+
+Plan (B) above has a better relationship with coincident overlap, but not quite a rosy one: in the event that an infinite type is needed to show the overlap, we don't have a well-defined substitution to apply to the RHS. It is conceivable to allow coincident overlap only when the unification algorithm produces a bona fide substitution. But, there may be no need for this.
 
 However, we can recover coincident overlap with in a branched instance: see [wiki:NewAxioms/CoincidentOverlap here]. 
 
-
-== Problem: branched instances ==
-
-But, how does this interact with branched instances (those new instance forms that allow for ordered overlapping)? We still need nonlinear branched instances, as the canonical example of a nonlinear instance is an equality test:
-{{{
-type family Equals a b :: Bool
-
-type instance where
-  Equals x x = True
-  Equals x y = False
-}}}
-...
-
-The solution is to declare a ''type space'' that all branches fit within.
-
-For example: 
-{{{
-type family Equals a b :: Bool
-
-type instance Equals x y where
-  Equals x x = True
-  Equals x y = False
-}}}
-The header "`type instance Equals x y`" declares the "type space" of the declaration; the `where` part says how to match calls within that type space (top to bottom).
-
-In this case the type space is the whole space, but that need not be the case:
-{{{
-type family F a b :: *
-
-type instance F Int x where
-  F Int Bool = Double
-  F Int Int  = Char
-  F Int a    = Bool
-
-type instance F Bool y = Int
-}}}
-Here the first `type instance` covers calls of form `(F Int x)`, while the second covers
-calls of form `(F Bool y)`.
-
-All the equations in the `where` part must be part of (i.e. an instance of) the 
-type space declared in the header.  For example, this will be disallowed:
-
-{{{
-type instance Bad [x] y where
-  Bad [Int] Int = Bool -- OK
-  Bad a     b   = ()   -- not OK: outside the type space (Bad [x] y)
-}}}
-
-The declared type space will be checked for overlap with other instances using the same linearization check that unbranched instances use.
-
 == Concrete Proposal ==
 
- * Among unbranched instances, check linearized forms of the LHS of instances when doing overlap checking. Thus, our two problematic instances of {{{F}}}, at the top, will conflict.
+ * Use plan (B) to check for overlap. Thus, our two problematic instances of {{{F}}}, at the top, will conflict.
 
- * After linearizing a left-hand side, the right-hand side of the instance is ill-defined. Thus, the current coincidence check (see [wiki:NewAxioms/CoincidentOverlap here] for more information) is no longer possible and will be removed. (Don't yell yet. Keep reading.)
+ * The current coincidence check (see [wiki:NewAxioms/CoincidentOverlap here] for more information) is no longer straightforward and will be removed. (Don't yell yet. Keep reading.)
 
  * Allow coincident overlap within branched instances. This recovers the lost coincident overlap check on unbranched instances. See [wiki:NewAxioms/CoincidentOverlap here] for more information.
 
- * Optional: Add type space declarations to the {{{type instance where}}} syntax, checking to make sure that branches fit within the declared space. [wiki:NewAxioms/TypeSpaces This page] has the details.
-
- * Optional: Add new syntax {{{type family Foo a b where { Foo ... = ... ; Foo ... = ... } }}} to declare a type family with one branched instance covering the entire type space. This would be a ''closed'' type family.
-
-== Discussion about coincident overlap ==
-
-This proposal has the net effect of forcing all uses of coincident overlap to appear in one module, instead of spread across modules. That's admittedly not great, but it's possible that no one will be negatively affected. The only alternative we've (Simon, Dimitrios, Richard) thought of is to disallow coincident overlap when the left-hand sides are non-linear, but that seems very ugly and ad-hoc.
-
-To see why disallowing coincident overlap checking for unbranched axioms is vitally necessary, consider this example:
-
-{{{
-type instance F a a Int = a
-type instance F c d d   = Int
-}}}
-
-This overlap is most certainly are not OK (think about {{{F G G G}}}, where this is the malignant {{{G}}} from the beginning of this page), but they do coincide in the region of overlap. Yuck Yuck! So, we give up and just say "no" to coincident overlap in this case.
+ * Optional: Change the syntax for branched family instances, as described [wiki:NewAxioms/ClosedTypeFamilies here].
 
 == Alternative (Non-)Solution ==
 
