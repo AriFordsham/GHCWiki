@@ -68,7 +68,7 @@ Intuition: under (B) the only way that unification fails is because of a definit
 ## Problem: coincident overlap
 
 
-In the official release of GHC, it is permitted to write something like this (see [manual](http://www.haskell.org/ghc/docs/latest/html/users_guide/type-families.html#type-family-overlap)):
+In the official release of GHC, it is permitted to write something like this (see [manual](http://www.haskell.org/ghc/docs/latest/html/users_guide/type-families.html#type-family-overlap)), and the extensive discussion on [\#4259](https://gitlab.haskell.org//ghc/ghc/issues/4259):
 
 ```wiki
 type instance F Int = Int

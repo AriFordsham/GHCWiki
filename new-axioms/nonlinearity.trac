@@ -47,7 +47,7 @@ Intuition: under (B) the only way that unification fails is because of a definit
 
 == Problem: coincident overlap == 
 
-In the official release of GHC, it is permitted to write something like this (see [http://www.haskell.org/ghc/docs/latest/html/users_guide/type-families.html#type-family-overlap manual]):
+In the official release of GHC, it is permitted to write something like this (see [http://www.haskell.org/ghc/docs/latest/html/users_guide/type-families.html#type-family-overlap manual]), and the extensive discussion on #4259:
 
 {{{
 type instance F Int = Int
