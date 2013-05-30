@@ -44,7 +44,7 @@ Using such a check, the two instances for `F` above indeed conflict, because we 
 This can break existing code. But, a medium-intensity search did not find *any* uses of nonlinear (i.e. with a repeated variable) family instances in existing code, so I think we should be OK. However, a change needs to be made -- the current system is subtly broken and has been so for years.
 
 
-(Interestingly, proofs of the soundness of the existing system have been published. For example, see [ here](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/fc-tldi.pdf) and [ here](http://www.cis.upenn.edu/~stevez/papers/WVPJZ11.pdf). These proofs are not necessarily incorrect, but they implicitly don't allow nonlinear family instances.)
+(Interestingly, proofs of the soundness of the existing system have been published. For example, see [ here](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/fc-tldi.pdf) and [ here](http://www.cis.upenn.edu/~stevez/papers/WVPJZ11.pdf). These proofs are not  incorrect, but they  don't allow both undecidable instances and nonlinear family instances.)
 
 
 Conor's alternative general idea:
