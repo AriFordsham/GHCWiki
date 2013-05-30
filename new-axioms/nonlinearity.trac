@@ -36,10 +36,10 @@ This can break existing code. But, a medium-intensity search did not find ''any'
 
 Conor's alternative general idea:
  * (B) '''when performing the overlap check, during unification succeed (instead of failing) if the occurs check happens'''
-This is a bit more permissive than (A).  For example
+Remember "unification succeeds" means "overlap detected", so (B) is a bit more permissive than (A).  For example
 {{{
-  type instance F x   x    = blah
-  type instance F Int Bool = boo
+  type instance Good x   x    = blah
+  type instance Good Int Bool = boo
 }}}
 These would be considered overlapping by (A), but accepted as non-overlapping (ie unification fails) by (B).  And indeed these two are fine (ie cannot give rise to unsoundness).
 
