@@ -62,6 +62,9 @@ Remember "unification succeeds" means "overlap detected", so (B) is a bit more p
 
 These would be considered overlapping by (A), but accepted as non-overlapping (ie unification fails) by (B).  And indeed these two are fine (ie cannot give rise to unsoundness).
 
+
+Intuition: under (B) the only way that unification fails is because of a definite conflict (eg `Int` \~ `Bool`).  And unification failing is what allows us to accept the two equations as non-overlapping.  So if we accept them, they have a definite conflict.
+
 ## Problem: coincident overlap
 
 
