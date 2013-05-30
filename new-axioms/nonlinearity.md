@@ -34,7 +34,7 @@ It's worth noting that `-XUndecidableInstances` is necessary to exploit this pro
 
 We need to consider the two instances of `F` to be overlapping and inadmissible. There are a handful of ways to do this, but the best seems to be this: 
 
-- **when performing the overlap check between two instances, check a version of the instances where all variables are distinct**
+- (A) **when performing the overlap check between two instances, check a version of the instances where all variables are distinct**
 
 
 We call the "version of the instance where all variables are distinct" the "linearized form" of the instance.
@@ -49,7 +49,18 @@ This can break existing code. But, a medium-intensity search did not find *any* 
 
 Conor's alternative general idea:
 
-- **when performing the overlap check, during unification succeed (instead of failing) if the occurs check happens**
+- (B) **when performing the overlap check, during unification succeed (instead of failing) if the occurs check happens**
+
+
+This is a bit more permissive than (A).  For example
+
+```wiki
+  type instance F x   x    = blah
+  type instance F Int Bool = boo
+```
+
+
+These would be considered overlapping by (A), but accepted as non-overlapping (ie unification fails) by (B).
 
 ## Problem: coincident overlap
 
