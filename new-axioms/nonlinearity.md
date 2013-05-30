@@ -34,7 +34,7 @@ It's worth noting that `-XUndecidableInstances` is necessary to exploit this pro
 
 We need to consider the two instances of `F` to be overlapping and inadmissible. There are a handful of ways to do this, but the best seems to be this: 
 
-- **when performing the overlap check between two instances, check a version of the instances where all variables are distinct**
+- (A) **when performing the overlap check between two instances, check a version of the instances where all variables are distinct**
 
 
 We call the "version of the instance where all variables are distinct" the "linearized form" of the instance.
@@ -45,6 +45,22 @@ This can break existing code. But, a medium-intensity search did not find *any* 
 
 
 (Interestingly, proofs of the soundness of the existing system have been published. For example, see [ here](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/fc-tldi.pdf) and [ here](http://www.cis.upenn.edu/~stevez/papers/WVPJZ11.pdf). These proofs are not necessarily incorrect, but they implicitly don't allow nonlinear family instances.)
+
+
+Conor's alternative general idea:
+
+- (B) **when performing the overlap check, during unification succeed (instead of failing) if the occurs check happens**
+
+
+Remember "unification succeeds" means "overlap detected", so (B) is a bit more permissive than (A).  For example
+
+```wiki
+  type instance Good x   x    = blah
+  type instance Good Int Bool = boo
+```
+
+
+These would be considered overlapping by (A), but accepted as non-overlapping (ie unification fails) by (B).  And indeed these two are fine (ie cannot give rise to unsoundness).
 
 ## Problem: coincident overlap
 
