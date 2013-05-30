@@ -1,3 +1,5 @@
+## Implementation Plan
+
 ### Add MetaML-style quotes
 
 
@@ -51,3 +53,74 @@ Note that there should be no restriction on `a` to be a pure type, i.e. it could
 
 
 It is implicit in the above, but should be made explicit: untyped quotes/splices/quasiquotes should continue to work as they are -- which in detail means that they should be run in the renamer.  Typed quotes/splices/quasiquotes, should be run by the typechecker.
+
+## Implementation Status
+
+
+Implementation work on Typed Template Haskell is being done on the `th-new` branch.
+
+### Compiling the `th-new` branch
+
+1. Set up a ghc tree as you normally would. See [Building/GettingTheSources](building/getting-the-sources). Check out out the `th-new` branch, e.g.,
+  `$ git clone -b th-new http://darcs.haskell.org/ghc.git/`
+
+1. Check out the `th-new` branch in `libraries/template-haskell`.
+
+1. Check out the `th-new` branch in `testsuite`.
+
+1. Configure and build as you would normally (see Building). Note that if you want to use the GHC API to perform run time compilation, you will have to add
+
+```wiki
+DYNAMIC_BY_DEFAULT = NO
+```
+
+>
+> to your `mk/build.mk` file so that GHC is built statically. See [\#7774](https://gitlab.haskell.org//ghc/ghc/issues/7774).
+
+### Features
+
+1. **A new abstract type of typed expressions**`TExp a`.  Internally, this is just a Template Haskell `Exp` with a phantom type.
+
+1. **A new term quotation form**`[||e||]`, called a typed quote. The type of the quote is `Q (TExp tau)`, where `tau` is the type of `e`. In the type-system jargon, this is the "introduction form" for `TExp`. The *value* of this quote is an action in the `Q` monad that computes the (typed) AST for `e`.
+
+1. **A new splice form**`$$e`, called a typed splice. The term `e` must have type `Q (TExp tau)`, and the splice `$$e` then has type tau. This is the "elimination form" for `TExp`.
+
+1. **A constant which takes a typed quote and returns an untyped one**: `unType :: TExp a -> Exp`. There is also a constant `unTypeQ :: Q (TExp a) -> Q Exp`.
+
+1. **Typed splices are run in the typechecker.**
+
+1. **Un-typed splices are run in the renamer.**
+
+1. **Cross-stage persistence is remain unchanged.**
+
+1. **(Un-typed) pattern and local declaration splices are supported.**
+
+1. **Ability to add new top-level declarations from within a top-level splice.** Any top-level splice may add a new top-level declaration using the function `addTopDecl :: [Dec] -> Q ()`. Bindings introduced by these top level declarations are immediately available for use. Only functions and values may be bound by declarations added with `addTopDecl`, and the introduced binders must be `NameU`'s, i.e., generated with `newName` instead of `mkName`.
+
+### Remaining Issues/Questions
+
+**Pattern Splices and Bindings**
+
+
+Top-level pattern splices are run in the renamer, so they may *introduce binders*. However, nested pattern splices, i.e., pattern splices that occur in a bracket, *are not* run in the renamer, so they *may not introduce binders*. This is arguably inconsistent and undesirable, although top-level splices really are different beasts from nested splices.
+
+
+This behavior is also inconsistent with quasiquoters. Because *all* quasiquoters are run in the renamer, they may introduce binders even when they are nested within brackets!
+
+**Name Splices**
+
+
+It would be nice to be able to write code like this:
+
+```wiki
+foo = [d|data `T = ...|]
+```
+
+
+where `T` is of type `Name`. Right now, generating a data type declaration with a gensym'd name requires using the smart constructors provided by the Template Haskell library.
+
+
+Our proposal is to introduce ``n` as syntax for a *name splice*. In an expression context, ``n` would produce a variable expression for the variable with `Name``n`; in a pattern context, it would bind the variable with `Name``n`; in a type constructor context it would produce a declaration for the type constructor with `Name``n`.
+
+
+What about a type context? Should it produce a type variable? And in an expression context, how to we produce a data constructor by name?
