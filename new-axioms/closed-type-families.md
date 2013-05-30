@@ -68,7 +68,7 @@ type instance G Int = Bool
 type instance G (x,y) = G' x y
 type family G' x y where
   G' Int Int = Double
-  G' a b =Int
+  G' a b = Int
 ```
 
 

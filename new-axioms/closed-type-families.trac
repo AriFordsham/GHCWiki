@@ -59,7 +59,7 @@ type instance G Int = Bool
 type instance G (x,y) = G' x y
 type family G' x y where
   G' Int Int = Double
-  G' a b =Int
+  G' a b = Int
 }}}
 
 This case has become more verbose, but I doubt it will come up often.
