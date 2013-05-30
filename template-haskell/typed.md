@@ -95,7 +95,7 @@ DYNAMIC_BY_DEFAULT = NO
 
 1. **(Un-typed) pattern and local declaration splices are supported.**
 
-1. **Ability to add new top-level declarations from within a top-level splice.** Any top-level splice may add a new top-level declaration using the function `addTopDecl :: [Dec] -> Q ()`. Bindings introduced by these top level declarations are immediately available for use. Only functions and values may be bound by declarations added with `addTopDecl`, and the introduced binders must be `NameU}}'s, i.e., generated with {{{newName` instead of `mkName`.
+1. **Ability to add new top-level declarations from within a top-level splice.** Any top-level splice may add a new top-level declaration using the function `addTopDecl :: [Dec] -> Q ()`. Bindings introduced by these top level declarations are immediately available for use. Only functions and values may be bound by declarations added with `addTopDecl`, and the introduced binders must be `NameU`'s, i.e., generated with `newName` instead of `mkName`.
 
 ### Remaining Issues/Questions
 
