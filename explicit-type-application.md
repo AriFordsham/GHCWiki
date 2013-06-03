@@ -187,6 +187,9 @@ f {Int} {Bool} {Char} ...          {- Agda; potential record conflict -}
 #f Int Bool Char ...
 ```
 
+
+For more information on explicit type application, see [\#4466](https://gitlab.haskell.org//ghc/ghc/issues/4466).
+
 ### Syntax for promoted datatypes
 
 

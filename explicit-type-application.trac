@@ -151,6 +151,8 @@ f {Int} {Bool} {Char} ...          {- Agda; potential record conflict -}
 #f Int Bool Char ...
 }}}
 
+For more information on explicit type application, see #4466.
+
 === Syntax for promoted datatypes ===
 With `-XPolyKinds` on, we can also match/apply kind arguments. This introduces the
 need to disambiguate between a datatype and the promoted kind it introduces.
