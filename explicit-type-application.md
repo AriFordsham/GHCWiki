@@ -173,6 +173,20 @@ f :: Int -> forall a. a
 This approach should work in general, and hopefully only few programs will
 actually need to use it.
 
+### Other Syntax Proposals
+
+
+Here are some other examples of syntax that could be used for explicit type application:
+
+```wiki
+f :: forall a b c. a -> b -> c -> (a, b, c)
+
+f @Int @Bool @Char 3 True 'a'      {- Similar to above -}
+f {Int} {Bool} {Char} ...          {- Agda; potential record conflict -}
+@f Int Bool Char ...               {- Coq -}
+#f Int Bool Char ...
+```
+
 ### Syntax for promoted datatypes
 
 
@@ -214,3 +228,8 @@ kind-specific classes by writing, for example:
 ```wiki
 type Typeable1 = Typeable @(* -> *)
 ```
+
+### Further Information
+
+
+For more information on explicit type application, see [\#4466](https://gitlab.haskell.org//ghc/ghc/issues/4466).

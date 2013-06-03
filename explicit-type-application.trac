@@ -140,6 +140,17 @@ f :: Int -> forall a. a
 This approach should work in general, and hopefully only few programs will
 actually need to use it.
 
+=== Other Syntax Proposals ===
+Here are some other examples of syntax that could be used for explicit type application:
+{{{
+f :: forall a b c. a -> b -> c -> (a, b, c)
+
+f @Int @Bool @Char 3 True 'a'      {- Similar to above -}
+f {Int} {Bool} {Char} ...          {- Agda; potential record conflict -}
+@f Int Bool Char ...               {- Coq -}
+#f Int Bool Char ...
+}}}
+
 === Syntax for promoted datatypes ===
 With `-XPolyKinds` on, we can also match/apply kind arguments. This introduces the
 need to disambiguate between a datatype and the promoted kind it introduces.
@@ -170,3 +181,7 @@ kind-specific classes by writing, for example:
 {{{
 type Typeable1 = Typeable @(* -> *)
 }}}
+
+
+=== Further Information ===
+For more information on explicit type application, see #4466.
