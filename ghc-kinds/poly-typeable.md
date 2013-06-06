@@ -47,25 +47,30 @@ Having polymorphic kinds lets us say this:
 data Proxy t = Proxy
 
 class Typeable t where
-  typeRep :: Proxy t -> TypeRep
+  typeRep :: proxy t -> TypeRep
 ```
 
 
 Notice that
 
-- `Typeable` and `Proxy` have polymorphic kinds:
+- `Typeable` has a polymorphic kind:
 
   ```wiki
-    Proxy    :: forall k. k -> *
     Typeable :: forall k. k -> Constraint
   ```
 
 - The method is called `typeRep` rather than `typeOf`
 
-- One reason for the name change is that the argument is not a value of the type `t`, but a value of type `(Proxy t)`.  We have to do this because `t` may have any kind, so we can't say 
+- One reason for the name change is that the argument is not a value of the type `t`, but a value of type `(proxy t)`.  We have to do this because `t` may have any kind, so we can't say 
 
   ```wiki
     typeOf :: t -> TypeRep
+  ```
+
+- You can instantiate `proxy` to whatever you want; one common choice is the poly-kinded `Proxy` datatype:
+
+  ```wiki
+    Proxy:: forall k. k -> *
   ```
 
 
