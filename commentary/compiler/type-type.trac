@@ -101,7 +101,7 @@ GHC uses the following nomenclature for types:
   
   Currently, all primitive types are unlifted, but that's not necessarily the case.  (E.g. Int could be primitive.)
 
-  Some primitive types are unboxed, such as Int#, whereas some are boxed but unlifted (such as ByteArray#).  The only primitive types that we classify as algebraic are the unboxed tuples.
+  Some primitive types are unboxed, such as Int#, whereas some are boxed but unlifted (such as `ByteArray#`).  The only primitive types that we classify as algebraic are the unboxed tuples.
 
 Examples of type classifications:
 
