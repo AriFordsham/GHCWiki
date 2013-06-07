@@ -14,7 +14,7 @@ The single data type `Type` is used to represent
 GHC's use of [coercions and equality constraints](commentary/compiler/fc) is important enough to deserve its own page.
 
 
-The module `TypeRep` exposes the representation becauese a few other modules (`Type`, `TcType`, `Unify`, etc) work directly on its representation.  However, you should not lightly pattern-match on `Type`; it is meant to be an abstract type.  Instead, try to use functions defined by `Type`, `TcType` etc.
+The module `TypeRep` exposes the representation because a few other modules (`Type`, `TcType`, `Unify`, etc) work directly on its representation.  However, you should not lightly pattern-match on `Type`; it is meant to be an abstract type.  Instead, try to use functions defined by `Type`, `TcType` etc.
 
 ## Views of types
 
@@ -105,7 +105,7 @@ A similar invariant applies to `FunTy`; `TyConApp` is never used with an arrow t
 Type variables are represented by the `TyVar` constructor of the [data type Var](commentary/compiler/entity-types).  
 
 
-Type variables range over both *types* (possibly of higher kind) or *coercions*.  You could tell the differnece between these two by taking the `typeKind` of the kind of the type variable, adn seeing if you have sort `TY` or `CO`, but for efficiency the `TyVar` keeps a boolean flag, and offes a function:
+Type variables range over both *types* (possibly of higher kind) or *coercions*.  You could tell the difference between these two by taking the `typeKind` of the kind of the type variable, and seeing if you have sort `TY` or `CO`, but for efficiency the `TyVar` keeps a boolean flag, and returns a function:
 
 ```wiki
   isCoercionVar :: TyVar -> Bool
