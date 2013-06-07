@@ -79,19 +79,15 @@ Neat, huh?
 Here, then is the representation of types (see [compiler/types/TypeRep.lhs](/trac/ghc/browser/ghc/compiler/types/TypeRep.lhs) for more details):
 
 ```wiki
-data Type = TyVarTy TyVar			-- Type variable
+data Type = TyVarTy Var				-- Type variable
   	  | AppTy Type Type			-- Application
   	  | TyConApp TyCon [Type]		-- Type constructor application
   	  | FunTy Type Type			-- Arrow type
-  	  | ForAllTy TyVar Type			-- Polymorphic type
-  	  | PredTy PredType			-- Type constraint
-  	  | NoteTy TyNote Type			-- Annotation
+  	  | ForAllTy Var Type			-- Polymorphic type
+  	  | LitTy TyLit 			-- Type literals
 
-data PredType = ClassP Class [Type]		-- Class predicate
-              | IParam (IPName Name) Type	-- Implicit parameter
-              | EqPred Type Type		-- Equality predicate (ty1 :=: ty2)
-
-data TyNote = FTVNote TyVarSet	-- The free type variables of the noted expression
+data TyLit = NumTyLit Integer			-- A number
+           | StrTyLit FastString		-- A string
 ```
 
 
