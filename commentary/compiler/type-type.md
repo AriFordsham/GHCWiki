@@ -79,7 +79,9 @@ Neat, huh?
 Here, then is the representation of types (see [compiler/types/TypeRep.lhs](/trac/ghc/browser/ghc/compiler/types/TypeRep.lhs) for more details):
 
 ```wiki
-data Type = TyVarTy Var				-- Type variable
+type TyVar = Var
+
+data Type = TyVarTy TyVar			-- Type variable
   	  | AppTy Type Type			-- Application
   	  | TyConApp TyCon [Type]		-- Type constructor application
   	  | FunTy Type Type			-- Arrow type
@@ -95,17 +97,50 @@ Invariant: if the head of a type application is a `TyCon`, GHC *always* uses the
 This invariant is maintained internally by 'smart constructors'.
 A similar invariant applies to `FunTy`; `TyConApp` is never used with an arrow type.
 
-## Type variables
-
 
 Type variables are represented by the `TyVar` constructor of the [data type Var](commentary/compiler/entity-types).  
 
+## Overloaded types
 
-Type variables range over both *types* (possibly of higher kind) or *coercions*.  You could tell the difference between these two by taking the `typeKind` of the kind of the type variable, and seeing if you have sort `TY` or `CO`, but for efficiency the `TyVar` keeps a boolean flag, and returns a function:
+
+In Haskell we write 
 
 ```wiki
-  isCoercionVar :: TyVar -> Bool
+f :: forall a. Num a => a -> a
 ```
+
+
+but in Core the `=>` is represented by an ordinary `FunTy`. So f's type looks like this:
+
+```wiki
+   ForAllTy a (TyConApp num [TyVarTy a] `FunTy` TyVarTy a `FunTy` TyVarTy a)
+where
+   a   :: TyVar
+   num :: TyCOn
+```
+
+
+Nevertheless, we can tell when a function argument is actually a predicate (and hence should be displayed with `=>`, etc), using 
+
+```wiki
+isPredTy :: Type -> Bool
+```
+
+
+The various forms of predicate can be extracted thus:
+
+```wiki
+classifyPredType :: Type -> PredTree
+
+data PredTree = ClassPred Class [Type]   -- Class predicates e.g. (Num a)
+              | EqPred Type Type         -- Equality predicates e.g. (a ~ b)
+              | TuplePred [PredType]     -- Tuples of predicates e.g. (Num a, a~b)
+              | IrredPred PredType       -- Higher order predicates e.g. (c a)
+```
+
+
+These functions are defined in module `Type`.
+ 
 
 ## Classifying types
 
