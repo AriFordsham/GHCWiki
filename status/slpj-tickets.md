@@ -2,7 +2,6 @@
 
 ## Type inference
 
-- [\#7897](https://gitlab.haskell.org//ghc/ghc/issues/7897): make the fingerprint in a `TypeRep` be a proper fingerprint, including the type definition all the way down (see [ Recompilation avoidance](http://hackage.haskell.org/trac/ghc/wiki/DependencyTracking))
 - [\#7558](https://gitlab.haskell.org//ghc/ghc/issues/7558): Terrible error message in inaccessible code
 - [\#5682](https://gitlab.haskell.org//ghc/ghc/issues/5682): Parsing of pomoted kinds
 - [\#6022](https://gitlab.haskell.org//ghc/ghc/issues/6022): over-general types are inferred
@@ -55,6 +54,7 @@ See also [TemplateHaskell](template-haskell)
 
 ## Compile time
 
+- [\#7898](https://gitlab.haskell.org//ghc/ghc/issues/7898): `SpecConstr` blowup
 - [\#7450](https://gitlab.haskell.org//ghc/ghc/issues/7450), [\#7258](https://gitlab.haskell.org//ghc/ghc/issues/7258): deriving `Read` generates gigantic code. Better now, but still not linear.
 - [\#7428](https://gitlab.haskell.org//ghc/ghc/issues/7428): Non-linear compile time: `addFingerprint`??
 
@@ -219,6 +219,7 @@ See also [TemplateHaskell](template-haskell)
 
 ## Not sure what to do about these
 
+- [\#7897](https://gitlab.haskell.org//ghc/ghc/issues/7897): make the fingerprint in a `TypeRep` be a proper fingerprint, including the type definition all the way down (see [ Recompilation avoidance](http://hackage.haskell.org/trac/ghc/wiki/DependencyTracking))
 - [\#2284](https://gitlab.haskell.org//ghc/ghc/issues/2284), [\#1168](https://gitlab.haskell.org//ghc/ghc/issues/1168), [\#7561](https://gitlab.haskell.org//ghc/ghc/issues/7561): the state-hack "optimisation" causes much re-computation
 - [\#4005](https://gitlab.haskell.org//ghc/ghc/issues/4005): generational GC pathalogical case
 - [\#1349](https://gitlab.haskell.org//ghc/ghc/issues/1349): strict function argument types
