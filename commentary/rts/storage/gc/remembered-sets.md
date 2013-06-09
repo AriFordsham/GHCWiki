@@ -16,15 +16,6 @@ In GHC each `generation` structure contains a field `mut_list`, which points to 
   we typically do not have much mutation to worry about, so card marking would be a poor compromise in our case.
 
 
-GHC currently has a performance bug related to its representation of remembered sets:
-
-<table><tr><th>[\#650](https://gitlab.haskell.org//ghc/ghc/issues/650)</th>
-<td>Improve interaction between mutable arrays and GC</td></tr></table>
-
-
-the problem here is that our policy of tracking only the pointer to the array in the remembered set has lead to severe performance problems; either of the other two representations would be better.
-
-
 The remembered set may contain duplicates, or it may contain pointers to objects that don't really point to young generations.
 
 ## Remembered set maintenance during mutation
