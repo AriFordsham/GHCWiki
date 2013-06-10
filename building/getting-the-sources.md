@@ -7,8 +7,7 @@ There are two ways to get sources to GHC: download a source distribution, or get
 
 
 A source distribution is a file like `ghc-7.0.4-src.tar.bz2`, which contains a complete snapshot of the source tree for a particular version of GHC. Source distributions for all versions of GHC are available from the [download page](http://www.haskell.org/ghc/download.html).
-
-
+[ konsultan pajak](http://www.pbtaxand.com/our-services/tax-advisory-services) \| [ roller blind](http://www.tiraimodern.com/product/roller-blind) \| [ vertical blind](http://www.tiraimodern.com/product/vertical-blind) \| [ atap fiberglass](http://www.goldenfibreglass.com/product-atap-fiberglass.php)
 In addition to fixed releases of GHC, source distributions are also made each night from the current source repository, for both the HEAD and STABLE branches. To download these snapshots, head over to the [download page](http://www.haskell.org/ghc/download.html).
 
 
