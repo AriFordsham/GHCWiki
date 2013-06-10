@@ -24,14 +24,6 @@ The proposal addresses security in the following scenario.
   - Any Haskell modules of A compiled without `-XSafe`.
 - The user does not trust M, which is why he or she compiles M with `-XSafe`.
 
-## [ vertical blind](http://www.tiraimodern.com/product/vertical-blind)
-
-## [ roller blind](http://www.tiraimodern.com/product/roller-blind)
-
-## [ selai kacang](http://www.morinfoods.com/selai-kacang.html)
-
-## [ atap fiberglass](http://www.goldenfibreglass.com/product-atap-fiberglass.php)
-
 ## Design
 
 
