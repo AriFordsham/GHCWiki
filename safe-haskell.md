@@ -33,8 +33,7 @@ The design of Safe Haskell involves the following aspects:
 - A new "safe import" extension to Haskell that specifies the module being imported must be trusted.
 - A definition of "trust" and how it operates, as well as ways of defining and changing the trust of modules and packages.
 
-[ vertical blind](http://www.tiraimodern.com/product/vertical-blind) \| [ roller blind](http://www.tiraimodern.com/product/roller-blind) \| \[
-[ http://www.morinfoods.com/selai-kacang.html](http://www.morinfoods.com/selai-kacang.html) selai kacang\] \|  [ atap fiberglass](http://www.goldenfibreglass.com/product-atap-fiberglass.php)
+[ vertical blind](http://www.tiraimodern.com/product/vertical-blind) \| [ roller blind](http://www.tiraimodern.com/product/roller-blind) \| [ selai kacang](http://www.morinfoods.com/selai-kacang.html) \|  [ atap fiberglass](http://www.goldenfibreglass.com/product-atap-fiberglass.php)
 
 ## Safe Language Overview
 
