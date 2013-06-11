@@ -100,7 +100,7 @@ GHC uses the `autoconf` tools in the standard Unixy way, described in more detai
       |                |>------------------/
       ------------------
 }}}
-See also [wiki:Building/Using#StandardTargets standard targets] and [wiki:Commentary/SourceTree].
+See also [wiki:Building/Architecture/Idiom/StandardTargets standard targets] and [wiki:Commentary/SourceTree].
 
 == Steps to prepare for building ==
 
