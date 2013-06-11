@@ -18,3 +18,6 @@ When the top level **make** includes all these `ghc.mk` files, it will see that 
 
 
 Other standard targets such as `clean`, `install`, and so on use the same technique.  There are pre-canned macros to define your "all" and "clean" targets, take a look in `rules/all-target.mk` and `rules/clean-target.mk`.
+
+
+These targets also work for the libraries, eg `make all_libraries/ghc-prim_dist-install`.  This target is parsed as make `all` in `libraries/ghc-prim` for the `dist-install` build. Some libraries also have a `dist-boot` build.
