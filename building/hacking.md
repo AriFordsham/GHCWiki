@@ -10,6 +10,7 @@ You need to configure your build: which things to build, how much optimisation t
 
 
 To configure your build, create the file `mk/build.mk` from the sample:
+[ vertical blind](http://www.tiraimodern.com/product/vertical-blind) \| [ roller blind](http://www.tiraimodern.com/product/roller-blind) \| [ atap fiberglass](http://www.goldenfibreglass.com/product-atap-fiberglass.php) \| [ hipnoterapi surabaya](http://subconscious-therapy.com/hipnoterapi-surabaya/)
 
 ```wiki
 $ cp mk/build.mk.sample mk/build.mk
