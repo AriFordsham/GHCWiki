@@ -247,13 +247,10 @@ Let's analyze line by line the part responsible for evaluating the scrutinee:
                       # 0 and so %rax is now 0. If at least one of them was
                       # negative then its sign bit must have been 1 and so %rax
                       # is now 1
-  cmpq   %rdi, %r14   # subtract width (in %rdi) from x (in %r14), discard the
-                      # result and set the flags. If width was greater than x
-                      # then SF is set to 1 and OF is set to 0. This is tricky
-                      # because combination of SF and OF is needed to decide
-                      # which argument is actually equal 
-  setge  %cl          # if OF=SF it means that x was greater or equal to width
-                      # and we note that fact by setting LSB in %cl to 1
+  cmpq   %rdi, %r14   # compare width (in %rdi) with x (in %r14) and set the flags
+                      # in the flag register according to the result.
+  setge  %cl          # if, based on flags set by cmpq, x was greater or equal to 
+                      # width then we set %cl to 1. Otherwise it is set to 0.
   movzbl %cl, %ecx    # zero the bits of %ecx register except the lowest 8 bits
                       # containg the result of previous operation
   orq    %rax, %rcx   # perform logical OR on results of the previous test and
