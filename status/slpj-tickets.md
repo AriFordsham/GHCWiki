@@ -2,12 +2,12 @@
 
 ## Type inference
 
+- [\#7259](https://gitlab.haskell.org//ghc/ghc/issues/7259): Eta-expansion of products in System FC
 - [\#7558](https://gitlab.haskell.org//ghc/ghc/issues/7558): Terrible error message in inaccessible code
 - [\#5682](https://gitlab.haskell.org//ghc/ghc/issues/5682): Parsing of pomoted kinds
 - [\#6022](https://gitlab.haskell.org//ghc/ghc/issues/6022): over-general types are inferred
 - [\#5642](https://gitlab.haskell.org//ghc/ghc/issues/5642): slow constraint solving
 - [\#7346](https://gitlab.haskell.org//ghc/ghc/issues/7346), [\#7878](https://gitlab.haskell.org//ghc/ghc/issues/7878): Pedro's generics and deriving
-- [\#5863](https://gitlab.haskell.org//ghc/ghc/issues/5863): deriving `Typeable` for data families
 - [\#7828](https://gitlab.haskell.org//ghc/ghc/issues/7828), [\#5267](https://gitlab.haskell.org//ghc/ghc/issues/5267), [\#5777](https://gitlab.haskell.org//ghc/ghc/issues/5777), [\#5333](https://gitlab.haskell.org//ghc/ghc/issues/5333), [\#344](https://gitlab.haskell.org//ghc/ghc/issues/344): bugs in arrows
 - [\#7204](https://gitlab.haskell.org//ghc/ghc/issues/7204): a class to controll FFI marshalling; and newtype deriving for classes with ATs
 - [\#7862](https://gitlab.haskell.org//ghc/ghc/issues/7862): overlap beween givens and instances
@@ -26,6 +26,7 @@ See also [TemplateHaskell](template-haskell)
 
 ## Demand analysis and CSE
 
+- [\#7994](https://gitlab.haskell.org//ghc/ghc/issues/7994): Make foldl into a good consumer; needs better arity analysis
 - [\#7520](https://gitlab.haskell.org//ghc/ghc/issues/7520): Cardinality analysis
 - [\#7619](https://gitlab.haskell.org//ghc/ghc/issues/7619): make demand and CPR analysis cope with data families
 - [\#6070](https://gitlab.haskell.org//ghc/ghc/issues/6070), [\#5949](https://gitlab.haskell.org//ghc/ghc/issues/5949), [\#5775](https://gitlab.haskell.org//ghc/ghc/issues/5775), [\#4267](https://gitlab.haskell.org//ghc/ghc/issues/4267), [\#5302](https://gitlab.haskell.org//ghc/ghc/issues/5302), [\#6087](https://gitlab.haskell.org//ghc/ghc/issues/6087): Demand analysis
@@ -145,7 +146,6 @@ See also [TemplateHaskell](template-haskell)
 - [\#7908](https://gitlab.haskell.org//ghc/ghc/issues/7908): Kind polymorphism notation
 - [\#7503](https://gitlab.haskell.org//ghc/ghc/issues/7503): Kind polymorphism and mutual recursion
 - [\#6018](https://gitlab.haskell.org//ghc/ghc/issues/6018), [\#4259](https://gitlab.haskell.org//ghc/ghc/issues/4259): Injective type families and type family overlap
-- [\#7259](https://gitlab.haskell.org//ghc/ghc/issues/7259): Eta-expansion of products in System FC
 - [\#4296](https://gitlab.haskell.org//ghc/ghc/issues/4296): SkolemOccurs
 - [\#816](https://gitlab.haskell.org//ghc/ghc/issues/816). [\#3108](https://gitlab.haskell.org//ghc/ghc/issues/3108): extreme delicacy in solve order, involving fundeps
 

@@ -2,12 +2,12 @@
 
 == Type inference ==
 
+ * #7259: Eta-expansion of products in System FC
  * #7558: Terrible error message in inaccessible code
  * #5682: Parsing of pomoted kinds
  * #6022: over-general types are inferred
  * #5642: slow constraint solving
  * #7346, #7878: Pedro's generics and deriving
- * #5863: deriving `Typeable` for data families
  * #7828, #5267, #5777, #5333, #344: bugs in arrows
  * #7204: a class to controll FFI marshalling; and newtype deriving for classes with ATs
  * #7862: overlap beween givens and instances
@@ -22,6 +22,7 @@ See also [wiki:TemplateHaskell]
  * #7484: TH allows you to build invalid names
 
 == Demand analysis and CSE == 
+ * #7994: Make foldl into a good consumer; needs better arity analysis
  * #7520: Cardinality analysis
  * #7619: make demand and CPR analysis cope with data families
  * #6070, #5949, #5775, #4267, #5302, #6087: Demand analysis
@@ -129,7 +130,6 @@ See also [wiki:TemplateHaskell]
  * #7908: Kind polymorphism notation
  * #7503: Kind polymorphism and mutual recursion
  * #6018, #4259: Injective type families and type family overlap
- * #7259: Eta-expansion of products in System FC
  * #4296: !SkolemOccurs
  * #816. #3108: extreme delicacy in solve order, involving fundeps
 
