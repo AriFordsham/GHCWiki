@@ -54,7 +54,11 @@ When either flag is enabled, the same field label may be declared repeatedly in 
 
 === Representation hiding ===
 
-Since the new constraints are '''not''' typeclass constraints, it is reasonable for the constraint solver to consult the fields in scope when deciding whether a solution is valid. This enables representation hiding: exporting the field selector is a proxy for permitting access to the field. For example, consider the following module:
+Since the new constraints are '''not''' typeclass constraints, it is reasonable for the constraint solver to consult the fields in scope when deciding whether a solution is valid. 
+
+'''SLPJ''' As above, I'd like to say that they are just type-class constraints with special syntax.  However, maybe their instances (unlike most type-class instances) can be limited in scope; the instance is in scope iff the record field selector function is.  (Um; this sentence doesn't make so much sense if we suppress the record field selectors.) '''End of SLPJ'''
+
+This enables representation hiding: exporting the field selector is a proxy for permitting access to the field. For example, consider the following module:
 
 {{{
 module M ( R(x) ) where
@@ -81,7 +85,24 @@ R { e | x = t }
 
 means the same as `e { x = t }` except that the type is determined from the data constructor `R`, rather than the field name `x`. Thus it can be used where the latter is ambiguous.
 
+'''SLPJ. Not the ''data'' constructor, for sure.  Possibly the type constructor.  But in any case, this is mean to be a disambiguation of
+{{{
+  e { x = t }
+}}}
+so surely it should look like
+{{{
+  e {T| x = t }
+}}}
+where `T` is the type constructor.  
 
+And there's a design choice here too.  Rather than special syntax we could resolve the ambiguity if you put a type signature in one of these two places:
+{{{
+  e :: T Int { x = t }
+or
+  e { x = t } :: T Int
+}}}
+That's less invasive syntactially, and still does the job.
+'''End of SLPJ'''
 
 == Design choices ==
 
