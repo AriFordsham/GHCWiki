@@ -66,6 +66,9 @@ means the same as `e { x = t }` except that the type is determined from the data
 
 As currently drafted, this proposal advocates using a new operator `.>` rather than changing the meaning of the dot operator, for reasons of backward compatibility and avoidance of a whole host of tricky parsing issues. This could change, if it is felt that the benefits of mimicking other languages outweigh the drawbacks of breaking backwards compatibility.
 
+'''SLPJ'''.  I don't agree here.  Dot-notation is so convenient and so universal that I think we should use it.  And there isn't any ambiguity.  Dot notation is already space-aware: `M.x` is a qualified name whereas `M . x` is the composition of a data constructor `M` with a function `x`.  Similarly `r.x` can mean record selection, distinct from `r . x`.
+'''End of SLPJ'''.
+
 
 === Virtual record fields ===
 
