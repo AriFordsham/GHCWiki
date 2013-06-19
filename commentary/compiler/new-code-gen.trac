@@ -16,7 +16,7 @@ This page summarises work that Norman Ramsey, Simon M, Simon PJ, and John Dias a
 
  * Simon M added a [blog:newcg-update Blog Post] about the new code generator status
 
- * Link to [http://research.microsoft.com/en-us/um/people/simonpj/papers/other-authors/krzysztof-wos-project Krzysztof Wos's project] [http://research.microsoft.com/en-us/um/people/simonpj/tmp/wos-diss-draft.pdf fixed link], in which he reports great performance improvements by turning tail recursion into loops in C--.
+ * Link to [http://research.microsoft.com/en-us/um/people/simonpj/tmp/wos-diss-draft.pdf Krzysztof Wos's project], in which he reports great performance improvements by turning tail recursion into loops in C--.
 
  * Norman added a [wiki:Commentary/Compiler/HooplPerformance Hoopl performance page]
 
