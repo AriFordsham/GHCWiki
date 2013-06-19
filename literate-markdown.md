@@ -1,0 +1,55 @@
+# Literate Markdown
+
+
+Markdown has grown in popularity since github started encouraging people to write their documentation with it.
+Github highlights the source according to how it's labeled, so the haskell code blocks look nice, as do the HTML blocks.
+As an example, here is a blog post written in markdown and rendered by github's source view (please ignore the metadata at the top of the rendered output, as it's only relevant to octopress):
+
+[ https://github.com/elliottt/elliottt.github.com/blob/source/source/_posts/2013-02-19-serenade-in-haskell.markdown](https://github.com/elliottt/elliottt.github.com/blob/source/source/_posts/2013-02-19-serenade-in-haskell.markdown)
+
+
+And here is the source:
+
+[ https://raw.github.com/elliottt/elliottt.github.com/source/source/_posts/2013-02-19-serenade-in-haskell.markdown](https://raw.github.com/elliottt/elliottt.github.com/source/source/_posts/2013-02-19-serenade-in-haskell.markdown)
+
+
+As you can see, the source is a haskell module, and if GHC accepted .md or .markdown as input, this blog post would be executable.
+
+## Current Literate Processing
+
+
+There is one open ticket on the bug tracker about markdown as a literate format, [\#4836](https://gitlab.haskell.org//ghc/ghc/issues/4836), that concerns unlit not processing markdown correctly.  As unlit attempts to preserve CPP in the whole file unless otherwise instructed, markdown headings are treated as CPP and left in.
+
+```wiki
+# Heading
+
+```haskell
+x :: Int
+x  = 10
+```
+```
+
+
+Is translated to the following by unlit:
+
+```wiki
+# Heading
+
+
+x :: Int
+x  = 10
+
+```
+
+## Handling Markdown
+
+
+As markdown has two commonly used extensions, .md and .markdown, it seems reasonable to instruct unlit to not attempt to keep lines that it views as CPP from within code blocks.  Unlit has two flags that should be able to handle this, -r and -\#, which when combined will not leave any markdown headers in the resulting source.
+
+
+Additionally, if the .md and .markdown extensions are to be supported, it should be reasonable to start ghci simply using the module name, and have ghc also search for files with those extensions.
+
+## Patch
+
+
+The above suggestion has been implemented in [ https://github.com/elliottt/ghc/tree/literate-markdown](https://github.com/elliottt/ghc/tree/literate-markdown) .
