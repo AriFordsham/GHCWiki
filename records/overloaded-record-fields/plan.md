@@ -91,19 +91,6 @@ data S = S { x :: Bool }
 
 Any module that imports `M` will have access to the `x` field from `R` but not from `S`, because the instance `Has R "x" Int` will be in scope but the instance `Has S "x" Bool` will not be. Thus `R { x :: Int }` will be solved but `S { x :: Bool }` will not.
 
-### Record selectors
-
-
-Optionally, we could [add a flag \`-XNoMonoRecordFields\`](records/declared-overloaded-record-fields/no-mono-record-fields) to disable the generation of the usual monomorphic record field selector functions.  This is not essential, but would free up the namespace for other record systems (e.g. **lens**). Note that `-XOverloadedRecordFields` will generate monomorphic selectors by default for backwards compatibility reasons, but they will not be usable if multiple selectors with the same name are in scope.
-
-
-When either flag is enabled, the same field label may be declared repeatedly in a single module (or a label may be declared when a function of that name is already in scope).
-
-
-Even if the selector functions are suppressed, we still need to be able to mention the fields in import and export lists, to control access to them (as discussed in the previous section).
-
-**AMG** perhaps we should also have a flag to automatically generate the polymorphic record selectors? These are slightly odd: if two independent imported modules declare fields with the same label, only a single polymorphic record selector should be brought into scope.
-
 ### Record update
 
 
@@ -187,6 +174,19 @@ instance Has T l () where
   getFld _ = ()
 ```
 
+### Record selectors
+
+
+Optionally, we could [add a flag \`-XNoMonoRecordFields\`](records/declared-overloaded-record-fields/no-mono-record-fields) to disable the generation of the usual monomorphic record field selector functions.  This is not essential, but would free up the namespace for other record systems (e.g. **lens**). Note that `-XOverloadedRecordFields` will generate monomorphic selectors by default for backwards compatibility reasons, but they will not be usable if multiple selectors with the same name are in scope.
+
+
+When either flag is enabled, the same field label may be declared repeatedly in a single module (or a label may be declared when a function of that name is already in scope).
+
+
+Even if the selector functions are suppressed, we still need to be able to mention the fields in import and export lists, to control access to them (as discussed in the [representation hiding](records/overloaded-record-fields/plan#representation-hiding) section).
+
+**AMG** perhaps we should also have a flag to automatically generate the polymorphic record selectors? These are slightly odd: if two independent imported modules declare fields with the same label, only a single polymorphic record selector should be brought into scope.
+
 ### Monomorphism restriction and defaulting
 
 
@@ -210,13 +210,40 @@ data S = MkS { y :: Bool }
 
 Inferring the type of `foo = \ e -> e.x` results in `alpha -> beta` subject to the constraint `alpha { x :: beta }`. However, the monomorphism restriction prevents this constraint from being generalised. There is only one `x` field in scope, so defaulting specialises the type to `T -> Int`. If the `y` field was used, it would instead give rise to an ambiguity error.
 
-## Implementation details
+### Higher-rank fields
 
-### Example of constraint solving
 
-**AMG** need to update these examples.
+If a field has a rank-1 type, the `Has` encoding works fine: for example,
 
-**SLPJ** Making the first example rely on the monomorphism restriction is not a good plan!
+```wiki
+data T = MkT { x :: forall a . a -> a }
+```
+
+
+gives rise to the instance
+
+```wiki
+instance b ~ a -> a => Has T "x" b
+```
+
+
+However, if a field has a rank-2 type or higher (so the selector function has rank at least 3), things are looking dangerously impredicative:
+
+```wiki
+data T b = MkT { x :: (forall a . a -> a) -> b }
+```
+
+
+would give
+
+```wiki
+instance c ~ (forall a . a -> a) -> b => Has (T b) "x" c
+```
+
+
+but this is currently forbidden by GHC, even with `-XImpredicativeTypes` enabled. Indeed, it would not be much use if it were possible, because bidirectional type inference relies on being able to immediately infer the type of neutral terms like `e.x`, but overloaded record fields prevent this. Traditional monomorphic selector functions are likely to be needed in this case.
+
+## Example of constraint solving
 
 
 Consider the example
@@ -232,8 +259,6 @@ module N where
   import M
 
   foo e = e.x
-
-  qux = (.y)
  
   bar :: Bool
   bar = foo T
@@ -242,11 +267,7 @@ module N where
 ```
 
 
-When checking `foo`, `e` is a variable of unknown type `alpha`, and the projection generates the constraint `alpha { x :: beta }` where `beta` is fresh. 
-This constraint cannot be solved immediately, so generalisation yields the type `a { x :: b } => a -> b`.
-
-
-When checking `qux`, the projection has type `alpha -> beta` and generates the constraint `alpha { y :: beta }`. However, the monomorphism restriction prevents this constraint from being generalised. There is only one `y` field in scope, so defaulting specialises the type to `S -> Bool`. If the `x` field was used, it would instead give rise to an ambiguity error.
+When checking `foo`, `e` is a variable of unknown type `alpha`, and the projection generates the constraint `alpha { x :: beta }` where `beta` is fresh. This constraint cannot be solved immediately, so generalisation yields the type `a { x :: b } => a -> b`.
 
 
 When checking `bar`, the application of `foo` gives rise to the constraint `T { x :: Bool }`, which is solved since `Bool` is an instance of `forall a . a` (the type `T` gives to `x`).
