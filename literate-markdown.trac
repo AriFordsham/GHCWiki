@@ -1,0 +1,37 @@
+= Literate Markdown =
+
+The purpose of this addition is to allow GHC to accept markdown files as input, keeping unlabeled code blocks, and haskell marked code blocks in the output of unlit.
+
+== Current Literate Processing ==
+
+There is one open ticket on the bug tracker about markdown as a literate format, #4836, that concerns unlit not processing markdown correctly.  As unlit attempts to preserve CPP in the whole file unless otherwise instructed, markdown headings are treated as CPP and left in.
+
+{{{
+# Heading
+
+```haskell
+x :: Int
+x  = 10
+```
+}}}
+
+Is translated to the following by unlit:
+
+{{{
+# Heading
+
+
+x :: Int
+x  = 10
+
+}}}
+
+== Handling Markdown ==
+
+As markdown has two commonly used extensions, .md and .markdown, it seems reasonable to instruct unlit to not attempt to keep lines that it views as CPP from within code blocks.  Unlit has two flags that should be able to handle this, -r and -#, which when combined will not leave any markdown headers in the resulting source.
+
+Additionally, if the .md and .markdown extensions are to be supported, it should be reasonable to start ghci simply using the module name, and have ghc also search for files with those extensions.
+
+== Patch ==
+
+The above suggestion has been implemented in https://github.com/elliottt/ghc/tree/literate-markdown .
