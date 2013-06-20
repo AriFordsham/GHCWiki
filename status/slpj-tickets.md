@@ -3,7 +3,6 @@
 ## Type inference
 
 - [\#7259](https://gitlab.haskell.org//ghc/ghc/issues/7259): Eta-expansion of products in System FC
-- [\#7558](https://gitlab.haskell.org//ghc/ghc/issues/7558): Terrible error message in inaccessible code
 - [\#5682](https://gitlab.haskell.org//ghc/ghc/issues/5682): Parsing of pomoted kinds
 - [\#6022](https://gitlab.haskell.org//ghc/ghc/issues/6022): over-general types are inferred
 - [\#5642](https://gitlab.haskell.org//ghc/ghc/issues/5642): slow constraint solving
@@ -12,6 +11,7 @@
 - [\#7204](https://gitlab.haskell.org//ghc/ghc/issues/7204): a class to controll FFI marshalling; and newtype deriving for classes with ATs
 - [\#7862](https://gitlab.haskell.org//ghc/ghc/issues/7862): overlap beween givens and instances
 - [\#7643](https://gitlab.haskell.org//ghc/ghc/issues/7643): dark corner of sub-kinding and `unsafeCoerce#`
+- [\#7842](https://gitlab.haskell.org//ghc/ghc/issues/7842): polymorphism in recursive do-blocks
 
 ## Template Haskell
 
@@ -38,6 +38,7 @@ See also [TemplateHaskell](template-haskell)
 
 ## Optimisation
 
+- [\#1498](https://gitlab.haskell.org//ghc/ghc/issues/1498): heap checks in recursive functions
 - [\#7561](https://gitlab.haskell.org//ghc/ghc/issues/7561): profiled program runs faster than un-profiled one
 - [\#7378](https://gitlab.haskell.org//ghc/ghc/issues/7378): (a) identical-alts when the RHSs are bigger; (b) nested comparisions (cf [\#2132](https://gitlab.haskell.org//ghc/ghc/issues/2132))
 - [\#7511](https://gitlab.haskell.org//ghc/ghc/issues/7511): inlining can make programs allocate MORE!!
