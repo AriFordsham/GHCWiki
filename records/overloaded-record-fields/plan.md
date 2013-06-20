@@ -247,6 +247,28 @@ instance (c ~ ((forall a . a -> a) -> b)) => Has (T b) "x" c
 
 but this is currently forbidden by GHC, even with `-XImpredicativeTypes` enabled. Indeed, it would not be much use if it were possible, because bidirectional type inference relies on being able to immediately infer the type of neutral terms like `e.x`, but overloaded record fields prevent this. Traditional monomorphic selector functions are likely to be needed in this case.
 
+### Multiple modules and implicit instance generation
+
+
+When should `Has` instances be implicitly generated? I can think of three options:
+
+1. If the extension is on for a module, generate instances for all datatypes in that module when checking their declarations. This means that record projections are not available to code that imports a datatype definition from a module without the flag. Some mechanism will need to restrict the scope of instances based on import/export of selectors.
+1. If the extension is on for a module, generate instances for all record selectors that are in scope, but do not export them. Thus it doesn't matter whether the flag was on in the module that defined the datatype, and the availability of the instances in a particular module depends only on whether the flag is enabled.
+1. If the extension is on for a module, generate and export instances for all record selectors that are in scope and do not already have instances. This is a hybrid of (1) and (2), and also requires a mechanism to restrict instance scope based on import/export of selectors.
+
+
+Note that (2) can be equivalently implemented (as far as the user is concerned) by not really generating instances at all, but solving `Has` constraints directly based on the selectors in scope, much as `SingI` constraints are solved on-the-fly.
+
+
+Suppose module `M` imports module `N`, `N` imports module `O`, and only `N` has the extension enabled. Under (1), `N` can project fields it defines (but not those defined in `O`), and `M` also has access to the `Has` instances for `N` (but not the dot syntax). Under (2), `N` can project any field in scope (including those defined in `O`), but `M` cannot access any `Has` instances. Under (3), `N` can project any field in scope, and `M` has access to the `Has` instances for `N` and `O` (but not fields defined in `M`).
+
+
+I think (2) is probably the right choice here, because 
+
+- the extension is required whenever dot notation is used or a `Has` constraint must be solved;
+- no new mechanism for hiding instances is required; and
+- records defined in existing modules (or other packages) without the extension can still be used with dot notation. 
+
 ## Example of constraint solving
 
 
