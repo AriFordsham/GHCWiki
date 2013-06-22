@@ -47,7 +47,7 @@ and, of course, `\begin{code}` is LaTeX.
 ## The Proposal
 
 
-The idea is to extend Haskell's literate notation so that it is compatible with markdown, in the same way, that `\begin{code}` makes
+The idea is to extend Haskell's literate notation so that it is compatible with markdown, in the same way that `\begin{code}` makes
 it work with LaTeX.  This is great for two reasons:
 
 1. `markdown` is a simple language that is used by many programmers
