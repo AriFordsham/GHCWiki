@@ -41,7 +41,7 @@ average = sum xs / length xs
 ```
 
 
-Unfortunately, neither of this is compatible with mark-down: in mark-down the bird-tracks signify quoting (just like in e-mail clients,
+Unfortunately, neither of this is compatible with mark-down: in mark-down the bird-tracks signify quoting (just like in e-mail clients)
 and, of course, `\begin{code}` is LaTeX. 
 
 ## The Proposal
