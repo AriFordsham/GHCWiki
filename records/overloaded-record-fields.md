@@ -11,6 +11,8 @@ request, that of having multiple records with the same field name.**
 
 See also a similar [ 2003 proposal by Simon PJ and Greg Morrisset](http://research.microsoft.com/en-us/um/people/simonpj/Haskell/records.html).  It is essentially the same as the proposal below, but (a) has less detail and (b) adds anonymous record types.   Anonymous type could be an add-on feature to the design described here.
 
+**AMG note**: the [version of this proposal that I am implementing](records/overloaded-record-fields/plan) is described elsewhere. The linked page will be updated to reflect the final design as it evolves.
+
 # The base design
 
 
