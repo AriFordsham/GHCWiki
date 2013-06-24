@@ -13,6 +13,8 @@ Status (Aug 12): A working prototype implementation is in `overlapping-tyfams`.
 
 Status (Dec 12): A working implementation has been pushed to HEAD.
 
+Status (Jun 13): A working re-implementation, with closed type families, has been pushed to HEAD. The description of the feature below is accurate as of Jun 24, 2013.
+
 == Background == 
 One might imagine that it would be a simple matter to have a type-level function
 {{{
@@ -54,35 +56,22 @@ A new version of axioms is now implemented. The formal treatment can be found in
 
 Here are the changes to source Haskell.
 
- *  A `type instance` declaration can define multiple equations, not just one:
+ *  A `type family` declaration can now define equations, making a closed type family:
 {{{
-type instance where
+type family Equal a b :: Bool where
   Equal a a = True
   Equal a b = False
 }}}
 
- * Patterns within a single `type instance` declaration (henceforth "branches") may overlap, and are matched top to bottom.
+ * Patterns within a single closed declaration may overlap, and are matched top to bottom.
 
- * A single type family may, as now, have multiple `type instance` declarations:
-{{{
-type family F a :: *
+ * Open type families are unchanged.
 
-type instance where
-  F [Int] = Int
-  F [a]   = Bool
-
-type instance where
-  F (Int,b) = Char
-  F (a,b)   = [Char]
-}}}
-
- * The instances for `F` may not overlap.  That is, there must be no type `t` such that `(F t)` matches more than one instance. This rule explicitly excludes overlaps among group members, even if the right-hand sides coincide (but see the [wiki:NewAxioms/CoincidentOverlap Coincident Overlap] page for discussion).
-
- * The groups do not need to be exhaustive.   If there is no equation that matches, the call is stuck. (This is exactly as at present.)
+ * A closed family does not need to be exhaustive. If there is no equation that matches, the call is stuck. (This is exactly as at present.)
 
  * An error is issued when a later equation is matched by a former, making the later one inaccessible.
 {{{
-type instance where
+type family F a where
   F (a,b)   = [Char]
   F (Int,b) = Char
 }}}
@@ -92,23 +81,39 @@ For closed kinds (and maybe for open ones, but I can't unravel it), it seems pos
 
  * The equations do not need to share a common pattern:
 {{{
-type instance where
-  F Int = Char
+type family F a where
+  F Int   = Char
   F (a,b) = Int
 }}}
 
- * When matching a use of a type family against a branched instance, special care must be taken (by GHC) not to accidentally introduce incoherence. Consider the following example:
+ * When matching a use of a closed type family, special care must be taken (by GHC) not to accidentally introduce incoherence. Consider the following example:
 {{{
-type instance where
+type family F a where
   F Int = Bool
   F a   = Char
 }}}
   and we try to simplify the type {{{F b}}}. The naive implementation would just simplify {{{F b}}} to {{{Char}}}, but this would be wrong. The problem is that {{{b}}} may later be unified with {{{Int}}}, meaning {{{F b}}} should simplify to {{{Bool}}}, not {{{Char}}}. So, the correct behavior is not to simplify {{{F b}}} at all; it is stuck for now. Note that the second equation above is not useless: we will still simplify, say, {{{F Double}}} to {{{Char}}}.
-More formally, we only match a type against an equation in an instance group when no previous equation can ''unify'' against the type.
+
+ * More formally, we only match a type (called the target) against an equation in a closed type family when, for all previous equations: the LHS is ''apart'' from the target, '''or''' the equation is ''compatible'' with the chosen one. Apartness and compatibility are defined below.
+
+ * Two types are ''apart'' when they cannot simplify to a common reduct, even after arbitrary substitutions. This is undecidable, in general, so we implement a conservative check as follows: two types are considered to be apart when they cannot unify, omitting the occurs check in the unification algorithm.
+
+ * Two equations are ''compatible'' if, either, their LHSs are apart, or their RHSs are syntactically equal after substitution with the unifier of their LHSs. This last condition allows closed type families to participate in the coincident overlap that open families have supported for years.
+
+For example:
+{{{
+type family And (a :: Bool) (b :: Bool) where
+  And False a     = False
+  And True  b     = b
+  And c     False = False
+  And d     True  = d
+  And e     e     = e
+}}}
+All of these equations are compatible, meaning that GHC does not have to do the apartness check against the target.
 
 == Limitations ==
 
-The implementation described above does not address all desired use cases. In particular, it does not work with associated types at all. (Using something like {{{type where}}} in a class definition is a parse error.) There's no set reason the approach couldn't be expanded to work with associated types, but it is not done yet. In particular, the FC extension will handle intra-module overlapping associated types without a change. The biggest reason not to add associated types into the mix is that it will be a confusing feature. Overlap among class instances is directed by specificity; overlap among family instances is ordered by the programmer. Users would likely expect the two to coincide, but they don't and can't, as it would not be type safe:
+The implementation described above does not address all desired use cases. In particular, it does not work with associated types at all. The biggest reason not to add associated types into the mix is that it will be a confusing feature. Overlap among class instances is directed by specificity; overlap among family instances is ordered by the programmer. Users would likely expect the two to coincide, but they don't and can't, as it would not be type safe:
 
 It seems that inter-module overlapping non-coincident associated types are a Bad Idea, but please add comments if you think otherwise and/or need such a feature. Why is it a Bad Idea? Because it would violate type safety: different modules with different visible instances could simplify type family applications to different ground types, perhaps concluding {{{True ~ False}}}, and the world would immediately cease to exist.
 
