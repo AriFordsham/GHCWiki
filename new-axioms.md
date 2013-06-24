@@ -94,7 +94,7 @@ Here are the changes to source Haskell.
 
 - Patterns within a single closed declaration may overlap, and are matched top to bottom.
 
-- Open type families are unchanged.
+- Open type families are unchanged, except that a certain corner case of instances with a non-trivial overlap is disallowed. See [here](new-axioms/nonlinearity). I (Richard) do not expect this change to break much code.
 
 - A closed family does not need to be exhaustive. If there is no equation that matches, the call is stuck. (This is exactly as at present.)
 
