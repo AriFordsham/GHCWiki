@@ -33,7 +33,7 @@ The "wrapper data con"           $WMkT  VarName       Its wrapper Id (optional)
 ```
 
 
-Recall that each occurrence name (OccName) is a pair of a string and a name space (see [ The truth about names](http://darcs.haskell.org/ghc/docs/comm/the-beast/names.html) (TODO Point at new commentary equivalent)), and two OccNames are considered the same only if both components match. That is what distinguishes the name of the name of the DataCon from the name of its worker Id. To keep things unambiguous, in what follows we'll write "MkT{d}" for the source data con, and "MkT{v}" for the worker Id. (Indeed, when you dump stuff with "-ddumpXXX", if you also add "-dppr-debug" you'll get stuff like "Foo {- d rMv -}". The "d" part is the name space; the "rMv" is the unique key.)
+Recall that each occurrence name (OccName) is a pair of a string and a name space (see [RdrNames, Modules, and OccNames](commentary/compiler/rdr-name-type#the-occname-type)), and two OccNames are considered the same only if both components match. That is what distinguishes the name of the name of the DataCon from the name of its worker Id. To keep things unambiguous, in what follows we'll write "MkT{d}" for the source data con, and "MkT{v}" for the worker Id. (Indeed, when you dump stuff with "-ddumpXXX", if you also add "-dppr-debug" you'll get stuff like "Foo {- d rMv -}". The "d" part is the name space; the "rMv" is the unique key.)
 
 
 Each of these three names gets a distinct unique key in GHC's name cache.
