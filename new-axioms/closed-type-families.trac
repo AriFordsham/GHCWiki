@@ -1,5 +1,7 @@
 = New syntax for branched family instances =
 
+'''Note''': This page is here for historical reasons. The implemented feature is described on the NewAxioms page.
+
 This page proposes a new concrete syntax for branched family instances that seems cleaner, easier to understand and explain, and less verbose than the existing one.
 
 == Current state of things ==
