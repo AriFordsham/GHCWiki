@@ -6,10 +6,10 @@ The current form of a type family instance in Template Haskell is this construct
 TySynInstD Name [Type] Type
 }}}
 
-Here is the proposed new constructor:
+Here is the implemented new constructor:
 
 {{{
-TySynInstD Name [TySynEqn]
+TySynInstD Name TySynEqn
 }}}
 
 where
@@ -18,4 +18,12 @@ where
 data TySynEqn = TySynEqn [Type] Type
 }}}
 
-represents one equation with a list of left-hand side patterns and a single right-hand side result. The only alternate design on the table is to use a list of ([Type], Type) pairs instead of an extra datatype.
+represents one equation with a list of left-hand side patterns and a single right-hand side result.
+
+We also add a new declaration form to the {{{Dec}}} type
+
+{{{
+ClosedTypeFamilyD Name [TyVarBndr] (Maybe Kind) [TySynEqn]
+}}}
+
+with a straightforward meaning.

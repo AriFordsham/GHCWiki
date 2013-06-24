@@ -8,10 +8,10 @@ TySynInstD Name [Type] Type
 ```
 
 
-Here is the proposed new constructor:
+Here is the implemented new constructor:
 
 ```wiki
-TySynInstD Name [TySynEqn]
+TySynInstD Name TySynEqn
 ```
 
 
@@ -22,4 +22,14 @@ data TySynEqn = TySynEqn [Type] Type
 ```
 
 
-represents one equation with a list of left-hand side patterns and a single right-hand side result. The only alternate design on the table is to use a list of (\[Type\], Type) pairs instead of an extra datatype.
+represents one equation with a list of left-hand side patterns and a single right-hand side result.
+
+
+We also add a new declaration form to the `Dec` type
+
+```wiki
+ClosedTypeFamilyD Name [TyVarBndr] (Maybe Kind) [TySynEqn]
+```
+
+
+with a straightforward meaning.
