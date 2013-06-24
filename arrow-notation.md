@@ -4,7 +4,7 @@
 This page describes a couple of proposed changes to the notation enabled with -XArrows.
 ([current documentation](http://www.haskell.org/ghc/docs/latest/html/users_guide/arrow-notation.html))
 
-## Changing the types of arrow operators
+## Changing the types of arrow operators (implemented in March 2013, for GHC 7.8)
 
 
 Currently, the type of each argument of an operator (and its result) is required to have the form
