@@ -4,17 +4,17 @@
 Probably the most important phase in the frontend is the type checker, which is located at [compiler/typecheck/](/trac/ghc/browser/ghc/compiler/typecheck/). GHC type checks programs in their original Haskell form before the desugarer converts them into Core code. This complicates the type checker as it has to handle the much more verbose Haskell AST, but it improves error messages, as those message are based on the same structure that the user sees.
 
 
-GHC defines the abstract syntax of Haskell programs in [HsSyn](/trac/ghc/browser/ghc/compiler/hsSyn/HsSyn.lhs) using a structure that abstracts over the concrete representation of bound occurences of identifiers and patterns. The module [TcHsSyn](/trac/ghc/browser/ghc/compiler/typecheck/TcHsSyn.lhs) defines a number of helper function required by the type checker. Note that the type [TcRnTypes](/trac/ghc/browser/ghc/compiler/typecheck/TcRnTypes.lhs).`TcId` used to represent identifiers in some signatures during type checking is, in fact, nothing but a synonym for a [ plain Id](http://darcs.haskell.org/ghc/docs/comm/the-beast/vars.html) (TODO Point at new commentary equivalent).
+GHC defines the abstract syntax of Haskell programs in [HsSyn](/trac/ghc/browser/ghc/compiler/hsSyn/HsSyn.lhs) using a structure that abstracts over the concrete representation of bound occurences of identifiers and patterns. The module [TcHsSyn](/trac/ghc/browser/ghc/compiler/typecheck/TcHsSyn.lhs) defines a number of helper function required by the type checker. Note that the type [TcRnTypes](/trac/ghc/browser/ghc/compiler/typecheck/TcRnTypes.lhs).`TcId` used to represent identifiers in some signatures during type checking is, in fact, nothing but a synonym for a [plain Id](commentary/compiler/entity-types#type-variables-and-term-variables).
 
 
-It is also noteworthy, that the representations of types changes during type checking from `HsType` to `TypeRep.Type`. The latter is a [ hybrid type](http://darcs.haskell.org/ghc/docs/comm/the-beast/types.html) (TODO Point at new commentary equivalent) representation that is used to type Core, but still contains sufficient information to recover source types. In particular, the type checker maintains and compares types in their `Type` form.
+It is also noteworthy, that the representations of types changes during type checking from `HsType` to `TypeRep.Type`. The latter is a [hybrid type](commentary/compiler/type-type) representation that is used to type Core, but still contains sufficient information to recover source types. In particular, the type checker maintains and compares types in their `Type` form.
 
 ## The Overall Flow of Things
 
 ### Entry Points Into the Type Checker
 
 
-The interface of the type checker (and [ renamer](http://darcs.haskell.org/ghc/docs/comm/the-beast/renamer.html) (TODO Point at new commentary equivalent)) to the rest of the compiler is provided by [TcRnDriver](/trac/ghc/browser/ghc/compiler/typecheck/TcRnDriver.lhs). Entire modules are processed by calling `tcRnModule` and GHCi uses `tcRnStmt`, `tcRnExpr`, and `tcRnType` to typecheck statements and expressions, and to kind check types, respectively. Moreover, `tcRnExtCore` is provided to typecheck external Core code. Moreover, `tcTopSrcDecls` is used by Template Haskell - more specifically by `TcSplice.tc_bracket` - to type check the contents of declaration brackets.
+The interface of the type checker (and [renamer](commentary/compiler/renamer)) to the rest of the compiler is provided by [TcRnDriver](/trac/ghc/browser/ghc/compiler/typecheck/TcRnDriver.lhs). Entire modules are processed by calling `tcRnModule` and GHCi uses `tcRnStmt`, `tcRnExpr`, and `tcRnType` to typecheck statements and expressions, and to kind check types, respectively. Moreover, `tcRnExtCore` is provided to typecheck external Core code. Moreover, `tcTopSrcDecls` is used by Template Haskell - more specifically by `TcSplice.tc_bracket` - to type check the contents of declaration brackets.
 
 ### Renaming and Type Checking a Module
 
@@ -79,7 +79,7 @@ During type checking, GHC maintains a *type environment* whose type definitions 
 Expressions are type checked by [compiler/typecheck/TcExpr](/trac/ghc/browser/ghc/compiler/typecheck/TcExpr).
 
 
-Usage occurences of identifiers are processed by the function tcId whose main purpose is to [ instantiate overloaded identifiers](http://darcs.haskell.org/ghc/docs/comm/the-beast/typecheck.html#inst) (TODO Point at new commentary equivalent). It essentially calls `TcInst.instOverloadedFun` once for each universally quantified set of type constraints. It should be noted that overloaded identifiers are replaced by new names that are first defined in the LIE (Local Instance Environment?) and later promoted into top-level bindings.
+Usage occurences of identifiers are processed by the function tcId whose main purpose is to [instantiate overloaded identifiers](commentary/compiler/type-checker#handling-of-dictionaries-and-method-instances). It essentially calls `TcInst.instOverloadedFun` once for each universally quantified set of type constraints. It should be noted that overloaded identifiers are replaced by new names that are first defined in the LIE (Local Instance Environment?) and later promoted into top-level bindings.
 
 ### Handling of Dictionaries and Method Instances
 
