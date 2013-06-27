@@ -7,6 +7,7 @@ There is more complete documentation for the build system later on in this guide
 
 
 You need to configure your build: which things to build, how much optimisation to use, whether to build profiling libraries, and so on.  If you don't do this, then you get *everything*, and it will be *optimised to the hilt*, which means the build will take a Very Long Time.  This is fine if you wanted to build GHC for installation and use, but not if you're building GHC to do some development work on it.
+[ vertical blind](http://www.tiraimodern.com/product/vertical-blind) \|  [ roller blind](http://www.tiraimodern.com/product/roller-blind) \|  [ atap fiberglass](http://www.goldenfibreglass.com/product-atap-fiberglass.php) \|  [ hipnoterapi surabaya](http://subconscious-therapy.com/hipnoterapi-surabaya)
 
 
 To configure your build, create the file `mk/build.mk` from the sample:
