@@ -23,7 +23,7 @@ want, just uncommenting this line
 }}}
 
 is usually a good choice.  For more information on what you can do with `build.mk`, see [wiki:Building/Using#Buildconfiguration Build configuration].  In particular, you might want to [wiki:Building/Using#HowtomakeGHCbuildquickly make GHC build quickly].
-
+[http://www.tiraimodern.com/product/vertical-blind vertical blind] |  [http://www.tiraimodern.com/product/roller-blind roller blind] |  [http://www.goldenfibreglass.com/product-atap-fiberglass.php atap fiberglass] |  [http://subconscious-therapy.com/hipnoterapi-surabaya hipnoterapi surabaya]
 == Starting the build ==
 
 To build the whole thing (compiler, libraries, compiler again), do this:
