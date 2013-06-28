@@ -25,6 +25,7 @@ want, just uncommenting this line
 
 
 is usually a good choice.  For more information on what you can do with `build.mk`, see [Build configuration](building/using#build-configuration).  In particular, you might want to [make GHC build quickly](building/using#how-to-make-ghc-build-quickly).
+[ vertical blind](http://www.tiraimodern.com/product/vertical-blind) \|  [ roller blind](http://www.tiraimodern.com/product/roller-blind) \|  [ atap fiberglass](http://www.goldenfibreglass.com/product-atap-fiberglass.php) \|  [ hipnoterapi surabaya](http://subconscious-therapy.com/hipnoterapi-surabaya)
 
 ## Starting the build
 
