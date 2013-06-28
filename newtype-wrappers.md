@@ -258,9 +258,9 @@ Assume there is a module provided by GHC with these definitions
 ```wiki
 data NT a b -- abstract
 coerce :: NT a b -> a -> b
-refl :: NT a a
-sym :: NT a b -> NT b a
-trans :: NT a b -> NT b c -> NT a c
+refl   :: NT a a
+sym    :: NT a b -> NT b a
+trans  :: NT a b -> NT b c -> NT a c
 ```
 
 
@@ -279,6 +279,12 @@ The compiler either rejects the declaration or creates an implementation automat
 
 
 This solves the abstraction problem for `Data.Map`: The library author only exports `NT a b -> NT (Map k a) (Map k b)`, but not NT a b -\> NT (Map a v) (Map b v)\`.
+
+
+All this amounts to exposing explicit System-FC coercions to the programmer; and that is precisely what we want to do.
+
+- Explicit, because `Age` and `Int` really are different types, and so we can't silently convert between them.
+- Explicit, so that we can control precisely which coercions are available (via export lists), and thus control abstraction.
 
 
 Of course with an `NT` data type, it is possible to define this type class, e.g.
