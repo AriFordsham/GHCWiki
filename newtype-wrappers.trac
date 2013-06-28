@@ -169,8 +169,8 @@ One possible conclusion: if we have them at all, newtype wrappers should only wo
 
 But that's not very satisfactory either.  
 
- * There are some times (like `IO`) where it *does* make perfect sense
-   to lift newtypes, but where we really don't want to expose
+ * There are some times (like `IO`) where it '''does''' make perfect sense
+   to lift newtypes, but where we really '''don't''' want to expose
    the representation. 
 
  * Actually `Map` is also a good example: while `Map Age Bool` should
