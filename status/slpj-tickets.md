@@ -2,6 +2,7 @@
 
 ## Type inference
 
+- [\#8020](https://gitlab.haskell.org//ghc/ghc/issues/8020): apartness checks
 - [\#7259](https://gitlab.haskell.org//ghc/ghc/issues/7259): Eta-expansion of products in System FC
 - [\#5682](https://gitlab.haskell.org//ghc/ghc/issues/5682): Parsing of pomoted kinds
 - [\#6022](https://gitlab.haskell.org//ghc/ghc/issues/6022): over-general types are inferred
