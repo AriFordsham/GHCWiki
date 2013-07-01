@@ -246,10 +246,10 @@ Even with an explicit `Has` instance as above, the name `x` will not be in scope
 ### Hiding record selectors
 
 
-Optionally, we could [add a flag \`-XNoMonoRecordFields\`](records/declared-overloaded-record-fields/no-mono-record-fields) to suppress the record selectors. Just as `-XOverloadedRecordFields` applies to a client module, and generates `Has` instances for that module, so `-XNoMonoRecordFields` in a client module would hide all the record selectors that should otherwise be in scope. The idea is that another record system could use Template Haskell to generate functions in place of selectors, and these would not clash.
+Optionally, we could [add a flag \`-XNoRecordSelectorFunctions\`](records/declared-overloaded-record-fields/no-mono-record-fields) to suppress the record selectors. Just as `-XOverloadedRecordFields` applies to a client module, and generates `Has` instances for that module, so `-XNoRecordSelectorFunctions` in a client module would hide all the record selectors that should otherwise be in scope. The idea is that another record system could use Template Haskell to generate functions in place of selectors, and these would not clash.
 
 
-Since the selectors are hidden by clients (on import) rather than on export, fields can still be mentioned in import and export lists, to control access to them (as discussed in the [representation hiding](records/overloaded-record-fields/plan#representation-hiding) section), and used for record update.
+Since the selectors are hidden by clients (on import) rather than on export, fields can still be used for record update and mentioned in import and export lists, to control access to them (as discussed in the [representation hiding](records/overloaded-record-fields/plan#representation-hiding) section).
 
 ## Example of constraint solving
 
