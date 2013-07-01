@@ -27,7 +27,7 @@ The `dcFields` field of `DataCon.DataCon` (constructor `MkData`) stores a list o
 The `AvailTC` constructor of `Avail.AvailInfo` represents a type and its pieces that are in scope. Record fields are stored in a separate list (rather than bundled in with data constructors and class methods), which contains the `FastString` field name, and perhaps the names of the record selector and dictionary function.
 
 
-Similarly, the `RdrName.Parent` type has an extra constructor `FldParent` which stores the field name and possibly the selector and dictionary function names. Thus it is easy to tell whether a `RdrName.GlobalRdrElt` (`GRE`) is a field. 
+Similarly, the `RdrName.Parent` type has an extra constructor `FldParent` which stores the field name (and possibly the dfunid). Thus it is easy to tell whether a `RdrName.GlobalRdrElt` (`GRE`) is a field. In this case, the name of the `GRE` is the selector function.
 
 
 The `HsExpr.HsExpr` type has an extra constructor `HsOverloadedRecFld FastString`. When `-XOverloadedRecordFields` is enabled, and the renamer encounters `HsVar "x"` where `x` refers to multiple `GRE`s that are all record fields, it replaces it with `HsOverloadedRecFld "x"`. (Is there any reason to treat single record fields differently to other ids?)
