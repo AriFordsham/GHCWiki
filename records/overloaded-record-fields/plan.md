@@ -251,6 +251,22 @@ Optionally, we could [add a flag \`-XNoRecordSelectorFunctions\`](records/declar
 
 Since the selectors are hidden by clients (on import) rather than on export, fields can still be used for record update and mentioned in import and export lists, to control access to them (as discussed in the [representation hiding](records/overloaded-record-fields/plan#representation-hiding) section).
 
+### Introducing field names
+
+
+An advantage of distinguishing record projections syntactically (as in `e.x`) is that `x` is always treated as a record field, regardless of what is in scope. This allows better separation of concerns, as functions that manipulate records can be defined abstractly rather than referring to particular datatypes.
+
+
+One workaround is to define unused types with the appropriate field names. This is slightly odd, and we might consider adding a new declaration form **field**`x`, which declares `x` as a record field that is always polymorphic, rather like the function declaration
+
+```wiki
+x :: r { x :: t } => r -> t
+x = getFld
+```
+
+
+but with the property that it will not clash with actual `x` fields.
+
 ## Example of constraint solving
 
 
