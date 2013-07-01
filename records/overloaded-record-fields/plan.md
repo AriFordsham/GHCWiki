@@ -181,7 +181,7 @@ will be accepted. (Really only the type constructor is needed, whereas this appr
 ### Record update: avoiding redundant annotations
 
 
-If `e` is a variable, whose type is given explicitly in the context, we could look it up rather than requiring it to be given again. Thus
+In an update `e { x = t }`, if `e` is a variable whose type is given explicitly in the context, we could look it up rather than requiring it to be given again. Thus
 
 ```wiki
 f :: T Int -> T Int
