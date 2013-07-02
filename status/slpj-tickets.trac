@@ -2,7 +2,7 @@
 
 == Type inference ==
 
- * #8020: apartness checks
+ * #8020, #8028: Closed type families, apartness checks
  * #7259: Eta-expansion of products in System FC
  * #5682: Parsing of pomoted kinds
  * #6022: over-general types are inferred
@@ -23,6 +23,7 @@ See also [wiki:TemplateHaskell]
  * #7484: TH allows you to build invalid names
 
 == Demand analysis and CSE == 
+ * #7782: late demand analysis
  * #7994: Make foldl into a good consumer; needs better arity analysis
  * #7520: Cardinality analysis
  * #7619: make demand and CPR analysis cope with data families

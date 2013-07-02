@@ -2,7 +2,7 @@
 
 ## Type inference
 
-- [\#8020](https://gitlab.haskell.org//ghc/ghc/issues/8020): apartness checks
+- [\#8020](https://gitlab.haskell.org//ghc/ghc/issues/8020), [\#8028](https://gitlab.haskell.org//ghc/ghc/issues/8028): Closed type families, apartness checks
 - [\#7259](https://gitlab.haskell.org//ghc/ghc/issues/7259): Eta-expansion of products in System FC
 - [\#5682](https://gitlab.haskell.org//ghc/ghc/issues/5682): Parsing of pomoted kinds
 - [\#6022](https://gitlab.haskell.org//ghc/ghc/issues/6022): over-general types are inferred
@@ -27,6 +27,7 @@ See also [TemplateHaskell](template-haskell)
 
 ## Demand analysis and CSE
 
+- [\#7782](https://gitlab.haskell.org//ghc/ghc/issues/7782): late demand analysis
 - [\#7994](https://gitlab.haskell.org//ghc/ghc/issues/7994): Make foldl into a good consumer; needs better arity analysis
 - [\#7520](https://gitlab.haskell.org//ghc/ghc/issues/7520): Cardinality analysis
 - [\#7619](https://gitlab.haskell.org//ghc/ghc/issues/7619): make demand and CPR analysis cope with data families
