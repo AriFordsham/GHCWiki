@@ -2,7 +2,7 @@
 
 == Type inference ==
 
- * #8020: apartness checks
+ * #8020, #8028: Closed type families, apartness checks
  * #7259: Eta-expansion of products in System FC
  * #5682: Parsing of pomoted kinds
  * #6022: over-general types are inferred
