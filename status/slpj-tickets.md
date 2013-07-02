@@ -27,6 +27,7 @@ See also [TemplateHaskell](template-haskell)
 
 ## Demand analysis and CSE
 
+- [\#7782](https://gitlab.haskell.org//ghc/ghc/issues/7782): late demand analysis
 - [\#7994](https://gitlab.haskell.org//ghc/ghc/issues/7994): Make foldl into a good consumer; needs better arity analysis
 - [\#7520](https://gitlab.haskell.org//ghc/ghc/issues/7520): Cardinality analysis
 - [\#7619](https://gitlab.haskell.org//ghc/ghc/issues/7619): make demand and CPR analysis cope with data families
