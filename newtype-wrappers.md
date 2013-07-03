@@ -271,11 +271,23 @@ Besides the trivial `refl` values, values of type `NT` cannot be created by the 
 
 ```wiki
 deriving nt :: NT N T
-deriving list :: NT a b -> NT [a] [b]
+deriving listNT :: NT a b -> NT [a] [b]
 ```
 
 
 The compiler either rejects the declaration or creates an implementation automatically. It should only create an implementation if a non-zero-cost-implementation could be written by the user instead. (I expect that this means that the constructors of the return type are in scope.)
+
+
+The “could you write it by hand” criteria implies that the expected arguments for the nt value depends on how they type parameters are used in the data constructors, e.g:
+
+```wiki
+data Foo a = Foo (Bar a)
+deriving fooNT' :: NT a b -> NT (Foo a) (Foo b) -- not ok, especially if `Bar` is abstract
+deriving fooNT :: NT (Bar a) (Bar b) -> NT (Foo a) (Foo b) -- ok
+```
+
+
+Question: `fooNT'` can be constructed from `fooNT` and a possible `barNT :: NT a b -> NT (Bar a) (Bar b)`. Should the compiler do this automatically, if `barNT` is in scope, or is that too much magic?
 
 
 This solves the abstraction problem for `Data.Map`: The library author only exports `NT a b -> NT (Map k a) (Map k b)`, but not NT a b -\> NT (Map a v) (Map b v)\`.
