@@ -114,4 +114,4 @@ Here is a check-list of things to cover in your description:
 1. What is the program behaviour that is wrong, in your opinion?
 
 
-If you are a Hero and track down the problem in the compilation-system sources, please [send us patches](working-conventions/submissions).
+If you are a Hero and track down the problem in the compilation-system sources, please [send us patches](working-conventions/submissions).  [ Baby Pink](http://www.grosir-kosmetik.com/6-baby-pink-cream-pemutih-kulit) \| [ Rumah Dijual](http://www.propertykita.com/rumah.html) \| [ Aksesoris Mobil](http://www.detikauto.com) \| [ Pintu dan Jendela](http://www.trimasjaya.com/pintu-dan-jendela/index.html) \| [ Roller Blind](http://www.tiraimodern.com/product/roller-blind)
