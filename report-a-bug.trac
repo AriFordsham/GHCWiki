@@ -93,4 +93,4 @@ Here is a check-list of things to cover in your description:
  1. Add the `-dcore-lint` flag when running GHC.  This adds some significant internal consistency-checking, which often nails bugs early.
  1. What is the program behaviour that is wrong, in your opinion?
 
-If you are a Hero and track down the problem in the compilation-system sources, please [wiki:WorkingConventions/Submissions send us patches].  [http://www.grosir-kosmetik.com/6-baby-pink-cream-pemutih-kulit Baby Pink] | [http://www.propertykita.com/rumah.html Rumah Dijual] | [http://www.detikauto.com Aksesoris Mobil] | [http://www.trimasjaya.com/pintu-dan-jendela/index.html Pintu dan Jendela] | [http://www.tiraimodern.com/product/roller-blind Roller Blind]
+If you are a Hero and track down the problem in the compilation-system sources, please [wiki:WorkingConventions/Submissions send us patches].
