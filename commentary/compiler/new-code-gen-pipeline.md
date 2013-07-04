@@ -47,7 +47,7 @@ The first two steps are described in more detail here:
   - The analysis produces a set of `BlockId` that should become proc-points
   - The transformation inserts a function prologue at the start of each proc-point, and a function epilogue just before each branch to a proc-point.
 
-- **Add spill/reload**, implemented in `CmmSpillReload`, to spill live C-- variables before a call and reload them afterwards.  The spill and reload instructions are simply memory stores and loads respectively, using symbolic stack offsets (see [stack layout](commentary/compiler/stack-areas#laying-out-the-stack)).  For example, a spill of variable 'x' would look like `Ptr32[SS(x)] = x`.
+- **(OUTDATED)****Add spill/reload**, implemented in `CmmSpillReload`, to spill live C-- variables before a call and reload them afterwards.  The spill and reload instructions are simply memory stores and loads respectively, using symbolic stack offsets (see [stack layout](commentary/compiler/stack-areas#laying-out-the-stack)).  For example, a spill of variable 'x' would look like `Ptr32[SS(x)] = x`.
 
   - `dualLivenessWithInsertion` does two things:
 
