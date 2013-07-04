@@ -23,7 +23,7 @@ The `AvailTC` constructor of `Avail.AvailInfo` represents a type and its pieces 
 
 Similarly, the `RdrName.Parent` type has an extra constructor `FldParent` which stores the field name (and possibly the dfunid). Thus it is easy to tell whether a `RdrName.GlobalRdrElt` (`GRE`) is a field. In this case, the name of the `GRE` is the selector function.
 
-The `HsExpr.HsExpr` type has an extra constructor `HsOverloadedRecFld FastString`. When `-XOverloadedRecordFields` is enabled, and the renamer encounters `HsVar "x"` where `x` refers to multiple `GRE`s that are all record fields, it replaces it with `HsOverloadedRecFld "x"`. (Is there any reason to treat single record fields differently to other ids?)
+The `HsExpr.HsExpr` type has an extra constructor `HsOverloadedRecFld FastString`. When `-XOverloadedRecordFields` is enabled, and the renamer encounters `HsVar "x"` where `x` refers to multiple `GRE`s that are all record fields, it replaces it with `HsOverloadedRecFld "x"`. There needs to be a similar constructor for non-overloaded projections, so that we can pretty-print the field name but store the selector name.
 
 When the typechecker sees `HsOverloadedRecFld x` it emits a wanted constraint `Has alpha x beta` and returns type `alpha -> beta` where `alpha` and `beta` are fresh unification variables.
 
