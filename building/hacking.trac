@@ -35,6 +35,7 @@ $ make
 }}}
 
 There are more configuration settings that you can use when running the configure script, see [wiki:Building/Using#Runtheconfigurescript Run the configure script].
+[http://www.tiraimodern.com/product/vertical-blind vertical blind] |  [http://www.tiraimodern.com/product/roller-blind roller blind] |  [http://www.goldenfibreglass.com/product-atap-fiberglass.php atap fiberglass] |  [http://subconscious-therapy.com/hipnoterapi-surabaya hipnoterapi surabaya]
 
 assuming everything goes according to plan, this should leave you with a compiler that you can run: {{{inplace/bin/ghc-stage2}}}.
 
