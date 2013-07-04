@@ -21,6 +21,35 @@ install opts todos = do
 
 This mechanism is currently used for some StaticFlags, some Linker state, and some DynFlags. I just recently added (partial) support for the FastString table.
 
+### `DYNAMIC_GHC_PROGRAMS`
+
+
+If the ghc executable itself dynamically links against libHSghc, then the entire `reinitializeGlobals` mechanism is unnecessary! In that case, both the host compiler and its plugins link against the dynamic libHSghc, which contains the sole set of mutable global variables.
+
+
+As of commit b7126674 (\~mid-March 2013), the ghc executable dynamically loads libHSghc by default. This snippet from `mk/config.mk` shows the default behavior as of [163de25813d12764aa5ded1666af7c06fee0d67e](/trac/ghc/changeset/163de25813d12764aa5ded1666af7c06fee0d67e/ghc).
+
+```wiki
+# Use the dynamic way when building programs in the GHC tree. In
+# particular, this means that GHCi will use DLLs rather than loading
+# object files directly.
+ifeq "$(TargetOS_CPP)" "mingw32"
+# This doesn't work on Windows yet
+DYNAMIC_GHC_PROGRAMS = NO
+else ifeq "$(TargetOS_CPP)" "freebsd"
+# FreeBSD cannot do proper resolution for $ORIGIN (due to a bug in
+# rtld(1)), so disable it by default (see #7819).
+DYNAMIC_GHC_PROGRAMS = NO
+else ifeq "$(PlatformSupportsSharedLibs)" "NO"
+DYNAMIC_GHC_PROGRAMS = NO
+else
+DYNAMIC_GHC_PROGRAMS = YES
+endif
+```
+
+
+NB also that the `*-llvm` presents in `build.mk` set `DYNAMIC_GHC_PROGRAMS = NO` as of [163de25813d12764aa5ded1666af7c06fee0d67e](/trac/ghc/changeset/163de25813d12764aa5ded1666af7c06fee0d67e/ghc) (\~July 2013).
+
 ### `FastString.string_table`
 
 
