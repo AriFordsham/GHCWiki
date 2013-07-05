@@ -206,3 +206,6 @@ This Option does not have any laziness issues. Thunks that end up adding `FastSt
 
 
 Instead of allocating `FastString`s' uniques linearly, let's use a `UniqSupply`. Then we'd just need to split the supply in order to prevent the danger of two `FastString`s getting the same unique. Whatever routine does the splitting just needs to be called the first time libHSghc is loaded dynamically and never again.
+
+
+I whipped up a quick implementation (using `{-# SOURCE #-}` and minimal boot files for `Unique` and `UniqueSupply`). Testing on a library that takes \~8.9 seconds to build and allocates 6.334 gigs, I got a \~0.3% increase in allocation and a \~0.1 second increase in time. The next step is try measuring the effect on compilation times in nofib, and looking for a cheap way to avoid those boot files.
