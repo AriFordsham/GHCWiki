@@ -161,7 +161,7 @@ Some LLVM notes that may be useful:
 - [ packages-primitive](https://github.com/jstolarek/packages-primitive)
 
 
-Unboxed Booleans ([\#6135](https://gitlab.haskell.org//ghc/ghc/issues/6135)) work is in all 8 repos on branch bool-primops-vX, where X is a number. X is increased after rebasing on top of new HEAD (this is done to avoid upstream rebasing).
+Unboxed Booleans ([\#6135](https://gitlab.haskell.org//ghc/ghc/issues/6135)) work is in all 8 repos on branch `bool-primops-vX`, where `X` is a number. `X` is increased after rebasing on top of new HEAD (I'm doing this to avoid upstream rebasing).
 
 
 Loopification work is in main GHC repo on branch `js-loopification`.
