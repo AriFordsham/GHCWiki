@@ -384,4 +384,4 @@ necessary.
 
 
 If your system uses a different object file format, then
-you have to write a linker -- good luck! [ Internet Marketing](http://www.optimaweb.co.id)[ Jasa SEO](http://www.optimaweb.co.id/jasa-seo)[ Iklan Online](http://www.optimaweb.co.id/iklan-online-google-adwords)[ Bisnis Online Lokal](http://www.optimaweb.co.id/bisnis-online-lokal)
+you have to write a linker -- good luck!
