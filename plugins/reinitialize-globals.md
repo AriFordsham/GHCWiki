@@ -1,9 +1,9 @@
 ## Background
 
-### CoreMonad.reinitializeGlobals
+### `CoreMonad.reinitializeGlobals`
 
 
-For unfortunate reasons I don't fully understand ([\#5355](https://gitlab.haskell.org//ghc/ghc/issues/5355), [\#5292](https://gitlab.haskell.org//ghc/ghc/issues/5292)), the host compiler and plugins have distinct copies of global variables (unless the host compiler dynamically loads libHSghc, eg on Windows; see the next section).  The current workaround is `CoreMonad.reinitializeGlobals`, which every plugin is supposed to call at the beginning of its `install` routine.  This function overwrites the plugin's global variables with the corresponding values of the host compiler's. It requires a little plumbing to make this work but not much, and the plugin author sees only `reinitializeGlobals`.
+For unfortunate reasons I don't fully understand ([\#5355](https://gitlab.haskell.org//ghc/ghc/issues/5355), [\#5292](https://gitlab.haskell.org//ghc/ghc/issues/5292)), the host compiler and the set of all plugins each have distinct copies of global variables (unless the host compiler dynamically loads libHSghc, eg on Windows; see the next section).  All plugins share the same copy, so there are at most two copies. The current workaround is `CoreMonad.reinitializeGlobals`, which every plugin is supposed to call at the beginning of its `install` routine.  This function overwrites the plugin's global variables with the corresponding values of the host compiler's. It requires a little plumbing to make this work but not much, and the plugin author sees only `reinitializeGlobals`.
 
 
 The long-term plan is to eventually totally avoid having two separate images of the ghc library and then redefine `reinitializeGlobals = return ()`.
@@ -19,7 +19,7 @@ install opts todos = do
 ```
 
 
-This mechanism is currently used for some StaticFlags, some Linker state, and some DynFlags. I just recently added (partial) support for the FastString table.
+This mechanism is currently used for some `StaticFlag`s, some `Linker` state, and some `DynFlags`. I just recently added (partial) support for the `FastString` table.
 
 ### `DYNAMIC_GHC_PROGRAMS`
 
@@ -53,7 +53,7 @@ NB also that the `*-llvm` presets in `build.mk` set `DYNAMIC_GHC_PROGRAMS = NO` 
 ### `FastString.string_table`
 
 
-All the FastStrings created during compilation are memoized in a hash table. For speedy comparison, each string is associated with a unique, which is allocated linearly whenever a FastString is created that has no corresponding entry in the hash table. This involves two pieces of global state, which are held in the same global variable.
+All the `FastString`s created during compilation are memoized in a hash table. For speedy comparison, each string is associated with a unique, which is allocated linearly whenever a `FastString` is created that has no corresponding entry in the hash table. This involves two pieces of global state, which are held in the same global variable.
 
 ```wiki
 data FastStringTable =
@@ -68,7 +68,7 @@ string_table :: IORef FastStringTable
 ## The Problem with `FastString.string_table`
 
 
-During its use, the FastString table increments the `!Int` argument. `reinitializeGlobals` alone is incapable of supporting this appropriately; it was designed to only copy global variables' values from the host compiler to the plugin, never in the opposite direction.
+During its use, the `FastString` table increments the `!Int` argument. `reinitializeGlobals` alone is incapable of supporting this appropriately; it was designed to only copy global variables' values from the host compiler to the plugin, never in the opposite direction. Those original global variables were global for convenience of access, not for the need to be mutable. The `FastString` table breaks the mold.
 
 ### Option 1: The General Solution
 
@@ -91,10 +91,10 @@ This function would do three things:
 > 1) call `reinitializeGlobals` ASAP, just like now
 
 >
-> 2) call `reverseReinitializeGlobals` at the end of the `install` routine; this new function would stash the values of the plugin's globals in a new, otherwise unused Writer output of !CoreM.
+> 2) call `reverseReinitializeGlobals` at the end of the `install` routine; this new function would stash the values of the plugin's globals in a new, otherwise unused Writer output of `CoreM`.
 
 >
-> 3) similarly wrap every PluginPass contained in the result of `install`
+> 3) similarly wrap every `PluginPass` contained in the result of `install`
 
 
 We'd also have to add some logic around the host compiler's calls to the plugin in order to copy the stashed values back into the host compiler's globals.
@@ -119,14 +119,14 @@ $ find .. -type f -exec grep -nHw -e global {} /dev/null \;
 
 Legitimate hits:
 
-- these three use the GLOBAL_VAR macro and were already supported by reinitializeGlobals: StaticFlags, DynFlags, Linker
+- these three use the GLOBAL_VAR macro and were already supported by reinitializeGlobals: `StaticFlags`, `DynFlags`, `Linker`
 
-- my focus: FastString.string_table
+- my focus: `FastString.string_table`
 
-- I don't know what these are for: Panic.interruptTargetThread, InteractiveEval.noBreakStablePtr
+- I don't know what these are for: `Panic.interruptTargetThread`, `InteractiveEval.noBreakStablePtr`
 
 
-Of all these global variables, I think only string_table needs information flow from the plugin back to the compiler.
+Of all these global variables, I think only `string_table` needs information flow from the plugin back to the compiler.
 
 ### Option 2: The Lighterweight Workaround
 
@@ -137,10 +137,10 @@ For `FastString.string_table`, I think we can avoid changing the `reinitializeGl
 This wouldn't affect the plugin API, but it would still require the extra logic around the compiler's calls to plugins.
 
 
-Unfortunately, the FastString interface uses unsafePerformIO, so unless the plugin forces all of its FastStrings before returning to the compiler, this wouldn't fix the issue. (Option 1 has this same problem.)
+Unfortunately, since the `FastString` interface uses unsafePerformIO, the two images' `FastString` tables may get out of synch when the evaluation of one of those thunks mutates one of the tables but not the other. Option 1 has this same problem. I'm going to call any thunk that allocates a `FastString` when its forced a "problem thunk". Since we only synchronize the two images' tables when transitioning between the compiler and a plugin, evaluation of a problem thunk by the image that did not create it is problematic.
 
 
-So the rule would be: *if your plugin might allocate new FastStrings, be sure to force them before returning to the compiler*. (Same for Option 1.)
+So the rule would be: *Do not let the compiler force any of a plugin's thunks that allocate `FastString`s, and vice versa.* (Same for Option 1.)
 
 ### Option 3: The Full Low-Level Hack
 
@@ -153,10 +153,37 @@ This would be the least invasive approach wrt the GHC source code by far and it 
 ### Option 4: Do Nothing
 
 
-For `FastString.string_table`, the lack of reverse information flow probably doesn't matter. I suspect the most common case just involves looking up FastStrings in the table, not actually creating new ones.
+For `FastString.string_table`, the lack of reverse information flow probably doesn't matter. I suspect the most common case just involves looking up `FastString`s in the table, not actually creating new ones.
 
 
-Even if the plugin does create FastStrings, it looks like the only thing that is downstream from the core2core pipeline and also is (indirectly) sensitive to a FastString's unique is GHCI. Everything else downstream of the plugins just uses the unique associated with Names — OccStrings are pretty much ignored after the renamer.
+Even if the plugin does create `FastString`s, it looks like the only thing that is downstream from the core2core pipeline and also is (indirectly) sensitive to a `FastString`'s unique is GHCI. Everything else downstream of the plugins just uses the unique associated with Names — `OccString`s are pretty much ignored after the renamer.
 
 
-So the rule would be: *if your plugin might allocate new FastStrings, be warned that GHCI might not work quite right*.
+So the rule would be: *if your plugin might allocate new `FastString`s, be warned that GHCI might not work quite right*.
+
+### Option 5: Circular `IORef`s
+
+
+This is idea is predicated on the fact that there are at most two libHSghc images in memory.
+
+
+We could change `FastStringTable` to the following.
+
+```wiki
+data Maybe_FST = Nothing_FST | Just_FST !(IORef FastStringTable)
+
+data FastStringTable =
+  FastStringTable
+     {-# UNPACK #-} !Int
+     (MutableArray# RealWorld [FastString])
+     {-# UNPACK #-} !Maybe_FST
+```
+
+
+Semantics: The new field points at the other image's `string_table`; `reinitializeGlobals` would setup this circularity. When updating the `Int` field of one, we would also update the `Int` field of the other, via the new field. We wouldn't need to duplicate any work for the array, since that pointer is shared directly after `reinitializeGlobals`.
+
+
+Performance: I'm hoping pointer tagging, unpacking (will this sum type be unpacked?), and branch prediction will ameliorate the extra instructions, especially when there is no plugin.  Moreover, this extra work would only happen when allocating new `FastStrings`, which is relatively infrequent.
+
+
+This Option does not have any laziness issues. Thunks that end up adding `FastString`s to the table, when forced, always begin by reading the `string_table``IORef`.  Thus, they will see the `Just_FST` if they're forced after `reinitializeGlobals`, regardless of when those thunks were created.  In other words, thunks only cache the `IORef`, not its contents. Since each image's `IORef`'s contents now includes a reference to the other image's `IORef`, the thunks will mutate both tables in synch.
