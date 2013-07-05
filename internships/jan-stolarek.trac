@@ -17,7 +17,42 @@ Some points made by Austin Seipp:
 #7574 bug can be triggered with `./inplace/bin/ghc-stage2 -c -no-hs-main -fasm -O2 ./testsuite/tests/llvm/should_compile/T7571.cmm`
 
 = Various clean-up tasks =
-== Code ==
+== Cleaning up the STG ->Cmm pass ==
+When generating Cmm from STG there is some SRT information being generated (only for CAFS?). It is not used and has to be rebuilt anyway after converting to CPS Cmm. Below are some random notes and pieces of code that might related to this:
+  
+  * Cmm conversions in the compiler pipeline: `main/HscMain.hs` has `tryNewCodeGen` (l. 1300), which first calls `StgCmm.codegen` and then passes the generated Cmm to `cmmPipeline` function from `cmm/CmmPipeline.hs`. According to Austin Seipp `cpsTop` in `cmm/CmmPipeline.hs` takes care of converting to CPS: "yeah, CmmPipeline does take care of it. it's partially cpsTop that does it, and doSRTs elaborates the top-level info tables and stuff beyond that but mostly cpsTop. i think your general turning point is after the stack layout and stack pointer manifestation". 
+
+This code in `cmm/Cmm.hs` that might be relevant (or not):
+
+{{{
+-- (line 141 and onwards)
+-- | Info table as a haskell data type
+data CmmInfoTable
+  = CmmInfoTable {
+      cit_lbl  :: CLabel, -- Info table label
+      cit_rep  :: SMRep,
+      cit_prof :: ProfilingInfo,
+      cit_srt  :: C_SRT
+    }
+
+data ProfilingInfo
+  = NoProfilingInfo
+  | ProfilingInfo [Word8] [Word8] -- closure_type, closure_desc
+
+-- C_SRT is what StgSyn.SRT gets translated to...
+-- we add a label for the table, and expect only the 'offset/length' form
+
+data C_SRT = NoC_SRT
+           | C_SRT !CLabel !WordOff !StgHalfWord {-bitmap or escape-}
+           deriving (Eq)
+
+needsSRT :: C_SRT -> Bool
+needsSRT NoC_SRT       = False
+needsSRT (C_SRT _ _ _) = True
+}}}
+
+
+== Random code ==
   * `main/HscMain.lhs:1300``. Is:
 
 {{{
@@ -58,3 +93,9 @@ It is however referenced in some of the comments!
 
   * [wiki:Commentary/Compiler/NewCodeGenPipeline NewCodeGenPipeline] has some outdated sections in the Cmm pipeline description: Add spill/reload, Rewrite assignments. So far I only marked them as OUTDATED
   * [wiki:Commentary/Compiler/NewCodeGenModules NewCodeGenModules] - mostly outdated. Mentioned data types and modules no longer exist.
+
+= Various stuff =
+Some LLVM notes that may be useful:
+  - [wiki:Commentary/Compiler/Backends/LLVM/Alias LLVM Alias Notes]
+  - [http://blog.davidterei.com/2011/09/ghc-project-for-all.html David Terei's LLVM blog post]
+  - [http://blog.omega-prime.co.uk/?p=135 Mac Bolingbroke's LLVM blog entry]
