@@ -132,3 +132,23 @@ For `FastString.string_table`, the lack of reverse information flow probably doe
 Even if the plugin does create !FastStrings, it looks like the only thing that is downstream from the core2core pipeline and also is (indirectly) sensitive to a !FastString's unique is GHCI. Everything else downstream of the plugins just uses the unique associated with Names — !OccStrings are pretty much ignored after the renamer.
 
 So the rule would be: ''if your plugin might allocate new !FastStrings, be warned that GHCI might not work quite right''.
+
+=== Option 5: Circuler `IORef`s ===
+
+This is idea is predicated on the fact that there are at most two libHSghc images in memory.
+
+We could change `FastStringTable` to the following.
+
+{{{
+data Maybe_FST = Nothing_FST | Just_FST !(IORef FastStringTable)
+
+data FastStringTable =
+  FastStringTable
+     {-# UNPACK #-} !Int
+     (MutableArray# RealWorld [FastString])
+     {-# UNPACK #-} !Maybe_FST
+}}}
+
+Semantics: The new field points at the other image's `string_table`; `reinitializeGlobals` would setup this circularity. When updating the `Int` field of one, it would also update the `Int` field of the other. We wouldn't need to duplicate any work for the array, since that pointer is easily directly shared.
+
+Performance: I'm hoping pointer tagging, unpacking (can we unpack small sum types?), and branch prediction will ameliorate the extra instructions, especially when there is no plugin. Moreover, this extra work would only happen when allocating new `FastStrings`, which is relatively infrequent.
