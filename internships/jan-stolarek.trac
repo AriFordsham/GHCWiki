@@ -28,7 +28,7 @@ Some points made by Austin Seipp:
 == Notes on the wiki ==
   * [wiki:Commentary/Compiler/NewCodeGen/Cleanup]
   * [wiki:Commentary/Compiler/NewCodeGenStupidity]
-  * [http://darcs.haskell.org/ghc/compiler/cmm/cmm-notes|cmm-notes cmm-notes]
+  * [http://darcs.haskell.org/ghc/compiler/cmm/cmm-notes cmm-notes]
 
 = Various clean-up tasks =
 == Cleaning up the STG ->Cmm pass ==

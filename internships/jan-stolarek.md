@@ -35,7 +35,7 @@ Some points made by Austin Seipp:
 
 - [Commentary/Compiler/NewCodeGen/Cleanup](commentary/compiler/new-code-gen/cleanup)
 - [Commentary/Compiler/NewCodeGenStupidity](commentary/compiler/new-code-gen-stupidity)
-- [ cmm-notes](http://darcs.haskell.org/ghc/compiler/cmm/cmm-notes|cmm-notes)
+- [ cmm-notes](http://darcs.haskell.org/ghc/compiler/cmm/cmm-notes)
 
 # Various clean-up tasks
 
