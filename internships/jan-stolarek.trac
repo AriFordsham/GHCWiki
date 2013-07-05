@@ -120,7 +120,7 @@ Tickets that I could potentially look into:
   * #7858 - Fix definitions of abs/signum for Floats/Doubles.
 
 Other things to do:
-  * improve Cmm dumping
+  * improve Cmm dumping. I think that during pretty-printing of Cmm labels of the entry code of a closure are refered to as "info_table", while the label of the whole closure is refered to as "entry". This is confusing.
   * investigate opportunities for improving heap checks. An idea: if a worker knows its heap requirements it could pass them to the caller, thus avoiding the heap check. A question: how much time do we really spend on heap checks?
 
 Some LLVM notes that may be useful:
