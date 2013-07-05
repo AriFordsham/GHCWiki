@@ -126,6 +126,23 @@ It is however referenced in some of the comments!
 # Various stuff
 
 
+Tickets that I could potentially look into:
+
+- 4101 - Primitive constant unfolding
+- 3070 - floor(0/0) should not be defined
+- 3676 - realToFrac doesn't sanely convert between floating types
+- 3744 - Comparisons against minBound/maxBound not optimised
+- 5615 - ghc produces poor code for `div` with constant powers of 2.
+- 7116 - Missing optimisation: strength reduction of floating-point multiplication
+- 7858 - Fix definitions of abs/signum for Floats/Doubles.
+
+
+Other things to do:
+
+- improve Cmm dumping
+- investigate opportunities for improving heap checks. An idea: if a worker knows its heap requirements it could pass them to the caller, thus avoiding the heap check. A question: how much time do we really spend on heap checks?
+
+
 Some LLVM notes that may be useful:
 
 - [LLVM Alias Notes](commentary/compiler/backends/llvm/alias)

@@ -34,7 +34,7 @@ Some points made by Austin Seipp:
 == Cleaning up the STG ->Cmm pass ==
 When generating Cmm from STG there is some SRT information being generated (only for CAFS?). It is not used and has to be rebuilt anyway after converting to CPS Cmm. Below are some random notes and pieces of code that might related to this:
   
-  * Cmm conversions in the compiler pipeline: `main/HscMain.hs` has `tryNewCodeGen` (l. 1300), which first calls `StgCmm.codegen` and then passes the generated Cmm to `cmmPipeline` function from `cmm/CmmPipeline.hs`. According to Austin Seipp `cpsTop` in `cmm/CmmPipeline.hs` takes care of converting to CPS: "yeah, CmmPipeline does take care of it. it's partially cpsTop that does it, and doSRTs elaborates the top-level info tables and stuff beyond that but mostly cpsTop. i think your general turning point is after the stack layout and stack pointer manifestation". 
+  * Cmm conversions in the compiler pipeline: `main/HscMain.hs` has `tryNewCodeGen` (l. 1300), which first calls `StgCmm.codegen` and then passes the generated Cmm to `cmmPipeline` function from `cmm/CmmPipeline.hs`. According to Austin Seipp `cpsTop` in `cmm/CmmPipeline.hs` takes care of converting to CPS: "yeah, !CmmPipeline does take care of it. it's partially cpsTop that does it, and doSRTs elaborates the top-level info tables and stuff beyond that but mostly cpsTop. i think your general turning point is after the stack layout and stack pointer manifestation". 
 
 This code in `cmm/Cmm.hs` that might be relevant (or not):
 
@@ -109,6 +109,20 @@ It is however referenced in some of the comments!
   * [wiki:Commentary/Compiler/NewCodeGenModules NewCodeGenModules] - mostly outdated. Mentioned data types and modules no longer exist.
 
 = Various stuff =
+Tickets that I could potentially look into:
+
+  * 4101 - Primitive constant unfolding
+  * 3070 - floor(0/0) should not be defined
+  * 3676 - realToFrac doesn't sanely convert between floating types
+  * 3744 - Comparisons against minBound/maxBound not optimised
+  * 5615 - ghc produces poor code for `div` with constant powers of 2.
+  * 7116 - Missing optimisation: strength reduction of floating-point multiplication
+  * 7858 - Fix definitions of abs/signum for Floats/Doubles.
+
+Other things to do:
+  * improve Cmm dumping
+  * investigate opportunities for improving heap checks. An idea: if a worker knows its heap requirements it could pass them to the caller, thus avoiding the heap check. A question: how much time do we really spend on heap checks?
+
 Some LLVM notes that may be useful:
   - [wiki:Commentary/Compiler/Backends/LLVM/Alias LLVM Alias Notes]
   - [http://blog.davidterei.com/2011/09/ghc-project-for-all.html David Terei's LLVM blog post]
