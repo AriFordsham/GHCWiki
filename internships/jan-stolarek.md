@@ -147,7 +147,7 @@ Some LLVM notes that may be useful:
 
 - [LLVM Alias Notes](commentary/compiler/backends/llvm/alias)
 - [ David Terei's LLVM blog post](http://blog.davidterei.com/2011/09/ghc-project-for-all.html)
-- [ Mac Bolingbroke's LLVM blog entry](http://blog.omega-prime.co.uk/?p=135)
+- [ Max Bolingbroke's LLVM blog entry](http://blog.omega-prime.co.uk/?p=135)
 
 # Github repos
 

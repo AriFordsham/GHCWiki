@@ -126,7 +126,7 @@ Other things to do:
 Some LLVM notes that may be useful:
   - [wiki:Commentary/Compiler/Backends/LLVM/Alias LLVM Alias Notes]
   - [http://blog.davidterei.com/2011/09/ghc-project-for-all.html David Terei's LLVM blog post]
-  - [http://blog.omega-prime.co.uk/?p=135 Mac Bolingbroke's LLVM blog entry]
+  - [http://blog.omega-prime.co.uk/?p=135 Max Bolingbroke's LLVM blog entry]
 
 = Github repos =
   - [https://github.com/jstolarek/ghc GHC]
