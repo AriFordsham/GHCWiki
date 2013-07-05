@@ -133,7 +133,7 @@ Even if the plugin does create !FastStrings, it looks like the only thing that i
 
 So the rule would be: ''if your plugin might allocate new !FastStrings, be warned that GHCI might not work quite right''.
 
-=== Option 5: Circuler `IORef`s ===
+=== Option 5: Circular `IORef`s ===
 
 This is idea is predicated on the fact that there are at most two libHSghc images in memory.
 
@@ -149,6 +149,8 @@ data FastStringTable =
      {-# UNPACK #-} !Maybe_FST
 }}}
 
-Semantics: The new field points at the other image's `string_table`; `reinitializeGlobals` would setup this circularity. When updating the `Int` field of one, it would also update the `Int` field of the other. We wouldn't need to duplicate any work for the array, since that pointer is easily directly shared.
+Semantics: The new field points at the other image's `string_table`; `reinitializeGlobals` would setup this circularity. When updating the `Int` field of one, we would also update the `Int` field of the other, via the new field. We wouldn't need to duplicate any work for the array, since that pointer is shared directly after `reinitializeGlobals`.
 
-Performance: I'm hoping pointer tagging, unpacking (can we unpack small sum types?), and branch prediction will ameliorate the extra instructions, especially when there is no plugin. Moreover, this extra work would only happen when allocating new `FastStrings`, which is relatively infrequent.
+Performance: I'm hoping pointer tagging, unpacking (will this sum type be unpacked?), and branch prediction will ameliorate the extra instructions, especially when there is no plugin.  Moreover, this extra work would only happen when allocating new `FastStrings`, which is relatively infrequent.
+
+This Option does not have any laziness issues. Thunks that end up adding `FastString`s to the table, when forced, always begin by reading the `string_table` `IORef`.  Thus, they will see the `Just_FST` if they're forced after `reinitializeGlobals`, regardless of when those thunks were created.  In other words, thunks only cache the `IORef`, not its contents. Since each image's `IORef`'s contents now includes a reference to the other image's `IORef`, the thunks will mutate both tables in synch.
