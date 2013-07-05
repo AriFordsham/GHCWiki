@@ -11,7 +11,6 @@ In addition to fixed releases of GHC, source distributions are also made each ni
 
 
 Source distributions are easier to build, because we also include the output from running certain external tools like [ Happy](http://haskell.org/happy), so you don't need to install these tools. See [Building/Preparation](building/preparation) for details.
-[ perlengkapan bayi](http://www.kindercube.com/) \|  [ hipnoterapi surabaya](http://subconscious-therapy.com/hipnoterapi-surabaya/) \|  [ selai kacang](http://www.morinfoods.com/selai-kacang.html)
 
 ## Getting a GHC repository using git
 
