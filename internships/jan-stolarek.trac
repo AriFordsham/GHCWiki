@@ -127,3 +127,17 @@ Some LLVM notes that may be useful:
   - [wiki:Commentary/Compiler/Backends/LLVM/Alias LLVM Alias Notes]
   - [http://blog.davidterei.com/2011/09/ghc-project-for-all.html David Terei's LLVM blog post]
   - [http://blog.omega-prime.co.uk/?p=135 Mac Bolingbroke's LLVM blog entry]
+
+= Github repos =
+  - [https://github.com/jstolarek/ghc GHC]
+  - [https://github.com/jstolarek/testsuite testsuite]
+  - [https://github.com/jstolarek/packages-array packages-array]
+  - [https://github.com/jstolarek/packages-base packages-base]
+  - [https://github.com/jstolarek/packages-ghc-prim packages-ghc-prim]
+  - [https://github.com/jstolarek/packages-integer-gmp packages-integer-gmp]
+  - [https://github.com/jstolarek/packages-integer-simple packages-integer-simple]
+  - [https://github.com/jstolarek/packages-primitive packages-primitive]
+
+Unboxed Booleans (#6135) work is in all 8 repos on branch bool-primops-vX, where X is a number. X is increased after rebasing on top of new HEAD (this is done to avoid upstream rebasing).
+
+Loopification work is in main GHC repo on branch `js-loopification`.
