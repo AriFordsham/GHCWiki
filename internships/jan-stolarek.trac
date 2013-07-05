@@ -32,7 +32,7 @@ Some points made by Austin Seipp:
 
 = Various clean-up tasks =
 == Cleaning up the STG ->Cmm pass ==
-When generating Cmm from STG there is some SRT information being generated (only for CAFs?). It is not used and has to be rebuilt anyway after converting to CPS Cmm. Below are some random notes and pieces of code that might related to this:
+When generating Cmm from STG there is some [wiki:Commentary/Rts/Storage/GC/CAFs SRT information] being generated. It is not used and has to be rebuilt anyway after converting to CPS Cmm. Below are some random notes and pieces of code that might related to this:
   
   * Cmm conversions in the compiler pipeline: `main/HscMain.hs` has `tryNewCodeGen` (l. 1300), which first calls `StgCmm.codegen` and then passes the generated Cmm to `cmmPipeline` function from `cmm/CmmPipeline.hs`. According to Austin Seipp `cpsTop` in `cmm/CmmPipeline.hs` takes care of converting to CPS: "yeah, !CmmPipeline does take care of it. it's partially cpsTop that does it, and doSRTs elaborates the top-level info tables and stuff beyond that but mostly cpsTop. i think your general turning point is after the stack layout and stack pointer manifestation". 
 
