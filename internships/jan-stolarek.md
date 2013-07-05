@@ -128,13 +128,13 @@ It is however referenced in some of the comments!
 
 Tickets that I could potentially look into:
 
-- 4101 - Primitive constant unfolding
-- 3070 - floor(0/0) should not be defined
-- 3676 - realToFrac doesn't sanely convert between floating types
-- 3744 - Comparisons against minBound/maxBound not optimised
-- 5615 - ghc produces poor code for `div` with constant powers of 2.
-- 7116 - Missing optimisation: strength reduction of floating-point multiplication
-- 7858 - Fix definitions of abs/signum for Floats/Doubles.
+- [\#4101](https://gitlab.haskell.org//ghc/ghc/issues/4101) - Primitive constant unfolding
+- [\#3070](https://gitlab.haskell.org//ghc/ghc/issues/3070) - floor(0/0) should not be defined
+- [\#3676](https://gitlab.haskell.org//ghc/ghc/issues/3676) - realToFrac doesn't sanely convert between floating types
+- [\#3744](https://gitlab.haskell.org//ghc/ghc/issues/3744) - Comparisons against minBound/maxBound not optimised
+- [\#5615](https://gitlab.haskell.org//ghc/ghc/issues/5615) - ghc produces poor code for `div` with constant powers of 2.
+- [\#7116](https://gitlab.haskell.org//ghc/ghc/issues/7116) - Missing optimisation: strength reduction of floating-point multiplication
+- [\#7858](https://gitlab.haskell.org//ghc/ghc/issues/7858) - Fix definitions of abs/signum for Floats/Doubles.
 
 
 Other things to do:
