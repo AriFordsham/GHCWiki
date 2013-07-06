@@ -1,8 +1,13 @@
 # Trac with FastCGI
 
-[ FastCGI](http://www.fastcgi.com/) interface allows Trac to remain resident much like with [mod_python](trac-mod-python). It is faster than external CGI interfaces which must start a new process for each request. However, unlike mod_python, FastCGI supports [ Apache SuEXEC](http://httpd.apache.org/docs/suexec.html), i.e. run with different permissions than web server. Additionally, it is supported by much wider variety of web servers.
+[ FastCGI](http://www.fastcgi.com/) interface allows Trac to remain resident much like with [mod_python](trac-mod-python) or [mod_wsgi](trac-mod-wsgi). It is faster than external CGI interfaces which must start a new process for each request.  Additionally, it is supported by much wider variety of web servers.
 
-**Note for Windows:** Trac's FastCGI does not run under Windows, as Windows does not implement `Socket.fromfd`, which is used by `_fcgi.py`. If you want to connect to IIS, you may want to try [ AJP](http://trac.edgewall.org/intertrac/TracOnWindowsIisAjp).
+
+Note that unlike mod_python, FastCGI supports [ Apache SuEXEC](http://httpd.apache.org/docs/suexec.html), i.e. run with different permissions than web server running with (`mod_wsgi` supports the `WSGIDaemonProcess` with user / group parameters to achieve the same effect).
+
+**Note for Windows:** Trac's FastCGI does not run under Windows, as Windows does not implement `Socket.fromfd`, which is used by `_fcgi.py`. If you want to connect to IIS, you may want to try [ AJP](http://trac.edgewall.org/intertrac/TracOnWindowsIisAjp)/[ ISAPI](http://trac.edgewall.org/intertrac/TracOnWindowsIisAjp).
+
+Overview[Simple Apache configuration](#SimpleApacheconfiguration)[Set up with  mod_fastcgi](#Setupwithmod_fastcgi)[Set up with  mod_fcgid](#Setupwithmod_fcgid)[alternative environment setup](#alternativeenvironmentsetup)[Simple Cherokee Configuration](#SimpleCherokeeConfiguration)[Simple Lighttpd Configuration](#SimpleLighttpdConfiguration)[Simple LiteSpeed Configuration](#SimpleLiteSpeedConfiguration)[Simple Nginx Configuration](#SimpleNginxConfiguration)
 
 ## Simple Apache configuration
 
@@ -10,7 +15,13 @@
 There are two FastCGI modules commonly available for Apache: `mod_fastcgi` and
 `mod_fcgid` (preferred). The latter is more up-to-date.
 
-#### setup with `mod_fastcgi`
+
+The following sections focus on the FCGI specific setup, see also [TracModWSGI](trac-mod-wsgi#configuring-authentication) for configuring the authentication in Apache.
+
+
+Regardless of which cgi module is used, be sure the web server has executable permissions on the cgi-bin folder. While FastCGI will throw specific permissions errors, mod_fcgid will throw an ambiguous error if this has not been done. (Connection reset by peer: mod_fcgid: error reading data from FastCGI server) 
+
+### Set up with `mod_fastcgi`
 
 `mod_fastcgi` uses `FastCgiIpcDir` and `FastCgiConfig` directives that should be added to an appropriate Apache configuration file:
 
@@ -33,20 +44,20 @@ Configure `ScriptAlias` or similar options as described in [TracCgi](trac-cgi), 
 calling `trac.fcgi` instead of `trac.cgi`.
 
 
-You can set up the `TRAC_ENV` as an overall default:
+Add the following to the Apache configuration file (below the `FastCgiIpcDir` line) if you intend to set up the `TRAC_ENV` as an overall default:
 
 ```wiki
 FastCgiConfig -initial-env TRAC_ENV=/path/to/env/trac
 ```
 
 
-Or you can serve multiple Trac projects in a directory like:
+Alternatively, you can serve multiple Trac projects in a directory by adding this:
 
 ```wiki
 FastCgiConfig -initial-env TRAC_ENV_PARENT_DIR=/parent/dir/of/projects
 ```
 
-#### setup with `mod_fcgid`
+### Set up with `mod_fcgid`
 
 
 Configure `ScriptAlias` (see [TracCgi](trac-cgi) for details), but call `trac.fcgi`
@@ -57,19 +68,19 @@ ScriptAlias /trac /path/to/www/trac/cgi-bin/trac.fcgi/
 ```
 
 
-To setup Trac environment for `mod_fcgid` it is necessary to use
-`FCGIDDefaultInitEnv` directive. It cannot be used in `Directory` or
+To set up Trac environment for `mod_fcgid` it is necessary to use
+`DefaultInitEnv` directive. It cannot be used in `Directory` or
 `Location` context, so if you need to support multiple projects, try
 alternative environment setup below.
 
 ```wiki
-FCGIDDefaultInitEnv TRAC_ENV /path/to/env/trac/
+DefaultInitEnv TRAC_ENV /path/to/env/trac/
 ```
 
-#### alternative environment setup
+### alternative environment setup
 
 
-A better method to specify path to Trac environment it to embed the path
+A better method to specify path to Trac environment is to embed the path
 into `trac.fcgi` script itself. That doesn't require configuration of server
 environment variables, works for both FastCgi modules
 (and for [ lighttpd](http://www.lighttpd.net/) and CGI as well):
@@ -118,7 +129,18 @@ If the port was not reachable, the interpreter command would be launched. Note t
 
 
 After doing this, we will just have to create a new rule managed by the SCGI handler to access Trac. It can be created in a new virtual server, trac.example.net for instance, and will only need two rules. The **default** one will use the SCGI handler associated to the previously created information source.
-The second rule will be there to serve the few static files needed to correctly display the Trac interface. Create it as *Directory rule* for */chrome/common* and just set it to the *Static files* handler and with a *Document root* that points to the appropriate files: */usr/share/trac/htdocs/*
+The second rule will be there to serve the few static files needed to correctly display the Trac interface. Create it as *Directory rule* for */common* and just set it to the *Static files* handler and with a *Document root* that points to the appropriate files: *$TRAC_LOCAL/htdocs/* (where $TRAC_LOCAL is a directory defined by the user or the system administrator to place local trac resources).
+
+
+Note:
+
+If the tracd process fails to start up, and cherokee displays a 503 error page, you might be missing the [ python-flup](http://trac.saddi.com/flup) package.
+
+Python-flup is a dependency which provides trac with SCGI capability. You can install it on debian based systems with:
+
+```wiki
+sudo apt-get install python-flup
+```
 
 ## Simple Lighttpd Configuration
 
@@ -152,6 +174,9 @@ fastcgi.server = ("/trac" =>
 Note that you will need to add a new entry to `fastcgi.server` for each separate Trac instance that you wish to run. Alternatively, you may use the `TRAC_ENV_PARENT_DIR` variable instead of `TRAC_ENV` as described above,
 and you may set one of the two in `trac.fcgi` instead of in `lighttpd.conf`
 using `bin-environment` (as in the section above on Apache configuration).
+
+
+Note that lighttpd has a bug related to 'SCRIPT_NAME' and 'PATH_INFO' when the uri of fastcgi.server is '/' instead of '/trac' in this example (see [ \#2418](http://trac.edgewall.org/intertrac/%232418)). This should be fixed since lighttpd 1.4.23, and you may need to add `"fix-root-scriptname" => "enable"` as parameter of fastcgi.server.
 
 
 For using two projects with lighttpd add the following to your `lighttpd.conf`:
@@ -241,7 +266,7 @@ Conditional configuration is also useful for mapping static resources, i.e. serv
 # Aliasing functionality is needed
 server.modules += ("mod_alias")
 
-# Setup an alias for the static resources
+# Set up an alias for the static resources
 alias.url = ("/trac/chrome/common" => "/usr/share/trac/htdocs")
 
 # Use negative lookahead, matching all requests that ask for any resource under /trac, EXCEPT in
@@ -315,10 +340,8 @@ fastcgi.server = ("/trac" =>
 For details about languages specification see [ TracFaq](http://trac.edgewall.org/intertrac/TracFaq) question 2.13.
 
 
-Other important information like [ this updated TracInstall page](http://trac.lighttpd.net/trac/wiki/TracInstall), [and this](trac-cgi#mapping-static-resources) are useful for non-fastcgi specific installation aspects.
-
-
-If you use trac-0.9, read [ about small bug](http://lists.edgewall.com/archive/trac/2005-November/005311.html)
+Other important information like the [mapping static resources advices](trac-install#mapping-static-resources) are useful for non-fastcgi specific installation aspects.
+\]
 
 
 Relaunch lighttpd, and browse to `http://yourhost.example.org/trac` to access Trac.
@@ -326,8 +349,8 @@ Relaunch lighttpd, and browse to `http://yourhost.example.org/trac` to access Tr
 
 Note about running lighttpd with reduced permissions:
 
->
-> If nothing else helps and trac.fcgi doesn't start with lighttpd settings server.username = "www-data", server.groupname = "www-data", then in the `bin-environment` section set `PYTHON_EGG_CACHE` to the home directory of `www-data` or some other directory accessible to this account for writing.
+
+If nothing else helps and trac.fcgi doesn't start with lighttpd settings `server.username = "www-data"`, `server.groupname = "www-data"`, then in the `bin-environment` section set `PYTHON_EGG_CACHE` to the home directory of `www-data` or some other directory accessible to this account for writing.
 
 ## Simple LiteSpeed Configuration
 
@@ -337,21 +360,15 @@ The FastCGI front-end was developed primarily for use with alternative webserver
 
 LiteSpeed web server is an event-driven asynchronous Apache replacement designed from the ground-up to be secure, scalable, and operate with minimal resources. LiteSpeed can operate directly from an Apache config file and is targeted for business-critical environments.
 
+1. Please make sure you have first have a working install of a Trac project. Test install with “tracd” first.
 
-Setup
-
-
-1) Please make sure you have first have a working install of a Trac project. Test install with “tracd” first.
-
-
-2) Create a Virtual Host for this setup. From now on we will refer to this vhost as TracVhost. For this tutorial we will be assuming that your trac project will be accessible via:
+1. Create a Virtual Host for this setup. From now on we will refer to this vhost as TracVhost. For this tutorial we will be assuming that your trac project will be accessible via:
 
 ```wiki
 http://yourdomain.com/trac/
 ```
 
-
-3) Go “TracVhost → External Apps” tab and create a new “External Application”.
+1. Go “TracVhost → External Apps” tab and create a new “External Application”.
 
 ```wiki
 Name: MyTracFCGI	
@@ -369,8 +386,7 @@ Back Log: 50
 Instances: 10
 ```
 
-
-4) Optional. If you need to use htpasswd based authentication. Go to “TracVhost → Security” tab and create a new security “Realm”.
+1. Optional. If you need to use htpasswd based authentication. Go to “TracVhost → Security” tab and create a new security “Realm”.
 
 ```wiki
 DB Type: Password File
@@ -381,8 +397,7 @@ User DB Location: /fullpathto/htpasswd <--- path to your htpasswd file
 
 If you don’t have a htpasswd file or don’t know how to create the entries within one, go to [ http://sherylcanter.com/encrypt.php](http://sherylcanter.com/encrypt.php), to generate the user:password combos.
 
-
-5) Go to “PythonVhost → Contexts” and create a new “FCGI Context”.
+1. Go to “PythonVhost → Contexts” and create a new “FCGI Context”.
 
 ```wiki
 URI: /trac/                              <--- URI path to bind to python fcgi app we created	
@@ -390,8 +405,7 @@ Fast CGI App: [VHost Level] MyTractFCGI  <--- select the trac fcgi extapp we jus
 Realm: TracUserDB                        <--- only if (4) is set. select realm created in (4)
 ```
 
-
-6) Modify /fullpathto/mytracproject/conf/trac.ini
+1. Modify `/fullpathto/mytracproject/conf/trac.ini`
 
 ```wiki
 #find/set base_rul, url, and link variables
@@ -400,74 +414,88 @@ url = http://yourdomain.com/trac/      <--- link of project
 link = http://yourdomain.com/trac/     <--- link of graphic logo
 ```
 
-
-7) Restart LiteSpeed, “lswsctrl restart”, and access your new Trac project at: 
+1. Restart LiteSpeed, “lswsctrl restart”, and access your new Trac project at: 
 
 ```wiki
 http://yourdomain.com/trac/
 ```
 
-### Simple Nginx Configuration
+## Simple Nginx Configuration
 
 
-1) Nginx configuration snippet - confirmed to work on 0.6.32
+Nginx is able to communicate with FastCGI processes, but can not spawn them. So you need to start FastCGI server for Trac separately.
 
-```wiki
-    server {
-        listen       10.9.8.7:443;
-        server_name  trac.example;
+1. Nginx configuration with basic authentication handled by Nginx - confirmed to work on 0.6.32
 
-        ssl                  on;
-        ssl_certificate      /etc/ssl/trac.example.crt;
-        ssl_certificate_key  /etc/ssl/trac.example.key;
+  ```wiki
+      server {
+          listen       10.9.8.7:443;
+          server_name  trac.example;
 
-        ssl_session_timeout  5m;
+          ssl                  on;
+          ssl_certificate      /etc/ssl/trac.example.crt;
+          ssl_certificate_key  /etc/ssl/trac.example.key;
 
-        ssl_protocols  SSLv2 SSLv3 TLSv1;
-        ssl_ciphers  ALL:!ADH:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv2:+EXP;
-        ssl_prefer_server_ciphers   on;
+          ssl_session_timeout  5m;
 
-        # (Or ``^/some/prefix/(.*)``.
-        if ($uri ~ ^/(.*)) {
-             set $path_info /$1;
-        }
+          ssl_protocols  SSLv2 SSLv3 TLSv1;
+          ssl_ciphers  ALL:!ADH:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv2:+EXP;
+          ssl_prefer_server_ciphers   on;
 
-        # You can copy this whole location to ``location [/some/prefix]/login``
-        # and remove the auth entries below if you want Trac to enforce
-        # authorization where appropriate instead of needing to authenticate
-        # for accessing the whole site.
-        # (Or ``location /some/prefix``.)
-        location / {
-            auth_basic            "trac realm";
-            auth_basic_user_file /home/trac/htpasswd;
+          # (Or ``^/some/prefix/(.*)``.
+          if ($uri ~ ^/(.*)) {
+               set $path_info /$1;
+          }
 
-            # socket address
-            fastcgi_pass   unix:/home/trac/run/instance.sock;
+          # it makes sense to serve static resources through Nginx
+          location /chrome/ {
+               alias /home/trac/instance/static/htdocs/;
+          }
 
-            # python - wsgi specific
-            fastcgi_param HTTPS on;
+          # You can copy this whole location to ``location [/some/prefix]/login``
+          # and remove the auth entries below if you want Trac to enforce
+          # authorization where appropriate instead of needing to authenticate
+          # for accessing the whole site.
+          # (Or ``location /some/prefix``.)
+          location / {
+              auth_basic            "trac realm";
+              auth_basic_user_file /home/trac/htpasswd;
 
-            ## WSGI REQUIRED VARIABLES
-            # WSGI application name - trac instance prefix.
-	    # (Or ``fastcgi_param  SCRIPT_NAME  /some/prefix``.)
-            fastcgi_param  SCRIPT_NAME        "";
-            fastcgi_param  PATH_INFO          $path_info;
+              # socket address
+              fastcgi_pass   unix:/home/trac/run/instance.sock;
 
-            ## WSGI NEEDED VARIABLES - trac warns about them
-            fastcgi_param  REQUEST_METHOD     $request_method;
-            fastcgi_param  SERVER_NAME        $server_name;
-            fastcgi_param  SERVER_PORT        $server_port;
-            fastcgi_param  SERVER_PROTOCOL    $server_protocol;
+              # python - wsgi specific
+              fastcgi_param HTTPS on;
 
-            # for authentication to work
-            fastcgi_param  AUTH_USER          $remote_user;
-            fastcgi_param  REMOTE_USER        $remote_user;
-        }
-    }
-```
+              ## WSGI REQUIRED VARIABLES
+              # WSGI application name - trac instance prefix.
+  	    # (Or ``fastcgi_param  SCRIPT_NAME  /some/prefix``.)
+              fastcgi_param  SCRIPT_NAME        "";
+              fastcgi_param  PATH_INFO          $path_info;
 
+              ## WSGI NEEDED VARIABLES - trac warns about them
+              fastcgi_param  REQUEST_METHOD     $request_method;
+              fastcgi_param  SERVER_NAME        $server_name;
+              fastcgi_param  SERVER_PORT        $server_port;
+              fastcgi_param  SERVER_PROTOCOL    $server_protocol;
+              fastcgi_param  QUERY_STRING       $query_string;
 
-2) Modified trac.fcgi:
+              # For Nginx authentication to work - do not forget to comment these
+              # lines if not using Nginx for authentication
+              fastcgi_param  AUTH_USER          $remote_user;
+              fastcgi_param  REMOTE_USER        $remote_user;
+
+              # for ip to work
+              fastcgi_param REMOTE_ADDR         $remote_addr;
+
+              # For attchments to work
+              fastcgi_param    CONTENT_TYPE     $content_type;
+              fastcgi_param    CONTENT_LENGTH   $content_length;
+          }
+      }
+  ```
+
+1. Modified trac.fcgi:
 
 ```wiki
 #!/usr/bin/env python
@@ -501,8 +529,7 @@ except Exception, e:
 
 ```
 
-
-3) reload nginx and launch trac.fcgi like that:
+1. reload nginx and launch trac.fcgi like that:
 
 ```wiki
 trac@trac.example ~ $ ./trac-standalone-fcgi.py 
@@ -512,11 +539,11 @@ trac@trac.example ~ $ ./trac-standalone-fcgi.py
 The above assumes that:
 
 - There is a user named 'trac' for running trac instances and keeping trac environments in its home directory.
-- /home/trac/instance contains a trac environment
-- /home/trac/htpasswd contains authentication information
-- /home/trac/run is owned by the same group the nginx runs under
+- `/home/trac/instance` contains a trac environment
+- `/home/trac/htpasswd` contains authentication information
+- `/home/trac/run` is owned by the same group the nginx runs under
 
-  - and if your system is Linux the /home/trac/run has setgid bit set (chmod g+s run)
+  - and if your system is Linux the `/home/trac/run` has setgid bit set (`chmod g+s run`)
   - and patch from ticket \#T7239 is applied, or you'll have to fix the socket file permissions every time
 
 
