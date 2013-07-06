@@ -9,7 +9,14 @@ To configure and execute a custom query, switch to the *View Tickets* module fro
 ## Filters
 
 
-When you first go to the query page the default filters will display all open tickets, or if you're logged in it will display open tickets assigned to you.  Current filters can be removed by clicking the button to the right with the minus sign on the label.  New filters are added from the pulldown list in the bottom-right corner of the filters box.  Filters with either a text box or a pulldown menu of options can be added multiple times to perform an *or* of the criteria.
+When you first go to the query page the default filter will display tickets relevant to you:
+
+- If logged in then all open tickets it will display open tickets assigned to you.
+- If not logged in but you have specified a name or email address in the preferences then it will display all open tickets where your email (or name if email not defined) is in the CC list.
+- If not logged and no name/email defined in the preferences then all open issues are displayed.
+
+
+Current filters can be removed by clicking the button to the left with the minus sign on the label.  New filters are added from the pulldown lists at the bottom corners of the filters box ('And' conditions on the left, 'Or' conditions on the right).  Filters with either a text box or a pulldown menu of options can be added multiple times to perform an *or* of the criteria.
 
 
 You can use the fields just below the filters box to group the results based on a field, or display the full description for each ticket.
@@ -31,7 +38,12 @@ The query results can be refreshed and cleared of these status indicators by cli
 ## Saving Queries
 
 
-While Trac does not yet allow saving a named query and somehow making it available in a navigable list, you can save references to queries in Wiki content, as described below.
+Trac allows you to save the query as a named query accessible from the reports module. To save a query ensure that you have *Updated* the view and then click the *Save query* button displayed beneath the results.
+You can also save references to queries in Wiki content, as described below.
+
+*Note:* one way to easily build queries like the ones below, you can build and test the queries in the Custom report module and when ready - click *Save query*. This will build the query string for you. All you need to do is remove the extra line breaks.
+
+*Note:* you must have the **REPORT_CREATE** permission in order to save queries to the list of default reports. The *Save query* button will only appear if you are logged in as a user that has been granted this permission. If your account does not have permission to create reports, you can still use the methods below to save a query.
 
 ### Using [TracLinks](trac-links)
 
@@ -80,7 +92,17 @@ This is displayed as:
 > No results
 
 
-Just like the [query: wiki links](trac-query#using-traclinks), the parameter of this macro expects a query string formatted according to the rules of the simple [ticket query language](trac-query#query-language).
+Just like the [query: wiki links](trac-query#using-traclinks), the parameter of this macro expects a query string formatted according to the rules of the simple [ticket query language](trac-query#query-language). This also allows displaying the link and description of a single ticket:
+
+```wiki
+[[TicketQuery(id=123)]]
+```
+
+
+This is displayed as:
+
+> <table><tr><th>[\#123](https://gitlab.haskell.org//ghc/ghc/issues/123)</th>
+> <td>Unix manual pages not in release bundles</td></tr></table>
 
 
 A more compact representation without the ticket summaries is also available:
@@ -95,7 +117,7 @@ This is displayed as:
 > No results
 
 
-Finally if you wish to receive only the number of defects that match the query using the ``count`` parameter.
+Finally, if you wish to receive only the number of defects that match the query, use the ``count`` parameter.
 
 ```wiki
 [[TicketQuery(version=0.6|0.7&resolution=duplicate, count)]]
@@ -370,13 +392,13 @@ Not sure is a bug, but either way it would be better to make more understandable
 
 ### Query Language
 
-`query:`[TracLinks](trac-links) and the `[[TicketQuery]]` macro both use a mini “query language” for specifying query filters. Basically, the filters are separated by ampersands (`&`). Each filter then consists of the ticket field name, an operator, and one or more values. More than one value are separated by a pipe (`|`), meaning that the filter matches any of the values.
+`query:`[TracLinks](trac-links) and the `[[TicketQuery]]` macro both use a mini “query language” for specifying query filters. Basically, the filters are separated by ampersands (`&`). Each filter then consists of the ticket field name, an operator, and one or more values. More than one value are separated by a pipe (`|`), meaning that the filter matches any of the values. To include a literal `&` or `|` in a value, escape the character with a backslash (`\`).
 
 
 The available operators are:
 
 <table><tr><th>**`=`**</th>
-<th> the field content exactly matches the one of the values 
+<th> the field content exactly matches one of the values 
 </th></tr>
 <tr><th>**`~=`**</th>
 <th> the field content contains one or more of the values 
@@ -402,6 +424,22 @@ All of these operators can also be negated:
 </th></tr>
 <tr><th>**`!$=`**</th>
 <th> the field content does not end with any of the values 
+</th></tr></table>
+
+
+The date fields `created` and `modified` can be constrained by using the `=` operator and specifying a value containing two dates separated by two dots (`..`). Either end of the date range can be left empty, meaning that the corresponding end of the range is open. The date parser understands a few natural date specifications like "3 weeks ago", "last month" and "now", as well as Bugzilla-style date specifications like "1d", "2w", "3m" or "4y" for 1 day, 2 weeks, 3 months and 4 years, respectively. Spaces in date specifications can be left out to avoid having to quote the query string. 
+
+<table><tr><th>**`created=2007-01-01..2008-01-01`**</th>
+<th> query tickets created in 2007 
+</th></tr>
+<tr><th>**`created=lastmonth..thismonth`**</th>
+<th> query tickets created during the previous month 
+</th></tr>
+<tr><th>**`modified=1weekago..`**</th>
+<th> query tickets that have been modified in the last week 
+</th></tr>
+<tr><th>**`modified=..30daysago`**</th>
+<th> query tickets that have been inactive for the last 30 days 
 </th></tr></table>
 
 ---
