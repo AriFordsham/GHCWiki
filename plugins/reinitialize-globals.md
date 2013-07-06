@@ -5,10 +5,9 @@ I've pushed Option 2 to HEAD. Since then, I've realized the troubles with lazine
 
 - SPJ likes the overall interface changes in Option 1 (ie `workAroundGlobals`) for future-proofness, beyond just this issue with the globals.
 
-- I think Option 3 is the most robust, but I don't know how to pull it off. Simon Marlow weighed-in with a great pointer, which I'm digesting now:
+- Ian Lynagh asks "why not just us a dynamically linked compiler?". That seems to be a possible prerequisite for using plugins, but I don't know the wider repercussions (eg all the platforms etc).
 
->
-> "I haven't been following this in detail, but I think you're encountering the same problem we had with various top-level IORefs in the base package.  The solution we have there is grotesque but it works.  Take a look at libraries/base/GHC/Conc/Signal.hs, search for getOrSetGHCConcSignalSignalHandlerStore.  There is some corresponding RTS gunk to help with this in rts/Globals.c."
+- I think Option 3 is the most robust.
 
 - Option 6 sounds best after that, but it was a late idea and I'm not sure how robust the underlying mechanism is.
 
@@ -161,13 +160,37 @@ Unfortunately, since the `FastString` interface uses unsafePerformIO, the two im
 
 So the rule would be: *Do not let the compiler force any of a plugin's thunks that allocate `FastString`s, and vice versa.* (Same for Option 1.)
 
-### Option 3: The Full Low-Level Hack
+### Option 3: The Full Low-Level Swap
 
 
-Can we do some dirty low-level pointer copying so that the plugin's `FastString.string_table` CAF is a `IND_STATIC` pointing to the compiler's `FastString.string_table` CAF?
+Simon Marlow said:
+
+>
+> "I haven't been following this in detail, but I think you're encountering the same problem we had with various top-level IORefs in the base package.  The solution we have there is grotesque but it works.  Take a look at libraries/base/GHC/Conc/Signal.hs, search for getOrSetGHCConcSignalSignalHandlerStore.  There is some corresponding RTS gunk to help with this in rts/Globals.c."
 
 
-This would be the least invasive approach wrt the GHC source code by far and it would have no rules for the plugin author to worry about.
+This workaround keeps a table of `StgStablePtr`s in the RTS for a fixed set of symbols (that's managed by `rts/Globals.c`). That table is accessed via C functions named with the scheme `getOrSet<key>`. So we add one such function there (and in `includes/rts/Globals.h`: `getOrSetLibHSghcFastStringTable`.
+
+
+The mechanism is invoked thusly:
+
+```wiki
+{-# NOINLINE string_table #-}
+string_table :: IORef FastStringTable
+string_table =
+ unsafePerformIO $ do
+   tab <- IO $ \s1# -> case newArray# hASH_TBL_SIZE_UNBOXED [] s1# of
+                           (# s2#, arr# #) ->
+                               (# s2#, FastStringTable 0 arr# #)
+   ref <- newIORef tab
+   sharedCAF ref getOrSetLibHSghcFastStringTable
+
+foreign import ccall unsafe "getOrSetLibHSghcFastStringTable"
+  getOrSetLibHSghcFastStringTable :: Ptr a -> IO (Ptr a)
+```
+
+
+Thus there ever exists only one such CAF per process, regardless of how many copies of libHSghc are loaded, since they all share the first such CAF forced. This is arbitrated by the process's sole image of the RTS.
 
 ### Option 4: Do Nothing
 
