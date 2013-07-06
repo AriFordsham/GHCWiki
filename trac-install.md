@@ -1,57 +1,43 @@
-# Trac Installation Guide for 0.11
+# Trac Installation Guide for 0.12
 
 
-Trac is written in the Python programming language and needs a database, [ SQLite](http://sqlite.org/), [ PostgreSQL](http://postgresql.org/), [ MySQL](http://mysql.com/). For HTML rendering, Trac uses the [ Genshi](http://genshi.edgewall.org) templating system.
+Trac is written in the Python programming language and needs a database, [ SQLite](http://sqlite.org/), [ PostgreSQL](http://www.postgresql.org/), or [ MySQL](http://mysql.com/). For HTML rendering, Trac uses the [ Genshi](http://genshi.edgewall.org) templating system.
 
 
-What follows are generic instructions for installing and setting up Trac and its requirements. While you can find instructions for installing Trac on specific systems at TracInstallPlatforms on the main Trac site, please be sure to **first read through these general instructions** to get a good understanding of the tasks involved.
+Since version 0.12, Trac can also be localized, and there's probably a translation available for your language. If you want to be able to use the Trac interface in other languages, then make sure you **first** have installed the optional package [Babel](trac-install#other-python-packages). Lacking Babel, you will only get the default English version, as usual. If you install Babel later on, you will need to re-install Trac.
 
 
-See [TracUpgrade](trac-upgrade) for instructions on how to upgrade an existing installation.
-
-## Quick Install a Released Version
+If you're interested in contributing new translations for other languages or enhance the existing translations, then please have a look at [ TracL10N](http://trac.edgewall.org/intertrac/wiki%3ATracL10N).
 
 
-For a quick install, first make sure you have [ Python](http://python.org/download) (2.3-2.6) and [ easy_install](http://peak.telecommunity.com/DevCenter/EasyInstall#installing-easy-install).
+What follows are generic instructions for installing and setting up Trac and its requirements. While you may find instructions for installing Trac on specific systems at [ TracInstallPlatforms](http://trac.edgewall.org/intertrac/wiki%3ATracInstallPlatforms) on the main Trac site, please be sure to **first read through these general instructions** to get a good understanding of the tasks involved.
 
+Installation Steps[Dependencies](#Dependencies)[Mandatory Dependencies](#MandatoryDependencies)[Optional Dependencies](#OptionalDependencies)[Installing Trac](#InstallingTrac)[Using  easy_install](#Usingeasy_install)[From source](#Fromsource)[Advanced Options](#AdvancedOptions)[Creating a Project Environment](#CreatingaProjectEnvironment)[Deploying Trac](#DeployingTrac)[Running the Standalone Server](#RunningtheStandaloneServer)[Running Trac on a Web Server](#RunningTraconaWebServer)[Configuring Authentication](#ConfiguringAuthentication)[Granting admin rights to the admin user](#Grantingadminrightstotheadminuser)[Finishing the install](#Finishingtheinstall)[Automatic reference to the SVN changesets in Trac tickets](#AutomaticreferencetotheSVNchangesetsinTractickets)[Using Trac](#UsingTrac)
 
-Then enter (*omitting 'sudo' if not applicable*)
+## Dependencies
 
-```wiki
-sudo easy_install Trac
-```
-
-
-to install Trac, SQLite, and Genshi.
-
-## Requirements
-
-
-The hardware requirements for running Trac obviously depend on the expected data volume (number of wiki pages, tickets, revisions) and traffic. Very small projects will run fine with a 500MHz processor and 128MB RAM using SQLite. In general, the more RAM, the better. A fast hard disk also helps.
+### Mandatory Dependencies
 
 
 To install Trac, the following software packages must be installed:
 
-- [ Python](http://www.python.org/), version \>=2.3 (\<3.0)
+- [ Python](http://www.python.org/), version \>= 2.4 and \< 3.0
+  *(note that we dropped the support for Python 2.3 in this release and that this will be the last Trac release supporting Python 2.4)*
+- [ setuptools](http://peak.telecommunity.com/DevCenter/setuptools), version \>= 0.6
+- [ Genshi](http://genshi.edgewall.org/wiki/Download), version \>= 0.6 (but \< 0.7dev, i.e. don't use Genshi trunk)
 
-  - if using mod_python together with xml-related things, use python-2.5. expat is namespaced there and does not cause apache to crash any more(see [ here](http://www.dscpl.com.au/wiki/ModPython/Articles/ExpatCausingApacheCrash) for details).
-  - For RPM-based systems you might also need the `python-devel` and `python-xml` packages.
-  - See instructions in [ TracOnWindows/Python2.5](http://trac.edgewall.org/intertrac/wiki%3ATracOnWindows/Python2.5)
-- setuptools?, version \>= 0.6
-- [ Genshi](http://genshi.edgewall.org/wiki/Download), version \>= 0.5 (was version \>= 0.4.1 on previous 0.11 release candidates)
-- You also need a database system and the corresponding python drivers for it.
-  The database can be either SQLite, PostgreSQL or MySQL.
-- Optional if some plugins require it: [ ClearSilver](http://www.clearsilver.net/)
 
-#### For SQLite
+You also need a database system and the corresponding python bindings.
+The database can be either SQLite, PostgreSQL or MySQL.
+
+#### For the SQLite database
 
 
 If you're using Python 2.5 or 2.6, you already have everything you need.
 
 
-If you're using Python 2.3 or 2.4 and need pysqlite, you can download from 
-[ google code](http://code.google.com/p/pysqlite/downloads/list) the Windows
-installers or the tar.gz archive for building from source: 
+If you're using Python 2.4 and need pysqlite, you can download from 
+[ google code](http://code.google.com/p/pysqlite/downloads/list) the Windows installers or the tar.gz archive for building from source: 
 
 ```wiki
 $ tar xvfz <version>.tar.gz 
@@ -61,67 +47,106 @@ $ python setup.py build_static install
 
 
  
-That way, the latest SQLite version will be downloaded and built into the 
-bindings. 
+This will extract the SQLite code and build the bindings. 
 
 
-If you're still using SQLite 2.x, you'll need pysqlite 1.0.x, although this 
-package is not easy to find anymore. For SQLite 3.x, try not to use
-pysqlite 1.1.x, which has been deprecated in favor of pysqlite 2.x.
+To install SQLite, your system may require the development headers. Without these you will get various GCC related errors when attempting to build:
+
+```wiki
+$ apt-get install libsqlite3-dev
+```
+
+
+SQLite 2.x is no longer supported, and neither is PySqlite 1.1.x.
+
+
+A known bug PySqlite versions 2.5.2-4 prohibits upgrade of trac databases
+from 0.11.x to 0.12. Please use versions 2.5.5 and newer or 2.5.1 and
+older. See [ \#9434](http://trac.edgewall.org/intertrac/%239434) for more detail.
 
 
 See additional information in [ PySqlite](http://trac.edgewall.org/intertrac/PySqlite).
 
-#### For PostgreSQL
-
-- [ PostgreSQL](http://www.postgresql.org/)
-- [ psycopg2](http://initd.org/projects/psycopg2)
-- See [ DatabaseBackend](http://trac.edgewall.org/intertrac/wiki%3ADatabaseBackend%23Postgresql)
-
-**Warning**: PostgreSQL 8.3 uses a strict type checking mechanism. To use Trac with the 8.3 Version of PostgreSQL, you will need [ trac-0.11](http://trac.edgewall.org/changeset/6512) or later.
-
-#### For MySQL
-
-- [ MySQL](http://mysql.com/), version 4.1 or later ([ MariaDB](http://askmonty.org/wiki/index.php/MariaDB) might work as well)
-- [ MySQLdb](http://sf.net/projects/mysql-python), version 1.2.1 or later
+#### For the PostgreSQL database
 
 
-See [ MySqlDb](http://trac.edgewall.org/intertrac/MySqlDb) for more detailed information.
-It is *very* important to read carefully that page before creating the database.
+You need to install the database and its Python bindings:
 
-## Optional Requirements
+- [ PostgreSQL](http://www.postgresql.org/), version 8.0 or later
+- [ psycopg2](http://pypi.python.org/pypi/psycopg2)
+
+
+See [ DatabaseBackend](http://trac.edgewall.org/intertrac/DatabaseBackend%23Postgresql) for details.
+
+#### For the MySQL database
+
+
+Trac can now work quite well with MySQL, provided you follow the guidelines.
+
+- [ MySQL](http://mysql.com/), version 5.0 or later
+- [ MySQLdb](http://sf.net/projects/mysql-python), version 1.2.2 or later
+
+
+It is **very** important to read carefully the  [ MySqlDb](http://trac.edgewall.org/intertrac/MySqlDb) page before creating the database.
+
+### Optional Dependencies
 
 #### Version Control System
 
-**Please note:** if using Subversion, Trac must be installed on the **same machine**. Remote repositories are currently not supported (although Windows UNC paths such as `\\machine_name\path\to\svn` do work).
+##### Subversion
 
-- [ Subversion](http://subversion.tigris.org/), version \>= 1.0. (versions recommended: 1.2.4, 1.3.2 or 1.4.2) and the ***corresponding*** Python bindings. For troubleshooting, check [ TracSubversion](http://trac.edgewall.org/intertrac/TracSubversion)
+[ Subversion](http://subversion.apache.org/) 1.5.x or 1.6.x and the ***corresponding*** Python bindings. 
 
-  - Trac uses the [ SWIG](http://svnbook.red-bean.com/svnbook-1.1/ch08s02.html#svn-ch-8-sect-2.3) bindings included in the Subversion distribution, **not**[ PySVN](http://pysvn.tigris.org/) (which is sometimes confused with the standard SWIG bindings).
-  - If Subversion was already installed without the SWIG bindings, on Unix you'll need to re-`configure` Subversion and `make swig-py`, `make install-swig-py`.
-  - There are [ pre-compiled bindings](http://subversion.tigris.org/servlets/ProjectDocumentList?folderID=91) available for win32. 
-- Support for other version control systems is provided via third-parties. See [ PluginList](http://trac.edgewall.org/intertrac/PluginList) and [ VersioningSystemBackend](http://trac.edgewall.org/intertrac/VersioningSystemBackend).
+
+There are [ pre-compiled SWIG bindings](http://subversion.apache.org/packages.html) available for various platforms. See also the TracSubversion page for details about Windows packages.
+
+
+Older versions starting from 1.4.0, etc. should still work. For troubleshooting information, check the [ TracSubversion](http://trac.edgewall.org/intertrac/TracSubversion%23Troubleshooting) page. Versions prior to 1.4.0 won't probably work since trac uses svn core functionality (e.g. svn_path_canonicalize) that is not implemented in the python swig wrapper in svn \<= 1.3.x (although it exists in the svn lib itself).
+
+
+Note that Trac **doesn't** use [ PySVN](http://pysvn.tigris.org/), neither does it work yet with the newer `ctype`-style bindings. 
+
+**Please note:** if using Subversion, Trac must be installed on the **same machine**. Remote repositories are currently [ not supported](http://trac.edgewall.org/intertrac/%23493).
+
+##### Others
+
+
+Support for other version control systems is provided via third-parties. See [ PluginList](http://trac.edgewall.org/intertrac/PluginList) and [ VersioningSystemBackend](http://trac.edgewall.org/intertrac/VersioningSystemBackend).
 
 #### Web Server
 
-- A CGI-capable web server (see [TracCgi](trac-cgi)), or
-- a [ FastCGI](http://www.fastcgi.com/)-capable web server (see [TracFastCgi](trac-fast-cgi)), or
-- an [ AJP](http://tomcat.apache.org/connectors-doc/ajp/ajpv13a.html)-capable web server (see [ TracOnWindowsIisAjp](http://trac.edgewall.org/intertrac/TracOnWindowsIisAjp)), or
-- [ Apache](http://httpd.apache.org/) with [ mod_wsgi](http://code.google.com/p/modwsgi/) (see [TracModWSGI](trac-mod-wsgi) or [ http://code.google.com/p/modwsgi/wiki/IntegrationWithTrac](http://code.google.com/p/modwsgi/wiki/IntegrationWithTrac)) or
 
-  - This should work with Apache 1.3, 2.0 or 2.2 and promises to deliver more performance than using mod_python. A little less mature than mod_python.
-- [ Apache](http://httpd.apache.org/) with [ mod_python 3.1.3+](http://www.modpython.org/) (see [TracModPython](trac-mod-python))
-
-  - When installing mod_python the development versions of Python and Apache are required (actually the libraries and header files)
+A web server is optional because Trac is shipped with a server included, see the [Running the Standalone Server ](trac-install#running-the-standalone-server) section below.
 
 
-For those stuck with Apache 1.3, it is also possible to get Trac working with [ mod_python 2.7](http://www.modpython.org/) (see [ TracModPython2.7](http://trac.edgewall.org/intertrac/wiki%3ATracModPython2.7)). This guide hasn't been updated since 0.84, so it may or may not work.
+Alternatively you configure Trac to run in any of the following environments.
 
-#### Other Python Utilities
+- [ Apache](http://httpd.apache.org/) with 
 
-- [ docutils](http://docutils.sourceforge.net/), version \>= 0.3.9 for [WikiRestructuredText](wiki-restructured-text).
-- [ Pygments](http://pygments.pocoo.org) for **syntax highlighting**, although [ SilverCity](http://silvercity.sourceforge.net/) \>= 0.9.7 and/or [ GNU Enscript](http://gnu.org/software/enscript/enscript.html) are also possible. Refer to [TracSyntaxColoring](trac-syntax-coloring) for details.
-- [ pytz](http://pytz.sf.net) to get a complete list of time zones, otherwise Trac will fall back on a shorter list from an internal time zone implementation.
+  - [ mod_wsgi](http://code.google.com/p/modwsgi/), see [TracModWSGI](trac-mod-wsgi) (preferred)
+  - *[ mod_python 3.3.1](http://modpython.org/), see [TracModPython](trac-mod-python) (deprecated)*
+- any [ FastCGI](http://www.fastcgi.com/)-capable web server, see [TracFastCgi](trac-fast-cgi)
+- any [ AJP](http://tomcat.apache.org/connectors-doc/ajp/ajpv13a.html)-capable web
+  server, see [ TracOnWindowsIisAjp](http://trac.edgewall.org/intertrac/TracOnWindowsIisAjp)
+- IIS with [ Isapi-wsgi](http://code.google.com/p/isapi-wsgi/), see [ TracOnWindowsIisIsapi](http://trac.edgewall.org/intertrac/TracOnWindowsIisIsapi)
+- *as a last resort, a CGI-capable web server (see [TracCgi](trac-cgi)), but usage of Trac as a cgi script 
+  is highly discouraged, better use one of the previous options.*
+
+#### Other Python Packages
+
+- [ Babel](http://babel.edgewall.org), version 0.9.5, 
+  needed for localization support
+  *Note: * If you want to be able to use the Trac interface in other languages, then make sure you first have installed the optional package Babel. Lacking Babel, you will only get the default english version, as usual. If you install Babel later on, you will need to re-install Trac. 
+- [ docutils](http://docutils.sourceforge.net/), version \>= 0.3.9 
+  for [WikiRestructuredText](wiki-restructured-text).
+- [ Pygments](http://pygments.pocoo.org) for 
+  [syntax highlighting](trac-syntax-coloring).
+  [ SilverCity](http://silvercity.sourceforge.net/) and/or 
+  [ Enscript](http://gnu.org/software/enscript/enscript.html) may still be used
+  but are deprecated and you really should be using Pygments.
+- [ pytz](http://pytz.sf.net) to get a complete list of time zones,
+  otherwise Trac will fall back on a shorter list from 
+  an internal time zone implementation.
 
 **Attention**: The various available versions of these dependencies are not necessarily interchangable, so please pay attention to the version numbers above. If you are having trouble getting Trac to work please double-check all the dependencies before asking for help on the [ MailingList](http://trac.edgewall.org/intertrac/MailingList) or [ IrcChannel](http://trac.edgewall.org/intertrac/IrcChannel).
 
@@ -130,23 +155,56 @@ Please refer to the documentation of these packages to find out how they are bes
 
 ## Installing Trac
 
-
-One way to install Trac is using `setuptools`.
-With setuptools you can install Trac from the subversion repository; for example,
-to install release version 0.11 do:
-
-```wiki
-easy_install http://svn.edgewall.org/repos/trac/tags/trac-0.11
-```
+### Using `easy_install`
 
 
-But of course the python-typical setup at the top of the source directory also works:
+One way to install Trac is using [ setuptools](http://pypi.python.org/pypi/setuptools).
+With setuptools you can install Trac from the subversion repository; 
+
+
+A few examples:
+
+- first install of the latest stable version Trac 0.12.2, with i18n support:
+
+  ```wiki
+  easy_install Babel==0.9.5
+  easy_install Trac
+  ```
+
+  *It's very important to run the two `easy_install` commands separately, otherwise the message catalogs won't be generated.*
+
+- upgrade to the latest stable version of Trac:
+
+  ```wiki
+  easy_install -U Trac
+  ```
+
+- upgrade to the latest trunk development version (0.13dev):
+
+  ```wiki
+  easy_install -U Trac==dev
+  ```
+
+
+For upgrades, reading the [TracUpgrade](trac-upgrade) page is mandatory, of course.
+
+### From source
+
+
+If you want more control, you can download the source in archive form, or do a checkout from one of the official \[\[Trac:TracRepositories\|source code repositories\]\].
+
+
+Be sure to have the prerequisites already installed. You can also obtain the Genshi and Babel source packages from [ http://www.edgewall.org](http://www.edgewall.org) and follow for them a similar installation procedure, or you can just `easy_install` those, see [above](trac-install#).
+
+
+Once you've unpacked the Trac archive or performed the checkout, move in the top-level folder and do:
 
 ```wiki
 $ python ./setup.py install
 ```
 
-*Note: you'll need root permissions or equivalent for this step.*
+
+You'll need root permissions or equivalent for this step.
 
 
 This will byte-compile the python source code and install it as an .egg file or folder in the `site-packages` directory
@@ -155,7 +213,19 @@ of your Python installation. The .egg will also contain all other resources need
 
 The script will also install the [trac-admin](trac-admin) command-line tool, used to create and maintain [project environments](trac-environment), as well as the [tracd](trac-standalone) standalone server.
 
-#### Advanced Options
+
+If you install from source and want to make Trac available in other languages, make sure  Babel is installed. Only then, perform the `install` (or simply redo the `install` once again afterwards if you realize Babel was not yet installed):
+
+```wiki
+$ python ./setup.py install
+```
+
+
+Alternatively, you can do a `bdist_egg` and copy the .egg from dist/ to the place of your choice, or you can create a Windows installer (`bdist_wininst`).
+
+### Advanced Options
+
+#### Custom location with `easy_install`
 
 
 To install Trac to a custom location, or find out about other advanced installation options, run:
@@ -182,12 +252,47 @@ easy_install --prefix=/usr/local --install-dir=/Library/Python/2.5/site-packages
 ```
 
 
+Note: If installing on Mac OS X 10.6 running ` easy_install http://svn.edgewall.org/repos/trac/trunk ` will install into ` /usr/local ` and ` /Library/Python/2.6/site-packages ` by default
+
+
 The above will place your `tracd` and `trac-admin` commands into `/usr/local/bin` and will install the Trac libraries and dependencies into `/Library/Python/2.5/site-packages`, which is Apple's preferred location for third-party Python application installations.
+
+#### Using `pip`
+
+
+'pip' is an easy_install replacement that is very useful to quickly install python packages.
+To get a trac installation up and running in less than 5 minutes:
+
+
+Assuming you want to have your entire pip installation in /opt/user/trac:
+
+- ```wiki
+  pip -E /opt/user/trac install trac psycopg2 
+  ```
+
+
+or
+
+- ```wiki
+  pip -E /opt/user/trac install trac mysql-python 
+  ```
+
+
+Make sure your OS specific headers are available for pip to automatically build PostgreSQL (libpq-dev) or MySQL (libmysqlclient-dev) bindings.
+
+
+pip will automatically resolve all dependencies (like Genshi, pygments, etc.) and download the latest packages on pypi.python.org and create a self contained installation in /opt/user/trac .
+
+
+All commands (tracd, trac-admin) are available in /opt/user/trac/bin. This can also be leveraged for mod_python (using PythonHandler directive) and mod_wsgi (using WSGIDaemonProcess directive)
+
+
+Additionally, you can install several trac plugins (listed [ here](http://pypi.python.org/pypi?:action=search&term=trac&submit=search)) through pip.
 
 ## Creating a Project Environment
 
 
-A [Trac environment](trac-environment) is the backend storage where Trac stores information like wiki pages, tickets, reports, settings, etc. An environment is basically a directory that contains a human-readable configuration file and various other files and directories.
+A [Trac environment](trac-environment) is the backend storage where Trac stores information like wiki pages, tickets, reports, settings, etc. An environment is basically a directory that contains a human-readable [configuration file](trac-ini), and various other files and directories.
 
 
 A new environment is created using [trac-admin](trac-admin):
@@ -196,17 +301,30 @@ A new environment is created using [trac-admin](trac-admin):
 $ trac-admin /path/to/myproject initenv
 ```
 
-[trac-admin](trac-admin) will prompt you for the information it needs to create the environment, such as the name of the project, the type and the path to an existing [source code repository](trac-environment#), the [database connection string](trac-environment#database-connection-strings), and so on. If you're not sure what to specify for one of these options, just leave it blank to use the default value. The database connection string in particular will always work as long as you have SQLite installed. Leaving the path to the source code repository empty will disable any functionality related to version control, but you can always add that back when the basic system is running.
+[trac-admin](trac-admin) will prompt you for the information it needs to create the environment, such as the name of the project and the [database connection string](trac-environment#database-connection-strings). If you're not sure what to specify for one of these options, just press `<Enter>` to use the default value. 
 
 
-Also note that the values you specify here can be changed later by directly editing the [TracIni](trac-ini) configuration file.
+Using the default database connection string in particular will always work as long as you have SQLite installed.
+For the other \[DatabaseBackend database backends\] you should plan ahead and already have a database ready to use at this point.
 
-*Note: The user account under which the web server runs will require write permissions to the environment directory and all the files inside.  On Linux, with the web server running as user apache and group apache, enter:*
 
->
-> chown -R apache.apache /path/to/myproject
+Since 0.12, Trac doesn't ask for a [source code repository](trac-environment#source-code-repository) anymore when creating an environment. Repositories can be [added](trac-repository-admin) afterward, or the version control support can be disabled completely if you don't need it.
 
-## Running the Standalone Server
+
+Also note that the values you specify here can be changed later by directly editing the [conf/trac.ini](trac-ini) configuration file.
+
+
+Finally, make sure the user account under which the web front-end runs will have **write permissions** to the environment directory and all the files inside. This will be the case if you run `trac-admin ... initenv` as this user. If not, you should set the correct user afterwards. For example on Linux, with the web server running as user `apache` and group `apache`, enter:
+
+```wiki
+# chown -R apache.apache /path/to/myproject
+```
+
+**Warning:** Please only use ASCII-characters for account name and project path, unicode characters are not supported there.
+
+## Deploying Trac
+
+### Running the Standalone Server
 
 
 After having created a Trac environment, you can easily try the web interface by running the standalone server [tracd](trac-standalone):
@@ -216,27 +334,29 @@ $ tracd --port 8000 /path/to/myproject
 ```
 
 
-Then, fire up a browser and visit `http://localhost:8000/`. You should get a simple listing of all environments that tracd knows about. Follow the link to the environment you just created, and you should see Trac in action. If you only plan on managing a single project with trac you can have the standalone server skip the environment list by starting it like this:
+Then, fire up a browser and visit `http://localhost:8000/`. You should get a simple listing of all environments that `tracd` knows about. Follow the link to the environment you just created, and you should see Trac in action. If you only plan on managing a single project with Trac you can have the standalone server skip the environment list by starting it like this:
 
 ```wiki
 $ tracd -s --port 8000 /path/to/myproject
 ```
 
-## Running Trac on a Web Server
+### Running Trac on a Web Server
 
 
-Trac provides three options for connecting to a "real" web server: [CGI](trac-cgi), [FastCGI](trac-fast-cgi) and [mod_python](trac-mod-python). For decent performance, it is recommended that you use either FastCGI or mod_python.
+Trac provides various options for connecting to a "real" web server: 
+
+- [FastCGI](trac-fast-cgi)
+- [mod_wsgi](trac-mod-wsgi)
+- *[mod_python](trac-mod-python) (no longer recommended, as mod_python is not actively maintained anymore)*
+- *[CGI](trac-cgi) (should not be used, as the performance is far from optimal)*
 
 
-If you're not afraid of running newer code, you can also try running Trac on [mod_wsgi](trac-mod-wsgi). This should deliver even better performance than mod_python, but the module isn't as extensively tested as mod_python.
-
-
-Trac also supports [ AJP](http://trac.edgewall.org/intertrac/TracOnWindowsIisAjp) which may be your choice if you want to connect to IIS.
+Trac also supports [ AJP](http://trac.edgewall.org/intertrac/TracOnWindowsIisAjp) which may be your choice if you want to connect to IIS. Other deployment scenarios are possible: [ nginx](http://trac.edgewall.org/intertrac/TracNginxRecipe), [ uwsgi](http://projects.unbit.it/uwsgi/wiki/Example#Traconapacheinasub-uri), [ Isapi-wsgi](http://trac.edgewall.org/intertrac/TracOnWindowsIisIsapi) etc.
 
 #### Generating the Trac cgi-bin directory
 
 
-In order for Trac to function properly with FastCGI or mod_python, you need to have a trac.cgi file. This is an executable which loads the appropriate Python code. It can be generated using the `deploy` option of [trac-admin](trac-admin).
+In order for Trac to function properly with FastCGI you need to have a `trac.fcgi` file and for mod_wsgi a `trac.wsgi` file. These are Python scripts which load the appropriate Python code. They can be generated using the `deploy` option of [trac-admin](trac-admin).
 
 
 There is, however, a bit of a chicken-and-egg problem. The [trac-admin](trac-admin) command requires an existing environment to function, but complains if the deploy directory already exists. This is a problem, because environments are often stored in a subdirectory of the deploy. The solution is to do something like this:
@@ -248,65 +368,153 @@ trac-admin /usr/share/trac/projects/my-project deploy /tmp/deploy
 mv /tmp/deploy/* /usr/share/trac
 ```
 
+#### Mapping Static Resources
+
+
+Out of the box, Trac will pass static resources such as style sheets or images through itself. For anything but a tracd only based deployment, this is far from optimal as the web server could be set up to directly serve those static resources (for CGI setup, this is **highly undesirable** and will cause abysmal performance).
+
+
+Web servers such as [ Apache](http://httpd.apache.org/) allow you to create “Aliases” to resources, giving them a virtual URL that doesn't necessarily reflect the layout of the servers file system. We also can map requests for static resources directly to the directory on the file system, avoiding processing these requests by Trac itself.
+
+
+There are two primary URL paths for static resources - `/chrome/common` and `/chrome/site`. Plugins can add their own resources, usually accessible by `/chrome/<plugin>` path, so its important to override only known paths and not try to make universal `/chrome` alias for everything.
+
+
+Note that in order to get those static resources on the filesystem, you need first to extract the relevant resources from Trac using the [trac-admin](trac-admin)` <environment> deploy` command:
+deploy \<directory\>
+
+    Extract static resources from Trac and all plugins
+
+
+The target `<directory>` will then contain an `htdocs` directory with:
+
+- `site/` - a copy of the environment's directory `htdocs/`
+- `common/` - the static resources of Trac itself
+- `<plugins>/` - one directory for each resource directory managed by the plugins enabled for this environment
+
+##### Example: Apache and `ScriptAlias`
+
+
+Assuming the deployment has been done this way:
+
+```wiki
+$ trac-admin /var/trac/env deploy /path/to/trac/htdocs/common
+```
+
+
+Add the following snippet to Apache configuration *before* the `ScriptAlias` or `WSGIScriptAlias` (which map all the other requests to the Trac application), changing paths to match your deployment:
+
+```wiki
+Alias /trac/chrome/common /path/to/trac/htdocs/common
+Alias /trac/chrome/site /path/to/trac/htdocs/site
+
+<Directory "/path/to/www/trac/htdocs">
+  Order allow,deny
+  Allow from all
+</Directory>
+```
+
+
+If using mod_python, you might want to add this too (otherwise, the alias will be ignored):
+
+```wiki
+<Location "/trac/chrome/common/">
+  SetHandler None
+</Location>
+```
+
+
+Note that we mapped `/trac` part of the URL to the `trac.*cgi` script, and the path `/trac/chrome/common` is the path you have to append to that location to intercept requests to the static resources. 
+
+
+Similarly, if you have static resources in a project's `htdocs` directory (which is referenced by `/trac/chrome/site` URL in themes), you can configure Apache to serve those resources (again, put this *before* the `ScriptAlias` or `WSGIScriptAlias` for the .\*cgi scripts, and adjust names and locations to match your installation):
+
+```wiki
+Alias /trac/chrome/site /path/to/projectenv/htdocs
+
+<Directory "/path/to/projectenv/htdocs">
+  Order allow,deny
+  Allow from all
+</Directory>
+```
+
+
+Alternatively to aliasing `/trac/chrome/common`, you can tell Trac to generate direct links for those static resources (and only those), using the [ \[trac\] htdocs_location](trac-ini#) configuration setting:
+
+```wiki
+[trac]
+htdocs_location = http://static.example.org/trac-common/
+```
+
+
+Note that this makes it easy to have a dedicated domain serve those static resources (preferentially [ cookie-less](http://code.google.com/speed/page-speed/docs/request.html#ServeFromCookielessDomain)).
+
+
+Of course, you still need to make the Trac `htdocs/common` directory available through the web server at the specified URL, for example by copying (or linking) the directory into the document root of the web server:
+
+```wiki
+$ ln -s /path/to/trac/htdocs/common /var/www/static.example.org/trac-common
+```
+
 #### Setting up the Plugin Cache
 
 
-Some Python plugins need to be extracted to a cache directory. By default the cache resides in the home directory of the current user. When running Trac on a Web Server as a dedicated user (which is highly recommended) who has no home directory, this might prevent the plugins from starting. To override the cache location you can set the PYTHON_EGG_CACHE environment variable. Refer to your server documentation for detailed instructions.
+Some Python plugins need to be extracted to a cache directory. By default the cache resides in the home directory of the current user. When running Trac on a Web Server as a dedicated user (which is highly recommended) who has no home directory, this might prevent the plugins from starting. To override the cache location you can set the PYTHON_EGG_CACHE environment variable. Refer to your server documentation for detailed instructions on how to set environment variables.
 
 ## Configuring Authentication
 
 
-The process of adding, removing, and configuring user accounts for authentication depends on the specific way you run Trac. The basic procedure is described in the [Adding Authentication](trac-cgi#adding-authentication) section on the [TracCgi](trac-cgi) page. To learn how to setup authentication for the frontend you're using, please refer to one of the following pages:
-
-- [TracStandalone](trac-standalone) if you use the standalone server, `tracd`.
-- [TracCgi](trac-cgi) if you use the CGI or FastCGI methods.
-- [TracModPython](trac-mod-python) if you use the mod_python method.
-
-## Automatic reference to the SVN changesets in Trac tickets
+Trac uses HTTP authentication. You'll need to configure your webserver to request authentication when the `.../login` URL is hit (the virtual path of the "login" button). Trac will automatically pick the REMOTE_USER variable up after you provide your credentials. Therefore, all user management goes through your web server configuration. Please consult the documentation of your web server for more info.
 
 
-You can configure SVN to automatically add a reference to the changeset into the ticket comments, whenever files are committed to the repository. The description of the commit needs to contain one of the following formulas:
-
-- **Refs [\#123](https://gitlab.haskell.org//ghc/ghc/issues/123)** - to reference this changeset in [\#123](https://gitlab.haskell.org//ghc/ghc/issues/123) ticket
-- **Fixes [\#123](https://gitlab.haskell.org//ghc/ghc/issues/123)** - to reference this changeset and close [\#123](https://gitlab.haskell.org//ghc/ghc/issues/123) ticket with the default status *fixed*
+The process of adding, removing, and configuring user accounts for authentication depends on the specific way you run Trac. 
 
 
-All you have to do is to edit the *post-commit* hook in your SVN repository and make it execute *trac-post-commit-hook* coming with Trac.
+Please refer to one of the following sections:
+
+- [TracStandalone\#UsingAuthentication](trac-standalone#using-authentication) if you use the standalone server, `tracd`.
+- [TracModWSGI\#ConfiguringAuthentication](trac-mod-wsgi#configuring-authentication) if you use the Apache web server, with any of its front end: `mod_wsgi` of course, but the same instructions applies also for `mod_python`, `mod_fcgi` or `mod_fastcgi`.
+- [TracFastCgi](trac-fast-cgi) if you're using another web server with FCGI support (Cherokee, Lighttpd, LiteSpeed, nginx)
+
+## Granting admin rights to the admin user
 
 
-If you are editing the *post-commit* hook for the first time you need to navigate to your SVN repository's hooks subfolder and rename existing there *post-commit* template:
+Grant admin rights to user admin:
 
 ```wiki
-$ cd /path/to/svn/repository/hooks
-$ mv post-commit.tmpl post-commit
-$ chmod 755 post-commit
+$ trac-admin /path/to/myproject permission add admin TRAC_ADMIN
 ```
 
 
-Next open it in any text editor and add a line with path to the Trac environment connected with this SVN repository and another line executing the *trac-post-commit-hook* script:
+This user will have an "Admin" entry menu that will allow you to admin your trac project.
+
+## Finishing the install
+
+### Automatic reference to the SVN changesets in Trac tickets
+
+
+You can configure SVN to automatically add a reference to the changeset into the ticket comments, whenever changes are committed to the repository. The description of the commit needs to contain one of the following formulas:
+
+- **`Refs #123`** - to reference this changeset in `#123` ticket
+- **`Fixes #123`** - to reference this changeset and close `#123` ticket with the default status *fixed*
+
+
+This functionality requires a post-commit hook to be installed as described in [TracRepositoryAdmin](trac-repository-admin#), and enabling the optional commit updater components by adding the following line to the `[components]` section of your [trac.ini](trac-ini#), or enabling the components in the "Plugins" admin panel.
 
 ```wiki
-REPOS="$1"
-REV="$2"
-TRAC_ENV="/path/to/your/trac/project"
-
-/usr/bin/python /usr/local/bin/trac-post-commit-hook -p "$TRAC_ENV" -r "$REV"
+tracopt.ticket.commit_updater.* = enabled
 ```
 
 
-Make sure that *trac-post-commit-hook* exists in above path with execution permissions for the same user which SVN is running from. This script can be found in contrib subfolder of your Trac distribution and the latest version can be always downloaded from trunk/contrib/trac-post-commit-hook.
+For more information, see the documentation of the `CommitTicketUpdater` component in the "Plugins" admin panel.
 
-## Platform-specifics installations
-
-- See [ TracInstallPlatforms](http://trac.edgewall.org/intertrac/TracInstallPlatforms)
-
-## Using Trac
+### Using Trac
 
 
-Once you have your Trac site up and running, you should be able to browse your subversion repository, create tickets, view the timeline, etc.
+Once you have your Trac site up and running, you should be able to create tickets, view the timeline, browse your version control repository if configured, etc.
 
 
-Keep in mind that anonymous (not logged in) users can by default access most but not all of the features. You will need to configure authentication and grant additional [permissions](trac-permissions) to authenticated users to see the full set of features.
+Keep in mind that *anonymous* (not logged in) users can by default access only a few of the features, in particular they will have a read-only access to the resources. You will need to configure authentication and grant additional [permissions](trac-permissions) to authenticated users to see the full set of features.
 
 * Enjoy! *
 
@@ -315,4 +523,4 @@ Keep in mind that anonymous (not logged in) users can by default access most but
 ---
 
 
-See also: [ TracInstallPlatforms](http://trac.edgewall.org/intertrac/TracInstallPlatforms), [TracGuide](trac-guide), [TracCgi](trac-cgi), [TracFastCgi](trac-fast-cgi), [TracModPython](trac-mod-python), [TracModWSGI](trac-mod-wsgi), [TracUpgrade](trac-upgrade), [TracPermissions](trac-permissions)
+See also: [ TracInstallPlatforms](http://trac.edgewall.org/intertrac/TracInstallPlatforms), [TracGuide](trac-guide), [TracUpgrade](trac-upgrade), [TracPermissions](trac-permissions)
