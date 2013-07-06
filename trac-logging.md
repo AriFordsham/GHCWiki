@@ -15,7 +15,7 @@ The log method is set using the `log_type` option in [trac.ini](trac-ini#), whic
 <td>Suppress all log messages.
 </td></tr>
 <tr><th>**file**</th>
-<td>Log messages to a file, specified with the `log_file` option in [trac.ini](trac-ini#). 
+<td>Log messages to a file, specified with the `log_file` option in [trac.ini](trac-ini#). Relative paths in `log_file` are resolved relative to the `log` directory of the environment.
 </td></tr>
 <tr><th>**stderr**</th>
 <td>Output all log entries to console ([tracd](trac-standalone) only).
