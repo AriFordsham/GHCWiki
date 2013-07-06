@@ -1,43 +1,67 @@
 # Upgrade Instructions
 
+1. [Instructions](#Instructions)
+
+  1. [1. Bring your server off-line](#a1.Bringyourserveroff-line)
+  1. [2. Update the Trac Code](#UpdatetheTracCode)
+  1. [3. Upgrade the Trac Environment](#UpgradetheTracEnvironment)
+  1. [4. Update the Trac Documentation](#UpdatetheTracDocumentation)
+  1. [5. Refresh static resources](#a5.Refreshstaticresources)
+  1. [6. Steps specific to a given Trac version](#a6.StepsspecifictoagivenTracversion)
+  1. [7. Restart the Web Server](#RestarttheWebServer)
+1. [Known Issues](#KnownIssues)
+
+  1. [Customized Templates](#CustomizedTemplates)
+  1. [ZipImportError](#ZipImportError)
+  1. [Wiki Upgrade](#WikiUpgrade)
+  1. [Trac database upgrade](#Tracdatabaseupgrade)
+  1. [parent dir](#parentdir)
+1. [Related topics](#Relatedtopics)
+
+  1. [Upgrading Python](#UpgradingPython)
+  1. [Changing Database Backend](#ChangingDatabaseBackend)
+  1. [Upgrading from older versions of Trac](#OlderVersions)
+
 ## Instructions
 
 
-Typically, there are five steps involved in upgrading to a newer version of Trac:
+Typically, there are seven steps involved in upgrading to a newer version of Trac:
 
-### 1. Update the Trac Code
+### 1. Bring your server off-line
+
+
+It is not a good idea to update a running server: the server processes may have parts of the current packages cached in memory, and updating the code will likely trigger [internal errors](trac-upgrade#zipimporterror). 
+
+### 2. Update the Trac Code
 
 
 Get the new version as described in [TracInstall](trac-install), or your operating system specific procedure.
 
 
-If you installed a recent 0.11 version of Trac via `easy_install`, it might be the easiest to use it also to upgrade you Trac installation.
+If you already have a 0.11 version of Trac installed via `easy_install`, it might be easiest to also use `easy_install` to upgrade your Trac installation:
 
 ```wiki
-# easy_install --upgrade Trac
+# easy_install --upgrade Trac==0.12
 ```
 
 
-If you do a manual (not operating system specific) upgrade, you should also stop any running Trac server before the installation. Doing "hot" upgrades is not advised, especially not on Windows ([ \#7265](http://trac.edgewall.org/intertrac/ticket%3A7625)).
+If you do a manual (not operating system-specific) upgrade, you should also stop any running Trac servers before the installation. Doing "hot" upgrades is not advised, especially on Windows ([ \#7265](http://trac.edgewall.org/intertrac/%237265)).
 
 
-You may also want to remove the pre-existing Trac code by deleting the `trac` directory from the Python `lib/site-packages` directory, or remove Trac .eggs from former versions.
-The location of the site-packages directory depends on the operating system, and the location in which Python was installed. However, the following locations are common:
+You may also want to remove the pre-existing Trac code by deleting the `trac` directory from the Python `lib/site-packages` directory, or remove Trac `.egg` files from former versions.
+The location of the site-packages directory depends on the operating system and the location in which Python was installed. However, the following locations are typical:
 
-- on Linux: /usr/lib/python2.X/site-packages
-- on Windows: C:\\Python2.X\\lib\\site-packages
-- on MacOSX: /Library/Python/2.X/site-packages
-
-
-You may also want to remove the Trac `cgi-bin`, `htdocs`, `templates` and `wiki-default` directories that are commonly found in a directory called `share/trac` (the exact location depends on your platform).
+- on Linux: `/usr/lib/python2.X/site-packages`
+- on Windows: `C:\Python2.X\lib\site-packages`
+- on MacOSX: `/Library/Python/2.X/site-packages`
 
 
-This cleanup is not mandatory, but it makes it easier to troubleshoot issues later on, as you won't waste your time looking at code or templates from a previous release that are not being used anymore... As usual, make a backup before actually deleting things.
+You may also want to remove the Trac `cgi-bin`, `htdocs`, `templates` and `wiki-default` directories that are commonly found in a directory called `share/trac`. (The exact location depends on your platform.)
 
 
-If you had the webadmin plugin installed, you can now uninstall it as it is now part of the Trac code base.
+This cleanup is not mandatory, but makes it easier to troubleshoot issues later on, as you won't waste your time looking at code or templates from a previous release that are not being used anymore... As usual, make a backup before actually deleting things.
 
-### 2. Upgrade the Trac Environment
+### 3. Upgrade the Trac Environment
 
 
 Environment upgrades are not necessary for minor version releases unless otherwise noted. 
@@ -60,10 +84,7 @@ This feature is relatively new for the PostgreSQL or MySQL database backends, so
 trac-admin /path/to/projenv upgrade --no-backup
 ```
 
-
-If you are using custom CSS styles or modified templates in the templates directory of the [TracEnvironment](trac-environment), you will need to convert them to the Genshi way of doing things. To continue to use your style sheet, follow the instructions at [TracInterfaceCustomization\#SiteAppearance](trac-interface-customization#site-appearance).
-
-### 3. Update the Trac Documentation
+### 4. Update the Trac Documentation
 
 
 Every [Trac environment](trac-environment) includes a copy of the Trac documentation for the installed version. As you probably want to keep the included documentation in sync with the installed version of Trac, [trac-admin](trac-admin) provides a command to upgrade the documentation:
@@ -73,25 +94,89 @@ trac-admin /path/to/projenv wiki upgrade
 ```
 
 
-Note that this procedure will of course leave your `WikiStart` page intact.
+Note that this procedure will leave your `WikiStart` page intact.
 
-### 4. Resynchronize the Trac Environment Against the Source Code Repository
+### 5. Refresh static resources
+
+
+If you have set up a web server to give out static resources directly (accessed using the `/chrome/` URL) then you will need to refresh them using the same command:
+
+```wiki
+trac-admin /path/to/env deploy /deploy/path
+```
+
+
+this will extract static resources and CGI scripts (`trac.wsgi`, etc) from new Trac version and its plugins into `/deploy/path`.
+
+
+Some web browsers (IE, Opera) cache CSS and Javascript files aggressively, so you may need to instruct your users to manually erase the contents of their browser's cache, a forced refreshed (`<F5>`) should be enough.
+
+### 6. Steps specific to a given Trac version
+
+#### Upgrading from Trac 0.11 to Trac 0.12
+
+##### Python 2.3 no longer supported
+
+
+The minimum supported version of python is now 2.4
+
+##### SQLite v3.x required
+
+
+SQLite v2.x is no longer supported. If you still use a Trac database of this format, you'll need to convert it to SQLite v3.x first. See [ PySqlite\#UpgradingSQLitefrom2.xto3.x](http://trac.edgewall.org/intertrac/PySqlite%23UpgradingSQLitefrom2.xto3.x) for details.
+
+##### PySqlite 2 required
+
+
+PySqlite 1.1.x is no longer supported. Please install 2.5.5 or later if possible (see [Trac database upgrade](trac-upgrade#trac-database-upgrade) below).
+
+##### Multiple Repository Support
+
+
+The latest version includes support for multiple repositories. If you plan to add more repositories to your Trac instance, please refer to [TracRepositoryAdmin\#Migration](trac-repository-admin#).
+
+
+This may be of interest to users with only one repository, since there's now a way to avoid the potentially costly resync check at every request.
+
+##### Resynchronize the Trac Environment Against the Source Code Repository
 
 
 Each [Trac environment](trac-environment) must be resynchronized against the source code repository in order to avoid errors such as "[ No changeset ??? in the repository](http://trac.edgewall.org/ticket/6120)" while browsing the source through the Trac interface:
 
 ```wiki
-trac-admin /path/to/projenv resync
+trac-admin /path/to/projenv repository resync '*'
 ```
 
-### 5. Steps specific to a given Trac version
-
-#### Upgrading to Trac 0.11
-
-##### Site Templates
+##### Improved repository synchronization
 
 
-The templating engine has changed in 0.11, please look at [TracInterfaceCustomization](trac-interface-customization) for more information.
+In addition to supporting multiple repositories, there is now a more efficient method for synchronizing Trac and your repositories.
+
+
+While you can keep the same synchronization as in 0.11 adding the post-commit hook as outlined in [TracRepositoryAdmin\#Synchronization](trac-repository-admin#) and [TracRepositoryAdmin\#ExplicitSync](trac-repository-admin#) will allow more efficient synchronization and is more or less required for multiple repositories.
+
+
+Note that if you were using the `trac-post-commit-hook`, *you're strongly advised to upgrade it* to the new hook documented in the above references, as the old hook will not work with anything else than the default repository and even for this case, it won't trigger the appropriate notifications.
+
+##### Authz permission checking
+
+
+The authz permission checking has been migrated to a fine-grained permission policy. If you use authz permissions (aka `[trac] authz_file` and `authz_module_name`), you must add `AuthzSourcePolicy` in front of your permission policies in `[trac] permission_policies`. You must also remove `BROWSER_VIEW`, `CHANGESET_VIEW`, `FILE_VIEW` and `LOG_VIEW` from your global permissions (with `trac-admin $ENV permission remove` or the "Permissions" admin panel).
+
+##### Microsecond timestamps
+
+
+All timestamps in database tables (except the `session` table) have been changed from "seconds since epoch" to "microseconds since epoch" values. This change should be transparent to most users, except for custom reports. If any of your reports use date/time columns in calculations (e.g. to pass them to `datetime()`), you must divide the values retrieved from the database by 1'000'000. Similarly, if a report provides a calculated value to be displayed as a date/time (i.e. with a column named "time", "datetime", "changetime", "date", "created" or "modified"), you must provide a microsecond timestamp, that is, multiply your previous calculation with 1'000'000.
+
+#### Upgrading from Trac 0.10 to Trac 0.11
+
+##### Site Templates and Styles
+
+
+The templating engine has changed in 0.11 to Genshi, please look at [TracInterfaceCustomization](trac-interface-customization) for more information.
+
+
+If you are using custom CSS styles or modified templates in the `templates` directory of the [TracEnvironment](trac-environment), you will need to convert them to the Genshi way of doing things. To continue to use your style sheet, follow the instructions at [TracInterfaceCustomization\#SiteAppearance](trac-interface-customization#site-appearance).
 
 ##### Trac Macros, Plugins
 
@@ -110,56 +195,72 @@ trac-admin /path/to/env deploy /deploy/directory/path
 
 This will create a deploy directory with the following two subdirectories: `cgi-bin` and `htdocs`. Then update your Apache configuration file `httpd.conf` with this new `trac.cgi` location and `htdocs` location.
 
-### 6. Restart the Web Server
+##### Web Admin plugin integrated
+
+
+If you had the webadmin plugin installed, you can uninstall it as it is part of the Trac code base since 0.11.
+
+### 7. Restart the Web Server
 
 
 If you are not running [CGI](trac-cgi), reload the new Trac code by restarting your web server.
 
 ## Known Issues
 
-### parent dir
+
+Things you should pay attention to, while upgrading.
+
+### Customized Templates
 
 
-If you use a trac parent env configuration and one of the plugins in one child does not work, none of the children work.
-
-### some core modules won't load
+Trac supports customization of its Genshi templates by placing copies of the templates in the `<env>/templates` folder of your [environment](trac-environment) or in a common location specified in the [ \[inherit\] templates_dir](trac-ini#global-configuration) configuration setting. If you choose to do so, be wary that you will need to repeat your changes manually on a copy of the new templates when you upgrade to a new release of Trac (even a minor one), as the templates will likely evolve. So keep a diff around ;-)
 
 
-This can happen in particular with Python 2.3 on Windows when upgrading without uninstalling first.
-Some modules were previously capitalized and were changed to lower case, e.g. trac/About.py became trac/about.py. You may find such messages in the Trac log:
+The preferred way to perform [TracInterfaceCustomization](trac-interface-customization) is to write a custom plugin doing an appropriate `ITemplateStreamFilter` transformation, as this is more robust in case of changes: we usually won't modify element `id`s or change CSS `class`es, and if we have to do so, this will be documented in the TracDev/ApiChanges pages.
 
-```wiki
-ERROR: Skipping "trac.about = trac.about": (can't import "No module named about")
-```
+### ZipImportError
 
 
-Remove the `Lib/site-packages/trac` folder and reinstall.
+Due to internal caching of zipped packages,  whenever the content of the packages change on disk, the in-memory zip index will no longer match and you'll get irrecoverable ZipImportError errors. Better anticipate and bring your server down for maintenance before upgrading.
+See [ \#7014](http://trac.edgewall.org/intertrac/%237014) for details.
 
 ### Wiki Upgrade
 
 `trac-admin` will not delete or remove default wiki pages that were present in a previous version but are no longer in the new version.
 
-## Changing Database Backend
+### Trac database upgrade
 
-### SQLite to PostgreSQL
+
+A known issue in some versions of PySqlite (2.5.2-2.5.4) prevents the trac-admin upgrade script from successfully upgrading the database format. It is advised to use either a newer or older version of the sqlite python bindings to avoid this error. For more details see ticket [ \#9434](http://trac.edgewall.org/intertrac/%239434).
+
+### parent dir
+
+
+If you use a trac parent env configuration and one of the plugins in one child does not work, none of the children work.
+
+## Related topics
+
+### Upgrading Python
+
+
+Upgrading Python to a newer version will require reinstallation of Python packages: Trac of course; also [ easy_install](http://pypi.python.org/pypi/setuptools), if you've been using that.  Assuming you're using Subversion, you'll also need to upgrade the Python bindings for svn.
+
+#### Windows and Python 2.6
+
+
+If you've been using CollabNet's Subversion package, you may need to uninstall that in favor of [ Alagazam](http://alagazam.net/), which has the Python bindings readily available (see TracSubversion).  The good news is, that works with no tweaking.
+
+### Changing Database Backend
+
+#### SQLite to PostgreSQL
 
 
 The [ sqlite2pg](http://trac-hacks.org/wiki/SqliteToPgScript) script on [ trac-hacks.org](http://trac-hacks.org) has been written to assist in migrating a SQLite database to a PostgreSQL database
 
-## Older Versions
+### Upgrading from older versions of Trac
 
 
-For upgrades from versions older than Trac 0.10, refer first to [ trac:wiki:0.10/TracUpgrade](http://trac.edgewall.org/intertrac/wiki%3A0.10/TracUpgrade).
-
-
-Note that downgrading from Trac 0.11 to Trac 0.10.4 or 0.10.5 is easy, but has to be done manually, e.g.
-
-```wiki
-$ sqlite3 db/trac.db "update system set value=20 where name='database_version'"
-```
-
-
-(upgrade can be redone the normal way later on)
+For upgrades from versions older than Trac 0.10, refer first to [ wiki:0.10/TracUpgrade\#SpecificVersions](http://trac.edgewall.org/intertrac/wiki%3A0.10/TracUpgrade%23SpecificVersions).
 
 ---
 
