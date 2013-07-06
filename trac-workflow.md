@@ -150,6 +150,20 @@ pass.operations = set_resolution
 pass.set_resolution = fixed
 ```
 
+### How to combine the `tracopt.ticket.commit_updater` with the testing workflow
+
+
+The tracopt.ticket.commit_updater is the optional component that [replaces the old trac-post-commit-hook](trac-repository-admin#), in Trac 0.12.
+
+
+By default it reacts on some keywords found in changeset message logs like *close*, *fix* etc. and performs the corresponding workflow action.
+
+
+If you have a more complex workflow, like the testing stage described above and you want the *closes* keyword to move the ticket to the *testing* status instead of the *closed* status, you need to adapt the code a bit. 
+
+
+Have a look at the Trac 0.11 recipe? for the `trac-post-commit-hook`, this will give you some ideas about how to modify the component.
+
 ## Example: Add simple optional generic review state
 
 
