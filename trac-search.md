@@ -1,13 +1,16 @@
 # Using Search
 
 
-Trac has a built-in search engine to allow finding occurrences of keywords and substrings in wiki pages, tickets and changeset descriptions.
+Trac has a built-in search engine to allow finding occurrences of keywords and substrings in wiki pages, tickets and changeset properties (author, revision and log message).
 
 
 Using the Trac search facility is straightforward and its interface should be familiar to most users.
 
 
 Apart from the [Search module](/trac/ghc/search), you will also find a small search field above the navigation bar at all time. It provides convenient access to the search module from all pages.
+
+
+The search results show the most recent modifications ranked first in the results rather than the most relevant result.
 
 ## "Quickjump" searches
 
@@ -27,7 +30,7 @@ For example:
 ### Disabling Quickjumps
 
 
-To disable the quickjump feature for a search keyword - for example when searching for occurences of the literal word TracGuide - begin the query with an exclamation mark (!).
+To disable the quickjump feature for a search keyword - for example when searching for occurences of the literal word TracGuide - begin the query with an exclamation mark (`!`).
 
 ### Search Links
 
