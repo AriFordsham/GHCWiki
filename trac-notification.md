@@ -1,7 +1,7 @@
 # Email Notification of Ticket Changes
 
 
-Trac supports notification about ticket changes via email. 
+Trac supports notification of ticket changes via email. 
 
 
 Email notification is useful to keep users up-to-date on tickets/issues of interest, and also provides a convenient way to post all ticket changes to a dedicated mailing list. For example, this is how the [ Trac-tickets](http://lists.edgewall.com/archive/trac-tickets/) mailing list is set up.
@@ -25,6 +25,9 @@ To receive notification mails, you can either enter a full email address or your
 
 Alternatively, a default domain name (**`smtp_default_domain`**) can be set in the [TracIni](trac-ini) file (see [Configuration Options](trac-notification#configuration-options) below). In this case, the default domain will be appended to the username, which can be useful for an "Intranet" kind of installation.
 
+
+When using apache and mod_kerb for authentication against Kerberos / Active Directory, usernames take the form (**`username@EXAMPLE.LOCAL`**). To avoid this being interpreted as an email address, add the Kerberos domain to  (**`ignore_domains`**).
+
 ## Configuring SMTP Notification
 
 **Important:** For [TracNotification](trac-notification) to work correctly, the `[trac] base_url` option must be set in [trac.ini](trac-ini). 
@@ -47,12 +50,17 @@ These are the available options for the `[notification]` section in trac.ini.
 - **`always_notify_updater`**: (*since 0.10*) Always send a notification to the updater of a ticket (default: true).
 - **`use_public_cc`**: (*since 0.10*) Addresses in To: (owner, reporter) and Cc: lists are visible by all recipients (default is *Bcc:* - hidden copy).
 - **`use_short_addr`**: (*since 0.10*) Enable delivery of notifications to addresses that do not contain a domain (i.e. do not end with *@\<domain.com\>*).This option is useful for intranets, where the SMTP server can handle local addresses and map the username/login to a local mailbox. See also `smtp_default_domain`. Do not use this option with a public SMTP server. 
-- **`mime_encoding`**: (*since 0.10*) E-mail notifications are always sent in 7-bit mode. This option allows to select the MIME encoding scheme. Supported values:
+- **`ignore_domains`**: Comma-separated list of domains that should not be considered part of email addresses (for usernames with Kerberos domains).
+- **`mime_encoding`**: (*since 0.10*) This option allows selecting the MIME encoding scheme. Supported values:
 
-  - `base64`: default value, works with any kind of content. May cause some issues with touchy anti-spam/anti-virus engines.
-  - `qp` or `quoted-printable`: best for european languages (more compact than base64), not recommended for non-ASCII text (less compact than base64)
-  - `none`: no encoding. Use with plain english only (ASCII). E-mails with non-ASCII chars won't be delivered. 
+  - `none`: default value, uses 7bit encoding if the text is plain ASCII, or 8bit otherwise. 
+  - `base64`: works with any kind of content. May cause some issues with touchy anti-spam/anti-virus engines.
+  - `qp` or `quoted-printable`: best for european languages (more compact than base64) if 8bit encoding cannot be used.
 - **`ticket_subject_template`**: (*since 0.11*) A [ Genshi text template](http://genshi.edgewall.org/wiki/Documentation/text-templates.html) snippet used to get the notification subject.
+- **`email_sender`**: (*since 0.12*) Name of the component implementing `IEmailSender`. This component is used by the notification system to send emails. Trac currently provides the following components:
+
+  - `SmtpEmailSender`: connects to an SMTP server (default).
+  - `SendmailEmailSender`: runs a `sendmail`-compatible executable.   
 
 
 Either **`smtp_from`** or **`smtp_replyto`** (or both) *must* be set, otherwise Trac refuses to send notification mails.
@@ -66,12 +74,29 @@ The following options are specific to email delivery through SMTP.
 - **`smtp_password`**: (*since 0.9*) Password for authentication SMTP account.
 - **`use_tls`**: (*since 0.10*) Toggle to send notifications via a SMTP server using [ TLS](http://en.wikipedia.org/wiki/Transport_Layer_Security), such as GMail.
 
+
+The following option is specific to email delivery through a `sendmail`-compatible executable.
+
+- **`sendmail_path`**: (*since 0.12*) Path to the sendmail executable. The sendmail program must accept the `-i` and `-f` options.
+
 ### Example Configuration (SMTP)
 
 ```wiki
 [notification]
 smtp_enabled = true
 smtp_server = mail.example.com
+smtp_from = notifier@example.com
+smtp_replyto = myproj@projects.example.com
+smtp_always_cc = ticketmaster@example.com, theboss+myproj@example.com
+```
+
+### Example Configuration (`sendmail`)
+
+```wiki
+[notification]
+smtp_enabled = true
+email_sender = SendmailEmailSender
+sendmail_path = /usr/sbin/sendmail
 smtp_from = notifier@example.com
 smtp_replyto = myproj@projects.example.com
 smtp_always_cc = ticketmaster@example.com, theboss+myproj@example.com
@@ -97,39 +122,39 @@ The following variables are available in the template:
 ### Customizing the e-mail content
 
 
-The notification e-mail content is generated based on `ticket_notify_email.txt` in `trac/ticket/templates`.  The default looks like this:
+The notification e-mail content is generated based on `ticket_notify_email.txt` in `trac/ticket/templates`.  You can add your own version of this template by adding a `ticket_notify_email.txt` to the templates directory of your environment. The default looks like this:
 
 ```wiki
 $ticket_body_hdr
 $ticket_props
-#choose ticket.new
-  #when True
+{% choose ticket.new %}\
+{%   when True %}\
 $ticket.description
-  #end
-  #otherwise
-    #if changes_body
-Changes (by $change.author):
+{%   end %}\
+{%   otherwise %}\
+{%     if changes_body %}\
+${_('Changes (by %(author)s):', author=change.author)}
 
 $changes_body
-    #end
-    #if changes_descr
-      #if not changes_body and not change.comment and change.author
-Description changed by $change.author:
-      #end
+{%     end %}\
+{%     if changes_descr %}\
+{%       if not changes_body and not change.comment and change.author %}\
+${_('Description changed by %(author)s:', author=change.author)}
+{%       end %}\
 $changes_descr
 --
-    #end
-    #if change.comment
+{%     end %}\
+{%     if change.comment %}\
 
-Comment${not changes_body and '(by %s)' % change.author or ''}:
+${changes_body and _('Comment:') or _('Comment (by %(author)s):', author=change.author)}
 
 $change.comment
-    #end
-  #end
-#end
+{%     end %}\
+{%   end %}\
+{% end %}\
 
 -- 
-Ticket URL: <$ticket.link>
+${_('Ticket URL: <%(link)s>', link=ticket.link)}
 $project.name <${project.url or abs_href()}>
 $project.descr
 ```
@@ -160,6 +185,92 @@ I'm interested too!
 Ticket URL: <http://example.com/trac/ticket/42>
 My Project <http://myproj.example.com/>
 ```
+
+## Customizing e-mail content for MS Outlook
+
+
+Out-of-the-box, MS Outlook normally presents plain text e-mails with a variable-width font; the ticket properties table will most certainly look like a mess in MS Outlook. This can be fixed with some customization of the [e-mail template](trac-notification#).
+
+
+Replace the following second row in the template:
+
+```wiki
+$ticket_props
+```
+
+
+with this instead:
+
+```wiki
+--------------------------------------------------------------------------
+{% with
+   pv = [(a[0].strip(), a[1].strip()) for a in [b.split(':') for b in
+         [c.strip() for c in 
+          ticket_props.replace('|', '\n').splitlines()[1:-1]] if ':' in b]];
+   sel = ['Reporter', 'Owner', 'Type', 'Status', 'Priority', 'Milestone', 
+          'Component', 'Severity', 'Resolution', 'Keywords'] %}\
+${'\n'.join('%s\t%s' % (format(p[0]+':', ' <12'), p[1]) for p in pv if p[0] in sel)}
+{% end %}\
+--------------------------------------------------------------------------
+```
+
+
+The table of ticket properties is replaced with a list of a selection of the properties. A tab character separates the name and value in such a way that most people should find this more pleasing than the default table, when using MS Outlook.
+
+\#42: testing
+
+--------------------------------------------------------------------------
+
+<table><tr><th>Reporter:</th>
+<th>jonas\@example.com</th></tr>
+<tr><th>Owner:</th>
+<th>anonymous</th></tr>
+<tr><th>Type:</th>
+<th>defect</th></tr>
+<tr><th>Status:</th>
+<th>assigned</th></tr>
+<tr><th>Priority:</th>
+<th>lowest</th></tr>
+<tr><th>Milestone:</th>
+<th>0.9</th></tr>
+<tr><th>Component:</th>
+<th>report system</th></tr>
+<tr><th>Severity:</th>
+<th>major</th></tr>
+<tr><th>Resolution:</th>
+<th></th></tr>
+<tr><th>Keywords:</th>
+<th></th></tr></table>
+
+
+--------------------------------------------------------------------------
+
+Changes:
+
+  \* component:  changset view =\> search system
+
+  \* priority:  low =\> highest
+
+  \* owner:  jonas =\> anonymous
+
+  \* cc:  daniel\@example.com =\>
+
+          daniel\@example.com, jonas\@example.com
+
+  \* status:  new =\> assigned
+
+Comment:
+
+I'm interested too!
+
+--
+
+Ticket URL: \<http://example.com/trac/ticket/42\>
+
+My Project \<http://myproj.example.com/\>
+
+
+However, it's not as perfect as an HTML formatted e-mail would be, but presented ticket properties are at least readable...
 
 ## Using GMail as the SMTP relay host
 
