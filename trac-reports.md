@@ -22,11 +22,11 @@ Rather than have its own report definition format, [TracReports](trac-reports) r
 
 A report consists of these basic parts:
 
-- **ID** -- Unique (sequential) identifier 
-- **Title**  -- Descriptive title
-- **Description**  -- A brief description of the report, in [WikiFormatting](wiki-formatting) text.
-- **Report Body** -- List of results from report query, formatted according to the methods described below.
-- **Footer** -- Links to alternative download formats for this report.
+- **ID** — Unique (sequential) identifier 
+- **Title** — Descriptive title
+- **Description** — A brief description of the report, in [WikiFormatting](wiki-formatting) text.
+- **Report Body** — List of results from report query, formatted according to the methods described below.
+- **Footer** — Links to alternative download formats for this report.
 
 ## Changing Sort Order
 
@@ -39,7 +39,7 @@ If a column header is a hyperlink (red), click the column you would like to sort
 ## Changing Report Numbering
 
 
-There may be instances where you need to change the ID of the report, perhaps to organize the reports better. At present this requires changes to the trac database. The *report* table has the following schema (as of 0.10):
+There may be instances where you need to change the ID of the report, perhaps to organize the reports better. At present this requires changes to the trac database. The *report* table has the following schema *(since 0.10)*:
 
 - id integer PRIMARY KEY
 - author text
@@ -66,7 +66,7 @@ You may also need to update or remove the report number stored in the report or 
 Clicking on one of the report results will take you to that ticket. You can navigate through the results by clicking the *Next Ticket* or *Previous Ticket* links just below the main menu bar, or click the *Back to Report* link to return to the report page.
 
 
-You can safely edit any of the tickets and continue to navigate through the results using the Next/Previous/Back to Report links after saving your results, but when you return to the report, there will be no hint about what has changed, as would happen if you were navigating a list of tickets obtained from a query (see [TracQuery\#NavigatingTickets](trac-query#navigating-tickets)). *(since 0.11)*
+You can safely edit any of the tickets and continue to navigate through the results using the *Next/Previous/Back to Report* links after saving your results, but when you return to the report, there will be no hint about what has changed, as would happen if you were navigating a list of tickets obtained from a query (see [TracQuery\#NavigatingTickets](trac-query#navigating-tickets)). *(since 0.11)*
 
 ## Alternative Download Formats
 
@@ -79,7 +79,7 @@ download the alternative report format.
 
 
 Export the report as plain text, each row on its own line, columns separated by a single comma (',').
-**Note:** Carriage returns, line feeds, and commas are stripped from column data to preserve the CSV structure.
+**Note:** The output is fully escaped so carriage returns, line feeds, and commas will be preserved in the output.
 
 ### Tab-delimited
 
@@ -100,7 +100,7 @@ All reports support syndication using XML/RSS 2.0. To subscribe to an RSS feed, 
 
 A report is basically a single named SQL query, executed and presented by
 Trac.  Reports can be viewed and created from a custom SQL expression directly
-in from the web interface.
+in the web interface.
 
 
 Typically, a report consists of a SELECT-expression from the 'ticket' table,
@@ -132,16 +132,16 @@ The *ticket* table has the following columns:
 
 See [TracTickets](trac-tickets) for a detailed description of the column fields.
 
-**all active tickets, sorted by priority and time**
 
-**Example:***All active tickets, sorted by priority and time*
+Example: **All active tickets, sorted by priority and time**
 
 ```wiki
 SELECT id AS ticket, status, severity, priority, owner, 
-       time as created, summary FROM ticket 
+       time AS created, summary FROM ticket 
   WHERE status IN ('new', 'assigned', 'reopened')
   ORDER BY priority, time
 ```
+
 
 ---
 
@@ -186,9 +186,9 @@ Example:
 ### Special/Constant Variables
 
 
-There is one *magic* dynamic variable to allow practical reports, its value automatically set without having to change the URL. 
+There is one dynamic variable whose value is set automatically (the URL does not have to be changed) to allow practical reports. 
 
-- $USER -- Username of logged in user.
+- $USER — Username of logged in user.
 
 
 Example (*List all tickets assigned to me*):
@@ -215,20 +215,23 @@ final report.
 
 ### Automatically formatted columns
 
-- **ticket** -- Ticket ID number. Becomes a hyperlink to that ticket. 
-- **id** -- same as **ticket** above when **realm** is not set
-- **realm** -- together with **id**, can be used to create links to other resources than tickets (e.g. a realm of *wiki* and an *id* to a page name will create a link to that wiki page)
-- **created, modified, date, time** -- Format cell as a date and/or time.
-- **description** -- Ticket description field, parsed through the wiki engine.
+- **ticket** — Ticket ID number. Becomes a hyperlink to that ticket. 
+- **id** — same as **ticket** above when **realm** is not set
+- **realm** — together with **id**, can be used to create links to other resources than tickets (e.g. a realm of *wiki* and an *id* to a page name will create a link to that wiki page)
+- **created, modified, date, time** — Format cell as a date and/or time.
+- **description** — Ticket description field, parsed through the wiki engine.
 
 **Example:**
 
 ```wiki
-SELECT id as ticket, created, status, summary FROM ticket 
+SELECT id AS ticket, created, status, summary FROM ticket 
 ```
 
 
 Those columns can also be defined but marked as hidden, see [below](trac-reports#).
+
+
+See [ trac:wiki/CookBook/Configuration/Reports](http://trac.edgewall.org/intertrac/wiki/CookBook/Configuration/Reports) for some example of creating reports for realms other than *ticket*.
 
 ### Custom formatting columns
 
@@ -237,18 +240,20 @@ Columns whose names begin and end with 2 underscores (Example: **`__color__`**) 
 assumed to be *formatting hints*, affecting the appearance of the row.
  
 
-- **`__group__`** -- Group results based on values in this column. Each group will have its own header and table.
-- **`__color__`** -- Should be a numeric value ranging from 1 to 5 to select a pre-defined row color. Typically used to color rows by issue priority.
+- **`__group__`** — Group results based on values in this column. Each group will have its own header and table.
+- **`__grouplink__`** — Make the header of each group a link to the specified URL. The URL is taken from the first row of each group.
+- **`__color__`** — Should be a numeric value ranging from 1 to 5 to select a pre-defined row color. Typically used to color rows by issue priority.
 
   Defaults:
   Color 1Color 2Color 3Color 4Color 5
-- **`__style__`** -- A custom CSS style expression to use for the current row. 
+- **`__style__`** — A custom CSS style expression to use for the current row. 
 
-**Example:***List active tickets, grouped by milestone, colored by priority*
+**Example:***List active tickets, grouped by milestone, group header linked to milestone page, colored by priority*
 
 ```wiki
 SELECT p.value AS __color__,
      t.milestone AS __group__,
+     '../milestone/' || t.milestone AS __grouplink__,
      (CASE owner WHEN 'daniel' THEN 'font-weight: bold; background: red;' ELSE '' END) AS __style__,
        t.id AS ticket, summary
   FROM ticket t,enum p
@@ -267,11 +272,11 @@ By default, all columns on each row are display on a single row in the HTML
 report, possibly formatted according to the descriptions above. However, it's
 also possible to create multi-line report entries.
 
-- **`column_`** -- *Break row after this*. By appending an underscore ('_') to the column name, the remaining columns will be be continued on a second line.
+- **`column_`** — *Break row after this*. By appending an underscore ('_') to the column name, the remaining columns will be continued on a second line.
 
-- **`_column_`** -- *Full row*. By adding an underscore ('_') both at the beginning and the end of a column name, the data will be shown on a separate row.
+- **`_column_`** — *Full row*. By adding an underscore ('_') both at the beginning and the end of a column name, the data will be shown on a separate row.
 
-- **`_column`**  --  *Hide data*. Prepending an underscore ('_') to a column name instructs Trac to hide the contents from the HTML output. This is useful for information to be visible only if downloaded in other formats (like CSV or RSS/XML).
+- **`_column`** — *Hide data*. Prepending an underscore ('_') to a column name instructs Trac to hide the contents from the HTML output. This is useful for information to be visible only if downloaded in other formats (like CSV or RSS/XML).
   This can be used to hide any kind of column, even important ones required for identifying the resource, e.g. `id as _id` will hide the **Id** column but the link to the ticket will be present.
 
 **Example:***List active tickets, grouped by milestone, colored by priority, with  description and multi-line layout*
