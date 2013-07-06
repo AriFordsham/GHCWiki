@@ -21,7 +21,7 @@ Now configure the appropriate section of your [trac.ini](trac-ini):
 ### Logo
 
 
-Change the `src` setting to `site/` followed by the name of your image file.  The `width` and `height` settings should be modified to match your image's dimensions (the Trac chrome handler uses "`site/`" for files within the project directory `htdocs` and "`common/`" for the common ones).
+Change the `src` setting to `site/` followed by the name of your image file.  The `width` and `height` settings should be modified to match your image's dimensions (the Trac chrome handler uses "`site/`" for files within the project directory `htdocs`, and "`common/`" for the common `htdocs` directory belonging to a Trac installation). Note that 'site/' is not a placeholder for your project name, it is the actual prefix that should be used (literally). For example, if your project is named 'sandbox', and the image file is 'red_logo.gif' then the 'src' setting would be 'site/red_logo.gif', not 'sandbox/red_logo.gif'.
 
 ```wiki
 [header_logo]
@@ -34,7 +34,7 @@ height = 100
 ### Icon
 
 
-Icons should be a 16x16 image in `.gif` or `.ico` format.  Change the `icon` setting to `site/` followed by the name of your icon file.  Icons will typically be displayed by your web browser next to the site's URL and in the `Bookmarks` menu.
+Icons should be a 32x32 image in `.gif` or `.ico` format.  Change the `icon` setting to `site/` followed by the name of your icon file.  Icons will typically be displayed by your web browser next to the site's URL and in the `Bookmarks` menu.
 
 ```wiki
 [project]
@@ -47,6 +47,14 @@ Note though that this icon is ignored by Internet Explorer, which only accepts a
 ```wiki
 [project]
 icon = /favicon.ico
+```
+
+
+Should your browser have issues with your favicon showing up in the address bar, you may put a "?" (less the quotation marks) after your favicon file extension. 
+
+```wiki
+[project]
+icon = /favicon.ico?
 ```
 
 ## Custom Navigation Entries
@@ -76,7 +84,7 @@ Trac is using [ Genshi](http://genshi.edgewall.org) as the templating engine. Do
 
 
 Say you want to add a link to a custom stylesheet, and then your own
-header and footer. Save the following content as 'site.html' inside your projects templates directory (each Trac project can have their own site.html), e.g. `/path/to/env/templates/site.html`:
+header and footer. Save the following content as `site.html` inside your projects `templates/` directory (each Trac project can have their own `site.html`), e.g. `/path/to/env/templates/site.html`:
 
 ```
 <htmlxmlns="http://www.w3.org/1999/xhtml"xmlns:py="http://genshi.edgewall.org/"py:strip=""><!--! Add site-specific style sheet --><headpy:match="head"py:attrs="select('@*')">
@@ -89,14 +97,15 @@ header and footer. Save the following content as 'site.html' inside your project
 ```
 
 
-Those who are familiar with XSLT may notice that Genshi templates bear some similarities. However, there are some Trac specific features - for example **${href.chrome('site/style.css')}** attribute references template placed into environment's *htdocs/*  In a similar fashion **${chrome.htdocs_location}** is used to specify common *htdocs/* directory from Trac installation.
+Those who are familiar with XSLT may notice that Genshi templates bear some similarities. However, there are some Trac specific features - for example `${href.chrome('site/style.css')}` attribute references a CSS file placed into environment's `htdocs/` directory. In a similar fashion `${chrome.htdocs_location}` is used to specify the common `htdocs/` directory belonging to a Trac installation. That latter location can however be overriden using the [\[trac\] htdocs_location](trac-ini#) configuration setting.
+
+`site.html` is one file to contain all your modifications. It usually works using the `py:match` directive (element or attribute), and it allows you to modify the page as it renders - the matches hook onto specific sections depending on what it tries to find
+and modify them.
+See [ this thread](http://groups.google.com/group/trac-users/browse_thread/thread/70487fb2c406c937/) for a detailed explanation of the above example `site.html`.
+A `site.html` can contain any number of such `py:match` sections for whatever you need to modify. This is all Genshi, so the [ docs on the exact syntax](http://genshi.edgewall.org/wiki/Documentation/xml-templates.html) can be found there.
 
 
-site.html is one file to contain all your modifications. It usually works by the py:match (element of attribute), and it allows you to modify the page as it renders - the matches hook onto specific sections depending on what it tries to find
-and modify them. A site.html can contain any number of such py:match sections for whatever you need to modify. This is all [ Genshi](http://genshi.edgewall.org/), so the docs on the exact syntax can be found there. 
-
-
-Example snippet of adding introduction text to the new ticket form (hide when preview):
+Example snippet of adding introduction text to the new ticket form (but not shown during preview):
 
 ```
 <formpy:match="div[@id='content' and @class='ticket']/form"py:attrs="select('@*')"><py:iftest="req.environ['PATH_INFO'] == '/newticket' and (not 'preview' in req.args)"><p>Please make sure to search for existing tickets before reporting a new one!</p></py:if>
@@ -105,7 +114,13 @@ Example snippet of adding introduction text to the new ticket form (hide when pr
 ```
 
 
-This example illustrates a technique of using **`req.environ['PATH_INFO']`** to limit scope of changes to one view only. For instance, to make changes in site.html only for timeline and avoid modifying other sections - use  *`req.environ['PATH_INFO'] == '/timeline'`* condition in \<py:if\> test.
+This example illustrates a technique of using `req.environ['PATH_INFO']` to limit scope of changes to one view only. For instance, to make changes in `site.html` only for timeline and avoid modifying other sections - use  `req.environ['PATH_INFO'] == '/timeline'` condition in `<py:if>` test.
+
+
+More examples snippets for `site.html` can be found at [ CookBook/SiteHtml](http://trac.edgewall.org/intertrac/wiki%3ACookBook/SiteHtml).
+
+
+Example snippets for `style.css` can be found at [ CookBook/SiteStyleCss](http://trac.edgewall.org/intertrac/wiki%3ACookBook/SiteStyleCss).
 
 
 If the environment is upgraded from 0.10 and a `site_newticket.cs` file already exists, it can actually be loaded by using a workaround - providing it contains no ClearSilver processing. In addition, as only one element can be imported, the content needs some sort of wrapper such as a `<div>` block or other similar parent container. The XInclude namespace must be specified to allow includes, but that can be moved to document root along with the others:
@@ -117,7 +132,7 @@ If the environment is upgraded from 0.10 and a `site_newticket.cs` file already 
 ```
 
 
-Also note that the `site.html` (despite its name) can be put in a common templates directory - see the `[inherit] templates_dir` option. This could provide easier maintainence (and a migration path from 0.10 for larger installations) as one new global `site.html` file can be made to include any existing header, footer and newticket snippets.
+Also note that the `site.html` (despite its name) can be put in a common templates directory - see the [\[inherit\] templates_dir](trac-ini#) option. This could provide easier maintainence (and a migration path from 0.10 for larger installations) as one new global `site.html` file can be made to include any existing header, footer and newticket snippets.
 
 ## Project List
 
@@ -135,6 +150,13 @@ The following is the basic template used by Trac to display a list of links to t
 
 
 Once you've created your custom template you will need to configure the webserver to tell Trac where the template is located (pls verify ... not yet changed to 0.11):
+
+
+For [mod_wsgi](trac-mod-wsgi):
+
+```wiki
+os.environ['TRAC_ENV_INDEX_TEMPLATE'] = '/path/to/template'
+```
 
 
 For [FastCGI](trac-fast-cgi):
