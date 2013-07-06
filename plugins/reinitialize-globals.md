@@ -3,11 +3,16 @@
 
 I've pushed Option 2 to HEAD. Since then, I've realized the troubles with laziness are more delicate than I thought, so I came up with Options 5 and 6.
 
-- I think Option 3 is the most robust, but I don't know how to pull it off.
+- SPJ likes the overall interface changes in Option 1 (ie `workAroundGlobals`) for future-proofness, beyond just this issue with the globals.
+
+- I think Option 3 is the most robust, but I don't know how to pull it off. Simon Marlow weighed-in with a great pointer, which I'm digesting now:
+
+>
+> "I haven't been following this in detail, but I think you're encountering the same problem we had with various top-level IORefs in the base package.  The solution we have there is grotesque but it works.  Take a look at libraries/base/GHC/Conc/Signal.hs, search for getOrSetGHCConcSignalSignalHandlerStore.  There is some corresponding RTS gunk to help with this in rts/Globals.c."
 
 - Option 6 sounds best after that, but it was a late idea and I'm not sure how robust the underlying mechanism is.
 
-- Option 5 avoids the laziness issues, but we'll have to ensure it doesn't adversely affect performance too much — `FastString` has some hot spots.
+- Option 5 avoids the laziness issues, but we'll have to ensure it doesn't adversely affect performance too much — `FastString` has some hot spots. (Also, *could be bogus* — see below.)
 
 ## Background
 
@@ -178,7 +183,7 @@ So the rule would be: *if your plugin might allocate new `FastString`s, be warne
 ### Option 5: Circular `IORef`s
 
 
-This is idea is predicated on the fact that there are at most two libHSghc images in memory.
+This is idea is predicated on the fact that there are at most two libHSghc images in memory. **Which I just realized is the most likely scenario, but I don't think there's anything preventing a plugin from having its own statically linked copy of libHSghc…**
 
 
 We could change `FastStringTable` to the following.
