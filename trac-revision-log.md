@@ -53,22 +53,23 @@ should be displayed for each change, or only a shortened version of it.
 ## The Revision Log Information
 
 
-For each revision log entry, there are 7 columns shown:
+For each revision log entry, there are 7 columns:
 
-1. The first column contains a pair of radio buttons and should used 
+1. The first column contains a pair of radio buttons and should be used 
   for selecting the *old* and the *new* revisions that will be 
   used for [viewing the actual changes](trac-revision-log#).
-1. A color code (similar to the one used for the [changesets](trac-changeset#changeset-header)) 
-  indicating kind of change.
+1. A color code (similar to the one used for the
+  [changesets](trac-changeset#changeset-header)) indicating kind of change.
   Clicking on this column refreshes the revision log so that it restarts
   with this change.
+1. The **Revision** number, displayed as `@xyz`.
+  This is a link to the [TracBrowser](trac-browser), using the displayed revision as the base line.
+  Next to it, you can see a little "wheel" icon [](/trac/ghc/chrome/site/../common/changeset.png),  which is clickable and leads to the [TracChangeset](trac-changeset) view for that revision.
 1. The **Date** at which the change was made.
-1. The **Revision** number, displayed as `@xyz`. 
-  This is a link to the [TracBrowser](trac-browser), using that revision as the base line.
-1. The **Changeset** number, displayed as `[xyz]`.
-  This is a link to the [TracChangeset](trac-changeset) view.
+  The date is displayed as the time elapsed from the date of the revision. The time
+  elapsed is displayed as the number of hours, days, weeks, months, or years.
 1. The **Author** of the change.
-1. The **Log Message**, which contains either a summary or the full commit 
+1. The **Log Message**, which contains either the truncated or full commit 
   log message, depending on the value of the *Show full log messages* 
   checkbox in the form above.
 
@@ -90,7 +91,7 @@ in the given range of revisions.
 
 
 Finally, if the two revisions are identical, the corresponding
-changeset will be shown (same effect as clicking on column 5).
+changeset will be shown (same effect as clicking on the ChangeSet number).
 
 ## Alternative Formats
 
