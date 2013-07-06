@@ -4,7 +4,7 @@
 Trac configuration is done by editing the **`trac.ini`** config file, located in `<projectenv>/conf/trac.ini`.  Changes to the configuration are usually reflected immediately, though changes to the `[components]` or `[logging]` sections will require restarting the web server. You may also need to restart the web server after creating a global configuration file when none was previously present.
 
 
-The `trac.ini` configuration file should be writable by the web server, as Trac currently relies on the possibility to trigger a complete environment reload to flush its caches.
+The `trac.ini` configuration file and its parent directory should be writable by the web server, as Trac currently relies on the possibility to trigger a complete environment reload to flush its caches.
 
 ## Global Configuration
 
@@ -16,18 +16,25 @@ Global options will be merged with the environment-specific options, where local
 
 ```wiki
 [inherit]
-file = /usr/share/trac/conf/trac.ini
+file = /path/to/global/trac.ini
 ```
 
 
-Note that you can also specify a global option file when creating a new project,  by adding the option `--inherit=/path/to/global/options` to [trac-admin](trac-admin)'s `initenv` command.  If do not do this but nevertheless intend to use a global option file with your new environment, you will have to go through the newly generated conf/trac.ini file and delete the entries that will otherwise override those set in the global file.
-
-## Reference
+Multiple files can be specified using a comma-separated list.
 
 
-This is a brief reference of available configuration options.
+Note that you can also specify a global option file when creating a new project,  by adding the option `--inherit=/path/to/global/trac.ini` to [trac-admin](trac-admin#)'s `initenv` command.  If you do not do this but nevertheless intend to use a global option file with your new environment, you will have to go through the newly generated `conf/trac.ini` file and delete the entries that will otherwise override those set in the global file.
 
-> *Note that the \[bitten\], \[spam-filter\] and \[vote\] sections below are added by plugins enabled on this Trac, and therefore won't be part of a default installation.*
+
+There are two more entries in the [ \[inherit\] ](trac-ini#) section, `templates_dir` for sharing global templates and `plugins_dir`, for sharing plugins. Those entries can themselves be specified in the shared configuration file, and in fact, configuration files can even be chained if you specify another `[inherit] file` there.
+
+
+Note that the templates found in the `templates/` directory of the [TracEnvironment](trac-environment) have precedence over those found in `[inherit] templates_dir`. In turn, the latter have precedence over the installed templates, so be careful about what you put there, notably if you override a default template be sure to refresh your modifications when you upgrade to a new version of Trac (the preferred way to perform [TracInterfaceCustomization](trac-interface-customization) being still to write a custom plugin doing an appropriate `ITemplateStreamFilter` transformation).
+
+## Reference for settings
+
+
+This is a brief reference of available configuration options, and their default settings.
 
 ### `[account-manager]`
 
@@ -981,7 +988,7 @@ associate all remaining states to one catch-all group.
 The CSS class can be one of: new (yellow), open (no color) or
 closed (green). Other styles can easily be added using custom
 CSS rule: `table.progress td.<class> { background: <color> }`
-to a [site/style.css](trac-interface-customization#) file
+to a [site/style.css](trac-interface-customization#site-appearance) file
 for example.
 
 ### `[mimeviewer]`
@@ -2830,7 +2837,11 @@ narrow (`false`).
 </th>
 <th>`disabled`</th></tr></table>
 
-## \[components\]
+## Reference for special sections
+
+[\[components\]](#components-section)[\[extra-permissions\]](#extra-permissions-section)[\[milestone-groups\]](#milestone-groups-section)[\[repositories\]](#repositories-section)[\[svn:externals\]](#svn:externals-section)[\[ticket-custom\]](#ticket-custom-section)[\[ticket-workflow\]](#ticket-workflow-section)
+
+### \[components\]
 
 
 This section is used to enable or disable components provided by plugins, as well as by Trac itself. The component to enable/disable is specified via the name of the option. Whether its enabled is determined by the option value; setting the value to `enabled` or `on` will enable the component, any other value (typically `disabled` or `off`) will disable the component.
@@ -2856,22 +2867,14 @@ See the *Plugins* page on *About Trac* to get the list of active components (req
 
 See also: [TracPlugins](trac-plugins)
 
-## \[ticket-custom\]
+### \[extra-permissions\]
+
+*(since 0.12)*
 
 
-In this section, you can define additional fields for tickets. See [TracTicketsCustomFields](trac-tickets-custom-fields) for more details.
+Custom additional permissions can be defined in this section when ExtraPermissionsProvider? is enabled.
 
-## \[ticket-workflow\]
-
-*(since 0.11)*
-
-
-The workflow for tickets is controlled by plugins. 
-By default, there's only a `ConfigurableTicketWorkflow` component in charge. 
-That component allows the workflow to be configured via this section in the trac.ini file.
-See [TracWorkflow](trac-workflow) for more details.
-
-## \[milestone-groups\]
+### \[milestone-groups\]
 
 *(since 0.11)*
 
@@ -2889,9 +2892,9 @@ closed = closed
 # sequence number in the progress bar
 closed.order = 0
 # optional extra param for the query (two additional columns: created and modified and sort on created)
-group=resolution,order=time,col=id,col=summary,col=owner,col=type,col=priority,col=component,col=severity,col=time,col=changetime
-# indicates groups that count for overall completion 
-closed.overall_completion = truepercentage
+closed.query_args = group=resolution,order=time,col=id,col=summary,col=owner,col=type,col=priority,col=component,col=severity,col=time,col=changetime
+# indicates groups that count for overall completion percentage
+closed.overall_completion = true
 
 new = new
 new.order = 1
@@ -2917,13 +2920,30 @@ The CSS class can be one of: new (yellow), open (no color) or
 closed (green). New styles can easily be added using the following
 selector:  `table.progress td.<class>`
 
-## \[svn:externals\]
+### \[repositories\]
+
+
+(*since 0.12* multirepos)
+
+
+One of the alternatives for registering new repositories is to populate the `[repositories]` section of the trac.ini.
+
+
+This is especially suited for setting up convenience aliases, short-lived repositories, or during the initial phases of an installation.
+
+
+See [TracRepositoryAdmin](trac-repository-admin#) for details about the format adopted for this section and the rest of that page for the other alternatives.
+
+### \[svn:externals\]
 
 *(since 0.11)*
 
 
-The [TracBrowser](trac-browser) for Subversion can interpret the `svn:externals` property of folders out of the box.
-However, if those externals are *not* using the `http:` or `https:` protocol, or if a link to a different repository browser such as another Trac or [ ViewVC](http://www.viewvc.org/) is desired, then Trac needs to be able to map an external prefix to this other URL.
+The [TracBrowser](trac-browser) for Subversion can interpret the `svn:externals` property of folders.
+By default, it only turns the URLs into links as Trac can't browse remote repositories.
+
+
+However, if you have another Trac instance (or an other repository browser like [ ViewVC](http://www.viewvc.org/)) configured to browse the target repository, then you can instruct Trac which other repository browser to use for which external URL.
 
 
 This mapping is done in the `[svn:externals]` section of the [TracIni](trac-ini)
@@ -2933,8 +2953,8 @@ Example:
 
 ```wiki
 [svn:externals]
-1 = svn://server/repos1 http://trac/proj1/browser/$path?rev=$rev
-2 = svn://server/repos2 http://trac/proj2/browser/$path?rev=$rev
+1 = svn://server/repos1                       http://trac/proj1/browser/$path?rev=$rev
+2 = svn://server/repos2                       http://trac/proj2/browser/$path?rev=$rev
 3 = http://theirserver.org/svn/eng-soft       http://ourserver/viewvc/svn/$path/?pathrev=25914
 4 = svn://anotherserver.com/tools_repository  http://ourserver/tracs/tools/browser/$path?rev=$rev
 ```
@@ -2947,6 +2967,21 @@ Note that the number used as a key in the above section is purely used as a plac
 
 
 Finally, the relative URLs introduced in [ Subversion 1.5](http://subversion.tigris.org/svn_1.5_releasenotes.html#externals) are not yet supported.
+
+### \[ticket-custom\]
+
+
+In this section, you can define additional fields for tickets. See [TracTicketsCustomFields](trac-tickets-custom-fields) for more details.
+
+### \[ticket-workflow\]
+
+*(since 0.11)*
+
+
+The workflow for tickets is controlled by plugins. 
+By default, there's only a `ConfigurableTicketWorkflow` component in charge. 
+That component allows the workflow to be configured via this section in the trac.ini file.
+See [TracWorkflow](trac-workflow) for more details.
 
 ---
 
