@@ -40,7 +40,7 @@ The aliases are defined in `trac.ini` (see below).
 The prefix is case insensitive.
 
 
-When a TracLink is enclosed in brackets, the alias is expanded.  That is, `[th:ticket:1]` is displayed as `trachacks:ticket:1`, since `th` is an alias for `trachacks`.  If the TracLink is not enclosed in brackets, then the alias is displayed as it is typed.
+If the [InterTrac](inter-trac) link is enclosed in square brackets (like `[th:WikiGoodiesPlugin]`), the [InterTrac](inter-trac) prefix is removed in the displayed link, like a normal link resolver would be (i.e. the above would be displayed as `WikiGoodiesPlugin`).
 
 
 For convenience, there's also some alternative short-hand form, 
