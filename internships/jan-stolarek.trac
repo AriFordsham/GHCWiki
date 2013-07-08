@@ -18,10 +18,13 @@ Some points made by Austin Seipp:
 
 = Back-end notes =
 == Some interesting tickets ==
+  * #605 - Optimisation: strict enumerations
   * #1498 - Optimisation: eliminate unnecessary heap check in recursive function. 
   * #1600 - Optimisation: CPR the results of IO
   * #2289 - Needless reboxing of values when returning from a tight loop
   * #2387 - Optimizer misses unboxing opportunity
+  * #4470 - Loop optimization: identical counters
+  * #4937 - Remove indirections caused by sum types, such as Maybe
   * #5567 - LLVM: Improve alias analysis / performance [wiki:BackEndNotes#Heapstackchecks BackEndNotes] page has some discussion of this.
   * #7198 - New codegen more than doubles compile time of T3294
 
@@ -137,6 +140,8 @@ Some LLVM notes that may be useful:
   - [https://github.com/jstolarek/packages-integer-gmp packages-integer-gmp]
   - [https://github.com/jstolarek/packages-integer-simple packages-integer-simple]
   - [https://github.com/jstolarek/packages-primitive packages-primitive]
+  
+  - [https://github.com/jstolarek/ghc-tests test programs]
 
 Unboxed Booleans (#6135) work is in all 8 repos on branch `bool-primops-vX`, where `X` is a number. `X` is increased after rebasing on top of new HEAD (I'm doing this to avoid upstream rebasing).
 
