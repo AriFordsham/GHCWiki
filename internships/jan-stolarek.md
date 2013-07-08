@@ -29,7 +29,6 @@ Some points made by Austin Seipp:
 - [\#2289](https://gitlab.haskell.org//ghc/ghc/issues/2289) - Needless reboxing of values when returning from a tight loop
 - [\#2387](https://gitlab.haskell.org//ghc/ghc/issues/2387) - Optimizer misses unboxing opportunity
 - [\#5567](https://gitlab.haskell.org//ghc/ghc/issues/5567) - LLVM: Improve alias analysis / performance [BackEndNotes](back-end-notes#heap/stack-checks) page has some discussion of this.
-- [\#5924](https://gitlab.haskell.org//ghc/ghc/issues/5924) - Bad Cmm generated for updating one element in Array\#
 - [\#7198](https://gitlab.haskell.org//ghc/ghc/issues/7198) - New codegen more than doubles compile time of T3294
 
 ## Notes on the wiki
@@ -160,6 +159,8 @@ Some LLVM notes that may be useful:
 - [ packages-integer-gmp](https://github.com/jstolarek/packages-integer-gmp)
 - [ packages-integer-simple](https://github.com/jstolarek/packages-integer-simple)
 - [ packages-primitive](https://github.com/jstolarek/packages-primitive)
+
+- [ test programs](https://github.com/jstolarek/ghc-tests)
 
 
 Unboxed Booleans ([\#6135](https://gitlab.haskell.org//ghc/ghc/issues/6135)) work is in all 8 repos on branch `bool-primops-vX`, where `X` is a number. `X` is increased after rebasing on top of new HEAD (I'm doing this to avoid upstream rebasing).
