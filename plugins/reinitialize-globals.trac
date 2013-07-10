@@ -2,25 +2,37 @@
 
 == Status ==
 
-I've pushed Option 2 to HEAD. Since then, I've realized the troubles with laziness are more delicate than I thought, so I came up with Options 5 and 6.
-
-  * SPJ likes the overall interface changes in Option 1 (ie `workAroundGlobals`) for future-proofness, beyond just this issue with the globals.
-
-  * Ian Lynagh asks "why not just us a dynamically linked compiler?". That seems to be a possible prerequisite for using plugins, but I don't know the wider repercussions (eg all the platforms etc).
-
-  * I think Option 3 is the most robust.
-
-  * Option 6 sounds best after that, but it was a late idea and I'm not sure how robust the underlying mechanism is.
-
-  * Option 5 avoids the laziness issues, but we'll have to ensure it doesn't adversely affect performance too much — `FastString` has some hot spots. (Also, ''could be bogus'' — see below.)
+After a few unfortunately public iterations, I've pushed Solution 2 to HEAD. It's a lightweight solution, re-uses an existing mechanism, has a small footprint in the GHC source code, and is totally transparent to the plugin author.
 
 == Background ==
 
+=== global variables used in GHC ===
+
+I performed a bunch of greps in search of global variables in the code base:
+
+{{{
+# find possible top-level declarations of an IORef, MVar, some sort of pointer, global
+$ find .. -type f -exec grep -nHE -e '^[^ ].*:: *IORef' {} /dev/null \;
+$ find .. -type f -exec grep -nHE -e '^[^ ].*:: *MVar' {} /dev/null \;
+$ find .. -type f -exec grep -nHE -e '^[^ ].*:: *[^ ]*Ptr' {} /dev/null \;
+$ find .. -type f -exec grep -nHw -e global {} /dev/null \;
+}}}
+
+(also for `unsafe[^ ]*IO`, `inlinePerformIO`, and `unsafeInterleaveM`)
+
+Manually combing the results, I found these legitimate hits:
+
+  * these three modules use the GLOBAL_VAR macro and were already supported by reinitializeGlobals: `StaticFlags`, `DynFlags`, `Linker`
+
+  * my focus: `FastString.string_table`
+
+  * I don't know what these are for: `Panic.interruptTargetThread`, `InteractiveEval.noBreakStablePtr`
+
 === `CoreMonad.reinitializeGlobals` ===
 
-For unfortunate reasons I don't fully understand (#5355, #5292), the host compiler and the set of all plugins each have distinct copies of global variables (unless the host compiler dynamically loads libHSghc, eg on Windows; see the next section).  All plugins share the same copy, so there are at most two copies. The current workaround is `CoreMonad.reinitializeGlobals`, which every plugin is supposed to call at the beginning of its `install` routine.  This function overwrites the plugin's global variables with the corresponding values of the host compiler's. It requires a little plumbing to make this work but not much, and the plugin author sees only `reinitializeGlobals`.
+When the host compiler is a statically linked executable, the host compiler and the set of all plugins each have distinct copies of global variables.  Unless someone really goes out of their way, all plugins will share the same copy, so there are at most two copies: one for the plugins and one for the host compiler.
 
-The long-term plan is to eventually totally avoid having two separate images of the ghc library and then redefine `reinitializeGlobals = return ()`.
+The current workaround is `CoreMonad.reinitializeGlobals`, which every plugin is supposed to call at the beginning of its `install` routine.  This function overwrites the plugin's global variables with the corresponding values of the host compiler's. It requires a little plumbing to make this work but not much, and the plugin author sees only `reinitializeGlobals`. The long-term plan is to eventually totally avoid having two separate images of the ghc library and then redefine `reinitializeGlobals = return ()`.
 
 So the plugin author is instructed to write this:
 
@@ -31,35 +43,17 @@ install opts todos = do
   …
 }}}
 
-This mechanism is currently used for some `StaticFlag`s, some `Linker` state, and some `DynFlags`. I just recently added (partial) support for the `FastString` table.
+This mechanism is currently used for global variables in the `StaticFlags`, `Linker`, and `DynFlags` modules.
 
-=== `DYNAMIC_GHC_PROGRAMS` ===
+This mechanism is insufficient for the `FastString.string_table` global variable because `reinitializeGlobals` only supports copying the host compiler's global variables into the plugin's global variables ''exactly once'' (per loaded plugin) at the beginning of the Core simplifier. This seems sufficient for the globals already supported by `reinitializeGlobals`, but `FastString.string_table` needs more, since the plugin may mutate the string table and those mutations should be propagated back into the compiler's instance of the variable.
 
-If the ghc executable itself dynamically links against libHSghc, then the entire `reinitializeGlobals` mechanism is unnecessary! In that case, both the host compiler and its plugins link against the dynamic libHSghc, which contains the sole set of mutable global variables.
+Furthermore, since the `FastString` interface uses `unsafePerformIO`, the two images' `FastString.string_table`s may get out of synch when the evaluation of a thunk mutates one of the tables but not the other. I'm going to call any thunk that allocates a `FastString` when its forced a "problem thunk".  Since we can only easily synchronize the two images' tables when control is passed between the compiler and a plugin, evaluation of a problem thunk by an image that did not create that thunk is problematic.
 
-As of commit b7126674 (~mid-March 2013), the ghc executable dynamically loads libHSghc by default. This snippet from `mk/config.mk` shows the default behavior as of 163de25813d12764aa5ded1666af7c06fee0d67e (~July 2013).
-
-{{{
-# Use the dynamic way when building programs in the GHC tree. In
-# particular, this means that GHCi will use DLLs rather than loading
-# object files directly.
-ifeq "$(TargetOS_CPP)" "mingw32"                     # <---- this means Windows
-# This doesn't work on Windows yet
-DYNAMIC_GHC_PROGRAMS = NO
-else ifeq "$(TargetOS_CPP)" "freebsd"
-# FreeBSD cannot do proper resolution for $ORIGIN (due to a bug in
-# rtld(1)), so disable it by default (see #7819).
-DYNAMIC_GHC_PROGRAMS = NO
-else ifeq "$(PlatformSupportsSharedLibs)" "NO"
-DYNAMIC_GHC_PROGRAMS = NO
-else
-DYNAMIC_GHC_PROGRAMS = YES
-endif
-}}}
-
-NB also that the `*-llvm` presets in `build.mk` set `DYNAMIC_GHC_PROGRAMS = NO` as of 163de25813d12764aa5ded1666af7c06fee0d67e.
+Conclusion: `reinitializeGlobals` is insufficient for `FastString.string_table` and any other global variable that would require non-trivial synchronization between the compiler and the plugins.
 
 === `FastString.string_table` ===
+
+I'd like to let plugins correctly use this variable, since that would let them invoke some parts of the front-end (eg resolving `RdrName`s).
 
 All the `FastString`s created during compilation are memoized in a hash table. For speedy comparison, each string is associated with a unique, which is allocated linearly whenever a `FastString` is created that has no corresponding entry in the hash table. This involves two pieces of global state, which are held in the same global variable.
 
@@ -73,69 +67,13 @@ data FastStringTable =
 string_table :: IORef FastStringTable
 }}}
 
-== The Problem with `FastString.string_table` ==
-
 During its use, the `FastString` table increments the `!Int` argument. `reinitializeGlobals` alone is incapable of supporting this appropriately; it was designed to only copy global variables' values from the host compiler to the plugin, never in the opposite direction. Those original global variables were global for convenience of access, not for the need to be mutable. The `FastString` table breaks the mold.
 
 It's straight-forward to have the two images share the array, but it is difficult to keep the two images' values of `Int` in synch.  The danger is that the two images could allocate the same unique for distinct `FastString`s — that'd break a major invariant.
 
-=== Option 1: The General Solution ===
+== Solutions ==
 
-Ideally, we would extend the `reinitializeGlobals` mechanism to additionally support information flow from the plugin back to the host compiler. However, it's a high priority that this whole mechanism remain as transparent as possible: we'd really like to just rip it out in the future without breaking any code.
-
-Unfortunately, the current interface — just calling `reinitializeGlobals` at the top of `install` — is insufficient for this reverse information flow. We'd have to change the interface to something like:
-
-{{{
-install :: [CommandLineOption] -> [CoreToDo] -> CoreM [CoreToDo]
-install opts todos = workaroundGlobals $ do
-  …
-}}}
-
-This function would do three things:
-
- 1) call `reinitializeGlobals` ASAP, just like now
-
- 2) call `reverseReinitializeGlobals` at the end of the `install` routine; this new function would stash the values of the plugin's globals in a new, otherwise unused Writer output of `CoreM`.
-
- 3) similarly wrap every `PluginPass` contained in the result of `install`
-
-We'd also have to add some logic around the host compiler's calls to the plugin in order to copy the stashed values back into the host compiler's globals.
-
-(This suffers from the same laziness issues as Option 2 below, so check that out too.)
-
-Overall, this seems like overkill. I performed a bunch of greps in search of global variables in the code base:
-
-{{{
-# find possible top-level declarations of an IORef, MVar, some sort of pointer, global
-$ find .. -type f -exec grep -nHE -e '^[^ ].*:: *IORef' {} /dev/null \;
-$ find .. -type f -exec grep -nHE -e '^[^ ].*:: *MVar' {} /dev/null \;
-$ find .. -type f -exec grep -nHE -e '^[^ ].*:: *[^ ]*Ptr' {} /dev/null \;
-$ find .. -type f -exec grep -nHw -e global {} /dev/null \;
-}}}
-
-(also for `unsafe[^ ]*IO`, `inlinePerformIO`, and `unsafeInterleaveM`)
-
-Legitimate hits:
-
-  * these three use the GLOBAL_VAR macro and were already supported by reinitializeGlobals: `StaticFlags`, `DynFlags`, `Linker`
-
-  * my focus: `FastString.string_table`
-
-  * I don't know what these are for: `Panic.interruptTargetThread`, `InteractiveEval.noBreakStablePtr`
-
-Of all these global variables, I think only `string_table` needs information flow from the plugin back to the compiler.
-
-=== Option 2: The Lighterweight Workaround ===
-
-For `FastString.string_table`, I think we can avoid changing the `reinitializeGlobals` interface. In this case, we can recover the appropriate Int value by scanning the hash table every time we return from the plugin: the Int is just a cache of the table's size (…right?).
-
-This wouldn't affect the plugin API, but it would still require the extra logic around the compiler's calls to plugins.
-
-Unfortunately, since the `FastString` interface uses unsafePerformIO, the two images' `FastString` tables may get out of synch when the evaluation of one of those thunks mutates one of the tables but not the other. Option 1 has this same problem. I'm going to call any thunk that allocates a `FastString` when its forced a "problem thunk". Since we only synchronize the two images' tables when transitioning between the compiler and a plugin, evaluation of a problem thunk by the image that did not create it is problematic.
-
-So the rule would be: ''Do not let the compiler force any of a plugin's thunks that allocate `FastString`s, and vice versa.'' (Same for Option 1.)
-
-=== Option 3: The Full Low-Level Swap ===
+=== Solution 1: the `Globals.c` mechanism ===
 
 Simon Marlow said:
 
@@ -162,38 +100,44 @@ foreign import ccall unsafe "getOrSetLibHSghcFastStringTable"
 
 Thus there ever exists only one such CAF per process, regardless of how many copies of libHSghc are loaded, since they all share the first such CAF forced. This is arbitrated by the process's sole image of the RTS.
 
-=== Option 4: Do Nothing ===
+'''Concerns'''
 
-For `FastString.string_table`, the lack of reverse information flow probably doesn't matter. I suspect the most common case just involves looking up `FastString`s in the table, not actually creating new ones.
+My only concern is that I imagine we would like to keep the set of pointers maintained by Globals.c to a minimum?
 
-Even if the plugin does create `FastString`s, it looks like the only thing that is downstream from the core2core pipeline and also is (indirectly) sensitive to a `FastString`'s unique is GHCI. Everything else downstream of the plugins just uses the unique associated with Names — `OccString`s are pretty much ignored after the renamer.
+=== Solution 2: use a dynamically linked compiler ===
 
-So the rule would be: ''if your plugin might allocate new `FastString`s, be warned that GHCI might not work quite right''.
+Ian Lynagh asks "Why not just us a dynamically linked compiler?"
 
-=== Option 5: Circular `IORef`s ===
+If the ghc executable itself dynamically links against libHSghc, then the entire `reinitializeGlobals` mechanism is unnecessary! In that case, both the host compiler and its plugins link against the same dynamic instance of libHSghc, which contains the sole set of mutable global variables.
 
-This is idea is predicated on the fact that there are at most two libHSghc images in memory. '''Which I just realized is the most likely scenario, but I don't think there's anything preventing a plugin from having its own statically linked copy of libHSghc…'''
-
-We could change `FastStringTable` to the following.
+The `DYNAMIC_GHC_PROGRAMS` variable in the GHC build system determines this.  As of commit b7126674 (~mid-March 2013), the ghc executable is dynamically linked by default (except on Windows).  This snippet from `mk/config.mk` shows the default behavior as of 163de25813d12764aa5ded1666af7c06fee0d67e (~July 2013).
 
 {{{
-data Maybe_FST = Nothing_FST | Just_FST !(IORef FastStringTable)
-
-data FastStringTable =
-  FastStringTable
-     {-# UNPACK #-} !Int
-     (MutableArray# RealWorld [FastString])
-     {-# UNPACK #-} !Maybe_FST
+# Use the dynamic way when building programs in the GHC tree. In
+# particular, this means that GHCi will use DLLs rather than loading
+# object files directly.
+ifeq "$(TargetOS_CPP)" "mingw32"                     # <---- this means Windows
+# This doesn't work on Windows yet
+DYNAMIC_GHC_PROGRAMS = NO
+else ifeq "$(TargetOS_CPP)" "freebsd"
+# FreeBSD cannot do proper resolution for $ORIGIN (due to a bug in
+# rtld(1)), so disable it by default (see #7819).
+DYNAMIC_GHC_PROGRAMS = NO
+else ifeq "$(PlatformSupportsSharedLibs)" "NO"
+DYNAMIC_GHC_PROGRAMS = NO
+else
+DYNAMIC_GHC_PROGRAMS = YES
+endif
 }}}
 
-Semantics: The new field points at the other image's `string_table`; `reinitializeGlobals` would setup this circularity. When updating the `Int` field of one, we would also update the `Int` field of the other, via the new field. We wouldn't need to duplicate any work for the array, since that pointer is shared directly after `reinitializeGlobals`.
+NB also that the `*-llvm` presets in `build.mk` set `DYNAMIC_GHC_PROGRAMS = NO` as of 163de25813d12764aa5ded1666af7c06fee0d67e.
 
-Performance: I'm hoping pointer tagging, unpacking (will this sum type be unpacked?), and branch prediction will ameliorate the extra instructions, especially when there is no plugin.  Moreover, this extra work would only happen when allocating new `FastStrings`, which is relatively infrequent.
+'''Concerns'''
 
-This Option does not have any laziness issues. Thunks that end up adding `FastString`s to the table, when forced, always begin by reading the `string_table` `IORef`.  Thus, they will see the `Just_FST` if they're forced after `reinitializeGlobals`, regardless of when those thunks were created.  In other words, thunks only cache the `IORef`, not its contents. Since each image's `IORef`'s contents now includes a reference to the other image's `IORef`, the thunks will mutate both tables in synch.
+The rule would be: if you want to use a plugin (that uses any of the compiler's global variables), you must use a dynamically-linked compiler.
 
-=== Option 6: Use `UniqSupply` in `FastString`  ===
+The repercussions of this rule are not totally apparent to me.  Plugins themselves are already dynamically loaded, so the platform certainly already supports dynamic libraries.  So I think the only burden on the plugin user is having to ensure that their GHC is dynamically linked.
 
-Instead of allocating `FastString`s' uniques linearly, let's use a `UniqSupply`. Then we'd just need to split the supply in order to prevent the danger of two `FastString`s getting the same unique. Whatever routine does the splitting just needs to be called the first time libHSghc is loaded dynamically and never again.
+Is GHC HQ planning on distributing dynamically linked compilers when possible? What about the Haskell Platform?
 
-I whipped up a quick implementation (using `{-# SOURCE #-}` and minimal boot files for `Unique` and `UniqueSupply`). Testing on a library that takes ~8.9 seconds to build and allocates 6.334 gigs, I got a ~0.3% increase in allocation and a ~0.1 second increase in time. The next step is try measuring the effect on compilation times in nofib, and looking for a cheap way to avoid those boot files.
+If `reinitializeGlobals` is no longer needed, what about the `Globals.c` mechanism? How likely is it that an image statically linked against the base library will end up dynamically loading the base library? In other words, besides GHC and GHCI, will extensible Haskell programs compiled by GHC ever contain a statically linked-in base library?
