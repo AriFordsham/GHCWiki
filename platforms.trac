@@ -44,7 +44,6 @@ Tier 2 platforms as possible to Tier 1, as soon as they meet the Tier 1 criteria
 
 || '''Architecture''' || '''OS''' || '''Build name''' || '''Reg'd''' || '''GHCi''' || '''NCG''' || '''f.i.''' || '''Dyn libs''' || '''!WikiPage''' ||
 || x86          || OpenBSD         || i386-unknown-openbsd    || Yes          || Yes  || Yes    || Yes          || No                || ||
-
 || x86          || Solaris         || i386-unknown-solaris2   || Yes          || Yes  || Yes    || Yes          || No                || ||
 || x86-64       || OpenBSD         || amd64-unknown-openbsd   || Yes          || Yes  || Yes    || Yes          || No                || ||
 || PowerPC      || Linux           || powerpc-unknown-linux   || Yes          || Yes  || Yes    || Yes          || No                || ||
