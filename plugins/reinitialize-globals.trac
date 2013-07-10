@@ -2,7 +2,7 @@
 
 == Status ==
 
-After a few unfortunately public iterations, I've pushed Solution 2 to HEAD. It's a lightweight solution, re-uses an existing mechanism, has a small footprint in the GHC source code, and is totally transparent to the plugin author.
+After a few unfortunately public iterations, I've pushed Solution 1 to HEAD. It's a lightweight solution, re-uses an existing mechanism, has a small footprint in the GHC source code, and is totally transparent to the plugin author.
 
 == Background ==
 
