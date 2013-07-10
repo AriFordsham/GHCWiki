@@ -27,6 +27,7 @@ Some points made by Austin Seipp:
   * #4937 - Remove indirections caused by sum types, such as Maybe
   * #5567 - LLVM: Improve alias analysis / performance [wiki:BackEndNotes#Heapstackchecks BackEndNotes] page has some discussion of this.
   * #7198 - New codegen more than doubles compile time of T3294
+  * #8048 - Register spilling produces ineffecient/highly contending code
 
 == Notes on the wiki ==
   * [wiki:Commentary/Compiler/NewCodeGen/Cleanup]
@@ -114,10 +115,10 @@ It is however referenced in some of the comments!
 = Various stuff =
 Tickets that I could potentially look into:
 
-  * #4101 - Primitive constant unfolding
   * #3070 - floor(0/0) should not be defined
   * #3676 - realToFrac doesn't sanely convert between floating types
   * #3744 - Comparisons against minBound/maxBound not optimised
+  * #4101 - Primitive constant unfolding
   * #5615 - ghc produces poor code for `div` with constant powers of 2.
   * #7116 - Missing optimisation: strength reduction of floating-point multiplication
   * #7858 - Fix definitions of abs/signum for Floats/Doubles.
