@@ -1,7 +1,7 @@
 ## Status
 
 
-After a few unfortunately public iterations, I've pushed Solution 1 to HEAD. It's a lightweight solution, re-uses an existing mechanism, has a small footprint in the GHC source code, and is totally transparent to the plugin author.
+After a few unfortunately public iterations, I'm planning on moving forward with Solution 1. It's a lightweight solution, re-uses an existing mechanism, has a small footprint in the GHC source code, is totally transparent to the plugin author, and robustly handles corner cases. Solution 2 has more user-facing consequences and does not handle weird corner cases.
 
 ## Background
 
