@@ -115,10 +115,10 @@ It is however referenced in some of the comments!
 = Various stuff =
 Tickets that I could potentially look into:
 
-  * #4101 - Primitive constant unfolding
   * #3070 - floor(0/0) should not be defined
   * #3676 - realToFrac doesn't sanely convert between floating types
   * #3744 - Comparisons against minBound/maxBound not optimised
+  * #4101 - Primitive constant unfolding
   * #5615 - ghc produces poor code for `div` with constant powers of 2.
   * #7116 - Missing optimisation: strength reduction of floating-point multiplication
   * #7858 - Fix definitions of abs/signum for Floats/Doubles.
