@@ -121,6 +121,19 @@ It is however referenced in some of the comments!
 
 - `cmm/CmmRewriteAssignments.hs` is not used at all?
 - `cmm/CmmUtils.hs`, function `toBlockListEntryFirst` - perhaps it would be safer to return a tuple in this case? This would probably make the invariant more explicit.
+- ```wiki
+  boxConTbl :: [(Type, RdrName)]
+  boxConTbl
+    = [(charPrimTy,       getRdrName charDataCon)
+      ,(intPrimTy,        getRdrName intDataCon)
+      ,(wordPrimTy,       wordDataCon_RDR)
+      ,(floatPrimTy,      getRdrName floatDataCon)
+      ,(doublePrimTy,     getRdrName doubleDataCon)
+      ]
+  ```
+
+
+Don't remember where i found that one, but I wonder why wordPrimTy is implemented differently.
 
 ## Wiki
 
