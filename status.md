@@ -25,7 +25,7 @@ Here are biannual GHC status reports, published in the [ Haskell Communities and
 
 Here are our release plans for 
 
-- GHC 6.12 (outdated)?
+- [GHC 6.12 (outdated)](status/ghc-6.12)
 - [GHC 6.10 (outdated)](status/ghc-6.10)
 
 ## Planning notes
