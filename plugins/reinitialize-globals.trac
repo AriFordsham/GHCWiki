@@ -2,7 +2,13 @@
 
 == Status ==
 
-After a few unfortunately public iterations, I'm planning on moving forward with Solution 1. It's a lightweight solution, re-uses an existing mechanism, has a small footprint in the GHC source code, is totally transparent to the plugin author, and robustly handles corner cases. Solution 2 has more user-facing consequences and does not handle weird corner cases.
+After a few, unfortunately public, iterations, I'm pushing Solution 1.
+
+  * Solution 1 is a lightweight solution, re-uses an existing mechanism, has a small footprint in the GHC source code, is totally transparent to the plugin author, and robustly handles corner cases. 
+
+  * Solution 2 only simplifies code, but it makes a user choose between (safely) using a plugin that involves `FastString.string_table` and using statically-linked GHC.
+
+Solution 1 relies on the `rts/Globals.c`, which would be excised anyway if Solution 2 is ever viable…
 
 == Background ==
 
@@ -98,17 +104,19 @@ foreign import ccall unsafe "getOrSetLibHSghcFastStringTable"
   getOrSetLibHSghcFastStringTable :: Ptr a -> IO (Ptr a)
 }}}
 
-Thus there ever exists only one such CAF per process, regardless of how many copies of libHSghc are loaded, since they all share the first such CAF forced. This is arbitrated by the process's sole image of the RTS.
+Thus there ever exists only one such CAF per process, regardless of how many copies of libHSghc are loaded, since they all share the first such CAF forced. This is arbitrated by the process's sole image of the RTS. (Things have terribly gone wrong if there is more than one RTS in memory; a l a#5620.)
 
 '''Concerns'''
 
-My only concern is that I imagine we would like to keep the set of pointers maintained by Globals.c to a minimum?
+My only general concern is that I imagine we would like to keep the set of pointers maintained by Globals.c to a minimum?
+
+The slight wrinkle is that the stage=1 compiler must not use the foreign import, since the stage1 compiler links in the stage0 RTS (ie previous version), which does not necessarily export the (new) `getOrSetLibHSghcFastStringTable` symbol. Since the stage=1 compiler probably isn't going to load any plugins, this is probably not a big concern.
 
 === Solution 2: use a dynamically linked compiler ===
 
 Ian Lynagh asks "Why not just us a dynamically linked compiler?"
 
-If the ghc executable itself dynamically links against libHSghc, then the entire `reinitializeGlobals` mechanism is unnecessary! In that case, both the host compiler and its plugins link against the same dynamic instance of libHSghc, which contains the sole set of mutable global variables.
+If the ghc executable itself dynamically links against libHSghc, then the entire `reinitializeGlobals` mechanism is unnecessary. In that case, both the host compiler and its plugins link against the same dynamic instance of libHSghc, which contains the sole set of mutable global variables.
 
 The `DYNAMIC_GHC_PROGRAMS` variable in the GHC build system determines this.  As of commit b7126674 (~mid-March 2013), the ghc executable is dynamically linked by default (except on Windows).  This snippet from `mk/config.mk` shows the default behavior as of 163de25813d12764aa5ded1666af7c06fee0d67e (~July 2013).
 
@@ -136,8 +144,15 @@ NB also that the `*-llvm` presets in `build.mk` set `DYNAMIC_GHC_PROGRAMS = NO` 
 
 The rule would be: if you want to use a plugin (that uses any of the compiler's global variables), you must use a dynamically-linked compiler.
 
-The repercussions of this rule are not totally apparent to me.  Plugins themselves are already dynamically loaded, so the platform certainly already supports dynamic libraries.  So I think the only burden on the plugin user is having to ensure that their GHC is dynamically linked.
+I'm concerned that requiring the buiding/installing/use of a dynamically-linked GHC in order to use a particular plugin might be a prohibitively inconvenient for some users.
 
-Is GHC HQ planning on distributing dynamically linked compilers when possible? What about the Haskell Platform?
+The repercussions of this rule are not totally apparent to me.  Plugins themselves are already dynamically loaded, so the platform already supports dynamic libraries (right?).  So I think the only burden on the plugin user is having to ensure that their GHC is dynamically linked. 'From 7.8, the plan is for this to be the default on platforms that
+support it.' [[http://www.haskell.org/pipermail/ghc-devs/2013-July/001651.html|Ian Lynagh]].
 
-If `reinitializeGlobals` is no longer needed, what about the `Globals.c` mechanism? How likely is it that an image statically linked against the base library will end up dynamically loading the base library? In other words, besides GHC and GHCI, will extensible Haskell programs compiled by GHC ever contain a statically linked-in base library?
+  * #3658 — this is for GHCi, but it might carry over for ghc; that's an open question
+
+  * #8039 — might be blocking 3658
+
+  * [[DynamicByDefault#Performance]] — the dynamically-link compiler may be significantly slower than the statically-linked one. So people may prefer to have a statically-linked ghc, which would then mean they couldn't (safely) use the Core plugins that use the `FastString.string_table`.
+
+And what about the corner-case where someone statically-links a libHSghc copy into their own plugin DSO? That's sounds possible, but also like they're ''trying'' to break things. Solution 1 would handle it.
