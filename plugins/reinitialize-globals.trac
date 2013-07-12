@@ -110,7 +110,7 @@ Thus there ever exists only one such CAF per process, regardless of how many cop
 
 My only general concern is that I imagine we would like to keep the set of pointers maintained by Globals.c to a minimum?
 
-The slight wrinkle is that the stage=1 compiler must not use the foreign import, since the stage1 compiler links in the stage0 RTS (ie previous version), which does not necessarily export the (new) `getOrSetLibHSghcFastStringTable` symbol. Since the stage=1 compiler probably isn't going to load any plugins, this is probably not a big concern.
+The slight wrinkle is that the stage=1 compiler must not use the foreign import, since the stage1 compiler links in the stage0 RTS (ie previous version), which does not necessarily export the (new) `getOrSetLibHSghcFastStringTable` symbol. Since the stage=1 compiler probably isn't going to load any plugins, this is probably not a big concern. [[http://www.haskell.org/pipermail/ghc-devs/2013-July/001652.html]]
 
 === Solution 2: use a dynamically linked compiler ===
 
