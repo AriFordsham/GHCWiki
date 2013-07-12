@@ -9,7 +9,7 @@ Some points made by Geoffrey:
   - if you write a simple, tight loop in Haskell of the sort a C compiler would vectorize, will LLVm vectorize it? If not, why?
 
 Some points made by Austin Seipp:
-  - i took the time to implement a half-assed almost-working loopification pass a few months ago. the sinking pass by Simon is what really does a huge amount of the optimizations Kryzsztof's thesis attacked differently. but i think doing loopification could maybe lead to identifying things like loop invariant expressions. it can't bootstrap the compiler with it (JS: it = Austin's patch). i think whenever i tie the knot in the new graph, i don't abandon parts of the old CmmNode, which then causes dead labels to hang around
+  - i took the time to implement a half-assed almost-working loopification pass a few months ago. the sinking pass by Simon is what really does a huge amount of the optimizations Kryzsztof's thesis attacked differently. but i think doing loopification could maybe lead to identifying things like loop invariant expressions. it can't bootstrap the compiler with it (JS: it = Austin's patch). i think whenever i tie the knot in the new graph, i don't abandon parts of the old !CmmNode, which then causes dead labels to hang around
   - oh, yeah, and as i noted in the commit message, you have to be careful when ordering those optimizations around. this is obviously only a valid transform pre-CPS. also you have to run a block elimination passes, otherwise things can happen where work can get duplicated into empty blocks
   -  i think another problem is that the new codegen doesn't always discard empty basic blocks which pisses off the native code generator (see #7574 ) so we need a little refactoring to handle that correctly, too, by being able to do SCC passes from any particular node
   - i think that the fix for #7574 is probably pretty easily actually, it just requires shuffling things around. oh, and to be clear it's not *empty* basic blocks, it's *unreachable* basic blocks that make the codegen mad
@@ -36,8 +36,8 @@ Some points made by Austin Seipp:
 
 = Various clean-up tasks =
 == Cmm clean-up ==
-  * CmmOpt.hs: remove commented loopification, move comment to CmmLoopify.hs
-  * remove unused CmmRewriteAssignments
+  * !CmmOpt.hs: remove commented loopification, move comment to !CmmLoopify.hs
+  * remove unused !CmmRewriteAssignments
   * `cmm/CmmLive.hs:106`. This function is not used (unless there is some auto-generated code that uses it, but I doubt it):
 
 {{{
