@@ -15,7 +15,7 @@ Austin Seipp:
   - i think that the fix for #7574 is probably pretty easily actually, it just requires shuffling things around. oh, and to be clear it's not *empty* basic blocks, it's *unreachable* basic blocks that make the codegen mad
 
 Simon Marlow:
-  - CmmSink removes dead assignments (though not in loops), which is why it's commented out.  A single removeDeadAssigments pass costs about 5% of compilation time, and in the vast majority of code does nothing over what CmmSink already does.
+  - !CmmSink removes dead assignments (though not in loops), which is why it's commented out.  A single removeDeadAssigments pass costs about 5% of compilation time, and in the vast majority of code does nothing over what !CmmSink already does.
   - '''PLEASE make sure that you're carefully measuring compilation time when making changes to the code generator'''.  Expensive optimisations need to go in -O2 (at least).
 
 #7574 bug can be triggered with `./inplace/bin/ghc-stage2 -c -no-hs-main -fasm -O2 ./testsuite/tests/llvm/should_compile/T7571.cmm`
@@ -50,7 +50,7 @@ removeDeadAssignments :: DynFlags -> CmmGraph
 It is however referenced in some of the comments. I might be able to use it for my dead assignment removal. Simon PJ notes: ", we want to eliminate dead assignments to stack locations too, so the liveness info need to be augmented with stack areas.
 "
   * Cmm dumping could be improved. Right now it dumps all optimisation passes for one fragment of Cmm code, then for next fragment and so on. It would be more convinient to dump whole Cmm code after each pass. I'm not sure if that's possible with the current pipeline design. It seems that Stg->Cmm pass is intentionally design to produce Cmm code incrementally (via Stream) and I suspect that this might be the reason why the code is processed incrementally.
-  * Simon M. says: The CmmSink pass before stack layout is disabled because I never got around to measuring it to determine whether it is a good idea or not. By all means do that!
+  * Simon M. says: The !CmmSink pass before stack layout is disabled because I never got around to measuring it to determine whether it is a good idea or not. By all means do that!
 
 == Cleaning up the STG ->Cmm pass ==
 When generating Cmm from STG there is some [wiki:Commentary/Rts/Storage/GC/CAFs SRT information] being generated. It is not used and has to be rebuilt anyway after converting to CPS Cmm. Below are some random notes and pieces of code that might related to this:
