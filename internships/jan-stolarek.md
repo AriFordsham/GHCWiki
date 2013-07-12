@@ -43,6 +43,25 @@ Some points made by Austin Seipp:
 
 # Various clean-up tasks
 
+## Cmm clean-up
+
+- CmmOpt.hs: remove commented loopification, move comment to CmmLoopify.hs
+- remove unused CmmRewriteAssignments
+- `cmm/CmmLive.hs:106`. This function is not used (unless there is some auto-generated code that uses it, but I doubt it):
+
+```wiki
+removeDeadAssignments :: DynFlags -> CmmGraph
+                      -> UniqSM (CmmGraph, BlockEnv CmmLocalLive)
+```
+
+
+It is however referenced in some of the comments! Also, I might be able to use it for my dead assignment removal.
+
+- Cmm dumping could be improved. Right now it dumps all optimisation passes for one fragment of Cmm code, then for next fragment and so on. It would be more convinient to dump whole Cmm code after each pass. I'm not sure if that's possible with the current pipeline design. It seems that Stg-\>Cmm pass is intentionally design to produce Cmm code incrementally (via Stream) and I suspect that this might be the reason why the code is processed incrementally.
+
+>
+> improve Cmm dumping. I think that during pretty-printing of Cmm labels of the entry code of a closure are refered to as "info_table", while the label of the whole closure is refered to as "entry". This is confusing.
+
 ## Cleaning up the STG -\>Cmm pass
 
 
@@ -109,17 +128,6 @@ The `<- / return` sequence in the definition of `run_pipeline` can be eliminated
           Stream.yield (srtToData topSRT)
 ```
 
-- `cmm/CmmLive.hs:106`. This function is not used (unless there is some auto-generated code that uses it, but I doubt it):
-
-```wiki
-removeDeadAssignments :: DynFlags -> CmmGraph
-                      -> UniqSM (CmmGraph, BlockEnv CmmLocalLive)
-```
-
-
-It is however referenced in some of the comments!
-
-- `cmm/CmmRewriteAssignments.hs` is not used at all?
 - `cmm/CmmUtils.hs`, function `toBlockListEntryFirst` - perhaps it would be safer to return a tuple in this case? This would probably make the invariant more explicit.
 - ```wiki
   boxConTbl :: [(Type, RdrName)]
@@ -156,7 +164,6 @@ Tickets that I could potentially look into:
 
 Other things to do:
 
-- improve Cmm dumping. I think that during pretty-printing of Cmm labels of the entry code of a closure are refered to as "info_table", while the label of the whole closure is refered to as "entry". This is confusing.
 - investigate opportunities for improving heap checks. An idea: if a worker knows its heap requirements it could pass them to the caller, thus avoiding the heap check. A question: how much time do we really spend on heap checks?
 
 
@@ -165,6 +172,7 @@ Some LLVM notes that may be useful:
 - [LLVM Alias Notes](commentary/compiler/backends/llvm/alias)
 - [ David Terei's LLVM blog post](http://blog.davidterei.com/2011/09/ghc-project-for-all.html)
 - [ Max Bolingbroke's LLVM blog entry](http://blog.omega-prime.co.uk/?p=135)
+- [ Implementation of various LLVM optimisations using Hoopl](https://github.com/mlite/HsLlvm) - **this seems very relevant**
 
 # Github repos
 
