@@ -144,7 +144,7 @@ NB also that the `*-llvm` presets in `build.mk` set `DYNAMIC_GHC_PROGRAMS = NO` 
 
 The rule would be: if you want to use a plugin (that uses any of the compiler's global variables), you must use a dynamically-linked compiler.
 
-I'm concerned that requiring the buiding/installing/use of a dynamically-linked GHC in order to use a particular plugin might be a prohibitively inconvenient for some users.
+I'm concerned that requiring the buiding/installing/use of a dynamically-linked GHC in order to use a particular plugin might be a prohibitively inconvenient for some users. [http://www.haskell.org/pipermail/ghc-devs/2013-July/001651.html]
 
 The repercussions of this rule are not totally apparent to me.  Plugins themselves are already dynamically loaded, so the platform already supports dynamic libraries (right?).  So I think the only burden on the plugin user is having to ensure that their GHC is dynamically linked. 'From 7.8, the plan is for this to be the default on platforms that
 support it.' [[http://www.haskell.org/pipermail/ghc-devs/2013-July/001651.html|Ian Lynagh]].
