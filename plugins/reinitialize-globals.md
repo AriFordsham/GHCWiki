@@ -1,34 +1,28 @@
 ## Status
 
 
-After a few unfortunately public iterations, I'm planning on moving forward with Solution 1. It's a lightweight solution, re-uses an existing mechanism, has a small footprint in the GHC source code, is totally transparent to the plugin author, and robustly handles corner cases. Solution 2 has more user-facing consequences and does not handle weird corner cases.
+I'm deciding between
+
+- Solution 1 — using the `rts/Globals.c` mechanism for `FastString.string_table`, or
+
+- Solution 2 — requiring a dynamically-linked ghc to (safely) use plugins that involve FastStrings.
+
+
+After a few, unfortunately public, iterations, I've chosen push Solution 1.
+
+- It re-uses an existing mechanism, has a small footprint in the GHC source code, is totally transparent to the plugin author, and robustly handles corner cases. 
+
+- It handles any number of instances of libHSghc in a process, *regardless of how they got there*.
+
+- It puts no constraints on the rest of the user's installation — use whatever kind of ghc you like. On the other hand,   Solution 2 makes a user choose between (safely) using a plugin that involves `FastString.string_table` and using statically-linked GHC.
+
+
+I have one remaining concern: in the eventuality where ghci becomes its own dynamically-linked binary and ghc remains statically-linked, then my patch will be the only remaining use of the `rts/Globals.c` mechanism.  (For the record, that mechanism is vastly simpler than the RTS linker…)
+
+
+We can cross that bridge if/when we come to it, though.
 
 ## Background
-
-### global variables used in GHC
-
-
-I performed a bunch of greps in search of global variables in the code base:
-
-```wiki
-# find possible top-level declarations of an IORef, MVar, some sort of pointer, global
-$ find .. -type f -exec grep -nHE -e '^[^ ].*:: *IORef' {} /dev/null \;
-$ find .. -type f -exec grep -nHE -e '^[^ ].*:: *MVar' {} /dev/null \;
-$ find .. -type f -exec grep -nHE -e '^[^ ].*:: *[^ ]*Ptr' {} /dev/null \;
-$ find .. -type f -exec grep -nHw -e global {} /dev/null \;
-```
-
-
-(also for `unsafe[^ ]*IO`, `inlinePerformIO`, and `unsafeInterleaveM`)
-
-
-Manually combing the results, I found these legitimate hits:
-
-- these three modules use the GLOBAL_VAR macro and were already supported by reinitializeGlobals: `StaticFlags`, `DynFlags`, `Linker`
-
-- my focus: `FastString.string_table`
-
-- I don't know what these are for: `Panic.interruptTargetThread`, `InteractiveEval.noBreakStablePtr`
 
 ### `CoreMonad.reinitializeGlobals`
 
@@ -63,7 +57,7 @@ Conclusion: `reinitializeGlobals` is insufficient for `FastString.string_table` 
 ### `FastString.string_table`
 
 
-I'd like to let plugins correctly use this variable, since that would let them invoke some parts of the front-end (eg resolving `RdrName`s).
+I'd like to let plugins correctly use this variable, since that would let them invoke (parts of?) the front-end (eg resolving `RdrName`s).
 
 
 All the `FastString`s created during compilation are memoized in a hash table. For speedy comparison, each string is associated with a unique, which is allocated linearly whenever a `FastString` is created that has no corresponding entry in the hash table. This involves two pieces of global state, which are held in the same global variable.
@@ -84,7 +78,38 @@ During its use, the `FastString` table increments the `!Int` argument. `reinitia
 
 It's straight-forward to have the two images share the array, but it is difficult to keep the two images' values of `Int` in synch.  The danger is that the two images could allocate the same unique for distinct `FastString`s — that'd break a major invariant.
 
-## Solutions
+### all global variables used in GHC
+
+
+I performed a bunch of greps in search of global variables in the code base:
+
+```wiki
+# find possible top-level declarations of an IORef, MVar, some sort of pointer, global
+$ find .. -type f -exec grep -nHE -e '^[^ ].*:: *IORef' {} /dev/null \;
+$ find .. -type f -exec grep -nHE -e '^[^ ].*:: *MVar' {} /dev/null \;
+$ find .. -type f -exec grep -nHE -e '^[^ ].*:: *[^ ]*Ptr' {} /dev/null \;
+$ find .. -type f -exec grep -nHw -e global {} /dev/null \;
+```
+
+
+(also for `unsafe[^ ]*IO`, `inlinePerformIO`, and `unsafeInterleaveM`)
+
+
+Manually combing the results, I found these legitimate hits:
+
+- these three modules use the GLOBAL_VAR macro and were already supported by reinitializeGlobals: `StaticFlags`, `DynFlags`, `Linker`
+
+- my focus: `FastString.string_table`
+
+- I don't know what these are for: `Panic.interruptTargetThread`, `InteractiveEval.noBreakStablePtr`
+
+
+The `FastString.string_table` is just a cache — it's very unlikely that anyone would ever desire two distinct copies of it.
+
+
+For the global variables, I'm not so sure about that: it's feasible to have intentionally distinct copies.
+
+## Solutions for `FastString.string_table`
 
 ### Solution 1: the `Globals.c` mechanism
 
@@ -116,12 +141,15 @@ foreign import ccall unsafe "getOrSetLibHSghcFastStringTable"
 ```
 
 
-Thus there ever exists only one such CAF per process, regardless of how many copies of libHSghc are loaded, since they all share the first such CAF forced. This is arbitrated by the process's sole image of the RTS.
+Thus there ever exists only one such CAF per process, regardless of how many copies of libHSghc are loaded, since they all share the first such CAF forced. This is arbitrated by the process's sole image of the RTS. (Things have terribly gone wrong if there is more than one RTS in memory; a l a[\#5620](https://gitlab.haskell.org//ghc/ghc/issues/5620).)
 
 **Concerns**
 
 
-My only concern is that I imagine we would like to keep the set of pointers maintained by Globals.c to a minimum?
+My only general concern is that I imagine we would like to keep the set of pointers maintained by Globals.c to a minimum?
+
+
+The slight wrinkle is that the stage=1 compiler must not use the foreign import, since the stage1 compiler links in the stage0 RTS (ie previous version), which does not necessarily export the (new) `getOrSetLibHSghcFastStringTable` symbol. Since the stage=1 compiler probably isn't going to load any plugins, this is probably not a big concern. [ http://www.haskell.org/pipermail/ghc-devs/2013-July/001652.html](http://www.haskell.org/pipermail/ghc-devs/2013-July/001652.html)
 
 ### Solution 2: use a dynamically linked compiler
 
@@ -129,7 +157,7 @@ My only concern is that I imagine we would like to keep the set of pointers main
 Ian Lynagh asks "Why not just us a dynamically linked compiler?"
 
 
-If the ghc executable itself dynamically links against libHSghc, then the entire `reinitializeGlobals` mechanism is unnecessary! In that case, both the host compiler and its plugins link against the same dynamic instance of libHSghc, which contains the sole set of mutable global variables.
+If the ghc executable itself dynamically links against libHSghc, then the entire `reinitializeGlobals` mechanism is unnecessary. In that case, both the host compiler and its plugins link against the same dynamic instance of libHSghc, which contains the sole set of mutable global variables.
 
 
 The `DYNAMIC_GHC_PROGRAMS` variable in the GHC build system determines this.  As of commit b7126674 (\~mid-March 2013), the ghc executable is dynamically linked by default (except on Windows).  This snippet from `mk/config.mk` shows the default behavior as of [163de25813d12764aa5ded1666af7c06fee0d67e](/trac/ghc/changeset/163de25813d12764aa5ded1666af7c06fee0d67e/ghc) (\~July 2013).
@@ -161,10 +189,17 @@ NB also that the `*-llvm` presets in `build.mk` set `DYNAMIC_GHC_PROGRAMS = NO` 
 The rule would be: if you want to use a plugin (that uses any of the compiler's global variables), you must use a dynamically-linked compiler.
 
 
-The repercussions of this rule are not totally apparent to me.  Plugins themselves are already dynamically loaded, so the platform certainly already supports dynamic libraries.  So I think the only burden on the plugin user is having to ensure that their GHC is dynamically linked.
+I'm concerned that requiring the buiding/installing/use of a dynamically-linked GHC in order to use a particular plugin might be a prohibitively inconvenient for some users. [ http://www.haskell.org/pipermail/ghc-devs/2013-July/001651.html](http://www.haskell.org/pipermail/ghc-devs/2013-July/001651.html)
 
 
-Is GHC HQ planning on distributing dynamically linked compilers when possible? What about the Haskell Platform?
+The repercussions of this rule are not totally apparent to me.  Plugins themselves are already dynamically loaded, so the platform already supports dynamic libraries (right?).  So I think the only burden on the plugin user is having to ensure that their GHC is dynamically linked. 'From 7.8, the plan is for this to be the default on platforms that
+support it.' [ Ian Lynagh](http://www.haskell.org/pipermail/ghc-devs/2013-July/001651.html).
+
+- [\#3658](https://gitlab.haskell.org//ghc/ghc/issues/3658) — this is for GHCi, but it might carry over for ghc; that's an open question
+
+- [\#8039](https://gitlab.haskell.org//ghc/ghc/issues/8039) — might be blocking 3658
+
+- [DynamicByDefault\#Performance](dynamic-by-default#performance) — the dynamically-link compiler may be significantly slower than the statically-linked one. So people may prefer to have a statically-linked ghc, which would then mean they couldn't (safely) use the Core plugins that use the `FastString.string_table`.
 
 
-If `reinitializeGlobals` is no longer needed, what about the `Globals.c` mechanism? How likely is it that an image statically linked against the base library will end up dynamically loading the base library? In other words, besides GHC and GHCI, will extensible Haskell programs compiled by GHC ever contain a statically linked-in base library?
+And what about the corner-case where someone statically-links a libHSghc copy into their own plugin DSO? That's sounds possible, but also like they're *trying* to break things. Solution 1 would handle it.
