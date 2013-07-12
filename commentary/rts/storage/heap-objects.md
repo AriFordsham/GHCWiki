@@ -277,6 +277,7 @@ the former is static while the latter is dynamic.
 Thunks have pointers-first layout:
 
 <table><tr><th> Header </th>
+<th> (empty) </th>
 <th> Pointers... </th>
 <th> Non-pointers... 
 </th></tr></table>
@@ -302,6 +303,9 @@ There are several forms of thunk:
 The only label associated with a thunk is its info table:
 
 - `f_info` is f's info table.
+
+
+The empty padding is to allow thunk update code to overwrite the target of an indirection without clobbering any of the saved free variables. This means we can do thunk update without synchronization, which is a big deal.
 
 ### Selector thunks
 
@@ -427,7 +431,7 @@ It represents computation of a thunk that was suspended midway through evaluatio
 
 Since the payload is a chunk of stack, the GC can use its normal stack-walking code to traverse it.
 
-`AP_STACK` closures are built by `raiseAsync()` in [rts/RaiseAsync.c](/trac/ghc/browser/rts/RaiseAsync.c)[](/trac/ghc/export/HEAD/ghc/rts/RaiseAsync.c) when an [asynchronous exception](commentary/rts/async-exceptions) is raised.
+`AP_STACK` closures are built by `raiseAsync()` in [rts/RaiseAsync.c](/trac/ghc/browser/rts/RaiseAsync.c)[](/trac/ghc/export/HEAD/ghc/rts/RaiseAsync.c) when an [asynchronous exception](commentary/rts/async-exceptions) is raised. It's fairly typical for the end of an AP_STACK's payload to have another AP_STACK: you'll get one per update frame.
 
 ### Indirections
 
@@ -469,19 +473,60 @@ There are several variants of indirection:
 `BLACKHOLE`, `CAF_BLACKHOLE`
 
 
-Black holes represent thunks which are under evaluation by another thread (that thread is said to have claimed the thunk).  Attempting to evaluate a black hole causes a thread to block until the thread who claimed the thunk either finishes evaluating the thunk or dies.  You can read more about black holes in the paper 'Haskell on a Shared-Memory Multiprocessor'.
+Black holes represent thunks which are under evaluation by another thread (that thread is said to have claimed the thunk).   Attempting to evaluate a black hole causes a thread to block until the thread who claimed the thunk either finishes evaluating the thunk or dies.  You can read more about black holes in the paper 'Haskell on a Shared-Memory Multiprocessor'. Black holes have the same layout as indirections.
+
+<table><tr><th> Header </th>
+<th> Target closure 
+</th></tr></table>
 
 
-Mysteriously enough, sometimes black holes act just like a normal indirection. The gory details are in `stg_BLACKHOLE_info`, but the short version is that if the indirectee has no tagged, then we assume that it is the TSO that has claimed the thunk; if the indirectee is tagged, then it is just a normal indirection. The moral of the story is you should enter a closure to be sure ;)
+Sometimes black holes are just ordinary indirection. Check `stg_BLACKHOLE_info` for the final word: if the indirectee has no tag, then we assume that it is the TSO that has claimed the thunk; if the indirectee is tagged, then it is just a normal indirection. (EZY: I think this optimization is to avoid having to do two memory writes on thunk update; we don't bother updating the header, only the target.)
+
+
+When eager blackholing is enabled, the black hole that is written is not a true black hole, but an eager black hole.  True black holes are synchronized, and guarantee that only one black hole is claimed (this property is used to implement non-dupable unsafePerformIO).  Eager black holes are not synchronized; eager black hole are converted into true black holes in ThreadPaused.c. Incidentally, this facility is also used to convert update frames to black holes; this is important for eliminating a space leak caused by the thunk under evaluation retaining too much data (overwriting it with a black hole frees up variable.)
 
 ### Arrays
 
 `ARR_WORDS`, `MUT_ARR_PTRS_CLEAN`, `MUT_ARR_PTRS_DIRTY`, `MUT_ARR_PTRS_FROZEN0`,
 `MUT_ARR_PTRS_FROZEN`
 
+
+Non-pointer arrays are straightforward:
+
+<table><tr><th>\| Header </th>
+<th>\| Bytes </th>
+<th>\| Array payload </th>
+<th>\|
+</th></tr></table>
+
+
+Arrays with pointers are a little more complicated, they include a card table, which is used by the GC to know what segments of the array to traverse as roots (the card table is modified by the GC write barrier):
+
+<table><tr><th>\| Header </th>
+<th>\| Ptrs </th>
+<th>\| Size </th>
+<th>\| Array payload + card table </th>
+<th>\|
+</th></tr></table>
+
+
+You can access the card table by using `mutArrPtrsCard(array, element index)`, which gives you the address of the card for that index.
+
 ### MVars
 
 `MVar`
+
+
+MVars have a queue of the TSOs blocking on them along with their value:
+
+<table><tr><th> Header </th>
+<th> Head of queue </th>
+<th> Tail of queue </th>
+<th> Value 
+</th></tr></table>
+
+
+An MVar can be in several states. It can be empty (in which case the value is actually just a `stg_END_TSO_QUEUE_closure`) or it can be full. When it is full, the queue of TSOs are those waiting to put; when it is empty, the queue of TSOs are those waiting to read and take (with readers first). Like many mutable objects, MVars have CLEAN and DIRTY headers to avoid reapplying a write barrier when an MVar is already dirty.
 
 ### Weak pointers
 
@@ -500,7 +545,7 @@ Closure type `TSO` is a Thread State Object.  It represents the complete state o
 TSOs are ordinary objects that live in the heap, so we can use the existing allocation and garbage collection machinery to manage them.  This gives us one important benefit: the garbage collector can detect when a blocked thread is unreachable, and hence can never become runnable again.  When this happens, we can notify the thread by sending it the `BlockedIndefinitely` exception.
 
 
-GHC keeps stacks contiguous, there are no "stack chunk" objects.  This is simpler, but means that when growing a stack we have to copy the old contents to a larger area (see `threadStackOverflow()` in [rts/Schedule.c](/trac/ghc/browser/rts/Schedule.c)[](/trac/ghc/export/HEAD/ghc/rts/Schedule.c)). (EZY: I'm pretty sure this is not the case anymore, see [ http://hackage.haskell.org/trac/ghc/blog/stack-chunks](http://hackage.haskell.org/trac/ghc/blog/stack-chunks))
+GHC keeps divides stacks into stack chunks, with logic to handle stack underflow and overflow: [ http://hackage.haskell.org/trac/ghc/blog/stack-chunks](http://hackage.haskell.org/trac/ghc/blog/stack-chunks)
 
 
 The TSO structure contains several fields.  For full details see [includes/rts/storage/TSO.h](/trac/ghc/browser/includes/rts/storage/TSO.h)[](/trac/ghc/export/HEAD/ghc/includes/rts/storage/TSO.h).  Some of the more important fields are:
