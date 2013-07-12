@@ -468,6 +468,12 @@ There are several variants of indirection:
 
 `BLACKHOLE`, `CAF_BLACKHOLE`
 
+
+Black holes represent thunks which are under evaluation by another thread (that thread is said to have claimed the thunk).  Attempting to evaluate a black hole causes a thread to block until the thread who claimed the thunk either finishes evaluating the thunk or dies.  You can read more about black holes in the paper 'Haskell on a Shared-Memory Multiprocessor'.
+
+
+Mysteriously enough, sometimes black holes act just like a normal indirection. The gory details are in `stg_BLACKHOLE_info`, but the short version is that if the indirectee has no tagged, then we assume that it is the TSO that has claimed the thunk; if the indirectee is tagged, then it is just a normal indirection. The moral of the story is you should enter a closure to be sure ;)
+
 ### Arrays
 
 `ARR_WORDS`, `MUT_ARR_PTRS_CLEAN`, `MUT_ARR_PTRS_DIRTY`, `MUT_ARR_PTRS_FROZEN0`,
