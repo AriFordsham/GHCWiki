@@ -1,9 +1,9 @@
 # Jan Stolarek's internship notes
 
-# Loopification
+# Wise people say…
 
 
-Some points made by Geoffrey:
+Geoffrey:
 
 - In the past, LLVM could not recognize all loops output by the LLVm back end as loops. Perhaps that has changed.
 - Answering the question "What does loopification do that isn't already being done?" would still be useful
@@ -11,12 +11,18 @@ Some points made by Geoffrey:
 - if you write a simple, tight loop in Haskell of the sort a C compiler would vectorize, will LLVm vectorize it? If not, why?
 
 
-Some points made by Austin Seipp:
+Austin Seipp:
 
 - i took the time to implement a half-assed almost-working loopification pass a few months ago. the sinking pass by Simon is what really does a huge amount of the optimizations Kryzsztof's thesis attacked differently. but i think doing loopification could maybe lead to identifying things like loop invariant expressions. it can't bootstrap the compiler with it (JS: it = Austin's patch). i think whenever i tie the knot in the new graph, i don't abandon parts of the old CmmNode, which then causes dead labels to hang around
 - oh, yeah, and as i noted in the commit message, you have to be careful when ordering those optimizations around. this is obviously only a valid transform pre-CPS. also you have to run a block elimination passes, otherwise things can happen where work can get duplicated into empty blocks
 -  i think another problem is that the new codegen doesn't always discard empty basic blocks which pisses off the native code generator (see [\#7574](https://gitlab.haskell.org//ghc/ghc/issues/7574) ) so we need a little refactoring to handle that correctly, too, by being able to do SCC passes from any particular node
 - i think that the fix for [\#7574](https://gitlab.haskell.org//ghc/ghc/issues/7574) is probably pretty easily actually, it just requires shuffling things around. oh, and to be clear it's not \*empty\* basic blocks, it's \*unreachable\* basic blocks that make the codegen mad
+
+
+Simon Marlow:
+
+- CmmSink removes dead assignments (though not in loops), which is why it's commented out.  A single removeDeadAssigments pass costs about 5% of compilation time, and in the vast majority of code does nothing over what CmmSink already does.
+- **PLEASE make sure that you're carefully measuring compilation time when making changes to the code generator**.  Expensive optimisations need to go in -O2 (at least).
 
 [\#7574](https://gitlab.haskell.org//ghc/ghc/issues/7574) bug can be triggered with `./inplace/bin/ghc-stage2 -c -no-hs-main -fasm -O2 ./testsuite/tests/llvm/should_compile/T7571.cmm`
 
@@ -45,9 +51,8 @@ Some points made by Austin Seipp:
 
 ## Cmm clean-up
 
-- CmmOpt.hs: remove commented loopification, move comment to CmmLoopify.hs
 - remove unused CmmRewriteAssignments
-- `cmm/CmmLive.hs:106`. This function is not used (unless there is some auto-generated code that uses it, but I doubt it):
+- `cmm/CmmLive.hs:106`. This function is not used:
 
 ```wiki
 removeDeadAssignments :: DynFlags -> CmmGraph
@@ -55,12 +60,11 @@ removeDeadAssignments :: DynFlags -> CmmGraph
 ```
 
 
-It is however referenced in some of the comments! Also, I might be able to use it for my dead assignment removal.
+It is however referenced in some of the comments. I might be able to use it for my dead assignment removal. Simon PJ notes: ", we want to eliminate dead assignments to stack locations too, so the liveness info need to be augmented with stack areas.
+"
 
 - Cmm dumping could be improved. Right now it dumps all optimisation passes for one fragment of Cmm code, then for next fragment and so on. It would be more convinient to dump whole Cmm code after each pass. I'm not sure if that's possible with the current pipeline design. It seems that Stg-\>Cmm pass is intentionally design to produce Cmm code incrementally (via Stream) and I suspect that this might be the reason why the code is processed incrementally.
-
->
-> improve Cmm dumping. I think that during pretty-printing of Cmm labels of the entry code of a closure are refered to as "info_table", while the label of the whole closure is refered to as "entry". This is confusing.
+- Simon M. says: The CmmSink pass before stack layout is disabled because I never got around to measuring it to determine whether it is a good idea or not. By all means do that!
 
 ## Cleaning up the STG -\>Cmm pass
 
