@@ -17,7 +17,7 @@ To see the current status of the builds:
 ## To create a new build slave
 
 
-First you, as a buildbot client, need to agree a buildbot username (`myUser`) and password (`myPass`) with the buildbot admins (just pick a username and password and send it to `igloo@earth.li`).  You'll also need to decide:
+First you, as a buildbot client, need to agree a buildbot username (`myUser`) and password (`myPass`) with the buildbot admins (just pick a username and password and send it to `ghc@well-typed.com`).  You'll also need to decide:
 
 - when the build(s) should happen (time and timezone!)
 - build HEAD, STABLE, or (the default) alternate between the two?
