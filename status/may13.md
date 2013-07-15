@@ -145,6 +145,4 @@ Thanks to Ian Lynagh for making it easy for us with integration, makefile refact
 
 \[PIO\] The results are amazing [ https://twitter.com/bos31337/status/284701554458640384](https://twitter.com/bos31337/status/284701554458640384)\] 
 
-\[PIO\] The results are amazing [ http://www.terpaltenda.com/terpal-plastik-roll/](http://www.terpaltenda.com/terpal-plastik-roll/)\] 
-
 \[IOS\] Building for Apple iOS targets [ http://hackage.haskell.org/trac/ghc/wiki/Building/CrossCompiling/iOS](http://hackage.haskell.org/trac/ghc/wiki/Building/CrossCompiling/iOS)
