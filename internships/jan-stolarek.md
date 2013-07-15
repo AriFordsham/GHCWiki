@@ -24,8 +24,6 @@ Simon Marlow:
 - CmmSink removes dead assignments (though not in loops), which is why it's commented out.  A single removeDeadAssigments pass costs about 5% of compilation time, and in the vast majority of code does nothing over what CmmSink already does.
 - **PLEASE make sure that you're carefully measuring compilation time when making changes to the code generator**.  Expensive optimisations need to go in -O2 (at least).
 
-[\#7574](https://gitlab.haskell.org//ghc/ghc/issues/7574) bug can be triggered with `./inplace/bin/ghc-stage2 -c -no-hs-main -fasm -O2 ./testsuite/tests/llvm/should_compile/T7571.cmm`
-
 # Back-end notes
 
 ## Some interesting tickets
@@ -39,6 +37,7 @@ Simon Marlow:
 - [\#4937](https://gitlab.haskell.org//ghc/ghc/issues/4937) - Remove indirections caused by sum types, such as Maybe
 - [\#5567](https://gitlab.haskell.org//ghc/ghc/issues/5567) - LLVM: Improve alias analysis / performance [BackEndNotes](back-end-notes#heap/stack-checks) page has some discussion of this.
 - [\#7198](https://gitlab.haskell.org//ghc/ghc/issues/7198) - New codegen more than doubles compile time of T3294
+- [\#7574](https://gitlab.haskell.org//ghc/ghc/issues/7574) - Register allocator chokes on certain branches with literals (bug can be triggered with `./inplace/bin/ghc-stage2 -c -no-hs-main -fasm -O2 ./testsuite/tests/llvm/should_compile/T7571.cmm`)
 - [\#8048](https://gitlab.haskell.org//ghc/ghc/issues/8048) - Register spilling produces ineffecient/highly contending code
 
 ## Notes on the wiki
