@@ -19,6 +19,10 @@ Simon Marlow:
   - '''PLEASE make sure that you're carefully measuring compilation time when making changes to the code generator'''.  Expensive optimisations need to go in -O2 (at least).
 
 = Back-end notes =
+== Notes to self ==
+  * Does it make sense to create a separate flag for every Cmm optimisation I add? After all they are designed to work together
+  * I need to remember to cerfully choose at which optimization levels my Cmm passes are enabled
+
 == Some interesting tickets ==
   * #605 - Optimisation: strict enumerations
   * #1498 - Optimisation: eliminate unnecessary heap check in recursive function. 
