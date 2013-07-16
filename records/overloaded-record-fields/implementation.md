@@ -46,6 +46,9 @@ type FieldLabel = (OccName, Name)
 
 where the first component is the field and the second is the selector function.
 
+
+When the renamer handles record bindings (`rnHsRecFields1` in `RnPat`) it replaces the fields with selector names. (Perhaps the field should be cached as well, for pretty-printing?)
+
 ## Next steps
 
 

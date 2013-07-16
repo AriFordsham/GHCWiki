@@ -38,6 +38,8 @@ type FieldLabel = (OccName, Name)
 
 where the first component is the field and the second is the selector function.
 
+When the renamer handles record bindings (`rnHsRecFields1` in `RnPat`) it replaces the fields with selector names. (Perhaps the field should be cached as well, for pretty-printing?)
+
 == Next steps ==
 
 The `HsExpr.HsExpr` type has an extra constructor `HsOverloadedRecFld OccName`. When `-XOverloadedRecordFields` is enabled, and the renamer encounters `HsVar "x"` where `x` refers to multiple `GRE`s that are all record fields, it replaces it with `HsOverloadedRecFld "x"`. There needs to be a similar constructor for non-overloaded projections, so that we can pretty-print the field name but store the selector name.
