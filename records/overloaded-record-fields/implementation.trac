@@ -38,7 +38,8 @@ type FieldLabel = (OccName, Name)
 
 where the first component is the field and the second is the selector function.
 
-When the renamer handles record bindings (`rnHsRecFields1` in `RnPat`) it replaces the fields with selector names. (Perhaps the field should be cached as well, for pretty-printing?)
+Where an AST representation type (e.g. `HsRecField` or `ConDeclField`) contained an argument of type `Located id` for a field, it now stores a `Located RdrName` for the label and `Maybe id` for the selector. The parser supplies `Nothing` for the selector; it is filled in by the renamer  (by `rnHsRecFields1` in `RnPat`, and `rnField` in `RnTypes`). Partial functions are provided to extract the `Located id`, but they will panic if called on not-yet-renamed syntax.
+
 
 == Next steps ==
 
