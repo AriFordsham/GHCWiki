@@ -22,6 +22,7 @@ Here are biannual GHC status reports, published in the [http://haskell.org/commu
 == Releases ==
 
 Here are our release plans for 
+  * [wiki:Status/GHC-7.8 GHC 7.8]
   * [wiki:Status/GHC-6.12 GHC 6.12 (outdated)]
   * [wiki:Status/GHC-6.10 GHC 6.10 (outdated)]
 
