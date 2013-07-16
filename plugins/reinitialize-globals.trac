@@ -2,11 +2,13 @@
 
 == Status ==
 
+I pushed Solution 1 as commit 193e0ee9aa8705dcc0020eaaf6bfb6714db6f9ca on 16 July 2013.
+
 I'm deciding between
 
   * Solution 1 — using the `rts/Globals.c` mechanism for `FastString.string_table`, or
 
-  * Solution 2 — requiring a dynamically-linked ghc to (safely) use plugins that involve FastStrings.
+  * Solution 2 — requiring a dynamically-linked ghc to (safely) use plugins that involve !FastStrings.
 
 After a few, unfortunately public, iterations, I've chosen push Solution 1.
 
