@@ -314,6 +314,9 @@ and use it where more convenient than the function-based variant.
 
 As to the implementation, I quite naively expect that the definition of `NT` and related function in terms of Core to be straight-forward (`newtype NT a b = a ~_R b`). The code that does the `deriving` is maybe non-trivial, as it has to build the term from available newtype axioms (where the constructor is in scope), coercions given as parameters and the application of type constructors to coercions (again, where the data constructors are in scope). 
 
+
+It was [ later argued](http://www.haskell.org/pipermail/ghc-devs/2013-July/001667.html) that the benefits over the type-class apporoach (Approach 2) do not warrant the extra syntactical complexity.
+
 ## Type soundness
 
 
