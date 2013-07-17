@@ -22,6 +22,21 @@ Simon Marlow:
 == Notes to self ==
   * Does it make sense to create a separate flag for every Cmm optimisation I add? After all they are designed to work together
   * I need to remember to cerfully choose at which optimization levels my Cmm passes are enabled
+=== Let-no-escape notes ===
+  * Code generation for let-no-escape: `cgLneBinds` in `codeGen/StgCmmExpr.hs`
+  * Heap checking in let-no-escape: see `Note [Heap checks]` in `codeGen/StgCmmHeap.hs`
+  * From `codeGen/StgCmmMonad.hs`:
+{{{
+data CgLoc
+  = CmmLoc CmmExpr        -- A stable CmmExpr; that is, one not mentioning
+                        -- Hp, so that it remains valid across calls
+
+  | LneLoc BlockId [LocalReg]             -- A join point
+        -- A join point (= let-no-escape) should only.
+        -- be tail-called, and in a saturated way.
+        -- To tail-call it, assign to these locals,.
+        -- and branch to the block id
+}}}
 
 == Some interesting tickets ==
   * #605 - Optimisation: strict enumerations
