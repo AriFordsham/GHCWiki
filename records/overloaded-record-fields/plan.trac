@@ -34,12 +34,9 @@ Previous versions of this proposal suggested changing the lexical syntax so that
 In the light of feedback, we propose '''no changes to dot syntax''' for the time being. In the future, we could add a separate extension to treat [wiki:Records/DeclaredOverloadedRecordFields/DotPostfix dot as postfix function application]. Note that the [http://hackage.haskell.org/package/lens lens] library encourages the use of dot with no spaces, as composition is used to chain lenses.
 
 
-=== Projections === 
-
-A record field constraints is introduced when a field is used in an expression. If all the `x`s in scope are record fields, then an occurrence of `x` has type `a { x :: b } => a -> b` instead of generating an ambiguity error. If there are any normal identifiers `x` in scope (as well as fields) then a use of `x` leads to an ambiguity error.
-
-
 === Record field constraints === 
+
+A record field constraint is introduced when a field is used in an expression. If every `x` in scope is a record fields, then an occurrence of `x` has type `a { x :: b } => a -> b` instead of generating an ambiguity error. The overloaded `x` is translated using a typeclass, described below. If there are any normal identifiers `x` in scope (as well as fields) then a use of `x` leads to an ambiguity error. 
 
 Record field constraints `r { x :: t }` are syntactic sugar for typeclass constraints `Get r "x" t`, where
 
@@ -50,7 +47,9 @@ class t ~ GetResult r f => Get r (f :: Symbol) t where
   getFld :: proxy f -> r -> t
 }}}
 
-Recall that `Symbol` is the kind of type-level strings. The notation extends to conjunctions:  `r {x :: tx, y :: ty}` means `(Get r "x" tx, Get r "y" ty)`. Note also that `r` and `t` might be arbitrary types, not just type variables or type constructors.  For example, `T (Maybe v) { x :: [Maybe v] }` means `(Get (T (Maybe b)) "x" [Maybe v])`.
+Recall that `Symbol` is the kind of type-level strings. Roughly speaking, an occurrence of a field name `x` is translated into `getFld (Proxy :: Proxy "x")`. (Actually a slightly more general translation may be used, as [#Lensintegration discussed below].)
+
+The syntactic sugar extends to conjunctions:  `r {x :: tx, y :: ty}` means `(Get r "x" tx, Get r "y" ty)`. Note also that `r` and `t` might be arbitrary types, not just type variables or type constructors.  For example, `T (Maybe v) { x :: [Maybe v] }` means `(Get (T (Maybe b)) "x" [Maybe v])`.
 
 Instances for the `Get` typeclass and `GetResult` type family are automatically generated (for modules with `-XOverloadedRecordFields` enabled) using the record fields that are in scope. For example, the data type
 
@@ -66,12 +65,12 @@ instance (b ~ [a]) => Get (T a) "x" b where
   getFld (MkT { x = x }) = x
 }}}
 
-The `(b ~ [a])` in the instance is important, so that we get an instance match from the first two parameters only. For example, if the constraint `Get (T c) "x" d` is encountered during type inference, the instance will match and generate the constraints `(a ~ c, b ~ d, b ~ [a])`. Moreover, the `GetResult` type family ensures that the third parameter is functionally dependent on the first two, which is needed to avoid ambiguity errors when composing overloaded fields.
+The `(b ~ [a])` in the instance is important, so that we get an instance match from the first two parameters only. For example, if the constraint `Get (T c) "x" d` is encountered during type inference, the instance will match and generate the constraints `(a ~ c, b ~ d, b ~ [a])`. Moreover, the `GetResult` type family ensures that the third parameter is functionally dependent on the first two, which is needed to [#Troubleinparadise avoid ambiguity errors when composing overloaded fields].
 
 The reason for using a three-parameter class, rather than just two parameters and a type family, is to support the syntactic sugar. With a two-parameter class we could easily end up inferring types like the following, and it would be hard to reapply the sugar:
 
 {{{
-f :: (Has r "x", Has r "y", GetResult r "x" ~ Int, GetResult r "y" ~ Int) => r -> Int
+f :: (Get r "x", Get "y", GetResult r "x" ~ Int, GetResult r "y" ~ Int) => r -> Int
 f r = x r + y r :: Int
 }}}
 
@@ -164,77 +163,90 @@ Annoyingly, nested updates will require some annotations. In the following examp
 }}}
 
 
-=== Polymorphic record update for lenses ===
+=== Lens integration ===
 
-As noted above, supporting a polymorphic version of the existing record update syntax (in its full generality) is difficult. However, even if the existing record update syntax remains monomorphic, an additional motivation for polymorphic update comes from [http://hackage.haskell.org/package/lens lens]. If we automatically generate instances of an extra class like
-
-{{{
-class Set (r :: *) (x :: Symbol) (t :: *) where
-  setFld :: r -> t -> r
-}}}
-
-and supply the instance (where `&x` is used for explicit type application of the `x` argument)
+As noted above, supporting a polymorphic version of the existing record update syntax (in its full generality) is difficult. However, suppose we also generate instances of the following class, which permits type-changing update of single fields:
 
 {{{
-instance (Functor f, Has s x a, Set s x a, fs ~ f s, fa ~ f a) => Has (a -> fa) x (s -> fs) where
-  getFld f r = setFld &s &x &a r <$> f (getFld &s &x &a r) 
+type family SetResult (r :: *) (f :: Symbol) (a :: *) :: *
+
+class Set (r :: *) (f :: Symbol) (a :: *) where
+  setFld :: proxy f -> r -> a -> SetResult r f a
 }}}
 
-then every record field (for which a `Set` instance can be generated) is automagically a lens. This reduces the need for the current name-mangling Template Haskell implemented in the lens library. (Note that this instance requires explicit type application, or a proxy-based workaround, in order to supply the `x` argument.)
+It was implied above that a field like `foo` translates into `getFld (Proxy :: Proxy "foo") :: Get r "foo" t => r -> t`, but this is not quite the whole story. Where possible, we would like fields to be usable as lenses (e.g. using the [http://hackage.haskell.org/package/lens lens] package). This requires a slightly more general translation, using
 
-More work is needed to identify the right way to formulate the `Set` class: type-changing update requires a slightly more general version, and there is a story for [https://github.com/ekmett/lens/issues/197 multiple update]. Higher-rank fields remain problematic.
+{{{
+field :: (Get r f t, Accessor p f) => proxy f -> p r t
+field z = accessor z (getFld z) (setFld z)
+}}}
+
+to translate `foo` to `field (Proxy :: Proxy "foo") :: (Get r "foo" t, Accessor p "foo") => p r t`. The `Accessor` class is defined thus:
+
+{{{
+class Accessor (p :: * -> * -> *) (f :: Symbol) where
+  accessor :: proxy f -> (r -> GetResult r f) ->
+              (forall a . Set r f a => r -> a -> SetResult r f a) ->
+              p r (GetResult r f)
+}}}
+
+An instance of `Accessor p f` means that `p` may contain a getter and setter for the field `f`. In particular, we can give an instance for functions that ignores `f` and the setter completely:
+
+{{{
+instance Accessor (->) f where
+  accessor _ getter setter = getter
+}}}
+
+Thus, whenever a field `foo` is used at a function type (by applying it or composing it, for example), this instance will be selected. If `z` is a proxy of type `Proxy "foo"`, then `foo` translates to `field z`, which computes to `accessor z (getFld z) (setFld z)`, and hence to `getFld z` by the `Accessor` instance for functions.
+
+However, `p` does not have to be the function arrow. Suppose the `lens` library defined the following newtype wrapper:
+
+{{{
+newtype WrapLens f r a = WrapLens
+  { fieldLens :: forall b . Set r f b => Lens r (SetResult r f b) a b }
+
+instance f ~ g => Accessor (WrapLens f) g where
+  accessor _ getter setter = WrapLens (\ w s -> setter s <$> w (getter s))
+}}}
+
+Now `fieldLens foo` is a lens whenever `foo` is an overloaded record field that can be updated individually (i.e. a `Set` instance exists).
+
+`Set` instances are not required when using fields as functions, only when using them as more general `Accessor` instances, so if a `Set` instance cannot be generated (since the field cannot be updated without updating other fields) the basic story about projections still works.
 
 
 === Trouble in paradise ===
 
-[http://www.haskell.org/pipermail/glasgow-haskell-users/2013-July/024064.html Edward Kmett points out] that the current story falls short in one important respect: composition of polymorphic record fields leads to ambiguity errors, as the intermediate type cannot be determined. For example, suppose
+[http://www.haskell.org/pipermail/glasgow-haskell-users/2013-July/022584.html Edward Kmett points out] that a previous version of this proposal, where the third parameter of `Get` was not functionally dependent on the first two, fell short in an important respect: composition of polymorphic record fields would lead to ambiguity errors, as the intermediate type cannot be determined. For example, suppose
 
 {{{
-foo :: Has b "foo" c => b -> c
-bar :: Has a "bar" b => a -> b
+foo :: Get b "foo" c => b -> c
+bar :: Get a "bar" b => a -> b
 }}}
 
 then
 
 {{{
-foo . bar :: (Has a "bar" b, Has b "foo" c) => a -> c
+foo . bar :: (Get a "bar" b, Get b "foo" c) => a -> c
 }}}
 
-and `b` is an ambiguous type variable.
+and `b` is an ambiguous type variable. This shows the need for the `GetResult` type family.
 
-We could work around this by adding a functional dependency
 
-{{{
-class Has r (f :: Symbol) t | r f -> t where
-  getFld :: r -> t
-}}}
+=== User-defined `Get` instances ===
 
-or using a type family
+Should the user be allowed to write explicit `Get` instances? For example:
 
 {{{
-class Has r (f :: Symbol) where
-  type GetResult r f :: *
-  getFld :: r -> GetResult r f
-}}}
-
-but either of these options prevents the integration with lenses discussed above, and we lose support for universally quantified fields (though they are dubious anyway). Pick your poison.
-
-
-=== User-defined `Has` instances ===
-
-Should the user be allowed to write explicit `Has` instances? For example:
-
-{{{
-instance ctx => Has r "x" t where
+instance ctx => Get r "x" t where
   getFld = blah :: r -> t
 }}}
 
-Even with an explicit `Has` instance as above, the name `x` will not be in scope unless a datatype has a field with name `x`. Thus it is not really useful. The previous proposal, where `(.x)` always meant "project out the `x` field", used explicit `Has` instances for virtual fields. 
+Even with an explicit `Get` instance as above, the name `x` will not be in scope unless a datatype has a field with name `x`. Thus it is not really useful. The previous proposal, where `(.x)` always meant "project out the `x` field", used explicit `Has` instances for virtual fields. 
 
 
 === Hiding record selectors === 
 
-Optionally, we could [wiki:Records/DeclaredOverloadedRecordFields/NoMonoRecordFields add a flag `-XNoRecordSelectorFunctions`] to suppress the record selectors. Just as `-XOverloadedRecordFields` applies to a client module, and generates `Has` instances for that module, so `-XNoRecordSelectorFunctions` in a client module would hide all the record selectors that should otherwise be in scope. The idea is that another record system could use Template Haskell to generate functions in place of selectors, and these would not clash.
+Optionally, we could [wiki:Records/DeclaredOverloadedRecordFields/NoMonoRecordFields add a flag `-XNoRecordSelectorFunctions`] to suppress the record selectors. Just as `-XOverloadedRecordFields` applies to a client module, and generates `Get` instances for that module, so `-XNoRecordSelectorFunctions` in a client module would hide all the record selectors that should otherwise be in scope. The idea is that another record system could use Template Haskell to generate functions in place of selectors, and these would not clash.
 
 Since the selectors are hidden by clients (on import) rather than on export, fields can still be used for record update and mentioned in import and export lists, to control access to them (as discussed in the [wiki:Records/OverloadedRecordFields/Plan#Representationhiding representation hiding] section).
 
@@ -243,11 +255,11 @@ Since the selectors are hidden by clients (on import) rather than on export, fie
 
 An advantage of distinguishing record projections syntactically (as in `e.x`) is that `x` is always treated as a record field, regardless of what is in scope. This allows better separation of concerns, as functions that manipulate records can be defined abstractly rather than referring to particular datatypes.
 
-One workaround is to define unused types with the appropriate field names. This is slightly odd, and we might consider adding a new declaration form '''field''' `x`, which declares `x` as a record field that is always polymorphic, rather like the function declaration
+One workaround is to define unused types with the appropriate field names. This is slightly odd, and we might consider adding a new declaration form, which declares `x` as a record field that is always polymorphic, rather like the function declaration
 
 {{{
 x :: r { x :: t } => r -> t
-x = getFld
+x = field
 }}}
 
 but with the property that it will not clash with actual `x` fields.
