@@ -4,7 +4,7 @@
 This is a plan to implement overloaded record fields, along the lines of SPJ's [Simple Overloaded Record Fields](records/overloaded-record-fields) proposal, as a Google Summer of Code project. (See the [ GSoC project details](http://www.google-melange.com/gsoc/project/google/gsoc2013/adamgundry/23001), for reference.) The page on [Records](records) gives the motivation and many options.  In particular, the proposal for [Declared Overloaded Record Fields](records/declared-overloaded-record-fields) is closely related but makes some different design decisions.
 
 
-This page describes the design. Separate [notes on the implementation](records/overloaded-record-fields/implementation) are available, but not necessarily comprehensible. Development of the extension is taking place on forks of the [ ghc](https://github.com/adamgundry/ghc) and [ packages-base](https://github.com/adamgundry/packages-base) repositories (on branch 'overloaded-record-fields').
+This page describes the design. Separate [notes on the implementation](records/overloaded-record-fields/implementation) are available, but not necessarily comprehensible. Development of the extension is taking place on forks of the [ ghc](https://github.com/adamgundry/ghc) and [ packages-base](https://github.com/adamgundry/packages-base) repositories (on branch 'overloaded-record-fields'). A [ prototype implementation](https://github.com/adamgundry/records-prototype/blob/master/RecordsPrototype.hs) is also available.
 
 ### Motivation
 
@@ -74,8 +74,9 @@ has the corresponding instances
 
 ```wiki
 type instance GetResult (T a) "x" = [a]
+
 instance (b ~ [a]) => Get (T a) "x" b where
-  getFld (MkT { x = x }) = x
+  getFld _ (MkT x) = x
 ```
 
 
@@ -206,7 +207,7 @@ Annoyingly, nested updates will require some annotations. In the following examp
 ### Lens integration
 
 
-As noted above, supporting a polymorphic version of the existing record update syntax (in its full generality) is difficult. However, suppose we also generate instances of the following class, which permits type-changing update of single fields:
+As noted above, supporting a polymorphic version of the existing record update syntax (in its full generality) is difficult. However, we can generate instances of the following class, which permits type-changing update of single fields:
 
 ```wiki
 type family SetResult (r :: *) (f :: Symbol) (a :: *) :: *
@@ -216,7 +217,17 @@ class Set (r :: *) (f :: Symbol) (a :: *) where
 ```
 
 
-It was implied above that a field like `foo` translates into `getFld (Proxy :: Proxy "foo") :: Get r "foo" t => r -> t`, but this is not quite the whole story. Where possible, we would like fields to be usable as lenses (e.g. using the [ lens](http://hackage.haskell.org/package/lens) package). This requires a slightly more general translation, using
+For example, the datatype `T` above would give rise to these instances:
+
+```wiki
+type instance SetResult (T a) "x" [c] = T c
+
+instance (b ~ [c]) => Set (T a) "x" b where
+  setFld _ (MkT _) y = MkT y
+```
+
+
+It was implied above that a field like `foo` translates into `getFld (Proxy :: Proxy "foo") :: Get r "foo" t => r -> t`, but this is not quite the whole story. We would like fields to be usable as lenses (e.g. using the [ lens](http://hackage.haskell.org/package/lens) package). This requires a slightly more general translation, using
 
 ```wiki
 field :: (Get r f t, Accessor p f) => proxy f -> p r t
@@ -248,17 +259,18 @@ Thus, whenever a field `foo` is used at a function type (by applying it or compo
 However, `p` does not have to be the function arrow. Suppose the `lens` library defined the following newtype wrapper:
 
 ```wiki
-newtype WrapLens f r a = WrapLens
-  { fieldLens :: forall b . Set r f b => Lens r (SetResult r f b) a b }
+newtype WrapLens f r a
+  = MkWrapLens (forall b . Set r f b => Lens r (SetResult r f b) a b)
 
 instance f ~ g => Accessor (WrapLens f) g where
-  accessor _ getter setter = WrapLens (\ w s -> setter s <$> w (getter s))
+  accessor _ getter setter = MkWrapLens (\ w s -> setter s <$> w (getter s))
+
+fieldLens :: Set r f b => WrapLens f r a -> Lens r (SetResult r f b) a b
+fieldLens (MkWrapLens l) = l
 ```
 
 
-Now `fieldLens foo` is a lens whenever `foo` is an overloaded record field that can be updated individually (i.e. a `Set` instance exists).
-
-`Set` instances are not required when using fields as functions, only when using them as more general `Accessor` instances, so if a `Set` instance cannot be generated (since the field cannot be updated without updating other fields) the basic story about projections still works.
+Now `fieldLens foo` is a lens whenever `foo` is an overloaded record field.
 
 ### Trouble in paradise
 
