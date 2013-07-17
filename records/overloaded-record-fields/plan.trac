@@ -36,34 +36,44 @@ In the light of feedback, we propose '''no changes to dot syntax''' for the time
 
 === Projections === 
 
-Record field constraints are introduced by projections. If there are two or more fields `x` in scope, then an occurrence of `x` has type `a { x :: b } => a -> b` instead of generating an ambiguity error. If there is a single field `x` in scope, then it refers to the usual monomorphic record selector (ensuring backwards compatibility). If there are any normal identifiers `x` in scope (as well as fields) then a use of `x` leads to an ambiguity error.
+A record field constraints is introduced when a field is used in an expression. If all the `x`s in scope are record fields, then an occurrence of `x` has type `a { x :: b } => a -> b` instead of generating an ambiguity error. If there are any normal identifiers `x` in scope (as well as fields) then a use of `x` leads to an ambiguity error.
 
 
 === Record field constraints === 
 
-Record field constraints `r { x :: t }` are syntactic sugar for typeclass constraints `Has r "x" t`, where
+Record field constraints `r { x :: t }` are syntactic sugar for typeclass constraints `Get r "x" t`, where
 
 {{{
-class Has (r :: *) (x :: Symbol) (t :: *) where
-  getFld :: r -> t
+type family GetResult (r :: *) (f :: Symbol) :: *
+
+class t ~ GetResult r f => Get r (f :: Symbol) t where
+  getFld :: proxy f -> r -> t
 }}}
 
-Recall that `Symbol` is the kind of type-level strings. The notation extends to conjunctions:  `r {x :: tx, y :: ty}` means `(Has r "x" tx, Has r "y" ty)`. Note also that `r` and `t` might be arbitrary types, not just type variables or type constructors.  For example, `T (Maybe v) { x :: [Maybe v] }` means `(Has (T (Maybe b)) "x" [Maybe v])`.
+Recall that `Symbol` is the kind of type-level strings. The notation extends to conjunctions:  `r {x :: tx, y :: ty}` means `(Get r "x" tx, Get r "y" ty)`. Note also that `r` and `t` might be arbitrary types, not just type variables or type constructors.  For example, `T (Maybe v) { x :: [Maybe v] }` means `(Get (T (Maybe b)) "x" [Maybe v])`.
 
-Instances for the `Has` typeclass are automatically generated (for modules with `-XOverloadedRecordFields` enabled) using the record fields that are in scope. For example, the data type
+Instances for the `Get` typeclass and `GetResult` type family are automatically generated (for modules with `-XOverloadedRecordFields` enabled) using the record fields that are in scope. For example, the data type
 
 {{{
 data T a = MkT { x :: [a] }
 }}}
 
-has the corresponding instance
+has the corresponding instances
 
 {{{
-instance (b ~ [a]) => Has (T a) "x" b where
+type instance GetResult (T a) "x" = [a]
+instance (b ~ [a]) => Get (T a) "x" b where
   getFld (MkT { x = x }) = x
 }}}
 
-The `(b ~ [a])` in the instance is important, so that we get an instance match from the first two fields only. For example, if the constraint `Has (T c) "x" d` is encountered during type inference, the instance will match and generate the constraints `(a ~ c, b ~ d, b ~ [a])`.
+The `(b ~ [a])` in the instance is important, so that we get an instance match from the first two parameters only. For example, if the constraint `Get (T c) "x" d` is encountered during type inference, the instance will match and generate the constraints `(a ~ c, b ~ d, b ~ [a])`. Moreover, the `GetResult` type family ensures that the third parameter is functionally dependent on the first two, which is needed to avoid ambiguity errors when composing overloaded fields.
+
+The reason for using a three-parameter class, rather than just two parameters and a type family, is to support the syntactic sugar. With a two-parameter class we could easily end up inferring types like the following, and it would be hard to reapply the sugar:
+
+{{{
+f :: (Has r "x", Has r "y", GetResult r "x" ~ Int, GetResult r "y" ~ Int) => r -> Int
+f r = x r + y r :: Int
+}}}
 
 
 === Representation hiding ===
