@@ -1,5 +1,12 @@
 # Release plans for GHC 7.8
 
+## Timeline
+
+
+The planned timeline for 7.8 is to have a feature freeze on the 31 August 2013, followed by a period of frantic bug fixing (interrupted by ICFP), aiming for a release during November 2013.
+
+## Pending new features
+
 
 The following new features are planned for 7.8. They are at varying degrees of completeness, and may not all make it in.
 
