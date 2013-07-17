@@ -91,7 +91,7 @@ f r = x r + y r :: Int
 ### Representation hiding
 
 
-At present, a datatype in one module can declare a field, but if the selector function is not exported, then the field is hidden from clients of the module. It is important to support this. Typeclasses in general have no controls over their scope, but for implicitly generated `Has` instances, the instance is available for a module if `-XOverloadedRecordFields` is enabled for that module and the record field selector function is in scope.
+At present, a datatype in one module can declare a field, but if the selector function is not exported, then the field is hidden from clients of the module. It is important to support this. Typeclasses in general have no controls over their scope, but for implicitly generated `Get` instances, the instance is available for a module if `-XOverloadedRecordFields` is enabled for that module and the record field selector function is in scope. Instances are generated on the client side, rather than being exported from the defining module.
 
 
 This enables representation hiding: just like at present, exporting the field selector permits access to the field. For example, consider the following module:
@@ -104,55 +104,40 @@ data S = S { x :: Bool }
 ```
 
 
-Any module that imports `M` will have access to the `x` field from `R` but not from `S`, because the instance `Has R "x" Int` will be available but the instance `Has S "x" Bool` will not be. Thus `R { x :: Int }` will be solved but `S { x :: Bool }` will not.
+Any module that imports `M` will have access to the `x` field from `R` but not from `S`, because the instance `Get R "x" Int` will be available but the instance `Get S "x" Bool` will not be. Thus `R { x :: Int }` will be solved but `S { x :: Bool }` will not.
 
 ### Multiple modules and automatic instance generation
 
 
-Note that `Has` instances are generated on a per-module basis, using the fields that are in scope for that module, and automatically generated instances are never exported. Thus it doesn't matter whether `-XOverloadedRecordFields` was on in the module that defined the datatype. The availability of the instances in a particular module depends only on whether the flag is enabled for that module.
+Note that `Get` instances are generated on a per-module basis, using the fields that are in scope for that module, and automatically generated instances are never exported. Thus it doesn't matter whether `-XOverloadedRecordFields` was on in the module that defined the datatype. The availability of the instances in a particular module depends only on whether the flag is enabled for that module.
 
 
-Suppose module `M` imports module `N`, `N` imports module `O`, and only `N` has the extension enabled. Now `N` can project any field in scope (including those defined in `O`), but `M` cannot access any `Has` instances. 
+Suppose module `M` imports module `N`, `N` imports module `O`, and only `N` has the extension enabled. Now `N` can project any field in scope (including those defined in `O`), but `M` cannot access any `Get` instances. 
 
 
 This means that
 
-- the extension is required whenever a `Has` constraint must be solved;
+- the extension is required whenever a `Get` constraint must be solved;
 - no new mechanism for hiding instances is required; and
 - records defined in existing modules (or other packages) without the extension can still be overloaded.
 
 ### Higher-rank fields
 
 
-If a field has a rank-1 type, the `Has` encoding works fine: for example,
+Higher-rank fields, such as
 
 ```wiki
 data T = MkT { x :: forall a . a -> a }
 ```
 
 
-gives rise to the instance
-
-```wiki
-instance (b ~ a -> a) => Has T "x" b
-```
+cannot be overloaded. If such a field is declared in a module with `-XOverloadedRecordFields` enabled, a warning will be emitted and no selector produced. The user can always declare the selector function manually.
 
 
-However, if a field has a rank-2 type or higher (so the selector function has rank at least 3), things are looking dangerously impredicative:
-
-```wiki
-data T b = MkT { x :: (forall a . a -> a) -> b }
-```
+Bidirectional type inference for higher-rank types relies on inferring the type of functions, so that types can be pushed in to the arguments. However, the type of an overloaded field cannot immediately be inferred (as some constraint solving is required). This is why higher-rank and overloaded fields are incompatible.
 
 
-would give
-
-```wiki
-instance (c ~ ((forall a . a -> a) -> b)) => Has (T b) "x" c
-```
-
-
-but this is currently forbidden by GHC, even with `-XImpredicativeTypes` enabled. Indeed, it would not be much use if it were possible, because bidirectional type inference relies on being able to immediately infer the type of neutral terms like `x e`, but overloaded record fields prevent this. Non-overloaded field names are likely to be needed in this case. 
+Some previous variants of the design supported rank-1 universally quantified fields (but not rank-2 and above). However, these prevent the third parameter of the `Get` class from being a function of the first two, and hence obstruct type inference for compositions of selectors.
 
 ### Record update
 
@@ -164,7 +149,7 @@ Supporting polymorphic record update is rather more complex than polymorphic loo
 - records may include higher-rank components.
 
 
-These problems have already been [described in some detail](records/overloaded-record-fields#record-updates). In the interests of doing something, even if imperfect, we plan to support only monomorphic record update. For overloaded fields to be updated, a type signature may be required in order to specify the type being updated. For example,
+These problems have already been [described in some detail](records/overloaded-record-fields#record-updates). In the interests of doing something, even if imperfect, the Haskell 98 record update syntax will support only monomorphic update. For overloaded fields to be updated, a type signature may be required in order to specify the type being updated. For example,
 
 ```wiki
 e { x = t }
