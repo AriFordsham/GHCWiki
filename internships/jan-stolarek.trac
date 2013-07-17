@@ -132,18 +132,6 @@ The `<- / return` sequence in the definition of `run_pipeline` can be eliminated
 }}}
 
   * `cmm/CmmUtils.hs`, function `toBlockListEntryFirst` - perhaps it would be safer to return a tuple in this case? This would probably make the invariant more explicit.
-  * 
-{{{
-boxConTbl :: [(Type, RdrName)]
-boxConTbl
-  = [(charPrimTy,       getRdrName charDataCon)
-    ,(intPrimTy,        getRdrName intDataCon)
-    ,(wordPrimTy,       wordDataCon_RDR)
-    ,(floatPrimTy,      getRdrName floatDataCon)
-    ,(doublePrimTy,     getRdrName doubleDataCon)
-    ]
-}}}
-Don't remember where i found that one, but I wonder why wordPrimTy is implemented differently.
 
 == Wiki ==
 
