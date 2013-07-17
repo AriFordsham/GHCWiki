@@ -74,8 +74,9 @@ has the corresponding instances
 
 ```wiki
 type instance GetResult (T a) "x" = [a]
+
 instance (b ~ [a]) => Get (T a) "x" b where
-  getFld (MkT { x = x }) = x
+  getFld _ (MkT x) = x
 ```
 
 
@@ -206,7 +207,7 @@ Annoyingly, nested updates will require some annotations. In the following examp
 ### Lens integration
 
 
-As noted above, supporting a polymorphic version of the existing record update syntax (in its full generality) is difficult. However, suppose we also generate instances of the following class, which permits type-changing update of single fields:
+As noted above, supporting a polymorphic version of the existing record update syntax (in its full generality) is difficult. However, we can generate instances of the following class, which permits type-changing update of single fields:
 
 ```wiki
 type family SetResult (r :: *) (f :: Symbol) (a :: *) :: *
@@ -216,7 +217,17 @@ class Set (r :: *) (f :: Symbol) (a :: *) where
 ```
 
 
-It was implied above that a field like `foo` translates into `getFld (Proxy :: Proxy "foo") :: Get r "foo" t => r -> t`, but this is not quite the whole story. Where possible, we would like fields to be usable as lenses (e.g. using the [ lens](http://hackage.haskell.org/package/lens) package). This requires a slightly more general translation, using
+For example, the datatype `T` above would give rise to these instances:
+
+```wiki
+type instance SetResult (T a) "x" [c] = T c
+
+instance (b ~ [c]) => Set (T a) "x" b where
+  setFld _ (MkT _) y = MkT y
+```
+
+
+It was implied above that a field like `foo` translates into `getFld (Proxy :: Proxy "foo") :: Get r "foo" t => r -> t`, but this is not quite the whole story. We would like fields to be usable as lenses (e.g. using the [ lens](http://hackage.haskell.org/package/lens) package). This requires a slightly more general translation, using
 
 ```wiki
 field :: (Get r f t, Accessor p f) => proxy f -> p r t
@@ -256,9 +267,7 @@ instance f ~ g => Accessor (WrapLens f) g where
 ```
 
 
-Now `fieldLens foo` is a lens whenever `foo` is an overloaded record field that can be updated individually (i.e. a `Set` instance exists).
-
-`Set` instances are not required when using fields as functions, only when using them as more general `Accessor` instances, so if a `Set` instance cannot be generated (since the field cannot be updated without updating other fields) the basic story about projections still works.
+Now `fieldLens foo` is a lens whenever `foo` is an overloaded record field.
 
 ### Trouble in paradise
 
