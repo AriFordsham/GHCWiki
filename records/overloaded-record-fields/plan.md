@@ -259,11 +259,14 @@ Thus, whenever a field `foo` is used at a function type (by applying it or compo
 However, `p` does not have to be the function arrow. Suppose the `lens` library defined the following newtype wrapper:
 
 ```wiki
-newtype WrapLens f r a = WrapLens
-  { fieldLens :: forall b . Set r f b => Lens r (SetResult r f b) a b }
+newtype WrapLens f r a
+  = MkWrapLens (forall b . Set r f b => Lens r (SetResult r f b) a b)
 
 instance f ~ g => Accessor (WrapLens f) g where
-  accessor _ getter setter = WrapLens (\ w s -> setter s <$> w (getter s))
+  accessor _ getter setter = MkWrapLens (\ w s -> setter s <$> w (getter s))
+
+fieldLens :: Set r f b => WrapLens f r a -> Lens r (SetResult r f b) a b
+fieldLens (MkWrapLens l) = l
 ```
 
 
