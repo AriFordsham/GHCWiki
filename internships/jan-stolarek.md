@@ -48,6 +48,7 @@ Simon Marlow:
           -- To tail-call it, assign to these locals,.
           -- and branch to the block id
   ```
+- Simon Marlow says: "\[let-no-escape\] catches  more cases than just join points.  Any function or variable binding that does not escape is turned into let-no-escape."
 
 ## Some interesting tickets
 
