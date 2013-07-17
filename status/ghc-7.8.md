@@ -5,6 +5,17 @@
 
 The planned timeline for 7.8 is to have a feature freeze on the 31 August 2013, followed by a period of frantic bug fixing (interrupted by ICFP), aiming for a release during November 2013.
 
+## Tickets
+
+
+We would like to fix all of the [ high and highest priority tickets in the 7.8.1 milestone](http://ghc.haskell.org/trac/ghc/query?priority=highest&priority=high&status=infoneeded&status=merge&status=new&status=patch&milestone=7.8.1&col=id&col=summary&col=status&col=type&col=priority&col=milestone&col=component&order=priority), but there are currently a lot of them so this seems optimistic. Please feel free to take a ticket and help us!
+
+## Completed new features
+
+
+The features already completed are documented in the release notes:
+[docs/users_guide/7.8.1-notes.xml](/trac/ghc/browser/ghc/docs/users_guide/7.8.1-notes.xml)
+
 ## Pending new features
 
 
