@@ -5,6 +5,12 @@
 
 The planned timeline for 7.8 is to have a feature freeze on the 31 August 2013, followed by a period of frantic bug fixing (interrupted by ICFP), aiming for a release during November 2013.
 
+## Completed new features
+
+
+The features already completed are documented in the release notes:
+[docs/users_guide/7.8.1-notes.xml](/trac/ghc/browser/ghc/docs/users_guide/7.8.1-notes.xml)
+
 ## Pending new features
 
 
