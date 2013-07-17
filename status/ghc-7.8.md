@@ -3,6 +3,10 @@
 
 The following new features are planned for 7.8. They are at varying degrees of completeness, and may not all make it in.
 
+- Geoff Mainland is working on a better Template Haskell implementation ([ http://ghc.haskell.org/trac/ghc/wiki/TemplateHaskell/BlogPostChanges](http://ghc.haskell.org/trac/ghc/wiki/TemplateHaskell/BlogPostChanges), [ http://gmainland.blogspot.co.uk/2013/05/type-safe-runtime-code-generation-with.html](http://gmainland.blogspot.co.uk/2013/05/type-safe-runtime-code-generation-with.html)), in the `th-new` branch of various repos.
+
+- Geoff Mainland is working generalising the support for SSE-like instructions.
+
 - Unboxed Booleans. Patch just needs some polishing? Jan Stolarek is working on it. See [\#6135](https://gitlab.haskell.org//ghc/ghc/issues/6135).
 
 - Dynamic GHCi ([\#3658](https://gitlab.haskell.org//ghc/ghc/issues/3658)). This is working in HEAD, and enabled if `DYNAMIC_GHC_PROGRAMS=YES`. Currently it's enabled by default if dynamic libraries are supported, except for FreeBSD and Windows.
