@@ -3,7 +3,7 @@
 ## Timeline
 
 
-The planned timeline for 7.8 is to have a feature freeze on the 31 August 2013, followed by a period of frantic bug fixing (interrupted by ICFP), aiming for a release during November 2013.
+The planned timeline for 7.8 is to have a feature freeze on the 14 Sept 2013, followed by a period of frantic bug fixing (interrupted by ICFP), aiming for a release during November 2013.
 
 ## Tickets
 
@@ -20,6 +20,12 @@ The features already completed are documented in the release notes:
 
 
 The following new features are planned for 7.8. They are at varying degrees of completeness, and may not all make it in.
+
+- Richard Eisenberg is working on closed type families (a new feature).  See [NewAxioms](new-axioms)
+
+- Richard Eisenberg is also working on using "roles" to finally fix [\#1496](https://gitlab.haskell.org//ghc/ghc/issues/1496).
+
+- Pedro and Richard were working on tidying up the poly-kinded Typable story. I'm not sure what, if anything, remains to be done.
 
 - Geoff Mainland is working on a better Template Haskell implementation ([ http://ghc.haskell.org/trac/ghc/wiki/TemplateHaskell/BlogPostChanges](http://ghc.haskell.org/trac/ghc/wiki/TemplateHaskell/BlogPostChanges), [ http://gmainland.blogspot.co.uk/2013/05/type-safe-runtime-code-generation-with.html](http://gmainland.blogspot.co.uk/2013/05/type-safe-runtime-code-generation-with.html)), in the `th-new` branch of various repos.
 
