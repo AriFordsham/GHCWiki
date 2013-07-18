@@ -35,6 +35,10 @@ The following new features are planned for 7.8. They are at varying degrees of c
 
 - Unboxed Booleans. Patch just needs some polishing? Jan Stolarek is working on it. See [\#6135](https://gitlab.haskell.org//ghc/ghc/issues/6135).
 
+- Austin Seipp would like to do some official ARMv7 binary releases with a working stage2 compiler and GHCi, but there are probably some bugs waiting here.
+
+- Edsko de Vries would like to have "Source plugins" in GHC, which would allow API clients and external users to run code over the type-checked AST. Thomas Schilling and others are also interested. Edsko has proposed a patch, but it has yet to be integrated. See [ http://www.haskell.org/pipermail/ghc-devs/2013-June/001358.html](http://www.haskell.org/pipermail/ghc-devs/2013-June/001358.html) and [ http://www.haskell.org/pipermail/ghc-devs/2013-July/001624.html](http://www.haskell.org/pipermail/ghc-devs/2013-July/001624.html)
+
 - Dynamic GHCi ([\#3658](https://gitlab.haskell.org//ghc/ghc/issues/3658)). This is working in HEAD, and enabled if `DYNAMIC_GHC_PROGRAMS=YES`. Currently it's enabled by default if dynamic libraries are supported, except for FreeBSD and Windows.
   On FreeBSD the reason it's disabled is due to a bug in FreeBSD's rtld. This has been fixed, but we're waiting for the fix to make it into releases. This might be in time for 7.8, but certainly will be for 7.10. See [\#7819](https://gitlab.haskell.org//ghc/ghc/issues/7819).
   On Windows, there are a couple of build time annoyances: `-dynamic-too` doesn't work on Windows, and linking takes a very long time when dynamic linking is used. There's no technical reason why it couldn't be enabled, though.
