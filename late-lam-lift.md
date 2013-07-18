@@ -1,4 +1,175 @@
-### TODOs
+
+There's three issues with the late lambda lift.
+
+- there's a troubling increase in nofib binary sizes due to lambda-lifting the libraries. With SplitObjs=YES, it's \~7%. With SplitObjs=NO it's \~3.5%.
+
+- there's some significant slowdowns
+
+- (blocked by the first two items) the implementation still needs a lot of refactoring/simplification/optimization/clean-up etc
+
+### Increase in Binary Size
+
+
+There's a troubling increase in nofib binary sizes due to lambda-lifting the libraries. With SplitObjs=YES, it's \~7%. With SplitObjs=NO it's \~3.5%.
+
+
+I have some hypotheses. Lambda lifting a function 'f` might swell the .o file if (N * M) is "too big", where N is number of free variables in 'f` and M is the number of applications of 'f\`. The transform results in N more arguments to be loaded into registers on each of M calls; previously those arguments were only stored once into the closure when it was allocated. For LNEs, I think the info table may be larger than the proc-point it would otherwise be.
+
+
+My measurements don't reveal a very strong correlation for those on the libHSbase modules, so I think something else more significant is going on. I'm still trying to determine it. In particular, I need to see how much new inlining is caused by the lambda lift. From the opposite direction, I'm also trying to narrow my search using SplitObjs and objtools to better pin down the individual functions that dominant the increase in executables. x2n1 in particular is a tiny program that gets a very large increase (with SplitObjs=YES), so I'm chasing from there.
+
+### Slow downs
+
+
+Here's a couple snippets from my notes about some drastic slowdowns on my Sandy Bridge.
+
+#### shootout/n-body slows down 50% elapsed
+
+
+Slows down 50% at O2!
+
+
+In one particular example, a loop involves a call to sqrt. It's out-of-line, so we must stash the live variables on the stack. Before the lambda lift, however, the variables were already on the stack to begin with. After the lift, they are passed in registers, so we have to add code to the loop that pushes and pops the variables around the sqrt call. Unfortunately there's several Double\#s, so this puts a lot of pressure on my Sandy Bridge's load-store units.
+
+
+Quote from includes/stg/MachRegs.h
+
+```wiki
+    /* ----------------------------------------------------------------------------
+       Caller saves and callee-saves regs.
+
+       Caller-saves regs have to be saved around C-calls made from STG
+       land, so this file defines CALLER_SAVES_<reg> for each <reg> that
+       is designated caller-saves in that machine's C calling convention.
+
+       As it stands, the only registers that are ever marked caller saves
+       are the RX, FX, DX and USER registers; as a result, if you
+       decide to caller save a system register (e.g. SP, HP, etc), note that
+       this code path is completely untested! -- EZY
+       -------------------------------------------------------------------------- */
+```
+
+
+In n-body, the problematic lifts adds 3 RX registers and 4 DX registers to the loop, which all get saved across a C-call to sqrt.  Without lifting, those values are each only used once per iteration and directly from the closure environment, so they never make it to a register.
+
+
+This one motivates the "llf6" variant in which we don't lift recursive functions if there's more than 6 free variables.
+
+
+There's also slowdowns I'm struggling to explain.
+
+#### shootout/reverse-complement mode=slow slows down 7% elapsed, 27% runtime
+
+
+At O2, adding LLF (the llf6 variant) gives 7% elapsed slowdown, 27% runtime slowdown. This test reads a big file)
+
+
+I used Intel's performance hardawre counters to determine that the IPC is detrimentally afffected by the LLF, even those the resulting assembly has fewer instructions.  The LLF'd version executes fewer instructions, but takes more time.
+
+
+I suspect it's a caching effect --- just because nothing looks like a big change! I don't have a better reason than that yet…
+
+
+I isolated a couple problematic floats.
+
+```wiki
+Run Time
+
+log-slow-llf6 is the baseline.
+log-slow-O2 is no lift.
+log-slow-Main-1 changes it to *not* lift one particular function.
+log-slow-Main-4 changes it to *not* lift a separate particular function.
+
+---------------------------------------------------------------
+        Program        log-slow-llf6     log-slow-O2 log-slow-Main-1 log-slow-Main-4 
+---------------------------------------------------------------
+reverse-complem                 1.20          -26.7%          -15.4%          -27.7% 
+
+Elapsed Time
+
+---------------------------------------------------------------
+        Program        log-slow-llf6     log-slow-O2 log-slow-Main-1 log-slow-Main-4 
+---------------------------------------------------------------
+reverse-complem                 4.83           -7.1%           -4.9%           -6.6% 
+
+The Main-1 float is in Main.ca
+
+      letrec {
+        a_s3dY [Occ=LoopBreaker]
+          :: [(GHC.Types.Int, GHC.Word.Word8)]
+             -> GHC.Prim.State# GHC.Prim.RealWorld
+             -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
+        [LclId, Arity=2, Str=DmdType <S,1*U><L,U>, Unf=OtherCon []]
+        a_s3dY =
+          \ (ds3_s3dD [Occ=Once!] :: [(GHC.Types.Int, GHC.Word.Word8)])
+            (eta_s3dF [Occ=Once*] :: GHC.Prim.State# GHC.Prim.RealWorld) ->
+            case ds3_s3dD of _ {
+              [] -> (# eta_s3dF, GHC.Tuple.() #);
+              : y_s3dI [Occ=Once!] ys_s3dW [Occ=Once] ->
+                case y_s3dI of _ { (x_s3dM [Occ=Once!], ds4_s3dP [Occ=Once!]) ->
+                case x_s3dM of _ { GHC.Types.I# d_s3dS [Occ=Once] ->
+		case ds4_s3dP of _ { GHC.Word.W8# x1_s3dU [Occ=Once] ->
+                case GHC.Prim.plusAddr# ds1_s3du d_s3dS of sat_s3sB { __DEFAULT ->
+                case GHC.Prim.writeWord8OffAddr#
+                       @ GHC.Prim.RealWorld sat_s3sB 0 x1_s3dU eta_s3dF
+                of s2_s3dX { __DEFAULT ->
+                a_s3dY ys_s3dW s2_s3dX
+                }
+                }
+                }
+                }
+                }
+            }; } in
+
+        llf_a1_r3ce
+          :: GHC.Prim.Addr#
+             -> [(GHC.Types.Int, GHC.Word.Word8)]
+             -> GHC.Prim.State# GHC.Prim.RealWorld
+             -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
+
+  It's only entered 27 times, regardless of mode=slow.
+
+  The Main-4 float is in Main.$wa
+
+            let-no-escape {
+              $w$j_s3eI [Occ=Once*!]
+                :: GHC.Prim.State# GHC.Prim.RealWorld
+                   -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
+              [LclId, Arity=1, Str=DmdType <L,U>, Unf=OtherCon []]
+              $w$j_s3eI =
+                \ (w1_s3eD [Occ=Once] :: GHC.Prim.State# GHC.Prim.RealWorld) ->
+                  case GHC.Prim.-# ww_s3e6 a_s3el of sat_s3po { __DEFAULT ->
+                  case GHC.Prim.-# sat_s3po 1 of sat_s3pq { __DEFAULT ->
+                  let {
+                    sat_s3pp [Occ=Once] :: GHC.Ptr.Ptr GHC.Word.Word8
+                    [LclId, Str=DmdType]
+                    sat_s3pp = GHC.Ptr.Ptr @ GHC.Word.Word8 ipv3_s3eu } in
+                  case GHC.IO.Handle.Text.$wa4
+                         @ GHC.Word.Word8
+                         GHC.IO.Handle.FD.stdout
+                         sat_s3pp
+                         sat_s3pq
+                         GHC.Types.True
+                         w1_s3eD
+                  of _ { (# ipv5_s3eH [Occ=Once], _ #) ->
+                  (# ipv5_s3eH, GHC.Tuple.() #)
+                  }
+                  }
+                  } } in
+
+        llf_$w$j_r3cj
+          :: GHC.Prim.Addr#
+             -> GHC.Prim.Int#
+             -> GHC.Prim.Int#
+             -> GHC.Prim.State# GHC.Prim.RealWorld
+             -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
+
+  s3eI occurs 18 times, but it's only entered three times, regardless of mode=slow.
+
+  It's lifted counterpart is inlined 9 times, but it's also entered three times, regardless of mode=slow.
+```
+
+### (old) TODOs
 
 - LNE catch 22: good to lift (enables simplifications) but also bad to lift (causes a slight slow down)
 
