@@ -151,6 +151,7 @@ Tickets that I could potentially look into:
   * #5615 - ghc produces poor code for `div` with constant powers of 2.
   * #7116 - Missing optimisation: strength reduction of floating-point multiplication
   * #7858 - Fix definitions of abs/signum for !Floats/Doubles.
+  * #8072 - Optimizations change result of div for Word
 
 Other things to do:
   * investigate opportunities for improving heap checks. An idea: if a worker knows its heap requirements it could pass them to the caller, thus avoiding the heap check. A question: how much time do we really spend on heap checks?
