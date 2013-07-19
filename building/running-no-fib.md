@@ -117,10 +117,10 @@ To tweak things, add settings to your `mk/build.mk` (see [Commentary/SourceTree]
   NoFibWays =
   ```
 
-- By default nofib uses the stage-2 compiler from your build tree.  To tell nofib to use a different compiler, set `WithNofibHc`.  For example:
+- By default nofib uses the stage-2 compiler from your build tree.  To tell nofib to use a different compiler, set `HC`.  For example:
 
   ```wiki
-  WithNofibHc = /home/simonpj/builds/HEAD/inplace/bin/ghc-stage1
+  make HC=/home/simonpj/builds/HEAD/inplace/bin/ghc-stage1 2>&1 | tee log-stage1
   ```
 
 - Many nofib programs have up to three test data sets. The `mode` variable tells the system which to use, thus:
