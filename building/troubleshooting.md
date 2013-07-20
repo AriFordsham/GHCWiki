@@ -546,3 +546,16 @@ warning: ghc-tarballs already present; omitting
 
 
 Building a newer version of git fixes the problem.
+
+### MacOS gmp compiled --with-pic
+
+
+If you've installed gmp from source on your Mac OS machine, you may see an error like this:
+
+```wiki
+  ld: illegal text-relocation to ___gmp_binvert_limb_table in /usr/local/lib/libgmp.a(mp_minv_tab.o) from ___gmpn_divexact_1 in /usr/local/lib/libgmp.a(dive_1.o) for architecture x86_64
+  collect2: ld returned 1 exit status
+```
+
+
+The problem is described [ on this page](https://github.com/mxcl/homebrew/issues/12946), a quick work-around is to install gmp with homebrew, i.e. `brew install gmp; brew link gmp`.
