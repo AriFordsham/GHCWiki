@@ -7,7 +7,6 @@ This page lists the active repositories relating to GHC. For instructions on act
 For read-only browsing, you can use the:
  * [http://hackage.haskell.org/trac/ghc/browser Trac source browser]
  * [http://github.com/ghc/ghc GitHub GHC mirror]
- * [http://darcs.haskell.org/cgi-bin/gitweb.cgi GitWeb GHC browser]
 
 For info on the active branches of the main GHC repo, see
  * [wiki:ActiveBranches]

@@ -8,7 +8,6 @@ For read-only browsing, you can use the:
 
 - [ Trac source browser](http://hackage.haskell.org/trac/ghc/browser)
 - [ GitHub GHC mirror](http://github.com/ghc/ghc)
-- [ GitWeb GHC browser](http://darcs.haskell.org/cgi-bin/gitweb.cgi)
 
 
 For info on the active branches of the main GHC repo, see
