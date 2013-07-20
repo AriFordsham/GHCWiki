@@ -429,4 +429,26 @@ As far as I could tell all .dyn_o files had been built to allow relocation, but 
 
 There was another GCC on the system however (4.3.3). Using that version did allow GHC to build. 
 
+=== git is too old ===
+
+On RHEL6 systems, I have git 1.7.1 by default.  On such a system, `./sync-all --testsuite get` will fail with this error:
+
+{{{
+warning: ghc-tarballs already present; omitting                                                                                                                                       
+== ghc-tarballs: running git config --local core.ignorecase true                                                                                                                      error: unknown option `local'
+}}}
+
+Building a newer version of git fixes the problem.
+
+
+=== MacOS gmp compiled --with-pic ===
+
+If you've installed gmp from source on your Mac OS machine, you may see an error like this:
+
+{{{
+  ld: illegal text-relocation to ___gmp_binvert_limb_table in /usr/local/lib/libgmp.a(mp_minv_tab.o) from ___gmpn_divexact_1 in /usr/local/lib/libgmp.a(dive_1.o) for architecture x86_64
+  collect2: ld returned 1 exit status
+}}}
+
+The problem is described [https://github.com/mxcl/homebrew/issues/12946 on this page], a quick work-around is to install gmp with homebrew, i.e. `brew install gmp; brew link gmp`.
 
