@@ -541,7 +541,8 @@ On RHEL6 systems, I have git 1.7.1 by default.  On such a system, `./sync-all --
 
 ```wiki
 warning: ghc-tarballs already present; omitting                                                                                                                                       
-== ghc-tarballs: running git config --local core.ignorecase true                                                                                                                      error: unknown option `local'
+== ghc-tarballs: running git config --local core.ignorecase true
+error: unknown option `local'
 ```
 
 
