@@ -9,15 +9,21 @@ Our solution is to switch GHCi from using the "static way", to using the "dynami
 
 This is controlled by the `DYNAMIC_GHC_PROGRAMS` build system variable. If it is `YES`, then we build ghci the dynamic way. If it is `NO` then we build it the static way.
 
+== Build times, and `-dynamic-too` ==
+
+The default way, as used by `ghc Foo.hs` for example, will remain the vanilla (static) way. But GHCi uses dynamic libraries, so we need to build all the libraries both ways (both in the GHC build, and when the user `cabal-install`s 3rd party libraries). This would double the compilation time needed.
+
+We have therefore added a `-dynamic-too` flag. This allows a single invocation of GHC to build both the vanilla and dynamic ways. The GHC build system uses this if `DYNAMIC_TOO` is `YES`, and Cabal HEAD uses it if the compiler supports it.
+
 == Current status ==
 
 === Unix-like platforms ===
 
-TODO
+Both `DYNAMIC_GHC_PROGRAMS` and `DYNAMIC_TOO` work on unix-like platforms. They are enabled by default provided the platform supports dynamic libraries (except on FreeBSD, where it is disabled for now, while we wait for a patch to rtld(1) to filter through to the FreeBSD release; #7819).
 
 === Windows ===
 
-TODO
+On Windows, `DYNAMIC_GHC_PROGRAMS` works, but `DYNAMIC_TOO` doesn't. Currently, `DYNAMIC_GHC_PROGRAMS` is disabled, although it could be enabled at the expense of longer compilation times. Linking time is also significantly higher for the dynamic way, but we aren't aware of any way to improve that.
 
 === Other platforms ===
 
