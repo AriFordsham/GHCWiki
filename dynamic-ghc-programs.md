@@ -1,0 +1,227 @@
+# Dynamic GHC programs
+
+
+Currently, GHCi doesn't use the system linker to load libraries, but instead uses our own "GHCi linker". Unfortunately, this is a large blob of unpleasant code that we need to maintain, it already contains a number of known bugs, and new problems have a tendency to arise as new versions of OSes are released. We are therefore keen to get rid of it!
+
+
+There is some benefit (in terms of both bugs fixed and code removed) to removing it for a particular platform (e.g. Linux(elf)/x86), more benefit to removing it for a particular OS (e.g. Linux(elf)), but the most benefit is gained by removing it entirely.
+
+
+Our solution is to switch GHCi from using the "static way", to using the "dynamic way". GHCi will then use the system linker to load the `.dll` for the library, rather than using the GHCi linker to load the `.a`.
+
+
+This is controlled by the `DYNAMIC_GHC_PROGRAMS` build system variable. If it is `YES`, then we build ghci the dynamic way. If it is `NO` then we build it the static way.
+
+## Current status
+
+### Unix-like platforms
+
+TODO
+
+### Windows
+
+TODO
+
+### Other platforms
+
+
+We do not know the situation with other platforms, such as iOS and Android. We do not know whether they have a system loader that they can use, or whether it would be useful to keep the GHCi linker around for them.
+
+## Bugs
+
+
+As well as the [ticket for implementing dynamic GHCi (\#3658)](https://gitlab.haskell.org//ghc/ghc/issues/3658), the table below lists the related tickets and the platforms that they affect. Most, if not all, of these would be immediately fixed by switching to dynamic GHCi.
+
+<table><tr><th>Ticket</th>
+<th>Affects OS X x86_64?</th>
+<th>Affects OS X x86?</th>
+<th>Affects Linux x86_64?</th>
+<th>Affects Linux x86?</th>
+<th>Affects Windows x86_64?</th>
+<th>Affects Windows x86?</th>
+<th>Affects other platforms?
+</th></tr>
+<tr><th>[\#781 GHCi on x86_64, cannot link to static data in shared libs](https://gitlab.haskell.org//ghc/ghc/issues/781)</th>
+<th>no</th>
+<th>no</th>
+<th>**YES**</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>no
+</th></tr>
+<tr><th>[\#1883 GHC can't find library using "short" name](https://gitlab.haskell.org//ghc/ghc/issues/1883)</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>**probably**</th>
+<th>**YES**</th>
+<th>no
+</th></tr>
+<tr><th>[\#2283 WIndows: loading objects that refer to DLL symbols](https://gitlab.haskell.org//ghc/ghc/issues/2283)</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>**probably**</th>
+<th>**YES**</th>
+<th>no
+</th></tr>
+<tr><th>[\#3242 ghci: can't load .so/.DLL for: m (addDLL: could not load DLL)](https://gitlab.haskell.org//ghc/ghc/issues/3242)</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>**probably**</th>
+<th>**YES**</th>
+<th>no
+</th></tr>
+<tr><th>[\#3654 Mach-O GHCi linker lacks support for a range of relocation entries](https://gitlab.haskell.org//ghc/ghc/issues/3654)</th>
+<th>**YES**</th>
+<th>**YES**</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>no
+</th></tr>
+<tr><th>[\#4244 Use system linker in GHCi to support alpha, ia64, ppc64](https://gitlab.haskell.org//ghc/ghc/issues/4244)</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>**YES**</th></tr>
+<tr><th>[\#5062 Patch: Debug output for OS X linker and coding standard upgrades](https://gitlab.haskell.org//ghc/ghc/issues/5062)</th>
+<th>**YES**</th>
+<th>**YES**</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>no
+</th></tr>
+<tr><th>[\#5197 Support static linker semantics for archives and weak symbols](https://gitlab.haskell.org//ghc/ghc/issues/5197)</th>
+<th>**YES**</th>
+<th>**YES**</th>
+<th>**YES**</th>
+<th>**YES**</th>
+<th>**YES**</th>
+<th>**YES**</th>
+<th>**YES**</th></tr>
+<tr><th>[\#5435 GHCi linker should run constructors for linked libraries](https://gitlab.haskell.org//ghc/ghc/issues/5435)</th>
+<th>**YES**</th>
+<th>**YES**</th>
+<th>**YES**</th>
+<th>**YES**</th>
+<th>**YES**</th>
+<th>**YES**</th>
+<th>**YES**</th></tr>
+<tr><th>[\#6107 GHCi runtime linker cannot link with duplicate common symbols](https://gitlab.haskell.org//ghc/ghc/issues/6107)</th>
+<th>**YES**</th>
+<th>**YES**</th>
+<th>**YES**</th>
+<th>**YES**</th>
+<th>**YES**</th>
+<th>**YES**</th>
+<th>**YES**</th></tr>
+<tr><th>[\#7043 32-bit GHC ceiling of negative float SEGFAULT: 11](https://gitlab.haskell.org//ghc/ghc/issues/7043)</th>
+<th>no</th>
+<th>**YES**</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>no
+</th></tr>
+<tr><th>[\#7056 GHCi loadArchive "libiconv.a":failed Unknown PEi386 section name \`.drectve'](https://gitlab.haskell.org//ghc/ghc/issues/7056)</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>**probably**</th>
+<th>**YES**</th>
+<th>no
+</th></tr>
+<tr><th>[\#7072 GHC interpreter does not find stat64 symbol on Linux](https://gitlab.haskell.org//ghc/ghc/issues/7072)</th>
+<th>no</th>
+<th>no</th>
+<th>**YES**</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>no
+</th></tr>
+<tr><th>[\#7097 linker fails to load package with binding to foreign library](https://gitlab.haskell.org//ghc/ghc/issues/7097)</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>**probably**</th>
+<th>**YES**</th>
+<th>no
+</th></tr>
+<tr><th>[\#7103 Compiler panic, when loading wxc in GHCi](https://gitlab.haskell.org//ghc/ghc/issues/7103)</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>**probably**</th>
+<th>**YES**</th>
+<th>no
+</th></tr>
+<tr><th>[\#7134 ghc-7.6.0.20120810-x86_64-windows.exe -\> internal error R_X86_64_PC32](https://gitlab.haskell.org//ghc/ghc/issues/7134)</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>**YES**</th>
+<th>no</th>
+<th>no
+</th></tr>
+<tr><th>[\#7207 linker fails to load package with binding to foreign library (win64)](https://gitlab.haskell.org//ghc/ghc/issues/7207)</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>**YES**</th>
+<th>no</th>
+<th>no
+</th></tr>
+<tr><th>[\#7299 threadDelay broken in ghci, Mac OS X](https://gitlab.haskell.org//ghc/ghc/issues/7299)</th>
+<th>**YES**</th>
+<th>**YES**</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>no
+</th></tr>
+<tr><th>[\#7357 GHC.exe gives an internal error while linking vector's Monadic.hs](https://gitlab.haskell.org//ghc/ghc/issues/7357)</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>**YES**</th>
+<th>no</th>
+<th>no
+</th></tr></table>
+
+## Performance
+
+
+There are some performance questions to consider before making a decision.
+
+## Other issues
+
+### Cabal support
+
+
+Currently released versions of Cabal/cabal-install don't handle dynamic-by-default GHCs well, as they don't pass the `-static` flag when building for static ways (as they assume that it is enabled by default). We should get fixed versions out as soon as possible ([\#7439](https://gitlab.haskell.org//ghc/ghc/issues/7439)).
+
+### Other approaches
+
+
+In [\#3658](https://gitlab.haskell.org//ghc/ghc/issues/3658) there is some discussion of related design decisions etc.
