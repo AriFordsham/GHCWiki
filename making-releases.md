@@ -8,6 +8,9 @@ Make a `ghc-x.y` branch of all of the repos (including those with a 'dph' tag). 
 
 For repos with an upstream maintainer, ask upstream what commit we should be using in the branch.
 
+
+Update [ http://ghc.haskell.org/trac/ghc/wiki/Repositories\#Branches](http://ghc.haskell.org/trac/ghc/wiki/Repositories#Branches)
+
 ## Make release notes
 
 
