@@ -1,5 +1,13 @@
 # Making Releases
 
+## Branching the tree
+
+
+Make a `ghc-x.y` branch of all of the repos (including those with a 'dph' tag). In the ghc branch, change `sync-all` so that it doesn't get the `dph` repos by default, and change `validate` so that it doesn't require them to be present.
+
+
+For repos with an upstream maintainer, ask upstream what commit we should be using in the branch.
+
 ## Make release notes
 
 
