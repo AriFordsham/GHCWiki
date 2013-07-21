@@ -1,5 +1,16 @@
 # Making Releases
 
+## Branching the tree
+
+
+Make a `ghc-x.y` branch of all of the repos (including those with a 'dph' tag). In the ghc branch, change `sync-all` so that it doesn't get the `dph` repos by default, and change `validate` so that it doesn't require them to be present.
+
+
+For repos with an upstream maintainer, ask upstream what commit we should be using in the branch.
+
+
+Update [ http://ghc.haskell.org/trac/ghc/wiki/Repositories\#Branches](http://ghc.haskell.org/trac/ghc/wiki/Repositories#Branches)
+
 ## Make release notes
 
 
@@ -155,6 +166,24 @@ haskell.org$ ~/mk-latest-links | sh
 
 
 Mail `ANNOUNCE` to `glasgow-haskell-users@haskell.org, haskell@haskell.org`, subject `ANNOUNCE: GHC version <<VERSION>>`.
+
+
+For an RC, a smaller message is sent to just `glasgow-haskell-users@haskell.org`, e.g.:
+
+```wiki
+Subject: ANNOUNCE: GHC x.y.z Release Candidate 1
+
+We are pleased to announce the first release candidate for GHC x.y.z:
+
+    http://www.haskell.org/ghc/dist/x.y.z-rc1/
+
+This includes the source tarball and bindists for Windows, Linux, OS X and FreeBSD, on x86 and x86_64.
+
+We plan to make the x.y.z release <sometime>.
+
+Please test as much as possible; bugs are much cheaper if we find them
+before the release!
+```
 
 ## Tagging repositories
 
