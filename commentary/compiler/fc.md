@@ -209,6 +209,11 @@ The newtype coercion is used to wrap and unwrap newtypes whenever the constructo
 
 Such coercions are always used when the newtype is recursive and are optional for non-recursive newtypes.  Whether or not they are used can be easily changed by altering the function mkNewTyConRhs in iface/BuildTyCl.lhs.
 
+## Roles
+
+
+Roles specify what nature of equality a coercion is proving. See [Roles](roles) and [RolesImplementation](roles-implementation).
+
 ## Simplification
 
 - exprIsConApp_maybe
