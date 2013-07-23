@@ -1,2 +1,124 @@
+# Roles
 
-Placeholder.
+
+The idea of *roles* comes from the paper [ Generative Type Abstraction and Type-level Computation](http://www.seas.upenn.edu/~sweirich/papers/popl163af-weirich.pdf), published at POPL 2011. The implementation of roles in GHC, however, is somewhat different than stated in that paper. This page focuses on the user-visible features of roles. [RolesImplementation](roles-implementation) talks about the implementation in GHC.
+
+## The problem we wish to solve
+
+
+GHC has had a hole in its type system for several years, as documented in [\#1496](https://gitlab.haskell.org//ghc/ghc/issues/1496), [\#4846](https://gitlab.haskell.org//ghc/ghc/issues/4846), [\#5498](https://gitlab.haskell.org//ghc/ghc/issues/5498), and [\#7148](https://gitlab.haskell.org//ghc/ghc/issues/7148). The common cause behind all of this is the magic behind `-XGeneralizedNewtypeDeriving`. Here is an example:
+
+```wiki
+newtype Age = MkAge { unAge :: Int }
+
+type family Inspect x
+type instance Inspect Age = Int
+type instance Inspect Int = Bool
+
+class BadIdea a where
+  bad :: a -> Inspect a
+
+instance BadIdea Int where
+  bad = (> 0)
+
+deriving instance BadIdea Age
+```
+
+
+This code is accepted by GHC 7.6.3. Yet, it goes wrong when you say `bad (MkAge 5)` -- we see the internal encoding of `Bool`! Let's trace what is happening here.
+
+
+A newtype is a new algebraic datatype that wraps up exactly one field (in our example, of type `Int`). Yet, the semantics of Haskell makes a guarantee that wrapping and unwrapping a value (with `MkAge` or `unAge`) has no runtime cost. Thus, internally, we must consider `Age` to be wholly equivalent to `Int`.
+
+
+The problem with this idea comes with type families. (There are other ways to tickle the bug, but one example is enough here.) A type family can branch on *Haskell* type, and of course, in Haskell (unlike in the internals of a compiler), `Age` is most certainly *not*`Int`. (If it were, newtypes would be useless for controlling instance selection, a very popular use case.) So, in our example, we see that `Inspect Age` is `Int`, but `Inspect Int` is `Bool`. Now, note the type of `bad`, the method in class `BadIdea`. When passed an `Int`, `bad` will return a `Bool`. When passed an `Age`, `bad` will return an `Int`. What happens on the last line above, when we use GeneralizedNewtypeDeriving? Internally, we take the existing instance for `Int` and just transmogrify it into an instance for `Age`. But, this transformation is very dumb -- because `Age` and `Int` are the same, internally, the code for the `Age` instance and the code for the `Int` instance are the same. This means that when we call `bad (MkAge 5)`, we run `5` through the existing implementation for `bad`, which produces a `Bool`. But, of course, the type of `bad (MkAge 5)` is `Int`, and so we have effectively converted a `Bool` to an `Int`. Yuck.
+
+## The solution
+
+
+What to do? It turns out we need a subtler definition of type equality than what we have had. Specifically, we must differentiate between *nominal* equality and *representational* equality (abbreviated to N and R, respectively). N equality (called C in the paper cited above) is the Haskell equality we all know and love. If two types have the same name, they are N-equal. If they don't have the same name (expanding type synonyms), they are not N-equal. R equality, on the other hand, shows that two types have the same *representation*. This is the equality that newtypes produce -- `Age` is R-equal to `Int`, but they are not N-equal.
+
+
+Datatypes, classes, and type synonyms can be parametric in their type arguments or not. By "parametric", I mean that they do not *inspect* the type argument. A non-parametric type variable is inspect. Here are some examples:
+
+```wiki
+data List a = Nil | Cons a (List a)    -- parametric
+data GADT a where                      -- non-parametric
+  GAge :: GADT Age
+  GInt :: GADT Int
+
+class C1 a where                       -- parametric
+  foo :: a -> List a
+
+class C2 a where                       -- non-parametric
+  bar :: a -> GADT a
+
+class BadIdea a where                  -- non-parametric
+  bad :: a -> Inspect a
+```
+
+
+In the terminology here, non-parametric types and classes care, in some fundamental way, what type parameter they are given. Parametric ones don't. We can generalize this idea a bit further to label each type variable as either parametric or not. For example,
+
+```wiki
+data Mixed a b where
+  MInt :: a -> Mixed a Int
+  MAge :: a -> Mixed a Age
+```
+
+
+is parametric in its first parameter but not its second. For reasons that will soon become clear, we say that a parametric type variable has role R and a non-parametric one has role N.
+
+
+With this notion in place, we simply need the following rule: **GeneralizedNewtypeDeriving works only with classes whose last type parameter is at role R.**
+
+## Phantom parameters
+
+
+It turns out that a third role is also useful (though unnecessary for type soundness): the phantom role, abbreviated P. It is often the case that programmers use type variables simply to constrain the type checker, not to make any statement about the runtime representation of a type. For example `data Phant a = MkPhant Int`. Because `a` doesn't appear on the right-hand side, we say that `a` is at role P. Why is this nice? Because it allows us to say that, say, `Phant Int` and `Phant Bool` are R-equal, because they really do have the same representation.
+
+## Role inference
+
+
+How do we know what role a type parameter should have? We use role inference! We start with a few base facts: `(->)` has two R parameters; `(~)` has two N parameters; and all type families' parameters are N. Then, we just propagate the information. By defaulting parameters to role P, any parameters unused in the right-hand side (or used only in other types in P positions) will be P. Whenever a parameter is used in an R position (that is, used as a type argument to a constructor whose corresponding variable is at role R), we raise its role from P to R. Similarly, when a parameter is used in an N position, its role is upgraded to N. We never downgrade a role from N to P or R, or from R to P. In this way, we infer the most-general role for each parameter.
+
+## Role annotations
+
+
+As we have learned with type and kind inference, sometimes the programmer wants to constrain the inference process. For example, the base library contains the following definition:
+
+```wiki
+data Ptr a = Ptr Addr#
+```
+
+
+The idea is that `a` should really be an R parameter, but role inference assigns it to P. This makes some level of sense: a pointer to an `Int` really *is* representationally the same as a pointer to a `Bool`. But, that's not at all how we want to use `Ptr`s! So, we want to be able to say
+
+```wiki
+data Ptr a@R = Ptr Addr#
+```
+
+
+The `@R` annotation forces the parameter `a` to be at role R, not role P. We, then, of course, need to *check* the user-supplied roles to make sure they don't break any promises. It would be bad if the user could make `BadIdea`'s role be R!
+
+
+The other place where role annotations may be necessary are in .hs-boot files, where the right-hand sides of definitions can be omitted. As usual, the types/classes declared in an .hs-boot file must match up with the definitions in the .hs file, including down to the roles. The default role will be R in hs-boot files, corresponding to the common use case. Note that this **will break code**. But, the change is necessary to close the type-safety hole discussed above.
+
+
+Role annotations will be allowed on type variables in `data`, `newtype`, `class`, and `type` declarations. They will not be allowed on type/data family declarations or in explicit `forall`s in function type signatures.
+
+## Role *and* kind annotations
+
+
+What if the user wants both a role and a kind annotation on a type variable? There are two possibilities:
+
+```wiki
+data Foo (a :: k)@R
+```
+
+```wiki
+data Bar (a@R :: k)
+```
+
+
+I (Richard E) propose the syntax for `Foo`, for no reason I can articulate. Note that the parentheses enclosing the kind annotation are required whether or not there is a role annotation.
