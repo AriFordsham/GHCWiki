@@ -74,6 +74,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
    * [wiki:SQLLikeComprehensions SQL-Like Comprehensions]: Notes on SPJs "Comprehensive Comprehensions" (!TransformComprehensions)
    * [wiki:DeferErrorsToRuntime Deferring compilation type errors to runtime (`-fdefer-type-errors`)]
    * [wiki:Commentary/Compiler/Demand Demand analyser] Notes on the meanings, worker-wrapper splitting of demand signatures and relevant components of the compiler
+   * [wiki:NewAxioms Closed type families]
 
  * Notes on proposed or in progress (but out of tree) GHC compiler features:
    * [wiki:FunDeps Checking consistency of functional dependencies]
@@ -81,7 +82,6 @@ The above commentary covers the source code of GHC. For material that doesn't co
    * [wiki:Commentary/Contracts Contracts in Haskell]
    * [wiki:Holes Agda-style holes in terms] which supports writing partial programs.
    * [wiki:Records Records]
-   * [wiki:NewAxioms New coercion axioms design]
    * [http://haskell.org/haskellwiki/GHC/CouldAndHPCHaskell Cloud Haskell]
    * [wiki:PackageLanguage A modular package language for Haskell] Scott Kilpatrick and Derek Dreyer are designing a new “package language” for Haskell in the style of the ML module system.
    * [wiki:PatternSynonyms Pattern synonyms]
@@ -98,6 +98,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
    * [wiki:ExplicitTypeApplication Syntax for explicit type application and scoped type variables]
    * [wiki:GhcKinds/KindsWithoutData Syntax for defining kinds that do not arise from datatype promotion]
    * [wiki:LambdasVsPatternMatching Lambda-Case]: Syntax for full (with branching) pattern matching on arguments of lambda abstractions
+   * [wiki:Roles Roles]: Fixing the `-XGeneralizedNewtypeDeriving` bug.
 
  * Library issues
     * [wiki:SplitBase Splitting up the base package]
