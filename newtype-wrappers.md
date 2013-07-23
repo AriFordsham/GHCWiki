@@ -341,4 +341,4 @@ consider
 
 The problem is, as usual, the type function hiding inside T's definition.
 The solution is described in [ Generative type abstraction and type-level computation](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/).  It is still being implemented, alas,
-but adding the newtype wrappers introduces no problems that we do not already have. See TypeRoles for more info.
+but adding the newtype wrappers introduces no problems that we do not already have. See [Roles](roles) for more info.
