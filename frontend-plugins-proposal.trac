@@ -115,3 +115,26 @@ command line arguments, could be done at an earlier stage.
 
 Command line support for source plugins could then be added in a similar
 fashion.
+
+== Patches ==
+
+Attached are patches against 7.4.2 and 7.7. Note that the patch against 7.7 invalidates the check implemented in #7780; you have to temporarily disable it:
+
+{{{
+diff --git a/utils/dll-split/Main.hs b/utils/dll-split/Main.hs
+index 336b6d9..c92ff8d 100644
+--- a/utils/dll-split/Main.hs
++++ b/utils/dll-split/Main.hs
+@@ -41,7 +41,8 @@ doit depfile startModule expectedReachableMods
+           putStrLn "Please fix it, or building DLLs on Widnows may break (#7780)"
+           tellSet "Redundant modules" redundant
+           tellSet "Extra modules"     extra
+-          exitFailure
++          putStrLn "WARNING: Continuing regardless!"
++          -- exitFailure
+ 
+ newtype Module = Module String
+     deriving (Eq, Ord)
+}}}
+
+(Not completely sure what is the ramifications of that are, but I think it means that the Windows DLL will be broken -- so that will need to be addressed before the patch can be accepted).
