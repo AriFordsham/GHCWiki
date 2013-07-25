@@ -6,7 +6,7 @@ Here be dragons. This page describes implementation details and progress on the 
 ## The basic idea
 
 
-Typechecking a record datatype still generates record selectors, but their names have a `$sel` prefix and end with the name of their type. Additionally, a dictionary function (for the `Has` instance) is generated. Thus
+Typechecking a record datatype still generates record selectors, but their names have a `$sel` prefix and end with the name of their type. Thus
 
 ```wiki
 data T = MkT { x :: Int }
@@ -17,7 +17,6 @@ generates
 
 ```wiki
 $sel_x_T :: T -> Int       -- record selector (used to be called `x`)
-$df_x_T  :: Has T "x" Int  -- dictionary function (coerced selector)
 ```
 
 ## The naming of cats
@@ -49,13 +48,14 @@ where the first component is the field and the second is the selector function.
 
 Where an AST representation type (e.g. `HsRecField` or `ConDeclField`) contained an argument of type `Located id` for a field, it now stores a `Located RdrName` for the label and `Maybe id` for the selector. The parser supplies `Nothing` for the selector; it is filled in by the renamer  (by `rnHsRecFields1` in `RnPat`, and `rnField` in `RnTypes`). Partial functions are provided to extract the `Located id`, but they will panic if called on not-yet-renamed syntax.
 
-## Next steps
+## Source expressions
 
 
-The `HsExpr.HsExpr` type has an extra constructor `HsOverloadedRecFld OccName`. When `-XOverloadedRecordFields` is enabled, and the renamer encounters `HsVar "x"` where `x` refers to multiple `GRE`s that are all record fields, it replaces it with `HsOverloadedRecFld "x"`. There needs to be a similar constructor for non-overloaded projections, so that we can pretty-print the field name but store the selector name.
+The `HsExpr` type has extra constructors `HsOverloadedRecFld OccName` and `HsSingleRecFld OccName id`. When `-XOverloadedRecordFields` is enabled, and `rnExpr` encounters `HsVar "x"` where `x` refers to multiple `GRE`s that are all record fields, it replaces it with `HsOverloadedRecFld "x"`. When the typechecker sees `HsOverloadedRecFld x` it emits a wanted constraint `Has alpha x beta` and returns type `alpha -> beta` where `alpha` and `beta` are fresh unification variables.
 
 
-When the typechecker sees `HsOverloadedRecFld x` it emits a wanted constraint `Has alpha x beta` and returns type `alpha -> beta` where `alpha` and `beta` are fresh unification variables.
+When the flag is not enabled, `rnExpr` turns an unambiguous record field `foo` into `HsSingleRecFld foo $sel_foo_T`. The point of this constructor is so we can pretty-print the field name but store the selector name for typechecking.
 
+## Automatic instance generation
 
-Automatic `Has` instances are generated, provided the extension is enabled, around the same time as derived instances (from **deriving** clauses) are generated. Every record field `GRE` in scope gives rise to an instance, and the dictionary function is already available. Such instances are available when typechecking the current module (in `tcg_inst_env`) but not exported to other modules (via `tcg_insts`).
+`Has` instances are generated, provided the extension is enabled, in `tcInstDecls1` (the same time as derived instances (from **deriving** clauses) are generated). Every record field `GRE` in scope gives rise to an instance. Such instances are available when typechecking the current module (in `tcg_inst_env`) but not exported to other modules (via `tcg_insts`). At the moment, fresh `DFunId`s are generated for all instances in scope, and they are not exported in interface files, but perhaps this should change?
