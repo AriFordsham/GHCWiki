@@ -91,3 +91,6 @@ Rather than generating fresh `DFunId`s for all the fields in scope, only generat
 
 
 Implement the syntactic sugar `r { x :: t }`.
+
+
+Test the interaction between fields and qualified names. In particular, a qualified name can be used for unambiguous identification of fields (e.g. in updates) but should probably not be used as an overloaded variable.

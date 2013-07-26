@@ -78,3 +78,5 @@ Only projection is implemented, not update, so there is no lens integration. We 
 Rather than generating fresh `DFunId`s for all the fields in scope, only generate them for locally-defined fields, and pass them around so that other modules can use them.
 
 Implement the syntactic sugar `r { x :: t }`.
+
+Test the interaction between fields and qualified names. In particular, a qualified name can be used for unambiguous identification of fields (e.g. in updates) but should probably not be used as an overloaded variable.
