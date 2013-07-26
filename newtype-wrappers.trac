@@ -151,6 +151,9 @@ Joachim started to implement this approach. TODO:
 * Check for constructor visibility. ✓
 * Check for data constructor argument convertibility. ✓ (but not very elegant yet)
 * Think about higher-order type arguments.
+* Polish error messages.
+* Port to the new role-based coercion.
+* Add instances to base etc.
 
 Warts and issues:
 
