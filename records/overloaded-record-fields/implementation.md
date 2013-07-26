@@ -78,6 +78,12 @@ Not in scope: ‛GHC.TopHandler.runIOFastExit’
 
 I'm not sure if this is my fault.
 
+
+Tests in need of attention:
+
+- rename/should_compile/T5334, should_fail/T5372, T5533, T5892a, T7943
+- gadt/records-fail1 (bad error message)
+
 ## To do
 
 
@@ -91,3 +97,6 @@ Rather than generating fresh `DFunId`s for all the fields in scope, only generat
 
 
 Implement the syntactic sugar `r { x :: t }`.
+
+
+Test the interaction between fields and qualified names. In particular, a qualified name can be used for unambiguous identification of fields (e.g. in updates) but should probably not be used as an overloaded variable.
