@@ -100,3 +100,9 @@ Implement the syntactic sugar `r { x :: t }`.
 
 
 Test the interaction between fields and qualified names. In particular, a qualified name can be used for unambiguous identification of fields (e.g. in updates) but should probably not be used as an overloaded variable.
+
+
+Universally quantified fields should result in a warning being emitted and no Has instance generated. What about existentially quantified fields?
+
+
+How should deprecation work for fields? Not at all?
