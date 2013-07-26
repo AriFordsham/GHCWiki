@@ -49,4 +49,32 @@ When the flag is not enabled, `rnExpr` turns an unambiguous record field `foo` i
 
 == Automatic instance generation ==
 
-`Has` instances are generated, provided the extension is enabled, in `tcInstDecls1` (the same time as derived instances (from '''deriving''' clauses) are generated). Every record field `GRE` in scope gives rise to an instance. Such instances are available when typechecking the current module (in `tcg_inst_env`) but not exported to other modules (via `tcg_insts`). At the moment, fresh `DFunId`s are generated for all instances in scope, and they are not exported in interface files, but perhaps this should change?
+`Has` instances are generated, provided the extension is enabled, in `tcInstDecls1` (the same time as derived instances (from '''deriving''' clauses) are generated). Every record field `GRE` in scope gives rise to an instance. Such instances are available when typechecking the current module (in `tcg_inst_env`) but not exported to other modules (via `tcg_insts`). At the moment, fresh `DFunId`s are generated for all instances in scope for each module, even though they are exported in interface files. Perhaps this should change.
+
+
+== Known bugs ==
+
+Unused imports and generation of the minimal import list (`warnUnusedImportDecls` in `RnNames`) show selector names rather than labels. This is a pain to fix, as there is no easy way to get from a selector `Name` to the `OccName` of the label. We could add the label to the `RecSelId` constructor of `IdDetails`. Or perhaps there is a way to keep track of label/selector relationships when renaming imports?
+
+
+Some of the ghci tests fail with the following messages:
+
+{{{
+Not in scope: ‛System.IO.hSetBuffering’
+Not in scope: ‛System.IO.stdout’
+Not in scope: data constructor ‛System.IO.LineBuffering’
+Not in scope: ‛GHC.TopHandler.runIOFastExit’
+}}}
+
+I'm not sure if this is my fault.
+
+
+== To do ==
+
+Typechecking of record updates still uses the first field to determine the type, so the renamer has to produce unambiguous selector names. It should be possible to specify the record type via a type signature, so `rnHsRecFields1` needs to be a bit more liberal.
+
+Only projection is implemented, not update, so there is no lens integration. We need to decide on a story here.
+
+Rather than generating fresh `DFunId`s for all the fields in scope, only generate them for locally-defined fields, and pass them around so that other modules can use them.
+
+Implement the syntactic sugar `r { x :: t }`.
