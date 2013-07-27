@@ -196,6 +196,7 @@ Joachim started to implement this approach. TODO
 - Deriving code added. ✓
 - Check for constructor visibility. ✓
 - Check for data constructor argument convertibility. ✓ (but not very elegant yet)
+- Make `IncoherentInstances`[ even more incoherent](http://www.haskell.org/pipermail/ghc-devs/2013-July/001771.html).
 - Think about higher-order type arguments.
 - Polish error messages.
 - Port to the new role-based coercion.
@@ -205,10 +206,6 @@ Joachim started to implement this approach. TODO
 Warts and issues:
 
 - The deriving code works in the typechecker and has to generate `HsExpr`, but the implementation is only possible in Core. Currently, a dummy value is inserted by the deriving code and later implemented by a core-to-core pass. Better solution: Add a `HsCore` data constructor to `HsExpr`, similar to `HsCoreTy` in `HsType`?
-- The overlapping nature of the problem. We clearly want to have a base case `IsNT a a` so that `castNT :: (Int,a) -> (Age, a)` is possible. For that we need all instances of `IsNT` to have the incoherent flag set (✓). But that is not enough: `castNT :: (Int,[a]) -> (Age, [a])` does not work (overlapping matching instances `IsNT a a` and `IsNT [a] [a]`), while  (counterintuitively) `(castNT :: (Int,a) -> (Age, a)) :: (Int,[a]) -> (Age, [a])` works again. Possible solutions:
-
-  - Change the semantics of `IncoherentInstances` that it chooses an arbitrary, or the most specific, or the most general instance here.
-  - Add a flag to classes that marks them as “univalent”, telling the type checker that any instance is good and overlap should not hinder him
 
 
 Code not yet pushed anywhere.
