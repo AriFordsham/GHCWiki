@@ -17,6 +17,7 @@
 == Template Haskell ==
 See also [wiki:TemplateHaskell]
  * #1475: allow splicing of import declarations (5 in cc list)
+ * #8100: support standalone deriving
  * #4364: cycle in type declarations
  * #4429: `reinerp` work on `newName` and export reorganisation
  * #7021: make TH catch up with constraint kinds

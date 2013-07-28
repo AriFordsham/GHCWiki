@@ -20,6 +20,7 @@
 See also [TemplateHaskell](template-haskell)
 
 - [\#1475](https://gitlab.haskell.org//ghc/ghc/issues/1475): allow splicing of import declarations (5 in cc list)
+- [\#8100](https://gitlab.haskell.org//ghc/ghc/issues/8100): support standalone deriving
 - [\#4364](https://gitlab.haskell.org//ghc/ghc/issues/4364): cycle in type declarations
 - [\#4429](https://gitlab.haskell.org//ghc/ghc/issues/4429): `reinerp` work on `newName` and export reorganisation
 - [\#7021](https://gitlab.haskell.org//ghc/ghc/issues/7021): make TH catch up with constraint kinds
