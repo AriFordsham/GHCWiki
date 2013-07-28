@@ -12,6 +12,7 @@ In order to be able to build GHC from source, the following ports have to be ins
 
 - [ converters/libiconv](http://www.freshports.org/converters/libiconv/) (GNU libiconv)
 - [ devel/autoconf](http://www.freshports.org/devel/autoconf) (GNU Autoconf)
+- [ devel/automake](http://www.freshports.org/devel/automake) (GNU Automake)
 - [ devel/git](http://www.freshports.org/devel/git) (for getting and managing the GHC sources)
 - [ devel/gmake](http://www.freshports.org/devel/gmake) (GNU Make)
 - [ devel/hs-alex](http://www.freshports.org/devel/hs-alex) (alex)
@@ -37,6 +38,7 @@ In addition to the required ones, there are some further ports to install for ex
 - [ devel/hs-hasktags](http://www.freshports.org/devel/hs-hasktags) (for generating HTAGS files)
 - [ devel/ncurses](http://www.freshports.org/devel/ncurses) (for a more up-to-date version for the `terminfo` library, see Notes)
 - [ lang/gcc](http://www.freshports.org/lang/gcc) (for GCC 4.6 or later, see Notes)
+- [ print/dvipsk-tetex](http://www.freshports.org/print/dvipsk-tetex) (for PDF documentation)
 - [ print/hs-hscolour](http://www.freshports.org/print/hs-hscolour) (for HsColourized Haddock documentation)
 - [ textproc/dblatex](http://www.freshports.org/textproc/dblatex) (for PDF documentation)
 - [ textproc/docbook-xsl](http://www.freshports.org/textproc/docbook-xsl) (for XML documentation)
