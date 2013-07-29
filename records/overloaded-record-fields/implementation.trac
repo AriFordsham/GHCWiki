@@ -80,8 +80,8 @@ I'm not sure if this is my fault.
 
 Tests in need of attention:
 
-* rename/should_compile/T5334, should_fail/T5372, T5533, T5892a, T7943
-* gadt/records-fail1 (bad error message)
+* rename/should_fail/T5372 (mysterious change of location)
+* rename/should_fail/T5892a (accept changed output)
 
 == To do ==
 
