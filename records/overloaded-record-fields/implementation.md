@@ -50,9 +50,6 @@ type FieldLabel = (OccName, Name)
 
 where the first component is the field and the second is the selector function (TODO dfun name).
 
-
-Where an AST representation type (e.g. `HsRecField` or `ConDeclField`) contained an argument of type `Located id` for a field, it now stores a `Located RdrName` for the label and `Maybe id` for the selector. The parser supplies `Nothing` for the selector; it is filled in by the renamer  (by `rnHsRecFields1` in `RnPat`, and `rnField` in `RnTypes`). Partial functions are provided to extract the `Located id`, but they will panic if called on not-yet-renamed syntax.  **SLPJ** Consider using `(error "not yet filled in")` instead of a `Maybe`.  We do that quite a lot. **AMG** Done for `ConDeclField`. I need to think about how to change `HsRecField` in order to support the more liberal rules for record updates.
-
 ## Source expressions
 
 
@@ -60,6 +57,37 @@ The `HsExpr` type has extra constructors `HsOverloadedRecFld OccName` and `HsSin
 
 
 When the flag is not enabled, `rnExpr` turns an unambiguous record field `foo` into `HsSingleRecFld foo $sel_foo_T`. The point of this constructor is so we can pretty-print the field name but store the selector name for typechecking.
+
+
+Where an AST representation type (e.g. `HsRecField` or `ConDeclField`) contained an argument of type `Located id` for a field, it now stores a `Located RdrName` for the label, and some representation of the selector. The parser uses an error thunk for the selector; it is filled in by the renamer  (by `rnHsRecFields1` in `RnPat`, and `rnField` in `RnTypes`). The new definition of `ConDeclField` (used in types) is:
+
+```wiki
+data ConDeclField name
+  = ConDeclField { cd_fld_lbl  :: Located RdrName,
+                   cd_fld_sel  :: name,
+                   cd_fld_type :: LBangType name, 
+                   cd_fld_doc  :: Maybe LHsDocString }
+```
+
+
+The new definition of `HsRecField` is:
+
+```wiki
+data HsRecField id arg = HsRecField {
+        hsRecFieldLbl :: Located RdrName,
+        hsRecFieldSel :: Either id [(id, id)],
+        hsRecFieldArg :: arg,
+        hsRecPun      :: Bool }
+```
+
+
+The renamer (`rnHsRecFields1`) supplies `Left sel_name` for the selector if it is unambiguous, or `Right xs` if it is ambiguous (because it is for a record update, and there are multiple fields with the correct label in scope). In the latter case, the possibilities `xs` are represented as a list of (parent name, selector name) pairs. The typechecker (`tcExpr`) tries three ways to disambiguate the update:
+
+1. Perhaps only one type has all the fields that are being updated.
+
+1. Use the type being pushed in, if it is already a `TyConApp`. 
+
+1. Use the type signature of the record expression, if it exists and is a `TyConApp`.
 
 ## Automatic instance generation
 
@@ -104,9 +132,6 @@ Tests in need of attention:
 - rename/should_fail/T5892a (accept changed output)
 
 ## To do
-
-
-Typechecking of record updates still uses the first field to determine the type, so the renamer has to produce unambiguous selector names. It should be possible to specify the record type via a type signature, so `rnHsRecFields1` needs to be a bit more liberal.
 
 
 Only projection is implemented, not update, so there is no lens integration. We need to decide on a story here.
