@@ -10,7 +10,6 @@ This page has been revised to reflect what we've implemented.
 - For some discussion of implicit view patterns see [ GHC feature request 3583](http://hackage.haskell.org/trac/ghc/ticket/3583)
 - For a discussion of pattern bindings and view patterns see [\#4061](https://gitlab.haskell.org//ghc/ghc/issues/4061)
 - For an alternative syntax for view patterns: [ViewPatternsAlternative](view-patterns-alternative).
-  [ aksesoris mobil](http://www.detikauto.com/) -  [ baby pink](http://www.grosir-kosmetik.com/6-baby-pink-cream-pemutih-kulit) -  [ rumah dijual](http://www.propertykita.com/rumah.html)
 
 ## Basic view patterns
 
