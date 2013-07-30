@@ -62,10 +62,32 @@ When the flag is not enabled, `rnExpr` turns an unambiguous record field `foo` i
 `Has` instances are generated, provided the extension is enabled, in `tcInstDecls1` (the same time as derived instances (from '''deriving''' clauses) are generated). Every record field `GRE` in scope gives rise to an instance. Such instances are available when typechecking the current module (in `tcg_inst_env`) but not exported to other modules (via `tcg_insts`). At the moment, fresh `DFunId`s are generated for all instances in scope for each module, even though they are exported in interface files. Perhaps this should change.
 
 
-== Known bugs ==
+== Unused imports ==
 
-Unused imports and generation of the minimal import list (`warnUnusedImportDecls` in `RnNames`) show selector names rather than labels. This is a pain to fix, as there is no easy way to get from a selector `Name` to the `OccName` of the label. We could add the label to the `RecSelId` constructor of `IdDetails`. Or perhaps there is a way to keep track of label/selector relationships when renaming imports?
+Unused imports and generation of the minimal import list (`RnNames.warnUnusedImportDecls`) currently show selector names rather than labels. We may need to create a mapping from dfun names to field labels (cf. `kids_env` in `RnNames.reportUnusedNames`) to know how to print them. Moreover, things are a bit trickier with `-XOverloadedRecordFields` enabled. Quoting SLPJ:
 
+On unused imports, it's not just an implementation question.  
+
+{{{
+module A where
+  data T = MkT { x,y:Int }
+
+module B where
+  data S = MkS { x,y::Bool }
+
+module C where
+  import A( T(x) )
+  import B( S(x) )
+
+  foo :: T -> Int
+  foo r = r.x + 2
+}}}
+
+Now, do we expect to report the 'x' in S(x) import as unused?  Actually the entire 'import B' is unused.  Only the typechecker will eventually know that.  But I think the type checker does actually record which instances are used, so perhaps we can make use of that info to give accurate unused-import info.
+
+
+
+== Outstanding bugs ==
 
 Some of the ghci tests fail with the following messages:
 
@@ -82,6 +104,7 @@ Tests in need of attention:
 
 * rename/should_fail/T5372 (mysterious change of location)
 * rename/should_fail/T5892a (accept changed output)
+
 
 == To do ==
 
