@@ -6,9 +6,9 @@ Currently, the developer setup on `ghc.haskell.org` is a bit complicated and unf
 
  * Add their SSH key
 
- * Give them access to the darcs group
+ * Add them access to the darcs group (which owns the canonical, public facing git repositories.)
 
-Then, that user can clone from the server over SSH, and also push to the repositories directly.
+Then, that user can clone from the server over SSH, and also push to the repositories directly with their new permissions.
 
 This unfortunately has some downsides:
 
