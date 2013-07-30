@@ -26,6 +26,8 @@ This unfortunately has some downsides:
 
 Gitolite is a piece of software that can alleviate most of these pains and also make central management easier: [ https://github.com/sitaramc/gitolite/wiki](https://github.com/sitaramc/gitolite/wiki)
 
+TODOFIXME elaborate on why Gitolite is awesome.
+
 # Proposed plan
 
 
