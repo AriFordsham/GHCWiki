@@ -44,7 +44,7 @@ The server currently isn't setup, but Austin can easily make it so.
 
  * Tangential: should we deprecate the darcs.haskell.org URL? Who uses it? The name was known to be a funny misnomer from the git switchover times, but As Far As Austin Knows, only GHC developers really use it these days. Perhaps we could just retire it.
 
-  * Austin notes that both nhc and yhc use it, so Malcolm and Neil will need to be asked.
+   * Austin notes that both nhc and yhc use it, so Malcolm and Neil will need to be asked.
 
  * Who's actively committing, and does anybody beyond that actually *need* a shell account? It's unclear who uses `ghc.haskell.org` for what at the moment.
 
