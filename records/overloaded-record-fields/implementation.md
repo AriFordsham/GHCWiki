@@ -94,21 +94,12 @@ Now, do we expect to report the 'x' in S(x) import as unused?  Actually the enti
 ## Outstanding bugs
 
 
-Some of the ghci tests fail with the following messages:
-
-```wiki
-Not in scope: ‛System.IO.hSetBuffering’
-Not in scope: ‛System.IO.stdout’
-Not in scope: data constructor ‛System.IO.LineBuffering’
-Not in scope: ‛GHC.TopHandler.runIOFastExit’
-```
-
-
-I'm not sure if this is my fault.
+Some of the tests fail for the ghci way because the `System.IO` and `GHC.TopHandler` modules are not loaded automatically. I'm not sure if this is my fault, or if the problem existed in HEAD when I branched. For the moment, I've tweaked the testsuite to load the necessary modules.
 
 
 Tests in need of attention:
 
+- rename/should_fail/T2901 (mysterious change of location)
 - rename/should_fail/T5372 (mysterious change of location)
 - rename/should_fail/T5892a (accept changed output)
 
