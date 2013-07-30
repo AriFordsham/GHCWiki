@@ -105,13 +105,12 @@ The server currently isn't setup, but Austin can easily make it so.
 
 - Tangential: should we deprecate the darcs.haskell.org URL? Who uses it? The name was known to be a funny misnomer from the Git switchover times, but As Far As Austin Knows, only GHC developers really use it these days. Perhaps we could just retire it.
 
-  - Austin notes that both nhc and yhc use it, so Malcolm and Neil will need to be asked.
-
-- We can leave `darcs.haskell.org` as-is for legacy reasons, while creating new VHOST on `http://git.haskell.org/` which would expose only the Gitolite-owned git repositories (and maybe also a Cgit front-page as e.g. on [ http://git.kernel.org](http://git.kernel.org))
+  - **Austin**: both nhc and yhc use it, so Malcolm and Neil will need to be asked, at least.
+  - **Herbert**: We can leave `darcs.haskell.org` as-is for legacy reasons, while creating new VHOST on `http://git.haskell.org/` which would expose only the Gitolite-owned git repositories (and maybe also a Cgit front-page as e.g. on [ http://git.kernel.org](http://git.kernel.org))
 
 - Who's actively committing, and does anybody beyond that actually *need* a shell account? It's unclear who uses `ghc.haskell.org` for what at the moment, beyond push access.
 
-- Tangential: The current directory setup is a total mess on `darcs.haskell.org`, especially since the old darcs repos hang around there. Maybe we should clean it up if we're going to use it for a browseable directory.
+- Tangential: The current directory setup is a total mess on `darcs.haskell.org`, especially since the old darcs repos hang around there (having both `testsuite` and `testsuite.git` is confusing.) Maybe we should clean it up if we're going to use it for a browseable directory.
 
 ## Contact points
 
