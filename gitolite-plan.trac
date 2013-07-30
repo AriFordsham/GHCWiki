@@ -1,0 +1,56 @@
+= The Gitolite Switch =
+
+Currently, the developer setup on `ghc.haskell.org` is a bit complicated and unfortunate. Most importantly, it hosts all of the git repositories we use. When a developer for GHC is inducted, we:
+
+ * Create them a user on ghc.haskell.org
+
+ * Add their SSH key
+
+ * Add them access to the darcs group (which owns the canonical, public facing git repositories.)
+
+Then, that user can clone from the server over SSH, and also push to the repositories directly with their new permissions.
+
+This unfortunately has some downsides:
+
+ * Every user needs a full shell account. While we probably *won't* be forkbombed by someone, few people actually *need* a full shell account, and the principle of least privilege applies here. Really, everybody is just pushing to git.
+
+ * Because of the last point, group and access permissions on the repositories regularly get screwed up, causing situations where people don't have access (and can't push,) or we have to have `post-receive` hooks that modify the permissions. Both of these suck (this doesn't affect e.g. the Linux kernel developers, who have pull-based development models, because they can afford to.)
+
+ * Leading on more with the last point, people invariably fix this but it's always slightly patchy, and so the repositories that need 'fixing' for things like permissions are inconsistent, and it's hard to keep track of what needs to be maintained.
+
+ * All users can willy nilly create tags and branches. Ideally, only release maintainers should have permission to do things like cut a release tag.
+
+Gitolite is a piece of software that can alleviate most of these pains and also make central management easier: https://github.com/sitaramc/gitolite/wiki
+
+TODO FIXME: elaborate on why Gitolite is awesome.
+
+= Proposed plan =
+
+Below are some notes about how we (Austin & Herbert) would like to go about doing this.
+
+== Setup ==
+
+== The switch ==
+
+Ideally, most of the new setup can occur concurrently with the normal one undisturbed. Presumably 'the big switch' can happen in an hour or so downtime, in which we take the old URIs offline, bring gitolite online and tell people this is the time to fix your push URLs.
+
+== Developer changes ==
+
+TODO FIXME: note what changes here for developers who already have push based access
+
+= Current status =
+
+The server currently isn't setup, but Austin can easily make it so.
+
+== Questions ==
+
+ * Tangential: should we deprecate the darcs.haskell.org URL? Who uses it? The name was known to be a funny misnomer from the git switchover times, but As Far As Austin Knows, only GHC developers really use it these days. Perhaps we could just retire it.
+   * Austin notes that both nhc and yhc use it, so Malcolm and Neil will need to be asked.
+
+ * Who's actively committing, and does anybody beyond that actually *need* a shell account? It's unclear who uses `ghc.haskell.org` for what at the moment, beyond push access.
+
+ * Tangential: The current directory setup is a total mess on `darcs.haskell.org`, especially since the old darcs repos hang around there. Maybe we should clean it up if we're going to use it for a browseable directory.
+
+== Contact points ==
+
+Austin Seipp (thoughtpolice) and Herbert Valerio Riedel (hvr) can be contacted about details or specifics.
