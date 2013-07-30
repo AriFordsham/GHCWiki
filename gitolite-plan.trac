@@ -1,0 +1,25 @@
+Currently, the developer setup on `ghc.haskell.org` is a bit complicated and unfortunate. Most importantly, it hosts all of the git repositories we use. When a developer for GHC is inducted, we:
+
+ * Create them a user on ghc.haskell.org
+
+ * Add their SSH key
+
+ * Give them access to the darcs group
+
+Then, that user can clone from the server over SSH, and also push to the repositories directly.
+
+This unfortunately has some downsides:
+
+ * Every user needs a full shell account. While we probably *won't* be forkbombed by someone, few people actually *need* a full shell account, and the principle of least privilege applies here. Really, everybody is just pushing to git.
+
+ * Because of the last point, group and access permissions on the repositories regularly get screwed up, causing situations where people don't have access (and can't push,) or we have to have `post-receive` hooks that modify the permissions. Both of these suck (this doesn't affect people like the Linux kernel who have pull-based development models, because they can afford to have strict maintainer models.)
+
+ * Leading on more with the last point, people invariably fix this but it's always slightly patchy, and so the repositories that need 'fixing' for things like permissions are inconsistent, and it's hard to keep track of what needs to be maintained.
+
+ * All users can willy nilly create tags and branches. Ideally, only release maintainers should have permission to do things like cut a release tag.
+
+Gitolite is a piece of software that can alleviate most of these pains and also make central management easier: https://github.com/sitaramc/gitolite/wiki
+
+## TODO FIXME
+
+Austin Seipp (thoughtpolice) and Herbert Valerio Riedel will put more notes here on the proposed changes, switchover details, etc.
