@@ -22,22 +22,17 @@ $dfHasTx = Has $sel_x_T
 
 == The naming of cats ==
 
-The `AvailTC Name [Name] [OccName]` constructor of `AvailInfo` represents a type and its pieces that are in scope. Record fields are now stored in a separate list (the third argument). Every field should have a corresponding selector (in the second argument). '''SLPJ'' Whoa!  Why should we duplicate this info.  My gut feel is that the selector should not appear in the second argument.
+The `AvailTC Name [Name] [(OccName, Name)]` constructor of `AvailInfo` represents a type and its pieces that are in scope. Record fields are now stored in a separate list (the third argument), along with their selectors (TODO: replace with dfun names). The `IEThingWith name [name] [OccName]` constructor of `IE`, which represents a thing that can be imported or exported, only stores the field labels. '''SLPJ''' Whoa!  Why should we duplicate this info.  My gut feel is that the selector should not appear in the second argument. '''AMG''' Does this sound better now? It's helpful if `gresFromAvail` need not do lookups (it is called by the desugarer).
 
- Since we have the name of the type (the first argument), we can find the selector corresponding to a field. Similar changes are required to the `IEThingWith` constructor of `IE`, which represents a thing that can be imported or exported.
-
-The `Parent` type has an extra constructor `FldParent Name OccName` that stores the parent `Name` and the field `OccName`. The `GlobalRdrElt` (`GRE`) for a field stores the selector name directly, and uses the `FldParent` constructor to store the field. Thus a field `foo` of type `T` gives rise to two entries in the `GlobalRdrEnv`:
+The `Parent` type has an extra constructor `FldParent Name OccName` that stores the parent `Name` and the field `OccName`. The `GlobalRdrElt` (`GRE`) for a field stores the selector name directly, and uses the `FldParent` constructor to store the field. Thus a field `foo` of type `T` gives rise this entry in the `GlobalRdrEnv`:
 
 {{{
-$sel_foo_T  |->  GRE $sel_foo_T (ParentIs T) LocalDef
-foo         |->  GRE $sel_foo_T (FldParent T foo) LocalDef
+foo |->  GRE $sel_foo_T (FldParent T foo) LocalDef
 }}}
 
-'''SLPJ''' I'm very dubious about the first entry.  The `GlobalRdrEnv` is exclusively about what is lexically in scope, ie strings in your source code. `$sel_foo_T` is not such a thing.  I don't think that first entry belongs in the GRE at all.  '''End of SLPJ'''.
+'''SLPJ''' moreover I think we should store the ''dictionary'' `$dfHasTfoo` in the GRE for `foo`, not the selector.  That way we get both getter and setter (via the dictionary) in one go.  '''AMG''' I'm working on this.
 
-'''SLPJ''' moreover I think we should store the ''dictionary'' `$dfHasTfoo` in the GRE for `foo`, not the selector.  That way we get both getter and setter (via the dictionary) in one go.  
-
-Note that the `OccName` used when adding a GRE to the environment now depends on the parent field: for `FldParent` it is the field rather than the selector name.
+Note that the `OccName` used when adding a GRE to the environment (`greOccName`) now depends on the parent field: for `FldParent` it is the field label rather than the selector name.
 
 The `dcFields` field of `DataCon` stores a list of
 
@@ -45,9 +40,9 @@ The `dcFields` field of `DataCon` stores a list of
 type FieldLabel = (OccName, Name)
 }}}
 
-where the first component is the field and the second is the selector function.
+where the first component is the field and the second is the selector function (TODO: dfun name).
 
-Where an AST representation type (e.g. `HsRecField` or `ConDeclField`) contained an argument of type `Located id` for a field, it now stores a `Located RdrName` for the label and `Maybe id` for the selector. The parser supplies `Nothing` for the selector; it is filled in by the renamer  (by `rnHsRecFields1` in `RnPat`, and `rnField` in `RnTypes`). Partial functions are provided to extract the `Located id`, but they will panic if called on not-yet-renamed syntax.  '''SLPJ''' Consider using `(error "not yet filled in")` instead of a `Maybe`.  We do that quite a lot.
+Where an AST representation type (e.g. `HsRecField` or `ConDeclField`) contained an argument of type `Located id` for a field, it now stores a `Located RdrName` for the label and `Maybe id` for the selector. The parser supplies `Nothing` for the selector; it is filled in by the renamer  (by `rnHsRecFields1` in `RnPat`, and `rnField` in `RnTypes`). Partial functions are provided to extract the `Located id`, but they will panic if called on not-yet-renamed syntax.  '''SLPJ''' Consider using `(error "not yet filled in")` instead of a `Maybe`.  We do that quite a lot. '''AMG''' Done for `ConDeclField`. I need to think about how to change `HsRecField` in order to support the more liberal rules for record updates.
 
 
 == Source expressions ==
