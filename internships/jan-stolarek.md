@@ -34,7 +34,7 @@ Simon Marlow:
 
 ## Loopification
 
-- tests that fail with panic on `3107e19` (branch `js-loopification-v4`):
+- tests that fail with panic on `3107e19` (branch `js-loopification-v4`, run with `make EXTRA_HC_OPTS='-fcmm-loopify' WAY=normal`):
 
 ```wiki
    ../../libraries/hpc/tests/simple/tixs  hpc_markup_002 [bad stdout] (normal)
@@ -54,6 +54,9 @@ Simon Marlow:
    perf/compiler                          parsing001 [stat not good enough] (normal)
    rts                                    T7919 [exit code non-0] (normal)
 ```
+
+
+None of these seem to be directly related to loopification, except maybe for performance ones.
 
 ## Let-no-escape notes
 
