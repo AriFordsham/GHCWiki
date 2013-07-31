@@ -19,12 +19,16 @@ Simon Marlow:
   - '''PLEASE make sure that you're carefully measuring compilation time when making changes to the code generator'''.  Expensive optimisations need to go in -O2 (at least).
 
 = Back-end notes =
-== Notes to self ==
+== Various notes to self ==
   * Does it make sense to create a separate flag for every Cmm optimisation I add? After all they are designed to work together
   * I need to remember to cerfully choose at which optimization levels my Cmm passes are enabled
   * Here's an interesting bit from `CoreToStg.lhs`: "a dead variable's stack slot (if it has one): should be stubbed to avoid space leaks"
 
-=== Let-no-escape notes ===
+== Loopification ==
+  * tests that fail with panic on `3107e19` (branch `js-loopification-v4`):
+    - conc043
+
+== Let-no-escape notes ==
   * Code generation for let-no-escape: `cgLneBinds` in `codeGen/StgCmmExpr.hs`
   * Heap checking in let-no-escape: see `Note [Heap checks]` in `codeGen/StgCmmHeap.hs`
   * From `codeGen/StgCmmMonad.hs`:
