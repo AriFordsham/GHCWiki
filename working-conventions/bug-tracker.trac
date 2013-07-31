@@ -42,7 +42,7 @@ Each ticket has a bunch of other fields too:
  * '''Test Case''': fill in this field with the name of the test in the test suite.  Typically every bug
    closed should have an appropriate test case added to the test suite.
 
- * '''cc''': we pay more attention to tickets with a long cc list, so add yourself to the cc list if you care about the ticket.  Better still, add a comment to explain why you care.
+ * '''cc''': we pay more attention to tickets with a long cc list, so add yourself to the cc list if you care about the ticket.  It is ''vastly'' more effective if you also add a comment to explain why you care. 
 
  * '''Owned by''' says who is committed to taking the ticket forward.  We typically leave this field blank until we actively start working on it, lest others feel unable to work on a ticket because it is apparently owned, even though nothing is happening.
 
