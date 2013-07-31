@@ -26,7 +26,7 @@ $dfHasTx = Has $sel_x_T
 ## The naming of cats
 
 
-The `AvailTC Name [Name] [(OccName, Name)]` constructor of `AvailInfo` represents a type and its pieces that are in scope. Record fields are now stored in a separate list (the third argument), along with their selectors (TODO replace with dfun names). The `IEThingWith name [name] [OccName]` constructor of `IE`, which represents a thing that can be imported or exported, only stores the field labels. **SLPJ** Whoa!  Why should we duplicate this info.  My gut feel is that the selector should not appear in the second argument. **AMG** Does this sound better now? It's helpful if `gresFromAvail` need not do lookups (it is called by the desugarer).
+The `AvailTC Name [Name] [(OccName, Name)]` constructor of `AvailInfo` represents a type and its pieces that are in scope. Record fields are now stored in a separate list (the third argument), along with their selectors. The `IEThingWith name [name] [OccName]` constructor of `IE`, which represents a thing that can be imported or exported, only stores the field labels. **SLPJ** Whoa!  Why should we duplicate this info.  My gut feel is that the selector should not appear in the second argument. **AMG** Does this sound better now? It's helpful if `gresFromAvail` need not do lookups (it is called by the desugarer).
 
 
 The `Parent` type has an extra constructor `FldParent Name OccName` that stores the parent `Name` and the field `OccName`. The `GlobalRdrElt` (`GRE`) for a field stores the selector name directly, and uses the `FldParent` constructor to store the field. Thus a field `foo` of type `T` gives rise this entry in the `GlobalRdrEnv`:
@@ -35,20 +35,24 @@ The `Parent` type has an extra constructor `FldParent Name OccName` that stores 
 foo |->  GRE $sel_foo_T (FldParent T foo) LocalDef
 ```
 
-**SLPJ** moreover I think we should store the *dictionary*`$dfHasTfoo` in the GRE for `foo`, not the selector.  That way we get both getter and setter (via the dictionary) in one go.  **AMG** I'm working on this.
+**SLPJ** moreover I think we should store the *dictionary*`$dfHasTfoo` in the GRE for `foo`, not the selector.  That way we get both getter and setter (via the dictionary) in one go.  **AMG** Now I'm not sure about this. We can't build the dictionary for higher-rank fields, but they have a perfectly good selector. Moreover, if we want type-changing update there will be two dictionaries (one for the getter and one for the setter).
 
 
 Note that the `OccName` used when adding a GRE to the environment (`greOccName`) now depends on the parent field: for `FldParent` it is the field label rather than the selector name.
 
 
-The `dcFields` field of `DataCon` stores a list of
+The `dcFields` field of `DataCon` stores a list of `FieldLabel`, defined thus:
 
 ```wiki
-type FieldLabel = (OccName, Name)
+type FieldLbl a = FieldLabel {
+                      flOccName  :: OccName, -- ^ Label of the field
+                      flSelector :: a        -- ^ Record selector function
+                  }
+type FieldLabel = FieldLbl Name
 ```
 
 
-where the first component is the field and the second is the selector function (TODO dfun name).
+whereas the `ifConFields` field of `IfaceConDecl` stores a list of `FieldLbl OccName`.
 
 ## Source expressions
 
@@ -93,6 +97,8 @@ The renamer (`rnHsRecFields1`) supplies `Left sel_name` for the selector if it i
 
 `Has` instances are generated, provided the extension is enabled, in `tcInstDecls1` (the same time as derived instances (from **deriving** clauses) are generated). Every record field `GRE` in scope gives rise to an instance. Such instances are available when typechecking the current module (in `tcg_inst_env`) but not exported to other modules (via `tcg_insts`). At the moment, fresh `DFunId`s are generated for all instances in scope for each module, even though they are exported in interface files. Perhaps this should change.
 
+**AMG** I wanted to generate each `DFunId` for `Has` once, at the field's definition site, but this causes problems for the fields defined in `base`, as the `Has` class may not be available. I've reverted to generating fresh `DFunId`s locally to each module for which `-XOverloadedRecordFields` is used. Is there a better way to do this?
+
 ## Unused imports
 
 
@@ -134,10 +140,7 @@ Tests in need of attention:
 ## To do
 
 
-Only projection is implemented, not update, so there is no lens integration. We need to decide on a story here.
-
-
-Rather than generating fresh `DFunId`s for all the fields in scope, only generate them for locally-defined fields, and pass them around so that other modules can use them.
+Only projection is implemented, not update, so there is no lens integration yet. We need to decide on a story here.
 
 
 Implement the syntactic sugar `r { x :: t }`.
