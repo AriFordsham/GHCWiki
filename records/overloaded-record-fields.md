@@ -443,7 +443,8 @@ There are three problems:
 
   But that adds complexity, and casts into doubt the proposed syntactic sugar for `Has` predicates.
 
-- Haskell 98's record update can change the type of the record:
+- Haskell 98's record update can change the type of the record
+  (there is a type-checked response to this bullet point [ here](https://raw.github.com/ntc2/haskell-records/master/GHCWiki_SimpleOverloadedRecordFields.lhs)):
 
   ```wiki
   data R a = R { x :: a }
