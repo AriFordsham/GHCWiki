@@ -26,13 +26,39 @@ Simon Marlow:
 
 # Back-end notes
 
-## Notes to self
+## Various notes to self
 
 - Does it make sense to create a separate flag for every Cmm optimisation I add? After all they are designed to work together
 - I need to remember to cerfully choose at which optimization levels my Cmm passes are enabled
 - Here's an interesting bit from `CoreToStg.lhs`: "a dead variable's stack slot (if it has one): should be stubbed to avoid space leaks"
 
-### Let-no-escape notes
+## Loopification
+
+- tests that fail with panic on `3107e19` (branch `js-loopification-v4`, run with `make EXTRA_HC_OPTS='-fcmm-loopify' WAY=normal`):
+
+```wiki
+   ../../libraries/hpc/tests/simple/tixs  hpc_markup_002 [bad stdout] (normal)
+   cabal                                  ghcpkg05 [bad stderr] (normal)
+   ghci/scripts                           ghci024 [bad stdout] (normal)
+   perf/compiler                          T1969 [stat not good enough] (normal)
+   perf/compiler                          T3064 [stat not good enough] (normal)
+   perf/compiler                          T3294 [stat not good enough] (normal)
+   perf/compiler                          T4801 [stat not good enough] (normal)
+   perf/compiler                          T5030 [stat not good enough] (normal)
+   perf/compiler                          T5321FD [stat not good enough] (normal)
+   perf/compiler                          T5321Fun [stat not good enough] (normal)
+   perf/compiler                          T5631 [stat not good enough] (normal)
+   perf/compiler                          T5642 [stat not good enough] (normal)
+   perf/compiler                          T5837 [stat not good enough] (normal)
+   perf/compiler                          T783 [stat not good enough] (normal)
+   perf/compiler                          parsing001 [stat not good enough] (normal)
+   rts                                    T7919 [exit code non-0] (normal)
+```
+
+
+None of these seem to be directly related to loopification, except maybe for performance ones.
+
+## Let-no-escape notes
 
 - Code generation for let-no-escape: `cgLneBinds` in `codeGen/StgCmmExpr.hs`
 - Heap checking in let-no-escape: see `Note [Heap checks]` in `codeGen/StgCmmHeap.hs`
