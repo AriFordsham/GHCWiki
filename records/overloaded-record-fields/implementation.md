@@ -20,7 +20,10 @@ $sel_x_T :: T -> Int       -- record selector (used to be called `x`)
 $sel_x_T (T x) = x
 
 $dfHasTx :: Has T "x"      -- corresponds to the Has instance decl
-$dfHasTx = Has $sel_x_T
+$dfHasTx = Has { getField _     = $sel_x_T
+               , setField _ s e = s { x = e } }
+
+axiom TFCo:R:GetResult : GetResult T "x" = Int  -- corresponds to the GetResult type family instance
 ```
 
 ## The naming of cats
@@ -99,6 +102,9 @@ The renamer (`rnHsRecFields1`) supplies `Left sel_name` for the selector if it i
 
 **AMG** I wanted to generate each `DFunId` for `Has` once, at the field's definition site, but this causes problems for the fields defined in `base`, as the `Has` class may not be available. I've reverted to generating fresh `DFunId`s locally to each module for which `-XOverloadedRecordFields` is used. Is there a better way to do this?
 
+
+As well as `Has` instances, instances of the type family `GetResult` are generated, and exactly the same question about dfun names applies to their axiom names.
+
 ## Unused imports
 
 
@@ -140,7 +146,7 @@ Tests in need of attention:
 ## To do
 
 
-Only projection is implemented, not update, so there is no lens integration yet. We need to decide on a story here.
+Simple update is implemented, using the design [ here](https://github.com/adamgundry/records-prototype/blob/master/SimpleRecords.hs). The next step is to implement type-changing update.
 
 
 Implement the syntactic sugar `r { x :: t }`.
@@ -149,7 +155,7 @@ Implement the syntactic sugar `r { x :: t }`.
 Test the interaction between fields and qualified names. In particular, a qualified name can be used for unambiguous identification of fields (e.g. in updates) but should probably not be used as an overloaded variable.
 
 
-Universally quantified fields should result in a warning being emitted and no Has instance generated. What about existentially quantified fields?
+Universally quantified fields should result in a warning being emitted and no Has instance generated. What about existentially quantified fields (naughty record selectors)?
 
 
 How should deprecation work for fields? Not at all?
