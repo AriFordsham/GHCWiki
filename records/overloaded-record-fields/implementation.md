@@ -17,7 +17,7 @@ generates
 
 ```wiki
 $sel_x_T :: T -> Int       -- record selector (used to be called `x`)
-$sel_x_T (T x) = x
+$sel_x_T (MkT x) = x
 
 $dfHasTx :: Has T "x"      -- corresponds to the Has instance decl
 $dfHasTx = Has { getField _     = $sel_x_T
@@ -130,6 +130,27 @@ module C where
 
 
 Now, do we expect to report the 'x' in S(x) import as unused?  Actually the entire 'import B' is unused.  Only the typechecker will eventually know that.  But I think the type checker does actually record which instances are used, so perhaps we can make use of that info to give accurate unused-import info.
+
+## GADT record updates
+
+
+Annoyingly, the generated code for `setField` doesn't typecheck for GADTs, because of [\#2595](https://gitlab.haskell.org//ghc/ghc/issues/2595). At the moment, it generates
+
+```wiki
+setField _ s e = s { x = e }
+```
+
+
+for updating the field `x`, and this record update is rejected by the typechecker even though it is perfectly sensible. The alternative is to generate the rather long-winded explicit update
+
+```wiki
+setField _ (MkT1 f1 ... fi-1 _ fi+1 ... fn) e = MkT1 f1 ... fi-1 e fi+1 ... fn
+...
+setField _ (MkTm ...)                       e = MkTm ...
+```
+
+
+I wonder if it would be easier to fix [\#2595](https://gitlab.haskell.org//ghc/ghc/issues/2595).
 
 ## Outstanding bugs
 
