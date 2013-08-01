@@ -180,3 +180,9 @@ Universally quantified fields should result in a warning being emitted and no Ha
 
 
 How should deprecation work for fields? Not at all?
+
+
+Consider error messages: can we give helpful feedback so users don't have to understand the details of the implementation? For example, unsolved `Accessor` or `Has` constraints could be given nicer messages.
+
+
+Consider defaulting `Accessor p` to `p = (->)`, and defaulting `Has r "f" t` constraints where there is only one datatype with a field `f` in scope.
