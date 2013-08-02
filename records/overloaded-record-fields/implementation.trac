@@ -120,21 +120,29 @@ Now, do we expect to report the 'x' in S(x) import as unused?  Actually the enti
 
 == GADT record updates ==
 
-Annoyingly, the generated code for `setField` doesn't typecheck for GADTs, because of #2595. At the moment, it generates
+Annoyingly, the generated code for `setField` doesn't typecheck for GADTs, because of #2595. Consider the example
 
 {{{
+data W a where
+    MkW :: a ~ b => { x :: a, y :: b } -> W (a, b)
+}}}
+
+At the moment, my code generates
+
+{{{
+-- setField :: proxy "x" -> W (a, b) -> a -> W (a, b)
 setField _ s e = s { x = e }
 }}}
 
-for updating the field `x`, and this record update is rejected by the typechecker even though it is perfectly sensible. The alternative is to generate the rather long-winded explicit update
+but this record update is rejected by the typechecker, even though it is perfectly sensible. The alternative is for me to generate the explicit update
 
 {{{
-setField _ (MkT1 f1 ... fi-1 _ fi+1 ... fn) e = MkT1 f1 ... fi-1 e fi+1 ... fn
-...
-setField _ (MkTm ...)                       e = MkTm ...
+setField _ (MkW _ y) x = MkW x y
 }}}
 
-I wonder if it would be easier to fix #2595.
+which is fine, but rather long-winded if there are many constructors or fields. Essentially this is doing the job of the desugarer for record updates. I wonder if it would be easier to fix #2595. Perhaps not; the general case makes my brain hurt. I only need a rather special case: updating one field, where either the type does not change, or none of the local constraints mention changing type variables.
+
+Note that `W` does not admit type-changing single update for either field, because of the `a ~ b` constraint. Without it, though, type-changing update should be allowed.
 
 
 == Outstanding bugs ==
