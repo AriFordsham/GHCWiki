@@ -162,6 +162,28 @@ which is fine, but rather long-winded if there are many constructors or fields. 
 
 Note that `W` does not admit type-changing single update for either field, because of the `a ~ b` constraint. Without it, though, type-changing update should be allowed.
 
+## Type-changing update: phantom arguments
+
+
+Consider the datatype
+
+```wiki
+data T a = MkT { foo :: Int }
+```
+
+
+where `a` is a phantom type argument (it does not occur in the type of `foo`). The traditional update syntax can change the phantom argument, for example if `r :: T Int` then `r { foo = 3 } :: T Bool` typechecks. However, `setField` cannot do so, because this is illegal:
+
+```wiki
+type instance SetResult (T a) "foo" Int = T b
+```
+
+
+Note that the result of the type family involves an unbound variable `b`. 
+
+
+In general, a use of `setField` can only change type variables that occur in the field type being updated, and do not occur in any of the other fields' types.
+
 ## Outstanding bugs
 
 
@@ -177,7 +199,10 @@ Tests in need of attention:
 ## To do
 
 
-Simple update is implemented, using the design [ here](https://github.com/adamgundry/records-prototype/blob/master/SimpleRecords.hs). The next step is to implement type-changing update.
+Test type-changing update.
+
+
+Sort out GADT record updates.
 
 
 Implement the syntactic sugar `r { x :: t }`.
