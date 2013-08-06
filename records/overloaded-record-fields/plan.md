@@ -47,23 +47,23 @@ In the light of feedback, we propose **no changes to dot syntax** for the time b
 A record field constraint is introduced when a field is used in an expression. If every `x` in scope is a record fields, then an occurrence of `x` has type `a { x :: b } => a -> b` instead of generating an ambiguity error. The overloaded `x` is translated using a typeclass, described below. If there are any normal identifiers `x` in scope (as well as fields) then a use of `x` leads to an ambiguity error. 
 
 
-Record field constraints `r { x :: t }` are syntactic sugar for typeclass constraints `Get r "x" t`, where
+Record field constraints `r { x :: t }` are syntactic sugar for typeclass constraints `Has r "x" t`, where
 
 ```wiki
 type family GetResult (r :: *) (f :: Symbol) :: *
 
-class t ~ GetResult r f => Get r (f :: Symbol) t where
-  getFld :: proxy f -> r -> t
+class t ~ GetResult r f => Has r (f :: Symbol) t where
+  getField :: proxy f -> r -> t
 ```
 
 
-Recall that `Symbol` is the kind of type-level strings. Roughly speaking, an occurrence of a field name `x` is translated into `getFld (Proxy :: Proxy "x")`. (Actually a slightly more general translation may be used, as [discussed below](records/overloaded-record-fields/plan#lens-integration).)
+Recall that `Symbol` is the kind of type-level strings. Roughly speaking, an occurrence of a field name `x` is translated into `getField (Proxy :: Proxy "x")`. (Actually a slightly more general translation is used, as [discussed below](records/overloaded-record-fields/plan#lens-integration).)
 
 
-The syntactic sugar extends to conjunctions:  `r {x :: tx, y :: ty}` means `(Get r "x" tx, Get r "y" ty)`. Note also that `r` and `t` might be arbitrary types, not just type variables or type constructors.  For example, `T (Maybe v) { x :: [Maybe v] }` means `(Get (T (Maybe b)) "x" [Maybe v])`.
+The syntactic sugar extends to conjunctions:  `r {x :: tx, y :: ty}` means `(Has r "x" tx, Has r "y" ty)`. Note also that `r` and `t` might be arbitrary types, not just type variables or type constructors.  For example, `T (Maybe v) { x :: [Maybe v] }` means `(Has (T (Maybe b)) "x" [Maybe v])`.
 
 
-Instances for the `Get` typeclass and `GetResult` type family are automatically generated (for modules with `-XOverloadedRecordFields` enabled) using the record fields that are in scope. For example, the data type
+Instances for the `Has` typeclass and `GetResult` type family are automatically generated (for modules with `-XOverloadedRecordFields` enabled) using the record fields that are in scope. For example, the data type
 
 ```wiki
 data T a = MkT { x :: [a] }
@@ -75,25 +75,25 @@ has the corresponding instances
 ```wiki
 type instance GetResult (T a) "x" = [a]
 
-instance (b ~ [a]) => Get (T a) "x" b where
-  getFld _ (MkT x) = x
+instance (b ~ [a]) => Has (T a) "x" b where
+  getField _ (MkT x) = x
 ```
 
 
-The bare type variable `b` in the instance head is important, so that we get an instance match from the first two parameters only, then the equality constraint `(b ~ [a])` improves `b`. For example, if the constraint `Get (T c) "x" d` is encountered during type inference, the instance will match and generate the constraints `(a ~ c, b ~ d, b ~ [a])`. Moreover, the `GetResult` type family ensures that the third parameter is functionally dependent on the first two, which is needed to [avoid ambiguity errors when composing overloaded fields](records/overloaded-record-fields/plan#trouble-in-paradise).
+The bare type variable `b` in the instance head is important, so that we get an instance match from the first two parameters only, then the equality constraint `(b ~ [a])` improves `b`. For example, if the constraint `Has (T c) "x" d` is encountered during type inference, the instance will match and generate the constraints `(a ~ c, b ~ d, b ~ [a])`. Moreover, the `GetResult` type family ensures that the third parameter is functionally dependent on the first two, which is needed to [avoid ambiguity errors when composing overloaded fields](records/overloaded-record-fields/plan#trouble-in-paradise).
 
 
 The reason for using a three-parameter class, rather than just two parameters and a type family, is to support the syntactic sugar. With a two-parameter class we could easily end up inferring types like the following, and it would be hard to reapply the sugar:
 
 ```wiki
-f :: (Get r "x", Get "y", GetResult r "x" ~ Int, GetResult r "y" ~ Int) => r -> Int
+f :: (Has r "x", Has r "y", GetResult r "x" ~ Int, GetResult r "y" ~ Int) => r -> Int
 f r = x r + y r :: Int
 ```
 
 ### Representation hiding
 
 
-At present, a datatype in one module can declare a field, but if the selector function is not exported, then the field is hidden from clients of the module. It is important to support this. Typeclasses in general have no controls over their scope, but for implicitly generated `Get` instances, the instance is available for a module if `-XOverloadedRecordFields` is enabled for that module and the record field selector function is in scope. Instances are generated on the client side, rather than being exported from the defining module.
+At present, a datatype in one module can declare a field, but if the selector function is not exported, then the field is hidden from clients of the module. It is important to support this. Typeclasses in general have no controls over their scope, but for implicitly generated `Has` instances, the instance is available for a module if `-XOverloadedRecordFields` is enabled for that module and the record field selector function is in scope. Instances are generated on the client side, rather than being exported from the defining module.
 
 
 This enables representation hiding: just like at present, exporting the field selector permits access to the field. For example, consider the following module:
@@ -106,12 +106,12 @@ data S = S { x :: Bool }
 ```
 
 
-Any module that imports `M` will have access to the `x` field from `R` but not from `S`, because the instance `Get R "x" Int` will be available but the instance `Get S "x" Bool` will not be. Thus `R { x :: Int }` will be solved but `S { x :: Bool }` will not.
+Any module that imports `M` will have access to the `x` field from `R` but not from `S`, because the instance `Has R "x" Int` will be available but the instance `Has S "x" Bool` will not be. Thus `R { x :: Int }` will be solved but `S { x :: Bool }` will not.
 
 ### Multiple modules and automatic instance generation
 
 
-Note that `Get` instances are generated on a per-module basis, using the fields that are in scope for that module, and automatically generated instances are never exported. Thus it doesn't matter whether `-XOverloadedRecordFields` was on in the module that defined the datatype. The availability of the instances in a particular module depends only on whether the flag is enabled for that module.
+Note that `Has` instances are generated on a per-module basis, using the fields that are in scope for that module, and automatically generated instances are never exported. Thus it doesn't matter whether `-XOverloadedRecordFields` was on in the module that defined the datatype. The availability of the instances in a particular module depends only on whether the flag is enabled for that module.
 
 
 Suppose module `M` imports module `N`, `N` imports module `O`, and only `N` has the extension enabled. Now `N` can project any field in scope (including those defined in `O`), but `M` cannot access any `Get` instances. 
@@ -119,7 +119,7 @@ Suppose module `M` imports module `N`, `N` imports module `O`, and only `N` has 
 
 This means that
 
-- the extension is required whenever a `Get` constraint must be solved;
+- the extension is required whenever a `Has` constraint must be solved;
 - no new mechanism for hiding instances is required; and
 - records defined in existing modules (or other packages) without the extension can still be overloaded.
 
@@ -139,7 +139,7 @@ cannot be overloaded. If such a field is declared in a module with `-XOverloaded
 Bidirectional type inference for higher-rank types relies on inferring the type of functions, so that types can be pushed in to the arguments. However, the type of an overloaded field cannot immediately be inferred (as some constraint solving is required). This is why higher-rank and overloaded fields are incompatible.
 
 
-Some previous variants of the design supported rank-1 universally quantified fields (but not rank-2 and above). However, these prevent the third parameter of the `Get` class from being a function of the first two, and hence obstruct type inference for compositions of selectors.
+Some previous variants of the design supported rank-1 universally quantified fields (but not rank-2 and above). However, these prevent the third parameter of the `Has` class from being a function of the first two, and hence obstruct type inference for compositions of selectors.
 
 ### Record update
 
@@ -174,6 +174,98 @@ or
 
 will be accepted. (Really only the type constructor is needed, whereas this approach requires the whole type to be specified, but it seems simpler than inventing a whole new syntax.)
 
+### Limited type-changing update
+
+
+As noted above, supporting a polymorphic version of the existing record update syntax (in its full generality) is difficult. However, we can generate instances of the following class, which permits type-changing update of single fields:
+
+```wiki
+type family SetResult (r :: *) (f :: Symbol) (a :: *) :: *
+
+class Has r f (GetResult r f) =>
+          Upd (r :: *) (f :: Symbol) (a :: *) where
+  setField :: proxy f -> r -> a -> SetResult r f a
+```
+
+
+For example, the datatype `T` above would give rise to these instances:
+
+```wiki
+type instance SetResult (T a) "x" [c] = T c
+
+instance (b ~ [c]) => Upd (T a) "x" b where
+  setField _ r e = r { x = e }
+```
+
+
+If a type variable is shared by multiple fields, it cannot be changed using `setField`. Moreover, the use of the `SetResult` type family means that phantom type variables cannot be changed. For example,
+
+```wiki
+data U a b c = MkU { foo :: (a, b), bar :: a }
+```
+
+
+an update to `foo` must keep `a` and `c` the same, since `a` occurs in the
+type of `bar`, and `c` does not occur in the type of `foo`, but the update may change `b`.  Thus we generate:
+
+```wiki
+type instance SetResult (T a b c) "foo" (a, b') = T a b' c
+
+instance t ~ (a, b') => Upd (T a b c) "foo" t where
+  setField _ r e = r { foo = e }
+```
+
+### Lens integration
+
+
+It was implied above that a field like `foo` translates into `getField (Proxy :: Proxy "foo") :: Has r "foo" t => r -> t`, but this is not quite the whole story. We would like fields to be usable as lenses (e.g. using the [ lens](http://hackage.haskell.org/package/lens) package). This requires a slightly more general translation, using
+
+```wiki
+field :: (Has r f t, Accessor p f) => proxy f -> p r t
+field z = accessor z (getField z) (setField z)
+```
+
+
+to translate `foo` to `field (Proxy :: Proxy "foo") :: (Has r "foo" t, Accessor p "foo") => p r t`. The `Accessor` class is defined thus:
+
+```wiki
+class Accessor (p :: * -> * -> *) (f :: Symbol) where
+  accessor :: proxy f -> (r -> GetResult r f) ->
+              (forall a . Upd r f a => r -> a -> SetResult r f a) ->
+              p r (GetResult r f)
+```
+
+
+An instance of `Accessor p f` means that `p` may contain a getter and setter for the field `f`. In particular, we can give an instance for functions that ignores `f` and the setter completely:
+
+```wiki
+instance Accessor (->) f where
+  accessor _ getter setter = getter
+```
+
+
+Thus, whenever a field `foo` is used at a function type (by applying it or composing it, for example), this instance will be selected. If `z` is a proxy of type `Proxy "foo"`, then `foo` translates to `field z`, which computes to `accessor z (getField z) (setField z)`, and hence to `getField z` by the `Accessor` instance for functions.
+
+
+However, `p` does not have to be the function arrow. Suppose the `lens` library defined the following newtype wrapper:
+
+```wiki
+newtype WrapLens f r a
+  = MkWrapLens (forall b . Upd r f b => Lens r (SetResult r f b) a b)
+
+instance f ~ g => Accessor (WrapLens f) g where
+  accessor _ getter setter = MkWrapLens (\ w s -> setter s <$> w (getter s))
+
+fieldLens :: Upd r f b => WrapLens f r a -> Lens r (SetResult r f b) a b
+fieldLens (MkWrapLens l) = l
+```
+
+
+Now `fieldLens foo` is a lens whenever `foo` is an overloaded record field.
+
+
+Other lens libraries can define their own instances of `Accessor`, even if they do not support type-changing update, and the same machinery enables fields to be used with them.
+
 ## Design choices
 
 ### Record update: avoiding redundant annotations
@@ -204,106 +296,6 @@ Annoyingly, nested updates will require some annotations. In the following examp
   f v = v { x = (x v){ y = 6 } }
 ```
 
-### Lens integration
-
-
-As noted above, supporting a polymorphic version of the existing record update syntax (in its full generality) is difficult. However, we can generate instances of the following class, which permits type-changing update of single fields:
-
-```wiki
-type family SetResult (r :: *) (f :: Symbol) (a :: *) :: *
-
-class Set (r :: *) (f :: Symbol) (a :: *) where
-  setFld :: proxy f -> r -> a -> SetResult r f a
-```
-
-
-For example, the datatype `T` above would give rise to these instances:
-
-```wiki
-type instance SetResult (T a) "x" [c] = T c
-
-instance (b ~ [c]) => Set (T a) "x" b where
-  setFld _ (MkT _) y = MkT y
-```
-
-
-It was implied above that a field like `foo` translates into `getFld (Proxy :: Proxy "foo") :: Get r "foo" t => r -> t`, but this is not quite the whole story. We would like fields to be usable as lenses (e.g. using the [ lens](http://hackage.haskell.org/package/lens) package). This requires a slightly more general translation, using
-
-```wiki
-field :: (Get r f t, Accessor p f) => proxy f -> p r t
-field z = accessor z (getFld z) (setFld z)
-```
-
-
-to translate `foo` to `field (Proxy :: Proxy "foo") :: (Get r "foo" t, Accessor p "foo") => p r t`. The `Accessor` class is defined thus:
-
-```wiki
-class Accessor (p :: * -> * -> *) (f :: Symbol) where
-  accessor :: proxy f -> (r -> GetResult r f) ->
-              (forall a . Set r f a => r -> a -> SetResult r f a) ->
-              p r (GetResult r f)
-```
-
-
-An instance of `Accessor p f` means that `p` may contain a getter and setter for the field `f`. In particular, we can give an instance for functions that ignores `f` and the setter completely:
-
-```wiki
-instance Accessor (->) f where
-  accessor _ getter setter = getter
-```
-
-
-Thus, whenever a field `foo` is used at a function type (by applying it or composing it, for example), this instance will be selected. If `z` is a proxy of type `Proxy "foo"`, then `foo` translates to `field z`, which computes to `accessor z (getFld z) (setFld z)`, and hence to `getFld z` by the `Accessor` instance for functions.
-
-
-However, `p` does not have to be the function arrow. Suppose the `lens` library defined the following newtype wrapper:
-
-```wiki
-newtype WrapLens f r a
-  = MkWrapLens (forall b . Set r f b => Lens r (SetResult r f b) a b)
-
-instance f ~ g => Accessor (WrapLens f) g where
-  accessor _ getter setter = MkWrapLens (\ w s -> setter s <$> w (getter s))
-
-fieldLens :: Set r f b => WrapLens f r a -> Lens r (SetResult r f b) a b
-fieldLens (MkWrapLens l) = l
-```
-
-
-Now `fieldLens foo` is a lens whenever `foo` is an overloaded record field.
-
-### Trouble in paradise
-
-[ Edward Kmett points out](http://www.haskell.org/pipermail/glasgow-haskell-users/2013-July/022584.html) that a previous version of this proposal, where the third parameter of `Get` was not functionally dependent on the first two, fell short in an important respect: composition of polymorphic record fields would lead to ambiguity errors, as the intermediate type cannot be determined. For example, suppose
-
-```wiki
-foo :: Get b "foo" c => b -> c
-bar :: Get a "bar" b => a -> b
-```
-
-
-then
-
-```wiki
-foo . bar :: (Get a "bar" b, Get b "foo" c) => a -> c
-```
-
-
-and `b` is an ambiguous type variable. This shows the need for the `GetResult` type family.
-
-### User-defined `Get` instances
-
-
-Should the user be allowed to write explicit `Get` instances? For example:
-
-```wiki
-instance ctx => Get r "x" t where
-  getFld = blah :: r -> t
-```
-
-
-Even with an explicit `Get` instance as above, the name `x` will not be in scope unless a datatype has a field with name `x`. Thus it is not really useful. The previous proposal, where `(.x)` always meant "project out the `x` field", used explicit `Has` instances for virtual fields. 
-
 ### Hiding record selectors
 
 
@@ -327,6 +319,45 @@ x = field
 
 
 but with the property that it will not clash with actual `x` fields.
+
+### Syntactic sugar for `Upd` constraints
+
+
+Should we have a special syntax for `Upd` constraints, just as `r { x :: t }` sugars `Has r "x" t`? What should it look like? Perhaps something like `r { x ::= t }`?
+
+## Remarks
+
+### Trouble in paradise
+
+[ Edward Kmett points out](http://www.haskell.org/pipermail/glasgow-haskell-users/2013-July/022584.html) that a previous version of this proposal, where the third parameter of `Get` was not functionally dependent on the first two, fell short in an important respect: composition of polymorphic record fields would lead to ambiguity errors, as the intermediate type cannot be determined. For example, suppose
+
+```wiki
+foo :: Has b "foo" c => b -> c
+bar :: Has a "bar" b => a -> b
+```
+
+
+then
+
+```wiki
+foo . bar :: (Has a "bar" b, Has b "foo" c) => a -> c
+```
+
+
+and `b` is an ambiguous type variable. This shows the need for the `GetResult` type family.
+
+### User-defined `Has` instances
+
+
+The user can write explicit `Has` instances, and they are scoped normally. For example:
+
+```wiki
+instance ctx => Has r "x" t where
+  getField = blah :: proxy "x" -> r -> t
+```
+
+
+Even with an explicit `Has` instance as above, the name `x` will not be in scope unless a datatype has a field with name `x`. This is likely to make it less useful. However, it does allow virtual fields to be declared.
 
 ## Example of constraint solving
 
