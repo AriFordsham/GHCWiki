@@ -84,13 +84,15 @@ perl boot
 GHC requires you to write a **mk/build.mk** file, and the following one works. `integer-simple` must be used, because the default implementation doesn't compile on iOS. `Stage1Only` is needed for cross-compiling.
 
 ```wiki
-HADDOCK_DOCS       = NO
-BUILD_DOCBOOK_HTML = NO
-BUILD_DOCBOOK_PS   = NO
-BUILD_DOCBOOK_PDF  = NO
-SPLIT_OBJS         = NO
-INTEGER_LIBRARY    = integer-simple
-Stage1Only 	   = YES
+HADDOCK_DOCS         = NO
+BUILD_DOCBOOK_HTML   = NO
+BUILD_DOCBOOK_PS     = NO
+BUILD_DOCBOOK_PDF    = NO
+SPLIT_OBJS           = NO
+INTEGER_LIBRARY      = integer-simple
+Stage1Only 	     = YES
+DYNAMIC_GHC_PROGRAMS = NO
+GhcLibWays           = v
 ```
 
 ### 5. Configure & build
