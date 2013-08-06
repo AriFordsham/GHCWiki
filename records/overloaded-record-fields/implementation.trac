@@ -182,18 +182,19 @@ Tests in need of attention:
 
 == To do ==
 
-Test type-changing update.
+* Test type-changing update.
+* Sort out GADT record updates.
+* Implement the syntactic sugar `r { x :: t }`.
+* Test the interaction between fields and qualified names: a qualified name can be used for unambiguous identification of fields (e.g. in updates) but should probably not be used as an overloaded variable.
+* Universally quantified variables in field types should result in no Has instance being generated.
+* Improve error messages from typechecker:
+  * Unsolved `Accessor p f` where `p` is something silly
+  * Unsolved `Has R "x" t` where `R` has a quantified variable in the type of the field "x"
+* Consider defaulting `Accessor p` to `p = (->)`, and defaulting `Has r "f" t` constraints where there is only one datatype with a field `f` in scope.
+* Sort out reporting of unused imports.
 
-Sort out GADT record updates.
+== Queries ==
 
-Implement the syntactic sugar `r { x :: t }`.
-
-Test the interaction between fields and qualified names. In particular, a qualified name can be used for unambiguous identification of fields (e.g. in updates) but should probably not be used as an overloaded variable.
-
-Universally quantified fields should result in a warning being emitted and no Has instance generated. What about existentially quantified fields (naughty record selectors)?
-
-How should deprecation work for fields? Not at all?
-
-Consider error messages: can we give helpful feedback so users don't have to understand the details of the implementation? For example, unsolved `Accessor` or `Has` constraints could be given nicer messages.
-
-Consider defaulting `Accessor p` to `p = (->)`, and defaulting `Has r "f" t` constraints where there is only one datatype with a field `f` in scope.
+* How should dfunids/axioms and instances be propagated?
+* Where should automatic instances be generated for GHCi?
+* How should deprecation work for fields? Not at all?
