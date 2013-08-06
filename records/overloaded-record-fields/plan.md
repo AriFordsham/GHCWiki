@@ -114,7 +114,7 @@ Any module that imports `M` will have access to the `x` field from `R` but not f
 Note that `Has` instances are generated on a per-module basis, using the fields that are in scope for that module, and automatically generated instances are never exported. Thus it doesn't matter whether `-XOverloadedRecordFields` was on in the module that defined the datatype. The availability of the instances in a particular module depends only on whether the flag is enabled for that module.
 
 
-Suppose module `M` imports module `N`, `N` imports module `O`, and only `N` has the extension enabled. Now `N` can project any field in scope (including those defined in `O`), but `M` cannot access any `Get` instances. 
+Suppose module `M` imports module `N`, `N` imports module `O`, and only `N` has the extension enabled. Now `N` can project any field in scope (including those defined in `O`), but `M` cannot access any `Has` instances. 
 
 
 This means that
@@ -299,7 +299,7 @@ Annoyingly, nested updates will require some annotations. In the following examp
 ### Hiding record selectors
 
 
-Optionally, we could [add a flag \`-XNoRecordSelectorFunctions\`](records/declared-overloaded-record-fields/no-mono-record-fields) to suppress the record selectors. Just as `-XOverloadedRecordFields` applies to a client module, and generates `Get` instances for that module, so `-XNoRecordSelectorFunctions` in a client module would hide all the record selectors that should otherwise be in scope. The idea is that another record system could use Template Haskell to generate functions in place of selectors, and these would not clash.
+Optionally, we could [add a flag \`-XNoRecordSelectorFunctions\`](records/declared-overloaded-record-fields/no-mono-record-fields) to suppress the record selectors. Just as `-XOverloadedRecordFields` applies to a client module, and generates `Has` instances for that module, so `-XNoRecordSelectorFunctions` in a client module would hide all the record selectors that should otherwise be in scope. The idea is that another record system could use Template Haskell to generate functions in place of selectors, and these would not clash.
 
 
 Since the selectors are hidden by clients (on import) rather than on export, fields can still be used for record update and mentioned in import and export lists, to control access to them (as discussed in the [representation hiding](records/overloaded-record-fields/plan#representation-hiding) section).
@@ -329,7 +329,7 @@ Should we have a special syntax for `Upd` constraints, just as `r { x :: t }` su
 
 ### Trouble in paradise
 
-[ Edward Kmett points out](http://www.haskell.org/pipermail/glasgow-haskell-users/2013-July/022584.html) that a previous version of this proposal, where the third parameter of `Get` was not functionally dependent on the first two, fell short in an important respect: composition of polymorphic record fields would lead to ambiguity errors, as the intermediate type cannot be determined. For example, suppose
+[ Edward Kmett points out](http://www.haskell.org/pipermail/glasgow-haskell-users/2013-July/022584.html) that a previous version of this proposal, where the third parameter of `Has` was not functionally dependent on the first two, fell short in an important respect: composition of polymorphic record fields would lead to ambiguity errors, as the intermediate type cannot be determined. For example, suppose
 
 ```wiki
 foo :: Has b "foo" c => b -> c
