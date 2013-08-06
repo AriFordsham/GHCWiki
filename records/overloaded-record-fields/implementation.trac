@@ -178,13 +178,13 @@ Tests in need of attention:
 * rename/should_fail/T5892a (accept changed output)
 * ghci/scripts/ghci042 (accept changed output)
 * ghci/prog002 prog003 scripts/ghci029 ghci036 ghci037 (scope issues in GHCi)
+* typechecker/should_fail/tcfail102 (changed error message) 
 
 
 == To do ==
 
 * Test type-changing update.
 * Sort out GADT record updates.
-* Implement the syntactic sugar `r { x :: t }`.
 * Test the interaction between fields and qualified names: a qualified name can be used for unambiguous identification of fields (e.g. in updates) but should probably not be used as an overloaded variable.
 * Universally quantified variables in field types should result in no Has instance being generated.
 * Improve error messages from typechecker:
