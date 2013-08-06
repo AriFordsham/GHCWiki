@@ -1,12 +1,15 @@
 # Overloaded record fields: implementation notes
 
 
-Here be dragons. This page describes implementation details and progress on the implementation of [the overloaded record fields plan](records/overloaded-record-fields/plan). Development of the extension is taking place on forks of the [ ghc](https://github.com/adamgundry/ghc) and [ packages-base](https://github.com/adamgundry/packages-base) repositories (on branch 'overloaded-record-fields').
+Here be dragons. This page describes implementation details and progress on the implementation of [the overloaded record fields plan](records/overloaded-record-fields/plan). Development of the extension is taking place on forks of the [ ghc](https://github.com/adamgundry/ghc) and [ packages-base](https://github.com/adamgundry/packages-base) repositories (on branch 'overloaded-record-fields'). A [ prototype implementation](https://github.com/adamgundry/records-prototype/blob/master/RecordsPrototype.hs) is also available.
 
 ## The basic idea
 
 
-Typechecking a record datatype still generates record selectors, but their names have a `$sel` prefix and end with the name of their type. Thus
+The `Has` and `Upd` classes, and `GetResult` and `SetResult` type families, are defined in the module [ GHC.Records](https://github.com/adamgundry/packages-base/blob/overloaded-record-fields/GHC/Records.hs) in the `base` package.
+
+
+Typechecking a record datatype still generates record selectors, but their names have a `$sel` prefix and end with the name of their type. Moreover, instances for the classes and type families are generated. For example,
 
 ```wiki
 data T = MkT { x :: Int }
@@ -16,14 +19,17 @@ data T = MkT { x :: Int }
 generates
 
 ```wiki
-$sel_x_T :: T -> Int       -- record selector (used to be called `x`)
+$sel_x_T :: T -> Int -- record selector (used to be called `x`)
 $sel_x_T (MkT x) = x
 
-$dfHasTx :: Has T "x"      -- corresponds to the Has instance decl
-$dfHasTx = Has { getField _     = $sel_x_T
-               , setField _ s e = s { x = e } }
+$dfHasTx :: forall a . a ~ Int => Has T "x" a -- corresponds to the Has instance decl
+$dfHasTx = Has { getField _ = $sel_x_T }
 
-axiom TFCo:R:GetResult : GetResult T "x" = Int  -- corresponds to the GetResult type family instance
+$dfUpdTx :: forall a . a ~ Int => Upd T "x" a -- corresponds to the Upd instance decl
+$dfUpdTx = Upd { setField _ s e = s { x = e } }
+
+axiom TFCo:R:GetResult : GetResult T "x" = Int   -- corresponds to the GetResult type family instance
+axiom TFCo:R:SetResult : SetResult T "x" Int = T -- corresponds to the SetResult type family instance
 ```
 
 ## The naming of cats
@@ -38,7 +44,7 @@ The `Parent` type has an extra constructor `FldParent Name OccName` that stores 
 foo |->  GRE $sel_foo_T (FldParent T foo) LocalDef
 ```
 
-**SLPJ** moreover I think we should store the *dictionary*`$dfHasTfoo` in the GRE for `foo`, not the selector.  That way we get both getter and setter (via the dictionary) in one go.  **AMG** Now I'm not sure about this. We can't build the dictionary for higher-rank fields, but they have a perfectly good selector. Moreover, if we want type-changing update there will be two dictionaries (one for the getter and one for the setter).
+**SLPJ** moreover I think we should store the *dictionary*`$dfHasTfoo` in the GRE for `foo`, not the selector.  That way we get both getter and setter (via the dictionary) in one go.  **AMG** Now I'm not sure about this. We can't build the dictionary for higher-rank fields, but they have a perfectly good selector. Moreover, with type-changing update there are two dictionaries (one for the getter and one for the setter) and two coercion axioms.
 
 
 Note that the `OccName` used when adding a GRE to the environment (`greOccName`) now depends on the parent field: for `FldParent` it is the field label rather than the selector name.
