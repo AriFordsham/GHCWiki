@@ -212,8 +212,6 @@ Tests in need of attention:
 - Improve error messages from typechecker:
 
   - Unsolved `Accessor p f` where `p` is something silly
-  - Unsolved `Has R "x" t` where `R` has a quantified variable in the type of the field "x"
-  - Unsolved `Has` or `Upd` when the extension is disabled
 - Consider defaulting `Accessor p` to `p = (->)`, and defaulting `Has r "f" t` constraints where there is only one datatype with a field `f` in scope.
 - Sort out reporting of unused imports.
 - How should dfunids/axioms and instances be propagated?
