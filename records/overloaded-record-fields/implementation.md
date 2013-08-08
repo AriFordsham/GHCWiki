@@ -190,6 +190,28 @@ Note that the result of the type family involves an unbound variable `b`.
 
 In general, a use of `setField` can only change type variables that occur in the field type being updated, and do not occur in any of the other fields' types.
 
+## Data families
+
+
+Consider the following:
+
+```wiki
+data family F (a :: *) :: *
+data instance F Int  = MkF1 { foo :: Int }
+data instance F Bool = MkF2 { foo :: Bool }
+```
+
+
+This is perfectly sensible, and should give rise to two \*different\* record selectors `foo`, and corresponding `Has` instances:
+
+```wiki
+instance t ~ Int => Has (F Int) "foo" t
+instance t ~ Bool => Has (F Bool) "foo" t
+```
+
+
+However, what can we call the record selectors? They can't both be `$sel_foo_F`! Ideally we would use the name of the representation tycon, rather than the family tycon, but that isn't introduced until the typechecker (`tcDataFamInstDecl` in `TcInstDcls`), and we need to create the selector in the renamer (`getLocalNonValBinders` in `RnNames`). We can't just pick an arbitrary unique name, because we need to look up the selector to associate it with its data constructor (`extendRecordFieldEnv` in `RnSource`).
+
 ## Outstanding bugs
 
 
@@ -202,12 +224,12 @@ Tests in need of attention:
 - ghci/scripts/ghci042 (accept changed output)
 - ghci/prog002 prog003 scripts/ghci029 ghci036 ghci037 (scope issues in GHCi)
 - typechecker/should_fail/tcfail102 (changed error message) 
-- driver/T4437 (should [OverloadedRecordFields](records/overloaded-record-fields) be a GHC-only extension, or should Cabal know about it?)
+- driver/T4437 (should `OverloadedRecordFields` be a GHC-only extension, or should Cabal know about it?)
 
 ## To do
 
-- Test data families with fields.
 - Sort out GADT record updates.
+- Sort out data families with duplicated fields.
 - Fix the interaction between fields and qualified names: a qualified name can be used for unambiguous identification of fields (e.g. in updates) but should not be used as an overloaded variable.
 - Improve error messages from typechecker:
 
