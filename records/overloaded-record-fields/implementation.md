@@ -202,13 +202,13 @@ Tests in need of attention:
 - ghci/scripts/ghci042 (accept changed output)
 - ghci/prog002 prog003 scripts/ghci029 ghci036 ghci037 (scope issues in GHCi)
 - typechecker/should_fail/tcfail102 (changed error message) 
+- driver/T4437 (should [OverloadedRecordFields](records/overloaded-record-fields) be a GHC-only extension, or should Cabal know about it?)
 
 ## To do
 
-- Test type-changing update.
 - Test data families with fields.
 - Sort out GADT record updates.
-- Test the interaction between fields and qualified names: a qualified name can be used for unambiguous identification of fields (e.g. in updates) but should probably not be used as an overloaded variable.
+- Fix the interaction between fields and qualified names: a qualified name can be used for unambiguous identification of fields (e.g. in updates) but should not be used as an overloaded variable.
 - Improve error messages from typechecker:
 
   - Unsolved `Accessor p f` where `p` is something silly
