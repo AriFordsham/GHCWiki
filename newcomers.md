@@ -61,6 +61,11 @@ Once you fix the bug, make sure to write a test-case proving that you've done wh
 
 - Be forewarned that many pages on the GHC wiki are somewhat out-of-date. Always check the last modification date. Email if you're not sure.
 
+## More information
+
+- [ This page](http://ghc.haskell.org/trac/ghc/wiki/WorkingConventions/FixingBugs) describes in more detail workflow for fixing bugs. When you decide to submit your first patch it will certainly be worthwile to take a look.
+- [ This page](http://ghc.haskell.org/trac/ghc/wiki/WorkingConventions/Git) gives more deatail about our git working conventions. It will tell you how to set up your working trees in a bit more sophisticated way or how to prepare patches. These are information you'll need to know when you're submitting a patch, but as long as your beginning and just hacking you might skip this page.
+
 ## Need help?
 
 
