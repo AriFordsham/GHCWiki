@@ -4,7 +4,7 @@ This page is intended to serve as the first stop for those people who say, "I wa
 
 == First steps ==
 
-* To orient yourself to the general architecture of GHC, [http://www.aosabook.org/en/ghc.html this article], written by two of the chief architects of GHC, Simon Marlow and Simon Peyton-Jones, is excellent and current (2012).
+* To orient yourself to the general architecture of GHC, [http://www.aosabook.org/en/ghc.html this article] ([http://community.haskell.org/~simonmar/papers/aos.pdf‎ PDF version]), written by two of the chief architects of GHC, Simon Marlow and Simon Peyton-Jones, is excellent and current (2012).
 
 * While you're reading that article, download and build the sources. [wiki:Building/Preparation Prepare] your machine, [wiki:Building/GettingTheSources download] the source, and [wiki:Building/QuickStart build]. For the short, short version, which may or may not work for your machine, you can try this (note that three commands are not meant to be taken literally!):
 
@@ -56,6 +56,10 @@ Once you fix the bug, make sure to write a test-case proving that you've done wh
 * Don't get scared. GHC is a big codebase, but it makes sense when you stare at it long enough!
 
 * Be forewarned that many pages on the GHC wiki are somewhat out-of-date. Always check the last modification date. Email if you're not sure.
+
+== More information ==
+  * [http://ghc.haskell.org/trac/ghc/wiki/WorkingConventions/FixingBugs This page] describes in more detail workflow for fixing bugs. When you decide to submit your first patch it will certainly be worthwile to take a look.
+  * [http://ghc.haskell.org/trac/ghc/wiki/WorkingConventions/Git This page] gives more deatail about our git working conventions. It will tell you how to set up your working trees in a bit more sophisticated way and how to prepare patches. These are information you'll need to know when you get more serious about GHC development, but as long as you're just hacking you may skip this page.
 
 == Need help? ==
 
