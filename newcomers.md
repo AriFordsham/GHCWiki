@@ -59,6 +59,8 @@ Once you fix the bug, make sure to write a test-case proving that you've done wh
 
 - Don't get scared. GHC is a big codebase, but it makes sense when you stare at it long enough!
 
+- Be forewarned that many pages on the GHC wiki are somewhat out-of-date. Always check the last modification date. Email if you're not sure.
+
 ## Need help?
 
 
