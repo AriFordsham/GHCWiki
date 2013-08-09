@@ -49,20 +49,46 @@ Ideally, most of the new setup can occur concurrently with the normal one undist
 ### Developer changes
 
 
+Note: The `git.haskell.org` DNS CNAME alias for `ghc.haskell.org` has not been activated yet. If you want to try out the new smart-protocol `http://` urls, you can append "`88.198.224.241 git.haskell.org`" to your `/etc/hosts` file. For the non-`http://` protocols, you can just substitute `git.haskell.org` by `ghc.haskell.org` in the following instructions.
+
+#### Anonymous read access
+
+**No immediate action needed**
+
+
+The (old) `http://darcs.haskell.org/<repo-name>.git` Git URLs will continue to work (and still use [ The Dumb Protocol](http://git-scm.com/book/en/Git-Internals-Transfer-Protocols#The-Dumb-Protocol)) for some time.
+
+
+New `git clone` will use the new `http://git.haskell.org/<repo-name>.git` Git URLs and provide the much faster [ "smart" Git/HTTP protocol](http://git-scm.com/book/en/Git-Internals-Transfer-Protocols#The-Smart-Protocol). Moreover, also access via `git://git.haskell.org/<repo-name>.git` is provided now.
+
+
+To rewrite a checked out to the new access URLs, you can use the `sync-all` script, e.g.:
+
+```wiki
+./sync-all -r git://ghc.haskell.org remote set-url origin
+```
+
+#### Authenticated read/write access
+
+
 For developers (with push permissions) who have already checked out repositories, the only change needed is to go over their repositories and update their git uris from
 
-> `ssh://<user>@darcs.haskell.org/srv/darcs/<repo-name>`
+> `ssh://<user>@darcs.haskell.org/srv/darcs/<repo-name>.git`
 
 
 to
 
-> `ssh://git@git.haskell.org/<repo-name>`
+> `ssh://git@git.haskell.org/<repo-name>.git`
 
 
-This can be accomplished either by editing their '.git/config' manually or using a Git command like `git remote set-url origin NEW-URL`.
+This can be accomplished by invoking the `sync-all` script:
 
+```wiki
+./sync-all -r ssh://git@ghc.haskell.org remote set-url origin
+./sync-all -r ssh://git@ghc.haskell.org remote set-url --push origin
+```
 
-The old Git `ssh://` URLs will continue to work, however, as the user won't have direct write permissions anymore at the filesystem level, they'll effectively become read-only URLs.
+~~The old Git `ssh://` URLs will continue to work, however, as the user won't have direct write permissions anymore at the filesystem level, they'll effectively become read-only URLs.~~
 
 
 Last but not least, the `sync-all` script needs to be adapted.
