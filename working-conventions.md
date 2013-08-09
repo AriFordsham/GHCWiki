@@ -8,6 +8,8 @@ This page has pointers to information you'll need.
 
 - [Register an account](/trac/ghc/register) on this GHC Trac, so that you can edit pages.  Editing advice is in the "Wiki" links in the green sidebar on the left of every page
 
+- You may want to read [this page](newcomers), dedicated to helping newcomers tackle their first bugs.
+
 - Talk to other [GHC contributors](contributors).
 
 - Read the [GHC reading list](reading-list) and the [commentary on the source code](commentary).
