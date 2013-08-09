@@ -69,16 +69,18 @@ to
 
  `ssh://git@git.haskell.org/<repo-name>.git`
 
-This can be accomplished by invoking the `sync-all` script:
+This can be accomplished by invoking the `sync-all` script. But **before** you do this, you need to make sure you have the latest version of `sync-all` as well - a few tiny changes were needed.
+
+Many developers use older trees that may not have been updated before the switch. But never fear, it's quite easy to fix everything, using the GitHub mirror.
 
 {{{
+git checkout master                            # make sure you're on a clean copy of master without any outstanding changes
+git pull https://github.com/ghc/ghc.git master # get the latest version of `./sync-all` from GitHub
 ./sync-all -r ssh://git@ghc.haskell.org remote set-url origin
 ./sync-all -r ssh://git@ghc.haskell.org remote set-url --push origin
 }}}
 
-~~The old Git `ssh://` URLs will continue to work, however, as the user won't have direct write permissions anymore at the filesystem level, they'll effectively become read-only URLs.~~
-
-Last but not least, the `sync-all` script needs to be adapted.
+This will correctly set up both push and pull URLs.
 
 ===  Additional user-visible changes ===
 
