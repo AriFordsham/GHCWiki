@@ -89,7 +89,7 @@ Last but not least, the `sync-all` script needs to be adapted.
 
 == Current status ==
 
-The server currently isn't setup, but Austin can easily make it so.
+See #8121
 
 === Questions ===
 
@@ -104,4 +104,4 @@ The server currently isn't setup, but Austin can easily make it so.
 
 === Contact points ===
 
-Austin Seipp (thoughtpolice) and Herbert Valerio Riedel (hvr) can be contacted about details or specifics.
+Austin Seipp (thoughtpolice) and Herbert Valerio Riedel (hvr) can be contacted about details or specifics. If you encounter any issues, you can also comment on #8121.
