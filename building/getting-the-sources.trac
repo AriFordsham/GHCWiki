@@ -31,7 +31,7 @@ A source tree consists of more than one repository: at the top level there is th
 {{{
   $ git clone git://darcs.haskell.org/ghc.git
   $ cd ghc
-  $ ./sync-all -r git://darcs.haskell.org --testsuite get
+  $ ./sync-all --testsuite get
 }}}
 
 Note: If you're behind a **firewall blocking port 9418** (or `git clone git://...` fails for some other reason), replace `git://` by `http://` in the instructions above.
