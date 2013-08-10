@@ -9,19 +9,26 @@ This page is intended to serve as the first stop for those people who say, "I wa
 
 - While you're reading that article, download and build the sources. [Prepare](building/preparation) your machine, [download](building/getting-the-sources) the source, and [build](building/quick-start). For the short, short version, which may or may not work for your machine, you can try this (note that three commands are not meant to be taken literally!):
 
-```wiki
-> <<<<<change to the directory where you want ghc to live>>>>>
-> git clone http://darcs.haskell.org/ghc.git
-> cd ghc
-> ./sync-all --testsuite get
-> cd mk
-> cp build.mk.sample build.mk
-> <<<<<edit build.mk to remove the comment marker # on the line "BuildFlavour = quick">>>>>
-> cd ..
-> perl boot
-> ./configure
-> make -j<<<<<number of processors on your machine>>>>>
-```
+  ```
+  # clone GHC's main Git repository (creates './ghc' folder in CWD)
+  git clone git://darcs.haskell.org/ghc.git   # see note below
+  cd ghc/
+  ./sync-all -r git://darcs.haskell.org --testsuite get
+
+  # configure build
+  cd mk
+  cp build.mk.sample build.mk
+  ## edit build.mk to remove the comment marker # on the line "BuildFlavour = quick"
+  cd ..
+  perl boot
+  ./configure
+
+  # build GHC
+  make -j8 # parallelize to at most 8 parallel jobs; adapt to actual number of cpu cores
+  ```
+
+>
+> Note: replace `git://` by `http://` in the comments above if you're behing a firewall blocking port 9418
 
 >
 > If your machine has all the prerequisites, this might just work. Expect it all to take roughly an hour.
