@@ -38,7 +38,7 @@ A source tree consists of more than one repository: at the top level there is th
 ```wiki
   $ git clone git://darcs.haskell.org/ghc.git
   $ cd ghc
-  $ ./sync-all -r git://darcs.haskell.org --testsuite get
+  $ ./sync-all --testsuite get
 ```
 
 
