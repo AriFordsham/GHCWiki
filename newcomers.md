@@ -13,7 +13,7 @@ This page is intended to serve as the first stop for those people who say, "I wa
   # clone GHC's main Git repository (creates './ghc' folder in CWD)
   git clone git://darcs.haskell.org/ghc.git   # see note below
   cd ghc/
-  ./sync-all -r git://darcs.haskell.org --testsuite get
+  ./sync-all --testsuite get
 
   # configure build
   cd mk
@@ -28,7 +28,7 @@ This page is intended to serve as the first stop for those people who say, "I wa
   ```
 
 >
-> Note: replace `git://` by `http://` in the comments above if you're behing a firewall blocking port 9418
+> Note: replace `git://` by `http://` in the instructions above if you're behing a firewall blocking port 9418
 
 >
 > If your machine has all the prerequisites, this might just work. Expect it all to take roughly an hour.
