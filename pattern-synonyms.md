@@ -191,3 +191,6 @@ Example:
    headOf Nil = Nothing
    headOf (Cons x _) = Just x
 ```
+
+
+One could go one step further and leave out the `pattern` keyword to obtain *associated constructors*, which are required to be bidirectional. The capitalized constructor would indicate that a pattern synonym is being defined. For complicated cases one could resort to the `where` syntax (shown above).
