@@ -211,6 +211,38 @@ instance t ~ Bool => Has (F Bool) "foo" t
 
 However, what can we call the record selectors? They can't both be `$sel_foo_F`! Ideally we would use the name of the representation tycon, rather than the family tycon, but that isn't introduced until the typechecker (`tcDataFamInstDecl` in `TcInstDcls`), and we need to create the selector in the renamer (`getLocalNonValBinders` in `RnNames`). We can't just pick an arbitrary unique name, because we need to look up the selector to associate it with its data constructor (`extendRecordFieldEnv` in `RnSource`).
 
+## Qualified names
+
+
+Consider the following:
+
+```wiki
+module M where
+  data S = MkS { foo :: Int }
+
+module N where
+  data T = MkT { foo :: Int }
+  data U = MkU { foo :: Int }
+
+module O where
+  import M
+  import N
+
+  f x = M.foo x
+  g x = N.foo x
+  h x = foo x
+```
+
+
+Should there be a difference between `f`, `g` and `h`? It would seem odd if `f` could turn out to use the `foo` from `T` or `U` even though it explicitly says `M.foo`. I can see three sensible options:
+
+- Treat qualified and unqualified fields identically, but issue a warning for qualified fields
+- Forbid referring to overloaded fields with qualified names (so `M.foo` and `N.foo` yield errors)
+- Treat a qualified name as a non-overloaded field, generating an ambiguity error if necessary (so `M.foo` is okay but `N.foo` is ambiguous)
+
+
+Of course, it is fine to use a qualified name in a record update.
+
 ## Outstanding bugs
 
 
@@ -243,7 +275,7 @@ Tests in need of attention:
 
 - Sort out GADT record updates.
 - Sort out data families with duplicated fields.
-- Fix the interaction between fields and qualified names: a qualified name can be used for unambiguous identification of fields (e.g. in updates) but should not be used as an overloaded variable.
+- Sort out qualified names.
 - Improve error messages from typechecker:
 
   - Unsolved `Accessor p f` where `p` is something silly
