@@ -243,6 +243,9 @@ Should there be a difference between `f`, `g` and `h`? It would seem odd if `f` 
 
 Of course, it is fine to use a qualified name in a record update.
 
+
+I've implemented the first option, adding a new warning `-fwarn-qualified-overloaded-record-fields` which is on by default.
+
 ## Outstanding bugs
 
 
@@ -275,7 +278,6 @@ Tests in need of attention:
 
 - Sort out GADT record updates.
 - Sort out data families with duplicated fields.
-- Sort out qualified names.
 - Improve error messages from typechecker:
 
   - Unsolved `Accessor p f` where `p` is something silly
@@ -284,3 +286,4 @@ Tests in need of attention:
 - How should dfunids/axioms and instances be propagated?
 - Where should automatic instances be generated for GHCi?
 - How should deprecation work for fields? Not at all?
+- Document the extension, including new warnings.
