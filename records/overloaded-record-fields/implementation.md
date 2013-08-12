@@ -114,10 +114,7 @@ As well as `Has` instances, instances of the type family `GetResult` are generat
 ## Unused imports
 
 
-Unused imports and generation of the minimal import list (`RnNames.warnUnusedImportDecls`) currently show selector names rather than labels. We may need to create a mapping from dfun names to field labels (cf. `kids_env` in `RnNames.reportUnusedNames`) to know how to print them. Moreover, things are a bit trickier with `-XOverloadedRecordFields` enabled. Quoting SLPJ:
-
-
-On unused imports, it's not just an implementation question.  
+Unused imports and generation of the minimal import list (`RnNames.warnUnusedImportDecls`) use a map from selector names to labels, in order to print fields correctly. However, fields may currently be reported as unused even if the corresponding Has instance is used. Consider the following:
 
 ```wiki
 module A where
@@ -136,6 +133,8 @@ module C where
 
 
 Now, do we expect to report the 'x' in S(x) import as unused?  Actually the entire 'import B' is unused.  Only the typechecker will eventually know that.  But I think the type checker does actually record which instances are used, so perhaps we can make use of that info to give accurate unused-import info.
+
+**AMG** I thought this would be the `tcg_ev_binds` field of the `TcGblEnv`, but this seems to be empty by the end of `tcRnModule`. We could also look at the `inert_solved_dicts` field of `InertSet`, but I'm not sure how to propagate the required information out of the `TcS` monad to the `TcM` monad where unused names are reported.
 
 ## GADT record updates
 
