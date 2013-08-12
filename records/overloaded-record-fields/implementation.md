@@ -139,7 +139,7 @@ Now, do we expect to report the 'x' in S(x) import as unused?  Actually the enti
 ## GADT record updates
 
 
-Annoyingly, the generated code for `setField` doesn't typecheck for GADTs, because of [\#2595](https://gitlab.haskell.org//ghc/ghc/issues/2595). Consider the example
+Consider the example
 
 ```wiki
 data W a where
@@ -147,7 +147,7 @@ data W a where
 ```
 
 
-At the moment, my code generates
+It would be nice to generate
 
 ```wiki
 -- setField :: proxy "x" -> W (a, b) -> a -> W (a, b)
@@ -155,14 +155,14 @@ setField _ s e = s { x = e }
 ```
 
 
-but this record update is rejected by the typechecker, even though it is perfectly sensible. The alternative is for me to generate the explicit update
+but this record update is rejected by the typechecker, even though it is perfectly sensible, because of [\#2595](https://gitlab.haskell.org//ghc/ghc/issues/2595). The currently implemented workaround is instead to generate the explicit update
 
 ```wiki
 setField _ (MkW _ y) x = MkW x y
 ```
 
 
-which is fine, but rather long-winded if there are many constructors or fields. Essentially this is doing the job of the desugarer for record updates. I wonder if it would be easier to fix [\#2595](https://gitlab.haskell.org//ghc/ghc/issues/2595). Perhaps not; the general case makes my brain hurt. I only need a rather special case: updating one field, where either the type does not change, or none of the local constraints mention changing type variables.
+which is fine, but rather long-winded if there are many constructors or fields. Essentially this is doing the job of the desugarer for record updates.
 
 
 Note that `W` does not admit type-changing single update for either field, because of the `a ~ b` constraint. Without it, though, type-changing update should be allowed.
@@ -276,7 +276,6 @@ Tests in need of attention:
 
 ## To do
 
-- Sort out GADT record updates.
 - Sort out data families with duplicated fields.
 - Improve error messages from typechecker:
 
@@ -287,3 +286,4 @@ Tests in need of attention:
 - Where should automatic instances be generated for GHCi?
 - How should deprecation work for fields? Not at all?
 - Document the extension, including new warnings.
+- Reorganise the test cases.
