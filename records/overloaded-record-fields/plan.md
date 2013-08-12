@@ -151,7 +151,7 @@ Supporting polymorphic record update is rather more complex than polymorphic loo
 - records may include higher-rank components.
 
 
-These problems have already been [described in some detail](records/overloaded-record-fields#record-updates). In the interests of doing something, even if imperfect, the Haskell 98 record update syntax will support only monomorphic update. For overloaded fields to be updated, a type signature may be required in order to specify the type being updated. For example,
+These problems have already been [described in some detail](records/overloaded-record-fields#record-updates). In the interests of doing something, even if imperfect, the traditional record update syntax will support only non-overloaded update (that is, update of a unique known record type). Where overloading mean that the fields alone do not determine the type being updated, a type signature may be required. For example,
 
 ```wiki
 e { x = t }
