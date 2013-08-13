@@ -27,13 +27,11 @@ Where they conflict with our suggestions, they're probably right.
   [ The autoconf macro archive](http://peti.gmd.de/autoconf-archive/)
   and [ Cyclic Software's description](http://www.cyclic.com/cyclic-pages/autoconf.html).
 
-- [ Indian Hill C Style and Coding Standards](http://www.cs.umd.edu/users/cml/cstyle/indhill-cstyle.html)
+- [ Indian Hill C Style and Coding Standards](http://www.cs.arizona.edu/~mccann/cstyle.html)
 
 - [ A list of C programming style links](http://www.cs.umd.edu/users/cml/cstyle/)
 
 - [ A very large list of C programming links](http://www.lysator.liu.se/c/c-www.html)
-
-- [ A list of Unix programming links](http://www.geek-girl.com/unix.html)
 
 ## Portability issues
 
