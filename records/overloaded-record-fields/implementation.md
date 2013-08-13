@@ -268,11 +268,8 @@ x = () :: C x y => ()
 
 Tests in need of attention:
 
-- rename/should_fail/T5892a (accept changed output)
-- ghci/scripts/ghci042 (accept changed output)
 - ghci/prog002 prog003 scripts/ghci029 ghci036 ghci037 (scope issues in GHCi)
 - typechecker/should_fail/tcfail102 (changed error message) 
-- driver/T4437 (should `OverloadedRecordFields` be a GHC-only extension, or should Cabal know about it?)
 
 ## To do
 
@@ -286,4 +283,3 @@ Tests in need of attention:
 - Where should automatic instances be generated for GHCi?
 - How should deprecation work for fields? Not at all?
 - Document the extension, including new warnings.
-- Reorganise the test cases.
