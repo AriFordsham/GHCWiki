@@ -223,24 +223,6 @@ I've implemented the first option, adding a new warning `-fwarn-qualified-overlo
 
 == Outstanding bugs ==
 
-Some of the tests fail for the ghci way because the `System.IO` and `GHC.TopHandler` modules are not loaded automatically. I'm not sure if this is my fault, or if the problem existed in HEAD when I branched. For the moment, I've tweaked the testsuite to load the necessary modules.
-
-The following triggers a panic when tracing the constraint solver. Again, I need to check if this bug exists in HEAD.
-
-{{{
-{-# LANGUAGE MultiParamTypeClasses, TypeFamilies #-}
-{-# OPTIONS_GHC -ddump-tc-trace #-}
-
-type family F (x :: *) :: *
-
-class (y ~ F x) => C x y
-
-x = () :: C x y => ()
-}}}
-
-Tests in need of attention:
-
-* ghci/prog002 prog003 scripts/ghci029 ghci036 ghci037 (scope issues in GHCi)
 * typechecker/should_fail/tcfail102 (changed error message) 
 
 
