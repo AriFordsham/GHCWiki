@@ -123,6 +123,30 @@ Now, do we expect to report the 'x' in S(x) import as unused?  Actually the enti
 '''AMG''' I thought this would be the `tcg_ev_binds` field of the `TcGblEnv`, but this seems to be empty by the end of `tcRnModule`. We could also look at the `inert_solved_dicts` field of `InertSet`, but I'm not sure how to propagate the required information out of the `TcS` monad to the `TcM` monad where unused names are reported.
 
 
+== Deprecated field names ==
+
+Consider the following:
+
+{{{
+module M where
+  {-# DEPRECATED foo "Don't use foo" #-}
+
+  data S = MkS { foo :: Int }
+  data T = MkT { foo :: Int }
+
+module N where
+  import M
+
+  data U = MkU { foo :: Int }
+
+  goo = foo (MkT 42) 
+  bar = foo (MkU 42)
+  baz x = foo x
+}}}
+
+The `DEPRECATED` pragma applies to all fields `foo` exported by the module `M`, since it is based on the `OccName`. The renamer will issue a deprecation warning for every use of `foo` in `N`, regardless of whether it will later resolve to one of the fields from `M` (as in `goo`), a field definitely not in `M` (as in `bar`), or a polymorphic field (as in `baz`). It might be possible to delay the warnings to type-checking time and report deprecations more precisely, as for [#Unusedimports unused imports].
+
+
 == GADT record updates ==
 
 Consider the example
@@ -236,5 +260,4 @@ I've implemented the first option, adding a new warning `-fwarn-qualified-overlo
 * Sort out reporting of unused imports.
 * How should dfunids/axioms and instances be propagated?
 * Where should automatic instances be generated for GHCi?
-* How should deprecation work for fields? Not at all?
 * Document the extension, including new warnings.
