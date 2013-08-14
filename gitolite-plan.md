@@ -49,7 +49,7 @@ Ideally, most of the new setup can occur concurrently with the normal one undist
 ### Developer changes
 
 
-Note: The `git.haskell.org` DNS CNAME alias for `ghc.haskell.org` has not been activated yet. If you want to try out the new smart-protocol `http://` urls, you can append "`88.198.224.241 git.haskell.org`" to your `/etc/hosts` file. For the non-`http://` protocols, you can just substitute `git.haskell.org` by `ghc.haskell.org` in the following instructions.
+Note: ***The `git.haskell.org` DNS CNAME alias for `ghc.haskell.org` has not been activated yet.*** If you want to try out the new smart-protocol `http://` urls, you can append "`88.198.224.241 git.haskell.org`" to your `/etc/hosts` file. For the non-`http://` protocols, you can just substitute `git.haskell.org` by `ghc.haskell.org` in the following instructions.
 
 #### Anonymous read access
 
