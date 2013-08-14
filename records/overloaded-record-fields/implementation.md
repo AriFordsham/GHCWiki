@@ -211,6 +211,9 @@ instance t ~ Bool => Has (F Bool) "foo" t
 
 However, what can we call the record selectors? They can't both be `$sel_foo_F`! Ideally we would use the name of the representation tycon, rather than the family tycon, but that isn't introduced until the typechecker (`tcDataFamInstDecl` in `TcInstDcls`), and we need to create the selector in the renamer (`getLocalNonValBinders` in `RnNames`). We can't just pick an arbitrary unique name, because we need to look up the selector to associate it with its data constructor (`extendRecordFieldEnv` in `RnSource`).
 
+
+For the moment, I've simply disallowed duplicate fields for a single data family in a single module. It's fine to duplicate fields between different data families or across different modules, however.
+
 ## Qualified names
 
 
@@ -252,7 +255,6 @@ I've implemented the first option, adding a new warning `-fwarn-qualified-overlo
 
 ## To do
 
-- Sort out data families with duplicated fields.
 - Improve error messages from typechecker:
 
   - Unsolved `Accessor p f` where `p` is something silly
