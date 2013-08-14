@@ -35,17 +35,47 @@ This will set your name and email globally. To set it for just the GHC repo, rem
 
 == Commit messages ==
 
-We have a simple convention for commit log messages:
+Please try to follow the general convention for the [http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html Git commit message structure] as many Git tools rely on this. Moreover, take into account that the commit message text is interpreted as WikiFormatting in Trac.
 
-   * If your patch fixes breakage in the build, then begin the patch name with `"FIX BUILD"`. e.g.
+For GHC, we have a simple convention for commit log messages:
+
+ * If your patch fixes breakage in the build, then begin the patch name with `"FIX BUILD"`. e.g.
 {{{
   FIX BUILD Use the right find on Windows systems; fixes bindist creation
 }}}
-   * If your patch fixes a bug, then include the ticket number in the form `#NNNN` in the patch name, e.g.
+ * If your patch fixes a bug, then include the ticket number in the form "''<verb>'' `#NNNN`" in the commit message, e.g.
 {{{
   withMVar family have a bug (fixes #767)
 }}}
-     '''Git will then add a link to the commit from the ticket''', so that people watching the ticket can see that a fix has been committed, and in the future we can easily find the patch that fixed the ticket.  When navigating the git history on Trac, you will also be able to jump directly to the ticket from the commit.
+ '''''Git will then add a link to the commit from the ticket''''' (as soon as the commit becomes reachable from the `master` HEAD), so that people watching the ticket can see that a fix has been committed, and in the future we can easily find the patch that fixed the ticket.  When navigating the Git history on Trac, you will also be able to jump directly to the ticket from the commit.
+
+ '''Ticket Referencing Syntax in More Detail'''
+
+ As stated above, the basic syntax for referencing tickets from commit messages is of the form "''<verb>'' ''<ticket-ref>''".
+
+ An example for ''<ticket-ref>'' is "`#1234`" or "`#1234 and #1235`", where the latter simply references two tickets at once for convenience.
+
+ The currently recognized verbs for merely adding a comment to a Trac ticket are
+{{{
+addressing address re references refs see Trac
+}}}
+ (N.B.: Currently, you ''need'' to put a verb in front of the ticket reference in order for the reference to be recognized; this is different from GitHub)
+
+ Whereas the verbs recognized for adding a comment *and* closing the ticket are
+{{{
+close closed closes fix fixed fixes resolve resolves resolved
+}}}
+ (N.B. this is the same as [https://help.github.com/articles/closing-issues-via-commit-messages GitHub's issue close syntax])
+
+ The ticket referencing syntax is designed in such a way that you can embed ticket references in English sentences. For instance, the following fairly complicated example of what you can do is with a commit message of:
+{{{
+Changes blah and foo to do this or that
+
+Fixes #10 and #12, and refs #13.
+}}}
+ This will close #10 and #12, and add a comment to #10, #12, and #13.
+
+ Please note, that these verbs are only scanned for in the Git repositories associated with this Trac instance (see [source: Source Browser]). It is planned to introduce additional verbs for moving a ticket into the '''merge''' ticket state instead of straight to the '''closed''' state.
 
 == Line endings ==
 
