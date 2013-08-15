@@ -110,7 +110,43 @@ Some [wiki:Commentary/Libraries libraries] are very closely coupled to GHC, come
  * IO Manager
    * [mailto:johan.tibell@gmail.com Johan Tibell], [mailto:andreas.voellmy@gmail.com Andreas Voellmy]
 
-=== Platforms ===
+== Current Committers ==
+
+The following is a list of all the people who are authorized to commit to GHC. (We've also had many wonderful people in the past who are listed at the bottom of this page.)
+
+ * Andreas Voellmy
+ * Austin Seipp
+ * Ben Lippmeier
+ * Iavor Diatchki
+ * David Terei
+ * David Waern
+ * Dimitrios Vytiniotis
+ * Duncan Coutts
+ * Edsko de Vries
+ * Erik de Castro Lopo
+ * Edward Yang
+ * Geoffrey Mainland
+ * Gabor Greif
+ * Herbert Valerio Riedel
+ * Ian Lynagh
+ * Ilya Sergey
+ * Johan Tibell
+ * José Pedro Magalhães
+ * Jan Stolarek
+ * Manuel Chakravarty
+ * Max Bolingbroke
+ * Nicholas Frisby
+ * Páli Gábor János
+ * Paolo Capriotti
+ * Richard Eisenberg
+ * Roman Leshchinskiy
+ * Ross Patterson
+ * Simon Hengel
+ * Simon Marlow
+ * Simon Peyton Jones
+ * Thomas Schilling
+
+== Platform maintainers ==
 
 The following table lists the people who have generously agreed to be responsible for the GHC port to a particular platform, or to produce binary packages for a certain platform.
 
