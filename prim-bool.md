@@ -86,6 +86,9 @@ and in following assembler code:
 
 There are five possible branches to take, although four of them have the same result. This is caused by code duplication introduced by case-of-case transform (see [ this blog post](http://lambda.jstolarek.com/2013/01/taking-magic-out-of-ghc-or-tracing-compilation-by-transformation/) for a step by step derivation). According to Ben Lippmeier, who submitted the original bug report, mis-predicted branches are bad in object code because they stall the pipeline.
 
+
+Note: this example was produced with GHC 7.6.3. At the moment of merging new primops into HEAD, there was no code duplication at the assembly level when using old primops. However, avoiding code duplication is not the main problem new primops are meant to solve. That problem are conditional branches. 
+
 ## Solution
 
 
@@ -98,7 +101,7 @@ Below is a summary of implementation details and decisions:
 
 - the new comparison primops return a value of type `Int#`: `1#` represents `True` and `0#` represents `False`. The `Int#` type was chosen because on Haskell it is more common to use signed Int type insetad of unsigned Word. By using `Int#` the users can easily convert unboxed result into a boxed value, without need to use `word2Int#` and `int2word#` primops.
 - as a small side-task, four new logical bitwise primops have been implemented: `andI#`, `orI#`, `xorI#` and `negI#` ([\#7689](https://gitlab.haskell.org//ghc/ghc/issues/7689)). These operate on values of type `Int#`. Earlier we had only bitwise logical primops operating on values of type `Word#`.
-- names of the existing comparison primops were changed. Operators will have `$` added before `#`, others will have `I` added before the `#` (this is a mnemonic denoting that this primop returns and `Int#`). Examples:
+- names of the existing comparison primops were changed. Operators had `$` added before `#`, others had `I` added before the `#` (this is a mnemonic denoting that this primop returns and `Int#`). Examples:
 
 ```wiki
 >=$#      :: Int#    -> Int#    -> Int#
@@ -132,7 +135,7 @@ leAddr# a b = tagToEnum# (a `leAddrI#` b)
 ```
 
 
-Thanks to these wrappers the change is almost backwards compatible. The only thing primop users need to change in their existing code to make it work again is adding import of !GHC.PrimWrappers module.
+Thanks to these wrappers the change is almost backwards compatible. **The only thing primop users need to change in their existing code to make it work again is adding import of GHC.PrimWrappers module.**
 
 - functions for comparing `Integer` type, implemented in integer-gmp and integer-simple libraries, received a similar treatment. Technically they are not primops, because they are implemented in Haskell (in case of integer-gmp also with FFI), but they pretend to be ones. There are six primops for comparing `Integer` values:
 
@@ -148,7 +151,9 @@ Thanks to these wrappers the change is almost backwards compatible. The only thi
 
 Each of these functions has a wrapper that calls `tagToEnum#` and returns a `Bool`. These wrappers are: `eqInteger`, `neqInteger`, `leInteger`, `ltInteger`, `gtInteger` and `geInteger`.
 
-- Other libraries that were modified to work with the new primops are: base, ghc-prim and primitive. The only required modifications were imports of the !GHC.PrimWrappers module in modules that use the primops.
+- Six primops are an exception to the rules above: `sameMutableArray#`, `sameMutableByteArray#`, `sameMutableArrayArray#`, `sameMutVar#`, `sameMVar#` and `sameTVar#`. Their names have remained the same as before and new wrappers created for them lack `#` at the end of their name. We made that decission because this naming feels more consistent and these primops are rarely used so we expect that they won't break a lot of existing code.
+
+- Other libraries that were modified to work with the new primops are: base, ghc-prim and primitive. The only required modifications were imports of the GHC.PrimWrappers module in modules that use the primops.
 
 ## Eliminating branches using new primops
 
@@ -366,4 +371,4 @@ ghc -O2 -fllvm -optlo-O3 Main.hs
 
 Benchmarking shows that `filterN` function is about 55-65% faster than the `filter` function based on stream fusion (tested for unboxed vectors containing 10 thousand and 10 million elements). Below is an example benchmarking report from criterion:
 
-[](http://ics.p.lodz.pl/~stolarek/ghc/prim-bool-criterion.png)
+[](/trac/ghc/attachment/wiki/PrimBool/prim-bool-criterion.png)
