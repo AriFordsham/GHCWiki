@@ -125,8 +125,6 @@ leAddr# a b = tagToEnum# (a `leAddrI#` b)
 
 Thanks to these wrappers the change is almost backwards compatible. '''The only thing primop users need to change in their existing code to make it work again is adding import of GHC.!PrimWrappers module.'''
 
-  * Six primops are an exception to the rules above: `sameMutableArray#`, `sameMutableByteArray#`, `sameMutableArrayArray#`, `sameMutVar#`, `sameMVar#` and `sameTVar#`. Their names have remained the same as before and new wrappers created for them lack `#` at the end of their name. We made that decission because this naming feels more consistent and these primops are rarely used so we expect that they won't break a lot of existing code.
-
   * functions for comparing `Integer` type, implemented in integer-gmp and integer-simple libraries, received a similar treatment. Technically they are not primops, because they are implemented in Haskell (in case of integer-gmp also with FFI), but they pretend to be ones. There are six primops for comparing `Integer` values:
 {{{
 eqInteger#  :: Integer -> Integer -> Int#
@@ -137,6 +135,8 @@ gtInteger#  :: Integer -> Integer -> Int#
 geInteger#  :: Integer -> Integer -> Int#
 }}}
 Each of these functions has a wrapper that calls `tagToEnum#` and returns a `Bool`. These wrappers are: `eqInteger`, `neqInteger`, `leInteger`, `ltInteger`, `gtInteger` and `geInteger`.
+
+  * Six primops are an exception to the rules above: `sameMutableArray#`, `sameMutableByteArray#`, `sameMutableArrayArray#`, `sameMutVar#`, `sameMVar#` and `sameTVar#`. Their names have remained the same as before and new wrappers created for them lack `#` at the end of their name. We made that decission because this naming feels more consistent and these primops are rarely used so we expect that they won't break a lot of existing code.
 
   * Other libraries that were modified to work with the new primops are: base, ghc-prim and primitive. The only required modifications were imports of the GHC.!PrimWrappers module in modules that use the primops.
 
