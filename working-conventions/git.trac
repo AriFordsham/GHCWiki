@@ -59,7 +59,7 @@ For GHC, we have a simple convention for commit log messages:
 {{{
 addressing address re references refs see Trac
 }}}
- (N.B.: Currently, you ''need'' to put a verb in front of the ticket reference in order for the reference to be recognized; this is different from GitHub)
+ (N.B.: Currently, you ''need'' to put a verb in front of the ticket reference in order for the reference to be recognized; this is different from !GitHub)
 
  Whereas the verbs recognized for adding a comment *and* closing the ticket are
 {{{
