@@ -92,11 +92,17 @@ The renamer (`rnHsRecFields1`) supplies `Left sel_name` for the selector if it i
 
 == Automatic instance generation ==
 
-`Has` instances are generated, provided the extension is enabled, in `tcInstDecls1` (the same time as derived instances (from '''deriving''' clauses) are generated). Every record field `GRE` in scope gives rise to an instance. Such instances are available when typechecking the current module (in `tcg_inst_env`) but not exported to other modules (via `tcg_insts`). At the moment, fresh `DFunId`s are generated for all instances in scope for each module, even though they are exported in interface files. Perhaps this should change.
+Typeclass and family instances are generated, provided the extension is enabled, by `makeRecFldInsts` in `TcInstDecls`. This function is called in two places:
+
+* `tcInstDecls1` generates instances for fields from datatypes in the current group (at the same time as derived instances, from '''deriving''' clauses, are generated)
+
+* `tcRnImports` in `TcRnDriver` generates instances for imported fields, by looking at the `GlobalRdrEnv`
+
+The typeclass instances must be subsequently typechecked (by `tcInstDecls2`). Such instances are "private" in that they are available when typechecking the current module (in `tcg_inst_env`) but not exported to other modules (via `tcg_insts`).
+
+'''AMG''' This means instances are not visible in GHCi, because it tracks only `tcg_insts` (via the `InteractiveContext`). What to do here? Perhaps a new field in `TcGblEnv` could track the private instances?
 
 '''AMG''' I wanted to generate each `DFunId` for `Has` once, at the field's definition site, but this causes problems for the fields defined in `base`, as the `Has` class may not be available. I've reverted to generating fresh `DFunId`s locally to each module for which `-XOverloadedRecordFields` is used. Is there a better way to do this?
-
-As well as `Has` instances, instances of the type family `GetResult` are generated, and exactly the same question about dfun names applies to their axiom names.
 
 
 == Unused imports ==
@@ -254,10 +260,9 @@ I've implemented the first option, adding a new warning `-fwarn-qualified-overlo
 
 == To do ==
 
-* Improve error messages from typechecker:
-  * Unsolved `Accessor p f` where `p` is something silly
+* Improve unsolved `Accessor p f` error message where `p` is something silly?
 * Consider defaulting `Accessor p` to `p = (->)`, and defaulting `Has r "f" t` constraints where there is only one datatype with a field `f` in scope.
 * Sort out reporting of unused imports.
 * How should dfunids/axioms and instances be propagated?
-* Where should automatic instances be generated for GHCi?
+* How should instances be made available to GHCi?
 * Document the extension, including new warnings.
