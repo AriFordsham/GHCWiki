@@ -132,7 +132,7 @@ leAddr# a b = tagToEnum# (a `leAddrI#` b)
 ```
 
 
-Thanks to these wrappers the change is almost backwards compatible. The only thing primop users need to change in their existing code to make it work again is adding import of !GHC.PrimWrappers module.
+Thanks to these wrappers the change is almost backwards compatible. **The only thing primop users need to change in their existing code to make it work again is adding import of !GHC.PrimWrappers module.**
 
 - functions for comparing `Integer` type, implemented in integer-gmp and integer-simple libraries, received a similar treatment. Technically they are not primops, because they are implemented in Haskell (in case of integer-gmp also with FFI), but they pretend to be ones. There are six primops for comparing `Integer` values:
 
