@@ -49,56 +49,13 @@ For GHC, we have a simple convention for commit log messages:
   ```wiki
     FIX BUILD Use the right find on Windows systems; fixes bindist creation
   ```
-- If your patch fixes a bug, then include the ticket number in the form "*\<verb\>*`#NNNN`" in the commit message, e.g.
+- If your patch addresses or fixes a bug/ticket, then include the ticket number in the form "`#NNNN`" in the commit message, e.g.
 
   ```wiki
     withMVar family have a bug (fixes #767)
   ```
 
-  ***Git will then add a link to the commit from the ticket*** (as soon as the commit becomes reachable from the `master` HEAD), so that people watching the ticket can see that a fix has been committed, and in the future we can easily find the patch that fixed the ticket.  When navigating the Git history on Trac, you will also be able to jump directly to the ticket from the commit.
-
-> **Ticket Referencing Syntax in More Detail**
-
->
-> As stated above, the basic syntax for referencing tickets from commit messages is of the form "*\<verb\>**\<ticket-ref\>*".
-
->
-> An example for *\<ticket-ref\>* is "`#1234`" or "`#1234 and #1235`", where the latter simply references two tickets at once for convenience.
-
->
-> The currently recognized verbs for merely adding a comment to a Trac ticket are
->
-> ```wiki
-> addressing address re references refs see Trac
-> ```
->
->
-> (N.B.: Currently, you *need* to put a verb in front of the ticket reference in order for the reference to be recognized; this is different from GitHub)
-
->
-> Whereas the verbs recognized for adding a comment \*and\* closing the ticket are
->
-> ```wiki
-> close closed closes fix fixed fixes resolve resolves resolved
-> ```
->
->
-> (N.B. this is the same as [ GitHub's issue close syntax](https://help.github.com/articles/closing-issues-via-commit-messages))
-
->
-> The ticket referencing syntax is designed in such a way that you can embed ticket references in English sentences. For instance, the following fairly complicated example of what you can do is with a commit message of:
->
-> ```wiki
-> Changes blah and foo to do this or that
->
-> Fixes #10 and #12, and refs #13.
-> ```
->
->
-> This will close [\#10](https://gitlab.haskell.org//ghc/ghc/issues/10) and [\#12](https://gitlab.haskell.org//ghc/ghc/issues/12), and add a comment to [\#10](https://gitlab.haskell.org//ghc/ghc/issues/10), [\#12](https://gitlab.haskell.org//ghc/ghc/issues/12), and [\#13](https://gitlab.haskell.org//ghc/ghc/issues/13).
-
->
-> Please note, that these verbs are only scanned for in the Git repositories associated with this Trac instance (see [Source Browser](/trac/ghc/browser/)). It is planned to introduce additional verbs for moving a ticket into the **merge** ticket state instead of straight to the **closed** state.
+  ***Git will then add a link to the commit from the ticket*** (as soon as the commit becomes reachable from the `master` HEAD), so that people watching the ticket can see that a fix has been committed, and in the future we can easily find the patch that addressed the ticket.  When navigating the Git history on Trac, you will also be able to jump directly to the ticket from the commit.
 
 ## Line endings
 
