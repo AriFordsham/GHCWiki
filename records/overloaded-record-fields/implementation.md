@@ -28,40 +28,48 @@ $dfHasTx = Has { getField _ = $sel_x_T }
 $dfUpdTx :: forall a . a ~ Int => Upd T "x" a -- corresponds to the Upd instance decl
 $dfUpdTx = Upd { setField _ s e = s { x = e } }
 
-axiom TFCo:R:GetResult : GetResult T "x" = Int   -- corresponds to the GetResult type family instance
-axiom TFCo:R:SetResult : SetResult T "x" Int = T -- corresponds to the SetResult type family instance
+axiom TFCo:R:GetResultTx : GetResult T "x" = Int   -- corresponds to the GetResult type family instance
+axiom TFCo:R:SetResultTx : SetResult T "x" Int = T -- corresponds to the SetResult type family instance
 ```
 
 ## The naming of cats
 
 
-The `AvailTC Name [Name] [(OccName, Name)]` constructor of `AvailInfo` represents a type and its pieces that are in scope. Record fields are now stored in a separate list (the third argument), along with their selectors. The `IEThingWith name [name] [OccName]` constructor of `IE`, which represents a thing that can be imported or exported, only stores the field labels. **SLPJ** Whoa!  Why should we duplicate this info.  My gut feel is that the selector should not appear in the second argument. **AMG** Does this sound better now? It's helpful if `gresFromAvail` need not do lookups (it is called by the desugarer).
-
-
-The `Parent` type has an extra constructor `FldParent Name OccName` that stores the parent `Name` and the field `OccName`. The `GlobalRdrElt` (`GRE`) for a field stores the selector name directly, and uses the `FldParent` constructor to store the field. Thus a field `foo` of type `T` gives rise this entry in the `GlobalRdrEnv`:
+A field is represented by the following datatype, parameterised by the representation of names:
 
 ```wiki
-foo |->  GRE $sel_foo_T (FldParent T foo) LocalDef
+data FieldLbl a = FieldLabel {
+      flOccName   :: OccName,           -- ^ Label of the field
+      flSelector  :: a,                 -- ^ Record selector function
+      flInstances :: Maybe (FldInsts a) -- ^ Instances for overloading
+    }
+
+type FieldLabel = FieldLbl Name
+
+data FldInsts a = FldInsts { fldInstsHas :: a
+                           , fldInstsUpd :: a
+                           , fldInstsGetResult :: a
+                           , fldInstsSetResult :: a }
 ```
 
-**SLPJ** moreover I think we should store the *dictionary*`$dfHasTfoo` in the GRE for `foo`, not the selector.  That way we get both getter and setter (via the dictionary) in one go.  **AMG** Now I'm not sure about this. We can't build the dictionary for higher-rank fields, but they have a perfectly good selector. Moreover, with type-changing update there are two dictionaries (one for the getter and one for the setter) and two coercion axioms.
+
+Every field has a label (`OccName`) and selector. If it is defined in a module with `-XOverloadedRecordFields` enabled, it also has names for the instances. 
+
+
+The `AvailTC Name [Name] [FieldLabel]` constructor of `AvailInfo` represents a type and its pieces that are in scope. Record fields are now stored in a separate list (the third argument). The `IEThingWith name [name] [OccName]` constructor of `IE`, which represents a thing that can be imported or exported, stores only the `OccName`s.
+
+
+The `Parent` type has an extra constructor `FldParent Name OccName (Maybe (FldInsts Name))` that stores the parent `Name`, the field `OccName`, and the names of the instances if they are defined. The `GlobalRdrElt` (`GRE`) for a field stores the selector name directly, and uses the `FldParent` constructor to store the field. Thus a field `x` of type `T` gives rise this entry in the `GlobalRdrEnv`:
+
+```wiki
+x |->  GRE $sel_x_T (FldParent T x (Just (FldInsts $dfHasTx $dfUpdTx TFCo:R:GetResultTx TFCo:R:SetResultTx))) LocalDef
+```
 
 
 Note that the `OccName` used when adding a GRE to the environment (`greOccName`) now depends on the parent field: for `FldParent` it is the field label rather than the selector name.
 
 
-The `dcFields` field of `DataCon` stores a list of `FieldLabel`, defined thus:
-
-```wiki
-type FieldLbl a = FieldLabel {
-                      flOccName  :: OccName, -- ^ Label of the field
-                      flSelector :: a        -- ^ Record selector function
-                  }
-type FieldLabel = FieldLbl Name
-```
-
-
-whereas the `ifConFields` field of `IfaceConDecl` stores a list of `FieldLbl OccName`.
+The `dcFields` field of `DataCon` stores a list of `FieldLabel`, whereas the `ifConFields` field of `IfaceConDecl` stores a list of `FieldLbl OccName`.
 
 ## Source expressions
 
@@ -121,6 +129,8 @@ For each imported field, there are two possible cases:
 
 1. If the module containing the field was compiled with `-XOverloadedRecordFields`, it will have the necessary dfuns already, so we can just look them up and add appropriate class instances to `tcg_inst_env`. Moreover, the family instances will have been imported.
 1. Otherwise, all the instances must be generated, as if the field were locally defined.
+
+**AMG** Modules in `base` that are compiled before `GHC.Records` cannot have the instances created. This is the motivation for restricting dfun and family instance generation to modules with the extension enabled. It occurs to me that we could have a separate extension for generating the instances (`-XOverloadedRecordFieldInstances`, perhaps) that could be enabled by default (except for `base`). This would reduce the number of fields for which `-XOverloadedRecordFields` modules would have to generate instances on the fly. On the other hand, it would increase the amount of stuff in interface files.
 
 ## Unused imports
 
@@ -294,6 +304,6 @@ I've implemented the first option, adding a new warning `-fwarn-qualified-overlo
 - Improve unsolved `Accessor p f` error message where `p` is something silly?
 - Consider defaulting `Accessor p` to `p = (->)`, and defaulting `Has r "f" t` constraints where there is only one datatype with a field `f` in scope.
 - Sort out reporting of unused imports.
-- How should dfunids/axioms and instances be propagated?
+- Review propagation of dfunids/axioms and instances; consider `-XOverloadedRecordFieldInstances` as a separate extension.
 - How should instances be made available to GHCi?
 - Document the extension, including new warnings.
