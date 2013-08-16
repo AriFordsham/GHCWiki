@@ -105,18 +105,22 @@ The renamer (`rnHsRecFields1`) supplies `Left sel_name` for the selector if it i
 ## Automatic instance generation
 
 
-Typeclass and family instances are generated, provided the extension is enabled, by `makeRecFldInsts` in `TcInstDecls`. This function is called in two places:
+Typeclass and family instances are generated, provided the extension is enabled, by `makeLocalRecFldInsts` and `makeImportedRecFldInsts` in `TcInstDecls`. These functions correspond to the two places in which instances are generated:
 
 - `tcInstDecls1` generates instances for fields from datatypes in the current group (at the same time as derived instances, from **deriving** clauses, are generated)
 
 - `tcRnImports` in `TcRnDriver` generates instances for imported fields, by looking at the `GlobalRdrEnv`
 
 
-The typeclass instances must be subsequently typechecked (by `tcInstDecls2`). Such instances are "private" in that they are available when typechecking the current module (in `tcg_inst_env`) but not exported to other modules (via `tcg_insts`).
+The typeclass instances must be subsequently typechecked (by `tcInstDecls2`). Such instances are "private" in that they are available when typechecking the current module (in `tcg_inst_env`) but not exported to other modules (via `tcg_insts`). On the other hand, the underlying dfun ids, axioms and family instances are exported from the module as usual.
 
-**AMG** This means instances are not visible in GHCi, because it tracks only `tcg_insts` (via the `InteractiveContext`). What to do here? Perhaps a new field in `TcGblEnv` could track the private instances?
+**AMG** This means that typeclass instances are not visible in GHCi, because it tracks only `tcg_insts` (via the `InteractiveContext`). What to do here? Perhaps a new field in `TcGblEnv` could record the private instances?
 
-**AMG** I wanted to generate each `DFunId` for `Has` once, at the field's definition site, but this causes problems for the fields defined in `base`, as the `Has` class may not be available. I've reverted to generating fresh `DFunId`s locally to each module for which `-XOverloadedRecordFields` is used. Is there a better way to do this?
+
+For each imported field, there are two possible cases:
+
+1. If the module containing the field was compiled with `-XOverloadedRecordFields`, it will have the necessary dfuns already, so we can just look them up and add appropriate class instances to `tcg_inst_env`. Moreover, the family instances will have been imported.
+1. Otherwise, all the instances must be generated, as if the field were locally defined.
 
 ## Unused imports
 
