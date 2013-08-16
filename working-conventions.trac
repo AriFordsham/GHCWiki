@@ -7,13 +7,15 @@ This page has pointers to information you'll need.
 
  * [/register Register an account] on this GHC Trac, so that you can edit pages.  Editing advice is in the "Wiki" links in the green sidebar on the left of every page
 
- * You may want to read [wiki:Newcomers this page], dedicated to helping newcomers tackle their first bugs.
+ * You may want to read the [wiki:Newcomers GHC Newcomers page], dedicated to helping newcomers tackle their first bugs.
 
  * Talk to other [wiki:Contributors GHC contributors].
 
  * Read the [wiki:ReadingList GHC reading list] and the [wiki:Commentary commentary on the source code].
 
  * Read the [wiki:Building building guide] (link always in the left hand margin) to learn how to build and test GHC.
+
+ * If you have lots of Haskell installations, you may find Edsko's blog post [http://www.edsko.net/2013/02/10/comprehensive-haskell-sandboxes/ Comprehensive Haskell Sandboxes] useful.
 
 The following pages guide you step-by-step through making a contribution:
 
