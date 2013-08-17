@@ -143,6 +143,9 @@ Some [libraries](commentary/libraries) are very closely coupled to GHC, come wit
 
 The following is a list of all the people who are authorized to commit to GHC. (We've also had many wonderful people in the past who are listed at the bottom of this page.)
 
+
+For more details, see Committers?.
+
 - Andreas Voellmy
 - Austin Seipp
 - Ben Lippmeier
