@@ -199,7 +199,7 @@ The following page lists the current people who are allowed to commit to GHC, al
 
 - Ryan Newton
 
-  - Intel Corporation; Indiana University - ???
+  - Intel Corporation; Indiana University - Bloomington, IN
   - **Trac**: rrnewton; **email**
   - **Committer since**: August, 2013.
   - **Main areas of interest**: runtime system, smp support (atomic memory op support)
