@@ -94,7 +94,7 @@ The following page lists the current people who are allowed to commit to GHC, al
 
 - Herbert Valerio Riedel
 
-  - N/A - Vienna, Austria
+  - Vienna University of Technology - Vienna, Austria
   - **Trac**: hvr; **email**: hvr@…
   - **Committer since**: August, 2013.
   - **Main areas of interest**: git management, trac integration, ghci
