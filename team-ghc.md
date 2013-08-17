@@ -185,7 +185,7 @@ The following page lists the current people who are allowed to commit to GHC, al
 
 - Roman Leshchinskiy
 
-  - Standard Chartered - ???
+  - Standard Chartered - London, UK
   - **Trac**: rl; **email**: 
   - **Committer since**: August, 2013.
   - **Main areas of interest**: vector library
@@ -254,3 +254,10 @@ This list people who have contributed wonderful things to GHC in the past, but a
   - **Trac**: dons; **email**: 
   - **Committer until**: August, 2013.
   - **Main areas of interest**: bytestring, code generation, optimisers
+
+- Lennart Augustsson
+
+  - Standard Chartered - London, UK
+  - **Trac**: !Lennart; **email**: 
+  - **Committer until**: August, 2013.
+  - **Main areas of interest**: ...
