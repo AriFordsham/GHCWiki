@@ -149,7 +149,6 @@ For more details, see Committers?.
 - Andreas Voellmy
 - Austin Seipp
 - Ben Lippmeier
-- Iavor Diatchki
 - David Terei
 - David Waern
 - Dimitrios Vytiniotis
@@ -161,6 +160,7 @@ For more details, see Committers?.
 - Gabor Greif
 - Herbert Valerio Riedel
 - Ian Lynagh
+- Iavor Diatchki
 - Ilya Sergey
 - Johan Tibell
 - José Pedro Magalhães
