@@ -66,9 +66,9 @@ The following page lists the current people who are allowed to commit to GHC, al
 
 - Erik de Castro Lopo
 
-  - N/A - ???
+  - Independent, Sydney, Australia
   - **Trac**: erikd; **email**: 
-  - **Committer since**: August, 2013.
+  - **Committer since**: August, 2012.
   - **Main areas of interest**: PPC support
 
 - Edward Yang
