@@ -108,7 +108,7 @@ The following page lists the current people who are allowed to commit to GHC, al
 
 - Iavor Diatchki
 
-  - Galois, Inc - Portland, OR
+  - Galois Inc - Portland, OR
   - **Trac**: diatchki; **email**: 
   - **Committer since**: August, 2013.
   - **Main areas of interest**: 'type literals' support, type checking
