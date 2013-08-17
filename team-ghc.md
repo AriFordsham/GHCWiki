@@ -179,9 +179,9 @@ The following page lists the current people who are allowed to commit to GHC, al
 - Richard Eisenberg
 
   - University of Pennsylvania - Philadelphia, PA
-  - **Trac**: goldfire; **email**: 
+  - **Trac**: goldfire; **email**: `eir@...`
   - **Committer since**: August, 2013.
-  - **Main areas of interest**: type checker
+  - **Main areas of interest**: type checker, core, Template Haskell
 
 - Roman Leshchinskiy
 
