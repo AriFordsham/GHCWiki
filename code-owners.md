@@ -144,4 +144,4 @@ Some [libraries](commentary/libraries) are very closely coupled to GHC, come wit
 Aside from general code owners, there is a fairly large group of people who commit to GHC, many for different reasons, and all of various backgrounds. When writing patches or looking for help, it's good to see if anyone is interested in the same area.
 
 
-For more details including the full list of people involved, see Committers?.
+For more details including the full list of people involved, see [TeamGHC](team-ghc).
