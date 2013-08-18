@@ -141,43 +141,10 @@ Some [libraries](commentary/libraries) are very closely coupled to GHC, come wit
 ## Current Committers
 
 
-The following is a list of all the people who are authorized to commit to GHC. (We've also had many wonderful people in the past who are listed at the bottom of this page.)
+Aside from general code owners, there is a fairly large group of people who commit to GHC, all of various backgrounds. When writing patches or looking for help, it's good to see if anyone is interested in the same area.
 
 
-For more details, see Committers?.
-
-- Andreas Voellmy
-- Austin Seipp
-- Ben Lippmeier
-- David Terei
-- David Waern
-- Dimitrios Vytiniotis
-- Duncan Coutts
-- Edsko de Vries
-- Erik de Castro Lopo
-- Edward Yang
-- Geoffrey Mainland
-- Gabor Greif
-- Herbert Valerio Riedel
-- Ian Lynagh
-- Iavor Diatchki
-- Ilya Sergey
-- Johan Tibell
-- José Pedro Magalhães
-- Jan Stolarek
-- Manuel Chakravarty
-- Max Bolingbroke
-- Nicolas Frisby
-- Páli Gábor János
-- Paolo Capriotti
-- Richard Eisenberg
-- Roman Leshchinskiy
-- Ross Patterson
-- Ryan Newton
-- Simon Hengel
-- Simon Marlow
-- Simon Peyton Jones
-- Thomas Schilling
+For more details including the full list of people involved, see Committers?.
 
 ## Platform maintainers
 
