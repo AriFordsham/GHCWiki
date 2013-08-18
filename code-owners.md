@@ -1,4 +1,4 @@
-# The GHC Team
+# GHC Code Owners
 
 
 GHC has an enormous "surface area", and has grown way beyond the
@@ -35,7 +35,7 @@ Ownership means being the "first among equals" rather than "having exclusive con
 When contacting an owner, always cc `ghc-devs@haskell.org`, so that others can contribute.  It's a community thing.
 
 
-The GHC repository is held on a machine called "[ Abott](http://www.haskell.org/haskellwiki/Abbot)".
+The GHC repository is held on a machine called "Rock" (TODO link to new infrastructure information.)
 
 ## Current Owners
 
@@ -138,167 +138,10 @@ Some [libraries](commentary/libraries) are very closely coupled to GHC, come wit
 
   - Johan Tibell, Andreas Voellmy
 
-## Current Committers
+## The Full Glasgow Haskell Team
 
 
-Aside from general code owners, there is a fairly large group of people who commit to GHC, all of various backgrounds. When writing patches or looking for help, it's good to see if anyone is interested in the same area.
+Aside from general code owners, there is a fairly large group of people who commit to GHC, many for different reasons, and all of various backgrounds. When writing patches or looking for help, it's good to see if anyone is interested in the same area.
 
 
 For more details including the full list of people involved, see Committers?.
-
-## Platform maintainers
-
-
-The following table lists the people who have generously agreed to be responsible for the GHC port to a particular platform, or to produce binary packages for a certain platform.
-
-
-For a full description of GHC support for various platforms, see [Platforms](platforms).
-
-- **x86**
-
-  - Windows (targetting [ mingw](http://www.mingw.org)): Sigbjorn Finne
-  - Windows (targetting [ Cygwin](http://www.cygwin.com)): Position open; port bitrotted
-  - Linux (generic): Simon Marlow,
-    Simon Peyton Jones
-  - FreeBSD/i386: FreeBSD Haskell Team
-  - OpenBSD: Matthias Kilian
-  - SuSE Linux/x86 packages: Sven Panne,Ralf Hinze
-  - Gentoo Linux/x86 packages: Gentoo Haskell team
-  - Debian GNU/Linux/x86 packages: Kari Pahula
-  - MacOS X: Manuel Chakravarty
-  - Fedora packages: Fedora Haskell SIG
-
-- **PowerPC**
-
-  - AIX: Audrey Tang
-  - Linux: Ryan Lortie, Erik de Castro Lopo
-  - Gentoo Linux packages (32 and 64bit): Gentoo Haskell team
-  - Debian GNU/Linux/powerpc packages: Kari Pahula
-  - MacOS X: Wolfgang Thaller,Thorkil Naur
-  - Fedora packages: Fedora Haskell SIG (until F12)
-
-- **Sparc**
-
-  - Solaris: Position open
-  - Linux:   Position open
-  - Gentoo Linux packages: Gentoo Haskell team
-  - Debian GNU/Linux/sparc packages: Kari Pahula
-
-- **x86_64**
-
-  - Linux: Simon Marlow
-  - Gentoo Linux packages: Gentoo Haskell team
-  - Debian GNU/Linux/amd64 packages: Kari Pahula
-  - FreeBSD/amd64: FreeBSD Haskell Team
-  - OpenBSD: Matthias Kilian
-  - Fedora packages: Fedora Haskell SIG
-
-- **Mips64**
-
-  - Irix: Don Stewart
-
-- **Mips**
-
-  - Debian GNU/Linux/mips packages: Kari Pahula
-
-- **Mipsel**
-
-  - Debian GNU/Linux/mipsel packages: Kari Pahula
-
-- **IA-64**
-
-  - Linux: Matt Chapman
-  - Gentoo Linux packages: Gentoo Haskell team
-  - Debian GNU/Linux/ia64 packages: Kari Pahula
-
-- **Alpha**
-
-  - Dec OSF: Ken Shan
-  - Linux: Position open.
-  - Gentoo Linux packages: Gentoo Haskell team
-  - Debian GNU/Linux/alpha packages: Kari Pahula
-
-- **HPPA**
-
-  - Gentoo Linux packages: Gentoo Haskell team
-  - Debian GNU/Linux/hppa packages: Kari Pahula
-
-- **S/390**
-
-  - Debian GNU/Linux/s390 packages: Kari Pahula
-
-- **Arm**
-
-  - Debian GNU/Linux/arm packages: Kari Pahula
-
-## Past contributors
-
-
-These people have contributed to GHC and its core libraries in the past, in various
-wonderful ways:
-
-
-Krasimir Angelov,
-Lennart Augustsson (including work on many core libraries, originally for hbc),
-Jean-Philippe Bernardy (Maintenance of Data.\*Map/\*Set libraries),
-[ Jost Berthold](http://www.mathematik.uni-marburg.de/~berthold) (Parallel Haskell: Eden),
-Bjorn Bringert,
-Sebastien Carlier,
-Andrew Cheadle,
-[ Tim Chevalier](http://catamorphism.org/) (External Core, strictness analysis, ticky-ticky profiling),
-Duncan Coutts (parallel profiling, package system),
-[ Iavor S Diatchki](http://www.purely-functional.net) (type-level literals),
-[ Richard Eisenberg](http://www.cis.upenn.edu/~eir),
-Sigbjorn Finne,
-Andy Gill (Haskell Program Coverage),
-Kevin Glynn,
-John Goerzen,
-Cordy Hall,
-Kevin Hammond,
-Tim Harris (Transactional memory, concurrency),
-David Himmelstrup (GHC developer),
-José Iborra (GHCi Debugger),
-Isaac Jones (Cabal, libraries),
-Ralf Laemmel,
-Roman Leshchinskiy,
-Andres Loeh,
-Hans Wolfgang Loidl,
-John Launchbury,
-Ryan Lortie (PowerPC Linux port, packages),
-Jim Mattson,
-John Meacham,
-Darren Moffat,
-Nick Nethercote,
-Thomas Nordin,
-Sven Panne,
-Sungwoo Park,
-Will Partain,
-Ross Paterson,
-Juan Quintela,
-[ Norman Ramsey](http://www.eecs.harvard.edu/nr) (a little refactoring in the back end),
-Alastair Reid,
-Ben Rudiak-Gould,
-Patrick Sansom,
-André Santos,
-Sean Seefried (Plug-in optimisations (in pluggable-branch)),
-Julian Seward,
-Dominic Steinitz (Cryptographic library),
-Don Stewart (OpenBSD support),
-Volker Stolz,
-Josef Svenningsson,
-Audrey Tang (Perl-related tools (ghc-asm, ghc-split), AIX port),
-Dinko Tenev,
-Wolfgang Thaller (Darwin/Mac OS X ports, position-independent code generation),
-Mike Thomas,
-Reuben Thomas,
-Christopher D. Thompson-Walsh,
-Dylan Thurston,
-Phil Trinder,
-Mark Tullsen,
-David N Turner,
-Philip Wadler,
-David Waern (Haddock comment support),
-Malcolm Wallace,
-Michael Weber,
-Ashley Yakeley (Time library),
-N. Xu.
