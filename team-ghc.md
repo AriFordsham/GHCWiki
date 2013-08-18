@@ -1,7 +1,7 @@
 # GHC Committers
 
 
-The following page lists the current people who are allowed to commit to GHC, along with some details about the role they play and how to contact them. If you need guidance or help for your patches, this list may help you find out who you should contact, both on the mailing lists and here. It also gives some indication of 'where' people are, which is convenient when you need to cross time-zone barriers, etc.
+The following page lists the current people who are allowed to commit to GHC, along with some details about the role they play and how to contact them. If you need guidance or help for your patches, this list may help you find out who you should contact, both on the mailing lists and here. It also gives some indication of *where* people are, which is convenient when you need to cross time-zone barriers, etc.
 
 
 (**NB**: GHC's development *as a whole* is not lead by any particular group, company, or individual. Affiliations below are listed for identification purposes only, and are optional; contributions do not necessarily represent the interests of employers or academic institutions.)
@@ -66,7 +66,7 @@ The following page lists the current people who are allowed to commit to GHC, al
 
 - Erik de Castro Lopo
 
-  - Independent, Sydney, Australia
+  - Independent - Sydney, Australia
   - **Trac**: erikd; **email**: 
   - **Committer since**: August, 2012.
   - **Main areas of interest**: PPC support
@@ -150,14 +150,14 @@ The following page lists the current people who are allowed to commit to GHC, al
 
 - Max Bolingbroke
 
-  - N/A
+  - N/A - ???
   - **Trac**: batterseapower; **email**: 
   - **Committer since**: August, 2013.
   - **Main areas of interest**: optimiser, type checker
 
 - Nicolas Frisby
 
-  - N/A
+  - N/A - ???
   - **Trac**: nfrisby; **email**: 
   - **Committer since**: August, 2013.
   - **Main areas of interest**: optimiser
