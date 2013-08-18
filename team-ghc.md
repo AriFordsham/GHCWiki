@@ -1,7 +1,7 @@
 # The Glasgow Haskell Team
 
 
-GHC is the result of many peoples hard work, and this page gives detail on exactly who is responsible for what.
+GHC is the result of many peoples hard work, and this page gives detail on exactly who is responsible for what in precise detail.
 
 ## Committers
 
