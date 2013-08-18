@@ -258,6 +258,6 @@ This list people who have contributed wonderful things to GHC in the past, but a
 - Lennart Augustsson
 
   - Standard Chartered - London, UK
-  - **Trac**: Lennart; **email**: 
+  - **Trac**: Lennart; **email**: lennart.augustsson@…
   - **Committer until**: August, 2013.
   - **Main areas of interest**: ...
