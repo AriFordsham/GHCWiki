@@ -84,23 +84,23 @@ Let's call the two trees `ghc-working` and `ghc-validate`.
 Set up your repos like this:
 
 {{{
-$ git clone http://darcs.haskell.org/ghc.git ghc-working
+$ git clone http://git.haskell.org/ghc.git ghc-working
 $ cd ghc-working
 $ ./sync-all --testsuite --no-dph get
 $ cd ..
 $ git clone ghc-working ghc-validate
 $ cd ghc-validate
 $ ./sync-all --testsuite get
-$ ./sync-all -r http://darcs.haskell.org/ remote set-url origin
+$ ./sync-all -r http://git.haskell.org remote set-url origin
   # Get the dph libraries too
 $ ./sync-all --testsuite get
 $ ./sync-all -r `pwd`/../ghc-working remote add working
-$ ./sync-all -r <account>@darcs.haskell.org:/home/darcs remote set-url --push origin
+$ ./sync-all -r ssh://git@git.haskell.org remote set-url --push origin
 }}}
 
-(where `<account>` is your account on `darcs.haskell.org`; omit this step if you don't have one, you can still submit patches via the mailing list (using `git format-patch` will help you with this) or send a pull request to get your changes in GHC).
+(omit the last step if you don't have an account for GHC's Git repositories, you can still submit patches via the mailing list (using `git format-patch` will help you with this) or send a pull request to get your changes in GHC).
 
-Now you have `ghc-working` and `ghc-validate` repos, and additionally the `ghc-validate` repo tree is set up with a remote `working` pointing to the `ghc-working` tree, and pushing from `ghc-validate` will push changes via SSH to `darcs.haskell.org`.
+Now you have `ghc-working` and `ghc-validate` repos, and additionally the `ghc-validate` repo tree is set up with a remote `working` pointing to the `ghc-working` tree, and pushing from `ghc-validate` will push changes via SSH to `git.haskell.org`.
 
 === The rebase workflow ===
 
