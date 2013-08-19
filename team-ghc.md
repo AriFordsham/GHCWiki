@@ -128,6 +128,13 @@ In order to see emails below, **you must login**.
   - **Committer since**: August, 2013.
   - **Main areas of interest**: optimiser
 
+- [ Jan Stolarek](http://ics.p.lodz.pl/~stolarek/)
+
+  - Microsoft Research; Technical University of Łódź - Cambridge, UK
+  - **Trac**: jstolarek; **email**: jan.stolarek@…
+  - **Committer since**: August, 2013.
+  - **Main areas of interest**: codegen, optimiser
+
 - Johan Tibell
 
   - Google Inc - San Francisco, CA
@@ -141,13 +148,6 @@ In order to see emails below, **you must login**.
   - **Trac**: dreixel; **email**: jpm@…
   - **Committer since**: August, 2013.
   - **Main areas of interest**: generics support, type checker
-
-- Jan Stolarek
-
-  - Microsoft Research; Technical University of Łódź - Cambridge, UK
-  - **Trac**: jstolarek; **email**: jan.stolarek@…
-  - **Committer since**: August, 2013.
-  - **Main areas of interest**: codegen, optimiser
 
 - Manuel Chakravarty
 
