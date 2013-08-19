@@ -40,13 +40,18 @@ Each ticket has a bunch of other fields too:
  * '''Priority''': this field is for the GHC development team to help us prioritise what we work on. On a release milestone, the highest priority tickets are blockers for that release, and the high priority tickets are those that we also plan to fix before releasing. We will also try to fix as many of the normal and lower priority tickets as possible.
 
  * '''Test Case''': fill in this field with the name of the test in the test suite.  Typically every bug
-   closed should have an appropriate test case added to the test suite.
+   closed should have an appropriate test case added to the test suite.[[BR]][[BR]]
+ Typically we name the regression the same as the ticket (eg "T7901" for #7901), but the test case field:
+    * is a quick check that there IS a regression test
+    * works even if the test is named differently (eg `ParserNoForallUnicode` in the case of #7901)
+    * works if there are multiple tests
+    * tells which directory to look in (eg `parser/should_fail` in the case of #7901)
 
  * '''cc''': we pay more attention to tickets with a long cc list, so add yourself to the cc list if you care about the ticket.  It is ''vastly'' more effective if you also add a comment to explain why you care. 
 
  * '''Owned by''' says who is committed to taking the ticket forward.  We typically leave this field blank until we actively start working on it, lest others feel unable to work on a ticket because it is apparently owned, even though nothing is happening.
 
-== Remilestoning tickets after a release ==
+== Re-milestoning tickets after a release ==
 
 When a release is made, any open tickets on that release's milestone will be moved to the next release's milestone.
 

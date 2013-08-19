@@ -50,11 +50,18 @@ Each ticket has a bunch of other fields too:
 - **Test Case**: fill in this field with the name of the test in the test suite.  Typically every bug
   closed should have an appropriate test case added to the test suite.
 
+  Typically we name the regression the same as the ticket (eg "T7901" for [\#7901](https://gitlab.haskell.org//ghc/ghc/issues/7901)), but the test case field:
+
+  - is a quick check that there IS a regression test
+  - works even if the test is named differently (eg `ParserNoForallUnicode` in the case of [\#7901](https://gitlab.haskell.org//ghc/ghc/issues/7901))
+  - works if there are multiple tests
+  - tells which directory to look in (eg `parser/should_fail` in the case of [\#7901](https://gitlab.haskell.org//ghc/ghc/issues/7901))
+
 - **cc**: we pay more attention to tickets with a long cc list, so add yourself to the cc list if you care about the ticket.  It is *vastly* more effective if you also add a comment to explain why you care. 
 
 - **Owned by** says who is committed to taking the ticket forward.  We typically leave this field blank until we actively start working on it, lest others feel unable to work on a ticket because it is apparently owned, even though nothing is happening.
 
-## Remilestoning tickets after a release
+## Re-milestoning tickets after a release
 
 
 When a release is made, any open tickets on that release's milestone will be moved to the next release's milestone.
