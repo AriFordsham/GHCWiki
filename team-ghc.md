@@ -226,7 +226,7 @@ In order to see emails below, **you must login**.
   - **Committer since**: always.
   - **Main areas of interest**: runtime system, codegen, gc, smp scalability, etc
 
-- Simon Peyton Jones
+- [ Simon Peyton Jones](http://research.microsoft.com/~simonpj)
 
   - Microsoft Research - Cambridge, UK
   - **Trac**: simonpj; **email**: simonpj@…
