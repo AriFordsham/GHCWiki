@@ -311,9 +311,9 @@ git clone <repo-url> [<local-name>]
 }}}
 Possible repo URLs look like this:
 {{{
-git clone http://darcs.haskell.org/ghc.git  # via HTTP (slowest)
-git clone git://darcs.haskell.org/ghc.git   # git's protocol (fast, read-only)
-git clone [username@]darcs.haskell.org:ghc.git  # via SSH
+git clone http://git.haskell.org/ghc.git  # via HTTP (slowest)
+git clone git://git.haskell.org/ghc.git   # git's protocol (fast, read-only)
+git clone ssh://git@git.haskell.org/ghc.git  # via SSH
 }}}
 
 == darcs put ==

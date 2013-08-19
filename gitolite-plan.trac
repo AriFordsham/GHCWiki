@@ -43,7 +43,7 @@ Ideally, most of the new setup can occur concurrently with the normal one undist
 
 === Developer changes ===
 
-Note: '''''The `git.haskell.org` DNS CNAME alias for `ghc.haskell.org` has not been activated yet.''''' If you want to try out the new smart-protocol `http://` urls, you can append "`88.198.224.241 git.haskell.org`" to your `/etc/hosts` file. For the non-`http://` protocols, you can just substitute `git.haskell.org` by `ghc.haskell.org` in the following instructions.
+~~Note: '''''The `git.haskell.org` DNS CNAME alias for `ghc.haskell.org` has not been activated yet.''''' If you want to try out the new smart-protocol `http://` urls, you can append "`88.198.224.241 git.haskell.org`" to your `/etc/hosts` file. For the non-`http://` protocols, you can just substitute `git.haskell.org` by `ghc.haskell.org` in the following instructions.~~
 
 ==== Anonymous read access ==== 
 
@@ -56,7 +56,7 @@ New `git clone` will use the new `http://git.haskell.org/<repo-name>.git` Git UR
 To rewrite a checked out to the new access URLs, you can use the `sync-all` script, e.g.:
 
 {{{
-./sync-all -r git://ghc.haskell.org remote set-url origin
+./sync-all -r git://git.haskell.org remote set-url origin
 }}}
 
 ==== Authenticated read/write access ====
@@ -73,14 +73,16 @@ This can be accomplished by invoking the `sync-all` script. But **before** you d
 
 Many developers use older trees that may not have been updated before the switch. But never fear, it's quite easy to fix everything, using the GitHub mirror.
 
-{{{
-git checkout master                            # make sure you're on a clean copy of master without any outstanding changes
-git pull https://github.com/ghc/ghc.git master # get the latest version of `./sync-all` from GitHub
-./sync-all -r ssh://git@ghc.haskell.org remote set-url origin
-./sync-all -r ssh://git@ghc.haskell.org remote set-url --push origin
+{{{#!sh
+# make sure you're on a clean copy of master without any outstanding changes
+git checkout master
+# get the latest version of `./sync-all` from GitHub
+git pull https://github.com/ghc/ghc.git master
+./sync-all -r git://git.haskell.org remote set-url origin
+./sync-all -r ssh://git@git.haskell.org remote set-url --push origin
 }}}
 
-This will correctly set up both push and pull URLs.
+This will correctly set up both push and pull URLs (use `http://` instead of `git://` if your behind a firewall blocking port 9418).
 
 ===  Additional user-visible changes ===
 

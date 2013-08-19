@@ -36,7 +36,7 @@ $ git config --global core.autocrlf false
 A source tree consists of more than one repository: at the top level there is the main GHC repository, and certain subdirectories contain separate git repositories (for a list see [Repositories](repositories)). To get a complete repository tree using git:
 
 ```wiki
-  $ git clone git://darcs.haskell.org/ghc.git
+  $ git clone git://git.haskell.org/ghc.git
   $ cd ghc
   $ ./sync-all --testsuite get
 ```
@@ -48,7 +48,7 @@ Note: If you're behind a **firewall blocking port 9418** (or `git clone git://..
 If you have commit access then you will need to also set the push URL:
 
 ```wiki
-  $ ./sync-all -r ssh://git@darcs.haskell.org remote set-url --push origin
+  $ ./sync-all -r ssh://git@git.haskell.org remote set-url --push origin
 ```
 
 
@@ -77,7 +77,7 @@ You can make a local clone of a GHC tree with
 where `~/ghc` is the repository you want to branch and `~/ghc-branch` is where you want to put the branch. Then use `sync-all` as before to clone the rest of the repositories.  Note that the `origin` for the local clone will point back to the repository that it was cloned from - if you want `origin` to point back to the main GHC repo then do this:
 
 ```wiki
-  $ ./sync-all -r git://darcs.haskell.org remote set-url origin
+  $ ./sync-all -r git://git.haskell.org remote set-url origin
 ```
 
 ## Getting a branch
@@ -92,7 +92,7 @@ To get a branch, you need to get from a repo that contains the branch; in partic
 To get one, run
 
 ```wiki
-  $ git clone -b branch-name http://darcs.haskell.org/ghc.git
+  $ git clone -b branch-name http://git.haskell.org/ghc.git
   $ cd ghc
   $ ./sync-all --testsuite get -b branch-name
 ```
@@ -107,22 +107,22 @@ To check out a specific version of GHC, run
 
 ```wiki
   $ export VERSION=7.6.1
-  $ git clone http://darcs.haskell.org/ghc.git
+  $ git clone http://git.haskell.org/ghc.git
   $ cd ghc
   $ git checkout -b ghc-${VERSION} ghc-${VERSION}-release
-  $ ./sync-all -r http://darcs.haskell.org/ghc.git --no-dph get
+  $ ./sync-all -r http://git.haskell.org/ghc.git --no-dph get
   $ ./sync-all checkout -b ghc-${VERSION} ghc-${VERSION}-release
 ```
 
 ## Getting a GHC repository from GitHub
 
 
-To get GHC repository from [ GitHub](http://www.github.com) we recommend to just get GHC source code itself from GitHub and combine this with packages from [ http://darcs.haskell.org](http://darcs.haskell.org). This is easy since sync-all script supports it well.
+To get GHC repository from [ GitHub](http://www.github.com) we recommend to just get GHC source code itself from GitHub and combine this with packages from [ http://git.haskell.org](http://git.haskell.org). This is easy since sync-all script supports it well.
 
 ```wiki
   $ git clone <your preferred github.com GHC fork URL> ghc
   $ cd ghc
-  $ ./sync-all -r git://darcs.haskell.org get
+  $ ./sync-all -r git://git.haskell.org get
 ```
 
 
