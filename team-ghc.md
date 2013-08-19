@@ -90,8 +90,8 @@ In order to see emails below, **you must login**.
 
   - Drexel University - Philadelphia, PA
   - **Trac**: gmainland; **email**: mainland@…
-  - **Committer since**: August, 2013.
-  - **Main areas of interest**: ...
+  - **Committer since**: August, 2011.
+  - **Main areas of interest**: Code generator (SIMD support, LLVM back-end), quasiquotation, Template Haskell.
 
 - Gabor Greif
 
