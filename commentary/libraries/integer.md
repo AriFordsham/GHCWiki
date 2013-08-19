@@ -65,7 +65,18 @@ Specifically, the interface is this:
 
   While `Integer`s aren't "machine literals" like the other `Core``Literal` constructors, it is more convenient when writing constant folding RULES to pretend that they are literals rather than having to understand their concrete representation. (Especially as the concrete representation varies from package to package.) We also carry around a `Type`, representing the `Integer` type, in the constructor, as we need access to it in a few functions (e.g. `literalType`).
 
-- **Constant folding**.  There are many constant-folding optimisations for `Integer` expressed as built-in rules in [compiler/prelude/PrelRules.lhs](/trac/ghc/browser/ghc/compiler/prelude/PrelRules.lhs); look at `builtinIntegerRules`.  All of the types and functions in the `Integer` interface have built-in names, e.g. `plusIntegerName`, defined in [compiler/prelude/PrelNames.lhs](/trac/ghc/browser/ghc/compiler/prelude/PrelNames.lhs) and included in `basicKnownKeyNames`. This allows us to match on all of the functions in `builtinIntegerRules` in [compiler/prelude/PrelRules.lhs](/trac/ghc/browser/ghc/compiler/prelude/PrelRules.lhs), so we can constant-fold Integer expressions.
+- **Constant folding**.  There are many constant-folding optimisations for `Integer` expressed as built-in rules in [compiler/prelude/PrelRules.lhs](/trac/ghc/browser/ghc/compiler/prelude/PrelRules.lhs); look at `builtinIntegerRules`.  All of the types and functions in the `Integer` interface have built-in names, e.g. `plusIntegerName`, defined in [compiler/prelude/PrelNames.lhs](/trac/ghc/browser/ghc/compiler/prelude/PrelNames.lhs) and included in `basicKnownKeyNames`. This allows us to match on all of the functions in `builtinIntegerRules` in [compiler/prelude/PrelRules.lhs](/trac/ghc/browser/ghc/compiler/prelude/PrelRules.lhs), so we can constant-fold Integer expressions. An important thing about constant folding of Integer divisions is that they depend on inlining. Here's a fragment of `Integral Integer` instance definition from `libraries/base/GHC/Real.lhs`:
+
+  ```wiki
+  instance  Integral Integer where
+      toInteger n      = n
+
+      {-# INLINE quot #-}
+      _ `quot` 0 = divZeroError
+      n `quot` d = n `quotInteger` d
+  ```
+
+  Constant folding rules for divisions are defined for `quotInteger` and other division functions from `integer-gmp` library. If `quot` was not inlined constant folding rules would not fire. The rules would also not fire if call to `quotInteger` was inlined, but this does not happen because it is marked with NOINLINE pragma - see below.
 
 - **Converting between Int and Integer**.  It's quite commonly the case that, after some inlining, we get something like `integerToInt (intToInteger i)`, which converts an `Int` to an `Integer` and back.  This *must* optimise away (see [\#5767](https://gitlab.haskell.org//ghc/ghc/issues/5767)).  We do this by requiring that the `integer` package exposes
 
