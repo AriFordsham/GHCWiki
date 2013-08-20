@@ -34,7 +34,7 @@ The following new features are planned for 7.8. They are at varying degrees of c
 
  * Iavor Diatchki is working on type-level nats (#4385, http://ghc.haskell.org/trac/ghc/wiki/TypeNats).
 
- * Unboxed Booleans. Patch just needs some polishing? Jan Stolarek is working on it. See #6135.
+ * Unboxed Booleans. '''Patches merged.'''. Author: Jan Stolarek. See #6135.
 
  * Austin Seipp would like to do some official ARMv7 binary releases with a working stage2 compiler and GHCi, but there are probably some bugs waiting here.
 
