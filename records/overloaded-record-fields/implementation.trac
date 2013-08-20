@@ -272,9 +272,21 @@ I've implemented the first option, adding a new warning `-fwarn-qualified-overlo
 
 == To do ==
 
+* Put `(r ~ SetResult r f (GetResult r f))` in superclasses of `Upd`, not `Has`.  And Note to explain what it is doing
+* Add Note to explain why `GetR` and `SetR` are not associated types (NB: it’d be possible for associated types to have type parameters that are an *instance of* the class header.  Feature request!)
+* With fundep in class, I think we don’t need it in the instance.  Check this.
+* Generate dfuns unconditionally; *use* them when `OverloadedFields` is on.  Make sure `GHC.Records` is compiled before any base module that has a record field.  (Maybe move `TypeLits.Symbol` to an earlier module eg `GHC.Base`.)
+* Add axioms to `tcg_type_env` but not `tcg_fam_inst_env`
+* Always mangle selector names (for simplicity)
+  * Sort out impedance mismatch with boot files, if easy or enough people care
+  * Check import/export behaviour
+* Minimise contents of `AvailInfo` (preferably just a list of field `OccName`s): use `newGlobalBinder` to lookup cached mangled names for selectors and pieces
+
+* Sort out reporting of unused imports.
+* Make instances available to GHCi.
+
+* Consider syntactic sugar for `Upd` constraints.
 * Improve unsolved `Accessor p f` error message where `p` is something silly?
 * Consider defaulting `Accessor p` to `p = (->)`, and defaulting `Has r "f" t` constraints where there is only one datatype with a field `f` in scope.
-* Sort out reporting of unused imports.
-* Review propagation of dfunids/axioms and instances; consider `-XOverloadedRecordFieldInstances` as a separate extension.
-* How should instances be made available to GHCi?
+
 * Document the extension, including new warnings.
