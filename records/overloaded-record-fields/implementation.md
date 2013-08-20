@@ -117,7 +117,7 @@ Typeclass and family instances are generated, provided the extension is enabled,
 
 - `tcInstDecls1` generates instances for fields from datatypes in the current group (at the same time as derived instances, from **deriving** clauses, are generated)
 
-- `tcRnImports` in `TcRnDriver` generates instances for imported fields, by looking at the `GlobalRdrEnv`
+- `tcRnImports` in `TcRnDriver` generates instances for overladed record fields *that are in scope*. (This is different from the usual visible-everywhere story for instances.) We know which overloaded fields are in scope by looking at the `GlobalRdrEnv`
 
 
 The typeclass instances must be subsequently typechecked (by `tcInstDecls2`). Such instances are "private" in that they are available when typechecking the current module (in `tcg_inst_env`) but not exported to other modules (via `tcg_insts`). On the other hand, the underlying dfun ids, axioms and family instances are exported from the module as usual.
