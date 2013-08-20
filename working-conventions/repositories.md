@@ -1,7 +1,7 @@
 
 This page has been replaced by 
 
-- [Repositories](working-conventions/repositories)
+- [Repositories](repositories)
 - [Repositories/Upstream](repositories/upstream)
 
 
