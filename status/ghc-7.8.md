@@ -45,3 +45,5 @@ The following new features are planned for 7.8. They are at varying degrees of c
   The plan is/was to use dynamic GHCi on as many platforms as possible in 7.8, and to remove support for non-dynamic-ghci in HEAD soon after. See discussion in [\#8039](https://gitlab.haskell.org//ghc/ghc/issues/8039), however.
 
 - [Overloaded record fields](records/overloaded-record-fields/plan), by Adam Gundry (GSOC).  Not sure if this will be done.
+
+- [Newtype wrappers](newtype-wrappers), by Joachim Breitner.  This probably won't be ready for 7.8.
