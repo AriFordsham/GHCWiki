@@ -6,7 +6,8 @@ This page lists the active repositories relating to GHC. For instructions on act
 
 For read-only browsing, you can use the:
 
-- [ Trac source browser](http://hackage.haskell.org/trac/ghc/browser)
+- [Trac source browser](/trac/ghc/browser/)
+- [ Gitweb browser @ git.haskell.org](http://git.haskell.org/)
 - [ GitHub GHC mirror](http://github.com/ghc/ghc)
 
 
@@ -34,36 +35,30 @@ Here is a list of the repositories that GHC uses.  The columns have the followin
 
 - **Installed?**: is "no" if the library is not installed in a GHC installation, and "extra" if it is only installed if `InstallExtraPackages` is `YES`. All others are installed with GHC. See the [libraries page](commentary/libraries) for more info.
 
-- **GHC repo**: in every case there is a repo on `http://darcs.haskell.org/`, which contains the bits we use for building GHC every night. For libraries with upstream repos, this is just a lagging mirror of the master (see [Repositories/Upstream](repositories/upstream)).  The read-only HTTP URL for the repo is `http://darcs.haskell.org/<table-entry>`.  To get a read/write URL, replace HTTP prefix `http://darcs.haskell.org` with the SSH prefix `darcs.haskell.org:/srv/darcs`. 
+- **GHC repo**: in every case there is a repo on `http://git.haskell.org/`, which contains the bits we use for building GHC every night. For libraries with upstream repos, this is just a lagging mirror of the master (see [Repositories/Upstream](repositories/upstream)).  The read-only HTTP URL for the repo is `http://git.haskell.org/<table-entry>`.  To get a read/write URL, replace HTTP prefix `http://git.haskell.org` with the SSH prefix `ssh://git@git.haskell.org`. 
 
-**Note**: the URLs 
-
-- `http://darcs.haskell.org/libraries` and 
-- `http://darcs.haskell.org/packages`
-
-
-are sym-linked together, they are just synonyms.  (For historical reasons.)
+**Note**: `http://darcs.haskell.org/libraries` is actually a [ symlink](http://en.wikipedia.org/wiki/Symbolic_link) to `http://darcs.haskell.org/packages`, therefore they are just synonyms. (For historical reasons.). Moreover, the  Git repositories hosted on [ http://git.haskell.org](http://git.haskell.org) have an 301-redirect installed on their old [ http://darcs.haskell.org](http://darcs.haskell.org) locations.
 
 <table><tr><th>**Location in tree**</th>
 <th>**Upstream repo?**</th>
 <th>**Reqd to build?**</th>
 <th>**Installed?**</th>
-<th>**GHC repo http://darcs.haskell.org/...**</th></tr>
+<th>**GHC repo http://git.haskell.org/...**</th></tr>
 <tr><th>. (ghc itself)</th>
 <th></th>
 <th></th>
 <th></th>
-<th>ghc.git/</th></tr>
+<th>ghc.git</th></tr>
 <tr><th>ghc-tarballs</th>
 <th></th>
 <th></th>
 <th> N/A </th>
-<th>ghc-tarballs.git/</th></tr>
+<th>ghc-tarballs.git</th></tr>
 <tr><th>utils/hsc2hs</th>
 <th></th>
 <th></th>
 <th></th>
-<th>utils/hsc2hs.git/</th></tr>
+<th>hsc2hs.git</th></tr>
 <tr><th>utils/haddock</th>
 <th></th>
 <th></th>
@@ -83,182 +78,182 @@ are sym-linked together, they are just synonyms.  (For historical reasons.)
 <th></th>
 <th></th>
 <th></th>
-<th>packages/array.git/</th></tr>
+<th>packages/array.git</th></tr>
 <tr><th>libraries/base</th>
 <th></th>
 <th></th>
 <th></th>
-<th>packages/base.git/</th></tr>
+<th>packages/base.git</th></tr>
 <tr><th>libraries/binary</th>
 <th> yes </th>
 <th></th>
 <th></th>
-<th>packages/binary.git/</th></tr>
+<th>packages/binary.git</th></tr>
 <tr><th>libraries/bytestring</th>
 <th> yes </th>
 <th></th>
 <th></th>
-<th>packages/bytestring.git/</th></tr>
+<th>packages/bytestring.git</th></tr>
 <tr><th>libraries/Cabal</th>
 <th> yes </th>
 <th></th>
 <th></th>
-<th>packages/Cabal.git/</th></tr>
+<th>packages/Cabal.git</th></tr>
 <tr><th>libraries/containers</th>
 <th> yes </th>
 <th></th>
 <th></th>
-<th>packages/containers.git/</th></tr>
+<th>packages/containers.git</th></tr>
 <tr><th>libraries/deepseq</th>
 <th></th>
 <th></th>
 <th></th>
-<th>packages/deepseq.git/</th></tr>
+<th>packages/deepseq.git</th></tr>
 <tr><th>libraries/directory</th>
 <th></th>
 <th></th>
 <th></th>
-<th>packages/directory.git/</th></tr>
+<th>packages/directory.git</th></tr>
 <tr><th>libraries/extensible-exceptions</th>
 <th></th>
 <th></th>
 <th></th>
-<th>packages/extensible-exceptions.git/</th></tr>
+<th>packages/extensible-exceptions.git</th></tr>
 <tr><th>libraries/filepath</th>
 <th></th>
 <th></th>
 <th></th>
-<th>packages/filepath.git/</th></tr>
+<th>packages/filepath.git</th></tr>
 <tr><th>libraries/ghc-prim</th>
 <th></th>
 <th></th>
 <th></th>
-<th>packages/ghc-prim.git/</th></tr>
+<th>packages/ghc-prim.git</th></tr>
 <tr><th>libraries/haskeline</th>
 <th> yes </th>
 <th></th>
 <th> no  </th>
-<th>packages/haskeline.git/</th></tr>
+<th>packages/haskeline.git</th></tr>
 <tr><th>libraries/haskell98</th>
 <th></th>
 <th></th>
 <th></th>
-<th>packages/haskell98.git/</th></tr>
+<th>packages/haskell98.git</th></tr>
 <tr><th>libraries/haskell2010</th>
 <th></th>
 <th></th>
 <th></th>
-<th>packages/haskell2010.git/</th></tr>
+<th>packages/haskell2010.git</th></tr>
 <tr><th>libraries/hoopl</th>
 <th></th>
 <th></th>
 <th></th>
-<th>packages/hoopl.git/</th></tr>
+<th>packages/hoopl.git</th></tr>
 <tr><th>libraries/hpc</th>
 <th></th>
 <th></th>
 <th></th>
-<th>packages/hpc.git/</th></tr>
+<th>packages/hpc.git</th></tr>
 <tr><th>libraries/integer-gmp</th>
 <th></th>
 <th></th>
 <th></th>
-<th>packages/integer-gmp.git/</th></tr>
+<th>packages/integer-gmp.git</th></tr>
 <tr><th>libraries/integer-simple</th>
 <th></th>
 <th></th>
 <th></th>
-<th>packages/integer-simple.git/</th></tr>
+<th>packages/integer-simple.git</th></tr>
 <tr><th>libraries/old-locale</th>
 <th></th>
 <th></th>
 <th></th>
-<th>packages/old-locale.git/</th></tr>
+<th>packages/old-locale.git</th></tr>
 <tr><th>libraries/old-time</th>
 <th></th>
 <th></th>
 <th></th>
-<th>packages/old-time.git/</th></tr>
+<th>packages/old-time.git</th></tr>
 <tr><th>libraries/pretty</th>
 <th> yes </th>
 <th></th>
 <th></th>
-<th>packages/pretty.git/</th></tr>
+<th>packages/pretty.git</th></tr>
 <tr><th>libraries/process</th>
 <th></th>
 <th></th>
 <th></th>
-<th>packages/process.git/</th></tr>
+<th>packages/process.git</th></tr>
 <tr><th>libraries/template-haskell</th>
 <th></th>
 <th></th>
 <th></th>
-<th>packages/template-haskell.git/</th></tr>
+<th>packages/template-haskell.git</th></tr>
 <tr><th>libraries/terminfo</th>
 <th> yes </th>
 <th></th>
 <th> no  </th>
-<th>packages/terminfo.git/</th></tr>
+<th>packages/terminfo.git</th></tr>
 <tr><th>libraries/time</th>
 <th> yes </th>
 <th></th>
 <th></th>
-<th>packages/time.git/</th></tr>
+<th>packages/time.git</th></tr>
 <tr><th>libraries/transformers</th>
 <th> yes </th>
 <th></th>
 <th></th>
-<th>packages/transformers.git/</th></tr>
+<th>packages/transformers.git</th></tr>
 <tr><th>libraries/unix</th>
 <th></th>
 <th></th>
 <th></th>
-<th>packages/unix.git/</th></tr>
+<th>packages/unix.git</th></tr>
 <tr><th>libraries/utf8-string</th>
 <th> yes </th>
 <th></th>
 <th></th>
-<th>packages/utf8-string.git/</th></tr>
+<th>packages/utf8-string.git</th></tr>
 <tr><th>libraries/Win32</th>
 <th> yes </th>
 <th></th>
 <th></th>
-<th>packages/Win32.git/</th></tr>
+<th>packages/Win32.git</th></tr>
 <tr><th>libraries/xhtml</th>
 <th> yes </th>
 <th></th>
 <th> no  </th>
-<th>packages/xhtml.git/</th></tr>
+<th>packages/xhtml.git</th></tr>
 <tr><th>libraries/random</th>
 <th> yes </th>
 <th></th>
 <th>extra</th>
-<th>packages/random.git/</th></tr>
+<th>packages/random.git</th></tr>
 <tr><th>libraries/primitive</th>
 <th> yes </th>
 <th></th>
 <th>extra</th>
-<th>packages/primitive.git/</th></tr>
+<th>packages/primitive.git</th></tr>
 <tr><th>libraries/vector</th>
 <th> yes </th>
 <th></th>
 <th>extra</th>
-<th>packages/vector.git/</th></tr>
+<th>packages/vector.git</th></tr>
 <tr><th>libraries/dph</th>
 <th></th>
 <th></th>
 <th>extra</th>
-<th>packages/dph.git/</th></tr>
+<th>packages/dph.git</th></tr>
 <tr><th>libraries/parallel</th>
 <th></th>
 <th> no  </th>
 <th>extra</th>
-<th>packages/parallel.git/</th></tr>
+<th>packages/parallel.git</th></tr>
 <tr><th>libraries/stm</th>
 <th></th>
 <th> no  </th>
 <th>extra</th>
-<th>packages/stm.git/</th></tr></table>
+<th>packages/stm.git</th></tr></table>
 
 ## The 'packages' file
 
