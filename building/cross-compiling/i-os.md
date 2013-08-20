@@ -24,9 +24,30 @@ TARGET_PLATFORM=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.pl
 TARGET_BIN="/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin"
 
 TARGET_GCC=$TARGET_BIN/arm-apple-darwin10-llvm-gcc-4.2
-TARGET_CFLAGS="-isysroot $TARGET_PLATFORM -march=armv7 -mcpu=cortex-a8 -mfpu=neon"
+TARGET_CFLAGS="-isysroot $TARGET_PLATFORM -mcpu=cortex-a8 -mfpu=neon"
 
+allArgs=$@
+
+# Only need lipo when we're building object files
+if [[ "$allArgs" == *.o* ]]
+then
+# Find the filename 
+fileName=$(echo "$allArgs" | sed 's|.*-o \([^.]*\)\.o.*|\1|')
+
+# Create filename variants for armV7 and armV7s
+fileNameForArmv7=$fileName-armv7
+fileNameForArmv7s=$fileName-armv7s
+
+# Call gcc twice, once for each architecture, outputting to our filename variants
+$TARGET_GCC $TARGET_CFLAGS "-march=armv7" ${allArgs//$fileName.o/$fileNameForArmv7.o}
+$TARGET_GCC $TARGET_CFLAGS "-march=armv7s" ${allArgs//$fileName.o/$fileNameForArmv7s.o}
+
+# Lipo the two filename variants together
+lipo $fileNameForArmv7.o $fileNameForArmv7s.o -create -output $fileName.o
+else
+# If not building object files, call regularly.
 exec $TARGET_GCC $TARGET_CFLAGS "$@"
+fi
 ```
 
 **arm-apple-darwin10-ld**
