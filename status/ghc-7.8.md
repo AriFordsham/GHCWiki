@@ -48,4 +48,6 @@ The following new features are planned for 7.8. They are at varying degrees of c
 
 - [Overloaded record fields](records/overloaded-record-fields/plan), by Adam Gundry (GSOC).  Not sure if this will be done.
 
-- [Newtype wrappers](newtype-wrappers), by Joachim Breitner.  This probably won't be ready for 7.8.
+## Features that will definitely not make it
+
+- [Newtype wrappers](newtype-wrappers), by Joachim Breitner.  This will not be ready for 7.8.
