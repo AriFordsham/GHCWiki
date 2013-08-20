@@ -49,6 +49,7 @@ data CgLoc
   * #2387 - Optimizer misses unboxing opportunity
   * #2450 - Data.Complex.magnitude squares using ^(2 :: Int), which is slow
   * #2731 - Avoid unnecessary evaluation when unpacking constructors
+  * #2823 - Another arity expansion bug
   * #4470 - Loop optimization: identical counters
   * #4937 - Remove indirections caused by sum types, such as Maybe
   * #5567 - LLVM: Improve alias analysis / performance [wiki:BackEndNotes#Heapstackchecks BackEndNotes] page has some discussion of this.
