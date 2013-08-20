@@ -1,7 +1,7 @@
 [[PageOutline]]
 = Guidelines for using git with GHC =
 
-GHC uses [http://git-scm.com/ git] for revision control. This page describes various GHC-specific conventions for using git, together with some suggestions and tips for using git effectively.  
+GHC uses [http://git-scm.com/ Git] (version 1.7.3.4 or newer recommended) for revision control. This page describes various GHC-specific conventions for using git, together with some suggestions and tips for using git effectively.  
 
 Existing darcs users see: [wiki:GitForDarcsUsers Git For Darcs Users]. If you have an existing source tree in darcs and need to convert patches, see [wiki:DarcsToGit Darcs To Git]. Simon PJ's git notes are [wiki:WorkingConventions/GitSPJ GIT SPJ].
 
