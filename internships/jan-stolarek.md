@@ -58,6 +58,9 @@ Simon Marlow:
 - [\#1600](https://gitlab.haskell.org//ghc/ghc/issues/1600) - Optimisation: CPR the results of IO
 - [\#2289](https://gitlab.haskell.org//ghc/ghc/issues/2289) - Needless reboxing of values when returning from a tight loop
 - [\#2387](https://gitlab.haskell.org//ghc/ghc/issues/2387) - Optimizer misses unboxing opportunity
+- [\#2450](https://gitlab.haskell.org//ghc/ghc/issues/2450) - Data.Complex.magnitude squares using <sup>(2 :: Int), which is slow
+  </sup>
+- [\#2731](https://gitlab.haskell.org//ghc/ghc/issues/2731) - Avoid unnecessary evaluation when unpacking constructors
 - [\#4470](https://gitlab.haskell.org//ghc/ghc/issues/4470) - Loop optimization: identical counters
 - [\#4937](https://gitlab.haskell.org//ghc/ghc/issues/4937) - Remove indirections caused by sum types, such as Maybe
 - [\#5567](https://gitlab.haskell.org//ghc/ghc/issues/5567) - LLVM: Improve alias analysis / performance [BackEndNotes](back-end-notes#heap/stack-checks) page has some discussion of this.
