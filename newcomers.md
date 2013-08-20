@@ -42,11 +42,13 @@ This page is intended to serve as the first stop for those people who say, "I wa
 ## Fixing a bug
 
 
-Below is a list of bugs that appear to be "low-hanging fruit" -- things that might be reasonable for a newcomer to GHC hacking. Of course, we can't ever be sure of how hard a task is before doing it, so apologies if one of these is too hard. This list was last updated on 9 August 2013.
+Below is a list of bugs that appear to be "low-hanging fruit" -- things that might be reasonable for a newcomer to GHC hacking. Of course, we can't ever be sure of how hard a task is before doing it, so apologies if one of these is too hard. This list was last updated on 20 August 2013.
 
+- [\#2184](https://gitlab.haskell.org//ghc/ghc/issues/2184)
+- [\#2450](https://gitlab.haskell.org//ghc/ghc/issues/2450) - Data.Complex.magnitude squares using <sup>(2 :: Int), which is slow
+  </sup>
 - [\#7021](https://gitlab.haskell.org//ghc/ghc/issues/7021)
 - [\#7401](https://gitlab.haskell.org//ghc/ghc/issues/7401)
-- [\#7901](https://gitlab.haskell.org//ghc/ghc/issues/7901)
 - [\#8100](https://gitlab.haskell.org//ghc/ghc/issues/8100)
 
 
