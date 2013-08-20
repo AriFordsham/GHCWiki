@@ -1,7 +1,7 @@
 # Building a GHC cross-compiler for Apple iOS targets
 
 
-Currently we do not build fat binaries (we'd like to fix this), which means you need to choose the right architecture for your device.
+Take a look at [\#7724](https://gitlab.haskell.org//ghc/ghc/issues/7724) for the status of iOS cross compiling. Any any time, you should be able to take GHC HEAD and apply any patches for bugs that are open (not crossed out) in "Blocked by".
 
 ## Steps
 
@@ -205,7 +205,7 @@ Each time you modify your Haskell code you'll need to re-compile from the comman
 
 Outstanding issues we should fix in rough priority order.
 
-- Fat binaries
+- Fat binaries (done by lukexi)
 - Cross-compiler for the iOS simulator
 - Template Haskell for cross compilers!
 - Packaging with the wrapper scripts and perhaps release of binaries of official ghc releases
