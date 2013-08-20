@@ -20,6 +20,8 @@ The following new features are planned for 7.8. They are at varying degrees of c
  * Richard Eisenberg is working on closed type families (a new feature).  See [wiki:NewAxioms]
 
  * Richard Eisenberg is also working on using "roles" to finally fix #1496.
+
+ * Nicolas Frisby had a bunch of Core-to-Core optimisations he worked on as an intern.  Not sure of the exact list, or status.
  
  * Pedro and Richard were working on tidying up the poly-kinded Typable, and propositional equality (`gcast` and friends) story. 
 
