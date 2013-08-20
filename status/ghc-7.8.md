@@ -21,10 +21,6 @@ The features already completed are documented in the release notes:
 
 The following new features are planned for 7.8. They are at varying degrees of completeness, and may not all make it in.
 
-- Richard Eisenberg is working on closed type families (a new feature).  See [NewAxioms](new-axioms)
-
-- Richard Eisenberg is also working on using "roles" to finally fix [\#1496](https://gitlab.haskell.org//ghc/ghc/issues/1496).
-
 - Nicolas Frisby is adding a few Core-to-Core optimisations. They usually slightly improve performance, but can sometimes make a big difference, both good and bad. They are off by default.
 
   - `-flate-dmd` will run demand analysis near the end of the pipeline. cf [\#7782](https://gitlab.haskell.org//ghc/ghc/issues/7782)
