@@ -25,6 +25,8 @@ The following new features are planned for 7.8. They are at varying degrees of c
 
 - Richard Eisenberg is also working on using "roles" to finally fix [\#1496](https://gitlab.haskell.org//ghc/ghc/issues/1496).
 
+- Nicolas Frisby had a bunch of Core-to-Core optimisations he worked on as an intern.  Not sure of the exact list, or status.
+
 - Pedro and Richard were working on tidying up the poly-kinded Typable, and propositional equality (`gcast` and friends) story. 
 
 - Geoff Mainland is working on a better Template Haskell implementation ([ http://ghc.haskell.org/trac/ghc/wiki/TemplateHaskell/BlogPostChanges](http://ghc.haskell.org/trac/ghc/wiki/TemplateHaskell/BlogPostChanges), [ http://gmainland.blogspot.co.uk/2013/05/type-safe-runtime-code-generation-with.html](http://gmainland.blogspot.co.uk/2013/05/type-safe-runtime-code-generation-with.html)), in the `th-new` branch of various repos.
@@ -43,3 +45,7 @@ The following new features are planned for 7.8. They are at varying degrees of c
   On FreeBSD the reason it's disabled is due to a bug in FreeBSD's rtld. This has been fixed, but we're waiting for the fix to make it into releases. This might be in time for 7.8, but certainly will be for 7.10. See [\#7819](https://gitlab.haskell.org//ghc/ghc/issues/7819).
   On Windows, there are a couple of build time annoyances: `-dynamic-too` doesn't work on Windows, and linking takes a very long time when dynamic linking is used. There's no technical reason why it couldn't be enabled, though.
   The plan is/was to use dynamic GHCi on as many platforms as possible in 7.8, and to remove support for non-dynamic-ghci in HEAD soon after. See discussion in [\#8039](https://gitlab.haskell.org//ghc/ghc/issues/8039), however.
+
+- [Overloaded record fields](records/overloaded-record-fields/plan), by Adam Gundry (GSOC).  Not sure if this will be done.
+
+- [Newtype wrappers](newtype-wrappers), by Joachim Breitner.  This probably won't be ready for 7.8.
