@@ -184,7 +184,7 @@ In order to see emails below, **you must login**.
   - **Committer since**: August, 2013.
   - **Main areas of interest**: ...
 
-- Richard Eisenberg
+- [ Richard Eisenberg](http://www.cis.upenn.edu/~eir)
 
   - University of Pennsylvania - Philadelphia, PA
   - **Trac**: goldfire; **email**: eir@…
