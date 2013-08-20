@@ -25,7 +25,11 @@ The following new features are planned for 7.8. They are at varying degrees of c
 
 - Richard Eisenberg is also working on using "roles" to finally fix [\#1496](https://gitlab.haskell.org//ghc/ghc/issues/1496).
 
-- Nicolas Frisby had a bunch of Core-to-Core optimisations he worked on as an intern.  Not sure of the exact list, or status.
+- Nicolas Frisby is adding a few Core-to-Core optimisations. They usually slightly improve performance, but can sometimes make a big difference, both good and bad. They are off by default.
+
+  - `-flate-dmd` will run demand analysis near the end of the pipeline. cf [\#7782](https://gitlab.haskell.org//ghc/ghc/issues/7782)
+  - `-fdicts-strict` will make all dictionary arguments strict if they are certainly not part of a knot.
+  - `-ffun-to-thunk` reverts a new behavior that prevents GHC from creating sharing (cf [af12cf66d1a416a135cb98b86717aba2cd247e1a](/trac/ghc/changeset/af12cf66d1a416a135cb98b86717aba2cd247e1a/ghc))
 
 - Pedro and Richard were working on tidying up the poly-kinded Typable, and propositional equality (`gcast` and friends) story. 
 
