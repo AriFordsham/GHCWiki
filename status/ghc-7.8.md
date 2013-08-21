@@ -48,6 +48,8 @@ The following new features are planned for 7.8. They are at varying degrees of c
 
 - [Overloaded record fields](records/overloaded-record-fields/plan), by Adam Gundry (GSOC).  Not sure if this will be done.
 
+- [PatternSynonyms](pattern-synonyms), by Gergo Erdi. Progress tracked at [\#5144](https://gitlab.haskell.org//ghc/ghc/issues/5144).
+
 ## Features that will definitely not make it
 
 - [Newtype wrappers](newtype-wrappers), by Joachim Breitner.  This will not be ready for 7.8.
