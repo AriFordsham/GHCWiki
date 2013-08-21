@@ -95,7 +95,7 @@ git pull https://github.com/ghc/ghc.git master
 ```
 
 
-This will correctly set up both push and pull URLs (use `http://` instead of `git://` if your behind a firewall blocking port 9418).
+This will correctly set up both push and pull URLs (use `http://` instead of `git://` if you're behind a firewall blocking port 9418).
 
 ### Additional user-visible changes
 
