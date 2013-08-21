@@ -130,7 +130,7 @@ In order to see emails below, **you must login**.
 
 - [ Jan Stolarek](http://ics.p.lodz.pl/~stolarek/)
 
-  - Microsoft Research; Technical University of Łódź - Cambridge, UK
+  - Lodz University of Technology - Łódź, Poland. (temporarily: Microsoft Research - Cambridge, UK)
   - **Trac**: jstolarek; **email**: jan.stolarek@…
   - **Committer since**: August, 2013.
   - **Main areas of interest**: codegen, optimiser
