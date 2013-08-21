@@ -50,7 +50,7 @@ The following new features are planned for 7.8. They are at varying degrees of c
 
 - [PatternSynonyms](pattern-synonyms), by Gergo Erdi. Progress tracked at [\#5144](https://gitlab.haskell.org//ghc/ghc/issues/5144).
 
-- Ryan Newton has added a larger set of atomic memory primops than were previously available.  The code can be found on the`atomics` branch).  The set of PrimOps may continue to expand slightly, but will definitely be ready for 7.8.  In future work, Carter Schonwald will provide optimized (inline) versions of these PrimOps, at least for the LLVM backend.
+- Ryan Newton has added a larger set of atomic memory primops than were previously available.  The code can be found on the `atomics` branch).  The set of PrimOps may continue to expand slightly, but will definitely be ready for 7.8.  In future work, Carter Schonwald will provide optimized (inline) versions of these PrimOps, at least for the LLVM backend.
 
 ## Features that will definitely not make it
 
