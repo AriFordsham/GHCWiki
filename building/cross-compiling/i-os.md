@@ -3,6 +3,12 @@
 
 Take a look at [\#7724](https://gitlab.haskell.org//ghc/ghc/issues/7724) for the status of iOS cross compiling. Any any time, you should be able to take GHC HEAD and apply any patches for bugs that are open (not crossed out) in "Blocked by".
 
+
+Note: If you use ghc-7.6.3 on Mac OS/X as your bootstrap compiler and you are using Xcode version 5 or higher, there are problems. The problem is that 1. GHC tries to run a C pre-processor over Haskell code, and 2. Xcode versions \>= 5 use clang instead of gcc, and 3. clang doesn't like Haskell code.
+
+
+The workaround for this is to pass certain options to clang. A wrapper for this, written in Haskell, can be found at [ https://github.com/ghc-ios/ghc-ios-scripts](https://github.com/ghc-ios/ghc-ios-scripts)
+
 ## Steps
 
 ### 1. Read ARM-specific notes
@@ -11,6 +17,9 @@ Take a look at [\#7724](https://gitlab.haskell.org//ghc/ghc/issues/7724) for the
 See [Cross-compiling GHC](building/cross-compiling) at the bottom. In particular, you need to install llvm version 3.0 or \>= 3.2. Version 3.0 definitely works. There may be outstanding issues with version 3.2.
 
 ### 2. Scripts
+
+
+The following scripts are maintained at [ https://github.com/ghc-ios/ghc-ios-scripts](https://github.com/ghc-ios/ghc-ios-scripts)
 
 
 Place these scripts somewhere in your path:
@@ -82,6 +91,54 @@ exec cabal --with-ghc=arm-apple-darwin10-ghc --with-ghc-pkg=arm-apple-darwin10-g
 "$@"
 ```
 
+**i386-apple-darwin11-gcc**
+
+```wiki
+#!/bin/sh
+
+TARGET_PLATFORM=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator6.1.sdk/
+TARGET_BIN="/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin"
+
+TARGET_GCC=$TARGET_BIN/i686-apple-darwin11-llvm-gcc-4.2
+TARGET_CFLAGS="-isysroot $TARGET_PLATFORM -march=i386"
+
+exec $TARGET_GCC $TARGET_CFLAGS "$@"
+```
+
+**i386-apple-darwin11-ld**
+
+```wiki
+#!/bin/sh
+
+TARGET_PLATFORM=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator6.1.sdk/
+TARGET_BIN="/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin"
+
+TARGET_LD=$TARGET_BIN/ld
+TARGET_LDFLAGS="-L$TARGET_PLATFORM/usr/lib/ -arch i386"
+
+exec $TARGET_LD $TARGET_LDFLAGS "$@"
+```
+
+**i386-apple-darwin11-nm**
+
+```wiki
+#!/bin/sh
+
+TARGET_BIN="/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin"
+
+TARGET_NM=$TARGET_BIN/nm
+exec $TARGET_NM "$@"
+```
+
+**i386-apple-darwin11-cabal** (not needed during the build, but useful afterwards)
+
+```wiki
+#!/bin/sh
+exec cabal --with-ghc=i386-apple-darwin11-ghc --with-ghc-pkg=i386-apple-darwin11-ghc-pkg --with-ld=i386-apple-darwin11-ld \
+--configure-option=--host=i386-apple-darwin11 \
+"$@"
+```
+
 
 Edit these scripts to ensure the platform version matches what you are compiling to in Xcode
 
@@ -114,10 +171,23 @@ GhcLibWays           = v
 
 ### 5. Configure & build
 
+
+For iOS:
+
 ```wiki
 ./configure --target=arm-apple-darwin10 --prefix=/usr/local/ghc-ios/
 make
 sudo mkdir -p /usr/local/ghc-ios/
+sudo make install
+```
+
+
+For the iOS simulator:
+
+```wiki
+./configure --target=i386-apple-darwin11 --prefix=/usr/local/ghc-ios-sim/
+make
+sudo mkdir -p /usr/local/ghc-ios-sim/
 sudo make install
 ```
 
@@ -129,7 +199,7 @@ Create a new skeleton Xcode project using the wizard, and make sure it runs on y
 ### 7. Compile your Haskell code
 
 
-Open a terminal and add `/usr/local/ghc-ios/bin` to your `PATH` environment variable.
+Open a terminal and add `/usr/local/ghc-ios/bin:/usr/local/ghc-ios-sim/bin` to your `PATH` environment variable.
 
 
 Here's a skeleton **haskell.hs** to get you started:
@@ -202,7 +272,7 @@ Each time you modify your Haskell code you'll need to re-compile from the comman
 Outstanding issues we should fix in rough priority order.
 
 - Fat binaries (done by lukexi)
-- Cross-compiler for the iOS simulator
+- Cross-compiler for the iOS simulator (done by lukexi)
 - Template Haskell for cross compilers!
 - Packaging with the wrapper scripts and perhaps release of binaries of official ghc releases
 - Would be nice to not have to disable dead-code removal. (Simon Marlow says "we have special hacks so that you don't have to disable dead-code removal on OS X, in the native code generator and (I presume) in the LLVM backend. Perhaps this just needs to be adapted to work on iOS too?")
