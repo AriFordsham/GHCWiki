@@ -71,12 +71,12 @@ to
 
 This can be accomplished by invoking the `sync-all` script. But **before** you do this, you need to make sure you have the latest version of `sync-all` as well - a few tiny changes were needed.
 
-Many developers use older trees that may not have been updated before the switch. But never fear, it's quite easy to fix everything, using the GitHub mirror.
+Many developers use older trees that may not have been updated before the switch. But never fear, it's quite easy to fix everything, using the !GitHub mirror.
 
 {{{#!sh
 # make sure you're on a clean copy of master without any outstanding changes
 git checkout master
-# get the latest version of `./sync-all` from GitHub
+# get the latest version of `./sync-all` from !GitHub
 git pull https://github.com/ghc/ghc.git master
 ./sync-all -r git://git.haskell.org remote set-url origin
 ./sync-all -r ssh://git@git.haskell.org remote set-url --push origin
