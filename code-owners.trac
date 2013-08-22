@@ -7,7 +7,9 @@ of a large group of highly talented people, who take responsiblity
 for significant parts of the system.  This page summarises who does
 what. 
 
-See also the [wiki:WorkingConventions working on GHC] page.
+See also 
+ * The [wiki:TeamGHC GHC Team] page, which includes a list of committers.
+ * The [wiki:WorkingConventions working on GHC] page, which tell you how we work together.
 
 == What it means to "own" part of GHC ==
 

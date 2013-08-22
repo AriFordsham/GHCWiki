@@ -9,7 +9,10 @@ for significant parts of the system.  This page summarises who does
 what. 
 
 
-See also the [working on GHC](working-conventions) page.
+See also 
+
+- The [GHC Team](team-ghc) page, which includes a list of committers.
+- The [working on GHC](working-conventions) page, which tell you how we work together.
 
 ## What it means to "own" part of GHC
 
