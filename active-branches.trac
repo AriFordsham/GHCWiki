@@ -38,7 +38,7 @@ The actual status of these branches, including whether they have been merged and
 
  * `tc-arrows`: '''Rearrange the typechecking of arrows, especially arrow "forms"'''. Simon PJ & Ross Patterson.
 
- * `srcloc` and `real-src-loc-span: '''Amendments to spannings and SrcLocs'''. Ian Lynagh.
+ * `srcloc` and `real-src-loc-span: '''Amendments to spannings and !SrcLocs'''. Ian Lynagh.
 
  * `ghc-spj`: '''???'''. Simon PJ.
 
