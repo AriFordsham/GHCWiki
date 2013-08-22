@@ -2,9 +2,19 @@
 
 ''This page was created in August 2013 as a temporary place to store proposals about cleaning up Hoopl library. After these changes are implemented we should replace this page with either another page or a Note in the source code that would explain current design of Hoopl.''
 
-Me (Jan Stolarek, JS) and Simon PJ had some discussion recently about cleaning up Hoopl to make its interface more consistent and less confusing 
+Me (Jan Stolarek, JS) and Simon PJ recently had some discussion about cleaning up Hoopl to make its interface more consistent and less confusing. Here are some of the key proposals and ideas:
 
-Can we be explicit about which join situations can occur inside hoopl?
+  * forward and backward analyses are not dual, but current Hoopl interface does not reflect that in any way. Here's a description of how these passes work currently and how we could modify them:[[BR]]
+     * all analysis and rewrite passes defined in `compiler/cmm/Hoopl/Dataflow.hs` take as a parameters a list of entry points to the graph and a list of known facts. These passes are called from the wrappers defined in `compiler/cmm/CmmUtils.hs`, which pass entry point to the graph (`JustC [entry]`) as a list of entry points and a list of facts given by the user. It is possible for a user to pass an empty list of known facts.
+     * we use `getFact` (`compiler/cmm/Hoopl/Dataflow.hs`) function to look up facts about analyzed blocks:[[BR]]
+{{{-- Fact lookup: the fact `orelse` bottom
+getFact  :: DataflowLattice f -> Label -> FactBase f -> f
+getFact lat l fb = case lookupFact l fb of Just  f -> f
+                                           Nothing -> fact_bot lat
+}}}[[BR]]
+     * in forward analysis, if user passes in facts about entry points to the graph, then we don't need `fact_bot` field of `DataflowLattice`, because we will always have some fact about analysed block. What a user needs to pass is `[(L,F)]`, where `L` is type of label of an entry point and `F` is a type of fact. But now, if the user provides a list of fact about every entry label then we don't need to pass separately a list of entry points to the graph.
+     * in backward analysis we start from the exit points of the graph, but cannot know any facts about these points. This means that user needs to supply a list of entry labels `[L]`, which are used to determine a list of live blocks in a graph. But we have to supply a bottom element `F`, which will be default initial value for every starting point in backward analysis.
+  * Simon doesn't like the `joinInFacts` function, which is only called to possibly produce some debugging output from the join function.
 
 == A personal note by Jan Stolarek
 
@@ -22,7 +32,7 @@ cpLattice = DataflowLattice "copy propagation" (Bottom, Bottom) cpJoin
 }}}
 ''However, it seems that Bottom values passed to cpLattice are ignored - I could replace them with `undefined` and the code would still run without causing an error. Is there something obviously wrong in the way I pass initial fact values to dataflowPassFwd, or should I look for the problem in other parts of my code?''
 
-I think this question resulted from Hoopl's current behaviour where it sometimes ignores bottom passed in b y the user and sometimes does not.
+I think this question resulted from Hoopl's current behaviour where it sometimes ignores bottom passed in by the user and sometimes does not.
 
 When I did copy propagation pass I had data type that looked like this:
 
