@@ -8,4 +8,4 @@ In GHC 7.8 we modified primops that returned a `Bool`. This includes comparisons
 - If your code uses `sameMutableArray#`, `sameMutableByteArray#`, `sameMutableArrayArray#`, `sameMutVar#`, `sameMVar#` or `sameTVar#`, you need to import `GHC.PrimWrappers` and remove `#` from the names of these functions. In other words, functions that you should be using now are `sameMutableArray`, `sameMutableByteArray`, `sameMutableArrayArray`, `sameMutVar`, `sameMVar` and `sameTVar`, respectively. 
 
 
-That's all you need to do. If your interested in technical details behind this change, see [ this page](http://ghc.haskell.org/trac/ghc/wiki/PrimBool). Note also that you can use new primops to write branchless algorithms.
+That's all you need to do. If your interested in technical details behind this change, see [ this page](http://ghc.haskell.org/trac/ghc/wiki/PrimBool).
