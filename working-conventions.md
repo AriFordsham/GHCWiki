@@ -10,7 +10,7 @@ This page has pointers to information you'll need.
 
 - You may want to read the [GHC Newcomers page](newcomers), dedicated to helping newcomers tackle their first bugs.
 
-- Talk to other [GHC contributors](contributors).
+- Talk to other members of the [GHC Team](team-ghc).
 
 - Read the [GHC reading list](reading-list) and the [commentary on the source code](commentary).
 
