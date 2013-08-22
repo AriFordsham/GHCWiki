@@ -1,7 +1,7 @@
 # Implementing new primitive comparisons to allow branchless algorithms
 
 
-This page gathers the notes about implementing new primitive logical operations and thus resolving ticket [\#6135](https://gitlab.haskell.org//ghc/ghc/issues/6135).
+This page gathers the notes about implementing new primitive logical operations and thus resolving ticket [\#6135](https://gitlab.haskell.org//ghc/ghc/issues/6135). See [ this page](http://ghc.haskell.org/trac/ghc/wiki/NewPrimopsInGHC7.8) for a instructions how to adjust your already existing code to work with new primops.
 
 ## The problem
 
