@@ -45,7 +45,7 @@ The following new features are planned for 7.8. They are at varying degrees of c
 
  * Ryan Newton has added a larger set of atomic memory primops than were previously available.  The code can be found on the `atomics` branch).  The set of PrimOps may continue to expand slightly, but will definitely be ready for 7.8.  In future work, Carter Schonwald will provide optimized (inline) versions of these PrimOps, at least for the LLVM backend.
 
- * Bryan O'Sullivan has some additional optimizations for the new I/O manager, on top of Andreas/Kazu's recent efforts.
+ * Bryan O'Sullivan has some additional optimizations for the new I/O manager, on top of Andreas and Kazu's recent efforts.
 
 == Features that will definitely not make it  ==
 
