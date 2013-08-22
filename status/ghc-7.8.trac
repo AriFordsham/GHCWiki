@@ -47,6 +47,8 @@ The following new features are planned for 7.8. They are at varying degrees of c
 
  * Bryan O'Sullivan has some additional optimizations for the new I/O manager, on top of Andreas and Kazu's recent efforts.
 
+ * The Applicative-Monad warning would preferably be integrated. See #8004. Dan Rosén seems to have a first draft of a patch here: https://github.com/danr/ghc/commit/86631ffd294af320cb9b00e1a593201af887ed72
+
 == Features that will definitely not make it  ==
 
  * [wiki:NewtypeWrappers Newtype wrappers], by Joachim Breitner.  This will not be ready for 7.8.
