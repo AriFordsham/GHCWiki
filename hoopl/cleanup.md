@@ -64,10 +64,13 @@ Conclusion: for fwd analysis we don't need a bottom in the lattice, and it's a p
 
   When analysing L1 (backwards) we must join the facts flowing back from L2
   (which we will have analysed first) and L1; and on the first iteration, we don't 
-  have any fact from L1.
+  have any fact from L1.  You might think we could just use the fact from L2, and 
+  merely refrain from joining with L1, but that doesn't deal with the case where
+  the `CondBranch` was an unconditional branch to L1, so there is no other fact
+  to join with.
 
 > >
-> > So for backwards analysis the client really must give us a bottom element.
+> > Conclusion: for backwards analysis the client really must give us a bottom element.
 
 ### Conclusions
 
