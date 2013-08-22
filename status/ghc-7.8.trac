@@ -22,7 +22,7 @@ The following new features are planned for 7.8. They are at varying degrees of c
     * `-fdicts-strict` will make all dictionary arguments strict if they are certainly not part of a knot.
     * `-ffun-to-thunk` reverts a new behavior that prevents GHC from creating sharing (cf af12cf66d1a416a135cb98b86717aba2cd247e1a)
  
- * Pedro and Richard were working on tidying up the poly-kinded Typable, and propositional equality (`gcast` and friends) story. 
+ * Pedro and Richard were working on tidying up the poly-kinded Typable, and propositional equality (`gcast` and friends) story.  See #8132.
 
  * Geoff Mainland is working on a better Template Haskell implementation (http://ghc.haskell.org/trac/ghc/wiki/TemplateHaskell/BlogPostChanges, http://gmainland.blogspot.co.uk/2013/05/type-safe-runtime-code-generation-with.html), in the `th-new` branch of various repos.
 
