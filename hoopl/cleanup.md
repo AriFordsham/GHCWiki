@@ -52,7 +52,7 @@ data Facts = Bottom | Const (M.Map a CPFact)
 ```
 
 
-and I wrote `join` funstion which analyzed all four possible cases of joining facts:
+and I wrote `join` function which analyzed all four possible cases of joining facts:
 
 ```wiki
 join (Const f) (Const f) = ...
