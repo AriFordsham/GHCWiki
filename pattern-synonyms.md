@@ -54,7 +54,7 @@ Furthermore, pattern synonyms can also be used in expressions, e.g.,
 
 ```wiki
    arrows :: [Type] -> Type -> Type
-   arrows = foldr Arrow
+   arrows = flip $ foldr Arrow
 ```
 
 ## Simple pattern synonyms
@@ -103,7 +103,7 @@ Examples:
 
 ```wiki
    pattern ThirdElem x = _:_:x:_
-   pattern LazySecond a b ~ (a, ~b)
+   pattern LazySecond a b = (a, ~b)
 
    third (ThirdElem a) = a
    third _ = error "No third"
