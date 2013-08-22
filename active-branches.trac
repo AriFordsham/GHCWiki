@@ -38,8 +38,6 @@ The actual status of these branches, including whether they have been merged and
 
  * `tc-arrows`: '''Rearrange the typechecking of arrows, especially arrow "forms"'''. Simon PJ & Ross Patterson.
 
- * `cross-compiler-alienless`: '''Better support for cross compilation'''? Gabor Greif.
- 
  * `srcloc` and `real-src-loc-span: '''Amendments to spannings and SrcLocs'''. Ian Lynagh.
 
  * `ghc-spj`: '''???'''. Simon PJ.
@@ -82,4 +80,6 @@ This is a list of inactive branches which have been merged into the tree.
 
  * `new-demand-to-merge`: '''New demand analyzer'''. Ilya Sergey. Will be part of 7.8 release.
 
+ * `cross-compiler-alienless`: '''Better support for cross compilation'''. Gabor Greif. Merged and reimplemented by Ian Lynagh. Will be part of 7.8.
+ 
  * `patch-7704`: '''Fix for #7704'''. José Pedro Magalhães. Will be part of 7.8.
