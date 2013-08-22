@@ -1,0 +1,42 @@
+= Hoopl cleanup
+
+''This page was created in August 2013 as a temporary place to store proposals about cleaning up Hoopl library. After these changes are implemented we should replace this page with either another page or a Note in the source code that would explain current design of Hoopl.''
+
+Me (Jan Stolarek, JS) and Simon PJ had some discussion recently about cleaning up Hoopl to make its interface more consistent and less confusing 
+
+Can we be explicit about which join situations can occur inside hoopl?
+
+== A personal note by Jan Stolarek
+
+On my first contact with Hoopl I was very confused by some of its behaviour. Here's [http://www.haskell.org/pipermail/ghc-devs/2013-July/001757.html a question I mailed to ghc-devs on 13th July 2013]:
+
+''In my algorithm I need to initialize all of the blocks in a graph with bottom element of a lattice, except for the entry block, which needs some other initial values. I've written something like this:''
+{{{
+cmmCopyPropagation dflags graph = do
+    let entry_blk = g_entry graph
+    g' <- dataflowPassFwd graph [(entry_blk, (Top , Top))] $
+            analRewFwd cpLattice cpTransfer cpRewrite
+    return . fst $ g'
+
+cpLattice = DataflowLattice "copy propagation" (Bottom, Bottom) cpJoin
+}}}
+''However, it seems that Bottom values passed to cpLattice are ignored - I could replace them with `undefined` and the code would still run without causing an error. Is there something obviously wrong in the way I pass initial fact values to dataflowPassFwd, or should I look for the problem in other parts of my code?''
+
+I think this question resulted from Hoopl's current behaviour where it sometimes ignores bottom passed in b y the user and sometimes does not.
+
+When I did copy propagation pass I had data type that looked like this:
+
+{{{
+data Facts = Bottom | Const (M.Map a CPFact)
+}}}
+
+and I wrote `join` funstion which analyzed all four possible cases of joining facts:
+
+{{{
+join (Const f) (Const f) = ...
+join (Const f) Bottom    = ...
+join Bottom    (Const f) = ...
+join Bottom    Bottom    = ...
+}}}
+
+But only one of them was ever used actually. While I expected this for the last two ones and replaced them with compiler panic, I certainly did not expect that `join (Const f) Bottom` will not be used. Only after some tiresome debugging and analyzing the source code did I realize that Hoopl optimizes away this kind of join. I think that being explicit about the redundance of bottom in forward analysis will make Hoopl easier to use for newcommers.
