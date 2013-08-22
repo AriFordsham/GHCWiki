@@ -4,22 +4,138 @@
 
 Me (Jan Stolarek, JS) and Simon PJ recently had some discussion about cleaning up Hoopl to make its interface more consistent and less confusing. Here are some of the key proposals and ideas:
 
-  * forward and backward analyses are not dual, but current Hoopl interface does not reflect that in any way. Here's a description of how these passes work currently and how we could modify them:[[BR]]
-     * all analysis and rewrite passes defined in `compiler/cmm/Hoopl/Dataflow.hs` take as a parameters a list of entry points to the graph and a list of known facts. These passes are called from the wrappers defined in `compiler/cmm/CmmUtils.hs`, which pass a single entry point to the graph as a list of entry points (`JustC [entry]`) and a list of facts given by the user. It is possible for a user to pass an empty list of known facts.
-     * we use `getFact` (`compiler/cmm/Hoopl/Dataflow.hs`) function to look up facts about analyzed blocks:[[BR]]
+== The API for forward and backward analysis ==
+
+=== Observations about forward analysis ===
+
+  * Forwards analysis starts with a list of entry labels (typically just one), and it makes sense to have an in-flowing fact for each such label.  Yes, it could default to bottom, but it's probably a user error not to supply such a fact.
+
+  * If forwards analysis ''does'' is given a fact for each entry label, ''Hoopl never needs to know the bottom of the lattice''; indeed there doesn't need to ''be'' a bottom.  Hoopl treats the block in dependency order, so it always has an in-flowing fact before it starts to analyse a block.  It needs still a join for the lattice, of course.
+
+  * For some analyses, it's quite clumsy to have a bottom element. Consider constant-propagation, where we want to transform
 {{{
--- Fact lookup: the fact `orelse` bottom
-getFact  :: DataflowLattice f -> Label -> FactBase f -> f
-getFact lat l fb = case lookupFact l fb of Just  f -> f
-                                           Nothing -> fact_bot lat
+  x := 3     ===>    x := 3
+  ....               ...
+  y = x+2            y = 3+2
 }}}
-     * in forward analysis, if user passes in facts about all entry points to the graph, then we don't need `fact_bot` field of `DataflowLattice`, because we will always have some fact about analysed block. What a user needs to pass is `[(L,F)]`, where `L` is type of label of an entry point and `F` is a type of fact about that entry point. If user provides a list of facts about every entry label then we don't need a separate list of entry points to the graph, because we can recover that from a list of facts.
-     * in backward analysis we still need user to supply a list `[L]` of entry points to the graph. We use them to determine a group of live blocks and then analyze the graph starting from its exit points. For a graph closed on exit we cannot know anything about these exit points, so we don't supply any known facts. We have to supply a bottom element `F`, which will be default initial value for every exit point in backward analysis. Graphs open on exit are more trickier, because if the graph is open on exit then we should know something about that exit point. Moreover, we still need a bottom element, because graph may have more than one exit point.
-  * if the above changes were made, then perhaps we should disallow user from passing an empty list of entry labels for analysis?
+  (We might then do constant folding and dead code elim, but ignore that for now.)  If we need a bottom in the lattice, our facts look like
+{{{
+  data CPFact = Bot | CP (Map LocaReg Const)
+}}}
+  When a variable is not in the domain of the map it means it maps to top (ie the variable can hold different values on different control-flow paths).  This is all fine, but the join operation needs to deal with `Bot` etc.  And what is frustrating is that `Bot` is never, ever used!  I don't want to define it and manipulate it when it is never used!
+
+Conclusion: for fwd analysis we don't need a bottom in the lattice, and it's a pain for (some) clients to supply one.
+
+=== Observations about backward analysis ===
+
+ * Backwards analysis currently takes a list of entry points, so
+   that it find the reachable code and enumerate it in reverse
+   order.  But that's ''all'' the entry point list does.  It'd be just fine
+   to enumerate ''all the blocks in the graph'' in reverse order, and not supply
+   a list of entry points.
+
+ * Backwards analysis (for a closed-on-entry graph) takes a `(Fact x f)` argument, for 
+   a graph where `x` describes its open/closed on exit status.  So if x=O we pass one fact; 
+   and that is entirely reasonable becuse it is the fact flowing backwards into the exit.
+   But if x=C we pass a `FactBase`.  At first I thought that was stupid, but now I see 
+   some sense in it: ''these are facts labels outside (downstream successors of) the graph being analysed''.
+   We'd better document this point.
+
+ * NB: returning to the first bullet, we can't just take code
+   reachable from downstream successors (ie behave dually to fwd
+   anal), because tail calls, returns, and infinite loops don't
+   have any such downstream successors, but we jolly well want to
+   analyse them.
+
+ * Backward analysis ''does'' need a bottom for the lattice, to initialise loops. Example:
+{{{
+   L1: ...blah blah...
+       CondBranch e L1 L2
+
+   L2: blah blah
+}}}
+   When analysing L1 (backwards) we must join the facts flowing back from L2
+   (which we will have analysed first) and L1; and on the first iteration, we don't 
+   have any fact from L1.
+
+   So for backwards analysis the client really must give us a bottom element.
+
+=== Conclusions ===
+
+We could reflect these observations in the API for forwards and backward analysis, as follows.
+
+Current situation:
+{{{
+data FwdPass m n f
+  = FwdPass { fp_lattice  :: DataflowLattice f
+            , fp_transfer :: FwdTransfer n f
+            , fp_rewrite  :: FwdRewrite m n f }
+
+analyzeAndRewriteFwd
+   :: forall m n f e x entries. (CheckpointMonad m, NonLocal n, LabelsPtr entries)
+   => FwdPass m n f
+   -> MaybeC e entries
+   -> Graph n e x -> Fact e f
+   -> m (Graph n e x, FactBase f, MaybeO x f)
+
+data BwdPass m n f
+  = BwdPass { bp_lattice  :: DataflowLattice f
+            , bp_transfer :: BwdTransfer n f
+            , bp_rewrite  :: BwdRewrite m n f }
+
+analyzeAndRewriteBwd
+   :: (CheckpointMonad m, NonLocal n, LabelsPtr entries)
+   => BwdPass m n f
+   -> MaybeC e entries -> Graph n e x -> Fact x f
+   -> m (Graph n e x, FactBase f, MaybeO e f)
+}}}
+Possible refactoring:
+{{{
+data FwdPass m n f
+  = FwdPass { fp_join     :: JoinFun f   -- No "bottom" for fwd
+            , fp_transfer :: FwdTransfer n f
+            , fp_rewrite  :: FwdRewrite m n f }
+
+analyzeAndRewriteFwd
+   :: forall m n f e x entries. (CheckpointMonad m, NonLocal n)
+   => FwdPass m n f
+   -> Fact e f           -- Entry points plus a fact for each
+   -> Graph n e x 
+   -> m (Graph n e x, FactBase f, MaybeO x f)
+
+data BwdPass m n f
+  = BwdPass { bp_bot      :: f        -- Need "bottom" for bwd
+            , bp_join     :: JoinFun f
+            , bp_transfer :: BwdTransfer n f
+            , bp_rewrite  :: BwdRewrite m n f }
+
+analyzeAndRewriteBwd
+   :: (CheckpointMonad m, NonLocal n)
+   => BwdPass m n f
+   -> Fact x f       -- Facts about successors
+   -> Graph n e x
+   -> m (Graph n e x, FactBase f, MaybeO e f)
+}}}
+The differences are not great. But the types are still nicely symmetrical; and they
+say more precisely what is
+actually necessary and useful.
+
+
+== Smaller proposals == 
+
+  * (David Luposchainsky) Hoopl is the only library in GHC that defines its own `<*>` operation, 
+  which will clash with the AMP. Hoopl's `<*>` is conceptually
+  just `mappend`, so if you're doing a large-scale refactoring of the
+  module maybe consider adding a suitable Monoid instance to replace `<*>`
+  with `<>` (or something) before it even becomes a problem.
+
   * Simon doesn't like the `joinInFacts` function, which is only called to possibly produce some debugging output from the join function.
+
   * Jan doesn't like mess in Hoopl repo. There are unused modules (`Compiler.Hoopl.OldDataflow`, `Compiler.Hoopl.DataflowFold`), older versions of some modules (in `prototypes/` directory) or private correspondence with paper reviewers and between authors.
 
 == A personal note by Jan Stolarek
+
+(I think this may be subsumed by the above.)
 
 On my first contact with Hoopl I was very confused by some of its behaviour. Here's [http://www.haskell.org/pipermail/ghc-devs/2013-July/001757.html a question I mailed to ghc-devs on 13th July 2013]:
 
