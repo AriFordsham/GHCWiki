@@ -44,16 +44,16 @@ The following new features are planned for 7.8. They are at varying degrees of c
   On Windows, there are a couple of build time annoyances: `-dynamic-too` doesn't work on Windows, and linking takes a very long time when dynamic linking is used. There's no technical reason why it couldn't be enabled, though.
   The plan is/was to use dynamic GHCi on as many platforms as possible in 7.8, and to remove support for non-dynamic-ghci in HEAD soon after. See discussion in [\#8039](https://gitlab.haskell.org//ghc/ghc/issues/8039), however.
 
-- [Overloaded record fields](records/overloaded-record-fields/plan), by Adam Gundry (GSOC).  Not sure if this will be done.
-
-- [PatternSynonyms](pattern-synonyms), by Gergo Erdi. Progress tracked at [\#5144](https://gitlab.haskell.org//ghc/ghc/issues/5144).
-
 - Ryan Newton has added a larger set of atomic memory primops than were previously available.  The code can be found on the `atomics` branch).  The set of PrimOps may continue to expand slightly, but will definitely be ready for 7.8.  In future work, Carter Schonwald will provide optimized (inline) versions of these PrimOps, at least for the LLVM backend.
 
 - Bryan O'Sullivan has some additional optimizations for the new I/O manager, on top of Andreas and Kazu's recent efforts.
 
-- The Applicative-Monad warning would preferably be integrated. See [\#8004](https://gitlab.haskell.org//ghc/ghc/issues/8004). Dan Rosén seems to have a first draft of a patch here: [ https://github.com/danr/ghc/commit/86631ffd294af320cb9b00e1a593201af887ed72](https://github.com/danr/ghc/commit/86631ffd294af320cb9b00e1a593201af887ed72)
+- The Applicative-Monad warning would preferably be integrated. See [\#8004](https://gitlab.haskell.org//ghc/ghc/issues/8004). Dan Rosén seems to have a first draft of a patch here: [ https://github.com/danr/ghc/commit/86631ffd294af320cb9b00e1a593201af887ed72](https://github.com/danr/ghc/commit/86631ffd294af320cb9b00e1a593201af887ed72) - SimonPJ to review.
 
 ## Features that will definitely not make it
 
 - [Newtype wrappers](newtype-wrappers), by Joachim Breitner.  This will not be ready for 7.8.
+
+- [Overloaded record fields](records/overloaded-record-fields/plan), by Adam Gundry (GSOC).  Not sure if this will be done.
+
+- [PatternSynonyms](pattern-synonyms), by Gergo Erdi. Progress tracked at [\#5144](https://gitlab.haskell.org//ghc/ghc/issues/5144).
