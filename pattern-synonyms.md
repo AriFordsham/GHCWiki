@@ -49,30 +49,33 @@ And now we can write
    isInt _ = False
 ```
 
-
-Furthermore, pattern synonyms can also be used in expressions, e.g.,
-
-```wiki
-   arrows :: [Type] -> Type -> Type
-   arrows = flip $ foldr Arrow
-```
-
-## Simple pattern synonyms
+## Pattern-only synonyms
 
 
 The simplest form of pattern synonyms is the one from the examples above.  The grammar rule is:
 
-`pattern`*conid**varid<sub>1</sub>* ... *varid<sub>n</sub>*`=`*patexp*
+`pattern`*conid**varid<sub>1</sub>* ... *varid<sub>n</sub>*`=`*pat*
 
+`pattern`*varid<sub>1</sub>**consym**varid<sub>2</sub>*`=`*pat*
 
-where *patexp* is the intersection of the grammars for patterns and expression, i.e., those terms that are valid both as a pattern and as an expression.
-
-- Each of the variables on the left hand side must occur exactly once on the right hand side, and these are the only variables that can occur on the right hand side.  
+- Each of the variables on the left hand side must occur exactly once on the right hand side 
 - Pattern synonyms are not allowed to be recursive.  Cf. type synonyms.
 - The semantics is simply expansion of the synonym.
 
 
-Pattern synonyms can be exported and imported by mentioning the *conid* in the export/import list.  Note that this suffers from the same constructor vs type confusion that already exists in a `hiding` list, i.e., given the mention of a *conid* you cannot tell if it refers to a constructor or a type.
+Pattern synonyms can be exported and imported by prefixing the *conid* with the keyword `pattern`:
+
+```wiki
+   module Foo (pattern Arrow) where ...
+```
+
+
+This is required because pattern synonyms are in the namespace of constructors, so it's perfectly valid to have
+
+```wiki
+   data P = C
+   pattern P = 42
+```
 
 
 You may also give a type signature for a pattern, but as with most other type signatures in Haskell it is optional:
@@ -85,42 +88,6 @@ E.g.
 ```wiki
    pattern Arrow :: Type -> Type -> Type
    pattern Arrow t1 t2 = App "->" [t1, t2]
-```
-
-## Pattern only synonyms
-
-
-Simple patterns synonyms are restricted to having a right hand side that is also a valid expression.
-Pattern only synonyms can have any pattern on the right hand side, but may only be used in patterns.
-
-`pattern`*conid**varid<sub>1</sub>* ... *varid<sub>n</sub>*`=`*pat*
-
-
-Again, each of the variables on the left hand side must be mentioned exactly once on the right hand side, but now the right hand side can mention other variables as well.  These variables will not be bound when using the pattern synonym.
-
-
-Examples:
-
-```wiki
-   pattern ThirdElem x = _:_:x:_
-   pattern LazySecond a b = (a, ~b)
-
-   third (ThirdElem a) = a
-   third _ = error "No third"
-
-   fcn :: (Int, (Int, Int))
-   fcn (LazySecond x (y, z)) = if x == 0 then 0 else y+z
-```
-
-
-And their expansions
-
-```wiki
-   third (_:_:a:_) = a
-   third _ = error "No third"
-
-   fcn :: (Int, (Int, Int))
-   fcn (x, ~(y, z)) = if x == 0 then 0 else y+z
 ```
 
 
@@ -136,7 +103,42 @@ Together with [ViewPatternsAlternative](view-patterns-alternative) we can now cr
 
 Note that the right hand side of `Plus1` binds `n1` and `n`, but since only `n` is mentioned on the left hand side it is the only variable that gets bound when `Plus1` is used.
 
-## Bidirectional pattern synonyms
+
+Another example showing pattern synonyms used as views, with regular [ViewPatterns](view-patterns):
+
+```wiki
+import qualified Data.Sequence as Seq
+
+pattern Empty = (Seq.viewl -> Seq.EmptyL)
+pattern x :< xs = (Seq.viewl -> x Seq.:< xs)
+pattern xs :> x = (Seq.viewr -> xs Seq.:> x)
+```
+
+## Implicitly-bidirectional pattern synonyms
+
+
+In cases where *pat* is in the intersection of the grammars for patterns and expressions (i.e. is valid both as an expression and a pattern), the pattern synonym is said to be bidirectional, and can be used in expression contexts as well.
+
+
+For example, the following two are not bidirectional:
+
+```wiki
+   pattern ThirdElem x = _:_:x:_
+   pattern Snd y = (x, y)
+```
+
+
+since the right-hand side is not a closed expression of {*x*} and {*y*} respectively.
+
+
+In contrast, the pattern synonyms for *Arrow* and *Int* above are bidirectional, so you can e.g. write:
+
+```wiki
+   arrows :: [Type] -> Type -> Type
+   arrows = flip $ foldr Arrow
+```
+
+## Explicitly-bidirectional pattern synonyms
 
 
 What if you want to use `Plus1` from the earlier example in an expression?
