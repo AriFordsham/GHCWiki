@@ -7,14 +7,17 @@ Me (Jan Stolarek, JS) and Simon PJ recently had some discussion about cleaning u
   * forward and backward analyses are not dual, but current Hoopl interface does not reflect that in any way. Here's a description of how these passes work currently and how we could modify them:[[BR]]
      * all analysis and rewrite passes defined in `compiler/cmm/Hoopl/Dataflow.hs` take as a parameters a list of entry points to the graph and a list of known facts. These passes are called from the wrappers defined in `compiler/cmm/CmmUtils.hs`, which pass entry point to the graph (`JustC [entry]`) as a list of entry points and a list of facts given by the user. It is possible for a user to pass an empty list of known facts.
      * we use `getFact` (`compiler/cmm/Hoopl/Dataflow.hs`) function to look up facts about analyzed blocks:[[BR]]
-{{{-- Fact lookup: the fact `orelse` bottom
+{{{
+-- Fact lookup: the fact `orelse` bottom
 getFact  :: DataflowLattice f -> Label -> FactBase f -> f
 getFact lat l fb = case lookupFact l fb of Just  f -> f
                                            Nothing -> fact_bot lat
-}}}[[BR]]
-     * in forward analysis, if user passes in facts about entry points to the graph, then we don't need `fact_bot` field of `DataflowLattice`, because we will always have some fact about analysed block. What a user needs to pass is `[(L,F)]`, where `L` is type of label of an entry point and `F` is a type of fact. But now, if the user provides a list of fact about every entry label then we don't need to pass separately a list of entry points to the graph.
-     * in backward analysis we start from the exit points of the graph, but cannot know any facts about these points. This means that user needs to supply a list of entry labels `[L]`, which are used to determine a list of live blocks in a graph. But we have to supply a bottom element `F`, which will be default initial value for every starting point in backward analysis.
+}}}
+     * in forward analysis, if user passes in facts about entry points to the graph, then we don't need `fact_bot` field of `DataflowLattice`, because we will always have some fact about analysed block. What a user needs to pass is `[(L,F)]`, where `L` is type of label of an entry point and `F` is a type of fact. But now, if the user provides a list of fact about every entry label then we don't need to pass separately a list of entry points to the graph, because we can recover that from a list of facts.
+     * in backward analysis we still need user to supply a list `[L]` of entry points to the graph. We use them to determine a group of live blocks and then analyze the graphs starting from its exit points. For a graph closed on exit we cannot know anything about these exit points, so we don't supply any known facts. In this case we have to supply a bottom element `F`, which will be default initial value for every exit point in backward analysis. Graphs open on exit are more trickier, because if the graphs is open on exit then we should know something about that exit point. Moreover, we still need a bottom element, because graph may have more than one exit point.
+  * if the above changes were made, then perhaps we should disallow user from passing an empty list of entry labels & facts for forward analysis?
   * Simon doesn't like the `joinInFacts` function, which is only called to possibly produce some debugging output from the join function.
+  * Jan doesn't like mess in Hoopl repo. There are unused modules (`Compiler.Hoopl.OldDataflow`, `Compiler.Hoopl.DataflowFold`), older versions of some modules (in `prototypes/` directory) or private correspondence with paper reviewers and between authors.
 
 == A personal note by Jan Stolarek
 
