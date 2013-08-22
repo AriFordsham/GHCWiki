@@ -37,7 +37,7 @@ And now we can write
 Furthermore, pattern synonyms can also be used in expressions, e.g.,
 {{{
    arrows :: [Type] -> Type -> Type
-   arrows = foldr Arrow
+   arrows = flip $ foldr Arrow
 }}}
 
 == Simple pattern synonyms ==
@@ -73,7 +73,7 @@ Again, each of the variables on the left hand side must be mentioned exactly onc
 Examples:
 {{{
    pattern ThirdElem x = _:_:x:_
-   pattern LazySecond a b ~ (a, ~b)
+   pattern LazySecond a b = (a, ~b)
 
    third (ThirdElem a) = a
    third _ = error "No third"
