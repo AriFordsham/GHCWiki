@@ -17,6 +17,8 @@ The features already completed are documented in the release notes:
 
 The following new features are planned for 7.8. They are at varying degrees of completeness, and may not all make it in.
 
+ * Patrick Palka has been working on making `--make` mode parallel with a `-j` flag. He has a stable set of improvements he'd like to see in 7.8: see the latest updates in #910.
+
  * Nicolas Frisby is adding a few Core-to-Core optimisations. They usually slightly improve performance, but can sometimes make a big difference, both good and bad. They are off by default.
     * `-flate-dmd` will run demand analysis near the end of the pipeline. cf #7782
     * `-fdicts-strict` will make all dictionary arguments strict if they are certainly not part of a knot.
