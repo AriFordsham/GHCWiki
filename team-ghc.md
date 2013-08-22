@@ -246,7 +246,7 @@ In order to see emails below, **you must login**.
 At a certain point after you've made enough contributions, the question of commit access inevitably arises. To be granted access, please contact **Austin Seipp** above. As it currently stands, SPJ will make the final call, and Austin will add your information once verified.
 
 
-Generally, to be granted access, you should have worked with the developers, and contributed a reasonable amount to the project. 'Reasonable' varies from person to person - from big/small features, to bug fixes, to helping others, there is no end of things to do in the land of GHC. Simply use your good judgement to decide if you think you meet the criteria, propose, and we'll talk about it.
+Generally, to be granted access, you should have worked with the developers, and contributed a reasonable amount of effort to the project in terms of patches and help. 'Reasonable' varies from person to person - from big/small features, to bug fixes, to helping others with their work, there is no end of things to do in the land of GHC. Simply use your good judgement to decide if you think you meet the criteria, propose, and we'll talk about it.
 
 
 (In some cases, you may also be approached by an existing committer who's willing to represent you, which is great! You'll be contacted appropriately, then.)
