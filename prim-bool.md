@@ -92,7 +92,7 @@ Note: this example was produced with GHC 7.6.3. At the moment of merging new pri
 ## Solution
 
 
-This problem was solved by modifying comparison primops to return unboxed unlifted `Int#` instead of `Bool`. Having `Int#` returned as a result of logical comparison will allow to use branchless bitwise logical operators instead of branching logical operators defined by Haskell.
+This problem was solved by modifying comparison primops to return unboxed unlifted `Int#` instead of `Bool`. Having `Int#` returned as a result of logical comparison will allow to use branchless bitwise logical operators instead of branching logical operators defined for `Bool` values.
 
 ## Implementation details
 
