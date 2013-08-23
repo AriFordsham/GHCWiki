@@ -1,7 +1,7 @@
 # Implementing new primitive comparisons to allow branchless algorithms
 
 
-This page gathers the notes about implementing new primitive logical operations and thus resolving ticket [\#6135](https://gitlab.haskell.org//ghc/ghc/issues/6135). See [ this page](http://ghc.haskell.org/trac/ghc/wiki/NewPrimopsInGHC7.8) for a instructions how to adjust your already existing code to work with new primops.
+This page gathers the notes about implementing new primitive logical operations and thus resolving ticket [\#6135](https://gitlab.haskell.org//ghc/ghc/issues/6135).
 
 ## The problem
 
@@ -92,7 +92,7 @@ Note: this example was produced with GHC 7.6.3. At the moment of merging new pri
 ## Solution
 
 
-This problem was solved by modifying comparison primops to return unboxed unlifted `Int#` instead of `Bool` (which is lifted and thus is returned as a thunk that needs to be evaluated). Having `Int#` returned as a result of logical comparison will allow to use branchless bitwise logical operators instead of branching logical operators defined by Haskell.
+This problem was solved by modifying comparison primops to return unboxed unlifted `Int#` instead of `Bool`. Having `Int#` returned as a result of logical comparison will allow to use branchless bitwise logical operators instead of branching logical operators defined by Haskell.
 
 ## Implementation details
 
@@ -110,9 +110,10 @@ gtCharI#  :: Char#   -> Char#   -> Int#
 eqWordI#  :: Word#   -> Word#   -> Int#
 ltFloatI# :: Float#  -> Float#  -> Int#
 leAddrI#  :: Addr#   -> Addr#   -> Int#
+sameMutableArrayI# :: MutableArray# s a -> MutableArray# s a -> Int#
 ```
 
-- a new module `GHC.PrimWrappers` was added to ghc-prim library. This module contains wrappers for comparison primops. These wrappers have names identical to removed primops and return a `Bool`. Examples:
+- built in `GHC.Prim` modules was renamed to `GHC.Prim.BuiltIn`. In `ghc-prim` we added a module `GHC.Prim` which re-exports all definitions from `GHC.Prim.BuiltIn` but also adds wrappers for new comparison primops. These wrappers have names identical to removed primops and return a `Bool`. Examples:
 
 ```wiki
 gtChar# :: Char# -> Char# -> Bool
@@ -132,12 +133,15 @@ ltFloat# a b = tagToEnum# (a `ltFloatI#` b)
 
 leAddr# :: Addr# -> Addr# -> Bool
 leAddr# a b = tagToEnum# (a `leAddrI#` b)
+
+sameMutableArray# :: MutableArray# s a -> MutableArray# s a -> Int#
+sameMutableArray# a b = tagToEnum# (a `sameMutableArrayI#` b)
 ```
 
 
-Thanks to these wrappers the change is almost backwards compatible. **The only thing primop users need to change in their existing code to make it work again is adding import of GHC.PrimWrappers module.**
+Thanks to renaming of previously existing `GHC.Prim` module and adding wrappers in new `GHC.Prim` module **the whole change of primops is backwards compatible**.
 
-- functions for comparing `Integer` type, implemented in integer-gmp and integer-simple libraries, received a similar treatment. Technically they are not primops, because they are implemented in Haskell (in case of integer-gmp also with FFI), but they pretend to be ones. There are six primops for comparing `Integer` values:
+- functions for comparing `Integer` type, implemented in `integer-gmp` and `integer-simple` libraries, received a similar treatment. Technically they are not primops, because they are implemented in Haskell (in case of `integer-gmp` also with FFI), but they pretend to be ones. There are six primops for comparing `Integer` values:
 
   ```wiki
   eqInteger#  :: Integer -> Integer -> Int#
@@ -151,9 +155,7 @@ Thanks to these wrappers the change is almost backwards compatible. **The only t
 
 Each of these functions has a wrapper that calls `tagToEnum#` and returns a `Bool`. These wrappers are: `eqInteger`, `neqInteger`, `leInteger`, `ltInteger`, `gtInteger` and `geInteger`.
 
-- Six primops are an exception to the rules above: `sameMutableArray#`, `sameMutableByteArray#`, `sameMutableArrayArray#`, `sameMutVar#`, `sameMVar#` and `sameTVar#`. Their names have remained the same as before and new wrappers created for them lack `#` at the end of their name. We made that decission because this naming feels more consistent and these primops are rarely used so we expect that they won't break a lot of existing code.
-
-- Other libraries that were modified to work with the new primops are: base, ghc-prim and primitive. The only required modifications were imports of the GHC.PrimWrappers module in modules that use the primops.
+- This change also required some small adjustments in `base` package.
 
 ## Eliminating branches using new primops
 
