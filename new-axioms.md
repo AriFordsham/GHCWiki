@@ -108,8 +108,7 @@ Here are the changes to source Haskell.
 
   Here the second equation can never match.
 
-
-For closed kinds (and maybe for open ones, but I can't unravel it), it seems possible to write a set of equations that will catch all possible cases but doesn't match the general case. This situation is currently (Dec 2012) undetected, because I (Richard, `eir` at `cis.upenn.edu`) am unconvinced I have a strong enough handle on the details. For example, what about `Any`?
+  For closed kinds (and maybe for open ones, but I can't unravel it), it seems possible to write a set of equations that will catch all possible cases but doesn't match the general case. This situation is currently (Dec 2012) undetected, because I (Richard, `eir` at `cis.upenn.edu`) am unconvinced I have a strong enough handle on the details. For example, what about `Any`?
 
 - The equations do not need to share a common pattern:
 

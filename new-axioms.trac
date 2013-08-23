@@ -75,9 +75,8 @@ type family F a where
   F (a,b)   = [Char]
   F (Int,b) = Char
 }}}
-  Here the second equation can never match.
-
-For closed kinds (and maybe for open ones, but I can't unravel it), it seems possible to write a set of equations that will catch all possible cases but doesn't match the general case. This situation is currently (Dec 2012) undetected, because I (Richard, `eir` at `cis.upenn.edu`) am unconvinced I have a strong enough handle on the details. For example, what about {{{Any}}}?
+  Here the second equation can never match.[[BR]][[BR]]
+  For closed kinds (and maybe for open ones, but I can't unravel it), it seems possible to write a set of equations that will catch all possible cases but doesn't match the general case. This situation is currently (Dec 2012) undetected, because I (Richard, `eir` at `cis.upenn.edu`) am unconvinced I have a strong enough handle on the details. For example, what about {{{Any}}}?
 
  * The equations do not need to share a common pattern:
 {{{
