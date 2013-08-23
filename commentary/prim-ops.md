@@ -4,7 +4,7 @@
 PrimOps are functions that cannot be implemented in Haskell, and are provided natively by GHC.  For example, adding two `Int#` values is provided as the PrimOp `+#`, and allocating a new mutable array is the PrimOp `newArray#`.
 
 
-PrimOps are made available to Haskell code through the virtual module `GHC.Prim`.  This module has no implementation, and its interface never resides on disk: if `GHC.Prim` is imported, we use a built-in `ModIface` value - see `ghcPrimIface` in [compiler/iface/LoadIface.lhs](/trac/ghc/browser/ghc/compiler/iface/LoadIface.lhs).
+PrimOps are made available to Haskell code through the virtual module `GHC.Prim.BuiltIn`.  This module has no implementation, and its interface never resides on disk: if `GHC.Prim.BuiltIn` is imported, we use a built-in `ModIface` value - see `ghcPrimIface` in [compiler/iface/LoadIface.lhs](/trac/ghc/browser/ghc/compiler/iface/LoadIface.lhs).
 
 
 It would also be useful to look at the [Wired-in and known-key things](commentary/compiler/wired-in) wiki page to understand this topic.
@@ -41,8 +41,8 @@ The `primops.txt.pp` file is processed first by CPP, and then by the `genprimopc
   so that the [byte-code interpreter](commentary/rts/interpreter) doesn't need to implement any PrimOps at all: it
   just invokes the compiled ones from `GHC.PrimopWrappers`.
 
-- `libraries/base/GHC/Prim.hs`, a source file containing dummy declarations for
-  all the PrimOps, solely so that Haddock can include documentation for `GHC.Prim`
+- `libraries/base/GHC/Prim/BuiltIn.hs`, a source file containing dummy declarations for
+  all the PrimOps, solely so that Haddock can include documentation for `GHC.Prim.BuiltIn`
   in its documentation for the `base` package.  The file `GHC/Prim.hs` is never
   actually compiled, only processed by Haddock.
 
@@ -92,7 +92,7 @@ The `integer-gmp` package now uses this method for all the primops that deal wit
 The future direction is to extend this syntax to allow PrimOp attributes to be specified. The calling convention for primops and ordinary compiled Haskell functions may be unified in future and at that time it the restriction on using only unlifted types may be lifted.
 
 
-It has been suggested that we extend this PrimOp definition and import method to cover all PrimOps, even inline ones. This would replace the current `primops.txt.pp` system of builtin PrimOps. The inline PrimOps would still be defined in the compiler but they would be imported in any module via `foreign import prim` rather than appearing magically to be exported from the `GHC.Prim` module. Hugs has used a similar system for years (with the syntax `primitive seq :: a -> b -> b`).
+It has been suggested that we extend this PrimOp definition and import method to cover all PrimOps, even inline ones. This would replace the current `primops.txt.pp` system of builtin PrimOps. The inline PrimOps would still be defined in the compiler but they would be imported in any module via `foreign import prim` rather than appearing magically to be exported from the `GHC.Prim.BuiltIn` module. Hugs has used a similar system for years (with the syntax `primitive seq :: a -> b -> b`).
 
 ## Adding a new PrimOp
 
