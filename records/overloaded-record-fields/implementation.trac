@@ -256,6 +256,14 @@ Of course, it is fine to use a qualified name in a record update.
 I've implemented the first option, adding a new warning `-fwarn-qualified-overloaded-record-fields` which is on by default.
 
 
+== Mangling selector names ==
+
+We could mangle selector names (using `$sel_foo_T` instead of `foo`) even when the extension is disabled, but we decided not to because the selectors really should be in scope with their original names, and doing otherwise leads to:
+  * Trouble with import/export
+  * Trouble with deriving instances in GHC.Generics (makes up un-renamed syntax using field `RdrName`s)
+  * Boot files that export record selectors not working
+
+
 == Outstanding bugs ==
 
 * typechecker/should_fail/tcfail102 (changed error message) 
@@ -264,11 +272,11 @@ I've implemented the first option, adding a new warning `-fwarn-qualified-overlo
 == To do ==
 
 * With fundep in class, we don't need it in the instance.
-* Always mangle selector names (for simplicity)?
-  * Trouble with import/export
-  * Trouble with deriving instances in GHC.Generics (makes up un-renamed syntax using field `RdrName`s)
-  * Sort out impedance mismatch with boot files
-* Minimise contents of `AvailInfo` (preferably just a list of field `OccName`s?): use `newGlobalBinder` or `lookupOrig` to lookup cached mangled names for selectors and pieces
+* Minimise contents of `AvailInfo` (to a list of `AvailFields Name`, where `data AvailFields name = NonOverloaded [name] | Overloaded [OccName]`). Use `lookupOrig` to lookup cached mangled names for selectors and pieces (get a `Module` from the `TyCon` `Name`).
+* When there is only one thing in scope, don't do make it polymorphic (but document trade-offs).
+* Forbid ambiguous qualified overloaded fields.
+* Add `HsVarOut RdrName id` instead of `HsSingleRecFld` (or perhaps rename `HsVar` to `HsVarIn`); also useful to recall how the user referred to something.
+* Could resolve Has constraints in the solver, like newtype coercions and SingI, rather than the instance malarkey.
 
 * Sort out reporting of unused imports.
 * Make instances available to GHCi.
