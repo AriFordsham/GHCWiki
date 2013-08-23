@@ -11,6 +11,7 @@ See also
  * #8154
  * #8155
  * [http://www.haskell.org/pipermail/glasgow-haskell-users/2013-August/022712.html Email thread] on overlap restrictions for open families
+ * [http://www.cis.upenn.edu/~eir/papers/2014/axioms/axioms-extended.pdf Draft paper] about closed type families
 
 Status: A working implementation with closed type families has been pushed to HEAD. The description of the feature below is accurate as of Jun 24, 2013.
 
