@@ -1,4 +1,4 @@
-# Pattern-matching axioms
+# Closed type families with overlapping equations
 
 
 This page describes an extension to type families that supports overlap.
@@ -7,6 +7,12 @@ This page describes an extension to type families that supports overlap.
 - See also the **[Coincident Overlap](new-axioms/coincident-overlap)** page (added August 2012) for a discussion around the usefulness of allowing certain overlaps when the right-hand sides coincide.
 - See also the **[Template Haskell](new-axioms/template-haskell)** page (added December 2012) for a proposal for the Template Haskell changes necessary to support this change.
 - See also the **[Non-linearity](new-axioms/nonlinearity)** and **[Closed Type Families](new-axioms/closed-type-families)** pages (added May 2013) for discussion and a proposal around type unsoundness that can be caused by repeated variables on the left-hand side of an instance. The proposal on that page will likely be implemented and will then be copied here.
+
+
+See also 
+
+- [\#8155](https://gitlab.haskell.org//ghc/ghc/issues/8155)
+- [ Email thread](http://www.haskell.org/pipermail/glasgow-haskell-users/2013-August/022712.html) on overlap restrictions for open families
 
 
 Status (Jan 12): the groundwork is done, in HEAD; mainly making `CoAxiom` a more fundamental data type.  Not yet started on the details.
