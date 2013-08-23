@@ -3,7 +3,7 @@
 
 This page describes an extension to type families that supports overlap.
 
-- See also the **[Discussion Page](new-axioms/discussion-page)** added May 2012, for comment/suggestions/requests for clarification/alternative solutions, to explore the design space.
+- See also the **[Discussion Page](new-axioms/discussion-page)** added May 2012 (and now rather out-of-date), for comment/suggestions/requests for clarification/alternative solutions, to explore the design space.
 - See also the **[Coincident Overlap](new-axioms/coincident-overlap)** page (added August 2012) for a discussion around the usefulness of allowing certain overlaps when the right-hand sides coincide.
 - See also the **[Template Haskell](new-axioms/template-haskell)** page (added December 2012) for a proposal for the Template Haskell changes necessary to support this change.
 - See also the **[Non-linearity](new-axioms/nonlinearity)** and **[Closed Type Families](new-axioms/closed-type-families)** pages (added May 2013) for discussion and a proposal around type unsoundness that can be caused by repeated variables on the left-hand side of an instance. The proposal on that page will likely be implemented and will then be copied here.
