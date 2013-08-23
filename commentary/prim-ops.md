@@ -43,7 +43,7 @@ The `primops.txt.pp` file is processed first by CPP, and then by the `genprimopc
 
 - `libraries/base/GHC/Prim/BuiltIn.hs`, a source file containing dummy declarations for
   all the PrimOps, solely so that Haddock can include documentation for `GHC.Prim.BuiltIn`
-  in its documentation for the `base` package.  The file `GHC/Prim.hs` is never
+  in its documentation for the `base` package.  The file `GHC/Prim/BuiltIn.hs` is never
   actually compiled, only processed by Haddock.
 
 
