@@ -263,17 +263,16 @@ I've implemented the first option, adding a new warning `-fwarn-qualified-overlo
 
 == To do ==
 
-* It'd be possible for associated types to have type parameters that are an *instance of* the class header.  Feature request!
 * With fundep in class, we don't need it in the instance.
 * Always mangle selector names (for simplicity)?
   * Trouble with import/export
   * Trouble with deriving instances in GHC.Generics (makes up un-renamed syntax using field `RdrName`s)
   * Sort out impedance mismatch with boot files
-* Minimise contents of `AvailInfo` (preferably just a list of field `OccName`s): use `newGlobalBinder` to lookup cached mangled names for selectors and pieces
+* Minimise contents of `AvailInfo` (preferably just a list of field `OccName`s?): use `newGlobalBinder` or `lookupOrig` to lookup cached mangled names for selectors and pieces
 
 * Sort out reporting of unused imports.
 * Make instances available to GHCi.
-* Fix Haddock.
+* Haddock prints selector names in index and LaTeX exports list
 
 * Consider syntactic sugar for `Upd` constraints.
 * Improve unsolved `Accessor p f` error message where `p` is something silly?
