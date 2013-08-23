@@ -11,20 +11,12 @@ This page describes an extension to type families that supports overlap.
 
 See also 
 
+- [\#8154](https://gitlab.haskell.org//ghc/ghc/issues/8154)
 - [\#8155](https://gitlab.haskell.org//ghc/ghc/issues/8155)
 - [ Email thread](http://www.haskell.org/pipermail/glasgow-haskell-users/2013-August/022712.html) on overlap restrictions for open families
 
 
-Status (Jan 12): the groundwork is done, in HEAD; mainly making `CoAxiom` a more fundamental data type.  Not yet started on the details.
-
-
-Status (Aug 12): A working prototype implementation is in `overlapping-tyfams`.
-
-
-Status (Dec 12): A working implementation has been pushed to HEAD.
-
-
-Status (Jun 13): A working re-implementation, with closed type families, has been pushed to HEAD. The description of the feature below is accurate as of Jun 24, 2013.
+Status: A working implementation with closed type families has been pushed to HEAD. The description of the feature below is accurate as of Jun 24, 2013.
 
 ## Background
 
