@@ -69,18 +69,7 @@ E.g.
    pattern Arrow t1 t2 = App "->" [t1, t2]
 }}}
 
-Together with ViewPatternsAlternative we can now create patterns that look like regular patterns to match on existing (perhaps abstract) types in new ways.
-{{{
-   pattern Plus1 n = n1 | let n = n1-1, n >= 0
-
-   fac 0 = 0
-   fac (Plus1 n) = (n+1) * fac n 
-}}}
-
-
-Note that the right hand side of `Plus1` binds `n1` and `n`, but since only `n` is mentioned on the left hand side it is the only variable that gets bound when `Plus1` is used.
-
-Another example showing pattern synonyms used as views, with regular ViewPatterns:
+Together with ViewPatterns we can now create patterns that look like regular patterns to match on existing (perhaps abstract) types in new ways:
 
 {{{
 import qualified Data.Sequence as Seq
@@ -89,7 +78,6 @@ pattern Empty = (Seq.viewl -> Seq.EmptyL)
 pattern x :< xs = (Seq.viewl -> x Seq.:< xs)
 pattern xs :> x = (Seq.viewr -> xs Seq.:> x)
 }}}
-
 
 
 == Implicitly-bidirectional pattern synonyms ==
