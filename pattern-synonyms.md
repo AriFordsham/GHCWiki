@@ -91,20 +91,7 @@ E.g.
 ```
 
 
-Together with [ViewPatternsAlternative](view-patterns-alternative) we can now create patterns that look like regular patterns to match on existing (perhaps abstract) types in new ways.
-
-```wiki
-   pattern Plus1 n = n1 | let n = n1-1, n >= 0
-
-   fac 0 = 0
-   fac (Plus1 n) = (n+1) * fac n 
-```
-
-
-Note that the right hand side of `Plus1` binds `n1` and `n`, but since only `n` is mentioned on the left hand side it is the only variable that gets bound when `Plus1` is used.
-
-
-Another example showing pattern synonyms used as views, with regular [ViewPatterns](view-patterns):
+Together with [ViewPatterns](view-patterns) we can now create patterns that look like regular patterns to match on existing (perhaps abstract) types in new ways:
 
 ```wiki
 import qualified Data.Sequence as Seq
