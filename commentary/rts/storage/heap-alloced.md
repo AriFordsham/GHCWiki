@@ -34,7 +34,42 @@ Can we eliminate `HEAP_ALLOCED` altogether?  We must arrange that all closure po
 ELF sections can be arbitrarily aligned.  So we could put all our static closures in a special section, align the section to 1MB, and arrange that there is space at the beginning of the section for the block descriptors.
 
 
-This almost works (see eliminate-heap-alloced.patch.gz), but sadly fails for shared libraries: the system dynamic linker doesn't honour section-alignment requests larger than a page, it seems.
+This almost works (see eliminate-heap-alloced.patch.gz), but sadly fails for shared libraries: the system dynamic linker doesn't honour section-alignment requests larger than a page, it seems. Here is a simple test program which shows the problem on Linux:
+
+```wiki
+// test.S
+    .section foo,"aw"
+    .p2align 20
+    .global foo_start
+foo_start:
+    .ascii "A"
+```
+
+```wiki
+// main.c
+#include <stdio.h>
+extern char foo_start;
+int main(void) {
+    printf("%c\n", foo_start); // force libtest.so to be loaded
+    printf("%p\n", &foo_start);
+}
+```
+
+
+Compare static linking and dynamic linking:
+
+```wiki
+ezyang@javelin:~/Dev/labs/reloc$ gcc test.S main.c -g && ./a.out
+A
+0x700000
+ezyang@javelin:~/Dev/labs/reloc$ gcc test.S  -shared -o libtest.so -fPIC
+ezyang@javelin:~/Dev/labs/reloc$ gcc -Wl,-R`pwd` -L. main.c -ltest -g -O0
+-fPIC && ./a.out
+/usr/bin/ld: warning: type and size of dynamic symbol `foo_start' are not
+defined
+A
+0x7f012f9e7000
+```
 
 ### Method 2: copy static closures into a special area at startup
 
@@ -45,7 +80,7 @@ We could arrange that we access all static closures via indirections, and then a
 Disadvantages:
   
 
-- references to static objects go through another indirection.  
+- references to static objects go through another indirection. (This includes all of the RTS code!)
 
   - when doing dynamic linking, references to static objects in another package
     already go through an indirection and we could arrange that only one indirection is required.
