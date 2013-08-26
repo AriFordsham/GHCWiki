@@ -84,7 +84,7 @@ x |->  GRE $sel_x_T (FldParent T x) LocalDef
 ```
 
 
-Note that the `OccName` used when adding a GRE to the environment (`greOccName`) now depends on the parent field: for `FldParent` it is the field label rather than the selector name. Since `AvailInfo` does not store selectors for overloaded fields, `gresFromAvails` is now defined in the `TcRnIf` monad so that it can call `lookupOrig` to find the selectors.
+Note that the `OccName` used when adding a GRE to the environment (`greOccName`) now depends on the parent field: for `FldParent` it is the field label rather than the selector name. Since `AvailInfo` does not store selectors for overloaded fields, `gresFromAvails` is now defined in the `TcRnIf` monad so that it can call `lookupOrig` to find the selectors. As a consequence of this, `GHC.getPackageModuleInfo` cannot call `gresFromAvails`, so it now returns `Nothing` in `minf_rdr_env`.
 
 ## Source expressions
 
