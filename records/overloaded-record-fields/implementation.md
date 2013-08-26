@@ -34,6 +34,8 @@ axiom TFCo:R:SetResultTx : SetResult T "x" Int = T -- corresponds to the SetResu
 
 ## The naming of cats
 
+### `FieldLabel`
+
 
 A field is represented by the following datatype, parameterised by the representation of names:
 
@@ -53,23 +55,36 @@ data FldInsts a = FldInsts { fldInstsHas :: a
 ```
 
 
-Every field has a label (`OccName`), selector, and names for the typeclass and family instances (currently stored together in the `FldInsts` record, but this could change).
+Every field has a label (`OccName`), selector, and names for the dfuns and axioms (currently stored together in the `FldInsts` record, but this could change). The `dcFields` field of `DataCon` stores a list of `FieldLabel`, whereas the `ifConFields` field of `IfaceConDecl` stores a list of `FieldLbl OccName`. The motivation for storing the names of the pieces is to avoid dragging `extendInteractiveContext` into the monad with `gresFromAvails`.
+
+### `AvailInfo` and `IE`
 
 
-The `AvailTC Name [Name] [FieldLabel]` constructor of `AvailInfo` represents a type and its pieces that are in scope. Record fields are now stored in a separate list (the third argument). The `IEThingWith name [name] [OccName]` constructor of `IE`, which represents a thing that can be imported or exported, stores only the `OccName`s.
-
-
-The `Parent` type has an extra constructor `FldParent Name OccName (Maybe (FldInsts Name))` that stores the parent `Name`, the field `OccName`, and the names of the instances if they are defined. The `GlobalRdrElt` (`GRE`) for a field stores the selector name directly, and uses the `FldParent` constructor to store the field. Thus a field `x` of type `T` gives rise this entry in the `GlobalRdrEnv`:
+The new definition of `AvailInfo` is:
 
 ```wiki
-x |->  GRE $sel_x_T (FldParent T x (FldInsts $dfHasTx $dfUpdTx TFCo:R:GetResultTx TFCo:R:SetResultTx)) LocalDef
+data AvailInfo      = Avail Name | AvailTC Name [Name] AvailFields
+data AvailFlds name = NonOverloaded [name] | Overloaded [OccName]
+type AvailFields    = AvailFlds Name
 ```
 
 
-Note that the `OccName` used when adding a GRE to the environment (`greOccName`) now depends on the parent field: for `FldParent` it is the field label rather than the selector name.
+The `AvailTC` constructor represents a type and its pieces that are in scope. Record fields are now stored in a separate list (the third argument). If the fields are not overloaded, we store the selector names, whereas if they are overloaded, we store only the labels.
 
 
-The `dcFields` field of `DataCon` stores a list of `FieldLabel`, whereas the `ifConFields` field of `IfaceConDecl` stores a list of `FieldLbl OccName`.
+The `IEThingWith name [name] [OccName]` constructor of `IE`, which represents a thing that can be imported or exported, stores only the `OccName`s.
+
+### `Parent` and `GlobalRdrElt`
+
+
+The `Parent` type has an extra constructor `FldParent Name OccName` that stores the parent `Name` and the field `OccName`. The `GlobalRdrElt` (`GRE`) for a field stores the selector name directly, and uses the `FldParent` constructor to store the field. Thus a field `x` of type `T` gives rise this entry in the `GlobalRdrEnv`:
+
+```wiki
+x |->  GRE $sel_x_T (FldParent T x) LocalDef
+```
+
+
+Note that the `OccName` used when adding a GRE to the environment (`greOccName`) now depends on the parent field: for `FldParent` it is the field label rather than the selector name. Since `AvailInfo` does not store selectors for overloaded fields, `gresFromAvails` is now defined in the `TcRnIf` monad so that it can call `lookupOrig` to find the selectors.
 
 ## Source expressions
 
@@ -301,15 +316,15 @@ We could mangle selector names (using `$sel_foo_T` instead of `foo`) even when t
 ## To do
 
 - With fundep in class, we don't need it in the instance.
-- Minimise contents of `AvailInfo` (to a list of `AvailFields Name`, where `data AvailFields name = NonOverloaded [name] | Overloaded [OccName]`). Use `lookupOrig` to lookup cached mangled names for selectors and pieces (get a `Module` from the `TyCon``Name`).
-- When there is only one thing in scope, don't do make it polymorphic (but document trade-offs).
+- When there is only one thing in scope, don't do make it polymorphic (but document trade-offs). But maybe it should still support lenses?
 - Forbid ambiguous qualified overloaded fields.
 - Add `HsVarOut RdrName id` instead of `HsSingleRecFld` (or perhaps rename `HsVar` to `HsVarIn`); also useful to recall how the user referred to something.
-- Could resolve Has constraints in the solver, like newtype coercions and SingI, rather than the instance malarkey.
+- Resolve Has constraints in the solver, like newtype coercions and SingI, rather than the instance scoping malarkey.
 
 - Sort out reporting of unused imports.
 - Make instances available to GHCi.
-- Haddock prints selector names in index and LaTeX exports list
+- Haddock prints selector names in index and LaTeX exports list.
+- What's going on with deprecations and fixity decls?
 
 - Consider syntactic sugar for `Upd` constraints.
 - Improve unsolved `Accessor p f` error message where `p` is something silly?
