@@ -1,6 +1,6 @@
 = Implementing new primitive comparisons to allow branchless algorithms =
 
-This page gathers the notes about implementing new primitive logical operations and thus resolving ticket #6135.
+This page gathers the notes about implementing new primitive logical operations and thus resolving ticket #6135. See [http://ghc.haskell.org/trac/ghc/wiki/NewPrimopsInGHC7.8 this page] for a instructions how to adjust your already existing code to work with new primops.
 
 == The problem ==
 
@@ -82,7 +82,7 @@ Note: this example was produced with GHC 7.6.3. At the moment of merging new pri
 
 == Solution ==
 
-This problem was solved by modifying comparison primops to return unboxed unlifted `Int#` instead of `Bool`. Having `Int#` returned as a result of logical comparison will allow to use branchless bitwise logical operators instead of branching logical operators defined for `Bool` values.
+This problem was solved by modifying comparison primops to return unboxed unlifted `Int#` instead of `Bool` (which is lifted and thus is returned as a thunk that needs to be evaluated). Having `Int#` returned as a result of logical comparison will allow to use branchless bitwise logical operators instead of branching logical operators defined by Haskell.
 
 == Implementation details ==
 
@@ -91,6 +91,7 @@ Below is a summary of implementation details and decisions:
   * the new comparison primops return a value of type `Int#`: `1#` represents `True` and `0#` represents `False`. The `Int#` type was chosen because on Haskell it is more common to use signed Int type insetad of unsigned Word. By using `Int#` the users can easily convert unboxed result into a boxed value, without need to use `word2Int#` and `int2word#` primops.
   * as a small side-task, four new logical bitwise primops have been implemented: `andI#`, `orI#`, `xorI#` and `negI#` (#7689). These operate on values of type `Int#`. Earlier we had only bitwise logical primops operating on values of type `Word#`.
   * names of the existing comparison primops were changed. Operators had `$` added before `#`, others had `I` added before the `#` (this is a mnemonic denoting that this primop returns and `Int#`). Examples:
+
 {{{
 >=$#      :: Int#    -> Int#    -> Int#
 /=$##     :: Double# -> Double# -> Int#
@@ -98,10 +99,10 @@ gtCharI#  :: Char#   -> Char#   -> Int#
 eqWordI#  :: Word#   -> Word#   -> Int#
 ltFloatI# :: Float#  -> Float#  -> Int#
 leAddrI#  :: Addr#   -> Addr#   -> Int#
-sameMutableArrayI# :: MutableArray# s a -> MutableArray# s a -> Int#
 }}}
 
-  * built in `GHC.Prim` modules was renamed to `GHC.Prim.BuiltIn`. In `ghc-prim` we added a module `GHC.Prim` which re-exports all definitions from `GHC.Prim.BuiltIn` but also adds wrappers for new comparison primops. These wrappers have names identical to removed primops and return a `Bool`. Examples:
+  * a new module `GHC.PrimWrappers` was added to ghc-prim library. This module contains wrappers for comparison primops. These wrappers have names identical to removed primops and return a `Bool`. Examples:
+
 {{{
 gtChar# :: Char# -> Char# -> Bool
 gtChar# a b = tagToEnum# (a `gtCharI#` b)
@@ -120,13 +121,11 @@ ltFloat# a b = tagToEnum# (a `ltFloatI#` b)
 
 leAddr# :: Addr# -> Addr# -> Bool
 leAddr# a b = tagToEnum# (a `leAddrI#` b)
+}}}
 
-sameMutableArray# :: MutableArray# s a -> MutableArray# s a -> Int#
-sameMutableArray# a b = tagToEnum# (a `sameMutableArrayI#` b)
-}}} 
-   Thanks to renaming of previously existing `GHC.Prim` module and adding wrappers in new `GHC.Prim` module '''the whole change of primops is backwards compatible'''.
+Thanks to these wrappers the change is almost backwards compatible. '''The only thing primop users need to change in their existing code to make it work again is adding import of GHC.!PrimWrappers module.'''
 
-  * functions for comparing `Integer` type, implemented in `integer-gmp` and `integer-simple` libraries, received a similar treatment. Technically they are not primops, because they are implemented in Haskell (in case of `integer-gmp` also with FFI), but they pretend to be ones. There are six primops for comparing `Integer` values:
+  * functions for comparing `Integer` type, implemented in integer-gmp and integer-simple libraries, received a similar treatment. Technically they are not primops, because they are implemented in Haskell (in case of integer-gmp also with FFI), but they pretend to be ones. There are six primops for comparing `Integer` values:
 {{{
 eqInteger#  :: Integer -> Integer -> Int#
 neqInteger# :: Integer -> Integer -> Int#
@@ -135,9 +134,11 @@ ltInteger#  :: Integer -> Integer -> Int#
 gtInteger#  :: Integer -> Integer -> Int#
 geInteger#  :: Integer -> Integer -> Int#
 }}}
-   Each of these functions has a wrapper that calls `tagToEnum#` and returns a `Bool`. These wrappers are: `eqInteger`, `neqInteger`, `leInteger`, `ltInteger`, `gtInteger` and `geInteger`.
+Each of these functions has a wrapper that calls `tagToEnum#` and returns a `Bool`. These wrappers are: `eqInteger`, `neqInteger`, `leInteger`, `ltInteger`, `gtInteger` and `geInteger`.
 
-  * This change also required some small adjustments in `base` package.
+  * Six primops are an exception to the rules above: `sameMutableArray#`, `sameMutableByteArray#`, `sameMutableArrayArray#`, `sameMutVar#`, `sameMVar#` and `sameTVar#`. Their names have remained the same as before and new wrappers created for them lack `#` at the end of their name. We made that decission because this naming feels more consistent and these primops are rarely used so we expect that they won't break a lot of existing code.
+
+  * Other libraries that were modified to work with the new primops are: base, ghc-prim and primitive. The only required modifications were imports of the GHC.!PrimWrappers module in modules that use the primops.
 
 == Eliminating branches using new primops ==
 
