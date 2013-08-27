@@ -184,6 +184,13 @@ In order to see emails below, **you must login**.
   - **Committer since**: August, 2013.
   - **Main areas of interest**: ...
 
+- Patrick Palka
+
+  - N/A - Garfield, NJ, USA
+  - **Trac**: parcs; **email**: patrick@…
+  - **Committer since**: August, 2013.
+  - **Main areas of interest**: GHC --make
+
 - [ Richard Eisenberg](http://www.cis.upenn.edu/~eir)
 
   - University of Pennsylvania - Philadelphia, PA
