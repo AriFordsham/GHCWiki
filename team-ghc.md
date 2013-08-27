@@ -23,9 +23,9 @@ In order to see emails below, **you must login**.
   - **Committer since**: August, 2013.
   - **Main areas of interest**: IO manager
 
-- Austin Seipp
+- [ Austin Seipp](http://hacks.yi.org)
 
-  - N/A - Austin, TX
+  - Well-Typed LLP - Austin, TX
   - **Trac**: thoughtpolice; **email**: aseipp@…
   - **Committer since**: Janurary 2013.
   - **Main areas of interest**: ARM support, OS X support, cross compilation, optimiser, build system, release management, git management, ghc.haskell.org server maintenance
