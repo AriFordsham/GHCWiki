@@ -214,9 +214,11 @@ In order to see emails below, '''you must login'''.
 
 === Becoming a committer ===
 
-At a certain point after you've made enough contributions, the question of commit access inevitably arises. To be granted access, please contact '''Austin Seipp''' above. As it currently stands, SPJ will make the final call, and Austin will add your information once verified.
+At a certain point after you've made enough contributions, the question of commit access inevitably arises. We welcome a steady stream of contributors, because it broadens the sense of ownership of GHC, which is great.
 
-Generally, to be granted access, you should have worked with the developers, and contributed a reasonable amount of effort to the project in terms of patches and help. 'Reasonable' varies from person to person - from big/small features, to bug fixes, to helping others with their work, there is no end of things to do in the land of GHC. Simply use your good judgement to decide if you think you meet the criteria, propose, and we'll talk about it.
+A key point is to have a history of contributing good patches, with attention to detail. These patches do not necessarily need to constitute 'huge' features in their own right - and you certainly don't need to implement a 'huge' feature to get access. But we should be able to see your work. There is really no end of things to do for GHC - so please find something and work at it!
+
+To be granted access, please contact '''Austin Seipp''' above. As it currently stands, SPJ will make the final call, and Austin will add your information once verified.
 
 (In some cases, you may also be approached by an existing committer who's willing to represent you, which is great! You'll be contacted appropriately, then.)
 
