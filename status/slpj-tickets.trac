@@ -2,7 +2,8 @@
 
 == Type inference ==
 
- * #8020, #8028: Closed type families, apartness checks
+ * #8177: role signature for type families
+ * #8161: associated type more specific than class decl
  * #7259: Eta-expansion of products in System FC
  * #5682: Parsing of pomoted kinds
  * #6022: over-general types are inferred
