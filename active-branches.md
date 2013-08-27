@@ -21,6 +21,8 @@ This list overviews the active branches in the main GHC repository.
 
 - `ghc-lwc2`: **Lightweight concurrency substrate support**. KC Sivaramakrishnan. This implements an evolution of Peng Li's original concept of implementing a lot of the concurrency substrate in the RTS *in Haskell*. The design is described in a paper, "Composable Scheduler Activations for Haskell", found here: [ http://research.microsoft.com/en-us/um/people/simonpj/papers/lw-conc/lwc-hs13.pdf](http://research.microsoft.com/en-us/um/people/simonpj/papers/lw-conc/lwc-hs13.pdf).
 
+- `ghc-parmake-gsoc`: **Parallel --make**. Patrick Palka, GSoC 2013. This extends `ghc --make` to be able to compile multiple modules in parallel.
+
 # Limbo branches
 
 
