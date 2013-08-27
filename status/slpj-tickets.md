@@ -3,6 +3,7 @@
 ## Type inference
 
 - [\#8177](https://gitlab.haskell.org//ghc/ghc/issues/8177): role signature for type families
+- [\#8155](https://gitlab.haskell.org//ghc/ghc/issues/8155): defaulting with type families... bad error message
 - [\#8161](https://gitlab.haskell.org//ghc/ghc/issues/8161): associated type more specific than class decl
 - [\#7259](https://gitlab.haskell.org//ghc/ghc/issues/7259): Eta-expansion of products in System FC
 - [\#5682](https://gitlab.haskell.org//ghc/ghc/issues/5682): Parsing of pomoted kinds
