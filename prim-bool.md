@@ -99,9 +99,13 @@ This problem was solved by modifying comparison primops to return unboxed unlift
 
 Below is a summary of implementation details and decisions:
 
-- the new comparison primops return a value of type `Int#`: `1#` represents `True` and `0#` represents `False`. The `Int#` type was chosen because on Haskell it is more common to use signed Int type insetad of unsigned Word. By using `Int#` the users can easily convert unboxed result into a boxed value, without need to use `word2Int#` and `int2word#` primops.
-- as a small side-task, four new logical bitwise primops have been implemented: `andI#`, `orI#`, `xorI#` and `negI#` ([\#7689](https://gitlab.haskell.org//ghc/ghc/issues/7689)). These operate on values of type `Int#`. Earlier we had only bitwise logical primops operating on values of type `Word#`.
-- names of the existing comparison primops were changed. Operators had `$` added before `#`, others had `I` added before the `#` (this is a mnemonic denoting that this primop returns and `Int#`). Examples:
+- The new comparison primops return a value of type `Int#`: `1#` represents `True` and `0#` represents `False`. The `Int#` type was chosen because on Haskell it is more common to use signed Int type insetad of unsigned Word. By using `Int#` the users can easily convert unboxed result into a boxed value, without need to use `word2Int#` and `int2word#` primops.
+
+- Unlike C, `2#` or `-3#` don't represent a Boolean value.  More concretely, you can use `tagToEnum#` to convert one of these `Int#` values to a `Bool`, but `tagToEnum#` does no error checking, so it would be Very Very Bad to call it on `2#`.
+
+- As a small side-task, four new logical bitwise primops have been implemented: `andI#`, `orI#`, `xorI#` and `negI#` ([\#7689](https://gitlab.haskell.org//ghc/ghc/issues/7689)). These operate on values of type `Int#`. Earlier we had only bitwise logical primops operating on values of type `Word#`.
+
+- Names of the existing comparison primops were changed. Operators had `$` added before `#`, others had `I` added before the `#` (this is a mnemonic denoting that this primop returns and `Int#`). Examples:
 
 ```wiki
 >=$#      :: Int#    -> Int#    -> Int#
@@ -112,7 +116,7 @@ ltFloatI# :: Float#  -> Float#  -> Int#
 leAddrI#  :: Addr#   -> Addr#   -> Int#
 ```
 
-- a new module `GHC.PrimWrappers` was added to ghc-prim library. This module contains wrappers for comparison primops. These wrappers have names identical to removed primops and return a `Bool`. Examples:
+- A new module `GHC.PrimWrappers` was added to ghc-prim library. This module contains wrappers for comparison primops. These wrappers have names identical to removed primops and return a `Bool`. Examples:
 
 ```wiki
 gtChar# :: Char# -> Char# -> Bool
@@ -137,7 +141,7 @@ leAddr# a b = tagToEnum# (a `leAddrI#` b)
 
 Thanks to these wrappers the change is almost backwards compatible. **The only thing primop users need to change in their existing code to make it work again is adding import of GHC.PrimWrappers module.**
 
-- functions for comparing `Integer` type, implemented in integer-gmp and integer-simple libraries, received a similar treatment. Technically they are not primops, because they are implemented in Haskell (in case of integer-gmp also with FFI), but they pretend to be ones. There are six primops for comparing `Integer` values:
+- Functions for comparing `Integer` type, implemented in integer-gmp and integer-simple libraries, received a similar treatment. Technically they are not primops, because they are implemented in Haskell (in case of integer-gmp also with FFI), but they pretend to be ones. There are six primops for comparing `Integer` values:
 
   ```wiki
   eqInteger#  :: Integer -> Integer -> Int#
