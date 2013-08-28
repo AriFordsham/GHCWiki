@@ -148,3 +148,7 @@ Example:
 }}}
 
 One could go one step further and leave out the `pattern` keyword to obtain ''associated constructors'', which are required to be bidirectional. The capitalized identifier would indicate that a pattern synonym is being defined. For complicated cases one could resort to the `where` syntax (shown above).
+
+== Typed Patterns Synonyms ==
+
+So far patterns only had _syntactic_ meaning. In comparison Ωmega has _typed_ pattern synonyms, so they become first class values. (I am not suggesting this for Haskell, yet.)
