@@ -124,7 +124,7 @@ The first part as is before and describes the expansion of the synonym in patter
    fac (Plus1 n) = Plus1 n * fac n 
 }}}
 
-== Associated Patterns Synonyms ==
+== Associated pattern synonyms ==
 Just like data types and type synonyms can be part of a class declaration, it would be possible to have pattern synonyms as well.
 
 Example:
@@ -149,6 +149,6 @@ Example:
 
 One could go one step further and leave out the `pattern` keyword to obtain ''associated constructors'', which are required to be bidirectional. The capitalized identifier would indicate that a pattern synonym is being defined. For complicated cases one could resort to the `where` syntax (shown above).
 
-== Typed Patterns Synonyms ==
+== Typed pattern synonyms ==
 
 So far patterns only had _syntactic_ meaning. In comparison Ωmega has _typed_ pattern synonyms, so they become first class values. (I am not suggesting this for Haskell, yet.)
