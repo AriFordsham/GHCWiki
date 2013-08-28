@@ -45,7 +45,7 @@ See also [TemplateHaskell](template-haskell)
 ## Optimisation
 
 - [\#1498](https://gitlab.haskell.org//ghc/ghc/issues/1498): heap checks in recursive functions
-- [\#7561](https://gitlab.haskell.org//ghc/ghc/issues/7561): profiled program runs faster than un-profiled one
+- [\#7367](https://gitlab.haskell.org//ghc/ghc/issues/7367): float-out causes extra allocation
 - [\#7378](https://gitlab.haskell.org//ghc/ghc/issues/7378): (a) identical-alts when the RHSs are bigger; (b) nested comparisions (cf [\#2132](https://gitlab.haskell.org//ghc/ghc/issues/2132))
 - [\#7511](https://gitlab.haskell.org//ghc/ghc/issues/7511): inlining can make programs allocate MORE!!
 - [\#7307](https://gitlab.haskell.org//ghc/ghc/issues/7307): low hanging fruit for shrinking code size for string constants and top-level indirections
