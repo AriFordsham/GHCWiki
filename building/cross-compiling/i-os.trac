@@ -14,118 +14,7 @@ See [wiki:Building/CrossCompiling Cross-compiling GHC] at the bottom. In particu
 
 === 2. Scripts ===
 
-The following scripts are maintained at [https://github.com/ghc-ios/ghc-ios-scripts]
-
-Place these scripts somewhere in your path:
-
-'''arm-apple-darwin10-gcc'''
-{{{
-#!/bin/sh
-
-TARGET_PLATFORM=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.1.sdk
-TARGET_BIN="/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin"
-
-TARGET_GCC=$TARGET_BIN/arm-apple-darwin10-llvm-gcc-4.2
-TARGET_CFLAGS="-isysroot $TARGET_PLATFORM -mcpu=cortex-a8 -mfpu=neon"
-
-allArgs=$@
-
-# Only need lipo when we're building object files
-if [[ "$allArgs" == *.o* ]]
-then
-# Find the filename 
-fileName=$(echo "$allArgs" | sed 's|.*-o \([^.]*\)\.o.*|\1|')
-
-# Create filename variants for armV7 and armV7s
-fileNameForArmv7=$fileName-armv7
-fileNameForArmv7s=$fileName-armv7s
-
-# Call gcc twice, once for each architecture, outputting to our filename variants
-$TARGET_GCC $TARGET_CFLAGS "-march=armv7" ${allArgs//$fileName.o/$fileNameForArmv7.o}
-$TARGET_GCC $TARGET_CFLAGS "-march=armv7s" ${allArgs//$fileName.o/$fileNameForArmv7s.o}
-
-# Lipo the two filename variants together
-lipo $fileNameForArmv7.o $fileNameForArmv7s.o -create -output $fileName.o
-else
-# If not building object files, call regularly.
-exec $TARGET_GCC $TARGET_CFLAGS "$@"
-fi
-}}}
-
-'''arm-apple-darwin10-ld'''
-{{{
-#!/bin/sh
-
-TARGET_PLATFORM=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.1.sdk
-TARGET_BIN="/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin"
-
-TARGET_LD=$TARGET_BIN/ld
-TARGET_LDFLAGS="-L$TARGET_PLATFORM/usr/lib/"
-}}}
-
-'''arm-apple-darwin10-nm'''
-{{{
-#!/bin/sh
-
-TARGET_BIN="/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin"
-
-TARGET_NM=$TARGET_BIN/nm
-exec $TARGET_NM "$@"
-}}}
-
-'''arm-apple-darwin10-cabal''' (not needed during the build, but useful afterwards)
-{{{
-#!/bin/sh
-exec cabal --with-ghc=arm-apple-darwin10-ghc --with-ghc-pkg=arm-apple-darwin10-ghc-pkg --with-ld=arm-apple-darwin10-ld \
---configure-option=--host=arm-apple-darwin10 --host-arch=arm --host-os=ios \
-"$@"
-}}}
-
-'''i386-apple-darwin11-gcc'''
-{{{
-#!/bin/sh
-
-TARGET_PLATFORM=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator6.1.sdk/
-TARGET_BIN="/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin"
-
-TARGET_GCC=$TARGET_BIN/i686-apple-darwin11-llvm-gcc-4.2
-TARGET_CFLAGS="-isysroot $TARGET_PLATFORM -march=i386"
-
-exec $TARGET_GCC $TARGET_CFLAGS "$@"
-}}}
-
-'''i386-apple-darwin11-ld'''
-{{{
-#!/bin/sh
-
-TARGET_PLATFORM=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator6.1.sdk/
-TARGET_BIN="/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin"
-
-TARGET_LD=$TARGET_BIN/ld
-TARGET_LDFLAGS="-L$TARGET_PLATFORM/usr/lib/ -arch i386"
-
-exec $TARGET_LD $TARGET_LDFLAGS "$@"
-}}}
-
-'''i386-apple-darwin11-nm'''
-{{{
-#!/bin/sh
-
-TARGET_BIN="/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin"
-
-TARGET_NM=$TARGET_BIN/nm
-exec $TARGET_NM "$@"
-}}}
-
-'''i386-apple-darwin11-cabal''' (not needed during the build, but useful afterwards)
-{{{
-#!/bin/sh
-exec cabal --with-ghc=i386-apple-darwin11-ghc --with-ghc-pkg=i386-apple-darwin11-ghc-pkg --with-ld=i386-apple-darwin11-ld \
---configure-option=--host=i386-apple-darwin11 \
-"$@"
-}}}
-
-Edit these scripts to ensure the platform version matches what you are compiling to in Xcode
+You will need to check out the scripts at [https://github.com/ghc-ios/ghc-ios-scripts] and add the checked out directory to your PATH. You may need to edit these scripts if you are using a different iOS / iOS simulator platform version than the one the scripts are pointed at.
 
 === 3. Check out GHC ===
 
@@ -172,11 +61,31 @@ sudo mkdir -p /usr/local/ghc-ios-sim/
 sudo make install
 }}}
 
-=== 6. Create an Xcode project ===
+=== 6. Make sure your Cabal and cabal-install are new enough ===
+
+Some recent changes are needed for the cross-compiling stuff to work right. Type {{{cabal --version}}} to find out what you have. Cabal-1.17.0 is new enough.
+
+The easiest way to install the right version is to do this inside your ghc build directory:
+
+{{{
+cd libraries/Cabal/Cabal/
+cabal install
+cd -
+cd libraries/Cabal/cabal-install/
+cabal install
+}}}
+
+The ghc-ios-scripts directory you checked out earlier contains two wrappers called {{{arm-apple-darwin10-cabal}}} and {{{i386-apple-darwin11-cabal}}}. These will pass the right arguments to cabal, so you can do, for example:
+
+{{{
+arm-apple-darwin10-cabal install network
+}}}
+
+=== 7. Create an Xcode project ===
 
 Create a new skeleton Xcode project using the wizard, and make sure it runs on your device.
 
-=== 7. Compile your Haskell code ===
+=== 8. Compile your Haskell code ===
 
 Open a terminal and add {{{/usr/local/ghc-ios/bin:/usr/local/ghc-ios-sim/bin}}} to your {{{PATH}}} environment variable.
 
@@ -221,7 +130,7 @@ Ignore the copious warnings about "truncation and blank padding" and "has no sym
 
 This will create (in this example) '''haskell.a'''.
 
-=== 8. Set up your Xcode project for Haskell ===
+=== 9. Set up your Xcode project for Haskell ===
 
 Now configure it as follows:
 
@@ -231,7 +140,7 @@ Now configure it as follows:
 
  * When you've compiled your Haskell code to a .a (e.g. '''haskell.a''') file, add it to the project anywhere in the hierarchy with '''Add files to (project)''' in the right-mouse button menu.
 
-=== 9. Build and run ===
+=== 10. Build and run ===
 
 Run the project again as usual, and Xcode will pick up the haskell.a file and your Haskell code should now run on your iOS device. Anything printed with putStrLn will appear in the Xcode runtime console.
 
@@ -246,6 +155,5 @@ Outstanding issues we should fix in rough priority order.
  * Template Haskell for cross compilers!
  * Packaging with the wrapper scripts and perhaps release of binaries of official ghc releases
  * Would be nice to not have to disable dead-code removal. (Simon Marlow says "we have special hacks so that you don't have to disable dead-code removal on OS X, in the native code generator and (I presume) in the LLVM backend. Perhaps this just needs to be adapted to work on iOS too?")
- * Test cabal more, as there are likely to be some areas where cross-compiling isn't quite right yet
  * Fix the copious link warnings
  * Stop llvm generating an unnecessary 'bx lr' (return) instruction after the GHC calling convention (which is actually a goto)
