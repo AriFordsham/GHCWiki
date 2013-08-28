@@ -14,23 +14,17 @@ Other documentation for Windows includes:
 
 1. **Install the following tools:**
 
-- [ Haskell Platform](http://hackage.haskell.org/platform/)
-- [ Git](http://git-scm.com/)
-- [ Python](http://python.org/) (Version 2.7 is a good choice, we don't support version 3.x at this time)
-- [ LLVM](http://www.llvm.org/releases/download.html) (Optional, for using GHC's LLVM backend, grab the file called 'LLVM Binaries for Mingw32/x86')
+  - [ Haskell Platform](http://hackage.haskell.org/platform/)
+  - [ Git](http://git-scm.com/)
+  - [ Python](http://python.org/) (Version 2.7 is a good choice, we don't support version 3.x at this time)
+  - [ LLVM](http://www.llvm.org/releases/download.html) (Optional, for using GHC's LLVM backend, grab the file called 'LLVM Binaries for Mingw32/x86')
 
-
-We recommend using the **default install locations** for all these tools.  If you choose your own paths, then we recommend not using a path containing spaces if the default did not have spaces.
+>
+> We recommend using the **default install locations** for all these tools.  If you choose your own paths, then we recommend not using a path containing spaces if the default did not have spaces.
 
 1. **Install the MinGW and MSYS tools:**
 
-
-MinGW provides a windows version of GCC while MSYS provides a minimal UNIX environment (e.g bash, make... ect). The website for MinGW is totally confusing, so go here:
-
-- [ Mingw/MSYS Getting Started](http://www.mingw.org/wiki/Getting_Started)
-
-
-and follow the download instructions for the **mingw-get-inst** installer. This is an easy to use installer for installing both MinGW and MSYS.   Make sure when you run the installer that you **select to install g++, MSYS and the MSYS Dev Kit**.
+  MinGW provides a windows version of GCC while MSYS provides a minimal UNIX environment (e.g bash, make... ect). The website for MinGW is totally confusing, so go here [ Mingw/MSYS Getting Started](http://www.mingw.org/wiki/Getting_Started) and follow the download instructions for the **mingw-get-inst** installer. This is an easy to use installer for installing both MinGW and MSYS.   Make sure when you run the installer that you **select to install g++, MSYS and the MSYS Dev Kit**.
 
 1. **Set your `PATH`**. You need to include at least
 
@@ -39,27 +33,24 @@ and follow the download instructions for the **mingw-get-inst** installer. This 
   - `c:/git/bin` (or wherever you installed git)
   - `c:/Python27` (or wherever you installed Python)
   - `c:/dev/llvm/bin` (or wherever you installed LLVM, if you got it)
+  - The Haskell platform installer should have already done the work needed to make GHC, `happy`, and `alex` available on the path, but if not add them too: `$HP/bin` and `$HP/lib/extralibs/bin`. 
 
+>
+> Moreover, **these must precede the standard `c:/windows/system32`**: see below for the Awful Warnings about your PATH.  
 
-We recommend doing this by creating a file `.profile` in your home directory (by default `c:/MinGW/msys/1.0/home/<username>`). The contents of your `.profile` should be something like this:
+>
+> We recommend doing this by creating a file `.profile` in your home directory (by default `c:/MinGW/msys/1.0/home/<username>`). The contents of your `.profile` should be something like this:
+>
+> ```wiki
+> # Add Python to path
+> export PATH=/c/Python27:$PATH
+> ...etc..etc...
+> ```
 
-```wiki
-# Add Python to path
-export PATH=${PATH}:/c/Python27
-
-...etc..etc...
-```
-
-
-The Haskell platform installer should have already done the work needed to make GHC available on the path.
-
-
-If you use a shell within Emacs, make sure your `SHELL` environment variable points to the `bash` in `c:/MinGW/msys/1.0/bin`. 
+1. If you use a shell within Emacs, make sure your `SHELL` environment variable points to the `bash` in `c:/MinGW/msys/1.0/bin`. 
 
 1. **Launch the shell** by starting the 'MinGW Shell' which should be in your start menu.
-
-
-Use `autoconf --version` to check that you have at least version 2.68 of `autoconf`. Version 2.56 (which was around for a long time) does not work for GHC's build system.
+  Use `autoconf --version` to check that you have at least version 2.68 of `autoconf`. Version 2.56 (which was around for a long time) does not work for GHC's build system.
 
 
 You should now have a working environment for getting the source for GHC and building it!
@@ -79,3 +70,36 @@ In the Cygwin installer, just install the complete `Doc` category. You may have 
 
 
 If you want to build HTML Help, you have to install the [ HTML Help SDK](http://msdn.microsoft.com/library/default.asp?url=/library/en-us/htmlhelp/html/hworiHTMLHelpStartPage.asp), tool, and make sure that `hhc` is in your `PATH`.
+
+## Awful warnings about your PATH
+
+
+It is very important to put the msys/mingw stuff on your path *before*`c:/windows/system32`. Here is what happens if you don't.
+
+**Symptom**: `sh libtool` hangs indefinitely.  The process manager shows an extant `cmd` and `sed`, but nothing else.  `libtool` is a shell script that comes from a tarball, and is unpacked into `libraries/integer-gmp/gmp/gmpbuild/libtool`
+
+**Cause**: `libtool` invokes the following command line (in the function `func_convert_coer_msys_to_w32`:
+
+```wiki
+     cmd /c “echo blah”
+```
+
+
+and pipes the result to `sed`.  But MSYS mangles the command line to turn slashes into backslashes.  So the actual command line is more like
+
+```wiki
+     cmd \c “echo blah”
+```
+
+
+which does something entirely different, and indeed hangs waiting for input on stdin.
+
+**Solution**: How did this *ever* work on any MSYS installation?  Because 
+
+- `msys/1.0/bin` has a little script “cmd” which hands off to the real c:/windows/system32/cmd
+- MSYS does not mangle the command-line for programs in `msys/1.0/bin`
+- On my old laptop, `msys/1.0/bin` was in my path before `c:/windows/system32`.  So plain `cmd` gets the script, and MSYS does not mangle the command line. The script passes arguments on unchanged to the real cmd.
+- NB: `c:/windows/system32` is in the “system” path, which precedes the “user” path.  So no amount of fiddling with the “user” path will fix this.  There are two solutions:
+
+  - Modify the system path
+  - Use a .bashrc file to prepend the stuff you need
