@@ -2,7 +2,7 @@
 
 == Timeline ==
 
-The planned timeline for 7.8 is to have a feature freeze on the 14 Sept 2013, followed by a period of frantic bug fixing (interrupted by ICFP), aiming for a release during November 2013.
+The planned timeline for 7.8 is to have a feature freeze approximately at the time of ICFP, followed by a period of frantic bugfixing. A release candidate (and the 7.8 branch) will be formed after this, likely sometime in October.
 
 == Tickets ==
 
