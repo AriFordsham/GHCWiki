@@ -187,4 +187,4 @@ One could go one step further and leave out the `pattern` keyword to obtain *ass
 ## Typed pattern synonyms
 
 
-So far patterns only had _syntactic_ meaning. In comparison Ωmega has _typed_ pattern synonyms, so they become first class values. (I am not suggesting this for Haskell, yet.)
+So far patterns only had *syntactic* meaning. In comparison Ωmega has *typed* pattern synonyms, so they become first class values. (I am not suggesting this for Haskell, yet.)
