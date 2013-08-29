@@ -148,7 +148,7 @@ int c_main(void)
 Now compile it:
 
 ```wiki
-arm-apple-darwin10-ghc haskell.hs -threaded
+arm-apple-darwin10-ghc -staticlib haskell.hs -threaded
 ```
 
 

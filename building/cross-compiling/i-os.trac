@@ -131,7 +131,7 @@ int c_main(void)
 Now compile it:
 
 {{{
-arm-apple-darwin10-ghc haskell.hs -threaded
+arm-apple-darwin10-ghc -staticlib haskell.hs -threaded
 }}}
 
 Ignore the copious warnings about "truncation and blank padding" and "has no symbols" (until someone fixes them).
