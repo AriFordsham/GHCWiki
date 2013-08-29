@@ -5,8 +5,6 @@ This list overviews the active branches in the main GHC repository.
 
 - `dicts-strict`: **Strict Dictionaries**.  Nick Frisby. Make most dictionary arguments strict. It's stowed in a branch until `cardinality` is merged. It should be easier to implement after `cardinality`'s refactoring.
 
-- `late-dmd`: **Late Demand Analysis**. Nick Frisby. See [\#7782](https://gitlab.haskell.org//ghc/ghc/issues/7782). It's stowed in a branch become of some nofib slowdowns I'm struggling to understand.
-
 - `late-lam-lift`: **Late Lambda Lift**.  Nick Frisby. We lift some lambdas before CorePrep. I'm still determining when to 'not' lift a lambda. My terse notes [here](late-lam-lift).
 
 - `ticky-for-all-lets`: **Ticky for all `let`s**.  Nick Frisby. I think this patch is in mostly good shape, but I had to revert it because of a silly mistake. Need to double-check it. It adds ticky counters for lets, even those that don't end up as proper closures.
