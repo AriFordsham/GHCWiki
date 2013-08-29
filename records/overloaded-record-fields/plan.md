@@ -337,6 +337,14 @@ The first and second options are likely to be preferred by users who wish to wri
 
 This makes higher-rank fields usable (though possibly requiring eta-expansion), and it allows lens integration. On the other hand, it is still an impediment to users wishing to write polymorphic code.
 
+
+Oh, and there's a fifth option:
+
+1. Generate a polymorphic use of `field` as normal, but when defaulting a constraint `Has r "foo" t`, choose the instance for `T`.
+
+
+This gives the maximum amount of polymorphism and the right behaviour in the presence of the monomorphism restriction, but defaulting is evil and confusing...
+
 ### Record update: avoiding redundant annotations
 
 
