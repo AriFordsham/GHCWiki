@@ -16,6 +16,9 @@ The workaround for this is to pass certain options to clang. A wrapper for this,
 
 See [Cross-compiling GHC](building/cross-compiling) at the bottom. In particular, you need to install llvm version 3.0 or \>= 3.2. Version 3.0 definitely works. There may be outstanding issues with version 3.2.
 
+
+Make sure you build it with ARM support. It's very easy to download the source from [ http://llvm.org/](http://llvm.org/) and build it from source.
+
 ### 2. Scripts
 
 
