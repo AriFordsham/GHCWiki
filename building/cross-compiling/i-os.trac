@@ -63,17 +63,7 @@ sudo make install
 
 === 6. Make sure your Cabal and cabal-install are new enough ===
 
-Some recent changes are needed for the cross-compiling stuff to work right. Type {{{cabal --version}}} to find out what you have. Cabal-1.17.0 is new enough.
-
-The easiest way to install the right version is to do this inside your ghc build directory:
-
-{{{
-cd libraries/Cabal/Cabal/
-cabal install
-cd -
-cd libraries/Cabal/cabal-install/
-cabal install
-}}}
+We had to patch Cabal again. Use this version for now: [https://github.com/the-real-blackh/cabal]
 
 The ghc-ios-scripts directory you checked out earlier contains two wrappers called {{{arm-apple-darwin10-cabal}}} and {{{i386-apple-darwin11-cabal}}}. These will pass the right arguments to cabal, so you can do, for example:
 
@@ -81,11 +71,20 @@ The ghc-ios-scripts directory you checked out earlier contains two wrappers call
 arm-apple-darwin10-cabal install network
 }}}
 
-=== 7. Create an Xcode project ===
+=== 7. Make sure hsc2hs is new enough ===
+
+The easiest way to do this is as follows, in the ghc build directory:
+
+{{{
+cd utils/hsc2hs
+cabal install
+}}}
+
+=== 8. Create an Xcode project ===
 
 Create a new skeleton Xcode project using the wizard, and make sure it runs on your device.
 
-=== 8. Compile your Haskell code ===
+=== 9. Compile your Haskell code ===
 
 Open a terminal and add {{{/usr/local/ghc-ios/bin:/usr/local/ghc-ios-sim/bin}}} to your {{{PATH}}} environment variable.
 
@@ -130,7 +129,7 @@ Ignore the copious warnings about "truncation and blank padding" and "has no sym
 
 This will create (in this example) '''haskell.a'''.
 
-=== 9. Set up your Xcode project for Haskell ===
+=== 10. Set up your Xcode project for Haskell ===
 
 Now configure it as follows:
 
@@ -140,7 +139,7 @@ Now configure it as follows:
 
  * When you've compiled your Haskell code to a .a (e.g. '''haskell.a''') file, add it to the project anywhere in the hierarchy with '''Add files to (project)''' in the right-mouse button menu.
 
-=== 10. Build and run ===
+=== 11. Build and run ===
 
 Run the project again as usual, and Xcode will pick up the haskell.a file and your Haskell code should now run on your iOS device. Anything printed with putStrLn will appear in the Xcode runtime console.
 
