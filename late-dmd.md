@@ -1,6 +1,15 @@
 
 Notes about running demand analysis a second time, late in the pipeline.
 
+
+Commit [c080f727ba5f83921b842fcff71e9066adbdc250](/trac/ghc/changeset/c080f727ba5f83921b842fcff71e9066adbdc250/ghc)
+
+
+The numbers quoted on this wiki page were using [ef017944600cf4e153aad686a6a78bfb48dea67a](/trac/ghc/changeset/ef017944600cf4e153aad686a6a78bfb48dea67a/ghc) as the base commit — after measuring, I rebased my patch to apply it to [33c880b43ed72d77f6b1d95d5ccefbd376c78c78](/trac/ghc/changeset/33c880b43ed72d77f6b1d95d5ccefbd376c78c78/ghc)
+
+
+The corresponding testsuite commit is a7920ef6eefa5578c89b7cda0d6be207ee38c502
+
 ## Commit notes
 
 
