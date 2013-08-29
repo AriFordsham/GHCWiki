@@ -3,6 +3,7 @@
 ## Type inference
 
 - [\#8095](https://gitlab.haskell.org//ghc/ghc/issues/8095): very slow constraint solving
+- [\#8171](https://gitlab.haskell.org//ghc/ghc/issues/8171): extended default rules
 - [\#8177](https://gitlab.haskell.org//ghc/ghc/issues/8177): role signature for type families
 - [\#8155](https://gitlab.haskell.org//ghc/ghc/issues/8155): defaulting with type families... bad error message
 - [\#8161](https://gitlab.haskell.org//ghc/ghc/issues/8161): associated type more specific than class decl
