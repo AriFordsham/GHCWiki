@@ -75,12 +75,12 @@ has the corresponding instances
 ```wiki
 type instance GetResult (T a) "x" = [a]
 
-instance Has (T a) "x" [a] where
+instance (b ~ [a]) => Has (T a) "x" b where 
   getField _ (MkT x) = x
 ```
 
 
-The equality superclass on the `Has` class is important for type inference. For example, if the constraint `Has (T c) "x" d` is encountered, the instance will not match initially (because `d` is not of the form `[c]`), but a derived equality constraint `d ~ GetResult (T c) "x"` will be generated. This computes to `d ~ [c]`, so the original constraint becomes `Has (T c) "x" [c]`, which means the instance will match. Moreover, the `GetResult` type family ensures that the third parameter is functionally dependent on the first two, which is needed to [avoid ambiguity errors when composing overloaded fields](records/overloaded-record-fields/plan#trouble-in-paradise).
+The bare type variable `b` in the instance head is important, so that we get an instance match from the first two parameters only, then the equality constraint `(b ~ [a])` improves `b`. For example, if the constraint `Has (T c) "x" d` is encountered during type inference, the instance will match and generate the constraints `(a ~ c, b ~ d, b ~ [a])`. Moreover, the `GetResult` type family ensures that the third parameter is functionally dependent on the first two, which is needed to [avoid ambiguity errors when composing overloaded fields](records/overloaded-record-fields/plan#trouble-in-paradise).
 
 
 The reason for using a three-parameter class, rather than just two parameters and a type family, is to support the syntactic sugar. With a two-parameter class we could easily end up inferring types like the following, and it would be hard to reapply the sugar:
