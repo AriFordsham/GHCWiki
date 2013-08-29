@@ -49,6 +49,47 @@ And now we can write
    isInt _ = False
 ```
 
+
+Here is a second example from [ pigworker on Reddit](http://www.reddit.com/r/haskell/comments/1kmods/patternsynonyms_ghc_trac/).
+Your basic sums-of-products functors can be built from this kit.
+
+```wiki
+newtype K a        x  = K a
+newtype I          x  = I x
+newtype (:+:) f g  x  = Sum (Either (f x) (g x))
+newtype (:*:) f g  x  = Prod (f x, g x)
+```
+
+
+and then you can make recursive datatypes via
+
+```wiki
+newtype Fix f = In (f (Fix f))
+```
+
+
+e.g.,
+
+```wiki
+type Tree = Fix (K () :+: (I :*: I))
+```
+
+
+and you can get useful generic operations cheaply because the functors in the kit are all `Traversable`, admit a partial zip operation, etc.
+
+
+You can define friendly constructors for use in expressions
+
+```wiki
+leaf :: Tree
+leaf = In (Sum (Left (K ())))
+node :: Tree -> Tree -> Tree
+node l r = In (Sum (Right (Prod (I l, I r))))
+```
+
+
+but any `Tree`-specific pattern matching code you write will be wide and obscure. Turning these definitions into pattern synonyms means you can have both readable type-specific programs and handy generics without marshalling your data between views.
+
 ## Pattern-only synonyms
 
 
