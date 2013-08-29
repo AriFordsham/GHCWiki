@@ -46,6 +46,8 @@ The actual status of these branches, including whether they have been merged and
 
 This is a list of inactive branches which have been merged into the tree.
 
+ * `late-dmd`: '''Late Demand Analysis'''. Nick Frisby. See #7782.
+
  * `ghc-axioms`: '''First attempt at branched type family instances'''. Richard Eisenberg / José Pedro Magalhães / Simon PJ. Last commit was Jan 3, 2012. This was an early attempt at implementing branched type family instances. Superseded by `overlapping-tyfams`.
 
  * `overlapping-tyfams`: '''Proper implementation of branched type family instances'''.  Richard Eisenberg. Last commit was Dec 21, 2012. Merged into master on Dec 21, 2012, as commit 8366792eede3c8eb486ff15d8c8e62e9363f1959. See NewAxioms.
