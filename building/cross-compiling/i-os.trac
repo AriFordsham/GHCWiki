@@ -138,6 +138,8 @@ Ignore the copious warnings about "truncation and blank padding" and "has no sym
 
 This will create (in this example) '''haskell.a'''.
 
+(n.b. we're only modifying main for the sake of example — you can also initialize Haskell when the Objective-C runtime loads, as shown in [https://gist.github.com/lukexi/20b3aae6ac0f0f7892be] and then call Haskell at will.)
+
 === 10. Set up your Xcode project for Haskell ===
 
 Now configure it as follows:
