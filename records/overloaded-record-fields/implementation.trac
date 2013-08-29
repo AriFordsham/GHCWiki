@@ -232,22 +232,20 @@ We could mangle selector names (using `$sel_foo_T` instead of `foo`) even when t
 == Outstanding bugs ==
 
 * typechecker/should_fail/tcfail102 (changed error message)
-* Use of `PolyKinds` leads to `Upd` and `SetResult` instances that don't typecheck.
 
 
 == To do ==
 
-* With fundep in class, we don't need it in the instance.
-* When there is only one thing in scope, don't do make it polymorphic (but document trade-offs). But maybe it should still support lenses?
+* When there is only one thing in scope, what should we do?
 * Add `HsVarOut RdrName id` instead of `HsSingleRecFld` (or perhaps rename `HsVar` to `HsVarIn`); also useful to recall how the user referred to something.
 
-* Support virtual fields or forbid them.
+* Support virtual fields or forbid them?
 * Sort out reporting of unused imports.
-* Haddock prints selector names in index and LaTeX exports list.
+* Haddock omits fields from HTML index and prints selector names in LaTeX exports list.
 * What's going on with deprecations and fixity decls?
 
 * Consider syntactic sugar for `Upd` constraints.
 * Improve unsolved `Accessor p f` error message where `p` is something silly?
 * Consider defaulting `Accessor p` to `p = (->)`, and defaulting `Has r "f" t` constraints where there is only one datatype with a field `f` in scope.
 
-* Document the extension, including new warnings.
+* Document the extension.
