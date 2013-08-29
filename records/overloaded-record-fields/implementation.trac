@@ -121,7 +121,7 @@ Typeclass and family instances are generated and typechecked by `makeOverloadedR
 
 Since the instances are not in scope in the usual way, `matchClassInst` and `tcLookupFamInst` look for the relevant constraints or type families and find the instances directly, rather than consulting `tcg_inst_env` or `tcg_fam_inst_env`. They first perform a lookup to check that the field name is in scope. A new field `tcg_fld_inst_env` in `TcGblEnv` maps a selector name in the current module to its `DFunId`s and `FamInst`s; this is needed for solving constraints that arise while checking the automatically generated instances themselves.
 
-'''AMG''' The instance lookup is currently implemented as a separate check, but needs to be integrated with the existing code to properly handle some obscure cases.
+'''AMG''' The instance lookup is currently implemented as a separate check, which means virtual fields should be forbidden. Perhaps it could be integrated into the existing overlapping instances mechanism, but type families need some care to avoid soundness bugs.
 
 
 == Unused imports ==
@@ -143,9 +143,9 @@ module C where
   foo r = r.x + 2
 }}}
 
-Now, do we expect to report the 'x' in S(x) import as unused?  Actually the entire 'import B' is unused.  Only the typechecker will eventually know that.  But I think the type checker does actually record which instances are used, so perhaps we can make use of that info to give accurate unused-import info.
+Now, do we expect to report the 'x' in S(x) import as unused?  Actually the entire 'import B' is unused.  Only the typechecker will eventually know that.
 
-'''AMG''' I thought this would be the `tcg_ev_binds` field of the `TcGblEnv`, but this seems to be empty by the end of `tcRnModule`. We could also look at the `inert_solved_dicts` field of `InertSet`, but I'm not sure how to propagate the required information out of the `TcS` monad to the `TcM` monad where unused names are reported.
+'''AMG''' How can we get this information out of the typechecker?
 
 
 == Deprecated field names ==
@@ -199,25 +199,6 @@ which is fine, but rather long-winded if there are many constructors or fields. 
 Note that `W` does not admit type-changing single update for either field, because of the `a ~ b` constraint. Without it, though, type-changing update should be allowed.
 
 
-== Type-changing update: phantom arguments ==
-
-Consider the datatype
-
-{{{
-data T a = MkT { foo :: Int }
-}}}
-
-where `a` is a phantom type argument (it does not occur in the type of `foo`). The traditional update syntax can change the phantom argument, for example if `r :: T Int` then `r { foo = 3 } :: T Bool` typechecks. However, `setField` cannot do so, because this is illegal:
-
-{{{
-type instance SetResult (T a) "foo" Int = T b
-}}}
-
-Note that the result of the type family involves an unbound variable `b`. 
-
-In general, a use of `setField` can only change type variables that occur in the field type being updated, and do not occur in any of the other fields' types.
-
-
 == Data families ==
 
 Consider the following:
@@ -240,38 +221,6 @@ However, what can we call the record selectors? They can't both be `$sel_foo_F`!
 For the moment, I've simply disallowed duplicate fields for a single data family in a single module. It's fine to duplicate fields between different data families or across different modules, however.
 
 
-== Qualified names ==
-
-Consider the following:
-
-{{{
-module M where
-  data S = MkS { foo :: Int }
-
-module N where
-  data T = MkT { foo :: Int }
-  data U = MkU { foo :: Int }
-
-module O where
-  import M
-  import N
-
-  f x = M.foo x
-  g x = N.foo x
-  h x = foo x
-}}}
-
-Should there be a difference between `f`, `g` and `h`? It would seem odd if `f` could turn out to use the `foo` from `T` or `U` even though it explicitly says `M.foo`. I can see three sensible options:
-
-* Treat qualified and unqualified fields identically, but issue a warning for qualified fields
-* Forbid referring to overloaded fields with qualified names (so `M.foo` and `N.foo` yield errors)
-* Treat a qualified name as a non-overloaded field, generating an ambiguity error if necessary (so `M.foo` is okay but `N.foo` is ambiguous)
-
-Of course, it is fine to use a qualified name in a record update.
-
-For now we've decided on the third option, allowing qualified names to refer only to a single field.
-
-
 == Mangling selector names ==
 
 We could mangle selector names (using `$sel_foo_T` instead of `foo`) even when the extension is disabled, but we decided not to because the selectors really should be in scope with their original names, and doing otherwise leads to:
@@ -282,16 +231,17 @@ We could mangle selector names (using `$sel_foo_T` instead of `foo`) even when t
 
 == Outstanding bugs ==
 
-* typechecker/should_fail/tcfail102 (changed error message) 
+* typechecker/should_fail/tcfail102 (changed error message)
+* Use of `PolyKinds` leads to `Upd` and `SetResult` instances that don't typecheck.
 
 
 == To do ==
 
 * With fundep in class, we don't need it in the instance.
 * When there is only one thing in scope, don't do make it polymorphic (but document trade-offs). But maybe it should still support lenses?
-* Forbid ambiguous qualified overloaded fields.
 * Add `HsVarOut RdrName id` instead of `HsSingleRecFld` (or perhaps rename `HsVar` to `HsVarIn`); also useful to recall how the user referred to something.
 
+* Support virtual fields or forbid them.
 * Sort out reporting of unused imports.
 * Haddock prints selector names in index and LaTeX exports list.
 * What's going on with deprecations and fixity decls?
