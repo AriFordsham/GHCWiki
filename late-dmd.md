@@ -18,6 +18,12 @@ The -flate-dmd-anal flag runs the demand analysis a second time just before Core
 
 The bulk of this patch merely simplifies the treatment of wrappers in interface files.
 
+## TODO
+
+- Update the documentation to explain -flate-dmd-anal.
+
+- Ask the community for help in determining if we should make -O2 imply -flate-dmd-anal.
+
 ## Removing the clever .hi files scheme
 
 

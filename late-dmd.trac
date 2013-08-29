@@ -12,6 +12,12 @@ The -flate-dmd-anal flag runs the demand analysis a second time just before !Cor
 
 The bulk of this patch merely simplifies the treatment of wrappers in interface files.
 
+== TODO ==
+
+  * Update the documentation to explain -flate-dmd-anal.
+
+  * Ask the community for help in determining if we should make -O2 imply -flate-dmd-anal.
+
 == Removing the clever .hi files scheme ==
 
 Running the demand analyzer twice breaks some expectations of the .hi file format. Prior to this commit, GHC regenerated the wrapper's body from the its strictness signature and worker id. Now, instead, the body is simply encoded just like any other !InlineStable.
