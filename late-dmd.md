@@ -24,6 +24,11 @@ The bulk of this patch merely simplifies the treatment of wrappers in interface 
 
 - Ask the community for help in determining if we should make -O2 imply -flate-dmd-anal.
 
+## Relation to other tickets
+
+
+There are some tickets documenting runtime bugs that can be cleaned up by running the demand analyzer (followed by a simplifier run) a second time at the end of the pipeline: [\#4941](https://gitlab.haskell.org//ghc/ghc/issues/4941), [\#5302](https://gitlab.haskell.org//ghc/ghc/issues/5302), [\#6087](https://gitlab.haskell.org//ghc/ghc/issues/6087). [\#6070](https://gitlab.haskell.org//ghc/ghc/issues/6070) ? Others?
+
 ## Removing the clever .hi files scheme
 
 
@@ -200,3 +205,44 @@ These are the big .a changes over 10K.
 <tr><th>237088</th>
 <th>libHSCabal-1.17.0.a 
 </th></tr></table>
+
+### Old performance numbers
+
+
+NB These were from April 2013.
+
+
+Here's the effects on nofib. Run time didn't seem to change as drastically.  The "X/Y" column headers mean "library-flags/test-flags" given to GHC when compiling the respective bit.
+
+```wiki
+Allocations
+
+-------------------------------------------------------------------------------
+        Program                O2/O2     late-dmd+O2/O2    late-dmd+O2/late-dmd+O2
+-------------------------------------------------------------------------------
+   cryptarithm2             25078168           +0.0%           +8.0%
+       nucleic2             98331744           +0.0%           +3.2%
+
+       cichelli             80310632           +0.0%          -22.9%
+          fasta            401159024           -9.1%           -9.1%
+         fulsom            321427240           +0.0%           -2.6%
+   k-nucleotide           4125102928           -0.0%           -4.8%
+        knights              2037984           +0.0%           -3.7%
+        mandel2              1041840           +0.0%          -21.4%
+        parstof              3103208           +0.0%           -1.4%
+reverse-complem            155188304          -12.8%          -12.8%
+         simple            226412800           -0.0%           -1.0%
+```
+
+
+All other changes less than 1% allocation.
+Note that it improves a couple tests significantly just via changes in the base libraries.
+
+
+For cryptarithm2, (cf remarks in [\#4941](https://gitlab.haskell.org//ghc/ghc/issues/4941))
+
+- 4% increase allocation is due to reboxing
+- 4% is due to dead closures, because the fix in [\#4962](https://gitlab.haskell.org//ghc/ghc/issues/4962) isn't working for some reason.
+
+
+For nucleic2, in var_most_distant_atom, an let-bound function is inlined after w/w, and hence grows numerous closures by a significant amount. I'm not sure where to lay the blame for this. Note however, that just making nucleic2's data types use strict !Float fields changes its allocation -72.4%, so maybe this "bad practice" corner case is a small issue.
