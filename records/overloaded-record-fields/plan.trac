@@ -36,7 +36,7 @@ In the light of feedback, we propose '''no changes to dot syntax''' for the time
 
 === Record field constraints === 
 
-A record field constraint is introduced when a field is used in an expression. If every `x` in scope is a record fields, then an occurrence of `x` has type `a { x :: b } => a -> b` instead of generating an ambiguity error. The overloaded `x` is translated using a typeclass, described below. If there are any normal identifiers `x` in scope (as well as fields) then a use of `x` leads to an ambiguity error. 
+A record field constraint is introduced when a field is used in an expression. If every `x` in scope is a record field, then an occurrence of `x` has type `a { x :: b } => a -> b` instead of generating an ambiguity error. The overloaded `x` is translated using a typeclass, described below. If there are any normal identifiers `x` in scope (as well as fields) then a use of `x` leads to an ambiguity error. 
 
 Record field constraints `r { x :: t }` are syntactic sugar for typeclass constraints `Has r "x" t`, where
 
@@ -62,11 +62,11 @@ has the corresponding instances
 {{{
 type instance GetResult (T a) "x" = [a]
 
-instance (b ~ [a]) => Has (T a) "x" b where
+instance Has (T a) "x" [a] where
   getField _ (MkT x) = x
 }}}
 
-The bare type variable `b` in the instance head is important, so that we get an instance match from the first two parameters only, then the equality constraint `(b ~ [a])` improves `b`. For example, if the constraint `Has (T c) "x" d` is encountered during type inference, the instance will match and generate the constraints `(a ~ c, b ~ d, b ~ [a])`. Moreover, the `GetResult` type family ensures that the third parameter is functionally dependent on the first two, which is needed to [#Troubleinparadise avoid ambiguity errors when composing overloaded fields].
+The equality superclass on the `Has` class is important for type inference. For example, if the constraint `Has (T c) "x" d` is encountered, the instance will not match initially (because `d` is not of the form `[c]`), but a derived equality constraint `d ~ GetResult (T c) "x"` will be generated. This computes to `d ~ [c]`, so the original constraint becomes `Has (T c) "x" [c]`, which means the instance will match. Moreover, the `GetResult` type family ensures that the third parameter is functionally dependent on the first two, which is needed to [#Troubleinparadise avoid ambiguity errors when composing overloaded fields].
 
 The reason for using a three-parameter class, rather than just two parameters and a type family, is to support the syntactic sugar. With a two-parameter class we could easily end up inferring types like the following, and it would be hard to reapply the sugar:
 
@@ -78,7 +78,7 @@ f r = x r + y r :: Int
 
 === Representation hiding ===
 
-At present, a datatype in one module can declare a field, but if the selector function is not exported, then the field is hidden from clients of the module. It is important to support this. Typeclasses in general have no controls over their scope, but for implicitly generated `Has` instances, the instance is available for a module if `-XOverloadedRecordFields` is enabled for that module and the record field selector function is in scope. Instances are generated on the client side, rather than being exported from the defining module.
+At present, a datatype in one module can declare a field, but if the selector function is not exported, then the field is hidden from clients of the module. It is important to support this. Typeclasses in general have no controls over their scope, but for implicitly generated `Has` instances, the instance is available for a module if `-XOverloadedRecordFields` is enabled for that module and the record field selector function is in scope. Instances are not exported from the module that defines the datatype, but are created implicitly when needed by the typechecker.
 
 This enables representation hiding: just like at present, exporting the field selector permits access to the field. For example, consider the following module:
 
@@ -119,7 +119,31 @@ Bidirectional type inference for higher-rank types relies on inferring the type 
 Some previous variants of the design supported rank-1 universally quantified fields (but not rank-2 and above). However, these prevent the third parameter of the `Has` class from being a function of the first two, and hence obstruct type inference for compositions of selectors.
 
 
-=== Record update ===
+=== Qualified names ===
+
+A qualified name must refer to a unique field; it cannot be overloaded. Consider the following example:
+
+{{{
+module M where
+  data S = MkS { foo :: Int }
+
+module N where
+  data T = MkT { foo :: Int }
+  data U = MkU { foo :: Int }
+
+module O where
+  import M
+  import N
+
+  f x = M.foo x
+  g x = N.foo x
+  h x = foo x
+}}}
+
+Here `f` is okay, because `M.foo` is unambiguous, but `g` is forbidden. This is because we have no way to support polymorphism over fields only from one module. The user must write `h` instead, making it explicit that the field is not qualified.
+
+
+== Record update ==
 
 Supporting polymorphic record update is rather more complex than polymorphic lookup. In particular:
  * the type of the record may change as a result of the update;
@@ -148,7 +172,7 @@ As noted above, supporting a polymorphic version of the existing record update s
 {{{
 type family SetResult (r :: *) (f :: Symbol) (a :: *) :: *
 
-class Has r f (GetResult r f) =>
+class (Has r f (GetResult r f), r ~ SetResult r f (GetResult r f)) =>
           Upd (r :: *) (f :: Symbol) (a :: *) where
   setField :: proxy f -> r -> a -> SetResult r f a
 }}}
@@ -163,6 +187,8 @@ type instance SetResult (T a) "x" [c] = T c
 instance (b ~ [c]) => Upd (T a) "x" b where
   setField _ r e = r { x = e }
 }}}
+
+The third parameter of the `Upd` class represents the new type being assigned to the field, unlike the `Has` class, where it represents the current type. Thus it is not functionally dependent on the first two. Consequently, we must use a bare type variable `b` in the instance declaration, with an equality constraint `b ~ [c]` postponed until after the instance matches.
 
 If a type variable is shared by multiple fields, it cannot be changed using `setField`. Moreover, the use of the `SetResult` type family means that phantom type variables cannot be changed. For example, in
 
@@ -226,7 +252,41 @@ Now `fieldLens foo` is a lens whenever `foo` is an overloaded record field.
 Other lens libraries can define their own instances of `Accessor`, even if they do not support type-changing update, and the same machinery enables fields to be used with them.
 
 
+=== Type-changing update: phantom arguments ===
+
+Consider the datatype
+
+{{{
+data T a = MkT { foo :: Int }
+}}}
+
+where `a` is a phantom type argument (it does not occur in the type of `foo`). The traditional update syntax can change the phantom argument, for example if `r :: T Int` then `r { foo = 3 } :: T Bool` typechecks. However, `setField` cannot do so, because this is illegal:
+
+{{{
+type instance SetResult (T a) "foo" Int = T b
+}}}
+
+Note that the result of the type family involves an unbound variable `b`. 
+
+In general, a use of `setField` can change only type variables that occur in the field type being updated, and do not occur in any of the other fields' types.
+
+
+
 == Design choices ==
+
+== Unambiguous fields ==
+
+What if `foo` occurs in an expression, and there is only one datatype `T` with a field `foo` in scope? There are three obvious choices:
+
+1. Generate a polymorphic use of `field` as normal.
+2. Generate a use of `field`, specialised to the type `T`, but still polymorphic in the choice of `Accessor`.
+3. Use the record selector for `foo`, without any polymorphism.
+
+The first and second options are likely to be preferred by users who wish to write polymorphic code, while the third is better if the desire is only to overload field names but not write code that is polymorphic in the choice of datatype. The third option severely hampers the integration with lenses, because a field will only be a lens if it is ambiguous. However, the third would allow higher-rank fields to be used when unambiguous. This suggests a fourth option:
+
+4. Use the record selector for `foo` if it is applied to one or more arguments, and generate a use of `field` specialised to the type `T` otherwise. 
+
+This makes higher-rank fields usable (though possibly requiring eta-expansion), and it allows lens integration. On the other hand, it is still an impediment to users wishing to write polymorphic code.
 
 
 === Record update: avoiding redundant annotations ===
