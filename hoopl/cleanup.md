@@ -151,3 +151,30 @@ actually necessary and useful.
 - Simon doesn't like the `joinInFacts` function, which is only called to possibly produce some debugging output from the join function.
 
 - Jan doesn't like mess in Hoopl repo. There are unused modules (`Compiler.Hoopl.OldDataflow`, `Compiler.Hoopl.DataflowFold`), older versions of some modules (in `prototypes/` directory) or private correspondence with paper reviewers and between authors.
+
+## Changing the graph type
+
+
+Suppose you want to do liveness analysis, but afterwards to know the liveness *at every node* not just at every block Id.  One way might be to allow rewriting to transform to a graph with a different node type, so that liveness analysis would have type
+
+```wiki
+  Graph CmmNode -> Graph (CmmNode, Liveness)
+```
+
+
+To do this, the rewrite functions would have to be able to return graphs of a new type, something like this:
+
+```wiki
+newtype BwdRewrite m n n' f 
+  = BwdRewrite3 { getBRewrite3 ::
+                    ( n C O -> f          -> m (Maybe (Graph n' C O, BwdRewrite m n' n' f))
+                    , n O O -> f          -> m (Maybe (Graph n' O O, BwdRewrite m n' n' f))
+                    , n O C -> FactBase f -> m (Maybe (Graph n' O C, BwdRewrite m n' n' f))
+                    ) }
+```
+
+
+We would have to eliminate the `Maybe`, however, because the no-rewrite case still changes the type.  
+
+
+I'm not sure of the consequences of this, but it's intriguing.
