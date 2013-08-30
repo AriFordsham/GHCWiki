@@ -86,7 +86,49 @@ Here's the files with a growth \>10%.
 ### Main Benefit of Removal
 
 
-The clever .hi scheme caused CoreLint errors when combined with -flate-dmd-anal. I irresponsibly cannot remember the recipe for this bug. It was triggered in one of three ways: building GHC, running nofib, or running ./validate.
+The clever .hi scheme caused CoreLint errors when combined with -flate-dmd-anal. Trying to build GHC with -flate-dmd-anal on the libraries incurs a panic
+
+```wiki
+ghc-stage1: panic! (the 'impossible' happened)
+  (GHC version 7.7.20130830 for x86_64-apple-darwin):
+	applyTypeToArgs
+    Expression: base:GHC.Real.$weven{v reB} [gid]
+                  @ a{tv a13L} [tv]
+                  ww_a5VQ{v} [lid]
+                  ww_a5VU{v} [lid]
+                  ww_a5W7{v} [lid]
+                  w_a5VK{v} [lid]
+    Type: forall a{tv a2aJ} [tv].
+          base:GHC.Real.Real{tc 2e} a{tv a2aJ} [tv] =>
+          (a{tv a2aJ} [tv] -> a{tv a2aJ} [tv] -> a{tv a2aJ} [tv])
+          -> a{tv a2aJ} [tv] -> ghc-prim:GHC.Types.Bool{(w) tc 3c}
+    Args: [TYPE a{tv a13L} [tv], ww_a5VQ{v} [lid], ww_a5VU{v} [lid],
+           ww_a5W7{v} [lid], w_a5VK{v} [lid]]
+
+Please report this as a GHC bug:  http://www.haskell.org/ghc/reportabug
+```
+
+
+The issue here is that the second demand analysis in GHC.Real refines the strictness of GHC.Real.even.
+
+```wiki
+first Str=DmdType <S(SLLLLLLLL),U(U,A,A,U,A,A,A,A,A)>
+                  <L,U>
+
+second Str=DmdType <S(S(LS(SLLLLLLL)L)LLLLLLLL),
+                    1*U(1*U(U(A,A,A,A,A,A,U),
+                            U(U,A,A,A,A,A,A,A),
+                            A),
+                    A,
+                    A,
+                    1*C1(C1(U)),
+                    A,A,A,A,A)>
+
+                   <L,U>,
+```
+
+
+Since there are three leaf Us in the first signature, the worker's type takes **three** value arguments. But the second strictness for GHC.Real.even is recorded in the .hi file, and it has four leaf Us. So when the importing module regenerates the body of the GHC.Real.even wrapper, it applies the worker to **four** value arguments. Boom.
 
 
 Similar to -flate-dmd-anal, abandoning the clever .hi scheme lets us safely import code compiled with/without -ffun-to-thunk from a module compiled without/with -ffun-to-thunk. I can explain this one.
@@ -96,9 +138,6 @@ Similar to -flate-dmd-anal, abandoning the clever .hi scheme lets us safely impo
 
 
 If demand analysis removes all the value arguments from a function f in A.hs and B.hs uses that function, compilation of B.hs will crash. The problem is that the regeneration of the body of f in B will attempt to apply f to a `realWorld#` argument because there is no -ffun-to-thunk flag. However, f no longer accepts any arguments, since it was compiled with -ffun-to-thunk. Boom.
-
-
-(The -flate-dmd-anal bug was similar, but more involved.)
 
 ## -flate-dmd-anal
 
