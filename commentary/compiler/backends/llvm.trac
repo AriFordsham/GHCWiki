@@ -15,7 +15,7 @@ Work in Progress:
 
 Future Ideas:
  * [wiki:Commentary/Compiler/Backends/LLVM/WIP ToDo List of Sorts]
- * [wiki:Commentary/Compiler/Backends/LLVM/ReplacingNCG Replacing the NCG]
+ * [wiki:Commentary/Compiler/Backends/LLVM/ReplacingNCG Replacing the Native Code Generator]
  * [http://dterei.blogspot.com/2011/09/ghc-project-for-all.html David Terei blog post of LLVM-related projects]
 
 Other information:

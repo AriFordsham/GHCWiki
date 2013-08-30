@@ -22,7 +22,7 @@ Work in Progress:
 Future Ideas:
 
 - [ToDo List of Sorts](commentary/compiler/backends/llvm/wip)
-- [Replacing the NCG](commentary/compiler/backends/llvm/replacing-ncg)
+- [Replacing the Native Code Generator](commentary/compiler/backends/llvm/replacing-ncg)
 - [ David Terei blog post of LLVM-related projects](http://dterei.blogspot.com/2011/09/ghc-project-for-all.html)
 
 
