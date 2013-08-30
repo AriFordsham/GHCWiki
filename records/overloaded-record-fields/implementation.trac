@@ -160,26 +160,13 @@ Now, do we expect to report the 'x' in S(x) import as unused?  Actually the enti
 
 == Deprecated field names ==
 
-Consider the following:
+Deprecations and fixity declarations look for a top-level name, so they cannot be applied to overloaded record fields. Perhaps this should change. Deprecations actually work by `OccName`, so we could make
 
 {{{
-module M where
-  {-# DEPRECATED foo "Don't use foo" #-}
-
-  data S = MkS { foo :: Int }
-  data T = MkT { foo :: Int }
-
-module N where
-  import M
-
-  data U = MkU { foo :: Int }
-
-  goo = foo (MkT 42) 
-  bar = foo (MkU 42)
-  baz x = foo x
+{-# DEPRECATED foo "Don't use foo" #-}
 }}}
 
-The `DEPRECATED` pragma applies to all fields `foo` exported by the module `M`, since it is based on the `OccName`. The renamer will issue a deprecation warning for every use of `foo` in `N`, regardless of whether it will later resolve to one of the fields from `M` (as in `goo`), a field definitely not in `M` (as in `bar`), or a polymorphic field (as in `baz`). It might be possible to delay the warnings to type-checking time and report deprecations more precisely, as for [#Unusedimports unused imports].
+apply to all the `foo` fields in a module, but there are difficulties in deciding when a deprecated field has been used similar to those for [#Unusedimports unused imports].
 
 
 == GADT record updates ==
@@ -253,7 +240,6 @@ We could mangle selector names (using `$sel_foo_T` instead of `foo`) even when t
 * Support virtual fields or forbid them?
 * Sort out reporting of unused imports.
 * Haddock omits fields from HTML index and prints selector names in LaTeX exports list.
-* What's going on with deprecations and fixity decls?
 
 * Consider syntactic sugar for `Upd` constraints.
 * Improve unsolved `Accessor p f` error message where `p` is something silly?
