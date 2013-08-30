@@ -2,13 +2,7 @@
 Notes about running demand analysis a second time, late in the pipeline.
 
 
-Commit [c080f727ba5f83921b842fcff71e9066adbdc250](/trac/ghc/changeset/c080f727ba5f83921b842fcff71e9066adbdc250/ghc)
-
-
-The numbers quoted on this wiki page were using [ef017944600cf4e153aad686a6a78bfb48dea67a](/trac/ghc/changeset/ef017944600cf4e153aad686a6a78bfb48dea67a/ghc) as the base commit — after measuring, I rebased my patch to apply it to [33c880b43ed72d77f6b1d95d5ccefbd376c78c78](/trac/ghc/changeset/33c880b43ed72d77f6b1d95d5ccefbd376c78c78/ghc)
-
-
-The corresponding testsuite commit is [\[a7920ef6eefa5578c89b7cda0d6be207ee38c502/testsuite\]](/trac/ghc/changeset/a7920ef6eefa5578c89b7cda0d6be207ee38c502/testsuite)
+Commits [c080f727ba5f83921b842fcff71e9066adbdc250](/trac/ghc/changeset/c080f727ba5f83921b842fcff71e9066adbdc250/ghc)[\[a7920ef6eefa5578c89b7cda0d6be207ee38c502/testsuite\]](/trac/ghc/changeset/a7920ef6eefa5578c89b7cda0d6be207ee38c502/testsuite)
 
 ## Commit notes
 
@@ -47,6 +41,9 @@ This change…
 Simplifying the .hi scheme was the easiest way to enable `-flate-dmd-anal` and make `-ffun-to-thunk` safe to use. **It is possible to revert back to the clever .hi scheme**. It will however require some care in order to safely interoperate with `-flate-dmd-anal`, `-ffun-to-thunk`, and any future work that similarly effects the accuracy of the clever .hi file scheme's regeneration phase.
 
 ### Effect on .hi file size
+
+
+The comparison in this section page uses [ef017944600cf4e153aad686a6a78bfb48dea67a](/trac/ghc/changeset/ef017944600cf4e153aad686a6a78bfb48dea67a/ghc) as the base commit — after measuring, I rebased my patch to apply it to [33c880b43ed72d77f6b1d95d5ccefbd376c78c78](/trac/ghc/changeset/33c880b43ed72d77f6b1d95d5ccefbd376c78c78/ghc)
 
 
 Removing the clever .hi file scheme for wrappers results as expected in an increase of .hi file size.
@@ -105,6 +102,9 @@ If demand analysis removes all the value arguments from a function f in A.hs and
 -flate-dmd-anal adds a second demand analysis with a subsequent invocation of the simplifier just before CorePrep. Cf [\#7782](https://gitlab.haskell.org//ghc/ghc/issues/7782)
 
 ### Effect on .hi file size and .a file size
+
+
+The comparison in this section page uses [ef017944600cf4e153aad686a6a78bfb48dea67a](/trac/ghc/changeset/ef017944600cf4e153aad686a6a78bfb48dea67a/ghc) as the base commit — after measuring, I rebased my patch to apply it to [33c880b43ed72d77f6b1d95d5ccefbd376c78c78](/trac/ghc/changeset/33c880b43ed72d77f6b1d95d5ccefbd376c78c78/ghc)
 
 
 The second demand analysis generates more worker/wrapper splits, so it also generates larger .hi files and larger .o files. The numbers in this section measure the difference between `-O2 -flate-dmd-anal` and `-O2 -fno-late-dmd-anal`. This is on my 64 bit Mac OS X.
@@ -209,7 +209,7 @@ These are the big .a changes over 10K.
 ### New performance numbers
 
 
-I'm using commit
+These numbers in this section come from [c080f727ba5f83921b842fcff71e9066adbdc250](/trac/ghc/changeset/c080f727ba5f83921b842fcff71e9066adbdc250/ghc), building the libraries/nofib tests with various combinations of -fno-late-dmd-anal and -flate-dmd-anal.
 
 
 I use these abbreviations in the following tables
