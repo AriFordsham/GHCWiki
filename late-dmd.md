@@ -18,7 +18,7 @@ The bulk of this patch merely simplifies the treatment of wrappers in interface 
 
 - Ask the performance czars and community for help in determining if we should make -O2 imply -flate-dmd-anal.
 
-- That might involve investigating the more-reliable-looking slowdowns in the New performance numbers section. No slow down was apparent on both platforms (so far), but a couple looked reliable on a given platform. eg typecheck showed the same slowdown regardless of -flate-dmd-anal on the nofib tests (ie same in 10 and 11) and also regardless of mode=norm or mode=slow. Thus it smells like some change in a library function that the main loop of typecheck uses consistently is getting a slowdown. But it's very hard to tell from the numbers and it takes a lot of time to investigate that sort of thing.
+- That might involve investigating the more-reliable-looking slowdowns in the New performance numbers section. No slow down was apparent on both platforms (so far), but a couple looked reliable on a given platform. eg typecheck on the big server showed the same slowdown regardless of -flate-dmd-anal on the nofib tests (ie same in 10 and 11) and also regardless of mode=norm or mode=slow. Thus it smells like some change in a library function that the main loop of typecheck uses consistently is getting a slowdown. But it's very hard to tell from the numbers and it takes a lot of time to investigate that sort of thing.
 
   - To proceed: perhaps measure mode=slow on the MacBook Pro. Also build the libraries with ticky on the big server to search for the hypothetical library function that is slowing down typecheck.
 
