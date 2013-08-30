@@ -206,6 +206,106 @@ These are the big .a changes over 10K.
 <th>libHSCabal-1.17.0.a 
 </th></tr></table>
 
+### New performance numbers
+
+
+I'm using commit
+
+
+I use these abbreviations in the following tables
+
+```wiki
+00 - no late dmd analysis on either libs or nofib tests
+10 - late demand analysis on libs, but not on nofib tests
+11 - late demand analysis on both libs and nofib tests
+```
+
+`build.mk` included
+
+```wiki
+DYNAMIC_BY_DEFAULT   = NO
+DYNAMIC_GHC_PROGRAMS = NO
+
+SRC_HC_OPTS     = -O -H64m
+GhcStage1HcOpts = -O -fasm
+GhcStage2HcOpts = -O2 -fasm
+GhcHcOpts       = -Rghc-timing
+GhcLibHcOpts    = -O2
+```
+
+#### 2.7Ghz Core i7 MacBook Pro, 16 GB, 64-bit
+
+```wiki
+Binary Sizes
+
+-------------------------------------------------------------------------------
+        Program                   00              10              11
+-------------------------------------------------------------------------------
+        -1 s.d.                -----           +0.4%           +0.4%
+        +1 s.d.                -----           +0.7%           +0.7%
+        Average                -----           +0.6%           +0.6%
+```
+
+##### mode=norm
+
+```wiki
+Allocations
+
+-------------------------------------------------------------------------------
+        Program                   00              10              11
+-------------------------------------------------------------------------------
+       cichelli             80307264           +0.0%          -22.9%
+        mandel2              1041544           +0.0%          -21.4%
+reverse-complem            150153040          -13.2%          -13.2%
+          fasta            401153024           -9.1%           -9.1%
+      integrate            474063360           +0.0%           -5.1%
+   k-nucleotide           4125099504           -0.0%           -4.8%
+        knights              1968072           +0.0%           -3.8%
+         fulsom            323486224           +0.0%           -2.6%
+      transform            696343224           +0.0%           -2.4%
+
+       nucleic2             87567072           +0.0%           +3.4%
+   cryptarithm2             24028936           +0.0%           +4.2%
+
+        -1 s.d.                -----           -1.9%           -4.8%
+        +1 s.d.                -----           +1.5%           +3.1%
+        Average                -----           -0.2%           -0.9%
+```
+
+```wiki
+Run Time
+
+-------------------------------------------------------------------------------
+        Program                   00              10              11
+-------------------------------------------------------------------------------
+           life                 0.23          -13.0%          -13.0%
+
+   binary-trees                 0.61           +6.3%           +5.9%
+
+        -1 s.d.                -----           -3.5%           -4.1%
+        +1 s.d.                -----           +2.9%           +2.3%
+        Average                -----           -0.4%           -0.9%
+```
+
+```wiki
+Elapsed Time
+
+-------------------------------------------------------------------------------
+        Program                   00              10              11
+-------------------------------------------------------------------------------
+      compress2                 0.23          -14.2%          -17.7%
+      typecheck                 0.20           +2.0%           -8.9%
+           life                 0.26          -12.3%           -6.2%
+         simple                 0.24           -9.0%           -4.9%
+
+            hpg                 0.21           -1.9%           +6.7%
+reverse-complem                 0.27          +13.5%          +12.8%
+
+        -1 s.d.                -----           -5.7%           -5.6%
+        +1 s.d.                -----           +4.2%           +4.3%
+        Average                -----           -0.9%           -0.8%
+```
+
 ### Old performance numbers
 
 
