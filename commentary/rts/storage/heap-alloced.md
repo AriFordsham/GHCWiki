@@ -1,7 +1,7 @@
 # HEAP_ALLOCED
 
 
-This page is about the `HEAP_ALLOCED()` macro/function in the runtime system.  
+This page is about the `HEAP_ALLOCED()` macro/function in the runtime system.  See [\#8199](https://gitlab.haskell.org//ghc/ghc/issues/8199) which is about getting rid of `HEAP_ALLOCED`.
 
 ```wiki
 StgBool HEAP_ALLOCED(void *p);
