@@ -223,17 +223,20 @@ I use these abbreviations in the following tables
 `build.mk` included
 
 ```wiki
-DYNAMIC_BY_DEFAULT   = NO
-DYNAMIC_GHC_PROGRAMS = NO
-
 SRC_HC_OPTS     = -O -H64m
 GhcStage1HcOpts = -O -fasm
 GhcStage2HcOpts = -O2 -fasm
 GhcHcOpts       = -Rghc-timing
 GhcLibHcOpts    = -O2
+
+SplitObjs          = NO
+
+DYNAMIC_BY_DEFAULT   = NO
+DYNAMIC_GHC_PROGRAMS = NO
 ```
 
-#### 2.7Ghz Core i7 MacBook Pro, 16 GB, 64-bit
+
+The changes in binary size were the same on my two tests platforms so far (both 64-bit). It looks like essentially we're seeing the effects of an increase in the size of the base library. The smallest programs increased by +1.1% in both 10 and 11. Other programs usually had \~0.1% difference in 10 and 11. nucleic2 has about a +1% from 10 to 11, but that is a known anomaly — cf the discussion in "old performance numbers" below.
 
 ```wiki
 Binary Sizes
@@ -246,10 +249,14 @@ Binary Sizes
         Average                -----           +0.6%           +0.6%
 ```
 
-##### mode=norm
+#### 2.7Ghz Core i7 MacBook Pro, 16 GB, 64-bit
+
+##### mode=norm NoFibRuns=30
 
 ```wiki
 Allocations
+
+-- NB nucliec2 and cryptarithm2 are explained in the "Old performance numbers" section below.
 
 -------------------------------------------------------------------------------
         Program                   00              10              11
@@ -263,6 +270,8 @@ reverse-complem            150153040          -13.2%          -13.2%
         knights              1968072           +0.0%           -3.8%
          fulsom            323486224           +0.0%           -2.6%
       transform            696343224           +0.0%           -2.4%
+
+       -- everything else changed less
 
        nucleic2             87567072           +0.0%           +3.4%
    cryptarithm2             24028936           +0.0%           +4.2%
@@ -279,6 +288,8 @@ Run Time
         Program                   00              10              11
 -------------------------------------------------------------------------------
            life                 0.23          -13.0%          -13.0%
+
+       -- everything else changed less
 
    binary-trees                 0.61           +6.3%           +5.9%
 
@@ -298,6 +309,8 @@ Elapsed Time
            life                 0.26          -12.3%           -6.2%
          simple                 0.24           -9.0%           -4.9%
 
+       -- everything else changed less
+
             hpg                 0.21           -1.9%           +6.7%
 reverse-complem                 0.27          +13.5%          +12.8%
 
@@ -306,15 +319,171 @@ reverse-complem                 0.27          +13.5%          +12.8%
         Average                -----           -0.9%           -0.8%
 ```
 
-### Old performance numbers
+#### really big many-core server, 48 GB, 64-bit
 
+##### mode=norm NoFibRuns=30
+
+```wiki
+Allocations
+
+-- NB nucliec2 and cryptarithm2 are explained in the "Old performance numbers" section below.
+
+-------------------------------------------------------------------------------
+        Program                   00              10              11
+-------------------------------------------------------------------------------
+       cichelli             80307264           +0.0%          -22.9%
+        mandel2              1041544           +0.0%          -21.4%
+reverse-complem            150153040          -13.2%          -13.2%
+          fasta            401153024           -9.1%           -9.1%
+      integrate            474063360           +0.0%           -5.1%
+   k-nucleotide           4125099504           -0.0%           -4.8%
+        knights              1968072           +0.0%           -3.8%
+         fulsom            323486224           +0.0%           -2.6%
+      transform            696343224           +0.0%           -2.4%
+            ida            128551480           +0.0%           -1.2%
+        parstof              3102544           +0.0%           -1.4%
+         simple            226411568           -0.0%           -1.0%
+
+       -- everything else changed less
+
+           bspt             12285840           +0.0%           +1.2%
+       nucleic2             87567496           +0.0%           +3.4%
+   cryptarithm2             24028936           +0.0%           +4.2%
+        -1 s.d.                -----           -1.9%           -4.8%
+        +1 s.d.                -----           +1.5%           +3.1%
+        Average                -----           -0.2%           -0.9%
+```
+
+```wiki
+Run Time
+
+
+-------------------------------------------------------------------------------
+        Program                   00              10              11
+-------------------------------------------------------------------------------
+         simple                 0.27           -2.6%           -6.4%
+      transform                 0.39           -1.3%           -5.1%
+          fasta                 0.59           -2.5%           -4.7%
+
+       -- everything else changed less
+
+          kahan                 0.30           +3.6%           +3.9%
+   binary-trees                 0.88           +7.2%           +6.9%
+      typecheck                 0.24           +8.3%           +8.3%
+         hidden                 0.49           +4.1%          +10.2%
+
+        -1 s.d.                -----           -1.7%           -3.0%
+        +1 s.d.                -----           +2.9%           +3.5%
+        Average                -----           +0.6%           +0.2%
+```
+
+```wiki
+Elapsed Time
+
+-------------------------------------------------------------------------------
+        Program                   00              10              11
+-------------------------------------------------------------------------------
+         simple                 0.27           -2.6%           -6.8%
+      transform                 0.39           -1.3%           -5.1%
+          fasta                 0.59           -2.7%           -3.7%
+
+       -- everything else changed less
+
+   binary-trees                 0.88           +7.3%           +6.9%
+      typecheck                 0.24           +8.3%           +8.3%
+         hidden                 0.49           +4.1%          +10.1%
+
+        -1 s.d.                -----           -1.6%           -2.9%
+        +1 s.d.                -----           +3.1%           +3.6%
+        Average                -----           +0.7%           +0.3%
+
+===== mode=slow NoFibRuns=30 =====
+
+{{{
+Allocations
+
+-------------------------------------------------------------------------------
+        Program                   00              10              11
+-------------------------------------------------------------------------------
+       cichelli             80307264           +0.0%          -22.9%
+        mandel2              1041544           +0.0%          -21.4%
+reverse-complem           1500677840          -13.2%          -13.2%
+          fasta           4005660304           -9.1%           -9.1%
+      integrate            948063920           +0.0%           -5.1%
+   k-nucleotide          41144014840           +0.0%           -4.9%
+         fulsom            323486224           +0.0%           -2.6%
+      transform           1389145136           +0.0%           -2.4%
+         genfft           1796463848           +0.0%           -1.2%
+            ida            733628984           +0.0%           -1.0%
+        parstof              3102544           +0.0%           -1.4%
+         simple            226411568           -0.0%           -1.0%
+
+       -- everything else changed less
+
+           bspt             12285840           +0.0%           +1.2%
+       nucleic2             87567496           +0.0%           +3.4%
+   cryptarithm2             24028936           +0.0%           +4.2%
+
+        -1 s.d.                -----           -1.9%           -4.7%
+        +1 s.d.                -----           +1.5%           +3.1%
+        Average                -----           -0.2%           -0.9%
+}}}
+
+{{{
+Run Time
+
+-------------------------------------------------------------------------------
+        Program                   00              10              11
+-------------------------------------------------------------------------------
+         mandel                 0.22           -9.1%           -9.1%
+      transform                 0.80           -0.3%           -8.7%
+reverse-complem                 1.39           -5.9%           -6.1%
+         simple                 0.26           -1.4%           -5.2%
+          fasta                 5.84           -3.9%           -4.2%
+    gen_regexps                 1.01           -4.6%           -4.7%
+
+       -- everything else changed less
+
+      paraffins                 1.00           +0.2%           +3.4%
+      typecheck                 0.49          +10.2%           +8.2%
+         hidden                 0.49           +4.1%          +10.2%
+
+        -1 s.d.                -----           -2.6%           -3.3%
+        +1 s.d.                -----           +2.9%           +2.7%
+        Average                -----           +0.1%           -0.3%
+}}}
+
+{{{
+Elapsed Time
+
+-------------------------------------------------------------------------------
+        Program                   00              10              11
+-------------------------------------------------------------------------------
+         mandel                 0.22           -9.1%           -9.1%
+      transform                 0.80           +0.0%           -8.5%
+reverse-complem                 1.39           -5.9%           -5.8%
+         simple                 0.27           -2.1%           -5.2%
+          fasta                 5.86           -3.9%           -4.2%
+    gen_regexps                 1.01           -4.5%           -4.6%
+
+       -- everything else changed less
+
+      paraffins                 1.00           +0.2%           +3.7%
+      typecheck                 0.49          +10.2%           +8.2%
+         hidden                 0.49           +4.5%          +10.2%
+
+        -1 s.d.                -----           -2.6%           -3.2%
+        +1 s.d.                -----           +2.9%           +2.8%
+        Average                -----           +0.1%           -0.3%
+}}}
+
+=== Old performance numbers ===
 
 NB These were from April 2013.
 
-
 Here's the effects on nofib. Run time didn't seem to change as drastically.  The "X/Y" column headers mean "library-flags/test-flags" given to GHC when compiling the respective bit.
 
-```wiki
+{{{
 Allocations
 
 -------------------------------------------------------------------------------
@@ -322,6 +491,8 @@ Allocations
 -------------------------------------------------------------------------------
    cryptarithm2             25078168           +0.0%           +8.0%
        nucleic2             98331744           +0.0%           +3.2%
+
+       -- everything else changed less
 
        cichelli             80310632           +0.0%          -22.9%
           fasta            401159024           -9.1%           -9.1%
@@ -332,17 +503,14 @@ Allocations
         parstof              3103208           +0.0%           -1.4%
 reverse-complem            155188304          -12.8%          -12.8%
          simple            226412800           -0.0%           -1.0%
-```
-
+}}}
 
 All other changes less than 1% allocation.
 Note that it improves a couple tests significantly just via changes in the base libraries.
 
-
-For cryptarithm2, (cf remarks in [\#4941](https://gitlab.haskell.org//ghc/ghc/issues/4941))
-
-- 4% increase allocation is due to reboxing
-- 4% is due to dead closures, because the fix in [\#4962](https://gitlab.haskell.org//ghc/ghc/issues/4962) isn't working for some reason.
-
+For cryptarithm2, (cf remarks in #4941)
+ * 4% increase allocation is due to reboxing
+ * 4% is due to dead closures, because the fix in #4962 isn't working for some reason.
 
 For nucleic2, in var_most_distant_atom, an let-bound function is inlined after w/w, and hence grows numerous closures by a significant amount. I'm not sure where to lay the blame for this. Note however, that just making nucleic2's data types use strict !Float fields changes its allocation -72.4%, so maybe this "bad practice" corner case is a small issue.
+```
