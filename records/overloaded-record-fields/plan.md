@@ -320,7 +320,53 @@ In general, a use of `setField` can change only type variables that occur in the
 
 ## Design choices
 
-## Unambiguous fields
+### Scope issues, or, why we miss dot
+
+
+Consider the following example:
+
+```wiki
+f :: (Has r "g" Int) => r -> Int
+f x = g x + 1
+```
+
+
+Q1. What happens if `g` is not in scope?
+
+1. The code gives an error. This is where dot-notation (or another syntactic form marking a field name) is better: `f x = x.g + 1` can work even if `g` is not in scope. Observe that something similar happens with implicit parameters: `f y = y + ?x` works even if `x` is not in scope, and introduces a new constraint `(?x :: Int)`. 
+
+
+Q2. What if we add `data T = MkT { g :: Char }`?
+
+1. The code compiles correctly, even though the datatype is "obviously" irrelevant because the field `g` it declares has the wrong type, so it cannot be selected. This would not be the case if we treated `g` as an unambiguous reference to the only field of that name in scope.
+
+
+Q3. What if we subsequently add another datatype with a field `g`?
+
+1. The code still compiles correctly.
+
+
+An advantage of distinguishing record projections syntactically (as in `x.g`) is that `g` is always treated as a record field, regardless of what is in scope. This allows better separation of concerns, as functions that manipulate records can be defined abstractly rather than referring to particular datatypes. We could consider using an operator less controversial than dot (for example, `(|:)` has been suggested), or a keyword such as **select**:
+
+```wiki
+f x = x|:g + 1
+f x = select g x + 1
+```
+
+### Introducing field names
+
+
+As noted above, sometimes one might want to write code that uses record fields without any particular record types being in scope. One workaround is to define unused types with the appropriate field names. This is slightly odd! We might consider adding a new declaration form, say **field**`g`, which declares `g` as a record field that is always polymorphic, rather like the function declaration
+
+```wiki
+g :: r { g :: t } => r -> t
+g = field
+```
+
+
+but with the property that it will not clash with actual `g` fields.
+
+### Unambiguous fields
 
 
 What if `foo` occurs in an expression, and there is only one datatype `T` with a field `foo` in scope? There are three obvious choices:
@@ -380,22 +426,6 @@ Optionally, we could [add a flag \`-XNoRecordSelectorFunctions\`](records/declar
 
 
 Since the selectors are hidden by clients (on import) rather than on export, fields can still be used for record update and mentioned in import and export lists, to control access to them (as discussed in the [representation hiding](records/overloaded-record-fields/plan#representation-hiding) section).
-
-### Introducing field names
-
-
-An advantage of distinguishing record projections syntactically (as in `e.x`) is that `x` is always treated as a record field, regardless of what is in scope. This allows better separation of concerns, as functions that manipulate records can be defined abstractly rather than referring to particular datatypes.
-
-
-One workaround is to define unused types with the appropriate field names. This is slightly odd, and we might consider adding a new declaration form, which declares `x` as a record field that is always polymorphic, rather like the function declaration
-
-```wiki
-x :: r { x :: t } => r -> t
-x = field
-```
-
-
-but with the property that it will not clash with actual `x` fields.
 
 ### Syntactic sugar for `Upd` constraints
 
