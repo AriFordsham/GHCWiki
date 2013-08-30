@@ -1,3 +1,5 @@
+[[PageOutline]]
+
 Notes about running demand analysis a second time, late in the pipeline.
 
 Commit c080f727ba5f83921b842fcff71e9066adbdc250
@@ -16,7 +18,7 @@ The bulk of this patch merely simplifies the treatment of wrappers in interface 
 
   * Update the documentation to explain -flate-dmd-anal.
 
-  * Ask the community for help in determining if we should make -O2 imply -flate-dmd-anal.
+  * Ask the performance czars and community for help in determining if we should make -O2 imply -flate-dmd-anal.
 
 == Relation to other tickets ==
 
@@ -186,7 +188,7 @@ Binary Sizes
 
 ==== 2.7Ghz Core i7 !MacBook Pro, 16 GB, 64-bit ==== 
 
-===== mode=norm NoFibRuns=30 =====
+===== mode=norm !NoFibRuns=30 =====
 
 {{{
 Allocations
@@ -256,7 +258,7 @@ reverse-complem                 0.27          +13.5%          +12.8%
 
 ==== really big many-core server, 48 GB, 64-bit ==== 
 
-===== mode=norm NoFibRuns=30 =====
+===== mode=norm !NoFibRuns=30 =====
 
 {{{
 Allocations
@@ -284,6 +286,7 @@ reverse-complem            150153040          -13.2%          -13.2%
            bspt             12285840           +0.0%           +1.2%
        nucleic2             87567496           +0.0%           +3.4%
    cryptarithm2             24028936           +0.0%           +4.2%
+
         -1 s.d.                -----           -1.9%           -4.8%
         +1 s.d.                -----           +1.5%           +3.1%
         Average                -----           -0.2%           -0.9%
@@ -331,8 +334,9 @@ Elapsed Time
         -1 s.d.                -----           -1.6%           -2.9%
         +1 s.d.                -----           +3.1%           +3.6%
         Average                -----           +0.7%           +0.3%
+}}}
 
-===== mode=slow NoFibRuns=30 =====
+===== mode=slow !NoFibRuns=30 =====
 
 {{{
 Allocations
