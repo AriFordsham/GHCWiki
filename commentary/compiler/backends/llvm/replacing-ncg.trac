@@ -11,3 +11,12 @@ However, there are a few ways that the LLVM backend needs to be improved before 
 3. Some low-level optimisation problems (#4308, #5567).  The LLVM backend generates bad code for certain critical bits of the runtime, perhaps due to lack of good aliasing information.  This hasn't been revisited in the light of the new codegen, so perhaps it's better now.
 
 Someone should benchmark the LLVM backend against the NCG with new codegen in GHC 7.8.  It's possible that the new codegen is getting a slight boost because it doesn't have to split up proc points, so it can do better code generation for let-no-escapes. It's also possible that LLVM is being penalised a bit for the same reason.
+
+
+Other considerations:
+
+1. The GHC distribution would need to start shipping with its own copy of LLVM. The LLVM code that GHC produces typically lags the current version of LLVM, so we'd need to ensure there was a usable version.
+
+2. If we did ship our own version of LLVM, we could add custom plugins to improve the GHC generated code. At one stage Max Bolingbroke wrote an LLVM alias analysis plugin, but making it work against an arbitrary existing LLVM version would be infeasible.
+
+
