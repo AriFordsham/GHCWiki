@@ -96,9 +96,9 @@ The code generator lives in `llvmGen` with the driver being `llvmGen/LlvmCodeGen
 
 A large part of the code generation is keeping track of defined variables/functions and their type. An `LlvmEnv` construct is used for this. It is simply a dictionary storing function/variable names with their corresponding type information. This is used to create correct references/pointers between variables and functions.
 
-=== Unregistered Vs. Registered ===
+=== Unregisterised Vs. Registerised ===
 
-Code generation can take place in two general modes, `unregistered` and `registered`. There are two major differences from a back-end code generation point of view. Firstly, in unregistered mode a optimisation features called {{{TABLES_NEXT_TO_CODE}}} is disabled. This means that the `h` field of `CmmProc` is empty. In registered mode it instead contains the `CmmStatic` data for the procedures info table which must be placed just before the procedure in the generated code so that both the info table and procedure can be accessed through one pointer. This optimisation can be disabled separately though in `registered` mode.
+Code generation can take place in two general modes, `unregisterised` and `registerised`. There are two major differences from a back-end code generation point of view. Firstly, in unregisterised mode a optimisation feature called {{{TABLES_NEXT_TO_CODE}}} is disabled. This means that the `h` field of `CmmProc` is empty. In registerised mode it instead contains the `CmmStatic` data for the procedures info table which must be placed just before the procedure in the generated code so that both the info table and procedure can be accessed through one pointer. This optimisation can be disabled separately though in `registerised` mode.
 
 The other major change is the use of pinned global registers. The `Cmm` language includes a concept called registers. These are used like machine registers or variables in C to store the result of expressions. Unlike `LLVM` they are mutable. `Cmm` includes two types of registers as you can see below: 
 
@@ -111,7 +111,7 @@ data CmmReg
 data LocalReg = LocalReg Unique CmmType
 }}}
 
-A `LocalReg` is a temporary general purpose registered used in a procedure with scope of a single procedure. A `GlobalReg` on the other hand has global scope and a specific use. They are used just like machine registers, with a Stack Pointer and Heap Pointer registers creating a virtual machine (`STG`). `GlobalReg` is of the form:
+A `LocalReg` is a temporary general purpose register used in a procedure with scope of a single procedure. A `GlobalReg` on the other hand has global scope and a specific use. They are used just like machine registers, with a Stack Pointer and Heap Pointer registers creating a virtual machine (`STG`). `GlobalReg` is of the form:
 
 {{{
 data GlobalReg
@@ -159,7 +159,7 @@ data GlobalReg
   deriving( Show )
 }}}
 
-In unregistered mode these global registers are all just stored in memory in the heap. A specific pass operating on Cmm that takes place just before code generation thus transforms code such as:
+In unregisterised mode these global registers are all just stored in memory in the heap. A specific pass operating on Cmm that takes place just before code generation thus transforms code such as:
 
 {{{
 __stginit_ZCMain() {
@@ -171,7 +171,7 @@ __stginit_ZCMain() {
 }
 }}}
 
-into the following unregistered form for code generation:
+into the following unregisterised form for code generation:
 
 {{{
 __stginit_main::Main() {
@@ -185,7 +185,7 @@ __stginit_main::Main() {
 
 Where `MainCapability` is a label to the start of a RTS defined structure storing all the global registers.
 
-In registered mode as many of these global registers are assigned permanently to fixed hardware registers. This is done as it greatly improves performance. As these registers are accessed very frequently needing to load and store to memory for accessing adds a great cost. So for example on `x86` the following map between `Cmm` global registers and `x86` hardware registers exists:
+In registerised mode as many of these global registers are assigned permanently to fixed hardware registers. This is done as it greatly improves performance. As these registers are accessed very frequently needing to load and store to memory for accessing adds a great cost. So for example on `x86` the following map between `Cmm` global registers and `x86` hardware registers exists:
 
 {{{
 Base -> %EBX
