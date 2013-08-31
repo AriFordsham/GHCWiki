@@ -56,10 +56,11 @@ Tier 2 platforms as possible to Tier 1, as soon as they meet the Tier 1 criteria
 || HPPA         || Linux           || hppa-unknown-linux      || No           || No   || No     || No           || No                || ||
 || S/390        || Linux           || s390-ibm-linux          || No           || No   || No     || No           || No                || ||
 || m68k         || Linux           || m68k-unknown-linux      || No           || No   || No     || No           || No                || ||
-|| mips         || Linux           || mips-unknown-linux      || No           || No   || No     || No           || No                || ||
-|| mipsel       || Linux           || mipsel-unknown-linux    || No           || No   || No     || No           || No                || ||
-|| ARM          || Linux           || arm-unknown-linux       || No           || No   || No     || No           || No                || ||
-|| ARM          || Debian armel    || arm-linux-gnueabi       || Yes          || No   || No     || No           || No                      || [wiki:Building/ARMLinuxGnuEABI] ||
+|| mips         || Linux             || mips-unknown-linux      || No           || No   || No     || No           || No                || ||
+|| mipsel       || Linux             || mipsel-unknown-linux    || No           || No   || No     || No           || No                || ||
+|| ARM          || Linux             || arm-unknown-linux       || No           || No   || No     || No           || No                || ||
+|| ARM          || Debian armel || arm-linux-gnueabi       || Yes          || No   || No     || No           || No                      || [wiki:Building/ARMLinuxGnuEABI] ||
+|| ARM          || iOS                || arm-apple-darwin10       || Yes          || No   || Yes     || No           || No                      || [wiki:Building/CrossCompiling/iOS] ||
 
 
 '''*S1''' Goetz Isenmann [http://www.haskell.org/pipermail/glasgow-haskell-users/2009-November/017961.html reports] that GHCi is currently unable to load compiled code that refers to errno.[[br]]
