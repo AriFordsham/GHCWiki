@@ -177,6 +177,7 @@ For a full description of GHC support for various platforms, see [wiki:Platforms
 
  * '''Arm'''
    * Debian GNU/Linux/arm packages: [mailto:kaol@debian.org Kari Pahula]
+   * iOS packages: [mailto:lukexi@me.com Luke Iannini]
 
 == Libraries ==
 

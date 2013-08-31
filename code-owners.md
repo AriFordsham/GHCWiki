@@ -216,6 +216,7 @@ For a full description of GHC support for various platforms, see [Platforms](pla
 - **Arm**
 
   - Debian GNU/Linux/arm packages: Kari Pahula
+  - iOS packages: Luke Iannini
 
 ## Libraries
 
