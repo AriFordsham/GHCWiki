@@ -179,6 +179,11 @@ Run the project again as usual, and Xcode will pick up the haskell.a file and yo
 
 Each time you modify your Haskell code you'll need to re-compile from the command line before re-building in Xcode. It is possible to automate this in Xcode if you wish.
 
+### 12. Next steps
+
+
+Take a look at [ https://github.com/ghc-ios/](https://github.com/ghc-ios/) for patched versions of Hackage packages and other useful things. Ask us if you want to join the ghc-ios project on GitHub.
+
 ## Loose ends
 
 
