@@ -37,63 +37,26 @@ Changes to:
 
 ### CAF Allocation
 
-[compiler/codeGen/StgCmmBind.hs](/trac/ghc/browser/ghc/compiler/codeGen/StgCmmBind.hs):link_caf
-
-```wiki
-// this is not part of link_caf, see thunkCode
-         Hp = Hp + 32;
-         if (Hp > HpLim) goto cms;
-//   ; hp_rel <- allocDynClosureCmm Nothing cafBlackHoleInfoTable mkLFBlackHole use_cc blame_cc [(tso,fixedHdrSize dflags)]
-         I64[I64[R1 + 8] + 72] = I64[I64[R1 + 8] + 72] + %MO_UU_Conv_W64_W64(4 - 2);
-         I64[Hp - 24] = stg_CAF_BLACKHOLE_info;
-         I64[Hp - 16] = I64[R1 + 8]; // DIFFERENCE: costCentreFrom dflags (CmmReg nodeReg)
-         I64[Hp - 8] = (%MO_UU_Conv_W32_W64(I32[era]) << 30) | 0;
-         I64[Hp + 0] = CurrentTSO;
-//  emitRtsCallGen [(ret,NoHint)] (mkForeignLabel (fsLit "newCAF") Nothing ForeignLabelInExternalPackage IsFunction) ...
-         (_cmt::I64,) = foreign "ccall"
-           newCAF((BaseReg, PtrHint), (R1, PtrHint), (Hp - 24, PtrHint));
-// Atomic CAF entry
-         if (_cmt::I64 == 0) goto cmu;
-         goto cmv;
-
-```
-
-
-Changes to (XXX):
-
-```wiki
-// XXX change nursery to Bdescr(R1)->rc
-         Hp = Hp + 16;
-         if (Hp > HpLim) goto cms;
-         I64[Hp - 8] = stg_CAF_BLACKHOLE_info;
-         I64[Hp + 0] = CurrentTSO;
-// XXX change nursery back, new heap check?
-         (_cmt::I64,) = foreign "ccall"
-           newCAF((BaseReg, PtrHint), (R1, PtrHint), (Hp - 24, PtrHint));
-         if (_cmt::I64 == 0) goto cmu;
-         goto cmv;
-```
+[compiler/codeGen/StgCmmBind.hs](/trac/ghc/browser/ghc/compiler/codeGen/StgCmmBind.hs):thunkCode
 
 
 Here is an interesting bugger:
 
 ```wiki
- sat_s15K_info()
-         { label: sat_s15K_info
-           rep:HeapRep static { Thunk }
-           type: [73,79]
-           desc: [60,109,97,105,110,58,77,97,105,110,46,115,97,116,95,115,49,53,75,62]
-         }
+// ldvEnterClosure
      c17Q:
          if (%MO_UU_Conv_W32_W64(I32[era]) > 0) goto c17R;
          goto c17S;
      c17R:
          I64[R1 + 16] = I64[R1 + 16] & 1152921503533105152 | %MO_UU_Conv_W32_W64(I32[era]) | 1152921504606846976;
          goto c17S;
+// entryHeapCheck
      c17S:
          if (Sp - 80 < SpLim) goto c17U;
          Hp = Hp + 64;
          if (Hp > HpLim) goto c17W;
+// setupUpdate
+//// linkCaf
          I64[I64[R1 + 8] + 72] = I64[I64[R1 + 8] + 72] + %MO_UU_Conv_W64_W64(4 - 2);
          I64[Hp - 56] = stg_CAF_BLACKHOLE_info;
          I64[Hp - 48] = I64[R1 + 8];
@@ -103,17 +66,15 @@ Here is an interesting bugger:
            newCAF((BaseReg, PtrHint), (R1, PtrHint), (Hp - 56, PtrHint));
          if (_c17X::I64 == 0) goto c17Y;
          goto c17Z;
-     c17U: jump stg_gc_enter_1; // [R1]
-     c17W:
-         HpAlloc = 64;
-         goto c17U;
-     c17Y: jump I64[R1]; // [R1]
      c17Z:
+//// pushUpdateFrame
          I64[Sp - 32] = stg_bh_upd_frame_info;
          I64[Sp - 8] = Hp - 56;
          I64[Sp - 24] = CCCS;
+// enterCostCentreThunk
          CCCS = I64[R1 + 8];
          I64[CCCS + 72] = I64[CCCS + 72] + %MO_UU_Conv_W64_W64(4 - 2);
+// cgExpr body
          I64[Hp - 24] = GHC.Integer.Type.S#_con_info;
          I64[Hp - 16] = CCCS;
          I64[Hp - 8] = (%MO_UU_Conv_W32_W64(I32[era]) << 30) | 0;
@@ -127,11 +88,57 @@ Here is an interesting bugger:
          I64[Sp - 48] = s15P_info;
          Sp = Sp - 80;
          jump GHC.Num.fromInteger_info; // [R2]
- }]
+     c17U: jump stg_gc_enter_1; // [R1]
+     c17W:
+         HpAlloc = 64;
+         goto c17U;
+     c17Y: jump I64[R1]; // [R1]
 ```
 
 
 Notice the heap check serves for the later branch too. On the other hand, the CCCS coincides with the later change. This seems to be the general pattern. So we might be able to handle this CAF by special-casing CAFs.
+
+```wiki
+         _crc = Bdescr(Hp)->rc;
+         CHANGE_NURSERY(I64[R1 + 8]);
+// entryHeapCheck
+     c17S:
+         if (Sp - 80 < SpLim) goto c17U;
+         Hp = Hp + 32;
+         if (Hp > HpLim) goto c17W;
+// setupUpdate
+//// linkCaf
+         I64[Hp - 24] = stg_CAF_BLACKHOLE_info;
+         I64[Hp - 16] = CurrentTSO;
+         (_c17X::I64,) = foreign "ccall"
+           newCAF((BaseReg, PtrHint), (R1, PtrHint), (Hp - 56, PtrHint));
+         if (_c17X::I64 == 0) goto c17Y;
+         goto c17Z;
+     c17Z:
+//// pushUpdateFrame
+         I64[Sp - 32] = stg_bh_upd_frame_info;
+         I64[Sp - 8] = Hp - 56;
+         I64[Sp - 24] = _crc; // ***
+// cgExpr body
+         I64[Hp - 8] = GHC.Integer.Type.S#_con_info;
+         I64[Hp + 0] = 2;
+         I64[Sp - 56] = Hp - 23;
+         I64[Sp - 64] = stg_ap_p_info;
+         I64[Sp - 72] = Bdescr(Hp)->rc; // ***
+         I64[Sp - 80] = stg_restore_crc_info; // ***
+         R2 = Foreign.C.Types.$fNumCInt_closure;
+         I64[Sp - 48] = s15P_info;
+         Sp = Sp - 80;
+         jump GHC.Num.fromInteger_info; // [R2]
+     c17U: jump stg_gc_enter_1; // [R1]
+     c17W:
+         HpAlloc = 32;
+         goto c17U;
+     c17Y: jump I64[R1]; // [R1]
+```
+
+
+We also hit the slow function application path.
 
 ### Thunk code
 
