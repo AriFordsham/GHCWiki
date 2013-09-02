@@ -14,7 +14,7 @@ The mirrors are updated automatically each night, but you can force an immediate
 ## Repository locations
 
 
-Note that the following table might be out of date, please refer to GHC's [packages](/trac/ghc/browser/ghc/packages#L44)[](/trac/ghc/export/HEAD/ghc/packages#L44) file which is always up to date as otherwise scripts will break.
+Note that the following table might be out of date, please refer to GHC's [ packages](http://git.haskell.org/?p=ghc.git;a=blob;f=packages;hb=HEAD) file which is always up to date as otherwise scripts will break.
 
 
 Moreover, the list of upstream Darcs repos mirrored as Git repositories can be found [ here](http://git.haskell.org/?a=project_list;pf=darcs-mirrors).
