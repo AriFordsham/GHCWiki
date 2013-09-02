@@ -259,7 +259,9 @@ Changes to:
          R1 = _c17l::I64;
 }}}
 
+== Case split ==
 
+Check if old resource container is still valid, and if not do a nursery swap.
 
 **Warning:** The rest of this document describes an old iteration of the system, which directly used 
 
