@@ -12,7 +12,7 @@ Resource limits is a new way (similar to profiled and dynamic). Here are the rel
 
 {{{
 // profDynAlloc rep use_cc
-// use_cc == CurCCS
+// use_cc == CurCCS for the cases we're looking at
          I64[CCCS + 72] = I64[CCCS + 72] + %MO_UU_Conv_W64_W64(4 - 2);
 // ALLOCATE THE OBJECT
 // emitSetDynHdr base info_ptr use_cc
@@ -37,6 +37,9 @@ Changes to:
 [[GhcFile(compiler/codeGen/StgCmmBind.hs)]]:link_caf
 
 {{{
+// this is not part of link_caf, see thunkCode
+         Hp = Hp + 32;
+         if (Hp > HpLim) goto cms;
 //   ; hp_rel <- allocDynClosureCmm Nothing cafBlackHoleInfoTable mkLFBlackHole use_cc blame_cc [(tso,fixedHdrSize dflags)]
          I64[I64[R1 + 8] + 72] = I64[I64[R1 + 8] + 72] + %MO_UU_Conv_W64_W64(4 - 2);
          I64[Hp - 24] = stg_CAF_BLACKHOLE_info;
@@ -56,14 +59,74 @@ Changes to:
 
 {{{
 // XXX change nursery to Bdescr(R1)->rc
-// XXX where is the heap check?
+         Hp = Hp + 16;
+         if (Hp > HpLim) goto cms;
          I64[Hp - 8] = stg_CAF_BLACKHOLE_info;
          I64[Hp + 0] = CurrentTSO;
-// XXX change nursery back
+// XXX change nursery back, new heap check?
          (_cmt::I64,) = foreign "ccall"
            newCAF((BaseReg, PtrHint), (R1, PtrHint), (Hp - 24, PtrHint));
          if (_cmt::I64 == 0) goto cmu;
          goto cmv;
+}}}
+
+=== Thunk code ===
+
+[[GhcFile(compiler/codeGen/StgCmmBind.hs)]]:thunkCode
+
+{{{
+// ldvEnterClosure cl_info
+     clc:
+         if (%MO_UU_Conv_W32_W64(I32[era]) > 0) goto cld;
+         goto cle;
+     cld:
+         I64[R1 + 16] = I64[R1 + 16] & 1152921503533105152 | %MO_UU_Conv_W32_W64(I32[era]) | 1152921504606846976;
+         goto cle;
+     cle:
+// entryHeapCheck cl_info node' arity []
+         if (Sp - 32 < SpLim) goto clg;
+         Hp = Hp + 40;
+         if (Hp > HpLim) goto cli;
+// when (blackHoleOnEntry cl_info && node_points)
+//    (blackHoleIt node)
+         // empty
+// setupUpdate cl_info node
+         I64[Sp - 32] = stg_upd_frame_info;
+         I64[Sp - 8] = R1;
+         I64[Sp - 24] = CCCS;
+// enterCostCentreThunk (CmmReg nodeReg)
+         CCCS = I64[R1 + 8];
+// let lf_info = closureLFInfo cl_info
+// fv_bindings <- mapM bind_fv fv_details
+// load_fvs node lf_info fv_bindings
+         // empty
+// cgExpr body
+         ...
+// due to 'entryHeapCheck cl_info node' arity []'
+     clg: jump stg_gc_enter_1; // [R1]
+     cli:
+         HpAlloc = 40;
+         goto clg;
+}}}
+
+Changes to:
+
+{{{
+         if (Sp - 32 < SpLim) goto clg;
+         // XXX Update nursery
+         Hp = Hp + 40; // or whatever this adjusts to
+         if (Hp > HpLim) goto cli;
+         // (blackhole)
+         I64[Sp - 32] = stg_upd_frame_info;
+         I64[Sp - 8] = R1;
+         I64[Sp - 24] = CurrentResourceContainer; // so we can restore it on return, NOT the same as nursery
+         // XXX Update CurrentResourceContainer
+         // (load free variables)
+         ...
+     clg: jump stg_gc_enter_1; // [R1]
+     cli:
+         HpAlloc = 40;
+         goto clg;
 }}}
 
 
