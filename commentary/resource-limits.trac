@@ -1,6 +1,43 @@
 = Resource Limits =
 
-This page describes a proposed resource limits capabilities for GHC. The idea is to give users the ability to create and utilize cost-centres inside programs (so that cost-centres do not necessarily have to be tied to source code locations), and then provide in-program access to heap census and other information. The end result is the ability to impose resource limits on space usage, as well as a side-effect of more precise profiling.
+This page describes a proposed resource limits capabilities for GHC. The idea is to give users the ability to create and utilize resource containers inside programs, and then provide in-program access to heap census and other information. The semantics of resource containers are quite similar to cost centers used in profiling, except that they do not have "stack" semantics (more on this later). The end result is the ability to impose resource limits on space usage.
+
+== Code generation changes ==
+
+Resource limits is a new way (similar to profiled and dynamic). Here are the relevant changes:
+
+=== Dynamic closure allocation ===
+
+[[GhcFile(compiler/codeGen/StgCmmHeap.hs)]]:allocDynClosureCmm (via StgCmmCon, also handles StgCmmBind:mkRhsClosure/cgRhsStdThunk. link_caf needs special treatment.)
+
+{{{
+// profDynAlloc rep use_cc
+// use_cc == CurCCS
+         I64[CCCS + 72] = I64[CCCS + 72] + %MO_UU_Conv_W64_W64(4 - 2);
+// ALLOCATE THE OBJECT
+// emitSetDynHdr base info_ptr use_cc
+         I64[Hp - 24] = Data.Maybe.Just_con_info; // info_ptr
+         I64[Hp - 16] = CCCS;                     // use_cc
+         I64[Hp - 8] = (%MO_UU_Conv_W32_W64(I32[era]) << 30) | 0; // dynLdvInit
+// let (cmm_args, offsets) = unzip amodes_w_offsets
+// hpStore base cmm_args offsets
+         I64[Hp + 0] = I64[R1 + 32];
+}}}
+
+Changes to:
+
+{{{
+// invariant: Hp points to nursery of current resource container
+         I64[Hp - 8] = Data.Maybe.Just_con_info; // info_ptr
+         I64[Hp + 0] = I64[R1 + 32];
+}}}
+
+=== CAF Allocation ===
+
+[[GhcFile(compiler/codeGen/StgCmmBind.hs)]]:link_caf
+
+
+**Warning:** The rest of this document describes an old iteration of the system, which directly used 
 
 == Front-end changes ==
 
