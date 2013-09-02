@@ -258,12 +258,13 @@ We could mangle selector names (using `$sel_foo_T` instead of `foo`) even when t
 
 ## Outstanding bugs
 
+- generics/GenDerivOutput, GenDerivOutput1_0, GenDerivOutput1_1 (revert changed behaviour of `-ddump-deriv`)
 - typechecker/should_fail/tcfail102 (changed error message)
 
 ## To do
 
-- When there is only one thing in scope, what should we do?
-- Add `HsVarOut RdrName id` instead of `HsSingleRecFld` (or perhaps rename `HsVar` to `HsVarIn`); also useful to recall how the user referred to something.
+- When there is only one thing in scope, what should we do? See [discussion here](records/overloaded-record-fields/plan#scope-issues,-or,-why-we-miss-dot).
+- Add `HsVarOut RdrName id` instead of `HsSingleRecFld` (or perhaps rename `HsVar` to `HsVarIn`)? This would also be useful to recall how the user referred to something.
 
 - Support virtual fields or forbid them?
 - Sort out reporting of unused imports.
