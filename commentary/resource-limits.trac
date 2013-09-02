@@ -36,6 +36,36 @@ Changes to:
 
 [[GhcFile(compiler/codeGen/StgCmmBind.hs)]]:link_caf
 
+{{{
+//   ; hp_rel <- allocDynClosureCmm Nothing cafBlackHoleInfoTable mkLFBlackHole use_cc blame_cc [(tso,fixedHdrSize dflags)]
+         I64[I64[R1 + 8] + 72] = I64[I64[R1 + 8] + 72] + %MO_UU_Conv_W64_W64(4 - 2);
+         I64[Hp - 24] = stg_CAF_BLACKHOLE_info;
+         I64[Hp - 16] = I64[R1 + 8]; // DIFFERENCE: costCentreFrom dflags (CmmReg nodeReg)
+         I64[Hp - 8] = (%MO_UU_Conv_W32_W64(I32[era]) << 30) | 0;
+         I64[Hp + 0] = CurrentTSO;
+//  emitRtsCallGen [(ret,NoHint)] (mkForeignLabel (fsLit "newCAF") Nothing ForeignLabelInExternalPackage IsFunction) ...
+         (_cmt::I64,) = foreign "ccall"
+           newCAF((BaseReg, PtrHint), (R1, PtrHint), (Hp - 24, PtrHint));
+// Atomic CAF entry
+         if (_cmt::I64 == 0) goto cmu;
+         goto cmv;
+
+}}}
+
+Changes to:
+
+{{{
+// XXX change nursery to Bdescr(R1)->rc
+// XXX where is the heap check?
+         I64[Hp - 8] = stg_CAF_BLACKHOLE_info;
+         I64[Hp + 0] = CurrentTSO;
+// XXX change nursery back
+         (_cmt::I64,) = foreign "ccall"
+           newCAF((BaseReg, PtrHint), (R1, PtrHint), (Hp - 24, PtrHint));
+         if (_cmt::I64 == 0) goto cmu;
+         goto cmv;
+}}}
+
 
 **Warning:** The rest of this document describes an old iteration of the system, which directly used 
 
