@@ -6,9 +6,10 @@ Note: If you use ghc-7.6.3 on OS X as your bootstrap compiler and you are using 
 
 === 1. Read ARM-specific notes ===
 
-See [wiki:Building/CrossCompiling Cross-compiling GHC] at the bottom. In particular, you need to install llvm version 3.0 or >= 3.2. Version 3.0 definitely works. There may be outstanding issues with version 3.2.
+You must use LLVM 3.0 — there seem to be issues with other versions. It's easiest to just download the binaries and put them in your path:
+[http://llvm.org/releases/3.0/clang+llvm-3.0-x86_64-apple-darwin11.tar.gz]
 
-Make sure you build it with ARM support. It's very easy to download the source from [http://llvm.org/] and build it from source.
+See [wiki:Building/CrossCompiling Cross-compiling GHC] for more details.
 
 === 2. Scripts ===
 
