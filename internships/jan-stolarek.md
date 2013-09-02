@@ -31,6 +31,7 @@ Simon Marlow:
 - Does it make sense to create a separate flag for every Cmm optimisation I add? After all they are designed to work together
 - I need to remember to cerfully choose at which optimization levels my Cmm passes are enabled
 - Here's an interesting bit from `CoreToStg.lhs`: "a dead variable's stack slot (if it has one): should be stubbed to avoid space leaks"
+- During stack layout phase we generates stores of variables live across calls. This could lead to potentially unnecessary stores and loads. The question is whether we avoid that? If we do then how do that?
 
 ## Some interesting tickets
 
