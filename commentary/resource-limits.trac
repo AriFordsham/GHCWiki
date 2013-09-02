@@ -55,7 +55,7 @@ Changes to:
 
 }}}
 
-Changes to:
+Changes to (XXX):
 
 {{{
 // XXX change nursery to Bdescr(R1)->rc
@@ -69,6 +69,63 @@ Changes to:
          if (_cmt::I64 == 0) goto cmu;
          goto cmv;
 }}}
+
+Here is an interesting bugger:
+
+{{{
+ sat_s15K_info()
+         { label: sat_s15K_info
+           rep:HeapRep static { Thunk }
+           type: [73,79]
+           desc: [60,109,97,105,110,58,77,97,105,110,46,115,97,116,95,115,49,53,75,62]
+         }
+     c17Q:
+         if (%MO_UU_Conv_W32_W64(I32[era]) > 0) goto c17R;
+         goto c17S;
+     c17R:
+         I64[R1 + 16] = I64[R1 + 16] & 1152921503533105152 | %MO_UU_Conv_W32_W64(I32[era]) | 1152921504606846976;
+         goto c17S;
+     c17S:
+         if (Sp - 80 < SpLim) goto c17U;
+         Hp = Hp + 64;
+         if (Hp > HpLim) goto c17W;
+         I64[I64[R1 + 8] + 72] = I64[I64[R1 + 8] + 72] + %MO_UU_Conv_W64_W64(4 - 2);
+         I64[Hp - 56] = stg_CAF_BLACKHOLE_info;
+         I64[Hp - 48] = I64[R1 + 8];
+         I64[Hp - 40] = (%MO_UU_Conv_W32_W64(I32[era]) << 30) | 0;
+         I64[Hp - 32] = CurrentTSO;
+         (_c17X::I64,) = foreign "ccall"
+           newCAF((BaseReg, PtrHint), (R1, PtrHint), (Hp - 56, PtrHint));
+         if (_c17X::I64 == 0) goto c17Y;
+         goto c17Z;
+     c17U: jump stg_gc_enter_1; // [R1]
+     c17W:
+         HpAlloc = 64;
+         goto c17U;
+     c17Y: jump I64[R1]; // [R1]
+     c17Z:
+         I64[Sp - 32] = stg_bh_upd_frame_info;
+         I64[Sp - 8] = Hp - 56;
+         I64[Sp - 24] = CCCS;
+         CCCS = I64[R1 + 8];
+         I64[CCCS + 72] = I64[CCCS + 72] + %MO_UU_Conv_W64_W64(4 - 2);
+         I64[Hp - 24] = GHC.Integer.Type.S#_con_info;
+         I64[Hp - 16] = CCCS;
+         I64[Hp - 8] = (%MO_UU_Conv_W32_W64(I32[era]) << 30) | 0;
+         I64[Hp + 0] = 2;
+         I64[Sp - 40] = CCCS;
+         I64[Sp - 56] = Hp - 23;
+         I64[Sp - 64] = stg_ap_p_info;
+         I64[Sp - 72] = CCCS;
+         I64[Sp - 80] = stg_restore_cccs_info;
+         R2 = Foreign.C.Types.$fNumCInt_closure;
+         I64[Sp - 48] = s15P_info;
+         Sp = Sp - 80;
+         jump GHC.Num.fromInteger_info; // [R2]
+ }]
+}}}
+
+Notice the heap check serves for the later branch too. On the other hand, the CCCS coincides with the later change. This seems to be the general pattern. So we might be able to handle this CAF by special-casing CAFs.
 
 === Thunk code ===
 
@@ -113,14 +170,23 @@ Changes to:
 
 {{{
          if (Sp - 32 < SpLim) goto clg;
-         // XXX Update nursery
+         _crc = Bdescr(Hp);
+         // XXX ugh this is really expensive
+         // XXX is it worth avoiding the rigamorole when it's the same? maybe.
+         // closeNursery
+         I64[CurrentNursery + 8] = Hp + 8;
+         // change the nursery
+         CurrentNursery = Bdescr(R1)->rc[CurrentCap]
+         // openNursery
+         Hp = I64[CurrentNursery + 8] - 8;
+         HpLim = I64[CurrentNursery] + (%MO_SS_Conv_W32_W64(I32[CurrentNursery + 48]) * 4096 - 1);
+         // XXX end expensive bit
          Hp = Hp + 40; // or whatever this adjusts to
          if (Hp > HpLim) goto cli;
          // (blackhole)
          I64[Sp - 32] = stg_upd_frame_info;
          I64[Sp - 8] = R1;
-         I64[Sp - 24] = CurrentResourceContainer; // so we can restore it on return, NOT the same as nursery
-         // XXX Update CurrentResourceContainer
+         I64[Sp - 24] = _crc; // so we can restore it on return, NOT the same as current nursery
          // (load free variables)
          ...
      clg: jump stg_gc_enter_1; // [R1]
@@ -128,6 +194,71 @@ Changes to:
          HpAlloc = 40;
          goto clg;
 }}}
+
+=== Foreign calls ===
+
+{{{
+// savethreadState
+//   mkStore (cmmOffset dflags (CmmLoad (cmmOffset dflags stgCurrentTSO (tso_stackobj dflags)) (bWord dflags)) (stack_SP dflags)) stgSp
+         I64[I64[CurrentTSO + 40] + 32] = Sp;
+//   closeNursery dflags
+         I64[CurrentNursery + 8] = Hp + 8;
+//   mkStore (cmmOffset dflags stgCurrentTSO (tso_CCCS dflags)) curCCS
+         I64[CurrentTSO + 120] = CCCS;
+// caller_save
+         // (empty)
+// mkMiddle (callSuspendThread dflags id intrbl)
+         (_c17B::I64, PtrHint) = foreign "ccall"
+           suspendThread((BaseReg, PtrHint), (0,));
+// mkUnsafeCall tgt res args
+         (_c17l::I64, `signed') = foreign "ccall"
+           cos((_c17e::I64, `signed'));
+// mkMiddle (callResumeThread new_base id)
+         (_c17D::I64, PtrHint) = foreign "ccall"
+           resumeThread((_c17B::I64, PtrHint));
+// mkAssign (CmmGlobal BaseReg) (CmmReg (CmmLocal new_base))
+         BaseReg = _c17D::I64;
+// caller_load
+         // empty
+// loadThreadState
+//   tso = CurrentTSO
+         _c17F::I64 = CurrentTSO;
+//   stack = tso->stackobj
+         _c17H::I64 = I64[_c17F::I64 + 40];
+//   Sp = stack->sp
+         Sp = I64[_c17H::I64 + 32];
+//   SpLim = stack->stack + RESERVED_STACK_WORDS
+         SpLim = _c17H::I64 + 208;
+//   HpAlloc = 0
+         HpAlloc = 0;
+//   openNursery dflags
+         Hp = I64[CurrentNursery + 8] - 8;
+         HpLim = I64[CurrentNursery] + (%MO_SS_Conv_W32_W64(I32[CurrentNursery + 48]) * 4096 - 1);
+//   storeCurCCSm (CmmLoad (cmmOffset dflags (CmmReg (CmmLocal tso)) (tso_CCCS dflags)) (ccsType dflags))
+         CCCS = I64[_c17F::I64 + 120];
+}}}
+
+Changes to:
+
+{{{
+         I64[I64[CurrentTSO + 40] + 32] = Sp;
+         I64[CurrentNursery + 8] = Hp + 8;
+         // assume CurrentResourceContainer and nursery are consistent
+         (_c17B::I64, PtrHint) = foreign "ccall" suspendThread((BaseReg, PtrHint), (0,));
+         (_c17l::I64, `signed') = foreign "ccall" cos((_c17e::I64, `signed'));
+         (_c17D::I64, PtrHint) = foreign "ccall" resumeThread((_c17B::I64, PtrHint));
+         BaseReg = _c17D::I64;
+         _c17F::I64 = CurrentTSO;
+         _c17H::I64 = I64[_c17F::I64 + 40];
+         Sp = I64[_c17H::I64 + 32];
+         SpLim = _c17H::I64 + 208;
+         HpAlloc = 0;
+         Hp = I64[CurrentNursery + 8] - 8;
+         HpLim = I64[CurrentNursery] + (%MO_SS_Conv_W32_W64(I32[CurrentNursery + 48]) * 4096 - 1);
+         // (once again, using implicit Hp)
+         R1 = _c17l::I64;
+}}}
+
 
 
 **Warning:** The rest of this document describes an old iteration of the system, which directly used 
