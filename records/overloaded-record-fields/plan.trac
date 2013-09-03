@@ -389,16 +389,27 @@ foo . bar :: (Has a "bar" b, Has b "foo" c) => a -> c
 and `b` is an ambiguous type variable. This shows the need for the `GetResult` type family.
 
 
-=== User-defined `Has` instances ===
+=== Virtual record fields ===
 
-The user can write explicit `Has` instances, and they are scoped normally. For example:
+We could imagine supporting virtual record fields by allowing the user to declare their own instances of `Has` and `GetResult` (and possibly `Upd` and `SetResult`). For example, the user could write the following:
 
 {{{
-instance ctx => Has r "x" t where
-  getField = blah :: proxy "x" -> r -> t
+data Person = MkPerson { firstName :: String, lastName :: String }
+
+type instance GetResult Person "fullName" = String
+instance Has Person "fullName" String where
+  getField _ p = firstName p ++ " " ++ lastName p
 }}}
 
-Even with an explicit `Has` instance as above, the name `x` will not be in scope unless a datatype has a field with name `x`. This is likely to make it less useful. However, it does allow virtual fields to be declared.
+This means that the `Person` type can be used where a type with a field `fullName` is expected. Since no `SetResult` and `Upd` instances are provided, the field cannot be updated.
+
+However, this does not bring `fullName` into scope as a field, [#Scopeissuesorwhywemissdot as previously observed]. Moreover, it is difficult to check the type family instances for consistency. For example, given the following declaration
+
+{{{
+type instance GetResult a "foo" = Int
+}}}
+
+we would need to check that any datatype with a field `foo` in scope gave it the type `Int`. For these reasons, user-defined instances of the classes are not currently permitted, so virtual fields are not available.
 
 
 == Example of constraint solving ==
