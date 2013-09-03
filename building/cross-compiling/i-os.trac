@@ -83,7 +83,7 @@ Date:   Thu Aug 29 13:09:18 2013 +1200
 The ghc-ios-scripts directory you checked out earlier contains two wrappers called {{{arm-apple-darwin10-cabal}}} and {{{i386-apple-darwin11-cabal}}}. These will pass the right arguments to cabal, so you can do, for example:
 
 {{{
-arm-apple-darwin10-cabal install network
+arm-apple-darwin10-cabal install text
 }}}
 
 === 7. Make sure hsc2hs is new enough ===
