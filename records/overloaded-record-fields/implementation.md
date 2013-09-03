@@ -151,7 +151,7 @@ Since the instances are not in scope in the usual way, `matchClassInst` and `tcL
 ## Unused imports
 
 
-Unused imports and generation of the minimal import list (`RnNames.warnUnusedImportDecls`) use a map from selector names to labels, in order to print fields correctly. However, fields may currently be reported as unused even if the corresponding Has instance is used. Consider the following:
+Unused imports and generation of the minimal import list (`RnNames.warnUnusedImportDecls`) use a map from selector names to labels, in order to print fields correctly. Moreover, consider the following:
 
 ```wiki
 module A where
@@ -171,7 +171,10 @@ module C where
 
 Now, do we expect to report the 'x' in S(x) import as unused?  Actually the entire 'import B' is unused.  Only the typechecker will eventually know that.
 
-**AMG** How can we get this information out of the typechecker?
+
+To record this, I've added a new field `tcg_used_selectors :: TcRef NameSet` to the `TcGblEnv`, which records the selector names for fields that are encountered during typechecking (when looking up a `Has` instance etc.). This set is used to calculate the import usage and unused top-level bindings. Thus a field will be counted as used if it is needed by the typechecker, regardless of whether any definitions it appears in are themselves used.
+
+**AMG** One problem remains: typechecking the instances generated for a field counts as a use of that field! So all locally defined overloaded fields will be counted as used.
 
 ## Deprecated field names
 
@@ -258,7 +261,6 @@ We could mangle selector names (using `$sel_foo_T` instead of `foo`) even when t
 
 ## Outstanding bugs
 
-- generics/GenDerivOutput, GenDerivOutput1_0, GenDerivOutput1_1 (revert changed behaviour of `-ddump-deriv`)
 - typechecker/should_fail/tcfail102 (changed error message)
 
 ## To do
@@ -266,8 +268,8 @@ We could mangle selector names (using `$sel_foo_T` instead of `foo`) even when t
 - When there is only one thing in scope, what should we do? See [discussion here](records/overloaded-record-fields/plan#scope-issues,-or,-why-we-miss-dot).
 - Add `HsVarOut RdrName id` instead of `HsSingleRecFld` (or perhaps rename `HsVar` to `HsVarIn`)? This would also be useful to recall how the user referred to something.
 
-- Support virtual fields or forbid them?
-- Sort out reporting of unused imports.
+- Fix reporting of unused local field definitions.
+- Only do magic instance lookup when the extension is enabled?
 - Haddock omits fields from HTML index and prints selector names in LaTeX exports list.
 
 - Consider syntactic sugar for `Upd` constraints.
