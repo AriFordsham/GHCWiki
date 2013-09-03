@@ -293,7 +293,10 @@ Binary Sizes
         Average                -----           +0.6%           +0.6%
 ```
 
-#### 2.7Ghz Core i7 MacBook Pro, 16 GB, 64-bit
+#### 2.7Ghz Core i7 MacBook Pro, 16GB memory, 64-bit
+
+
+One processor with two cores; each core has 25 KB L2 cache, with a (shared) 4MB L3 cache.
 
 ##### mode=norm NoFibRuns=30
 
@@ -363,7 +366,10 @@ reverse-complem                 0.27          +13.5%          +12.8%
         Average                -----           -0.9%           -0.8%
 ```
 
-#### really big many-core server, 48 GB, 64-bit
+#### two processors, each 2.40GHz Xeon E5620, 12MB cache, 48GB memory, 64-bit
+
+
+cf [ http://ark.intel.com/products/47925](http://ark.intel.com/products/47925), both processors have four cores (so eight "threads" via Hyper-Threading).
 
 ##### mode=norm NoFibRuns=30
 
