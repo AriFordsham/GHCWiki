@@ -239,23 +239,21 @@ We could mangle selector names (using `$sel_foo_T` instead of `foo`) even when t
   * Boot files that export record selectors not working
 
 
-== Outstanding bugs ==
-
-* typechecker/should_fail/tcfail102 (changed error message)
-
-
 == To do ==
 
-* Add `HsVarOut RdrName id` instead of `HsSingleRecFld` (or perhaps rename `HsVar` to `HsVarIn`)? This would also be useful to recall how the user referred to something.
+* Add `HsVarOut RdrName id` instead of `HsSingleRecFld` (or perhaps rename `HsVar` to `HsVarIn`)?
+  * This would also be useful to recall how the user referred to something.
 
-* Haddock omits fields from HTML index and prints selector names in LaTeX exports list.
+* Haddock omits fields from HTML index and prints selector names in LaTeX exports list and Hoogle output.
 
 * When there is only one thing in scope, what should we do? See [wiki:Records/OverloadedRecordFields/Plan#Scopeissuesorwhywemissdot discussion here].
 * Is the story about `-fwarn-unused-binds` okay?
 * Is `TcInstDcls.tcFldInsts` correct in its use of `simplifyTop` and assuming there will be no `ev_binds`?
+* Is it worth generating all the derived names early, to get rid of `tcg_dfun_n`?
 
 * Consider syntactic sugar for `Upd` constraints.
 * Improve unsolved `Accessor p f` error message where `p` is something silly?
 * Consider defaulting `Accessor p` to `p = (->)`, and defaulting `Has r "f" t` constraints where there is only one datatype with a field `f` in scope.
 
 * Document the extension.
+* Tidy up code, comment, remove unused imports.
