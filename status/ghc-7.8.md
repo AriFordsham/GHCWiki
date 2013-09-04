@@ -35,7 +35,7 @@ The following new features are planned for 7.8. They are at varying degrees of c
 
 - Geoff Mainland is working generalising the support for SSE-like instructions.
 
-- Iavor Diatchki is working on type-level nats ([\#4385](https://gitlab.haskell.org//ghc/ghc/issues/4385), [ http://ghc.haskell.org/trac/ghc/wiki/TypeNats](http://ghc.haskell.org/trac/ghc/wiki/TypeNats)).
+- Iavor Diatchki is working on type-level nats ([\#4385](https://gitlab.haskell.org//ghc/ghc/issues/4385), [ http://ghc.haskell.org/trac/ghc/wiki/TypeNats](http://ghc.haskell.org/trac/ghc/wiki/TypeNats)).  The plan is to support simple type-level arithmetic in GHC 7.8. The branch `type-nats-simple` has the code.
 
 - Austin Seipp would like to do some official ARMv7 binary releases with a working stage2 compiler and GHCi, but there are probably some bugs waiting here.
 
