@@ -19,30 +19,30 @@ Instead we identify "interesting" places inside the compiler and allow users of 
 ## Example
 
 ```wiki
-...
+
   withGhc libdir $ do
     dflags0 <- getSessionDynFlags
     let dflags1 = dflags0{ hooks = insertHook LocateLibHook myLocateLib
                                  . insertHook LinkDynLibHook myLinkDynLibHook
                                  $ hooks dflags0 }
     setSessionDynFlags dflags1
-...
 
 myLocateLib :: DynFlags -> Bool -> [FilePath] -> String -> IO LibrarySpec
-myLocateLib ...
+myLocateLib 
 
 myLinkDynLibHook :: DynFlags -> [FilePath] -> [PackageId] -> IO ()
 myLinkDynLibHook dflags paths ids = do 
+```
 
-}}}                                                . 
 
 The two functions will be called whenever GHC needs to locate or link a dynamically loaded library.
 
-== The Hook datatype ==
+## The Hook datatype
 
-Each hook has a potentially different type from all the other hooks. Additionally, we need to be able to communicate hooks to all the locations where they may be invoked. This is achieved by storing the list of hooks in the {{{DynFlags}}}.  This, however, means that hooks cannot be defined as an ADT, as that would lead to huge cyclic imports (the data types used by the hooks will depend on {{{DynFlags}}}, but the {{{DynFlags}}} will depend on the hook data type.  Instead we {{{Hooks}}} is an untyped key-value store.  The keys are single constructor types and the {{{Hooks}}} map is indexed by their {{{TypeRep}}}.  We recover the hook type via a type family:
 
-{{{
+Each hook has a potentially different type from all the other hooks. Additionally, we need to be able to communicate hooks to all the locations where they may be invoked. This is achieved by storing the list of hooks in the `DynFlags`.  This, however, means that hooks cannot be defined as an ADT, as that would lead to huge cyclic imports (the data types used by the hooks will depend on `DynFlags`, but the `DynFlags` will depend on the hook data type.  Instead we `Hooks` is an untyped key-value store.  The keys are single constructor types and the `Hooks` map is indexed by their `TypeRep`.  We recover the hook type via a type family:
+
+```wiki
 --- Implementation Sketch -----------------------
 data Hook = forall a. Hook TypeRep a
 
@@ -61,15 +61,12 @@ lookupHook hooks =
   case Map.lookup key of
      Nothing -> Nothing
      Just (Hook _ h) -> Just (unsafeCoerce h :: HookType a)  -- the tricky bit
-}}}
-
-{{{
--- usage:
-data LocateLibHook = LocateLibHook deriving Typeable
-
-type instance HookType LocateLibHook = DynFlags -> Bool -> [FilePath] -> String -> IO LibrarySpec
-}}}
-
-== TODO: List all currently available hooks ==
-
 ```
+
+```wiki
+-- Defining a hook type:
+data LocateLibHook = LocateLibHook deriving Typeable
+type instance HookType LocateLibHook = DynFlags -> Bool -> [FilePath] -> String -> IO LibrarySpec
+```
+
+## TODO List all currently available hooks
