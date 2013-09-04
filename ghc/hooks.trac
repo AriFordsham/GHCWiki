@@ -15,22 +15,20 @@ Instead we identify "interesting" places inside the compiler and allow users of 
 == Example ==
 
 {{{
-...
+
   withGhc libdir $ do
     dflags0 <- getSessionDynFlags
     let dflags1 = dflags0{ hooks = insertHook LocateLibHook myLocateLib
                                  . insertHook LinkDynLibHook myLinkDynLibHook
                                  $ hooks dflags0 }
     setSessionDynFlags dflags1
-...
 
 myLocateLib :: DynFlags -> Bool -> [FilePath] -> String -> IO LibrarySpec
-myLocateLib ...
+myLocateLib 
 
 myLinkDynLibHook :: DynFlags -> [FilePath] -> [PackageId] -> IO ()
 myLinkDynLibHook dflags paths ids = do 
-
-}}}                                                . 
+}}}
 
 The two functions will be called whenever GHC needs to locate or link a dynamically loaded library.
 
@@ -60,9 +58,8 @@ lookupHook hooks =
 }}}
 
 {{{
--- usage:
+-- Defining a hook type:
 data LocateLibHook = LocateLibHook deriving Typeable
-
 type instance HookType LocateLibHook = DynFlags -> Bool -> [FilePath] -> String -> IO LibrarySpec
 }}}
 
