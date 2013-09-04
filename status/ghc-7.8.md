@@ -41,6 +41,8 @@ The following new features are planned for 7.8. They are at varying degrees of c
 
 - Austin Seipp would like to do some official ARMv7 binary releases with a working stage2 compiler and GHCi, but there are probably some bugs waiting here.
 
+- Austin also still has a lingering patch for [\#7602](https://gitlab.haskell.org//ghc/ghc/issues/7602) to fix a large OS X performance regression, but it's still not merged. The final details must be sorted out with Simon Marlow.
+
 - Edsko de Vries would like to have "Source plugins" in GHC, which would allow API clients and external users to run code over the type-checked AST. Thomas Schilling and others are also interested. Edsko has proposed a patch, but it has yet to be integrated. See [ http://www.haskell.org/pipermail/ghc-devs/2013-June/001358.html](http://www.haskell.org/pipermail/ghc-devs/2013-June/001358.html) and [ http://www.haskell.org/pipermail/ghc-devs/2013-July/001624.html](http://www.haskell.org/pipermail/ghc-devs/2013-July/001624.html)
 
 - Dynamic GHCi ([\#3658](https://gitlab.haskell.org//ghc/ghc/issues/3658)). This is working in HEAD, and enabled if `DYNAMIC_GHC_PROGRAMS=YES`. Currently it's enabled by default if dynamic libraries are supported, except for FreeBSD and Windows.
