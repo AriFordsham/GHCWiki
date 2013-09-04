@@ -44,7 +44,7 @@ The following new features are planned for 7.8. They are at varying degrees of c
 
  * Ryan Newton has added a larger set of atomic memory primops than were previously available.  The code was developed on the `atomics` branch, which is now merged.  The set of PrimOps may continue to expand slightly, but for now includes `casArray#`, `casIntArray#`, and `fetchAddIntArray#`.  In future work, Carter Schonwald will provide optimized (inline) versions of these PrimOps, at least for the LLVM backend.
 
- * The Applicative-Monad warning would preferably be integrated. See #8004. David LDavid Luposchainsky is driving this.
+ * The Applicative-Monad warnings would preferably be integrated. See #8004. David Luposchainsky is driving this. (Current status: Warnings implemented, GHC compiles AMP-warning-free. What's left to do is getting the testsuite up to date with this.)
 
 == Features that will definitely not make it  ==
 
