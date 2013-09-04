@@ -99,6 +99,21 @@ The ghc-ios-scripts directory you checked out earlier contains two wrappers call
 arm-apple-darwin10-cabal install text
 ```
 
+
+If you get errors like "Could not find module Prelude" when installing cabal packages, you probably have cabal's library profiling option on, which our compilation instructions don't enable for GHC's libraries.
+You can either disable it by setting
+
+```wiki
+library-profiling: False
+```
+
+
+in your `~/.cabal/config` file, or by passing the `--disable-library-profiling` like
+
+```wiki
+i386-apple-darwin11-cabal install text --disable-library-profiling
+```
+
 ### 7. Make sure hsc2hs is new enough
 
 
