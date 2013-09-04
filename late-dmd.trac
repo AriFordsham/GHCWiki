@@ -2,7 +2,10 @@
 
 Notes about running demand analysis a second time, late in the pipeline.
 
-Commits c080f727ba5f83921b842fcff71e9066adbdc250 [a7920ef6eefa5578c89b7cda0d6be207ee38c502/testsuite]
+Commits
+  * c080f727ba5f83921b842fcff71e9066adbdc250 - discussed by this page
+  * [a7920ef6eefa5578c89b7cda0d6be207ee38c502/testsuite] - I updated tests' expected behavior in the presence of c080f727
+  * e4a1d2d0a71bf335a04eaf93deb440b709f9430e - SPJ finished what c080f727 started by further simplifying things I hadn't recognized as possible
 
 == Commit notes ==
 
