@@ -43,7 +43,7 @@ The following new features are planned for 7.8. They are at varying degrees of c
 
  * Ryan Newton has added a larger set of atomic memory primops than were previously available.  The code can be found on the `atomics` branch).  The set of PrimOps may continue to expand slightly, but will definitely be ready for 7.8.  In future work, Carter Schonwald will provide optimized (inline) versions of these PrimOps, at least for the LLVM backend.
 
- * The Applicative-Monad warning would preferably be integrated. See #8004. Dan Rosén seems to have a first draft of a patch here: https://github.com/danr/ghc/commit/86631ffd294af320cb9b00e1a593201af887ed72 - SimonPJ to review.
+ * The Applicative-Monad warning would preferably be integrated. See #8004. David LDavid Luposchainsky is driving this.
 
 == Features that will definitely not make it  ==
 
