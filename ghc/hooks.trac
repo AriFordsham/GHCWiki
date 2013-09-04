@@ -12,7 +12,59 @@ One option is to split GHC's stages into lots of small function calls and allow 
 
 Instead we identify "interesting" places inside the compiler and allow users of the GHC API to specify a call-back that gets invoked when execution reaches that place.  For example, instead of calling {{{typecheckRename}}} function directly, we first look up whether there is a hook specified for and if so call that function instead.  The hook may choose to perform its own renaming and type checking passes (unlikely) or call the GHC's {{{typecheckRename}}} function and inspect its output and generate additional files on disk.
 
+== Example ==
+
+{{{
+...
+  withGhc libdir $ do
+    dflags0 <- getSessionDynFlags
+    let dflags1 = dflags0{ hooks = insertHook LocateLibHook myLocateLib
+                                 . insertHook LinkDynLibHook myLinkDynLibHook
+                                 $ hooks dflags0 }
+    setSessionDynFlags dflags1
+...
+
+myLocateLib :: DynFlags -> Bool -> [FilePath] -> String -> IO LibrarySpec
+myLocateLib ...
+
+myLinkDynLibHook :: DynFlags -> [FilePath] -> [PackageId] -> IO ()
+myLinkDynLibHook dflags paths ids = do 
+
+}}}                                                . 
+
+The two functions will be called whenever GHC needs to locate or link a dynamically loaded library.
+
 == The Hook datatype ==
 
 Each hook has a potentially different type from all the other hooks. Additionally, we need to be able to communicate hooks to all the locations where they may be invoked. This is achieved by storing the list of hooks in the {{{DynFlags}}}.  This, however, means that hooks cannot be defined as an ADT, as that would lead to huge cyclic imports (the data types used by the hooks will depend on {{{DynFlags}}}, but the {{{DynFlags}}} will depend on the hook data type.  Instead we {{{Hooks}}} is an untyped key-value store.  The keys are single constructor types and the {{{Hooks}}} map is indexed by their {{{TypeRep}}}.  We recover the hook type via a type family:
+
+{{{
+--- Implementation Sketch -----------------------
+data Hook = forall a. Hook TypeRep a
+
+type Hooks = Map TypeRep Hook
+
+type family HookType a :: *
+
+insertHook :: forall a. Typeable a => a -> HookType a -> Hooks -> Hooks
+insertHook key value hooks =
+  let hook = Hook (typeOf key) value in
+  Map.insert (typeOf key) hook hooks
+
+lookupHook :: forall a. Typeable a => Hooks -> Maybe (HookType a)
+lookupHook hooks =
+  let key = typeOf (undefined :: a) in
+  case Map.lookup key of
+     Nothing -> Nothing
+     Just (Hook _ h) -> Just (unsafeCoerce h :: HookType a)  -- the tricky bit
+}}}
+
+{{{
+-- usage:
+data LocateLibHook = LocateLibHook deriving Typeable
+
+type instance HookType LocateLibHook = DynFlags -> Bool -> [FilePath] -> String -> IO LibrarySpec
+}}}
+
+== TODO: List all currently available hooks ==
 
