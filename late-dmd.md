@@ -7,6 +7,7 @@ Commits
 - [c080f727ba5f83921b842fcff71e9066adbdc250](/trac/ghc/changeset/c080f727ba5f83921b842fcff71e9066adbdc250/ghc) - discussed by this page
 - [\[a7920ef6eefa5578c89b7cda0d6be207ee38c502/testsuite\]](/trac/ghc/changeset/a7920ef6eefa5578c89b7cda0d6be207ee38c502/testsuite) - I updated tests' expected behavior in the presence of c080f727
 - [e4a1d2d0a71bf335a04eaf93deb440b709f9430e](/trac/ghc/changeset/e4a1d2d0a71bf335a04eaf93deb440b709f9430e/ghc) - SPJ finished what c080f727 started by further simplifying things I hadn't recognized as possible
+- [34728de0f059d8e076981448392203f2501aa120](/trac/ghc/changeset/34728de0f059d8e076981448392203f2501aa120/ghc) - I updated the documentation and a source Note for -flate-dmd-anal and -ffun-to-thunk
 
 ## Commit notes
 
@@ -17,8 +18,6 @@ The -flate-dmd-anal flag runs the demand analysis a second time just before Core
 The bulk of this patch merely simplifies the treatment of wrappers in interface files.
 
 ## TODO
-
-- Update the documentation to explain -flate-dmd-anal.
 
 - Ask the performance czars and community for help in determining if we should make -O2 imply -flate-dmd-anal.
 
