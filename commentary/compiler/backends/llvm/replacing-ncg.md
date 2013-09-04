@@ -21,3 +21,6 @@ Other considerations:
 1. The GHC distribution would need to start shipping with its own copy of LLVM. The LLVM code that GHC produces typically lags the current version of LLVM, so we'd need to ensure there was a usable version.
 
 1. If we did ship our own version of LLVM, we could add custom plugins to improve the GHC generated code. At one stage Max Bolingbroke wrote an LLVM alias analysis plugin, but making it work against an arbitrary existing LLVM version would be infeasible.
+
+
+note (carter): If we're very thoughtful about the changes / extensions to llvm needed for GHC, I'm somewhat confident that we could get any such patches upstreamed to llvm proper. The down side of this is that any such features would be subject to the llvm release cycle, plus we'd want to make sure that we're not just completely changing what we'd like upstreamed every ghc release cycle. The upside is that we'd get a lot more scrutiny / feedback / checking by llvm devs than we'd get with our own patched variant
