@@ -146,8 +146,6 @@ Typeclass and family instances are generated and typechecked by `makeOverloadedR
 
 Since the instances are not in scope in the usual way, `matchClassInst` and `tcLookupFamInst` look for the relevant constraints or type families and find the instances directly, rather than consulting `tcg_inst_env` or `tcg_fam_inst_env`. They first perform a lookup to check that the field name is in scope. A new field `tcg_fld_inst_env` in `TcGblEnv` maps a selector name in the current module to its `DFunId`s and `FamInst`s; this is needed for solving constraints that arise while checking the automatically generated instances themselves.
 
-**AMG** The instance lookup is currently implemented as a separate check, which means virtual fields should be forbidden. Perhaps it could be integrated into the existing overlapping instances mechanism, but type families need some care to avoid soundness bugs.
-
 ## Unused imports
 
 
@@ -165,16 +163,26 @@ module C where
   import B( S(x) )
 
   foo :: T -> Int
-  foo r = r.x + 2
+  foo r = x r + 2
 ```
 
 
-Now, do we expect to report the 'x' in S(x) import as unused?  Actually the entire 'import B' is unused.  Only the typechecker will eventually know that.
+Now, do we expect to report the `import B( S(x) )` as unused? Only the typechecker will eventually know that. To record this, I've added a new field `tcg_used_selectors :: TcRef NameSet` to the `TcGblEnv`, which records the selector names for fields that are encountered during typechecking (when looking up a `Has` instance etc.). This set is used to calculate the import usage and unused top-level bindings. Thus a field will be counted as used if it is needed by the typechecker, regardless of whether any definitions it appears in are themselves used.
 
 
-To record this, I've added a new field `tcg_used_selectors :: TcRef NameSet` to the `TcGblEnv`, which records the selector names for fields that are encountered during typechecking (when looking up a `Has` instance etc.). This set is used to calculate the import usage and unused top-level bindings. Thus a field will be counted as used if it is needed by the typechecker, regardless of whether any definitions it appears in are themselves used.
+Unused local bindings are trickier, as the following example illustrates:
 
-**AMG** One problem remains: typechecking the instances generated for a field counts as a use of that field! So all locally defined overloaded fields will be counted as used.
+```wiki
+module M (f)
+  data S = MkS { foo :: Int }
+  data T = MkT { foo :: Int }
+
+  f = foo (MkS 3)
+  g x = foo x
+```
+
+
+The renamer calculates the free variables of each definition, to produce a list of `DefUses`. In both `f` and `g` we get potential uses of `S(foo)` and `T(foo)`, but the typechecker will discover that `f` uses only `S(foo)` while `g` uses neither. (But `g` requires `foo` to be in scope somehow!) The simplest thing is to make an occurrence of an overloaded field in an expression return as free variables all the selectors it might refer to. This will sometimes fail to report unused local bindings: in the example, it will not spot that `T(foo)` is unused.
 
 ## Deprecated field names
 
@@ -265,12 +273,13 @@ We could mangle selector names (using `$sel_foo_T` instead of `foo`) even when t
 
 ## To do
 
-- When there is only one thing in scope, what should we do? See [discussion here](records/overloaded-record-fields/plan#scope-issues,-or,-why-we-miss-dot).
 - Add `HsVarOut RdrName id` instead of `HsSingleRecFld` (or perhaps rename `HsVar` to `HsVarIn`)? This would also be useful to recall how the user referred to something.
 
-- Fix reporting of unused local field definitions.
-- Only do magic instance lookup when the extension is enabled?
 - Haddock omits fields from HTML index and prints selector names in LaTeX exports list.
+
+- When there is only one thing in scope, what should we do? See [discussion here](records/overloaded-record-fields/plan#scope-issues,-or,-why-we-miss-dot).
+- Is the story about `-fwarn-unused-binds` okay?
+- Is `TcInstDcls.tcFldInsts` correct in its use of `simplifyTop` and assuming there will be no `ev_binds`?
 
 - Consider syntactic sugar for `Upd` constraints.
 - Improve unsolved `Accessor p f` error message where `p` is something silly?
