@@ -24,7 +24,7 @@ Other documentation for Windows includes:
 
 1. **Install the MinGW and MSYS tools:**
 
-  MinGW provides a windows version of GCC while MSYS provides a minimal UNIX environment (e.g bash, make... ect). The website for MinGW is totally confusing, so go here [ Mingw/MSYS Getting Started](http://www.mingw.org/wiki/Getting_Started) and follow the download instructions for the **mingw-get-inst** installer. This is an easy to use installer for installing both MinGW and MSYS.   Make sure when you run the installer that you **select to install g++, MSYS and the MSYS Dev Kit**.
+  MinGW provides a windows version of GCC while MSYS provides a minimal UNIX environment (e.g bash, make... ect). The website for MinGW is totally confusing, so go here [ Mingw/MSYS Getting Started](http://www.mingw.org/wiki/Getting_Started) and follow the download instructions for the **mingw-get-inst** installer. This is an easy to use installer for installing both MinGW and MSYS.   Make sure when you run the installer that you **select to install msys-base, mingw32-base and mingw-developer-toolkit**.
 
 1. **Set your `PATH`**. You need to include at least
 
@@ -49,8 +49,7 @@ Other documentation for Windows includes:
 
 1. If you use a shell within Emacs, make sure your `SHELL` environment variable points to the `bash` in `c:/MinGW/msys/1.0/bin`. 
 
-1. **Launch the shell** by starting the 'MinGW Shell' which should be in your start menu.
-  Use `autoconf --version` to check that you have at least version 2.68 of `autoconf`. Version 2.56 (which was around for a long time) does not work for GHC's build system.
+1. **Launch the shell** by starting the 'Command Prompt' (cmd.exe via Run). Get into the MingW shell by running 'bash', and  use `autoconf --version` to check that you have at least version 2.68 of `autoconf`. Version 2.56 (which was around for a long time) does not work for GHC's build system.
 
 
 You should now have a working environment for getting the source for GHC and building it!
