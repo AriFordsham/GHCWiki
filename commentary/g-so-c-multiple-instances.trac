@@ -3,6 +3,8 @@
 
 It is possible to install multiple instances of the same package version with my forks of cabal and ghc. Quite a few problems remain.
 
+See also [wiki:Commentary/Packages/MultiInstances]
+
 === Unique Install Location ===
 
 When specifying the install location there is a new variable $unique available. It is resolved to a random number by cabal-install during configuring. The default libsubdir for cabal-install should be "$packageid-$unique" for example "mtl-2.1.2-1222131559". Cabal the library does not understand $unique so multiple instances of the same package version installed via "runhaskell Setup.hs install" are still problematic.
