@@ -4,7 +4,7 @@
 This is a plan to implement overloaded record fields, along the lines of SPJ's [Simple Overloaded Record Fields](records/overloaded-record-fields) proposal, as a Google Summer of Code project. (See the [ GSoC project details](http://www.google-melange.com/gsoc/project/google/gsoc2013/adamgundry/23001), for reference.) The page on [Records](records) gives the motivation and many options.  In particular, the proposal for [Declared Overloaded Record Fields](records/declared-overloaded-record-fields) is closely related but makes some different design decisions.
 
 
-This page describes the design. Separate [notes on the implementation](records/overloaded-record-fields/implementation) are available, but not necessarily comprehensible. Development of the extension is taking place on forks of the [ ghc](https://github.com/adamgundry/ghc) and [ packages-base](https://github.com/adamgundry/packages-base) repositories (on branch 'overloaded-record-fields'). A [ prototype implementation](https://github.com/adamgundry/records-prototype) is also available.
+This page describes the design. Separate [notes on the implementation](records/overloaded-record-fields/implementation) are available, but not necessarily comprehensible. Development of the extension is taking place on forks of the [ ghc](https://github.com/adamgundry/ghc), [ packages-base](https://github.com/adamgundry/packages-base), [ haddock](https://github.com/adamgundry/haddock) and [ testsuite](https://github.com/adamgundry/testsuite) repositories (on branch 'overloaded-record-fields'). A [ prototype implementation](https://github.com/adamgundry/records-prototype) is also available.
 
 ### Motivation
 
