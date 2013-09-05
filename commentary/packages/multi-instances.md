@@ -8,6 +8,12 @@ This page is about how to change the package system to allow multiple instances 
 
 - To make installing new packages more robust.  When installing a new package, we sometimes need to upgrade packages that are already installed to new versions, which may require recompiling other packages against the new version.  For example, if we have P1 installed, Q1 depends on P (any version), and we need to install R that depends on both P2 and Q1.  We need to build P2, rebuild Q1 against P2, and finally build R against P2 and the new Q1.  We would like to do this without removing P1 or the old Q1 from the package database, because other packages may be depending on the old Q1, and we don't want to break those packages (which is what currently happens with GHC 7.0).
 
+
+See also
+
+- [GSoC project wiki page](commentary/g-so-c-multiple-instances) and [ video](https://www.youtube.com/watch?v=h4QmkyN28Qs).
+- [ Mikhail's post](http://coldwa.st/e/blog/2013-08-20-Cabal-sandbox.html) about Cabal sandboxes. 
+
 ## ToDo list
 
 - ghc-pkg: do not overwrite previous instances in the package DB
