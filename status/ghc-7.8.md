@@ -64,4 +64,4 @@ The following new features are planned for 7.8. They are at varying degrees of c
 
 - [PatternSynonyms](pattern-synonyms), by Gergo Erdi. Progress tracked at [\#5144](https://gitlab.haskell.org//ghc/ghc/issues/5144).
 
-- Explicit type application (Stephanie and her students)
+- [Explicit type application](explicit-type-application) (Stephanie and her students)
