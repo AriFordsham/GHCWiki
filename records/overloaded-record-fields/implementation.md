@@ -267,13 +267,15 @@ We could mangle selector names (using `$sel_foo_T` instead of `foo`) even when t
 - Trouble with deriving instances in GHC.Generics (makes up un-renamed syntax using field `RdrName`s)
 - Boot files that export record selectors not working
 
+## GHC API changes
+
+- The `minf_exports` field of `ModuleInfo` is now of type `[AvailInfo]` rather than `NameSet`, as this provides accurate export information. An extra function `modInfoExportsWithSelectors` gives a list of the exported names including overloaded record selectors (whereas `modInfoExports` includes only non-mangled selectors).
+
 ## To do
 
 - Add `HsVarOut RdrName id` instead of `HsSingleRecFld` (or perhaps rename `HsVar` to `HsVarIn`)?
 
   - This would also be useful to recall how the user referred to something.
-
-- Haddock omits fields from HTML index and prints selector names in LaTeX exports list and Hoogle output.
 
 - When there is only one thing in scope, what should we do? See [discussion here](records/overloaded-record-fields/plan#scope-issues,-or,-why-we-miss-dot).
 - Is the story about `-fwarn-unused-binds` okay?
