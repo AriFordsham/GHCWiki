@@ -33,8 +33,7 @@ hooksExample args targetFiles =
       runGhc (Just libdir) $ do
         dflags0 <- getSessionDynFlags
         (dflags1, _leftover, _warns) <- parseDynamicFlags dflags0 args
-        let ah hk h dfs = dfs { hooks = insertHook hk h (hooks dfs) }
-            dflags2 = dflags1 { hooks = insertHook RunQuasiQuoteHook myRunQuasiQuote (hooks dflags1) }
+        let dflags2 = dflags1 { hooks = insertHook RunQuasiQuoteHook myRunQuasiQuote (hooks dflags1) }
         setSessionDynFlags dflags2
         setTargets =<< mapM (\file -> guessTarget file Nothing) targetFiles
         successFlag <- sourceErrorHandler (load LoadAllTargets)
