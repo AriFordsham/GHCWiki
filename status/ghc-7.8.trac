@@ -19,6 +19,8 @@ The following new features are planned for 7.8. They are at varying degrees of c
 
  * Patrick Palka has been working on making `--make` mode parallel with a `-j` flag. He has a stable set of improvements he'd like to see in 7.8: see the latest updates in #910.
 
+ * Trevor Elliot and Iavor Diatchki have implemented [wiki:GhcKinds/KindsWithoutData].  Not yet clear whether they'll be ready for 7.8
+
  * Nicolas Frisby is adding a few Core-to-Core optimisations. They usually slightly improve performance, but can sometimes make a big difference, both good and bad. They are off by default.
     * (will merge by 6 Sept)`-fdicts-strict` will make all dictionary arguments strict if they are certainly not part of a knot.
     * (merged, cf af12cf66d1a416a135cb98b86717aba2cd247e1a and section in LateDmd) `-ffun-to-thunk` flag to revert a new (default) behavior that prevents GHC from creating sharing
@@ -44,7 +46,7 @@ The following new features are planned for 7.8. They are at varying degrees of c
    On Windows, there are a couple of build time annoyances: `-dynamic-too` doesn't work on Windows, and linking takes a very long time when dynamic linking is used. There's no technical reason why it couldn't be enabled, though.
    The plan is/was to use dynamic GHCi on as many platforms as possible in 7.8, and to remove support for non-dynamic-ghci in HEAD soon after. See discussion in #8039, however.
 
- * Ryan Newton has added a larger set of atomic memory primops than were previously available.  The code was developed on the `atomics` branch, which is now merged.  The set of PrimOps may continue to expand slightly, but for now includes `casArray#`, `casIntArray#`, and `fetchAddIntArray#`.  In future work, Carter Schonwald will provide optimized (inline) versions of these PrimOps, at least for the LLVM backend.
+ * Ryan Newton has added a larger set of atomic memory primops than were previously available.  The code was developed on the `atomics` branch, which is now merged.  The set of !PrimOps may continue to expand slightly, but for now includes `casArray#`, `casIntArray#`, and `fetchAddIntArray#`.  In future work, Carter Schonwald will provide optimized (inline) versions of these !PrimOps, at least for the LLVM backend.
 
  * The Applicative-Monad warnings would preferably be integrated, see #8004. David Luposchainsky is driving this. (Current status: Warnings implemented, GHC compiles AMP-warning-free. What's left to do is getting the testsuite up to date with this. 13th is a very generous estimate.)
 

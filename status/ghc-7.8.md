@@ -23,6 +23,8 @@ The following new features are planned for 7.8. They are at varying degrees of c
 
 - Patrick Palka has been working on making `--make` mode parallel with a `-j` flag. He has a stable set of improvements he'd like to see in 7.8: see the latest updates in [\#910](https://gitlab.haskell.org//ghc/ghc/issues/910).
 
+- Trevor Elliot and Iavor Diatchki have implemented [GhcKinds/KindsWithoutData](ghc-kinds/kinds-without-data).  Not yet clear whether they'll be ready for 7.8
+
 - Nicolas Frisby is adding a few Core-to-Core optimisations. They usually slightly improve performance, but can sometimes make a big difference, both good and bad. They are off by default.
 
   - (will merge by 6 Sept)`-fdicts-strict` will make all dictionary arguments strict if they are certainly not part of a knot.
