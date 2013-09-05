@@ -3,6 +3,9 @@
 
 It is possible to install multiple instances of the same package version with my forks of cabal and ghc. Quite a few problems remain.
 
+
+See also [Commentary/Packages/MultiInstances](commentary/packages/multi-instances)
+
 ### Unique Install Location
 
 
