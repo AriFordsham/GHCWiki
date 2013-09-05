@@ -74,4 +74,4 @@
 ### xhtml
 
 - upstream: [ http://github.com/haskell/xhtml](http://github.com/haskell/xhtml)
-- **TODO**
+- unmodified at clean 3000.2.1 release since GHC 7.6.3 release
