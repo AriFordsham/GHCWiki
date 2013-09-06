@@ -2,6 +2,7 @@
 
 == Type inference ==
 
+ * #8240: better error messages for type-function equalities
  * #8095: very slow constraint solving
  * #8171: extended default rules
  * #8177: role signature for type families
