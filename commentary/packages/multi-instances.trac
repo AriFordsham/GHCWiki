@@ -9,8 +9,9 @@ This page is about how to change the package system to allow multiple instances 
 
 See also
  * [wiki:Commentary/Packages Commentary pages about packages]
- * [wiki:Commentary/GSoCMultipleInstances GSoC project wiki page] and [https://www.youtube.com/watch?v=h4QmkyN28Qs video].
+ * Philipp Schuster's GSoC project [http://www.google-melange.com/gsoc/proposal/review/google/gsoc2012/phischu/1 proposal], [http://www.google-melange.com/gsoc/project/google/gsoc2012/phischu/19001 GSoC project page] [wiki:Commentary/GSoCMultipleInstances Trac wiki page], [https://github.com/phischu/cabal git repo], and [https://www.youtube.com/watch?v=h4QmkyN28Qs video].
  * [http://coldwa.st/e/blog/2013-08-20-Cabal-sandbox.html Mikhail's post] about Cabal sandboxes. 
+ * Mailing list stuff [http://comments.gmane.org/gmane.comp.lang.haskell.ghc.devel/443 here] and [http://markmail.org/message/4qvegvx32lhlo66g#query:+page:1+mid:bwdgykv4g2hzqg5t+state:results here].
 
 == !ToDo list ==
 
