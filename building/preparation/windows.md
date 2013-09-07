@@ -77,7 +77,7 @@ It is very important to put the msys/mingw stuff on your path *before*`c:/window
 
 **Symptom**: `sh libtool` hangs indefinitely.  The process manager shows an extant `cmd` and `sed`, but nothing else.  `libtool` is a shell script that comes from a tarball, and is unpacked into `libraries/integer-gmp/gmp/gmpbuild/libtool`
 
-**Cause**: `libtool` invokes the following command line (in the function `func_convert_coer_msys_to_w32`:
+**Cause**: `libtool` invokes the following command line (in the function `func_convert_coer_msys_to_w32`):
 
 ```wiki
      cmd /c “echo blah”
