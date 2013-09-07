@@ -1,2 +1,14 @@
 
 Lorem ipsum...
+
+## some misc. notes about submodules
+
+
+See also some older notes: [DarcsConversion\#Theperspectiveonsubmodules](darcs-conversion#the-perspective-on-submodules)
+
+- based on the current access patterns, a few repositories are modified often (specifically,  ghc.git and testsuite.git are often updated in a inter-dependent way); most repositories aren't updated for several weeks; therefore some of the issues outlined with the usability of submodules might have less weight here.
+
+- Simple migration plan:
+
+  - Fold testsuite.git into ghc.git, as they are strongly inter-dependent. nofib.git and base.git are two other candidates for being folded into ghc.git.
+  - All other add-on repositories should be converted into Git submodules.
