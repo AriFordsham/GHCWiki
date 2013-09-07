@@ -77,7 +77,8 @@ which does something entirely different, and indeed hangs waiting for input on s
  * `msys/1.0/bin` has a little script “cmd” which hands off to the real c:/windows/system32/cmd
  * MSYS does not mangle the command-line for programs in `msys/1.0/bin`
  * On my old laptop, `msys/1.0/bin` was in my path before `c:/windows/system32`.  So plain `cmd` gets the script, and MSYS does not mangle the command line. The script passes arguments on unchanged to the real cmd.
- * NB: `c:/windows/system32` is in the “system” path, which precedes the “user” path.  So no amount of fiddling with the “user” path will fix this.  There are two solutions:
+
+NB: `c:/windows/system32` is in the “system” path, which precedes the “user” path.  So no amount of fiddling with the “user” path will fix this.  There are two solutions:
    * Modify the system path
    * Use a .bashrc file to prepend the stuff you need
 
