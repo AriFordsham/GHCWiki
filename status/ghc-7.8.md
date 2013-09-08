@@ -23,17 +23,11 @@ The following new features are planned for 7.8. They are at varying degrees of c
 
 - Jan Stolarek has completed the [boolean-primop story](prim-bool).  But we need a shim package. See [ the compatibility module page](http://www.haskell.org/haskellwiki/Compatibility_Modules).
 
+- Nicolas Frisby resurrected `-fdicts-strict`[c73d372bfebb5acee45e196d4e8694b656c7fd82](/trac/ghc/changeset/c73d372bfebb5acee45e196d4e8694b656c7fd82/ghc) and added `-ffun-to-thunk` and `-flate-dmd-anal`[af12cf66d1a416a135cb98b86717aba2cd247e1a](/trac/ghc/changeset/af12cf66d1a416a135cb98b86717aba2cd247e1a/ghc)
+
 - Patrick Palka has been working on making `--make` mode parallel with a `-j` flag. He has a stable set of improvements he'd like to see in 7.8: see the latest updates in [\#910](https://gitlab.haskell.org//ghc/ghc/issues/910).
 
 - Trevor Elliot and Iavor Diatchki have implemented [GhcKinds/KindsWithoutData](ghc-kinds/kinds-without-data).  Not yet clear whether they'll be ready for 7.8
-
-- Nicolas Frisby is adding a few Core-to-Core optimisations. They usually slightly improve performance, but can sometimes make a big difference, both good and bad. They are off by default.
-
-  - (will merge by 6 Sept)`-fdicts-strict` will make all dictionary arguments strict if they are certainly not part of a knot.
-  - (merged, cf [af12cf66d1a416a135cb98b86717aba2cd247e1a](/trac/ghc/changeset/af12cf66d1a416a135cb98b86717aba2cd247e1a/ghc) and section in [LateDmd](late-dmd)) `-ffun-to-thunk` flag to revert a new (default) behavior that prevents GHC from creating sharing
-  - (merged, cf [LateDmd](late-dmd)) `-flate-dmd-anal` will run demand analysis near the end of the pipeline. cf [\#7782](https://gitlab.haskell.org//ghc/ghc/issues/7782).
-
-    - TODO communally determine if -O2 should imply it
 
 - Pedro and Richard were working on tidying up the poly-kinded Typable, and propositional equality (`gcast` and friends) story.  See [\#8132](https://gitlab.haskell.org//ghc/ghc/issues/8132).
 
