@@ -1,6 +1,9 @@
 # Defining kinds without an associated datatype
 
 
+This ticket to track this request is [\#6024](https://gitlab.haskell.org//ghc/ghc/issues/6024).
+
+
 When using `-XDataKinds` GHC automatically promotes every datatype to a kind, and its constructors to
 types. This forces us to declare a datatype for every kind. However, sometimes we are not interested
 in the datatype at all, only on the kind. Consider the following data kind that defines a small
@@ -46,26 +49,18 @@ Consequently, `Sum`, `Prod`, and `K` will be types only, and not constructors.
 Also,
 
 ```wiki
-data type (i :: D) where C :: I ('C Int)
+data type D = C
 ```
 
 
-defines a datatype `D` which is not promoted to a kind, and its constructors
-are not promoted to types. We would then also have ‘type only T = Int -\> Int\`.
+defines a datatype `D` which is not promoted to a kind, and its constructor `C` is
+not promoted to a type.
 
-*Advantages*: solves (1) and (2)
-
-*Disadvantages*:
-
-1. If, in the future, we make `* :: *`, we will no longer have separation of
+## Other Extensions
 
 
-types and kinds, so things like `D`/`I` above will become impossible.
-
-1. Requires changing the parser
-
-
-Currently we are planning to implement the second solution. If we do get `* :: *` other things will break due to name clashes, so that shouldn't prevent us from going ahead now. This ticket to track this request is [\#6024](https://gitlab.haskell.org//ghc/ghc/issues/6024).
+If, in the future, we make `* :: *`, we will no longer have separation of
+types and kinds, so we won't be able to make such fine distinctions.
 
 ## Alternative Solutions
 
