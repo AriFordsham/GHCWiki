@@ -1,6 +1,9 @@
 # Defining kinds without an associated datatype
 
 
+This ticket to track this request is [\#6024](https://gitlab.haskell.org//ghc/ghc/issues/6024).
+
+
 When using `-XDataKinds` GHC automatically promotes every datatype to a kind, and its constructors to
 types. This forces us to declare a datatype for every kind. However, sometimes we are not interested
 in the datatype at all, only on the kind. Consider the following data kind that defines a small
@@ -30,21 +33,7 @@ In this case, having to declare a datatype for `Universe` has two disadvantages:
 
 1. We lose constructor name space, because the datatype constructor names will be taken, even though we will never use them. So `Prod` and `K` cannot be used as constructors of `Interpretation` as above, because those are also constructors of `Universe`.
 
-**Solution 1**: add
-
-```wiki
-data Star
-```
-
-
-in `GHC.Exts` such that the promotion of datatype `Star` is the kind `*`. As a
-datatype, `Star` is just an empty datatype.
-
-*Advantages*: very easy, backwards compatible
-
-*Disadvantages*: somewhat verbose, doesn't fix (2)
-
-**Solution 2**: let users define things like
+**Solution**: let users define things like
 
 ```wiki
 data kind Universe = Sum  Universe Universe
@@ -60,38 +49,40 @@ Consequently, `Sum`, `Prod`, and `K` will be types only, and not constructors.
 Also,
 
 ```wiki
-data only (i :: D) where C :: I ('C Int)
+data type D = C
 ```
 
 
-defines a datatype `D` which is not promoted to a kind, and its constructors
-are not promoted to types. We would then also have ‘type only T = Int -\> Int\`.
+defines a datatype `D` which is not promoted to a kind, and its constructor `C` is
+not promoted to a type.
 
-*Advantages*: solves (1) and (2)
-
-*Disadvantages*:
-
-1. If, in the future, we make `* :: *`, we will no longer have separation of
+## Other Extensions
 
 
-types and kinds, so things like `D`/`I` above will become impossible.
+If, in the future, we make `* :: *`, we will no longer have separation of
+types and kinds, so we won't be able to make such fine distinctions.
 
-1. Requires changing the parser
-
-
-Currently we are planning to implement the second solution. If we do get `* :: *` other things will break due to name clashes, so that shouldn't prevent us from going ahead now. This ticket to track this request is [\#6024](https://gitlab.haskell.org//ghc/ghc/issues/6024).
-
-## Thoughts (Gabor Greif)
+## Alternative Solutions
 
 
-I'd prefer writing
+Add
 
 ```wiki
-'data Universe = Sum  Universe Universe
-               | Prod Universe Universe
-               | K *
+data Star
 ```
 
 
-over `data kind` to only obtain the `Universe` kind and `Sum`, `Prod` and `K` types. This would extrapolate the `'Universe` notation for grabbing the kind when a type also exists with the same name.
-I am also a bit less enthusiastic with `data only`. Why not `data data`? (Still does not feel right.)
+in `GHC.Exts` such that the promotion of datatype `Star` is the kind `*`. As a
+datatype, `Star` is just an empty datatype.
+
+*Advantages*: very easy, backwards compatible
+
+*Disadvantages*: somewhat verbose, doesn't fix (2)
+
+## Alternative Notations
+
+- Use `data only` instead of `data type`.
+- Use `'data` instead of `data kind`, suggested by Gabor Greif.
+
+
+In both cases, we felt that using `type` and `kind` as the modifiers to the `data` declaration better reflect what's being defined.
