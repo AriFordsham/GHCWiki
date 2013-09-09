@@ -8,7 +8,7 @@ This list overviews the active branches in the main GHC repository.
 
  * `type-nats`: '''Solver for Type-Level Naturals'''. Iavor S. Diatchki.  An experimental solver for discharging constraints involving natural numbers.
 
- * `type-nats-simple`: Derived from `type-nats`, intended for eventually being merged into `master`.
+ * `type-nats-simple`: Derived from `type-nats`, intended for eventually being merged into `master`, slated for 7.8.
 
  * `atomics`: '''Atomic memory operations'''. Ryan Newton. This expands on some work Simon Marlow started in 7.2.
 
