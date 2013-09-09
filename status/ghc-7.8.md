@@ -29,8 +29,6 @@ The following new features are planned for 7.8. They are at varying degrees of c
 
 - Trevor Elliot and Iavor Diatchki have implemented [GhcKinds/KindsWithoutData](ghc-kinds/kinds-without-data).  Not yet clear whether they'll be ready for 7.8
 
-- Pedro and Richard were working on tidying up the poly-kinded Typable, and propositional equality (`gcast` and friends) story.  See [\#8132](https://gitlab.haskell.org//ghc/ghc/issues/8132).
-
 - Geoff Mainland is working on a better Template Haskell implementation ([ http://ghc.haskell.org/trac/ghc/wiki/TemplateHaskell/BlogPostChanges](http://ghc.haskell.org/trac/ghc/wiki/TemplateHaskell/BlogPostChanges), [ http://gmainland.blogspot.co.uk/2013/05/type-safe-runtime-code-generation-with.html](http://gmainland.blogspot.co.uk/2013/05/type-safe-runtime-code-generation-with.html)), in the `th-new` branch of various repos. ETA: September 13.
 
 - Geoff Mainland is working generalising the support for SSE-like instructions. ETA: September 13.
