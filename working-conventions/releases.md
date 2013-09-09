@@ -78,3 +78,6 @@ There is a **stable branch** corresponding to each major release, named after th
 
 
 The release manager will usually merge patches with `git cherry-pick`, so patches on the branch will have different SHA-1 hashes from their corresponding patches on `master`.  This means that you can't use tricks like `git name-rev` to see whether a particular patch is on the branch - just search through the output of `git log ghc-7.8` instead.
+
+
+The list of active (and defunct) [development branches](active-branches) is available. Note that currently **only administrators have privileges to perform disrupting changes** (such as deleting branches) to the repository.
