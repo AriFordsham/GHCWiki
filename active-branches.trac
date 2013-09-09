@@ -20,7 +20,7 @@ This list overviews the active branches in the main GHC repository.
 
 * `ghc-parmake-gsoc`: '''Parallel --make'''. Patrick Palka, GSoC 2013. This extends `ghc --make` to be able to compile multiple modules in parallel.
 
- * `data-kind-syntax`: Syntax for ''kind-only'' definitions (i.e. without the type definition when resorting to promotion). Ready for review and merge.
+ * `data-kind-syntax`: [GhcKinds/KindsWithoutData Syntax for ''kind-only'' definitions] (i.e. without the type definition when resorting to promotion). Ready for review and merge.
 
 = Limbo branches =
 
