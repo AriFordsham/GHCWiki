@@ -135,6 +135,13 @@ In order to see emails below, **you must login**.
   - **Committer since**: August, 2013.
   - **Main areas of interest**: codegen, optimiser
 
+- [ Joachim Breitner](http://www.joachim-breitner.de/)
+
+  - Karlsruhe Institute of Technology, Germany
+  - **Trac**: nomeata; **email**: mail@…
+  - **Committer since**: September, 2013.
+  - **Main areas of interest** (so far): newtype coercions
+
 - Johan Tibell
 
   - Google Inc - San Francisco, CA
