@@ -18,7 +18,9 @@ Other documentation for Windows includes:
  We recommend using the '''default install locations''' for all these tools.  If you choose your own paths, then we recommend not using a path containing spaces if the default did not have spaces.
 
 2. '''Install the MinGW and MSYS tools:'''[[BR]][[BR]]
- MinGW provides a windows version of GCC while MSYS provides a minimal UNIX environment (e.g bash, make... ect). The website for MinGW is totally confusing, so go here [http://www.mingw.org/wiki/Getting_Started Mingw/MSYS Getting Started] and follow the download instructions for the '''mingw-get-inst''' installer. This is an easy to use installer for installing both MinGW and MSYS.   Make sure when you run the installer that you '''select to install msys-base, mingw32-base and mingw-developer-toolkit'''.
+ MinGW provides a windows version of GCC while MSYS provides a minimal UNIX environment (e.g bash, make... ect). The website for MinGW is totally confusing, so go here [http://www.mingw.org/wiki/Getting_Started Mingw/MSYS Getting Started] and follow the download instructions for the '''mingw-get-setup''' installer. This is an easy to use installer for installing both MinGW and MSYS.   Make sure when you run the installer that you select to install 
+ * mingw-developer-toolkit (this includes `autoconf` etc)
+ * binutils (this includes `ar`)
 
 3. '''Set your `PATH`'''. You need to include at least
  * `c:/MinGW/bin` (contains `autoconf` etc)
