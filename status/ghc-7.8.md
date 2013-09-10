@@ -46,9 +46,9 @@ The following **new** features are planned for 7.8 **but have not yet made it**.
 
 - The Applicative-Monad warnings would preferably be integrated, see [\#8004](https://gitlab.haskell.org//ghc/ghc/issues/8004). David Luposchainsky is driving this. (Current status: Warnings implemented, GHC compiles AMP-warning-free. What's left to do is getting the testsuite up to date with this. 13th is a very generous estimate.) **Austin is doing this as we speak**.
 
-## Features that will definitely not make it
+- [Newtype wrappers](newtype-wrappers), by Joachim Breitner. **This will go in soon, but not really be advertised as a stable feature**.
 
-- [Newtype wrappers](newtype-wrappers), by Joachim Breitner.  This will not be ready for 7.8.
+## Features that will definitely not make it
 
 - [Overloaded record fields](records/overloaded-record-fields/plan), by Adam Gundry (GSOC).  Not sure if this will be done.
 
