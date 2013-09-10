@@ -10,8 +10,6 @@ This list overviews the active branches in the main GHC repository.
 
  * `type-nats-simple`: Derived from `type-nats`, intended for eventually being merged into `master`, slated for 7.8.
 
- * `atomics`: '''Atomic memory operations'''. Ryan Newton. This expands on some work Simon Marlow started in 7.2.
-
  * `simd`: '''SIMD support'''. Geoffrey Mainland. This extends the simple SIMD support in GHC HEAD, and is slated for 7.8.
 
  * `th-new`: '''New Template Haskell'''. Geoffrey Mainland. This revamps Template Haskell, based on Simon PJ's proposal. See http://ghc.haskell.org/trac/ghc/blog/Template%20Haskell%20Proposal
@@ -45,6 +43,8 @@ The actual status of these branches, including whether they have been merged and
 This is a list of inactive branches which have been merged into the tree.
 
  * `ghc-parmake-gsoc`: '''Parallel --make'''. Patrick Palka, GSoC 2013. This extends `ghc --make` to be able to compile multiple modules in parallel.
+
+ * `atomics`: '''Atomic memory operations'''. Ryan Newton. This expands on some work Simon Marlow started in 7.2.
 
  * `late-dmd`: '''Late Demand Analysis'''. Nick Frisby. See #7782, LateDmd
 
