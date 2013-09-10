@@ -19,8 +19,8 @@ data T = MkT { x :: Int }
 generates
 
 ```wiki
-$sel_x_T :: T -> Int -- record selector (used to be called `x`)
-$sel_x_T (MkT x) = x
+$sel:x:T :: T -> Int -- record selector (used to be called `x`)
+$sel:x:T (MkT x) = x
 
 $dfHasTx :: forall a . a ~ Int => Has T "x" a -- corresponds to the Has instance decl
 $dfHasTx = Has { getField _ = $sel_x_T }
@@ -41,11 +41,12 @@ A field is represented by the following datatype, parameterised by the represent
 
 ```wiki
 data FieldLbl a = FieldLabel {
-      flOccName   :: OccName,   -- ^ Label of the field
-      flSelector  :: a,         -- ^ Record selector function
-      flInstances :: FldInsts a -- ^ Instances for overloading
+      flLabel     :: FieldLabelString, -- ^ Label of the field
+      flSelector  :: a,                -- ^ Record selector function
+      flInstances :: FldInsts a        -- ^ Instances for overloading
     }
 
+type FieldLabelString = FastString
 type FieldLabel = FieldLbl Name
 
 data FldInsts a = FldInsts { fldInstsHas :: a
@@ -55,7 +56,7 @@ data FldInsts a = FldInsts { fldInstsHas :: a
 ```
 
 
-Every field has a label (`OccName`), selector, and names for the dfuns and axioms (currently stored together in the `FldInsts` record, but this could change). The `dcFields` field of `DataCon` stores a list of `FieldLabel`, whereas the `ifConFields` field of `IfaceConDecl` stores a list of `FieldLbl OccName`. The motivation for storing the names of the pieces is to avoid dragging `extendInteractiveContext` into the monad with `gresFromAvails`.
+Every field has a label (`FastString`), selector, and names for the dfuns and axioms (stored together in the `FldInsts` record). The `dcFields` field of `DataCon` stores a list of `FieldLabel`, whereas the `ifConFields` field of `IfaceConDecl` stores a list of `FieldLbl OccName`.
 
 ### `AvailInfo` and `IE`
 
@@ -64,7 +65,7 @@ The new definition of `AvailInfo` is:
 
 ```wiki
 data AvailInfo      = Avail Name | AvailTC Name [Name] AvailFields
-data AvailFlds name = NonOverloaded [name] | Overloaded [(OccName, name)]
+data AvailFlds name = NonOverloaded [name] | Overloaded [(FieldLabelString, name)]
 type AvailFields    = AvailFlds Name
 ```
 
@@ -72,7 +73,7 @@ type AvailFields    = AvailFlds Name
 The `AvailTC` constructor represents a type and its pieces that are in scope. Record fields are now stored separately in the third argument. If the fields are not overloaded, we store only the selector names, whereas if they are overloaded, we store the labels as well. The `IEThingWith name [name] (AvailFlds name)` constructor of `IE` represents a thing that can be imported or exported, and also has a separate argument for fields.
 
 
-Note that an `OccName` and parent is not enough to uniquely identify a selector, because of data families: if we have
+Note that a `FieldLabelString` and parent is not enough to uniquely identify a selector, because of data families: if we have
 
 ```wiki
 module M ( F (..) ) where
@@ -85,27 +86,27 @@ module N ( F (..) ) where
 ```
 
 
-then `N` exports two different selectors with the `OccName``"foo"`.
+then `N` exports two different selectors with the `FieldLabelString``"foo"`.
 
 ### `Parent` and `GlobalRdrElt`
 
 
-The `Parent` type has an extra constructor `FldParent Name OccName` that stores the parent `Name` and the field `OccName`. The `GlobalRdrElt` (`GRE`) for a field stores the selector name directly, and uses the `FldParent` constructor to store the field. Thus a field `x` of type `T` gives rise this entry in the `GlobalRdrEnv`:
+The `Parent` type has an extra constructor `FldParent Name FastString` that stores the parent `Name` and the field label `FastString`. The `GlobalRdrElt` (`GRE`) for a field stores the selector name directly, and uses the `FldParent` constructor to store the field. Thus a field `x` of type `T` gives rise this entry in the `GlobalRdrEnv`:
 
 ```wiki
-x |->  GRE $sel_x_T (FldParent T x) LocalDef
+x |->  GRE $sel:x:T (FldParent T x) LocalDef
 ```
 
 
-Note that the `OccName` used when adding a GRE to the environment (`greOccName`) now depends on the parent field: for `FldParent` it is the field label rather than the selector name. Since `AvailInfo` does not store selectors for overloaded fields, `gresFromAvails` is now defined in the `TcRnIf` monad so that it can call `lookupOrig` to find the selectors. As a consequence of this, `GHC.getPackageModuleInfo` cannot call `gresFromAvails`, so it now returns `Nothing` in `minf_rdr_env`.
+Note that the `OccName` used when adding a GRE to the environment (`greOccName`) now depends on the parent field: for `FldParent` it is the field label rather than the selector name.
 
 ## Source expressions
 
 
-The `HsExpr` type has extra constructors `HsOverloadedRecFld OccName` and `HsSingleRecFld OccName id`. When `-XOverloadedRecordFields` is enabled, and `rnExpr` encounters `HsVar "x"` where `x` refers to multiple `GRE`s that are all record fields, it replaces it with `HsOverloadedRecFld "x"`. When the typechecker sees `HsOverloadedRecFld x` it emits a wanted constraint `Has alpha x beta` and returns type `alpha -> beta` where `alpha` and `beta` are fresh unification variables.
+The `HsExpr` type has extra constructors `HsOverloadedRecFld FieldLabelString` and `HsSingleRecFld RdrName id`. When `-XOverloadedRecordFields` is enabled, and `rnExpr` encounters `HsVar "x"` where `x` refers to multiple `GRE`s that are all record fields, it replaces it with `HsOverloadedRecFld "x"`. When the typechecker sees `HsOverloadedRecFld x` it emits a wanted constraint `Has alpha x beta` and returns type `alpha -> beta` where `alpha` and `beta` are fresh unification variables.
 
 
-When the flag is not enabled, `rnExpr` turns an unambiguous record field `foo` into `HsSingleRecFld foo $sel_foo_T`. The point of this constructor is so we can pretty-print the field name but store the selector name for typechecking.
+When the flag is not enabled, `rnExpr` turns an unambiguous record field `foo` into `HsSingleRecFld foo $sel_foo_T`. The point of this constructor is so we can pretty-print the field name (as the user typed it, hence a `RdrName`), but store the selector name for typechecking.
 
 
 Where an AST representation type (e.g. `HsRecField` or `ConDeclField`) contained an argument of type `Located id` for a field, it now stores a `Located RdrName` for the label, and some representation of the selector. The parser uses an error thunk for the selector; it is filled in by the renamer  (by `rnHsRecFields1` in `RnPat`, and `rnField` in `RnTypes`). The new definition of `ConDeclField` (used in types) is:
@@ -141,10 +142,10 @@ The renamer (`rnHsRecFields1`) supplies `Left sel_name` for the selector if it i
 ## Automatic instance generation
 
 
-Typeclass and family instances are generated and typechecked by `makeOverloadedRecFldInsts` in `TcInstDecls`, regardless of whether or not the extension is enabled. This is called by `tcTopSrcDecls` to generate instances for fields from datatypes in the current group (just after derived instances, from **deriving** clauses, are generated). Overloaded record field instances are not exported to other modules (via `tcg_insts`), though underlying dfun ids and axioms are exported from the module as usual.
+Typeclass and family instances are generated and typechecked by `makeOverloadedRecFldInsts` in `TcInstDecls`, regardless of whether or not the extension is enabled. This is called by `tcTopSrcDecls` to generate instances for fields from datatypes in the current group (just after derived instances, from **deriving** clauses, are generated). Overloaded record field instances are not exported to other modules (via `tcg_insts` and `tcg_fam_insts`), though underlying dfun ids and axioms are exported from the module as usual (via `tcg_binds` and a new field `tcg_axioms`). The new field is needed because there is otherwise no way to export an axiom without exporting the corresponding family instance.
 
 
-Since the instances are not in scope in the usual way, `matchClassInst` and `tcLookupFamInst` look for the relevant constraints or type families and find the instances directly, rather than consulting `tcg_inst_env` or `tcg_fam_inst_env`. They first perform a lookup to check that the field name is in scope. A new field `tcg_fld_inst_env` in `TcGblEnv` maps a selector name in the current module to its `DFunId`s and `FamInst`s; this is needed for solving constraints that arise while checking the automatically generated instances themselves.
+Since the instances are not in scope in the usual way, `matchClassInst` and `tcLookupFamInst` look for the relevant constraints or type families and find the instances directly, rather than consulting `tcg_inst_env` or `tcg_fam_inst_env`. They first perform a lookup to check that the field name is in scope.
 
 ## Unused imports
 
@@ -247,7 +248,7 @@ instance t ~ Bool => Has (F Bool) "foo" t
 ```
 
 
-Thus we use the name of the representation tycon, rather than the family tycon, when naming the record selectors: we get `$sel_foo_R:FInt` and `$sel_foo_R:FBool`. This requires a bit of care, because lexically (in the `GlobalRdrEnv`) the selectors still have the family tycon are their parent.
+Thus we use the name of the representation tycon, rather than the family tycon, when naming the record selectors: we get `$sel:foo:R:FInt` and `$sel:foo:R:FBool`. This requires a bit of care, because lexically (in the `GlobalRdrEnv`) the selectors still have the family tycon are their parent.
 
 
 In order to have access to the representation tycon name in the renamer, it is generated by `getLocalNonValBinders` and stored in a new field `dfid_rep_tycon` of `DataFamInstDecl`. It would be nice if we could do the same for all the derived names, in order to localise the set of names that have been used (currently stored in the `tcg_dfun_n` mutable field). However, this is tricky:
@@ -261,7 +262,7 @@ We could work around this but it may not be worth the bother.
 ## Mangling selector names
 
 
-We could mangle selector names (using `$sel_foo_T` instead of `foo`) even when the extension is disabled, but we decided not to because the selectors really should be in scope with their original names, and doing otherwise leads to:
+We could mangle selector names (using `$sel:foo:T` instead of `foo`) even when the extension is disabled, but we decided not to because the selectors really should be in scope with their original names, and doing otherwise leads to:
 
 - Trouble with import/export
 - Trouble with deriving instances in GHC.Generics (makes up un-renamed syntax using field `RdrName`s)
@@ -276,11 +277,9 @@ We could mangle selector names (using `$sel_foo_T` instead of `foo`) even when t
 - Add `HsVarOut RdrName id` instead of `HsSingleRecFld` (or perhaps rename `HsVar` to `HsVarIn`)?
 
   - This would also be useful to recall how the user referred to something.
-
-- When there is only one thing in scope, what should we do? See [discussion here](records/overloaded-record-fields/plan#scope-issues,-or,-why-we-miss-dot).
-- Is the story about `-fwarn-unused-binds` okay?
-- Is `TcInstDcls.tcFldInsts` correct in its use of `simplifyTop` and assuming there will be no `ev_binds`?
 - Is it worth generating all the derived names early, to get rid of `tcg_dfun_n`?
+
+- Is `TcInstDcls.tcFldInsts` correct in its use of `simplifyTop` and assuming there will be no `ev_binds`?
 
 - Consider syntactic sugar for `Upd` constraints.
 - Improve unsolved `Accessor p f` error message where `p` is something silly?
