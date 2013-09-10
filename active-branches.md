@@ -19,8 +19,6 @@ This list overviews the active branches in the main GHC repository.
 
 - `ghc-lwc2`: **Lightweight concurrency substrate support**. KC Sivaramakrishnan. This implements an evolution of Peng Li's original concept of implementing a lot of the concurrency substrate in the RTS *in Haskell*. The design is described in a paper, "Composable Scheduler Activations for Haskell", found here: [ http://research.microsoft.com/en-us/um/people/simonpj/papers/lw-conc/lwc-hs13.pdf](http://research.microsoft.com/en-us/um/people/simonpj/papers/lw-conc/lwc-hs13.pdf).
 
-- `ghc-parmake-gsoc`: **Parallel --make**. Patrick Palka, GSoC 2013. This extends `ghc --make` to be able to compile multiple modules in parallel.
-
 - `data-kind-syntax`: [Syntax for ''kind-only'' definitions](ghc-kinds/kinds-without-data) (i.e. without the type definition when resorting to promotion). Ready for review and merge.
 
 # Limbo branches
@@ -49,6 +47,8 @@ The actual status of these branches, including whether they have been merged and
 
 
 This is a list of inactive branches which have been merged into the tree.
+
+- `ghc-parmake-gsoc`: **Parallel --make**. Patrick Palka, GSoC 2013. This extends `ghc --make` to be able to compile multiple modules in parallel.
 
 - `late-dmd`: **Late Demand Analysis**. Nick Frisby. See [\#7782](https://gitlab.haskell.org//ghc/ghc/issues/7782), [LateDmd](late-dmd)
 
