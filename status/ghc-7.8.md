@@ -19,13 +19,9 @@ The features already completed are documented in the release notes:
 ## Pending new features
 
 
-The following new features are planned for 7.8. They are at varying degrees of completeness, and may not all make it in.
+The following **new** features are planned for 7.8 **but have not yet made it**. They are at varying degrees of completeness, and may not all make it in.
 
 - Jan Stolarek has completed the [boolean-primop story](prim-bool).  But we need a shim package. See [ the compatibility module page](http://www.haskell.org/haskellwiki/Compatibility_Modules).
-
-- Nicolas Frisby resurrected `-fdicts-strict`[c73d372bfebb5acee45e196d4e8694b656c7fd82](/trac/ghc/changeset/c73d372bfebb5acee45e196d4e8694b656c7fd82/ghc) and added `-ffun-to-thunk` and `-flate-dmd-anal`[af12cf66d1a416a135cb98b86717aba2cd247e1a](/trac/ghc/changeset/af12cf66d1a416a135cb98b86717aba2cd247e1a/ghc)
-
-- Patrick Palka has been working on making `--make` mode parallel with a `-j` flag. He has a stable set of improvements he'd like to see in 7.8: see the latest updates in [\#910](https://gitlab.haskell.org//ghc/ghc/issues/910).
 
 - Trevor Elliot and Iavor Diatchki have implemented [GhcKinds/KindsWithoutData](ghc-kinds/kinds-without-data).  Not yet clear whether they'll be ready for 7.8
 
@@ -39,16 +35,16 @@ The following new features are planned for 7.8. They are at varying degrees of c
 
 - Austin also still has a lingering patch for [\#7602](https://gitlab.haskell.org//ghc/ghc/issues/7602) to fix a large OS X performance regression, but it's still not merged. The final details must be sorted out with Simon Marlow.
 
-- Edsko de Vries would like to have "Source plugins" in GHC, which would allow API clients and external users to run code over the type-checked AST. Thomas Schilling and others are also interested. Edsko has proposed a patch, but it has yet to be integrated. See [ http://www.haskell.org/pipermail/ghc-devs/2013-June/001358.html](http://www.haskell.org/pipermail/ghc-devs/2013-June/001358.html) and [ http://www.haskell.org/pipermail/ghc-devs/2013-July/001624.html](http://www.haskell.org/pipermail/ghc-devs/2013-July/001624.html)
+- Edsko de Vries and Luite Stegeman are working an improved story for hooking into the compilation pipeline, using the GHC API. They have improvements they'd like to land this week.
 
 - Dynamic GHCi ([\#3658](https://gitlab.haskell.org//ghc/ghc/issues/3658)). This is working in HEAD, and enabled if `DYNAMIC_GHC_PROGRAMS=YES`. Currently it's enabled by default if dynamic libraries are supported, except for FreeBSD and Windows.
   On FreeBSD the reason it's disabled is due to a bug in FreeBSD's rtld. This has been fixed, but we're waiting for the fix to make it into releases. This might be in time for 7.8, but certainly will be for 7.10. See [\#7819](https://gitlab.haskell.org//ghc/ghc/issues/7819).
   On Windows, there are a couple of build time annoyances: `-dynamic-too` doesn't work on Windows ([\#8228](https://gitlab.haskell.org//ghc/ghc/issues/8228)), and linking takes a very long time when dynamic linking is used ([\#8229](https://gitlab.haskell.org//ghc/ghc/issues/8229)). There's no technical reason why it couldn't be enabled, though.
   The plan is/was to use dynamic GHCi on as many platforms as possible in 7.8, and to remove support for non-dynamic-ghci in HEAD soon after. See discussion in [\#8039](https://gitlab.haskell.org//ghc/ghc/issues/8039), however.
 
-- Ryan Newton has added a larger set of atomic memory primops than were previously available.  The code was developed on the `atomics` branch, which is now merged.  The set of PrimOps may continue to expand slightly, but for now includes `casArray#`, `casIntArray#`, and `fetchAddIntArray#`.  In future work, Carter Schonwald will provide optimized (inline) versions of these PrimOps, at least for the LLVM backend.
+- Ryan Newton has added a larger set of atomic memory primops than were previously available. The set of PrimOps may continue to expand slightly, but for now includes `casArray#`, `casIntArray#`, and `fetchAddIntArray#`.  In future work, Carter Schonwald will provide optimized (inline) versions of these PrimOps, at least for the LLVM backend.
 
-- The Applicative-Monad warnings would preferably be integrated, see [\#8004](https://gitlab.haskell.org//ghc/ghc/issues/8004). David Luposchainsky is driving this. (Current status: Warnings implemented, GHC compiles AMP-warning-free. What's left to do is getting the testsuite up to date with this. 13th is a very generous estimate.)
+- The Applicative-Monad warnings would preferably be integrated, see [\#8004](https://gitlab.haskell.org//ghc/ghc/issues/8004). David Luposchainsky is driving this. (Current status: Warnings implemented, GHC compiles AMP-warning-free. What's left to do is getting the testsuite up to date with this. 13th is a very generous estimate.) **Austin is doing this as we speak**.
 
 ## Features that will definitely not make it
 
