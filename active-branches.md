@@ -5,8 +5,6 @@ This list overviews the active branches in the main GHC repository.
 
 - `late-lam-lift`: **Late Lambda Lift**.  Nick Frisby. We lift some lambdas before CorePrep. I'm still determining when to 'not' lift a lambda. My terse notes [here](late-lam-lift).
 
-- `ticky-for-all-lets`: **Ticky for all `let`s**.  Nick Frisby. I think this patch is in mostly good shape, but I had to revert it because of a silly mistake. Need to double-check it. It adds ticky counters for lets, even those that don't end up as proper closures.
-
 - `type-nats`: **Solver for Type-Level Naturals**. Iavor S. Diatchki.  An experimental solver for discharging constraints involving natural numbers.
 
 - `type-nats-simple`: Derived from `type-nats`, intended for eventually being merged into `master`, slated for 7.8.
@@ -53,6 +51,8 @@ This is a list of inactive branches which have been merged into the tree.
 - `late-dmd`: **Late Demand Analysis**. Nick Frisby. See [\#7782](https://gitlab.haskell.org//ghc/ghc/issues/7782), [LateDmd](late-dmd)
 
 - `dicts-strict`: **Strict Dictionaries**.  Nick Frisby. merged [c73d372bfebb5acee45e196d4e8694b656c7fd82](/trac/ghc/changeset/c73d372bfebb5acee45e196d4e8694b656c7fd82/ghc)
+
+- `ticky-for-all-lets`: **Ticky for all `let`s**.  Nick Frisby. ~~I think this patch is in mostly good shape, but I had to revert it because of a silly mistake. Need to double-check it. It adds ticky counters for lets, even those that don't end up as proper closures.~~ … uh oh: looks like I merged this as [11a85cc7ea50d4b7c12ea2cc3c0ce39734dc4217](/trac/ghc/changeset/11a85cc7ea50d4b7c12ea2cc3c0ce39734dc4217/ghc) … I apologize for bad note-taking.
 
 - `ghc-axioms`: **First attempt at branched type family instances**. Richard Eisenberg / José Pedro Magalhães / Simon PJ. Last commit was Jan 3, 2012. This was an early attempt at implementing branched type family instances. Superseded by `overlapping-tyfams`.
 
