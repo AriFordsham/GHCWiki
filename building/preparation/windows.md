@@ -24,7 +24,10 @@ Other documentation for Windows includes:
 
 1. **Install the MinGW and MSYS tools:**
 
-  MinGW provides a windows version of GCC while MSYS provides a minimal UNIX environment (e.g bash, make... ect). The website for MinGW is totally confusing, so go here [ Mingw/MSYS Getting Started](http://www.mingw.org/wiki/Getting_Started) and follow the download instructions for the **mingw-get-inst** installer. This is an easy to use installer for installing both MinGW and MSYS.   Make sure when you run the installer that you **select to install msys-base, mingw32-base and mingw-developer-toolkit**.
+  MinGW provides a windows version of GCC while MSYS provides a minimal UNIX environment (e.g bash, make... ect). The website for MinGW is totally confusing, so go here [ Mingw/MSYS Getting Started](http://www.mingw.org/wiki/Getting_Started) and follow the download instructions for the **mingw-get-setup** installer. This is an easy to use installer for installing both MinGW and MSYS.   Make sure when you run the installer that you select to install 
+
+  - mingw-developer-toolkit (this includes `autoconf` etc)
+  - binutils (this includes `ar`)
 
 1. **Set your `PATH`**. You need to include at least
 
