@@ -27,7 +27,7 @@ Add a new bookmark/entry, with
 
 ```wiki
 Name: [t] GHC ticket search
-Location: http://www.google.com/search?q=site:ghc.haskell.org/trac/ghc/ticket%20%s
+Location/URL: http://www.google.com/search?q=site:ghc.haskell.org/trac/ghc/ticket%20%s
 Keyword: t
 ```
 
