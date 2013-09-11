@@ -1,13 +1,18 @@
-# Firefox tips
+# Browser Tips
+
+## Add a search engine
+
+- Firefox: Add a new bookmark.
+- Google Chrome: Right-click on the address bar and select `Edit Search Engines`, then you can scroll down and add a new search engine entry.
 
 ## Finding tickets by number
 
 
-Add a new bookmark, with
+Add a new bookmark/entry, with
 
 ```wiki
 Name: [#] GHC ticket
-Location: http://hackage.haskell.org/trac/ghc/ticket/%s
+Location/URL: http://ghc.haskell.org/trac/ghc/ticket/%s
 Keyword: #
 ```
 
@@ -18,11 +23,11 @@ space).
 ## Searching for tickets
 
 
-Add a new bookmark:
+Add a new bookmark/entry, with
 
 ```wiki
 Name: [t] GHC ticket search
-Location: http://www.google.com/search?q=site:hackage.haskell.org/trac/ghc/ticket%20%s
+Location: http://www.google.com/search?q=site:ghc.haskell.org/trac/ghc/ticket%20%s
 Keyword: t
 ```
 
