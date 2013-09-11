@@ -1,9 +1,8 @@
-# Browser Tips
+**Note: [Browser Tips](browser-tips) is now the updated wiki page on browser tips.**
 
-## Add a search engine
+---
 
-- Firefox: Add a new bookmark.
-- Google Chrome: Right-click on the address bar and select `Edit Search Engines`, then you can scroll down and add a new search engine entry.
+# Firefox Tips
 
 ## Finding tickets by number
 
@@ -12,7 +11,7 @@ Add a new bookmark/entry, with
 
 ```wiki
 Name: [#] GHC ticket
-Location/URL: http://ghc.haskell.org/trac/ghc/ticket/%s
+Location: http://ghc.haskell.org/trac/ghc/ticket/%s
 Keyword: #
 ```
 
@@ -23,7 +22,7 @@ space).
 ## Searching for tickets
 
 
-Add a new bookmark/entry, with
+Add a new bookmark, with
 
 ```wiki
 Name: [t] GHC ticket search
