@@ -1,0 +1,30 @@
+= Browser Tips =
+
+== Add a search engine ==
+
+- Firefox: Add a new bookmark.
+- Google Chrome: Right-click on the address bar and select `Edit Search Engines`, then you can scroll down and add a new search engine entry.
+
+== Finding tickets by number ==
+
+Add a new bookmark/entry, with
+{{{
+Name: [#] GHC ticket
+Location/URL: http://ghc.haskell.org/trac/ghc/ticket/%s
+Keyword: #
+}}}
+
+Then typing `# 5129` in the title bar goes to that ticket (note the
+space).
+
+== Searching for tickets ==
+
+Add a new bookmark/entry, with
+{{{
+Name: [t] GHC ticket search
+Location: http://www.google.com/search?q=site:ghc.haskell.org/trac/ghc/ticket%20%s
+Keyword: t
+}}}
+
+Now typing `t <query>` into the title bar searches the GHC ticket
+database using Google, which is much faster than Trac's search.
