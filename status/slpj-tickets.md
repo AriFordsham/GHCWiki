@@ -2,6 +2,7 @@
 
 ## Type inference
 
+- [\#5610](https://gitlab.haskell.org//ghc/ghc/issues/5610), [\#7243](https://gitlab.haskell.org//ghc/ghc/issues/7243): Better error messages for `foreign` declarations
 - [\#8264](https://gitlab.haskell.org//ghc/ghc/issues/8264): `checkValidInstance` for `Typeable`, `Coercible` etc.
 - [\#8240](https://gitlab.haskell.org//ghc/ghc/issues/8240): better error messages for type-function equalities
 - [\#8095](https://gitlab.haskell.org//ghc/ghc/issues/8095): very slow constraint solving
