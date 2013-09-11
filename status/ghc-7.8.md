@@ -21,7 +21,15 @@ The features already completed are documented in the release notes:
 
 The following **new** features are planned for 7.8 **but have not yet made it**. They are at varying degrees of completeness, and may not all make it in.
 
-- Jan Stolarek has completed the [boolean-primop story](prim-bool).  But we need a shim package. See [ the compatibility module page](http://www.haskell.org/haskellwiki/Compatibility_Modules).
+- Jan Stolarek has completed the [boolean-primop story](prim-bool), but they are going through a major refactoring. Things still on the TODO list for this feature:
+
+  - Jan Stolarek needs to refactor code of GHC and boot libraries.
+  - Jan Stolarek needs to send patches for Alex and Happy to Simon Marlow and patches for primitive to Roman Leschinskiy.
+  - Simon Marlow needs to update new versions of Alex and Happy to Hackage
+  - Jan Stolarek can then push his changes into HEAD
+  - Roman Leschinskiy needs to upload new version of primitive to Hackage
+  - Herbert Valerio Riedel can then pull latest version of primitive into GHC tree. 
+  - Austin Seipp will implement shim package for backwards compatibility. See [ the compatibility module page](http://www.haskell.org/haskellwiki/Compatibility_Modules).
 
 - Trevor Elliot and Iavor Diatchki have implemented [GhcKinds/KindsWithoutData](ghc-kinds/kinds-without-data).  Not yet clear whether they'll be ready for 7.8
 
