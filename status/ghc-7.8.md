@@ -52,7 +52,7 @@ The following **new** features are planned for 7.8 **but have not yet made it**.
 
 - Ryan Newton has added a larger set of atomic memory primops than were previously available. The set of PrimOps may continue to expand slightly, but for now includes `casArray#`, `casIntArray#`, and `fetchAddIntArray#`.  In future work, Carter Schonwald will provide optimized (inline) versions of these PrimOps, at least for the LLVM backend.
 
-- The Applicative-Monad warnings would preferably be integrated, see [\#8004](https://gitlab.haskell.org//ghc/ghc/issues/8004). David Luposchainsky is driving this. (Current status: Warnings implemented, GHC compiles AMP-warning-free. What's left to do is getting the testsuite up to date with this. 13th is a very generous estimate.) **Austin is doing this as we speak**.
+- The Applicative-Monad warnings have been merged (see [\#8004](https://gitlab.haskell.org//ghc/ghc/issues/8004).)
 
 - [Newtype wrappers](newtype-wrappers), by Joachim Breitner. **This will go in soon, but not really be advertised as a stable feature**.
 
