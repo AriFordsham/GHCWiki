@@ -107,3 +107,12 @@ make -k mode=norm
 make -k mode=fast
 }}}
 See `mk/opts.mk`. The default is `mode=norm`.
+
+== Some tips on measuring performance ==
+
+It is often not necessary (or even useful) to do a full nofib run to assess performance changes. For example, you can tell whether compilation time has consistently increased by compiling a single file - a large one, and preferably not one of the perf tests 
+because those contain repeated patterns and aren't indicative of typical code.  You can use [[GhcFile(nofib/spectral/simple/Main.hs)]] for this purpose.
+
+=== Measuring backend performance ===
+
+To get some insights into changes to optimisations in the backend you can compile all the programs in `codeGen/should_run` both ways (unmodified GHC HEAD and GHC HEAD + some changes that are being tested), and then compare the sizes of the corresponding object files.  Then investigate differences manually - this is a great way to get some insight into whether your optimisation is doing what you want it to do, and whether it has any unexpected consequences.  As an example, the sinking pass in the Cmm pipeline is the result of iterating this process many times until most of the cases of bad code generation had been squashed.  When you're satisfied that the optimisation is doing something sensible on these small examples, then move onto nofib and larger benchmarks.
