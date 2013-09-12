@@ -134,7 +134,7 @@ To tweak things, add settings to your `mk/build.mk` (see [Commentary/SourceTree]
 
 See `mk/opts.mk`. The default is `mode=norm`.
 
-## Some tips on measuring performance
+## Other tips on measuring performance
 
 
 It is often not necessary (or even useful) to do a full nofib run to assess performance changes. For example, you can tell whether compilation time has consistently increased by compiling a single file - a large one, and preferably not one of the perf tests 
