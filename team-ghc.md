@@ -48,28 +48,28 @@ In order to see emails below, **you must login**.
 
   - MemCachier; Stanford University - San Francisco, CA
   - **Trac**: dterei; **email**: dave.terei@…
-  - **Committer since**: August, 2013.
+  - **Committer since**: June, 2010.
   - **Main areas of interest**: llvm backend, safe haskell
 
 - David Waern
 
   - LexiFI - Paris, France
   - **Trac**: waern; **email**: david.waern@…
-  - **Committer since**: August, 2013.
+  - **Committer since**: July, 2007.
   - **Main areas of interest**: haddock
 
 - Dimitrios Vytiniotis
 
   - Microsoft Research - Cambridge, UK
   - **Trac**: dimitris; **email**: dimitris@…
-  - **Committer since**: August, 2013.
+  - **Committer since**: May 2011.
   - **Main areas of interest**: ...
 
 - Duncan Coutts
 
   - Well-Typed LLP - Oxford, UK
   - **Trac**: duncan; **email**: duncan@…
-  - **Committer since**: August, 2013.
+  - **Committer since**: Janurary, 2006.
   - **Main areas of interest**: bytestring support, cabal integration, etc
 
 - Edsko de Vries
@@ -90,7 +90,7 @@ In order to see emails below, **you must login**.
 
   - Stanford University - Stanford, CA
   - **Trac**: ezyang; **email**: ezyang@…
-  - **Committer since**: August, 2013.
+  - **Committer since**: September, 2010.
   - **Main areas of interest**: runtime system, codegen, gc
 
 - [ Geoffrey Mainland](http://www.cs.drexel.edu/~mainland)
@@ -104,7 +104,7 @@ In order to see emails below, **you must login**.
 
   - N/A - ???
   - **Trac**: heisenbug; **email**: ggreif@…
-  - **Committer since**: August, 2013.
+  - **Committer since**: January, 2012.
   - **Main areas of interest**: ...
 
 - Herbert Valerio Riedel
@@ -125,21 +125,21 @@ In order to see emails below, **you must login**.
 
   - Galois Inc - Portland, OR
   - **Trac**: diatchki; **email**: diatchki@…
-  - **Committer since**: August, 2013.
+  - **Committer since**: January, 2011.
   - **Main areas of interest**: 'type literals' support, type checking
 
 - Ilya Sergey
 
   - IMDEA Software Institute - Madrid, Spain
   - **Trac**: ilya; **email**: ilya.sergey@…
-  - **Committer since**: August, 2013.
+  - **Committer since**: August, 2012.
   - **Main areas of interest**: optimiser
 
 - [ Jan Stolarek](http://ics.p.lodz.pl/~stolarek/)
 
   - Lodz University of Technology - Łódź, Poland. (temporarily: Microsoft Research - Cambridge, UK)
   - **Trac**: jstolarek; **email**: jan.stolarek@…
-  - **Committer since**: August, 2013.
+  - **Committer since**: July, 2013.
   - **Main areas of interest**: codegen, optimiser
 
 - [ Joachim Breitner](http://www.joachim-breitner.de/)
@@ -160,42 +160,42 @@ In order to see emails below, **you must login**.
 
   - University of Oxford - Oxford, UK
   - **Trac**: dreixel; **email**: jpm@…
-  - **Committer since**: August, 2013.
+  - **Committer since**: October, 2008.
   - **Main areas of interest**: generics support, type checker
 
 - Manuel Chakravarty
 
   - University of New South Wales - Sydney, Australia
   - **Trac**: chak; **email**: chak@…
-  - **Committer since**: August, 2013.
+  - **Committer since**: August, 2006.
   - **Main areas of interest**: DPH
 
 - Max Bolingbroke
 
   - N/A - Cambridge, UK
   - **Trac**: batterseapower; **email**: batterseapower@…
-  - **Committer since**: August, 2013.
+  - **Committer since**: Feburary, 2008.
   - **Main areas of interest**: optimiser, type checker
 
 - Nicolas Frisby
 
   - University of Kansas - Lawrence, Kansas
   - **Trac**: nfrisby; **email**: nicolas.frisby@…
-  - **Committer since**: August, 2013.
+  - **Committer since**: March, 2013.
   - **Main areas of interest**: optimiser
 
 - Páli Gábor János
 
   - Eötvös Lóránd University - Budapest, Hungary
   - **Trac**: pgj; **email**: pali.gabor@…
-  - **Committer since**: August, 2013.
+  - **Committer since**: July, 2010.
   - **Main areas of interest**: FreeBSD support
 
 - Paolo Capriotti
 
   - University of Nottingham - Nottingham, UK
   - **Trac**: pcapriotti; **email**: p.capriotti@…
-  - **Committer since**: August, 2013.
+  - **Committer since**: March, 2012.
   - **Main areas of interest**: ...
 
 - Patrick Palka
@@ -209,21 +209,21 @@ In order to see emails below, **you must login**.
 
   - University of Pennsylvania - Philadelphia, PA
   - **Trac**: goldfire; **email**: eir@…
-  - **Committer since**: August, 2013.
+  - **Committer since**: May, 2012.
   - **Main areas of interest**: type checker, core, Template Haskell
 
 - Roman Leshchinskiy
 
   - Standard Chartered - London, UK
   - **Trac**: rl; **email**: rl@…
-  - **Committer since**: August, 2013.
+  - **Committer since**: August, 2006.
   - **Main areas of interest**: vector library
 
 - Ross Paterson
 
   - City University - London, UK
   - **Trac**: ross; **email**: ross@…
-  - **Committer since**: August, 2013.
+  - **Committer since**: Feburary, 2006.
   - **Main areas of interest**: arrow support
 
 - Ryan Newton
@@ -237,7 +237,7 @@ In order to see emails below, **you must login**.
 
   - N/A - Berlin, Germany
   - **Trac**: SimonHengel; **email**: sol@…
-  - **Committer since**: August, 2013.
+  - **Committer since**: Feburary, 2013.
   - **Main areas of interest**: haddock
 
 - Simon Marlow
@@ -258,7 +258,7 @@ In order to see emails below, **you must login**.
 
   - Erudify AG - Zürich, Switzerland
   - **Trac**: nominolo; **email**: nominolo@…
-  - **Committer since**: August, 2013.
+  - **Committer since**: September, 2008.
   - **Main areas of interest**: GHC API
 
 ### Becoming a committer
