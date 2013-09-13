@@ -20,7 +20,7 @@ In order to see emails below, **you must login**.
 
   - Yale University - New Haven, CT
   - **Trac**: AndreasVoellmy; **email**: andreas.voellmy@…
-  - **Committer since**: August, 2013.
+  - **Committer since**: March, 2013.
   - **Main areas of interest**: IO manager
 
 - [ Austin Seipp](http://hacks.yi.org)
@@ -34,14 +34,14 @@ In order to see emails below, **you must login**.
 
   - University of New South Wales - Sydney, Australia
   - **Trac**: benl; **email**: benl@…
-  - **Committer since**: August, 2013.
+  - **Committer since**: November, 2010.
   - **Main areas of interest**: DPH, vector, code generators
 
 - [ Bryan O'Sullivan](http://www.serpentine.com/)
 
-  - Facebook - San Francisco, CA
+  - Facebook Inc - San Francisco, CA
   - **Trac**: bos, **email**: bos@…
-  - **Commiter since**: Sugust, 2013.
+  - **Commiter since**: September, 2013.
   - **Main areas of interest**: performance
 
 - David Terei
