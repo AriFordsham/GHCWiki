@@ -191,7 +191,7 @@ $ git rebase -i HEAD~10
 }}}
 
 will allow you to interactively rebase the last 10 commits on your branch. This power allows you to:
-  * '''Reorder patches''', by reordering the entries in the rebase list. If two patches don't touch each other, you can always switch their order and everything will be OK.
+  * '''Reorder patches''', by reordering the entries in the rebase list. If two patches can be applied independently (or, as we would say in the Darcs world, ''the patches commute''), you can always switch their order and everything will be OK.
   * '''Drop patches''', and completely remove them from the history, by removing them from the list.
   * '''Squash commits''', which will let you compress a series of commits into one.
   * '''Reword commits''', which will let you rewrite the commit message for any commit in the list, without touching anything else. (This is one of the most common ones I - Austin Seipp - use.)
