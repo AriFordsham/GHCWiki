@@ -56,12 +56,12 @@ tree that are most directly implicated.
 
 - Build system, release process.
 
-  - Ian Lynagh
+  - Austin Seipp
   - Directories: `mk/`, `distrib/, `ghc-tarballs/, `rules/`, `utils/`, `compiler/main`
 
 - Foreign function interface (FFI)
 
-  - Ian Lynagh
+  - Austin Seipp
   - Directories: `libffi/`
 
 - The main `HsSyn` data type
