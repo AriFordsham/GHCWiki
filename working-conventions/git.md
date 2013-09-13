@@ -166,9 +166,11 @@ Eventually when working in the repository, you'll invariably do something on acc
 
 
 While you may think all hope is lost, **the reflog can save you from all of these, and more**. In short, the reflog *is a log that records every modification which Git tracks*. To understand that, first understand this: despite its appearance, the Git data model has a core tenant: *it is immutable - data is never deleted, only new copies can be made* (the only exception is when garbage collection deletes nodes which have no outstanding references - much like our own GC!) Not even a rebase - which can rewrite the history - can actually delete old data.
- 
+
+
 Second, we need to understand an **important part of `git checkout`**: the purpose of `checkout` is *not* to switch branches. Checkout, roughly speaking, **allows you to check out your tree to any state, revision, or copy in the history**. You don't have to checkout to a branch: you can checkout to a commit from 3 weeks ago, a commit that *does not exist on a branch*, or a completely empty branch with nothing in common. You can checkout the entire tree, or you could checkout an individual file, or a single directory. The point being: **checkout takes you to a state in the history.**
- 
+
+
 So with that in mind, think of `reflog` like the audit log you can use to see what operations were performed on the immutable git history. *Every* operation is tracked. Let's look at an example, from Austin's *validation tree* he uses to push commits:
 
 ```wiki
