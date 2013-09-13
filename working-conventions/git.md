@@ -176,7 +176,7 @@ When working with GHC, there are a lot of ways you can use Git to make your life
 - The *work you previously had still exists, and has a commit ID*. It is on the far left.
 - The reflog tells you what operation resulted in the commit: in my history, we can see I did:
 
-  - At one point, I reset my tree and undid my latest commit. Then I kept working.
+  - At one point, I reset my tree and undid my latest commit (in `70406bc`, using `git reset`.) Then I kept working.
   - Several `git cherry-pick` operations.
   - Several commits, and some `git commit --amend` operations.
   - I checked out to master.
