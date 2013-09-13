@@ -37,6 +37,13 @@ In order to see emails below, **you must login**.
   - **Committer since**: August, 2013.
   - **Main areas of interest**: DPH, vector, code generators
 
+- Bryan O'Sullivan
+
+  - Facebook - San Francisco, CA
+  - **Trac**: bos, **email**: bos@…
+  - **Commiter since**: Sugust, 2013.
+  - **Main areas of interest**: performance
+
 - David Terei
 
   - MemCachier; Stanford University - San Francisco, CA
