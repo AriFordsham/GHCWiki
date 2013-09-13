@@ -37,7 +37,7 @@ The following **new** features are planned for 7.8 **but have not yet made it**.
 
 - Geoff Mainland is working generalising the support for SSE-like instructions. ETA: September 13.
 
-- Iavor Diatchki is working on type-level nats ([\#4385](https://gitlab.haskell.org//ghc/ghc/issues/4385), [ http://ghc.haskell.org/trac/ghc/wiki/TypeNats](http://ghc.haskell.org/trac/ghc/wiki/TypeNats)).  The plan is to support simple type-level arithmetic in GHC 7.8. The branch `type-nats-simple` has the code.
+- ~~Iavor Diatchki is working on type-level nats ([\#4385](https://gitlab.haskell.org//ghc/ghc/issues/4385), [ http://ghc.haskell.org/trac/ghc/wiki/TypeNats](http://ghc.haskell.org/trac/ghc/wiki/TypeNats)).  The plan is to support simple type-level arithmetic in GHC 7.8. The branch `type-nats-simple` has the code.~~**Merged**.
 
 - Austin Seipp would like to do some official ARMv7 binary releases with a working stage2 compiler and GHCi, but there are probably some bugs waiting here.
 
@@ -52,7 +52,7 @@ The following **new** features are planned for 7.8 **but have not yet made it**.
 
 - Ryan Newton has added a larger set of atomic memory primops than were previously available. The set of PrimOps may continue to expand slightly, but for now includes `casArray#`, `casIntArray#`, and `fetchAddIntArray#`.  In future work, Carter Schonwald will provide optimized (inline) versions of these PrimOps, at least for the LLVM backend.
 
-- The Applicative-Monad warnings have been merged (see [\#8004](https://gitlab.haskell.org//ghc/ghc/issues/8004).)
+- ~~The Applicative-Monad warnings would preferably go in (see [\#8004](https://gitlab.haskell.org//ghc/ghc/issues/8004).)~~**Merged**.
 
 - [Newtype wrappers](newtype-wrappers), by Joachim Breitner. **This will go in soon, but not really be advertised as a stable feature**.
 
