@@ -153,7 +153,7 @@ In order to see emails below, **you must login**.
 
   - Google Inc - San Francisco, CA
   - **Trac**: tibbe; **email**: johan.tibell@…
-  - **Committer since**: August, 2013.
+  - **Committer since**: July, 2010.
   - **Main areas of interest**: IO manager, codegen
 
 - José Pedro Magalhães
