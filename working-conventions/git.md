@@ -157,14 +157,15 @@ Q: **I started to rebase, but I confused myself and don't know how to get out! H
 ### Using the reflog
 
 
-Eventually when working in the repository, you'll invariably do something on accident that will delete work. If you have never committed the changes, then you're out of luck (commit often, commit early - even locally!) But have you ever done something like:
+Eventually when working in the repository, you'll invariably do something on accident that will delete work. Or maybe not delete your work - perhaps you simply want to "undo that thing you just did a minute ago". If you have never committed the changes, then you're out of luck (commit often, commit early - even locally!) But have you ever done something like:
 
 - Accidentally lost a commit, by deleting a branch?
 - Accidentally lost a commit through rebasing?
 - Amended a commit (`git commit --amend`), only to find out you broke it, and you want to *undo* the amendment?
 - Accidentally overwrote a branch with dangerous operation, like `git push --force`?
 
-**The reflog can save you from all of these, and more**. In short, the reflog *is a log that records every modification which Git tracks*. To understand that, first understand this: despite its appearance, the Git data model has a core tenant: *it is immutable - data is never deleted, only new copies can be made* (the only exception is when garbage collection deletes nodes which have no outstanding references - much like our own GC!) Not even a rebase - which can rewrite the history - can actually delete old data.
+
+While you may think all hope is lost, **the reflog can save you from all of these, and more**. In short, the reflog *is a log that records every modification which Git tracks*. To understand that, first understand this: despite its appearance, the Git data model has a core tenant: *it is immutable - data is never deleted, only new copies can be made* (the only exception is when garbage collection deletes nodes which have no outstanding references - much like our own GC!) Not even a rebase - which can rewrite the history - can actually delete old data.
  
 Second, we need to understand an **important part of `git checkout`**: the purpose of `checkout` is *not* to switch branches. Checkout, roughly speaking, **allows you to check out your tree to any state, revision, or copy in the history**. You don't have to checkout to a branch: you can checkout to a commit from 3 weeks ago, a commit that *does not exist on a branch*, or a completely empty branch with nothing in common. You can checkout the entire tree, or you could checkout an individual file, or a single directory. The point being: **checkout takes you to a state in the history.**
  
