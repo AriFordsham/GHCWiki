@@ -8,7 +8,6 @@
  * #8095: very slow constraint solving
  * #8171: extended default rules
  * #8177: role signature for type families
- * #8155: defaulting with type families... bad error message
  * #8161: associated type more specific than class decl
  * #7259: Eta-expansion of products in System FC
  * #5682: Parsing of pomoted kinds
@@ -43,6 +42,7 @@ See also [wiki:TemplateHaskell]
  * #1171: strictness and exceptions (long, open ticket)
 
 == Optimisation ==
+ * #8279: alignment and its effect on performance
  * #1498: heap checks in recursive functions
  * #7367: float-out causes extra allocation
  * #7378: (a) identical-alts when the RHSs are bigger; (b) nested comparisions (cf #2132)
