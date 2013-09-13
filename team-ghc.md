@@ -37,7 +37,7 @@ In order to see emails below, **you must login**.
   - **Committer since**: August, 2013.
   - **Main areas of interest**: DPH, vector, code generators
 
-- Bryan O'Sullivan
+- [ Bryan O'Sullivan](http://www.serpentine.com/)
 
   - Facebook - San Francisco, CA
   - **Trac**: bos, **email**: bos@…
