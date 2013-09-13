@@ -28,7 +28,7 @@ In order to see emails below, **you must login**.
   - Well-Typed LLP - Austin, TX
   - **Trac**: thoughtpolice; **email**: austin@…
   - **Committer since**: Janurary 2013.
-  - **Main areas of interest**: ARM support, OS X support, cross compilation, optimiser, build system, release management, git management, ghc.haskell.org server maintenance
+  - **Main areas of interest**: ARM support, build system, cross compilation, FFI, optimiser, release management, git management, ghc.haskell.org server maintenance
 
 - Ben Lippmeier
 
@@ -112,7 +112,7 @@ In order to see emails below, **you must login**.
   - Vienna University of Technology - Vienna, Austria
   - **Trac**: hvr; **email**: hvr@…
   - **Committer since**: August, 2013.
-  - **Main areas of interest**: git management, trac integration, ghci
+  - **Main areas of interest**: ghci, git management, trac integration, ghc.haskell.org server maintenance
 
 - Ian Lynagh
 
