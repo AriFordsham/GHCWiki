@@ -1,0 +1,2 @@
+
+This page talks about Type Application within function expressions, in which the function is polymorphic and the type application instantiates one or more of the types when typechecking the function.
