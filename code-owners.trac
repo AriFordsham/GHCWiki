@@ -46,11 +46,11 @@ tree that are most directly implicated.
    * [mailto:simonpj@microsoft.com Simon Peyton Jones], [mailto:marlowsd@gmail.com Simon Marlow]
 
  * Build system, release process.
-   * [mailto:ian@well-typed.com Ian Lynagh]
+   * [mailto:austin@well-typed.com Austin Seipp]
    * Directories: `mk/`, `distrib/, `ghc-tarballs/, `rules/`, `utils/`, `compiler/main`
  
  * Foreign function interface (FFI)
-   * [mailto:ian@well-typed.com Ian Lynagh]
+   * [mailto:austin@well-typed.com Austin Seipp]
    * Directories: `libffi/`
 
  * The main `HsSyn` data type
