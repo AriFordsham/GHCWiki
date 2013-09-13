@@ -230,12 +230,12 @@ At a certain point of git usage, you'll want to rewrite history by *rebasing int
 $ git rebase -i <commit range>
 ```
 
->
-> For example:
->
-> ```wiki
-> $ git rebase -i HEAD~10
-> ```
+
+For example:
+
+```wiki
+$ git rebase -i HEAD~10
+```
 
 
 will allow you to interactively rebase the last 10 commits on your branch. This power allows you to:

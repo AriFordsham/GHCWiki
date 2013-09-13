@@ -184,7 +184,8 @@ At a certain point of git usage, you'll want to rewrite history by ''rebasing in
 {{{
 $ git rebase -i <commit range>
 }}}
- For example:
+
+For example:
 {{{
 $ git rebase -i HEAD~10
 }}}
