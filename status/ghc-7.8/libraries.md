@@ -9,7 +9,8 @@ Note: Libraries with a "<sup>1</sup>" marker are used internally (e.g. by `ghci`
 
 - upstream: [ http://github.com/haskell/cabal.git](http://github.com/haskell/cabal.git)
 - synced up cleanly to final 1.18.0 release [\[eb304bd9/ghc\]](/trac/ghc/changeset/eb304bd9/ghc)
-- Probably, a 1.18.1 release will be made during the 7.8.1 RC phase
+- synced up cleanly to 1.18.1 snapshot [\[fccb5c65/ghc\]](/trac/ghc/changeset/fccb5c65/ghc)
+- Probably, a 1.18.1 release will occur shortly after Sep 15<sup>th</sup>.
 
 ### Win32
 
@@ -31,6 +32,8 @@ Note: Libraries with a "<sup>1</sup>" marker are used internally (e.g. by `ghci`
 
 - upstream: [ http://github.com/haskell/containers.git](http://github.com/haskell/containers.git)
 - synced up cleanly to containers-0.5.3.1 release \[8a8cfb2/ghc\]
+- AMP-warning fix pending
+- **TODO**
 
 ### haskeline<sup>1</sup>
 
@@ -42,6 +45,8 @@ Note: Libraries with a "<sup>1</sup>" marker are used internally (e.g. by `ghci`
 ### pretty
 
 - upstream: [ http://github.com/haskell/pretty.git](http://github.com/haskell/pretty.git)
+- not pointing to proper release version
+- no significant delta to upstream HEAD state
 - **TODO**
 
 ### primitive<sup>2</sup>
