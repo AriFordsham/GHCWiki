@@ -3,6 +3,8 @@ This list overviews the active branches in the main GHC repository.
 
 # Active branches
 
+- `master`: Primary development branch for GHC HEAD.
+
 - `late-lam-lift`: **Late Lambda Lift**.  Nick Frisby. We lift some lambdas before CorePrep. I'm still determining when to 'not' lift a lambda. My terse notes [here](late-lam-lift).
 
 - `type-nats`: **Solver for Type-Level Naturals**. Iavor S. Diatchki.  An experimental solver for discharging constraints involving natural numbers.
