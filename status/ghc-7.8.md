@@ -53,7 +53,7 @@ The following **new** features are planned for 7.8 **but have not yet made it**.
 
 - ~~The Applicative-Monad warnings would preferably go in (see [\#8004](https://gitlab.haskell.org//ghc/ghc/issues/8004).)~~**Merged**.
 
-- [Newtype wrappers](newtype-wrappers), by Joachim Breitner. **This will go in soon, but not really be advertised as a stable feature**.
+- ~~[Newtype wrappers](newtype-wrappers), by Joachim Breitner.~~**Merged**.
 
 ## Features that will definitely not make it
 
