@@ -56,11 +56,23 @@ data type D = C
 defines a datatype `D` which is not promoted to a kind, and its constructor `C` is
 not promoted to a type.
 
-## Other Extensions
+## Caveats
+
+### Star in Star
 
 
 If, in the future, we make `* :: *`, we will no longer have separation of
 types and kinds, so we won't be able to make such fine distinctions.
+
+### Recursive Groups
+
+### Kind and Type Namespaces
+
+
+As kinds and types currently share a namespace, `data kind` and
+`data type` declarations ```in the same module``` can still
+conflict.  However, if they are in separate modules, this can be controlled by
+use of the module system.
 
 ## Alternative Solutions
 
