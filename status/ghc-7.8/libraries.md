@@ -2,6 +2,9 @@
 
 ## 3rd Party Libraries
 
+
+Note: Libraries with a "<sup>1</sup>" marker are used internally (e.g. by `ghci`) and not exposed in the (boot-)package database (yet).
+
 ### Cabal
 
 - upstream: [ http://github.com/haskell/cabal.git](http://github.com/haskell/cabal.git)
@@ -29,7 +32,7 @@
 - upstream: [ http://github.com/haskell/containers.git](http://github.com/haskell/containers.git)
 - synced up cleanly to containers-0.5.3.1 release \[8a8cfb2/ghc\]
 
-### haskeline
+### haskeline<sup>1</sup>
 
 - upstream: [ http://git.haskell.org/darcs-mirrors/haskeline.git](http://git.haskell.org/darcs-mirrors/haskeline.git)
 - unclean state
@@ -41,14 +44,14 @@
 - upstream: [ http://github.com/haskell/pretty.git](http://github.com/haskell/pretty.git)
 - **TODO**
 
-### primitive
+### primitive<sup>1</sup>
 
 - upstream: [ http://git.haskell.org/darcs-mirrors/primitive.git](http://git.haskell.org/darcs-mirrors/primitive.git)
 - **critical** major release behind hackage/platform version
 - Jan is working on patches to integrate the new bool primops
 - **TODO**
 
-### terminfo
+### terminfo<sup>1</sup>
 
 - upstream: [ http://git.haskell.org/darcs-mirrors/terminfo.git](http://git.haskell.org/darcs-mirrors/terminfo.git)
 - **TODO**
@@ -64,14 +67,14 @@
 - still at 0.3.0.0 since GHC 7.6.3
 - asked upstream; shall remain at 0.3.0.0 for GHC 7.8.1
 
-### vector
+### vector<sup>1</sup>
 
 - upstream: [ http://git.haskell.org/darcs-mirrors/vector.git](http://git.haskell.org/darcs-mirrors/vector.git)
 - **critical** major release behind hackage/platform version
 - coupled with `primitive` library; see notes there
 - **TODO**
 
-### xhtml
+### xhtml<sup>1</sup>
 
 - upstream: [ http://github.com/haskell/xhtml](http://github.com/haskell/xhtml)
 - unmodified at clean 3000.2.1 release since GHC 7.6.3 release
