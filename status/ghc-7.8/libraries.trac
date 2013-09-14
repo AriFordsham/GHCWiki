@@ -2,13 +2,14 @@
 
 == 3rd Party Libraries ==
 
-Note: Libraries with a "^1^" marker are used internally (e.g. by `ghci`) and not exposed in the (boot-)package database (yet).
+Note: Libraries with a "^1^" marker are used internally (e.g. by `ghci` or `haddock`) and not exposed in the (boot-)package database. Libraries marked "^2^" are used by DPH (and only installed when `InstallExtraPackages=YES`)
 
 === Cabal ===
 
  - upstream: http://github.com/haskell/cabal.git
  - synced up cleanly to final 1.18.0 release [eb304bd9/ghc]
- - Probably, a 1.18.1 release will be made during the 7.8.1 RC phase
+ - synced up cleanly to 1.18.1 snapshot [fccb5c65/ghc]
+ - Probably, a 1.18.1 release will occur shortly after Sep 15^th^.
 
 === Win32 ===
 
@@ -30,6 +31,8 @@ Note: Libraries with a "^1^" marker are used internally (e.g. by `ghci`) and not
 
  - upstream: http://github.com/haskell/containers.git
  - synced up cleanly to containers-0.5.3.1 release [8a8cfb2/ghc]
+ - AMP-warning fix pending
+ - **TODO**
 
 === haskeline^1^ ===
 
@@ -41,9 +44,11 @@ Note: Libraries with a "^1^" marker are used internally (e.g. by `ghci`) and not
 === pretty ===
 
  - upstream: http://github.com/haskell/pretty.git
+ - not pointing to proper release version
+ - no significant delta to upstream HEAD state
  - **TODO**
 
-=== primitive^1^ ===
+=== primitive^2^ ===
 
  - upstream: http://git.haskell.org/darcs-mirrors/primitive.git
  - **critical** major release behind hackage/platform version
@@ -63,10 +68,11 @@ Note: Libraries with a "^1^" marker are used internally (e.g. by `ghci`) and not
 === transformers ===
 
  - upstream: http://git.haskell.org/darcs-mirrors/transformers.git
+ - Newly added in GHC 7.8
  - still at 0.3.0.0 since GHC 7.6.3
  - asked upstream; shall remain at 0.3.0.0 for GHC 7.8.1
 
-=== vector^1^ ===
+=== vector^2^ ===
 
  - upstream: http://git.haskell.org/darcs-mirrors/vector.git
  - **critical** major release behind hackage/platform version
