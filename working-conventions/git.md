@@ -348,7 +348,20 @@ Where `<revision range>` specifies the commit that git should stop at when going
 git am -3 <email>
 ```
 
+# Branches
+
 ## The stable branch
 
 
 See [WorkingConventions/Releases](working-conventions/releases).
+
+## Development branches
+
+
+See [ActiveBranches](active-branches) for a description of **known** development branches.
+
+
+The live list of currently **existing** branches in the `ghc` repository can be browsed via [ http://git.haskell.org/ghc.git/heads](http://git.haskell.org/ghc.git/heads).
+
+
+New development branches names should be prefixed with `wip/` (e.g. "`wip/dependent-types`"), as otherwise the current Git server-side configuration disallows branch deletion and [ non-fast-forward updates](http://stackoverflow.com/questions/4684352/whats-a-fast-forward-in-git).
