@@ -23,12 +23,11 @@ Here are biannual GHC status reports, published in the [http://haskell.org/commu
 
 Here are our release plans for 
   * [wiki:Status/GHC-7.8 GHC 7.8]
-  * [wiki:Status/GHC-6.12 GHC 6.12 (outdated)]
-  * [wiki:Status/GHC-6.10 GHC 6.10 (outdated)]
 
 == Planning notes ==
 
 Here is our [wiki:GhcPlanning current planning document], intended mainly to help Simon, Simon, and Ian coordinate with each other.
 
 == SPJ Tickets ==
-a curation of interesting tickets by SPJ, not discoverable otherwise on the wiki [http://hackage.haskell.org/trac/ghc/wiki/Status/SLPJ-Tickets here ]
+
+A curation of interesting tickets by SPJ, not discoverable otherwise on the wiki [http://hackage.haskell.org/trac/ghc/wiki/Status/SLPJ-Tickets here ]
