@@ -30,7 +30,7 @@ The problem with this idea comes with type families. (There are other ways to ti
 
 == The solution ==
 
-What to do? It turns out we need a subtler definition of type equality than what we have had. Specifically, we must differentiate between ''nominal'' equality and ''representational'' equality (abbreviated to N and R, respectively). N equality (called C in the paper cited above) is the Haskell equality we all know and love. If two types have the same name, they are N-equal. If they don't have the same name (expanding type synonyms), they are not N-equal. R equality, on the other hand, shows that two types have the same ''representation''. This is the equality that newtypes produce -- `Age` is R-equal to `Int`, but they are not N-equal.
+What to do? It turns out we need a subtler definition of type equality than what we have had. Specifically, we must differentiate between ''nominal'' equality and ''representational'' equality. Nominal equality (called C in the paper cited above) is the Haskell equality we all know and love. If two types have the same name, they are nominally equal. If they don't have the same name (expanding type synonyms), they are not nominally equal. Representational equality, on the other hand, shows that two types have the same ''representation''. This is the equality that newtypes produce -- `Age` is representationally equal to `Int`, but they are not nominally equal.
 
 Datatypes, classes, and type synonyms can be parametric in their type arguments or not. By "parametric", I mean that they do not ''inspect'' the type argument. A non-parametric type variable is inspect. Here are some examples:
 
@@ -58,17 +58,17 @@ data Mixed a b where
   MAge :: a -> Mixed a Age
 }}}
 
-is parametric in its first parameter but not its second. For reasons that will soon become clear, we say that a parametric type variable has role R and a non-parametric one has role N.
+is parametric in its first parameter but not its second. For reasons that will soon become clear, we say that a parametric type variable has role representational and a non-parametric one has role nominal.
 
-With this notion in place, we simply need the following rule: '''!GeneralizedNewtypeDeriving works only with classes whose last type parameter is at role R.'''
+With this notion in place, we simply need the following rule: '''!GeneralizedNewtypeDeriving works only with classes whose last type parameter is at role representational.'''
 
 == Phantom parameters ==
 
-It turns out that a third role is also useful (though unnecessary for type soundness): the phantom role, abbreviated P. It is often the case that programmers use type variables simply to constrain the type checker, not to make any statement about the runtime representation of a type. For example `data Phant a = MkPhant Int`. Because `a` doesn't appear on the right-hand side, we say that `a` is at role P. Why is this nice? Because it allows us to say that, say, `Phant Int` and `Phant Bool` are R-equal, because they really do have the same representation.
+It turns out that a third role is also useful (though unnecessary for type soundness): the phantom role. It is often the case that programmers use type variables simply to constrain the type checker, not to make any statement about the runtime representation of a type. For example `data Phant a = MkPhant Int`. Because `a` doesn't appear on the right-hand side, we say that `a` is at role phantom. Why is this nice? Because it allows us to say that, say, `Phant Int` and `Phant Bool` are representationally equal, because they really do have the same representation.
 
 == Role inference ==
 
-How do we know what role a type parameter should have? We use role inference! We start with a few base facts: `(->)` has two R parameters; `(~)` has two N parameters; and all type families' parameters are N. Then, we just propagate the information. By defaulting parameters to role P, any parameters unused in the right-hand side (or used only in other types in P positions) will be P. Whenever a parameter is used in an R position (that is, used as a type argument to a constructor whose corresponding variable is at role R), we raise its role from P to R. Similarly, when a parameter is used in an N position, its role is upgraded to N. We never downgrade a role from N to P or R, or from R to P. In this way, we infer the most-general role for each parameter.
+How do we know what role a type parameter should have? We use role inference! We start with a few base facts: `(->)` has two representational parameters; `(~)` has two nominal parameters; and all type families' parameters are nominal. Then, we just propagate the information. By defaulting parameters to role phantom, any parameters unused in the right-hand side (or used only in other types in phantom positions) will be phantom. Whenever a parameter is used in a representational position (that is, used as a type argument to a constructor whose corresponding variable is at role representational), we raise its role from phantom to representational. Similarly, when a parameter is used in a nominal position, its role is upgraded to nominal. We never downgrade a role from nominal to phantom or representational, or from representational to phantom. In this way, we infer the most-general role for each parameter.
 
 == Role annotations ==
 
@@ -78,31 +78,18 @@ As we have learned with type and kind inference, sometimes the programmer wants 
 data Ptr a = Ptr Addr#
 }}}
 
-The idea is that `a` should really be an R parameter, but role inference assigns it to P. This makes some level of sense: a pointer to an `Int` really ''is'' representationally the same as a pointer to a `Bool`. But, that's not at all how we want to use `Ptr`s! So, we want to be able to say
+The idea is that `a` should really be a representational parameter, but role inference assigns it to phantom. This makes some level of sense: a pointer to an `Int` really ''is'' representationally the same as a pointer to a `Bool`. But, that's not at all how we want to use `Ptr`s! So, we want to be able to say
 
 {{{
-data Ptr a@R = Ptr Addr#
+type role Ptr representational
+data Ptr a = Ptr Addr#
 }}}
 
-The `@R` annotation forces the parameter `a` to be at role R, not role P. We, then, of course, need to ''check'' the user-supplied roles to make sure they don't break any promises. It would be bad if the user could make `BadIdea`'s role be R!
+The `type role` annotation forces the parameter `a` to be at role representational, not role phantom. We, then, of course, need to ''check'' the user-supplied roles to make sure they don't break any promises. It would be bad if the user could make `BadIdea`'s role be representational!
 
-The other place where role annotations may be necessary are in .hs-boot files, where the right-hand sides of definitions can be omitted. As usual, the types/classes declared in an .hs-boot file must match up with the definitions in the .hs file, including down to the roles. The default role will be R in hs-boot files, corresponding to the common use case. Note that this '''will break code'''. But, the change is necessary to close the type-safety hole discussed above.
+The other place where role annotations may be necessary are in .hs-boot files, where the right-hand sides of definitions can be omitted. As usual, the types/classes declared in an .hs-boot file must match up with the definitions in the .hs file, including down to the roles. The default role is representational in hs-boot files, corresponding to the common use case. Note that this '''will break code'''. But, the change is necessary to close the type-safety hole discussed above.
 
-Role annotations will be allowed on type variables in `data`, `newtype`, `class`, and `type` declarations. They will not be allowed on type/data family declarations or in explicit `forall`s in function type signatures.
-
-== Role ''and'' kind annotations ==
-
-What if the user wants both a role and a kind annotation on a type variable? There are two possibilities:
-
-{{{
-data Foo (a :: k)@R
-}}}
-
-{{{
-data Bar (a@R :: k)
-}}}
-
-I (Richard E) propose the syntax for `Foo`, for no reason I can articulate. Note that the parentheses enclosing the kind annotation are required whether or not there is a role annotation.
+Role annotations will be allowed on type variables in `data`, `newtype`, and `class`, declarations. They will not be allowed on type/data family declarations or in explicit `forall`s in function type signatures.
 
 == Roles and `Traversable` ==
 
@@ -113,11 +100,11 @@ class Traversable t where
   traverse :: Applicative f => (a -> f b) -> t a -> f (t b)
 }}}
 
-According to the rules for roles, the parameter `t` must be at role N, as it is used as a parameter to the type variable `f`. We must account for the possibility that `f` will be instantiated with a type whose last parameter is at role N, so we force `t` to be at role N as well.
+According to the rules for roles, the parameter `t` must be at role nominal, as it is used as a parameter to the type variable `f`. We must account for the possibility that `f` will be instantiated with a type whose last parameter is at role nominal, so we force `t` to be at role nominal as well.
 
 This means that !GeneralizedNewtypeDeriving (hereafter "GND") no longer works with Traversable. But, !DeriveTraversable ''does'' still work. However, GHC previously preferred using GND over !DeriveTraversable when both were available, which assumedly produced the same code. How is this all possible? If GND doesn't work anymore, is there something wrong with !DeriveTraversable? The answer is that GND and !DeriveTraversable make ''different'' instances, contrary to expectations. The reason is that !DeriveTraversable has to use `fmap` to cast the result of `traverse` from the representation type back to the newtype. According to the Functor laws, `fmap`ping this cast should be a no-op (the law of interest is `fmap id == id`). But, if that law is not obeyed, `fmap`ping the cast may change the result of the `traverse`. Contrast this with a GND instance, which magically casts the result, without using `fmap`. If the Functor law is not obeyed, these two instances have different behavior.
 
-Despite this, I believe that using GND with `Traversable` is indeed type-safe. Why? Because of the parametricity guaranteed in `Functor` and `Applicative`. The reason GND is prohibited with `Traversable` is that we are worried `f`'s last parameter will be at role N. While it is possible to write `Functor` and `Applicative` instances for such a type, the methods of those classes can't really use the any constructors that force the role to be N. For example, consider this:
+Despite this, I believe that using GND with `Traversable` is indeed type-safe. Why? Because of the parametricity guaranteed in `Functor` and `Applicative`. The reason GND is prohibited with `Traversable` is that we are worried `f`'s last parameter will be at role nominal. While it is possible to write `Functor` and `Applicative` instances for such a type, the methods of those classes can't really use the any constructors that force the role to be nominal. For example, consider this:
 
 {{{
 data G a where
