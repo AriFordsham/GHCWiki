@@ -53,6 +53,10 @@ tree that are most directly implicated.
    * [mailto:austin@well-typed.com Austin Seipp]
    * Directories: `libffi/`
 
+ * Documentation
+   * [mailto:austin@well-typed.com Austin Seipp]
+   * Directories: `docs/`
+
  * The main `HsSyn` data type
    * [mailto:simonpj@microsoft.com Simon Peyton Jones]
    * Directories: `compiler/hsSyn`
