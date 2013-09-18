@@ -18,12 +18,12 @@ The features already completed are documented in the release notes:
 The following **new** features are planned for 7.8 **but have not yet made it**. They are at varying degrees of completeness, and may not all make it in.
 
  * Jan Stolarek has completed the [wiki:PrimBool boolean-primop story], but they are going through a major refactoring. Things still on the TODO list for this feature:
-   * Simon Marlow needs to accept patches sent by Jan Stolarek and either upload new versions of Alex and Happy to Hackage or tell Jan to do that
-   * Jan Stolarek can then push his changes into HEAD
-   * Jan Stolarek needs to send patches for primitive to Roman Leschinskiy.
+   * ~~Simon Marlow needs to accept patches sent by Jan Stolarek and either upload new versions of Alex and Happy to Hackage or tell Jan to do that~~
+   * ~~Jan Stolarek can then push his changes into HEAD~~
+   * Jan Stolarek needs to send patches for primitive to Roman Leschinskiy. '''In progress'''.
    * Roman Leschinskiy needs to upload new version of primitive to Hackage
    * Herbert Valerio Riedel can then pull latest version of primitive into GHC tree. 
-   * Austin Seipp will implement shim package for backwards compatibility and update [http://ghc.haskell.org/trac/ghc/wiki/NewPrimopsInGHC7.8 this wiki page accordingly]. See also [http://www.haskell.org/haskellwiki/Compatibility_Modules the compatibility module page].
+   * Austin Seipp will implement shim package for backwards compatibility and update [http://ghc.haskell.org/trac/ghc/wiki/NewPrimopsInGHC7.8 this wiki page accordingly]. See also [http://www.haskell.org/haskellwiki/Compatibility_Modules the compatibility module page]. '''In progress'''.
 
  * Trevor Elliot and Iavor Diatchki have implemented [wiki:GhcKinds/KindsWithoutData].  Not yet clear whether they'll be ready for 7.8
 
