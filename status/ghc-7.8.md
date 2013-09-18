@@ -49,7 +49,7 @@ The following **new** features are planned for 7.8 **but have not yet made it**.
   On Windows, there are a couple of build time annoyances: `-dynamic-too` doesn't work on Windows ([\#8228](https://gitlab.haskell.org//ghc/ghc/issues/8228)), and linking takes a very long time when dynamic linking is used ([\#8229](https://gitlab.haskell.org//ghc/ghc/issues/8229)). There's no technical reason why it couldn't be enabled, though.
   The plan is/was to use dynamic GHCi on as many platforms as possible in 7.8, and to remove support for non-dynamic-ghci in HEAD soon after. See discussion in [\#8039](https://gitlab.haskell.org//ghc/ghc/issues/8039), however.
 
-- Ryan Newton has added a larger set of atomic memory primops than were previously available. The set of PrimOps may continue to expand slightly, but for now includes `casArray#`, `casIntArray#`, and `fetchAddIntArray#`.  In future work, Carter Schonwald will provide optimized (inline) versions of these PrimOps, at least for the LLVM backend.
+- ~~Ryan Newton has added a larger set of atomic memory primops than were previously available. The set of PrimOps may continue to expand slightly, but for now includes `casArray#`, `casIntArray#`, and `fetchAddIntArray#`.~~**Done and merged**.
 
 - ~~The Applicative-Monad warnings would preferably go in (see [\#8004](https://gitlab.haskell.org//ghc/ghc/issues/8004).)~~**Merged**.
 
