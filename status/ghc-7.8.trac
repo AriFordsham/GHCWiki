@@ -33,7 +33,7 @@ The following **new** features are planned for 7.8 **but have not yet made it**.
 
  * ~~Iavor Diatchki is working on type-level nats (#4385, http://ghc.haskell.org/trac/ghc/wiki/TypeNats).  The plan is to support simple type-level arithmetic in GHC 7.8. The branch `type-nats-simple` has the code.~~ '''Merged'''.
 
- * Austin Seipp would like to do some official ARMv7 binary releases with a working stage2 compiler and GHCi, but there are probably some bugs waiting here.
+ * Austin Seipp would like to do some official ARMv7 binary releases with a working stage2 compiler and GHCi. He believes the last major remaining bug is #7794, which trips the info table generation for bytecode. Otherwise, GHC can build and successfully use Template-Haskell, vector/dph, etc.
 
  * Austin also still has a lingering patch for #7602 to fix a large OS X performance regression, but it's still not merged. The final details must be sorted out with Simon Marlow.
 
