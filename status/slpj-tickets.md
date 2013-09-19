@@ -50,6 +50,7 @@ See also [TemplateHaskell](template-haskell)
 - [\#8327](https://gitlab.haskell.org//ghc/ghc/issues/8327): dead code (in heap checks) not eliminated by C--
 - [\#8317](https://gitlab.haskell.org//ghc/ghc/issues/8317), [\#8326](https://gitlab.haskell.org//ghc/ghc/issues/8326): don't push heapchecks into case branches too aggressively
 - [\#8308](https://gitlab.haskell.org//ghc/ghc/issues/8308): resurrect ticky histograms
+- [\#8321](https://gitlab.haskell.org//ghc/ghc/issues/8321): branch prediction for stack/heap checks for LLVM
 - [\#8279](https://gitlab.haskell.org//ghc/ghc/issues/8279): alignment and its effect on performance
 - [\#1498](https://gitlab.haskell.org//ghc/ghc/issues/1498): heap checks in recursive functions
 - [\#7367](https://gitlab.haskell.org//ghc/ghc/issues/7367): float-out causes extra allocation
