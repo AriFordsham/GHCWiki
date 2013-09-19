@@ -44,6 +44,7 @@ See also [wiki:TemplateHaskell]
 == Optimisation ==
  * #8327: dead code (in heap checks) not eliminated by C--
  * #8317, #8326: don't push heapchecks into case branches too aggressively
+ * #8308: resurrect ticky histograms
  * #8279: alignment and its effect on performance
  * #1498: heap checks in recursive functions
  * #7367: float-out causes extra allocation
