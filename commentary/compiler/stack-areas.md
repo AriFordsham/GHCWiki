@@ -64,7 +64,12 @@ data CmmExpr
 ```
 
 
-An `Area` represents space on the stack; it may use either the `RegSlot` constructor to represent a single stack slot for a register or the `CallArea` constructor to represent parameters passed to/from a function call/return. In a young `CallArea`, the `BlockId` is the label of the function call's continuation, and it passes parameters to the call. Each `Area` grows down, with offset 0 pointing to the old end of the `Area`. The old call area is the initial state of the stack on entry to the function (the overflow parameters and the return address) as well as any arguments that will be passed to a tail call. Note that `RegSlot` areas are very small (since they only need to store a single register), while `CallArea` are contiguous chunks of arguments.
+An `Area` represents space on the stack; it may use either the `RegSlot` constructor to represent a single stack slot for a register or the `CallArea` constructor to represent parameters passed to/from a function call/return. In a young `CallArea`, the `BlockId` is the label of the function call's continuation, and it passes parameters to the call. 
+
+**Each `Area` grows down, with offset 0 pointing to the old end of the `Area`.**
+
+>
+> The old call area is the initial state of the stack on entry to the function (the overflow parameters and the return address) as well as any arguments that will be passed to a tail call. Note that `RegSlot` areas are very small (since they only need to store a single register), while `CallArea` are contiguous chunks of arguments.
 
 
 To name a specific location on the stack, we represent its address with a new kind of `CmmExpr`: the `CmmStackSlot`.
