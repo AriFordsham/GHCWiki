@@ -96,7 +96,7 @@ This is close to the actual implementation, but requires giving names to the coe
 ## Proposal 2
 
 
-(This is basically the current implementation, advocated by Roman Cheplyka.)
+(This is basically the current implementation, advocated by Roman Cheplyaka.)
 
 ## Proposal 3
 
