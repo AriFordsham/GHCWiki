@@ -241,6 +241,8 @@ Each of these functions has a wrapper that calls `isTrue#` and returns a `Bool`.
 
   * Other libraries that were modified to work with the new primops are: array, base, dph, ghc-prim, primitive and template-haskell.
 
+  * GHC received an internal module [[GhcFile(compiler/utils/ExtsCompat46)]] that allows to bootstrap with GHC versions that have old primops (i.e. GHC 7.6 and GHC 7.4). This module is meant to be temporary - see #8330.
+
 === Benchmarks ===
 
 Below is a benchmark for the proof-of-concept branchless filter function that demonstrates performance gains possible with the new primops:
