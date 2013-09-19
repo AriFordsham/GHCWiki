@@ -77,7 +77,10 @@ An `Area` represents space on the stack; it may use either the `RegSlot` constru
 - Hence, to address a 4-byte object at the old end of `Area` a, we use the offset +4, thus `(CmmStackSlot a 4)`.
 
 
-The `Old` call area is the initial state of the stack on entry to the function (the overflow parameters and the return address) as well as any arguments that will be passed to a tail call. Note that `RegSlot` areas are very small (since they only need to store a single register), while `CallArea` are contiguous chunks of arguments.
+The `Old` call area is the initial state of the stack on entry to the function (the overflow parameters and the return address) as well as any arguments that will be passed to a tail call.  (SLPJ believes that:) On entry to the function, register `Sp` contains the address of the youngest (lowest-address, highest offset) byte in the `Old` area. 
+
+
+Note that `RegSlot` areas are very small (since they only need to store a single register), while `CallArea` are contiguous chunks of arguments.
 
 
 To name a specific location on the stack, we represent its address with a new kind of `CmmExpr`: the `CmmStackSlot`.
