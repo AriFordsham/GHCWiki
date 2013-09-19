@@ -50,6 +50,25 @@ Other documentation for Windows includes:
 > ...etc..etc...
 > ```
 
+1. **Mount `c:/mingw` as `/mingw`**.  You do this by saying
+
+  ```wiki
+  mount c:/mingw /mingw
+  ```
+
+  or by directly editing `c:/mingw/msys/1.0/etc/fstab` to have the line
+
+  ```wiki
+  c:/mingw /mingw
+  ```
+
+  You only need to do this once, at installation time. If you forget, you'll get an error from `automake` like this
+
+  ```wiki
+  Can't locate Autom4te/ChannelDefs.pm in @INC (@INC contains: /mingw/share/autoconf /usr/lib/perl5/5.8/msys /usr/lib/perl5/5.8 /usr/lib/perl5/site_perl/5.8/msys /usr/lib/perl5/site_perl/5.8 /usr/lib/perl5/site_perl/5.8 /usr/lib/perl5/vendor_perl/5.8/msys /usr/lib/perl5/vendor_perl/5.8 /usr/lib/perl5/vendor_perl/5.8 .) at /c/mingw/bin/autoreconf-2.68 line 40.
+  BEGIN failed--compilation aborted at /c/mingw/bin/autoreconf-2.68 line 40.
+  ```
+
 1. If you use a shell within Emacs, make sure your `SHELL` environment variable points to the `bash` in `c:/MinGW/msys/1.0/bin`. 
 
 1. **Launch the shell** by starting the 'Command Prompt' (cmd.exe via Run). Get into the MingW shell by running 'bash', and  use `autoconf --version` to check that you have at least version 2.68 of `autoconf`. Version 2.56 (which was around for a long time) does not work for GHC's build system.
