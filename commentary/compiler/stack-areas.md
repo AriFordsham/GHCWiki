@@ -69,7 +69,9 @@ An `Area` represents space on the stack; it may use either the `RegSlot` constru
 **Area layout and addressing**
 
 - Each `Area` grows down, towards lower machine addresses. 
-- *Offsets* are always positive.  The low-offset end is also called the "old end" of the area, the high-offset end is also called the "young end".
+- *Offsets* are always-positive byte displacements within an `Area`.
+- The low-offset end is also called the "old end" of the area, the high-offset end is also called the "young end".
+- Notice that the low-offset (old) end has higher machine addresses.
 - Offset 0 (if we allowed it) would address the byte one *beyond* the high-address end of the `Area`. 
 - Larger offsets (from the beginning of the `Area`) correspond to lower machine addresses.
 - Hence, to address a 4-byte object at the old end of `Area` a, we use the offset +4, thus `(CmmStackSlot a 4)`.
