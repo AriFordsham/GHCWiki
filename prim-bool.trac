@@ -222,48 +222,13 @@ The assembly does not contain comparisons and branches in the scrutinee of the c
 
 Below is a summary of implementation details and decisions:
 
-  * The new comparison primops return a value of type `Int#`: `1#` represents `True` and `0#` represents `False`. The `Int#` type was chosen because on Haskell it is more common to use signed Int type insetad of unsigned Word. By using `Int#` the users can easily convert unboxed result into a boxed value, without need to use `word2Int#` and `int2word#` primops.
+  * The new comparison primops return a value of type `Int#`: `1#` represents `True` and `0#` represents `False`. The `Int#` type was chosen because in Haskell it is more common to use signed `Int` type insetad of unsigned `Word`. By using `Int#` the users can easily convert unboxed result into a boxed value, without need to use `word2Int#` and `int2word#` primops.
 
-  * Unlike C, `2#` or `-3#` don't represent a Boolean value.  More concretely, you can use `tagToEnum#` to convert one of these `Int#` values to a `Bool`, but `tagToEnum#` does no error checking, so it would be Very Very Bad to call it on `2#`.
+  * Unlike C, `2#` or `-3#` don't represent a Boolean value.  More concretely, you can use `tagToEnum#` to convert one of these `Int#` values to a `Bool`, but `tagToEnum#` does no error checking, so it would be Very Very Bad to call it on `2#`. Our plan is to provide safe `isTrue#` and `isFalse#` functions, which will check whether its `Int#` parameter is a valid representation of `True` (i.e. it is `1#`) or `False` (i.e. it is `0#`). This is not possible at the moment due to deficiency in the code generator (see #8326), but we do provide `isTrue#` function for you to use (defined in `GHC.Types`, re-exported by `GHC.Base` and `GHC.Exts`). Currently it is an alias to `tagToEnum#` and is therefore unsafe, but once we solve #8326 we will turn it into a safe function.
 
-  * As a small side-task, four new logical bitwise primops have been implemented: `andI#`, `orI#`, `xorI#` and `negI#` (#7689). These operate on values of type `Int#`. Earlier we had only bitwise logical primops operating on values of type `Word#`.
+  * As a small side-task, four new logical bitwise primops have been implemented: `andI#`, `orI#`, `xorI#` and `negI#` (#7689). These operate on values of type `Int#`. Earlier we only had bitwise logical primops operating on values of type `Word#`.
 
-  * Names of the existing comparison primops were changed. Operators had `$` added before `#`, others had `I` added before the `#` (this is a mnemonic denoting that this primop returns and `Int#`). Examples:
-
-{{{
->=$#      :: Int#    -> Int#    -> Int#
-/=$##     :: Double# -> Double# -> Int#
-gtCharI#  :: Char#   -> Char#   -> Int#
-eqWordI#  :: Word#   -> Word#   -> Int#
-ltFloatI# :: Float#  -> Float#  -> Int#
-leAddrI#  :: Addr#   -> Addr#   -> Int#
-}}}
-
-  * A new module `GHC.PrimWrappers` was added to ghc-prim library. This module contains wrappers for comparison primops. These wrappers have names identical to removed primops and return a `Bool`. Examples:
-
-{{{
-gtChar# :: Char# -> Char# -> Bool
-gtChar# a b = tagToEnum# (a `gtCharI#` b)
-
-(>=#) :: Int# -> Int# -> Bool
-(>=#) a b = tagToEnum# (a >=$# b)
-
-eqWord# :: Word# -> Word# -> Bool
-eqWord# a b = tagToEnum# (a `eqWordI#` b)
-
-(/=##) :: Double# -> Double# -> Bool
-(/=##) a b = tagToEnum# (a /=$## b)
-
-ltFloat# :: Float# -> Float# -> Bool
-ltFloat# a b = tagToEnum# (a `ltFloatI#` b)
-
-leAddr# :: Addr# -> Addr# -> Bool
-leAddr# a b = tagToEnum# (a `leAddrI#` b)
-}}}
-
-Thanks to these wrappers the change is almost backwards compatible. '''The only thing primop users need to change in their existing code to make it work again is adding import of GHC.!PrimWrappers module.'''
-
-  * Functions for comparing `Integer` type, implemented in integer-gmp and integer-simple libraries, received a similar treatment. Technically they are not primops, because they are implemented in Haskell (in case of integer-gmp also with FFI), but they pretend to be ones. There are six primops for comparing `Integer` values:
+  * Functions for comparing values of `Integer` type are not primops from technical point of view, because they are implemented in Haskell (in case of integer-gmp also with FFI), but they pretend to be ones. There are six primops for comparing `Integer` values:
 {{{
 eqInteger#  :: Integer -> Integer -> Int#
 neqInteger# :: Integer -> Integer -> Int#
@@ -272,11 +237,9 @@ ltInteger#  :: Integer -> Integer -> Int#
 gtInteger#  :: Integer -> Integer -> Int#
 geInteger#  :: Integer -> Integer -> Int#
 }}}
-Each of these functions has a wrapper that calls `tagToEnum#` and returns a `Bool`. These wrappers are: `eqInteger`, `neqInteger`, `leInteger`, `ltInteger`, `gtInteger` and `geInteger`.
+Each of these functions has a wrapper that calls `isTrue#` and returns a `Bool`. These wrappers are: `eqInteger`, `neqInteger`, `leInteger`, `ltInteger`, `gtInteger` and `geInteger`.
 
-  * Six primops are an exception to the rules above: `sameMutableArray#`, `sameMutableByteArray#`, `sameMutableArrayArray#`, `sameMutVar#`, `sameMVar#` and `sameTVar#`. Their names have remained the same as before and new wrappers created for them lack `#` at the end of their name. We made that decission because this naming feels more consistent and these primops are rarely used so we expect that they won't break a lot of existing code.
-
-  * Other libraries that were modified to work with the new primops are: base, ghc-prim and primitive. The only required modifications were imports of the GHC.!PrimWrappers module in modules that use the primops.
+  * Other libraries that were modified to work with the new primops are: array, base, dph, ghc-prim, primitive and template-haskell.
 
 === Benchmarks ===
 
