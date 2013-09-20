@@ -48,6 +48,7 @@ See also [TemplateHaskell](template-haskell)
 ## Optimisation
 
 - [\#8335](https://gitlab.haskell.org//ghc/ghc/issues/8335): more gc entry points
+- [\#8336](https://gitlab.haskell.org//ghc/ghc/issues/8336): sinking pass does not sink
 - [\#8327](https://gitlab.haskell.org//ghc/ghc/issues/8327): dead code (in heap checks) not eliminated by C--
 - [\#8317](https://gitlab.haskell.org//ghc/ghc/issues/8317), [\#8326](https://gitlab.haskell.org//ghc/ghc/issues/8326): don't push heapchecks into case branches too aggressively
 - [\#8308](https://gitlab.haskell.org//ghc/ghc/issues/8308): resurrect ticky histograms

@@ -43,6 +43,7 @@ See also [wiki:TemplateHaskell]
 
 == Optimisation ==
  * #8335: more gc entry points
+ * #8336: sinking pass does not sink
  * #8327: dead code (in heap checks) not eliminated by C--
  * #8317, #8326: don't push heapchecks into case branches too aggressively
  * #8308: resurrect ticky histograms
