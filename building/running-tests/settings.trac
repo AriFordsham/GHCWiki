@@ -10,6 +10,7 @@ CONFIG               -- use a different configuration file
 COMPILER             -- stem of a different configuration file from the config directory [default: ghc]
 WAY                  -- just this way
 THREADS              -- number of threads to use when running the testsuite
+VERBOSE              -- verbosity
 }}}
 
 For example, to run the `tc053` test for only the `optasm` way we would use:
@@ -39,3 +40,12 @@ dyn                  -- -O -dynamic
 certain ways are enabled automatically if the GHC build in the local
 tree supports them.  Ways that are enabled this way are optasm, optllvm,
 profc, profasm, threaded1, threaded2, and ghci.
+
+These values are supported for `VERBOSE=n`; the default is `VERBOSE=3`:
+{{{
+     n=0: No per-test output
+     n=1: Only failing test results
+     n=2: As above, plus progress information (names of all tests)
+     n=3: As above, plus commands called.
+}}}
+
