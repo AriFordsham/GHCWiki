@@ -9,8 +9,6 @@ This list overviews the active branches in the main GHC repository.
 
 - `type-nats`: **Solver for Type-Level Naturals**. Iavor S. Diatchki.  An experimental solver for discharging constraints involving natural numbers.
 
-- `type-nats-simple`: Derived from `type-nats`, intended for eventually being merged into `master`, slated for 7.8.
-
 - `simd`: **SIMD support**. Geoffrey Mainland. This extends the simple SIMD support in GHC HEAD, and is slated for 7.8.
 
 - `th-new`: **New Template Haskell**. Geoffrey Mainland. This revamps Template Haskell, based on Simon PJ's proposal. See [ http://ghc.haskell.org/trac/ghc/blog/Template%20Haskell%20Proposal](http://ghc.haskell.org/trac/ghc/blog/Template%20Haskell%20Proposal)
@@ -35,16 +33,16 @@ These branches are not merged, but they are also not totally dead ended, and the
 
 The actual status of these branches, including whether they have been merged and/or superseded, is not clear.
 
-- `cpr-sum-types`: **CPR for sum types**. Simon PJ.
-
-- `tc-arrows`: **Rearrange the typechecking of arrows, especially arrow "forms"**. Simon PJ & Ross Patterson.
-
 - `ghc-spj`: **???**. Simon PJ.
 
 # Dead/merged branches
 
 
 This is a list of inactive branches which have been merged into the tree.
+
+- `cpr-sum-types`: **CPR for sum types**. Simon PJ.
+
+- `tc-arrows`: **Rearrange the typechecking of arrows, especially arrow "forms"**. Simon PJ & Ross Patterson.
 
 - `ghc-parmake-gsoc`: **Parallel --make**. Patrick Palka, GSoC 2013. This extends `ghc --make` to be able to compile multiple modules in parallel.
 
@@ -95,3 +93,5 @@ This is a list of inactive branches which have been merged into the tree.
 - `patch-7704`: **Fix for [\#7704](https://gitlab.haskell.org//ghc/ghc/issues/7704)**. José Pedro Magalhães. Will be part of 7.8.
 
 - `srcloc` and `real-src-loc-span`: **Amendments to spannings and SrcLocs**. Ian Lynagh.
+
+- `type-nats-simple`: Derived from `type-nats`, intended for eventually being merged into `master`, slated for 7.8.
