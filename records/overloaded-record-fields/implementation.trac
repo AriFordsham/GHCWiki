@@ -260,4 +260,4 @@ We could mangle selector names (using `$sel:foo:T` instead of `foo`) even when t
 
 * Consider defaulting `Accessor p` to `p = (->)`, and defaulting `Has r "f" t` constraints where there is only one datatype with a field `f` in scope.
 * We could add `HsVarOut RdrName id` instead of `HsSingleRecFld` (or perhaps rename `HsVar` to `HsVarIn`). This would also be useful to recall how the user referred to something.
-* Add syntax for record projection, perhaps using # since it shouldn't conflict with `MagicHash`? When we have explicit type application, one might be able to use `field @"foo"` or `getField @"foo"`. Document the options.
+* Add syntax for record projection, perhaps using # since it shouldn't conflict with `MagicHash`?
