@@ -32,15 +32,15 @@ These branches are not merged, but they are also not totally dead ended, and the
 
 The actual status of these branches, including whether they have been merged and/or superseded, is not clear.
 
- * `cpr-sum-types`: '''CPR for sum types'''. Simon PJ.
-
- * `tc-arrows`: '''Rearrange the typechecking of arrows, especially arrow "forms"'''. Simon PJ & Ross Patterson.
-
  * `ghc-spj`: '''???'''. Simon PJ.
 
 = Dead/merged branches =
 
 This is a list of inactive branches which have been merged into the tree.
+
+ * `cpr-sum-types`: '''CPR for sum types'''. Simon PJ.
+
+ * `tc-arrows`: '''Rearrange the typechecking of arrows, especially arrow "forms"'''. Simon PJ & Ross Patterson.
 
  * `ghc-parmake-gsoc`: '''Parallel --make'''. Patrick Palka, GSoC 2013. This extends `ghc --make` to be able to compile multiple modules in parallel.
 
