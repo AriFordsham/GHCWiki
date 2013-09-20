@@ -28,7 +28,7 @@ It is also noteworthy, that the representations of types changes during type che
    * `TcSMonad`: the monad of the constraint solver (built on top of the main typechecker monad)
    * `TcEvidence`: the data types used for evidence (mostly pure)
    * `TcUnify`: solves unification constraints "on the fly"; if it can't, it generates a constraint for the constraint solver to deal with later
-   * `TcErrors`: generates good error messages from the residual, unsolved constraints.
+   * `TcErrors`: generates good error messages from the residual, unsolved constraints.[[BR]]
    The best place reading for the constraint solver is the paper [http://www.haskell.org/haskellwiki/Simonpj/Talk:OutsideIn Modular type inference with local assumptions]
 
  * Underlying infrastructure:
