@@ -330,24 +330,29 @@ Q3. What if we subsequently add another datatype with a field `g`?
 
 A. The code still compiles correctly.
 
-An advantage of distinguishing record projections syntactically (as in `x.g`) is that `g` is always treated as a record field, regardless of what is in scope. This allows better separation of concerns, as functions that manipulate records can be defined abstractly rather than referring to particular datatypes. We could consider using an operator less controversial than dot (for example, `(|:)` has been suggested), or a keyword such as '''select''':
+
+=== Syntax for record projections ===
+
+An advantage of distinguishing record projections syntactically (as in `x.g`) is that `g` is always treated as a record field, regardless of what is in scope. This allows better separation of concerns, as functions that manipulate records can be defined abstractly rather than referring to particular datatypes. We could consider using an operator less controversial than dot (for example, `#` has been suggested):
 
 {{{
-f x = x|:g + 1
-f x = select g x + 1
+f x = x#g + 1
+bar xs = map (#baz) xs
 }}}
 
+This should not conflict with `-XMagicHash`, since that allows `#` only as a postfix name modifier. Note that it works perfectly with partial application.
 
-=== Introducing field names ===
-
-As noted above, sometimes one might want to write code that uses record fields without any particular record types being in scope. One workaround is to define unused types with the appropriate field names. This is slightly odd! We might consider adding a new declaration form, say '''field''' `g`, which declares `g` as a record field that is always polymorphic, rather like the function declaration
+Another alternative, once we have `-XExplicitTypeApplication`, is to use the `field` function defined in `GHC.Records`:
 
 {{{
-g :: r { g :: t } => r -> t
-g = field
+field @"foo"
 }}}
 
-but with the property that it will not clash with actual `g` fields.
+That is a bit long, however, and worse is the version needed at present:
+
+{{{
+field (Proxy :: Proxy "foo")
+}}}
 
 
 === Unambiguous fields ===
@@ -369,6 +374,8 @@ Oh, and there's a fifth option:
 5. Generate a polymorphic use of `field` as normal, but when defaulting a constraint `Has r "foo" t`, choose the instance for `T`.
 
 This gives the maximum amount of polymorphism and the right behaviour in the presence of the monomorphism restriction, but defaulting is evil and confusing...
+
+At the moment we take the first option.
 
 
 === Record update: avoiding redundant annotations ===

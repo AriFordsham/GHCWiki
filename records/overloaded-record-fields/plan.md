@@ -386,26 +386,32 @@ Q3. What if we subsequently add another datatype with a field `g`?
 
 1. The code still compiles correctly.
 
-
-An advantage of distinguishing record projections syntactically (as in `x.g`) is that `g` is always treated as a record field, regardless of what is in scope. This allows better separation of concerns, as functions that manipulate records can be defined abstractly rather than referring to particular datatypes. We could consider using an operator less controversial than dot (for example, `(|:)` has been suggested), or a keyword such as **select**:
-
-```wiki
-f x = x|:g + 1
-f x = select g x + 1
-```
-
-### Introducing field names
+### Syntax for record projections
 
 
-As noted above, sometimes one might want to write code that uses record fields without any particular record types being in scope. One workaround is to define unused types with the appropriate field names. This is slightly odd! We might consider adding a new declaration form, say **field**`g`, which declares `g` as a record field that is always polymorphic, rather like the function declaration
+An advantage of distinguishing record projections syntactically (as in `x.g`) is that `g` is always treated as a record field, regardless of what is in scope. This allows better separation of concerns, as functions that manipulate records can be defined abstractly rather than referring to particular datatypes. We could consider using an operator less controversial than dot (for example, `#` has been suggested):
 
 ```wiki
-g :: r { g :: t } => r -> t
-g = field
+f x = x#g + 1
+bar xs = map (#baz) xs
 ```
 
 
-but with the property that it will not clash with actual `g` fields.
+This should not conflict with `-XMagicHash`, since that allows `#` only as a postfix name modifier. Note that it works perfectly with partial application.
+
+
+Another alternative, once we have `-XExplicitTypeApplication`, is to use the `field` function defined in `GHC.Records`:
+
+```wiki
+field @"foo"
+```
+
+
+That is a bit long, however, and worse is the version needed at present:
+
+```wiki
+field (Proxy :: Proxy "foo")
+```
 
 ### Unambiguous fields
 
@@ -431,6 +437,9 @@ Oh, and there's a fifth option:
 
 
 This gives the maximum amount of polymorphism and the right behaviour in the presence of the monomorphism restriction, but defaulting is evil and confusing...
+
+
+At the moment we take the first option.
 
 ### Record update: avoiding redundant annotations
 
