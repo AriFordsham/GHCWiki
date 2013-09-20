@@ -2,8 +2,6 @@
 
 [ Microsoft Research Cambridge](http://research.microsoft.com/aboutmsr/labs/cambridge/) now runs a year-round [ internship programme](http://research.microsoft.com/en-us/jobs/intern/about_uk.aspx).  You can apply for an internship slot in any area covered by the lab, but Simon and I are of course keen to attract strong applications from people interested in functional programming, Haskell, and GHC.
 
-[Internships/JanStolarek](internships/jan-stolarek)
-
 ## What is an internship?
 
 
