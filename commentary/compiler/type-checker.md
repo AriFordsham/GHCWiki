@@ -36,7 +36,8 @@ It is also noteworthy, that the representations of types changes during type che
   - `TcUnify`: solves unification constraints "on the fly"; if it can't, it generates a constraint for the constraint solver to deal with later
   - `TcErrors`: generates good error messages from the residual, unsolved constraints.
 
-    The best place reading for the constraint solver is the paper [ Modular type inference with local assumptions](http://www.haskell.org/haskellwiki/Simonpj/Talk:OutsideIn)
+>
+> The best place reading for the constraint solver is the paper [ Modular type inference with local assumptions](http://www.haskell.org/haskellwiki/Simonpj/Talk:OutsideIn)
 
 - Underlying infrastructure:
 
