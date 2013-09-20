@@ -8,8 +8,6 @@ This list overviews the active branches in the main GHC repository.
 
  * `type-nats`: '''Solver for Type-Level Naturals'''. Iavor S. Diatchki.  An experimental solver for discharging constraints involving natural numbers.
 
- * `type-nats-simple`: Derived from `type-nats`, intended for eventually being merged into `master`, slated for 7.8.
-
  * `simd`: '''SIMD support'''. Geoffrey Mainland. This extends the simple SIMD support in GHC HEAD, and is slated for 7.8.
 
  * `th-new`: '''New Template Haskell'''. Geoffrey Mainland. This revamps Template Haskell, based on Simon PJ's proposal. See http://ghc.haskell.org/trac/ghc/blog/Template%20Haskell%20Proposal
@@ -91,3 +89,6 @@ This is a list of inactive branches which have been merged into the tree.
  * `patch-7704`: '''Fix for #7704'''. José Pedro Magalhães. Will be part of 7.8.
 
  * `srcloc` and `real-src-loc-span`: '''Amendments to spannings and !SrcLocs'''. Ian Lynagh.
+
+ * `type-nats-simple`: Derived from `type-nats`, intended for eventually being merged into `master`, slated for 7.8.
+
