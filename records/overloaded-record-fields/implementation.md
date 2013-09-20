@@ -275,7 +275,17 @@ We could mangle selector names (using `$sel:foo:T` instead of `foo`) even when t
 ## To do
 
 - Where should `TcBuiltInSynFamily` live? Could it be a fixed enumeration?
-- Is `TcInstDcls.tcFldInsts` correct in its use of `simplifyTop` and assuming there will be no `ev_binds`?
+
+- It should be possible to remove the `tcg_axioms`, `mg_axioms` and `ic_axioms` fields, and instead use `tcg_tcs` when we need to get hold of the axioms in `TidyPgm`.  However, this  requires `FieldLabel`s (stored in `TyCon`s) to contain the actual `CoAxiom`s, not just their `Name`s, which in turn requires more refactoring.  Also note that universally quantified fields will not have axioms.
+- Make record selector bindings in `TcFldInsts`?
+- We shouldn't need to mess with the `TypeEnv` in `tcRnHsBootDecls`. Instead:
+
+  1. `tcTyClsInstDecls` should populate it with the `dfun_ids`
+  1. `tcHsBootSigs` should populate it with `val_ids` and return an updated `TcGblEnv`
+  1. Add a new field `tcg_boot_ids :: Bag Id` to `TcGblEnv` and pass `val_ids` to `mkBootModDetailsTc` that way, so it doesn't need to use the `TypeEnv`
+- We now generate `r { foo :: ... }` in the pretty-printer, but should we accept it in the parser?  What if the supressed type is `GetResult s "foo"` for a different type s?
+- Fuse `makeRecFldInstsFor` and `tcFldInsts`, or just generate and typecheck binds.  Use `tcValBinds` or similar for the typechecking.
+
 - Consider defaulting `Accessor p` to `p = (->)`, and defaulting `Has r "f" t` constraints where there is only one datatype with a field `f` in scope.
 - We could add `HsVarOut RdrName id` instead of `HsSingleRecFld` (or perhaps rename `HsVar` to `HsVarIn`). This would also be useful to recall how the user referred to something.
-- Add syntax for record projection? When we have explicit type application, one might be able to use `field @"foo"` or `getField @"foo"`.
+- Add syntax for record projection, perhaps using \# since it shouldn't conflict with `MagicHash`? When we have explicit type application, one might be able to use `field @"foo"` or `getField @"foo"`. Document the options.
