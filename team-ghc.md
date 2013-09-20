@@ -163,6 +163,13 @@ In order to see emails below, **you must login**.
   - **Committer since**: October, 2008.
   - **Main areas of interest**: generics support, type checker
 
+- Krzysztof Gogolewski
+
+  - University of Warsaw - Poland
+  - **Trac**: monoidal; **email**: krz.gogolewski@…
+  - **Committer since**: September, 2013.
+  - **Main areas of interest**: type checker
+
 - Manuel Chakravarty
 
   - University of New South Wales - Sydney, Australia
