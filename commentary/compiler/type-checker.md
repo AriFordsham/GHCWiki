@@ -11,6 +11,41 @@ It is also noteworthy, that the representations of types changes during type che
 
 ## The Overall Flow of Things
 
+- `TcRnDriver` is the top level.  It calls
+
+  - `TcTyClsDecls`: type and class declaration
+  - `TcInstDcls`: instance declarations
+  - `TcBinds`: value bindings
+
+    - `TcExpr`: expressions
+    - `TcMatches`: lambda, case, list comprehensions
+    - `TcPat`: patterns
+  - `TcForeign`: FFI declarations
+  - `TcRules`: rewrite rules
+  - `TcHsTypes`: kind-checking type signatures
+  - `TcValidity`: a second pass that walks over things like types or type constructors, checking a number of extra side conditions.
+
+- The constraint solver consists of:
+
+  - `TcSimplify`: top level of the constraint solver
+  - `TcCanonical`: canonicalising constraints
+  - `TcInteract`: solving constraints where they interact with each other
+  - `TcTypeNats`: solving natural-number constraints
+  - `TcSMonad`: the monad of the constraint solver (built on top of the main typechecker monad)
+  - `TcEvidence`: the data types used for evidence (mostly pure)
+  - `TcUnify`: solves unification constraints "on the fly"; if it can't, it generates a constraint for the 
+
+
+constraint solver to deal with later
+
+- `TcErrors`: generates good error messages from the residual, unsolved constraints.
+
+- Underlying infrastructure:
+
+  - `TcRnTypes`: a big collection of the types used during type checking
+  - `TcRnMonad`: the main typechecker monad
+  - `TcType`: pure functions over types, used by the type checker
+
 ### Entry Points Into the Type Checker
 
 
