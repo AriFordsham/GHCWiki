@@ -42,6 +42,7 @@ See also [wiki:TemplateHaskell]
  * #1171: strictness and exceptions (long, open ticket)
 
 == Optimisation ==
+ * #8275: loopification and profiling
  * #8335: more gc entry points
  * #8336: sinking pass does not sink
  * #8327: dead code (in heap checks) not eliminated by C--
