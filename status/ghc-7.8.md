@@ -30,8 +30,6 @@ The following **new** features are planned for 7.8 **but have not yet made it**.
   - Herbert Valerio Riedel can then pull latest version of primitive into GHC tree. 
   - Austin Seipp will implement shim package for backwards compatibility and update [ this wiki page accordingly](http://ghc.haskell.org/trac/ghc/wiki/NewPrimopsInGHC7.8). See also [ the compatibility module page](http://www.haskell.org/haskellwiki/Compatibility_Modules). **In progress**.
 
-- Trevor Elliot and Iavor Diatchki have implemented [GhcKinds/KindsWithoutData](ghc-kinds/kinds-without-data).  Not yet clear whether they'll be ready for 7.8
-
 - Geoff Mainland is working on a better Template Haskell implementation ([ http://ghc.haskell.org/trac/ghc/wiki/TemplateHaskell/BlogPostChanges](http://ghc.haskell.org/trac/ghc/wiki/TemplateHaskell/BlogPostChanges), [ http://gmainland.blogspot.co.uk/2013/05/type-safe-runtime-code-generation-with.html](http://gmainland.blogspot.co.uk/2013/05/type-safe-runtime-code-generation-with.html)), in the `th-new` branch of various repos. ETA: September 13.
 
 - Geoff Mainland is working generalising the support for SSE-like instructions. ETA: September 13.
@@ -56,6 +54,8 @@ The following **new** features are planned for 7.8 **but have not yet made it**.
 - ~~[Newtype wrappers](newtype-wrappers), by Joachim Breitner.~~**Merged**.
 
 ## Features that will definitely not make it
+
+- Trevor Elliot and Iavor Diatchki have implemented [GhcKinds/KindsWithoutData](ghc-kinds/kinds-without-data), but the implementation is still in flux. 
 
 - [Overloaded record fields](records/overloaded-record-fields/plan), by Adam Gundry (GSOC).  Not sure if this will be done.
 
