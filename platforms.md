@@ -5,7 +5,7 @@ The following table describes to what extent GHC currently supports
 various platforms.  To find out who is responsible for each platform, see [Contributors](contributors). 
 
 
-For information about what distributions GHC is part of, see the [ distribution packages](http://haskell.org/ghc/distribution_packages.html) page.
+For information about what distributions GHC is part of, see the [ distribution packages](http://haskell.org/ghc/distribution_packages) page.
 
 
 Please be aware that this page is highly unmaintained and may list platforms as tier 2 that didn't see any updates for years.
@@ -298,7 +298,7 @@ Tier 2 platforms as possible to Tier 1, as soon as they meet the Tier 1 criteria
 **\*S2** but see [\#591](https://gitlab.haskell.org//ghc/ghc/issues/591)
 
 
-In most cases, binaries for the tier 2 platforms can be downloaded from the [Distribution Packages](http://www.haskell.org/ghc/distribution_packages.html) page, e.g. you can get binaries for most of the Linux platforms from Debian. In some cases, for example the Solaris platforms, you'll need to go to the [download page](http://www.haskell.org/ghc/download.html) of a particular release to get a bindist.
+In most cases, binaries for the tier 2 platforms can be downloaded from the [Distribution Packages](http://www.haskell.org/ghc/distribution_packages) page, e.g. you can get binaries for most of the Linux platforms from Debian. In some cases, for example the Solaris platforms, you'll need to go to the [download page](http://www.haskell.org/ghc/download) of a particular release to get a bindist.
 
 ## Tier 3 platforms
 
