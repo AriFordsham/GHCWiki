@@ -103,6 +103,14 @@ data Ptr a = Ptr Addr#
 The `type role` annotation forces the parameter `a` to be at role representational, not role phantom. We, then, of course, need to *check* the user-supplied roles to make sure they don't break any promises. It would be bad if the user could make `BadIdea`'s role be representational!
 
 
+If `Ptr` were to have multiple type parameter we would have used multiple `nominal`/`representational` annotations 
+
+```wiki
+type role Foo representational representational
+data Foo a b = Foo Int
+```
+
+
 The other place where role annotations may be necessary are in .hs-boot files, where the right-hand sides of definitions can be omitted. As usual, the types/classes declared in an .hs-boot file must match up with the definitions in the .hs file, including down to the roles. The default role is representational in hs-boot files, corresponding to the common use case. Note that this **will break code**. But, the change is necessary to close the type-safety hole discussed above.
 
 
