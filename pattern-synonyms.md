@@ -1,5 +1,3 @@
----
-
 # Pattern Synonyms
 
 
@@ -248,7 +246,55 @@ Example:
 
 One could go one step further and leave out the `pattern` keyword to obtain *associated constructors*, which are required to be bidirectional. The capitalized identifier would indicate that a pattern synonym is being defined. For complicated cases one could resort to the `where` syntax (shown above).
 
+**TODO**: Syntax for associated pattern synonym declarations to discern between pattern-only and bidirectional pattern synonyms
+
 ## Typed pattern synonyms
 
 
 So far patterns only had *syntactic* meaning. In comparison [ Ωmega](http://code.google.com/p/omega) has *typed* pattern synonyms, so they become first class values. (I am not suggesting this for Haskell, yet.)
+
+## Semantics
+
+
+It might seem tempting to just define pattern synonym semantics as 'textual substitution'. On the other hand, just like with any other surface language feature, we don't want to normalize away pattern synonyms before typechecking happens, since we want to report type error occurrences from user-written code.
+
+
+These two goals are incompatible once you start to factor in patterns containing typeclass-polymorphic parts. For example, let's say we have these two GADTs:
+
+```wiki
+data S a where
+  MkS:: Num a -> a > S a
+data T a where
+  MkT :: Eq a => a -> T a
+```
+
+
+and we define this pattern synonym:
+
+```wiki
+pattern P :: (Eq a, Num a) => a -> a -> (P a, S a)
+pattern P x y = (MkT x, MkS y)
+```
+
+
+we can then write a function:
+
+```wiki
+f (P 1 2) = ...
+```
+
+
+which needs to use `fromInteger` from the `Num` instance provided by the `MkS` constructor to be able to pattern-match on the argument of the `MkT` constructor. 
+
+
+This means when we desugar a pattern synonym occurrence, the whole of the right-hand side needs to be matched before the arguments are matched. So the previous definition of `f` is desugared corresponding to the following Haskell code:
+
+```wiki
+f = \a -> case a of
+  (MkT x, MkS y) -> case x of
+    1 -> case y of
+      2 -> ...
+```
+
+
+Of course, we don't actually generate Haskell code for that; instead, the implementation directly emits Core, in the same way Core is emitted for other pattern matchings (in `DsUtils.mkCoAlgCaseMatchResult`)
