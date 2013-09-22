@@ -64,6 +64,17 @@ Do this before you commit them!
 
 When working with GHC, there are a lot of ways you can use Git to make your life easier. Below are some of them:
 
+=== Locate commit by SHA1 ===
+
+You can use `http://git.haskell.org/.findhash/<sha1-prefix>` or the convenient form below (also available at the front page of http://git.haskell.org/):
+
+{{{#!html
+<form method="get" action="http://git.haskell.org/.findhash/" enctype="application/x-www-form-urlencoded">
+<input type="text" name="h" size="40" title="Search project by SHA1 commit id prefix" />
+<input type="submit" value="Search SHA1" />
+</form>
+}}}
+
 === Selectively record changes to commit ===
 
 Do you miss Darcs? Do you hate it when a file contains a bugfix *and* a new feature, and you want to commit both separately? That's OK! Just run:
@@ -295,4 +306,3 @@ See ActiveBranches for a description of **known** development branches.
 The live list of currently **existing** branches in the `ghc` repository can be browsed via http://git.haskell.org/ghc.git/heads.
 
 New development branches names should be prefixed with `wip/` (e.g. "`wip/dependent-types`"), as otherwise the current Git server-side configuration disallows branch deletion and [http://stackoverflow.com/questions/4684352/whats-a-fast-forward-in-git non-fast-forward updates].
-
