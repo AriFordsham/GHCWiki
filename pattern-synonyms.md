@@ -95,13 +95,22 @@ but any `Tree`-specific pattern matching code you write will be wide and obscure
 
 The simplest form of pattern synonyms is the one from the examples above.  The grammar rule is:
 
-`pattern`*conid**varid<sub>1</sub>* ... *varid<sub>n</sub>*`=`*pat*
+`pattern`*conid**varid<sub>1</sub>* ... *varid<sub>n</sub>*`->`*pat*
 
-`pattern`*varid<sub>1</sub>**consym**varid<sub>2</sub>*`=`*pat*
+`pattern`*varid<sub>1</sub>**consym**varid<sub>2</sub>*`->`*pat*
 
 - Each of the variables on the left hand side must occur exactly once on the right hand side 
 - Pattern synonyms are not allowed to be recursive.  Cf. type synonyms.
-- The semantics is simply expansion of the synonym.
+
+<table><tr><th>**TODO**</th></tr>
+<tr><th>
+There have been several proposals for the syntax of defining pattern-only synonyms:
+
+- `pattern`*conid**varid<sub>1</sub>* ... *varid<sub>n</sub>*`~`*pat*
+- `pattern`*conid**varid<sub>1</sub>* ... *varid<sub>n</sub>*`:=`*pat*
+- `pattern`*conid**varid<sub>1</sub>* ... *varid<sub>n</sub>*`->`*pat*
+
+</th></tr></table>
 
 
 Pattern synonyms can be exported and imported by prefixing the *conid* with the keyword `pattern`:
@@ -128,7 +137,7 @@ E.g.
 
 ```wiki
    pattern Arrow :: Type -> Type -> Type
-   pattern Arrow t1 t2 = App "->" [t1, t2]
+   pattern Arrow t1 t2 -> App "->" [t1, t2]
 ```
 
 
@@ -137,18 +146,22 @@ Together with [ViewPatterns](view-patterns) we can now create patterns that look
 ```wiki
 import qualified Data.Sequence as Seq
 
-pattern Empty = (Seq.viewl -> Seq.EmptyL)
-pattern x :< xs = (Seq.viewl -> x Seq.:< xs)
-pattern xs :> x = (Seq.viewr -> xs Seq.:> x)
+pattern Empty -> (Seq.viewl -> Seq.EmptyL)
+pattern x :< xs -> (Seq.viewl -> x Seq.:< xs)
+pattern xs :> x -> (Seq.viewr -> xs Seq.:> x)
 ```
 
-## Implicitly-bidirectional pattern synonyms
+## Simply-bidirectional pattern synonyms
 
 
-In cases where *pat* is in the intersection of the grammars for patterns and expressions (i.e. is valid both as an expression and a pattern), the pattern synonym is said to be bidirectional, and can be used in expression contexts as well.
+In cases where *pat* is in the intersection of the grammars for patterns and expressions (i.e. is valid both as an expression and a pattern), the pattern synonym can be made bidirectional, and can be used in expression contexts as well. Bidirectional pattern synonyms have the following syntax:
+
+`pattern`*conid**varid<sub>1</sub>* ... *varid<sub>n</sub>*`=`*pat*
+
+`pattern`*varid<sub>1</sub>**consym**varid<sub>2</sub>*`=`*pat*
 
 
-For example, the following two are not bidirectional:
+For example, the following two pattern synonym definitions are rejected, because they are not bidirectional (but they would be valid as pattern-only synonyms)
 
 ```wiki
    pattern ThirdElem x = _:_:x:_
@@ -169,12 +182,18 @@ In contrast, the pattern synonyms for *Arrow* and *Int* above are bidirectional,
 ## Explicitly-bidirectional pattern synonyms
 
 
-What if you want to use `Plus1` from the earlier example in an expression?
+What if you want to use `Succ` in an expression:
+
+```wiki
+    pattern Succ n -> n1 | let n = n1 -1, n >= 0
+```
+
+
 It's clearly impossible since its expansion is a pattern that has no meaning as an expression.
 Nevertheless, if we want to make what looks like a constructor for a type we will often want to use it in both patterns and expressions.
 This is the rationale for the most complicated synonyms, the bidirectional ones.  They provide two expansions, one for patterns and one for expressions.
 
-`pattern`*conid**varid<sub>1</sub>* ... *varid<sub>n</sub>*`=`*pat*`where`*cfunlhs**rhs*
+`pattern`*conid**varid<sub>1</sub>* ... *varid<sub>n</sub>*`->`*pat*`where`*cfunlhs**rhs*
 
 
 where *cfunlhs* is like *funlhs*, except that the functions symbol is a *conid* instead of a *varid*.
@@ -183,16 +202,18 @@ where *cfunlhs* is like *funlhs*, except that the functions symbol is a *conid* 
 Example:
 
 ```wiki
-   pattern Plus1 n = n1 | let n = n1-1, n >= 0 where
-      Plus1 n = n + 1
+   pattern Succ n -> n1 | let n = n1-1, n >= 0 where
+      Succ n = n + 1
 ```
+
+**TODO**: Rewrite this example to not use [ViewPatternsAlternative](view-patterns-alternative)
 
 
 The first part as is before and describes the expansion of the synonym in patterns. The second part describes the expansion in expressions.
 
 ```wiki
    fac 0 = 0
-   fac (Plus1 n) = Plus1 n * fac n 
+   fac (Succ n) = Succ n * fac n 
 ```
 
 ## Associated pattern synonyms
@@ -225,7 +246,55 @@ Example:
 
 One could go one step further and leave out the `pattern` keyword to obtain *associated constructors*, which are required to be bidirectional. The capitalized identifier would indicate that a pattern synonym is being defined. For complicated cases one could resort to the `where` syntax (shown above).
 
+**TODO**: Syntax for associated pattern synonym declarations to discern between pattern-only and bidirectional pattern synonyms
+
 ## Typed pattern synonyms
 
 
 So far patterns only had *syntactic* meaning. In comparison [ Ωmega](http://code.google.com/p/omega) has *typed* pattern synonyms, so they become first class values. (I am not suggesting this for Haskell, yet.)
+
+## Semantics
+
+
+It might seem tempting to just define pattern synonym semantics as 'textual substitution'. On the other hand, just like with any other surface language feature, we don't want to normalize away pattern synonyms before typechecking happens, since we want to report type error occurrences from user-written code.
+
+
+These two goals are incompatible once you start to factor in patterns containing typeclass-polymorphic parts. For example, let's say we have these two GADTs:
+
+```wiki
+data S a where
+  MkS:: Num a -> a > S a
+data T a where
+  MkT :: Eq a => a -> T a
+```
+
+
+and we define this pattern synonym:
+
+```wiki
+pattern P :: (Eq a, Num a) => a -> a -> (P a, S a)
+pattern P x y = (MkT x, MkS y)
+```
+
+
+we can then write a function:
+
+```wiki
+f (P 1 2) = ...
+```
+
+
+which needs to use `fromInteger` from the `Num` instance provided by the `MkS` constructor to be able to pattern-match on the argument of the `MkT` constructor. 
+
+
+This means when we desugar a pattern synonym occurrence, the whole of the right-hand side needs to be matched before the arguments are matched. So the previous definition of `f` is desugared corresponding to the following Haskell code:
+
+```wiki
+f = \a -> case a of
+  (MkT x, MkS y) -> case x of
+    1 -> case y of
+      2 -> ...
+```
+
+
+Of course, we don't actually generate Haskell code for that; instead, the implementation directly emits Core, in the same way Core is emitted for other pattern matchings (in `DsUtils.mkCoAlgCaseMatchResult`)
