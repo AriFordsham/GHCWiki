@@ -79,6 +79,11 @@ Do this before you commit them!
 
 When working with GHC, there are a lot of ways you can use Git to make your life easier. Below are some of them:
 
+### Locate commit by SHA1
+
+
+You can use `http://git.haskell.org/.findhash/<sha1-prefix>` or the convenient form below (also available at the front page of [ http://git.haskell.org/](http://git.haskell.org/)):
+
 ### Selectively record changes to commit
 
 
