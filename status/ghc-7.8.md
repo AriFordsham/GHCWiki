@@ -40,7 +40,7 @@ The following **new** features are planned for 7.8 **but have not yet made it**.
 
 - Austin also still has a lingering patch for [\#7602](https://gitlab.haskell.org//ghc/ghc/issues/7602) to fix a large OS X performance regression, but it's still not merged. The final details must be sorted out with Simon Marlow.
 
-- Edsko de Vries and Luite Stegeman are working an improved story for hooking into the compilation pipeline, using the GHC API. They have improvements they'd like to land this week.
+- ~~Edsko de Vries and Luite Stegeman are working an improved story for hooking into the compilation pipeline, using the GHC API. They have improvements they'd like to land this week.~~**Merged**.
 
 - Dynamic GHCi ([\#3658](https://gitlab.haskell.org//ghc/ghc/issues/3658)). This is working in HEAD, and enabled if `DYNAMIC_GHC_PROGRAMS=YES`. Currently it's enabled by default if dynamic libraries are supported, except for FreeBSD and Windows.
   On FreeBSD the reason it's disabled is due to a bug in FreeBSD's rtld. This has been fixed, but we're waiting for the fix to make it into releases. This might be in time for 7.8, but certainly will be for 7.10. See [\#7819](https://gitlab.haskell.org//ghc/ghc/issues/7819).
