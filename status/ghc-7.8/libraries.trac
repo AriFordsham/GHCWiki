@@ -7,9 +7,7 @@ Note: Libraries with a "^1^" marker are used internally (e.g. by `ghci` or `hadd
 === Cabal ===
 
  - upstream: http://github.com/haskell/cabal.git
- - synced up cleanly to final 1.18.0 release [eb304bd9/ghc]
- - synced up cleanly to 1.18.1 snapshot [fccb5c65/ghc]
- - Probably, a 1.18.1 release will occur shortly after Sep 15^th^.
+ - synced up cleanly to final 1.18.1 release [2fbfa11c/ghc]
 
 === Win32 ===
 

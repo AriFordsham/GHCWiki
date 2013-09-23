@@ -8,9 +8,7 @@ Note: Libraries with a "<sup>1</sup>" marker are used internally (e.g. by `ghci`
 ### Cabal
 
 - upstream: [ http://github.com/haskell/cabal.git](http://github.com/haskell/cabal.git)
-- synced up cleanly to final 1.18.0 release [\[eb304bd9/ghc\]](/trac/ghc/changeset/eb304bd9/ghc)
-- synced up cleanly to 1.18.1 snapshot [\[fccb5c65/ghc\]](/trac/ghc/changeset/fccb5c65/ghc)
-- Probably, a 1.18.1 release will occur shortly after Sep 15<sup>th</sup>.
+- synced up cleanly to final 1.18.1 release [\[2fbfa11c/ghc\]](/trac/ghc/changeset/2fbfa11c/ghc)
 
 ### Win32
 
