@@ -87,10 +87,10 @@ In order to see emails below, '''you must login'''.
   * '''Main areas of interest''': Code generator (SIMD support, LLVM back-end), quasiquotation, Template Haskell.
 
  * Gabor Greif
-  * N/A - ???
+  * Alcatel-Lucent - Nuremberg, Germany
   * '''Trac''': heisenbug; '''email''': ggreif@gmail.com
   * '''Committer since''': January, 2012.
-  * '''Main areas of interest''': ...
+  * '''Main areas of interest''': cross-compilation, type systems
 
  * Herbert Valerio Riedel
   * Vienna University of Technology - Vienna, Austria
@@ -312,7 +312,7 @@ André Santos,
 [mailto:josefs@cs.chalmers.se Josef Svenningsson],
 [mailto:audreyt@audreyt.org Audrey Tang] (Perl-related tools (ghc-asm, ghc-split), AIX port),
 [mailto:dinko.tenev@gmail.com Dinko Tenev],
-[mailto:wolfgang.thaller@gmx.net Wolfgang Thaller] (Darwin/Mac OS X ports, position-independent code generation),
+[mailto:wolfgang.thaller@gmx.net Wolfgang Thaller] (!Darwin/Mac OS X ports, position-independent code generation),
 [mailto:mthomas@gil.com.au Mike Thomas],
 Reuben Thomas,
 [mailto:cdt25@cam.ac.uk Christopher D. Thompson-Walsh],
