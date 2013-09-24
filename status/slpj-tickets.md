@@ -47,6 +47,7 @@ See also [TemplateHaskell](template-haskell)
 
 ## Optimisation
 
+- [\#8351](https://gitlab.haskell.org//ghc/ghc/issues/8351): inline allocation for small arrays
 - [\#8275](https://gitlab.haskell.org//ghc/ghc/issues/8275): loopification and profiling
 - [\#8335](https://gitlab.haskell.org//ghc/ghc/issues/8335): more gc entry points
 - [\#8336](https://gitlab.haskell.org//ghc/ghc/issues/8336): sinking pass does not sink
