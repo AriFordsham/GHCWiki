@@ -42,6 +42,7 @@ See also [wiki:TemplateHaskell]
  * #1171: strictness and exceptions (long, open ticket)
 
 == Optimisation ==
+ * #8351: inline allocation for small arrays
  * #8275: loopification and profiling
  * #8335: more gc entry points
  * #8336: sinking pass does not sink
