@@ -102,10 +102,10 @@ In order to see emails below, **you must login**.
 
 - Gabor Greif
 
-  - N/A - ???
+  - Alcatel-Lucent - Nuremberg, Germany
   - **Trac**: heisenbug; **email**: ggreif@…
   - **Committer since**: January, 2012.
-  - **Main areas of interest**: ...
+  - **Main areas of interest**: cross-compilation, type systems
 
 - Herbert Valerio Riedel
 
