@@ -30,3 +30,11 @@ This will do a 2-stage bootstrap build of the compiler, with profiling libraries
 
 
 The `configure` script is a standard GNU `autoconf` script, and accepts the usual options for changing install locations and the like.  Run `./configure --help` for a list of options.
+
+**NOTE**: *If you had to install Happy and/or Alex using cabal you will need to override your PATH so cabal's version of happy and alex are used instead of the system versions.*
+
+```wiki
+$ PATH=/home/user/.cabal/bin:$PATH ./configure
+$ make
+$ make install
+```
