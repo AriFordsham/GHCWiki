@@ -42,7 +42,7 @@ If you are building GHC \>7.6 on Debian 7.0 (wheezy) you will need to install an
 You can make sure you have all dependencies by
 
 ```wiki
-   sudo apt-get build-dep ghc6
+   sudo apt-get build-dep ghc
 ```
 
 
