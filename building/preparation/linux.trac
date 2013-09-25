@@ -49,6 +49,12 @@ But this might install some packages you do not use in your system (e.g. java, d
 
 (`ncurses-dev` is needed by the `terminfo` package, and `g++` is needed by a couple of tests, `ghcilink003` and `ghcilink006`).
 
+Due to the nature of Debian, you may have difficulty building GHC >7.6 due to version incompatibilities with the Happy and Alex packages.  To alleviate this issue simply install both packages using the haskell-platform provided cabal.
+
+{{{
+   cabal install alex happy
+}}}
+
 For building the documentation (User's Guide):
 
 {{{
