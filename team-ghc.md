@@ -112,7 +112,7 @@ In order to see emails below, **you must login**.
   - Vienna University of Technology - Vienna, Austria
   - **Trac**: hvr; **email**: hvr@…
   - **Committer since**: August, 2013.
-  - **Main areas of interest**: ghci, git management, trac integration, ghc.haskell.org server maintenance
+  - **Main areas of interest**: GHCi, core/boot libraries, Git management, Trac integration, ghc.haskell.org server maintenance
 
 - Ian Lynagh
 
