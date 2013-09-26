@@ -49,8 +49,10 @@ Note: Libraries with a "^1^" marker are used internally (e.g. by `ghci` or `hadd
 === primitive^2^ ===
 
  - upstream: http://git.haskell.org/darcs-mirrors/primitive.git
- - **critical** major release behind hackage/platform version
  - Jan is working on patches to integrate the new bool primops
+ - upstream repo moved to https://github.com/haskell/primitive
+ - synced up to `v0.5.1.0` + patches [5e2f145a37/ghc]
+ - proper `0.5.1.1` release pending
  - **TODO**
 
 === terminfo^1^ ===
@@ -73,9 +75,9 @@ Note: Libraries with a "^1^" marker are used internally (e.g. by `ghci` or `hadd
 === vector^2^ ===
 
  - upstream: http://git.haskell.org/darcs-mirrors/vector.git
- - **critical** major release behind hackage/platform version
  - coupled with `primitive` library; see notes there
- - **TODO**
+ - upstream repo moved to https://github.com/haskell/vector
+ - synced up to `v0.10.9.1` [5e2f145a37/ghc]
 
 === xhtml^1^ ===
 
