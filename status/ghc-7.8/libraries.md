@@ -50,8 +50,10 @@ Note: Libraries with a "<sup>1</sup>" marker are used internally (e.g. by `ghci`
 ### primitive<sup>2</sup>
 
 - upstream: [ http://git.haskell.org/darcs-mirrors/primitive.git](http://git.haskell.org/darcs-mirrors/primitive.git)
-- **critical** major release behind hackage/platform version
 - Jan is working on patches to integrate the new bool primops
+- upstream repo moved to [ https://github.com/haskell/primitive](https://github.com/haskell/primitive)
+- synced up to `v0.5.1.0` + patches [\[5e2f145a37/ghc\]](/trac/ghc/changeset/5e2f145a37/ghc)
+- proper `0.5.1.1` release pending
 - **TODO**
 
 ### terminfo<sup>1</sup>
@@ -74,9 +76,9 @@ Note: Libraries with a "<sup>1</sup>" marker are used internally (e.g. by `ghci`
 ### vector<sup>2</sup>
 
 - upstream: [ http://git.haskell.org/darcs-mirrors/vector.git](http://git.haskell.org/darcs-mirrors/vector.git)
-- **critical** major release behind hackage/platform version
 - coupled with `primitive` library; see notes there
-- **TODO**
+- upstream repo moved to [ https://github.com/haskell/vector](https://github.com/haskell/vector)
+- synced up to `v0.10.9.1`[\[5e2f145a37/ghc\]](/trac/ghc/changeset/5e2f145a37/ghc)
 
 ### xhtml<sup>1</sup>
 
