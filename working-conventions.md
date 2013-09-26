@@ -16,6 +16,8 @@ This page has pointers to information you'll need.
 
 - Read the [building guide](building) (link always in the left hand margin) to learn how to build and test GHC.
 
+- To have an easier time looking up tickets and searching trac, use [the browser tips page](browser-tips) to make your search and lookups for Trac tickets substantially easier.
+
 - If you have lots of Haskell installations, you may find Edsko's blog post [ Comprehensive Haskell Sandboxes](http://www.edsko.net/2013/02/10/comprehensive-haskell-sandboxes/) useful.
 
 
