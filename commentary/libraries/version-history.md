@@ -25,6 +25,18 @@
 <th></th>
 <th></th>
 <th></th></tr>
+<tr><th>`Win32`</th>
+<th>*FIXME*</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr>
 <tr><th>`array`</th>
 <th>  0.3.0.2  </th>
 <th>  0.3.0.3  </th>
