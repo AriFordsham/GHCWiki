@@ -21,24 +21,24 @@ The features already completed are documented in the release notes:
 
 The following **new** features are planned for 7.8 **but have not yet made it**. They are at varying degrees of completeness, and may not all make it in.
 
-- Jan Stolarek has completed the [boolean-primop story](prim-bool), but they are going through a major refactoring. Things still on the TODO list for this feature:
+- Jan Stolarek has completed the [boolean-primop story](prim-bool), but they are going through a major refactoring. **90% Complete**.
 
   - ~~Simon Marlow needs to accept patches sent by Jan Stolarek and either upload new versions of Alex and Happy to Hackage or tell Jan to do that~~
   - ~~Jan Stolarek can then push his changes into HEAD~~
-  - Jan Stolarek needs to send patches for primitive to Roman Leschinskiy. **In progress**.
-  - Roman Leschinskiy needs to upload new version of primitive to Hackage
-  - Herbert Valerio Riedel can then pull latest version of primitive into GHC tree. 
+  - ~~Jan Stolarek needs to send patches for primitive to Roman Leschinskiy.~~
+  - ~~Roman Leschinskiy needs to upload new version of primitive to Hackage~~
+  - ~~Herbert Valerio Riedel can then pull latest version of primitive into GHC tree.~~
   - Austin Seipp will implement shim package for backwards compatibility and update [ this wiki page accordingly](http://ghc.haskell.org/trac/ghc/wiki/NewPrimopsInGHC7.8). See also [ the compatibility module page](http://www.haskell.org/haskellwiki/Compatibility_Modules). **In progress**.
 
 - Geoff Mainland is working on a better Template Haskell implementation ([ http://ghc.haskell.org/trac/ghc/wiki/TemplateHaskell/BlogPostChanges](http://ghc.haskell.org/trac/ghc/wiki/TemplateHaskell/BlogPostChanges), [ http://gmainland.blogspot.co.uk/2013/05/type-safe-runtime-code-generation-with.html](http://gmainland.blogspot.co.uk/2013/05/type-safe-runtime-code-generation-with.html)), in the `th-new` branch of various repos. ETA: September 13.
 
-- Geoff Mainland is working generalising the support for SSE-like instructions. ETA: September 13.
+- ~~Geoff Mainland is working generalising the support for SSE-like instructions. ETA: September 13.~~**Merged**.
 
 - ~~Iavor Diatchki is working on type-level nats ([\#4385](https://gitlab.haskell.org//ghc/ghc/issues/4385), [ http://ghc.haskell.org/trac/ghc/wiki/TypeNats](http://ghc.haskell.org/trac/ghc/wiki/TypeNats)).  The plan is to support simple type-level arithmetic in GHC 7.8. The branch `type-nats-simple` has the code.~~**Merged**.
 
 - Austin Seipp would like to do some official ARMv7 binary releases with a working stage2 compiler and GHCi. He believes the last major remaining bug is [\#7794](https://gitlab.haskell.org//ghc/ghc/issues/7794), which trips the info table generation for bytecode. Otherwise, GHC can build and successfully use Template-Haskell, vector/dph, etc.
 
-- Austin also still has a lingering patch for [\#7602](https://gitlab.haskell.org//ghc/ghc/issues/7602) to fix a large OS X performance regression, but it's still not merged. The final details must be sorted out with Simon Marlow.
+- Austin also still has a lingering patch for [\#7602](https://gitlab.haskell.org//ghc/ghc/issues/7602) to fix a large OS X performance regression, but it's still not merged. The final details must be sorted out with Simon Marlow. ETA: First week of October.
 
 - ~~Edsko de Vries and Luite Stegeman are working an improved story for hooking into the compilation pipeline, using the GHC API. They have improvements they'd like to land this week.~~**Merged**.
 
