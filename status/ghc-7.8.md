@@ -57,7 +57,7 @@ The following **new** features are planned for 7.8 **but have not yet made it**.
 
 - Trevor Elliot and Iavor Diatchki have implemented [GhcKinds/KindsWithoutData](ghc-kinds/kinds-without-data), but the implementation is still in flux. 
 
-- [Overloaded record fields](records/overloaded-record-fields/plan), by Adam Gundry (GSOC).  Not sure if this will be done.
+- [Overloaded record fields](records/overloaded-record-fields/plan), by Adam Gundry (GSOC). This is essentially done, apart from some refactoring, but will be merged into HEAD after 7.8 to allow time for tinkering with the design.
 
 - [PatternSynonyms](pattern-synonyms), by Gergo Erdi. Progress tracked at [\#5144](https://gitlab.haskell.org//ghc/ghc/issues/5144).
 
