@@ -4,6 +4,15 @@ Note: If you use ghc-7.6.3 on OS X as your bootstrap compiler and you are using 
 
 == Steps ==
 
+=== 0. Acquire Xcode 4.6.3 ===
+
+We haven't quite finished updating GHC-iOS for Xcode 5 yet, so you'll need version 4.6.3. It contains gcc-based ARM/i386 compilers that were removed in version 5.
+
+Happily, it will live politely next to Xcode 5 if you give it a different name. You can get it easily from Apple here:
+[https://developer.apple.com/downloads/index.action?name=Xcode#]
+
+You'll have to update the scripts in step 2 to point to the location that you copy the Xcode 4.6.3 app to.
+
 === 1. Read ARM-specific notes ===
 
 You must use LLVM 3.0 — there seem to be issues with other versions. It's easiest to just download the binaries and put them in your path:
