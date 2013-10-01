@@ -1,0 +1,172 @@
+= Applicative do-notation =
+
+This is a proposal to add support to GHC for desugaring do-notation into Applicative expressions where possible.
+
+== Related proposals
+
+ * [http://www.haskell.org/pipermail/haskell-cafe/2011-September/093808.html Max's proposal on haskell-cafe]
+ * [http://hackage.haskell.org/package/applicative-quoters-0.1.0.7/docs/Control-Applicative-QQ-ADo.html Control.Applicative.QQ.ADo]
+
+== Motivation
+
+ 1. Some Monads have the property that Applicative bind is more
+    efficient than Monad bind.  Sometimes this is ''really
+    important'', such as when the Applicative bind is 
+    concurrent whereas the Monad bind is sequential (c.f. Haxl).  For
+    these monads we would like the do-notation to desugar to
+    Applicative bind where possible, to take advantage of the improved
+    behaviour but without forcing the user to explicitly choose.
+
+ 2. Applicative syntax can be a bit obscure and hard to write.
+    Do-notaiton is more natural, so we would like to be able to write
+    Applicative composition in do-notation where possible.  Do notation
+    can't be desugared into Applicative in general, but a certain
+    subset of it can be.
+
+Clearly we need Applicative to be a superclass of Monad for this to
+work, hence this can only happen after the AMP changes have landed.
+
+== Stage 1
+
+This section describes a transformation that could be performed during
+desugaring.  It covers use case (1), but not (2).  I'm describing this
+first because it is easy to understand by itself, and extends to a
+solution for (2).  We might consider implementing this first.
+
+=== Examples
+
+{{{
+   do
+     x <- A
+     y <- B  -- B does not refer to x
+     return (f x y)
+}}}
+
+desugars to
+
+{{{
+   do
+     (x,y) <- (,) <$> A <*> B
+     return (f x y)
+}}}
+
+Note that the tuples introduces like this will probably be optimised
+away when the Monad type is known and its bind can be inlined, but for
+overloaded Monad code they will not be.  In Stage 2 (below) we'll get
+rid of the tuples in some cases.
+
+In general we might have
+
+{{{
+  do
+    x <- A
+    y <- B
+    z <- E[y]
+    .. more ..
+}}}
+
+which we desugar to
+
+{{{
+  do
+    (x,y) <- (,) <$> A <*> B
+    z <- E[y]
+    .. more ..
+}}}
+
+this is the best we can do: the rest of the do expression might refer
+to x or y.
+
+So in general we want to take the largest consecutive sequence of
+statements where none of the rhs's refer to any of the bound
+variables, and lift them into an Applicative expression.
+
+A non-binding statement can be considered to be a binding statement
+with a wildcard pattern.
+
+{{{
+   do
+     x <- A
+     y <- B  -- B does not refer to x
+     C       -- C does not refer to x or y
+     return (f x y)
+}}}
+
+desugars to
+
+{{{
+   do
+     (x,y,_) <- (,,) <$> A <*> B <*> C
+     return (f x y)
+}}}
+
+or we can be slightly more clever:
+
+{{{
+   do
+     (x,y) <- (,) <$> A <*> (B <* C)
+     return (f x y)
+}}}
+
+What if there are more than 63(?) statements, and we don't have a
+tuple big enough?  We have to desugar to nested tuples in this case.
+Not a huge problem, this is exactly what we do for pattern bindings.
+
+== Stage 2
+
+This covers a more comprehensive transformation that would also enable
+us to drop a Monad constraint to an Applicative constraint in the
+typing of do expressions for a certain well-defined subset of the do
+syntax.
+
+Back to our first example:
+
+{{{
+   do
+     x <- A
+     y <- B  -- B does not refer to x
+     return (f x y)
+}}}
+
+we can go further in desugaring this:
+
+{{{
+    (\x y -> f x y) <$> A <*> B
+}}}
+
+(obviously the lambda expression can be eta-reduced in this example,
+but that's not the case in general).
+
+For this to work we have to recognise "return".  Or perhaps "pure".
+
+There are two advantages here:
+
+ * This code could be typed with an Applicative constraint rather than
+   Monad.
+
+ * It leads to more efficient code when the Monad type is not known,
+   because we have eliminated the intermediate pair.
+
+What if the final expression is not a "return"?
+
+{{{
+   do
+     x <- A
+     y <- B  -- B does not refer to x
+     f x y
+}}}
+
+this is
+
+{{{
+   join ((\x y -> f x y) <$> A <*> B)
+}}}
+
+Note: *not* an Applicative, because "join" is a Monad operation.
+However we have eliminated the pair.
+
+Problems:
+
+ * desugaring comes after typechecking, so the type checker would need
+   its own version of the desugaring rules to be able to tell when a
+   do expression can be fully desugared to Applicative syntax.
