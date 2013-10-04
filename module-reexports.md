@@ -16,6 +16,9 @@ Occasionally, a whole module `Data.Foo` needs to be moved from one package (`pac
 - The module is provided by both packages (possibly with its symbols re-exported by one of them). Then a user cannot easily (i.e. without [PackageImports](package-imports)) depend on both packages.
 - The module is removed in `package-a`. This then requires a major API bump and downstream packages likely have to update their dependencies. Also, if they did not use `package-b` before, they’d have to do that now.
 
+
+One use-case in particular would be to turn `base` into a pure module-rexporting package, exporting a selection of modules from other packages. In that case, this proposal would allow the other package to provide additional (less commonly used, less stable or internal modules) and those users who need these can build-depend on `base` and the implementing package, and can still use the re-exported modules without further ado.
+
 ### Semantics
 
 
