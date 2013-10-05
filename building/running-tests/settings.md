@@ -13,6 +13,7 @@ COMPILER             -- stem of a different configuration file from the config d
 WAY                  -- just this way
 THREADS              -- number of threads to use when running the testsuite
 VERBOSE              -- verbosity
+SKIP_PERF_TESTS=YES  -- skip tests which check the performance of ghc or the resulting binaries
 ```
 
 
