@@ -167,7 +167,7 @@ In order to see emails below, **you must login**.
 
   - Purdue University - West Lafayette, IN
   - **Trac**: kc; **email**: chandras@…
-  - **Committer since**: March 2012
+  - **Committer since**: March 2012.
   - **Main areas of interest**: lightweight concurrency primitives, rts, etc.
 
 - Krzysztof Gogolewski
