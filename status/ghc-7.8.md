@@ -30,7 +30,7 @@ The following **new** features are planned for 7.8 **but have not yet made it**.
   - ~~Herbert Valerio Riedel can then pull latest version of primitive into GHC tree.~~
   - Austin Seipp will implement shim package for backwards compatibility and update [ this wiki page accordingly](http://ghc.haskell.org/trac/ghc/wiki/NewPrimopsInGHC7.8). See also [ the compatibility module page](http://www.haskell.org/haskellwiki/Compatibility_Modules). **In progress**.
 
-- Geoff Mainland needs to merge the new Template Haskell implementation, and will do so very soon (see [ http://ghc.haskell.org/trac/ghc/wiki/TemplateHaskell/BlogPostChanges](http://ghc.haskell.org/trac/ghc/wiki/TemplateHaskell/BlogPostChanges) & [ http://gmainland.blogspot.co.uk/2013/05/type-safe-runtime-code-generation-with.html](http://gmainland.blogspot.co.uk/2013/05/type-safe-runtime-code-generation-with.html)).
+- ~~Geoff Mainland needs to merge the new Template Haskell implementation, and will do so very soon (see [ http://ghc.haskell.org/trac/ghc/wiki/TemplateHaskell/BlogPostChanges](http://ghc.haskell.org/trac/ghc/wiki/TemplateHaskell/BlogPostChanges) & [ http://gmainland.blogspot.co.uk/2013/05/type-safe-runtime-code-generation-with.html](http://gmainland.blogspot.co.uk/2013/05/type-safe-runtime-code-generation-with.html)).~~**Merged**.
 
 - ~~Geoff Mainland is working generalising the support for SSE-like instructions. ETA: September 13.~~**Merged**.
 
