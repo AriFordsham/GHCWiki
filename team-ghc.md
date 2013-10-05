@@ -163,6 +163,13 @@ In order to see emails below, **you must login**.
   - **Committer since**: October, 2008.
   - **Main areas of interest**: generics support, type checker
 
+- KC Sivaramakrishnan
+
+  - Purdue University - West Lafayette, IN
+  - **Trac**: kc; **email**: chandras@…
+  - **Committer since**: March 2012
+  - **Main areas of interest**: lightweight concurrency primitives, rts, etc.
+
 - Krzysztof Gogolewski
 
   - University of Warsaw - Poland
