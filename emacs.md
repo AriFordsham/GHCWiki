@@ -102,7 +102,9 @@ You need to install package `window-number` and add this to your configuration:
 
 ## ghc-mod
 
-*I'm not using this one. Can someone (Kazu?) complete this section?*
+**Description**: *I'm not using this one. Can someone (Kazu?) complete this section?*
+
+**How to enable**: See installation instructions [ here](http://www.mew.org/~kazu/proj/ghc-mod/en/)
 
 ## Hask-tags
 
