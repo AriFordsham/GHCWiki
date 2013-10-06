@@ -1,9 +1,29 @@
 # Emacs tips and tricks
 
 
-Most of us use Emacs for GHC development. This page lists various Emacs configuration tips and tricks used by GHC developers in hope that they will be useful to others. Each entry includes a short description and instruction how to enable given setting (if it contains only a block of lisp code it means you need to add it to your `.emacs` configuration file). All configuration is given for Emacs 24, unless otherwise noted.
+Most of us use Emacs for GHC development. This page lists various Emacs configuration tips and tricks used by GHC developers in hope that they will be useful to others. Each entry includes a short description and instruction how to enable given setting (if it contains only a block of lisp code it means you need to add it to your `.emacs` configuration file). All configuration is given for Emacs 24, unless otherwise noted. It is assumed that you know how to install packages in Emacs (e.g. with ELPA).
 
 # General
+
+## IDO mode
+
+**Description**: IDO stands for Interactively Do Things and it greatly improves file opening and switching between buffers. When opening a file it shows the list of files and directories in a current directory, allows to navigate the directory tree in an easy manner, provides intuitive filtering capabilities and allows to select a file easily by selecting its name using arrow keys. Similar behaviour is provided when switching between opened buffers. A nice introductory tutorial to IDO can be found [ here](http://www.masteringemacs.org/articles/2010/10/10/introduction-to-ido-mode/).
+
+**How to enable**:
+
+```
+(setqido-enable-flex-matchingt)(setqido-everywheret)(ido-mode1)
+```
+
+## Disable tabs for indentation
+
+**Description**: We used to use tabs for indentation, but now aim to have no tabs in the source code. There is a hook that will prevent you from pushing tabs into repository (unless file already contained tabs). This setting will prevent you from introducing tabs in the source code.
+
+**How to enable**:
+
+```
+(setq-defaultindent-tabs-modenil)
+```
 
 ## Highlight text beyond 80th column
 
@@ -15,6 +35,10 @@ Most of us use Emacs for GHC development. This page lists various Emacs configur
 (require'whitespace)(setqwhitespace-style'(facelines-tail))(setqwhitespace-line-column80)(global-whitespace-modet)
 ```
 
+## Highlight trailing whitespaces
+
+*TODO*
+
 ## Automatically removes trailing whitespaces when file is saved
 
 **Description**: Currently source code of GHC contains lots of trailing whitespaces, which means that **this setting is dangerous**. It will remove ALL trailing whitespaces in every file that you edit, which means you might have one or two lines changed by you and a hundred lines automatically changed by removing trailing whitespaces. This will require you to separate whitespaces into a separate commit by using `git add -i`. This is tedious, so be warned.
@@ -25,10 +49,69 @@ Most of us use Emacs for GHC development. This page lists various Emacs configur
 (add-hook'before-save-hook'delete-trailing-whitespace)
 ```
 
+## C-k kills whole line and newline if at beginning of line
+
+**Description**: Allows to avoid typing `C-k` twice when cursor is placed at the beginning of a line.
+
+**How to enable**:
+
+```
+(setqkill-whole-linet)
+```
+
+## Toggle line number display
+
+**Description**: Allows you to toggle line number display with F11. For those who like to see line numbers at the beginning of each line.
+
+**How to enable**:
+
+```
+(global-set-key(kbd"<f11>")'global-linum-mode)
+```
+
+## Always display column number in mode line
+
+**Description**: By default Emacs only displays line number in the mode line. This setting adds column number.
+
+**How to enable**:
+
+```
+(column-number-mode1)
+```
+
+## Switch between windows with Alt-\<window number\>
+
+**Description**: Enhances switching between multiple windows. Number of each windows is displayed in the mode line.
+
+**How to enable**:
+You need to install package `window-number` and add this to your configuration:
+
+```wiki
+(require 'window-number)
+(window-number-mode)
+(window-number-meta-mode)
+```
+
+## Cycle buffer
+
+*Will add this later*
+
 # Haskell-specific
+
+## Haskell mode
+
+**Description**: Haskell mode is a major mode for Emacs. Major features include syntax highlighting, GHCi integration and automatic indentation.
+
+**How to enable**: See installation instructions on [ github](https://github.com/haskell/haskell-mode) and [ manual](http://haskell.github.io/haskell-mode/manual/latest/).
+
+## ghc-mod
+
+**Description**: *I'm not using this one. Can someone (Kazu?) complete this section?*
+
+**How to enable**: See installation instructions [ here](http://www.mew.org/~kazu/proj/ghc-mod/en/)
+
+## Hask-tags
 
 # GHC-specific
 
-**Description**: 
-
-**How to enable**:
+*Richard mentioned some interesting config on Newcomers page*
