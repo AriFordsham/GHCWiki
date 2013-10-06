@@ -27,8 +27,7 @@ followed by a page specification in the target.
 Note that, as for [InterTrac](inter-trac) prefixes, **[InterWiki](inter-wiki) prefixes are case insensitive**.
 
 
-The target Wiki URL is looked up in the [InterMapTxt](inter-map-txt) wiki page, 
-modelled after [ MeatBall:InterMapTxt](http://www.usemod.com/cgi-bin/mb.pl?InterMapTxt).
+The target Wiki URL is looked up in the `[interwiki]` section of [TracIni](trac-ini) or in the [InterMapTxt](inter-map-txt) wiki page, modeled after [ MeatBall:InterMapTxt](http://www.usemod.com/cgi-bin/mb.pl?InterMapTxt). If a prefix is defined in both the `[interwiki]` section and [InterMapTxt](inter-map-txt), the `[interwiki]` section takes precedence.
 
 
 In addition to traditional [InterWiki](inter-wiki) links, where the target
@@ -38,6 +37,20 @@ identifiers `$1`, `$2`, ... in the URL
 will be replaced by corresponding arguments.
 The argument list is formed by splitting the page identifier
 using the ":" separator.
+
+### \[interwiki\]
+
+
+Every option in the `[interwiki]` section in [TracIni](trac-ini) defines one [InterWiki](inter-wiki) prefix. The option name defines the prefix. The option value defines the URL, optionally followed by a description separated from the URL by whitespace. Parametric URLs are supported as well.
+
+**Example:**
+
+```wiki
+[interwiki]
+MeatBall = http://www.usemod.com/cgi-bin/mb.pl?
+PEP = http://www.python.org/peps/pep-$1.html Python Enhancement Proposal $1
+tsvn = tsvn: Interact with TortoiseSvn
+```
 
 ## Examples
 
