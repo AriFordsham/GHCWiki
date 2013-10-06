@@ -419,6 +419,9 @@ Please use either version 1.6, 2.4 or later of `mod_wsgi`. Versions prior to 2.4
 *Note: using mod_wsgi 2.5 and Python 2.6.1 gave an Internal Server Error on my system (Apache 2.2.11 and Trac 0.11.2.1). Upgrading to Python 2.6.2 (as suggested [ here](http://www.mail-archive.com/modwsgi@googlegroups.com/msg01917.html)) solved this for me
 -- Graham Shanks*
 
+
+If you plan to use `mod_wsgi` in embedded mode on Windows or with the MPM worker on Linux, then you'll even need version 0.3.4 or greater (see [ \#10675](http://trac.edgewall.org/intertrac/%2310675) for details).
+
 ### Getting Trac to work nicely with SSPI and 'Require Group'
 
 
@@ -452,6 +455,14 @@ trac.db.postgres_backend.PostgreSQLConnection.poolable = False
 ```
 
 
+or
+
+```wiki
+import trac.db.mysql_backend
+trac.db.mysql_backend.MySQLConnection.poolable = False
+```
+
+
 Now Trac drops the connection after serving a page and the connection count on the database will be kept minimal.
 
 *This is not a recommended approach though. See also the notes at the bottom of the [ mod_wsgi's IntegrationWithTrac](http://code.google.com/p/modwsgi/wiki/IntegrationWithTrac) wiki page.*
@@ -459,7 +470,7 @@ Now Trac drops the connection after serving a page and the connection count on t
 ### Other resources
 
 
-For more troubleshooting tips, see also the [mod_python troubleshooting](trac-mod-python#troubleshooting) section, as most Apache-related issues are quite similar, plus discussion of potential [ application issues](http://code.google.com/p/modwsgi/wiki/ApplicationIssues) when using mod_wsgi.
+For more troubleshooting tips, see also the [mod_python troubleshooting](trac-mod-python#troubleshooting) section, as most Apache-related issues are quite similar, plus discussion of potential [ application issues](http://code.google.com/p/modwsgi/wiki/ApplicationIssues) when using mod_wsgi. The wsgi page also has a [ Integration With Trac](http://code.google.com/p/modwsgi/wiki/IntegrationWithTrac) document.
 
 ---
 
