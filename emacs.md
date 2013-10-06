@@ -11,10 +11,8 @@ Most of us use Emacs for GHC development. This page lists various Emacs configur
 
 **How to enable**:
 
-```wiki
-(setq ido-enable-flex-matching t)
-(setq ido-everywhere t)
-(ido-mode 1)
+```
+(setqido-enable-flex-matchingt)(setqido-everywheret)(ido-mode1)
 ```
 
 ## Disable tabs for indentation
@@ -23,8 +21,8 @@ Most of us use Emacs for GHC development. This page lists various Emacs configur
 
 **How to enable**:
 
-```wiki
-(setq-default indent-tabs-mode nil)
+```
+(setq-defaultindent-tabs-modenil)
 ```
 
 ## Highlight text beyond 80th column
@@ -33,11 +31,8 @@ Most of us use Emacs for GHC development. This page lists various Emacs configur
 
 **How to enable**:
 
-```wiki
-(require 'whitespace)
-(setq whitespace-style '(face lines-tail))
-(setq whitespace-line-column 80)
-(global-whitespace-mode t)
+```
+(require'whitespace)(setqwhitespace-style'(facelines-tail))(setqwhitespace-line-column80)(global-whitespace-modet)
 ```
 
 ## Automatically removes trailing whitespaces when file is saved
@@ -46,8 +41,8 @@ Most of us use Emacs for GHC development. This page lists various Emacs configur
 
 **How to enable**:
 
-```wiki
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
+```
+(add-hook'before-save-hook'delete-trailing-whitespace)
 ```
 
 ## C-k kills whole line and newline if at beginning of line
@@ -56,8 +51,8 @@ Most of us use Emacs for GHC development. This page lists various Emacs configur
 
 **How to enable**:
 
-```wiki
-(setq kill-whole-line t)
+```
+(setqkill-whole-linet)
 ```
 
 ## Toggle line number display
@@ -66,8 +61,8 @@ Most of us use Emacs for GHC development. This page lists various Emacs configur
 
 **How to enable**:
 
-```wiki
-(global-set-key (kbd "<f11>") 'global-linum-mode)
+```
+(global-set-key(kbd"<f11>")'global-linum-mode)
 ```
 
 ## Always display column number in mode line
@@ -76,8 +71,8 @@ Most of us use Emacs for GHC development. This page lists various Emacs configur
 
 **How to enable**:
 
-```wiki
-(column-number-mode 1)
+```
+(column-number-mode1)
 ```
 
 # Haskell-specific
