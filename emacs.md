@@ -5,14 +5,39 @@ Most of us use Emacs for GHC development. This page lists various Emacs configur
 
 # General
 
+## IDO mode
+
+**Description**: IDO stands for Interactively Do Things and it greatly improves file opening and switching between buffers. When opening a file it shows the list of files and directories in a current directory, allows to navigate the directory tree in an easy manner, provides intuitive filtering capabilities and allows to select a file easily by selecting its name using arrow keys. Similar behaviour is provided when switching between opened buffers. A nice introductory tutorial to IDO can be found [ here](http://www.masteringemacs.org/articles/2010/10/10/introduction-to-ido-mode/).
+
+**How to enable**:
+
+```wiki
+(setq ido-enable-flex-matching t)
+(setq ido-everywhere t)
+(ido-mode 1)
+```
+
+## Disable tabs for indentation
+
+**Description**: We used to use tabs for indentation, but now aim to have no tabs in the source code. There is a hook that will prevent you from pushing tabs into repository (unless file already contained tabs). This setting will prevent you from introducing tabs in the source code.
+
+**How to enable**:
+
+```wiki
+(setq-default indent-tabs-mode nil)
+```
+
 ## Highlight text beyond 80th column
 
 **Description**: If you have a tendency to write too long lines of code this will help you by highlighting text beyond 80th column.
 
 **How to enable**:
 
-```
-(require'whitespace)(setqwhitespace-style'(facelines-tail))(setqwhitespace-line-column80)(global-whitespace-modet)
+```wiki
+(require 'whitespace)
+(setq whitespace-style '(face lines-tail))
+(setq whitespace-line-column 80)
+(global-whitespace-mode t)
 ```
 
 ## Automatically removes trailing whitespaces when file is saved
@@ -21,13 +46,46 @@ Most of us use Emacs for GHC development. This page lists various Emacs configur
 
 **How to enable**:
 
+```wiki
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 ```
-(add-hook'before-save-hook'delete-trailing-whitespace)
+
+## C-k kills whole line and newline if at beginning of line
+
+**Description**: Allows to avoid typing `C-k` twice when cursor is placed at the beginning of a line.
+
+**How to enable**:
+
+```wiki
+(setq kill-whole-line t)
+```
+
+## Toggle line number display
+
+**Description**: Allows you to toggle line number display with F11. For those who like to see line numbers at the beginning of each line.
+
+**How to enable**:
+
+```wiki
+(global-set-key (kbd "<f11>") 'global-linum-mode)
+```
+
+## Always display column number in mode line
+
+**Description**: By default Emacs only displays line number in the mode line. This setting adds column number.
+
+**How to enable**:
+
+```wiki
+(column-number-mode 1)
 ```
 
 # Haskell-specific
 
 # GHC-specific
+
+
+==
 
 **Description**: 
 
