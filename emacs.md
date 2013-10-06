@@ -1,7 +1,7 @@
 # Emacs tips and tricks
 
 
-Most of us use Emacs for GHC development. This page lists various Emacs configuration tips and tricks used by GHC developers in hope that they will be useful to others. Each entry includes a short description and instruction how to enable given setting (if it contains only a block of lisp code it means you need to add it to your `.emacs` configuration file). All configuration is given for Emacs 24, unless otherwise noted.
+Most of us use Emacs for GHC development. This page lists various Emacs configuration tips and tricks used by GHC developers in hope that they will be useful to others. Each entry includes a short description and instruction how to enable given setting (if it contains only a block of lisp code it means you need to add it to your `.emacs` configuration file). All configuration is given for Emacs 24, unless otherwise noted. It is assumed that you know how to install packages in Emacs (e.g. with ELPA).
 
 # General
 
@@ -75,7 +75,30 @@ Most of us use Emacs for GHC development. This page lists various Emacs configur
 (column-number-mode1)
 ```
 
+## Switch between windows with Alt-\<window number\>
+
+**Description**: Enhances switching between multiple windows. Number of each windows is displayed in the mode line.
+
+**How to enable**:
+You need to install package `window-number` and add this to your configuration:
+
+```wiki
+(require 'window-number)
+(window-number-mode)
+(window-number-meta-mode)
+```
+
 # Haskell-specific
+
+## Haskell mode
+
+**Description**: Haskell mode is a major mode for Emacs. Major features include syntax highlighting, GHCi integration and automatic indentation.
+
+**How to enable**: See installation instructions on [ github](https://github.com/haskell/haskell-mode) and [ manual](http://haskell.github.io/haskell-mode/manual/latest/).
+
+## ghc-mod
+
+*I'm not using this one. Can someone (Kazu?) complete this section?*
 
 # GHC-specific
 
