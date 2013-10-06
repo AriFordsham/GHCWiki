@@ -18,14 +18,14 @@ In addition to these privileges, users can be granted additional individual righ
 *This feature is new in version 0.11.*
 
 
-To access this tab, a user must have `TRAC_ADMIN privileges`. This can be performed as follows (more on the trac-admin script below):
+To access this tab, a user must have one of the following permissions: `TRAC_ADMIN`, `PERMISSION_ADMIN`, `PERMISSION_ADD`, `PERMISSION_REMOVE`. The permissions can granted using the `trac-admin` command (more on `trac-admin` below):
 
 ```wiki
   $ trac-admin /path/to/projenv permission add bob TRAC_ADMIN
 ```
 
 
-Then, the user `bob` will be able to see the Admin tab, and can then access the permissions menu. This menu will allow you to perform all the following actions, but from the browser without requiring root access to the server (just the correct permissions for your user account).   **Use at least one lowercase character in user names, as all-uppercase names are reserved for permissions.**
+Then, the user `bob` will be able to see the Admin tab, and can then access the permissions menu. This menu will allow you to perform all the following actions, but from the browser without requiring root access to the server (just the correct permissions for your user account). **Use at least one lowercase character in user names, as all-uppercase names are reserved for permissions.**
 
 1. [](/trac/ghc/chrome/site/../common/guide/admin.png)
 1. [](/trac/ghc/chrome/site/../common/guide/admin-permissions.png)
@@ -75,6 +75,9 @@ Otherwise, individual privileges can be assigned to users for the various differ
 </th></tr>
 <tr><th>`TICKET_EDIT_COMMENT`</th>
 <th> Modify comments 
+</th></tr>
+<tr><th>`TICKET_BATCH_MODIFY`</th>
+<th>[Batch modify](trac-batch-modify) tickets 
 </th></tr>
 <tr><th>`TICKET_ADMIN`</th>
 <th> All `TICKET_*` permissions, plus the deletion of ticket attachments and modification of the reporter and description fields. It also allows managing ticket properties in the WebAdmin panel. 
@@ -168,7 +171,8 @@ Attention: the "view tickets" button appears with the `REPORT_VIEW` permission.
 <th> Enables additional pages on *About Trac* that show the current configuration or the list of installed plugins 
 </th></tr>
 <tr><th>`EMAIL_VIEW`</th>
-<th> Shows email addresses even if [ trac show_email_addresses configuration option is false](http://trac.edgewall.org/intertrac/wiki%3A0.11/TracIni)</th></tr></table>
+<th> Shows email addresses even if [trac show_email_addresses](trac-ini#) configuration option is false 
+</th></tr></table>
 
 ## Creating New Privileges
 
