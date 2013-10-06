@@ -8,6 +8,10 @@
   1. [4. Update the Trac Documentation](#UpdatetheTracDocumentation)
   1. [5. Refresh static resources](#a5.Refreshstaticresources)
   1. [6. Steps specific to a given Trac version](#a6.StepsspecifictoagivenTracversion)
+
+    1. [Upgrading from Trac 0.12 to Trac 1.0](#to1.0)
+    1. [Upgrading from Trac 0.11 to Trac 0.12](#UpgradingfromTrac0.11toTrac0.12)
+    1. [Upgrading from Trac 0.10 to Trac 0.11](#UpgradingfromTrac0.10toTrac0.11)
   1. [7. Restart the Web Server](#RestarttheWebServer)
 1. [Known Issues](#KnownIssues)
 
@@ -19,7 +23,11 @@
 1. [Related topics](#Relatedtopics)
 
   1. [Upgrading Python](#UpgradingPython)
+
+    1. [Windows and Python 2.6](#WindowsandPython2.6)
   1. [Changing Database Backend](#ChangingDatabaseBackend)
+
+    1. [SQLite to PostgreSQL](#SQLitetoPostgreSQL)
   1. [Upgrading from older versions of Trac](#OlderVersions)
 
 ## Instructions
@@ -113,6 +121,22 @@ Some web browsers (IE, Opera) cache CSS and Javascript files aggressively, so yo
 
 ### 6. Steps specific to a given Trac version
 
+#### Upgrading from Trac 0.12 to Trac 1.0
+
+
+The Trac components for Subversion support are no longer enabled by default. To enable the svn support, you need to make sure the `tracopt.versioncontrol.svn` components are enabled, for example by setting the following in the [TracIni](trac-ini):
+
+```wiki
+[components]
+tracopt.versioncontrol.svn.* = enabled
+```
+
+
+The upgrade procedure should take care of this and change the [TracIni](trac-ini) appropriately, unless you already had the svn components explicitly disabled.
+
+
+Another step in the automatic upgrade will change the way the attachments are stored. If you're a bit paranoid, you might want to take a backup of the `attachments` directory before upgrading (but if you are, you already did a full copy of the environment, no?). In case the `attachments` directory contains some files which are *not* attachments, the last step of the migration to the new layout will fail: the deletion of the now unused `attachments` directory can't be done if there are still files and folders in it. You may ignore this error, but better go have a look to these files, move them elsewhere and remove the `attachments` directory manually to cleanup the environment. The attachments themselves are now all located in your environment below the `files/attachments` directory.
+
 #### Upgrading from Trac 0.11 to Trac 0.12
 
 ##### Python 2.3 no longer supported
@@ -156,7 +180,7 @@ In addition to supporting multiple repositories, there is now a more efficient m
 While you can keep the same synchronization as in 0.11 adding the post-commit hook as outlined in [TracRepositoryAdmin\#Synchronization](trac-repository-admin#) and [TracRepositoryAdmin\#ExplicitSync](trac-repository-admin#) will allow more efficient synchronization and is more or less required for multiple repositories.
 
 
-Note that if you were using the `trac-post-commit-hook`, *you're strongly advised to upgrade it* to the new hook documented in the above references, as the old hook will not work with anything else than the default repository and even for this case, it won't trigger the appropriate notifications.
+Note that if you were using the `trac-post-commit-hook`, *you're strongly advised to upgrade it* to the new hook documented in the above references and [here](trac-workflow#), as the old hook will not work with anything else than the default repository and even for this case, it won't trigger the appropriate notifications.
 
 ##### Authz permission checking
 
