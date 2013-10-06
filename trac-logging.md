@@ -1,7 +1,7 @@
 # Trac Logging
 
 
-Trac supports logging of system messages using the standard [ logging module](http://docs.python.org/lib/module-logging.html) that comes with Python.
+Trac supports logging of system messages using the standard [ logging module](http://docs.python.org/library/logging.html) that comes with Python.
 
 
 Logging is configured in the `[logging]` section in [trac.ini](trac-ini#).
@@ -54,7 +54,7 @@ Note that starting with Trac 0.11.5 you can in addition enable logging of SQL st
 ## Log Format
 
 
-Starting with Trac 0.10.4 (see [ \#2844](http://trac.edgewall.org/intertrac/%232844)), it is possible to set the output format for log entries. This can be done through the `log_format` option in [trac.ini](trac-ini#). The format is a string which can contain any of the [ Python logging Formatter variables](http://docs.python.org/lib/node422.html). Additonally, the following Trac-specific variables can be used:
+Starting with Trac 0.10.4 (see [ \#2844](http://trac.edgewall.org/intertrac/%232844)), it is possible to set the output format for log entries. This can be done through the `log_format` option in [trac.ini](trac-ini#). The format is a string which can contain any of the [ Python logging Formatter variables](http://docs.python.org/library/logging.html#logrecord-attributes). Additonally, the following Trac-specific variables can be used:
 
 <table><tr><th>**$(basename)s**</th>
 <td>The last path component of the current environment.
