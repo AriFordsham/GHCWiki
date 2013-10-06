@@ -11,11 +11,8 @@ Most of us use Emacs for GHC development. This page lists various Emacs configur
 
 **How to enable**:
 
-```wiki
-(require 'whitespace)
-(setq whitespace-style '(face lines-tail))
-(setq whitespace-line-column 80)
-(global-whitespace-mode t)
+```
+(require'whitespace)(setqwhitespace-style'(facelines-tail))(setqwhitespace-line-column80)(global-whitespace-modet)
 ```
 
 ## Automatically removes trailing whitespaces when file is saved
@@ -24,8 +21,8 @@ Most of us use Emacs for GHC development. This page lists various Emacs configur
 
 **How to enable**:
 
-```wiki
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
+```
+(add-hook'before-save-hook'delete-trailing-whitespace)
 ```
 
 # Haskell-specific
