@@ -734,6 +734,9 @@ In a similar way, a document with the mimetype `text/x-trac-wiki` is rendered us
 
 HTML documents are directly rendered only if the `render_unsafe_html` settings are enabled in the [TracIni](trac-ini) (those settings are present in multiple sections, as there are different security concerns depending where the document comes from). If you want to ensure that an HTML document gets syntax highlighted and not rendered, use the `text/xml` mimetype.
 
+
+If mimetype such as 'svn:mime-type' is set to 'text/plain', there is no coloring even if file is known type like 'java'.
+
 ### List of Languages Supported, by Highlighter
 
 
@@ -774,6 +777,11 @@ This list is only indicative.
 <tr><th> C++             </th>
 <th>  ✓              </th>
 <th>  ✓              </th>
+<th>  ✓  
+</th></tr>
+<tr><th> CMake           </th>
+<th>  ?              </th>
+<th>  ?              </th>
 <th>  ✓  
 </th></tr>
 <tr><th> Java            </th>
