@@ -33,9 +33,8 @@ Anywhere in Trac where RSS is available, you should find a small orange **XML** 
 
 - *Linux/BSD/\*n\*x systems:*
 
-  - [ http://pim.kde.org/users.php](http://pim.kde.org/users.php) — [ KDE](http://kde.org) RSS Reader for Linux/BSD/\*n\*x systems
   - [ http://liferea.sourceforge.net/](http://liferea.sourceforge.net/) — Open source GTK2 RSS Reader for Linux
-  - [ http://akregator.sourceforge.net/](http://akregator.sourceforge.net/) — Open source KDE RSS Reader (part of KDE-PIM)
+  - [ Akregator](http://akregator.sourceforge.net/) — Open source KDE RSS Reader (part of KDE-PIM)
 
 - *Mac OS X systems:*
 
@@ -51,9 +50,7 @@ Anywhere in Trac where RSS is available, you should find a small orange **XML** 
 
 - *Firefox:*
 
-  - [ http://www.mozilla.org/products/firefox/](http://www.mozilla.org/products/firefox/) — Mozilla Firefox supports [ live bookmarks](http://www.mozilla.org/products/firefox/live-bookmarks.html) using RSS
-  - [ http://sage.mozdev.org](http://sage.mozdev.org) — Sage RSS and Atom feed aggregator for Mozilla Firefox
-  - [ http://www.wizzrss.com/Welcome.php](http://www.wizzrss.com/Welcome.php) — WizzRSS Feed Reader for Firefox
+  - [ http://www.mozilla.org/products/firefox/](http://www.mozilla.org/products/firefox/) — Mozilla Firefox features plenty [ add-ons](https://addons.mozilla.org/en-US/firefox/search/?q=rss&appver=&platform=) for supporting RSS
 
 ---
 
