@@ -126,6 +126,9 @@ $ net start tracd
 ## Using Authentication
 
 
+Tracd allows you to run Trac without the need for Apache, but you can take advantage of Apache's password tools (htpasswd and htdigest) to easily create a password file in the proper format for tracd to use in authentication. (It is also possible to create the password file without htpasswd or htdigest; see below for alternatives)
+
+
 Tracd provides support for both Basic and Digest authentication. Digest is considered more secure. The examples below use Digest; to use Basic authentication, replace `--auth` with `--basic-auth` in the command line.
 
 
@@ -186,8 +189,8 @@ This section describes how to use `tracd` with Apache .htpasswd files.
 
 >
 > Note: It is necessary (at least with Python 2.6) to install the fcrypt package in order to
-> decode the htpasswd format.  Trac source code attempt an `import crypt` first, but there
-> is no such package for Python 2.6.
+> decode some htpasswd formats.  Trac source code attempt an `import crypt` first, but there
+> is no such package for Python 2.6. Only `SHA-1` passwords (since Trac 1.0) work without this module.
 
 
 To create a .htpasswd file use Apache's `htpasswd` command (see [below](trac-standalone#generating-passwords-without-apache) for a method to create these files without using Apache):
@@ -225,12 +228,12 @@ For example:
 If you have Apache available, you can use the htdigest command to generate the password file. Type 'htdigest' to get some usage instructions, or read [ this page](http://httpd.apache.org/docs/2.0/programs/htdigest.html) from the Apache manual to get precise instructions.  You'll be prompted for a password to enter for each user that you create.  For the name of the password file, you can use whatever you like, but if you use something like `users.htdigest` it will remind you what the file contains. As a suggestion, put it in your \<projectname\>/conf folder along with the [trac.ini](trac-ini) file.
 
 
-Note that you can start tracd without the --auth argument, but if you click on the *Login* link you will get an error.
+Note that you can start tracd without the `--auth` argument, but if you click on the *Login* link you will get an error.
 
 ### Generating Passwords Without Apache
 
 
-Basic Authorization can be accomplished via this [ online HTTP Password generator](http://www.4webhelp.net/us/password.php).  Copy the generated password-hash line to the .htpasswd file on your system.
+Basic Authorization can be accomplished via this [ online HTTP Password generator](http://aspirine.org/htpasswd_en.html) which also supports `SHA-1`.  Copy the generated password-hash line to the .htpasswd file on your system. Note that Windows Python lacks the "crypt" module that is the default hash type for htpasswd ; Windows Python can grok MD5 password hashes just fine and you should use MD5.
 
 
 You can use this simple Python script to generate a **digest** password file:
@@ -269,11 +272,12 @@ Note: If you use the above script you must set the realm in the `--auth` argumen
 It is possible to use `md5sum` utility to generate digest-password file:
 
 ```wiki
- $ printf "${user}:trac:${password}" | md5sum - >>user.htdigest
+user=
+realm=
+password=
+path_to_file=
+echo ${user}:${realm}:$(printf "${user}:${realm}:${password}" | md5sum - | sed -e 's/\s\+-//') > ${path_to_file}
 ```
-
-
-and manually delete " -" from the end and add "${user}:trac:" to the start of line from 'to-file'.
 
 ## Reference
 
@@ -293,17 +297,26 @@ Options:
   -p PORT, --port=PORT  the port number to bind to
   -b HOSTNAME, --hostname=HOSTNAME
                         the host name or IP address to bind to
-  --protocol=PROTOCOL   http|scgi|ajp
+  --protocol=PROTOCOL   http|scgi|ajp|fcgi
   -q, --unquote         unquote PATH_INFO (may be needed when using ajp)
-  --http10              use HTTP/1.0 protocol version (default)
-  --http11              use HTTP/1.1 protocol version instead of HTTP/1.0
+  --http10              use HTTP/1.0 protocol version instead of HTTP/1.1
+  --http11              use HTTP/1.1 protocol version (default)
   -e PARENTDIR, --env-parent-dir=PARENTDIR
                         parent directory of the project environments
   --base-path=BASE_PATH
                         the initial portion of the request URL's "path"
   -r, --auto-reload     restart automatically when sources are modified
   -s, --single-env      only serve a single project without the project list
+  -d, --daemonize       run in the background as a daemon
+  --pidfile=PIDFILE     when daemonizing, file to which to write pid
+  --umask=MASK          when daemonizing, file mode creation mask to use, in
+                        octal notation (default 022)
+  --group=GROUP         the group to run as
+  --user=USER           the user to run as
 ```
+
+
+Use the -d option so that tracd doesn't hang if you close the terminal window where tracd was started.
 
 ## Tips
 
@@ -391,6 +404,29 @@ Run tracd:
 
 ```wiki
 tracd -p 8101 -r -s proxified --base-path=/project/proxified
+```
+
+
+Note that if you want to install this plugin for all projects, you have to put it in your [global plugins_dir](trac-plugins#plugin-discovery) and enable it in your global trac.ini.
+
+
+Global config (e.g. `/srv/trac/conf/trac.ini`):
+
+```wiki
+[components]
+remote-user-auth.* = enabled
+[inherit]
+plugins_dir = /srv/trac/plugins
+[trac]
+obey_remote_user_header = true
+```
+
+
+Environment config (e.g. `/srv/trac/envs/myenv`):
+
+```wiki
+[inherit]
+file = /srv/trac/conf/trac.ini
 ```
 
 ### Serving a different base path than /
