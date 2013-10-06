@@ -369,7 +369,7 @@ It can contain <tags> and &entities; that will not be escaped in the output.
 </th></tr></table>
 
 
-Please note that the character sequence "--" is not allowed in HTML comments, and will generate a rendering error.
+Please note that the character sequence "`--`" is not allowed in HTML comments, and will generate a rendering error.
 
 ## More Information
 
