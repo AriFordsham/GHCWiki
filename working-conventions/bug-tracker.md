@@ -90,3 +90,8 @@ If it were initially filed in a 7.0.x milestone then it would remain priority no
 The ticket workflow is illustrated in the following image. Most tickets will start in state "new" and, once fixed, possibly go via state "merge" if they are suitable for merging to the stable branch, before moving to state "closed". They may also go via state "infoneeded" if more information is needed from the submitter, or "patch" if a patch that needs review has been attached to the ticket.
 
 [](/trac/ghc/attachment/wiki/WorkingConventions/BugTracker/workflow.png)
+
+
+The following diagram is generated directly based on Trac's current configuration:
+
+Enable JavaScript to display the workflow graph.
