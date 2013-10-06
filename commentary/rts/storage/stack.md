@@ -25,10 +25,9 @@ The code for evaluating a `case` pushes a new stack frame representing the alter
 
 The info table for a stack frame has a couple of extra fields in addition to the [basic info table layout](commentary/rts/heap-objects#info-tables).  A stack-frame info table is defined by `StgRetInfoTable` in [includes/rts/storage/InfoTables.h](/trac/ghc/browser/ghc/includes/rts/storage/InfoTables.h).
 
-[](/trac/ghc/attachment/wiki/Commentary/Rts/Storage/Stack/ret-itbl.png)
+[](/trac/ghc/attachment/wiki/Commentary/Rts/Storage/Stack/ret-itbl-no-rv.png)
 
 
-(ignore the "return vector" part of the above diagram; return vectors were removed from GHC in version 6.8.1)
 The *SRT* field points to the static reference table (SRT) for this stack frame (see [Commentary/Rts/CAFs](commentary/rts/ca-fs) for details of SRTs).
 
 ## Layout of the payload
