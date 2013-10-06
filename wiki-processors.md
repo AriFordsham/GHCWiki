@@ -181,8 +181,10 @@ The following processors are included in the Trac distribution:
 ||||= '''Code Highlighting Support''' =||
 || '''`#!c`''' [[BR]] '''`#!cpp`''' (C++) [[BR]] '''`#!python`''' [[BR]] '''`#!perl`''' [[BR]] '''`#!ruby`''' [[BR]] '''`#!php`''' [[BR]] '''`#!asp`''' [[BR]] '''`#!java`''' [[BR]] '''`#!js`''' (Javascript) [[BR]] '''`#!sql`''' [[BR]] '''`#!xml`''' (XML or HTML) [[BR]] '''`#!sh`''' (!Bourne/Bash shell) [[BR]] '''etc.''' [[BR]] || Trac includes processors to provide inline syntax highlighting for source code in various languages. [[BR]] [[BR]] Trac relies on external software packages for syntax coloring, like [http://pygments.org Pygments]. [[BR]] [[BR]] See TracSyntaxColoring for information about which languages are supported and how to enable support for more languages. ||
 |||| ||
+
+Using the MIME type as processor, it is possible to syntax-highlight the same languages that are supported when browsing source code.
+
 ||||= '''MIME Type Processors''' =||
-|||| Using the MIME type as processor, it is possible to syntax-highlight the same languages that are supported when browsing source code. ||
 {{{#!tr
 {{{#!td
 Some examples:
@@ -250,7 +252,7 @@ The same is valid for all other [TracSyntaxColoring#SyntaxColoringSupport mime t
 For more processor macros developed and/or contributed by users, visit: 
  * [trac:ProcessorBazaar]
  * [trac:MacroBazaar]
- * [th:WikiStart Trac Hacks] community site
+ * [http://trac-hacks.org Trac Hacks] community site
 
 Developing processors is no different from Wiki macros. 
 In fact they work the same way, only the usage syntax differs. 
@@ -259,5 +261,4 @@ See WikiMacros#DevelopingCustomMacros for more information.
 
 ----
 See also: WikiMacros, WikiHtml, WikiRestructuredText, TracSyntaxColoring, WikiFormatting, TracGuide
-
 ```
