@@ -9,7 +9,7 @@ Most of us use Emacs for GHC development. This page lists various Emacs configur
 '''Description''': If you have a tendency to write too long lines of code this will help you by highlighting text beyond 80th column.
 
 '''How to enable''':
-{{{
+{{{#!elisp
 (require 'whitespace)
 (setq whitespace-style '(face lines-tail))
 (setq whitespace-line-column 80)
@@ -21,7 +21,7 @@ Most of us use Emacs for GHC development. This page lists various Emacs configur
 '''Description''': Currently source code of GHC contains lots of trailing whitespaces, which means that '''this setting is dangerous'''. It will remove ALL trailing whitespaces in every file that you edit, which means you might have one or two lines changed by you and a hundred lines automatically changed by removing trailing whitespaces. This will require you to separate whitespaces into a separate commit by using `git add -i`. This is tedious, so be warned.
 
 '''How to enable''':
-{{{
+{{{#!elisp
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 }}}
 
