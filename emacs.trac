@@ -1,3 +1,5 @@
+[[PageOutline]]
+
 = Emacs tips and tricks
 
 Most of us use Emacs for GHC development. This page lists various Emacs configuration tips and tricks used by GHC developers in hope that they will be useful to others. Each entry includes a short description and instruction how to enable given setting (if it contains only a block of lisp code it means you need to add it to your `.emacs` configuration file). All configuration is given for Emacs 24, unless otherwise noted. It is assumed that you know how to install packages in Emacs (e.g. with ELPA).
@@ -45,6 +47,8 @@ Most of us use Emacs for GHC development. This page lists various Emacs configur
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 }}}
 
+''TODO: describe how to enable this setting only if the file was already free of trailing-whitespaces at load-time''
+
 == Highlight trailing whitespaces
 
 '''Description''': See [http://www.gnu.org/software/emacs/manual/html_node/emacs/Useless-Whitespace.html (emacs)Useless Whitespace] section for more details.
@@ -55,8 +59,6 @@ Most of us use Emacs for GHC development. This page lists various Emacs configur
 (setq-default show-trailing-whitespace t)
 (setq-default indicate-empty-lines t)
 }}}
-
-''TODO: describe how to enable this setting only if the file was already free of trailing-whitespaces at load-time''
 
 == C-k kills whole line and newline if at beginning of line
 
