@@ -33,7 +33,7 @@ A number of attributes can be associated with each repository, which define the 
 <th>When set to `true`, the repository is hidden from the repository index page in the source browser. Browsing the repository is still possible, and links referencing the repository remain valid. 
 </th></tr>
 <tr><th>`type`</th>
-<th>The `type` attribute sets the type of version control system used by the repository. Trac supports Subversion out-of-the-box, and plugins add support for many other systems. If `type` is not specified, it defaults to the value of the `[trac] repository_type` option. 
+<th>The `type` attribute sets the type of version control system used by the repository. Trac supports Subversion and Git out-of-the-box, and plugins add support for many other systems. If `type` is not specified, it defaults to the value of the `[trac] repository_type` option. 
 </th></tr>
 <tr><th>`url`</th>
 <th>The `url` attribute specifies the root URL to be used for checking out from the repository. When specified, a "Repository URL" link is added to the context navigation links in the source browser, that can be copied into the tool used for creating the working copy. 
@@ -146,6 +146,15 @@ exportPYTHON_EGG_CACHE="/path/to/dir"
 ```
 
 
+Note: Ubuntu doesn't seem to like /usr/bin/trac-admin, so just use:
+
+```
+#!/bin/sh
+exportPYTHON_EGG_CACHE="/path/to/dir"
+trac-admin /path/to/env/ changeset added "$1""$2"
+```
+
+
 On Windows (`post-commit.cmd`):
 
 ```
@@ -186,7 +195,7 @@ trac-admin /path/to/env changeset added <my-repository> $REV
 ```
 
 
-For Mercurial, add the following entries to the `.hgrc` file of each repository accessed by Trac (if [ TracMercurial](http://trac.edgewall.org/intertrac/TracMercurial) is installed in a Trac `plugins` directory, download hooks.py and place it somewhere accessible):
+For Mercurial, add the following entries to the `.hgrc` file of each repository accessed by Trac (if [ TracMercurial](http://trac.edgewall.org/intertrac/TracMercurial) is installed in a Trac `plugins` directory, download [ hooks.py](http://trac.edgewall.org/intertrac/source%3Amercurial-plugin/tracext/hg/hooks.py) and place it somewhere accessible):
 
 ```
 [hooks]; If mercurial-plugin is installed globallycommit=python:tracext.hg.hooks.add_changesetschangegroup=python:tracext.hg.hooks.add_changesets; If mercurial-plugin is installed in a Trac plugins directorycommit=python:/path/to/hooks.py:add_changesetschangegroup=python:/path/to/hooks.py:add_changesets[trac]env=/path/to/envtrac-admin=/path/to/trac-admin
@@ -215,7 +224,7 @@ The following procedure illustrates a typical migration from a Subversion single
 ## Migration from a single-repository setup (Mercurial)
 
 
-The following procedure illustrates a typical migration from a Mercurial single-repository setup to multiple repositories. Please note that at the time of writing, no initial resynchronization or any hooks are necessary for Mercurial repositories - see \#9485 for more information.
+The following procedure illustrates a typical migration from a Mercurial single-repository setup to multiple repositories. Please note that at the time of writing, no initial resynchronization or any hooks are necessary for Mercurial repositories - see [ \#9485](http://trac.edgewall.org/intertrac/ticket%3A9485) for more information.
 
 1. Upgrade to the latest version of the TracMercurial plugin.
 1. Remove the default repository specification from the `[trac] repository_dir` option.
