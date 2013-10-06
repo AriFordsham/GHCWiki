@@ -7,13 +7,11 @@ Trac stores all text using UTF-8 encoding, including text in tickets and wiki pa
 As such, it supports most (all?) commonly used character encodings.
 
 
-If your encoding is not UTF-8, you can use [mod_python](trac-mod-python) to handle it.  For example, if your local encoding is gbk, you can set 
+If the default encoding in your source code repository is not UTF-8, you can specify it in the [trac.ini](trac-ini#), for example:
 
->
-> default_charset = gbk
-
-
-in trac.ini.
+```wiki
+default_charset = gbk
+```
 
 
 You also must make sure that your [ database backend](http://trac.edgewall.org/intertrac/DatabaseBackend) stores its data in UTF-8; otherwise strange things will happen.
