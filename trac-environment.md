@@ -190,7 +190,7 @@ An environment directory will usually consist of the following files and directo
 
   - `site.html` - method to customize header, footer, and style, described in [TracInterfaceCustomization\#SiteAppearance](trac-interface-customization#site-appearance)
 
-**Caveat:***don't confuse a Trac environment directory with the source code repository directory.*
+### Caveat: don't confuse a *Trac environment directory* with the *source code repository directory*
 
 
 This is a common beginners' mistake.
