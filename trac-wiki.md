@@ -12,7 +12,7 @@ The main goal of the wiki is to make editing text easier and *encourage* people 
 
 
 The wiki itself does not enforce any structure, but rather resembles a stack of empty sheets of paper, where you can organize information and documentation as you see fit, and later reorganize if necessary. 
-As contributing to a wiki is essentially building an hypertext, 
+As contributing to a wiki is essentially building hypertext, 
 general advice regarding HTML authoring apply here as well.
 For example, the *[ Style Guide for online hypertext](http://www.w3.org/Provider/Style)* explains how to think about the
 [ overall structure of a work](http://www.w3.org/Provider/Style/Structure.html) 
