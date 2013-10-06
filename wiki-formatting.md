@@ -161,8 +161,8 @@ space the text is quoted
 <th> wiki:WikiFormatting, WikiFormatting 
 </th>
 <th></th></tr>
-<tr><th>`{{{-}}} curly brackets`</th>
-<th>`-` curly brackets 
+<tr><th>````{{{-}}}````` triple curly brackets`</th>
+<th>`{{{-}}}` triple curly brackets 
 </th>
 <th></th></tr>
 <tr><th>[Images](wiki-formatting#images)</th>
