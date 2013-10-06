@@ -155,7 +155,7 @@ Once you've created your custom template you will need to configure the webserve
 For [mod_wsgi](trac-mod-wsgi):
 
 ```wiki
-os.environ['TRAC_ENV_INDEX_TEMPLATE'] = '/path/to/template'
+os.environ['TRAC_ENV_INDEX_TEMPLATE'] = '/path/to/template.html'
 ```
 
 
