@@ -88,6 +88,10 @@ You need to install package `window-number` and add this to your configuration:
 (window-number-meta-mode)
 ```
 
+## Cycle buffer
+
+*Will add this later*
+
 # Haskell-specific
 
 ## Haskell mode
@@ -100,11 +104,8 @@ You need to install package `window-number` and add this to your configuration:
 
 *I'm not using this one. Can someone (Kazu?) complete this section?*
 
+## Hask-tags
+
 # GHC-specific
 
-
-==
-
-**Description**: 
-
-**How to enable**:
+*Richard mentioned some interesting config on Newcomers page*
