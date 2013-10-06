@@ -37,7 +37,13 @@ Most of us use Emacs for GHC development. This page lists various Emacs configur
 
 ## Highlight trailing whitespaces
 
-*TODO*
+**Description**: See [ (emacs)Useless Whitespace](http://www.gnu.org/software/emacs/manual/html_node/emacs/Useless-Whitespace.html) section for more details.
+
+**How to enable**:
+
+```
+(setq-defaultshow-trailing-whitespacet)(setq-defaultindicate-empty-linest)
+```
 
 ## Automatically removes trailing whitespaces when file is saved
 
@@ -48,6 +54,8 @@ Most of us use Emacs for GHC development. This page lists various Emacs configur
 ```
 (add-hook'before-save-hook'delete-trailing-whitespace)
 ```
+
+*TODO describe how to enable this setting only if the file was already free of trailing-whitespaces at load-time*
 
 ## C-k kills whole line and newline if at beginning of line
 
