@@ -32,8 +32,6 @@ Backups are simply a copied snapshot of the entire [project environment](trac-en
 
 To restore an environment from a backup, stop the process running Trac (i.e. the Web server or [tracd](trac-standalone)), restore the contents of your backup (path/to/backupdir) to your [project environment](trac-environment) directory and restart the service.
 
-> *Note: Automatic backup of environments that don't use SQLite as database backend is not supported at this time. As a workaround, we recommend that you stop the server, copy the environment directory, and make a backup of the database using whatever mechanism is provided by the database system.*
-
 ---
 
 
