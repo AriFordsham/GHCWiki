@@ -87,7 +87,7 @@ For the Subversion backend, some advanced additional features are available:
 
 ---
 
-(1) -  This means that after upgrading a single-repository Trac of version 
+(1) This means that after upgrading a single-repository Trac of version 
 0.11 (or below) to a multi-repository Trac (0.12), the repository browser will look and feel 
 the same, that single repository becoming automatically the "default" repository.
 
