@@ -35,11 +35,11 @@ In front of each listed file, you'll find  a colored rectangle. The color
 indicates how the file is affected by the changeset.
  
 
-- `` Green: Added
-- `` Red: Removed
-- `` Yellow: Modified
-- `` Blue: Copied
-- `` Gray: Moved
+> ** Green: Added 
+> ** Red: Removed 
+> ** Yellow: Modified 
+> ** Blue: Copied 
+> ** Gray: Moved 
 
 
 The color legend is located below the header as a reminder.
