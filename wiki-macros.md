@@ -1,10 +1,10 @@
 # Trac Macros
 
 
-Trac macros are plugins to extend the Trac engine with custom 'functions' written in Python. A macro inserts dynamic HTML data in any context supporting [WikiFormatting](wiki-formatting).
+Trac macros are plugins to extend the Trac engine with custom 'functions' written in Python. A macro inserts dynamic HTML data in any context supporting [WikiFormatting](wiki-formatting). Its syntax is `[[macro-name(optional-arguments)]]`.
 
 
-Another kind of macros are [WikiProcessors](wiki-processors). They typically deal with alternate markup formats and representation of larger blocks of information (like source code highlighting).
+The [WikiProcessors](wiki-processors) are another kind of macros. They typically deal with alternate markup formats and transformation of larger "blocks" of information (like source code highlighting). They are used for processing the multiline `{{{#!wiki-processor-name ... }}}` blocks.
 
 ## Using Macros
 
@@ -17,10 +17,10 @@ Macro calls are enclosed in two *square brackets*. Like Python functions, macros
 The list of available macros and the full help can be obtained using the MacroList macro, as seen [below](wiki-macros#available-macros).
 
 
-A brief list can be obtained via \[\[MacroList(\*)\]\] or \[\[?\]\].
+A brief list can be obtained via `[[MacroList(*)]]` or `[[?]]`.
 
 
-Detailed help on a specific macro can be obtained by passing it as an argument to MacroList, e.g. \[\[MacroList(MacroList)\]\], or, more conveniently, by appending a question mark (?) to the macro's name, like in \[\[MacroList?\]\].
+Detailed help on a specific macro can be obtained by passing it as an argument to MacroList, e.g. `[[MacroList(MacroList)]]`, or, more conveniently, by appending a question mark (`?`) to the macro's name, like in `[[MacroList?]]`.
 
 ### Example
 
@@ -98,7 +98,7 @@ e.g. `[[RecentChanges(,10,group=none)]]`.
 <th>### `[[Image]]`
 
 Embed an image in wiki-formatted text.
-The first argument is the file â€¦
+The first argument is the file …
 
 ### `[[InterTrac]]`
 
@@ -111,7 +111,7 @@ Provide a description list for the known [InterWiki](/wiki/InterWiki) prefixes.
 ### `[[KnownMimeTypes]]`
 
 List all known mime-types which can be used as [WikiProcessors](/wiki/WikiProcessors).
-Can be â€¦
+Can be …
 
 
 etc.
@@ -1392,7 +1392,7 @@ Note that `expand_macro` optionally takes a 4<sup>th</sup> parameter *`args`*. W
 For example, when writing:
 
 ```wiki
-{{{#!HelloWorld style="polite"
+{{{#!HelloWorld style="polite" -silent verbose
 <Hello World!>
 }}}
 
@@ -1407,7 +1407,7 @@ For example, when writing:
 One should get:
 
 ```wiki
-Hello World, text = <Hello World!> , args = {'style': u'polite'}
+Hello World, text = <Hello World!> , args = {'style': u'polite', 'silent': False, 'verbose': True}
 Hello World, text = <Hello World!> , args = {}
 Hello World, text = <Hello World!> , args = None
 ```
