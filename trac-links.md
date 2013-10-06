@@ -143,21 +143,6 @@ to links to Wiki page names.
 ### Relative links
 
 
-To create a link to a specific anchor in a page, use '\#':
-
-```wiki
- [#Relativelinks relative links] or [[#Relativelinks|relative links]]
-```
-
-
-Displays:
-
-> [relative links](trac-links#relative-links) or [relative links](trac-links#relative-links)
-
-
-Hint: when you move your mouse over the title of a section, a '¶' character will be displayed. This is a link to that specific section and you can use this to copy the `#...` part inside a relative link to an anchor.
-
-
 To create a link to a [ SubWiki](http://trac.edgewall.org/intertrac/SubWiki)-page just use a '/':
 
 ```wiki
@@ -198,6 +183,69 @@ part in the resulting URL.
 
 *(Changed in 0.11)* Note that in Trac 0.10, using e.g. `[../newticket]`  may have worked for linking to the `/newticket` top-level URL, but since 0.11, such a link will stay in the wiki namespace and therefore link to a sibling page. 
 See [\#Server-relativelinks](trac-links#) for the new syntax.
+
+### Link anchors
+
+
+To create a link to a specific anchor in a page, use '\#':
+
+```wiki
+ [#Linkanchors Link anchors] or [[#Linkanchors|Link anchors]]
+```
+
+> [Link anchors](trac-links#link-anchors) or [Link anchors](trac-links#link-anchors)
+
+
+Hint: when you move your mouse over the title of a section, a '¶' character will be displayed. This is a link to that specific section and you can use this to copy the `#...` part inside a relative link to an anchor.
+
+
+To create a link to the first or last occurrence of a term on a page, use a *pseudo anchor* starting with '\#/' or '\#?':
+
+```wiki
+ [#/Milestone first occurrence of Milestone] or
+ [#?Milestone last occurrence of Milestone]
+```
+
+> [first occurrence of Milestone](trac-links#) or
+> [last occurrence of Milestone](trac-links#)
+
+
+This will also highlight all other matches on the linked page. By default only case sensitive matches are considered. To include case insensitive matches append '/i':
+
+```wiki
+ [#/Milestone/i first occurrence of Milestone or milestone] or
+ [#?Milestone/i last occurrence of Milestone or milestone]
+```
+
+> [first occurrence of Milestone or milestone](trac-links#) or
+> [last occurrence of Milestone or milestone](trac-links#)
+
+*(since Trac 1.0)*
+
+
+Such anchors can be very useful for linking to specific lines in a file in the source browser:
+
+```wiki
+ [trac:source:tags/trac-0.12/trac/wiki/api.py#L127 Line 127] or
+ [trac:source:tags/trac-0.12/trac/ticket/roadmap.py#L47 Line 47]
+```
+
+> [ Line 127](http://trac.edgewall.org/intertrac/source%3Atags/trac-0.12/trac/wiki/api.py%23L127) or
+> [ Line 47](http://trac.edgewall.org/intertrac/source%3Atags/trac-0.12/trac/ticket/roadmap.py%23L47)
+
+
+(Hint: The line numbers displayed in the source browser are links to anchors on the respective lines.)
+
+
+Since such links become outdated when the file changes, it can be useful to link using a '\#/' pseudo anchor instead:
+
+```wiki
+ [trac:source:trunk/trac/wiki/api.py#/IWikiSyntaxProvider IWikiSyntaxProvider] or
+ [trac:source:trunk/trac/env.py#/ISystemInfoProvider ISystemInfoProvider]
+```
+
+> [ IWikiSyntaxProvider](http://trac.edgewall.org/intertrac/source%3Atrunk/trac/wiki/api.py%23/IWikiSyntaxProvider) or
+> [ ISystemInfoProvider](http://trac.edgewall.org/intertrac/source%3Atrunk/trac/env.py%23/ISystemInfoProvider)
 
 ### [InterWiki](inter-wiki) links
 
