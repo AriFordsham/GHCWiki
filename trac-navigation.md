@@ -72,7 +72,7 @@ mainnav = wiki,tickets,newticket,timeline,roadmap,browser,search,admin
 ```
 
 
-The default order and item names can be found in the source, which at the time of writing is here
+The default order and item names can be viewed in the [trac section of TracIni](trac-ini#).
 
 ### Context Navigation
 
