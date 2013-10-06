@@ -11,7 +11,7 @@ As of 16<sup>th</sup> June 2010, the mod_python project is officially dead.  If 
 
 These instructions are for Apache 2; if you are still using Apache 1.3, you may have some luck with [ TracModPython2.7](http://trac.edgewall.org/intertrac/wiki%3ATracModPython2.7), but you'll be totally on your own.
 
-Overview[Simple configuration: single project](#Simpleconfiguration)[Python Egg Cache](#PythonEggCache)[Configuring Authentication](#ConfiguringAuthentication)[Advanced Configuration](#AdvancedConfiguration)[Setting the Python Egg Cache](#SettingthePythonEggCache)[Setting the PythonPath](#SettingthePythonPath)[Setting up multiple projects](#Settingupmultipleprojects)[Virtual Host Configuration](#VirtualHostConfiguration)[Troubleshooting](#Troubleshooting)[Expat-related segmentation faults](#expat)[Form submission problems](#Formsubmissionproblems)[Problem with virtual host configuration](#Problemwithvirtualhostconfiguration)[Problem with zipped egg](#Problemwithzippedegg)[Using .htaccess](#Using.htaccess)[Additional .htaccess help](#Additional.htaccesshelp)[Platform specific issues](#Platformspecificissues)[Subversion issues](#Subversionissues)[Page layout issues](#Pagelayoutissues)[HTTPS issues](#HTTPSissues)[Segmentation fault with php5-mhash or other php5 modules](#Segmentationfaultwithphp5-mhashorotherphp5modules)
+Overview[Simple configuration: single project](#Simpleconfiguration)[Python Egg Cache](#PythonEggCache)[Configuring Authentication](#ConfiguringAuthentication)[Advanced Configuration](#AdvancedConfiguration)[Setting the Python Egg Cache](#SettingthePythonEggCache)[Setting the PythonPath](#SettingthePythonPath)[Setting up multiple projects](#Settingupmultipleprojects)[Virtual Host Configuration](#VirtualHostConfiguration)[Troubleshooting](#Troubleshooting)[Login Not Working](#LoginNotWorking)[Expat-related segmentation faults](#expat)[Form submission problems](#Formsubmissionproblems)[Problem with virtual host configuration](#Problemwithvirtualhostconfiguration)[Problem with zipped egg](#Problemwithzippedegg)[Using .htaccess](#Using.htaccess)[Additional .htaccess help](#Additional.htaccesshelp)[Platform specific issues](#Platformspecificissues)[Subversion issues](#Subversionissues)[Page layout issues](#Pagelayoutissues)[HTTPS issues](#HTTPSissues)[Segmentation fault with php5-mhash or other php5 modules](#Segmentationfaultwithphp5-mhashorotherphp5modules)
 
 ## Simple configuration: single project
 
@@ -239,9 +239,10 @@ In general, if you get server error pages, you can either check the Apache error
 
 For multiple projects, try restarting the server as well.
 
+### Login Not Working
 
-===Login Not Working===
-If you've used \<Location /\> directive, it will override any other directives, as well as \<Location /Login\>.
+
+If you've used `<Location />` directive, it will override any other directives, as well as `<Location /login>`.
 The workaround is to use negation expression as follows (for multi project setups):
 
 ```
