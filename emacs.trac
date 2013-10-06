@@ -36,6 +36,10 @@ Most of us use Emacs for GHC development. This page lists various Emacs configur
 (global-whitespace-mode t)
 }}}
 
+== Highlight trailing whitespaces
+
+''TODO''
+
 == Automatically removes trailing whitespaces when file is saved
 
 '''Description''': Currently source code of GHC contains lots of trailing whitespaces, which means that '''this setting is dangerous'''. It will remove ALL trailing whitespaces in every file that you edit, which means you might have one or two lines changed by you and a hundred lines automatically changed by removing trailing whitespaces. This will require you to separate whitespaces into a separate commit by using `git add -i`. This is tedious, so be warned.
