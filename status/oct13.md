@@ -4,7 +4,7 @@
 A big event occurred earlier this year in July: the news that Ian Lynagh would be leaving Well-Typed - and consequently, GHC HQ - to move onto new challenges. Ian worked on GHC for 7 years full-time, helped write our new build system, redesigned large parts of the compiler, and fixed innumerable other issues over the course of his work with us. [ According to some statistics](https://github.com/ghc/ghc/graphs/contributors) for the past 7 years or so, Ian quite clearly is one of the biggest contributors we've ever had. And we should take the time to say what is rightfully deserved: **thank you for everything you've done for us, Ian**!
 
 
-While Ian has not completely disappeared, GHC and Haskell are not his day-job anymore. As a result, this means everyone - including those friends reading this - have a huge opportunity to help continue making GHC even better. Luckily, all the evidence of the past few months points towards a tremendous surge in community involvement. GHC is a community project, and the community is what keeps us afloat. **A great thanks goes to all those who have helped us come so far**!
+While Ian has not completely disappeared, GHC and Haskell are not his day-job anymore. As a result, this means everyone - including you, our friend and reader - have a huge opportunity to help continue making GHC even better. Luckily, the past few months of activity points towards a tremendous surge in community involvement. GHC is a community project, and the community is what keeps us afloat. **A great thanks goes to all those who have helped us come so far**!
 
 
 In light of this, Well-Typed has added two new hires to GHC HQ to keep things moving, and help the development process going forward: **Edsko de Vries** and **Austin Seipp**.
@@ -92,7 +92,7 @@ But we're not sure what else might happen. It's a great time to step up to the p
 # Development updates, joining in and a big Thank You!
 
 
-In the past several months, GHC has seen a surge of community involvement, and a great deal of new contributors. We now have [37 committers](team-ghc), with **14 added in 2013 alone** - it's an exciting time to work GHC!
+In the past several months, GHC has seen a surge of community involvement, and a great deal of new contributors. We now have [37 committers](team-ghc), with **14 added in 2013 alone** - it's an exciting time to help out!
 
 
 Amongst those who have rolled up their sleeves and helped us recently:
