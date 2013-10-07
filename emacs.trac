@@ -130,13 +130,13 @@ You need to install [http://www.emacswiki.org/emacs/cycle-buffer.el Cycle Buffer
 
 == Haskell mode
 
-'''Description''': Haskell mode is a major mode for Emacs. Features include: syntax highlighting, GHCi integration and automatic indentation.
+'''Description''': Haskell mode is a major mode for Emacs. Features include: syntax highlighting, GHCi integration and automatic indentation. See [http://haskell.github.io/haskell-mode/manual/latest/ online manual] for details.
 
-'''How to enable''': See installation instructions on [https://github.com/haskell/haskell-mode github] and [http://haskell.github.io/haskell-mode/manual/latest/ manual].
+'''How to enable''': See installation instructions on [https://github.com/haskell/haskell-mode github].
 
 == ghc-mod
 
-'''Description''': ''I'm not using this one. Can someone (Kazu?) complete this section?''
+'''Description''': Extends haskell-mode. Features include: building on the fly with flymake, hlint integration, auto-completion of keywords. See [http://www.mew.org/~kazu/proj/ghc-mod/en/emacs.html here] for a complete list.
 
 '''How to enable''': See installation instructions [http://www.mew.org/~kazu/proj/ghc-mod/en/ here].
 
