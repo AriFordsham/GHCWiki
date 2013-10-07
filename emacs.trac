@@ -96,7 +96,7 @@ It is assumed that you know how to install packages in Emacs (e.g. with ELPA). '
 '''Description''': Enhances switching between multiple windows. To switch to another window use pressing Alt-<window number>. Number of each window is displayed in red in the mode line.
 
 '''How to enable''':
-You need to install package `window-number` and add this to your configuration:
+You need to install [http://www.emacswiki.org/emacs/window-number.el window-number] extension and add this to your configuration:
 {{{#!elisp 
 (require 'window-number)
 (window-number-mode)
@@ -108,7 +108,7 @@ You need to install package `window-number` and add this to your configuration:
 '''Description''': This extension allows you to switch between next and previous buffer with F9 and F10 (by default). Emacs buffers (like *messages*) are ignored - use Shift-F9 and Shift-F10 to include them as well. Note that this extension maintains a list of buffers. After selecting a buffer it is moved to the beginning of the list. This means that buffers are ordered by the time of their recent use.
 
 '''How to enable''':
-You need to install [http://www.emacswiki.org/emacs/cycle-buffer.el Cycle Buffer] extension:
+You need to install [http://www.emacswiki.org/emacs/cycle-buffer.el cycle-buffer] extension and add this to your configuration:
 {{{#!elisp 
 (autoload 'cycle-buffer                     "cycle-buffer"
   "Cycle forward." t)

@@ -98,7 +98,7 @@ It is assumed that you know how to install packages in Emacs (e.g. with ELPA). *
 **Description**: Enhances switching between multiple windows. To switch to another window use pressing Alt-\<window number\>. Number of each window is displayed in red in the mode line.
 
 **How to enable**:
-You need to install package `window-number` and add this to your configuration:
+You need to install [ window-number](http://www.emacswiki.org/emacs/window-number.el) extension and add this to your configuration:
 
 ```
 (require'window-number)(window-number-mode)(window-number-meta-mode)
@@ -109,7 +109,7 @@ You need to install package `window-number` and add this to your configuration:
 **Description**: This extension allows you to switch between next and previous buffer with F9 and F10 (by default). Emacs buffers (like \*messages\*) are ignored - use Shift-F9 and Shift-F10 to include them as well. Note that this extension maintains a list of buffers. After selecting a buffer it is moved to the beginning of the list. This means that buffers are ordered by the time of their recent use.
 
 **How to enable**:
-You need to install [ Cycle Buffer](http://www.emacswiki.org/emacs/cycle-buffer.el) extension:
+You need to install [ cycle-buffer](http://www.emacswiki.org/emacs/cycle-buffer.el) extension and add this to your configuration:
 
 ```
 (autoload'cycle-buffer"cycle-buffer""Cycle forward."t)(autoload'cycle-buffer-backward"cycle-buffer""Cycle backward."t)(autoload'cycle-buffer-permissive"cycle-buffer""Cycle forward allowing *buffers*."t)(autoload'cycle-buffer-backward-permissive"cycle-buffer""Cycle backward allowing *buffers*."t)(autoload'cycle-buffer-toggle-interesting"cycle-buffer""Toggle if this buffer will be considered."t)(global-set-key[(f9)]'cycle-buffer-backward)(global-set-key[(f10)]'cycle-buffer)(global-set-key[(shiftf9)]'cycle-buffer-backward-permissive)(global-set-key[(shiftf10)]'cycle-buffer-permissive)
