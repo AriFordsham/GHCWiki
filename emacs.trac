@@ -12,7 +12,7 @@ It is assumed that you know how to install packages in Emacs (e.g. with ELPA). '
 
 == IDO mode
 
-'''Description''': IDO stands for Interactively Do Things and it greatly improves file opening and switching between buffers. When opening a file it shows the list of files and directories in a current directory, allows to navigate the directory tree in an easy manner, provides intuitive filtering capabilities and allows to select a file by selecting its name using arrow keys. Similar behaviour is provided when switching between opened buffers. A nice introductory tutorial to IDO can be found [http://www.masteringemacs.org/articles/2010/10/10/introduction-to-ido-mode/ here].
+'''Description''': IDO stands for Interactively Do Things and it greatly improves file opening and switching between buffers. When opening a file it shows list of files and directories in current directory, allows to navigate the directory tree in an easy manner, provides intuitive filtering capabilities and allows to select a file by selecting its name using arrow keys. Similar behaviour is provided when switching between opened buffers. A nice introductory tutorial to IDO can be found [http://www.masteringemacs.org/articles/2010/10/10/introduction-to-ido-mode/ here].
 
 '''How to enable''':
 {{{#!elisp 
@@ -44,7 +44,7 @@ It is assumed that you know how to install packages in Emacs (e.g. with ELPA). '
 
 == Automatically removes trailing whitespaces when file is saved
 
-'''Description''': Currently source code of GHC contains lots of trailing whitespaces, which means that '''this setting is dangerous'''. It will remove ALL trailing whitespaces in every file that you edit, which means you might have one or two lines changed by you and a hundred lines automatically changed by removing trailing whitespaces. This will require you to separate whitespaces into a separate commit by using `git add -i`. This is tedious, so be warned.
+'''Description''': Currently source code of GHC contains lots of trailing whitespaces, which means that '''this setting is dangerous'''. It will remove ALL trailing whitespaces in every file that you edit, so you might have one or two lines changed by you and a hundred lines automatically changed by removing trailing whitespaces. This will require you to separate whitespaces into a separate commit by using `git add -i`. This is tedious, so be warned.
 
 '''How to enable''':
 {{{#!elisp 
@@ -64,9 +64,9 @@ It is assumed that you know how to install packages in Emacs (e.g. with ELPA). '
 (setq-default indicate-empty-lines t)
 }}}
 
-== C-k kills whole line and newline if at beginning of line
+== Kill whole line and newline with C-k if at beginning of line
 
-'''Description''': Allows to avoid typing `C-k` twice when cursor is placed at the beginning of a line.
+'''Description''': IF you place cursor at the beginning of line, the default behaviour of C-k is to fill all text until newline, but not the newline itself. You need to type C-k again to remove that newline. This setting allows to avoid typing `C-k` twice by killing all text until the newline and newline itself (but only when cursor is placed at the beginning of a line).
 
 '''How to enable''':
 {{{#!elisp 
@@ -93,7 +93,7 @@ It is assumed that you know how to install packages in Emacs (e.g. with ELPA). '
 
 == Switch between windows with Alt-<window number>
 
-'''Description''': Enhances switching between multiple windows. Number of each windows is displayed in the mode line.
+'''Description''': Enhances switching between multiple windows. To switch to another window use pressing Alt-<window number>. Number of each window is displayed in red in the mode line.
 
 '''How to enable''':
 You need to install package `window-number` and add this to your configuration:
