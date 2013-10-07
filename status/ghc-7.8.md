@@ -2,8 +2,10 @@
 
 ## Timeline
 
+~~The planned timeline for 7.8 is to have a feature freeze approximately at the time of ICFP, followed by a period of frantic bugfixing. A release candidate (and the 7.8 branch) will be formed after this, likely sometime in October.~~
 
-The planned timeline for 7.8 is to have a feature freeze approximately at the time of ICFP, followed by a period of frantic bugfixing. A release candidate (and the 7.8 branch) will be formed after this, likely sometime in October.
+
+See recent ghc-devs posting [ GHC 7.8 Release Status & Schedule](http://permalink.gmane.org/gmane.comp.lang.haskell.ghc.devel/2569) for latest timeline.
 
 ## Tickets
 
