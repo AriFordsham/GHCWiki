@@ -107,7 +107,7 @@ Amongst those who have rolled up their sleeves and helped us recently:
 - Jan Stolarek
 
 
-As ever, there is a ton of stuff in the future for us to do. Don't wait - it might take a while. You should join us instead!
+As ever, there is a ton of stuff in the future for us to do. If you want something done - don't wait, it might take a while. You should join us instead!
 
 # References
 
