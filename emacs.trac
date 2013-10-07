@@ -51,8 +51,6 @@ It is assumed that you know how to install packages in Emacs (e.g. with ELPA). '
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 }}}
 
-''TODO: describe how to enable this setting only if the file was already free of trailing-whitespaces at load-time''
-
 == Highlight trailing whitespaces
 
 '''Description''': Automatic removal of trailing whitespaces described above can be a bit inconvenient to use. One of the alternative approaches to problem of trailing whitespaces is making them visible, so that you notice when you accidentally introduce them into a file. You will also see already existing trailing whitespaces. For more details see [http://www.gnu.org/software/emacs/manual/html_node/emacs/Useless-Whitespace.html Useless Whitespace] section of Emacs documentation.
@@ -142,7 +140,17 @@ You need to install [http://www.emacswiki.org/emacs/cycle-buffer.el cycle-buffer
 
 == Hask-tags
 
-''TODO: I will fill in this one - JS''
+'''Description''': ''TODO: I will fill in this one - JS''
+
+'''How to enable''': Begin by installing `hasktags` package from Hackage:
+{{{
+cabal install hasktags
+}}}
+Now go to the directory for which you want to generate tags and run:
+{{{
+hasktags --ignore-close-implementation .
+}}}
+In Emacs type `M-x visit-tags-table` and point to the `TAGS` file generated for a directory on which you want to work on.
 
 = GHC-specific
 
