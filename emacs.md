@@ -149,7 +149,7 @@ In Emacs type `M-x visit-tags-table` and point to the generated `TAGS`.
 
 **Note on hasktags**: `hasktags` program used to generate tags file has problems with correctly recognizing declarations of value constructors in a data type. It often mistakes pattern matching of the form `(DataConstructor {})` as a data declaration and jumps to that pattern match instead of declaration.
 
-**Note on using tags for GHC sources**: 
+**Note on using tags for GHC sources**: Generating tags for top directory of GHC source tree. so that index is generated for the compiler sources as well as boot libraries, gives rather bad results. The problem is that many libraries have definitions of identical functions, e.g. `integer-gmp` and `integer-simple` define the same functions and `hoopl` has lots of obsolete source files that contain definitions of exactly identical functions. This makes jumping to definitions unreliable - you will often be taken to some unused definition. Therefore we recommend to generate tags file only for `compiler/` directory.
 
 # GHC-specific
 
