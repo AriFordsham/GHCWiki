@@ -7,7 +7,7 @@ Most of us use Emacs for GHC development. This page lists various Emacs configur
 Each entry includes a short description and instruction how to enable given setting (if it contains only a block of lisp code it means you need to add it to your `.emacs` configuration file). All configuration is given for Emacs 24, unless otherwise noted. 
 
 
-It is assumed that you know how to install packages in Emacs (e.g. with ELPA). *TODO Let's not assume it. Can we create a section "Installing extensions with ELPA" and give a short introduction on using it? I admit I don't remember how to use ELPA and would have to google it - JS.*
+Most of the packages used below are bundled with Emacs. If a package is not part of your Emacs installation you need to install it by yourself. You can do it manually by downloading relevant `*.el` file and putting it in your configuration directory or you can use ELPA -  Emacs package management system. A five minute introduction to ELPA can be found [ here](http://ergoemacs.org/emacs/emacs_package_system.html).
 
 # General
 
@@ -129,7 +129,7 @@ You need to install [ cycle-buffer](http://www.emacswiki.org/emacs/cycle-buffer.
 
 ## Using tags to quickly locate definitions in a project
 
-**Description**: Emacs can use a special index file, called "tags file", that stores locations of various definitions (functions, modules, data types) in a given directory. Once you've generated tags file (see installation instructions below) you can type `M-.` and enter name of identifier definition to jump to. Emacs by default jumps to identifier currently under the cursor. 
+**Description**: Emacs can use a special index file, the `TAGS` file, that stores locations of various definitions (functions, modules, data types) in a given directory. Once you've generated `TAGS` file (see installation instructions below) you can type `M-.` and enter name of identifier definition to jump to. Emacs by default jumps to identifier currently under the cursor.
 
 **How to enable**: Begin by installing `hasktags` package from Hackage:
 
@@ -147,10 +147,22 @@ hasktags --ignore-close-implementation .
 
 In Emacs type `M-x visit-tags-table` and point to the generated `TAGS`.
 
-**Note on hasktags**: `hasktags` program used to generate tags file has problems with correctly recognizing declarations of value constructors in a data type. It often mistakes pattern matching of the form `(DataConstructor {})` as a data declaration and jumps to that pattern match instead of declaration.
+**Note on hasktags**: `hasktags` program used to generate `TAGS` file has problems with correctly recognizing declarations of value constructors in a data type. It often mistakes pattern matching of the form `(DataConstructor {})` as a data declaration and jumps to that pattern match instead of declaration.
 
 **Note on using tags for GHC sources**: Generating tags for top directory of GHC source tree. so that index is generated for the compiler sources as well as boot libraries, gives rather bad results. The problem is that many libraries have definitions of identical functions, e.g. `integer-gmp` and `integer-simple` define the same functions and `hoopl` has lots of obsolete source files that contain definitions of exactly identical functions. This makes jumping to definitions unreliable - you will often be taken to some unused definition. Therefore we recommend to generate tags file only for `compiler/` directory.
 
 # GHC-specific
 
-*Richard mentioned some interesting config on Newcomers page*
+*TODO Richard, can you please fill in this section?*
+
+## Searching the GHC source tree with a hotkey
+
+**Description**:
+
+**How to enable**: 
+
+## Building GHC with a hotkey
+
+**Description**:
+
+**How to enable**: 
