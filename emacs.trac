@@ -80,6 +80,17 @@ Most of the packages used below are bundled with Emacs. If a package is not part
 (global-set-key (kbd "<f11>") 'global-linum-mode)
 }}}
 
+== Jump to first error
+
+'''Description''': Allows you to jump to the first error in compiled or interpreted code.
+
+'''How to enable''':
+{{{#!elisp
+(global-set-key (kbd "M-g M-f") 'first-error)
+}}}
+
+On my setup, this won't work the first time a file is loaded into GHCi. I just try to load the file a second time, and then I'm set for the rest of the session.
+
 == Always display column number in mode line
 
 '''Description''': By default Emacs only displays line number in the mode line. This setting adds column number.
@@ -158,16 +169,48 @@ In Emacs type `M-x visit-tags-table` and point to the generated `TAGS`.
 
 = GHC-specific
 
-''TODO: Richard, can you please fill in this section?''
+It can be helpful to have a few commands specific to working on GHC. For these to work, Emacs must know where your local GHC tree is.
+
+{{{#!elisp
+(setq ghc-location "~/ghc") ;; change as necessary
+}}}
+
+If you switch between active trees, you must use a `setq` to change this variable, with, say, M-: `(setq ghc-location "~/other-ghc")` <Enter>.
 
 == Searching the GHC source tree with a hotkey
 
-'''Description''':
+'''Description''': Even with hasktags, sometimes you need to search within the source tree. `rgrep` does this job well, but it asks too many redundant questions. So, the following code optimizes for a search just within the `compiler` directory:
 
-'''How to enable''': 
+'''How to enable''': The following code binds this search to M-c, but you may want your own key combination. Note that it uses `ghc-location`, set above.
+{{{#!elisp
+  ;; search withing GHC compiler code
+(defun rgrep-ghc (regexp)
+  (interactive (list (progn (grep-compute-defaults) (grep-read-regexp))))
+  (rgrep regexp "*hs" (concat ghc-location "/compiler/")))
+(global-set-key (kbd "M-c") 'rgrep-ghc)
+}}}
 
 == Building GHC with a hotkey
 
-'''Description''':
+'''Description''': By having GHC be built with a hotkey, working on GHC becomes much more interactive. In a typical session, though, I have to change the actual compilation command based on my needs. So, by default, "compiling GHC" means fast-building the stage-2 compiler, but I do frequently change `ghc-compile`.
 
-'''How to enable''': 
+'''How to enable''':
+{{{#!elisp
+(defun compile-ghc ()
+  (interactive)
+  (let ((compile-command (if (boundp 'ghc-compile)
+                             (concat "cd " ghc-location "; " ghc-compile)
+                             (concat "cd " ghc-location "/ghc; make 2"))))
+    (compile compile-command))
+  (set-buffer "*compilation*")
+  (setq default-directory ghc-location))
+
+(defun set-compile-ghc ()
+  (local-set-key (kbd "C-q") 'compile-ghc))
+
+(add-hook 'haskell-mode-hook 'set-compile-ghc)
+}}}
+
+A few things to note here:
+* The above code binds C-q (perhaps a bad combination, as I've accidentally quit Emacs from my Mac with the wrong modifier key!) to compiling GHC from ''any'' Haskell file, even those unrelated to GHC. But, when I'm working outside of GHC, I tend to use C-c C-l to load into GHCi, so this works out OK.
+* By default, as said above, this will compile the stage 2 compiler for the GHC at `ghc-location`. If you set `ghc-compile` with, say, M-: `(setq ghc-compile "cd compiler; make 1")` <Enter>, then this will build the stage 1 compiler.
