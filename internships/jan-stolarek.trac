@@ -31,9 +31,7 @@ Tickets that I could potentially look into:
   * #3744 - Comparisons against minBound/maxBound not optimised
   * #4101 - Primitive constant unfolding
   * #5615 - ghc produces poor code for `div` with constant powers of 2.
-  * #7116 - Missing optimisation: strength reduction of floating-point multiplication
   * #7858 - Fix definitions of abs/signum for !Floats/Doubles.
-  * #8072 - Optimizations change result of div for Word
 
 Some LLVM notes that may be useful:
   - [wiki:Commentary/Compiler/Backends/LLVM/Alias LLVM Alias Notes]
