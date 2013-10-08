@@ -62,7 +62,7 @@ Once you fix the bug, make sure to write a test-case proving that you've done wh
 
 - If, for some reason, you're working on the stage-1 compiler, you can use `make 1`, but **you must be in the `compiler` subdirectory**, not the `ghc` subdirectory.
 
-- I (Richard E) use emacs to edit the code, and I have a hotkey dedicated to searching the ghc codebase, and another one dedicated to compiling ghc. This makes work on ghc much more interactive.
+- I (Richard E) use emacs to edit the code, and I have a hotkey dedicated to searching the ghc codebase, and another one dedicated to compiling ghc. This makes work on ghc much more interactive. See [the Emacs page](emacs) for more info.
 
 ## Less practical advice
 
