@@ -3,14 +3,6 @@
 # Wise people say…
 
 
-Geoffrey:
-
-- In the past, LLVM could not recognize all loops output by the LLVm back end as loops. Perhaps that has changed.
-- Answering the question "What does loopification do that isn't already being done?" would still be useful
-- So figuring out how to make LLVM recognize more loops would be good.
-- if you write a simple, tight loop in Haskell of the sort a C compiler would vectorize, will LLVm vectorize it? If not, why?
-
-
 Austin Seipp:
 
 - i took the time to implement a half-assed almost-working loopification pass a few months ago. the sinking pass by Simon is what really does a huge amount of the optimizations Kryzsztof's thesis attacked differently. but i think doing loopification could maybe lead to identifying things like loop invariant expressions. it can't bootstrap the compiler with it (JS: it = Austin's patch). i think whenever i tie the knot in the new graph, i don't abandon parts of the old CmmNode, which then causes dead labels to hang around
@@ -76,79 +68,6 @@ It is however referenced in some of the comments. I might be able to use it for 
 - Cmm dumping could be improved. Right now it dumps all optimisation passes for one fragment of Cmm code, then for next fragment and so on. It would be more convinient to dump whole Cmm code after each pass. I'm not sure if that's possible with the current pipeline design. It seems that Stg-\>Cmm pass is intentionally design to produce Cmm code incrementally (via Stream) and I suspect that this might be the reason why the code is processed incrementally.
 - Simon M. says: The CmmSink pass before stack layout is disabled because I never got around to measuring it to determine whether it is a good idea or not. By all means do that!
 
-## Cleaning up the STG -\>Cmm pass
-
-
-When generating Cmm from STG there is some [SRT information](commentary/rts/storage/gc/ca-fs) being generated. It is not used and has to be rebuilt anyway after converting to CPS Cmm. Below are some random notes and pieces of code that might related to this:
-  
-
-- Cmm conversions in the compiler pipeline: `main/HscMain.hs` has `tryNewCodeGen` (l. 1300), which first calls `StgCmm.codegen` and then passes the generated Cmm to `cmmPipeline` function from `cmm/CmmPipeline.hs`. According to Austin Seipp `cpsTop` in `cmm/CmmPipeline.hs` takes care of converting to CPS: "yeah, CmmPipeline does take care of it. it's partially cpsTop that does it, and doSRTs elaborates the top-level info tables and stuff beyond that but mostly cpsTop. i think your general turning point is after the stack layout and stack pointer manifestation". 
-
-
-This code in `cmm/Cmm.hs` that might be relevant (or not):
-
-```wiki
--- (line 141 and onwards)
--- | Info table as a haskell data type
-data CmmInfoTable
-  = CmmInfoTable {
-      cit_lbl  :: CLabel, -- Info table label
-      cit_rep  :: SMRep,
-      cit_prof :: ProfilingInfo,
-      cit_srt  :: C_SRT
-    }
-
-data ProfilingInfo
-  = NoProfilingInfo
-  | ProfilingInfo [Word8] [Word8] -- closure_type, closure_desc
-
--- C_SRT is what StgSyn.SRT gets translated to...
--- we add a label for the table, and expect only the 'offset/length' form
-
-data C_SRT = NoC_SRT
-           | C_SRT !CLabel !WordOff !StgHalfWord {-bitmap or escape-}
-           deriving (Eq)
-
-needsSRT :: C_SRT -> Bool
-needsSRT NoC_SRT       = False
-needsSRT (C_SRT _ _ _) = True
-```
-
-## Random code
-
-- `main/HscMain.lhs:1300`\`. Is:
-
-```wiki
-| otherwise
-  = {-# SCC "cmmPipeline" #-}
-    let initTopSRT = initUs_ us emptySRT in
-
-    let run_pipeline topSRT cmmgroup = do
-          (topSRT, cmmgroup) <- cmmPipeline hsc_env topSRT cmmgroup
-          return (topSRT,cmmgroup)
-
-    in do topSRT <- Stream.mapAccumL run_pipeline initTopSRT ppr_stream1
-          Stream.yield (srtToData topSRT)
-```
-
-
-The `<- / return` sequence in the definition of `run_pipeline` can be eliminated, which allows to remove the `do` notation, which allows to do eta-reduction, which (finally) allows to remove the `run_pipeline` binding and using `(cmmPipeline hsc_env)` instead:
-
-```wiki
-| otherwise
-  = {-# SCC "cmmPipeline" #-}
-    let initTopSRT = initUs_ us emptySRT
-    in do topSRT <- Stream.mapAccumL (cmmPipeline hsc_env) initTopSRT ppr_stream1
-          Stream.yield (srtToData topSRT)
-```
-
-- `cmm/CmmUtils.hs`, function `toBlockListEntryFirst` - perhaps it would be safer to return a tuple in this case? This would probably make the invariant more explicit.
-
-## Wiki
-
-- [NewCodeGenPipeline](commentary/compiler/new-code-gen-pipeline) has some outdated sections in the Cmm pipeline description: Add spill/reload, Rewrite assignments. So far I only marked them as OUTDATED
-- [NewCodeGenModules](commentary/compiler/new-code-gen-modules) - mostly outdated. Mentioned data types and modules no longer exist.
-
 # Various stuff
 
 
@@ -162,11 +81,6 @@ Tickets that I could potentially look into:
 - [\#7116](https://gitlab.haskell.org//ghc/ghc/issues/7116) - Missing optimisation: strength reduction of floating-point multiplication
 - [\#7858](https://gitlab.haskell.org//ghc/ghc/issues/7858) - Fix definitions of abs/signum for Floats/Doubles.
 - [\#8072](https://gitlab.haskell.org//ghc/ghc/issues/8072) - Optimizations change result of div for Word
-
-
-Other things to do:
-
-- investigate opportunities for improving heap checks. An idea: if a worker knows its heap requirements it could pass them to the caller, thus avoiding the heap check. A question: how much time do we really spend on heap checks?
 
 
 Some LLVM notes that may be useful:
