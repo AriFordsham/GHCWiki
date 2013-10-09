@@ -84,7 +84,7 @@ Unfortunately, the current idea is not really working all that nice, because of 
 Haskell98 and Haskell prime says that all the instances should be visible that are under the current module in the dependency tree, but this is not the case currently in GHC when using one-shot compilation (`ghc -c`, not `ghc --make`).  This is a optimization, so we can save on the reading of all the module dependencies transitively.  GHC tries to cleverly figure out where to find so called orphan instances.
 
 
-Template haskell is a corner-case, where this orphan logic is not clever enough and therefore reify doesn't see some of the instances that are under the current module in the dependency tree.  Even more so, if the class instance is in a separate package (and not marked orphan), then it's not seen either in one-shot nor in batch mode.  Therefore HFlags can't gather all the flags in `$initHFlags`.  I propose to fix this by loading all the imported interfaces transitively when reifying classes or type families.  **If you have any comments or questions regarding this, please comment on [\#8426](https://gitlab.haskell.org//ghc/ghc/issues/8426).**
+Template haskell is a corner-case, where this orphan logic is not clever enough and therefore reify doesn't see some of the instances that are under the current module in the dependency tree.  Even more so, if the class instance is in a separate package (and not marked orphan, as is the case in HFlags), then it's not seen either in one-shot or in batch mode.  Therefore HFlags can't gather all the flags in `$initHFlags`.  I propose to fix this by loading all the imported interfaces transitively when reifying classes or type families.  **If you have any comments or questions regarding this, please comment on [\#8426](https://gitlab.haskell.org//ghc/ghc/issues/8426).**
 
 
 An alternative approach would be to mark all the modules that define command line flags as orphan modules.  Then they are automatically read up with the current one-shot and batch compiler and seen in reification.  To do this it has to be possible to mark modules as orphans, as proposed by [\#8337](https://gitlab.haskell.org//ghc/ghc/issues/8337) or agree on a new orphan rule: e.g. every module that contains module level annotations are orphan.  If we agree on the latter, then the patch in [\#8337](https://gitlab.haskell.org//ghc/ghc/issues/8337) has to be sightly modified to work like that.  **Please comment here or on [\#8337](https://gitlab.haskell.org//ghc/ghc/issues/8337) if you prefer either of the two solutions, or object to both.**
@@ -94,7 +94,7 @@ An alternative approach would be to mark all the modules that define command lin
 ## Already done: a bugfix, and annotation generation
 
 
-The already merged [\#3725](https://gitlab.haskell.org//ghc/ghc/issues/3725) and [\#8340](https://gitlab.haskell.org//ghc/ghc/issues/8340) makes it possible to generate Annotations from TH.  We support all three kind of annotations: annotations on types, values and whole modules.
+The already merged [\#3725](https://gitlab.haskell.org//ghc/ghc/issues/3725) and [\#8340](https://gitlab.haskell.org//ghc/ghc/issues/8340) makes it possible to generate annotations from TH.  We support all three kind of annotations: annotations on types, values and whole modules.
 
 ## In the works, but seems easy: annotation reification
 
@@ -102,12 +102,13 @@ The already merged [\#3725](https://gitlab.haskell.org//ghc/ghc/issues/3725) and
 
 ## Controversial: [\#8398](https://gitlab.haskell.org//ghc/ghc/issues/8398), module list reification
 
-[\#8397](https://gitlab.haskell.org//ghc/ghc/issues/8397) alone is very useful, but unfortunately not enough.  Because it only makes it possible to get annotations for modules, values or types when you already know your target.  But in the case of `$initHFlags` we want to get all the flags that has been defined somewhere below us in our import tree.  To do this, [\#8398](https://gitlab.haskell.org//ghc/ghc/issues/8398) implements module listing.  Once we get back the module list, we can use the returned names to get the module annotations for all the modules and extract the flag data.
+
+The [\#8397](https://gitlab.haskell.org//ghc/ghc/issues/8397) from the previous paragraph is already useful on its own. Unfortunately, for HFlags purposes it's not enough: it only make it possible to get annotations for modules, values or types when you already know your target.  But in the case of `$initHFlags` we want to get all the flags that were defined somewhere below us in our import tree.  To do this, [\#8398](https://gitlab.haskell.org//ghc/ghc/issues/8398) implements module listing.  Once we get back the module list, we can use the returned names to get the module annotations for all the modules and extract the flag data.
 
 
 The current patch is a bit controversial, it simply uses the currently loaded list of modules as a substitute for "module list of our dependencies".  This approximation is heavily used currently everywhere in GHC, but it can cause problems, as showed in [\#8426](https://gitlab.haskell.org//ghc/ghc/issues/8426).  SPJ already stated ([ http://ghc.haskell.org/trac/ghc/ticket/7867\#comment:12](http://ghc.haskell.org/trac/ghc/ticket/7867#comment:12)) that he doesn't agree to this approximation and we should work on something that is well defined.  I agree.
 
 
-I propose to change this patch to properly construct the list of dependent modules and return that.  We would return (pkgid, moduleid) pairs for every module that is imported by us or imported by our imports transitively.
+I propose to change this patch to properly construct the list of dependent modules and return that.  We would return `(pkgid, moduleid)` pairs for every module that is imported by us or imported by our imports transitively.
 
 **Here for sure we need design discussion, so please think about this and share your thoughts.**  This is not to say that design discussion is not welcome for the other patches, of course it is!
