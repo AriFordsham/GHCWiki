@@ -12,7 +12,7 @@ As a main use-case we will consider the [ http://hackage.haskell.org/package/hfl
 The goal of the library is to:
 
 - provide easy to use command line flags,
-- that are pure from the programmers point of view (they don't change while running the program once anyways),
+- that are pure from the programmers point of view (they don't change during one program run),
 - that can be defined anywhere, even in a module,
 - and the used flags are automatically gathered in the main program for parsing and `--help` generation.
 
@@ -48,26 +48,26 @@ errge@curry:/tmp/y $
 ```
 
 
-What's important to note here is that in the main program we didn't have to specify the list of modules that has to be searched for command line flags, the template haskell `$initHFlags` function automagically found them all.  Even if they're not directly, only indirectly imported by our main program.  A motivating example for that:
+What's important to note here is that in the main program we didn't have to specify the list of modules that has to be searched for command line flags, the template haskell `$initHFlags` function automatically found them all.  Even if they are not imported directly, but only indirectly by our main program.  A motivating example for that:
 
-- the TCP module has a connect method that accepts a command-line tcp_connect_timeout flag (so the user can change that to 5 seconds from the usual 10 hours :)),
+- the TCP module has a connect method that accepts a command-line `tcp_connect_timeout` flag (so the user can change that to 5 seconds from the usual 10 hours :)),
 - the HTTP module of course depends on TCP,
 - the WGet module depends on HTTP,
 - the main program uses WGet to download something from the internet.
 
 
-In this case HFlags automatically makes it so that the tcp_connect_timeout flag is show in --help of the main program and can be changed by the user to any value she sees fits.  This is achieved via [TemplateHaskell](template-haskell), but in exchange the programmer doesn't have to explicitly pass around any kind of values or applicative stuff for every imported module that uses command line flags.
+In this case HFlags automatically makes it so that the `tcp_connect_timeout` flag is show in `--help` of the main program and can be changed by the user to any value she sees fit.  This is achieved via template haskell, but in exchange the programmer doesn't have to explicitly pass around any kind of values or applicative stuff for every imported module that uses command line flags.
 
 
-Of course, this whole approach can be debated and maybe we should instead explicitly pass parameters to functions, but let's leave that debate to the getopt authors and focus on TH on this page.
+Of course, this whole approach can be debated and maybe we should instead explicitly pass parameters to functions; but let's leave that debate to the getopt authors and focus on TH on this page.
 
 # Current implementation with typeclassses
 
 
-How the magic works inside HFlags currently?  By using typeclasses.
+How is this implemented in HFlags currently?  By using typeclasses.
 
 
-The FlagData ([ https://github.com/errge/hflags/blob/master/HFlags.hs\#L129](https://github.com/errge/hflags/blob/master/HFlags.hs#L129)) datatype contains all the information we need to know about a flag.  Then for every flag we create a new fake datatype that implements the Flag class ([ https://github.com/errge/hflags/blob/master/HFlags.hs\#L149](https://github.com/errge/hflags/blob/master/HFlags.hs#L149)).  In `initHFlags` we simply call [TemplateHaskell](template-haskell) reify on the Flag class.  This gives us our "fake" instances and their `getFlagData` method can be used to query the needed flag data for `--help` generation, parsing, etc.  This can be seen in at [ https://github.com/errge/hflags/blob/master/HFlags.hs\#L397](https://github.com/errge/hflags/blob/master/HFlags.hs#L397).
+The FlagData ([ https://github.com/errge/hflags/blob/v0.4/HFlags.hs\#L129](https://github.com/errge/hflags/blob/v0.4/HFlags.hs#L129)) datatype contains all the information we need to know about a flag.  Then for every flag we create a new fake datatype that implements the Flag class ([ https://github.com/errge/hflags/blob/v0.4/HFlags.hs\#L149](https://github.com/errge/hflags/blob/v0.4/HFlags.hs#L149)).  In `initHFlags` we simply call template haskell reify on the Flag class.  This gives us our "fake" instances and their `getFlagData` method can be used to query the needed flag data for `--help` generation, parsing, etc.  This can be seen in at [ https://github.com/errge/hflags/blob/v0.4/HFlags.hs\#L397](https://github.com/errge/hflags/blob/v0.4/HFlags.hs#L397).
 
 
 This is obviously not nice, we are abusing the reification of types and instances to send messages to ourselves between modules.  There should be an explicit way to do that.  This is requested in [\#7867](https://gitlab.haskell.org//ghc/ghc/issues/7867).
@@ -83,7 +83,8 @@ Unfortunately, the current idea is not really working all that nice, because of 
 
 Haskell98 and Haskell prime says that all the instances should be visible that are under the current module in the dependency tree, but this is not the case currently in GHC when using one-shot compilation (`ghc -c`, not `ghc --make`).  This is a optimization, so we can save reading of all the module dependencies transitively.  GHC tries to cleverly figure out where to find so called orphan instances.
 
-[TemplateHaskell](template-haskell) is a corner-case, where this orphan logic is not clever enough and therefore reify doesn't see some of the instances that are under the current module in the dependency tree.  Therefore HFlags can't gather all the flags in `$initHFlags`.  I propose to fix this by loading all the imported interfaces transitively when reifying classes or type families.  **If you have any comments or questions regarding this, please comment on [\#8426](https://gitlab.haskell.org//ghc/ghc/issues/8426).**
+
+Template haskell is a corner-case, where this orphan logic is not clever enough and therefore reify doesn't see some of the instances that are under the current module in the dependency tree.  Therefore HFlags can't gather all the flags in `$initHFlags`.  I propose to fix this by loading all the imported interfaces transitively when reifying classes or type families.  **If you have any comments or questions regarding this, please comment on [\#8426](https://gitlab.haskell.org//ghc/ghc/issues/8426).**
 
 
 An alternative approach would be to mark all the modules that define command line flags as orphan modules.  Then they are automatically read up with the current one-shot and batch compiler and seen in reification.  To do this it has to be possible to mark modules as orphans, as proposed by [\#8337](https://gitlab.haskell.org//ghc/ghc/issues/8337) or agree on a new orphan rule: e.g. every module that contains module level annotations are orphan.  If we agree on the latter, then the patch in [\#8337](https://gitlab.haskell.org//ghc/ghc/issues/8337) has to be sightly modified to work like that.  **Please comment here or on [\#8337](https://gitlab.haskell.org//ghc/ghc/issues/8337) if you prefer either of the two solutions or you object both.**
@@ -97,7 +98,7 @@ The already merged [\#3725](https://gitlab.haskell.org//ghc/ghc/issues/3725) and
 
 ## In the works, but seems easy: annotation reification
 
-[\#8397](https://gitlab.haskell.org//ghc/ghc/issues/8397) contains the code for reification of annotations.  The patch is quite straightforward and quite separated from all of the other TODOs, it just adds a new Q monad statement for handling the reification request and the necessary handling of this Q monad statement in TcSplice.  **I consider this patch ready to review, so please comment.**
+[\#8397](https://gitlab.haskell.org//ghc/ghc/issues/8397) contains the code for reification of annotations.  The patch is quite straightforward and quite separated from all of the other TODOs, it just adds a new Q monad statement for handling the reification request and the necessary handling of this Q monad statement in `TcSplice`.  **I consider this patch ready to review, so please comment.**
 
 ## Controversial: [\#8398](https://gitlab.haskell.org//ghc/ghc/issues/8398), module list reification
 
