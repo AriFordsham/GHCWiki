@@ -4,7 +4,7 @@ A big event occurred earlier this year in July: the news that Ian Lynagh would b
 
 While Ian has not completely disappeared, GHC and Haskell are not his day-job anymore. As a result, this means everyone - including you, our friend and reader - have a huge opportunity to help continue making GHC even better. Luckily, the past few months of activity points towards a tremendous surge in community involvement. GHC is a community project, and the community is what keeps us afloat. **A great thanks goes to all those who have helped us come so far**!
 
-In light of this, Well-Typed has added two new hires to GHC HQ to keep things moving, and help the development process going forward: **Edsko de Vries** and **Austin Seipp**.
+In light of this, Well-Typed has added two people to GHC HQ to keep things moving, and help the development process going forward: **Edsko de Vries** and **Austin Seipp**.
 
 The GHC 7.8 release is in its final stages, and will be released in late November according to our plans. There's a tremendous amount of exciting changes coming very soon, described below.
 
