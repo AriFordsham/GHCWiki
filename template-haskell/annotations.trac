@@ -69,20 +69,20 @@ How is this implemented in HFlags currently?  By using typeclasses.
 
 The FlagData (https://github.com/errge/hflags/blob/v0.4/HFlags.hs#L129) datatype contains all the information we need to know about a flag.  Then for every flag we create a new fake datatype that implements the Flag class (https://github.com/errge/hflags/blob/v0.4/HFlags.hs#L149).  In `initHFlags` we simply call template haskell reify on the Flag class.  This gives us our "fake" instances and their `getFlagData` method can be used to query the needed flag data for `--help` generation, parsing, etc.  This can be seen in at https://github.com/errge/hflags/blob/v0.4/HFlags.hs#L397.
 
-This is obviously not nice, we are abusing the reification of types and instances to send messages to ourselves between modules.  There should be an explicit way to do that.  This is requested in #7867.
+This is ugly: we are abusing the reification of types and instances to send messages to ourselves between modules.  There should be an explicit way to do that.  This is requested in #7867.
 
-The proposal is to make it possible to generate annotations from template haskell (when defining a flag) and read them all back via template haskell (in initHFlags).  These module level annotations (in HFlags case) will then contain the info that is needed for flag parsing and `--help` generation.
+The proposal is to make it possible to generate annotations from template haskell (when defining a flag) and read them all back via template haskell (in `$initHFlags`).  These module level annotations (in HFlags case) will then contain the info that is needed for flag parsing and `--help` generation.
 
 
 
-== Aside: the current implementation is not just ugly, but not working with current GHC ==
+== Aside: with the current GHC, this implementation is not just ugly, but broken ==
 Unfortunately, the current idea is not really working all that nice, because of #8426.
 
-Haskell98 and Haskell prime says that all the instances should be visible that are under the current module in the dependency tree, but this is not the case currently in GHC when using one-shot compilation (`ghc -c`, not `ghc --make`).  This is a optimization, so we can save reading of all the module dependencies transitively.  GHC tries to cleverly figure out where to find so called orphan instances.
+Haskell98 and Haskell prime says that all the instances should be visible that are under the current module in the dependency tree, but this is not the case currently in GHC when using one-shot compilation (`ghc -c`, not `ghc --make`).  This is a optimization, so we can save on the reading of all the module dependencies transitively.  GHC tries to cleverly figure out where to find so called orphan instances.
 
-Template haskell is a corner-case, where this orphan logic is not clever enough and therefore reify doesn't see some of the instances that are under the current module in the dependency tree.  Therefore HFlags can't gather all the flags in `$initHFlags`.  I propose to fix this by loading all the imported interfaces transitively when reifying classes or type families.  **If you have any comments or questions regarding this, please comment on #8426.**
+Template haskell is a corner-case, where this orphan logic is not clever enough and therefore reify doesn't see some of the instances that are under the current module in the dependency tree.  Even more so, if the class instance is in a separate package (and not marked orphan), then it's not seen either in one-shot nor in batch mode.  Therefore HFlags can't gather all the flags in `$initHFlags`.  I propose to fix this by loading all the imported interfaces transitively when reifying classes or type families.  **If you have any comments or questions regarding this, please comment on #8426.**
 
-An alternative approach would be to mark all the modules that define command line flags as orphan modules.  Then they are automatically read up with the current one-shot and batch compiler and seen in reification.  To do this it has to be possible to mark modules as orphans, as proposed by #8337 or agree on a new orphan rule: e.g. every module that contains module level annotations are orphan.  If we agree on the latter, then the patch in #8337 has to be sightly modified to work like that.  **Please comment here or on #8337 if you prefer either of the two solutions or you object both.**
+An alternative approach would be to mark all the modules that define command line flags as orphan modules.  Then they are automatically read up with the current one-shot and batch compiler and seen in reification.  To do this it has to be possible to mark modules as orphans, as proposed by #8337 or agree on a new orphan rule: e.g. every module that contains module level annotations are orphan.  If we agree on the latter, then the patch in #8337 has to be sightly modified to work like that.  **Please comment here or on #8337 if you prefer either of the two solutions, or object to both.**
 
 
 
