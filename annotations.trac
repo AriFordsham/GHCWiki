@@ -12,6 +12,8 @@ Annotations are useful for both [wiki:Plugins Plugins] and for users that would 
 
  * Mark certain functions as tests, suitable for execution by a QuickCheck runner
 
+There is ongoing work to make Annotations usable from TemplateHaskell, not just from Plugins.  This can be found at wiki:TemplateHaskell/Annotations.
+
 == State Of Play ==
 
 An annotations system was implemented as part of the Compiler Plugins Summer of Code project (Summer 08). It has been submitted to the HEAD, and will appear in GHC 6.12 and later.  Documentation is available at http://www.haskell.org/ghc/docs/latest/html/users_guide/extending-ghc.html#annotation-pragmas.

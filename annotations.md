@@ -13,6 +13,9 @@ Annotations are useful for both [Plugins](plugins) and for users that would like
 
 - Mark certain functions as tests, suitable for execution by a QuickCheck runner
 
+
+There is ongoing work to make Annotations usable from [TemplateHaskell](template-haskell), not just from Plugins.  This can be found at [wiki:TemplateHaskell/Annotations](template-haskell/annotations).
+
 ## State Of Play
 
 
