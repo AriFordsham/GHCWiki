@@ -1,5 +1,5 @@
 = Problem statement =
-Currently annotations are only usable from the GHC API.  Our goal is to add support for TemplateHaskell too.  Both creation of annotations, reification of annotations and gathering module annotations transitively from our whole import tree should be added.
+Currently wiki:/Annotations are only usable from the GHC API.  Our goal is to add support for TemplateHaskell too.  Both creation of annotations, reification of annotations and gathering module annotations transitively from our whole import tree should be added.
 
 
 

@@ -1,7 +1,7 @@
 # Problem statement
 
 
-Currently annotations are only usable from the GHC API.  Our goal is to add support for [TemplateHaskell](template-haskell) too.  Both creation of annotations, reification of annotations and gathering module annotations transitively from our whole import tree should be added.
+Currently [wiki:/Annotations](annotations) are only usable from the GHC API.  Our goal is to add support for [TemplateHaskell](template-haskell) too.  Both creation of annotations, reification of annotations and gathering module annotations transitively from our whole import tree should be added.
 
 # Motivation
 
