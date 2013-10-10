@@ -14,3 +14,10 @@ This section describes how to set up your system with all the tools you need to 
 Alternatively:
 
 - [List of tools needed to build GHC](building/preparation/tools)
+
+
+See also
+  
+
+- [Emacs lore](emacs)
+- [Git lore](working-conventions/git)
