@@ -20,3 +20,4 @@ See also
   
 
 - [Emacs tips and tricks](emacs)
+- [Git lore](working-conventions/git)
