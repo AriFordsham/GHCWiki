@@ -21,7 +21,7 @@ The GHC 7.8 release is in its final stages, and will be released in late Novembe
   ```wiki
   type family Flip p :: *
   type family Flip a where
-    Filp Even = Odd
+    Flip Even = Odd
     Flip Odd  = Even
   ```
 
