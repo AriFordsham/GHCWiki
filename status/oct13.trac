@@ -27,6 +27,9 @@ type family Flip a where
 
  * **New Template Haskell** - Geoffrey Mainland implemented support for New Template Haskell, fixing a lot of long-standing bugs with the TH implementation, while making it significantly more expressive, including support for typed quotes, pattern splices and more. This allows us to write for example a typed, staged power function. For details and examples, you can see Geoff's blog[NewTH1] and the GHC wiki pages describing the design [NewTH2].
 
+ * Joachim Brietner spent time earlier this year implementing a new, fancy **Coercible** design in GHC, which helps eliminate the cases in which newtypes are 'not free'. This occurs for example, when we say something like `newtype Age = MkAge Int` and then `map MkAge [0..10]` - while `newtype`s are supposed to be free, this particular example has a runtime cost!
+ While Coercible is still in flux, we hope it will be useful as a 'preview technology' in the 7.8 release.
+
  * A small menagerie of various other language improvements and extensions, including:
    * `-XOverloadedLists` which allows overloading list literals (Achim Krause, George Giorgidze, Weijers Jeroen)
    * `-XNumDecimals` allowing a compact floating-point syntax for integrals, e.g. `1.2e6 :: Integer` (Shachaf Ben-Kiki)
@@ -78,6 +81,8 @@ After the 7.8 release, there are some improvements scheduled we plan on integrat
 
  * **Explicit Type Application** - Stephanie Weirich, Richard Eisenburg and Hamidhasan Ahmed have been working on adding explicit type applications to GHC. This allows the programmer to specify the *types* that should be instantiated for arguments to a function application, where normally they would be inferred. While this capability already exists in FC-pro (indeed, every FC-pro program has function application with explicitly applied types,) it has not been available in Haskell itself. While a lot of the syntax and design is not quite final, there are some details about the design available on the wiki[TA].
 
+ * **Git management changes** - For a long time, GHC has used a loosely coupled set of repositories during development. However, as we've added more contributors, this practice has become increasingly problematic, preventing us from using useful tools like `git bisect` to track down bugs. Our plans after the 7.8 release are to sort this out, and hopefully have stable, reproducible GHC builds for all.
+
 But we're not sure what else might happen. It's a great time to step up to the plate and do something fun!
 
 = Development updates, joining in and a big Thank You! =
@@ -86,15 +91,15 @@ In the past several months, GHC has seen a surge of community involvement, and a
 
 Amongst those who have rolled up their sleeves and helped us recently:
 
- * Herbert Valerio Riedel
- * Takano Akio
- * Reid Barton
- * Kazu Yamamoto
- * Joachim Breitner
- * Carter Schonwald
- * Krzysztof Gogolewski
- * Jan Stolarek
- * Muhaimin Ahsan
+ * **Herbert Valerio Riedel** has stepped up to the plate to help maintain http://ghc.haskell.org, all of our git repositories, and has become increasingly involved in library maintenance and development.
+ * **Takano Akio** has submitted many great bug reports and patches recently, and has a keen eye for reproducing challenging or tricky bugs.
+ * **Reid Barton** has submitted some excellent patches to fix some awkward bugs, and help us as we move towards Android cross compiler support.
+ * **Kazu Yamamoto** helped Andreas Voellmy in the improvements to the I/O manager, and has been extremely helpful in pointing out and reproducing bugs, and helping us find solutions.
+ * **Joachim Breitner** implemented Coercible, but has also stepped up to merge patches, fix more bugs, and help set up some Continuous-Integration for GHC.
+ * **Carter Schonwald** has been involved in talking with many who wish to get involved and inspiring them to get their hands dirty!
+ * **Krzysztof Gogolewski** has fixed many bugs, and like Takano, has helped reproduce and track down issues with fantastic test cases.
+ * **Jan Stolarek** has helped improve the documentation of the low-level parts of the compiler, as well as implementing optimizations for us too.
+ * **Muhaimin Ahsan** has been helping with infrastructure, writing patches, and generally offering help to us who are already busy.
 
 As ever, there is a ton of stuff in the future for us to do. If you want something done - don't wait, it might take a while. You should join us instead!
 
