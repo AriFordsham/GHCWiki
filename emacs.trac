@@ -151,7 +151,7 @@ You need to install [http://www.emacswiki.org/emacs/cycle-buffer.el cycle-buffer
 (global-set-key [(shift f10)] 'cycle-buffer-permissive)
 }}}
 
-== Untabifying a buffer.
+== Untabifying a buffer
 
 '''Description''': Slowly, GHC is moving away from tabs. After modifying a file and committing the changes, we tend to detab the file completely, and set `-fwarn-tabs` to make sure they don't slip in again. Normally it's convenient to immediately detab the file and commit that afterwords, while the buffer is open
 
