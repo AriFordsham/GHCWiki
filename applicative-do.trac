@@ -19,12 +19,28 @@ This is a proposal to add support to GHC for desugaring do-notation into Applica
 
  2. Applicative syntax can be a bit obscure and hard to write.
     Do-notaiton is more natural, so we would like to be able to write
-    Applicative composition in do-notation where possible.  Do notation
-    can't be desugared into Applicative in general, but a certain
-    subset of it can be.
+    Applicative composition in do-notation where possible.  For example:
+{{{
+(\x y z -> x*y + y*z + z*x) <$> expr1 <*> expr2 <*> expr3
+}}}
+    vs.
+{{{
+do x <- expr1; y <- expr2; z <- expr3; return $ x*y + y*z + z*x
+}}}
+
+ 3. Do-notation can't be desugared into Applicative in general, but a certain
+    subset of it can be.  For Applicatives that aren't also Monads, we would still like to
+    be able to use the do-notation, albeit with some restrictions,
+    and have an Applicative constraint inferred rather than Monad.
 
 Clearly we need Applicative to be a superclass of Monad for this to
 work, hence this can only happen after the AMP changes have landed.
+
+Since in general Applicative composition might behave differently from monadic bind, any automatic desugaring to Applicative operations would be an opt-in extension:
+
+{{{
+   {-# LANGUAGE ApplicativeDo #-}
+}}}
 
 == Stage 1
 
@@ -59,19 +75,21 @@ In general we might have
 
 {{{
   do
+    .. stmts1 ..
     x <- A
     y <- B
     z <- E[y]
-    .. more ..
+    .. stmts2 ..
 }}}
 
 which we desugar to
 
 {{{
   do
+    .. stmts1 ..
     (x,y) <- (,) <$> A <*> B
     z <- E[y]
-    .. more ..
+    .. stmts2 ..
 }}}
 
 this is the best we can do: the rest of the do expression might refer
