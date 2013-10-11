@@ -1,4 +1,56 @@
+[[PageOutline]]
+
 = Status of GHC 7.8 Boot Libraries =
+
+== GHC-owned Libraries ==
+
+Common tasks:
+
+ - TODO: clean-up `.cabal` files
+
+=== [hackage:array] ===
+
+ - TODO: perform deprecation-removals & major version bump
+
+=== [hackage:base] ===
+
+ - TODO: make sure all recent additions are `/Since:/`-annotated
+
+=== [hackage:deepseq] ===
+
+=== [hackage:directory] ===
+
+=== [hackage:filepath] ===
+
+=== [hackage:ghc-prim] ===
+
+=== [hackage:haskell2010] ===
+
+=== [hackage:haskell98] ===
+
+=== [hackage:hoopl] ===
+
+=== [hackage:integer-gmp] ===
+
+ - not yet on Hackage, but planned to upload in order to have Haddock docs there
+
+=== [hackage:old-locale] ===
+
+=== [hackage:old-time] ===
+
+=== [hackage:parallel] ===
+
+=== [hackage:process] ===
+
+=== [hackage:stm] ===
+
+=== [hackage:template-haskell] ===
+
+=== [hackage:unix] ===
+
+=== DPH ===
+
+TODO
 
 == 3rd Party Libraries ==
 
