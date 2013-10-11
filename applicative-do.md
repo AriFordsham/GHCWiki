@@ -19,7 +19,7 @@ This is a proposal to add support to GHC for desugaring do-notation into Applica
   behaviour but without forcing the user to explicitly choose.
 
 1. Applicative syntax can be a bit obscure and hard to write.
-  Do-notaiton is more natural, so we would like to be able to write
+  Do-notation is more natural, so we would like to be able to write
   Applicative composition in do-notation where possible.  For example:
 
   ```wiki
