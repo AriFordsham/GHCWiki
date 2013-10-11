@@ -1,5 +1,56 @@
 # Status of GHC 7.8 Boot Libraries
 
+## GHC-owned Libraries
+
+
+Common tasks:
+
+- TODO clean-up `.cabal` files
+
+### [ array](http://hackage.haskell.org/package/array)
+
+- TODO perform deprecation-removals & major version bump
+
+### [ base](http://hackage.haskell.org/package/base)
+
+- TODO make sure all recent additions are `/Since:/`-annotated
+
+### [ deepseq](http://hackage.haskell.org/package/deepseq)
+
+### [ directory](http://hackage.haskell.org/package/directory)
+
+### [ filepath](http://hackage.haskell.org/package/filepath)
+
+### [ ghc-prim](http://hackage.haskell.org/package/ghc-prim)
+
+### [ haskell2010](http://hackage.haskell.org/package/haskell2010)
+
+### [ haskell98](http://hackage.haskell.org/package/haskell98)
+
+### [ hoopl](http://hackage.haskell.org/package/hoopl)
+
+### [ integer-gmp](http://hackage.haskell.org/package/integer-gmp)
+
+- not yet on Hackage, but planned to upload in order to have Haddock docs there
+
+### [ old-locale](http://hackage.haskell.org/package/old-locale)
+
+### [ old-time](http://hackage.haskell.org/package/old-time)
+
+### [ parallel](http://hackage.haskell.org/package/parallel)
+
+### [ process](http://hackage.haskell.org/package/process)
+
+### [ stm](http://hackage.haskell.org/package/stm)
+
+### [ template-haskell](http://hackage.haskell.org/package/template-haskell)
+
+### [ unix](http://hackage.haskell.org/package/unix)
+
+### DPH
+
+TODO
+
 ## 3rd Party Libraries
 
 
