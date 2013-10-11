@@ -5,7 +5,7 @@ This is a proposal to add support to GHC for desugaring do-notation into Applica
 
 ## Related proposals
 
-- [ Max's proposal on haskell-cafe](http://www.haskell.org/pipermail/haskell-cafe/2011-September/093808.html)
+- [ Max's proposal on haskell-cafe](http://www.haskell.org/pipermail/haskell-cafe/2011-September/095153.html)
 - [ Control.Applicative.QQ.ADo](http://hackage.haskell.org/package/applicative-quoters-0.1.0.7/docs/Control-Applicative-QQ-ADo.html)
 
 ## Motivation
