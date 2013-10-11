@@ -16,10 +16,6 @@ This page has pointers to information you'll need.
 
 - Read the [building guide](building) (link always in the left hand margin) to learn how to build and test GHC.
 
-- To have an easier time looking up tickets and searching trac, use [the browser tips page](browser-tips) to make your search and lookups for Trac tickets substantially easier.
-
-- If you have lots of Haskell installations, you may find Edsko's blog post [ Comprehensive Haskell Sandboxes](http://www.edsko.net/2013/02/10/comprehensive-haskell-sandboxes/) useful.
-
 
 The following pages guide you step-by-step through making a contribution:
 
@@ -48,6 +44,14 @@ The following pages guide you step-by-step through making a contribution:
   - Details about the regression test suite, and how to use it are at: [Running Tests](building/running-tests).
 
 - **Licensing**: make sure you are familiar with GHC's [Licensing](licensing).  Unless you say otherwise, we will assume that if you submit a contribution to GHC, then you intend to supply it to us under the same license as the existing code. However, we do not ask for copyright attribution; you retain copyright on any contributions you make, so feel free to add your copyright to the top of any file in which you make non-trivial changes.
+
+## Tips and Tricks
+
+- To have an easier time looking up tickets and searching trac, use [the browser tips page](browser-tips) to make your search and lookups for Trac tickets substantially easier.
+
+- If you use Emacs, see [Emacs](emacs) for some useful stuff to put in your `.emacs` file.
+
+- If you have lots of Haskell installations, you may find Edsko's blog post [ Comprehensive Haskell Sandboxes](http://www.edsko.net/2013/02/10/comprehensive-haskell-sandboxes/) useful.
 
 ## Old stuff
 
