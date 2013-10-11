@@ -131,3 +131,11 @@ These are in no particular order, but they are numbered for easy reference.
 
 >
 > I've tested this function in a real setting, and it (that is, type inference for it) works great.
+
+1. I propose the following, further addition to `Data.Type.Equality`:
+
+  ```wiki
+  type family a == b where
+    a == a = True
+    a == b = False
+  ```
