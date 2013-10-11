@@ -10,13 +10,17 @@ Common tasks:
 
 === [hackage:array] ===
 
- - TODO: perform deprecation-removals & major version bump
+ - performed deprecation-removals & major version bump
+ - TODO: make release
 
 === [hackage:base] ===
 
  - TODO: make sure all recent additions are `/Since:/`-annotated
 
 === [hackage:deepseq] ===
+
+ - cleaned up
+ - TODO: make release
 
 === [hackage:directory] ===
 
