@@ -131,6 +131,11 @@ You need to install [ cycle-buffer](http://www.emacswiki.org/emacs/cycle-buffer.
 **Description**: Slowly, GHC is moving away from tabs. After modifying a file and committing the changes, we tend to detab the file completely, and set `-fwarn-tabs` to make sure they don't slip in again. Normally it's convenient to immediately detab the file and commit that afterwords, while the buffer is open
 
 **How to enable**:
+
+
+This is equivalent to `mark-whole-buffer` which is bound to `C-x h` by default, followed by `M-x untabify` which operates in the current region.
+
+
 Add this to your configuration, and afterwords you can run `M-x untabify-buffer` to nuke all the tabs:
 
 ```
