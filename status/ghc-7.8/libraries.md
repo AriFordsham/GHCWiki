@@ -111,7 +111,8 @@ Note: Libraries with a "<sup>1</sup>" marker are used internally (e.g. by `ghci`
 - upstream: [ http://git.haskell.org/darcs-mirrors/haskeline.git](http://git.haskell.org/darcs-mirrors/haskeline.git)
 - unclean state
 - contacted maintainer on 31.8. wrt to unmerged patches; will merge as soon as his dev machine has been repaired
-- TODO
+- patches have been merged upstream
+- TODO release needed in october
 
 ### pretty
 

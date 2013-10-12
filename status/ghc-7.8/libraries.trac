@@ -137,7 +137,8 @@ Note: Libraries with a "^1^" marker are used internally (e.g. by `ghci` or `hadd
  - upstream: http://git.haskell.org/darcs-mirrors/haskeline.git
  - unclean state
  - contacted maintainer on 31.8. wrt to unmerged patches; will merge as soon as his dev machine has been repaired
- - TODO
+ - patches have been merged upstream
+ - TODO release needed in october
 
 === pretty ===
 
