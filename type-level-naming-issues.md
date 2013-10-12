@@ -12,7 +12,7 @@ data a :~: b where
 
 sym :: (a :~: b) -> (b :~: a)
 trans :: (a :~: b) -> (b :~: c) -> (a :~: c)
-subst :: (a :~: b) -> a -> b
+castWith :: (a :~: b) -> a -> b
 liftEq :: (a :~: b) -> (f a :~: f b)
 liftEq2 :: (a :~: a') -> (b :~: b') -> (f a b :~: f a' b')
 liftEq3 :: (a :~: a') -> (b :~: b') -> (c :~: c') -> (f a b c :~: f a' b' c')
@@ -31,7 +31,6 @@ class EqualityT f where
 data Coercion a b where
   Coercion :: Coercible a b => Coercion a b
 
-newtype Sym a b = Sym { unsym :: Coercion b a }
 coerceWith :: Coercion a b -> a -> b
 sym :: forall a b. Coercion a b -> Coercion b a
 trans :: Coercion a b -> Coercion b c -> Coercion a c
@@ -108,19 +107,13 @@ class Coercible a b where
 
 These are in no particular order, but they are numbered for easy reference.
 
-1. What is the `Sym` newtype in `Data.Type.Coercion` all about?
-
 1. `EqualityT` and `CoercionT` sound like monad transformers. I (Richard) have actually been confused by this at one point.
 
 1. Should `KProxy`'s data constructor be named `KProxy`? Reusing the name here requires users to use a `'` every time they want to use the promoted data constructor `KProxy`.
 
-1. Are `SomeNat` and `SomeSymbol` necessary in TypeLits? Do we expect these to be used widely?
-
 1. There are up to three different ways type-level predicates can be defined: as Constraints, as GADTs wrapping constraints, or as type families returning `Bool`s. Is there a common naming convention among these? Right now, we have `(~)` (constraint) vs `(:~:)` (GADT); `(<=?)` (Boolean-valued) vs. `(<=)` (constraint); and `Coercible` (constraint) vs. `Coercion` (GADT).
 
 1. `eqT` (from `Data.Typeable`) and `equalsT` (from `Data.Type.Equality`) have similar names, achieve similar functions, but are subtly different. This may or may not be confusing.
-
-1. The name of the function currently called `subst` (from `Data.Type.Equality`) is up in the air. I (Richard) personally favor `castWith`.
 
 1. I (Richard) want to add the following function to `Data.Type.Equality`:
 
