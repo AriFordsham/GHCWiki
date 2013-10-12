@@ -1,5 +1,7 @@
 # Status of GHC 7.8 Boot Libraries
 
+TODO Update [Version History](commentary/libraries/version-history) when GHC 7.8 release reaches RC phase.
+
 ## GHC-owned Libraries
 
 

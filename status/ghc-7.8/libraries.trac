@@ -2,6 +2,8 @@
 
 = Status of GHC 7.8 Boot Libraries =
 
+TODO: Update [Commentary/Libraries/VersionHistory Version History] when GHC 7.8 release reaches RC phase.
+
 == GHC-owned Libraries ==
 
 Common tasks:
