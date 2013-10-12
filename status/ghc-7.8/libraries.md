@@ -1,5 +1,7 @@
 # Status of GHC 7.8 Boot Libraries
 
+TODO Update [Version History](commentary/libraries/version-history) when GHC 7.8 release reaches RC phase.
+
 ## GHC-owned Libraries
 
 
@@ -15,6 +17,11 @@ Common tasks:
 ### [ base](http://hackage.haskell.org/package/base)
 
 - TODO make sure all recent additions are `/Since:/`-annotated
+- TODO Deprecated functions since at least GHC 7.4:
+
+  ```
+  moduleControl.Concurrent.Chan{-# DEPRECATED unGetChan "if you need this operation, use Control.Concurrent.STM.TChan instead.  See http://hackage.haskell.org/trac/ghc/ticket/4154 for details" #-}-- deprecated in 7.0{-# DEPRECATED isEmptyChan "if you need this operation, use Control.Concurrent.STM.TChan instead. See http://hackage.haskell.org/trac/ghc/ticket/4154 for details" #-}-- deprecated in 7.0moduleData.Typeable.Internal{-# DEPRECATED tyConString "renamed to tyConName; tyConModule and tyConPackage are also available." #-}-- deprecated in 7.4moduleDebug.Trace{-# DEPRECATED putTraceMsg "Use Debug.Trace.traceIO" #-}-- deprecated in 7.4moduleGHC.Exts{-# DEPRECATED traceEvent "Use Debug.Trace.traceEvent or Debug.Trace.traceEventIO" #-}-- deprecated in 7.4
+  ```
 
 ### [ deepseq](http://hackage.haskell.org/package/deepseq)
 
@@ -22,6 +29,9 @@ Common tasks:
 - TODO make release
 
 ### [ directory](http://hackage.haskell.org/package/directory)
+
+- cleaned up; almost ready for release
+- TODO get \[cdc415a1fb/directory\] code-reviewed
 
 ### [ filepath](http://hackage.haskell.org/package/filepath)
 
@@ -43,6 +53,12 @@ Common tasks:
 
 ### [ parallel](http://hackage.haskell.org/package/parallel)
 
+- TODO contains many `DEPRECATED` functions in `Control.Parallel.Strategies` since at least 2010:
+
+  ```
+  {-# DEPRECATED Done "The Strategy type is now a -> Eval a, not a -> Done" #-}{-# DEPRECATED demanding "Use pseq or $| instead" #-}{-# DEPRECATED sparking "Use par or $|| instead" #-}{-# DEPRECATED (>|) "Use pseq or $| instead" #-}{-# DEPRECATED (>||) "Use par or $|| instead" #-}{-# DEPRECATED rwhnf "renamed to rseq" #-}{-# DEPRECATED seqTraverse "renamed to evalTraversable" #-}{-# DEPRECATED parTraverse "renamed to parTraversable" #-}{-# DEPRECATED parListWHNF "use (parList rseq) instead" #-}{-# DEPRECATED seqList "renamed to evalList" #-}{-# DEPRECATED seqPair "renamed to evalTuple2" #-}{-# DEPRECATED parPair "renamed to parTuple2" #-}{-# DEPRECATED seqTriple "renamed to evalTuple3" #-}{-# DEPRECATED parTriple "renamed to parTuple3" #-}{-# DEPRECATED unEval "renamed to runEval" #-}
+  ```
+
 ### [ process](http://hackage.haskell.org/package/process)
 
 ### [ stm](http://hackage.haskell.org/package/stm)
@@ -50,6 +66,13 @@ Common tasks:
 ### [ template-haskell](http://hackage.haskell.org/package/template-haskell)
 
 ### [ unix](http://hackage.haskell.org/package/unix)
+
+- cleaned up; almost ready for a 2.7.0.0 release
+- TODO open issue in `System.Posix.Process.Common` module, remove those functions or leave them?
+
+  ```
+  {-# DEPRECATED createProcessGroup "This function is scheduled to be replaced by something different in the future, we therefore recommend that you do not use this version and use createProcessGroupFor instead." #-}-- deprecated in 7.2{-# DEPRECATED setProcessGroupID "This function is scheduled to be replaced by something different in the future, we therefore recommend that you do not use this version and use setProcessGroupIdOf instead." #-}-- deprecated in 7.2
+  ```
 
 ### DPH
 
@@ -91,7 +114,8 @@ Note: Libraries with a "<sup>1</sup>" marker are used internally (e.g. by `ghci`
 - upstream: [ http://git.haskell.org/darcs-mirrors/haskeline.git](http://git.haskell.org/darcs-mirrors/haskeline.git)
 - unclean state
 - contacted maintainer on 31.8. wrt to unmerged patches; will merge as soon as his dev machine has been repaired
-- TODO
+- patches have been merged upstream
+- TODO release needed in october
 
 ### pretty
 
