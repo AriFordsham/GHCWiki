@@ -17,6 +17,11 @@ Common tasks:
 ### [ base](http://hackage.haskell.org/package/base)
 
 - TODO make sure all recent additions are `/Since:/`-annotated
+- TODO Deprecated functions since at least GHC 7.4:
+
+  ```
+  moduleControl.Concurrent.Chan{-# DEPRECATED unGetChan "if you need this operation, use Control.Concurrent.STM.TChan instead.  See http://hackage.haskell.org/trac/ghc/ticket/4154 for details" #-}-- deprecated in 7.0{-# DEPRECATED isEmptyChan "if you need this operation, use Control.Concurrent.STM.TChan instead. See http://hackage.haskell.org/trac/ghc/ticket/4154 for details" #-}-- deprecated in 7.0moduleData.Typeable.Internal{-# DEPRECATED tyConString "renamed to tyConName; tyConModule and tyConPackage are also available." #-}-- deprecated in 7.4moduleDebug.Trace{-# DEPRECATED putTraceMsg "Use Debug.Trace.traceIO" #-}-- deprecated in 7.4moduleGHC.Exts{-# DEPRECATED traceEvent "Use Debug.Trace.traceEvent or Debug.Trace.traceEventIO" #-}-- deprecated in 7.4
+  ```
 
 ### [ deepseq](http://hackage.haskell.org/package/deepseq)
 
