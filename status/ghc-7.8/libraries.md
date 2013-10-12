@@ -53,6 +53,13 @@ Common tasks:
 
 ### [ unix](http://hackage.haskell.org/package/unix)
 
+- cleaned up; almost ready for a 2.7.0.0 release
+- TODO open issue in `System.Posix.Process.Common` module, remove those functions or leave them?
+
+  ```
+  {-# DEPRECATED createProcessGroup "This function is scheduled to be replaced by something different in the future, we therefore recommend that you do not use this version and use createProcessGroupFor instead." #-}-- deprecated in 7.2{-# DEPRECATED setProcessGroupID "This function is scheduled to be replaced by something different in the future, we therefore recommend that you do not use this version and use setProcessGroupIdOf instead." #-}-- deprecated in 7.2
+  ```
+
 ### DPH
 
 TODO
