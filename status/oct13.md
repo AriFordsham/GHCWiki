@@ -91,6 +91,8 @@ After the 7.8 release, there are some improvements scheduled we plan on integrat
 
 - **Git management changes** - For a long time, GHC has used a loosely coupled set of repositories during development. However, as we've added more contributors, this practice has become increasingly problematic, preventing us from using useful tools like `git bisect` to track down bugs. Our plans after the 7.8 release are to sort this out, and hopefully have stable, reproducible GHC builds for all.
 
+- **Continuous Integration overhaul** - GHC has historically been very spotty about continuous integration. Part of the problem is our git management, mentioned above. In the 7.10 timeframe, we hope to spend a significant amount of time overhauling our buildbots and machines. To this end, [ Rackspace](http://rackspace.com) has graciously donated services as part of its Open Source support initiatives.
+
 
 But we're not sure what else might happen. It's a great time to step up to the plate and do something fun!
 
