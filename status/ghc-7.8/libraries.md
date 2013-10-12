@@ -45,6 +45,12 @@ Common tasks:
 
 ### [ parallel](http://hackage.haskell.org/package/parallel)
 
+- TODO contains many `DEPRECATED` functions in `Control.Parallel.Strategies` since at least 2010:
+
+  ```
+  {-# DEPRECATED Done "The Strategy type is now a -> Eval a, not a -> Done" #-}{-# DEPRECATED demanding "Use pseq or $| instead" #-}{-# DEPRECATED sparking "Use par or $|| instead" #-}{-# DEPRECATED (>|) "Use pseq or $| instead" #-}{-# DEPRECATED (>||) "Use par or $|| instead" #-}{-# DEPRECATED rwhnf "renamed to rseq" #-}{-# DEPRECATED seqTraverse "renamed to evalTraversable" #-}{-# DEPRECATED parTraverse "renamed to parTraversable" #-}{-# DEPRECATED parListWHNF "use (parList rseq) instead" #-}{-# DEPRECATED seqList "renamed to evalList" #-}{-# DEPRECATED seqPair "renamed to evalTuple2" #-}{-# DEPRECATED parPair "renamed to parTuple2" #-}{-# DEPRECATED seqTriple "renamed to evalTuple3" #-}{-# DEPRECATED parTriple "renamed to parTuple3" #-}{-# DEPRECATED unEval "renamed to runEval" #-}
+  ```
+
 ### [ process](http://hackage.haskell.org/package/process)
 
 ### [ stm](http://hackage.haskell.org/package/stm)
