@@ -30,6 +30,9 @@ Common tasks:
 
 ### [ directory](http://hackage.haskell.org/package/directory)
 
+- cleaned up; almost ready for release
+- TODO get \[cdc415a1fb/directory\] code-reviewed
+
 ### [ filepath](http://hackage.haskell.org/package/filepath)
 
 ### [ ghc-prim](http://hackage.haskell.org/package/ghc-prim)
