@@ -30,6 +30,21 @@ Common tasks:
 
 ### [ directory](http://hackage.haskell.org/package/directory)
 
+<table><tr><th>Ticket (Ticket query: status: !closed, component: libraries%2Fdirectory, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, desc: 1, order: id)</th>
+<th>Type (Ticket query: status: !closed, component: libraries%2Fdirectory, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: type)</th>
+<th>Summary (Ticket query: status: !closed, component: libraries%2Fdirectory, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: summary)</th>
+<th>Priority (Ticket query: status: !closed, component: libraries%2Fdirectory, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: priority)</th>
+<th>Owner (Ticket query: status: !closed, component: libraries%2Fdirectory, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: owner)</th>
+<th>Reporter (Ticket query: status: !closed, component: libraries%2Fdirectory, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: reporter)</th></tr>
+<tr><th>
+            No tickets found
+          </th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr></table>
+
 - cleaned up; almost ready for release
 - TODO get \[cdc415a1fb/directory\] code-reviewed
 
@@ -61,11 +76,59 @@ Common tasks:
 
 ### [ process](http://hackage.haskell.org/package/process)
 
+<table><tr><th>Ticket (Ticket query: status: !closed, component: libraries%2Fprocess, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, desc: 1, order: id)</th>
+<th>Type (Ticket query: status: !closed, component: libraries%2Fprocess, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: type)</th>
+<th>Summary (Ticket query: status: !closed, component: libraries%2Fprocess, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: summary)</th>
+<th>Priority (Ticket query: status: !closed, component: libraries%2Fprocess, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: priority)</th>
+<th>Owner (Ticket query: status: !closed, component: libraries%2Fprocess, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: owner)</th>
+<th>Reporter (Ticket query: status: !closed, component: libraries%2Fprocess, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: reporter)</th></tr>
+<tr><th>
+            No tickets found
+          </th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr></table>
+
 ### [ stm](http://hackage.haskell.org/package/stm)
 
 ### [ template-haskell](http://hackage.haskell.org/package/template-haskell)
 
 ### [ unix](http://hackage.haskell.org/package/unix)
+
+<table><tr><th>Ticket (Ticket query: status: !closed, component: libraries%2Funix, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, desc: 1, order: id)</th>
+<th>Type (Ticket query: status: !closed, component: libraries%2Funix, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: type)</th>
+<th>Summary (Ticket query: status: !closed, component: libraries%2Funix, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: summary)</th>
+<th>Priority (Ticket query: status: !closed, component: libraries%2Funix, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: priority)</th>
+<th>Owner (Ticket query: status: !closed, component: libraries%2Funix, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: owner)</th>
+<th>Reporter (Ticket query: status: !closed, component: libraries%2Funix, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: reporter)</th></tr>
+<tr><th>[\#16099](https://gitlab.haskell.org//ghc/ghc/issues/16099)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      feature request
+                    </th>
+<th>[expose st_blksize field from fstat syscall](https://gitlab.haskell.org//ghc/ghc/issues/16099)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      low
+                    </th>
+<th></th>
+<th>flip101</th></tr></table>
 
 - cleaned up; almost ready for a 2.7.0.0 release
 - TODO open issue in `System.Posix.Process.Common` module, remove those functions or leave them?
