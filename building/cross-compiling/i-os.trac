@@ -1,6 +1,14 @@
 = Building a GHC cross-compiler for Apple iOS targets =
 
-Note: If you use ghc-7.6.3 on OS X as your bootstrap compiler and you are using Xcode version 5 or higher, you'll need to pass certain options to clang to work around some problems. A wrapper for this, written in Haskell, can be found at [https://github.com/ghc-ios/ghc-ios-scripts] (The problem is that 1. GHC tries to run a C pre-processor over Haskell code, and 2. Xcode versions >= 5 use clang instead of gcc, and 3. clang doesn't like Haskell code.). To use it, compile clang-xcode5-wrapper.hs, add it to your path, then edit /usr/local/lib/ghc-7.6.3/settings and change "C compiler command"'s value to "clang-xcode5-wrapper".
+Note: If you use ghc-7.6.3 on OS X as your bootstrap compiler and you are using Xcode version 5 or higher, you'll need to pass certain options to clang to work around some problems. A wrapper for this, written in Haskell, can be found at [https://github.com/ghc-ios/ghc-ios-scripts] 
+
+(The problem is that 1. GHC tries to run a C pre-processor over Haskell code, and 2. Xcode versions >= 5 use clang instead of gcc, and 3. clang doesn't like Haskell code.). 
+
+To use it, compile {{{clang-xcode5-wrapper.hs}}}, add it to your path, then edit {{{/usr/local/lib/ghc-7.6.3/settings}}} and change {{{"C compiler command"}}}'s value to {{{"clang-xcode5-wrapper"}}}.
+
+GHC 7.8 already includes a fix for this.
+
+You'll also need to apply #8445 and #8444 until they're merged.
 
 == Steps ==
 
