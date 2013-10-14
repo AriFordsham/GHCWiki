@@ -93,6 +93,10 @@ module GHC.Exts
 
 === [hackage:stm] ===
 
+ - Note: this is an '''extra''' library (i.e. not part of binary distribution); not critical for release; [hackage:stm-2.4.2] still builds fine with GHC HEAD.
+ - cleaned up; repo contains unreleased 2.4.2.1 state
+ - TODO: find out when/whether to release an updated 2.4.2.1 version
+
 === [hackage:template-haskell] ===
 
 === [hackage:unix] ===

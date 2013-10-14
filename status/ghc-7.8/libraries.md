@@ -93,6 +93,10 @@ Common tasks:
 
 ### [ stm](http://hackage.haskell.org/package/stm)
 
+- Note: this is an **extra** library (i.e. not part of binary distribution); not critical for release; [ stm-2.4.2](http://hackage.haskell.org/package/stm-2.4.2) still builds fine with GHC HEAD.
+- cleaned up; repo contains unreleased 2.4.2.1 state
+- TODO find out when/whether to release an updated 2.4.2.1 version
+
 ### [ template-haskell](http://hackage.haskell.org/package/template-haskell)
 
 ### [ unix](http://hackage.haskell.org/package/unix)
