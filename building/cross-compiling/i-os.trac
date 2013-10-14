@@ -1,21 +1,12 @@
 = Building a GHC cross-compiler for Apple iOS targets =
 
-Note: If you use ghc-7.6.3 on OS X as your bootstrap compiler and you are using Xcode version 5 or higher, you'll need to pass certain options to clang to work around some problems. A wrapper for this, written in Haskell, can be found at [https://github.com/ghc-ios/ghc-ios-scripts] (The problem is that 1. GHC tries to run a C pre-processor over Haskell code, and 2. Xcode versions >= 5 use clang instead of gcc, and 3. clang doesn't like Haskell code.)
+Note: If you use ghc-7.6.3 on OS X as your bootstrap compiler and you are using Xcode version 5 or higher, you'll need to pass certain options to clang to work around some problems. A wrapper for this, written in Haskell, can be found at [https://github.com/ghc-ios/ghc-ios-scripts] (The problem is that 1. GHC tries to run a C pre-processor over Haskell code, and 2. Xcode versions >= 5 use clang instead of gcc, and 3. clang doesn't like Haskell code.). To use it, compile clang-xcode5-wrapper.hs, add it to your path, then edit /usr/local/lib/ghc-7.6.3/settings and change "C compiler command"'s value to "clang-xcode5-wrapper".
 
 == Steps ==
 
-=== 0. Acquire Xcode 4.6.3 ===
-
-We haven't quite finished updating GHC-iOS for Xcode 5 yet, so you'll need version 4.6.3. It contains gcc-based ARM/i386 compilers that were removed in version 5.
-
-Happily, it will live politely next to Xcode 5 if you give it a different name. You can get it easily from Apple here:
-[https://developer.apple.com/downloads/index.action?name=Xcode#]
-
-You'll have to update the scripts in step 2 to point to the location that you copy the Xcode 4.6.3 app to.
-
 === 1. Read ARM-specific notes ===
 
-You must use LLVM 3.0 — there seem to be issues with other versions. It's easiest to just download the binaries and put them in your path:
+You must use LLVM 3.0's versions of opt and llc — there seem to be issues with other versions. It's easiest to just download the binaries and put them in your path:
 [http://llvm.org/releases/3.0/clang+llvm-3.0-x86_64-apple-darwin11.tar.gz]
 
 See [wiki:Building/CrossCompiling Cross-compiling GHC] for more details.
@@ -23,6 +14,8 @@ See [wiki:Building/CrossCompiling Cross-compiling GHC] for more details.
 === 2. Scripts ===
 
 You will need to check out the scripts at [https://github.com/ghc-ios/ghc-ios-scripts] and add the checked out directory to your PATH. You may need to edit these scripts if you are using a different iOS / iOS simulator platform version than the one the scripts are pointed at.
+
+If you're using Xcode 5, do "git checkout xcode5" after cloning. Also see the note at the top of this page regarding clang-xcode5-wrapper.
 
 === 3. Check out GHC ===
 
@@ -38,6 +31,7 @@ perl boot
 GHC requires you to write a '''mk/build.mk''' file, and the following one works. {{{integer-simple}}} must be used, because the default implementation doesn't compile on iOS. {{{Stage1Only}}} is needed for cross-compiling.
 
 {{{
+GhcStage1HcOpts    = -O -fllvm
 HADDOCK_DOCS         = NO
 BUILD_DOCBOOK_HTML   = NO
 BUILD_DOCBOOK_PS     = NO
@@ -47,11 +41,6 @@ INTEGER_LIBRARY      = integer-simple
 Stage1Only 	     = YES
 DYNAMIC_GHC_PROGRAMS = NO
 GhcLibWays           = v
-}}}
-
-The iOS simulator build also requires:
-{{{
-GhcStage1HcOpts    = -O -fllvm
 }}}
 
 === 5. Configure & build ===
@@ -73,6 +62,8 @@ make
 sudo mkdir -p /usr/local/ghc-ios-sim/
 sudo make install
 }}}
+
+For Xcode 5, change {{{--with-gcc=arm-apple-darwin10-gcc}}} / {{{--with-gcc=i386-apple-darwin11-gcc}}} to {{{--with-gcc=arm-apple-darwin10-clang}}} / {{{--with-gcc=i386-apple-darwin11-clang}}} , respectively.
 
 === 6. Make sure your Cabal and cabal-install are new enough ===
 
