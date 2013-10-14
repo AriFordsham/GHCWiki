@@ -40,7 +40,7 @@ perl boot
 GHC requires you to write a '''mk/build.mk''' file, and the following one works. {{{integer-simple}}} must be used, because the default implementation doesn't compile on iOS. {{{Stage1Only}}} is needed for cross-compiling.
 
 {{{
-GhcStage1HcOpts    = -O -fllvm
+GhcStage1HcOpts      = -O -fllvm
 HADDOCK_DOCS         = NO
 BUILD_DOCBOOK_HTML   = NO
 BUILD_DOCBOOK_PS     = NO
