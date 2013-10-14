@@ -4,6 +4,8 @@
 
 TODO: Update [Commentary/Libraries/VersionHistory Version History] when GHC 7.8 release reaches RC phase.
 
+TODO: Hackage needs to be updated to use Cabal 1.18.x
+
 == GHC-owned Libraries ==
 
 Common tasks:
@@ -68,6 +70,8 @@ module GHC.Exts
 
 === [hackage:parallel] ===
 
+ - Note: '''extra''' library (i.e. not part of normal distribution)
+
  - TODO: contains many `DEPRECATED` functions in `Control.Parallel.Strategies` since at least 2010:
     {{{#!hs
 {-# DEPRECATED Done "The Strategy type is now a -> Eval a, not a -> Done" #-}
@@ -92,6 +96,10 @@ module GHC.Exts
 [[TicketQuery(status!=closed,component=libraries/process,format=table,col=type|summary|priority|owner|reporter)]]
 
 === [hackage:stm] ===
+
+ - Note: this is an '''extra''' library (i.e. not part of binary distribution); not critical for release; [hackage:stm-2.4.2] still builds fine with GHC HEAD.
+ - cleaned up; repo contains unreleased 2.4.2.1 state
+ - TODO: find out when/whether to release an updated 2.4.2.1 version
 
 === [hackage:template-haskell] ===
 

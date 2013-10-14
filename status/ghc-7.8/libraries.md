@@ -2,6 +2,8 @@
 
 TODO Update [Version History](commentary/libraries/version-history) when GHC 7.8 release reaches RC phase.
 
+TODO Hackage needs to be updated to use Cabal 1.18.x
+
 ## GHC-owned Libraries
 
 
@@ -68,6 +70,8 @@ Common tasks:
 
 ### [ parallel](http://hackage.haskell.org/package/parallel)
 
+- Note: **extra** library (i.e. not part of normal distribution)
+
 - TODO contains many `DEPRECATED` functions in `Control.Parallel.Strategies` since at least 2010:
 
   ```
@@ -92,6 +96,10 @@ Common tasks:
 <th></th></tr></table>
 
 ### [ stm](http://hackage.haskell.org/package/stm)
+
+- Note: this is an **extra** library (i.e. not part of binary distribution); not critical for release; [ stm-2.4.2](http://hackage.haskell.org/package/stm-2.4.2) still builds fine with GHC HEAD.
+- cleaned up; repo contains unreleased 2.4.2.1 state
+- TODO find out when/whether to release an updated 2.4.2.1 version
 
 ### [ template-haskell](http://hackage.haskell.org/package/template-haskell)
 
