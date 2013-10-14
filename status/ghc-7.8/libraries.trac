@@ -68,6 +68,8 @@ module GHC.Exts
 
 === [hackage:parallel] ===
 
+ - Note: '''extra''' library (i.e. not part of normal distribution)
+
  - TODO: contains many `DEPRECATED` functions in `Control.Parallel.Strategies` since at least 2010:
     {{{#!hs
 {-# DEPRECATED Done "The Strategy type is now a -> Eval a, not a -> Done" #-}
