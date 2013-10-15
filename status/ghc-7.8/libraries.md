@@ -2,6 +2,8 @@
 
 TODO Update [Version History](commentary/libraries/version-history) when GHC 7.8 release reaches RC phase.
 
+TODO Hackage needs to be updated to use Cabal 1.18.x
+
 ## GHC-owned Libraries
 
 
