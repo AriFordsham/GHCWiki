@@ -142,6 +142,19 @@ Add this to your configuration, and afterwords you can run `M-x untabify-buffer`
 (defununtabify-buffer()"Untabify current buffer."(interactive)(save-excursion(untabify(point-min)(point-max))))
 ```
 
+## Re-format a comment
+
+**Description**: After writing a longer comment - either enclosed in a block with `{- ... -}` or with each line preceded with `--` - you can automatically format it to a desired line width using `M-q`.
+
+**How to enable**: Set desired line width with
+
+```wiki
+(setq-default fill-column 80)
+```
+
+
+When Emacs is already running you can modify this setting with `C-x f` or `M-x set-fill-column`.
+
 # Haskell-specific
 
 ## Haskell mode
