@@ -155,7 +155,7 @@ Add this to your configuration, and afterwords you can run `M-x untabify-buffer`
 
 == Re-format a comment
 
-'''Description''': After writing a longer comment - either enclosed in a block with `{- ... -}` or with each line preceded with `--` - you can automatically format it to a desired line width using `M-q`.
+'''Description''': After writing a longer comment - either enclosed in a block `{- ... -}` or with each line preceded by `--` - you can automatically format it to a desired line width using `M-q`.
 
 '''How to enable''': Set desired line width with
 {{{
