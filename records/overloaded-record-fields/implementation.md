@@ -6,7 +6,7 @@ Here be dragons. This page describes implementation details and progress on the 
 ## The basic idea
 
 
-The `Has` and `Upd` classes, and `GetResult` and `SetResult` type families, are defined in the module [ GHC.Records](https://github.com/adamgundry/packages-base/blob/overloaded-record-fields/GHC/Records.hs) in the `base` package.
+The `Has` and `Upd` classes, and `FldTy` and `UpdTy` type families, are defined in the module [ GHC.Records](https://github.com/adamgundry/packages-base/blob/overloaded-record-fields/GHC/Records.hs) in the `base` package.
 
 
 Typechecking a record datatype still generates record selectors, but their names have a `$sel` prefix and end with the name of their type. Moreover, instances for the classes and type families are generated. For example,
@@ -22,14 +22,14 @@ generates
 $sel:x:T :: T -> Int -- record selector (used to be called `x`)
 $sel:x:T (MkT x) = x
 
-$dfHasTx :: forall a . a ~ Int => Has T "x" a -- corresponds to the Has instance decl
+$dfHasTx :: Has T "x" -- corresponds to the Has instance decl
 $dfHasTx = Has { getField _ = $sel_x_T }
 
 $dfUpdTx :: forall a . a ~ Int => Upd T "x" a -- corresponds to the Upd instance decl
 $dfUpdTx = Upd { setField _ s e = s { x = e } }
 
-axiom TFCo:R:GetResultTx : GetResult T "x" = Int   -- corresponds to the GetResult type family instance
-axiom TFCo:R:SetResultTx : SetResult T "x" Int = T -- corresponds to the SetResult type family instance
+axiom TFCo:R:FldTy:T:x : FldTy T "x" = Int   -- corresponds to the FldTy type family instance
+axiom TFCo:R:UpdTy:T:x : UpdTy T "x" Int = T -- corresponds to the UpdTy type family instance
 ```
 
 ## The naming of cats
@@ -41,22 +41,21 @@ A field is represented by the following datatype, parameterised by the represent
 
 ```wiki
 data FieldLbl a = FieldLabel {
-      flLabel     :: FieldLabelString, -- ^ Label of the field
-      flSelector  :: a,                -- ^ Record selector function
-      flInstances :: FldInsts a        -- ^ Instances for overloading
+      flLabel        :: FieldLabelString, -- ^ Label of the field
+      flIsOverloaded :: Bool,             -- ^ Is this field overloaded?
+      flSelector     :: a,                -- ^ Record selector function
+      flHasDFun      :: a,                -- ^ DFun for Has class instance
+      flUpdDFun      :: a,                -- ^ DFun for Upd class instance
+      flFldTyAxiom   :: a,                -- ^ Axiom for FldTy family instance
+      flUpdTyAxiom   :: a                 -- ^ Axiom for UpdTy family instance
     }
 
 type FieldLabelString = FastString
 type FieldLabel = FieldLbl Name
-
-data FldInsts a = FldInsts { fldInstsHas :: a
-                           , fldInstsUpd :: a
-                           , fldInstsGetResult :: a
-                           , fldInstsSetResult :: a }
 ```
 
 
-Every field has a label (`FastString`), selector, and names for the dfuns and axioms (stored together in the `FldInsts` record). The `dcFields` field of `DataCon` stores a list of `FieldLabel`, whereas the `ifConFields` field of `IfaceConDecl` stores a list of `FieldLbl OccName`.
+For this purpose, a field "is overloaded" if it was defined in a module with `-XOverloadedRecordFields` enabled, so its selector name differs from its label. Every field has a label (`FastString`), selector, and names for the dfuns and axioms. The `dcFields` field of `DataCon` stores a list of `FieldLabel`, whereas the `ifConFields` field of `IfaceConDecl` stores a list of `FieldLbl OccName`.
 
 ### `AvailInfo` and `IE`
 
@@ -65,12 +64,14 @@ The new definition of `AvailInfo` is:
 
 ```wiki
 data AvailInfo      = Avail Name | AvailTC Name [Name] AvailFields
-data AvailFlds name = NonOverloaded [name] | Overloaded [(FieldLabelString, name)]
+type AvailFlds name = [AvailFld name]
+type AvailFld name  = (name, Maybe FieldLabelString)
 type AvailFields    = AvailFlds Name
+type AvailField     = AvailFld Name
 ```
 
 
-The `AvailTC` constructor represents a type and its pieces that are in scope. Record fields are now stored separately in the third argument. If the fields are not overloaded, we store only the selector names, whereas if they are overloaded, we store the labels as well. The `IEThingWith name [name] (AvailFlds name)` constructor of `IE` represents a thing that can be imported or exported, and also has a separate argument for fields.
+The `AvailTC` constructor represents a type and its pieces that are in scope. Record fields are now stored separately in the third argument. If a field is not overloaded, we store only its selector name (the second component of the pair is `Nothing`), whereas if it is overloaded, we store the label as well. The `IEThingWith name [name] (AvailFlds name)` constructor of `IE` represents a thing that can be imported or exported, and also has a separate argument for fields.
 
 
 Note that a `FieldLabelString` and parent is not enough to uniquely identify a selector, because of data families: if we have
@@ -86,24 +87,24 @@ module N ( F (..) ) where
 ```
 
 
-then `N` exports two different selectors with the `FieldLabelString``"foo"`.
+then `N` exports two different selectors with the `FieldLabelString``"foo"`. Similar tricks can be used to generate parents that have a mixture of overloaded and non-overloaded fields as children.
 
 ### `Parent` and `GlobalRdrElt`
 
 
-The `Parent` type has an extra constructor `FldParent Name FastString` that stores the parent `Name` and the field label `FastString`. The `GlobalRdrElt` (`GRE`) for a field stores the selector name directly, and uses the `FldParent` constructor to store the field. Thus a field `x` of type `T` gives rise this entry in the `GlobalRdrEnv`:
+The `Parent` type has an extra constructor `FldParent Name (Maybe FieldLabelString)` that stores the parent `Name` and the field label. The `GlobalRdrElt` (`GRE`) for a field stores the selector name directly, and uses the `FldParent` constructor to store the field. Thus a field `x` of type `T` gives rise this entry in the `GlobalRdrEnv`:
 
 ```wiki
-x |->  GRE $sel:x:T (FldParent T x) LocalDef
+x |->  GRE $sel:x:T (FldParent T (Just x)) LocalDef
 ```
 
 
-Note that the `OccName` used when adding a GRE to the environment (`greOccName`) now depends on the parent field: for `FldParent` it is the field label rather than the selector name.
+Note that the `OccName` used when adding a GRE to the environment (`greOccName`) now depends on the parent field: for `FldParent` it is the field label, if present, rather than the selector name.
 
 ## Source expressions
 
 
-The `HsExpr` type has extra constructors `HsOverloadedRecFld FieldLabelString` and `HsSingleRecFld RdrName id`. When `-XOverloadedRecordFields` is enabled, and `rnExpr` encounters `HsVar "x"` where `x` refers to multiple `GRE`s that are all record fields, it replaces it with `HsOverloadedRecFld "x"`. When the typechecker sees `HsOverloadedRecFld x` it emits a wanted constraint `Has alpha x beta` and returns type `alpha -> beta` where `alpha` and `beta` are fresh unification variables.
+The `HsExpr` type has extra constructors `HsOverloadedRecFld FieldLabelString` and `HsSingleRecFld RdrName id`. When `-XOverloadedRecordFields` is enabled, and `rnExpr` encounters `HsVar "x"` where `x` refers to multiple `GRE`s that are all record fields, it replaces it with `HsOverloadedRecFld "x"`. When the typechecker sees `HsOverloadedRecFld "x"` it converts it into `accessField (proxy# :: Proxy "x")`.
 
 
 When the flag is not enabled, `rnExpr` turns an unambiguous record field `foo` into `HsSingleRecFld foo $sel_foo_T`. The point of this constructor is so we can pretty-print the field name (as the user typed it, hence a `RdrName`), but store the selector name for typechecking.
@@ -211,7 +212,7 @@ data W a where
 It would be nice to generate
 
 ```wiki
--- setField :: proxy "x" -> W (a, b) -> a -> W (a, b)
+-- setField :: Proxy# "x" -> W (a, b) -> a -> W (a, b)
 setField _ s e = s { x = e }
 ```
 
@@ -243,8 +244,8 @@ data instance F Bool = MkF2 { foo :: Bool }
 This is perfectly sensible, and gives rise to two \*different\* record selectors `foo`, and corresponding `Has` instances:
 
 ```wiki
-instance t ~ Int => Has (F Int) "foo" t
-instance t ~ Bool => Has (F Bool) "foo" t
+instance Has (F Int) "foo"
+instance Has (F Bool) "foo"
 ```
 
 
@@ -271,8 +272,11 @@ We could mangle selector names (using `$sel:foo:T` instead of `foo`) even when t
 ## GHC API changes
 
 - The `minf_exports` field of `ModuleInfo` is now of type `[AvailInfo]` rather than `NameSet`, as this provides accurate export information. An extra function `modInfoExportsWithSelectors` gives a list of the exported names including overloaded record selectors (whereas `modInfoExports` includes only non-mangled selectors).
+- The `HsExpr`, `hsRecField` and `ConDeclField` AST types have changed as described above.
 
 ## To do
+
+- The definition of `tcFldInsts` is currently wrong, because with the new design, the constraint solver needs to generate evidence bindings. Where should these go? It should be possible to fuse `makeRecFldInstsFor` and `tcFldInsts`, or just generate and typecheck binds, using `tcValBinds` or similar for the typechecking.
 
 - Where should `TcBuiltInSynFamily` live? Could it be a fixed enumeration?
 
@@ -283,9 +287,8 @@ We could mangle selector names (using `$sel:foo:T` instead of `foo`) even when t
   1. `tcTyClsInstDecls` should populate it with the `dfun_ids`
   1. `tcHsBootSigs` should populate it with `val_ids` and return an updated `TcGblEnv`
   1. Add a new field `tcg_boot_ids :: Bag Id` to `TcGblEnv` and pass `val_ids` to `mkBootModDetailsTc` that way, so it doesn't need to use the `TypeEnv`
-- We now generate `r { foo :: ... }` in the pretty-printer, but should we accept it in the parser?  What if the supressed type is `GetResult s "foo"` for a different type s?
-- Fuse `makeRecFldInstsFor` and `tcFldInsts`, or just generate and typecheck binds.  Use `tcValBinds` or similar for the typechecking.
+- Pretty-printing needs to be sorted out for the new design with a two-parameter Has class
 
-- Consider defaulting `Accessor p` to `p = (->)`, and defaulting `Has r "f" t` constraints where there is only one datatype with a field `f` in scope.
+- Consider defaulting `Accessor p r n` to `p = (->)`, and defaulting `Has r "x"` constraints where there is only one datatype with a field `x` in scope.
 - We could add `HsVarOut RdrName id` instead of `HsSingleRecFld` (or perhaps rename `HsVar` to `HsVarIn`). This would also be useful to recall how the user referred to something.
 - Add syntax for record projection, perhaps using \# since it shouldn't conflict with `MagicHash`?
