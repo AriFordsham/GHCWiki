@@ -40,7 +40,7 @@ The GHC 7.8 release is in its final stages, and will be released in late Novembe
 
   - `-XOverloadedLists` which allows overloading list literals (Achim Krause, George Giorgidze, Weijers Jeroen)
   - `-XNumDecimals` allowing a compact floating-point syntax for integrals, e.g. `1.2e6 :: Integer` (Shachaf Ben-Kiki)
-  - Support for empty case statements (via `-XEmptyCase`)
+  - Support for empty case statements (via `-XEmptyCase`, by Richard Eisenberg)
   - `-XIncoherentInstances` became even more liberal (Joachim Breitner)
   - A new pragma for specifying the minimal complete definition of a typeclass, via `{-# MINIMAL #-}` (Twan van Laarhoven)
 
