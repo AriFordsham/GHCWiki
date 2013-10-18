@@ -60,7 +60,7 @@ The GHC 7.8 release is in its final stages, and will be released in late Novembe
 
 - **Atomic and prefetch primops**.  There are new primops for all backends, including new atomic memory operations (by Ryan Newton) and support for low-level prefetch instructions in the processor, allowing you to guide cache decisions (by Carter Schonwald.)
 
-## Frontend, build-system, and misc. changes
+## Frontend, build-system, and miscellaneous changes
 
 - **Dynamic-by-default** - In 7.8, we're hoping to make GHCi use the system linker by default on supported platforms, eliminating a host of bugs in the current home-grown linker. Eventually we hope to remove the old linker completely. Until then, GHC now supports compiling files statically and dynamically at the same time (with the `-dynamic-too` flag,) meaning you can switch between static/dynamic builds much more easily.
 
