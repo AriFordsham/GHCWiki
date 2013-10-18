@@ -16,7 +16,7 @@ In order to see emails below, **you must login**.
 
 ### Current list
 
-- Andreas Voellmy
+- \[ [ http://haskell.cs.yale.edu/people/andreas-voellmy/](http://haskell.cs.yale.edu/people/andreas-voellmy/) Andreas Voellmy\]
 
   - Yale University - New Haven, CT
   - **Trac**: AndreasVoellmy; **email**: andreas.voellmy@…
@@ -30,7 +30,7 @@ In order to see emails below, **you must login**.
   - **Committer since**: Janurary 2013.
   - **Main areas of interest**: ARM support, build system, cross compilation, FFI, optimiser, release management, git management, ghc.haskell.org server maintenance
 
-- Ben Lippmeier
+- [ Ben Lippmeier](http://www.cse.unsw.edu.au/~benl/)
 
   - University of New South Wales - Sydney, Australia
   - **Trac**: benl; **email**: benl@…
@@ -44,7 +44,7 @@ In order to see emails below, **you must login**.
   - **Commiter since**: September, 2013.
   - **Main areas of interest**: performance
 
-- David Terei
+- [ David Terei](https://davidterei.com/)
 
   - MemCachier; Stanford University - San Francisco, CA
   - **Trac**: dterei; **email**: dave.terei@…
@@ -58,35 +58,35 @@ In order to see emails below, **you must login**.
   - **Committer since**: July, 2007.
   - **Main areas of interest**: haddock
 
-- Dimitrios Vytiniotis
+- [ Dimitrios Vytiniotis](http://research.microsoft.com/en-us/people/dimitris/)
 
   - Microsoft Research - Cambridge, UK
   - **Trac**: dimitris; **email**: dimitris@…
   - **Committer since**: May 2011.
   - **Main areas of interest**: ...
 
-- Duncan Coutts
+- [ Duncan Coutts](http://www.well-typed.com/people/duncan)
 
   - Well-Typed LLP - Oxford, UK
   - **Trac**: duncan; **email**: duncan@…
   - **Committer since**: Janurary, 2006.
   - **Main areas of interest**: bytestring support, cabal integration, etc
 
-- Edsko de Vries
+- [ Edsko de Vries](http://www.well-typed.com/people/edsko)
 
   - Well-Typed LLP - Dublin, Ireland
   - **Trac**: edsko; **email**: edsko@…
   - **Committer since**: July, 2013.
   - **Main areas of interest**: ...
 
-- Erik de Castro Lopo
+- [ Erik de Castro Lopo](http://www.mega-nerd.com/erikd/Blog/)
 
   - Independent - Sydney, Australia
   - **Trac**: erikd; **email**: erikd@…
   - **Committer since**: August, 2012.
   - **Main areas of interest**: PPC support
 
-- Edward Yang
+- [ Edward Yang](http://ezyang.com/)
 
   - Stanford University - Stanford, CA
   - **Trac**: ezyang; **email**: ezyang@…
@@ -100,7 +100,7 @@ In order to see emails below, **you must login**.
   - **Committer since**: August, 2011.
   - **Main areas of interest**: Code generator (SIMD support, LLVM back-end), quasiquotation, Template Haskell.
 
-- Gabor Greif
+- [ Gabor Greif](http://heisenbug.blogspot.com/)
 
   - Alcatel-Lucent - Nuremberg, Germany
   - **Trac**: heisenbug; **email**: ggreif@…
@@ -110,7 +110,7 @@ In order to see emails below, **you must login**.
 - Herbert Valerio Riedel
 
   - Vienna University of Technology - Vienna, Austria
-  - **Trac**: hvr; **email**: hvr@…
+  - **Trac**: hvr; **email**: hvr@…; **github**: [ https://github.com/hvr](https://github.com/hvr)
   - **Committer since**: August, 2013.
   - **Main areas of interest**: GHCi, core/boot libraries, Git management, Trac integration, ghc.haskell.org server maintenance
 
@@ -121,14 +121,14 @@ In order to see emails below, **you must login**.
   - **Committer since**: \~2006.
   - **Main areas of interest**: ...
 
-- Iavor Diatchki
+- [ Iavor Diatchki](http://purely-functional.net/)
 
   - Galois Inc - Portland, OR
   - **Trac**: diatchki; **email**: diatchki@…
   - **Committer since**: January, 2011.
   - **Main areas of interest**: 'type literals' support, type checking
 
-- Ilya Sergey
+- [ Ilya Sergey](http://ilyasergey.net/)
 
   - IMDEA Software Institute - Madrid, Spain
   - **Trac**: ilya; **email**: ilya.sergey@…
@@ -149,14 +149,14 @@ In order to see emails below, **you must login**.
   - **Committer since**: September, 2013.
   - **Main areas of interest** (so far): newtype coercions
 
-- Johan Tibell
+- [ Johan Tibell](http://blog.johantibell.com/)
 
   - Google Inc - San Francisco, CA
   - **Trac**: tibbe; **email**: johan.tibell@…
   - **Committer since**: July, 2010.
   - **Main areas of interest**: IO manager, codegen
 
-- José Pedro Magalhães
+- [ José Pedro Magalhães](http://dreixel.net/)
 
   - University of Oxford - Oxford, UK
   - **Trac**: dreixel; **email**: jpm@…
