@@ -52,6 +52,8 @@ Common tasks:
 
 ### [ filepath](http://hackage.haskell.org/package/filepath)
 
+[](https://travis-ci.org/ghc/packages-filepath)
+
 ### [ ghc-prim](http://hackage.haskell.org/package/ghc-prim)
 
 ### [ haskell2010](http://hackage.haskell.org/package/haskell2010)

@@ -52,6 +52,8 @@ module GHC.Exts
 
 === [hackage:filepath] ===
 
+[[Image(https://travis-ci.org/ghc/packages-filepath.png?branch=master,link=https://travis-ci.org/ghc/packages-filepath)]]
+
 === [hackage:ghc-prim] ===
 
 === [hackage:haskell2010] ===
