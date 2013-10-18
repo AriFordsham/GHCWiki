@@ -33,7 +33,7 @@ The GHC 7.8 release is in its final stages, and will be released in late Novembe
 
 - **New Template Haskell** - Geoffrey Mainland implemented support for New Template Haskell, fixing a lot of long-standing bugs with the TH implementation, while making it significantly more expressive, including support for typed quotes, pattern splices and more. This allows us to write for example a typed, staged power function. For details and examples, you can see Geoff's blog \[NewTH1\] and the GHC wiki pages describing the design \[NewTH2\].
 
-- **Newtype coercions**.  Joachim Brietner spent time earlier this year implementing a new, fancy **Coercible** design in GHC, which helps eliminate the cases in which newtypes are 'not free'. This occurs for example, when we say something like `newtype Age = MkAge Int` and then `map MkAge [0..10]` - while `newtype` is supposed to be free, this particular example has a runtime cost!
+- **Newtype coercions**.  Joachim Breitner spent time earlier this year implementing a new, fancy **Coercible** design in GHC, which helps eliminate the cases in which newtypes are 'not free'. This occurs for example, when we say something like `newtype Age = MkAge Int` and then `map MkAge [0..10]` - while `newtype` is supposed to be free, this particular example has a runtime cost!
   While Coercible is still in flux \[NTC\], we hope it will be useful as a 'preview technology' in the 7.8 release.
 
 - A small menagerie of various other language improvements and extensions, including:
