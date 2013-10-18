@@ -14,9 +14,9 @@ The GHC 7.8 release is in its final stages, and will be released in late Novembe
 
 ## Source language and Type System
 
-- **Type natural solver** - Iavor Diatchki implemented a basic constraint solver for the type naturals extension, meaning that GHC can now infer and understand basic identities such as `(x + 2) ~ 5`, which implies `x = 3`.
+- **Type natural solver** - Iavor Diatchki implemented a basic constraint solver for the type naturals extension, meaning that GHC can now infer and understand basic identities such as `(x + 2) ~ 5`, which implies `x = 3`.  The constraint solver does only basic things for now; there is more to come.
 
-- **Closed type families** - Richard Eisenberg & co. have implemented support for *closed* type families in GHC, allowing you to write a type family where no instances can be made beyond the ones in the definition. This allows a host of new programs to be expressed, as we now know certain invariants can hold. For example, we may now write:
+- **Closed type families** - Richard Eisenberg & co. have implemented support for *closed* type families in GHC, allowing you to write a type family where no instances can be made beyond the ones in the definition (wiki page \[CTF-wiki\] and paper \[CTF-paper\]). This allows a host of new programs to be expressed, as we now know certain invariants can hold. For example, we may now write:
 
   ```wiki
   type family Flip p :: *
@@ -27,7 +27,7 @@ The GHC 7.8 release is in its final stages, and will be released in late Novembe
 
   to express that `Flip` may have no more instances written, meaning nefarious users can no longer write silly instances like `Flip Bool = Int`.
 
-- **Role support** - Richard Eisenberg implemented support for *role checking* in GHC, fixing a long standing bug where `GeneralizedNewtypeDeriving` could be used to derive unsafe instances for a `newtype`. 
+- **Role support** - Richard Eisenberg implemented support for *role checking* in GHC, fixing a long standing bug where `GeneralizedNewtypeDeriving` could be used to derive unsafe instances for a `newtype` (wiki \[Roles-wiki\] and paper [ http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/ Roles-paper](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/ Roles-paper)).
 
 - **New and improved I/O manager** - Earlier this year, Andreas Voellmy and Kazu Yamamoto worked on a host of improvements to our I/O manager, making it scale significantly better on multicore machines. Since then, it's seen some other performance tweaks, and many bugfixes. As a result, the new I/O manager should scale linearly up to about 40 cores. Andreas reports their McNettle Software-defined-network (SDN) implementation can now achieve over *twenty million connections per second*, making it the fastest SDN implementation around - an incredible feat!
 
@@ -87,7 +87,7 @@ After the 7.8 release, there are some improvements scheduled we plan on integrat
 
 - **Pattern synonyms** - Gergo Erdi worked on an implementation of pattern synonyms for GHC, which will finally give us the power to abstract over patterns and give them names. While the design is not final (see the wiki for details\[PS\]), the results look promising, and hopefully fix a long-standing 'abstraction hole' in the term language for Haskell.
 
-- **Explicit Type Application** - Stephanie Weirich, Richard Eisenburg and Hamidhasan Ahmed have been working on adding explicit type applications to GHC. This allows the programmer to specify the \*types\* that should be instantiated for arguments to a function application, where normally they would be inferred. While this capability already exists in FC-pro (indeed, every FC-pro program has function application with explicitly applied types,) it has not been available in Haskell itself. While a lot of the syntax and design is not quite final, there are some details about the design available on the wiki\[TA\].
+- **Explicit Type Application** - Stephanie Weirich, Richard Eisenburg and Hamidhasan Ahmed have been working on adding explicit type applications to GHC. This allows the programmer to specify the *types* that should be instantiated for arguments to a function application, where normally they would be inferred. While this capability already exists in GHC's internal language, System FC -- indeed, every FC-pro program has function application with explicitly applied types -- it has not been available in Haskell itself. While a lot of the syntax and design is not quite final, there are some details about the design available on the wiki \[TA\].
 
 - **Git management changes** - For a long time, GHC has used a loosely coupled set of repositories during development. However, as we've added more contributors, this practice has become increasingly problematic, preventing us from using useful tools like `git bisect` to track down bugs. Our plans after the 7.8 release are to sort this out, and hopefully have stable, reproducible GHC builds for all.
 
@@ -120,16 +120,20 @@ As ever, there is a ton of stuff in the future for us to do. If you want somethi
 # References
 
 
+\[CTF-wiki\] Closed type families with overlapping equations - [ http://ghc.haskell.org/trac/ghc/wiki/NewAxioms](http://ghc.haskell.org/trac/ghc/wiki/NewAxioms)
+\[CTF-paper\] Closed type families with overlapping equations, Richard Eisenberg, Dimitrios Vytiniotis, Simon Peyton Jones, Stephanie Weirich, POPL 2014 - [ http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/)
+\[KD\] Kinds without Data - [ http://ghc.haskell.org/trac/ghc/wiki/GhcKinds/KindsWithoutData](http://ghc.haskell.org/trac/ghc/wiki/GhcKinds/KindsWithoutData)
+
 \[NewTH1\] Runtime codegen with typed Template Haskell - [ http://gmainland.blogspot.com/2013/05/type-safe-runtime-code-generation-with.html](http://gmainland.blogspot.com/2013/05/type-safe-runtime-code-generation-with.html)
 
 \[NewTH2\] Major proposed Template Haskell revision - [ http://ghc.haskell.org/trac/ghc/wiki/TemplateHaskell/BlogPostChanges](http://ghc.haskell.org/trac/ghc/wiki/TemplateHaskell/BlogPostChanges)
 
 \[[PrimBool](prim-bool)\] New comparison primitives - [ http://ghc.haskell.org/trac/ghc/wiki/PrimBool](http://ghc.haskell.org/trac/ghc/wiki/PrimBool)
 
-\[KD\] Kinds without Data - [ http://ghc.haskell.org/trac/ghc/wiki/GhcKinds/KindsWithoutData](http://ghc.haskell.org/trac/ghc/wiki/GhcKinds/KindsWithoutData)
-
 \[ORF\] Overloaded record fields - [ http://ghc.haskell.org/trac/ghc/wiki/Records/OverloadedRecordFields/Plan](http://ghc.haskell.org/trac/ghc/wiki/Records/OverloadedRecordFields/Plan)
 
 \[PS\] Pattern synonyms - [ http://ghc.haskell.org/trac/ghc/wiki/PatternSynonyms](http://ghc.haskell.org/trac/ghc/wiki/PatternSynonyms)
 
+\[Roles-wiki\] Roles - [ http://ghc.haskell.org/trac/ghc/wiki/Roles](http://ghc.haskell.org/trac/ghc/wiki/Roles)
+\[Roles-paper\] Generative Type Abstraction and Type-level Computation, Stephanie Wirich, Dimitrios Vytiniotis, Simon Peyton Jones, and Steve Zdancewic, POPL 2011 - [ http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/)
 \[TA\] Explicit type application - [ http://ghc.haskell.org/trac/ghc/wiki/ExplicitTypeApplication](http://ghc.haskell.org/trac/ghc/wiki/ExplicitTypeApplication)
