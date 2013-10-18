@@ -62,7 +62,7 @@ The GHC 7.8 release is in its final stages, and will be released in late Novembe
 
 ## Frontend, build-system, and misc. changes
 
-- **Dynamic-by-default** - In 7.8, we're hoping to make GHCi use the system linker by default on supported platforms, eliminating a host of bugs in the current home-grown linker. Eventually we hope to remove the old linker completely. Until then, GHC now supports compiling files statically and dynamically at the same time (with the `-dynamic-too flag`,) meaning you can switch between static/dynamic builds much more easily.
+- **Dynamic-by-default** - In 7.8, we're hoping to make GHCi use the system linker by default on supported platforms, eliminating a host of bugs in the current home-grown linker. Eventually we hope to remove the old linker completely. Until then, GHC now supports compiling files statically and dynamically at the same time (with the `-dynamic-too` flag,) meaning you can switch between static/dynamic builds much more easily.
 
 - **Compiler hooks** - Luite Stegeman and Edsko de Vries did a significant amount of work to improve *hooking* support in the GHC API. This new API makes it possible for users to plug in their own pipeline machinery to the compiler, suitable for implementing new frontend features (like QuasiQuoting hooks) or new backends (like a JavaScript target, as part of the new GHCJS.)
 
