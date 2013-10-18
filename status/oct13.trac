@@ -63,7 +63,7 @@ type family Flip a where
 
  * **Clang support** - Austin Seipp added support for GHC to use Clang as the C compiler, instead of GCC. While the work is still rough, it should be a boon to modern OS X users, who no longer have GCC available by default.
 
- * **iOS support & cross compilation** - After many years of work by Ian, Stephen Blackheath, Gabor Greif and friends Luke Iannini and Maxwell Swalding, GHC now has full support for iOS cross-compilation. As of GHC 7.8, you'll really be able to write iOS apps in your favorite programming language!
+ * **iOS support & cross compilation** - After many years of work by Ian, Stephen Blackheath, Gabor Greif and friends Luke Iannini and Maxwell Swadling, GHC now has full support for iOS cross-compilation. As of GHC 7.8, you'll really be able to write iOS apps in your favorite programming language!
 
  * **Better ARM support** - Ben Gamari and Austin Seipp have some final changes to make for the ARM story, which should make it significantly more stable and usable, including GHCi support. We hope to have ARMv7 binary releases for GHC 7.8 available for download.
 
