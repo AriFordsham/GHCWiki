@@ -14,7 +14,7 @@ In order to see emails below, '''you must login'''.
 
 === Current list ===
 
- * [ http://haskell.cs.yale.edu/people/andreas-voellmy/ Andreas Voellmy]
+ * [http://haskell.cs.yale.edu/people/andreas-voellmy/ Andreas Voellmy]
   * Yale University - New Haven, CT
   * '''Trac''': !AndreasVoellmy; '''email''': andreas.voellmy@gmail.com
   * '''Committer since''': March, 2013.
@@ -88,7 +88,7 @@ In order to see emails below, '''you must login'''.
 
  * [http://heisenbug.blogspot.com/ Gabor Greif]
   * Alcatel-Lucent - Nuremberg, Germany
-  * '''Trac''': heisenbug; '''email''': ggreif@gmail.com
+  * '''Trac''': heisenbug; '''email''': ggreif@gmail.com; '''github''': https://github.com/ggreif
   * '''Committer since''': January, 2012.
   * '''Main areas of interest''': cross-compilation, type systems
 
@@ -118,7 +118,7 @@ In order to see emails below, '''you must login'''.
 
  * [http://ics.p.lodz.pl/~stolarek/ Jan Stolarek]
   * Lodz University of Technology - Łódź, Poland
-  * '''Trac''': jstolarek; '''email''': jan.stolarek@p.lodz.pl
+  * '''Trac''': jstolarek; '''email''': jan.stolarek@p.lodz.pl; '''github''': https://github.com/jstolarek
   * '''Committer since''': July, 2013.
   * '''Main areas of interest''': codegen, optimiser
 
@@ -140,7 +140,7 @@ In order to see emails below, '''you must login'''.
   * '''Committer since''': October, 2008.
   * '''Main areas of interest''': generics support, type checker
 
- * KC Sivaramakrishnan
+ * [http://www.cs.purdue.edu/homes/chandras/kcs_academic_page/Welcome.html KC Sivaramakrishnan]
   * Purdue University - West Lafayette, IN
   * '''Trac''': kc; '''email''': chandras@cs.purdue.edu
   * '''Committer since''': March 2012.
@@ -152,31 +152,31 @@ In order to see emails below, '''you must login'''.
   * '''Committer since''': September, 2013.
   * '''Main areas of interest''': type checker
 
- * Manuel Chakravarty
+ * [http://www.cse.unsw.edu.au/~chak/ Manuel Chakravarty]
   * University of New South Wales - Sydney, Australia
   * '''Trac''': chak; '''email''': chak@cse.unsw.edu.au
   * '''Committer since''': August, 2006.
   * '''Main areas of interest''': DPH
 
- * Max Bolingbroke
+ * [http://www.cl.cam.ac.uk/~mb566/ Max Bolingbroke]
   * N/A - Cambridge, UK
-  * '''Trac''': batterseapower; '''email''': batterseapower@hotmail.com
+  * '''Trac''': batterseapower; '''email''': batterseapower@hotmail.com; '''github''': https://github.com/batterseapower
   * '''Committer since''': Feburary, 2008.
   * '''Main areas of interest''': optimiser, type checker
 
- * Nicolas Frisby
+ * [http://www.ittc.ku.edu/~nfrisby/ Nicolas Frisby]
   * University of Kansas - Lawrence, Kansas
   * '''Trac''': nfrisby; '''email''': nicolas.frisby@gmail.com
   * '''Committer since''': March, 2013.
   * '''Main areas of interest''': optimiser
 
- * Páli Gábor János
+ * [http://people.freebsd.org/~pgj/ Páli Gábor János]
   * Eötvös Lóránd University - Budapest, Hungary
   * '''Trac''': pgj; '''email''': pali.gabor@gmail.com
   * '''Committer since''': July, 2010.
   * '''Main areas of interest''': FreeBSD support
 
- * Paolo Capriotti
+ * [http://paolocapriotti.com/ Paolo Capriotti]
   * University of Nottingham - Nottingham, UK
   * '''Trac''': pcapriotti; '''email''': p.capriotti@gmail.com
   * '''Committer since''': March, 2012.
@@ -184,7 +184,7 @@ In order to see emails below, '''you must login'''.
 
  * Patrick Palka
   * N/A - Garfield, NJ, USA
-  * '''Trac''': parcs; '''email''': patrick@parcs.ath.cx
+  * '''Trac''': parcs; '''email''': patrick@parcs.ath.cx; '''github''': https://github.com/parcs
   * '''Committer since''': August, 2013.
   * '''Main areas of interest''': GHC --make
 
@@ -200,13 +200,13 @@ In order to see emails below, '''you must login'''.
   * '''Committer since''': August, 2006.
   * '''Main areas of interest''': vector library
 
- * Ross Paterson
+ * [http://www.soi.city.ac.uk/~ross/ Ross Paterson]
   * City University - London, UK
   * '''Trac''': ross; '''email''': ross@soi.city.ac.uk
   * '''Committer since''': Feburary, 2006.
   * '''Main areas of interest''': arrow support
 
- * Ryan Newton
+ * [http://www.cs.indiana.edu/~rrnewton/homepage.html Ryan Newton]
   * Intel Corporation; Indiana University - Bloomington, IN
   * '''Trac''': rrnewton; '''email''': rrnewton@gmail.com
   * '''Committer since''': August, 2013.
@@ -214,11 +214,11 @@ In order to see emails below, '''you must login'''.
 
  * Simon Hengel
   * N/A - Berlin, Germany
-  * '''Trac''': !SimonHengel; '''email''': sol@typeful.net
+  * '''Trac''': !SimonHengel; '''email''': sol@typeful.net; '''github''': https://github.com/sol
   * '''Committer since''': Feburary, 2013.
   * '''Main areas of interest''': haddock
 
- * Simon Marlow
+ * [https://github.com/simonmar Simon Marlow]
   * Facebook Inc - Cambridge, UK
   * '''Trac''': simonmar; '''email''': marlowsd@gmail.com
   * '''Committer since''': always.
@@ -230,9 +230,9 @@ In order to see emails below, '''you must login'''.
   * '''Committer since''': always.
   * '''Main areas of interest''': renamer, type checker, optimiser.
 
- * Thomas Schilling
+ * [http://nominolo.blogspot.com/ Thomas Schilling]
   * Erudify AG - Zürich, Switzerland
-  * '''Trac''': nominolo; '''email''': nominolo@googlemail.com
+  * '''Trac''': nominolo; '''email''': nominolo@googlemail.com; '''github''': https://github.com/nominolo
   * '''Committer since''': September, 2008.
   * '''Main areas of interest''': GHC API
 
