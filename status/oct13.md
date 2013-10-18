@@ -14,9 +14,9 @@ The GHC 7.8 release is in its final stages, and will be released in late Novembe
 
 ## Source language and Type System
 
-- **Type natural solver** - Iavor Diatchki implemented a basic constraint solver for the type naturals extension, meaning that GHC can now infer and understand basic identities such as `(x + 2) ~ 5`, which implies `x = 3`.
+- **Type natural solver** - Iavor Diatchki implemented a basic constraint solver for the type naturals extension, meaning that GHC can now infer and understand basic identities such as `(x + 2) ~ 5`, which implies `x = 3`.  The constraint solver does only basic things for now; there is more to come.
 
-- **Closed type families** - Richard Eisenberg & co. have implemented support for *closed* type families in GHC, allowing you to write a type family where no instances can be made beyond the ones in the definition. This allows a host of new programs to be expressed, as we now know certain invariants can hold. For example, we may now write:
+- **Closed type families** - Richard Eisenberg & co. have implemented support for *closed* type families in GHC, allowing you to write a type family where no instances can be made beyond the ones in the definition (wiki page \[CTF-wiki\] and paper \[CTF-paper\]). This allows a host of new programs to be expressed, as we now know certain invariants can hold. For example, we may now write:
 
   ```wiki
   type family Flip p :: *
@@ -27,14 +27,14 @@ The GHC 7.8 release is in its final stages, and will be released in late Novembe
 
   to express that `Flip` may have no more instances written, meaning nefarious users can no longer write silly instances like `Flip Bool = Int`.
 
-- **Role support** - Richard Eisenberg implemented support for *role checking* in GHC, fixing a long standing bug where `GeneralizedNewtypeDeriving` could be used to derive unsafe instances for a `newtype`. 
+- **Role support** - Richard Eisenberg implemented support for *role checking* in GHC, fixing a long standing bug [\#1496](https://gitlab.haskell.org//ghc/ghc/issues/1496) where `GeneralizedNewtypeDeriving` could be used to derive unsafe instances for a `newtype` (wiki \[Roles-wiki\] and paper \[Roles-paper\]).
 
 - **New and improved I/O manager** - Earlier this year, Andreas Voellmy and Kazu Yamamoto worked on a host of improvements to our I/O manager, making it scale significantly better on multicore machines. Since then, it's seen some other performance tweaks, and many bugfixes. As a result, the new I/O manager should scale linearly up to about 40 cores. Andreas reports their McNettle Software-defined-network (SDN) implementation can now achieve over *twenty million connections per second*, making it the fastest SDN implementation around - an incredible feat!
 
-- **New Template Haskell** - Geoffrey Mainland implemented support for New Template Haskell, fixing a lot of long-standing bugs with the TH implementation, while making it significantly more expressive, including support for typed quotes, pattern splices and more. This allows us to write for example a typed, staged power function. For details and examples, you can see Geoff's blog\[NewTH1\] and the GHC wiki pages describing the design \[NewTH2\].
+- **New Template Haskell** - Geoffrey Mainland implemented support for New Template Haskell, fixing a lot of long-standing bugs with the TH implementation, while making it significantly more expressive, including support for typed quotes, pattern splices and more. This allows us to write for example a typed, staged power function. For details and examples, you can see Geoff's blog \[NewTH1\] and the GHC wiki pages describing the design \[NewTH2\].
 
-- Joachim Brietner spent time earlier this year implementing a new, fancy **Coercible** design in GHC, which helps eliminate the cases in which newtypes are 'not free'. This occurs for example, when we say something like `newtype Age = MkAge Int` and then `map MkAge [0..10]` - while `newtype` is supposed to be free, this particular example has a runtime cost!
-  While Coercible is still in flux, we hope it will be useful as a 'preview technology' in the 7.8 release.
+- **Newtype coercions**.  Joachim Brietner spent time earlier this year implementing a new, fancy **Coercible** design in GHC, which helps eliminate the cases in which newtypes are 'not free'. This occurs for example, when we say something like `newtype Age = MkAge Int` and then `map MkAge [0..10]` - while `newtype` is supposed to be free, this particular example has a runtime cost!
+  While Coercible is still in flux \[NTC\], we hope it will be useful as a 'preview technology' in the 7.8 release.
 
 - A small menagerie of various other language improvements and extensions, including:
 
@@ -50,15 +50,15 @@ The GHC 7.8 release is in its final stages, and will be released in late Novembe
 
 - **SSE/AVX support** - Geoffrey Mainland implemented support for SSE/AVX intrinsics in the compiler backend, making it possible to exploit hardware-accelerated SIMD operations in your code on Intel/AMD machines. It's currently only enabled for the LLVM backend, however.
 
-- Peter Wortmann spent time earlier this year doing a significant refactoring of the LLVM backend, which means it should be easier in the future to extend the backend and perform long-term maintenance.
+- **LLVM back end**.  Peter Wortmann spent time earlier this year doing a significant refactoring of the LLVM backend, which means it should be easier in the future to extend the backend and perform long-term maintenance.
 
-- Jan Stolarek had an internship at Microsoft Research during the summer, and as part of this he implemented an array of improvements to the code generator and backend, including a new loopification pass to turn tail-recursive calls into loops, and a refactoring of our `Bool` based primops to return unboxed `Int#` values (making them much faster, with a sizeable performance improvement in some cases \[[PrimBool](prim-bool)\].)
+- **Code generation**.  Jan Stolarek had an internship at Microsoft Research during the summer, and as part of this he implemented an array of improvements to the code generator and backend, including a new loopification pass to turn tail-recursive calls into loops, and a refactoring of our `Bool` based primops to return unboxed `Int#` values (making them much faster, with a sizeable performance improvement in some cases \[[PrimBool](prim-bool)\].)
 
-- Simon Marlow implemented support for unloading object code at runtime in the GHC linker. Previously, while GHC's linker could load object code dynamically, there was no facility to unload it - meaning long running applications would continuously suffer a memory leak as they reloaded more code.
+- **Unloading object code**.  Simon Marlow implemented support for unloading object code at runtime in the GHC linker. Previously, while GHC's linker could load object code dynamically, there was no facility to unload it - meaning long running applications would continuously suffer a memory leak as they reloaded more code.
 
-- Edward Yang implemented support for running library constructors in GHCi, making it possible to use foreign libraries which depend on constructors being run at load time.
+- **Library constructors**. Edward Yang implemented support for running library constructors in GHCi, making it possible to use foreign libraries which depend on constructors being run at load time.
 
-- A set of new primops for all backends, including new atomic memory operations (by Ryan Newton) and support for low-level prefetch instructions in the processor, allowing you to guide cache decisions (by Carter Schonwald.)
+- **Atomic and prefetch primops**.  There are new primops for all backends, including new atomic memory operations (by Ryan Newton) and support for low-level prefetch instructions in the processor, allowing you to guide cache decisions (by Carter Schonwald.)
 
 ## Frontend, build-system, and misc. changes
 
@@ -87,7 +87,7 @@ After the 7.8 release, there are some improvements scheduled we plan on integrat
 
 - **Pattern synonyms** - Gergo Erdi worked on an implementation of pattern synonyms for GHC, which will finally give us the power to abstract over patterns and give them names. While the design is not final (see the wiki for details\[PS\]), the results look promising, and hopefully fix a long-standing 'abstraction hole' in the term language for Haskell.
 
-- **Explicit Type Application** - Stephanie Weirich, Richard Eisenburg and Hamidhasan Ahmed have been working on adding explicit type applications to GHC. This allows the programmer to specify the \*types\* that should be instantiated for arguments to a function application, where normally they would be inferred. While this capability already exists in FC-pro (indeed, every FC-pro program has function application with explicitly applied types,) it has not been available in Haskell itself. While a lot of the syntax and design is not quite final, there are some details about the design available on the wiki\[TA\].
+- **Explicit Type Application** - Stephanie Weirich, Richard Eisenburg and Hamidhasan Ahmed have been working on adding explicit type applications to GHC. This allows the programmer to specify the *types* that should be instantiated for arguments to a function application, where normally they would be inferred. While this capability already exists in GHC's internal language, System FC -- indeed, every FC-pro program has function application with explicitly applied types -- it has not been available in Haskell itself. While a lot of the syntax and design is not quite final, there are some details about the design available on the wiki \[TA\].
 
 - **Git management changes** - For a long time, GHC has used a loosely coupled set of repositories during development. However, as we've added more contributors, this practice has become increasingly problematic, preventing us from using useful tools like `git bisect` to track down bugs. Our plans after the 7.8 release are to sort this out, and hopefully have stable, reproducible GHC builds for all.
 
@@ -120,16 +120,26 @@ As ever, there is a ton of stuff in the future for us to do. If you want somethi
 # References
 
 
+\[CTF-wiki\] Closed type families with overlapping equations - [ http://ghc.haskell.org/trac/ghc/wiki/NewAxioms](http://ghc.haskell.org/trac/ghc/wiki/NewAxioms)
+
+\[CTF-paper\] Closed type families with overlapping equations, Richard Eisenberg, Dimitrios Vytiniotis, Simon Peyton Jones, Stephanie Weirich, POPL 2014 - [ http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/)
+
+\[KD\] Kinds without Data - [ http://ghc.haskell.org/trac/ghc/wiki/GhcKinds/KindsWithoutData](http://ghc.haskell.org/trac/ghc/wiki/GhcKinds/KindsWithoutData)
+
 \[NewTH1\] Runtime codegen with typed Template Haskell - [ http://gmainland.blogspot.com/2013/05/type-safe-runtime-code-generation-with.html](http://gmainland.blogspot.com/2013/05/type-safe-runtime-code-generation-with.html)
 
 \[NewTH2\] Major proposed Template Haskell revision - [ http://ghc.haskell.org/trac/ghc/wiki/TemplateHaskell/BlogPostChanges](http://ghc.haskell.org/trac/ghc/wiki/TemplateHaskell/BlogPostChanges)
 
-\[[PrimBool](prim-bool)\] New comparison primitives - [ http://ghc.haskell.org/trac/ghc/wiki/PrimBool](http://ghc.haskell.org/trac/ghc/wiki/PrimBool)
+\[NTC\] Newtype wrappers - [ http://ghc.haskell.org/trac/ghc/wiki/NewtypeWrappers](http://ghc.haskell.org/trac/ghc/wiki/NewtypeWrappers)
 
-\[KD\] Kinds without Data - [ http://ghc.haskell.org/trac/ghc/wiki/GhcKinds/KindsWithoutData](http://ghc.haskell.org/trac/ghc/wiki/GhcKinds/KindsWithoutData)
+\[[PrimBool](prim-bool)\] New comparison primitives - [ http://ghc.haskell.org/trac/ghc/wiki/PrimBool](http://ghc.haskell.org/trac/ghc/wiki/PrimBool)
 
 \[ORF\] Overloaded record fields - [ http://ghc.haskell.org/trac/ghc/wiki/Records/OverloadedRecordFields/Plan](http://ghc.haskell.org/trac/ghc/wiki/Records/OverloadedRecordFields/Plan)
 
 \[PS\] Pattern synonyms - [ http://ghc.haskell.org/trac/ghc/wiki/PatternSynonyms](http://ghc.haskell.org/trac/ghc/wiki/PatternSynonyms)
+
+\[Roles-wiki\] Roles - [ http://ghc.haskell.org/trac/ghc/wiki/Roles](http://ghc.haskell.org/trac/ghc/wiki/Roles)
+
+\[Roles-paper\] Generative Type Abstraction and Type-level Computation, Stephanie Wirich, Dimitrios Vytiniotis, Simon Peyton Jones, and Steve Zdancewic, POPL 2011 - [ http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/)
 
 \[TA\] Explicit type application - [ http://ghc.haskell.org/trac/ghc/wiki/ExplicitTypeApplication](http://ghc.haskell.org/trac/ghc/wiki/ExplicitTypeApplication)
