@@ -46,7 +46,7 @@ The GHC 7.8 release is in its final stages, and will be released in late Novembe
 
 ## Back-end and runtime system
 
-- **New code generator** - As previously reported, the New Code Generator is live and switched on by default. There have been a host of bugfixes and stability improvements, meaning it should solid for the 7.8 release.
+- **New code generator** - As previously reported, the New Code Generator is live and switched on by default. There have been a host of bugfixes and stability improvements, meaning it should be solid for the 7.8 release.
 
 - **SSE/AVX support** - Geoffrey Mainland implemented support for SSE/AVX intrinsics in the compiler backend, making it possible to exploit hardware-accelerated SIMD operations in your code on Intel/AMD machines. It's currently only enabled for the LLVM backend, however.
 
