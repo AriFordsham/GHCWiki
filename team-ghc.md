@@ -26,7 +26,7 @@ In order to see emails below, **you must login**.
 - [ Austin Seipp](http://hacks.yi.org)
 
   - Well-Typed LLP - Austin, TX
-  - **Trac**: thoughtpolice; **email**: austin@…
+  - **Trac**: thoughtpolice; **email**: austin@…; **github**: [ https://github.com/thoughtpolice](https://github.com/thoughtpolice)
   - **Committer since**: Janurary 2013.
   - **Main areas of interest**: ARM support, build system, cross compilation, FFI, optimiser, release management, git management, ghc.haskell.org server maintenance
 
