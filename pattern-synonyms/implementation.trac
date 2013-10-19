@@ -1,0 +1,121 @@
+= Frontend representation
+
+After parsing, and during renaming, pattern synonyms are stored as
+`TyClDecl`s.
+
+= Typechecking
+
+The typechecking pass turns `PatSynDecl`s into a `PatSyn` and several
+`HsBind`s. To fill in the `PatSyn`, we typecheck the right-hand side
+of the pattern synonym declaration, then do some extra processing on
+it to reject as-patterns and optionally compute the reverse of the
+pattern synonym (for implicitly bidirectional ones). Afterwards, we
+collect universal & existential type variables and typeclass dictionary
+variables to be used when creating `ConPatOut` patterns from pattern
+synonym occurances, and generate some `HsBind`s:
+
+* The `PatSyn` stores typing information for the pattern synonym, to
+  be consulted when typechecking pattern synonym usage sites.
+
+* The first `HsBind` is the binder for the matcher function generated from
+  the pattern synonym. The matcher is used when desugaring pattern
+  synonym usage sites (see below).
+
+* For bidirectional pattern synonyms, another `HsBind` called a
+  wrapper is created to be used for pattern synonym usages in
+  expression contexts. It is a wrapper in the same sense as a
+  constructor wrapper.
+
+Pattern synonym occurances in patterns are turned into `ConPatOut`s
+just like regular constructor matches. `ConPatOut` has been changed to
+store a `ConLike` instead of a `DataCon`; the `ConLike` type is simply
+the sum of `DataCon` and `PatSyn`.
+
+
+
+= Desugaring
+
+`ConLike`s are handled uniformly all the way until
+`mkCoAlgCaseMatchResult`. There, we have a mixed list of `DataCon` and
+`PatSyn`-based patterns.
+
+
+=== Grouping
+
+This list is grouped so that subsequent `DataCon` patterns are put in
+the same group, and `PatSyn` patterns are all in their own
+groups. This is needed so that when doing pattern matching per column,
+given e.g.
+
+
+{{{
+data T = MkT1 | MkT2 Bool | MkT3
+pattern P x = MkT2 x
+}}}
+
+and a list of cases
+
+
+{{{
+MkT1 _ -> alt1
+P True -> alt2
+MkT2 _ -> alt3
+}}}
+
+we don't compile that into
+
+
+{{{
+DEFAULT -> ... P ...
+MkT1 -> alt1
+MkT2 _ -> alt3
+}}}
+
+since we can't see into P (and we don't want to, since it might be
+imported from another module). The correct thing to do is to compile
+that into
+
+
+{{{
+DEFAULT -> ... (P, alt2) and (MkT2 _, alt3) ...
+MkT1 -> alt1
+}}}
+
+Consecutive occurances of the same pattern synonym (e.g. if we had `P
+True` and `P False` in the previous example) are compiled into a
+single match; the arguments are then matched in a sub-case.
+
+
+== Matching
+
+For each pattern synonym, a matcher function is generated which gets a
+scrutinee and a success and a failure continuations. Given a type
+
+{{{
+data T a where
+     MkT :: (Cls b) => b -> a -> T a
+}}}
+
+and a pattern synonym
+
+
+{{{
+pattern P x y = MkT x y
+}}}
+
+we generate the matcher function
+
+
+{{{
+P :: forall r a. T a -> (forall b. Cls b => b -> a -> r) -> r -> r
+P scrutinee pass fail = case scrutinee of
+  MkT x y -> pass x y
+  _ -> fail
+}}}
+
+Occurances of pattern synonyms are then desugared into calls to this
+matcher function. This allows pattern synonym definitions to be just
+as opaque as function definitions: their type defines their interface
+completely. This gives us a story for exporting pattern synonym
+definitions that is entirely consistent with existing function
+definition exports.
