@@ -84,31 +84,31 @@ Unfortunately, the current idea is not really working all that nice, because of 
 Haskell98 and Haskell prime says that all the instances should be visible that are under the current module in the dependency tree, but this is not the case currently in GHC when using one-shot compilation (`ghc -c`, not `ghc --make`).  This is a optimization, so we can save on the reading of all the module dependencies transitively.  GHC tries to cleverly figure out where to find so called orphan instances.
 
 
-Template haskell is a corner-case, where this orphan logic is not clever enough and therefore reify doesn't see some of the instances that are under the current module in the dependency tree.  Even more so, if the class instance is in a separate package (and not marked orphan, as is the case in HFlags), then it's not seen either in one-shot or in batch mode.  Therefore HFlags can't gather all the flags in `$initHFlags`.  I propose to fix this by loading all the imported interfaces transitively when reifying classes or type families.  **If you have any comments or questions regarding this, please comment on [\#8426](https://gitlab.haskell.org//ghc/ghc/issues/8426).**
+Template haskell is a corner-case, where this orphan logic is not clever enough and therefore reify doesn't see some of the instances that are under the current module in the dependency tree.  Even more so, if the class instance is in a separate package (and not marked orphan, as is the case in HFlags), then it's not seen either in one-shot or in batch mode.  Therefore HFlags can't gather all the flags in `$initHFlags`.  There is a fix to this as a patch in [\#8426](https://gitlab.haskell.org//ghc/ghc/issues/8426), but that needs more discussion.
 
 
-An alternative approach would be to mark all the modules that define command line flags as orphan modules.  Then they are automatically read up with the current one-shot and batch compiler and seen in reification.  To do this it has to be possible to mark modules as orphans, as proposed by [\#8337](https://gitlab.haskell.org//ghc/ghc/issues/8337) or agree on a new orphan rule: e.g. every module that contains module level annotations are orphan.  If we agree on the latter, then the patch in [\#8337](https://gitlab.haskell.org//ghc/ghc/issues/8337) has to be sightly modified to work like that.  **Please comment here or on [\#8337](https://gitlab.haskell.org//ghc/ghc/issues/8337) if you prefer either of the two solutions, or object to both.**
+An easier way is to implement [\#1480](https://gitlab.haskell.org//ghc/ghc/issues/1480), module reification.  If we can get the import list of every module, then HFlags can walk the tree of imports itself and gather all the flags.  The nice in this is that the compiler only needs very basic and simple support, and then the logic of traversal can be implemented in HFlags, not in the compiler.solutions, or object to both.****
 
 # Implementation status, options, questions
 
-## Already done: a bugfix, and annotation generation
+## Already done: a bugfix, and annotation generation and reification
 
 
 The already merged [\#3725](https://gitlab.haskell.org//ghc/ghc/issues/3725) and [\#8340](https://gitlab.haskell.org//ghc/ghc/issues/8340) makes it possible to generate annotations from TH.  We support all three kind of annotations: annotations on types, values and whole modules.
 
-## In the works, but seems easy: annotation reification
 
-[\#8397](https://gitlab.haskell.org//ghc/ghc/issues/8397) contains the code for reification of annotations.  The patch is quite straightforward and quite separated from all of the other TODOs, it just adds a new Q monad statement for handling the reification request and the necessary handling of this Q monad statement in `TcSplice`.  **I consider this patch ready to review, so please comment.**
+Annotation reification is implemented and merged in [\#8397](https://gitlab.haskell.org//ghc/ghc/issues/8397).
 
-## Controversial: [\#8398](https://gitlab.haskell.org//ghc/ghc/issues/8398), module list reification
+## Patch ready, nice to have: typed annotation reification
 
-
-The [\#8397](https://gitlab.haskell.org//ghc/ghc/issues/8397) from the previous paragraph is already useful on its own. Unfortunately, for HFlags purposes it's not enough: it only make it possible to get annotations for modules, values or types when you already know your target.  But in the case of `$initHFlags` we want to get all the flags that were defined somewhere below us in our import tree.  To do this, [\#8398](https://gitlab.haskell.org//ghc/ghc/issues/8398) implements module listing.  Once we have the module list, we can use the returned names to get the module annotations for all the modules and extract the flag data.
+[\#8460](https://gitlab.haskell.org//ghc/ghc/issues/8460) provides a very small addition that makes it possible to use annotation reification together with the new typed [TemplateHaskell](template-haskell).
 
 
-The current patch is controversial: it simply uses the list of currently loaded modules as a substitute for "list of modules we depend on".  This approximation is used heavily in GHC, but it can cause problems, as showed in [\#8426](https://gitlab.haskell.org//ghc/ghc/issues/8426).  SPJ already stated ([ http://ghc.haskell.org/trac/ghc/ticket/7867\#comment:12](http://ghc.haskell.org/trac/ghc/ticket/7867#comment:12)) that he doesn't agree to this approximation and we should work on something that is well defined.  I agree.
+This patch doesn't need to get merged urgently, it's just nice to have.
+
+## In the works, the last patch that needs to get reviewed: module reification, [\#1480](https://gitlab.haskell.org//ghc/ghc/issues/1480)
 
 
-I propose to change this patch to properly construct the list of dependent modules and return that.  We would return `(pkgid, moduleid)` pairs for every module that is imported by us or imported by our imports transitively.
+The only feature that is still not in GHC and needed for HFlags is a way to walk the module dependency tree of the currently being compiled module from TH.  This is made possible by [\#1480](https://gitlab.haskell.org//ghc/ghc/issues/1480), that just adds minimal module reification (import list).  Once we have that, HFlags can just ask for the imports and than for the imports of the imports, etc. to walk the tree itself.  There is no need to do this from the compiler, as that would obscure the fact that this can be a slow and wasteful operation.
 
-**Here we definitely need a design discussion, so please think about this and share your thoughts.**  This is not to say that design discussion is not welcome for the other patches, of course it is!
+**If you have any opinion about this minimal module reification, please comment on and review [\#1480](https://gitlab.haskell.org//ghc/ghc/issues/1480).**
