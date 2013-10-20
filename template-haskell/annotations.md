@@ -106,7 +106,7 @@ Annotation reification is implemented and merged in [\#8397](https://gitlab.hask
 
 This patch doesn't need to get merged urgently, it's just nice to have.
 
-## In the works, the last patch that needs to get reviewed: module reification, [\#1480](https://gitlab.haskell.org//ghc/ghc/issues/1480)
+## Waiting for review, hopefully to still go into 7.8.1: module reification, [\#1480](https://gitlab.haskell.org//ghc/ghc/issues/1480)
 
 
 The only feature that is still not in GHC and needed for HFlags is a way to walk the module dependency tree of the currently being compiled module from TH.  This is made possible by [\#1480](https://gitlab.haskell.org//ghc/ghc/issues/1480), that just adds minimal module reification (import list).  Once we have that, HFlags can just ask for the imports and than for the imports of the imports, etc. to walk the tree itself.  There is no need to do this from the compiler, as that would obscure the fact that this can be a slow and wasteful operation.
