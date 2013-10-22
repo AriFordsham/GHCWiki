@@ -90,6 +90,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
 
 - Notes on proposed or in progress (but out of tree) GHC compiler features:
 
+  - [Giving Template Haskell full access to annotations](template-haskell/annotations)
   - [Checking consistency of functional dependencies](fun-deps)
   - [Allowing multiple instances of the same package to be installed](commentary/g-so-c-multiple-instances), each instance having different dependencies
   - [Contracts in Haskell](commentary/contracts)
