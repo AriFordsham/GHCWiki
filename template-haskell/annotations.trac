@@ -94,6 +94,12 @@ These functions behave as follows:
 
 ... Fill in...
 
+== Example ==
+
+Here is (a sketch of) how we can use these new facilities to implement `defineFlag` and `$initHFlags` in the above example.
+
+...fill in...
+
 ---------------------------
 = Implementation status, options, questions =
 
