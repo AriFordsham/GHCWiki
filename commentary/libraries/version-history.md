@@ -456,3 +456,6 @@
 <th>**7.0.3**</th>
 <th>**7.0.2**</th>
 <th>**7.0.1**</th></tr></table>
+
+
+Note: A `*` after the version number denotes the package being hidden by default.
