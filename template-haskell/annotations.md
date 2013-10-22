@@ -98,38 +98,17 @@ The proposal is to make it possible to generate annotations from template haskel
 
 Specifically, we propose to add the following new function to the `Quasi` class:
 
-```wiki
-class Quasi where 
-  qReifyAnnotations :: Data a => AnnLookup -> m [a]
-  qReifyModule      :: Module -> m ModuleInfo
-
-data AnnLookup = AnnLookupModule Module
-               | AnnLookupName Name
-               deriving( Show, Eq, Data, Typeable )
-
-data ModuleInfo =
-  -- | Contains the import list of the module.
-  ModuleInfo [Module]
-  deriving( Show, Data, Typeable )
-
-data Module = Module PkgName ModName -- package qualified module name
- deriving (Show,Eq,Ord,Typeable,Data)
+```
+classQuasiwhere 
+  qReifyAnnotations ::Data a =>AnnLookup-> m [a]
+  qReifyModule      ::Module-> m ModuleInfodataAnnLookup=AnnLookupModuleModule|AnnLookupNameNamederiving(Show,Eq,Data,Typeable)dataModuleInfo=-- | Contains the import list of the module.ModuleInfo[Module]deriving(Show,Data,Typeable)dataModule=ModulePkgNameModName-- package qualified module namederiving(Show,Eq,Ord,Typeable,Data)
 ```
 
 
 We also propose to add the new `AnnP` data constructor to `data Pragma`:
 
-```wiki
-data Pragma = InlineP         Name Inline RuleMatch Phases
-            | SpecialiseP     Name Type (Maybe Inline) Phases
-            | SpecialiseInstP Type
-            | RuleP           String [RuleBndr] Exp Exp Phases
-            | AnnP            AnnTarget Exp
-
-data AnnTarget = ModuleAnnotation
-               | TypeAnnotation Name
-               | ValueAnnotation Name
-              deriving (Show, Eq, Data, Typeable)
+```
+dataPragma=InlinePNameInlineRuleMatchPhases|SpecialisePNameType(MaybeInline)Phases|SpecialiseInstPType|RulePString[RuleBndr]ExpExpPhases|AnnPAnnTargetExpdataAnnTarget=ModuleAnnotation|TypeAnnotationName|ValueAnnotationNamederiving(Show,Eq,Data,Typeable)
 ```
 
 
@@ -229,4 +208,4 @@ The only feature that is still not in GHC and needed for HFlags is a way to walk
 
 # Other related tickets
 
-- [\#8398](https://gitlab.haskell.org//ghc/ghc/issues/8398)
+- [\#8398](https://gitlab.haskell.org//ghc/ghc/issues/8398): currently on hold, as maybe this can be done as a helper function in `Lib.hs` after [\#1480](https://gitlab.haskell.org//ghc/ghc/issues/1480) is merged, without touching the inside of GHC.

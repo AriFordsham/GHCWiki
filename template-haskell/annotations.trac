@@ -86,7 +86,7 @@ An easier way is to implement #1480, module reification.  If we can get the impo
 The proposal is to make it possible to generate annotations from template haskell (when defining a flag) and read them all back via template haskell (in `$initHFlags`).  These module level annotations (in HFlags case) will then contain the info that is needed for flag parsing and `--help` generation.
 
 Specifically, we propose to add the following new function to the `Quasi` class:
-{{{
+{{{#!haskell
 class Quasi where 
   qReifyAnnotations :: Data a => AnnLookup -> m [a]
   qReifyModule      :: Module -> m ModuleInfo
@@ -105,7 +105,7 @@ data Module = Module PkgName ModName -- package qualified module name
 }}}
 
 We also propose to add the new `AnnP` data constructor to `data Pragma`:
-{{{
+{{{#!haskell
 data Pragma = InlineP         Name Inline RuleMatch Phases
             | SpecialiseP     Name Type (Maybe Inline) Phases
             | SpecialiseInstP Type
@@ -242,4 +242,4 @@ The only feature that is still not in GHC and needed for HFlags is a way to walk
 
 = Other related tickets =
 
- * #8398
+ * #8398: currently on hold, as maybe this can be done as a helper function in `Lib.hs` after #1480 is merged, without touching the inside of GHC.
