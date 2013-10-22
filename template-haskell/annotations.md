@@ -61,6 +61,8 @@ In this case HFlags automatically makes it so that the `tcp_connect_timeout` fla
 
 Of course, this whole approach can be debated and maybe we should instead explicitly pass parameters to functions; but let's leave that debate to the getopt authors and focus on TH on this page.
 
+---
+
 # Current implementation with typeclassses
 
 
@@ -71,9 +73,6 @@ The FlagData ([ https://github.com/errge/hflags/blob/v0.4/HFlags.hs\#L129](https
 
 
 This is ugly: we are abusing the reification of types and instances to send messages to ourselves between modules.  There should be an explicit way to do that.  This is requested in [\#7867](https://gitlab.haskell.org//ghc/ghc/issues/7867).
-
-
-The proposal is to make it possible to generate annotations from template haskell (when defining a flag) and read them all back via template haskell (in `$initHFlags`).  These module level annotations (in HFlags case) will then contain the info that is needed for flag parsing and `--help` generation.
 
 ## Aside: with the current GHC, this implementation is not just ugly, but broken
 
@@ -88,6 +87,29 @@ Template haskell is a corner-case, where this orphan logic is not clever enough 
 
 
 An easier way is to implement [\#1480](https://gitlab.haskell.org//ghc/ghc/issues/1480), module reification.  If we can get the import list of every module, then HFlags can walk the tree of imports itself and gather all the flags.  The nice in this is that the compiler only needs very basic and simple support, and then the logic of traversal can be implemented in HFlags, not in the compiler.solutions, or object to both.****
+
+---
+
+# Design proposal
+
+
+The proposal is to make it possible to generate annotations from template haskell (when defining a flag) and read them all back via template haskell (in `$initHFlags`).  These module level annotations (in HFlags case) will then contain the info that is needed for flag parsing and `--help` generation.
+
+
+Specifically, we propose to add the following new function to the `Quasi` class:
+
+```wiki
+class Quasi where 
+  ...please fill in...
+```
+
+
+These functions behave as follows:
+
+
+... Fill in...
+
+---
 
 # Implementation status, options, questions
 
