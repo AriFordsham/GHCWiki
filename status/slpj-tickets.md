@@ -2,6 +2,7 @@
 
 ## Type inference
 
+- [\#8427](https://gitlab.haskell.org//ghc/ghc/issues/8427): stop EPS cache poisoning
 - [\#8450](https://gitlab.haskell.org//ghc/ghc/issues/8450): rewriting wanteds with wanteds gives confusing error messages
 - [\#7730](https://gitlab.haskell.org//ghc/ghc/issues/7730): display `TyCons` in tidied form in `pprTyThing`
 - [\#5610](https://gitlab.haskell.org//ghc/ghc/issues/5610), [\#7243](https://gitlab.haskell.org//ghc/ghc/issues/7243): Better error messages for `foreign` declarations
