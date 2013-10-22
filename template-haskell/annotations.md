@@ -86,7 +86,7 @@ Haskell98 and Haskell prime says that all the instances should be visible that a
 Template haskell is a corner-case, where this orphan logic is not clever enough and therefore reify doesn't see some of the instances that are under the current module in the dependency tree.  Even more so, if the class instance is in a separate package (and not marked orphan, as is the case in HFlags), then it's not seen either in one-shot or in batch mode.  Therefore HFlags can't gather all the flags in `$initHFlags`.  There is a fix to this as a patch in [\#8426](https://gitlab.haskell.org//ghc/ghc/issues/8426), but that needs more discussion.
 
 
-An easier way is to implement [\#1480](https://gitlab.haskell.org//ghc/ghc/issues/1480), module reification.  If we can get the import list of every module, then HFlags can walk the tree of imports itself and gather all the flags.  The nice in this is that the compiler only needs very basic and simple support, and then the logic of traversal can be implemented in HFlags, not in the compiler.solutions, or object to both.****
+An easier way is to implement [\#1480](https://gitlab.haskell.org//ghc/ghc/issues/1480), module reification.  If we can get the import list of every module, then HFlags can walk the tree of imports itself and gather all the flags.  The nice in this is that the compiler only needs very basic and simple support, and then the logic of traversal can be implemented in HFlags, not in the compiler.
 
 ---
 
@@ -112,10 +112,64 @@ These functions behave as follows:
 ## Example
 
 
-Here is (a sketch of) how we can use these new facilities to implement `defineFlag` and `$initHFlags` in the above example.
+Here is a minimalistic implementation showing how we can use these new facilities to implement `defineFlag` and `$initHFlags` in the above example.
+
+- `HFlags.hs`:
+
+  ```
+  {-# LANGUAGE TemplateHaskell #-}{-# LANGUAGE DeriveDataTypeable #-}moduleHFlagswhereimportControl.ApplicativeimportData.DataimportqualifiedData.Setas Set
+  importLanguage.Haskell.THimportLanguage.Haskell.TH.Syntax-- in the real world, this is more complex, of coursedataFlagData=FlagDataStringderiving(Show,Data,Typeable)instanceLiftFlagDatawhere
+    lift (FlagData s)=[|FlagData s |]defineFlag::FlagData->DecsQdefineFlag str =do(:[])<$> pragAnnD ModuleAnnotation(lift str)traverseAnnotations::Q[FlagData]traverseAnnotations=doModuleInfo children <- reifyModule =<< thisModule
+    go children Set.empty []where
+      go []     _visited acc = return acc
+      go (x:xs) visited  acc | x `Set.member` visited = go xs visited acc
+                             | otherwise =doModuleInfo newMods <- reifyModule x
+                               newAnns <- reifyAnnotations $AnnLookupModule x
+                               go (newMods ++ xs)(x `Set.insert` visited)(newAnns ++ acc)initHFlags::ExpQinitHFlags=do
+    anns <- traverseAnnotations
+    [| print anns |]-- in the real world do something here, like generating --help
+  ```
+- `A.hs`:
+
+  ```
+  {-# LANGUAGE TemplateHaskell #-}moduleAwhereimportHFlagsdefineFlag(FlagData"A module is here!")
+  ```
+- `B.hs`:
+
+  ```
+  {-# LANGUAGE TemplateHaskell #-}moduleBwhereimportAimportHFlagsdefineFlag(FlagData"B module is here!")
+  ```
+- `Main.hs`:
+
+  ```
+  {-# LANGUAGE TemplateHaskell #-}importBimportHFlagsmain=do$initHFlags
+  ```
+- `build.sh`:
+
+  ```wiki
+  #!/bin/sh
+
+  set -e
+
+  rm -f *.o *.hi Main
+
+  GHC="/home/errge/tmp/ghc/inplace/bin/ghc-stage2 -v0 "
+
+  $GHC -c HFlags.hs
+  $GHC -c A.hs
+  $GHC -c B.hs
+  $GHC -c Main.hs
+  $GHC --make Main
+  ```
+- result:
+
+  ```wiki
+  errge@curry:~/tmp/sketch $ ./build.sh && ./Main
+  [FlagData "A module is here!",FlagData "B module is here!"]
+  ```
 
 
-...fill in...
+In spite of only importing B from Main, we see the annotations from A, this was our goal.
 
 ---
 
