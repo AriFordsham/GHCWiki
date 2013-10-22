@@ -112,3 +112,7 @@ This patch doesn't need to get merged urgently, it's just nice to have.
 The only feature that is still not in GHC and needed for HFlags is a way to walk the module dependency tree of the currently being compiled module from TH.  This is made possible by [\#1480](https://gitlab.haskell.org//ghc/ghc/issues/1480), that just adds minimal module reification (import list).  Once we have that, HFlags can just ask for the imports and than for the imports of the imports, etc. to walk the tree itself.  There is no need to do this from the compiler, as that would obscure the fact that this can be a slow and wasteful operation.
 
 **If you have any opinion about this minimal module reification, please comment on and review [\#1480](https://gitlab.haskell.org//ghc/ghc/issues/1480).**
+
+# Other related tickets
+
+- [\#8398](https://gitlab.haskell.org//ghc/ghc/issues/8398)
