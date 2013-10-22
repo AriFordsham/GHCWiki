@@ -100,14 +100,44 @@ Specifically, we propose to add the following new function to the `Quasi` class:
 
 ```wiki
 class Quasi where 
-  ...please fill in...
+  qReifyAnnotations :: Data a => AnnLookup -> m [a]
+  qReifyModule      :: Module -> m ModuleInfo
+
+data AnnLookup = AnnLookupModule Module
+               | AnnLookupName Name
+               deriving( Show, Eq, Data, Typeable )
+
+data ModuleInfo =
+  -- | Contains the import list of the module.
+  ModuleInfo [Module]
+  deriving( Show, Data, Typeable )
+
+data Module = Module PkgName ModName -- package qualified module name
+ deriving (Show,Eq,Ord,Typeable,Data)
+```
+
+
+We also propose to add the new `AnnP` data constructor to `data Pragma`:
+
+```wiki
+data Pragma = InlineP         Name Inline RuleMatch Phases
+            | SpecialiseP     Name Type (Maybe Inline) Phases
+            | SpecialiseInstP Type
+            | RuleP           String [RuleBndr] Exp Exp Phases
+            | AnnP            AnnTarget Exp
+
+data AnnTarget = ModuleAnnotation
+               | TypeAnnotation Name
+               | ValueAnnotation Name
+              deriving (Show, Eq, Data, Typeable)
 ```
 
 
 These functions behave as follows:
 
-
-... Fill in...
+- `AnnP` is very similar to the already existing pragma descriptors in `data Pragma`: it contains the target of the annotation and the payload as an `Exp`,
+- `qReifyAnnotation` is the dual of `AnnP`, it can be used to reify an annotation to get back the payload,
+- `qReifyModule` gives back the list of imports for the named module (in the future, it should reify more: maybe everything that is useful from the interface file).
 
 ## Example
 
