@@ -93,7 +93,7 @@ node l r = In (Sum (Right (Prod (I l, I r))))
 
 but any `Tree`-specific pattern matching code you write will be wide and obscure. Turning these definitions into pattern synonyms means you can have both readable type-specific programs and handy generics without marshalling your data between views.
 
-## Pattern-only synonyms
+## Uni-directional (pattern-only) synonyms
 
 
 The simplest form of pattern synonyms is the one from the examples above.  The grammar rule is:
