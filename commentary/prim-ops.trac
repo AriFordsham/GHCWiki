@@ -64,7 +64,7 @@ All other !PrimOps are classified as out-of-line, and are implemented by hand-wr
    are in the [wiki:Commentary/Rts/HaskellExecution#Registers registers] R1-R8.  This is to make it easy to write the
    C-- code for these !PrimOps: we don't have to write code for multiple calling conventions.
 
-=== Foreign out-of-line !PrimOps ===
+=== Foreign out-of-line !PrimOps and `foreign import prim` ===
 
 A new and somewhat more flexible form of out-of-line !PrimOp is the foreign out-of-line !PrimOp. These are essentially the same but instead of their Cmm code being included in the RTS, they can be defined in Cmm code in any package and instead of knowledge of the !PrimOp being baked into the compiler, they can be imported using special FFI syntax:
 
