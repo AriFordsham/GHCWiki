@@ -204,7 +204,6 @@ See also [TemplateHaskell](template-haskell)
 - [\#1012](https://gitlab.haskell.org//ghc/ghc/issues/1012): mutually recursive modules and TH
 - [\#5959](https://gitlab.haskell.org//ghc/ghc/issues/5959): top level splices and renaming
 - [\#5416](https://gitlab.haskell.org//ghc/ghc/issues/5416): local modules
-- [\#4364](https://gitlab.haskell.org//ghc/ghc/issues/4364): type synonym loop
 - [\#4372](https://gitlab.haskell.org//ghc/ghc/issues/4372): better quasiquotation support
 - [\#2041](https://gitlab.haskell.org//ghc/ghc/issues/2041): Splicing in concrete syntax
 - [\#1475](https://gitlab.haskell.org//ghc/ghc/issues/1475): Allow TH to generate import declarations        
