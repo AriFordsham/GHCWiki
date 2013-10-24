@@ -15,7 +15,7 @@ Common tasks:
 === [hackage:array] ===
 
  - performed deprecation-removals & major version bump
- - TODO: make release
+ - ready for release
 
 === [hackage:base] ===
 
@@ -41,7 +41,7 @@ module GHC.Exts
 === [hackage:deepseq] ===
 
  - cleaned up
- - TODO: make release
+ - ready for release
 
 === [hackage:directory] ===
 
@@ -56,11 +56,25 @@ module GHC.Exts
 
 === [hackage:ghc-prim] ===
 
+TODO
+
 === [hackage:haskell2010] ===
+
+ - TODO: find out why it doesn't compile outside GHC-build
 
 === [hackage:haskell98] ===
 
+ - TODO: find out why it doesn't compile outside GHC-build
+
 === [hackage:hoopl] ===
+
+TODO
+
+=== [hackage:hpc] ===
+
+[[Image(https://travis-ci.org/ghc/packages-hpc.png?branch=master,link=https://travis-ci.org/ghc/packages-hpc)]]
+
+ - ready for release 
 
 === [hackage:integer-gmp] ===
 
@@ -68,7 +82,13 @@ module GHC.Exts
 
 === [hackage:old-locale] ===
 
+[[Image(https://travis-ci.org/ghc/packages-old-locale.png?branch=master,link=https://travis-ci.org/ghc/packages-old-locale)]]
+
+ - ready for release
+
 === [hackage:old-time] ===
+
+ - ready for release
 
 === [hackage:parallel] ===
 
@@ -105,6 +125,8 @@ module GHC.Exts
 
 === [hackage:template-haskell] ===
 
+ - cleaned up and ready for release
+
 === [hackage:unix] ===
 
 [[TicketQuery(status!=closed,component=libraries/unix,format=table,col=type|summary|priority|owner|reporter)]]
@@ -133,7 +155,7 @@ Note: Libraries with a "^1^" marker are used internally (e.g. by `ghci` or `hadd
 === Win32 ===
 
  - upstream: http://github.com/haskell/win32.git
- - TODO
+ - TODO: version bump needed!
 
 === binary ===
 

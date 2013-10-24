@@ -14,7 +14,7 @@ Common tasks:
 ### [ array](http://hackage.haskell.org/package/array)
 
 - performed deprecation-removals & major version bump
-- TODO make release
+- ready for release
 
 ### [ base](http://hackage.haskell.org/package/base)
 
@@ -28,7 +28,7 @@ Common tasks:
 ### [ deepseq](http://hackage.haskell.org/package/deepseq)
 
 - cleaned up
-- TODO make release
+- ready for release
 
 ### [ directory](http://hackage.haskell.org/package/directory)
 
@@ -56,11 +56,25 @@ Common tasks:
 
 ### [ ghc-prim](http://hackage.haskell.org/package/ghc-prim)
 
+TODO
+
 ### [ haskell2010](http://hackage.haskell.org/package/haskell2010)
+
+- TODO find out why it doesn't compile outside GHC-build
 
 ### [ haskell98](http://hackage.haskell.org/package/haskell98)
 
+- TODO find out why it doesn't compile outside GHC-build
+
 ### [ hoopl](http://hackage.haskell.org/package/hoopl)
+
+TODO
+
+### [ hpc](http://hackage.haskell.org/package/hpc)
+
+[](https://travis-ci.org/ghc/packages-hpc)
+
+- ready for release 
 
 ### [ integer-gmp](http://hackage.haskell.org/package/integer-gmp)
 
@@ -68,7 +82,13 @@ Common tasks:
 
 ### [ old-locale](http://hackage.haskell.org/package/old-locale)
 
+[](https://travis-ci.org/ghc/packages-old-locale)
+
+- ready for release
+
 ### [ old-time](http://hackage.haskell.org/package/old-time)
+
+- ready for release
 
 ### [ parallel](http://hackage.haskell.org/package/parallel)
 
@@ -104,6 +124,8 @@ Common tasks:
 - TODO find out when/whether to release an updated 2.4.2.1 version
 
 ### [ template-haskell](http://hackage.haskell.org/package/template-haskell)
+
+- cleaned up and ready for release
 
 ### [ unix](http://hackage.haskell.org/package/unix)
 
@@ -164,7 +186,7 @@ Note: Libraries with a "<sup>1</sup>" marker are used internally (e.g. by `ghci`
 ### Win32
 
 - upstream: [ http://github.com/haskell/win32.git](http://github.com/haskell/win32.git)
-- TODO
+- TODO version bump needed!
 
 ### binary
 
