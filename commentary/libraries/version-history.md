@@ -1,7 +1,7 @@
 # GHC Boot Library Version History
 
 <table><tr><th></th>
-<th>**7.7.20131018**</th>
+<th>**7.7.20131024**</th>
 <th>**7.6.3**</th>
 <th>**7.6.2**</th>
 <th>**7.6.1**</th>
@@ -194,7 +194,7 @@
 <th></th>
 <th></th></tr>
 <tr><th>`ghc`</th>
-<th>  7.7.20131018\*  </th>
+<th>  7.7.20131024\*  </th>
 <th>  7.6.3\*  </th>
 <th>  7.6.2\*  </th>
 <th>  7.6.1\*  </th>
@@ -236,12 +236,12 @@
 <th></th>
 <th></th></tr>
 <tr><th>`haskell2010`</th>
+<th>  1.1.1.1\*  </th>
 <th>  1.1.1.0\*  </th>
 <th>  1.1.0.1\*  </th>
 <th>  1.1.0.0\*  </th>
 <th>  1.0.0.0\*  
 </th>
-<th></th>
 <th></th>
 <th></th>
 <th></th>
@@ -305,6 +305,7 @@
 <th></th>
 <th></th></tr>
 <tr><th>`old-locale`</th>
+<th>  1.0.0.6  </th>
 <th>  1.0.0.5  </th>
 <th>  1.0.0.4  </th>
 <th>  1.0.0.3  </th>
@@ -316,15 +317,14 @@
 <th></th>
 <th></th>
 <th></th>
-<th></th>
 <th></th></tr>
 <tr><th>`old-time`</th>
+<th>  1.1.0.2  </th>
 <th>  1.1.0.1  </th>
 <th>  1.1.0.0  </th>
 <th>  1.0.0.7  </th>
 <th>  1.0.0.6  
 </th>
-<th></th>
 <th></th>
 <th></th>
 <th></th>
@@ -444,7 +444,7 @@
 <th></th>
 <th></th></tr>
 <tr><th></th>
-<th>**7.7.20131018**</th>
+<th>**7.7.20131024**</th>
 <th>**7.6.3**</th>
 <th>**7.6.2**</th>
 <th>**7.6.1**</th>
