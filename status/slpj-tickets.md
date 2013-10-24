@@ -2,6 +2,7 @@
 
 ## Type inference
 
+- [\#8441](https://gitlab.haskell.org//ghc/ghc/issues/8441): family instances in hs-boot files
 - [\#8427](https://gitlab.haskell.org//ghc/ghc/issues/8427): stop EPS cache poisoning
 - [\#8450](https://gitlab.haskell.org//ghc/ghc/issues/8450): rewriting wanteds with wanteds gives confusing error messages
 - [\#7730](https://gitlab.haskell.org//ghc/ghc/issues/7730): display `TyCons` in tidied form in `pprTyThing`
@@ -22,7 +23,6 @@
 - [\#7862](https://gitlab.haskell.org//ghc/ghc/issues/7862): overlap beween givens and instances
 - [\#7643](https://gitlab.haskell.org//ghc/ghc/issues/7643): dark corner of sub-kinding and `unsafeCoerce#`
 - [\#7842](https://gitlab.haskell.org//ghc/ghc/issues/7842): polymorphism in recursive do-blocks
-- [\#7730](https://gitlab.haskell.org//ghc/ghc/issues/7730): better display in GHCi, via `IfaceSyn`.
 
 ## Template Haskell
 
@@ -204,7 +204,6 @@ See also [TemplateHaskell](template-haskell)
 - [\#1012](https://gitlab.haskell.org//ghc/ghc/issues/1012): mutually recursive modules and TH
 - [\#5959](https://gitlab.haskell.org//ghc/ghc/issues/5959): top level splices and renaming
 - [\#5416](https://gitlab.haskell.org//ghc/ghc/issues/5416): local modules
-- [\#4364](https://gitlab.haskell.org//ghc/ghc/issues/4364): type synonym loop
 - [\#4372](https://gitlab.haskell.org//ghc/ghc/issues/4372): better quasiquotation support
 - [\#2041](https://gitlab.haskell.org//ghc/ghc/issues/2041): Splicing in concrete syntax
 - [\#1475](https://gitlab.haskell.org//ghc/ghc/issues/1475): Allow TH to generate import declarations        
