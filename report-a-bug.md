@@ -17,16 +17,12 @@ To report a bug, either:
 ## Frequently reported bugs
 
 
-GHC 7.4 gives an internal error (panic) on:
+The following cause an internal error (panic) and are already fixed in the development version.
 
-- Lowercase identifier used in a deriving clause, such as `data A = B deriving show`. Use uppercase: `deriving Show`. Bug [\#5961](https://gitlab.haskell.org//ghc/ghc/issues/5961).
-- Invalid instances: `instance A => B => C where ...`, `instance A -> B`, `instance (A, B)` etc. Bug [\#5951](https://gitlab.haskell.org//ghc/ghc/issues/5951).
-
-
-Both errors are fixed in GHC 7.6, if possible, you should upgrade.
-
-
-GHC 7.6 gives a panic on an invalid strictness annotation `data X = X (!Maybe Int)`. The correct way is `data X = X (!(Maybe Int))`. This is fixed in the development version. See bug [\#7210](https://gitlab.haskell.org//ghc/ghc/issues/7210).
+- GHC 7.4: Lowercase identifier used in a deriving clause, such as `data A = B deriving show`. Use uppercase: `deriving Show`. Bug [\#5961](https://gitlab.haskell.org//ghc/ghc/issues/5961).
+- GHC 7.4: Invalid instances: `instance A => B => C where ...`, `instance A -> B`, `instance (A, B)` etc. Bug [\#5951](https://gitlab.haskell.org//ghc/ghc/issues/5951).
+- GHC 7.6: Invalid strictness annotation `data X = X (!Maybe Int)`. The correct way is `data X = X (!(Maybe Int))`. Bug [\#7210](https://gitlab.haskell.org//ghc/ghc/issues/7210).
+- GHC 7.6: kindFunResult panic when `lift` is applied to two parameters (e.g. `lift putStrLn "hello"`). This is a kind error, it should be `lift (putStrLn "hello").` Bugs [\#7368](https://gitlab.haskell.org//ghc/ghc/issues/7368), [\#7920](https://gitlab.haskell.org//ghc/ghc/issues/7920).
 
 ## How do I tell if I should report my bug?
 
