@@ -47,6 +47,7 @@ See also [wiki:TemplateHaskell]
  * #1171: strictness and exceptions (long, open ticket)
 
 == Optimisation ==
+ * #8472: top level unlifted string literals
  * #8351: inline allocation for small arrays
  * #8275: loopification and profiling
  * #8335: more gc entry points
@@ -100,7 +101,6 @@ See also [wiki:TemplateHaskell]
  * #3781, #3755: inlining for local functions: discount for scrutinising free vars
  * #3765: CONLIKE things and case expressions (need two unfoldings)
  * #3073 and [wiki:Commentary/Compiler/DesugaringInstances]: better desugaring for instances
- * #2840: top level unlifted string literals
  * #3123: feature request: recursive inlining and peeling
  * #4960: better inlining tests
 
