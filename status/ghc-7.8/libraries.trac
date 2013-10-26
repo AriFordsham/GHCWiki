@@ -11,6 +11,9 @@ TODO: Hackage needs to be updated to use Cabal 1.18.x
 Common tasks:
 
  - TODO: clean-up `.cabal` files
+ - TODO: add changelogs
+
+[[TicketQuery(status!=closed,component=libraries/other,format=table,col=type|summary|priority|owner|reporter|keywords)]]
 
 === [hackage:array] ===
 
@@ -18,6 +21,8 @@ Common tasks:
  - ready for release
 
 === [hackage:base] ===
+
+[[TicketQuery(status!=closed,component=libraries/base,format=table,col=type|summary|priority|owner|reporter,max=10)]]
 
  - TODO: make sure all recent additions are `/Since:/`-annotated
  - TODO: Deprecated functions since at least GHC 7.4:
@@ -60,17 +65,25 @@ TODO
 
 === [hackage:haskell2010] ===
 
- - TODO: find out why it doesn't compile outside GHC-build
+[[TicketQuery(status!=closed,component=libraries/haskell2010,format=table,col=type|summary|priority|owner|reporter)]]
+
+ - ready for release
 
 === [hackage:haskell98] ===
 
- - TODO: find out why it doesn't compile outside GHC-build
+[[TicketQuery(status!=closed,component=libraries/haskell98,format=table,col=type|summary|priority|owner|reporter)]]
+
+ - ready for release
 
 === [hackage:hoopl] ===
 
-TODO
+[[Image(https://travis-ci.org/ghc/packages-hoopl.png?branch=master,link=https://travis-ci.org/ghc/packages-hoopl)]]
+
+ - TODO: changelog entry for 3.10.0.0
 
 === [hackage:hpc] ===
+
+[[TicketQuery(status!=closed,component=Code Coverage,format=table,col=type|summary|priority|owner|reporter)]]
 
 [[Image(https://travis-ci.org/ghc/packages-hpc.png?branch=master,link=https://travis-ci.org/ghc/packages-hpc)]]
 
@@ -87,6 +100,8 @@ TODO
  - ready for release
 
 === [hackage:old-time] ===
+
+[[TicketQuery(status!=closed,component=libraries/old-time,format=table,col=type|summary|priority|owner|reporter)]]
 
  - ready for release
 
@@ -183,10 +198,12 @@ Note: Libraries with a "^1^" marker are used internally (e.g. by `ghci` or `hadd
 
 === pretty ===
 
+[[TicketQuery(status!=closed,component=libraries/pretty,format=table,col=type|summary|priority|owner|reporter)]]
+
  - upstream: http://github.com/haskell/pretty.git
  - not pointing to proper release version
  - no significant delta to upstream HEAD state
- - TODO
+ - TODO: .cabal file points to Trac for bug-reports even though upstream on GitHub
 
 === primitive^2^ ===
 

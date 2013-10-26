@@ -10,6 +10,24 @@ TODO Hackage needs to be updated to use Cabal 1.18.x
 Common tasks:
 
 - TODO clean-up `.cabal` files
+- TODO add changelogs
+
+<table><tr><th>Ticket (Ticket query: status: !closed, component: libraries%2Fother, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, col: keywords, desc: 1, order: id)</th>
+<th>Type (Ticket query: status: !closed, component: libraries%2Fother, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, col: keywords, order: type)</th>
+<th>Summary (Ticket query: status: !closed, component: libraries%2Fother, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, col: keywords, order: summary)</th>
+<th>Priority (Ticket query: status: !closed, component: libraries%2Fother, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, col: keywords, order: priority)</th>
+<th>Owner (Ticket query: status: !closed, component: libraries%2Fother, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, col: keywords, order: owner)</th>
+<th>Reporter (Ticket query: status: !closed, component: libraries%2Fother, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, col: keywords, order: reporter)</th>
+<th>Keywords (Ticket query: status: !closed, component: libraries%2Fother, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, col: keywords, order: keywords)</th></tr>
+<tr><th>
+            No tickets found
+          </th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr></table>
 
 ### [ array](http://hackage.haskell.org/package/array)
 
@@ -17,6 +35,280 @@ Common tasks:
 - ready for release
 
 ### [ base](http://hackage.haskell.org/package/base)
+
+##
+    Results (1 - 10 of 76)
+
+12 (Ticket query: status: !closed, component: libraries%2Fbase, max: 10, page: 2, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: id)3 (Ticket query: status: !closed, component: libraries%2Fbase, max: 10, page: 3, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: id)4 (Ticket query: status: !closed, component: libraries%2Fbase, max: 10, page: 4, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: id)5 (Ticket query: status: !closed, component: libraries%2Fbase, max: 10, page: 5, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: id)6 (Ticket query: status: !closed, component: libraries%2Fbase, max: 10, page: 6, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: id)7 (Ticket query: status: !closed, component: libraries%2Fbase, max: 10, page: 7, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: id)8 (Ticket query: status: !closed, component: libraries%2Fbase, max: 10, page: 8, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: id)→ (Ticket query: status: !closed, component: libraries%2Fbase, max: 10, page: 2, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: id)
+
+<table><tr><th>Ticket (Ticket query: status: !closed, component: libraries%2Fbase, max: 10, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, desc: 1, order: id)</th>
+<th>Type (Ticket query: status: !closed, component: libraries%2Fbase, max: 10, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: type)</th>
+<th>Summary (Ticket query: status: !closed, component: libraries%2Fbase, max: 10, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: summary)</th>
+<th>Priority (Ticket query: status: !closed, component: libraries%2Fbase, max: 10, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: priority)</th>
+<th>Owner (Ticket query: status: !closed, component: libraries%2Fbase, max: 10, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: owner)</th>
+<th>Reporter (Ticket query: status: !closed, component: libraries%2Fbase, max: 10, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: reporter)</th></tr>
+<tr><th>[\#913](https://gitlab.haskell.org//ghc/ghc/issues/913)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      feature request
+                    </th>
+<th>[instance Ord (StableName a)](https://gitlab.haskell.org//ghc/ghc/issues/913)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th></th>
+<th>ekarttun</th></tr>
+<tr><th>[\#3399](https://gitlab.haskell.org//ghc/ghc/issues/3399)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      proposal
+                    </th>
+<th>[Generalize the type of Data.List.{deleteBy, deleteFirstsBy}](https://gitlab.haskell.org//ghc/ghc/issues/3399)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th></th>
+<th>iago</th></tr>
+<tr><th>[\#9795](https://gitlab.haskell.org//ghc/ghc/issues/9795)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      feature request
+                    </th>
+<th>[Debug.Trace.trace is too strict](https://gitlab.haskell.org//ghc/ghc/issues/9795)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th></th>
+<th>jcpetruzza</th></tr>
+<tr><th>[\#9936](https://gitlab.haskell.org//ghc/ghc/issues/9936)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[Data.Fixed truncates 5.17 to 5.16](https://gitlab.haskell.org//ghc/ghc/issues/9936)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th></th>
+<th>singpolyma</th></tr>
+<tr><th>[\#10055](https://gitlab.haskell.org//ghc/ghc/issues/10055)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      feature request
+                    </th>
+<th>[Offer PolyKinded instances for Data.Fixed.HasResolution](https://gitlab.haskell.org//ghc/ghc/issues/10055)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      low
+                    </th>
+<th></th>
+<th>redneb</th></tr>
+<tr><th>[\#10084](https://gitlab.haskell.org//ghc/ghc/issues/10084)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      feature request
+                    </th>
+<th>[Data.List should have a takeLastN function](https://gitlab.haskell.org//ghc/ghc/issues/10084)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th></th>
+<th>leonbaum2</th></tr>
+<tr><th>[\#10169](https://gitlab.haskell.org//ghc/ghc/issues/10169)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[bracket not running the final action on termination through SIGTERM](https://gitlab.haskell.org//ghc/ghc/issues/10169)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th></th>
+<th>Kritzefitz</th></tr>
+<tr><th>[\#10266](https://gitlab.haskell.org//ghc/ghc/issues/10266)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      task
+                    </th>
+<th>[Split base for Backpack](https://gitlab.haskell.org//ghc/ghc/issues/10266)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      low
+                    </th>
+<th>ezyang</th>
+<th>ezyang</th></tr>
+<tr><th>[\#10484](https://gitlab.haskell.org//ghc/ghc/issues/10484)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[hPutBuf crashes when trying to write a large string to stdout (resource exhausted)](https://gitlab.haskell.org//ghc/ghc/issues/10484)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th></th>
+<th>bayloff</th></tr>
+<tr><th>[\#11009](https://gitlab.haskell.org//ghc/ghc/issues/11009)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[Errors reading stdin on Windows](https://gitlab.haskell.org//ghc/ghc/issues/11009)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th></th>
+<th>ncreep</th></tr></table>
+
+12 (Ticket query: status: !closed, component: libraries%2Fbase, max: 10, page: 2, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: id)3 (Ticket query: status: !closed, component: libraries%2Fbase, max: 10, page: 3, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: id)4 (Ticket query: status: !closed, component: libraries%2Fbase, max: 10, page: 4, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: id)5 (Ticket query: status: !closed, component: libraries%2Fbase, max: 10, page: 5, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: id)6 (Ticket query: status: !closed, component: libraries%2Fbase, max: 10, page: 6, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: id)7 (Ticket query: status: !closed, component: libraries%2Fbase, max: 10, page: 7, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: id)8 (Ticket query: status: !closed, component: libraries%2Fbase, max: 10, page: 8, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: id)→ (Ticket query: status: !closed, component: libraries%2Fbase, max: 10, page: 2, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: id)
 
 - TODO make sure all recent additions are `/Since:/`-annotated
 - TODO Deprecated functions since at least GHC 7.4:
@@ -60,17 +352,446 @@ TODO
 
 ### [ haskell2010](http://hackage.haskell.org/package/haskell2010)
 
-- TODO find out why it doesn't compile outside GHC-build
+<table><tr><th>Ticket (Ticket query: status: !closed, component: libraries%2Fhaskell2010, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, desc: 1, order: id)</th>
+<th>Type (Ticket query: status: !closed, component: libraries%2Fhaskell2010, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: type)</th>
+<th>Summary (Ticket query: status: !closed, component: libraries%2Fhaskell2010, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: summary)</th>
+<th>Priority (Ticket query: status: !closed, component: libraries%2Fhaskell2010, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: priority)</th>
+<th>Owner (Ticket query: status: !closed, component: libraries%2Fhaskell2010, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: owner)</th>
+<th>Reporter (Ticket query: status: !closed, component: libraries%2Fhaskell2010, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: reporter)</th></tr>
+<tr><th>
+            No tickets found
+          </th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr></table>
+
+- ready for release
 
 ### [ haskell98](http://hackage.haskell.org/package/haskell98)
 
-- TODO find out why it doesn't compile outside GHC-build
+<table><tr><th>Ticket (Ticket query: status: !closed, component: libraries%2Fhaskell98, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, desc: 1, order: id)</th>
+<th>Type (Ticket query: status: !closed, component: libraries%2Fhaskell98, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: type)</th>
+<th>Summary (Ticket query: status: !closed, component: libraries%2Fhaskell98, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: summary)</th>
+<th>Priority (Ticket query: status: !closed, component: libraries%2Fhaskell98, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: priority)</th>
+<th>Owner (Ticket query: status: !closed, component: libraries%2Fhaskell98, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: owner)</th>
+<th>Reporter (Ticket query: status: !closed, component: libraries%2Fhaskell98, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: reporter)</th></tr>
+<tr><th>
+            No tickets found
+          </th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr></table>
+
+- ready for release
 
 ### [ hoopl](http://hackage.haskell.org/package/hoopl)
 
-TODO
+[](https://travis-ci.org/ghc/packages-hoopl)
+
+- TODO changelog entry for 3.10.0.0
 
 ### [ hpc](http://hackage.haskell.org/package/hpc)
+
+<table><tr><th>Ticket (Ticket query: status: !closed, component: Code+Coverage, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, desc: 1, order: id)</th>
+<th>Type (Ticket query: status: !closed, component: Code+Coverage, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: type)</th>
+<th>Summary (Ticket query: status: !closed, component: Code+Coverage, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: summary)</th>
+<th>Priority (Ticket query: status: !closed, component: Code+Coverage, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: priority)</th>
+<th>Owner (Ticket query: status: !closed, component: Code+Coverage, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: owner)</th>
+<th>Reporter (Ticket query: status: !closed, component: Code+Coverage, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: reporter)</th></tr>
+<tr><th>[\#1853](https://gitlab.haskell.org//ghc/ghc/issues/1853)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[hpc mix files for Main modules overwrite each other](https://gitlab.haskell.org//ghc/ghc/issues/1853)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      lowest
+                    </th>
+<th></th>
+<th>guest</th></tr>
+<tr><th>[\#2075](https://gitlab.haskell.org//ghc/ghc/issues/2075)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      feature request
+                    </th>
+<th>[hpc should render information about the run in its html markup](https://gitlab.haskell.org//ghc/ghc/issues/2075)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      lowest
+                    </th>
+<th>andy@…</th>
+<th>dons</th></tr>
+<tr><th>[\#2224](https://gitlab.haskell.org//ghc/ghc/issues/2224)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[-fhpc inteferes/prevents rewrite rules from firing](https://gitlab.haskell.org//ghc/ghc/issues/2224)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      lowest
+                    </th>
+<th>andy@…</th>
+<th>dons</th></tr>
+<tr><th>[\#10367](https://gitlab.haskell.org//ghc/ghc/issues/10367)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>["ghc: panic! (the 'impossible' happened)"](https://gitlab.haskell.org//ghc/ghc/issues/10367)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th></th>
+<th>bgwines</th></tr>
+<tr><th>[\#10504](https://gitlab.haskell.org//ghc/ghc/issues/10504)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[GHC panics with dsImpSpecs on SPECIALISE pragma with -fhpc enabled](https://gitlab.haskell.org//ghc/ghc/issues/10504)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th></th>
+<th>nh2</th></tr>
+<tr><th>[\#10951](https://gitlab.haskell.org//ghc/ghc/issues/10951)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[HPC program has poor error reporting / strange CLI in general](https://gitlab.haskell.org//ghc/ghc/issues/10951)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      low
+                    </th>
+<th></th>
+<th>mgsloan</th></tr>
+<tr><th>[\#10952](https://gitlab.haskell.org//ghc/ghc/issues/10952)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[Use IPids instead of package keys in HPC tix files](https://gitlab.haskell.org//ghc/ghc/issues/10952)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      low
+                    </th>
+<th></th>
+<th>mgsloan</th></tr>
+<tr><th>[\#12631](https://gitlab.haskell.org//ghc/ghc/issues/12631)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[\`hpc report\` silently ignore non-existent modules](https://gitlab.haskell.org//ghc/ghc/issues/12631)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th></th>
+<th>quabla</th></tr>
+<tr><th>[\#13448](https://gitlab.haskell.org//ghc/ghc/issues/13448)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      task
+                    </th>
+<th>[Make HPC use an RTS option to select the tix file](https://gitlab.haskell.org//ghc/ghc/issues/13448)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th>dfeuer</th>
+<th>dfeuer</th></tr>
+<tr><th>[\#13452](https://gitlab.haskell.org//ghc/ghc/issues/13452)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[Lock .tix file](https://gitlab.haskell.org//ghc/ghc/issues/13452)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th></th>
+<th>dfeuer</th></tr>
+<tr><th>[\#14711](https://gitlab.haskell.org//ghc/ghc/issues/14711)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      feature request
+                    </th>
+<th>[Machine readable output of coverage](https://gitlab.haskell.org//ghc/ghc/issues/14711)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th>jproyo</th>
+<th>Koterpillar</th></tr>
+<tr><th>[\#15498](https://gitlab.haskell.org//ghc/ghc/issues/15498)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[HPC: do notation marks () as non-covered](https://gitlab.haskell.org//ghc/ghc/issues/15498)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th></th>
+<th>tom-bop</th></tr>
+<tr><th>[\#15776](https://gitlab.haskell.org//ghc/ghc/issues/15776)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[Untested modules excluded from hpc coverage report](https://gitlab.haskell.org//ghc/ghc/issues/15776)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th></th>
+<th>ramirez7</th></tr>
+<tr><th>[\#15932](https://gitlab.haskell.org//ghc/ghc/issues/15932)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[DeriveFunctor and GeneralizedNewtypeDeriving instances never reporting as covered](https://gitlab.haskell.org//ghc/ghc/issues/15932)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      low
+                    </th>
+<th></th>
+<th>davean</th></tr>
+<tr><th>[\#16380](https://gitlab.haskell.org//ghc/ghc/issues/16380)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      feature request
+                    </th>
+<th>[HPC's CLI is awkward](https://gitlab.haskell.org//ghc/ghc/issues/16380)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th></th>
+<th>MaxGabriel</th></tr></table>
 
 [](https://travis-ci.org/ghc/packages-hpc)
 
@@ -87,6 +808,21 @@ TODO
 - ready for release
 
 ### [ old-time](http://hackage.haskell.org/package/old-time)
+
+<table><tr><th>Ticket (Ticket query: status: !closed, component: libraries%2Fold-time, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, desc: 1, order: id)</th>
+<th>Type (Ticket query: status: !closed, component: libraries%2Fold-time, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: type)</th>
+<th>Summary (Ticket query: status: !closed, component: libraries%2Fold-time, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: summary)</th>
+<th>Priority (Ticket query: status: !closed, component: libraries%2Fold-time, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: priority)</th>
+<th>Owner (Ticket query: status: !closed, component: libraries%2Fold-time, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: owner)</th>
+<th>Reporter (Ticket query: status: !closed, component: libraries%2Fold-time, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: reporter)</th></tr>
+<tr><th>
+            No tickets found
+          </th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr></table>
 
 - ready for release
 
@@ -214,10 +950,25 @@ Note: Libraries with a "<sup>1</sup>" marker are used internally (e.g. by `ghci`
 
 ### pretty
 
+<table><tr><th>Ticket (Ticket query: status: !closed, component: libraries%2Fpretty, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, desc: 1, order: id)</th>
+<th>Type (Ticket query: status: !closed, component: libraries%2Fpretty, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: type)</th>
+<th>Summary (Ticket query: status: !closed, component: libraries%2Fpretty, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: summary)</th>
+<th>Priority (Ticket query: status: !closed, component: libraries%2Fpretty, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: priority)</th>
+<th>Owner (Ticket query: status: !closed, component: libraries%2Fpretty, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: owner)</th>
+<th>Reporter (Ticket query: status: !closed, component: libraries%2Fpretty, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: reporter)</th></tr>
+<tr><th>
+            No tickets found
+          </th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr></table>
+
 - upstream: [ http://github.com/haskell/pretty.git](http://github.com/haskell/pretty.git)
 - not pointing to proper release version
 - no significant delta to upstream HEAD state
-- TODO
+- TODO .cabal file points to Trac for bug-reports even though upstream on GitHub
 
 ### primitive<sup>2</sup>
 
