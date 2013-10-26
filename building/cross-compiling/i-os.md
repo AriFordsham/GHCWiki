@@ -14,9 +14,6 @@ To use it, compile `clang-xcode5-wrapper.hs`, add it to your path, then edit `/u
 
 GHC 7.8 already includes a fix for this.
 
-
-You'll also need to apply [\#8445](https://gitlab.haskell.org//ghc/ghc/issues/8445) and [\#8444](https://gitlab.haskell.org//ghc/ghc/issues/8444) until they're merged.
-
 ## Steps
 
 ### 1. Read ARM-specific notes
@@ -49,19 +46,10 @@ perl boot
 ### 4. Create a build.mk file
 
 
-GHC requires you to write a **mk/build.mk** file, and the following one works. `integer-simple` must be used, because the default implementation doesn't compile on iOS. `Stage1Only` is needed for cross-compiling.
+GHC requires you to write a **mk/build.mk** file — we've integrated the correct configuration into `build.mk.sample`, so just copy/rename that to `build.mk` and uncomment the line:
 
 ```wiki
-GhcStage1HcOpts      = -O -fllvm
-HADDOCK_DOCS         = NO
-BUILD_DOCBOOK_HTML   = NO
-BUILD_DOCBOOK_PS     = NO
-BUILD_DOCBOOK_PDF    = NO
-SPLIT_OBJS           = NO
-INTEGER_LIBRARY      = integer-simple
-Stage1Only 	     = YES
-DYNAMIC_GHC_PROGRAMS = NO
-GhcLibWays           = v
+BuildFlavour  = quick-cross
 ```
 
 ### 5. Configure & build
@@ -144,9 +132,6 @@ cabal install
 Create a new skeleton Xcode project using the wizard, and make sure it runs on your device.
 
 ### 9. Compile your Haskell code
-
-
-Open a terminal and add `/usr/local/ghc-ios/bin:/usr/local/ghc-ios-sim/bin` to your `PATH` environment variable.
 
 
 Here's a skeleton **haskell.hs** to get you started:
