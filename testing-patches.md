@@ -6,7 +6,7 @@ Nowadays there are many people working on GHC, which is a Good Thing, but it doe
 
 In order to test your patches:
 
-- Get a repository containing the latest HEAD, the patches you want to push, and no other patches or unrecorded changes. Depending on what you are doing, your working repository might be appropriate; otherwise you might prefer to keep a separate repository just for patch testing (see \[Git\#Workflowwithvalidate\] for a suggested git workflow with a separate repository).
+- Get a repository containing the latest HEAD, the patches you want to push, and no other patches or unrecorded changes. Depending on what you are doing, your working repository might be appropriate; otherwise you might prefer to keep a separate repository just for patch testing (see \[[WorkingConventions/Git\#Workflowwithvalidate](working-conventions/git#workflow-with-validate)\] for a suggested git workflow with a separate repository).
 
 - In the root directory of the tree, run
 
