@@ -13,8 +13,6 @@ Common tasks:
  - TODO: clean-up `.cabal` files
  - TODO: add changelogs
 
-[[TicketQuery(status!=closed,component=libraries/other,format=table,col=type|summary|priority|owner|reporter|keywords)]]
-
 === [hackage:array] ===
 
  - performed deprecation-removals & major version bump

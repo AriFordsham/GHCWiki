@@ -12,23 +12,6 @@ Common tasks:
 - TODO clean-up `.cabal` files
 - TODO add changelogs
 
-<table><tr><th>Ticket (Ticket query: status: !closed, component: libraries%2Fother, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, col: keywords, desc: 1, order: id)</th>
-<th>Type (Ticket query: status: !closed, component: libraries%2Fother, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, col: keywords, order: type)</th>
-<th>Summary (Ticket query: status: !closed, component: libraries%2Fother, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, col: keywords, order: summary)</th>
-<th>Priority (Ticket query: status: !closed, component: libraries%2Fother, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, col: keywords, order: priority)</th>
-<th>Owner (Ticket query: status: !closed, component: libraries%2Fother, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, col: keywords, order: owner)</th>
-<th>Reporter (Ticket query: status: !closed, component: libraries%2Fother, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, col: keywords, order: reporter)</th>
-<th>Keywords (Ticket query: status: !closed, component: libraries%2Fother, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, col: keywords, order: keywords)</th></tr>
-<tr><th>
-            No tickets found
-          </th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th></tr></table>
-
 ### [ array](http://hackage.haskell.org/package/array)
 
 - performed deprecation-removals & major version bump
