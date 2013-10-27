@@ -209,6 +209,10 @@ Note: Libraries with a "^1^" marker are used internally (e.g. by `ghci` or `hadd
  - synced up to `v0.5.1.0` + patches [5e2f145a37/ghc]
  - TODO: proper `0.5.1.1` release pending
 
+=== random^2^ ===
+
+ - TODO: GHC's repo is slightly **ahead** of upstream
+
 === terminfo^1^ ===
 
  - upstream: http://git.haskell.org/darcs-mirrors/terminfo.git
