@@ -199,9 +199,7 @@ Note: Libraries with a "^1^" marker are used internally (e.g. by `ghci` or `hadd
 [[TicketQuery(status!=closed,component=libraries/pretty,format=table,col=type|summary|priority|owner|reporter)]]
 
  - upstream: http://github.com/haskell/pretty.git
- - not pointing to proper release version
- - no significant delta to upstream HEAD state
- - TODO: .cabal file points to Trac for bug-reports even though upstream on GitHub
+ - synced up to [hackage:pretty-1.1.1.1] [f275522e/ghc]
 
 === primitive^2^ ===
 
