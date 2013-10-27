@@ -118,7 +118,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
 
   - [Splitting up the base package](split-base)
 
-- GHCi Debuger
+- GHCi Debugger
 
   - [GHCi Debugger](ghci-debugger): Some notes about the implementation of the GHCi debugger. Probably uninteresting unless you want to work on the debugger.
   - [New GHCi Debugger](new-ghci-debugger): The new GHCi debugger.

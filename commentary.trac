@@ -104,7 +104,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
  * Library issues
     * [wiki:SplitBase Splitting up the base package]
 
- * GHCi Debuger
+ * GHCi Debugger
    * [wiki:GhciDebugger GHCi Debugger]: Some notes about the implementation of the GHCi debugger. Probably uninteresting unless you want to work on the debugger.
    * [wiki:NewGhciDebugger New GHCi Debugger]: The new GHCi debugger.
 
