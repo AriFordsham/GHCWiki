@@ -121,28 +121,28 @@ In its bare essentials, the STG machine consists of three parts:
   - There are rather a lot of registers here: more than can be
     practicably stored in actual available processor registers on most
     architectures.
-  - To deal with the lack of processor registers, most of the STG
+  - To deal with the lack of processor registers, most of the STG 
     registers are actually kept on the stack in a block of memory
-    pointed to by a special STG register called the "base register" (or
+    pointed to by a special STG register called the "base register" (or 
     `BaseReg`). To get or set values of registers which are not kept in
     processor registers, the STG machine generates an instruction to
     load or store from an address relative to the `BaseReg`.
   - The most important four registers are the `BaseReg`, the stack
     pointer (`Sp`), the heap pointer (`Hp`), and the general purpose
-    register `R1` which is used for intermediate values, as well as for
-    returning evaluated values when unwinding the stack. These are the
+    register `R1` which is used for intermediate values, as well as for 
+    returning evaluated values when unwinding the stack. These are the 
     four registers which are assigned actual processor registers when
     implementing the STG machine on x86.
-  - The STG stack:
+1. The STG stack:
 
-    - Stores function arguments and continuations (i.e. the stack
-      frames which are executed when a function returns)
-    - Grows downwards in memory
-    - The top of the stack is pointed to by the STG register `Sp`, and
-      the maximum available stack pointer is stored in `SpLim`. There is
-      no frame pointer.
+  - Stores function arguments and continuations (i.e. the stack
+    frames which are executed when a function returns)
+  - Grows downwards in memory
+  - The top of the stack is pointed to by the STG register `Sp`, and 
+    the maximum available stack pointer is stored in `SpLim`. There is
+    no frame pointer.
 
-- The heap:
+1. The heap:
 
   - Used to store many different sorts of heap object: notably
     functions, thunks and data constructors
@@ -150,10 +150,10 @@ In its bare essentials, the STG machine consists of three parts:
   - All allocation occurs using a bump-allocator: the heap pointer is
     simply incremented by the number of bytes desired (subject to to a
     check that this does not exhaust available memory). The garbage
-    collector is responsible for moving objects out of the area of the
-    heap managed by the bump allocator and into the care of its
+    collector is responsible for moving objects out of the area of the 
+    heap managed by the bump allocator and into the care of its 
     generational collector.
-  - The last address in the bump-allocated part of the heap that has
+  - The last address in the bump-allocated part of the heap that has 
     been used is pointed to by the STG register `Hp`, with `HpLim`
     holding the maximum address available for bump-allocation.
 
