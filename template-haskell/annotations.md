@@ -192,6 +192,11 @@ The already merged [\#3725](https://gitlab.haskell.org//ghc/ghc/issues/3725) and
 
 Annotation reification is implemented and merged in [\#8397](https://gitlab.haskell.org//ghc/ghc/issues/8397).
 
+## Proposed simplification of annotation data types
+
+
+See [\#8388](https://gitlab.haskell.org//ghc/ghc/issues/8388). Easy to do.
+
 ## Patch ready, nice to have: typed annotation reification
 
 [\#8460](https://gitlab.haskell.org//ghc/ghc/issues/8460) provides a very small addition that makes it possible to use annotation reification together with the new typed [TemplateHaskell](template-haskell).
