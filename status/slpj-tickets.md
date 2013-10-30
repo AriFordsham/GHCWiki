@@ -2,6 +2,7 @@
 
 ## Type inference
 
+- [\#8486](https://gitlab.haskell.org//ghc/ghc/issues/8486), [\#5682](https://gitlab.haskell.org//ghc/ghc/issues/5682): Parsing of pomoted kinds, and `Typeable` instances involving them
 - [\#8281](https://gitlab.haskell.org//ghc/ghc/issues/8281): `UnliftedFFITypes` etc
 - [\#8441](https://gitlab.haskell.org//ghc/ghc/issues/8441): family instances in hs-boot files
 - [\#8427](https://gitlab.haskell.org//ghc/ghc/issues/8427): stop EPS cache poisoning
@@ -15,7 +16,6 @@
 - [\#8177](https://gitlab.haskell.org//ghc/ghc/issues/8177): role signature for type families
 - [\#8161](https://gitlab.haskell.org//ghc/ghc/issues/8161): associated type more specific than class decl
 - [\#7259](https://gitlab.haskell.org//ghc/ghc/issues/7259): Eta-expansion of products in System FC
-- [\#5682](https://gitlab.haskell.org//ghc/ghc/issues/5682): Parsing of pomoted kinds
 - [\#6022](https://gitlab.haskell.org//ghc/ghc/issues/6022): over-general types are inferred
 - [\#5642](https://gitlab.haskell.org//ghc/ghc/issues/5642): slow constraint solving
 - [\#7346](https://gitlab.haskell.org//ghc/ghc/issues/7346), [\#7878](https://gitlab.haskell.org//ghc/ghc/issues/7878): Pedro's generics and deriving
