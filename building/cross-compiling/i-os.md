@@ -12,7 +12,10 @@ To use it, compile `clang-xcode5-wrapper.hs`, add it to your path, then edit `/u
 (The problem is that 1. GHC tries to run a C pre-processor over Haskell code, and 2. Xcode versions \>= 5 use clang instead of gcc, and 3. clang doesn't like Haskell code.). 
 
 
-GHC 7.8 already includes a fix for this.
+GHC 7.8 already includes a fix for this, but until that's released you'll have to use this.
+
+
+Also see the **Xcode 5** notes interspersed through these steps.
 
 ## Steps
 
@@ -30,8 +33,10 @@ See [Cross-compiling GHC](building/cross-compiling) for more details.
 
 You will need to check out the scripts at [ https://github.com/ghc-ios/ghc-ios-scripts](https://github.com/ghc-ios/ghc-ios-scripts) and add the checked out directory to your PATH. You may need to edit these scripts if you are using a different iOS / iOS simulator platform version than the one the scripts are pointed at.
 
-
-If you're using Xcode 5, do "git checkout xcode5" after cloning. Also see the note at the top of this page regarding clang-xcode5-wrapper.
+> **Xcode 5**
+>
+>
+> Do "git checkout xcode5" after cloning. Also see the note at the top of this page regarding clang-xcode5-wrapper.
 
 ### 3. Check out GHC
 
@@ -42,6 +47,13 @@ Check out as described at [Building and Porting GHC](building), except use the f
 ./sync-all --no-dph get
 perl boot
 ```
+
+> **Xcode 5**
+>
+>
+> You need to replace the version of libffi in libffi-tarballs with this one:
+> [ https://github.com/ghc-ios/libffi-tarballs/blob/master/libffi-3.0.13z.tar.gz?raw=true](https://github.com/ghc-ios/libffi-tarballs/blob/master/libffi-3.0.13z.tar.gz?raw=true)
+> It will be automatically picked up by the build system, so just deleting the old one and dropping the new one in is all you need to do.
 
 ### 4. Create a build.mk file
 
@@ -73,10 +85,12 @@ sudo make install
 ```
 
 
-For Xcode 5, change `--with-gcc=arm-apple-darwin10-gcc` / `--with-gcc=i386-apple-darwin11-gcc` to `--with-gcc=arm-apple-darwin10-clang` / `--with-gcc=i386-apple-darwin11-clang` , respectively.
-
-
 GHC is smart enough to prefix the binaries and libraries with the target name, e.g. arm-apple-darwin10-ghc, so this will install alongside your native GHC without overwriting anything.
+
+> **Xcode 5**
+>
+>
+> Change `--with-gcc=arm-apple-darwin10-gcc` / `--with-gcc=i386-apple-darwin11-gcc` to `--with-gcc=arm-apple-darwin10-clang` / `--with-gcc=i386-apple-darwin11-clang` , respectively.
 
 ### 6. Make sure your Cabal and cabal-install are new enough
 
