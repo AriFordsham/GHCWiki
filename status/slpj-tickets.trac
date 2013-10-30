@@ -27,6 +27,8 @@
 
 == Template Haskell ==
 See also [wiki:TemplateHaskell]
+
+ * [wiki:TemplateHaskell/Annotations] Gergely's work on annotations in TH
  * #1475: allow splicing of import declarations (5 in cc list)
  * #8100: support standalone deriving
  * #4364: cycle in type declarations
