@@ -60,7 +60,6 @@ For iOS:
 ```wiki
 ./configure --target=arm-apple-darwin10  --with-gcc=arm-apple-darwin10-gcc
 make
-sudo mkdir -p /usr/local/ghc-ios/
 sudo make install
 ```
 
@@ -70,12 +69,14 @@ For the iOS simulator:
 ```wiki
 ./configure --target=i386-apple-darwin11 --with-gcc=i386-apple-darwin11-gcc
 make
-sudo mkdir -p /usr/local/ghc-ios-sim/
 sudo make install
 ```
 
 
 For Xcode 5, change `--with-gcc=arm-apple-darwin10-gcc` / `--with-gcc=i386-apple-darwin11-gcc` to `--with-gcc=arm-apple-darwin10-clang` / `--with-gcc=i386-apple-darwin11-clang` , respectively.
+
+
+GHC is smart enough to prefix the binaries and libraries with the target name, e.g. arm-apple-darwin10-ghc, so this will install alongside your native GHC without overwriting anything.
 
 ### 6. Make sure your Cabal and cabal-install are new enough
 
