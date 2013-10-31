@@ -15,6 +15,8 @@ Common tasks:
 
 === [hackage:array] ===
 
+[[Image(https://travis-ci.org/ghc/packages-array.png?branch=master,link=https://travis-ci.org/ghc/packages-array)]]
+
  - performed deprecation-removals & major version bump
  - ready for release
 
@@ -43,10 +45,14 @@ module GHC.Exts
 
 === [hackage:deepseq] ===
 
+[[Image(https://travis-ci.org/ghc/packages-deepseq.png?branch=master,link=https://travis-ci.org/ghc/packages-deepseq)]]
+
  - cleaned up
  - ready for release
 
 === [hackage:directory] ===
+
+[[Image(https://travis-ci.org/ghc/packages-directory.png?branch=master,link=https://travis-ci.org/ghc/packages-directory)]]
 
 [[TicketQuery(status!=closed,component=libraries/directory,format=table,col=type|summary|priority|owner|reporter)]]
 
@@ -105,9 +111,13 @@ TODO
 
 === [hackage:parallel] ===
 
+[[Image(https://travis-ci.org/ghc/packages-parallel.png?branch=master,link=https://travis-ci.org/ghc/packages-parallel)]]
+
  - Note: '''extra''' library (i.e. not part of normal distribution)
 
- - TODO: contains many `DEPRECATED` functions in `Control.Parallel.Strategies` since at least 2010:
+ - ready for release
+
+ - For next major version: contains many `DEPRECATED` functions in `Control.Parallel.Strategies` since at least 2010:
     {{{#!hs
 {-# DEPRECATED Done "The Strategy type is now a -> Eval a, not a -> Done" #-}
 {-# DEPRECATED demanding "Use pseq or $| instead" #-}
@@ -128,9 +138,16 @@ TODO
 
 === [hackage:process] ===
 
+[[Image(https://travis-ci.org/ghc/packages-process.png?branch=master,link=https://travis-ci.org/ghc/packages-process)]]
+
 [[TicketQuery(status!=closed,component=libraries/process,format=table,col=type|summary|priority|owner|reporter)]]
 
+ - why was there a major version bump?
+ - ready for release
+
 === [hackage:stm] ===
+
+[[Image(https://travis-ci.org/ghc/packages-stm.png?branch=master,link=https://travis-ci.org/ghc/packages-stm)]]
 
  - Note: this is an '''extra''' library (i.e. not part of binary distribution); not critical for release; [hackage:stm-2.4.2] still builds fine with GHC HEAD.
  - cleaned up; repo contains unreleased 2.4.2.1 state
@@ -141,6 +158,8 @@ TODO
  - cleaned up and ready for release
 
 === [hackage:unix] ===
+
+[[Image(https://travis-ci.org/ghc/packages-unix.png?branch=master,link=https://travis-ci.org/ghc/packages-unix)]]
 
 [[TicketQuery(status!=closed,component=libraries/unix,format=table,col=type|summary|priority|owner|reporter)]]
 
@@ -192,7 +211,9 @@ Note: Libraries with a "^1^" marker are used internally (e.g. by `ghci` or `hadd
  - unclean state
  - contacted maintainer on 31.8. wrt to unmerged patches; will merge as soon as his dev machine has been repaired
  - patches have been merged upstream
- - TODO release needed in october
+ - New Haskeline GitHub repo at https://github.com/judah/haskeline.git
+ - Judah will make Haskeline release to match what GHC 7.8.1 final ships with
+ - TODO find out if we need more fixes for GHC 7.8.1 final
 
 === pretty ===
 
@@ -216,7 +237,7 @@ Note: Libraries with a "^1^" marker are used internally (e.g. by `ghci` or `hadd
 === terminfo^1^ ===
 
  - upstream: http://git.haskell.org/darcs-mirrors/terminfo.git
- - TODO
+ - synced up to [hackage:terminfo-0.3.2.6] [9642716f30/ghc]
 
 === time ===
 
@@ -227,7 +248,7 @@ Note: Libraries with a "^1^" marker are used internally (e.g. by `ghci` or `hadd
 
  - upstream: http://git.haskell.org/darcs-mirrors/transformers.git
  - Newly added in GHC 7.8
- - still at 0.3.0.0 since GHC 7.6.3
+ - still at [hackage:transformers-0.3.0.0] since GHC 7.6.3
  - asked upstream; shall remain at [hackage:transformers-0.3.0.0] for GHC 7.8.1
 
 === vector^2^ ===
