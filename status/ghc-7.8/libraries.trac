@@ -218,7 +218,7 @@ Note: Libraries with a "^1^" marker are used internally (e.g. by `ghci` or `hadd
 === terminfo^1^ ===
 
  - upstream: http://git.haskell.org/darcs-mirrors/terminfo.git
- - TODO
+ - synced up to [hackage:terminfo-0.3.2.6] [9642716f30/ghc]
 
 === time ===
 
@@ -229,7 +229,7 @@ Note: Libraries with a "^1^" marker are used internally (e.g. by `ghci` or `hadd
 
  - upstream: http://git.haskell.org/darcs-mirrors/transformers.git
  - Newly added in GHC 7.8
- - still at 0.3.0.0 since GHC 7.6.3
+ - still at [hackage:transformers-0.3.0.0] since GHC 7.6.3
  - asked upstream; shall remain at [hackage:transformers-0.3.0.0] for GHC 7.8.1
 
 === vector^2^ ===
