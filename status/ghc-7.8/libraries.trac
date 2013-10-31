@@ -192,7 +192,9 @@ Note: Libraries with a "^1^" marker are used internally (e.g. by `ghci` or `hadd
  - unclean state
  - contacted maintainer on 31.8. wrt to unmerged patches; will merge as soon as his dev machine has been repaired
  - patches have been merged upstream
- - TODO release needed in october
+ - New Haskeline GitHub repo at https://github.com/judah/haskeline.git
+ - Judah will make Haskeline release to match what GHC 7.8.1 final ships with
+ - TODO find out if we need more fixes for GHC 7.8.1 final
 
 === pretty ===
 
