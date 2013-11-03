@@ -811,15 +811,21 @@ TODO
 
 ### [ parallel](http://hackage.haskell.org/package/parallel)
 
+[](https://travis-ci.org/ghc/packages-parallel)
+
 - Note: **extra** library (i.e. not part of normal distribution)
 
-- TODO contains many `DEPRECATED` functions in `Control.Parallel.Strategies` since at least 2010:
+- ready for release
+
+- For next major version: contains many `DEPRECATED` functions in `Control.Parallel.Strategies` since at least 2010:
 
   ```
   {-# DEPRECATED Done "The Strategy type is now a -> Eval a, not a -> Done" #-}{-# DEPRECATED demanding "Use pseq or $| instead" #-}{-# DEPRECATED sparking "Use par or $|| instead" #-}{-# DEPRECATED (>|) "Use pseq or $| instead" #-}{-# DEPRECATED (>||) "Use par or $|| instead" #-}{-# DEPRECATED rwhnf "renamed to rseq" #-}{-# DEPRECATED seqTraverse "renamed to evalTraversable" #-}{-# DEPRECATED parTraverse "renamed to parTraversable" #-}{-# DEPRECATED parListWHNF "use (parList rseq) instead" #-}{-# DEPRECATED seqList "renamed to evalList" #-}{-# DEPRECATED seqPair "renamed to evalTuple2" #-}{-# DEPRECATED parPair "renamed to parTuple2" #-}{-# DEPRECATED seqTriple "renamed to evalTuple3" #-}{-# DEPRECATED parTriple "renamed to parTuple3" #-}{-# DEPRECATED unEval "renamed to runEval" #-}
   ```
 
 ### [ process](http://hackage.haskell.org/package/process)
+
+[](https://travis-ci.org/ghc/packages-process)
 
 <table><tr><th>Ticket (Ticket query: status: !closed, component: libraries%2Fprocess, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, desc: 1, order: id)</th>
 <th>Type (Ticket query: status: !closed, component: libraries%2Fprocess, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: type)</th>
@@ -835,6 +841,9 @@ TODO
 <th></th>
 <th></th>
 <th></th></tr></table>
+
+- why was there a major version bump?
+- ready for release
 
 ### [ stm](http://hackage.haskell.org/package/stm)
 
