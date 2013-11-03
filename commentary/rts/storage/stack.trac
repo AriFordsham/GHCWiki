@@ -20,7 +20,7 @@ The info table for a stack frame has a couple of extra fields in addition to the
 
 [[Image(ret-itbl-no-rv.png)]]
 
-The ''SRT'' field points to the static reference table (SRT) for this stack frame (see [wiki:Commentary/Rts/CAFs] for details of SRTs).
+The ''SRT'' field points to the static reference table (SRT) for this stack frame (see [wiki:Commentary/Rts/Storage/GC/CAFs] for details of SRTs).
 
 == Layout of the payload ==
 
