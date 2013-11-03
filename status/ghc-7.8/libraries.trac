@@ -15,6 +15,8 @@ Common tasks:
 
 === [hackage:array] ===
 
+[[Image(https://travis-ci.org/ghc/packages-array.png?branch=master,link=https://travis-ci.org/ghc/packages-array)]]
+
  - performed deprecation-removals & major version bump
  - ready for release
 
@@ -43,10 +45,14 @@ module GHC.Exts
 
 === [hackage:deepseq] ===
 
+[[Image(https://travis-ci.org/ghc/packages-deepseq.png?branch=master,link=https://travis-ci.org/ghc/packages-deepseq)]]
+
  - cleaned up
  - ready for release
 
 === [hackage:directory] ===
+
+[[Image(https://travis-ci.org/ghc/packages-directory.png?branch=master,link=https://travis-ci.org/ghc/packages-directory)]]
 
 [[TicketQuery(status!=closed,component=libraries/directory,format=table,col=type|summary|priority|owner|reporter)]]
 
@@ -141,6 +147,8 @@ TODO
 
 === [hackage:stm] ===
 
+[[Image(https://travis-ci.org/ghc/packages-stm.png?branch=master,link=https://travis-ci.org/ghc/packages-stm)]]
+
  - Note: this is an '''extra''' library (i.e. not part of binary distribution); not critical for release; [hackage:stm-2.4.2] still builds fine with GHC HEAD.
  - cleaned up; repo contains unreleased 2.4.2.1 state
  - TODO: find out when/whether to release an updated 2.4.2.1 version
@@ -150,6 +158,8 @@ TODO
  - cleaned up and ready for release
 
 === [hackage:unix] ===
+
+[[Image(https://travis-ci.org/ghc/packages-unix.png?branch=master,link=https://travis-ci.org/ghc/packages-unix)]]
 
 [[TicketQuery(status!=closed,component=libraries/unix,format=table,col=type|summary|priority|owner|reporter)]]
 

@@ -14,6 +14,8 @@ Common tasks:
 
 ### [ array](http://hackage.haskell.org/package/array)
 
+[](https://travis-ci.org/ghc/packages-array)
+
 - performed deprecation-removals & major version bump
 - ready for release
 
@@ -302,10 +304,14 @@ Common tasks:
 
 ### [ deepseq](http://hackage.haskell.org/package/deepseq)
 
+[](https://travis-ci.org/ghc/packages-deepseq)
+
 - cleaned up
 - ready for release
 
 ### [ directory](http://hackage.haskell.org/package/directory)
+
+[](https://travis-ci.org/ghc/packages-directory)
 
 <table><tr><th>Ticket (Ticket query: status: !closed, component: libraries%2Fdirectory, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, desc: 1, order: id)</th>
 <th>Type (Ticket query: status: !closed, component: libraries%2Fdirectory, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: type)</th>
@@ -847,6 +853,8 @@ TODO
 
 ### [ stm](http://hackage.haskell.org/package/stm)
 
+[](https://travis-ci.org/ghc/packages-stm)
+
 - Note: this is an **extra** library (i.e. not part of binary distribution); not critical for release; [ stm-2.4.2](http://hackage.haskell.org/package/stm-2.4.2) still builds fine with GHC HEAD.
 - cleaned up; repo contains unreleased 2.4.2.1 state
 - TODO find out when/whether to release an updated 2.4.2.1 version
@@ -856,6 +864,8 @@ TODO
 - cleaned up and ready for release
 
 ### [ unix](http://hackage.haskell.org/package/unix)
+
+[](https://travis-ci.org/ghc/packages-unix)
 
 <table><tr><th>Ticket (Ticket query: status: !closed, component: libraries%2Funix, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, desc: 1, order: id)</th>
 <th>Type (Ticket query: status: !closed, component: libraries%2Funix, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: reporter, order: type)</th>
