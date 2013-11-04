@@ -39,6 +39,7 @@ The constants for the different types of stack frame are defined in [[GhcFile(in
  * {{{RET_FUN}}}
  * {{{UPDATE_FRAME}}}
  * {{{CATCH_FRAME}}}
+ * {{{UNDERFLOW_FRAME}}} - The stack chunked, a linked list. (Since f30d527344db528618f64a25250a3be557d9f287, Dec 2010)
  * {{{STOP_FRAME}}}
  * {{{ATOMICALLY_FRAME}}}
  * {{{CATCH_RETRY_FRAME}}}
