@@ -208,7 +208,7 @@ See also [wiki:TemplateHaskell]
  * #4823: strength reduction for array indexing
  * #4479: type directed name resolution (TDNR)
  * #4426: simpler rule for implicit quantification
- * #595, #5728, #3927, #5724, #5762, #4139, #6124, #7669, #322, #8016: '''pattern-match overlap checking''', including with GADTs
+ * #595, #5728, #3927, #5724, #5762, #4139, #6124, #7669, #322, #8016, #8494: '''pattern-match overlap checking''', including with GADTs
  * #3701: Implicitly declared existentials: a class as a type
  * #3217: better flag handling for GHCi
  * #2600, #2110: '''Bind type variables and constraints in RULES'''
