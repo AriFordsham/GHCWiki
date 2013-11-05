@@ -821,7 +821,7 @@ TODO
 
 - Note: **extra** library (i.e. not part of normal distribution)
 
-- ready for release
+- uploaded [ parallel-3.2.0.4](http://hackage.haskell.org/package/parallel-3.2.0.4) to Hackage!
 
 - For next major version: contains many `DEPRECATED` functions in `Control.Parallel.Strategies` since at least 2010:
 
