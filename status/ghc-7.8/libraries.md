@@ -307,7 +307,7 @@ Common tasks:
 [](https://travis-ci.org/ghc/packages-deepseq)
 
 - cleaned up
-- ready for release
+- relased as [ deepseq-1.3.0.2](http://hackage.haskell.org/package/deepseq-1.3.0.2)!
 
 ### [ directory](http://hackage.haskell.org/package/directory)
 
@@ -821,7 +821,7 @@ TODO
 
 - Note: **extra** library (i.e. not part of normal distribution)
 
-- ready for release
+- uploaded [ parallel-3.2.0.4](http://hackage.haskell.org/package/parallel-3.2.0.4) to Hackage!
 
 - For next major version: contains many `DEPRECATED` functions in `Control.Parallel.Strategies` since at least 2010:
 
