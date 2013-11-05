@@ -307,7 +307,7 @@ Common tasks:
 [](https://travis-ci.org/ghc/packages-deepseq)
 
 - cleaned up
-- ready for release
+- relased as [ deepseq-1.3.0.2](http://hackage.haskell.org/package/deepseq-1.3.0.2)!
 
 ### [ directory](http://hackage.haskell.org/package/directory)
 
