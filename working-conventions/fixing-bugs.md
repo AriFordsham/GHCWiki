@@ -4,25 +4,9 @@
 Please help us fix bugs in GHC!  GHC is so large, and is used in such diverse ways by so many people, that we really need your help in fixing bugs, especially those that show up in specialised situations.  
 
 
-There are two ways to help: the Quick Fix and the True Way.
+Here's how to go about helping with a bug.
 
-## The Quick Fix
-
-
-Some bugs are easy to fix: improvements to documentation, misleading comments, poorly-worded error messages, or egregious little bugs.  In these cases, please just
-
-- Fix the code
-- Use `git send-email`, or just mail a patch to ghc-devs@… (you'll need to be subscribed to the list or the mail will be silently rejected).  Make sure you include in the patch description a summary of what the problem is, and the nature of your fix.
-
-
-This route is easy for you, but more work for us; we have to [test your fix](testing-patches).  But it's a low-overhead route for easy fixes.
-
-## The True Way
-
-
-Many bugs require a bit more work.  Here's how to go about helping with a non-trivial bug.
-
-1. **Make sure the bug is in Trac**.  Usually it is (that's why you are working on it), but if it's a bug you have found yourself, add it to Trac before you start work.  
+1. **Make sure the bug is in Trac**.  Usually it is (that's why you are working on it), but if it's a bug you have found yourself, add it to Trac before you start work. It's important to have a ticket, because it makes sure that the bug report, discussion about the fix, the regression test that checks it, and the eventual conclusion, are all recorded together.  Comments in the code can refer to the ticket (e.g. `See Trac #2382 for an example`). And so on.  If there's no ticket, there is every chance that it'll get lost.
 1. **Take ownership of the bug in Trac**, by using the "Action" chunk at the bottom of the Trac bug display (you need to be logged in to see it), and putting your name in the "reassign to" box.  This makes sure that two people don't work on the same bug.  If you later decide you can't do it after all, remove your name.
 1. **Add a test case** in the [regression-test suite](building/running-tests) that shows up the bug.
 
@@ -43,7 +27,7 @@ Many bugs require a bit more work.  Here's how to go about helping with a non-tr
     1. Run `git format-patch -`*`n`*, where *`n`* is the number of commits
   - Attach the patch bundle to the Trac bug report
   - Add a comment to the Trac bug report to say what you've done
-  - In the 'Action' part of the Trac ticket, select "Please review".  This shifts responsibility to the GHC team to review and commit your patch.
+  - In the 'Action' part of the Trac ticket, select "Please review".  This shifts responsibility to [the GHC team](team-ghc) to review and commit your patch.
 
 >
 > If you do have commit permission, then commit, update the Trac report, and close the bug.
