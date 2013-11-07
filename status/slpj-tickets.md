@@ -81,7 +81,7 @@ See also [TemplateHaskell](template-haskell)
 
 ## Compile time
 
-- [\#7898](https://gitlab.haskell.org//ghc/ghc/issues/7898): `SpecConstr` blowup
+- [\#7898](https://gitlab.haskell.org//ghc/ghc/issues/7898)k [\#7068](https://gitlab.haskell.org//ghc/ghc/issues/7068): `SpecConstr` blowup
 - [\#7450](https://gitlab.haskell.org//ghc/ghc/issues/7450), [\#7258](https://gitlab.haskell.org//ghc/ghc/issues/7258): deriving `Read` generates gigantic code. Better now, but still not linear.
 - [\#7428](https://gitlab.haskell.org//ghc/ghc/issues/7428): Non-linear compile time: `addFingerprint`??
 
