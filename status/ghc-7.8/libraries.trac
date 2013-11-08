@@ -18,7 +18,7 @@ Common tasks:
 [[Image(https://travis-ci.org/ghc/packages-array.png?branch=master,link=https://travis-ci.org/ghc/packages-array)]]
 
  - performed deprecation-removals & major version bump
- - ready for release
+ - released as [hackage:array-0.5.0.0]!
 
 === [hackage:base] ===
 
@@ -143,7 +143,8 @@ TODO
 [[TicketQuery(status!=closed,component=libraries/process,format=table,col=type|summary|priority|owner|reporter)]]
 
  - why was there a major version bump?
- - ready for release
+ - (almost) ready for release
+ - find out what's up with #7229
 
 === [hackage:stm] ===
 
@@ -156,6 +157,7 @@ TODO
 === [hackage:template-haskell] ===
 
  - cleaned up and ready for release
+ - wait till RC at least for Hackage upload
 
 === [hackage:unix] ===
 

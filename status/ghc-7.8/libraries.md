@@ -17,7 +17,7 @@ Common tasks:
 [](https://travis-ci.org/ghc/packages-array)
 
 - performed deprecation-removals & major version bump
-- ready for release
+- released as [ array-0.5.0.0](http://hackage.haskell.org/package/array-0.5.0.0)!
 
 ### [ base](http://hackage.haskell.org/package/base)
 
@@ -849,7 +849,8 @@ TODO
 <th></th></tr></table>
 
 - why was there a major version bump?
-- ready for release
+- (almost) ready for release
+- find out what's up with [\#7229](https://gitlab.haskell.org//ghc/ghc/issues/7229)
 
 ### [ stm](http://hackage.haskell.org/package/stm)
 
@@ -862,6 +863,7 @@ TODO
 ### [ template-haskell](http://hackage.haskell.org/package/template-haskell)
 
 - cleaned up and ready for release
+- wait till RC at least for Hackage upload
 
 ### [ unix](http://hackage.haskell.org/package/unix)
 
