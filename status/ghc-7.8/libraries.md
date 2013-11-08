@@ -900,8 +900,9 @@ TODO
 <th></th>
 <th>flip101</th></tr></table>
 
-- cleaned up; almost ready for a 2.7.0.0 release
-- TODO open issue in `System.Posix.Process.Common` module, remove those functions or leave them?
+- released as [ unix-2.7.0.0](http://hackage.haskell.org/package/unix-2.7.0.0)!
+
+- TODO for next major version bump, in `System.Posix.Process.Common` module:
 
   ```
   {-# DEPRECATED createProcessGroup "This function is scheduled to be replaced by something different in the future, we therefore recommend that you do not use this version and use createProcessGroupFor instead." #-}-- deprecated in 7.2{-# DEPRECATED setProcessGroupID "This function is scheduled to be replaced by something different in the future, we therefore recommend that you do not use this version and use setProcessGroupIdOf instead." #-}-- deprecated in 7.2
