@@ -18,7 +18,7 @@ Common tasks:
 [[Image(https://travis-ci.org/ghc/packages-array.png?branch=master,link=https://travis-ci.org/ghc/packages-array)]]
 
  - performed deprecation-removals & major version bump
- - ready for release
+ - released as [hackage:array-0.5.0.0]!
 
 === [hackage:base] ===
 
@@ -143,7 +143,8 @@ TODO
 [[TicketQuery(status!=closed,component=libraries/process,format=table,col=type|summary|priority|owner|reporter)]]
 
  - why was there a major version bump?
- - ready for release
+ - (almost) ready for release
+ - find out what's up with #7229
 
 === [hackage:stm] ===
 
@@ -156,6 +157,7 @@ TODO
 === [hackage:template-haskell] ===
 
  - cleaned up and ready for release
+ - wait till RC at least for Hackage upload
 
 === [hackage:unix] ===
 
@@ -163,8 +165,9 @@ TODO
 
 [[TicketQuery(status!=closed,component=libraries/unix,format=table,col=type|summary|priority|owner|reporter)]]
 
- - cleaned up; almost ready for a 2.7.0.0 release
- - TODO: open issue in `System.Posix.Process.Common` module, remove those functions or leave them?
+ - released as [hackage:unix-2.7.0.0]!
+
+ - TODO: for next major version bump, in `System.Posix.Process.Common` module:
     {{{#!hs
     {-# DEPRECATED createProcessGroup "This function is scheduled to be replaced by something different in the future, we therefore recommend that you do not use this version and use createProcessGroupFor instead." #-} -- deprecated in 7.2
 

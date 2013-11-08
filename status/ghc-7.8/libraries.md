@@ -17,7 +17,7 @@ Common tasks:
 [](https://travis-ci.org/ghc/packages-array)
 
 - performed deprecation-removals & major version bump
-- ready for release
+- released as [ array-0.5.0.0](http://hackage.haskell.org/package/array-0.5.0.0)!
 
 ### [ base](http://hackage.haskell.org/package/base)
 
@@ -849,7 +849,8 @@ TODO
 <th></th></tr></table>
 
 - why was there a major version bump?
-- ready for release
+- (almost) ready for release
+- find out what's up with [\#7229](https://gitlab.haskell.org//ghc/ghc/issues/7229)
 
 ### [ stm](http://hackage.haskell.org/package/stm)
 
@@ -862,6 +863,7 @@ TODO
 ### [ template-haskell](http://hackage.haskell.org/package/template-haskell)
 
 - cleaned up and ready for release
+- wait till RC at least for Hackage upload
 
 ### [ unix](http://hackage.haskell.org/package/unix)
 
@@ -900,8 +902,9 @@ TODO
 <th></th>
 <th>flip101</th></tr></table>
 
-- cleaned up; almost ready for a 2.7.0.0 release
-- TODO open issue in `System.Posix.Process.Common` module, remove those functions or leave them?
+- released as [ unix-2.7.0.0](http://hackage.haskell.org/package/unix-2.7.0.0)!
+
+- TODO for next major version bump, in `System.Posix.Process.Common` module:
 
   ```
   {-# DEPRECATED createProcessGroup "This function is scheduled to be replaced by something different in the future, we therefore recommend that you do not use this version and use createProcessGroupFor instead." #-}-- deprecated in 7.2{-# DEPRECATED setProcessGroupID "This function is scheduled to be replaced by something different in the future, we therefore recommend that you do not use this version and use setProcessGroupIdOf instead." #-}-- deprecated in 7.2
