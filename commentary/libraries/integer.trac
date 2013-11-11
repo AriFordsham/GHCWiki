@@ -26,7 +26,7 @@ Specifically, the interface is this:
           -> Integer
     
   smallInteger  :: Int# -> Integer
-  integerTooInt :: Integer -> Int#
+  integerToInt  :: Integer -> Int#
  
   wordToInteger :: Word# -> Integer
   integerToWord :: Integer -> Word#
