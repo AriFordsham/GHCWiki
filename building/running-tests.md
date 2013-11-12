@@ -28,7 +28,7 @@ $ make fulltest
 ```
 
 
-will do a full testsuite run (more thorough, but takes a lot longer). You should expect that there are no test case failures for the "fast" mode as as that is a quality level that all GHC developers are expected to maintain when they check in code. There will usually be some test case failures for the full testsuite run though.
+will do a full testsuite run (more thorough, but takes a lot longer). You should expect that there are no test case failures for the "fast" mode as that is a quality level that all GHC developers are expected to maintain when they check in code. There will usually be some test case failures for the full testsuite run though.
 
 ## Using the Testsuite
 
