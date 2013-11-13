@@ -26,16 +26,18 @@ You will need to check out the scripts at [https://github.com/ghc-ios/ghc-ios-sc
 
 === 3. Check out GHC ===
 
-Check out as described at [wiki:Building Building and Porting GHC], except use the following for your sync-all to omit dph packages, because Template Haskell doesn't work yet, and dph depends on it:
+Check out as described at [wiki:Building Building and Porting GHC], except:
+*use the following for your sync-all to omit dph packages, because Template Haskell doesn't work yet, and dph depends on it
+*replace libffi with a newer version that fixes some bugs
 
 {{{
 ./sync-all --no-dph get
+cd libffi-tarballs
+rm libffi-3.0.13z.tar.gz
+wget https://github.com/ghc-ios/libffi-tarballs/blob/master/libffi-3.0.13z.tar.gz?raw=true -O libffi-3.0.13z.tar.gz
+cd ..
 perl boot
 }}}
-
-You need to replace the version of libffi in libffi-tarballs with this one:
-[https://github.com/ghc-ios/libffi-tarballs/blob/master/libffi-3.0.13z.tar.gz?raw=true]
-It will be automatically picked up by the build system, so just deleting the old one and dropping the new one in is all you need to do.
 
 === 4. Create a build.mk file ===
 
