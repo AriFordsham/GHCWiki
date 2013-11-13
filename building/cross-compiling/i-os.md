@@ -3,7 +3,10 @@
 ## Xcode 5 Notes
 
 
-If you use ghc-7.6.3 on OS X as your bootstrap compiler and you are using Xcode version 5 or higher, you'll need to pass certain options to clang to work around some problems. A wrapper for this, written in Haskell, can be found at [ https://github.com/ghc-ios/ghc-ios-scripts](https://github.com/ghc-ios/ghc-ios-scripts).
+These instructions are for Xcode 5, which is now what we're aiming to support as Xcode 4 is no longer available.
+
+
+If you use ghc-7.6.3 on OS X as your bootstrap compiler, you'll need to pass certain options to clang to work around some problems. A wrapper for this, written in Haskell, can be found at [ https://github.com/ghc-ios/ghc-ios-scripts](https://github.com/ghc-ios/ghc-ios-scripts).
 
 
 To use it, compile `clang-xcode5-wrapper.hs`, add it to your path, then edit `/usr/local/lib/ghc-7.6.3/settings` and change `"C compiler command"`'s value to `"clang-xcode5-wrapper"`.
@@ -13,9 +16,6 @@ To use it, compile `clang-xcode5-wrapper.hs`, add it to your path, then edit `/u
 
 
 GHC 7.8 already includes a fix for this, but until that's released you'll have to use this.
-
-
-Also see the **Xcode 5** notes interspersed through these steps.
 
 ## Steps
 
@@ -33,11 +33,6 @@ See [Cross-compiling GHC](building/cross-compiling) for more details.
 
 You will need to check out the scripts at [ https://github.com/ghc-ios/ghc-ios-scripts](https://github.com/ghc-ios/ghc-ios-scripts) and add the checked out directory to your PATH. You may need to edit these scripts if you are using a different iOS / iOS simulator platform version than the one the scripts are pointed at.
 
-> **Xcode 5**
->
->
-> Do "git checkout xcode5" after cloning. Also see the note at the top of this page regarding clang-xcode5-wrapper.
-
 ### 3. Check out GHC
 
 
@@ -48,12 +43,10 @@ Check out as described at [Building and Porting GHC](building), except use the f
 perl boot
 ```
 
-> **Xcode 5**
->
->
-> You need to replace the version of libffi in libffi-tarballs with this one:
-> [ https://github.com/ghc-ios/libffi-tarballs/blob/master/libffi-3.0.13z.tar.gz?raw=true](https://github.com/ghc-ios/libffi-tarballs/blob/master/libffi-3.0.13z.tar.gz?raw=true)
-> It will be automatically picked up by the build system, so just deleting the old one and dropping the new one in is all you need to do.
+
+You need to replace the version of libffi in libffi-tarballs with this one:
+[ https://github.com/ghc-ios/libffi-tarballs/blob/master/libffi-3.0.13z.tar.gz?raw=true](https://github.com/ghc-ios/libffi-tarballs/blob/master/libffi-3.0.13z.tar.gz?raw=true)
+It will be automatically picked up by the build system, so just deleting the old one and dropping the new one in is all you need to do.
 
 ### 4. Create a build.mk file
 
@@ -70,7 +63,7 @@ BuildFlavour  = quick-cross
 For iOS:
 
 ```wiki
-./configure --target=arm-apple-darwin10  --with-gcc=arm-apple-darwin10-gcc
+./configure --target=arm-apple-darwin10 --with-gcc=arm-apple-darwin10-clang
 make
 sudo make install
 ```
@@ -79,7 +72,7 @@ sudo make install
 For the iOS simulator:
 
 ```wiki
-./configure --target=i386-apple-darwin11 --with-gcc=i386-apple-darwin11-gcc
+./configure --target=i386-apple-darwin11 --with-gcc=i386-apple-darwin11-clang
 make
 sudo make install
 ```
@@ -87,27 +80,10 @@ sudo make install
 
 GHC is smart enough to prefix the binaries and libraries with the target name, e.g. arm-apple-darwin10-ghc, so this will install alongside your native GHC without overwriting anything.
 
-> **Xcode 5**
->
->
-> Change `--with-gcc=arm-apple-darwin10-gcc` / `--with-gcc=i386-apple-darwin11-gcc` to `--with-gcc=arm-apple-darwin10-clang` / `--with-gcc=i386-apple-darwin11-clang` , respectively.
-
 ### 6. Make sure your Cabal and cabal-install are new enough
 
 
-You need a recent change,...
-
-```wiki
-commit 9f374ab45e62924506b992db9157c970c7259a03
-Author: Stephen Blackheath <stephen.blackheath@ipwnstudios.com>
-Date:   Thu Aug 29 13:09:18 2013 +1200
-
-    Give the xxx_HOST_OS and xxx_HOST_ARCH options that were probed from ghc's target
-    platform, rather than assuming HOST == BUILD. This fixes things for cross compiling.
-```
-
-
-...so the best thing would be to check out the latest from [ https://github.com/haskell/cabal/](https://github.com/haskell/cabal/), and build both Cabal and cabal-install.
+Check out the latest version of Cabal from [ https://github.com/haskell/cabal/](https://github.com/haskell/cabal/), and build both Cabal and cabal-install.
 
 
 The ghc-ios-scripts directory you checked out earlier contains two wrappers called `arm-apple-darwin10-cabal` and `i386-apple-darwin11-cabal`. These will pass the right arguments to cabal, so you can do, for example:
