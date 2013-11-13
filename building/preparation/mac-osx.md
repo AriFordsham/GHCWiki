@@ -1,7 +1,7 @@
 # Setting up a MacOS X system for building GHC
 
 
-You will need to install [ Homebrew](http://mxcl.github.com/homebrew/) for getting some of the tools needed. Homebrew is recommended over other systems on OS X such as MacPorts and Fink.
+You will need to install several tools, using one of  [ Homebrew](http://mxcl.github.com/homebrew/)  MacPorts or Fink.
 
 ## Xcode (GCC)
 
@@ -19,6 +19,9 @@ Firstly, you need to install the Xcode Command Line tools from Apple. You can do
 
   - At the [ downloads page of Apple Developer](http://developer.apple.com/downloads), download the latest "Command line tools".
   - Install them.
+
+
+Note well: XCode 5 doesn't come with a real GCC, and currently GHC builds most easily if you use GCC rather than clang. Note also that Xcode 5 installs a "gcc" thats actually an alias for Clang.   You will need to install a real GCC, and make sure the gcc in your path points to a real gcc, or alternatively points to one of the "clang-wrapper" scripts that are available. Again, using a real GCC will be much simpler.
 
 
 In both cases, you need to [ register](https://developer.apple.com/programs/register/) as an Apple developer first (free).
@@ -40,8 +43,8 @@ Secondly, you need a installation of GHC for use as your bootstrap compiler.
 You can install a binary distribution of GHC in three ways:
 
 1. Install the [ Haskell Platform](http://www.haskell.org/platform/).
-1. Install via Homebrew: `brew install ghc` OR `brew install haskell-platform`.
 1. Install a [binary distribution from GHC](http://www.haskell.org/ghc/download).
+1. Use one of Fink, MacPorts or Brew.   If using brew, we strongly recommend using Darin's [ brewtap](https://github.com/darinmorrison/homebrew-haskell)   for ghc
 
 **NB:** You need to use a binary distribution of GHC 7.4.1 (or later) as your bootstrap compiler.
 
