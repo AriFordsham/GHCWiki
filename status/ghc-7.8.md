@@ -55,6 +55,8 @@ The following **new** features are planned for 7.8 **but have not yet made it**.
 
 - ~~[Newtype wrappers](newtype-wrappers), by Joachim Breitner.~~**Merged**.
 
+- Andreas Voellmy has implemented the parallel IO manager. This has been merged into HEAD. There are two tickets ([\#8224](https://gitlab.haskell.org//ghc/ghc/issues/8224) and [\#7651](https://gitlab.haskell.org//ghc/ghc/issues/7651)) that Andreas will try to resolve before the release. Andreas needs some input from Ryan Newton and possibly Simon Marlow on [\#8224](https://gitlab.haskell.org//ghc/ghc/issues/8224). 
+
 ## Features that will definitely not make it
 
 - Trevor Elliot and Iavor Diatchki have implemented [GhcKinds/KindsWithoutData](ghc-kinds/kinds-without-data), but the implementation is still in flux. 
