@@ -107,6 +107,16 @@ in your `~/.cabal/config` file, or by passing the `--disable-library-profiling` 
 i386-apple-darwin11-cabal install text --disable-library-profiling
 ```
 
+
+If you get errors like "No cabal file found", you've probably got the option
+
+```wiki
+jobs: $ncpus
+```
+
+
+(currently placed by default by newer cabals), which triggers an "external" build method that doesn't yet work with cross-compilation. Commenting it out should fix it.
+
 ### 7. Make sure hsc2hs is new enough
 
 
