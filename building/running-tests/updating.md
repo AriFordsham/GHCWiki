@@ -20,3 +20,8 @@ new output, simply call `make accept` in that directory:
 $ cd array/should_run
 $ make accept
 ```
+
+## Performance tests
+
+
+Some of the performance tests in `perf/` check for peak memory usage.  Peak memory usage is obtained when there is a major GC, so the peak value can be vulnerable to the timing of major GC.  If `peak_megabytes` appears to increase, try running with `RTS -h -i0.01` before and after. That makes major GC happen more often, and gives a much more accurate result.
