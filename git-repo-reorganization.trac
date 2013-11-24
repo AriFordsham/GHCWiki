@@ -60,7 +60,7 @@ See also some older notes: DarcsConversion#Theperspectiveonsubmodules
 Fold some high-frequency repositories directly into `ghc.git`:
    - `testsuite.git` (commits to `testsuite.git` are tightly coupled to associated commits to `ghc.git` most of the time, and occur often)
    - `base.git` (tightly coupled to GHC internals, 3rd most often updated repo, often coupled with `testsuite.git` tweaks)
-   - not so clear but potential candidates: `ghc-prim.git`, `integer-gmp.git`, `integer-simple.git`, `template-haskell.org`
+   - not so clear but potential candidates: `ghc-prim.git`, `integer-gmp.git`, `integer-simple.git`, `template-haskell.git`
 
 Reasons for folding some repos into `ghc.git`:
  - Avoid overhead/noise of frequent git-submodule ref update commits to `ghc.git`
