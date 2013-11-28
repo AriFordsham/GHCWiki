@@ -35,6 +35,7 @@ See also
 - Cabal: allow specifying a package instance when doing Setup.hs configure
 
   - DC: currently only == version constraints can be used, not installed package id. Shouldn't be too hard to add however.
+  - JT: Done according to DC.
 
 - instances of packages must install in a different location
 
