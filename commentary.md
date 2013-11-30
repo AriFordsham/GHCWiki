@@ -4,7 +4,7 @@
 This tree of wiki pages is a "commentary" on the GHC source code.  It contains all the explanatory material that doesn't belong in comments in the source code itself, because the material is wide-ranging, usually covers multiple source files, and is more architectural in nature.  The commentary can also be considered a design document for GHC.
 
 
-For the beginners there is a quick introduction guide [here](newcomers).
+For the beginners there is [a short getting started guide](newcomers).
 
 
 For the dedicated, there are [videos of Simon and Simon giving an overview of GHC](about-videos), at the 2006 [GHC Hackathon](hackathon).
