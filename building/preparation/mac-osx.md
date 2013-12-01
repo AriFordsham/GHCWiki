@@ -26,6 +26,11 @@ Note well: XCode 5 doesn't come with a real GCC, and currently GHC builds most e
 
 In both cases, you need to [ register](https://developer.apple.com/programs/register/) as an Apple developer first (free).
 
+### OS X 10.9 Mavericks: Clang
+
+
+Start by installing the latest Xcode or command line tools as per above. Then install a clang wrapper and update your GHC settings file ([ http://justtesting.org/post/64947952690/the-glasgow-haskell-compiler-ghc-on-os-x-10-9](http://justtesting.org/post/64947952690/the-glasgow-haskell-compiler-ghc-on-os-x-10-9) for instructions)
+
 ### Previous versions of OS X and Xcode
 
 
