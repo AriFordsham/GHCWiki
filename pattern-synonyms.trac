@@ -80,6 +80,7 @@ There have been several proposals for the syntax of defining pattern-only synony
 * `pattern` ''conid'' ''varid,,1,,'' ... ''varid,,n,,'' `~` ''pat''
 * `pattern` ''conid'' ''varid,,1,,'' ... ''varid,,n,,'' `:=` ''pat''
 * `pattern` ''conid'' ''varid,,1,,'' ... ''varid,,n,,'' `->` ''pat''
+* `pattern` ''conid'' ''varid,,1,,'' ... ''varid,,n,,'' `<-` ''pat''
 }}}
 
 

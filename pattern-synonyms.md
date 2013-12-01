@@ -112,6 +112,7 @@ There have been several proposals for the syntax of defining pattern-only synony
 - `pattern`*conid**varid<sub>1</sub>* ... *varid<sub>n</sub>*`~`*pat*
 - `pattern`*conid**varid<sub>1</sub>* ... *varid<sub>n</sub>*`:=`*pat*
 - `pattern`*conid**varid<sub>1</sub>* ... *varid<sub>n</sub>*`->`*pat*
+- `pattern`*conid**varid<sub>1</sub>* ... *varid<sub>n</sub>*`<-`*pat*
 
 </th></tr></table>
 
