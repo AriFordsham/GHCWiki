@@ -98,9 +98,9 @@ but any `Tree`-specific pattern matching code you write will be wide and obscure
 
 The simplest form of pattern synonyms is the one from the examples above.  The grammar rule is:
 
-`pattern`*conid**varid<sub>1</sub>* ... *varid<sub>n</sub>*`->`*pat*
+`pattern`*conid**varid<sub>1</sub>* ... *varid<sub>n</sub>*`<-`*pat*
 
-`pattern`*varid<sub>1</sub>**consym**varid<sub>2</sub>*`->`*pat*
+`pattern`*varid<sub>1</sub>**consym**varid<sub>2</sub>*`<-`*pat*
 
 - Each of the variables on the left hand side must occur exactly once on the right hand side 
 - Pattern synonyms are not allowed to be recursive.  Cf. type synonyms.
@@ -141,7 +141,7 @@ E.g.
 
 ```wiki
    pattern Arrow :: Type -> Type -> Type
-   pattern Arrow t1 t2 -> App "->" [t1, t2]
+   pattern Arrow t1 t2 <- App "->" [t1, t2]
 ```
 
 
@@ -150,9 +150,9 @@ Together with [ViewPatterns](view-patterns) we can now create patterns that look
 ```wiki
 import qualified Data.Sequence as Seq
 
-pattern Empty -> (Seq.viewl -> Seq.EmptyL)
-pattern x :< xs -> (Seq.viewl -> x Seq.:< xs)
-pattern xs :> x -> (Seq.viewr -> xs Seq.:> x)
+pattern Empty <- (Seq.viewl -> Seq.EmptyL)
+pattern x :< xs <- (Seq.viewl -> x Seq.:< xs)
+pattern xs :> x <- (Seq.viewr -> xs Seq.:> x)
 ```
 
 ## Simply-bidirectional pattern synonyms
@@ -189,7 +189,7 @@ In contrast, the pattern synonyms for *Arrow* and *Int* above are bidirectional,
 What if you want to use `Succ` in an expression:
 
 ```wiki
-    pattern Succ n -> n1 | let n = n1 -1, n >= 0
+    pattern Succ n <- n1 | let n = n1 -1, n >= 0
 ```
 
 
@@ -197,7 +197,7 @@ It's clearly impossible since its expansion is a pattern that has no meaning as 
 Nevertheless, if we want to make what looks like a constructor for a type we will often want to use it in both patterns and expressions.
 This is the rationale for the most complicated synonyms, the bidirectional ones.  They provide two expansions, one for patterns and one for expressions.
 
-`pattern`*conid**varid<sub>1</sub>* ... *varid<sub>n</sub>*`->`*pat*`where`*cfunlhs**rhs*
+`pattern`*conid**varid<sub>1</sub>* ... *varid<sub>n</sub>*`<-`*pat*`where`*cfunlhs**rhs*
 
 
 where *cfunlhs* is like *funlhs*, except that the functions symbol is a *conid* instead of a *varid*.
@@ -206,7 +206,7 @@ where *cfunlhs* is like *funlhs*, except that the functions symbol is a *conid* 
 Example:
 
 ```wiki
-   pattern Succ n -> n1 | let n = n1-1, n >= 0 where
+   pattern Succ n <- n1 | let n = n1-1, n >= 0 where
       Succ n = n + 1
 ```
 
