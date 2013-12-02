@@ -308,7 +308,7 @@ There are a number of predicates which can be used:
 - **compiler_ge(ct, v)**    compiler type is `ct`, and the version is greater than or equal to `v`
 - **unregisterised()**      the compiler is unregisterised
 - **compiler_profiled()**   the compiler is build with a profiling RTS
-- **compiler_debugged()**   the compiler is build with a debug RTS
+- **compiler_debugged()**   the compiler is built with `-DDEBUG`
 - **tag(t)**                the compiler has tag `t`
 
 
