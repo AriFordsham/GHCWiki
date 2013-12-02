@@ -7,6 +7,14 @@ This proposal provides the same power for patterns.
 
 See the [implementation](pattern-synonyms/implementation) page for implementation details.
 
+
+Relevant open tickets:
+
+- [\#8581](https://gitlab.haskell.org//ghc/ghc/issues/8581)
+- [\#8582](https://gitlab.haskell.org//ghc/ghc/issues/8582)
+- [\#8583](https://gitlab.haskell.org//ghc/ghc/issues/8583)
+- [\#8584](https://gitlab.haskell.org//ghc/ghc/issues/8584)
+
 ## Motivating example
 
 
