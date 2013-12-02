@@ -25,7 +25,7 @@ The following pages guide you step-by-step through making a contribution:
 
 == Working conventions ==
 
- * '''Using Git''': Our conventions and some useful tips for using git are here: [wiki:WorkingConventions/Git Using Git].
+ * '''Using Git''': Our conventions and some useful tips for using git are here: [wiki:WorkingConventions/Git Using Git], and information about our repository setup is in [wiki:Repositories].
 
  * '''Releases and branches''': Our conventions for making releases and how the branches are managed: [wiki:WorkingConventions/Releases Releases]
 
