@@ -64,7 +64,7 @@ Most of the packages used below are bundled with Emacs. If a package is not part
 
 == Kill whole line and newline with C-k if at beginning of line
 
-'''Description''': IF you place cursor at the beginning of line, the default behaviour of C-k is to fill all text until newline, but not the newline itself. You need to type C-k again to remove that newline. This setting allows to avoid typing `C-k` twice by killing all text until the newline and newline itself (but only when cursor is placed at the beginning of a line).
+'''Description''': IF you place cursor at the beginning of line, the default behaviour of C-k is to kill all text until newline, but not the newline itself. You need to type C-k again to remove that newline. This setting allows to avoid typing `C-k` twice by killing all text until the newline and newline itself (but only when cursor is placed at the beginning of a line).
 
 '''How to enable''':
 {{{#!elisp 
