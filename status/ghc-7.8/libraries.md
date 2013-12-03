@@ -848,9 +848,7 @@ TODO
 <th></th>
 <th></th></tr></table>
 
-- why was there a major version bump?
-- (almost) ready for release
-- find out what's up with [\#7229](https://gitlab.haskell.org//ghc/ghc/issues/7229)
+- released as [ process-1.2.0.0](http://hackage.haskell.org/package/process-1.2.0.0)!
 
 ### [ stm](http://hackage.haskell.org/package/stm)
 
