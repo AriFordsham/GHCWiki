@@ -90,11 +90,6 @@ make EXTRA_HC_OPTS="-threaded" EXTRA_RUNTEST_OPTS='+RTS -N4 -RTS'
 
 To tweak things, add settings to your `mk/build.mk` (see [wiki:Commentary/SourceTree]).
 
- * Each benchmark is run in each "way" in `NoFibWays`.  By default `NoFibWays` is initialised to `GhcLibWays`, but you can override that in `mk/build.mk`. Typically, to just use the vanilla way, set `NoFibWays` to empty:
-{{{
-NoFibWays =
-}}}
-
  * By default nofib uses the stage-2 compiler from your build tree.  To tell nofib to use a different compiler, set `HC`.  For example:
 {{{
 make HC=/home/simonpj/builds/HEAD/inplace/bin/ghc-stage1 2>&1 | tee log-stage1
