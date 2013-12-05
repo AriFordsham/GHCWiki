@@ -11,7 +11,6 @@ addressing.
 - [ Blog post giving an overview](http://ghcmutterings.wordpress.com/2008/12/04/explicit-stack-traces/)
 - [ Darcs repository with paper sources and patches](http://code.haskell.org/explicitCallStackPaper/)
 - [ Paper describing the work submitted to Haskell Symposium 2009](http://pubs.doc.ic.ac.uk/finding-the-needle/)
-- [ Simon Hengel's "rewrite with location" proposal](https://github.com/sol/rewrite-with-location)
 
 ## Examples
 

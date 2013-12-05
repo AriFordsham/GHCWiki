@@ -10,8 +10,7 @@ addressing.
   * [http://ghcmutterings.wordpress.com/2008/12/04/explicit-stack-traces/ Blog post giving an overview]
   * [http://code.haskell.org/explicitCallStackPaper/ Darcs repository with paper sources and patches]
   * [http://pubs.doc.ic.ac.uk/finding-the-needle/ Paper describing the work submitted to Haskell Symposium 2009]
-  * [https://github.com/sol/rewrite-with-location Simon Hengel's "rewrite with location" proposal]
-
+ 
 == Examples ==
 
 There are several examples in the testsuite patch, and also in the blog post
