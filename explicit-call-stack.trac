@@ -5,6 +5,7 @@ There has been a vigorous thread on error attribution ("I get a `head []` error;
 See also
   * [http://research.microsoft.com/~simonpj/papers/stack-trace/DebugTraces.pdf Finding the needle], a paper describing Tristan Allwood's intern project to implement explicit call stacks in GHC (May 2009).
   * #1441, #960, which would be fixed by this.
+  * [https://github.com/sol/rewrite-with-location Simon Hengel's "rewrite with location" proposal]
   * [http://www.haskell.org/pipermail/haskell-cafe/2006-November/019549.html The Haskell cafe thread]
   * [http://www.cse.unsw.edu.au/~dons/loch.html]
   * [http://haskell.org/hat HAT]
