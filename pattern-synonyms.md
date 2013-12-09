@@ -260,53 +260,117 @@ One could go one step further and leave out the `pattern` keyword to obtain *ass
 
 **TODO**: Syntax for associated pattern synonym declarations to discern between pattern-only and bidirectional pattern synonyms
 
+## Static semantics
+
+
+A unidirectional pattern synonym declaration has the form
+
+```wiki
+pattern P var1 var2 ... varN <- pat
+```
+
+
+The formal pattern synonym arguments `var1`, `var2`, ..., `varN` are brought
+into scope by the pattern pat on the right-hand side. The declaration
+brings the name `P` as a pattern synonym into the module-level scope.
+
+
+The pattern synonym `P` is assigned a *pattern type * of the form
+
+```wiki
+P :: ty requires CReq provides CProv
+```
+
+
+where `ty` is a simple type with no context, and `CReq` and `CProv` are type contexts.
+
+
+A pattern synonym of this type can be used in a pattern if the
+instatiated (monomorphic) type satisfies the constraints of
+`CReq`. In this case, it extends the context available in the
+right-hand side of the match with `CProv`, just like how an
+existentially-typed data constructor can extend the context.
+
+
+For example, in the following definition:
+
+```wiki
+{-# LANGUAGE PatternSynonyms, GADTs, ViewPatterns #-}
+module ShouldCompile where
+
+data T a where
+	MkT :: (Eq b) => a -> b -> T a
+
+f :: (Show a) => a -> Bool
+
+pattern P x <- MkT (f -> True) x
+```
+
+
+the pattern type of `P` is
+
+```wiki
+P :: b -> T a requires (Show a) provides (Eq b)
+```
+
+
+A bidirectional pattern synonym declaration has the form
+
+```wiki
+pattern P var1 var2 ... varN = pat
+```
+
+
+where both of the following are well-typed declarations:
+
+```wiki
+pattern P1 var1 var2 ... varN <- pat
+
+P2 = \var1 var2 ... varN -> pat
+```
+
+
+In this case, the *pattern type* of `P` is simply the pattern type
+of `P1`, and its *expression type* is the type of `P2`. The name `P`
+is brought into the module-level scope both as a pattern synonym and
+as an expression.
+
+## Dynamic semantics
+
+
+A pattern synonym occurance in a pattern is evaluated by first
+matching against the pattern synonym itself, and then on the argument
+patterns. For example, given the following definitions:
+
+```wiki
+pattern P x y <- [x, y]
+
+f (P True True) = True
+f _             = False
+
+g [True, True] = True
+g _            = False
+```
+
+
+the behaviour of `f` is the same as
+
+```wiki
+f [x, y] | True <- x, True <- y = True
+f _                             = False
+```
+
+
+Because of this, the eagerness of `f` and `g` differ:
+
+```wiki
+*Main> f (False:undefined)
+*** Exception: Prelude.undefined
+*Main> g (False:undefined)
+False
+```
+
 ## Typed pattern synonyms
 
 
 So far patterns only had *syntactic* meaning. In comparison [ Ωmega](http://code.google.com/p/omega) has *typed* pattern synonyms, so they become first class values. (I am not suggesting this for Haskell, yet.)
-
-## Semantics
-
-
-It might seem tempting to just define pattern synonym semantics as 'textual substitution'. On the other hand, just like with any other surface language feature, we don't want to normalize away pattern synonyms before typechecking happens, since we want to report type error occurrences from user-written code.
-
-
-These two goals are incompatible once you start to factor in patterns containing typeclass-polymorphic parts. For example, let's say we have these two GADTs:
-
-```wiki
-data S a where
-  MkS:: Num a -> a > S a
-data T a where
-  MkT :: Eq a => a -> T a
-```
-
-
-and we define this pattern synonym:
-
-```wiki
-pattern P :: (Eq a, Num a) => a -> a -> (P a, S a)
-pattern P x y = (MkT x, MkS y)
-```
-
-
-we can then write a function:
-
-```wiki
-f (P 1 2) = ...
-```
-
-
-which needs to use `fromInteger` from the `Num` instance provided by the `MkS` constructor to be able to pattern-match on the argument of the `MkT` constructor. 
-
-
-This means when we desugar a pattern synonym occurrence, the whole of the right-hand side needs to be matched before the arguments are matched. So the previous definition of `f` is desugared corresponding to the following Haskell code:
-
-```wiki
-f = \a -> case a of
-  (MkT x, MkS y) -> case x of
-    1 -> case y of
-      2 -> ...
-```
-
-
-Of course, we don't actually generate Haskell code for that; instead, the implementation directly emits Core, in the same way Core is emitted for other pattern matchings (in `DsUtils.mkCoAlgCaseMatchResult`)
