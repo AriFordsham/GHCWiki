@@ -118,7 +118,7 @@ $ export PATH=/path/to/ghc/source/inplace/mingw/bin:$PATH
 ```
 
 
-This puts the inplace-mingw in your `$PATH` ahead of the mingw tools. Now you can just say:
+This puts the inplace-mingw in your `$PATH` ahead of the msys2 tools. Now you can just say:
 
 ```wiki
 $ cd testsuite
