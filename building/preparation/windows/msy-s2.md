@@ -31,6 +31,11 @@ Extract the GHC binary somewhere like **C:\\msys64\\ghc-7.6.3**
 
 Launch the shell with **C:\\msys64\\mingw64_shell.bat**
 
+## Download python
+
+
+Go to [ https://python.org/download](https://python.org/download) and download *Python 2.6* for your system and install it. Due to a bug in the python2 shipped with msys, we can't use with ctypes correctly.
+
 ## Setting up your PATH
 
 
@@ -50,6 +55,13 @@ $ echo 'export PATH=/c/Users/YourUserNameHere/AppData/Roaming/cabal/bin:$PATH' >
 ```
 
 
+And make sure `python` is on your `$PATH`:
+
+```wiki
+$ echo 'export PATH=/c/Python27:$PATH' >> ~/.bashrc
+```
+
+
 Make sure you restart your shell.
 
 ## Installing packages & tools
@@ -59,8 +71,11 @@ The msys2 package uses `pacman` (the venerable ArchLinux package manager) to man
 
 ```wiki
 $ pacman -Syu
-$ pacman -S python2 git wget tar gzip binutils gcc autoconf make libtool automake xz
+$ pacman -S git wget tar gzip binutils gcc autoconf make libtool automake xz
 ```
+
+**Do not install python!
+**
 
 
 Now install a `cabal.exe` prebuilt binary, and install `alex` and `happy`:
@@ -87,8 +102,28 @@ $ ./boot && ./configure
 $ make -j5
 ```
 
-**Yes! Parallel make works!
-**
+*Yes! Parallel make works''
+*
+
+## Running the testsuite
 
 
-But be sure to read on for more!
+To run the testsuite, a gross hack is currently needed in order to set the proper `gcc` for building an executable.
+
+
+First, with a built tree, go to the root of the tree. Then say:
+
+``\`
+$ export PATH=/path/to/ghc/source/inplace/mingw/bin:$PATH
+``\`
+
+
+This puts the inplace-mingw in your `$PATH` ahead of the mingw tools. Now you can just say:
+
+```wiki
+$ cd testsuite
+$ make
+```
+
+
+to run the tests.
