@@ -112,4 +112,4 @@ $ make -j5
 *
 
 
-Or just `CPUS=4 sh ./validate` works too. The testsuite works as you expect.
+Or just `CPUS=4 sh ./validate` works too.
