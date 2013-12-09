@@ -1,6 +1,9 @@
 
 This page documents the instructions for setting up a Windows build using [ msys2](http://sourceforge.net/projects/msys2/files/Alpha-versions/), which is a fairly complete build of MinGW + the msys tools. It is pretty self contained and fixes several pesky bugs with the traditional implementation. It's also smaller and has a convenient package manager, `pacman`.
 
+
+It should get you running in \~5 minutes, modulo download speeds.
+
 *NB*: You can extract `.tar.xz` files with 7Zip: [ http://www.7-zip.org/](http://www.7-zip.org/)
 
 ## 32bit Windows
@@ -31,6 +34,11 @@ Extract the GHC binary somewhere like **C:\\msys64\\ghc-7.6.3**
 
 Launch the shell with **C:\\msys64\\mingw64_shell.bat**
 
+## Download python
+
+
+Go to [ https://python.org/download](https://python.org/download) and download *Python 2.7* for your system and install it. Due to a bug in the python2 shipped with msys, ctypes doesn't work.
+
 ## Setting up your PATH
 
 
@@ -46,7 +54,14 @@ $ echo 'export PATH=$HOME/bin:$PATH'      >> ~/.bashrc
 We'll also go ahead and add the default `cabal.exe` binary installation path:
 
 ```wiki
-$ echo 'export PATH=/c/Users/YourUserNameHere/AppData/Roaming/cabal/bin:$PATH' >> ~/.bashrc
+$ echo 'export PATH=/c/Users/$USER/AppData/Roaming/cabal/bin:$PATH' >> ~/.bashrc
+```
+
+
+And make sure `python` is on your `$PATH`:
+
+```wiki
+$ echo 'export PATH=/c/Python27:$PATH' >> ~/.bashrc
 ```
 
 
@@ -59,26 +74,25 @@ The msys2 package uses `pacman` (the venerable ArchLinux package manager) to man
 
 ```wiki
 $ pacman -Syu
-$ pacman -S python2 git wget tar gzip binutils gcc autoconf make libtool automake
+$ pacman -S git wget tar gzip binutils autoconf make libtool automake xz
 ```
 
+**Do not install python, python2 or gcc!
+**
 
-Now install a `cabal.exe` prebuilt binary:
+
+We'll use the natively-built python and our own specific version of GCC on windows.
+
+
+Now install a `cabal.exe` prebuilt binary, and install `alex` and `happy`:
 
 ```wiki
 $ wget http://www.haskell.org/cabal/release/cabal-install-1.18.0.2/cabal.exe
 $ mv cabal.exe ~/bin
 $ cabal update
-```
-
-
-Make sure your `$PATH` now contains the cabal installation path: `/c/Users/YourUserNameHere/AppData/Roaming/cabal/bin`, which will take precedence over earlier things:
-
-
-Install `happy` and `alex`:
-
-```wiki
-$ cabal install happy alex
+$ cabal install alex happy
+$ alex --version
+$ happy --version
 ```
 
 ## A Quick build
@@ -94,5 +108,8 @@ $ ./boot && ./configure
 $ make -j5
 ```
 
+*Yes! Parallel make works!
+*
 
-But be sure to read on for more!
+
+Or just `CPUS=4 sh ./validate` works too.
