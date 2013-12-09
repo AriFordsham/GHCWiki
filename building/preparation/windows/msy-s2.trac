@@ -94,9 +94,9 @@ To run the testsuite, a gross hack is currently needed in order to set the prope
 
 First, with a built tree, go to the root of the tree. Then say:
 
-```
+{{{
 $ export PATH=/path/to/ghc/source/inplace/mingw/bin:$PATH
-```
+}}}
 
 This puts the inplace-mingw in your `$PATH` ahead of the mingw tools. Now you can just say:
 
