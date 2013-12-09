@@ -1,11 +1,21 @@
-= Frontend representation
+== Implementation notes for pattern synonyms ==
+
+== Frontend representation ==
 
 After parsing, and during renaming, pattern synonyms are stored as
-`TyClDecl`s.
+`HsBind`s.
 
-= Typechecking
+== Renaming ==
 
-The typechecking pass turns `PatSynDecl`s into a `PatSyn` and several
+During renaming, pattern synonyms are put in recursive binding groups
+together with function bindings. Other pattern synonyms and
+ViewPatterns can cause recursive pattern synonym declarations, which
+are rejected.
+
+
+== Typechecking ==
+
+The typechecking pass turns `PatSynBind`s into a `PatSyn` and several
 `HsBind`s. To fill in the `PatSyn`, we typecheck the right-hand side
 of the pattern synonym declaration, then do some extra processing on
 it to reject as-patterns and optionally compute the reverse of the
@@ -17,12 +27,12 @@ synonym occurances, and generate some `HsBind`s:
 * The `PatSyn` stores typing information for the pattern synonym, to
   be consulted when typechecking pattern synonym usage sites.
 
-* The first `HsBind` is the binder for the matcher function generated from
-  the pattern synonym. The matcher is used when desugaring pattern
-  synonym usage sites (see below).
+* The first `HsBind` is the binder for the //matcher// function
+  generated from the pattern synonym. The matcher is used when
+  desugaring pattern synonym usage sites (see below).
 
 * For bidirectional pattern synonyms, another `HsBind` called a
-  wrapper is created to be used for pattern synonym usages in
+  //wrapper// is created to be used for pattern synonym usages in
   expression contexts. It is a wrapper in the same sense as a
   constructor wrapper.
 
@@ -33,60 +43,27 @@ the sum of `DataCon` and `PatSyn`.
 
 
 
-= Desugaring
+== Desugaring ==
 
-`ConLike`s are handled uniformly all the way until
-`mkCoAlgCaseMatchResult`. There, we have a mixed list of `DataCon` and
-`PatSyn`-based patterns.
+=== Grouping ===
 
-
-=== Grouping
-
-This list is grouped so that subsequent `DataCon` patterns are put in
-the same group, and `PatSyn` patterns are all in their own
-groups. This is needed so that when doing pattern matching per column,
-given e.g.
-
+During match grouping, subsequent `PatSyn` patterns are combined into
+one group per pattern synonym. For example, given the following code:
 
 {{{
-data T = MkT1 | MkT2 Bool | MkT3
-pattern P x = MkT2 x
+pattern Single x <- [x]
+pattern Pair x y <- [x, y]
+
+f []             = 0
+f (Single True)  = 1
+f (Single False) = 2
+f (Pair _ _)     = 3
+f (_:_:_)        = 4
 }}}
 
-and a list of cases
+the two `Single` patterns are put in one `PgSyn` `PatGroup`.
 
-
-{{{
-MkT1 _ -> alt1
-P True -> alt2
-MkT2 _ -> alt3
-}}}
-
-we don't compile that into
-
-
-{{{
-DEFAULT -> ... P ...
-MkT1 -> alt1
-MkT2 _ -> alt3
-}}}
-
-since we can't see into P (and we don't want to, since it might be
-imported from another module). The correct thing to do is to compile
-that into
-
-
-{{{
-DEFAULT -> ... (P, alt2) and (MkT2 _, alt3) ...
-MkT1 -> alt1
-}}}
-
-Consecutive occurances of the same pattern synonym (e.g. if we had `P
-True` and `P False` in the previous example) are compiled into a
-single match; the arguments are then matched in a sub-case.
-
-
-== Matching
+=== Matching ===
 
 For each pattern synonym, a matcher function is generated which gets a
 scrutinee and a success and a failure continuations. Given a type
@@ -98,17 +75,15 @@ data T a where
 
 and a pattern synonym
 
-
 {{{
-pattern P x y = MkT x y
+pattern Pat x y = MkT x y
 }}}
 
 we generate the matcher function
 
-
 {{{
-P :: forall r a. T a -> (forall b. Cls b => b -> a -> r) -> r -> r
-P scrutinee pass fail = case scrutinee of
+$mPat :: forall r a. T a -> (forall b. Cls b => b -> a -> r) -> r -> r
+$mPat scrutinee pass fail = case scrutinee of
   MkT x y -> pass x y
   _ -> fail
 }}}
