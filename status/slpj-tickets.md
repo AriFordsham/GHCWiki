@@ -2,6 +2,7 @@
 
 ## Type inference
 
+- [\#8550](https://gitlab.haskell.org//ghc/ghc/issues/8550): Don't build recursive type-function dictionaries
 - [\#6056](https://gitlab.haskell.org//ghc/ghc/issues/6056): conflict between the w/w unfolding and the one from INLINEABLE
 - [\#8486](https://gitlab.haskell.org//ghc/ghc/issues/8486), [\#5682](https://gitlab.haskell.org//ghc/ghc/issues/5682): Parsing of pomoted kinds, and `Typeable` instances involving them
 - [\#8281](https://gitlab.haskell.org//ghc/ghc/issues/8281): `UnliftedFFITypes` etc
