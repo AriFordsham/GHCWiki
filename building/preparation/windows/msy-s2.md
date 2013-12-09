@@ -63,22 +63,15 @@ $ pacman -S python2 git wget tar gzip binutils gcc autoconf make libtool automak
 ```
 
 
-Now install a `cabal.exe` prebuilt binary:
+Now install a `cabal.exe` prebuilt binary, and install `alex` and `happy`:
 
 ```wiki
 $ wget http://www.haskell.org/cabal/release/cabal-install-1.18.0.2/cabal.exe
 $ mv cabal.exe ~/bin
 $ cabal update
-```
-
-
-Make sure your `$PATH` now contains the cabal installation path: `/c/Users/YourUserNameHere/AppData/Roaming/cabal/bin`, which will take precedence over earlier things:
-
-
-Install `happy` and `alex`:
-
-```wiki
-$ cabal install happy alex
+$ cabal install alex happy
+$ alex --version
+$ happy --version
 ```
 
 ## A Quick build
