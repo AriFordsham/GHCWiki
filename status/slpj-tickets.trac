@@ -2,6 +2,7 @@
 
 == Type inference ==
 
+ * #8550: Don't build recursive type-function dictionaries
  * #6056: conflict between the w/w unfolding and the one from INLINEABLE
  * #8486, #5682: Parsing of pomoted kinds, and `Typeable` instances involving them
  * #8281: `UnliftedFFITypes` etc
