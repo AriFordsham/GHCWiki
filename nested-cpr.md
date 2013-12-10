@@ -27,7 +27,7 @@ Tickets with stuff that would make nested CPR better:
 #### better-ho-cardinality
 
 
-It would be nice to merge the code structure improvements and notes into master, to keep my branch short. But it is based on `better-ho-cardinality`, and that is not suitable for merging because of unexpected regressions even in `nofib` and ´rtak\`. So I am investigating.
+It would be nice to merge the code structure improvements and notes into master, to keep my branch short. But it is based on `better-ho-cardinality`, and that is not suitable for merging because of unexpected regressions even in `nofib` and `rtak`. So I am investigating.
 
 
 In these tests, it is related to reading and showing data. Small example:
