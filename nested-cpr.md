@@ -20,10 +20,24 @@ Tickets with stuff that would make nested CPR better:
 - Paper-Writeup of CPR
 - Shouldn’t nested CPR help a lot with Complex-heavy code? Is there something in nofib?
 - Try passing CPR information from the scrunitee to the pattern variables. For that: Reverse flow of analysis for complex scrunitees (for simple, we want the demand coming from the body, for complex, this is not so important.)
-- Check nofib of better-ho-cardinality and possibly merge into master, including all non-nested-cpr improvements from the nested-cpr branch.
 - Why is `cacheprof` not deterministic?
 - Use ticky-profiling to learn more about the effects of nested CPR.
 - Look at DmdAnal-related \[SLPJ-Tickets\] and see which ones are affected by nested-cpr.
+
+#### better-ho-cardinality
+
+
+It would be nice to merge the code structure improvements and notes into master, to keep my branch short. But it is based on `better-ho-cardinality`, and that is not suitable for merging because of unexpected regressions even in `nofib` and ´rtak\`. So I am investigating.
+
+
+In these tests, it is related to reading and showing data. Small example:
+
+```
+main=(read "10"::Int)`seq` return ()
+```
+
+
+Baseline: 49832, `better-ho-cardinality`: 49968. Unfortunately, the changes to, for example, `GHC.Read` are not small, and probably mostly benign...
 
 ### Side tracks
 
