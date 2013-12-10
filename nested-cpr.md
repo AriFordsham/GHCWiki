@@ -1,0 +1,30 @@
+
+This is nomeata’s notepad about the nested CPR information:
+
+### Related tickets
+
+- [\#1600](https://gitlab.haskell.org//ghc/ghc/issues/1600) Main tickets where I mention progress.
+
+
+Tickets with stuff that would make nested CPR better:
+
+- [\#8598](https://gitlab.haskell.org//ghc/ghc/issues/8598) CPR after IO (partly done)
+
+### Related testcases
+
+- Everything in [source:testsuite/tests/stranal/sigs/](/trac/ghc/browser/testsuite/tests/stranal/sigs)
+
+### TODOs
+
+- Does Nick Frisby’s late λ-lifting alliviate problems when CPR’ing join-points?
+- Paper-Writeup of CPR
+- Shouldn’t nested CPR help a lot with Complex-heavy code? Is there something in nofib?
+- Try passing CPR information from the scrunitee to the pattern variables. For that: Reverse flow of analysis for complex scrunitees (for simple, we want the demand coming from the body, for complex, this is not so important.)
+- Check nofib of better-ho-cardinality and possibly merge into master, including all non-nested-cpr improvements from the nested-cpr branch.
+- Why is `cacheprof` not deterministic?
+- Use ticky-profiling to learn more about the effects of nested CPR.
+- Look at DmdAnal-related \[SLPJ-Tickets\] and see which ones are affected by nested-cpr.
+
+### Side tracks
+
+- Should `runSTRep` be inlined (see [ticket:1600\#comment:34](https://gitlab.haskell.org//ghc/ghc/issues/1600))?
