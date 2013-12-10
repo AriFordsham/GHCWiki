@@ -1,0 +1,71 @@
+
+This is nomeata’s notepad about the nested CPR information:
+
+### Related tickets
+
+- [\#1600](https://gitlab.haskell.org//ghc/ghc/issues/1600) Main tickets where I mention progress.
+
+
+Tickets with stuff that would make nested CPR better:
+
+- [\#8598](https://gitlab.haskell.org//ghc/ghc/issues/8598) CPR after IO (partly done)
+
+### Related testcases
+
+- Everything in [source:testsuite/tests/stranal/sigs/](/trac/ghc/browser/testsuite/tests/stranal/sigs)
+
+### TODOs
+
+- Does Nick Frisby’s late λ-lifting alleviate problems when CPR’ing join-points?
+- Paper-Writeup of CPR
+- Shouldn’t nested CPR help a lot with Complex-heavy code? Is there something in nofib?
+- Try passing CPR information from the scrunitee to the pattern variables. For that: Reverse flow of analysis for complex scrunitees (for simple, we want the demand coming from the body, for complex, this is not so important.)
+- Why is `cacheprof` not deterministic? (→ [\#8611](https://gitlab.haskell.org//ghc/ghc/issues/8611))
+- Use ticky-profiling to learn more about the effects of nested CPR.
+- Look at DmdAnal-related \[SLPJ-Tickets\] and see which ones are affected by nested-cpr.
+- Idea about join points: [ http://www.haskell.org/pipermail/ghc-devs/2013-December/003481.html](http://www.haskell.org/pipermail/ghc-devs/2013-December/003481.html)
+
+#### better-ho-cardinality
+
+
+It would be nice to merge the code structure improvements and notes into master, to keep my branch short. But it is based on `better-ho-cardinality`, and that is not suitable for merging because of unexpected regressions even in `nofib` and `rtak`. So I am investigating.
+
+
+In these tests, it is related to reading and showing data. Small example:
+
+```
+main=(read "10"::Int)`seq` return ()
+```
+
+
+Baseline: 49832, `better-ho-cardinality`: 49968. Unfortunately, the changes to, for example, `GHC.Read` are not small, and probably mostly benign...
+
+
+Trying to minimize and isolate the problem. After some agressive code deleting, this is where I ended up:
+
+```
+{-# LANGUAGE RankNTypes #-}dataP a
+  =Get(Char->P a)|Result a
+
+Get f1     `mplus`Get f2     = undefined
+Result x   `mplus`_=Result x
+
+newtypeReadP a =R(forall b .(a ->P b)->P b)instanceMonadReadPwhere
+  return x  =R(\k -> k x)R m >>= f =R(\k -> m (\a ->letR m' = f a in m' k))readP_to_S(R f)= f Result`seq`()ppp::ReadP a ->ReadP a ->ReadP a
+ppp(R f1)(R f2)=R(\k -> f1 k `mplus` f2 k)paren::ReadP()->ReadP()paren p = p >> return ()parens::ReadP()->ReadP()parens p = optional
+ where
+  optional  = ppp p mandatory
+  mandatory = paren optional
+
+foo= paren ( return ())foo2= ppp (parens ( return ()))(parens (return ()))main= readP_to_S foo `seq` readP_to_S foo2 `seq` return ()
+```
+
+
+it is important that both `paren` and `parens` are used more than once; if there is only one use-site, the problem disappears (which made it hard to find). Also, most other changes prevent the increase in allocations: Removing the `Monad` instance and turning its methods into regular functions; adding `NOINLINE` annotations to `paren` or `parens`; changing `foo2` to `ppp foo foo`; even removing the dead code that is the first line of the `mplus` function.
+
+
+I think I’ll leave it at this point, this is hopefully enough information for someone (likely SPJ) to know whats going on.
+
+### Side tracks
+
+- Should `runSTRep` be inlined (see [ticket:1600\#comment:34](https://gitlab.haskell.org//ghc/ghc/issues/1600))?
