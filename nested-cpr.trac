@@ -33,6 +33,40 @@ main = (read "10" :: Int) `seq` return ()
 }}}
 Baseline: 49832, `better-ho-cardinality`: 49968. Unfortunately, the changes to, for example, `GHC.Read` are not small, and probably mostly benign...
 
+Trying to minimize the problem. This code has an increase in allocation (from 49448 to 49544)
+{{{
+#!haskell
+import Text.Read
+import Text.ParserCombinators.ReadPrec
+main = (readPrec_to_S readPrec 0 "True":: [(Bool, String)]) `seq` return ()
+}}}
+while copying the definition of `readPrec` here, i.e.
+{{{
+#!haskell
+
+import qualified Text.Read.Lex as L
+
+import Text.Read
+import Text.ParserCombinators.ReadPrec
+
+foo=parens
+    ( do L.Ident s <- lexP
+         case s of
+           "True"  -> return True
+           "False" -> return False
+           _       -> pfail
+    )
+
+
+main = (readPrec_to_S readPrec 0 "True":: [(Bool, String)]) `seq` return ()
+}}}
+yields a decrease (49240 → 49224).
+
+
+It even happens with `read "True" :: Bool` So I tried to minimize the problem, which somehow seems to occur in the depths of the `Read` code. But after manually pasting all the related pieces from `GHC.Read` and `Text.ParserCombinators.ReadP*` in one file, the differences in allocations go away.
+
+Maybe it is related to what inlining information about various functions cross module boundaries. For example, `fMonadP_$cfail` and other functions from `Text.ParserCombinators.ReadP` lose the `InlineRule (1, True, True)` annotation. Is that expected? Also, functions returning a `ShowS` have their arity increased. Can that be a reason for the increase of allocations?
+
 === Side tracks ===
 
  * Should `runSTRep` be inlined (see ticket:1600#comment:34)?
