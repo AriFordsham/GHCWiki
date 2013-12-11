@@ -40,32 +40,30 @@ main=(read "10"::Int)`seq` return ()
 Baseline: 49832, `better-ho-cardinality`: 49968. Unfortunately, the changes to, for example, `GHC.Read` are not small, and probably mostly benign...
 
 
-Trying to minimize the problem. This code has an increase in allocation (from 49448 to 49544)
+Trying to minimize and isolate the problem. After some agressive code deleting, this is where I ended up:
 
 ```
-importText.ReadimportText.ParserCombinators.ReadPrecmain=(readPrec_to_S readPrec 0"True"::[(Bool,String)])`seq` return ()
+{-# LANGUAGE RankNTypes #-}dataP a
+  =Get(Char->P a)|Result a
+
+Get f1     `mplus`Get f2     = undefined
+Result x   `mplus`_=Result x
+
+newtypeReadP a =R(forall b .(a ->P b)->P b)instanceMonadReadPwhere
+  return x  =R(\k -> k x)R m >>= f =R(\k -> m (\a ->letR m' = f a in m' k))readP_to_S(R f)= f Result`seq`()ppp::ReadP a ->ReadP a ->ReadP a
+ppp(R f1)(R f2)=R(\k -> f1 k `mplus` f2 k)paren::ReadP()->ReadP()paren p = p >> return ()parens::ReadP()->ReadP()parens p = optional
+ where
+  optional  = ppp p mandatory
+  mandatory = paren optional
+
+foo= paren ( return ())foo2= ppp (parens ( return ()))(parens (return ()))main= readP_to_S foo `seq` readP_to_S foo2 `seq` return ()
 ```
 
 
-while copying the definition of `readPrec` here, i.e.
-
-```
-importqualifiedText.Read.Lexas L
-
-importText.ReadimportText.ParserCombinators.ReadPrecfoo=parens
-    (doL.Ident s <- lexP
-         case s of"True"-> return True"False"-> return False_-> pfail
-    )main=(readPrec_to_S readPrec 0"True"::[(Bool,String)])`seq` return ()
-```
+it is important that both `paren` and `parens` are used more than once; if there is only one use-site, the problem disappears (which made it hard to find). Also, most other changes prevent the increase in allocations: Removing the `Monad` instance and turning its methods into regular functions; adding `NOINLINE` annotations to `paren` or `parens`; changing `foo2` to `ppp foo foo`; even removing the dead code that is the first line of the `mplus` function.
 
 
-yields a decrease (49240 → 49224).
-
-
-It even happens with `read "True" :: Bool` So I tried to minimize the problem, which somehow seems to occur in the depths of the `Read` code. But after manually pasting all the related pieces from `GHC.Read` and `Text.ParserCombinators.ReadP*` in one file, the differences in allocations go away.
-
-
-Maybe it is related to what inlining information about various functions cross module boundaries. For example, `fMonadP_$cfail` and other functions from `Text.ParserCombinators.ReadP` lose the `InlineRule (1, True, True)` annotation. Is that expected? Also, functions returning a `ShowS` have their arity increased. Can that be a reason for the increase of allocations?
+I think I’ll leave it at this point, this is hopefully enough information for someone (likely SPJ) to know whats going on.
 
 ### Side tracks
 
