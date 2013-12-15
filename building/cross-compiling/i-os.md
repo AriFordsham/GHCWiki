@@ -43,7 +43,7 @@ Check out as described at [Building and Porting GHC](building), except:
 
 ```wiki
 ./sync-all --no-dph get
-rm libffi-tarballs/libffi-3.0.13z.tar.gz
+rm libffi-tarballs/libffi-3.0.11.tar.gz
 wget https://github.com/ghc-ios/libffi-tarballs/blob/master/libffi-3.0.13z.tar.gz?raw=true -O libffi-tarballs/libffi-3.0.13z.tar.gz
 perl boot
 ```
