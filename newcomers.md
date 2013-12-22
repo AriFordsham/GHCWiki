@@ -49,7 +49,6 @@ Below is a list of bugs that appear to be "low-hanging fruit" -- things that mig
 - [\#2450](https://gitlab.haskell.org//ghc/ghc/issues/2450) - Data.Complex.magnitude squares using \^ (2 :: Int), which is slow
 - [\#7021](https://gitlab.haskell.org//ghc/ghc/issues/7021) - Tuple (and other exotic predicates) not yet handled in Template Haskell
 - [\#7401](https://gitlab.haskell.org//ghc/ghc/issues/7401) - Can't derive instance for Eq when datatype has no constructor, while it is trivial do do so.
-- [\#7962](https://gitlab.haskell.org//ghc/ghc/issues/7962) - Fixing return value from a run of `ghci`
 - [\#8100](https://gitlab.haskell.org//ghc/ghc/issues/8100) - Standalone deriving using template haskell
 - [\#8308](https://gitlab.haskell.org//ghc/ghc/issues/8308) - Resurrect ticky code for counting constructor arity
 
