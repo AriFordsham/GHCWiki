@@ -154,6 +154,8 @@ Now configure it as follows:
 
  * Click on the top node in the project tree, then go to the '''Build Settings''' tab. Set '''Dead Code Stripping''' to '''No'''. This is needed because GHC generates "tables next to code", and without this setting, Xcode thinks the tables are dead code and strips them, causing a crash.
 
+* Also in "Build Settings", change "Architectures" to "Standard Architectures (armv7, armv7s)" (as opposed to "(including 64-bit)") as Apple hasn't yet merged Arm64 support into the LLVM source that we'd need to fully support 64bit iOS devices. The code will still run wonderfully on the 5S/iPad Air/mini Retina in 32bit mode.
+
  * Click on the top node in the project tree, then go to the '''Build Phases''' tab. Click on '''Link Binary With Libraries''' to open it then click +. Choose {{{libiconv.dylib}}} then click Add.
 
  * When you've compiled your Haskell code to a .a (e.g. '''haskell.a''') file, add it to the project anywhere in the hierarchy with '''Add files to (project)''' in the right-mouse button menu.
