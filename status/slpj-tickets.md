@@ -2,13 +2,13 @@
 
 ## Type inference
 
+- [\#8566](https://gitlab.haskell.org//ghc/ghc/issues/8566): Given kind equalities are discarded
 - [\#8550](https://gitlab.haskell.org//ghc/ghc/issues/8550): Don't build recursive type-function dictionaries
 - [\#6056](https://gitlab.haskell.org//ghc/ghc/issues/6056): conflict between the w/w unfolding and the one from INLINEABLE
 - [\#8486](https://gitlab.haskell.org//ghc/ghc/issues/8486), [\#5682](https://gitlab.haskell.org//ghc/ghc/issues/5682): Parsing of pomoted kinds, and `Typeable` instances involving them
 - [\#8281](https://gitlab.haskell.org//ghc/ghc/issues/8281): `UnliftedFFITypes` etc
 - [\#8441](https://gitlab.haskell.org//ghc/ghc/issues/8441): family instances in hs-boot files
 - [\#8427](https://gitlab.haskell.org//ghc/ghc/issues/8427): stop EPS cache poisoning
-- [\#8450](https://gitlab.haskell.org//ghc/ghc/issues/8450): rewriting wanteds with wanteds gives confusing error messages
 - [\#7730](https://gitlab.haskell.org//ghc/ghc/issues/7730): display `TyCons` in tidied form in `pprTyThing`
 - [\#5610](https://gitlab.haskell.org//ghc/ghc/issues/5610), [\#7243](https://gitlab.haskell.org//ghc/ghc/issues/7243): Better error messages for `foreign` declarations
 - [\#8264](https://gitlab.haskell.org//ghc/ghc/issues/8264): `checkValidInstance` for `Typeable`, `Coercible` etc.
