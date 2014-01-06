@@ -82,5 +82,5 @@ Further investigation and aggresive patch-splitting shows that the arity change 
 ### Side tracks
 
 - Should `runSTRep` be inlined (see [ticket:1600\#comment:34](https://gitlab.haskell.org//ghc/ghc/issues/1600))?
-- Can we use `Terminates` CPR information to eagerly evaluate thunks? Possibly, but still trying to construct an example.
+- Can we use `Terminates` CPR information to eagerly evaluate thunks? Yes, and there is a small gain there: [\#8655](https://gitlab.haskell.org//ghc/ghc/issues/8655)
 - Why is `cacheprof` not deterministic? (→ [\#8611](https://gitlab.haskell.org//ghc/ghc/issues/8611))
