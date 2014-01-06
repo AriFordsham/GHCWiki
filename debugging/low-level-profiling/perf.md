@@ -8,7 +8,7 @@ The perf events subsystem is compiled in by default in the kernel shipped with m
 
 ## Installation
 
-## Debian/Ubuntu
+### Debian/Ubuntu
 
 
 On Debian and Ubuntu you can install "perf" by installing the `linux-tools-<your kernel version>` package:
@@ -17,7 +17,7 @@ On Debian and Ubuntu you can install "perf" by installing the `linux-tools-<your
 $ sudo apt-get install linux-tools-<your kernel version>
 ```
 
-## From source
+### From source
 
 
 If your distro doesn't include "perf" as a package you can build it manually like so:
