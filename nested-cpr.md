@@ -23,6 +23,7 @@ Tickets with stuff that would make nested CPR better:
 - Use ticky-profiling to learn more about the effects of nested CPR.
 - Look at DmdAnal-related \[SLPJ-Tickets\] and see which ones are affected by nested-cpr.
 - Do not destroy join points (see below).
+- Can we make sure more stuff gets the `Terminating` flag, e.g. after a `case` of an unboxed value?
 
 #### join points
 
