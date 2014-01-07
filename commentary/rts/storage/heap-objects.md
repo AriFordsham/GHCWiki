@@ -71,7 +71,7 @@ Where:
   the closure types are defined in [ClosureTypes.h](/trac/ghc/browser/includes/rts/storage/ClosureTypes.h)[](/trac/ghc/export/HEAD/ghc/includes/rts/storage/ClosureTypes.h), and many of them have corresponding C struct
   definitions in [Closures.h](/trac/ghc/browser/includes/rts/storage/Closures.h)[](/trac/ghc/export/HEAD/ghc/includes/rts/storage/Closures.h).
 
-- The *SRT bitmap* field is used to support [garbage collection of CAFs](commentary/rts/ca-fs).
+- The *SRT bitmap* field is used to support [garbage collection of CAFs](commentary/rts/storage/gc/ca-fs).
 
 - The *layout* field describes the layout of the payload for the garbage collector, and is described in more
   detail in [Types of Payload Layout](#TypesofPayloadLayout) below.
