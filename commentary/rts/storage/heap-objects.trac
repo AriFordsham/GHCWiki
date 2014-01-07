@@ -62,7 +62,7 @@ Where:
    the closure types are defined in [source:includes/rts/storage/ClosureTypes.h ClosureTypes.h], and many of them have corresponding C struct
    definitions in [source:includes/rts/storage/Closures.h Closures.h].
 
- * The ''SRT bitmap'' field is used to support [wiki:Commentary/Rts/CAFs garbage collection of CAFs].
+ * The ''SRT bitmap'' field is used to support [wiki:Commentary/Rts/Storage/GC/CAFs garbage collection of CAFs].
 
  * The ''layout'' field describes the layout of the payload for the garbage collector, and is described in more
    detail in [[ref(Types of Payload Layout)]] below.
