@@ -17,13 +17,18 @@ Tickets with stuff that would make nested CPR better:
 ### TODOs
 
 - Does Nick Frisby’s late λ-lifting alleviate problems when CPR’ing join-points?
+
+  - Need to see if his branch can be merged onto master.
 - Paper-Writeup of CPR
 - Shouldn’t nested CPR help a lot with Complex-heavy code? Is there something in nofib?
 - Try passing CPR information from the scrunitee to the pattern variables. For that: Reverse flow of analysis for complex scrunitees (for simple, we want the demand coming from the body, for complex, this is not so important.)
 - Use ticky-profiling to learn more about the effects of nested CPR.
 - Look at DmdAnal-related \[SLPJ-Tickets\] and see which ones are affected by nested-cpr.
 - Do not destroy join points (see below).
-- Can we make sure more stuff gets the `Converging` flag, e.g. after a `case` of an unboxed value? Should case binders get the `Converging` flag? What pattern match variables in strict data constructors? Unboxed values?
+- Can we make sure more stuff gets the `Converging` flag, e.g. after a `case` of an unboxed value? Should case binders get the `Converging` flag? What about pattern match variables in strict data constructors? Unboxed values?
+- Why does nested CPR make some stuff so bad?
+
+  - Possibly because of character reboxing. Try avoiding CPR’ing `C#` alltogether!
 
 ### join points
 
@@ -53,5 +58,9 @@ Alternative: Detect join points during `dmdAnal` and make sure that their CPR in
 
 - Should `runSTRep` be inlined (see [ticket:1600\#comment:34](https://gitlab.haskell.org//ghc/ghc/issues/1600))?
 - Can we use `Terminates` CPR information to eagerly evaluate thunks? Yes, and there is a small gain there: [\#8655](https://gitlab.haskell.org//ghc/ghc/issues/8655)
+
+  - But why no allocation change? Understand this better!
+  - Can we statically and/or dynamically count the number of thunks, and the number of CBV’ed thunks?
 - Why is `cacheprof` not deterministic? (→ [\#8611](https://gitlab.haskell.org//ghc/ghc/issues/8611))
 - What became of Simon’s better-ho-cardinality branch? See [better-ho-cardinality](nested-cpr/better-ho-cardinality).
+- Try vtunes to get better numbers.
