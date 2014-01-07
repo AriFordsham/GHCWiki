@@ -23,64 +23,35 @@ Tickets with stuff that would make nested CPR better:
 - Use ticky-profiling to learn more about the effects of nested CPR.
 - Look at DmdAnal-related \[SLPJ-Tickets\] and see which ones are affected by nested-cpr.
 - Do not destroy join points (see below).
-- Can we make sure more stuff gets the `Terminating` flag, e.g. after a `case` of an unboxed value?
+- Can we make sure more stuff gets the `Converging` flag, e.g. after a `case` of an unboxed value? Should case binders get the `Converging` flag? What pattern match variables in strict data constructors? Unboxed values?
 
-#### join points
+### join points
 
 
-CPR can kill join points. Idea to fix this, and possibly more general benefits:
+CPR can kill join points.
+
+#### Common Context
+
+
+Idea to fix this, and possibly more general benefits:
 [ http://www.haskell.org/pipermail/ghc-devs/2013-December/003481.html](http://www.haskell.org/pipermail/ghc-devs/2013-December/003481.html); prototype in branch `wip/common-context`.
 
 - On its own, improvements are present but very small: [ http://www.haskell.org/pipermail/ghc-devs/2013-December/003500.html](http://www.haskell.org/pipermail/ghc-devs/2013-December/003500.html)
 - Enabling CPR for sum types in non-top-level-bindings (which is currently disabled due to worries abut lost join points) yields mixed results (min -3.8%, mean -0.0%, max 3.4%).
-- Enabling nested CPR in inside sum types also yields mixed, not very promising results (-6.9% / +0.0% / +11.3%).
+- Enabling sum types inside nested CPR: Also yields mixed, not very promising results (-6.9% / +0.0% / +11.3%).
+
+#### Direct detection
 
 
 Alternative: Detect join points during `dmdAnal` and make sure that their CPR info is not greater than that of the expression they are a join-point for. Would also fix [\#5075](https://gitlab.haskell.org//ghc/ghc/issues/5075), see [5075\#comment:19](https://gitlab.haskell.org//ghc/ghc/issues/5075) for benchmark numbers.
 
-#### better-ho-cardinality
-
-
-It would be nice to merge the code structure improvements and notes into master, to keep my branch short. But it is based on `better-ho-cardinality`, and that is not suitable for merging because of unexpected regressions even in `nofib` and `rtak`. So I am investigating.
-
-
-In these tests, it is related to reading and showing data. Small example:
-
-```
-main=(read "10"::Int)`seq` return ()
-```
-
-
-Baseline: 49832, `better-ho-cardinality`: 49968. Unfortunately, the changes to, for example, `GHC.Read` are not small, and probably mostly benign...
-
-
-Trying to minimize and isolate the problem. After some aggressive code deleting, this is where I ended up:
-
-```
-{-# LANGUAGE RankNTypes #-}dataP a
-  =Get(Char->P a)|Result a
-
-Get f1     `mplus`Get f2     = undefined
-Result x   `mplus`_=Result x
-
-newtypeReadP a =R(forall b .(a ->P b)->P b)instanceMonadReadPwhere
-  return x  =R(\k -> k x)R m >>= f =R(\k -> m (\a ->letR m' = f a in m' k))readP_to_S(R f)= f Result`seq`()ppp::ReadP a ->ReadP a ->ReadP a
-ppp(R f1)(R f2)=R(\k -> f1 k `mplus` f2 k)paren::ReadP()->ReadP()paren p = p >> return ()parens::ReadP()->ReadP()parens p = optional
- where
-  optional  = ppp p mandatory
-  mandatory = paren optional
-
-foo= paren ( return ())foo2= ppp (parens ( return ()))(parens (return ()))main= readP_to_S foo `seq` readP_to_S foo2 `seq` return ()
-```
-
-
-it is important that both `paren` and `parens` are used more than once; if there is only one use-site, the problem disappears (which made it hard to find). Also, most other changes prevent the increase in allocations: Removing the `Monad` instance and turning its methods into regular functions; adding `NOINLINE` annotations to `paren` or `parens`; changing `foo2` to `ppp foo foo`; even removing the dead code that is the first line of the `mplus` function.
-
-
-Further investigation and aggresive patch-splitting shows that the arity change is causing the regression. Pushed everything but that patch to master, that patch now lives in `wip/exprArity`.
+- On its own, no changes.
+- Enabling CPR for sumtypes: (min -3.8%, mean -0.0%, max 1.7%) (slightly better than with Common Context)
+- Enabling sum types inside nested CPR: TBD
 
 ### Side tracks
 
 - Should `runSTRep` be inlined (see [ticket:1600\#comment:34](https://gitlab.haskell.org//ghc/ghc/issues/1600))?
 - Can we use `Terminates` CPR information to eagerly evaluate thunks? Yes, and there is a small gain there: [\#8655](https://gitlab.haskell.org//ghc/ghc/issues/8655)
 - Why is `cacheprof` not deterministic? (→ [\#8611](https://gitlab.haskell.org//ghc/ghc/issues/8611))
+- What became of Simon’s better-ho-cardinality branch? See [better-ho-cardinality](nested-cpr/better-ho-cardinality).
