@@ -42,12 +42,13 @@ Go to [ https://python.org/download](https://python.org/download) and download *
 ## Setting up your PATH
 
 
-Create a `~/bin` directory for the `cabal.exe` (and whatever else you want.) Also, put GHC in your `$PATH` by appending the following to `~/.bashrc`:
+Create a `~/bin` directory for the `cabal.exe` (and whatever else you want.) Put GHC in your `$PATH` by appending the following to `~/.bashrc`. At the same time, we will also put GHC's copy of the MinGW tools in `$PATH` (so you can access `gcc`):
 
 ```wiki
 $ mkdir ~/bin
-$ echo 'export PATH=/ghc-7.6.3/bin:$PATH' >> ~/.bashrc
-$ echo 'export PATH=$HOME/bin:$PATH'      >> ~/.bashrc
+$ echo 'export PATH=/ghc-7.6.3/bin:$PATH'       >> ~/.bashrc
+$ echo 'export PATH=/ghc-7.6.3/mingw/bin:$PATH' >> ~/.bashrc
+$ echo 'export PATH=$HOME/bin:$PATH'            >> ~/.bashrc
 ```
 
 
