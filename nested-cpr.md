@@ -36,7 +36,7 @@ CPR can kill join points. Idea to fix this, and possibly more general benefits:
 - Enabling nested CPR in inside sum types also yields mixed, not very promising results (-6.9% / +0.0% / +11.3%).
 
 
-Alternative: Detect join points during `dmdAnal` and make sure that their CPR info is not greater than that of the expression they are a join-point for.
+Alternative: Detect join points during `dmdAnal` and make sure that their CPR info is not greater than that of the expression they are a join-point for. Would also fix [\#5075](https://gitlab.haskell.org//ghc/ghc/issues/5075), see [5075\#comment:19](https://gitlab.haskell.org//ghc/ghc/issues/5075) for benchmark numbers.
 
 #### better-ho-cardinality
 

@@ -32,7 +32,7 @@ http://www.haskell.org/pipermail/ghc-devs/2013-December/003481.html; prototype i
  * Enabling CPR for sum types in non-top-level-bindings (which is currently disabled due to worries abut lost join points) yields mixed results (min -3.8%, mean -0.0%, max 3.4%).
  * Enabling nested CPR in inside sum types also yields mixed, not very promising results (-6.9% / +0.0% / +11.3%).
 
-Alternative: Detect join points during `dmdAnal` and make sure that their CPR info is not greater than that of the expression they are a join-point for.
+Alternative: Detect join points during `dmdAnal` and make sure that their CPR info is not greater than that of the expression they are a join-point for. Would also fix #5075, see [ticket:5075#comment:19] for benchmark numbers.
 
 
 ==== better-ho-cardinality ====
