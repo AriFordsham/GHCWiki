@@ -10,6 +10,8 @@ See recent ghc-devs posting [ GHC 7.8 Release Status & Schedule](http://permalin
 
 We would like to fix all of the [ high and highest priority tickets in the 7.8.1 milestone](http://ghc.haskell.org/trac/ghc/query?priority=highest&priority=high&status=infoneeded&status=merge&status=new&status=patch&milestone=7.8.1&col=id&col=summary&col=status&col=type&col=priority&col=milestone&col=component&order=priority), but there are currently a lot of them so this seems optimistic. Please feel free to take a ticket and help us!
 
+*Note that anything not listed here is off Austin's radar.*
+
 ## Completed new features
 
 
