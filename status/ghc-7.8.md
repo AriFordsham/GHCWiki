@@ -1,10 +1,5 @@
 # Release plans for GHC 7.8
 
-## Timeline
-
-
-See recent ghc-devs posting [ GHC 7.8 Release Status & Schedule](http://permalink.gmane.org/gmane.comp.lang.haskell.ghc.devel/2569) for latest timeline.
-
 ## Tickets
 
 
@@ -20,14 +15,19 @@ The features already completed are documented in the release notes:
 
 ## Pending things to completion
 
-- Austin Seipp needs to upload the primops compatibility package for 7.8. This is is easy: mostly a copy of `compiler/utils/ExtsCompat64.hs` into a Cabal package. See also [ the compatibility module page](http://www.haskell.org/haskellwiki/Compatibility_Modules). **In progress**.
+- Austin Seipp needs to upload the primops compatibility package for 7.8. This is is easy: mostly a copy of `compiler/utils/ExtsCompat64.hs` into a Cabal package. See also [ the compatibility module page](http://www.haskell.org/haskellwiki/Compatibility_Modules).
 
-- Austin also still has a lingering patch for [\#7602](https://gitlab.haskell.org//ghc/ghc/issues/7602) to fix a large OS X performance regression, but it's still not merged. The basic gist is that the patch as written works for OS X 10.8. But in OS X 10.9 the TLS implementation changed, invalidating it, so investigation is needed.
+- Austin also still has a lingering patch for [\#7602](https://gitlab.haskell.org//ghc/ghc/issues/7602) to fix a large OS X performance regression, but it's still not merged. The basic gist is that the patch as written works for OS X 10.8. But in OS X 10.9 the TLS implementation changed, invalidating it, so some investigation is needed.
 
 - `-XTemplateHaskell` should now imply `-dynamic-too`, based on the discussions in [\#8180](https://gitlab.haskell.org//ghc/ghc/issues/8180). Austin is attempting to fix this by switching it on during module loading but it doesn't quite work yet.
 
+- **Pattern synonyms will make it**! Austin will merge them Real Soon Now, after making sure there's documentation, Haddock works, and the T's are crossed and I's dotted.
+
+- **New Haddock parser** will hopefully go in, but isn't guaranteed yet. Austin will work with Mateusz to try and get it in ASAP.
+
+## The Windows Conundrum
+
 - Dynamic GHCi ([\#3658](https://gitlab.haskell.org//ghc/ghc/issues/3658)). This is working in HEAD, and enabled if `DYNAMIC_GHC_PROGRAMS=YES`, which causes GHC itself to be built dynamically. Currently it's enabled by default if dynamic libraries are supported, except for FreeBSD and Windows.
-  On FreeBSD the reason it's disabled is due to a bug in FreeBSD's rtld. This has been fixed, but we're waiting for the fix to make it into releases. This might be in time for 7.8, but certainly will be for 7.10. See [\#7819](https://gitlab.haskell.org//ghc/ghc/issues/7819).
   On Windows, there are a few problems:
 
   - `-dynamic-too` doesn't work on Windows ([\#8228](https://gitlab.haskell.org//ghc/ghc/issues/8228))
