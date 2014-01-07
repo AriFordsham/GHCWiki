@@ -20,7 +20,7 @@ The features already completed are documented in the release notes:
 
 - Austin Seipp needs to upload the primops compatibility package for 7.8. This is is easy: mostly a copy of `compiler/utils/ExtsCompat64.hs` into a Cabal package. See also [ the compatibility module page](http://www.haskell.org/haskellwiki/Compatibility_Modules). **In progress**.
 
-- Austin also still has a lingering patch for [\#7602](https://gitlab.haskell.org//ghc/ghc/issues/7602) to fix a large OS X performance regression, but it's still not merged. The basic gist is that the patch as written works for OS X 10.9. But in OS X 10.9 the TLS implementation changed, invalidating it.
+- Austin also still has a lingering patch for [\#7602](https://gitlab.haskell.org//ghc/ghc/issues/7602) to fix a large OS X performance regression, but it's still not merged. The basic gist is that the patch as written works for OS X 10.8. But in OS X 10.9 the TLS implementation changed, invalidating it, so investigation is needed.
 
 - `-XTemplateHaskell` should now imply `-dynamic-too`, based on the discussions in [\#8180](https://gitlab.haskell.org//ghc/ghc/issues/8180). Austin is attempting to fix this by switching it on during module loading but it doesn't quite work yet.
 
