@@ -17,16 +17,13 @@ The features already completed are documented in the release notes:
 
 The following **new** features are planned for 7.8 **but have not yet made it**. They are at varying degrees of completeness, and may not all make it in.
 
- * Jan Stolarek has completed the [wiki:PrimBool boolean-primop story], but they are going through a major refactoring. '''90% Complete'''.
-   * Austin Seipp will implement shim package for backwards compatibility and update [http://ghc.haskell.org/trac/ghc/wiki/NewPrimopsInGHC7.8 this wiki page accordingly]. See also [http://www.haskell.org/haskellwiki/Compatibility_Modules the compatibility module page]. '''In progress'''.
+ * Austin Seipp needs to upload the primops compatibility package for 7.8. This is mostly a copy of `compiler/utils/ExtsCompat64.hs` into a Cabal package. See also [http://www.haskell.org/haskellwiki/Compatibility_Modules the compatibility module page]. '''In progress'''.
 
- * Austin Seipp would like to do some official ARMv7 binary releases with a working stage2 compiler and GHCi. He believes the last major remaining bug is #7794, which trips the info table generation for bytecode. Otherwise, GHC can build and successfully use Template-Haskell, vector/dph, etc.
+ * Austin Seipp needs to merge a patch from Ben Gamari to fix LLVM + dynamic linking.
 
- * Austin also still has a lingering patch for #7602 to fix a large OS X performance regression, but it's still not merged. The final details must be sorted out with Simon Marlow. ETA: First week of October.
+ * Austin also still has a lingering patch for #7602 to fix a large OS X performance regression, but it's still not merged. This is because the thread-local storage implementation changed in OS X Mavericks, requiring more investigation.
 
- * Dynamic GHCi (#3658). This is working in HEAD, and enabled if `DYNAMIC_GHC_PROGRAMS=YES`. Currently it's enabled by default if dynamic libraries are supported, except for FreeBSD and Windows.
+ * Dynamic GHCi (#3658). This is working in HEAD, and enabled if `DYNAMIC_GHC_PROGRAMS=YES`, which causes GHC itself to be built dynamically. Currently it's enabled by default if dynamic libraries are supported, except for FreeBSD and Windows.
    On FreeBSD the reason it's disabled is due to a bug in FreeBSD's rtld. This has been fixed, but we're waiting for the fix to make it into releases. This might be in time for 7.8, but certainly will be for 7.10. See #7819.
    On Windows, there are a couple of build time annoyances: `-dynamic-too` doesn't work on Windows (#8228), and linking takes a very long time when dynamic linking is used (#8229). There's no technical reason why it couldn't be enabled, though.
    The plan is/was to use dynamic GHCi on as many platforms as possible in 7.8, and to remove support for non-dynamic-ghci in HEAD soon after. See discussion in #8039, however.
-
- * Andreas Voellmy has implemented the parallel IO manager. This has been merged into HEAD. There are two tickets (#8224 and #7651) that Andreas will try to resolve before the release. Andreas needs some input from Ryan Newton and possibly Simon Marlow on #8224. 
