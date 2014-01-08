@@ -30,6 +30,11 @@ Tickets with stuff that would make nested CPR better:
 
   - Possibly because of character reboxing. Try avoiding CPR’ing `C#` alltogether!
 
+### Degradation explanation
+
+
+At one point, I thought that a major contributor to increased allocations is nested-CPR’ing things returning `String`, causing them to return `(# Char#, String #)`. But removing the `CPR` information from `C#` calls has zero effect on the allocations, both on `master` and on `nested-cpr`. It had very small (positive) effect on code size. Will have to look at Core...
+
 ### join points
 
 
