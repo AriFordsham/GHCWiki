@@ -30,54 +30,23 @@ Tickets with stuff that would make nested CPR better:
 
   - Possibly because of character reboxing. Try avoiding CPR’ing `C#` alltogether!
 
-### Degradation explanation
+### Degradation exploration and explanation
 
 
-At one point, I thought that a major contributor to increased allocations is nested-CPR’ing things returning `String`, causing them to return `(# Char#, String #)`. But removing the `CPR` information from `C#` calls has zero effect on the allocations, both on `master` and on `nested-cpr`. It had very small (positive) effect on code size. Will have to look at Core... Here are some case studies:
-
-#### wave4main
+At one point, I thought that a major contributor to increased allocations is nested-CPR’ing things returning `String`, causing them to return `(# Char#, String #)`. But removing the `CPR` information from `C#` calls has zero effect on the allocations, both on `master` and on `nested-cpr`. It had very small (positive) effect on code size. Will have to look at Core...
 
 
-Baseline: \[0e2fd3/ghc\], Tested: nested-cpr (without nesting inside sum-types, without join-point detection).
+Here are some case studies with extensive commenting of steps and results:
+
+- [wave4main](nested-cpr/wave4main)
 
 
-Found a 11% increase in allocation, around `9000000` bytes.
+And here a summary of the problems identified, and solution attempts
 
+- CPR kill join-points, because the wrapper does not completely cancel with anything else.
 
-The most obvious change in ticky-ticky-number are:
-
-- `FUNCTION ENTRIES` and `ENTERS` increasing by \~100000
-- `RETURNS` doubling from 140745 to 280795
-- `ALLOC_FUN_ctr` and `ALLOC_FUN_gds` almost doubling, by \~18000 resp. 9000000
-
-
-So we are allocating more function closures. First guess: Join point property destroyed somewhere.
-
-
-The ticky output shows a `$wgo{v s60k} (main:Main)` appearing that was not there before, with `140016` enters and `23522688` allocations. This appears in `$wtabulate`, and indeed corresponds to a `go1` that is a join-point before. So what is happening? We are changing
-
-```wiki
-go1 [Occ=LoopBreaker]                                      
-  :: GHC.Prim.Int#                                         
-     -> GHC.Prim.State# s                                  
-     -> (# GHC.Prim.State# s, GHC.Arr.Array GHC.Types.Int x #)
-```
-
-
-to
-
-```wiki
-$wgo [Occ=LoopBreaker]          
-  :: GHC.Prim.Int#
-     -> GHC.Prim.State# s
-     -> (# GHC.Prim.State# s,   
-           GHC.Prim.Int#,       
-           GHC.Prim.Int#,       
-           GHC.Prim.Int#,       
-           GHC.Prim.Array# x #) 
-```
-
-`go1` is recursive, but tail-recursive, so the worker and wrapper indeed cancel for the recursive call. But where it is being used, we simply apply the `Array` constructor to the second component. So nothing is gained, but a join-point is lost.
+  - Detecting join-points at the position of its binding is not enough.
+- A recursive function can have a CPR-beneficial recursive call that makes CPR worthwhile, even if it does not help at the initial call. But it is also not unlikely that the recursive call is a tail-call, and CPR-ing has zero effect on that. Then it all depends on the external call.
 
 ### join points
 
