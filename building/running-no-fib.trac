@@ -96,12 +96,14 @@ make HC=/home/simonpj/builds/HEAD/inplace/bin/ghc-stage1 2>&1 | tee log-stage1
 }}}
 
  * Many nofib programs have up to three test data sets. The `mode` variable tells the system which to use, thus:
-{{{
-make -k mode=slow
-make -k mode=norm
-make -k mode=fast
-}}}
-See `mk/opts.mk`. The default is `mode=norm`.
+   {{{
+   make -k mode=slow
+   make -k mode=norm
+   make -k mode=fast
+   }}}
+   See `mk/opts.mk`. The default is `mode=norm`.
+
+ * If you just run it to get allocation numbers, or some debug output (ticky, `-ddump-simpl`), you can use `make NoFibRuns=1` to run the program only once.
 
 == Other tips on measuring performance ==
 

@@ -125,8 +125,9 @@ To tweak things, add settings to your `mk/build.mk` (see [Commentary/SourceTree]
   make -k mode=fast
   ```
 
+  See `mk/opts.mk`. The default is `mode=norm`.
 
-See `mk/opts.mk`. The default is `mode=norm`.
+- If you just run it to get allocation numbers, or some debug output (ticky, `-ddump-simpl`), you can use `make NoFibRuns=1` to run the program only once.
 
 ## Other tips on measuring performance
 
