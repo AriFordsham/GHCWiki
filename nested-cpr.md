@@ -33,7 +33,51 @@ Tickets with stuff that would make nested CPR better:
 ### Degradation explanation
 
 
-At one point, I thought that a major contributor to increased allocations is nested-CPR’ing things returning `String`, causing them to return `(# Char#, String #)`. But removing the `CPR` information from `C#` calls has zero effect on the allocations, both on `master` and on `nested-cpr`. It had very small (positive) effect on code size. Will have to look at Core...
+At one point, I thought that a major contributor to increased allocations is nested-CPR’ing things returning `String`, causing them to return `(# Char#, String #)`. But removing the `CPR` information from `C#` calls has zero effect on the allocations, both on `master` and on `nested-cpr`. It had very small (positive) effect on code size. Will have to look at Core... Here are some case studies:
+
+#### wave4main
+
+
+Baseline: \[0e2fd3/ghc\], Tested: nested-cpr (without nesting inside sum-types, without join-point detection).
+
+
+Found a 11% increase in allocation, around `9000000` bytes.
+
+
+The most obvious change in ticky-ticky-number are:
+
+- `FUNCTION ENTRIES` and `ENTERS` increasing by \~100000
+- `RETURNS` doubling from 140745 to 280795
+- `ALLOC_FUN_ctr` and `ALLOC_FUN_gds` almost doubling, by \~18000 resp. 9000000
+
+
+So we are allocating more function closures. First guess: Join point property destroyed somewhere.
+
+
+The ticky output shows a `$wgo{v s60k} (main:Main)` appearing that was not there before, with `140016` enters and `23522688` allocations. This appears in `$wtabulate`, and indeed corresponds to a `go1` that is a join-point before. So what is happening? We are changing
+
+```wiki
+go1 [Occ=LoopBreaker]                                      
+  :: GHC.Prim.Int#                                         
+     -> GHC.Prim.State# s                                  
+     -> (# GHC.Prim.State# s, GHC.Arr.Array GHC.Types.Int x #)
+```
+
+
+to
+
+```wiki
+$wgo [Occ=LoopBreaker]          
+  :: GHC.Prim.Int#
+     -> GHC.Prim.State# s
+     -> (# GHC.Prim.State# s,   
+           GHC.Prim.Int#,       
+           GHC.Prim.Int#,       
+           GHC.Prim.Int#,       
+           GHC.Prim.Array# x #) 
+```
+
+`go1` is recursive, but tail-recursive, so the worker and wrapper indeed cancel for the recursive call. But where it is being used, we simply apply the `Array` constructor to the second component. So nothing is gained, but a join-point is lost.
 
 ### join points
 
