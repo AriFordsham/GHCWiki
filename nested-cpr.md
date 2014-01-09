@@ -60,10 +60,13 @@ What is the semantics of an outer `t`? Given `f` with CPR `<L>tm()` and `g` with
 1. The convergence information a function is what holds always. This would ineffect prevent `<S>tm()` from happening.
 
 
-The first is stronger, but more involved. So currently, we go with the second one.
+Implementation implications:
+
+1. For the first one, We need to be careful when `lub`’ing: If one branch is lazy, but not absent in an argument or free variable), and the other branch is strict, then even if both branches claim to terminate, we need to remove the termination flag (as one had the termination under a stronger hypothesis as the hole result). Feels inelegant.
+1. For the second one, we’d need a different `both` for functions and case-expressions: For function applications, convergence in the first argument is not affected by (possible) divergence in the second argument. For case expressions, it has to be! Also, data constructors with strict fields, including `I# _` must not be terminating...sounds like a show-stopper.
 
 
-This means that `t `bothRes` m` is still `t`!
+What is the semantics for bottom?
 
 ### join points
 
