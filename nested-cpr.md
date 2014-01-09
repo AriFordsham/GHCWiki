@@ -60,9 +60,20 @@ What is the semantics of an outer `t`? Given `f` with CPR `<L>tm()` and `g` with
 1. The convergence information a function is what holds always. This would ineffect prevent `<S>tm()` from happening.
 
 
-Implementation implications:
+Clearly, 1. holds strictly more information than 2.: Under variant `2`, `<S>tm()` would not occur, while under variant 1 that would be usefully different from `<S>m()`.
 
-1. For the first one, We need to be careful when `lub`’ing: If one branch is lazy, but not absent in an argument or free variable), and the other branch is strict, then even if both branches claim to terminate, we need to remove the termination flag (as one had the termination under a stronger hypothesis as the hole result). Feels inelegant.
+
+Also, under 2, `I#` would not be known to terminate for sure, as it is strict. This would destroy any hope for nested CPR for things like `(Int, Int)`.
+
+
+For the implementation this implies that we need to be careful when `lub`’ing: If one branch is lazy, but not absent in an argument or free variable), and the other branch is strict, then even if both branches claim to terminate, we need to remove the termination flag (as one had the termination under a stronger hypothesis as the hole result) (Feels inelegant.)
+
+
+When evaluating a demand type as a demand transformer, we need to compare the convergence flags of the argument expressions with the strictness demands, and possibly adjust the termination information.
+
+
+What about nested strictness annotations? For now the hypothesis only requires the arguments (and free variables) to be terminating; if there is a `<S(S)>`, then it should not be marked as converging. Maybe this can be improved later, using nested CPR.
+
 1. For the second one, we’d need a different `both` for functions and case-expressions: For function applications, convergence in the first argument is not affected by (possible) divergence in the second argument. For case expressions, it has to be! Also, data constructors with strict fields, including `I# _` must not be terminating...sounds like a show-stopper.
 
 
