@@ -107,9 +107,9 @@ Some implementation implications:
 Unfortunate example:
 
 ```wiki
-g :: Int -> (Int,Int)
-g 1 = (0,0)
-g x = (x,0)
+g :: Int -> Int
+g 1 = 0
+g x = x
 ```
 
 
