@@ -40,6 +40,18 @@ And here a summary of the problems identified, and solution attempts
    - Detecting join-points at the position of its binding is not enough.
  * A recursive function can have a CPR-beneficial recursive call that makes CPR worthwhile, even if it does not help at the initial call. But it is also not unlikely that the recursive call is a tail-call, and CPR-ing has zero effect on that. Then it all depends on the external call.
 
+=== Converges detection ===
+
+Nested CPR is only sound if we know that the nested values are known to converge for sure. The semantics is clear: If `f` has CPR `<...>m(tm(),)`, then in the body of `case f x of (a,b)`, when entering `a`, we are guaranteed termination.
+
+What is the semantics of an outer `t`? Given `f` with CPR `<L>tm()` and `g` with CPR `<S>tm()`? Does the latter even make sense? If so, should `f undefined` have CPR `m()` or `tm()`? Two possibilities:
+ 1. The convergence information a function is what holds if its strictness annotations are fulfilled: So if `g x`  has `tm()` if `x` has `t` (possibly because it has previously been evaluated by the caller), otherwise `m()`. `f x` always has `m ()` (presumably because `x` is _never_ entered when evaluating `f`.
+ 2. The convergence information a function is what holds always. This would ineffect prevent `<S>tm()` from happening.
+
+The first is stronger, but more involved. So currently, we go with the second one.
+
+This means that {{{t `bothRes` m}}} is still `t`!
+
 === join points ===
 
 CPR can kill join points.
