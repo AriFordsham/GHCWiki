@@ -18,6 +18,7 @@ Tickets with stuff that would make nested CPR better:
 
 - Paper-Writeup of CPR
 - Shouldn’t nested CPR help a lot with Complex-heavy code? Is there something in nofib?
+- Which of the existing CPR tickets are solved right now?
 - Try passing CPR information from the scrunitee to the pattern variables. For that: Reverse flow of analysis for complex scrunitees (for simple, we want the demand coming from the body, for complex, this is not so important.)
 - Use ticky-profiling to learn more about the effects of nested CPR.
 - Look at DmdAnal-related \[SLPJ-Tickets\] and see which ones are affected by nested-cpr.
