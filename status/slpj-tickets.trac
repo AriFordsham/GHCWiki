@@ -168,7 +168,7 @@ See also [wiki:TemplateHaskell]
  * #4347, #4295, #7264: impredicativity
  * #1965: make existentials have a really cheap implementation
  * #5224: make it cheaper to check for inconsistent type family instances
- * #4466, #5296: explicit type application
+ * #4466, #5296, #8631: explicit type application
  * #3714: distinguish type parameters from indices
  * #4259: overlapping type family instances
  * #3490: superclasses and ambiguity
