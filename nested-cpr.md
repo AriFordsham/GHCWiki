@@ -99,11 +99,11 @@ Might also help. Need to see if his branch can be merged onto master. (But I lik
 
 ### Side tracks
 
-- Should `runSTRep` be inlined (see [ticket:1600\#comment:34](https://gitlab.haskell.org//ghc/ghc/issues/1600))?
-- Can we use `Terminates` CPR information to eagerly evaluate thunks? Yes, and there is a small gain there: [\#8655](https://gitlab.haskell.org//ghc/ghc/issues/8655)
+- Can we use `Converges` CPR information to eagerly evaluate thunks? Yes, and there is a small gain there: [\#8655](https://gitlab.haskell.org//ghc/ghc/issues/8655).
 
   - But why no allocation change? Understand this better!
   - Can we statically and/or dynamically count the number of thunks, and the number of CBV’ed thunks?
+- Can we use `Converges` in `exprOkForSpeculation`?
 - Why is `cacheprof` not deterministic? (→ [\#8611](https://gitlab.haskell.org//ghc/ghc/issues/8611))
 - What became of Simon’s better-ho-cardinality branch? See [better-ho-cardinality](nested-cpr/better-ho-cardinality).
 - Try vtunes to get better numbers.
