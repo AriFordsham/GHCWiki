@@ -184,7 +184,7 @@ See also [TemplateHaskell](template-haskell)
 - [\#4347](https://gitlab.haskell.org//ghc/ghc/issues/4347), [\#4295](https://gitlab.haskell.org//ghc/ghc/issues/4295), [\#7264](https://gitlab.haskell.org//ghc/ghc/issues/7264): impredicativity
 - [\#1965](https://gitlab.haskell.org//ghc/ghc/issues/1965): make existentials have a really cheap implementation
 - [\#5224](https://gitlab.haskell.org//ghc/ghc/issues/5224): make it cheaper to check for inconsistent type family instances
-- [\#4466](https://gitlab.haskell.org//ghc/ghc/issues/4466), [\#5296](https://gitlab.haskell.org//ghc/ghc/issues/5296): explicit type application
+- [\#4466](https://gitlab.haskell.org//ghc/ghc/issues/4466), [\#5296](https://gitlab.haskell.org//ghc/ghc/issues/5296), [\#8631](https://gitlab.haskell.org//ghc/ghc/issues/8631): explicit type application
 - [\#3714](https://gitlab.haskell.org//ghc/ghc/issues/3714): distinguish type parameters from indices
 - [\#4259](https://gitlab.haskell.org//ghc/ghc/issues/4259): overlapping type family instances
 - [\#3490](https://gitlab.haskell.org//ghc/ghc/issues/3490): superclasses and ambiguity
