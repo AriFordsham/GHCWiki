@@ -28,7 +28,7 @@ Tickets with stuff that would make nested CPR better:
 Motivation is always good. Here I try to look at examples where people were expecting or hoping for nested CPR, and see how we are fairing:
 
  * `facIO` in #1600: Not eligible for nested CPR, as the result is not forced. Using `return $!` makes this work.
- * `mean` in #2289: Not eligible for nested CRP. The base case `go x l s | x > m      = P s l` is – to the demand analyzer – lazy in `s` and `l`, so doing nested CRP would make that stricter. It works with {{{s `seq` l `seq` P s}}}. But `P` ''is'' a strict constructor! I guess we need to make use of that, i.e. the application of a strict constructor to something possibly diverging stores this as terminating.
+ * `mean` in #2289: Not eligible for nested CRP. The base case `go x l s | x > m      = P s l` is – to the demand analyzer – lazy in `s` and `l`, so doing nested CRP would make that stricter. It works with {{{s `seq` l `seq` P s}}}. But `P` ''is'' a strict constructor! When the demand analyser runs, it still sees the wrapper `$WP`. Maybe it just needs to be inlined earlier?
  * #2387 works nicely! (but note that `go` uses a `!n` pattern already)
 
 === Degradation exploration and explanation ===
