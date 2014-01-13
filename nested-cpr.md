@@ -48,7 +48,7 @@ At one point, I thought that a major contributor to increased allocations is nes
 Here are some case studies with extensive commenting of steps and results:
 
 - [wave4main](nested-cpr/wave4main)
-- reverse-complement: The increase of 5% / 5MB allocations again manifests itself in the `ALLOC_FUN_gds` counter, this time in the libraries: `base:GHC.IO.Handle.Internals.wantReadableHandle_1`. I see some additional inlining that was not there before. The expression `a` inlined has type `State# RealWorld -> (# State# RealWorld, a4 #)`, and CPR information `m(t,)`, which is correct, but useless, as the tuple is already unboxed. Maybe there is a uless w/w happening? But I do not see `$wa`... TBC
+- reverse-complement: The increase of 5% / 5MB allocations again manifests itself in the `ALLOC_FUN_gds` counter, this time in the libraries: `base:GHC.IO.Handle.Internals.wantReadableHandle_1`. I see some additional inlining that was not there before. The expression `a` inlined has type `State# RealWorld -> (# State# RealWorld, a4 #)`, and CPR information `m(t,)`, which is correct, but useless, as the tuple is already unboxed. Code in `WorkWrap` would nevertheless take this as a reason to add an `INLINE` flag. Fixing that removed the increase – and overall better results now!
 
 
 And here a summary of the problems identified, and solution attempts
