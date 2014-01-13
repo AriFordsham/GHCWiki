@@ -10,7 +10,7 @@ Tickets with stuff that would make nested CPR better:
 
 Tickets with example of code that would benefit from nested CRP:
 
- * #1600, *2289, #2387 (see [wiki:.#Motivatingexamples below] for an analysis)
+ * #1600, #2289, #2387 (see [wiki:.#Motivatingexamples below] for an analysis)
 
 === Related testcases ===
 
@@ -23,7 +23,7 @@ Tickets with example of code that would benefit from nested CRP:
  * Which of the existing CPR tickets are solved right now?
  * Try passing CPR information from the scrunitee to the pattern variables. For that: Reverse flow of analysis for complex scrunitees (for simple, we want the demand coming from the body, for complex, this is not so important.)
  * Use ticky-profiling to learn more about the effects of nested CPR.
- * Look at !DmdAnal-related [SLPJ-Tickets] and see which ones are affected by nested-cpr.
+ * Look at !DmdAnal-related [wiki:Status/SLPJ-Tickets] and see which ones are affected by nested-cpr.
  * Do not destroy join points or improve the code genrator (see below).
  * Can we make sure more stuff gets the `Converging` flag, e.g. after a `case` of an unboxed value? Should case binders get the `Converging` flag? What about pattern match variables in strict data constructors? Unboxed values? See below.
 
