@@ -10,6 +10,11 @@ Tickets with stuff that would make nested CPR better:
 
 - [\#8598](https://gitlab.haskell.org//ghc/ghc/issues/8598) CPR after IO (partly done)
 
+
+Tickets with example of code that would benefit from nested CRP:
+
+- [\#1600](https://gitlab.haskell.org//ghc/ghc/issues/1600), \*2289, [\#2387](https://gitlab.haskell.org//ghc/ghc/issues/2387) (see [below](nested-cpr#motivating-examples) for an analysis)
+
 ### Related testcases
 
 - Everything in [source:testsuite/tests/stranal/sigs/](/trac/ghc/browser/testsuite/tests/stranal/sigs)

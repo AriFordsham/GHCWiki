@@ -8,6 +8,10 @@ Tickets with stuff that would make nested CPR better:
 
   * #8598 CPR after IO (partly done)
 
+Tickets with example of code that would benefit from nested CRP:
+
+ * #1600, *2289, #2387 (see [wiki:.#Motivatingexamples below] for an analysis)
+
 === Related testcases ===
 
  * Everything in source:testsuite/tests/stranal/sigs/
