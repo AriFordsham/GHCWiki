@@ -8,6 +8,10 @@ Tickets with stuff that would make nested CPR better:
 
   * #8598 CPR after IO (partly done)
 
+Tickets with example of code that would benefit from nested CRP:
+
+ * #1600, #2289, #2387 (see [wiki:.#Motivatingexamples below] for an analysis)
+
 === Related testcases ===
 
  * Everything in source:testsuite/tests/stranal/sigs/
@@ -19,7 +23,7 @@ Tickets with stuff that would make nested CPR better:
  * Which of the existing CPR tickets are solved right now?
  * Try passing CPR information from the scrunitee to the pattern variables. For that: Reverse flow of analysis for complex scrunitees (for simple, we want the demand coming from the body, for complex, this is not so important.)
  * Use ticky-profiling to learn more about the effects of nested CPR.
- * Look at !DmdAnal-related [SLPJ-Tickets] and see which ones are affected by nested-cpr.
+ * Look at !DmdAnal-related [wiki:Status/SLPJ-Tickets] and see which ones are affected by nested-cpr.
  * Do not destroy join points or improve the code genrator (see below).
  * Can we make sure more stuff gets the `Converging` flag, e.g. after a `case` of an unboxed value? Should case binders get the `Converging` flag? What about pattern match variables in strict data constructors? Unboxed values? See below.
 
@@ -28,7 +32,7 @@ Tickets with stuff that would make nested CPR better:
 Motivation is always good. Here I try to look at examples where people were expecting or hoping for nested CPR, and see how we are fairing:
 
  * `facIO` in #1600: Not eligible for nested CPR, as the result is not forced. Using `return $!` makes this work.
- * `mean` in #2289: Not eligible for nested CRP. The base case `go x l s | x > m      = P s l` is – to the demand analyzer – lazy in `s` and `l`, so doing nested CRP would make that stricter. It works with {{{s `seq` l `seq` P s}}}. But `P` ''is'' a strict constructor! I guess we need to make use of that, i.e. the application of a strict constructor to something possibly diverging stores this as terminating.
+ * `mean` in #2289: Not eligible for nested CRP. The base case `go x l s | x > m      = P s l` is – to the demand analyzer – lazy in `s` and `l`, so doing nested CRP would make that stricter. It works with {{{s `seq` l `seq` P s}}}. But `P` ''is'' a strict constructor! When the demand analyser runs, it still sees the wrapper `$WP`. Maybe it just needs to be inlined earlier?
  * #2387 works nicely! (but note that `go` uses a `!n` pattern already)
 
 === Degradation exploration and explanation ===
@@ -38,6 +42,7 @@ At one point, I thought that a major contributor to increased allocations is nes
 Here are some case studies with extensive commenting of steps and results:
 
  * [./wave4main]
+ * reverse-complement: The increase of 5% / 5MB allocations again manifests itself in the `ALLOC_FUN_gds` counter, this time in the libraries: `base:GHC.IO.Handle.Internals.wantReadableHandle_1`. I see some additional inlining that was not there before. The expression `a` inlined has type `State# RealWorld -> (# State# RealWorld, a4 #)`, and CPR information `m(t,)`, which is correct, but useless, as the tuple is already unboxed. Maybe there is a uless w/w happening? But I do not see `$wa`... TBC
 
 And here a summary of the problems identified, and solution attempts
 
