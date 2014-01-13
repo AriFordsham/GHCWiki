@@ -25,6 +25,15 @@ Tickets with stuff that would make nested CPR better:
 - Do not destroy join points or improve the code genrator (see below).
 - Can we make sure more stuff gets the `Converging` flag, e.g. after a `case` of an unboxed value? Should case binders get the `Converging` flag? What about pattern match variables in strict data constructors? Unboxed values? See below.
 
+### Motivating examples
+
+
+Motivation is always good. Here I try to look at examples where people were expecting or hoping for nested CPR, and see how we are fairing:
+
+- `facIO` in [\#1600](https://gitlab.haskell.org//ghc/ghc/issues/1600): Not eligible for nested CPR, as the result is not forced. Using `return $!` makes this work.
+- `mean` in [\#2289](https://gitlab.haskell.org//ghc/ghc/issues/2289): Not eligible for nested CRP. The base case `go x l s | x > m      = P s l` is – to the demand analyzer – lazy in `s` and `l`, so doing nested CRP would make that stricter. It works with `s `seq` l `seq` P s`. But `P`*is* a strict constructor! I guess we need to make use of that, i.e. the application of a strict constructor to something possibly diverging stores this as terminating.
+- [\#2387](https://gitlab.haskell.org//ghc/ghc/issues/2387) works nicely! (but note that `go` uses a `!n` pattern already)
+
 ### Degradation exploration and explanation
 
 
