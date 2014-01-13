@@ -4,7 +4,6 @@
 
  * #8566: Given kind equalities are discarded
  * #8550: Don't build recursive type-function dictionaries
- * #6056: conflict between the w/w unfolding and the one from INLINEABLE
  * #8486, #5682: Parsing of pomoted kinds, and `Typeable` instances involving them
  * #8281: `UnliftedFFITypes` etc
  * #8441: family instances in hs-boot files
@@ -51,6 +50,7 @@ See also [wiki:TemplateHaskell]
  * #1171: strictness and exceptions (long, open ticket)
 
 == Optimisation ==
+ * #6056: conflict between the w/w unfolding and the one from INLINEABLE
  * #8472: top level unlifted string literals
  * #8351: inline allocation for small arrays
  * #8275: loopification and profiling
@@ -108,7 +108,8 @@ See also [wiki:TemplateHaskell]
  * #3123: feature request: recursive inlining and peeling
  * #4960: better inlining tests
 
-== New code generator ==
+== Cmm and code generation ==
+ * #8585: loopification
  * Summary ticket: #4258, and [wiki:Commentary/Compiler/NewCodeGen wiki page]
  * #3462: allocate large objects with `allocateLocal()`
  * #2289: cheap check at start of case alternatives

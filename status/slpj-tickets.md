@@ -4,7 +4,6 @@
 
 - [\#8566](https://gitlab.haskell.org//ghc/ghc/issues/8566): Given kind equalities are discarded
 - [\#8550](https://gitlab.haskell.org//ghc/ghc/issues/8550): Don't build recursive type-function dictionaries
-- [\#6056](https://gitlab.haskell.org//ghc/ghc/issues/6056): conflict between the w/w unfolding and the one from INLINEABLE
 - [\#8486](https://gitlab.haskell.org//ghc/ghc/issues/8486), [\#5682](https://gitlab.haskell.org//ghc/ghc/issues/5682): Parsing of pomoted kinds, and `Typeable` instances involving them
 - [\#8281](https://gitlab.haskell.org//ghc/ghc/issues/8281): `UnliftedFFITypes` etc
 - [\#8441](https://gitlab.haskell.org//ghc/ghc/issues/8441): family instances in hs-boot files
@@ -55,6 +54,7 @@ See also [TemplateHaskell](template-haskell)
 
 ## Optimisation
 
+- [\#6056](https://gitlab.haskell.org//ghc/ghc/issues/6056): conflict between the w/w unfolding and the one from INLINEABLE
 - [\#8472](https://gitlab.haskell.org//ghc/ghc/issues/8472): top level unlifted string literals
 - [\#8351](https://gitlab.haskell.org//ghc/ghc/issues/8351): inline allocation for small arrays
 - [\#8275](https://gitlab.haskell.org//ghc/ghc/issues/8275): loopification and profiling
@@ -116,8 +116,9 @@ See also [TemplateHaskell](template-haskell)
 - [\#3123](https://gitlab.haskell.org//ghc/ghc/issues/3123): feature request: recursive inlining and peeling
 - [\#4960](https://gitlab.haskell.org//ghc/ghc/issues/4960): better inlining tests
 
-## New code generator
+## Cmm and code generation
 
+- [\#8585](https://gitlab.haskell.org//ghc/ghc/issues/8585): loopification
 - Summary ticket: [\#4258](https://gitlab.haskell.org//ghc/ghc/issues/4258), and [wiki page](commentary/compiler/new-code-gen)
 - [\#3462](https://gitlab.haskell.org//ghc/ghc/issues/3462): allocate large objects with `allocateLocal()`
 - [\#2289](https://gitlab.haskell.org//ghc/ghc/issues/2289): cheap check at start of case alternatives
