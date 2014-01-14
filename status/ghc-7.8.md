@@ -108,9 +108,12 @@ The dynamic story is complex. Here's the breakdown:
 
 Where:
 
-- **Dynamic GHCi**: `ghci` uses the system linker and loads dynamic libraries by default, to avoid linker bugs. This is controlled by `DYNAMIC_GHC_PROGRAMS=YES`.
+- **Dynamic GHCi**: 
+
+  - YES: `ghci` uses the system linker to link `.so` or `.dll` dynamic libraries, to avoid linker bugs. This is controlled by `DYNAMIC_GHC_PROGRAMS=YES`.
+  - NO: `ghci` uses GHC's hand-written linker to link `.o` files.
+- **`-dynamic`**: makes GHC produce `.so`/`.dll` files rather than `.o` files.
 - **`-dynamic-too`**: strictly an optimization, `-dynamic-too` allows the compiler to build static and dynamic object files at once. This is convenient for Dynamic GHCi support.
-- **`-dynamic`**: allows dynamic linking and dynamic libraries.
 
 ## The Windows Conundrum
 
