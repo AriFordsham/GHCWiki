@@ -30,7 +30,7 @@ Things tested:
 <th>**OK**</th>
 <th>**OK**</th>
 <th>**OK**</th>
-<th>Probably **OK**</th>
+<th>Probably **OK**\[3\]</th>
 <th>**OK**</th>
 <th>**OK**\[2\]</th>
 <th>**OK**</th></tr>
@@ -55,6 +55,7 @@ Things tested:
 
 - \[1\] The testsuite performance numbers need to be updated for 32 bit platforms.
 - \[2\] Mavericks was tested using **Clang**, and there are some `make fast` failures (mostly minor driver related things, but not critical.)
+- \[3\] Austin has not directly tested 10.8 yet, but he speculates it is OK based on the 10.7 and preliminary 10.9 results.
 
 ## The Dynamic Story
 
@@ -76,7 +77,7 @@ The dynamic story is complex. Here's the breakdown:
 <th>**YES**</th>
 <th>**NO**\[1\]</th>
 <th>**YES**</th>
-<th>Probably **YES**</th>
+<th>Probably **YES**\[2\]</th>
 <th>**YES**</th>
 <th>**NO**</th>
 <th>**NO**</th></tr>
@@ -100,6 +101,7 @@ The dynamic story is complex. Here's the breakdown:
 <th>**NO**</th></tr></table>
 
 - \[1\] Dynamic GHCi is disabled due to a bug in FreeBSD's rtld, but we're waiting for it to make it into a release.
+- \[2\] Austin has not tested 10.8 yet, but he speculates it is OK based on the 10.7 and preliminary 10.9 results.
 
 
 Where:

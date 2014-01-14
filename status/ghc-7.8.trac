@@ -17,24 +17,25 @@ Things tested:
  * The compiler can bootstrap itself and `validate` from a binary distribution
 
 ||          ||Linux (i386)||Linux (x86_64)||OS X 10.7 (x86_64)||OS X 10.8 (x86_64)||OS X 10.9 (x86_64)||Windows i386||Windows x86_64||
-||Builds clean||**OK**||**OK**||**OK**||Probably **OK**||**OK**||**OK**![2]||**OK**||
+||Builds clean||**OK**||**OK**||**OK**||Probably **OK**![3]||**OK**||**OK**![2]||**OK**||
 ||`validate`||In progress![1]||**OK**||**OK**||Probably **OK**||**NOT OK**||**OK**![1]||**OK**![1]||
 ||bootstrap ||In progress||**OK**||**OK**||Probably **OK**||In progress||**OK**||In progress||
 
  * ![1] The testsuite performance numbers need to be updated for 32 bit platforms.
  * ![2] Mavericks was tested using **Clang**, and there are some `make fast` failures (mostly minor driver related things, but not critical.)
+ * ![3] Austin has not directly tested 10.8 yet, but he speculates it is OK based on the 10.7 and preliminary 10.9 results.
 
 == The Dynamic Story ==
 
 The dynamic story is complex. Here's the breakdown:
 
 ||              ||Linux (i386)||Linux (x86_64)||FreeBSD||OS X 10.7 (x86_64)||OS X 10.8 (x86_64)||OS X 10.9 (x86_64)||Windows i386||Windows x86_64||
-||Dynamic GHCi  ||**YES**||**YES**||**NO**![1]||**YES**||Probably **YES**||**YES**||**NO**||**NO**||
+||Dynamic GHCi  ||**YES**||**YES**||**NO**![1]||**YES**||Probably **YES**![2]||**YES**||**NO**||**NO**||
 ||`-dynamic-too`||**YES**||**YES**||**YES**||**YES**||Probably **YES**||**YES**||**NO**||**NO**||
 ||`-dynamic`    ||**YES**||**YES**||**YES**||**YES**||Probably **YES**||**YES**||**NO**||**NO**||
 
  * ![1] Dynamic GHCi is disabled due to a bug in FreeBSD's rtld, but we're waiting for it to make it into a release.
-
+ * ![2] Austin has not tested 10.8 yet, but he speculates it is OK based on the 10.7 and preliminary 10.9 results.
 Where:
 
  * **Dynamic GHCi**: `ghci` uses the system linker and loads dynamic libraries, to avoid linker bugs. This is controlled by `DYNAMIC_GHC_PROGRAMS=YES`.
