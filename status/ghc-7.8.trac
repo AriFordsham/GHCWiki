@@ -19,7 +19,7 @@ Things tested:
 ||          ||Linux (i386)||Linux (x86_64)||OS X 10.7 (x86_64)||OS X 10.8 (x86_64)||OS X 10.9 (x86_64)||Windows i386||Windows x86_64||
 ||Builds clean||**OK**||**OK**||**OK**||Probably **OK**||**OK**||**OK**||**OK**||
 ||`validate`||In progress![1]||**OK**||**OK**||Probably **OK**||In progress![2]||**OK**![1]||**OK**![1]||
-||bootstrap ||In progress![1]||**OK**||**OK**||Probably **OK**||In progress![2]||In progress||In progress||
+||bootstrap ||In progress||**OK**||**OK**||Probably **OK**||In progress||In progress||In progress||
 
  * ![1] The testsuite performance numbers need to be updated for 32 bit platforms.
  * ![2] Mavericks was tested using **Clang**, and there are some failures (mostly minor driver related things, but not critical.)

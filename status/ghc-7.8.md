@@ -44,11 +44,11 @@ Things tested:
 <th>**OK**\[1\]
 </th></tr>
 <tr><th>bootstrap </th>
-<th>In progress\[1\]</th>
+<th>In progress</th>
 <th>**OK**</th>
 <th>**OK**</th>
 <th>Probably **OK**</th>
-<th>In progress\[2\]</th>
+<th>In progress</th>
 <th>In progress</th>
 <th>In progress
 </th></tr></table>
