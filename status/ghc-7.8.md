@@ -131,4 +131,4 @@ Where:
 
 - Austin Seipp needs to upload the primops compatibility package for 7.8. This is is easy: mostly a copy of `compiler/utils/ExtsCompat64.hs` into a Cabal package. See also [ the compatibility module page](http://www.haskell.org/haskellwiki/Compatibility_Modules).
 
-- `terminfo` needs to be updated temporarily to accomodate an AMP warning fix. With that fixed, the compiler can successfully bootstrap itself from a binary distribution with the AMP warning.
+- `terminfo` needs to be updated temporarily to accomodate an AMP warning fix. With that fixed, the compiler can successfully bootstrap itself from a binary distribution without much issue.
