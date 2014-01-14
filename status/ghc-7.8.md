@@ -4,14 +4,11 @@
 
 *Note that anything not listed here is off Austin's radar.*
 
-## Pending RC tickets
-
 ## Things to do
 
 - [\#8266](https://gitlab.haskell.org//ghc/ghc/issues/8266)
 - [\#8646](https://gitlab.haskell.org//ghc/ghc/issues/8646)
 - [\#7602](https://gitlab.haskell.org//ghc/ghc/issues/7602) - OS X 10.8 seemed OK with Austin's patch, but OS X 10.9 needs investigation
-- 
 
 ## RC Checklist
 
