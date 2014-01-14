@@ -38,11 +38,14 @@ A source tree consists of more than one repository: at the top level there is th
 ```wiki
   $ git clone git://git.haskell.org/ghc.git
   $ cd ghc
-  $ ./sync-all --testsuite get
+  $ ./sync-all get
 ```
 
 
 Note: If you're behind a **firewall blocking port 9418** (or `git clone git://...` fails for some other reason), replace `git://` by `http://` in the instructions above.
+
+
+Note 2: The `--testsuite` option is gone ([\#8545](https://gitlab.haskell.org//ghc/ghc/issues/8545)).
 
 
 If you have commit access then you will need to also set the push URL:
@@ -94,7 +97,7 @@ To get one, run
 ```wiki
   $ git clone -b branch-name http://git.haskell.org/ghc.git
   $ cd ghc
-  $ ./sync-all --testsuite get -b branch-name
+  $ ./sync-all get -b branch-name
 ```
 
 ## Getting a tag
