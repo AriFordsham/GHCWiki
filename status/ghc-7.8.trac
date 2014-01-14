@@ -29,9 +29,9 @@ Things tested:
 The dynamic story is complex. Here's the breakdown:
 
 ||              ||Linux (i386)||Linux (x86_64)||FreeBSD||OS X 10.7 (x86_64)||OS X 10.8 (x86_64)||OS X 10.9 (x86_64)||Windows i386||Windows x86_64||
-||Dynamic GHCi  ||**OK**||**OK**||**NO**![1]||**OK**||Probably **OK**||In progress||**NO**||**NO**||
-||`-dynamic-too`||**OK**||**OK**||**OK**||**OK**||Probably **OK**||In progress||**NO**||**NO**||
-||`-dynamic`    ||**OK**||**OK**||**OK**||**OK**||Probably **OK**||In progress||**NO**||**NO**||
+||Dynamic GHCi  ||**OK**||**OK**||**NO**![1]||**OK**||Probably **OK**||**OK**||**NO**||**NO**||
+||`-dynamic-too`||**OK**||**OK**||**OK**||**OK**||Probably **OK**||**OK**||**NO**||**NO**||
+||`-dynamic`    ||**OK**||**OK**||**OK**||**OK**||Probably **OK**||**OK**||**NO**||**NO**||
 
  * ![1] Dynamic GHCi is disabled due to a bug in FreeBSD's rtld, but we're waiting for it to make it into a release.
 
