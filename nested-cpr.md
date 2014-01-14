@@ -41,7 +41,7 @@ Tickets with example of code that would benefit from nested CRP:
 Motivation is always good. Here I try to look at examples where people were expecting or hoping for nested CPR, and see how we are fairing:
 
 - `facIO` in [\#1600](https://gitlab.haskell.org//ghc/ghc/issues/1600): Not eligible for nested CPR, as the result is not forced. Using `return $!` makes this work.
-- `mean` in [\#2289](https://gitlab.haskell.org//ghc/ghc/issues/2289): Not eligible for nested CRP. The base case `go x l s | x > m      = P s l` is – to the demand analyzer – lazy in `s` and `l`, so doing nested CRP would make that stricter. It works with `s `seq` l `seq` P s`. But `P`*is* a strict constructor! When the demand analyser runs, it still sees the wrapper `$WP`. Maybe it just needs to be inlined earlier?
+- `mean` in [\#2289](https://gitlab.haskell.org//ghc/ghc/issues/2289): Not eligible for nested CRP. The base case `go x l s | x > m      = P s l` is – to the demand analyzer – lazy in `s` and `l`, so doing nested CRP would make that stricter. It works with `s `seq` l `seq` P s`. But `P`*is* a strict constructor! When the demand analyser runs, it still sees the wrapper `$WP`. Maybe it just needs to be inlined earlier? Tried inlining more aggressively, helps, and does not seem to hurt.
 - [\#2387](https://gitlab.haskell.org//ghc/ghc/issues/2387) works nicely! (but note that `go` uses a `!n` pattern already)
 
 ### Degradation exploration and explanation
@@ -76,7 +76,7 @@ What is the semantics of an outer `t`? Given `f` with CPR `<L>tm()` and `g` with
 
 1. The convergence information a function is what holds if its strictness annotations are fulfilled: So if `g x`  has `tm()` if `x` has `t` (possibly because it has previously been evaluated by the caller), otherwise `m()`. `f x` always has `m ()` (presumably because `x` is _never_ entered when evaluating `f`.
 1. The convergence information a function is what holds always. This would in effect prevent `<S>tm()` from happening.
-1. The convergence information always holds, but special care is taken for unlifted types: `I#`, like any function expecting an unlifted parameter or free variable, would get `<S>tm()`. (For unlifted types, `<L>` and `<S>` are identical. One might turn that into a third way `<#>`, but unless there is more use to that than just clarification, we do not do that).
+1. The convergence information always holds, but special care is taken for unlifted types: `I#`, like any function expecting an unlifted parameter or free variable, would get `<S>tm()`. (For unlifted types, `<L>` and `<S>` are identical. One might turn that into a third way `<#>`, but unless there is more use to that than just clarification, we do not do that). The implementation now simply makes the demand of any argument strict if it has an unlifted type, so that the strictness annotation does not matter so much.
 
 
 Clearly, 1. and 3. hold strictly more information than 2.: Under variant `2`, `<S>tm()` would not occur, while the other variants allow that. Also, under 2, `I#` would not be known to terminate for sure, as it is strict. This would destroy any hope for nested CPR for things like `(Int, Int)`.
