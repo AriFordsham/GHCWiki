@@ -17,14 +17,14 @@ Things tested:
  * The compiler can bootstrap itself and `validate` from a binary distribution
 
 ||          ||Linux (i386)||Linux (x86_64)||OS X 10.7 (x86_64)||OS X 10.8 (x86_64)||OS X 10.9 (x86_64)||Windows i386||Windows x86_64||
-||Builds clean||**OK**||**OK**||**OK**||Probably **OK**![3]||**OK**||**OK**![2]||**OK**||
-||`validate`||In progress![1]||**OK**||**OK**||Probably **OK**||**NOT OK**||**OK**![1]||**OK**![1]||
+||Builds clean||**OK**||**OK**||**OK**||Probably **OK**![3]||**OK**||**OK**||**OK**||
+||`validate`||In progress![1]||**OK**||**OK**||Probably **OK**||**NOT OK**![2]![4]||**OK**![1]||**OK**![1]||
 ||bootstrap ||In progress||**OK**||**OK**||Probably **OK**||In progress||**OK**||In progress||
 
  * ![1] The testsuite performance numbers need to be updated for 32 bit platforms.
  * ![2] Mavericks was tested using **Clang**, and there are some `make fast` failures (mostly minor driver related things, but not critical.)
  * ![3] Austin has not directly tested 10.8 yet, but he speculates it is OK based on the 10.7 and preliminary 10.9 results.
-
+ * ![4] Austin is hitting a `validation` error while building `xhtml`, which might be due to some interaction with the new Haddock. Otherwise, the compiler builds fine and the testsuite works.
 == The Dynamic Story ==
 
 The dynamic story is complex. Here's the breakdown:

@@ -32,14 +32,14 @@ Things tested:
 <th>**OK**</th>
 <th>Probably **OK**\[3\]</th>
 <th>**OK**</th>
-<th>**OK**\[2\]</th>
+<th>**OK**</th>
 <th>**OK**</th></tr>
 <tr><th>`validate`</th>
 <th>In progress\[1\]</th>
 <th>**OK**</th>
 <th>**OK**</th>
 <th>Probably **OK**</th>
-<th>**NOT OK**</th>
+<th>**NOT OK**\[2\]\[4\]</th>
 <th>**OK**\[1\]</th>
 <th>**OK**\[1\]
 </th></tr>
@@ -56,6 +56,7 @@ Things tested:
 - \[1\] The testsuite performance numbers need to be updated for 32 bit platforms.
 - \[2\] Mavericks was tested using **Clang**, and there are some `make fast` failures (mostly minor driver related things, but not critical.)
 - \[3\] Austin has not directly tested 10.8 yet, but he speculates it is OK based on the 10.7 and preliminary 10.9 results.
+- \[4\] Austin is hitting a `validation` error while building `xhtml`, which might be due to some interaction with the new Haddock. Otherwise, the compiler builds fine and the testsuite works.
 
 ## The Dynamic Story
 
