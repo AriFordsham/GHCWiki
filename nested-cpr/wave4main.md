@@ -46,21 +46,7 @@ $wgo [Occ=LoopBreaker]
 My attempt below to detect join points does not help: The CPR information for `go1` is the same as for `let go1 = rhs in body`, as `body` is just `go1 ww ipv`.
 
 
-The problem is that this is being passed as an argument to a function. In this case `runSTRep` (which is the function its being passed to) might help, but what is the general solution?
-
-
-In this case, inlining `runSTRep` helps a bit, as it decreases allocation to `+6.6%`. (Whether that is correct is quite dubious). But in order to propagate the CPR’ing to tabulate, it seems one needs to pass nested CPR information from a case scrunitee to its components. 
-
-
-So I implement this, and now `tabulate` itself gets a CPR property, which comes from the second component of the `ST` action, as extracted by `runSTRep`. But we still do not retain the join-point-property, as the code that throws away the `ST` token is still there:
-
-```wiki
-case $wgo ww ipv of _ [Occ=Dead] { (# ww3, ww4, ww5, ww6, ww7 #) ->
-(# ww4, ww5, ww6, ww7 #)
-```
-
-
-At that point I am running out of ideas.
+The problem is that this is being passed as an argument to a function (in this case `runSTRep`), and there is not much that can be done about this at this point.
 
 ## Summary with simple expressions
 
@@ -69,7 +55,7 @@ Original code:
 
 ```wiki
 f a x = case a of
-  True -> case foo of b -> snd $
+  True -> case foo of b -> foo $
     let go 0 = (1,(2,3))
         go n = go (n-1)
     in go b
@@ -77,49 +63,13 @@ f a x = case a of
 ```
 
 
-Initial CPR transformation yields, where `$go` is no longer a join-point for the argument to `snd`.
+which after CPR transformation yields, where `$go` is no longer a join-point for the argument to `snd`.
 
 ```wiki
 f a x = case a of
-  True -> case foo of b -> snd $
+  True -> case foo of b -> foo $
     let $wgo 0 = (# 1, 2, 3 #)
         $wgo n = go (n-1)
     in case $wgo b of (# a, b, c #) -> (a, (b,c))
-  False -> undefined
-```
-
-
-Inlining `snd` does not help a lot:
-
-```wiki
-f a x = case a of
-  True -> case foo of b ->
-    let go 0 = (1,(2,3))
-        go n = go (n-1)
-    in case (go b) of (x,y) -> y
-  False -> undefined
-```
-
-
-still turns into 
-
-```wiki
-f a x = case a of
-  True -> case foo of b -> snd $
-    let $wgo 0 = (# 1, 2, 3 #)
-        $wgo n = go (n-1)
-    in case $wgo b of (# a, b, c #) -> (b,c)
-  False -> undefined
-```
-
-
-Furthermore allowing CPR information to flow from scrunitee to bound variables gives `f` a CPR property (which is good), but does not solve the problem.
-
-```wiki
-$wf a x = case a of
-  True -> case foo of b -> snd $
-    let $go 0 = (# 1, 2, 3 #)
-        $go n = go (n-1)
-    in case $go b of (# a, b, c #) -> (# b, c #)
   False -> undefined
 ```
