@@ -123,6 +123,7 @@ Where:
     - Obvious theory: msys2 environment is incorrectly configured somewhere
     - On the upside, 32bit in the old environment seems quite stable (\~3 test failures,) even if `make` is a bit nutty.
   - It seems `-dynamic` is busted, as well as `-dynamic-too`
+  - Consequently, GHCi can't be dynamically linked.
   - We're punting all three of them for the RC.
 
     - This leaves GHC in the same place it was before essentially (but 64bit is in a difficult spot, see [\#7134](https://gitlab.haskell.org//ghc/ghc/issues/7134))
