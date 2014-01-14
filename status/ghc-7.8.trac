@@ -15,20 +15,23 @@ Things tested:
  * `validate` runs OK
  * The compiler can bootstrap itself and `validate` from a binary distribution
 
-||          ||Linux (i386)||Linux (x86_64)||Mac OS X 10.7 (x86_64)||Mac OS X 10.8 (x86_64)||Mac OS X 10.9 (x86_64)||Windows i386||Windows x86_64||
-||`validate`||In progress![1]||**OK**||**OK**||Probably **OK**||In progress||**OK**![1]||**OK**![1]||
-||bootstrap ||In progress![1]||**OK**||**OK**||Probably **OK**||In progress||**OK**![1]||**OK**![1]||
+||          ||Linux (i386)||Linux (x86_64)||OS X 10.7 (x86_64)||OS X 10.8 (x86_64)||OS X 10.9 (x86_64)||Windows i386||Windows x86_64||
+||`validate`||In progress![1]||**OK**||**OK**||Probably **OK**||In progress![2]||**OK**![1]||**OK**![1]||
+||bootstrap ||In progress![1]||**OK**||**OK**||Probably **OK**||In progress![2]||**OK**![1]||**OK**![1]||
 
  * ![1] The testsuite performance numbers need to be updated for 32 bit platforms.
+ * ![2] Mavericks was tested using **Clang**, and there are some failures (mostly minor driver related things, but not critical.)
 
 == The Dynamic Story ==
 
 The dynamic story is complex. Here's the breakdown:
 
-||              ||Linux (i386)||Linux (x86_64)||Mac OS X 10.7 (x86_64)||Mac OS X 10.8 (x86_64)||Mac OS X 10.9 (x86_64)||Windows i386||Windows x86_64||
-||Dynamic GHCi  ||**OK**||**OK**||**OK**||Probably **OK**||In progress||**NO**||**NO**||
-||`-dynamic-too`||**OK**||**OK**||**OK**||Probably **OK**||In progress||**NO**||**NO**||
-||`-dynamic`    ||**OK**||**OK**||**OK**||Probably **OK**||In progress||**NO**||**NO**||
+||              ||Linux (i386)||Linux (x86_64)||OS X 10.7 (x86_64)||OS X 10.8 (x86_64)||OS X 10.9 (x86_64)||Windows i386||Windows x86_64||FreeBSD||
+||Dynamic GHCi  ||**OK**||**OK**||**OK**||Probably **OK**||In progress||**NO**||**NO**||**NO**![1]||
+||`-dynamic-too`||**OK**||**OK**||**OK**||Probably **OK**||In progress||**NO**||**NO**||**OK**||
+||`-dynamic`    ||**OK**||**OK**||**OK**||Probably **OK**||In progress||**NO**||**NO**||**OK**||
+
+ * ![1] Dynamic GHCi is disabled due to a bug in FreeBSD's rtld, but we're waiting for it to make it into a release.
 
 Where:
 

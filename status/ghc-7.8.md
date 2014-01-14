@@ -19,9 +19,9 @@ Things tested:
 <table><tr><th></th>
 <th>Linux (i386)</th>
 <th>Linux (x86_64)</th>
-<th>Mac OS X 10.7 (x86_64)</th>
-<th>Mac OS X 10.8 (x86_64)</th>
-<th>Mac OS X 10.9 (x86_64)</th>
+<th>OS X 10.7 (x86_64)</th>
+<th>OS X 10.8 (x86_64)</th>
+<th>OS X 10.9 (x86_64)</th>
 <th>Windows i386</th>
 <th>Windows x86_64
 </th></tr>
@@ -30,7 +30,7 @@ Things tested:
 <th>**OK**</th>
 <th>**OK**</th>
 <th>Probably **OK**</th>
-<th>In progress</th>
+<th>In progress\[2\]</th>
 <th>**OK**\[1\]</th>
 <th>**OK**\[1\]
 </th></tr>
@@ -39,12 +39,13 @@ Things tested:
 <th>**OK**</th>
 <th>**OK**</th>
 <th>Probably **OK**</th>
-<th>In progress</th>
+<th>In progress\[2\]</th>
 <th>**OK**\[1\]</th>
 <th>**OK**\[1\]
 </th></tr></table>
 
 - \[1\] The testsuite performance numbers need to be updated for 32 bit platforms.
+- \[2\] Mavericks was tested using **Clang**, and there are some failures (mostly minor driver related things, but not critical.)
 
 ## The Dynamic Story
 
@@ -54,11 +55,12 @@ The dynamic story is complex. Here's the breakdown:
 <table><tr><th></th>
 <th>Linux (i386)</th>
 <th>Linux (x86_64)</th>
-<th>Mac OS X 10.7 (x86_64)</th>
-<th>Mac OS X 10.8 (x86_64)</th>
-<th>Mac OS X 10.9 (x86_64)</th>
+<th>OS X 10.7 (x86_64)</th>
+<th>OS X 10.8 (x86_64)</th>
+<th>OS X 10.9 (x86_64)</th>
 <th>Windows i386</th>
-<th>Windows x86_64
+<th>Windows x86_64</th>
+<th>FreeBSD
 </th></tr>
 <tr><th>Dynamic GHCi  </th>
 <th>**OK**</th>
@@ -67,7 +69,9 @@ The dynamic story is complex. Here's the breakdown:
 <th>Probably **OK**</th>
 <th>In progress</th>
 <th>**NO**</th>
-<th>**NO**</th></tr>
+<th>**NO**</th>
+<th>**NO**\[1\]
+</th></tr>
 <tr><th>`-dynamic-too`</th>
 <th>**OK**</th>
 <th>**OK**</th>
@@ -75,7 +79,8 @@ The dynamic story is complex. Here's the breakdown:
 <th>Probably **OK**</th>
 <th>In progress</th>
 <th>**NO**</th>
-<th>**NO**</th></tr>
+<th>**NO**</th>
+<th>**OK**</th></tr>
 <tr><th>`-dynamic`</th>
 <th>**OK**</th>
 <th>**OK**</th>
@@ -83,7 +88,10 @@ The dynamic story is complex. Here's the breakdown:
 <th>Probably **OK**</th>
 <th>In progress</th>
 <th>**NO**</th>
-<th>**NO**</th></tr></table>
+<th>**NO**</th>
+<th>**OK**</th></tr></table>
+
+- \[1\] Dynamic GHCi is disabled due to a bug in FreeBSD's rtld, but we're waiting for it to make it into a release.
 
 
 Where:
