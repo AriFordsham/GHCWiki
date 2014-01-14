@@ -17,21 +17,21 @@ Things tested:
  * The compiler can bootstrap itself and `validate` from a binary distribution
 
 ||          ||Linux (i386)||Linux (x86_64)||OS X 10.7 (x86_64)||OS X 10.8 (x86_64)||OS X 10.9 (x86_64)||Windows i386||Windows x86_64||
-||Builds clean||**OK**||**OK**||**OK**||Probably **OK**||**OK**||**OK**||**OK**||
-||`validate`||In progress![1]||**OK**||**OK**||Probably **OK**||**OK**![2]||**OK**![1]||**OK**![1]||
-||bootstrap ||In progress||**OK**||**OK**||Probably **OK**||In progress||In progress||In progress||
+||Builds clean||**OK**||**OK**||**OK**||Probably **OK**||**OK**||**OK**![2]||**OK**||
+||`validate`||In progress![1]||**OK**||**OK**||Probably **OK**||**NOT OK**||**OK**![1]||**OK**![1]||
+||bootstrap ||In progress||**OK**||**OK**||Probably **OK**||In progress||**OK**||In progress||
 
  * ![1] The testsuite performance numbers need to be updated for 32 bit platforms.
- * ![2] Mavericks was tested using **Clang**, and there are some failures (mostly minor driver related things, but not critical.)
+ * ![2] Mavericks was tested using **Clang**, and there are some `make fast` failures (mostly minor driver related things, but not critical.)
 
 == The Dynamic Story ==
 
 The dynamic story is complex. Here's the breakdown:
 
 ||              ||Linux (i386)||Linux (x86_64)||FreeBSD||OS X 10.7 (x86_64)||OS X 10.8 (x86_64)||OS X 10.9 (x86_64)||Windows i386||Windows x86_64||
-||Dynamic GHCi  ||**OK**||**OK**||**NO**![1]||**OK**||Probably **OK**||**OK**||**NO**||**NO**||
-||`-dynamic-too`||**OK**||**OK**||**OK**||**OK**||Probably **OK**||**OK**||**NO**||**NO**||
-||`-dynamic`    ||**OK**||**OK**||**OK**||**OK**||Probably **OK**||**OK**||**NO**||**NO**||
+||Dynamic GHCi  ||**YES**||**YES**||**NO**![1]||**YES**||Probably **YES**||**YES**||**NO**||**NO**||
+||`-dynamic-too`||**YES**||**YES**||**YES**||**YES**||Probably **YES**||**YES**||**NO**||**NO**||
+||`-dynamic`    ||**YES**||**YES**||**YES**||**YES**||Probably **YES**||**YES**||**NO**||**NO**||
 
  * ![1] Dynamic GHCi is disabled due to a bug in FreeBSD's rtld, but we're waiting for it to make it into a release.
 
