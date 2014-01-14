@@ -7,6 +7,7 @@
 ## Pending RC tickets
 
 - [\#7602](https://gitlab.haskell.org//ghc/ghc/issues/7602) - OS X 10.8 seemed OK with Austin's patch, but OS X 10.9 needs investigation
+- [\#8367](https://gitlab.haskell.org//ghc/ghc/issues/8367) - Because we're punting on `-dynamic` for windows, this ticket may actually be done - both OS X and Linux have fairly stable runtime linkers, but some testing should be done.
 
 ## RC Checklist
 
