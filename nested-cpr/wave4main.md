@@ -1,14 +1,6 @@
 ## wave4main
 
 
-The analysis below is obsolete. In this case, `go1` does in fact not have the nested CPR property, as the components are not surely terminating: `DmdType <S,U><S,U>m#(,m(tm(),tm(),t,)`.
-
-
-But if they were, the problem would manifest...
-
-### Obsolete:
-
-
 Baseline: \[0e2fd3/ghc\], Tested: nested-cpr (without nesting inside sum-types, without join-point detection).
 
 
