@@ -50,7 +50,8 @@ Things tested:
 <th>Probably **OK**</th>
 <th>In progress</th>
 <th>**OK**</th>
-<th>In progress\[5\]</th></tr></table>
+<th>In progress\[5\]
+</th></tr></table>
 
 - \[1\] The testsuite performance numbers need to be updated for 32 bit platforms.
 - \[2\] Austin has not directly tested 10.8 yet, but he speculates it is OK based on the 10.7 and preliminary 10.9 results.
