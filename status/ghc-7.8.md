@@ -2,40 +2,137 @@
 
 ## Tickets
 
-
-We would like to fix all of the [ high and highest priority tickets in the 7.8.1 milestone](http://ghc.haskell.org/trac/ghc/query?priority=highest&priority=high&status=infoneeded&status=merge&status=new&status=patch&milestone=7.8.1&col=id&col=summary&col=status&col=type&col=priority&col=milestone&col=component&order=priority), but there are currently a lot of them so this seems optimistic. Please feel free to take a ticket and help us!
-
 *Note that anything not listed here is off Austin's radar.*
 
-## Completed new features
+## Pending RC tickets
+
+- [\#7602](https://gitlab.haskell.org//ghc/ghc/issues/7602) - OS X 10.8 seemed OK with Austin's patch, but OS X 10.9 needs investigation
+
+## RC Checklist
 
 
-The features already completed are documented in the release notes:
-[docs/users_guide/7.8.1-notes.xml](/trac/ghc/browser/ghc/docs/users_guide/7.8.1-notes.xml)
+Things tested:
 
-## Pending things to completion
+- Builds cleanly
+- `validate` runs OK
+- The compiler can bootstrap itself and `validate` from a binary distribution
 
-- Austin Seipp needs to upload the primops compatibility package for 7.8. This is is easy: mostly a copy of `compiler/utils/ExtsCompat64.hs` into a Cabal package. See also [ the compatibility module page](http://www.haskell.org/haskellwiki/Compatibility_Modules).
+<table><tr><th></th>
+<th>Linux (i386)</th>
+<th>Linux (x86_64)</th>
+<th>OS X 10.7 (x86_64)</th>
+<th>OS X 10.8 (x86_64)</th>
+<th>OS X 10.9 (x86_64)</th>
+<th>Windows i386</th>
+<th>Windows x86_64
+</th></tr>
+<tr><th>Builds clean</th>
+<th>**OK**</th>
+<th>**OK**</th>
+<th>**OK**</th>
+<th>Probably **OK**\[2\]</th>
+<th>**OK**</th>
+<th>**OK**</th>
+<th>**OK**</th></tr>
+<tr><th>`validate`</th>
+<th>In progress\[1\]</th>
+<th>**OK**</th>
+<th>**OK**</th>
+<th>Probably **OK**</th>
+<th>**NOT OK**\[3\]\[4\]</th>
+<th>**OK**\[1\]</th>
+<th>**OK**\[5\]
+</th></tr>
+<tr><th>bootstrap </th>
+<th>In progress</th>
+<th>**OK**</th>
+<th>**OK**</th>
+<th>Probably **OK**</th>
+<th>In progress</th>
+<th>**OK**</th>
+<th>In progress\[5\]
+</th></tr></table>
 
-- Austin also still has a lingering patch for [\#7602](https://gitlab.haskell.org//ghc/ghc/issues/7602) to fix a large OS X performance regression, but it's still not merged. The basic gist is that the patch as written works for OS X 10.8. But in OS X 10.9 the TLS implementation changed, invalidating it, so some investigation is needed.
+- \[1\] The testsuite performance numbers need to be updated for 32 bit platforms.
+- \[2\] Austin has not directly tested 10.8 yet, but he speculates it is OK based on the 10.7 and preliminary 10.9 results.
+- \[3\] Mavericks was tested using **Clang**, and there are some `make fast` failures (mostly minor driver related things, but not critical.)
+- \[4\] Austin is hitting a `validation` error while building `xhtml`, which might be due to some interaction with the new Haddock. Otherwise, the compiler builds fine and the testsuite works.
+- \[5\] Some of Herbert's latest patches to `integer-gmp` seem to have broke the 64bit build and need to be re-investigated, but once reverted the build goes smoothly.
 
-- `-XTemplateHaskell` should now imply `-dynamic-too`, based on the discussions in [\#8180](https://gitlab.haskell.org//ghc/ghc/issues/8180). Austin is attempting to fix this by switching it on during module loading but it doesn't quite work yet.
+## The Dynamic Story
 
-- **Pattern synonyms will make it**! Austin will merge them Real Soon Now, after making sure there's documentation, Haddock works, and the T's are crossed and I's dotted.
 
-- **New Haddock parser** will hopefully go in, but isn't guaranteed yet. Austin will work with Mateusz to try and get it in ASAP.
+The dynamic story is complex. Here's the breakdown:
+
+<table><tr><th></th>
+<th>Linux (i386)</th>
+<th>Linux (x86_64)</th>
+<th>FreeBSD</th>
+<th>OS X 10.7 (x86_64)</th>
+<th>OS X 10.8 (x86_64)</th>
+<th>OS X 10.9 (x86_64)</th>
+<th>Windows i386</th>
+<th>Windows x86_64
+</th></tr>
+<tr><th>Dynamic GHCi  </th>
+<th>**YES**</th>
+<th>**YES**</th>
+<th>**NO**\[1\]</th>
+<th>**YES**</th>
+<th>Probably **YES**\[2\]</th>
+<th>**YES**</th>
+<th>**NO**</th>
+<th>**NO**</th></tr>
+<tr><th>`-dynamic-too`</th>
+<th>**YES**</th>
+<th>**YES**</th>
+<th>**YES**</th>
+<th>**YES**</th>
+<th>Probably **YES**</th>
+<th>**YES**</th>
+<th>**NO**</th>
+<th>**NO**</th></tr>
+<tr><th>`-dynamic`</th>
+<th>**YES**</th>
+<th>**YES**</th>
+<th>**YES**</th>
+<th>**YES**</th>
+<th>Probably **YES**</th>
+<th>**YES**</th>
+<th>**NO**</th>
+<th>**NO**</th></tr></table>
+
+- \[1\] Dynamic GHCi is disabled due to a bug in FreeBSD's rtld, but we're waiting for it to make it into a release.
+- \[2\] Austin has not tested 10.8 yet, but he speculates it is OK based on the 10.7 and preliminary 10.9 results.
+
+
+Where:
+
+- **Dynamic GHCi**: `ghci` uses the system linker and loads dynamic libraries by default, to avoid linker bugs. This is controlled by `DYNAMIC_GHC_PROGRAMS=YES`.
+- **`-dynamic-too`**: strictly an optimization, `-dynamic-too` allows the compiler to build static and dynamic object files at once. This is convenient for Dynamic GHCi support.
+- **`-dynamic`**: allows dynamic linking and dynamic libraries.
 
 ## The Windows Conundrum
 
-- Dynamic GHCi ([\#3658](https://gitlab.haskell.org//ghc/ghc/issues/3658)). This is working in HEAD, and enabled if `DYNAMIC_GHC_PROGRAMS=YES`, which causes GHC itself to be built dynamically. Currently it's enabled by default if dynamic libraries are supported, except for FreeBSD and Windows.
-  On Windows, there are a few problems:
+- Windows is a bit difficult right now.
 
-  - `-dynamic-too` doesn't work on Windows ([\#8228](https://gitlab.haskell.org//ghc/ghc/issues/8228))
-  - Because of [\#8228](https://gitlab.haskell.org//ghc/ghc/issues/8228), GHC is a bit nerfed in using lots of RAM - see the discussion in [\#7134](https://gitlab.haskell.org//ghc/ghc/issues/7134). We should fix `-dynamic-too` to knock out two birds with one stone (fix [\#7134](https://gitlab.haskell.org//ghc/ghc/issues/7134) and enable using lots of RAM.)
+  - **Good news**: 64bit builds work using the MSYS2 with a few (\~3) failures!
+  - **Bad news**: 32bit builds work well using the **old** environment
 
-  (Related but not critical: we have too many DLL symbols, and are very close to the limit ([\#5987](https://gitlab.haskell.org//ghc/ghc/issues/5987)). Linking also takes a long time ([\#8229](https://gitlab.haskell.org//ghc/ghc/issues/8229)))
-  The plan is/was to use dynamic GHCi on as many platforms as possible in 7.8, and to remove support for non-dynamic-ghci in HEAD soon after. See discussion in [\#8039](https://gitlab.haskell.org//ghc/ghc/issues/8039), however.
+    - Austin confirmed the latest HEAD worked in the old 32bit environment, but not the msys2 one: the `ghc-stage2.exe` segfaults, and Austin hasn't tracked down why.
+    - Obvious theory: msys2 environment is incorrectly configured somewhere
+    - On the upside, 32bit in the old environment seems quite stable (\~3 test failures,) even if `make` is a bit nutty.
+  - It seems `-dynamic` is busted, as well as `-dynamic-too`
+  - Consequently, GHCi can't be dynamically linked.
+  - We're punting all three of them for the RC.
 
-- Windows is becoming increasingly weird. It seems that with `./validate` settings, a 32bit GHC built using the MSYS2 instructions mysteriously segfaults inside the stage2 compiler. But a 64bit GHC seems to work OK. But then as Austin was writing this it broke mysteriously, seemingly with no intervention.
+    - This leaves GHC in the same place it was before essentially (but 64bit is in a difficult spot, see [\#7134](https://gitlab.haskell.org//ghc/ghc/issues/7134))
 
-- Also, it seems as if `-dynamic` actually is broken in some weird way on Windows. During my (Austin) investigation into [\#8228](https://gitlab.haskell.org//ghc/ghc/issues/8228), compiling a simple dynamic executable seems to result in segfaults. The most bizarre part is the `.exe` generated with `-dynamic` seems to depend on both `libHSrts.dll` and `libHSrts_thr.dll`! Without either in a place where the Windows linker can find it, the executable fails to start. Austin believes this is possibly the culprit (symbols may somehow get confused based on loading order,) but he doesn't know why `-dynamic` on windows seems to cause a dependency on both the threaded and non-threaded runtime.
+
+(Related but not immediately critical: we have too many DLL symbols, and are very close to the limit ([\#5987](https://gitlab.haskell.org//ghc/ghc/issues/5987)). Linking also takes a long time ([\#8229](https://gitlab.haskell.org//ghc/ghc/issues/8229)))
+
+## Other things
+
+- Austin Seipp needs to upload the primops compatibility package for 7.8. This is is easy: mostly a copy of `compiler/utils/ExtsCompat64.hs` into a Cabal package. See also [ the compatibility module page](http://www.haskell.org/haskellwiki/Compatibility_Modules).
+
+- `terminfo` needs to be updated temporarily to accomodate an AMP warning fix. With that fixed, the compiler can successfully bootstrap itself from a binary distribution without much issue.
