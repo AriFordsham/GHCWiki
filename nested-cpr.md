@@ -47,9 +47,6 @@ Motivation is always good. Here I try to look at examples where people were expe
 ### Degradation exploration and explanation
 
 
-The following section is partly outdated, as with a fix (do not mess with the unfolding in WorkWrap if no wrapper is being added) and the case-to-body flow, no Allocation degradation is found any more!
-
-
 At one point, I thought that a major contributor to increased allocations is nested-CPR’ing things returning `String`, causing them to return `(# Char#, String #)`. But removing the `CPR` information from `C#` calls has zero effect on the allocations, both on `master` and on `nested-cpr`. It had very small (positive) effect on code size. Will have to look at Core...
 
 
@@ -125,8 +122,12 @@ Might also help. Need to see if his branch can be merged onto master. (But I lik
 
 - Can we use `Converges` CPR information to eagerly evaluate thunks? Yes, and there is a small gain there: [\#8655](https://gitlab.haskell.org//ghc/ghc/issues/8655).
 
+  - Do it in Core to STG!
   - But why no allocation change? Understand this better!
   - Can we statically and/or dynamically count the number of thunks, and the number of CBV’ed thunks?
+
+    - Statically: Add debug statements
+    - Dynamically: Look for decrease in thunk allocations in ticky.
 - Can we use `Converges` in `exprOkForSpeculation`?
 - Why is `cacheprof` not deterministic? (→ [\#8611](https://gitlab.haskell.org//ghc/ghc/issues/8611))
 - What became of Simon’s better-ho-cardinality branch? See [better-ho-cardinality](nested-cpr/better-ho-cardinality).
