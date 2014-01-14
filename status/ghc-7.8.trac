@@ -4,7 +4,7 @@
 
 ''Note that anything not listed here is off Austin's radar.''
 
-== Pending tickets ==
+== Pending RC tickets ==
 
  * #7602 - OS X 10.8 seemed OK, but OS X 10.9 needs investigation
 
@@ -12,12 +12,14 @@
 
 Things tested:
 
+ * Builds cleanly
  * `validate` runs OK
  * The compiler can bootstrap itself and `validate` from a binary distribution
 
 ||          ||Linux (i386)||Linux (x86_64)||OS X 10.7 (x86_64)||OS X 10.8 (x86_64)||OS X 10.9 (x86_64)||Windows i386||Windows x86_64||
+||Builds clean||**OK**||**OK**||**OK**||Probably **OK**||**OK**||**OK**||**OK**||
 ||`validate`||In progress![1]||**OK**||**OK**||Probably **OK**||In progress![2]||**OK**![1]||**OK**![1]||
-||bootstrap ||In progress![1]||**OK**||**OK**||Probably **OK**||In progress![2]||**OK**![1]||**OK**![1]||
+||bootstrap ||In progress![1]||**OK**||**OK**||Probably **OK**||In progress![2]||In progress||In progress||
 
  * ![1] The testsuite performance numbers need to be updated for 32 bit platforms.
  * ![2] Mavericks was tested using **Clang**, and there are some failures (mostly minor driver related things, but not critical.)
@@ -26,10 +28,10 @@ Things tested:
 
 The dynamic story is complex. Here's the breakdown:
 
-||              ||Linux (i386)||Linux (x86_64)||OS X 10.7 (x86_64)||OS X 10.8 (x86_64)||OS X 10.9 (x86_64)||Windows i386||Windows x86_64||FreeBSD||
-||Dynamic GHCi  ||**OK**||**OK**||**OK**||Probably **OK**||In progress||**NO**||**NO**||**NO**![1]||
-||`-dynamic-too`||**OK**||**OK**||**OK**||Probably **OK**||In progress||**NO**||**NO**||**OK**||
-||`-dynamic`    ||**OK**||**OK**||**OK**||Probably **OK**||In progress||**NO**||**NO**||**OK**||
+||              ||Linux (i386)||Linux (x86_64)||FreeBSD||OS X 10.7 (x86_64)||OS X 10.8 (x86_64)||OS X 10.9 (x86_64)||Windows i386||Windows x86_64||
+||Dynamic GHCi  ||**OK**||**OK**||**NO**![1]||**OK**||Probably **OK**||In progress||**NO**||**NO**||
+||`-dynamic-too`||**OK**||**OK**||**OK**||**OK**||Probably **OK**||In progress||**NO**||**NO**||
+||`-dynamic`    ||**OK**||**OK**||**OK**||**OK**||Probably **OK**||In progress||**NO**||**NO**||
 
  * ![1] Dynamic GHCi is disabled due to a bug in FreeBSD's rtld, but we're waiting for it to make it into a release.
 
