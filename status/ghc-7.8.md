@@ -116,7 +116,7 @@ Where:
 
 - Windows is a bit difficult right now.
 
-  - **Good news**: 64bit builds work using the fancy new MSYS2 environment with a few (\~3) failures!
+  - **Good news**: 64bit builds work using the fancy new MSYS2 environment with a few (\~6) failures!
   - **Bad news**: 32bit builds work well using the **old** environment
 
     - Austin confirmed the latest HEAD worked in the old 32bit environment, but not the msys2 one: the `ghc-stage2.exe` segfaults, and Austin hasn't tracked down why.
