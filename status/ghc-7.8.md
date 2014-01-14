@@ -115,10 +115,11 @@ Where:
 
 - Windows is a bit difficult right now.
 
-  - 64bit builds work using the MSYS2 environment **with some failures**
-  - 32bit builds work well using the **old** environment
+  - **Good news**: 64bit builds work using the MSYS2 with a few failures!
+  - **Bad news**: 32bit builds work well using the **old** environment
 
     - Austin confirmed the latest HEAD worked in the old 32bit environment, but not the msys2 one: the `ghc-stage2.exe` segfaults, and Austin hasn't tracked down why.
+    - Obvious theory: msys2 environment is incorrectly configured somewhere
   - It seems `-dynamic` is busted, as well as `-dynamic-too`
   - We're punting all three of them for the RC.
 
