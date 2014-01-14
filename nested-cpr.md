@@ -47,6 +47,9 @@ Motivation is always good. Here I try to look at examples where people were expe
 ### Degradation exploration and explanation
 
 
+The following section is partly outdated, as with a fix (do not mess with the unfolding in WorkWrap if no wrapper is being added) and the case-to-body flow, no Allocation degradation is found any more!
+
+
 At one point, I thought that a major contributor to increased allocations is nested-CPR’ing things returning `String`, causing them to return `(# Char#, String #)`. But removing the `CPR` information from `C#` calls has zero effect on the allocations, both on `master` and on `nested-cpr`. It had very small (positive) effect on code size. Will have to look at Core...
 
 
