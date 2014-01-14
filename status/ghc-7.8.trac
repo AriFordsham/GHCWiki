@@ -25,7 +25,7 @@ Things tested:
  * ![2] Austin has not directly tested 10.8 yet, but he speculates it is OK based on the 10.7 and preliminary 10.9 results.
  * ![3] Mavericks was tested using **Clang**, and there are some `make fast` failures (mostly minor driver related things, but not critical.)
  * ![4] Austin is hitting a `validation` error while building `xhtml`, which might be due to some interaction with the new Haddock. Otherwise, the compiler builds fine and the testsuite works.
- * ![5] Some of Herbert's latest patches to `integer-gmp` seem to have broke the 64bit build and need to be re-investigated.
+ * ![5] Some of Herbert's latest patches to `integer-gmp` seem to have broke the 64bit build and need to be re-investigated, but once reverted the build goes smoothly.
 
 == The Dynamic Story ==
 
