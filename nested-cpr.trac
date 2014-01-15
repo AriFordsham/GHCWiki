@@ -53,6 +53,7 @@ And here a summary of the problems identified, and solution attempts
  * CPR kill join-points, because the wrapper does not completely cancel with anything else.
    - Detecting join-points at the position of its binding is not enough.
  * A recursive function can have a CPR-beneficial recursive call that makes CPR worthwhile, even if it does not help at the initial call. But it is also not unlikely that the recursive call is a tail-call, and CPR-ing has zero effect on that. Then it all depends on the external call.
+ * With sum types, CPR is much less often useful. And indeed, nesting CPR information inside sum-type-constructors has only negative effect (-0.0%/+0.0%/+0.4%).
 
 === Converges detection ===
 
