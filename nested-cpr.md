@@ -15,6 +15,11 @@ Tickets with example of code that would benefit from nested CRP:
 
 - [\#1600](https://gitlab.haskell.org//ghc/ghc/issues/1600), [\#2289](https://gitlab.haskell.org//ghc/ghc/issues/2289), [\#2387](https://gitlab.haskell.org//ghc/ghc/issues/2387) (see [below](nested-cpr#motivating-examples) for an analysis)
 
+
+Other tickets that I should look into again:
+
+- [\#8569](https://gitlab.haskell.org//ghc/ghc/issues/8569)
+
 ### Related testcases
 
 - Everything in [source:testsuite/tests/stranal/sigs/](/trac/ghc/browser/testsuite/tests/stranal/sigs)

@@ -12,6 +12,10 @@ Tickets with example of code that would benefit from nested CRP:
 
  * #1600, #2289, #2387 (see [wiki:.#Motivatingexamples below] for an analysis)
 
+Other tickets that I should look into again:
+
+ * #8569
+
 === Related testcases ===
 
  * Everything in source:testsuite/tests/stranal/sigs/
