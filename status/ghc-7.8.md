@@ -7,7 +7,6 @@
 ## Things to do
 
 - [\#8266](https://gitlab.haskell.org//ghc/ghc/issues/8266)
-- [\#8646](https://gitlab.haskell.org//ghc/ghc/issues/8646)
 - [\#7602](https://gitlab.haskell.org//ghc/ghc/issues/7602) - OS X 10.8 seemed OK with Austin's patch, but OS X 10.9 needs investigation
 
 ## RC Checklist
@@ -32,7 +31,7 @@ Things tested:
 <th>**OK**</th>
 <th>**OK**</th>
 <th>**OK**</th>
-<th>Probably **OK**\[2\]</th>
+<th>**OK**</th>
 <th>**OK**</th>
 <th>**OK**</th>
 <th>**OK**</th></tr>
@@ -40,26 +39,25 @@ Things tested:
 <th>In progress\[1\]</th>
 <th>**OK**</th>
 <th>**OK**</th>
-<th>Probably **OK**</th>
-<th>**NOT OK**\[3\]\[4\]</th>
+<th>**OK**</th>
+<th>**NOT OK**\[2\]\[3\]</th>
 <th>**OK**\[1\]</th>
-<th>**OK**\[5\]
+<th>**OK**\[4\]
 </th></tr>
 <tr><th>bootstrap </th>
 <th>In progress</th>
 <th>**OK**</th>
 <th>**OK**</th>
-<th>Probably **OK**</th>
+<th>**OK**</th>
 <th>In progress</th>
 <th>**OK**</th>
-<th>In progress\[5\]
+<th>In progress\[4\]
 </th></tr></table>
 
 - \[1\] The testsuite performance numbers need to be updated for 32 bit platforms.
-- \[2\] Austin has not directly tested 10.8 yet, but he speculates it is OK based on the 10.7 and preliminary 10.9 results.
-- \[3\] Mavericks was tested using **Clang**, and there are some `make fast` failures (mostly minor driver related things, but not critical.)
-- \[4\] Austin is hitting a `validation` error while building `xhtml`, which might be due to some interaction with the new Haddock. Otherwise, the compiler builds fine and the testsuite works.
-- \[5\] Some of Herbert's latest patches to `integer-gmp` seem to have broke the 64bit build and need to be re-investigated, but once reverted the build goes smoothly.
+- \[2\] Mavericks was tested using **Clang**, and there are some `make fast` failures (mostly minor driver related things, but not critical.)
+- \[3\] Austin is hitting a `validation` error while building `xhtml`, which might be due to some interaction with the new Haddock. Otherwise, the compiler builds fine and the testsuite works.
+- \[4\] Some of Herbert's latest patches to `integer-gmp` seem to have broke the 64bit build and need to be re-investigated, but once reverted the build goes smoothly.
 
 ## The Dynamic Story
 
@@ -81,7 +79,7 @@ The dynamic story is complex. Here's the breakdown:
 <th>**YES**</th>
 <th>**NO**\[1\]</th>
 <th>**YES**</th>
-<th>Probably **YES**\[2\]</th>
+<th>**YES**</th>
 <th>**YES**</th>
 <th>**NO**</th>
 <th>**NO**</th></tr>
@@ -90,7 +88,7 @@ The dynamic story is complex. Here's the breakdown:
 <th>**YES**</th>
 <th>**YES**</th>
 <th>**YES**</th>
-<th>Probably **YES**</th>
+<th>**YES**</th>
 <th>**YES**</th>
 <th>**NO**</th>
 <th>**NO**</th></tr>
@@ -99,16 +97,12 @@ The dynamic story is complex. Here's the breakdown:
 <th>**YES**</th>
 <th>**YES**</th>
 <th>**YES**</th>
-<th>Probably **YES**</th>
+<th>**YES**</th>
 <th>**YES**</th>
 <th>**NO**</th>
 <th>**NO**</th></tr></table>
 
 - \[1\] Dynamic GHCi is disabled due to a bug in FreeBSD's rtld, but we're waiting for it to make it into a release.
-- \[2\] Austin has not tested 10.8 yet, but he speculates it is OK based on the 10.7 and preliminary 10.9 results.
-
-
-Where:
 
 - **Dynamic GHCi**: 
 
@@ -139,5 +133,3 @@ Where:
 ## Other things
 
 - Austin Seipp needs to upload the primops compatibility package for 7.8. This is is easy: mostly a copy of `compiler/utils/ExtsCompat64.hs` into a Cabal package. See also [ the compatibility module page](http://www.haskell.org/haskellwiki/Compatibility_Modules).
-
-- `terminfo` needs to be updated temporarily to accomodate an AMP warning fix. With that fixed, the compiler can successfully bootstrap itself from a binary distribution without much issue.
