@@ -32,7 +32,7 @@ Things tested:
 <th>**OK**</th>
 <th>**OK**</th>
 <th>**OK**</th>
-<th>Probably **OK**\[2\]</th>
+<th>**OK**\[2\]</th>
 <th>**OK**</th>
 <th>**OK**</th>
 <th>**OK**</th></tr>
@@ -40,7 +40,7 @@ Things tested:
 <th>In progress\[1\]</th>
 <th>**OK**</th>
 <th>**OK**</th>
-<th>Probably **OK**</th>
+<th>**OK**</th>
 <th>**NOT OK**\[3\]\[4\]</th>
 <th>**OK**\[1\]</th>
 <th>**OK**\[5\]
@@ -49,7 +49,7 @@ Things tested:
 <th>In progress</th>
 <th>**OK**</th>
 <th>**OK**</th>
-<th>Probably **OK**</th>
+<th>**OK**</th>
 <th>In progress</th>
 <th>**OK**</th>
 <th>In progress\[5\]
@@ -81,7 +81,7 @@ The dynamic story is complex. Here's the breakdown:
 <th>**YES**</th>
 <th>**NO**\[1\]</th>
 <th>**YES**</th>
-<th>Probably **YES**\[2\]</th>
+<th>**YES**\[2\]</th>
 <th>**YES**</th>
 <th>**NO**</th>
 <th>**NO**</th></tr>
@@ -90,7 +90,7 @@ The dynamic story is complex. Here's the breakdown:
 <th>**YES**</th>
 <th>**YES**</th>
 <th>**YES**</th>
-<th>Probably **YES**</th>
+<th>**YES**</th>
 <th>**YES**</th>
 <th>**NO**</th>
 <th>**NO**</th></tr>
@@ -99,7 +99,7 @@ The dynamic story is complex. Here's the breakdown:
 <th>**YES**</th>
 <th>**YES**</th>
 <th>**YES**</th>
-<th>Probably **YES**</th>
+<th>**YES**</th>
 <th>**YES**</th>
 <th>**NO**</th>
 <th>**NO**</th></tr></table>
