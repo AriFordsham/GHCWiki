@@ -33,13 +33,11 @@ Things tested:
 The dynamic story is complex. Here's the breakdown:
 
 ||              ||Linux (i386)||Linux (x86_64)||FreeBSD||OS X 10.7 (x86_64)||OS X 10.8 (x86_64)||OS X 10.9 (x86_64)||Windows i386||Windows x86_64||
-||Dynamic GHCi  ||**YES**||**YES**||**NO**![1]||**YES**||**YES**![2]||**YES**||**NO**||**NO**||
+||Dynamic GHCi  ||**YES**||**YES**||**NO**![1]||**YES**||**YES**||**YES**||**NO**||**NO**||
 ||`-dynamic-too`||**YES**||**YES**||**YES**||**YES**||**YES**||**YES**||**NO**||**NO**||
 ||`-dynamic`    ||**YES**||**YES**||**YES**||**YES**||**YES**||**YES**||**NO**||**NO**||
 
  * ![1] Dynamic GHCi is disabled due to a bug in FreeBSD's rtld, but we're waiting for it to make it into a release.
- * ![2] Austin has not tested 10.8 yet, but he speculates it is OK based on the 10.7 and preliminary 10.9 results.
-Where:
 
  * **Dynamic GHCi**: 
    * YES: `ghci` uses the system linker to link `.so` or `.dll` dynamic libraries, to avoid linker bugs. This is controlled by `DYNAMIC_GHC_PROGRAMS=YES`.
