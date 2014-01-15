@@ -53,6 +53,7 @@ And here a summary of the problems identified, and solution attempts
  * CPR kill join-points, because the wrapper does not completely cancel with anything else.
    - Detecting join-points at the position of its binding is not enough.
  * A recursive function can have a CPR-beneficial recursive call that makes CPR worthwhile, even if it does not help at the initial call. But it is also not unlikely that the recursive call is a tail-call, and CPR-ing has zero effect on that. Then it all depends on the external call.
+ * With sum types, CPR is much less often useful. And indeed, nesting CPR information inside sum-type-constructors has only negative effect (-0.0%/+0.0%/+0.4%).
 
 === Converges detection ===
 
@@ -102,13 +103,8 @@ Might also help. Need to see if his branch can be merged onto master. (But I lik
 
 === Side tracks ===
 
- * Can we use `Converges` CPR information to eagerly evaluate thunks? Yes, and there is a small gain there: #8655.
-  * Do it in Core to STG!
-  * But why no allocation change? Understand this better!
-  * Can we statically and/or dynamically count the number of thunks, and the number of CBV’ed thunks?
-    * Statically: Add debug statements
-    * Dynamically: Look for decrease in thunk allocations in ticky.
- * Can we use `Converges` in `exprOkForSpeculation`?
+ * Use `Converges` in `exprOkForSpeculation`: Mostly done, see [ticket:8655#comment:8].
+   * I should get dynamic numbers, but given the static ones I doubt that these are worth collecting.
  * Why is `cacheprof` not deterministic? (→ #8611)
  * What became of Simon’s better-ho-cardinality branch? See [./better-ho-cardinality].
  * Try vtunes to get better numbers.
