@@ -132,3 +132,21 @@ Might also help. Need to see if his branch can be merged onto master. (But I lik
 - Why is `cacheprof` not deterministic? (→ [\#8611](https://gitlab.haskell.org//ghc/ghc/issues/8611))
 - What became of Simon’s better-ho-cardinality branch? See [better-ho-cardinality](nested-cpr/better-ho-cardinality).
 - Try vtunes to get better numbers.
+
+#### Use Converges in exprOkForSpeculation
+
+
+The flag `Converges` has just about the same meaning as `exprOkForSpeculation`, so we can improve the latter by using the former.
+
+
+Effect on nofib is minuscule: `-0.1%` allocations for `fluid`, no other change in allocations.
+
+
+In `fluid` there are thunks calling `read_n_val`, which has a definition of `(.. ,...)`. CPR turns that in to (\# ..., ... \#). So currently, we are allocating a thunk for the worker of `read_n_val`, which when called will allocate a `(..,..)`, which later is taken apart by yet another two thunks `fst ..` and `snd ..`. After using the `Converges` flag, we immediately call `$wread_n_val`, which returns quickly after allocating two thunks. This also saves the thunks for `fst ..` and `snd ..`.
+
+
+But: This already happens not in CorePrep, but in `Float out`. It seems that the call form `lvlCase` makes the difference, as the levels differ and later evaluation is moved out of a `(#..,..#)` construct.
+
+TODO
+
+- Get static numbers: How many things are ok for speculation before, how many afterwards
