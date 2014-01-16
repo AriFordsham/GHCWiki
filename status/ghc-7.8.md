@@ -16,7 +16,7 @@ Things tested:
 
 - Builds cleanly
 - `validate` runs OK
-- The compiler can bootstrap itself and `validate` from a binary distribution
+- The compiler can bootstrap itself and the testsuite is the same.
 
 <table><tr><th></th>
 <th>Linux (i386)</th>
@@ -49,7 +49,7 @@ Things tested:
 <th>**OK**</th>
 <th>**OK**</th>
 <th>**OK**</th>
-<th>In progress</th>
+<th>**OK**</th>
 <th>**OK**</th>
 <th>In progress\[4\]
 </th></tr></table>
