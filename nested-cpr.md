@@ -15,11 +15,6 @@ Tickets with example of code that would benefit from nested CRP:
 
 - [\#1600](https://gitlab.haskell.org//ghc/ghc/issues/1600), [\#2289](https://gitlab.haskell.org//ghc/ghc/issues/2289), [\#2387](https://gitlab.haskell.org//ghc/ghc/issues/2387) (see [below](nested-cpr#motivating-examples) for an analysis)
 
-
-Other tickets that I should look into again:
-
-- [\#8569](https://gitlab.haskell.org//ghc/ghc/issues/8569)
-
 ### Related testcases
 
 - Everything in [source:testsuite/tests/stranal/sigs/](/trac/ghc/browser/testsuite/tests/stranal/sigs)
@@ -132,3 +127,8 @@ Might also help. Need to see if his branch can be merged onto master. (But I lik
 - Why is `cacheprof` not deterministic? (→ [\#8611](https://gitlab.haskell.org//ghc/ghc/issues/8611))
 - What became of Simon’s better-ho-cardinality branch? See [better-ho-cardinality](nested-cpr/better-ho-cardinality).
 - Try vtunes to get better numbers.
+- Implement [\#2110](https://gitlab.haskell.org//ghc/ghc/issues/2110)
+- Make worker-wrapper unbox data families: [\#7619](https://gitlab.haskell.org//ghc/ghc/issues/7619)
+- Make foldl into a good consumer: [\#7994](https://gitlab.haskell.org//ghc/ghc/issues/7994)
+- Experiment with aggressive CSE: [\#7596](https://gitlab.haskell.org//ghc/ghc/issues/7596)
+- See how often the demand on a function is better than its vanilla demand ([\#6070](https://gitlab.haskell.org//ghc/ghc/issues/6070))
