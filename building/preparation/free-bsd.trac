@@ -11,7 +11,7 @@ Building GHC on FreeBSD is currently supported on {{{8.4-RELEASE}}} or later, on
 
 In order to be able to build GHC from source, the following ports have to be installed.
 
- * [http://www.freshports.org/converters/libiconv/ converters/libiconv] (GNU libiconv)
+ * [http://www.freshports.org/converters/libiconv/ converters/libiconv] (GNU libiconv, versions before 10.0 only)
  * [http://www.freshports.org/devel/autoconf devel/autoconf] (GNU Autoconf)
  * [http://www.freshports.org/devel/automake devel/automake] (GNU Automake)
  * [http://www.freshports.org/devel/git devel/git] (for getting and managing the GHC sources)
@@ -49,8 +49,13 @@ FreeBSD stores locally installed third-party software (i.e. the ports mentioned 
 
 {{{
 $ ./configure \
-  --with-iconv-includes=$LOCALBASE/include --with-iconv-libraries=$LOCALBASE/lib \
   --with-gmp-includes=$LOCALBASE/include   --with-gmp-libraries=$LOCALBASE/lib
+}}}
+
+On systems earlier than {{{10.0-RELEASE}}}, one has to configure {{{iconv(3)}}} as well.  For {{{10.0-RELEASE}}} and later, {{{iconv(3)}}} functions are part of the base system libraries, so these flags is not needed any more.
+
+{{{
+  --with-iconv-includes=$LOCALBASE/include --with-iconv-libraries=$LOCALBASE/lib \
 }}}
 
 To use a more recent GCC (this is `gcc46` here) and GNU toolchain from the Ports Collection, it should be added as well:
