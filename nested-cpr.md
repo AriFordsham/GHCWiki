@@ -23,11 +23,8 @@ Tickets with example of code that would benefit from nested CRP:
 
 - Paper-Writeup of CPR
 - Shouldn’t nested CPR help a lot with Complex-heavy code? Is there something in nofib?
-- Which of the existing CPR tickets are solved right now?
-- Use ticky-profiling to learn more about the effects of nested CPR.
 - Look at DmdAnal-related [Status/SLPJ-Tickets](status/slpj-tickets) and see which ones are affected by nested-cpr.
 - Do not destroy join points or improve the code genrator (see below).
-- Can we make sure more stuff gets the `Converging` flag, e.g. after a `case` of an unboxed value? Should case binders get the `Converging` flag? What about pattern match variables in strict data constructors? Unboxed values? See below.
 
 ### DONEs
 
