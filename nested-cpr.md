@@ -30,7 +30,7 @@ Tickets with example of code that would benefit from nested CRP:
 
 - Try passing CPR information from the scrunitee to the pattern variables. For that: Reverse flow of analysis for complex scrunitees (for simple, we want the demand coming from the body, for complex, this is not so important.)
 
-  - Done, and relevant: Deactivating gives +11% in wave4main, a few \<+1% and no gains.
+  - Done. Mostly no change besides `-0.9` in `compress2`. Maybe worth removing.
 
 ### Motivating examples
 
@@ -127,5 +127,7 @@ Might also help. Need to see if his branch can be merged onto master. (But I lik
 - Implement [\#2110](https://gitlab.haskell.org//ghc/ghc/issues/2110)
 - Make worker-wrapper unbox data families: [\#7619](https://gitlab.haskell.org//ghc/ghc/issues/7619)
 - Make foldl into a good consumer: [\#7994](https://gitlab.haskell.org//ghc/ghc/issues/7994)
+
+  - Ideas: [DmdAnalIdeas](nested-cpr/dmd-anal-ideas)
+  - Related: See how often the demand on a function is better than its vanilla demand ([\#6070](https://gitlab.haskell.org//ghc/ghc/issues/6070))
 - Experiment with aggressive CSE: [\#7596](https://gitlab.haskell.org//ghc/ghc/issues/7596)
-- See how often the demand on a function is better than its vanilla demand ([\#6070](https://gitlab.haskell.org//ghc/ghc/issues/6070))
