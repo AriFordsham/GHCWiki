@@ -108,5 +108,6 @@ Might also help. Need to see if his branch can be merged onto master. (But I lik
  * Implement #2110
  * Make worker-wrapper unbox data families: #7619
  * Make foldl into a good consumer: #7994
+   * Ideas: [./DmdAnalIdeas]
+   * Related: See how often the demand on a function is better than its vanilla demand (#6070)
  * Experiment with aggressive CSE: #7596
- * See how often the demand on a function is better than its vanilla demand (#6070)

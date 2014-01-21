@@ -127,5 +127,7 @@ Might also help. Need to see if his branch can be merged onto master. (But I lik
 - Implement [\#2110](https://gitlab.haskell.org//ghc/ghc/issues/2110)
 - Make worker-wrapper unbox data families: [\#7619](https://gitlab.haskell.org//ghc/ghc/issues/7619)
 - Make foldl into a good consumer: [\#7994](https://gitlab.haskell.org//ghc/ghc/issues/7994)
+
+  - Ideas: [DmdAnalIdeas](nested-cpr/dmd-anal-ideas)
+  - Related: See how often the demand on a function is better than its vanilla demand ([\#6070](https://gitlab.haskell.org//ghc/ghc/issues/6070))
 - Experiment with aggressive CSE: [\#7596](https://gitlab.haskell.org//ghc/ghc/issues/7596)
-- See how often the demand on a function is better than its vanilla demand ([\#6070](https://gitlab.haskell.org//ghc/ghc/issues/6070))
