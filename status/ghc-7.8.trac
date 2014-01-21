@@ -25,7 +25,6 @@ Things tested:
  * ![1] The testsuite performance numbers need to be updated for 32 bit platforms.
  * ![2] Mavericks was tested using **Clang**, and there are some `make fast` failures (mostly minor driver related things, but not critical.)
  * ![3] Austin is hitting a `validation` error while building `xhtml`, which might be due to some interaction with the new Haddock. Otherwise, the compiler builds fine and the testsuite works.
- * ![4] Some of Herbert's latest patches to `integer-gmp` seem to have broke the 64bit build and need to be re-investigated, but once reverted the build goes smoothly.
 
 == The Dynamic Story ==
 
