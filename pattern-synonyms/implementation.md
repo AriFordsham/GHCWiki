@@ -24,7 +24,7 @@ it to reject as-patterns and optionally compute the reverse of the
 pattern synonym (for implicitly bidirectional ones). Afterwards, we
 collect universal & existential type variables and typeclass dictionary
 variables to be used when creating `ConPatOut` patterns from pattern
-synonym occurences, and generate some `HsBind`s:
+synonym occurrences, and generate some `HsBind`s:
 
 - The `PatSyn` stores typing information for the pattern synonym, to
   be consulted when typechecking pattern synonym usage sites.
@@ -39,7 +39,7 @@ synonym occurences, and generate some `HsBind`s:
   constructor wrapper.
 
 
-Pattern synonym occurances in patterns are turned into `ConPatOut`s
+Pattern synonym occurrences in patterns are turned into `ConPatOut`s
 just like regular constructor matches. `ConPatOut` has been changed to
 store a `ConLike` instead of a `DataCon`; the `ConLike` type is simply
 the sum of `DataCon` and `PatSyn`.
@@ -95,7 +95,7 @@ $mPat scrutinee pass fail = case scrutinee of
 ```
 
 
-Occurances of pattern synonyms are then desugared into calls to this
+Occurrences of pattern synonyms are then desugared into calls to this
 matcher function. This allows pattern synonym definitions to be just
 as opaque as function definitions: their type defines their interface
 completely. This gives us a story for exporting pattern synonym
