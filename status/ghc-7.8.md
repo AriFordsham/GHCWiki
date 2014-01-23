@@ -76,7 +76,7 @@ The dynamic story is complex. Here's the breakdown:
 <tr><th>Dynamic GHCi  </th>
 <th>**YES**</th>
 <th>**YES**</th>
-<th>**NO**\[1\]</th>
+<th>**YES**</th>
 <th>**YES**</th>
 <th>**YES**</th>
 <th>**YES**</th>
@@ -100,8 +100,6 @@ The dynamic story is complex. Here's the breakdown:
 <th>**YES**</th>
 <th>**NO**</th>
 <th>**NO**</th></tr></table>
-
-- \[1\] Dynamic GHCi is disabled due to a bug in FreeBSD's rtld, but we're waiting for it to make it into a release.
 
 - **Dynamic GHCi**: 
 
