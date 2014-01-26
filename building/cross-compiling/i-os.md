@@ -44,7 +44,7 @@ Check out as described at [Building and Porting GHC](building), except:
 ```wiki
 ./sync-all --no-dph get
 rm libffi-tarballs/libffi-3.0.11.tar.gz
-wget https://github.com/ghc-ios/libffi-tarballs/blob/master/libffi-3.0.13z.tar.gz?raw=true -O libffi-tarballs/libffi-3.0.13z.tar.gz
+wget https://github.com/ghc-ios/libffi-tarballs/blob/master/libffi-3.0.14.tar.gz?raw=true -O libffi-tarballs/libffi-3.0.14.tar.gz
 perl boot
 ```
 
@@ -56,6 +56,16 @@ GHC requires you to write a **mk/build.mk** file — we've integrated the corre
 ```wiki
 BuildFlavour  = quick-cross
 ```
+
+
+for a faster build without profiling support, or
+
+```wiki
+BuildFlavour  = perf-cross
+```
+
+
+(requires [ https://ghc.haskell.org/trac/ghc/ticket/8700](https://ghc.haskell.org/trac/ghc/ticket/8700))
 
 ### 5. Configure & build
 
@@ -103,7 +113,7 @@ arm-apple-darwin10-cabal install text
 ```
 
 
-If you get errors like "Could not find module Prelude" when installing cabal packages, you probably have cabal's library profiling option on, which our compilation instructions don't enable for GHC's libraries.
+If you get errors like "Could not find module Prelude" when installing cabal packages, you probably have cabal's library profiling option on, which the quick-cross BuildFlavour above doesn't support.
 You can either disable it by setting
 
 ```wiki
@@ -116,6 +126,9 @@ in your `~/.cabal/config` file, or by passing the `--disable-library-profiling` 
 ```wiki
 i386-apple-darwin11-cabal install text --disable-library-profiling
 ```
+
+
+or rebuild using the perf-cross BuildFlavour from Step 4.
 
 ### 7. Make sure hsc2hs is new enough
 
