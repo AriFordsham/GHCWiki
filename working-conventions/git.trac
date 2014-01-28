@@ -22,7 +22,7 @@ Existing darcs users see: [wiki:GitForDarcsUsers Git For Darcs Users]. If you ha
 
  * Discuss anything you think might be controversial before pushing it.
 
- * When making changes to other repositories in a GHC tree, see [wiki:Repositories].
+ * When making changes to other repositories in a GHC tree, see [wiki:/Repositories] and [wiki:/Repositories/Upstream].
 
 == Author ==
 
