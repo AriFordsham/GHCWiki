@@ -4,6 +4,9 @@ This proposal provides the same power for patterns.
 
 See the [wiki:PatternSynonyms/Implementation implementation] page for implementation details.
 
+Relevant closed tickets:
+ * #5144 (Pattern synonyms [https://github.com/ghc/ghc/commit/4f8369bf47d27b11415db251e816ef1a2e1eb3d8 merged into master] on 20 January 2014)
+
 Relevant open tickets:
  * #8581
  * #8582

@@ -8,6 +8,11 @@ This proposal provides the same power for patterns.
 See the [implementation](pattern-synonyms/implementation) page for implementation details.
 
 
+Relevant closed tickets:
+
+- [\#5144](https://gitlab.haskell.org//ghc/ghc/issues/5144) (Pattern synonyms [ merged into master](https://github.com/ghc/ghc/commit/4f8369bf47d27b11415db251e816ef1a2e1eb3d8) on 20 January 2014)
+
+
 Relevant open tickets:
 
 - [\#8581](https://gitlab.haskell.org//ghc/ghc/issues/8581)
