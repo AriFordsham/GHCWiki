@@ -34,6 +34,9 @@ Extract the GHC binary somewhere like **C:\\msys64\\ghc-7.6.3**
 
 Launch the shell with **C:\\msys64\\mingw64_shell.bat**
 
+
+Note: You cannot use the GHC binary that comes with Haskell Platform 2013.2.0.0 or earlier, because it is 32-bit!
+
 ## Download python
 
 
