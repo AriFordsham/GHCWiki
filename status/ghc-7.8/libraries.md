@@ -2,8 +2,6 @@
 
 TODO Update [Version History](commentary/libraries/version-history) when GHC 7.8 release reaches RC phase.
 
-TODO Hackage needs to be updated to use Cabal 1.18.x
-
 ## GHC-owned Libraries
 
 
@@ -11,6 +9,7 @@ Common tasks:
 
 - TODO clean-up `.cabal` files
 - TODO add changelogs
+- TODO add `/Since: x.y.z/` annotations
 
 ### [ array](http://hackage.haskell.org/package/array)
 
@@ -302,6 +301,8 @@ Common tasks:
   moduleControl.Concurrent.Chan{-# DEPRECATED unGetChan "if you need this operation, use Control.Concurrent.STM.TChan instead.  See http://hackage.haskell.org/trac/ghc/ticket/4154 for details" #-}-- deprecated in 7.0{-# DEPRECATED isEmptyChan "if you need this operation, use Control.Concurrent.STM.TChan instead. See http://hackage.haskell.org/trac/ghc/ticket/4154 for details" #-}-- deprecated in 7.0moduleData.Typeable.Internal{-# DEPRECATED tyConString "renamed to tyConName; tyConModule and tyConPackage are also available." #-}-- deprecated in 7.4moduleDebug.Trace{-# DEPRECATED putTraceMsg "Use Debug.Trace.traceIO" #-}-- deprecated in 7.4moduleGHC.Exts{-# DEPRECATED traceEvent "Use Debug.Trace.traceEvent or Debug.Trace.traceEventIO" #-}-- deprecated in 7.4
   ```
 
+- TODO upload a non-candidate to hackage at latest when GHC 7.8.1 is released
+
 ### [ deepseq](http://hackage.haskell.org/package/deepseq)
 
 [](https://travis-ci.org/ghc/packages-deepseq)
@@ -337,7 +338,7 @@ Common tasks:
 
 ### [ ghc-prim](http://hackage.haskell.org/package/ghc-prim)
 
-TODO
+- TODO upload a non-candidate to hackage at latest when GHC 7.8.1 is released
 
 ### [ haskell2010](http://hackage.haskell.org/package/haskell2010)
 
@@ -357,6 +358,7 @@ TODO
 <th></th></tr></table>
 
 - ready for release
+- TODO upload a non-candidate to hackage at latest when GHC 7.8.1 is released
 
 ### [ haskell98](http://hackage.haskell.org/package/haskell98)
 
@@ -376,6 +378,7 @@ TODO
 <th></th></tr></table>
 
 - ready for release
+- TODO upload a non-candidate to hackage at latest when GHC 7.8.1 is released
 
 ### [ hoopl](http://hackage.haskell.org/package/hoopl)
 
@@ -785,16 +788,20 @@ TODO
 [](https://travis-ci.org/ghc/packages-hpc)
 
 - ready for release 
+- TODO upload a non-candidate to hackage at latest when GHC 7.8.1 is released
 
 ### [ integer-gmp](http://hackage.haskell.org/package/integer-gmp)
 
-- not yet on Hackage, but planned to upload in order to have Haddock docs there
+- Candidate is on Hackage
+
+- TODO upload a non-candidate to hackage at latest when GHC 7.8.1 is released
 
 ### [ old-locale](http://hackage.haskell.org/package/old-locale)
 
 [](https://travis-ci.org/ghc/packages-old-locale)
 
 - ready for release
+- TODO upload a non-candidate to hackage at latest when GHC 7.8.1 is released
 
 ### [ old-time](http://hackage.haskell.org/package/old-time)
 
@@ -814,6 +821,7 @@ TODO
 <th></th></tr></table>
 
 - ready for release
+- TODO upload a non-candidate to hackage at latest when GHC 7.8.1 is released
 
 ### [ parallel](http://hackage.haskell.org/package/parallel)
 
@@ -920,12 +928,12 @@ Note: Libraries with a "<sup>1</sup>" marker are used internally (e.g. by `ghci`
 ### Cabal
 
 - upstream: [ http://github.com/haskell/cabal.git](http://github.com/haskell/cabal.git)
-- synced up cleanly to final [ Cabal-1.18.1](http://hackage.haskell.org/package/Cabal-1.18.1) release [\[2fbfa11c/ghc\]](/trac/ghc/changeset/2fbfa11c/ghc)
+- TODO ell Johan when to cut Cabal-1.18.1.3 release
 
 ### Win32
 
 - upstream: [ http://github.com/haskell/win32.git](http://github.com/haskell/win32.git)
-- TODO version bump needed!
+- TODO upstream needs to cut release
 
 ### binary
 
@@ -940,7 +948,7 @@ Note: Libraries with a "<sup>1</sup>" marker are used internally (e.g. by `ghci`
 ### containers
 
 - upstream: [ http://github.com/haskell/containers.git](http://github.com/haskell/containers.git)
-- synced up cleanly to [ containers-0.5.3.1](http://hackage.haskell.org/package/containers-0.5.3.1) release \[8a8cfb2/ghc\]
+- synced up cleanly to [ containers-0.5.4.0](http://hackage.haskell.org/package/containers-0.5.4.0) release
 - TODO AMP-warning fix pending (maybe)
 
 ### haskeline<sup>1</sup>
@@ -950,8 +958,7 @@ Note: Libraries with a "<sup>1</sup>" marker are used internally (e.g. by `ghci`
 - contacted maintainer on 31.8. wrt to unmerged patches; will merge as soon as his dev machine has been repaired
 - patches have been merged upstream
 - New Haskeline GitHub repo at [ https://github.com/judah/haskeline.git](https://github.com/judah/haskeline.git)
-- Judah will make Haskeline release to match what GHC 7.8.1 final ships with
-- TODO find out if we need more fixes for GHC 7.8.1 final
+- synced up to [ haskeline-0.7.1.2](http://hackage.haskell.org/package/haskeline-0.7.1.2)
 
 ### pretty
 
@@ -979,7 +986,7 @@ Note: Libraries with a "<sup>1</sup>" marker are used internally (e.g. by `ghci`
 - Jan is working on patches to integrate the new bool primops
 - upstream repo moved to [ https://github.com/haskell/primitive](https://github.com/haskell/primitive)
 - synced up to `v0.5.1.0` + patches [\[5e2f145a37/ghc\]](/trac/ghc/changeset/5e2f145a37/ghc)
-- TODO proper `0.5.1.1` release pending
+- TODO proper `0.5.2.0` release pending
 
 ### random<sup>2</sup>
 
@@ -988,7 +995,7 @@ Note: Libraries with a "<sup>1</sup>" marker are used internally (e.g. by `ghci`
 ### terminfo<sup>1</sup>
 
 - upstream: [ http://git.haskell.org/darcs-mirrors/terminfo.git](http://git.haskell.org/darcs-mirrors/terminfo.git)
-- synced up to [ terminfo-0.3.2.6](http://hackage.haskell.org/package/terminfo-0.3.2.6)[\[9642716f30/ghc\]](/trac/ghc/changeset/9642716f30/ghc)
+- synced up to [ terminfo-0.4.0.0](http://hackage.haskell.org/package/terminfo-0.4.0.0)[\[9642716f30/ghc\]](/trac/ghc/changeset/9642716f30/ghc)
 
 ### time
 

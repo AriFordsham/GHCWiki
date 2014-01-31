@@ -4,14 +4,13 @@
 
 TODO: Update [Commentary/Libraries/VersionHistory Version History] when GHC 7.8 release reaches RC phase.
 
-TODO: Hackage needs to be updated to use Cabal 1.18.x
-
 == GHC-owned Libraries ==
 
 Common tasks:
 
  - TODO: clean-up `.cabal` files
  - TODO: add changelogs
+ - TODO: add `/Since: x.y.z/` annotations
 
 === [hackage:array] ===
 
@@ -43,6 +42,8 @@ module GHC.Exts
 
 }}}
 
+ - TODO: upload a non-candidate to hackage at latest when GHC 7.8.1 is released
+
 === [hackage:deepseq] ===
 
 [[Image(https://travis-ci.org/ghc/packages-deepseq.png?branch=master,link=https://travis-ci.org/ghc/packages-deepseq)]]
@@ -65,19 +66,21 @@ module GHC.Exts
 
 === [hackage:ghc-prim] ===
 
-TODO
+ - TODO: upload a non-candidate to hackage at latest when GHC 7.8.1 is released
 
 === [hackage:haskell2010] ===
 
 [[TicketQuery(status!=closed,component=libraries/haskell2010,format=table,col=type|summary|priority|owner|reporter)]]
 
  - ready for release
+ - TODO: upload a non-candidate to hackage at latest when GHC 7.8.1 is released
 
 === [hackage:haskell98] ===
 
 [[TicketQuery(status!=closed,component=libraries/haskell98,format=table,col=type|summary|priority|owner|reporter)]]
 
  - ready for release
+ - TODO: upload a non-candidate to hackage at latest when GHC 7.8.1 is released
 
 === [hackage:hoopl] ===
 
@@ -92,22 +95,27 @@ TODO
 [[Image(https://travis-ci.org/ghc/packages-hpc.png?branch=master,link=https://travis-ci.org/ghc/packages-hpc)]]
 
  - ready for release 
+ - TODO: upload a non-candidate to hackage at latest when GHC 7.8.1 is released
 
 === [hackage:integer-gmp] ===
 
- - not yet on Hackage, but planned to upload in order to have Haddock docs there
+ - Candidate is on Hackage
+
+ - TODO: upload a non-candidate to hackage at latest when GHC 7.8.1 is released
 
 === [hackage:old-locale] ===
 
 [[Image(https://travis-ci.org/ghc/packages-old-locale.png?branch=master,link=https://travis-ci.org/ghc/packages-old-locale)]]
 
  - ready for release
+ - TODO: upload a non-candidate to hackage at latest when GHC 7.8.1 is released
 
 === [hackage:old-time] ===
 
 [[TicketQuery(status!=closed,component=libraries/old-time,format=table,col=type|summary|priority|owner|reporter)]]
 
  - ready for release
+ - TODO: upload a non-candidate to hackage at latest when GHC 7.8.1 is released
 
 === [hackage:parallel] ===
 
@@ -183,12 +191,12 @@ Note: Libraries with a "^1^" marker are used internally (e.g. by `ghci` or `hadd
 === Cabal ===
 
  - upstream: http://github.com/haskell/cabal.git
- - synced up cleanly to final [hackage:Cabal-1.18.1] release [2fbfa11c/ghc]
+ - TODO: ell Johan when to cut Cabal-1.18.1.3 release
 
 === Win32 ===
 
  - upstream: http://github.com/haskell/win32.git
- - TODO: version bump needed!
+ - TODO: upstream needs to cut release
 
 === binary ===
 
@@ -203,7 +211,7 @@ Note: Libraries with a "^1^" marker are used internally (e.g. by `ghci` or `hadd
 === containers ===
 
  - upstream: http://github.com/haskell/containers.git
- - synced up cleanly to [hackage:containers-0.5.3.1] release [8a8cfb2/ghc]
+ - synced up cleanly to [hackage:containers-0.5.4.0] release
  - TODO: AMP-warning fix pending (maybe)
 
 === haskeline^1^ ===
@@ -213,8 +221,7 @@ Note: Libraries with a "^1^" marker are used internally (e.g. by `ghci` or `hadd
  - contacted maintainer on 31.8. wrt to unmerged patches; will merge as soon as his dev machine has been repaired
  - patches have been merged upstream
  - New Haskeline GitHub repo at https://github.com/judah/haskeline.git
- - Judah will make Haskeline release to match what GHC 7.8.1 final ships with
- - TODO find out if we need more fixes for GHC 7.8.1 final
+ - synced up to [hackage:haskeline-0.7.1.2]
 
 === pretty ===
 
@@ -229,7 +236,7 @@ Note: Libraries with a "^1^" marker are used internally (e.g. by `ghci` or `hadd
  - Jan is working on patches to integrate the new bool primops
  - upstream repo moved to https://github.com/haskell/primitive
  - synced up to `v0.5.1.0` + patches [5e2f145a37/ghc]
- - TODO: proper `0.5.1.1` release pending
+ - TODO: proper `0.5.2.0` release pending
 
 === random^2^ ===
 
@@ -238,7 +245,7 @@ Note: Libraries with a "^1^" marker are used internally (e.g. by `ghci` or `hadd
 === terminfo^1^ ===
 
  - upstream: http://git.haskell.org/darcs-mirrors/terminfo.git
- - synced up to [hackage:terminfo-0.3.2.6] [9642716f30/ghc]
+ - synced up to [hackage:terminfo-0.4.0.0] [9642716f30/ghc]
 
 === time ===
 
