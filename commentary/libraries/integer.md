@@ -20,37 +20,8 @@ The other implementation currently available is `integer-simple`, which uses a s
 All Integer implementations should export the same set of types and functions from `GHC.Integer` (within whatever `integer` package you are using). These exports are used by the `base` package However, all of these types and functions must actually be defined in `GHC.Integer.Type`, so that GHC knows where to find them.
 Specifically, the interface is this:
 
-```wiki
-  data Integer 
-
-  mkInteger :: Bool -- True <=> non-negative
-          -> [Int]  -- Absolute value in 31 bit chunks, least significant first
-                    -- ideally these would be Words rather than Ints, but
-                    -- we don't have Word available at the moment.
-          -> Integer
-    
-  smallInteger  :: Int# -> Integer
-  integerToInt  :: Integer -> Int#
- 
-  wordToInteger :: Word# -> Integer
-  integerToWord :: Integer -> Word#
-
-  -- And similarly for Int64#, Word64# on 64-bit
-
-  floatFromInteger  :: Integer -> Float#
-  decodeFloatInteger :: Float# -> (# Integer, Int# #)
-  encodeFloatInteger :: Integer -> Int# -> Float#
-
-  -- And similarly Double
-
-  plusInteger :: Integer -> Integer -> Integer
-  -- And similarly: minusInteger, timesInteger, negateInteger,
-  -- eqInteger, neqInteger, absInteger, signumInteger,
-  --  leInteger, gtInteger, ltInteger, geInteger, compareInteger,
-  --  divModInteger, quotRemInteger, quotInteger, remInteger,
-  --  andInteger, orInteger, xorInteger, complementInteger,
-  --  shiftLInteger, shiftRInteger,
-  --  hashInteger,
+```
+dataIntegermkInteger::Bool-- True <=> non-negative->[Int]-- Absolute value in 31 bit chunks, least significant first-- ideally these would be Words rather than Ints, but-- we don't have Word available at the moment. (why?)->IntegersmallInteger::Int#->IntegerintegerToInt::Integer->Int#wordToInteger::Word#->IntegerintegerToWord::Integer->Word#-- And similarly for Int64#, Word64# on 64-bitfloatFromInteger::Integer->Float#decodeFloatInteger::Float#->(#Integer,Int##)encodeFloatInteger::Integer->Int#->Float#-- And similarly DoubleplusInteger::Integer->Integer->Integer-- And similarly: minusInteger, timesInteger, negateInteger,-- eqInteger, neqInteger, absInteger, signumInteger,--  leInteger, gtInteger, ltInteger, geInteger, compareInteger,--  divModInteger, quotRemInteger, quotInteger, remInteger,--  andInteger, orInteger, xorInteger, complementInteger,--  shiftLInteger, shiftRInteger,--  hashInteger,
 ```
 
 ## How Integer is handled inside GHC
@@ -59,20 +30,19 @@ Specifically, the interface is this:
 
 - **Core**.  In `Core` representation, an integer literal is represented by the `LitInteger` constructor of the `Literal` type. 
 
-  ```wiki
-  data Literal = ... | LitInteger Integer Type
+  ```
+  dataLiteral=...|LitIntegerIntegerType
   ```
 
   While `Integer`s aren't "machine literals" like the other `Core``Literal` constructors, it is more convenient when writing constant folding RULES to pretend that they are literals rather than having to understand their concrete representation. (Especially as the concrete representation varies from package to package.) We also carry around a `Type`, representing the `Integer` type, in the constructor, as we need access to it in a few functions (e.g. `literalType`).
 
 - **Constant folding**.  There are many constant-folding optimisations for `Integer` expressed as built-in rules in [compiler/prelude/PrelRules.lhs](/trac/ghc/browser/ghc/compiler/prelude/PrelRules.lhs); look at `builtinIntegerRules`.  All of the types and functions in the `Integer` interface have built-in names, e.g. `plusIntegerName`, defined in [compiler/prelude/PrelNames.lhs](/trac/ghc/browser/ghc/compiler/prelude/PrelNames.lhs) and included in `basicKnownKeyNames`. This allows us to match on all of the functions in `builtinIntegerRules` in [compiler/prelude/PrelRules.lhs](/trac/ghc/browser/ghc/compiler/prelude/PrelRules.lhs), so we can constant-fold Integer expressions. An important thing about constant folding of Integer divisions is that they depend on inlining. Here's a fragment of `Integral Integer` instance definition from `libraries/base/GHC/Real.lhs`:
 
-  ```wiki
-  instance  Integral Integer where
+  ```
+  instanceIntegralIntegerwhere
       toInteger n      = n
 
-      {-# INLINE quot #-}
-      _ `quot` 0 = divZeroError
+      {-# INLINE quot #-}_`quot`0= divZeroError
       n `quot` d = n `quotInteger` d
   ```
 
@@ -80,14 +50,14 @@ Specifically, the interface is this:
 
 - **Converting between Int and Integer**.  It's quite commonly the case that, after some inlining, we get something like `integerToInt (intToInteger i)`, which converts an `Int` to an `Integer` and back.  This *must* optimise away (see [\#5767](https://gitlab.haskell.org//ghc/ghc/issues/5767)).  We do this by requiring that the `integer` package exposes
 
-  ```wiki
-    smallInteger :: Int# -> Int
+  ```
+  smallInteger::Int#->Integer
   ```
 
   Now we can define `intToInteger` (or, more precisely, the `toInteger` method of the `Integral Int` instance in `GHC.Real` ) thus
 
-  ```wiki
-    toInteger (I# i) = smallInteger i
+  ```
+  toInteger(I# i)= smallInteger i
   ```
 
   And we have a RULE for `integerToInt (smallInteger i)`.
@@ -102,11 +72,8 @@ Specifically, the interface is this:
 
 - **Don't inline integer functions**.  Most of the functions in the Integer implementation in the `integer` package are marked `NOINLINE`. For example in `integer-gmp` we have
 
-  ```wiki
-  plusInteger :: Integer -> Integer -> Integer
-  plusInteger (S# i1) (S# i2) = ...
-  plusInteger (S# i1) (J# j1 j2) = ...
-  ...two more cases...
+  ```
+  plusInteger::Integer->Integer->IntegerplusInteger(S# i1)(S# i2)=...plusInteger(S# i1)(J# j1 j2)=...-- ...two more cases...
   ```
 
   Not only is this a big function to inline, but inlining it typically does no good because the representation of literals is abstact, so no pattern-matching cancellation happens.  And even if you have `(a+b+c)`, the conditionals mean that no cancellation happens, or you get an exponential code explosion!
