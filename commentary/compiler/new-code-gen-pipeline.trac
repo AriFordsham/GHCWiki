@@ -7,16 +7,6 @@ This page used to store information about Cmm Pipeline in the new code generator
 This page contains notes about the design of the new code generator.
 See also: [wiki:Commentary/Compiler/NewCodeGenModules overview of the module structure in the new code generator].
 
-== Overview == 
-
-Code generation now has three stages:
-  1. Convert STG to Cmm, with implicit stack implicit, and native Cmm calls.
-  2. Optimise the Cmm, and CPS-convert it to have an explicit stack, and no native calls.
-     This part of the pipeline is stitched together in `cmm/CmmPipeline.hs`.
-  3. Feed the CPS-converted Cmm to the existing, unmodified native code generators.
-
-Ultimately our plan is to expand the capability of the new pipeline so that it does native code generation too, and we can ultimately discard the existing code generators.  The design of this stage is here: [wiki:Commentary/Compiler/IntegratedCodeGen]
-
 == The Cmm pipeline == 
 
 Description of Cmm pipeline has been moved to [wiki:Commentary/Compiler/CodeGen Code Generator] page. Below are descriptions of two passes that at some point existed in the Cmm pipeline of the new code generator but were later removed and didn't make it into GHC 7.8 (first stable release with the new codegen).
