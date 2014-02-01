@@ -31,21 +31,17 @@ The CPS-converted Cmm is fed to one of the backends. This is done by `codeOutput
 
 The core of the Cmm pipeline is implemented by the `cpsTop` function in [[GhcFile(compiler/cmm/CmmPipeline.hs)]] module. The pipeline consists of following passes:
 
- * '''Simple control flow optimisation''', implemented in `CmmContFlowOpt`, simplifies the control flow graph by:
+ * '''Control Flow Optimisations''', implemented in `CmmContFlowOpt`, simplifies the control flow graph by:
    * Eliminating blocks that have only one predecessor by concatenating them with that predecessor
    * Shortcuting targets of branches and calls (see Note [What is shortcutting])
-   Note that if a block becomes unreachable because of shortcutting it is eliminated from the graph. However, '''it is theoretically possible that this pass will produce unreachable blocks'''. The reason is the label renaming pass performed after block concatenation has been completed.
+  
+  If a block becomes unreachable because of shortcutting it is eliminated from the graph. However, '''it is theoretically possible that this pass will produce unreachable blocks'''. The reason is the label renaming pass performed after block concatenation has been completed.
+
   This pass might be optionally called for the second time at the end of the pipeline.
 
- * '''More control flow optimisations'''.
-   * Common Block Elimination (like CSE). This essentially implements the Adams optimisation, we believe.
-   * Consider (sometime): block duplication.  branch to K; and K is a short block.  Branch chain elimination is just a special case of this.
+ * '''Common Block Elimination''', implemented in `CmmCommonBlockElim`, eliminates blocks that are identical (except for the label on their first node). Since this pass traverses blocks in depth-first order any unreachable blocks introduced by Control Flow Optimisations are eliminated.
 
- * '''Proc-point analysis''' and '''transformation''', implemented in `CmmProcPoint`. The transformation part adds a function prologue to the front of each proc-point, following a standard entry convention.
-    * The analysis produces a set of `BlockId` that should become proc-points
-    * The transformation inserts a function prologue at the start of each proc-point, and a function epilogue just before each branch to a proc-point.
-
- * '''Remove dead assignments and stores''', implemented in `CmmLive`, removes assignments to dead variables and things like ``a = a`` or ``I32[Hp] = I32[Hp]``. The latter may more appropriately be done in a general optimization pass, as it doesn't take advantage of liveness information.
+ * '''Determine proc-points''', implemented in `CmmProcPoint`. Proc-point analysis is done only when proc-point splitting is turned on. This is important for the LLVM backend. Proc-point are blocks in the graph that can be turned into entry points of procedures and proc-point splitting splits one function into many smaller ones. Initially we assume that entry point to a graph as well as continuation of every call is a proc-point. Then we look for blocks reachable from multiple proc-points and turn such blocks into a proc-point.
 
  * '''Figure out the stack layout''', implemented in `CmmStackLayout`.
    * Each variable 'x', and each proc-point label 'K', has an associated ''Area'', written SS(x) and SS(k) resp, that names a contiguous portion of the stack frame.  
