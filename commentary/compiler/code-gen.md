@@ -14,19 +14,18 @@ There are some plans for the future development of code generator. One plan is t
 ## Overview
 
 
-The goal of the code generator is to convert program from [STG](commentary/compiler/generated-code) representation to [Cmm](commentary/compiler/cmm-type) representation. STG is a functional language with explicit stack. Cmm is a low-level imperative language - something between C and assembly - that is suitable for machine code generation. Note that terminology might be a bit confusing here: the term "code generator" refers to STG-\>Cmm pass but it may also be used to refer to the Cmm-\>assembly pass. Referring to the latter as the "backend" eliminates the confusion.
+The goal of the code generator is to convert program from [STG](commentary/compiler/generated-code) representation to [Cmm](commentary/compiler/cmm-type) representation. STG is a functional language with explicit stack. Cmm is a low-level imperative language - something between C and assembly - that is suitable for machine code generation. Note that terminology might be a bit confusing here: the term "code generator" can refer both to STG-\>Cmm pass and the whole STG-\>Cmm-\>assembly pass. The Cmm-\>assembly conversion is performed by one the backends, eg. NCG (Native Code Generator or LLVM.
 
 
-The top-most entry point to the codegen is located in [compiler/main/HscMain.hs](/trac/ghc/browser/ghc/compiler/main/HscMain.hs) in the `tryNewCodegen` function. Code generation now has three stages:
+The top-most entry point to the codegen is located in [compiler/main/HscMain.hs](/trac/ghc/browser/ghc/compiler/main/HscMain.hs) in the `tryNewCodegen` function. Code generation is done in two stages:
 
 1. Convert STG to Cmm with implicit stack, and native Cmm calls. This whole stage lives in [compiler/codeGen](/trac/ghc/browser/ghc/compiler/codeGen) directory with the entry point being `codeGen` function in [compiler/codeGen/StgCmm.hs](/trac/ghc/browser/ghc/compiler/codeGen/StgCmm.hs) module.
-1. Optimise the Cmm, and CPS-convert it to have an explicit stack, and no native calls. This lives in [compiler/cmm](/trac/ghc/browser/ghc/compiler/cmm) directory with the `cmmPipeline` function from [compiler/cmm/CmmPipeline.hs](/trac/ghc/browser/ghc/compiler/cmm/CmmPipeline.hs) module being the entry point. This is described below in full detail.
-1. Feed the CPS-converted Cmm to the existing, unmodified native code generators. This is done by `codeOutput` function ([compiler/main/CodeOutput.lhs](/trac/ghc/browser/ghc/compiler/main/CodeOutput.lhs) called from `hscGenHardCode` after returning from `tryNewCodegen`.
-
-## Structure of Cmm pipeline
+1. Optimise the Cmm, and CPS-convert it to have an explicit stack, and no native calls. This lives in [compiler/cmm](/trac/ghc/browser/ghc/compiler/cmm) directory with the `cmmPipeline` function from [compiler/cmm/CmmPipeline.hs](/trac/ghc/browser/ghc/compiler/cmm/CmmPipeline.hs) module being the entry point.
 
 
-The first two steps are described in more detail here:
+The CPS-converted Cmm is fed to one of the backends. This is done by `codeOutput` function ([compiler/main/CodeOutput.lhs](/trac/ghc/browser/ghc/compiler/main/CodeOutput.lhs) called from `hscGenHardCode` after returning from `tryNewCodegen`.
+
+## First stage: STG to Cmm conversion
 
 - **Code generator** converts STG to `CmmGraph`.  Implemented in `StgCmm*` modules (in directory `codeGen`). 
 
@@ -35,25 +34,27 @@ The first two steps are described in more detail here:
 
     - Parameters are passed in virtual registers R1, R2 etc. \[These map 1-1 to real registers.\] 
     - Overflow parameters are passed on the stack using explicit memory stores, to locations described abstractly using the [''Stack Area'' abstraction.](commentary/compiler/stack-areas).   
-    - Making the calling convention explicit includes an explicit store instruction of the return address, which is stored explicitly on the stack in the same way as overflow parameters. This is done (obscurely) in `MkGraph.mkCall`.
+    - Making the calling convention explicit includes an explicit store instruction of the return address, which is stored explicitly on the stack in the same way as overflow parameters. This is done (obscurely) in `StgCmmMonad.mkCall`.
 
-- **Simple control flow optimisation**, implemented in `CmmContFlowOpt`.  It's called both at the beginning and end of the pipeline.
+## Second stage: the Cmm pipeline
 
-  - Branch chain elimination.
-  - Remove unreachable blocks.
-  - Block concatenation.  branch to K; and this is the only use of K.  
 
-- **More control flow optimisations**.
+The core of the Cmm pipeline is implemented by the `cpsTop` function in [compiler/cmm/CmmPipeline.hs](/trac/ghc/browser/ghc/compiler/cmm/CmmPipeline.hs) module. The pipeline consists of following passes:
 
-  - Common Block Elimination (like CSE). This essentially implements the Adams optimisation, we believe.
-  - Consider (sometime): block duplication.  branch to K; and K is a short block.  Branch chain elimination is just a special case of this.
+- **Control Flow Optimisations**, implemented in `CmmContFlowOpt`, simplifies the control flow graph by:
 
-- **Proc-point analysis** and **transformation**, implemented in `CmmProcPoint`. The transformation part adds a function prologue to the front of each proc-point, following a standard entry convention.
+  - Eliminating blocks that have only one predecessor by concatenating them with that predecessor
+  - Shortcuting targets of branches and calls (see Note \[What is shortcutting\])
 
-  - The analysis produces a set of `BlockId` that should become proc-points
-  - The transformation inserts a function prologue at the start of each proc-point, and a function epilogue just before each branch to a proc-point.
+> >
+> > If a block becomes unreachable because of shortcutting it is eliminated from the graph. However, **it is theoretically possible that this pass will produce unreachable blocks**. The reason is the label renaming pass performed after block concatenation has been completed.
 
-- **Remove dead assignments and stores**, implemented in `CmmLive`, removes assignments to dead variables and things like ``a = a`` or ``I32\[Hp\] = I32\[Hp\]``. The latter may more appropriately be done in a general optimization pass, as it doesn't take advantage of liveness information.
+> >
+> > This pass might be optionally called for the second time at the end of the pipeline.
+
+- **Common Block Elimination**, implemented in `CmmCommonBlockElim`, eliminates blocks that are identical (except for the label on their first node). Since this pass traverses blocks in depth-first order any unreachable blocks introduced by Control Flow Optimisations are eliminated.
+
+- **Determine proc-points**, implemented in `CmmProcPoint`. Proc-point analysis is done only when proc-point splitting is turned on. This is important for the LLVM backend. Proc-point are blocks in the graph that can be turned into entry points of procedures and proc-point splitting splits one function into many smaller ones. Initially we assume that entry point to a graph as well as continuation of every call is a proc-point. Then we look for blocks reachable from multiple proc-points and turn such blocks into a proc-point.
 
 - **Figure out the stack layout**, implemented in `CmmStackLayout`.
 
