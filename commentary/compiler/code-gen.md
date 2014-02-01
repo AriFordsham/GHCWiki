@@ -52,7 +52,7 @@ The core of the Cmm pipeline is implemented by the `cpsTop` function in [compile
 > >
 > > This pass might be optionally called for the second time at the end of the pipeline.
 
-- **Common Block Elimination**, implemented in `CmmCommonBlockElim`, eliminates blocks that are identical (except for the label on their first node). Since this pass traverses blocks in depth-first order any unreachable blocks introduced by Control Flow Optimisations are eliminated.
+- **Common Block Elimination**, implemented in `CmmCommonBlockElim`, eliminates blocks that are identical (except for the label on their first node). Since this pass traverses blocks in depth-first order any unreachable blocks introduced by Control Flow Optimisations are eliminated. **This pass is optional.**
 
 - **Determine proc-points**, implemented in `CmmProcPoint`. Proc-point analysis is done only when proc-point splitting is turned on. This is important for the LLVM backend. Proc-point are blocks in the graph that can be turned into entry points of procedures and proc-point splitting splits one function into many smaller ones. Initially we assume that entry point to a graph as well as continuation of every call is a proc-point. Then we look for blocks reachable from multiple proc-points and turn such blocks into a proc-point.
 
@@ -74,10 +74,12 @@ The core of the Cmm pipeline is implemented by the `cpsTop` function in [compile
   - inlines assignments to registers that are mentioned only once
   - discards dead assignments
 
-> >
-> > It currently does not eliminate dead code in loops ([\#8327](https://gitlab.haskell.org//ghc/ghc/issues/8327)) and has some other minor deficiencies (eg. [\#8336](https://gitlab.haskell.org//ghc/ghc/issues/8336)).
+> > **This pass is optional.** It currently does not eliminate dead code in loops ([\#8327](https://gitlab.haskell.org//ghc/ghc/issues/8327)) and has some other minor deficiencies (eg. [\#8336](https://gitlab.haskell.org//ghc/ghc/issues/8336)).
 
 - **CAF analysis**, implemented in `CmmBuildInfoTables`. Computed CAF information is returned from `cmmPipeline` and used to create Static Reference Tables (SRT). See [here](commentary/rts/storage/gc/ca-fs) for some more detail on CAFs and SRTs.
+
+
+Here the pipeline splits into two alternative flows depending on whether we are splitting proc-points or not. Branches are essentially identical, except that one begins with splitting proc-points, while the other begins with attaching info tables.
 
 - **Split into multiple CmmProcs**, implemented in `CmmProcPointZ`.  At this point we build an info-table for each of the CmmProcs, including SRTs.  Done on the basis of the live local variables (by now mapped to stack slots) and live CAF statics.
 
