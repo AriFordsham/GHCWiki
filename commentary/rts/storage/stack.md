@@ -46,7 +46,6 @@ The constants for the different types of stack frame are defined in [includes/rt
 - `RET_BCO`
 - `RET_SMALL`
 - `RET_BIG`
-- `RET_DYN`
 - `RET_FUN` - (Explained a bit here: [ https://ghc.haskell.org/trac/ghc/wiki/Commentary/Compiler/CPS\#Notes](https://ghc.haskell.org/trac/ghc/wiki/Commentary/Compiler/CPS#Notes))
 - `UPDATE_FRAME`
 - `CATCH_FRAME`
