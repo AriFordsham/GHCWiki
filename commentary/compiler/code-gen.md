@@ -1,410 +1,83 @@
-# GHC Commentary: The Code Generator
+# Code Generator
 
 
-The material below describes the old code generator, which was retired in 2012.  New stuff is here:
+This page describes code generator ("codegen") in GHC. It is meant to reflect current state of the implementation. If you notice any inacurracies please update the page (if you know how) or complain on ghc-devs.
 
-- [Michael Adams CPS conversion](commentary/compiler/cps)
-- [New code generator](commentary/compiler/new-code-gen)
+## A brief history of code generator
 
 
-The code generator lives in [compiler/codeGen](/trac/ghc/browser/ghc/compiler/codeGen)
+You might ocasionally hear about "old" and "new" code generator. GHC 7.6 and earlier used the old code generator. New code generator was being developed since 2007 and it was [enabled by default on 31 August 2012](/trac/ghc/changeset/832077ca5393d298324cb6b0a2cb501e27209768/ghc) after the release of GHC 7.6.1. The first stable GHC to use the new code generator is 7.8.1 released in early 2014. The commentary on the old code generator can be found [here](commentary/compiler/old-code-gen). Notes from the development process of the new code generator are located in a couple of pages on the wiki - go to [Index](title-index) and look for pages starting with "NewCodeGen".
 
 
-The stuff below is probably out of date, although there were some similarities between the old and new code-generator.
-
-## Storage manager representations
-
-
-See [The Storage Manager](commentary/rts/storage) for the [Layout of the stack](commentary/rts/storage/stack).
-
-
-The code generator needs to know the layout of heap objects, because it generates code that accesses and constructs those heap objects.  The runtime also needs to know about the layout of heap objects, because it contains the garbage collector.  How can we share the definition of storage layout such that the code generator and the runtime both have access to it, and so that we don't have to keep two independent definitions in sync?
-
-
-Currently we solve the problem this way:
-
-- C types representing heap objects are defined in the C header files, see for example [includes/rts/storage/Closures.h](/trac/ghc/browser/ghc/includes/rts/storage/Closures.h).
-
-- A C program, [includes/mkDerivedConstants.c](/trac/ghc/browser/ghc/includes/mkDerivedConstants.c),  `#includes` the runtime headers.
-  This program is built and run when you type `make` or `make boot` in `includes/`.  It is
-  run twice: once to generate `includes/DerivedConstants.h`, and again to generate 
-  `includes/GHCConstants.h`.
+There are some plans for the future development of code generator. One plan is to expand the capability of the pipeline so that it does native code generation too so that existing backends can be discarded - see [IntegratedCodeGen](commentary/compiler/integrated-code-gen) for discussion of the design. It is hard to say if this will ever happen as currently there is no work being done on that subject and in the meanwhile there was an alternative proposal to [replace native code generator with LLVM](commentary/compiler/backends/llvm/replacing-ncg).
 
-- The file `DerivedConstants.h` contains lots of `#defines` like this:
+## Overview
 
-  ```wiki
-  #define OFFSET_StgTSO_why_blocked 18
-  ```
 
-  which says that the offset to the why_blocked field of an `StgTSO` is 18 bytes.  This file
-  is `#included` into [includes/Cmm.h](/trac/ghc/browser/ghc/includes/Cmm.h), so these offests are available to the
-  [hand-written .cmm files](commentary/rts/cmm).
+The goal of the code generator is to convert program from [STG](commentary/compiler/generated-code) representation to [Cmm](commentary/compiler/cmm-type) representation. STG is a functional language with explicit stack. Cmm is a low-level imperative language - something between C and assembly - that is suitable for machine code generation. Note that terminology might be a bit confusing here: the term "code generator" refers to STG-\>Cmm pass but it may also be used to refer to the Cmm-\>assembly pass. Referring to the latter as the "backend" eliminates the confusion.
 
-- The file `GHCConstants.h` contains similar definitions:
 
-  ```wiki
-  oFFSET_StgTSO_why_blocked = 18::Int
-  ```
+The top-most entry point to the codegen is located in [compiler/main/HscMain.hs](/trac/ghc/browser/ghc/compiler/main/HscMain.hs) in the `tryNewCodegen` function. Code generation now has three stages:
 
-  This time the definitions are in Haskell syntax, and this file is `#included` directly into
-  [compiler/main/Constants.lhs](/trac/ghc/browser/ghc/compiler/main/Constants.lhs).  This is the way that these offsets are made
-  available to GHC's code generator.
+1. Convert STG to Cmm with implicit stack, and native Cmm calls. This whole stage lives in [compiler/codeGen](/trac/ghc/browser/ghc/compiler/codeGen) directory with the entry point being `codeGen` function in [compiler/codeGen/StgCmm.hs](/trac/ghc/browser/ghc/compiler/codeGen/StgCmm.hs) module.
+1. Optimise the Cmm, and CPS-convert it to have an explicit stack, and no native calls. This lives in [compiler/cmm](/trac/ghc/browser/ghc/compiler/cmm) directory with the `cmmPipeline` function from [compiler/cmm/CmmPipeline.hs](/trac/ghc/browser/ghc/compiler/cmm/CmmPipeline.hs) module being the entry point. This is described below in full detail.
+1. Feed the CPS-converted Cmm to the existing, unmodified native code generators. This is done by `codeOutput` function ([compiler/main/CodeOutput.lhs](/trac/ghc/browser/ghc/compiler/main/CodeOutput.lhs) called from `hscGenHardCode` after returning from `tryNewCodegen`.
 
-## Generated Cmm Naming Convention
+## Structure of Cmm pipeline
 
 
-See [compiler/cmm/CLabel.hs](/trac/ghc/browser/ghc/compiler/cmm/CLabel.hs)
+The first two steps are described in more detail here:
 
+- **Code generator** converts STG to `CmmGraph`.  Implemented in `StgCmm*` modules (in directory `codeGen`). 
 
-Labels generated by the code generator are of the form `<name>_<type>`
-where `<name>` is `<Module>_<name>` for external names and `<unique>` for
-internal names. `<type>` is one of the following:
+  - `Cmm.CmmGraph` is pretty much a Hoopl graph of `CmmNode.CmmNode` nodes. Control transfer instructions are always the last node of a basic block.
+  - Parameter passing is made explicit; the calling convention depends on the target architecture.  The key function is `CmmCallConv.assignArgumentsPos`. 
 
-<table><tr><th>info</th>
-<td>Info table
-</td></tr>
-<tr><th>srt</th>
-<td>Static reference table
-</td></tr>
-<tr><th>srtd</th>
-<td>Static reference table descriptor
-</td></tr>
-<tr><th>entry</th>
-<td>Entry code (function, closure)
-</td></tr>
-<tr><th>slow</th>
-<td>Slow entry code (if any)
-</td></tr>
-<tr><th>ret</th>
-<td>Direct return address    
-</td></tr>
-<tr><th>vtbl</th>
-<td>Vector table
-</td></tr>
-<tr><th>*n*_alt</th>
-<td>Case alternative (tag *n*)
-</td></tr>
-<tr><th>dflt</th>
-<td>Default case alternative
-</td></tr>
-<tr><th>btm</th>
-<td>Large bitmap vector
-</td></tr>
-<tr><th>closure</th>
-<td>Static closure
-</td></tr>
-<tr><th>con_entry</th>
-<td>Dynamic Constructor entry code
-</td></tr>
-<tr><th>con_info</th>
-<td>Dynamic Constructor info table
-</td></tr>
-<tr><th>static_entry</th>
-<td>Static Constructor entry code
-</td></tr>
-<tr><th>static_info</th>
-<td>Static Constructor info table
-</td></tr>
-<tr><th>sel_info</th>
-<td>Selector info table
-</td></tr>
-<tr><th>sel_entry</th>
-<td>Selector entry code
-</td></tr>
-<tr><th>cc</th>
-<td>Cost centre
-</td></tr>
-<tr><th>ccs</th>
-<td>Cost centre stack
-</td></tr></table>
+    - Parameters are passed in virtual registers R1, R2 etc. \[These map 1-1 to real registers.\] 
+    - Overflow parameters are passed on the stack using explicit memory stores, to locations described abstractly using the [''Stack Area'' abstraction.](commentary/compiler/stack-areas).   
+    - Making the calling convention explicit includes an explicit store instruction of the return address, which is stored explicitly on the stack in the same way as overflow parameters. This is done (obscurely) in `MkGraph.mkCall`.
 
+- **Simple control flow optimisation**, implemented in `CmmContFlowOpt`.  It's called both at the beginning and end of the pipeline.
 
-Many of these distinctions are only for documentation reasons.  For
-example, _ret is only distinguished from _entry to make it easy to
-tell whether a code fragment is a return point or a closure/function
-entry.
+  - Branch chain elimination.
+  - Remove unreachable blocks.
+  - Block concatenation.  branch to K; and this is the only use of K.  
 
-## Modules
+- **More control flow optimisations**.
 
-### `CodeGen`
+  - Common Block Elimination (like CSE). This essentially implements the Adams optimisation, we believe.
+  - Consider (sometime): block duplication.  branch to K; and K is a short block.  Branch chain elimination is just a special case of this.
 
+- **Proc-point analysis** and **transformation**, implemented in `CmmProcPoint`. The transformation part adds a function prologue to the front of each proc-point, following a standard entry convention.
 
-Top level, only exports `codeGen`.
+  - The analysis produces a set of `BlockId` that should become proc-points
+  - The transformation inserts a function prologue at the start of each proc-point, and a function epilogue just before each branch to a proc-point.
 
+- **Remove dead assignments and stores**, implemented in `CmmLive`, removes assignments to dead variables and things like ``a = a`` or ``I32\[Hp\] = I32\[Hp\]``. The latter may more appropriately be done in a general optimization pass, as it doesn't take advantage of liveness information.
 
-Called from `HscMain` for each module that needs to be converted from Stg to Cmm.
+- **Figure out the stack layout**, implemented in `CmmStackLayout`.
 
+  - Each variable 'x', and each proc-point label 'K', has an associated *Area*, written SS(x) and SS(k) resp, that names a contiguous portion of the stack frame.  
+  - The stack layout pass produces a mapping of: *(`Area` -\> `StackOffset`)*. For more detail, see [the description of stack layout.](commentary/compiler/stack-areas#laying-out-the-stack)
+  - A `StackOffset` is the byte offset of a stack slot from the old end (high address) of the frame.  It doesn't vary as the physical stack pointer moves.
 
-For each such module `codeGen` does three things:
+- **Manifest the stack pointer**, implemented in `CmmStackLayout`.  Once the stack layout mapping has been determined, a second pass walks over the graph, making the stack pointer, `Sp` explicit. Before this pass, there is no `Sp` at all.  After this, `Sp` is completely manifest.
 
-- `cgTopBinding` for the `StgBinding`
-- `cgTyCon` for the `TyCon` (These are constructors not constructor calls).
-- `mkModuleInit` for the module
+  - replacing references to `Areas` with offsets from `Sp`.
+  - adding adjustments to `Sp`.
 
-`mkModuleInit` generates several boilerplate initialization functions
-that:
+- **Split into multiple CmmProcs**, implemented in `CmmProcPointZ`.  At this point we build an info-table for each of the CmmProcs, including SRTs.  Done on the basis of the live local variables (by now mapped to stack slots) and live CAF statics.
 
-- regiser the module,
-- creates an Hpc table,
-- setup its profiling info (`InitConstCentres`, code coverage info `initHpc`), and
-- calls the initialization functions of the modules it imports.
+  - `LastCall` and `LastReturn` nodes are replaced by `Jump`s.
 
+- **Build info tables**, implemented in `CmmBuildInfoTables`..  
 
-If neither SCC profiling or HPC are used,
-then the initialization code short circuits to return.
+  - Find each safe `MidForeignCall` node, "lowers" it into the suspend/call/resume sequence (see `Note [Foreign calls]` in `CmmNode.hs`.), and build an info table for them.
+  - Convert the `CmmInfo` for each `CmmProc` into a `[CmmStatic]`, using the live variable information computed just before "Figure out stack layout".  
 
+## Dumping Cmm
 
-If the module has already been initialized,
-the initialization function just returns.
+## Hoopl
 
 
-The `Ghc.TopHandler` and `Ghc.Prim` modules get special treatment.
-
-`cgTopBinding` is a small wrapper around `cgTopRhs`
-which in turn disptaches to:
-
-- `cgTopRhsCons` for `StgRhsCons`
-  (these are bindings of constructor applications not constructors themselves) and
-- `cgTopRhsClosure` for `StgRhsClosure`.
-
-`cgTopRhsCons` and `cgTopRhsClosure` are located in `CgCon` and `CgClosure`
-which are the primary modules called by `CodeGen`.
-
-### `CgCon`
-
-TODO
-
-### `CgClosure`
-
-TODO
-
-### `CgMonad`
-
-
-The monad that most of codeGen operates inside
-
-- Reader
-- State
-- (could be Writer?)
-- fork
-- flatten
-
-### `CgExpr`
-
-
-Called by `CgClosure` and `CgCon`.
-
-
-Since everything in STG is an expression, almost everything branches off from here.
-
-
-This module exports only one function `cgExpr`,
-which for the most part just dispatches
-to other functions to handle each specific constructor in `StgExpr`.
-
-
-Here are the core functions that each constructor is disptached to
-(though some may have little helper functions called in addition to the core function):
-
-<table><tr><th>`StgApp`</th>
-<td>Calls to `cgTailCall` in `CgTailCall`</td></tr>
-<tr><th>`StgConApp`</th>
-<td>Calls to `cgReturnDataCon` in `CgCon`</td></tr>
-<tr><th>`StgLit`</th>
-<td>
-Calls to `cgLit` in `CgUtil`
-and `performPrimReturn` in `CgTailCall`</td></tr>
-<tr><th>`StgOpApp`</th>
-<td>
-Is a bit more complicated see below.
-</td></tr>
-<tr><th>`StgCase`</th>
-<td>Calls to `cgCase` in `CgCase`</td></tr>
-<tr><th>`StgLet`</th>
-<td>Calls to `cgRhs` in `CgExpr`</td></tr>
-<tr><th>`StgLetNoEscape`</th>
-<td>
-Calls to `cgLetNoEscapeBindings` in `CgExpr`, but with a little bit of wrapping
-by `nukeDeadBindings` and `saveVolatileVarsAndRegs`.
-</td></tr>
-<tr><th>`StgSCC`</th>
-<td>Calls to  `emitSetCCC` in `CgProf`</td></tr>
-<tr><th>`StgTick`</th>
-<td>Calls to `cgTickBox` in `CgHpc`</td></tr>
-<tr><th>`StgLam`</th>
-<td>
-Does not have a case because it is only for `CoreToStg`'s work.
-</td></tr></table>
-
-
-Some of these cases call to functions defined in `cgExpr`.
-This is because they need a little bit of wrapping and processing
-before calling out to their main worker function.
-
-<table><tr><th>`cgRhs`</th>
-<td>- For `StgRhsCon` calls out to `buildDynCon` in `CgCon`.
-- For `StgRhsClosure` calls out to `mkRhsClosure`.
-  In turn, `mkRhsClosure` calls out to `cgStdRhsClosure` for selectors and thunks,
-  and calls out to `cgRhsClosure` in the default case.
-  Both these are defined in `CgClosure`.
-
-</td></tr></table>
-
-<table><tr><th>`cgLetNoEscapeBindings`</th>
-<td>- Wraps a call to `cgLetNoEscapeRhs` with `addBindsC`
-  depending on whether it is called on a recursive or a non-recursive binding.
-  In turn `cgLetNoEscapeRhs` wraps `cgLetNoEscapeClosure`
-  defined in `CgLetNoEscapeClosure`.
-
-</td></tr></table>
-
-`StgOpApp` has a number of sub-cases.
-
-- `StgFCallOp`
-- `StgPrimOp` of a TagToEnumOp
-- `StgPrimOp` that is primOpOutOfLine
-- `StgPrimOp` that returns Void
-- `StgPrimOp` that returns a single primitive
-- `StgPrimOp` that returns an unboxed tuple
-- `StgPrimOp` that returns an enumeration type
-
-
-(It appears that non-foreign-call, inline [PrimOps](commentary/prim-ops) are not allowed to return complex data types (e.g. a \|Maybe\|), but this fact needs to be verified.)
-
-
-Each of these cases centers around one of these three core calls:
-
-- `emitForeignCall` in `CgForeignCall`
-- `tailCallPrimOp` in `CgTailCall`
-- `cgPrimOp` in `CgPrimOp`
-
-
-There is also a little bit of argument and return marshelling with the following functions
-
-<table><tr><th>Argument marshelling</th>
-<td>`shimForeignCallArg`, `getArgAmods`</td></tr>
-<tr><th>Return marshelling</th>
-<td>`dataReturnConvPrim`, `primRepToCgRep`, `newUnboxedTupleRegs`</td></tr>
-<tr><th>Performing the return</th>
-<td>`emitReturnInstr`, `performReturn`,
-`returnUnboxedTuple`, `ccallReturnUnboxedTuple`</td></tr></table>
-
-
-In summary the modules that get called in order to handle a specific expression case are:
-
-#### Also called for top level bindings by `CodeGen`
-
-<table><tr><th>`CgCon`</th>
-<td>for `StgConApp` and the `StgRhsCon` part of `StgLet`</td></tr>
-<tr><th>`CgClosure`</th>
-<td>for the `StgRhsClosure` part of `StgLet`</td></tr></table>
-
-#### Core code generation
-
-<table><tr><th>`CgTailCall`</th>
-<td>for `StgApp`, `StgLit`, and `StgOpApp`</td></tr>
-<tr><th>`CgPrimOp`</th>
-<td>for `StgOpApp`</td></tr>
-<tr><th>`CgLetNoEscapeClosure`</th>
-<td>for `StgLetNoEscape`</td></tr>
-<tr><th>`CgCase`</th>
-<td>for `StgCase`</td></tr></table>
-
-#### Profiling and Code coverage related
-
-<table><tr><th>`CgProf`</th>
-<td>for `StgSCC`</td></tr>
-<tr><th>`CgHpc`</th>
-<td>for `StgTick`</td></tr></table>
-
-#### Utility modules that happen to have the functions for code generation
-
-<table><tr><th>`CgForeignCall`</th>
-<td>for `StgOpApp`</td></tr>
-<tr><th>`CgUtil`</th>
-<td>for `cgLit`</td></tr></table>
-
-
-Note that the first two are
-the same modules that are called for top level bindings by `CodeGen`,
-and the last two are really utility modules,
-but they happen to have the functions
-needed for those code generation cases.
-
-### Memory and Register Management
-
-<table><tr><th>`CgBindery`</th>
-<td>
-Module for `CgBindings` which maps variable names
-to all the volitile or stable locations where they are stored
-(e.g. register, stack slot, computed from other expressions, etc.)
-Provides the `addBindC`, `modifyBindC` and `getCgIdInfo` functions
-for adding, modifying and looking up bindings.
-</td></tr></table>
-
-<table><tr><th>`CgStackery`</th>
-<td>
-Mostly utility functions for allocating and freeing stack slots.
-But also has things on setting up update frames.
-</td></tr></table>
-
-<table><tr><th>`CgHeapery`</th>
-<td>
-Functions for allocating objects that appear on the heap such as closures and constructors.
-Also includes code for stack and heap checks and `emitSetDynHdr`.
-</td></tr></table>
-
-### Function Calls and Parameter Passing
-
-
-(Note: these will largely go away once CPS conversion is fully implemented.)
-
-<table><tr><th>`CgPrimOp`, `CgTailCall`, `CgForeignCall`</th>
-<td>
-Handle different types of calls.
-</td></tr>
-<tr><th>`CgCallConv`</th>
-<td>
-Use by the others in this category to determine liveness and
-to select in what registers and stack locations arguments and return
-values get stored.
-</td></tr></table>
-
-### Misc utilities
-
-<table><tr><th>`Bitmap`</th>
-<td>
-Utility functions for making bitmaps (e.g. `mkBitmap` with type `[Bool] -> Bitmap`)
-</td></tr>
-<tr><th>`ClosureInfo`</th>
-<td>
-Stores info about closures and bindings.
-Includes information about memory layout, how to call a binding (`LambdaFormInfo`)
-and information used to build the info table (`ClosureInfo`).
-</td></tr>
-<tr><th>`SMRep`</th>
-<td>
-Storage manager representation of closures.
-Part of ClosureInfo but kept separate to "keep nhc happy."
-</td></tr>
-<tr><th>`CgUtils`</th>
-<td>TODO</td></tr>
-<tr><th>`CgInfoTbls`</th>
-<td>TODO</td></tr></table>
-
-### Special runtime support
-
-<table><tr><th>`CgTicky`</th>
-<td>Ticky-ticky profiling
-</td></tr>
-<tr><th>`CgProf`</th>
-<td>Cost-centre profiling
-</td></tr>
-<tr><th>`CgHpc`</th>
-<td>Support for the Haskell Program Coverage (hpc) toolkit, inside GHC.
-</td></tr>
-<tr><th>`CgParallel`</th>
-<td>
-Code generation for GranSim (GRAN) and parallel (PAR).
-All the functions are dead stubs except `granYield` and `granFetchAndReschedule`.
-</td></tr></table>
+write about Hoopl (link paper, mention which modules are implemented with Hoopl)
