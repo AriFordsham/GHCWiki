@@ -35,9 +35,9 @@ The core of the Cmm pipeline is implemented by the `cpsTop` function in [[GhcFil
    * Eliminating blocks that have only one predecessor by concatenating them with that predecessor
    * Shortcuting targets of branches and calls (see Note [What is shortcutting])
   
-  If a block becomes unreachable because of shortcutting it is eliminated from the graph. However, '''it is theoretically possible that this pass will produce unreachable blocks'''. The reason is the label renaming pass performed after block concatenation has been completed.
+ If a block becomes unreachable because of shortcutting it is eliminated from the graph. However, '''it is theoretically possible that this pass will produce unreachable blocks'''. The reason is the label renaming pass performed after block concatenation has been completed.
 
-  This pass might be optionally called for the second time at the end of the pipeline.
+ This pass might be optionally called for the second time at the end of the pipeline.
 
  * '''Common Block Elimination''', implemented in `CmmCommonBlockElim`, eliminates blocks that are identical (except for the label on their first node). Since this pass traverses blocks in depth-first order any unreachable blocks introduced by Control Flow Optimisations are eliminated. '''This pass is optional.'''
 
@@ -58,11 +58,13 @@ The core of the Cmm pipeline is implemented by the `cpsTop` function in [[GhcFil
    * inlines assignments to registers that are mentioned only once
    * discards dead assignments
 
-  '''This pass is optional.''' It currently does not eliminate dead code in loops (#8327) and has some other minor deficiencies (eg. #8336).
+ '''This pass is optional.''' It currently does not eliminate dead code in loops (#8327) and has some other minor deficiencies (eg. #8336).
 
-  * '''CAF analysis''', implemented in `CmmBuildInfoTables`. Computed CAF information is returned from `cmmPipeline` and used to create Static Reference Tables (SRT). See [wiki:Commentary/Rts/Storage/GC/CAFs here] for some more detail on CAFs and SRTs.
+  * '''CAF analysis''', implemented in `CmmBuildInfoTables`. Computed CAF information is returned from `cmmPipeline` and used to create Static Reference Tables (SRT). See [wiki:Commentary/Rts/Storage/GC/CAFs here] for some more detail on CAFs and SRTs. This pass is implemented using Hoopl (see below).
 
 Here the pipeline splits into two alternative flows depending on whether we are splitting proc-points or not. Branches are essentially identical, except that one begins with splitting proc-points, while the other begins with attaching info tables.
+
+'''TODO: Update descriptions below.'''
 
  * '''Split into multiple !CmmProcs''', implemented in `CmmProcPointZ`.  At this point we build an info-table for each of the !CmmProcs, including SRTs.  Done on the basis of the live local variables (by now mapped to stack slots) and live CAF statics.
    * `LastCall` and `LastReturn` nodes are replaced by `Jump`s.
