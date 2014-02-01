@@ -32,3 +32,8 @@ removeDeadAssignments dflags g =
          nothing :: CmmNode e x -> Fact x CmmLocalLive -> CmmReplGraph e x
          nothing _ _ = return Nothing
 ```
+
+## CmmRewriteAssignments optimization pass
+
+
+The `CmmRewriteAssignments` pass was originally written by Edward Z. Yang to perform Cmm optimizations like inlining and sinking. However, it turned out to be too slow and was replaced with `CmmSink` pass written by Simon Marlow. `CmmSink` does almost the same things as `CmmRewriteAssignments`, the most notable difference being that the former does not handle loops. Code of `CmmRewriteAssignments` is available in [this attachment](/trac/ghc/attachment/wiki/Commentary/Compiler/Hoopl/Examples/CmmRewriteAssignments.hs)[](/trac/ghc/raw-attachment/wiki/Commentary/Compiler/Hoopl/Examples/CmmRewriteAssignments.hs).
