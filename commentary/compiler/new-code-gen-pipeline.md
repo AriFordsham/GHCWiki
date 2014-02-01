@@ -1,3 +1,8 @@
+## Historical page
+
+
+This page used to store information about Cmm Pipeline in the new code generator. This description has been updated, moved to the [Code Generator](commentary/compiler/code-gen) page and is maintained there. The rest of this page has a few historical notes, mostly about Adams optimisation. That optimisation is also described in Note \[sharing continuations\] in [compiler/codeGen/StgCmmMonad.hs](/trac/ghc/browser/ghc/compiler/codeGen/StgCmmMonad.hs) and probably deserves its own wiki page.
+
 # Design of the new code generator
 
 
