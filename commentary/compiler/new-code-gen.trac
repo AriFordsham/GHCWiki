@@ -1,3 +1,7 @@
+== Historical page ==
+
+This page stores notes about progress of work on the "new" code generator. This page is here for historical reasons. See [wiki:Commentary/Compiler/CodeGen Code Generator] page for an up-to-date description of the current code generator.
+
 = GHC's glorious new code generator =
 
 This page summarises work that Norman Ramsey, Simon M, Simon PJ, and John Dias are doing on re-architecting GHC's back end.  Here is the state of play; see also [wiki:Commentary/Compiler/Backends/LLVM work on the LLVM back end].
