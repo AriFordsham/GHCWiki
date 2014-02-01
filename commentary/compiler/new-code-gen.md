@@ -1,3 +1,8 @@
+## Historical page
+
+
+This page stores notes about progress of work on the "new" code generator. This page is here for historical reasons. See [Code Generator](commentary/compiler/code-gen) page for an up-to-date description of the current code generator.
+
 # GHC's glorious new code generator
 
 
