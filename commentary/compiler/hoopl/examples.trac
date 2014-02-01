@@ -4,7 +4,7 @@ This page gathers examples of Hoopl usage so that beginners can learn from them.
 
 == Dead assignment removal ==
 
-This was originally part of `CmmLive` module but was removed due to being too slow. According to Simon Marlow "a single removeDeadAssigments pass costs about 5% of compilation time, and in the vast majority of code does nothing over what !CmmSink already does". 
+This was originally part of `CmmLive` module but was removed due to being too slow. According to Simon Marlow "a single `removeDeadAssigments` pass costs about 5% of compilation time, and in the vast majority of code does nothing over what `CmmSink` already does". 
 
 {{{
 removeDeadAssignments :: DynFlags -> CmmGraph
