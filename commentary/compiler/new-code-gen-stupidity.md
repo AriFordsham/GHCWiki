@@ -1,7 +1,7 @@
 # NOTE: Historical page
 
 
-This page is here for historical reasons.  Most of the issues described here are now fixed (2 Aug 2012), and the new code generator produces code approximately as good as the old code generator.  Any remaining issues will be made into tickets as necessary.
+This page is here for historical reasons.  Most of the issues described here are now fixed (2 Aug 2012), and the new code generator produces code approximately as good as the old code generator.  Any remaining issues will be made into tickets as necessary. See [Code Generator](commentary/compiler/code-gen) page for an up-to-date description of the current code generator.
 
 # Stupidity in the New Code Generator
 
