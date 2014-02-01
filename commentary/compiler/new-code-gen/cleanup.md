@@ -1,3 +1,8 @@
+## Historical page
+
+
+This page is a bunch of notes on the new code generator. It is outdated and is here only for historical reasons.It should probably be removed. See [Code Generator](commentary/compiler/code-gen) page for a description of current code generator.
+
 # Cleanup after the new codegen is enabled
 
 
