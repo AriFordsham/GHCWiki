@@ -1,3 +1,8 @@
+## Historical page
+
+
+This page describes state of the new code generator sometime back in 2008. It is completely outdated and is here only for historical reasons. See [Code Generator](commentary/compiler/code-gen) page for a description of current code generator.
+
 # Overview of modules in the new code generator
 
 
