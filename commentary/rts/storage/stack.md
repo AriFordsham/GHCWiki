@@ -47,7 +47,7 @@ The constants for the different types of stack frame are defined in [includes/rt
 - `RET_SMALL`
 - `RET_BIG`
 - `RET_DYN`
-- `RET_FUN`
+- `RET_FUN` - (Explained a bit here: [ https://ghc.haskell.org/trac/ghc/wiki/Commentary/Compiler/CPS\#Notes](https://ghc.haskell.org/trac/ghc/wiki/Commentary/Compiler/CPS#Notes))
 - `UPDATE_FRAME`
 - `CATCH_FRAME`
 - `UNDERFLOW_FRAME` - The stack is chunked now. Connected as a linked list. (Since Dec 2010: [f30d527344db528618f64a25250a3be557d9f287](/trac/ghc/changeset/f30d527344db528618f64a25250a3be557d9f287/ghc),  [ Blogpost](https://ghc.haskell.org/trac/ghc/blog/stack-chunks#comment-3))
