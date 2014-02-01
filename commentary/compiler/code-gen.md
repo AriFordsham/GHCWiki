@@ -67,6 +67,18 @@ The core of the Cmm pipeline is implemented by the `cpsTop` function in [compile
   - replacing references to `Areas` with offsets from `Sp`.
   - adding adjustments to `Sp`.
 
+- **Sinking assignments**, implemented in `CmmSink`, performs these optimizations:
+
+  - moves assignments closer to their uses, to reduce register pressure
+  - pushes assignments into a single branch of a conditional if possible
+  - inlines assignments to registers that are mentioned only once
+  - discards dead assignments
+
+> >
+> > It currently does not eliminate dead code in loops ([\#8327](https://gitlab.haskell.org//ghc/ghc/issues/8327)) and has some other minor deficiencies (eg. [\#8336](https://gitlab.haskell.org//ghc/ghc/issues/8336)).
+
+- **CAF analysis**, implemented in `CmmBuildInfoTables`. Computed CAF information is returned from `cmmPipeline` and used to create Static Reference Tables (SRT). See [here](commentary/rts/storage/gc/ca-fs) for some more detail on CAFs and SRTs.
+
 - **Split into multiple CmmProcs**, implemented in `CmmProcPointZ`.  At this point we build an info-table for each of the CmmProcs, including SRTs.  Done on the basis of the live local variables (by now mapped to stack slots) and live CAF statics.
 
   - `LastCall` and `LastReturn` nodes are replaced by `Jump`s.
