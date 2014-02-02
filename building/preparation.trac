@@ -8,6 +8,7 @@ This section describes how to set up your system with all the tools you need to 
  * [wiki:Building/Preparation/Windows Windows]
  * [wiki:Building/Preparation/MacOSX MacOS X]
  * [wiki:Building/Preparation/Solaris Solaris]
+ * [wiki:Building/Preparation/OpenIndiana OpenIndiana]
  * [wiki:Building/Preparation/RaspberryPi Raspberry Pi] (cross-compiling from Linux)
  * [wiki:Building/Preparation/FreeBSD FreeBSD]
 
