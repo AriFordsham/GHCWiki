@@ -1,0 +1,25 @@
+== '''Setting up a OpenIndiana system for building GHC''' ==
+ These instructions have only been checked for GHC 7.6.3 on OpenIndiana 151a8. They should also apply to earlier and later versions of GHC. 
+
+== '''Installing pre-compiled GHC 7.2.2 binary package ''' ==
+In order to build GHC on OpenIndiana we'll be using already precompiled version of ghc 7.2.2 from sfe repository
+
+{{{
+pfexec pkg install runtime/ghc 
+}}}
+
+
+== ''Configuring system for building'' ==
+To configure system for building we need to specify correct gmp include directory
+
+{{{
+./configure --with-gmp-includes=/usr/include/gmp
+}}}
+
+
+== '''Bulding GHC''' ==
+In order to build GHC you need to use GNU's gmake command instead of OpenIndiana's make which is
+
+{{{
+gmake
+}}}
