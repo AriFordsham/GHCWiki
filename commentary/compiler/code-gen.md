@@ -1,12 +1,12 @@
 # Code Generator
 
 
-This page describes code generator ("codegen") in GHC. It is meant to reflect current state of the implementation. If you notice any inacurracies please update the page (if you know how) or complain on ghc-devs.
+This page describes code generator ("codegen") in GHC. It is meant to reflect current state of the implementation. If you notice any inaccuracies please update the page (if you know how) or complain on ghc-devs.
 
 ## A brief history of code generator
 
 
-You might ocasionally hear about "old" and "new" code generator. GHC 7.6 and earlier used the old code generator. New code generator was being developed since 2007 and it was [enabled by default on 31 August 2012](/trac/ghc/changeset/832077ca5393d298324cb6b0a2cb501e27209768/ghc) after the release of GHC 7.6.1. The first stable GHC to use the new code generator is 7.8.1 released in early 2014. The commentary on the old code generator can be found [here](commentary/compiler/old-code-gen). Notes from the development process of the new code generator are located in a couple of pages on the wiki - go to [Index](title-index) and look for pages starting with "NewCodeGen".
+You might occasionally hear about "old" and "new" code generator. GHC 7.6 and earlier used the old code generator. New code generator was being developed since 2007 and it was [enabled by default on 31 August 2012](/trac/ghc/changeset/832077ca5393d298324cb6b0a2cb501e27209768/ghc) after the release of GHC 7.6.1. The first stable GHC to use the new code generator is 7.8.1 released in early 2014. The commentary on the old code generator can be found [here](commentary/compiler/old-code-gen). Notes from the development process of the new code generator are located in a couple of pages on the wiki - go to [Index](title-index) and look for pages starting with "NewCodeGen".
 
 
 There are some plans for the future development of code generator. One plan is to expand the capability of the pipeline so that it does native code generation too so that existing backends can be discarded - see [IntegratedCodeGen](commentary/compiler/integrated-code-gen) for discussion of the design. It is hard to say if this will ever happen as currently there is no work being done on that subject and in the meanwhile there was an alternative proposal to [replace native code generator with LLVM](commentary/compiler/backends/llvm/replacing-ncg).
@@ -39,7 +39,7 @@ The CPS-converted Cmm is fed to one of the backends. This is done by `codeOutput
 ## Second stage: the Cmm pipeline
 
 
-The core of the Cmm pipeline is implemented by the `cpsTop` function in [compiler/cmm/CmmPipeline.hs](/trac/ghc/browser/ghc/compiler/cmm/CmmPipeline.hs) module. The pipeline consists of following passes:
+The core of the Cmm pipeline is implemented by the `cpsTop` function in [compiler/cmm/CmmPipeline.hs](/trac/ghc/browser/ghc/compiler/cmm/CmmPipeline.hs) module. Below is a high-level overview of the pipeline. See source code comments in respective modules for a more in-depth explanation of each pass.
 
 - **Control Flow Optimisations**, implemented in `CmmContFlowOpt`, simplifies the control flow graph by:
 
@@ -54,18 +54,17 @@ The core of the Cmm pipeline is implemented by the `cpsTop` function in [compile
 
 - **Common Block Elimination**, implemented in `CmmCommonBlockElim`, eliminates blocks that are identical (except for the label on their first node). Since this pass traverses blocks in depth-first order any unreachable blocks introduced by Control Flow Optimisations are eliminated. **This pass is optional.**
 
-- **Determine proc-points**, implemented in `CmmProcPoint`. Proc-point analysis is done only when proc-point splitting is turned on. This is important for the LLVM backend. Proc-point are blocks in the graph that can be turned into entry points of procedures and proc-point splitting splits one function into many smaller ones. Initially we assume that entry point to a graph as well as continuation of every call is a proc-point. Then we look for blocks reachable from multiple proc-points and turn such blocks into a proc-point.
+- **Determine proc-points**, implemented in `CmmProcPoint`. The idea behind the "proc-point splitting" is that we first determine proc-points, ie. blocks in the graph that can be turned into entry points of procedures, and then split a larger function into many smaller ones, each having a proc-point as its entry point. This is required for the LLVM backend. The proc-point splitting itself is done later in the pipeline, but here we only determine the set of proc-points. We first call `callProcPoints`, which assumes that entry point to a Cmm graph and every continuation of a call is a procpoint. If we are splitting proc-points we update the list of proc-points by calling `minimalProcPointSet`, which adds all blocks reachable from more than one block in the graph. The set of proc-points is required by the stack layout pass.
 
-- **Figure out the stack layout**, implemented in `CmmStackLayout`.
+- **Figure out the stack layout**, implemented in `CmmStackLayout`. The job of this pass is to:
 
-  - Each variable 'x', and each proc-point label 'K', has an associated *Area*, written SS(x) and SS(k) resp, that names a contiguous portion of the stack frame.  
-  - The stack layout pass produces a mapping of: *(`Area` -\> `StackOffset`)*. For more detail, see [the description of stack layout.](commentary/compiler/stack-areas#laying-out-the-stack)
-  - A `StackOffset` is the byte offset of a stack slot from the old end (high address) of the frame.  It doesn't vary as the physical stack pointer moves.
+  - replace references to abstract stack Areas with fixed offsets from Sp.
+  - replace the CmmHighStackMark constant used in the stack check with
+    the maximum stack usage of the proc.
+  - save any variables that are live across a call, and reload them as
+    necessary.
 
-- **Manifest the stack pointer**, implemented in `CmmStackLayout`.  Once the stack layout mapping has been determined, a second pass walks over the graph, making the stack pointer, `Sp` explicit. Before this pass, there is no `Sp` at all.  After this, `Sp` is completely manifest.
-
-  - replacing references to `Areas` with offsets from `Sp`.
-  - adding adjustments to `Sp`.
+> **Important**: It may happen that stack layout will invalidate the computed set of proc-points by making a proc-point unreachable. This unreachable block is eliminated by one of subsequent passes that performs depth-first traversal of a graph: sinking pass (if optimisations are enabled), proc-point analysis (if optimisations are disabled and we're doing proc-point splitting) or at the very end of the pipeline (if optimisations are disabled and we're not doing proc-point splitting). This means that starting from this point in the pipeline we have inconsistent data and subsequent steps must be prepared for it.
 
 - **Sinking assignments**, implemented in `CmmSink`, performs these optimizations:
 
@@ -78,23 +77,52 @@ The core of the Cmm pipeline is implemented by the `cpsTop` function in [compile
 
 - **CAF analysis**, implemented in `CmmBuildInfoTables`. Computed CAF information is returned from `cmmPipeline` and used to create Static Reference Tables (SRT). See [here](commentary/rts/storage/gc/ca-fs) for some more detail on CAFs and SRTs. This pass is implemented using Hoopl (see below).
 
+- **Proc-point analysis and splitting** (only when splitting proc-points), implemented by `procPointAnalysis` in `CmmProcPoint`, takes a list of proc-points and for each block and determines from which proc-point the block is reachable. This is implemented using Hoopl.
+  Then the call to `splitAtProcPoints` splits the Cmm graph into multiple Cmm graphs (each represents a single function) and build info tables to each of them.
+  When doing this we must be prepared for the fact that a proc-point does not actually exist in the graph since it was removed by stack layout pass (see [\#8205](https://gitlab.haskell.org//ghc/ghc/issues/8205)).
 
-Here the pipeline splits into two alternative flows depending on whether we are splitting proc-points or not. Branches are essentially identical, except that one begins with splitting proc-points, while the other begins with attaching info tables.
+- **Attach continuations' info tables** (only when NOT splitting proc-points), implemented by `attachContInfoTables` in `CmmProcPoint` attaches info tables for the continuations of calls in the graph. *\[PLEASE WRITE MORE IF YOU KNOW WHY THIS IS DONE\]*
 
-**TODO Update descriptions below.**
+- **Update info tables to include stack liveness**, implemented by `setInfoTableStackMap` in `CmmLayoutStack`. Populates info tables of each Cmm function with stack usage information. Uses stack maps created by the stack layout pass.
 
-- **Split into multiple CmmProcs**, implemented in `CmmProcPointZ`.  At this point we build an info-table for each of the CmmProcs, including SRTs.  Done on the basis of the live local variables (by now mapped to stack slots) and live CAF statics.
+- **Control Flow Optimisations**, same as the beginning of the pipeline, but this pass runs only with `-O1` and `-O2`. Since this pass might produce unreachable blocks it is followed by a call to `removeUnreachableBlocksProc` (also in `CmmContFlowOpt.hs`)
 
-  - `LastCall` and `LastReturn` nodes are replaced by `Jump`s.
-
-- **Build info tables**, implemented in `CmmBuildInfoTables`..  
-
-  - Find each safe `MidForeignCall` node, "lowers" it into the suspend/call/resume sequence (see `Note [Foreign calls]` in `CmmNode.hs`.), and build an info table for them.
-  - Convert the `CmmInfo` for each `CmmProc` into a `[CmmStatic]`, using the live variable information computed just before "Figure out stack layout".  
-
-## Dumping Cmm
-
-## Hoopl
+## Dumping and debugging Cmm
 
 
-write about Hoopl (link paper, mention which modules are implemented with Hoopl)
+You can dump the generated Cmm code using `-ddump-cmm` flag. This is helpful for debugging Cmm problems. Cmm dump is divided into several sections:
+
+```wiki
+==================== Cmm produced by new codegen ====================
+...
+
+==================== Post control-flow optimisations ====================
+...
+
+==================== Post common block elimination ====================
+...
+
+==================== Layout Stack ====================
+...
+
+==================== Sink assignments ====================
+...
+
+==================== CAFEnv ====================
+...
+
+==================== after setInfoTableStackMap ====================
+...
+
+==================== Post control-flow optimisations ====================
+...
+
+==================== Post CPS Cmm ====================
+...
+
+==================== Output Cmm ====================
+...
+```
+
+
+"Cmm produced by new codegen" is emited in `HscMain` module after converting STG to Cmm. This Cmm has not been processed in any way by the Cmm pipeline. If you see that something is incorrect in that dump it means that the problem is located in the STG-\>Cmm pass. The last section, "Output Cmm", is also dumped in `HscMain` but this is done after the Cmm has been processed by the whole Cmm pipeline. All other sections are dumped by the Cmm pipeline. You can dump only selected passes with more specific flags. For example, if you know (or suspect) that the sinking pass is performing some incorrect transformations you can make the dump shorter by adding `-ddump-cmm-sp -ddump-cmm-sink` flags. This will produce only the "Layout Stack" dump (just before sinking pass) and "Sink assignments" dump (just after the sinking pass) allowing you to focus on the changes introduced by the sinking pass.
