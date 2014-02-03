@@ -1,0 +1,5 @@
+**Known issues**:
+
+- [\#8696](https://gitlab.haskell.org//ghc/ghc/issues/8696) - `lens` fails to build. 
+- Mavericks suffers from some preprocessing bugs. We're going to try using `cpphs` as an alternative.
+- [\#7602](https://gitlab.haskell.org//ghc/ghc/issues/7602) - OS X's parallel garbage collector is still performing badly. We're going to keep looking at this for the final release.
