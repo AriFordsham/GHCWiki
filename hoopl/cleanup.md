@@ -150,6 +150,8 @@ actually necessary and useful.
 
 - Simon doesn't like the `joinInFacts` function, which is only called to possibly produce some debugging output from the join function.
 
+- (Jan Stolarek) To add more to the above point, the lattice join function is required to take a `Label` paramter for debugging purposes. All join functions I've seen so far simply ignore that parameter but it still leads to problems. One example of this is `joinFacts` function, which requires the `Label` of a block for which we join facts so that it can pass it to the join function. The problem is there is no easy way to recover that `Label` at the call site of `joinFacts`. The alternatives here are: a) pass a bogus `Label` (it can even be `undefined`) since it won't be used anyway; b) use `joinOutFacts` which does not require a `Label` but is marked as deprecated, which requires us to use `-fno-warn-deprecation-warnings`. Both solutions feel wrong and the only good one seems to be changing the type of lattice join function.
+
 - Jan doesn't like mess in Hoopl repo. There are unused modules (`Compiler.Hoopl.OldDataflow`, `Compiler.Hoopl.DataflowFold`), older versions of some modules (in `prototypes/` directory) or private correspondence with paper reviewers and between authors.
 
 ## Changing the graph type
