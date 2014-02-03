@@ -29,7 +29,7 @@ The CPS-converted Cmm is fed to one of the backends. This is done by `codeOutput
 
 == Second stage: the Cmm pipeline ==
 
-The core of the Cmm pipeline is implemented by the `cpsTop` function in [[GhcFile(compiler/cmm/CmmPipeline.hs)]] module. The pipeline consists of following passes:
+The core of the Cmm pipeline is implemented by the `cpsTop` function in [[GhcFile(compiler/cmm/CmmPipeline.hs)]] module. Below is a high-level overview of the pipeline. See source code comments in respective modules for a more in-depth explanation of each pass.
 
  * '''Control Flow Optimisations''', implemented in `CmmContFlowOpt`, simplifies the control flow graph by:
    * Eliminating blocks that have only one predecessor by concatenating them with that predecessor
