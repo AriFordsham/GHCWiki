@@ -89,6 +89,8 @@
                     </th>
 <th></th></tr></table>
 
+**Patches**
+
 <table><tr><th>Ticket (Ticket query: status: patch, version: 7.8.1-rc1, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: id)</th>
 <th>Type (Ticket query: status: patch, version: 7.8.1-rc1, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: type)</th>
 <th>Summary (Ticket query: status: patch, version: 7.8.1-rc1, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: summary)</th>
