@@ -6,13 +6,96 @@
 - RC1's version number is 7.8.20140130 when it should be 7.8.**0**.20140130. RC2 will use 7.8.0.\<date\>.
 - The Linux binary builds require glibc 2.15 (Ubuntu 12.04.) RC2 will use glibc 2.13 (Debian 7/stable) instead.
 
-** Tickets filed against RC1 **
+## Tickets filed against RC1
 
-<table><tr><th>Ticket (Ticket query: version: 7.8.1-rc1, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: id)</th>
-<th>Type (Ticket query: version: 7.8.1-rc1, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: type)</th>
-<th>Summary (Ticket query: version: 7.8.1-rc1, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: summary)</th>
-<th>Priority (Ticket query: version: 7.8.1-rc1, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: priority)</th>
-<th>Owner (Ticket query: version: 7.8.1-rc1, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: owner)</th></tr>
+<table><tr><th>Ticket (Ticket query: status: new, version: 7.8.1-rc1, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: id)</th>
+<th>Type (Ticket query: status: new, version: 7.8.1-rc1, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: type)</th>
+<th>Summary (Ticket query: status: new, version: 7.8.1-rc1, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: summary)</th>
+<th>Priority (Ticket query: status: new, version: 7.8.1-rc1, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: priority)</th>
+<th>Owner (Ticket query: status: new, version: 7.8.1-rc1, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: owner)</th></tr>
+<tr><th>[\#8731](https://gitlab.haskell.org//ghc/ghc/issues/8731)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[long compilation time for module with large data type and partial record selectors](https://gitlab.haskell.org//ghc/ghc/issues/8731)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th></th></tr>
+<tr><th>[\#8808](https://gitlab.haskell.org//ghc/ghc/issues/8808)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[ImpredicativeTypes type checking fails depending on syntax of arguments](https://gitlab.haskell.org//ghc/ghc/issues/8808)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th></th></tr>
+<tr><th>[\#8814](https://gitlab.haskell.org//ghc/ghc/issues/8814)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[7.8 optimizes attoparsec improperly](https://gitlab.haskell.org//ghc/ghc/issues/8814)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th></th></tr></table>
+
+**Closed**
+
+<table><tr><th>Ticket (Ticket query: status: closed, version: 7.8.1-rc1, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: id)</th>
+<th>Type (Ticket query: status: closed, version: 7.8.1-rc1, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: type)</th>
+<th>Summary (Ticket query: status: closed, version: 7.8.1-rc1, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: summary)</th>
+<th>Priority (Ticket query: status: closed, version: 7.8.1-rc1, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: priority)</th>
+<th>Owner (Ticket query: status: closed, version: 7.8.1-rc1, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: owner)</th></tr>
 <tr><th>[\#5013](https://gitlab.haskell.org//ghc/ghc/issues/5013)</th>
 <th>
                       
@@ -451,31 +534,6 @@
                       bug
                     </th>
 <th>[Segmentation fault in Cabal](https://gitlab.haskell.org//ghc/ghc/issues/8728)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      normal
-                    </th>
-<th></th></tr>
-<tr><th>[\#8731](https://gitlab.haskell.org//ghc/ghc/issues/8731)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      bug
-                    </th>
-<th>[long compilation time for module with large data type and partial record selectors](https://gitlab.haskell.org//ghc/ghc/issues/8731)</th>
 <th>
                       
                       
@@ -1313,31 +1371,6 @@
                       normal
                     </th>
 <th></th></tr>
-<tr><th>[\#8808](https://gitlab.haskell.org//ghc/ghc/issues/8808)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      bug
-                    </th>
-<th>[ImpredicativeTypes type checking fails depending on syntax of arguments](https://gitlab.haskell.org//ghc/ghc/issues/8808)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      normal
-                    </th>
-<th></th></tr>
 <tr><th>[\#8810](https://gitlab.haskell.org//ghc/ghc/issues/8810)</th>
 <th>
                       
@@ -1388,31 +1421,6 @@
                       normal
                     </th>
 <th>dreixel</th></tr>
-<tr><th>[\#8814](https://gitlab.haskell.org//ghc/ghc/issues/8814)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      bug
-                    </th>
-<th>[7.8 optimizes attoparsec improperly](https://gitlab.haskell.org//ghc/ghc/issues/8814)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      normal
-                    </th>
-<th></th></tr>
 <tr><th>[\#8815](https://gitlab.haskell.org//ghc/ghc/issues/8815)</th>
 <th>
                       
@@ -1601,6 +1609,639 @@
                       bug
                     </th>
 <th>[genSym uses atomic_inc but doesn't link arm_atomic_spin_lock](https://gitlab.haskell.org//ghc/ghc/issues/8951)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th></th></tr></table>
+
+**Merges**
+
+<table><tr><th>Ticket (Ticket query: status: merge, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: id)</th>
+<th>Type (Ticket query: status: merge, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: type)</th>
+<th>Summary (Ticket query: status: merge, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: summary)</th>
+<th>Priority (Ticket query: status: merge, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: priority)</th>
+<th>Owner (Ticket query: status: merge, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: owner)</th></tr>
+<tr><th>[\#8657](https://gitlab.haskell.org//ghc/ghc/issues/8657)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[-fregs-graph still has a limit on spill slots](https://gitlab.haskell.org//ghc/ghc/issues/8657)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th>archblob</th></tr>
+<tr><th>[\#14729](https://gitlab.haskell.org//ghc/ghc/issues/14729)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[normaliseType is not well-kinded](https://gitlab.haskell.org//ghc/ghc/issues/14729)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th></th></tr>
+<tr><th>[\#15549](https://gitlab.haskell.org//ghc/ghc/issues/15549)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[Core Lint error with EmptyCase](https://gitlab.haskell.org//ghc/ghc/issues/15549)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th></th></tr>
+<tr><th>[\#15552](https://gitlab.haskell.org//ghc/ghc/issues/15552)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[Infinite loop/panic with an existential type.](https://gitlab.haskell.org//ghc/ghc/issues/15552)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th></th></tr>
+<tr><th>[\#15578](https://gitlab.haskell.org//ghc/ghc/issues/15578)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[Honour INLINE pragmas on 0-arity bindings](https://gitlab.haskell.org//ghc/ghc/issues/15578)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th></th></tr>
+<tr><th>[\#15694](https://gitlab.haskell.org//ghc/ghc/issues/15694)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[GHC panic from pattern synonym, "Type-correct unfilled coercion hole"](https://gitlab.haskell.org//ghc/ghc/issues/15694)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th></th></tr>
+<tr><th>[\#15733](https://gitlab.haskell.org//ghc/ghc/issues/15733)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      task
+                    </th>
+<th>[Several links in GHC.Exts.Heap documentation are broken](https://gitlab.haskell.org//ghc/ghc/issues/15733)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th></th></tr>
+<tr><th>[\#15849](https://gitlab.haskell.org//ghc/ghc/issues/15849)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[Error message: "Perhaps you need a let in a do block", when there is no do block.](https://gitlab.haskell.org//ghc/ghc/issues/15849)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th>nineonine</th></tr>
+<tr><th>[\#15897](https://gitlab.haskell.org//ghc/ghc/issues/15897)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[Negative MUT time in +RTS -s -RTS when heap profiling is enabled](https://gitlab.haskell.org//ghc/ghc/issues/15897)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th></th></tr>
+<tr><th>[\#16141](https://gitlab.haskell.org//ghc/ghc/issues/16141)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[StrictData and TypeFamilies regression](https://gitlab.haskell.org//ghc/ghc/issues/16141)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      highest
+                    </th>
+<th></th></tr>
+<tr><th>[\#16183](https://gitlab.haskell.org//ghc/ghc/issues/16183)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[GHC HEAD regression: -ddump-splices incorrectly parenthesizes HsKindSig applications](https://gitlab.haskell.org//ghc/ghc/issues/16183)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th></th></tr>
+<tr><th>[\#16188](https://gitlab.haskell.org//ghc/ghc/issues/16188)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[GHC HEAD-only panic (buildKindCoercion)](https://gitlab.haskell.org//ghc/ghc/issues/16188)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      highest
+                    </th>
+<th>goldfire</th></tr>
+<tr><th>[\#16195](https://gitlab.haskell.org//ghc/ghc/issues/16195)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[Program with trivial polymorphism leads to out of scope dictionary](https://gitlab.haskell.org//ghc/ghc/issues/16195)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      high
+                    </th>
+<th></th></tr>
+<tr><th>[\#16204](https://gitlab.haskell.org//ghc/ghc/issues/16204)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[GHC HEAD-only Core Lint error (Argument value doesn't match argument type)](https://gitlab.haskell.org//ghc/ghc/issues/16204)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      highest
+                    </th>
+<th></th></tr>
+<tr><th>[\#16225](https://gitlab.haskell.org//ghc/ghc/issues/16225)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[GHC HEAD-only Core Lint error (Trans coercion mis-match)](https://gitlab.haskell.org//ghc/ghc/issues/16225)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      highest
+                    </th>
+<th></th></tr>
+<tr><th>[\#16230](https://gitlab.haskell.org//ghc/ghc/issues/16230)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[API Annotations: more explicit foralls fixup](https://gitlab.haskell.org//ghc/ghc/issues/16230)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th>alanz</th></tr>
+<tr><th>[\#16236](https://gitlab.haskell.org//ghc/ghc/issues/16236)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[API Annotations: AnnAt disconnected for TYPEAPP](https://gitlab.haskell.org//ghc/ghc/issues/16236)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th>alanz</th></tr>
+<tr><th>[\#16255](https://gitlab.haskell.org//ghc/ghc/issues/16255)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[Visible kind application defeats type family with higher-rank result kind](https://gitlab.haskell.org//ghc/ghc/issues/16255)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th></th></tr>
+<tr><th>[\#16265](https://gitlab.haskell.org//ghc/ghc/issues/16265)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[API Annotations: parens anns discarded for \`(\*)\` operator](https://gitlab.haskell.org//ghc/ghc/issues/16265)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th>alanz</th></tr>
+<tr><th>[\#16279](https://gitlab.haskell.org//ghc/ghc/issues/16279)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[Lexer: Alternate Layout Rule injects actual not virtual braces](https://gitlab.haskell.org//ghc/ghc/issues/16279)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th>alanz</th></tr>
+<tr><th>[\#16287](https://gitlab.haskell.org//ghc/ghc/issues/16287)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[:kind accepts bogus type](https://gitlab.haskell.org//ghc/ghc/issues/16287)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th></th></tr>
+<tr><th>[\#16303](https://gitlab.haskell.org//ghc/ghc/issues/16303)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[checkStack sanity check fails](https://gitlab.haskell.org//ghc/ghc/issues/16303)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th></th></tr>
+<tr><th>[\#16311](https://gitlab.haskell.org//ghc/ghc/issues/16311)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      task
+                    </th>
+<th>[Suggest -XExistentialQuantification for 'forall' in data declarations](https://gitlab.haskell.org//ghc/ghc/issues/16311)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th></th></tr>
+<tr><th>[\#16331](https://gitlab.haskell.org//ghc/ghc/issues/16331)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[REGRESSION: --supported-languages lies about supported languages, again](https://gitlab.haskell.org//ghc/ghc/issues/16331)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      highest
+                    </th>
+<th></th></tr>
+<tr><th>[\#16339](https://gitlab.haskell.org//ghc/ghc/issues/16339)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[Cannot put (.) or (!) type operators into an export list](https://gitlab.haskell.org//ghc/ghc/issues/16339)</th>
 <th>
                       
                       

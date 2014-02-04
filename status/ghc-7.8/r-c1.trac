@@ -6,6 +6,14 @@
  * RC1's version number is 7.8.20140130 when it should be 7.8.'''0'''.20140130. RC2 will use 7.8.0.<date>.
  * The Linux binary builds require glibc 2.15 (Ubuntu 12.04.) RC2 will use glibc 2.13 (Debian 7/stable) instead.
 
-** Tickets filed against RC1 **
+== Tickets filed against RC1
 
-[[TicketQuery(version=7.8.1-rc1,format=table,col=type|summary|priority|owner)]]
+[[TicketQuery(version=7.8.1-rc1,status=new,format=table,col=type|summary|priority|owner)]]
+
+**Closed**
+
+[[TicketQuery(version=7.8.1-rc1,status=closed,format=table,col=type|summary|priority|owner)]]
+
+**Merges**
+
+[[TicketQuery(status=merge,format=table,col=type|summary|priority|owner)]]
