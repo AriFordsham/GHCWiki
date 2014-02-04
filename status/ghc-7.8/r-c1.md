@@ -3,7 +3,7 @@
 - [\#8696](https://gitlab.haskell.org//ghc/ghc/issues/8696) - `lens` fails to build. 
 - Mavericks suffers from some preprocessing bugs. We're going to try using `cpphs` as an alternative.
 - [\#7602](https://gitlab.haskell.org//ghc/ghc/issues/7602) - OS X's parallel garbage collector is still performing badly. We're going to keep looking at this for the final release.
-- RC1's version number is 7.8.20130130 when it should be 7.8.**1**.20130130. RC2 will use 7.8.1.\<date\>.
+- RC1's version number is 7.8.20140130 when it should be 7.8.**0**.20140130. RC2 will use 7.8.0.\<date\>.
 - The Linux binary builds require glibc 2.15 (Ubuntu 12.04.) RC2 will use glibc 2.13 (Debian 7/stable) instead.
 
 ** Tickets filed against RC1 **
