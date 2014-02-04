@@ -46,7 +46,7 @@ You can make sure you have all dependencies by
 But this might install some packages you do not use in your system (e.g. java, docbook, xsltproc).  Alternatively install the following:
 
 ```wiki
-   sudo apt-get install haskell-platform git autoconf libtool make ncurses-dev g++ llvm
+   sudo apt-get install haskell-platform git autoconf automake libtool make ncurses-dev g++ llvm
 ```
 
 
