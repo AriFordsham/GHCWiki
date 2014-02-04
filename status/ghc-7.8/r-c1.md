@@ -5,7 +5,7 @@
 - [\#7602](https://gitlab.haskell.org//ghc/ghc/issues/7602) - OS X's parallel garbage collector is still performing badly. We're going to keep looking at this for the final release.
 - RC1's version number is 7.8.20130130 when it should be 7.8.**1**.20130130. RC2 will use 7.8.1.\<date\>.
 
-** Tickets failed against RC1 **
+** Tickets filed against RC1 **
 
 <table><tr><th>Ticket (Ticket query: version: 7.8.1-rc1, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: id)</th>
 <th>Type (Ticket query: version: 7.8.1-rc1, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: type)</th>
