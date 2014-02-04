@@ -89,6 +89,19 @@
                     </th>
 <th></th></tr></table>
 
+<table><tr><th>Ticket (Ticket query: status: patch, version: 7.8.1-rc1, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: id)</th>
+<th>Type (Ticket query: status: patch, version: 7.8.1-rc1, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: type)</th>
+<th>Summary (Ticket query: status: patch, version: 7.8.1-rc1, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: summary)</th>
+<th>Priority (Ticket query: status: patch, version: 7.8.1-rc1, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: priority)</th>
+<th>Owner (Ticket query: status: patch, version: 7.8.1-rc1, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: owner)</th></tr>
+<tr><th>
+            No tickets found
+          </th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr></table>
+
 **Merges**
 
 <table><tr><th>Ticket (Ticket query: status: merge, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: id)</th>

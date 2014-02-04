@@ -10,6 +10,9 @@
 
 [[TicketQuery(version=7.8.1-rc1,status=new,format=table,col=type|summary|priority|owner)]]
 
+[[TicketQuery(version=7.8.1-rc1,status=patch,format=table,col=type|summary|priority|owner)]]
+
+
 **Merges**
 
 [[TicketQuery(status=merge,format=table,col=type|summary|priority|owner)]]
