@@ -79,6 +79,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
    * [wiki:NewAxioms Closed type families]
 
  * Notes on proposed or in progress (but out of tree) GHC compiler features:
+   * [wiki:NestedCPR Nested CPR analysis]
    * [wiki:TemplateHaskell/Annotations Giving Template Haskell full access to annotations]
    * [wiki:FunDeps Checking consistency of functional dependencies]
    * [wiki:Commentary/GSoCMultipleInstances Allowing multiple instances of the same package to be installed], each instance having different dependencies
