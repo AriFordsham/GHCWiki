@@ -19,6 +19,7 @@ Relevant open tickets:
 - [\#8582](https://gitlab.haskell.org//ghc/ghc/issues/8582)
 - [\#8583](https://gitlab.haskell.org//ghc/ghc/issues/8583)
 - [\#8584](https://gitlab.haskell.org//ghc/ghc/issues/8584)
+- [\#8761](https://gitlab.haskell.org//ghc/ghc/issues/8761)
 
 ## Motivating example
 
