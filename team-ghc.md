@@ -275,6 +275,13 @@ In order to see emails below, **you must login**.
   - **Committer since**: September, 2008.
   - **Main areas of interest**: GHC API
 
+- [ Mateusz Kowalczyk](http://fuuzetsu.co.uk/blog)
+
+  - University of Bath, United Kingdom
+  - **Trac**: Fuuzetsu; **email**: fuuzetsu@…; **github**: [ https://github.com/Fuuzetsu](https://github.com/Fuuzetsu); **IRC**: Fuuzetsu
+  - **Committer since**: February, 2014.
+  - **Main areas of interest**: Haddock
+
 ### Becoming a committer
 
 

@@ -236,6 +236,12 @@ In order to see emails below, '''you must login'''.
   * '''Committer since''': September, 2008.
   * '''Main areas of interest''': GHC API
 
+ * [http://fuuzetsu.co.uk/blog Mateusz Kowalczyk]
+  * University of Bath, United Kingdom
+  * '''Trac''': Fuuzetsu; '''email''': fuuzetsu@fuuzetsu.co.uk; '''github''': https://github.com/Fuuzetsu; '''IRC''': Fuuzetsu
+  * '''Committer since''': February, 2014.
+  * '''Main areas of interest''': Haddock
+
 === Becoming a committer ===
 
 At a certain point after you've made enough contributions, the question of commit access inevitably arises. We welcome a steady stream of contributors, because it broadens the sense of ownership of GHC, which is great.
