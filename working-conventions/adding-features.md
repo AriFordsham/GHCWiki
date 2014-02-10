@@ -24,7 +24,7 @@ We welcome your involvement in making GHC able to do more.  Here's how to do it
   - Use 'darcs send' to create a patch bundle
   - Attach the patch bundle to the Trac report
   - Add a comment to the Trac report to say what you've done
-  - Set the ticket status to 'patch', and if you are listed as owner then 'unassign' the ticket
+  - Set the ticket status to 'patch', and if you are listed as owner then 'unassign' the ticket.
     This shifts responsibility to the GHC team to review and commit your patch.
 
 > >
