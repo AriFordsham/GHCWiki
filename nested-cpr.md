@@ -124,9 +124,9 @@ Might also help. Need to see if his branch can be merged onto master. (But I lik
 - Why is `cacheprof` not deterministic? (→ [\#8611](https://gitlab.haskell.org//ghc/ghc/issues/8611))
 - What became of Simon’s better-ho-cardinality branch? See [better-ho-cardinality](nested-cpr/better-ho-cardinality).
 - Try vtunes to get better numbers.
-- ~~Implement [\#2110](https://gitlab.haskell.org//ghc/ghc/issues/2110)~~
+- ~~Implement [\#2110](https://gitlab.haskell.org//ghc/ghc/issues/2110)~~ (pushed)
 - ~~Make worker-wrapper unbox data families: [\#7619](https://gitlab.haskell.org//ghc/ghc/issues/7619)~~
-- Make foldl into a good consumer: [\#7994](https://gitlab.haskell.org//ghc/ghc/issues/7994)
+- ~~Make foldl into a good consumer: [\#7994](https://gitlab.haskell.org//ghc/ghc/issues/7994)~~ (pushed)
 
   - Ideas: [DmdAnalIdeas](nested-cpr/dmd-anal-ideas) ← Outdated
   - Related: See how often the demand on a function is better than its vanilla demand ([\#6070](https://gitlab.haskell.org//ghc/ghc/issues/6070))
@@ -134,4 +134,8 @@ Might also help. Need to see if his branch can be merged onto master. (But I lik
   - Investigate in Takano’s WW-stuff.
 
     - Mail with question sent
-- ~~Experiment with aggressive CSE: [\#7596](https://gitlab.haskell.org//ghc/ghc/issues/7596)~~
+    - He is investigating nofib regressions.
+- Experiment with aggressive CSE: [\#7596](https://gitlab.haskell.org//ghc/ghc/issues/7596)
+
+  - Prevent floating past multi-way cases.
+  - Experiment with CSE before and after DmdAnal.
