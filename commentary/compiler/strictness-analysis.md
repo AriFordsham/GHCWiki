@@ -8,6 +8,10 @@ GHC's approach to strictness analysis is that of "demand analysis", a backwards 
 
 The rest of this commentary describes code that is not checked in to the HEAD yet.
 
+
+Update: as of 2014-02-12, newer documentation (apparently on the same topic and apparently more up-to-date) is available at [Commentary/Compiler/Demand](commentary/compiler/demand) (I am not an expert on the GHC internals though).
+Also, [compiler/basicTypes/NewDemand.lhs](/trac/ghc/browser/ghc/compiler/basicTypes/NewDemand.lhs) is not any more in the sources, replaced by (or renamed to?) [compiler/basicTypes/Demand.lhs](/trac/ghc/browser/ghc/compiler/basicTypes/Demand.lhs).
+
 # The demand analyzer
 
 
