@@ -20,6 +20,7 @@ Relevant open tickets:
 - [\#8583](https://gitlab.haskell.org//ghc/ghc/issues/8583)
 - [\#8584](https://gitlab.haskell.org//ghc/ghc/issues/8584)
 - [\#8761](https://gitlab.haskell.org//ghc/ghc/issues/8761)
+- [\#8779](https://gitlab.haskell.org//ghc/ghc/issues/8779)
 
 ## Motivating example
 
