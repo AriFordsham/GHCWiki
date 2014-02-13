@@ -1,9 +1,6 @@
 **Known issues**:
 
-- [\#8696](https://gitlab.haskell.org//ghc/ghc/issues/8696) - `lens` fails to build. 
 - Mavericks suffers from some preprocessing bugs. We're going to try using `cpphs` as an alternative.
-- [\#7602](https://gitlab.haskell.org//ghc/ghc/issues/7602) - OS X's parallel garbage collector is still performing badly. We're going to keep looking at this for the final release, but no guarantees.
-- **Done**: RC1's version number is 7.8.20140130 when it should be 7.8.**0**.20140130. RC2 will use 7.8.0.\<date\>.
 - The Linux binary builds require glibc 2.15 (Ubuntu 12.04.) RC2 will use glibc 2.13 (Debian 7/stable) instead.
 - [ hackage:cabal-install-1.18.0.2](http://hackage.haskell.org/package/cabal-install-1.18.0.2) is not build-able with 7.8.1; if you want to build `cabal-install` with RC1 you need check out latest version from the [ Cabal 1.18 branch](https://github.com/haskell/cabal/tree/1.18) until [ hackage:cabal-install-1.18.0.3](http://hackage.haskell.org/package/cabal-install-1.18.0.3) is released.
 
@@ -17,13 +14,13 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
 
 ## Tickets filed against RC1
 
-## Status: closed (61 matches)
+## Status: closed (44 matches)
 
-<table><tr><th>Ticket (Ticket query: version: 7.8.1-rc1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: id)</th>
-<th>Type (Ticket query: version: 7.8.1-rc1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: type)</th>
-<th>Summary (Ticket query: version: 7.8.1-rc1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: summary)</th>
-<th>Priority (Ticket query: version: 7.8.1-rc1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: priority)</th>
-<th>Owner (Ticket query: version: 7.8.1-rc1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: owner)</th></tr>
+<table><tr><th>Ticket (Ticket query: version: 7.8.1-rc1, milestone: 7.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: id)</th>
+<th>Type (Ticket query: version: 7.8.1-rc1, milestone: 7.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: type)</th>
+<th>Summary (Ticket query: version: 7.8.1-rc1, milestone: 7.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: summary)</th>
+<th>Priority (Ticket query: version: 7.8.1-rc1, milestone: 7.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: priority)</th>
+<th>Owner (Ticket query: version: 7.8.1-rc1, milestone: 7.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: owner)</th></tr>
 <tr><th>[\#5013](https://gitlab.haskell.org//ghc/ghc/issues/5013)</th>
 <th>
                       
@@ -99,56 +96,6 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                       highest
                     </th>
 <th>thoughtpolice</th></tr>
-<tr><th>[\#7655](https://gitlab.haskell.org//ghc/ghc/issues/7655)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      bug
-                    </th>
-<th>[7.6.2 Segmentation Fault/Bus Error in large exponentation](https://gitlab.haskell.org//ghc/ghc/issues/7655)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      highest
-                    </th>
-<th>rwbarton</th></tr>
-<tr><th>[\#7830](https://gitlab.haskell.org//ghc/ghc/issues/7830)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      bug
-                    </th>
-<th>[Error: operand out of range](https://gitlab.haskell.org//ghc/ghc/issues/7830)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      highest
-                    </th>
-<th></th></tr>
 <tr><th>[\#8631](https://gitlab.haskell.org//ghc/ghc/issues/8631)</th>
 <th>
                       
@@ -199,31 +146,6 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                       normal
                     </th>
 <th>ezyang</th></tr>
-<tr><th>[\#8699](https://gitlab.haskell.org//ghc/ghc/issues/8699)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      bug
-                    </th>
-<th>[Multiple test faliures on 32-bit Linux systems.](https://gitlab.haskell.org//ghc/ghc/issues/8699)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      normal
-                    </th>
-<th></th></tr>
 <tr><th>[\#8700](https://gitlab.haskell.org//ghc/ghc/issues/8700)</th>
 <th>
                       
@@ -237,31 +159,6 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                       bug
                     </th>
 <th>[Cross-compilation perf-cross BuildFlavour](https://gitlab.haskell.org//ghc/ghc/issues/8700)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      high
-                    </th>
-<th></th></tr>
-<tr><th>[\#8701](https://gitlab.haskell.org//ghc/ghc/issues/8701)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      bug
-                    </th>
-<th>[Update libffi-tarballs to latest libffi](https://gitlab.haskell.org//ghc/ghc/issues/8701)</th>
 <th>
                       
                       
@@ -524,31 +421,6 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                       high
                     </th>
 <th></th></tr>
-<tr><th>[\#8737](https://gitlab.haskell.org//ghc/ghc/issues/8737)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      bug
-                    </th>
-<th>[T5975a fails when using official Windows Python distribution](https://gitlab.haskell.org//ghc/ghc/issues/8737)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      low
-                    </th>
-<th></th></tr>
 <tr><th>[\#8739](https://gitlab.haskell.org//ghc/ghc/issues/8739)</th>
 <th>
                       
@@ -662,31 +534,6 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                       bug
                     </th>
 <th>[GeneralizedNewtypeDeriving is still not Safe](https://gitlab.haskell.org//ghc/ghc/issues/8745)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      normal
-                    </th>
-<th></th></tr>
-<tr><th>[\#8746](https://gitlab.haskell.org//ghc/ghc/issues/8746)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      bug
-                    </th>
-<th>[Crosscompiling](https://gitlab.haskell.org//ghc/ghc/issues/8746)</th>
 <th>
                       
                       
@@ -999,81 +846,6 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                       normal
                     </th>
 <th>goldfire</th></tr>
-<tr><th>[\#8775](https://gitlab.haskell.org//ghc/ghc/issues/8775)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      bug
-                    </th>
-<th>[GHC panic building postgresql-simple](https://gitlab.haskell.org//ghc/ghc/issues/8775)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      normal
-                    </th>
-<th></th></tr>
-<tr><th>[\#8778](https://gitlab.haskell.org//ghc/ghc/issues/8778)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      feature request
-                    </th>
-<th>[Typeable TypeNats](https://gitlab.haskell.org//ghc/ghc/issues/8778)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      normal
-                    </th>
-<th>diatchki</th></tr>
-<tr><th>[\#8781](https://gitlab.haskell.org//ghc/ghc/issues/8781)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      feature request
-                    </th>
-<th>[check if GNU nm is really needed and if so let configure detect gnm](https://gitlab.haskell.org//ghc/ghc/issues/8781)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      normal
-                    </th>
-<th>kgardas</th></tr>
 <tr><th>[\#8786](https://gitlab.haskell.org//ghc/ghc/issues/8786)</th>
 <th>
                       
@@ -1249,31 +1021,6 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                       normal
                     </th>
 <th></th></tr>
-<tr><th>[\#8803](https://gitlab.haskell.org//ghc/ghc/issues/8803)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      bug
-                    </th>
-<th>[ghc panic ((!!): index too large) when building some packages](https://gitlab.haskell.org//ghc/ghc/issues/8803)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      normal
-                    </th>
-<th></th></tr>
 <tr><th>[\#8805](https://gitlab.haskell.org//ghc/ghc/issues/8805)</th>
 <th>
                       
@@ -1349,31 +1096,6 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                       normal
                     </th>
 <th>dreixel</th></tr>
-<tr><th>[\#8815](https://gitlab.haskell.org//ghc/ghc/issues/8815)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      bug
-                    </th>
-<th>[confusing language in error message](https://gitlab.haskell.org//ghc/ghc/issues/8815)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      normal
-                    </th>
-<th>sivteck</th></tr>
 <tr><th>[\#8817](https://gitlab.haskell.org//ghc/ghc/issues/8817)</th>
 <th>
                       
@@ -1398,241 +1120,4 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                       
                       highest
                     </th>
-<th>simonmar</th></tr>
-<tr><th>[\#8820](https://gitlab.haskell.org//ghc/ghc/issues/8820)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      bug
-                    </th>
-<th>[7.8 RC1 unregisterised fails selfbootstrap on 64 bit Linux](https://gitlab.haskell.org//ghc/ghc/issues/8820)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      normal
-                    </th>
-<th></th></tr>
-<tr><th>[\#8823](https://gitlab.haskell.org//ghc/ghc/issues/8823)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      bug
-                    </th>
-<th>[showFloat for higher precision types produces strange results for some values](https://gitlab.haskell.org//ghc/ghc/issues/8823)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      low
-                    </th>
-<th></th></tr>
-<tr><th>[\#8825](https://gitlab.haskell.org//ghc/ghc/issues/8825)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      bug
-                    </th>
-<th>[ghc can't determine gcc version on ru_RU locale](https://gitlab.haskell.org//ghc/ghc/issues/8825)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      normal
-                    </th>
-<th></th></tr>
-<tr><th>[\#8918](https://gitlab.haskell.org//ghc/ghc/issues/8918)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      bug
-                    </th>
-<th>[Network package doesn't load under GHC 7.8 RC on windows (?)](https://gitlab.haskell.org//ghc/ghc/issues/8918)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      normal
-                    </th>
-<th></th></tr>
-<tr><th>[\#8946](https://gitlab.haskell.org//ghc/ghc/issues/8946)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      bug
-                    </th>
-<th>[Using hdevtools caused "Evaluated the place holder for a PostTcKind"](https://gitlab.haskell.org//ghc/ghc/issues/8946)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      normal
-                    </th>
-<th></th></tr>
-<tr><th>[\#8951](https://gitlab.haskell.org//ghc/ghc/issues/8951)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      bug
-                    </th>
-<th>[genSym uses atomic_inc but doesn't link arm_atomic_spin_lock](https://gitlab.haskell.org//ghc/ghc/issues/8951)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      normal
-                    </th>
-<th></th></tr>
-<tr><th>## Status: new (3 matches)
-
-</th>
-<th></th>
-<th></th>
-<th></th>
-<th></th></tr>
-<tr><th>Ticket (Ticket query: version: 7.8.1-rc1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: id)</th>
-<th>Type (Ticket query: version: 7.8.1-rc1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: type)</th>
-<th>Summary (Ticket query: version: 7.8.1-rc1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: summary)</th>
-<th>Priority (Ticket query: version: 7.8.1-rc1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: priority)</th>
-<th>Owner (Ticket query: version: 7.8.1-rc1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: owner)</th></tr>
-<tr><th>[\#8731](https://gitlab.haskell.org//ghc/ghc/issues/8731)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      bug
-                    </th>
-<th>[long compilation time for module with large data type and partial record selectors](https://gitlab.haskell.org//ghc/ghc/issues/8731)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      normal
-                    </th>
-<th></th></tr>
-<tr><th>[\#8808](https://gitlab.haskell.org//ghc/ghc/issues/8808)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      bug
-                    </th>
-<th>[ImpredicativeTypes type checking fails depending on syntax of arguments](https://gitlab.haskell.org//ghc/ghc/issues/8808)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      normal
-                    </th>
-<th></th></tr>
-<tr><th>[\#8814](https://gitlab.haskell.org//ghc/ghc/issues/8814)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      bug
-                    </th>
-<th>[7.8 optimizes attoparsec improperly](https://gitlab.haskell.org//ghc/ghc/issues/8814)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      normal
-                    </th>
-<th></th></tr></table>
+<th>simonmar</th></tr></table>
