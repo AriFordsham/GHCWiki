@@ -1,9 +1,6 @@
 **Known issues**:
 
- * #8696 - `lens` fails to build. 
  * Mavericks suffers from some preprocessing bugs. We're going to try using `cpphs` as an alternative.
- * #7602 - OS X's parallel garbage collector is still performing badly. We're going to keep looking at this for the final release, but no guarantees.
- * **Done**: RC1's version number is 7.8.20140130 when it should be 7.8.'''0'''.20140130. RC2 will use 7.8.0.<date>.
  * The Linux binary builds require glibc 2.15 (Ubuntu 12.04.) RC2 will use glibc 2.13 (Debian 7/stable) instead.
  * hackage:cabal-install-1.18.0.2 is not build-able with 7.8.1; if you want to build `cabal-install` with RC1 you need check out latest version from the [https://github.com/haskell/cabal/tree/1.18 Cabal 1.18 branch] until hackage:cabal-install-1.18.0.3 is released.
 
@@ -15,4 +12,4 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
 
 == Tickets filed against RC1
 
-[[TicketQuery(version=7.8.1-rc1,format=table,col=type|summary|priority|owner,group=status)]]
+[[TicketQuery(version=7.8.1-rc1,milestone=7.8.1,format=table,col=type|summary|priority|owner,group=status)]]
