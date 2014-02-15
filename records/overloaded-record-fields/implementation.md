@@ -274,6 +274,15 @@ We could mangle selector names (using `$sel:foo:T` instead of `foo`) even when t
 - The `minf_exports` field of `ModuleInfo` is now of type `[AvailInfo]` rather than `NameSet`, as this provides accurate export information. An extra function `modInfoExportsWithSelectors` gives a list of the exported names including overloaded record selectors (whereas `modInfoExports` includes only non-mangled selectors).
 - The `HsExpr`, `hsRecField` and `ConDeclField` AST types have changed as described above.
 
+## Extensions enabled by `-XOverloadedRecordFields`
+
+
+Turning on the `OverloadedRecordFields` extension automatically enables:
+
+- `DisambiguateRecordFields`, because ORF strictly generalises it
+- `FlexibleContexts`, because `r { x :: a }` decodes to `Has r "x" a` which contains a non-variable
+- `ConstraintKinds`, because `r { x :: a, y :: b }` decodes to a tuple constraint
+
 ## Outstanding issues
 
 - The definition of `tcFldInsts` has a slightly fragile assertion that it does not obtain any evidence bindings when typechecking `Has`/`Upd` instances. Could these be returned somewhere instead? It should be possible to fuse `makeRecFldInstsFor` and `tcFldInsts`, or just generate and typecheck binds, using `tcValBinds` or similar for the typechecking.
