@@ -1,0 +1,41 @@
+= Call Arity notes =
+
+This wiki page is about the Call Arity analysis and transformation, which eta-expands definitions if we know that it is always being called with a certain number of arguments. This looks a the ''uses'' of a function, which is different from the the code in  CoreArity, which looks at the ''definition'' of a function.
+
+This pages does '''not''' document Call Arity as implemented; that documentation should be found and maintained with the code, at source:compiler/simplCore/CallArity.hs. But it discusses possible changes to the analysis.
+
+== Making use of multiple calls ==
+
+Currently, Call Arity only works if there is exactly one incoming call from the body of a let (and possibly one from the body of a recursive function); if there are multiple calls then we do not make use of this information. That is the right thing to do for thunks (we do not want to waste work!), but for functions this would not be an issue... if functions would not possibly call thunks again!
+
+Tricky example 1:
+
+{{{
+let d = case .. of ... -> \x . ...
+                   ... -> \y . ...
+    go = \x . d
+in ... go 1 2 ... go 3 4 ...
+}}}
+If the second call to `go` were not there, we would eta-expand both `go` and `d`. But there are two calls. We could return this information (“`go` is called multiple times, and each time with at least 2 argument”) and eta-expand `go`. But it would mean that the information coming from `g` (“`d` is called once with one argument) would have to be relaxed to “called many times”, and `d` not eta-exanded.
+
+So far so good; better expand only `go` than nothing at all.
+
+What makes this tricky is that we need information about what calls are exclusive with what other calls, to be able to handle recursion correctly. As a reminder, here the example for why we need that:
+
+{{{
+let d = case .. of ... -> \x . ...
+                   ... -> \y . ...
+    go = \x . case ... of ... -> go (x+1)
+                          ... -> d
+in case .. of ... -> go 1 2
+              ... -> d 1
+}}}
+
+We want to be able to eta-expand `d`, so we must find out that `d` is called at most once (with one argument). And we do, despite `d` being called from both the body of the let and a local recursive function! We can because the analysis tells us the body calls ''either '' `d` ''or'' `go`. And `go` itself calls ''either'' `d` ''or'' `go`.
+
+This exclusiveness is tricky if we expand the domain to carry more information.
+
+My next attempt: Return a map to `data CallCount = OnceAndOnly Arity | Many Arity` with the semantics that:
+ * Among all variables that map to `OnceAndOnly`, at most one is called with that arity,
+ * additional calls to functions mapping to `Many` can be made, which satisfy that arity.
+This is a strictly better domain in the sense that the current use of `Just` maps to the `OnceAndOnly`, and what is now `Nothing` simply gets more information.
