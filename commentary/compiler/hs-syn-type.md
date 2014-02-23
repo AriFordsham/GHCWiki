@@ -1,5 +1,5 @@
 
-Video: [ Abstract Syntax Types](http://video.google.com/videoplay?docid=-8782356823569862556) (1hr03")
+Video: [ Abstract Syntax Types](http://www.youtube.com/watch?v=lw7kbUvAmK4&list=PLBkRCigjPwyeCSD_DFxpd246YIF7_RDDI) (1hr03')
 
 # The `HsSyn` types
 
