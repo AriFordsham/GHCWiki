@@ -197,4 +197,4 @@ libraries/base|219ea0e539aca217fe1819baf02d4cdd1d670f51
 ```
 
 
-Put it in a file, and run `./utils/fingerprint.py restore -f <file>` to restore your repository tree to that state.
+Put it in a file, and run `./utils/fingerprint.py restore -f <file>` to restore your repository tree to that state. Another resource you can use to find fingerprints is [ ghc-complete](https://github.com/nomeata/ghc-complete), although coverage here only began in late 2013.
