@@ -1,18 +1,15 @@
-# Kind-polymorphic `Typeable`
+# Kind-polymorphic `Typeable`in GHC 7.8
 
 
-The page describes an improved implementation of the `Typeable` class, using polymorphic kinds.  Technically it is straightforward, but it represents a non-backward-compatible change to a widely used library, so we need to make a plan for the transition.
+The page describes an improved implementation of the `Typeable` class, using polymorphic kinds, available from GHC 7.8.  Technically it is straightforward, but it represents a non-backward-compatible change to a widely used library, so we had to make a plan for the transition.
 
 
-Relevant tickets we could thereby fix: [\#5391](https://gitlab.haskell.org//ghc/ghc/issues/5391), [\#5863](https://gitlab.haskell.org//ghc/ghc/issues/5863).
+Relevant tickets we fixed: [\#5391](https://gitlab.haskell.org//ghc/ghc/issues/5391), [\#5863](https://gitlab.haskell.org//ghc/ghc/issues/5863).
+
+## The `Typeable` class before 7.8
 
 
-Open question: what are the corresponding changes to `Data.Data`?  See [\#4896](https://gitlab.haskell.org//ghc/ghc/issues/4896), 
-
-## The current `Typeable` class
-
-
-The current `Typeable` class is:
+Before 7.8, the `Typeable` class was as follows:
 
 ```wiki
 class Typeable (a :: *) where
@@ -20,7 +17,7 @@ class Typeable (a :: *) where
 ```
 
 
-Because it is mono-kinded we also have
+Because it was mono-kinded we also had
 
 ```wiki
 class Typeable1 (f :: *->*) where
@@ -28,7 +25,7 @@ class Typeable1 (f :: *->*) where
 ```
 
 
-and so on up to `Typeable7`.  It's a mess, and we cannot make `Typeable` at all for
+and so on up to `Typeable7`.  It was a mess, and we couldn't make `Typeable` at all for
 type constructors with higher kinds like
 
 ```wiki
@@ -36,9 +33,9 @@ type constructors with higher kinds like
 ```
 
 
-See [\#5391](https://gitlab.haskell.org//ghc/ghc/issues/5391)
+See [\#5391](https://gitlab.haskell.org//ghc/ghc/issues/5391).
 
-## The new `Typeable` class
+## The new `Typeable` class, in GHC 7.8
 
 
 Having polymorphic kinds lets us say this:
@@ -74,7 +71,7 @@ Notice that
   ```
 
 
-Now we can give give kind-specific instances:
+Now the base library code can have kind-specific instances:
 
 ```wiki
 instance Typeable Int where typeRep _ = ...
@@ -84,7 +81,7 @@ instance (Typeable a, Typeable b) => Typeable (a b) where
 ```
 
 
-A use of `deriving( Typeable )` for a type constructor `T` would always generate
+A use of `deriving( Typeable )` for a type constructor `T` always generates
 
 ```wiki
 instance Typable T where typeRep _ = ....
@@ -93,20 +90,30 @@ instance Typable T where typeRep _ = ....
 
 i.e. an instance of `T` itself, not applied to anything.
 
-### Aside
+## How to make your code compile again
 
 
-Iavor suggested:
+If you have code involving `Typeable` that fails to compile with 7.8, it might be due to the changes described above. Here's a few things to keep in mind in order to make your code compile again:
+  
 
-```wiki
-class Typeable (a :: k) where
-  typeRep :: TTypeRep a
+- Users can no longer giving manual instances of `Typeable`; they must be derived.
 
-newtype TTypeRep a = TR TypeRep
-```
+- Manual instances were often written for datatypes with non kind-`*` arguments. These can now be derived without problems. So if you had, for example:
 
+  ```wiki
+  data Fix f = In (f (Fix f))
+  instance (Typeable1 f) => Typeable (Fix f) where typeOf = ...
+  ```
 
-Is this perhaps better?
+  you can now simply attach `deriving Typeable` to `Fix`.
+
+- You can still use `typeOf1..7`; they are now just (deprecated) type-specific versions of `typeRep`. But keep in mind that they are no longer methods of a class, as the classes `Typeable1..7` no longer exist.
+
+- You can still use `Typeable1..7`; they are now just (deprecated) type synonyms for `Typeable`, fixing the kind of their argument. But keep in mind that they are no longer classes, just type synonyms.
+
+- If all else fails, you could just try replacing your `import Data.Typeable` with `import Data.OldTypeable`. But keep in mind that `OldTypeable` is distinct, and incompatible with the new `Typeable`.
+
+- If you want code that compiles with multiple versions of GHC, you should use CPP. The [ tagged package on Hackage](http://hackage.haskell.org/package/tagged) is a good example of how to achieve this.
 
 ## A change-over plan
 
@@ -124,15 +131,18 @@ Is this perhaps better?
 
   typeOf1 :: forall t (a :: *). Typeable t => t a -> TypeRep
   typeOf1 _ = typeRep (Proxy :: Proxy t)
+
+  type Typeable1 (a :: * -> *)                               = Typeable a
+  type Typeable2 (a :: * -> * -> *)                          = Typeable a
   ```
 
 - Make `deriving( Typeable )` work with whatever `Typeable` class is in scope.  So what it does will be determined by whether you say `import Data.Typeable` or `import Data.OldTypeable`.
 
-**I think that means that old programs will continue to work in GHC 7.8**, provided
-
-- You did not mention `Typeable1` etc explicitly
-- You used `deriving( Typeable )` to write instances.
-
 **In GHC  7.10:**
 
 - Remove `Data.OldTypeable`
+
+## Aside
+
+
+Open question: what are the corresponding changes to `Data.Data`?  See [\#4896](https://gitlab.haskell.org//ghc/ghc/issues/4896).
