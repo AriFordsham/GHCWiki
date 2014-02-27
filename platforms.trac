@@ -65,7 +65,7 @@ Tier 2 platforms as possible to Tier 1, as soon as they meet the Tier 1 criteria
 
 '''*S1''' Goetz Isenmann [http://www.haskell.org/pipermail/glasgow-haskell-users/2009-November/017961.html reports] that GHCi is currently unable to load compiled code that refers to errno.[[br]]
 '''*S2''' but see #591[[BR]]
-'''*S3''' registerised in the past up to GHC 7.0.4 release, then unregisterised due to removal of registerised -fvia-C way (mangler)
+'''*S3''' registerised in the past up to GHC 7.0.4 release, then unregisterised due to removal of registerised -fvia-C way (mangler)[[br]]
 '''*S4''' shared libraries are supported on Solaris 11 version 11/11 and higher
 
 In most cases, binaries for the tier 2 platforms can be downloaded from the [http://www.haskell.org/ghc/distribution_packages Distribution Packages] page, e.g. you can get binaries for most of the Linux platforms from Debian. In some cases, for example the Solaris platforms, you'll need to go to the [http://www.haskell.org/ghc/download download page] of a particular release to get a bindist.
