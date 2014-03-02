@@ -1,7 +1,9 @@
-# Overloaded record fields: implementation notes
+# [OverloadedRecordFields](records/overloaded-record-fields) implementation notes
+
+**This page gives implementation details of the [OverloadedRecordFields](records/overloaded-record-fields) extension.  It is targeted at GHC hackers.**
 
 
-Here be dragons. This page describes implementation details and progress on the implementation of [the overloaded record fields plan](records/overloaded-record-fields/plan). Development of the extension is taking place on forks of the [ ghc](https://github.com/adamgundry/ghc), [ packages-base](https://github.com/adamgundry/packages-base) and [ haddock](https://github.com/adamgundry/haddock) repositories (on branch 'overloaded-record-fields'). A [ prototype implementation](https://github.com/adamgundry/records-prototype/blob/master/RecordsPrototype.hs) is also available.
+See the [design page](records/overloaded-record-fields/design) for a more gentle introduction.
 
 ## The basic idea
 
