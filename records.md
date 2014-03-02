@@ -13,8 +13,7 @@ There are two rather different sets of issues:
 
 This page focuses exclusively on the first, narrow issue of disambiguating record field names.  We have a separate Wiki page, [ExtensibleRecords](extensible-records), on the broad issue of first class record types.
 
-
-On this page I'd like to summarise the problem, and specify alternative designs.  So far it is mostly a skeleton: please fill it out.  The idea is to hold a discussion by email (ghc-users?) but to collect results (alternative designs, trade-offs, pros and cons) here, because email threads quickly get lost.  Simon PJ.
+**This page summarises the problem, and discusses alternative designs. The extension that was eventually implemented, [OverloadedRecordFields](records/overloaded-record-fields), is described on its own page.**
 
 ## The problem: record name spacing
 
@@ -62,7 +61,7 @@ So we have decided to avoid the extensible record debate, but how can we have mu
 - **Plan A**: Namespacing.  This uses qualified names to disambiguate record field names.
 - **Plan B**: Types.  This uses types to disambiguate record field names.
 
-1. **[Simple Overloaded Record Fields](records/overloaded-record-fields) (SORF)**.  Pure (Plan B).
+1. **[Simple Overloaded Record Fields](records/overloaded-record-fields/sorf) (SORF)**.  Pure (Plan B).
 1. **[ Type Directed Name Resolution](http://hackage.haskell.org/trac/haskell-prime/wiki/TypeDirectedNameResolution) (TDNR)**.  Pure (Plan B), but without abstraction over fields of the same name.
 1. **[Agda-derived Records](records/name-spacing) (ADR)** Pure (Plan A). Explained on below FDR page.
 1. **[Frege-derived Records](records/name-spacing) (FDR)**. Uses (Plan A) + (Plan B).
@@ -73,6 +72,9 @@ So we have decided to avoid the extensible record debate, but how can we have mu
 1. **[Explicit Classy Records](records/explicit-classy-records)**
 1. **polymorphic extensible records with scoped labels** by Daan Leijen, [ (implemented in Elm)](http://elm-lang.org/blog/announce/version-0.7.elm) and in the DSL [ WaveScript](http://www.cs.indiana.edu/~rrnewton/wavescope/WaveScope_+_WaveScript/)
 1. **Are there any other approaches?**
+
+
+The [OverloadedRecordFields](records/overloaded-record-fields) extension eventually implemented was based on SORF, but with some modifications based on feedback. Of course, this may not be the end of the story...
 
 ### Similarities
 
