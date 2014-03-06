@@ -147,6 +147,20 @@ What if there are more than 63(?) statements, and we don't have a
 tuple big enough?  We have to desugar to nested tuples in this case.
 Not a huge problem, this is exactly what we do for pattern bindings.
 
+### No unique grouping
+
+
+There isn't a guaranteed unique way of doing the grouping. Eg
+
+```wiki
+do { x <- A
+   ; y <- B  -- no x
+   ; z <- C x }
+```
+
+
+could be grouped with the first two in an applicative, or the second two, but not all three. Which one "wins"?
+
 ## Stage 2
 
 
