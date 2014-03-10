@@ -119,6 +119,7 @@ See also [TemplateHaskell](template-haskell)
 
 ## Cmm and code generation
 
+- [\#8871](https://gitlab.haskell.org//ghc/ghc/issues/8871): Cmm optimisation opportunity
 - [\#8585](https://gitlab.haskell.org//ghc/ghc/issues/8585): loopification
 - Summary ticket: [\#4258](https://gitlab.haskell.org//ghc/ghc/issues/4258), and [wiki page](commentary/compiler/new-code-gen)
 - [\#3462](https://gitlab.haskell.org//ghc/ghc/issues/3462): allocate large objects with `allocateLocal()`
