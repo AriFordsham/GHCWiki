@@ -1,5 +1,7 @@
 # Roles
 
+**Update** (March, 2014): There is a draft paper describing roles, including much discussion of design decisions, [ here](http://www.cis.upenn.edu/~eir/papers/2014/coercible/coercible-ext.pdf).
+
 
 The idea of *roles* comes from the paper [ Generative Type Abstraction and Type-level Computation](http://www.seas.upenn.edu/~sweirich/papers/popl163af-weirich.pdf), published at POPL 2011. The implementation of roles in GHC, however, is somewhat different than stated in that paper. This page focuses on the user-visible features of roles. [RolesImplementation](roles-implementation) talks about the implementation in GHC. See also [ Richard's blog post about roles](http://typesandkinds.wordpress.com/2013/08/15/roles-a-new-feature-of-ghc/). (Note: some aspects of that blog post are out of date, as of December 17, 2013.)
 
