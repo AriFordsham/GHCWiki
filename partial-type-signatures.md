@@ -1,0 +1,776 @@
+# Partial Type Signatures for Haskell
+
+*Thomas Winant, Dominique Devriese, Frank Piessens, Tom Schrijvers*
+
+
+In Haskell, programmers have a binary choice between omitting the type
+signature (and relying on type inference) or explicitly providing the
+type entirely; there are no intermediate options. Partial type
+signatures have been often proposed as an intermediate option.
+
+
+In a partial type signature, annotated types can be mixed with
+inferred types. A type signature is written like before, but can now
+contain *wildcards*, written as underscores. The types of these
+wildcards or unknown types will be inferred by the type checker, e.g.
+
+```wiki
+foo :: _ -> Bool
+foo x = not x
+-- Inferred: Bool -> Bool
+```
+
+
+We have been working on a design and an implementation of them for
+Haskell and GHC. We have worked out the interaction with
+OutsideIn(X) type inference
+and generalisation in a
+[ paper](https://lirias.kuleuven.be/bitstream/123456789/423475/3/paper.pdf)
+presented at [ PADL'14](http://www.ist.unomaha.edu/padl2014/) and
+a [ technical report with proofs](https://lirias.kuleuven.be/bitstream/123456789/424883/1/CW649.pdf).
+This document attempts to describe our design and our
+[ current implementation](https://github.com/mrBliss/ghc-head) from a
+more practical point of view in the hope to get some feedback from the
+GHC developers community.
+
+## Motivation and discussion
+
+### Pragmatics
+
+
+Before we start, we want to say something about the pragmatics of when
+and how to use type signatures. Many people have an opinion about when
+it is appropriate to write type signatures, e.g. we personally tend to
+always write type signatures for top-level functions but sometimes
+omit them for local bindings. Sometimes we are a bit more lax in
+throw-away code or during development.
+
+
+We emphasise that partial type signatures do not alter such
+pragmatics. The point is that Haskell already allows a choice between
+a full signature and no signature at all and all we add is an
+intermediate technical option: partial signatures. It is still up to
+the user to choose how much and what kind of type signatures to write
+for different kinds of definitions. He/she may still want to use
+partial signatures only for local definitions and/or non-exported
+(auxiliary) top-level definitions and/or top-level definitions in
+throw-away code.
+
+### Motivation
+
+
+So why would you want to use a *partial* type signatures instead of a
+normal type signature?
+
+- **Readability** Partial type signature can be useful to improve
+  the readability or understandability of your types. Some types are
+  so verbose that they might confuse the programmer. By replacing
+  distracting boilerplate type information with wildcards, you can put
+  the focus on the crucial bits of your type and guide users through
+  your complex types by hiding the less relevant bits.
+
+  In the example below, the constraints make the type signature
+  bloated.
+
+  ```wiki
+  replaceLoopsRuleP :: (ProductionRule p,
+    EpsProductionRule p,
+    RecProductionRule p qphi r,
+    TokenProductionRule p t,
+    PenaltyProductionRule p) =>
+    PenaltyExtendedContextFreeRule qphi r t v ->
+    (forall ix. qphi ix -> p [r ix]) ->
+    (forall ix. qphi ix -> p [r ix]) -> p v
+  ```
+
+  With the following partial type signature, the type becomes less
+  daunting:
+
+  ```wiki
+  replaceLoopsRuleP :: _ =>
+    PenaltyExtendedContextFreeRule qphi r t v ->
+    (forall ix. qphi ix -> p [r ix]) ->
+    (forall ix. qphi ix -> p [r ix]) -> p v
+  ```
+
+- **Development** During development, some parts of the type may
+  still be uncertain, unknown or prone to change, and/or you just
+  don't care to annotate them. With a partial type signature, you can
+  annotate exactly the parts of the type signature you know or want to
+  annotate and replace the (unknown) bits you want the type inferencer
+  to figure out for you with underscores (`_`).
+
+  Type signatures are very helpful during development, they let the
+  type checker verify that the type of the program you wrote matches
+  the type you wanted it to have. They also provide a machine-checked
+  form of documentation. After a quick glance at the type signature,
+  you instantly know quite a lot about the function you're planning to
+  use and/or forgot the type of, as you wrote it more than an hour
+  ago.
+
+  But during development, your functions, and by consequence your
+  types, will often change. Thus, the type signatures have to be
+  updated too, but programmers tend to be lazy, and will just omit the
+  signatures and add them back in the end. Unfortunately, by omitting
+  the type signatures, you lose the valuable advantages described in
+  the previous paragraph. A solution could be to annotate the fixed
+  parts of your signatures and replace the ever-changing parts by
+  wildcards.
+
+- **Uninferrable types** Some types cannot be inferred, see the
+  following program (example adapted from
+  [ Practical type inference for arbitrary-rank types](http://research.microsoft.com/en-us/um/people/simonpj/Papers/higher-rank/)).
+
+  ```wiki
+  foo x = (x [True, False], x ['a', 'b'])
+  test = foo reverse
+  -- reverse :: forall a. [a] -> [a]
+  ```
+
+  The argument of `foo`, `x`, is a polymorphic function, making the
+  type of `foo``(forall a. [a] -> [a]) -> ([Bool], [Char])`, which is
+  a higher-rank type. Inferring higher-rank types is isomorphic to
+  higher-order unification, which is known to be undecidable. So
+  generally, higher-rank types cannot be inferred. Therefore, the
+  program above will not typecheck.
+
+  The program above *can* typecheck when the higher-rank type is
+  annotated, e.g.
+
+  ```wiki
+  foo :: (forall a. [a] -> [a]) -> ([Bool], [Char])
+  foo x = (x [True, False], x ['a', 'b'])
+  ```
+
+  Unfortunately, we are forced to write a whole type signature, even
+  though only the type of the argument is strictly required to be
+  annotated, the rest could easily be inferred. With a partial type
+  signature, you can annotate just the required bits and leave out the
+  rest to be inferred for you, e.g.
+
+  ```wiki
+  foo :: (forall a. [a] -> [a]) -> _
+  foo x = (x [True, False], x ['a', 'b'])
+  ```
+
+- **Community** Feature requests or wiki pages for partial type
+  signatures in some form or other already exist: [\#5248](https://gitlab.haskell.org//ghc/ghc/issues/5248),
+  [ PartialTypeSigs](https://ghc.haskell.org/trac/haskell-prime/wiki/PartialTypeSigs),
+  [ PartialTypeAnnotations](https://ghc.haskell.org/trac/haskell-prime/wiki/PartialTypeAnnotations).
+  More recently,
+  [ a question popped up on Stack Overflow](http://stackoverflow.com/questions/21658438/how-to-define-function-signatures-partially-in-haskell)
+  asking if there is such a thing as partial type signatures for
+  Haskell. Judging from the comments on our answer, people seemed to
+  be interested. After presenting the paper at PADL'14, people told us
+  they would like to see it in GHC. All this evidence combined makes
+  us believe there is a real community demand for partial type
+  signatures in GHC.
+
+### Existing Workarounds
+
+
+In many situations, the effect of partial signatures can be achieved
+using other means. Consider for example the following partial
+signature
+
+```wiki
+foo :: (forall a. [a] -> [a]) -> _
+```
+
+
+A similar thing can already be done with the
+ScopedTypeVariables
+extension, which allows pattern signatures, e.g.
+
+```wiki
+foo (x :: forall a. [a] -> [a]) =
+  (x [True, False], x ['a', 'b'])
+```
+
+
+A downside to this approach is that the programmer is sprinkling type
+hints throughout his or her programs, instead of nicely separating
+types from terms with a type signature. It's also not directly clear
+how this can be applied to arbitrary parts of a type, e.g. how would
+you say something like `monadicComputation :: _ Int` etc.
+
+
+Other workarounds exist as well (see the
+[ paper](https://lirias.kuleuven.be/bitstream/123456789/423475/3/paper.pdf)
+for a discussion). They are typically based on adding computationally
+useless functions or dead code and we find them all less natural and
+elegant than our partial signatures.
+
+## Our Design
+
+
+We now describe the syntax and the semantics of our partial type
+signatures.
+
+### Type Wildcards
+
+
+A (partial) type signature has the following form:
+
+```wiki
+forall a b .. . (C1, C2, ..) => tau
+```
+
+
+It consists of three parts:
+
+1. The type variables: `a b ..`
+1. The constraints: `(C1, C2, ..)`
+1. The (mono)type: `tau`
+
+
+We call wildcards occurring within the monotype (`tau`) part of the
+type signature *type wildcards*. Type wildcards can be instantiated
+to concrete types like `Bool` or `Maybe [Bool]`, e.g.
+
+```wiki
+not' :: Bool -> _
+not' x = not x
+-- Inferred: Bool -> Bool
+
+maybools :: _
+maybools = Just [True]
+-- Inferred: Maybe [Bool]
+```
+
+
+Additionally, when they are not constrained to a particular type, they
+will be generalised over, e.g.
+
+```wiki
+bar :: _ -> _
+bar x = x
+-- Inferred: forall a. a -> a
+```
+
+
+Wildcards can unify with function types, e.g.
+
+```wiki
+qux :: Int -> _
+qux i b = i == i && b
+-- Inferred: Int -> Bool -> Bool
+```
+
+
+And annotated type variables, e.g.
+
+```wiki
+filter' :: _ -> [a] -> [a]
+filter' = filter
+-- Inferred: forall a. (a -> Bool) -> [a] -> [a]
+-- Same as the type of filter
+```
+
+
+As wildcards can unify with functions, just one type wildcard is
+enough to infer the whole type of a function of any arity (albeit
+without constraints).
+
+```wiki
+filter'' :: _
+filter'' = filter
+-- Inferred: forall a. (a -> Bool) -> [a] -> [a]
+-- Same as the type of filter and filter'
+```
+
+
+And type-constructors, e.g.
+
+```wiki
+justify :: a -> _ a
+justify = Just
+-- Inferred: forall a. a -> Maybe a
+
+tupleIt :: a -> _ a a
+tupleIt x = (x, x)
+-- Inferred: forall a. a -> (a, a)
+
+nestedTCs :: a -> _ (_ (_ _ _))
+nestedTCs = Just . (: []) . Left
+-- Inferred: forall a b. a -> Maybe [Either a b]
+```
+
+### Constraint Wildcards
+
+
+We call wildcards occurring within a constraint (inside a `C` in `(C1, C2, ..)`)
+*constraint wildcards*, e.g.
+
+```wiki
+fstIsBool :: (Bool, _) ~ a => a -> Bool
+fstIsBool (b1, b2) = not b1 && b2
+-- Inferred: (Bool, Bool) -> Bool
+
+class Two a b | a -> b where
+  one :: a -> a
+  two :: b -> b
+
+-- Ignore the second parameter of the typeclass
+secondParam :: Two a _ => a -> a
+secondParam x = one x
+-- Inferred type: forall a b. Two a b -> a -> a
+```
+
+
+A problem with constraint wildcards is that GHC's type constraint
+solver doesn't unify constraints with each other. E.g. `Eq _` or `_ a`
+will never be unified with `Eq a`. So the following program will not
+work:
+
+```wiki
+-- Neither partial type signature will work
+impossible :: Eq _ => a -> a -> Bool
+impossible :: _  a => a -> a -> Bool
+impossible x y = x == y
+-- Actual type: forall a. Eq a => a -> a -> Bool
+```
+
+
+Note that constraints are not unified for good reasons. One immediate
+problem is already that it could lead to ambiguities, consider for
+instance the following program.
+
+```wiki
+-- Incorrect partial type signature
+ambi :: _ a => a -> String
+ambi x = show (succ x) ++ show (x == x)
+-- Actual type:
+--   forall a. (Enum a, Eq a, Show a) => a -> String
+```
+
+
+As constraints are unordered, the constraint solver wouldn't know
+which one of the inferred constraints `(Enum a, Eq a, Show a)` the
+partially annotated constraint `(_ a)` should be unified with, it
+would have to guess. Regardless of whether constraints are unified,
+this program would have been rejected anyway, as only one constraint
+is partially annotated instead of all three.
+
+
+However, as demonstrated in the first two examples, we think
+constraint wildcards can be of (limited) use, provided that certain
+restrictions are imposed on their usage. More on this
+[later](partial-type-signatures#).
+
+### Extra-constraints Wildcard
+
+
+A third kind of wildcard we propose is the *extra-constraints
+wildcard*, not to be confused with a constraint wildcard. Whereas
+constraint wildcards occur inside the `C`s in the constraints part
+`(C1, C2, ..)` of a partial type signature, an extra-constraints
+wildcard occurs *as* a `C` inside the constraints part.
+
+
+The presence of an extra-constraints wildcard indicates that an
+arbitrary number of extra constraints may be inferred during type
+checking and will be added to the type signature. In the example
+below, the extra-constraints wildcard is used to infer three extra
+constraints.
+
+```wiki
+arbitCs :: _ => a -> String
+arbitCs x = show (succ x) ++ show (x == x)
+-- Inferred:
+--   forall a. (Show a, Enum a, Eq a) => a -> String
+```
+
+
+An extra-constraints wildcard shouldn't prevent the programmer from
+already listing the constraints he knows or wants to annotate, e.g.
+
+```wiki
+-- Also a correct partial type signature:
+arbitCs' :: (Enum a, _) => a -> String
+arbitCs' = arbitCs
+-- Inferred:
+--   forall a. (Enum a, Show a, Eq a) => a -> String
+```
+
+
+An extra-constraints wildcard can also lead to zero extra constraints
+to be inferred, e.g.
+
+```wiki
+noCs :: _ => String
+noCs = "noCs"
+-- Inferred: String
+```
+
+
+As a single extra-constraints wildcard is enough to infer any number
+of constraints, only one is allowed in a type signature and it should
+come last in the list of constraints.
+
+### Named Wildcards
+
+
+A fourth and final kind of wildcard we propose is the *named
+wildcard*. A named wildcard is a wildcard suffixed with an
+identifier. All occurrences of the same named wildcard within one type
+signature will unify to the same type. They are particularly useful to
+express constraints on unknown types, e.g.
+
+```wiki
+somethingShowable :: Show _x => _x -> _
+somethingShowable x = show x
+-- Inferred type: Show a => x -> String
+
+somethingShowable' :: Show _x => _x -> _
+somethingShowable' x = show (not x)
+-- Inferred type: Bool -> String
+```
+
+
+Named wildcards *should not be confused with type variables*. Even
+though syntactically similar, named wildcards can unify with concrete
+types as well as be generalised over (and behave as type variables).
+
+
+In the first example above, `_x` is generalised over (and is
+effectively replaced by a fresh type variable). In the second example,
+`_x` is unified with the `Bool` type, and as `Bool` implements the
+`Show` typeclass, the constraint `Show Bool` can be simplified away.
+
+
+Currently, a named wildcard is in scope in the type signature where it
+appears, but also in signatures in the right-hand side of the
+implementation. See [the issues section](partial-type-signatures#)
+for more discussion.
+
+### Extension Flags
+
+
+Previously, underscores in types were disallowed and caused parse
+errors. With this extension, underscores will be accepted by the
+parser. To remain backwards compatible (also with Haskell 2010), we
+require the user to enable our PartialTypeSignatures
+extension. Using wildcards without this flag will trigger a parse
+error with a suggestion to enable the flag.
+
+
+Currently, GHC parses identifiers prefixed with an underscore in type
+signatures, i.e. what we consider named wildcards, as type variables,
+as prescribed in Haskell 2010. To also remain backwards compatible on
+this front, we propose to only parse them as named wildcards when the
+extension NamedWildcards is
+enabled. This extension will be turned on automatically when the
+PartialTypeSignatures
+extension is turned on.
+
+
+We opted for a separate flag because unnamed wildcards cause programs
+previously rejected to be accepted, whereas named wildcards change the
+behaviour of previously accepted programs. With this extra flag, the
+user can still use (unnamed) wildcards with the
+(No)NamedWildcards
+extension explicitly turned off, to maintain backwards compatibility.
+
+### Local Definitions
+
+
+With the introduction of OutsideIn(X),
+the GADTs
+extension and the TypeFamilies
+extension, trigger the MonoLocalBinds
+flag. When it is enabled, types
+of local bindings without a signature no longer get generalised as
+described in OutsideIn(X).
+
+
+For the same reasons, we intend to perform no generalisation over
+wildcards in partial type signatures for local bindings, e.g.
+
+```wiki
+monoLoc :: forall a. a -> ((a, Bool), (a, Char))
+monoLoc x =  let g :: _ -> _
+                 g y = (x, y)
+             in (g True, g 'v')
+```
+
+
+When MonoLocalBinds is
+disabled, the program should work with or without the partial type
+signature. But when the MonoLocalBinds
+extension is enabled, it should no longer typecheck, as
+the type of `g` is no longer generalised, again with or without the
+partial type signature.
+
+
+GHC is slightly more liberal than the strict rule described in the
+OutsideIn(X) paper though.
+As explained in [ Let generalisation in GHC 7.0](https://ghc.haskell.org/trac/ghc/blog/LetGeneralisationInGhc7),
+even with the MonoLocalBinds
+extension enabled, a local binding without a type signature will still
+be generalised when all its free variables are closed. Translating
+this to partial type signatures: the following example should type
+check, as it does without a type signature.
+
+```wiki
+safeLoc :: (Bool, Char)
+safeLoc = let f :: _ -> _
+              f x = x
+          in (f True, f 'v')
+```
+
+
+Furthermore, we believe it necessary to disallow extra-constraints
+wildcards in partial type signatures for local bindings, as the
+generalisation over constraints is exactly what led to *let should
+not be generalised*.
+
+
+All of this is currently not yet fully implemented. We have also not
+yet worked out what we should do precisely if MonoLocalBinds
+is not enabled, although our intention is to try and align as closely
+as possible to the generalisation that happens in the absence of a
+type signature.
+
+## Formalisation
+
+
+We worked out a rigorous formalisation of partial type signature
+including typing rules, extending the existing formalisation of GHC's
+type inference system, OutsideIn(X)
+(as [ described](http://research.microsoft.com/apps/pubs/default.aspx?id=162516)
+in *OutsideIn(X): Modular
+type inference with local assumptions*). Additionally, we proved
+soundness of our new typing rules.
+
+
+We mentioned before that a single type wildcard is enough to infer any
+type, albeit without constraints. When we combine this with the fact
+that the presence of a single extra-constraints wildcard is enough to
+infer any number of constraints, one can see that the partial type
+signature `_ => _` is the same as omitting the type signature and
+relying completely on type inference. We formulated this, i.e. that `_ => _`
+is equivalent to omitting the type signature, as a theorem and proved
+it. We also showed that on non-partial type signatures, our new rules
+have the same effect as the old rules.
+
+
+See the
+[ technical report](https://lirias.kuleuven.be/bitstream/123456789/424883/1/CW649.pdf)
+for more details.
+
+## Implementation
+
+
+We implemented a subset of our proposal as a branch of GHC (master),
+available at [ github](https://github.com/mrBliss/ghc-head). This
+version can be compiled and should type check a large number of
+examples in this proposal.
+
+
+Here is a summary of the changes we have made in the implementation:
+
+- We have extended the `HsSyn` representation of Haskell code with two
+  new forms of types: `HsWildcardTy` for anonymous `_` types and
+  `HsNamedWildcardTy` for named wildcards `_a`.
+- The parser has been modified to parse them if the appropriate
+  extensions are enabled.
+- The renamer: when renaming `TypeSig`s, we do a pass over the
+  annotated type signature. We replace named wildcard types with
+  normal type variables but collect and store them as being
+  existentially quantified at the level of `TypeSig`. In the process,
+  we do the same for anonymous wildcards, replacing them with
+  existentially quantified anonymous type variables.
+- In the type checker, in `tcTySig`, we create new flexible
+  meta-variables for the wildcards and add them to the type variable
+  environment and store them in the returned `sig_fun` to get them
+  brought in scope when checking the RHSs.
+- In `tcPolyBinds`, we introduce a new "Generalisation Plan" called
+  `WcGen` which is used when there is only one funbind in a group of
+  bindings and its signature contains wildcards. This binding is
+  treated by a new function called `tcPolyCombi`, which applies our
+  generalisation rules.
+- The changes in `tcPolyCombi` are accompanied by corresponding
+  changes in `mkExport` for quantifying over the correct set of type
+  variables.
+
+
+The two last steps are not yet satisfactory. Most importantly, we do
+not yet distinguish between local binds and top-level binds. What we
+think is necessary is to make two versions of `tcPolyCombi`: one for
+local binds and one for top-level binds.
+
+## Questions and issues
+
+- **Constraint wildcards**: Wildcards in constraints sometimes
+  behave in a confusing way. As explained above, the reason is that
+  GHC's type constraint solver doesn't unify constraints with each
+  other. E.g. `Eq _` or `_ a` will never be unified with `Eq a`. So
+  the following program will not work:
+
+  ```wiki
+  -- Neither partial type signature will work
+  impossible :: Eq _ => a -> a -> Bool
+  impossible :: _  a => a -> a -> Bool
+  impossible x y = x == y
+  -- Actual type: forall a. Eq a => a -> a -> Bool
+  ```
+
+  One might expect that the wildcard `_` in the annotated constraint
+  `Eq _` would be unified with the required `Eq a` constraint, but
+  unfortunately, this doesn't work. Rather, we get an error about the
+  unsatisfiable `Eq a` constraint.
+
+  That does not mean wildcards in constraints are useless though. The
+  examples `fstIsBool`, `secondParam`, `somethingShowable` and
+  `somethingShowable'` above all use them in ways that will work and
+  may be useful.
+
+  In summary, we are not fully sure about whether or not to allow
+  wildcards in constraints. They can be useful, but their behaviour
+  may be confusing to users. One possible restriction is to disallow
+  unnamed wildcards in constraints and only allow named wildcards in
+  constraints when they also occur in the monotype.
+
+- **The scope of named wildcards**:
+  We currently treat all named wildcards as scoped type variables,
+  i.e. if we mention a named wildcard in a top-level partial type
+  signature, then it can also be mentioned in local bindings and it
+  will refer to *the same* type variable. This means, for example,
+  that the following example won't work:
+
+  ```wiki
+  test2 :: _a -> _a
+  test2 x = let y :: _a
+                y = (x,x)
+            in fst y
+  ```
+
+  The problem is that we will get a constraint `_a ~ (_a, _a)`, and we
+  will get an error about not being able to construct the infinite
+  type `_a`. If `_a` were not scoped, then the inner `_a` could be
+  unified with `(_a', _a')` where `_a'` is the outer `_a` and
+  everything would work.
+
+  A remaining question here is if we should treat named wildcards as
+  scoped *only if* the ScopedTypeVariables
+  extension is enabled. Our understanding is that *not* treating
+  type variables as scoped is only done for backwards compatibility,
+  so there seems little point in doing it for named wildcards?
+
+- **Local definitions**: no generalisation and no extra constraints
+  wildcards in partial type signatures for local definitions, are we
+  too strict? What when NoMonoLocalBinds
+  is turned on in conjunction with GADTs
+  or TypeFamilies?
+
+- Generally, we are interested in any problems you may find in this
+  design: major problems or small corner cases that we didn't think of
+  or look at yet, etc.
+
+## Some detailed notes
+
+- **Generalising over equality constraints?** Consider the following
+  example:
+
+  ```wiki
+  anyTypeThatIsBool :: _ => a
+  anyTypeThatIsBool = True
+  ```
+
+  A question that we have considered is whether one would like this to
+  type-check. Note that it can be typed as
+
+  ```wiki
+  anyTypeThatIsBool :: a ~ Bool => a
+  anyTypeThatIsBool = True
+  ```
+
+  We currently do not infer this kind of equality constraints (even
+  when there is an extra constraints wildcard): technically, `a` will
+  be instantiated to a skolem type variable and an equality for such a
+  variable will be considered absurd, similarly to a constraint like
+  `Int ~ Bool`. As a result, it will not be generalised over. Note
+  that if we were to allow inferring this kind of constraints, then
+  any universally quantified type variable would behave as a wildcard
+  in the presence of an extra constraints wildcard.
+
+  Note however that this is only the case for equality constraints
+  that directly apply to universally quantified type variables. For
+  example, the following does work:
+
+  ```wiki
+  type family F a
+
+  data Proxy a = Proxy a
+
+  anyTypeWhoseFIsBool :: _ => Proxy a -> F a
+  anyTypeWhoseFIsBool _ = True
+  ```
+
+  This will type-check fine and the constraint `F a ~ Bool` will be
+  happily inferred. Unlike `a ~ Bool`, it is not considered absurd
+  since it does not directly apply to a universally quantified type
+  variable.
+
+- **Disallow other uses**: partial type signatures should not be
+  allowed in every case a type (signature) is needed, for instance in
+  type class definitions, data type definitions, foreign declarations,
+  type synonyms, associated type instantiations, ... Our
+  implementation currently checks for these cases, but we might have
+  missed one. We believe that in nearly every case but value bindings,
+  partial type signatures (or types containing wildcards) should be
+  disallowed. However, we think they should be admissible in
+  InstanceSigs (not yet
+  implemented).
+
+- **Extra-constraints wildcard position**: We only allow one
+  extra-constraints wildcard in a signature: at the outer
+  quantification of the signature. Consider for example the function
+  `multiCs`:
+
+  ```wiki
+  multiCs x = show (succ x) ++ show (x == x)
+  ```
+
+  GHC infers the type `(Show a, Enum a, Eq a) => a -> String` for it,
+  but the type signature provided below is also valid (with the
+  RankNTypes extension
+  enabled).
+
+  ```wiki
+  multiCs :: (Show a) => a -> (Enum a, Eq a) => String
+  ```
+
+  We currently only allow one extra-constraints wildcard, in the
+  outermost set of constraints. Otherwise, we might get ambiguous
+  situations like this:
+
+  ```wiki
+  multiCs :: (Show a, _) => a -> (Enum a, _) => String
+  ```
+
+- **Higher-rank types**: Consider the following partial type
+  signature:
+
+  ```wiki
+  forall a. a -> (forall b. (b, _c) -> b) -> Int
+  ```
+
+  We believe that generalising over the `_c` named wildcard in the
+  should lead to a top-level quantification (where `a` is quantified)
+  of the resulting type variable:
+
+  ```wiki
+  forall a tw_c. a -> (forall b. (b, tw_c) -> b) -> Int
+  ```
+
+  We will never infer a quantification in the nested quantification
+  (where `b` is quantified):
+
+  ```wiki
+  forall a. a -> (forall b tw_c. (b, tw_c) -> b) -> Int
+  ```
+
+  The latter is equivalent to inferring higher-rank types, which, as
+  we mentioned before, is not something we can do.
