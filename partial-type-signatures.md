@@ -238,6 +238,8 @@ maybools = Just [True]
 -- Inferred: Maybe [Bool]
 ```
 
+**SLPJ** What is a "concrete type"?  I think you mean this: a type wildcard can be instantiated to any monotype.  **End SLPJ**
+
 
 Additionally, when they are not constrained to a particular type, they
 will be generalised over, e.g.
@@ -247,6 +249,30 @@ bar :: _ -> _
 bar x = x
 -- Inferred: forall a. a -> a
 ```
+
+**SLPJ** What does "when they are not constrained to a particular type" mean?  Presumably this would also work:
+
+```wiki
+bar2 :: _ -> _ -> _
+bar2 x f = f x
+-- Inferred: forall a b. a -> (a->b) -> b
+```
+
+
+Also you should make clear that 
+
+- each wildcard is independently instantiated; in `bar2`, the three wildcards are each instantiated to a different type.
+- In effect, whenever you have a type wildcard there is a wild-card in the `forall` part too.  For example you could say
+
+  ```wiki
+  bar2 :: forall a. a -> (a -> _) -> _
+  bar2 x f = f x
+  -- Inferred: forall a b. a -> (a->b) -> b
+  ```
+
+  and that would work too.  (I hope.)
+
+**End SLPJ**.
 
 
 Wildcards can unify with function types, e.g.
@@ -296,7 +322,52 @@ nestedTCs = Just . (: []) . Left
 -- Inferred: forall a b. a -> Maybe [Either a b]
 ```
 
+**SLPJ** I think an easier way to explain it would be this. If a function has a type signature, GHC
+checks that it has *exactly* that type.  But if it has a *partial* type signature GHC proceeds exactly as if it were inferring the type for the function (especially including generalisation), except that it additionally forces the function's type to have the shape given 
+by the partial type signature.
+**End SLPJ**
+
+**SLPJ** Can wildcards appear under higher rank foralls?
+
+```wiki
+f :: (forall a. _ -> a) -> b -> b
+```
+
+
+I think that seems jolly complicated.  At least, it would be Far Too Complicated if the nested `forall` was supposed to be extended, say thus
+
+```wiki
+-- Inferred  f :: (forall a c. c -> a) -> b -> b
+```
+
+
+Also I think it would be very hard to support
+
+```wiki
+f :: (forall a. _ => a -> a) -> b -> b
+```
+
+**End SLPJ**
+
 ### Constraint Wildcards
+
+**SLPJ** I'm honestly not sure it's worth the complexity you have here.
+As soon as you say:
+
+```wiki
+f :: (Eq a, _) => ...
+```
+
+
+you might as well say
+
+```wiki
+f :: _ => ...
+```
+
+
+because the wildcard will get filled in with whatever is missing regardless.
+And having wildcards nested inside constraints seems 
 
 
 We call wildcards occurring within a constraint (inside a `C` in `(C1, C2, ..)`)
