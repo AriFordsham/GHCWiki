@@ -295,17 +295,11 @@ f :: (forall a. _ => a -> a) -> b -> b
 
 === Constraint Wildcards ===
 
-'''SLPJ''' I'm honestly not sure it's worth the complexity you have here.
-As soon as you say:
-{{{
-f :: (Eq a, _) => ...
-}}}
-you might as well say
-{{{
-f :: _ => ...
-}}}
-because the wildcard will get filled in with whatever is missing regardless.
-And having wildcards nested inside constraints seems 
+'''SLPJ''' I'm honestly not sure it's worth the complexity you have here. The
+power to weight ratio seems poor.
+I'd drop constraint wildcards, and implement only "extra constraint" wildcards.
+'''End SLPJ'''
+
 
 We call wildcards occurring within a constraint (inside a `C` in `(C1, C2, ..)`)
 ''constraint wildcards'', e.g.
@@ -325,7 +319,17 @@ secondParam x = one x
 }}}
 A problem with constraint wildcards is that GHC's type constraint
 solver doesn't unify constraints with each other. E.g. `Eq _` or `_ a`
-will never be unified with `Eq a`. So the following program will not
+will never be unified with `Eq a`. 
+
+'''SLPJ'''
+I don't find that a helpful explanation.  It's more like this.  The problem the
+constraint solver is faced with is "deduce Eq x from Eq _, figuring out what the
+_ should be instantiated to".  Or, worse, "deduce Eq x from (_ x)" or something 
+even less constrained.  The constraint solver is absolutely not set up to
+figure out how to fill in existential variables in the "givens".
+'''End SLPJ'''
+
+So the following program will not
 work:
 {{{
 -- Neither partial type signature will work
