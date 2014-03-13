@@ -238,7 +238,7 @@ maybools = Just [True]
 -- Inferred: Maybe [Bool]
 ```
 
-**SLPJ** What is a "concrete type"?  I think you mean this: a type wildcard can be instantiated to any monotype.  **End SLPJ**
+**SLPJ** What is a "concrete type"?  I think you mean this: a type wildcard can be instantiated to any monotype.  **End SLPJ****thomasw** Exactly. **End thomasw**
 
 
 Additionally, when they are not constrained to a particular type, they
@@ -273,6 +273,10 @@ Also you should make clear that
   and that would work too.  (I hope.)
 
 **End SLPJ**.
+
+**thomasw** "when they are not constrained to a particular type" = they are not instantiated to a monotype.
+Both examples work exactly as you would hope. Indeed, (unnamed) wildcards are instantiated independently, unlike named wildcards. Yes, type wildcards can be generalised over and can result in extra `forall` quantified type variables. As type variables are implicitly universally quantified in Haskell, we chose not to make this `forall` 'wildcard' explicit.
+**End thomasw**
 
 
 Wildcards can unify with function types, e.g.
@@ -327,6 +331,8 @@ checks that it has *exactly* that type.  But if it has a *partial* type signatur
 by the partial type signature.
 **End SLPJ**
 
+**thomasw** Correct. **End thomasw**
+
 **SLPJ** Can wildcards appear under higher rank foralls?
 
 ```wiki
@@ -349,12 +355,17 @@ f :: (forall a. _ => a -> a) -> b -> b
 
 **End SLPJ**
 
+**thomasw** We agree, this is exactly what we discuss [here](partial-type-signatures#) and [here](partial-type-signatures#).
+**End thomasw**
+
 ### Constraint Wildcards
 
 **SLPJ** I'm honestly not sure it's worth the complexity you have here. The
 power to weight ratio seems poor.
 I'd drop constraint wildcards, and implement only "extra constraint" wildcards.
 **End SLPJ**
+
+**thomasw** Seems [reasonable](partial-type-signatures#) to us. This certainly makes things easier. **End thomasw**
 
 
 We call wildcards occurring within a constraint (inside a `C` in `(C1, C2, ..)`)
@@ -387,6 +398,8 @@ _ should be instantiated to".  Or, worse, "deduce Eq x from (_ x)" or something
 even less constrained.  The constraint solver is absolutely not set up to
 figure out how to fill in existential variables in the "givens".
 **End SLPJ**
+
+**thomasw** A much clearer explanation indeed. **End thomasw**
 
 
 So the following program will not

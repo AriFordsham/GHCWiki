@@ -211,6 +211,7 @@ maybools = Just [True]
 -- Inferred: Maybe [Bool]
 }}}
 '''SLPJ''' What is a "concrete type"?  I think you mean this: a type wildcard can be instantiated to any monotype.  '''End SLPJ'''
+'''thomasw''' Exactly. '''End thomasw'''
 
 Additionally, when they are not constrained to a particular type, they
 will be generalised over, e.g.
@@ -236,6 +237,13 @@ bar2 x f = f x
   and that would work too.  (I hope.)
 
 '''End SLPJ'''.
+
+'''thomasw''' "when they are not constrained to a particular type" = they are not instantiated to a monotype.
+Both examples work exactly as you would hope. Indeed, (unnamed) wildcards are instantiated independently, unlike named wildcards. Yes, type wildcards can be generalised over and can result in extra `forall` quantified type variables. As type variables are implicitly universally quantified in Haskell, we chose not to make this `forall` 'wildcard' explicit.
+'''End thomasw'''
+
+
+
 
 Wildcards can unify with function types, e.g.
 {{{
@@ -279,6 +287,8 @@ checks that it has ''exactly'' that type.  But if it has a ''partial'' type sign
 by the partial type signature.
 '''End SLPJ'''
 
+'''thomasw''' Correct. '''End thomasw'''
+
 '''SLPJ''' Can wildcards appear under higher rank foralls?
 {{{
 f :: (forall a. _ -> a) -> b -> b
@@ -293,12 +303,17 @@ f :: (forall a. _ => a -> a) -> b -> b
 }}}
 '''End SLPJ'''
 
+'''thomasw''' We agree, this is exactly what we discuss [#nested-extra-constraints here] and [#higher-rank-types here].
+'''End thomasw'''
+
 === Constraint Wildcards ===
 
 '''SLPJ''' I'm honestly not sure it's worth the complexity you have here. The
 power to weight ratio seems poor.
 I'd drop constraint wildcards, and implement only "extra constraint" wildcards.
 '''End SLPJ'''
+
+'''thomasw''' Seems [#issue-constraint-wildcards reasonable] to us. This certainly makes things easier. '''End thomasw'''
 
 
 We call wildcards occurring within a constraint (inside a `C` in `(C1, C2, ..)`)
@@ -328,6 +343,8 @@ _ should be instantiated to".  Or, worse, "deduce Eq x from (_ x)" or something
 even less constrained.  The constraint solver is absolutely not set up to
 figure out how to fill in existential variables in the "givens".
 '''End SLPJ'''
+
+'''thomasw''' A much clearer explanation indeed. '''End thomasw'''
 
 So the following program will not
 work:
@@ -569,7 +586,7 @@ local binds and one for top-level binds.
 
 == Questions and issues == #issue-constraint-wildcards
 
-* '''Constraint wildcards''': Wildcards in constraints sometimes
+* [=#issue-constraint-wildcards] '''Constraint wildcards''': Wildcards in constraints sometimes
   behave in a confusing way. As explained above, the reason is that
   GHC's type constraint solver doesn't unify constraints with each
   other. E.g. `Eq _` or `_ a` will never be unified with `Eq a`. So
@@ -681,7 +698,7 @@ local binds and one for top-level binds.
   [[span(!InstanceSigs, style=font-variant: small-caps)]] (not yet
   implemented).
 
-* '''Extra-constraints wildcard position''': We only allow one
+* [=#nested-extra-constraints] '''Extra-constraints wildcard position''': We only allow one
   extra-constraints wildcard in a signature: at the outer
   quantification of the signature. Consider for example the function
   `multiCs`:
@@ -702,7 +719,7 @@ local binds and one for top-level binds.
   multiCs :: (Show a, _) => a -> (Enum a, _) => String
   }}}
 
-* '''Higher-rank types''': Consider the following partial type
+* [=#higher-rank-types] '''Higher-rank types''': Consider the following partial type
   signature:
   {{{
   forall a. a -> (forall b. (b, _c) -> b) -> Int
