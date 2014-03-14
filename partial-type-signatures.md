@@ -204,6 +204,14 @@ elegant than our partial signatures.
 ## Our Design
 
 
+A good way to think of a partial type signature is as follows. If a
+function has a type signature, GHC checks that it has *exactly* that
+type. But if it has a *partial* type signature GHC proceeds exactly
+as if it were inferring the type for the function (especially
+including generalisation), except that it additionally forces the
+function's type to have the shape given by the partial type signature.
+
+
 We now describe the syntax and the semantics of our partial type
 signatures.
 
@@ -226,7 +234,7 @@ It consists of three parts:
 
 We call wildcards occurring within the monotype (`tau`) part of the
 type signature *type wildcards*. Type wildcards can be instantiated
-to concrete types like `Bool` or `Maybe [Bool]`, e.g.
+to any monotype like `Bool` or `Maybe [Bool]`, e.g.
 
 ```wiki
 not' :: Bool -> _
@@ -238,46 +246,6 @@ maybools = Just [True]
 -- Inferred: Maybe [Bool]
 ```
 
-**SLPJ** What is a "concrete type"?  I think you mean this: a type wildcard can be instantiated to any monotype.  **End SLPJ****thomasw** Exactly. **End thomasw**
-
-
-Additionally, when they are not constrained to a particular type, they
-will be generalised over, e.g.
-
-```wiki
-bar :: _ -> _
-bar x = x
--- Inferred: forall a. a -> a
-```
-
-**SLPJ** What does "when they are not constrained to a particular type" mean?  Presumably this would also work:
-
-```wiki
-bar2 :: _ -> _ -> _
-bar2 x f = f x
--- Inferred: forall a b. a -> (a->b) -> b
-```
-
-
-Also you should make clear that 
-
-- each wildcard is independently instantiated; in `bar2`, the three wildcards are each instantiated to a different type.
-- In effect, whenever you have a type wildcard there is a wild-card in the `forall` part too.  For example you could say
-
-  ```wiki
-  bar2 :: forall a. a -> (a -> _) -> _
-  bar2 x f = f x
-  -- Inferred: forall a b. a -> (a->b) -> b
-  ```
-
-  and that would work too.  (I hope.)
-
-**End SLPJ**.
-
-**thomasw** "when they are not constrained to a particular type" = they are not instantiated to a monotype.
-Both examples work exactly as you would hope. Indeed, (unnamed) wildcards are instantiated independently, unlike named wildcards. Yes, type wildcards can be generalised over and can result in extra `forall` quantified type variables. As type variables are implicitly universally quantified in Haskell, we chose not to make this `forall` 'wildcard' explicit.
-**End thomasw**
-
 
 Wildcards can unify with function types, e.g.
 
@@ -288,7 +256,44 @@ qux i b = i == i && b
 ```
 
 
-And annotated type variables, e.g.
+Additionally, when they are not instantiated to a monotype, they
+will be generalised over, e.g.
+
+```wiki
+bar :: _ -> _
+bar x = x
+-- Inferred: forall a. a -> a
+
+bar2 :: _ -> _ -> _
+bar2 x f = f x
+-- Inferred: forall a b. a -> (a -> b) -> b
+```
+
+
+Each wildcard will be independently instantiated (see
+[Named wildcards](partial-type-signatures#) for dependent instantiation), e.g.
+the three wildcards in `bar2` are each instantiated to a different
+type.
+
+
+As type wildcards can be generalised over, additional type variables
+can be universally quantified. One should expect an implicit
+'wildcard' in the `forall` part of the type signature, e.g.
+
+```wiki
+bar3 :: forall a. a -> (a -> _) -> _
+bar3 x f = f x
+-- Inferred: forall a b. a -> (a -> b) -> b
+```
+
+
+In addition to the explicitly quantified type variable `a`, the
+inferred type now contains a new type variable `b`. As type variables
+are implicitly universally quantified in Haskell, we chose not to make
+this kind of `forall` 'wildcard' explicit.
+
+
+Wildcards can also unify with annotated type variables, e.g.
 
 ```wiki
 filter' :: _ -> [a] -> [a]
@@ -326,39 +331,12 @@ nestedTCs = Just . (: []) . Left
 -- Inferred: forall a b. a -> Maybe [Either a b]
 ```
 
-**SLPJ** I think an easier way to explain it would be this. If a function has a type signature, GHC
-checks that it has *exactly* that type.  But if it has a *partial* type signature GHC proceeds exactly as if it were inferring the type for the function (especially including generalisation), except that it additionally forces the function's type to have the shape given 
-by the partial type signature.
-**End SLPJ**
-
-**thomasw** Correct. **End thomasw**
-
-**SLPJ** Can wildcards appear under higher rank foralls?
-
-```wiki
-f :: (forall a. _ -> a) -> b -> b
-```
-
-
-I think that seems jolly complicated.  At least, it would be Far Too Complicated if the nested `forall` was supposed to be extended, say thus
-
-```wiki
--- Inferred  f :: (forall a c. c -> a) -> b -> b
-```
-
-
-Also I think it would be very hard to support
-
-```wiki
-f :: (forall a. _ => a -> a) -> b -> b
-```
-
-**End SLPJ**
-
-**thomasw** We agree, this is exactly what we discuss [here](partial-type-signatures#) and [here](partial-type-signatures#).
-**End thomasw**
-
 ### Constraint Wildcards
+
+**NOTE**: we no longer intend to support constraint wildcards as
+described below. Only [named wildcards](partial-type-signatures#) also
+occurring in monotype and an [extra-constraints wildcard](partial-type-signatures#)
+will be allowed.
 
 **SLPJ** I'm honestly not sure it's worth the complexity you have here. The
 power to weight ratio seems poor.
@@ -387,19 +365,13 @@ secondParam x = one x
 ```
 
 
-A problem with constraint wildcards is that GHC's type constraint
-solver doesn't unify constraints with each other. E.g. `Eq _` or `_ a`
-will never be unified with `Eq a`. 
-
-**SLPJ**
-I don't find that a helpful explanation.  It's more like this.  The problem the
-constraint solver is faced with is "deduce Eq x from Eq _, figuring out what the
-_ should be instantiated to".  Or, worse, "deduce Eq x from (_ x)" or something 
-even less constrained.  The constraint solver is absolutely not set up to
-figure out how to fill in existential variables in the "givens".
-**End SLPJ**
-
-**thomasw** A much clearer explanation indeed. **End thomasw**
+GHC's constraint solver doesn't unify constraints with each other.
+E.g. `Eq _` or `_ a` will never be unified with `Eq a`. The problem
+the constraint solver is faced with is "deduce `Eq a` from `Eq _`,
+figuring out what the `_` should be instantiated to". Or, worse,
+"deduce `Eq a` from `_ a`" or something even less constrained. The
+constraint solver is absolutely not set up to figure out how to fill
+in existential variables in the "givens".
 
 
 So the following program will not
@@ -684,35 +656,23 @@ local binds and one for top-level binds.
 
 ## Questions and issues
 
-- **Constraint wildcards**: Wildcards in constraints sometimes
-  behave in a confusing way. As explained above, the reason is that
-  GHC's type constraint solver doesn't unify constraints with each
-  other. E.g. `Eq _` or `_ a` will never be unified with `Eq a`. So
-  the following program will not work:
+- **Constraint wildcards**:
+  **NOTE**: we no longer intend to support constraint wildcards.
+  Only [named wildcards](partial-type-signatures#) also occurring in monotype
+  and an [extra-constraints wildcard](partial-type-signatures#)
+  will be allowed. The examples below demonstrating the named wildcard
+  in the constraints look useful to us (and already work in the
+  implementation).
 
   ```wiki
-  -- Neither partial type signature will work
-  impossible :: Eq _ => a -> a -> Bool
-  impossible :: _  a => a -> a -> Bool
-  impossible x y = x == y
-  -- Actual type: forall a. Eq a => a -> a -> Bool
+  somethingShowable :: Show _x => _x -> _
+  somethingShowable x = show x
+  -- Inferred type: Show x => x -> String
+   
+  somethingShowable' :: Show _x => _x -> _
+  somethingShowable' x = show (not x)
+  -- Inferred type: Bool -> String
   ```
-
-  One might expect that the wildcard `_` in the annotated constraint
-  `Eq _` would be unified with the required `Eq a` constraint, but
-  unfortunately, this doesn't work. Rather, we get an error about the
-  unsatisfiable `Eq a` constraint.
-
-  That does not mean wildcards in constraints are useless though. The
-  examples `fstIsBool`, `secondParam`, `somethingShowable` and
-  `somethingShowable'` above all use them in ways that will work and
-  may be useful.
-
-  In summary, we are not fully sure about whether or not to allow
-  wildcards in constraints. They can be useful, but their behaviour
-  may be confusing to users. One possible restriction is to disallow
-  unnamed wildcards in constraints and only allow named wildcards in
-  constraints when they also occur in the monotype.
 
 - **The scope of named wildcards**:
   We currently treat all named wildcards as scoped type variables,
@@ -832,16 +792,16 @@ local binds and one for top-level binds.
   multiCs :: (Show a, _) => a -> (Enum a, _) => String
   ```
 
-- **Higher-rank types**: Consider the following partial type
-  signature:
+- **Higher-rank types**: Consider the
+  following partial type signature:
 
   ```wiki
   forall a. a -> (forall b. (b, _c) -> b) -> Int
   ```
 
-  We believe that generalising over the `_c` named wildcard in the
-  should lead to a top-level quantification (where `a` is quantified)
-  of the resulting type variable:
+  We believe that generalising over the `_c` named wildcard should
+  lead to a top-level quantification (where `a` is quantified) of the
+  resulting type variable:
 
   ```wiki
   forall a tw_c. a -> (forall b. (b, tw_c) -> b) -> Int
@@ -856,3 +816,10 @@ local binds and one for top-level binds.
 
   The latter is equivalent to inferring higher-rank types, which, as
   we mentioned before, is not something we can do.
+
+  Additionally, we do not allow an extra-constraints wildcard in a
+  nested 'forall', e.g.
+
+  ```wiki
+  f :: (forall a. _ => a -> a) -> b -> b
+  ```
