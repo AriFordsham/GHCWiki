@@ -110,6 +110,7 @@ See also [wiki:TemplateHaskell]
  * #4960: better inlining tests
 
 == Cmm and code generation ==
+ * #8887: double assignment
  * #8871: Cmm optimisation opportunity
  * #8585: loopification
  * Summary ticket: #4258, and [wiki:Commentary/Compiler/NewCodeGen wiki page]
