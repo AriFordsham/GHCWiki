@@ -33,6 +33,9 @@ This document attempts to describe our design and our
 more practical point of view in the hope to get some feedback from the
 GHC developers community.
 
+**NOTE**: [a new section](partial-type-signatures#) about the integration of this
+proposal with the [Holes](holes) proposal.
+
 ## Motivation and discussion
 
 ### Pragmatics
@@ -498,33 +501,62 @@ appears, but also in signatures in the right-hand side of the
 implementation. See [the issues section](partial-type-signatures#)
 for more discussion.
 
-### Extension Flags
+### Holes
+
+**NEW**: as suggested on the mailing list (by Austin Seipp, Richard
+Eisenberg, Edward Kmett, ...), it seems like a good idea to integrate
+this proposal with the [Holes](holes) proposal (not to be confused with
+TypedHoles, which actually occur in terms, whereas this proposal
+allows holes in types). Our idea is now the following.
 
 
-Previously, underscores in types were disallowed and caused parse
-errors. With this extension, underscores will be accepted by the
-parser. To remain backwards compatible (also with Haskell 2010), we
-require the user to enable our PartialTypeSignatures
-extension. Using wildcards without this flag will trigger a parse
-error with a suggestion to enable the flag.
+Previously, underscores in types were disallowed by GHC and Haskell
+2010, so to remain backwards compatible, wildcards or 'holes in types'
+should still result in errors. However, the generated error messages
+can now be much more informative, i.e. they should inform the user of
+the type each wildcard/hole was instantiated to. As this does not
+change the set of accepted programs nor the behaviour of accepted
+programs, this doesn't have to be an extension (similar to
+TypedHoles).
 
 
-Currently, GHC parses identifiers prefixed with an underscore in type
-signatures, i.e. what we consider named wildcards, as type variables,
-as prescribed in Haskell 2010. To also remain backwards compatible on
-this front, we propose to only parse them as named wildcards when the
-extension NamedWildcards is
-enabled. This extension will be turned on automatically when the
-PartialTypeSignatures
-extension is turned on.
+Furthermore, when the user enables the PartialTypeSignatures
+extension, the errors are not reported anymore, the inferred type is
+simply used.
 
 
-We opted for a separate flag because unnamed wildcards cause programs
-previously rejected to be accepted, whereas named wildcards change the
-behaviour of previously accepted programs. With this extra flag, the
-user can still use (unnamed) wildcards with the
-(No)NamedWildcards
-extension explicitly turned off, to maintain backwards compatibility.
+However, named wildcards (`_a`) are currently parsed as type
+variables. To also remain compatible on this front, we propose to
+introduce a separate extension, NamedWildcards.
+When this extension is enabled, a type variable like `_a` will be
+parsed as a named wildcard.
+
+
+To summarise, the four different cases, depending on the enabled
+extensions:
+
+<table><tr><th></th>
+<th>PartialTypeSignatures OFF </th>
+<th>PartialTypeSignatures ON 
+</th></tr>
+<tr><th>NamedWildcards OFF </th>
+<th> Informative errors are reported for hole instantiations, but only for unnamed wildcards. Named wildcards are still parsed as type variables, as before. </th>
+<th> The types of unnamed wildcards are inferred and used. Named wildcards are still parsed as type variables. 
+</th></tr>
+<tr><th>NamedWildcards ON  </th>
+<th> Informative errors are reported for hole instantiations, both for unnamed and named wildcards. </th>
+<th> The types of both unnamed and named wildcards are inferred and used. 
+</th></tr></table>
+
+
+Along with informative errors, we can also suggest the user to turn on
+the PartialTypeSignatures
+extension.
+
+
+It would be nice to eventually have Agda-style hole/goal-driven
+development. In the future, we will look into extending the GHC API
+and we will try to hack together a prototype for Emacs.
 
 ### Local Definitions
 
