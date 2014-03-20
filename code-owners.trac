@@ -124,7 +124,7 @@ For a full description of GHC support for various platforms, see [wiki:Platforms
      [mailto:simonpj@microsoft.com Simon Peyton Jones]
    * FreeBSD/i386: [mailto:haskell@FreeBSD.org FreeBSD Haskell Team]
    * OpenBSD: [mailto:kili@openbsd.org Matthias Kilian]
-   * SuSE Linux/x86 packages: [mailto:sven.panne@aedion.de Sven Panne],[mailto:ralf@informatik.uni-bonn.de Ralf Hinze]
+   * openSUSE Linux/x86 packages: [mailto:peter.trommler@th-nuernberg.de Peter Trommler]
    * Gentoo Linux/x86 packages: [mailto:haskell@gentoo.org Gentoo Haskell team]
    * Debian GNU/Linux/x86 packages: [mailto:kaol@debian.org Kari Pahula]
    * MacOS X: [mailto:chak@cse.unsw.edu.au Manuel Chakravarty]
@@ -137,6 +137,7 @@ For a full description of GHC support for various platforms, see [wiki:Platforms
    * Debian GNU/Linux/powerpc packages: [mailto:kaol@debian.org Kari Pahula]
    * MacOS X: [mailto:wolfgang.thaller@gmx.net Wolfgang Thaller],[mailto:naur@post11.tele.dk Thorkil Naur]
    * Fedora packages: [mailto:haskell-devel@lists.fedoraproject.org Fedora Haskell SIG] (until F12)
+   * openSUSE Linux packages: [mailto:peter.trommler@th-nuernberg.de Peter Trommler]
 
  * '''Sparc'''
    * Solaris: Position open
@@ -151,6 +152,7 @@ For a full description of GHC support for various platforms, see [wiki:Platforms
    * FreeBSD/amd64: [mailto:haskell@FreeBSD.org FreeBSD Haskell Team]
    * OpenBSD: [mailto:kili@openbsd.org Matthias Kilian]
    * Fedora packages: [mailto:haskell-devel@lists.fedoraproject.org Fedora Haskell SIG]
+   * openSUSE Linux packages: [mailto:peter.trommler@th-nuernberg.de Peter Trommler]
 
  * '''Mips64'''
    * Irix: [mailto:dons@cse.unsw.edu.au Don Stewart]

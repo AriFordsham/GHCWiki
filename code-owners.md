@@ -153,7 +153,7 @@ For a full description of GHC support for various platforms, see [Platforms](pla
     Simon Peyton Jones
   - FreeBSD/i386: FreeBSD Haskell Team
   - OpenBSD: Matthias Kilian
-  - SuSE Linux/x86 packages: Sven Panne,Ralf Hinze
+  - openSUSE Linux/x86 packages: Peter Trommler
   - Gentoo Linux/x86 packages: Gentoo Haskell team
   - Debian GNU/Linux/x86 packages: Kari Pahula
   - MacOS X: Manuel Chakravarty
@@ -167,6 +167,7 @@ For a full description of GHC support for various platforms, see [Platforms](pla
   - Debian GNU/Linux/powerpc packages: Kari Pahula
   - MacOS X: Wolfgang Thaller,Thorkil Naur
   - Fedora packages: Fedora Haskell SIG (until F12)
+  - openSUSE Linux packages: Peter Trommler
 
 - **Sparc**
 
@@ -183,6 +184,7 @@ For a full description of GHC support for various platforms, see [Platforms](pla
   - FreeBSD/amd64: FreeBSD Haskell Team
   - OpenBSD: Matthias Kilian
   - Fedora packages: Fedora Haskell SIG
+  - openSUSE Linux packages: Peter Trommler
 
 - **Mips64**
 
