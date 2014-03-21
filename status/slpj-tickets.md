@@ -119,6 +119,7 @@ See also [TemplateHaskell](template-haskell)
 
 ## Cmm and code generation
 
+- [\#8905](https://gitlab.haskell.org//ghc/ghc/issues/8905): spilling around an eval
 - [\#8903](https://gitlab.haskell.org//ghc/ghc/issues/8903): dead stores
 - [\#8887](https://gitlab.haskell.org//ghc/ghc/issues/8887): double assignment
 - [\#8871](https://gitlab.haskell.org//ghc/ghc/issues/8871): Cmm optimisation opportunity
