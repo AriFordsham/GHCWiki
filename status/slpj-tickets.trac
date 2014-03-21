@@ -110,6 +110,7 @@ See also [wiki:TemplateHaskell]
  * #4960: better inlining tests
 
 == Cmm and code generation ==
+ * #8905: spilling around an eval
  * #8903: dead stores
  * #8887: double assignment
  * #8871: Cmm optimisation opportunity
