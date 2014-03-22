@@ -190,12 +190,13 @@ Note: Libraries with a "^1^" marker are used internally (e.g. by `ghci` or `hadd
 === Cabal ===
 
  - upstream: http://github.com/haskell/cabal.git
- - TODO: ell Johan when to cut Cabal-1.18.1.3 release
+ - using [hackage:Cabal-1.18.1.3]
 
 === Win32 ===
 
  - upstream: http://github.com/haskell/win32.git
- - TODO: upstream needs to cut release
+ - ghc-7.8 branch is at [hackage:Win32-2.3.0.1]
+ - TODO: update ghc-7.8 branch to [hackage:Win32-2.3.0.2] (GHC HEAD already has it)
 
 === binary ===
 
@@ -210,8 +211,7 @@ Note: Libraries with a "^1^" marker are used internally (e.g. by `ghci` or `hadd
 === containers ===
 
  - upstream: http://github.com/haskell/containers.git
- - synced up cleanly to [hackage:containers-0.5.4.0] release
- - TODO: AMP-warning fix pending (maybe)
+ - synced up cleanly to [hackage:containers-0.5.5.1] release
 
 === haskeline^1^ ===
 
@@ -234,12 +234,11 @@ Note: Libraries with a "^1^" marker are used internally (e.g. by `ghci` or `hadd
  - upstream: http://git.haskell.org/darcs-mirrors/primitive.git
  - Jan is working on patches to integrate the new bool primops
  - upstream repo moved to https://github.com/haskell/primitive
- - synced up to `v0.5.1.0` + patches [5e2f145a37/ghc]
- - TODO: proper `0.5.2.0` release pending
+ - synced up to [hackage:primitive-0.5.2.1]
 
 === random^2^ ===
 
- - TODO: GHC's repo is slightly **ahead** of upstream
+ - TODO: GHC's repo has diverged from upstream
 
 === terminfo^1^ ===
 
@@ -249,7 +248,7 @@ Note: Libraries with a "^1^" marker are used internally (e.g. by `ghci` or `hadd
 === time ===
 
  - upstream: http://git.haskell.org/darcs-mirrors/time.git
- - synced up cleanly to [hackage:time-1.4.1] release [d55a4f3/ghc]
+ - synced up cleanly to [hackage:time-1.4.2] release
 
 === transformers ===
 
