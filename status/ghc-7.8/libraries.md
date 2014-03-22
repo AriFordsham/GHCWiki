@@ -927,12 +927,13 @@ Note: Libraries with a "<sup>1</sup>" marker are used internally (e.g. by `ghci`
 ### Cabal
 
 - upstream: [ http://github.com/haskell/cabal.git](http://github.com/haskell/cabal.git)
-- TODO ell Johan when to cut Cabal-1.18.1.3 release
+- using [ Cabal-1.18.1.3](http://hackage.haskell.org/package/Cabal-1.18.1.3)
 
 ### Win32
 
 - upstream: [ http://github.com/haskell/win32.git](http://github.com/haskell/win32.git)
-- TODO upstream needs to cut release
+- ghc-7.8 branch is at [ Win32-2.3.0.1](http://hackage.haskell.org/package/Win32-2.3.0.1)
+- TODO update ghc-7.8 branch to [ Win32-2.3.0.2](http://hackage.haskell.org/package/Win32-2.3.0.2) (GHC HEAD already has it)
 
 ### binary
 
@@ -947,8 +948,7 @@ Note: Libraries with a "<sup>1</sup>" marker are used internally (e.g. by `ghci`
 ### containers
 
 - upstream: [ http://github.com/haskell/containers.git](http://github.com/haskell/containers.git)
-- synced up cleanly to [ containers-0.5.4.0](http://hackage.haskell.org/package/containers-0.5.4.0) release
-- TODO AMP-warning fix pending (maybe)
+- synced up cleanly to [ containers-0.5.5.1](http://hackage.haskell.org/package/containers-0.5.5.1) release
 
 ### haskeline<sup>1</sup>
 
@@ -984,12 +984,11 @@ Note: Libraries with a "<sup>1</sup>" marker are used internally (e.g. by `ghci`
 - upstream: [ http://git.haskell.org/darcs-mirrors/primitive.git](http://git.haskell.org/darcs-mirrors/primitive.git)
 - Jan is working on patches to integrate the new bool primops
 - upstream repo moved to [ https://github.com/haskell/primitive](https://github.com/haskell/primitive)
-- synced up to `v0.5.1.0` + patches [\[5e2f145a37/ghc\]](/trac/ghc/changeset/5e2f145a37/ghc)
-- TODO proper `0.5.2.0` release pending
+- synced up to [ primitive-0.5.2.1](http://hackage.haskell.org/package/primitive-0.5.2.1)
 
 ### random<sup>2</sup>
 
-- TODO GHC's repo is slightly **ahead** of upstream
+- TODO GHC's repo has diverged from upstream
 
 ### terminfo<sup>1</sup>
 
@@ -999,7 +998,7 @@ Note: Libraries with a "<sup>1</sup>" marker are used internally (e.g. by `ghci`
 ### time
 
 - upstream: [ http://git.haskell.org/darcs-mirrors/time.git](http://git.haskell.org/darcs-mirrors/time.git)
-- synced up cleanly to [ time-1.4.1](http://hackage.haskell.org/package/time-1.4.1) release \[d55a4f3/ghc\]
+- synced up cleanly to [ time-1.4.2](http://hackage.haskell.org/package/time-1.4.2) release
 
 ### transformers
 
