@@ -49,8 +49,8 @@ Create a `~/bin` directory for the `cabal.exe` (and whatever else you want.) Put
 
 ```wiki
 $ mkdir ~/bin
-$ echo 'export PATH=/ghc-7.6.3/bin:$PATH'       >> ~/.bashrc
-$ echo 'export PATH=/ghc-7.6.3/mingw/bin:$PATH' >> ~/.bashrc
+$ echo 'export PATH=/c/ghc-7.6.3/bin:$PATH'       >> ~/.bashrc
+$ echo 'export PATH=/c/ghc-7.6.3/mingw/bin:$PATH' >> ~/.bashrc
 $ echo 'export PATH=$HOME/bin:$PATH'            >> ~/.bashrc
 ```
 
