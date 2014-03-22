@@ -49,7 +49,7 @@ module GHC.Exts
 [[Image(https://travis-ci.org/ghc/packages-deepseq.png?branch=master,link=https://travis-ci.org/ghc/packages-deepseq)]]
 
  - cleaned up
- - relased as [hackage:deepseq-1.3.0.2]!
+ - released as [hackage:deepseq-1.3.0.2]!
 
 === [hackage:directory] ===
 
@@ -64,6 +64,8 @@ module GHC.Exts
 
 [[Image(https://travis-ci.org/ghc/packages-filepath.png?branch=master,link=https://travis-ci.org/ghc/packages-filepath)]]
 
+ - released as [hackage:filepath-1.3.0.2]
+
 === [hackage:ghc-prim] ===
 
  - TODO: upload a non-candidate to hackage at latest when GHC 7.8.1 is released
@@ -73,20 +75,20 @@ module GHC.Exts
 [[TicketQuery(status!=closed,component=libraries/haskell2010,format=table,col=type|summary|priority|owner|reporter)]]
 
  - ready for release
- - TODO: upload a non-candidate to hackage at latest when GHC 7.8.1 is released
+ - released as [hackage:haskell2010-1.1.2.0]
 
 === [hackage:haskell98] ===
 
 [[TicketQuery(status!=closed,component=libraries/haskell98,format=table,col=type|summary|priority|owner|reporter)]]
 
  - ready for release
- - TODO: upload a non-candidate to hackage at latest when GHC 7.8.1 is released
+ - released as [hackage:haskell98-2.0.0.3]
 
 === [hackage:hoopl] ===
 
 [[Image(https://travis-ci.org/ghc/packages-hoopl.png?branch=master,link=https://travis-ci.org/ghc/packages-hoopl)]]
 
- - TODO: changelog entry for 3.10.0.0
+ - released as [hackage:hoopl-3.10.0.0]
 
 === [hackage:hpc] ===
 
@@ -94,8 +96,7 @@ module GHC.Exts
 
 [[Image(https://travis-ci.org/ghc/packages-hpc.png?branch=master,link=https://travis-ci.org/ghc/packages-hpc)]]
 
- - ready for release 
- - TODO: upload a non-candidate to hackage at latest when GHC 7.8.1 is released
+ - released as [hackage:hpc-0.6.0.1]
 
 === [hackage:integer-gmp] ===
 
@@ -107,15 +108,13 @@ module GHC.Exts
 
 [[Image(https://travis-ci.org/ghc/packages-old-locale.png?branch=master,link=https://travis-ci.org/ghc/packages-old-locale)]]
 
- - ready for release
- - TODO: upload a non-candidate to hackage at latest when GHC 7.8.1 is released
+ - released as [hackage:old-locale-1.0.0.6]
 
 === [hackage:old-time] ===
 
 [[TicketQuery(status!=closed,component=libraries/old-time,format=table,col=type|summary|priority|owner|reporter)]]
 
- - ready for release
- - TODO: upload a non-candidate to hackage at latest when GHC 7.8.1 is released
+ - released as [hackage:old-time-1.1.0.2]
 
 === [hackage:parallel] ===
 
