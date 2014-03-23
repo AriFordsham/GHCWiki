@@ -1,8 +1,8 @@
 
-This page and as well as the [GitRepoReorganization](git-repo-reorganization) is still work in progress;
+This page as well as the [GitRepoReorganization](git-repo-reorganization) are still work in progress.
 
 
-See [\#8545](https://gitlab.haskell.org//ghc/ghc/issues/8545) for the current state of affairs
+See [\#8545](https://gitlab.haskell.org//ghc/ghc/issues/8545) for the current state of affairs.
 
 # Workflows for Handling GHC's Git Submodules
 
@@ -11,6 +11,7 @@ General information about Git's submodule support:
 
 - [ "git submodule" manual page](http://git-scm.com/docs/git-submodule)
 - [ Pro Git "6.6 Git Tools - Submodules" chapter](http://git-scm.com/book/en/Git-Tools-Submodules)
+- [ Submodule Tutorial](http://www.vogella.com/tutorials/Git/article.html#submodules)
 
 ## Cloning a fresh GHC source tree
 
@@ -50,3 +51,53 @@ At the top-level of `ghc.git` working copy:
 git pull --rebase
 git submodule update --init
 ```
+
+## Making changes to GHC submodules
+
+
+It's very important to keep in mind that Git submodules track commits (i.e. not branches!) to avoid getting confused. Therefore, `git submodule update` will result in submodules having checked out a so-called [ detached HEAD](http://alblue.bandlem.com/2011/08/git-tip-of-week-detached-heads.html).
+
+
+So, in order to make change to a submodule you can either work directly on the detached HEAD, or checkout the respective branch the commit is supposed to be pointed at from. The example below will demonstrate the latter approach for the `utils/haddock` submodule:
+
+```
+# do this *before* making changes to the submodule
+cd utils/haddock
+git checkout master
+git pull --rebase
+
+# perform modifications and as many `git {add,rm,commit}`s as you deem necessary
+$EDITOR src/somefile.hs
+
+# finally, after you're ready to publish your changes, simply push the changes as for an ordinary Git repo
+git push
+
+# go back to ghc.git top-level
+cd ../..
+```
+
+
+At this point, the remote `haddock.git` contains newer commits in the `master` brnach, which still need to be registered with `ghc.git`:
+
+```
+# if you want, you can inspect with `git submodule` and/or `git status` if there are submodules needing attention;
+# specifically, both should report new commits in `util/haddock`
+git submodule
+git status
+
+# Register the submodule update for the next `git commit` as you would any other file
+# Note: You can think of submodule-references as virtual files which 
+#       contain a SHA1 string pointing to the submodule's commit.
+git add util/haddock
+
+# you can also add other changes in `ghc.git` (e.g. testsuite changes) and/or other submodules 
+# you need to update atomically with the next commit
+git add testsuite/...
+
+# prepare a commit, and make sure to mention the string `submodule` in the commit message
+git commit -m 'update haddock submodule ... blablabla'# finally, push the commit to the remote `ghc.git` repo
+git push
+```
+
+
+There are server-side validation hooks in place to make sure for non-`wip/` branches that `ghc.git` never points to non-existing commits. Also, as a safe-guard against accidental submodule reference updates, the string `submodule` must occur somewhere in commit messages of commits updating submodule references.
