@@ -16,7 +16,7 @@ The file [compiler/prelude/primops.txt.pp](/trac/ghc/browser/ghc/compiler/prelud
 
 - Its name, as it appears in Haskell code (eg. int2Integer\#)
 - Its type
-- The name of its constructor in GHC's `!PrimOp` data type.
+- The name of its constructor in GHC's `PrimOp` data type.
 - Various properties, such as whether the operation is commutable, or has side effects.
 
 
