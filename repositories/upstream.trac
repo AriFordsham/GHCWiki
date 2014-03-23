@@ -1,3 +1,7 @@
+{{{#!box warn
+The information on this page is slightly out of date; see GitRepoReorganization and #8545 for latest news
+}}}
+
 = Upstream repositories = 
 
 Many of the libraries and tools in a GHC tree are actually maintained by someone else. They therefore have a separate upstream repository, from which we need to pull. That repository may be either a darcs or a git repository; in the darcs case, we also need to convert to a git repository for use in a GHC tree. However, if the darcs repository is on another server, then we first need to mirror it for the conversion program to use. This diagram shows how changes migrate from one repo to another:
