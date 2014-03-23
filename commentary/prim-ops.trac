@@ -14,7 +14,7 @@ The file [[GhcFile(compiler/prelude/primops.txt.pp)]] includes all the informati
 
  * Its name, as it appears in Haskell code (eg. int2Integer#)
  * Its type
- * The name of its constructor in GHC's {{{!PrimOp}}} data type.
+ * The name of its constructor in GHC's {{{PrimOp}}} data type.
  * Various properties, such as whether the operation is commutable, or has side effects.
 
 For example, here's the integer multiplication !PrimOp:
