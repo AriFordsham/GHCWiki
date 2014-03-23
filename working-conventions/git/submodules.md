@@ -77,12 +77,14 @@ cd ../..
 ```
 
 
-At this point, the remote `haddock.git` contains newer commits in the `master` brnach, which still need to be registered with `ghc.git`:
+At this point, the remote `haddock.git` contains newer commits in the `master` branch, which still need to be registered with `ghc.git`:
 
 ```
-# if you want, you can inspect with `git submodule` and/or `git status` if there are submodules needing attention;
-# specifically, both should report new commits in `util/haddock`
+# if you want, you can inspect with `git submodule` and/or `git status`
+# if there are submodules needing attention;
+# specifically, the commands below should report new commits in `util/haddock`
 git submodule
+git submodule summary
 git status
 
 # Register the submodule update for the next `git commit` as you would any other file
@@ -101,3 +103,7 @@ git push
 
 
 There are server-side validation hooks in place to make sure for non-`wip/` branches that `ghc.git` never points to non-existing commits. Also, as a safe-guard against accidental submodule reference updates, the string `submodule` must occur somewhere in commit messages of commits updating submodule references.
+
+## TODO
+
+- Describe how to make use of `git submodule update --remote`
