@@ -64,6 +64,8 @@ All other !PrimOps are classified as out-of-line, and are implemented by hand-wr
    are in the [wiki:Commentary/Rts/HaskellExecution#Registers registers] R1-R8.  This is to make it easy to write the
    C-- code for these !PrimOps: we don't have to write code for multiple calling conventions.
 
+It's possible to provide inline versions of out-of-line !PimOps. This is useful when we have enough static information to generated a short, more efficient inline version. For example, a call to {{{newArray# 8# init}}} can be implemented more efficiently as an inline !PrimOp as the heap check for the array allocation can be combined with the heap check for the surrounding code. See `shouldInlinePrimOp` in [[GhcFile(compiler/codeGen/StgCmmPrim.hs)]].
+
 === Foreign out-of-line !PrimOps and `foreign import prim` ===
 
 A new and somewhat more flexible form of out-of-line !PrimOp is the foreign out-of-line !PrimOp. These are essentially the same but instead of their Cmm code being included in the RTS, they can be defined in Cmm code in any package and instead of knowledge of the !PrimOp being baked into the compiler, they can be imported using special FFI syntax:
