@@ -72,6 +72,9 @@ All other PrimOps are classified as out-of-line, and are implemented by hand-wri
   are in the [registers](commentary/rts/haskell-execution#registers) R1-R8.  This is to make it easy to write the
   C-- code for these PrimOps: we don't have to write code for multiple calling conventions.
 
+
+It's possible to provide inline versions of out-of-line PimOps. This is useful when we have enough static information to generated a short, more efficient inline version. For example, a call to `newArray# 8# init` can be implemented more efficiently as an inline PrimOp as the heap check for the array allocation can be combined with the heap check for the surrounding code. See `shouldInlinePrimOp` in [compiler/codeGen/StgCmmPrim.hs](/trac/ghc/browser/ghc/compiler/codeGen/StgCmmPrim.hs).
+
 ### Foreign out-of-line PrimOps and `foreign import prim`
 
 
