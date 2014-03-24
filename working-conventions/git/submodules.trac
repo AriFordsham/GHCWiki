@@ -53,7 +53,7 @@ The following commands will configure appropriate push-URLs for `ghc.git` and al
 git remote set-url --push origin ssh://git@git.haskell.org/ghc.git
 
 git submodule foreach 'git remote set-url --push origin \
-  ssh://git@git.haskell.org/$(git config -f $toplevel/.gitmodules --path "submodule.$name.url" | sed 's,^\.\./,,')'
+  ssh://git@git.haskell.org/$(git config -f $toplevel/.gitmodules --path "submodule.$name.url" | sed "s,^\.\./,,")'
 }}}
 
 You can display the currently used Git URLs for `git push` in submodules by:
