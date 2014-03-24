@@ -42,6 +42,24 @@ Older tags/branches which were not fully converted into a submodule-configuratio
 
 Moreover, when cloning from the [ GitHub GHC Mirror](http://github.com/ghc/ghc.git), the submodule url paths need to be rewritten, e.g. `../packages/deepseq.git` to `../packages-deepseq.git`, so you can't simply use `--recursive`.
 
+### Overriding `push-url`s
+
+
+This subsection is only relevant for developers with `git push`-permissions.
+
+
+Unless the GHC source tree was cloned from `ssh://git@git.haskell.org/ghc.git`, the resulting pushurls will not point to a writable location.
+
+
+The following commands will configure appropriate push-urls for `ghc.git` and all its submodules:
+
+```
+git remote set-url --push origin ssh://git@git.haskell.org/ghc.git
+
+git submodule foreach 'git remote set-url --push origin \
+  ssh://git@git.haskell.org/$(git config -f $toplevel/.gitmodules --path "submodule.$name.url" | sed 's,^\.\./,,')'
+```
+
 ## Updating an existing GHC source tree clone
 
 
