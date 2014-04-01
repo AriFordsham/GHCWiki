@@ -140,7 +140,7 @@ For some time, it's been clear to us that Buildbot is not the perfect tool for o
 
 When the darcs.haskell.org hardware was upgraded, rather than installing buildbot on the new machine, we made the decision to implement a system that better matched our needs instead. The core implementation is now complete, and we have several machines using it for nightly builds.
 
-We're always keen to add more build slaves; please see [[http://hackage.haskell.org/trac/ghc/wiki/Builder Builder]] if you're interested. Likewise, patches for missing features are welcome! The (Haskell) code is available at http://darcs.haskell.org/builder/
+We're always keen to add more build slaves; please see [[Builder]] if you're interested. Likewise, patches for missing features are welcome! The (Haskell) code is available at http://darcs.haskell.org/builder/
 
 = Bibliography =
 
