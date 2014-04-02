@@ -202,3 +202,22 @@ instance Applicative G where
 
 
 There's no way to usefully interact with the `GInt` constructor and get the code to type-check. Thus, I believe (but haven't yet proved), that using GND with `Traversable` is safe, because the `f` in `traverse` can't ever do bad things with its argument. If you, the reader, have more insight into this (or a counterexample!), please write!
+
+# Changing default role to nominal
+
+
+In GHC 7.8, unannotated datatype parameters default to phantom. This means that most normal parameters are given a representational role. It has been argued that perhaps nominal is a better (safer) default, and that users should specify representational when they want it. The problem with a nominal default is that it breaks all current usages of GND by default. Furthering the problem, when a user is unable to use GND it's the *library* that has to change, not the user's code.
+
+
+On Mar 31, 2014, Dominique Devriese writes the following suggestion:
+
+
+What I was wondering about is if the dilemma could be solved by
+choosing nominal-by-default in the long term for the role inference
+(so that library writers cannot accidentally leave abstraction holes
+open by forgetting to add role annotations) and use them in the
+long-term-supported SafeNewtypeDeriving extension, but provide a
+deprecated not-quite-as-safe GND extension for helping out users of
+libraries that have not yet added role annotations. I would fancy that
+this not-quite-as-safe GND could use unsafeCoerce wherever the safe
+one would give an error about annotated roles.
