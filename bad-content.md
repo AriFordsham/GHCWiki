@@ -117,4 +117,6 @@ backyardstuff\.com
 serrastone\.com
 everythingsimple\.com
 horseracing
+(?i)ultraclean
+(?i)slimming
 ```
