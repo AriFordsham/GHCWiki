@@ -66,5 +66,3 @@ Points to note here:
 - The `--global` flag instructs Cabal to register the package in the database in your build tree, rather than the one in your home directory (`~/.ghc/...`).  In fact, `--global` is actually unnecessary (it's the default), but just in case the default changes in the future it's a good idea to get in the habit of saying whether you want `--global` or `--user`.
 
 - The `--inplace` flag to register tells Cabal not to copy the compiled package, but rather to leave it right where it is, and register this location in the package database in your GHC build tree.
-
-[ aksesoris mobil](http://www.detikauto.com/) -  [ baby pink](http://www.grosir-kosmetik.com/6-baby-pink-cream-pemutih-kulit) -  [ rumah dijual](http://www.propertykita.com/rumah.html) - [ hipnoterapi surabaya](http://subconscious-therapy.com/hipnoterapi-surabaya/)
