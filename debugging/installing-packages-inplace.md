@@ -45,7 +45,7 @@ Go to a directory where you are happy to keep the newly-downloaded code.
 cabal unpack <package>
 cd <package>
 <inplace-ghc> --make Setup.lhs
-./Setup configure --with-ghc=<inplace-ghc> --global
+./Setup configure --with-compiler=<inplace-ghc> --global
 ./Setup build
 ./Setup register --inplace
 ```
