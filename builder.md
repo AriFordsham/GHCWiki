@@ -35,14 +35,14 @@ The GHC Builder is written in Haskell as a pair of Cabal packages (one for the c
 On non-Windows:
 
 ```wiki
-cabal install HsOpenSSL
+$ cabal install HsOpenSSL
 ```
 
 
 On Windows: You might have to add explicit include and lib directories:
 
 ```wiki
-cabal install --extra-include-dirs="c:/OpenSSL/include" --extra-lib-dirs="c:/OpenSSL"
+$ cabal install --extra-include-dirs="c:/OpenSSL/include" --extra-lib-dirs="c:/OpenSSL"
 ```
 
 ## To create a new build slave
@@ -51,7 +51,7 @@ cabal install --extra-include-dirs="c:/OpenSSL/include" --extra-lib-dirs="c:/Ope
 You can get the code for the builder with
 
 ```wiki
-git clone https://github.com/cartazio/ghc-builder
+$ git clone https://github.com/cartazio/ghc-builder
 ```
 
 
@@ -64,24 +64,31 @@ Once you have built it, mail Gábor Páli (`pali.gabor(at)gmail.com`) along any 
 Then initialise the client by creating a new directory, and running:
 
 ```wiki
-builder-client init username password haskell.inf.elte.hu
+$ builder-client init username password haskell.inf.elte.hu
 ```
 
 
 in it, where `username` and `password` are your username and password. This will create various files and subdirectories that the client will use. Then put a copy of [ http://haskell.inf.elte.hu/ghcBuilder/cert/root.pem](http://haskell.inf.elte.hu/ghcBuilder/cert/root.pem) in `certs/` so that the client can verify that it is connecting to the right server.
 
 
-You can now run the client with:
+First, you may want to do test some runs with the client, just to verify if everything works well:
 
 ```wiki
-builder-client
+$ builder-client --do-build
+```
+
+
+then watch for the output on the `ghc-builds` mailing list.  If everything seems to be okay, you can now run the client with:
+
+```wiki
+$ builder-client
 ```
 
 
 or
 
 ```wiki
-builder-client -v
+$ builder-client -v
 ```
 
 
