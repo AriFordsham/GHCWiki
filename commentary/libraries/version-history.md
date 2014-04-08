@@ -1,7 +1,7 @@
 # GHC Boot Library Version History
 
 <table><tr><th></th>
-<th>**7.8.0.20140324**</th>
+<th>**7.8.1**</th>
 <th>**7.6.3**</th>
 <th>**7.6.2**</th>
 <th>**7.6.1**</th>
@@ -264,7 +264,7 @@
 <th></th>
 <th></th></tr>
 <tr><th>`hoopl`</th>
-<th>  3.10.0.0  </th>
+<th>  3.10.0.1  </th>
 <th>  3.9.0.0  </th>
 <th>  3.8.7.3  </th>
 <th>  3.8.7.1  </th>
