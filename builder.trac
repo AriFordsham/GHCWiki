@@ -46,7 +46,7 @@ You can get the code for the builder with
 {{{
 git clone https://github.com/cartazio/ghc-builder
 }}}
-and then build the Cabal package in the `client/` subdirectory.
+and then build the Cabal package in the `client/` subdirectory.  If you experience problems feel free to fix them up -- and do not forget to submit a pull request with your patches! :-)
 
 Once you have built it, mail Gábor Páli (`pali.gabor(at)gmail.com`) along any extra information (e.g. "GNU make is gmake", or "builds need these lines added to mk/build.mk").  You will then get a username and a password.  The username is used so we know which machine the build log came from, and the password is used to verify that the client is who it claims it is.
 
