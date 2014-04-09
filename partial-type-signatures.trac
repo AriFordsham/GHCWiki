@@ -622,6 +622,41 @@ not yet distinguish between local binds and top-level binds. What we
 think is necessary is to make two versions of `tcPolyCombi`: one for
 local binds and one for top-level binds.
 
+== Monomorphism restriction ==
+
+
+Regarding the
+[http://www.haskell.org/onlinereport/decls.html#sect4.5.5 monomorphism restriction],
+the existing rules apply. Declarations with a partial type signature
+are treated as declarations without a type signature. Therefore, these
+declarations will be ''restricted'', and constrained type variables of
+such declarations may not be generalised over, and thus defaulting
+will occur when possible.
+
+We illustrate this behaviour with some examples:
+{{{
+-- Remember: the principal type of 3 is forall a. Num a => a
+alpha :: _
+alpha = 3
+-- with MR on, the type variable is restricted and defaults to Integer
+-- with MR off, generalise over _, error: no instance for (Num _)
+
+bravo :: _ => _
+bravo = 3
+-- with MR on, the type variable is restricted and defaults to Integer
+-- with MR off, type: forall a. Num a => a
+
+charlie :: _ => a
+charlie = 3
+-- with MR on, type variable is annotated and thus unrestricted, type: forall a. Num a => a
+-- with MR off, type: forall a. Num a => a
+}}}
+The last example (with the monomorphism restriction) on, `charlie`,
+might be surprising. As `a` is a generalised type variable that is
+already annotated, we don't have to generalise over it anymore. The
+monomorphism restriction simply doesn't apply.
+
+
 == Questions and issues == #issue-constraint-wildcards
 
 * [=#issue-constraint-wildcards] '''Constraint wildcards''':
