@@ -29,9 +29,6 @@ more practical point of view in the hope to get some feedback from the
 GHC developers community.
 
 
-'''NOTE''': [#holes a new section] about the integration of this
-proposal with the [wiki:Holes] proposal.
-
 == Motivation and discussion ==
 
 === Pragmatics ===
@@ -352,11 +349,6 @@ would have to guess. Regardless of whether constraints are unified,
 this program would have been rejected anyway, as only one constraint
 is partially annotated instead of all three.
 
-However, as demonstrated in the first two examples, we think
-constraint wildcards can be of (limited) use, provided that certain
-restrictions are imposed on their usage. More on this
-[#issue-constraint-wildcards later].
-
 === Extra-constraints Wildcard === #extra-constraints-wildcard
 
 A third kind of wildcard we propose is the ''extra-constraints
@@ -428,12 +420,6 @@ for more discussion.
 
 === Holes === #holes
 
-'''NEW''': as suggested on the mailing list (by Austin Seipp, Richard
-Eisenberg, Edward Kmett, ...), it seems like a good idea to integrate
-this proposal with the [wiki:Holes] proposal (not to be confused with
-!TypedHoles, which actually occur in terms, whereas this proposal
-allows holes in types). Our idea is now the following.
-
 Previously, underscores in types were disallowed by GHC and Haskell
 2010, so to remain backwards compatible, wildcards or 'holes in types'
 should still result in errors. However, the generated error messages
@@ -460,9 +446,64 @@ extensions:
 ||= [[span(!NamedWildcards, style=font-variant: small-caps)]] OFF =|| Informative errors are reported for hole instantiations, but only for unnamed wildcards. Named wildcards are still parsed as type variables, as before. || The types of unnamed wildcards are inferred and used. Named wildcards are still parsed as type variables. ||
 ||= [[span(!NamedWildcards, style=font-variant: small-caps)]] ON  =|| Informative errors are reported for hole instantiations, both for unnamed and named wildcards. || The types of both unnamed and named wildcards are inferred and used. ||
 
-Along with informative errors, we can also suggest the user to turn on
-the [[span(!PartialTypeSignatures, style=font-variant: small-caps)]]
+Along with informative errors, we also suggest the user to turn on the
+[[span(!PartialTypeSignatures, style=font-variant: small-caps)]]
 extension.
+
+Let's demonstrate the described behaviour with an example. An example
+program:
+{{{
+module Example where
+
+foo :: (Show _a, _) => _a -> _
+foo x = show (succ x)
+}}}
+Compiled with a prior version of GHC gives:
+{{{
+Example.hs:3:18: parse error on input ‘_’
+}}}
+When compiled with a version of GHC that implements the proposal:
+{{{
+Example.hs:3:18:
+    Instantiated extra-constraints wildcard ‘_’ to:
+      (Enum _a)
+      in the type signature for foo :: (Show _a, _) => _a -> _
+      at Example.hs:3:8-30
+    The complete inferred type is:
+      foo :: forall _a. (Show _a, Enum _a) => _a -> String
+    To use the inferred type, enable PartialTypeSignatures
+
+Example.hs:3:30:
+    Instantiated wildcard ‘_’ to: String
+      in the type signature for foo :: (Show _a, _) => _a -> _
+      at Example.hs:3:8-30
+    The complete inferred type is:
+      foo :: forall _a. (Show _a, Enum _a) => _a -> String
+    To use the inferred type, enable PartialTypeSignatures
+}}}
+Now the types the wildcards were instantiated to are reported. Note
+that `_a` is still treated as a type variable, as prescribed in
+Haskell 2010. To treat it as ''named wildcard'', enable the
+[[span(!NamedWildcards, style=font-variant: small-caps)]] extension to
+get:
+{{{
+[..]
+Example.hs:3:24:
+    Instantiated wildcard ‘_a’ to: tw_a
+      in the type signature for foo :: (Show _a, _) => _a -> _
+      at Example.hs:3:8-30
+    The complete inferred type is:
+      foo :: forall tw_a. (Show tw_a, Enum tw_a) => tw_a -> String
+    To use the inferred type, enable PartialTypeSignatures
+[..]
+}}}
+An extra error message appears, reporting that `_a` was instantiated to a new
+type variable (`tw_a`).
+
+Finally, when the [[span(!PartialTypeSignatures, style=font-variant: small-caps)]]
+extension is enabled, the typechecker just uses the inferred types for
+the wildcards and compiles the program without generating any
+messages.
 
 It would be nice to eventually have Agda-style hole/goal-driven
 development. In the future, we will look into extending the GHC API
@@ -594,7 +635,7 @@ local binds and one for top-level binds.
   somethingShowable :: Show _x => _x -> _
   somethingShowable x = show x
   -- Inferred type: Show x => x -> String
-   
+
   somethingShowable' :: Show _x => _x -> _
   somethingShowable' x = show (not x)
   -- Inferred type: Bool -> String
