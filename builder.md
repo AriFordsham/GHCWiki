@@ -51,7 +51,7 @@ $ cabal install --extra-include-dirs="c:/OpenSSL/include" --extra-lib-dirs="c:/O
 You can get the code for the builder with
 
 ```wiki
-$ git clone https://github.com/cartazio/ghc-builder
+$ git clone https://github.com/haskell/ghc-builder
 ```
 
 
