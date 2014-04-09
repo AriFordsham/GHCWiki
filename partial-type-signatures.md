@@ -581,7 +581,7 @@ Example.hs:3:30:
 
 Now the types the wildcards were instantiated to are reported. Note
 that `_a` is still treated as a type variable, as prescribed in
-Haskell 2010. To treat it as *named wildcard*, enable the
+Haskell 2010. To treat it as a *named wildcard*, enable the
 NamedWildcards extension to
 get:
 
