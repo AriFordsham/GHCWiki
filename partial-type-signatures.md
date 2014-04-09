@@ -33,9 +33,6 @@ This document attempts to describe our design and our
 more practical point of view in the hope to get some feedback from the
 GHC developers community.
 
-**NOTE**: [a new section](partial-type-signatures#) about the integration of this
-proposal with the [Holes](holes) proposal.
-
 ## Motivation and discussion
 
 ### Pragmatics
@@ -409,12 +406,6 @@ would have to guess. Regardless of whether constraints are unified,
 this program would have been rejected anyway, as only one constraint
 is partially annotated instead of all three.
 
-
-However, as demonstrated in the first two examples, we think
-constraint wildcards can be of (limited) use, provided that certain
-restrictions are imposed on their usage. More on this
-[later](partial-type-signatures#).
-
 ### Extra-constraints Wildcard
 
 
@@ -503,12 +494,6 @@ for more discussion.
 
 ### Holes
 
-**NEW**: as suggested on the mailing list (by Austin Seipp, Richard
-Eisenberg, Edward Kmett, ...), it seems like a good idea to integrate
-this proposal with the [Holes](holes) proposal (not to be confused with
-TypedHoles, which actually occur in terms, whereas this proposal
-allows holes in types). Our idea is now the following.
-
 
 Previously, underscores in types were disallowed by GHC and Haskell
 2010, so to remain backwards compatible, wildcards or 'holes in types'
@@ -549,9 +534,78 @@ extensions:
 </th></tr></table>
 
 
-Along with informative errors, we can also suggest the user to turn on
-the PartialTypeSignatures
+Along with informative errors, we also suggest the user to turn on the
+PartialTypeSignatures
 extension.
+
+
+Let's demonstrate the described behaviour with an example. An example
+program:
+
+```wiki
+module Example where
+
+foo :: (Show _a, _) => _a -> _
+foo x = show (succ x)
+```
+
+
+Compiled with a prior version of GHC gives:
+
+```wiki
+Example.hs:3:18: parse error on input ‘_’
+```
+
+
+When compiled with a version of GHC that implements the proposal:
+
+```wiki
+Example.hs:3:18:
+    Instantiated extra-constraints wildcard ‘_’ to:
+      (Enum _a)
+      in the type signature for foo :: (Show _a, _) => _a -> _
+      at Example.hs:3:8-30
+    The complete inferred type is:
+      foo :: forall _a. (Show _a, Enum _a) => _a -> String
+    To use the inferred type, enable PartialTypeSignatures
+
+Example.hs:3:30:
+    Instantiated wildcard ‘_’ to: String
+      in the type signature for foo :: (Show _a, _) => _a -> _
+      at Example.hs:3:8-30
+    The complete inferred type is:
+      foo :: forall _a. (Show _a, Enum _a) => _a -> String
+    To use the inferred type, enable PartialTypeSignatures
+```
+
+
+Now the types the wildcards were instantiated to are reported. Note
+that `_a` is still treated as a type variable, as prescribed in
+Haskell 2010. To treat it as *named wildcard*, enable the
+NamedWildcards extension to
+get:
+
+```wiki
+[..]
+Example.hs:3:24:
+    Instantiated wildcard ‘_a’ to: tw_a
+      in the type signature for foo :: (Show _a, _) => _a -> _
+      at Example.hs:3:8-30
+    The complete inferred type is:
+      foo :: forall tw_a. (Show tw_a, Enum tw_a) => tw_a -> String
+    To use the inferred type, enable PartialTypeSignatures
+[..]
+```
+
+
+An extra error message appears, reporting that `_a` was instantiated to a new
+type variable (`tw_a`).
+
+
+Finally, when the PartialTypeSignatures
+extension is enabled, the typechecker just uses the inferred types for
+the wildcards and compiles the program without generating any
+messages.
 
 
 It would be nice to eventually have Agda-style hole/goal-driven
@@ -700,7 +754,7 @@ local binds and one for top-level binds.
   somethingShowable :: Show _x => _x -> _
   somethingShowable x = show x
   -- Inferred type: Show x => x -> String
-   
+
   somethingShowable' :: Show _x => _x -> _
   somethingShowable' x = show (not x)
   -- Inferred type: Bool -> String
