@@ -79,7 +79,7 @@ See also [wiki:TemplateHaskell]
  * #5928: running Specialise more than once
 
 == Compile time ==
- * #7898k #7068: `SpecConstr` blowup
+ * #8980, #7898, #7068, #7944, #5550, #8836: `SpecConstr` blowup
  * #7450, #7258: deriving `Read` generates gigantic code. Better now, but still not linear.
  * #7428: Non-linear compile time: `addFingerprint`??
 
