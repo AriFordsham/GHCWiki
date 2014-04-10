@@ -2,6 +2,7 @@
 
 ## Type inference
 
+- [\#8984](https://gitlab.haskell.org//ghc/ghc/issues/8984): better error message for `Coercible`
 - [\#8673](https://gitlab.haskell.org//ghc/ghc/issues/8673): more generous GADT record selectors
 - [\#8566](https://gitlab.haskell.org//ghc/ghc/issues/8566): Given kind equalities are discarded
 - [\#8550](https://gitlab.haskell.org//ghc/ghc/issues/8550): Don't build recursive type-function dictionaries
@@ -84,7 +85,7 @@ See also [TemplateHaskell](template-haskell)
 
 ## Compile time
 
-- [\#7898](https://gitlab.haskell.org//ghc/ghc/issues/7898)k [\#7068](https://gitlab.haskell.org//ghc/ghc/issues/7068): `SpecConstr` blowup
+- [\#8980](https://gitlab.haskell.org//ghc/ghc/issues/8980), [\#8960](https://gitlab.haskell.org//ghc/ghc/issues/8960), [\#7898](https://gitlab.haskell.org//ghc/ghc/issues/7898), [\#7068](https://gitlab.haskell.org//ghc/ghc/issues/7068), [\#7944](https://gitlab.haskell.org//ghc/ghc/issues/7944), [\#5550](https://gitlab.haskell.org//ghc/ghc/issues/5550), [\#8836](https://gitlab.haskell.org//ghc/ghc/issues/8836): `SpecConstr` blowup
 - [\#7450](https://gitlab.haskell.org//ghc/ghc/issues/7450), [\#7258](https://gitlab.haskell.org//ghc/ghc/issues/7258): deriving `Read` generates gigantic code. Better now, but still not linear.
 - [\#7428](https://gitlab.haskell.org//ghc/ghc/issues/7428): Non-linear compile time: `addFingerprint`??
 
