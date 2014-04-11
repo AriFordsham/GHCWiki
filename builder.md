@@ -21,6 +21,11 @@ We're always keen to add more build slaves to the setup. If a platform is repres
 
 The GHC Builder is written in Haskell as a pair of Cabal packages (one for the clients/slaves, and one for the server).
 
+## Prerequisites
+
+
+Before installing the Builder, be sure that *[all the tools required for building and testing GHC](building)* is up-to-date and present on the system.  It is also advised to have at least **6 GB** of free space per builds, otherwise the build may fail.  It could be also useful to have an sufficiently isolated (or virtualized) system, dedicated to this task only.
+
 ## Install OpenSSL
 
 - On Windows, install OpenSSL from here (not the Light Version): [ http://www.openssl.org/related/binaries.html](http://www.openssl.org/related/binaries.html)
