@@ -30,8 +30,6 @@ The design of Safe Haskell involves the following aspects:
  * A new "safe import" extension to Haskell that specifies the module being imported must be trusted.
  * A definition of "trust" and how it operates, as well as ways of defining and changing the trust of modules and packages.
 
-[http://techpromocodes.com/mcafee-promo-code/ mcafee coupon] - [http://techpromocodes.com/norton-coupon-code/ norton 360 discount] 
-
 == Safe Language Overview ==
 
 As long as no module compiled with `-XTrustworthy` contains a vulnerability, the goal of the Safe dialect (used through `-XSafe`) is to guarantee the following properties:
