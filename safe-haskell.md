@@ -33,8 +33,6 @@ The design of Safe Haskell involves the following aspects:
 - A new "safe import" extension to Haskell that specifies the module being imported must be trusted.
 - A definition of "trust" and how it operates, as well as ways of defining and changing the trust of modules and packages.
 
-[ mcafee coupon](http://techpromocodes.com/mcafee-promo-code/) - [ norton 360 discount](http://techpromocodes.com/norton-coupon-code/)
-
 ## Safe Language Overview
 
 
