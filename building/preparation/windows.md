@@ -6,6 +6,7 @@ Installing the following will get you a working build environment with MSYS. The
 
 Other documentation for Windows includes:
 
+- [Using MSYS2](building/preparation/windows/msy-s2) to build GHC. MSYS2 is an updated version of MSYS which fixes some bugs (for example, parallel make works) and has an alternative package manager.
 - [Using Cygwin](building/windows/cygwin) to build GHC. Using MSYS is the preferred approach though.
 - [MinGW/MSYS/Cgwin](building/platforms/windows) information for people new to using UNIX tools on Windows.
 - [Using SSH](building/windows/ssh) on Windows.
