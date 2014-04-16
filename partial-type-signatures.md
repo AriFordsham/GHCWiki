@@ -672,10 +672,213 @@ is not enabled, although our intention is to try and align as closely
 as possible to the generalisation that happens in the absence of a
 type signature.
 
+## Partial Expression and Pattern Signatures
+
+
+Wildcards should be allowed in expression and pattern signatures, e.g.
+
+```wiki
+bar1 :: _a -> Bool
+bar1 x = (x :: _a)
+-- Inferred: Bool -> Bool
+
+bar2 :: Bool -> _a
+bar2 (x :: _a) = x
+-- Inferred: Bool -> Bool
+```
+
+
+We do not intend to support an extra-constraints wildcard in such
+signatures, as the implementation difficulties it poses don't outweigh
+its usefulness.
+
+
+Wildcards occurring in a partial type signature are currently
+quantified in their type signature, unless they (being named
+wildcards) were already brought into scope by another partial type
+signature. The question now is: where should wildcards occurring in
+partial expression or pattern signatures be quantified? There a number
+of options. Remember: we're only talking about wildcards that aren't
+already in scope, and as unnamed wildcards can never already be in
+scope, this question only concerns named wildcards (of course, the
+NamedWildcards extension is
+turned on in the examples below).
+
+1. Quantify wildcards in the partial **expression or pattern
+  signature** they appear in. Consider the following example:
+
+  ```wiki
+  f :: _
+  f x y = let p :: _
+              p = (x :: _a)
+              q :: _
+              q = (y :: _a)
+         in (p, q)
+  -- Inferred:
+  -- f :: forall tw_a tw_a1. tw_a -> tw_a1 -> (tw_a, tw_a1)
+  --   p :: tw_a
+  --   q :: tw_a1
+  ```
+
+  Both times, the `_a` in the expression signature isn't in scope, so
+  it is quantified once in each expression signature. This means that
+  the two occurrences of `_a` don't refer to the same named wildcard.
+  Still, this can be achieved by mentioning `_a` in a type signature
+  (where `_a` will then be quantified) of a common higher-level
+  binding:
+
+  ```wiki
+  f :: _a -> _
+  f x y = let p :: _
+              p = (x :: _a)
+              q :: _
+              q = (y :: _a)
+         in (p, q)
+  -- Inferred:
+  -- f :: forall tw_a. tw_a -> tw_a -> (tw_a, tw_a)
+  --   p :: tw_a
+  --   q :: tw_a
+  ```
+
+  Note that the first example is equivalent to the following program
+  (changing `f`'s partial type signature will also cause the same
+  change as in the example above):
+
+  ```wiki
+  f :: _
+  f x y = let p :: _a
+              p = x
+              q :: _a
+              q = y
+         in (p, q)
+  ```
+
+  The named wildcards quantified in a partial expression or pattern
+  signature will be in scope in the expression or pattern to which
+  the signature was attached:
+
+  ```wiki
+  foo = (\(x :: _a, y) -> y) :: _ -> _a
+  -- Inferred: forall tw_a . (tw_a, tw_a) -> tw_a
+  ```
+
+  Overall, this solution is the simplest, also to implement, and has
+  a good *power-to-weight* ratio. However, what happens in the
+  following examples might be counter-intuitive to some users:
+
+  ```wiki
+  baz1 x y = (x :: _a, y :: _a)
+  baz2 (x :: _a) (y :: _a) = (x, y)
+  -- Inferred for both:
+  --   forall tw_a tw_a1. tw_a -> tw_a1 -> (tw_a, tw_a1)
+  ```
+
+  In the examples above, every time an `_a` occurs, `_a` isn't yet in
+  scope, and is thus quantified in each expression/pattern signature
+  separately. Therefore, all occurrences of `_a` are distinct. This
+  might be perceived counter-intuitive. Again, both occurrences in
+  each binding can be made to refer to the same named wildcard by
+  mentioning `_a` in a signature common to both expression
+  signatures, e.g. by mentioning it in the type signature of `baz1`
+  and `baz2`.
+
+1. Quantify wildcards in the **type signature of the innermost enclosing binding**.
+  The first example of option 1 will behave exactly the same:
+
+  ```wiki
+  f :: _
+  f x y = let p :: _
+              p = (x :: _a)
+              q :: _
+              q = (y :: _a)
+         in (p, q)
+  -- Inferred:
+  -- f :: forall tw_a tw_a1. tw_a -> tw_a1 -> (tw_a, tw_a1)
+  --   p :: tw_a
+  --   q :: tw_a1
+  ```
+
+  Contrary to option 1, the last example will behave more
+  intuitively:
+
+  ```wiki
+  baz1 x y = (x :: _a, y :: _a)
+  baz2 (x :: _a) (y :: _a) = (x, y)
+  -- Inferred for both:
+  --   forall tw_a. tw_a -> tw_a -> (tw_a, tw_a)
+  ```
+
+  In `baz1` and `baz2`, both occurrences of `_a` will refer to the
+  same named wildcard.
+
+>
+> However, what if there's no enclosing binding with a type
+> signature, like in `baz1` and `baz2`? Quantifying the wildcards in
+> the binding itself could solve this, but makes the implementation
+> more complex.
+
+>
+> Another downside has to do with the implementation. This option
+> will require an extra renaming pass over the body of a binding that
+> will extract the wildcards from the expression signatures to store
+> them together with the wildcards mentioned in the type signature.
+
+>
+> An alternative is an invasive refactoring of the functions that
+> deal with renaming the bodies of a binding. It would involve
+> threading a list of extracted wildcards through these functions. A
+> lot more code (certainly more than we feel comfortable touching)
+> would have to be touched to implement this.
+
+1. Quantify wildcards in the **type signature of the top-level enclosing binding**.
+  This option changes the behaviour of the first example of options 1
+  and 2, both occurrences of `_a` will refer to the same named
+  wildcard.
+
+  ```wiki
+  f :: _
+  f x y = let p :: _
+              p = (x :: _a)
+              q :: _
+              q = (y :: _a)
+         in (p, q)
+  -- Inferred:
+  -- f :: forall tw_a. tw_a -> tw_a -> (tw_a, tw_a)
+  --   p :: tw_a
+  --   q :: tw_a
+  ```
+
+  Consider the following example:
+
+  ```wiki
+  foo o = let f :: (_a, _) -> _a
+              f (u, _) = not u
+              g (x :: _a) (xs :: [_a]) = x : xs
+        in g (f o) []
+  -- Inferred:
+  -- foo :: forall a. (Bool, a) -> [Bool]
+  --   f :: forall b. (Bool, b) -> Bool
+  --   g :: Bool -> [Bool] -> [Bool]
+  ```
+
+>
+> Is it intuitive in the example above that all occurrences of `_a`
+> refer to the same named wildcard? What if `g` didn't have pattern
+> signatures, but the partial type signature `g :: _a -> [_a] -> _`?
+> Does it still make that much sense?
+
+>
+> Besides the difference in scoping, this option is very similar to
+> option 2. It shares its downsides as well.
+
+
+Except for the possibly counter-intuitive behaviour in the `baz1` and
+`baz2` examples, we believe that option 1 is preferable.
+
 ## Formalisation
 
 
-We worked out a rigorous formalisation of partial type signature
+We worked out a rigorous formalisation of partial type signatures
 including typing rules, extending the existing formalisation of GHC's
 type inference system, OutsideIn(X)
 (as [ described](http://research.microsoft.com/apps/pubs/default.aspx?id=162516)
