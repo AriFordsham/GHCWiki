@@ -2,6 +2,22 @@
 
 Here are notes about using Git that Simon PJ has found useful.
 
+-----------------------------
+== Understanding the model ==
+
+=== Submodules ===
+
+See [wiki:WorkingConventions/Git/Submodules] for the GHC specific stuff.
+
+Suppose you have a submodule `utils/haddock` in the main GHC repo.
+
+ * The submodule `utils/haddock` is a full-on, independent Git repo
+
+ * You should think of the GHC repo as having a file that contains the commit-id (e.g. `ac60bd1`) for the `utils/haddock` repo.  That's ''all'' that the GHC repo remembers about the `utils/haddock` repo.  But it means that the GHC repo knows the exact state of the `utils/haddock` repo that matches the state of the GHC repo.
+
+ * In the GHC repo, `git submodule update utils/haddock` checks out the `utils/haddock` repo to match the GHC repo's recorded commit-id (in this case `ac60bd1`).  If you do this for all submodules, they'll all line up with a particular state of the GHC repo.
+
+
 ------------------------------
 == Configuration ==
 
