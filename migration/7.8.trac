@@ -38,4 +38,4 @@ Terminfo is a big culprit here, but so is `xhtml` - NixOS maintainers have repor
 
 For many people this might not be a problem, but it is a huge problem for package managers, who *do* want to use the global package database. In this instance, it is *impossible* for them to have packages which depend on libraries-need-but-not-exposed-by-GHC.
 
-The solution is that ''we want to fix this in 7.8.3 by exporting those previously unexported packages''. This means Cabal will properly link against them rather than overwrite them.
+The solution is that '''we want to fix this in 7.8.3 by exporting those previously unexported packages'''. This means Cabal will properly link against them rather than overwrite them.
