@@ -19,10 +19,12 @@ Because of the above, there are some knock-on changes for Cabal:
 
   * You **absolutely, positively, indisputably must be using `cabal-install` 1.18 or later**. Only Cabal 1.18 and later knows how to properly deal with a GHC which is dynamically linked, and knows how to invoke the compiler properly.
 
-  * You absolutely **cannot** have `disable-shared: True` set in your `~/.cabal/config`. Otherwise Cabal will respect this and *not* generated shared libraries, '''but this is never what you want with GHC 7.8'''.
+  * You absolutely **cannot** have `shared: False` set in your `~/.cabal/config`. Otherwise Cabal will respect this and *not* generated shared libraries, '''but this is never what you want with GHC 7.8'''.
  If you are in doubt, just remove your cabal configuration file, and use `cabal update` to create a new, fresh one.
 
-  * If your package uses `TemplateHaskell`, **you should list `TemplateHaskell` as an extension in your .cabal file**.  This is due to an annoying interaction with GHC, dynamic compilation, and profiling - if you do not set this, you **will** experience strange build failures because Cabal does not have an information. Just **put `TemplateHaskell` in your cabal file if you use it**.
+  * On that note, **please be careful with your cabal configuration**. Do not just go enabling every random thing under the sun - it is not explicitly stated, but many of these options will have unforseen consequences as they have bitrotted or not been meant for public consumption. The primary example is `split-objs`, which we don't exactly recommend outside of GHC itself. (I've also seen things like `library-vanilla: False`, for example, which is *not* recommended either!)
+
+  * If your package uses `TemplateHaskell`, **you should list `TemplateHaskell` as an extension in your .cabal file**.  This is due to an annoying interaction with GHC, dynamic compilation, and profiling - if you do not set this, you **will** experience strange build failures because Cabal does not have an information. Just **put `TemplateHaskell` in your cabal file if you use it**. This will particularly affect building dynamic/profiled executables due to the way GHC must load things for `TemplateHaskell`
 
 === The quasi-existing-terminfo package & co ===
 
