@@ -105,6 +105,8 @@ At present, a datatype in one module can declare a field, but if the selector fu
   - `-XOverloadedRecordFields` is enabled for module `M` and 
   - The record field selector function `x` is in scope. 
 
+- This approach (in which the availability of magical instances depends on what is in scope) is similar to the special treatment of `Coercible` instances (see [ Safe Coercions](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/)).
+
 
 Notice that
 
@@ -112,10 +114,7 @@ Notice that
 - If `T` is imported it does not matter whether `-XOverloadedRecordFields` is enabled in the module where `T` was defined.
 
 
-All this is very like the special treatment of `Coercible` instances (see [ Safe Coercions](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/)).
-
-
-This enables representation hiding: just like at present, exporting the field selector permits access to the field. For example, consider the following module:
+This design supports representation hiding: just like at present, exporting the field selector permits access to the field. For example, consider the following module:
 
 ```wiki
 module M ( R(x), S ) where
