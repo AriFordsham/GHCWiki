@@ -196,25 +196,31 @@ These problems have already been [described in some detail](records/overloaded-r
 
 - If there is only one data type that has all the fields  `f1` .. `fn` mentioned in the update, then that is the data type to be updated.
 
-- If more than one data type has all those fields, a type signature may be used to disambiguate. For example,
+- If more than one data type has all those fields, a type signature may be used to disambiguate, in one of two places: either `r :: <type> { fi=ei }` or `r { fi=ei } :: <type>`. 
 
-  ```wiki
-  e { x = t }
-  ```
 
-  currently relies on the name `x` to determine the datatype of the record. If this is ambiguous, a type signature can be given either to `e` or to the whole expression (but nowhere else). Thus either
+For example,
 
-  ```wiki
-    e :: T Int { x = t }
-  ```
+```wiki
+e { x = t }
+```
 
-  or
 
-  ```wiki
-    e { x = t } :: T Int
-  ```
+currently relies on the name `x` to determine the datatype of the record. If this is ambiguous, a type signature can be given either to `e` or to the whole expression (but nowhere else). Thus either
 
-  will be accepted. (Really only the type constructor is needed, whereas this approach requires the whole type to be specified, but it seems simpler than inventing a whole new syntax.)
+```wiki
+  e :: T Int { x = t }
+```
+
+
+or
+
+```wiki
+  e { x = t } :: T Int
+```
+
+
+will be accepted. (Really only the type constructor is needed, whereas this approach requires the whole type to be specified, but it seems simpler than inventing a whole new syntax.)
 
 ### Limited type-changing update
 
