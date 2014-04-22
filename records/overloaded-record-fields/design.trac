@@ -160,13 +160,15 @@ Supporting polymorphic record update is rather more complex than polymorphic loo
 
 These problems have already been [wiki:Records/OverloadedRecordFields/SORF/#Recordupdates described in some detail]. In the interests of doing something, even if imperfect, the overloaded-record-field design works as follows:
  
- * The traditional record update syntax supportx only non-overloaded update (that is, update of a unique known record type). 
+ * The traditional record update syntax `r { f1=e2, ..., fn=en }` supports only non-overloaded update; that is, update of a unique known record type. 
 
- * Where overloading mean that the fields alone do not determine the data type being updated, a type signature may be required. For example,
+ * If there is only one data type that has all the fields  `f1` .. `fn` mentioned in the update, then that is the data type to be updated.
+
+ * If more than one data type has all those fields, a type signature may be used to disambiguate. For example,
 {{{
 e { x = t }
 }}}
-  currently relies on the name `x` to determine the datatype of the record. If this is ambiguous, a type signature can be given either to `e` or to the whole expression. Thus either
+  currently relies on the name `x` to determine the datatype of the record. If this is ambiguous, a type signature can be given either to `e` or to the whole expression (but nowhere else). Thus either
 {{{
   e :: T Int { x = t }
 }}}
