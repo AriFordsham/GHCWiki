@@ -374,11 +374,14 @@ So, if the source program contains `foo r` (meaning "select field `foo` from rec
 
 ```wiki
                      foo r
+
 desugaring      ==> field (proxy# :: Proxy# "foo") r
+
 inline 'field'  ==> accessField (proxy# :: Proxy# "foo")
                                 (getField (proxy# :: Proxy# "foo"))
                                 (setField (proxy# :: Proxy# "foo"))
                                 r
+
 (->) instance   ==> getField (proxy# :: Proxy# "foo") r
 of Accessor
 

@@ -306,11 +306,14 @@ instance Has r n t => Accessor (->) r n t where
 So, if the source program contains `foo r` (meaning "select field `foo` from record `r`), it will be interpreted like this, if `r :: T`:
 {{{
                      foo r
+
 desugaring      ==> field (proxy# :: Proxy# "foo") r
+
 inline 'field'  ==> accessField (proxy# :: Proxy# "foo")
                                 (getField (proxy# :: Proxy# "foo"))
                                 (setField (proxy# :: Proxy# "foo"))
                                 r
+
 (->) instance   ==> getField (proxy# :: Proxy# "foo") r
 of Accessor
 
