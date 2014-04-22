@@ -426,10 +426,10 @@ Now an overloaded record field `foo` can be used as if it had type `DataLens r a
 
 ## Design choices
 
-### Scope issues, or, why we miss dot
+### Scope issues, or, why we miss dot notation
 
 
-Consider the following example:
+In some ways it would be very desirable to support dot notation.  Consider the following example:
 
 ```wiki
 f :: r { g :: Int } => r -> Int
@@ -439,7 +439,10 @@ f x = g x + 1
 
 Q1. What happens if `g` is not in scope?
 
-1. The code gives an error. This is where dot-notation (or another syntactic form marking a field name) is better: `f x = x.g + 1` can work even if `g` is not in scope. Observe that something similar happens with implicit parameters: `f y = y + ?x` works even if `x` is not in scope, and introduces a new constraint `(?x :: Int)`. 
+1. The code gives an error (`g` is not in scope).  We can't write record-manipulating functions unless there is at least one records in scope with that field name (`g` in this case).  
+
+
+This is where dot-notation (or another syntactic form marking a field name) is better: `f x = x.g + 1` can work even if `g` is not in scope. Observe that something similar happens with implicit parameters: `f y = y + ?x` works even if `x` is not in scope, and introduces a new constraint `(?x :: Int)`. 
 
 
 Q2. What if we add `data T = MkT { g :: Char }`?
@@ -451,7 +454,7 @@ Q3. What if we subsequently add another datatype with a field `g`?
 
 1. The code still compiles correctly.
 
-### Syntax for record projections
+### Alternatives to dot-notation
 
 
 An advantage of distinguishing record projections syntactically (as in `x.g`) is that `g` is always treated as a record field, regardless of what is in scope. This allows better separation of concerns, as functions that manipulate records can be defined abstractly rather than referring to particular datatypes. We could consider using an operator less controversial than dot (for example, `#` has been suggested):
