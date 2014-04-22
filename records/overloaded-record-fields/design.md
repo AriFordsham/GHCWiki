@@ -250,23 +250,95 @@ instance (b ~ [c]) => Upd (T a) "x" b where
 
 The third parameter of the `Upd` class represents the new type being assigned to the field. Thus it is not functionally dependent on the first two. Consequently, we must use a bare type variable `b` in the instance declaration, with an equality constraint `b ~ [c]` postponed until after the instance matches.
 
+### Type-changing update: phantom arguments
 
-If a type variable is shared by multiple fields, it cannot be changed using `setField`. Moreover, the use of the `UpdTy` type family means that phantom type variables cannot be changed. For example, in
+
+Consider the datatype
 
 ```wiki
-data V a b c = MkV { foo :: (a, b), bar :: a }
+data T a = MkT { foo :: Int }
 ```
 
 
-an update to `foo` must keep `a` and `c` the same, since `a` occurs in the
-type of `bar`, and `c` does not occur in the type of `foo`, but the update may change `b`.  Thus we generate:
+where `a` is a phantom type argument (it does not occur in the type of `foo`). The traditional update syntax can change the phantom argument, for example if `r :: T Int` then `r { foo = 3 } :: T Bool` typechecks. However, `setField` cannot do so, because this is illegal:
 
 ```wiki
-type instance UpdTy (V a b c) "foo" (a, b') = V a b' c
+type instance UpdTy (T a) "foo" Int = T b
+```
 
-instance t ~ (a, b') => Upd (V a b c) "foo" t where
+
+Note that the result of the type family involves an unbound variable `b`. 
+
+
+In general, a use of `setField` can change only type variables that occur in the field type being updated, and do not occur in any of the other fields' types.
+
+### Type-changing update: multiple fields
+
+
+Because `setField` changes a single field, you cannot use to change the type
+of a type variable that appears in more than one field. For example:
+
+```wiki
+data V a b = MkV { foo :: (a, b), bar :: a }
+```
+
+
+We can change the type of `b` but not `a`, because the latter occurs in
+two different fields.  So we generate these instances:
+
+```wiki
+instance t ~ (a, b') => Upd (V a b) "foo" t where
   setField _ (MkV _ bar) e = MkV e bar
+
+instance t ~ a => Upd (V a b) "bar" t where
+  setField _ (MkV foo _) e = MkV foo e
 ```
+
+
+In the first we can change `b`'s type to `b'`, but in the second `a`'s type remains unchanged.
+
+### Type-changing update: type families
+
+
+Consider the following definitions:
+
+```wiki
+type family Goo a
+data T a = MkT { foo :: Goo a }
+```
+
+
+In order to change the type of the field `foo`, we would need to define something like this:
+
+```wiki
+type instance UpdTy (T a) "foo" (Goo b) = T b
+```
+
+
+But pattern-matching on a type family (like `Goo`) doesn't work, because type families are not injective. Thus we cannot change type variables that appear only underneath type family applications. We generate an instance like this instead:
+
+```wiki
+type instance UpdTy (T a) "foo" x = T b
+```
+
+
+On the other hand, in the datatype
+
+```wiki
+data U a = MkU { bar :: a -> Goo a }
+```
+
+
+it is fine to change `a` when updating `bar`, because it occurs rigidly as well as under a type family, so we can generate this:
+
+```wiki
+type instance UpdTy (U a) "bar" (b -> x) = U b
+```
+
+
+This is all a bit subtle. We could make updates entirely non-type-changing if the field type contains a type family, which would be simpler but somewhat unnecessarily restrictive.
+
+---
 
 ### Lens integration
 
@@ -331,69 +403,6 @@ instance Upd r n t => Accessor DataLens r n t where
 
 
 Now an overloaded record field `foo` can be used as if it had type `DataLens r a`, and it will just work: we do not even need to use a combinator.
-
-### Type-changing update: phantom arguments
-
-
-Consider the datatype
-
-```wiki
-data T a = MkT { foo :: Int }
-```
-
-
-where `a` is a phantom type argument (it does not occur in the type of `foo`). The traditional update syntax can change the phantom argument, for example if `r :: T Int` then `r { foo = 3 } :: T Bool` typechecks. However, `setField` cannot do so, because this is illegal:
-
-```wiki
-type instance UpdTy (T a) "foo" Int = T b
-```
-
-
-Note that the result of the type family involves an unbound variable `b`. 
-
-
-In general, a use of `setField` can change only type variables that occur in the field type being updated, and do not occur in any of the other fields' types.
-
-### Type-changing update: type families
-
-
-Consider the following definitions:
-
-```wiki
-type family Goo a
-data T a = MkT { foo :: Goo a }
-```
-
-
-In order to change the type of the field `foo`, we would need to define something like this:
-
-```wiki
-type instance UpdTy (T a) "foo" (Goo b) = T b
-```
-
-
-But pattern-matching on a type family (like `Goo`) doesn't work, because type families are not injective. Thus we cannot change type variables that appear only underneath type family applications. We generate an instance like this instead:
-
-```wiki
-type instance UpdTy (T a) "foo" x = T b
-```
-
-
-On the other hand, in the datatype
-
-```wiki
-data U a = MkU { bar :: a -> Goo a }
-```
-
-
-it is fine to change `a` when updating `bar`, because it occurs rigidly as well as under a type family, so we can generate this:
-
-```wiki
-type instance UpdTy (U a) "bar" (b -> x) = U b
-```
-
-
-This is all a bit subtle. We could make updates entirely non-type-changing if the field type contains a type family, which would be simpler but somewhat unnecessarily restrictive.
 
 ## Design choices
 
