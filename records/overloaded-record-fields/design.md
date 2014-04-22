@@ -189,28 +189,30 @@ Supporting polymorphic record update is rather more complex than polymorphic loo
 - records may include higher-rank components.
 
 
-These problems have already been [described in some detail](records/overloaded-record-fields#record-updates). In the interests of doing something, even if imperfect, the traditional record update syntax will support only non-overloaded update (that is, update of a unique known record type). Where overloading mean that the fields alone do not determine the type being updated, a type signature may be required. For example,
+These problems have already been [described in some detail](records/overloaded-record-fields/sorf#record-updates). In the interests of doing something, even if imperfect, the overloaded-record-field design works as follows:
+ 
 
-```wiki
-e { x = t }
-```
+- The traditional record update syntax supportx only non-overloaded update (that is, update of a unique known record type). 
 
+- Where overloading mean that the fields alone do not determine the data type being updated, a type signature may be required. For example,
 
-currently relies on the name `x` to determine the datatype of the record. If this is ambiguous, a type signature can be given either to `e` or to the whole expression. Thus either
+  ```wiki
+  e { x = t }
+  ```
 
-```wiki
-  e :: T Int { x = t }
-```
+  currently relies on the name `x` to determine the datatype of the record. If this is ambiguous, a type signature can be given either to `e` or to the whole expression. Thus either
 
+  ```wiki
+    e :: T Int { x = t }
+  ```
 
-or
+  or
 
-```wiki
-  e { x = t } :: T Int
-```
+  ```wiki
+    e { x = t } :: T Int
+  ```
 
-
-will be accepted. (Really only the type constructor is needed, whereas this approach requires the whole type to be specified, but it seems simpler than inventing a whole new syntax.)
+  will be accepted. (Really only the type constructor is needed, whereas this approach requires the whole type to be specified, but it seems simpler than inventing a whole new syntax.)
 
 ### Limited type-changing update
 

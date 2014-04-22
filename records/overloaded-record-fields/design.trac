@@ -158,19 +158,23 @@ Supporting polymorphic record update is rather more complex than polymorphic loo
  * multiple fields must be updated simultaneously for an update to be type correct (so iterated single update is not enough); and
  * records may include higher-rank components.
 
-These problems have already been [wiki:Records/OverloadedRecordFields#Recordupdates described in some detail]. In the interests of doing something, even if imperfect, the traditional record update syntax will support only non-overloaded update (that is, update of a unique known record type). Where overloading mean that the fields alone do not determine the type being updated, a type signature may be required. For example,
+These problems have already been [wiki:Records/OverloadedRecordFields/SORF/#Recordupdates described in some detail]. In the interests of doing something, even if imperfect, the overloaded-record-field design works as follows:
+ 
+ * The traditional record update syntax supportx only non-overloaded update (that is, update of a unique known record type). 
+
+ * Where overloading mean that the fields alone do not determine the data type being updated, a type signature may be required. For example,
 {{{
 e { x = t }
 }}}
-currently relies on the name `x` to determine the datatype of the record. If this is ambiguous, a type signature can be given either to `e` or to the whole expression. Thus either
+  currently relies on the name `x` to determine the datatype of the record. If this is ambiguous, a type signature can be given either to `e` or to the whole expression. Thus either
 {{{
   e :: T Int { x = t }
 }}}
-or
+  or
 {{{
   e { x = t } :: T Int
 }}}
-will be accepted. (Really only the type constructor is needed, whereas this approach requires the whole type to be specified, but it seems simpler than inventing a whole new syntax.)
+  will be accepted. (Really only the type constructor is needed, whereas this approach requires the whole type to be specified, but it seems simpler than inventing a whole new syntax.)
 
 
 === Limited type-changing update ===
