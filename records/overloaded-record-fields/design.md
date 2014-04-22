@@ -373,7 +373,7 @@ instance Has r n t => Accessor (->) r n t where
 So, if the source program contains `foo r` (meaning "select field `foo` from record `r`), it will be interpreted like this, if `r :: T`:
 
 ```wiki
-                     foo r
+                foo r
 
 desugaring      ==> field (proxy# :: Proxy# "foo") r
 
