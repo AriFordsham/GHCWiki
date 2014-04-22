@@ -225,13 +225,13 @@ will be accepted. (Really only the type constructor is needed, whereas this appr
 ### Limited type-changing update
 
 
-As noted above, supporting a polymorphic version of the existing record update syntax (in its full generality) is difficult. However, we can generate instances of the following class and type family, which permit type-changing update of single fields:
+As noted above, supporting a polymorphic version of the existing record update syntax (in its full generality) is difficult. However, we do generate instances of the class `Upd` and type family `UpdTy`, which permit type-changing update of single fields:
 
 ```wiki
 type family UpdTy (r :: *) (n:: Symbol) (a :: *) :: *
 
-class (Has r n (FldTy r n), r ~ UpdTy r n (FldTy r n)) =>
-          Upd (r :: *) (n :: Symbol) (t :: *) where
+class (Has r n (FldTy r n), r ~ UpdTy r n (FldTy r n))
+   => Upd (r :: *) (n :: Symbol) (t :: *) where
   setField :: Proxy# n -> r -> t -> UpdTy r n t
 ```
 
@@ -362,7 +362,7 @@ class Accessor (p :: * -> * -> *) (r :: *) (n :: Symbol) (t :: *) where
 ```
 
 
-An instance of `Accessor p r n t` means that `p` may contain a getter and setter for the field `n` of type `t` in record type `r`. In particular, we can give an instance for functions that ignores the setter completely:
+An instance of `Accessor p r n t` means that `p` may contain a getter and setter for the field `n` of type `t` in record type `r`. In particular, we can give the following instance for function arrow, that ignores the setter completely:
 
 ```wiki
 instance Has r n t => Accessor (->) r n t where
@@ -370,10 +370,27 @@ instance Has r n t => Accessor (->) r n t where
 ```
 
 
-Thus, whenever a field `foo` is used at a function type (by applying it or composing it, for example), this instance will be selected. That is, `foo` translates to `field proxy#`, which computes to `accessor proxy# (getField proxy#) (setField proxy#)`, and hence to `getField proxy#` by the `Accessor` instance for functions.
+So, if the source program contains `foo r` (meaning "select field `foo` from record `r`), it will be interpreted like this, if `r :: T`:
+
+```wiki
+                     foo r
+desugaring      ==> field (proxy# :: Proxy# "foo") r
+inline 'field'  ==> accessField (proxy# :: Proxy# "foo")
+                                (getField (proxy# :: Proxy# "foo"))
+                                (setField (proxy# :: Proxy# "foo"))
+                                r
+(->) instance   ==> getField (proxy# :: Proxy# "foo") r
+of Accessor
+
+"foo" instance  => sel_T_foo r     -- Select the foo field in the T type
+of Has
+```
 
 
-However, `p` does not have to be the function arrow. Suppose the `lens` library defined the following newtype wrapper:
+Of course the field doesn't have to by syntactically applied; the above will happen whenever it is used as a function.
+
+
+However, with this additional generality, the field does not have to be used as a function!  (Or, to put it another way, `p` does not have to be the function arrow.) Suppose the `lens` library defined the following newtype wrapper:
 
 ```wiki
 newtype WrapLens n r a
