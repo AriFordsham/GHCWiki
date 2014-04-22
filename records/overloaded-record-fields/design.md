@@ -82,7 +82,7 @@ instance b ~ [a] => Has (T a) "x" b where
 The bare type variable `b` in the instance head is important, so that we get an instance match from the first two parameters only, then the equality constraint `(b ~ [a])` improves `b`. For example, if the constraint `Has (T c) "x" d` is encountered during type inference, the instance will match and generate the constraints `(a ~ c, b ~ d, b ~ [a])`. Moreover, the `FldTy` type family ensures that the third parameter is functionally dependent on the first two, which is needed to [avoid ambiguity errors when composing overloaded fields](records/overloaded-record-fields/design#trouble-in-paradise). 
 
 
-The reason for using a three-parameter class, rather than just two parameters and a type family, is to support the syntactic sugar and improve type inference error messags. With a two-parameter class we could easily end up inferring types like the following, and it would be hard to reapply the sugar: 
+The reasons for using a three-parameter class, rather than just two parameters and a type family, are (a) to support the syntactic sugar and (b) improve type inference error messages. With a two-parameter class we could easily end up inferring types like the following, and it would be hard to reapply the sugar: 
 
 ```wiki
 f :: (Has r "x", Has r "y", FldTy r "x" ~ Int, FldTy r "y" ~ Int) => r -> Int 
@@ -95,13 +95,29 @@ Moreover, error messages would tend to be reported in terms of unification failu
 ### Representation hiding
 
 
-At present, a datatype in one module can declare a field, but if the selector function is not exported, then the field is hidden from clients of the module. It is important to support this. Typeclasses in general have no controls over their scope, but for implicitly generated `Has` instances, the instance is available for a module if `-XOverloadedRecordFields` is enabled for that module and the record field selector function is in scope. Instances are not exported from the module that defines the datatype, but are created implicitly when needed by the typechecker.
+At present, a datatype in one module can declare a field, but if the selector function is not exported, then the field is hidden from clients of the module. It is important to support this. Typeclasses in general have no controls over their scope, but we treat the implicitly-generated `Has` instances differently.  
+ 
+
+- Instances are not exported from the module that defines the datatype, but instead are created implicitly when needed by the typechecker. 
+
+- An implicitly-generated `Has` instance for a field `x` of data type `T` is available in a module `M` if
+
+  - `-XOverloadedRecordFields` is enabled for module `M` and 
+  - The record field selector function `x` is in scope. 
+
+- This approach (in which the availability of magical instances depends on what is in scope) is similar to the special treatment of `Coercible` instances (see [ Safe Coercions](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/)).
 
 
-This enables representation hiding: just like at present, exporting the field selector permits access to the field. For example, consider the following module:
+Notice that
+
+- The data type `T` might be defined locally in `M`, or imported.
+- If `T` is imported it does not matter whether `-XOverloadedRecordFields` is enabled in the module where `T` was defined.
+
+
+This design supports representation hiding: just like at present, exporting the field selector permits access to the field. For example, consider the following module:
 
 ```wiki
-module M ( R(x) ) where
+module M ( R(x), S ) where
 
 data R = R { x :: Int }
 data S = S { x :: Bool }
@@ -110,20 +126,15 @@ data S = S { x :: Bool }
 
 Any module that imports `M` will have access to the `x` field from `R` but not from `S`, because the instance `Has R "x" Int` will be available but the instance `Has S "x" Bool` will not be. Thus `R { x :: Int }` will be solved but `S { x :: Bool }` will not.
 
-### Multiple modules and automatic instance generation
-
-
-Note that `Has` instances are generated on a per-module basis, using the fields that are in scope for that module, and automatically generated instances are never exported. Thus it doesn't matter whether `-XOverloadedRecordFields` was on in the module that defined the datatype. The availability of the instances in a particular module depends only on whether the flag is enabled for that module.
-
 
 Suppose module `M` imports module `N`, `N` imports module `O`, and only `N` has the extension enabled. Now `N` can project any field in scope (including those defined in `O`), but `M` cannot access any `Has` instances. 
 
 
 This means that
 
-- the extension is required whenever a `Has` constraint must be solved;
-- no new mechanism for hiding instances is required; and
+- the extension `-XOverloadedRecordFields` is required whenever a `Has` constraint must be solved;
 - records defined in existing modules (or other packages) without the extension can still be overloaded.
+- no new mechanism for hiding instances is required; and
 
 ### Higher-rank fields
 
@@ -178,14 +189,24 @@ Supporting polymorphic record update is rather more complex than polymorphic loo
 - records may include higher-rank components.
 
 
-These problems have already been [described in some detail](records/overloaded-record-fields#record-updates). In the interests of doing something, even if imperfect, the traditional record update syntax will support only non-overloaded update (that is, update of a unique known record type). Where overloading mean that the fields alone do not determine the type being updated, a type signature may be required. For example,
+These problems have already been [described in some detail](records/overloaded-record-fields/sorf#record-updates). In the interests of doing something, even if imperfect, the overloaded-record-field design works as follows:
+ 
+
+- The traditional record update syntax `r { f1=e2, ..., fn=en }` supports only non-overloaded update; that is, update of a unique known record type. 
+
+- If there is only one data type that has all the fields  `f1` .. `fn` mentioned in the update, then that is the data type to be updated.
+
+- If more than one data type has all those fields, a type signature may be used to disambiguate, in one of two places: either `r :: <type> { fi=ei }` or `r { fi=ei } :: <type>`. 
+
+
+For example,
 
 ```wiki
 e { x = t }
 ```
 
 
-currently relies on the name `x` to determine the datatype of the record. If this is ambiguous, a type signature can be given either to `e` or to the whole expression. Thus either
+currently relies on the name `x` to determine the datatype of the record. If this is ambiguous, a type signature can be given either to `e` or to the whole expression (but nowhere else). Thus either
 
 ```wiki
   e :: T Int { x = t }
@@ -204,13 +225,13 @@ will be accepted. (Really only the type constructor is needed, whereas this appr
 ### Limited type-changing update
 
 
-As noted above, supporting a polymorphic version of the existing record update syntax (in its full generality) is difficult. However, we can generate instances of the following class and type family, which permit type-changing update of single fields:
+As noted above, supporting a polymorphic version of the existing record update syntax (in its full generality) is difficult. However, we do generate instances of the class `Upd` and type family `UpdTy`, which permit type-changing update of single fields:
 
 ```wiki
 type family UpdTy (r :: *) (n:: Symbol) (a :: *) :: *
 
-class (Has r n (FldTy r n), r ~ UpdTy r n (FldTy r n)) =>
-          Upd (r :: *) (n :: Symbol) (t :: *) where
+class (Has r n (FldTy r n), r ~ UpdTy r n (FldTy r n))
+   => Upd (r :: *) (n :: Symbol) (t :: *) where
   setField :: Proxy# n -> r -> t -> UpdTy r n t
 ```
 
@@ -228,88 +249,6 @@ instance (b ~ [c]) => Upd (T a) "x" b where
 
 
 The third parameter of the `Upd` class represents the new type being assigned to the field. Thus it is not functionally dependent on the first two. Consequently, we must use a bare type variable `b` in the instance declaration, with an equality constraint `b ~ [c]` postponed until after the instance matches.
-
-
-If a type variable is shared by multiple fields, it cannot be changed using `setField`. Moreover, the use of the `UpdTy` type family means that phantom type variables cannot be changed. For example, in
-
-```wiki
-data V a b c = MkV { foo :: (a, b), bar :: a }
-```
-
-
-an update to `foo` must keep `a` and `c` the same, since `a` occurs in the
-type of `bar`, and `c` does not occur in the type of `foo`, but the update may change `b`.  Thus we generate:
-
-```wiki
-type instance UpdTy (V a b c) "foo" (a, b') = V a b' c
-
-instance t ~ (a, b') => Upd (V a b c) "foo" t where
-  setField _ (MkV _ bar) e = MkV e bar
-```
-
-### Lens integration
-
-
-It was implied above that a field like `foo` translates into `getField (proxy# :: Proxy# "foo") :: Has r "foo" t => r -> t`, but this is not quite the whole story. We would like fields to be usable as lenses (e.g. using packages such as [ lens](http://hackage.haskell.org/package/lens), [ data-accessor](http://hackage.haskell.org/package/data-accessor) or [ data-lens](http://hackage.haskell.org/package/data-lens)). This requires a slightly more general translation, using
-
-```wiki
-field :: Accessor p r n t => Proxy# n -> p r t
-field z = accessField z (getField z) (setField z)
-```
-
-
-to translate `foo` to `field (proxy# :: Proxy# "foo") :: Accessor p r "foo" t => p r t`. The `Accessor` class is defined thus:
-
-```wiki
-class Accessor (p :: * -> * -> *) (r :: *) (n :: Symbol) (t :: *) where
-  accessField :: Proxy# n ->
-                 (Has r n t => r -> t) ->
-                 (forall a . Upd r n a => r -> a -> UpdTy r n a) ->
-                 p r t
-```
-
-
-An instance of `Accessor p r n t` means that `p` may contain a getter and setter for the field `n` of type `t` in record type `r`. In particular, we can give an instance for functions that ignores the setter completely:
-
-```wiki
-instance Has r n t => Accessor (->) r n t where
-  accessor _ getter setter = getter
-```
-
-
-Thus, whenever a field `foo` is used at a function type (by applying it or composing it, for example), this instance will be selected. That is, `foo` translates to `field proxy#`, which computes to `accessor proxy# (getField proxy#) (setField proxy#)`, and hence to `getField proxy#` by the `Accessor` instance for functions.
-
-
-However, `p` does not have to be the function arrow. Suppose the `lens` library defined the following newtype wrapper:
-
-```wiki
-newtype WrapLens n r a
-  = MkWrapLens (forall b . Upd r n b => Lens r (UpdTy r n b) a b)
-
-instance m ~ n => Accessor (WrapLens m) r n where
-  accessor _ getter setter = MkWrapLens (\ w s -> setter s <$> w (getter s))
-
-fieldLens :: Upd r n b => WrapLens n r a -> Lens r (UpdTy r n b) a b
-fieldLens (MkWrapLens l) = l
-```
-
-
-Now `fieldLens foo` is a lens whenever `foo` is an overloaded record field.
-
-
-Other lens libraries can define their own instances of `Accessor`, even if they do not support type-changing update, and the same machinery enables fields to be used with them. For example, here is another possible encoding of lenses:
-
-```wiki
-data DataLens r a = DataLens
-   { getDL :: r -> a
-   , setDL :: r -> a -> r }
-
-instance Upd r n t => Accessor DataLens r n t where
-  accessField _ g s = DataLens g s
-```
-
-
-Now an overloaded record field `foo` can be used as if it had type `DataLens r a`, and it will just work: we do not even need to use a combinator.
 
 ### Type-changing update: phantom arguments
 
@@ -332,6 +271,31 @@ Note that the result of the type family involves an unbound variable `b`.
 
 
 In general, a use of `setField` can change only type variables that occur in the field type being updated, and do not occur in any of the other fields' types.
+
+### Type-changing update: multiple fields
+
+
+Because `setField` changes a single field, you cannot use to change the type
+of a type variable that appears in more than one field. For example:
+
+```wiki
+data V a b = MkV { foo :: (a, b), bar :: a }
+```
+
+
+We can change the type of `b` but not `a`, because the latter occurs in
+two different fields.  So we generate these instances:
+
+```wiki
+instance t ~ (a, b') => Upd (V a b) "foo" t where
+  setField _ (MkV _ bar) e = MkV e bar
+
+instance t ~ a => Upd (V a b) "bar" t where
+  setField _ (MkV foo _) e = MkV foo e
+```
+
+
+In the first we can change `b`'s type to `b'`, but in the second `a`'s type remains unchanged.
 
 ### Type-changing update: type families
 
@@ -374,12 +338,98 @@ type instance UpdTy (U a) "bar" (b -> x) = U b
 
 This is all a bit subtle. We could make updates entirely non-type-changing if the field type contains a type family, which would be simpler but somewhat unnecessarily restrictive.
 
+---
+
+### Lens integration
+
+
+It was implied above that a field like `foo` translates into `getField (proxy# :: Proxy# "foo") :: Has r "foo" t => r -> t`, but this is not quite the whole story. We would like fields to be usable as lenses (e.g. using packages such as [ lens](http://hackage.haskell.org/package/lens), [ data-accessor](http://hackage.haskell.org/package/data-accessor) or [ data-lens](http://hackage.haskell.org/package/data-lens)). This requires a slightly more general translation, using
+
+```wiki
+field :: Accessor p r n t => Proxy# n -> p r t
+field z = accessField z (getField z) (setField z)
+```
+
+
+to translate `foo` to `field (proxy# :: Proxy# "foo") :: Accessor p r "foo" t => p r t`. The `Accessor` class is defined thus:
+
+```wiki
+class Accessor (p :: * -> * -> *) (r :: *) (n :: Symbol) (t :: *) where
+  accessField :: Proxy# n ->
+                 (Has r n t => r -> t) ->
+                 (forall a . Upd r n a => r -> a -> UpdTy r n a) ->
+                 p r t
+```
+
+
+An instance of `Accessor p r n t` means that `p` may contain a getter and setter for the field `n` of type `t` in record type `r`. In particular, we can give the following instance for function arrow, that ignores the setter completely:
+
+```wiki
+instance Has r n t => Accessor (->) r n t where
+  accessor _ getter setter = getter
+```
+
+
+So, if the source program contains `foo r` (meaning "select field `foo` from record `r`), it will be interpreted like this, if `r :: T`:
+
+```wiki
+                foo r
+
+desugaring      ==> field (proxy# :: Proxy# "foo") r
+
+inline 'field'  ==> accessField (proxy# :: Proxy# "foo")
+                                (getField (proxy# :: Proxy# "foo"))
+                                (setField (proxy# :: Proxy# "foo"))
+                                r
+
+(->) instance   ==> getField (proxy# :: Proxy# "foo") r
+of Accessor
+
+"foo" instance  => sel_T_foo r     -- Select the foo field in the T type
+of Has
+```
+
+
+Of course the field doesn't have to by syntactically applied; the above will happen whenever it is used as a function.
+
+
+However, with this additional generality, the field does not have to be used as a function!  (Or, to put it another way, `p` does not have to be the function arrow.) Suppose the `lens` library defined the following newtype wrapper:
+
+```wiki
+newtype WrapLens n r a
+  = MkWrapLens (forall b . Upd r n b => Lens r (UpdTy r n b) a b)
+
+instance m ~ n => Accessor (WrapLens m) r n where
+  accessor _ getter setter = MkWrapLens (\ w s -> setter s <$> w (getter s))
+
+fieldLens :: Upd r n b => WrapLens n r a -> Lens r (UpdTy r n b) a b
+fieldLens (MkWrapLens l) = l
+```
+
+
+Now `fieldLens foo` is a lens whenever `foo` is an overloaded record field.
+
+
+Other lens libraries can define their own instances of `Accessor`, even if they do not support type-changing update, and the same machinery enables fields to be used with them. For example, here is another possible encoding of lenses:
+
+```wiki
+data DataLens r a = DataLens
+   { getDL :: r -> a
+   , setDL :: r -> a -> r }
+
+instance Upd r n t => Accessor DataLens r n t where
+  accessField _ g s = DataLens g s
+```
+
+
+Now an overloaded record field `foo` can be used as if it had type `DataLens r a`, and it will just work: we do not even need to use a combinator.
+
 ## Design choices
 
-### Scope issues, or, why we miss dot
+### Scope issues, or, why we miss dot notation
 
 
-Consider the following example:
+In some ways it would be very desirable to support dot notation.  Consider the following example:
 
 ```wiki
 f :: r { g :: Int } => r -> Int
@@ -389,7 +439,10 @@ f x = g x + 1
 
 Q1. What happens if `g` is not in scope?
 
-1. The code gives an error. This is where dot-notation (or another syntactic form marking a field name) is better: `f x = x.g + 1` can work even if `g` is not in scope. Observe that something similar happens with implicit parameters: `f y = y + ?x` works even if `x` is not in scope, and introduces a new constraint `(?x :: Int)`. 
+1. The code gives an error (`g` is not in scope).  We can't write record-manipulating functions unless there is at least one records in scope with that field name (`g` in this case).  
+
+
+This is where dot-notation (or another syntactic form marking a field name) is better: `f x = x.g + 1` can work even if `g` is not in scope. Observe that something similar happens with implicit parameters: `f y = y + ?x` works even if `x` is not in scope, and introduces a new constraint `(?x :: Int)`. 
 
 
 Q2. What if we add `data T = MkT { g :: Char }`?
@@ -401,7 +454,7 @@ Q3. What if we subsequently add another datatype with a field `g`?
 
 1. The code still compiles correctly.
 
-### Syntax for record projections
+### Alternatives to dot-notation
 
 
 An advantage of distinguishing record projections syntactically (as in `x.g`) is that `g` is always treated as a record field, regardless of what is in scope. This allows better separation of concerns, as functions that manipulate records can be defined abstractly rather than referring to particular datatypes. We could consider using an operator less controversial than dot (for example, `#` has been suggested):
