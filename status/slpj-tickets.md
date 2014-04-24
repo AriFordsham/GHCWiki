@@ -2,9 +2,9 @@
 
 ## Type inference
 
+- [\#9023](https://gitlab.haskell.org//ghc/ghc/issues/9023): pattern synonyms
 - [\#8984](https://gitlab.haskell.org//ghc/ghc/issues/8984): better error message for `Coercible`
 - [\#8673](https://gitlab.haskell.org//ghc/ghc/issues/8673): more generous GADT record selectors
-- [\#8566](https://gitlab.haskell.org//ghc/ghc/issues/8566): Given kind equalities are discarded
 - [\#8550](https://gitlab.haskell.org//ghc/ghc/issues/8550): Don't build recursive type-function dictionaries
 - [\#8486](https://gitlab.haskell.org//ghc/ghc/issues/8486), [\#5682](https://gitlab.haskell.org//ghc/ghc/issues/5682): Parsing of pomoted kinds, and `Typeable` instances involving them
 - [\#8281](https://gitlab.haskell.org//ghc/ghc/issues/8281): `UnliftedFFITypes` etc
@@ -12,7 +12,6 @@
 - [\#8427](https://gitlab.haskell.org//ghc/ghc/issues/8427): stop EPS cache poisoning
 - [\#7730](https://gitlab.haskell.org//ghc/ghc/issues/7730): display `TyCons` in tidied form in `pprTyThing`
 - [\#5610](https://gitlab.haskell.org//ghc/ghc/issues/5610), [\#7243](https://gitlab.haskell.org//ghc/ghc/issues/7243): Better error messages for `foreign` declarations
-- [\#8264](https://gitlab.haskell.org//ghc/ghc/issues/8264): `checkValidInstance` for `Typeable`, `Coercible` etc.
 - [\#8240](https://gitlab.haskell.org//ghc/ghc/issues/8240): better error messages for type-function equalities
 - [\#8095](https://gitlab.haskell.org//ghc/ghc/issues/8095): very slow constraint solving
 - [\#8171](https://gitlab.haskell.org//ghc/ghc/issues/8171): extended default rules
@@ -21,7 +20,6 @@
 - [\#7259](https://gitlab.haskell.org//ghc/ghc/issues/7259): Eta-expansion of products in System FC
 - [\#6022](https://gitlab.haskell.org//ghc/ghc/issues/6022): over-general types are inferred
 - [\#5642](https://gitlab.haskell.org//ghc/ghc/issues/5642): slow constraint solving
-- [\#7346](https://gitlab.haskell.org//ghc/ghc/issues/7346), [\#7878](https://gitlab.haskell.org//ghc/ghc/issues/7878): Pedro's generics and deriving
 - [\#7828](https://gitlab.haskell.org//ghc/ghc/issues/7828), [\#5267](https://gitlab.haskell.org//ghc/ghc/issues/5267), [\#5777](https://gitlab.haskell.org//ghc/ghc/issues/5777), [\#5333](https://gitlab.haskell.org//ghc/ghc/issues/5333), [\#344](https://gitlab.haskell.org//ghc/ghc/issues/344): bugs in arrows
 - [\#7204](https://gitlab.haskell.org//ghc/ghc/issues/7204): a class to controll FFI marshalling; and newtype deriving for classes with ATs
 - [\#7862](https://gitlab.haskell.org//ghc/ghc/issues/7862): overlap beween givens and instances
@@ -36,17 +34,11 @@ See also [TemplateHaskell](template-haskell)
 - [TemplateHaskell/Annotations](template-haskell/annotations) Gergely's work on annotations in TH
 - [\#1475](https://gitlab.haskell.org//ghc/ghc/issues/1475): allow splicing of import declarations (5 in cc list)
 - [\#8100](https://gitlab.haskell.org//ghc/ghc/issues/8100): support standalone deriving
-- [\#4364](https://gitlab.haskell.org//ghc/ghc/issues/4364): cycle in type declarations
 - [\#4429](https://gitlab.haskell.org//ghc/ghc/issues/4429): `reinerp` work on `newName` and export reorganisation
-- [\#7021](https://gitlab.haskell.org//ghc/ghc/issues/7021): make TH catch up with constraint kinds
 - [\#7484](https://gitlab.haskell.org//ghc/ghc/issues/7484): TH allows you to build invalid names
 
 ## Demand analysis and CSE
 
-- [\#7782](https://gitlab.haskell.org//ghc/ghc/issues/7782): late demand analysis
-- [\#7994](https://gitlab.haskell.org//ghc/ghc/issues/7994): Make foldl into a good consumer; needs better arity analysis
-- [\#7520](https://gitlab.haskell.org//ghc/ghc/issues/7520): Cardinality analysis
-- [\#7619](https://gitlab.haskell.org//ghc/ghc/issues/7619): make demand and CPR analysis cope with data families
 - [\#6070](https://gitlab.haskell.org//ghc/ghc/issues/6070), [\#5949](https://gitlab.haskell.org//ghc/ghc/issues/5949), [\#5775](https://gitlab.haskell.org//ghc/ghc/issues/5775), [\#4267](https://gitlab.haskell.org//ghc/ghc/issues/4267), [\#5302](https://gitlab.haskell.org//ghc/ghc/issues/5302), [\#6087](https://gitlab.haskell.org//ghc/ghc/issues/6087): Demand analysis
 - [\#5075](https://gitlab.haskell.org//ghc/ghc/issues/5075), [\#3138](https://gitlab.haskell.org//ghc/ghc/issues/3138): CPR for sum types (mostly done, needs finishing)
 - [\#2289](https://gitlab.haskell.org//ghc/ghc/issues/2289), [\#2387](https://gitlab.haskell.org//ghc/ghc/issues/2387), [\#1600](https://gitlab.haskell.org//ghc/ghc/issues/1600), [\#1885](https://gitlab.haskell.org//ghc/ghc/issues/1885): nested CPR analysis
@@ -56,10 +48,9 @@ See also [TemplateHaskell](template-haskell)
 
 ## Optimisation
 
+- [\#9041](https://gitlab.haskell.org//ghc/ghc/issues/9041): bad code from native code generator (NCG)
 - [\#6056](https://gitlab.haskell.org//ghc/ghc/issues/6056): conflict between the w/w unfolding and the one from INLINEABLE
 - [\#8472](https://gitlab.haskell.org//ghc/ghc/issues/8472): top level unlifted string literals
-- [\#8351](https://gitlab.haskell.org//ghc/ghc/issues/8351): inline allocation for small arrays
-- [\#8275](https://gitlab.haskell.org//ghc/ghc/issues/8275): loopification and profiling
 - [\#8335](https://gitlab.haskell.org//ghc/ghc/issues/8335): more gc entry points
 - [\#8336](https://gitlab.haskell.org//ghc/ghc/issues/8336): sinking pass does not sink
 - [\#8327](https://gitlab.haskell.org//ghc/ghc/issues/8327): dead code (in heap checks) not eliminated by C--
@@ -76,7 +67,6 @@ See also [TemplateHaskell](template-haskell)
 - [\#8833](https://gitlab.haskell.org//ghc/ghc/issues/8833), [\#3872](https://gitlab.haskell.org//ghc/ghc/issues/3872), [\#5400](https://gitlab.haskell.org//ghc/ghc/issues/5400), [\#5448](https://gitlab.haskell.org//ghc/ghc/issues/5448), [\#5722](https://gitlab.haskell.org//ghc/ghc/issues/5722), [\#7057](https://gitlab.haskell.org//ghc/ghc/issues/7057), [\#7369](https://gitlab.haskell.org//ghc/ghc/issues/7369): contravariant data type loop in simplifier inliner
 - [\#5954](https://gitlab.haskell.org//ghc/ghc/issues/5954): performance regression. Duplication of primops?
 - [\#6047](https://gitlab.haskell.org//ghc/ghc/issues/6047): GHC retains unnecessary binding
-- [\#6135](https://gitlab.haskell.org//ghc/ghc/issues/6135): unboxed booleans
 - [\#2439](https://gitlab.haskell.org//ghc/ghc/issues/2439): Strict dictionaries
 - [\#5916](https://gitlab.haskell.org//ghc/ghc/issues/5916): `runST` isn't free
 - [\#5522](https://gitlab.haskell.org//ghc/ghc/issues/5522), [\#6092](https://gitlab.haskell.org//ghc/ghc/issues/6092): liberate-case runs out of memory
