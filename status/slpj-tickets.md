@@ -2,6 +2,7 @@
 
 ## Type inference
 
+- [\#9023](https://gitlab.haskell.org//ghc/ghc/issues/9023): pattern synonyms
 - [\#8984](https://gitlab.haskell.org//ghc/ghc/issues/8984): better error message for `Coercible`
 - [\#8673](https://gitlab.haskell.org//ghc/ghc/issues/8673): more generous GADT record selectors
 - [\#8550](https://gitlab.haskell.org//ghc/ghc/issues/8550): Don't build recursive type-function dictionaries
