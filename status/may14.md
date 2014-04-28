@@ -29,6 +29,8 @@ Meanwhile, HEAD steams onward, with some preliminary work for the 7.10 milestone
 
 - **CPU-specific optimizations** - Austin is currently investigating the implementation of CPU-specific optimisations for GHC, including new `-march` and `-mcpu` flags to adjust tuning for a particular processor. Right now, there is some preliminary work towards optimizing copies on later Intel machines. There's interest in expanding this further as well.
 
+- **Changes to static closures for faster garbage collection** - Edward is working on an overhaul of how static closures represented at runtime to eliminate some expensive memory dereferences in the GC hotpath. The initial results are encouraging: these changes can result in an up to 8% in the runtime of some GC heavy benchmarks. \[HEAPALLOCED\]
+
 - **Coverity** - Austin & friends have began running the Coverity static analyzer over the GHC runtime system in an attempt to weed out bugs\[CoverityScan\]. This has luckily reported several very useful issues to us, and identified some possible cleanup. These fixes are also going into the 7.8 branch, and GHC and its associated code will be scanned by Coverity continuously in the future.
 
 ## Frontend, build-system, and miscellaneous changes
@@ -47,16 +49,16 @@ Meanwhile, HEAD steams onward, with some preliminary work for the 7.10 milestone
 
 \[GHC8978\] [ https://ghc.haskell.org/trac/ghc/ticket/8978](https://ghc.haskell.org/trac/ghc/ticket/8978)
 
-\[AMP\] [ https://github.com/quchen/articles/blob/master/applicative_monad.md](https://github.com/quchen/articles/blob/master/applicative_monad.md)
-
+\[AMP\] [ https://github.com/quchen/articles/blob/master/applicative_monad.md](https://github.com/quchen/articles/blob/master/applicative_monad.md) \[br\]\] 
 \[KD\] Kinds without Data - [ http://ghc.haskell.org/trac/ghc/wiki/GhcKinds/KindsWithoutData](http://ghc.haskell.org/trac/ghc/wiki/GhcKinds/KindsWithoutData)
-
-\[TA\] Explicit type application - [ http://ghc.haskell.org/trac/ghc/wiki/ExplicitTypeApplication](http://ghc.haskell.org/trac/ghc/wiki/ExplicitTypeApplication)
-
-\[CoverityScan\] [ https://scan.coverity.com](https://scan.coverity.com)
-
+ 
+\[TA\] Explicit type application - [ http://ghc.haskell.org/trac/ghc](http://ghc.haskell.org/trac/ghc)
+ /wiki/ExplicitTypeApplication \[CoverityScan\] [ https://scan.coverity.com](https://scan.coverity.com)
+ 
 \[PPA\] [ https://launchpad.net/\~hvr/+archive/ghc/](https://launchpad.net/~hvr/+archive/ghc/)
-
+ 
 \[DEB\] [ http://deb.haskell.org](http://deb.haskell.org)
-
+ 
 \[!TravisCI\] [ https://github.com/nomeata/ghc-complete](https://github.com/nomeata/ghc-complete)
+ 
+\[HEAPALLOCED\] [ https://ghc.haskell.org/trac/ghc/ticket/8199](https://ghc.haskell.org/trac/ghc/ticket/8199)
