@@ -55,7 +55,8 @@ Meanwhile, HEAD steams onward, with some preliminary work for the 7.10 milestone
 
 \[GHC8978\] [ https://ghc.haskell.org/trac/ghc/ticket/8978](https://ghc.haskell.org/trac/ghc/ticket/8978)
 
-\[AMP\] [ https://github.com/quchen/articles/blob/master/applicative_monad.md](https://github.com/quchen/articles/blob/master/applicative_monad.md) \[br\]\] 
+\[AMP\] [ https://github.com/quchen/articles/blob/master/applicative_monad.md](https://github.com/quchen/articles/blob/master/applicative_monad.md)
+ 
 \[KD\] Kinds without Data - [ http://ghc.haskell.org/trac/ghc/wiki/GhcKinds/KindsWithoutData](http://ghc.haskell.org/trac/ghc/wiki/GhcKinds/KindsWithoutData)
  
 \[TA\] Explicit type application - [ http://ghc.haskell.org/trac/ghc/wiki/ExplicitTypeApplication](http://ghc.haskell.org/trac/ghc/wiki/ExplicitTypeApplication)
