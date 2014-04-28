@@ -40,7 +40,7 @@ Meanwhile, HEAD steams onward, with some preliminary work for the 7.10 milestone
 
  * **Debian builds of GHC** - Thanks to **Joachim Brietner** and **Herbert Valerio Riedel**, GHC now has greatly improved support for Debian packaging - there is now an official Ubuntu PPA for GHC[PPA], as well as a dedicated Debian repository for GHC nightly builds[DEB]
 
-= Future Plans =
+== Future Plans ==
 
  * **Dynamic space limits** - Edward has been working on dynamic space limits for Haskell, whereby you can run some code in a container with a maximum space limit associated with it.  There's working code [RLIMITS] but there are some barriers to getting it deployable in GHC (it requires a new compilation mode ala prof, and it doesn't yet work with GHCi or 32-bit)
 
