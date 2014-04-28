@@ -1,0 +1,43 @@
+= GHC Status Report, May 2014 =
+
+GHC development has been steadily moving forward. While we originally planned to release 7.8.1 back in November, we unfortunately had aspects of scope creep - we began fixing bugs, and adding a minor thing, and fixing bugs, and fixing bugs.
+
+However, 7.8.1 was released in early April this year. It turned out we had a disastrous bug slip in between the release candidates however, which required an immediate fix and the release of 7.8.2[GHC8978]. Other than shuffling back our version numbers, this luckily didn't change much. We plan to release 7.8.3 later in the year.
+
+Meanwhile, HEAD steams onward, with some preliminary work for the 7.10 milestone laid down. We've already got some plans as to what we'll be doing - and if you want something done, you should join in as well!
+
+== Libraries, source language, type system ==
+
+ * **Applicative-Monad** - GHC 7.10 will (finally) make `Applicative` a superclass of `Monad`. This is an API-breaking change for `base`, and users are encouraged to begin fixing their code now. To that end, GHC 7.8 now emits warnings for code that would violate the Applicative-Monad proposal[AMP].
+
+ * **ApplicativeDo** - Now that `Applicative` is a superclass of `Monad`, Simon Marlow has plans to implement a new extension for GHC, which will allow `do` notation to be used in the context of `Applicative`, not just `Monad`.
+
+ * **Overloaded record fields** - In 2013, Adam Gundry implemented the new `-XOverloadedRecordFields` extension for GHC. This will finally be available in GHC 7.10.
+
+ * **Kinds without Data** - Trevor Elliott, Eric Mertens, and Iavor Diatchki have began implementing support for "data kind" declarations, described in more detail on the GHC wiki [KD]. The idea is to allow a new form of declaration that introduces a new kind, whose members are described by the (type) constructors in the declaration. This is similar to promoting data declarations, except that no new value-level-constructors are declared, and it also allows the constructors to mention other kinds that do not have corresponding type-level representation (e.g., *).
+
+ * **Explicit type application** - Stephanie Weirich, Richard Eisenberg and Hamidhasan Ahmed have been working on adding explicit type applications to GHC. This allows the programmer to specify the types that should be instantiated for arguments to a function application, where normally they would be inferred. While this capability already exists in GHC's internal language, System FC -- indeed, every FC-pro program has function application with explicitly applied types -- it has not been available in Haskell itself. While a lot of the syntax and design is not quite final, there are some details about the design available on the wiki [TA].
+
+== Back-end and runtime system ==
+
+ * **CPU-specific optimizations** - Austin is currently investigating the implementation of CPU-specific optimisations for GHC, including new `-march` and `-mcpu` flags to adjust tuning for a particular processor. Right now, there is some preliminary work towards optimizing copies on later Intel machines. There's interest in expanding this further as well.
+
+ * **Coverity** - Austin & friends have began running the Coverity static analyzer over the GHC runtime system in an attempt to weed out bugs[!CoverityScan]. This has luckily reported several very useful issues to us, and identified some possible cleanup. These fixes are also going into the 7.8 branch, and GHC and its associated code will be scanned by Coverity continuously in the future.
+
+== Frontend, build-system, and miscellaneous changes ==
+
+ * **Repo reorganization** One big thing that Herbert Valerio Riedel has been tackling has been the problematic situation with GHC's current usage of git submodules and `./sync-all`. This is one of our most common complaints from newcomers and people attempting to help with development (with good reason), and we're hoping within the 7.10 timeframe, GHC will be far easier to clone and work on.
+
+ To this end, we've already done some massive simplification - in HEAD, the repositories for `base`, `testsuite`, `template-haskell`, `ghc-prim`, `integer-gmp` and `integer-simple` are now part of GHC's repository itself. These repositories are commonly developed in lockstep with GHC, and it greatly helps in many workflows, including bisection of bugs.
+
+ * **Continuous integration improvements** - Work on new CI systems for GHC has been slow, but thanks to the work of **Gabor Pali** and **Joachim Brietner**
+
+ * **Debian builds of GHC** - Thanks to **Joachim Brietner** and **Herbert Valerio Riedel**, GHC now has greatly improved support for Debian packaging - there is now an official Ubuntu PPA for GHC[PPA], as well as a dedicated Debian repository for GHC nightly builds[DEB]
+
+= References =
+
+[GHC8978] https://ghc.haskell.org/trac/ghc/ticket/8978 [[br]]
+[AMP] https://github.com/quchen/articles/blob/master/applicative_monad.md
+[!CoverityScan] https://scan.coverity.com
+[PPA] https://launchpad.net/~hvr/+archive/ghc/
+[DEB] http://deb.haskell.org
