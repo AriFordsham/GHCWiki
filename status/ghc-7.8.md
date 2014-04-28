@@ -4,54 +4,7 @@
 
 *Note that anything not listed here is off Austin's radar.*
 
-## RC Checklist
-
-
-Things tested:
-
-- Builds cleanly
-- `validate` runs OK
-- The compiler can bootstrap itself and the testsuite is the same.
-
-<table><tr><th></th>
-<th>Linux (i386)</th>
-<th>Linux (x86_64)</th>
-<th>OS X 10.7 (x86_64)</th>
-<th>OS X 10.8 (x86_64)</th>
-<th>OS X 10.9 (x86_64)</th>
-<th>Windows i386</th>
-<th>Windows x86_64
-</th></tr>
-<tr><th>Builds clean</th>
-<th>**OK**</th>
-<th>**OK**</th>
-<th>**OK**</th>
-<th>**OK**</th>
-<th>**OK**</th>
-<th>**OK**</th>
-<th>**OK**</th></tr>
-<tr><th>`validate`</th>
-<th>**OK**\[1\]</th>
-<th>**OK**</th>
-<th>**OK**</th>
-<th>**OK**</th>
-<th>**NOT OK**\[2\]\[3\]</th>
-<th>**OK**\[1\]</th>
-<th>**OK**\[4\]
-</th></tr>
-<tr><th>bootstrap </th>
-<th>**OK**</th>
-<th>**OK**</th>
-<th>**OK**</th>
-<th>**OK**</th>
-<th>**OK**</th>
-<th>**OK**</th>
-<th>In progress\[4\]
-</th></tr></table>
-
-- \[1\] The testsuite performance numbers need to be updated for 32 bit platforms.
-- \[2\] Mavericks was tested using **Clang**, and there are some `make fast` failures (mostly minor driver related things, but not critical.)
-- \[3\] Austin is hitting a `validation` error while building `xhtml`, which might be due to some interaction with the new Haddock. Otherwise, the compiler builds fine and the testsuite works.
+[ https://ghc.haskell.org/trac/ghc/query?status=infoneeded&status=merge&status=new&status=patch&group=status&milestone=7.8.3](https://ghc.haskell.org/trac/ghc/query?status=infoneeded&status=merge&status=new&status=patch&group=status&milestone=7.8.3)
 
 ## The Dynamic Story
 
