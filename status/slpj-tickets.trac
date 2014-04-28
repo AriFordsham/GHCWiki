@@ -36,10 +36,6 @@ See also [wiki:TemplateHaskell]
  * #7484: TH allows you to build invalid names
 
 == Demand analysis and CSE == 
- * #7782: late demand analysis
- * #7994: Make foldl into a good consumer; needs better arity analysis
- * #7520: Cardinality analysis
- * #7619: make demand and CPR analysis cope with data families
  * #6070, #5949, #5775, #4267, #5302, #6087: Demand analysis
  * #5075, #3138: CPR for sum types (mostly done, needs finishing)
  * #2289, #2387, #1600, #1885: nested CPR analysis
@@ -48,10 +44,9 @@ See also [wiki:TemplateHaskell]
  * #1171: strictness and exceptions (long, open ticket)
 
 == Optimisation ==
+ * #9041: bad code from native code generator (NCG)
  * #6056: conflict between the w/w unfolding and the one from INLINEABLE
  * #8472: top level unlifted string literals
- * #8351: inline allocation for small arrays
- * #8275: loopification and profiling
  * #8335: more gc entry points
  * #8336: sinking pass does not sink
  * #8327: dead code (in heap checks) not eliminated by C--
@@ -68,7 +63,6 @@ See also [wiki:TemplateHaskell]
  * #8833, #3872, #5400, #5448, #5722, #7057, #7369: contravariant data type loop in simplifier inliner
  * #5954: performance regression. Duplication of primops?
  * #6047: GHC retains unnecessary binding
- * #6135: unboxed booleans
  * #2439: Strict dictionaries
  * #5916: `runST` isn't free
  * #5522, #6092: liberate-case runs out of memory
