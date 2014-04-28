@@ -23,6 +23,8 @@ Meanwhile, HEAD steams onward, with some preliminary work for the 7.10 milestone
 
 - **Kind equality and kind coercions** - TODO Richard
 
+- **Partial type synonyms** - TODO Simon, Thomas
+
 ## Back-end and runtime system
 
 - **CPU-specific optimizations** - Austin is currently investigating the implementation of CPU-specific optimisations for GHC, including new `-march` and `-mcpu` flags to adjust tuning for a particular processor. Right now, there is some preliminary work towards optimizing copies on later Intel machines. There's interest in expanding this further as well.
