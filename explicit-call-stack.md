@@ -23,17 +23,15 @@ See also
   	...(f $currentLocation)...
   ```
 
+  where
 
-where
+  ```wiki
+    currentLocation :: Q Exp
+    currentLocation = do { loc <- qLocation
+                         ; return [| loc |] }
+  ```
 
-```wiki
-  currentLocation :: Q Exp
-  currentLocation = do { loc <- qLocation
-                       ; return [| loc |] }
-```
-
-
-This doesn't quite work today because `loc` has type `Language.Haskell.TH.Syntax.Loc`, a record of location information, and that isn't an instance of `Lift` (yet).  But the idea is basically fine: TH gives you access to the current source location.
+  This doesn't quite work today because `loc` has type `Language.Haskell.TH.Syntax.Loc`, a record of location information, and that isn't an instance of `Lift` (yet).  But the idea is basically fine: TH gives you access to the current source location.
 
 1.  But that doesn't help with 'head'.  We want to pass head's *call site* to head. That's what jhc does when you give 'head' the a magic [ SRCLOC_ANNOTATE pragma](http://repetae.net/computer/jhc/jhc.shtml):
 
@@ -44,8 +42,7 @@ This doesn't quite work today because `loc` has type `Language.Haskell.TH.Syntax
     		head_check :: String -> [a] -> a
     ```
 
-
-It'd be nicer if you didn't have to write `head_check` yourself, but instead the compiler wrote it.
+  It'd be nicer if you didn't have to write `head_check` yourself, but instead the compiler wrote it.
 
 1.  But what about the caller of the function that calls head?  Obviously we'd like to pass that on too!
 
@@ -58,24 +55,23 @@ It'd be nicer if you didn't have to write `head_check` yourself, but instead the
   	foo_check s xs = head_check ("line 5 in Bar.hs" ++ s) xs
   ```
 
-
-Now in effect, we build up a call stack.  Now we *really* want the compiler to write `foo_check`.
+  Now in effect, we build up a call stack.  Now we *really* want the compiler to write `foo_check`.
 
 1.  In fact, it's very similar to the "cost-centre stack" that GHC builds for profiling, except that it's explicit rather than implicit.  (Which is good.   Of course the stack should be a proper data type, not a String.)
 
-
-However, unlike GHC's profiling stuff, it is *selective*.  You can choose to annotate just one function, or 10, or all.  If call an annotated function from an unannotated one, you get only the information that it was called from the unannotated one:
-
-```wiki
-	foo :: [Int] -> Int   -- No SRCLOC_ANNOTATE
-	foo xs = head (filter odd xs)
-===>
-	foo:: [Int] -> Int
-	foo xs = head_check ("line 5 in Bar.hs") xs
-```
-
-
-This selectiveness makes it much less heavyweight than GHC's currrent "recompile everything" story.
+>
+> However, unlike GHC's profiling stuff, it is *selective*.  You can choose to annotate just one function, or 10, or all.  If call an annotated function from an unannotated one, you get only the information that it was called from the unannotated one:
+>
+> ```wiki
+> 	foo :: [Int] -> Int   -- No SRCLOC_ANNOTATE
+> 	foo xs = head (filter odd xs)
+> ===>
+> 	foo:: [Int] -> Int
+> 	foo xs = head_check ("line 5 in Bar.hs") xs
+> ```
+>
+>
+> This selectiveness makes it much less heavyweight than GHC's currrent "recompile everything" story.
 
 1. The dynamic hpc tracer will allow reverse time-travel, from an exception to the call site, by keeping a small queue of recently ticked locations. This will make it easier to find out what called the error calling function (head, !, !!, etc.), but will require a hpc-trace compiled prelude if we want to find places in the prelude that called the error. (A standard prelude would find the prelude function that was called that called the error inducing function).
 
@@ -89,27 +85,24 @@ This selectiveness makes it much less heavyweight than GHC's currrent "recompile
        data Locals = forall a. Locals a
   ```
 
+  The debugger can be extended to recognize bindings carrying this explicit stack and provide call stack traces in vanilla breakpoints. It would be possible then to fire the debugger in head_check by simply:
 
-The debugger can be extended to recognize bindings carrying this explicit stack and provide call stack traces in vanilla breakpoints. It would be possible then to fire the debugger in head_check by simply:
+  ```wiki
+      head_check :: Stack -> [a] -> a
+      head_check stack [] = breakpoint (error "prelude: head")
+  ```
 
-```wiki
-    head_check :: Stack -> [a] -> a
-    head_check stack [] = breakpoint (error "prelude: head")
-```
+  or make this the default behaviour for error, and ensure that this transformation always applies to it, so there will be a stack around for breakpoint:
 
+  ```wiki
+       error0 :: String -> a    -- behaves as the current error
+                 
+       error msg = breakpoint (error0 msg)
 
-or make this the default behaviour for error, and ensure that this transformation always applies to it, so there will be a stack around for breakpoint:
+       head_check stack [] = error "prelude:head" 
+  ```
 
-```wiki
-     error0 :: String -> a    -- behaves as the current error
-               
-     error msg = breakpoint (error0 msg)
-
-     head_check stack [] = error "prelude:head" 
-```
-
-
-How realistic this is, I have no idea... but sounds good.
+  How realistic this is, I have no idea... but sounds good.
 
 1. This is similar to numbers 2-4 above, but rather than having an implicit stack built up we annotate all the functions whose position we don't care about, and we are told the position of the most recent function which doesn't have such an annotation. Suppose `location` is a magic variable of a datatype `Location`, which might include source position, source span, lexical address (by which I mean, for `foo = let x = location in ...`, something like `["Main", "foo", "x"]`), and anything else that might be useful. Then
 
@@ -117,15 +110,15 @@ How realistic this is, I have no idea... but sounds good.
   undefinedFunction = error ("Undefined here: " ++ showLocation location)
   ```
 
+  would desugar to
 
-would desugar to
+  ```wiki
+  undefinedFunction = error ("Undefined here: " ++ showLocation (Loc 3 ...)
+  ```
 
-```wiki
-undefinedFunction = error ("Undefined here: " ++ showLocation (Loc 3 ...)
-```
+  However, for `assert`, we want the location of the assertion, not the
 
 
-However, for `assert`, we want the location of the assertion, not the
 assertion function. So we annotate `assert` with a pragma to indicate that
 it is the location of the caller that we care about, so
 
@@ -141,23 +134,25 @@ fooAssert b s x = assert b ("Foo: " ++ s) x
 fun = fooAssert myBool "what myBool tests" myResult
 ```
 
+>
+> would desugar to
+>
+> ```wiki
+> {-# INVISIBLE_LOCATION assert #-}
+> assert _ True  _ x = x
+> assert l False s _ = error ("Assert failed at " ++ 
+>                             showLocation l ++ ": " ++ s)
+>
+> {-# INVISIBLE_LOCATION fooAssert #-}
+> fooAssert l b s x = assert l b ("Foo: " ++ s) x
+>
+> fun = fooAssert (Loc 10 ...) myBool "what myBool tests" myResult
+> ```
+>
+>
+> i.e. wherever you see `assert` or `fooAssert` you apply your location as
 
-would desugar to
 
-```wiki
-{-# INVISIBLE_LOCATION assert #-}
-assert _ True  _ x = x
-assert l False s _ = error ("Assert failed at " ++ 
-                            showLocation l ++ ": " ++ s)
-
-{-# INVISIBLE_LOCATION fooAssert #-}
-fooAssert l b s x = assert l b ("Foo: " ++ s) x
-
-fun = fooAssert (Loc 10 ...) myBool "what myBool tests" myResult
-```
-
-
-i.e. wherever you see `assert` or `fooAssert` you apply your location as
 the first argument, unless you are yourself at an invisible location in
 which case you just pass along your first argument.
 
