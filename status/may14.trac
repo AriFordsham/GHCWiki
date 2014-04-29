@@ -43,7 +43,7 @@ That's just a fraction of what we did in the 7.8 timeline - there were at least 
 
 = Future plans =
 
-There's still a lot planned for GHC 7.10, however, including...
+There's still a lot planned for GHC 7.10, however. While we haven't quite decided when we'll release it, it will very likely be a short release cycle compared to the last one - which was the longest one we've had!
 
 == Libraries, source language, type system ==
 
@@ -65,6 +65,8 @@ There's still a lot planned for GHC 7.10, however, including...
 
 == Back-end and runtime system ==
 
+ * **Dynamic space limits** - Edward has been working on dynamic space limits for Haskell, whereby you can run some code in a container with a maximum space limit associated with it.  There's working code [RLIMITS] but there are some barriers to getting it deployable in GHC (it requires a new compilation mode ala prof, and it doesn't yet work with GHCi or 32-bit). We're not yet sure if this will make it for 7.10, but look out!
+
  * **CPU-specific optimizations** - Austin is currently investigating the implementation of CPU-specific optimisations for GHC, including new `-march` and `-mcpu` flags to adjust tuning for a particular processor. Right now, there is some preliminary work towards optimizing copies on later Intel machines. There's interest in expanding this further as well.
 
  * **Changes to static closures for faster garbage collection** - Edward is working on an overhaul of how static closures represented at runtime to eliminate some expensive memory dereferences in the GC hotpath. The initial results are encouraging: these changes can result in an up to 8% in the runtime of some GC heavy benchmarks [HEAPALLOCED].
@@ -82,10 +84,6 @@ There's still a lot planned for GHC 7.10, however, including...
  * **Continuous integration improvements** - Work on new CI systems for GHC has been slow, but thanks to the work of **Joachim Breitner** and **Gábor Páli**, GHC is now built on http://travis-ci.org [TravisCI] as well as nightly builders of a variety of flavors and machines [Builders]. We're also hoping to investigate using a Continuous Integration system to help build against a stable set of selected Hackage packages, to help find issues with the releases more easily.
 
  * **Debian builds of GHC** - Thanks to **Joachim Breitner** and **Herbert Valerio Riedel**, GHC now has greatly improved support for Debian packaging - there is now an official Ubuntu PPA for GHC [PPA], as well as a dedicated Debian repository for GHC nightly builds [DEB].
-
-== Future Plans ==
-
- * **Dynamic space limits** - Edward has been working on dynamic space limits for Haskell, whereby you can run some code in a container with a maximum space limit associated with it.  There's working code [RLIMITS] but there are some barriers to getting it deployable in GHC (it requires a new compilation mode ala prof, and it doesn't yet work with GHCi or 32-bit).
 
 = References =
 
