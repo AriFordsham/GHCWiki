@@ -9,6 +9,51 @@ However, 7.8.1 was released in early April this year. It turned out we had a dis
 
 Meanwhile, HEAD steams onward, with some preliminary work for the 7.10 milestone laid down. We've already got some plans as to what we'll be doing - and if you want something done, you should join in as well!
 
+## GHC 7.8
+
+
+Early April, GHC 7.8 was finally released after nearly 1.5 years of development.
+
+
+There were a high number of significant improvements to everything from the code generator to the runtime system. To recap:
+
+- **New and improved I/O manager** - Earlier this year, Andreas Voellmy and Kazu Yamamoto worked on a host of improvements to our I/O manager, making it scale significantly better on multicore machines. Since then, it's seen some other performance tweaks, and many bugfixes. As a result, the new I/O manager should scale linearly up to about 40 cores. Andreas reports their McNettle Software-defined-network (SDN) implementation can now achieve over *twenty million connections per second*, making it the fastest SDN implementation around - an incredible feat!
+
+- **Type Holes** - Thijs Alkemade and Simon PJ got an implementation of `TypeHoles` in GHC, meaning it's possible to tell GHC there is a 'hole' in a program, and have the compiler spit out an error stating what types are in scope. As a trivial example
+
+  ```wiki
+  Prelude> :set -XTypeHoles 
+  Prelude> let f :: a -> a; f x = _
+
+  <interactive>:6:24:
+      Found hole ‛_’ with type: a
+      Where: ‛a’ is a rigid type variable bound by
+                 the type signature for f :: a -> a at <interactive>:6:10
+      Relevant bindings include
+        x :: a (bound at <interactive>:6:20)
+        f :: a -> a (bound at <interactive>:6:18)
+      In the expression: _
+      In an equation for ‛f’: f x = _
+  ```
+
+  GHC now tells us that the term `f` has a hole of type `a`, and there is a term `x :: a` in scope. So the definition is clear: `f x = x`. Holes are originally a concept borrowed from [ Agda](http://wiki.portal.chalmers.se/agda/pmwiki.php), and we hope they will be useful to Haskell programmers too!
+
+- **Pattern synonyms** - Gergö Érdi worked on an implementation of pattern synonyms for GHC, and it actually landed in the 7.8 release. While there's still more work to do, it's covered up a big abstraction hole already.
+
+- **New code generator** - As previously reported, the New Code Generator is live and switched on by default. There have been a host of bugfixes and stability improvements, meaning it should be solid for the 7.8 release.
+
+- **Parallel --make** - as part of the haskell.org 2013 GSoC, Patrick Palka implemented a new parallel compilation driver, a long-requested feature. This allows GHC to build multiple modules in parallel when using `--make` by adding a `-j` flag, while having almost no overhead in the single-threaded case.
+
+- **iOS support** - After many years of work by Ian, Stephen Blackheath, Gabor Greif and friends Luke Iannini and Maxwell Swadling, GHC now has full support for iOS cross-compilation. As of GHC 7.8, you'll really be able to write iOS apps in your favorite programming language!
+
+
+That's just a fraction of what we did in the 7.8 timeline - there were at least a dozen other significant improvements.
+
+# Future plans
+
+
+There's still a lot planned for GHC 7.10, however, including...
+
 ## Libraries, source language, type system
 
 - **Applicative-Monad** - GHC 7.10 will (finally) make `Applicative` a superclass of `Monad`. This is an API-breaking change for `base`, and users are encouraged to begin fixing their code now. To that end, GHC 7.8 now emits warnings for code that would violate the Applicative-Monad proposal \[AMP\].
@@ -26,8 +71,6 @@ Meanwhile, HEAD steams onward, with some preliminary work for the 7.10 milestone
 - **Kind equality and kind coercions** - Richard Eisenberg (with support from Simon PJ and Stephanie Weirich, among others) is implementing a change to the Core language, as described in a recent paper \[FC\]. When this work is complete, *all* types will be promotable to kinds, and *all* data constructors will be promotable to types. This will include promoting type synonyms and type families. As the details come together, there may be other source language effects, such as the ability to make kind variables explicit. It is not expected for this to be a breaking change -- the change should allow strictly more programs to be accepted.
 
 - **Partial type signatures** - Thomas Winant and Dominique Devriese (with support from Simon PJ) have been working on partial type signatures for GHC. A partial type signature is a type signature that can contain *wildcards*, written as underscores. These wildcards can be types unknown to the programmer or types he doesn't care to annotate. The type checker will use the annotated parts of the partial type signature to type check the program, and infer the types for the wildcards. A wildcard can also occur at the end of the constraints part of a type signature, which indicates that an arbitrary number of extra constraints may be inferred. Whereas TypedHoles allow holes in your terms, PartialTypeSignatures allow holes in your types. The design as well as a working implementation are currently being simplified \[PTS\].
-
-- **TLS Support in AMQP library** - Alain O'Dea, Holger Reinhardt, Vincent Hanquez, and Michael Klishin collaborated to provide TLS support for the Advanced Message Queing Protocol (AMQP) library.  This involved replacing the existing GHC.IO.Handle transport with Network.Connection. Vincent provided a pure Haskell implementation of TLS in the connection library and addressed a deadlock issue that the AMQP library's multithreaded use of connections uncovered. Options were added to control whether TLS was desired and whether or not to perform certificate verification.
 
 ## Back-end and runtime system
 
