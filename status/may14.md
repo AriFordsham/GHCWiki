@@ -19,10 +19,11 @@ However, now that it's out, there's a lot there for users to play with - the rel
 
 - **New and improved I/O manager** - Earlier this year, Andreas Voellmy and Kazu Yamamoto worked on a host of improvements to our I/O manager, making it scale significantly better on multicore machines. Since then, it's seen some other performance tweaks, and many bugfixes. As a result, the new I/O manager should scale linearly up to about 40 cores. Andreas reports their McNettle Software-defined-network (SDN) implementation can now achieve over *twenty million connections per second*, making it the fastest SDN implementation around - an incredible feat!
 
-- **Type Holes** - Thijs Alkemade and Simon PJ got an implementation of `TypeHoles` in GHC, meaning it's possible to tell GHC there is a 'hole' in a program, and have the compiler spit out an error stating what types are in scope. As a trivial example
+- **MINIMAL pragma**.  Twan van Laarhoven implemented a new pragma, `{-# MINIMAL #-}`, allowing you to explicitly declare the minimal complete definition of a class [\[Minimal](http://www.haskell.org/ghc/docs/7.8.1/html/users_guide/pragmas.html#minimal-pragma)\].
+
+- **Typed Holes**. Thijs Alkemade, with some help from Simon PJ, implemented typed holes.  These make it possible to tell GHC there is a 'hole' in a program, and have the compiler spit out an error stating what types are in scope. As a trivial example
 
   ```wiki
-  Prelude> :set -XTypeHoles 
   Prelude> let f :: a -> a; f x = _
 
   <interactive>:6:24:
@@ -38,7 +39,27 @@ However, now that it's out, there's a lot there for users to play with - the rel
 
   GHC now tells us that the term `f` has a hole of type `a`, and there is a term `x :: a` in scope. So the definition is clear: `f x = x`. Holes are originally a concept borrowed from [ Agda](http://wiki.portal.chalmers.se/agda/pmwiki.php), and we hope they will be useful to Haskell programmers too!
 
-- **Pattern synonyms** - Gergö Érdi worked on an implementation of pattern synonyms for GHC, and it actually landed in the 7.8 release. While there's still more work to do, it's covered up a big abstraction hole already.
+- **Pattern synonyms** - Gergö Érdi worked on an implementation of pattern synonyms for GHC, and it actually landed in the 7.8 release. While there's still more work to do, it represents a real improvement in GHC's support for abstraction.  More detail on the wiki page [\[PatSyn](pattern-synonyms)\].
+
+- **New Template Haskell**.  Geoff Mainland did the heavy lifting to implement the new Template Haskell story, more or less as described in Simon's blog post [\[THBlog](template-haskell/blog-post-changes)\].  Template Haskell now has two flavours, which can inter-operate.  **Typed TH** is fully typed in the style of Meta ML, but works for expressions only.  **Untyped TH** is much more expressive, allowing splices in patterns, types, and declarations, as well as expressions, but is completely untyped.
+
+- **Closed type families** are a major extension to the type-family feature, implemented by Richard Eisenberg.  A closed type family allows you to declare all the equations for a type family in one place, with top-to-bottom matching; for example
+
+  ```wiki
+  type family Or a b where
+    Or False False = False
+    Or a     b     = True
+  ```
+
+  We thought this was going to be fairly easy, but it turned out to be much more interesting than we expected, and led to a POPL paper [ \[ClosedFam](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/)\].
+
+- **Safe coercions** extend the power of newtypes, one of Haskell's main data-abstraction features. For example, given
+
+  ```wiki
+  newtype Age = MkAge Int
+  ```
+
+  you can convert betwen `Age` and `Int` by using the `MkAge` constructor, knowing that the conversion is free at runtime.  But to convert betwen `Maybe Age` and `Maybe Int` you have to write code that unpacks and packs the `Maybe` type, and GHC cannot reasonably eliminate the cost.  Safe coercions let you do just that.  But (and this is not obvious) to be type-safe, in the presence of type families, we have to exted the type system with so-called *type roles*.  Moreover, using roles finally solves the notorious, seven-year-old Generalised Newtype Deriving bug ([\#1496](https://gitlab.haskell.org//ghc/ghc/issues/1496)).  Safe coversions were implemented by Joachaim Breitner with help from Richard Eisenberg; there is a full description in our ICFP submission [ \[SafeCo](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/)\].
 
 - **New code generator** - As previously reported, the New Code Generator is live and switched on by default. There have been a host of bugfixes and stability improvements, meaning it should be solid for the 7.8 release.
 
@@ -97,6 +118,16 @@ There's still a lot planned for GHC 7.10, however. While we haven't quite decide
 
 # References
 
+
+\[ClosedFam\] Closed type families with overlapping equations, POPL 2014 [ http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/)
+
+\[Minimal\] MINIMAL pragma [http://www.haskell.org/ghc/docs/7.8.1/html/users_guide/pragmas.html\#minimal-pragma](http://www.haskell.org/ghc/docs/7.8.1/html/users_guide/pragmas.html#minimal-pragma)
+
+\[PatSyn\] Pattern synonyms [ http://ghc.haskell.org/trac/ghc/wiki/PatternSynonyms](http://ghc.haskell.org/trac/ghc/wiki/PatternSynonyms)
+
+\[SafeCo\] Safe Coercions, submitted to ICFP 2014 [ http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/)
+
+\[!THBlog\] Major revision of Template Haskell [ https://ghc.haskell.org/trac/ghc/wiki/TemplateHaskell/BlogPostChanges](https://ghc.haskell.org/trac/ghc/wiki/TemplateHaskell/BlogPostChanges)
 
 \[GHC8978\] [ https://ghc.haskell.org/trac/ghc/ticket/8978](https://ghc.haskell.org/trac/ghc/ticket/8978)
 
