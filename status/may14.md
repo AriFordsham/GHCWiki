@@ -65,7 +65,7 @@ However, now that 7.8 is out, there is a lot there for users to play with: the r
 - **iOS support** - After many years of work by Ian, Stephen Blackheath, Gabor Greif and friends Luke Iannini and Maxwell Swadling, GHC now has full support for iOS cross-compilation. As of GHC 7.8, you'll really be able to write iOS apps in your favorite programming language!
 
 
-That's just a fraction of what we did in the 7.8 timeline - there were at least a dozen other significant improvements, as you can see from the release notes [\[!ReleaseNotes](http://www.haskell.org/ghc/docs/7.8.1/html/users_guide/release-7-8-1.html)\]
+That's just a fraction of what we did in the 7.8 timeline - there were at least a dozen other significant improvements, as you can see from the release notes [\[ReleaseNotes](http://www.haskell.org/ghc/docs/7.8.1/html/users_guide/release-7-8-1.html)\]
 
 # Future plans
 
