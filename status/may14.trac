@@ -12,7 +12,7 @@ Meanwhile, HEAD steams onward, with some preliminary work for the 7.10 milestone
 
  * **ApplicativeDo** - Now that `Applicative` is a superclass of `Monad`, Simon Marlow has plans to implement a new extension for GHC, which will allow `do` notation to be used in the context of `Applicative`, not just `Monad`.
 
- * **Overloaded record fields** - In 2013, Adam Gundry implemented the new `-XOverloadedRecordFields` extension for GHC. This will finally be available in GHC 7.10.
+ * **Overloaded record fields** - In 2013, Adam Gundry implemented the new `-XOverloadedRecordFields` extension for GHC, described on the wiki [ORF]. This will finally be available in GHC 7.10.
 
  * **Kinds without Data** - Trevor Elliott, Eric Mertens, and Iavor Diatchki have began implementing support for "data kind" declarations, described in more detail on the GHC wiki [KD]. The idea is to allow a new form of declaration that introduces a new kind, whose members are described by the (type) constructors in the declaration. This is similar to promoting data declarations, except that no new value-level-constructors are declared, and it also allows the constructors to mention other kinds that do not have corresponding type-level representation (e.g., *). 
 
@@ -52,6 +52,7 @@ Meanwhile, HEAD steams onward, with some preliminary work for the 7.10 milestone
 [GHC8978] https://ghc.haskell.org/trac/ghc/ticket/8978 [[br]]
 [AMP] https://github.com/quchen/articles/blob/master/applicative_monad.md [[br]] 
 [KD] Kinds without Data - ​http://ghc.haskell.org/trac/ghc/wiki/GhcKinds/KindsWithoutData  [[br]] 
+[ORF] https://ghc.haskell.org/trac/ghc/wiki/Records/OverloadedRecordFields [[br]]
 [TA] Explicit type application - ​http://ghc.haskell.org/trac/ghc/wiki/ExplicitTypeApplication [[br]]
 [FC] "System FC with Explicit Kind Equality" - http://www.seas.upenn.edu/~eir/papers/2013/fckinds/fckinds-extended.pdf [[br]]
 [!CoverityScan] https://scan.coverity.com [[br]] 
