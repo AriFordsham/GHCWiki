@@ -1,7 +1,7 @@
 # Extensible Records
 
 
-There seems to be widespread agreement that the current situation with regards to records is [ unacceptable](http://blog.omega-prime.co.uk/2007/04/24/haskell-records-considered-grungy/), but the [ official GHC policy](http://haskell.org/haskellwiki/GHC:FAQ#Does_GHC_implement_any_kind_of_extensible_records.3F) is that there are too many good ideas to choose from - so nothing gets done!
+There seems to be widespread agreement that the current situation with regards to records is [ unacceptable](http://bloggablea.wordpress.com/2007/04/24/haskell-records-considered-grungy/), but the [ official GHC policy](http://haskell.org/haskellwiki/GHC:FAQ#Does_GHC_implement_any_kind_of_extensible_records.3F) is that there are too many good ideas to choose from - so nothing gets done!
 
 
 The purpose of this page is to collect and discuss proposals for adding extensible records to GHC.
