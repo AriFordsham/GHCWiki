@@ -68,7 +68,7 @@ However, now that it's out, there's a lot there for users to play with - the rel
 - **iOS support** - After many years of work by Ian, Stephen Blackheath, Gabor Greif and friends Luke Iannini and Maxwell Swadling, GHC now has full support for iOS cross-compilation. As of GHC 7.8, you'll really be able to write iOS apps in your favorite programming language!
 
 
-That's just a fraction of what we did in the 7.8 timeline - there were at least a dozen other significant improvements.
+That's just a fraction of what we did in the 7.8 timeline - there were at least a dozen other significant improvements, as you can see from the release notes [\[ReleaseNotes](http://www.haskell.org/ghc/docs/7.8.1/html/users_guide/release-7-8-1.html)\]
 
 # Future plans
 
@@ -124,6 +124,8 @@ There's still a lot planned for GHC 7.10, however. While we haven't quite decide
 \[Minimal\] MINIMAL pragma [http://www.haskell.org/ghc/docs/7.8.1/html/users_guide/pragmas.html\#minimal-pragma](http://www.haskell.org/ghc/docs/7.8.1/html/users_guide/pragmas.html#minimal-pragma)
 
 \[PatSyn\] Pattern synonyms [ http://ghc.haskell.org/trac/ghc/wiki/PatternSynonyms](http://ghc.haskell.org/trac/ghc/wiki/PatternSynonyms)
+
+\[ReleaseNotes\] GHC 7.8.1 release notes [http://www.haskell.org/ghc/docs/7.8.1/html/users_guide/release-7-8-1.html](http://www.haskell.org/ghc/docs/7.8.1/html/users_guide/release-7-8-1.html)
 
 \[SafeCo\] Safe Coercions, submitted to ICFP 2014 [ http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/)
 
