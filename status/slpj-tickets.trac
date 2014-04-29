@@ -76,6 +76,7 @@ See also [wiki:TemplateHaskell]
 
 
 == Features ==
+ * #9049: explicit call stack
  * #5972: option to suppress record selectors
 
 ----------------------
