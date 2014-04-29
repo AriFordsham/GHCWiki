@@ -9,6 +9,51 @@ However, 7.8.1 was released in early April this year. It turned out we had a dis
 
 Meanwhile, HEAD steams onward, with some preliminary work for the 7.10 milestone laid down. We've already got some plans as to what we'll be doing - and if you want something done, you should join in as well!
 
+## GHC 7.8
+
+
+Early April, GHC 7.8 was finally released after nearly 1.5 years of development. This was one of the longest development periods in recent memory, and there was a lot of grumbling near the end. Ultimately, the reason for this was scope creep - we kept getting bugs dripping in here and there, and fixing them, and putting things in.
+
+
+However, now that it's out, there's a lot there for users to play with - the release was one of the most feature-packed ones we've done, with a lot of changes touching almost every part of the compiler. To recap a few of them:
+
+- **New and improved I/O manager** - Earlier this year, Andreas Voellmy and Kazu Yamamoto worked on a host of improvements to our I/O manager, making it scale significantly better on multicore machines. Since then, it's seen some other performance tweaks, and many bugfixes. As a result, the new I/O manager should scale linearly up to about 40 cores. Andreas reports their McNettle Software-defined-network (SDN) implementation can now achieve over *twenty million connections per second*, making it the fastest SDN implementation around - an incredible feat!
+
+- **Type Holes** - Thijs Alkemade and Simon PJ got an implementation of `TypeHoles` in GHC, meaning it's possible to tell GHC there is a 'hole' in a program, and have the compiler spit out an error stating what types are in scope. As a trivial example
+
+  ```wiki
+  Prelude> :set -XTypeHoles 
+  Prelude> let f :: a -> a; f x = _
+
+  <interactive>:6:24:
+      Found hole ‛_’ with type: a
+      Where: ‛a’ is a rigid type variable bound by
+                 the type signature for f :: a -> a at <interactive>:6:10
+      Relevant bindings include
+        x :: a (bound at <interactive>:6:20)
+        f :: a -> a (bound at <interactive>:6:18)
+      In the expression: _
+      In an equation for ‛f’: f x = _
+  ```
+
+  GHC now tells us that the term `f` has a hole of type `a`, and there is a term `x :: a` in scope. So the definition is clear: `f x = x`. Holes are originally a concept borrowed from [ Agda](http://wiki.portal.chalmers.se/agda/pmwiki.php), and we hope they will be useful to Haskell programmers too!
+
+- **Pattern synonyms** - Gergö Érdi worked on an implementation of pattern synonyms for GHC, and it actually landed in the 7.8 release. While there's still more work to do, it's covered up a big abstraction hole already.
+
+- **New code generator** - As previously reported, the New Code Generator is live and switched on by default. There have been a host of bugfixes and stability improvements, meaning it should be solid for the 7.8 release.
+
+- **Parallel --make** - as part of the haskell.org 2013 GSoC, Patrick Palka implemented a new parallel compilation driver, a long-requested feature. This allows GHC to build multiple modules in parallel when using `--make` by adding a `-j` flag, while having almost no overhead in the single-threaded case.
+
+- **iOS support** - After many years of work by Ian, Stephen Blackheath, Gabor Greif and friends Luke Iannini and Maxwell Swadling, GHC now has full support for iOS cross-compilation. As of GHC 7.8, you'll really be able to write iOS apps in your favorite programming language!
+
+
+That's just a fraction of what we did in the 7.8 timeline - there were at least a dozen other significant improvements.
+
+# Future plans
+
+
+There's still a lot planned for GHC 7.10, however. While we haven't quite decided when we'll release it, it will very likely be a short release cycle compared to the last one - which was the longest one we've had!
+
 ## Libraries, source language, type system
 
 - **Applicative-Monad** - GHC 7.10 will (finally) make `Applicative` a superclass of `Monad`. This is an API-breaking change for `base`, and users are encouraged to begin fixing their code now. To that end, GHC 7.8 now emits warnings for code that would violate the Applicative-Monad proposal \[AMP\].
@@ -27,15 +72,15 @@ Meanwhile, HEAD steams onward, with some preliminary work for the 7.10 milestone
 
 - **Partial type signatures** - Thomas Winant and Dominique Devriese (with support from Simon PJ) have been working on partial type signatures for GHC. A partial type signature is a type signature that can contain *wildcards*, written as underscores. These wildcards can be types unknown to the programmer or types he doesn't care to annotate. The type checker will use the annotated parts of the partial type signature to type check the program, and infer the types for the wildcards. A wildcard can also occur at the end of the constraints part of a type signature, which indicates that an arbitrary number of extra constraints may be inferred. Whereas TypedHoles allow holes in your terms, PartialTypeSignatures allow holes in your types. The design as well as a working implementation are currently being simplified \[PTS\].
 
-- **TLS Support in AMQP library** - Alain O'Dea, Holger Reinhardt, Vincent Hanquez, and Michael Klishin collaborated to provide TLS support for the Advanced Message Queing Protocol (AMQP) library.  This involved replacing the existing GHC.IO.Handle transport with Network.Connection. Vincent provided a pure Haskell implementation of TLS in the connection library and addressed a deadlock issue that the AMQP library's multithreaded use of connections uncovered. Options were added to control whether TLS was desired and whether or not to perform certificate verification.
-
 ## Back-end and runtime system
+
+- **Dynamic space limits** - Edward has been working on dynamic space limits for Haskell, whereby you can run some code in a container with a maximum space limit associated with it.  There's working code \[RLIMITS\] but there are some barriers to getting it deployable in GHC (it requires a new compilation mode ala prof, and it doesn't yet work with GHCi or 32-bit). We're not yet sure if this will make it for 7.10, but look out!
 
 - **CPU-specific optimizations** - Austin is currently investigating the implementation of CPU-specific optimisations for GHC, including new `-march` and `-mcpu` flags to adjust tuning for a particular processor. Right now, there is some preliminary work towards optimizing copies on later Intel machines. There's interest in expanding this further as well.
 
 - **Changes to static closures for faster garbage collection** - Edward is working on an overhaul of how static closures represented at runtime to eliminate some expensive memory dereferences in the GC hotpath. The initial results are encouraging: these changes can result in an up to 8% in the runtime of some GC heavy benchmarks \[HEAPALLOCED\].
 
-- **Coverity** - Austin & friends have began running the Coverity static analyzer over the GHC runtime system in an attempt to weed out bugs \[CoverityScan\]. This has luckily reported several very useful issues to us, and identified some possible cleanup. These fixes are also going into the 7.8 branch, and GHC and its associated code will be scanned by Coverity continuously in the future.
+- **Coverity** - Austin & friends have began running the Coverity static analyzer over the GHC runtime system in an attempt to weed out bugs \[Coverity\]. This has luckily reported several very useful issues to us, and identified some possible cleanup. These fixes are also going into the 7.8 branch, and GHC and its associated code will be scanned by Coverity continuously in the future.
 
 - **New, smaller array type** - Johan Tibell has recently added a new array type, `SmallArray#`, which uses less memory (2 words) than the `Array#` type, at the cost of being more expensive to garbage collect for array sizes large than 128 elements.
 
@@ -49,10 +94,6 @@ Meanwhile, HEAD steams onward, with some preliminary work for the 7.10 milestone
 - **Continuous integration improvements** - Work on new CI systems for GHC has been slow, but thanks to the work of **Joachim Breitner** and **Gábor Páli**, GHC is now built on [ http://travis-ci.org](http://travis-ci.org) \[TravisCI\] as well as nightly builders of a variety of flavors and machines \[Builders\]. We're also hoping to investigate using a Continuous Integration system to help build against a stable set of selected Hackage packages, to help find issues with the releases more easily.
 
 - **Debian builds of GHC** - Thanks to **Joachim Breitner** and **Herbert Valerio Riedel**, GHC now has greatly improved support for Debian packaging - there is now an official Ubuntu PPA for GHC \[PPA\], as well as a dedicated Debian repository for GHC nightly builds \[DEB\].
-
-## Future Plans
-
-- **Dynamic space limits** - Edward has been working on dynamic space limits for Haskell, whereby you can run some code in a container with a maximum space limit associated with it.  There's working code \[RLIMITS\] but there are some barriers to getting it deployable in GHC (it requires a new compilation mode ala prof, and it doesn't yet work with GHCi or 32-bit).
 
 # References
 
@@ -71,7 +112,7 @@ Meanwhile, HEAD steams onward, with some preliminary work for the 7.10 milestone
 
 \[PTS\] [ https://ghc.haskell.org/trac/ghc/wiki/PartialTypeSignatures](https://ghc.haskell.org/trac/ghc/wiki/PartialTypeSignatures)
 
-\[CoverityScan\] [ https://scan.coverity.com](https://scan.coverity.com)
+\[!Coverity\] [ https://scan.coverity.com](https://scan.coverity.com)
  
 \[PPA\] [ https://launchpad.net/\~hvr/+archive/ghc/](https://launchpad.net/~hvr/+archive/ghc/)
  
