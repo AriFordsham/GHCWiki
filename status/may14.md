@@ -80,7 +80,7 @@ There's still a lot planned for GHC 7.10, however. While we haven't quite decide
 
 - **Changes to static closures for faster garbage collection** - Edward is working on an overhaul of how static closures represented at runtime to eliminate some expensive memory dereferences in the GC hotpath. The initial results are encouraging: these changes can result in an up to 8% in the runtime of some GC heavy benchmarks \[HEAPALLOCED\].
 
-- **Coverity** - Austin & friends have began running the Coverity static analyzer over the GHC runtime system in an attempt to weed out bugs \[CoverityScan\]. This has luckily reported several very useful issues to us, and identified some possible cleanup. These fixes are also going into the 7.8 branch, and GHC and its associated code will be scanned by Coverity continuously in the future.
+- **Coverity** - Austin & friends have began running the Coverity static analyzer over the GHC runtime system in an attempt to weed out bugs \[!Coverity\]. This has luckily reported several very useful issues to us, and identified some possible cleanup. These fixes are also going into the 7.8 branch, and GHC and its associated code will be scanned by Coverity continuously in the future.
 
 - **New, smaller array type** - Johan Tibell has recently added a new array type, `SmallArray#`, which uses less memory (2 words) than the `Array#` type, at the cost of being more expensive to garbage collect for array sizes large than 128 elements.
 
@@ -112,7 +112,7 @@ There's still a lot planned for GHC 7.10, however. While we haven't quite decide
 
 \[PTS\] [ https://ghc.haskell.org/trac/ghc/wiki/PartialTypeSignatures](https://ghc.haskell.org/trac/ghc/wiki/PartialTypeSignatures)
 
-\[CoverityScan\] [ https://scan.coverity.com](https://scan.coverity.com)
+\[!Coverity\] [ https://scan.coverity.com](https://scan.coverity.com)
  
 \[PPA\] [ https://launchpad.net/\~hvr/+archive/ghc/](https://launchpad.net/~hvr/+archive/ghc/)
  
