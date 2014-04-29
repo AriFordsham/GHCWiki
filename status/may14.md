@@ -4,14 +4,14 @@
 GHC development has been steadily moving forward. While we originally planned to release 7.8.1 back in November, we unfortunately had aspects of scope creep - we began fixing bugs, and adding a minor thing, and fixing bugs, and fixing bugs.
 
 
-However, 7.8.1 was released in early April this year. It turned out we had a disastrous bug slip in between the release candidates however, which required an immediate fix and the release of 7.8.2\[GHC8978\]. Other than shuffling back our version numbers, this luckily didn't change much. We plan to release 7.8.3 later in the year.
+However, 7.8.1 was released in early April this year. It turned out we had a disastrous bug slip in between the release candidates however, which required an immediate fix and the release of 7.8.2 \[GHC8978\]. Other than shuffling back our version numbers, this luckily didn't change much. We plan to release 7.8.3 later in the year.
 
 
 Meanwhile, HEAD steams onward, with some preliminary work for the 7.10 milestone laid down. We've already got some plans as to what we'll be doing - and if you want something done, you should join in as well!
 
 ## Libraries, source language, type system
 
-- **Applicative-Monad** - GHC 7.10 will (finally) make `Applicative` a superclass of `Monad`. This is an API-breaking change for `base`, and users are encouraged to begin fixing their code now. To that end, GHC 7.8 now emits warnings for code that would violate the Applicative-Monad proposal\[AMP\].
+- **Applicative-Monad** - GHC 7.10 will (finally) make `Applicative` a superclass of `Monad`. This is an API-breaking change for `base`, and users are encouraged to begin fixing their code now. To that end, GHC 7.8 now emits warnings for code that would violate the Applicative-Monad proposal \[AMP\].
 
 - **[ApplicativeDo](applicative-do)** - Now that `Applicative` is a superclass of `Monad`, Simon Marlow has plans to implement a new extension for GHC, which will allow `do` notation to be used in the context of `Applicative`, not just `Monad`.
 
@@ -33,7 +33,7 @@ Meanwhile, HEAD steams onward, with some preliminary work for the 7.10 milestone
 
 - **Changes to static closures for faster garbage collection** - Edward is working on an overhaul of how static closures represented at runtime to eliminate some expensive memory dereferences in the GC hotpath. The initial results are encouraging: these changes can result in an up to 8% in the runtime of some GC heavy benchmarks. \[HEAPALLOCED\]
 
-- **Coverity** - Austin & friends have began running the Coverity static analyzer over the GHC runtime system in an attempt to weed out bugs\[CoverityScan\]. This has luckily reported several very useful issues to us, and identified some possible cleanup. These fixes are also going into the 7.8 branch, and GHC and its associated code will be scanned by Coverity continuously in the future.
+- **Coverity** - Austin & friends have began running the Coverity static analyzer over the GHC runtime system in an attempt to weed out bugs \[CoverityScan\]. This has luckily reported several very useful issues to us, and identified some possible cleanup. These fixes are also going into the 7.8 branch, and GHC and its associated code will be scanned by Coverity continuously in the future.
 
 ## Frontend, build-system, and miscellaneous changes
 
@@ -44,7 +44,7 @@ Meanwhile, HEAD steams onward, with some preliminary work for the 7.10 milestone
 
 - **Continuous integration improvements** - Work on new CI systems for GHC has been slow, but thanks to the work of **Joachim Breitner** and **Gábor Páli**, GHC is now built on [ http://travis-ci.org](http://travis-ci.org) \[!TravisCI\] as well as nightly builders of a variety of flavors and machines \[Builders\]. We're also hoping to investigate using a Continuous Integration system to help build against a stable set of selected Hackage packages, to help find issues with the releases more easily.
 
-- **Debian builds of GHC** - Thanks to **Joachim Breitner** and **Herbert Valerio Riedel**, GHC now has greatly improved support for Debian packaging - there is now an official Ubuntu PPA for GHC\[PPA\], as well as a dedicated Debian repository for GHC nightly builds\[DEB\]
+- **Debian builds of GHC** - Thanks to **Joachim Breitner** and **Herbert Valerio Riedel**, GHC now has greatly improved support for Debian packaging - there is now an official Ubuntu PPA for GHC \[PPA\], as well as a dedicated Debian repository for GHC nightly builds. \[DEB\]
 
 ## Future Plans
 
