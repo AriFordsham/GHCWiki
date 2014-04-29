@@ -1,10 +1,7 @@
 # GHC Status Report, May 2014
 
 
-GHC development has been steadily moving forward. While we originally planned to release 7.8.1 back in November, we unfortunately had aspects of scope creep - we began fixing bugs, and adding a minor thing, and fixing bugs, and fixing bugs.
-
-
-However, 7.8.1 was released in early April this year. It turned out we had a disastrous bug slip in between the release candidates however, which required an immediate fix and the release of 7.8.2 \[GHC8978\]. Other than shuffling back our version numbers, this luckily didn't change much. We plan to release 7.8.3 later in the year.
+In early April 2014, GHC 7.8 was finally released, after nearly 18 months of development. This was one of the longest development periods in recent memory, and there was a lot of grumbling near the end. Ultimately, the reason for this was scope creep - we kept getting bugs dripping in here and there, and fixing them, and putting things in.
 
 
 Meanwhile, HEAD steams onward, with some preliminary work for the 7.10 milestone laid down. We've already got some plans as to what we'll be doing - and if you want something done, you should join in as well!
@@ -12,10 +9,10 @@ Meanwhile, HEAD steams onward, with some preliminary work for the 7.10 milestone
 ## GHC 7.8
 
 
-Early April, GHC 7.8 was finally released after nearly 1.5 years of development. This was one of the longest development periods in recent memory, and there was a lot of grumbling near the end. Ultimately, the reason for this was scope creep - we kept getting bugs dripping in here and there, and fixing them, and putting things in.
+We released GHC 7.8.1 in early April, and immediately discovered a disastrous bug ([\#8978](https://gitlab.haskell.org//ghc/ghc/issues/8978)) that had slipped in between the release candidates.  That led to an immediate follow-up release of 7.8.2, which seems pretty stable. We will continue to fix bugs on the 7.8 branch, and release 7.8.3 later this year, when (and if) pressure builds up from users to got the fixes into the field.
 
 
-However, now that it's out, there's a lot there for users to play with - the release was one of the most feature-packed ones we've done, with a lot of changes touching almost every part of the compiler. To recap a few of them:
+However, now that 7.8 is out, there is a lot there for users to play with: the release was one of the most feature-packed ones we've done, with a lot of changes touching almost every part of the compiler. To recap a few of them:
 
 - **New and improved I/O manager** - Earlier this year, Andreas Voellmy and Kazu Yamamoto worked on a host of improvements to our I/O manager, making it scale significantly better on multicore machines. Since then, it's seen some other performance tweaks, and many bugfixes. As a result, the new I/O manager should scale linearly up to about 40 cores. Andreas reports their McNettle Software-defined-network (SDN) implementation can now achieve over *twenty million connections per second*, making it the fastest SDN implementation around - an incredible feat!
 
