@@ -12,10 +12,10 @@ Meanwhile, HEAD steams onward, with some preliminary work for the 7.10 milestone
 ## GHC 7.8
 
 
-Early April, GHC 7.8 was finally released after nearly 1.5 years of development.
+Early April, GHC 7.8 was finally released after nearly 1.5 years of development. This was one of the longest development periods in recent memory, and there was a lot of grumbling near the end. Ultimately, the result of this was scope creep - we kept getting bugs dripping in here and there, and fixing them, and putting things in.
 
 
-There were a high number of significant improvements to everything from the code generator to the runtime system. To recap:
+However, now that it's out, there's a lot there for users to play with - the release was one of the most feature-packed ones we've done, with a lot of changes touching almost every part of the compiler. To recap a few of them:
 
 - **New and improved I/O manager** - Earlier this year, Andreas Voellmy and Kazu Yamamoto worked on a host of improvements to our I/O manager, making it scale significantly better on multicore machines. Since then, it's seen some other performance tweaks, and many bugfixes. As a result, the new I/O manager should scale linearly up to about 40 cores. Andreas reports their McNettle Software-defined-network (SDN) implementation can now achieve over *twenty million connections per second*, making it the fastest SDN implementation around - an incredible feat!
 
