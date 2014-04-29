@@ -155,3 +155,5 @@ There's still a lot planned for GHC 7.10, however. While we haven't quite decide
 \[HEAPALLOCED\] [ https://ghc.haskell.org/trac/ghc/ticket/8199](https://ghc.haskell.org/trac/ghc/ticket/8199)
  
 \[RLIMITS\] [ http://ezyang.com/rlimits.html](http://ezyang.com/rlimits.html)
+
+\[ReleaseNotes\] [http://www.haskell.org/ghc/docs/7.8.1/html/users_guide/release-7-8-1.html](http://www.haskell.org/ghc/docs/7.8.1/html/users_guide/release-7-8-1.html)

@@ -122,3 +122,4 @@ There's still a lot planned for GHC 7.10, however. While we haven't quite decide
 [Builders] https://ghc.haskell.org/trac/ghc/wiki/Builder [[br]]
 [HEAPALLOCED] https://ghc.haskell.org/trac/ghc/ticket/8199 [[br]] 
 [RLIMITS] http://ezyang.com/rlimits.html [[br]]
+[!ReleaseNotes] http://www.haskell.org/ghc/docs/7.8.1/html/users_guide/release-7-8-1.html
