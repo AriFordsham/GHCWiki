@@ -1,22 +1,21 @@
 = GHC Status Report, May 2014 =
 
-GHC development has been steadily moving forward. While we originally planned to release 7.8.1 back in November, we unfortunately had aspects of scope creep - we began fixing bugs, and adding a minor thing, and fixing bugs, and fixing bugs.
-
-However, 7.8.1 was released in early April this year. It turned out we had a disastrous bug slip in between the release candidates however, which required an immediate fix and the release of 7.8.2 [GHC8978]. Other than shuffling back our version numbers, this luckily didn't change much. We plan to release 7.8.3 later in the year.
+In early April 2014, GHC 7.8 was finally released, after nearly 18 months of development. This was one of the longest development periods in recent memory, and there was a lot of grumbling near the end. Ultimately, the reason for this was scope creep - we kept getting bugs dripping in here and there, and fixing them, and putting things in.
 
 Meanwhile, HEAD steams onward, with some preliminary work for the 7.10 milestone laid down. We've already got some plans as to what we'll be doing - and if you want something done, you should join in as well!
 
 == GHC 7.8 ==
 
-Early April, GHC 7.8 was finally released after nearly 1.5 years of development. This was one of the longest development periods in recent memory, and there was a lot of grumbling near the end. Ultimately, the reason for this was scope creep - we kept getting bugs dripping in here and there, and fixing them, and putting things in.
+We released GHC 7.8.1 in early April, and immediately discovered a disastrous bug (#8978) that had slipped in between the release candidates.  That led to an immediate follow-up release of 7.8.2, which seems pretty stable. We will continue to fix bugs on the 7.8 branch, and release 7.8.3 later this year, when (and if) pressure builds up from users to got the fixes into the field.
 
-However, now that it's out, there's a lot there for users to play with - the release was one of the most feature-packed ones we've done, with a lot of changes touching almost every part of the compiler. To recap a few of them:
+However, now that 7.8 is out, there is a lot there for users to play with: the release was one of the most feature-packed ones we've done, with a lot of changes touching almost every part of the compiler. To recap a few of them:
 
  * **New and improved I/O manager** - Earlier this year, Andreas Voellmy and Kazu Yamamoto worked on a host of improvements to our I/O manager, making it scale significantly better on multicore machines. Since then, it's seen some other performance tweaks, and many bugfixes. As a result, the new I/O manager should scale linearly up to about 40 cores. Andreas reports their !McNettle Software-defined-network (SDN) implementation can now achieve over ''twenty million connections per second'', making it the fastest SDN implementation around - an incredible feat!
 
- * **Type Holes** - Thijs Alkemade and Simon PJ got an implementation of `TypeHoles` in GHC, meaning it's possible to tell GHC there is a 'hole' in a program, and have the compiler spit out an error stating what types are in scope. As a trivial example
+ * **MINIMAL pragma**.  Twan van Laarhoven implemented a new pragma, `{-# MINIMAL #-}`, allowing you to explicitly declare the minimal complete definition of a class [http://www.haskell.org/ghc/docs/7.8.1/html/users_guide/pragmas.html#minimal-pragma [Minimal]].
+
+ * **Typed Holes**. Thijs Alkemade, with some help from Simon PJ, implemented typed holes.  These make it possible to tell GHC there is a 'hole' in a program, and have the compiler spit out an error stating what types are in scope. As a trivial example
 {{{
-Prelude> :set -XTypeHoles 
 Prelude> let f :: a -> a; f x = _
 
 <interactive>:6:24:
@@ -31,7 +30,23 @@ Prelude> let f :: a -> a; f x = _
 }}}
   GHC now tells us that the term `f` has a hole of type `a`, and there is a term `x :: a` in scope. So the definition is clear: `f x = x`. Holes are originally a concept borrowed from [http://wiki.portal.chalmers.se/agda/pmwiki.php Agda], and we hope they will be useful to Haskell programmers too!
 
- * **Pattern synonyms** - Gergö Érdi worked on an implementation of pattern synonyms for GHC, and it actually landed in the 7.8 release. While there's still more work to do, it's covered up a big abstraction hole already.
+ * **Pattern synonyms** - Gergö Érdi worked on an implementation of pattern synonyms for GHC, and it actually landed in the 7.8 release. While there's still more work to do, it represents a real improvement in GHC's support for abstraction.  More detail on the wiki page [wiki:PatternSynonyms [PatSyn]].
+
+ * **New Template Haskell**.  Geoff Mainland did the heavy lifting to implement the new Template Haskell story, more or less as described in Simon's blog post [wiki:TemplateHaskell/BlogPostChanges [THBlog]].  Template Haskell now has two flavours, which can inter-operate.  '''Typed TH''' is fully typed in the style of Meta ML, but works for expressions only.  '''Untyped TH''' is much more expressive, allowing splices in patterns, types, and declarations, as well as expressions, but is completely untyped.
+
+ * **Closed type families** are a major extension to the type-family feature, implemented by Richard Eisenberg.  A closed type family allows you to declare all the equations for a type family in one place, with top-to-bottom matching; for example
+{{{
+type family Or a b where
+  Or False False = False
+  Or a     b     = True
+}}}
+  We thought this was going to be fairly easy, but it turned out to be much more interesting than we expected, and led to a POPL paper [http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/ [ClosedFam]].
+
+ * **Safe coercions** extend the power of newtypes, one of Haskell's main data-abstraction features. For example, given
+{{{
+newtype Age = MkAge Int
+}}}
+  you can convert betwen `Age` and `Int` by using the `MkAge` constructor, knowing that the conversion is free at runtime.  But to convert betwen `Maybe Age` and `Maybe Int` you have to write code that unpacks and packs the `Maybe` type, and GHC cannot reasonably eliminate the cost.  Safe coercions let you do just that.  But (and this is not obvious) to be type-safe, in the presence of type families, we have to exted the type system with so-called ''type roles''.  Moreover, using roles finally solves the notorious, seven-year-old Generalised Newtype Deriving bug (#1496).  Safe coversions were implemented by Joachaim Breitner with help from Richard Eisenberg; there is a full description in our ICFP submission [http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/ [SafeCo]].
 
  * **New code generator** - As previously reported, the New Code Generator is live and switched on by default. There have been a host of bugfixes and stability improvements, meaning it should be solid for the 7.8 release.
 
@@ -39,7 +54,7 @@ Prelude> let f :: a -> a; f x = _
 
  * **iOS support** - After many years of work by Ian, Stephen Blackheath, Gabor Greif and friends Luke Iannini and Maxwell Swadling, GHC now has full support for iOS cross-compilation. As of GHC 7.8, you'll really be able to write iOS apps in your favorite programming language!
 
-That's just a fraction of what we did in the 7.8 timeline - there were at least a dozen other significant improvements.
+That's just a fraction of what we did in the 7.8 timeline - there were at least a dozen other significant improvements, as you can see from the release notes [http://www.haskell.org/ghc/docs/7.8.1/html/users_guide/release-7-8-1.html [ReleaseNotes]]
 
 = Future plans =
 
@@ -61,7 +76,7 @@ There's still a lot planned for GHC 7.10, however. While we haven't quite decide
 
  * **Kind equality and kind coercions** - Richard Eisenberg (with support from Simon PJ and Stephanie Weirich, among others) is implementing a change to the Core language, as described in a recent paper [FC]. When this work is complete, ''all'' types will be promotable to kinds, and ''all'' data constructors will be promotable to types. This will include promoting type synonyms and type families. As the details come together, there may be other source language effects, such as the ability to make kind variables explicit. It is not expected for this to be a breaking change -- the change should allow strictly more programs to be accepted.
 
- * **Partial type signatures** - Thomas Winant and Dominique Devriese (with support from Simon PJ) have been working on partial type signatures for GHC. A partial type signature is a type signature that can contain ''wildcards'', written as underscores. These wildcards can be types unknown to the programmer or types he doesn't care to annotate. The type checker will use the annotated parts of the partial type signature to type check the program, and infer the types for the wildcards. A wildcard can also occur at the end of the constraints part of a type signature, which indicates that an arbitrary number of extra constraints may be inferred. Whereas !TypedHoles allow holes in your terms, !PartialTypeSignatures allow holes in your types. The design as well as a working implementation are currently being simplified [PTS].
+ * **Partial type signatures** - Thomas Winant and Dominique Devriese are working on partial type signatures for GHC. A partial type signature is a type signature that can contain ''wildcards'', written as underscores. These wildcards can be types unknown to the programmer or types he doesn't care to annotate. The type checker will use the annotated parts of the partial type signature to type check the program, and infer the types for the wildcards. A wildcard can also occur at the end of the constraints part of a type signature, which indicates that an arbitrary number of extra constraints may be inferred. Whereas !TypedHoles allow holes in your terms, !PartialTypeSignatures allow holes in your types. The design as well as a working implementation are currently being simplified [PTS].
 
 == Back-end and runtime system ==
 
@@ -87,6 +102,12 @@ There's still a lot planned for GHC 7.10, however. While we haven't quite decide
 
 = References =
 
+[!ClosedFam] Closed type families with overlapping equations, POPL 2014 http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/ [[BR]]
+[Minimal] MINIMAL pragma http://www.haskell.org/ghc/docs/7.8.1/html/users_guide/pragmas.html#minimal-pragma [[BR]]
+[!PatSyn] Pattern synonyms http://ghc.haskell.org/trac/ghc/wiki/PatternSynonyms [[BR]]
+[!ReleaseNotes] GHC 7.8.1 release notes http://www.haskell.org/ghc/docs/7.8.1/html/users_guide/release-7-8-1.html [[BR]]
+[!SafeCo] Safe Coercions, submitted to ICFP 2014 http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/ [[BR]]
+[!THBlog] Major revision of Template Haskell https://ghc.haskell.org/trac/ghc/wiki/TemplateHaskell/BlogPostChanges [[BR]]
 [GHC8978] https://ghc.haskell.org/trac/ghc/ticket/8978 [[br]]
 [AMP] https://github.com/quchen/articles/blob/master/applicative_monad.md [[br]] 
 [KD] Kinds without Data - ​http://ghc.haskell.org/trac/ghc/wiki/GhcKinds/KindsWithoutData  [[br]] 
