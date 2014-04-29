@@ -57,7 +57,7 @@ Meanwhile, HEAD steams onward, with some preliminary work for the 7.10 milestone
 [KD] Kinds without Data - ​http://ghc.haskell.org/trac/ghc/wiki/GhcKinds/KindsWithoutData  [[br]] 
 [ORF] https://ghc.haskell.org/trac/ghc/wiki/Records/OverloadedRecordFields [[br]]
 [TA] Explicit type application - ​http://ghc.haskell.org/trac/ghc/wiki/ExplicitTypeApplication [[br]]
-[FC] "System FC with Explicit Kind Equality" - http://www.seas.upenn.edu/~eir/papers/2013/fckinds/fckinds-extended.pdf [[br]]
+[FC] System FC with Explicit Kind Equality - http://www.seas.upenn.edu/~eir/papers/2013/fckinds/fckinds-extended.pdf [[br]]
 [PTS] https://ghc.haskell.org/trac/ghc/wiki/PartialTypeSignatures [[br]]
 [!CoverityScan] https://scan.coverity.com [[br]] 
 [PPA] https://launchpad.net/~hvr/+archive/ghc/ [[br]] 
