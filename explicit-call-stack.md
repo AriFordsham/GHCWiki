@@ -8,7 +8,8 @@ See also
 
 - [ Finding the needle](http://research.microsoft.com/~simonpj/papers/stack-trace/DebugTraces.pdf), a paper describing Tristan Allwood's intern project to implement explicit call stacks in GHC (May 2009).
 - [\#1441](https://gitlab.haskell.org//ghc/ghc/issues/1441), [\#960](https://gitlab.haskell.org//ghc/ghc/issues/960), [\#9049](https://gitlab.haskell.org//ghc/ghc/issues/9049) which would be fixed by this.
-- [ Simon Hengel's "rewrite with location" proposal](https://github.com/sol/rewrite-with-location)
+- [ Simon Hengel's "rewrite with location" proposal](https://github.com/sol/rewrite-with-location), see also [ Michael Snoyman's post](http://www.haskell.org/pipermail/haskell-cafe/2013-February/106617.html)
+- [ Lennart Augustsson's post](http://augustss.blogspot.se/2014/04/haskell-error-reporting-with-locations_5.html)
 - [ The Haskell cafe thread](http://www.haskell.org/pipermail/haskell-cafe/2006-November/019549.html)
 - [ http://www.cse.unsw.edu.au/\~dons/loch.html](http://www.cse.unsw.edu.au/~dons/loch.html)
 - [ HAT](http://haskell.org/hat)
