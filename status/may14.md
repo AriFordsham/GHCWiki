@@ -25,7 +25,7 @@ Meanwhile, HEAD steams onward, with some preliminary work for the 7.10 milestone
 
 - **Kind equality and kind coercions** - Richard Eisenberg (with support from Simon PJ and Stephanie Weirich, among others) is implementing a change to the Core language, as described in a recent paper \[FC\]. When this work is complete, *all* types will be promotable to kinds, and *all* data constructors will be promotable to types. This will include promoting type synonyms and type families. As the details come together, there may be other source language effects, such as the ability to make kind variables explicit. It is not expected for this to be a breaking change -- the change should allow strictly more programs to be accepted.
 
-- **Partial type signatures** - TODO Simon, Thomas
+- **Partial type signatures** - Thomas Winant and Dominique Devriese (with support from Simon PJ) have been working on partial type signatures for GHC. A partial type signature is a type signature that can contain *wildcards*, written as underscores. These wildcards can be types unknown to the programmer or types he doesn't care to annotate. The type checker will use the annotated parts of the partial type signature to type check the program, and infer the types for the wildcards. A wildcard can also occur at the end of the constraints part of a type signature, which indicates that an arbitrary number of extra constraints may be inferred. Whereas TypedHoles allow holes in your terms, PartialTypeSignatures allow holes in your types. The design as well as a working implementation are currently being simplified \[PTS\].
 
 ## Back-end and runtime system
 
@@ -64,6 +64,8 @@ Meanwhile, HEAD steams onward, with some preliminary work for the 7.10 milestone
 \[TA\] Explicit type application - [ http://ghc.haskell.org/trac/ghc/wiki/ExplicitTypeApplication](http://ghc.haskell.org/trac/ghc/wiki/ExplicitTypeApplication)
 
 \[FC\] "System FC with Explicit Kind Equality" - [ http://www.seas.upenn.edu/\~eir/papers/2013/fckinds/fckinds-extended.pdf](http://www.seas.upenn.edu/~eir/papers/2013/fckinds/fckinds-extended.pdf)
+
+\[PTS\] [ https://ghc.haskell.org/trac/ghc/wiki/PartialTypeSignatures](https://ghc.haskell.org/trac/ghc/wiki/PartialTypeSignatures)
 
 \[CoverityScan\] [ https://scan.coverity.com](https://scan.coverity.com)
  
