@@ -128,8 +128,6 @@ There's still a lot planned for GHC 7.10, however. While we haven't quite decide
 
 \[THBlog\] Major revision of Template Haskell [ https://ghc.haskell.org/trac/ghc/wiki/TemplateHaskell/BlogPostChanges](https://ghc.haskell.org/trac/ghc/wiki/TemplateHaskell/BlogPostChanges)
 
-\[GHC8978\] [ https://ghc.haskell.org/trac/ghc/ticket/8978](https://ghc.haskell.org/trac/ghc/ticket/8978)
-
 \[AMP\] [ https://github.com/quchen/articles/blob/master/applicative_monad.md](https://github.com/quchen/articles/blob/master/applicative_monad.md)
  
 \[KD\] Kinds without Data - [ http://ghc.haskell.org/trac/ghc/wiki/GhcKinds/KindsWithoutData](http://ghc.haskell.org/trac/ghc/wiki/GhcKinds/KindsWithoutData)
