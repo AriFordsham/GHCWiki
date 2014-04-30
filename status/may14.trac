@@ -108,7 +108,6 @@ There's still a lot planned for GHC 7.10, however. While we haven't quite decide
 [!ReleaseNotes] GHC 7.8.1 release notes http://www.haskell.org/ghc/docs/7.8.1/html/users_guide/release-7-8-1.html [[BR]]
 [!SafeCo] Safe Coercions, submitted to ICFP 2014 http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/ [[BR]]
 [THBlog] Major revision of Template Haskell https://ghc.haskell.org/trac/ghc/wiki/TemplateHaskell/BlogPostChanges [[BR]]
-[GHC8978] https://ghc.haskell.org/trac/ghc/ticket/8978 [[br]]
 [AMP] https://github.com/quchen/articles/blob/master/applicative_monad.md [[br]] 
 [KD] Kinds without Data - ​http://ghc.haskell.org/trac/ghc/wiki/GhcKinds/KindsWithoutData  [[br]] 
 [ORF] https://ghc.haskell.org/trac/ghc/wiki/Records/OverloadedRecordFields [[br]]
