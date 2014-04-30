@@ -115,7 +115,7 @@ There's still a lot planned for GHC 7.10, however. While we haven't quite decide
 [TA] Explicit type application - ​http://ghc.haskell.org/trac/ghc/wiki/ExplicitTypeApplication [[br]]
 [FC] System FC with Explicit Kind Equality - http://www.seas.upenn.edu/~eir/papers/2013/fckinds/fckinds-extended.pdf [[br]]
 [PTS] https://ghc.haskell.org/trac/ghc/wiki/PartialTypeSignatures [[br]]
-[!Coverity] https://scan.coverity.com [[br]] 
+[Coverity] https://scan.coverity.com [[br]] 
 [PPA] https://launchpad.net/~hvr/+archive/ghc/ [[br]] 
 [DEB] http://deb.haskell.org [[br]] 
 [TravisCI] https://github.com/nomeata/ghc-complete [[br]] 
