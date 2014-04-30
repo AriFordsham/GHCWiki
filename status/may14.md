@@ -14,7 +14,7 @@ We released GHC 7.8.1 in early April, and immediately discovered a disastrous bu
 
 However, now that 7.8 is out, there is a lot there for users to play with: the release was one of the most feature-packed ones we've done, with a lot of changes touching almost every part of the compiler. To recap a few of them:
 
-- **New and improved I/O manager** - Earlier this year, Andreas Voellmy and Kazu Yamamoto worked on a host of improvements to our I/O manager, making it scale significantly better on multicore machines. Since then, it's seen some other performance tweaks, and many bugfixes. As a result, the new I/O manager should scale linearly up to about 40 cores. Andreas reports their \[McNettle\] Software-defined-network (SDN) implementation can now achieve over *twenty million connections per second*, making it the fastest SDN implementation around - an incredible feat!
+- **New and improved I/O manager** - Earlier this year, Andreas Voellmy and Kazu Yamamoto worked on a host of improvements to our I/O manager, making it scale significantly better on multicore machines. Since then, it's seen some other performance tweaks, and many bugfixes. As a result, the new I/O manager should scale linearly up to about 40 cores. Andreas reports their McNettle Software-defined-network (SDN) implementation can now achieve over *twenty million connections per second*, making it the fastest SDN implementation around - an incredible feat! \[McNettle\]
 
 - **MINIMAL pragma**.  Twan van Laarhoven implemented a new pragma, `{-# MINIMAL #-}`, allowing you to explicitly declare the minimal complete definition of a class [\[Minimal](http://www.haskell.org/ghc/docs/7.8.1/html/users_guide/pragmas.html#minimal-pragma)\].
 
