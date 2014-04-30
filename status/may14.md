@@ -142,7 +142,7 @@ There's still a lot planned for GHC 7.10, however. While we haven't quite decide
 
 \[PTS\] [ https://ghc.haskell.org/trac/ghc/wiki/PartialTypeSignatures](https://ghc.haskell.org/trac/ghc/wiki/PartialTypeSignatures)
 
-\[!Coverity\] [ https://scan.coverity.com](https://scan.coverity.com)
+\[Coverity\] [ https://scan.coverity.com](https://scan.coverity.com)
  
 \[PPA\] [ https://launchpad.net/\~hvr/+archive/ghc/](https://launchpad.net/~hvr/+archive/ghc/)
  
