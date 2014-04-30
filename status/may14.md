@@ -104,7 +104,7 @@ There's still a lot planned for GHC 7.10, however. While we haven't quite decide
 
 - **New, smaller array type** - Johan Tibell has recently added a new array type, `SmallArray#`, which uses less memory (2 words) than the `Array#` type, at the cost of being more expensive to garbage collect for array sizes large than 128 elements.
 
-- **DWARF-based stack tracing** - Peter Wortmann and Arash Hourani (with support from the Simons) are working on enabling GHC to generate and use DWARF debugging information. This should allow us to obtain stack traces and do profiling without the need for instrumentation.
+- **DWARF-based stack tracing** - Peter Wortmann and Arash Rouhani (with support from the Simons) are working on enabling GHC to generate and use DWARF debugging information. This should allow us to obtain stack traces and do profiling without the need for instrumentation.
 
 ## Frontend, build-system, and miscellaneous changes
 
