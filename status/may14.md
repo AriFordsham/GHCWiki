@@ -120,7 +120,8 @@ There's still a lot planned for GHC 7.10, however. While we haven't quite decide
 # References
 
 
-\[GHC78FAQ\] [ https://ghc.haskell.org/trac/ghc/wiki/GHC-7.8-FAQ](https://ghc.haskell.org/trac/ghc/wiki/GHC-7.8-FAQ) \[\[BR\]
+\[GHC78FAQ\] [ https://ghc.haskell.org/trac/ghc/wiki/GHC-7.8-FAQ](https://ghc.haskell.org/trac/ghc/wiki/GHC-7.8-FAQ)
+
 \[ClosedFam\] Closed type families with overlapping equations, POPL 2014 [ http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/)
 
 \[Minimal\] MINIMAL pragma [http://www.haskell.org/ghc/docs/7.8.1/html/users_guide/pragmas.html\#minimal-pragma](http://www.haskell.org/ghc/docs/7.8.1/html/users_guide/pragmas.html#minimal-pragma)
