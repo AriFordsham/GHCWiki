@@ -36,7 +36,7 @@ However, now that 7.8 is out, there is a lot there for users to play with: the r
 
   GHC now tells us that the term `f` has a hole of type `a`, and there is a term `x :: a` in scope. So the definition is clear: `f x = x`. Holes are originally a concept borrowed from [ Agda](http://wiki.portal.chalmers.se/agda/pmwiki.php), and we hope they will be useful to Haskell programmers too!
 
-- **Pattern synonyms** - Gergö Érdi worked on an implementation of pattern synonyms for GHC, and it actually landed in the 7.8 release. While there's still more work to do, it represents a real improvement in GHC's support for abstraction.  More detail on the wiki page [\[PatSyn](pattern-synonyms)\].
+- **Pattern synonyms** - Gergő Érdi worked on an implementation of pattern synonyms for GHC, and it actually landed in the 7.8 release. While there's still more work to do, it represents a real improvement in GHC's support for abstraction.  More detail on the wiki page [\[PatSyn](pattern-synonyms)\].
 
 - **New Template Haskell**.  Geoff Mainland did the heavy lifting to implement the new Template Haskell story, more or less as described in Simon's blog post [\[THBlog](template-haskell/blog-post-changes)\].  Template Haskell now has two flavours, which can inter-operate.  **Typed TH** is fully typed in the style of Meta ML, but works for expressions only.  **Untyped TH** is much more expressive, allowing splices in patterns, types, and declarations, as well as expressions, but is completely untyped.
 
@@ -126,7 +126,7 @@ There's still a lot planned for GHC 7.10, however. While we haven't quite decide
 
 \[SafeCo\] Safe Coercions, submitted to ICFP 2014 [ http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/)
 
-\[!THBlog\] Major revision of Template Haskell [ https://ghc.haskell.org/trac/ghc/wiki/TemplateHaskell/BlogPostChanges](https://ghc.haskell.org/trac/ghc/wiki/TemplateHaskell/BlogPostChanges)
+\[THBlog\] Major revision of Template Haskell [ https://ghc.haskell.org/trac/ghc/wiki/TemplateHaskell/BlogPostChanges](https://ghc.haskell.org/trac/ghc/wiki/TemplateHaskell/BlogPostChanges)
 
 \[GHC8978\] [ https://ghc.haskell.org/trac/ghc/ticket/8978](https://ghc.haskell.org/trac/ghc/ticket/8978)
 
