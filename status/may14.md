@@ -14,6 +14,8 @@ We released GHC 7.8.1 in early April, and immediately discovered a disastrous bu
 
 However, now that 7.8 is out, there is a lot there for users to play with: the release was one of the most feature-packed ones we've done, with a lot of changes touching almost every part of the compiler. To recap a few of them:
 
+- **Dynamic GHC** - GHC and GHCi are now dynamically linked - this means any time you ask them to load object code (for example, loading a library in GHCi, or using `TemplateHaskell` when you compile something) GHC will now use the system linker. The upshot of this is that a lot of nasty bugs in our own linker have been fixed - there are a few catches for users however. To that end, we've put together a GHC 7.8 FAQ\[GHC78FAQ\] to help people who might experience problems, dynamic GHC being one of them.
+
 - **New and improved I/O manager** - Earlier this year, Andreas Voellmy and Kazu Yamamoto worked on a host of improvements to our I/O manager, making it scale significantly better on multicore machines. Since then, it's seen some other performance tweaks, and many bugfixes. As a result, the new I/O manager should scale linearly up to about 40 cores. Andreas reports their McNettle Software-defined-network (SDN) implementation can now achieve over *twenty million connections per second*, making it the fastest SDN implementation around - an incredible feat! \[McNettle\]
 
 - **MINIMAL pragma**.  Twan van Laarhoven implemented a new pragma, `{-# MINIMAL #-}`, allowing you to explicitly declare the minimal complete definition of a class [\[Minimal](http://www.haskell.org/ghc/docs/7.8.1/html/users_guide/pragmas.html#minimal-pragma)\].
@@ -118,6 +120,7 @@ There's still a lot planned for GHC 7.10, however. While we haven't quite decide
 # References
 
 
+\[GHC78FAQ\] [ https://ghc.haskell.org/trac/ghc/wiki/GHC-7.8-FAQ](https://ghc.haskell.org/trac/ghc/wiki/GHC-7.8-FAQ)
 \[ClosedFam\] Closed type families with overlapping equations, POPL 2014 [ http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/)
 
 \[Minimal\] MINIMAL pragma [http://www.haskell.org/ghc/docs/7.8.1/html/users_guide/pragmas.html\#minimal-pragma](http://www.haskell.org/ghc/docs/7.8.1/html/users_guide/pragmas.html#minimal-pragma)
