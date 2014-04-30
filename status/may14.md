@@ -9,7 +9,7 @@ Meanwhile, HEAD steams onward, with some preliminary work for the 7.10 milestone
 ## GHC 7.8
 
 
-We released GHC 7.8.1 in early April, and immediately discovered a disastrous bug ([\#8978](https://gitlab.haskell.org//ghc/ghc/issues/8978)) that had slipped in between the release candidates.  That led to an immediate follow-up release of 7.8.2, which seems pretty stable. We will continue to fix bugs on the 7.8 branch, and release 7.8.3 later this year, when (and if) pressure builds up from users to got the fixes into the field.
+We released GHC 7.8.1 in early April, and immediately discovered a disastrous bug ([\#8978](https://gitlab.haskell.org//ghc/ghc/issues/8978)) that had slipped in between the release candidates.  That led to an immediate follow-up release of 7.8.2, which seems pretty stable. We will continue to fix bugs on the 7.8 branch, and release 7.8.3 later this year, when (and if) pressure builds up from users to get the fixes into the field.
 
 
 However, now that 7.8 is out, there is a lot there for users to play with: the release was one of the most feature-packed ones we've done, with a lot of changes touching almost every part of the compiler. To recap a few of them:
