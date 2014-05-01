@@ -55,6 +55,6 @@ Fourthly, if you like to use GHC's LLVM backend:
 
 Finally, if you want to build the documentation you need to install !DocBook. You can install it like so:
 
- * (Homebrew): `brew install docbook`
+ * (Homebrew): `brew install docbook` and `brew install docbook-xsl`
 
 !DocBook is a fairly large system unto itself and configuring it to build the documentation in its various formats can be a maze. Verifying that your SGML_CATALOG_FILES and XML_CATALOG_FILES environment variables are pointed at the right places will fix most problems.
