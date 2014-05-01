@@ -162,4 +162,4 @@ There's still a lot planned for GHC 7.10, however. While we haven't quite decide
  
 \[RLIMITS\] [ http://ezyang.com/rlimits.html](http://ezyang.com/rlimits.html)
 
-\[ReleaseNotes\] [http://www.haskell.org/ghc/docs/7.8.1/html/users_guide/release-7-8-1.html](http://www.haskell.org/ghc/docs/7.8.1/html/users_guide/release-7-8-1.html) \[\[BR\]
+\[ReleaseNotes\] [http://www.haskell.org/ghc/docs/7.8.1/html/users_guide/release-7-8-1.html](http://www.haskell.org/ghc/docs/7.8.1/html/users_guide/release-7-8-1.html)
