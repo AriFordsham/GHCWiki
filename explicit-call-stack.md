@@ -23,7 +23,7 @@ Here are the approaches we have under consideration
   - Run with `+RTS -xc`
 
 >
-> then any crash (call to `error`) will yield an informative backtrace.  The backtrace gives you a stack of calls that looks very like what you'd get in a call-by-value language.  (Lots of papers about profiling in a lazy language, dating right back to \[[ http://research.microsoft.com/\~simonpj/papers/1997_profiling_TOPLAS.ps.gz](http://research.microsoft.com/~simonpj/papers/1997_profiling_TOPLAS.ps.gz) Formally based profiling for higher order functional languages) give the background.
+> then any crash (call to `error`) will yield an informative backtrace.  The backtrace gives you a stack of calls that looks very like what you'd get in a call-by-value language.  (Lots of papers about profiling in a lazy language, dating right back to [ Formally based profiling for higher order functional languages](http://research.microsoft.com/~simonpj/papers/1997_profiling_TOPLAS.ps.gz) give the background.)
 
 >
 > You need to compile your whole program with profiling, and you need a profiled version of the packages you install. You can do the latter by adding `--enable-pofiling` to Cabal, and you can put that in your `~/.cabal` file.
