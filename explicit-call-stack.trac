@@ -2,15 +2,7 @@
 
 There has been a vigorous thread on error attribution ("I get a `head []` error; but who called `head`?").  This page summarises various approaches.
 
-== Background ==
-
-  * #1441, #960, #9049 which would be fixed by this.
-  * [https://github.com/sol/rewrite-with-location Simon Hengel's "rewrite with location" proposal], see also [http://www.haskell.org/pipermail/haskell-cafe/2013-February/106617.html Michael Snoyman's post]
-  * [http://augustss.blogspot.se/2014/04/haskell-error-reporting-with-locations_5.html Lennart Augustsson's post]
-  * [http://www.haskell.org/pipermail/haskell-cafe/2006-November/019549.html The Haskell cafe thread]
-  * [http://www.cse.unsw.edu.au/~dons/loch.html]
-  * [http://haskell.org/hat HAT]
-
+Relevant tickets: #960, #1441, #9049.
 
 == Approaches ==
 
@@ -34,3 +26,12 @@ Here are the approaches we have under consideration
  * '''(NEEDLE) Finding the needle'''.  This is a cross between (PROF) and (DYN).  It transforms the program, but in a less invasive way than for full profiling.  Lots more details on [wiki:ExplicitCallStack/FindingTheNeedle].  We don't currently plan to implement this in HEAD: it is not clear that, given (PROF) and (DYN), it's worth a third path, and one that is non-trivial to implement (as you'll see from the paper).
 
  * '''(IMPLICIT)''' Implicit locations.  Currently (May 2014) I'm just floating this idea: [wiki:ExplicitCallStack/ImplicitLocations].  Its main merit is its extreme simplicity.
+
+== Other relevant writings ==
+
+ * [https://github.com/sol/rewrite-with-location Simon Hengel's "rewrite with location" proposal], see also [http://www.haskell.org/pipermail/haskell-cafe/2013-February/106617.html Michael Snoyman's post]
+  * [http://augustss.blogspot.se/2014/04/haskell-error-reporting-with-locations_5.html Lennart Augustsson's post]
+  * [http://www.haskell.org/pipermail/haskell-cafe/2006-November/019549.html The Haskell cafe thread]
+  * [http://www.cse.unsw.edu.au/~dons/loch.html]
+  * [http://haskell.org/hat HAT]
+
