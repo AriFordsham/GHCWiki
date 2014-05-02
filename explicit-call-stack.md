@@ -40,8 +40,7 @@ Here are the approaches we have under consideration
 ## Other relevant writings
 
 - [ Simon Hengel's "rewrite with location" proposal](https://github.com/sol/rewrite-with-location), see also [ Michael Snoyman's post](http://www.haskell.org/pipermail/haskell-cafe/2013-February/106617.html)
-
-  - [ Lennart Augustsson's post](http://augustss.blogspot.se/2014/04/haskell-error-reporting-with-locations_5.html)
-  - [ The Haskell cafe thread](http://www.haskell.org/pipermail/haskell-cafe/2006-November/019549.html)
-  - [ http://www.cse.unsw.edu.au/\~dons/loch.html](http://www.cse.unsw.edu.au/~dons/loch.html)
-  - [ HAT](http://haskell.org/hat)
+- [ Lennart Augustsson's post](http://augustss.blogspot.se/2014/04/haskell-error-reporting-with-locations_5.html)
+- [ The Haskell cafe thread](http://www.haskell.org/pipermail/haskell-cafe/2006-November/019549.html)
+- [ http://www.cse.unsw.edu.au/\~dons/loch.html](http://www.cse.unsw.edu.au/~dons/loch.html)
+- [ HAT](http://haskell.org/hat)
