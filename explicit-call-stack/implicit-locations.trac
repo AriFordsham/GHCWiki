@@ -1,6 +1,6 @@
 = Implicit locations =
 
-This is a lightweight proposal to help with error-finding; see the [wiki:ExpliciCallsStack] summary page.
+This is a lightweight proposal to help with error-finding; see the [wiki:ExplicitCallStack] summary page.
 
 Suppose we write
 {{{
