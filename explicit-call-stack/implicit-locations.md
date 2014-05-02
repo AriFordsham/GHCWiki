@@ -1,7 +1,10 @@
 # Implicit locations
 
 
-Here is the proposal.  Suppose we write
+This is a lightweight proposal to help with error-finding; see the ExpliciCallsStack? summary page.
+
+
+Suppose we write
 
 ```wiki
 f :: [a] -> Int

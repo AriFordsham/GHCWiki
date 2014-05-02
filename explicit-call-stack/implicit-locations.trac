@@ -1,6 +1,8 @@
 = Implicit locations =
 
-Here is the proposal.  Suppose we write
+This is a lightweight proposal to help with error-finding; see the [wiki:ExpliciCallsStack] summary page.
+
+Suppose we write
 {{{
 f :: [a] -> Int
 f []     = error ("Failure at " ++ show (?location :: Location))
