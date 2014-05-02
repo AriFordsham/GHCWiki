@@ -17,6 +17,8 @@ This list overviews the active branches in the main GHC repository.
 
 - `data-kind-syntax`: [Syntax for ''kind-only'' definitions](ghc-kinds/kinds-without-data) (i.e. without the type definition when resorting to promotion). Ready for review and merge.
 
+- `wip/orf`: **Overloaded Record Fields**. Adam Gundry. See [Records/OverloadedRecordFields](records/overloaded-record-fields).
+
 # Limbo branches
 
 
