@@ -1,4 +1,4 @@
-= Maintaining an explicit call stack =
+= Locating the cause of a crash =
 
 There has been a vigorous thread on error attribution ("I get a `head []` error; but who called `head`?").  This page summarises various approaches.
 
