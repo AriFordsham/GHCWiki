@@ -384,8 +384,8 @@ So far patterns only had *syntactic* meaning. In comparison [ Ωmega](http://cod
 
 ## Branching pattern-only synonyms
 
-
-_N.B. this is a speculative suggestion!_
+*N.B. this is a speculative suggestion!
+*
 
 
 Sometimes you want to match against several summands of an ADT simultaneously. E.g. in a data type of potentially unbounded natural numbers:
@@ -396,10 +396,10 @@ type UNat = Maybe Nat -- Nothing meaning unbounded
 ```
 
 
-Conceptually `Nothing` means 'infinite', so it makes sense to interpret it as a _successor_. We wish it to have a predecessor just like `Just (S Z)`!
+Conceptually `Nothing` means *infinite*, so it makes sense to interpret it as a *successor* of something. We wish it to have a predecessor just like `Just (Succ Zero)`!
 
 
-I suggest branching patterns for this purpose:
+I suggest *branching patterns* for this purpose:
 
 ```wiki
 pattern S pred <- pred@Nothing | pred@(Just (Succ a) -> Just a)
@@ -414,3 +414,6 @@ greetTimes :: UNat -> String -> IO ()
 greetTimes Z _ = return ()
 greetTimes (S rest) message = putStrLn message >> greetTimes rest message
 ```
+
+
+As a nice collateral win this proposal handles `pattern Name n <- Person name workplace | Dog name vet` too.
