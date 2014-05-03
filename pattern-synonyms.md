@@ -399,7 +399,7 @@ type UNat = Maybe Nat -- Nothing meaning unbounded
 Conceptually `Nothing` means *infinite*, so it makes sense to interpret it as a *successor* of something. We wish it to have a predecessor just like `Just (Succ Zero)`!
 
 
-I suggest *branching patterns* for this purpose:
+I suggest *branching pattern synonyms* for this purpose:
 
 ```wiki
 pattern S pred <- pred@Nothing | pred@(Just (Succ a) -> Just a)
