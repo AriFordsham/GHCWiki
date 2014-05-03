@@ -416,4 +416,4 @@ greetTimes (S rest) message = putStrLn message >> greetTimes rest message
 ```
 
 
-As a nice collateral win this proposal handles `pattern Name n <- Person name workplace | Dog name vet` too.
+As a nice collateral win this proposal handles `pattern Name name <- Person name workplace | Dog name vet` too.
