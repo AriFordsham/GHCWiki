@@ -381,3 +381,36 @@ False
 
 So far patterns only had *syntactic* meaning. In comparison [ Ωmega](http://code.google.com/p/omega) has *typed* pattern synonyms, so they become first class values. (I am not suggesting this for Haskell, yet.)
 **TODO**: For bidirectional pattern synonyms this seems to be the case.
+
+## Branching pattern-only synonyms
+
+
+_N.B. this is a speculative suggestion!_
+
+
+Sometimes you want to match against several summands of an ADT simultaneously. E.g. in a data type of potentially unbounded natural numbers:
+
+```wiki
+data Nat = Zero | Succ Nat
+type UNat = Maybe Nat -- Nothing meaning unbounded
+```
+
+
+Conceptually `Nothing` means 'infinite', so it makes sense to interpret it as a _successor_. We wish it to have a predecessor just like `Just (S Z)`!
+
+
+I suggest branching patterns for this purpose:
+
+```wiki
+pattern S pred <- pred@Nothing | pred@(Just (Succ a) -> Just a)
+pattern Z = Just Z
+```
+
+
+This means we can syntactically address unbound naturals just like bounded ones:
+
+```wiki
+greetTimes :: UNat -> String -> IO ()
+greetTimes Z _ = return ()
+greetTimes (S rest) message = putStrLn message >> greetTimes rest message
+```
