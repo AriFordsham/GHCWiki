@@ -331,7 +331,7 @@ Conceptually `Nothing` means ''infinite'', so it makes sense to interpret it as 
 I suggest ''branching pattern synonyms'' for this purpose:
 {{{
 pattern S pred <- pred@Nothing | pred@(Just a <- Just (Succ a))
-pattern Z = Just Z
+pattern Z = Just Zero
 }}}
 This means we can syntactically address unbound naturals just like bounded ones:
 {{{

@@ -403,7 +403,7 @@ I suggest *branching pattern synonyms* for this purpose:
 
 ```wiki
 pattern S pred <- pred@Nothing | pred@(Just a <- Just (Succ a))
-pattern Z = Just Z
+pattern Z = Just Zero
 ```
 
 
