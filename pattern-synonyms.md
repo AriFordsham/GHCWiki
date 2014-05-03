@@ -120,8 +120,7 @@ The simplest form of pattern synonyms is the one from the examples above.  The g
 - Each of the variables on the left hand side must occur exactly once on the right hand side 
 - Pattern synonyms are not allowed to be recursive.  Cf. type synonyms.
 
-<table><tr><th>**TODO**</th></tr>
-<tr><th>
+<table><tr><th>
 There have been several proposals for the syntax of defining pattern-only synonyms:
 
 - `pattern`*conid**varid<sub>1</sub>* ... *varid<sub>n</sub>*`~`*pat*
