@@ -421,6 +421,9 @@ pattern Z = Just Zero
 ```
 
 
+Here `pred@(Just a <- Just (Succ a))` means that the pattern invocation `S pred` matches against `Just (Succ a)` and - if successful - binds `Just a` to `pred`.
+
+
 This means we can syntactically address unbound naturals just like bounded ones:
 
 ```wiki
