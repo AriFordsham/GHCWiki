@@ -379,8 +379,22 @@ False
 ## Typed pattern synonyms
 
 
-So far patterns only had *syntactic* meaning. In comparison [ Ωmega](http://code.google.com/p/omega) has *typed* pattern synonyms, so they become first class values. (I am not suggesting this for Haskell, yet.)
-**TODO**: For bidirectional pattern synonyms this seems to be the case.
+So far patterns only had *syntactic* meaning. In comparison [ Ωmega](http://code.google.com/p/omega) has *typed* pattern synonyms, so they become first class values. For bidirectional pattern synonyms this seems to be the case
+
+```wiki
+data Nat = Z | S Nat deriving Show
+pattern Ess p = S p
+```
+
+
+And it works:
+
+```wiki
+*Main> map S [Z, Z, S Z]
+[S Z,S Z,S (S Z)]
+*Main> map Ess [Z, Z, S Z]
+[S Z,S Z,S (S Z)]
+```
 
 ## Branching pattern-only synonyms
 
