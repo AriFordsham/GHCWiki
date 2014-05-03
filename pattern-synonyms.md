@@ -402,7 +402,7 @@ Conceptually `Nothing` means *infinite*, so it makes sense to interpret it as a 
 I suggest *branching pattern synonyms* for this purpose:
 
 ```wiki
-pattern S pred <- pred@Nothing | pred@(Just (Succ a) -> Just a)
+pattern S pred <- pred@Nothing | pred@(Just a <- Just (Succ a))
 pattern Z = Just Z
 ```
 
