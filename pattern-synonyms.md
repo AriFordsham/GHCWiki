@@ -380,3 +380,4 @@ False
 
 
 So far patterns only had *syntactic* meaning. In comparison [ Ωmega](http://code.google.com/p/omega) has *typed* pattern synonyms, so they become first class values. (I am not suggesting this for Haskell, yet.)
+**TODO**: For bidirectional pattern synonyms this seems to be the case.
