@@ -15,7 +15,6 @@ atomicFetchAddIntArray#
     -> Int#                  -- Amount to add
     -> State# s
     -> (# State# s, Int# #)  -- Value held previously
-atomicFetchAddIntArray# :: MutableByteArray# -> Int# -> Int# -> State# s -> (# State# s, Int# #)
 atomicFetchSubIntArray# :: MutableByteArray# -> Int# -> Int# -> State# s -> (# State# s, Int# #)
 atomicFetchOrIntArray#  :: MutableByteArray# -> Int# -> Int# -> State# s -> (# State# s, Int# #)
 atomicFetchXorIntArray# :: MutableByteArray# -> Int# -> Int# -> State# s -> (# State# s, Int# #)
