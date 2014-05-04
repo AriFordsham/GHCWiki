@@ -10,9 +10,11 @@ The new primops are modeled after those provided by C11, C++11, GCC, and LLVM.
 
 ```
 atomicReadIntArray#::MutableByteArray# s ->Int#->State# s ->(#State# s,Int##)atomicWriteIntArray#::MutableByteArray# s ->Int#->Int#->State# s ->State# s
-atomicReadAddIntArray#::MutableByteArray#-- Array to modify->Int#-- Index, in words->Int#-- Amount to add->State# s
-    ->(#State# s,Int##)-- Value held previouslyatomicReadAddIntArray#::MutableByteArray#->Int#->Int#->State# s ->(#State# s,Int##)atomicReadSubIntArray#::MutableByteArray#->Int#->Int#->State# s ->(#State# s,Int##)atomicReadOrIntArray#::MutableByteArray#->Int#->Int#->State# s ->(#State# s,Int##)atomicReadXorIntArray#::MutableByteArray#->Int#->Int#->State# s ->(#State# s,Int##)atomicReadAndIntArray#::MutableByteArray#->Int#->Int#->State# s ->(#State# s,Int##)
+atomicFetchAddIntArray#::MutableByteArray#-- Array to modify->Int#-- Index, in words->Int#-- Amount to add->State# s
+    ->(#State# s,Int##)-- Value held previouslyatomicFetchAddIntArray#::MutableByteArray#->Int#->Int#->State# s ->(#State# s,Int##)atomicFetchSubIntArray#::MutableByteArray#->Int#->Int#->State# s ->(#State# s,Int##)atomicFetchOrIntArray#::MutableByteArray#->Int#->Int#->State# s ->(#State# s,Int##)atomicFetchXorIntArray#::MutableByteArray#->Int#->Int#->State# s ->(#State# s,Int##)atomicFetchAndIntArray#::MutableByteArray#->Int#->Int#->State# s ->(#State# s,Int##)casIntArray#::MutableByteArray# s ->Int#->Int#->Int#->State# s ->(#State# s,Int##)
 ```
+
+`atomicFetchAddIntArray#` and `casIntArray#` already exist (but are implemented as out-of-line primops.)
 
 ## Implementation
 
