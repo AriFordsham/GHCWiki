@@ -1,0 +1,35 @@
+== Introduction ==
+
+Atomic operations on basic numeric (and pointer) types can be used as a foundation to build higher level construct (e.g. mutexes.) There are also useful on their own (e.g. to implement an atomic counter.) This page outlines a design for adding atomic primops.
+
+== The primops
+
+The new primops are modeled after those provided by C11, C++11, GCC, and LLVM.
+
+{{{#!haskell
+atomicReadIntArray# :: MutableByteArray# s -> Int# -> State# s -> (# State# s, Int# #)
+atomicWriteIntArray# :: MutableByteArray# s -> Int# -> Int# -> State# s -> State# s
+atomicReadAddIntArray#
+    :: MutableByteArray#     -- Array to modify
+    -> Int#                  -- Index, in words
+    -> Int#                  -- Amount to add
+    -> State# s
+    -> (# State# s, Int# #)  -- Value held previously
+atomicReadAddIntArray# :: MutableByteArray# -> Int# -> Int# -> State# s -> (# State# s, Int# #)
+atomicReadSubIntArray# :: MutableByteArray# -> Int# -> Int# -> State# s -> (# State# s, Int# #)
+atomicReadOrIntArray#  :: MutableByteArray# -> Int# -> Int# -> State# s -> (# State# s, Int# #)
+atomicReadXorIntArray# :: MutableByteArray# -> Int# -> Int# -> State# s -> (# State# s, Int# #)
+atomicReadAndIntArray# :: MutableByteArray# -> Int# -> Int# -> State# s -> (# State# s, Int# #)
+}}}
+
+== Implementation
+
+The primops are implemented as `CallishMachOp`s to allow us to emit LLVM intrinsics when using the LLVM backend. This also allows us to provide a fallback implementation in C on those platforms where we don't want to implement the backend support for these operations. The fallbacks can be implemented using the GCC/LLVM atomic built-ins e.g. `__sync_fetch_and_add`
+
+=== Ensuring ordering of non-atomic operations
+
+As the Cmm code generator cannot reorder (TODO: is this true?) reads/writes around prim calls (i.e. `CallishMachOp`s) the `memory_order_seq_cst` semantics should be preserved.
+
+== Ordering of non-atomic operations
+
+The memory ordering of non-atomic operations surrounding an atomic operation correspond to the `memory_order_seq_cst` ordering specified for C11, which provides the strongest ordering guarantee.
