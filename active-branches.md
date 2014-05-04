@@ -7,7 +7,7 @@ This list overviews the active branches in the main GHC repository.
 
 - `late-lam-lift`: **Late Lambda Lift**.  Nick Frisby. We lift some lambdas before CorePrep. I'm still determining when to 'not' lift a lambda. My terse notes [here](late-lam-lift).
 
-- `type-nats`: **Solver for Type-Level Naturals**. Iavor S. Diatchki.  An experimental solver for discharging constraints involving natural numbers.
+- `wip/ext-olver`: Iavor S. Diatchki.  Integrate an extrenal SMT solver with the constrain solver.  Mostly for working with type-level naturals at the moment.
 
 - `simd`: **SIMD support**. Geoffrey Mainland. This extends the simple SIMD support in GHC HEAD, and is slated for 7.8.
 
@@ -105,5 +105,9 @@ This is a list of inactive branches which have been merged into the tree.
 - `srcloc` and `real-src-loc-span`: **Amendments to spannings and SrcLocs**. Ian Lynagh.
 
 - `type-nats-simple`: Derived from `type-nats`, intended for eventually being merged into `master`, slated for 7.8.
+
+- `type-nats`: This is subsumed by functionality already on `master`, and the current work on this is happening on `wip/ext-solver`.
+
+- `decision-procedure`: This is an earlier version of `wip/ext-solver`.
 
 - `better-ho-cardinality`: Authored by Simon PJ, merged by Joachim while working on the demand analyser with the exception of the patch in `wip/exprArity`.
