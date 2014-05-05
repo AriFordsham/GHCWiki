@@ -9,7 +9,7 @@ We use the C preprocessor on `.cmm` files, making extensive use of macros to mak
 
 == Reading references ==
 
-Reading material for learning Cmm is somewhat scattered, so I (Arash) have created a list of useful links. Since the Cmm language is changing as GHC changes, I have prioritized. (''Feel free to add/remove/modify this list! :)'')
+Reading material for learning Cmm is somewhat scattered, so I (Arash) have created a list of useful links. Since the Cmm language is changing as GHC changes, I have prioritized resources that are not too old. (''Feel free to add/remove/modify this list! :)'')
 
 
  * An overview of Cmm is given in [https://davidterei.com/downloads/papers/terei:2009:honours_thesis.pdf David Terei's bachelor thesis] (chapter 2.4.3).

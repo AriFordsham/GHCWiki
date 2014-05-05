@@ -9,7 +9,7 @@ We use the C preprocessor on `.cmm` files, making extensive use of macros to mak
 ## Reading references
 
 
-Reading material for learning Cmm is somewhat scattered, so I (Arash) have created a list of useful links. Since the Cmm language is changing as GHC changes, I have prioritized. (*Feel free to add/remove/modify this list! :)*)
+Reading material for learning Cmm is somewhat scattered, so I (Arash) have created a list of useful links. Since the Cmm language is changing as GHC changes, I have prioritized resources that are not too old. (*Feel free to add/remove/modify this list! :)*)
 
 - An overview of Cmm is given in [ David Terei's bachelor thesis](https://davidterei.com/downloads/papers/terei:2009:honours_thesis.pdf) (chapter 2.4.3).
 - The comments in the beginning of [compiler/cmm/CmmParse.y](/trac/ghc/browser/ghc/compiler/cmm/CmmParse.y) is super-useful and kept up to date. The rest of the file contains the *grammar* of the language. Afraid of grammars? Edward Yang wrote this fantastic [ blog post](http://blog.ezyang.com/2013/07/no-grammar-no-problem/) on how to understand the constructs of Cmm by using the grammar.  
