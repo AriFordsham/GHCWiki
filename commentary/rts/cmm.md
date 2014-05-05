@@ -16,7 +16,7 @@ Reading material for learning Cmm is somewhat scattered, so I (Arash) have creat
 - Cmm has a preprocessor like the one in C and many of the macros are defined in [includes/Cmm.h](/trac/ghc/browser/ghc/includes/Cmm.h). 
 - In 2012, Simon Marlow extended the Cmm language by adding a new high-level syntax which can be used when you don't need low-level access (like registers). The [ commit](https://github.com/ghc/ghc/commit/a7c0387d20c1c9994d1100b14fbb8fb4e28a259e) explains the details.
 - Cmm is also described [on this wiki](commentary/compiler/cmm-type), but it is written before the new syntax was introduced.
-- Stack frame types are created using ``INFO_TABLE_RET``, the syntax can be confusing since there are both *arguments* and *fields*, I (Arash) have not seen anything like it in other programming languages. I tried to explain it in my [ master thesis](http://arashrouhani.com/papers/master-thesis.pdf) (sections 4.2 and 4.2.1).
+- Stack frame types are created using `INFO_TABLE_RET`, the syntax can be confusing since there are both *arguments* and *fields*, I (Arash) have not seen anything like it in other programming languages. I tried to explain it in my [ master thesis](http://arashrouhani.com/papers/master-thesis.pdf) (sections 4.2 and 4.2.1).
 
 ## Other information
 
