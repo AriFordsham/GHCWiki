@@ -4,6 +4,8 @@ Certain abbreviations are used pervasively throughout the GHC source code. This 
 
 * '''ANF''': A-normal form
 
+* '''CAF''': Constant Applicative Forms
+
 * '''Class''': Type Class
 
 * '''Cmm''': The final IR used in GHC, based on the C-- language
