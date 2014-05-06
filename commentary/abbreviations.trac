@@ -67,6 +67,8 @@ Certain abbreviations are used pervasively throughout the GHC source code. This 
 
 * '''!SrcSpan''': Source location span (filename, start line number and character position, end line number and character position)
 
+* '''STG''': [Commentary/Compiler/StgSynType Spineless Tagless G-machine]
+
 * '''Tc''': !TypeCheck{ing,er}
 
 * '''TSO''': [https://ghc.haskell.org/trac/ghc/wiki/Commentary/Rts/Storage/HeapObjects#ThreadStateObjects Thread State Object]
