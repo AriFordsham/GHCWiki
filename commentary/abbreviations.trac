@@ -4,7 +4,7 @@ Certain abbreviations are used pervasively throughout the GHC source code. This 
 
 * '''ANF''': A-normal form
 
-* '''CAF''': Constant Applicative Forms
+* '''CAF''': Constant Applicative Form
 
 * '''Class''': Type Class
 
