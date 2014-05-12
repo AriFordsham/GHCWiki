@@ -1,5 +1,5 @@
 
-This page needs updating due to upcomgin changes in the GHC 7.9.x development cycle
+This page is a WIP and will subsume [Repositories/Upstream](repositories/upstream)
 
 # GHC Repositories
 
