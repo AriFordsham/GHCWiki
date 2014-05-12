@@ -40,8 +40,6 @@ Here is a list of the repositories that GHC uses.  The columns have the followin
 
 - **GHC repo**: in every case there is a repo on `http://git.haskell.org/`, which contains the bits we use for building GHC every night. For libraries with upstream repos, this is just a lagging mirror of the master (see [Repositories/Upstream](repositories/upstream)).  The read-only HTTP URL for the repo is `http://git.haskell.org/<table-entry>`.  To get a read/write URL, replace HTTP prefix `http://git.haskell.org` with the SSH prefix `ssh://git@git.haskell.org`. 
 
-**Note**: `http://darcs.haskell.org/libraries` is actually a [ symlink](http://en.wikipedia.org/wiki/Symbolic_link) to `http://darcs.haskell.org/packages`, therefore they are just synonyms. (For historical reasons.). Moreover, the  Git repositories hosted on [ http://git.haskell.org](http://git.haskell.org) have an 301-redirect installed on their old [ http://darcs.haskell.org](http://darcs.haskell.org) locations.
-
 <table><tr><th>**Location in tree**</th>
 <th>**Upstream repo?**</th>
 <th>**Reqd to build?**</th>
@@ -275,47 +273,7 @@ The "`tag`" in the master table in [packages](/trac/ghc/browser/ghc/packages) ha
 
 See the [Commentary/Libraries](commentary/libraries) page for more information about GHC's libraries.
 
-## Modifying local packages
-
-
-For libraries for which there is no upstream repo, you can modify the GHC repo above directly.
-
-
-When making a change to a library, you must also update the version
-number if appropriate. Version number in the repositories should be
-maintained such that, if the library were to be release as-is, then
-they would have the correct version number. For example, if the last
-release of a library was 1.2.0.3 and you remove a function from it
-then, as per the
-[ Package versioning policy](http://www.haskell.org/haskellwiki/Package_versioning_policy),
-the version number should be bumped to 1.3.0.0. If it is already
-1.3.0.0 or higher then no further change is necessary. In order to
-make this easier, the version line in the `.cabal` file should be
-followed by a comment such as
-
-```wiki
--- GHC 7.6.1 released with 1.2.0.3
-```
-
 ## Mirroring new packages to GitHub
 
 
 Currently, all our repositories are being mirrored to GitHub by GitHub themselves. If you wish to add/remove a repository you need to email GitHub support at support@… and ask them to do it. Currently there is no way to administer this ourselves.
-
-## Branches
-
-
-For how we manage release branches, see [WorkingConventions/Releases](working-conventions/releases).
-
-
-The following branches are active:
-
-<table><tr><th>**7.4 Branch**</th>
-<td>
-To switch to this branch run:
-
-```wiki
-$ ./sync-all checkout ghc-7.4
-```
-
-</td></tr></table>
