@@ -20,6 +20,52 @@ GHC's repos use git; see [wiki:WorkingConventions/Git Git Working Conventions]. 
 
 == Repository workflows ==
 
+On the [wiki:Repositories/Upstream upstream repositories] page, you can see a basic overview of where repositories are located.
+
+But how does this work? The basic breakdown is this:
+
+=== Repository is owned by GHC HQ ===
+
+If the repository is owned by GHC HQ, for example, the `directory` package, just do what you normally do - push to that repository. You're done.
+
+=== Repository is maintained by an upstream, not GHC HQ ===
+
+**Note**: almost every upstream repository is a git submodule, as it stands. See below for exceptions.
+
+ * Send a patch upstream. Get it merged.
+
+ * Once that is done, just update the submodule:
+
+ {{{
+cd libraries/foo
+git reset --hard some_commit_id
+cd ../..
+git commit -asm "Update foo submodule"
+./sync-all push
+}}}
+ where `some_commit_id` should be the commit ID of the change you pushed. For example, if you pushed three changes (where 'Commit #3' is the latest HEAD):
+
+ {{{
+026d0f64723729823ef29991218c7a15d8d37264 - Commit #1
+235da0f3e38c2b4c489a82778a5fd84a895cb693 - Commit #2
+0667f01823552caf97c4d6e8b876b1d9db00a172 - Commit #3
+}}}
+ then `some_commit_id = 0667f01823552caf97c4d6e8b876b1d9db00a172`
+
+ * Done!
+
+=== Submodule reference validation ===
+
+There is a problem with submodules, in that it would be possible to commit a submodule change to `ghc.git`, which points to an invalid commit. For example, perhaps you make a change to `haddock` and `ghc`. You might accidentally push to `ghc` before pushing to Haddock, or worse, you might forget.
+
+For this reason, the GHC repository has commit hooks that validate submodule references. Any time you update a submodule, you must:
+
+ * Have already pushed the new changes upstream, in a way `git` can find them.
+
+ * You **must** include the word '**submodule**' in your commit message.
+
+If either of these assumptions are violated, your push will fail.
+
 == Full repository breakdown ==
 
 A GHC source tree is made of a collection of repositories. The script [wiki:Building/SyncAll sync-all] knows how to apply git commands to the whole collection of repositories at once, for example to pull changes from the upstream repositories.
