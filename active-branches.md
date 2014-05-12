@@ -7,11 +7,7 @@ This list overviews the active branches in the main GHC repository.
 
 - `late-lam-lift`: **Late Lambda Lift**.  Nick Frisby. We lift some lambdas before CorePrep. I'm still determining when to 'not' lift a lambda. My terse notes [here](late-lam-lift).
 
-- `wip/ext-olver`: Iavor S. Diatchki.  Integrate an extrenal SMT solver with the constrain solver.  Mostly for working with type-level naturals at the moment.
-
-- `simd`: **SIMD support**. Geoffrey Mainland. This extends the simple SIMD support in GHC HEAD, and is slated for 7.8.
-
-- `th-new`: **New Template Haskell**. Geoffrey Mainland. This revamps Template Haskell, based on Simon PJ's proposal. See [ http://ghc.haskell.org/trac/ghc/blog/Template%20Haskell%20Proposal](http://ghc.haskell.org/trac/ghc/blog/Template%20Haskell%20Proposal)
+- `wip/ext-solver`: Iavor S. Diatchki.  Integrate an extrenal SMT solver with the constrain solver.  Mostly for working with type-level naturals at the moment.
 
 - `ghc-lwc2`: **Lightweight concurrency substrate support**. KC Sivaramakrishnan. This implements an evolution of Peng Li's original concept of implementing a lot of the concurrency substrate in the RTS *in Haskell*. The design is described in a paper, "Composable Scheduler Activations for Haskell", found here: [ http://research.microsoft.com/en-us/um/people/simonpj/papers/lw-conc/lwc-hs13.pdf](http://research.microsoft.com/en-us/um/people/simonpj/papers/lw-conc/lwc-hs13.pdf).
 
@@ -50,4 +46,4 @@ The actual status of these branches, including whether they have been merged and
 
 This is a list of inactive branches which have been merged into the tree:
 
-> **None**
+- **None**
