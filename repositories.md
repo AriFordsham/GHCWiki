@@ -21,7 +21,9 @@ For info on the active branches of the main GHC repo, see
 
 GHC's repos use git; see [Git Working Conventions](working-conventions/git). For darcs-related stuff see [Darcs To Git](darcs-to-git) and [Git For Darcs Users](git-for-darcs-users).
 
-## Overview
+## Repository workflows
+
+## Full repository breakdown
 
 
 A GHC source tree is made of a collection of repositories. The script [sync-all](building/sync-all) knows how to apply git commands to the whole collection of repositories at once, for example to pull changes from the upstream repositories.
@@ -65,11 +67,6 @@ Here is a list of the repositories that GHC uses.  The columns have the followin
 <th></th>
 <th></th>
 <th>haddock.git</th></tr>
-<tr><th>testsuite</th>
-<th></th>
-<th></th>
-<th> N/A </th>
-<th>testsuite.git</th></tr>
 <tr><th>nofib</th>
 <th></th>
 <th></th>
@@ -80,11 +77,6 @@ Here is a list of the repositories that GHC uses.  The columns have the followin
 <th></th>
 <th></th>
 <th>packages/array.git</th></tr>
-<tr><th>libraries/base</th>
-<th></th>
-<th></th>
-<th></th>
-<th>packages/base.git</th></tr>
 <tr><th>libraries/binary</th>
 <th> yes </th>
 <th></th>
@@ -125,11 +117,6 @@ Here is a list of the repositories that GHC uses.  The columns have the followin
 <th></th>
 <th></th>
 <th>packages/filepath.git</th></tr>
-<tr><th>libraries/ghc-prim</th>
-<th></th>
-<th></th>
-<th></th>
-<th>packages/ghc-prim.git</th></tr>
 <tr><th>libraries/haskeline</th>
 <th> yes </th>
 <th></th>
@@ -155,16 +142,6 @@ Here is a list of the repositories that GHC uses.  The columns have the followin
 <th></th>
 <th></th>
 <th>packages/hpc.git</th></tr>
-<tr><th>libraries/integer-gmp</th>
-<th></th>
-<th></th>
-<th></th>
-<th>packages/integer-gmp.git</th></tr>
-<tr><th>libraries/integer-simple</th>
-<th></th>
-<th></th>
-<th></th>
-<th>packages/integer-simple.git</th></tr>
 <tr><th>libraries/old-locale</th>
 <th></th>
 <th></th>
@@ -185,11 +162,6 @@ Here is a list of the repositories that GHC uses.  The columns have the followin
 <th></th>
 <th></th>
 <th>packages/process.git</th></tr>
-<tr><th>libraries/template-haskell</th>
-<th></th>
-<th></th>
-<th></th>
-<th>packages/template-haskell.git</th></tr>
 <tr><th>libraries/terminfo</th>
 <th> yes </th>
 <th></th>
@@ -256,7 +228,7 @@ Here is a list of the repositories that GHC uses.  The columns have the followin
 <th>extra</th>
 <th>packages/stm.git</th></tr></table>
 
-## The 'packages' file
+### The 'packages' file
 
 
 The master list of repositories is in the file [packages](/trac/ghc/browser/ghc/packages), and this is where the `sync-all` script finds out about which repositories make up the complete tree.  It duplicates the information in the above table; indeed, it is really the authoritative version (so complain if the table and file differ!).
