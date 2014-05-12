@@ -15,6 +15,10 @@ This list overviews the active branches in the main GHC repository.
 
 - `wip/orf`: **Overloaded Record Fields**. Adam Gundry. See [Records/OverloadedRecordFields](records/overloaded-record-fields).
 
+- `wip/amp`: **Applicative/Monad Proposal**. Austin Seipp. This implements the AMP, which will be available in GHC 7.10.
+
+- `wip/ermsb`: **Extended rep-movsb (ERMSB) support for Intel processors**. Austin Seipp.
+
 # Limbo branches
 
 
