@@ -48,66 +48,6 @@ The actual status of these branches, including whether they have been merged and
 # Dead/merged branches
 
 
-This is a list of inactive branches which have been merged into the tree.
+This is a list of inactive branches which have been merged into the tree:
 
-- `cpr-sum-types`: **CPR for sum types**. Simon PJ.
-
-- `tc-arrows`: **Rearrange the typechecking of arrows, especially arrow "forms"**. Simon PJ & Ross Patterson.
-
-- `ghc-parmake-gsoc`: **Parallel --make**. Patrick Palka, GSoC 2013. This extends `ghc --make` to be able to compile multiple modules in parallel.
-
-- `atomics`: **Atomic memory operations**. Ryan Newton. This expands on some work Simon Marlow started in 7.2.
-
-- `late-dmd`: **Late Demand Analysis**. Nick Frisby. See [\#7782](https://gitlab.haskell.org//ghc/ghc/issues/7782), [LateDmd](late-dmd)
-
-- `dicts-strict`: **Strict Dictionaries**.  Nick Frisby. merged [c73d372bfebb5acee45e196d4e8694b656c7fd82](/trac/ghc/changeset/c73d372bfebb5acee45e196d4e8694b656c7fd82/ghc)
-
-- `ticky-for-all-lets`: **Ticky for all `let`s**.  Nick Frisby. ~~I think this patch is in mostly good shape, but I had to revert it because of a silly mistake. Need to double-check it. It adds ticky counters for lets, even those that don't end up as proper closures.~~ … uh oh: looks like I merged this as [11a85cc7ea50d4b7c12ea2cc3c0ce39734dc4217](/trac/ghc/changeset/11a85cc7ea50d4b7c12ea2cc3c0ce39734dc4217/ghc) … I apologize for bad note-taking.
-
-- `ghc-axioms`: **First attempt at branched type family instances**. Richard Eisenberg / José Pedro Magalhães / Simon PJ. Last commit was Jan 3, 2012. This was an early attempt at implementing branched type family instances. Superseded by `overlapping-tyfams`.
-
-- `overlapping-tyfams`: **Proper implementation of branched type family instances**.  Richard Eisenberg. Last commit was Dec 21, 2012. Merged into master on Dec 21, 2012, as commit [8366792eede3c8eb486ff15d8c8e62e9363f1959](/trac/ghc/changeset/8366792eede3c8eb486ff15d8c8e62e9363f1959/ghc). See [NewAxioms](new-axioms).
-
-- `type-reasoning` on *base*: ** Experiments with type-level reasoning definitions**.  Richard Eisenberg / Gabor Greif. Changes to TypeLits and related files to support type-level reasoning. Merged into master on July 24th by Richard.
-
-- `at-defaults`: **Associated-type defaults**. Max Bolingbroke. Merged into the 7.4 release.
-
-- `cardinality`: **Cardinality Analysis**. Ilya Sergey. This will be part of the 7.8 release.
-
-- `encoding`: **Better UTF8 encoding support**. Max Bolingbroke. This was merged into 7.4
-
-- `type-holes-branch`: **Support for Type Holes**. Simon PJ, Sean Leather and Thijs Alkemade. This will be part of the 7.8 release.
-
-- `imp-param-class`: **Turn Implicit Parameters into functional dependencies using [TypeNats](type-nats)**. Iavor Diatchki. Merged and will be part of 7.8(?)
-
-- `unboxed-tuple-arguments`: **Extending -XUnboxedTuples**. Max Bolingbroke. Merged into 7.6.
-
-- `ghc-new-co`: **New GHC Coercions**. Simon PJ. Merged into 7.4(?)
-
-- `ghc-constraint-solver`: **New constraint solver**. Simon & Dimitrios. Merged into 7.4(?)
-
-- `patch-5084`: **Fix for [\#5084](https://gitlab.haskell.org//ghc/ghc/issues/5084)**. Max Bolingbroke. SimonPJ fixed it differently for 7.4(?)
-
-- `known-key-serialization`: **Iface serialization changes**. Max Bolingbroke. Merged in 7.4(?)
-
-- `profiling`: **Profiling infrastructure overhaul**. Simon Marlow. Merged in 7.4(?)
-
-- `ghc-defer`: **Deferred type errors**. Simon PJ. Merged in 7.6.
-
-- `silent-sc-args`: **Silent superclass parameters**. Simon PJ. Merged in 7.6.
-
-- `new-demand-to-merge`: **New demand analyzer**. Ilya Sergey. Will be part of 7.8 release.
-
-- `cross-compiler-alienless`: **Better support for cross compilation**. Gabor Greif. Merged and reimplemented by Ian Lynagh. Will be part of 7.8.
-
-- `patch-7704`: **Fix for [\#7704](https://gitlab.haskell.org//ghc/ghc/issues/7704)**. José Pedro Magalhães. Will be part of 7.8.
-
-- `srcloc` and `real-src-loc-span`: **Amendments to spannings and SrcLocs**. Ian Lynagh.
-
-- `type-nats-simple`: Derived from `type-nats`, intended for eventually being merged into `master`, slated for 7.8.
-
-- `type-nats`: This is subsumed by functionality already on `master`, and the current work on this is happening on `wip/ext-solver`.
-
-- `decision-procedure`: This is an earlier version of `wip/ext-solver`.
-
-- `better-ho-cardinality`: Authored by Simon PJ, merged by Joachim while working on the demand analyser with the exception of the patch in `wip/exprArity`.
+> **None**
