@@ -2,13 +2,13 @@
 
 ## Type inference
 
+- [\#9108](https://gitlab.haskell.org//ghc/ghc/issues/9108): GADTs and pattern signatures
 - [\#9117](https://gitlab.haskell.org//ghc/ghc/issues/9117): `Coercible (f a)`
 - [\#9118](https://gitlab.haskell.org//ghc/ghc/issues/9118): Eta reduction for `Coercible` (not expressible in Core, yet)
 - [\#9023](https://gitlab.haskell.org//ghc/ghc/issues/9023): pattern synonyms
 - [\#8984](https://gitlab.haskell.org//ghc/ghc/issues/8984): better error message for `Coercible`
 - [\#8673](https://gitlab.haskell.org//ghc/ghc/issues/8673): more generous GADT record selectors
 - [\#8550](https://gitlab.haskell.org//ghc/ghc/issues/8550): Don't build recursive type-function dictionaries
-- [\#8486](https://gitlab.haskell.org//ghc/ghc/issues/8486), [\#5682](https://gitlab.haskell.org//ghc/ghc/issues/5682): Parsing of pomoted kinds, and `Typeable` instances involving them
 - [\#8281](https://gitlab.haskell.org//ghc/ghc/issues/8281): `UnliftedFFITypes` etc
 - [\#8441](https://gitlab.haskell.org//ghc/ghc/issues/8441): family instances in hs-boot files
 - [\#8427](https://gitlab.haskell.org//ghc/ghc/issues/8427): stop EPS cache poisoning
