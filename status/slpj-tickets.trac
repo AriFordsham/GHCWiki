@@ -15,8 +15,6 @@
  * #8240: better error messages for type-function equalities
  * #8095: very slow constraint solving
  * #8171: extended default rules
- * #8177: role signature for type families
- * #8161: associated type more specific than class decl
  * #7259: Eta-expansion of products in System FC
  * #6022: over-general types are inferred
  * #5642: slow constraint solving
@@ -25,6 +23,12 @@
  * #7862: overlap beween givens and instances
  * #7643: dark corner of sub-kinding and `unsafeCoerce#`
  * #7842: polymorphism in recursive do-blocks
+
+== Type families ==
+ 
+ * #6078: injective type families
+ * #8161: associated type more specific than class decl
+ * #8177: role signature for type families
 
 == Template Haskell ==
 See also [wiki:TemplateHaskell]

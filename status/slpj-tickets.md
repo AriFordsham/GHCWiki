@@ -15,8 +15,6 @@
 - [\#8240](https://gitlab.haskell.org//ghc/ghc/issues/8240): better error messages for type-function equalities
 - [\#8095](https://gitlab.haskell.org//ghc/ghc/issues/8095): very slow constraint solving
 - [\#8171](https://gitlab.haskell.org//ghc/ghc/issues/8171): extended default rules
-- [\#8177](https://gitlab.haskell.org//ghc/ghc/issues/8177): role signature for type families
-- [\#8161](https://gitlab.haskell.org//ghc/ghc/issues/8161): associated type more specific than class decl
 - [\#7259](https://gitlab.haskell.org//ghc/ghc/issues/7259): Eta-expansion of products in System FC
 - [\#6022](https://gitlab.haskell.org//ghc/ghc/issues/6022): over-general types are inferred
 - [\#5642](https://gitlab.haskell.org//ghc/ghc/issues/5642): slow constraint solving
@@ -25,6 +23,12 @@
 - [\#7862](https://gitlab.haskell.org//ghc/ghc/issues/7862): overlap beween givens and instances
 - [\#7643](https://gitlab.haskell.org//ghc/ghc/issues/7643): dark corner of sub-kinding and `unsafeCoerce#`
 - [\#7842](https://gitlab.haskell.org//ghc/ghc/issues/7842): polymorphism in recursive do-blocks
+
+## Type families
+
+- [\#6078](https://gitlab.haskell.org//ghc/ghc/issues/6078): injective type families
+- [\#8161](https://gitlab.haskell.org//ghc/ghc/issues/8161): associated type more specific than class decl
+- [\#8177](https://gitlab.haskell.org//ghc/ghc/issues/8177): role signature for type families
 
 ## Template Haskell
 
