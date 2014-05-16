@@ -23,6 +23,13 @@ In order to see emails below, **you must login**.
   - **Committer since**: March, 2013.
   - **Main areas of interest**: IO manager
 
+- [ Adam Gundry](https://personal.cis.strath.ac.uk/adam.gundry/)
+
+  - Well-Typed LLP - Glasgow, UK
+  - **Trac**: adamgundry; **email**: adam@…
+  - **Committer since**: May 2014
+  - **Main areas of interest**: frontend, typechecking
+
 - [ Austin Seipp](http://hacks.yi.org)
 
   - Well-Typed LLP - Austin, TX
