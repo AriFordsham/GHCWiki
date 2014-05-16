@@ -318,7 +318,7 @@ type instance UpdTy (T a) "foo" (Goo b) = T b
 But pattern-matching on a type family (like `Goo`) doesn't work, because type families are not injective. Thus we cannot change type variables that appear only underneath type family applications. We generate an instance like this instead:
 
 ```wiki
-type instance UpdTy (T a) "foo" x = T b
+type instance UpdTy (T a) "foo" x = T a
 ```
 
 
