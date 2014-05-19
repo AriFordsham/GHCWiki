@@ -28,6 +28,7 @@
 
 ## Type families
 
+- [\#9123](https://gitlab.haskell.org//ghc/ghc/issues/9123): higher order roles
 - [\#6018](https://gitlab.haskell.org//ghc/ghc/issues/6018): injective type families
 - [\#8161](https://gitlab.haskell.org//ghc/ghc/issues/8161): associated type more specific than class decl
 - [\#8177](https://gitlab.haskell.org//ghc/ghc/issues/8177): role signature for type families
