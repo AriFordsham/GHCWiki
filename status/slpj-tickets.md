@@ -2,11 +2,7 @@
 
 ## Type inference
 
-- [\#9108](https://gitlab.haskell.org//ghc/ghc/issues/9108): GADTs and pattern signatures
-- [\#9117](https://gitlab.haskell.org//ghc/ghc/issues/9117): `Coercible (f a)`
-- [\#9118](https://gitlab.haskell.org//ghc/ghc/issues/9118): Eta reduction for `Coercible` (not expressible in Core, yet)
 - [\#9023](https://gitlab.haskell.org//ghc/ghc/issues/9023): pattern synonyms
-- [\#8984](https://gitlab.haskell.org//ghc/ghc/issues/8984): better error message for `Coercible`
 - [\#8673](https://gitlab.haskell.org//ghc/ghc/issues/8673): more generous GADT record selectors
 - [\#8550](https://gitlab.haskell.org//ghc/ghc/issues/8550): Don't build recursive type-function dictionaries
 - [\#8281](https://gitlab.haskell.org//ghc/ghc/issues/8281): `UnliftedFFITypes` etc
@@ -26,13 +22,15 @@
 - [\#7643](https://gitlab.haskell.org//ghc/ghc/issues/7643): dark corner of sub-kinding and `unsafeCoerce#`
 - [\#7842](https://gitlab.haskell.org//ghc/ghc/issues/7842): polymorphism in recursive do-blocks
 
-## Type families
+## Type families, roles, and `Coercible`
 
 - [\#9117](https://gitlab.haskell.org//ghc/ghc/issues/9117): rules for solving `Coercible` constraints
+- [\#9118](https://gitlab.haskell.org//ghc/ghc/issues/9118): Eta reduction for `Coercible` (not expressible in Core, yet)
 - [\#9123](https://gitlab.haskell.org//ghc/ghc/issues/9123): higher order roles
 - [\#6018](https://gitlab.haskell.org//ghc/ghc/issues/6018): injective type families
 - [\#8161](https://gitlab.haskell.org//ghc/ghc/issues/8161): associated type more specific than class decl
 - [\#8177](https://gitlab.haskell.org//ghc/ghc/issues/8177): role signature for type families
+- [\#8984](https://gitlab.haskell.org//ghc/ghc/issues/8984): better error message for `Coercible`
 
 ## Template Haskell
 

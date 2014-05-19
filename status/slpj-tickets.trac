@@ -1,11 +1,8 @@
 = This page collects tickets that Simon PJ is interested in, so that he remembers them =
 
 == Type inference ==
- * #9108: GADTs and pattern signatures
- * #9117: `Coercible (f a)`
- * #9118: Eta reduction for `Coercible` (not expressible in Core, yet)
+
  * #9023: pattern synonyms
- * #8984: better error message for `Coercible`
  * #8673: more generous GADT record selectors
  * #8550: Don't build recursive type-function dictionaries
  * #8281: `UnliftedFFITypes` etc
@@ -25,13 +22,15 @@
  * #7643: dark corner of sub-kinding and `unsafeCoerce#`
  * #7842: polymorphism in recursive do-blocks
 
-== Type families ==
+== Type families, roles, and `Coercible` ==
  
  * #9117: rules for solving `Coercible` constraints
+ * #9118: Eta reduction for `Coercible` (not expressible in Core, yet)
  * #9123: higher order roles
  * #6018: injective type families
  * #8161: associated type more specific than class decl
  * #8177: role signature for type families
+ * #8984: better error message for `Coercible`
 
 == Template Haskell ==
 See also [wiki:TemplateHaskell]
