@@ -27,6 +27,7 @@
 
 == Type families ==
  
+ * #9117: rules for solving `Coercible` constraints
  * #9123: higher order roles
  * #6018: injective type families
  * #8161: associated type more specific than class decl
