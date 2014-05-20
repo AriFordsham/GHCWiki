@@ -19,14 +19,20 @@ atomicFetchAddIntArray#::MutableByteArray#-- Array to modify->Int#-- Index, in w
 ## Implementation
 
 
-The primops are implemented as `CallishMachOp`s to allow us to emit LLVM intrinsics when using the LLVM backend. This also allows us to provide a fallback implementation in C on those platforms where we don't want to implement the backend support for these operations. The fallbacks can be implemented using the GCC/LLVM atomic built-ins e.g. `__sync_fetch_and_add`
+The primops are implemented as `CallishMachOp`s to allow us to emit LLVM intrinsics when using the LLVM backend. This also allows us to provide a fallback implementation in C on those platforms where we don't want to implement the backend support for these operations. The fallbacks can be implemented using the GCC/LLVM atomic built-ins e.g. `__sync_fetch_and_add`.
 
 ### Ensuring ordering of non-atomic operations
 
 
-As the Cmm code generator cannot reorder (TODO is this true?) reads/writes around prim calls (i.e. `CallishMachOp`s) the `memory_order_seq_cst` semantics should be preserved.
+A `CallishMachOp` already acts as a memory barrier; the Cmm optimizer will not float loads/stores past it. We'll document the reliance on this behavior in the sinking pass to make sure that if it's ever changed, the optimizer is taught about how to handle these atomic operations in some different way.
+
+
+The `CallishMachOp` will be translated to the correct instructions in the backends (e.g. `lock; add` on x86).
+
+
+As the Cmm code generator cannot reorder reads/writes around prim calls (i.e. `CallishMachOp`s) the `memory_order_seq_cst` semantics should be preserved, as long as the backend outputs a memory barrier to prevent CPU speculation.
 
 ## Ordering of non-atomic operations
 
 
-The memory ordering of non-atomic operations surrounding an atomic operation correspond to the `memory_order_seq_cst` ordering specified for C11, which provides the strongest ordering guarantee.
+We'll use sequential consistency, which corresponds to the C++0x/C1x `memory_order_seq_cst`, Java `volatile`, and the gcc-compatible `__sync_*` builtins. This is the strongest consistency guarantee. We can provide weaker guarantees in the future, if needed.
