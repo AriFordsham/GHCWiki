@@ -21,3 +21,72 @@ This is all well and good, and would work with !GeneralizedNewtypeDeriving (GND)
 {{{
 newtype T m a = T (m a)
   deriving (Functor, Applicative, Monad)
+
+readRef :: MonadIO m => IORef a -> T m a
+readRef = T . liftIO . readIORef
+}}}
+
+The designer of `T` will export it abstractly, allowing only the reading of `IORef`s in the `T` monad but not other operations.
+
+Sadly, the use of GND fails here, with `join` in the `Monad` class. Here is the relevant generated code:
+
+{{{
+instance Monad m => Monad (T m) where
+  ...
+  join = coerce (join :: m (m a) -> m a) :: forall a. T m (T m a) -> T m a
+}}}
+
+Thus, GHC must derive `Coercible (m (m a) -> m a) (T m (T m a) -> T m a)`. This requirement reduces (in part) to `Coercible (m (m a)) (T m (T m a))`. We try to solve this by applying a newtype-unwrapping instance, `Coercible x (m a) => Coercible x (T m a)`. Then, we must solve `Coercible (m (m a)) (m (T m a))`. And here, we are stuck. We do know `Coercible (m a) (T m a)`, but we don't know the role of `m`'s parameter, and must assume (for safety) that it could be nominal. Thus, we can't solve for `Coercible (m (m a)) (m (T m a))`.
+
+This problem would occur if `join` were in `Monad` and a programmer used GND on any monad transformer. This is a common enough idiom to make us want to fix the situation.
+
+=== The `MVector` class ===
+
+A redesign of the `vector` package is underway, introducing the `Vector` class, among other changes. Here is the offending method:
+
+{{{
+class (...) => Vector v a where
+  basicUnsafeIndexM :: Monad m => v a -> Int -> m a
+  ...
+}}}
+
+Here, `a` is the type of the thing stored in the vector, and it is natural to want to coerce a vector of `Int`s to a vector of `Age`s. But, GND would not work here, for very similar reasons to the case above -- we won't be able to coerce `m Int` to `m Age`, because we don't know enough about `m`.
+
+=== The `acme-schoenfinkel` package ===
+
+This next example is the one known case of type-safe code that existed before GHC 7.8 that does not work with GHC 7.8's roles. The package `acme-schoenfinkel-0.1.1` package (by Ertugrul Söylemez) defines
+
+{{{
+    WrappedSchoenfinkel {
+      unwrapSchoenfinkel :: cat a b
+    }
+    deriving (Alternative, Applicative, Arrow, ArrowApply,
+              ArrowChoice, ArrowLoop, ArrowPlus, ArrowZero,
+              Category, Functor)
+}}}
+
+GND fails on `ArrowApply`:
+
+{{{
+class Arrow a => ArrowApply (a :: * -> * -> *) where
+  app :: forall b c. a (a b c, b) c
+}}}
+
+The problem here echoes the `join` problem quite closely.
+
+== The best known solution ==
+
+Edward Kmett initially described an approach in an [http://www.haskell.org/pipermail/ghc-devs/2014-May/004974.html email], roughly as follows (names subject to bikeshedding, as always):
+
+Currently, `Data.Type.Coercion` makes this definition:
+
+{{{
+data Coercion a b where
+  Coercion :: Coercible a b => Coercion a b
+}}}
+
+Building on that, define a class `Rep` like this:
+{{{
+class Rep (f :: k1 -> k2) where
+  co :: Coercible a b => Coercion (f a) (f b)
+}}}
