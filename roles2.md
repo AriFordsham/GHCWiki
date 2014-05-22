@@ -65,7 +65,7 @@ Here, `a` is the type of the thing stored in the vector, and it is natural to wa
 ### The `acme-schoenfinkel` package
 
 
-This next example is the one known case of type-safe code that existed before GHC 7.8 that does not work with GHC 7.8's roles. The package `acme-schoenfinkel-0.1.1` package (by Ertugrul Söylemez) defines
+This next example is the one known (not updated) case of type-safe code that existed before GHC 7.8 that does not work with GHC 7.8's roles. The package `acme-schoenfinkel-0.1.1` package (by Ertugrul Söylemez) defines
 
 ```wiki
     WrappedSchoenfinkel {
