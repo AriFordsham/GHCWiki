@@ -7,6 +7,7 @@ The idea of *roles* comes from the paper [ Generative Type Abstraction and Type-
 See also
 
 - Our ICFP 2014 paper [ Safe Coercions](http://www.cis.upenn.edu/~eir/papers/2014/coercible/coercible-ext.pdf), which gives lots of motivation and details, including the `Coercible` class.
+- The user-level [ wiki page about Coercible](http://www.haskell.org/haskellwiki/GHC/Coercible)
 - [Roles2](roles2) which identifies a difficulty with the design in the paper, and some possibilities for solving it.
 - [RolesImplementation](roles-implementation) talks about the implementation in GHC. 
 - [ Richard's blog post about roles](http://typesandkinds.wordpress.com/2013/08/15/roles-a-new-feature-of-ghc/). (Note: some aspects of that blog post are out of date, as of December 17, 2013.)
