@@ -51,6 +51,7 @@ See also [wiki:TemplateHaskell]
  * #1171: strictness and exceptions (long, open ticket)
 
 == Optimisation ==
+ * #9136: better constant folding
  * #9041: bad code from native code generator (NCG)
  * #6056: conflict between the w/w unfolding and the one from INLINEABLE
  * #8472: top level unlifted string literals
