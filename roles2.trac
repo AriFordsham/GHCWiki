@@ -2,7 +2,7 @@
 
 It has become (somewhat) clear that the Roles mechanism as implemented in GHC 7.8 is insufficient. (See [#examples examples] below.) This page is dedicated to creating a new design for roles that might fix the problems, continuing the discussion started in #9123.
 
-See also the [wiki:Roles main roles wiki page].
+See also the [wiki:Roles main roles wiki page] and these related tickets: #9117, #9118, #9123, and #9131.
 
 == [=#examples Problem examples] ==
 
