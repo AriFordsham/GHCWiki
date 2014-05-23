@@ -1,1 +1,66 @@
-[ Backpack](http://plv.mpi-sws.org/backpack/) is a proposal for retrofitting Haskell with an applicative, mix-in module system.
+[ Backpack](http://plv.mpi-sws.org/backpack/) is a proposal for retrofitting Haskell with an applicative, mix-in module system. The theory of Backpack is developed in the paper and its accompanying technical appendix; the purpose of this wikipage is to record some of the more practical implementation considerations.
+
+## Backpack versus Cabal
+
+
+A Backpack package is roughly equivalent to a Cabal package.  However, there are some differences.  In Backpack, “module definitions” are unnamed; they are only given a name by module assignment within a package. So, strictly speaking, old style module definitions like `module A where ...` are undefined under Backpack.  Instead, the module layout of a Cabal package constitutes an implicit definition of a Backpack package, with `other-modules` thinned out. So we roughly translate a Cabal file specification (modulo versions):
+
+```wiki
+name: abc
+other-modules: Internal
+exposed-modules: A B C
+build-depends: base
+```
+
+
+into a Backpack package:
+
+```wiki
+package abc (A, B, C) where
+  include base
+  Internal = "Internal.hs"
+  A = "A.hs"
+  B = "B.hs"
+  C = "C.hs"
+```
+
+
+(Here the quoted strings indicate file inclusion, ignoring the listed module name.) A number of Backpack features are exercised: mix-in inclusion is used to represent build-dependencies and hidden modules (other-modules) are enforced using thinning (Section 2.4 of the paper). An important detail is that the module lists must be topologically sorted
+
+### Cabal-specific features
+
+
+Cabal is not just a packaging mechanism, but it also handles a number of concerns that Backpack does not talk about:
+
+1. Cabal packages can include C code and other foreign language code, whereas Backpack is only Haskell code,
+
+1. Cabal packages can specify a custom build process, which Backpack says nothing about, and
+
+1. Cabal packages have a conditional flags mechanism, by which various "options" can be tweaked at compile time. (Needless to say, this can cause very bad problems for modularity!) In Backpack, physical module identity should be different over conditional flags, so that modules which are compiled differently are considered differently as well.
+
+### Backpack's improvements over Cabal
+
+
+Without using any of Backpack's support for separate modular development, Backpack already delivers some improvements over Cabal.
+
+
+Backpack is more permissive/expressive with accidental module name clashes than Cabal is, precisely because of the logical-physical distinction in names. If packages P and Q both have a module named A, then in any third package R that depends on both P and Q, you can simply rename, e.g., P's A to PA in order to avoid that clash.  (On the other hand, you can also use renaming on inclusion to get two differently-named modules to link together.)  Renaming is briefly described in Section 2.4 of the paper.
+
+
+More importantly, Backpack offers a tantalizing story for managing different versions of packages, alluded to in the paper, but not elaborated on. In Cabal, the version number range of a build-depends implicitly defines a "signature" which we depend on. There are a few ways this signature could be computed:
+
+-   We could throw our hands up in the air and say the signature is just whatever Cabal computed. This does not lead to very reproducible builds, but it is the current status quo.
+
+-   We could compute the “greatest common signature” for the specified version range. This signature is the widest signature for which all of the versions are compatible with. This can be used to determine if there is a buggy version range; if the greatest common signature isn’t enough to compile the package, there must exist some version that is listed as compatible, but isn’t actually. For unbounded version ranges, this can be a bit dodgy, but the PVP suggests that if you’re not unbounded over too many version numbers, you’ll be OK
+
+-   We could further refine the greatest common signature, by finding the thinnest signature with which our package type checks with. This is the “ground truth” with regards to what our package relies on, although maintaining a signature like this could be pretty annoying, on the order of annoyance of having to maintain explicit import lists (and type signatures) for everything that you use. If this is automatically calculated, we could do away with version dependencies and just see if signatures are satisfied. This could have performance problems, and calculating this requires a bit of work.
+
+
+By the way, this means that naively implementing the suggestion in the Backpack paper where modules provide signature files is quite dodgy, because the signature file is likely to contain too much “stuff”, and in any case, needs to be referred to in a way that is stable across versions. On the other hand, one could easily manage partitioning signatures into “latest and greatest” versus “well, this is pretty stable for most people”; differently, one could pin to a signature for a version, and as long as the package doesn’t break backwards compatibility that signature will work for a while.
+
+## More features
+
+### Inference for recursive module bindings
+
+
+Scott thinks there is a way to automatically infer the necessary hs-boot signatures for recursive module bindings. His proposal is here: [ http://www.reddit.com/r/haskell/comments/1id0p7/backpack_retrofitting_haskell_with_interfaces/cb42m8l](http://www.reddit.com/r/haskell/comments/1id0p7/backpack_retrofitting_haskell_with_interfaces/cb42m8l)
