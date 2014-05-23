@@ -146,15 +146,15 @@ We also would want automatic generation of instances of `Rep`, not unlike the ge
 newtype ReaderT r m a = ReaderT (r -> m a)
 ```
 
-
-the instance
+>
+> the instance
 
 ```wiki
 instance Rep m => Rep (ReaderT r m)
 ```
 
-
-can be written. Should this be inferred? I (Richard) can imagine a beefed up role inference algorithm which could figure this out. But, perhaps there exist harder cases that would not be inferrable.
+>
+> can be written. Should this be inferred? I (Richard) can imagine a beefed up role inference algorithm which could figure this out. But, perhaps there exist harder cases that would not be inferrable.
 
 1. Should users be able to write instances for `Rep` by hand? They cannot do so for `Coercible`.
 
@@ -179,8 +179,8 @@ newtype MyMaybe a = Mk (Maybe a)
 type role MyMaybe nominal
 ```
 
-
-Here, we have `Rep Maybe` and `Coercible Maybe MyMaybe` but not `Rep MyMaybe`. This is all very strange. Of course, we *could* define an instance `Rep MyMaybe`, despite the role annotation, by using the newtype-unwrapping instance. But, what does this mean if the author wants to export `MyMaybe` abstractly?
+>
+> Here, we have `Rep Maybe` and `Coercible Maybe MyMaybe` but not `Rep MyMaybe`. This is all very strange. Of course, we *could* define an instance `Rep MyMaybe`, despite the role annotation, by using the newtype-unwrapping instance. But, what does this mean if the author wants to export `MyMaybe` abstractly?
 
 1. Consider the `StateT` newtype:
 
@@ -188,8 +188,8 @@ Here, we have `Rep Maybe` and `Coercible Maybe MyMaybe` but not `Rep MyMaybe`. T
 newtype StateT s m a = StateT (s -> m (a, s))
 ```
 
-
-Its roles are `nominal representational nominal`. But, if we have `Rep m`, then the roles could all be representational. For the `a` parameter, this is just like `ReaderT`. But, we are stuck with the `s` parameter, simply because the `s` parameter comes *before*`m` in the parameter list. There's no way to assert something about `m` when describing a property of `s`.
+>
+> Its roles are `nominal representational nominal`. But, if we have `Rep m`, then the roles could all be representational. For the `a` parameter, this is just like `ReaderT`. But, we are stuck with the `s` parameter, simply because the `s` parameter comes *before*`m` in the parameter list. There's no way to assert something about `m` when describing a property of `s`.
 
 ## Other possible designs
 
