@@ -4,7 +4,7 @@
 It has become (somewhat) clear that the Roles mechanism as implemented in GHC 7.8 is insufficient. (See [examples](roles2#examples) below.) This page is dedicated to creating a new design for roles that might fix the problems, continuing the discussion started in [\#9123](https://gitlab.haskell.org//ghc/ghc/issues/9123).
 
 
-See also the [main roles wiki page](roles).
+See also the [main roles wiki page](roles) and these related tickets: [\#9117](https://gitlab.haskell.org//ghc/ghc/issues/9117), [\#9118](https://gitlab.haskell.org//ghc/ghc/issues/9118), [\#9123](https://gitlab.haskell.org//ghc/ghc/issues/9123), and [\#9131](https://gitlab.haskell.org//ghc/ghc/issues/9131).
 
 ## Problem examples
 
