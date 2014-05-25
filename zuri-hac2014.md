@@ -3,13 +3,124 @@
 
 Joachim (nomeata) wants to run a small bugsquashing sprint at [ ZuriHac 2014](http://www.haskell.org/haskellwiki/ZuriHac2014/Projects). Here he collects list of tickets that may be suitable:
 
-<table><tr><th>Ticket (Ticket query: id: 9095%2C9122%2C9127%2C9132%2C9136, max: 0, desc: 1, order: id)</th>
-<th>Summary (Ticket query: id: 9095%2C9122%2C9127%2C9132%2C9136, max: 0, order: summary)</th>
-<th>Owner (Ticket query: id: 9095%2C9122%2C9127%2C9132%2C9136, max: 0, order: owner)</th>
-<th>Type (Ticket query: id: 9095%2C9122%2C9127%2C9132%2C9136, max: 0, order: type)</th>
-<th>Status (Ticket query: id: 9095%2C9122%2C9127%2C9132%2C9136, max: 0, order: status)</th>
-<th>Priority (Ticket query: id: 9095%2C9122%2C9127%2C9132%2C9136, max: 0, order: priority)</th>
-<th>Milestone (Ticket query: id: 9095%2C9122%2C9127%2C9132%2C9136, max: 0, order: milestone)</th></tr>
+<table><tr><th>Ticket (Ticket query: id: 9095%2C9122%2C9127%2C9132%2C9136%2C95%2C1388%2C8959, max: 0, desc: 1, order: id)</th>
+<th>Summary (Ticket query: id: 9095%2C9122%2C9127%2C9132%2C9136%2C95%2C1388%2C8959, max: 0, order: summary)</th>
+<th>Owner (Ticket query: id: 9095%2C9122%2C9127%2C9132%2C9136%2C95%2C1388%2C8959, max: 0, order: owner)</th>
+<th>Type (Ticket query: id: 9095%2C9122%2C9127%2C9132%2C9136%2C95%2C1388%2C8959, max: 0, order: type)</th>
+<th>Status (Ticket query: id: 9095%2C9122%2C9127%2C9132%2C9136%2C95%2C1388%2C8959, max: 0, order: status)</th>
+<th>Priority (Ticket query: id: 9095%2C9122%2C9127%2C9132%2C9136%2C95%2C1388%2C8959, max: 0, order: priority)</th>
+<th>Milestone (Ticket query: id: 9095%2C9122%2C9127%2C9132%2C9136%2C95%2C1388%2C8959, max: 0, order: milestone)</th></tr>
+<tr><th>[\#95](https://gitlab.haskell.org//ghc/ghc/issues/95)</th>
+<th>[GHCi :edit command should jump to the the last error](https://gitlab.haskell.org//ghc/ghc/issues/95)</th>
+<th>lortabac</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      feature request
+                    </th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      closed
+                    </th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th>[⊥](/trac/ghc/milestone/%E2%8A%A5)</th></tr>
+<tr><th>[\#1388](https://gitlab.haskell.org//ghc/ghc/issues/1388)</th>
+<th>[Newbie help features](https://gitlab.haskell.org//ghc/ghc/issues/1388)</th>
+<th></th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      feature request
+                    </th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      closed
+                    </th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      low
+                    </th>
+<th>[⊥](/trac/ghc/milestone/%E2%8A%A5)</th></tr>
+<tr><th>[\#8959](https://gitlab.haskell.org//ghc/ghc/issues/8959)</th>
+<th>[GHCi should honour UnicodeSyntax](https://gitlab.haskell.org//ghc/ghc/issues/8959)</th>
+<th></th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      closed
+                    </th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      low
+                    </th>
+<th>[8.0.1](/trac/ghc/milestone/8.0.1)</th></tr>
 <tr><th>[\#9095](https://gitlab.haskell.org//ghc/ghc/issues/9095)</th>
 <th>[make sdist picks up test files](https://gitlab.haskell.org//ghc/ghc/issues/9095)</th>
 <th>thomie</th>
