@@ -48,6 +48,7 @@ Below is a list of bugs that appear to be "low-hanging fruit" -- things that mig
 - [\#7401](https://gitlab.haskell.org//ghc/ghc/issues/7401) - Can't derive instance for Eq when datatype has no constructor, while it is trivial do do so.
 - [\#8100](https://gitlab.haskell.org//ghc/ghc/issues/8100) - Standalone deriving using template haskell
 - [\#8308](https://gitlab.haskell.org//ghc/ghc/issues/8308) - Resurrect ticky code for counting constructor arity
+- [\#9085](https://gitlab.haskell.org//ghc/ghc/issues/9085) - Inaccessible equations in a closed type family should be a warning, not an error
 
 
 Once you fix the bug, make sure to write a test-case proving that you've done what you said. Then, use git to prepare patches and post these to the bug report. If the patch looks good, one of the committers will put it into the GHC codebase. Then, tackle another bug!
