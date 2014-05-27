@@ -35,28 +35,28 @@ Haskell currently has three quantifiers: `forall`, `->`, and `=>`, as classified
 </th></tr>
 <tr><th>`forall`</th>
 <th> yes </th>
-<th> unification </th>
-<th> FVs </th>
-<th> no 
+<th> No (unification) </th>
+<th> No (FVs) </th>
+<th> No 
 </th></tr>
 <tr><th>`->`</th>
 <th> no </th>
-<th> as term </th>
-<th> yes </th>
-<th> yes 
+<th> Yes (as term) </th>
+<th> Yes </th>
+<th> Yes 
 </th></tr>
 <tr><th>`=>`</th>
 <th> no </th>
-<th> solving </th>
-<th> yes </th>
-<th> yes 
+<th> No (solving) </th>
+<th> Yes </th>
+<th> Yes 
 </th></tr></table>
 
 <table><tr><th>Dependent</th>
 <td>*Dependent* means that the quantified thing (henceforth, *quantifiee*) can appear later in the type. This is clearly true for `forall`-quantified things and clearly not true for `->`-quantified things. (That is, if we have `Int -> Bool`, we can't mention the `Int` value after the `->`!)
 </td></tr>
 <tr><th>Visible</th>
-<td>*Visibility* refers to whether or not the argument must appear at call sites in the program text. If something is not visible, the table lists how GHC is to fill in the missing bit at call sites. If something is visible, we must specify how it is parsed, noting that the term- and type-level parsers are different.
+<td>*Visibility* refers to whether or not the argument must appear at call sites in the program text. If something is not visible, the table lists how GHC is to fill in the missing bit at call sites. If something is visible, we must specify how it is parsed, noting that the term- and type-level parsers are different.  For example, if `f :: forall a. Ord a => a -> Int`, then a call must look like `f "foo"`, omitting the type argument and the `Ord String` argument.
 </td></tr>
 <tr><th>Required</th>
 <td>
