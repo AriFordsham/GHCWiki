@@ -186,17 +186,14 @@ Parsing is a bit of a nightmare for this new language and will require some comp
 
     - Option 1: We can use `@` to indicate that we are parsing a type. Take `id :: forall a -> a -> a`. This is just like the normal `id`, but with the type parameter explicit. Because the parser/renamer won't know the type of `id` when parsing its arguments, the first argument will have to manifestly be a type. For example, `id @Bool True`. The `@` indicates to the parser that the following thing is a *type*, not a *term*.
     - Option 2: We can use the keyword `type` to indicate that we are parsing a type.
+  - **Merge the parsers**: It may be possible to merge the term/type parsers. This would make `forall` a proper keyword. `(->)` and `(=>)` are already unusable at the term level. `\` is already unusable at the type level. One possible conflict is that `'` is used in types to indicate namespace and it is used in terms to indicate Template Haskell quoting. Although it won't produce problems in code, `!` (a normal operator in terms but a strictness flag in datatype declarations) may cause trouble in parser engineering. It's conceivable to say that strictness markers must be preceded by a space and not followed by one, but this is somewhat painful. A similar situation arises with `~`, which is a normal type operator but a laziness specifier in patterns. But, the parser already deals with the `!` bang-pattern/infix operator ambiguity, so perhaps this solution can be adapted. In any case, this all seems at least possible to consider. 
+    Even if we could write some kind of combined parser, the renamer would have major trouble distinguishing between data constructors and type constructors. One way or the other, programmers will likely have to specify how to parse their arguments explicitly. 
 
-- **Merge the parsers**: It may be possible to merge the term/type parsers. This would make `forall` a proper keyword. `(->)` and `(=>)` are already unusable at the term level. `\` is already unusable at the type level. One possible conflict is that `'` is used in types to indicate namespace and it is used in terms to indicate Template Haskell quoting. Although it won't produce problems in code, `!` (a normal operator in terms but a strictness flag in datatype declarations) may cause trouble in parser engineering. It's conceivable to say that strictness markers must be preceded by a space and not followed by one, but this is somewhat painful. A similar situation arises with `~`, which is a normal type operator but a laziness specifier in patterns. But, the parser already deals with the `!` bang-pattern/infix operator ambiguity, so perhaps this solution can be adapted. In any case, this all seems at least possible to consider.
+    - Option 1: Use `'` to write data constructors in types and use `^` to write type constructors in terms. The first of these is already implemented. The second is up for debate. Do these operators work only on individual identifiers? Or, can we say `f ^(...)` to make everything in the `...` be treated like a type?
+    - Option 2: Use `'` to mean "switch default" -- it goes in either direction.
 
->
-> Even if we could write some kind of combined parser, the renamer would have major trouble distinguishing between data constructors and type constructors. One way or the other, programmers will likely have to specify how to parse their arguments explicitly. 
-
-- Option 1: Use `'` to write data constructors in types and use `^` to write type constructors in terms. The first of these is already implemented. The second is up for debate. Do these operators work only on individual identifiers? Or, can we say `f ^(...)` to make everything in the `...` be treated like a type?
-- Option 2: Use `'` to mean "switch default" -- it goes in either direction.
-
->
-> Open question: What other signals change the default renaming? In other words, if we say `f (forall x. blah)` in a term, do the bits in `blah` get renamed like a type or like a term? RAE advocates "term", but Conor has advocated "type".
+> >
+> > Open question: What other signals change the default renaming? In other words, if we say `f (forall x. blah)` in a term, do the bits in `blah` get renamed like a type or like a term? RAE advocates "term", but Conor has advocated "type".
 
 - We will similarly need a syntax for type patterns embedded within term patterns. It would be ideal if the pattern syntax were identical to the expression syntax.
 
