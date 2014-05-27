@@ -3,6 +3,8 @@
 
 This page is to track design and implementation ideas around adding a form of dependent types to Haskell. This work will also fix bug [\#7961](https://gitlab.haskell.org//ghc/ghc/issues/7961). Richard Eisenberg (a.k.a. goldfire) is expecting to take on most (all?) of this work.
 
+***Disclaimer:*** Everything below represents a research proposal. While it is my (RAE's) hope that something resembling this all will actually make it into GHC, no one should read anything too strongly into words like "will happen".
+
 # Surface Language Design
 
 
@@ -11,7 +13,13 @@ It is possible to fix [\#7961](https://gitlab.haskell.org//ghc/ghc/issues/7961) 
 ## Merging Types and Kinds
 
 
-Following the work in [the kind equality paper](dependent-haskell#), the new Haskell will merge types and kinds into one syntactic and semantic category. Haskell will have the `* :: *` property. As a consequence, it will be easily possible to explicit quantify over kinds. In other words, the following type signature is allowed: `forall (k :: *) (a :: k). Proxy a -> Proxy a`. Furthermore, kind variables will be able to be listed explicitly when declaring datatypes and classes. Of course, if a kind variable is listed explicitly in the declaration of a type or class, then it also must be listed explicitly at the use sites. Note that this change will completely eliminate `BOX`.
+Following the work in [the kind equality paper](dependent-haskell#), the new Haskell will merge types and kinds into one syntactic and semantic category. Haskell would have the `* :: *` property. As a consequence, it will be easily possible to explicit quantify over kinds. In other words, the following type signature is allowed: `forall (k :: *) (a :: k). Proxy a -> Proxy a`. Furthermore, kind variables will be able to be listed explicitly when declaring datatypes and classes. Of course, if a kind variable is listed explicitly in the declaration of a type or class, then it also must be listed explicitly at the use sites. Note that this change will completely eliminate `BOX`.
+
+
+There are actually two separate aspects to this change:
+
+1. Merge the grammar of types and kinds. This is a simplification (with a sizable [caveat](dependent-haskell#)) of the current scenario and will fix the original motivation for [\#8706](https://gitlab.haskell.org//ghc/ghc/issues/8706).
+1. Add `* :: *`. Why do this? One alternative is to go the route of Coq and Agda and have an infinite tower of type universes. But, this adds a lot of complexity. These languages take this route because `* :: *` makes a language inconsistent as a logic. However, Haskell is *already* inconsistent as a logic (because of `undefined` and `GHC.Exts.Any`) and so we don't have to worry about a new source of inconsistency. Furthermore, the type safety of Haskell does not depend on its own consistency -- unlike Coq and Agda, Haskell relies on the consistency of a coercion language, which is not threatened by `* :: *`. See [the paper](dependent-haskell#) for more details.
 
 ## Quantifiers
 
@@ -168,7 +176,7 @@ How is the kind of a datatype classified? (stub)
 
 Parsing is a bit a nightmare for this new language and will require some compromises.
 
-- Merging types and kinds is almost straightforward, but for one major stumbling block: `*`. In a kind, `*` is parsed as an alphanumeric identifier would be. In a type, `*` is parsed as an infix operator. How can we merge the type- and kind-parser given this discrepancy? As an example, what is the meaning of `Foo * Int`? Is it the type `Foo` applied to `*` and `Int`? Or is it the operator `*` applied to `Foo` and `Int`? The solution to this annoyance seems to be to introduce a new identifier for `*` (say, `TYPE`) and then remove `*` from the language, allowing it to be used for multiplication, for example.
+- Merging types and kinds is almost straightforward, but for one major stumbling block:`*`. In a kind, `*` is parsed as an alphanumeric identifier would be. In a type, `*` is parsed as an infix operator. How can we merge the type- and kind-parser given this discrepancy? As an example, what is the meaning of `Foo * Int`? Is it the type `Foo` applied to `*` and `Int`? Or is it the operator `*` applied to `Foo` and `Int`? The solution to this annoyance seems to be to introduce a new identifier for `*` (say, `TYPE`) and then remove `*` from the language, allowing it to be used for multiplication, for example.
 
   - What name to choose for `*`? `TYPE` would appear plenty in code, and it seems a little rude. Choosing a new symbol just kicks the can down the road. Choosing `Type` would conflict with lots of code (including GHC's) that uses a type `Type`. Choosing `T` would conflict with lots of (example) code that uses `T`. The best option I'm aware of is `U`, short for universe. Mitigating this problem somewhat is that Dependent Haskell would come with kind synonyms, and whatever name we choose would be a "normal" name exported from the `Prelude` and could be hidden if desired.
   - What is our migration strategy? One proposal: introduce the new name now and keep `*` around. Then, when Dependent Haskell is ready for release, it will come with a new extension flag which will change the parsing of `*`. Only when that flag is enabled would `*` fail to work. It is unclear whether it is worth it to fully squash `*` out of the language.
