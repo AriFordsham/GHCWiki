@@ -12,6 +12,7 @@ As pointed out in the [#hasochism Hasochism paper], Haskell currently enjoys a c
 
 Haskell currently has three quantifiers: `forall`, `->`, and `=>`, as classified in the following table:
 
+||||||||||  Current Haskell  ||
 ||= Quantifier =||= Dependent? =||= Visible? =||= Required? =||= Relevant? =||
 || `forall` || yes || unification || FVs || no ||
 || `->` || no || yes || yes || yes ||

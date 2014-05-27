@@ -16,7 +16,13 @@ As pointed out in the [Hasochism paper](dependent-haskell#), Haskell currently e
 
 Haskell currently has three quantifiers: `forall`, `->`, and `=>`, as classified in the following table:
 
-<table><tr><th> Quantifier </th>
+<table><tr><th>  Current Haskell  
+</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr>
+<tr><th> Quantifier </th>
 <th> Dependent? </th>
 <th> Visible? </th>
 <th> Required? </th>
