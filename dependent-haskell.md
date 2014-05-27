@@ -11,7 +11,26 @@ It is possible to fix [\#7961](https://gitlab.haskell.org//ghc/ghc/issues/7961) 
 ### Quantifiers
 
 
-As pointed out in the [Hasochism paper](dependent-haskell#), 
+As pointed out in the [Hasochism paper](dependent-haskell#), Haskell currently enjoys a confluence of design decisions. One says that compile-time arguments are elided in runtime code. For example, when calling `map :: (a -> b) -> [a] -> [b]`, the type instantiations for `a` and `b` are properly arguments to `map` (and are passed quite explicitly in Core), but these arguments are always elided in surface Haskell. As the levels are mixing, we may want to revisit this. Along similar lines, type arguments in Haskell are always erasable -- that is, instantiations for types are never kept at runtime. While this is generally a Good Thing and powers much of Haskell's efficiency, dependent typing relies on keeping *some* types around at runtime. Here, it is even more apparent that sometimes, we want to be able to pass in values for type arguments, especially if those values can be inspected at runtime.
+
+
+Haskell currently has two quantifiers: `forall` and `->`, as classified in the following table:
+
+<table><tr><th> Quantifier </th>
+<th> Dependent? </th>
+<th> Visible? </th>
+<th> Relevant? 
+</th></tr>
+<tr><th>`forall`</th>
+<th> yes </th>
+<th> no </th>
+<th> no 
+</th></tr>
+<tr><th>`->`</th>
+<th> no </th>
+<th> yes </th>
+<th> yes 
+</th></tr></table>
 
 ## Related work
 
