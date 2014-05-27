@@ -18,9 +18,9 @@ Haskell currently has three quantifiers: `forall`, `->`, and `=>`, as classified
 
 ||||||||||  Current Haskell  ||
 ||= Quantifier =||= Dependent? =||= Visible? =||= Required? =||= Relevant? =||
-|| `forall` || yes || unification || FVs || no ||
-|| `->` || no || as term || yes || yes ||
-|| `=>` || no || solving || yes || yes ||
+|| `forall` || yes || No (unification) || FVs || no ||
+|| `->` || no || Yes (as term) || yes || yes ||
+|| `=>` || no || No (solving) || yes || yes ||
 
  Dependent::
   ''Dependent'' means that the quantified thing (henceforth, ''quantifiee'') can appear later in the type. This is clearly true for `forall`-quantified things and clearly not true for `->`-quantified things. (That is, if we have `Int -> Bool`, we can't mention the `Int` value after the `->`!)

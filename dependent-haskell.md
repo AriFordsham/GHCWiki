@@ -35,19 +35,19 @@ Haskell currently has three quantifiers: `forall`, `->`, and `=>`, as classified
 </th></tr>
 <tr><th>`forall`</th>
 <th> yes </th>
-<th> unification </th>
+<th> No (unification) </th>
 <th> FVs </th>
 <th> no 
 </th></tr>
 <tr><th>`->`</th>
 <th> no </th>
-<th> as term </th>
+<th> Yes (as term) </th>
 <th> yes </th>
 <th> yes 
 </th></tr>
 <tr><th>`=>`</th>
 <th> no </th>
-<th> solving </th>
+<th> No (solving) </th>
 <th> yes </th>
 <th> yes 
 </th></tr></table>
