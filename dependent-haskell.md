@@ -173,14 +173,30 @@ How is the kind of a datatype classified? (stub)
 ### Parsing
 
 
-Parsing is a bit a nightmare for this new language and will require some compromises.
+Parsing is a bit of a nightmare for this new language and will require some compromises.
 
 - Merging types and kinds is almost straightforward, but for one major stumbling block:`*`. In a kind, `*` is parsed as an alphanumeric identifier would be. In a type, `*` is parsed as an infix operator. How can we merge the type- and kind-parser given this discrepancy? As an example, what is the meaning of `Foo * Int`? Is it the type `Foo` applied to `*` and `Int`? Or is it the operator `*` applied to `Foo` and `Int`? The solution to this annoyance seems to be to introduce a new identifier for `*` (say, `TYPE`) and then remove `*` from the language, allowing it to be used for multiplication, for example.
 
   - What name to choose for `*`? `TYPE` would appear plenty in code, and it seems a little rude. Choosing a new symbol just kicks the can down the road. Choosing `Type` would conflict with lots of code (including GHC's) that uses a type `Type`. Choosing `T` would conflict with lots of (example) code that uses `T`. The best option I'm aware of is `U`, short for universe. Mitigating this problem somewhat is that Dependent Haskell would come with kind synonyms, and whatever name we choose would be a "normal" name exported from the `Prelude` and could be hidden if desired.
   - What is our migration strategy? One proposal: introduce the new name now and keep `*` around. Then, when Dependent Haskell is ready for release, it will come with a new extension flag which will change the parsing of `*`. Only when that flag is enabled would `*` fail to work. It is unclear whether it is worth it to fully squash `*` out of the language.
 
-- The type language and the term languages are more different. Even if we could write some kind of combined parser, the renamer would have major trouble distinguishing between data constructors and type constructors. One way or the other, programmers will likely have to specify how to parse their arguments explicitly. Take `id :: forall a -> a -> a`. This is just like the normal `id`, but with the type parameter explicit. Because the parser/renamer won't know the type of `id` when parsing its arguments, the first argument will have to manifestly be a type. For example, `id @Bool True`. The `@` indicates to the parser that the following thing is a *type*, not a *term*.
+- The type language and the term languages are more different. There are two proposals on the table to deal with types embedded in terms:
+
+  - **Keep the parsers separate**: Since the parsers are separate and the parser certainly doesn't know anything about types, we need some indication in the code as a signal to the parser to switch to the type parser. Due to the construction of GHC's parser, this indicator would have to come *before* the phrase in question.
+
+    - Option 1: We can use `@` to indicate that we are parsing a type. Take `id :: forall a -> a -> a`. This is just like the normal `id`, but with the type parameter explicit. Because the parser/renamer won't know the type of `id` when parsing its arguments, the first argument will have to manifestly be a type. For example, `id @Bool True`. The `@` indicates to the parser that the following thing is a *type*, not a *term*.
+    - Option 2: We can use the keyword `type` to indicate that we are parsing a type.
+
+- **Merge the parsers**: It may be possible to merge the term/type parsers. This would make `forall` a proper keyword. `(->)` and `(=>)` are already unusable at the term level. `\` is already unusable at the type level. One possible conflict is that `'` is used in types to indicate namespace and it is used in terms to indicate Template Haskell quoting. Although it won't produce problems in code, `!` (a normal operator in terms but a strictness flag in datatype declarations) may cause trouble in parser engineering. It's conceivable to say that strictness markers must be preceded by a space and not followed by one, but this is somewhat painful. A similar situation arises with `~`, which is a normal type operator but a laziness specifier in patterns. But, the parser already deals with the `!` bang-pattern/infix operator ambiguity, so perhaps this solution can be adapted. In any case, this all seems at least possible to consider.
+
+>
+> Even if we could write some kind of combined parser, the renamer would have major trouble distinguishing between data constructors and type constructors. One way or the other, programmers will likely have to specify how to parse their arguments explicitly. 
+
+- Option 1: Use `'` to write data constructors in types and use `^` to write type constructors in terms. The first of these is already implemented. The second is up for debate. Do these operators work only on individual identifiers? Or, can we say `f ^(...)` to make everything in the `...` be treated like a type?
+- Option 2: Use `'` to mean "switch default" -- it goes in either direction.
+
+>
+> Open question: What other signals change the default renaming? In other words, if we say `f (forall x. blah)` in a term, do the bits in `blah` get renamed like a type or like a term? RAE advocates "term", but Conor has advocated "type".
 
 - We will similarly need a syntax for type patterns embedded within term patterns. It would be ideal if the pattern syntax were identical to the expression syntax.
 
@@ -193,6 +209,18 @@ f n @a = ....
 
 >
 > This is ambiguous because `@`-patterns allow a space around the `@`-sign. However, common usage does *not* use any spaces around `@`, and we could use the presence/absence of a space to disambiguate between an `@`-pattern and a type pattern.
+
+- How does this all interact with `ScopedTypeVariables`? For example:
+
+  ```wiki
+  foo :: forall x. ...
+  foo @y = ...
+  ```
+
+  Here, `x` and `y` are bound to the *same* type! Is this allowed?
+
+>
+> One partial proposal: when `-XDependentTypes` is specified, merge the type-variable and term-variable namespaces. This would simplify some of the issues (for example, it might be possible to infer which lambda a programmer wants based on the usage of the bound variable), but it would break code. However, code breakage is likely small and can be mechanically detected and fixed. And, it only breaks code if that code now wants `-XDependentTypes`. A potential thorn if we go this route: the shape of the term-variable and type-variable namespaces are slightly different: `(##)`, for example, is a term variable, but it is a type *constant*. It's not clear what the ramifications of this problem are.
 
 ### Overriding visibility defaults
 
