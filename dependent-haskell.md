@@ -3,6 +3,8 @@
 
 This page is to track design and implementation ideas around adding a form of dependent types to Haskell. This work will also fix bug [\#7961](https://gitlab.haskell.org//ghc/ghc/issues/7961). Richard Eisenberg (a.k.a. goldfire) is expecting to take on most (all?) of this work.
 
+***Disclaimer:*** Everything below represents a research proposal. While it is my (RAE's) hope that something resembling this all will actually make it into GHC, no one should read anything too strongly into words like "will happen".
+
 # Surface Language Design
 
 
@@ -11,7 +13,13 @@ It is possible to fix [\#7961](https://gitlab.haskell.org//ghc/ghc/issues/7961) 
 ## Merging Types and Kinds
 
 
-Following the work in [the kind equality paper](dependent-haskell#), the new Haskell will merge types and kinds into one syntactic and semantic category. Haskell will have the `* :: *` property. As a consequence, it will be easily possible to explicit quantify over kinds. In other words, the following type signature is allowed: `forall (k :: *) (a :: k). Proxy a -> Proxy a`. Furthermore, kind variables will be able to be listed explicitly when declaring datatypes and classes. Of course, if a kind variable is listed explicitly in the declaration of a type or class, then it also must be listed explicitly at the use sites. Note that this change will completely eliminate `BOX`.
+Following the work in [the kind equality paper](dependent-haskell#), the new Haskell will merge types and kinds into one syntactic and semantic category. Haskell would have the `* :: *` property. As a consequence, it will be easily possible to explicit quantify over kinds. In other words, the following type signature is allowed: `forall (k :: *) (a :: k). Proxy a -> Proxy a`. Furthermore, kind variables will be able to be listed explicitly when declaring datatypes and classes. Of course, if a kind variable is listed explicitly in the declaration of a type or class, then it also must be listed explicitly at the use sites. Note that this change will completely eliminate `BOX`.
+
+
+There are actually two separate aspects to this change:
+
+1. Merge the grammar of types and kinds. This is a simplification (with a sizable [caveat](dependent-haskell#)) of the current scenario and will fix the original motivation for [\#8706](https://gitlab.haskell.org//ghc/ghc/issues/8706).
+1. Add `* :: *`. Why do this? One alternative is to go the route of Coq and Agda and have an infinite tower of type universes. But, this adds a lot of complexity. These languages take this route because `* :: *` makes a language inconsistent as a logic. However, Haskell is *already* inconsistent as a logic (because of `undefined` and `GHC.Exts.Any`) and so we don't have to worry about a new source of inconsistency. Furthermore, the type safety of Haskell does not depend on its own consistency -- unlike Coq and Agda, Haskell relies on the consistency of a coercion language, which is not threatened by `* :: *`. See [the paper](dependent-haskell#) for more details.
 
 ## Quantifiers
 
@@ -34,19 +42,19 @@ Haskell currently has three quantifiers: `forall`, `->`, and `=>`, as classified
 <th> Relevant? 
 </th></tr>
 <tr><th>`forall`</th>
-<th> yes </th>
+<th> Yes </th>
 <th> No (unification) </th>
 <th> No (FVs) </th>
 <th> No 
 </th></tr>
 <tr><th>`->`</th>
-<th> no </th>
+<th> No </th>
 <th> Yes (as term) </th>
 <th> Yes </th>
 <th> Yes 
 </th></tr>
 <tr><th>`=>`</th>
-<th> no </th>
+<th> No </th>
 <th> No (solving) </th>
 <th> Yes </th>
 <th> Yes 
@@ -63,7 +71,7 @@ Haskell currently has three quantifiers: `forall`, `->`, and `=>`, as classified
 A *required* quantification is one that must textually appear in the type. Note that Haskell freely infers the type `a -> a` really to mean `forall a. a -> a`, by looking for free variables (abbreviated to FVs, above). Haskell currently does slightly more than analyze just free variables, though: it also quantifies over free *kind* variables that do not textually appear in a type. For example, the type `Proxy a -> Proxy a` really means (in today's Haskell) `forall (k :: BOX) (a :: k). Proxy a -> Proxy a`, even though `k` does not appear in the body of the type. Note that a *visible* quantifications impose a requirement on how a thing is used/written; *required* quantifications impose a requirement on how a thing's type is written.
 </td></tr>
 <tr><th>Relevant</th>
-<td>*Relevance* refers to how the quantifiee can be used in the term that follows. (This is distinct from dependence, which says how the quantifiee can be used in the *type* that follows!) `forall`-quantifiees are not relevant. While they can textually appear in the term that follows, they appear only in irrelevant positions -- that is, in type annotations and type signatures. `->`- and `=>`-quantifiees, on the other hand, can be used freely. Relevance is something of a squirrely issue. It is (RAE believes) closely related to parametricity, in that if `forall`-quantifiees were relevant, Haskell would lose the parametricity property. Another way to think about this is that parametric arguments are irrelevant and non-parametric arguments are relevant.
+<td>*Relevance* refers to how the quantifiee can be used in the term classified by the type in question. (This is distinct from dependence, which says how the quantifiee can be used in the *type* that follows!) `forall`-quantifiees are not relevant. While they can textually appear in the classified term, they appear only in irrelevant positions -- that is, in type annotations and type signatures. `->`- and `=>`-quantifiees, on the other hand, can be used freely. Relevance is something of a squirrely issue. It is (RAE believes) closely related to parametricity, in that if `forall`-quantifiees were relevant, Haskell would lose the parametricity property. Another way to think about this is that parametric arguments are irrelevant and non-parametric arguments are relevant. See also [this discussion](dependent-haskell#) for perhaps further intuition.
 </td></tr></table>
 
 
@@ -82,40 +90,40 @@ Having explained our terms with the current Haskell, the proposed set of quantif
 <th> Relevant? 
 </th></tr>
 <tr><th>`forall (...) .`</th>
-<th> yes </th>
-<th> unification </th>
-<th> FVs + Rel.I. </th>
-<th> no 
+<th> Yes </th>
+<th> No (unification) </th>
+<th> No (FVs + Rel.I.) </th>
+<th> No 
 </th></tr>
 <tr><th>`forall (...) ->`</th>
-<th> yes </th>
-<th> as type </th>
-<th> yes </th>
-<th> no 
+<th> Yes </th>
+<th> Yes (as type) </th>
+<th> Yes </th>
+<th> No 
 </th></tr>
 <tr><th>`pi (...) .`</th>
-<th> yes </th>
-<th> unification </th>
-<th> FVs + Rel.I. </th>
-<th> yes 
+<th> Yes </th>
+<th> No (unification) </th>
+<th> No (FVs + Rel.I.) </th>
+<th> Yes 
 </th></tr>
 <tr><th>`pi (...) ->`</th>
-<th> yes </th>
-<th> as term </th>
-<th> yes </th>
-<th> yes 
+<th> Yes </th>
+<th> Yes (as term) </th>
+<th> Yes </th>
+<th> Yes 
 </th></tr>
 <tr><th>`->`</th>
-<th> no </th>
-<th> as term </th>
-<th> yes </th>
-<th> yes 
+<th> No </th>
+<th> Yes (as term) </th>
+<th> Yes </th>
+<th> Yes 
 </th></tr>
 <tr><th>`=>`</th>
-<th> no </th>
-<th> solving </th>
-<th> yes </th>
-<th> yes 
+<th> No </th>
+<th> No (solving) </th>
+<th> Yes </th>
+<th> Yes 
 </th></tr></table>
 
 
@@ -136,8 +144,7 @@ It is tempting to treat `->` as a degenerate form of a `pi` -- something like `p
 The preceding discussion focuses mostly on classifying terms. How does any of this change when we think of classifying types? 
 
 <table><tr><th>Relevance in types</th>
-<td>
-Relevance in a term corresponds quite closely to phase. A relevant term-level quantifiee must be kept at runtime, while an irrelevant quantifiee can be erased. But, what does relevance in a type mean? Everything in a type is (absent `pi`-quantifications) irrelevant in a term, and it all can be erased. Furthermore, it is all used in the same phase, at compile time. Yet, it seems useful to still have a notion of relevance in types. This allows programmers to reason about parametricity in their type-level functions, and it keeps the function space in types similar to the function space in terms.
+<td>Relevance in a term corresponds quite closely to phase. A relevant term-level quantifiee must be kept at runtime, while an irrelevant quantifiee can be erased. But, what does relevance in a type mean? Everything in a type is (absent `pi`-quantifications) irrelevant in a term, and it all can be erased. Furthermore, it is all used in the same phase, at compile time. Yet, it seems useful to still have a notion of relevance in types. This allows programmers to reason about parametricity in their type-level functions, and it keeps the function space in types similar to the function space in terms.
 </td></tr></table>
 
 >
@@ -154,26 +161,39 @@ Relevance in a term corresponds quite closely to phase. A relevant term-level qu
 > Note that the behavior of `F` depends on the *kind* of its argument, `k`. This is an example of a non-parametric type function. Looking at the kind, `k -> k`, one would expect `F` to be the identity; yet, it is not.
 
 >
-> Thus, we would want to distinguish `pi k. k -> k` (the kind of `F`) and `forall k. k -> k` (the kind of a type-level polymorphic identity). This distinction does not affect erasure or phase, but it does affect how a quantifiee can be used. Furthermore, this keeps term classifiers more in line with type classifiers.
+> Thus, we would want to distinguish `pi k. k -> k` (the kind of `F`) and `forall k. k -> k` (the kind of a type-level polymorphic identity). This distinction does not affect erasure or phase, but it does affect how a quantifiee can be used. Furthermore, this keeps term classifiers more in line with type classifiers. Note that this means all current type/data families are properly classified with `pi`, not `forall`. This won't cause code breakage, though, because it is impossible to write a kind quantification (with any syntax) in today's Haskell.
 
 <table><tr><th>Datatypes</th>
 <td>
-How is the kind of a datatype classified? (stub)
+How is the kind of a datatype classified? After some debate, Stephanie and RAE thought that a poly-kinded datatype should be quantified with `pi`, not `forall`. For example, consider `data Proxy (k :: *) (a :: k) = Proxy`. Is its kind `forall (k :: *). k -> *` or `pi (k :: *). k -> *`. Let's consider the former type as if it classified a term-level function. That function would have to be a constant function, by parametricity. Yet, we do *not* want `Proxy * Bool` to be the same as `Proxy Nat Zero`. So, we choose the latter classifier. For now, we don't see the need to introduce a way for programmers to declare datatypes classified by `forall`, but there doesn't seem to be anything broken by allowing such an extension.
 </td></tr></table>
 
 ## Open design questions
 
-### Parsing
+### Parsing/namespace resolution
 
 
-Parsing is a bit a nightmare for this new language and will require some compromises.
+Parsing is a bit of a nightmare for this new language and will require some compromises.
 
-- Merging types and kinds is almost straightforward, but for one major stumbling block: `*`. In a kind, `*` is parsed as an alphanumeric identifier would be. In a type, `*` is parsed as an infix operator. How can we merge the type- and kind-parser given this discrepancy? As an example, what is the meaning of `Foo * Int`? Is it the type `Foo` applied to `*` and `Int`? Or is it the operator `*` applied to `Foo` and `Int`? The solution to this annoyance seems to be to introduce a new identifier for `*` (say, `TYPE`) and then remove `*` from the language, allowing it to be used for multiplication, for example.
+- Merging types and kinds is almost straightforward, but for one major stumbling block:`*`. In a kind, `*` is parsed as an alphanumeric identifier would be. In a type, `*` is parsed as an infix operator. How can we merge the type- and kind-parser given this discrepancy? As an example, what is the meaning of `Foo * Int`? Is it the type `Foo` applied to `*` and `Int`? Or is it the operator `*` applied to `Foo` and `Int`? The solution to this annoyance seems to be to introduce a new identifier for `*` (say, `TYPE`) and then remove `*` from the language, allowing it to be used for multiplication, for example.
 
   - What name to choose for `*`? `TYPE` would appear plenty in code, and it seems a little rude. Choosing a new symbol just kicks the can down the road. Choosing `Type` would conflict with lots of code (including GHC's) that uses a type `Type`. Choosing `T` would conflict with lots of (example) code that uses `T`. The best option I'm aware of is `U`, short for universe. Mitigating this problem somewhat is that Dependent Haskell would come with kind synonyms, and whatever name we choose would be a "normal" name exported from the `Prelude` and could be hidden if desired.
   - What is our migration strategy? One proposal: introduce the new name now and keep `*` around. Then, when Dependent Haskell is ready for release, it will come with a new extension flag which will change the parsing of `*`. Only when that flag is enabled would `*` fail to work. It is unclear whether it is worth it to fully squash `*` out of the language.
 
-- The type language and the term languages are more different. Even if we could write some kind of combined parser, the renamer would have major trouble distinguishing between data constructors and type constructors. One way or the other, programmers will likely have to specify how to parse their arguments explicitly. Take `id :: forall a -> a -> a`. This is just like the normal `id`, but with the type parameter explicit. Because the parser/renamer won't know the type of `id` when parsing its arguments, the first argument will have to manifestly be a type. For example, `id @Bool True`. The `@` indicates to the parser that the following thing is a *type*, not a *term*.
+- The type language and the term languages are more different. There are two proposals on the table to deal with types embedded in terms:
+
+  - **Keep the parsers separate**: Since the parsers are separate and the parser certainly doesn't know anything about types, we need some indication in the code as a signal to the parser to switch to the type parser. Due to the construction of GHC's parser, this indicator would have to come *before* the phrase in question.
+
+    - Option 1: We can use `@` to indicate that we are parsing a type. Take `id :: forall a -> a -> a`. This is just like the normal `id`, but with the type parameter explicit. Because the parser/renamer won't know the type of `id` when parsing its arguments, the first argument will have to manifestly be a type. For example, `id @Bool True`. The `@` indicates to the parser that the following thing is a *type*, not a *term*.
+    - Option 2: We can use the keyword `type` to indicate that we are parsing a type.
+  - **Merge the parsers**: It may be possible to merge the term/type parsers. This would make `forall` a proper keyword. `(->)` and `(=>)` are already unusable at the term level. `\` is already unusable at the type level. One possible conflict is that `'` is used in types to indicate namespace and it is used in terms to indicate Template Haskell quoting. Although it won't produce problems in code, `!` (a normal operator in terms but a strictness flag in datatype declarations) may cause trouble in parser engineering. It's conceivable to say that strictness markers must be preceded by a space and not followed by one, but this is somewhat painful. A similar situation arises with `~`, which is a normal type operator but a laziness specifier in patterns. But, the parser already deals with the `!` bang-pattern/infix operator ambiguity, so perhaps this solution can be adapted. In any case, this all seems at least possible to consider. 
+    Even if we could write some kind of combined parser, the renamer would have major trouble distinguishing between data constructors and type constructors. One way or the other, programmers will likely have to specify how to parse their arguments explicitly. 
+
+    - Option 1: Use `'` to write data constructors in types and use `^` to write type constructors in terms. The first of these is already implemented. The second is up for debate. Do these operators work only on individual identifiers? Or, can we say `f ^(...)` to make everything in the `...` be treated like a type?
+    - Option 2: Use `'` to mean "switch default" -- it goes in either direction.
+
+> >
+> > Open question: What other signals change the default renaming? In other words, if we say `f (forall x. blah)` in a term, do the bits in `blah` get renamed like a type or like a term? RAE advocates "term", but Conor has advocated "type".
 
 - We will similarly need a syntax for type patterns embedded within term patterns. It would be ideal if the pattern syntax were identical to the expression syntax.
 
@@ -186,6 +206,20 @@ f n @a = ....
 
 >
 > This is ambiguous because `@`-patterns allow a space around the `@`-sign. However, common usage does *not* use any spaces around `@`, and we could use the presence/absence of a space to disambiguate between an `@`-pattern and a type pattern.
+
+- How does this all interact with `ScopedTypeVariables`? For example:
+
+  ```wiki
+  foo :: forall x. ...
+  foo @y = ...
+  ```
+
+  Here, `x` and `y` are bound to the *same* type! Is this allowed?
+
+>
+> One partial proposal: when `-XDependentTypes` is specified, merge the type-variable and term-variable namespaces. This would simplify some of the issues (for example, it might be possible to infer which lambda a programmer wants based on the usage of the bound variable), but it would break code. However, code breakage is likely small and can be mechanically detected and fixed. And, it only breaks code if that code now wants `-XDependentTypes`. A potential thorn if we go this route: the shape of the term-variable and type-variable namespaces are slightly different: `(##)`, for example, is a term variable, but it is a type *constant*. It's not clear what the ramifications of this problem are.
+
+- Regardless of other choices above, simple cases might be able to remain simple. For example, `f Bool` will surely parse as a term. When the renamer can't find the data constructor `Bool`, it could be smart enough to look for a type constructor `Bool` and get on with it.
 
 ### Overriding visibility defaults
 
@@ -202,7 +236,42 @@ The `.`/`->` distinction in quantifiers allows programmers to specify the visibi
 
 ### Parametric vs. Non-parametric type families
 
-- Concrete syntax? (stub)
+- We must have a concrete syntax to declare both of these sorts of type and data families. There are no current proposals for this.
+
+# Type Inference
+
+
+Figuring out type inference for this language is a bit of a challenge. While the full design won't be laid out here, interesting tidbits will be gathered here for easy retrieval.
+
+### Inferring `pi` types
+
+
+Suppose a programmer writes, without a type signature
+
+```wiki
+foo @Zero y = y
+```
+
+
+(Here, we are assuming `@` as the invisible-overrider.) What is `foo`'s type? It could be `pi (n :: Nat). forall (a :: *). Vec a n -> Vec a Zero`. It could also be `forall (n :: Nat) (a :: *). a -> a`. Neither is more general than the other -- we are in the same GADT type-inference problem as described in the [ OutsideIn](http://research.microsoft.com/en-us/um/people/simonpj/papers/constraints/jfp-outsidein.pdf) paper. Thus, we reject such a `foo` that matches on an implicit parameter without a type signature.
+
+
+But, what about
+
+```wiki
+foo Zero y = y
+```
+
+
+We are actually in the same situation here. But, backward compatibility compels us to prefer non-dependent types over dependent ones, inferring `foo :: forall (a :: *). Nat -> a -> a`. (Note that `foo :: forall (a :: *). pi (n :: Nat) -> Vec a n -> Vec a Zero` is a valid but incomparable type that we could assign.)
+
+
+When do `pi`-types get inferred, if ever? Good question.
+
+# Implementation
+
+
+The implementation of this is under way, [ here](https://github.com/goldfirere/ghc/tree/nokinds). More notes will be added to this section in due course.
 
 # Related work
 
