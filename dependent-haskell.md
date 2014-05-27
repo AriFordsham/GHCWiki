@@ -238,6 +238,41 @@ The `.`/`->` distinction in quantifiers allows programmers to specify the visibi
 
 - We must have a concrete syntax to declare both of these sorts of type and data families. There are no current proposals for this.
 
+# Type Inference
+
+
+Figuring out type inference for this language is a bit of a challenge. While the full design won't be laid out here, interesting tidbits will be gathered here for easy retrieval.
+
+### Inferring `pi` types
+
+
+Suppose a programmer writes, without a type signature
+
+```wiki
+foo @Zero y = y
+```
+
+
+(Here, we are assuming `@` as the invisible-overrider.) What is `foo`'s type? It could be `pi (n :: Nat). forall (a :: *). Vec a n -> Vec a Zero`. It could also be `forall (n :: Nat) (a :: *). a -> a`. Neither is more general than the other -- we are in the same GADT type-inference problem as described in the [ OutsideIn](http://research.microsoft.com/en-us/um/people/simonpj/papers/constraints/jfp-outsidein.pdf) paper. Thus, we reject such a `foo` that matches on an implicit parameter without a type signature.
+
+
+But, what about
+
+```wiki
+foo Zero y = y
+```
+
+
+We are actually in the same situation here. But, backward compatibility compels us to prefer non-dependent types over dependent ones, inferring `foo :: forall (a :: *). Nat -> a -> a`. (Note that `foo :: forall (a :: *). pi (n :: Nat) -> Vec a n -> Vec a Zero` is a valid but incomparable type that we could assign.)
+
+
+When do `pi`-types get inferred, if ever? Good question.
+
+# Implementation
+
+
+The implementation of this is under way, [ here](https://github.com/goldfirere/ghc/tree/nokinds). More notes will be added to this section in due course.
+
 # Related work
 
 **Readers:** Please add to these lists!
