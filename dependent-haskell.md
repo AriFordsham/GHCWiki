@@ -170,7 +170,7 @@ How is the kind of a datatype classified? (stub)
 
 ## Open design questions
 
-### Parsing
+### Parsing/namespace resolution
 
 
 Parsing is a bit of a nightmare for this new language and will require some compromises.
@@ -218,6 +218,8 @@ f n @a = ....
 
 >
 > One partial proposal: when `-XDependentTypes` is specified, merge the type-variable and term-variable namespaces. This would simplify some of the issues (for example, it might be possible to infer which lambda a programmer wants based on the usage of the bound variable), but it would break code. However, code breakage is likely small and can be mechanically detected and fixed. And, it only breaks code if that code now wants `-XDependentTypes`. A potential thorn if we go this route: the shape of the term-variable and type-variable namespaces are slightly different: `(##)`, for example, is a term variable, but it is a type *constant*. It's not clear what the ramifications of this problem are.
+
+- Regardless of other choices above, simple cases might be able to remain simple. For example, `f Bool` will surely parse as a term. When the renamer can't find the data constructor `Bool`, it could be smart enough to look for a type constructor `Bool` and get on with it.
 
 ### Overriding visibility defaults
 
