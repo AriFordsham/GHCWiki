@@ -67,6 +67,8 @@ The preceding discussion focuses mostly on classifying terms. How does any of th
 
   Note that the behavior of `F` depends on the ''kind'' of its argument, `k`. This is an example of a non-parametric type function. Looking at the kind, `k -> k`, one would expect `F` to be the identity; yet, it is not.
 
+  Thus, we would want to distinguish `pi k. k -> k` (the kind of `F`) and `forall k. k -> k` (the kind of a type-level polymorphic identity). This distinction does not affect erasure or phase, but it does affect how a quantifiee can be used. Furthermore, this keeps term classifiers more in line with type classifiers.
+
 == Open design questions ==
 
 === Parsing ===
