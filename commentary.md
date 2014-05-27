@@ -93,6 +93,8 @@ The above commentary covers the source code of GHC. For material that doesn't co
 
 - Notes on proposed or in progress (but out of tree) GHC compiler features:
 
+  - [Roles in Haskell](roles)
+  - [Dependent types in Haskell](dependent-haskell)
   - [Nested CPR analysis](nested-cpr)
   - [Giving Template Haskell full access to annotations](template-haskell/annotations)
   - [Checking consistency of functional dependencies](fun-deps)
