@@ -10,11 +10,20 @@ It is possible to fix #7961 without any surface language changes, as that bug ad
 
 As pointed out in the [#hasochism Hasochism paper], Haskell currently enjoys a confluence of design decisions. One says that compile-time arguments are elided in runtime code. For example, when calling `map :: (a -> b) -> [a] -> [b]`, the type instantiations for `a` and `b` are properly arguments to `map` (and are passed quite explicitly in Core), but these arguments are always elided in surface Haskell. As the levels are mixing, we may want to revisit this. Along similar lines, type arguments in Haskell are always erasable -- that is, instantiations for types are never kept at runtime. While this is generally a Good Thing and powers much of Haskell's efficiency, dependent typing relies on keeping ''some'' types around at runtime. Here, it is even more apparent that sometimes, we want to be able to pass in values for type arguments, especially if those values can be inspected at runtime.
 
-Haskell currently has two quantifiers: `forall` and `->`, as classified in the following table:
+Haskell currently has three quantifiers: `forall`, `->`, and `=>`, as classified in the following table:
 
-||= Quantifier =||= Dependent? =||= Visible? =||= Relevant? =||
-|| `forall` || yes || no || no ||
-|| `->` || no || yes || yes ||
+||= Quantifier =||= Dependent? =||= Visible? =||= Required? =||= Relevant? =||
+|| `forall` || yes || unification || FVs || no ||
+|| `->` || no || yes || yes || yes ||
+|| `=>` || no || solving || yes || yes ||
+
+* ''Dependent'' means that the quantified thing (henceforth, ''quantifiee'') can appear later in the type. This is clearly true for `forall`-quantified things and clearly not true for `->`-quantified things. (That is, if we have `Int -> Bool`, we can't mention the `Int` value after the `->`!)
+* ''Visibility'' refers to whether or not the argument must appear at call sites in the program text. If something is not visible, the table lists how GHC is to fill in the missing bit at call sites.
+* A ''required'' quantification is one that must textually appear in the type. Note that Haskell freely infers the type `a -> a` really to mean `forall a. a -> a`, by looking for free variables (abbreviated to FVs, above).
+* ''Relevance'' refers to how the quantifiee can be used in the term that follows. (This is distinct from dependence, which says how the quantifiee can be used in the ''type'' that follows!) `forall`-quantifiees are not relevant. While they can textually appear in the term that follows, they appear only in irrelevant positions -- that is, in type annotations and type signatures. `->`- and `=>`-quantifiees, on the other hand, can be used freely.
+Relevance is something of a squirrely issue. It is (RAE believes) closely related to parametricity, in that if `forall`-quantifiees were relevant, Haskell would lose the parametricity property. Another way to think about this is that parametric arguments are irrelevant and non-parametric arguments are relevant.
+
+
 
 == Related work ==
 
