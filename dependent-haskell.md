@@ -27,4 +27,4 @@ There are several published works very relevant to the design:
 There are also many works addressing the use of dependent types in Haskell. Here is a selection:
 
 - [ Dependently typed programming with singletons](http://www.cis.upenn.edu/~eir/papers/2012/singletons/paper.pdf). Richard A. Eisenberg and Stephanie Weirich. Haskell Symposium 2012.
-- \[[ https://personal.cis.strath.ac.uk/conor.mcbride/pub/hasochism.pdf](https://personal.cis.strath.ac.uk/conor.mcbride/pub/hasochism.pdf) Hasochism: The Pleasure and Pain of Dependently Typed Haskell\]. Sam Lindley and Conor McBride. Haskell Symposium 2013.
+- [ Hasochism: The Pleasure and Pain of Dependently Typed Haskell](https://personal.cis.strath.ac.uk/conor.mcbride/pub/hasochism.pdf). Sam Lindley and Conor McBride. Haskell Symposium 2013.
