@@ -69,6 +69,9 @@ The preceding discussion focuses mostly on classifying terms. How does any of th
 
   Thus, we would want to distinguish `pi k. k -> k` (the kind of `F`) and `forall k. k -> k` (the kind of a type-level polymorphic identity). This distinction does not affect erasure or phase, but it does affect how a quantifiee can be used. Furthermore, this keeps term classifiers more in line with type classifiers.
 
+ Datatypes::
+  How is the kind of a datatype classified? (stub)
+
 == Open design questions ==
 
 === Parsing ===
@@ -103,6 +106,10 @@ The `.`/`->` distinction in quantifiers allows programmers to specify the visibi
 * How to override an invisible, dependent type argument? This might be critical if a function call would be otherwise ambiguous. (Today's Haskell would benefit from this override occasionally, too. See TypeApplication.) One proposal is that `@` would serve double-duty: it would override invisibility and also indicate a type argument. If this is the case, the `forall (...) ->` form would be essentially useless, as it would still require users to use `@` to indicate parsing. Thus, `forall (...) ->` seems strictly worse than `forall (...) .`.
 
 * How to override an invisible, dependent term argument (that is, `pi (...) .`)? Using `@` would not work, because the parser wouldn't be able to deal with it. Alternatively, `pi`-bound arguments could use type-level syntax, and then `@` would work. However, this seems suboptimal, as we would more often want to use, say, a data constructor in a `pi`-bound argument, not a type constructor. Braces could possibly work, at least in expressions. These would not conflict with record-update syntax because record-updates require an `=`, but `pi`-bound arguments would not. Patterns might be problematic with braces, because record puns do not require `=`. There are no other proposals here, for the moment.
+
+=== Parametric vs. Non-parametric type families ===
+
+* Concrete syntax? (stub)
 
 = Related work =
 
