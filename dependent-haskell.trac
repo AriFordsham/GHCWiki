@@ -24,9 +24,9 @@ Haskell currently has three quantifiers: `forall`, `->`, and `=>`, as classified
 
 ||||||||||  Current Haskell  ||
 ||= Quantifier =||= Dependent? =||= Visible? =||= Required? =||= Relevant? =||
-|| `forall` || yes || No (unification) || No (FVs) || No ||
-|| `->` || no || Yes (as term) || Yes || Yes ||
-|| `=>` || no || No (solving) || Yes || Yes ||
+|| `forall` || Yes || No (unification) || No (FVs) || No ||
+|| `->` || No || Yes (as term) || Yes || Yes ||
+|| `=>` || No || No (solving) || Yes || Yes ||
 
  Dependent::
   ''Dependent'' means that the quantified thing (henceforth, ''quantifiee'') can appear later in the type. This is clearly true for `forall`-quantified things and clearly not true for `->`-quantified things. (That is, if we have `Int -> Bool`, we can't mention the `Int` value after the `->`!)
@@ -41,12 +41,12 @@ Having explained our terms with the current Haskell, the proposed set of quantif
 
 ||||||||||  Dependent Haskell  ||
 ||= Quantifier =||= Dependent? =||= Visible? =||= Required? =||= Relevant? =||
-|| `forall (...) .` || yes || unification || FVs + Rel.I. || no ||
-|| `forall (...) ->` || yes || as type || yes || no ||
-|| `pi (...) .` || yes || unification || FVs + Rel.I. || yes ||
-|| `pi (...) ->` || yes || as term || yes || yes ||
-|| `->` || no || as term || yes || yes ||
-|| `=>` || no || solving || yes || yes ||
+|| `forall (...) .` || Yes || No (unification) || No (FVs + Rel.I.) || No ||
+|| `forall (...) ->` || Yes || Yes (as type) || Yes || No ||
+|| `pi (...) .` || Yes || No (unification) || No (FVs + Rel.I.) || Yes ||
+|| `pi (...) ->` || Yes || Yes (as term) || Yes || Yes ||
+|| `->` || No || Yes (as term) || Yes || Yes ||
+|| `=>` || No || No (solving) || Yes || Yes ||
 
 Note that the current quantifiers remain and with their original meanings. This table adds three new quantifiers: `forall ->`, and the two `pi` quantifiers. The idea is that, currently, we always say `forall`, then some binders and then a `.`. If we replace the `.` with an `->`, then we make the quantifications ''visible'' but otherwise unchanged. (Quantification not mentioned in a type defaults to ''invisible'', thus making the visible quantification ''required''.)
 

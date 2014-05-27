@@ -42,19 +42,19 @@ Haskell currently has three quantifiers: `forall`, `->`, and `=>`, as classified
 <th> Relevant? 
 </th></tr>
 <tr><th>`forall`</th>
-<th> yes </th>
+<th> Yes </th>
 <th> No (unification) </th>
 <th> No (FVs) </th>
 <th> No 
 </th></tr>
 <tr><th>`->`</th>
-<th> no </th>
+<th> No </th>
 <th> Yes (as term) </th>
 <th> Yes </th>
 <th> Yes 
 </th></tr>
 <tr><th>`=>`</th>
-<th> no </th>
+<th> No </th>
 <th> No (solving) </th>
 <th> Yes </th>
 <th> Yes 
@@ -90,40 +90,40 @@ Having explained our terms with the current Haskell, the proposed set of quantif
 <th> Relevant? 
 </th></tr>
 <tr><th>`forall (...) .`</th>
-<th> yes </th>
-<th> unification </th>
-<th> FVs + Rel.I. </th>
-<th> no 
+<th> Yes </th>
+<th> No (unification) </th>
+<th> No (FVs + Rel.I.) </th>
+<th> No 
 </th></tr>
 <tr><th>`forall (...) ->`</th>
-<th> yes </th>
-<th> as type </th>
-<th> yes </th>
-<th> no 
+<th> Yes </th>
+<th> Yes (as type) </th>
+<th> Yes </th>
+<th> No 
 </th></tr>
 <tr><th>`pi (...) .`</th>
-<th> yes </th>
-<th> unification </th>
-<th> FVs + Rel.I. </th>
-<th> yes 
+<th> Yes </th>
+<th> No (unification) </th>
+<th> No (FVs + Rel.I.) </th>
+<th> Yes 
 </th></tr>
 <tr><th>`pi (...) ->`</th>
-<th> yes </th>
-<th> as term </th>
-<th> yes </th>
-<th> yes 
+<th> Yes </th>
+<th> Yes (as term) </th>
+<th> Yes </th>
+<th> Yes 
 </th></tr>
 <tr><th>`->`</th>
-<th> no </th>
-<th> as term </th>
-<th> yes </th>
-<th> yes 
+<th> No </th>
+<th> Yes (as term) </th>
+<th> Yes </th>
+<th> Yes 
 </th></tr>
 <tr><th>`=>`</th>
-<th> no </th>
-<th> solving </th>
-<th> yes </th>
-<th> yes 
+<th> No </th>
+<th> No (solving) </th>
+<th> Yes </th>
+<th> Yes 
 </th></tr></table>
 
 
