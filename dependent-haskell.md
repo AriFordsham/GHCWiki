@@ -8,6 +8,11 @@ This page is to track design and implementation ideas around adding a form of de
 
 It is possible to fix [\#7961](https://gitlab.haskell.org//ghc/ghc/issues/7961) without any surface language changes, as that bug addresses only lifting restrictions on promotion. There is a chance that this bugfix will enter HEAD without all of the other features below, but this writeup generally will not consider fixing [\#7961](https://gitlab.haskell.org//ghc/ghc/issues/7961) separate from adding dependent types.
 
+### Merging Types and Kinds
+
+
+Following the work in [the kind equality paper](dependent-haskell#), the new Haskell will merge types and kinds into one syntactic and semantic category. Haskell will have the `* :: *` property. As a consequence, it will be easily possible to explicit quantify over kinds. In other words, the following type signature is allowed: `forall (k :: *) (a :: k). Proxy a -> Proxy a`. Furthermore, kind variables will be able to be listed explicitly when declaring datatypes and classes. Of course, if a kind variable is listed explicitly in the declaration of a type or class, then it also must be listed explicitly at the use sites. Note that this change will completely eliminate `BOX`.
+
 ### Quantifiers
 
 
@@ -49,11 +54,60 @@ Haskell currently has three quantifiers: `forall`, `->`, and `=>`, as classified
 
 - *Dependent* means that the quantified thing (henceforth, *quantifiee*) can appear later in the type. This is clearly true for `forall`-quantified things and clearly not true for `->`-quantified things. (That is, if we have `Int -> Bool`, we can't mention the `Int` value after the `->`!)
 - *Visibility* refers to whether or not the argument must appear at call sites in the program text. If something is not visible, the table lists how GHC is to fill in the missing bit at call sites.
-- A *required* quantification is one that must textually appear in the type. Note that Haskell freely infers the type `a -> a` really to mean `forall a. a -> a`, by looking for free variables (abbreviated to FVs, above).
-- *Relevance* refers to how the quantifiee can be used in the term that follows. (This is distinct from dependence, which says how the quantifiee can be used in the *type* that follows!) `forall`-quantifiees are not relevant. While they can textually appear in the term that follows, they appear only in irrelevant positions -- that is, in type annotations and type signatures. `->`- and `=>`-quantifiees, on the other hand, can be used freely.
+- A *required* quantification is one that must textually appear in the type. Note that Haskell freely infers the type `a -> a` really to mean `forall a. a -> a`, by looking for free variables (abbreviated to FVs, above). Haskell currently does slightly more than analyze just free variables, though: it also quantifies over free *kind* variables that do not textually appear in a type. For example, the type `Proxy a -> Proxy a` really means (in today's Haskell) `forall (k :: BOX) (a :: k). Proxy a -> Proxy a`, even though `k` does not appear in the body of the type. Note that a *visible* quantifications impose a requirement on how a thing is used/written; *required* quantifications impose a requirement on how a thing's type is written.
+- *Relevance* refers to how the quantifiee can be used in the term that follows. (This is distinct from dependence, which says how the quantifiee can be used in the *type* that follows!) `forall`-quantifiees are not relevant. While they can textually appear in the term that follows, they appear only in irrelevant positions -- that is, in type annotations and type signatures. `->`- and `=>`-quantifiees, on the other hand, can be used freely. Relevance is something of a squirrely issue. It is (RAE believes) closely related to parametricity, in that if `forall`-quantifiees were relevant, Haskell would lose the parametricity property. Another way to think about this is that parametric arguments are irrelevant and non-parametric arguments are relevant.
 
 
-Relevance is something of a squirrely issue. It is (RAE believes) closely related to parametricity, in that if `forall`-quantifiees were relevant, Haskell would lose the parametricity property. Another way to think about this is that parametric arguments are irrelevant and non-parametric arguments are relevant.
+Having explained our terms with the current Haskell, the proposed set of quantifiers for dependent Haskell is below:
+
+<table><tr><th>  Dependent Haskell  
+</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr>
+<tr><th> Quantifier </th>
+<th> Dependent? </th>
+<th> Visible? </th>
+<th> Required? </th>
+<th> Relevant? 
+</th></tr>
+<tr><th>`forall (...) .`</th>
+<th> yes </th>
+<th> unification </th>
+<th> FVs + Rel.I. </th>
+<th> no 
+</th></tr>
+<tr><th>`forall (...) ->`</th>
+<th> yes </th>
+<th> yes </th>
+<th> yes </th>
+<th> no 
+</th></tr>
+<tr><th>`pi (...) .`</th>
+<th> yes </th>
+<th> unification </th>
+<th> FVs + Rel.I. </th>
+<th> yes 
+</th></tr>
+<tr><th>`pi (...) ->`</th>
+<th> yes </th>
+<th> yes </th>
+<th> yes </th>
+<th> yes 
+</th></tr>
+<tr><th>`->`</th>
+<th> no </th>
+<th> yes </th>
+<th> yes </th>
+<th> yes 
+</th></tr>
+<tr><th>`=>`</th>
+<th> no </th>
+<th> solving </th>
+<th> yes </th>
+<th> yes 
+</th></tr></table>
 
 ## Related work
 
