@@ -161,11 +161,11 @@ The preceding discussion focuses mostly on classifying terms. How does any of th
 > Note that the behavior of `F` depends on the *kind* of its argument, `k`. This is an example of a non-parametric type function. Looking at the kind, `k -> k`, one would expect `F` to be the identity; yet, it is not.
 
 >
-> Thus, we would want to distinguish `pi k. k -> k` (the kind of `F`) and `forall k. k -> k` (the kind of a type-level polymorphic identity). This distinction does not affect erasure or phase, but it does affect how a quantifiee can be used. Furthermore, this keeps term classifiers more in line with type classifiers.
+> Thus, we would want to distinguish `pi k. k -> k` (the kind of `F`) and `forall k. k -> k` (the kind of a type-level polymorphic identity). This distinction does not affect erasure or phase, but it does affect how a quantifiee can be used. Furthermore, this keeps term classifiers more in line with type classifiers. Note that this means all current type/data families are properly classified with `pi`, not `forall`. This won't cause code breakage, though, because it is impossible to write a kind quantification (with any syntax) in today's Haskell.
 
 <table><tr><th>Datatypes</th>
 <td>
-How is the kind of a datatype classified? (stub)
+How is the kind of a datatype classified? After some debate, Stephanie and RAE thought that a poly-kinded datatype should be quantified with `pi`, not `forall`. For example, consider `data Proxy (k :: *) (a :: k) = Proxy`. Is its kind `forall (k :: *). k -> *` or `pi (k :: *). k -> *`. Let's consider the former type as if it classified a term-level function. That function would have to be a constant function, by parametricity. Yet, we do *not* want `Proxy * Bool` to be the same as `Proxy Nat Zero`. So, we choose the latter classifier. For now, we don't see the need to introduce a way for programmers to declare datatypes classified by `forall`, but there doesn't seem to be anything broken by allowing such an extension.
 </td></tr></table>
 
 ## Open design questions
@@ -236,7 +236,7 @@ The `.`/`->` distinction in quantifiers allows programmers to specify the visibi
 
 ### Parametric vs. Non-parametric type families
 
-- Concrete syntax? (stub)
+- We must have a concrete syntax to declare both of these sorts of type and data families. There are no current proposals for this.
 
 # Related work
 
