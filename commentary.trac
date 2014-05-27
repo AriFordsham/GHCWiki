@@ -79,6 +79,8 @@ The above commentary covers the source code of GHC. For material that doesn't co
    * [wiki:NewAxioms Closed type families]
 
  * Notes on proposed or in progress (but out of tree) GHC compiler features:
+   * [wiki:Roles Roles in Haskell]
+   * [wiki:DependentHaskell Dependent types in Haskell]
    * [wiki:NestedCPR Nested CPR analysis]
    * [wiki:TemplateHaskell/Annotations Giving Template Haskell full access to annotations]
    * [wiki:FunDeps Checking consistency of functional dependencies]
