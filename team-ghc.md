@@ -261,12 +261,12 @@ In order to see emails below, **you must login**.
   - **Committer since**: August, 2013.
   - **Main areas of interest**: runtime system, smp support (atomic memory op support)
 
-- Simon Hengel
+- [ Simon Hengel](http://typeful.net)
 
-  - N/A - Berlin, Germany
+  - Zalora South East Asia Pte. Lte - Singapore, Republic of Singapore
   - **Trac**: SimonHengel; **email**: sol@…; **github**: [ https://github.com/sol](https://github.com/sol)
   - **Committer since**: Feburary, 2013.
-  - **Main areas of interest**: haddock
+  - **Main areas of interest**: Haddock
 
 - [ Simon Marlow](https://github.com/simonmar)
 
