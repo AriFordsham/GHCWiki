@@ -42,7 +42,41 @@ Older tags/branches which were not fully converted into a submodule-configuratio
 
 Moreover, when cloning from the [ GitHub GHC Mirror](http://github.com/ghc/ghc.git), the submodule url paths need to be rewritten, e.g. `../packages/deepseq.git` to `../packages-deepseq.git`, so you can't simply use `--recursive`.
 
-### Overriding `remote.origin.pushurl`
+### Using the GitHub GHC Mirror
+
+
+You can instruct `git` to rewrite repo URLs via the `git config url.<base>.insteadOf` facility. For instance, the following configuration (which gets written to `${HOME}/.gitconfig`, so this needs to be done only once) uses GitHub instead of `git.haskell.org` for synchronizing/cloning the GHC repos:
+
+```
+git config --global url."git://github.com/ghc/".insteadOf git://git.haskell.org/
+git config --global url."git://github.com/ghc/packages-".insteadOf git://git.haskell.org/packages/
+```
+
+
+(If needed, you can also add rewrite rules with `git://` substituted by `https://` or other schemes)
+
+### Asymmetric push/pull Git Repo URLS
+
+#### Using `git config url.<base>.insteadOf`
+
+
+This subsection is mostly relevant to developers with `git push`-permissions.
+
+
+In addition to the `git config url.<base>.insteadOf` facility described in the previous section, there's also a `pushInsteadOf` facility which allows to rewrite only `push` operations and takes precedence over a respective `insteadOf` match. This can be used to use the faster (non-authenaticated) `http(s)://` or `git://` based transports for read-operations, and only use the more heavyweight authenticated `ssh://` transport for actual `git push` operations. Such an asymmetric push/pull setting can be configured **globally** like so:
+
+```
+git config --global url."ssh://git@git.haskell.org/".pushInsteadOf git://git.haskell.org/
+
+# If you want to cover all bases, you can also set the following rewrite rules
+git config --global url."ssh://git@git.haskell.org/".pushInsteadOf http://git.haskell.org/
+git config --global url."ssh://git@git.haskell.org/".pushInsteadOf https://git.haskell.org/
+```
+
+#### By overriding `remote.origin.pushurl`
+
+
+It's recommended to use the scheme based on the `git config url.<base>.pushInsteadOf` facility described in the previous subsection instead of the one described in this subsection.
 
 
 This subsection is only relevant for developers with `git push`-permissions.
