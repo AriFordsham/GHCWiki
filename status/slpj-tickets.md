@@ -2,7 +2,7 @@
 
 ## Type inference
 
-- [\#9023](https://gitlab.haskell.org//ghc/ghc/issues/9023): pattern synonyms
+- [\#9023](https://gitlab.haskell.org//ghc/ghc/issues/9023): pattern synonyms: length mismatch in `Type.zip_ty_env`.
 - [\#8673](https://gitlab.haskell.org//ghc/ghc/issues/8673): more generous GADT record selectors
 - [\#8550](https://gitlab.haskell.org//ghc/ghc/issues/8550): Don't build recursive type-function dictionaries
 - [\#8281](https://gitlab.haskell.org//ghc/ghc/issues/8281): `UnliftedFFITypes` etc
@@ -119,6 +119,8 @@ See also [TemplateHaskell](template-haskell)
 
 ## Cmm and code generation
 
+- [\#9159](https://gitlab.haskell.org//ghc/ghc/issues/9159): jump tables for dense cases
+- [\#9157](https://gitlab.haskell.org//ghc/ghc/issues/9157): common block elimination
 - [\#8905](https://gitlab.haskell.org//ghc/ghc/issues/8905): spilling around an eval
 - [\#8903](https://gitlab.haskell.org//ghc/ghc/issues/8903): dead stores
 - [\#8887](https://gitlab.haskell.org//ghc/ghc/issues/8887): double assignment

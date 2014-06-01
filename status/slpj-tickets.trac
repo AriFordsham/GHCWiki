@@ -2,7 +2,7 @@
 
 == Type inference ==
 
- * #9023: pattern synonyms
+ * #9023: pattern synonyms: length mismatch in `Type.zip_ty_env`.
  * #8673: more generous GADT record selectors
  * #8550: Don't build recursive type-function dictionaries
  * #8281: `UnliftedFFITypes` etc
@@ -110,6 +110,8 @@ See also [wiki:TemplateHaskell]
  * #4960: better inlining tests
 
 == Cmm and code generation ==
+ * #9159: jump tables for dense cases
+ * #9157: common block elimination
  * #8905: spilling around an eval
  * #8903: dead stores
  * #8887: double assignment
