@@ -2,7 +2,7 @@
 
 == Type inference ==
 
- * #9023: pattern synonyms
+ * #9023: pattern synonyms: length mismatch in `Type.zip_ty_env`.
  * #8673: more generous GADT record selectors
  * #8550: Don't build recursive type-function dictionaries
  * #8281: `UnliftedFFITypes` etc
