@@ -197,11 +197,11 @@ newtype StateT s m a = StateT (s -> m (a, s))
 
 1. (This is just Richard thinking out loud. It may be gibberish.) What if we generalize roles to be parameterized? To make the definitions well-formed, roles would be attached directly to type constructors (not the parameters), but be a mapping from 1-indexed natural numbers to roles. As an example, `ReaderT`'s role would be `[1 |-> R, 2 |-> R, 3 |-> ((2.1 ~ R) => R; N)]`. The first two entries just say that parameters `r` and `m` have representational roles. The last entry (`3 |-> ((2.1 ~ R) => R; N)`) says that, if `m`'s first parameter (that is, parameter `2.1`, where the `.` is some sort of indexing operator -- not a decimal point!) is representational, then so is `a`; otherwise, `a` is nominal. This defaulting behavior does *not* cause coherence problems, as long as the roles are listed in order from phantom to nominal -- if GHC can't prove a more permissive role, a more restrictive one is assumed.
 
+>
+> Under this scenario, `StateT`'s role would be `[1 |-> (2.1 ~ R => R; N), 2 |-> R, 3 |-> (2.1 ~ R => R; N)]`.
 
-Under this scenario, `StateT`'s role would be `[1 |-> (2.1 ~ R => R; N), 2 |-> R, 3 |-> (2.1 ~ R => R; N)]`.
+>
+> To implement this, we would probably need role *evidence* sloshing around, not unlike coercions. This evidence would be consumed by appropriately beefed up coercion forms (particularly, the TyConAppCo case). It would be produced by role *axioms* at every data- and newtype definition.
 
-
-To implement this, we would probably need role *evidence* sloshing around, not unlike coercions. This evidence would be consumed by appropriately beefed up coercion forms (particularly, the TyConAppCo case). It would be produced by role *axioms* at every data- and newtype definition.
-
-
-This design seems something like a middle road between the flexibility and modularity (that is, roles and kinds are distinct) that we have now and the completeness offered by the POPL'11 solution.
+>
+> This design seems something like a middle road between the flexibility and modularity (that is, roles and kinds are distinct) that we have now and the completeness offered by the POPL'11 solution.
