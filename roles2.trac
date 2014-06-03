@@ -115,6 +115,32 @@ instance (Rep f, Coercible a b) => Coercible (f a) (f b)
 
 We also would want automatic generation of instances of `Rep`, not unlike the generation of instances for `Coercible`.
 
+=== Integrating `Rep` into the solver ===
+
+comment:19:ticket:9123 shows an intricate solution to a `Coercible` constraint. This solution would be hard to find algorithmically. Thus, even though the definition for `Rep` above is sufficient, we propose the following implication
+
+{{{
+(Rep f, Rep g, Coercible f g, Coercible a b) => Coercible (f a) (g b)
+}}}
+
+as the only way that the solver will dispatch `Rep` constraints. Internally, only one of `Rep f` and `Rep g` will be used, but if we require only one of these constraints, then the solver will be weirdly incomplete. (For example, the solver might know `Rep f, Coercible f g` and need `Rep g`. How would it know to look at `f`?)
+
+This implication is derivable from `(Rep f, Coercible a b) => Coercible (f a) (f b)` (the instance above) as follows (using `~` for `Coercible`):
+
+{{{
+Rep f, a ~ b             f ~ g
+------------ Rep       --------- App
+f a ~ f b              f b ~ g b
+---------------------------------- Trans
+f a ~ g b
+}}}
+
+Using the enhanced rule (as suggested originally by Edward Kmett) will thus lead to an easier solver algorithm, even though it may permit fewer coercions.
+
+Writing the solver still presents challenges. There are many "overlapping instances" floating around -- in other words, the solver may choose to go down a dead-end path when a perfectly good path exists. In particular, we must be wary of unification variables that might become more informative. It seems that simplifying a wanted `Coercible` constraint that has unification variables present is a bad idea. However, this problem (of increased information) does not exist with ''skolems'', for which the solver will ''not'' get more information. Because all solutions are equivalent, we do not care if a skolem variable is instantiated with a type that could yield a different solution. (Contrast to !OverlappingInstances, which cares very much about skolems.) We just care that the solver works independent of when unification variables are solved. This may or may not be related to the parameter to GHC's `SkolemTv` constructor. (RAE thinks the ideas are close, but the implementations won't be.)
+
+'''Conjecture:''' normalizing newtypes (with respect to in-scope constructors) first, before anything else, is a good starting point. Indeed, this idea has been adopted en route to solving #9117.
+
 === Open user-facing design questions ===
 
 1. How far should instance generation go? For example, for the type
