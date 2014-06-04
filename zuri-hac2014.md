@@ -35,13 +35,50 @@ For more convenient validation, especially if the validate repository is remotel
 
 This is a list of tickets that might be suitable for a hacking sprint, but feel free to look for others (click “All Bugs“ and “All Tasks” on the left). And of course, feel free to extend this list.
 
-<table><tr><th>Ticket (Ticket query: id: 9095%2C9122%2C9127%2C9132%2C9136%2C95%2C1388%2C8959%2C9156, max: 0, desc: 1, order: id)</th>
-<th>Summary (Ticket query: id: 9095%2C9122%2C9127%2C9132%2C9136%2C95%2C1388%2C8959%2C9156, max: 0, order: summary)</th>
-<th>Owner (Ticket query: id: 9095%2C9122%2C9127%2C9132%2C9136%2C95%2C1388%2C8959%2C9156, max: 0, order: owner)</th>
-<th>Type (Ticket query: id: 9095%2C9122%2C9127%2C9132%2C9136%2C95%2C1388%2C8959%2C9156, max: 0, order: type)</th>
-<th>Status (Ticket query: id: 9095%2C9122%2C9127%2C9132%2C9136%2C95%2C1388%2C8959%2C9156, max: 0, order: status)</th>
-<th>Priority (Ticket query: id: 9095%2C9122%2C9127%2C9132%2C9136%2C95%2C1388%2C8959%2C9156, max: 0, order: priority)</th>
-<th>Milestone (Ticket query: id: 9095%2C9122%2C9127%2C9132%2C9136%2C95%2C1388%2C8959%2C9156, max: 0, order: milestone)</th></tr>
+<table><tr><th>Ticket (Ticket query: id: 9095%2C9122%2C9127%2C9132%2C9136%2C95%2C1388%2C8959%2C9156%2C17, max: 0, desc: 1, order: id)</th>
+<th>Summary (Ticket query: id: 9095%2C9122%2C9127%2C9132%2C9136%2C95%2C1388%2C8959%2C9156%2C17, max: 0, order: summary)</th>
+<th>Owner (Ticket query: id: 9095%2C9122%2C9127%2C9132%2C9136%2C95%2C1388%2C8959%2C9156%2C17, max: 0, order: owner)</th>
+<th>Type (Ticket query: id: 9095%2C9122%2C9127%2C9132%2C9136%2C95%2C1388%2C8959%2C9156%2C17, max: 0, order: type)</th>
+<th>Status (Ticket query: id: 9095%2C9122%2C9127%2C9132%2C9136%2C95%2C1388%2C8959%2C9156%2C17, max: 0, order: status)</th>
+<th>Priority (Ticket query: id: 9095%2C9122%2C9127%2C9132%2C9136%2C95%2C1388%2C8959%2C9156%2C17, max: 0, order: priority)</th>
+<th>Milestone (Ticket query: id: 9095%2C9122%2C9127%2C9132%2C9136%2C95%2C1388%2C8959%2C9156%2C17, max: 0, order: milestone)</th></tr>
+<tr><th>[\#17](https://gitlab.haskell.org//ghc/ghc/issues/17)</th>
+<th>[Separate warnings for unused local and top-level bindings](https://gitlab.haskell.org//ghc/ghc/issues/17)</th>
+<th></th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      feature request
+                    </th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      closed
+                    </th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      lowest
+                    </th>
+<th>[8.0.1](/trac/ghc/milestone/8.0.1)</th></tr>
 <tr><th>[\#95](https://gitlab.haskell.org//ghc/ghc/issues/95)</th>
 <th>[GHCi :edit command should jump to the the last error](https://gitlab.haskell.org//ghc/ghc/issues/95)</th>
 <th>lortabac</th>
