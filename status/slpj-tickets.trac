@@ -186,7 +186,7 @@ See also [wiki:TemplateHaskell]
  * #2641: revise what `-XExtendedDefaultRules` does
 
 === Better error messages ===
- * #7856: function type decomposed a bit too eagerly => worse error
+ * #9173: inferred/expected error messages
  * #4921: ambiguous type variables
  * #1330: another bad error message (Church2)
  * #2648: Report out of date interface files robustly	
