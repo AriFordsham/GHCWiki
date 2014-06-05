@@ -17,10 +17,11 @@ Obviously, you need a machine to work on. The more core it has, the less you’l
 If you want to join in, you can come prepared:
 
 - Read through [Newcomers](newcomers)
-- Get an account on this trac.
 - Make sure that you have built GHC once yourself.
 - Your changes need to be validated. So make sure you validated GHC once. I suggest to have a second working copy of GHC that you only use to validate. There is a [section](working-conventions/git#workflow-with-validate) explaining how to do this.
 - Fork [ ghc on github](https://github.com/ghc/ghc/) (or otherwise publish a fork of the GHC repo) for easier collaboration during the hackathon.
+- Get an account on this trac.
+- Join `#ghc` on freenode.
 
 ## Optional tips
 
