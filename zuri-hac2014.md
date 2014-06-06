@@ -22,6 +22,7 @@ If you want to join in, you can come prepared:
 - Fork [ ghc on github](https://github.com/ghc/ghc/) (or otherwise publish a fork of the GHC repo) for easier collaboration during the hackathon.
 - Get an account on this trac.
 - Join `#ghc` on freenode.
+- (optional, if you plan to stick around) Subscribe to `ghc-dev` and `ghc-tickets` mailing lists.
 
 ## Optional tips
 
