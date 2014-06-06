@@ -566,4 +566,4 @@ This is a list of tickets that might be suitable for a hacking sprint, but feel 
 ## Summary
 
 - *n* people particitpated: nomeata, *please add yourself*
-- *n* Tickets worked on: [\#9177](https://gitlab.haskell.org//ghc/ghc/issues/9177)
+- *n* Tickets worked on: [\#9177](https://gitlab.haskell.org//ghc/ghc/issues/9177), [\#8959](https://gitlab.haskell.org//ghc/ghc/issues/8959)
