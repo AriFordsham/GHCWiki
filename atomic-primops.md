@@ -9,7 +9,7 @@ Atomic operations on basic numeric (and pointer) types can be used as a foundati
 The new primops are modeled after those provided by C11, C++11, GCC, and LLVM.
 
 ```
-readIntArray#::MutableByteArray# s ->Int#->State# s ->(#State# s,Int##)writeIntArray#::MutableByteArray# s ->Int#->Int#->State# s ->State# s
+atomicReadIntArray#::MutableByteArray# s ->Int#->State# s ->(#State# s,Int##)atomicWriteIntArray#::MutableByteArray# s ->Int#->Int#->State# s ->State# s
 fetchAddIntArray#::MutableByteArray#-- Array to modify->Int#-- Index, in words->Int#-- Amount to add->State# s
     ->(#State# s,Int##)-- Value held previouslyfetchSubIntArray#::MutableByteArray#->Int#->Int#->State# s ->(#State# s,Int##)fetchOrIntArray#::MutableByteArray#->Int#->Int#->State# s ->(#State# s,Int##)fetchXorIntArray#::MutableByteArray#->Int#->Int#->State# s ->(#State# s,Int##)fetchAndIntArray#::MutableByteArray#->Int#->Int#->State# s ->(#State# s,Int##)casIntArray#::MutableByteArray# s ->Int#->Int#->Int#->State# s ->(#State# s,Int##)
 ```
