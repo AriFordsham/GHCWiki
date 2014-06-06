@@ -233,6 +233,13 @@ In order to see emails below, **you must login**.
   - **Committer since**: August, 2013.
   - **Main areas of interest**: GHC --make
 
+- Reid Barton
+
+  - N/A - Arlington, MA, USA
+  - **Trac**: rwbarton; **email**: rwbarton@…
+  - **Committer since**: June, 2014.
+  - **Main areas of interest**: code generation, runtime system
+
 - [ Richard Eisenberg](http://www.cis.upenn.edu/~eir)
 
   - University of Pennsylvania - Philadelphia, PA
