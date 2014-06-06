@@ -489,6 +489,7 @@ This is a list of tickets that might be suitable for a hacking sprint, but feel 
                     </th>
 <th>[7.10.1](/trac/ghc/milestone/7.10.1)</th></tr></table>
 
-## TODO (by Joachim)
+## Summary
 
-- Make sure I have my validate machine up and running efficiently.
+- *n* people particitpated: nomeata, *please add yourself*
+- *n* Tickets worked on: [\#9177](https://gitlab.haskell.org//ghc/ghc/issues/9177)
