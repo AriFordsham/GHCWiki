@@ -37,13 +37,13 @@ For more convenient validation, especially if the validate repository is remotel
 
 This is a list of tickets that might be suitable for a hacking sprint, but feel free to look for others (click “All Bugs“ and “All Tasks” on the left). And of course, feel free to extend this list.
 
-<table><tr><th>Ticket (Ticket query: id: 9095%2C9122%2C9127%2C9132%2C9136%2C95%2C1388%2C8959%2C9156%2C17%2C9177%2C8429%2C9178%2C4836%2C9127, max: 0, desc: 1, order: id)</th>
-<th>Summary (Ticket query: id: 9095%2C9122%2C9127%2C9132%2C9136%2C95%2C1388%2C8959%2C9156%2C17%2C9177%2C8429%2C9178%2C4836%2C9127, max: 0, order: summary)</th>
-<th>Owner (Ticket query: id: 9095%2C9122%2C9127%2C9132%2C9136%2C95%2C1388%2C8959%2C9156%2C17%2C9177%2C8429%2C9178%2C4836%2C9127, max: 0, order: owner)</th>
-<th>Type (Ticket query: id: 9095%2C9122%2C9127%2C9132%2C9136%2C95%2C1388%2C8959%2C9156%2C17%2C9177%2C8429%2C9178%2C4836%2C9127, max: 0, order: type)</th>
-<th>Status (Ticket query: id: 9095%2C9122%2C9127%2C9132%2C9136%2C95%2C1388%2C8959%2C9156%2C17%2C9177%2C8429%2C9178%2C4836%2C9127, max: 0, order: status)</th>
-<th>Priority (Ticket query: id: 9095%2C9122%2C9127%2C9132%2C9136%2C95%2C1388%2C8959%2C9156%2C17%2C9177%2C8429%2C9178%2C4836%2C9127, max: 0, order: priority)</th>
-<th>Milestone (Ticket query: id: 9095%2C9122%2C9127%2C9132%2C9136%2C95%2C1388%2C8959%2C9156%2C17%2C9177%2C8429%2C9178%2C4836%2C9127, max: 0, order: milestone)</th></tr>
+<table><tr><th>Ticket (Ticket query: id: 9095%2C9122%2C9127%2C9132%2C9136%2C95%2C1388%2C8959%2C9156%2C17%2C9177%2C8429%2C9178%2C4836%2C9127%2C8613, max: 0, desc: 1, order: id)</th>
+<th>Summary (Ticket query: id: 9095%2C9122%2C9127%2C9132%2C9136%2C95%2C1388%2C8959%2C9156%2C17%2C9177%2C8429%2C9178%2C4836%2C9127%2C8613, max: 0, order: summary)</th>
+<th>Owner (Ticket query: id: 9095%2C9122%2C9127%2C9132%2C9136%2C95%2C1388%2C8959%2C9156%2C17%2C9177%2C8429%2C9178%2C4836%2C9127%2C8613, max: 0, order: owner)</th>
+<th>Type (Ticket query: id: 9095%2C9122%2C9127%2C9132%2C9136%2C95%2C1388%2C8959%2C9156%2C17%2C9177%2C8429%2C9178%2C4836%2C9127%2C8613, max: 0, order: type)</th>
+<th>Status (Ticket query: id: 9095%2C9122%2C9127%2C9132%2C9136%2C95%2C1388%2C8959%2C9156%2C17%2C9177%2C8429%2C9178%2C4836%2C9127%2C8613, max: 0, order: status)</th>
+<th>Priority (Ticket query: id: 9095%2C9122%2C9127%2C9132%2C9136%2C95%2C1388%2C8959%2C9156%2C17%2C9177%2C8429%2C9178%2C4836%2C9127%2C8613, max: 0, order: priority)</th>
+<th>Milestone (Ticket query: id: 9095%2C9122%2C9127%2C9132%2C9136%2C95%2C1388%2C8959%2C9156%2C17%2C9177%2C8429%2C9178%2C4836%2C9127%2C8613, max: 0, order: milestone)</th></tr>
 <tr><th>[\#17](https://gitlab.haskell.org//ghc/ghc/issues/17)</th>
 <th>[Separate warnings for unused local and top-level bindings](https://gitlab.haskell.org//ghc/ghc/issues/17)</th>
 <th></th>
@@ -216,6 +216,43 @@ This is a list of tickets that might be suitable for a hacking sprint, but feel 
                       
                       
                       new
+                    </th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th></th></tr>
+<tr><th>[\#8613](https://gitlab.haskell.org//ghc/ghc/issues/8613)</th>
+<th>[simplifier ticks exhausted](https://gitlab.haskell.org//ghc/ghc/issues/8613)</th>
+<th></th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      closed
                     </th>
 <th>
                       
