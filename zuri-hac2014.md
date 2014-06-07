@@ -37,13 +37,13 @@ For more convenient validation, especially if the validate repository is remotel
 
 This is a list of tickets that might be suitable for a hacking sprint, but feel free to look for others (click “All Bugs“ and “All Tasks” on the left). And of course, feel free to extend this list.
 
-<table><tr><th>Ticket (Ticket query: id: 9095%2C9122%2C9127%2C9132%2C9136%2C95%2C1388%2C8959%2C9156%2C17%2C9177%2C8429%2C9178%2C4836%2C9127%2C8613%2C393, max: 0, desc: 1, order: id)</th>
-<th>Summary (Ticket query: id: 9095%2C9122%2C9127%2C9132%2C9136%2C95%2C1388%2C8959%2C9156%2C17%2C9177%2C8429%2C9178%2C4836%2C9127%2C8613%2C393, max: 0, order: summary)</th>
-<th>Owner (Ticket query: id: 9095%2C9122%2C9127%2C9132%2C9136%2C95%2C1388%2C8959%2C9156%2C17%2C9177%2C8429%2C9178%2C4836%2C9127%2C8613%2C393, max: 0, order: owner)</th>
-<th>Type (Ticket query: id: 9095%2C9122%2C9127%2C9132%2C9136%2C95%2C1388%2C8959%2C9156%2C17%2C9177%2C8429%2C9178%2C4836%2C9127%2C8613%2C393, max: 0, order: type)</th>
-<th>Status (Ticket query: id: 9095%2C9122%2C9127%2C9132%2C9136%2C95%2C1388%2C8959%2C9156%2C17%2C9177%2C8429%2C9178%2C4836%2C9127%2C8613%2C393, max: 0, order: status)</th>
-<th>Priority (Ticket query: id: 9095%2C9122%2C9127%2C9132%2C9136%2C95%2C1388%2C8959%2C9156%2C17%2C9177%2C8429%2C9178%2C4836%2C9127%2C8613%2C393, max: 0, order: priority)</th>
-<th>Milestone (Ticket query: id: 9095%2C9122%2C9127%2C9132%2C9136%2C95%2C1388%2C8959%2C9156%2C17%2C9177%2C8429%2C9178%2C4836%2C9127%2C8613%2C393, max: 0, order: milestone)</th></tr>
+<table><tr><th>Ticket (Ticket query: id: 9095%2C9122%2C9127%2C9132%2C9136%2C95%2C1388%2C8959%2C9156%2C17%2C9177%2C8429%2C9178%2C4836%2C9127%2C8613%2C393%2C1262%2C3314%2C9086, max: 0, desc: 1, order: id)</th>
+<th>Summary (Ticket query: id: 9095%2C9122%2C9127%2C9132%2C9136%2C95%2C1388%2C8959%2C9156%2C17%2C9177%2C8429%2C9178%2C4836%2C9127%2C8613%2C393%2C1262%2C3314%2C9086, max: 0, order: summary)</th>
+<th>Owner (Ticket query: id: 9095%2C9122%2C9127%2C9132%2C9136%2C95%2C1388%2C8959%2C9156%2C17%2C9177%2C8429%2C9178%2C4836%2C9127%2C8613%2C393%2C1262%2C3314%2C9086, max: 0, order: owner)</th>
+<th>Type (Ticket query: id: 9095%2C9122%2C9127%2C9132%2C9136%2C95%2C1388%2C8959%2C9156%2C17%2C9177%2C8429%2C9178%2C4836%2C9127%2C8613%2C393%2C1262%2C3314%2C9086, max: 0, order: type)</th>
+<th>Status (Ticket query: id: 9095%2C9122%2C9127%2C9132%2C9136%2C95%2C1388%2C8959%2C9156%2C17%2C9177%2C8429%2C9178%2C4836%2C9127%2C8613%2C393%2C1262%2C3314%2C9086, max: 0, order: status)</th>
+<th>Priority (Ticket query: id: 9095%2C9122%2C9127%2C9132%2C9136%2C95%2C1388%2C8959%2C9156%2C17%2C9177%2C8429%2C9178%2C4836%2C9127%2C8613%2C393%2C1262%2C3314%2C9086, max: 0, order: priority)</th>
+<th>Milestone (Ticket query: id: 9095%2C9122%2C9127%2C9132%2C9136%2C95%2C1388%2C8959%2C9156%2C17%2C9177%2C8429%2C9178%2C4836%2C9127%2C8613%2C393%2C1262%2C3314%2C9086, max: 0, order: milestone)</th></tr>
 <tr><th>[\#17](https://gitlab.haskell.org//ghc/ghc/issues/17)</th>
 <th>[Separate warnings for unused local and top-level bindings](https://gitlab.haskell.org//ghc/ghc/issues/17)</th>
 <th></th>
@@ -155,6 +155,43 @@ This is a list of tickets that might be suitable for a hacking sprint, but feel 
                       normal
                     </th>
 <th>[⊥](/trac/ghc/milestone/%E2%8A%A5)</th></tr>
+<tr><th>[\#1262](https://gitlab.haskell.org//ghc/ghc/issues/1262)</th>
+<th>[RecursiveDo in Template Haskell](https://gitlab.haskell.org//ghc/ghc/issues/1262)</th>
+<th>mgsloan</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      feature request
+                    </th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      closed
+                    </th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th>[⊥](/trac/ghc/milestone/%E2%8A%A5)</th></tr>
 <tr><th>[\#1388](https://gitlab.haskell.org//ghc/ghc/issues/1388)</th>
 <th>[Newbie help features](https://gitlab.haskell.org//ghc/ghc/issues/1388)</th>
 <th></th>
@@ -192,6 +229,43 @@ This is a list of tickets that might be suitable for a hacking sprint, but feel 
                       low
                     </th>
 <th>[⊥](/trac/ghc/milestone/%E2%8A%A5)</th></tr>
+<tr><th>[\#3314](https://gitlab.haskell.org//ghc/ghc/issues/3314)</th>
+<th>[Add compilation date to +RTS --info](https://gitlab.haskell.org//ghc/ghc/issues/3314)</th>
+<th>ak3n</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      feature request
+                    </th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      closed
+                    </th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      lowest
+                    </th>
+<th></th></tr>
 <tr><th>[\#4836](https://gitlab.haskell.org//ghc/ghc/issues/4836)</th>
 <th>[literate markdown not handled correctly by unlit](https://gitlab.haskell.org//ghc/ghc/issues/4836)</th>
 <th></th>
@@ -340,6 +414,43 @@ This is a list of tickets that might be suitable for a hacking sprint, but feel 
                       low
                     </th>
 <th>[8.0.1](/trac/ghc/milestone/8.0.1)</th></tr>
+<tr><th>[\#9086](https://gitlab.haskell.org//ghc/ghc/issues/9086)</th>
+<th>[main :: IO Int does different things with runghc and when compiled](https://gitlab.haskell.org//ghc/ghc/issues/9086)</th>
+<th>gintas</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      closed
+                    </th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      highest
+                    </th>
+<th>[7.10.1](/trac/ghc/milestone/7.10.1)</th></tr>
 <tr><th>[\#9095](https://gitlab.haskell.org//ghc/ghc/issues/9095)</th>
 <th>[make sdist picks up test files](https://gitlab.haskell.org//ghc/ghc/issues/9095)</th>
 <th>thomie</th>
