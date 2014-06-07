@@ -27,7 +27,7 @@ The primops are implemented as `CallishMachOp`s to allow us to emit LLVM intrins
 A `CallishMachOp` already acts as a memory barrier; the Cmm optimizer will not float loads/stores past it. We'll document the reliance on this behavior in the sinking pass to make sure that if it's ever changed, the optimizer is taught about how to handle these atomic operations in some different way.
 
 
-The `CallishMachOp` will be translated to the correct instructions in the backends (e.g. `lock; add` on x86).
+The `CallishMachOp` will be translated to the correct instructions in the backends (e.g. `lock; xadd` on x86).
 
 
 As the Cmm code generator cannot reorder reads/writes around prim calls (i.e. `CallishMachOp`s) the `memory_order_seq_cst` semantics should be preserved, as long as the backend outputs a memory barrier to prevent CPU speculation.
