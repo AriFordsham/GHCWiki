@@ -189,32 +189,116 @@ packages, we'll have to compute this automatically, as described in
 
 
 At this point in time, the design for the extended linking mechanism
-is not well specified, however, it might include the following:
-
-- Full Backpack packages can explicitly include an upstream Cabal
-  package with holes and explicitly fill in dependencies. This
-  is "full manual".
+is not well specified.  In Backpack cookbook below, we describe a number
+of common patterns where a Backpack package can be used to manually
+link a package in a special way.
 
 ### The next-generation of Cabal-Backpack packages
 
 
-To take full advantage of Backpack features,
+In this model, users write their code specifically to use the Backpack
+module system; however, they continue to distribute their code on Hackage
+and may be interested in concurrently supporting users who are not
+interested in using Backpack.
+
+
+The purpose of this section is to describe what we imagine the best
+practices for Backpack package construction to be.
+
+
+(TODO write section)
+
+## Backpack cookbook
+
+
+Here are a few common tasks which show up when managing package
+dependencies, and how to resolve them using Backpack.  It might be a
+good idea to support some of these directly with nice surface syntax.
+Many of these recipes are based with one of the most annoying
+situations when using Cabal: your package fails to build because
+of some sort of dependency problem, and you don't really want to have
+to go and patch upstream to fix the problem.
+
+
+Note that if you are depending against tight signatures, instead of
+version ranges, we expect to obviate many of these measures.
+
+### Hiding non-exported dependencies
+
+
+In this situation, your application is using two separate libraries
+which have identically named holes for two different versions of the
+same upstream library.  However, one of these libraries uses the
+upstream library in a strictly non-exported way: informally, use of this
+dependency is strictly an implementation detail.
+
+
+In Backpack, we can arrange for a non-exported dependency by linking a
+hole with the appropriate implementation and then thinning the
+resulting module definition out.  Here is a worked example:
+
+```wiki
+-- Upstream library with multiple, backwards-incompatible versions
+package arrays-1.x-sig where
+    Array :: ...
+package arrays-1.0 where
+    Array = ...
+
+package arrays-2.x-sig where
+    Array :: ...
+package arrays-2.0 where
+    Array = ...
+
+-- Upstream (Cabal) package which is only compatible with arrays-1.x
+package graph where
+    include arrays-1.x-sig -- In Cabal, this signature is calculated automatically
+    Graph = ...
+
+-- (**) Package which does not export Array at all
+package graph-noexport-array (Graph) where
+    include arrays-1.0
+    include graph
+
+-- Application
+package application where
+    include graph-noexport-array
+    include arrays-2.0
+    Main = [
+        import Array -- uses arrays-2.0 implementation
+    ]
+```
+
+
+Intuitively, the reason this works is that only one Array implementation
+is visible from application, so no linking (which would fail) between
+the array-1.0 and array-2.0 occurs.  It would also work to rename Array
+to another logical name, which would also prevent the linking process.
+
+```wiki
+-- (**) Package which exports array as a fresh name
+package graph-renamed-array (Graph) where
+    include arrays-1.0
+    include graph (Array as PrivateArray)
+```
+
+
+ezyang: Close study of this example reveals an additions to the surface
+language which would be quite useful.  It's easy to imagine the export
+list for graph-noexport-array becoming unwieldy when graph defines a lot
+of modules.  While it is reasonable for graph to explicitly provide a
+module list (current Cabal best-practice), it's less reasonable if we
+have to repeat the list later.  Two obvious ways of dealing with this
+are to allow signature-level exports/hiding.  Here, we simply collect up
+all of the modules mentioned in a signature and export/hide those.
+Hiding may be more convenient, since you have to include not only the
+signature of the API that was implemented, but any other types which
+live in other signatures which are exported.
+
+### Injecting a backwards compatibility shim
 
 ---
 
-
-More importantly, Backpack offers a tantalizing story for managing different versions of packages, alluded to in the paper, but not elaborated on. In Cabal, the version number range of a build-depends implicitly defines a "signature" which we depend on. There are a few ways this signature could be computed:
-
--   We could throw our hands up in the air and say the signature is just whatever Cabal computed. This does not lead to very reproducible builds, but it is the current status quo.
-
--   We could compute the “greatest common signature” for the specified version range. This signature is the widest signature for which all of the versions are compatible with. This can be used to determine if there is a buggy version range; if the greatest common signature isn’t enough to compile the package, there must exist some version that is listed as compatible, but isn’t actually. For unbounded version ranges, this can be a bit dodgy, but the PVP suggests that if you’re not unbounded over too many version numbers, you’ll be OK
-
--   We could further refine the greatest common signature, by finding the thinnest signature with which our package type checks with. This is the “ground truth” with regards to what our package relies on, although maintaining a signature like this could be pretty annoying, on the order of annoyance of having to maintain explicit import lists (and type signatures) for everything that you use. If this is automatically calculated, we could do away with version dependencies and just see if signatures are satisfied. This could have performance problems, and calculating this requires a bit of work.
-
-
-By the way, this means that naively implementing the suggestion in the Backpack paper where modules provide signature files is quite dodgy, because the signature file is likely to contain too much “stuff”, and in any case, needs to be referred to in a way that is stable across versions. On the other hand, one could easily manage partitioning signatures into “latest and greatest” versus “well, this is pretty stable for most people”; differently, one could pin to a signature for a version, and as long as the package doesn’t break backwards compatibility that signature will work for a while.
-
-### Interlude: Cabal-specific features
+## Interlude: Cabal-specific features
 
 
 Cabal is not just a packaging mechanism, but it also handles a number of
