@@ -750,5 +750,5 @@ This is a list of tickets that might be suitable for a hacking sprint, but feel 
 
 ## Summary
 
-- *n* people particitpated: nomeata, *please add yourself*
-- *n* Tickets worked on: [\#9177](https://gitlab.haskell.org//ghc/ghc/issues/9177), [\#8959](https://gitlab.haskell.org//ghc/ghc/issues/8959), [\#9127](https://gitlab.haskell.org//ghc/ghc/issues/9127), [\#9178](https://gitlab.haskell.org//ghc/ghc/issues/9178)
+- *4* people particitpated: nomeata, gintas, skeuchel, Lorenzo *please add yourself*
+- *9* Tickets worked on: [\#9177](https://gitlab.haskell.org//ghc/ghc/issues/9177), [\#8959](https://gitlab.haskell.org//ghc/ghc/issues/8959), [\#9127](https://gitlab.haskell.org//ghc/ghc/issues/9127), [\#9178](https://gitlab.haskell.org//ghc/ghc/issues/9178), [\#9132](https://gitlab.haskell.org//ghc/ghc/issues/9132), [\#393](https://gitlab.haskell.org//ghc/ghc/issues/393), [\#95](https://gitlab.haskell.org//ghc/ghc/issues/95), [\#9181](https://gitlab.haskell.org//ghc/ghc/issues/9181), [\#9181](https://gitlab.haskell.org//ghc/ghc/issues/9181)
