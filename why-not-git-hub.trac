@@ -1,0 +1,35 @@
+= Why Not !GitHub? =
+
+A common suggestion that is brought up from time is to host GHC development at [https://github.com/ GitHub] instead of maintaining our own infrastructure for Git repository hosting, code-review, developer documentation/wiki, and issue tracking. This page serves as reminder for what's holding back a migration to !GitHub currently.
+
+== Benefits of migrating to !GitHub ==
+
+Benefits of using !GitHub instead our self-maintained infrastructure include:
+
+ - Reduce maintenance cost in light of our already limited men power
+ - !GitHub's pull-request-based work-flow is well-known in the Haskell community, not the least due to the majority of Haskell packages being developed on !GitHub already
+ - Trac poses a higher threshold for new contributors due to its interface being more complex
+ - Right now, the patch submission process requires to attach patch files to feature/defect tickets
+ - Trac uses its own wiki markup syntax (as opposed to Markdown everyone else is using)
+ - !GitHub is well-integrated with services like [https://travis-ci.org Travis-CI] (which allow to automatically validate pull-requests)
+ - TODO: write more
+
+== Benefits of self-maintained infrastructure ==
+
+However, there are also quite a few reasons/benefits for keeping our own Trac-centered infrastructure:
+
+- !GitHub lacks several things we already use. For example, there is '''no way to add pre commit hooks''' to repositories that ban commits containing whitespace, trailing spaces, and other `lint` errors. https://git.haskell.org automatically enforces this to help keep new code tab-free. !GitHub has no alternative to this.
+
+- We also use this facility to '''keep Git submodules sane''': as of today, https://git.haskell.org will not let you commit a ''dangling submodule reference'' to [https://git.haskell.org/ghc.git ghc.git]. You must push the corresponding submodule code first, so the top-level repository never breaks. This is also not possible with !GitHub and has been a historical error source for developers.
+
+- Any kind of integration with a '''CI system''', at some level, is going to require custom infrastructure on our side, so we can't rely on Travis-CI alone.
+
+- Speaking of that, we need to maintain our own server so that Git pushes can interface with Trac, and the '''mailing notifier'''.
+
+- '''Migration cost.''' GHC is probably one of the largest Trac installations around at nearly 10.000 tickets, a gigantic wiki, and tons of meta-data and a '''lot''' of users. Preserving the necessary meta-data, rewriting intra-wiki links, references, and preserving everything is just going to be a ton of work. !GitHub doesn't even have a proper "import" facility.
+
+- Morever, '''a !GitHub migration would be lossy''', as the data would have to be imported via the current !GitHub API which for one doesn't allow to set all meta-data, like even timestamps, ticket/comment authors. And some of our ticket meta-data fields do not even have any corresponding concept in !GitHub's issue tracking data-model.
+
+- Trac's wiki syntax (which is available in ticket comments as well) is extensible and allows for dynamic content generation via WikiMacros, such as dynamically generated tables of tickets.
+
+- TODO: write more
