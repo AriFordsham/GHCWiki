@@ -36,3 +36,8 @@ However, there are also quite a few reasons/benefits for keeping our own Trac-ce
 - Trac's wiki syntax (which is available in ticket comments as well) is extensible and allows for dynamic content generation via [WikiMacros](wiki-macros), such as dynamically generated tables of tickets.
 
 - TODO write more
+
+## Related mailing-list discussion threads
+
+- [ "Any interest in moving GHC issues / wiki to github?" (Jul 2013 @ ghc-devs)](http://thread.gmane.org/gmane.comp.lang.haskell.ghc.devel/1444)
+- [ "Phabricator for patches and code review" (Jun 2014 @ ghc-devs)](http://thread.gmane.org/gmane.comp.lang.haskell.ghc.devel/4829/focus=4861)
