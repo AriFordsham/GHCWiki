@@ -1,7 +1,7 @@
 = Platforms =
 
 The following table describes to what extent GHC currently supports
-various platforms.  To find out who is responsible for each platform, see [wiki:Contributors]. 
+various platforms.  To find out who is responsible for each platform, see [wiki:CodeOwners GHC Code Owners]. 
 
 For information about what distributions GHC is part of, see the [http://haskell.org/ghc/distribution_packages distribution packages] page.
 
