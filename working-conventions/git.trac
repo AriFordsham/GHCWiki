@@ -236,7 +236,8 @@ $ ./sync-all --no-dph get
 $ cd ..
 $ git clone ghc-working ghc-validate
 $ cd ghc-validate
-$ ./sync-all get
+$ ./sync-all get  # Expected failure at libraries/dph
+
 $ ./sync-all -r http://git.haskell.org remote set-url origin
   # Get the dph libraries too
 $ ./sync-all get
