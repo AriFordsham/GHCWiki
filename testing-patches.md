@@ -30,7 +30,7 @@ Assuming all is well, go ahead and commit your changes! If you have commit acces
 
 ## More details on validation
 
-`validate` usually starts by `make distclean` to make sure that everything builds from scratch.  Furthermore, it ignores the build settings you have put in `mk/build.mk`, and instead uses those in `mk/validate-settings.mk`.  (It does not mess up your `mk/build.mk` file of course.)
+`validate` usually starts by `make maintainer-clean` to make sure that everything builds from scratch.  Furthermore, it ignores the build settings you have put in `mk/build.mk`, and instead uses those in `mk/validate-settings.mk`.  (It does not mess up your `mk/build.mk` file of course.)
 
 
 After you run `validate` your tree will continue to use the same settings. The way to get back to using your own `build.mk` is to run `make distclean`.  Less brutally, simply remove the file `mk/are-validating.mk`.
