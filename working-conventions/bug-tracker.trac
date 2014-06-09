@@ -7,7 +7,7 @@ We organise our work (both bug fixing and feature requests) using the Trac bug t
 
 == Type and status ==
 
-Every ticket has a '''status''' and a '''type''', which appear in the title of the ticket.  Thus "Ticket #2762 (new bug)" means status=new, and type=bug.  Here's what they mean:
+Every ticket has a '''status''' and a '''type''', which appear in the title of the ticket.  Thus "Ticket #2057 (new bug)" means status=new, and type=bug.  Here's what they mean:
 
  * '''Type''' is one of `bug`, `feature request`, `task`, or `proposal`. The `proposal` type is only for [http://www.haskell.org/haskellwiki/Library_submissions library submission] proposals.
 
