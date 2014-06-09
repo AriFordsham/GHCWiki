@@ -114,7 +114,7 @@ See also [standard targets](building/architecture/idiom/standard-targets) and [C
 
 
 We gave a quick getting-started introduction to building GHC in
-[Building/QuickStart](building/quick-start), the following sections describe each step
+[Building/Hacking](building/hacking), the following sections describe each step
 in more detail.
 
 
