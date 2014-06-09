@@ -1,5 +1,5 @@
 
-Video: [ Types and Classes](http://video.google.com/videoplay?docid=-3588273456984755597) (23'53")
+Video: [ Types and Classes](http://www.youtube.com/watch?v=pN9rhQHcfCo&list=PLBkRCigjPwyeCSD_DFxpd246YIF7_RDDI) (23'53")
 
 # Data types for Haskell entities: `Id`, `TyVar`, `TyCon`, `DataCon`, and `Class`
 
