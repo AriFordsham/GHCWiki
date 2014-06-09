@@ -1,5 +1,5 @@
 
-Video: [ GHC Core language](http://video.google.com/videoplay?docid=-8778691434558190641) (14'04")
+Video: [ GHC Core language](http://www.youtube.com/watch?v=EQA69dvkQIk&list=PLBkRCigjPwyeCSD_DFxpd246YIF7_RDDI) (14'04")
 
 # The `Core` type
 
