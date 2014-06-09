@@ -125,9 +125,9 @@ In this file we have, for example, the following:
 }}}
 
 which is the basis of the {{{quot::Integer->Integer->Integer}}} function.
-A Haskell {{{Integer}}} "is represented as a pair consisting of an Int\#
+A Haskell {{{Integer}}} "is represented as a pair consisting of an {{{Int#}}}
 representing the number of 'limbs' in use and the sign, and a
-ByteArr\# containing the 'limbs' themselves."
+{{{ByteArr#}}} containing the 'limbs' themselves."
 
 Mimicking {{{IntegerQuotOp}}}, we add:
 
