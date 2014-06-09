@@ -86,4 +86,4 @@ The **compiler itself**, independent of the external tools, is also structured a
 # Video
 
 
-Video of compilation pipeline explanation from 2006: [ Compilation Pipeline](http://video.google.com/videoplay?docid=-4326420154219711812) and interface files (17'30")
+Video of compilation pipeline explanation from 2006: [ Compilation Pipeline](http://www.youtube.com/watch?v=dzSc8ACz_mw&list=PLBkRCigjPwyeCSD_DFxpd246YIF7_RDDI) and interface files (17'30")

@@ -5,7 +5,7 @@ Here we are going to look at the compilation of a single module.
 There is a picture that goes with this description, which appears at the bottom of this page, but you'll probably find it easier to open [this link](commentary/compiler/hsc-pipe) in another window, so you can see it at the same time as reading the text.
 
 
-You can also watch a **video** of Simon Peyton-Jones explaining the compilation pipeline here: [ Compiler Pipeline II](http://video.google.com/videoplay?docid=5254545394467397086) (10'16")
+You can also watch a **video** of Simon Peyton-Jones explaining the compilation pipeline here: [ Compiler Pipeline II](http://www.youtube.com/watch?v=Upm_kYMgI_c&list=PLBkRCigjPwyeCSD_DFxpd246YIF7_RDDI) (10'16")
 
 
 Look at the picture first.  The yellow boxes are compiler passes, while the blue stuff on the left gives the data type that moves from one phase to the next.  The entire pipeline for a single module is run by a module called HscMain ([compiler/main/HscMain.hs](/trac/ghc/browser/ghc/compiler/main/HscMain.hs)).  Each data type's representation can be dumped for further inspection using a `-ddump-*` flag. (Consider also using `-ddump-to-file`: some of the dump outputs can be large!)  Here are the steps it goes through:
