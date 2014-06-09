@@ -26,7 +26,7 @@ The following cause an internal error (panic) and are already fixed in the devel
 
 ## How do I tell if I should report my bug?
 
-- Take a look at the [ FAQ](http://haskell.org/haskellwiki/GHC/FAQ) and [Chapter 9, What to do when something goes wrong](http://www.haskell.org/ghc/docs/latest/html/users_guide/wrong.html), which will give you some guidance as to whether the behaviour you're seeing is really a bug or not.
+- Take a look at the [ FAQ](http://haskell.org/haskellwiki/GHC/FAQ) and [What to do when something goes wrong](http://www.haskell.org/ghc/docs/latest/html/users_guide/wrong.html) from the GHC User's Guide, which will give you some guidance as to whether the behaviour you're seeing is really a bug or not.
 
 - Please search for existing tickets on the [ bug tracker](http://hackage.haskell.org/trac/ghc) or [ Google](http://www.google.com/?q=site:hackage.haskell.org/trac/ghc/ticket%20).  It saves time to have all the manifestations of the same bug gathered together.  If you get an error message from GHC, a good search key is usually the non-program-specific part of the error message.  
 
