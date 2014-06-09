@@ -1,5 +1,9 @@
 = GHC Status =
 
+== Nightly builds ==
+
+'''New'''! New buildbots are up. Check [http://haskell.inf.elte.hu/builders/ the status page] for more.
+
 == Biannual status reports ==
 
 Here are biannual GHC status reports, published in the [http://haskell.org/communities/ Haskell Communities and Activities Report]
