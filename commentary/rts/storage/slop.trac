@@ -34,7 +34,7 @@ f = \x -> case x of
    there is any heap slop.
 
  * When an object is overwritten with a smaller object.  This happens in two ways:
-   [wiki:Commentary/Rts/Updates Updates] and [wiki:Commentary/Rts/BlackHoles Black Holes].
+   [wiki:Commentary/Rts/HaskellExecution/Updates Updates] and [wiki:Commentary/Rts/Storage/HeapObjects#Blackholes Black Holes].
 
 == What do we do about it? ==
 
