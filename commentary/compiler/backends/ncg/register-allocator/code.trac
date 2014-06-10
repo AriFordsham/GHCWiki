@@ -34,7 +34,7 @@ The register allocator code is split into two main sections, the register alloca
    Defines the basic {{{Graph}}}, {{{Node}}} and {{{Triv}}} types used by the coloring algorithm.
 
  * [[GhcFile(compiler/utils/GraphColor.hs)]] [[BR]]
-   Defines the function {{{colorGraph}}} which is responsible for assigning colors (real regs) to nodes (virtual regs) in the register conflict graph. For more detail see [[wiki:Commentary/Compiler/GraphColoring Graph Coloring]].
+   Defines the function {{{colorGraph}}} which is responsible for assigning colors (real regs) to nodes (virtual regs) in the register conflict graph.
 
  * [[GhcFile(compiler/utils/GraphOps.hs)]] [[BR]]
    Defines functions to perform basic operations on the graphs such as adding, deleting, and coalescing nodes.
