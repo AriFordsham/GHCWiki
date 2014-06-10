@@ -65,7 +65,7 @@ Inline PrimOps are operations that can be compiled into a short sequence of code
 All other PrimOps are classified as out-of-line, and are implemented by hand-written C-- code in the file [rts/PrimOps.cmm](/trac/ghc/browser/ghc/rts/PrimOps.cmm).  An out-of-line PrimOp is like a Haskell function, except that
 
 - PrimOps cannot be partially applied.  Calls to all PrimOps are made at the correct arity; this is ensured by 
-  the CorePrep? pass.
+  the [CorePrep](commentary/compiler/hsc-main) pass.
 
 - Out-of-line PrimOps have a special, fixed, [calling convention](commentary/rts/haskell-execution#calling-convention):
   all arguments
