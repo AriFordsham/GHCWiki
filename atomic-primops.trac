@@ -1,4 +1,4 @@
-== Introduction ==
+= Atomic primops =
 
 Atomic operations on basic numeric (and pointer) types can be used as a foundation to build higher level construct (e.g. mutexes.) There are also useful on their own (e.g. to implement an atomic counter.) This page outlines a design for adding atomic primops.
 
