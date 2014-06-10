@@ -45,7 +45,7 @@ The register allocator code is split into two main sections, the register alloca
 
 - [compiler/utils/GraphColor.hs](/trac/ghc/browser/ghc/compiler/utils/GraphColor.hs)
 
-  Defines the function `colorGraph` which is responsible for assigning colors (real regs) to nodes (virtual regs) in the register conflict graph. For more detail see Commentary/Compiler/GraphColoring Graph Coloring?.
+  Defines the function `colorGraph` which is responsible for assigning colors (real regs) to nodes (virtual regs) in the register conflict graph.
 
 - [compiler/utils/GraphOps.hs](/trac/ghc/browser/ghc/compiler/utils/GraphOps.hs)
 
