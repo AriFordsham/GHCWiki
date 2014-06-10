@@ -57,7 +57,7 @@ PrimOps are divided into two categories for the purposes of implementation: inli
 ### Inline PrimOps
 
 
-Inline PrimOps are operations that can be compiled into a short sequence of code that never needs to allocate, block, or return to the scheduler for any reason.  An inline PrimOp is compiled directly into Cmm? by the [code generator](commentary/compiler/code-gen).  The code for doing this is in [compiler/codeGen/StgCmmPrim.hs](/trac/ghc/browser/ghc/compiler/codeGen/StgCmmPrim.hs).
+Inline PrimOps are operations that can be compiled into a short sequence of code that never needs to allocate, block, or return to the scheduler for any reason.  An inline PrimOp is compiled directly into [Cmm](commentary/rts/cmm) by the [code generator](commentary/compiler/code-gen).  The code for doing this is in [compiler/codeGen/StgCmmPrim.hs](/trac/ghc/browser/ghc/compiler/codeGen/StgCmmPrim.hs).
 
 ### Out-of-line PrimOps
 

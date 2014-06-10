@@ -50,7 +50,7 @@ Note that if you want to create a polymorphic primop, you need to return {{{(# a
 
 === Inline !PrimOps ===
 
-Inline !PrimOps are operations that can be compiled into a short sequence of code that never needs to allocate, block, or return to the scheduler for any reason.  An inline !PrimOp is compiled directly into [wiki:Commentary/Compiler/Cmm Cmm] by the [wiki:Commentary/Compiler/CodeGen code generator].  The code for doing this is in [[GhcFile(compiler/codeGen/StgCmmPrim.hs)]].
+Inline !PrimOps are operations that can be compiled into a short sequence of code that never needs to allocate, block, or return to the scheduler for any reason.  An inline !PrimOp is compiled directly into [wiki:Commentary/Rts/Cmm Cmm] by the [wiki:Commentary/Compiler/CodeGen code generator].  The code for doing this is in [[GhcFile(compiler/codeGen/StgCmmPrim.hs)]].
 
 === Out-of-line !PrimOps ===
 
