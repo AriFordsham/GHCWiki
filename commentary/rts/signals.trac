@@ -42,7 +42,7 @@ On Windows, we spawn a new thread that repeatedly sleeps for the timer interval 
 
 == The interrupt signal ==
 
-The interrupt signal is `SIGINT` on POSIX systems or `CTRL_C_EVENT/CTRL_BREAK_EVENT`on Windows, and is normally sent to the process when the user hits Control-C.   By default, interrupts are handled by the runtime.  They can be caught and handled by Haskell code instead, using `System.Posix.Signals` on POSIX systems or `GHC.ConsoleHandler` on Windows systems.  For example, [wiki:Commentary/GHCi GHCi] hooks the interrupt signal so that it can abort the current interpreted computation and return to the prompt, rather than terminating the whole GHCi process.
+The interrupt signal is `SIGINT` on POSIX systems or `CTRL_C_EVENT/CTRL_BREAK_EVENT`on Windows, and is normally sent to the process when the user hits Control-C.   By default, interrupts are handled by the runtime.  They can be caught and handled by Haskell code instead, using `System.Posix.Signals` on POSIX systems or `GHC.ConsoleHandler` on Windows systems.  For example, [wiki:Commentary/Compiler/Backends/GHCi GHCi] hooks the interrupt signal so that it can abort the current interpreted computation and return to the prompt, rather than terminating the whole GHCi process.
 
 When the interrupt signal is received, the default behaviour of the runtime is to attempt to shut down the Haskell program gracefully.  It does this by calling `interruptStgRts()` in [[GhcFile(rts/Schedule.c)]] (see [wiki:Commentary/Rts/Scheduler#ShuttingDown]).  If a second interrupt signal is received, then we terminate the process immediately; this is just in case the normal shutdown procedure failed or hung for some reason, the user is always able to stop the process with two control-C keystrokes.
 
