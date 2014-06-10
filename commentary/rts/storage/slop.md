@@ -41,7 +41,7 @@ Slop can arise for two reasons:
   there is any heap slop.
 
 - When an object is overwritten with a smaller object.  This happens in two ways:
-  Updates? and Black Holes?.
+  [Updates](commentary/rts/haskell-execution/updates) and [Black Holes](commentary/rts/storage/heap-objects#black-holes).
 
 ## What do we do about it?
 
