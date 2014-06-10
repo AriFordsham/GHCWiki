@@ -57,7 +57,7 @@ Inline !PrimOps are operations that can be compiled into a short sequence of cod
 All other !PrimOps are classified as out-of-line, and are implemented by hand-written C-- code in the file [[GhcFile(rts/PrimOps.cmm)]].  An out-of-line !PrimOp is like a Haskell function, except that
 
  * !PrimOps cannot be partially applied.  Calls to all !PrimOps are made at the correct arity; this is ensured by 
-   the [wiki:Commentary/Compiler/CorePrep CorePrep] pass.
+   the [wiki:Commentary/Compiler/HscMain CorePrep] pass.
 
  * Out-of-line !PrimOps have a special, fixed, [wiki:Commentary/Rts/HaskellExecution#CallingConvention calling convention]:
    all arguments
