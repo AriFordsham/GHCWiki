@@ -19,7 +19,7 @@ Use `cabal` to install the following:
  * `happy`
  * `alex`
 
-From there a standard configure, make, install should work.
+From here return to [wiki:Building Building] and follow [wiki:Building/GettingTheSources Getting the sources] then [wiki:Building/QuickStart Just building and installing GHC].
 
 == OpenIndiana ==
  These instructions have only been checked for GHC 7.6.3 on OpenIndiana 151a8. They should also apply to earlier and later versions of GHC. 
