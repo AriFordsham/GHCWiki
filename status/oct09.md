@@ -212,7 +212,7 @@ already; you can switch it on by saying `-fnew-codegen`.  What remains is
 commit to it, which will allow us to remove gargantuan quantities of
 cruft; (c) exploit it, by implementing cool new optimisations at the `C--` level;
 (d) take it further by integrating the native code generators into the 
-same pipeline.  You can read more on the wiki Commentary/Compiler/NewCodeGenPipeline CodeGen?.
+same pipeline.  You can read more on the wiki [CodeGen](commentary/compiler/new-code-gen-pipeline).
 
 
 Several passes of the new code generation pipeline are supported by Hoopl,

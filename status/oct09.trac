@@ -193,7 +193,7 @@ already; you can switch it on by saying `-fnew-codegen`.  What remains is
 commit to it, which will allow us to remove gargantuan quantities of
 cruft; (c) exploit it, by implementing cool new optimisations at the `C--` level;
 (d) take it further by integrating the native code generators into the 
-same pipeline.  You can read more on the wiki [[wiki:Commentary/Compiler/NewCodeGenPipeline CodeGen]].
+same pipeline.  You can read more on the wiki [wiki:Commentary/Compiler/NewCodeGenPipeline CodeGen].
 
 Several passes of the new code generation pipeline are supported by Hoopl,
 a Haskell library that makes it easy to write dataflow analyses and optimisations
@@ -244,4 +244,4 @@ All these URLs should be preceded with http://hackage.haskell.org/trac/ghc/wiki
  * [Building] GHC's new build system [wiki:Building]
  * [Platforms] Platforms that GHC supports [wiki:Platforms]
  * [Annotations] Annotations in GHC [wiki:Annotations]
- * [!CodeGen] The new codegen pipeline [wiki:Commentary/Compiler/NewCodeGenPipeline]
+ * [CodeGen] The new codegen pipeline [wiki:Commentary/Compiler/NewCodeGenPipeline]
