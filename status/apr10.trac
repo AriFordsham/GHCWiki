@@ -96,7 +96,7 @@ GHC's back end has been a ferment of activity.  In particular,
   * John Dias, Norman Ramsey, and Simon PJ made a lot of progress on Hoopl, our new representaion for control flow graphs, and accompanying functions for dataflow analysis and transformation.  There is a paper [[http://research.microsoft.com/en-us/um/people/simonpj/papers/c--/ Hoopl]], and Hoopl itself is now a standalone, re-usable Cabal package, which makes it much easier for others to use.
 
 The downside is that the code base is in a state of serious flux:
- * We still have two back-end pipelines, because we don't trust the new one to drop the old one.  See [[wiki:Commentary/Compiler/NewCodeGen NewCodeGen]].
+ * We still have two back-end pipelines, because we don't trust the new one to drop the old one.  See [wiki:Commentary/Compiler/NewCodeGen NewCodeGen].
  * We are in the midst of pushing the new Hoopl into GHC.
 
 
