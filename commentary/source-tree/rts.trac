@@ -71,7 +71,7 @@ All this code runs on the Haskell side of the Haskell/C divide;
   Code that executes when a Haskell thread begins and ends.
 
  [http://darcs.haskell.org/ghc/rts/StgStdThunks.cmm StgStdThunks.cmm]::
-  Some built-in thunks: [wiki:Commentary/Rts/SelectorThunks] and "apply" thunks.
+  Some built-in thunks: [wiki:Commentary/Rts/Storage/HeapObjects#Selectorthunks selector thunks] and "apply" thunks.
 
  [http://darcs.haskell.org/ghc/rts/Updates.cmm Updates.cmm], [http://darcs.haskell.org/ghc/rts/Updates.h Updates.h]::
   [wiki:Commentary Updates].
