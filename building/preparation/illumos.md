@@ -21,7 +21,7 @@ Use `cabal` to install the following:
 - `alex`
 
 
-From there a standard configure, make, install should work.
+From here return to [Building](building) and follow [Getting the sources](building/getting-the-sources) then [Just building and installing GHC](building/quick-start).
 
 ## [OpenIndiana](building/preparation/open-indiana)
 
