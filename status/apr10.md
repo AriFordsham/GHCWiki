@@ -119,7 +119,7 @@ GHC's back end has been a ferment of activity.  In particular,
 
 The downside is that the code base is in a state of serious flux:
 
-- We still have two back-end pipelines, because we don't trust the new one to drop the old one.  See Commentary/Compiler/NewCodeGen NewCodeGen?.
+- We still have two back-end pipelines, because we don't trust the new one to drop the old one.  See [NewCodeGen](commentary/compiler/new-code-gen).
 - We are in the midst of pushing the new Hoopl into GHC.
 
 ### Runtime system work (SimonM)
