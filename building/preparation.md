@@ -7,7 +7,7 @@ This section describes how to set up your system with all the tools you need to 
 - [Windows](building/preparation/windows)
 - [MacOS X](building/preparation/mac-osx)
 - [Solaris](building/preparation/solaris)
-- [OpenIndiana](building/preparation/open-indiana)
+- [Illumos](building/preparation/illumos) (SmartOS, OpenIndiana, etc.)
 - [Raspberry Pi](building/preparation/raspberry-pi) (cross-compiling from Linux)
 - [FreeBSD](building/preparation/free-bsd)
 
