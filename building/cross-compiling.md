@@ -196,9 +196,6 @@ install-dirs user
   libsubdir: $arch-$os/$pkgid/$compiler
 ```
 
-
-Unfortunately this **does not work** at the moment, because `cabal` uses the wrong values for `$arch` and `$os`, see [ https://github.com/haskell/cabal/issues/1184](https://github.com/haskell/cabal/issues/1184).
-
 ## CPU/platform specific notes
 
 ### ARM
