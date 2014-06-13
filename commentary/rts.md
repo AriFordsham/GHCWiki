@@ -57,3 +57,7 @@ Next, we try to make sense of how it all fits together.
 
 
 Also check the list of cross-cutting concerns in [Commentary](commentary).
+
+## External documentation
+
+- Blog posts by Edsko de Vries: [ Understanding the Stack](http://www.well-typed.com/blog/94/) and [ Understanding the RealWorld](http://www.well-typed.com/blog/95/)

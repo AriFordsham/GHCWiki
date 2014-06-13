@@ -56,3 +56,7 @@ Next, we try to make sense of how it all fits together.
  * [wiki:Commentary/HeapAlloced The HEAP_ALLOCED macro]
 
 Also check the list of cross-cutting concerns in [wiki:Commentary].
+
+== External documentation ==
+
+ * Blog posts by Edsko de Vries: [http://www.well-typed.com/blog/94/ Understanding the Stack] and [http://www.well-typed.com/blog/95/ Understanding the RealWorld]
