@@ -92,8 +92,6 @@ So our earlier `SS`/`TT` example would be rejected because it relies on S being 
 
 ### Declarative typing rules for (PARTIAL)
 
-**Richard:** I'm similarly unsure of this section. I like thinking in terms of typing rules, but I want rules about datatype declarations, not function declarations. I agree with the conclusions here, but I can't figure out how (PARGEN) would look different from (BASELINE) in this presentation. **End Richard**
-
 
 I think that (PARTIAL) has a nice declarative typing rule.
 
@@ -222,6 +220,16 @@ the standard generalisation:
 
 
 The difference from (PARTIAL) is that before type-checking `b` we generalise `t`.
+
+### How does (PARGEN) differ from (BASELINE)?
+
+
+(PARGEN) and (BASELINE) are incomparable.
+
+- The `SS/TT` example under (BASELINE) will be rejected by (PARGEN) becuase `SS` will get kind `kappa1 -> kappa2 -> kappa3 -> *` when kind-checking the `SS/TT` strongly connected component.  But (BASELINE) accepts it by breaking the SCC into two.
+- There are obviously examples that are accepted by (PARGEN) but not (BASELINE).
+
+**Richard:** I can't figure out how (PARGEN) would look different from (BASELINE) in this presentation. **End Richard****Simon**: does the above answer you?
 
 ## All of the above (ALL)
 
