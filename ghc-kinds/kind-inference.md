@@ -229,12 +229,16 @@ The difference from (PARTIAL) is that before type-checking `b` we generalise `t`
 - The `SS/TT` example under (BASELINE) will be rejected by (PARGEN) becuase `SS` will get kind `kappa1 -> kappa2 -> kappa3 -> *` when kind-checking the `SS/TT` strongly connected component.  But (BASELINE) accepts it by breaking the SCC into two.
 - There are obviously examples that are accepted by (PARGEN) but not (BASELINE).
 
+
+So moving from (BASELINE) to (PARGEN) would be a breaking change, but only in rather obscure circumstances.  I am intensely relaxed about that particular backward-compatibility problem!
+
 **Richard:** I can't figure out how (PARGEN) would look different from (BASELINE) in this presentation. **End Richard****Simon**: does the above answer you?
 
 ## All of the above (ALL)
 
 
-Combine (BASELINE), for the CUSK stuff, with (PARGEN) for type with partial kind signatures.
+Combine (BASELINE), for the CUSK stuff, with (PARGEN) for type with partial kind signatures.  This would type the
+most programs, but is the most complicated.
 
 ## Type signatures
 
