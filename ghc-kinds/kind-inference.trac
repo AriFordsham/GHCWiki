@@ -68,87 +68,14 @@ So our earlier `SS`/`TT` example would be rejected because it relies on S being 
    data TT (a::k) (f::k->*) where
       MkTT :: f a -> SS f a Maybe -> SS f a Int -> TT a f
 }}}
-I believe that ''if you want polymorphism in `k`, you must decorate all the places that `k` appears''.
-For example, this won't work:
-{{{
-  data Foo (a::k) f = MkFoo (f a) (Foo a f)
-}}}
-because in step 2 we get the kind signature
-{{{
-  Foo :: forall k. k -> kappa1 -> *
-}}}
-where `kappa1` is a unification variable shared among all calls to `Foo` in the SCC.
-I don't think we can then allow `kappa1` to be unified with anything involving `k`.
-This is a tricky point.
 
-'''Richard:''' I don't understand this last point. Are you saying that the described algorithm ''does not'' do this unification and thus would reject `Foo`? Or, are you saying that the proposed strategy ''should not'' do this unification, as a point of design that might be friendlier to users? '''End Richard'''
-
-== Generalised partial kind signature strategy (PARGEN) ==
-
-The (PARGEN) strategy is exactly like (PARTIAL) except that step 4 is different:
-
- 4. Generalise over any unconstrained meta kind variable (that is not free in the environment), rather than defaulting to `*`.
-
-'''Richard:''' What meta variables can be free in the environment at this point? We're operating at the top level. '''End Richard'''
-
-So we use the partial kind signatures to express any polymorphism necessary for recursion ''inside'' the SCC,
-but perhaps infer yet more polymorphism that can be used ''after'' the SCC.  Thus:
-{{{
-data T f a = MkT (f a) (T f a)
-  -- Success:  T :: forall k. (k->*) -> k -> *
-
-data S f a = MkS (f a) (S Maybe Int) (S Monad Maybe)
-  -- Failure: needs polymorphic recursion
-
-data S2 f (a::k) = MkS (f a) (S Maybe Int) (S Monad Maybe)
-  -- Success: needs polymorphic recursion
-}}}
-
-== All of the above (ALL) ==
-
-Combine (BASELINE), for the CUSK stuff, with (PARGEN) for type with partial kind signatures.
-
-== Type signatures ==
-
-'''Richard:''' I'm not sure what the upshot of this section is. In type signatures, it feels like we're using an algorithm other than (BASELINE), because polymorphic recursion on kinds works just fine without ''any'' mention of kind variables. I suppose this is because the body of a function is considered outside of its type signature's SCC and is not considered when doing kind inference. Given that recursion ''in a type signature'' is not possible (we can't mention terms in types), I can't quite figure out what differentiates the strategies in type signatures. '''End Richard'''
-
-Another place that we currently (i.e. using (BASELINE)) do kind generalisation is in ''type signatures''. If you write
-{{{
-f :: m a -> m a 
-f = ...
-}}}
-then the type signature is kind-generalised thus:
-{{{
-This user-written signature 
-  f :: m a -> m a 
-means this (BASELINE)
-  f :: forall k (a:k) (m:k->*). m a -> m a
-}}}
-And f's RHS had better ''be'' that polymorphic.  
-
-Under (PARTIAL) it would be consistent to say this:
-{{{
-This user-written signature 
-  f :: m a -> m a 
-means this (PARTIAL)
-  f :: forall (a:*) (m:k->*). m a -> m a
-}}}
-If you want the kind-polymorphic one, you'd have to write thus
-{{{
-This user-written signature 
-  f :: forall k (a:k) (m:k->*). m a -> m a
-means this (PARTIAL)
-  f :: forall k (a:k) (m:k->*). m a -> m a
-}}}
-
-
-== Declarative typing rules ==
+=== Declarative typing rules for (PARTIAL) ===
 
 '''Richard:''' I'm similarly unsure of this section. I like thinking in terms of typing rules, but I want rules about datatype declarations, not function declarations. I agree with the conclusions here, but I can't figure out how (PARGEN) would look different from (BASELINE) in this presentation. '''End Richard'''
 
 I think that (PARTIAL) has a nice declarative typing rule.
 
-Here is what the conventional declarative typing rule, ''in the absence of polymorphism'' for a single self-recursive function looks like:
+Here is what the conventional declarative typing rule, ''in the absence of polymorphism'' for a single self-recursive function looks like.  (I'm using the term language but the same thing happens at the type level.)
 {{{
         G, f:t |- e:t
         G, f:t |- b:t'
@@ -172,15 +99,110 @@ The (PARTIAL) rule might look like this:
         vs \not\in ti
         G, f : t |- e : forall vs.t
         G, f : t |- b:t'
-      ---------------------------
+      --------------------------- (T-PARTIAL)
         G |- letrec f :: forall vs. sig; f = e in b : t'
 }}}
 Here I'm expressing the user-specified knowledge as a signature `forall vs.sig`, with '_' for bits you don't want to specify.
 {{{
        f :: forall a. _ -> a -> _
 }}}
-Then the rule intantiates each '_' with a clairvoyantly guessed monotype (provided it does not mention
+Then the rule intantiates each '_' independently with 
+a clairvoyantly guessed monotype (provided it does not mention
 the 'vs', or 'a' in this example), and off you go.
+
+=== A tricky point about (PARTIAL) ===
+
+Notice that in this typing rule I say `vs \not\in ti`.  If you don't have that side condition I think
+complete inference becomes very hard.  Suppose `MT :: (*->*) -> *`, and consider
+{{{
+   data Foo f (a::k) = MkFoo (Foo Maybe Int) (Foo MT Maybe)
+}}}
+Because of the partial kind signature we'll kind-check `Foo`'s RHS with this kind signature for `Foo`:
+{{{
+   Foo :: forall k. kappa1 -> k -> *
+}}}
+using the unification variable `kapp1` for `f`.  Now, if we clairvoyantly decide `kappa1 := k->*`, as would be allowed by (T-PARTIAL), then indeed the definition if well-kinded.  So we'd better infer that, if we are to be complete wrt (T-PARTIAL).  But the algorithm will share `kappa1` among both calls to `Foo`, and will therefore unify `Maybe` with `MT` and fail.
+
+To gain completeness we need to be less ambitious; hence the side condition in (T-PARTIAL) `vs \not\in ti`.
+
+But that side condition, in turn, means that this will fail:
+{{{
+  data Foo f (a::k) = MkFoo (f a) (Foo f a)
+}}}
+because here `kappa1` must be unified with `k->*`, which isn't allowed by (T-PARTIAL).
+Maybe that is acceptable; you can always decorate both of `Foo`'s arguments.
+
+'''Richard:''' I don't understand this last point. Are you saying that the described algorithm ''does not'' do this unification and thus would reject `Foo`? Or, are you saying that the proposed strategy ''should not'' do this unification, as a point of design that might be friendlier to users? '''End Richard'''  '''Simon''': clearer now?
+
+== Generalised partial kind signature strategy (PARGEN) ==
+
+The (PARGEN) strategy is exactly like (PARTIAL) except that step 4 is different:
+
+ 4. Generalise over any unconstrained meta kind variable, rather than defaulting to `*`.  Since we are operating at top level, there are no kind variables mentioned in the environment, so no need for the ususal "not free in the environment" check.
+
+So we use the partial kind signatures to express any polymorphism necessary for recursion ''inside'' the SCC,
+but perhaps infer yet more polymorphism that can be used ''after'' the SCC.  Thus:
+{{{
+data T f a = MkT (f a) (T f a)
+  -- Success:  T :: forall k. (k->*) -> k -> *
+
+data S f a = MkS (f a) (S Maybe Int) (S Monad Maybe)
+  -- Failure: needs polymorphic recursion
+
+data S2 f (a::k) = MkS (f a) (S Maybe Int) (S Monad Maybe)
+  -- Success: needs polymorphic recursion
+}}}
+
+=== Declarative typing rules for (PARGEN) ===
+
+The declarative rule for (PARGEN) is a combination of the one for (PARTIAL) with 
+the standard generalisation:
+{{{
+        t = forall vs. sig[t1..tn/_]
+        vs \not\in ti
+        G, f : t |- e : forall vs.t
+        G, f : gen(G,t) |- b:t'
+      --------------------------- (T-PARGEN)
+        G |- letrec f :: forall vs. sig; f = e in b : t'
+}}}
+The difference from (PARTIAL) is that before type-checking `b` we generalise `t`.
+
+== All of the above (ALL) ==
+
+Combine (BASELINE), for the CUSK stuff, with (PARGEN) for type with partial kind signatures.
+
+== Type signatures ==
+
+'''Richard:''' I'm not sure what the upshot of this section is. In type signatures, it feels like we're using an algorithm other than (BASELINE), because polymorphic recursion on kinds works just fine without ''any'' mention of kind variables. I suppose this is because the body of a function is considered outside of its type signature's SCC and is not considered when doing kind inference. Given that recursion ''in a type signature'' is not possible (we can't mention terms in types), I can't quite figure out what differentiates the strategies in type signatures. '''End Richard'''   '''Simon''': true; but if we used (PARTIAL), which does no kind-generalisation, it would be consistent not to kind-generalise in type signatures either. I've tried to clarify  ''End Simon'''
+
+Another place that we currently (i.e. using (BASELINE)) do kind generalisation is in ''type signatures''. If you write
+{{{
+f :: m a -> m a 
+f = ...
+}}}
+then the type signature is kind-generalised thus:
+{{{
+This user-written signature 
+  f :: m a -> m a 
+means this (BASELINE)
+  f :: forall k (a:k) (m:k->*). m a -> m a
+}}}
+And f's RHS had better ''be'' that polymorphic.  
+
+However (PARTIAL) does no kind generalisation, and it would be consistent to cease doing so for type signatures too.  so:
+{{{
+This user-written signature 
+  f :: m a -> m a 
+means this (PARTIAL)
+  f :: forall (a:*) (m:k->*). m a -> m a
+}}}
+If you want the kind-polymorphic one, you'd have to write thus
+{{{
+This user-written signature 
+  f :: forall k (a:k) (m:k->*). m a -> m a
+means this (PARTIAL)
+  f :: forall k (a:k) (m:k->*). m a -> m a
+}}}
 
 
 == Reflection ==
