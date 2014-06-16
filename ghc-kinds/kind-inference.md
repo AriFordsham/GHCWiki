@@ -329,3 +329,17 @@ If we moved from (BASELINE) to (PARTIAL), some programs that work now would fail
 
 
 But that might be a price worth paying for the simplicity, uniformity, and predictability you'd get in exchange.
+
+**Richard:** I think changing to (PARTIAL) throughout would be a mistake, as lots of code would fail to compile. Kind polymorphism by default in datatypes and classes has been around since 7.4, and I suspect there is quite a bit of code that such a change would disrupt.
+
+
+On the other hand, I think changing to (PARGEN) throughout would work nicely. I believe that it would allow all current code to type-check (except for the weird example that probably should be rejected in [\#9201](https://gitlab.haskell.org//ghc/ghc/issues/9201)). If we were to choose (PARGEN) over (ALL), it's possible that some code would become *more* polymorphic, as (PARGEN) is more polymorphic than (BASELINE) in the presence of a CUSK. However, I don't believe that this could be a *breaking* change, and I would prefer going with (PARGEN) over (ALL) for the sake of simplicity -- no need to have two systems around.
+
+
+I can't figure out a way that (BASELINE) and (PARGEN) are different in type signatures for terms. This version doesn't have quite as nice a declarative typing rule because the type is generalized over kind variables that go completely unmentioned in the type -- a straightforward `forall ftv(t). t` doesn't quite do it. We need to generalize over seen variables, infer kinds, and then generalize over meta-kind variables. But, this is what is done today.
+
+
+(Because open type families do not have a body, they *would* still need their own kind inference story, where unconstrained meta-variables default to `*`.)
+
+
+In [comment:5:ticket:9200](https://gitlab.haskell.org//ghc/ghc/issues/9200), I discuss "good" polymorphism and "bad" polymorphism. This discussion, in retrospect, seems tangential at this point. It really only makes sense when discussing closed type families, which aren't at the heart of the problems here. **End Richard**
