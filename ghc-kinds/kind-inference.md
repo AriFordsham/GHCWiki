@@ -110,12 +110,16 @@ where `kappa1` is a unification variable shared among all calls to `Foo` in the 
 I don't think we can then allow `kappa1` to be unified with anything involving `k`.
 This is a tricky point.
 
+**Richard:** I don't understand this last point. Are you saying that the described algorithm *does not* do this unification and thus would reject `Foo`? Or, are you saying that the proposed strategy *should not* do this unification, as a point of design that might be friendlier to users? **End Richard**
+
 ## Generalised partial kind signature strategy (PARGEN)
 
 
 The (PARGEN) strategy is exactly like (PARTIAL) except that step 4 is different:
 
 1. Generalise over any unconstrained meta kind variable (that is not free in the environment), rather than defaulting to `*`.
+
+**Richard:** What meta variables can be free in the environment at this point? We're operating at the top level. **End Richard**
 
 
 So we use the partial kind signatures to express any polymorphism necessary for recursion *inside* the SCC,
@@ -138,6 +142,8 @@ data S2 f (a::k) = MkS (f a) (S Maybe Int) (S Monad Maybe)
 Combine (BASELINE), for the CUSK stuff, with (PARGEN) for type with partial kind signatures.
 
 ## Type signatures
+
+**Richard:** I'm not sure what the upshot of this section is. In type signatures, it feels like we're using an algorithm other than (BASELINE), because polymorphic recursion on kinds works just fine without *any* mention of kind variables. I suppose this is because the body of a function is considered outside of its type signature's SCC and is not considered when doing kind inference. Given that recursion *in a type signature* is not possible (we can't mention terms in types), I can't quite figure out what differentiates the strategies in type signatures. **End Richard**
 
 
 Another place that we currently (i.e. using (BASELINE)) do kind generalisation is in *type signatures*. If you write
@@ -181,6 +187,8 @@ means this (PARTIAL)
 ```
 
 ## Declarative typing rules
+
+**Richard:** I'm similarly unsure of this section. I like thinking in terms of typing rules, but I want rules about datatype declarations, not function declarations. I agree with the conclusions here, but I can't figure out how (PARGEN) would look different from (BASELINE) in this presentation. **End Richard**
 
 
 I think that (PARTIAL) has a nice declarative typing rule.
@@ -321,3 +329,17 @@ If we moved from (BASELINE) to (PARTIAL), some programs that work now would fail
 
 
 But that might be a price worth paying for the simplicity, uniformity, and predictability you'd get in exchange.
+
+**Richard:** I think changing to (PARTIAL) throughout would be a mistake, as lots of code would fail to compile. Kind polymorphism by default in datatypes and classes has been around since 7.4, and I suspect there is quite a bit of code that such a change would disrupt.
+
+
+On the other hand, I think changing to (PARGEN) throughout would work nicely. I believe that it would allow all current code to type-check (except for the weird example that probably should be rejected in [\#9201](https://gitlab.haskell.org//ghc/ghc/issues/9201)). If we were to choose (PARGEN) over (ALL), it's possible that some code would become *more* polymorphic, as (PARGEN) is more polymorphic than (BASELINE) in the presence of a CUSK. However, I don't believe that this could be a *breaking* change, and I would prefer going with (PARGEN) over (ALL) for the sake of simplicity -- no need to have two systems around.
+
+
+I can't figure out a way that (BASELINE) and (PARGEN) are different in type signatures for terms. This version doesn't have quite as nice a declarative typing rule because the type is generalized over kind variables that go completely unmentioned in the type -- a straightforward `forall ftv(t). t` doesn't quite do it. We need to generalize over seen variables, infer kinds, and then generalize over meta-kind variables. But, this is what is done today.
+
+
+(Because open type families do not have a body, they *would* still need their own kind inference story, where unconstrained meta-variables default to `*`.)
+
+
+In [comment:5:ticket:9200](https://gitlab.haskell.org//ghc/ghc/issues/9200), I discuss "good" polymorphism and "bad" polymorphism. This discussion, in retrospect, seems tangential at this point. It really only makes sense when discussing closed type families, which aren't at the heart of the problems here. **End Richard**
