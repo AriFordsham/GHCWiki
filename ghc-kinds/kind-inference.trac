@@ -26,7 +26,6 @@ This plan, originally due to Mark Jones, is the strategy that GHC 7.8 follows fo
         kappa0 ~ (kappa1 -> *) -> kappa1 -> kappa2 -> *
 }}}
      The `kappa1` arises from instantiating `TT` at its call site in `SS`
-
     * Generalise.  So we get
 {{{
         SS :: forall k1 k2. (k1->*) -> k1 -> k2 -> *

@@ -35,13 +35,11 @@ This plan, originally due to Mark Jones, is the strategy that GHC 7.8 follows fo
     ```
 
     The `kappa1` arises from instantiating `TT` at its call site in `SS`
+  - Generalise.  So we get
 
-- Generalise.  So we get
-
-  ```wiki
-          SS :: forall k1 k2. (k1->*) -> k1 -> k2 -> *
-  ```
-
+    ```wiki
+            SS :: forall k1 k2. (k1->*) -> k1 -> k2 -> *
+    ```
 1. Extend the environment with these generalised kind bindings, and kind-check the CUSK declarations.
 
 
