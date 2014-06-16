@@ -2,6 +2,7 @@
 
 ## Front end
 
+- [\#9210](https://gitlab.haskell.org//ghc/ghc/issues/9210): functional dependencies and overlapping instances
 - [\#9156](https://gitlab.haskell.org//ghc/ghc/issues/9156): duplicate record fields
 - [\#9161](https://gitlab.haskell.org//ghc/ghc/issues/9161): pattern synonyms and `DataKinds`
 - [\#8673](https://gitlab.haskell.org//ghc/ghc/issues/8673): more generous GADT record selectors
