@@ -1,0 +1,325 @@
+# Kind inference for types and classes
+
+
+This page summarises several alternative designs, which are debated on [\#9200](https://gitlab.haskell.org//ghc/ghc/issues/9200).  (See also [\#9201](https://gitlab.haskell.org//ghc/ghc/issues/9201).)
+
+## Baseline strategy (BASELINE)
+
+
+This plan, originally due to Mark Jones, is the strategy that GHC 7.8 follows for ordinary, recursive term-level functions, and for recursive data types.  I'll describe it for data types, with this example:
+
+```wiki
+   data SS f a b = MkSS (TT a f) (SS f a b)
+   data TT (a::k) (f::k -> *) :: * where
+      MkTT :: f a -> SS f a Maybe -> SS f a Int -> TT a f
+```
+
+1. Identify which type constructors have Complete User Type Signatures (CUSK).  In this example, `TT` does. Extend the environment with these, fixed, kinds:
+
+  ```wiki
+         TT :: forall k. k -> (k->*) -> *
+  ```
+1. Perform strongly-connected component (SCC) analysis on the non-CUSK decls, *ignoring* dependencies on a type constructor with a CUSK.  In our example, we get a single recursive SCC, containing `SS`.
+
+1. For each SCC in turn:
+
+  - Bind the type constructor to a fresh meta-kind variable:
+
+    ```wiki
+            SS :: kappa0
+    ```
+  - Kind-check all the declarations of the SCC in this environment.  This will generate some unifications, so in the end we get
+
+    ```wiki
+            kappa0 ~ (kappa1 -> *) -> kappa1 -> kappa2 -> *
+    ```
+
+    The `kappa1` arises from instantiating `TT` at its call site in `SS`
+
+- Generalise.  So we get
+
+  ```wiki
+          SS :: forall k1 k2. (k1->*) -> k1 -> k2 -> *
+  ```
+
+1. Extend the environment with these generalised kind bindings, and kind-check the CUSK declarations.
+
+
+The Key Point is that we can kind-check `SS`*without looking at `TT`'s definition at all*, because we completely know `TT`'s kind.  That in turn means that we can exploit *inferred* polymorphism for `SS` when kind-checking `TT`.  As we do here: `TT` uses `SS` in two different ways `(SS f a Maybe)` and `(SS f a Int)`.
+
+
+Note that for a *non-recursive* type or class declaration, (BASELINE) always works fine.
+
+## Partial kind signature strategy (PARTIAL)
+
+
+The key idea is that *all polymorphism is declared*, so nothing gets to be kind-polymorphic unless you say so.  But the payoff is that you can give partial kind signatures.  Here's the strategy.
+
+1. Sort the declarations into SCCs.  No special treatment for CUSKs.
+
+1. For each declaration, extend the environment with a kind binding that has a forall for each *explicit* user-written kind variable, but meta-kind variables otherwise.  These kind annotations amount to partial kind signatures.  For example
+
+  ```wiki
+        data Foo (a :: k1 -> k1) b c = ...
+  ```
+
+  would get a kind binding
+
+  ```wiki
+        Foo :: forall k1. (k1->k1) -> kappa1 -> kappa2 -> *
+  ```
+
+  Our earlier example would give
+
+  ```wiki
+        T :: forall k. k -> (k->*) -> *
+        S :: kappa3 -> kappa4 -> kappa5 -> *
+  ```
+
+1. Kind-check the declartions in this environment.  At a call of `Foo`, say, we'd instantiate the `forall k1` with a fresh meta-kind variable, but would share `kappa1`, `kappa2` among all calls to `Foo`.
+
+1. Default any unconstrained meta kind variables to `*`
+
+
+That's it!   No generalisation step.  The *only* polymorphism is that declared by the user.
+
+
+So our earlier `SS`/`TT` example would be rejected because it relies on S being polymorphic in its third parameter. If you want the `SS`/`TT` example to work you could write
+
+```wiki
+   data SS (f::k1->*) (a::k1) (b::k2) = MkSS (TT a f) (SS f a b)
+   data TT (a::k) (f::k->*) where
+      MkTT :: f a -> SS f a Maybe -> SS f a Int -> TT a f
+```
+
+
+I believe that *if you want polymorphism in `k`, you must decorate all the places that `k` appears*.
+For example, this won't work:
+
+```wiki
+  data Foo (a::k) f = MkFoo (f a) (Foo a f)
+```
+
+
+because in step 2 we get the kind signature
+
+```wiki
+  Foo :: forall k. k -> kappa1 -> *
+```
+
+
+where `kappa1` is a unification variable shared among all calls to `Foo` in the SCC.
+I don't think we can then allow `kappa1` to be unified with anything involving `k`.
+This is a tricky point.
+
+## Generalised partial kind signature strategy (PARGEN)
+
+
+The (PARGEN) strategy is exactly like (PARTIAL) except that step 4 is different:
+
+1. Generalise over any unconstrained meta kind variable (that is not free in the environment), rather than defaulting to `*`.
+
+
+So we use the partial kind signatures to express any polymorphism necessary for recursion *inside* the SCC,
+but perhaps infer yet more polymorphism that can be used *after* the SCC.  Thus:
+
+```wiki
+data T f a = MkT (f a) (T f a)
+  -- Success:  T :: forall k. (k->*) -> k -> *
+
+data S f a = MkS (f a) (S Maybe Int) (S Monad Maybe)
+  -- Failure: needs polymorphic recursion
+
+data S2 f (a::k) = MkS (f a) (S Maybe Int) (S Monad Maybe)
+  -- Success: needs polymorphic recursion
+```
+
+## All of the above (ALL)
+
+
+Combine (BASELINE), for the CUSK stuff, with (PARGEN) for type with partial kind signatures.
+
+## Type signatures
+
+
+Another place that we currently (i.e. using (BASELINE)) do kind generalisation is in *type signatures*. If you write
+
+```wiki
+f :: m a -> m a 
+f = ...
+```
+
+
+then the type signature is kind-generalised thus:
+
+```wiki
+This user-written signature 
+  f :: m a -> m a 
+means this (BASELINE)
+  f :: forall k (a:k) (m:k->*). m a -> m a
+```
+
+
+And f's RHS had better *be* that polymorphic.  
+
+
+Under (RICHARD) it would be consistent to say this:
+
+```wiki
+This user-written signature 
+  f :: m a -> m a 
+means this (RICHARD)
+  f :: forall (a:*) (m:k->*). m a -> m a
+```
+
+
+If you want the kind-polymorphic one, you'd have to write thus
+
+```wiki
+This user-written signature 
+  f :: forall k (a:k) (m:k->*). m a -> m a
+means this (RICHARD)
+  f :: forall k (a:k) (m:k->*). m a -> m a
+```
+
+## Declarative typing rules
+
+
+I think that (PARITAL) has a nice declarative typing rule.
+
+
+Here is what the conventional declarative typing rule, *in the absence of polymorphism* for a single self-recursive function looks like:
+
+```wiki
+        G, f:t |- e:t
+        G, f:t |- b:t'
+      ---------------------------
+        G |- letrec f = e in b : t'
+```
+
+
+Here the "t" is a monotype (no foralls) that the declarative typing rules clairvoyantly conjures up out of thin air.
+
+
+Once you add Hindley-Milner style polymorphism, the rule gets a bit more complicated
+
+```wiki
+        G, f:t |- e:t
+        G, f:gen(G,t) |- b:t'
+      ---------------------------
+        G |- letrec f = e in b : t'
+```
+
+
+where 'gen' is generalising.
+
+
+The (PARITAL) rule might look like this:
+
+```wiki
+        t = forall vs. sig[t1..tn/_]
+        vs \not\in ti
+        G, f : t |- e : forall vs.t
+        G, f : t |- b:t'
+      ---------------------------
+        G |- letrec f :: forall vs. sig; f = e in b : t'
+```
+
+
+Here I'm expressing the user-specified knowledge as a signature `forall vs.sig`, with '_' for bits you don't want to specify.
+
+```wiki
+       f :: forall a. _ -> a -> _
+```
+
+
+Then the rule intantiates each '_' with a clairvoyantly guessed monotype (provided it does not mention
+the 'vs', or 'a' in this example), and off you go.
+
+## Reflection
+
+
+I think we could reasonably switch to (PARITAL) throughout.
+
+
+As Richard's comments in `TcHsType` point out, we don't want maximal polymorphism.  His example is:
+
+```wiki
+    type family F a where
+      F Int = Bool
+      F Bool = Char
+```
+
+
+We could generate  
+
+```wiki
+   F :: forall k1 k2. k1 -> k2
+```
+
+
+so that `(F Maybe)` is well-kinded, but stuck. But that's probably not what we want. It would be better to get `F :: * -> *`
+
+
+But what about
+
+```wiki
+    type family G a f b where
+      G Int  f b = f b
+      G Bool f b = Char -> f b
+```
+
+
+You could just about argue that the programmer intends
+
+```wiki
+   F :: forall k. * -> (k->*) -> k -> *
+```
+
+
+It's quite similar to this:
+
+```wiki
+  data PT f a = MkPT (f a)
+```
+
+
+which today, using (BASELINE), we infer to have kind
+
+```wiki
+  PT :: forall k. (k->*) -> k -> *
+```
+
+
+But I'd be perfectly happy if PT got a *monomorphic* inferred kind,
+which is what (PARITAL) would do:
+
+```wiki
+  PT :: (*->*) -> * -> *
+```
+
+
+If you want the poly-kinded PT, use a signature:
+
+```wiki
+  -- Any of these would do
+  data PT f             (a :: k) = MkPT (f a)
+  data PT (f :: k -> *) a        = MkPT (f a)
+  data PT (f :: k -> *) (a :: k) = MkPT (f a)
+```
+
+
+One oddity is that we'd do (BASELINE) for terms and (PARITAL) for types.  But perhaps that's ok.  They are different.
+
+- Terms ought to be as polymorphic as possible but arguably not types. Examples above.  Also, since kind polymorphism is still in its infancy, maybe it's no bad thing if all kind polymorphism is explicitly signalled every time a kind-polymorphic binder is introduced.
+
+- Terms have well-established separate type signatures, but we don't have a syntax for separate kind signatures of types and classes.
+
+
+If we moved from (BASELINE) to (PARITAL), some programs that work now would fail:
+
+- the original S/T example above
+- a data type like `PT` where the user did actually want the kind-polymorphic version.
+
+
+But that might be a price worth paying for the simplicity, uniformity, and predictability you'd get in exchange.
