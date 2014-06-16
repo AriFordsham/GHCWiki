@@ -163,12 +163,12 @@ means this (BASELINE)
 And f's RHS had better *be* that polymorphic.  
 
 
-Under (RICHARD) it would be consistent to say this:
+Under (PARTIAL) it would be consistent to say this:
 
 ```wiki
 This user-written signature 
   f :: m a -> m a 
-means this (RICHARD)
+means this (PARTIAL)
   f :: forall (a:*) (m:k->*). m a -> m a
 ```
 
@@ -178,14 +178,14 @@ If you want the kind-polymorphic one, you'd have to write thus
 ```wiki
 This user-written signature 
   f :: forall k (a:k) (m:k->*). m a -> m a
-means this (RICHARD)
+means this (PARTIAL)
   f :: forall k (a:k) (m:k->*). m a -> m a
 ```
 
 ## Declarative typing rules
 
 
-I think that (PARITAL) has a nice declarative typing rule.
+I think that (PARTIAL) has a nice declarative typing rule.
 
 
 Here is what the conventional declarative typing rule, *in the absence of polymorphism* for a single self-recursive function looks like:
@@ -214,7 +214,7 @@ Once you add Hindley-Milner style polymorphism, the rule gets a bit more complic
 where 'gen' is generalising.
 
 
-The (PARITAL) rule might look like this:
+The (PARTIAL) rule might look like this:
 
 ```wiki
         t = forall vs. sig[t1..tn/_]
@@ -239,7 +239,7 @@ the 'vs', or 'a' in this example), and off you go.
 ## Reflection
 
 
-I think we could reasonably switch to (PARITAL) throughout.
+I think we could reasonably switch to (PARTIAL) throughout.
 
 
 As Richard's comments in `TcHsType` point out, we don't want maximal polymorphism.  His example is:
@@ -292,7 +292,7 @@ which today, using (BASELINE), we infer to have kind
 
 
 But I'd be perfectly happy if PT got a *monomorphic* inferred kind,
-which is what (PARITAL) would do:
+which is what (PARTIAL) would do:
 
 ```wiki
   PT :: (*->*) -> * -> *
@@ -309,14 +309,14 @@ If you want the poly-kinded PT, use a signature:
 ```
 
 
-One oddity is that we'd do (BASELINE) for terms and (PARITAL) for types.  But perhaps that's ok.  They are different.
+One oddity is that we'd do (BASELINE) for terms and (PARTIAL) for types.  But perhaps that's ok.  They are different.
 
 - Terms ought to be as polymorphic as possible but arguably not types. Examples above.  Also, since kind polymorphism is still in its infancy, maybe it's no bad thing if all kind polymorphism is explicitly signalled every time a kind-polymorphic binder is introduced.
 
 - Terms have well-established separate type signatures, but we don't have a syntax for separate kind signatures of types and classes.
 
 
-If we moved from (BASELINE) to (PARITAL), some programs that work now would fail:
+If we moved from (BASELINE) to (PARTIAL), some programs that work now would fail:
 
 - the original S/T example above
 - a data type like `PT` where the user did actually want the kind-polymorphic version.
