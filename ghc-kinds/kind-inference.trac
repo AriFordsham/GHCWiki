@@ -144,6 +144,8 @@ means this (PARTIAL)
 
 == Declarative typing rules ==
 
+'''Richard:''' I'm similarly unsure of this section. I like thinking in terms of typing rules, but I want rules about datatype declarations, not function declarations. I agree with the conclusions here, but I can't figure out how (PARGEN) would look different from (BASELINE) in this presentation. '''End Richard'''
+
 I think that (PARTIAL) has a nice declarative typing rule.
 
 Here is what the conventional declarative typing rule, ''in the absence of polymorphism'' for a single self-recursive function looks like:
