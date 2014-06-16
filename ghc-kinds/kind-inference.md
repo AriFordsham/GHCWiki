@@ -110,6 +110,8 @@ where `kappa1` is a unification variable shared among all calls to `Foo` in the 
 I don't think we can then allow `kappa1` to be unified with anything involving `k`.
 This is a tricky point.
 
+**Richard:** I don't understand this last point. Are you saying that the described algorithm *does not* do this unification and thus would reject `Foo`? Or, are you saying that the proposed strategy *should not* do this unification, as a point of design that might be friendlier to users?
+
 ## Generalised partial kind signature strategy (PARGEN)
 
 
