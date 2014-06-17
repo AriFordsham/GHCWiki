@@ -24,7 +24,7 @@ Here's how to go about helping with a bug.
   - Use 'git format-patch' to create a patch bundle:
 
     1. Make a commit or commits as per usual
-    1. Run `git format-patch -`*`n`*, where *`n`* is the number of commits
+    1. Run `git format-patch -n`, where *`n`* is the number of commits
   - Attach the patch bundle to the Trac bug report
   - Add a comment to the Trac bug report to say what you've done
   - In the 'Action' part of the Trac ticket, select "Please review".  This shifts responsibility to [the GHC team](team-ghc) to review and commit your patch.
