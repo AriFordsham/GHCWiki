@@ -15,8 +15,7 @@ This section documents how GHC implements packages.  You should also look at
 ## Overview
 
 
-A package consists of  zero or more Haskell modules, compiled to object code and placed in a single library file `libHS<pkg>.a`.
-GHCi's [linker](commentary/rts/interpreter#) can't load `.a` files, so there is also a version of the `.a` file linked together as a single object file, usually named `HS<pkg>.o`.
+A package consists of  zero or more Haskell modules, compiled to object code and placed in a single library file `libHS<pkg>.a`. We also provide a version of the `.a` file linked together as a single object file, usually named `HS<pkg>.o`. This is due to the fact that GHCi's [linker](commentary/rts/interpreter#linker) used to not be able to load `.a` files (this is no longer true with `loadArchive`).
 
 ## Package databases
 
