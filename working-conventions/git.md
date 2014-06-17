@@ -304,7 +304,7 @@ Now you have `ghc-working` and `ghc-validate` repos, and additionally the `ghc-v
 ### The rebase workflow
 
 
-How do we move patches from `ghc-working` and `ghc-validate`?  There are several options here.  One is to just use `sync-all pull working` and do merging as usual.  This works fine, but results in extra "merge commits" that aren't particularly helpful and clutter the commit logs and the mailing list.  A better approach is to rebase patches before committing.  This is done as follows:
+How do we move patches from `ghc-working` and `ghc-validate`?  There are several options here.  One is to just use `sync-all pull working master` and do merging as usual.  This works fine, but results in extra "merge commits" that aren't particularly helpful and clutter the commit logs and the mailing list.  A better approach is to rebase patches before committing.  This is done as follows:
 
 1. Pull from `ghc-working` into `ghc-validate`: `./sync-all pull working master`
 1. Rebase onto origin/master: `./sync-all pull --rebase`.  You may encounter conflicts, in which case git will tell you what to do (usually fix the conflict and then `git rebase --continue` in the appropriate repository), then you can resume with `./sync-all --resume pull --rebase` at the top.
