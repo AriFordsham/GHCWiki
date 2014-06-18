@@ -34,6 +34,11 @@ Here are our release plans for
 - [GHC 7.8.3](status/ghc-7.8.3)
 - [GHC 7.8.4](status/ghc-7.8.4)
 
+## Open Tickets
+
+
+An overview of the number of [open tickets](status/tickets) by component.
+
 ## SPJ Tickets
 
 
