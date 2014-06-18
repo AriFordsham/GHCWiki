@@ -203,9 +203,15 @@ type family X (a :: k) where
 
 So moving from (BASELINE) to (PARGEN) would be a breaking change, but only in rather obscure circumstances.  I am intensely relaxed about that particular backward-compatibility problem!
 
+== Refine the definition of CUSK (NEWCUSK) ==
+
+A class or datatype is said to have a CUSK if and only if all of its type variables are annotated. Otherwise, like (BASELINE).
+
+This strategy allows polymorphic recursion in classes while remaining simpler than (PARGEN). See comment:19:ticket:9200 for more exposition.
+
 == All of the above (ALL) ==
 
-Combine (BASELINE), for the CUSK stuff, with (PARGEN) for type with partial kind signatures.  This would type the
+Combine (BASELINE) and (NEWCUSK), for the CUSK stuff, with (PARGEN) for type with partial kind signatures.  This would type the
 most programs, but is the most complicated.
 
 == Type signatures ==
