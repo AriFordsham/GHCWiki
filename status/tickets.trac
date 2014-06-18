@@ -1,7 +1,80 @@
 
 {{{#!comment
-Python script for generating the table below:
-https://gist.github.com/thomie/ee6d677bdd8983c720d3
+# Python script for generating the table below
+
+columns = (
+    ('!', 'open tickets'),
+    ('bug', 'bugs'),
+    ('feature request', 'feature requests'),
+    ('task', 'tasks'),
+    )
+ 
+components = '''
+Build System
+Code Coverage
+Compiler
+Compiler (CodeGen)
+Compiler (FFI)
+Compiler (LLVM)
+Compiler (NCG)
+Compiler (Parser)
+Compiler (Type checker)
+Data Parallel Haskell
+Documentation
+Driver
+External Core
+GHC API
+GHCi
+NoFib benchmark suite
+None
+Package system
+Prelude
+Profiling
+Runtime System
+Template Haskell
+Test Suite
+Trac \& Git
+Visual Haskell
+ghc-pkg
+hsc2hs
+libraries (other)
+libraries/base
+libraries/directory
+libraries/haskell2010
+libraries/haskell98
+libraries/hoopl
+libraries/old-time
+libraries/pretty
+libraries/process
+libraries/random
+libraries/unix
+'''.strip().split('\n')
+ 
+query = '''[[query:
+status=!closed
+&type={type}
+&component={comp}
+&group=priority
+&col=id
+&col=summary
+&col=status
+&col=owner
+&col=changetime
+&col=difficulty
+&order=changetime
+|{text}]]
+'''.replace('\n', '')
+ 
+count = '[[TicketQuery(status!=closed&type={type}&component={comp}, count)]]'
+ 
+cell = query + ' ' + count
+ 
+lines = ['||'.join([comp] + [cell.format(type=type, text=text, comp=comp)
+                             for type, text in columns])
+         for comp in components]
+ 
+print '\n'.join('||' + line + '||' for line in lines)
+
 }}}
 
 == Open tickets ==
