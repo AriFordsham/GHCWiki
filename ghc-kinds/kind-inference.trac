@@ -171,6 +171,30 @@ the standard generalisation:
 }}}
 The difference from (PARTIAL) is that before type-checking `b` we generalise `t`.
 
+'''Richard:'''
+
+Here is the declarative rule for closed type families:
+
+{{{
+k2 = forall fkv(k1). k1[k'1 .. k'n/_]
+fkv(k1) \not\in k'j
+forall i: G, F:k2 |- (F ps_i = t_i) ok
+k3 = gen(G, k2)
+---------------------------------------------------
+G |- type family F :: k1 where { F ps_i = t_i } : k3
+}}}
+
+This is very similar to the declarative typing rule for `letrec` above. Here, I am ignoring issues with arity/saturation and using a syntax where the kind signature of a type family is given as `k1` with blanks, instead of the tyvarbndr syntax used in source code.
+
+This is in fact an improvement over the current state of affairs, which is essentially this rule ''without'' the side condition. Because of the omitted side condition, we don't have principal types! For example,
+
+{{{
+type family X (a :: k) where
+  X True = False
+}}}
+
+`X` could be `X :: k -> k` or `X :: k -> Bool`. Neither is more general than the other. GHC chooses `X :: k -> Bool`, but it's not principled. This is what I get for implementing kind inference for closed type families without writing out declarative rules! In any case, the solution to this problem (closed type families) seems to be the same as the solution for datatypes and classes, quite happily: add the side condition. '''End Richard'''
+
 === How does (PARGEN) differ from (BASELINE)? ===
 
 (PARGEN) and (BASELINE) are incomparable.
