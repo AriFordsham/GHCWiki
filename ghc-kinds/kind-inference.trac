@@ -139,14 +139,22 @@ The (PARGEN) strategy is exactly like (PARTIAL) except that step 4 is different:
 So we use the partial kind signatures to express any polymorphism necessary for recursion ''inside'' the SCC,
 but perhaps infer yet more polymorphism that can be used ''after'' the SCC.  Thus:
 {{{
-data T f a = MkT (f a) (T f a)
-  -- Success:  T :: forall k. (k->*) -> k -> *
+data T1 f a = MkT1 (f a) (T f a)
+  -- Success:  T1 :: forall k. (k->*) -> k -> *
 
-data S f a = MkS (f a) (S Maybe Int) (S Monad Maybe)
+data T1a f (a::k) = MkT1a (f a) (T f a)
+  -- Failure:  f's kind is unified with skolem k
+  -- See "tricky point" above
+
+data T2 f a = MkT2 (f a) (T2 Maybe Int) (T2 Monad Maybe)
   -- Failure: needs polymorphic recursion
 
-data S2 f (a::k) = MkS (f a) (S Maybe Int) (S Monad Maybe)
-  -- Success: needs polymorphic recursion
+data T3 (f::k->*) (a::k) = MkT3 (f a) (T3 Maybe Int) (T3 Monad Maybe)
+  -- Success: polymorphic recursion declared
+
+data T4 (f::k->*) a = MkT4 (f a) (T4 Maybe Int) (T4 Monad Maybe)
+  -- Failure: not all polymorphism in k is declared
+  -- See "tricky point" above
 }}}
 
 === Declarative typing rules for (PARGEN) ===
