@@ -41,7 +41,7 @@ Note that for a ''non-recursive'' type or class declaration, (BASELINE) always w
 GHC's current definition of a complete user-supplied kind signature is [http://www.haskell.org/ghc/docs/latest/html/users_guide/kind-polymorphism.html#complete-kind-signatures here in the user manual].  A big disadvantage is that classes can't have a CUSK under that definition.
 
 A somewhat simpler, but more permissive definition, and one that covers classes, is this:
- * A class or datatype is said to have a CUSK if and only if all of its type variables are annotated. Otherwise, like (BASELINE).
+ * A class or datatype is said to have a CUSK if and only if all of its type variables are annotated.
 
 See comment:19:ticket:9200 for more exposition.
 

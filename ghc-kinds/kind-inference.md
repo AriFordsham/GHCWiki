@@ -56,7 +56,7 @@ GHC's current definition of a complete user-supplied kind signature is [here in 
 
 A somewhat simpler, but more permissive definition, and one that covers classes, is this:
 
-- A class or datatype is said to have a CUSK if and only if all of its type variables are annotated. Otherwise, like (BASELINE).
+- A class or datatype is said to have a CUSK if and only if all of its type variables are annotated.
 
 
 See [comment:19:ticket:9200](https://gitlab.haskell.org//ghc/ghc/issues/9200) for more exposition.
