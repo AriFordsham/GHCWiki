@@ -294,7 +294,7 @@ G |- type family F :: k where { F ps_i = t_i } : forall kvs. k
 ```
 
 
-We need two rules, depending on whether or not a CUSK is detected. The first rule requires the equations to be fully parametric in its kinds, whereas the second allows non-parametric equations and polymorphic recursion.
+We need two rules, depending on whether or not a CUSK is detected. The first rule requires the equations to be fully parametric in its kinds, whereas the second allows non-parametric equations and polymorphic recursion. These rules are *different* than the implementation today, because kind inference for closed type families today is ill-specified. See [comment:18:ticket:9200](https://gitlab.haskell.org//ghc/ghc/issues/9200).
 
 ## All of the above (ALL)
 
