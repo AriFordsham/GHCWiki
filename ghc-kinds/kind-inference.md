@@ -56,33 +56,58 @@ GHC's current definition of a complete user-supplied kind signature is [here in 
 
 A somewhat simpler, but more permissive definition, and one that covers classes, is this:
 
-- A class or datatype is said to have a CUSK if and only if all of its type variables are annotated.
+- A class or datatype is said to have a CUSK if and only if all of its type variables are annotated. 
 
 
 See [comment:19:ticket:9200](https://gitlab.haskell.org//ghc/ghc/issues/9200) for more exposition.
 
-### Typing rule for closed type families
+### Typing rule for (BASELINE/NEWCUSK)
 
 
-Here are the declarative typing rules for closed type families. In these rules, we ignore arity/saturation issues and pretend that the kind is given with underscores instead of using the tyvarbndr syntax.
+We will pretend that data, type, type family, class declarations look something like this:
 
 ```wiki
-k1 has at least one missing bit
-k2 = k1[k'1 .. k'n/_]                 -- k'1 .. k'n are magically known
-kvs = fkv(k2)
-G, kvs, F : k2 |- (F ps_i = t_i) ok   -- but kvs aren't in scope for ps_i and t_i
------------------------------------------------------ NoCUSK
-G |- type family F :: k1 where { F ps_i = t_i } : forall kvs. k2
-
-k has no missing bits
-kvs = fkv(k)
-G, F : forall kvs. k |- (F ps_i = t_i) ok
------------------------------------------------------ CUSK
-G |- type family F :: k where { F ps_i = t_i } : forall kvs. k
+  T :: forall k1 k2. (k1 -> *) -> k1 -> _ -> *
+  data/type/class T a b c = rhs
 ```
 
 
-We need two rules, depending on whether or not a CUSK is detected. The first rule requires the equations to be fully parametric in its kinds, whereas the second allows non-parametric equations and polymorphic recursion. These rules are *different* than the implementation today, because kind inference for closed type families today is ill-specified. See [comment:18:ticket:9200](https://gitlab.haskell.org//ghc/ghc/issues/9200).
+That is, there is a possibly-partial kind signature, with holes denoted by "_", and a definition "rhs" (eg the consructors of a dat type, or equations of a closed type family). In reality there isn't a separate kind signature; instead, it is integrated in the definition; e.g.
+
+```wiki
+  data T (a::k1 -> *) (b::k1) c = MkT (a b) c
+```
+
+
+The kind variables mentioned in the partial kind signature scope over the "rhs".
+
+
+Then we have two typing rules, one for CUSK, and one for non-CUSK.
+We give the rule for data types but modulo keyword it works for classes, closed 
+type families, etc.  We ignore arity/saturation issues for type families.
+
+```wiki
+k has at least one missing bit (non-CUSK)
+k2 = k[k'1 .. k'n/_]     -- k'1 .. k'n are magically known
+kvs2 = fkv(k2)
+G, kvs, T : k2 |- (data T tvs = rhs) ok    -- Monomorphic recursion
+----------------------------------------------------- NoCUSK
+G |- (T :: forall kvs. k; data T tvs = rhs) :: {T :: forall kvs2. k2}
+
+k has no missing bits (CUSK)
+G, T : forall kvs. k |- (T tvs = rhs) ok  -- Polymorphic recursion
+----------------------------------------------------- CUSK
+G |- (T :: forall kvs. k; data T tvs = rhs) :: {T :: forall kvs. k}
+```
+
+
+We need two rules, depending on whether or not a CUSK is detected. 
+
+
+The first rule requires the equations to be fully parametric in its kinds, whereas the second allows non-parametric equations and polymorphic recursion. **Simon:** I don't know what this means.
+
+
+For closed type families, these rules are *different* than the implementation today, because kind inference for closed type families today is ill-specified. See [comment:18:ticket:9200](https://gitlab.haskell.org//ghc/ghc/issues/9200).
 
 ---
 
