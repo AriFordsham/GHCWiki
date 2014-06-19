@@ -288,7 +288,7 @@ G |- type family F :: k1 where { F ps_i = t_i } : forall kvs. k2
 
 k has no missing bits
 kvs = fkv(k)
-G, F : forall kvs. k |- (F ps_i = t_i) ok   -- but kvs aren't in scope for ps_i and t_i
+G, F : forall kvs. k |- (F ps_i = t_i) ok
 ----------------------------------------------------- CUSK
 G |- type family F :: k where { F ps_i = t_i } : forall kvs. k
 ```
