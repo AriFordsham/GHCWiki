@@ -273,6 +273,29 @@ A class or datatype is said to have a CUSK if and only if all of its type variab
 
 This strategy allows polymorphic recursion in classes while remaining simpler than (PARGEN). See [comment:19:ticket:9200](https://gitlab.haskell.org//ghc/ghc/issues/9200) for more exposition.
 
+### Typing rule for closed type families
+
+
+Here are the declarative typing rules for closed type families. In these rules, we ignore arity/saturation issues and pretend that the kind is given with underscores instead of using the tyvarbndr syntax.
+
+```wiki
+k1 has at least one missing bit
+k2 = k1[k'1 .. k'n/_]                 -- k'1 .. k'n are magically known
+kvs = fkv(k2)
+G, kvs, F : k2 |- (F ps_i = t_i) ok   -- but kvs aren't in scope for ps_i and t_i
+----------------------------------------------------- NoCUSK
+G |- type family F :: k1 where { F ps_i = t_i } : forall kvs. k2
+
+k has no missing bits
+kvs = fkv(k)
+G, F : forall kvs. k |- (F ps_i = t_i) ok   -- but kvs aren't in scope for ps_i and t_i
+----------------------------------------------------- CUSK
+G |- type family F :: k where { F ps_i = t_i } : forall kvs. k
+```
+
+
+We need two rules, depending on whether or not a CUSK is detected. The first rule requires the equations to be fully parametric in its kinds, whereas the second allows non-parametric equations and polymorphic recursion.
+
 ## All of the above (ALL)
 
 
