@@ -48,6 +48,47 @@ The Key Point is that we can kind-check `SS`*without looking at `TT`'s definitio
 
 Note that for a *non-recursive* type or class declaration, (BASELINE) always works fine.
 
+### Refine the definition of CUSK (BASELINE/NEWCUSK)
+
+
+GHC's current definition of a complete user-supplied kind signature is [here in the user manual](http://www.haskell.org/ghc/docs/latest/html/users_guide/kind-polymorphism.html#complete-kind-signatures).  A big disadvantage is that classes can't have a CUSK under that definition.
+
+
+A somewhat simpler, but more permissive definition, and one that covers classes, is this:
+
+- A class or datatype is said to have a CUSK if and only if all of its type variables are annotated. Otherwise, like (BASELINE).
+
+
+See [comment:19:ticket:9200](https://gitlab.haskell.org//ghc/ghc/issues/9200) for more exposition.
+
+### Typing rule for closed type families
+
+
+Here are the declarative typing rules for closed type families. In these rules, we ignore arity/saturation issues and pretend that the kind is given with underscores instead of using the tyvarbndr syntax.
+
+```wiki
+k1 has at least one missing bit
+k2 = k1[k'1 .. k'n/_]                 -- k'1 .. k'n are magically known
+kvs = fkv(k2)
+G, kvs, F : k2 |- (F ps_i = t_i) ok   -- but kvs aren't in scope for ps_i and t_i
+----------------------------------------------------- NoCUSK
+G |- type family F :: k1 where { F ps_i = t_i } : forall kvs. k2
+
+k has no missing bits
+kvs = fkv(k)
+G, F : forall kvs. k |- (F ps_i = t_i) ok
+----------------------------------------------------- CUSK
+G |- type family F :: k where { F ps_i = t_i } : forall kvs. k
+```
+
+
+We need two rules, depending on whether or not a CUSK is detected. The first rule requires the equations to be fully parametric in its kinds, whereas the second allows non-parametric equations and polymorphic recursion. These rules are *different* than the implementation today, because kind inference for closed type families today is ill-specified. See [comment:18:ticket:9200](https://gitlab.haskell.org//ghc/ghc/issues/9200).
+
+---
+
+
+Now here are some design alternatives that we rejected.
+
 ## Partial kind signature strategy (PARTIAL)
 
 
@@ -227,8 +268,6 @@ the standard generalisation:
 
 The difference from (PARTIAL) is that before type-checking `b` we generalise `t`.
 
-**Richard:**
-
 
 Here is the declarative rule for closed type families:
 
@@ -252,7 +291,7 @@ type family X (a :: k) where
   X True = False
 ```
 
-`X` could be `X :: k -> k` or `X :: k -> Bool`. Neither is more general than the other. GHC chooses `X :: k -> Bool`, but it's not principled. This is what I get for implementing kind inference for closed type families without writing out declarative rules! In any case, the solution to this problem (closed type families) seems to be the same as the solution for datatypes and classes, quite happily: add the side condition. **End Richard**
+`X` could be `X :: k -> k` or `X :: k -> Bool`. Neither is more general than the other. GHC chooses `X :: k -> Bool`, but it's not principled. This is what I get for implementing kind inference for closed type families without writing out declarative rules! In any case, the solution to this problem (closed type families) seems to be the same as the solution for datatypes and classes, quite happily: add the side condition.
 
 ### How does (PARGEN) differ from (BASELINE)?
 
@@ -264,37 +303,6 @@ type family X (a :: k) where
 
 
 So moving from (BASELINE) to (PARGEN) would be a breaking change, but only in rather obscure circumstances.  I am intensely relaxed about that particular backward-compatibility problem!
-
-## Refine the definition of CUSK (NEWCUSK)
-
-
-A class or datatype is said to have a CUSK if and only if all of its type variables are annotated. Otherwise, like (BASELINE).
-
-
-This strategy allows polymorphic recursion in classes while remaining simpler than (PARGEN). See [comment:19:ticket:9200](https://gitlab.haskell.org//ghc/ghc/issues/9200) for more exposition.
-
-### Typing rule for closed type families
-
-
-Here are the declarative typing rules for closed type families. In these rules, we ignore arity/saturation issues and pretend that the kind is given with underscores instead of using the tyvarbndr syntax.
-
-```wiki
-k1 has at least one missing bit
-k2 = k1[k'1 .. k'n/_]                 -- k'1 .. k'n are magically known
-kvs = fkv(k2)
-G, kvs, F : k2 |- (F ps_i = t_i) ok   -- but kvs aren't in scope for ps_i and t_i
------------------------------------------------------ NoCUSK
-G |- type family F :: k1 where { F ps_i = t_i } : forall kvs. k2
-
-k has no missing bits
-kvs = fkv(k)
-G, F : forall kvs. k |- (F ps_i = t_i) ok
------------------------------------------------------ CUSK
-G |- type family F :: k where { F ps_i = t_i } : forall kvs. k
-```
-
-
-We need two rules, depending on whether or not a CUSK is detected. The first rule requires the equations to be fully parametric in its kinds, whereas the second allows non-parametric equations and polymorphic recursion. These rules are *different* than the implementation today, because kind inference for closed type families today is ill-specified. See [comment:18:ticket:9200](https://gitlab.haskell.org//ghc/ghc/issues/9200).
 
 ## All of the above (ALL)
 
