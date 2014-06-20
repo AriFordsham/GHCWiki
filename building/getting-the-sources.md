@@ -120,25 +120,22 @@ To check out a specific version of GHC, run
 ## Getting a GHC repository from GitHub
 
 
-To get GHC repository from [ GitHub](http://www.github.com) we recommend to just get GHC source code itself from GitHub and combine this with packages from [ http://git.haskell.org](http://git.haskell.org). This is easy since sync-all script supports it well.
-
-```wiki
-  $ git clone <your preferred github.com GHC fork URL> ghc
-  $ cd ghc
-  $ ./sync-all -r git://git.haskell.org get
-```
-
-
-If you want a full clone of every package from GitHub instead, sync-all can handle that as well.
+The official mirror for GHC on GitHub is located at [ https://github.com/ghc/ghc](https://github.com/ghc/ghc).
 
 ```wiki
   $ git clone git://github.com/ghc/ghc
   $ cd ghc
-  $ ./sync-all -r git://github.com/ghc get
+  $ ./sync-all get
 ```
 
 
-The official mirror for GHC on github is located at [ https://github.com/ghc/ghc](https://github.com/ghc/ghc).
+If you want to clone your own fork instead, add an argument to `sync-all` to tell it where it can find the other repositories it needs.
+
+```wiki
+  $ git clone <your preferred github.com GHC fork URL> ghc
+  $ cd ghc
+  $ ./sync-all -r git://github.com/ghc get
+```
 
 ## Pulling new patches
 
