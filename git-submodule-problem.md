@@ -1,26 +1,2 @@
 
-Lorem ipsum...
-
-## some misc. notes about submodules
-
-
-See also some older notes: [DarcsConversion\#Theperspectiveonsubmodules](darcs-conversion#the-perspective-on-submodules)
-
-- based on the current access patterns, a few repositories are modified often (specifically,  ghc.git and testsuite.git are often updated in a inter-dependent way); most repositories aren't updated for several weeks; therefore some of the issues outlined with the usability of submodules might have less weight here.
-
-### Simple migration plan
-
-
-The plan:
-
-- Fold testsuite.git into ghc.git, as they are strongly inter-dependent. nofib.git and base.git are two other candidates for being folded into ghc.git.
-- All other add-on repositories should be converted into Git submodules.
-
-
-The consequences:
-
-- `ghc.git`'s commit id by itself effectively provides a sufficient source-tree fingerprint; therefore, this renders the `fingerprint.py` superfluous
-
-- `git bisect` works (almost) out of the box now
-
-- buildbots don't need to fetch all repos \*every time\* to check for new commits; it's enough to check `ghc.git`, and only if a new commit in `ghc.git` exists, run `git submodule update`
+This page is obsolete; please update links to point to [GitRepoReorganization](git-repo-reorganization).
