@@ -27,10 +27,21 @@ Add a new bookmark/entry, with
 
 ```wiki
 Name: [t] GHC ticket search
-Location/URL: http://www.google.com/search?q=site:ghc.haskell.org/trac/ghc/ticket%20%s
+Location/URL: http://www.google.com/search?q=%s site:ghc.haskell.org/trac/ghc/ticket
 Keyword: t
 ```
 
 
 Now typing `t <query>` into the title bar searches the GHC ticket
 database using Google, which is much faster than Trac's search.
+
+## Searching for emails
+
+
+Add a new bookmark/entry, with
+
+```wiki
+Name: [m] GHC mail search
+Location/URL: http://www.google.com/search?q=%s site:http://news.gmane.org/gmane.comp.lang.haskell.cvs.ghc OR site:http://www.haskell.org/pipermail/ghc-devs/
+Keyword: m
+```
