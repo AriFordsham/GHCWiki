@@ -73,6 +73,9 @@ git config --global url."ssh://git@git.haskell.org/".pushInsteadOf http://git.ha
 git config --global url."ssh://git@git.haskell.org/".pushInsteadOf https://git.haskell.org/
 ```
 
+
+The advantages of this approach are listed in this [ email](http://www.haskell.org/pipermail/ghc-devs/2014-June/005135.html).
+
 #### By overriding `remote.origin.pushurl`
 
 
