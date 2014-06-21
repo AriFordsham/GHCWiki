@@ -48,6 +48,3 @@ The following pages guide you step-by-step through making a contribution:
  * If you use Emacs, see [wiki:Emacs] for some useful stuff to put in your `.emacs` file.
 
  * If you have lots of Haskell installations, you may find Edsko's blog post [http://www.edsko.net/2013/02/10/comprehensive-haskell-sandboxes/ Comprehensive Haskell Sandboxes] useful.
-
-== Old stuff ==
- * '''Using Darcs''': Our conventions and some useful tips for using darcs are here: [wiki:WorkingConventions/Darcs Using Darcs].
