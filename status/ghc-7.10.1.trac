@@ -39,7 +39,3 @@ See milestone:7.10.1 and [https://ghc.haskell.org/trac/ghc/query?status=infoneed
 = Tickets =
 
 See milestone:7.10.1
-
-
-
-[[TicketQuery(milestone=7.10.1,format=table,col=type|summary|priority|owner,group=status)]]
