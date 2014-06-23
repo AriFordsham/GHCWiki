@@ -129,31 +129,3 @@ The following <test-fn>s are provided at the moment:
 and obviously others can be defined.  The function should return
 either 'pass' or 'fail' indicating that the test passed or failed
 respectively.
-
-== The testsuite and version control branches ==
-
-It is not clear what to do with the testsuite when branching a compiler; should the testsuite also be branched?
-
-If it is not branched then we have the problem that, given a set of tests
-{{{
-test(tc1, ...)
-test(tc2, ...)
-test(tc3, ...)
-}}}
-if we add first one test, and then another to the HEAD
-{{{
-test(tc1, ...)
-test(tc2, ...)
-test(tc3, ...)
-test(tc4, ...)
-test(tc5, ...)
-}}}
-and we want to merge `tc5` but not `tc4` to the branch then the merge has to be done by hand,
-as the patch for tc5 depends on the patch for tc4, although most of the files in the patches (`tc5.hs` etc) are disjoint.
-
-On the other hand, if it is not branched then any changes in test output mean we need to add extra logic to the test definitions, e.g.
-{{{
-test(tc5, namebase_if_compiler_lt('ghc','6.9', 'tc5-6.8'), ...)
-}}}
-
-'''Currently we have decided to branch the testsuite for ghc releases'''
