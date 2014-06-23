@@ -32,8 +32,6 @@ See [milestone:7.10.1](/trac/ghc/milestone/7.10.1) and [ Active tickets](https:/
 
 - **Changes to static closures for faster garbage collection** - Edward is working on an overhaul of how static closures represented at runtime to eliminate some expensive memory dereferences in the GC hotpath. The initial results are encouraging: these changes can result in an up to 8% in the runtime of some GC heavy benchmarks \[HEAPALLOCED\].
 
-- **Coverity** - Austin & friends have began running the Coverity static analyzer over the GHC runtime system in an attempt to weed out bugs \[Coverity\]. This has luckily reported several very useful issues to us, and identified some possible cleanup. These fixes are also going into the 7.8 branch, and GHC and its associated code will be scanned by Coverity continuously in the future.
-
 - **New, smaller array type** - Johan Tibell has recently added a new array type, `SmallArray#`, which uses less memory (2 words) than the `Array#` type, at the cost of being more expensive to garbage collect for array sizes large than 128 elements.
 
 - **DWARF-based stack tracing** - Peter Wortmann and Arash Rouhani (with support from the Simons) are working on enabling GHC to generate and use DWARF debugging information. This should allow us to obtain stack traces and do profiling without the need for instrumentation.
