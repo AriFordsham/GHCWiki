@@ -150,11 +150,6 @@ You're done!
 
 Note that you can add inline comments to any line in a differential revision. You can also reply to inline comments. **You can have multiple inline comments per top-level comment you add**. Once you have made some inline comments, or replied to one, go to the bottom of the page and hit 'submit' to submit it. You may also add a top-level comment to go with it.
 
-### Remarkup reference
-
-
-Be sure to read about Phabricators markup language, [ Remarkup](https://secure.phabricator.com/book/phabricator/article/remarkup/). Most importantly, make sure you know how to use those image macros.
-
 ## Browsing the GHC repository with Diffusion
 
 **[ Diffusion](https://phabricator.haskell.org/diffusion)** is a simple, fast repository browser for GHC which you can use to browse the repo, audit commits, explore branches or just read code.
@@ -215,6 +210,11 @@ There are some good tips for using Phabricator, including...
 
 
 On any page, hit the `?` key on your keyboard to bring up all the **keyboard shortcuts**. These are especially useful when reviewing code, since you can quickly navigate between changes in a review to easily navigate.
+
+### Remarkup reference
+
+
+Be sure to read about Phabricators markup language, [ Remarkup](https://secure.phabricator.com/book/phabricator/article/remarkup/). Most importantly, make sure you know how to use those image macros.
 
 ### Applications configuration
 
