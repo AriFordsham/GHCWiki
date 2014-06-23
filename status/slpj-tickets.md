@@ -2,7 +2,7 @@
 
 ## Front end
 
-- [\#9226](https://gitlab.haskell.org//ghc/ghc/issues/9226): pattern synonyms and GADTs
+- [\#8968](https://gitlab.haskell.org//ghc/ghc/issues/8968), [\#9226](https://gitlab.haskell.org//ghc/ghc/issues/9226): pattern synonyms and GADTs
 - [\#9161](https://gitlab.haskell.org//ghc/ghc/issues/9161): pattern synonyms and `DataKinds`
 - [\#9223](https://gitlab.haskell.org//ghc/ghc/issues/9223): error message mentioning untouchables
 - [\#9198](https://gitlab.haskell.org//ghc/ghc/issues/9198): slow typechecker (big types!)
