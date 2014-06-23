@@ -6,6 +6,21 @@ See [milestone:7.8.4](/trac/ghc/milestone/7.8.4)
 
 Note however, that not all tickets with a 7.8.3 milestone will be addressed for the final 7.8.4 release.
 
+## Tickets marked merge with no milestone
+
+<table><tr><th>Ticket (Ticket query: status: merge, milestone: , group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: id)</th>
+<th>Type (Ticket query: status: merge, milestone: , group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: type)</th>
+<th>Summary (Ticket query: status: merge, milestone: , group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: summary)</th>
+<th>Priority (Ticket query: status: merge, milestone: , group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: priority)</th>
+<th>Owner (Ticket query: status: merge, milestone: , group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: owner)</th></tr>
+<tr><th>
+            No tickets found
+          </th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr></table>
+
 ## Tickets slated for 7.8.4
 
 ## Status: closed (36 matches)
