@@ -2,11 +2,12 @@
 
 == Front end ==
 
+ * #9226: pattern synonyms and GADTs
+ * #9161: pattern synonyms and `DataKinds`
  * #9223: error message mentioning untouchables
  * #9198: slow typechecker (big types!)
  * #9210: functional dependencies and overlapping instances
  * #9156: duplicate record fields
- * #9161: pattern synonyms and `DataKinds`
  * #8673: more generous GADT record selectors
  * #8550: Don't build recursive type-function dictionaries
  * #8281: `UnliftedFFITypes` etc
