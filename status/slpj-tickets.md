@@ -6,7 +6,7 @@
 - [\#9161](https://gitlab.haskell.org//ghc/ghc/issues/9161): pattern synonyms and `DataKinds`
 - [\#9223](https://gitlab.haskell.org//ghc/ghc/issues/9223): error message mentioning untouchables
 - [\#9198](https://gitlab.haskell.org//ghc/ghc/issues/9198): slow typechecker (big types!)
-- [\#9210](https://gitlab.haskell.org//ghc/ghc/issues/9210): functional dependencies and overlapping instances
+- [\#9210](https://gitlab.haskell.org//ghc/ghc/issues/9210), [\#9103](https://gitlab.haskell.org//ghc/ghc/issues/9103): functional dependencies and overlapping instances
 - [\#9156](https://gitlab.haskell.org//ghc/ghc/issues/9156): duplicate record fields
 - [\#8673](https://gitlab.haskell.org//ghc/ghc/issues/8673): more generous GADT record selectors
 - [\#8550](https://gitlab.haskell.org//ghc/ghc/issues/8550): Don't build recursive type-function dictionaries
