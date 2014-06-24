@@ -29,7 +29,7 @@ You can also pull patches from another tree, by registering the other tree as a 
   $ ./sync-all pull anotherghc
 }}}
 
-where `/another/ghc` is a path to another local GHC repository.  You can specify a remote repository here too, e.g. `-r http://darcs.haskell.org/ghc-7.2` (remember to omit the final "ghc.git" when using a remote repo).
+where `/another/ghc` is a path to another local GHC repository.  You can specify a remote repository here too, e.g. `-r git://github.com/ghc` (remember to omit the final "ghc.git" when using a remote repo).
 
 The `sync-all` command is useful for finding out what patches you have relative to another repository:
 
