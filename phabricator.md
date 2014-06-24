@@ -47,7 +47,7 @@ $ arc install-certificate
 ```
 
 
-Follow the directions it specifies - afterwords, your arcanist tool will be properly authenticated! Now you can submit reviews, paste things, etc etc.
+Follow the directions it specifies - afterwards, your arcanist tool will be properly authenticated! Now you can submit reviews, paste things, etc etc.
 
 ## Submitting a review: Differential
 
