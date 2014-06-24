@@ -32,7 +32,7 @@ Getting the source is very easy, just check out two git repositories next to eac
 ```wiki
 $ git clone https://github.com/phacility/libphutil.git
 $ git clone https://github.com/phacility/arcanist.git
-$ export PATH=$(PWD)/arcanist/bin
+$ export PATH="$(pwd)/arcanist/bin:$PATH"
 ```
 
 
