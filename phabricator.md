@@ -100,7 +100,7 @@ Once you post a review, you can keep revising it by making new commits, and runn
 Once people begin reviewing, a few things can happen: more reviewers can be added, subscribers can join, and people can make comments. This can be done by scrolling to the bottom of the page and selecting the appropriate action.
 
 
-The most important things people can do is **accept a revision** or **request changes**. The actions should be obvious. If a reviewer accepts a revision, it will hopefully be merged soon unless someone complaints. But if a person requests changes, the submitter needs to respond. Alternatively, new people may commandeer revisions to take them over as well, or the owner may abandon revisions.
+The most important things people can do is **accept a revision** or **request changes**. The actions should be obvious. If a reviewer accepts a revision, it will hopefully be merged soon unless someone complains. But if a person requests changes, the submitter needs to respond. Alternatively, new people may commandeer revisions to take them over as well, or the owner may abandon revisions.
 
 ### Landing reviews
 
