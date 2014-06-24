@@ -214,7 +214,7 @@ On any page, hit the `?` key on your keyboard to bring up all the **keyboard sho
 ### Remarkup reference
 
 
-Be sure to read about Phabricators markup language, [ Remarkup](https://secure.phabricator.com/book/phabricator/article/remarkup/). Most importantly, make sure you know how to use those image macros.
+Be sure to read about Phabricator's markup language, [ Remarkup](https://secure.phabricator.com/book/phabricator/article/remarkup/). Most importantly, make sure you know how to use those image macros.
 
 ### Applications configuration
 
@@ -226,7 +226,7 @@ You can configure the applications that appear on the left side panel by visitin
 
 Arcanist has a few useful commands - in particular, you'll probably like `arc paste`, and `arc list`.
 
-`arc paste` will allow you to instantly upload things to Phabs [ PasteBin application](https://phabricator.haskell.org/paste/). 
+`arc paste` will allow you to instantly upload things to Phab's [ PasteBin application](https://phabricator.haskell.org/paste/). 
 
 `arc list` will show you all your revisions currently open, and what state they're in. For example, Austin's `arc list` may look like:
 
@@ -239,7 +239,7 @@ $ arc list
 ### Email tips
 
 
-First off, note that **you can reply to an email from Phabricator** to comment on a review, inbound mail handling works fine. In the email you have handler actions, which you can use to control what action to post to a review - for example, replying to an email with `!reject` and some content will comment on the review, and reject it and ask for revisions.
+First off, note that **you can reply to an email from Phabricator** to comment on a review; inbound mail handling works fine. In the email you have handler actions, which you can use to control what action to post to a review - for example, replying to an email with `!reject` and some content will comment on the review, and reject it and ask for revisions.
 
 
 Second, Phab has a very 'Getting Things Done' interface, which means it tries to only alert you as to what is relevant in a particular project or codebase. You can carefully control what emails you get using Herald particularly, but you still may want to crop things. Be sure to [ configure your mail rules](https://secure.phabricator.com/book/phabricator/article/mail_rules/)!
