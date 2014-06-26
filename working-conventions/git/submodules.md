@@ -116,6 +116,28 @@ git pull --rebase
 git submodule update --init
 ```
 
+### Using a Git alias
+
+
+A commonly defined Git alias that combines the two commands into one convenient Git alias is:
+
+```
+git config --global alias.pullall '!f(){ git pull "$@" && git submodule update --init --recursive; }; f'
+```
+
+
+(the `--global` flag make this alias persist in the `${HOME}/.gitconfig` file, so this needs to be done only once, the `--recursive` option is not needed for GHC but it's commonly used for the `pullall` alias)
+
+
+After setting this alias, one can now simply use the single invocation
+
+```
+git pullall --rebase
+```
+
+
+to update `ghc.git` and all its submodules.
+
 ## Making changes to GHC submodules
 
 
