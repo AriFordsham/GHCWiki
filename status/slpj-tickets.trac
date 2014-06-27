@@ -2,6 +2,7 @@
 
 == Front end ==
 
+ * #9200: kind inference for mutually recursive types
  * #8968, #9226: pattern synonyms and GADTs
  * #9161: pattern synonyms and `DataKinds`
  * #9223: error message mentioning untouchables
