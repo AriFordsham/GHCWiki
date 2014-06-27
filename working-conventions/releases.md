@@ -1,7 +1,7 @@
 # Release management and branches
 
 
-Releases are made by the release manager, currently Ian Lynagh. The release manager is also the maintainer of the stable branch, see [\#Branches](working-conventions/releases#branches).
+Releases are made by the release manager, currently Austin Seipp. The release manager is also the maintainer of the stable branch, see [\#Branches](working-conventions/releases#branches).
 
 ## Release Schedule
 
@@ -9,7 +9,7 @@ Releases are made by the release manager, currently Ian Lynagh. The release mana
 
 - Minor releases are made throughout the year, with no fixed schedule.  Generally there will be 2-3 minor releases for every major release.
 
-- For each release we make a release candidate first, possibly followed by further release candidates as necessary.  Release candidates are announced on the [ glasgow-haskell-users mailing list](http://www.haskell.org/mailman/admindb/glasgow-haskell-users).
+- For each release we make a release candidate first, possibly followed by further release candidates as necessary.  Release candidates are announced on the [ glasgow-haskell-users mailing list](http://www.haskell.org/mailman/listinfo/glasgow-haskell-users).
 
 ## Release policies
 
