@@ -10,6 +10,7 @@ Other documentation for Windows includes:
 - [Using Cygwin](building/windows/cygwin) to build GHC. Using MSYS is the preferred approach though.
 - [MinGW/MSYS/Cgwin](building/platforms/windows) information for people new to using UNIX tools on Windows.
 - [Using SSH](building/windows/ssh) on Windows.
+- [ Guidance on how to use Haskell on Windows](http://www.haskell.org/haskellwiki/Windows)
 
 ## Setting up Windows
 
