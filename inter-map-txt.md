@@ -131,7 +131,7 @@ SvnWiki     http://www.orcaware.com/svn/wiki/ # Subversion Wiki
 
 # Haskell specific
 hackage     http://hackage.haskell.org/package/$1 # Haskell Package $1 from the HackageDB
-
+Phab        https://phabricator.haskell.org/$1
 
 #
 # A arbitrary pick of InterWiki prefixes...
