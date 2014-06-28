@@ -116,6 +116,22 @@ git pull --rebase
 git submodule update --init
 ```
 
+
+In seldom cases it can happen that `git submodule update` aborts with an error similar to the following one
+
+```wiki
+fatal: Needed a single revision
+Unable to find current revision in submodule path 'libraries/parallel'
+```
+
+
+This means that for some (unknown) reason, the Git submodule in question is in an unexpected/corrupted state. The easiest remedy is remove the named path (or just move it out of the way in case it contains unsaved work), and retry. E.g.
+
+```wiki
+rm -rf libraries/parallel
+git submodule update --init
+```
+
 ### Using a Git alias
 
 
