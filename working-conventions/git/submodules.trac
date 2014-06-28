@@ -25,14 +25,14 @@ git clone --recursive git://git.haskell.org/ghc.git
 
 (Obviously, the clone URL can be replaced by any of the supported `ghc.git` URLs as listed on http://git.haskell.org/ghc.git)
 
-Cloning a specific branch, e.g. `ghc-7.8`; or a specific tag, e.g. `ghc-7.8.1-release`:
+Cloning a specific branch, e.g. `ghc-7.10`; or a specific tag, e.g. `ghc-7.10.1-release`:
 
 {{{#!sh
-git clone -b ghc-7.8 --recursive git://git.haskell.org/ghc.git ghc-7.8.x
+git clone -b ghc-7.10 --recursive git://git.haskell.org/ghc.git ghc-7.10.x
 }}}
 
 {{{#!sh
-git clone -b ghc-7.8.1-release --recursive git://git.haskell.org/ghc.git ghc-7.8.1
+git clone -b ghc-7.10.1-release --recursive git://git.haskell.org/ghc.git ghc-7.10.1
 }}}
 
 {{{#!box note
