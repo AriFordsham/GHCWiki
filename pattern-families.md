@@ -81,19 +81,61 @@ If *expr* in the view pattern is an expression of type *t* with free variables *
 ### Types
 
 
-Example from [ViewPatterns](view-patterns):
+Example from [ViewPatternsAlternative](view-patterns-alternative):
 
 ```wiki
-   type Typ
- 
-   data TypView = Unit
-                | Arrow Typ Typ
+module Set(Set, empty, insert, delete, has) where
 
-   view :: Typ -> TypView
-
-   size (view -> Unit) = 1
-   size (view -> Arrow t1 t2) = size t1 + size t2
+    newtype Set a = S [a]
+  
+    has :: Eq a => a -> Set a -> Maybe (Set a)
+    has x (S xs) | x `elem` xs = Just (S (delete x xs))
+                 | otherwise   = Nothing
 ```
+
+
+Using patterns indexed by an element of `Set a`:
+
+```wiki
+    pattern Has    x set <- (has x        -> Just set)
+    pattern HasNot x set <- (has x &&& id -> (Nothing, set))
+}}
+
+One can write:
+
+{{
+    delete :: Eq a => a -> Set a -> Set a
+    delete x (Has x set) = set
+    delete x set         = set
+
+    insert :: Eq a => a -> Set a -> Set a
+    insert x (HasNot x (S xs)) = S (x:xs)
+    insert x set               = set
+```
+
+
+Compare that to the the [ViewPatternsAlternative](view-patterns-alternative) proposal:
+
+```wiki
+    delete :: Eq a => a -> Set a -> Set a
+    delete x (r | Just s <- has r) = set
+    delete x set                   = set
+  
+    insert :: Eq a => a -> Set a -> Set a
+    insert x (s | Just _ <- has x s) = set
+    insert x (S xs)                  = S (x:xs)
+```
+
+
+Using operators `:∈ = Has` and `:∈ = HasNot` one could write:
+
+```wiki
+    delete x (x :∈ set)  = set
+    insert x (x :∉ S xs) = S (x:xs)
+```
+
+
+if one were so inclined.
 
 ### Type checking
 
@@ -122,7 +164,7 @@ could be rewritten using pattern families as:
 ```
 
 
-allowing the user to pattern match *directly* on the inferable types without manually checking for `Just`s. This could currently be written using view patterns as:
+allowing the user to pattern match *directly* on the inferable types without manually checking for `Just`s — note the use of the previous argument `ctx` to index later. This could currently be written somewhat awkwardly using view patterns:
 
 ```wiki
     inferType ctx (If (inferType ctx -> Just BoolT) (inferType ctx -> Just ty1) (inferType ctx -> Just ty2))
@@ -132,6 +174,13 @@ allowing the user to pattern match *directly* on the inferable types without man
 
 
 which is longer and clunkier, especially since the user is forced to deal with `Just`s again.
+
+
+Again one could use operators (`:⇒ = Inf`) in which case it the examples follow notation in type theory more closely:
+
+```wiki
+    inferType γ (If (γ :⇒ BoolT) (γ :⇒ τ₁) (γ :⇒ τ₂)) = ...
+```
 
 ### More advanced examples: Regular expressions
 
@@ -158,7 +207,7 @@ or
 ```
 
 
-One can also define it as an operator:
+As an operator:
 
 ```wiki
     pattern x :~= regexp ((~= regexp) -> Just x)
