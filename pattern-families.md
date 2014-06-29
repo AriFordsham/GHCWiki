@@ -1,25 +1,63 @@
 
 This is a proposal for allowing **families of patterns** indexed by expressions.
 
+
+It is similar to a pattern synonym ([PatternSynonyms](pattern-synonyms)) and desugars directly into a view pattern ([ViewPatterns](view-patterns)) so familiarity with those two extensions is recommended.
+
+
+The arguments to pattern families effectively fall into two categories: expressions used to index the pattern family (information flowing *into* the pattern) and the arguments that can be pattern matched against (information flowing *out of* the pattern).
+
 ## Syntax
 
 
 The syntax from [PatternSynonyms](pattern-synonyms) can be reused for simplicity:
 
 ```wiki
-pattern Take n xs <- (take n -> xs)
+    pattern Take n xs <- (take n -> xs)
 ```
 
 
-here `xs` is a normal variable as in [PatternSynonyms](pattern-synonyms) but `n` is the expression the pattern is indexed by: this can be inferred from it appearing in the [ViewPatterns](view-patterns) expression (`take n`) rather than in the pattern.
+here `xs` is a normal variable as in [PatternSynonyms](pattern-synonyms) but `n` must be a concrete expression that the pattern is indexed by: this can be inferred from it appearing in the [ViewPatterns](view-patterns) expression (`take n`) rather than in the pattern.
 
-`Take 0`, `Take 1`, `Take 2` would be equivalent to the following pattern definitions:
+
+The function `fn`:
 
 ```wiki
-pattern Take0 xs <- (take 0 -> xs)
-pattern Take1 xs <- (take 1 -> xs)
-pattern Take2 xs <- (take 2 -> xs)
-...
+    fn :: [a] -> [a]
+    fn (Take 2 xs) = xs
+
+    ghci> fn "hello"
+    "he"
+```
+
+
+is thus the same as writing `fn (take 2 -> xs) = xs` using view patterns.
+
+
+For the case of `Take 2` it can be rewritten using simple pattern synonyms:
+
+```wiki
+    pattern Take2 xs <- (take 2 -> xs)
+```
+
+
+but this would need to be defined for each `Int`. In this sense pattern families are a bit like polymorphic functions, just like `length` can be used rather than defining many specialized functions:
+
+```wiki
+    lengthInt    :: [Int]    -> Int
+    lengthBool   :: [Bool]   -> Int
+    lengthDouble :: [Double] -> Int
+    …
+```
+
+
+we can use `Take` with arguments (`Take 0`, `Take 1`, `Take 2`, …) to have the same meaning as the following pattern synonyms:
+
+```wiki
+    pattern Take0 xs <- (take 0 -> xs)
+    pattern Take1 xs <- (take 1 -> xs)
+    pattern Take2 xs <- (take 2 -> xs)
+    …
 ```
 
 ### Grammar
@@ -60,7 +98,7 @@ For the simple example of the pattern family `Take` this (where 3 is *expr<sub>1
 would get translated to:
 
 ```wiki
-    foo (take 3 -> xs) = xs ++ xs
+.    foo (take 3 -> xs) = xs ++ xs
 ```
 
 
@@ -147,9 +185,9 @@ if one were so inclined.
 Another example stolen from [ViewPatternsAlternative](view-patterns-alternative) where the benefits are more apparent. Given a parsing function:
 
 ```wiki
-  bits :: Int -> ByteString -> Maybe (Word, ByteString)
-  -- (bits n bs) parses n bits from the front of bs, returning
-  -- the n-bit Word, and the remainder of bs
+    bits :: Int -> ByteString -> Maybe (Word, ByteString)
+    -- (bits n bs) parses n bits from the front of bs, returning
+    -- the n-bit Word, and the remainder of bs
 ```
 
 
@@ -184,31 +222,31 @@ Compare that to the [ViewPatternsAlternative](view-patterns-alternative) version
 Another one from [ViewPatternsAlternative](view-patterns-alternative) using the following view and pattern family:
 
 ```wiki
-   np :: Num a => a -> a -> Maybe a
-   np k n | k <= n    = Just (n-k)
-          | otherwise = Nothing
+    np :: Num a => a -> a -> Maybe a
+    np k n | k <= n    = Just (n-k)
+           | otherwise = Nothing
 
-   pattern NP k n <- (np k -> Just n)
+    pattern NP k n <- (np k -> Just n)
 ```
 
 
 Used as follows:
 
 ```wiki
-   fib :: Num a -> a -> a
-   fib 0        = 1
-   fib 1        = 1
-   fib (NP 2 n) = fib (n + 1) + fib n
+    fib :: Num a -> a -> a
+    fib 0        = 1
+    fib 1        = 1
+    fib (NP 2 n) = fib (n + 1) + fib n
 ```
 
 
 Compare [ViewPatternsAlternative](view-patterns-alternative) version:
 
 ```wiki
-   fib :: Num a -> a -> a
-   fib 0 = 1
-   fib 1 = 1
-   fib (n2 | let n = n2-2, n >= 0) = fib (n + 1) + fib n
+    fib :: Num a -> a -> a
+    fib 0 = 1
+    fib 1 = 1
+    fib (n2 | let n = n2-2, n >= 0) = fib (n + 1) + fib n
 ```
 
 ### Type checking
