@@ -99,11 +99,12 @@ Using patterns indexed by an element of `Set a`:
 ```wiki
     pattern Has    x set <- (has x        -> Just set)
     pattern HasNot x set <- (has x &&& id -> (Nothing, set))
-}}
+```
+
 
 One can write:
 
-{{
+```wiki
     delete :: Eq a => a -> Set a -> Set a
     delete x (Has x set) = set
     delete x set         = set
