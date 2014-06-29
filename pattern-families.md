@@ -131,7 +131,7 @@ Compare that to the the [ViewPatternsAlternative](view-patterns-alternative) pro
 Where the user has to worry about matching on `Just`s. 
 
 
-Using operators `:∈ = Has` and `:∈ = HasNot` one could write:
+Using operators `:∈ = Has` and `:∉ = HasNot`:
 
 ```wiki
     delete x (x :∈ set)  = set
@@ -166,6 +166,9 @@ one can write a pattern like this:
     parsePacket :: ByteString -> _
     parsePacket (Bits 3 n (Bits n val bs)) = _
 ```
+
+
+Note that this is our first example of nesting a pattern family. More examples follow in the more advanced examples below.
 
 
 Compare that to the [ViewPatternsAlternative](view-patterns-alternative) version:
