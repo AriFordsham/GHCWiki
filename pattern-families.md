@@ -13,7 +13,7 @@ pattern Take n xs <- (take n -> xs)
 
 here `xs` is a normal variable as in [PatternSynonyms](pattern-synonyms) but `n` is the expression the pattern is indexed by: this can be inferred from it appearing in the [ViewPatterns](view-patterns) expression (`take n`) rather than in the pattern.
 
-`Take 0`, `Take 1`, `Take 2` in the previous example can be thought of as the following pattern definitions:
+`Take 0`, `Take 1`, `Take 2` would be equivalent to the following pattern definitions:
 
 ```wiki
 pattern Take0 xs <- (take 0 -> xs)
@@ -93,14 +93,6 @@ Example from [ViewPatterns](view-patterns):
 
    size (view -> Unit) = 1
    size (view -> Arrow t1 t2) = size t1 + size t2
-```
-
-
-If we want to match all types of size *n* we can write:
-
-```wiki
-    
-    pattern HasSize n ty <- (hasSize n -> Just ty)
 ```
 
 ### Type checking
