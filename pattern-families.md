@@ -284,7 +284,7 @@ or
 As an operator:
 
 ```wiki
-    pattern x :~= regexp ((~= regexp) -> Just x)
+    pattern x :~= regexp <- ((~= regexp) -> Just x)
 ```
 
 ### More advanced examples: Prism patterns
