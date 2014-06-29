@@ -1,7 +1,7 @@
 This is a proposal for allowing '''families of patterns''' indexed by expressions.
 
 == Syntax ==
-The syntax from PatternSynonyms could be reused for simplicity:
+The syntax from PatternSynonyms can be reused for simplicity:
 
 {{{
 pattern Take n xs <- (take n -> xs)
