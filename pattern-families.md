@@ -78,7 +78,7 @@ If *expr* in the view pattern is an expression of type *t* with free variables *
 
 ## Motivating examples
 
-### Types
+### Sets
 
 
 Example from [ViewPatternsAlternative](view-patterns-alternative):
