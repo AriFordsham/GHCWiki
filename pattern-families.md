@@ -89,7 +89,7 @@ module Set(Set, empty, insert, delete, has) where
     newtype Set a = S [a]
   
     has :: Eq a => a -> Set a -> Maybe (Set a)
-    has x (S xs) | x `elem` xs = Just (S (delete x xs))
+    has x (S xs) | x `elem` xs = Just (S (xs \\ [x]))
                  | otherwise   = Nothing
 ```
 
@@ -144,7 +144,7 @@ if one were so inclined.
 ### Erlang-style parsing
 
 
-Another example stolen from [ViewPatternsAlternative](view-patterns-alternative) where the benefits are greater. Suppose we had a parsing function thus:
+Another example stolen from [ViewPatternsAlternative](view-patterns-alternative) where the benefits are more apparent. Given a parsing function:
 
 ```wiki
   bits :: Int -> ByteString -> Maybe (Word, ByteString)
@@ -153,14 +153,14 @@ Another example stolen from [ViewPatternsAlternative](view-patterns-alternative)
 ```
 
 
-Using the following pattern family:
+and using the following pattern family:
 
 ```wiki
     pattern Bits n val bs <- (bits n -> Just (val, bs))
 ```
 
 
-One can write a pattern like this:
+one can write a pattern like this:
 
 ```wiki
     parsePacket :: ByteString -> _
@@ -173,6 +173,39 @@ Compare that to the [ViewPatternsAlternative](view-patterns-alternative) version
 ```wiki
     parsePacket :: ByteString -> _
     parsePacket (p1 |  Just (n, (p2 | Just (val, bs) <- bits n p2)) <- bits 3 p1) = _
+```
+
+### N+k patterns
+
+
+Another one from [ViewPatternsAlternative](view-patterns-alternative) using the following view and pattern family:
+
+```wiki
+   np :: Num a => a -> a -> Maybe a
+   np k n | k <= n    = Just (n-k)
+          | otherwise = Nothing
+
+   pattern NP k n <- (np k -> Just n)
+```
+
+
+Used as follows:
+
+```wiki
+   fib :: Num a -> a -> a
+   fib 0        = 1
+   fib 1        = 1
+   fib (NP 2 n) = fib (n + 1) + fib n
+```
+
+
+Compare [ViewPatternsAlternative](view-patterns-alternative) version:
+
+```wiki
+   fib :: Num a -> a -> a
+   fib 0 = 1
+   fib 1 = 1
+   fib (n2 | let n = n2-2, n >= 0) = fib (n + 1) + fib n
 ```
 
 ### Type checking
@@ -251,7 +284,67 @@ As an operator:
     pattern x :~= regexp ((~= regexp) -> Just x)
 ```
 
-### More advanced examples: Prisms
+### More advanced examples: Prism patterns
+
+#### Matching a simple prism
 
 
-...
+Indexing patterns with prisms from [ Control.Lens.Prism](http://hackage.haskell.org/package/lens-4.2/docs/Control-Lens-Prism.html):
+
+```wiki
+    import Control.Lens.Prism
+
+    pattern Match prism a <- (preview prism -> Just a)
+```
+
+
+one can write
+
+```wiki
+    bar :: Either c (Either a b) -> a
+    bar (Match (_Right._Left) a) = a
+    bar _                        = error "..."
+```
+
+#### More complicated prisms
+
+
+Pattern families can be used to match nested data like JSON, ASTs or XML, here is an example of using it to match on [ Data.Aeson.Lens](http://hackage.haskell.org/package/lens-4.2/docs/Data-Aeson-Lens.html):
+
+```wiki
+    jsonBlob = "[{\"someObject\": {\"version\": [1,0,3]}}]"
+    
+    -- val = Number 0.0
+    val = jsonBlob ^?! nth 0 . key "someObject" . key "version" . nth 1
+```
+
+
+Pattern families allow us to say we want to fetch the same value as `val` using patterns:
+
+```wiki
+    foo (Match (nth 0) (Match (key "someObject") (Match (key "version") (Match (nth 1) a)))) = a
+```
+
+
+Which is terribly verbose, but can be improved by introducing:
+
+```wiki
+    pattern Get i   a <- (preview (nth i)   -> Just a)
+    pattern Key str a <- (preview (key str) -> Just a)
+
+    baz (Get 0 (Key "someObject" (Key "version" (Get 1 a)))) = a
+```
+
+
+or  by writing it infix:
+
+```wiki
+    baz (0 `Get` "someObject" `Key` "version" `Key` 1 `Get` a) = a
+```
+
+
+or by defining operators `:→ = Get i a` and `:⇒ = Key`:
+
+```wiki
+    baz (a :→ "someObject" :⇒ "version" :⇒ 1 :→ a) = a
+```
