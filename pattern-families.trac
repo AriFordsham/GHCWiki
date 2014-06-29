@@ -105,6 +105,8 @@ Compare that to the the ViewPatternsAlternative proposal:
     insert x (S xs)                  = S (x:xs)
 }}}
 
+Where the user has to worry about matching on `Just`s. 
+
 Using operators `:∈ = Has` and `:∈ = HasNot` one could write:
 
 {{{
