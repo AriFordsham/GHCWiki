@@ -141,6 +141,40 @@ Using operators `:∈ = Has` and `:∈ = HasNot` one could write:
 
 if one were so inclined.
 
+### Erlang-style parsing
+
+
+Another example stolen from [ViewPatternsAlternative](view-patterns-alternative) where the benefits are greater. Suppose we had a parsing function thus:
+
+```wiki
+  bits :: Int -> ByteString -> Maybe (Word, ByteString)
+  -- (bits n bs) parses n bits from the front of bs, returning
+  -- the n-bit Word, and the remainder of bs
+```
+
+
+Using the following pattern family:
+
+```wiki
+    pattern Bits n val bs <- (bits n -> Just (val, bs))
+```
+
+
+One can write a pattern like this:
+
+```wiki
+    parsePacket :: ByteString -> _
+    parsePacket (Bits 3 n (Bits n val bs)) = _
+```
+
+
+Compare that to the [ViewPatternsAlternative](view-patterns-alternative) version:
+
+```wiki
+    parsePacket :: ByteString -> _
+    parsePacket (p1 |  Just (n, (p2 | Just (val, bs) <- bits n p2)) <- bits 3 p1) = _
+```
+
 ### Type checking
 
 
