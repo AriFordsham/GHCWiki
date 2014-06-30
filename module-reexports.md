@@ -64,6 +64,11 @@ library:
     "package-b" Data.Foo "Importing Data.Foo via package-a is deprecated, please build-depend on package-b"
 ```
 
+### InstalledPackageInfo
+
+
+When we discussed this feature with SPJ during Backpack design discussion, Simon was keen on making it very easy to determine where a module actually lives during the lookup process. So while "reexported-modules" might be convenient surface syntax for specifying what modules to reexport, internally, we probably just want to generalize "exposed-modules" to be a tuple: exported module name, source InstalledPackageId, source module name. (Why exported module name? Because that lets us rename modules...)
+
 ### Steps to take
 
 
