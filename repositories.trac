@@ -121,20 +121,6 @@ A GHC source tree is made of a collection of repositories. Here is a list of the
 </table>
 }}}
 
-=== The 'packages' file ===
-
-The master list of repositories is in the file [[GhcFile(packages)]], and this is where the `sync-all` script finds out about which repositories make up the complete tree.  It duplicates the information in the above table; indeed, it is really the authoritative version (so complain if the table and file differ!).
-
-The "`tag`" in the master table in [[GhcFile(packages)]] has the following significance:
-
- * '''"`-`"''': [wiki:Commentary/Libraries boot libraries], necessary to build GHC
- * '''"`testsuite`"''': GHC's [wiki:Building/RunningTests regression tests], not necessary for a build, but is necessary if you're working on GHC
- * '''"`nofib`"''': GHC's [wiki:Building/RunningNoFib nofib benchmark suite]
- * '''"`dph`"''': packages for [wiki:DataParallel Data Parallel Haskell], which is not shipped with GHC but we test all changes to GHC against these repositories so they are usually included in a checked-out source tree.
- * '''"`extra`"''': extra packages you might want to include in a build (the `parallel` package, for example), but aren't necessary to get a working GHC.
-
-See the [wiki:Commentary/Libraries] page for more information about GHC's libraries.
-
 == Mirroring new packages to !GitHub ==
 
 Currently, all our repositories are being mirrored to !GitHub by !GitHub themselves. If you wish to add/remove a repository you need to email !GitHub support at support@github.com and ask them to do it. Currently there is no way to administer this ourselves.
