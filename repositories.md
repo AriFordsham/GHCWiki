@@ -21,6 +21,8 @@ For info on the active branches of the main GHC repo, see
 
 GHC's repos use git; see [Git Working Conventions](working-conventions/git).
 
+**Be sure to read more on the working conventions for submodules, which are thoroughly documented here**: [ https://ghc.haskell.org/trac/ghc/wiki/WorkingConventions/Git/Submodules](https://ghc.haskell.org/trac/ghc/wiki/WorkingConventions/Git/Submodules)
+
 ## GHC Repositories
 
 
@@ -32,7 +34,7 @@ As a result of this, in HEAD, essentially every single upstream repository we tr
 
 But what happens if *you* need to get a submodule updated? It's quite simple...
 
-### Sending patches upstream
+### Sending patches upstream, the short version
 
 - Send a patch upstream. Get it merged.
 
