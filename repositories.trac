@@ -16,7 +16,7 @@ For read-only browsing, you can use the:
 For info on the active branches of the main GHC repo, see
  * [wiki:ActiveBranches]
 
-GHC's repos use git; see [wiki:WorkingConventions/Git Git Working Conventions]. For darcs-related stuff see [wiki:DarcsToGit Darcs To Git] and [wiki:GitForDarcsUsers Git For Darcs Users].
+GHC's repos use git; see [wiki:WorkingConventions/Git Git Working Conventions].
 
 == GHC Repositories ==
 
