@@ -21,22 +21,18 @@ For info on the active branches of the main GHC repo, see
 
 GHC's repos use git; see [Git Working Conventions](working-conventions/git). For darcs-related stuff see [Darcs To Git](darcs-to-git) and [Git For Darcs Users](git-for-darcs-users).
 
-## Repository workflows
+## GHC Repositories
 
 
-On the [upstream repositories](repositories/upstream) page, you can see a basic overview of where repositories are located.
+The GHC source code tracks many related sub-repositories, which are needed for external dependencies during the build, or tools that are included in the build. Not every sub-repository is maintained by us; in fact, the large majority are *not* maintained by GHC HQ.
 
 
-But how does this work? The basic breakdown is this:
-
-### Repository is owned by GHC HQ
+As a result of this, in HEAD, essentially every single upstream repository we track is tracked with a **git submodule**. These submodules are mirrored for us, and we send patches we need to the upstream maintainer.
 
 
-If the repository is owned by GHC HQ, for example, the `directory` package, just do what you normally do - push to that repository. You're done.
+But what happens if *you* need to get a submodule updated? It's quite simple...
 
-### Repository is maintained by an upstream, not GHC HQ
-
-**Note**: almost every upstream repository is a git submodule, as it stands. See below for exceptions.
+### Sending patches upstream
 
 - Send a patch upstream. Get it merged.
 
@@ -82,10 +78,7 @@ If either of these assumptions are violated, your push will fail.
 ## Full repository breakdown
 
 
-A GHC source tree is made of a collection of repositories. The script [sync-all](building/sync-all) knows how to apply git commands to the whole collection of repositories at once, for example to pull changes from the upstream repositories.
-
-
-Here is a list of the repositories that GHC uses.  The columns have the following meaning
+A GHC source tree is made of a collection of repositories. Here is a list of the repositories that GHC uses.  The columns have the following meaning
 
 - **Location in tree**: where in the source tree this repository sits.
 
