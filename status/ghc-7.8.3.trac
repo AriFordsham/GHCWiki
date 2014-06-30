@@ -7,7 +7,7 @@ Note however, that not all tickets with a 7.8.3 milestone will be addressed for 
 
 == Tickets marked merge with no milestone
 
-[[TicketQuery(status=merge,milestone=,format=table,col=type|summary|priority|owner,group=status)]]
+[[TicketQuery(status=merge,format=table,col=type|summary|priority|owner,group=status)]]
 
 == Tickets slated for 7.8.3
 
