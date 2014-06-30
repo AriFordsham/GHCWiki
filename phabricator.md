@@ -2,6 +2,8 @@
 
 [ Phabricator](http://phabricator.org) (AKA "Phab") is a suite of tools for software development, initially developed by Facebook. It consists of a suite of applications which are useful for the entire software development lifecycle, but for GHC specifically, **Phabricator is a code review tool**, and we use it to read and accept patches from contributors - both new ones, and existing ones.
 
+**Note**: Phabricator is *not* required for GHC committers. If you have commit access, you're free to push patches directly. But do feel free to post reviews for things you're working on - it generally will only help your work.
+
 ## Signing up
 
 
@@ -49,6 +51,11 @@ $ arc install-certificate
 
 Follow the directions it specifies - afterwards, your arcanist tool will be properly authenticated! Now you can submit reviews, paste things, etc etc.
 
+*Note*: once the certificate is installed, it will be written to `$HOME/.arcrc`, so it doesn't need to be installed again.
+
+**Question**: How does `arc install-certificate` know what URL to use?
+**Answer**: It's located in a file called `.arcconfig` in the GHC repository. This is why you have to `cd` there first.
+
 ## Submitting a review: Differential
 
 
@@ -90,6 +97,8 @@ Note that when you run `arc diff`, it will drop you into an editor to summarize 
 **A change cannot be merged until at least one reviewer has signed off**. All revisions must have at least one reviewer. Ideally, multiple people will review a change.
 
 **You should always at least add `austin` to a review**. If you want wider attention, you can specify the reviewer as `#ghc` - this specifies a group of GHC developers who may come to review it as well.
+
+**Question**: What does the `#ghc` mean? **Answer**: Essentially, in Phabricator, a Project is composed of a group of people. A project can be referred to by a hashtag, which basically incorporates everyone involved in the project.
 
 ## General review workflow
 
@@ -205,6 +214,11 @@ Be sure to also read the [ Herald user guide](https://secure.phabricator.com/boo
 
 
 There are some good tips for using Phabricator, including...
+
+### Commandeering revisions
+
+
+Occasionally, you may need to take over a patch from someone else on Phab. That can be done by **Commandeering the Revision**. To do that, go to a differential revision, go to the bottom, and use the **Commandeer** action. You will now own the review, be allowed to update it, and more.
 
 ### Keyboard shortcuts
 
