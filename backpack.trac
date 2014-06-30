@@ -2,4 +2,4 @@
 
 == Tickets ==
 
-[[TicketQuery(keywords=backpack,format=table,col=type|summary|priority|owner|status)]]
+[[TicketQuery(keywords=backpack,format=table,col=type|summary|priority|owner,group=status)]]

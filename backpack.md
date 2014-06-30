@@ -2,48 +2,13 @@
 
 ## Tickets
 
-<table><tr><th>Ticket (Ticket query: keywords: backpack, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: status, desc: 1, order: id)</th>
-<th>Type (Ticket query: keywords: backpack, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: status, order: type)</th>
-<th>Summary (Ticket query: keywords: backpack, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: status, order: summary)</th>
-<th>Priority (Ticket query: keywords: backpack, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: status, order: priority)</th>
-<th>Owner (Ticket query: keywords: backpack, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: status, order: owner)</th>
-<th>Status (Ticket query: keywords: backpack, max: 0, col: id, col: type, col: summary, col: priority, col: owner, col: status, order: status)</th></tr>
-<tr><th>[\#1409](https://gitlab.haskell.org//ghc/ghc/issues/1409)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      feature request
-                    </th>
-<th>[Allow recursively dependent modules transparently (without .hs-boot or anything)](https://gitlab.haskell.org//ghc/ghc/issues/1409)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      normal
-                    </th>
-<th></th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      new
-                    </th></tr>
+## Status: closed (41 matches)
+
+<table><tr><th>Ticket (Ticket query: keywords: backpack, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: id)</th>
+<th>Type (Ticket query: keywords: backpack, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: type)</th>
+<th>Summary (Ticket query: keywords: backpack, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: summary)</th>
+<th>Priority (Ticket query: keywords: backpack, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: priority)</th>
+<th>Owner (Ticket query: keywords: backpack, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: owner)</th></tr>
 <tr><th>[\#8407](https://gitlab.haskell.org//ghc/ghc/issues/8407)</th>
 <th>
                       
@@ -68,18 +33,7 @@
                       
                       high
                     </th>
-<th>ezyang</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      closed
-                    </th></tr>
+<th>ezyang</th></tr>
 <tr><th>[\#9243](https://gitlab.haskell.org//ghc/ghc/issues/9243)</th>
 <th>
                       
@@ -104,18 +58,7 @@
                       
                       high
                     </th>
-<th>ezyang</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      closed
-                    </th></tr>
+<th>ezyang</th></tr>
 <tr><th>[\#9245](https://gitlab.haskell.org//ghc/ghc/issues/9245)</th>
 <th>
                       
@@ -140,18 +83,7 @@
                       
                       normal
                     </th>
-<th>ezyang</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      closed
-                    </th></tr>
+<th>ezyang</th></tr>
 <tr><th>[\#9252](https://gitlab.haskell.org//ghc/ghc/issues/9252)</th>
 <th>
                       
@@ -176,18 +108,7 @@
                       
                       normal
                     </th>
-<th></th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      closed
-                    </th></tr>
+<th></th></tr>
 <tr><th>[\#9256](https://gitlab.haskell.org//ghc/ghc/issues/9256)</th>
 <th>
                       
@@ -212,18 +133,7 @@
                       
                       normal
                     </th>
-<th>ezyang</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      closed
-                    </th></tr>
+<th>ezyang</th></tr>
 <tr><th>[\#9265](https://gitlab.haskell.org//ghc/ghc/issues/9265)</th>
 <th>
                       
@@ -248,54 +158,7 @@
                       
                       high
                     </th>
-<th>ezyang</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      closed
-                    </th></tr>
-<tr><th>[\#9351](https://gitlab.haskell.org//ghc/ghc/issues/9351)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      feature request
-                    </th>
-<th>[add ability to version symbols .c for packages with C code](https://gitlab.haskell.org//ghc/ghc/issues/9351)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      normal
-                    </th>
-<th></th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      new
-                    </th></tr>
+<th>ezyang</th></tr>
 <tr><th>[\#9375](https://gitlab.haskell.org//ghc/ghc/issues/9375)</th>
 <th>
                       
@@ -320,18 +183,7 @@
                       
                       normal
                     </th>
-<th>ezyang</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      closed
-                    </th></tr>
+<th>ezyang</th></tr>
 <tr><th>[\#9506](https://gitlab.haskell.org//ghc/ghc/issues/9506)</th>
 <th>
                       
@@ -356,18 +208,7 @@
                       
                       normal
                     </th>
-<th>ezyang</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      closed
-                    </th></tr>
+<th>ezyang</th></tr>
 <tr><th>[\#9507](https://gitlab.haskell.org//ghc/ghc/issues/9507)</th>
 <th>
                       
@@ -392,18 +233,7 @@
                       
                       normal
                     </th>
-<th>ezyang</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      closed
-                    </th></tr>
+<th>ezyang</th></tr>
 <tr><th>[\#9508](https://gitlab.haskell.org//ghc/ghc/issues/9508)</th>
 <th>
                       
@@ -428,18 +258,7 @@
                       
                       normal
                     </th>
-<th>ezyang</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      closed
-                    </th></tr>
+<th>ezyang</th></tr>
 <tr><th>[\#10252](https://gitlab.haskell.org//ghc/ghc/issues/10252)</th>
 <th>
                       
@@ -464,18 +283,7 @@
                       
                       normal
                     </th>
-<th></th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      closed
-                    </th></tr>
+<th></th></tr>
 <tr><th>[\#10262](https://gitlab.haskell.org//ghc/ghc/issues/10262)</th>
 <th>
                       
@@ -500,54 +308,7 @@
                       
                       normal
                     </th>
-<th>ezyang</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      closed
-                    </th></tr>
-<tr><th>[\#10266](https://gitlab.haskell.org//ghc/ghc/issues/10266)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      task
-                    </th>
-<th>[Split base for Backpack](https://gitlab.haskell.org//ghc/ghc/issues/10266)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      low
-                    </th>
-<th>ezyang</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      new
-                    </th></tr>
+<th>ezyang</th></tr>
 <tr><th>[\#10622](https://gitlab.haskell.org//ghc/ghc/issues/10622)</th>
 <th>
                       
@@ -572,18 +333,7 @@
                       
                       normal
                     </th>
-<th>ezyang</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      closed
-                    </th></tr>
+<th>ezyang</th></tr>
 <tr><th>[\#10660](https://gitlab.haskell.org//ghc/ghc/issues/10660)</th>
 <th>
                       
@@ -608,54 +358,7 @@
                       
                       normal
                     </th>
-<th>spinda</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      closed
-                    </th></tr>
-<tr><th>[\#10681](https://gitlab.haskell.org//ghc/ghc/issues/10681)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      feature request
-                    </th>
-<th>[Teach GHC to interpret all hs files as two levels of hs-boot files (abstract types only/full types + values)](https://gitlab.haskell.org//ghc/ghc/issues/10681)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      low
-                    </th>
-<th>ezyang</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      new
-                    </th></tr>
+<th>spinda</th></tr>
 <tr><th>[\#10690](https://gitlab.haskell.org//ghc/ghc/issues/10690)</th>
 <th>
                       
@@ -680,18 +383,7 @@
                       
                       normal
                     </th>
-<th></th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      closed
-                    </th></tr>
+<th></th></tr>
 <tr><th>[\#10714](https://gitlab.haskell.org//ghc/ghc/issues/10714)</th>
 <th>
                       
@@ -716,18 +408,7 @@
                       
                       normal
                     </th>
-<th>ezyang</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      closed
-                    </th></tr>
+<th>ezyang</th></tr>
 <tr><th>[\#10723](https://gitlab.haskell.org//ghc/ghc/issues/10723)</th>
 <th>
                       
@@ -752,18 +433,7 @@
                       
                       lowest
                     </th>
-<th>ezyang</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      closed
-                    </th></tr>
+<th>ezyang</th></tr>
 <tr><th>[\#10725](https://gitlab.haskell.org//ghc/ghc/issues/10725)</th>
 <th>
                       
@@ -788,54 +458,7 @@
                       
                       normal
                     </th>
-<th>ezyang</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      closed
-                    </th></tr>
-<tr><th>[\#10749](https://gitlab.haskell.org//ghc/ghc/issues/10749)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      bug
-                    </th>
-<th>[Boot file instances should imply superclasses](https://gitlab.haskell.org//ghc/ghc/issues/10749)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      normal
-                    </th>
-<th>ezyang</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      new
-                    </th></tr>
+<th>ezyang</th></tr>
 <tr><th>[\#10798](https://gitlab.haskell.org//ghc/ghc/issues/10798)</th>
 <th>
                       
@@ -860,54 +483,7 @@
                       
                       normal
                     </th>
-<th>ezyang</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      closed
-                    </th></tr>
-<tr><th>[\#10827](https://gitlab.haskell.org//ghc/ghc/issues/10827)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      feature request
-                    </th>
-<th>[GHCi should support interpeting multiple packages/units with separate DynFlags](https://gitlab.haskell.org//ghc/ghc/issues/10827)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      normal
-                    </th>
-<th></th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      new
-                    </th></tr>
+<th>ezyang</th></tr>
 <tr><th>[\#10838](https://gitlab.haskell.org//ghc/ghc/issues/10838)</th>
 <th>
                       
@@ -932,54 +508,7 @@
                       
                       normal
                     </th>
-<th>ezyang</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      closed
-                    </th></tr>
-<tr><th>[\#10871](https://gitlab.haskell.org//ghc/ghc/issues/10871)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      feature request
-                    </th>
-<th>[Implement "fat" interface files which can be directly compiled without source](https://gitlab.haskell.org//ghc/ghc/issues/10871)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      lowest
-                    </th>
-<th>ezyang</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      new
-                    </th></tr>
+<th>ezyang</th></tr>
 <tr><th>[\#12679](https://gitlab.haskell.org//ghc/ghc/issues/12679)</th>
 <th>
                       
@@ -1004,54 +533,7 @@
                       
                       low
                     </th>
-<th></th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      closed
-                    </th></tr>
-<tr><th>[\#12680](https://gitlab.haskell.org//ghc/ghc/issues/12680)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      feature request
-                    </th>
-<th>[Permit type equality instances in signatures](https://gitlab.haskell.org//ghc/ghc/issues/12680)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      low
-                    </th>
-<th></th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      new
-                    </th></tr>
+<th></th></tr>
 <tr><th>[\#12699](https://gitlab.haskell.org//ghc/ghc/issues/12699)</th>
 <th>
                       
@@ -1076,18 +558,7 @@
                       
                       normal
                     </th>
-<th>ezyang</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      closed
-                    </th></tr>
+<th>ezyang</th></tr>
 <tr><th>[\#12701](https://gitlab.haskell.org//ghc/ghc/issues/12701)</th>
 <th>
                       
@@ -1112,90 +583,7 @@
                       
                       lowest
                     </th>
-<th></th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      closed
-                    </th></tr>
-<tr><th>[\#12703](https://gitlab.haskell.org//ghc/ghc/issues/12703)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      feature request
-                    </th>
-<th>[Expand Backpack's signature matching relation beyond definitional equality](https://gitlab.haskell.org//ghc/ghc/issues/12703)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      normal
-                    </th>
-<th></th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      new
-                    </th></tr>
-<tr><th>[\#12717](https://gitlab.haskell.org//ghc/ghc/issues/12717)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      feature request
-                    </th>
-<th>[Permit data types in signatures to be implemented with equivalent pattern synonyms (and vice versa)](https://gitlab.haskell.org//ghc/ghc/issues/12717)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      lowest
-                    </th>
-<th></th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      new
-                    </th></tr>
+<th></th></tr>
 <tr><th>[\#12945](https://gitlab.haskell.org//ghc/ghc/issues/12945)</th>
 <th>
                       
@@ -1220,18 +608,7 @@
                       
                       high
                     </th>
-<th>ezyang</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      closed
-                    </th></tr>
+<th>ezyang</th></tr>
 <tr><th>[\#12955](https://gitlab.haskell.org//ghc/ghc/issues/12955)</th>
 <th>
                       
@@ -1256,18 +633,7 @@
                       
                       normal
                     </th>
-<th>ezyang</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      closed
-                    </th></tr>
+<th>ezyang</th></tr>
 <tr><th>[\#12994](https://gitlab.haskell.org//ghc/ghc/issues/12994)</th>
 <th>
                       
@@ -1292,18 +658,7 @@
                       
                       normal
                     </th>
-<th></th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      closed
-                    </th></tr>
+<th></th></tr>
 <tr><th>[\#13041](https://gitlab.haskell.org//ghc/ghc/issues/13041)</th>
 <th>
                       
@@ -1328,18 +683,7 @@
                       
                       normal
                     </th>
-<th>ezyang</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      closed
-                    </th></tr>
+<th>ezyang</th></tr>
 <tr><th>[\#13066](https://gitlab.haskell.org//ghc/ghc/issues/13066)</th>
 <th>
                       
@@ -1364,18 +708,7 @@
                       
                       normal
                     </th>
-<th>ezyang</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      closed
-                    </th></tr>
+<th>ezyang</th></tr>
 <tr><th>[\#13067](https://gitlab.haskell.org//ghc/ghc/issues/13067)</th>
 <th>
                       
@@ -1400,18 +733,7 @@
                       
                       normal
                     </th>
-<th>ezyang</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      closed
-                    </th></tr>
+<th>ezyang</th></tr>
 <tr><th>[\#13068](https://gitlab.haskell.org//ghc/ghc/issues/13068)</th>
 <th>
                       
@@ -1436,90 +758,7 @@
                       
                       low
                     </th>
-<th></th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      closed
-                    </th></tr>
-<tr><th>[\#13149](https://gitlab.haskell.org//ghc/ghc/issues/13149)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      task
-                    </th>
-<th>[Giving Backpack a Promotion](https://gitlab.haskell.org//ghc/ghc/issues/13149)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      low
-                    </th>
-<th></th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      new
-                    </th></tr>
-<tr><th>[\#13151](https://gitlab.haskell.org//ghc/ghc/issues/13151)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      task
-                    </th>
-<th>[Make all never-exported IfaceDecls implicit](https://gitlab.haskell.org//ghc/ghc/issues/13151)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      normal
-                    </th>
-<th>ezyang</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      new
-                    </th></tr>
+<th></th></tr>
 <tr><th>[\#13214](https://gitlab.haskell.org//ghc/ghc/issues/13214)</th>
 <th>
                       
@@ -1544,18 +783,7 @@
                       
                       normal
                     </th>
-<th>ezyang</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      closed
-                    </th></tr>
+<th>ezyang</th></tr>
 <tr><th>[\#13250](https://gitlab.haskell.org//ghc/ghc/issues/13250)</th>
 <th>
                       
@@ -1580,90 +808,7 @@
                       
                       normal
                     </th>
-<th>ezyang</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      closed
-                    </th></tr>
-<tr><th>[\#13262](https://gitlab.haskell.org//ghc/ghc/issues/13262)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      feature request
-                    </th>
-<th>[Allow type synonym family application in instance head if it has no free variables](https://gitlab.haskell.org//ghc/ghc/issues/13262)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      low
-                    </th>
-<th></th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      new
-                    </th></tr>
-<tr><th>[\#13266](https://gitlab.haskell.org//ghc/ghc/issues/13266)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      bug
-                    </th>
-<th>[Source locations from signature merging/matching are bad](https://gitlab.haskell.org//ghc/ghc/issues/13266)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      normal
-                    </th>
-<th></th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      new
-                    </th></tr>
+<th>ezyang</th></tr>
 <tr><th>[\#13268](https://gitlab.haskell.org//ghc/ghc/issues/13268)</th>
 <th>
                       
@@ -1688,18 +833,7 @@
                       
                       normal
                     </th>
-<th></th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      closed
-                    </th></tr>
+<th></th></tr>
 <tr><th>[\#13323](https://gitlab.haskell.org//ghc/ghc/issues/13323)</th>
 <th>
                       
@@ -1724,18 +858,7 @@
                       
                       normal
                     </th>
-<th></th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      closed
-                    </th></tr>
+<th></th></tr>
 <tr><th>[\#13335](https://gitlab.haskell.org//ghc/ghc/issues/13335)</th>
 <th>
                       
@@ -1760,198 +883,7 @@
                       
                       normal
                     </th>
-<th></th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      closed
-                    </th></tr>
-<tr><th>[\#13361](https://gitlab.haskell.org//ghc/ghc/issues/13361)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      bug
-                    </th>
-<th>[Better type synonym merging/subtyping for Backpack](https://gitlab.haskell.org//ghc/ghc/issues/13361)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      low
-                    </th>
-<th></th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      new
-                    </th></tr>
-<tr><th>[\#13469](https://gitlab.haskell.org//ghc/ghc/issues/13469)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      feature request
-                    </th>
-<th>[-fdefer-type-errors for Backpack](https://gitlab.haskell.org//ghc/ghc/issues/13469)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      normal
-                    </th>
-<th></th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      new
-                    </th></tr>
-<tr><th>[\#13765](https://gitlab.haskell.org//ghc/ghc/issues/13765)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      bug
-                    </th>
-<th>[GHC cannot parse valid Haskell98 whose first identifier is named signature](https://gitlab.haskell.org//ghc/ghc/issues/13765)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      low
-                    </th>
-<th></th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      new
-                    </th></tr>
-<tr><th>[\#14210](https://gitlab.haskell.org//ghc/ghc/issues/14210)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      feature request
-                    </th>
-<th>[bkp files cannot find TemplateHaskell symbols (even without Backpack features)](https://gitlab.haskell.org//ghc/ghc/issues/14210)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      low
-                    </th>
-<th></th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      new
-                    </th></tr>
-<tr><th>[\#14212](https://gitlab.haskell.org//ghc/ghc/issues/14212)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      bug
-                    </th>
-<th>[Give better error message with non-supported Backpack/TH use](https://gitlab.haskell.org//ghc/ghc/issues/14212)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      normal
-                    </th>
-<th></th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      new
-                    </th></tr>
+<th></th></tr>
 <tr><th>[\#14304](https://gitlab.haskell.org//ghc/ghc/issues/14304)</th>
 <th>
                       
@@ -1976,54 +908,7 @@
                       
                       normal
                     </th>
-<th></th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      closed
-                    </th></tr>
-<tr><th>[\#14478](https://gitlab.haskell.org//ghc/ghc/issues/14478)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      feature request
-                    </th>
-<th>[Abstract pattern synonyms (for hsig and hs-boot)](https://gitlab.haskell.org//ghc/ghc/issues/14478)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      normal
-                    </th>
-<th></th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      new
-                    </th></tr>
+<th></th></tr>
 <tr><th>[\#14525](https://gitlab.haskell.org//ghc/ghc/issues/14525)</th>
 <th>
                       
@@ -2048,18 +933,7 @@
                       
                       normal
                     </th>
-<th></th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      closed
-                    </th></tr>
+<th></th></tr>
 <tr><th>[\#14674](https://gitlab.haskell.org//ghc/ghc/issues/14674)</th>
 <th>
                       
@@ -2084,18 +958,7 @@
                       
                       normal
                     </th>
-<th></th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      closed
-                    </th></tr>
+<th></th></tr>
 <tr><th>[\#15041](https://gitlab.haskell.org//ghc/ghc/issues/15041)</th>
 <th>
                       
@@ -2120,18 +983,7 @@
                       
                       normal
                     </th>
-<th></th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      closed
-                    </th></tr>
+<th></th></tr>
 <tr><th>[\#15138](https://gitlab.haskell.org//ghc/ghc/issues/15138)</th>
 <th>
                       
@@ -2156,18 +1008,7 @@
                       
                       normal
                     </th>
-<th></th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      closed
-                    </th></tr>
+<th></th></tr>
 <tr><th>[\#15379](https://gitlab.haskell.org//ghc/ghc/issues/15379)</th>
 <th>
                       
@@ -2192,7 +1033,20 @@
                       
                       normal
                     </th>
+<th></th></tr>
+<tr><th>## Status: new (23 matches)
+
+</th>
 <th></th>
+<th></th>
+<th></th>
+<th></th></tr>
+<tr><th>Ticket (Ticket query: keywords: backpack, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: id)</th>
+<th>Type (Ticket query: keywords: backpack, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: type)</th>
+<th>Summary (Ticket query: keywords: backpack, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: summary)</th>
+<th>Priority (Ticket query: keywords: backpack, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: priority)</th>
+<th>Owner (Ticket query: keywords: backpack, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: owner)</th></tr>
+<tr><th>[\#1409](https://gitlab.haskell.org//ghc/ghc/issues/1409)</th>
 <th>
                       
                       
@@ -2202,8 +1056,496 @@
                       
                       
                       
-                      closed
-                    </th></tr>
+                      feature request
+                    </th>
+<th>[Allow recursively dependent modules transparently (without .hs-boot or anything)](https://gitlab.haskell.org//ghc/ghc/issues/1409)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th></th></tr>
+<tr><th>[\#9351](https://gitlab.haskell.org//ghc/ghc/issues/9351)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      feature request
+                    </th>
+<th>[add ability to version symbols .c for packages with C code](https://gitlab.haskell.org//ghc/ghc/issues/9351)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th></th></tr>
+<tr><th>[\#10266](https://gitlab.haskell.org//ghc/ghc/issues/10266)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      task
+                    </th>
+<th>[Split base for Backpack](https://gitlab.haskell.org//ghc/ghc/issues/10266)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      low
+                    </th>
+<th>ezyang</th></tr>
+<tr><th>[\#10681](https://gitlab.haskell.org//ghc/ghc/issues/10681)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      feature request
+                    </th>
+<th>[Teach GHC to interpret all hs files as two levels of hs-boot files (abstract types only/full types + values)](https://gitlab.haskell.org//ghc/ghc/issues/10681)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      low
+                    </th>
+<th>ezyang</th></tr>
+<tr><th>[\#10749](https://gitlab.haskell.org//ghc/ghc/issues/10749)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[Boot file instances should imply superclasses](https://gitlab.haskell.org//ghc/ghc/issues/10749)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th>ezyang</th></tr>
+<tr><th>[\#10827](https://gitlab.haskell.org//ghc/ghc/issues/10827)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      feature request
+                    </th>
+<th>[GHCi should support interpeting multiple packages/units with separate DynFlags](https://gitlab.haskell.org//ghc/ghc/issues/10827)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th></th></tr>
+<tr><th>[\#10871](https://gitlab.haskell.org//ghc/ghc/issues/10871)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      feature request
+                    </th>
+<th>[Implement "fat" interface files which can be directly compiled without source](https://gitlab.haskell.org//ghc/ghc/issues/10871)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      lowest
+                    </th>
+<th>ezyang</th></tr>
+<tr><th>[\#12680](https://gitlab.haskell.org//ghc/ghc/issues/12680)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      feature request
+                    </th>
+<th>[Permit type equality instances in signatures](https://gitlab.haskell.org//ghc/ghc/issues/12680)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      low
+                    </th>
+<th></th></tr>
+<tr><th>[\#12703](https://gitlab.haskell.org//ghc/ghc/issues/12703)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      feature request
+                    </th>
+<th>[Expand Backpack's signature matching relation beyond definitional equality](https://gitlab.haskell.org//ghc/ghc/issues/12703)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th></th></tr>
+<tr><th>[\#12717](https://gitlab.haskell.org//ghc/ghc/issues/12717)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      feature request
+                    </th>
+<th>[Permit data types in signatures to be implemented with equivalent pattern synonyms (and vice versa)](https://gitlab.haskell.org//ghc/ghc/issues/12717)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      lowest
+                    </th>
+<th></th></tr>
+<tr><th>[\#13149](https://gitlab.haskell.org//ghc/ghc/issues/13149)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      task
+                    </th>
+<th>[Giving Backpack a Promotion](https://gitlab.haskell.org//ghc/ghc/issues/13149)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      low
+                    </th>
+<th></th></tr>
+<tr><th>[\#13151](https://gitlab.haskell.org//ghc/ghc/issues/13151)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      task
+                    </th>
+<th>[Make all never-exported IfaceDecls implicit](https://gitlab.haskell.org//ghc/ghc/issues/13151)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th>ezyang</th></tr>
+<tr><th>[\#13262](https://gitlab.haskell.org//ghc/ghc/issues/13262)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      feature request
+                    </th>
+<th>[Allow type synonym family application in instance head if it has no free variables](https://gitlab.haskell.org//ghc/ghc/issues/13262)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      low
+                    </th>
+<th></th></tr>
+<tr><th>[\#13266](https://gitlab.haskell.org//ghc/ghc/issues/13266)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[Source locations from signature merging/matching are bad](https://gitlab.haskell.org//ghc/ghc/issues/13266)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th></th></tr>
+<tr><th>[\#13361](https://gitlab.haskell.org//ghc/ghc/issues/13361)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[Better type synonym merging/subtyping for Backpack](https://gitlab.haskell.org//ghc/ghc/issues/13361)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      low
+                    </th>
+<th></th></tr>
+<tr><th>[\#13469](https://gitlab.haskell.org//ghc/ghc/issues/13469)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      feature request
+                    </th>
+<th>[-fdefer-type-errors for Backpack](https://gitlab.haskell.org//ghc/ghc/issues/13469)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th></th></tr>
+<tr><th>[\#13765](https://gitlab.haskell.org//ghc/ghc/issues/13765)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[GHC cannot parse valid Haskell98 whose first identifier is named signature](https://gitlab.haskell.org//ghc/ghc/issues/13765)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      low
+                    </th>
+<th></th></tr>
+<tr><th>[\#14210](https://gitlab.haskell.org//ghc/ghc/issues/14210)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      feature request
+                    </th>
+<th>[bkp files cannot find TemplateHaskell symbols (even without Backpack features)](https://gitlab.haskell.org//ghc/ghc/issues/14210)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      low
+                    </th>
+<th></th></tr>
+<tr><th>[\#14212](https://gitlab.haskell.org//ghc/ghc/issues/14212)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[Give better error message with non-supported Backpack/TH use](https://gitlab.haskell.org//ghc/ghc/issues/14212)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th></th></tr>
+<tr><th>[\#14478](https://gitlab.haskell.org//ghc/ghc/issues/14478)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      feature request
+                    </th>
+<th>[Abstract pattern synonyms (for hsig and hs-boot)](https://gitlab.haskell.org//ghc/ghc/issues/14478)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th></th></tr>
 <tr><th>[\#15391](https://gitlab.haskell.org//ghc/ghc/issues/15391)</th>
 <th>
                       
@@ -2228,54 +1570,7 @@
                       
                       normal
                     </th>
-<th></th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      new
-                    </th></tr>
-<tr><th>[\#15594](https://gitlab.haskell.org//ghc/ghc/issues/15594)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      bug
-                    </th>
-<th>[--abi-hash with Backpack incorrectly loads modules from dependent packages](https://gitlab.haskell.org//ghc/ghc/issues/15594)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      normal
-                    </th>
-<th></th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      patch
-                    </th></tr>
+<th></th></tr>
 <tr><th>[\#15984](https://gitlab.haskell.org//ghc/ghc/issues/15984)</th>
 <th>
                       
@@ -2300,54 +1595,7 @@
                       
                       normal
                     </th>
-<th></th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      new
-                    </th></tr>
-<tr><th>[\#16219](https://gitlab.haskell.org//ghc/ghc/issues/16219)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      bug
-                    </th>
-<th>[Backpack - TH+indefinite module interface file error](https://gitlab.haskell.org//ghc/ghc/issues/16219)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      normal
-                    </th>
-<th></th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      patch
-                    </th></tr>
+<th></th></tr>
 <tr><th>[\#16412](https://gitlab.haskell.org//ghc/ghc/issues/16412)</th>
 <th>
                       
@@ -2372,7 +1620,20 @@
                       
                       normal
                     </th>
+<th></th></tr>
+<tr><th>## Status: patch (2 matches)
+
+</th>
 <th></th>
+<th></th>
+<th></th>
+<th></th></tr>
+<tr><th>Ticket (Ticket query: keywords: backpack, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: id)</th>
+<th>Type (Ticket query: keywords: backpack, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: type)</th>
+<th>Summary (Ticket query: keywords: backpack, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: summary)</th>
+<th>Priority (Ticket query: keywords: backpack, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: priority)</th>
+<th>Owner (Ticket query: keywords: backpack, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: owner)</th></tr>
+<tr><th>[\#15594](https://gitlab.haskell.org//ghc/ghc/issues/15594)</th>
 <th>
                       
                       
@@ -2382,5 +1643,43 @@
                       
                       
                       
-                      new
-                    </th></tr></table>
+                      bug
+                    </th>
+<th>[--abi-hash with Backpack incorrectly loads modules from dependent packages](https://gitlab.haskell.org//ghc/ghc/issues/15594)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th></th></tr>
+<tr><th>[\#16219](https://gitlab.haskell.org//ghc/ghc/issues/16219)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[Backpack - TH+indefinite module interface file error](https://gitlab.haskell.org//ghc/ghc/issues/16219)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th></th></tr></table>
