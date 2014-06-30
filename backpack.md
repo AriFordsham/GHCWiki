@@ -3,7 +3,7 @@
 ## Backpack-related tickets
 
 
-If the ticket is assigned to me that means I am planning on working on it.
+Backpack-related tickets are marked with keyword 'backpack'. If the ticket is assigned to me that means I am planning on working on it.
 
 ## Status: closed (41 matches)
 
