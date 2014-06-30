@@ -1,6 +1,3 @@
-
-This page is a WIP and will subsume [Repositories/Upstream](repositories/upstream)
-
 # GHC Repositories
 
 
