@@ -215,6 +215,7 @@ See also [TemplateHaskell](template-haskell)
 
 ### Better error messages
 
+- [\#9244](https://gitlab.haskell.org//ghc/ghc/issues/9244): suggest scoped type variables
 - [\#9173](https://gitlab.haskell.org//ghc/ghc/issues/9173): inferred/expected error messages
 - [\#4921](https://gitlab.haskell.org//ghc/ghc/issues/4921): ambiguous type variables
 - [\#1330](https://gitlab.haskell.org//ghc/ghc/issues/1330): another bad error message (Church2)
