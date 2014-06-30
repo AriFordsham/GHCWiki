@@ -92,7 +92,6 @@ A GHC source tree is made of a collection of repositories. Here is a list of the
 <tr><td>libraries/containers</td>              <td> yes </td> <td>     </td> <td>     </td> <td>packages/containers.git</td></tr>
 <tr><td>libraries/deepseq</td>      	       <td> yes </td> <td>     </td> <td>     </td> <td>packages/deepseq.git</td></tr>
 <tr><td>libraries/directory</td>               <td> yes </td> <td>     </td> <td>     </td> <td>packages/directory.git</td></tr>
-<tr><td>libraries/extensible-exceptions</td>   <td>     </td> <td>     </td> <td>     </td> <td>packages/extensible-exceptions.git</td></tr>
 <tr><td>libraries/filepath</td>                <td> yes </td> <td>     </td> <td>     </td> <td>packages/filepath.git</td></tr>
 <tr><td>libraries/haskeline</td>               <td> yes </td> <td>     </td> <td> no  </td> <td>packages/haskeline.git</td></tr>
 <tr><td>libraries/haskell98</td>               <td> yes </td> <td>     </td> <td>     </td> <td>packages/haskell98.git</td></tr>
