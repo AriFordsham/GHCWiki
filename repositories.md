@@ -19,24 +19,22 @@ For info on the active branches of the main GHC repo, see
 - [ActiveBranches](active-branches)
 
 
-GHC's repos use git; see [Git Working Conventions](working-conventions/git). For darcs-related stuff see [Darcs To Git](darcs-to-git) and [Git For Darcs Users](git-for-darcs-users).
+GHC's repos use git; see [Git Working Conventions](working-conventions/git).
 
-## Repository workflows
+**Be sure to read more on the working conventions for submodules, which are thoroughly documented here**: [ https://ghc.haskell.org/trac/ghc/wiki/WorkingConventions/Git/Submodules](https://ghc.haskell.org/trac/ghc/wiki/WorkingConventions/Git/Submodules)
 
-
-On the [upstream repositories](repositories/upstream) page, you can see a basic overview of where repositories are located.
-
-
-But how does this work? The basic breakdown is this:
-
-### Repository is owned by GHC HQ
+## GHC Repositories
 
 
-If the repository is owned by GHC HQ, for example, the `directory` package, just do what you normally do - push to that repository. You're done.
+The GHC source code tracks many related sub-repositories, which are needed for external dependencies during the build, or tools that are included in the build. Not every sub-repository is maintained by us; in fact, the large majority are *not* maintained by GHC HQ.
 
-### Repository is maintained by an upstream, not GHC HQ
 
-**Note**: almost every upstream repository is a git submodule, as it stands. See below for exceptions.
+As a result of this, in HEAD, essentially every single upstream repository we track is tracked with a **git submodule**. These submodules are mirrored for us, and we send patches we need to the upstream maintainer.
+
+
+But what happens if *you* need to get a submodule updated? It's quite simple...
+
+### Sending patches upstream, the short version
 
 - Send a patch upstream. Get it merged.
 
@@ -82,10 +80,7 @@ If either of these assumptions are violated, your push will fail.
 ## Full repository breakdown
 
 
-A GHC source tree is made of a collection of repositories. The script [sync-all](building/sync-all) knows how to apply git commands to the whole collection of repositories at once, for example to pull changes from the upstream repositories.
-
-
-Here is a list of the repositories that GHC uses.  The columns have the following meaning
+A GHC source tree is made of a collection of repositories. Here is a list of the repositories that GHC uses.  The columns have the following meaning
 
 - **Location in tree**: where in the source tree this repository sits.
 
@@ -119,7 +114,7 @@ Here is a list of the repositories that GHC uses.  The columns have the followin
 <th></th>
 <th>hsc2hs.git</th></tr>
 <tr><th>utils/haddock</th>
-<th></th>
+<th> yes </th>
 <th></th>
 <th></th>
 <th>haddock.git</th></tr>
@@ -129,7 +124,7 @@ Here is a list of the repositories that GHC uses.  The columns have the followin
 <th> N/A </th>
 <th>nofib.git</th></tr>
 <tr><th>libraries/array</th>
-<th></th>
+<th> yes </th>
 <th></th>
 <th></th>
 <th>packages/array.git</th></tr>
@@ -154,12 +149,12 @@ Here is a list of the repositories that GHC uses.  The columns have the followin
 <th></th>
 <th>packages/containers.git</th></tr>
 <tr><th>libraries/deepseq</th>
-<th></th>
+<th> yes </th>
 <th></th>
 <th></th>
 <th>packages/deepseq.git</th></tr>
 <tr><th>libraries/directory</th>
-<th></th>
+<th> yes </th>
 <th></th>
 <th></th>
 <th>packages/directory.git</th></tr>
@@ -169,7 +164,7 @@ Here is a list of the repositories that GHC uses.  The columns have the followin
 <th></th>
 <th>packages/extensible-exceptions.git</th></tr>
 <tr><th>libraries/filepath</th>
-<th></th>
+<th> yes </th>
 <th></th>
 <th></th>
 <th>packages/filepath.git</th></tr>
@@ -179,32 +174,32 @@ Here is a list of the repositories that GHC uses.  The columns have the followin
 <th> no  </th>
 <th>packages/haskeline.git</th></tr>
 <tr><th>libraries/haskell98</th>
-<th></th>
+<th> yes </th>
 <th></th>
 <th></th>
 <th>packages/haskell98.git</th></tr>
 <tr><th>libraries/haskell2010</th>
-<th></th>
+<th> yes </th>
 <th></th>
 <th></th>
 <th>packages/haskell2010.git</th></tr>
 <tr><th>libraries/hoopl</th>
-<th></th>
+<th> yes </th>
 <th></th>
 <th></th>
 <th>packages/hoopl.git</th></tr>
 <tr><th>libraries/hpc</th>
-<th></th>
+<th> yes </th>
 <th></th>
 <th></th>
 <th>packages/hpc.git</th></tr>
 <tr><th>libraries/old-locale</th>
-<th></th>
+<th> yes </th>
 <th></th>
 <th></th>
 <th>packages/old-locale.git</th></tr>
 <tr><th>libraries/old-time</th>
-<th></th>
+<th> yes </th>
 <th></th>
 <th></th>
 <th>packages/old-time.git</th></tr>
@@ -214,7 +209,7 @@ Here is a list of the repositories that GHC uses.  The columns have the followin
 <th></th>
 <th>packages/pretty.git</th></tr>
 <tr><th>libraries/process</th>
-<th></th>
+<th> yes </th>
 <th></th>
 <th></th>
 <th>packages/process.git</th></tr>
@@ -234,7 +229,7 @@ Here is a list of the repositories that GHC uses.  The columns have the followin
 <th></th>
 <th>packages/transformers.git</th></tr>
 <tr><th>libraries/unix</th>
-<th></th>
+<th> yes </th>
 <th></th>
 <th></th>
 <th>packages/unix.git</th></tr>
@@ -255,51 +250,34 @@ Here is a list of the repositories that GHC uses.  The columns have the followin
 <th>packages/xhtml.git</th></tr>
 <tr><th>libraries/random</th>
 <th> yes </th>
-<th></th>
-<th>extra</th>
+<th> no  </th>
+<th> no  </th>
 <th>packages/random.git</th></tr>
 <tr><th>libraries/primitive</th>
 <th> yes </th>
-<th></th>
-<th>extra</th>
+<th> no  </th>
+<th> no  </th>
 <th>packages/primitive.git</th></tr>
 <tr><th>libraries/vector</th>
 <th> yes </th>
-<th></th>
-<th>extra</th>
+<th> no  </th>
+<th> no  </th>
 <th>packages/vector.git</th></tr>
 <tr><th>libraries/dph</th>
 <th></th>
-<th></th>
-<th>extra</th>
+<th> no  </th>
+<th> no  </th>
 <th>packages/dph.git</th></tr>
 <tr><th>libraries/parallel</th>
-<th></th>
+<th> yes </th>
 <th> no  </th>
-<th>extra</th>
+<th> no  </th>
 <th>packages/parallel.git</th></tr>
 <tr><th>libraries/stm</th>
-<th></th>
+<th> yes </th>
 <th> no  </th>
-<th>extra</th>
+<th> no  </th>
 <th>packages/stm.git</th></tr></table>
-
-### The 'packages' file
-
-
-The master list of repositories is in the file [packages](/trac/ghc/browser/ghc/packages), and this is where the `sync-all` script finds out about which repositories make up the complete tree.  It duplicates the information in the above table; indeed, it is really the authoritative version (so complain if the table and file differ!).
-
-
-The "`tag`" in the master table in [packages](/trac/ghc/browser/ghc/packages) has the following significance:
-
-- **"`-`"**: [boot libraries](commentary/libraries), necessary to build GHC
-- **"`testsuite`"**: GHC's [regression tests](building/running-tests), not necessary for a build, but is necessary if you're working on GHC
-- **"`nofib`"**: GHC's [nofib benchmark suite](building/running-no-fib)
-- **"`dph`"**: packages for [Data Parallel Haskell](data-parallel), which is not shipped with GHC but we test all changes to GHC against these repositories so they are usually included in a checked-out source tree.
-- **"`extra`"**: extra packages you might want to include in a build (the `parallel` package, for example), but aren't necessary to get a working GHC.
-
-
-See the [Commentary/Libraries](commentary/libraries) page for more information about GHC's libraries.
 
 ## Mirroring new packages to GitHub
 
