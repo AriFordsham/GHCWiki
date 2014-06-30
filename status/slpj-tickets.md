@@ -67,6 +67,7 @@ See also [TemplateHaskell](template-haskell)
 
 ## Optimisation
 
+- [\#9246](https://gitlab.haskell.org//ghc/ghc/issues/9246): Too much case-of-case leads to bad code
 - [\#8613](https://gitlab.haskell.org//ghc/ghc/issues/8613), [\#9070](https://gitlab.haskell.org//ghc/ghc/issues/9070), [\#8319](https://gitlab.haskell.org//ghc/ghc/issues/8319): simplifier ticks exhausted (there are others)
 - [\#9136](https://gitlab.haskell.org//ghc/ghc/issues/9136): better constant folding
 - [\#9041](https://gitlab.haskell.org//ghc/ghc/issues/9041): bad code from native code generator (NCG)
@@ -85,7 +86,7 @@ See also [TemplateHaskell](template-haskell)
 - [\#7511](https://gitlab.haskell.org//ghc/ghc/issues/7511): inlining can make programs allocate MORE!!
 - [\#7307](https://gitlab.haskell.org//ghc/ghc/issues/7307): low hanging fruit for shrinking code size for string constants and top-level indirections
 - [\#7206](https://gitlab.haskell.org//ghc/ghc/issues/7206), [\#7309](https://gitlab.haskell.org//ghc/ghc/issues/7309): avoid excessive sharing of enumerations
-- [\#8833](https://gitlab.haskell.org//ghc/ghc/issues/8833), [\#3872](https://gitlab.haskell.org//ghc/ghc/issues/3872), [\#5400](https://gitlab.haskell.org//ghc/ghc/issues/5400), [\#5448](https://gitlab.haskell.org//ghc/ghc/issues/5448), [\#5722](https://gitlab.haskell.org//ghc/ghc/issues/5722), [\#7057](https://gitlab.haskell.org//ghc/ghc/issues/7057), [\#7369](https://gitlab.haskell.org//ghc/ghc/issues/7369): contravariant data type loop in simplifier inliner
+- [\#8833](https://gitlab.haskell.org//ghc/ghc/issues/8833), [\#3872](https://gitlab.haskell.org//ghc/ghc/issues/3872), [\#5400](https://gitlab.haskell.org//ghc/ghc/issues/5400), [\#5448](https://gitlab.haskell.org//ghc/ghc/issues/5448), [\#5722](https://gitlab.haskell.org//ghc/ghc/issues/5722), [\#7057](https://gitlab.haskell.org//ghc/ghc/issues/7057), [\#7369](https://gitlab.haskell.org//ghc/ghc/issues/7369), [\#9235](https://gitlab.haskell.org//ghc/ghc/issues/9235): contravariant data type loop in simplifier inliner
 - [\#5954](https://gitlab.haskell.org//ghc/ghc/issues/5954): performance regression. Duplication of primops?
 - [\#6047](https://gitlab.haskell.org//ghc/ghc/issues/6047): GHC retains unnecessary binding
 - [\#2439](https://gitlab.haskell.org//ghc/ghc/issues/2439): Strict dictionaries
@@ -214,6 +215,7 @@ See also [TemplateHaskell](template-haskell)
 
 ### Better error messages
 
+- [\#9244](https://gitlab.haskell.org//ghc/ghc/issues/9244): suggest scoped type variables
 - [\#9173](https://gitlab.haskell.org//ghc/ghc/issues/9173): inferred/expected error messages
 - [\#4921](https://gitlab.haskell.org//ghc/ghc/issues/4921): ambiguous type variables
 - [\#1330](https://gitlab.haskell.org//ghc/ghc/issues/1330): another bad error message (Church2)
