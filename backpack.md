@@ -1,6 +1,9 @@
 [ Backpack](http://plv.mpi-sws.org/backpack/) is a proposal for retrofitting Haskell with an applicative, mix-in module system. The theory of Backpack is developed in the paper and its accompanying technical appendix; we also have an in-depth implementation design at [docs/backpack](/trac/ghc/browser/ghc/docs/backpack). The purpose of this page is to track implementation progress. (Wondering what happened to the old text? Check the history; it will be integrated into the implementation design doc eventually).
 
-## Tickets
+## Backpack-related tickets
+
+
+If the ticket is assigned to me that means I am planning on working on it.
 
 ## Status: closed (41 matches)
 
