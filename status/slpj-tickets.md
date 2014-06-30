@@ -68,7 +68,7 @@ See also [TemplateHaskell](template-haskell)
 ## Optimisation
 
 - [\#9246](https://gitlab.haskell.org//ghc/ghc/issues/9246): Too much case-of-case leads to bad code
-- [\#8613](https://gitlab.haskell.org//ghc/ghc/issues/8613), [\#9070](https://gitlab.haskell.org//ghc/ghc/issues/9070), [\#8319](https://gitlab.haskell.org//ghc/ghc/issues/8319): simplifier ticks exhausted (there are others)
+- [\#8613](https://gitlab.haskell.org//ghc/ghc/issues/8613), [\#9070](https://gitlab.haskell.org//ghc/ghc/issues/9070), [\#8319](https://gitlab.haskell.org//ghc/ghc/issues/8319), [\#9235](https://gitlab.haskell.org//ghc/ghc/issues/9235): simplifier ticks exhausted (there are others)
 - [\#9136](https://gitlab.haskell.org//ghc/ghc/issues/9136): better constant folding
 - [\#9041](https://gitlab.haskell.org//ghc/ghc/issues/9041): bad code from native code generator (NCG)
 - [\#6056](https://gitlab.haskell.org//ghc/ghc/issues/6056): conflict between the w/w unfolding and the one from INLINEABLE
