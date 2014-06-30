@@ -1,6 +1,3 @@
-
-This page is a WIP and will subsume [Repositories/Upstream](repositories/upstream)
-
 # GHC Repositories
 
 
@@ -158,11 +155,6 @@ A GHC source tree is made of a collection of repositories. Here is a list of the
 <th></th>
 <th></th>
 <th>packages/directory.git</th></tr>
-<tr><th>libraries/extensible-exceptions</th>
-<th></th>
-<th></th>
-<th></th>
-<th>packages/extensible-exceptions.git</th></tr>
 <tr><th>libraries/filepath</th>
 <th> yes </th>
 <th></th>
