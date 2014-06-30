@@ -85,39 +85,39 @@ A GHC source tree is made of a collection of repositories. Here is a list of the
 <tr><td>. (ghc itself)</td>                    <td>     </td> <td>     </td> <td>     </td> <td>ghc.git</td></tr>
 <tr><td>ghc-tarballs</td>                      <td>     </td> <td>     </td> <td> N/A </td> <td>ghc-tarballs.git</td></tr>
 <tr><td>utils/hsc2hs</td>                      <td>     </td> <td>     </td> <td>     </td> <td>hsc2hs.git</td></tr>
-<tr><td>utils/haddock</td>                     <td>     </td> <td>     </td> <td>     </td> <td>haddock.git</td></tr>
+<tr><td>utils/haddock</td>                     <td> yes </td> <td>     </td> <td>     </td> <td>haddock.git</td></tr>
 <tr><td>nofib</td>                  	       <td>     </td> <td>     </td> <td> N/A </td> <td>nofib.git</td></tr>
-<tr><td>libraries/array</td>                   <td>     </td> <td>     </td> <td>     </td> <td>packages/array.git</td></tr>
+<tr><td>libraries/array</td>                   <td> yes </td> <td>     </td> <td>     </td> <td>packages/array.git</td></tr>
 <tr><td>libraries/binary</td>                  <td> yes </td> <td>     </td> <td>     </td> <td>packages/binary.git</td></tr>
 <tr><td>libraries/bytestring</td>              <td> yes </td> <td>     </td> <td>     </td> <td>packages/bytestring.git</td></tr>
 <tr><td>libraries/Cabal</td>                   <td> yes </td> <td>     </td> <td>     </td> <td>packages/Cabal.git</td></tr>
 <tr><td>libraries/containers</td>              <td> yes </td> <td>     </td> <td>     </td> <td>packages/containers.git</td></tr>
-<tr><td>libraries/deepseq</td>      	       <td>     </td> <td>     </td> <td>     </td> <td>packages/deepseq.git</td></tr>
-<tr><td>libraries/directory</td>               <td>     </td> <td>     </td> <td>     </td> <td>packages/directory.git</td></tr>
+<tr><td>libraries/deepseq</td>      	       <td> yes </td> <td>     </td> <td>     </td> <td>packages/deepseq.git</td></tr>
+<tr><td>libraries/directory</td>               <td> yes </td> <td>     </td> <td>     </td> <td>packages/directory.git</td></tr>
 <tr><td>libraries/extensible-exceptions</td>   <td>     </td> <td>     </td> <td>     </td> <td>packages/extensible-exceptions.git</td></tr>
-<tr><td>libraries/filepath</td>                <td>     </td> <td>     </td> <td>     </td> <td>packages/filepath.git</td></tr>
+<tr><td>libraries/filepath</td>                <td> yes </td> <td>     </td> <td>     </td> <td>packages/filepath.git</td></tr>
 <tr><td>libraries/haskeline</td>               <td> yes </td> <td>     </td> <td> no  </td> <td>packages/haskeline.git</td></tr>
-<tr><td>libraries/haskell98</td>               <td>     </td> <td>     </td> <td>     </td> <td>packages/haskell98.git</td></tr>
-<tr><td>libraries/haskell2010</td>             <td>     </td> <td>     </td> <td>     </td> <td>packages/haskell2010.git</td></tr>
-<tr><td>libraries/hoopl</td>                   <td>     </td> <td>     </td> <td>     </td> <td>packages/hoopl.git</td></tr>
-<tr><td>libraries/hpc</td>                     <td>     </td> <td>     </td> <td>     </td> <td>packages/hpc.git</td></tr>
-<tr><td>libraries/old-locale</td>              <td>     </td> <td>     </td> <td>     </td> <td>packages/old-locale.git</td></tr>
-<tr><td>libraries/old-time</td>                <td>     </td> <td>     </td> <td>     </td> <td>packages/old-time.git</td></tr>
+<tr><td>libraries/haskell98</td>               <td> yes </td> <td>     </td> <td>     </td> <td>packages/haskell98.git</td></tr>
+<tr><td>libraries/haskell2010</td>             <td> yes </td> <td>     </td> <td>     </td> <td>packages/haskell2010.git</td></tr>
+<tr><td>libraries/hoopl</td>                   <td> yes </td> <td>     </td> <td>     </td> <td>packages/hoopl.git</td></tr>
+<tr><td>libraries/hpc</td>                     <td> yes </td> <td>     </td> <td>     </td> <td>packages/hpc.git</td></tr>
+<tr><td>libraries/old-locale</td>              <td> yes </td> <td>     </td> <td>     </td> <td>packages/old-locale.git</td></tr>
+<tr><td>libraries/old-time</td>                <td> yes </td> <td>     </td> <td>     </td> <td>packages/old-time.git</td></tr>
 <tr><td>libraries/pretty</td>                  <td> yes </td> <td>     </td> <td>     </td> <td>packages/pretty.git</td></tr>
-<tr><td>libraries/process</td>                 <td>     </td> <td>     </td> <td>     </td> <td>packages/process.git</td></tr>
+<tr><td>libraries/process</td>                 <td> yes </td> <td>     </td> <td>     </td> <td>packages/process.git</td></tr>
 <tr><td>libraries/terminfo</td>     	       <td> yes </td> <td>     </td> <td> no  </td> <td>packages/terminfo.git</td></tr>
 <tr><td>libraries/time</td>         	       <td> yes </td> <td>     </td> <td>     </td> <td>packages/time.git</td></tr>
 <tr><td>libraries/transformers</td> 	       <td> yes </td> <td>     </td> <td>     </td> <td>packages/transformers.git</td></tr>
-<tr><td>libraries/unix</td>         	       <td>     </td> <td>     </td> <td>     </td> <td>packages/unix.git</td></tr>
+<tr><td>libraries/unix</td>         	       <td> yes </td> <td>     </td> <td>     </td> <td>packages/unix.git</td></tr>
 <tr><td>libraries/utf8-string</td>  	       <td> yes </td> <td>     </td> <td>     </td> <td>packages/utf8-string.git</td></tr>
 <tr><td>libraries/Win32</td>	    	       <td> yes </td> <td>     </td> <td>     </td> <td>packages/Win32.git</td></tr>
 <tr><td>libraries/xhtml</td>	    	       <td> yes </td> <td>     </td> <td> no  </td> <td>packages/xhtml.git</td></tr>
-<tr><td>libraries/random</td>                  <td> yes </td> <td>     </td> <td>extra</td> <td>packages/random.git</td></tr>
-<tr><td>libraries/primitive</td>       	       <td> yes </td> <td>     </td> <td>extra</td> <td>packages/primitive.git</td></tr>
-<tr><td>libraries/vector</td>       	       <td> yes </td> <td>     </td> <td>extra</td> <td>packages/vector.git</td></tr>
-<tr><td>libraries/dph</td>          	       <td>     </td> <td>     </td> <td>extra</td> <td>packages/dph.git</td></tr>
-<tr><td>libraries/parallel</td>     	       <td>     </td> <td> no  </td> <td>extra</td> <td>packages/parallel.git</td></tr>
-<tr><td>libraries/stm</td>          	       <td>     </td> <td> no  </td> <td>extra</td> <td>packages/stm.git</td></tr>
+<tr><td>libraries/random</td>                  <td> yes </td> <td> no  </td> <td> no  </td> <td>packages/random.git</td></tr>
+<tr><td>libraries/primitive</td>       	       <td> yes </td> <td> no  </td> <td> no  </td> <td>packages/primitive.git</td></tr>
+<tr><td>libraries/vector</td>       	       <td> yes </td> <td> no  </td> <td> no  </td> <td>packages/vector.git</td></tr>
+<tr><td>libraries/dph</td>          	       <td>     </td> <td> no  </td> <td> no  </td> <td>packages/dph.git</td></tr>
+<tr><td>libraries/parallel</td>     	       <td> yes </td> <td> no  </td> <td> no  </td> <td>packages/parallel.git</td></tr>
+<tr><td>libraries/stm</td>          	       <td> yes </td> <td> no  </td> <td> no  </td> <td>packages/stm.git</td></tr>
 </table>
 }}}
 
