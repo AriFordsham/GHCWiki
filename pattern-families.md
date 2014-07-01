@@ -7,6 +7,42 @@ It is similar to a pattern synonym ([PatternSynonyms](pattern-synonyms)) and des
 
 The arguments to pattern families effectively fall into two categories: expressions used to index the pattern family (information flowing *into* the pattern) and the arguments that can be pattern matched against (information flowing *out of* the pattern).
 
+
+The simplest useful example of this might be a `Between` pattern that only matches a particular range (a feature of [ Rust's pattern matching](http://doc.rust-lang.org/master/tutorial.html#pattern-matching) facility) — note that in this example, `Between` is indexed by two integers so there are *two* values (`from`, `to`) flowing into `Between` but no value flowing out:
+
+```wiki
+    between (from, to) n = from <= n && n <= to
+
+    pattern Between from to <- (between (from, to) -> True)
+
+    -- A teenager is between thirteen and nineteen, would be:
+    --     13..19 => true,
+    --     _      => false
+    -- in Rust.
+    isTeen :: Age -> Bool
+    isTeen (Between 13 19) = True
+    isTeen _               = False
+```
+
+
+that gets transformed into:
+
+```wiki
+    isTeen :: Age -> Bool
+    isTeen (between (13, 19) -> True) = True
+    isTeen _                          = False
+```
+
+`Between` will work on any orderable type:
+
+```wiki
+    generalCategory' :: Char -> GeneralCategory 
+    generalCategory' (Between '\x00' '\x16') = Control
+    generalCategory' (Between 'a'    'z'   ) = LowercaseLetter
+    generalCategory' (Between 'A'    'Z'   ) = UppercaseLetter
+    generalCategory' (Between '0'    '9'   ) = DecimalNumber
+```
+
 ## Syntax
 
 
@@ -51,7 +87,7 @@ but this would need to be defined for each `Int`. In this sense pattern families
 ```
 
 
-we can use `Take` with arguments (`Take 0`, `Take 1`, `Take 2`, …) to have the same meaning as the following pattern synonyms:
+we can use `Take` with arguments (`Take 0`, `Take 1`, `Take 2`, …) to have the same meaning as the following (hypothetical!) pattern synonyms:
 
 ```wiki
     pattern Take0 xs <- (take 0 -> xs)
@@ -59,6 +95,9 @@ we can use `Take` with arguments (`Take 0`, `Take 1`, `Take 2`, …) to have the
     pattern Take2 xs <- (take 2 -> xs)
     …
 ```
+
+
+These patterns would not exist at all since pattern families desugar easily to view patterns — they're presented only to give an intuition of the `Take` family.
 
 ### Grammar
 
