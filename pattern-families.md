@@ -37,8 +37,10 @@ isTeen _                          = False
 
 ```wiki
 generalCategory' :: Char -> GeneralCategory 
-generalCategory' (Between 'a' 'z') = LowercaseLetter
-generalCategory' (Between 'A' 'Z') = UppercaseLetter
+generalCategory' (Between '\x00' '\x16') = Control
+generalCategory' (Between 'a'    'z'   ) = LowercaseLetter
+generalCategory' (Between 'A'    'Z'   ) = UppercaseLetter
+generalCategory' (Between '0'    '9'   ) = DecimalNumber
 ```
 
 ## Syntax
