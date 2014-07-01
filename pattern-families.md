@@ -33,6 +33,14 @@ isTeen (between (13, 19) -> True) = True
 isTeen _                          = False
 ```
 
+`Between` will work on any orderable type:
+
+```wiki
+generalCategory' :: Char -> GeneralCategory 
+generalCategory' (Between 'a' 'z') = LowercaseLetter
+generalCategory' (Between 'A' 'Z') = UppercaseLetter
+```
+
 ## Syntax
 
 
