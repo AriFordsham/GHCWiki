@@ -8,7 +8,7 @@ It is similar to a pattern synonym ([PatternSynonyms](pattern-synonyms)) and des
 The arguments to pattern families effectively fall into two categories: expressions used to index the pattern family (information flowing *into* the pattern) and the arguments that can be pattern matched against (information flowing *out of* the pattern).
 
 
-The simplest useful example of this might be a `Between` pattern that only matches a particular range (a feature of [ Rust's pattern matching](http://doc.rust-lang.org/master/tutorial.html#pattern-matching) facility) — note that in this example that `Between` is indexed by two integers so there are *two* values (`from`, `to`) flowing into `Between` but no value flowing out:
+The simplest useful example of this might be a `Between` pattern that only matches a particular range (a feature of [ Rust's pattern matching](http://doc.rust-lang.org/master/tutorial.html#pattern-matching) facility) — note that in this example, `Between` is indexed by two integers so there are *two* values (`from`, `to`) flowing into `Between` but no value flowing out:
 
 ```wiki
 between (from, to) n = from <= n && n <= to
