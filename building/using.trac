@@ -295,6 +295,10 @@ take a look in [[GhcFile(mk/config.mk.in)]].
   on top of the C GMP library. If you set it to `integer-simple` then a
   simple, BSD-licensed Haskell implementation will be used instead.
 
+ `BUILD_DPH`::
+  (default: `YES`)
+  Enable building of DPH libraries
+
 ==== How to make GHC build quickly ====
 
 The GHC build tree is set up so that, by default, it builds a compiler
@@ -316,6 +320,7 @@ GhcStage2HcOpts = -O0 -DDEBUG -Wall
 GhcLibHcOpts    = -O -fasm -XGenerics
 GhcLibWays      = v
 SplitObjs       = NO
+BUILD_DPH       = NO
 }}}
 
 What do these options do?

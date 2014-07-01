@@ -368,6 +368,12 @@ on top of the C GMP library. If you set it to `integer-simple` then a
 simple, BSD-licensed Haskell implementation will be used instead.
 </td></tr></table>
 
+<table><tr><th>`BUILD_DPH`</th>
+<td>
+(default: `YES`)
+Enable building of DPH libraries
+</td></tr></table>
+
 #### How to make GHC build quickly
 
 
@@ -391,6 +397,7 @@ GhcStage2HcOpts = -O0 -DDEBUG -Wall
 GhcLibHcOpts    = -O -fasm -XGenerics
 GhcLibWays      = v
 SplitObjs       = NO
+BUILD_DPH       = NO
 ```
 
 
