@@ -4,6 +4,27 @@ It is similar to a pattern synonym (PatternSynonyms) and desugars directly into 
 
 The arguments to pattern families effectively fall into two categories: expressions used to index the pattern family (information flowing ''into'' the pattern) and the arguments that can be pattern matched against (information flowing ''out of'' the pattern).
 
+The simplest useful example of this might be a `Between` pattern that only matches a particular range, a feature of [http://doc.rust-lang.org/master/tutorial.html#pattern-matching Rust's pattern matching] facility:
+
+{{{
+between (from, to) n = from <= n && n <= to
+
+pattern Between from to <- (between (from, to) -> True)
+
+-- A teenager is between thirteen and nineteen
+isTeen :: Age -> Bool
+isTeen (Between 13 19) = True
+isTeen _               = False
+}}}
+
+which is the same as
+
+{{{
+isTeen :: Age -> Bool
+isTeen (between (13, 19) -> True) = True
+isTeen _                          = False
+}}}
+
 == Syntax ==
 The syntax from PatternSynonyms can be reused for simplicity:
 
