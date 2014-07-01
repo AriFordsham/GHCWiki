@@ -15,14 +15,17 @@ between (from, to) n = from <= n && n <= to
 
 pattern Between from to <- (between (from, to) -> True)
 
--- A teenager is between thirteen and nineteen
+-- A teenager is between thirteen and nineteen, would be:
+--     13..19 => true,
+--     _      => false
+-- in Rust.
 isTeen :: Age -> Bool
 isTeen (Between 13 19) = True
 isTeen _               = False
 ```
 
 
-which is the same as
+that gets transformed into:
 
 ```wiki
 isTeen :: Age -> Bool
