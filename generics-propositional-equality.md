@@ -83,7 +83,7 @@ Given the fact that for `d = (Dat "GHC.Generics" "Bool")` both pieces of informa
 # The Conservative Approach
 
 
-After observing that `Datatype` is essentially just `KnownSymbol x KnownSymbol` we can ask the question:
+After observing that `Datatype` is essentially just `KnownSymbol × KnownSymbol` we can ask the question:
 
 >
 > Can we distill a type-level equality witness from `Datatype` constraints?
@@ -99,5 +99,18 @@ sameDatatype :: (Datatype l, Datatype r) => Proxy l -> Proxy l -> Maybe (l :~: r
 and implement it in the same unsafe fashion as `GHC.TypeLits` does.
 
 
+This should be sufficient to satisfy `gdiff`'s requirements on propositional equality.
+
+
 The only con that I see with this approach is that `module GHC.Generics` gets additional
 dependencies on `import Data.Proxy`, `import Unsafe.Coerce` and `import Data.Type.Equality`.
+
+
+For `Constructor` and `Selector` we would need to add further base class constraints:
+
+```
+classDatatype c =>Constructor c where...classConstructor s =>Selector s where...
+```
+
+
+GHC would need to also instantiate these base constraints for constructors and selectors.
