@@ -28,6 +28,14 @@ Here `meta` is a private (phantom) type constructor which parametrises the `Data
 An example session with GHCi is provided below to illustrate the current system:
 
 ```wiki
+Prelude> :m +GHC.Generics 
+Prelude GHC.Generics> :kind! Rep Bool ()
+Rep Bool () :: *
+= M1
+    D
+    GHC.Generics.D1Bool
+    (M1 C GHC.Generics.C1_0Bool U1 :+: M1 C GHC.Generics.C1_1Bool U1)
+    ()
 ```
 
 # Implementation Idea
@@ -37,13 +45,13 @@ In order to [TypeLevelReasoning](type-level-reasoning) to work data types must b
 
 
 The idea is to change typecheck/TcGenGenerics to create
-\`meta = Constr "Mod" "Bool" "True"
+`meta = Constr "Mod" "Bool" "True"`
+instead of `meta = GHC.Generics.C1_1Bool`
 
 
-This idea is (partly) implemented on branch `wip/propeq-generics`. Here is a GHCi dialogue:
+This idea is (partly) implemented on branch `wip/generics-propeq`. Here is a GHCi dialogue:
 
 ```wiki
-Prelude> :m +GHC.Generics 
 Prelude GHC.Generics> :kind! Rep Bool ()
 Rep Bool () :: *
 = M1
@@ -53,3 +61,7 @@ Rep Bool () :: *
      :+: M1 C (Constr (Dat "GHC.Generics" "Bool") "True") U1)
     ()
 ```
+
+
+Given this metainformation reflected at the type level propositional equality
+can be implemented by `KnownSymbol` and `sameSymbol` from `GHC.TypeLits`.
