@@ -11,9 +11,9 @@ The arguments to pattern families effectively fall into two categories: expressi
 The simplest useful example of this might be a `Between` pattern that only matches a particular range (a feature of [ Rust's pattern matching](http://doc.rust-lang.org/master/tutorial.html#pattern-matching) facility) — note that in this example, `Between` is indexed by two integers so there are *two* values (`from`, `to`) flowing into `Between` but no value flowing out:
 
 ```wiki
-    between (from, to) n = from <= n && n <= to
+    import Data.Ix
 
-    pattern Between from to <- (between (from, to) -> True)
+    pattern Between from to <- (inRange (from, to) -> True)
 
     -- A teenager is between thirteen and nineteen, would be:
     --     13..19 => true,
@@ -29,11 +29,11 @@ that gets transformed into:
 
 ```wiki
     isTeen :: Age -> Bool
-    isTeen (between (13, 19) -> True) = True
+    isTeen (inRange (13, 19) -> True) = True
     isTeen _                          = False
 ```
 
-`Between` will work on any orderable type:
+`Between` will work on any indexable type (`Ix a => a`):
 
 ```wiki
     generalCategory' :: Char -> GeneralCategory 
