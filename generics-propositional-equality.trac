@@ -53,6 +53,8 @@ Rep Bool () :: *
 Given this metainformation reflected at the type level, propositional equality
 can be implemented by resorting to `KnownSymbol` and `sameSymbol` from `GHC.TypeLits`.
 
+There is a small problem, though: We get ''orphan instance'' warnings because `Dat` and `Constr` do not carry the original datatype as an index.
+
 == An Aside: why `Datatype`? ==
 
 Consider this current constraint on data types:
