@@ -53,3 +53,29 @@ Rep Bool () :: *
 Given this metainformation reflected at the type level, propositional equality
 can be implemented by resorting to `KnownSymbol` and `sameSymbol` from `GHC.TypeLits`.
 
+== An Aside: why `Datatype` ==
+
+Consider this current constraint on data types:
+{{{
+class Datatype d where
+  datatypeName :: t d f a -> [Char]
+  moduleName :: t d f a -> [Char]
+  ...
+}}}
+
+Given the fact that for `d = (Dat "GHC.Generics" "Bool")` both pieces of information can be reified from the type-level, why do we need this constraint at all?
+
+= The Conservative Approach =
+
+After observing that `Datatype` is essentially just `KnownSymbol x KnownSymbol` we can ask the question:
+
+"Can we distill a type-level equality witness from `Datatype` constraints?"
+
+Unsurprisingly the answer is "yes". `GHC.Generics` could provide a function
+{{{
+sameDatatype :: (Datatype l, Datatype r) => Proxy l -> Proxy l -> Maybe (l :~: r)
+}}}
+and implement it in the same unsafe fashion as `GHC.TypeLits` does.
+
+The only con that I see with this approach is that `module GHC.Generics` gets additional
+dependencies on `import Data.Proxy`, `import Unsafe.Coerce` and `import Data.Type.Equality`.
