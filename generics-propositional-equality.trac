@@ -76,7 +76,7 @@ After observing that `Datatype` is essentially just `KnownSymbol × KnownSymbol`
 
 Unsurprisingly the answer is "yes". `GHC.Generics` could provide a function
 {{{
-sameDatatype :: (Datatype l, Datatype r) => Proxy l -> Proxy l -> Maybe (l :~: r)
+sameDatatype :: (Datatype l, Datatype r) => Proxy l -> Proxy r -> Maybe (l :~: r)
 }}}
 and implement it in the same unsafe fashion as `GHC.TypeLits` does for `sameSymbol`.
 
