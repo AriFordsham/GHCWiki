@@ -98,7 +98,7 @@ sameDatatype :: (Datatype l, Datatype r) => Proxy l -> Proxy l -> Maybe (l :~: r
 ```
 
 
-and implement it in the same unsafe fashion as `GHC.TypeLits` does.
+and implement it in the same unsafe fashion as `GHC.TypeLits` does for `sameSymbol`.
 
 
 This should be sufficient to satisfy `gdiff`'s requirements on propositional equality.
