@@ -66,16 +66,15 @@ Rep Bool () :: *
 Given this metainformation reflected at the type level, propositional equality
 can be implemented by resorting to `KnownSymbol` and `sameSymbol` from `GHC.TypeLits`.
 
-## An Aside: why `Datatype`
+## An Aside: why `Datatype`?
 
 
 Consider this current constraint on data types:
 
-```wiki
-class Datatype d where
-  datatypeName :: t d f a -> [Char]
-  moduleName :: t d f a -> [Char]
-  ...
+```
+classDatatype d where
+  datatypeName :: t d f a ->[Char]
+  moduleName :: t d f a ->[Char]...
 ```
 
 
@@ -86,8 +85,8 @@ Given the fact that for `d = (Dat "GHC.Generics" "Bool")` both pieces of informa
 
 After observing that `Datatype` is essentially just `KnownSymbol x KnownSymbol` we can ask the question:
 
-
-"Can we distill a type-level equality witness from `Datatype` constraints?"
+>
+> Can we distill a type-level equality witness from `Datatype` constraints?
 
 
 Unsurprisingly the answer is "yes". `GHC.Generics` could provide a function
