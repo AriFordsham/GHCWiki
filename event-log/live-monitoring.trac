@@ -45,7 +45,6 @@ Some are merged with other points and therefore are removed from this list
 * Possibly add some GC events (some are currently in tracegc at the moment):
   * heap size
   * heap live
-* High level API for time sorted lazy list of events
 
 Q&A from the meeting
 

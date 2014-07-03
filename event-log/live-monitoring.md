@@ -58,7 +58,6 @@ Some are merged with other points and therefore are removed from this list
 
   - heap size
   - heap live
-- High level API for time sorted lazy list of events
 
 
 Q&A from the meeting
