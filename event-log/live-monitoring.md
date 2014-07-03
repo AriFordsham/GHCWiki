@@ -1,9 +1,18 @@
 # Live profiling via RTS and ghc-events project
 
-## Overview
+
+This wiki page is for the project by Karolis Velicka \<karolis.velicka at google's email service\> that he is working on in Microsoft Research in the summer of 2014.
 
 
-Some guideline goals as, set out by [ Duncan Coutts](http://www.well-typed.com/people/duncan):
+This wiki page documents my current understanding of the system, plans for improving it, progress reports and assorted notes from meting that are relevant to the topic. 
+
+
+In case you find some flaws in my understanding, something that you disagree with or statements that are outright wrong, please do contact me.
+
+## Goals
+
+
+Some guideline goals for the project, as set out by [ Duncan Coutts](http://www.well-typed.com/people/duncan):
 
 
 In the RTS:
