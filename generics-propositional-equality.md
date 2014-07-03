@@ -116,3 +116,5 @@ classDatatype c =>Constructor c where...classConstructor s =>Selector s where...
 
 
 GHC would need to also instantiate these base constraints for constructors and selectors.
+
+**Update**: I have implemented this in part, and it works. Unfortunately it can be used to subvert the type system, by comparing two different constructors with `sameDatatype` and obtain type equality for the constructors *as long as they are from the same ADT*. I am working on an improved scheme to fix this.
