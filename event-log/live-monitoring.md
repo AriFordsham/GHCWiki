@@ -75,15 +75,18 @@ Q&A from the meeting
 
 ## Discussed APIs
 
+
+Here we have a possible implementation for the incremental/generic API for the project that was suggested by Simon Marlow
+
 ### ghc-events
 
 ```wiki
--- high level lazy API (based on chunked input underneath)
+-- high level lazy API (based on chunked input internally)
 streamEvents :: ByteString.Lazy -> [CapEvent]
 
 -- returns a list of fully parsed events ant the remaining ByteString
 parse :: ByteString -> ([Event], ByteString)
--- alternatively parse one event at a time and return the rest
+-- alternatively parse one event at a time and return the rest of ByteString
 parse :: ByteString -> (Event, ByteString)
 
 -- a parser instance that may be used
