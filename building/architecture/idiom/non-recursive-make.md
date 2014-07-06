@@ -43,5 +43,5 @@ Specific notes related to this idiom:
 
 - The top-level `ghc.mk` file includes all the other `*.mk` files in
   the tree.  The top-level `Makefile` invokes **make** on `ghc.mk`
-  (this is the only recursive invocation of **make**; see the "phase
-  ordering" idiom below).
+  (this is the only recursive invocation of **make**; see the
+  [phase ordering](building/architecture/idiom/phase-ordering) idiom).
