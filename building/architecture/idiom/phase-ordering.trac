@@ -121,7 +121,8 @@ re-invocation when there are no problematic dependencies.
 Note that the `inc1.mk` rule is ''only'' enabled in phase 0, so that if we accidentally call `inc.mk` without first performing phase 0, we will either get a failure (if `inc1.mk` doesn't exist), or otherwise '''make''' will not update `inc1.mk` if it is out-of-date.
 
 In the case of the GHC build system we need 4 such phases, see the
-comments in the [source:ghc.mk#L43 top-level ghc.mk] for details.
+comments in the [source:ghc.mk top-level ghc.mk] for details
+(search for 'Approximate build order' and 'Numbered phase targets').
 
 This approach is not at all pretty, and
 re-invoking '''make''' every time is slow, but we don't know of a better
