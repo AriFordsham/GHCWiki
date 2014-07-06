@@ -52,6 +52,25 @@ git config --global url."git://github.com/ghc/packages-".insteadOf git://git.has
 
 (If needed, you can also add rewrite rules with `git://` substituted by `https://` or other schemes)
 
+==== Alternative GitHub rewrite rules ====
+
+The following rewrite rules are useful to have in place to compensate for the different repository naming scheme on the GitHub mirror (due to GitHub not supporting `/` in repository names):
+
+{{{#!sh
+git config --global url."git://github.com/ghc/packages-".insteadOf     git://github.com/ghc/packages/
+git config --global url."http://github.com/ghc/packages-".insteadOf    http://github.com/ghc/packages/
+git config --global url."https://github.com/ghc/packages-".insteadOf   https://github.com/ghc/packages/
+git config --global url."ssh://git@github.com/ghc/packages-".insteadOf ssh://git@github.com/ghc/packages/
+git config --global url."git@github.com:/ghc/packages-".insteadOf      git@github.com:/ghc/packages/
+}}}
+
+With these rules in place, you can safely clone directly from GitHub URLs, e.g.:
+
+{{{
+#!sh
+git clone --recursive git@github.com:/ghc/ghc
+}}}
+
 === Asymmetric push/pull Git Repo URLS ===
 
 ==== Using `git config url.<base>.insteadOf` ====
