@@ -6,7 +6,9 @@ GNU **make** using `define`, e.g.
 
 ```wiki
 define build-package
-# args: $1 = directory, $2 = distdir
+# $1 = dir
+# $2 = distdir
+# $3 = GHC stage to use (0 == bootstrapping compiler)
 ... makefile code to build a package ...
 endef
 ```
@@ -15,7 +17,7 @@ endef
 (for example, see `rules/build-package`), and is invoked like this:
 
 ```wiki
-$(eval $(call build-package,libraries/base,dist))
+$(eval $(call build-package,libraries/base,dist-boot,0))
 ```
 
 
