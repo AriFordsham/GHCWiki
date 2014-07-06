@@ -134,7 +134,8 @@ Note that the `inc1.mk` rule is *only* enabled in phase 0, so that if we acciden
 
 
 In the case of the GHC build system we need 4 such phases, see the
-comments in the [top-level ghc.mk](/trac/ghc/browser/ghc.mk#L43)[](/trac/ghc/export/HEAD/ghc/ghc.mk#L43) for details.
+comments in the [top-level ghc.mk](/trac/ghc/browser/ghc.mk)[](/trac/ghc/export/HEAD/ghc/ghc.mk) for details
+(search for 'Approximate build order' and 'Numbered phase targets').
 
 
 This approach is not at all pretty, and
