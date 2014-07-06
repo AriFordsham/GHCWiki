@@ -43,14 +43,14 @@ doesn't know how to restart itself earlier when there is a dependency
 between included `Makefiles`.
 
 
-Consider the following Makefile:
+Consider the following Makefile (called `fail.mk`):
 
 ```wiki
 all :
 
 include inc1.mk
 
-inc1.mk : Makefile
+inc1.mk : fail.mk
 	echo "X = C" >$@
 
 include inc2.mk
