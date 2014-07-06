@@ -10,10 +10,13 @@ of our build system fall into two main categories:
 
 - Dependencies: we use `ghc -M` to generate make-dependencies for 
   Haskell source files, and similarly `gcc -M` to do the same for
-  C files.  The dependencies are normally generated into a file
-  `.depend`, which is included as normal.
+  C files.  The dependencies are normally generated in the
+  [distdir](building/architecture/idiom/distdir) directory
+  into a `.depend` file, which is included as normal.
 
-- Makefile binding generated from `%.cabal` package descriptions.  See
+- Makefile bindings generated from `%.cabal` package descriptions.  The
+  bindings are stored in `package-data.mk` files in the
+  [distdir](building/architecture/idiom/distdir) directory, see
   [Idiom: interaction with Cabal](building/architecture/idiom/cabal).
 
 
