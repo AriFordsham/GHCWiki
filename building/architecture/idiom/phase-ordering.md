@@ -133,9 +133,7 @@ re-invocation when there are no problematic dependencies.
 Note that the `inc1.mk` rule is *only* enabled in phase 0, so that if we accidentally call `inc.mk` without first performing phase 0, we will either get a failure (if `inc1.mk` doesn't exist), or otherwise **make** will not update `inc1.mk` if it is out-of-date.
 
 
-In the case of the GHC build system we need 4 such phases, see the
-comments in the [top-level ghc.mk](/trac/ghc/browser/ghc.mk)[](/trac/ghc/export/HEAD/ghc/ghc.mk) for details
-(search for 'Approximate build order' and 'Numbered phase targets').
+In the case of the GHC build system, the two Makefiles are called `Makefile` (the wrapper) and `ghc.mk`.
 
 
 This approach is not at all pretty, and
@@ -159,3 +157,7 @@ In the GHC build system, we have 3 phases. Each phase is in two halves: some thi
 
   - Includes: dependency files for everything else.
   - Builds: Everything else.
+
+
+See the comments in the [top-level ghc.mk](/trac/ghc/browser/ghc.mk)[](/trac/ghc/export/HEAD/ghc/ghc.mk) for details
+(search for 'Approximate build order' and 'Numbered phase targets').
