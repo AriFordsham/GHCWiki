@@ -32,9 +32,34 @@ Basic demo of live monitoring using above new features:
 === Goals that have been added later ===
 
 * Move the link between RTS and ghc-events into a separate library where both a client-server (see below) and file based implementations of the "link" could be stored.
+
+== Architecture == 
+
+{{{
+ +---------+                                +--------------------+
+ |         |                                |                    |
+ | Program |                                |      Consumer      |
+ |         |                                | (e.g. Threadscope) |
+ +---------+                                |                    |
+ |         |                                +-------+-+----------+
+ |   RTS   |                                |    ghc-events      |
+ |         |                                |                    |
+ +----+----+                                |                    |
+      |                                     +--------------------+
+      |         +----------------------+                          
+      |         |                      |              ^           
+      +-------> |  Middleware library  |              |           
+                |  (working title Foo) +--------------+           
+                |                      |                          
+                +----------------------+                          
+
+}}}
+
+Foo is an abstraction / library (or libraries) that will use the new API of RTS to connect with ghc-events. It could happen via a file, socket or any other means, depending on the implementation.
+
 == Notes from meetings ==
 
-Some are merged with other points and therefore are removed from this list
+=== Initial ===
 
 * In current state, RTS writes to the eventlog asynchronously.
 * Need a new module in RTS for start/stop event logging
@@ -45,16 +70,13 @@ Some are merged with other points and therefore are removed from this list
 * Possibly add some GC events (some are currently in tracegc at the moment):
   * heap size
   * heap live
+* RTS broadcasts on demand once a client connects
+* Sockets seem to be appropriate for live monitoring 
 
-Q&A from the meeting
+=== 09/07/2014 === 
 
-
-* Does RTS broadcast all the time or on demand?
-  * On demand, after a client connects
-* What would the connection be for live eventlog
-  * Sockets seem to be appropriate for the job
-* Which tasks are priorities?
-  * Sliped my mind. TODO
+* Start/stop of streaming is different from the "sync events" mentioned in goals
+* The details for the mid
 
 == Discussed APIs ==
 
