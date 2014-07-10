@@ -3,9 +3,6 @@
 
 See [milestone:7.8.3](/trac/ghc/milestone/7.8.3)
 
-
-Note however, that not all tickets with a 7.8.3 milestone will be addressed for the final 7.8.3 release.
-
 ## Tickets marked merge with no milestone
 
 ## Status: merge (25 matches)
