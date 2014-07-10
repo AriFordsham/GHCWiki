@@ -76,31 +76,71 @@ Foo is an abstraction / library (or libraries) that will use the new API of RTS 
 === 09/07/2014 === 
 
 * Start/stop of streaming is different from the "sync events" mentioned in goals
-* The details for the mid
+* The details for the middleware library (Foo) are not that relevant now, focus should be on RTS level
+* Available event classes are in Trace.h
+* cassava CSV library is a good example that uses an incremental parser
+* ErrorT may no longer be necessary (at least in the case of ErrorT String)
+* Need info on events w.r.t. blocks and capabilities for the purpose of sorting  
+* Eventlogs are comprised of event blocks that belong to a certain capability plus some global events
+* Look at Trace.{h, c}
+* Trace has two levels:
+  * "Tracing" - more general, prints to stderr, used for debugging
+  * "Event" - lives in RTS/Eventlog, used for writing *.eventlog files
+* Need to read/understand:
+  * includes/rts/EventLogFormat.h
+  * EventLog.{h, c}
 
 == Discussed APIs ==
 
-Here we have a possible implementation for the incremental/generic API for the project that was suggested by Simon Marlow
-
+Here we have possible API implementations. Keep in mind that all this is a work in progress 
 === ghc-events ===
 
 {{{
 -- high level lazy API (based on chunked input internally)
 streamEvents :: ByteString.Lazy -> [CapEvent]
 
--- returns a list of fully parsed events ant the remaining ByteString
-parse :: ByteString -> ([Event], ByteString)
--- alternatively parse one event at a time and return the rest of ByteString
-parse :: ByteString -> (Event, ByteString)
+-----------------------------------------------------------------------------
 
--- a parser instance that may be used
-Parser (Event, Bytestring)
--- could be created by
-p = do
-  e <- parseEvent
-  b <- takeRemainingInput
-  return (e,b)
+-- | An incremental decoder for a single item. It accepts input incrementally
+-- and produces a single result at the end.
+data Decoder a =
+      -- | The input data was malformed. The first field contains any
+      -- unconsumed input and third field contains information about
+      -- the parse error.
+      Fail !B.ByteString !ByteOffset String
 
+      -- | The parser needs more input data before it can produce a
+      -- result. Use an 'B.empty' string to indicate that no more
+      -- input data is available. If fed an 'B.empty string', the
+      -- continuation is guaranteed to return either 'FailH' or
+      -- 'DoneH'.
+    | Partial (B.ByteString -> Decoder a)
+
+      -- | The parse succeeded and produced the given 'Header'.
+    | Done !B.ByteString !ByteOffset a
+
+
+-- | An incremental decoder for a sequence. It accepts input incrementally
+-- and additionally it can produce sequence results incrementally.
+data SequenceDecoder a =
+      -- | The input data was malformed. The first field contains any
+      -- unconsumed input and third field contains information about
+      -- the parse error.
+      FailS !B.ByteString !ByteOffset String
+
+      -- | The decoder read zero or more records. Feed a 'B.ByteString' to
+      -- the continuation to continue parsing. Use an 'B.empty' string to
+      -- indicate that no more input data is available. If fed an 'B.empty'
+      -- string, the continuation is guaranteed to return either 'Fail'
+      -- or 'Done'.
+    | Many [a] (B.ByteString -> SequenceDecoder a)
+
+      -- | The decoder read zero or more records. This is the end of
+      -- the sequence.
+    | DoneS !B.ByteString !ByteOffset [a]
+    deriving Functor
+
+eventlogDecoder :: Decoder (SequenceDecoder Event)
 
 }}}
 
@@ -108,29 +148,35 @@ p = do
 
 C side:
 {{{
-// idea is to use a generic fd so that both file-based and 
-// socket-based connection would be available
-initEventLogging(fd);
+// Initialise the event logging system
+initEventLogging();
+
+
+/* Following only work when events are not being transmitted */
+setDestination(fd);
+setBufferSize(int sz);
+sendHeader();
+startStreaming();
+enableEvents(EventClasses);
+disableEvents(EventClasses);
+
+stopEventLogging();
 
 // flush the buffer for a Capability after ms milliseconds of inactivity
 flushEventLog(int ms);
 
-stopEventLogging();
 
-// Current idea is to use bit fields for this
-enableEvents(EventClasses);
-disableEvents(EventClasses);
 }}}
 ghc/base side:
 
 {{{
-startEventLogging :: Fd -> IO()
-stopEventLogging  :: IO()
+initEventLogging:: IO()
+setDestination:: Fd -> IO()
 -- <...> 
 -- equivalent to functions on C side
 }}}
 
-== Misc ==
+== Misc/Old ==
 example log servers
 
 C:
