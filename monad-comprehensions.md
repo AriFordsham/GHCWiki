@@ -7,7 +7,7 @@ After a long absence, monad comprehensions are back, thanks to George Giorgidze 
 Rebindable syntax is fully supported for standard monad comprehensions with generators and filters. We also plan to allow rebinding of the parallel/zip and SQL-like monad comprehension notations.
 
 
-For further details and usage examples, see the paper "Bringing back monad comprehensions" [ http://db.inf.uni-tuebingen.de/files/giorgidze/haskell2011.pdf MonadComp](http://db.inf.uni-tuebingen.de/files/giorgidze/haskell2011.pdf MonadComp) at the 2011 Haskell Symposium.
+For further details and usage examples, see the paper "Bringing back monad comprehensions" [ http://db.inf.uni-tuebingen.de/staticfiles/publications/haskell2011.pdf](http://db.inf.uni-tuebingen.de/staticfiles/publications/haskell2011.pdf) at the 2011 Haskell Symposium.
 
 
 See ticket [\#4370](https://gitlab.haskell.org//ghc/ghc/issues/4370).
