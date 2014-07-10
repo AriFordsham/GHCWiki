@@ -1,3 +1,5 @@
+**Note: further work is being done on the project. Ideas/progress/etc is on [EventLog/LiveMonitoring](event-log/live-monitoring)**
+
 ## Summary
 
 
