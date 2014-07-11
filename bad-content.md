@@ -119,4 +119,9 @@ everythingsimple\.com
 horseracing
 (?i)ultraclean
 (?i)slimming
+(?i)abdomen
+(?i)diet
+(?i)dieting
+(?i)thighs
+(?i)calories
 ```
