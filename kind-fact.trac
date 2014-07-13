@@ -113,7 +113,7 @@ These notes about the implementation are intended for GHC hackers, and logically
    * '''Tuple constraint''': `TyConApp tup_tc [ty1, ..., tyn]`, where `tup_tc` is a constraint tuple `TyCon`.  
    * '''Constraint variable''': `TyVarTy tv` where `tv` has kind `Constraint`.
 
- * Constraint types (ie types with kind `Constraint`) are always boxed. The constraint solver in the type checker deals solely in terms of boxed constraints.
+ * Constraint types (i.e. types with kind `Constraint`) are always boxed. The constraint solver in the type checker deals solely in terms of boxed constraints.
 
  * '''Implicit parameters''' have a type written `?x::Int`, say.  Concretely, this is represented as `TyConApp ?x [intTy]`, where `intTy` is the representation of the type for `Int`, and `?x` is a `TyCon` of kind `(* -> *)`.  There is an infinite family of such implicit-parameter `TyCon`s; see data constructor `IPTyCon` in data type `TyConParent` in `TyCon`.
 
