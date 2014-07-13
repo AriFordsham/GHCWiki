@@ -100,7 +100,7 @@ instance Collection Data.Set where
 --------------------------
 == The design: implementation ==
 
-These notes about the implementation are intended for GHC hackers, and logically form part of the GHC Commentary.
+These notes about the implementation are intended for GHC hackers, and logically from part of the GHC Commentary.
 
 * A major change is that the data type `Type` (in module `TypeRep`) no longer has a `PredTy` construct.  Instead, we have just `Type`.  In a function type `t1 -> t2`, the argument `t1` is a ''constraint argument'' iff `t1 :: Constraint`.
 
