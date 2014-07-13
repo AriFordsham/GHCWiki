@@ -98,7 +98,7 @@ But there are significant differences
 
   This is painful duplication, and (worse) there is little to stop you writing an overlapping instance later.  At least, looking at the instance doesn't tell you that no overlapping instance is intended.
 
-- The type family mechamism gives new power.  For example, consider the celebrated collection example:
+- The type family mechanism gives new power.  For example, consider the celebrated collection example:
 
   ```wiki
   class Collection c where
