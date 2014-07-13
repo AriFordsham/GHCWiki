@@ -131,7 +131,7 @@ These notes about the implementation are intended for GHC hackers, and logically
 - A constraint type (of kind `Constraint`) can take one of these forms
 
   - **Equality constraint**: `TyConApp eqTyCon [ty1, ty2]`
-  - **Class constraint**: `TyConApp tc [ty1, ty2]`, where `tc` is a `TyCon` whose `classTyCon_maybe` is `Just cls`.
+  - **Class constraint**: `TyConApp tc [ty1, ty2]`, where `tc` is a `TyCon` whose `tyConClass_maybe` is `Just cls`.
   - **Implicit parameter**: `TyConApp tc [ty1]`, where `tc` is a `TyCon` whose `tyConIP_maybe` is `Just ip`.
   - **Tuple constraint**: `TyConApp tup_tc [ty1, ..., tyn]`, where `tup_tc` is a constraint tuple `TyCon`.  
   - **Constraint variable**: `TyVarTy tv` where `tv` has kind `Constraint`.
