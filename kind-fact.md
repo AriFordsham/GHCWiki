@@ -98,7 +98,7 @@ But there are significant differences
 
   This is painful duplication, and (worse) there is little to stop you writing an overlapping instance later.  At least, looking at the instance doesn't tell you that no overlapping instance is intended.
 
-- The type family mechamism gives new power.  For example, consider the celebrated collection example:
+- The type family mechanism gives new power.  For example, consider the celebrated collection example:
 
   ```wiki
   class Collection c where
@@ -122,9 +122,9 @@ But there are significant differences
 ## The design: implementation
 
 
-These notes about the implementation are intended for GHC hackers, and logically form part of the GHC Commentary.
+These notes about the implementation are intended for GHC hackers, and logically from part of the GHC Commentary.
 
-- A major change is that the data type `Type` (in module `TypeRep`) no longer has a `PredTy` construct.  Instead, we have just `Type`.  In a function type `t1 -> t2`, the arguent `t1` is a *constraint argument* iff `t1 :: Constraint`.
+- A major change is that the data type `Type` (in module `TypeRep`) no longer has a `PredTy` construct.  Instead, we have just `Type`.  In a function type `t1 -> t2`, the argument `t1` is a *constraint argument* iff `t1 :: Constraint`.
 
 - Constraint arguments are pretty-printed before a double arrow "`=>`" when displaying types.  Moreover they are passed implicitly in source code; for example if `f :: ty1 => ty2 -> ty3` then the Haskell programmer writes a call `(f e2)`, where `e2 :: ty2`, and the compiler fills in the first argument of type `ty1`.
 
@@ -136,11 +136,11 @@ These notes about the implementation are intended for GHC hackers, and logically
   - **Tuple constraint**: `TyConApp tup_tc [ty1, ..., tyn]`, where `tup_tc` is a constraint tuple `TyCon`.  
   - **Constraint variable**: `TyVarTy tv` where `tv` has kind `Constraint`.
 
-- Constraint types (ie types with kind `Constraint`) are always boxed. The constraint solver in the type checker deals solely in terms of boxed constraints.
+- Constraint types (i.e. types with kind `Constraint`) are always boxed. The constraint solver in the type checker deals solely in terms of boxed constraints.
 
 - **Implicit parameters** have a type written `?x::Int`, say.  Concretely, this is represented as `TyConApp ?x [intTy]`, where `intTy` is the representation of the type for `Int`, and `?x` is a `TyCon` of kind `(* -> *)`.  There is an infinite family of such implicit-parameter `TyCon`s; see data constructor `IPTyCon` in data type `TyConParent` in `TyCon`.
 
-- **Equality constraints**.  Constraint types are always boxed, including equality constraints.  So `(a ~ b)` is a *boxed* value.   We also have a primtive type of *unboxed* equality constraints, written `(a ~# b)`.  Roughly the former is declared thus:
+- **Equality constraints**.  Constraint types are always boxed, including equality constraints.  So `(a ~ b)` is a *boxed* value.   We also have a primitive type of *unboxed* equality constraints, written `(a ~# b)`.  Roughly the former is declared thus:
 
   ```wiki
   data a ~ b = Eq# (a ~# b)
