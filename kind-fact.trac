@@ -102,7 +102,7 @@ instance Collection Data.Set where
 
 These notes about the implementation are intended for GHC hackers, and logically form part of the GHC Commentary.
 
-* A major change is that the data type `Type` (in module `TypeRep`) no longer has a `PredTy` construct.  Instead, we have just `Type`.  In a function type `t1 -> t2`, the arguent `t1` is a ''constraint argument'' iff `t1 :: Constraint`.
+* A major change is that the data type `Type` (in module `TypeRep`) no longer has a `PredTy` construct.  Instead, we have just `Type`.  In a function type `t1 -> t2`, the argument `t1` is a ''constraint argument'' iff `t1 :: Constraint`.
 
  * Constraint arguments are pretty-printed before a double arrow "`=>`" when displaying types.  Moreover they are passed implicitly in source code; for example if `f :: ty1 => ty2 -> ty3` then the Haskell programmer writes a call `(f e2)`, where `e2 :: ty2`, and the compiler fills in the first argument of type `ty1`.
 
