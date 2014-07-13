@@ -140,7 +140,7 @@ These notes about the implementation are intended for GHC hackers, and logically
 
 - **Implicit parameters** have a type written `?x::Int`, say.  Concretely, this is represented as `TyConApp ?x [intTy]`, where `intTy` is the representation of the type for `Int`, and `?x` is a `TyCon` of kind `(* -> *)`.  There is an infinite family of such implicit-parameter `TyCon`s; see data constructor `IPTyCon` in data type `TyConParent` in `TyCon`.
 
-- **Equality constraints**.  Constraint types are always boxed, including equality constraints.  So `(a ~ b)` is a *boxed* value.   We also have a primtive type of *unboxed* equality constraints, written `(a ~# b)`.  Roughly the former is declared thus:
+- **Equality constraints**.  Constraint types are always boxed, including equality constraints.  So `(a ~ b)` is a *boxed* value.   We also have a primitive type of *unboxed* equality constraints, written `(a ~# b)`.  Roughly the former is declared thus:
 
   ```wiki
   data a ~ b = Eq# (a ~# b)
