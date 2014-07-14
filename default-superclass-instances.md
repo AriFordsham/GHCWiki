@@ -433,9 +433,9 @@ them.
 
 What about interaction with other features?
 
-- `deriving`.  If you say `deriving(Ord)` do you get the `Eq` by default?  What if you want to specify a manual instance for `Eq`?  Ditto standalone deriving.
-- Generic default methods.
-- Associated types, and default type synonyms.  Presumably they obey the same rules as for default methods.
+- `deriving`.  If you say `deriving(Ord)` do you get the `Eq` by default?  What if you want to specify a manual instance for `Eq`?  Ditto standalone deriving. (**pigworker** We use the same logic as if the derived instances were written by hand in the same module as the datatype (or standalone declaration). If you say `deriving(Ord)`, you get the default. If you say `deriving(Ord, Eq)` under option 2, the derived `Eq` preempts the default one. But we *do* then need to be able to say `deriving (Ord hiding Eq)` to allow explicit opt-out if another default superclass offers an `Eq` which we prefer.)
+- Generic default methods. (**pigworker** Default methods in default superclass instances override class default methods and are overridden by specific implementations in subclass instances. So I can define `Applicative` to have a default class method `<*>` which fails with a specific message; I can make `class Monad` give a default implementation `(<*>) = ap`; I can give a specific `instance Monad` which overrides `<*>`, perhaps for improved efficiency.)
+- Associated types, and default type synonyms.  Presumably they obey the same rules as for default methods. (**pigworker** Yes. You can put any declaration into a default superclass instance, and the same sorts of definitions as you can with default methods in class declarations. Notably, `data instance`s are forbidden, because they could result in multiple declarations of the same constructor. (Must get around to an 'overloaded constructors' proposal.))
 
 ---
 
