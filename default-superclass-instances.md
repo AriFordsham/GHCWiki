@@ -474,3 +474,44 @@ For years, I have been pretending that Monads are not Functors. When applicative
 
 >
 > -- Haskell 98
+
+
+SHE currently provides [ these default superclass instances](https://personal.cis.strath.ac.uk/conor.mcbride/pub/she/src/ShesHers.lhs). To save you a click, that's this little lot:
+
+```wiki
+class Functor f => Applicative f where
+  instance Functor f where
+    fmap = (<*>) . pure
+  ...
+
+class Applicative f => Monad f where
+  instance Applicative f where
+    pure = return
+    ff <*> sf = ff >>= \ f -> sf >>= \ s -> return (f s)
+  ...
+
+class Traversable f where
+  instance Foldable f where
+    foldMap = foldMapDefault
+  instance Functor f where
+    fmap = fmapDefault
+  ...
+
+class MonadPlus f where
+  instance Alternative f where
+    empty = mzero
+    (<|>) = mplus
+  ...
+```
+
+
+We should, of course, also add
+
+```wiki
+class Eq x => Ord x where
+  instance Eq x where
+    x == y = EQ == compare x y
+```
+
+
+What else are good candidates for default instances in the existing setup?
