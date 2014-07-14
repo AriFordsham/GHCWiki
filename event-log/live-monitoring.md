@@ -199,6 +199,15 @@ setDestination:: Fd -> IO()
 ## Misc/Old
 
 
+Example log reading user:
+
+```wiki
+main = do
+  log <- readLogInc file
+  putStrLn $ ppEventLog log
+```
+
+
 example log servers
 
 
