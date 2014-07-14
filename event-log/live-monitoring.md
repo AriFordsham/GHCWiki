@@ -112,18 +112,19 @@ Here we have possible API implementations. Keep in mind that all this is a work 
 ### ghc-events
 
 ```wiki
--- high level lazy API (based on chunked input internally)
-streamEvents :: ByteString.Lazy -> [CapEvent]
 
------------------------------------------------------------------------------
+data CapEvent
+  = CapEvent { ce_cap   :: Maybe Int, -- May belong to a Capability
+               ce_event :: Event
+             } deriving Show
 
--- | An incremental decoder for a single item. It accepts input incrementally
--- and produces a single result at the end.
+-- | An incremental decoder for a single item (Header). It accepts input 
+-- incrementally and produces a single result at the end.
 data Decoder a =
       -- | The input data was malformed. The first field contains any
       -- unconsumed input and third field contains information about
       -- the parse error.
-      Fail !B.ByteString !ByteOffset String
+      FailH !B.ByteString !ByteOffset String
 
       -- | The parser needs more input data before it can produce a
       -- result. Use an 'B.empty' string to indicate that no more
@@ -133,7 +134,7 @@ data Decoder a =
     | Partial (B.ByteString -> Decoder a)
 
       -- | The parse succeeded and produced the given 'Header'.
-    | Done !B.ByteString !ByteOffset a
+    | DoneH !B.ByteString !ByteOffset a
 
 
 -- | An incremental decoder for a sequence. It accepts input incrementally
@@ -149,7 +150,7 @@ data SequenceDecoder a =
       -- indicate that no more input data is available. If fed an 'B.empty'
       -- string, the continuation is guaranteed to return either 'Fail'
       -- or 'Done'.
-    | Many [a] (B.ByteString -> SequenceDecoder a)
+    | ManyS [a] (B.ByteString -> SequenceDecoder a)
 
       -- | The decoder read zero or more records. This is the end of
       -- the sequence.
@@ -157,6 +158,11 @@ data SequenceDecoder a =
     deriving Functor
 
 eventlogDecoder :: Decoder (SequenceDecoder Event)
+
+-- Convenience layer
+
+readOneEvent:: Handle -> IO Event
+
 
 ```
 
