@@ -65,7 +65,7 @@ The idea behind [\#6018](https://gitlab.haskell.org//ghc/ghc/issues/6018) is to 
 > Knowing the RHS and either `a` or `b` allows to uniquely determine the remaining two parameters, but knowing the RHS and `c` gives us no information about `a` or `b`.
 
 
-Note that examples above are shown for open type families but the implementation will work for both open and closed type families.
+Note that examples above are shown for open type families but the implementation will work for both open and closed type families as well as associated types.
 
 ## Proposed syntax
 
@@ -113,7 +113,7 @@ Step 3 of the above outline is in fact more in the lines of [\#4259](https://git
 
 ## Examples?
 
-*More examples will be added from comments in [\#6018](https://gitlab.haskell.org//ghc/ghc/issues/6018). If anyone can supply even more examples (type family declarations + their usage that currently doesn't work but should work with injectivity) please add them here.*
+*If you can supply more examples (type family declarations + their usage that currently doesn't work but should work with injectivity) please add them here.*
 
 
 Example A:
@@ -130,6 +130,54 @@ idChar a = a
 
 
 GHC should infer that `a` is in fact `Char`. Right now this program is rejected.
+
+
+Example B: (taken from 6018\#comment:5)
+
+```wiki
+data Nat 
+    = Zero
+    | Suc Nat
+
+data CoNat
+    = Co Nat
+    | Infinity
+
+type family Succ (t ::  CoNat) :: CoNat
+type instance Succ (Co n)           = Co (Suc n)
+type instance Succ Infinity         = Infinity
+```
+
+
+Mokus complains that GHC can't infer `Succ n ~ Succ m => n ~ m` because it can't see that `Succ` is injective.
+
+
+Example C: (taken from 6018\#comment:26)
+
+```wiki
+class Manifold' a where
+    type Field a
+    type Base  a
+    type Tangent a
+    type TangentBundle a
+    type Dimension a ::  Nat
+    type UsesMetric a :: Symbol
+    project :: a -> Base a
+    unproject :: Base a -> a
+    tangent :: a -> TangentBundle a
+    cotangent :: a -> (TangentBundle a -> Field a)
+
+-- this works
+id' :: forall a. ( Manifold' a ) => Base a -> Base a
+id' input = project out 
+  where 
+    out :: a
+    out = unproject input
+
+-- but this requires injective type families
+id' :: forall a. ( Manifold' a ) => Base a -> Base a
+id' = project . unproject
+```
 
 ## Implementation outline
 
@@ -150,7 +198,3 @@ I am not certain at the moment how to treat these injectivity conditions declara
 
 
 Of course the implementation needs to verify that injectivity conditions specified for a type family really hold.
-
-## Questions without an answer (yet)
-
-1. Is there a point in allowing injectivity declarations for associated types?
