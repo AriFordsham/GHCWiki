@@ -77,7 +77,7 @@ result A -> B
 ```
 
 
-where `A` is a possibly-empty list of type variables declared in type family head and `B` is non-empty list of said type variables. Things on the left and right of `->` are called LHS ans RHS of an injectivity condition, respectively. `result` becomes a restricted word that cannot be used as a type variables identifier in a type family declaration (neither in declaration head nor in the equations). This is identical to how the `role` word is treated.
+where `A` is a possibly-empty list of type variables declared in type family head and `B` is non-empty list of said type variables. Things on the left and right of `->` are called LHS ans RHS of an injectivity condition, respectively. `result` becomes a restricted word that cannot be used as a type variable's identifier in a type family declaration (neither in declaration head nor in the equations). This is identical to how the `role` word is treated.
 
 
 The examples given in the "Outline" section could have the following injectivity conditions:
