@@ -59,4 +59,5 @@ These values are supported for `VERBOSE=n`; the default is `VERBOSE=3`:
      n=1: Only failing test results
      n=2: As above, plus progress information (names of all tests)
      n=3: As above, plus commands called.
+     n=4: As above, plus performance numbers even for succeeding test cases
 ```
