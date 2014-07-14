@@ -171,25 +171,23 @@ readOneEvent:: Handle -> IO Event
 
 C side:
 
-```wiki
+```
 // Initialise the event logging system
-initEventLogging();
-
-
-/* Following only work when events are not being transmitted */
-setDestination(fd);
-setBufferSize(int sz);
-sendHeader();
-startStreaming();
-enableEvents(EventClasses);
-disableEvents(EventClasses);
-
-stopEventLogging();
-
-// flush the buffer for a Capability after ms milliseconds of inactivity
+initEventLogging();// Sets the destination file descriptor that the eventlog will be written to.
+// Should only be called when logging is not active.
+setDestination(fd);// Sets the size of the per-capability eventlog buffers to sz words.
+// Should only be called when logging is not active.
+setBufferSize(int sz);// Enable or disable particular classes of events. Argument is a bit array
+// Should only be called when logging is not active.
+// TODO: map bits to event classes
+enableEvents(long EventClasses);
+disableEvents(long EventClasses);// Sends the header file of the eventlog to the fd
+sendHeader();//Starts sending the events to the fd
+startStreaming();// Stops sending the events to the fd
+stopEventLogging();// Set the flush timer for a Capability's buffer. I.e. the buffer will get 
+// flushed after ms milliseconds of inactivity
+// Should only be called when logging is not active.
 flushEventLog(int ms);
-
-
 ```
 
 
