@@ -98,6 +98,7 @@ See also [TemplateHaskell](template-haskell)
 
 ## Numerics, floating point, and primops
 
+- [\#9304](https://gitlab.haskell.org//ghc/ghc/issues/9304): floating point woes: 32 vs 64 bit
 - [\#7858](https://gitlab.haskell.org//ghc/ghc/issues/7858): `abs` on negative zero
 - [\#5615](https://gitlab.haskell.org//ghc/ghc/issues/5615): poor code for div with powers of 2
 - [\#4101](https://gitlab.haskell.org//ghc/ghc/issues/4101): constant folding for `(**)`
