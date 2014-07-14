@@ -85,7 +85,7 @@ Step 3 of the above outline is in fact more in the lines of #4259 so it will mos
 
 == Examples?
 
-''I was unable to come up with compelling examples, ie. such examples that are both real-life and short enough to demonstrate on the wiki. If anyone can supply such examples (type family declarations + their usage that currently doesn't work but should work with injectivity) please add them here. Below are toy examples.''
+''More examples will be added from comments in #6018. If anyone can supply even more examples (type family declarations + their usage that currently doesn't work but should work with injectivity) please add them here.''
 
 Example A:
 {{{
