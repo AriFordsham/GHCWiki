@@ -48,6 +48,14 @@ This means that the {{{Module}}} type is not {{{Uniqable}}}, so we can't use {{{
 
 Source code: [[GhcFile(compiler/basicTypes/Module.lhs)]].
 
+== Finding modules ==
+
+When we import a module, how does GHC decide where the module lives (e.g. to read in the [Commentary/Compiler/IfaceFiles interface files] for type checking)?  This is done in two parts.
+
+First, we generate a module map in [[GhcFile(compiler/main/Packages.lhs)]] in @mkModuleMap@, which is stored in the @PackageState@. This module map is based off of the package databases (by default the global and local databases), with in-memory modifications to the hidden/trusted flags associated with modules.  This map says, for any given module name, what packages define it. (For the purpose of error reporting, we collect up non-exposed modules, since a user may mistakenly try to import them.)
+
+Next, when we actually need to lookup a module in [[GhcFile(compiler/main/Finder.lhs)]] using @findExposedPackageModule@. Now, we lookup the module name in our map, filter out entries which are hidden (either because their packages were hidden or they were not exposed), and if there is exactly one result, we succeed. If we don't find anything, a fuzzy lookup finds similar module names; if we find multiple results we report them appropriately.
+
 == The current package ==
 
 There is a notion of which package we are compiling, set by the {{{-package-name}}} flag on the command line.  In the absence of a {{{-package-name}}} flag, the default package {{{main}}} is assumed.
@@ -84,6 +92,12 @@ Source code: see the {{{Outputable}}} instance for {{{Module}}} in [[GhcFile(com
 Packages have another purpose when it comes to dynamic linking: each package is a single dynamically-linked library.  This is an important property on systems where making intra-library calls is different from inter-library calls (eg. Windows DLLs).  Even on systems where we only need to generate a single kind of call, making a data reference within a single library is cheaper than a data reference in another library, so knowing which is which is important.
 
 At the time of writing (GHC 6.6) GHC doesn't have working support for generating multi-DLL Haskell programs, but it worked in the past and work is underway to resurrect it.  Dynamic libraries currently only work on MacOS X/PowerPC.
+
+== Reexported modules ==
+
+Starting with GHC 7.10 (#8407), we will have support for reexporting modules from other packages you depend upon.  How does this work?
+
+TODO: WRITE ME
 
 == Packages in a GHC build ==
 
