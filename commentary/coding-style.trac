@@ -14,6 +14,21 @@ Often it's better to write out the code longhand than to reuse a generic abstrac
 
 == Comments ==
 
+There are two kinds of comments in source code, comments that describe the interface (i.e. how is this supposed to be used) and comments that describe the implementation (e.g. subtle gotchas).
+
+=== Comments on top-level entities ===
+
+Every top-level entity should have a Haddock comment that describes what it does and, if needed, why it's there. Example:
+
+{{{
+-- | Returns which registers are read and written by this 
+-- instruction, as a (read, written) pair. This info is used
+-- by the register allocator.
+x86_regUsageOfInstr :: Platform -> Instr -> RegUsage
+}}}
+
+We use Haddock so that the comment is included in the generated HTML documentation.
+
 === Comments and commit messages ===
 
 Commenting is good but
