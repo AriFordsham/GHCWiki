@@ -1,5 +1,5 @@
 
-This page sketches the ideas how to equip `GHC.Generics` with type-level reasoning facilities.
+This page sketches the ideas how to equip `GHC.Generics` with type-level reasoning facilities. This page describes *work in progress*. Initially responsible for this page is Gabor Greif.
 
 # Motivation
 
