@@ -90,6 +90,9 @@ See also [wiki:TemplateHaskell]
  * #3990, #7647: UNPACK for data families, and with phantom types, needs data con wrapper refactoring
  * #5928: running Specialise more than once
 
+== Primops ==
+ * #9251: branchless max/min
+
 == Compile time ==
  * #7450, #7258: deriving `Read` generates gigantic code. Better now, but still not linear.
  * #7428: Non-linear compile time: `addFingerprint`??

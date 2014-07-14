@@ -95,6 +95,10 @@ See also [TemplateHaskell](template-haskell)
 - [\#3990](https://gitlab.haskell.org//ghc/ghc/issues/3990), [\#7647](https://gitlab.haskell.org//ghc/ghc/issues/7647): UNPACK for data families, and with phantom types, needs data con wrapper refactoring
 - [\#5928](https://gitlab.haskell.org//ghc/ghc/issues/5928): running Specialise more than once
 
+## Primops
+
+- [\#9251](https://gitlab.haskell.org//ghc/ghc/issues/9251): branchless max/min
+
 ## Compile time
 
 - [\#7450](https://gitlab.haskell.org//ghc/ghc/issues/7450), [\#7258](https://gitlab.haskell.org//ghc/ghc/issues/7258): deriving `Read` generates gigantic code. Better now, but still not linear.
