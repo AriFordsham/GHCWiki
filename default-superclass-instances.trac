@@ -2,7 +2,7 @@
 
 = Default superclass instances =
 
-A matter of much consternation, here is a proposal to allow type class declarations to include default instance declarations for their superclasses. It's based on [http://www.haskell.org//pipermail/haskell-prime/2006-August/001587.html Jón Fairbairn's proposal], but it has a more explicit 'off switch' and the policy on corner-cases is rejection. Credit is due also to the [http://www.haskell.org/haskellwiki/Superclass_defaults superclass defaults proposal],  [http://www.haskell.org/haskellwiki/Class_system_extension_proposal class system extension proposal] and its ancestors, in particular, John Meacham's [http://repetae.net/recent/out/classalias.html class alias] proposal.
+A matter of much consternation, here is a proposal to allow type class declarations to include default instance declarations for their superclasses. Moreover, subclass instance declarations should be able to override the method definitions in their default superclass instances. It's based on [http://www.haskell.org//pipermail/haskell-prime/2006-August/001587.html Jón Fairbairn's proposal], but it has a more explicit 'off switch' and the policy on corner-cases is rejection. Credit is due also to the [http://www.haskell.org/haskellwiki/Superclass_defaults superclass defaults proposal],  [http://www.haskell.org/haskellwiki/Class_system_extension_proposal class system extension proposal] and its ancestors, in particular, John Meacham's [http://repetae.net/recent/out/classalias.html class alias] proposal.
 
 We may distinguish two uses of superclasses (not necessarily exclusive). 
  * A class can ''widen'' its superclass, extending its interface with new functionality (e.g., adding an inverse to a monoid to obtain a group -- inversion seldom provides an implementation of composition). The subclass methods provide extra functionality, but do not induce a standard implementation of the superclass. Num provides arithmetic operations, widening Eq, but does not induce an implementation of {{{(==)}}}.
@@ -20,7 +20,10 @@ to refine the library by splitting a type class into depth-layers is
 instances gives rise to breakage of the existing codebase.
 
 Default superclass instances are implemented in the
-[http://personal.cis.strath.ac.uk/~conor/pub/she/superclass.html Strathclyde Haskell Enhancement]. 
+[http://personal.cis.strath.ac.uk/~conor/pub/she/superclass.html Strathclyde Haskell Enhancement].
+The crucial property which drives the feature is that method names uniquely identify the classes
+to which they belong, so that methods defined in a subclass instance can be distributed to the appropriate
+generated superclass instance.
 They should enable some tidying of
 the library, with relatively few tears. Moreover, they should allow us
 to deepen type class hierarchies as we learn. Retaining backward
