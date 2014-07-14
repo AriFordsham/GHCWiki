@@ -440,6 +440,29 @@ What about interaction with other features?
 - Generic default methods. (**pigworker** Default methods in default superclass instances override class default methods and are overridden by specific implementations in subclass instances. So I can define `Applicative` to have a default class method `<*>` which fails with a specific message; I can make `class Monad` give a default implementation `(<*>) = ap`; I can give a specific `instance Monad` which overrides `<*>`, perhaps for improved efficiency.)
 - Associated types, and default type synonyms.  Presumably they obey the same rules as for default methods. (**pigworker** Yes. You can put any declaration into a default superclass instance, and the same sorts of definitions as you can with default methods in class declarations. Notably, `data instance`s are forbidden, because they could result in multiple declarations of the same constructor. (Must get around to an 'overloaded constructors' proposal.))
 
+## Migration issues
+
+
+Adopting this proposal raises the question of which default superclass instances should be added to the existing library and hence how much damage we might do. We do not have to look too far to find issues to consider.
+
+### Splitting a class by adding a new superclass
+
+
+Had this proposal been in force at the time, `Applicative` would have been introduced as an intrinsic superclass of `Monad`. The `return` method would have been moved to `Applicative`, `pure` would not exist, and `<*>` for `Monad`s would be `ap` by default. Bold claim: no code would have broken, but some `Applicative` instances would have been generated with overly tight constraints (requiring `Monad` where `Applicative` would do). With no prior `Applicative` instances to conflict with the default ones, we should simply have had a different interpretation of the existing `Monad` instances.
+
+### Giving a superclass a default instance in *one* or *more* of its existing subclasses
+
+
+Currently, `Applicative` is a subclass of `Functor`. We can (and probably should) give a default implementation of `Functor` with `fmap = (<*>) . pure`. As it is currently forbidden to give an `Applicative` instance in the absence of a `Functor` instance, we should expect (given Option 2) to be sprayed with warnings that default `Functor` instances are being pre-empted, but (bold claim) we should find that all code still compiles, with no default superclass instances being generated. By the same token, if we also give a default `Functor` instance for `Traversable`, we shall similarly find all such instance generations pre-empted. Correspondingly, wherever some functor is both `Applicative` and `Traversable`, there will be no need to make an explicit `hiding` declaration.
+
+### Making an existing class a new but intrinsic superclass of another existing class
+
+
+Currently, `Applicative` is not a superclass of `Monad`, but it should be (in the manner described above). What will happen to existing code (under Option 2)? Only some instances of `Applicative` will be duplicates, and those will all be *orphans*. When a `Monad` instance is declared, any existing `Applicative` will pre-empt the default, but certainly an `Applicative` instance will be in scope, generated or not. If, in a module further downstream, an `Applicative` instance (necessarily orphan) is added, there must have been no prior `Applicative` instance, so the `Monad` instance will now generate one which the orphan `Applicative` duplicates. There is no perfect solution to this problem. We could reduce the damage but increase the potential perplexity by allowing default generated instances in earlier modules to pre-empt explicit instances in later modules, accompanied by a noisy warning. Even then, some code would fail to compile if the pre-empting default instance were to be more tightly constrained than the pre-empted one (quite apart from the fact that it might do something completely different).
+
+
+Is this only a legacy issue? This proposal makes ought-to-be-a-superclass relationships cheap, so we might hope that, in future, we would have to be slow on the uptake to be creating classes which could have a useful super/sub-class relationship but somehow do not. The danger of code damage we identify here might thus be better tackled by a localized and transitional strategy.
+
 ---
 
 # Applications
