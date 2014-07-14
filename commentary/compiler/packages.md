@@ -61,6 +61,17 @@ This means that the `Module` type is not `Uniqable`, so we can't use `Module` as
 
 Source code: [compiler/basicTypes/Module.lhs](/trac/ghc/browser/ghc/compiler/basicTypes/Module.lhs).
 
+## Finding modules
+
+
+When we import a module, how does GHC decide where the module lives (e.g. to read in the [interface files](commentary/compiler/iface-files) for type checking)?  This is done in two parts.
+
+
+First, we generate a module map in [compiler/main/Packages.lhs](/trac/ghc/browser/ghc/compiler/main/Packages.lhs) in \@mkModuleMap@, which is stored in the \@PackageState@. This module map is based off of the package databases (by default the global and local databases), with in-memory modifications to the hidden/trusted flags associated with modules.  This map says, for any given module name, what packages define it. (For the purpose of error reporting, we collect up non-exposed modules, since a user may mistakenly try to import them.)
+
+
+Next, when we actually need to lookup a module in [compiler/main/Finder.lhs](/trac/ghc/browser/ghc/compiler/main/Finder.lhs) using \@findExposedPackageModule@. Now, we lookup the module name in our map, filter out entries which are hidden (either because their packages were hidden or they were not exposed), and if there is exactly one result, we succeed. If we don't find anything, a fuzzy lookup finds similar module names; if we find multiple results we report them appropriately.
+
 ## The current package
 
 
@@ -109,6 +120,13 @@ Packages have another purpose when it comes to dynamic linking: each package is 
 
 
 At the time of writing (GHC 6.6) GHC doesn't have working support for generating multi-DLL Haskell programs, but it worked in the past and work is underway to resurrect it.  Dynamic libraries currently only work on MacOS X/PowerPC.
+
+## Reexported modules
+
+
+Starting with GHC 7.10 ([\#8407](https://gitlab.haskell.org//ghc/ghc/issues/8407)), we will have support for reexporting modules from other packages you depend upon.  How does this work?
+
+TODO WRITE ME
 
 ## Packages in a GHC build
 
