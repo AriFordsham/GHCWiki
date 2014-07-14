@@ -8,7 +8,8 @@
  * #9242: per-instance pragmas for overlapping/incoherent
  * #9200: kind inference for mutually recursive types
  * #8968, #9226: pattern synonyms and GADTs
- * #9161: pattern synonyms and `DataKinds`
+ * #8582: pattern synonyms and record syntax
+ * #8581: explicitly bidirectional pattern synonyms
  * #9223: error message mentioning untouchables
  * #9198: slow typechecker (big types!)
  * #9210, #9103: functional dependencies and overlapping instances
