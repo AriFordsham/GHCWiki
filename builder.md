@@ -9,7 +9,7 @@ Each night we build GHC on each slave, in various different ways, run the test s
 ## Seeing build results
 
 
-The build results are uploaded to [ http://haskell.inf.elte.hu/builders/](http://haskell.inf.elte.hu/builders/)
+The build results are uploaded to [ http://haskell.inf.elte.hu/builders/](http://haskell.inf.elte.hu/builders/)  See the [documentation on the summary](builder-summary) for more information.
 
 ## Can you offer a build slave?
 
