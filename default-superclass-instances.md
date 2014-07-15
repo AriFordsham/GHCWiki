@@ -95,10 +95,47 @@ Design goal 1 is that this change should not force clients to change their code.
 
 - Example 2: once you say `instance Monad M`, the instances for `Functor M` and `Applicative M` can be derivived from the definitions of `(>>=)` and `return`.  And similarly if you say `instance Applicative M`, the `Functor M` instance is derivable.
 
-- Example 3: once you say `instance Traversable T` you can derive `Foldable` and `Functor`.
+- Example 3: once you say `instance Traversable T` you can derive `Foldable` and `Functor`. Obvious question: if something is both `Foldable` and `Applicative`, which `Functor` instance do you get?  Answer: the programmer must be able to control this (see "the opt-out mechanism" below).
 
 
-Obvious question: if something is both `Foldable` and `Applicative`, which `Functor` instance do you get?  Answer: the programmer must be able to control this (see "the opt-out mechanism" below).
+Goal 2 is closely linked to Goal 1. Suppose the library originally had
+
+```wiki
+class C a where
+  f :: ...
+  g :: ...
+  f = ...g...   -- Default method for f, defined using g
+```
+
+
+Now the client relies on the default method:
+
+```wiki
+instance C ClientType where
+  g = ....
+```
+
+
+Now the library author wants to split C as before:
+
+```wiki
+class S a where
+  f :: ...
+  f = ...g...   -- Uh oh!  Can't do this
+
+class S a => C a where
+  g :: ...
+```
+
+
+So we want to specify a default method for `f` in superclass `S`, which works when we have a `C` too:
+
+```wiki
+class S a => C a where
+  g :: ...
+  instance S a where
+     f = ...g...   -- default method for f
+```
 
 ---
 
