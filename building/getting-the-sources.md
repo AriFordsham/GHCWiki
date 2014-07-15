@@ -117,7 +117,7 @@ To check out a specific version of GHC, run
 ```
 
 
-For checking out a tag after you have already done ./sync-all \[options\] get
+For checking out a tag after you have already done `./sync-all [options] get`
 
 ```wiki
   $ git checkout <tag>
