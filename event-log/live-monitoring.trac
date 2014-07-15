@@ -143,9 +143,29 @@ data SequenceDecoder a =
 
 eventlogDecoder :: Decoder (SequenceDecoder Event)
 
--- Convenience layer
+--------------- Alternative --------------- 
 
-readOneEvent:: Handle -> IO Event
+-- Private
+data Decoder a =
+      FailH !B.ByteString !ByteOffset String
+    | Partial (B.ByteString -> Decoder a)
+    | DoneH !B.ByteString !ByteOffset a
+
+data SequenceDecoder a =
+      FailS !B.ByteString !ByteOffset String
+    | SingleS (Maybe a) (B.ByteString -> SequenceDecoder a)
+    | DoneS !B.ByteString !ByteOffset (Maybe a)
+
+eventLogDecoder :: Decoder (SequenceDecoder Event)
+newtype EventHandle = EventHandle Header Handle
+
+
+-- Public
+openEventHandle :: Handle -> IO EventHandle
+
+getEvent :: EventHandle -> IO (Maybe Event)
+
+
 
 
 }}}
