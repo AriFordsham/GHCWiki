@@ -28,6 +28,8 @@ You can ask questions on `ghc-devs@haskell.org`. People are friendly.  See also 
 
  * [http://research.microsoft.com/~simonpj/Papers/classhask.ps.gz Type Classes in Haskell], Cordelia Hall, Kevin Hammond, Simon Peyton Jones, and Philip Wadler, European Symposium On Programming 1994. Type inference for type classes.
 
+ * [http://research.microsoft.com/~simonpj/Papers/derive.htm Derivable type classes], Ralf Hinze and Simon Peyton Jones; Haskell Workshop 2000.
+
  * [http://research.microsoft.com/en-us/um/people/simonpj/papers/usage-types/popl99-usage.ps.gz Once Upon a Polymorphic Type], Keith Wansbrough and Simon Peyton Jones, POPL 1999.
 
 Please add: System FC, GADTs, kind polymorphism etc
@@ -95,6 +97,10 @@ Please add: System FC, GADTs, kind polymorphism etc
  * [http://www.haskell.org/ghc/docs/papers/lazy-functional-state-threads.ps.gz Lazy Functional State Threads], John Launchbury and Simon Peyton Jones. PLDI 1993. A follow-up on "Imperative Functional Programming" paper.
 
  * [http://community.haskell.org/~simonmar/papers/async.pdf Asynchronous Exceptions in Haskell], Simon Marlow, Simon Peyton Jones, Andrew Moran and John Reppy, 2006.
+
+  * [http://www.haskell.org/ghc/docs/papers/except_ps.gz A semantics for imprecise exceptions], Simon Peyton Jones, Alastair Reid, Tony Hoare and Simon Marlow, PLDI '99.
+
+ * [http://research.microsoft.com/en-us/um/people/simonpj/Papers/imprecise-exn-sem.htm Imprecise Exceptions, Co-Inductively], Andy Moran, Soeren Lassen, and Simon Peyton Jones, HOOTS'99.
 
 == The run-time system, garbage collector, profiling, FFI ==
 
