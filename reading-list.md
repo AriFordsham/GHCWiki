@@ -65,6 +65,8 @@ Please add: System FC, GADTs, kind polymorphism etc
 
 - [ Runtime Support for Multicore Haskell](http://community.haskell.org/~simonmar/papers/multicore-ghc.pdf) (Simon Marlow, Simon Peyton Jones, Satnam Singh) In ICFP '09: Proceeding of the 14th ACM SIGPLAN International Conference on Functional Programming, Edinburgh, Scotland, August 2009
 
+- [Concurrent Haskell](http://www.haskell.org/ghc/docs/papers/concurrent-haskell.ps.gz), Simon Peyton Jones, Andrew Gordon, Sigbjorn Finne. Deals with the various concurrency constructs in GHC and the Haskell language. E.g., MVars.
+
 ## Intermediate Representation of GHC (Core & Related)
 
 - [An External Representation for the GHC Core Language](http://www.haskell.org/ghc/docs/6.10.4/html/ext-core/core.pdf) Gives an overview of the semantics and syntax of Core, GHC's internal intermediate representation for Haskell that most of the optimisation work is done on. A good language to understand when starting with GHC.
@@ -79,7 +81,7 @@ Please add: System FC, GADTs, kind polymorphism etc
 
 - [ Implementing lazy functional languages on stock hardware: the Spineless Tagless G-machine](http://research.microsoft.com/~simonpj/papers/spineless-tagless-gmachine.ps.gz), SL Peyton Jones, Journal of Functional Programming 2(2), Apr 1992, pp127-202.  The original STG paper but still highly relevant.
 
-- [ STG Survival Sheet](http://www.macs.hw.ac.uk/~dsg/gph/docs/StgSurvival.ps.gz), A poor wee soul, 2001 - This is a very old description of STG. This information is now on the wiki in sections about [ RTS](http://hackage.haskell.org/trac/ghc/wiki/Commentary/Rts) and [ STG](http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/GeneratedCode).
+- [The STG runtime system (revised)](http://www.haskell.org/ghc/docs/papers/run-time-system.ps.gz), Simon Peyton Jones and Simon Marlow. A highly-detailed description of STG. It is probably the most up-to-date description, aside for later additions from [ dynamic pointer tagging paper](http://community.haskell.org/~simonmar/papers/ptr-tagging.pdf) and [ fast curry paper](http://research.microsoft.com/en-us/um/people/simonpj/papers/eval-apply/index.htm).
 
 - [ Hoopl: A Modular, Reusable Library for Dataflow Analysis and Transformation](http://research.microsoft.com/en-us/um/people/simonpj/papers/c--/hoopl-haskell10.pdf), Norman Ramsey, John Dias, and Simon Peyton Jones. Haskell Symposium 2010
 
@@ -94,8 +96,6 @@ Please add: System FC, GADTs, kind polymorphism etc
 - [Imperative Functional Programming](http://www.haskell.org/ghc/docs/papers/imperative.ps.gz), Simon Peyton Jones, Philip Wadler. POPL,  Jan 1993, pp71-84. Presents Monads as a way of implementing IO in Haskell.
 
 - [Lazy Functional State Threads](http://www.haskell.org/ghc/docs/papers/lazy-functional-state-threads.ps.gz), John Launchbury and Simon Peyton Jones. PLDI 1993. A follow-up on "Imperative Functional Programming" paper.
-
-- [Concurrent Haskell](http://www.haskell.org/ghc/docs/papers/concurrent-haskell.ps.gz), Simon Peyton Jones, Andrew Gordon, Sigbjorn Finne. Deals with the various concurrency constructs in GHC and the Haskell language. E.g., MVars.
 
 - [ Asynchronous Exceptions in Haskell](http://community.haskell.org/~simonmar/papers/async.pdf), Simon Marlow, Simon Peyton Jones, Andrew Moran and John Reppy, 2006.
 
