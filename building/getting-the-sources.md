@@ -121,7 +121,8 @@ For checking out a tag after you have already done `./sync-all [OPTIONS] get`
 
 ```wiki
   $ git checkout <tag>
-  $ git submodule update
+  $ rm -r libraries/*/.git
+  $ ./sync-all --no-dph get
 ```
 
 ## Getting a GHC repository from GitHub
