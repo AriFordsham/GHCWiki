@@ -95,9 +95,7 @@ At the time of writing (GHC 6.6) GHC doesn't have working support for generating
 
 == Reexported modules ==
 
-Starting with GHC 7.10 (#8407), we will have support for reexporting modules from other packages you depend upon.  How does this work?
-
-TODO: WRITE ME
+Starting with GHC 7.10 (#8407), we will have support for reexporting modules from other packages you depend upon.  How does this work?  In the package database, a package not only declare that it exposes a module, but it can also say that it reexports a module, with an indirection to the defining package (and original module name, if it is renamed).  There is a twist however: this simple strategy could require GHC to follow a chain of indirections in the package database.  Instead, we maintain the invariant that an indirection always points to the original defining module. To enforce this invariant, {{{ghc-pkg}}} processes installed package info with {{{resolveReexports}}}, shortcutting the indirections before adding a package to the database.
 
 == Packages in a GHC build ==
 
