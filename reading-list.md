@@ -30,7 +30,11 @@ You can ask questions on `ghc-devs@haskell.org`. People are friendly.  See also 
   - *Giving Haskell a promotion*, Brent Yorgey, Stepanie Weirich, Julien Cretin, Simon Peyton Jones, and Dimitrios Vytiniotis (TLDI 2012).  How to (a) add kind polymorphism and (b) promote data types to become data kinds.
   - *System F with Type Equality Coercions*, Martin Sulzmann, Manuel Chakravarty, and Simon Peyton Jones (TLDI 2007).  The first paper about System FC.
 
-- [ Unboxed values as first class citizens](http://research.microsoft.com/en-us/um/people/simonpj/papers/unboxed-values.ps.Z), SL Peyton Jones and J Launchbury, Functional Programming Languages and Computer Architecture (FPCA'91), Boston, LNCS 523, Springer Verlag, Sept 1991, pp636-666. How unboxed data types work in GHC.
+- [ Type Classes in Haskell](http://research.microsoft.com/~simonpj/Papers/classhask.ps.gz), Cordelia Hall, Kevin Hammond, Simon Peyton Jones, and Philip Wadler, European Symposium On Programming 1994. Type inference for type classes.
+
+- [ Derivable type classes](http://research.microsoft.com/~simonpj/Papers/derive.htm), Ralf Hinze and Simon Peyton Jones; Haskell Workshop 2000.
+
+- [ Once Upon a Polymorphic Type](http://research.microsoft.com/en-us/um/people/simonpj/papers/usage-types/popl99-usage.ps.gz), Keith Wansbrough and Simon Peyton Jones, POPL 1999.
 
 
 Please add: System FC, GADTs, kind polymorphism etc
@@ -51,7 +55,9 @@ Please add: System FC, GADTs, kind polymorphism etc
 
 - [ Modular, Higher-Order Cardinality Analysis in Theory and Practice](http://research.microsoft.com/en-us/um/people/simonpj/papers/usage-types/cardinality-popl14.pdf), Ilya Sergey, Dimitrios Vytiniotis, Simon Peyton Jones, POPL 2014. Describes cardinality analysis and optimisations that it enables or improves (eg. let-floating).
 
-## Data Parallel Haskell
+- [ Constructed Product Result Analysis for Haskell](http://research.microsoft.com/en-us/um/people/simonpj/papers/cpr/cpr.ps.gz), Clem Baker-Finch, Kevin Glynn, and Simon Peyton Jones, Journal of Functional Programming 14(2), 211–245, March 2004. Describes optimisation that allows to return tuple components in registers (for functions that return tuples).
+
+## Data Parallel Haskell and concurrency
 
 - [ Data Parallel Haskell: a status report](http://www.cse.unsw.edu.au/~chak/papers/data-parallel-haskell.pdf), Manuel M. T. Chakravarty, Roman Leshchinskiy, Simon Peyton Jones, Gabriele Keller, and Simon Marlow. , DAMP 2007: Workshop on Declarative Aspects of Multicore Programming, 2007
 
@@ -60,6 +66,10 @@ Please add: System FC, GADTs, kind polymorphism etc
 - [ Vectorisation Avoidance](http://www.cse.unsw.edu.au/~chak/papers/vect-avoid.pdf), Gabriele Keller, Manuel M. T. Chakravarty, Roman Leshchinskiy, Ben Lippmeier, and Simon Peyton Jones, Proceedings of ACM SIGPLAN Haskell Symposium 2012, ACM Press, 2012. 
 
 - [ Work Efficient Higher-Order Vectorisation](http://www.cse.unsw.edu.au/~chak/papers/replicate.pdf), Ben Lippmeier, Manuel M. T. Chakravarty, Gabriele Keller, Roman Leshchinskiy, and Simon Peyton Jones, The 17th ACM SIGPLAN International Conference on Functional Programming, ACM Press, 2012
+
+- [ Runtime Support for Multicore Haskell](http://community.haskell.org/~simonmar/papers/multicore-ghc.pdf) (Simon Marlow, Simon Peyton Jones, Satnam Singh) In ICFP '09: Proceeding of the 14th ACM SIGPLAN International Conference on Functional Programming, Edinburgh, Scotland, August 2009
+
+- [Concurrent Haskell](http://www.haskell.org/ghc/docs/papers/concurrent-haskell.ps.gz), Simon Peyton Jones, Andrew Gordon, Sigbjorn Finne. Deals with the various concurrency constructs in GHC and the Haskell language. E.g., MVars.
 
 ## Intermediate Representation of GHC (Core & Related)
 
@@ -75,7 +85,7 @@ Please add: System FC, GADTs, kind polymorphism etc
 
 - [ Implementing lazy functional languages on stock hardware: the Spineless Tagless G-machine](http://research.microsoft.com/~simonpj/papers/spineless-tagless-gmachine.ps.gz), SL Peyton Jones, Journal of Functional Programming 2(2), Apr 1992, pp127-202.  The original STG paper but still highly relevant.
 
-- [ STG Survival Sheet](http://www.macs.hw.ac.uk/~dsg/gph/docs/StgSurvival.ps.gz), A poor wee soul, 2001 - This is a very old description of STG. This information is now on the wiki in sections about [ RTS](http://hackage.haskell.org/trac/ghc/wiki/Commentary/Rts) and [ STG](http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/GeneratedCode).
+- [The STG runtime system (revised)](http://www.haskell.org/ghc/docs/papers/run-time-system.ps.gz), Simon Peyton Jones and Simon Marlow. A highly-detailed description of STG. It is probably the most up-to-date description, aside for later additions from [ dynamic pointer tagging paper](http://community.haskell.org/~simonmar/papers/ptr-tagging.pdf) and [ fast curry paper](http://research.microsoft.com/en-us/um/people/simonpj/papers/eval-apply/index.htm).
 
 - [ Hoopl: A Modular, Reusable Library for Dataflow Analysis and Transformation](http://research.microsoft.com/en-us/um/people/simonpj/papers/c--/hoopl-haskell10.pdf), Norman Ramsey, John Dias, and Simon Peyton Jones. Haskell Symposium 2010
 
@@ -89,12 +99,20 @@ Please add: System FC, GADTs, kind polymorphism etc
 
 - [Imperative Functional Programming](http://www.haskell.org/ghc/docs/papers/imperative.ps.gz), Simon Peyton Jones, Philip Wadler. POPL,  Jan 1993, pp71-84. Presents Monads as a way of implementing IO in Haskell.
 
-- [Concurrent Haskell](http://www.haskell.org/ghc/docs/papers/concurrent-haskell.ps.gz), Simon Peyton Jones, Andrew Gordon, Sigbjorn Finne. Deals with the various concurrency constructs in GHC and the Haskell language. E.g., MVars.
+- [Lazy Functional State Threads](http://www.haskell.org/ghc/docs/papers/lazy-functional-state-threads.ps.gz), John Launchbury and Simon Peyton Jones. PLDI 1993. A follow-up on "Imperative Functional Programming" paper.
 
-## The run-time system and garbage collector
+- [ Asynchronous Exceptions in Haskell](http://community.haskell.org/~simonmar/papers/async.pdf), Simon Marlow, Simon Peyton Jones, Andrew Moran and John Reppy, 2006.
 
-- [ Runtime Support for Multicore Haskell](http://community.haskell.org/~simonmar/papers/multicore-ghc.pdf) (Simon Marlow, Simon Peyton Jones, Satnam Singh) In ICFP '09: Proceeding of the 14th ACM SIGPLAN International Conference on Functional Programming, Edinburgh, Scotland, August 2009
+- [A semantics for imprecise exceptions](http://www.haskell.org/ghc/docs/papers/except_ps.gz), Simon Peyton Jones, Alastair Reid, Tony Hoare and Simon Marlow, PLDI '99.
+
+- [ Imprecise Exceptions, Co-Inductively](http://research.microsoft.com/en-us/um/people/simonpj/Papers/imprecise-exn-sem.htm), Andy Moran, Soeren Lassen, and Simon Peyton Jones, HOOTS'99.
+
+## The run-time system, garbage collector, profiling, FFI
 
 - [ Parallel Generational-Copying Garbage Collection with a Block-Structured Heap](http://community.haskell.org/~simonmar/papers/parallel-gc.pdf) (Simon Marlow, Tim Harris, Roshan P. James, Simon Peyton Jones) In ISMM '08: Proceedings of the 7th international symposium on Memory management, Tucson, Arizona, ACM, June 2008
 
 - [ Haskell on a Shared-Memory Multiprocessor](http://community.haskell.org/~simonmar/papers/multiproc.pdf) (Tim Harris, Simon Marlow, Simon Peyton Jones) In Haskell '05: Proceedings of the 2005 ACM SIGPLAN workshop on Haskell, pages 49--61, Tallinn, Estonia, ACM Press, September 2005
+
+- [Time and space profiling for non-strict, higher-order functional languages](http://www.haskell.org/ghc/docs/papers/profiling.ps.gz), Patrick M. Sansom and Simon Peyton Jones, POPL 1995.
+
+- [The Concurrent Haskell Foreign Function Interface](http://www.haskell.org/ghc/docs/papers/threads.ps.gz), Wolfgang Thaller. An Addendum to Haskell 98 FFI Report.
