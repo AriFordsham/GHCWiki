@@ -68,8 +68,20 @@ where `$n` is the serial number of the build, `$result` is the result of the bui
 
 > [ http://haskell.inf.elte.hu/builders/$builder/$n.html](http://haskell.inf.elte.hu/builders/$builder/$n.html)
 
+### Header
 
-On those build pages, one can see the scheduled steps and their results.  Each step has a serial number and a brief explanation of its purpose, such as:
+
+On those build pages, one can see the scheduled steps and their results.  Such pages start with a header, which is of the following format:
+
+> `$builder ($info), build $n, $result`
+
+
+where `$builder` is the name of the builder (per the previously introduced conventions), `$info` is the longer description of the builder, often containing the name of the maintainer, `$n` is the serial number of the build, and `$result` is the overall result of the build.
+
+### Steps with Their Results
+
+
+Each step has a serial number and a brief explanation of its purpose, such as:
 
 ```wiki
 1: git clone
