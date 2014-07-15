@@ -4,7 +4,14 @@
 
 [http://phabricator.org Phabricator] (AKA "Phab") is a suite of tools for software development, initially developed by Facebook. It consists of a suite of applications which are useful for the entire software development lifecycle, but for GHC specifically, '''Phabricator is a code review tool''', and we use it to read and accept patches from contributors - both new ones, and existing ones.
 
-'''Note''': Phabricator is ''not'' required for GHC committers. If you have commit access, you're free to push patches directly. But do feel free to post reviews for things you're working on - it generally will only help your work.
+'''Note''': Phabricator is ''not'' required for GHC committers. If you have commit access, you're free to push patches directly. But do feel free to post reviews for things you're working on - it generally will only help your work. Benefits include:
+
+ * Better tools: side-by-side diffs, inline comments, blocking states, command line access
+ * Better notifications: use "Herald" to control emails very closely, or commits or reviews you are interested in.
+ * Increased visibility for code review and feedback.
+ * **NEW**: Automatic `./validate` of all your diffs when using Arcanist! (see "Harbormaster" below)
+ * Meme support (optional)
+ * Other features you might like
 
 == Signing up ==
 
@@ -48,11 +55,13 @@ Follow the directions it specifies - afterwards, your arcanist tool will be prop
 '''Question''': How does `arc install-certificate` know what URL to use?
 '''Answer''': It's located in a file called `.arcconfig` in the GHC repository. This is why you have to `cd` there first.
 
-== Submitting a review: Differential ==
+== Starting off: Fixing a bug, submitting a review ==
 
-After you've installed Arcanist and have an account with your certificate registered, you can submit diffs.
+(This assumes you have installed Arcanist).
 
-First, start off by checking out a new branch in the GHC repo, and hack away:
+First off, let's say you have a bug you want to fix. Go to the Trac page for the bug, and make yourself as the owner.
+
+Next, checkout a branch for the bug, and work on it:
 
 {{{
 $ cd ~/code/ghc-head
@@ -69,6 +78,10 @@ $ arc diff
 
 `arc` will then respond with the revision number and a URL where you can visit your change.
 
+Next, add a link to the revision in the Trac ticket. Fill out the field called "Differential Revisions" when you modify the ticket. You can hyperlink to any Phabricator revision using the syntax `Phab:Dxx` with a specific number. For example, to link to Differential Revision D69, say Phab:D69. As an example, Ticket #8634 has this set:
+
+[[Image(https://i.imgur.com/gYHkAhe.png)]]
+
 You may also modify the commit more later, by making new commits, and running `arc diff` again. This will just update the existing review:
 
 {{{
@@ -76,6 +89,30 @@ $ emacs ...
 $ git commit -asm "fix bug in new feature"
 $ arc diff # update existing review
 }}}
+
+== Automatic builds: Harbormaster ==
+
+When **you use Arcanist to submit a diff**, Phabricator will automatically trigger a build rule using an application called "Harbormaster". This application causes a build machine in the background to apply your patch and run `sh ./validate`. Afterwords, your diff will be updated with:
+
+ * A status from "Harbormaster" about the build.
+ * A notification from a bot, "phaskell", that will contain build logs.
+ * If the tests fail, "phaskell" will also include the results.
+
+The current status of the build is at the top. Phab:D69 is a good example:
+
+[[Image(https://i.imgur.com/N78gaJx.png)]]
+
+Note the build was failing at first, and the bot reported this:
+
+[[Image(https://i.imgur.com/sZ5oieH.png)]]
+
+The diff was then updated, and it passed:
+
+[[Image(https://i.imgur.com/DJljJ4M.png)]]
+
+Note that every time you run `arc diff` and update an existing review or create a new one, you'll trigger a build.
+
+**Note**: You can use the word "nobuild" by itself in a `Summary:` when you submit a diff to skip builds. You may want to do this if you know your build will break, but you just want to post code.
 
 === Notes on `arc diff` ===
 
@@ -177,6 +214,10 @@ Be sure to also read the [https://secure.phabricator.com/book/phabricator/articl
 == Tips ==
 
 There are some good tips for using Phabricator, including...
+
+=== Dashboards ===
+
+When you login, by default you'll be greeted
 
 === Commandeering revisions ===
 
