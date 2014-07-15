@@ -116,7 +116,7 @@ When **you use Arcanist to submit a diff**, Phabricator will automatically trigg
 
 The current status of the build is at the top. [ Phab:D69](https://phabricator.haskell.org/D69) is a good example:
 
-[](https://i.imgur.com/N78gaJx.png)
+[](https://i.imgur.com/jiHics8.png)
 
 
 Note the build was failing at first, and the bot reported this:
