@@ -29,7 +29,7 @@ x86_regUsageOfInstr :: Platform -> Instr -> RegUsage
 
 We use Haddock so that the comment is included in the generated HTML documentation.
 
-=== Comments and commit messages ===
+=== Comments in the source code ===
 
 Commenting is good but
   * long comments ''interleaved with the code'' can make the code itself incredibly hard to read, and
@@ -71,10 +71,6 @@ The standard format "`Note [Float coercions]`" serves like an URL, to point to a
 
 Please use this technique.  It's robust, and survives successive changes to the same lines of code.  When you are changing code, it draws attention to non-obvious things you might want to bear in mind.  When you encounter the note itself you can search for the string to find the code that implements the thoughts contained in the comment.
 
-Please do not put comments like these in commit messages instead, ''even if the patch is devoted to a single change''.  The information is harder to find in a commit message, and (much worse) there is no explicit indication in the code that there is carefully-written information available about that particular line of code.  Instead, you can refer to the Note from the commit message.
-
-(Commit messages can nevertheless contain substantial information, but it is usually of a global nature.  E.g. "This patch modifies 20 files to implement a new form of inlining pragma".)
-
 === Comments and examples ===
 
 When writing a comment to explain a subtle point, consider including an example code
@@ -103,6 +99,15 @@ concrete way.  Other ways of making the comment concrete are:
 === Longer comments or architectural commentary ===
 
 Comments with a broad scope, describing the architecture or workings of more than one module, belong here in the commentary rather than in the code.  Put the URL for the relevant commentary page in a comment in the code itself, and also put URLs for all relevant commentary pages in a comment at the top of each module.
+
+=== Commit messages === 
+
+Please use commit messages to describe how something works, or give examples, ''even if the patch is devoted to a single change''.  The information is harder to find in a commit message, and (much worse) there is no explicit indication in the code that there is carefully-written information available about that particular line of code.  Instead, you can refer to the Note from the commit message.
+
+Commit messages can nevertheless contain substantial information, but it is usually of a global nature.  E.g. "This patch modifies 20 files to implement a new form of inlining pragma".  
+They are also a useful place to say which ticket is fixed by the commit, summarise the changes embodied in the commit etc.  
+
+In short, commit messages describe ''changes'', whereas comment explain the code ''as it now is''.
 
 == Warnings ==
 
