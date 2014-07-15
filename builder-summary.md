@@ -1,7 +1,12 @@
 # The GHC Builder Summary Page
 
 
-The information about the nightly builds is aggregated on a separate page, the Builder Summary page.  This is basically a large table with hyperlinks to the individual builds in it.
+The information about the nightly builds is aggregated on a separate page, the Builder Summary page, at the following URL:
+
+> [ http://haskell.inf.elte.hu/builders/](http://haskell.inf.elte.hu/builders/)
+
+
+This is basically a large table with hyperlinks to the individual builds in it.
 
 # Conventions
 
