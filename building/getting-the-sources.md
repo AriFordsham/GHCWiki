@@ -120,8 +120,9 @@ To check out a specific version of GHC, run
 For checking out a tag after you have already done `./sync-all [OPTIONS] get`
 
 ```wiki
-  $ git checkout <tag>
-  $ rm -r libraries/*/.git
+  $ shopt -s extglob
+  $ rm -rf !(.git)
+  $ git checkout -f <tag>
   $ ./sync-all --no-dph get
 ```
 
