@@ -2,7 +2,14 @@
 
 [ Phabricator](http://phabricator.org) (AKA "Phab") is a suite of tools for software development, initially developed by Facebook. It consists of a suite of applications which are useful for the entire software development lifecycle, but for GHC specifically, **Phabricator is a code review tool**, and we use it to read and accept patches from contributors - both new ones, and existing ones.
 
-**Note**: Phabricator is *not* required for GHC committers. If you have commit access, you're free to push patches directly. But do feel free to post reviews for things you're working on - it generally will only help your work.
+**Note**: Phabricator is *not* required for GHC committers. If you have commit access, you're free to push patches directly. But do feel free to post reviews for things you're working on - it generally will only help your work. Benefits include:
+
+- Better tools: side-by-side diffs, inline comments, blocking states, command line access
+- Better notifications: use "Herald" to control emails very closely, or commits or reviews you are interested in.
+- Increased visibility for code review and feedback.
+- **NEW**: Automatic `./validate` of all your diffs when using Arcanist! (see "Harbormaster" below)
+- Meme support (optional)
+- Other features you might like
 
 ## Signing up
 
@@ -56,19 +63,22 @@ Follow the directions it specifies - afterwards, your arcanist tool will be prop
 **Question**: How does `arc install-certificate` know what URL to use?
 **Answer**: It's located in a file called `.arcconfig` in the GHC repository. This is why you have to `cd` there first.
 
-## Submitting a review: Differential
+## Starting off: Fixing a bug, submitting a review
 
 
-After you've installed Arcanist and have an account with your certificate registered, you can submit diffs.
+(This assumes you have installed Arcanist).
 
 
-First, start off by checking out a new branch in the GHC repo, and hack away:
+First off, let's say you have a bug you want to fix. Go to the Trac page for the bug, and make yourself as the owner.
+
+
+Next, checkout a branch for the bug, and work on it:
 
 ```wiki
 $ cd ~/code/ghc-head
-$ git checkout -b my-new-feature
+$ git checkout -b fix-trac-1234
 $ emacs ...
-$ git commit -asm "add new feature"
+$ git commit -asm "compiler: fix trac issue #1234"
 ```
 
 
@@ -79,6 +89,11 @@ $ arc diff
 ```
 
 `arc` will then respond with the revision number and a URL where you can visit your change.
+
+
+Next, add a link to the revision in the Trac ticket. Fill out the field called "Differential Revisions" when you modify the ticket. You can hyperlink to any Phabricator revision using the syntax `Phab:Dxx` with a specific number. For example, to link to Differential Revision D69, say [ Phab:D69](https://phabricator.haskell.org/D69). As an example, Ticket [\#8634](https://gitlab.haskell.org//ghc/ghc/issues/8634) has this set:
+
+[](https://i.imgur.com/gYHkAhe.png)
 
 
 You may also modify the commit more later, by making new commits, and running `arc diff` again. This will just update the existing review:
@@ -99,6 +114,88 @@ Note that when you run `arc diff`, it will drop you into an editor to summarize 
 **You should always at least add `austin` to a review**. If you want wider attention, you can specify the reviewer as `#ghc` - this specifies a group of GHC developers who may come to review it as well.
 
 **Question**: What does the `#ghc` mean? **Answer**: Essentially, in Phabricator, a Project is composed of a group of people. A project can be referred to by a hashtag, which basically incorporates everyone involved in the project.
+
+## Automatic builds: Harbormaster
+
+
+When **you use Arcanist to submit a diff**, Phabricator will automatically trigger a build rule using an application called "Harbormaster". This application causes a build machine in the background to apply your patch and run `sh ./validate`. Afterwords, your diff will be updated with:
+
+- A status from "Harbormaster" about the build.
+- A notification from a bot, "phaskell", that will contain build logs.
+- If the tests fail, "phaskell" will also include the results.
+
+
+The current status of the build is at the top. [ Phab:D69](https://phabricator.haskell.org/D69) is a good example:
+
+[](https://i.imgur.com/jiHics8.png)
+
+
+Note the build was failing at first, and the bot reported this:
+
+[](https://i.imgur.com/sZ5oieH.png)
+
+
+The diff was then updated, and it passed:
+
+[](https://i.imgur.com/DJljJ4M.png)
+
+
+Note that every time you run `arc diff` and update an existing review or create a new one, you'll trigger a build.
+
+**Note**: You can use the word "nobuild" by itself in a `Summary:` when you submit a diff to skip builds. You may want to do this if you know your build will break, but you just want to post code.
+
+## Diffusion: Browsing the GHC repository
+
+**[ Diffusion](https://phabricator.haskell.org/diffusion)** is a simple, fast repository browser for GHC which you can use to browse the repo, audit commits, explore branches or just read code.
+
+
+Note that in Phabricator, every repository has what we call a **callsign**. A callsign is a short, unique identifier for a repository. The GHC repository has the **GHC** callsign. Sometimes in the UI when referring to a repository, you must use the unambiguous name `rGHC`, signifying the repository callsign.
+
+## Herald & Audit: post-commit review
+
+**[ Herald](https://phabricator.haskell.org/herald)** is an application that tracks events that occur on Phabricator, and take certain actions when they happen. For example, when a commit to the GHC repository occurs, you may want to be sent an email about it so you can be aware. Or maybe you'd like to audit commits that touch certain files.
+
+**[ Audit](https://phabricator.haskell.org/audit)** is an application that lets you keep track of commits that have gone into a repository, in case you need to review them. The most common workflow audit enables is *post-commit review*, which means you review code after it's been committed.
+
+
+Normally, you'll use **Herald** to create rules which trigger an **Audit**, which will then appear in the Audit application.
+
+### Herald: creating rules
+
+
+Go to the [ Herald application](https://phabricator.haskell.org/herald/) and click *Create New Herald Rule* at the top right.
+
+
+First, you have to select the event the rule will trigger on. Normally this will be *Commit* if you want to analyze commits, or *Differential Revision* if you want it to trigger on new patches for review.
+
+
+Next, you have to select the type of rule. You will always want the type to be *Personal* - so it only affects you and nobody else.
+
+
+Finally, you have the rules screen. It should be mostly self explanatory: set combinations of conditions, and sets of actions to take when the conditions are satisfied.
+
+
+For example, Austin has a **Personal Rule** for **Differential Revisions**. The rule is only triggered when the repository **is any of**`rGHC` (**NB**: the `r` is important!), and **Every time** it **Adds me as a blocking reviewer**.
+
+[](https://i.imgur.com/lUPSMmZ.png)
+
+
+With this rule, all GHC patches must be signed off on.
+
+### Audit: auditing commits that go by
+
+
+Once you've created a Herald rule, you may now go to the Go to the [ Audit application](https://phabricator.haskell.org/audit/) to review commits that have gone by. Auditing works mostly the same way as reviewing, only after the fact - instead of accepting or rejecting, you can **Raise Concerns** or **Accept Revision**. If you raise a concern, the author will be notified and generally required to rectify the change.
+
+**NB**: commits you should audit, or commits of yours that have had concerns raised will appear on the homepage.
+
+
+Alternatively, you may use Diffusion to [ browse the GHC repository](https://phabricator.haskell.org/diffusion/GHC), find a commit, and then audit it. For example, by viewing commit [ b6352c9912536929537dcebac9d02d4f995c1657](https://phabricator.haskell.org/rGHCb6352c9912536929537dcebac9d02d4f995c1657), we can look at the diff. Then, go to the bottom, and you can take actions like **Accept Review** or **Raise Concerns** - this is an equivalent to a regular audit for arbitrary commits.
+
+### More reading
+
+
+Be sure to also read the [ Herald user guide](https://secure.phabricator.com/book/phabricator/article/herald/), as well as the [ Audit user guide](https://secure.phabricator.com/book/phabricator/article/audit/). There's also some documentation on [ review vs audit workflows](https://secure.phabricator.com/book/phabricator/article/reviews_vs_audit/) in the Phab documentation.
 
 ## General review workflow
 
@@ -159,61 +256,21 @@ You're done!
 
 Note that you can add inline comments to any line in a differential revision. You can also reply to inline comments. **You can have multiple inline comments per top-level comment you add**. Once you have made some inline comments, or replied to one, go to the bottom of the page and hit 'submit' to submit it. You may also add a top-level comment to go with it.
 
-## Browsing the GHC repository with Diffusion
-
-**[ Diffusion](https://phabricator.haskell.org/diffusion)** is a simple, fast repository browser for GHC which you can use to browse the repo, audit commits, explore branches or just read code.
-
-
-Note that in Phabricator, every repository has what we call a **callsign**. A callsign is a short, unique identifier for a repository. The GHC repository has the **GHC** callsign. Sometimes in the UI when referring to a repository, you must use the unambiguous name `rGHC`, signifying the repository callsign.
-
-## Herald & Audit: post-commit review
-
-**[ Herald](https://phabricator.haskell.org/herald)** is an application that tracks events that occur on Phabricator, and take certain actions when they happen. For example, when a commit to the GHC repository occurs, you may want to be sent an email about it so you can be aware. Or maybe you'd like to audit commits that touch certain files.
-
-**[ Audit](https://phabricator.haskell.org/audit)** is an application that lets you keep track of commits that have gone into a repository, in case you need to review them. The most common workflow audit enables is *post-commit review*, which means you review code after it's been committed.
-
-
-Normally, you'll use **Herald** to create rules which trigger an **Audit**, which will then appear in the Audit application.
-
-### Herald: creating rules
-
-
-Go to the [ Herald application](https://phabricator.haskell.org/herald/) and click *Create New Herald Rule* at the top right.
-
-
-First, you have to select the event the rule will trigger on. Normally this will be *Commit* if you want to analyze commits, or *Differential Revision* if you want it to trigger on new patches for review.
-
-
-Next, you have to select the type of rule. You will always want the type to be *Personal* - so it only affects you and nobody else.
-
-
-Finally, you have the rules screen. It should be mostly self explanatory: set combinations of conditions, and sets of actions to take when the conditions are satisfied.
-
-
-For example, I may create a **Personal Rule** for **Differential Revisions**. The rule is only triggered when the repository **is any of**`rGHC` (**NB**: the `r` is important!), and when **any changed filename** also **matches regexp**`rts/*`. Finally, the `action` to take will be to **Add me as a reviewier**.
-
-
-With this rule, any commits which modify the RTS will then automatically have you added as a reviewier.
-
-### Audit: auditing commits that go by
-
-
-Once you've created a Herald rule, you may now go to the Go to the [ Audit application](https://phabricator.haskell.org/audit/) to review commits that have gone by. Auditing works mostly the same way as reviewing, only after the fact - instead of accepting or rejecting, you can **Raise Concerns** or **Accept Revision**. If you raise a concern, the author will be notified and generally required to rectify the change.
-
-**NB**: commits you should audit, or commits of yours that have had concerns raised will appear on the homepage.
-
-
-Alternatively, you may use Diffusion to [ browse the GHC repository](https://phabricator.haskell.org/diffusion/GHC), find a commit, and then audit it. For example, by viewing commit [ b6352c9912536929537dcebac9d02d4f995c1657](https://phabricator.haskell.org/rGHCb6352c9912536929537dcebac9d02d4f995c1657), we can look at the diff. Then, go to the bottom, and you can take actions like **Accept Review** or **Raise Concerns** - this is an equivalent to a regular audit for arbitrary commits.
-
-### More reading
-
-
-Be sure to also read the [ Herald user guide](https://secure.phabricator.com/book/phabricator/article/herald/), as well as the [ Audit user guide](https://secure.phabricator.com/book/phabricator/article/audit/). There's also some documentation on [ review vs audit workflows](https://secure.phabricator.com/book/phabricator/article/reviews_vs_audit/) in the Phab documentation.
-
 ## Tips
 
 
 There are some good tips for using Phabricator, including...
+
+### Dashboards
+
+
+When you login, by default you'll be greeted by a default **Dashboard**, which are Phabricator's way of having custom pages.
+
+
+If you go to the [ Dashboards](https://phabricator.haskell.org/dashboard/) application, you can create a new dashboard, and then create panels to go on it. You can then move panels around on the editor to customize your home page with audits, commits, etc. Once you've created a Dashboard, you can install it as your default home one as well.
+
+
+The default dashboard should be relatively well tuned for what GHC developers need, but if you need a custom one, feel free to share!
 
 ### Commandeering revisions
 
@@ -250,6 +307,23 @@ $ arc list
 * Accepted       D13: Make Applicative a superclass of Monad 
 ```
 
+### Pastebin
+
+
+To upload things to the Phabricator pastebin, cat the file into `arc paste`:
+
+```wiki
+$ cat foo.txt | arc paste
+```
+
+
+Grab pastes using `arc paste` as well:
+
+```wiki
+$ arc paste P23
+foo and bar!
+```
+
 ### Email tips
 
 
@@ -263,13 +337,17 @@ Second, Phab has a very 'Getting Things Done' interface, which means it tries to
 
 If you want, you can also configure Phab to use an external editor so you can launch things [ right from your browser](https://secure.phabricator.com/book/phabricator/article/external_editor/)!
 
-## Other tools and tips
+### Review IRC logs
 
 
-Phab also has a lot of other useful applications:
+There are active IRC logs kept on Phabricator using the [ ChatLog](https://phabricator.haskell.org/chatlog/) application
 
-- There's a convenient [ PasteBin application](https://phabricator.haskell.org/paste/) which you can use to paste and share snippets - you can even do this directly from Arcanist.
-- [ ChatLog](https://phabricator.haskell.org/chatlog/) is a convenient IRC logging interface you can use for several Haskell channels.
-- [ Diffusion](https://phabricator.haskell.org/diffusion/) is a fast, simple repository/commit browser.
-- If you're paranoid, you can enable [ multi-factor authentication](https://secure.phabricator.com/book/phabricator/article/multi_factor_auth/) for your account.
-- Run `arc anoid` to play a game of Arkanoid when you're compiling stuff or bored!
+### Multi-factor authentication
+
+
+If you're paranoid, enable [ multi-factor authentication](https://secure.phabricator.com/book/phabricator/article/multi_factor_auth/) for your account.
+
+### Play Arkanoid
+
+
+If you're waiting to validate or compile, run `arc anoid` to play a game of Arkanoid.
