@@ -45,9 +45,11 @@ Please add: System FC, GADTs, kind polymorphism etc
 
 - [ Playing by the rules: rewriting as a practical optimisation technique in GHC](http://research.microsoft.com/en-us/um/people/simonpj/papers/rules.htm), Simon Peyton Jones, Andrew Tolmach and Tony Hoare, Haskell Workshop 2001.  Describes how RULES work, which are heavily used in GHC.
 
-- [ Call-pattern Specialisation for Haskell Programs](https://research.microsoft.com/en-us/um/people/simonpj/papers/spec-constr/spec-constr.pdf), Simon Peyton Jones, ICFP 2007. Describe the specialisation optimiser.
+- [ Call-pattern Specialisation for Haskell Programs](https://research.microsoft.com/en-us/um/people/simonpj/papers/spec-constr/spec-constr.pdf), Simon Peyton Jones, ICFP 2007. Describes the specialisation optimiser.
 
-- [ Let-floating: moving bindings to give faster programs](http://research.microsoft.com/pubs/67060/float.ps.gz), Simon Peyton Jones, Will Partain, and Andre Santos, ICFP 1996. Describe the let floating and full laziness optimisation passes.
+- [ Let-floating: moving bindings to give faster programs](http://research.microsoft.com/pubs/67060/float.ps.gz), Simon Peyton Jones, Will Partain, and Andre Santos, ICFP 1996. Describes the let floating and full laziness optimisation passes.
+
+- [ Modular, Higher-Order Cardinality Analysis in Theory and Practice](http://research.microsoft.com/en-us/um/people/simonpj/papers/usage-types/cardinality-popl14.pdf), Ilya Sergey, Dimitrios Vytiniotis, Simon Peyton Jones, POPL 2014. Describes cardinality analysis and optimisations that it enables or improves (eg. let-floating).
 
 ## Data Parallel Haskell
 
