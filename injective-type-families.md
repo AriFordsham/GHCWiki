@@ -13,8 +13,7 @@ The idea behind [\#6018](https://gitlab.haskell.org//ghc/ghc/issues/6018) is to 
 
 1. Injectivity in all the arguments, where knowing the result (right-hand side) of a type family determines all the arguments on the left-hand side.
 
->
-> Example 1:
+> **Example 1**
 >
 > ```wiki
 > type family F a b c
@@ -25,8 +24,7 @@ The idea behind [\#6018](https://gitlab.haskell.org//ghc/ghc/issues/6018) is to 
 
 1. Injectivity in some of the arguments, where knowing the RHS of a type family determines only some of the arguments on the LHS.
 
->
-> Example 2:
+> **Example 2**
 >
 > ```wiki
 > type family G a b c
@@ -40,8 +38,7 @@ The idea behind [\#6018](https://gitlab.haskell.org//ghc/ghc/issues/6018) is to 
 
 1. Injectivity in some of the arguments, where knowing the RHS of a type family and some of the LHS arguments determines other (possibly not all) LHS arguments.
 
->
-> Example 3:
+> **Example 3**
 >
 > ```wiki
 > type family H a b c
@@ -52,8 +49,7 @@ The idea behind [\#6018](https://gitlab.haskell.org//ghc/ghc/issues/6018) is to 
 >
 > Here knowing the RHS and any single parameter uniquely determines the remaining two parameters.
 
->
-> Example 4:
+> **Example 4**
 >
 > ```wiki
 > type family J a b c
@@ -111,12 +107,11 @@ My plan is to divide implementation of this feature into smaller steps, each of 
 
 Step 3 of the above outline is in fact more in the lines of [\#4259](https://gitlab.haskell.org//ghc/ghc/issues/4259) so it will most likely not be implemented as part of [\#6018](https://gitlab.haskell.org//ghc/ghc/issues/6018).
 
-## Examples?
+## Examples
 
 *If you can supply more examples (type family declarations + their usage that currently doesn't work but should work with injectivity) please add them here.*
 
-
-Example A:
+**Example A**
 
 ```wiki
 type family F a | result -> a where
@@ -131,8 +126,7 @@ idChar a = a
 
 GHC should infer that `a` is in fact `Char`. Right now this program is rejected.
 
-
-Example B: (taken from 6018\#comment:5)
+**Example B** (taken from [6018\#comment:5](https://gitlab.haskell.org//ghc/ghc/issues/6018))
 
 ```wiki
 data Nat 
@@ -149,10 +143,9 @@ type instance Succ Infinity         = Infinity
 ```
 
 
-Mokus complains that GHC can't infer `Succ n ~ Succ m => n ~ m` because it can't see that `Succ` is injective.
+GHC can't infer `Succ n ~ Succ m => n ~ m` because it can't see that `Succ` is injective.
 
-
-Example C: (taken from 6018\#comment:26)
+**Example C** (taken from [6018\#comment:26](https://gitlab.haskell.org//ghc/ghc/issues/6018))
 
 ```wiki
 class Manifold' a where
