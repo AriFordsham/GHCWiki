@@ -103,3 +103,47 @@ class (instance Eq x) => Ord x where
 because every old `Ord` instance will now generate an `Eq` instance for which a duplicate *must* already exist. Worse is the situation with `Monad` and `Applicative` where we make an existing class into a *new* superclass and make it intrinsic: the prior constraints no longer make the whereabouts of duplicated `Applicative` instances particularly predictable.
 
 **Requirement 4** At least transitionally, we must somehow ensure that client code which supplies explicit instances now duplicated by intrinsic superclass instances is broken as infrequently as possible.
+
+
+We face not only conflicts between explicit and intrinsic instances, but also between multiple intrinsic instances. We should expect
+
+```wiki
+class (instance Functor t, instance Foldable t) => Traversable t where
+  traverse :: Applicative f => (a -> f b) -> t a -> f (t b)
+  fmap f = runIdentity . traverse (Identity . f)
+  foldMap f = runConst . traverse (Const . f)
+```
+
+
+but now if we define
+
+```wiki
+data Square x = x :& x
+instance Monad Square where
+  return x = x :& x
+  (a :& a') >>= f = case (f a, f a') of
+    (b :& _, _ :& b') -> b :& b'
+instance Traversable Square where
+  traverse f (a :& a') = return (:&) <*> f a <*> f a'
+```
+
+
+then we have silently generated duplicate instances for `Functor Square` and no particular reason to choose one over the other.
+
+**Requirement 5** Whatever mechanism we employ for generating instances, we need an explicit means to disable it.
+
+
+We might perhaps write
+
+```wiki
+data Square x = x :& x
+instance Monad Square - Functor where
+  ...
+instance Traversable Square where
+  ...
+```
+
+
+to inhibit the `Functor` instance arising from `Monad` but retain that from `Traversable`. It is probably a good thing in any case to be clear about which instances should be generated and which not.
+
+**Requirement 6** Except for managing the transition of legacy code, we should ensure that the meaning of an instance definition is clear only from its class declaration (and those of its superclasses) and not deduced from the presence or absence of other instances.
