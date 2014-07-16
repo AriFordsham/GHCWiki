@@ -151,7 +151,9 @@ If you want to clone your own fork instead, add an argument to `sync-all` to tel
 
 The [sync-all](building/sync-all) script makes it easy to pull new patches. For example, `sync-all pull` will pull all new patches from the original repository into the repository tree in the current directory.
 
-## Tracking the full repository state
+## Tracking the full repository state (pre-March 2014)
+
+**Since [db19c665e/ghc](/trac/ghc/changeset/db19c665e/ghc), all used repositories are submodules, so this is only relevant to track older states.**
 
 
 The full state of a GHC repository includes the current state of the repositories for all of the GHC boot libraries that are used to to build GHC ([list of boot libraries](repositories)). The repositories for these libraries are fetched and updated by the `sync-all` script. To record the full repository state (including boot libraries), git submodules could be used, but they are not currently in favor (see [GHC Team perspective on submodules](darcs-conversion#the-perspective-on-submodules) for some reasons why).
@@ -203,4 +205,4 @@ libraries/base|219ea0e539aca217fe1819baf02d4cdd1d670f51
 ```
 
 
-Put it in a file, and run `./utils/fingerprint.py restore -f <file>` to restore your repository tree to that state. Another resource you can use to find fingerprints is [ ghc-complete](https://github.com/nomeata/ghc-complete), although coverage here only began in late 2013.
+Put it in a file, and run `./utils/fingerprint.py restore -f <file>` to restore your repository tree to that state.
