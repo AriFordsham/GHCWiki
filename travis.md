@@ -6,9 +6,9 @@ Travis-CI is a free-for-open-source continuous integration service.
 ## What does it do?
 
 
-It watches the [repository](repositories) for new commits (any branch) and validate it using the instructions in [ghc/.travis.yml](/trac/ghc/browser/ghc/.travis.yml)[](/trac/ghc/export/HEAD/ghc/.travis.yml). It presents the results on [ https://travis-ci.org/ghc/ghc/builds](https://travis-ci.org/ghc/ghc/builds), where you can see the status of recent builds and look at the logs. 
+It watches the [repository](repositories) for new commits (any branch) and validates them. The results are presented at [ https://travis-ci.org/ghc/ghc/builds](https://travis-ci.org/ghc/ghc/builds), where you can see the statuses of recent builds and look at the logs. 
 
-## What is validated
+## What is validated?
 
 
 Because of time constraints, not a full validation run is done. Instead
@@ -26,7 +26,7 @@ It does all this in two variants
 - with `-DDEBUG`, to catch assertions.
 
 
-These settings are made in [ghc/.travis.yml](/trac/ghc/browser/ghc/.travis.yml)[](/trac/ghc/export/HEAD/ghc/.travis.yml). You can experiment with different settings in a `wip/...` branch.
+These settings are made in [ghc/.travis.yml](/trac/ghc/browser/ghc/.travis.yml)[](/trac/ghc/export/HEAD/ghc/.travis.yml). You can conveniently experiment with different settings in a `wip/...` branch.
 
 ## Statuses
 
@@ -48,7 +48,10 @@ These settings are made in [ghc/.travis.yml](/trac/ghc/browser/ghc/.travis.yml)[
 ## Mail status
 
 
-Travis is not 100% reliable for as, as we occasionally hit the time limit. Therefore, mails about failing reports are sent to Joachim and the [ghc-builds](mailing-lists-and-irc) mailing lists. If we can improve this, we could make Travis send mails directly to the commiter.
+Travis is not 100% reliable for us, as we occasionally hit the time limit. Therefore, mails about failing reports are sent to Joachim and the [ghc-builds](mailing-lists-and-irc) mailing lists. Joachim will report true positives to `ghc-dev` or the commiter directly.
+
+
+If we can improve this, we could make Travis send mails directly to the commiter.
 
 
 Again, this is configured in [ghc/.travis.yml](/trac/ghc/browser/ghc/.travis.yml)[](/trac/ghc/export/HEAD/ghc/.travis.yml). This also means that if you have a long-living feature branch you can put your own address in the file.
