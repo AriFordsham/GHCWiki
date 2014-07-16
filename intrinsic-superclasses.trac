@@ -65,5 +65,15 @@ and, moreover, we could have chosen to give `Monad` its own specialized `fmap`
   fmap f ma = ma >>= \ a -> return (f a)
 }}}
 
-'''Requirement 3''' Subclasses declarations should somehow be able to override default definitions from their superclass declarations. Such overriding default definitions should be further overridable in sub-subclass declarations and in instance definitions.
+'''Requirement 3''' Subclass declarations should somehow be able to override default definitions from their superclass declarations. Such overriding default definitions should be further overridable in sub-subclass declarations and in instance definitions.
+
+Even if we can build a technology which supports such a treatment, we face further problems rolling it out across the legacy codebase. We hit some trouble if we take an existing subclass and make it intrinsic, e.g.,
+{{{
+class (instance Eq x) => Ord x where
+  compare :: x -> x -> Ordering
+  x == y = case compare x y of {EQ -> True; _ -> False}
+}}}
+because every old `Ord` instance will now generate an `Eq` instance for which a duplicate ''must'' already exist. Worse is the situation with `Monad` and `Applicative` where we make an existing class into a ''new'' superclass and make it intrinsic: the prior constraints no longer make the whereabouts of duplicated `Applicative` instances particularly predictable.
+
+'''Requirement 4''' At least transitionally, we must somehow ensure that client code which supplies explicit instances now duplicated by intrinsic superclass instances is broken as infrequently as possible.
 
