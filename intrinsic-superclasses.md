@@ -164,6 +164,8 @@ Firstly, let us talk about the stuff which gets declared in classes, defined by 
 
 In current Haskell, all members are immediate, but this proposal seeks to change that. Similarly, the only defaulted members we currently have are immediately defaulted immediate members. Data families cannot be defaulted (because that could lead to the duplication of data constructors), but methods and type families can be defaulted.
 
+**Fact***The name of a class member uniquely determines the class of which it is an immediate member.*
+
 
 Next, let us fix terminology for talking about the superclasses of a class.
 
@@ -177,16 +179,18 @@ Note that the use of "immediate" is consistent in that it applies to things whic
 
 Now, let us allow some superclass constraints in class declarations to be labelled with the `instance` keyword.
 
-*decl* ::= ...
+*toplevel* ::= ...
 
 >
-> \| `class` (*sups*`=>`)? *Name**name*+ `where`*members*
+> \| `class` (*sups*`=>`)? *Name**name*+ `where`*declarations*
 
 *sups* ::= *sup* \| `(`*sup*,\*`)`
 
 *atom* ::= *Name**type*+
 
-*sup* ::= *atom* \| `instance`*atom* (`-`*Name*+)
+*closure* ::= *atom* (`-`*Name*+)?
+
+*sup* ::= *atom* \| `instance`*closure*
 
 
 (Grammar grammar: postfix ? for 0 or 1, postfix + for 1 or more, postfix ,\* for 0 or more comma-separated)
@@ -197,3 +201,123 @@ We can say what are the "intrinsic" superclasses of a class, with "immediate" an
 - An **immediate intrinsic superclass** S of a class C is any class *Name*d in an `instance`*sup* in the declaration of C.
 - An **intrinsic superclass** of C is either C or a proper intrinsic superclass of C
 - A **proper intrinsic superclass** of C is an intrinsic superclass of an immediate intrinsic superclass of C.
+
+
+Of course, the above is an inductive definition, so it gives rise to a notion of **intrinsic superclass derivation**, being the explanation why some S is an intrinsic superclass of some C.
+
+
+Every *closure* formula, F, has an **intrinsic closure**, IC(F), being the multiset of atomic formulae given by tracing each intrinsic superclass derivation of F's named class without passing through the classes explicitly listed after the `-` sign, substituting actual for formal parameters. E.g,
+
+- IC(`Monad []`) = {`Monad []`, `Applicative []`, `Functor []`}
+- IC(`Monad [] - Functor`) = {`Monad []`, `Applicative []`}
+- IC(`Monad [] - Applicative`) = {`Monad []`}
+
+
+and if we had
+
+```wiki
+class (instance Ord [x]) => Blah x where ...
+```
+
+
+then
+
+- IC(`Blah Int`) = {`Blah Int`, `Ord [Int]`, `Eq [Int]`}
+
+
+We shall also need to talk about instances:
+
+*toplevel* ::= ...
+
+>
+> \| `instance` (*constrs*`=>`)? *closure*`where`*definitions*
+
+*constrs* ::= *atom* \| `(`*atom*,\*`)`
+
+
+Let us define the key underlying notion of instance with which we work:
+
+- An **immediate** C **instance** for some As `=>` C ts, is the means to define the immediate members of C for actual parameters ts, whenever the constraints As hold.
+
+
+At present, all instances are immediate. We have an existing technology for managing the implicit inference of class dictionaries given immediate instances for the productions made explicit in `instance` definitions in source code. The point, however, is to liberalize the notion of "member" whilst still being able to generate immediate instances internally from the instances written by the programmer.
+
+## The Proposal
+
+**Action 1***The members of a class C shall be the immediate members of the intrinsic superclasses of C. An instance targeting closure forumla F may define immediate members of all the classes named in IC(F)*
+
+
+Note that this action makes the members of C the members of the intrinsic superclasses of C (including C itself, of course). The effect is to let C's instances give definitions for not only C's immediate members but also those it has by virtue of intrinsic superclasses. We may now write
+
+```wiki
+instance Applicative Square where
+  pure a = a :& a
+  (f :& g) <*> (a :& b) = f a :& g b
+  fmap f (a :& b) = f a :& f b
+```
+
+
+or
+
+```wiki
+instance Applicative Square - Functor where
+  pure a = a :& a
+  (f :& g) <*> (a :& b) = f a :& g b
+instance Functor Square
+  fmap f (a :& b) = f a :& f b
+```
+
+
+but not
+
+```wiki
+instance Applicative Square - Functor where
+  pure a = a :& a
+  (f :& g) <*> (a :& b) = f a :& g b
+  fmap f (a :& b) = f a :& f b  -- oops
+```
+
+
+To give this a clear semantics, we need to ensure that we can take an instance for a production, As `=>` F and split it into immediate instances for the productions {As `=>` S \| S in IC(F)}. A sufficient condition for achieving this is to make sure that the intrinsic closure of any atomic constraint have distinct class names, so that it is clear how to distribute members to immediate instances by the above Fact. Let us enforce this condition.
+
+**Action 2***By policy, intrinsic superclass derivations are unique. Class declarations which violate this policy are rejected.*
+
+
+E.g., we reject
+
+```wiki
+class (instance Applicative f, instance Traversable f) => Transposable f where...
+```
+
+
+because we could then derive that `Functor` is an intrinsic superclass of `Transposable` (perhaps with different default `fmap` definitions) in two ways. We also forbid
+
+```wiki
+class (instance Tweedle dum, instance Tweedle dee) => Diddly dum dee where ...
+```
+
+
+because we have no uniform way to send `Tweedle` members to the appropriate immediate instance.
+
+**Action 3***The defaulted members of a class C shall be the immediately defaulted members of C or the defaulted members of C's immediate intrinsic superclasses, with the immediate default definitions prioritized over the superclass defaults.*
+
+
+We may thus write
+
+```wiki
+class (instance Functor f) => Applicative f where
+  return, pure :: x -> f x
+  pure = return
+  (<*>)  :: f (a -> b) -> f a -> f b
+  fmap = (<*>) . return
+class (instance Applicative m) => Monad m where
+  (>>=) :: m a -> (a -> m b) -> m b
+  mf <*> ma = mf >>= \ f -> ma >>= \ a -> return (f a)
+  fmap f ma = ma >>= \ a -> return (f a)
+```
+
+
+and note that
+
+- `<*>` is not a defaulted member of `Applicative`, but it is a defaulted member of `Monad`;
+- `fmap` is a defaulted member of both `Applicative` and `Monad` but with different default definitions.
