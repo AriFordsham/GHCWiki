@@ -2,6 +2,8 @@
 
 = Default superclass instances =
 
+'''Note''' a new version of this proposal, IntrinsicSuperclasses, with a revised notation is beginning to appear.
+
 A matter of much consternation, here is a proposal to allow type class declarations to include default instance declarations for their superclasses. Moreover, subclass instance declarations should be able to override the method definitions in their default superclass instances. It's based on [http://www.haskell.org//pipermail/haskell-prime/2006-August/001587.html Jón Fairbairn's proposal], but it has a more explicit 'off switch' and the policy on corner-cases is rejection. Credit is due also to the [http://www.haskell.org/haskellwiki/Superclass_defaults superclass defaults proposal],  [http://www.haskell.org/haskellwiki/Class_system_extension_proposal class system extension proposal] and its ancestors, in particular, John Meacham's [http://repetae.net/recent/out/classalias.html class alias] proposal.
 
 We may distinguish two uses of superclasses (not necessarily exclusive). 
