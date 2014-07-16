@@ -107,7 +107,7 @@ $ arc diff # update existing review
 ### Notes on `arc diff`
 
 
-Note that when you run `arc diff`, it will drop you into an editor to summarize your commit message, add a **test plan**, and **reviewers**, and optionally any **subscribers**. Subscribers will be notified of changes to a review. Reviewers are a set of people who must look at the review. A **test plan** just specifies how you can verify the change - feel free to make it simple and just say 'validate' or otherwise something silly.
+Note that when you run `arc diff`, it will drop you into an editor to summarize your commit message, add a **test plan**, and **reviewers**, and optionally any **subscribers**. Subscribers will be notified of changes to a review. Reviewers are a set of (comma separated) people who must look at the review. These people have the same usernames as they do on Trac, with one exception: `austin` is Phab's username for Trac's `thoughtpolice`. A **test plan** just specifies how you can verify the change - feel free to make it simple and just say 'validate' or otherwise something silly.
 
 **A change cannot be merged until at least one reviewer has signed off**. All revisions must have at least one reviewer. Ideally, multiple people will review a change.
 
