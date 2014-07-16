@@ -53,3 +53,39 @@ class S x => C x where
 because (technically) `g` is no longer in scope for the default `f` definition and (morally) because only the `S`s which are also `C` should have that default definition anyway: the default `f` definition rightly belongs in the declaration of `C`, but `f` is not a method of `C`.
 
 **Requirement 2** Some subclasses should somehow be able to offer default definitions for things in some of their superclasses.
+
+
+If only we could write something like
+
+```wiki
+class S x where
+  f :: ...
+class (instance S x) => C x where
+  g :: ...
+  f =  ...g...
+```
+
+
+where the extra `instance` marking the superclass constraint makes `S` an **intrinsic** superclass of `C`, so that `f` can be treated as if it were a method of `C` for purposes of `C`'s instances and for default definition in the `C` class declaration.
+
+
+If this machinery had been in place when `Applicative` was invented, we could just have given
+
+```wiki
+class (instance Functor f) => Applicative f where
+  return :: x -> f x
+  (<*>)  :: f (a -> b) -> f a -> f b
+  fmap = (<*>) . return
+class (instance Applicative m) => Monad m where
+  (>>=) :: m a -> (a -> m b) -> m b
+  mf <*> ma = mf >>= \ f -> ma >>= \ a -> return (f a)
+```
+
+
+and, moreover, we could have chosen to give `Monad` its own specialized `fmap`
+
+```wiki
+  fmap f ma = ma >>= \ a -> return (f a)
+```
+
+**Requirement 3** Subclasses declarations should somehow be able to override default definitions from their superclass declarations. Such overriding default definitions should be further overridable in sub-subclass declarations and in instance definitions.
