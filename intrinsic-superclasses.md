@@ -146,7 +146,7 @@ instance Traversable Square where
 
 to inhibit the `Functor` instance arising from `Monad` but retain that from `Traversable`. It is probably a good thing in any case to be clear about which instances should be generated and which not.
 
-**Requirement 6** Except for managing the transition of legacy code, we should ensure that the meaning of an instance definition is clear only from its class declaration (and those of its superclasses) and not deduced from the presence or absence of other instances.
+**Requirement 6** The meaning of an instance definition should be clear only from its class declaration (and those of its superclasses) and not deduced from the presence or absence of other instances.
 
 ## Terminology and Notation
 
@@ -312,6 +312,7 @@ class (instance Functor f) => Applicative f where
   fmap = (<*>) . return
 class (instance Applicative m) => Monad m where
   (>>=) :: m a -> (a -> m b) -> m b
+  pure = return
   mf <*> ma = mf >>= \ f -> ma >>= \ a -> return (f a)
   fmap f ma = ma >>= \ a -> return (f a)
 ```
@@ -321,3 +322,60 @@ and note that
 
 - `<*>` is not a defaulted member of `Applicative`, but it is a defaulted member of `Monad`;
 - `fmap` is a defaulted member of both `Applicative` and `Monad` but with different default definitions.
+
+
+(By the way, the above negotiation with `return` and `pure` should allow existing `Applicative` instances to work as intended, but generate a warning that `return` has not been defined.)
+
+
+This proposal satisfies Requirements 1,2,3,5 and 6. However, it breaks plenty of code, so it fails Requirement 4. That comes next.
+
+## Transitional Relief for Legacy Code
+
+
+In the discussion of Action 1, an example conspicuous by its absence is the status quo:
+
+```wiki
+instance Applicative Square where
+  pure a = a :& a
+  (f :& g) <*> (a :& b) = f a :& g b
+instance Functor Square
+  fmap f (a :& b) = f a :& f b
+```
+
+
+The proposal as it stands implies that the `Applicative Square` instance would generate an instance for `Functor`, duplicating the explicit instance. Indeed, whenever we make an existing superclass intrinsic, every instance of the subclass duplicates an instance which must exist in the legacy codebase. Think of all those `deriving (Eq,Ord)`s!
+Requirement 4 is distinctly unsatisfied.
+
+
+To do better at Requirement 4, we can choose to sacrifice Requirement 6 by throwing out the parts of an intrinsic closure which are already "pre-empted" by explicit instances. To do so would recover the above legacy declaration, but still exclude
+
+```wiki
+instance Applicative Square where
+  pure a = a :& a
+  (f :& g) <*> (a :& b) = f a :& g b
+  fmap = (<*>) . pure
+instance Functor Square
+  fmap f (a :& b) = f a :& f b
+```
+
+
+We should not encourage such definitions, but we surely must be able to live with them until people update to the new technology. One suitably nuanced approach might be to support a pragma in class declarations which allows intrinsic superclasses to be pre-empted on an individual basis. For the above, we should have written
+
+```wiki
+class ({-# PRE-EMPT #-}instance Functor f) => Applicative f where
+  ...
+```
+
+
+to signal that an intrinsic closure computation can be cut short at that point by an explicit instance.
+
+**Action 4***An immediate intrinsic superclass marked `{-# PRE-EMPT #-}` will not contribute to an intrinsic closure if the corresponding instance is explicitly in scope. A warning will be issued when this pre-emption happens.*
+
+
+When we make an existing superclass intrinsic, we can thus ensure no code breakage for the transitional period where we allow pre-emption, whilst issuing warnings to fix code soon.
+
+
+We still face legacy problems when we make an old class into a new intrinsic superclass, as we will with `Applicative` for `Monad`. Modules which make new things `Applicative` and `Monad`ic will be fine, but if a module imports a `Monad` and makes it `Applicative`, we will have an unavoidable duplicate. It seems dangerous to allow silently generate code to pre-empt explicit code, and even if we did, we could not be sure that the generated instance would have constraints as generous as the later explicit instance, so code compiled with the latter might break against the former.
+
+
+We might hope that, in future, people might become sufficiently good at deciding to make immediate superclasses intrinsic from the start that we can do away with the need for pre-emption. It seems a necessary evil now.
