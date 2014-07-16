@@ -379,3 +379,61 @@ We still face legacy problems when we make an old class into a new intrinsic sup
 
 
 We might hope that, in future, people might become sufficiently good at deciding to make immediate superclasses intrinsic from the start that we can do away with the need for pre-emption. It seems a necessary evil now.
+
+## Multiple Instances
+
+
+We might consider allowing a single `instance` declaration to define multiple instances explicitly, provided we retain the property that it is clear how to split their members into immediate instances and how to find default members. E.g. we might write
+
+```wiki
+data Fred = Fred
+instance (Read Fred, Show Fred) where
+  read _ = Fred
+  show _ = "Fred"
+```
+
+
+Just as before, we should have to exclude
+
+```wiki
+instance (Monad Square, Traversable Square) where
+  return a = a :& a
+  (a :& a') >>= f = case (f a, f a') of
+    (b :& _, _ :& b') -> b :& b'
+  traverse f (a :& a') = return (:&) <*> f a <*> f a'
+```
+
+
+because it is not clear which default `Functor` instance is intended. But we would allow
+
+```wiki
+instance (Monad Square - Functor, Traversable Square) where
+  return a = a :& a
+  (a :& a') >>= f = case (f a, f a') of
+    (b :& _, _ :& b') -> b :& b'
+  traverse f (a :& a') = return (:&) <*> f a <*> f a'
+```
+
+
+It would seem churlish to require such definitions to exclude explicitly instances which are present explicitly in the very same header. Nor would it be in violation of Requirement 6, as the pre-emption would happen within a single instance declaration. Such pre-emption needs no warning.
+
+
+Note that one could then write
+
+```wiki
+instance (Monad Square, Traversable Square, Functor Square) where
+  return a = a :& a
+  (a :& a') >>= f = case (f a, f a') of
+    (b :& _, _ :& b') -> b :& b'
+  traverse f (a :& a') = return (:&) <*> f a <*> f a'
+```
+
+
+and compile to get a warning that the promised explicit `Functor` instance is missing its implementation of `fmap`.
+
+
+The same logic should clearly apply to `deriving` clauses, so that (e.g. for `Square`)
+
+- `deriving Ord` gives `Ord a => Ord (Square a)` as usual and `Ord a => Eq (Square a)` with default implementation;
+- `deriving (Ord, Eq) gives `Ord a =\> Ord (Square a)` and `Eq a =\> Eq (Square a)\`, with no pre-emption warning;
+- `deriving (Ord - Eq) gives just `Ord a =\> Ord (Square a)` requiring a separate hand-rolled `Eq (Square a)\` instance.
