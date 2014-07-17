@@ -1,8 +1,10 @@
 = GHC Status =
 
-== Nightly builds ==
+== Automated builds and performance testing ==
 
-'''New'''! New buildbots are up. Check [http://haskell.inf.elte.hu/builders/ the status page] for more.
+We have several automated ways of monitoring GHC.  Each has its own detailed description page.
+ * [http://haskell.inf.elte.hu/builders/ Buildbots] build GHC every night on multiple platforms.
+ * [wiki:Travis] watches the repository for new commits (any branch) and validates them.
 
 == Biannual status reports ==
 
