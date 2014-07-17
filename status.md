@@ -1,8 +1,13 @@
 # GHC Status
 
-## Nightly builds
+## Automated builds and performance testing
 
-**New**! New buildbots are up. Check [ the status page](http://haskell.inf.elte.hu/builders/) for more.
+
+We have several automated ways of monitoring GHC.  Each has its own detailed description page.
+
+- [Buildbots](builder-summary) build GHC every night on multiple platforms.
+- [Travis](travis) watches the repository for new commits (any branch) and validates them.
+- \[[ http://ghcspeed-nomeata.rhcloud.com/](http://ghcspeed-nomeata.rhcloud.com/) Our performance dashboard\] (experimental) monitors changes in the performance of GHC itself, and of programs compiled by GHC, with a per-commit granularity.
 
 ## Biannual status reports
 
