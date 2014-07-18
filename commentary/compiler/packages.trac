@@ -64,20 +64,22 @@ To find out what the current package is, grab the field {{{thisPackage}}} from {
 
 == Special packages ==
 
-Certain packages are special, in the sense that GHC knows about their existence and something about their contents.  Any [wiki:Commentary/Compiler/NameType Name] that is [wiki:Commentary/Compiler/WiredIn wired-in] (see [[GhcFile(compiler/prelude/PrelNames.lhs)]]) must by definition contain a {{{Module}}}, and that module must therefore contain a {{{PackageId}}}.  But the {{{PackageId}}} is a full package name, including the version, so does this mean we have to somehow find out the version of the {{{base}}} package (for example) and bake it into the GHC binary?
+Certain packages are special, in the sense that GHC knows about their existence and something about their contents.  Any [wiki:Commentary/Compiler/NameType Name] that is [wiki:Commentary/Compiler/WiredIn wired-in] (see [[GhcFile(compiler/prelude/PrelNames.lhs)]]) must by definition contain a {{{Module}}}, and that module must therefore contain a {{{PackageId}}}.  But the {{{PackageId}}} includes the version, so does this mean we have to somehow find out the version of the {{{base}}} package (for example) and bake it into the GHC binary?
 
 We took the view that it should be possible to upgrade these packages independently of GHC, so long as you don't change any of the information that GHC knows about the package (eg. the type of {{{fromIntegral}}} or what module things come from).  Therefore we shouldn't bake in the version of any packages.  So the {{{PackageId}}} for the {{{base}}} package inside GHC is simply {{{base}}}: we explicitly strip off the version number for special packages wherever they occur.  
 
 This does have the consequence that you cannot use multiple versions of a special package simultaneously in a program, but we believe that is unlikely for these packages anyway.  Another consequence is that symbol names for entities from special packages will not include the version number, which saves some space in the object files.
 
-The following packages are special in GHC 6.6:
+The following packages are special in GHC 7.8:
 
+ * {{{ghc-prim}}}
+ * {{{integer-gmp}}}
  * {{{base}}}
  * {{{rts}}}
- * {{{haskell98}}}
  * {{{template-haskell}}}
+ * {{{dph-seq}}} and {{dph-par}}
 
-The special {{{PackageId}}}s are defined in [[GhcFile(compiler/main/PackageConfig.hs)]], and the stripping of versions from special packages in the package database happens in {{{initPackages}}} in [[GhcFile(compiler/main/Packages.lhs)]].
+The definition of which packages are special and the stripping of versions from the package database happens in {{{findWiredInPackages}}} in [[GhcFile(compiler/main/Packages.lhs)]]: we literally just rewrite the {{{sourcePackageId}}} associated with the package.
 
 == Symbol names ==
 
