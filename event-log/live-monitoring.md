@@ -177,7 +177,11 @@ newtype EventHandle = EventHandle Header Handle
 
 
 -- Public
+data EventHandle
+
 openEventHandle :: Handle -> IO EventHandle
+-- Opens the event stream from the specified handle,
+-- reads the header info, and initialises the EventHandle
 
 getEvent :: EventHandle -> IO (Maybe Event)
 
