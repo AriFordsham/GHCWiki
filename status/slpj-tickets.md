@@ -1,7 +1,8 @@
 # This page collects tickets that Simon PJ is interested in, so that he remembers them
 
-## Urgent
+## Urgent or in-flight
 
+- [\#8634](https://gitlab.haskell.org//ghc/ghc/issues/8634): relaxing functional dependency rules `-XDysFunctionalDependencies`
 - [\#8980](https://gitlab.haskell.org//ghc/ghc/issues/8980), [\#8941](https://gitlab.haskell.org//ghc/ghc/issues/8941) (possibly), [\#8960](https://gitlab.haskell.org//ghc/ghc/issues/8960), [\#7898](https://gitlab.haskell.org//ghc/ghc/issues/7898), [\#7068](https://gitlab.haskell.org//ghc/ghc/issues/7068), [\#7944](https://gitlab.haskell.org//ghc/ghc/issues/7944), [\#5550](https://gitlab.haskell.org//ghc/ghc/issues/5550), [\#8836](https://gitlab.haskell.org//ghc/ghc/issues/8836): `SpecConstr` blowup
 
 ## Front end
