@@ -24,4 +24,10 @@ I have tested package building only on Intel Leopard with Xcode 3.0.  I expect t
 ## Where is the code?
 
 
-All code and documents needed to build Mac installers is below `distrib/MacOS`.  There is an Xcode project `GHC.xcodeproj` that builds GHC appropriately, creates the framework structure (at `/tmp/GHC.dest/Library/Frameworks`), and installs GHC into that framework structure.  Moreover the PackageMaker document `GHC-system.pmdoc` specifies the installer package layout and meta information.  The post-install script setting up the links and the uninstaller are in the `installer-scripts` directory.
+All code and documents needed to build Mac installers is below `distrib/MacOS`.  There is an Xcode project `GHC.xcodeproj` that builds GHC appropriately, creates the framework structure (at `/tmp/GHC.dest/Library/Frameworks`), and installs GHC into that framework structure.  Moreover the PackageMaker document `GHC-system.pmdoc` specifies the installer package layout and meta information.  The post-install script setting up the links and the uninstaller are in the `installer-scripts` directory. 
+
+
+NB: This is no longer true for recent versions of the repository.  There is no `distrib/MacOS` .  A new build system is under development called `haskell-platform`.  See [ https://github.com/haskell/haskell-platform/tree/new-build](https://github.com/haskell/haskell-platform/tree/new-build) for further details. 
+
+
+A self-contained relocatable binary release for Mac OS X, that avoids the need for putting files in `/usr/bin`, etc, can be found at [ https://github.com/ghcformacosx/ghc-dot-app](https://github.com/ghcformacosx/ghc-dot-app).  This is probably the least intrusive way of getting a version of GHC onto a Mac at present (mid-2014) and will allow you to build GHC from source (other than the documentation).  
