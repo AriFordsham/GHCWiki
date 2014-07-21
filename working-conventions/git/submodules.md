@@ -83,6 +83,8 @@ So, in order to make change to a submodule you can either:
 
 >
 > 1) Work directly on the detached HEAD in the submodule directory.
+
+>
 > 2) Checkout the respective branch the commit is supposed to be pointed at from (normally `master`).
 
 
@@ -136,7 +138,11 @@ There are server-side validation hooks in place on `git.haskell.org` to make sur
 
 >
 > 1) If you update a submodule pointer,
+
+>
 > 2) You had to have pushed it upstream already,
+
+>
 > 3) And you have to say the word 'submodule' in the commit.
 
 ## Upstream repositories
