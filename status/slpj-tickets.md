@@ -6,6 +6,7 @@
 - [\#9318](https://gitlab.haskell.org//ghc/ghc/issues/9318): bad type error caused by wanted/wanted solving (talk to Dimitrios)
 - [\#8980](https://gitlab.haskell.org//ghc/ghc/issues/8980), [\#8941](https://gitlab.haskell.org//ghc/ghc/issues/8941) (possibly), [\#8960](https://gitlab.haskell.org//ghc/ghc/issues/8960), [\#7898](https://gitlab.haskell.org//ghc/ghc/issues/7898), [\#7068](https://gitlab.haskell.org//ghc/ghc/issues/7068), [\#7944](https://gitlab.haskell.org//ghc/ghc/issues/7944), [\#5550](https://gitlab.haskell.org//ghc/ghc/issues/5550), [\#8836](https://gitlab.haskell.org//ghc/ghc/issues/8836): `SpecConstr` blowup
 - [\#9242](https://gitlab.haskell.org//ghc/ghc/issues/9242): per-instance pragmas for overlapping/incoherent
+- [\#9123](https://gitlab.haskell.org//ghc/ghc/issues/9123): higher order roles
 
 ## Front end
 
@@ -39,7 +40,6 @@
 
 - [\#9117](https://gitlab.haskell.org//ghc/ghc/issues/9117): rules for solving `Coercible` constraints
 - [\#9118](https://gitlab.haskell.org//ghc/ghc/issues/9118): Eta reduction for `Coercible` (not expressible in Core, yet)
-- [\#9123](https://gitlab.haskell.org//ghc/ghc/issues/9123): higher order roles
 - [\#6018](https://gitlab.haskell.org//ghc/ghc/issues/6018): injective type families
 - [\#8161](https://gitlab.haskell.org//ghc/ghc/issues/8161): associated type more specific than class decl
 - [\#8177](https://gitlab.haskell.org//ghc/ghc/issues/8177): role signature for type families
