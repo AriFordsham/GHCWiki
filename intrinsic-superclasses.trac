@@ -4,24 +4,33 @@
 
 == The Problem ==
 
-Sometimes we want to refactor the type class hierarchy, and it always hurts. The typical scenario is that we have a library class
+Sometimes we want to refactor the type class hierarchy, and it always hurts.
+
+(More broadly, we have the recurrent problem of how to program defensively against progress. We may wish for benevolent evolution in the library, but we have to program against the library as it stands, and then the granting of our wishes breaks our code!)
+
+=== Requirement 1: Some instance definitions in source code should generate multiple internal instances. ===
+
+The typical scenario is that we have a library class
 {{{
 class C x where
   f :: ...
   g :: ...
 }}}
-but then realise that `C` is the "has `g`" special case of a useful general notion `S`, so we would really prefer to have had the library supply
+but then realise that `C` is the "has `g`" special case of a useful general notion `S`. (`Monad` and `Applicative` are useful real life models for `C` and `S`, respectively). We would really prefer to have had the library supply
 {{{
 class S x where
   f :: ...
 class S x => C x where
   g :: ...
 }}}
-The cost of the generalization is that all our old `C` instances must be split into a `C` and an `S`. Client code breaks all over the place and people complain bitterly. This is the reason to resist making `Functor` and `Applicative` superclasses of `Monad`. It would have been pleasant to introduce `Applicative` as a generalization of `Monad` and somehow have all our old `Monad` instances generate `Applicative` instances too.
+The cost of putting this generalization into the library is that all the client code will break. Each client `C` instance will need an accompanying `S`. Busy people will complain bitterly that they haven't the time to add `S` instances everywhere, so the success of `C` will get in the way of insight about `S`. This is not a bad reason to resist making `Functor` and `Applicative` superclasses of `Monad`. It would have been pleasant to introduce `Applicative` as a generalization of `Monad` and somehow have all our old `Monad` instances generate `Applicative` instances too.
 
-'''Requirement 1''' It should somehow be possible for an instance definition in source code to generate more than one instance internally.
+We want to fix things so that `S` can be introduced in such a way that `C` instances in client code yield, by default, both `C` and `S` instances internally, each with the constraints given in the client code. The various definitions in client instances will need to be distributed to the appropriate internal instance.
 
-However, the problem deepens. What if we actually had
+
+=== Requirement 2: Some subclasses should give default definitions for things declared in their superclasses. ===
+
+Our refactoring problem deepens when classes define default methods. What if we actually had
 {{{
 class C x where
   f :: ...
@@ -37,8 +46,6 @@ class S x => C x where
   g :: ...
 }}}
 because (technically) `g` is no longer in scope for the default `f` definition and (morally) because only the `S`s which are also `C` should have that default definition anyway: the default `f` definition rightly belongs in the declaration of `C`, but `f` is not a method of `C`.
-
-'''Requirement 2''' Some subclasses should somehow be able to offer default definitions for things in some of their superclasses.
 
 If only we could write something like
 {{{
@@ -60,22 +67,57 @@ class (instance Applicative m) => Monad m where
   (>>=) :: m a -> (a -> m b) -> m b
   mf <*> ma = mf >>= \ f -> ma >>= \ a -> return (f a)
 }}}
-and, moreover, we could have chosen to give `Monad` its own specialized `fmap`
+
+Note that explicit `Functor` instances do not have a default implementation of `fmap` (that being rather the point of such instances), but that explicit `Applicative` and `Monad` would, under this proposal.
+
+
+=== Requirement 3: The most local definition is the definition. ===
+
+Requirement 2 implies that the default implementation of a method might come from somewhere other than the class declaration in which the method is declared. Indeed, there might be multiple defaults. We could choose to give `Monad` its own specialized `fmap`
 {{{
   fmap f ma = ma >>= \ a -> return (f a)
 }}}
 
-'''Requirement 3''' Subclass declarations should somehow be able to override default definitions from their superclass declarations. Such overriding default definitions should be further overridable in sub-subclass declarations and in instance definitions.
+Of course, instances can also offer definitions wich ovverride the defaults. We need to choose between these candidate definitions and the obvious way to do so is to apply the existing principle that the more local overrides the more generic.
 
-Even if we can build a technology which supports such a treatment, we face further problems rolling it out across the legacy codebase. We hit some trouble if we take an existing subclass and make it intrinsic, e.g.,
+If we gave `Monad` a default `fmap`, we should then expect that explicit `Functor` instances will not have a default `fmap` implementation, and that explicit `Applicative` instances will be offered the default `fmap` from the `Applicative` class declaration, but that explicit `Monad` instances should be offered the `Monad`-specific default instead.
+
+
+=== Requirement 4: Transitionally, we must minimize damage to client code with explicit instances now duplicated by intrinsic superclass instances. ===
+
+Even if we can build a technology which supports such a treatment, we face further problems rolling it out across the legacy codebase. We hit some trouble if we take an ''existing'' subclass and make it intrinsic, e.g.,
 {{{
 class (instance Eq x) => Ord x where
   compare :: x -> x -> Ordering
   x == y = case compare x y of {EQ -> True; _ -> False}
 }}}
-because every old `Ord` instance will now generate an `Eq` instance for which a duplicate ''must'' already exist. Worse is the situation with `Monad` and `Applicative` where we make an existing class into a ''new'' superclass and make it intrinsic: the prior constraints no longer make the whereabouts of duplicated `Applicative` instances particularly predictable.
+because every old `Ord` instance will now generate an `Eq` instance for which a duplicate ''must'' already exist.
 
-'''Requirement 4''' At least transitionally, we must somehow ensure that client code which supplies explicit instances now duplicated by intrinsic superclass instances is broken as infrequently as possible.
+Worse is the situation with `Monad` and `Applicative` where we make an existing class into a ''new'' superclass ''and'' make it intrinsic: the prior constraints no longer make the whereabouts of duplicated `Applicative` instances particularly predictable.
+
+Note that we might need to keep explicit instances, especially when they have weaker constraints than the defaults. E.g., if we leave it to the intrinsic machinery, we will find that
+{{{
+instance Monad m => Monad (StateT s m) where ...
+}}}
+generates
+{{{
+instance Monad m => Applicative (StateT s m) where ...
+}}}
+which would have been enough to keep alive client code just involving `Monad`, but misses the opportunity to weaken the constraint to
+{{{
+instance Applicative m => Applicative (StateT s m) where ...
+}}}
+The problem becomes worse when we make newly intrinsic an established superclass. We should very much dislike to have
+{{{
+instance Ord a => Eq [a] where ...  -- overconstrained
+}}}
+thrust upon us.
+
+It is far from obvious how to automate the recipe for weakening constraints in generated instances, so we shall have to be content with manual override for the time being.
+
+As a matter of routine, client code contains "missing instances": we resent their absence from the library so we write them ourselves, and then we resent them when they are added to the library because our workaround breaks. It is not at all obvious how to mitigate this problem.
+
+=== Requirement 5: Whatever mechanism we employ for generating instances, we need an explicit means to disable it. ===
 
 We face not only conflicts between explicit and intrinsic instances, but also between multiple intrinsic instances. We should expect
 {{{
@@ -96,8 +138,6 @@ instance Traversable Square where
 }}}
 then we have silently generated duplicate instances for `Functor Square` and no particular reason to choose one over the other.
 
-'''Requirement 5''' Whatever mechanism we employ for generating instances, we need an explicit means to disable it.
-
 We might perhaps write
 {{{
 data Square x = x :& x
@@ -108,9 +148,28 @@ instance Traversable Square where
 }}}
 to inhibit the `Functor` instance arising from `Monad` but retain that from `Traversable`. It is probably a good thing in any case to be clear about which instances should be generated and which not.
 
-'''Requirement 6''' The meaning of an instance definition should be clear only from its class declaration (and those of its superclasses) and not deduced from the presence or absence of other instances.
+We face the same problem when we want to declare multiple intrinsic superclasses. Imagine
+{{{
+class (instance Monad f, instance Traversable f) => Transposable f where...
 
-A helpful observation is that the language for describing which instances to generate from a given instance definition should be the same as the language for specifying which intrinsic superclass instances should be generated by default in a class declaration, because they are two manifestations of the same problem. In both cases, we need to perform a closure computation, tracing back from a given atomic constraint to find all the intrinsic superclasses which have not been explicitly excluded.
+instance Transposable Square where
+  ... -- which Functor Square do I get?
+}}}
+because we could then derive that `Functor` is an intrinsic superclass of `Transposable` (perhaps with different default `fmap` definitions) in two ways. We should adopt the same solution and allow exclusions when declaring intrinsic superclasses, e.g.,
+{{{
+class (instance Monad f - Functor, instance Traversable f) => Transposable f where...
+}}}
+
+That is, we need a suitable language for describing which set of internal instances we mean, for use both in the heads of instance definitions and in the intrinsic superclasses of class declarations. In both cases, we need to perform a closure computation, tracing back from a given atomic constraint to find all the intrinsic superclasses which have not been explicitly excluded.
+
+
+=== Desirable 6: The internal instances generated by an instance definition should be clear from its head and those of relevant class declarations. ===
+
+When you declare an instance, you should already be aware of which superclass instances must also exist, as documented in the head of the corresponding class declaration. This proposal changes the nature of the obligation (because some superclasses will be instantiated automatically unless you choose otherwise) but the specification is in the same place.
+
+The earlier DefaultSuperclassInstances proposal did not have this property: default superclass instances were declared and given default implementations in the ''bodies'' of class declarations, duplicating some information from the head even though they had similar impact on the instances generated.
+
+Note that this property is in conflict with Requirement 4: to maintain legacy code, we must restrict the generation of internal instances for intrinsic superclasses with attention to the instances which otherwise exist already, so that the meaning of one instance definition vary with the presence or absence of another. We should recognize this anomaly as a necessary evil and minimize its impact.
 
 
 == Terminology and Notation ==
