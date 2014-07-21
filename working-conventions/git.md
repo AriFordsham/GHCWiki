@@ -69,6 +69,28 @@ find . -name '*hs' | xargs file | grep CRLF
 
 Do this before you commit them!
 
+### Push access
+
+
+If you have commit access then you will need to also set the push URL:
+
+```wiki
+  $ ./sync-all -r ssh://git@git.haskell.org remote set-url --push origin
+```
+
+
+This uses the `ssh://` protocol (which has much higher latency due to the SSH handshake occurring for each connect) only for `git push` operations, and the very fast unauthenticated `git://` protocol for everything else.
+
+
+You will probably also want to run
+
+```wiki
+  $ git config --global diff.ignoreSubmodules dirty
+```
+
+
+to stop git in the ghc repo from checking for unrecorded changes in the submodules.
+
 # Working with the tree
 
 ## Tricks
