@@ -1,10 +1,7 @@
-
-This page as well as the [GitRepoReorganization](git-repo-reorganization) are still work in progress.
-
-
-See [\#8545](https://gitlab.haskell.org//ghc/ghc/issues/8545) for the current state of affairs.
-
 # Workflows for Handling GHC's Git Submodules
+
+
+GHC is a large project with several external dependencies. We use git submodules to track these repositories, and here you'll learn a bit about how to manage them.
 
 
 General information about Git's submodule support:
@@ -25,108 +22,10 @@ git clone --recursive git://git.haskell.org/ghc.git
 
 (Obviously, the clone URL can be replaced by any of the supported `ghc.git` URLs as listed on [ http://git.haskell.org/ghc.git](http://git.haskell.org/ghc.git))
 
-
-Cloning a specific branch, e.g. `ghc-7.10`; or a specific tag, e.g. `ghc-7.10.1-release`:
-
-```
-git clone -b ghc-7.10 --recursive git://git.haskell.org/ghc.git ghc-7.10.x
-```
-
-```
-git clone -b ghc-7.10.1-release --recursive git://git.haskell.org/ghc.git ghc-7.10.1
-```
-
-
-Older tags/branches which were not fully converted into a submodule-configuration, will require an additional `./sync-all get` step to synchronize.
-
-
-To clone from the [ GitHub GHC Mirror](http://github.com/ghc/ghc.git) configure Git URL rewriting as described in the next section, as the submodule url paths need to be rewritten (e.g. `../packages/deepseq.git` to `../packages-deepseq.git`) and then proceed as if cloning from `git.haskell.org` as described above (the actual network operations will be redirected to GitHub due to URL rewriting)
-
-### Using the GitHub GHC Mirror
-
-
-You can instruct `git` to rewrite repo URLs via the `git config url.<base>.insteadOf` facility. For instance, the following configuration (which gets written to `${HOME}/.gitconfig`, so this needs to be done only once) uses GitHub instead of `git.haskell.org` for synchronizing/cloning the GHC repos:
-
-```
-git config --global url."git://github.com/ghc/".insteadOf git://git.haskell.org/
-git config --global url."git://github.com/ghc/packages-".insteadOf git://git.haskell.org/packages/
-```
-
-
-(If needed, you can also add rewrite rules with `git://` substituted by `https://` or other schemes)
-
-#### Alternative GitHub rewrite rules
-
-
-The following rewrite rules are useful to have in place to compensate for the different repository naming scheme on the GitHub mirror (due to GitHub not supporting `/` in repository names):
-
-```
-git config --global url."git://github.com/ghc/packages-".insteadOf     git://github.com/ghc/packages/
-git config --global url."http://github.com/ghc/packages-".insteadOf    http://github.com/ghc/packages/
-git config --global url."https://github.com/ghc/packages-".insteadOf   https://github.com/ghc/packages/
-git config --global url."ssh://git@github.com/ghc/packages-".insteadOf ssh://git@github.com/ghc/packages/
-git config --global url."git@github.com:/ghc/packages-".insteadOf      git@github.com:/ghc/packages/
-```
-
-
-With these rules in place, you can safely clone directly from GitHub URLs, e.g.:
-
-```
-git clone --recursive git@github.com:/ghc/ghc
-```
-
-### Asymmetric push/pull Git Repo URLS
-
-#### Using `git config url.<base>.insteadOf`
-
-
-This subsection is mostly relevant to developers with `git push`-permissions.
-
-
-In addition to the `git config url.<base>.insteadOf` facility described in the previous section, there's also a `pushInsteadOf` facility which allows to rewrite only `push` operations and takes precedence over a respective `insteadOf` match. This can be used to use the faster (non-authenaticated) `http(s)://` or `git://` based transports for read-operations, and only use the more heavyweight authenticated `ssh://` transport for actual `git push` operations. Such an asymmetric push/pull setting can be configured **globally** like so:
-
-```
-git config --global url."ssh://git@git.haskell.org/".pushInsteadOf git://git.haskell.org/
-
-# If you want to cover all bases, you can also set the following rewrite rules
-git config --global url."ssh://git@git.haskell.org/".pushInsteadOf http://git.haskell.org/
-git config --global url."ssh://git@git.haskell.org/".pushInsteadOf https://git.haskell.org/
-```
-
-
-The advantages of this approach are listed in this [ email](http://www.haskell.org/pipermail/ghc-devs/2014-June/005135.html).
-
-#### By overriding `remote.origin.pushurl`
-
-
-It's recommended to use the scheme based on the `git config url.<base>.pushInsteadOf` facility described in the previous subsection instead of the one described in this subsection.
-
-
-This subsection is only relevant for developers with `git push`-permissions.
-
-
-Unless the GHC source tree was cloned from `ssh://git@git.haskell.org/ghc.git`, the resulting `pushurl`s will not point to a writable location.
-
-
-The following commands will configure appropriate push-URLs for `ghc.git` and all its (initialized) submodules:
-
-```
-git remote set-url --push origin ssh://git@git.haskell.org/ghc.git
-
-git submodule foreach 'git remote set-url --push origin \
-  ssh://git@git.haskell.org/$(git config -f $toplevel/.gitmodules --path "submodule.$name.url" | sed "s,^\.\./,,")'
-```
-
-
-You can display the currently used Git URLs for `git push` in submodules by:
-
-```
-# if unset, remote.origin.pushurl defaults to remote.origin.url
-git submodule foreach \
-'git config remote.origin.pushurl || git config remote.origin.url'
-```
-
 ## Updating an existing GHC source tree clone
+
+
+Sometimes when you pull in new commits, the authors updated a submodule. After pulling, you'll also need to update your submodules, or you'll get errors.
 
 
 At the top-level of `ghc.git` working copy:
@@ -180,7 +79,16 @@ to update `ghc.git` and all its submodules.
 It's very important to keep in mind that Git submodules track commits (i.e. not branches!) to avoid getting confused. Therefore, `git submodule update` will result in submodules having checked out a so-called [ detached HEAD](http://alblue.bandlem.com/2011/08/git-tip-of-week-detached-heads.html).
 
 
-So, in order to make change to a submodule you can either work directly on the detached HEAD, or checkout the respective branch the commit is supposed to be pointed at from. The example below will demonstrate the latter approach for the `utils/haddock` submodule:
+So, in order to make change to a submodule you can either:
+
+>
+> 1) Work directly on the detached HEAD in the submodule directory.
+
+>
+> 2) Checkout the respective branch the commit is supposed to be pointed at from (normally `master`. See the table below for the full branch/repo summary). 
+
+
+The example below will demonstrate the latter approach for the `utils/haddock` submodule:
 
 ```
 # do this *before* making changes to the submodule
@@ -223,9 +131,128 @@ git commit -m 'update haddock submodule ... blablabla'# finally, push the commit
 git push
 ```
 
+### Validation hooks
 
-There are server-side validation hooks in place to make sure for non-`wip/` branches that `ghc.git` never points to non-existing commits. Also, as a safe-guard against accidental submodule reference updates, the string `submodule` must occur somewhere in commit messages of commits updating submodule references.
+
+There are server-side validation hooks in place on `git.haskell.org` to make sure for non-`wip/` branches that `ghc.git` never points to non-existing commits. Also, as a safe-guard against accidental submodule reference updates, the string `submodule`**\*must occur somewhere in commit messages of commits**\* updating submodule references. So just remember that:
+
+>
+> 1) If you update a submodule pointer,
+
+>
+> 2) You had to have pushed it upstream already,
+
+>
+> 3) And you have to say the word 'submodule' in the commit.
+
+## Upstream repositories
+
+
+Below is a table summarizing the repositories GHC uses. It lists the upstream location of the repository, and the branch name. All the upstream repositories are either located on `git.haskell.org` or `github.com` as of right now.
+
+- Patches for `git.haskell.org` repositories should go to GHC developers. Developers can push to these repositories directly.
+
+- Patches for `github.com` repositories should be made into Pull Requests on GitHub. GHC developers have access to the repositories under the `haskell` organization in particular, and can push directly.
+
+
+As stated above - GHC tracks the branch listed here for the specific repository. If you're going to base your change on a branch, always do it on this one, and make sure your change is on the specified branch. Then update the submodule.
+
+<table><tr><th>**Location in tree**</th>
+<th>**Upstream repo**</th>
+<th>**Upstream GHC branch**</th></tr>
+<tr><th>utils/hsc2hs</th>
+<th>https://git.haskell.org/hsc2hs.git</th>
+<th>master</th></tr>
+<tr><th>utils/haddock</th>
+<th>https://github.com/haskell/haddock</th>
+<th>master</th></tr>
+<tr><th>nofib</th>
+<th>https://git.haskell.org/nofib.git</th>
+<th>master</th></tr>
+<tr><th>libraries/array</th>
+<th>https://git.haskell.org/packages/array.git</th>
+<th>master</th></tr>
+<tr><th>libraries/binary</th>
+<th>https://github.com/haskell/binary</th>
+<th>master</th></tr>
+<tr><th>libraries/bytestring</th>
+<th>https://github.com/haskell/bytestring</th>
+<th>master</th></tr>
+<tr><th>libraries/Cabal</th>
+<th>https://github.com/haskell/Cabal</th>
+<th>master</th></tr>
+<tr><th>libraries/containers</th>
+<th>https://github.com/haskell/containers</th>
+<th>master</th></tr>
+<tr><th>libraries/deepseq</th>
+<th>https://git.haskell.org/packages/deepseq.git</th>
+<th>master</th></tr>
+<tr><th>libraries/directory</th>
+<th>https://git.haskell.org/packages/directory.git</th>
+<th>master</th></tr>
+<tr><th>libraries/filepath</th>
+<th>https://git.haskell.org/packages/filepath.git</th>
+<th>master</th></tr>
+<tr><th>libraries/haskeline</th>
+<th>https://github.com/judah/haskeline</th>
+<th>master</th></tr>
+<tr><th>libraries/haskell98</th>
+<th>https://git.haskell.org/packages/haskell98.git</th>
+<th>master</th></tr>
+<tr><th>libraries/haskell2010</th>
+<th>https://git.haskell.org/packages/haskell2010.git</th>
+<th>master</th></tr>
+<tr><th>libraries/hoopl</th>
+<th>https://git.haskell.org/packages/hoopl.git</th>
+<th>master</th></tr>
+<tr><th>libraries/hpc</th>
+<th>https://git.haskell.org/packages/hpc.git</th>
+<th>master</th></tr>
+<tr><th>libraries/old-locale</th>
+<th>https://git.haskell.org/packages/old-locale.git</th>
+<th>master</th></tr>
+<tr><th>libraries/old-time</th>
+<th>https://git.haskell.org/packages/old-time.git</th>
+<th>master</th></tr>
+<tr><th>libraries/process</th>
+<th>https://git.haskell.org/packages/process.git</th>
+<th>master</th></tr>
+<tr><th>libraries/terminfo</th>
+<th>https://github.com/judah/terminfo</th>
+<th>master</th></tr>
+<tr><th>libraries/time</th>
+<th>https://github.com/haskell/time</th>
+<th>master</th></tr>
+<tr><th>libraries/unix</th>
+<th>https://github.com/haskell/unix</th>
+<th>master</th></tr>
+<tr><th>libraries/Win32</th>
+<th>https://git.haskell.org/packages/Win32.git</th>
+<th>master</th></tr>
+<tr><th>libraries/xhtml</th>
+<th>https://github.com/haskell/xhtml</th>
+<th>master</th></tr>
+<tr><th>libraries/random</th>
+<th>https://github.com/haskell/random</th>
+<th>master</th></tr>
+<tr><th>libraries/primitive</th>
+<th>https://github.com/haskell/primitive</th>
+<th>master</th></tr>
+<tr><th>libraries/vector</th>
+<th>https://github.com/haskell/vector</th>
+<th>master</th></tr>
+<tr><th>libraries/dph</th>
+<th>https://git.haskell.org/packages/dph.git</th>
+<th>master</th></tr>
+<tr><th>libraries/parallel</th>
+<th>https://git.haskell.org/packages/parallel.git</th>
+<th>master</th></tr>
+<tr><th>libraries/stm</th>
+<th>https://git.haskell.org/packages/stm.git</th>
+<th>master</th></tr></table>
 
 ## TODO
 
 - Describe how to make use of `git submodule update --remote`
+- Describe darcs mirroring for `transformers`
+- Describe status of `pretty` which is one-off at the moment and doesn't exactly track upstream.
