@@ -35,7 +35,7 @@ class S x => C x where
 The cost of putting this generalization into the library is that all the client code will break. Each client `C` instance will need an accompanying `S`. Busy people will complain bitterly that they haven't the time to add `S` instances everywhere, so the success of `C` will get in the way of insight about `S`. This is not a bad reason to resist making `Functor` and `Applicative` superclasses of `Monad`. It would have been pleasant to introduce `Applicative` as a generalization of `Monad` and somehow have all our old `Monad` instances generate `Applicative` instances too.
 
 
-We want to fix things so that `S` can be introduced in such a way that `C` instances in client code yield, by default, both `C` and `S` instances internally, each with the constraints given in the client code. The various definitions in client instances will need to be distributed to the appropriate internal instance.
+We want to fix things so that `S` can be introduced in such a way that `C` instances in client code yield, by default, both `C` and `S` instances internally, each with the constraints given in the client code. We do not imagine that all superclasses should have this relationship with their subclasses, but that some **intrinsic** superclasses might. The various definitions in client instances will need to be distributed to the appropriate internal instances of the class itself and its intrinsic superclasses.
 
 ### Requirement 2: Some subclasses should give default definitions for things declared in their superclasses.
 
@@ -63,8 +63,7 @@ class S x => C x where
 
 because (technically) `g` is no longer in scope for the default `f` definition and (morally) because only the `S`s which are also `C` should have that default definition anyway: the default `f` definition rightly belongs in the declaration of `C`, but `f` is not a method of `C`.
 
-
-If only we could write something like
+**Imagined solution.** If only we could write something like
 
 ```wiki
 class S x where
@@ -75,7 +74,7 @@ class (instance S x) => C x where
 ```
 
 
-where the extra `instance` marking the superclass constraint makes `S` an **intrinsic** superclass of `C`, so that `f` can be treated as if it were a method of `C` for purposes of `C`'s instances and for default definition in the `C` class declaration.
+where the extra `instance` marking the superclass constraint makes `S` an **intrinsic** superclass of `C`. Accordingly, `f` can be treated as if it were a method of `C` for purposes of `C`'s instances and for default definition in the `C` class declaration.
 
 
 If this machinery had been in place when `Applicative` was invented, we could just have given
@@ -93,7 +92,7 @@ class (instance Applicative m) => Monad m where
 
 Note that explicit `Functor` instances do not have a default implementation of `fmap` (that being rather the point of such instances), but that explicit `Applicative` and `Monad` would, under this proposal.
 
-### Requirement 3: The most local definition is the definition.
+### Requirement 3: A member's most local definition is its definition.
 
 
 Requirement 2 implies that the default implementation of a method might come from somewhere other than the class declaration in which the method is declared. Indeed, there might be multiple defaults. We could choose to give `Monad` its own specialized `fmap`
@@ -190,8 +189,7 @@ instance Traversable Square where
 
 then we have silently generated duplicate instances for `Functor Square` and no particular reason to choose one over the other.
 
-
-We might perhaps write
+**Imagined solution.** We might perhaps write
 
 ```wiki
 data Square x = x :& x
