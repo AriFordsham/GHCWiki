@@ -55,7 +55,7 @@ find . -name '*hs' | xargs file | grep CRLF
 
 Do this before you commit them!
 
-### Push access
+## Push access
 
 
 If you have commit access then you will need to also set the push URL:
