@@ -203,7 +203,7 @@ There are server-side validation hooks in place on `git.haskell.org` to make sur
 <th>master</th></tr>
 <tr><th>libraries/old-time</th>
 <th>https://git.haskell.org/old-time.git</th>
-<th>pmaster</th></tr>
+<th>master</th></tr>
 <tr><th>libraries/process</th>
 <th>https://git.haskell.org/process.git</th>
 <th>master</th></tr>

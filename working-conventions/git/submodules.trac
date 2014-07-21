@@ -154,7 +154,7 @@ There are server-side validation hooks in place on `git.haskell.org` to make sur
 <tr><td>libraries/hoopl</td>        <td>https://git.haskell.org/hoopl.git</td> <td>master</td></tr>
 <tr><td>libraries/hpc</td>          <td>https://git.haskell.org/hpc.git</td> <td>master</td></tr>
 <tr><td>libraries/old-locale</td>   <td>https://git.haskell.org/old-locale.git</td> <td>master</td></tr>
-<tr><td>libraries/old-time</td>     <td>https://git.haskell.org/old-time.git</td> <td>pmaster</td></tr>
+<tr><td>libraries/old-time</td>     <td>https://git.haskell.org/old-time.git</td> <td>master</td></tr>
 <tr><td>libraries/process</td>      <td>https://git.haskell.org/process.git</td> <td>master</td></tr>
 <tr><td>libraries/terminfo</td>     <td>https://github.com/judah/terminfo</td> <td>master</td></tr>
 <tr><td>libraries/time</td>         <td>https://github.com/haskell/time</td> <td>master</td></tr>
