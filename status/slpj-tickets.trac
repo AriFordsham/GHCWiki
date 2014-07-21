@@ -1,13 +1,14 @@
 = This page collects tickets that Simon PJ is interested in, so that he remembers them =
 
 == Urgent or in-flight ==
- * #8634: relaxing functional dependency rules `-XDysFunctionalDependencies`
+ * #8634, #9267, #9227: relaxing functional dependency rules `-XDysFunctionalDependencies`
  * #9318: bad type error caused by wanted/wanted solving (talk to Dimitrios)
  * #8980, #8941 (possibly), #8960, #7898, #7068, #7944, #5550, #8836: `SpecConstr` blowup
+ * #9242: per-instance pragmas for overlapping/incoherent
+ * #9123: higher order roles
 
 == Front end ==
 
- * #9242: per-instance pragmas for overlapping/incoherent
  * #9200: kind inference for mutually recursive types
  * #8968, #9226: pattern synonyms and GADTs
  * #8582: pattern synonyms and record syntax
@@ -38,7 +39,6 @@
  
  * #9117: rules for solving `Coercible` constraints
  * #9118: Eta reduction for `Coercible` (not expressible in Core, yet)
- * #9123: higher order roles
  * #6018: injective type families
  * #8161: associated type more specific than class decl
  * #8177: role signature for type families
@@ -65,6 +65,7 @@ See also [wiki:TemplateHaskell]
  * #1171: strictness and exceptions (long, open ticket)
 
 == Optimisation ==
+ * #9279: local wrapper remains in final program
  * #9246: Too much case-of-case leads to bad code
  * #8613, #9070, #8319: simplifier ticks exhausted (there are others)
  * #9136: better constant folding
