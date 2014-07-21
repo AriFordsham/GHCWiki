@@ -133,6 +133,43 @@ There are server-side validation hooks in place on `git.haskell.org` to make sur
 
 == Upstream repositories ==
 
+{{{
+#!html
+<table border="1">
+<tr><td><strong>Location in tree</strong></td> <td><strong>Upstream repo</strong></td> <td><strong>Upstream GHC branch</strong></td></tr>
+<tr><td>utils/hsc2hs</td>           <td>https://git.haskell.org/hsc2hs.git</td> <td>master</td></tr>
+<tr><td>utils/haddock</td>          <td>https://github.com/haskell/haddock</td> <td>master</td></tr>
+<tr><td>nofib</td>                  <td>https://git.haskell.org/nofib.git</td> <td>master</td></tr>
+<tr><td>libraries/array</td>        <td>https://git.haskell.org/array.git</td> <td>master</td></tr>
+<tr><td>libraries/binary</td>       <td>https://github.com/haskell/binary</td> <td>master</td></tr>
+<tr><td>libraries/bytestring</td>   <td>https://github.com/haskell/bytestring</td> <td>master</td></tr>
+<tr><td>libraries/Cabal</td>        <td>https://github.com/haskell/Cabal</td> <td>master</td></tr>
+<tr><td>libraries/containers</td>   <td>https://github.com/haskell/containers</td> <td>master</td></tr>
+<tr><td>libraries/deepseq</td>      <td>https://git.haskell.org/deepseq.git</td> <td>master</td></tr>
+<tr><td>libraries/directory</td>    <td>https://git.haskell.org/directory.git</td> <td>master</td></tr>
+<tr><td>libraries/filepath</td>     <td>https://git.haskell.org/filepath.git</td> <td>master</td></tr>
+<tr><td>libraries/haskeline</td>    <td>https://github.com/judah/haskeline</td> <td>master</td></tr>
+<tr><td>libraries/haskell98</td>    <td>https://git.haskell.org/haskell98.git</td> <td>master</td></tr>
+<tr><td>libraries/haskell2010</td>  <td>https://git.haskell.org/haskell2010.git</td> <td>master</td></tr>
+<tr><td>libraries/hoopl</td>        <td>https://git.haskell.org/hoopl.git</td> <td>master</td></tr>
+<tr><td>libraries/hpc</td>          <td>https://git.haskell.org/hpc.git</td> <td>master</td></tr>
+<tr><td>libraries/old-locale</td>   <td>https://git.haskell.org/old-locale.git</td> <td>master</td></tr>
+<tr><td>libraries/old-time</td>     <td>https://git.haskell.org/old-time.git</td> <td>pmaster</td></tr>
+<tr><td>libraries/process</td>      <td>https://git.haskell.org/process.git</td> <td>master</td></tr>
+<tr><td>libraries/terminfo</td>     <td>https://github.com/judah/terminfo</td> <td>master</td></tr>
+<tr><td>libraries/time</td>         <td>https://github.com/haskell/time</td> <td>master</td></tr>
+<tr><td>libraries/unix</td>         <td>https://github.com/haskell/unix</td> <td>master</td></tr>
+<tr><td>libraries/Win32</td>        <td>https://git.haskell.org/Win32.git</td> <td>master</td></tr>
+<tr><td>libraries/xhtml</td>        <td>https://github.com/haskell/xhtml</td> <td>master</td></tr>
+<tr><td>libraries/random</td>       <td>https://github.com/haskell/random</td> <td>master</td></tr>
+<tr><td>libraries/primitive</td>    <td>https://github.com/haskell/primitive</td> <td>master</td></tr>
+<tr><td>libraries/vector</td>       <td>https://github.com/haskell/vector</td> <td>master</td></tr>
+<tr><td>libraries/dph</td>          <td>https://</td> <td>packages/dph.git</td></tr>
+<tr><td>libraries/parallel</td>     <td>https://git.haskell.org/parallel.git</td> <td>master</td></tr>
+<tr><td>libraries/stm</td>          <td>https://git.haskell.org/stm.git</td> <td>master</td></tr>
+</table>
+}}}
+
 
 == TODO ==
 
