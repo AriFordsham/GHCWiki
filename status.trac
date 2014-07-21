@@ -5,7 +5,7 @@
 We have several automated ways of monitoring GHC.  Each has its own detailed description page.
  * [wiki:BuilderSummary Buildbots] build GHC every night on multiple platforms.
  * [wiki:Travis] watches the repository for new commits (any branch) and validates them.
- * [​http://ghcspeed-nomeata.rhcloud.com/ Our performance dashboard] (experimental) monitors changes in the performance of GHC itself, and of programs compiled by GHC, with a per-commit granularity.
+ * [​http://ghcspeed-nomeata.rhcloud.com Our performance dashboard] (experimental) monitors changes in the performance of GHC itself, and of programs compiled by GHC, with a per-commit granularity.
 
 == Biannual status reports ==
 
