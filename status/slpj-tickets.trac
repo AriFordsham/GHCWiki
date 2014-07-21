@@ -65,6 +65,7 @@ See also [wiki:TemplateHaskell]
  * #1171: strictness and exceptions (long, open ticket)
 
 == Optimisation ==
+ * #9279: local wrapper remains in final program
  * #9246: Too much case-of-case leads to bad code
  * #8613, #9070, #8319: simplifier ticks exhausted (there are others)
  * #9136: better constant folding
