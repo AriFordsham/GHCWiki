@@ -1,10 +1,7 @@
-
-This page as well as the [GitRepoReorganization](git-repo-reorganization) are still work in progress.
-
-
-See [\#8545](https://gitlab.haskell.org//ghc/ghc/issues/8545) for the current state of affairs.
-
 # Workflows for Handling GHC's Git Submodules
+
+
+GHC is a large project with several external dependencies. We use git submodules to track these repositories, and here you'll learn a bit about how to manage them.
 
 
 General information about Git's submodule support:
@@ -25,108 +22,10 @@ git clone --recursive git://git.haskell.org/ghc.git
 
 (Obviously, the clone URL can be replaced by any of the supported `ghc.git` URLs as listed on [ http://git.haskell.org/ghc.git](http://git.haskell.org/ghc.git))
 
-
-Cloning a specific branch, e.g. `ghc-7.10`; or a specific tag, e.g. `ghc-7.10.1-release`:
-
-```
-git clone -b ghc-7.10 --recursive git://git.haskell.org/ghc.git ghc-7.10.x
-```
-
-```
-git clone -b ghc-7.10.1-release --recursive git://git.haskell.org/ghc.git ghc-7.10.1
-```
-
-
-Older tags/branches which were not fully converted into a submodule-configuration, will require an additional `./sync-all get` step to synchronize.
-
-
-To clone from the [ GitHub GHC Mirror](http://github.com/ghc/ghc.git) configure Git URL rewriting as described in the next section, as the submodule url paths need to be rewritten (e.g. `../packages/deepseq.git` to `../packages-deepseq.git`) and then proceed as if cloning from `git.haskell.org` as described above (the actual network operations will be redirected to GitHub due to URL rewriting)
-
-### Using the GitHub GHC Mirror
-
-
-You can instruct `git` to rewrite repo URLs via the `git config url.<base>.insteadOf` facility. For instance, the following configuration (which gets written to `${HOME}/.gitconfig`, so this needs to be done only once) uses GitHub instead of `git.haskell.org` for synchronizing/cloning the GHC repos:
-
-```
-git config --global url."git://github.com/ghc/".insteadOf git://git.haskell.org/
-git config --global url."git://github.com/ghc/packages-".insteadOf git://git.haskell.org/packages/
-```
-
-
-(If needed, you can also add rewrite rules with `git://` substituted by `https://` or other schemes)
-
-#### Alternative GitHub rewrite rules
-
-
-The following rewrite rules are useful to have in place to compensate for the different repository naming scheme on the GitHub mirror (due to GitHub not supporting `/` in repository names):
-
-```
-git config --global url."git://github.com/ghc/packages-".insteadOf     git://github.com/ghc/packages/
-git config --global url."http://github.com/ghc/packages-".insteadOf    http://github.com/ghc/packages/
-git config --global url."https://github.com/ghc/packages-".insteadOf   https://github.com/ghc/packages/
-git config --global url."ssh://git@github.com/ghc/packages-".insteadOf ssh://git@github.com/ghc/packages/
-git config --global url."git@github.com:/ghc/packages-".insteadOf      git@github.com:/ghc/packages/
-```
-
-
-With these rules in place, you can safely clone directly from GitHub URLs, e.g.:
-
-```
-git clone --recursive git@github.com:/ghc/ghc
-```
-
-### Asymmetric push/pull Git Repo URLS
-
-#### Using `git config url.<base>.insteadOf`
-
-
-This subsection is mostly relevant to developers with `git push`-permissions.
-
-
-In addition to the `git config url.<base>.insteadOf` facility described in the previous section, there's also a `pushInsteadOf` facility which allows to rewrite only `push` operations and takes precedence over a respective `insteadOf` match. This can be used to use the faster (non-authenaticated) `http(s)://` or `git://` based transports for read-operations, and only use the more heavyweight authenticated `ssh://` transport for actual `git push` operations. Such an asymmetric push/pull setting can be configured **globally** like so:
-
-```
-git config --global url."ssh://git@git.haskell.org/".pushInsteadOf git://git.haskell.org/
-
-# If you want to cover all bases, you can also set the following rewrite rules
-git config --global url."ssh://git@git.haskell.org/".pushInsteadOf http://git.haskell.org/
-git config --global url."ssh://git@git.haskell.org/".pushInsteadOf https://git.haskell.org/
-```
-
-
-The advantages of this approach are listed in this [ email](http://www.haskell.org/pipermail/ghc-devs/2014-June/005135.html).
-
-#### By overriding `remote.origin.pushurl`
-
-
-It's recommended to use the scheme based on the `git config url.<base>.pushInsteadOf` facility described in the previous subsection instead of the one described in this subsection.
-
-
-This subsection is only relevant for developers with `git push`-permissions.
-
-
-Unless the GHC source tree was cloned from `ssh://git@git.haskell.org/ghc.git`, the resulting `pushurl`s will not point to a writable location.
-
-
-The following commands will configure appropriate push-URLs for `ghc.git` and all its (initialized) submodules:
-
-```
-git remote set-url --push origin ssh://git@git.haskell.org/ghc.git
-
-git submodule foreach 'git remote set-url --push origin \
-  ssh://git@git.haskell.org/$(git config -f $toplevel/.gitmodules --path "submodule.$name.url" | sed "s,^\.\./,,")'
-```
-
-
-You can display the currently used Git URLs for `git push` in submodules by:
-
-```
-# if unset, remote.origin.pushurl defaults to remote.origin.url
-git submodule foreach \
-'git config remote.origin.pushurl || git config remote.origin.url'
-```
-
 ## Updating an existing GHC source tree clone
+
+
+Sometimes when you pull in new commits, the authors updated a submodule. After pulling, you'll also need to update your submodules, or you'll get errors.
 
 
 At the top-level of `ghc.git` working copy:
