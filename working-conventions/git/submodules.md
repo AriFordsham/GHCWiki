@@ -85,7 +85,7 @@ So, in order to make change to a submodule you can either:
 > 1) Work directly on the detached HEAD in the submodule directory.
 
 >
-> 2) Checkout the respective branch the commit is supposed to be pointed at from (normally `master`).
+> 2) Checkout the respective branch the commit is supposed to be pointed at from (normally `master`. See the table below for the full branch/repo summary). 
 
 
 The example below will demonstrate the latter approach for the `utils/haddock` submodule:
@@ -146,6 +146,16 @@ There are server-side validation hooks in place on `git.haskell.org` to make sur
 > 3) And you have to say the word 'submodule' in the commit.
 
 ## Upstream repositories
+
+
+Below is a table summarizing the repositories GHC uses. It lists the upstream location of the repository, and the branch name. All the upstream repositories are either located on `git.haskell.org` or `github.com` as of right now.
+
+- Patches for `git.haskell.org` repositories should go to GHC developers. Developers can push to these repositories directly.
+
+- Patches for `github.com` repositories should be made into Pull Requests on GitHub. GHC developers have access to the repositories under the `haskell` organization in particular, and can push directly.
+
+
+As stated above - GHC tracks the branch listed here for the specific repository. If you're going to base your change on a branch, always do it on this one!
 
 <table><tr><th>**Location in tree**</th>
 <th>**Upstream repo**</th>
