@@ -132,7 +132,12 @@ git push
 ### Validation hooks
 
 
-There are server-side validation hooks in place to make sure for non-`wip/` branches that `ghc.git` never points to non-existing commits. Also, as a safe-guard against accidental submodule reference updates, the string `submodule`**\*must occur somewhere in commit messages of commits**\* updating submodule references.
+There are server-side validation hooks in place on `git.haskell.org` to make sure for non-`wip/` branches that `ghc.git` never points to non-existing commits. Also, as a safe-guard against accidental submodule reference updates, the string `submodule`**\*must occur somewhere in commit messages of commits**\* updating submodule references. So just remember that:
+
+>
+> 1) If you update a submodule pointer,
+> 2) You had to have pushed it upstream already,
+> 3) And you have to say the word 'submodule' in the commit.
 
 ## Upstream repositories
 
