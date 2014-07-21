@@ -25,7 +25,7 @@ $ git config --global core.autocrlf false
 
 == Quickly getting the GHC source repository ==
 
-The first thing to do is install [http://git-scm.com/ git]. And then read [wiki:WorkingConventions/Git Git Working Conventions] for instructions on how to use Git with GHC development. You'll also need some tools - see [wiki:Building/Preparation] for details.
+The first thing to do is install [http://git-scm.com/ git]. You'll also need some tools - see [wiki:Building/Preparation] for details.
 
 On Unix-like systems (Linux, OS X), a complete GHC source tree can be obtained (located in `ghc`) by saying:
 
@@ -41,6 +41,8 @@ $ ./sync-all get
 }}}
 
 A source tree consists of more than one repository: at the top level there is the main GHC repository, and certain subdirectories contain separate git repositories (for a list see [wiki:Repositories]).
+
+And then read [wiki:WorkingConventions/Git Git Working Conventions] for instructions on how to use Git with GHC development.
 
 Note: If you're behind a **firewall blocking port 9418** (or `git clone git://...` fails for some other reason), replace `git://` by `http://` in the instructions above.
 
