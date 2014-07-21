@@ -244,3 +244,5 @@ There are server-side validation hooks in place on `git.haskell.org` to make sur
 ## TODO
 
 - Describe how to make use of `git submodule update --remote`
+- Describe darcs mirroring for `transformers`
+- Describe status of `pretty` which is one-off at the moment and doesn't exactly track upstream.
