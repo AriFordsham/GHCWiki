@@ -79,7 +79,14 @@ to update `ghc.git` and all its submodules.
 It's very important to keep in mind that Git submodules track commits (i.e. not branches!) to avoid getting confused. Therefore, `git submodule update` will result in submodules having checked out a so-called [ detached HEAD](http://alblue.bandlem.com/2011/08/git-tip-of-week-detached-heads.html).
 
 
-So, in order to make change to a submodule you can either work directly on the detached HEAD, or checkout the respective branch the commit is supposed to be pointed at from. The example below will demonstrate the latter approach for the `utils/haddock` submodule:
+So, in order to make change to a submodule you can either:
+
+>
+> 1) Work directly on the detached HEAD in the submodule directory.
+> 2) Checkout the respective branch the commit is supposed to be pointed at from (normally `master`).
+
+
+The example below will demonstrate the latter approach for the `utils/haddock` submodule:
 
 ```
 # do this *before* making changes to the submodule
@@ -122,8 +129,12 @@ git commit -m 'update haddock submodule ... blablabla'# finally, push the commit
 git push
 ```
 
+### Validation hooks
 
-There are server-side validation hooks in place to make sure for non-`wip/` branches that `ghc.git` never points to non-existing commits. Also, as a safe-guard against accidental submodule reference updates, the string `submodule` must occur somewhere in commit messages of commits updating submodule references.
+
+There are server-side validation hooks in place to make sure for non-`wip/` branches that `ghc.git` never points to non-existing commits. Also, as a safe-guard against accidental submodule reference updates, the string `submodule`**\*must occur somewhere in commit messages of commits**\* updating submodule references.
+
+## Upstream repositories
 
 ## TODO
 
