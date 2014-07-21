@@ -71,8 +71,6 @@ You will probably also want to run
 }}}
 to stop git in the ghc repo from checking for unrecorded changes in the submodules.
 
-
-
 = Working with the tree =
 
 == Tricks ==
@@ -100,6 +98,10 @@ Where `<revision range>` specifies the commit that git should stop at when going
 {{{
 git am -3 <email>
 }}}
+
+= Submodules =
+
+GHC uses many git repositories which are tracked as Git submodules. For more information, check the [wiki:WorkingConventions/Git/Submodules Submodules] page.
 
 = Branches =
 

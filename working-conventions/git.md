@@ -123,6 +123,11 @@ Where `<revision range>` specifies the commit that git should stop at when going
 git am -3 <email>
 ```
 
+# Submodules
+
+
+GHC uses many git repositories which are tracked as Git submodules. For more information, check the [Submodules](working-conventions/git/submodules) page.
+
 # Branches
 
 ## The stable branch
