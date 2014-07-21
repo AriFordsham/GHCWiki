@@ -102,7 +102,7 @@ Requirement 2 implies that the default implementation of a method might come fro
 ```
 
 
-Of course, instances can also offer definitions wich ovverride the defaults. We need to choose between these candidate definitions and the obvious way to do so is to apply the existing principle that the more local overrides the more generic.
+Of course, instances can also offer definitions wich override the defaults. We need to choose between these candidate definitions and the obvious way to do so is to apply the existing principle that the more local overrides the more generic.
 
 
 If we gave `Monad` a default `fmap`, we should then expect that explicit `Functor` instances will not have a default `fmap` implementation, and that explicit `Applicative` instances will be offered the default `fmap` from the `Applicative` class declaration, but that explicit `Monad` instances should be offered the `Monad`-specific default instead.
@@ -233,106 +233,214 @@ The earlier [DefaultSuperclassInstances](default-superclass-instances) proposal 
 
 Note that this property is in conflict with Requirement 4: to maintain legacy code, we must restrict the generation of internal instances for intrinsic superclasses with attention to the instances which otherwise exist already, so that the meaning of one instance definition vary with the presence or absence of another. We should recognize this anomaly as a necessary evil and minimize its impact.
 
-## Terminology and Notation
+## Terminology
 
 
 To nail down the technicalities of the proposal, we shall need names for things, and notation to present the things thus named.
 
+### Members, Defaults, Superclasses
+
 
 Firstly, let us talk about the stuff which gets declared in classes, defined by default in classes, and defined in instances:
 
-- The **immediate members** of a class C are the methods and associated type and data families which are declared in the class declaration for C.
 - The **members** of a class C are the methods and associated type and data families which may be defined in instance definitions for C.
-- A **defaulted member** of a class C is a member with a default definition which will be added to any C instance which does not contain an overriding definition.
+- A **defaulted member** of a class C is a member with a default definition: C instances may either omit them or override the default with an explicit definition.
+- A **superclass** S of a class C is a class which must be given a corresponding instance for each instance of C.
+
+
+We say "member" rather than "method" to include things like associated type families (which may be defaulted) and associated data families (which may not, because data constructors cannot be duplicated).
+
+
+E.g., in
+
+```wiki
+class Monoid c => Agglomeration c where
+  type Element c
+  glomOne :: Element c -> c
+  glomList :: [Element c] -> c
+  glomList = foldr mempty (mappend . glomOne)
+```
+
+`Monoid` is a superclass of `Agglomeration`, and the members are `Element`, `glomOne` and `glomList`, with `glomList` being defaulted.
+
+
+These definitions make sense in Haskell as at present and are not altered by this proposal. They are phrased carefully in terms of which *instances* one can or must write, and which things can or must be defined in those instances. The proposal *does* extend how classes acquire members and how members are defaulted, as a consequence of declaring some superclasses to be intrinsic.
+
+### Immediate members, defaults and superclasses
+
+
+We use the adjective "immediate" of class-C-related things to imply that the relationship is made explicit in the declaration of class C.
+
+- The **immediate members** of a class C are the methods and associated type and data families which are declared in the class declaration for C.
+
+
+In current Haskell, all members are immediate, but this proposal introduces a distinction. When we write
+
+```wiki
+class (instance Functor f) => Applicative f where
+  return :: x -> f x
+  (<*>)  :: f (a -> b) -> f a -> f b
+  fmap = (<*>) . return
+```
+
+
+we make `fmap` a member of `Applicative` by virtue of `fmap` being an *immediate* member of the *intrinsic* superclass `Functor`. However, `fmap` is not an *immediate* member of `Applicative`: the immediate members of `Applicative` are `return` and `(<*>)`.
+
+**Fact***The name of a class member uniquely determines the class of which it is an immediate member and thus the internal instances in which its definitions belong.*
+
 - An **immediately defaulted member** of a class C is a member of class C which is given a default definition in the declaration of C.
 
 
-In current Haskell, all members are immediate, but this proposal seeks to change that. Similarly, the only defaulted members we currently have are immediately defaulted immediate members. Data families cannot be defaulted (because that could lead to the duplication of data constructors), but methods and type families can be defaulted.
+In current Haskell, the only defaulted members are immediately defaulted members (indeed, immediately defaulted immediate members). However, the above makes `fmap` an immediately defaulted member of `Applicative`, even though it is not an immediate member of `Applicative`: it is the defaulting which is immediate to the class declaration, not the membership. If we then add
 
-**Fact***The name of a class member uniquely determines the class of which it is an immediate member.*
+```wiki
+class (instance Applicative m) => Monad m where
+  (>>=) :: m a -> (a -> m b) -> m b
+  mf <*> ma = mf >>= \ f -> ma >>= \ a -> return (f a)
+```
 
 
-Next, let us fix terminology for talking about the superclasses of a class.
+without giving a further definition of `fmap`, then
+we make `(<*>)` an immediately defaulted member of `Monad` and `fmap` a (not immediately) defaulted member of `Monad`.
 
 - An **immediate superclass** S of a class C is any class which heads a constraint in the declaration of C.
-- A **superclass** of C is either C or a proper superclass of C.
-- A **proper superclass** of C is a superclass of an immediate superclass of C.
+- A **superclass** of C is either an immediate superclass of C or a superclass of an immediate superclass of C.
 
 
-Note that the use of "immediate" is consistent in that it applies to things which are introduced explicitly in class declarations.
+The above declarations make `Applicative` an immediate superclass of `Monad` and `Functor` an immediate superclass of `Applicative`. `Functor` is then a superclass of `Monad`, but not an immediate superclass.
+
+### Intrinsic superclasses, roots and closures
 
 
-Now, let us allow some superclass constraints in class declarations to be labelled with the `instance` keyword.
+A class's declaration determines its immediate superclasses, thence transitively all of its superclasses. Some of those superclasses are now to be designated "intrinsic".
+
+- An **intrinsic** superclass of a class C is a superclass of C whose immediate members may be defined in an instance for C.
+
+
+In current Haskell, this classification is well defined, even though the set it classifies is empty. But there's still time to change all that!
+
+
+In the heads of class declarations, we shall need to say which superclasses are intrinsic. In the heads of instance declarations, we shall need to say which intrinsic superclasses are also being instantiated. We can do both by computing an *intrinsic superclass closure* from a given atomic class constraint with given explicit exclusions (e.g., `Monad Square - Functor`).
+
+- An **intrinsic superclass root** is the pair of an atomic class constraint with a list of excluded class names.
+
+
+The proposed syntax for an intrinsic superclass root is just
+
+*root* ::= *atom* (`-`*Name*+)?
+
+*atom* ::= *Name**type*+
+
+
+(Grammar grammar: postfix ? for 0 or 1, postfix + for 1 or more, postfix ,\* for 0 or more comma-separated)
+
+
+Each class declaration head should designate left of `=>` the declared class's ordinary (i.e., non-intrinsic) superclasses and its intrinsic superclass roots. The proposal is to label the latter with keyword `instance`, as in
+
+```wiki
+class (instance Monad f - Functor, instance Traversable f) => Transposable f where...
+```
+
+- The **intrinsic superclass closure** of a given intrinsic superclass root, ISC(C ts - Xs), is the set of atomic class constraints given by the reflexive-transitive closure induced by the intrinsic superclass roots given in class declarations of C and its superclasses, excluding the named classes, Xs, and their intrinsic superclasses. Hence
+
+  ```wiki
+    ISC(Monad f) = {Monad f, Applicative f, Functor f}
+    ISC(Monad f - Functor) = {Monad f, Applicative f}
+    ISC(Monad f - Applicative) = {Monad f}
+    ISC(Transposable f) =
+      {Monad f, Applicative f,
+       Traversable f, Foldable f, Functor f}
+  ```
+
+
+The algorithm for computing intrinsic superclass closures is made precise in the technical presentation of the proposal.
+
+## The Proposal
+
+
+The following proposal satisfies Requirements 1,2,3 and 5, and Desirable 6. We shall address Requirement 4 later on this page.
+
+### New Syntax
+
+
+We propose to change only the syntax of class and instance heads, allowing intrinsic superclasses declarations, `instance`*root*, in classes, and `instance` ... *root*`where` definitions.
 
 *toplevel* ::= ...
 
 >
 > \| `class` (*sups*`=>`)? *Name**name*+ `where`*declarations*
 
+>
+> \| `instance` (*constrs*`=>`)? *root*`where`*definitions*
+
 *sups* ::= *sup* \| `(`*sup*,\*`)`
 
-*atom* ::= *Name**type*+
-
-*closure* ::= *atom* (`-`*Name*+)?
-
-*sup* ::= *atom* \| `instance`*closure*
-
-
-(Grammar grammar: postfix ? for 0 or 1, postfix + for 1 or more, postfix ,\* for 0 or more comma-separated)
-
-
-We can say what are the "intrinsic" superclasses of a class, with "immediate" and "proper" used as above.
-
-- An **immediate intrinsic superclass** S of a class C is any class *Name*d in an `instance`*sup* in the declaration of C.
-- An **intrinsic superclass** of C is either C or a proper intrinsic superclass of C
-- A **proper intrinsic superclass** of C is an intrinsic superclass of an immediate intrinsic superclass of C.
-
-
-Of course, the above is an inductive definition, so it gives rise to a notion of **intrinsic superclass derivation**, being the explanation why some S is an intrinsic superclass of some C.
-
-
-The *closure* formulae, above, explain how to compute which intrinsic superclasses we are bundling with a given class or instance. Every *closure* formula, F, has an **intrinsic closure**, IC(F), being the multiset of atomic formulae given by tracing each intrinsic superclass derivation of F's named class without passing through the classes explicitly listed after the `-` sign, substituting actual for formal parameters. E.g,
-
-- IC(`Monad []`) = {`Monad []`, `Applicative []`, `Functor []`}
-- IC(`Monad [] - Functor`) = {`Monad []`, `Applicative []`}
-- IC(`Monad [] - Applicative`) = {`Monad []`}
-
-
-and if we had
-
-```wiki
-class (instance Ord [x]) => Blah x where ...
-```
-
-
-then
-
-- IC(`Blah Int`) = {`Blah Int`, `Ord [Int]`, `Eq [Int]`}
-
-
-We shall also need to talk about instances:
-
-*toplevel* ::= ...
-
->
-> \| `instance` (*constrs*`=>`)? *closure*`where`*definitions*
+*sup* ::= *atom* \| `instance`*root*
 
 *constrs* ::= *atom* \| `(`*atom*,\*`)`
 
-
-Let us define the key underlying notion of instance with which we work:
-
-- An **immediate** C **instance** for some As `=>` C ts, is the means to define the immediate members of C for actual parameters ts, whenever the constraints As hold.
+### Static semantics
 
 
-At present, all instances are immediate. We have an existing technology for managing the implicit inference of class dictionaries given immediate instances for the productions made explicit in `instance` definitions in source code. The point, however, is to liberalize the notion of "member" whilst still being able to generate immediate instances internally from the instances written by the programmer.
-
-## The Proposal
-
-**Action 1***The members of a class C shall be the immediate members of the intrinsic superclasses of C. An instance targeting closure forumla F may define immediate members of all the classes named in IC(F)*
+An intrinsic superclass root, `instance` S ss - Xs `=>` C xs in a class declaration, makes S ss a superclass constraint of C xs, with at least the same static checks (e.g. cycle avoidance) which are currently enforced.
 
 
-Note that this action makes the members of C the members of the intrinsic superclasses of C (including C itself, of course). The effect is to let C's instances give definitions for not only C's immediate members but also those it has by virtue of intrinsic superclasses. We may now write
+The heads of class declarations determine the intrinsic superclass closure ISC(R) of a given *root* R, as follows.
+
+>
+> ISC(R) = ISC'(R, {})
+
+>
+> ISC'(C ts - Ys, Xs) = {} if C in X; otherwise
+
+>
+> ISC'(C ts - Ys, Xs) = {C ts} + ISC'(R1\[ts/xs\], Ys union Xs) +..+ ISC'(Rn\[ts/xs\], Ys union Xs) where
+>
+> > `class` (`instance` R1,..,`instance` Rn,A1,..,Am) `=>` C xs
+
+
+As + Bs is undefined if for some C, C ts in A and C ts' in B; otherwise, As + Bs = As union Bs
+
+
+So
+
+```wiki
+  ISC(Monad f - Functor)
+  = ISC'(Monad f - Functor, {})
+  = {Monad f} + ISC'(Applicative f, {Functor})
+  = {Monad f} + {Applicative f} + ISC'(Functor f, {Functor})
+  = {Monad f} + {Applicative f} + {}
+  = {Monad f, Applicative f}
+```
+
+
+An additional check is required: if the declaration of class C xs results in ISC(C xs) being undefined, then class C is *rejected*, which is the situation exactly when you try to make something an intrinsic superclass in more than one way, as in
+
+```wiki
+class (instance Monad f, instance Traversable f) => Transposable f where -- Functor twice
+```
+
+
+We also forbid
+
+```wiki
+class (instance Tweedle dum, instance Tweedle dee) => Diddly dum dee where ...
+```
+
+
+because we have no uniform way to send `Tweedle` members to the appropriate immediate instance, but we would permit any of
+
+```wiki
+class (instance Tweedle dum, Tweedle dee) => Diddly dum dee where ...
+class (Tweedle dum, instance Tweedle dee) => Diddly dum dee where ...
+class (Tweedle dum, Tweedle dee) => Diddly dum dee where ...
+```
+
+
+The members of a class C are taken to include not only the immediate members declared in C's declaration, but also the members of C's intrinsic superclasses. C's declaration may give default definitions for those of C's members (methods, type families) which admit defaulting, as in current Haskell but not restricted to immediate members.
+
+
+An instance definition, `instance` As `=>` R ..., is permitted exactly if the corresponding **internal** instances `instance` As `=>` A for each A in ISC(R) would be permitted in current Haskell. Each member defined in the body must be an immediate member for some A in ISC(R), allowing us to distribute the body of a source instance to its internal instances, which are then checked by the current rules. We may now write
 
 ```wiki
 instance Applicative Square where
@@ -359,32 +467,19 @@ but not
 instance Applicative Square - Functor where
   pure a = a :& a
   (f :& g) <*> (a :& b) = f a :& g b
-  fmap f (a :& b) = f a :& f b  -- oops
+  fmap f (a :& b) = f a :& f b  -- excluded
 ```
 
 
-To give this a clear semantics, we need to ensure that we can take an instance for a production, As `=>` F and split it into immediate instances for the productions {As `=>` S \| S in IC(F)}. A sufficient condition for achieving this is to make sure that the intrinsic closure of any atomic constraint have distinct class names, so that it is clear how to distribute members to immediate instances by the above Fact. Let us enforce this condition.
+Instance inference is unaffected by this proposal. It applies, just as before, to the internal instances generated as indicated above, with intrinsic superclasses treated just as ordinary superclasses when deducing superclass constraints from subclass assumptions.
 
-**Action 2***By policy, intrinsic superclass derivations are unique. Class declarations which violate this policy are rejected.*
-
-
-E.g., we reject
-
-```wiki
-class (instance Applicative f, instance Traversable f) => Transposable f where...
-```
+### Dynamic Semantics
 
 
-because we could then derive that `Functor` is an intrinsic superclass of `Transposable` (perhaps with different default `fmap` definitions) in two ways. We also forbid
-
-```wiki
-class (instance Tweedle dum, instance Tweedle dee) => Diddly dum dee where ...
-```
+Dictionary construction is unaffected by this proposal, following the derivation of internal instances just as before. The only issue we must resolve is the selection of default definitions from what might now be a stack of intrinsic superclasses.
 
 
-because we have no uniform way to send `Tweedle` members to the appropriate immediate instance.
-
-**Action 3***The defaulted members of a class C shall be the immediately defaulted members of C or the defaulted members of C's immediate intrinsic superclasses, with the immediate default definitions prioritized over the superclass defaults.*
+The defaulted members of a class C shall be the immediately defaulted members of C or the defaulted members of C's immediate intrinsic superclasses, with the immediate default definitions prioritized over the superclass defaults.
 
 
 We may thus write
@@ -411,13 +506,10 @@ and note that
 
 (By the way, the above negotiation with `return` and `pure` should allow existing `Applicative` instances to work as intended, but generate a warning that `return` has not been defined.)
 
-
-This proposal satisfies Requirements 1,2,3,5 and 6. However, it breaks plenty of code, so it fails Requirement 4. That comes next.
-
 ## Transitional Relief for Legacy Code
 
 
-In the discussion of Action 1, an example conspicuous by its absence is the status quo:
+In the discussion of the static semantics, an example conspicuous by its absence is the status quo:
 
 ```wiki
 instance Applicative Square where
@@ -432,7 +524,7 @@ The proposal as it stands implies that the `Applicative Square` instance would g
 Requirement 4 is distinctly unsatisfied.
 
 
-To do better at Requirement 4, we can choose to sacrifice Requirement 6 by throwing out the parts of an intrinsic closure which are already "pre-empted" by explicit instances. To do so would recover the above legacy declaration, but still exclude
+To do better at Requirement 4, we can choose to dilute Desirable 6 by throwing out the parts of an intrinsic closure which are already "pre-empted" by explicit instances. To do so would recover the above legacy declaration, but still exclude
 
 ```wiki
 instance Applicative Square where
@@ -454,7 +546,10 @@ class ({-# PRE-EMPT #-}instance Functor f) => Applicative f where
 
 to signal that an intrinsic closure computation can be cut short at that point by an explicit instance.
 
-**Action 4***An immediate intrinsic superclass marked `{-# PRE-EMPT #-}` will not contribute to an intrinsic closure if the corresponding instance is explicitly in scope. A warning will be issued when this pre-emption happens.*
+**Proposal***An immediate intrinsic superclass marked `{-# PRE-EMPT #-}` will not contribute to an intrinsic superclass closure if the corresponding instance is explicitly in scope. A warning will be issued when this pre-emption happens.*
+
+
+This proposal requires no more checking than is already required to rule out duplicate instances: it just prioritizes the explicit instance over its implicitly generated counterpart instead of complaining.
 
 
 When we make an existing superclass intrinsic, we can thus ensure no code breakage for the transitional period where we allow pre-emption, whilst issuing warnings to fix code soon.
