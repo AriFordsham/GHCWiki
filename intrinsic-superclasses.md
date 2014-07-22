@@ -32,7 +32,26 @@ class S x => C x where
 ```
 
 
-The cost of putting this generalization into the library is that all the client code will break. Each client `C` instance will need an accompanying `S`. Busy people will complain bitterly that they haven't the time to add `S` instances everywhere, so the success of `C` will get in the way of insight about `S`. This is not a bad reason to resist making `Functor` and `Applicative` superclasses of `Monad`. It would have been pleasant to introduce `Applicative` as a generalization of `Monad` and somehow have all our old `Monad` instances generate `Applicative` instances too.
+The cost of putting this generalization into the library is that all the client code will break.  Where the client previously wrote
+
+```wiki
+instance C T where
+  f = ...impl of f at type T...
+  g = ...impl of g at type T...
+```
+
+
+she must instead write
+
+```wiki
+instance S T where
+  f = ...impl of f at type T...
+instance C T where
+  g = ...impl of g at type T...
+```
+
+
+Busy people will complain bitterly that they haven't the time to add `S` instances everywhere, so the success of `C` will get in the way of insight about `S`. This is not a bad reason to resist making `Functor` and `Applicative` superclasses of `Monad`. It would have been pleasant to introduce `Applicative` as a generalization of `Monad` and somehow have all our old `Monad` instances generate `Applicative` instances too.
 
 
 We want to fix things so that `S` can be introduced in such a way that `C` instances in client code yield, by default, both `C` and `S` instances internally, each with the constraints given in the client code. We do not imagine that all superclasses should have this relationship with their subclasses, but that some **intrinsic** superclasses might. The various definitions in client instances will need to be distributed to the appropriate internal instances of the class itself and its intrinsic superclasses.
