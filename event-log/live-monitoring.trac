@@ -93,7 +93,26 @@ Foo is an abstraction / library (or libraries) that will use the new API of RTS 
 == Discussed APIs ==
 
 Here we have possible API implementations. Keep in mind that all this is a work in progress 
+
 === ghc-events ===
+
+Client API relevant to real-time event monitoring.  The full API is larger; you can find it in the [https://hackage.haskell.org/package/ghc-events ghc-events library documentation].
+
+{{{
+-- Datatype that holds a link to the eventlog
+data EventHandle   -- Abstract
+data Event = ....  -- Concrete data type (see the ghc-events library docs above)
+
+-- Opens the event stream from the specified handle,
+-- reads the header info, and initialises the EventHandle
+openEventHandle :: Handle -> IO EventHandle
+
+-- Reads one event from the handle. Returns Nothing if no events
+-- are readable from the log
+getEvent :: EventHandle -> IO (Maybe Event)
+}}}
+
+=== Implementing the API in ghc-events ===
 
 {{{
 -------------- Private -------------
@@ -106,25 +125,6 @@ data SequenceDecoder a =
 eventLogDecoder :: Decoder (SequenceDecoder Event)
 
 newtype EventHandle = EventHandle Header Handle
-
-
--------------- Public --------------
-
--- Datatype that holds a link to the eventlog
-data EventHandle
-
--- Opens the event stream from the specified handle,
--- reads the header info, and initialises the EventHandle
-openEventHandle :: Handle -> IO EventHandle
-
--- Gets the header of the log 
-getHeader :: EventHandle -> Header
-
--- Reads one event from the handle. Returns Nothing if no events
--- are readable from the log
-getEvent :: EventHandle -> IO (Maybe Event)
-
-
 }}}
 
 === RTS ===

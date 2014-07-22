@@ -111,6 +111,25 @@ Here we have possible API implementations. Keep in mind that all this is a work 
 
 ### ghc-events
 
+
+Client API relevant to real-time event monitoring.  The full API is larger; you can find it in the [ ghc-events library documentation](https://hackage.haskell.org/package/ghc-events).
+
+```wiki
+-- Datatype that holds a link to the eventlog
+data EventHandle   -- Abstract
+data Event = ....  -- Concrete data type (see the ghc-events library docs above)
+
+-- Opens the event stream from the specified handle,
+-- reads the header info, and initialises the EventHandle
+openEventHandle :: Handle -> IO EventHandle
+
+-- Reads one event from the handle. Returns Nothing if no events
+-- are readable from the log
+getEvent :: EventHandle -> IO (Maybe Event)
+```
+
+### Implementing the API in ghc-events
+
 ```wiki
 -------------- Private -------------
 
@@ -122,25 +141,6 @@ data SequenceDecoder a =
 eventLogDecoder :: Decoder (SequenceDecoder Event)
 
 newtype EventHandle = EventHandle Header Handle
-
-
--------------- Public --------------
-
--- Datatype that holds a link to the eventlog
-data EventHandle
-
--- Opens the event stream from the specified handle,
--- reads the header info, and initialises the EventHandle
-openEventHandle :: Handle -> IO EventHandle
-
--- Gets the header of the log 
-getHeader :: EventHandle -> Header
-
--- Reads one event from the handle. Returns Nothing if no events
--- are readable from the log
-getEvent :: EventHandle -> IO (Maybe Event)
-
-
 ```
 
 ### RTS
