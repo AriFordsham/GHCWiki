@@ -35,7 +35,7 @@ class S x => C x where
 The cost of putting this generalization into the library is that all the client code will break.  Where the client previously wrote
 
 ```wiki
-instance C T where
+instance C a => C (T a) where
   f = ...impl of f at type T...
   g = ...impl of g at type T...
 ```
@@ -44,9 +44,9 @@ instance C T where
 she must instead write
 
 ```wiki
-instance S T where
+instance C a => S (T a) where
   f = ...impl of f at type T...
-instance C T where
+instance C a => C (T a) where
   g = ...impl of g at type T...
 ```
 
