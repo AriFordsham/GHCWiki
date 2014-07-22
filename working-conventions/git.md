@@ -113,6 +113,8 @@ In particular, if your patch addresses or fixes a bug/ticket, then include the t
 
 ## Contributing patches
 
+TODO mention [Phabricator](phabricator)
+
 
 Please write your patch and then rebase to the latest version of GHC HEAD before sending to us. You can use the following command to send patches via email:
 
