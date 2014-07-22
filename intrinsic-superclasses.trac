@@ -73,7 +73,7 @@ class (instance S x) => C x where
   g :: ...
   f =  ...g...
 }}}
-where the extra `instance` marking the superclass constraint makes `S` an '''intrinsic''' superclass of `C`. Accordingly, `f` can be treated as if it were a method of `C` for purposes of `C`'s instances and for default definition in the `C` class declaration.
+where the extra `instance` marking the superclass constraint makes `S` an '''intrinsic''' superclass of `C`. Accordingly, `f` can be treated as if it were a method of `C`, ''both'' for purposes of `C`'s instances, ''and'' for default definition in the `C` class declaration.
 
 If this machinery had been in place when `Applicative` was invented, we could just have given
 {{{
