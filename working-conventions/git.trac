@@ -91,11 +91,9 @@ In particular, if your patch addresses or fixes a bug/ticket, then include the t
 
 == Contributing patches ==
 
-{{{#!box warn
-TODO: mention [[Phabricator]]
-}}}
+The best and easiest way to contribute patches is to upload them to [wiki:Phabricator].  Other developers can review and comment on your patch, our automated systems will build and test it, and we can easily commit it when it's ready.
 
-Please write your patch and then rebase to the latest version of GHC HEAD before sending to us. You can use the following command to send patches via email:
+Alternatively you can send a patch to the mailing list using git.  Please write your patch and then rebase to the latest version of GHC HEAD before sending to us. You can use the following command to send patches via email:
 
 {{{
 git send-email --to=ghc-devs@haskell.org <hash-id> -1
