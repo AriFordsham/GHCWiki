@@ -58,24 +58,33 @@ Do this before you commit them!
 ## Push access
 
 
-If you have commit access then you will need to also set the push URL:
+If (as a developer) you have been granted push privileges to `git.haskell.org`, you need to take into account that only the `ssh://` URLs support authentication (and hence `git push`ing to).
 
-```wiki
-  $ ./sync-all -r ssh://git@git.haskell.org remote set-url --push origin
+
+The following Git URL rewrite rules (which need to be configured only once as they're persisted in the `${HOME}/.gitconfig` file due to `--global`) take care of transparently redirecting `git push`es to the `ssh://` Git URL counterparts:
+
+```
+git config --global url."ssh://git@git.haskell.org/".pushInsteadOf git://git.haskell.org/ 
+
+# If you want to cover all bases, you can also set the following rewrite rules
+git config --global url."ssh://git@git.haskell.org/".pushInsteadOf http://git.haskell.org/ 
+git config --global url."ssh://git@git.haskell.org/".pushInsteadOf https://git.haskell.org/ 
 ```
 
 
-This uses the `ssh://` protocol (which has much higher latency due to the SSH handshake occurring for each connect) only for `git push` operations, and the very fast unauthenticated `git://` protocol for everything else.
+This uses the `ssh://` protocol (which has much higher latency due to the SSH handshake occurring for each connect) only for `git push` operations, and the very fast unauthenticated `git://` protocol for everything else (if you originally cloned `git://git.haskell.org/ghc.git`)
+
+### Ignoring unrecorded changes in submodules
 
 
-You will probably also want to run
+You may probably also want to set
 
 ```wiki
   $ git config --global diff.ignoreSubmodules dirty
 ```
 
 
-to stop git in the ghc repo from checking for unrecorded changes in the submodules.
+to stop Git in the ghc repo from checking for unrecorded changes in the submodules.
 
 # Working with the tree
 
