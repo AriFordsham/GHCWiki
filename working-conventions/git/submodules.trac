@@ -121,6 +121,16 @@ git commit -m 'update haddock submodule ... blablabla'
 git push
 }}}
 
+=== Dirty submodules ===
+
+By default, git will consider your submodule as "dirty" when you do `git status` if it has any changes or any untracked files.  Sometimes this can be inconvenient, especially when using [wiki:Phabricator] which won't allow you to upload a diff when there are dirty submodules.  Phabricator will let you ignore untracked files in the main GHC repo, but to ignore untracked files in a submodule you'll need a change to `.git/config` in the GHC repo.  For example, to ignore untracked files in the `nofib` repo, add the line `ignore = untracked` to the section for `nofib` in `.git/config`:
+
+{{{
+[submodule "nofib"]
+	url = /home/simon/ghc-mirror/nofib.git
+        ignore = untracked
+}}}
+
 === Validation hooks ===
 
 There are server-side validation hooks in place on `git.haskell.org` to make sure for non-`wip/` branches that `ghc.git` never points to non-existing commits. Also, as a safe-guard against accidental submodule reference updates, the string `submodule` ***must occur somewhere in commit messages of commits*** updating submodule references. So just remember that:
