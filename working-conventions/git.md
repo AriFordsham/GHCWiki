@@ -1,9 +1,13 @@
 # Guidelines for using git with GHC
 
 
-GHC uses [ Git](http://git-scm.com/) (version 1.7.3.4 or newer recommended) for revision control. This page describes various GHC-specific conventions for using git, together with some suggestions and tips for using git effectively.
+GHC uses [ Git](http://git-scm.com/) (version 1.7.3.4 or newer recommended) for revision control. This page describes various GHC-specific conventions for using Git, together with some suggestions and tips for using Git effectively.
 
 # Setup
+
+
+This page is mostly concerned about using Git for contributing actively to GHC and extends upon the
+instructions provided in [Building/GettingTheSources](building/getting-the-sources).
 
 ## General Guidelines
 
