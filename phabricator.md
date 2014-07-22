@@ -9,7 +9,7 @@
 - Increased visibility for code review and feedback.
 - **NEW**: Automatic `./validate` of all your diffs when using Arcanist! (see "Harbormaster" below)
 - Meme support (optional)
-- Other features you might like
+- Other features you might like, such as an IRC bot, and [ Terminator jokes](https://github.com/phacility/phabricator/blob/8756d82cf6c13d86019efeb9df8bcdaad1b17ec8/src/infrastructure/daemon/bot/handler/PhabricatorBotObjectNameHandler.php#L66).
 
 ## Signing up
 
