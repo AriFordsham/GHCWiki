@@ -67,6 +67,16 @@ git pullall --rebase
 
 to update `ghc.git` and all its submodules.
 
+=== Dirty submodules ===
+
+By default, git will consider your submodule as "dirty" when you do `git status` if it has any changes or any untracked files.  Sometimes this can be inconvenient, especially when using [wiki:Phabricator] which won't allow you to upload a diff when there are dirty submodules.  Phabricator will let you ignore untracked files in the main GHC repo, but to ignore untracked files in a submodule you'll need a change to `.git/config` in the GHC repo.  For example, to ignore untracked files in the `nofib` repo, add the line `ignore = untracked` to the section for `nofib` in `.git/config`:
+
+{{{
+[submodule "nofib"]
+	url = /home/simon/ghc-mirror/nofib.git
+        ignore = untracked
+}}}
+
 == Making changes to GHC submodules ==
 
 It's very important to keep in mind that Git submodules track commits (i.e. not branches!) to avoid getting confused. Therefore, `git submodule update` will result in submodules having checked out a so-called [http://alblue.bandlem.com/2011/08/git-tip-of-week-detached-heads.html detached HEAD].
@@ -119,16 +129,6 @@ git commit -m 'update haddock submodule ... blablabla'
 
 # finally, push the commit to the remote `ghc.git` repo
 git push
-}}}
-
-=== Dirty submodules ===
-
-By default, git will consider your submodule as "dirty" when you do `git status` if it has any changes or any untracked files.  Sometimes this can be inconvenient, especially when using [wiki:Phabricator] which won't allow you to upload a diff when there are dirty submodules.  Phabricator will let you ignore untracked files in the main GHC repo, but to ignore untracked files in a submodule you'll need a change to `.git/config` in the GHC repo.  For example, to ignore untracked files in the `nofib` repo, add the line `ignore = untracked` to the section for `nofib` in `.git/config`:
-
-{{{
-[submodule "nofib"]
-	url = /home/simon/ghc-mirror/nofib.git
-        ignore = untracked
 }}}
 
 === Validation hooks ===
