@@ -91,15 +91,18 @@ Note that explicit `Functor` instances do not have a default implementation of `
 
 === Requirement 3: A member's most local definition is its definition. ===
 
-Requirement 2 implies that the default implementation of a method might come from somewhere other than the class declaration in which the method is declared. Indeed, there might be multiple defaults. We could choose to give `Monad` its own specialized `fmap`
+Requirement 2 implies that the default implementation of a method might come from somewhere other than the class declaration in which the method is declared. Indeed, there might be multiple defaults. We could choose to give `Monad` its own specialized `fmap`:
 {{{
+class (instance Applicative m) => Monad m where
   fmap f ma = ma >>= \ a -> return (f a)
 }}}
+So now where is a default defintion for `fmap` ''both'' in `Monad` ''and'' in its superclass `Applicative`.
+We need to choose between these candidate definitions, and the obvious way to do so is to apply the existing principle that the more local overrides the more generic.
 
-Of course, instances can also offer definitions wich override the defaults. We need to choose between these candidate definitions and the obvious way to do so is to apply the existing principle that the more local overrides the more generic.
-
-If we gave `Monad` a default `fmap`, we should then expect that explicit `Functor` instances will not have a default `fmap` implementation, and that explicit `Applicative` instances will be offered the default `fmap` from the `Applicative` class declaration, but that explicit `Monad` instances should be offered the `Monad`-specific default instead.
-
+If we gave `Monad` a default `fmap`, we should then expect that 
+ * explicit (i.e. user-written) `Functor` instances will not have a default `fmap` implementation, 
+ * explicit `Applicative` instances will be offered the default `fmap` from the `Applicative` class declaration, 
+ * explicit `Monad` instances should be offered the `Monad`-specific default instead.
 
 === Requirement 4: Transitionally, we must minimize damage to client code with explicit instances now duplicated by intrinsic superclass instances. ===
 
