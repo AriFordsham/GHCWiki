@@ -32,7 +32,26 @@ class S x => C x where
 ```
 
 
-The cost of putting this generalization into the library is that all the client code will break. Each client `C` instance will need an accompanying `S`. Busy people will complain bitterly that they haven't the time to add `S` instances everywhere, so the success of `C` will get in the way of insight about `S`. This is not a bad reason to resist making `Functor` and `Applicative` superclasses of `Monad`. It would have been pleasant to introduce `Applicative` as a generalization of `Monad` and somehow have all our old `Monad` instances generate `Applicative` instances too.
+The cost of putting this generalization into the library is that all the client code will break.  Where the client previously wrote
+
+```wiki
+instance C a => C (T a) where
+  f = ...impl of f at type T...
+  g = ...impl of g at type T...
+```
+
+
+she must instead write
+
+```wiki
+instance C a => S (T a) where
+  f = ...impl of f at type T...
+instance C a => C (T a) where
+  g = ...impl of g at type T...
+```
+
+
+Busy people will complain bitterly that they haven't the time to add `S` instances everywhere, so the success of `C` will get in the way of insight about `S`. This is not a bad reason to resist making `Functor` and `Applicative` superclasses of `Monad`. It would have been pleasant to introduce `Applicative` as a generalization of `Monad` and somehow have all our old `Monad` instances generate `Applicative` instances too.
 
 
 We want to fix things so that `S` can be introduced in such a way that `C` instances in client code yield, by default, both `C` and `S` instances internally, each with the constraints given in the client code. We do not imagine that all superclasses should have this relationship with their subclasses, but that some **intrinsic** superclasses might. The various definitions in client instances will need to be distributed to the appropriate internal instances of the class itself and its intrinsic superclasses.
@@ -40,7 +59,7 @@ We want to fix things so that `S` can be introduced in such a way that `C` insta
 ### Requirement 2: Some subclasses should give default definitions for things declared in their superclasses.
 
 
-Our refactoring problem deepens when classes define default methods. What if we actually had
+Our refactoring problem deepens when classes define default methods. What if our library defined class `C` with a default method for `f` that uses `g`, thus:
 
 ```wiki
 class C x where
@@ -50,7 +69,7 @@ class C x where
 ```
 
 
-to start with? That is, types with a `C` instance can be given an `S` instance in a "standard" way, but there are other types which have `S` instances defined differently and no `C` instance at all. Again, that is a familiar situation: every `Monad` has is `Applicative` with `(<*>) = ap`, but non-monadic `Applicative` instances have `(<*>)` defined in other ways. But now our split hits trouble. We cannot have
+Now our split hits trouble. We cannot have
 
 ```wiki
 class S x where
@@ -61,7 +80,16 @@ class S x => C x where
 ```
 
 
-because (technically) `g` is no longer in scope for the default `f` definition and (morally) because only the `S`s which are also `C` should have that default definition anyway: the default `f` definition rightly belongs in the declaration of `C`, but `f` is not a method of `C`.
+because (technically) `g` is no longer in scope for the default `f` definition, and (morally) because only the `S`s which are also `C` should have that default definition anyway. 
+
+
+The default method for `S`'s method `f` rightly belongs in the declaration of `C`, not `S`, because
+
+- types with a `C` instance can be given an `S` instance in a "standard" way (using `..g..`), but
+- there are other types which have `S` instances defined differently and no `C` instance at all.
+
+
+Again, that is a familiar situation: every `Monad` has is `Applicative` with `(<*>) = ap`, but non-monadic `Applicative` instances have `(<*>)` defined in other ways.
 
 **Imagined solution.** If only we could write something like
 
@@ -74,7 +102,7 @@ class (instance S x) => C x where
 ```
 
 
-where the extra `instance` marking the superclass constraint makes `S` an **intrinsic** superclass of `C`. Accordingly, `f` can be treated as if it were a method of `C` for purposes of `C`'s instances and for default definition in the `C` class declaration.
+where the extra `instance` marking the superclass constraint makes `S` an **intrinsic** superclass of `C`. Accordingly, `f` can be treated as if it were a method of `C`, *both* for purposes of `C`'s instances, *and* for default definition in the `C` class declaration.
 
 
 If this machinery had been in place when `Applicative` was invented, we could just have given
@@ -95,17 +123,23 @@ Note that explicit `Functor` instances do not have a default implementation of `
 ### Requirement 3: A member's most local definition is its definition.
 
 
-Requirement 2 implies that the default implementation of a method might come from somewhere other than the class declaration in which the method is declared. Indeed, there might be multiple defaults. We could choose to give `Monad` its own specialized `fmap`
+Requirement 2 implies that the default implementation of a method might come from somewhere other than the class declaration in which the method is declared. Indeed, there might be multiple defaults. We could choose to give `Monad` its own specialized `fmap`:
 
 ```wiki
+class (instance Applicative m) => Monad m where
   fmap f ma = ma >>= \ a -> return (f a)
 ```
 
 
-Of course, instances can also offer definitions wich override the defaults. We need to choose between these candidate definitions and the obvious way to do so is to apply the existing principle that the more local overrides the more generic.
+So now where is a default defintion for `fmap`*both* in `Monad`*and* in its superclass `Applicative`.
+We need to choose between these candidate definitions, and the obvious way to do so is to apply the existing principle that the more local overrides the more generic.
 
 
-If we gave `Monad` a default `fmap`, we should then expect that explicit `Functor` instances will not have a default `fmap` implementation, and that explicit `Applicative` instances will be offered the default `fmap` from the `Applicative` class declaration, but that explicit `Monad` instances should be offered the `Monad`-specific default instead.
+If we gave `Monad` a default `fmap`, we should then expect that 
+
+- explicit (i.e. user-written) `Functor` instances will not have a default `fmap` implementation, 
+- explicit `Applicative` instances will be offered the default `fmap` from the `Applicative` class declaration, 
+- explicit `Monad` instances should be offered the `Monad`-specific default instead.
 
 ### Requirement 4: Transitionally, we must minimize damage to client code with explicit instances now duplicated by intrinsic superclass instances.
 
@@ -233,6 +267,8 @@ The earlier [DefaultSuperclassInstances](default-superclass-instances) proposal 
 
 Note that this property is in conflict with Requirement 4: to maintain legacy code, we must restrict the generation of internal instances for intrinsic superclasses with attention to the instances which otherwise exist already, so that the meaning of one instance definition vary with the presence or absence of another. We should recognize this anomaly as a necessary evil and minimize its impact.
 
+---
+
 ## Terminology
 
 
@@ -354,6 +390,8 @@ class (instance Monad f - Functor, instance Traversable f) => Transposable f whe
 
 
 The algorithm for computing intrinsic superclass closures is made precise in the technical presentation of the proposal.
+
+---
 
 ## The Proposal
 
@@ -506,6 +544,8 @@ and note that
 
 (By the way, the above negotiation with `return` and `pure` should allow existing `Applicative` instances to work as intended, but generate a warning that `return` has not been defined.)
 
+---
+
 ## Transitional Relief for Legacy Code
 
 
@@ -559,6 +599,8 @@ We still face legacy problems when we make an old class into a new intrinsic sup
 
 
 We might hope that, in future, people might become sufficiently good at deciding to make immediate superclasses intrinsic from the start that we can do away with the need for pre-emption. It seems a necessary evil now.
+
+---
 
 ## Multiple Instances
 
