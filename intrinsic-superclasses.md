@@ -267,6 +267,8 @@ The earlier [DefaultSuperclassInstances](default-superclass-instances) proposal 
 
 Note that this property is in conflict with Requirement 4: to maintain legacy code, we must restrict the generation of internal instances for intrinsic superclasses with attention to the instances which otherwise exist already, so that the meaning of one instance definition vary with the presence or absence of another. We should recognize this anomaly as a necessary evil and minimize its impact.
 
+---
+
 ## Terminology
 
 
@@ -388,6 +390,8 @@ class (instance Monad f - Functor, instance Traversable f) => Transposable f whe
 
 
 The algorithm for computing intrinsic superclass closures is made precise in the technical presentation of the proposal.
+
+---
 
 ## The Proposal
 
@@ -540,6 +544,8 @@ and note that
 
 (By the way, the above negotiation with `return` and `pure` should allow existing `Applicative` instances to work as intended, but generate a warning that `return` has not been defined.)
 
+---
+
 ## Transitional Relief for Legacy Code
 
 
@@ -593,6 +599,8 @@ We still face legacy problems when we make an old class into a new intrinsic sup
 
 
 We might hope that, in future, people might become sufficiently good at deciding to make immediate superclasses intrinsic from the start that we can do away with the need for pre-emption. It seems a necessary evil now.
+
+---
 
 ## Multiple Instances
 
