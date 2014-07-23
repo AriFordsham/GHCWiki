@@ -166,6 +166,8 @@ Functions in the API expect to be called in a certain sequence:
 *///////////////
 /* RUNNING *///////////////
 // Initialise the event logging system with the default values
+// The API uses state to control the default values. More information
+// is available in the SETTINGS section.
 initEventLogging();// Sends the header file of the eventlog via the fd
 sendHeader();//Starts sending the events to the fd
 startEventLogging();// Stops sending the events to the fd
