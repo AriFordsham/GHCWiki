@@ -32,6 +32,8 @@ See milestone:7.10.1 and [https://ghc.haskell.org/trac/ghc/query?status=infoneed
 
  * **DWARF-based stack tracing** - Peter Wortmann and Arash Rouhani (with support from the Simons) are working on enabling GHC to generate and use DWARF debugging information. This should allow us to obtain stack traces and do profiling without the need for instrumentation.
 
+ * **Reimplemented GMP-based `Integer` backend (#9281)** - This provides a GMP-based `Integer` backend not relying on registering GHC-specific [https://gmplib.org/manual/Custom-Allocation.html custom GMP memory allocators] which cause problems when linking to other C-code also using GMP unaware of GHC's memory management.
+
 = Tickets =
 
 See milestone:7.10.1
