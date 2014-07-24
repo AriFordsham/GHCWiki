@@ -37,10 +37,10 @@ A **boot package** is, by definition, a package that can be built by GHC's build
 
 Boot packages can be classified in four different ways:
 
-- Required/Optional
-- Independent/Coupled/Specific
-- Zero-boot/not zero-boot
-- Installed/not installed
+- Required vs optional
+- Wired-in vs independent
+- Zero-boot vs not zero-boot
+- Installed vs not installed
 
 
 These distinctions are described in the following sub-sections.
@@ -61,20 +61,18 @@ However a few are **optional**, and are built only
 
 An important classification of the boot packages is as follows:
 
-- **SPECIFIC**: Totally specific to GHC.  At the moment these are:
+- **Wired in packages** are totally specific to GHC.  See the list in `compiler/main/Packages.lhs` function `findWiredInPackages`, and c.f. [Commentary/Compiler/Packages](commentary/compiler/packages). At the moment these are:
 
   - `ghc-prim`
+  - `integer-gmp`, `integer-simple`
+  - `base`
   - `template-haskell`
   - `dph`
 
-- **COUPLED**: Tightly coupled to GHC.  At the moment there is just one of these:
-
-  - `base`
-
-- **INDEPENDENT**: Independently maintained.  There are quite a few of these, such as `containers`, `binary`, `haskeline` and so on.  Indeed most boot libraries are INDEPENDENT.  
+- **Independent** packages are loosely coupled to GHC, and often maintained by others.  Most boot packages are independent; e.g. `containers`, `binary`, `haskeline` and so on.  
 
 
-INDEPENDENT libraries have a master repository somewhere separate from the GHC repositories.  Whenever we release GHC, we ensure that the INDEPENDENT boot libraries that come with GHC are precisely sync'd with a particular released version of that library.
+Independent libraries may have a master repository somewhere separate from the GHC repositories.  Whenever we release GHC, we ensure that the installed boot libraries (i.e. that come with GHC) that are also independent are precisely sync'd with a particular released version of that library.
 
 ## Zero-boot packages
 
@@ -88,7 +86,7 @@ For the most part we simply assume that the bootstrap compiler already has the b
 - The only packages that we can "assume that the bootstrap compiler already has" are those packages that come with GHC itself; i.e. the installed boot packages.  So non-installed boot packages are also zero-boot packages.  Example: `bin-package-db` or `hoopl`.
 
 
-So we begin the entire build process by installing the zero-boot packages in the bootstrap compiler.  (This installation is purely local to the build tree.)  
+So we begin the entire build process by installing the zero-boot packages in the bootstrap compiler.  (This installation is purely local to the build tree.)  This is done in `ghc.mk` by setting `PACKAGES_STAGE0` to the list of zero-boot packages; indeed this is the only way in which zero-boot packages are identified in the build system.
 
 
 As time goes on, a Zero-boot package may become an ordinary boot package, because the bootstrap compiler is expected to have (a sufficiently up to date) version of the package already.  Remember that we support bootstrapping with two previous versions of GHC.
@@ -123,6 +121,8 @@ Alas, since the `ghc` package (implementing the GHC API) is certainly an install
 
 
 Currently the Boot Packages that are not installed are `haskelline`, `mtl`, and `terminfo`; these are needed to build the GHC front-end, but not to build the `ghc`*package*.
+
+**QUESTION**: where in the build system is the list of installed packages defined?
 
 ---
 
