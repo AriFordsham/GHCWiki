@@ -54,7 +54,7 @@ An important classification of the boot packages is as follows:
    * `template-haskell`
    * `dph`
 
- * '''Independent''' packages are loosely coupled to GHC, and often maintained by others.  Most boot pcakges are independent; e.g. `containers`, `binary`, `haskeline` and so on.  
+ * '''Independent''' packages are loosely coupled to GHC, and often maintained by others.  Most boot packages are independent; e.g. `containers`, `binary`, `haskeline` and so on.  
 
 Independent libraries may have a master repository somewhere separate from the GHC repositories.  Whenever we release GHC, we ensure that the installed boot libraries (i.e. that come with GHC) that are also independent are precisely sync'd with a particular released version of that library.
 
