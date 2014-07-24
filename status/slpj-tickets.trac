@@ -253,6 +253,6 @@ See also [wiki:TemplateHaskell]
 --------------------------
 == Not sure what to do about these ==
  * #7897: make the fingerprint in a `TypeRep` be a proper fingerprint, including the type definition all the way down (see [http://hackage.haskell.org/trac/ghc/wiki/DependencyTracking Recompilation avoidance])
- * #2284, #1168, #7561: the state-hack "optimisation" causes much re-computation
+ * #2284, #1168, #7561, #9349: the state-hack "optimisation" causes much re-computation
  * #4005: generational GC pathalogical case
  * #1349: strict function argument types
