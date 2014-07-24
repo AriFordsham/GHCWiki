@@ -69,7 +69,7 @@ Since GHC's source code imports the boot packages, *even the bootstrap compiler 
 
 For the most part we simply assume that the bootstrap compiler already has the boot packages installed.  The **Zero-boot Packages** are a set of packages for which this assumption does not hold. Two reasons dominate:
 
-- For certain fast-moving boot packages (eg Cabal), we don't want to rely on the user having installed a bang-up-to-date version of the package.
+- For certain fast-moving boot packages (e.g. `cabal`), we don't want to rely on the user having installed a bang-up-to-date version of the package.
 - The only packages that we can "assume that the bootstrap compiler already has" are those packages that come with GHC itself; i.e. the installed boot packages.  So non-installed boot packages are also zero-boot packages.  Example: `bin-package-db` or `hoopl`.
 
 
