@@ -26,23 +26,34 @@ It should be exceptional, but you can make the build system provide per-package 
 --------------------------
 = Classifying boot packages =
 
-Boot packages can be classified in three different ways:
+A '''boot package''' is, by definition, a package that can be built by GHC's build system.
+
+Boot packages can be classified in four different ways:
+  * Required/Optional
   * Independent/Coupled/Specific
   * Zero-boot/not zero-boot
   * Installed/not installed
 These distinctions are described in the following sub-sections.
+
+== Required or optional ==
+
+Most boot packages '''required''' to build `ghc-stage2`, or one of the supporting utilities such as `ghc-pkg`, `hsc2hs`, etc.
+
+However a few are '''optional''', and are built only
+ * To ensure that they do indeed build cleanly; they are stress tests of GHC.  E.g. `dph`
+ * Because they are used in regression tests
 
 == Coupling to GHC ==
 
 An important classification of the boot packages is as follows:
 
  * '''SPECIFIC''': Totally specific to GHC.  At the moment these are:
-   * ghc-prim
-   * template-haskell
-   * DPH
+   * `ghc-prim`
+   * `template-haskell`
+   * `dph`
 
  * '''COUPLED''': Tightly coupled to GHC.  At the moment there is just one of these:
-   * base
+   * `base`
 
  * '''INDEPENDENT''': Independently maintained.  There are quite a few of these, such as `containers`, `binary`, `haskeline` and so on.  Indeed most boot libraries are INDEPENDENT.  
 
@@ -52,11 +63,13 @@ INDEPENDENT libraries have a master repository somewhere separate from the GHC r
 
 Since GHC's source code imports the boot packages, ''even the bootstrap compiler must have the boot packages available''.  (Or, more precisely, all the types and values that are imported must be available from some package in the bootstrap compiler; the exact set of packages does not need to be identical.)
 
-For the most part we simply assume that the bootstrap compiler already has the boot packages installed.  The '''Zero-boot Packages''' are a set of packages for which this assumption does not hold.  For example, for certain fast-moving boot packages (eg Cabal), we don't want to rely on the user having installed a bang-up-to-date version of the package.  
+For the most part we simply assume that the bootstrap compiler already has the boot packages installed.  The '''Zero-boot Packages''' are a set of packages for which this assumption does not hold. Two reasons dominate:
+ * For certain fast-moving boot packages (notably `Cabal`), we don't want to rely on the user having installed a bang-up-to-date version of the package.
+ * The only packages that we can "assume that the bootstrap compiler already has" are those packages that come with GHC itself; i.e. the installed boot packages.  So non-installed boot packages are also zero-boot packages.  Example: `bin-package-db` or `hoopl`.
 
 So we begin the entire build process by installing the zero-boot packages in the bootstrap compiler.  (This installation is purely local to the build tree.)  
 
-As time goes on, a Zero-boot package may become an ordinary boot package, because the bootstrap compiler is expected to have (a sufficiently up to date) version of the package already.
+As time goes on, a Zero-boot package may become an ordinary boot package, because the bootstrap compiler is expected to have (a sufficiently up to date) version of the package already.  Remember that we support bootstrapping with two previous versions of GHC.
 
 To find out which packages are currently zero-boot packages, do the following in a GHC build:
 {{{
