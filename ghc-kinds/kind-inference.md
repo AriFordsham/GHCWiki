@@ -80,7 +80,7 @@ The new proposal is this:
 This is somewhat simpler, it covers classes. See [comment:19:ticket:9200](https://gitlab.haskell.org//ghc/ghc/issues/9200) for more exposition.
 This change alone is enough to satisfy [\#9200](https://gitlab.haskell.org//ghc/ghc/issues/9200).
 
-**Simon** What about type synonym declarations? Don't we need a kind signature on the RHS?
+**Simon** What about type synonym declarations? Don't we need a kind signature on the RHS?  Also what about specifying the return kind of a type family (open or closed)?  Does it default to `*`, or must you specify it to get a CUSK?
 
 ## A possible variation
 
