@@ -7,10 +7,10 @@
 - [\#8980](https://gitlab.haskell.org//ghc/ghc/issues/8980), [\#8941](https://gitlab.haskell.org//ghc/ghc/issues/8941) (possibly), [\#8960](https://gitlab.haskell.org//ghc/ghc/issues/8960), [\#7898](https://gitlab.haskell.org//ghc/ghc/issues/7898), [\#7068](https://gitlab.haskell.org//ghc/ghc/issues/7068), [\#7944](https://gitlab.haskell.org//ghc/ghc/issues/7944), [\#5550](https://gitlab.haskell.org//ghc/ghc/issues/5550), [\#8836](https://gitlab.haskell.org//ghc/ghc/issues/8836): `SpecConstr` blowup
 - [\#9242](https://gitlab.haskell.org//ghc/ghc/issues/9242): per-instance pragmas for overlapping/incoherent
 - [\#9123](https://gitlab.haskell.org//ghc/ghc/issues/9123): higher order roles
+- [\#9200](https://gitlab.haskell.org//ghc/ghc/issues/9200), [\#9151](https://gitlab.haskell.org//ghc/ghc/issues/9151): kind inference for mutually recursive types
 
 ## Front end
 
-- [\#9200](https://gitlab.haskell.org//ghc/ghc/issues/9200): kind inference for mutually recursive types
 - [\#8968](https://gitlab.haskell.org//ghc/ghc/issues/8968), [\#9226](https://gitlab.haskell.org//ghc/ghc/issues/9226): pattern synonyms and GADTs
 - [\#8582](https://gitlab.haskell.org//ghc/ghc/issues/8582): pattern synonyms and record syntax
 - [\#8581](https://gitlab.haskell.org//ghc/ghc/issues/8581): explicitly bidirectional pattern synonyms
