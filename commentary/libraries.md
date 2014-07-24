@@ -61,15 +61,13 @@ However a few are **optional**, and are built only
 
 An important classification of the boot packages is as follows:
 
-- **SPECIFIC**: Totally specific to GHC.  At the moment these are:
+- **Wired in packages** are totally specific to GHC.  See the list in `compiler/main/Packages.lhs` function `findWiredInPackages`, and c.f. [Commentary/Compiler/Packages](commentary/compiler/packages). At the moment these are:
 
   - `ghc-prim`
+  - `integer-gmp`, `integer-simple`
+  - `base`
   - `template-haskell`
   - `dph`
-
-- **COUPLED**: Tightly coupled to GHC.  At the moment there is just one of these:
-
-  - `base`
 
 - **INDEPENDENT**: Independently maintained.  There are quite a few of these, such as `containers`, `binary`, `haskeline` and so on.  Indeed most boot libraries are INDEPENDENT.  
 
