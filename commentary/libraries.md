@@ -32,14 +32,29 @@ It should be exceptional, but you can make the build system provide per-package 
 # Classifying boot packages
 
 
-Boot packages can be classified in three different ways:
+A **boot package** is, by definition, a package that can be built by GHC's build system.
 
+
+Boot packages can be classified in four different ways:
+
+- Required/Optional
 - Independent/Coupled/Specific
 - Zero-boot/not zero-boot
 - Installed/not installed
 
 
 These distinctions are described in the following sub-sections.
+
+## Required or optional
+
+
+Most boot packages **required** to build `ghc-stage2`, or one of the supporting utilities such as `ghc-pkg`, `hsc2hs`, etc.
+
+
+However a few are **optional**, and are built only
+
+- To ensure that they do indeed build cleanly; they are stress tests of GHC.  E.g. `dph`
+- Because they are used in regression tests
 
 ## Coupling to GHC
 
@@ -48,13 +63,13 @@ An important classification of the boot packages is as follows:
 
 - **SPECIFIC**: Totally specific to GHC.  At the moment these are:
 
-  - ghc-prim
-  - template-haskell
-  - DPH
+  - `ghc-prim`
+  - `template-haskell`
+  - `dph`
 
 - **COUPLED**: Tightly coupled to GHC.  At the moment there is just one of these:
 
-  - base
+  - `base`
 
 - **INDEPENDENT**: Independently maintained.  There are quite a few of these, such as `containers`, `binary`, `haskeline` and so on.  Indeed most boot libraries are INDEPENDENT.  
 
