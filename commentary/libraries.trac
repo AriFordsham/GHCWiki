@@ -29,10 +29,10 @@ It should be exceptional, but you can make the build system provide per-package 
 A '''boot package''' is, by definition, a package that can be built by GHC's build system.
 
 Boot packages can be classified in four different ways:
-  * Required/Optional
-  * Independent/Coupled/Specific
-  * Zero-boot/not zero-boot
-  * Installed/not installed
+  * Required vs optional
+  * Wired-in vs independent
+  * Zero-boot vs not zero-boot
+  * Installed vs not installed
 These distinctions are described in the following sub-sections.
 
 == Required or optional ==
@@ -54,9 +54,9 @@ An important classification of the boot packages is as follows:
    * `template-haskell`
    * `dph`
 
- * '''INDEPENDENT''': Independently maintained.  There are quite a few of these, such as `containers`, `binary`, `haskeline` and so on.  Indeed most boot libraries are INDEPENDENT.  
+ * '''Independent''' packages are loosely coupled to GHC, and often maintained by others.  Most boot pcakges are independent; e.g. `containers`, `binary`, `haskeline` and so on.  
 
-INDEPENDENT libraries have a master repository somewhere separate from the GHC repositories.  Whenever we release GHC, we ensure that the INDEPENDENT boot libraries that come with GHC are precisely sync'd with a particular released version of that library.
+Independent libraries may have a master repository somewhere separate from the GHC repositories.  Whenever we release GHC, we ensure that the installed boot libraries (i.e. that come with GHC) that are also independent are precisely sync'd with a particular released version of that library.
 
 == Zero-boot packages ==
 
