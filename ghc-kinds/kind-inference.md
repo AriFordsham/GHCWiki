@@ -1,12 +1,91 @@
 # Kind inference for types and classes
 
 
-This page summarises several alternative designs, which are debated on [\#9200](https://gitlab.haskell.org//ghc/ghc/issues/9200).  (See also [\#9201](https://gitlab.haskell.org//ghc/ghc/issues/9201).)
+This page summarises several alternative designs for doing kind inference for
+types and classes, under `-XPolyKinds`.  See the extensive discussion on [\#9200](https://gitlab.haskell.org//ghc/ghc/issues/9200).  (See also [\#9201](https://gitlab.haskell.org//ghc/ghc/issues/9201).)
 
-## Baseline strategy (BASELINE)
+## Current strategy (GHC 7.8)
 
 
-This plan, originally due to Mark Jones, is the strategy that GHC 7.8 follows for ordinary, recursive term-level functions, and for recursive data types.  I'll describe it for data types, with this example:
+Running example:
+
+```wiki
+  data T a f = T1 Int (T a f) | T2 (f a)
+
+  data S a f = S1 (S Maybe (S Int)) 
+```
+
+
+Here is GHC 7.8's strategy:
+
+1. Sort data/type/class declarations into strongly connected components.  In our example, there are two recursive SCCs, one for `T` and one for `S`.
+
+1. Then, for each SCC in turn:
+
+- Bind the type constructor to a fresh meta-kind variable:
+
+  ```wiki
+          T :: kappa0
+  ```
+- Kind-check all the declarations of the SCC in this environment.  This will generate some unifications, so in the end we get
+
+  ```wiki
+          kappa0 ~ kappa1 -> (kappa1 -> *) -> *
+  ```
+- Generalise.  So we get
+
+  ```wiki
+          T :: forall k. k -> (k -> *) -> *
+  ```
+
+
+Following the same three steps for `S` fails, because we need polymorphic recursion.  Srarting with `S :: kappa0`, we get
+
+```wiki
+  kappa0 ~ kappa1 -> kappa2 -> *    -- S has two arguments
+  kappa1 ~ *->*                     -- From (S Maybe)
+  kappa1 ~ *                        -- From (S Int)
+  ...and some more...
+```
+
+
+So in GHC 7.8 you can supply a "complete user kind signature" (CUSK) for `S`, thus:
+
+```wiki
+  data S (a :: k) (f :: k -> *) where
+     S1 :: S Maybe (S Int) -> S a f
+```
+
+
+The real step 2 works thus:
+
+- Bind the each non-CUSK type constructor to a fresh meta-kind variable, and each CUSK type constructor to its polymorphic kind.
+
+  ```wiki
+          S :: forall k. k -> (k->*) -> *
+  ```
+- Kind-check all the declarations of the SCC in this environment.  With this new kind for `S`, kind checking succeeds.
+
+- Generalise any non-CUSK type constructors.
+
+## Proposed new strategy
+
+
+The main proposed change is to the definition of a "complete user kind signature" (CUSK).  The current story is in [Section 7.8.3 of the user manual](http://www.haskell.org/ghc/docs/latest/html/users_guide/kind-polymorphism.html#complete-kind-signatures).  Alas, it does not allow CUSKs for class declarations.
+The new proposal is this:
+
+- A class or datatype is said to have a CUSK if and only if all of its type variables are annotated. 
+
+
+This is somewhat simpler, it covers classes. See [comment:19:ticket:9200](https://gitlab.haskell.org//ghc/ghc/issues/9200) for more exposition.
+This change alone is enough to satisfy [\#9200](https://gitlab.haskell.org//ghc/ghc/issues/9200).
+
+**Simon** What about type synonym declarations. Don't we need a kind signature on the RHS?
+
+## A possible variation
+
+
+This algorithm is not quite as expressive as it could be.  Consider
 
 ```wiki
    data SS f a b = MkSS (TT a f) (SS f a b)
@@ -14,14 +93,20 @@ This plan, originally due to Mark Jones, is the strategy that GHC 7.8 follows fo
       MkTT :: f a -> SS f a Maybe -> SS f a Int -> TT a f
 ```
 
-1. Identify which type constructors have Complete User Type Signatures (CUSK).  In this example, `TT` does. Extend the environment with these, fixed, kinds:
+
+Here `TT` has a CUSK, but `SS` does not.  Hence in step 1 we'd bind `SS :: kappa0`. But in the RHS of `TT` we use `SS` at two different kinds, so infernece will fail.  We could solve this by giving a CUSK to `SS` as well.
+
+
+However, we can *also* solve it using a plan due to Mark Jones, and one that GHC 7.8 already follows for ordinary, recursive term-level functions.  As usual, divide the declarations into SCCs, and then for each SCC do the following:
+
+- Identify which type constructors have Complete User Type Signatures (CUSK).  In this example, `TT` does. Extend the environment with these, fixed, kinds:
 
   ```wiki
          TT :: forall k. k -> (k->*) -> *
   ```
-1. Perform strongly-connected component (SCC) analysis on the non-CUSK decls, *ignoring* dependencies on a type constructor with a CUSK.  In our example, we get a single recursive SCC, containing `SS`.
+- Perform a new strongly-connected component (SCC) analysis on the non-CUSK decls in the SCC, *ignoring dependencies on a type constructor with a CUSK*.  In our example, we get a single recursive SCC, containing `SS`.
 
-1. For each SCC in turn:
+- For each SCC in turn:
 
   - Bind the type constructor to a fresh meta-kind variable:
 
@@ -40,30 +125,18 @@ This plan, originally due to Mark Jones, is the strategy that GHC 7.8 follows fo
     ```wiki
             SS :: forall k1 k2. (k1->*) -> k1 -> k2 -> *
     ```
-1. Extend the environment with these generalised kind bindings, and kind-check the CUSK declarations.
+- Extend the environment with these generalised kind bindings, and kind-check the CUSK declarations.
 
 
 The Key Point is that we can kind-check `SS`*without looking at `TT`'s definition at all*, because we completely know `TT`'s kind.  That in turn means that we can exploit *inferred* polymorphism for `SS` when kind-checking `TT`.  As we do here: `TT` uses `SS` in two different ways `(SS f a Maybe)` and `(SS f a Int)`.
 
 
-Note that for a *non-recursive* type or class declaration, (BASELINE) always works fine.
+This strategy is more complicated than the initial proposal, but allows fewer annotations.  It's not clear whether it is wroth the bother.
 
-### Refine the definition of CUSK (BASELINE/NEWCUSK)
-
-
-GHC's current definition of a complete user-supplied kind signature is [here in the user manual](http://www.haskell.org/ghc/docs/latest/html/users_guide/kind-polymorphism.html#complete-kind-signatures).  A big disadvantage is that classes can't have a CUSK under that definition.
+### Typing rule for the new proposal
 
 
-A somewhat simpler, but more permissive definition, and one that covers classes, is this:
-
-- A class or datatype is said to have a CUSK if and only if all of its type variables are annotated. 
-
-
-See [comment:19:ticket:9200](https://gitlab.haskell.org//ghc/ghc/issues/9200) for more exposition.
-
-### Typing rule for (BASELINE/NEWCUSK)
-
-
+An algorithm is all very well, but what about the typing judgements?
 We will pretend that data, type, type family, class declarations look something like this:
 
 ```wiki
@@ -72,7 +145,7 @@ We will pretend that data, type, type family, class declarations look something 
 ```
 
 
-That is, there is a possibly-partial kind signature, with holes denoted by "_", and a definition "rhs" (eg the consructors of a dat type, or equations of a closed type family). In reality there isn't a separate kind signature; instead, it is integrated in the definition; e.g.
+That is, there is a possibly-partial kind signature, with holes denoted by "_", and a definition "rhs" (eg the consructors of a data type, or equations of a closed type family). In reality there isn't a separate kind signature; instead, it is integrated in the definition; e.g.
 
 ```wiki
   data T (a::k1 -> *) (b::k1) c = MkT (a b) c
@@ -90,7 +163,7 @@ type families, etc.  We ignore arity/saturation issues for type families.
 k has at least one missing bit (non-CUSK)
 k2 = k[k'1 .. k'n/_]     -- k'1 .. k'n are magically known
 kvs2 = fkv(k2)
-G, kvs, T : k2 |- (data T tvs = rhs) ok    -- Monomorphic recursion
+G, kvs2, T : k2 |- (data T tvs = rhs) ok    -- Monomorphic recursion
 ----------------------------------------------------- NoCUSK
 G |- (T :: forall kvs. k; data T tvs = rhs) :: {T :: forall kvs2. k2}
 
