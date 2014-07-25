@@ -86,6 +86,16 @@ This change alone is enough to satisfy [\#9200](https://gitlab.haskell.org//ghc/
 
 **Richard** Type synonym declarations can never be recursive, right? So, this issue doesn't affect them. I've answered the other questions above.
 
+**Simon** Wrong: type synonyms can be recursive through a data type:
+
+```wiki
+  data S (a :: k) (f :: k -> *) = S1 (SSyn (S Int) Maybe) 
+  type SSyn f a = S a f
+```
+
+
+This will fail despite the CUSK for `S` because `SSyn` lacks one.  (The variation below would fix this particular example.)  I think [\#9151](https://gitlab.haskell.org//ghc/ghc/issues/9151) is another example.
+
 ## A possible variation
 
 
@@ -181,7 +191,8 @@ G |- (T :: forall kvs. k; data T tvs = rhs) :: {T :: forall kvs. k}
 We need two rules, depending on whether or not a CUSK is detected. 
 
 
-The first rule requires the equations to be fully parametric in its kinds, whereas the second allows non-parametric equations and polymorphic recursion. **Simon:** I don't know what this means. **Richard:** "Non-parametric" here refers to using a kind-indexed closed type family, where the equations match on the kinds, not just the types. It has a flavor of polymorphic recursion in that the instantiations for the kind variables are not always the same at every usage.
+The first rule requires the equations to be fully parametric in its kinds, whereas the second allows non-parametric equations and polymorphic recursion. **Simon:** I don't know what this means. **Richard:** "Non-parametric" here refers to using a kind-indexed closed type family, where the equations match on the kinds, not just the types. It has a flavor of polymorphic recursion in that the instantiations for the kind variables are not always the same at every usage.  **Simon* does it really matter? Could we simply nuke this paragraph? Introducing an entirely new term, that then has to be explained, and is not necessary to the exposition, seems to add nothing.
+***
 
 
 For closed type families, these rules are *different* than the implementation today, because kind inference for closed type families today is ill-specified. See [comment:18:ticket:9200](https://gitlab.haskell.org//ghc/ghc/issues/9200).
