@@ -163,7 +163,7 @@ Here is a recursive case
      letrec xs = factorial y : xs in body
 }}}
 and a polymorphic one:
-}}}
+{{{
      let f :: forall a. [a] -> [a]    -- Polymorphic
          !f = fst (reverse, True)
      in body
