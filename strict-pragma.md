@@ -124,23 +124,27 @@ The intent was that it is valid to desugar such a binding to
 This currently applies even if the pattern is just a single variable, so that the `case` boils down to a `seq`.
 
 
-Continuing with this rule would mean that `-XStrict` would not allow recursive or polymoprhic pattern bindings *at all*.  So instead we propose the following revised specification.  
+Continuing with this rule would mean that `-XStrict` would not allow recursive or polymoprhic pattern bindings *at all*.  So instead we propose the following revised specification for bang patterns in let bindings.
 
 - **Static semantics.** Exactly as in Haskell, unaffected by `-XStrict`.
 
 - **Dynamic semantics.** Consider the rules in the box of [ Section 3.12 of the Haskell report](http://www.haskell.org/onlinereport/exps.html#sect3.12).  Replace these rules with the following ones, where `v` stands for a variable.
 
-  - **(FORCE)**.  Replace any binding `!p = e` with `v = e; p = v` and replace `e0` with `v `seq` e0`, where `v` is fresh.  This translation works fine if `p` is already a variable `x`, but can obviously be optimised by not introducing a fresh variable `v`.
-  - **(SPLIT)**. Replace any binding `p = e`, where `p` is not a variable, with `v = e; x1 = case v of p -> x1; ...; xn = case v of p -> xn`, where `v` is fresh and `x1`..`xn` are the bound variables of `p`.
+- **(FORCE)**.  Replace any binding `!p = e` with `v = e; p = v` and replace `e0` with `v `seq` e0`, where `v` is fresh.  This translation works fine if `p` is already a variable `x`, but can obviously be optimised by not introducing a fresh variable `v`.
+
+- **(SPLIT)**. Replace any binding `p = e`, where `p` is not a variable, with `v = e; x1 = case v of p -> x1; ...; xn = case v of p -> xn`, where `v` is fresh and `x1`..`xn` are the bound variables of `p`.  Again if `e` is a variable, you can optimised his by not introducing a fresh variable.
 
 >
 > The result will be a (possibly) recursive set of bindings, binding only simple variables on the LHS.  (One could go one step further, as in the Hsakell Report and make the recursive bindings non-recursive using `fix`, but we do not do so in Core, and it only obfuscates matters, so we do not do so here.)
 
 
-Examples of how this translation works.  The first expression of each sequence is Haskell source; the subsequent ones are Core.
+Here are some examples of how this translation works.  The first expression of each sequence is Haskell source; the subsequent ones are Core.
+
+
+Here is a simple non-recursive case.
 
 ```wiki
-(1)  let x :: Int     -- Non-recursive
+     let x :: Int     -- Non-recursive
          !x = factorial y
      in body
  ===> (FORCE)
@@ -149,8 +153,53 @@ Examples of how this translation works.  The first expression of each sequence i
      let x = factorial y in case x of x -> body
  ===> (inline x)
      case factorial y of x -> body
+```
 
-(2)  letrec xs :: [Int]  -- Recursive
+
+Same again, only with a pattern binding
+
+```wiki
+     let !(x,y) = if blob then (factorial p, factorial q) else (0,0)
+     in body
+ ===> (FORCE)
+     let v = if blob then (factorial p, factorial q) else (0,0)
+         (x,y) = v
+     in v `seq` body
+ ===> (SPLIT)
+     let v = if blob then (factorial p, factorial q) else (0,0)
+         x = case v of (x,y) -> x
+         y = case v of (x,y) -> y
+     in v `seq` body
+ ===> (inline seq, float x,y bindings inwards)
+     let v = if blob then (factorial p, factorial q) else (0,0)
+     in case v of v -> let x = case v of (x,y) -> x
+                           y = case v of (x,y) -> y
+                       in body
+ ===> (fluff up v's pattern; this is a standard Core optimisation)
+     let v = if blob then (factorial p, factorial q) else (0,0)
+     in case v of v@(p,q) -> let x = case v of (x,y) -> x
+                                 y = case v of (x,y) -> y
+                             in body
+
+ ===> (case of known constructor)
+     let v = if blob then (factorial p, factorial q) else (0,0)
+     in case v of v@(p,q) -> let x = p
+                                 y = q
+                             in body
+
+ ===> (inline x,y)
+     let v = if blob then (factorial p, factorial q) else (0,0)
+     in case v of (p,q) -> body[p/x, q/y]
+```
+
+
+The final form is just what we want: a simple case expression.
+
+
+Here is a recursive case
+
+```wiki
+     letrec xs :: [Int]  -- Recursive
             !xs = factorial y : xs
      in body
  ===> (FORCE)
@@ -159,22 +208,37 @@ Examples of how this translation works.  The first expression of each sequence i
      letrec xs = factorial y : xs in case xs of xs -> body
  ===> (eliminate case of value)
      letrec xs = factorial y : xs in body
+```
 
- (3) let f :: forall a. [a] -> [a]    -- Polymorphic
-         !f = fst (reverse, True)
-     in body
- ===> (FORCE)
-     let f = /\a. fst (reverse a, True) in f `seq` body
-        -- Notice that the `seq` is added only in the translation to Core
-        -- If we did it in Haskell source, thus
-        --    let f = ... in f `seq` body
-        -- then f's polymorphic type would get intantiated, so the Core
-        -- translation woudl be
-        --    let f = ... in f Any `seq` body
 
- ===> (inline seq, inline f)
-     case (/\a. fst (reverse a, True)) of f -> body
+and a polymorphic one:
+}}}
 
+<table><tr><th>let f</th>
+<td>forall a. \[a\] -\> \[a\]    -- Polymorphic
+!f = fst (reverse, True)
+in body
+===\> (FORCE)
+let f = /\\a. fst (reverse a, True) in f `seq` body
+-- Notice that the `seq` is added only in the translation to Core
+-- If we did it in Haskell source, thus
+--    let f = ... in f `seq` body
+-- then f's polymorphic type would get intantiated, so the Core
+-- translation woudl be
+--    let f = ... in f Any `seq` body
+</td></tr></table>
+
+>
+> ===\> (inline seq, inline f)
+>
+> >
+> > case (/\\a. fst (reverse a, True)) of f -\> body
+
+
+}}}
+When overloading is involved, the results might be slightly counter intuitive:
+
+```wiki
  (4) let f :: forall a. Eq a => a -> [a] -> Bool    -- Overloaded
          !f = fst (member, True)
      in body
@@ -182,8 +246,10 @@ Examples of how this translation works.  The first expression of each sequence i
      let f = /\a \(d::Eq a). fst (member, True) in f `seq` body
  ===> (inline seq, case of value)
      let f = /\a \(d::Eq a). fst (member, True) in body
-        -- Note that the bang has no effect at all in this case
 ```
+
+
+Note that the bang has no effect at all in this case
 
 ## Implementation
 
