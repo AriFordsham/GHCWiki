@@ -10,8 +10,6 @@ High-performance Haskell code (e.g. numeric code) can sometimes be littered with
 
 Informally the `-XStrict` language extension switches functions, data types, and bindings to be strict by default, allowing optional laziness by adding `~` in front of a variable. This essentially reverses the present situation where laziness is default and strictness can be optionally had by adding `!` in front of a variable.
 
-=== The details ===
-
  * '''Function definitions.'''  When the user writes
 {{{
 f x = ...
@@ -22,15 +20,33 @@ f !x = ...
 }}}
  Adding `~` in front of `x` gives the old lazy behavior.
 
- * '''Let bindings.'''  When the user writes
+ * '''Let/where bindings.'''  When the user writes
 {{{
 let x = ...
+let pat = ...
 }}}
  we interpret it as if she had written
 {{{
 let !x = ...
+let !pat = ...
 }}}
- Adding `~` in front of `x` gives the old lazy behavior.
+ Adding `~` in front of `x` gives the old lazy behavior.  Notice that we do ''not'' put bangs on nested patterns. For example
+{{{
+ let (p,q) = if flob then (undefined, undefined) else (True, False)
+ in ...
+}}}
+ will behave like
+{{{
+ let !(p,q) = if flob then (undefined, undefined) else (True, False)
+}}}
+ which will strictly evaluate the RHS, and bind `p` and `q` to the components of the pair.  But the pair itself is lazy (unless we also compile the Prelude with `-XStrict`; see "Modularity" below).  So `p` and `q` may end up bound to `undefined`.  See also "Recursive and polymorphic let bindings" below.
+
+ * '''Top level bindings''' are unaffected by `-XStrict`.  For example:
+{{{
+ x = factorial 20
+ (y,z) = if x > 10 then True else False
+}}}
+ Here `x` and the pattern binding `(y,z)` remain lazy.  Reason: there is no good moment to force them, until first use.  '''Simon''': Johan, do you agree?
 
  * '''Data types.''' When the user writes
 {{{
@@ -42,13 +58,14 @@ data T = C !a
 }}}
  Haskell doesn't allow for `~` patterns in data constructor definitions today. We'll add support for such patterns and have it give the old lazy behavior.
 
- * '''Newtypes.'''  Newtypes are also strict when pattern matching e.g.
+ * '''Newtypes.'''  There is no effect on newtypes, which simply rename existing types.  For example:
 {{{
 newtype T = C a
-case e of
-    C x -> ...
+f (C x)  = rhs1
+g !(C x) = rhs2
 }}}
- is strict in `x`.
+ In ordinary Haskell , `f` is lazy in its argument and hence in `x`; and `g` is strict in its argument and hence also strict in `x`.  With `-XStrict`, both become strict because `f`'s argument gets an implict bang.
+
 
 === Modularity ===
 
@@ -56,17 +73,84 @@ The pragma only affects definitions ''in this module''. Functions and data types
 
 This is crucial to preserve correctness. Entities defined in other modules might rely on laziness for correctness (whether functional or performance).
 
-=== Recursive definitions and polymorphism ===
+=== Recursive and polymorphic let bindings ===
 
-Today strict bindings cannot be polymorphic. We have a translation that would allow them to be, one that also works in the presence of recursion.
+Consider a banged let-binding
+{{{
+  let !pat = rhs in body
+}}}
+Bang patterns in let bindings today (GHC 7.8.3 and earlier) behave as [http://www.haskell.org/ghc/docs/7.8.3/html/users_guide/bang-patterns.html described in the user manual]:
+ * The binding cannot be recursive
+ * The variables bound by the pattern always get monomorphic types
+ * The complete pattern is matched before evaluation of `body` begins
+The intent was that it is valid to desugar such a binding to
+{{{
+  case rhs of pat -> body
+}}}
+This currently applies even if the pattern is just a single variable, so that the `case` boils down to a `seq`.
 
-TODO(SPJ): The below comments from SPJ contains the translation, but it's somewhat interleaved with other stuff so I forgot what it was.
+Continuing with this rule would mean that `-XStrict` would not allow recursive or polymoprhic pattern bindings ''at all''.  So instead we propose the following revised specification.  
+ * '''Static semantics.''' Exactly as in Haskell, unaffected by `-XStrict`.
+
+ * '''Dynamic semantics.''' Consider the rules in the box of [http://www.haskell.org/onlinereport/exps.html#sect3.12 Section 3.12 of the Haskell report].  Replace these rules with the following ones, where `v` stands for a variable.
+   * '''(FORCE)'''.  Replace any binding `!p = e` with `v = e; p = v` and replace `e0` with {{{v `seq` e0}}}, where `v` is fresh.  This translation works fine if `p` is already a variable `x`, but can obviously be optimised by not introducing a fresh variable `v`.
+   * '''(SPLIT)'''. Replace any binding `p = e`, where `p` is not a variable, with `v = e; x1 = case v of p -> x1; ...; xn = case v of p -> xn`, where `v` is fresh and `x1`..`xn` are the bound variables of `p`.
+ The result will be a (possibly) recursive set of bindings, binding only simple variables on the LHS.  (One could go one step further, as in the Hsakell Report and make the recursive bindings non-recursive using `fix`, but we do not do so in Core, and it only obfuscates matters, so we do not do so here.)
+
+Examples of how this translation works.  The first expression of each sequence is Haskell source; the subsequent ones are Core.
+{{{
+(1)  let x :: Int     -- Non-recursive
+         !x = factorial y
+     in body
+ ===> (FORCE)
+     let x = factorial y in x `seq` body
+ ===> (inline seq)
+     let x = factorial y in case x of x -> body
+ ===> (inline x)
+     case factorial y of x -> body
+
+(2)  letrec xs :: [Int]  -- Recursive
+            !xs = factorial y : xs
+     in body
+ ===> (FORCE)
+     letrec xs = factorial y : xs in xs `seq` body
+ ===> (inline seq)
+     letrec xs = factorial y : xs in case xs of xs -> body
+ ===> (eliminate case of value)
+     letrec xs = factorial y : xs in body
+
+ (3) let f :: forall a. [a] -> [a]    -- Polymorphic
+         !f = fst (reverse, True)
+     in body
+ ===> (FORCE)
+     let f = /\a. fst (reverse a, True) in f `seq` body
+        -- Notice that the `seq` is added only in the translation to Core
+        -- If we did it in Haskell source, thus
+        --    let f = ... in f `seq` body
+        -- then f's polymorphic type would get intantiated, so the Core
+        -- translation woudl be
+        --    let f = ... in f Any `seq` body
+
+ ===> (inline seq, inline f)
+     case (/\a. fst (reverse a, True)) of f -> body
+
+ (4) let f :: forall a. Eq a => a -> [a] -> Bool    -- Overloaded
+         !f = fst (member, True)
+     in body
+ ===> (FORCE)
+     let f = /\a \(d::Eq a). fst (member, True) in f `seq` body
+ ===> (inline seq, case of value)
+     let f = /\a \(d::Eq a). fst (member, True) in body
+        -- Note that the bang has no effect at all in this case
+}}}
 
 == Implementation ==
 
 TODO: Find all the places where we do special things for bang patterns and list them here.
 
 == Raw chat log between SPJ, Johan, and Duncan ==
+
+'''Simon''' I think this is unnecessary now.  Delete?
 
 Probably doesn't make sense to anyone else!
 
