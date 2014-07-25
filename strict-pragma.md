@@ -11,86 +11,69 @@ High-performance Haskell code (e.g. numeric code) can sometimes be littered with
 ## Semantics
 
 
-Informally the `Strict` pragma switches functions, data types, and bindings to be strict by default, allowing optional laziness by adding `~` in front of a variable. This essentially reverses the present situation where laziness is default and strictness can be optionally had by adding `!` in front of a variable.
+Informally the `-XStrict` language extension switches functions, data types, and bindings to be strict by default, allowing optional laziness by adding `~` in front of a variable. This essentially reverses the present situation where laziness is default and strictness can be optionally had by adding `!` in front of a variable.
+
+### The details
+
+- **Function definitions.**  When the user writes
+
+  ```wiki
+  f x = ...
+  ```
+
+  we interpret it as if she had written
+
+  ```wiki
+  f !x = ...
+  ```
+
+  Adding `~` in front of `x` gives the old lazy behavior.
+
+- **Let bindings.**  When the user writes
+
+  ```wiki
+  let x = ...
+  ```
+
+  we interpret it as if she had written
+
+  ```wiki
+  let !x = ...
+  ```
+
+  Adding `~` in front of `x` gives the old lazy behavior.
+
+- **Data types.** When the user writes
+
+  ```wiki
+  data T = C a
+  ```
+
+  we interpret it as if she had written
+
+  ```wiki
+  data T = C !a
+  ```
+
+  Haskell doesn't allow for `~` patterns in data constructor definitions today. We'll add support for such patterns and have it give the old lazy behavior.
+
+- **Newtypes.**  Newtypes are also strict when pattern matching e.g.
+
+  ```wiki
+  newtype T = C a
+  case e of
+      C x -> ...
+  ```
+
+  is strict in `x`.
 
 ### Modularity
 
 
-The pragma only affects definitions \*in this module\*. Functions and data types imported from other modules are not affected. For example, we won't evaluate the argument to `Just` before applying the constructor. Similarly we won't evaluate the first argument to `Data.Map.findWithDefault` before applying the function.
+The pragma only affects definitions *in this module*. Functions and data types imported from other modules are unaffected. For example, we won't evaluate the argument to `Just` before applying the constructor. Similarly we won't evaluate the first argument to `Data.Map.findWithDefault` before applying the function.
 
 
 This is crucial to preserve correctness. Entities defined in other modules might rely on laziness for correctness (whether functional or performance).
-
-### Function definitions
-
-
-When the user writes
-
-```wiki
-f x = ...
-```
-
-
-we interpret it as if she had written
-
-```wiki
-f !x = ...
-```
-
-
-Adding `~` in front of `x` gives the old lazy behavior.
-
-### Let bindings
-
-
-When the user writes
-
-```wiki
-let x = ...
-```
-
-
-we interpret it as if she had written
-
-```wiki
-let !x = ...
-```
-
-
-Adding `~` in front of `x` gives the old lazy behavior.
-
-### Data types
-
-
-When the user writes
-
-```wiki
-data T = C a
-```
-
-
-we interpret it as if she had written
-
-```wiki
-data T = C !a
-```
-
-
-Haskell doesn't allow for `~` patterns in data constructor definitions today. We'll add support for such patterns and have it give the old lazy behavior.
-
-### Newtypes
-
-
-Newtypes are also strict when pattern matching e.g.
-
-```wiki
-newtype T = C a
-case e of
-    C x -> ...
-```
-
-
-is strict in `x`.
 
 ### Recursive definitions and polymorphism
 
