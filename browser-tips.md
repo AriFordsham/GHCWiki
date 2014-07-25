@@ -42,6 +42,6 @@ Add a new bookmark/entry, with
 
 ```wiki
 Name: [m] GHC mail search
-Location/URL: http://www.google.com/search?q=%s site:http://news.gmane.org/gmane.comp.lang.haskell.cvs.ghc OR site:http://www.haskell.org/pipermail/ghc-devs/
+Location/URL: http://www.google.com/search?q=%s site:http://news.gmane.org/gmane.comp.lang.haskell.cvs.ghc OR site:http://www.haskell.org/pipermail/ghc-devs/ OR site:http://www.haskell.org/pipermail/glasgow-haskell-users/
 Keyword: m
 ```
