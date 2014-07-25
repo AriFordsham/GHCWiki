@@ -95,7 +95,7 @@ Informally the `-XStrict` language extension switches functions, data types, and
    (y,z) = if x > 10 then True else False
   ```
 
-  Here `x` and the pattern binding `(y,z)` remain lazy.  Reason: there is no good moment to force them, until first use.  **Simon**: Johan, do you agree?
+  Here `x` and the pattern binding `(y,z)` remain lazy.  Reason: there is no good moment to force them, until first use.
 
 - **Data types.** When the user writes
 
@@ -119,7 +119,7 @@ Informally the `-XStrict` language extension switches functions, data types, and
   g !(C x) = rhs2
   ```
 
-  In ordinary Haskell , `f` is lazy in its argument and hence in `x`; and `g` is strict in its argument and hence also strict in `x`.  With `-XStrict`, both become strict because `f`'s argument gets an implict bang.  **Simon**: Johan, do you agree?
+  In ordinary Haskell , `f` is lazy in its argument and hence in `x`; and `g` is strict in its argument and hence also strict in `x`.  With `-XStrict`, both become strict because `f`'s argument gets an implict bang.
 
 ### Modularity
 
