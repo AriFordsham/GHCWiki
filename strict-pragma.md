@@ -56,6 +56,38 @@ Informally the `-XStrict` language extension switches functions, data types, and
 
   which will strictly evaluate the RHS, and bind `p` and `q` to the components of the pair.  But the pair itself is lazy (unless we also compile the Prelude with `-XStrict`; see "Modularity" below).  So `p` and `q` may end up bound to `undefined`.  See also "Recursive and polymorphic let bindings" below.
 
+- **Case expressions.**  The patterns of a case expression get an implicit bang, unless disabled with `~`.  For eexample
+
+  ```wiki
+    case x of (a,b) -> rhs
+  ```
+
+  is interpreted as
+
+  ```wiki
+    case x of !(a,b) -> rhs
+  ```
+
+  Since the semantics of pattern matching in case expressions is strict, this usually has no effect whatsoever.  But it does make a difference in the degenerate case of variables and newtypes.  So
+
+  ```wiki
+    case x of y -> rhs
+  ```
+
+  is lazy in Haskell, but with `-XStrict` is interpreted as
+
+  ```wiki
+   case x of !y -> rhs
+  ```
+
+  which evalutes x.  Similarly, if `newtype Age = MkAge Int`, then
+
+  ```wiki
+   case x of MkAge i -> rhs
+  ```
+
+  is lazy in Haskell; but with `-XStrict` the added bang makes it strict.
+
 - **Top level bindings** are unaffected by `-XStrict`.  For example:
 
   ```wiki
@@ -96,6 +128,9 @@ The pragma only affects definitions *in this module*. Functions and data types i
 
 
 This is crucial to preserve correctness. Entities defined in other modules might rely on laziness for correctness (whether functional or performance).
+
+
+Tuples, lists, `Maybe`, and all the other types from `Prelude` continue to have their existing, lazy, semantics.
 
 ### Recursive and polymorphic let bindings
 
