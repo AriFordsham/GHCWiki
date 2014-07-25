@@ -86,6 +86,16 @@ This change alone is enough to satisfy [\#9200](https://gitlab.haskell.org//ghc/
 
 **Richard** Type synonym declarations can never be recursive, right? So, this issue doesn't affect them. I've answered the other questions above.
 
+**Simon** Wrong: type synonyms can be recursive through a data type:
+
+```wiki
+  data S (a :: k) (f :: k -> *) = S1 (SSyn (S Int) Maybe) 
+  type SSyn f a = S a f
+```
+
+
+This will fail despite the CUSK for `S` because `SSyn` lacks one.  (The variation below would fix this particular example.)  I think [\#9151](https://gitlab.haskell.org//ghc/ghc/issues/9151) is another example.
+
 ## A possible variation
 
 
