@@ -87,7 +87,7 @@ Informally the `-XStrict` language extension switches functions, data types, and
   g !(C x) = rhs2
   ```
 
-  In ordinary Haskell , `f` is lazy in its argument and hence in `x`; and `g` is strict in its argument and hence also strict in `x`.  With `-XStrict`, both become strict because `f`'s argument gets an implict bang.
+  In ordinary Haskell , `f` is lazy in its argument and hence in `x`; and `g` is strict in its argument and hence also strict in `x`.  With `-XStrict`, both become strict because `f`'s argument gets an implict bang.  **Simon**: Johan, do you agree?
 
 ### Modularity
 
