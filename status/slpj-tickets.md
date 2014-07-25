@@ -8,6 +8,7 @@
 - [\#9242](https://gitlab.haskell.org//ghc/ghc/issues/9242): per-instance pragmas for overlapping/incoherent
 - [\#9123](https://gitlab.haskell.org//ghc/ghc/issues/9123): higher order roles
 - [\#9200](https://gitlab.haskell.org//ghc/ghc/issues/9200), [\#9151](https://gitlab.haskell.org//ghc/ghc/issues/9151): kind inference for mutually recursive types
+- [\#9352](https://gitlab.haskell.org//ghc/ghc/issues/9352): allow `State#` in FFI types.
 
 ## Front end
 
