@@ -74,13 +74,17 @@ The real step 2 works thus:
 The main proposed change is to the definition of a "complete user-supplied kind" (CUSK).  The current story is in [Section 7.8.3 of the user manual](http://www.haskell.org/ghc/docs/latest/html/users_guide/kind-polymorphism.html#complete-kind-signatures).  Alas, it does not allow CUSKs for class declarations.
 The new proposal is this:
 
-- A class or datatype is said to have a CUSK if and only if all of its type variables are annotated. 
+- A class or datatype is said to have a CUSK if and only if all of its type variables are annotated.
+- A closed type family is said to have a CUSK if and only if all of its type variables and its return type are annotated. 
+- An open type family always has a CUSK -- unannotated type variables (and return type) default to `*`. (This is not a change.)
 
 
 This is somewhat simpler, it covers classes. See [comment:19:ticket:9200](https://gitlab.haskell.org//ghc/ghc/issues/9200) for more exposition.
 This change alone is enough to satisfy [\#9200](https://gitlab.haskell.org//ghc/ghc/issues/9200).
 
 **Simon** What about type synonym declarations? Don't we need a kind signature on the RHS?  Also what about specifying the return kind of a type family (open or closed)?  Does it default to `*`, or must you specify it to get a CUSK?
+
+**Richard** Type synonym declarations can never be recursive, right? So, this issue doesn't affect them. I've answered the other questions above.
 
 ## A possible variation
 
@@ -177,7 +181,7 @@ G |- (T :: forall kvs. k; data T tvs = rhs) :: {T :: forall kvs. k}
 We need two rules, depending on whether or not a CUSK is detected. 
 
 
-The first rule requires the equations to be fully parametric in its kinds, whereas the second allows non-parametric equations and polymorphic recursion. **Simon:** I don't know what this means.
+The first rule requires the equations to be fully parametric in its kinds, whereas the second allows non-parametric equations and polymorphic recursion. **Simon:** I don't know what this means. **Richard:** "Non-parametric" here refers to using a kind-indexed closed type family, where the equations match on the kinds, not just the types. It has a flavor of polymorphic recursion in that the instantiations for the kind variables are not always the same at every usage.
 
 
 For closed type families, these rules are *different* than the implementation today, because kind inference for closed type families today is ill-specified. See [comment:18:ticket:9200](https://gitlab.haskell.org//ghc/ghc/issues/9200).
