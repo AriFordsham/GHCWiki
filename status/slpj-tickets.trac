@@ -7,6 +7,7 @@
  * #9242: per-instance pragmas for overlapping/incoherent
  * #9123: higher order roles
  * #9200, #9151: kind inference for mutually recursive types
+ * #9352: allow `State#` in FFI types.
 
 == Front end ==
 
