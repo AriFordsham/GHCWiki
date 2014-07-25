@@ -56,7 +56,7 @@ Informally the `-XStrict` language extension switches functions, data types, and
 
   which will strictly evaluate the RHS, and bind `p` and `q` to the components of the pair.  But the pair itself is lazy (unless we also compile the Prelude with `-XStrict`; see "Modularity" below).  So `p` and `q` may end up bound to `undefined`.  See also "Recursive and polymorphic let bindings" below.
 
-- **Case expressions.**  The patterns of a case expression get an implicit bang, unless disabled with `~`.  For eexample
+- **Case expressions.**  The patterns of a case expression get an implicit bang, unless disabled with `~`.  For example
 
   ```wiki
     case x of (a,b) -> rhs
