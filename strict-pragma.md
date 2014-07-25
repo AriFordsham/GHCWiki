@@ -144,13 +144,16 @@ Here are some examples of how this translation works.  The first expression of e
 Here is a simple non-recursive case.
 
 ```wiki
-     let x :: Int     -- Non-recursive
-         !x = factorial y
-     in body
+let x :: Int     -- Non-recursive
+    !x = factorial y
+in body
+
  ===> (FORCE)
      let x = factorial y in x `seq` body
+
  ===> (inline seq)
      let x = factorial y in case x of x -> body
+
  ===> (inline x)
      case factorial y of x -> body
 ```
@@ -159,22 +162,26 @@ Here is a simple non-recursive case.
 Same again, only with a pattern binding
 
 ```wiki
-     let !(x,y) = if blob then (factorial p, factorial q) else (0,0)
-     in body
+let !(x,y) = if blob then (factorial p, factorial q) else (0,0)
+in body
+
  ===> (FORCE)
      let v = if blob then (factorial p, factorial q) else (0,0)
          (x,y) = v
      in v `seq` body
+
  ===> (SPLIT)
      let v = if blob then (factorial p, factorial q) else (0,0)
          x = case v of (x,y) -> x
          y = case v of (x,y) -> y
      in v `seq` body
+
  ===> (inline seq, float x,y bindings inwards)
      let v = if blob then (factorial p, factorial q) else (0,0)
      in case v of v -> let x = case v of (x,y) -> x
                            y = case v of (x,y) -> y
                        in body
+
  ===> (fluff up v's pattern; this is a standard Core optimisation)
      let v = if blob then (factorial p, factorial q) else (0,0)
      in case v of v@(p,q) -> let x = case v of (x,y) -> x
@@ -199,13 +206,16 @@ The final form is just what we want: a simple case expression.
 Here is a recursive case
 
 ```wiki
-     letrec xs :: [Int]  -- Recursive
-            !xs = factorial y : xs
-     in body
+letrec xs :: [Int]  -- Recursive
+       !xs = factorial y : xs
+in body
+
  ===> (FORCE)
      letrec xs = factorial y : xs in xs `seq` body
+
  ===> (inline seq)
      letrec xs = factorial y : xs in case xs of xs -> body
+
  ===> (eliminate case of value)
      letrec xs = factorial y : xs in body
 ```
@@ -214,9 +224,10 @@ Here is a recursive case
 and a polymorphic one:
 
 ```wiki
-     let f :: forall a. [a] -> [a]    -- Polymorphic
-         !f = fst (reverse, True)
-     in body
+let f :: forall a. [a] -> [a]    -- Polymorphic
+    !f = fst (reverse, True)
+in body
+
  ===> (FORCE)
      let f = /\a. fst (reverse a, True) in f `seq` body
         -- Notice that the `seq` is added only in the translation to Core
@@ -234,11 +245,13 @@ and a polymorphic one:
 When overloading is involved, the results might be slightly counter intuitive:
 
 ```wiki
- (4) let f :: forall a. Eq a => a -> [a] -> Bool    -- Overloaded
-         !f = fst (member, True)
-     in body
+let f :: forall a. Eq a => a -> [a] -> Bool    -- Overloaded
+    !f = fst (member, True)
+in body
+
  ===> (FORCE)
      let f = /\a \(d::Eq a). fst (member, True) in f `seq` body
+
  ===> (inline seq, case of value)
      let f = /\a \(d::Eq a). fst (member, True) in body
 ```
