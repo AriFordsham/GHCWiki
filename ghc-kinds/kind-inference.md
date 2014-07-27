@@ -96,6 +96,8 @@ This change alone is enough to satisfy [\#9200](https://gitlab.haskell.org//ghc/
 
 This will fail despite the CUSK for `S` because `SSyn` lacks one.  (The variation below would fix this particular example.)  I think [\#9151](https://gitlab.haskell.org//ghc/ghc/issues/9151) is another example.
 
+**Richard:** Good example. But, wouldn't this be fixed with the more-careful dependency checking described immediately below? Then, `S`, with its CUSK, would be added to the environment and generalized before looking at `SSyn`, and all is well. I don't like the idea of saying that a type synonym has a CUSK when its tyvars and its RHS are annotated, because the RHS is just a plain type -- there's not really a place in the syntax to put the RHS's kind annotation. Looking at the code, something approaching this is done already, where all non-synonyms are first added to the environment (with `getInitialKinds`) and then all the synonyms are fully kind-checked, and then all the other decls are kind-checked. The more-careful dependency checking below could be implemented simply by having `getInitialKinds` notice the CUSK and generalize, I think.
+
 ## A possible variation
 
 
