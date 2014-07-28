@@ -41,7 +41,7 @@ Basic demo of live monitoring using above new features:
  | Program |                                |      Consumer      |
  |         |                                | (e.g. Threadscope) |
  +---------+                                |                    |
- |         |                                +-------+-+----------+
+ |         |                                +--------------------+
  |   RTS   |                                |    ghc-events      |
  |         |                                |                    |
  +----+----+                                |                    |
@@ -146,14 +146,12 @@ openEventHandle :: Handle -> IO EventHandle
 
 -- Reads one event from the handle. Returns Nothing if no events
 -- are readable from the log
-getEvent :: EventHandle -> IO (Maybe Event)
+getEvent :: EventHandle -> IO (Maybe CapEvent)
 }}}
 
 === Implementing the API in ghc-events ===
 
 {{{
--------------- Private -------------
-
 data SequenceDecoder a =
       FailS !B.ByteString !ByteOffset String
     | SingleS (Maybe a) (B.ByteString -> SequenceDecoder a)
