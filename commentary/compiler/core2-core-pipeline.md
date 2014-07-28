@@ -1,7 +1,7 @@
 # Core-to-Core optimization pipeline
 
 
-After the source program has been [typechecked](commentary/compiler/type-checker) it is desugared into GHC's intermediate language [Core](commentary/compiler/core-syn-type). The Core representation of a program is then optimized by a series of correctness preserving Core-to-Core passes. This page describes the overall structure of the Core-to-Core optimization pipeline. Detailed descriptions of optimizations are available in the published papers. An overview of the whole compiler pipeline is available [here](commentary/compiler/hsc-main).
+After the source program has been [typechecked](commentary/compiler/type-checker) it is desugared into GHC's intermediate language [Core](commentary/compiler/core-syn-type). The Core representation of a program is then optimized by a series of correctness preserving Core-to-Core passes. This page describes the overall structure of the Core-to-Core optimization pipeline. Detailed descriptions of optimizations are available [in the published papers](commentary/compiler/core2-core-pipeline#further-reading). An overview of the whole compiler pipeline is available [here](commentary/compiler/hsc-main).
 
 ## Optimizations during desugaring
 
@@ -39,7 +39,7 @@ The structure of the Core-to-Core pipeline is determined in the `getCoreToDo` fu
 
 - **Check rules, 1st pass**: this pass is not for optimisation but for troubleshooting the rules. It is only enabled with `-frule-check` flag that accepts a string pattern. This pass looks for rules beginning with that string pattern that could have fired but didn't and prints them to stdout.
 
-- **Liberate case**: unrolls recursive function once in its own RHS, to avoid repeated case analysis of free variables. It's a bit like the call-pattern specialisation but for free variables rather than arguments. Followed by a phase 0 simplifier run. Only enabled with `-fliberate-case` flag.
+- **Liberate case**: unrolls recursive functions once in their own RHS, to avoid repeated case analysis of free variables. It's a bit like the call-pattern specialisation but for free variables rather than arguments. Followed by a phase 0 simplifier run. Only enabled with `-fliberate-case` flag.
 
 - **Call-pattern specialisation**: Only enabled with `-fspec-constr` flag. TODO explain what it does.
 
@@ -47,7 +47,7 @@ The structure of the Core-to-Core pipeline is determined in the `getCoreToDo` fu
 
 - **Simplifier, final**: final 0 phase of the simplifier.
 
-- **Damand analysis, 2nd pass** (a.k.a. late demand analysis): this pass consists of demand analysis followed by worker-wrapper transformation and phase 0 of the simplifier. The reason for this pass is that some opportunities for discovering strictness were not visible earlier; and optimisations like call-pattern specialisation can create functions with unused arguments which are eliminated by late demand analysis. Only run with `-flate-dmd-anal`. NOTE: but the cardinality paper says something else, namely that the late pass is meant to detect single entry thunks. Is it still the case in the current implementation?
+- **Damand analysis, 2nd pass** (a.k.a. late demand analysis): this pass consists of demand analysis followed by worker-wrapper transformation and phase 0 of the simplifier. The reason for this pass is that some opportunities for discovering strictness were not visible earlier; and optimisations like call-pattern specialisation can create functions with unused arguments which are eliminated by late demand analysis. Only run with `-flate-dmd-anal`. FIXME but the cardinality paper says something else, namely that the late pass is meant to detect single entry thunks. Is it still the case in the current implementation?
 
 - **Check rules, 3rd pass**
 
@@ -71,7 +71,7 @@ Simplifier is the workhorse of the Core-to-Core optimisation pipeline. It perfor
 ### Simplifier phases
 
 
-Each run of the simplifier is assigned with a phase number: 2, 1 or 0. Phase numbers are used for control of interaction between the rules and `INLINE`/`NOINLINE` pragmas - see sections [7.20.6.5](http://www.haskell.org/ghc/docs/latest/html/users_guide/pragmas.html#phase-control) and [7.21.3](http://www.haskell.org/ghc/docs/latest/html/users_guide/rewrite-rules.html#conlike) of the user guide. There are many 0 phases because want to propagate the effects of other passes and once we've gone through the main runs of the simplifier we no longer have to worry about rules and inlinings - these have been already dealt with. There is also a special initial phase, which is used at the beginning of the pipeline by the "gentle" simplifier runs.
+Each run of the simplifier is assigned with a phase number: 2, 1 or 0. Phase numbers are used for control of interaction between the rules and `INLINE`/`NOINLINE` pragmas - see sections [7.20.6.5](http://www.haskell.org/ghc/docs/latest/html/users_guide/pragmas.html#phase-control) and [7.21.3](http://www.haskell.org/ghc/docs/latest/html/users_guide/rewrite-rules.html#conlike) of the user guide. There are many 0 phases because we use the simplifier to propagate the effects of other passes and once we've gone through the main runs of the simplifier we no longer have to worry about rules and inlinings - these have been already dealt with. There is also a special initial phase, which is used at the beginning of the pipeline by the "gentle" simplifier runs.
 
 ### Simplifier iterations
 
@@ -89,11 +89,11 @@ Simplifier settings can be further tweaked by modifying the fields of `Simplifie
 - eta-expansion
 
 
-The so-called "gentle" run disables the case-of-case transformation and inlining but enables the rules and eta-expansion. The reason it disables case-of-case is that it makes full laziness work better. NOTE: that's what the comment says, and yet we run the full-laziness after the main run of the simplifier.
+The so-called "gentle" run disables the case-of-case transformation and inlining but enables the rules and eta-expansion. The reason it disables case-of-case is that it makes full laziness work better. FIXME that's what the comment says, and yet we run the full-laziness after the main run of the simplifier.
 
 ## Other documentation
 
-- [ Ordering the compiler's passes](https://ghc.haskell.org/trac/ghc/wiki/Commentary/Compiler/OptOrdering) discusses the motivation for ordering the optimisations in the pipeline. This may or may not be up to date.
+- [Ordering the compiler's passes](commentary/compiler/opt-ordering) discusses the motivation for ordering the optimisations in the pipeline. This may or may not be up to date.
 - You can use `-dverbose-core2core` flag to dump the Core after almost all passes in the pipeline.
 
 ## Further reading
