@@ -1,6 +1,6 @@
-= Ordering the compiler's passes =
+= Ordering the Core-to-Core optimisation passes =
 
-This page has notes about the ordering of optimisation phases.
+This page has notes about the ordering of optimisation phases. An overview of the whole Core-to-Core optimisation pipeline can be found [https://ghc.haskell.org/trac/ghc/wiki/Commentary/Compiler/Core2CorePipeline here].
 
 '''NOTE:''' This is old documentation and may not be very relevant any more!
 
