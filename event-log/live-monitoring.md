@@ -221,6 +221,7 @@ setBufferSize(int sz);// Enable or disable particular classes of events. Argumen
 // Should only be called when logging is not active
 // More info on the classes: 
 // http://www.haskell.org/ghc/docs/latest/html/users_guide/runtime-control.html
+//    Section 4.17.6, the -lclass flag
 // The list above may be out of date, refer to $ghc_source/rts/Trace.h for all 
 // currently available event classes
 // TODO: map bits to event classes
