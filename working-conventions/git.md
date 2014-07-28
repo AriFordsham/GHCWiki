@@ -24,7 +24,7 @@ instructions provided in [Building/GettingTheSources](building/getting-the-sourc
 
 - Discuss anything you think might be controversial before pushing it.
 
-- When making changes to other repositories in a GHC tree, see [WorkingConventions/Git/Submodules](working-conventions/git/submodules).
+- When making changes to other repositories in a GHC tree, see [WorkingConventions/Git/Submodules](working-conventions/git/submodules). Also check out information about `sync-all` as well, see [Building/SyncAll](building/sync-all).
 
 ## Author
 
