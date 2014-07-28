@@ -93,7 +93,7 @@ The so-called "gentle" run disables the case-of-case transformation and inlining
 
 ## Other documentation
 
-- [Ordering the compiler's passes](commentary/compiler/opt-ordering) discusses the motivation for ordering the optimisations in the pipeline. This may or may not be up to date.
+- [Commentary/Compiler/OptOrdering](commentary/compiler/opt-ordering) discusses the motivation for ordering the optimisations in the pipeline. This may or may not be up to date.
 - You can use `-dverbose-core2core` flag to dump the Core after almost all passes in the pipeline.
 
 ## Further reading
