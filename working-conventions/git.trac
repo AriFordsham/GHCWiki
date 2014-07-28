@@ -23,7 +23,7 @@ instructions provided in [wiki:Building/GettingTheSources].
 
  * Discuss anything you think might be controversial before pushing it.
 
- * When making changes to other repositories in a GHC tree, see [wiki:/WorkingConventions/Git/Submodules].
+ * When making changes to other repositories in a GHC tree, see [wiki:/WorkingConventions/Git/Submodules]. Also check out information about `sync-all` as well, see [wiki:/Building/SyncAll].
 
 == Author ==
 
