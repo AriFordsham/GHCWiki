@@ -98,6 +98,28 @@ This will fail despite the CUSK for `S` because `SSyn` lacks one.  (The variatio
 
 **Richard:** Good example. But, wouldn't this be fixed with the more-careful dependency checking described immediately below? Then, `S`, with its CUSK, would be added to the environment and generalized before looking at `SSyn`, and all is well. I don't like the idea of saying that a type synonym has a CUSK when its tyvars and its RHS are annotated, because the RHS is just a plain type -- there's not really a place in the syntax to put the RHS's kind annotation. Looking at the code, something approaching this is done already, where all non-synonyms are first added to the environment (with `getInitialKinds`) and then all the synonyms are fully kind-checked, and then all the other decls are kind-checked. The more-careful dependency checking below could be implemented simply by having `getInitialKinds` notice the CUSK and generalize, I think. Indeed, if I give `S` a CUSK using the current CUSK syntax, the example above compiles today.
 
+**Simon:** I agree that, since type syononyms can't be recursive except via a data type, if you use "A possible variation" below, then you can get away with saying that type synonyms cannot have CUSKs.  It seems a bit non-orthogonal; and could occasionally be tiresome.  Imagine
+
+```wiki
+data T1 a b c = ...S...
+data T2 p q r = ...S...
+data T3 x y q = ...S...
+type S f g h = ...T1...T2...T3...
+```
+
+
+Then, since you can't decorate S with a CUSK, you might need to annotate all of T1, T2 and T3 with CUSKs.
+
+
+It would not be hard to say what a CUSK for a type synonym was: just wrap the whole RHS in a kind signature:
+
+```wiki
+type T (a::k1) (b::k1->k2) = b a :: k2
+```
+
+
+I think I'd argue mildy for that, just to make the design orthogonal.
+
 ## A possible variation
 
 
