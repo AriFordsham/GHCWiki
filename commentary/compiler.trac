@@ -15,6 +15,7 @@ The compiler itself is written entirely in Haskell, and lives in the many sub-di
    * Some details of the [wiki:Commentary/Compiler/Parser parser]
    * Some details of the [wiki:Commentary/Compiler/Renamer renamer]
    * Some details of the [wiki:Commentary/Compiler/TypeChecker typechecker]
+   * Some details of the [wiki:Commentary/Compiler/Core2CorePipeline simplifier]
    * Some details of the [wiki:Commentary/Compiler/CodeGen code generator] converts STG to Cmm
    * [wiki:Commentary/Compiler/Backends Backends] convert Cmm to native code:
      * [wiki:Commentary/Compiler/Backends/PprC C code generator]
