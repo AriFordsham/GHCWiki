@@ -28,7 +28,7 @@ To combine the best of both possibilities, it will be possible for package-a to 
 - even if both `package-a` and `package-b` are in scope, the compiler does not complain about an ambiguous import.
 
 
-Furthermore, a re-export can be annotated with a deprecation message. In that case, if `Data.Foo` is imported without package-b being in scope, the warning is printed. It is not printed if the module is imported only via `package-b`, or if both are in scope.
+A feature which is not currently implemented is the ability to annotate re-exports with deprecation messages.  If this were implemented, if `Data.Foo` is imported without package-b being in scope, the warning is printed. It is not printed if the module is imported only via `package-b`, or if both are in scope. "Importing Data.Foo via package-a is deprecated, please build-depend on package-b"
 
 ### Syntax
 
@@ -49,7 +49,7 @@ library:
 ```
 
 
-If, for some reason, the reexport itself needs to be qualified, then a package name can be given using the [PackageImports](package-imports) syntax (but without an extra flag). An annotation can be appended as a quoted string:
+If, for some reason, the reexport itself needs to be qualified, then a package name can be given by prefixing the name with a colon:
 
 ```wiki
 name: package-a
@@ -61,20 +61,21 @@ library:
   exposed-modules:
     Data.Bar
   reexported-modules:
-    "package-b" Data.Foo "Importing Data.Foo via package-a is deprecated, please build-depend on package-b"
+    package-b:Data.Foo
 ```
 
-### InstalledPackageInfo
 
+We can also rename the module as another name:
 
-When we discussed this feature with SPJ during Backpack design discussion, Simon was keen on making it very easy to determine where a module actually lives during the lookup process. So while "reexported-modules" might be convenient surface syntax for specifying what modules to reexport, internally, we probably just want to generalize "exposed-modules" to be a tuple: exported module name, source InstalledPackageId, source module name. (Why exported module name? Because that lets us rename modules...)
+```wiki
+name: package-a
+...
 
-### Steps to take
-
-
-The implementation will have to touch (probably incomplete list):
-
-- `Cabal`
-- `ghc-pkg`
-- The module lookup code in `GHC`
-- `haddock`
+library:
+  build-depends:
+    package-b
+  exposed-modules:
+    Data.Bar
+  reexported-modules:
+    Data.Foo as OurFoo
+```
