@@ -18,9 +18,18 @@ Right now, there are several "base" kinds:
 >
 > So, `tcEqType` considers `Constraint` and `*` distinct (as they are distinct in Haskell) but `eqType` considers them to be equal.
 
-- `OpenKind`: The superkind of `*` and `#`. The existence of `OpenKind` is necessary to give a kind to `(->)`, which is `OpenKind -> OpenKind -> *`. It also classifies `error :: forall (a :: OpenKind). String -> a` and `undefined :: forall (a :: OpenKind). a`.
+- `OpenKind`: The superkind of `*` and `#`. The existence of `OpenKind` is necessary for several reasons
+
+  - To give a kind to `(->)`, which is `OpenKind -> OpenKind -> *`.   **SLPJ** False.  We actually give `(->)` kind `*->*->*`, but have a special kinding rule for saturated applications of `(->)`.
+
+- To give a type to `error :: forall (a :: OpenKind). String -> a` and `undefined :: forall (a :: OpenKind). a`.  We need to allow `error Int# "foo" :: Int#`.
+
+- During inference, to give a kind to lambda-bound variables.  E.g.  `\x -> 3# +# x`.  When we encounter the lambda we give it a type of `alpha`, a unification variable. But what kind does `alpha` have?  Not `*`, else this lambda would be rejected.  So we give it `OpenKind`.
 
 - `BOX`: This classifies kinds. Thus, we have `* :: BOX` and `# :: BOX`. Somewhat cheekily, `BOX :: BOX`.
+
+
+hte 
 
 ## Down with kinds
 
