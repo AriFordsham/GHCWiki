@@ -1,0 +1,48 @@
+This page is to track the design of a plan, originally Simon PJ's idea, to get rid of GHC's sub-kinding story. Richard E. has volunteered to implement.
+
+== The current story ==
+
+Right now, there are several "base" kinds:
+
+`*`: The kind of lifted, boxed types. That is, types of kind `*` are represented with a pointer and capable of being bottom.
+
+`#`: The kind of unlifted types. Types of this kind cannot be bottom. (Some [arrays] are still represented with a pointer.)
+
+`Constraint`: The kind of Haskell constraints. Rather annoyingly, it is important that Core treat `Constraint` and `*` as indistinguishable. So, `tcEqType` considers `Constraint` and `*` distinct (as they are distinct in Haskell) but `eqType` considers them to be equal.
+
+`OpenKind`: The superkind of `*` and `#`. The existence of `OpenKind` is necessary to give a kind to `(->)`, which is `OpenKind -> OpenKind -> *`. It also classifies `error :: forall (a :: OpenKind). String -> a` and `undefined :: forall (a :: OpenKind). a`.
+
+`BOX`: This classifies kinds. Thus, we have `* :: BOX` and `# :: BOX`. Somewhat cheekily, `BOX :: BOX`.
+
+== Down with kinds ==
+
+The proposed remedy below would muck about somewhat with the upper echelons of this hierarchy (i.e. `BOX`). So, instead of trying to implement this in today's GHC, Richard is implementing in his branch, which has eliminated `BOX` entirely, instead favoring `* :: *` and dropping any distinction (in Core) between types and kinds. See [http://www.cis.upenn.edu/~eir/papers/2013/fckinds/fckinds.pdf the paper] for more info.
+
+All further commentary on this page assumes a merged type/kind language and semantics.
+
+== Proposed remedy ==
+
+We define an ordinary datatype `Levity`:
+
+{{{
+data Levity = Lifted | Unlifted
+}}}
+
+Then, we create a new magical constant `TYPE`, of type `Levity -> TYPE Lifted`. The idea is that `TYPE Lifted` replaces the old `*` and `TYPE Unlifted` replaces the old `#`. Accordingly, if we have `* :: *`, that would mean that `TYPE Lifted` classifies ''kinds'' as well, thus giving the rather strange type to `TYPE`. Now, `OpenKind` can become something like `forall (l :: Levity). TYPE l`. Specifically, we would get the following facts:
+ 
+{{{
+(->) :: forall (l1 :: Levity) (l2 :: Levity). TYPE l1 -> TYPE l2 -> TYPE Lifted
+error :: forall (l :: Levity). String -> TYPE l
+undefined :: forall (l :: Levity). TYPE l
+}}}
+
+The whole sub-kinding story goes out the window in favor of much-more-nicely-behaved kind polymorphism. To make this palatable to users, we then define
+
+{{{
+type * = TYPE Lifted
+type # = TYPE Unlifted
+}}}
+
+and hope that GHC's existing preserve-type-synonyms-wherever-possible machinery keeps messages reasonable.
+
+Note that this proposal does not address the `Constraint` / `*` infelicity -- that is a separate problem.
