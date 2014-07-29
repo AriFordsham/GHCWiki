@@ -97,6 +97,7 @@ See also [wiki:TemplateHaskell]
  * #5928: running Specialise more than once
 
 == Numerics, floating point, and primops ==
+ * #9328: negative zero and case expressions
  * #9304: floating point woes: 32 vs 64 bit
  * #7858: `abs` on negative zero
  * #5615: poor code for div with powers of 2
