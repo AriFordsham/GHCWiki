@@ -10,7 +10,11 @@ Right now, there are several "base" kinds:
 
 - `#`: The kind of unlifted types. Types of this kind cannot be bottom. Most unlifted types are unboxed, e.g. `Int#`, `Double#`; but some are boxed (represented with a heap pointer), e.g. `Array#`.
 
-- `Constraint`: The kind of Haskell constraints. Rather annoyingly, it is important that Core treat `Constraint` and `*` as indistinguishable. So, `tcEqType` considers `Constraint` and `*` distinct (as they are distinct in Haskell) but `eqType` considers them to be equal.
+- `Constraint`: The kind of Haskell constraints. Rather annoyingly,
+
+  - During type checking `*` and `Constraint` must be distinct kinds; so that a signature `f :: Int => Int` is rejected.
+  - In Core, it is important to treat `Constraint` and `*` as indistinguishable.   **SLPJ** why?  It used to be the case because GND cast dictionaries, but we don't do that any more.
+    So, `tcEqType` considers `Constraint` and `*` distinct (as they are distinct in Haskell) but `eqType` considers them to be equal.
 
 - `OpenKind`: The superkind of `*` and `#`. The existence of `OpenKind` is necessary to give a kind to `(->)`, which is `OpenKind -> OpenKind -> *`. It also classifies `error :: forall (a :: OpenKind). String -> a` and `undefined :: forall (a :: OpenKind). a`.
 
