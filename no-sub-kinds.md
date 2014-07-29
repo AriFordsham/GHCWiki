@@ -14,7 +14,9 @@ Right now, there are several "base" kinds:
 
   - During type checking `*` and `Constraint` must be distinct kinds; so that a signature `f :: Int => Int` is rejected.
   - In Core, it is important to treat `Constraint` and `*` as indistinguishable.   **SLPJ** why?  It used to be the case because GND cast dictionaries, but we don't do that any more.
-    So, `tcEqType` considers `Constraint` and `*` distinct (as they are distinct in Haskell) but `eqType` considers them to be equal.
+
+>
+> So, `tcEqType` considers `Constraint` and `*` distinct (as they are distinct in Haskell) but `eqType` considers them to be equal.
 
 - `OpenKind`: The superkind of `*` and `#`. The existence of `OpenKind` is necessary to give a kind to `(->)`, which is `OpenKind -> OpenKind -> *`. It also classifies `error :: forall (a :: OpenKind). String -> a` and `undefined :: forall (a :: OpenKind). a`.
 
