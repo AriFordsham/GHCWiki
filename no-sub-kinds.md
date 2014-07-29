@@ -6,15 +6,15 @@ This page is to track the design of a plan, originally Simon PJ's idea, to get r
 
 Right now, there are several "base" kinds:
 
-`*`: The kind of lifted, boxed types. That is, types of kind `*` are represented with a pointer and capable of being bottom.
+- `*`: The kind of lifted, boxed types. That is, types of kind `*` are represented with a pointer and capable of being bottom.
 
-`#`: The kind of unlifted types. Types of this kind cannot be bottom. (Some \[arrays\] are still represented with a pointer.)
+- `#`: The kind of unlifted types. Types of this kind cannot be bottom. Most unlifted types are unboxed, e.g. `Int#`, `Double#`; but some are boxed (represented with a heap pointer), e.g. `Array#`.
 
-`Constraint`: The kind of Haskell constraints. Rather annoyingly, it is important that Core treat `Constraint` and `*` as indistinguishable. So, `tcEqType` considers `Constraint` and `*` distinct (as they are distinct in Haskell) but `eqType` considers them to be equal.
+- `Constraint`: The kind of Haskell constraints. Rather annoyingly, it is important that Core treat `Constraint` and `*` as indistinguishable. So, `tcEqType` considers `Constraint` and `*` distinct (as they are distinct in Haskell) but `eqType` considers them to be equal.
 
-`OpenKind`: The superkind of `*` and `#`. The existence of `OpenKind` is necessary to give a kind to `(->)`, which is `OpenKind -> OpenKind -> *`. It also classifies `error :: forall (a :: OpenKind). String -> a` and `undefined :: forall (a :: OpenKind). a`.
+- `OpenKind`: The superkind of `*` and `#`. The existence of `OpenKind` is necessary to give a kind to `(->)`, which is `OpenKind -> OpenKind -> *`. It also classifies `error :: forall (a :: OpenKind). String -> a` and `undefined :: forall (a :: OpenKind). a`.
 
-`BOX`: This classifies kinds. Thus, we have `* :: BOX` and `# :: BOX`. Somewhat cheekily, `BOX :: BOX`.
+- `BOX`: This classifies kinds. Thus, we have `* :: BOX` and `# :: BOX`. Somewhat cheekily, `BOX :: BOX`.
 
 ## Down with kinds
 
