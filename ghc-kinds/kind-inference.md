@@ -57,7 +57,7 @@ So in GHC 7.8 you can supply a "complete user-supplied kind" (CUSK) for `S`, thu
 ```
 
 
-The real step 2 works thus:
+Then step 2 works thus:
 
 - Bind the each non-CUSK type constructor to a fresh meta-kind variable, and each CUSK type constructor to its polymorphic kind.
 
@@ -74,53 +74,34 @@ The real step 2 works thus:
 The main proposed change is to the definition of a "complete user-supplied kind" (CUSK).  The current story is in [Section 7.8.3 of the user manual](http://www.haskell.org/ghc/docs/latest/html/users_guide/kind-polymorphism.html#complete-kind-signatures).  Alas, it does not allow CUSKs for class declarations.
 The new proposal is this:
 
-- A class or datatype is said to have a CUSK if and only if all of its type variables are annotated.
+- A class or datatype is said to have a CUSK if and only if all of its type variables are annotated.  Its result kind is, by construction, `Constraint` or `*` respectively.
+
+- A type synonym has a CUSK if and only if all of its type variables and its RHS are annotated with kinds.
+
 - A closed type family is said to have a CUSK if and only if all of its type variables and its return type are annotated. 
+
 - An open type family always has a CUSK -- unannotated type variables (and return type) default to `*`. (This is not a change.)
 
 
 This is somewhat simpler, it covers classes. See [comment:19:ticket:9200](https://gitlab.haskell.org//ghc/ghc/issues/9200) for more exposition.
 This change alone is enough to satisfy [\#9200](https://gitlab.haskell.org//ghc/ghc/issues/9200).
 
-- A type synonym has a CUSK if and only if all of its type variables and its RHS are annotated with kinds.
 
-**Simon** What about type synonym declarations? Don't we need a kind signature on the RHS?  Also what about specifying the return kind of a type family (open or closed)?  Does it default to `*`, or must you specify it to get a CUSK?
-
-**Richard** Type synonym declarations can never be recursive, right? So, this issue doesn't affect them. I've answered the other questions above.
-
-**Simon** Wrong: type synonyms can be recursive through a data type:
+Examples:
 
 ```wiki
-  data S (a :: k) (f :: k -> *) = S1 (SSyn (S Int) Maybe) 
-  type SSyn f a = S a f
+  class C (a::k) (f::k->*) where ...   -- Has CUSK
+  class D a (f :: k -> *)  where ...   -- No CUSK (a is un-annotated)
+  data T (f :: k -> *) where ...       -- Has CUSK
+
+  type T (a::k) = a :: k               -- Has CUSK
+  type S (a::k) = a                    -- No CUSK (RHS is un-annotated)
+
+  type family F a :: *                 -- Has CUSK (a defaults to *)
+
+  type family F (a::*) :: k where ...  -- Has CUSK
+  type family F a where ...            -- No CUSK (neither arg nor result annotated)
 ```
-
-
-This will fail despite the CUSK for `S` because `SSyn` lacks one.  (The variation below would fix this particular example.)  I think [\#9151](https://gitlab.haskell.org//ghc/ghc/issues/9151) is another example.
-
-**Richard:** Good example. But, wouldn't this be fixed with the more-careful dependency checking described immediately below? Then, `S`, with its CUSK, would be added to the environment and generalized before looking at `SSyn`, and all is well. I don't like the idea of saying that a type synonym has a CUSK when its tyvars and its RHS are annotated, because the RHS is just a plain type -- there's not really a place in the syntax to put the RHS's kind annotation. Looking at the code, something approaching this is done already, where all non-synonyms are first added to the environment (with `getInitialKinds`) and then all the synonyms are fully kind-checked, and then all the other decls are kind-checked. The more-careful dependency checking below could be implemented simply by having `getInitialKinds` notice the CUSK and generalize, I think. Indeed, if I give `S` a CUSK using the current CUSK syntax, the example above compiles today.
-
-**Simon:** I agree that, since type syononyms can't be recursive except via a data type, if you use "A possible variation" below, then you can get away with saying that type synonyms cannot have CUSKs.  It seems a bit non-orthogonal; and could occasionally be tiresome.  Imagine
-
-```wiki
-data T1 a b c = ...S...
-data T2 p q r = ...S...
-data T3 x y q = ...S...
-type S f g h = ...T1...T2...T3...
-```
-
-
-Then, since you can't decorate S with a CUSK, you might need to annotate all of T1, T2 and T3 with CUSKs.
-
-
-It would not be hard to say what a CUSK for a type synonym was: just wrap the whole RHS in a kind signature:
-
-```wiki
-type T (a::k1) (b::k1->k2) = b a :: k2
-```
-
-
-I think I'd argue mildy for that, just to make the design orthogonal.
 
 ## A possible variation
 
@@ -224,8 +205,51 @@ For closed type families, these rules are *different* than the implementation to
 
 ---
 
+# OUT-DATED MATERIAL
 
-Now here are some design alternatives that we rejected.
+
+Now here are some notes and design alternatives that we rejected.  It's just here because I hate
+deleting stuff!
+
+## Notes about CUSKs on type synonyms
+
+**Simon** What about type synonym declarations? Don't we need a kind signature on the RHS?  Also what about specifying the return kind of a type family (open or closed)?  Does it default to `*`, or must you specify it to get a CUSK?
+
+**Richard** Type synonym declarations can never be recursive, right? So, this issue doesn't affect them. I've answered the other questions above.
+
+**Simon** Wrong: type synonyms can be recursive through a data type:
+
+```wiki
+  data S (a :: k) (f :: k -> *) = S1 (SSyn (S Int) Maybe) 
+  type SSyn f a = S a f
+```
+
+
+This will fail despite the CUSK for `S` because `SSyn` lacks one.  (The variation below would fix this particular example.)  I think [\#9151](https://gitlab.haskell.org//ghc/ghc/issues/9151) is another example.
+
+**Richard:** Good example. But, wouldn't this be fixed with the more-careful dependency checking described immediately below? Then, `S`, with its CUSK, would be added to the environment and generalized before looking at `SSyn`, and all is well. I don't like the idea of saying that a type synonym has a CUSK when its tyvars and its RHS are annotated, because the RHS is just a plain type -- there's not really a place in the syntax to put the RHS's kind annotation. Looking at the code, something approaching this is done already, where all non-synonyms are first added to the environment (with `getInitialKinds`) and then all the synonyms are fully kind-checked, and then all the other decls are kind-checked. The more-careful dependency checking below could be implemented simply by having `getInitialKinds` notice the CUSK and generalize, I think. Indeed, if I give `S` a CUSK using the current CUSK syntax, the example above compiles today.
+
+**Simon:** I agree that, since type syononyms can't be recursive except via a data type, if you use "A possible variation" below, then you can get away with saying that type synonyms cannot have CUSKs.  It seems a bit non-orthogonal; and could occasionally be tiresome.  Imagine
+
+```wiki
+data T1 a b c = ...S...
+data T2 p q r = ...S...
+data T3 x y q = ...S...
+type S f g h = ...T1...T2...T3...
+```
+
+
+Then, since you can't decorate S with a CUSK, you might need to annotate all of T1, T2 and T3 with CUSKs.
+
+
+It would not be hard to say what a CUSK for a type synonym was: just wrap the whole RHS in a kind signature:
+
+```wiki
+type T (a::k1) (b::k1->k2) = b a :: k2
+```
+
+
+I think I'd argue mildy for that, just to make the design orthogonal.
 
 ## Partial kind signature strategy (PARTIAL)
 
