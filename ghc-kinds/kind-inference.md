@@ -82,6 +82,8 @@ The new proposal is this:
 This is somewhat simpler, it covers classes. See [comment:19:ticket:9200](https://gitlab.haskell.org//ghc/ghc/issues/9200) for more exposition.
 This change alone is enough to satisfy [\#9200](https://gitlab.haskell.org//ghc/ghc/issues/9200).
 
+- A type synonym has a CUSK if and only if all of its type variables and its RHS are annotated with kinds.
+
 **Simon** What about type synonym declarations? Don't we need a kind signature on the RHS?  Also what about specifying the return kind of a type family (open or closed)?  Does it default to `*`, or must you specify it to get a CUSK?
 
 **Richard** Type synonym declarations can never be recursive, right? So, this issue doesn't affect them. I've answered the other questions above.
@@ -215,8 +217,7 @@ G |- (T :: forall kvs. k; data T tvs = rhs) :: {T :: forall kvs. k}
 We need two rules, depending on whether or not a CUSK is detected. 
 
 
-The first rule requires the equations to be fully parametric in its kinds, whereas the second allows non-parametric equations and polymorphic recursion. **Simon:** I don't know what this means. **Richard:** "Non-parametric" here refers to using a kind-indexed closed type family, where the equations match on the kinds, not just the types. It has a flavor of polymorphic recursion in that the instantiations for the kind variables are not always the same at every usage.  **Simon* does it really matter? Could we simply nuke this paragraph? Introducing an entirely new term, that then has to be explained, and is not necessary to the exposition, seems to add nothing.
-***
+The first rule requires the equations to be fully parametric in its kinds, whereas the second allows  polymorphic recursion.
 
 
 For closed type families, these rules are *different* than the implementation today, because kind inference for closed type families today is ill-specified. See [comment:18:ticket:9200](https://gitlab.haskell.org//ghc/ghc/issues/9200).
