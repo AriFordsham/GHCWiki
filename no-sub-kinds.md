@@ -13,14 +13,14 @@ Right now, there are several "base" kinds:
 - `Constraint`: The kind of Haskell constraints. Rather annoyingly,
 
   - During type checking `*` and `Constraint` must be distinct kinds; so that a signature `f :: Int => Int` is rejected.
-  - In Core, it is important to treat `Constraint` and `*` as indistinguishable.   **SLPJ** why?  It used to be the case because GND cast dictionaries, but we don't do that any more.
+  - In Core, it is important to treat `Constraint` and `*` as indistinguishable.   **SLPJ** why?  It used to be the case because GND cast dictionaries, but we don't do that any more. **RAE** We still use this trick when converting a 1-member class into just a coercion, right? And, if `*` and `Constraint` were different, we would need multiple different arrows. In any case, this issue is completely orthogonal to this proposal.
 
 >
 > So, `tcEqType` considers `Constraint` and `*` distinct (as they are distinct in Haskell) but `eqType` considers them to be equal.
 
 - `OpenKind`: The superkind of `*` and `#`. The existence of `OpenKind` is necessary for several reasons
 
-  - To give a kind to `(->)`, which is `OpenKind -> OpenKind -> *`.   **SLPJ** False.  We actually give `(->)` kind `*->*->*`, but have a special kinding rule for saturated applications of `(->)`.
+  - To give a kind to `(->)`, which is `OpenKind -> OpenKind -> *`.   **SLPJ** False.  We actually give `(->)` kind `*->*->*`, but have a special kinding rule for saturated applications of `(->)`. **RAE** Right. But the points I've made below still stand, no?
   - To give a type to `error :: forall (a :: OpenKind). String -> a` and `undefined :: forall (a :: OpenKind). a`.  We need to allow `error Int# "foo" :: Int#`.
   - During inference, to give a kind to lambda-bound variables.  E.g.  `\x -> 3# +# x`.  When we encounter the lambda we give it a type of `alpha`, a unification variable. But what kind does `alpha` have?  Not `*`, else this lambda would be rejected.  So we give it `OpenKind`.
 
