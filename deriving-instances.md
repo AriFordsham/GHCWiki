@@ -1,0 +1,65 @@
+
+This page documents yet another proposal to make class hierarchies easier to deal with. A good counterpoint is the [IntrinsicSuperclasses](intrinsic-superclasses) proposal, which shares many of the motivations.
+
+## Example
+
+```wiki
+class Monad m where
+  return :: a -> m a
+  (>>=) :: m a -> (a -> m b) -> m b
+
+  deriving instance Functor m where
+    fmap = ap  
+
+  deriving instance Applicative m where
+    pure = return
+    (<*>) = ap
+
+instance Monad Maybe where
+  return = Just
+  Nothing >>= _  = Nothing
+  (Just x) >>= f = f x
+
+  deriving (Functor, Applicative)   -- these inherit the constraints and params above
+  -- OR
+  deriving instance Functor m
+  deriving instance Applicative m   -- these specify constraints
+```
+
+## Proposal
+
+
+A class may now include so-called *instance templates*, right in the class declaration. The enclosing class is called the *enclosing class*. An instance template declaration does not actually manufacture an instance -- it just acts as a template which can be activated when an instance of the enclosing class is written.
+
+
+The rules for instance template declarations are as follows:
+
+- There is no requirement for the instance template's class to have any particular relationship with the deriving class. An instance template will often be for a superclass, but this is up to the programmer.
+
+- Instance templates may have arbitrary constraints.
+
+- At least one of the type arguments in the instance template head must mention one of the class parameters.
+
+- The body of the instance template is, syntactically, a normal instance body. `ScopedTypeVariables` controls whether or not the enclosing class's type variables are in scope.
+
+- When type-checking an instance template method instantiation, we assume a dictionary for the enclosing class. That is, the enclosing class is assumed as a constraint on any enclosed instance templates.
+
+- It is allowable to have multiple instance templates for the same class within the same enclosing class, as long as the type arguments are *apart*.
+
+
+When writing an instance for a class enclosing one or more instance templates, a user can include a `deriving` directive in the instance body. Note that this does not steal syntax. There are two forms of `deriving` directives:
+
+1. The keyword `deriving` following by a parenthesized, comma-separated list of class names. (The parentheses can be omitted if there is only one class name, just like with `deriving` and `data` declarations.)
+
+  - Each class in this list must have precisely one instance template enclosed in the enclosing class.
+  - The instance templates are then instantiated with the type arguments given in the enclosing instance head. 
+  - The constraints on these instances are inferred. The constraint is the smallest set of constraints that imply all of the following:
+
+    - The constraints on the instance template.
+    - The constraints on the enclosing instance.
+
+1. The keywords `deriving instance` followed by an optional set of constraints and an instance head.
+
+  - The instance head must match one of the instance templates of the enclosing class, when type variables are instantiated to the type arguments supplied to the enclosing instance.
+  - The selected instance template is then instantiated with the type arguments given.
+  - No constraints are inferred. For the `deriving` directive to type-check, the set of constraints provided after `deriving instance` must imply both the constraints on the instance template and the constraints on the enclosing instance. 
