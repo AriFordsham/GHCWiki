@@ -2,7 +2,7 @@
 
 [ Amazon EC2](http://aws.amazon.com/ec2/) is a way to get access to
 remote compute server capabilities, for which you pay by the hour.  It
-costs [ pennies per hour](http://aws.amazon.com/ec2/#pricing), so it's
+costs [ pennies per hour](http://aws.amazon.com/ec2/pricing), so it's
 perfect for doing the occasional GHC build if
 
 - you are cycle-challenged. e.g. I (simonmar) use this when I'm
