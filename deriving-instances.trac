@@ -56,3 +56,13 @@ When writing an instance for a class enclosing one or more instance templates, a
   * The instance head must match one of the instance templates of the enclosing class, when type variables are instantiated to the type arguments supplied to the enclosing instance.
   * The selected instance template is then instantiated with the type arguments given.
   * No constraints are inferred. For the `deriving` directive to type-check, the set of constraints provided after `deriving instance` must imply both the constraints on the instance template and the constraints on the enclosing instance. 
+
+== Extension ==
+
+If instance templates are used to mitigate problems when refactoring a class hierarchy between releases, we have a small problem: client code must still add a `deriving` directive. We can extend the idea above to get around this problem:
+
+ * An instance template can now be written `deriving default instance ...`
+
+ * A default instance template ''must'' be for a superclass of the enclosing class.
+
+ * If an instance of the enclosing class is written and there is no instance in scope that matches the default instance template, the instance template is automatically instantiated, as if by `deriving <<class name>>`. (That is, constraints are inferred.) A suppressable warning is also issued, recommending that the user add the `deriving` clause explicitly.
