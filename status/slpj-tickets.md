@@ -2,13 +2,13 @@
 
 ## Urgent or in-flight
 
-- [\#9371](https://gitlab.haskell.org//ghc/ghc/issues/9371): seg-fault due to inadequate conflict detection
+- [\#9371](https://gitlab.haskell.org//ghc/ghc/issues/9371): seg-fault due to inadequate conflict detection (Richard owns)
 - [\#8634](https://gitlab.haskell.org//ghc/ghc/issues/8634), [\#9267](https://gitlab.haskell.org//ghc/ghc/issues/9267), [\#9227](https://gitlab.haskell.org//ghc/ghc/issues/9227): relaxing functional dependency rules `-XDysFunctionalDependencies`
 - [\#9318](https://gitlab.haskell.org//ghc/ghc/issues/9318): bad type error caused by wanted/wanted solving (talk to Dimitrios)
 - [\#8980](https://gitlab.haskell.org//ghc/ghc/issues/8980), [\#8941](https://gitlab.haskell.org//ghc/ghc/issues/8941) (possibly), [\#8960](https://gitlab.haskell.org//ghc/ghc/issues/8960), [\#7898](https://gitlab.haskell.org//ghc/ghc/issues/7898), [\#7068](https://gitlab.haskell.org//ghc/ghc/issues/7068), [\#7944](https://gitlab.haskell.org//ghc/ghc/issues/7944), [\#5550](https://gitlab.haskell.org//ghc/ghc/issues/5550), [\#8836](https://gitlab.haskell.org//ghc/ghc/issues/8836): `SpecConstr` blowup
 - [\#9242](https://gitlab.haskell.org//ghc/ghc/issues/9242): per-instance pragmas for overlapping/incoherent
 - [\#9123](https://gitlab.haskell.org//ghc/ghc/issues/9123): higher order roles
-- [\#9200](https://gitlab.haskell.org//ghc/ghc/issues/9200), [\#9151](https://gitlab.haskell.org//ghc/ghc/issues/9151): kind inference for mutually recursive types
+- [\#9200](https://gitlab.haskell.org//ghc/ghc/issues/9200), [\#9151](https://gitlab.haskell.org//ghc/ghc/issues/9151): kind inference for mutually recursive types (Richard owns)
 - [\#9352](https://gitlab.haskell.org//ghc/ghc/issues/9352): allow `State#` in FFI types.
 - [\#9211](https://gitlab.haskell.org//ghc/ghc/issues/9211), [\#9090](https://gitlab.haskell.org//ghc/ghc/issues/9090): using equalities to let-bind type variables; level numbers on skolems
 

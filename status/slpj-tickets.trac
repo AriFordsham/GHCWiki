@@ -1,13 +1,13 @@
 = This page collects tickets that Simon PJ is interested in, so that he remembers them =
 
 == Urgent or in-flight ==
- * #9371: seg-fault due to inadequate conflict detection
+ * #9371: seg-fault due to inadequate conflict detection (Richard owns)
  * #8634, #9267, #9227: relaxing functional dependency rules `-XDysFunctionalDependencies`
  * #9318: bad type error caused by wanted/wanted solving (talk to Dimitrios)
  * #8980, #8941 (possibly), #8960, #7898, #7068, #7944, #5550, #8836: `SpecConstr` blowup
  * #9242: per-instance pragmas for overlapping/incoherent
  * #9123: higher order roles
- * #9200, #9151: kind inference for mutually recursive types
+ * #9200, #9151: kind inference for mutually recursive types (Richard owns)
  * #9352: allow `State#` in FFI types.
  * #9211, #9090: using equalities to let-bind type variables; level numbers on skolems
 
