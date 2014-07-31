@@ -54,6 +54,7 @@
 
 See also [TemplateHaskell](template-haskell)
 
+- [\#9262](https://gitlab.haskell.org//ghc/ghc/issues/9262): allow free variables in `reifyInstances`
 - [\#9209](https://gitlab.haskell.org//ghc/ghc/issues/9209): allow splicing declarations in `let`/`where`.  Currently we just get a crash.
 - [\#9113](https://gitlab.haskell.org//ghc/ghc/issues/9113): pattern match overlap/exhaustiveness checked in Typed TH
 - [TemplateHaskell/Annotations](template-haskell/annotations) Gergely's work on annotations in TH

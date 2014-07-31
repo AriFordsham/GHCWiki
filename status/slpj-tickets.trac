@@ -51,6 +51,7 @@
 == Template Haskell ==
 See also [wiki:TemplateHaskell]
 
+ * #9262: allow free variables in `reifyInstances`
  * #9209: allow splicing declarations in `let`/`where`.  Currently we just get a crash.
  * #9113: pattern match overlap/exhaustiveness checked in Typed TH
  * [wiki:TemplateHaskell/Annotations] Gergely's work on annotations in TH
