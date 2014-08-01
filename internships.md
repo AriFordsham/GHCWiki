@@ -29,6 +29,7 @@ Internship projects should have some research content, and ideally lead to a pap
 
 To give you some idea, here are some past projects (in approximate date order):
 
+- 2013: Jan Stolarek worked on Cmm optimizations and added new primops
 - 2010: David Terei worked on the LLVM back end
 - 2008: Thomas Schilling worked on the GHC API, and Scion
 - 2008: Jost Berthold worked on parallel evaluation
