@@ -9,7 +9,7 @@ class Monad m where
   (>>=) :: m a -> (a -> m b) -> m b
 
   deriving instance Functor m where
-    fmap = ap  
+    fmap = lift1
 
   deriving instance Applicative m where
     pure = return
