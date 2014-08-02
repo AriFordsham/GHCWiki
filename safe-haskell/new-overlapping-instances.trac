@@ -71,37 +71,39 @@ need to be conservative.
 
 Interestingly, this isn't exactly true. Consider the following module:
 
->{-# LANGUAGE FlexibleInstances #-}
->module S where
->
->class C a where
->  f :: a -> String
->
->instance C a where
->  f _ = "a"
->
->instance C [Int] where
->  f _ = "[Int]"
->
+{{{
+{-# LANGUAGE FlexibleInstances #-}
+module S where
+
+class C a where
+  f :: a -> String
+
+instance C a where
+  f _ = "a"
+
+instance C [Int] where
+  f _ = "[Int]"
+}}}
 
 This will compile fine as-is and doesn't require a
 `-XOverlappingInstances` flag as we only consider when instances
 overlap at call-sites, not at declaration. It will be inferred as
 safe. Now consider this module:
 
->{-# LANGUAGE Unsafe #-}
->{-# LANGUAGE OverlappingInstances #-}
->{-# LANGUAGE FlexibleInstances #-}
->module T where
->
->import safe S
->
->instance C [a] where
->  f _ = "[a]"
->
->test2 :: String
->test2 = f ([1,2,3,4] :: [Int])
->
+{{{
+{-# LANGUAGE Unsafe #-}
+{-# LANGUAGE OverlappingInstances #-}
+{-# LANGUAGE FlexibleInstances #-}
+module T where
+
+import safe S
+
+instance C [a] where
+  f _ = "[a]"
+
+test2 :: String
+test2 = f ([1,2,3,4] :: [Int])
+}}}
 
 The above should actually fail to compile since we have the instances
 `C [Int]` from the `-XSafe` module S overlapping as the most specific

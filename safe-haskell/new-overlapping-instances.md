@@ -82,28 +82,19 @@ need to be conservative.
 
 Interestingly, this isn't exactly true. Consider the following module:
 
->
-> {-\# LANGUAGE FlexibleInstances \#-}
-> module S where
->
->
-> class C a where
->
-> <table><tr><th>f</th>
-> <td>a -\> String
-> </td></tr></table>
->
->
-> instance C a where
->
-> >
-> > f _ = "a"
->
->
-> instance C \[Int\] where
->
-> >
-> > f _ = "\[Int\]"
+```wiki
+{-# LANGUAGE FlexibleInstances #-}
+module S where
+
+class C a where
+  f :: a -> String
+
+instance C a where
+  f _ = "a"
+
+instance C [Int] where
+  f _ = "[Int]"
+```
 
 
 This will compile fine as-is and doesn't require a
@@ -111,24 +102,20 @@ This will compile fine as-is and doesn't require a
 overlap at call-sites, not at declaration. It will be inferred as
 safe. Now consider this module:
 
->
-> {-\# LANGUAGE Unsafe \#-}
-> {-\# LANGUAGE OverlappingInstances \#-}
-> {-\# LANGUAGE FlexibleInstances \#-}
-> module T where
->
->
-> import safe S
->
->
-> instance C \[a\] where
->
-> >
-> > f _ = "\[a\]"
->
->
-> test2 :: String
-> test2 = f ([\[1,2,3,4\]](/trac/ghc/log/ghc/?revs=1%2C2%2C3%2C4) :: \[Int\])
+```wiki
+{-# LANGUAGE Unsafe #-}
+{-# LANGUAGE OverlappingInstances #-}
+{-# LANGUAGE FlexibleInstances #-}
+module T where
+
+import safe S
+
+instance C [a] where
+  f _ = "[a]"
+
+test2 :: String
+test2 = f ([1,2,3,4] :: [Int])
+```
 
 
 The above should actually fail to compile since we have the instances
