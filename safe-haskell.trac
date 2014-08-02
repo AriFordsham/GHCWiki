@@ -8,7 +8,7 @@ This is a proposal for a Haskell extension through which people can safely execu
  * This page details the !SafeHaskell extension
  * See this [wiki:SafeHaskell/BasePackage page] the safety status of the '''Base package'''.
  * See this [wiki:SafeHaskell/SafeCompilation page] for the '''Safe Compilation''' extension.
-
+ * See this [wiki:SafeHaskell/NewOverlappingInstances page] for information on the new overlapping instances design in GHC 7.10.
 
 == Setup ==
 
