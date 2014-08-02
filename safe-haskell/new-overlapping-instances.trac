@@ -69,6 +69,10 @@ instances except the one removed came from the same `-XSafe` module).
 As we can't change the semantics of Haskell when inferring safety, we
 need to be conservative.
 
+=== Bug in Safe vs Safe-Inferred ===
+
+'''This bug doesn't seem to exist in 7.10 anymore. Instead, 7.10 requires that at least one of `C a` or `C Int` in module S has an overlap flag'''
+
 Interestingly, this isn't exactly true. Consider the following module:
 
 {{{
