@@ -158,6 +158,8 @@ simply overlap your own instances through `OVERLAPPING` but not export
 that property to the world (i.e., somewhat analogous to being a closed
 type class).
 
+The nice thing is the new design also encourages library authors to be specific about the overlap property of their instances. So hopefully fixing the current bug with safe-inference and overlapping instances has even less of an effect.
+
 === Safe Inference ===
 
 Safe inference becomes a trickier question with the new pragmas.
