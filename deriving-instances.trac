@@ -35,7 +35,7 @@ The rules for instance template declarations are as follows:
 
  * Instance templates may have arbitrary constraints.
 
- * At least one of the type arguments in the instance template head must mention one of the class parameters.
+ * At least one of the type arguments in the instance template head must mention at least one of the class parameters.
 
  * The body of the instance template is, syntactically, a normal instance body. `ScopedTypeVariables` controls whether or not the enclosing class's type variables are in scope.
 
@@ -45,7 +45,7 @@ The rules for instance template declarations are as follows:
 
 When writing an instance for a class enclosing one or more instance templates, a user can include a `deriving` directive in the instance body. Note that this does not steal syntax. There are two forms of `deriving` directives:
 
-1. The keyword `deriving` following by a parenthesized, comma-separated list of class names. (The parentheses can be omitted if there is only one class name, just like with `deriving` and `data` declarations.)
+1. The keyword `deriving` followed by a parenthesized, comma-separated list of class names. (The parentheses can be omitted if there is only one class name, just like with `deriving` and `data` declarations.)
  * Each class in this list must have precisely one instance template enclosed in the enclosing class.
  * The instance templates are then instantiated with the type arguments given in the enclosing instance head. 
  * The constraints on these instances are inferred. The constraint is the smallest set of constraints that imply all of the following:
@@ -55,9 +55,9 @@ When writing an instance for a class enclosing one or more instance templates, a
 2. The keywords `deriving instance` followed by an optional set of constraints and an instance head.
   * The instance head must match one of the instance templates of the enclosing class, when type variables are instantiated to the type arguments supplied to the enclosing instance.
   * The selected instance template is then instantiated with the type arguments given.
-  * No constraints are inferred. For the `deriving` directive to type-check, the set of constraints provided after `deriving instance` must imply both the constraints on the instance template and the constraints on the enclosing instance. 
+  * No constraints are inferred. For the `deriving` directive to type-check, the set of constraints provided after `deriving instance` must imply both the constraints on the instance template and the constraints on the enclosing instance. ('''RAE:''' Would it be better to automatically include the constraints on the enclosing instance? Could that ever be against the user's wishes?)
 
-== Extension ==
+== Extension 1: Defaults ==
 
 If instance templates are used to mitigate problems when refactoring a class hierarchy between releases, we have a small problem: client code must still add a `deriving` directive. We can extend the idea above to get around this problem:
 
@@ -66,3 +66,14 @@ If instance templates are used to mitigate problems when refactoring a class hie
  * A default instance template ''must'' be for a superclass of the enclosing class.
 
  * If an instance of the enclosing class is written and there is no instance in scope that matches the default instance template, the instance template is automatically instantiated, as if by `deriving <<class name>>`. (That is, constraints are inferred.) A suppressable warning is also issued, recommending that the user add the `deriving` clause explicitly.
+
+== Extension 2: Derived instance bodies ==
+
+This extension allows derived instances to override definitions in the instance templates. This is suitable when a user wants most of an instance template's definitions, but not all. This is also useful when the instance template is necessarily incomplete (because one or more functions in the instance template's class can't be written in the template). Here are the rules:
+
+ * An instance template declaration is ''not'' checked for completeness against `MINIMAL` pragmas. ('''RAE:''' This means that an instance template writer can make an easy, undetected mistake, if the user intends the template to be complete. Should there be a way to signal the desire for completeness? Or, probably better, the desire for incompleteness, effectively suppressing the completeness warning?)
+
+ * All derived instances (including those created with a bare `deriving` directive) ''are'' checked for completeness against `MINIMAL` pragmas.
+
+ * Users can put a `where` clause after `deriving instance ... => ...`, and give definitions, as in a normal instance declaration. The only difference between a `deriving instance` declaration and a normal one is that any omitted definitions are inherited from the instance template in the enclosing class.
+
