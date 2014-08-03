@@ -14,7 +14,7 @@ Although interface files are kept in binary format, you can print them in human-
 ```
 
 
-This textual format is not particularly designed for machine parsing.  Doing so might be possible, but if you want to read GHC interface files you are almost certainly better off using the [GHC API](commentary/compiler/api) to do so.
+This textual format is not particularly designed for machine parsing.  Doing so might be possible, but if you want to read GHC interface files you are almost certainly better off using the [GHC API](commentary/compiler/api) to do so. If you are wondering how some particular language feature is represented in the interface file, this command is really useful! Cross-reference its output with the `Outputable` instance defined in [compiler/iface/LoadIface.hs](/trac/ghc/browser/ghc/compiler/iface/LoadIface.hs)
 
 
 Here are some of the things stored in an interface file `M.hi`
