@@ -88,6 +88,43 @@ This extension allows derived instances to override definitions in the instance 
 
 - Users can put a `where` clause after `deriving instance ... => ...`, and give definitions, as in a normal instance declaration. The only difference between a `deriving instance` declaration and a normal one is that any omitted definitions are inherited from the instance template in the enclosing class.
 
+## Extension 3: Inherited instance templates
+
+
+In a deep class hierarchy (i.e. with long chains of superclasses), it may be convenient to propagate instance templates from superclass to subclass. The base proposal ignores superclass relationship. (Just because `Applicative` has an instance template for `Functor`, it doesn't mean that `Monad`, a subclass of `Applicative`, also has the instance template.) This extension would allow users to write `deriving <<class names>>` in a *class* declaration, meaning that instance templates for those classes are inherited from superclasses. Here are the rules:
+
+- A class declaration may include a `deriving << class names >>` directive, using syntax similar to other `deriving` directives.
+
+- Each class listed in a `deriving` directive must have precisely one instance template enclosed in precisely one superclass. This instance template is considered to be part of the enclosing class.
+
+
+For example:
+
+```wiki
+class Functor f where
+  fmap :: (a -> b) -> f a -> f b
+
+class Functor f => Applicative f where
+  pure :: a -> f a
+  (<*>) :: f (a -> b) -> f a -> f b
+
+  deriving default instance Functor f where
+    fmap f = (pure f <*>)
+
+class Applicative m => Monad m where
+  return :: a -> m a
+  (>>=) :: m a -> (a -> m b) -> m b
+  fail :: String -> m a
+
+  deriving default instance Applicative m where
+    pure = return
+    (<*>) = ap
+  deriving default Functor
+```
+
+
+In the last line, we see a combination of extensions 1 and 3, which causes no additional difficulties. (**RAE:** Though, perhaps it suggests swapping the order of the syntax from `deriving default` to `default deriving`.)
+
 ## Example of splitting a class
 
 
