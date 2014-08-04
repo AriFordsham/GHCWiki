@@ -2,6 +2,7 @@
 
 ## Urgent or in-flight
 
+- [\#9400](https://gitlab.haskell.org//ghc/ghc/issues/9400): `unpackCString#` rules
 - [\#9371](https://gitlab.haskell.org//ghc/ghc/issues/9371): seg-fault due to inadequate conflict detection (Richard owns)
 - [\#8634](https://gitlab.haskell.org//ghc/ghc/issues/8634), [\#9267](https://gitlab.haskell.org//ghc/ghc/issues/9267), [\#9227](https://gitlab.haskell.org//ghc/ghc/issues/9227): relaxing functional dependency rules `-XDysFunctionalDependencies`
 - [\#9318](https://gitlab.haskell.org//ghc/ghc/issues/9318): bad type error caused by wanted/wanted solving (talk to Dimitrios)
