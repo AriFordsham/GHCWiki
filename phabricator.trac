@@ -80,10 +80,6 @@ $ arc diff
 
 `arc` will then respond with the revision number and a URL where you can visit your change.
 
-Next, add a link to the revision in the Trac ticket. Fill out the field called "Differential Revisions" when you modify the ticket. You can hyperlink to any Phabricator revision using the syntax `Phab:Dxx` with a specific number. For example, to link to Differential Revision D69, say Phab:D69. As an example, Ticket #8634 has this set:
-
-[[Image(https://i.imgur.com/gYHkAhe.png)]]
-
 You may also modify the commit more later, by making new commits, and running `arc diff` again. This will just update the existing review:
 
 {{{
@@ -92,17 +88,132 @@ $ git commit -asm "fix bug in new feature"
 $ arc diff # update existing review
 }}}
 
-=== Notes on `arc diff` ===
+== The Core Applications and concepts ==
 
-Note that when you run `arc diff`, it will drop you into an editor to summarize your commit message, add a '''test plan''', and '''reviewers''', and optionally any '''subscribers'''. Subscribers will be notified of changes to a review. Reviewers are a set of (comma separated) people who must look at the review. These people have the same usernames as they do on Trac, with one exception: `austin` is Phab's username for Trac's `thoughtpolice`. A '''test plan''' just specifies how you can verify the change - feel free to make it simple and just say 'validate' or otherwise something silly.
+Phabricator is a suite of applications. There are several that are very important which are described below, as well as some philosophical guidlines.
+
+=== First step: configuring your applications ===
+
+The very first thing you want to do before continuing is ''configure the applications you can see''. First off, click on the 'Customize Applications' link, which you can find on the bottom of the left side pane:
+
+[[Image(http://i.imgur.com/JURmxre.png)]]
+
+Next, configure the applications you want, and drag them around to configure the order. Do this by clicking '''Pin Applications''' on the top right.
+
+'''Make sure you have the following applications''':
+
+ - Diffusion
+ - Differential
+ - Audit
+ - Herald
+ - Harbormaster
+ - Owners
+
+Remember: you can change the order by dragging things around.
+
+=== Differential: pre-commit code review ===
+
+'''[https://phabricator.haskell.org/differential Differential]''' is '''the most important tool in Phabricator'''. It's what does code review, and lets you review other peoples code to tell them "Great job" or "I guess this is OK" or "Please fix this!"
+
+When you post a review with `arc diff`, the review will show up in Differential and notify the specified reviewers quickly. They can then review your change, or they can
+
+==== Creating diffs ====
+
+To make a diff, just run `arc diff`. You should keep separate changes separated on different branches. This ensures your changes are isolated and you don't accidentally submit a review of things you shouldn't:
+
+{{{
+$ cd ~/code/ghc-head
+$ git checkout -b fix-trac-1234
+$ emacs ...
+$ git commit -asm "compiler: fix trac issue #1234"
+$ arc diff
+...
+$ git checkout master
+... do things ...
+$ git checkout -b fix-trac-5678
+$ git commit -asm "rts: fix trac issue #5678"
+$ arc diff
+}}}
+
+Alternatively, you can upload diffs '''from the web UI'''. Export your patch as you normally would, go to the Differential application, and click "Create diff" in the very top right. Phabricator will guide you through the rest.
+
+==== Notes on `arc diff` ====
+
+Note that when you run `arc diff`, it will drop you into an editor to summarize your commit message, add a '''test plan''', and '''reviewers''', '''GHC Trac Issues''', and optionally any '''subscribers'''. Subscribers will be notified of changes to a review. Reviewers are a set of (comma separated) people who must look at the review. These people have the same usernames as they do on Trac, with one exception: `austin` is Phab's username for Trac's `thoughtpolice`. A '''test plan''' just specifies how you can verify the change - feel free to make it simple and just say 'validate' or otherwise something silly. '''GHC Trac Issues''' is a special field that adds metadata about the Trac ticket you're working on.
 
 '''A change cannot be merged until at least one reviewer has signed off'''. All revisions must have at least one reviewer. Ideally, multiple people will review a change.
 
 '''You should always at least add `austin` to a review'''. If you want wider attention, you can specify the reviewer as `#ghc` - this specifies a group of GHC developers who may come to review it as well.
 
-'''Question''': What does the `#ghc` mean? '''Answer''': Essentially, in Phabricator, a Project is composed of a group of people. A project can be referred to by a hashtag, which basically incorporates everyone involved in the project.
+('''Question''': What does the `#ghc` mean? '''Answer''': Essentially, in Phabricator, a Project is composed of a group of people. A project can be referred to by a hashtag, which basically incorporates everyone involved in the project.)
 
-== Automatic builds: Harbormaster ==
+Finally, '''GHC Trac Tickets''' should be a comma separated list of issue numbers, for example, `GHC Trac Issues: #123, #456`. This will add metadata in Differential allowing you to see the ticket.
+
+==== Landing reviews ====
+
+If you're submitting a patch to GHC and not a committer, Austin or Herbert will land your changes - and we really appreciate it!
+
+If you ''are'' a committer, you can leave it to Austin or Herbert as well if you'd like, but ideally you'll do it yourself.
+
+If you have commit access, go to your repository with the branch and your changes. Then you can do:
+
+{{{
+$ git checkout master
+$ arc patch --nobranch <differential revision>
+$ git push origin master
+}}}
+
+This will:
+
+ * Pull the patch down as a single change, and apply it to your branch.
+ * Push it upstream - Phabricator will then close the branch for you as it will see the differential revision notifier in the commit.
+
+You're done!
+
+=== Owners: keeping track of your code ===
+
+'''[https://phabricator.haskell.org/owners Owners]''' is an application that lets you easily categorize source code, see who owns it, and make it easy to track changes to those files. First, open up the application, and click '''All''' on the left-side pane. You'll see a screen like this:
+
+[[Image(http://i.imgur.com/cQe8zed.png)]]
+
+A '''Package''' is a set of paths in a source tree, which is ''owned'' by one-or-more people. Every package has a ''Primary'' owner (with a bolded name), as well as fellow owners. For example, the '''GHC - Runtime System''' package consists of the files in `./includes` and `./rts` in the GHC repository. `simonmar` is the primary owner, while `ezyang` is a fellow owner. Similarly, `austin` owns the '''GHC - Testsuite''' package.
+
+Packages and owners are mostly useful for keeping track of things using '''Herald'''.
+
+=== Herald: notifications and tracking ===
+
+'''[https://phabricator.haskell.org/herald/ Herald]''' is an application that allows you to trigger actions on events in Phabricator. For example, when someone posts a diff, comments, or random things happen, it can respond by sending emails, adding subscribers, or triggering audits.
+
+First, you have to select the event the rule will trigger on. Normally this will be ''Commit'' if you want to analyze commits, or ''Differential Revision'' if you want it to trigger on new patches for review.
+
+Next, you have to select the type of rule. You will always want the type to be ''Personal'' - so it only affects you and nobody else.
+
+Finally, you have the rules screen. It should be mostly self explanatory: set combinations of conditions, and sets of actions to take when the conditions are satisfied.
+
+For example, Austin has a '''Personal Rule''' for '''Differential Revisions'''. The rule is only triggered when the repository '''is any of''' `rGHC` ('''NB''': the `r` is important!), and '''Every time''' it '''Adds me as a blocking reviewer'''.
+
+[[Image(https://i.imgur.com/lUPSMmZ.png)]]
+
+With this rule, all GHC patches must be signed off on.
+
+Here's a more complex rule that Austin uses, combining Owners, Herald, and Audit:
+
+[[Image(http://i.imgur.com/9eZYKJo.png)]]
+
+'''NOTE''': The last field is truncated, but says "Any package whos owners...", i.e. the last clause means it only fires if I am the owner of a package, set up in the Owners application.
+
+=== Audit: post-commit code review ===
+
+'''[https://phabricator.haskell.org/audit Audit]''' is an application that allows you to keep track of people who touch your code, and then do things when that happens - 
+like review their code, and tell them how they messed everything up.
+
+Auditing works mostly the same way as reviewing, only after the fact - instead of accepting or rejecting, you can '''Raise Concerns''' or '''Accept Revision'''. If you raise a concern, the author will be notified and generally required to rectify the change.
+
+'''NB''': commits you should audit, or commits of yours that have had concerns raised will appear on the homepage.
+
+Alternatively, you may use Diffusion to [https://phabricator.haskell.org/diffusion/GHC browse the GHC repository], find a commit, and then audit it. For example, by viewing commit [https://phabricator.haskell.org/rGHCb6352c9912536929537dcebac9d02d4f995c1657 b6352c9912536929537dcebac9d02d4f995c1657], we can look at the diff. Then, go to the bottom, and you can take actions like '''Accept Review''' or '''Raise Concerns''' - this is an equivalent to a regular audit for arbitrary commits.
+
+=== Harbormaster: building patches ===
 
 When **you use Arcanist to submit a diff**, Phabricator will automatically trigger a build rule using an application called "Harbormaster". This application causes a build machine in the background to apply your patch and run `sh ./validate`. Afterwords, your diff will be updated with:
 
@@ -126,95 +237,40 @@ Note that every time you run `arc diff` and update an existing review or create 
 
 **Note**: You can use the word "nobuild" by itself in a `Summary:` when you submit a diff to skip builds. You may want to do this if you know your build will break, but you just want to post code.
 
-== Diffusion: Browsing the GHC repository ==
+=== Diffusion: browsing the GHC repository ===
 
 '''[https://phabricator.haskell.org/diffusion Diffusion]''' is a simple, fast repository browser for GHC which you can use to browse the repo, audit commits, explore branches or just read code.
 
 Note that in Phabricator, every repository has what we call a '''callsign'''. A callsign is a short, unique identifier for a repository. The GHC repository has the '''GHC''' callsign. Sometimes in the UI when referring to a repository, you must use the unambiguous name `rGHC`, signifying the repository callsign.
 
-== Herald & Audit: post-commit review ==
+== Linking trac tickets, and wiki syntax ==
 
-'''[https://phabricator.haskell.org/herald Herald]''' is an application that tracks events that occur on Phabricator, and take certain actions when they happen. For example, when a commit to the GHC repository occurs, you may want to be sent an email about it so you can be aware. Or maybe you'd like to audit commits that touch certain files.
+Phabricator has some special support for GHC.
 
-'''[https://phabricator.haskell.org/audit Audit]''' is an application that lets you keep track of commits that have gone into a repository, in case you need to review them. The most common workflow audit enables is ''post-commit review'', which means you review code after it's been committed.
+=== Remarkup syntax ===
 
-Normally, you'll use '''Herald''' to create rules which trigger an '''Audit''', which will then appear in the Audit application.
+In any place in Phabricator, if you say the word `#1234` to refer to a Trac ticket, it will auto-hyperlink that phrase to the right place:
 
-=== Herald: creating rules ===
+[[Image(http://i.imgur.com/Fv2Pi1v.png)]]
 
-Go to the [https://phabricator.haskell.org/herald/ Herald application] and click ''Create New Herald Rule'' at the top right.
+This occurs in ''every'' application, so refer to Trac tickets at will!
 
-First, you have to select the event the rule will trigger on. Normally this will be ''Commit'' if you want to analyze commits, or ''Differential Revision'' if you want it to trigger on new patches for review.
+=== Linking reviews to Trac tickets and vice versa ===
 
-Next, you have to select the type of rule. You will always want the type to be ''Personal'' - so it only affects you and nobody else.
+Let's say you have a revision and it fixes a bug on Trac - like #8634. And let's say you have a differential revision for it - like Phab:D69.
 
-Finally, you have the rules screen. It should be mostly self explanatory: set combinations of conditions, and sets of actions to take when the conditions are satisfied.
+First, '''when you submit a review, add the ticket number to the `GHC Trac Issues` field'''. This field will be shown when you run `arc diff`. This field should be a comma-separated list of ticket numbers. By doing this, these ticket numbers will automatically appear in Phabricator:
 
-For example, Austin has a '''Personal Rule''' for '''Differential Revisions'''. The rule is only triggered when the repository '''is any of''' `rGHC` ('''NB''': the `r` is important!), and '''Every time''' it '''Adds me as a blocking reviewer'''.
+[[Image(http://i.imgur.com/QIGhD0T.png)]]
 
-[[Image(https://i.imgur.com/lUPSMmZ.png)]]
+Next, add a link to the revision in the Trac ticket. Fill out the field called "Differential Revisions" when you modify the ticket. You can hyperlink to any Phabricator revision using the syntax `Phab:Dxx` with a specific number. For example, to link to Differential Revision D69, say Phab:D69. As an example, Ticket #8634 has this set:
 
-With this rule, all GHC patches must be signed off on.
+[[Image(https://i.imgur.com/gYHkAhe.png)]]
+== Contributing to our Phabricator infrastructure ==
 
-=== Audit: auditing commits that go by ===
+Our Phabricator instance is essentially stock upstream with no patches. But, it does have some extensions we wrote, for things like custom fields in Differential, and custom remarkup syntax.
 
-Once you've created a Herald rule, you may now go to the Go to the [https://phabricator.haskell.org/audit/ Audit application] to review commits that have gone by. Auditing works mostly the same way as reviewing, only after the fact - instead of accepting or rejecting, you can '''Raise Concerns''' or '''Accept Revision'''. If you raise a concern, the author will be notified and generally required to rectify the change.
-
-'''NB''': commits you should audit, or commits of yours that have had concerns raised will appear on the homepage.
-
-Alternatively, you may use Diffusion to [https://phabricator.haskell.org/diffusion/GHC browse the GHC repository], find a commit, and then audit it. For example, by viewing commit [https://phabricator.haskell.org/rGHCb6352c9912536929537dcebac9d02d4f995c1657 b6352c9912536929537dcebac9d02d4f995c1657], we can look at the diff. Then, go to the bottom, and you can take actions like '''Accept Review''' or '''Raise Concerns''' - this is an equivalent to a regular audit for arbitrary commits.
-
-=== More reading ===
-
-Be sure to also read the [https://secure.phabricator.com/book/phabricator/article/herald/ Herald user guide], as well as the [https://secure.phabricator.com/book/phabricator/article/audit/ Audit user guide]. There's also some documentation on [https://secure.phabricator.com/book/phabricator/article/reviews_vs_audit/ review vs audit workflows] in the Phab documentation.
-
-== General review workflow ==
-
-Once you post a review, you can keep revising it by making new commits, and running `arc diff`.
-
-Once people begin reviewing, a few things can happen: more reviewers can be added, subscribers can join, and people can make comments. This can be done by scrolling to the bottom of the page and selecting the appropriate action.
-
-The most important things people can do is '''accept a revision''' or '''request changes'''. The actions should be obvious. If a reviewer accepts a revision, it will hopefully be merged soon unless someone complains. But if a person requests changes, the submitter needs to respond. Alternatively, new people may commandeer revisions to take them over as well, or the owner may abandon revisions.
-
-=== Landing reviews ===
-
-If you're submitting a patch to GHC and not a committer, Austin or Herbert will land your changes - and we really appreciate it!
-
-If you ''are'' a committer, you can leave it to Austin or Herbert as well if you'd like, but ideally you'll do it yourself.
-
-If you have commit access, go to your repository with the branch and your changes. Then you can do:
-
-{{{
-$ arc land <branch name>
-}}}
-
-('''NB''': if your revision has been accepted, this command will appear in a notification at the top of the review page).
-
-`arc land` is a ''very'' automated tool for landing reviews. What it will do is:
-
- * Take your branch
- * Squash the commits into a single commit
- * Rebase it on master
- * Delete the old branch
- * Push the change upstream
-
-So it's really automated! If you'd like something more manual, do this:
-
-{{{
-$ arc patch --nobranch <differential revision>
-$ git push origin master
-}}}
-
-This will:
-
- * Pull the patch down, merge it as a single change
- * Push it upstream - Phabricator will then close the branch for you as it will see the differential revision notifier in the commit.
-
-You're done!
-
-=== Notes on reviews ===
-
-Note that you can add inline comments to any line in a differential revision. You can also reply to inline comments. '''You can have multiple inline comments per top-level comment you add'''. Once you have made some inline comments, or replied to one, go to the bottom of the page and hit 'submit' to submit it. You may also add a top-level comment to go with it.
+The auxiliary library we use is known as '''[https://github.com/haskell-infra/libphutil-haskell libphutil-haskell]''', which provides these features. It's written in PHP, so if you want to contribute, you'll have to leave the Haskell world behind!
 
 == Tips ==
 
