@@ -96,7 +96,7 @@ Phabricator is a suite of applications. There are several that are very importan
 
 The very first thing you want to do before continuing is ''configure the applications you can see''. First off, click on the 'Customize Applications' link, which you can find on the bottom of the left side pane:
 
-[[Image(http://i.imgur.com/JURmxre.png)]]
+[[Image(https://i.imgur.com/JURmxre.png)]]
 
 Next, configure the applications you want, and drag them around to configure the order. Do this by clicking '''Pin Applications''' on the top right.
 
@@ -174,7 +174,7 @@ You're done!
 
 '''[https://phabricator.haskell.org/owners Owners]''' is an application that lets you easily categorize source code, see who owns it, and make it easy to track changes to those files. First, open up the application, and click '''All''' on the left-side pane. You'll see a screen like this:
 
-[[Image(http://i.imgur.com/cQe8zed.png)]]
+[[Image(https://i.imgur.com/cQe8zed.png)]]
 
 A '''Package''' is a set of paths in a source tree, which is ''owned'' by one-or-more people. Every package has a ''Primary'' owner (with a bolded name), as well as fellow owners. For example, the '''GHC - Runtime System''' package consists of the files in `./includes` and `./rts` in the GHC repository. `simonmar` is the primary owner, while `ezyang` is a fellow owner. Similarly, `austin` owns the '''GHC - Testsuite''' package.
 
@@ -198,7 +198,7 @@ With this rule, all GHC patches must be signed off on.
 
 Here's a more complex rule that Austin uses, combining Owners, Herald, and Audit:
 
-[[Image(http://i.imgur.com/9eZYKJo.png)]]
+[[Image(https://i.imgur.com/9eZYKJo.png)]]
 
 '''NOTE''': The last field is truncated, but says "Any package whos owners...", i.e. the last clause means it only fires if I am the owner of a package, set up in the Owners application.
 
@@ -251,7 +251,7 @@ Phabricator has some special support for GHC.
 
 In any place in Phabricator, if you say the word `#1234` to refer to a Trac ticket, it will auto-hyperlink that phrase to the right place:
 
-[[Image(http://i.imgur.com/Fv2Pi1v.png)]]
+[[Image(https://i.imgur.com/Fv2Pi1v.png)]]
 
 This occurs in ''every'' application, so refer to Trac tickets at will!
 
@@ -261,7 +261,7 @@ Let's say you have a revision and it fixes a bug on Trac - like #8634. And let's
 
 First, '''when you submit a review, add the ticket number to the `GHC Trac Issues` field'''. This field will be shown when you run `arc diff`. This field should be a comma-separated list of ticket numbers. By doing this, these ticket numbers will automatically appear in Phabricator:
 
-[[Image(http://i.imgur.com/QIGhD0T.png)]]
+[[Image(https://i.imgur.com/QIGhD0T.png)]]
 
 Next, add a link to the revision in the Trac ticket. Fill out the field called "Differential Revisions" when you modify the ticket. You can hyperlink to any Phabricator revision using the syntax `Phab:Dxx` with a specific number. For example, to link to Differential Revision D69, say Phab:D69. As an example, Ticket #8634 has this set:
 
