@@ -1,6 +1,6 @@
 # Intrinsic Superclasses
 
-**Note** This page is a new version of the [DefaultSuperclassInstances](default-superclass-instances) proposal, and may ultimately supplant it. For now, I'm keeping the two separate as the delta is large, superficially at least. See also on [ Reddit](http://www.reddit.com/r/haskell/comments/2avs16/intrinsicsuperclasses_for_haskell_new_proposal/).
+**Note** This page is a new version of the [DefaultSuperclassInstances](default-superclass-instances) proposal, and may ultimately supplant it. For now, I'm keeping the two separate as the delta is large, superficially at least. See also on [ Reddit](http://www.reddit.com/r/haskell/comments/2avs16/intrinsicsuperclasses_for_haskell_new_proposal/). Another proposal in this space, worthy of comparison to the one below, is here: [InstanceTemplates](instance-templates).
 
 ## The Problem
 
