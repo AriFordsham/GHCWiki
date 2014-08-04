@@ -46,6 +46,8 @@ The rules for instance template declarations are as follows:
 
 - It is allowable to have multiple instance templates for the same class within the same enclosing class, as long as the type arguments are *apart*.
 
+- A `MINIMAL` pragma, which would appear in the enclosing class, *not* within any instance templates, may refer to definitions in the classes instantiated in the instance templates. When checking an enclosing class's instance for completeness, a method from a templated class is said to be defined if the method is defined locally (that is, within a `deriving` clause within the enclosing class instance in question) or if there exists an instance in scope that matches the relevant instance template.
+
 
 When writing an instance for a class enclosing one or more instance templates, a user can include a `deriving` directive in the instance body. Note that this does not steal syntax. There are two forms of `deriving` directives:
 
@@ -85,3 +87,44 @@ This extension allows derived instances to override definitions in the instance 
 - All derived instances (including those created with a bare `deriving` directive) *are* checked for completeness against `MINIMAL` pragmas.
 
 - Users can put a `where` clause after `deriving instance ... => ...`, and give definitions, as in a normal instance declaration. The only difference between a `deriving instance` declaration and a normal one is that any omitted definitions are inherited from the instance template in the enclosing class.
+
+## Example of splitting a class
+
+
+This proposal does not address directly how to split a class into pieces, but the features described here can be used to do so, with the perhaps-unfortunate consequence if requiring new names to be introduced. (Contrast with [IntrinsicSuperclasses](intrinsic-superclasses), which supports splitting directly, but has the perhaps-unfortunate consequence that method definitions in instances do not always belong to the class they appear to be defined for.)
+
+
+Here is a class we want to split:
+
+```wiki
+class Num a where
+  (+) :: a -> a -> a
+  (*) :: a -> a -> a
+```
+
+
+And here is how we might split it:
+
+```wiki
+class Additive a where
+  add :: a -> a -> a
+class Multiplicative a where
+  mult :: a -> a -> a
+
+class (Additive a, Multiplicative a) => Num a where
+  (+) :: a -> a -> a
+  (+) = add
+
+  (*) :: a -> a -> a
+  (*) = mult
+
+  deriving default instance Additive a where
+    add = (+)
+  deriving default instance Multiplicative a where
+    mult = (*)
+
+  {-# MINIMAL (add | (+)), (mult | (*)) #-}
+```
+
+
+Now, an old `Num` instance would continue to work, and would automatically generate suitable `Additive` and `Multiplicative` instances, albeit with warnings due to default instance generation. (The warnings are because I -- Richard -- believe that all instances should be made explicit, under ideal circumstances.)
