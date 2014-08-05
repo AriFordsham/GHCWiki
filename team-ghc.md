@@ -177,6 +177,13 @@ In order to see emails below, **you must login**.
   - **Committer since**: October, 2008.
   - **Main areas of interest**: generics support, type checker
 
+- [ Karel Gardas](http://www.objectsecurity.com/en-home-aboutus-team.html)
+
+  - ObjectSecurity Limited - Roznov pod Radhostem, The Czech Republic
+  - **Trac**: kgardas; **email**: karel.gardas@…
+  - **Committer since**: August 2014.
+  - **Main areas of interest**: Solaris platform support.
+
 - [ KC Sivaramakrishnan](http://www.cs.purdue.edu/homes/chandras/kcs_academic_page/Welcome.html)
 
   - Purdue University - West Lafayette, IN
