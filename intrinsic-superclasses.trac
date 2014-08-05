@@ -8,6 +8,8 @@ Sometimes we want to refactor the type class hierarchy, and it always hurts.
 
 (More broadly, we have the recurrent problem of how to program defensively against progress. We may wish for benevolent evolution in the library, but we have to program against the library as it stands, and then the granting of our wishes breaks our code!)
 
+Moreover, whether refactoring a legacy hierarchy or not, some subclasses give rise to default definitions for some of their superclasses. E.g., `Ord` can induce a standard definition of `Eq`, `Monad` induces `Applicative`, `Applicative` and `Traversable` both induce `Functor`. In these cases, we commonly just want the obvious default implementations and it is a nuisance to spell them out longhand.
+
 === Requirement 1: Some instance definitions in source code should generate multiple internal instances. ===
 
 The typical scenario is that we have a library class
@@ -87,6 +89,10 @@ class (instance Applicative m) => Monad m where
 }}}
 
 Note that explicit `Functor` instances do not have a default implementation of `fmap` (that being rather the point of such instances), but that explicit `Applicative` and `Monad` would, under this proposal.
+
+The imagined solution delivers the instance of the intrinsic superclass by default, largely motivated by the refactoring issue, which has had nontrivial negative consequences for the evolution of the library, the Functor-Applicative-Monad hierarchy being a case in point. If we were gifted with foresight, we might prefer an "opt-in" approach, where default instances can be generated cheaply but not in total silence.
+
+Many default superclass instances are likely to define some but not all of the superclass members. E.g., we can make `return` a member of `Applicative`: we would then expect a `Monad` instance to define `return` but to acquire a default definition of `<*>`. An opt-in notation would need to (and could) say more than `deriving Applicative`.
 
 
 === Requirement 3: A member's most local definition is its definition. ===
@@ -497,3 +503,96 @@ The same logic should clearly apply to `deriving` clauses, so that (e.g. for `Sq
   * `deriving Ord` gives `Ord a => Ord (Square a)` as usual and `Ord a => Eq (Square a)` with default implementation;
   * `deriving (Ord, Eq) gives `Ord a => Ord (Square a)` and `Eq a => Eq (Square a)`, with no pre-emption warning;
   * `deriving (Ord - Eq)` gives just `Ord a => Ord (Square a)` requiring a separate hand-rolled `Eq (Square a)` instance.
+
+
+-----------------------------------
+
+== Counterfactuals ==
+
+Arising from discussion, further modifications are worth considering, if only to step back from them.
+
+=== Liberalization 7 Use type inference to disambiguate member distribution. ===
+
+We could imagine permitting
+{{{
+class Foo x where
+  foo :: x -> x
+
+class (instance Foo x, instance Foo y) => Goo x y where
+  goo :: x -> y
+}}}
+and if we saw
+{{{
+instance Goo Int Bool where
+  foo x = 3
+  foo x = True
+  goo = (0 <)
+}}}
+it would be obvious that we meant
+{{{
+instance Foo Int where
+  foo x = 3
+instance Foo Bool where
+  foo x = True
+instance Goo Int Bool where
+  goo = (0 <)
+}}}
+because type information tells us which `foo` belongs where.
+
+That is, we could adopt a policy of complaining only if type inference fails to disambiguate the distribution of members to internal instances.
+
+We might need enough notation to opt out of `Foo x` but not `Foo y`. More explicit notation will be necessary
+whenever the given definitions. E.g.,
+{{{
+instance Goo Int Bool where
+  foo 0 = 3
+  foo x = x
+  foo x = True
+  goo = (0 <)
+}}}
+does not establish in which instance the `foo x = x` line belongs.
+
+Of course, one could reject such programs as ambiguous, but certainly, the static semantics of such a system is far more subtle than the present proposal.
+
+=== Liberalization 8 Make superclasses intrinsic by default. ===
+
+We could drop the use of `instance` to mark which superclasses are intended as intrinsic. Again adopting a complain-on-ambiguity semantics, we could generate a superclass instance automatically from a subclass instance whenever there is at least one candidate member definition: either a default in the subclass, or an explicit definition in the subclass instance. So
+{{{
+class Bing x where
+  bing :: x
+class Bing x => Bong x where
+  bong :: x
+instance Bong Int where
+  bing = 1
+  bong = 0
+}}}
+generates a `Bing Int` instance too, as does 
+{{{
+class Bing x where
+  bing :: x
+class Bing x => Bong x where
+  bong :: x
+  bing = bong
+instance Bong Int where
+  bong = 0
+}}}
+but
+{{{
+class Bing x where
+  bing :: x
+class Bing x => Bong x where
+  bong :: x
+instance Bong Int where
+  bong = 0
+}}}
+generates only a `Bong Int` instance (rather than an empty `Bing Int` instance).
+
+Such a proposal would require a little more subtlety to determine which instances are generated, but might be sustainable.
+
+Certainly, it would still require authors of client code to be aware of whether a given class is likely to generate superclass instances. If I define some rather special purpose library with
+{{{
+class Eq x => WhizzBanger x where
+  whizz :: x -> x -> x
+  bang  :: x -> Bool
+}}}
+then clients need to know whether their `WhizzBanger` instances need to bring an `Eq` instance or will get one. This liberalization cuts the `instance` notation in class declarations but not the necessity to be aware of what it makes explicit.
