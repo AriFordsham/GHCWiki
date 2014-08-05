@@ -178,7 +178,7 @@ An [interface file](commentary/compiler/iface-files) contains:
     *export-list hash* and *decls*.
   - The *export-list hash*, which depends on 
 
-    - The *export-list hash* hashes the export list itself.  The export-list hash only depends on the names of the exports for the modules. The types of these exports are ignored in calculating the hash. Only a change of name or removal or addition of an export will change the hash. Not a type change of definition change.
+    - The export list itself.  The export-list hash only depends on the *names* of the exports for the modules. The *types* of these exports are ignored in calculating the hash. Only a change of name or removal or addition of an export will change the hash. Not a type change of definition change.
     - the *orphan hash*, which depends on all the orphan instances/rules in the, and the orphan hashes of all orphan modules below this module in the dependency tree (see [Orphans](commentary/compiler/recompilation-avoidance#orphans)). 
     - the package dependencies (see [Package Version Changes](commentary/compiler/recompilation-avoidance#package-version-changes)).
 - *exports*: what the module exports
