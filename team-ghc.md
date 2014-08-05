@@ -198,6 +198,13 @@ In order to see emails below, **you must login**.
   - **Committer since**: August, 2006.
   - **Main areas of interest**: DPH
 
+- [ Mateusz Kowalczyk](http://fuuzetsu.co.uk/blog)
+
+  - University of Bath, United Kingdom
+  - **Trac**: Fuuzetsu; **email**: fuuzetsu@…; **github**: [ https://github.com/Fuuzetsu](https://github.com/Fuuzetsu); **IRC**: Fuuzetsu
+  - **Committer since**: February, 2014.
+  - **Main areas of interest**: Haddock
+
 - [ Max Bolingbroke](http://www.cl.cam.ac.uk/~mb566/)
 
   - N/A - Cambridge, UK
@@ -295,13 +302,6 @@ In order to see emails below, **you must login**.
   - **Trac**: nominolo; **email**: nominolo@…; **github**: [ https://github.com/nominolo](https://github.com/nominolo)
   - **Committer since**: September, 2008.
   - **Main areas of interest**: GHC API
-
-- [ Mateusz Kowalczyk](http://fuuzetsu.co.uk/blog)
-
-  - University of Bath, United Kingdom
-  - **Trac**: Fuuzetsu; **email**: fuuzetsu@…; **github**: [ https://github.com/Fuuzetsu](https://github.com/Fuuzetsu); **IRC**: Fuuzetsu
-  - **Committer since**: February, 2014.
-  - **Main areas of interest**: Haddock
 
 ### Becoming a committer
 
