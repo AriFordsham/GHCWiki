@@ -236,6 +236,12 @@ In order to see emails below, '''you must login'''.
   * '''Committer since''': August, 2013.
   * '''Main areas of interest''': runtime system, smp support (atomic memory op support)
 
+ * [http://trofi.github.io/ Sergei Trofimovich]
+  * VirusBlokAda Ltd. - Belarus, Minsk
+  * '''Trac''': slyfox; '''email''': slyfox@inbox.ru; '''github''': https://github.com/trofi
+  * '''Committer since''': August, 2014.
+  * '''Main areas of interest''': runtime system, cross-compilation, unregisterised ghc, codegen
+
  * [http://typeful.net Simon Hengel]
   * Zalora South East Asia Pte. Lte - Singapore, Republic of Singapore
   * '''Trac''': !SimonHengel; '''email''': sol@typeful.net; '''github''': https://github.com/sol
