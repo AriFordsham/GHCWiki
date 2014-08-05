@@ -30,3 +30,6 @@ Note that this builds a profiled *stage-2* compiler.  In principle it's possible
 
 
 If you want to profile GHC while compiling GHC, the easiest way to do this is to build a *stage-3* compiler with your profiled *stage-2* compiler. You’ll need to run `make stage=3` the first time you do this in order to build the dependencies for the stage3 compiler; see [Rebuilding GHC](building/using#rebuilding-the-ghc-binary-after-making-changes) and below for more details.
+
+
+Setting `GhcProfiled` also enables profiled Haddock, which can be built by running `make HADDOCK_DOCS=yes`. This is useful if you're investigating a regression which is showing up from a Haddock performance test.
