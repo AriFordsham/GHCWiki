@@ -127,9 +127,7 @@ Possible solutions to remove EventBlock:
 * Yeah, the easiest implementation would be IORef (Seq CapEvent), or something along those lines
 * Maybe IORef [CapEvent] is enough as well
 
-== Discussed APIs ==
-
-Here we have possible API implementations. Keep in mind that all this is a work in progress 
+== Proposed APIs ==
 
 === ghc-events ===
 
@@ -137,29 +135,50 @@ Client API relevant to real-time event monitoring.  The full API is larger; you 
 
 {{{
 -- Datatype that holds a link to the eventlog
-data EventHandle      -- Abstract
-data CapEvent = ....  -- Concrete data type (see the ghc-events library docs above)
+data EventHandle -- Abstract
+
+-- Equivalent to the current API:
+data EventInfo = {...} 
+data ThreadStopStatus = {...} 
+data CapsetType = {...} 
+newtype KernelThreadId = {...}
+
+type Timestamp = Word64
+type ThreadId = Word32
+type TaskId = Word64
+
+data Event = Event { ev_time :: Timestamp,
+             , ev_cap  :: Maybe Int
+             , ev_info :: EventInfo
+             } deriving Show
 
 -- Opens the event stream from the specified handle,
 -- reads the header info, and initialises the EventHandle
 openEventHandle :: Handle -> IO EventHandle
 
--- Reads one event from the handle. Returns Nothing if no events
+-- Reads one event from the handle (incrementally). Returns Nothing if no events
 -- are readable from the log
-getEvent :: EventHandle -> IO (Maybe CapEvent)
-}}}
+readEvent :: EventHandle -> IO (Maybe CapEvent)
 
-=== Implementing the API in ghc-events ===
 
-{{{
-data SequenceDecoder a =
-      FailS !B.ByteString !ByteOffset String
-    | SingleS (Maybe a) (B.ByteString -> SequenceDecoder a)
-    | DoneS !B.ByteString !ByteOffset (Maybe a)
+-- Read/write from/to files
+readEventLogFromFile :: FilePath -> IO (Either String [Event])
+writeEventLogToFile :: FilePath -> [Event] -> IO ()
 
-eventLogDecoder :: Decoder (SequenceDecoder Event)
+-- Pretty printing support
+showEventInfo :: EventInfo -> String
+showThreadStopStatus :: ThreadStopStatus -> String
+ppEventLog :: EventLog -> String
+ppEventType :: EventType -> String
+ppEvent :: IntMap EventType -> CapEvent -> String
 
-newtype EventHandle = EventHandle Header Handle
+-- Perf events
+nEVENT_PERF_NAME :: EventTypeNum
+nEVENT_PERF_COUNTER :: EventTypeNum
+nEVENT_PERF_TRACEPOINT :: EventTypeNum
+sz_perf_num :: EventTypeSize
+sz_kernel_tid :: EventTypeSize
+
 }}}
 
 === RTS ===
@@ -244,40 +263,4 @@ initEventLogging:: IO()
 setDestination:: Fd -> IO()
 -- <...> 
 -- equivalent to functions on C side
-}}}
-
-== Misc/Old ==
-
-Example log reading user:
-{{{
-main = do
-  eh <- readLogInc file
-  putStrLn $ ppEventLog log
-}}}
-
-Scrap code
-
-{{{
--- | An incremental decoder for a sequence. It accepts input incrementally
--- and additionally it can produce sequence results incrementally.
-data SequenceDecoder a =
-      -- | The input data was malformed. The first field contains any
-      -- unconsumed input and third field contains information about
-      -- the parse error.
-      FailS !B.ByteString !ByteOffset String
-
-      -- | The decoder read zero or more records. Feed a 'B.ByteString' to
-      -- the continuation to continue parsing. Use an 'B.empty' string to
-      -- indicate that no more input data is available. If fed an 'B.empty'
-      -- string, the continuation is guaranteed to return either 'Fail'
-      -- or 'Done'.
-    | ManyS [a] (B.ByteString -> SequenceDecoder a)
-
-      -- | The decoder read zero or more records. This is the end of
-      -- the sequence.
-    | DoneS !B.ByteString !ByteOffset [a]
-    deriving Functor
-
-eventlogDecoder :: Decoder (SequenceDecoder Event)
-
 }}}
