@@ -86,3 +86,43 @@ Whether users could write down such a signature is another matter.  (They probab
 
 
 Note that this proposal does not address the `Constraint` / `*` infelicity -- that is a separate problem.
+
+### Levity polymorphism
+
+
+With the changes outlined here, the type system would support *levity polymorphism*. That is, the type system supports something like `\x -> x :: forall (v :: Levity) (a :: TYPE v). a -> a`. But, this is hogwash -- the code generator needs to know whether to deal with pointers or not! So, in general, we wish to prohibit levity polymorphism.
+
+
+But, *sometimes*, we indeed want a little levity polymorphism. For example:
+
+```wiki
+myError :: forall (v :: Levity) (a :: TYPE v). String -> a
+myError s = error ("Me" ++ s)
+```
+
+
+The above declaration should be acceptable, but is quite clearly levity-polymorphic.
+
+
+Simon and Richard believe that the following rule might work: levity polymorphism is acceptable only if the following holds:
+
+- The user has specifically requested levity polymorphism via a type signature.
+
+- Levity-polymorphic type variables may appear *only* to the right of arrows.
+
+
+The first point is just so that GHC doesn't do unexpected things. For example, the following is quite reasonable:
+
+```wiki
+f :: forall (v :: Levity) (a :: *) (b :: TYPE v). (a -> b) -> a -> b
+f g x = g x
+```
+
+
+but if a user wants a type inferred, we shouldn't produce such an exotic specimen.
+
+
+The second point seems to be the right way to allow levity polymorphism. If the levity-polymorphic variables are mentioned only on the right of arrows, then parametricity tells us that no values can exist for these variables. Thus, the functions must diverge (or call `error` or `undefined`, the two primitive sources for levity-polymorphic type variables). This deserves More Thought before becoming implemented.
+
+
+The actual implementation should be easy: add parsing support for TYPE and then check for levity-polymorphism in `checkValidType`. The inference algorithm should remain unchanged, as a levity-polymorphic type would never be inferred, just checked. This extension is left as future work.
