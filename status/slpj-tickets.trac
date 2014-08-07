@@ -104,6 +104,7 @@ See also [wiki:TemplateHaskell]
  * #5928: running Specialise more than once
 
 == Numerics, floating point, and primops ==
+ * #9407: 64-bit floating point behaves differently with and without -O
  * #9328: negative zero and case expressions
  * #9304: floating point woes: 32 vs 64 bit
  * #7858: `abs` on negative zero
