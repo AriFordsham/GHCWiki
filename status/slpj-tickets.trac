@@ -203,7 +203,7 @@ See also [wiki:TemplateHaskell]
  * #8109: as-patterns in type-family declarations
  * #6065: GHC suggests a type signature that it then rejects
  * #5320, #7296: overlap delicacy
- * #4347, #4295, #7264, #8808: impredicativity
+ * #4347, #4295, #7264, #8808, #9420: impredicativity
  * #1965: make existentials have a really cheap implementation
  * #5224: make it cheaper to check for inconsistent type family instances
  * #4466, #5296, #8631: explicit type application
