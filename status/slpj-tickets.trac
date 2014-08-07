@@ -180,7 +180,7 @@ See also [wiki:TemplateHaskell]
  * Use wildcards for dead variables in interface files.
 
 == GHCi ==
- * #7586: `:kind` on a name should perhaps behave like `:info`
+ * #9394: Display type/data family instance information in `:info`
  * #4017: unhelpful GHCi message
  
 ------------------------
