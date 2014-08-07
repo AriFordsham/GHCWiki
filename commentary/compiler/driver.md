@@ -15,10 +15,21 @@ The meat of this logic is in [compiler/main/GhcMake.hs](/trac/ghc/browser/ghc/co
 ### Dependency analysis
 
 
-Dependency analysis is carried out by the `depanal` function; the resulting `ModuleGraph` is stored into `hsc_mod_graph`. Essentially, this pass looks at all of the imports of the target modules (`hsc_targets`), and recursively pulls in all of their dependencies (stopping at package boundaries.) The resulting module graph consists of a list of `ModSummary` (defined in [compiler/main/HscTypes.lhs](/trac/ghc/browser/ghc/compiler/main/HscTypes.lhs)), which record various information about modules prior to compilation (recompilation checking, even), such as their module identity (the current package name plus the module name), whether or not the file is a boot file, where the source file lives.
+Dependency analysis is carried out by the `depanal` function; the resulting `ModuleGraph` is stored into `hsc_mod_graph`. Essentially, this pass looks at all of the imports of the target modules (`hsc_targets`), and recursively pulls in all of their dependencies (stopping at package boundaries.) The resulting module graph consists of a list of `ModSummary` (defined in [compiler/main/HscTypes.lhs](/trac/ghc/browser/ghc/compiler/main/HscTypes.lhs)), which record various information about modules prior to compilation (recompilation checking, even), such as their module identity (the current package name plus the module name), whether or not the file is a boot file, where the source file lives. Dependency analysis inside GHC is often referred to as **downsweep**.
+
+
+In fact, downsweep is also performed 
 
 
 ToDo: say something about how hs-boot files are 
 
 
-ToDo
+The dependency analysis is **cached** (in `hsc_mod_graph`), so later calls to `depanal` can reuse this information. (This is not germane for `--make`, which only calls `depanal` once.)  `discardProg` deletes this information entirely, while `invalidateModSummaryCache` simply "touches" the timestamp associated with the file so that we resummarize it.
+
+
+The result of dependency analysis is topologically sorted in `load` by `topSortModuleGraph`.
+
+### Home package table
+
+
+Finally, when the module is completely done being compiled, it is registered in the home package table or HPT (`hsc_HPT`, defined in [compiler/main/HscTypes.lhs](/trac/ghc/browser/ghc/compiler/main/HscTypes.lhs))
