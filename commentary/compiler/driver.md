@@ -1,0 +1,24 @@
+# Compiling more than one module at once
+
+
+When compiling a single module, we can assume that all of our dependencies have already been compiled, and query the environment as necessary when we need to do things like look up interfaces to find out what the types in our dependencies are.  When we compile more than module at once, as in `--make`, things get a bit more complicated:
+
+1. We have to analyze the dependency structure of the program in question, and come up with a plan for how to compile the various modules, and
+
+1. We have an opportunity to cache and reuse information from interface files which we may load from the environment.  This is why, for example, `ghc --make` outperforms parallel one-shot compilation on one core.
+
+## The overall driver
+
+
+The meat of this logic is in [compiler/main/GhcMake.hs](/trac/ghc/browser/ghc/compiler/main/GhcMake.hs), with primary entry point the function `load` (in the case of `--make`, this function is called with `LoadAllTargets`, instructing all target modules to be compiled, which is stored in `hsc_targets`).
+
+### Dependency analysis
+
+
+Dependency analysis is carried out by the `depanal` function; the resulting `ModuleGraph` is stored into `hsc_mod_graph`. Essentially, this pass looks at all of the imports of the target modules (`hsc_targets`), and recursively pulls in all of their dependencies (stopping at package boundaries.) The resulting module graph consists of a list of `ModSummary` (defined in [compiler/main/HscTypes.lhs](/trac/ghc/browser/ghc/compiler/main/HscTypes.lhs)), which record various information about modules prior to compilation (recompilation checking, even), such as their module identity (the current package name plus the module name), whether or not the file is a boot file, where the source file lives.
+
+
+ToDo: say something about how hs-boot files are 
+
+
+ToDo
