@@ -27,7 +27,7 @@ Here is an expanded version of what needs to be done in step 5 and 6 to get a re
 
 1. Get GHC's build system running on your platform in registerised mode.
 
-1. Add new inline assembly code for your platform to ghc's RTS. See files like 'rts/StgCRun.c' that include assembly code for the architectures GHC supports. This is the main place as its where the boundary between the RTS and haskell code is but I'm sure there are defiantly other places that will need to be changed. Just grep the source code to find existing assembly and add code for your platform appropriately.
+1. Add new inline assembly code for your platform to ghc's RTS. See files like 'rts/StgCRun.c' that include assembly code for the architectures GHC supports. This is the main place as its where the boundary between the RTS and haskell code is but I'm sure there are definitely other places that will need to be changed. Just grep the source code to find existing assembly and add code for your platform appropriately.
 
 1. Will need to change a few things in LLVM code gen.
 
