@@ -84,6 +84,8 @@ Examples:
 
 ==  A possible variation ==
 
+'''RAE:''' This variation is partially implemented in branch `re-sort-non-cusk-decls` at [https://github.com/goldfirere/ghc my GitHub fork].
+
 This algorithm is not quite as expressive as it could be.  Consider
 {{{
    data SS f a b = MkSS (TT a f) (SS f a b)
