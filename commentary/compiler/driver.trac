@@ -20,6 +20,16 @@ The dependency analysis is **cached** (in `hsc_mod_graph`), so later calls to `d
 
 The result of dependency analysis is topologically sorted in `load` by `topSortModuleGraph`.
 
+=== Recompilation checking and stability ===
+
+See also the page on [wiki:Commentary/Compiler/RecompilationAvoidance recompilation avoidance]. 
+
+ToDo: say something about stability
+
+=== Compilation ===
+
+Compilation, also known as **upsweep**, walks the module graph in topological order and compiles everything. Depending on whether or not we are doing parallel compilation, this implemented by `upsweep` or by `parUpsweep`.  In this section, we'll talk about the sequential upsweep.
+
 === Home package table ===
 
 Finally, when the module is completely done being compiled, it is registered in the home package table or HPT (`hsc_HPT`, defined in [[GhcFile(compiler/main/HscTypes.lhs)]])

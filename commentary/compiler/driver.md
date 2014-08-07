@@ -26,6 +26,19 @@ The dependency analysis is **cached** (in `hsc_mod_graph`), so later calls to `d
 
 The result of dependency analysis is topologically sorted in `load` by `topSortModuleGraph`.
 
+### Recompilation checking and stability
+
+
+See also the page on [recompilation avoidance](commentary/compiler/recompilation-avoidance). 
+
+
+ToDo: say something about stability
+
+### Compilation
+
+
+Compilation, also known as **upsweep**, walks the module graph in topological order and compiles everything. Depending on whether or not we are doing parallel compilation, this implemented by `upsweep` or by `parUpsweep`.  In this section, we'll talk about the sequential upsweep.
+
 ### Home package table
 
 
