@@ -105,7 +105,7 @@ Examples:
 
 ## A possible variation
 
-**RAE:** This variation is partially implemented in branch `re-sort-non-cusk-decls` at [ my GitHub fork](https://github.com/goldfirere/ghc).
+**RAE:** This variation is partially implemented in tag `re-sort-non-cusk-decls` at [ my GitHub fork](https://github.com/goldfirere/ghc).
 
 
 This algorithm is not quite as expressive as it could be.  Consider
