@@ -53,3 +53,17 @@ Here are some tips and tricks:
 - If your commit updated submodules, be sure that you didn't also pull in unrelated changes when the submodule was updated. They may be the culprit, so test them seperately!
 
 - `max_bytes_used` can be a delicate thing to measure against, since it is often sensitive to whether or not a major GC occurs. If you see a change like this, check the GC statistics and see if the number of major GCs varies
+
+- Don't forget to set `stage=2` so you're not repeatedly rebuilding the stage 1 compiler.
+
+## Re-running Haddock perf benchmarks
+
+
+One interesting idiosyncracy of GHC validate is how the Haddock performance tests (found in [testsuite/tests/perf/haddock](/trac/ghc/browser/ghc/testsuite/tests/perf/haddock)) are setup. In particular, they do \*not\* actually go ahead and run Haddock; instead, they read out the file `base.haddock.t` (and variants) which gets written out with garbage collection statistics during the build process itself. How, then, might one go about re-running the tests? The answer is that the files themselves contain the command line which was used to make the invocation.  Thus, one workflow might proceed as follows:
+
+1. Do a normal build of the GHC tree with `HADDOCK_DOCS = YES`
+1. Look at `libraries/base/dist-install/doc/html/base/base.haddock.t`, which now contains a giant command line. Copy this line into a shell script file.
+1. Make this command line actually runnable. In my experience, this requires that you (1) replace `inplace/lib/bin/haddock` with `inplace/bin/haddock` (so that proper environment variables are initialized), (2) fix any quoting problems with the arguments (the `--title` flag is the usual culprit), and (3) replace the `+RTS` options at the very end with `$@`, so you can profile the way you please.
+
+
+To rebuild haddock, it is best to `rm -Rf utils/haddock/dist` rather than run `make clean` which tends to be a bit overzealous.
