@@ -39,6 +39,7 @@ The compiler itself is written entirely in Haskell, and lives in the many sub-di
    * [wiki:Commentary/Compiler/CmmType The Cmm language]
    * [wiki:Commentary/Compiler/BackEndTypes Back end types]
  
+ * [wiki:Commentary/Compiler/Driver Compiling more than one module at once]
  * [wiki:Commentary/Compiler/DataTypes How data type declarations are compiled]
  * [wiki:Commentary/Compiler/API The GHC API]
  * [wiki:Commentary/Compiler/SymbolNames Symbol names and the Z-encoding]
