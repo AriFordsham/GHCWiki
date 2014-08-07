@@ -18,9 +18,6 @@ The meat of this logic is in [compiler/main/GhcMake.hs](/trac/ghc/browser/ghc/co
 Dependency analysis is carried out by the `depanal` function; the resulting `ModuleGraph` is stored into `hsc_mod_graph`. Essentially, this pass looks at all of the imports of the target modules (`hsc_targets`), and recursively pulls in all of their dependencies (stopping at package boundaries.) The resulting module graph consists of a list of `ModSummary` (defined in [compiler/main/HscTypes.lhs](/trac/ghc/browser/ghc/compiler/main/HscTypes.lhs)), which record various information about modules prior to compilation (recompilation checking, even), such as their module identity (the current package name plus the module name), whether or not the file is a boot file, where the source file lives. Dependency analysis inside GHC is often referred to as **downsweep**.
 
 
-In fact, downsweep is also performed 
-
-
 ToDo: say something about how hs-boot files are 
 
 
