@@ -1,13 +1,14 @@
 = This page collects tickets that Simon PJ is interested in, so that he remembers them =
 
 == Urgent or in-flight ==
+ * #7015: support for `static`
  * #9390: primops being discarded (Simon has fix nearly done0
  * #9404: `tcInfer` infelicity (Richard owns)
  * #9400: `unpackCString#` rules (asked for volunteers)
  * #9371: seg-fault due to inadequate conflict detection (Richard owns)
  * #8634, #9267, #9227: relaxing functional dependency rules `-XDysFunctionalDependencies`
  * #9318: bad type error caused by wanted/wanted solving (talk to Dimitrios)
- * #8980, #8941 (possibly), #8960, #7898, #7068, #7944, #5550, #8836: `SpecConstr` blowup
+ * #8852, #8980, #8941 (possibly), #8960, #7898, #7068, #7944, #5550, #8836: `SpecConstr` blowup
  * #9242: per-instance pragmas for overlapping/incoherent
  * #9123: higher order roles
  * #9200, #9151: kind inference for mutually recursive types (Richard owns)
@@ -19,11 +20,9 @@
 
  * #8968, #9226: pattern synonyms and GADTs
  * #8582: pattern synonyms and record syntax
- * #8581: explicitly bidirectional pattern synonyms
  * #9223: error message mentioning untouchables
  * #9198: slow typechecker (big types!)
  * #9210, #9103: functional dependencies and overlapping instances
- * #9156: duplicate record fields
  * #8673: more generous GADT record selectors
  * #8550: Don't build recursive type-function dictionaries
  * #8281: `UnliftedFFITypes` etc
@@ -190,16 +189,15 @@ See also [wiki:TemplateHaskell]
  * #1241: Lifting the Coverage Condition for functional dependencies isn’t the Right Thing	Manuel
 
 ------------------------
-== Type inference (longer term) ==
+== Types and type inference ==
 
  * [wiki:TypeFunctionsStatus]
+ * #9422: Glomming all instances in EPT is too crude for `--make`
  * #7908: Kind polymorphism notation
  * #7503: Kind polymorphism and mutual recursion
  * #6018, #4259: Injective type families and type family overlap
  * #4296: !SkolemOccurs
  * #816. #3108: extreme delicacy in solve order, involving fundeps
-
-== Types and type inference ==
  * #8109: as-patterns in type-family declarations
  * #6065: GHC suggests a type signature that it then rejects
  * #5320, #7296: overlap delicacy

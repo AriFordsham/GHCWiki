@@ -2,13 +2,14 @@
 
 ## Urgent or in-flight
 
+- [\#7015](https://gitlab.haskell.org//ghc/ghc/issues/7015): support for `static`
 - [\#9390](https://gitlab.haskell.org//ghc/ghc/issues/9390): primops being discarded (Simon has fix nearly done0
 - [\#9404](https://gitlab.haskell.org//ghc/ghc/issues/9404): `tcInfer` infelicity (Richard owns)
 - [\#9400](https://gitlab.haskell.org//ghc/ghc/issues/9400): `unpackCString#` rules (asked for volunteers)
 - [\#9371](https://gitlab.haskell.org//ghc/ghc/issues/9371): seg-fault due to inadequate conflict detection (Richard owns)
 - [\#8634](https://gitlab.haskell.org//ghc/ghc/issues/8634), [\#9267](https://gitlab.haskell.org//ghc/ghc/issues/9267), [\#9227](https://gitlab.haskell.org//ghc/ghc/issues/9227): relaxing functional dependency rules `-XDysFunctionalDependencies`
 - [\#9318](https://gitlab.haskell.org//ghc/ghc/issues/9318): bad type error caused by wanted/wanted solving (talk to Dimitrios)
-- [\#8980](https://gitlab.haskell.org//ghc/ghc/issues/8980), [\#8941](https://gitlab.haskell.org//ghc/ghc/issues/8941) (possibly), [\#8960](https://gitlab.haskell.org//ghc/ghc/issues/8960), [\#7898](https://gitlab.haskell.org//ghc/ghc/issues/7898), [\#7068](https://gitlab.haskell.org//ghc/ghc/issues/7068), [\#7944](https://gitlab.haskell.org//ghc/ghc/issues/7944), [\#5550](https://gitlab.haskell.org//ghc/ghc/issues/5550), [\#8836](https://gitlab.haskell.org//ghc/ghc/issues/8836): `SpecConstr` blowup
+- [\#8852](https://gitlab.haskell.org//ghc/ghc/issues/8852), [\#8980](https://gitlab.haskell.org//ghc/ghc/issues/8980), [\#8941](https://gitlab.haskell.org//ghc/ghc/issues/8941) (possibly), [\#8960](https://gitlab.haskell.org//ghc/ghc/issues/8960), [\#7898](https://gitlab.haskell.org//ghc/ghc/issues/7898), [\#7068](https://gitlab.haskell.org//ghc/ghc/issues/7068), [\#7944](https://gitlab.haskell.org//ghc/ghc/issues/7944), [\#5550](https://gitlab.haskell.org//ghc/ghc/issues/5550), [\#8836](https://gitlab.haskell.org//ghc/ghc/issues/8836): `SpecConstr` blowup
 - [\#9242](https://gitlab.haskell.org//ghc/ghc/issues/9242): per-instance pragmas for overlapping/incoherent
 - [\#9123](https://gitlab.haskell.org//ghc/ghc/issues/9123): higher order roles
 - [\#9200](https://gitlab.haskell.org//ghc/ghc/issues/9200), [\#9151](https://gitlab.haskell.org//ghc/ghc/issues/9151): kind inference for mutually recursive types (Richard owns)
@@ -20,11 +21,9 @@
 
 - [\#8968](https://gitlab.haskell.org//ghc/ghc/issues/8968), [\#9226](https://gitlab.haskell.org//ghc/ghc/issues/9226): pattern synonyms and GADTs
 - [\#8582](https://gitlab.haskell.org//ghc/ghc/issues/8582): pattern synonyms and record syntax
-- [\#8581](https://gitlab.haskell.org//ghc/ghc/issues/8581): explicitly bidirectional pattern synonyms
 - [\#9223](https://gitlab.haskell.org//ghc/ghc/issues/9223): error message mentioning untouchables
 - [\#9198](https://gitlab.haskell.org//ghc/ghc/issues/9198): slow typechecker (big types!)
 - [\#9210](https://gitlab.haskell.org//ghc/ghc/issues/9210), [\#9103](https://gitlab.haskell.org//ghc/ghc/issues/9103): functional dependencies and overlapping instances
-- [\#9156](https://gitlab.haskell.org//ghc/ghc/issues/9156): duplicate record fields
 - [\#8673](https://gitlab.haskell.org//ghc/ghc/issues/8673): more generous GADT record selectors
 - [\#8550](https://gitlab.haskell.org//ghc/ghc/issues/8550): Don't build recursive type-function dictionaries
 - [\#8281](https://gitlab.haskell.org//ghc/ghc/issues/8281): `UnliftedFFITypes` etc
@@ -206,17 +205,15 @@ See also [TemplateHaskell](template-haskell)
 
 ---
 
-## Type inference (longer term)
+## Types and type inference
 
 - [TypeFunctionsStatus](type-functions-status)
+- [\#9422](https://gitlab.haskell.org//ghc/ghc/issues/9422): Glomming all instances in EPT is too crude for `--make`
 - [\#7908](https://gitlab.haskell.org//ghc/ghc/issues/7908): Kind polymorphism notation
 - [\#7503](https://gitlab.haskell.org//ghc/ghc/issues/7503): Kind polymorphism and mutual recursion
 - [\#6018](https://gitlab.haskell.org//ghc/ghc/issues/6018), [\#4259](https://gitlab.haskell.org//ghc/ghc/issues/4259): Injective type families and type family overlap
 - [\#4296](https://gitlab.haskell.org//ghc/ghc/issues/4296): SkolemOccurs
 - [\#816](https://gitlab.haskell.org//ghc/ghc/issues/816). [\#3108](https://gitlab.haskell.org//ghc/ghc/issues/3108): extreme delicacy in solve order, involving fundeps
-
-## Types and type inference
-
 - [\#8109](https://gitlab.haskell.org//ghc/ghc/issues/8109): as-patterns in type-family declarations
 - [\#6065](https://gitlab.haskell.org//ghc/ghc/issues/6065): GHC suggests a type signature that it then rejects
 - [\#5320](https://gitlab.haskell.org//ghc/ghc/issues/5320), [\#7296](https://gitlab.haskell.org//ghc/ghc/issues/7296): overlap delicacy
