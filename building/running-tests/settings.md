@@ -38,8 +38,8 @@ optllvm              -- -O -fllvm
 profc                -- -O -prof -auto-all -fvia-C
 profasm              -- -O -prof -auto-all -fasm
 ghci                 -- (run only, not compile) run test under GHCi
-extcore              -- -fext-core
-optextcore           -- -O -fext-core
+extcore              -- -fext-core (removed in ghc-7.10+)
+optextcore           -- -O -fext-core  (removed in ghc-7.10+)
 threaded1            -- -threaded -debug
 threaded2            -- -threaded -O, and +RTS -N2 at run-time
 hpc                  -- -fhpc
