@@ -19,11 +19,9 @@
 
  * #8968, #9226: pattern synonyms and GADTs
  * #8582: pattern synonyms and record syntax
- * #8581: explicitly bidirectional pattern synonyms
  * #9223: error message mentioning untouchables
  * #9198: slow typechecker (big types!)
  * #9210, #9103: functional dependencies and overlapping instances
- * #9156: duplicate record fields
  * #8673: more generous GADT record selectors
  * #8550: Don't build recursive type-function dictionaries
  * #8281: `UnliftedFFITypes` etc
@@ -190,16 +188,15 @@ See also [wiki:TemplateHaskell]
  * #1241: Lifting the Coverage Condition for functional dependencies isn’t the Right Thing	Manuel
 
 ------------------------
-== Type inference (longer term) ==
+== Types and type inference ==
 
  * [wiki:TypeFunctionsStatus]
+ * #9422: Glomming all instances in EPT is too crude for `--make`
  * #7908: Kind polymorphism notation
  * #7503: Kind polymorphism and mutual recursion
  * #6018, #4259: Injective type families and type family overlap
  * #4296: !SkolemOccurs
  * #816. #3108: extreme delicacy in solve order, involving fundeps
-
-== Types and type inference ==
  * #8109: as-patterns in type-family declarations
  * #6065: GHC suggests a type signature that it then rejects
  * #5320, #7296: overlap delicacy
