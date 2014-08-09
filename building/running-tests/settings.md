@@ -32,24 +32,25 @@ The following ways are defined (see the file config/ghc for the complete list):
 ```wiki
 normal               -- no special options
 llvm                 -- -fllvm
-optc                 -- -O -fvia-C
 optasm               -- -O -fasm
 optllvm              -- -O -fllvm
-profc                -- -O -prof -auto-all -fvia-C
 profasm              -- -O -prof -auto-all -fasm
 ghci                 -- (run only, not compile) run test under GHCi
 extcore              -- -fext-core (removed in ghc-7.10+)
 optextcore           -- -O -fext-core  (removed in ghc-7.10+)
 threaded1            -- -threaded -debug
 threaded2            -- -threaded -O, and +RTS -N2 at run-time
-hpc                  -- -fhpc
+profthreaded         -- -O -prof -auto-all -threaded
+hpc                  -- -O -fhpc
+static               -- -O -static
 dyn                  -- -O -dynamic
 ```
 
 
 certain ways are enabled automatically if the GHC build in the local
 tree supports them.  Ways that are enabled this way are optasm, optllvm,
-profc, profasm, threaded1, threaded2, and ghci.
+profasm, threaded1, threaded2, profthreaded, ghci, and whichever of
+static/dyn is not GHC's default mode.
 
 
 These values are supported for `VERBOSE=n`; the default is `VERBOSE=3`:
