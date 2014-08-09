@@ -323,6 +323,14 @@ we marked it as expected to fail:
 - **expect_fail_for(ways)** expect failure for certain ways 
 
 
+There are a number of predefined lists of the ways meeting various criteria:
+
+- **prof_ways**             ways in which the program is built with profiling enabled
+- **threaded_ways**         ways in which the program is linked with the threaded runtime (or run in ghci)
+- **opt_ways**              ways in which the program is built with optimization enabled
+- **llvm_ways**             ways in which the program is built with the LLVM backend
+
+
 To use more than one modifier on a test, just put them in a list.
 For example, to expect an exit code of 3 and omit way 'opt', we could use
 
