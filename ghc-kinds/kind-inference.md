@@ -70,6 +70,8 @@ Then step 2 works thus:
 
 ## Proposed new strategy
 
+**Note:** This is implemented. See the commit messages in [\#9200](https://gitlab.haskell.org//ghc/ghc/issues/9200).
+
 
 The main proposed change is to the definition of a "complete user-supplied kind" (CUSK).  The current story is in [Section 7.8.3 of the user manual](http://www.haskell.org/ghc/docs/latest/html/users_guide/kind-polymorphism.html#complete-kind-signatures).  Alas, it does not allow CUSKs for class declarations.
 The new proposal is this:
@@ -105,7 +107,7 @@ Examples:
 
 ## A possible variation
 
-**RAE:** This variation is partially implemented in tag `re-sort-non-cusk-decls` at [ my GitHub fork](https://github.com/goldfirere/ghc).
+**RAE:** This variation is partially implemented in tag `re-sort-non-cusk-decls` at [ my GitHub fork](https://github.com/goldfirere/ghc). It is tracked in ticket [\#9427](https://gitlab.haskell.org//ghc/ghc/issues/9427).
 
 
 This algorithm is not quite as expressive as it could be.  Consider
