@@ -152,10 +152,7 @@ Possible solutions to remove EventBlock:
 Client API relevant to real-time event monitoring.  The full API is larger; you can find it in the [ ghc-events library documentation](https://hackage.haskell.org/package/ghc-events).
 
 ```wiki
--- Datatype that holds a link to the eventlog
-data EventHandle -- Abstract
-
--- Equivalent to the current API:
+-- Equivalent to the current API: --------------------------------
 data EventInfo = {...} 
 data ThreadStopStatus = {...} 
 data CapsetType = {...} 
@@ -164,20 +161,6 @@ newtype KernelThreadId = {...}
 type Timestamp = Word64
 type ThreadId = Word32
 type TaskId = Word64
-
-data Event = Event { ev_time :: Timestamp,
-             , ev_cap  :: Maybe Int
-             , ev_info :: EventInfo
-             } deriving Show
-
--- Opens the event stream from the specified handle,
--- reads the header info, and initialises the EventHandle
-openEventHandle :: Handle -> IO EventHandle
-
--- Reads one event from the handle (incrementally). Returns Nothing if no events
--- are readable from the log
-readEvent :: EventHandle -> IO (Maybe CapEvent)
-
 
 -- Read/write from/to files
 readEventLogFromFile :: FilePath -> IO (Either String [Event])
@@ -196,6 +179,47 @@ nEVENT_PERF_COUNTER :: EventTypeNum
 nEVENT_PERF_TRACEPOINT :: EventTypeNum
 sz_perf_num :: EventTypeSize
 sz_kernel_tid :: EventTypeSize
+
+-- Note: new field and changed names
+data Event = Event { evTime :: Timestamp,
+             , evCap  :: Maybe Int
+             , evInfo :: EventInfo
+             } deriving Show
+
+
+-- New functionality: --------------------------------------------
+
+-- Datatype that holds a link to the eventlog
+data EventParserState -- Abstract
+
+-- Datatype that describes the result of getEvent
+data Result a
+  -- Successfully parsed an item
+  = One a
+  -- The eventlog wasn't complete but the input did not contain any more complete
+  -- items
+  | PartialEventLog
+  -- Parsing was completed successfully
+  | CompleteEventLog
+  -- An error in parsing has occurred
+  | EventLogParsingError String
+
+-- Creates a fresh instance of EventParserState for a parser
+initEventParser :: EventParserState
+
+-- Given a state and a bytestring, parses at most one event (if the BS contains
+-- enough data) and keeps the remainder ofthe BS in the state (to be used in 
+-- successive call to readEvent). Expects the first bytes to contain a complete Header
+readEvent :: EventParserState -> B.ByteString -> (Result Event, EventParserState)
+
+-- Deprecated functions and datatypes
+time :: Event -> Timestamp
+spec :: Event -> EventInfo
+
+data CapEvent
+  = CapEvent { ce_cap   :: Maybe Int,
+               ce_event :: Event
+             } deriving Show
 
 ```
 
