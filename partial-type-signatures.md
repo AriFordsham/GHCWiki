@@ -29,9 +29,12 @@ and generalisation in a
 presented at [ PADL'14](http://www.ist.unomaha.edu/padl2014/) and
 a [ technical report with proofs](https://lirias.kuleuven.be/bitstream/123456789/424883/1/CW649.pdf).
 This document attempts to describe our design and our
-[ current implementation](https://github.com/mrBliss/ghc-head) from a
-more practical point of view in the hope to get some feedback from the
-GHC developers community.
+[ current implementation](https://github.com/mrBliss/ghc) from a more practical
+point of view in the hope to get some feedback from the GHC developers
+community.
+
+**UPDATE** See the section [implementation](partial-type-signatures#) and its
+subsections for the current state of this proposal.
 
 ## Motivation and discussion
 
@@ -345,6 +348,10 @@ I'd drop constraint wildcards, and implement only "extra constraint" wildcards.
 
 **thomasw** Seems [reasonable](partial-type-signatures#) to us. This certainly makes things easier. **End thomasw**
 
+**thomasw update** We still allow named wildcards in the constraints that
+must occur within the monotype, as described in the NOTE above. This requires
+nearly no extra effort, except for the simple check. **End thomasw**
+
 
 We call wildcards occurring within a constraint (inside a `C` in `(C1, C2, ..)`)
 *constraint wildcards*, e.g.
@@ -456,6 +463,10 @@ As a single extra-constraints wildcard is enough to infer any number
 of constraints, only one is allowed in a type signature and it should
 come last in the list of constraints.
 
+**NOTE** In spite of SLPJ's reasonable proposal to simplify things by not
+taking the annotated constraints into account when an extra-constraints
+wildcard is present and just inferring everything from scratch, we still do.
+
 ### Named Wildcards
 
 
@@ -561,21 +572,16 @@ When compiled with a version of GHC that implements the proposal:
 
 ```wiki
 Example.hs:3:18:
-    Instantiated extra-constraints wildcard ‘_’ to:
-      (Enum _a)
-      in the type signature for foo :: (Show _a, _) => _a -> _
-      at Example.hs:3:8-30
-    The complete inferred type is:
-      foo :: forall _a. (Show _a, Enum _a) => _a -> String
+    Found hole ‘_’ with inferred constraints: Enum _a
+    Where: ‘_a’ is a rigid type variable bound by
+                the inferred type of foo :: Enum _a => _a -> String at Example.hs:3:8
     To use the inferred type, enable PartialTypeSignatures
+    In the type signature for ‘foo’: foo :: (Show _a, _) => _a -> _
 
 Example.hs:3:30:
-    Instantiated wildcard ‘_’ to: String
-      in the type signature for foo :: (Show _a, _) => _a -> _
-      at Example.hs:3:8-30
-    The complete inferred type is:
-      foo :: forall _a. (Show _a, Enum _a) => _a -> String
+    Found hole ‘_’ with type: String
     To use the inferred type, enable PartialTypeSignatures
+    In the type signature for ‘foo’: foo :: (Show _a, _) => _a -> _
 ```
 
 
@@ -586,24 +592,33 @@ NamedWildcards extension to
 get:
 
 ```wiki
+Example.hs:3:14:
+    Found hole ‘_a’ with type: w_a
+    Where: ‘w_a’ is a rigid type variable bound by
+                 the inferred type of foo :: Enum w_a => w_a -> String
+                 at Example.hs:4:1
+    To use the inferred type, enable PartialTypeSignatures
+    In the type signature for ‘foo’: foo :: (Show _a, _) => _a -> _
+
 [..]
 Example.hs:3:24:
-    Instantiated wildcard ‘_a’ to: tw_a
-      in the type signature for foo :: (Show _a, _) => _a -> _
-      at Example.hs:3:8-30
-    The complete inferred type is:
-      foo :: forall tw_a. (Show tw_a, Enum tw_a) => tw_a -> String
+    Found hole ‘_a’ with type: w_a
+    Where: ‘w_a’ is a rigid type variable bound by
+                 the inferred type of foo :: Enum w_a => w_a -> String
+                 at Example.hs:4:1
     To use the inferred type, enable PartialTypeSignatures
+    In the type signature for ‘foo’: foo :: (Show _a, _) => _a -> _
+
 [..]
 ```
 
 
 An extra error message appears, reporting that `_a` was instantiated to a new
-type variable (`tw_a`).
+type variable (`w_a`).
 
 
 Finally, when the PartialTypeSignatures
-extension is enabled, the typechecker just uses the inferred types for
+extension is enabled, the type checker just uses the inferred types for
 the wildcards and compiles the program without generating any
 messages.
 
@@ -715,9 +730,9 @@ turned on in the examples below).
               q = (y :: _a)
          in (p, q)
   -- Inferred:
-  -- f :: forall tw_a tw_a1. tw_a -> tw_a1 -> (tw_a, tw_a1)
-  --   p :: tw_a
-  --   q :: tw_a1
+  -- f :: forall w_a w_a1. w_a -> w_a1 -> (w_a, w_a1)
+  --   p :: w_a
+  --   q :: w_a1
   ```
 
   Both times, the `_a` in the expression signature isn't in scope, so
@@ -735,9 +750,9 @@ turned on in the examples below).
               q = (y :: _a)
          in (p, q)
   -- Inferred:
-  -- f :: forall tw_a. tw_a -> tw_a -> (tw_a, tw_a)
-  --   p :: tw_a
-  --   q :: tw_a
+  -- f :: forall w_a. w_a -> w_a -> (w_a, w_a)
+  --   p :: w_a
+  --   q :: w_a
   ```
 
   Note that the first example is equivalent to the following program
@@ -759,28 +774,35 @@ turned on in the examples below).
 
   ```wiki
   foo = (\(x :: _a, y) -> y) :: _ -> _a
-  -- Inferred: forall tw_a . (tw_a, tw_a) -> tw_a
+  -- Inferred: forall w_a . (w_a, w_a) -> w_a
   ```
 
   Overall, this solution is the simplest, also to implement, and has
   a good *power-to-weight* ratio. However, what happens in the
-  following examples might be counter-intuitive to some users:
+  following example might be counter-intuitive to some users:
 
   ```wiki
   baz1 x y = (x :: _a, y :: _a)
+  -- Inferred:
+  --   forall w_a w_a1. w_a -> w_a1 -> (w_a, w_a1)
   baz2 (x :: _a) (y :: _a) = (x, y)
-  -- Inferred for both:
-  --   forall tw_a tw_a1. tw_a -> tw_a1 -> (tw_a, tw_a1)
+  -- Inferred:
+  --   forall w_a. w_a -> w_a -> (w_a, w_a)
   ```
 
-  In the examples above, every time an `_a` occurs, `_a` isn't yet in
-  scope, and is thus quantified in each expression/pattern signature
-  separately. Therefore, all occurrences of `_a` are distinct. This
-  might be perceived counter-intuitive. Again, both occurrences in
-  each binding can be made to refer to the same named wildcard by
-  mentioning `_a` in a signature common to both expression
-  signatures, e.g. by mentioning it in the type signature of `baz1`
-  and `baz2`.
+  In `baz1` in the example above, both `_a`s occur when there is no `_a` in
+  scope, and both are thus quantified in each expression signature
+  separately. Therefore, both occurrences of `_a` are distinct. This might be
+  perceived as counter-intuitive. Again, both occurrences can be made to
+  refer to the same named wildcard by mentioning `_a` in a signature common
+  to both expression signatures, e.g. by mentioning it in the type signature
+  of `baz1`.
+
+>
+> In `baz2`, the first occurrence of `_a`, in the pattern signature of the
+> first argument, brings `_a` into scope, and `_a` will still be into scope
+> for the pattern signature of the second argument, as this is the way
+> patterns are examined.
 
 1. Quantify wildcards in the **type signature of the innermost enclosing binding**.
   The first example of option 1 will behave exactly the same:
@@ -793,9 +815,9 @@ turned on in the examples below).
               q = (y :: _a)
          in (p, q)
   -- Inferred:
-  -- f :: forall tw_a tw_a1. tw_a -> tw_a1 -> (tw_a, tw_a1)
-  --   p :: tw_a
-  --   q :: tw_a1
+  -- f :: forall w_a w_a1. w_a -> w_a1 -> (w_a, w_a1)
+  --   p :: w_a
+  --   q :: w_a1
   ```
 
   Contrary to option 1, the last example will behave more
@@ -805,7 +827,7 @@ turned on in the examples below).
   baz1 x y = (x :: _a, y :: _a)
   baz2 (x :: _a) (y :: _a) = (x, y)
   -- Inferred for both:
-  --   forall tw_a. tw_a -> tw_a -> (tw_a, tw_a)
+  --   forall w_a. w_a -> w_a -> (w_a, w_a)
   ```
 
   In `baz1` and `baz2`, both occurrences of `_a` will refer to the
@@ -818,17 +840,17 @@ turned on in the examples below).
 > more complex.
 
 >
-> Another downside has to do with the implementation. This option
-> will require an extra renaming pass over the body of a binding that
-> will extract the wildcards from the expression signatures to store
-> them together with the wildcards mentioned in the type signature.
+> Another downside has to do with the implementation. This option will
+> require an extra pass (in the renamer) over the body of a binding that will
+> extract the wildcards from the expression signatures to store them together
+> with the wildcards mentioned in the type signature.
 
 >
-> An alternative is an invasive refactoring of the functions that
-> deal with renaming the bodies of a binding. It would involve
-> threading a list of extracted wildcards through these functions. A
-> lot more code (certainly more than we feel comfortable touching)
-> would have to be touched to implement this.
+> An alternative is an invasive refactoring of the functions that deal with
+> renaming the bodies of a binding. It would involve threading a list of
+> extracted wildcards through these functions. A lot more code (certainly
+> more than we feel comfortable with) would have to be touched to implement
+> this.
 
 1. Quantify wildcards in the **type signature of the top-level enclosing binding**.
   This option changes the behaviour of the first example of options 1
@@ -843,9 +865,9 @@ turned on in the examples below).
               q = (y :: _a)
          in (p, q)
   -- Inferred:
-  -- f :: forall tw_a. tw_a -> tw_a -> (tw_a, tw_a)
-  --   p :: tw_a
-  --   q :: tw_a
+  -- f :: forall w_a. w_a -> w_a -> (w_a, w_a)
+  --   p :: w_a
+  --   q :: w_a
   ```
 
   Consider the following example:
@@ -872,8 +894,8 @@ turned on in the examples below).
 > option 2. It shares its downsides as well.
 
 
-Except for the possibly counter-intuitive behaviour in the `baz1` and
-`baz2` examples, we believe that option 1 is preferable.
+Except for the possibly counter-intuitive behaviour in the `baz1` example, we
+believe that option 1 is preferable, and have implemented it.
 
 ## Formalisation
 
@@ -905,43 +927,218 @@ for more details.
 ## Implementation
 
 
-We implemented a subset of our proposal as a branch of GHC (master),
-available at [ github](https://github.com/mrBliss/ghc-head). This
-version can be compiled and should type check a large number of
-examples in this proposal.
+We implemented our proposal as a branch of GHC (master), available at
+[ github](https://github.com/mrBliss/ghc). This version can be compiled and
+should type check the majority of the examples in this proposal.
 
 
 Here is a summary of the changes we have made in the implementation:
 
-- We have extended the `HsSyn` representation of Haskell code with two
-  new forms of types: `HsWildcardTy` for anonymous `_` types and
-  `HsNamedWildcardTy` for named wildcards `_a`.
-- The parser has been modified to parse them if the appropriate
-  extensions are enabled.
-- The renamer: when renaming `TypeSig`s, we do a pass over the
-  annotated type signature. We replace named wildcard types with
-  normal type variables but collect and store them as being
-  existentially quantified at the level of `TypeSig`. In the process,
-  we do the same for anonymous wildcards, replacing them with
-  existentially quantified anonymous type variables.
-- In the type checker, in `tcTySig`, we create new flexible
-  meta-variables for the wildcards and add them to the type variable
-  environment and store them in the returned `sig_fun` to get them
-  brought in scope when checking the RHSs.
-- In `tcPolyBinds`, we introduce a new "Generalisation Plan" called
-  `WcGen` which is used when there is only one funbind in a group of
-  bindings and its signature contains wildcards. This binding is
-  treated by a new function called `tcPolyCombi`, which applies our
-  generalisation rules.
-- The changes in `tcPolyCombi` are accompanied by corresponding
-  changes in `mkExport` for quantifying over the correct set of type
-  variables.
+- The parser (`Parser.y.pp` and `RdrHsSyn.lhs`) was extended to parse
+  wildcards in types when the appropriate extensions are enabled, and also to
+  check that no wildcards occur in undesired places, e.g. typeclass
+  definitions.
+
+- `HsType` has two new constructors: `HsWildcardTy` for unnamed type wildcards
+  (`_`) and `HsNamedWildcardTy name` for named wildcards (`_a`).
+
+- The `HsForAllTy` constructor of `HsType` has an extra field of type `Maybe SrcSpan`
+  that stores the extra-constraints wildcard's position, if present. A `Maybe SrcSpan`
+  was used instead of a boolean for pretty-printing purposes and error
+  messages.
+
+- The renamer: when renaming `TypeSig`s, we do a pass over the annotated type
+  signature. In this pass, unnamed wildcards (`_`) are given a generated name
+  and are converted to named wildcards. The named wildcards are collected and
+  stored in the `TypeSig`, as if they were existentially quantified in that
+  `TypeSig`. Duplicates and wildcards that are already into scope are filtered
+  out. A similar thing is done for expression signatures (`ExprWithTySig`) and
+  pattern signatures (`HsWithBndrs`).
+
+- In the type checker, in `tcTySig`, we create new meta-variables for the
+  wildcards and add them to the type variable environment and store them in
+  the returned `TcSigInfo` to get them brought in scope when checking the
+  RHSs. A `Maybe TyVar` is also stored in the `TcSigInfo`, which will
+  eventually be unified with the inferred extra constraints.
+
+- Analogously to TypedHoles, when a wildcard is encountered during type
+  checking, an insoluble `CHoleCan` constraint which contains information
+  about the expected type, is emitted. When the type checker and the
+  constraint solver have finished, these insoluble constraints will be
+  leftover, and are converted to error messages mentioning the inferred type
+  for each wildcard. A similar thing is done for the extra-constraints
+  wildcard which contains a meta-variable that is unified with the inferred
+  extra constraints after the constraints of one group of bindings are solved.
+  If the PartialTypeSignatures
+  extension is enabled, no constraints are emitted as no error messages have
+  to be produced and reported.
+
+- To typecheck a binding (actually a group of bindings) with a partial type
+  signature, `tcPolyInfer`, the function used for typechecking bindings
+  without type signatures is reused and modified. The partial type signature
+  is taken into account, as well as the presence of an extra-constraints
+  wildcard.
+
+- The constraint solver function `simplifyInfer` is extended such that it also
+  accepts an optional set of annotated constraints as input.
+
+- The error reporter for Holes is extended to deal with different holes, e.g.
+  a `ConstraintsHole` originating from an extra-constraints wildcard is
+  treated differently from an `ExprHole` or `TypeHole` (all are constructors
+  of the new `HoleSort` data type).
+
+- We extended Haddock as well to handle partial type signatures. A single
+  commit updating the GHC API and adding printing capabilities can be found in
+  our fork of Haddock on [ github](https://github.com/mrBliss/haddock).
+
+### Notes
 
 
-The two last steps are not yet satisfactory. Most importantly, we do
-not yet distinguish between local binds and top-level binds. What we
-think is necessary is to make two versions of `tcPolyCombi`: one for
-local binds and one for top-level binds.
+In this section we'll quickly mention some inelegant solutions, or explain
+some things that may be non-obvious.
+
+- Analogously to TypedHoles, we generate insoluble constraints (`CHoleCan`) to
+  report the types wildcards are instantiated to, however, we might have
+  reused a bit too much of the existing infrastructure for TypedHoles.
+
+  - Errors after the holes reporter (see `reportAllUnsolved` in
+    `TcErrors.lhs`) are no longer suppressed, as, contrarily to TypedHoles,
+    wildcards in types don't prevent a program from being complete. In the
+    case of TypedHoles, the holes should be filled before continuing type
+    checking, but this is not needed for wildcards in types, thus other type
+    errors may be reported.
+  - There is some code duplication in the two branches of `mkHoleError` in
+    `TcErrors.lhs`.
+  - We differentiate Holes (i.e. values of `CHoleCan`) with the `HoleSort`
+    type, which in case of an extra-constraints wildcard hole contains an
+    `TcTyVar` field that will unify with the extra inferred constraints. We
+    do this in order to be able to reported the inferred constraints when
+    reporting the hole error.
+  - In order to capture the `CHoleCan` for the extra-constraints wildcard, we
+    wrap a call to `emitInsoluble` in `captureConstraints` in the `tcTySig`
+    function in `TcBinds.lhs`. This captured constraint, which we'll call
+    `wantedSig`, is stored in the signature (`TcSigInfo`) and later added to
+    the `wantedBody` constraints captured while type checking the body of the
+    function. Both sets of wanted constraints are later merged together in
+    the local definition `makeWanted` of `tcPolyInfer` in `TcBinds.lhs`. This
+    feels kind of dirty.
+  - The `CHoleCan` constraint needs evidence (`CtEvidence`). For TypedHoles
+    and holes of type wildcards, we can use the inferred type. For the
+    `CHoleCan` generated by an extra-constraints wildcard, we currently use
+    `unitTy`.
+
+- Constraints are solved (i.e. calls to `simplifyInfer`) per recursive group
+  of bindings, thus, the extra constraints are inferred per recursive group as
+  well. Therefore, they are added to each binding of the group with an
+  extra-constraints wildcards.
+
+### TODOs
+
+- We have not yet taken care to correctly handle \[\#local-definitions local
+  definitions\].
+
+- When reporting the types wildcards were instantiated to in error messages,
+  we mention the inferred type of the binding, but this doesn't include the
+  annotated constraints that weren't inferred during typechecking, e.g.
+
+  ```wiki
+  bar :: (Num a, _) => a -> a -> _
+  bar x y = x == y
+  ```
+
+  Produces the following error message:
+
+  ```wiki
+  Example.hs:3:16:
+      Found hole ‘_’ with inferred constraints: Eq a
+      Where: ‘a’ is a rigid type variable bound by
+                 the inferred type of bar :: Eq a => a -> a -> Bool at Example.hs:3:8
+      To use the inferred type, enable PartialTypeSignatures
+      In the type signature for ‘bar’: bar :: (Num a, _) => a -> a -> _
+
+  Example.hs:3:32:
+      Found hole ‘_’ with type: Bool
+      To use the inferred type, enable PartialTypeSignatures
+      In the type signature for ‘bar’: bar :: (Num a, _) => a -> a -> _
+  ```
+
+  In the 4th line of the output shown above, the inferred type is displayed,
+  but the `Num a` constraint has disappeared, as it wasn't inferred. Two lines
+  below, it is displayed, but that is because the annotated partial type
+  signature is shown. The actual type of `bar`, \`(Num a, Eq a) =\> a -\> a -\>
+  Bool\`, is not shown to the user, as it isn't easily accessible when
+  reporting the error.
+
+- There is a bug in the handling of pattern bindings with partial type
+  signatures, i.e. the partial type signatures are ignored, e.g.
+
+  ```wiki
+  foo :: Bool -> _
+  Just foo = Just id
+  -- Inferred: forall a. a -> a
+  -- Instead of: Bool -> Bool
+  ```
+
+  See test case `PatBind2`.
+
+- One of the examples described in the [section](partial-type-signatures#) about the monomorphism
+  restriction doesn't work:
+
+  ```wiki
+  {-# LANGUAGE MonomorphismRestriction, PartialTypeSignatures #-}
+  charlie :: _ => a
+  charlie = 3
+  ```
+
+  We think that, as the type variable is annotated and thus unrestricted, the
+  constraint `Num a` should be inferred as an extra constraint. Unfortunately,
+  this doesn't happen:
+
+  ```wiki
+  No instance for (Num a) arising from the literal ‘3’
+  In the expression: 3
+  In an equation for ‘charlie’: charlie = 3
+  ```
+
+  See test case `ExtraNumAMROn`. Either this needs to be fixed, or our
+  expectation of how the type checker should behave is wrong.
+
+- The order in which type variables are tidied for printing is incorrect.
+  Wildcards which are generalised over become type variables with names
+  starting with `w_`. If a type variable with such a name already exists, the
+  existing *tidying* infrastructure should make sure that the suffixes `1`,
+  `2`, ... are added in order to differentiate the similarly named type
+  variables. However, the order in which the suffixes are added is
+  unsatisfactory, e.g.
+
+  ```wiki
+  barry :: _ -> w_
+  barry _ = undefined
+  -- Inferred (modulo alpha-equivalence): a -> b
+  ```
+
+  Which causes the following hole error message:
+
+  ```wiki
+  Found hole ‘_’ with type: w_
+  Where: ‘w_’ is a rigid type variable bound by
+              the inferred type of barry :: w_ -> w_1 at Example.hs:3:1
+  To use the inferred type, enable PartialTypeSignatures
+  In the type signature for ‘barry’: barry :: _ -> w_
+  ```
+
+  The problem is that the existing type variable `w_` is renamed to `w_1` and
+  the type variable generated by generalising over the wildcard gets `w_` as
+  name, instead of the inverse. See test case `TidyClash2`.
+
+- There are two actual TODOs in the code:
+
+  1. In the function `insolubleWC :: WantedConstraints -> Bool`, in
+    `TcRnTypes.lhs`, `CHoleCan`s originating from a wildcard in a partial
+    type signature are ignored, as we want the constraint solver to solve
+    more constraints to report the correct inferred types.
+  1. In the local function `makeWanted` in `tcPolyInfer`, in `TcBinds.lhs`,
+    we create an `Implic`ation without skolem information, i.e. `UnkSkol`.
 
 ## Monomorphism restriction
 
@@ -1011,7 +1208,7 @@ monomorphism restriction simply doesn't apply.
   ```wiki
   test2 :: _a -> _a
   test2 x = let y :: _a
-                y = (x,x)
+                y = (x, x)
             in fst y
   ```
 
@@ -1026,6 +1223,8 @@ monomorphism restriction simply doesn't apply.
   extension is enabled. Our understanding is that *not* treating
   type variables as scoped is only done for backwards compatibility,
   so there seems little point in doing it for named wildcards?
+  **Update:** we now follow the ScopedTypeVariables
+  extension.
 
 - **Local definitions**: no generalisation and no extra constraints
   wildcards in partial type signatures for local definitions, are we
@@ -1131,14 +1330,14 @@ monomorphism restriction simply doesn't apply.
   resulting type variable:
 
   ```wiki
-  forall a tw_c. a -> (forall b. (b, tw_c) -> b) -> Int
+  forall a w_c. a -> (forall b. (b, w_c) -> b) -> Int
   ```
 
   We will never infer a quantification in the nested quantification
   (where `b` is quantified):
 
   ```wiki
-  forall a. a -> (forall b tw_c. (b, tw_c) -> b) -> Int
+  forall a. a -> (forall b w_c. (b, w_c) -> b) -> Int
   ```
 
   The latter is equivalent to inferring higher-rank types, which, as
