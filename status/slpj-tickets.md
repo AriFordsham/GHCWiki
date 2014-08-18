@@ -28,6 +28,7 @@
 - [\#8550](https://gitlab.haskell.org//ghc/ghc/issues/8550): Don't build recursive type-function dictionaries
 - [\#8281](https://gitlab.haskell.org//ghc/ghc/issues/8281): `UnliftedFFITypes` etc
 - [\#8441](https://gitlab.haskell.org//ghc/ghc/issues/8441): family instances in hs-boot files
+- [\#9450](https://gitlab.haskell.org//ghc/ghc/issues/9450): need more eager checking of compatibility with hs-boot files
 - [\#8427](https://gitlab.haskell.org//ghc/ghc/issues/8427): stop EPS cache poisoning
 - [\#5610](https://gitlab.haskell.org//ghc/ghc/issues/5610), [\#7243](https://gitlab.haskell.org//ghc/ghc/issues/7243): Better error messages for `foreign` declarations
 - [\#8240](https://gitlab.haskell.org//ghc/ghc/issues/8240): better error messages for type-function equalities
