@@ -1140,6 +1140,11 @@ some things that may be non-obvious.
   1. In the local function `makeWanted` in `tcPolyInfer`, in `TcBinds.lhs`,
     we create an `Implic`ation without skolem information, i.e. `UnkSkol`.
 
+- The user manual should be updated.
+
+- We extended Haddock to support partial type signatures, but we haven't been
+  able to add tests to Haddock due to Cabal issues.
+
 ## Monomorphism restriction
 
 
