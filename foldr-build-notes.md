@@ -1,0 +1,17 @@
+
+This page is intended for practical notes on why list functions and rules are written as they are, why they're not written other ways, ideas about what will/won't fuse properly and why, and descriptions of issues affecting fusion.
+
+
+Q: Why are functions written back to other forms when they don't fuse?
+
+
+A1: Sometimes, the fancy fusing version is somehow worse than the simpler one if fusion doesn't happen.
+
+
+A2: Functions must be inlined in order to fuse. When fusion doesn't happen, this creates duplicate code, often with no benefit. In fact, it may create multiple copies of the same function at the top level.
+
+
+Q: Why are functions written back to recursive forms when they don't fuse, rather than pretty ones?
+
+
+Guess: by the time the writing-back happens, it may be too late in simplification for the compiler to optimize the pretty form properly. However, ti may be possible to get around this sometimes by using a NOINLINE form rather than an INLINE one. If you write back to a NOINLINE form, I would guess that you should get an already-optimized version, whereas if you write back to an INLINE form, you will get that form as it is, too late to optimize. So there may be some room to improve this.
