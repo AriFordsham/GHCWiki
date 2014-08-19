@@ -199,6 +199,33 @@ This will:
 
 You're done!
 
+### Audit: post-commit code review
+
+**[ Audit](https://phabricator.haskell.org/audit)** is an application that allows you to keep track of people who touch your code, and then do things when that happens - 
+like review their code, and tell them how they messed everything up.
+
+
+Auditing works mostly the same way as reviewing, only after the fact - instead of accepting or rejecting, you can **Raise Concerns** or **Accept Revision**. If you raise a concern, the author will be notified and generally required to rectify the change. You may use Diffusion to [ browse the GHC repository](https://phabricator.haskell.org/diffusion/GHC), find a commit, and then audit it. For example, by viewing commit [ b6352c9912536929537dcebac9d02d4f995c1657](https://phabricator.haskell.org/rGHCb6352c9912536929537dcebac9d02d4f995c1657), we can look at the diff. Then, go to the bottom, and you can take actions like **Accept Review** or **Raise Concerns** - this is an equivalent to a regular audit for arbitrary commits.
+
+**NB**: commits you should audit, or commits of yours that have had concerns raised will appear on the homepage. They look like this, found at the bottom of the homepage:
+
+[](https://i.imgur.com/r5mpGkb.png)
+
+
+The section **Need Attention** are commits you need to examine. The **Problem Commits** section are the commits of yours people have raised issues with.
+
+
+You can also **request an audit** by putting a field in your commit. If you make your commit message say:
+
+```wiki
+rts: Fix Trac #XYZ
+
+Auditors: simonmar
+```
+
+
+Then anyone in the `Auditors` field will automatically need to audit your commit. This is very useful for having someone review things after the fact without losing track of it.
+
 ### Owners: keeping track of your code
 
 **[ Owners](https://phabricator.haskell.org/owners)** is an application that lets you easily categorize source code, see who owns it, and make it easy to track changes to those files. First, open up the application, and click **All** on the left-side pane. You'll see a screen like this:
@@ -239,61 +266,26 @@ Here's a more complex rule that Austin uses, combining Owners, Herald, and Audit
 
 **NOTE**: The last field is truncated, but says "Any package whos owners...", i.e. the last clause means it only fires if I am the owner of a package, set up in the Owners application.
 
-### Audit: post-commit code review
-
-**[ Audit](https://phabricator.haskell.org/audit)** is an application that allows you to keep track of people who touch your code, and then do things when that happens - 
-like review their code, and tell them how they messed everything up.
-
-
-Auditing works mostly the same way as reviewing, only after the fact - instead of accepting or rejecting, you can **Raise Concerns** or **Accept Revision**. If you raise a concern, the author will be notified and generally required to rectify the change. You may use Diffusion to [ browse the GHC repository](https://phabricator.haskell.org/diffusion/GHC), find a commit, and then audit it. For example, by viewing commit [ b6352c9912536929537dcebac9d02d4f995c1657](https://phabricator.haskell.org/rGHCb6352c9912536929537dcebac9d02d4f995c1657), we can look at the diff. Then, go to the bottom, and you can take actions like **Accept Review** or **Raise Concerns** - this is an equivalent to a regular audit for arbitrary commits.
-
-**NB**: commits you should audit, or commits of yours that have had concerns raised will appear on the homepage. They look like this, found at the bottom of the homepage:
-
-[](https://i.imgur.com/r5mpGkb.png)
-
-
-The section **Need Attention** are commits you need to examine. The **Problem Commits** section are the commits of yours people have raised issues with.
-
-
-You can also **request an audit** by putting a field in your commit. If you make your commit message say:
-
-```wiki
-rts: Fix Trac #XYZ
-
-Auditors: simonmar
-```
-
-
-Then anyone in the `Auditors` field will automatically need to audit your commit. This is very useful for having someone review things after the fact without losing track of it.
-
 ### Harbormaster: building patches
 
 
-When **you use Arcanist to submit a diff**, Phabricator will automatically trigger a build rule using an application called "Harbormaster". This application causes a build machine in the background to apply your patch and run `sh ./validate`. Afterwords, your diff will be updated with:
-
-- A status from "Harbormaster" about the build.
-- A notification from a bot, "phaskell", that will contain build logs.
-- If the tests fail, "phaskell" will also include the results.
+When **you use Arcanist to submit a diff**, Phabricator will automatically trigger a build rule using an application called "Harbormaster". This application causes a build machine in the background to apply your patch and run `sh ./validate`. Afterwords, your diff will be updated with a status from Harbormaster about the build, including links to build logs and testsuite results.
 
 
-The current status of the build is at the top. [ Phab:D69](https://phabricator.haskell.org/D69) is a good example:
+The current status of the build is at the top. [ Phab:D162](https://phabricator.haskell.org/D162) is a good example:
 
-[](https://i.imgur.com/jiHics8.png)
-
-
-Note the build was failing at first, and the bot reported this:
-
-[](https://i.imgur.com/sZ5oieH.png)
+[](https://i.imgur.com/spVHWUT.png)
 
 
-The diff was then updated, and it passed:
-
-[](https://i.imgur.com/DJljJ4M.png)
+Click on the link posted by Harbormaster (in this case, "Harbormaster completed building B467: Diff 379") to the build to go to the Buildable, like [ Phab:B467](https://phabricator.haskell.org/B467) in this case. There you can follow links to individual builds, containing stdout/stderr logs, like [ https://phabricator.haskell.org/harbormaster/build/468/](https://phabricator.haskell.org/harbormaster/build/468/):
 
 
 Note that every time you run `arc diff` and update an existing review or create a new one, you'll trigger a build.
 
-**Note**: You can use the word "nobuild" by itself in a `Summary:` when you submit a diff to skip builds. You may want to do this if you know your build will break, but you just want to post code.
+
+Harbormaster also builds GHC commits that have been pushed. You can see more on the [ https://phabricator.haskell.org/harbormaster Harbormaster](https://phabricator.haskell.org/harbormaster Harbormaster) application.
+
+**Note**: You can use the word "\[ci skip\]" by itself in the commit when you submit a diff or push something to skip builds. You may want to do this if you know your build will break, but you just want to post code.
 
 ### Diffusion: browsing the GHC repository
 
