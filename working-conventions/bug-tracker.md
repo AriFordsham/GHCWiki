@@ -20,6 +20,7 @@ Every ticket has a **status** and a **type**, which appear in the title of the t
   - **Closed** means what it says.
   - **Merge** means that a fix has been committed to the HEAD, but should be propagated to the current release branch.
   - **Patch** means that the ticket includes a patch for review.  We love patches!  So we try hard to review patches promptly and either commit them, or start a conversation with the author.
+  - **Upstream** means the ticket includes a patch, BUT the patch is required for an upstream library, and GHC will need to synchronize those changes via `git submodule` (see [WorkingConventions/Git](working-conventions/git).)
 
 
 The intention is that tickets do not live in the Merge or Patch state for long.
