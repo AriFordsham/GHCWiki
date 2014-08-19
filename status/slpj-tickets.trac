@@ -68,7 +68,7 @@ See also [wiki:TemplateHaskell]
  * #6070, #5949, #5775, #4267, #5302, #6087: Demand analysis
  * #5075, #3138: CPR for sum types (mostly done, needs finishing)
  * #2289, #2387, #1600, #1885: nested CPR analysis
- * #7596, #5996, #149, #2940, #947, #701, #5344: CSE opportunities; see [wiki:MoreCSE]
+ * #7596, #5996, #149, #2940, #947, #701, #5344, #9441: CSE opportunities; see [wiki:MoreCSE]
  * #6040, #5945, #3458, #1216: lambda-lift functions with a few args, just before code gen
  * #1171: strictness and exceptions (long, open ticket)
 
