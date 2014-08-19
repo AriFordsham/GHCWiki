@@ -216,6 +216,7 @@ See also [wiki:TemplateHaskell]
  * #2641: revise what `-XExtendedDefaultRules` does
 
 === Better error messages ===
+ * #9456: more info in "relevant bindings" message
  * #9244: suggest scoped type variables
  * #9173: inferred/expected error messages
  * #4921: ambiguous type variables
