@@ -2,14 +2,12 @@
 
 == Urgent or in-flight ==
  * #7015: support for `static`
- * #9390: primops being discarded (Simon has fix nearly done0
  * #9404: `tcInfer` infelicity (Richard owns)
  * #9400: `unpackCString#` rules (asked for volunteers)
  * #9371: seg-fault due to inadequate conflict detection (Richard owns)
  * #8634, #9267, #9227: relaxing functional dependency rules `-XDysFunctionalDependencies`
  * #9318: bad type error caused by wanted/wanted solving (talk to Dimitrios)
  * #8852, #8980, #8941 (possibly), #8960, #7898, #7068, #7944, #5550, #8836: `SpecConstr` blowup
- * #9242: per-instance pragmas for overlapping/incoherent
  * #9123: higher order roles
  * #9200, #9151: kind inference for mutually recursive types (Richard owns)
  * #9352: allow `State#` in FFI types.
@@ -193,6 +191,7 @@ See also [wiki:TemplateHaskell]
 == Types and type inference ==
 
  * [wiki:TypeFunctionsStatus]
+ * #9404: tcInfer and `PolyTv`
  * #9429: instance chains
  * #9427: SCC analysis for type and class decls
  * #9422: Glomming all instances in EPT is too crude for `--make`
