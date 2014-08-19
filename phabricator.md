@@ -245,12 +245,26 @@ Here's a more complex rule that Austin uses, combining Owners, Herald, and Audit
 like review their code, and tell them how they messed everything up.
 
 
-Auditing works mostly the same way as reviewing, only after the fact - instead of accepting or rejecting, you can **Raise Concerns** or **Accept Revision**. If you raise a concern, the author will be notified and generally required to rectify the change.
+Auditing works mostly the same way as reviewing, only after the fact - instead of accepting or rejecting, you can **Raise Concerns** or **Accept Revision**. If you raise a concern, the author will be notified and generally required to rectify the change. You may use Diffusion to [ browse the GHC repository](https://phabricator.haskell.org/diffusion/GHC), find a commit, and then audit it. For example, by viewing commit [ b6352c9912536929537dcebac9d02d4f995c1657](https://phabricator.haskell.org/rGHCb6352c9912536929537dcebac9d02d4f995c1657), we can look at the diff. Then, go to the bottom, and you can take actions like **Accept Review** or **Raise Concerns** - this is an equivalent to a regular audit for arbitrary commits.
 
-**NB**: commits you should audit, or commits of yours that have had concerns raised will appear on the homepage.
+**NB**: commits you should audit, or commits of yours that have had concerns raised will appear on the homepage. They look like this, found at the bottom of the homepage:
+
+[](https://i.imgur.com/r5mpGkb.png)
 
 
-Alternatively, you may use Diffusion to [ browse the GHC repository](https://phabricator.haskell.org/diffusion/GHC), find a commit, and then audit it. For example, by viewing commit [ b6352c9912536929537dcebac9d02d4f995c1657](https://phabricator.haskell.org/rGHCb6352c9912536929537dcebac9d02d4f995c1657), we can look at the diff. Then, go to the bottom, and you can take actions like **Accept Review** or **Raise Concerns** - this is an equivalent to a regular audit for arbitrary commits.
+The section **Need Attention** are commits you need to examine. The **Problem Commits** section are the commits of yours people have raised issues with.
+
+
+You can also **request an audit** by putting a field in your commit. If you make your commit message say:
+
+```wiki
+rts: Fix Trac #XYZ
+
+Auditors: simonmar
+```
+
+
+Then anyone in the `Auditors` field will automatically need to audit your commit. This is very useful for having someone review things after the fact without losing track of it.
 
 ### Harbormaster: building patches
 
