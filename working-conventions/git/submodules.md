@@ -104,7 +104,7 @@ The example below will demonstrate the latter approach for the `utils/haddock` s
 ```
 # do this *before* making changes to the submodule
 cd utils/haddock
-git checkout master
+git checkout ghc-head
 git pull --rebase
 
 # perform modifications and as many `git {add,rm,commit}`s as you deem necessary
@@ -118,7 +118,7 @@ cd ../..
 ```
 
 
-At this point, the remote `haddock.git` contains newer commits in the `master` branch, which still need to be registered with `ghc.git`:
+At this point, the remote `haddock.git` contains newer commits in the `ghc-head` branch, which still need to be registered with `ghc.git`:
 
 ```
 # if you want, you can inspect with `git submodule` and/or `git status`
