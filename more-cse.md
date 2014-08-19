@@ -1,4 +1,17 @@
-# Notes on more aggressive CSE
+# Notes on common sub-expression elimination (CSE)
+
+
+The CSE pass is pretty simple at the moment.  Here are tickets that identify currently-missed opportunities:
+
+- [\#7596](https://gitlab.haskell.org//ghc/ghc/issues/7596)
+- [\#149](https://gitlab.haskell.org//ghc/ghc/issues/149)
+- [\#2940](https://gitlab.haskell.org//ghc/ghc/issues/2940)
+- [\#947](https://gitlab.haskell.org//ghc/ghc/issues/947)
+- [\#701](https://gitlab.haskell.org//ghc/ghc/issues/701)
+- [\#5344](https://gitlab.haskell.org//ghc/ghc/issues/5344)
+- [\#9441](https://gitlab.haskell.org//ghc/ghc/issues/9441)
+
+## More aggressive CSE
 
 
 Joachim did some experiments trying to achieve more CSE, but could not achieve a uniform win in the benchmarks. This page holds some of the notes of what has been tried, and what happened. Some of this has also been noted at [\#7596](https://gitlab.haskell.org//ghc/ghc/issues/7596). This is more a list of anecdotal insights; full insights would have led to a patch to master... :-)
