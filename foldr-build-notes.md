@@ -29,7 +29,7 @@ A: See [\#9398](https://gitlab.haskell.org//ghc/ghc/issues/9398). This seems alm
 Q: Why isn't `scanr` a good producer?
 
 
-It's actually possible to rewrite `scanr` using `build` and `foldr`, but there's a wrinkle: the way it's currently written, `scanr` can *inspect* the list as it creates it. This becomes impossible one `build` is in play. To work around that, you can hang on to a second copy of the head of the list. But then you need somewhere to \*put\* that. Whoops, that's allocation.
+It's actually possible to rewrite `scanr` using `build` and `foldr`, but there's a wrinkle: the way it's currently written, `scanr` can *inspect* the list as it creates it. This becomes impossible once `build` is in play. To work around that, you can hang on to a second copy of the head of the list. But then you need somewhere to \*put\* that. Whoops, that's allocation.
 
 
 Q: Why does making one thing fuse sometimes make something else not fuse?
