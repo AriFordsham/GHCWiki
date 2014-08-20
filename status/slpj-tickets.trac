@@ -192,7 +192,7 @@ See also [wiki:TemplateHaskell]
 
  * [wiki:TypeFunctionsStatus]
  * #9404: tcInfer and `PolyTv`
- * #9429: instance chains
+ * #9334: instance chains
  * #9427: SCC analysis for type and class decls
  * #9422: Glomming all instances in EPT is too crude for `--make`
  * #7908: Kind polymorphism notation
