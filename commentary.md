@@ -94,6 +94,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
 
 - Notes on proposed or in progress (but out of tree) GHC compiler features:
 
+  - [Late lambda-lifting](late-lam-lift), and its ticket [\#9476](https://gitlab.haskell.org//ghc/ghc/issues/9476)
   - [Roles in Haskell](roles)
   - [Dependent types in Haskell](dependent-haskell)
   - [Nested CPR analysis](nested-cpr)
