@@ -1,3 +1,444 @@
+## Overview
+
+
+I (Nick Frisby) started this work in April 2012. Then it went stagnant. In August 2014, I merged master into it so that hopefully someone else can pick it up. My notes for the current code are growing here.
+
+## Quick Start
+
+
+The most current code is on the `wip/llf` branch. Usually, you can merge master into that with easy-to-resolve conflicts (eg in `DynFlags`).
+
+
+By default, the LLF is not enabled. To enable it, use the flags found below in the llf-nr10-r6 section. If the LLF pass lifts out a function, it prepends the `llf_` prefix, so look for that in the Core. Also: there's `-ddump-llf` if you're desperate. The LLF happens after `SpecConstr` and before the late demand analysis (which is also off by default, cf `-flate-dmd-anal`).
+
+## As of mid-2014
+
+### Introduction
+
+
+The primary objective of the late lambda float (LLF) is to replace
+heap allocation of closures by an increase in the number of arguments
+passed. We discovered additional possible benefits, but our design
+choices are for the most part driven by this primary objective.
+
+
+When I say "lift", I mean all the way to the top-level.
+
+
+Though I omit types, the following examples are presented as
+Core. Functions named the\* should be considered as meta-variables. The term named by a meta-variable may include occurrences only of top-level variables in-scope or of
+the non-top-level variables that the meta-variable is applied to. I use suggestive TH
+syntax for that.
+
+
+Consider lambda-lifting 'f' out of 'before'.
+
+```wiki
+before a b c =
+  let f x y = $(theRHS 'f 'b 'c 'x 'y)
+  in $(theBODY 'f 'a 'b 'c)
+```
+
+
+To clarify the conventions regarding meta-variables: theRHS is a
+metavariable that can refer to the variables f, b, c, x, and y as well as
+any top-level definitions.
+
+
+Lifting 'f' out of 'before' would yield:
+
+```wiki
+llf_f b c x y = $(theRHS [e|llf_f b c|] 'b 'c 'x 'y)
+
+after a b c = $(theBODY [e|llf_f b c|] 'a 'b 'c)
+```
+
+
+Note that all occurrences of 'f' in theRHS and theBODY have been
+replaced by the entire expression (llf_f b c). I again am using
+suggestive TH syntax.
+
+
+'before1' (an instance of 'before') is the basic motivating case for
+the LLF.
+
+```wiki
+before1 a b c =
+  let f1 x y = (b + x) + (c + y)
+  in f1 a b * f1 c a
+```
+
+```wiki
+llf_f1 b c x y = (b + x) + (c + y)
+
+after1 a b c =
+  llf_f1 b c a b * llf_f1 b c c a
+```
+
+
+In this case, after1 allocates less on the heap than does
+before1. before1 allocates a closure for f1 and then enters it
+twice. after1 does no such allocation, but it does pass more arguments
+when entering the statically allocated llf_f1. If before1 is called
+numerous times, then this transformation could drastically reduce the
+overall program allocation. The run-time effect of the additional
+arguments may be negligible.
+
+### Why lambda-lift late?
+
+
+We lift late in the pipeline for two reasons. Primarily, it is because
+lambda-lifting is known to drasticalyn interfere with many of the
+other optimizations in the pipeline. Additionally, some of the LLF
+analysis needs to anticipate downstream passes, so limiting them as
+much as possible is beneficial.
+
+
+Ultimately, we LLF is immediately prior to CorePrep. Optionally, we
+invoke the Simplifier between LLF and CorePrep, because LLF
+potentially enables significant simplifications.
+
+### Immediate Consequences of Lifting
+
+
+Lifting a dynamic function closure has four immediate consequences.
+
+>
+> C1) It eliminates the let.
+
+>
+> C2) It creates a new top-level definition.
+
+>
+> C3) It replaces all occurrences of the lifted function in the let's
+> body with an expression. EG All occurences of f1 were replaced by
+> (llf_f1 b c).
+
+>
+> C4) All non-top-level variables that occured in the let's RHS become
+> occurrences of parameters.
+
+### Extended Consequences of Lifting
+
+
+The extended consequences can be good or bad, both statically and
+dynamically.
+
+- C1 reduces heap allocation, unless the function is let-no-escape
+  (LNE). See "Lifting LNE" below.
+
+- C3 might increase heap allocation and run-time by creating PAPs if
+  the lifted function was previously a function argument.
+
+- C3 might increase or decrease heap allocation. If f occurs in
+  closures in the let body, then
+
+> >
+> > A) it can increase heap allocation, if the additional arguments to
+> >
+> > >
+> > > f did not previously occur in those same, or
+
+> >
+> > B) it can decrease heap allocation, if theose additional arguments
+> >
+> > >
+> > > did already occur in the same closures.
+
+> >
+> > I call the sum result of A and B "closure growth". See "Closure
+> > Growth" below.
+
+- C4 might increase stack allocation and/or increase register
+  pressure, depending on how the lifted function's new arguments
+  compare to the old arguments. Increased stack has a possible
+  further detriment (likely to both allocation and run-time) because
+  the stack must be pushed and popped when performing "unsafe C
+  calls" (at one point, this included, eg, Double's sqrt).
+
+- C4 might cause a slowdown because it can convert known calls into
+  unknown calls.
+
+- C4 might cause a slowdown because it can convert fast unknown
+  calls into slow unknown calls.
+
+- C4 might cause the function to be inlined because the inliner
+  currently only gives discounts for arguments and not for captured
+  variables.
+
+- C1 reduces the expression size of the let's parent expression.
+
+- C3 increases the expression size of the let's parent expression.
+
+> >
+> > If the let's parent expression size is ultimately reduced, it
+> > might increase the interface file size by introducing an unfolding
+> > for the let's enclosing lets if any where too big for an unfolding
+> > before and are now small enough.
+
+- C2 might increase the interface file size by introducing a new
+  unfolding if the new top-level definition is small enough.
+
+- C1 and C3 changes the RHS of the let's enclosing definitions,
+  which could interfere with optimization in downstream modules. See
+  "Stabilize Unfoldings" below.
+
+### Lifting LNE
+
+
+LNE is briefly characterized at [Commentary/Compiler/StgSynType](commentary/compiler/stg-syn-type). See `Note [What is a non-escaping let]` in `compiler/stgSyn/CoreToStg.lhs` for more info.
+
+
+If the lifted function was let-no-escape (LNE), then heap allocation
+will not change. There are two reasons: LNE functions are not closures
+(ie they are not allocated on the heap), and LNE functions do not
+occur in closures. So LNEs would only be lifted in order to possibly
+reducing expression sizes.
+
+
+If an LNE function f occurs in another LNE function g and we only lift
+g, then it will spoil f: and it will no longer be an LNE, because it
+will now be an argument to llf_g.
+
+
+Thunks can be LNE, but lifting them can still destroy sharing. EG in
+simplrun005, LLF floats out \`fz' if it is allowed to float LNE thunks,
+and that destroys crucial sharing.
+
+### Closure Growth
+
+
+Both A and B could hold within the same let body. Moreover, A or B
+could hold wrt a closure that is under a (multi-shot) lambda; so that
+the changes in heap allocation could happen 0 or billions of
+times. The conservative choice, then, is that A under a lambda
+infinitely increases the heap allocation and B under a lambda is
+ignored.
+
+
+Correctly identifying closures and their potential growth requires
+that the LLF pass anticipate the relevant consequences of CorePrep and
+CoreToStg. CorePrep converts of strict lets and non-variable arguments
+to cases, flattens nested lets, and converts non-strict non-variable
+arguments to lets. CoreToStg identifies LNE lets.
+
+### Stabilize Unfoldings
+
+
+If the LLF is used to compile an upstream module, it might
+significanly interfere with optimizations in downstream modules.
+
+
+For example, consider compiling the cryptarithm2 program in the nofib
+suite. In case A, the cryparithm2 and the standard libraries that it
+includes were compiled with -O2. In case B, both were compiled with
+-O2 and the recommended LLF flags (see llf-nr10-r6 below). In case B,
+cryptarithm2 allocated 54.2% more than in case A. If the cases are
+adjusted to compile the program (but not the libraries) with or
+without LLF, then the change is closer to 30%, which is still
+unacceptable.
+
+
+I don't remember why this increases allocation, but it clearly has to
+do with LLF changing the unfoldings. We added the -fllf-stabilize flag
+to mitigate it: we stabilize an unstable top-level unfolding that
+might end up in the .hi file before lambda-lifting anything out of it.
+
+
+Unfortunately, stabilizing unfoldings sometimes prevents some
+improvements, but nothing that would compensate for the %50 penalty of
+not stabilizing.
+
+### Flags
+
+
+There are several new flags in DynFlags.
+
+```wiki
+   | Opt_LLF        -- ^ Enable the late lambda lift pass
+   | Opt_LLF_AbsLNE        -- ^ allowed to abstract LNE variables?
+   | Opt_LLF_AbsUnsat        -- ^ allowed to abstract undersaturated applied let-bound variables?
+   | Opt_LLF_AbsSat        -- ^ allowed to abstract      saturated applied let-bound variables?
+   | Opt_LLF_AbsOversat       -- ^ allowed to abstract  oversaturated applied let-bound variables?
+   | Opt_LLF_CreatePAPs        -- ^ allowed to float function bindings that occur unapplied
+   | Opt_LLF_Simpl        -- ^ follow the late lambda lift with a simplification pass?
+   | Opt_LLF_Stabilize
+   | Opt_LLF_UseStr        -- ^ use strictness in the late-float
+   | Opt_LLF_IgnoreLNEClo        -- ^ predict LNEs in the late-float
+   | Opt_LLF_FloatLNE0        -- ^ float zero-arity LNEs
+   | Opt_LLF_OneShot
+   | Opt_LLF_LeaveLNE
+```
+
+
+Many of these are for experimentation only; ie, in general usage, only
+a small set of values make sense (except maybe for power-users).
+
+
+For example, Opt_LLF_UseStr allows the LLF pass to better predict what
+CorePrep will float. There is not reason to disable that, except to
+measure its effect. Similarly with IgnoreLNEClo -- this flag allows
+the LLF pass to identify likely let-no-escapes.
+
+### llf-nr10-r6
+
+
+In short, the recommended flags are:
+
+
+-fllf
+-fllf-abstract-undersat
+-fno-llf-abstract-sat
+-fno-llf-abstract-oversat
+-fno-llf-create-PAPs
+-fno-llf-LNE0
+-fllf-use-strictness
+-fllf-oneshot
+-fllf-simpl
+-fllf-stabilize
+-fllf-nonrec-lam-limit=10
+-fllf-rec-lam-limit=6
+
+
+Advanced users might consider changing the last four flags to squeeze
+the best performance out of particular compilation of a module or
+modules.
+
+
+The 10 and 6 limits were determined empirically against nofib.
+
+
+I call this set of flags llf-nr10-r6.
+
+### Numbers
+
+
+All of the numbers in this section (ie the 2014 work) are from commit 4d3f37e on my desktop
+machine. 4d3f37e is a couple commits after b1c7047, which merges
+1a11e9b (from master) with 8d979a1 (where I stopped in 2013).
+
+```wiki
+$ uname -a
+Linux werner 3.11.0-26-generic #45-Ubuntu SMP Tue Jul 15 04:02:06 UTC 2014 x86_64 x86_64 x86_64 GNU/Linux
+
+$ cat /proc/cpuinfo
+# the following block is essentially repeated four times
+processor       : 3
+vendor_id       : GenuineIntel
+cpu family      : 6
+model           : 60
+model name      : Intel(R) Core(TM) i5-4670K CPU @ 3.40GHz
+stepping        : 3
+microcode       : 0x9
+cpu MHz         : 800.000
+cache size      : 6144 KB
+physical id     : 0
+siblings        : 4
+core id         : 3
+cpu cores       : 4
+apicid          : 6
+initial apicid  : 6
+fpu             : yes
+fpu_exception   : yes
+cpuid level     : 13
+wp              : yes
+flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc aperfmperf eagerfpu pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 fma cx16 xtpr pdcm pcid sse4_1 sse4_2 movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm ida arat xsaveopt pln pts dtherm tpr_shadow vnmi flexpriority ept vpid fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid
+bogomips        : 6784.87
+clflush size    : 64
+cache_alignment : 64
+address sizes   : 39 bits physical, 48 bits virtual
+power management:
+
+$ cat /proc/meminfo
+MemTotal:        8062700 kB
+MemFree:         5057316 kB
+Buffers:          148608 kB
+Cached:          1974488 kB
+SwapCached:            0 kB
+Active:          2096012 kB
+Inactive:         647576 kB
+Active(anon):     621652 kB
+Inactive(anon):    10644 kB
+Active(file):    1474360 kB
+Inactive(file):   636932 kB
+Unevictable:          32 kB
+Mlocked:              32 kB
+SwapTotal:       8000508 kB
+SwapFree:        8000508 kB
+Dirty:                64 kB
+Writeback:             0 kB
+AnonPages:        620576 kB
+Mapped:           101636 kB
+Shmem:             11808 kB
+Slab:             163424 kB
+SReclaimable:     136620 kB
+SUnreclaim:        26804 kB
+KernelStack:        2960 kB
+PageTables:        24024 kB
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
+CommitLimit:    12031856 kB
+Committed_AS:    2815184 kB
+VmallocTotal:   34359738367 kB
+VmallocUsed:      496252 kB
+VmallocChunk:   34359235580 kB
+HardwareCorrupted:     0 kB
+AnonHugePages:         0 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
+Hugepagesize:       2048 kB
+DirectMap4k:       78828 kB
+DirectMap2M:     4087808 kB
+DirectMap1G:     4194304 kB
+```
+
+### Remaining Tasks
+
+- Compiling the libraries with llf-nr10-r6 and -O2 leads to a \~25%
+  increase in binary size throughout all nofib programs compared
+  against just -O2.
+
+- llf-nr10-r6 on the libraries causes
+
+- a +15% slowdown in binary-trees; it's merely +5% if we disable
+  stablization.
+
+- llf-nr10-r6 on the programs causes
+
+- a +10% slowdown in fasta
+
+- and a +60% slowdown in n-body (IIRC, b/c it saves (the newly
+  large) set live variables on stack when calling unsafe sqrt
+  C-Call.
+
+### Notes
+
+
+The effect of LLF seems independent of -O1 vs -O2. Libraries at O1 and
+programs at O1 with and without LLF show similar differences as does
+libraries at O2 and programs at O2 with and without LLF:
+
+```wiki
+        Program           Size    Allocs   Runtime   Elapsed  TotalMem
+
+O1/O1 versus O1-llf-nr10-r6/O1-llf-nr10-r6
+--------------------------------------------------------------------------------
+            Min         +13.0%    -95.0%     -6.6%     -6.6%    -14.3%
+            Max         +27.2%     +0.2%    +62.4%    +62.4%    +11.1%
+ Geometric Mean         +23.6%     -4.6%     +1.9%     +1.9%     +0.0%
+
+O2/O2 versus O2-llf-nr10-r6/O2-llf-nr10-r6
+--------------------------------------------------------------------------------
+            Min         +13.3%    -95.0%    -10.9%    -10.9%    -50.0%
+            Max         +27.6%     +0.9%    +61.0%    +61.0%    +10.3%
+ Geometric Mean         +24.1%     -4.8%     +3.0%     +3.0%     -0.5%
+```
+
+## As of mid-2013
+
 
 There's three issues with the late lambda lift.
 
