@@ -67,6 +67,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
 
 - Notes on implemented GHC features:
 
+  - [ Evaluation order and state tokens](https://www.fpcomplete.com/tutorial-preview/4431/z0KpB0ai2R): notes written by Michael Snoyberg in response to [\#9390](https://gitlab.haskell.org//ghc/ghc/issues/9390).
   - [Notes on fusion](foldr-build-notes) (eg foldr/build)
   - [Overloaded list syntax](overloaded-lists) allows you to use list notation for things other than lists.
   - [Kind polymorphism and data type promotion](ghc-kinds)

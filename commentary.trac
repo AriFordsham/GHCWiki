@@ -54,6 +54,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
    * [wiki:Commentary/Compiler/OptOrdering Optimisation Ordering] Describe the ordering and interaction of optimisation passes (Old).
 
  * Notes on implemented GHC features:
+   * [https://www.fpcomplete.com/tutorial-preview/4431/z0KpB0ai2R Evaluation order and state tokens]: notes written by Michael Snoyberg in response to #9390.
    * [wiki:FoldrBuildNotes Notes on fusion] (eg foldr/build)
    * [wiki:OverloadedLists Overloaded list syntax] allows you to use list notation for things other than lists.
    * [wiki:GhcKinds Kind polymorphism and data type promotion]
