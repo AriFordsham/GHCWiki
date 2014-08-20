@@ -208,7 +208,7 @@ See also [TemplateHaskell](template-haskell)
 
 - [TypeFunctionsStatus](type-functions-status)
 - [\#9404](https://gitlab.haskell.org//ghc/ghc/issues/9404): tcInfer and `PolyTv`
-- [\#9429](https://gitlab.haskell.org//ghc/ghc/issues/9429): instance chains
+- [\#9334](https://gitlab.haskell.org//ghc/ghc/issues/9334): instance chains
 - [\#9427](https://gitlab.haskell.org//ghc/ghc/issues/9427): SCC analysis for type and class decls
 - [\#9422](https://gitlab.haskell.org//ghc/ghc/issues/9422): Glomming all instances in EPT is too crude for `--make`
 - [\#7908](https://gitlab.haskell.org//ghc/ghc/issues/7908): Kind polymorphism notation
