@@ -67,6 +67,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
 
 - Notes on implemented GHC features:
 
+  - Notes on fusion (eg foldr/build)?
   - [Overloaded list syntax](overloaded-lists) allows you to use list notation for things other than lists.
   - [Kind polymorphism and data type promotion](ghc-kinds)
   - [A kind for class constraints. Implemented as ConstraintKinds](kind-fact)

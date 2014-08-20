@@ -54,6 +54,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
    * [wiki:Commentary/Compiler/OptOrdering Optimisation Ordering] Describe the ordering and interaction of optimisation passes (Old).
 
  * Notes on implemented GHC features:
+   * [wiki:FoldrBuldNotes Notes on fusion (eg foldr/build)]
    * [wiki:OverloadedLists Overloaded list syntax] allows you to use list notation for things other than lists.
    * [wiki:GhcKinds Kind polymorphism and data type promotion]
    * [wiki:KindFact A kind for class constraints. Implemented as ConstraintKinds]
