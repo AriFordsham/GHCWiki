@@ -10,6 +10,15 @@ The most current code is on the `wip/llf` branch. Usually, you can merge master 
 
 By default, the LLF is not enabled. To enable it, use the flags found below in the llf-nr10-r6 section. If the LLF pass lifts out a function, it prepends the `llf_` prefix, so look for that in the Core. Also: there's `-ddump-llf` if you're desperate. The LLF happens after `SpecConstr` and before the late demand analysis (which is also off by default, cf `-flate-dmd-anal`).
 
+Commit 9c2904c passed `./validate` with
+
+{{{
+GhcLibHcOpts    += -O -dcore-lint  -fllf -fllf-abstract-undersat -fno-llf-abstract-sat -fno-llf-abstract-oversat -fno-llf-create-PAPs -fno-llf-LNE0 -fllf-simpl -fllf-stabilize -fllf-use-strictnes
+}}}
+
+in `mk/validate-settings.mk`.
+ 
+
 == As of mid-2014
 
 === Introduction
