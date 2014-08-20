@@ -95,6 +95,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
 
 - Notes on proposed or in progress (but out of tree) GHC compiler features:
 
+  - [StaticValues](static-values) and ticket [\#7015](https://gitlab.haskell.org//ghc/ghc/issues/7015)
   - [Partial type signatures](partial-type-signatures) and its ticket [\#9478](https://gitlab.haskell.org//ghc/ghc/issues/9478)
   - [Late lambda-lifting](late-lam-lift), and its ticket [\#9476](https://gitlab.haskell.org//ghc/ghc/issues/9476)
   - [Roles in Haskell](roles)
