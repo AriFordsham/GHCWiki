@@ -13,7 +13,7 @@ By default, the LLF is not enabled. To enable it, use the flags found below in t
 Commit 9c2904c passed `./validate` with
 
 {{{
-GhcLibHcOpts    += -O -dcore-lint  -fllf -fllf-abstract-undersat -fno-llf-abstract-sat -fno-llf-abstract-oversat -fno-llf-create-PAPs -fno-llf-LNE0 -fllf-simpl -fllf-stabilize -fllf-use-strictnes
+GhcLibHcOpts    += -O -dcore-lint  -fllf -fllf-abstract-undersat -fno-llf-abstract-sat -fno-llf-abstract-oversat -fno-llf-create-PAPs -fno-llf-LNE0 -fllf-simpl -fllf-stabilize -fllf-use-strictness -fllf-oneshot -fllf-nonrec-lam-limit=10 -fllf-rec-lam-limit=6
 }}}
 
 in `mk/validate-settings.mk`.
