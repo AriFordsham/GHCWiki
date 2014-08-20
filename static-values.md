@@ -3,6 +3,9 @@
 
 These notes discuss the design of the language extension for static values as proposed in [\[1](static-values#)\]. We start with a brief contextualization of the extension with respect to Cloud Haskell, then run through the contents of the user guide and finally discuss the implementation.
 
+
+The corresponding ticket, to track progress, is [\#7015](https://gitlab.haskell.org//ghc/ghc/issues/7015).
+
 ## Cloud Haskell
 
 
