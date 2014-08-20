@@ -9,6 +9,9 @@ type entirely; there are no intermediate options. Partial type
 signatures have been often proposed as an intermediate option.
 
 
+Ticket to track progress: [\#9478](https://gitlab.haskell.org//ghc/ghc/issues/9478)
+
+
 In a partial type signature, annotated types can be mixed with
 inferred types. A type signature is written like before, but can now
 contain *wildcards*, written as underscores. The types of these
