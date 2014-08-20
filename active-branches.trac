@@ -4,7 +4,7 @@ This list overviews the active branches in the main GHC repository.
 
  * `master`: Primary development branch for GHC HEAD.
 
- * `late-lam-lift`: '''Late Lambda Lift'''.  Nick Frisby. We lift some lambdas before !CorePrep. I'm still determining when to 'not' lift a lambda. My terse notes [wiki:LateLamLift here].
+ * `wip/llf`: '''Late Lambda Lift'''.  Nick Frisby. We lift some lambdas before !CorePrep. I'm still determining when to 'not' lift a lambda. My terse notes [wiki:LateLamLift here].
 
  * `wip/ext-solver`: Iavor S. Diatchki.  Integrate an extrenal SMT solver with the constrain solver.  Mostly for working with type-level naturals at the moment.
 
@@ -46,6 +46,6 @@ The actual status of these branches, including whether they have been merged and
 
 = Dead/merged branches =
 
-This is a list of inactive branches which have been merged into the tree:
+This is a list of inactive branches which are dead or have been merged into the tree:
 
- * **None**
+ * `late-lam-lift`: '''deprecated llf branch'''. Please --- someone who can --- delete this branch. It is an old branch that ought to be a wip/ branch but was started before we had that convention. Nick Frisby updated it and push it to `wip/llf` on 19 August 2014.
