@@ -4,6 +4,8 @@
 
 I (Nick Frisby) started this work in April 2012. Then it went stagnant. In August 2014, I merged master into it so that hopefully someone else can pick it up. My notes for the current code are growing here.
 
+There is a ticket to track progress: #9476.
+
 == Quick Start
 
 The most current code is on the `wip/llf` branch. Usually, you can merge master into that with easy-to-resolve conflicts (eg in `DynFlags`).
