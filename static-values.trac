@@ -2,6 +2,8 @@
 
 These notes discuss the design of the language extension for static values as proposed in [#c1 [1]]. We start with a brief contextualization of the extension with respect to Cloud Haskell, then run through the contents of the user guide and finally discuss the implementation.
 
+The corresponding ticket, to track progress, is #7015.
+
 == Cloud Haskell
 
 The distributed-process package [#c2 [2]] implements a framework for distributed computing. This in general requires sending computations remotely, i.e. closures. The distributed-static package [#c3 [3]] provides the facilities to represent closures in a way that can be shared remotely, under certain limitations. These facilities include means to represent closures, as well as combinators to build new closure representations from existing ones.
