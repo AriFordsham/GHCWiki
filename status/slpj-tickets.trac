@@ -192,6 +192,7 @@ See also [wiki:TemplateHaskell]
 == Types and type inference ==
 
  * [wiki:TypeFunctionsStatus]
+ * #9497: typed holes: silencing them
  * #9404: tcInfer and `PolyTv`
  * #9334: instance chains
  * #9427: SCC analysis for type and class decls
