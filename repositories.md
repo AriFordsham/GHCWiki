@@ -90,6 +90,9 @@ A GHC source tree is made of a collection of repositories. Here is a list of the
 
 - **GHC repo**: in every case there is a repo on `http://git.haskell.org/`, which contains the bits we use for building GHC every night. For libraries with upstream repos, this is just a lagging mirror of the master (see [Repositories/Upstream](repositories/upstream)).  The read-only HTTP URL for the repo is `http://git.haskell.org/<table-entry>`.  To get a read/write URL, replace HTTP prefix `http://git.haskell.org` with the SSH prefix `ssh://git@git.haskell.org`. 
 
+
+This table might be out-of-date: for guaranteed up-to-date info, check the [packages](/trac/ghc/browser/ghc/packages) files.
+
 <table><tr><th>**Location in tree**</th>
 <th>**Upstream repo?**</th>
 <th>**Reqd to build?**</th>
@@ -121,7 +124,7 @@ A GHC source tree is made of a collection of repositories. Here is a list of the
 <th> N/A </th>
 <th>nofib.git</th></tr>
 <tr><th>libraries/array</th>
-<th> yes </th>
+<th></th>
 <th></th>
 <th></th>
 <th>packages/array.git</th></tr>
@@ -146,17 +149,17 @@ A GHC source tree is made of a collection of repositories. Here is a list of the
 <th></th>
 <th>packages/containers.git</th></tr>
 <tr><th>libraries/deepseq</th>
-<th> yes </th>
+<th></th>
 <th></th>
 <th></th>
 <th>packages/deepseq.git</th></tr>
 <tr><th>libraries/directory</th>
-<th> yes </th>
+<th></th>
 <th></th>
 <th></th>
 <th>packages/directory.git</th></tr>
 <tr><th>libraries/filepath</th>
-<th> yes </th>
+<th></th>
 <th></th>
 <th></th>
 <th>packages/filepath.git</th></tr>
@@ -166,32 +169,32 @@ A GHC source tree is made of a collection of repositories. Here is a list of the
 <th> no  </th>
 <th>packages/haskeline.git</th></tr>
 <tr><th>libraries/haskell98</th>
-<th> yes </th>
+<th></th>
 <th></th>
 <th></th>
 <th>packages/haskell98.git</th></tr>
 <tr><th>libraries/haskell2010</th>
-<th> yes </th>
+<th></th>
 <th></th>
 <th></th>
 <th>packages/haskell2010.git</th></tr>
 <tr><th>libraries/hoopl</th>
-<th> yes </th>
+<th></th>
 <th></th>
 <th></th>
 <th>packages/hoopl.git</th></tr>
 <tr><th>libraries/hpc</th>
-<th> yes </th>
+<th></th>
 <th></th>
 <th></th>
 <th>packages/hpc.git</th></tr>
 <tr><th>libraries/old-locale</th>
-<th> yes </th>
+<th></th>
 <th></th>
 <th></th>
 <th>packages/old-locale.git</th></tr>
 <tr><th>libraries/old-time</th>
-<th> yes </th>
+<th></th>
 <th></th>
 <th></th>
 <th>packages/old-time.git</th></tr>
@@ -201,7 +204,7 @@ A GHC source tree is made of a collection of repositories. Here is a list of the
 <th></th>
 <th>packages/pretty.git</th></tr>
 <tr><th>libraries/process</th>
-<th> yes </th>
+<th></th>
 <th></th>
 <th></th>
 <th>packages/process.git</th></tr>
@@ -261,12 +264,12 @@ A GHC source tree is made of a collection of repositories. Here is a list of the
 <th> no  </th>
 <th>packages/dph.git</th></tr>
 <tr><th>libraries/parallel</th>
-<th> yes </th>
+<th></th>
 <th> no  </th>
 <th> no  </th>
 <th>packages/parallel.git</th></tr>
 <tr><th>libraries/stm</th>
-<th> yes </th>
+<th></th>
 <th> no  </th>
 <th> no  </th>
 <th>packages/stm.git</th></tr></table>
