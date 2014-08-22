@@ -18,6 +18,7 @@
 ## Front end
 
 - [\#8968](https://gitlab.haskell.org//ghc/ghc/issues/8968), [\#9226](https://gitlab.haskell.org//ghc/ghc/issues/9226): pattern synonyms and GADTs
+- [\#8581](https://gitlab.haskell.org//ghc/ghc/issues/8581): bidirectional pattern synonyms (with different constraints)
 - [\#8582](https://gitlab.haskell.org//ghc/ghc/issues/8582): pattern synonyms and record syntax
 - [\#9223](https://gitlab.haskell.org//ghc/ghc/issues/9223): error message mentioning untouchables
 - [\#9198](https://gitlab.haskell.org//ghc/ghc/issues/9198): slow typechecker (big types!)
@@ -207,6 +208,7 @@ See also [TemplateHaskell](template-haskell)
 ## Types and type inference
 
 - [TypeFunctionsStatus](type-functions-status)
+- [\#9497](https://gitlab.haskell.org//ghc/ghc/issues/9497): typed holes: silencing them
 - [\#9404](https://gitlab.haskell.org//ghc/ghc/issues/9404): tcInfer and `PolyTv`
 - [\#9334](https://gitlab.haskell.org//ghc/ghc/issues/9334): instance chains
 - [\#9427](https://gitlab.haskell.org//ghc/ghc/issues/9427): SCC analysis for type and class decls
