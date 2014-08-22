@@ -14,7 +14,7 @@ For info on the active branches of the main GHC repo, see
 
 GHC's repos use git; see [wiki:WorkingConventions/Git Git Working Conventions].
 
-'''Be sure to read more on the working conventions for submodules, which are thoroughly documented here''': https://ghc.haskell.org/trac/ghc/wiki/WorkingConventions/Git/Submodules
+'''Be sure to read more on the working conventions for submodules, which are thoroughly documented [WorkingConventions/Git/Submodules here]'''
 
 == GHC Repositories ==
 
