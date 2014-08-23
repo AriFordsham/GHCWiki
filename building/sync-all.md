@@ -27,7 +27,7 @@ If you have an existing tree, here is how to pull new patches into all repositor
 The second step is required in the event that new packages or repositories have been added to GHC.
 
 
-See [Building/Rebuilding](building/rebuilding) for how to update your build after pulling patches.
+See [Building/Hacking](building/hacking) if you've never built anything before. See [Building/Rebuilding](building/rebuilding) for how to update your build after pulling patches.
 
 
 You can also pull patches from another tree, by registering the other tree as a remote, and giving it a name (here `anotherghc`):
