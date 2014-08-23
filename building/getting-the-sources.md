@@ -70,7 +70,7 @@ You can make a local clone of a GHC tree with
 ```
 
 
-where `~/ghc` is the repository you want to branch and `~/ghc-branch` is where you want to put the branch. Then use `sync-all` as before to clone the rest of the repositories.  Note that the `origin` for the local clone will point back to the repository that it was cloned from - if you want `origin` to point back to the main GHC repo then do this:
+where `~/ghc` is the repository you want to branch and `~/ghc-branch` is where you want to put the branch. Then use `sync-all` (see [Building/SyncAll](building/sync-all)) to clone the rest of the repositories.  Note that the `origin` for the local clone will point back to the repository that it was cloned from - if you want `origin` to point back to the main GHC repo then do this:
 
 ```wiki
   $ ./sync-all -r git://git.haskell.org remote set-url origin
