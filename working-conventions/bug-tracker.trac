@@ -1,3 +1,5 @@
+[[PageOutline]]
+
 = The Bug Tracker =
 
 We organise our work (both bug fixing and feature requests) using the Trac bug tracker.   There are links to the bug tracker in the sidebar under "View tickets" and "Create ticket". See also:
@@ -76,3 +78,9 @@ The ticket workflow is illustrated in the following image. Most tickets will sta
 The following diagram is generated directly based on Trac's current configuration:
 
 [[Workflow()]]
+
+== Convenient search queries ==
+
+ * All `merge` tickets: https://ghc.haskell.org/trac/ghc/query?status=merge&order=priority
+ * All `patch` tickets (also available on the sidebar): https://ghc.haskell.org/trac/ghc/query?status=patch&order=priority
+ * All `upstream` tickets: https://ghc.haskell.org/trac/ghc/query?status=upstream&order=priority
