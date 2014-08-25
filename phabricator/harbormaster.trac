@@ -20,6 +20,14 @@ Harbormaster also builds GHC commits that have been pushed. You can see more on 
 
 However, it's also useful to understand the application UI as well, so you can look through (or search for) previous builds.
 
-First, go to https://phabricator.haskell.org/harbormaster, the top-level application. Here, you can see a list of all the latest builds; for example -
+First, go to https://phabricator.haskell.org/harbormaster, the top-level application. Here, you can see a list of all the latest builds; for example:
 
 [[Image(https://i.imgur.com/MZJBSWa.jpg)]]
+
+Here we see builds for '''commits''' and builds for '''revisions'. The metadata attached to each entry tells you this: things of the form `Dabc - Diff xyz` represent diffs, and things of the form `rGHC: foo ...` are for GHC commits.
+
+Furthermore, a build is:
+
+ - ***Building***, which means the build is currently running. This status is marked by a ***blue*** color.
+ - ***Failed***, which means the build failed to run `./validate` successfully. This status is marked by a ***red*** color.
+ - ***Passed***, which means the build ran `./validate` just fine. This status is marked by a ***green*** color.
