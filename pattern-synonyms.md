@@ -286,7 +286,7 @@ brings the name `P` as a pattern synonym into the module-level scope.
 The pattern synonym `P` is assigned a *pattern type * of the form
 
 ```wiki
-pattern CProv => P t1 t2 ... tN :: CReq => t 
+pattern type CProv => P t1 t2 ... tN :: CReq => t 
 ```
 
 
@@ -318,7 +318,7 @@ pattern P x <- MkT (f -> True) x
 the pattern type of `P` is
 
 ```wiki
-pattern (Eq b) => P b :: (Show a) => T a
+pattern type (Eq b) => P b :: (Show a) => T a
 ```
 
 
