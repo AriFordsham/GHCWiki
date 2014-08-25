@@ -25,7 +25,7 @@ The following pages guide you step-by-step through making a contribution:
 
 == Working conventions ==
 
- * '''Using Git''': Our conventions and some useful tips for using git are here: [wiki:WorkingConventions/Git Using Git], and information about our repository setup is in [wiki:Repositories].
+ * '''Using Git''': Our conventions and some useful tips for using git are here: [wiki:WorkingConventions/Git Using Git], and information about our submodule setup is in [wiki:WorkingConventions/Git/Submodules].
 
  * '''Using Phabricator''': we use Phabricator as a code review tool; here are [wiki:Phabricator our Phabricator guidance notes].
 
