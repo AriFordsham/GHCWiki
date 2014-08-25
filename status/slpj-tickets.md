@@ -2,6 +2,7 @@
 
 ## Urgent or in-flight
 
+- [\#9497](https://gitlab.haskell.org//ghc/ghc/issues/9497): typed holes: minor flag change
 - [\#7015](https://gitlab.haskell.org//ghc/ghc/issues/7015): support for `static`
 - [\#9404](https://gitlab.haskell.org//ghc/ghc/issues/9404): `tcInfer` infelicity (Richard owns)
 - [\#9400](https://gitlab.haskell.org//ghc/ghc/issues/9400): `unpackCString#` rules (asked for volunteers)
