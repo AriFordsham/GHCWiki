@@ -31,3 +31,5 @@ Furthermore, a build is:
  - **Building**, which means the build is currently running. This status is marked by a **blue** color.
  - **Failed**, which means the build failed to run `./validate` successfully. This status is marked by a **red** color.
  - **Passed**, which means the build ran `./validate` just fine. This status is marked by a **green** color.
+
+== Viewing build logs ==
