@@ -18,3 +18,13 @@ Note that every time you run `arc diff` and update an existing review or create 
 Harbormaster also builds GHC commits that have been pushed. You can see more on the [ Harbormaster](https://phabricator.haskell.org/harbormaster) application.
 
 **Note**: You can use the word "\[ci skip\]" by itself in the commit when you submit a diff or push something to skip builds. You may want to do this if you know your build will break, but you just want to post code.
+
+## Navigating the application UI
+
+
+However, it's also useful to understand the application UI as well, so you can look through (or search for) previous builds.
+
+
+First, go to [ https://phabricator.haskell.org/harbormaster](https://phabricator.haskell.org/harbormaster), the top-level application. Here, you can see a list of all the latest builds; for example -
+
+[](https://i.imgur.com/MZJBSWa.jpg)
