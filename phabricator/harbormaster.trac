@@ -24,10 +24,10 @@ First, go to https://phabricator.haskell.org/harbormaster, the top-level applica
 
 [[Image(https://i.imgur.com/MZJBSWa.jpg)]]
 
-Here we see builds for '''commits''' and builds for '''revisions'. The metadata attached to each entry tells you this: things of the form `Dabc - Diff xyz` represent diffs, and things of the form `rGHC: foo ...` are for GHC commits.
+Here we see builds for '''commits''' and builds for '''revisions'''. The metadata attached to each entry tells you this: things of the form `Dabc - Diff xyz` represent diffs, and things of the form `rGHC: foo ...` are for GHC commits.
 
 Furthermore, a build is:
 
- - ***Building***, which means the build is currently running. This status is marked by a ***blue*** color.
- - ***Failed***, which means the build failed to run `./validate` successfully. This status is marked by a ***red*** color.
- - ***Passed***, which means the build ran `./validate` just fine. This status is marked by a ***green*** color.
+ - **Building**, which means the build is currently running. This status is marked by a **blue** color.
+ - **Failed**, which means the build failed to run `./validate` successfully. This status is marked by a **red** color.
+ - **Passed**, which means the build ran `./validate` just fine. This status is marked by a **green** color.
