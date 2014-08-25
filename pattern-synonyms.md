@@ -15,10 +15,10 @@ Relevant closed tickets:
 
 Relevant open tickets:
 
-- [\#8581](https://gitlab.haskell.org//ghc/ghc/issues/8581)
+- [\#8581](https://gitlab.haskell.org//ghc/ghc/issues/8581) (explicitly bidirectional)
 - [\#8582](https://gitlab.haskell.org//ghc/ghc/issues/8582)
 - [\#8583](https://gitlab.haskell.org//ghc/ghc/issues/8583)
-- [\#8584](https://gitlab.haskell.org//ghc/ghc/issues/8584)
+- [\#8584](https://gitlab.haskell.org//ghc/ghc/issues/8584) (pattern type signatures)
 - [\#8761](https://gitlab.haskell.org//ghc/ghc/issues/8761)
 - [\#8779](https://gitlab.haskell.org//ghc/ghc/issues/8779)
 - [\#8968](https://gitlab.haskell.org//ghc/ghc/issues/8968) (GADTs)
