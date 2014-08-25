@@ -40,3 +40,13 @@ Furthermore, a build is:
 - **Passed**, which means the build ran `./validate` just fine. This status is marked by a **green** color.
 
 ## Viewing build logs
+
+
+For any build, you can view the build logs. To do that, go to the harbormaster build from the application page - for example, you can go to [ Phab:B609](https://phabricator.haskell.org/B609) to see the results for commit [9f8754eb46b59886ebc09dec2581ed31eea053dc](/trac/ghc/changeset/9f8754eb46b59886ebc09dec2581ed31eea053dc/ghc).
+
+[](https://i.imgur.com/UdRGunV)
+
+
+Click on *Build 610* to get the logs for that build:
+
+[](https://i.imgur.com/Pnr7cyz.png)
