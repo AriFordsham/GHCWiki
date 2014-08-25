@@ -94,3 +94,9 @@ The ticket workflow is illustrated in the following image. Most tickets will sta
 The following diagram is generated directly based on Trac's current configuration:
 
 Enable JavaScript to display the workflow graph.
+
+## Convenient search queries
+
+- All `merge` tickets: [ https://ghc.haskell.org/trac/ghc/query?status=merge&order=priority](https://ghc.haskell.org/trac/ghc/query?status=merge&order=priority)
+- All `patch` tickets (also available on the sidebar): [ https://ghc.haskell.org/trac/ghc/query?status=patch&order=priority](https://ghc.haskell.org/trac/ghc/query?status=patch&order=priority)
+- All `upstream` tickets: [ https://ghc.haskell.org/trac/ghc/query?status=upstream&order=priority](https://ghc.haskell.org/trac/ghc/query?status=upstream&order=priority)
