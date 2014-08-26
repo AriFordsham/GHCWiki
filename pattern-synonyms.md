@@ -23,6 +23,7 @@ Relevant open tickets:
 - [\#8779](https://gitlab.haskell.org//ghc/ghc/issues/8779)
 - [\#8968](https://gitlab.haskell.org//ghc/ghc/issues/8968) (GADTs)
 - [\#9417](https://gitlab.haskell.org//ghc/ghc/issues/9417) (Haddock)
+- [\#9514](https://gitlab.haskell.org//ghc/ghc/issues/9514) (Haddock again)
 
 ## Motivating example
 
