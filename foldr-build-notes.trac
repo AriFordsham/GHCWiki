@@ -1,5 +1,37 @@
 This page is intended for practical notes on why list functions and rules are written as they are, why they're not written other ways, ideas about what will/won't fuse properly and why, and descriptions of issues affecting fusion. It will also have open questions of various sorts.
 
+Q: I know that `foldr/build` fusion is not always safe in the presence of `seq` (and `pseq`, strict fields, bang patterns, etc.). What exactly do I need to know about this when writing functions I want GHC to fuse safely? [There are other contexts it can be used in program construction, but those are not relevant here]
+
+A: The type checker will take care of a lot of things for you; your only job is to be careful about how the function you pass to `build` (or `augment`) uses its arguments or things constructed from its arguments.
+
+`build` forces its argument to have type `forall b . (a -> b -> b) -> b -> b`. For the purposes of this explanation, assume this is its exact type signature.
+
+Zeroeth approximation: The function you pass to `build` should not, directly or indirectly, use `seq` (or similar). This is certainly safe, but much too restrictive. As a trivial example,
+
+{{{#!hs
+f !x = build (\c n -> x `c` n)
+}}}
+
+violates this rule, but is perfectly safe.
+
+First approximation: The function you pass to `build` should not, directly or indirectly, use `seq` to force anything whose type contains `b`. Again, this is safe, but overly restrictive. It is, however, good enough for most purposes.
+
+It lets you write things like this useful function
+
+{{{#!hs
+strictifyHeads xs = build (\c n -> foldr (\x r -> x `seq` (x `c` r)) n xs)
+}}}
+
+But it has a problem with this silly function (I'm not thinking of good examples right now, if there are any):
+
+{{{#!hs
+f x = build (\c n -> let q = if x then Left n else Right n in q `seq` (5 `c` n) )
+}}}
+
+So we come to the
+
+Final approximation (this may even be precise; I don't know, but it's probably good enough for anything sane): Don't use `seq` or similar to force anything whose type contains `b` unless you could accomplish the same thing without using `seq`.
+
 Q: Why are functions written back to other forms when they don't fuse?
 
 A1: Sometimes, the fancy fusing version is somehow worse than the simpler one if fusion doesn't happen.
