@@ -2,6 +2,51 @@
 This page is intended for practical notes on why list functions and rules are written as they are, why they're not written other ways, ideas about what will/won't fuse properly and why, and descriptions of issues affecting fusion. It will also have open questions of various sorts.
 
 
+Q: I know that `foldr/build` fusion is not always safe in the presence of `seq` (and `pseq`, strict fields, bang patterns, etc.). What exactly do I need to know about this when writing functions I want GHC to fuse safely? \[There are other contexts it can be used in program construction, but those are not relevant here\]
+
+
+A: The type checker will take care of a lot of things for you; your only job is to be careful about how the function you pass to `build` (or `augment`) uses its arguments or things constructed from its arguments.
+
+`build` forces its argument to have type `forall b . (a -> b -> b) -> b -> b`. For the purposes of this explanation, assume this is its exact type signature.
+
+
+Zeroeth approximation: The function you pass to `build` should not, directly or indirectly, use `seq` (or similar). This is certainly safe, but much too restrictive. As a trivial example,
+
+```
+f!x = build (\c n -> x `c` n)
+```
+
+
+violates this rule, but is perfectly safe.
+
+
+First approximation: The function you pass to `build` should not, directly or indirectly, use `seq` to force anything whose type contains `b`. Again, this is safe, but overly restrictive. **It is, however, good enough for most purposes.** Virtually every safe use will obey this rule.
+
+
+Some examples of functions that (may) use `seq` but obey this rule and are therefore safe to fuse:
+
+```
+strictifyHeads xs = build (\c n -> foldr (\x r -> x `seq`(x `c` r)) n xs)unfoldr f q0 = build $\c n ->let go q =case f q ofNothing-> n
+               Just(a, new_q)-> a `c` go new_q
+```
+
+
+Note in the case of `unfoldr` that the `f` and `q0` passed in may each use `seq`. This is okay, however, because neither of them is passed `c`, `n`, or anything built from them.
+
+
+The first approximation still isn't perfect, because it has trouble with this silly function (I'm not thinking of good examples right now, if there are any):
+
+```
+f x = build (\c n ->let q =if x thenLeft n elseRight n in q `seq`(5`c` n))
+```
+
+
+So we come to the
+
+
+Final approximation (this may even be precise; I don't know, but it's probably good enough for anything sane): Don't use `seq` or similar to force anything whose type contains `b` unless you could accomplish the same thing without using `seq` to force anything whose type contains `b`.
+
+
 Q: Why are functions written back to other forms when they don't fuse?
 
 
@@ -45,3 +90,24 @@ Q: Why does making one thing fuse sometimes make something else not fuse?
 
 
 A: Because the whole system is built around inlining, and no one really knows how to make that Do The Right Thing every time. Also, no one knows a better way to avoid basing it on inlining.
+
+
+Q: Now can full laziness interfere with fusion?
+
+
+A: Full laziness can pull a piece of an expression up to the top level, away from its context. A `build` form that's been pulled to the top level currently will not be seen by the RULES engine when it's inspecting a `foldr` form containing its (automatically generated) name. The first (partial) full laziness pass happens before any inlining, and the simplifier does not run after specialization until after full laziness, and therefore full laziness runs before a great many fusion opportunities have been revealed. The specialization issue affects `enumFromTo` and related functions, while the inlining one causes general difficulty. One workaround for the latter is to use `RULES` to "manually" inline a function; this is what many of the "translate to" rules effectively do, but many things aren't covered. For example, `($)` and `(.)` aren't inlined before full laziness tries to rip expressions using them apart.
+
+
+Q: Which NoFib benchmarks seem to be particularly sensitive to additional fusion rules?
+
+
+A (incomplete, and poorly remembered): `fft2` tends to get significant allocation reduction, around 20%, in general. `wang` gets a 50% allocation reduction with either `foldr/cons` or `cons/build`, but only if `-fsimple-list-literals` is enabled. `constraints` tends to do a little worse, with around +4% allocation. `cacheprof` has mixed results (nothing huge). Adding a (highly invasive) simplifier run with inlining and rules has all sorts of wild effects, many bad, but reduces allocation in `fannkuch-redux` by a whopping 100%.
+
+
+Q: What can we do to keep full laziness from goofing up fusion, without having bad effects in many cases?
+
+
+Idea 1 (by Joachim Breitner): Let the `RULES` engine see through the introduced bindings so it can fuse things that have been separated a little. Some care may be required to keep track of `NOINLINE` annotations.
+
+
+Guess 2 (by David Feuer): Introduce the notion of something being "inlined early", specifically allowing inlining before any full laziness happens. Something that's inlinable, and that uses something that's inlined early becomes inlined early. This seems messier than Idea 1, but I thought I'd put it on the table.
