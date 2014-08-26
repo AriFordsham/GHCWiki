@@ -45,3 +45,9 @@ Q: Why does making one thing fuse sometimes make something else not fuse?
 
 
 A: Because the whole system is built around inlining, and no one really knows how to make that Do The Right Thing every time. Also, no one knows a better way to avoid basing it on inlining.
+
+
+Q: Now can full laziness interfere with fusion?
+
+
+A: Full laziness can pull a piece of an expression up to the top level, away from its context. A `build` form that's been pulled to the top level currently will not be seen by the RULES engine when it's inspecting a `foldr` form containing its (automatically generated) name. The first (partial) full laziness pass happens before any inlining and before any specialization, and therefore before a great many fusion opportunities have been revealed. The specialization issue affects `enumFromTo` and related functions, while the inlining one causes general difficulty. One workaround for the latter is to use `RULES` to "manually" inline a function; this is what many of the "translate to" rules effectively do, but many things aren't covered. For example, `($)` and `(.)` aren't inlined before full laziness tries to rip expressions using them apart.
