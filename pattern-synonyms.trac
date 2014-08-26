@@ -16,6 +16,7 @@ Relevant open tickets:
  * #8779
  * #8968 (GADTs)
  * #9417 (Haddock)
+ * #9514 (Haddock again)
 
 == Motivating example ==
 Here is a simple representation of types
