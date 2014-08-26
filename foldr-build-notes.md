@@ -11,13 +11,22 @@ A1: Sometimes, the fancy fusing version is somehow worse than the simpler one if
 A2: Functions must be inlined in order to fuse. When fusion doesn't happen, this creates duplicate code, often with no benefit. In fact, it may create multiple copies of the same function at the top level.
 
 
-Q: Why are functions written back to recursive forms when they don't fuse, rather than pretty ones?
+Q: Why are functions written back to recursive forms when they don't fuse, rather than ones that use higher-order functions?
 
 
-Guess: by the time the writing-back happens, it may be too late in simplification for the compiler to optimize the pretty form properly. However, ti may be possible to get around this sometimes by using a NOINLINE form rather than an INLINE one. If you write back to a NOINLINE form, I would guess that you should get an already-optimized version, whereas if you write back to an INLINE form, you will get that form as it is, too late to optimize. So there may be some room to improve this in some cases.
+Guess: by the time the writing-back happens, it may be too late in simplification for the compiler to optimize the form using higher-order functions properly. However, ti may be possible to get around this sometimes by using a NOINLINE form rather than an INLINE one. If you write back to a NOINLINE form, I would guess that you should get an already-optimized version, whereas if you write back to an INLINE form, you will get that form as it is, too late to optimize. So there may be some room to improve this in some cases.
 
 
-Q: Why isn't map written to inline when given one argument like foldr is written to inline when given two?
+Q: Why are functions rewritten to forms using weird-looking functions like `mapFB`?
+
+
+A: If the function doesn't fuse and it needs to be rewritten back to something like its original form, we need to have enough to match on. One of the more reliable ways to do this is to use some `NOINLINE` functions in the rewritten form that we can then match on.
+
+
+Q: Why isn't `map` written to inline when given one argument like `foldr` is written to inline when given two?
+
+
+Guess: it may be that there isn't enough opportunity for inlining to do anything useful in that case, since `map` isn't doing anything with the results of the calls except wrapping them up in conses.
 
 
 Q: Why does `repeat` fuse, but not `cycle`?
