@@ -20,17 +20,21 @@ f!x = build (\c n -> x `c` n)
 violates this rule, but is perfectly safe.
 
 
-First approximation: The function you pass to `build` should not, directly or indirectly, use `seq` to force anything whose type contains `b`. Again, this is safe, but overly restrictive. It is, however, good enough for most purposes.
+First approximation: The function you pass to `build` should not, directly or indirectly, use `seq` to force anything whose type contains `b`. Again, this is safe, but overly restrictive. **It is, however, good enough for most purposes.** Virtually every safe use will obey this rule.
 
 
-It lets you write things like this useful function
+Some examples of functions that (may) use `seq` but obey this rule and are therefore safe to fuse:
 
 ```
-strictifyHeads xs = build (\c n -> foldr (\x r -> x `seq`(x `c` r)) n xs)
+strictifyHeads xs = build (\c n -> foldr (\x r -> x `seq`(x `c` r)) n xs)unfoldr f q0 = build $\c n ->let go q =case f q ofNothing-> n
+               Just(a, new_q)-> a `c` go new_q
 ```
 
 
-But it has a problem with this silly function (I'm not thinking of good examples right now, if there are any):
+Note in the case of `unfoldr` that the `f` and `q0` passed in may each use `seq`. This is okay, however, because neither of them is passed `c`, `n`, or anything built from them.
+
+
+The first approximation still isn't perfect, because it has trouble with this silly function (I'm not thinking of good examples right now, if there are any):
 
 ```
 f x = build (\c n ->let q =if x thenLeft n elseRight n in q `seq`(5`c` n))
