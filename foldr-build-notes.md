@@ -92,3 +92,18 @@ Q: Now can full laziness interfere with fusion?
 
 
 A: Full laziness can pull a piece of an expression up to the top level, away from its context. A `build` form that's been pulled to the top level currently will not be seen by the RULES engine when it's inspecting a `foldr` form containing its (automatically generated) name. The first (partial) full laziness pass happens before any inlining, and the simplifier does not run after specialization until after full laziness, and therefore full laziness runs before a great many fusion opportunities have been revealed. The specialization issue affects `enumFromTo` and related functions, while the inlining one causes general difficulty. One workaround for the latter is to use `RULES` to "manually" inline a function; this is what many of the "translate to" rules effectively do, but many things aren't covered. For example, `($)` and `(.)` aren't inlined before full laziness tries to rip expressions using them apart.
+
+
+Q: Which NoFib benchmarks seem to be particularly sensitive to additional fusion rules?
+
+
+A (incomplete, and poorly remembered): `fft2` tends to get significant allocation reduction, around 20%, in general. `wang` gets a 50% allocation reduction with either `foldr/cons` or `cons/build`, but only if `-fsimple-list-literals` is enabled. `constraints` tends to do a little worse, with around +4% allocation. `cacheprof` has mixed results (nothing huge). Adding a (highly invasive) simplifier run with inlining and rules has all sorts of wild effects, many bad, but reduces allocation in `fannkuch-redux` by a whopping 100%.
+
+
+Q: What can we do to keep full laziness from goofing up fusion, without having bad effects in many cases?
+
+
+Idea 1 (by Joachim Breitner): Let the `RULES` engine see through the introduced bindings so it can fuse things that have been separated a little. Some care may be required to keep track of `NOINLINE` annotations.
+
+
+Guess 2 (by David Feuer): Introduce the notion of something being "inlined early", specifically allowing inlining before any full laziness happens. Something that's inlinable, and that uses something that's inlined early becomes inlined early. This seems messier than Idea 1, but I thought I'd put it on the table.
