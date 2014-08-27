@@ -3,10 +3,10 @@
 ## Urgent or in-flight
 
 - [\#9497](https://gitlab.haskell.org//ghc/ghc/issues/9497): typed holes: minor flag change
+- [\#9260](https://gitlab.haskell.org//ghc/ghc/issues/9260): type lits (Iavor owns)
 - [\#7015](https://gitlab.haskell.org//ghc/ghc/issues/7015): support for `static`
 - [\#9404](https://gitlab.haskell.org//ghc/ghc/issues/9404): `tcInfer` infelicity (Richard owns)
 - [\#9400](https://gitlab.haskell.org//ghc/ghc/issues/9400): `unpackCString#` rules (asked for volunteers)
-- [\#9371](https://gitlab.haskell.org//ghc/ghc/issues/9371): seg-fault due to inadequate conflict detection (Richard owns)
 - [\#8634](https://gitlab.haskell.org//ghc/ghc/issues/8634), [\#9267](https://gitlab.haskell.org//ghc/ghc/issues/9267), [\#9227](https://gitlab.haskell.org//ghc/ghc/issues/9227): relaxing functional dependency rules `-XDysFunctionalDependencies`
 - [\#9318](https://gitlab.haskell.org//ghc/ghc/issues/9318): bad type error caused by wanted/wanted solving (talk to Dimitrios)
 - [\#8852](https://gitlab.haskell.org//ghc/ghc/issues/8852), [\#8980](https://gitlab.haskell.org//ghc/ghc/issues/8980), [\#8941](https://gitlab.haskell.org//ghc/ghc/issues/8941) (possibly), [\#8960](https://gitlab.haskell.org//ghc/ghc/issues/8960), [\#7898](https://gitlab.haskell.org//ghc/ghc/issues/7898), [\#7068](https://gitlab.haskell.org//ghc/ghc/issues/7068), [\#7944](https://gitlab.haskell.org//ghc/ghc/issues/7944), [\#5550](https://gitlab.haskell.org//ghc/ghc/issues/5550), [\#8836](https://gitlab.haskell.org//ghc/ghc/issues/8836): `SpecConstr` blowup
