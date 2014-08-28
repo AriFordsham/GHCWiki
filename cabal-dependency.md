@@ -62,6 +62,12 @@ TODO(ezyang): I don't understand why Cabal's type needs to be put in the binary 
 
 We employ a trick in the binary database to support both cases: it contains all the packages in two different representations, once using Cabal types and once using GHC's types. These are contained in two sections of the package.cache binary file inside each package database directory. One section contains the Cabal representation. This section is read back by ghc-pkg when reading the package database. The other section contains the GHC representation. This section is read by GHC.The length of Cabal's section is explicitly recorded in the file, so GHC does not need to know anything about the internal contents of the other section to be able to read its own section. The ghc-pkg tool knows about the representation of both sections and writes both.
 
+
+Notes
+
+- Cabal only reads/writes the binary package db via the `ghc-pkg` executable.
+- GHC reads the binary package db, via `bin-package-db` library.
+
 ## Technical details
 
 
