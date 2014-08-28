@@ -31,24 +31,29 @@ The GHC library used to depend on the Cabal library directly, for the representa
 Under the new approach, we have the following dependency structure for Cabal, ghc-pkg, GHC and bin-package-db:
 
 ```wiki
+                     ........................
+                     .                      .
+                     .  +--------------+  +-v----------+  +------------+
+                     .  |    cabal     |  |  ghc-pkg   |  |    GHC     |
+                     .  |  executable  |  | executable |  | executable |
+                     .  +--------------+  +---+----+---+  +--+---------+
+           executes  .          |             |    |         |
+(an "up-dependency") .          |             |    |  +------v------+
+                     .          |       +-----+    |  |     ghc     |
+                     .          |       |          |  |   package   |
+                     .          |       |          |  +-+-----------+
+                     .          |       |          |    |
+                     .        +-v-------v-+ +------v----v----+
+                     .........+   Cabal   | | bin-package-db |
+                              |  package  | |    package     |
+                              +-----+-----+ +--------+-------+
+                                    |                |
+                                    |                |
+                              ......v.......  .......v......
+                              .    text    .  .   binary   .
+                              .  database  .  .  database  .
+                              ..............  ..............
 
-  +--------------+  +------------+  +-----------+
-  |    cabal     |  |  ghc-pkg   |  |   GHC     |
-  |  executable  |  | executable |  | executable|
-  +---+----------+  +------------+  +-+---------+
-          |                           |
-          |                     +-----v-------+
-     .....|...>                 |     GHC     |
-     .    |                     |   package   |
-     .    |      |      |       +-+-----------+
-     .    |      |      |         |
-     .  +-v------v-+  +-v---------v----+
-     .  |   Cabal  |  | bin-package-db |
-     .  |  package |  |    package     |
-     .  +----------+  +----------------+
-     .     .
-     .......
-     executes (an "up-dependency")
 ```
 
 

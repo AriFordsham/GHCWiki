@@ -26,24 +26,29 @@ The GHC library used to depend on the Cabal library directly, for the representa
 Under the new approach, we have the following dependency structure for Cabal, ghc-pkg, GHC and bin-package-db:
 
 {{{
+                     ........................
+                     .                      .
+                     .  +--------------+  +-v----------+  +------------+
+                     .  |    cabal     |  |  ghc-pkg   |  |    GHC     |
+                     .  |  executable  |  | executable |  | executable |
+                     .  +--------------+  +---+----+---+  +--+---------+
+           executes  .          |             |    |         |
+(an "up-dependency") .          |             |    |  +------v------+
+                     .          |       +-----+    |  |     ghc     |
+                     .          |       |          |  |   package   |
+                     .          |       |          |  +-+-----------+
+                     .          |       |          |    |
+                     .        +-v-------v-+ +------v----v----+
+                     .........+   Cabal   | | bin-package-db |
+                              |  package  | |    package     |
+                              +-----+-----+ +--------+-------+
+                                    |                |
+                                    |                |
+                              ......v.......  .......v......
+                              .    text    .  .   binary   .
+                              .  database  .  .  database  .
+                              ..............  ..............
 
-  +--------------+  +------------+  +-----------+
-  |    cabal     |  |  ghc-pkg   |  |   GHC     |
-  |  executable  |  | executable |  | executable|
-  +---+----------+  +------------+  +-+---------+
-          |                           |
-          |                     +-----v-------+
-     .....|...>                 |     GHC     |
-     .    |                     |   package   |
-     .    |      |      |       +-+-----------+
-     .    |      |      |         |
-     .  +-v------v-+  +-v---------v----+
-     .  |   Cabal  |  | bin-package-db |
-     .  |  package |  |    package     |
-     .  +----------+  +----------------+
-     .     .
-     .......
-     executes (an "up-dependency")
 }}}
 
 Cabal has a `InstalledPackageInfo` type, defined in the Cabal package, which defines a representation for installed packages as per the Cabal specification; however, now `bin-package-db` defines a new variant of the type which contains *only* the fields that GHC relies on. (Call this GHC's type.) ghc-pkg depends on both Cabal and bin-package-db, and is responsible for converting Cabal's types to GHC's types, as well as writing these contents to a binary database, as before. (Cabal invokes ghc-pkg in order to register packages in the installed package database, and as before doesn't directly know about this format.)
