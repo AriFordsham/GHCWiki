@@ -95,7 +95,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
 
 - Notes on proposed or in progress (but out of tree) GHC compiler features:
 
-  - Source-locations on !HsSyn?
+  - [Source-locations on !HsSyn](ghc-ast-annotations)
   - [How GHC inter-operates with Cabal](cabal-dependency)
   - [StaticValues](static-values) and ticket [\#7015](https://gitlab.haskell.org//ghc/ghc/issues/7015)
   - [Partial type signatures](partial-type-signatures) and its ticket [\#9478](https://gitlab.haskell.org//ghc/ghc/issues/9478)

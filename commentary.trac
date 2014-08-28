@@ -81,7 +81,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
    * [wiki:NewAxioms Closed type families]
 
  * Notes on proposed or in progress (but out of tree) GHC compiler features:
-   * [wiki:GhcAstAnnotation Source-locations on !HsSyn]
+   * [wiki:GhcAstAnnotations Source-locations on !HsSyn]
    * [wiki:CabalDependency How GHC inter-operates with Cabal]
    * [wiki:StaticValues] and ticket #7015
    * [wiki:PartialTypeSignatures Partial type signatures] and its ticket #9478
