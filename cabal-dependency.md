@@ -75,8 +75,9 @@ Notes
 - Cabal communicates with `ghc-pkg` via text files representing the Cabal `InstalledPackageInfo` type.  The `Cabal` library offers a parser and pretty-printer for this type, which `ghc-pkg` uses.
 - Things we want to be true:
 
-  - You can upgrade Cabal (including the `Cabal` package and `cabal` executable) without upgrading GHC.  (However you *do* need to upgrade `ghc-pkg` in sync, since it depends on the `Cabal` package.)
+  - You can upgrade Cabal (including the `Cabal` package and `cabal` executable) without upgrading GHC. 
   - You can manually use `ghc-pkg` to install packages, so all manipulation of the package database must be done via `ghc-pkg`.
+- When you upgrade Cabal, you probably want to upgrade `ghc-pkg` too, since it depends on the `Cabal` package.  But you don't *have* to.  Cabal and `ghc-pkg` communicate through a text file interface. If new sexy Cabal adds a field, old `ghc-pkg` simply ignores it. Everything works, except that new sexy Cabal won't benefit from the new field being stored in the database.
 - One consequence is that `bin-package-db`*must not* depend on Cabal (else you could not upgrade Cabal without upgrading GHC).  So `bin-package-db` cannot know what new sexy meta-data the upgraded Cabal (and `ghc-pkg`) are storing.  Yet it alone writes the binary file. So the read/write interface that `bin-package-db` offers has an argument for "and store this too in the binary file".
 
 ## Technical details
