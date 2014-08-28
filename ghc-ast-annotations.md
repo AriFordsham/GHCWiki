@@ -32,3 +32,15 @@ The way I understand it, the SrcSpanInfo proposal means that we would have lots 
 
 
 Popping up a level, I do support the idea of including this info in the AST.
+
+## SPJ response to concern re extra noise in AST
+
+>
+> I thiink the key question is whether it is acceptable to sprinkle this kind of information throughout the AST. For someone interested in source-to-source conversions (like me) this is great, others may find it intrusive.
+
+
+It’s probably not too bad if you use record syntax; thus
+
+```
+|HsDo{ hsdo_do_loc ::SrcSpan-- of the word "do", hsdo_blocks ::BlockSrcSpans, hsdo_ctxt   ::HsStmtContextName, hsdo_stmts  ::[ExprLStmt id], hsdo_type    ::PostTcType}
+```
