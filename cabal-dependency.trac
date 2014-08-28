@@ -72,9 +72,9 @@ data InstalledPackageInfo instpkgid srcpkgid srcpkgname pkgkey modulename
        ...
      }
 }}}
-The reason for this is purely technical: the concrete types like `ModuleName`, which GHC would prefer the contents of `InstalledPackageInfo` to be represented as, are defined within the GHC library, and we do not want to move their definition into this library. (Indeed, some of these types rely on exotic base types like `FastString` which cannot be so easily extricated.)
+The reason for this is purely technical: GHC would prefer `InstalledPackageInfo` to contain types like `ModuleName`, which are defined inside GHC proper; but we do not want to move their definition into `bin-package-db`. (Indeed, some of these types are based on exotic base types like `FastString` which cannot be so easily extricated.)
 
-Having the type be generic means inside GHC we specialise this type like so
+So instead, we keep the type generic. Inside GHC we specialise this type like so
 {{{
 type PackageConfig = InstalledPackageInfo
                        InstalledPackageId
@@ -83,7 +83,7 @@ type PackageConfig = InstalledPackageInfo
                        Module.PackageKey
                        Module.ModuleName
 }}}
-Whereas in ghc-pkg, on the other hand we instantiate it with `String` for all parameters. How do we convert between the two types? We never do this directly: ghc-pkg (using bin-package-db) serializes `String` into a UTF-8 encoded stream of bytes stored on disk; then when GHC (als using bin-package-db) reads out the bytes on disk, it deserializes them into its desired data types. This is managed using a little type class:
+However, in ghc-pkg, where we don't have access to any of these types, we just instantiate it with `String` for all parameters. How do we convert between the two types? We never do this directly: ghc-pkg (using bin-package-db) serializes `String` into a UTF-8 encoded stream of bytes stored on disk; then when GHC (also using bin-package-db) reads out the bytes on disk, it deserializes them into its desired data types. This is managed using a little type class:
 {{{
 class BinaryStringRep a where
   fromStringRep :: BS.ByteString -> a
@@ -95,4 +95,4 @@ readPackageDbForGhc :: (BinaryStringRep a, BinaryStringRep b, BinaryStringRep c,
                         BinaryStringRep d, BinaryStringRep e) =>
                        FilePath -> IO [InstalledPackageInfo a b c d e]
 }}}
-So it uses the class to convert to/from the on disk UTF8 representation, and the internal representation (`String` for ghc-pkg, and things like newtype'd `FastString`s in GHC).
+It uses the class to convert to/from the on disk UTF8 representation, and the internal representation (`String` for ghc-pkg, and things like newtype'd `FastString`s in GHC).
