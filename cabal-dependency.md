@@ -67,6 +67,7 @@ Notes
 
 - Cabal only reads/writes the binary package db via the `ghc-pkg` executable.
 - GHC reads the binary package db, via `bin-package-db` library.
+- Cabal communicates with `ghc-pkg` via text files representing the Cabal `InstalledPackageInfo` type.  The `Cabal` library offers a parser and pretty-printer for this type, which `ghc-pkg` uses.
 
 ## Technical details
 
