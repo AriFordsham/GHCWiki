@@ -160,7 +160,7 @@ GHC uses the following nomenclature for types:
 </td></tr></table>
 
 <table><tr><th>**Algebraic**</th>
-<td>An algebraic data type is a data type with one or more constructors, whether declared with `data` or `newtype`.   An algebraic type is one that can be deconstructed        with a case expression.  "Algebraic" is **NOT** the same as "lifted",  because unboxed tuples count as "algebraic".
+<td>An algebraic data type is a data type with one or more constructors, whether declared with `data` or `newtype`.   An algebraic type is one that can be deconstructed        with a case expression.  "Algebraic" is **NOT** the same as "lifted",  because unboxed (and thus unlifted) tuples count as "algebraic".
 </td></tr></table>
 
 <table><tr><th>**Primitive**</th>
