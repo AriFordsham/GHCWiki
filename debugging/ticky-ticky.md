@@ -1,6 +1,6 @@
 TODO document each active counter, especially regarding its accuracy.
 
-## Basic Idea and Quickstart Guide
+# Ticky-ticky profiling
 
 
 Ticky-ticky profiling adds counters to every STG function.  It's very low-level, but it really tells you what is going on:
@@ -85,7 +85,7 @@ Here is what I do:
 
 - If your change is small, the two tables will look pretty similar, so you can just run your eye down until you find a difference.  Then go look in `x2n1.dump` for the unique (e.g `r6vW`) in the `STG Name`.  Look initially in the `STG Syntax` dump, but having found the right place I generally back up to the `Tidy Core` section which is far more readable.
 
-- Now you can compare the two secitons of Core code.
+- Now you can compare the two sections of Core code.
 
 
 The good thing is that ticky-ticky is guaranteed to be non-invasive. It generates a bit of extra memory traffic for the instrumentation, but that's all.
