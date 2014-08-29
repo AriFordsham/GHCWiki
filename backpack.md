@@ -28,6 +28,7 @@ Many of the features described in [ A taste of Cabalized Backpack](http://blog.e
   - Support type families in signatures
   - Carefully test our hole map algorithm to make sure we're actually canonicalizing things enough (we probably aren't...)
 - Typechecking against signatures (the next frontier)
+- Installing indefinite packages (reusing the installed package database as a place to stash source packages...)
 
 ## Backpack-related tickets
 
