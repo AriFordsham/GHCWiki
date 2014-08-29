@@ -57,6 +57,7 @@ can extend it, modify it, and use it to build your code.
 **Porting GHC and building cross compilers**
 
 - [Cross-compilation](building/cross-compiling)
+- [Compiling for 32 bits on 64 bits](building/compiling32on64)
 
 **Troubleshooting**
 
