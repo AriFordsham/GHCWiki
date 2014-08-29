@@ -45,11 +45,11 @@ Here is what I do:
 
 - Two build trees, one for the compiler (and libraries, etc) without the change, one for the compiler with the change
 
-- In both build trees, add `GhcLibHcOpts += -ticky`.  That makes the libraries generate ticky-ticky information.
+- In both build trees, edit `build.mk` as described above.  That makes the libraries generate ticky-ticky information.
 
-- Run `nofib` in both trees.  Use `nofib-analyse` to compare.
+- Run `nofib` in both trees and use `nofib-analyse` to compare, as described in [Building/RunningNoFib](building/running-no-fib).
 
-- Find one where the allocation changes in the wrong direction, say `x2n1`.  (Allocation is a reasonable proxy for execution time, and has the huge merit of being repeatable and measurable at a fine grain.)
+- Find one where the performance changes in the wrong direction, say `x2n1`. It is often best, at least at first, to use allocation as a proxy for execution time; allocation has the huge merit of being repeatable and measurable at a fine grain.
 
 - Compile `x2n1` in both trees with `-ticky`, and also generating Core and STG, thus:
 
