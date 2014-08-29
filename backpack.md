@@ -1,7 +1,33 @@
-[ Backpack](http://plv.mpi-sws.org/backpack/) is a proposal for retrofitting Haskell with an applicative, mix-in module system. The theory of Backpack is developed in the paper and its accompanying technical appendix; we also have an in-depth implementation design at [docs/backpack](/trac/ghc/browser/ghc/docs/backpack). The purpose of this page is to track implementation progress. (Wondering what happened to the old text? Check the history; it will be integrated into the implementation design doc eventually).
+[ Backpack](http://plv.mpi-sws.org/backpack/) is a proposal for retrofitting Haskell with an applicative, mix-in module system. The theory of Backpack is developed in the paper and its accompanying technical appendix; we also have an [ in-depth implementation design document](http://web.mit.edu/~ezyang/Public/backpack-impl.pdf) (source: [docs/backpack](/trac/ghc/browser/ghc/docs/backpack)). The purpose of this page is to track implementation progress. (Wondering what happened to the old text? Check the history; it will be integrated into the implementation design doc eventually).
 
 
 See also [CabalDependency](cabal-dependency)
+
+## Reading
+
+- [ Design document](http://web.mit.edu/~ezyang/Public/backpack-impl.pdf): quite technical, but a lot of good information about how the system we are implementing differs from the Backpack paper
+- [ What's a module system good for anyway?](http://blog.ezyang.com/2014/08/whats-a-module-system-good-for-anyway/) Motivates \*why\* you might care about Backpack
+- [ A taste of Cabalized Backpack](http://blog.ezyang.com/2014/08/a-taste-of-cabalized-backpack/): tutorial style introduction to the Cabal-style syntax for writing Backpack modules
+
+## Implementing "A taste of Cabalized Backpack"
+
+
+Many of the features described in [ A taste of Cabalized Backpack](http://blog.ezyang.com/2014/08/a-taste-of-cabalized-backpack/) are not implemented yet. Here's the blow-by-blow:
+
+- GHC signature support is in progress at [ D130](https://phabricator.haskell.org/D130)
+
+  - exposed-signatures in GhcPackage behaves the same as required-signatures (GHC needs to consider these modules exposed for the purpose of module lookup)
+  - We don't support multiple backing implementations for a signature, as SPJ mentions in Phab. The good thing about this is if we implement this we will automatically get signature merging. One difficulty: making sure all of the definitions of the signature have been satisfied! Also need to adjust package key format.
+- Cabal signature support is in progress at [ ezyang/cabal:ezyang-dev](https://github.com/ezyang/cabal/tree/ezyang-dev)
+
+  - We don't support the "semicolon" syntax, which allows you to include a package multiple times (usually used to instantiate it differently.) Monoid plus should be replaced with semicolon operation.
+  - If anyone wants it: hiding and bulk rename for thinning/renaming
+  - Figure out if you can rename types, and if not, what to do
+  - implements field is not implemented
+  - reexported-modules may not work with signatures (untested)
+  - Support type families in signatures
+  - Carefully test our hole map algorithm to make sure we're actually canonicalizing things enough (we probably aren't...)
+- Typechecking against signatures (the next frontier)
 
 ## Backpack-related tickets
 
