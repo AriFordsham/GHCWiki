@@ -7,7 +7,8 @@ See also [CabalDependency](cabal-dependency)
 
 - [ Design document](http://web.mit.edu/~ezyang/Public/backpack-impl.pdf): quite technical, but a lot of good information about how the system we are implementing differs from the Backpack paper
 - [ What's a module system good for anyway?](http://blog.ezyang.com/2014/08/whats-a-module-system-good-for-anyway/) Motivates \*why\* you might care about Backpack
-- [ A taste of Cabalized Backpack](http://blog.ezyang.com/2014/08/a-taste-of-cabalized-backpack/): tutorial style introduction to the Cabal-style syntax for writing Backpack modules
+- [ A taste of Cabalized Backpack](http://blog.ezyang.com/2014/08/a-taste-of-cabalized-backpack/): Tutorial style introduction to the Cabal-style syntax for writing Backpack modules
+- Planned: blog post about thinning/renaming
 
 ## Implementing "A taste of Cabalized Backpack"
 
