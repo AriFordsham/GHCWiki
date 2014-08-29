@@ -6,7 +6,7 @@ This page describes how to do cross-compilation with GHC.  That is:
 - **Building GHC as a cross-compiler**: Create a compiler that runs on one platform, but targets another. Examples are building a GHC that:
 
   - runs on Mac OS X, but targets iOS
-  - runs on x86_64 linux, but targets i386
+  - runs on x86_64 linux, but targets i386 (though sometimes you can just [install and use i386 GHC on x86_64](building/compiling32on64))
   - runs on some existing GHC supported platform, but targets a smaller embedded platform
 - **Cross-compiling GHC itself**: Build on one platform a compiler that runs on, and targets another.  Examples:
 
