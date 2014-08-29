@@ -56,3 +56,20 @@ It’s probably not too bad if you use record syntax; thus
           , hsdo_type    :: PostTcType }
 
 }}} 
+
+== Other issues ==
+
+The AST is initially created by the parser, and then changed through the renamer and type checker.
+
+From a source to source conversion perspective the `ParsedSource` is closest to the original source code, as it respects the original linear ordering of the declarations, which are each wrapped in an appropriate constructor from `HsDecl`.
+
+The `RenamedSource` gathers all the like declarations together, and strips out the `HsDecl`, as well as re-ordering binds to appear in dependency order.
+
+The `TypeCheckedSource` further changes the `RenamedSource` to replace the original type information with the calculated types.
+
+So manipulations need to happen at the `ParsedSource` level, but with the ability to query information from the `RenamedSource` or `TypecheckedSource` as required.
+
+At the moment HaRe manages this by building up a token tree indexed by SrcSpan with tokens at the leaves, constructed from the `ParsedSource`, and then indexes into it for changes based on the `RenamedSource`.  The token tree is fiddly and brittle, so it would be better to keep this information directy in the AST.
+
+
+
