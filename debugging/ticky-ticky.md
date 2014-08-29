@@ -1,6 +1,6 @@
 TODO document each active counter, especially regarding its accuracy.
 
-## Basic Idea and Quickstart Guide
+# Ticky-ticky profiling
 
 
 Ticky-ticky profiling adds counters to every STG function.  It's very low-level, but it really tells you what is going on:
