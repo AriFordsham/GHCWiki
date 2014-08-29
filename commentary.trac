@@ -82,7 +82,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
 
  * Notes on proposed or in progress (but out of tree) GHC compiler features:
    * [wiki:GhcAstAnnotations Source-locations on HsSyn]
-   * [wiki:CabalDependency How GHC inter-operates with Cabal]
+   * [wiki:CabalDependency How GHC inter-operates with Cabal] and [wiki:Backpack]
    * [wiki:StaticValues] and ticket #7015
    * [wiki:PartialTypeSignatures Partial type signatures] and its ticket #9478
    * [wiki:LateLamLift Late lambda-lifting], and its ticket #9476
