@@ -129,7 +129,7 @@ A1: When something appears as the outermost name in a rule LHS, the inliner will
 
 ```
 {-# RULES
-forall ... . e1 : e2 = e3
+"badrule" forall ... . e1 : e2 = e3
  #-}
 ```
 
