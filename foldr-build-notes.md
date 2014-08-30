@@ -120,3 +120,18 @@ Q: Which NoFib benchmarks seem to be particularly sensitive to additional fusion
 
 
 A (incomplete, and poorly remembered): `fft2` tends to get significant allocation reduction, around 20%, in general. `wang` gets a 50% allocation reduction with either `foldr/cons` or `cons/build`, but only if `-fsimple-list-literals` is enabled. `constraints` tends to do a little worse, with around +4% allocation. `cacheprof` has mixed results (nothing huge). Adding a (highly invasive) simplifier run with inlining and rules has all sorts of wild effects, many bad, but reduces allocation in `fannkuch-redux` by a whopping 100%.
+
+
+Q: What kinds of things should I avoid in `RULES`?
+
+
+A1: When something appears as the outermost name in a rule LHS, the inliner will consider it "interesting", which makes it appear cheaper to inline expressions using it. This is not always a good thing. In particular, it turns out that a rule looking like
+
+```
+{-# RULES
+forall ... . e1 : e2 = e3
+ #-}
+```
+
+
+makes the `(:)` constructor look "interesting", and this leads to poor performance all over the place. It may be possible to modify the compiler to fix this problem, but until then all such rules must be avoided.
