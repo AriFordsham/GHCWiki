@@ -70,11 +70,11 @@ For building the documentation (User's Guide):
 other packages that are useful for development:
 
 ```wiki
-   sudo apt-get install linux-tools-generic
+   sudo apt-get install linux-tools-generic xutils-dev
 ```
 
 
-(includes `perf`, see [Debugging/LowLevelProfiling/Perf](debugging/low-level-profiling/perf))
+The package `linux-tools` includes `perf`, see [Debugging/LowLevelProfiling/Perf](debugging/low-level-profiling/perf). The package `xutils-dev` provides the `lndir` program, see [Building/Using](building/using).
 
 ## Arch
 

@@ -64,10 +64,10 @@ For building the documentation (User's Guide):
 other packages that are useful for development:
 
 {{{
-   sudo apt-get install linux-tools-generic
+   sudo apt-get install linux-tools-generic xutils-dev
 }}}
 
-(includes `perf`, see [wiki:Debugging/LowLevelProfiling/Perf])
+The package `linux-tools` includes `perf`, see [wiki:Debugging/LowLevelProfiling/Perf]. The package `xutils-dev` provides the `lndir` program, see [wiki:Building/Using].
 
 == Arch ==
 
