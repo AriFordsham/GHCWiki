@@ -1,4 +1,4 @@
-This page is intended for practical notes on why list functions and rules are written as they are, why they're not written other ways, ideas about what will/won't fuse properly and why, and descriptions of issues affecting fusion. It will also have open questions of various sorts.
+This page is intended for practical notes on why list functions and rules are written as they are, why they're not written other ways, ideas about what will/won't fuse properly and why, and descriptions of issues affecting fusion. It will also have open questions of various sorts. It's currently a bit disorganized; hopefully someone will find a way to set it in order.
 
 Q: I know that `foldr/build` fusion is not always safe in the presence of `seq` (and `pseq`, strict fields, bang patterns, etc.). What exactly do I need to know about this when writing functions I want GHC to fuse safely? [There are other contexts it can be used in program construction, but those are not relevant here]
 
@@ -9,7 +9,7 @@ A: The type checker will take care of a lot of things for you; your only job is 
 Zeroeth approximation: The function you pass to `build` should not, directly or indirectly, use `seq` (or similar). This is certainly safe, but much too restrictive. As a trivial example,
 
 {{{#!hs
-f !x = build (\c n -> x `c` n)
+f x = build (\c n -> x `seq` x `c` n)
 }}}
 
 violates this rule, but is perfectly safe.
@@ -100,3 +100,7 @@ A1: When something appears as the outermost name in a rule LHS, the inliner will
 }}}
 
 makes the `(:)` constructor look "interesting", and this leads to poor performance all over the place. It may be possible to modify the compiler to fix this problem, but until then all such rules must be avoided.
+
+Q: Why is fusing a numeric range like `[1..10000] :: [Int]` sometimes a bad idea?
+
+A: (adapted from explanations by Simon Peyton-Jones and others): If the list is used multiple times, and the numbers ''don't'' get unboxed, then fusion prevents those boxes from being shared. So instead of allocating one list and one set of boxes, the program will allocate zero lists and many sets of boxes. If the list is of `Integer`s, it's much more likely that sharing the list is a good idea.
