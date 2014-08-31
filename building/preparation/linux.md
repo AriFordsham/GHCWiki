@@ -70,7 +70,7 @@ For building the documentation (User's Guide):
 other packages that are useful for development:
 
 ```wiki
-   sudo apt-get install linux-tools
+   sudo apt-get install linux-tools-generic
 ```
 
 
