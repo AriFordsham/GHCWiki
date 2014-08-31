@@ -135,3 +135,9 @@ A1: When something appears as the outermost name in a rule LHS, the inliner will
 
 
 makes the `(:)` constructor look "interesting", and this leads to poor performance all over the place. It may be possible to modify the compiler to fix this problem, but until then all such rules must be avoided.
+
+
+Q: Why is fusing a numeric range like `[1..10000]` sometimes a bad idea?
+
+
+A: (adapted from explanations by Simon Peyton-Jones and others): If the list is used multiple times, and the numbers *don't* get unboxed, then fusion prevents those boxes from being shared. So instead of allocating one list and one set of boxes, the program will allocate zero lists and many sets of boxes.
