@@ -2,7 +2,7 @@
 This page is intended for practical notes on why list functions and rules are written as they are, why they're not written other ways, ideas about what will/won't fuse properly and why, and descriptions of issues affecting fusion. It will also have open questions of various sorts. It's currently a bit disorganized; hopefully someone will find a way to set it in order.
 
 
-Q: I know that `foldr/build` fusion is not always safe in the presence of `seq` (and `pseq`, strict fields, bang patterns, etc.). What exactly do I need to know about this when writing functions I want GHC to fuse safely? \[There are other contexts it can be used in program construction, but those are not relevant here\]
+Q: I know that `foldr/build` fusion is [ not always safe](http://www.haskell.org/haskellwiki/Correctness_of_short_cut_fusion#In_the_presence_of_seq) in the presence of `seq` (and `pseq`, strict fields, bang patterns, etc.). What exactly do I need to know about this when writing functions I want GHC to fuse safely? \[There are other contexts it can be used in program construction, but those are not relevant here\]
 
 
 A: The type checker will take care of a lot of things for you; your only job is to be careful about how the function you pass to `build` (or `augment`) uses its arguments or things constructed from its arguments.
