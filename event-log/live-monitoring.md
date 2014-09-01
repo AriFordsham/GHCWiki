@@ -1,10 +1,10 @@
 # Live profiling via RTS and ghc-events project
 
 
-This wiki page is for the project by Karolis Velicka \<karolis.velicka at google's email service\> that he is working on in Microsoft Research in the summer of 2014.
+This wiki page is for the project by Karolis Velicka \<karolis.velicka at google's email service\> that I carried out when working for Microsoft Research in the summer of 2014.
 
 
-This wiki page documents my current understanding of the system, plans for improving it, progress reports and assorted notes from meting that are relevant to the topic. 
+This wiki page documents my current understanding of the system, the new API, the changes that I've made and plans for future work (sometimes including points to consider.
 
 
 In case you find some flaws in my understanding, something that you disagree with or statements that are outright wrong, please do contact me. Any other contributions/advice/edits are very welcome!
@@ -38,35 +38,6 @@ Basic demo of live monitoring using above new features:
 - demo CLI 'monitored' prog that uses the RTS APIs to direct its eventlog to a local FIFO, emit the various sync events. Perhaps interactive to exercise turning the eventlog on/off, enabling/disabling various event classes.
 - demo CLI 'monitoring' prog that uses the new ghc-events lib to start reading and decoding the event stream.
 - Proof-of-concept EKG-like functionality would be to emit mem/GC summary stats lines every second.
-
-### Goals that have been added later
-
-- Move the link between RTS and ghc-events into a separate library where both a client-server (see below) and file based implementations of the "link" could be stored.
-
-## Architecture
-
-```wiki
- +---------+                                +--------------------+
- |         |                                |                    |
- | Program |                                |      Consumer      |
- |         |                                | (e.g. Threadscope) |
- +---------+                                |                    |
- |         |                                +--------------------+
- |   RTS   |                                |    ghc-events      |
- |         |                                |                    |
- +----+----+                                |                    |
-      |                                     +--------------------+
-      |         +----------------------+                          
-      |         |                      |              ^           
-      +-------> |  Middleware library  |              |           
-                |  (working title Foo) +--------------+           
-                |                      |                          
-                +----------------------+                          
-
-```
-
-
-Foo is an abstraction / library (or libraries) that will use the new API of RTS to connect with ghc-events. It could happen via a file, socket or any other means, depending on the implementation.
 
 ## Notes from meetings
 
