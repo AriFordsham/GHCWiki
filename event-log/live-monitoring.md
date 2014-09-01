@@ -41,79 +41,22 @@ Basic demo of live monitoring using above new features:
 
 ## Notes from meetings
 
-### Initial
-
 - In current state, RTS writes to the eventlog asynchronously.
-- Need a new module in RTS for start/stop event logging
-- RTS and GHC.RTS talk together via foreign ccalls
 - Start/stop of logging would need to stop the HECs for sync. Need to measure the performance of this
+- Peter: Stop HECs for sync: Could request a global GC for this? That gives you RTS-wide synchronization for free, and doing a GC is probably (?) cheap enough.
 - During this we need to traverse threads in struct generation_, they are in global variable called generations. Also look into StgTSO (thread structures)
 - Flushing only needs to flush inactive buffers (that are also not empty)
 - Possibly add some GC events (some are currently in tracegc at the moment):
 
   - heap size
   - heap live
-- RTS broadcasts on demand once a client connects
-- Sockets seem to be appropriate for live monitoring 
-
-### 09/07/2014 (Duncan)
-
 - Start/stop of streaming is different from the "sync events" mentioned in goals
-- The details for the middleware library (Foo) are not that relevant now, focus should be on RTS level
-- Available event classes are in Trace.h
-- cassava CSV library is a good example that uses an incremental parser
-- ErrorT may no longer be necessary (at least in the case of ErrorT String)
-- Need info on events w.r.t. blocks and capabilities for the purpose of sorting  
-- Eventlogs are comprised of event blocks that belong to a certain capability plus some global events
-- Look at Trace.{h, c}
-- Trace has two levels:
+- Tracing has two levels:
 
   - "Tracing" - more general, prints to stderr, used for debugging
   - "Event" - lives in RTS/Eventlog, used for writing \*.eventlog files
-- Need to read/understand:
-
-  - includes/rts/EventLogFormat.h
-  - [EventLog](event-log).{h, c}
-
-### 25/07/14 (Peter)
-
-- Stop HECs for sync: Could request a global GC for this? That gives you RTS-wide synchronization for free, and doing a GC is probably (?) cheap enough.
-- Random thought: The "tracing" / "eventlog" split feels like a bit of a relic. Maybe we could now replace the tracing back-end that reads the event-log via socket and produces the old tracing messages? Probably out of scope for you, but this is where we might be going at some point.
-- enableEvents needs room for arguments as well as "flags". Context (edited for brevity):
-
-  ```wiki
-  kvelicka:
-  - enableEvents / disableEvents: Don't want to make it more complicated than it needs to be, but for profiling I would have a good couple of different configurations, not even counting configurable sampling delays. Is there a strong reason that we need to make the interface a bit map? Also - wouldn't it be make more sense if the consumer could decide what messages it wants to receive?
-  are you suggesting that there's no reason for this currently? or is it something about bit vectors specifically that you don't like?
-
-  petermw:
-  Hm, maybe the other way around - what was the intended use for those functions? We are talking essentially about "+RTS -ls", right?
-  So the idea here is that this RTS option calls these functions, and then does what?
-  Suppresses the messages? Wouldn't it be easier to make sure the messages aren't generated in the first place?
-  Bottom line is maybe that I'm a bit confused why this is in the interface to begin with. Only reason I could think of is that you intended to have a central place to change these settings at run-time :)
-
-  kvelicka:
-  having everything in one place makes it easier to run the thing, especially if you want to change the event logger settings on the same running program
-
-  petermw:
-  https://github.com/scpmw/ghc/blob/profiling-ncg/rts/RtsFlags.c#L1657
-  This is what reads these flags currently
-  So the idea here is that instead of, say, "RtsFlags.TraceFlags.scheduler = rtsTrue" we compose some sort of bitmap, then pass it to the eventlog, which presumably unpacks it and sets the very same flag? :)
-  Well, for my profiling I have options like "-Ey100000"
-  Which would activate generation of cycle sampling messages with a period of 100000 cycles
-  That's not something that would fit into a simple "on/off" scheme
-  It's a flag with arguments essentially. I would like something along the lines of enableEvents(type, param, ...) and disableEvents(type) more
-  The "full" parameterisation here would be enableEvents(ET_SAMPLES, SAMPLE_INSTRUCTION_POINTER, SAMPLE_BY_SAMPLES, 100000);
-  Because theoretically we might also sample by cost-centres - and I probably wouldn't want another "type" for every single performance metric that perf_events offers
-  ```
+- enableEvents needs room for arguments as well as "flags". 
 - Event should hold its parent Capability in itself, having CapEvents is redundant (may be out of scope for my project)
-- Headers are not used by users of ghc-events 
-
-
-Possible solutions to remove EventBlock: 
-
-- Yeah, the easiest implementation would be IORef (Seq CapEvent), or something along those lines
-- Maybe IORef \[CapEvent\] is enough as well
 
 ## Proposed APIs
 
@@ -248,7 +191,7 @@ flushEventLog(int ms);
 ```
 
 
-ghc/base side:
+Haskell implementation:
 
 ```wiki
 initEventLogging:: IO()
