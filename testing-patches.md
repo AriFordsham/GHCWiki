@@ -116,16 +116,13 @@ Set up your repos like this:
 ```wiki
 $ git clone git://git.haskell.org/ghc.git ghc-working
 $ cd ghc-working
-$ ./sync-all --no-dph get
+$ ./sync-all get
 $ cd ..
 $ git clone ghc-working ghc-validate
 $ cd ghc-validate
-$ ./sync-all --no-dph get
-
-$ ./sync-all -r git://git.haskell.org remote set-url origin
-  # Get the dph libraries too
 $ ./sync-all get
 $ ./sync-all -r `pwd`/../ghc-working remote add working
+$ ./sync-all -r git://git.haskell.org remote set-url origin
 $ ./sync-all -r ssh://git@git.haskell.org remote set-url --push origin
 ```
 
