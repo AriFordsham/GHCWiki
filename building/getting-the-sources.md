@@ -121,7 +121,7 @@ To check out a specific version of GHC, run
   $ git clone http://git.haskell.org/ghc.git
   $ cd ghc
   $ git checkout <tag>
-  $ ./sync-all --no-dph get
+  $ ./sync-all get
 ```
 
 
@@ -131,7 +131,7 @@ For checking out a tag after you have already done `./sync-all [OPTIONS] get`
   $ shopt -s extglob
   $ rm -rf !(.git)
   $ git checkout -f <tag>
-  $ ./sync-all --no-dph get
+  $ ./sync-all get
 ```
 
 ## Getting a GHC repository from GitHub
