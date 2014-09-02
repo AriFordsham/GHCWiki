@@ -8,9 +8,6 @@ In case you find some flaws in my understanding, something that you disagree wit
 
 == Goals == 
 
-=== Initial Goals ===
-As set out by [http://www.well-typed.com/people/duncan Duncan Coutts]:
-
 In the RTS:
 * Allow turning event logging on/off as a whole at runtime.
 * Allow turning on/off individual classes of events at runtime.
@@ -28,27 +25,17 @@ Basic demo of live monitoring using above new features:
 * demo CLI 'monitoring' prog that uses the new ghc-events lib to start reading and decoding the event stream.
 * Proof-of-concept EKG-like functionality would be to emit mem/GC summary stats lines every second.
 
-== Notes from meetings ==
+== Implemented changes ==
 
-* In current state, RTS writes to the eventlog asynchronously.
-* Start/stop of logging would need to stop the HECs for sync. Need to measure the performance of this
-* Peter: Stop HECs for sync: Could request a global GC for this? That gives you RTS-wide synchronization for free, and doing a GC is probably (?) cheap enough.
-* During this we need to traverse threads in struct generation_, they are in global variable called generations. Also look into StgTSO (thread structures)
-* Flushing only needs to flush inactive buffers (that are also not empty)
-* Possibly add some GC events (some are currently in tracegc at the moment):
-  * heap size
-  * heap live
-* Start/stop of streaming is different from the "sync events" mentioned in goals
-* Tracing has two levels:
-  * "Tracing" - more general, prints to stderr, used for debugging
-  * "Event" - lives in RTS/Eventlog, used for writing *.eventlog files
-* enableEvents needs room for arguments as well as "flags". 
-* Event should hold its parent Capability in itself, having CapEvents is redundant (may be out of scope for my project)
+* Implemented an incremental parser for ghc-events
+* Made the code compile on both 7.8 and 7.9
+* Removed the ErrorT instances (Get has its own fail method now)
+* Added an incomplete .eventlog file to the test suite to test incremental parsing
+* Cleaned some of the code with hlint
 
 
-== Proposed APIs ==
 
-=== ghc-events ===
+=== API for ghc-events ===
 
 Client API relevant to real-time event monitoring.  The full API is larger; you can find it in the [https://hackage.haskell.org/package/ghc-events ghc-events library documentation].
 
@@ -124,7 +111,7 @@ data CapEvent
 
 }}}
 
-=== RTS ===
+== Proposed RTS event logging API ==
 
 C side:
 {{{#!c 
@@ -207,3 +194,22 @@ setDestination:: Fd -> IO()
 -- <...> 
 -- equivalent to functions on C side
 }}}
+
+== Misc Notes ==
+
+=== Implementation concerns ===
+
+* In current state, RTS writes to the eventlog asynchronously.
+* Start/stop of logging would need to stop the HECs for sync. Need to measure the performance of this
+* Peter: Stop HECs for sync: Could request a global GC for this? That gives you RTS-wide synchronization for free, and doing a GC is probably (?) cheap enough.
+* During this we need to traverse threads in struct generation_, they are in global variable called generations. Also look into StgTSO (thread structures)
+* Flushing only needs to flush inactive buffers (that are also not empty)
+* Possibly add some GC events (some are currently in tracegc at the moment):
+  * heap size
+  * heap live
+* Start/stop of streaming is different from the "sync events" mentioned in goals
+* Tracing has two levels:
+  * "Tracing" - more general, prints to stderr, used for debugging
+  * "Event" - lives in RTS/Eventlog, used for writing *.eventlog files
+* enableEvents needs room for arguments as well as "flags". 
+* Event should hold its parent Capability in itself, having CapEvents is redundant (may be out of scope for my project)
