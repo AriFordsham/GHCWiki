@@ -57,6 +57,10 @@ The following Git URL rewrite rules (which need to be configured only once as th
 
 {{{#!sh 
 git config --global url."ssh://git@git.haskell.org/".pushInsteadOf git://git.haskell.org/ 
+}}}
+
+{{{#!comment
+# This doesn't seem to work, it seems to override the setting above
 
 # If you want to cover all bases, you can also set the following rewrite rules
 git config --global url."ssh://git@git.haskell.org/".pushInsteadOf http://git.haskell.org/ 

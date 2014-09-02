@@ -69,10 +69,6 @@ The following Git URL rewrite rules (which need to be configured only once as th
 
 ```
 git config --global url."ssh://git@git.haskell.org/".pushInsteadOf git://git.haskell.org/ 
-
-# If you want to cover all bases, you can also set the following rewrite rules
-git config --global url."ssh://git@git.haskell.org/".pushInsteadOf http://git.haskell.org/ 
-git config --global url."ssh://git@git.haskell.org/".pushInsteadOf https://git.haskell.org/ 
 ```
 
 
