@@ -33,6 +33,26 @@ This wiki page documents my current understanding of the system, the new API, th
 * Added an incomplete .eventlog file to the test suite to test incremental parsing
 * Cleaned some of the code with hlint
 
+=== RTS === 
+None
+
+== Next steps ==
+
+Functions to implement:
+* pullOutHeader :: EPS -> Maybe Header
+* writeEvtLog :: Header -> [Event] -> IO ()
+
+For next release (0.5.0):
+    * compile ThreadScope
+    * fix writing to files and check for identity on output (not necessarily in binary)
+    * ensure merge works
+    * check performance against 0.4.3 on parsing full logs (including sorting e.g. events show)
+
+
+Other:
+* need to rework the writing so that we generate block markers. we want the same output, but not necessarily the same binary.
+* double check the quicksort - ghc-events's implementation may be more efficient
+* could be useful to get input in blocks rather than individual events
 
 
 === API for ghc-events ===
