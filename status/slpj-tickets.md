@@ -68,7 +68,6 @@ See also [TemplateHaskell](template-haskell)
 
 ## Demand analysis and CSE
 
-- [\#9128](https://gitlab.haskell.org//ghc/ghc/issues/9128): Absent argument entered. Bad bug, but hard to reproduce.
 - [\#6070](https://gitlab.haskell.org//ghc/ghc/issues/6070), [\#5949](https://gitlab.haskell.org//ghc/ghc/issues/5949), [\#5775](https://gitlab.haskell.org//ghc/ghc/issues/5775), [\#4267](https://gitlab.haskell.org//ghc/ghc/issues/4267), [\#5302](https://gitlab.haskell.org//ghc/ghc/issues/5302), [\#6087](https://gitlab.haskell.org//ghc/ghc/issues/6087): Demand analysis
 - [\#5075](https://gitlab.haskell.org//ghc/ghc/issues/5075), [\#3138](https://gitlab.haskell.org//ghc/ghc/issues/3138): CPR for sum types (mostly done, needs finishing)
 - [\#2289](https://gitlab.haskell.org//ghc/ghc/issues/2289), [\#2387](https://gitlab.haskell.org//ghc/ghc/issues/2387), [\#1600](https://gitlab.haskell.org//ghc/ghc/issues/1600), [\#1885](https://gitlab.haskell.org//ghc/ghc/issues/1885): nested CPR analysis
