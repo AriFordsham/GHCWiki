@@ -1,14 +1,13 @@
 = Live profiling via RTS and ghc-events project =
 
-This wiki page is for the project by Karolis Velicka <karolis.velicka at google's email service> that I carried out when working for Microsoft Research in the summer of 2014.
+This wiki page is for my (Karolis Velicka <karolis.velicka at google's email service>) project that I carried out when working for Microsoft Research in the summer of 2014.
 
-This wiki page documents my current understanding of the system, the new API, the changes that I've made and plans for future work (sometimes including points to consider.
+In short, the goal of the project is to improve the GHC RTS and [http://hackage.haskell.org/package/ghc-events ghc-events] library to allow for real-time profiling of programs. As a side effect, the changes will also enable the handling of arbitrary sized .eventlog files as well as parsing of them even if they are incomplete (e.g. following a crash). 
 
-In case you find some flaws in my understanding, something that you disagree with or statements that are outright wrong, please do contact me. Any other contributions/advice/edits are very welcome!
+This wiki page documents my current understanding of the system, the new API, the changes that I've made, and plans for future work. In case you find some flaws in my understanding, something that you disagree with or statements that are outright wrong, please do contact me. Any other contributions/advice/edits are very welcome!
 
 == Goals == 
-
-In the RTS:
+=== RTS ===
 * Allow turning event logging on/off as a whole at runtime.
 * Allow turning on/off individual classes of events at runtime.
 * Allow redirecting the eventlog output from a file to an arbitrary FD. (Interesting policy Q: what to do when sending out the eventlog blocks...)
@@ -17,16 +16,17 @@ In the RTS:
 * Alternatively to the above, or as well, allow setting the per-cap eventlog buffer size.
 * Haskell APIs for all the RTS features above.
 
-In ghc-events library:
+=== ghc-events ===
 * redo the binary parser to be incremental both on input and output: that is allow supplying input chunk by chunk, and getting parsed events out for the data already supplied. This should be doable using the current version of the binary library.
 
-Basic demo of live monitoring using above new features:
+=== Basic demo of live monitoring using above new features ===
 * demo CLI 'monitored' prog that uses the RTS APIs to direct its eventlog to a local FIFO, emit the various sync events. Perhaps interactive to exercise turning the eventlog on/off, enabling/disabling various event classes.
 * demo CLI 'monitoring' prog that uses the new ghc-events lib to start reading and decoding the event stream.
 * Proof-of-concept EKG-like functionality would be to emit mem/GC summary stats lines every second.
 
 == Implemented changes ==
 
+=== ghc-events ===
 * Implemented an incremental parser for ghc-events
 * Made the code compile on both 7.8 and 7.9
 * Removed the ErrorT instances (Get has its own fail method now)
@@ -173,7 +173,7 @@ setBufferSize(int sz);
 //    Section 4.17.6, the -lclass flag
 // The list above may be out of date, refer to $ghc_source/rts/Trace.h for all 
 // currently available event classes
-// TODO: map bits to event classes
+// TODO: NB: enableEvents needs room for arguments as well as "flags". 
 enableEvents(long EventClasses);
 disableEvents(long EventClasses);
 
@@ -201,7 +201,7 @@ setDestination:: Fd -> IO()
 
 * In current state, RTS writes to the eventlog asynchronously.
 * Start/stop of logging would need to stop the HECs for sync. Need to measure the performance of this
-* Peter: Stop HECs for sync: Could request a global GC for this? That gives you RTS-wide synchronization for free, and doing a GC is probably (?) cheap enough.
+  * Peter: Stop HECs for sync: Could request a global GC for this? That gives you RTS-wide synchronization for free, and doing a GC is probably (?) cheap enough.
 * During this we need to traverse threads in struct generation_, they are in global variable called generations. Also look into StgTSO (thread structures)
 * Flushing only needs to flush inactive buffers (that are also not empty)
 * Possibly add some GC events (some are currently in tracegc at the moment):
@@ -211,5 +211,3 @@ setDestination:: Fd -> IO()
 * Tracing has two levels:
   * "Tracing" - more general, prints to stderr, used for debugging
   * "Event" - lives in RTS/Eventlog, used for writing *.eventlog files
-* enableEvents needs room for arguments as well as "flags". 
-* Event should hold its parent Capability in itself, having CapEvents is redundant (may be out of scope for my project)
