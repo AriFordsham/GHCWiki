@@ -92,7 +92,7 @@ Having explained our terms with the current Haskell, the proposed set of quantif
 <tr><th>`forall (...) .`</th>
 <th> Yes </th>
 <th> No (unification) </th>
-<th> No (FVs + Rel.I.) </th>
+<th> No (FVs) </th>
 <th> No 
 </th></tr>
 <tr><th>`forall (...) ->`</th>
@@ -104,7 +104,7 @@ Having explained our terms with the current Haskell, the proposed set of quantif
 <tr><th>`pi (...) .`</th>
 <th> Yes </th>
 <th> No (unification) </th>
-<th> No (FVs + Rel.I.) </th>
+<th> Yes </th>
 <th> Yes 
 </th></tr>
 <tr><th>`pi (...) ->`</th>
@@ -133,10 +133,10 @@ Note that the current quantifiers remain and with their original meanings. This 
 The new `pi` quantifiers allow for quantifiees that are both dependent and relevant. This means that the quantifiee is named in the type and can be used within its scope in the type, and also that the quantifiee can be inspected in the term. A `pi`-bound argument is a proper dependent type. Since a `pi`-quantifiee can appear in both terms and types, its instantiations must come from a restricted subset of Haskell that makes sense at both the type and term level. This issue is addressed in [Adam Gundry's thesis](dependent-haskell#). For now, we propose that this subset include only data constructors (perhaps applied) and other `pi`-quantifiees. The subset can be expanded later. For some tantalizing ideas of how far it can go, see [this paper](dependent-haskell#), discussing promotion of Haskell terms to types.
 
 
-The table above has a new abbreviation: *Rel.I.* is short for *relevance inference*. When a type variable is used in a type without an explicit quantification, should it be `forall`-quantified or `pi`-quantified? Choosing `forall` quantification means that the type can be erased during compilation, while `pi` quantification is more powerful. Thus, we can't just have a default. We must infer the relevance of the type variable, by looking at its use sites. This seems actually quite straightforward, and is remarkably similar to role inference. (Indeed, the phantom role seems to correspond quite closely to an irrelevant argument. There is Something Interesting here -- yet another way that roles and parametricity relate.)
-
-
 It is tempting to treat `->` as a degenerate form of a `pi` -- something like `pi (_ :: ...) ->`. However, this is slightly misleading, in that `->` quantifies over *any* Haskell term, and `pi` quantifies over only the shared term/type subset.
+
+
+Declarations given without a type signature will need to perform *relevance inference* to figure out whether quantified variables should be `forall`-bound or `pi`-bound. Relevance inference simply looks at usage sites; iff a variable is used in a relevant context (scrutinee of a pattern-match, or passed to a function expecting a relevant argument, among others) then it is relevant. It is tempting to perform relevance inference if the nature of a quantifier is omitted in a type signature, but this would make the type signature's meaning depend on the term, which is annoying. For now, we're saying "no". But, it would be good to revisit this decision in light of partial type signatures, which also make type signatures depend on terms.
 
 ### Quantifiers in kinds
 
