@@ -55,8 +55,7 @@ section 3.2 of [ Patrick Maier's IFL'11 paper](http://www.dcs.gla.ac.uk/~pmaier/
 ## Mathieu Boespflug at TweagIO
 
 
-Mathieu and Facundo Domínguez have implemented a GHC extension called
-"[StaticValues](static-values)".
+Mathieu and Facundo Domínguez have implemented a GHC extension called [StaticPointers](static-pointers).
 
 
 Here's the [ user manual](https://github.com/tweag/ghc/commit/105929e0280f20f2a0f153e380c40cdb2bd9c79c)
