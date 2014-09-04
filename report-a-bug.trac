@@ -23,7 +23,7 @@ The following cause an internal error (panic) and are already fixed in the devel
 
  * Take a look at the [http://haskell.org/haskellwiki/GHC/FAQ FAQ] and [http://www.haskell.org/ghc/docs/latest/html/users_guide/wrong.html What to do when something goes wrong] from the GHC User's Guide, which will give you some guidance as to whether the behaviour you're seeing is really a bug or not.
 
- * Please search for existing tickets on the [http://hackage.haskell.org/trac/ghc bug tracker] or [http://www.google.com/?q=ghc.haskell.org/trac/ghc/ticket%20 Google].  It saves time to have all the manifestations of the same bug gathered together.  If you get an error message from GHC, a good search key is usually the non-program-specific part of the error message.  
+ * Please search for existing tickets on the [http://hackage.haskell.org/trac/ghc bug tracker] or [http://www.google.com/?q=site:ghc.haskell.org/trac/ghc/ticket%20 Google].  It saves time to have all the manifestations of the same bug gathered together.  If you get an error message from GHC, a good search key is usually the non-program-specific part of the error message.  
 
  * If you do find an existing ticket that seems to describe the same problem, then
     * Add a comment that explains how it manifests for you, and add your description of how to reproduce it (see below)
