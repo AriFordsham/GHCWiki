@@ -88,7 +88,7 @@ See also [TemplateHaskell](template-haskell)
 - [\#8335](https://gitlab.haskell.org//ghc/ghc/issues/8335): more gc entry points
 - [\#8336](https://gitlab.haskell.org//ghc/ghc/issues/8336): sinking pass does not sink
 - [\#8327](https://gitlab.haskell.org//ghc/ghc/issues/8327): dead code (in heap checks) not eliminated by C--
-- [\#8317](https://gitlab.haskell.org//ghc/ghc/issues/8317), [\#8326](https://gitlab.haskell.org//ghc/ghc/issues/8326): don't push heapchecks into case branches too aggressively
+- [\#8317](https://gitlab.haskell.org//ghc/ghc/issues/8317), [\#8326](https://gitlab.haskell.org//ghc/ghc/issues/8326): don't push heapchecks into case branches too aggressively.  This is closely related to work Jan Stolarek did on unboxed booleans.
 - [\#8308](https://gitlab.haskell.org//ghc/ghc/issues/8308): resurrect ticky histograms
 - [\#8321](https://gitlab.haskell.org//ghc/ghc/issues/8321): branch prediction for stack/heap checks for LLVM
 - [\#8279](https://gitlab.haskell.org//ghc/ghc/issues/8279): alignment and its effect on performance
