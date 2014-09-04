@@ -56,13 +56,13 @@ section 3.2 of [ Patrick Maier's IFL'11 paper](http://www.dcs.gla.ac.uk/~pmaier/
 
 
 Mathieu and Facundo Domínguez have implemented a GHC extension called
-"[StaticValues](static-values)".
+"[StaticValues](static-values)".  There is a [GHC wiki page](static-pointers) about it.
 
 
 Here's the [ user manual](https://github.com/tweag/ghc/commit/105929e0280f20f2a0f153e380c40cdb2bd9c79c)
 
 
-Here's [ https://github.com/tweag/ghc/pull/1](https://github.com/tweag/ghc/pull/1) all the commits (to be merged with GHC?):
+Here's [ all the commits](https://github.com/tweag/ghc/pull/1) (to be merged with GHC?).
 
 
 Mathieu is going to be talking about his serialisation approach on
