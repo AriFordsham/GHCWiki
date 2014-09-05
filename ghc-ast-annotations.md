@@ -18,6 +18,8 @@ The motivation for this change is then
 
 1. Aim for some level compatibility with haskell-src-exts so that tools developed for it could be easily ported to GHC, for example [ exactPrint](http://hackage.haskell.org/package/haskell-src-exts-1.15.0.1/docs/Language-Haskell-Exts-Annotated-ExactPrint.html#v:exactPrint).
 
+1. Allow simple round-tripping of code via a GHC variant of [ hindent](https://hackage.haskell.org/package/hindent)
+
 ## Richard Eisenberg response
 
 
