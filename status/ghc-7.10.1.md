@@ -12,6 +12,10 @@ See [milestone:7.10.1](/trac/ghc/milestone/7.10.1) and [ Active tickets](https:/
 
 - **[ApplicativeDo](applicative-do)** - Now that `Applicative` is a superclass of `Monad`, Simon Marlow has plans to implement a new extension for GHC, which will allow `do` notation to be used in the context of `Applicative`, not just `Monad`.
 
+- **Strict language extension**.  Johan Tibell is working on a `-XStrict` language extension that will make GHC compile programs in a by-default strict way.  Details here?.
+
+- **Cloud Haskell statics**.  Mathieu Boespflug and Facundo Domínguez at TweagIO are working on support for Cloud Haskell's `static` feature.  [Details here](static-pointers).
+
 - **Overloaded record fields** - In 2013, Adam Gundry implemented the new `-XOverloadedRecordFields` extension for GHC, described on the wiki [OverloadedRecordFields](overloaded-record-fields). This will finally be available in GHC 7.10.
 
 - **Kinds without Data** - Trevor Elliott, Eric Mertens, and Iavor Diatchki have began implementing support for "data kind" declarations, described in more detail on the GHC wiki \[KD\]. The idea is to allow a new form of declaration that introduces a new kind, whose members are described by the (type) constructors in the declaration. This is similar to promoting data declarations, except that no new value-level-constructors are declared, and it also allows the constructors to mention other kinds that do not have corresponding type-level representation (e.g., \*). 
