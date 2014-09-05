@@ -12,7 +12,7 @@ See [milestone:7.10.1](/trac/ghc/milestone/7.10.1) and [ Active tickets](https:/
 
 - **[ApplicativeDo](applicative-do)** - Now that `Applicative` is a superclass of `Monad`, Simon Marlow has plans to implement a new extension for GHC, which will allow `do` notation to be used in the context of `Applicative`, not just `Monad`.
 
-- **Strict language extension**.  Johan Tibell is working on a `-XStrict` language extension that will make GHC compile programs in a by-default strict way.  [Details here](language-strict).
+- **Strict language extension**.  Johan Tibell is working on a `-XStrict` language extension that will make GHC compile programs in a by-default strict way.  Details here?.
 
 - **Cloud Haskell statics**.  Mathieu Boespflug and Facundo Domínguez at TweagIO are working on support for Cloud Haskell's `static` feature.  [Details here](static-pointers).
 
