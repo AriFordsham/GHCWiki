@@ -1,5 +1,7 @@
 [[PageOutline]]
 
+TESTING RELIABILITY OMG
+
 = Using Phabricator for GHC development =
 
 [http://phabricator.org Phabricator] (AKA "Phab") is a suite of tools for software development, initially developed by Facebook. It consists of a suite of applications which are useful for the entire software development lifecycle, but for GHC specifically, '''Phabricator is a code review tool''', and we use it to read and accept patches from contributors - both new ones, and existing ones.
