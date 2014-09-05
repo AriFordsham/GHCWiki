@@ -43,7 +43,7 @@ Here are our [release](working-conventions/releases) plans for
 ## Open Tickets
 
 
-An overview of the number of [open tickets](status/tickets) by component.
+An overview of the number of [open tickets](/trac/ghc/wiki/Status/Tickets) by component.
 
 ## SPJ Tickets
 
