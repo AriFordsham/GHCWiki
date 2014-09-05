@@ -37,7 +37,10 @@ Here are our [WorkingConventions/Releases release] plans for
   * [wiki:Status/GHC-7.10.1 GHC 7.10.1]
 
 == Open Tickets ==
-An overview of the number of [wiki:Status/Tickets open tickets] by component.
+{{{
+#!html
+An overview of the number of <a rel="nofollow" href="/trac/ghc/wiki/Status/Tickets">open tickets</a> by component.
+}}}
 
 == SPJ Tickets ==
 
