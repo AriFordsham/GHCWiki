@@ -95,6 +95,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
 
 - Notes on proposed or in progress (but out of tree) GHC compiler features:
 
+  - Making Haskell strict?
   - [Source-locations on HsSyn](ghc-ast-annotations)
   - [How GHC inter-operates with Cabal](cabal-dependency) and [Backpack](backpack)
   - [StaticValues](static-values) and ticket [\#7015](https://gitlab.haskell.org//ghc/ghc/issues/7015)
