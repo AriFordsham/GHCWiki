@@ -40,7 +40,7 @@ In order to see emails below, **you must login**.
 - [ Ben Gamari](http://bgamari.github.com/)
 
   - University of Massachusetts - Amherst, MA
-  - **Trac**: !bgamari; **email**: bgamari.foss@…; **github**: [ https://github.com/bgamari](https://github.com/bgamari)
+  - **Trac**: bgamari; **email**: bgamari.foss@…; **github**: [ https://github.com/bgamari](https://github.com/bgamari)
   - **Committer since**: September, 2014.
   - **Main areas of interest**: ARM support, LLVM backend
 
