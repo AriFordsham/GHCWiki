@@ -22,7 +22,6 @@ We have several automated ways of monitoring GHC.  Each has its own detailed des
 
 - 
   An overview of the number of [open tickets](/trac/ghc/wiki/Status/Tickets) by component.
-
 - A curation of interesting tickets by SPJ, not discoverable otherwise on the wiki: [Status/SLPJ-Tickets](status/slpj-tickets)
 
 ## Biannual status reports
