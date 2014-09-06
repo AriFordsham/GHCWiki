@@ -8,6 +8,24 @@ We have several automated ways of monitoring GHC.  Each has its own detailed des
  * [http://ghcspeed-nomeata.rhcloud.com Our performance dashboard] (experimental) monitors changes in the performance of GHC itself, and of programs compiled by GHC, with a per-commit granularity.
  * [https://phabricator.haskell.org/harbormaster Harbormaster] is a part of Phabricator, which builds all GHC commits and incoming patches for testing. To find out more, see the wiki:Phabricator/Harbormaster page.
 
+
+== Releases ==
+
+Here are our [WorkingConventions/Releases release] plans for
+
+  * [wiki:Status/GHC-7.8.4 GHC 7.8.4]
+  * [wiki:Status/GHC-7.10.1 GHC 7.10.1]
+
+== Open Tickets ==
+{{{
+#!html
+An overview of the number of <a rel="nofollow" href="/trac/ghc/wiki/Status/Tickets">open tickets</a> by component.
+}}}
+
+== SPJ Tickets ==
+
+A curation of interesting tickets by SPJ, not discoverable otherwise on the wiki: [wiki:Status/SLPJ-Tickets]
+
 == Biannual status reports ==
 
 Here are biannual GHC status reports, published in the [http://haskell.org/communities/ Haskell Communities and Activities Report]
@@ -28,20 +46,3 @@ Here are biannual GHC status reports, published in the [http://haskell.org/commu
   * [wiki:Status/Nov07 GHC status November 2007]
   * [wiki:Status/April07 GHC status April 2007]
   * [wiki:Status/October06 GHC status October 2006]
-
-== Releases ==
-
-Here are our [WorkingConventions/Releases release] plans for
-
-  * [wiki:Status/GHC-7.8.4 GHC 7.8.4]
-  * [wiki:Status/GHC-7.10.1 GHC 7.10.1]
-
-== Open Tickets ==
-{{{
-#!html
-An overview of the number of <a rel="nofollow" href="/trac/ghc/wiki/Status/Tickets">open tickets</a> by component.
-}}}
-
-== SPJ Tickets ==
-
-A curation of interesting tickets by SPJ, not discoverable otherwise on the wiki: [wiki:Status/SLPJ-Tickets]
