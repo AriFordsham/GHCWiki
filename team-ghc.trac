@@ -2,7 +2,7 @@
 
 [[PageOutline]]
 
-GHC is the result of many peoples hard work, and this page gives detail on exactly who is responsible for what in precise detail. For a more general overview of the responsibilities people take, see [wiki:CodeOwners the Code Owners] page.
+GHC is the result of the hard work of many people. This page gives detail on exactly who is responsible for what in precise detail. For a more general overview of the responsibilities people take, see [wiki:CodeOwners the Code Owners] page.
 
 == Committers ==
 
@@ -31,6 +31,12 @@ In order to see emails below, '''you must login'''.
   * '''Trac''': thoughtpolice; '''email''': austin@well-typed.com; '''github''': https://github.com/thoughtpolice
   * '''Committer since''': Janurary 2013.
   * '''Main areas of interest''': ARM support, build system, cross compilation, FFI, optimiser, release management, git management, ghc.haskell.org server maintenance
+
+ * [http://bgamari.github.com/ Ben Gamari]
+  * University of Massachusetts - Amherst, MA
+  * '''Trac''': bgamari; '''email''': bgamari.foss@gmail.com; '''github''': https://github.com/bgamari
+  * '''Committer since''': September, 2014.
+  * '''Main areas of interest''': ARM support, LLVM backend
 
  * [http://www.cse.unsw.edu.au/~benl/ Ben Lippmeier]
   * University of New South Wales - Sydney, Australia

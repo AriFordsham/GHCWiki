@@ -1,7 +1,7 @@
 # The Glasgow Haskell Team
 
 
-GHC is the result of many peoples hard work, and this page gives detail on exactly who is responsible for what in precise detail. For a more general overview of the responsibilities people take, see [the Code Owners](code-owners) page.
+GHC is the result of the hard work of many people. This page gives detail on exactly who is responsible for what in precise detail. For a more general overview of the responsibilities people take, see [the Code Owners](code-owners) page.
 
 ## Committers
 
@@ -36,6 +36,13 @@ In order to see emails below, **you must login**.
   - **Trac**: thoughtpolice; **email**: austin@…; **github**: [ https://github.com/thoughtpolice](https://github.com/thoughtpolice)
   - **Committer since**: Janurary 2013.
   - **Main areas of interest**: ARM support, build system, cross compilation, FFI, optimiser, release management, git management, ghc.haskell.org server maintenance
+
+- [ Ben Gamari](http://bgamari.github.com/)
+
+  - University of Massachusetts - Amherst, MA
+  - **Trac**: bgamari; **email**: bgamari.foss@…; **github**: [ https://github.com/bgamari](https://github.com/bgamari)
+  - **Committer since**: September, 2014.
+  - **Main areas of interest**: ARM support, LLVM backend
 
 - [ Ben Lippmeier](http://www.cse.unsw.edu.au/~benl/)
 
