@@ -19,7 +19,8 @@ We have several automated ways of monitoring GHC.  Each has its own detailed des
 
 == Tickets ==
 
- * {{{
+ * 
+{{{
 #!html
 An overview of the number of <a rel="nofollow" href="/trac/ghc/wiki/Status/Tickets">open tickets</a> by component.
 }}}

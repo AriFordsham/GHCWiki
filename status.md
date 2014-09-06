@@ -20,12 +20,8 @@ We have several automated ways of monitoring GHC.  Each has its own detailed des
 
 ## Tickets
 
-- {{{
-
-
-\#!html
-An overview of the number of \<a rel="nofollow" href="/trac/ghc/wiki/Status/Tickets"\>open tickets\</a\> by component.
-}}}
+- 
+  An overview of the number of [open tickets](/trac/ghc/wiki/Status/Tickets) by component.
 
 - A curation of interesting tickets by SPJ, not discoverable otherwise on the wiki: [Status/SLPJ-Tickets](status/slpj-tickets)
 
