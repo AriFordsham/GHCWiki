@@ -18,15 +18,16 @@ We have several automated ways of monitoring GHC.  Each has its own detailed des
 - [ Our performance dashboard](http://ghcspeed-nomeata.rhcloud.com) (experimental) monitors changes in the performance of GHC itself, and of programs compiled by GHC, with a per-commit granularity.
 - [ Harbormaster](https://phabricator.haskell.org/harbormaster) is a part of Phabricator, which builds all GHC commits and incoming patches for testing. To find out more, see the [wiki:Phabricator/Harbormaster](phabricator/harbormaster) page.
 
-## Open Tickets
+## Tickets
+
+- {{{
 
 
-An overview of the number of [open tickets](/trac/ghc/wiki/Status/Tickets) by component.
+\#!html
+An overview of the number of \<a rel="nofollow" href="/trac/ghc/wiki/Status/Tickets"\>open tickets\</a\> by component.
+}}}
 
-## SPJ Tickets
-
-
-A curation of interesting tickets by SPJ, not discoverable otherwise on the wiki: [Status/SLPJ-Tickets](status/slpj-tickets)
+- A curation of interesting tickets by SPJ, not discoverable otherwise on the wiki: [Status/SLPJ-Tickets](status/slpj-tickets)
 
 ## Biannual status reports
 
