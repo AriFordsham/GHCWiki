@@ -17,6 +17,8 @@ The motivation for this change is then
 
 4. Allow simple round-tripping of code via a GHC variant of [https://hackage.haskell.org/package/hindent hindent]
 
+5. There is a strong motivation for the annotation to be / support Functor [http://www.davidchristiansen.dk/2014/09/06/pretty-printing-idris/ here] for the idris IDE support
+
 == Richard Eisenberg response ==
 
 For what it's worth, my thought is not to use SrcSpanInfo (which, to me, is the wrong way to slice the abstraction) but instead to add SrcSpan fields to the relevant nodes. For example:

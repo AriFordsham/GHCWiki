@@ -20,6 +20,8 @@ The motivation for this change is then
 
 1. Allow simple round-tripping of code via a GHC variant of [ hindent](https://hackage.haskell.org/package/hindent)
 
+1. There is a strong motivation for the annotation to be / support Functor [ here](http://www.davidchristiansen.dk/2014/09/06/pretty-printing-idris/) for the idris IDE support
+
 ## Richard Eisenberg response
 
 
