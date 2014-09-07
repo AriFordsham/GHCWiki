@@ -234,7 +234,7 @@ Outstanding issues we should fix in rough priority order.
 - Cross-compiler for the iOS simulator (done by lukexi)
 - Template Haskell for cross compilers! Could be done by (in order of increasing complexity):
 
-  - Evil Splicer / zeroth method
+  - Evil Splicer [ https://github.com/joeyh/git-annex/blob/master/Build/EvilSplicer.hs](https://github.com/joeyh/git-annex/blob/master/Build/EvilSplicer.hs) / zeroth method [ http://hackage.haskell.org/package/zeroth](http://hackage.haskell.org/package/zeroth)
   - A less powerful template-haskell extension
   - stage 2 in cross compilers
 - Packaging with the wrapper scripts and perhaps release of binaries of official ghc releases
