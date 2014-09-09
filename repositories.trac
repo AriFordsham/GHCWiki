@@ -2,123 +2,56 @@
 
 = GHC Repositories =
 
-This page lists the active repositories relating to GHC. For instructions on actually getting a GHC source tree, see [wiki:Building/GettingTheSources Getting The Sources].
+This page lists the active repositories relating to GHC. For instructions on actually getting a GHC source tree, see [wiki:Building/GettingTheSources Getting The Sources]. For information on using these repositories (via submodules), see [wiki:WorkingConventions/Git/Submodules the Submodules page].
+Below is a table summarizing the repositories GHC uses. It lists the upstream location of the repository, and the branch name. All the upstream repositories are either located on `git.haskell.org` or `github.com` as of right now.
 
-For read-only browsing, you can use the:
- * [source: Trac source browser]
- * [http://git.haskell.org/ Gitweb browser @ git.haskell.org]
- * [http://github.com/ghc/ghc GitHub GHC mirror]
+ - Patches for `git.haskell.org` repositories should go to GHC developers. Developers can push to these repositories directly.
 
-For info on the active branches of the main GHC repo, see
- * [wiki:ActiveBranches]
+ - Patches for `github.com` repositories should be made into Pull Requests on GitHub. GHC developers have access to the repositories under the `haskell` organization in particular, and can push directly.
 
-GHC's repos use git; see [wiki:WorkingConventions/Git Git Working Conventions].
+ - As of 14th August 2014, `ghc-head` is the branch to track for Haddock.
 
-'''Be sure to read more on the working conventions for submodules, which are thoroughly documented [WorkingConventions/Git/Submodules here]'''
+As stated above - GHC tracks the branch listed here for the specific repository. If you're going to base your change on a branch, always do it on this one, and make sure your change is on the specified branch. Then update the submodule.
 
-== GHC Repositories ==
+== Repository listing ==
 
 The GHC source code tracks many related sub-repositories, which are needed for external dependencies during the build, or tools that are included in the build. Not every sub-repository is maintained by us; in fact, the large majority are ''not'' maintained by GHC HQ.
 
-As a result of this, in HEAD, essentially every single upstream repository we track is tracked with a '''git submodule'''. These submodules are mirrored for us, and we send patches we need to the upstream maintainer.
-
-But what happens if ''you'' need to get a submodule updated? It's quite simple...
-
-=== Sending patches upstream, the short version ===
-
- * Send a patch upstream. Get it merged.
-
- * Once that is done, just update the submodule:
-
- {{{
-cd libraries/foo
-git reset --hard some_commit_id
-cd ../..
-git commit -asm "Update foo submodule"
-./sync-all push
-}}}
- where `some_commit_id` should be the commit ID of the change you pushed. For example, if you pushed three changes (where 'Commit #3' is the latest HEAD):
-
- {{{
-026d0f64723729823ef29991218c7a15d8d37264 - Commit #1
-235da0f3e38c2b4c489a82778a5fd84a895cb693 - Commit #2
-0667f01823552caf97c4d6e8b876b1d9db00a172 - Commit #3
-}}}
- then `some_commit_id = 0667f01823552caf97c4d6e8b876b1d9db00a172`
-
- * Done!
-
-=== Submodule reference validation ===
-
-There is a problem with submodules, in that it would be possible to commit a submodule change to `ghc.git`, which points to an invalid commit. For example, perhaps you make a change to `haddock` and `ghc`. You might accidentally push to `ghc` before pushing to Haddock, or worse, you might forget.
-
-For this reason, the GHC repository has commit hooks that validate submodule references. Any time you update a submodule, you must:
-
- * Have already pushed the new changes upstream, in a way `git` can find them.
-
- * You **must** include the word '**submodule**' in your commit message.
-
-If either of these assumptions are violated, your push will fail.
-
-== Full repository breakdown ==
-
-A GHC source tree is made of a collection of repositories. Here is a list of the repositories that GHC uses.  The columns have the following meaning
-
- * '''Location in tree''': where in the source tree this repository sits.
-
- * '''Upstream repo?''': if "yes", this library is maintained by someone else, 
-   and its master repo is somewhere else.  See [wiki:Repositories/Upstream].
-
- * '''Reqd to build?''': is "no" if this library is not required to build GHC. We have a few of these because we use them for tests and suchlike.
-
- * '''Installed?''': is "no" if the library is not installed in a GHC installation, and "extra" if it is only installed if `InstallExtraPackages` is `YES`. All others are installed with GHC. See the [wiki:Commentary/Libraries libraries page] for more info.
-
- * '''GHC repo''': in every case there is a repo on `http://git.haskell.org/`, which contains the bits we use for building GHC every night. For libraries with upstream repos, this is just a lagging mirror of the master (see [wiki:Repositories/Upstream]).  The read-only HTTP URL for the repo is `http://git.haskell.org/<table-entry>`.  To get a read/write URL, replace HTTP prefix `http://git.haskell.org` with the SSH prefix `ssh://git@git.haskell.org`. 
-
-This table might be out-of-date: for guaranteed up-to-date info, check the [[GhcFile(packages)]] files.
+As a result of this, in HEAD, essentially every single upstream repository we track is tracked with a '''git submodule'''. These submodules are mirrored for us, and we send patches we need to the upstream maintainer. Here are the submodules we use, and where their upstreams point:
 
 {{{
 #!html
 <table border="1">
-<tr><td><strong>Location in tree</strong></td>   <td> <strong>Upstream repo?</strong></td> <td><strong>Reqd to build?</strong></td>   <td><strong>Installed?</strong></td> <td><strong>GHC repo http://git.haskell.org/...</strong></td></tr>
-<tr><td>. (ghc itself)</td>                    <td>     </td> <td>     </td> <td>     </td> <td>ghc.git</td></tr>
-<tr><td>ghc-tarballs</td>                      <td>     </td> <td>     </td> <td> N/A </td> <td>ghc-tarballs.git</td></tr>
-<tr><td>utils/hsc2hs</td>                      <td>     </td> <td>     </td> <td>     </td> <td>hsc2hs.git</td></tr>
-<tr><td>utils/haddock</td>                     <td> yes </td> <td>     </td> <td>     </td> <td>haddock.git</td></tr>
-<tr><td>nofib</td>                  	       <td>     </td> <td>     </td> <td> N/A </td> <td>nofib.git</td></tr>
-<tr><td>libraries/array</td>                   <td>     </td> <td>     </td> <td>     </td> <td>packages/array.git</td></tr>
-<tr><td>libraries/binary</td>                  <td> yes </td> <td>     </td> <td>     </td> <td>packages/binary.git</td></tr>
-<tr><td>libraries/bytestring</td>              <td> yes </td> <td>     </td> <td>     </td> <td>packages/bytestring.git</td></tr>
-<tr><td>libraries/Cabal</td>                   <td> yes </td> <td>     </td> <td>     </td> <td>packages/Cabal.git</td></tr>
-<tr><td>libraries/containers</td>              <td> yes </td> <td>     </td> <td>     </td> <td>packages/containers.git</td></tr>
-<tr><td>libraries/deepseq</td>      	       <td>     </td> <td>     </td> <td>     </td> <td>packages/deepseq.git</td></tr>
-<tr><td>libraries/directory</td>               <td>     </td> <td>     </td> <td>     </td> <td>packages/directory.git</td></tr>
-<tr><td>libraries/filepath</td>                <td>     </td> <td>     </td> <td>     </td> <td>packages/filepath.git</td></tr>
-<tr><td>libraries/haskeline</td>               <td> yes </td> <td>     </td> <td> no  </td> <td>packages/haskeline.git</td></tr>
-<tr><td>libraries/haskell98</td>               <td>     </td> <td>     </td> <td>     </td> <td>packages/haskell98.git</td></tr>
-<tr><td>libraries/haskell2010</td>             <td>     </td> <td>     </td> <td>     </td> <td>packages/haskell2010.git</td></tr>
-<tr><td>libraries/hoopl</td>                   <td>     </td> <td>     </td> <td>     </td> <td>packages/hoopl.git</td></tr>
-<tr><td>libraries/hpc</td>                     <td>     </td> <td>     </td> <td>     </td> <td>packages/hpc.git</td></tr>
-<tr><td>libraries/old-locale</td>              <td>     </td> <td>     </td> <td>     </td> <td>packages/old-locale.git</td></tr>
-<tr><td>libraries/old-time</td>                <td>     </td> <td>     </td> <td>     </td> <td>packages/old-time.git</td></tr>
-<tr><td>libraries/pretty</td>                  <td> yes </td> <td>     </td> <td>     </td> <td>packages/pretty.git</td></tr>
-<tr><td>libraries/process</td>                 <td>     </td> <td>     </td> <td>     </td> <td>packages/process.git</td></tr>
-<tr><td>libraries/terminfo</td>     	       <td> yes </td> <td>     </td> <td> no  </td> <td>packages/terminfo.git</td></tr>
-<tr><td>libraries/time</td>         	       <td> yes </td> <td>     </td> <td>     </td> <td>packages/time.git</td></tr>
-<tr><td>libraries/transformers</td> 	       <td> yes </td> <td>     </td> <td>     </td> <td>packages/transformers.git</td></tr>
-<tr><td>libraries/unix</td>         	       <td> yes </td> <td>     </td> <td>     </td> <td>packages/unix.git</td></tr>
-<tr><td>libraries/utf8-string</td>  	       <td> yes </td> <td>     </td> <td>     </td> <td>packages/utf8-string.git</td></tr>
-<tr><td>libraries/Win32</td>	    	       <td> yes </td> <td>     </td> <td>     </td> <td>packages/Win32.git</td></tr>
-<tr><td>libraries/xhtml</td>	    	       <td> yes </td> <td>     </td> <td> no  </td> <td>packages/xhtml.git</td></tr>
-<tr><td>libraries/random</td>                  <td> yes </td> <td> no  </td> <td> no  </td> <td>packages/random.git</td></tr>
-<tr><td>libraries/primitive</td>       	       <td> yes </td> <td> no  </td> <td> no  </td> <td>packages/primitive.git</td></tr>
-<tr><td>libraries/vector</td>       	       <td> yes </td> <td> no  </td> <td> no  </td> <td>packages/vector.git</td></tr>
-<tr><td>libraries/dph</td>          	       <td>     </td> <td> no  </td> <td> no  </td> <td>packages/dph.git</td></tr>
-<tr><td>libraries/parallel</td>     	       <td>     </td> <td> no  </td> <td> no  </td> <td>packages/parallel.git</td></tr>
-<tr><td>libraries/stm</td>          	       <td>    </td> <td> no  </td> <td> no  </td> <td>packages/stm.git</td></tr>
+<tr><td><strong>Location in tree</strong></td> <td><strong>Upstream repo</strong></td> <td><strong>Upstream GHC branch</strong></td></tr>
+<tr><td>utils/hsc2hs</td>           <td>https://git.haskell.org/hsc2hs.git</td> <td>master</td></tr>
+<tr><td>utils/haddock</td>          <td>https://github.com/haskell/haddock</td> <td>ghc-head</td></tr>
+<tr><td>nofib</td>                  <td>https://git.haskell.org/nofib.git</td> <td>master</td></tr>
+<tr><td>libraries/array</td>        <td>https://git.haskell.org/packages/array.git</td> <td>master</td></tr>
+<tr><td>libraries/binary</td>       <td>https://github.com/haskell/binary</td> <td>master</td></tr>
+<tr><td>libraries/bytestring</td>   <td>https://github.com/haskell/bytestring</td> <td>master</td></tr>
+<tr><td>libraries/Cabal</td>        <td>https://github.com/haskell/Cabal</td> <td>master</td></tr>
+<tr><td>libraries/containers</td>   <td>https://github.com/haskell/containers</td> <td>master</td></tr>
+<tr><td>libraries/deepseq</td>      <td>https://git.haskell.org/packages/deepseq.git</td> <td>master</td></tr>
+<tr><td>libraries/directory</td>    <td>https://git.haskell.org/packages/directory.git</td> <td>master</td></tr>
+<tr><td>libraries/filepath</td>     <td>https://git.haskell.org/packages/filepath.git</td> <td>master</td></tr>
+<tr><td>libraries/haskeline</td>    <td>https://github.com/judah/haskeline</td> <td>master</td></tr>
+<tr><td>libraries/haskell98</td>    <td>https://git.haskell.org/packages/haskell98.git</td> <td>master</td></tr>
+<tr><td>libraries/haskell2010</td>  <td>https://git.haskell.org/packages/haskell2010.git</td> <td>master</td></tr>
+<tr><td>libraries/hoopl</td>        <td>https://git.haskell.org/packages/hoopl.git</td> <td>master</td></tr>
+<tr><td>libraries/hpc</td>          <td>https://git.haskell.org/packages/hpc.git</td> <td>master</td></tr>
+<tr><td>libraries/old-locale</td>   <td>https://git.haskell.org/packages/old-locale.git</td> <td>master</td></tr>
+<tr><td>libraries/old-time</td>     <td>https://git.haskell.org/packages/old-time.git</td> <td>master</td></tr>
+<tr><td>libraries/process</td>      <td>https://git.haskell.org/packages/process.git</td> <td>master</td></tr>
+<tr><td>libraries/terminfo</td>     <td>https://github.com/judah/terminfo</td> <td>master</td></tr>
+<tr><td>libraries/time</td>         <td>https://github.com/haskell/time</td> <td>master</td></tr>
+<tr><td>libraries/unix</td>         <td>https://github.com/haskell/unix</td> <td>master</td></tr>
+<tr><td>libraries/Win32</td>        <td>https://git.haskell.org/packages/Win32.git</td> <td>master</td></tr>
+<tr><td>libraries/xhtml</td>        <td>https://github.com/haskell/xhtml</td> <td>master</td></tr>
+<tr><td>libraries/random</td>       <td>https://github.com/haskell/random</td> <td>master</td></tr>
+<tr><td>libraries/primitive</td>    <td>https://github.com/haskell/primitive</td> <td>master</td></tr>
+<tr><td>libraries/vector</td>       <td>https://github.com/haskell/vector</td> <td>master</td></tr>
+<tr><td>libraries/dph</td>          <td>https://git.haskell.org/packages/dph.git</td> <td>master</td></tr>
+<tr><td>libraries/parallel</td>     <td>https://git.haskell.org/packages/parallel.git</td> <td>master</td></tr>
+<tr><td>libraries/stm</td>          <td>https://git.haskell.org/packages/stm.git</td> <td>master</td></tr>
 </table>
 }}}
-
-== Mirroring new packages to !GitHub ==
-
-Currently, all our repositories are being mirrored to !GitHub by !GitHub themselves. If you wish to add/remove a repository you need to email !GitHub support at support@github.com and ask them to do it. Currently there is no way to administer this ourselves.
