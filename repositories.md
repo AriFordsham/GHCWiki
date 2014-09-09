@@ -2,16 +2,6 @@
 
 
 This page lists the active repositories relating to GHC. For instructions on actually getting a GHC source tree, see [Getting The Sources](building/getting-the-sources). For information on using these repositories (via submodules), see [the Submodules page](working-conventions/git/submodules).
-Below is a table summarizing the repositories GHC uses. It lists the upstream location of the repository, and the branch name. All the upstream repositories are either located on `git.haskell.org` or `github.com` as of right now.
-
-- Patches for `git.haskell.org` repositories should go to GHC developers. Developers can push to these repositories directly.
-
-- Patches for `github.com` repositories should be made into Pull Requests on GitHub. GHC developers have access to the repositories under the `haskell` organization in particular, and can push directly.
-
-- As of 14th August 2014, `ghc-head` is the branch to track for Haddock.
-
-
-As stated above - GHC tracks the branch listed here for the specific repository. If you're going to base your change on a branch, always do it on this one, and make sure your change is on the specified branch. Then update the submodule.
 
 ## Repository listing
 
