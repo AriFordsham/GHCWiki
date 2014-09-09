@@ -2,7 +2,7 @@
 
 The information about the nightly builds is aggregated thus:
  * [http://haskell.inf.elte.hu/builders/ Information on the status of the nightly builds]. This is basically a large table with hyperlinks to the individual builds in it.
- * [http://haskell.inf.elte.hu/docs/ Fully-built user manual for the nightly builds].  Here, for example, is the [http://haskell.inf.elte.hu/docs/latest/html/ user manual and library Haddocks for HEAD].
+ * [http://haskell.inf.elte.hu/docs/ Fully-built documentation for the nightly builds].  Here, for example, is the [http://haskell.inf.elte.hu/docs/latest/html/ user manual and library Haddocks for HEAD].
    
 
 = Conventions =
