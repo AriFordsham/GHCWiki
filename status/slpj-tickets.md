@@ -234,6 +234,7 @@ See also [TemplateHaskell](template-haskell)
 
 ### Better error messages
 
+- [\#9479](https://gitlab.haskell.org//ghc/ghc/issues/9479): more info in "hole" error messages
 - [\#9456](https://gitlab.haskell.org//ghc/ghc/issues/9456): more info in "relevant bindings" message
 - [\#9244](https://gitlab.haskell.org//ghc/ghc/issues/9244): suggest scoped type variables
 - [\#9173](https://gitlab.haskell.org//ghc/ghc/issues/9173): inferred/expected error messages
