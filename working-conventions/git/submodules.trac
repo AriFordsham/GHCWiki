@@ -157,53 +157,7 @@ There are server-side validation hooks in place on `git.haskell.org` to make sur
 
 == Upstream repositories ==
 
-Below is a table summarizing the repositories GHC uses. It lists the upstream location of the repository, and the branch name. All the upstream repositories are either located on `git.haskell.org` or `github.com` as of right now.
-
- - Patches for `git.haskell.org` repositories should go to GHC developers. Developers can push to these repositories directly.
-
- - Patches for `github.com` repositories should be made into Pull Requests on GitHub. GHC developers have access to the repositories under the `haskell` organization in particular, and can push directly.
-
- - As of 14th August 2014, `ghc-head` is the branch to track for Haddock.
-
-As stated above - GHC tracks the branch listed here for the specific repository. If you're going to base your change on a branch, always do it on this one, and make sure your change is on the specified branch. Then update the submodule.
-
-{{{
-#!html
-<table border="1">
-<tr><td><strong>Location in tree</strong></td> <td><strong>Upstream repo</strong></td> <td><strong>Upstream GHC branch</strong></td></tr>
-<tr><td>utils/hsc2hs</td>           <td>https://git.haskell.org/hsc2hs.git</td> <td>master</td></tr>
-<tr><td>utils/haddock</td>          <td>https://github.com/haskell/haddock</td> <td>ghc-head</td></tr>
-<tr><td>nofib</td>                  <td>https://git.haskell.org/nofib.git</td> <td>master</td></tr>
-<tr><td>libraries/array</td>        <td>https://git.haskell.org/packages/array.git</td> <td>master</td></tr>
-<tr><td>libraries/binary</td>       <td>https://github.com/haskell/binary</td> <td>master</td></tr>
-<tr><td>libraries/bytestring</td>   <td>https://github.com/haskell/bytestring</td> <td>master</td></tr>
-<tr><td>libraries/Cabal</td>        <td>https://github.com/haskell/Cabal</td> <td>master</td></tr>
-<tr><td>libraries/containers</td>   <td>https://github.com/haskell/containers</td> <td>master</td></tr>
-<tr><td>libraries/deepseq</td>      <td>https://git.haskell.org/packages/deepseq.git</td> <td>master</td></tr>
-<tr><td>libraries/directory</td>    <td>https://git.haskell.org/packages/directory.git</td> <td>master</td></tr>
-<tr><td>libraries/filepath</td>     <td>https://git.haskell.org/packages/filepath.git</td> <td>master</td></tr>
-<tr><td>libraries/haskeline</td>    <td>https://github.com/judah/haskeline</td> <td>master</td></tr>
-<tr><td>libraries/haskell98</td>    <td>https://git.haskell.org/packages/haskell98.git</td> <td>master</td></tr>
-<tr><td>libraries/haskell2010</td>  <td>https://git.haskell.org/packages/haskell2010.git</td> <td>master</td></tr>
-<tr><td>libraries/hoopl</td>        <td>https://git.haskell.org/packages/hoopl.git</td> <td>master</td></tr>
-<tr><td>libraries/hpc</td>          <td>https://git.haskell.org/packages/hpc.git</td> <td>master</td></tr>
-<tr><td>libraries/old-locale</td>   <td>https://git.haskell.org/packages/old-locale.git</td> <td>master</td></tr>
-<tr><td>libraries/old-time</td>     <td>https://git.haskell.org/packages/old-time.git</td> <td>master</td></tr>
-<tr><td>libraries/process</td>      <td>https://git.haskell.org/packages/process.git</td> <td>master</td></tr>
-<tr><td>libraries/terminfo</td>     <td>https://github.com/judah/terminfo</td> <td>master</td></tr>
-<tr><td>libraries/time</td>         <td>https://github.com/haskell/time</td> <td>master</td></tr>
-<tr><td>libraries/unix</td>         <td>https://github.com/haskell/unix</td> <td>master</td></tr>
-<tr><td>libraries/Win32</td>        <td>https://git.haskell.org/packages/Win32.git</td> <td>master</td></tr>
-<tr><td>libraries/xhtml</td>        <td>https://github.com/haskell/xhtml</td> <td>master</td></tr>
-<tr><td>libraries/random</td>       <td>https://github.com/haskell/random</td> <td>master</td></tr>
-<tr><td>libraries/primitive</td>    <td>https://github.com/haskell/primitive</td> <td>master</td></tr>
-<tr><td>libraries/vector</td>       <td>https://github.com/haskell/vector</td> <td>master</td></tr>
-<tr><td>libraries/dph</td>          <td>https://git.haskell.org/packages/dph.git</td> <td>master</td></tr>
-<tr><td>libraries/parallel</td>     <td>https://git.haskell.org/packages/parallel.git</td> <td>master</td></tr>
-<tr><td>libraries/stm</td>          <td>https://git.haskell.org/packages/stm.git</td> <td>master</td></tr>
-</table>
-}}}
-
+Check out the [wiki:Repositories Repositories] page for a full breakdown of all the repositories GHC uses.
 
 == TODO ==
 
