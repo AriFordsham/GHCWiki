@@ -33,6 +33,8 @@ $ git config --global core.autocrlf false
 
 The first thing to do is install [ git](http://git-scm.com/). You'll also need some tools - see [Building/Preparation](building/preparation) for details.
 
+**Note:** The following directions are valid for cloning GHC 7.9 or newer. For cloning GHC 7.8 or earlier, see [below](building/getting-the-sources#).
+
 
 On Unix-like systems (Linux, OS X), a complete GHC source tree can be obtained (located in `ghc`) by saying:
 
@@ -76,31 +78,40 @@ where `~/ghc` is the repository you want to branch and `~/ghc-branch` is where y
   $ ./sync-all -r git://git.haskell.org remote set-url origin
 ```
 
-## Getting a branch
+## Getting a branch (GHC 7.9 or later)
 
 
-The above instructions will get the HEAD, the main trunk of GHC development. There are also branches, from which stable releases are made. The active branches are listed on [Repositories](repositories).
-
-
-The commands given below are slightly outdated. Since [\[db19c665ec5055c2193b2174519866045aeff09a/ghc\]](/trac/ghc/changeset/db19c665ec5055c2193b2174519866045aeff09a/ghc) converted all sub-repos into submodules, you can simply clone a specific branch via:
-
-`git clone -b ghc-7.10 --recursive git://git.haskell.org/ghc.git ghc-7.10`
-
-
-and switch between branches on an existing clone (assuming the current repo checkout and the branch to switch to are both past the commit mentioned above) by
-
-`git checkout <other-branchname>` followed by `git submodule update --init`
+The above instructions will get the HEAD, the main trunk of GHC development. There is also a branch for each stable release line, as well as branches for development of major new features. The active branches are listed on [ActiveBranches](active-branches).
 
 
 To get a branch, you need to get from a repo that contains the branch; in particular, local clones of the central repo will normally not include the branches that are in the central repo.
 
 
-To get one, run
+You can clone a specific branch via:
 
 ```wiki
-  $ git clone -b branch-name http://git.haskell.org/ghc.git
-  $ cd ghc
-  $ ./sync-all get -b branch-name
+  $ git clone -b <branchname> --recursive git://git.haskell.org/ghc.git ghc-<branchname>
+```
+
+
+and switch between branches on an existing clone by
+
+```wiki
+  $ git checkout <other-branchname>
+  $ git submodule update --init
+```
+
+**Note:** The instructions above apply to branches that contain the commit [\[db19c665ec5055c2193b2174519866045aeff09a/ghc\]](/trac/ghc/changeset/db19c665ec5055c2193b2174519866045aeff09a/ghc) which converted all sub-repos into submodules. To clone a branch prior to that commit, follow the instructions below instead. It is best not to attempt to cross that commit with `git checkout`; instead make a fresh clone of the desired branch directly.
+
+## Getting a branch (GHC 7.8 or earlier)
+
+
+It is best to check out the desired branch directly in a fresh clone, as follows:
+
+```wiki
+  $ git clone -b ghc-7.8 git://git.haskell.org/ghc.git ghc-7.8
+  $ cd ghc-7.8
+  $ ./sync-all get -b ghc-7.8
 ```
 
 ## Getting a tag
