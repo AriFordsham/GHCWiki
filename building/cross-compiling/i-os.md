@@ -239,6 +239,10 @@ Outstanding issues we should fix in rough priority order.
   - stage 2 in cross compilers
 - Packaging with the wrapper scripts and perhaps release of binaries of official ghc releases
 - Would be nice to not have to disable dead-code removal. (Simon Marlow says "we have special hacks so that you don't have to disable dead-code removal on OS X, in the native code generator and (I presume) in the LLVM backend. Perhaps this just needs to be adapted to work on iOS too?")
+
+> > >
+> > > I'm nearly done with this. -- angerman
+
 - Fix the copious link warnings
 - Stop llvm generating an unnecessary 'bx lr' (return) instruction after the GHC calling convention (which is actually a goto)
 - Programs outputting substantial text to the console can cause hangs in the RTS. (fixed by lukexi in ticket [\#8307](https://gitlab.haskell.org//ghc/ghc/issues/8307)).
