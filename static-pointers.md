@@ -6,6 +6,9 @@ These notes discuss the design of the language extension for static pointers as 
 
 The corresponding Trac ticket to track progress is [\#7015](https://gitlab.haskell.org//ghc/ghc/issues/7015).
 
+
+See also [Simon PJ's long blog post](/trac/ghc/blog/simonpj/StaticPointers).
+
 ## Cloud Haskell
 
 
