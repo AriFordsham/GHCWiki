@@ -4,6 +4,8 @@ These notes discuss the design of the language extension for static pointers as 
 
 The corresponding Trac ticket to track progress is #7015.
 
+See also [blog:simonpj/StaticPointers Simon PJ's long blog post].
+
 == Cloud Haskell
 
 The `distributed-process` package [#c2 [2]] implements a framework for distributed computing. This in general requires sending computations remotely, i.e. sending closures. The `distributed-static` package [#c3 [3]] provides the facilities to represent closures in a way that can be shared remotely, under certain limitations. These facilities include means to represent closures, as well as combinators to build new closure representations from existing ones.
