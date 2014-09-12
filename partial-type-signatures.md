@@ -633,6 +633,24 @@ He told me this should work fine with [PartialTypeSignatures](partial-type-signa
 would like to add the ability to let Emacs fill in the hole's inferred type
 at the press of a key. We will look into this.
 
+### Defer type errors
+
+
+GHC's `-fdefer-type-errors` flag defers compile-time type errors to run-time.
+This flag overlaps partially with our `-XPartialTypeSignatures` flag.
+
+
+Holes in type signatures will cause compile-time type errors, but deferring
+them to run-time with `-fdefer-type-errors` will make them disappear, as they
+will never be generated at run-time, unlike real type errors. To be clear,
+holes in type signatures will **not** cause run-time type errors with
+`-fdefer-type-errors` enabled.
+
+
+The `-XPartialTypeSignatures` flag will also make the compiler swallow type
+errors caused by holes in type signatures, but other type errors will still be
+generated at compile time.
+
 ### Local Definitions
 
 
