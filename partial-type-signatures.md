@@ -626,9 +626,12 @@ the wildcards and compiles the program without generating any
 messages.
 
 
-It would be nice to eventually have Agda-style hole/goal-driven
-development. In the future, we will look into extending the GHC API
-and we will try to hack together a prototype for Emacs.
+Alejandro Serrano Mena has added Emacs support for interacting with TypedHoles
+during his
+[ GSOC project](http://serras-haskell-gsoc.blogspot.com/2014/08/summer-of-code-on-emacs.html).
+He told me this should work fine with [PartialTypeSignatures](partial-type-signatures) as it is, but we
+would like to add the ability to let Emacs fill in the hole's inferred type
+at the press of a key. We will look into this.
 
 ### Local Definitions
 
