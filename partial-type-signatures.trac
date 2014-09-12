@@ -522,9 +522,13 @@ extension is enabled, the type checker just uses the inferred types for
 the wildcards and compiles the program without generating any
 messages.
 
-It would be nice to eventually have Agda-style hole/goal-driven
-development. In the future, we will look into extending the GHC API
-and we will try to hack together a prototype for Emacs.
+
+Alejandro Serrano Mena has added Emacs support for interacting with TypedHoles
+during his
+[http://serras-haskell-gsoc.blogspot.com/2014/08/summer-of-code-on-emacs.html GSOC project].
+He told me this should work fine with PartialTypeSignatures as it is, but we
+would like to add the ability to let Emacs fill in the hole's inferred type
+at the press of a key. We will look into this.
 
 
 === Local Definitions === #local-definitions
