@@ -1037,8 +1037,7 @@ some things that may be non-obvious.
 
 ### TODOs
 
-- We have not yet taken care to correctly handle \[\#local-definitions local
-  definitions\].
+- We have not yet taken care to correctly handle [local definitions](partial-type-signatures#).
 
 - When reporting the types wildcards were instantiated to in error messages,
   we mention the inferred type of the binding, but this doesn't include the
@@ -1068,9 +1067,9 @@ some things that may be non-obvious.
   In the 4th line of the output shown above, the inferred type is displayed,
   but the `Num a` constraint has disappeared, as it wasn't inferred. Two lines
   below, it is displayed, but that is because the annotated partial type
-  signature is shown. The actual type of `bar`, \`(Num a, Eq a) =\> a -\> a -\>
-  Bool\`, is not shown to the user, as it isn't easily accessible when
-  reporting the error.
+  signature is shown. The actual type of `bar`, `(Num a, Eq a) => a -> a -> Bool`,
+  is not shown to the user, as it isn't easily accessible when reporting the
+  error.
 
 - There is a bug in the handling of pattern bindings with partial type
   signatures, i.e. the partial type signatures are ignored, e.g.
