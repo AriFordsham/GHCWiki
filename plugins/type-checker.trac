@@ -143,3 +143,15 @@ the axioms of the equational theory and build proofs from them.
  * It would be nice for plugins to be able to manipulate the error
    messages that result from type checking, along the lines of error
    reflection in Idris.
+
+== Reactions from community ==
+
+'''Richard:''' I really like the use of an existential type variable.
+ * Should `solve` have the ability to modify the custom state? (I don't know -- just thinking about it.)
+ * Should the plugin specify some domain of interest, so that it isn't barraged with irrelevant constraints? (Perhaps not -- it's easy enough for the plugin to do its own filtering.)
+ * I think the interface you describe subsumes type family / type class lookup, as both of these take the form of constraints to be solved.
+ * I don't like forcing all users of a library to have to specify the plugin on the command line. It's very anti-modular. I ''do'' like requiring all users to opt into using plugins at all, say with `-XCustomConstraintSolvers`, but then the module that needs the custom solver should specify the details. There should also be a mechanism whereby importing (even transitively) a module that needs a custom solver can warn users to enable `-XCustomConstraintSolvers`.
+
+Have you tried out this interface? Does it work?
+'''End Richard'''
+
