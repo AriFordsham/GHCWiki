@@ -182,7 +182,7 @@ In order to see emails below, **you must login**.
   - University of Oxford - Oxford, UK
   - **Trac**: dreixel; **email**: jpm@…
   - **Committer since**: October, 2008.
-  - **Main areas of interest**: generics support, type checker
+  - **Main areas of interest**: generics support, type checker. See also [Pedro's Tickets](pedros-tickets).
 
 - [ Karel Gardas](http://www.objectsecurity.com/en-home-aboutus-team.html)
 
