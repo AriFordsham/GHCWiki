@@ -163,3 +163,12 @@ the axioms of the equational theory and build proofs from them.
 
 Have you tried out this interface? Does it work?
 **End Richard**
+
+**Christiaan**:
+The interface looks fine by me, I do have some questions/remarks:
+
+- How does the solver architecture check/enforce that the SolveResults match up with the Wanted constraints?
+  Perhaps return tuples of wanted constraints and correspondig SolveResults?
+- Do we consider a result with a list of all Stuck SolveResults, but with new constraints, as progress?
+
+**End Christiaan**
