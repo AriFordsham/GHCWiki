@@ -78,7 +78,7 @@ The msys2 package uses `pacman` (the venerable ArchLinux package manager) to man
 
 ```wiki
 $ pacman -Syu
-$ pacman -Syu git wget tar binutils autoconf make libtool automake
+$ pacman -S git wget tar binutils autoconf make libtool automake
 ```
 
 **Do not install python, python2 or gcc!
