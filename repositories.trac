@@ -13,7 +13,7 @@ As a result of this, in HEAD, essentially every single upstream repository we tr
 {{{
 #!html
 <table border="1">
-<tr><td><strong>Location in tree</strong></td> <td><strong>Upstream repo</strong></td> <td><strong>Upstream GHC branch</strong></td> <td><strong>Installed</strong></td> <td><strong>Req'd to build</strong></td></tr>
+<tr><td><strong>Location in tree</strong></td> <td><strong>Upstream repo</strong></td> <td><strong>Upstream GHC branch</strong></td> <td><strong>Installed[1]</strong></td> <td><strong>Req'd to build[2]</strong></td></tr>
 <tr><td>utils/hsc2hs</td>           <td>https://git.haskell.org/hsc2hs.git</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
 <tr><td>utils/haddock</td>          <td>https://github.com/haskell/haddock</td> <td>ghc-head</td> <td>Yes</td> <td>No</td></tr>
 <tr><td>nofib</td>                  <td>https://git.haskell.org/nofib.git</td> <td>master</td> <td>N/A</td> <td>N/A</td></tr>
@@ -22,7 +22,7 @@ As a result of this, in HEAD, essentially every single upstream repository we tr
 <tr><td>libraries/bytestring</td>   <td>https://github.com/haskell/bytestring</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
 <tr><td>libraries/Cabal</td>        <td>https://github.com/haskell/Cabal</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
 <tr><td>libraries/containers</td>   <td>https://github.com/haskell/containers</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
-<tr><td>libraries/deepseq</td>      <td>https://git.haskell.org/packages/deepseq.git</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
+<tr><td>libraries/deepseq</td>      <td>https://git.haskell.org/packages/deepseq.git</td> <td>master</td> <td>No</td> <td>No</td></tr>
 <tr><td>libraries/directory</td>    <td>https://git.haskell.org/packages/directory.git</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
 <tr><td>libraries/filepath</td>     <td>https://git.haskell.org/packages/filepath.git</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
 <tr><td>libraries/haskeline</td>    <td>https://github.com/judah/haskeline</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
@@ -46,3 +46,7 @@ As a result of this, in HEAD, essentially every single upstream repository we tr
 <tr><td>libraries/stm</td>          <td>https://git.haskell.org/packages/stm.git</td> <td>master</td> <td>No</td> <td>No</td></tr>
 </table>
 }}}
+
+ * [1] These libraries are not installed in the resulting compiler when you do `make install`
+
+ * [2] These libraries are not required to build the compiler, but may be used for tests or other libraries. Right now, most of these are based on whether you build DPH. At the moment, DPH is turned off. To build these libraries, set `BUILD_DPH=YES` in `mk/build.mk`. TODO: Explain how to skip `deepseq`, since it seems to only be used for tests.

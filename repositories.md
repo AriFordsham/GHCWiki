@@ -14,8 +14,8 @@ As a result of this, in HEAD, essentially every single upstream repository we tr
 <table><tr><th>**Location in tree**</th>
 <th>**Upstream repo**</th>
 <th>**Upstream GHC branch**</th>
-<th>**Installed**</th>
-<th>**Req'd to build**</th></tr>
+<th>**Installed\[1\]**</th>
+<th>**Req'd to build\[2\]**</th></tr>
 <tr><th>utils/hsc2hs</th>
 <th>https://git.haskell.org/hsc2hs.git</th>
 <th>master</th>
@@ -59,8 +59,8 @@ As a result of this, in HEAD, essentially every single upstream repository we tr
 <tr><th>libraries/deepseq</th>
 <th>https://git.haskell.org/packages/deepseq.git</th>
 <th>master</th>
-<th>Yes</th>
-<th>Yes</th></tr>
+<th>No</th>
+<th>No</th></tr>
 <tr><th>libraries/directory</th>
 <th>https://git.haskell.org/packages/directory.git</th>
 <th>master</th>
@@ -166,3 +166,7 @@ As a result of this, in HEAD, essentially every single upstream repository we tr
 <th>master</th>
 <th>No</th>
 <th>No</th></tr></table>
+
+- \[1\] These libraries are not installed in the resulting compiler when you do `make install`
+
+- \[2\] These libraries are not required to build the compiler, but may be used for tests or other libraries. Right now, most of these are based on whether you build DPH. At the moment, DPH is turned off. To build these libraries, set `BUILD_DPH=YES` in `mk/build.mk`. TODO Explain how to skip `deepseq`, since it seems to only be used for tests.
