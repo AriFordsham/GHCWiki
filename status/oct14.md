@@ -28,6 +28,8 @@ However, we still need help with it all. GHC is a community project, and as you 
 
 - **Partial type signatures** - Thomas Winant and Dominique Devriese are working on partial type signatures for GHC. A partial type signature is a type signature that can contain *wildcards*, written as underscores. These wildcards can be types unknown to the programmer or types he doesn't care to annotate. The type checker will use the annotated parts of the partial type signature to type check the program, and infer the types for the wildcards. A wildcard can also occur at the end of the constraints part of a type signature, which indicates that an arbitrary number of extra constraints may be inferred. Whereas `-XTypedHoles` allow holes in your terms, `-XPartialTypeSignatures` allow holes in your types. The design as well as a working implementation are currently being simplified [PartialTypeSignatures](partial-type-signatures).
 
+- **Binary Literals** ([\#9224](https://gitlab.haskell.org//ghc/ghc/issues/9224)) - Herbert implemented the `-XBinaryLiterals` language extension which finally closes the syntax gap relative to other languages which allow to write base-2 literals such as `0b11001001`.
+
 ## Back-end and runtime system
 
 - **CPU-specific optimizations** - Austin is currently investigating the implementation of CPU-specific optimisations for GHC, including new `-march` and `-mcpu` flags to adjust tuning for a particular processor. Right now, there is some preliminary work towards optimizing copies on later Intel machines. There's interest in expanding this further as well.
