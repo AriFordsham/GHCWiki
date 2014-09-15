@@ -158,7 +158,7 @@ In order to see emails below, **you must login**.
 
 - [ Jan Stolarek](http://ics.p.lodz.pl/~stolarek/)
 
-  - Lodz University of Technology - Łódź, Poland
+  - Politechnika Łódzka (a.k.a. Lodz University of Technology) - Łódź, Poland
   - **Trac**: jstolarek; **email**: jan.stolarek@…; **github**: [ https://github.com/jstolarek](https://github.com/jstolarek)
   - **Committer since**: July, 2013.
   - **Main areas of interest**: codegen, optimiser
