@@ -56,46 +56,12 @@ See [milestone:7.10.1](/trac/ghc/milestone/7.10.1)
 # References
 
 
-\[GHC78FAQ\] [ https://ghc.haskell.org/trac/ghc/wiki/GHC-7.8-FAQ](https://ghc.haskell.org/trac/ghc/wiki/GHC-7.8-FAQ)
-
-\[ClosedFam\] Closed type families with overlapping equations, POPL 2014 [ http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/)
-
-\[Minimal\] MINIMAL pragma [http://www.haskell.org/ghc/docs/7.8.1/html/users_guide/pragmas.html\#minimal-pragma](http://www.haskell.org/ghc/docs/7.8.1/html/users_guide/pragmas.html#minimal-pragma)
-
-\[PatSyn\] Pattern synonyms [ http://ghc.haskell.org/trac/ghc/wiki/PatternSynonyms](http://ghc.haskell.org/trac/ghc/wiki/PatternSynonyms)
-
-\[ReleaseNotes\] GHC 7.8.1 release notes [http://www.haskell.org/ghc/docs/7.8.1/html/users_guide/release-7-8-1.html](http://www.haskell.org/ghc/docs/7.8.1/html/users_guide/release-7-8-1.html)
-
-\[SafeCo\] Safe Coercions, submitted to ICFP 2014 [ http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/)
-
-\[THBlog\] Major revision of Template Haskell [ https://ghc.haskell.org/trac/ghc/wiki/TemplateHaskell/BlogPostChanges](https://ghc.haskell.org/trac/ghc/wiki/TemplateHaskell/BlogPostChanges)
-
 \[AMP\] [ https://github.com/quchen/articles/blob/master/applicative_monad.md](https://github.com/quchen/articles/blob/master/applicative_monad.md)
  
-\[KD\] Kinds without Data - [ http://ghc.haskell.org/trac/ghc/wiki/GhcKinds/KindsWithoutData](http://ghc.haskell.org/trac/ghc/wiki/GhcKinds/KindsWithoutData)
- 
 \[ORF\] [ https://ghc.haskell.org/trac/ghc/wiki/Records/OverloadedRecordFields](https://ghc.haskell.org/trac/ghc/wiki/Records/OverloadedRecordFields)
-
-\[TA\] Explicit type application - [ http://ghc.haskell.org/trac/ghc/wiki/ExplicitTypeApplication](http://ghc.haskell.org/trac/ghc/wiki/ExplicitTypeApplication)
 
 \[FC\] System FC with Explicit Kind Equality - [ http://www.seas.upenn.edu/\~eir/papers/2013/fckinds/fckinds-extended.pdf](http://www.seas.upenn.edu/~eir/papers/2013/fckinds/fckinds-extended.pdf)
 
 \[PTS\] [ https://ghc.haskell.org/trac/ghc/wiki/PartialTypeSignatures](https://ghc.haskell.org/trac/ghc/wiki/PartialTypeSignatures)
 
-\[Coverity\] [ https://scan.coverity.com](https://scan.coverity.com)
- 
-\[McNettle\] [ http://haskell.cs.yale.edu/?post_type=publication&p=821](http://haskell.cs.yale.edu/?post_type=publication&p=821)
- 
-\[PPA\] [ https://launchpad.net/\~hvr/+archive/ghc/](https://launchpad.net/~hvr/+archive/ghc/)
- 
-\[DEB\] [ http://deb.haskell.org](http://deb.haskell.org)
- 
-\[TravisCI\] [ https://github.com/nomeata/ghc-complete](https://github.com/nomeata/ghc-complete)
- 
-\[Builders\] [ https://ghc.haskell.org/trac/ghc/wiki/Builder](https://ghc.haskell.org/trac/ghc/wiki/Builder)
-
 \[HEAPALLOCED\] [ https://ghc.haskell.org/trac/ghc/ticket/8199](https://ghc.haskell.org/trac/ghc/ticket/8199)
- 
-\[RLIMITS\] [ http://ezyang.com/rlimits.html](http://ezyang.com/rlimits.html)
-
-\[ReleaseNotes\] [http://www.haskell.org/ghc/docs/7.8.1/html/users_guide/release-7-8-1.html](http://www.haskell.org/ghc/docs/7.8.1/html/users_guide/release-7-8-1.html)
