@@ -48,11 +48,6 @@ However, we still need help with it all. GHC is a community project, and as you 
 
 - **Phabricator for code review**. TODO
 
-# Tickets
-
-
-See [milestone:7.10.1](/trac/ghc/milestone/7.10.1)
-
 # References
 
 
