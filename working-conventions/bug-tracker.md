@@ -28,6 +28,17 @@ The intention is that tickets do not live in the Merge or Patch state for long.
 
 You change the status of a ticket using the Action box at the bottom.  Particularly, if you add a patch for a ticket, click the "please review" action at the bottom to change its status to "Patch".
 
+### Responsibilities
+
+
+For any given status, 'someone' is responsible for what happens to it next:
+
+- **New** means the bug is still open, and thus in the hands of the GHC team.
+- **Infoneeded** means that the ticket is stalled awaiting information from the submitter (or anyone else), and the responsibility to move forward requires someone to help.
+- **Merge** tickets will be handled by Austin or Herbert and merged into the tree.
+- **Patch** tickets will be handled by Austin or Herbert and merged into the tree.
+- **Upstream** means that we're waiting on action from an upstream maintainer. Normally, when a ticket is marked 'upstream', a change will be proposed to the maintainer, who will merge it (or something equivalent). The ticket will then be moved back to **patch** status, indicating GHC developers need to pick up the change.
+
 ## Other Trac ticket fields
 
 

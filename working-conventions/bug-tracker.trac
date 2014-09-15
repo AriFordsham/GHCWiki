@@ -6,7 +6,6 @@ We organise our work (both bug fixing and feature requests) using the Trac bug t
  * [wiki:ReportABug the bug reporting guidelines]
  * [wiki:WorkingConventions/FixingBugs How to fix a bug in GHC]
 
-
 == Type and status ==
 
 Every ticket has a '''status''' and a '''type''', which appear in the title of the ticket.  Thus "Ticket #2057 (new bug)" means status=new, and type=bug.  Here's what they mean:
@@ -24,6 +23,16 @@ Every ticket has a '''status''' and a '''type''', which appear in the title of t
 The intention is that tickets do not live in the Merge or Patch state for long.
 
 You change the status of a ticket using the Action box at the bottom.  Particularly, if you add a patch for a ticket, click the "please review" action at the bottom to change its status to "Patch".
+
+=== Responsibilities === 
+
+For any given status, 'someone' is responsible for what happens to it next:
+
+   * '''New''' means the bug is still open, and thus in the hands of the GHC team.
+   * '''Infoneeded''' means that the ticket is stalled awaiting information from the submitter (or anyone else), and the responsibility to move forward requires someone to help.
+   * '''Merge''' tickets will be handled by Austin or Herbert and merged into the tree.
+   * '''Patch''' tickets will be handled by Austin or Herbert and merged into the tree.
+   * '''Upstream''' means that we're waiting on action from an upstream maintainer. Normally, when a ticket is marked 'upstream', a change will be proposed to the maintainer, who will merge it (or something equivalent). The ticket will then be moved back to '''patch''' status, indicating GHC developers need to pick up the change.
 
 == Other Trac ticket fields ==
 
