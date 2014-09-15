@@ -12,7 +12,7 @@ However, we still need help with it all. GHC is a community project, and as you 
 
 - **Applicative is now a superclass of Monad**. TODO Austin.
 
-- **Signature sections**.  Lennart Augustsson is implementing `(:: ty)` to work the same as `(\x->x:;ty)`.  Needs a wiki design page.
+- **Signature sections**.  Lennart Augustsson is implementing `(:: ty)` to work the same as `(\x -> x :: ty)`.  Needs a wiki design page.
 
 - **[ApplicativeDo](applicative-do)** - Now that `Applicative` is a superclass of `Monad`, Simon Marlow has plans to implement a new extension for GHC, which will allow `do` notation to be used in the context of `Applicative`, not just `Monad`.
 
