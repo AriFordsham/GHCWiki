@@ -2,7 +2,7 @@
 
 = GHC Repositories =
 
-This page lists the active repositories relating to GHC. For instructions on actually getting a GHC source tree, see [wiki:Building/GettingTheSources Getting The Sources]. For information on using these repositories (via submodules), see [wiki:WorkingConventions/Git/Submodules the Submodules page].
+This page lists the active repositories relating to GHC. These are Git repositories, so you should learn [wiki:WorkingConventions/Git about Git] first. For instructions on actually getting a GHC source tree, see [wiki:Building/GettingTheSources Getting The Sources]. For information on using these repositories (via submodules), see [wiki:WorkingConventions/Git/Submodules the Submodules page].
 
 == Repository listing ==
 
