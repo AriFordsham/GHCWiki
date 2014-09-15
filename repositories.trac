@@ -13,36 +13,36 @@ As a result of this, in HEAD, essentially every single upstream repository we tr
 {{{
 #!html
 <table border="1">
-<tr><td><strong>Location in tree</strong></td> <td><strong>Upstream repo</strong></td> <td><strong>Upstream GHC branch</strong></td></tr>
-<tr><td>utils/hsc2hs</td>           <td>https://git.haskell.org/hsc2hs.git</td> <td>master</td></tr>
-<tr><td>utils/haddock</td>          <td>https://github.com/haskell/haddock</td> <td>ghc-head</td></tr>
-<tr><td>nofib</td>                  <td>https://git.haskell.org/nofib.git</td> <td>master</td></tr>
-<tr><td>libraries/array</td>        <td>https://git.haskell.org/packages/array.git</td> <td>master</td></tr>
-<tr><td>libraries/binary</td>       <td>https://github.com/haskell/binary</td> <td>master</td></tr>
-<tr><td>libraries/bytestring</td>   <td>https://github.com/haskell/bytestring</td> <td>master</td></tr>
-<tr><td>libraries/Cabal</td>        <td>https://github.com/haskell/Cabal</td> <td>master</td></tr>
-<tr><td>libraries/containers</td>   <td>https://github.com/haskell/containers</td> <td>master</td></tr>
-<tr><td>libraries/deepseq</td>      <td>https://git.haskell.org/packages/deepseq.git</td> <td>master</td></tr>
-<tr><td>libraries/directory</td>    <td>https://git.haskell.org/packages/directory.git</td> <td>master</td></tr>
-<tr><td>libraries/filepath</td>     <td>https://git.haskell.org/packages/filepath.git</td> <td>master</td></tr>
-<tr><td>libraries/haskeline</td>    <td>https://github.com/judah/haskeline</td> <td>master</td></tr>
-<tr><td>libraries/haskell98</td>    <td>https://git.haskell.org/packages/haskell98.git</td> <td>master</td></tr>
-<tr><td>libraries/haskell2010</td>  <td>https://git.haskell.org/packages/haskell2010.git</td> <td>master</td></tr>
-<tr><td>libraries/hoopl</td>        <td>https://git.haskell.org/packages/hoopl.git</td> <td>master</td></tr>
-<tr><td>libraries/hpc</td>          <td>https://git.haskell.org/packages/hpc.git</td> <td>master</td></tr>
-<tr><td>libraries/old-locale</td>   <td>https://git.haskell.org/packages/old-locale.git</td> <td>master</td></tr>
-<tr><td>libraries/old-time</td>     <td>https://git.haskell.org/packages/old-time.git</td> <td>master</td></tr>
-<tr><td>libraries/process</td>      <td>https://git.haskell.org/packages/process.git</td> <td>master</td></tr>
-<tr><td>libraries/terminfo</td>     <td>https://github.com/judah/terminfo</td> <td>master</td></tr>
-<tr><td>libraries/time</td>         <td>https://github.com/haskell/time</td> <td>master</td></tr>
-<tr><td>libraries/unix</td>         <td>https://github.com/haskell/unix</td> <td>master</td></tr>
-<tr><td>libraries/Win32</td>        <td>https://git.haskell.org/packages/Win32.git</td> <td>master</td></tr>
-<tr><td>libraries/xhtml</td>        <td>https://github.com/haskell/xhtml</td> <td>master</td></tr>
-<tr><td>libraries/random</td>       <td>https://github.com/haskell/random</td> <td>master</td></tr>
-<tr><td>libraries/primitive</td>    <td>https://github.com/haskell/primitive</td> <td>master</td></tr>
-<tr><td>libraries/vector</td>       <td>https://github.com/haskell/vector</td> <td>master</td></tr>
-<tr><td>libraries/dph</td>          <td>https://git.haskell.org/packages/dph.git</td> <td>master</td></tr>
-<tr><td>libraries/parallel</td>     <td>https://git.haskell.org/packages/parallel.git</td> <td>master</td></tr>
-<tr><td>libraries/stm</td>          <td>https://git.haskell.org/packages/stm.git</td> <td>master</td></tr>
+<tr><td><strong>Location in tree</strong></td> <td><strong>Upstream repo</strong></td> <td><strong>Upstream GHC branch</strong></td> <td><strong>Installed</strong></td> <td><strong>Req'd to build</strong></td></tr>
+<tr><td>utils/hsc2hs</td>           <td>https://git.haskell.org/hsc2hs.git</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
+<tr><td>utils/haddock</td>          <td>https://github.com/haskell/haddock</td> <td>ghc-head</td> <td>Yes</td> <td>No</td></tr>
+<tr><td>nofib</td>                  <td>https://git.haskell.org/nofib.git</td> <td>master</td> <td>N/A</td> <td>N/A</td></tr>
+<tr><td>libraries/array</td>        <td>https://git.haskell.org/packages/array.git</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
+<tr><td>libraries/binary</td>       <td>https://github.com/haskell/binary</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
+<tr><td>libraries/bytestring</td>   <td>https://github.com/haskell/bytestring</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
+<tr><td>libraries/Cabal</td>        <td>https://github.com/haskell/Cabal</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
+<tr><td>libraries/containers</td>   <td>https://github.com/haskell/containers</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
+<tr><td>libraries/deepseq</td>      <td>https://git.haskell.org/packages/deepseq.git</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
+<tr><td>libraries/directory</td>    <td>https://git.haskell.org/packages/directory.git</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
+<tr><td>libraries/filepath</td>     <td>https://git.haskell.org/packages/filepath.git</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
+<tr><td>libraries/haskeline</td>    <td>https://github.com/judah/haskeline</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
+<tr><td>libraries/haskell98</td>    <td>https://git.haskell.org/packages/haskell98.git</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
+<tr><td>libraries/haskell2010</td>  <td>https://git.haskell.org/packages/haskell2010.git</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
+<tr><td>libraries/hoopl</td>        <td>https://git.haskell.org/packages/hoopl.git</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
+<tr><td>libraries/hpc</td>          <td>https://git.haskell.org/packages/hpc.git</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
+<tr><td>libraries/old-locale</td>   <td>https://git.haskell.org/packages/old-locale.git</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
+<tr><td>libraries/old-time</td>     <td>https://git.haskell.org/packages/old-time.git</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
+<tr><td>libraries/process</td>      <td>https://git.haskell.org/packages/process.git</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
+<tr><td>libraries/terminfo</td>     <td>https://github.com/judah/terminfo</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
+<tr><td>libraries/time</td>         <td>https://github.com/haskell/time</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
+<tr><td>libraries/unix</td>         <td>https://github.com/haskell/unix</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
+<tr><td>libraries/Win32</td>        <td>https://git.haskell.org/packages/Win32.git</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
+<tr><td>libraries/xhtml</td>        <td>https://github.com/haskell/xhtml</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
+<tr><td>libraries/random</td>       <td>https://github.com/haskell/random</td> <td>master</td> <td>No</td> <td>No</td></tr>
+<tr><td>libraries/primitive</td>    <td>https://github.com/haskell/primitive</td> <td>master</td> <td>No</td> <td>No</td></tr>
+<tr><td>libraries/vector</td>       <td>https://github.com/haskell/vector</td> <td>master</td> <td>No</td> <td>No</td></tr>
+<tr><td>libraries/dph</td>          <td>https://git.haskell.org/packages/dph.git</td> <td>master</td> <td>No</td> <td>No</td></tr>
+<tr><td>libraries/parallel</td>     <td>https://git.haskell.org/packages/parallel.git</td> <td>master</td> <td>No</td> <td>No</td></tr>
+<tr><td>libraries/stm</td>          <td>https://git.haskell.org/packages/stm.git</td> <td>master</td> <td>No</td> <td>No</td></tr>
 </table>
 }}}
