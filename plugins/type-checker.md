@@ -85,6 +85,9 @@ the basic idea is as follows:
   (e.g. terminating the SMT solver process).
 
 
+The `Ct` type, representing constraints, is defined in [ TcRnTypes](https://ghc.haskell.org/trac/ghc/browser/ghc/compiler/typecheck/TcRnTypes.lhs#L932). A constraint is essentially a triple of a type (of kind `Constraint`, e.g. an equality or fully applied typeclass), an evidence term of that type (which will be a metavariable, for wanted constraints) and an original source location.
+
+
 Note that the `TcM` and `TcS` monads can perform arbitrary IO,
 although some care must be taken with side effects (particularly in
 `TcS`).  In general, it is up to the plugin author to make sure that
