@@ -25,6 +25,8 @@ We have several automated ways of monitoring GHC.  Each has its own detailed des
 
 == Tickets ==
 
+
+ * **New** A new page which graphs our [https://ghc.haskell.org/trac/ghc/ticketstats ticket statistics]
  * 
 {{{
 #!html
