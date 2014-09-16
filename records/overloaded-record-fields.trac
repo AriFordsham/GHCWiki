@@ -11,7 +11,7 @@ Content previously on this page has been moved to the [wiki:Records/OverloadedRe
 
 Development of the extension is taking place on forks of the [https://github.com/adamgundry/ghc ghc], [https://github.com/adamgundry/packages-base packages-base] and [https://github.com/adamgundry/haddock haddock] repositories (on branch `overloaded-record-fields`). A [https://github.com/adamgundry/records-prototype prototype implementation] is also available.
 
-The plan is to merge these branches shortly after the release of GHC 7.8, so power users can try out the extension and we can refine the design. The extension should be stable and available for general use in GHC 7.10.
+The design has mostly stabilised, but there is still some work to do on the implementation. We hope to have it merged before the release of 7.10.
 
 == History ==
 
