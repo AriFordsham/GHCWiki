@@ -12,33 +12,30 @@ or
 
 Install msys2 and open a shell.
 
-== ghc setup ==
-
-{{{
-$ cd /tmp
-$ wget http://www.haskell.org/ghc/dist/7.8.3/ghc-7.8.3-$(uname -m)-unknown-mingw32.tar.xz
-$ tar -xaf ghc-7.8.3-$(uname -m)-unknown-mingw32.tar.xz
-$ mkdir /opt && mv /tmp/ghc-7.8.3/* /opt
-}}}
-
 == Installing packages & tools ==
 
 The msys2 package uses `pacman` (the venerable !ArchLinux package manager) to manage packages. Once you're set up, upgrade everything, and install some dependencies:
 
 {{{
-$ pacman -Syu
-$ pacman -S git wget tar binutils autoconf make libtool automake python2
+pacman -Syu
+pacman -S git curl tar binutils autoconf make libtool automake python2
 }}}
 
-We'll use the natively-built python and our own specific version of GCC on windows.
-
-Now install a `cabal.exe` prebuilt binary, and install `alex` and `happy`:
+== ghc setup ==
 
 {{{
-$ cabal update
-$ cabal install alex happy
-$ alex --version
-$ happy --version
+curl http://www.haskell.org/ghc/dist/7.8.3/ghc-7.8.3-$(uname -m)-unknown-mingw32.tar.xz | tar -xJ -C /tmp &&
+mv /tmp/ghc-7.8.3/* /opt &&
+rmdir /tmp/ghc-7.8.3
+}}}
+
+== cabal setup ==
+
+Building ghc requires [http://www.haskell.org/alex/ Alex] and [http://www.haskell.org/happy/ Happy]. It is easiest to install them using cabal, which we need to download first:
+
+{{{
+curl http://www.haskell.org/cabal/release/cabal-install-1.20.0.3/cabal-1.20.0.3-i386-unknown-mingw32.tar.gz | tar -xz -C /opt/bin &&
+cabal install -j --prefix=/opt alex happy
 }}}
 
 == A Quick build ==
@@ -46,12 +43,12 @@ $ happy --version
 You should now be able to build GHC:
 
 {{{
-$ cd ~
-$ git clone --recursive git://git.haskell.org/ghc.git
-$ cd ghc
-$ git clone git://git.haskell.org/ghc-tarballs.git ghc-tarballs
-$ ./boot && ./configure
-$ make -j5
+cd ~ &&
+git clone --recursive git://git.haskell.org/ghc.git &&
+cd ghc &&
+git clone git://git.haskell.org/ghc-tarballs.git ghc-tarballs &&
+./boot && ./configure &&
+make -j5
 }}}
 
 Or just `./validate` works too.
