@@ -167,6 +167,15 @@ the axioms of the equational theory and build proofs from them.
 Have you tried out this interface? Does it work?
 **End Richard**
 
+**Adam:**
+
+- At the moment, `solve` doesn't explicitly modify the custom state because I suspect that threading the returned values through the `TcS` pipeline might be tricky, and that plugins wanting this can use `IORef`s instead. Actually, I wonder if instead of using an existential type variable, `tcPlugin` should return subsume `init` and return a `TcM (Maybe TcPlugin)`; then any state can be stored in a closure.
+- I expect most plugins to work on equality constraints of a particular kind, or typeclass constraints for a fixed typeclass, but I don't see an obvious way to specify such domains. As you say, I think it should be easy for the plugin to filter constraints itself.
+- I can see the appeal of a language option to enable plugins, but the advantages of specifying them on the command line are that it fits perfectly with the existing plugins feature, and that it provides the order in which to run multiple plugins.
+- I haven't tried this yet, but I'll work on implementing it and let you know how I get on. The interface is essentially based on Iavor's ext-solver work, and I'm pretty sure my units solver can be adapted to fit.
+
+**End Adam**
+
 **Christiaan**:
 The interface looks fine by me, I do have some questions/remarks:
 
@@ -175,3 +184,10 @@ The interface looks fine by me, I do have some questions/remarks:
 - Do we consider a result with a list of all Stuck SolveResults, but with new constraints, as progress?
 
 **End Christiaan**
+
+**Adam:**
+
+- We certainly could return `(Ct, SolveResult)` tuples, and perhaps that will be simpler - I'll try it when I'm working on the implementation. Some of the details around exactly how `solve` fits into the constraint solving pipeline are still a bit hazy...
+- Yes, generating new constraints is a form of progress: some plugins might simply add new constraints that are implied by the existing ones, which might lead to additional metavariables being solved by the main solver. (This is basically how functional dependencies work.)
+
+**End Adam**
