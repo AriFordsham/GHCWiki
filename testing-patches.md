@@ -18,6 +18,8 @@ In order to test your patches:
 
 - Depending on the nature of the changes, more testing might be sensible. e.g. if possible, build system changes should be tested on Linux, Mac OS X and Windows machines.  Look at the full documentation for the [test suite](building/running-tests).
 
+- If you wish to add a test for your change, it should go in `testsuite/tests`, in a suitable subdirectory.
+
 
 The validate script should take around 40mins on a fast, dual core machine.  If you have more cores, you can use them like this:
 
