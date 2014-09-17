@@ -1,10 +1,10 @@
 # Compiling for 32 bits on 64 bits
 
 
-This is Cross-Compilation *Light*. It doesn't involve building GHC with different host and target, but does involve running 
-a GHC with i386 target (and host) on a by-default x86_64 OS. This should be possible on any OS that has multi-arch capabilities,
-but the instructions are only for Ubuntu (tested on Ubuntu precise, LTS 12.04.4, GHC 7.8.3, cabal 1.20). Some of the problems are similar
-to those encountered when really cross-compiling. See [\#9421](https://gitlab.haskell.org//ghc/ghc/issues/9421) for context and common problems. Please report any new spotted problems there.
+For now, this page is focused on installing and using a stock x86 (i386) binary GHC distribution on x86_64 (amd64) Ubuntu computers. But, in principle, compiling for 32 bits on 64 bits should be possible on any architecture and OS that has multi-arch capabilities. The problems and workarounds may be similar, too (and similar to problems with cross-compilation). Please add your experience reports here. So far, this is known to work on Ubuntu precise, LTS 12.04.4, GHC 7.8.3, cabal 1.20.
+
+
+Compiling i386 Haskell programs on a x86_64 system can be accomplished by building a proper [cross-compiler](cross-compilation). The method described below doesn't involve building GHC with different host and target, but does involve running a (stock binary distribution of) GHC with i386 target (and intended host) on a by-default x86_64 OS (the actual host). See [\#9421](https://gitlab.haskell.org//ghc/ghc/issues/9421) for context and common problems. Please report any new spotted problems there.
 
 ## Installing the i386 GHC
 
@@ -19,7 +19,7 @@ to those encountered when really cross-compiling. See [\#9421](https://gitlab.ha
   ```wiki
   sudo ln -s /usr/lib/i386-linux-gnu/libgmp.so.10.0.2 /usr/lib/i386-linux-gnu/libgmp.so
   ```
-- Download a i386 GHC.
+- Download a stock binary distribution of i386 GHC.
 - Optionally isolate your i386 and x86_64 GHCs. They correctly keep their installed packages in .cabal and .ghc separated, but some 64bit tools in .cabal/bin or /usr/local may not work with 32bit code (and vice versa) and diagnosing this takes time. You can set up isolated GHC sandboxes using the instructions in [ http://www.edsko.net/2013/02/10/comprehensive-haskell-sandboxes](http://www.edsko.net/2013/02/10/comprehensive-haskell-sandboxes) or using [ http://hackage.haskell.org/package/virthualenv](http://hackage.haskell.org/package/virthualenv)
 - Unpack the 32bit GHC.
 - Run 
