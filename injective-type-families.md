@@ -215,6 +215,32 @@ Cons:
 - writing something like `Plus a` might be confusing. It looks as if `Plus`
   could be partially applied.
 
+### Proposal 5
+
+
+A major drawback of all the above proposals is that if we only implement A injectivity then writing things like `result -> a b c d` is a lot of boilerplate (since there is only one possible injectivity condition anyway). We could avoid that by introducing `injective` keyword:
+
+```
+injectivetypefamilyId a whereinjectivetypefamilyF a b c
+injectivetypefamilyG a b c  whereinjectivetypefamilyPlus a b whereinjectivetypefamilyH a b c
+```
+
+
+Pros:
+
+- no boilerplate for declaring A injectivity
+
+- probably backwards compatible, since there is only one place where the `injective` keyword may go.
+
+- could be extended in the future be allowing any of the proposals 1-4 to be used alternatively
+
+
+Cons:
+
+- steals "injective" identifier in type family head (I think)
+
+- not directly extensible. Introducing syntax from proposals 1-4 sometime in the future will end up with redundancy
+
 ## Real-life use cases
 
 *If you can supply more examples (type family declarations + their usage that
