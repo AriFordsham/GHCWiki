@@ -241,6 +241,28 @@ Cons:
 
 - not directly extensible. Introducing syntax from proposals 1-4 sometime in the future will end up with redundancy
 
+### Proposal 6
+
+
+Don't write the `result`:
+
+```
+typefamilyId a     |-> a wheretypefamilyF a b c  |-> a b c
+typefamilyG a b c  |-> a b wheretypefamilyPlus a b | a -> b, b -> a wheretypefamilyH a b c  | a -> b c, b -> a c
+```
+
+
+Pros:
+
+- extensible for the future
+
+- no syntax stealing
+
+
+Cons:
+
+- Might be a bit confusing?
+
 ## Real-life use cases
 
 *If you can supply more examples (type family declarations + their usage that

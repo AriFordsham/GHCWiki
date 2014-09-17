@@ -227,8 +227,6 @@ injective type family Plus a b where
 injective type family H a b c
 }}}
 
-
-
 Pros:
 
   * no boilerplate for declaring A injectivity
@@ -242,6 +240,28 @@ Cons:
   * steals "injective" identifier in type family head (I think)
 
   * not directly extensible. Introducing syntax from proposals 1-4 sometime in the future will end up with redundancy
+
+=== Proposal 6
+
+Don't write the `result`:
+
+{{{#!hs
+type family Id a     | -> a where
+type family F a b c  | -> a b c
+type family G a b c  | -> a b where
+type family Plus a b | a -> b, b -> a where
+type family H a b c  | a -> b c, b -> a c
+}}}
+
+Pros:
+
+  * extensible for the future
+
+  * no syntax stealing
+
+Cons:
+
+  * Might be a bit confusing?
 
 == Real-life use cases
 
