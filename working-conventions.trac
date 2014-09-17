@@ -17,11 +17,11 @@ This page has pointers to information you'll need.
 
 The following pages guide you step-by-step through making a contribution:
 
- * [wiki:WorkingConventions/FixingBugs Fix a bug in GHC]. You can see all open bugs by clicking on "All bugs" in the left margin of this page.  At the top of the list is a filter you can use to refine your search.  Also check out the (currently stalled) [wiki:BugSweep GHC bug sweep].  Perhaps you can un-stall it.
+ * [wiki:WorkingConventions/FixingBugs How to fix a bug in GHC]. You can see all open bugs by clicking on "All bugs" in the left margin of this page.  At the top of the list is a filter you can use to refine your search.  Also check out the (currently stalled) [wiki:BugSweep GHC bug sweep].  Perhaps you can un-stall it.
 
- * [wiki:WorkingConventions/AddingFeatures Add a new feature to GHC]. You can see all open feature requests by clicking on "All bugs" in the left margin of this page.  At the top of the list is a filter you can use to refine your search.
+ * [wiki:WorkingConventions/AddingFeatures How to add a new feature to GHC]. You can see all open feature requests by clicking on "All bugs" in the left margin of this page.  At the top of the list is a filter you can use to refine your search.
 
- * [http://haskell.org/haskellwiki/Library_submissions Propose a change to the libraries]
+ * [http://haskell.org/haskellwiki/Library_submissions How to propose a change to the libraries]
 
 == Working conventions ==
 
