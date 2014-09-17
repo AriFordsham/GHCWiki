@@ -1,9 +1,14 @@
 ## Design of the monoidal category classes and the new Arrow/proc desugaring story
 
+### What are monoidal categories and why are they useful?
+
+
+Monoidal (and related) categories capture the basic notion of *process*. This is most easily noticed by recognising a tool for using monoidal categories called [ string diagrams](http://ncatlab.org/nlab/show/string+diagram). Examples of string diagrams include circuit diagrams, flow charts, signal flow diagrams, Feynman diagrams, proof nets, etc. In that way, monoidal categories are like Arrows (indeed, every Arrow is a monoidal category with an additional structure which allows reification of functions, and application of one input to another) - except much more general. For example, Megacz's work on Generalized Arrows can be entirely subsumed by monoidal categories (indeed, I even based the initial design off of parts of his thesis)
+
 ### Overview
 
 
-The class hierarchy is based on monoidal categories, and monoidal categories with additional structure. What is a monoidal category? [ From ncatlab:](http://ncatlab.org/nlab/show/monoidal+category)
+The new class hierarchy is based on monoidal categories, and monoidal categories with additional structure. What is a monoidal category? [ From ncatlab:](http://ncatlab.org/nlab/show/monoidal+category)
 
 <table><tr><th>Definition</th>
 <th>Explaination
@@ -26,11 +31,6 @@ The class hierarchy is based on monoidal categories, and monoidal categories wit
 
 
 It also obeys two laws known as the Pentagon equation and the Triangle equation.
-
-### Why are they useful?
-
-
-Monoidal (and related) categories capture the basic notion of *process*. This is most easily noticed by recognising a tool for using monoidal categories called [ string diagrams](http://ncatlab.org/nlab/show/string+diagram). Examples of string diagrams include circuit diagrams, flow charts, signal flow diagrams, Feynman diagrams, proof nets, etc. In that way, monoidal categories are like Arrows (indeed, every Arrow is a monoidal category with an additional structure which allows reification of functions, and application of one input to another) - except much more general. For example, Megacz's work on Generalized Arrows can be entirely subsumed by monoidal categories (indeed, I even based the initial design off of parts of his thesis)
 
 ## Plan
 
