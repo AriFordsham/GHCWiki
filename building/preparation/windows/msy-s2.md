@@ -1,22 +1,15 @@
 # Building GHC on msys2
 
 
-This page documents the instructions for setting up a Windows build using [ msys2](http://sourceforge.net/projects/msys2/), which is a fairly complete build of MinGW + the msys tools. It is pretty self contained and fixes several pesky bugs with the traditional implementation. It's also smaller and has a convenient package manager, `pacman`.
+This page documents the instructions for setting up a Windows build using [ msys2](http://sourceforge.net/projects/msys2/), which is a fairly complete build of MinGW + the msys tools. It is self contained and fixes several pesky bugs with the traditional implementation. It's also smaller and has a convenient package manager, `pacman`.
 
 
-It should get you running in \~5 minutes, modulo download speeds.
+This guide should get you running in \~5 minutes, modulo download speeds.
 
 ## msys2 setup
 
-- (64-bit) Download this package: [ http://sourceforge.net/projects/msys2/files/Base/x86_64/msys2-x86_64-20140910.exe/download](http://sourceforge.net/projects/msys2/files/Base/x86_64/msys2-x86_64-20140910.exe/download)
 
-
-or
-
-- (32-bit) [ http://sourceforge.net/projects/msys2/files/Base/i686/msys2-i686-20140910.exe/download](http://sourceforge.net/projects/msys2/files/Base/i686/msys2-i686-20140910.exe/download)
-
-
-Install msys2 and open a shell.
+Download and run the [ msys2 installer (64-bit)](http://sourceforge.net/projects/msys2/files/Base/x86_64/msys2-x86_64-20140910.exe/download), or the [ 32-bit version](http://sourceforge.net/projects/msys2/files/Base/i686/msys2-i686-20140910.exe/download). Open an msys2 shell.
 
 ## Installing packages & tools
 
@@ -64,4 +57,11 @@ make -j5
 ```
 
 
-Or just `./validate` works too.
+Alternatively, just run:
+
+```wiki
+./validate
+```
+
+
+Note: running tests does not work on msys2 due to issues in the test runner and in the bundled version of gcc (fixes pending).
