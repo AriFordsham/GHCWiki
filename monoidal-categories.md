@@ -1,3 +1,7 @@
+[ Trac ticket](https://ghc.haskell.org/trac/ghc/ticket/9596)
+
+[ Phabricator differential](https://phabricator.haskell.org/D212)
+
 ## Design of the monoidal category classes and the new Arrow/proc desugaring story
 
 ### What are monoidal categories and why are they useful?
@@ -41,8 +45,9 @@ It also obeys two laws known as the Pentagon equation and the Triangle equation.
 1. Change GHC.Arrows.Experimental to GHC.MonoidalCats before the milestone it is merged for
 
 
-I will be updating this page to document/brainstorm the design as I go along
+I will be updating this page to document/brainstorm the design as I go along.
 
-[ Trac ticket](https://ghc.haskell.org/trac/ghc/ticket/9596)
+## Current challenges
 
-[ Phabricator differential](https://phabricator.haskell.org/D212)
+
+How to implement the unit/counit morphisms from compact closed categories? That is, how to implement a morphism unit :: I -\> A\*⊗A and A⊗A\* -\> I?
