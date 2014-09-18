@@ -217,7 +217,7 @@ Cons:
 
 === Proposal 5
 
-A major drawback of all the above proposals is that if we only implement A injectivity then writing things like `result -> a b c d` is a lot of boilerplate (since there is only one possible injectivity condition anyway). We could avoid that by introducing `injective` keyword:
+A major drawback of all proposals 1-4, 6-7 is that if we only implement A injectivity then writing things like `result -> a b c d` is a lot of boilerplate (since there is only one possible injectivity condition anyway). We could avoid that by introducing `injective` keyword:
 
 {{{#!hs
 injective type family Id a where
@@ -268,11 +268,11 @@ Cons:
 Allow user to introduce a type variable for the result:
 
 {{{#!hs
-type family Id a     :: (result :: *) | result -> a where
-type family F a b c  :: (d :: *)      | d -> a b c
-type family G a b c  :: (foo :: *)    | foo-> a b where
-type family Plus a b :: (sum :: Nat)  | sum a -> b, sum b -> a where
-type family H a b c  :: (xyz :: *)    | xyz a -> b c, xyz b -> a c
+type family Id a :: (result :: *) | result -> a where
+type family F a b c :: (d :: *) | d -> a b c
+type family G a b c :: (foo :: *) | foo-> a b where
+type family Plus a b :: (sum :: Nat) | sum a -> b, sum b -> a where
+type family H a b c :: (xyz :: *) | xyz a -> b c, xyz b -> a c
 }}}
 
 Pros:
