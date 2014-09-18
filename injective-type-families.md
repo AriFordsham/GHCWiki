@@ -266,15 +266,7 @@ Cons:
 ### Proposal 7
 
 
-Allow user to introduce a type variable for the result:
-
-```
-typefamilyId a ::(result ::*)| result -> a wheretypefamilyF a b c ::(d ::*)| d -> a b c
-typefamilyG a b c ::(foo ::*)| foo-> a b wheretypefamilyPlus a b ::(sum ::Nat)| sum a -> b, sum b -> a wheretypefamilyH a b c ::(xyz ::*)| xyz a -> b c, xyz b -> a c
-```
-
-
-Since names of kinds and type variables are disjoint it should actually be possible to avoid the kind signature:
+Use type variable that names the RHS instead of `result`:
 
 ```
 typefamilyId a :: result | result -> a wheretypefamilyF a b c :: d | d -> a b c
@@ -288,10 +280,12 @@ Pros:
 
 - backwards compatible
 
+- we already allow naming the RHS in this way
+
 
 Cons:
 
-- user might accidentally write `type family Plus a b :: nat` instead of `type family Plus a b :: Nat` and then get some weird compilation errors if the kind signature was essential to make the code compile.
+- ?
 
 ## Real-life use cases
 
