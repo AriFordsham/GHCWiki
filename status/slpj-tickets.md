@@ -208,6 +208,7 @@ See also [TemplateHaskell](template-haskell)
 ## Types and type inference
 
 - [TypeFunctionsStatus](type-functions-status)
+- [\#9587](https://gitlab.haskell.org//ghc/ghc/issues/9587), [\#9607](https://gitlab.haskell.org//ghc/ghc/issues/9607): `-XAllowAmbiguousTypes` debate
 - [\#9497](https://gitlab.haskell.org//ghc/ghc/issues/9497): typed holes: silencing them
 - [\#9404](https://gitlab.haskell.org//ghc/ghc/issues/9404): tcInfer and `PolyTv`
 - [\#9334](https://gitlab.haskell.org//ghc/ghc/issues/9334): instance chains
@@ -229,7 +230,6 @@ See also [TemplateHaskell](template-haskell)
 - [\#4259](https://gitlab.haskell.org//ghc/ghc/issues/4259): overlapping type family instances
 - [\#3490](https://gitlab.haskell.org//ghc/ghc/issues/3490): superclasses and ambiguity
 - [\#3632](https://gitlab.haskell.org//ghc/ghc/issues/3632): better update for records with existentials
-- [\#1496](https://gitlab.haskell.org//ghc/ghc/issues/1496), [\#4846](https://gitlab.haskell.org//ghc/ghc/issues/4846), [\#7148](https://gitlab.haskell.org//ghc/ghc/issues/7148), [\#7269](https://gitlab.haskell.org//ghc/ghc/issues/7269): Newtype deriving and type families type soundness problem
 - [\#2641](https://gitlab.haskell.org//ghc/ghc/issues/2641): revise what `-XExtendedDefaultRules` does
 
 ### Better error messages
