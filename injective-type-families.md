@@ -218,7 +218,7 @@ Cons:
 ### Proposal 5
 
 
-A major drawback of all the above proposals is that if we only implement A injectivity then writing things like `result -> a b c d` is a lot of boilerplate (since there is only one possible injectivity condition anyway). We could avoid that by introducing `injective` keyword:
+A major drawback of all proposals 1-4, 6-7 is that if we only implement A injectivity then writing things like `result -> a b c d` is a lot of boilerplate (since there is only one possible injectivity condition anyway). We could avoid that by introducing `injective` keyword:
 
 ```
 injectivetypefamilyId a whereinjectivetypefamilyF a b c
@@ -256,12 +256,36 @@ Pros:
 
 - extensible for the future
 
-- no syntax stealing
+- backwards compatible
 
 
 Cons:
 
-- Might be a bit confusing?
+- might be a bit confusing?
+
+### Proposal 7
+
+
+Use type variable that names the RHS instead of `result`:
+
+```
+typefamilyId a :: result | result -> a wheretypefamilyF a b c :: d | d -> a b c
+typefamilyG a b c :: foo | foo-> a b wheretypefamilyPlus a b :: sum | sum a -> b, sum b -> a wheretypefamilyH a b c :: xyz | xyz a -> b c, xyz b -> a c
+```
+
+
+Pros:
+
+- extensible for the future
+
+- backwards compatible
+
+- we already allow naming the RHS in this way
+
+
+Cons:
+
+- ?
 
 ## Real-life use cases
 
