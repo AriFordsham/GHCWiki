@@ -274,6 +274,14 @@ typefamilyG a b c ::(foo ::*)| foo-> a b wheretypefamilyPlus a b ::(sum ::Nat)| 
 ```
 
 
+Since names of kinds and type variables are disjoint it should actually be possible to avoid the kind signature:
+
+```
+typefamilyId a :: result | result -> a wheretypefamilyF a b c :: d | d -> a b c
+typefamilyG a b c :: foo | foo-> a b wheretypefamilyPlus a b :: sum | sum a -> b, sum b -> a wheretypefamilyH a b c :: xyz | xyz a -> b c, xyz b -> a c
+```
+
+
 Pros:
 
 - extensible for the future
@@ -283,7 +291,7 @@ Pros:
 
 Cons:
 
-- user must supply kind signature for the result
+- user might accidentally write `type family Plus a b :: nat` instead of `type family Plus a b :: Nat` and then get some weird compilation errors if the kind signature was essential to make the code compile.
 
 ## Real-life use cases
 
