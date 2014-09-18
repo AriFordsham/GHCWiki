@@ -1,3 +1,7 @@
+[ Trac ticket](https://ghc.haskell.org/trac/ghc/ticket/9596)
+
+[ Phabricator differential](https://phabricator.haskell.org/D212)
+
 ## Design of the monoidal category classes and the new Arrow/proc desugaring story
 
 ### What are monoidal categories and why are they useful?
@@ -41,8 +45,21 @@ It also obeys two laws known as the Pentagon equation and the Triangle equation.
 1. Change GHC.Arrows.Experimental to GHC.MonoidalCats before the milestone it is merged for
 
 
-I will be updating this page to document/brainstorm the design as I go along
+I will be updating this page to document/brainstorm the design as I go along.
 
-[ Trac ticket](https://ghc.haskell.org/trac/ghc/ticket/9596)
+## Current challenges
 
-[ Phabricator differential](https://phabricator.haskell.org/D212)
+
+How to implement the unit/counit morphisms from compact closed categories? That is, how to implement a morphism unit :: I -\> A\*⊗A and A⊗A\* -\> I? I can see several options:
+
+1. In terms of closures + choice
+
+
+-- Have an intermediate closure object, with two inputs and two outputs - send a "switch" signal (so this would require a choice class as well as a closure class) to tell which input is active, and then pass it through for one of the outputs and compute the appropriate dual for the other output.
+
+1. In terms of bidirectional signal flow
+
+
+-- Similar to the above but instead of a switch, a bidirectional wire - if you put in the object A, you get A\* (or \*A depending on weather left or right autonomous), and if you put in A\* (\*A) you get A. 
+
+1. One of the above in combination with a source/sink object
