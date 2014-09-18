@@ -256,12 +256,34 @@ Pros:
 
 - extensible for the future
 
-- no syntax stealing
+- backwards compatible
 
 
 Cons:
 
-- Might be a bit confusing?
+- might be a bit confusing?
+
+### Proposal 7
+
+
+Allow user to introduce a type variable for the result:
+
+```
+typefamilyId a     ::(result ::*)| result -> a wheretypefamilyF a b c  ::(d ::*)| d -> a b c
+typefamilyG a b c  ::(foo ::*)| foo-> a b wheretypefamilyPlus a b ::(sum ::Nat)| sum a -> b, sum b -> a wheretypefamilyH a b c  ::(xyz ::*)| xyz a -> b c, xyz b -> a c
+```
+
+
+Pros:
+
+- extensible for the future
+
+- backwards compatible
+
+
+Cons:
+
+- user must supply kind signature for the result
 
 ## Real-life use cases
 
