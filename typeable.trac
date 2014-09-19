@@ -27,7 +27,7 @@ Consider the following GADT
 {{{ 
 data TypeRep (a :: k) where
     TRApp :: TypeRep a -> TypeRep b -> TypeRep (a b)
-    TRCon :: TyCon a 
+    TRCon :: TyCon a -> TypeRep a
 }}}
 
 While this GADT is expressible in GHC now (note the existential kind in TRApp), it is not very useful without kind equalities. 

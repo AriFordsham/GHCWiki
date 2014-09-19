@@ -32,7 +32,7 @@ Consider the following GADT
 ```wiki
 data TypeRep (a :: k) where
     TRApp :: TypeRep a -> TypeRep b -> TypeRep (a b)
-    TRCon :: TyCon a 
+    TRCon :: TyCon a -> TypeRep a
 ```
 
 
