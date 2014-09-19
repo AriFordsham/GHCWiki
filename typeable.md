@@ -168,3 +168,27 @@ withTypeable :: TypeRep a -> (Typeable a => b) -> b
 
 
 Related but different issue: [ https://ghc.haskell.org/trac/ghc/ticket/7897](https://ghc.haskell.org/trac/ghc/ticket/7897)
+
+## Proposed API
+
+```wiki
+data TypeRep (a :: k)        -- abstract
+data TyCon (a :: k)          -- abstract
+
+pattern TyCon :: forall k (a :: k). TyCon a -> TypeRep a
+pattern TyApp :: forall k. exists k1 (a :: k1 -> k) (b :: k1). TypeRep a -> TypeRep b -> TypeRep (a b)
+
+tyCon :: forall k (a :: k). TyCon a -> TypeRep a   -- in TCB
+apply :: forall k k1 (a :: k1 -> k) (b :: k1). TypeRep a -> TypeRep b -> TypeRep (a b)  -- in TCB
+
+-- data (a :: k1) :~~: (b :: k2) where
+--   HRefl :: a :~~: a
+
+-- eqTyCon :: forall k1 k2 (a :: k1) (b :: k2). TyCon a -> TyCon b -> Maybe (a :~~: b)
+-- eqT :: forall k1 k2 (a :: k1) (b :: k2). TypeRep a -> TypeRep b -> Maybe (a :~~: b)
+
+eqTyCon :: forall k (a :: k) (b :: k). TyCon a -> TyCon b -> Maybe (a :~: b)
+eqT :: forall k (a :: k) (b :: k). TypeRep a -> TypeRep b -> Maybe (a :~: b)
+
+ifArrow :: forall (a :: *) (d :: *). TypeRep a -> (forall (b :: *) (c :: *). TypeRep b -> TypeRep c -> (a :~: (b -> c)) -> d) -> d
+```
