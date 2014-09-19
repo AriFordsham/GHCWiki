@@ -136,6 +136,23 @@ withTypeable :: TypeRep a -> (Typeable a => b) -> b
 
 (This seems both simpler and more useful than making the Typeable class recursive through TypeRep data declaration.)
 
+### Trusted computing base
+
+
+The `TyCon` type is a new abstract type, and the comparison (based on fingerprints) must be in the TCB.
+
+```wiki
+TyCon a  --- abstract type
+eqTyCon :: forall (k1 k2 :: *). forall (a :: k1). forall (b :: k2). TyCon a -> TyCon b -> Maybe (JMeq a b)
+```
+
+
+This could be written in core (and perhaps could be generalized to other constraints) but not in source Haskell:
+
+```wiki
+withTypeable :: TypeRep a -> (Typeable a => b) -> b
+```
+
 ### What about structure information?
 
 
