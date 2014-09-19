@@ -84,6 +84,15 @@ ifArrow tr f default = case tr of
 
 Note that with the first version of `eqTyCon` this code would not type check.
 
+This interface of `ifArrow` is just what we need for `dynApply`.
+
+{{{
+dynApply :: Dynamic -> Dynamic -> Dynamic
+dynApply (Dyn a) (Dyn (b :: b)) = 
+  ifArrow a (\ dom rng -> gcast dom (typeRep :: TypeRep b) of 
+        Just Refl -> Dyn (a b)
+        Nothing  -> default)  default where default =  Dyn (error "can't apply")
+}}}
 
 Alternatively, we could give a different interface for decomposing arrow types with the addition of a new data structure.
 {{{
