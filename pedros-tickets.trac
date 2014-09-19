@@ -3,6 +3,7 @@ This is a list of tickets that [http://dreixel.net Pedro] wants to keep an eye o
 * #5462 (Deriving clause for arbitrary classes)
 * #7459 (deriving Generic does not work with TypeLits)
 * #7492 (Generic1 deriving: Can we replace Rec1 f with f :.: Par1?)
+* #7897 (MakeTypeRep fingerprints be proper, robust fingerprints)
 * #8516 (Add (->) representation and the Invariant class to GHC.Generics)
 * #9043 (Add missing type class instances for data types in GHC.Generics)
 * #9526 (Add missing Generic instances in base)
