@@ -22,7 +22,16 @@ splitTyConApp :: TypeRep -> (TyCon, [TypeRep])
 ```
 
 
-for `TypeRep a` so that we can figure out whether a given type is an arrow type, product type, etc.
+for `TypeRep a` so that we can figure out whether a given type is an arrow type, product type, etc.  
+
+
+This capability is necessary to implement `dynApply` for Typeable based dynamic typing.
+
+```wiki
+data Dynamic = forall a. Typeable a => Dyn a
+
+dynApply :: Dynamic -> Dynamic -> Dynamic
+```
 
 ### Kind equalities are sufficient
 
@@ -30,7 +39,8 @@ for `TypeRep a` so that we can figure out whether a given type is an arrow type,
 Consider the following GADT
 
 ```wiki
-data TypeRep (a :: k) where
+{-# LANGUAGE PolyKinds, DataKinds, EmptyDataDecls, GADTs  #-}
+data TypeRep (a :: k) :: * where
     TRApp :: TypeRep a -> TypeRep b -> TypeRep (a b)
     TRCon :: TyCon a -> TypeRep a
 ```
@@ -90,6 +100,28 @@ ifArrow tr f default = case tr of
 
 Note that with the first version of `eqTyCon` this code would not type check.
 
+
+This interface of `ifArrow` is just what we need for `dynApply`.
+
+```wiki
+dynApply :: Dynamic -> Dynamic -> Dynamic
+dynApply (Dyn a) (Dyn (b :: b)) = 
+  ifArrow a (\ dom rng -> gcast dom (typeRep :: TypeRep b) of 
+        Just Refl -> Dyn (a b)
+        Nothing  -> default)  default where default =  Dyn (error "can't apply")
+```
+
+
+Alternatively, we could give a different interface for decomposing arrow types with the addition of a new data structure.
+
+```wiki
+data ArrowTy where 
+    Arrow :: forall (a b :: *). TypeRep a -> TypeRep b -> ArrowTy
+
+ifArrow :: TypeRep a -> Maybe ArrowTy
+
+```
+
 ### What can we do without kind equalities ?
 
 - Make `ifArrow` and other destructors primitive
@@ -114,6 +146,23 @@ withTypeable :: TypeRep a -> (Typeable a => b) -> b
 
 
 (This seems both simpler and more useful than making the Typeable class recursive through TypeRep data declaration.)
+
+### Trusted computing base
+
+
+The `TyCon` type is a new abstract type, and the comparison (based on fingerprints) must be in the TCB.
+
+```wiki
+TyCon a  --- abstract type
+eqTyCon :: forall (k1 k2 :: *). forall (a :: k1). forall (b :: k2). TyCon a -> TyCon b -> Maybe (JMeq a b)
+```
+
+
+This could be written in core (and perhaps could be generalized to other constraints) but not in source Haskell:
+
+```wiki
+withTypeable :: TypeRep a -> (Typeable a => b) -> b
+```
 
 ### What about structure information?
 
