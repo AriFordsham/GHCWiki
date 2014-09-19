@@ -18,7 +18,15 @@ and that is also safely decomposable, i.e. we need some analogue of
 splitTyConApp :: TypeRep -> (TyCon, [TypeRep])
 }}}
 
-for `TypeRep a` so that we can figure out whether a given type is an arrow type, product type, etc.
+for `TypeRep a` so that we can figure out whether a given type is an arrow type, product type, etc.  
+
+This capability is necessary to implement `dynApply` for Typeable based dynamic typing.
+
+{{{
+data Dynamic = forall a. Typeable a => Dyn a
+
+dynApply :: Dynamic -> Dynamic -> Dynamic
+}}
 
 === Kind equalities are sufficient ===
 
