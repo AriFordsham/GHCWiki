@@ -90,6 +90,17 @@ ifArrow tr f default = case tr of
 
 Note that with the first version of `eqTyCon` this code would not type check.
 
+
+Alternatively, we could give a different interface for decomposing arrow types with the addition of a new data structure.
+
+```wiki
+data ArrowTy where 
+    Arrow :: forall (a b :: *). TypeRep a -> TypeRep b -> ArrowTy
+
+ifArrow :: TypeRep a -> Maybe ArrowTy
+
+```
+
 ### What can we do without kind equalities ?
 
 - Make `ifArrow` and other destructors primitive
