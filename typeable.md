@@ -30,7 +30,8 @@ for `TypeRep a` so that we can figure out whether a given type is an arrow type,
 Consider the following GADT
 
 ```wiki
-data TypeRep (a :: k) where
+{-# LANGUAGE PolyKinds, DataKinds, EmptyDataDecls, GADTs  #-}
+data TypeRep (a :: k) :: * where
     TRApp :: TypeRep a -> TypeRep b -> TypeRep (a b)
     TRCon :: TyCon a -> TypeRep a
 ```
