@@ -8,7 +8,7 @@ See [milestone:7.10.1](/trac/ghc/milestone/7.10.1) and [ Active tickets](https:/
 
 ## Libraries, source language, type system
 
-- **Signature sections**.  Lennart Augustsson is implementing `(:: ty)` to work the same as `(\x->x:;ty)`.  Needs a wiki design page.
+- **Signature sections**.  Lennart Augustsson is implementing `(:: ty)` to work the same as `(\x->x::ty)`.  Needs a wiki design page.
 
 - **Applicative-Monad** - GHC 7.10 will (finally) make `Applicative` a superclass of `Monad`. This is an API-breaking change for `base`, and users are encouraged to begin fixing their code now. To that end, GHC 7.8 now emits warnings for code that would violate the Applicative-Monad proposal [ AMP](https://github.com/quchen/articles/blob/master/applicative_monad.md).
 
