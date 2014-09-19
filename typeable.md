@@ -73,7 +73,7 @@ arrowCon :: TyCon (->)
 and wanted to implement the following function:
 
 ```wiki
-ifArrow :: forall (a b c :: *).  TypeRep a -> (TypeRep b -> TypeRep c -> d) -> d -> d
+ifArrow :: forall (a d :: *).  TypeRep a -> (forall b c . TypeRep b -> TypeRep c -> d) -> d -> d
 ```
 
 
