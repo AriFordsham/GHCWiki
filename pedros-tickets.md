@@ -4,6 +4,7 @@ This is a list of tickets that [ Pedro](http://dreixel.net) wants to keep an eye
 - [\#5462](https://gitlab.haskell.org//ghc/ghc/issues/5462) (Deriving clause for arbitrary classes)
 - [\#7459](https://gitlab.haskell.org//ghc/ghc/issues/7459) (deriving Generic does not work with TypeLits)
 - [\#7492](https://gitlab.haskell.org//ghc/ghc/issues/7492) (Generic1 deriving: Can we replace Rec1 f with f :.: Par1?)
+- [\#7897](https://gitlab.haskell.org//ghc/ghc/issues/7897) (MakeTypeRep fingerprints be proper, robust fingerprints)
 - [\#8516](https://gitlab.haskell.org//ghc/ghc/issues/8516) (Add (-\>) representation and the Invariant class to GHC.Generics)
 - [\#9043](https://gitlab.haskell.org//ghc/ghc/issues/9043) (Add missing type class instances for data types in GHC.Generics)
 - [\#9526](https://gitlab.haskell.org//ghc/ghc/issues/9526) (Add missing Generic instances in base)
