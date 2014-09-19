@@ -63,3 +63,61 @@ How to implement the unit/counit morphisms from compact closed categories? That 
 -- Similar to the above but instead of a switch, a bidirectional wire - if you put in the object A, you get A\* (or \*A depending on weather left or right autonomous), and if you put in A\* (\*A) you get A. 
 
 1. One of the above in combination with a source/sink object
+
+## Desugaring plans
+
+
+Current (arrows):
+``\`
+
+>
+> proc p -\> f -\< e = arr (\\ p -\> e) \>\>\> f           if Vars(f) and Vars(p) disjoint
+
+# arr (\\ p -\> (f, e)) \>\>\> app    otherwise
+
+>
+> proc p -\> \\ p1 ... pn -\> c = proc (...(p, p1), ... pn) -\> c
+
+>
+> proc p -\> form e c1 ... cn =
+>
+> >
+> > e (proc p -\> c1) ... (proc p -\> cn)
+
+>
+> proc p -\> let decls in c =
+>
+> >
+> > arr (\\ p -\> let decls in (p,p')) \>\>\>          Vars(p') = Defvars(decls)
+> > (proc (p,p') -\> c)
+
+>
+> proc p -\> if e then c1 else c2 =
+>
+> >
+> > arr (\\ p -\> if e then Left p else Right p) \>\>\>
+> >
+> > <table><tr><td>(proc p -\> c1) </td>
+> > <th>\| (proc p -\> c2)
+> > </th></tr></table>
+
+>
+> proc p -\> case e of { p1 -\> c1 ; ... ; pn -\> cn } =
+>
+> >
+> > arr (\\ p -\>
+> >
+> > >
+> > > case e of
+> > > p1 -\> Left (p, Flatten(p1))
+> > > ...
+> > > pn-1 -\> Rightn-2 (Left (p, Flatten(pn-1)))
+> > > pn -\> Rightn-1 (p, Flatten(pn))) \>\>\>
+> >
+> > <table><tr><td>(proc (p, Flatten(p1)) -\> c1) </td>
+> > <th>\| ... </th>
+> > <th>\| (proc (p, Flatten(pn)) -\> cn)
+> > </th></tr></table>
+
+``\`
+New (SMC) (wip, these need to be as generalised as possible; look at GA thesis and [ https://www.haskell.org/ghc/docs/papers/arrow-rules.pdf](https://www.haskell.org/ghc/docs/papers/arrow-rules.pdf)):
