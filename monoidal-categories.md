@@ -38,10 +38,10 @@ It also obeys two laws known as the Pentagon equation and the Triangle equation.
 
 ## Plan
 
-1. Write monoidal category class heirarchy in GHC.Arrows.Experimental and provide instances for Arrow and several other basic types
+1. Write monoidal category class heirarchy in GHC.Arrows.Experimental and provide instances for Arrow and several other basic types, and visa versa; make SMC instances for Arrows
 1. Convert or write a small FRP library to be based on the new classes to test the design
 1. Provide optimisation RULES pragmas as much as possible; for example, the work on Causal Commutative Arrows can be converted relatively straightforwardly to plain monoidal categories
-1. Convert the proc/arrow desugarer in GHC to emit instances of the new classes; since all Arrows are monoidal categories, this change will be backwards compatible with user code
+1. Convert the proc/arrow desugarer in GHC to emit instances of the new classes; since all Arrows are monoidal categories, this change will be backwards compatible with user code - use [ https://www.haskell.org/ghc/docs/papers/arrow-rules.pdf](https://www.haskell.org/ghc/docs/papers/arrow-rules.pdf)
 1. Change GHC.Arrows.Experimental to GHC.MonoidalCats before the milestone it is merged for
 
 
