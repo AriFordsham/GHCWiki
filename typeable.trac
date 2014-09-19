@@ -26,7 +26,7 @@ This capability is necessary to implement `dynApply` for Typeable based dynamic 
 data Dynamic = forall a. Typeable a => Dyn a
 
 dynApply :: Dynamic -> Dynamic -> Dynamic
-}}
+}}}
 
 === Kind equalities are sufficient ===
 
