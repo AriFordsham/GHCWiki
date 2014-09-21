@@ -62,12 +62,12 @@ As a result of this, in HEAD, essentially every single upstream repository we tr
 <th>No</th>
 <th>No</th></tr>
 <tr><th>libraries/directory</th>
-<th>https://git.haskell.org/packages/directory.git</th>
+<th>https://github.com/haskell/directory</th>
 <th>master</th>
 <th>Yes</th>
 <th>Yes</th></tr>
 <tr><th>libraries/filepath</th>
-<th>https://git.haskell.org/packages/filepath.git</th>
+<th>https://github.com/haskell/filepath</th>
 <th>master</th>
 <th>Yes</th>
 <th>Yes</th></tr>
@@ -107,7 +107,7 @@ As a result of this, in HEAD, essentially every single upstream repository we tr
 <th>Yes</th>
 <th>Yes</th></tr>
 <tr><th>libraries/process</th>
-<th>https://git.haskell.org/packages/process.git</th>
+<th>https://github.com/process</th>
 <th>master</th>
 <th>Yes</th>
 <th>Yes</th></tr>
@@ -127,7 +127,7 @@ As a result of this, in HEAD, essentially every single upstream repository we tr
 <th>Yes</th>
 <th>Yes</th></tr>
 <tr><th>libraries/Win32</th>
-<th>https://git.haskell.org/packages/Win32.git</th>
+<th>https://github.com/haskell/win32</th>
 <th>master</th>
 <th>Yes</th>
 <th>Yes</th></tr>
