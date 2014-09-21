@@ -6,7 +6,7 @@ This page lists the active repositories relating to GHC. These are Git repositor
 ## Repository listing
 
 
-The GHC source code tracks many related sub-repositories, which are needed for external dependencies during the build, or tools that are included in the build. Not every sub-repository is maintained by us; in fact, the large majority are *not* maintained by GHC HQ.
+The GHC source code tracks many related sub-repositories, which are needed for external dependencies during the build, or tools that are included in the build. Not every sub-repository is maintained by us; in fact, the large majority are *not* maintained by GHC HQ (roughly: if the repository is hosted on Github, it is maintained on Github, and patches and issues should go there).
 
 
 As a result of this, in HEAD, essentially every single upstream repository we track is tracked with a **git submodule**. These submodules are mirrored for us, and we send patches we need to the upstream maintainer. Here are the submodules we use, and where their upstreams point:
@@ -37,10 +37,10 @@ As a result of this, in HEAD, essentially every single upstream repository we tr
 <th>Yes</th>
 <th>Yes</th></tr>
 <tr><th>libraries/binary</th>
-<th>https://github.com/kolmodin/binary/td\> masterYesYes</th>
-<th></th>
-<th></th>
-<th></th></tr>
+<th>https://github.com/kolmodin/binary</th>
+<th>master</th>
+<th>Yes</th>
+<th>Yes</th></tr>
 <tr><th>libraries/bytestring</th>
 <th>https://github.com/haskell/bytestring</th>
 <th>master</th>
