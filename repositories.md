@@ -37,10 +37,10 @@ As a result of this, in HEAD, essentially every single upstream repository we tr
 <th>Yes</th>
 <th>Yes</th></tr>
 <tr><th>libraries/binary</th>
-<th>https://github.com/haskell/binary</th>
-<th>master</th>
-<th>Yes</th>
-<th>Yes</th></tr>
+<th>https://github.com/kolmodin/binary/td\> masterYesYes</th>
+<th></th>
+<th></th>
+<th></th></tr>
 <tr><th>libraries/bytestring</th>
 <th>https://github.com/haskell/bytestring</th>
 <th>master</th>
