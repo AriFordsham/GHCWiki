@@ -345,7 +345,7 @@ On any page, hit the `?` key on your keyboard to bring up all the **keyboard sho
 ### Remarkup reference
 
 
-Be sure to read about Phabricator's markup language, [ Remarkup](https://secure.phabricator.com/book/phabricator/article/remarkup/). Most importantly, make sure you know how to use those image macros.
+Be sure to read about Phabricator's markup language, [ Remarkup](https://secure.phabricator.com/book/phabricator/article/remarkup/). Most importantly, make sure you know how to use those image [ macros](https://phabricator.haskell.org/macro/).
 
 ### Applications configuration
 
