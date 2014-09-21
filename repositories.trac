@@ -9,7 +9,12 @@ This page lists the active repositories relating to GHC. These are Git repositor
 The GHC source code tracks many related sub-repositories, which are needed for external dependencies during the build, or tools that are included in the build. Not every sub-repository is maintained by us; in fact, the large majority are ''not'' maintained by GHC HQ (roughly: if the repository is hosted on Github, it is maintained on Github, and patches and issues should go there).
 
 As a result of this, in HEAD, essentially every single upstream repository we track is tracked with a '''git submodule'''. These submodules are mirrored for us, and we send patches we need to the upstream maintainer. Here are the submodules we use, and where their upstreams point:
-
+{{{#!comment
+On Github, but it says "WORK-IN-PROGRESS / DO NOT USE YET":
+* array
+* old-locale
+* old-time
+}}}
 {{{
 #!html
 <table border="1">
@@ -23,8 +28,8 @@ As a result of this, in HEAD, essentially every single upstream repository we tr
 <tr><td>libraries/Cabal</td>        <td>https://github.com/haskell/Cabal</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
 <tr><td>libraries/containers</td>   <td>https://github.com/haskell/containers</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
 <tr><td>libraries/deepseq</td>      <td>https://git.haskell.org/packages/deepseq.git</td> <td>master</td> <td>No</td> <td>No</td></tr>
-<tr><td>libraries/directory</td>    <td>https://git.haskell.org/packages/directory.git</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
-<tr><td>libraries/filepath</td>     <td>https://git.haskell.org/packages/filepath.git</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
+<tr><td>libraries/directory</td>    <td>https://github.com/haskell/directory</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
+<tr><td>libraries/filepath</td>     <td>https://github.com/haskell/filepath</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
 <tr><td>libraries/haskeline</td>    <td>https://github.com/judah/haskeline</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
 <tr><td>libraries/haskell98</td>    <td>https://git.haskell.org/packages/haskell98.git</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
 <tr><td>libraries/haskell2010</td>  <td>https://git.haskell.org/packages/haskell2010.git</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
@@ -32,11 +37,11 @@ As a result of this, in HEAD, essentially every single upstream repository we tr
 <tr><td>libraries/hpc</td>          <td>https://git.haskell.org/packages/hpc.git</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
 <tr><td>libraries/old-locale</td>   <td>https://git.haskell.org/packages/old-locale.git</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
 <tr><td>libraries/old-time</td>     <td>https://git.haskell.org/packages/old-time.git</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
-<tr><td>libraries/process</td>      <td>https://git.haskell.org/packages/process.git</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
+<tr><td>libraries/process</td>      <td>https://github.com/process</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
 <tr><td>libraries/terminfo</td>     <td>https://github.com/judah/terminfo</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
 <tr><td>libraries/time</td>         <td>https://github.com/haskell/time</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
 <tr><td>libraries/unix</td>         <td>https://github.com/haskell/unix</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
-<tr><td>libraries/Win32</td>        <td>https://git.haskell.org/packages/Win32.git</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
+<tr><td>libraries/Win32</td>        <td>https://github.com/haskell/win32</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
 <tr><td>libraries/xhtml</td>        <td>https://github.com/haskell/xhtml</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
 <tr><td>libraries/random</td>       <td>https://github.com/haskell/random</td> <td>master</td> <td>No</td> <td>No</td></tr>
 <tr><td>libraries/primitive</td>    <td>https://github.com/haskell/primitive</td> <td>master</td> <td>No</td> <td>No</td></tr>
