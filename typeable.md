@@ -192,3 +192,12 @@ eqT :: forall k (a :: k) (b :: k). TypeRep a -> TypeRep b -> Maybe (a :~: b)
 
 ifArrow :: forall (a :: *) (d :: *). TypeRep a -> (forall (b :: *) (c :: *). TypeRep b -> TypeRep c -> (a :~: (b -> c)) -> d) -> d
 ```
+
+
+The commented out bit in the middle is what would be used if we had kind equalities. Sadly, we don't yet.
+
+
+Some of this design is motivated by the desire to allow flexibility in the implementation to allow for fingerprinting for fast equality comparisons. Naturally, the fingerprints have to be in the TCB. If it weren't for them, though, the `TypeRep` type could be exported concretely.
+
+
+Could we simplify this a bit by removing `TyCon`?
