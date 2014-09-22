@@ -4,7 +4,7 @@
 See [milestone:7.8.4](/trac/ghc/milestone/7.8.4)
 
 
-Note however, that not all tickets with a 7.8.3 milestone will be addressed for the final 7.8.4 release.
+Note however, that not all tickets with a 7.8.4 milestone will be addressed for the final 7.8.4 release (if it happens at all).
 
 ## Tickets marked merge with no milestone
 
