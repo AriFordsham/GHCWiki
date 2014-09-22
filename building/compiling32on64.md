@@ -9,11 +9,6 @@ Compiling i386 Haskell programs on a x86_64 system can be accomplished by buildi
 ## Installing the i386 GHC
 
 - Make sure you have the x86_64/i386 multi-arch system in place and install the i386 libs you are going to link to, e.g., zlib1g-dev:i386 and the ia32-libs set on Ubuntu 12.04 and individual libraries on newer Ubuntu versions.
-- To avoid linking to the wrong version of zlib, you may need to install the haskell package zlib specially:
-
-  ```wiki
-  cabal install zlib --ghc-option="-optc-m32" --ghc-option="-opta-m32" --ghc-option="-optl-m32" --ld-option="-melf_i386" --hsc2hs-options="--cflag=-m32 --lflag=-m32"
-  ```
 - Either install libgmp-dev:i386 if your OS permits both the i386 and x86_64 versions (Ubuntu 12.04 doesn't; you can also force-override the ban) or hack around by making a symlink, e.g., 
 
   ```wiki
@@ -31,6 +26,11 @@ Compiling i386 Haskell programs on a x86_64 system can be accomplished by buildi
 
   ```wiki
   make install
+  ```
+- To avoid linking to the wrong version of zlib, when you compile packages that depend on it, you may need to install the haskell package zlib specially:
+
+  ```wiki
+  cabal install zlib --ghc-option="-optc-m32" --ghc-option="-opta-m32" --ghc-option="-optl-m32" --ld-option="-melf_i386" --hsc2hs-options="--cflag=-m32 --lflag=-m32"
   ```
 
 ## Compiling i386 binaries
