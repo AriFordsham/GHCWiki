@@ -1,4 +1,4 @@
-# This is a proposal / discussion page for adding annotations to the AST.
+# This is a proposal / discussion page for adding annotations to the AST, for ticket [\#9628](https://gitlab.haskell.org//ghc/ghc/issues/9628)
 
 
 Right now the locations of syntactic markers such as `do`/`let`/`where`/`in`/`of` in the source are discarded from the AST, although they are retained in the rich token stream.
