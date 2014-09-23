@@ -21,6 +21,28 @@ The notes on the rest of this page are the GHC team's observations and/or clarif
 
 Use the syntax `[[GhcFile(<file>)]]` or `source:<file>`, e.g. [README.md](/trac/ghc/browser/ghc/README.md) or [source:README.md](/trac/ghc/browser/README.md)[](/trac/ghc/export/HEAD/ghc/README.md) to point to source files in the GHC repository.  We can't currently point directly to source files in other repositories this way, although when we upgrade Trac to 0.12 the multi-repository support should enable us to do this.
 
+## Pointing to commits
+
+
+Example (see also [WorkingConventions/Git](working-conventions/git#commit-messages)):
+
+```wiki
+In [changeset:"970816ac0028f2f42ac4140d29e2f0dfe0e9af3e/ghc"]:
+{{{
+#!CommitTicketReference repository="ghc" revision="970816ac0028f2f42ac4140d29e2f0dfe0e9af3e"
+}}}
+```
+
+
+Result:
+
+>
+> In [970816ac0028f2f42ac4140d29e2f0dfe0e9af3e/ghc](/trac/ghc/changeset/970816ac0028f2f42ac4140d29e2f0dfe0e9af3e/ghc):
+>
+> ```message
+> Use let !y = x in .. x .. instead of seq in $! and evaluate (#2273)
+> ```
+
 ## Formatting list items with multiple paragraphs
 
 [TracWiki](trac-wiki) recognizes list items by their indentation and the asterisk preceding the first line. However if a second paragraph is started after an empty line, [TracWiki](trac-wiki) will not consider it part of the list item despite the use of indentation. The "proper" way to do it is to separate the second and subsequent paragraphs by line break macros. For example:
