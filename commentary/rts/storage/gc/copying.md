@@ -1,7 +1,7 @@
 # Copying GC
 
 
-GHC uses copying GC by default, since while it requires more memory than mark/compact?, it is faster.
+GHC uses copying GC by default, while it requires more memory than mark/compact?, it is faster.
 
 
 The basic copying scheme is [ Cheney's Algorithm](http://en.wikipedia.org/wiki/Cheney%27s_algorithm).  Starting from the [roots](commentary/rts/storage/gc/roots), we visit each live object:

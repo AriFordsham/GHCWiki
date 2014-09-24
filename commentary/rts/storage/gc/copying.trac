@@ -2,7 +2,7 @@
 
 = Copying GC =
 
-GHC uses copying GC by default, since while it requires more memory than [wiki:Commentary/Rts/Storage/GC/Compaction mark/compact], it is faster.
+GHC uses copying GC by default, while it requires more memory than [wiki:Commentary/Rts/Storage/GC/Compaction mark/compact], it is faster.
 
 The basic copying scheme is [http://en.wikipedia.org/wiki/Cheney%27s_algorithm Cheney's Algorithm].  Starting from the [wiki:Commentary/Rts/Storage/GC/Roots roots], we visit each live object:
 
