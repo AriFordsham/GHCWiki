@@ -49,7 +49,6 @@ Each ticket has a bunch of other fields too:
   - An empty milestone field means the bug has not been triaged yet.  We don't yet know if the
     ticket is a real, unique, issue.  Once this has been established, the ticket will be given
     a milestone.
-  - **Not GHC** is for tickets that are not tied to a GHC release.
   - **_\|_** is for tickets that have been triaged, but we don't plan to fix them for a particular
     release.  This might be because the bug is low priority, or is simply too hard to fix right now.
 
