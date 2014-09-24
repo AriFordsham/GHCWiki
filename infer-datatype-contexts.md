@@ -81,7 +81,7 @@ How can you get a value of type `HasEq a`.
 > ` (forall a. (Eq (Either a b))  => HasEq (Either a b) -> c) -> c -> b `
 
 >
-> Systematic listing of all cases where explicit types appear.
+> Listing of all cases where explicit types appear.
 
 - Haskell98
 
