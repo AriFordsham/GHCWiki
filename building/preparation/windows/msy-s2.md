@@ -73,6 +73,3 @@ Alternatively, just run:
 ```wiki
 ./validate
 ```
-
-
-Note: running tests does not work on msys2 due to issues in the test runner and in the bundled version of gcc (fixes pending).
