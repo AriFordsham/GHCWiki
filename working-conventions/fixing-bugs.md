@@ -17,20 +17,15 @@ Here's how to go about helping with a bug.
   - If your proposed fix has non-local consequences, please consult us (on ghc-devs@…) before investing too much of your time.
   - Please follow our [coding conventions](working-conventions#)
   - Comment your fix in the source code, and include a reference to the bug ticket number, e.g. "`#1466`" (this helps when grepping for the fix later).  It is often helpful to give a small example code fragment that demonstrates the need for your fix.  This isn't always relevant; sometimes you are fixing a plain error, but often it's more subtle than that.
-1. **Record a patch** that embodies your fix.  Please follow our convention for naming patches: [WorkingConventions/Git](working-conventions/git#commit-messages).
-1. **Test your patch** using the [validation script](testing-patches), before you submit it.  (If you have write permission to the repository, then you **must** validate before pushing the patch.)
-1. **Submit your patch**.  If you don't have commit permission for the repository, 
+1. **Make a commit** that embodies your fix.  Please follow our convention for naming commits: [WorkingConventions/Git](working-conventions/git#commit-messages).
+1. **Test your commit** using the [validation script](testing-patches). Alternatively, you can let [Harbormaster](phabricator/harbormaster) build and validate your commit, see next step. (If you have write permission to the repository, then you **must** validate before pushing.)
+1. **Submit a code review** to [Phabricator](phabricator). Wait for [Phabricator/Harbormaster](phabricator/harbormaster) to build and validate your commit (\~35 minutes, September 2014).
+1. **Update the Trac ticket.**
 
-  - Use 'git format-patch' to create a patch bundle:
-
-    1. Make a commit or commits as per usual
-    1. Run `git format-patch -n`, where *`n`* is the number of commits
-  - Attach the patch bundle to the Trac bug report
-  - Add a comment to the Trac bug report to say what you've done
-  - In the 'Action' part of the Trac ticket, select "Please review".  This shifts responsibility to [the GHC team](team-ghc) to review and commit your patch.
-
->
-> If you do have commit permission, then commit, update the Trac report, and close the bug.
+  - Add a comment to say what you've done.
+  - Fill out the field called "[Differential Revisions](phabricator#linking-reviews-to-trac-tickets-and-vice-versa)". Syntax: `Phab:D123`.
+  - In the 'Action' part of the Trac ticket, select "Please review". This shifts responsibility to [the GHC team](team-ghc) to review and push your commit if it is accepted.
+  - Optional: if you did not manage to submit a code review to Phabricator for whatever reason, attach a patch bundle (run `git format-patch -n`, where *`n`* is the number of commits).
 
 
 Then have a beer on us.  We are truly grateful.
