@@ -11,9 +11,8 @@ This page is intended to serve as the first stop for those people who say, "I wa
 
   ```
   # clone GHC's main Git repository (creates './ghc' folder in CWD)
-  git clone git://git.haskell.org/ghc.git   # see note below if this fails
+  git clone --recursive git://git.haskell.org/ghc.git   # see note below if this fails
   cd ghc/
-  ./sync-all get
 
   # configure build
   cd mk
@@ -25,6 +24,7 @@ This page is intended to serve as the first stop for those people who say, "I wa
 
   # build GHC
   make -j8 # parallelize to at most 8 parallel jobs; adapt to actual number of cpu cores
+  ## edit build.mk to remove the comment marker # on the line stage=2
   ```
 
 >
@@ -35,7 +35,9 @@ This page is intended to serve as the first stop for those people who say, "I wa
 
 - The first line of the above sequence creates a `ghc` folder. This is the root of your GHC source tree. After a successful build, you should have your brand new compiler in `ghc/inplace/bin/ghc-stage2`. (GHCi is launched with `ghc/inplace/bin/ghc-stage2 --interactive`). Try it out.
 
-- A good first sanity check is to twiddle some error message in the code, just to see that changed error message pop up when you compile a file. Write some Haskell code with an error in it, and look at the error message. Search through the ghc code for that error message (almost all the relevant code is in the `compiler/` subdirectory of `ghc`). Change the message, and then rebuild (run `make 2` in the `ghc` subdirectory of `ghc` -- that is, `ghc/ghc`). If you see the changed message, you're good to go.
+- The last line of the above makes makes sure that only the stage-2 compiler will be build after this (see [here](building/architecture/idiom/stages) about stages). This will be much faster, and usually what you want. If, for some reason, you're working on the stage-1 compiler, you can undo that change and use `make 1`, but you must be in the compiler subdirectory, not the ghc subdirectory.
+
+- A good first sanity check is to twiddle some error message in the code, just to see that changed error message pop up when you compile a file. Write some Haskell code with an error in it, and look at the error message. Search through the ghc code for that error message (almost all the relevant code is in the `compiler/` subdirectory of `ghc`). Change the message, and then rebuild (run `make` in the `ghc` subdirectory of `ghc` -- that is, `ghc/ghc`). If you see the changed message, you're good to go.
 
 - If you've made it this far, you're well on your way to becoming a GHC developer. You should subscribe to the [ ghc-devs](http://www.haskell.org/mailman/listinfo/ghc-devs) mailing list.
 
@@ -56,24 +58,17 @@ Once you fix the bug, make sure to write a test-case proving that you've done wh
 
 ## Practical advice
 
-- After a small change, you just want to build the stage-2 compiler (see [here](building/architecture/idiom/stages) about stages). Go into the `ghc` subdirectory of `ghc` and say `make 2`. It's much faster than just using `make`.
+- [This page](working-conventions/fixing-bugs) describes in more detail workflow for fixing bugs.
 
-- If, for some reason, you're working on the stage-1 compiler, you can use `make 1`, but **you must be in the `compiler` subdirectory**, not the `ghc` subdirectory.
+- Learn about our [git working conventions](working-conventions/git) and [git submodules](working-conventions/git/submodules).
 
 - I (Richard E) use emacs to edit the code, and I have a hotkey dedicated to searching the ghc codebase, and another one dedicated to compiling ghc. This makes work on ghc much more interactive. See [the Emacs page](emacs) for more info.
 
 ## Less practical advice
 
-- Learn about [ git](http://git-scm.com/) and the [ghc repos](repositories).
-
 - Don't get scared. GHC is a big codebase, but it makes sense when you stare at it long enough!
 
 - Be forewarned that many pages on the GHC wiki are somewhat out-of-date. Always check the last modification date. Email if you're not sure.
-
-## More information
-
-- [This page](working-conventions/fixing-bugs) describes in more detail workflow for fixing bugs. When you decide to submit your first patch it will certainly be worthwile to take a look.
-- [This page](working-conventions/git) gives more detail about our git working conventions. It will tell you how to set up your working trees in a bit more sophisticated way and how to prepare patches. This is information you'll need to know when you get more serious about GHC development, but as long as you're just hacking you may skip this page.
 
 ## Need help?
 
