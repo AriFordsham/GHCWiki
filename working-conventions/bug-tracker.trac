@@ -10,7 +10,7 @@ We organise our work (both bug fixing and feature requests) using the Trac bug t
 
 Every ticket has a '''status''' and a '''type''', which appear in the title of the ticket.  Thus "Ticket #2057 (new bug)" means status=new, and type=bug.  Here's what they mean:
 
- * '''Type''' is one of `bug`, `feature request`, `task`, or `proposal`. The `proposal` type is only for [http://www.haskell.org/haskellwiki/Library_submissions library submission] proposals.
+ * '''Type''' is one of `bug`, `feature request` or `task`.
 
  * '''Status''' says what state the ticket is in.  It is one of these:
    * '''New''' is for open tickets that need to be triaged or fixed.
@@ -30,7 +30,7 @@ For any given status, 'someone' is responsible for what happens to it next:
 
    * '''New''' means the bug is still open, and thus in the hands of the GHC team.
    * '''Infoneeded''' means that the ticket is stalled awaiting information from the submitter (or anyone else), and the responsibility to move forward requires someone to help.
-   * '''Merge''' tickets will be handled by Austin or Herbert and merged into the tree.
+   * '''Merge''' tickets will be handled by Austin or Herbert and merged into the tree before the next release.
    * '''Patch''' tickets will be handled by Austin or Herbert and merged into the tree.
    * '''Upstream''' means that we're waiting on action from an upstream maintainer. Normally, when a ticket is marked 'upstream', a change will be proposed to the maintainer, who will merge it (or something equivalent). The ticket will then be moved back to '''patch''' status, indicating GHC developers need to pick up the change.
 
