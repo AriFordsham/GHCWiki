@@ -11,7 +11,7 @@ Here's how to go about helping with a bug.
    * Put the name of the test in the "Test Case" field of the Trac report.[[BR]][[BR]]
  0. '''Fix the bug'''!
    * If your proposed fix has non-local consequences, please consult us (on ghc-devs@haskell.org) before investing too much of your time.
-   * Please follow our [wiki:WorkingConventions#Coding coding conventions]
+   * Please follow our [wiki:WorkingConventions#Coding coding conventions].
    * Comment your fix in the source code, and include a reference to the bug ticket number, e.g. "`#1466`" (this helps when grepping for the fix later).  It is often helpful to give a small example code fragment that demonstrates the need for your fix.  This isn't always relevant; sometimes you are fixing a plain error, but often it's more subtle than that.[[BR]][[BR]]
  0. '''Make a commit''' that embodies your fix.  Please follow our convention for naming commits: [wiki:WorkingConventions/Git#Commitmessages].[[BR]][[BR]]
  0. '''Test your commit''' using the [wiki:TestingPatches validation script]. Alternatively, you can let [wiki:Phabricator/Harbormaster Harbormaster] build and validate your commit, see next step. (If you have write permission to the repository, then you '''must''' validate before pushing.)[[BR]][[BR]]
