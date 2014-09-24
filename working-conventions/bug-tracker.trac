@@ -45,10 +45,6 @@ Each ticket has a bunch of other fields too:
    * '''_|_''' is for tickets that have been triaged, but we don't plan to fix them for a particular
      release.  This might be because the bug is low priority, or is simply too hard to fix right now.
 
- * '''Severity''': this is set by the submitter of the ticket, and indicates how important the issue is to
-   them, i.e. is it preventing them from doing something altogether, or just a minor annoyance.  The
-   severity might be reduced if we discover a workaround.
-
  * '''Priority''': this field is for the GHC development team to help us prioritise what we work on. On a release milestone, the highest priority tickets are blockers for that release, and the high priority tickets are those that we also plan to fix before releasing. We will also try to fix as many of the normal and lower priority tickets as possible.
 
  * '''Test Case''': fill in this field with the name of the test in the test suite.  Typically every bug
