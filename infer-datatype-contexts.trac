@@ -109,7 +109,8 @@ How can you get a value of type {{{HasEq a}}}.
           ) -> a
       }}}
     * Type families: like with type synonyms contexts can be safely ignored here. What about newtype type families?
-    * Functional Dependencies: ???
+    * Functional Dependencies: TODO
+    * GADTs: TODO
       
 
 3. Functions in modules without this extension.

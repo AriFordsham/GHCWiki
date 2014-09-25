@@ -130,7 +130,8 @@ How can you get a value of type `HasEq a`.
         ) -> a
     ```
   - Type families: like with type synonyms contexts can be safely ignored here. What about newtype type families?
-  - Functional Dependencies: ???
+  - Functional Dependencies: TODO
+  - GADTs: TODO
 
 1. Functions in modules without this extension.
   Maybe it's possible to add the contexts when the functions are imported. I don't know.
