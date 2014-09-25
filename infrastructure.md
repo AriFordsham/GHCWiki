@@ -10,6 +10,7 @@ There are a number of services and tools that GHC developers should be aware of.
 - Our [mailing lists](mailing-lists-and-irc)
 - For code review, we use a [Phabricator](phabricator) instance at [ https://phabricator.haskell.org/](https://phabricator.haskell.org/)
 - We use [Travis](travis) to validate each new commit: see [ https://travis-ci.org/ghc/ghc/builds](https://travis-ci.org/ghc/ghc/builds) for the current status
+- We also use dedicated BuilderSummary build bots? to regularly [ http://haskell.inf.elte.hu/builders/ build GHC](http://haskell.inf.elte.hu/builders/ build GHC) and the [ http://haskell.inf.elte.hu/docs/ user documentation](http://haskell.inf.elte.hu/docs/ user documentation)
 
 ## Beta tools
 
