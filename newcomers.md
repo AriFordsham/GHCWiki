@@ -7,7 +7,7 @@ This page is intended to serve as the first stop for those people who say, "I wa
 
 - To orient yourself to the general architecture of GHC, [ this article](http://www.aosabook.org/en/ghc.html), written by two of the chief architects of GHC, Simon Marlow and Simon Peyton-Jones, is excellent and current (2012).
 
-- While you're reading that article, download and build the sources. [Prepare](building/preparation) your machine, [download](building/getting-the-sources) the source, and [build](building/hacking). For the short, short version, which may or may not work for your machine, you can try this (note that three commands are not meant to be taken literally!):
+- While you're reading that article, download and build the sources. [Prepare](building/preparation) your machine, [download](building/getting-the-sources) the source, and [build](building/hacking). For the short, short version, which may or may not work for your machine, you can try this:
 
   ```
   # clone GHC's main Git repository (creates './ghc' folder in CWD)
