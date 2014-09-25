@@ -13,7 +13,7 @@ This page is intended to serve as the first stop for those people who say, "I wa
   # clone GHC's main Git repository (creates './ghc' folder in CWD)
   git clone --recursive git://git.haskell.org/ghc.git   # see note below if this fails
   cd ghc/
-
+  git clone git://git.haskell.org/ghc-tarballs.git  # Windows only
   # configure build
   cd mk
   cp build.mk.sample build.mk
