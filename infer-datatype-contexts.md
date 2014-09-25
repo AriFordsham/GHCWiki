@@ -109,7 +109,7 @@ How can you get a value of type `HasEq a`.
 - Extensions:
 
   - Explicit forall RankNTypes, Imporedicative types.
-    For all free variables in `Eq (...)` place a context where the variable is bound
+    For all free variables in `HasEq (...)` place a context where the variable is bound
     e.g.
 
     ```wiki
