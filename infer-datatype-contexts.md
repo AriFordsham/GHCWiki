@@ -108,9 +108,28 @@ How can you get a value of type `HasEq a`.
     Check type. Add to context
 - Extensions:
 
-  - Explicit forall RankNTypes, Imporedicative types. It seems not immediately obvious which
-    context to add the datatypecontexts to. ???
-  - Type families: like with type synonyms contexts can be safely ignored here
+  - Explicit forall RankNTypes, Imporedicative types.
+    For all free variables in `Eq (...)` place a context where the variable is bound
+    e.g.
+
+    ```wiki
+    Maybe (
+        forall b. (
+            forall c. HasEq (a,b,c,forall d.d)
+            ) -> ()
+        ) -> a
+    ```
+
+    becomes
+
+    ```wiki
+    Eq (a,b',c',d') => Maybe (
+        forall b. (Eq (a,b,c'',d'')) => (
+            forall c. (Eq (a,b,c,d''')) => HasEq (a,b,c,forall d.d)
+            ) -> ()
+        ) -> a
+    ```
+  - Type families: like with type synonyms contexts can be safely ignored here. What about newtype type families?
   - Functional Dependencies: ???
 
 1. Functions in modules without this extension.
