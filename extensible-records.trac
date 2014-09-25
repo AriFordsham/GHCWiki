@@ -13,6 +13,7 @@ The purpose of this page is to collect and discuss proposals for adding extensib
  * [http://homepage.ntlworld.com/b.hilken/files/Records.hs Type Families]
  * [http://homepages.cwi.nl/~ralf/HList/ Heterogeneous Collections], see also [http://okmij.org/ftp/Haskell/keyword-arguments.lhs Keyword Arguments]
  * [http://www.cs.kent.ac.uk/people/staff/cr3/toolbox/haskell/Data.Record.hs Data.Record.hs], expanded and documented version of the old Haskell prime ticket 92 attachment [http://hackage.haskell.org/trac/haskell-prime/attachment/ticket/92/Data.Record.hs Data.Record.hs]. (comment: my preferences would be (1) we should try to implement as many useful record operations, predicates, and invariants as we can, (2) we should try to unify the sets of operations into a coherent whole, (3) we should identify to what extent and in what form we need to have language and implementation support, and (4) users, not library providers, will decide which subsets of operations they use most; a library providing for as many common usage patterns as possible might have a chance of breaking the deadlock, and laying the groundwork for a future design that might actually have some users and experience behind it; these preferences appear to conflict with the intentions of the creator of this page)
+ * [https://gist.github.com/nikita-volkov/6977841 Anonymous records] -- "... something more like a tuple with ability to access its items by name."
 
 = Functional References =
 
