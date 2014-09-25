@@ -69,16 +69,10 @@ How can you get a value of type `HasEq a`.
   Use the same trick as with GADTs?
   Just make the type signature of the constructor `(Eq a) => a -> HasEq a`
 1. Explicit type signature `(undefined :: HasEq a)`:
-  Add the constraint `(Eq a)` to all explicit type signatures containing `HasEq a`.
-  If you have more variables `HasEq (Either a b)` use the inner most forall in which one of the variables is bound
-
-> ` (forall a. HasEq (Either a b) -> c) -> c -> b `
-> becomes
-
-> ` (forall a. (Eq (Either a b))  => HasEq (Either a b) -> c) -> c -> b `
+  For all free variables in `HasEq (...)` add `Eq (...)` to the context where the variable is bound.
 
 >
-> Listing of all cases where explicit types appear.
+> Listing of all places where explicit types appear.
 
 - Haskell98
 
@@ -106,7 +100,7 @@ How can you get a value of type `HasEq a`.
 - Extensions:
 
   - Explicit forall RankNTypes, Imporedicative types.
-    For all free variables in `HasEq (...)` place a context where the variable is bound
+    For all free variables in `HasEq (...)` add `Eq (...)` to the context where the variable is bound
     e.g.
 
     ```wiki
