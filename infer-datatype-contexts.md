@@ -63,9 +63,6 @@ eq (HasEq e) (HasEq e') = e == e'
 ### Syntactic sugar for explicit type annotations + Constructor type change
 
 
-Todo: write down everything more explicitly.
-
-
 How can you get a value of type `HasEq a`.
 
 1. Using a Constructor (also in a pattern):
