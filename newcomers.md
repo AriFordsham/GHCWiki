@@ -10,10 +10,11 @@ This page is intended to serve as the first stop for those people who say, "I wa
 - While you're reading that article, download and build the sources. [Prepare](building/preparation) your machine, [download](building/getting-the-sources) the source, and [build](building/hacking). For the short, short version, which may or may not work for your machine, you can try this:
 
 ```
+# needed only once, URL rewrite rule is persisted in ${HOME}/.gitconfig
+git config --global url."git://github.com/ghc/packages-".insteadOf git://github.com/ghc/packages/ 
+
 # clone GHC's main Git repository (creates './ghc' folder in CWD)
-git clone git://github.com/ghc/ghc
-cd ghc
-./sync-all get
+git clone --recursive git://github.com/ghc/ghc
 
 # configure build
 cd mk
@@ -28,8 +29,8 @@ make -j8 # parallelize to at most 8 parallel jobs; adapt to actual number of cpu
 ## edit build.mk to remove the comment marker # on the line stage=2
 ```
 
->
-> Note: replace `git://` by `http://` in the instructions above if you're behind a firewall blocking port 9418
+
+replace `git://` by `http://` or `https://` in the instructions above if you're behind a firewall blocking port 9418. For more details see also [Building/GettingTheSources](building/getting-the-sources).
 
 >
 > If your machine has all the prerequisites, this might just work. Expect it all to take roughly an hour.
