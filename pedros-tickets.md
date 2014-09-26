@@ -12,7 +12,6 @@ This is a list of tickets that [ Pedro](http://dreixel.net) wants to keep an eye
 - [\#9557](https://gitlab.haskell.org//ghc/ghc/issues/9557) (Deriving instances is slow)
 - [\#9563](https://gitlab.haskell.org//ghc/ghc/issues/9563) (Support for deriving Generic1 for data families)
 - [\#9575](https://gitlab.haskell.org//ghc/ghc/issues/9575) (-XAutoDeriveTypeable fails to generate instances)
-- [\#9576](https://gitlab.haskell.org//ghc/ghc/issues/9576) (-fdefer-type-errors doesn't defer errors from `deriving`)
 - [\#9583](https://gitlab.haskell.org//ghc/ghc/issues/9583) (Simplifier ticks exhausted while compiling Cabal HEAD)
 
 
@@ -22,3 +21,4 @@ Closed:
 - [\#7800](https://gitlab.haskell.org//ghc/ghc/issues/7800) (Error message when deriving Typeable without PolyKinds)
 - [\#8566](https://gitlab.haskell.org//ghc/ghc/issues/8566) (Given kind equalities are discarded)
 - [\#8797](https://gitlab.haskell.org//ghc/ghc/issues/8797) (Generics instances for monoid and applicative newtypes)
+- [\#9576](https://gitlab.haskell.org//ghc/ghc/issues/9576) (-fdefer-type-errors doesn't defer errors from `deriving`)
