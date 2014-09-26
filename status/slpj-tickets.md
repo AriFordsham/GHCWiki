@@ -208,6 +208,7 @@ See also [TemplateHaskell](template-haskell)
 ## Types and type inference
 
 - [TypeFunctionsStatus](type-functions-status)
+- [\#9637](https://gitlab.haskell.org//ghc/ghc/issues/9637): type level error messages
 - [\#9587](https://gitlab.haskell.org//ghc/ghc/issues/9587), [\#9607](https://gitlab.haskell.org//ghc/ghc/issues/9607): `-XAllowAmbiguousTypes` debate
 - [\#9497](https://gitlab.haskell.org//ghc/ghc/issues/9497): typed holes: silencing them
 - [\#9404](https://gitlab.haskell.org//ghc/ghc/issues/9404): tcInfer and `PolyTv`
