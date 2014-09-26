@@ -16,7 +16,7 @@ git config --global url."git://github.com/ghc/packages-".insteadOf git://github.
 # clone GHC's main Git repository (creates './ghc' folder in CWD)
 git clone --recursive git://github.com/ghc/ghc
 cd ghc/
-git clone git://git.haskell.org/ghc-tarballs.git  # Windows only
+git clone git://github.com/ghc/ghc-tarballs.git  # Windows only
 # configure build
 cd mk
 cp build.mk.sample build.mk
