@@ -28,6 +28,7 @@ We have several automated ways of monitoring GHC.  Each has its own detailed des
 - [Travis](travis) watches the repository for new commits (any branch) and validates them.
 - [ Our performance dashboard](http://ghcspeed-nomeata.rhcloud.com) (experimental) monitors changes in the performance of GHC itself, and of programs compiled by GHC, with a per-commit granularity.
 - [ Harbormaster](https://phabricator.haskell.org/harbormaster) is a part of Phabricator, which builds all GHC commits and incoming patches for testing. To find out more, see the [wiki:Phabricator/Harbormaster](phabricator/harbormaster) page.
+- [ Haskell.org server status page](http://status.haskell.org/)
 
 ## Tickets
 
