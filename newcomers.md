@@ -15,7 +15,8 @@ git config --global url."git://github.com/ghc/packages-".insteadOf git://github.
 
 # clone GHC's main Git repository (creates './ghc' folder in CWD)
 git clone --recursive git://github.com/ghc/ghc
-
+cd ghc/
+git clone git://git.haskell.org/ghc-tarballs.git  # Windows only
 # configure build
 cd mk
 cp build.mk.sample build.mk
@@ -35,9 +36,9 @@ replace `git://` by `http://` or `https://` in the instructions above if you're 
 >
 > If your machine has all the prerequisites, this might just work. Expect it all to take roughly an hour.
 
-- The first line of the above sequence creates a `ghc` folder. This is the root of your GHC source tree. After a successful build, you should have your brand new compiler in `ghc/inplace/bin/ghc-stage2`. (GHCi is launched with `ghc/inplace/bin/ghc-stage2 --interactive`). Try it out.
+- After a successful build, you should have your brand new compiler in `ghc/inplace/bin/ghc-stage2`. (GHCi is launched with `ghc/inplace/bin/ghc-stage2 --interactive`). Try it out.
 
-- The last line of the above makes makes sure that only the stage-2 compiler will be build after this (see [here](building/architecture/idiom/stages) about stages). This will be much faster, and usually what you want. If, for some reason, you're working on the stage-1 compiler, you can undo that change and use `make 1`, but you must be in the compiler subdirectory, not the ghc subdirectory.
+- The final edit of `build.mk` makes sure that only the stage-2 compiler will be build after this (see [here](building/architecture/idiom/stages) about stages). This will be much faster, and usually what you want. If, for some reason, you're working on the stage-1 compiler, you can undo that change and use `make 1`, but you must be in the compiler subdirectory, not the ghc subdirectory.
 
 - A good first sanity check is to twiddle some error message in the code, just to see that changed error message pop up when you compile a file. Write some Haskell code with an error in it, and look at the error message. Search through the ghc code for that error message (almost all the relevant code is in the `compiler/` subdirectory of `ghc`). Change the message, and then rebuild (run `make` in the `ghc` subdirectory of `ghc` -- that is, `ghc/ghc`). If you see the changed message, you're good to go.
 
