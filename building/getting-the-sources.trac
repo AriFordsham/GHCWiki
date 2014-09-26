@@ -48,7 +48,9 @@ And then read [wiki:WorkingConventions/Git Git Working Conventions] for instruct
 
 {{{#!box note
 
- - If you're behind a **firewall blocking port 9418** (or `git clone git://...` fails for some other reason), replace `git://` by `http://` in the instructions above.
+ - `git.haskell.org` is reachable via IPv6 as well as IPv4.
+
+ - If you're behind a **firewall blocking port 9418** (or `git clone git://...` fails for some other reason), try replacing `git://` by `http://` or `https://` in the instructions above.
 
  - If you have **push access**, see the [wiki:WorkingConventions/Git#Pushaccess Git Working Conventions - Push Access] for info on setting your push URLs.
 }}}
