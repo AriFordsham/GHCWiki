@@ -8,7 +8,9 @@ However, we still need help with it all. GHC is a community project, and as you 
 
 == Libraries, source language, type system ==
 
- * **Applicative is now a superclass of Monad**. TODO: Austin.
+ * **Applicative is now a superclass of Monad**. After much debate, in GHC 7.10, Applicative is finally a superclass of `Monad`, hence completing the Applicative Monad Proposal.
+
+ * **BBP: Foldable/Traversable**. TODO: Herbert
 
  * **Signature sections**.  Lennart Augustsson is implementing `(:: ty)` to work the same as `(\x -> x :: ty)`.  Needs a wiki design page.
 
@@ -46,9 +48,9 @@ However, we still need help with it all. GHC is a community project, and as you 
 
 == Frontend, build-system, and miscellaneous changes ==
 
- * **GHC is now using Submodules for all repositories**. TODO
+ * **GHC is now using Submodules for all repositories**. For a very long time, GHC has used a mixed method of containing some dependencies as submodules, while others were maintained as floating repositories. Unfortunately, this was a constant source of errors, and made certain things like using `git bisect` in a robust way impossible. As of GHC now and for the future, all dependent repositories are tracked through `git submodule`, making them much more robust and reproducible.
 
- * **Phabricator for code review**. TODO
+ * **Phabricator for code review**. For the past few months, many GHC developers have been doing something new - public code review! To facilitate that, Haskell.org now runs a copy of Phabricator [PHAB], available at https://phabricator.haskell.org, that we use for continuous integration and code review of incoming patches. Our instance has been tuned to support GHC, and many developers are actively submitting their patches through the queue. This is not only much more robust than trac tickets, it can also do testing of your patches, along with a nifty command line tool for other utilities.
 
 = References =
 
@@ -57,3 +59,4 @@ However, we still need help with it all. GHC is a community project, and as you 
 [FC] System FC with Explicit Kind Equality - http://www.seas.upenn.edu/~eir/papers/2013/fckinds/fckinds-extended.pdf [[BR]]
 [PTS] https://ghc.haskell.org/trac/ghc/wiki/PartialTypeSignatures [[BR]]
 [HEAPALLOCED] https://ghc.haskell.org/trac/ghc/ticket/8199 [[BR]]
+[PHAB] https://ghc.haskell.org/trac/ghc/wiki/Phabricator
