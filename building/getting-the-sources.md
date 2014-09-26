@@ -56,7 +56,9 @@ A source tree consists of more than one repository: at the top level there is th
 
 And then read [Git Working Conventions](working-conventions/git) for instructions on how to use Git with GHC development.
 
-- If you're behind a **firewall blocking port 9418** (or `git clone git://...` fails for some other reason), replace `git://` by `http://` in the instructions above.
+- `git.haskell.org` is reachable via IPv6 as well as IPv4.
+
+- If you're behind a **firewall blocking port 9418** (or `git clone git://...` fails for some other reason), try replacing `git://` by `http://` or `https://` in the instructions above.
 
 - If you have **push access**, see the [Git Working Conventions - Push Access](working-conventions/git#push-access) for info on setting your push URLs.
 
