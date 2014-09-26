@@ -12,6 +12,7 @@ This is a list of tickets that [http://dreixel.net Pedro] wants to keep an eye o
 * #9563 (Support for deriving Generic1 for data families)
 * #9575 (-XAutoDeriveTypeable fails to generate instances)
 * #9583 (Simplifier ticks exhausted while compiling Cabal HEAD)
+* #9630 (compile-time performance regression (probably due to Generics))
 
 Closed:
 
