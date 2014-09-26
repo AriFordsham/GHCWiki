@@ -7,12 +7,19 @@ This page is intended to serve as the first stop for those people who say, "I wa
 * To orient yourself to the general architecture of GHC, [http://www.aosabook.org/en/ghc.html this article], written by two of the chief architects of GHC, Simon Marlow and Simon Peyton-Jones, is excellent and current (2012).
 
 * While you're reading that article, download and build the sources. [wiki:Building/Preparation Prepare] your machine, [wiki:Building/GettingTheSources download] the source, and [wiki:Building/Hacking build]. For the short, short version, which may or may not work for your machine, you can try this:
-{{{
-#!sh
-# clone GHC's main Git repository (creates './ghc' folder in CWD)
+
+{{{#!comment
 git clone --recursive git://git.haskell.org/ghc.git   # see note below if this fails
 cd ghc/
 git clone git://git.haskell.org/ghc-tarballs.git  # Windows only
+}}}
+
+{{{
+#!sh
+# clone GHC's main Git repository (creates './ghc' folder in CWD)
+git clone git://github.com/ghc/ghc
+cd ghc
+./sync-all get
 
 # configure build
 cd mk
