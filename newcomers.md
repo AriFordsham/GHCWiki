@@ -9,23 +9,24 @@ This page is intended to serve as the first stop for those people who say, "I wa
 
 - While you're reading that article, download and build the sources. [Prepare](building/preparation) your machine, [download](building/getting-the-sources) the source, and [build](building/hacking). For the short, short version, which may or may not work for your machine, you can try this:
 
-  ```
-  # clone GHC's main Git repository (creates './ghc' folder in CWD)
-  git clone --recursive git://git.haskell.org/ghc.git   # see note below if this fails
-  cd ghc/
-  git clone git://git.haskell.org/ghc-tarballs.git  # Windows only
-  # configure build
-  cd mk
-  cp build.mk.sample build.mk
-  ## edit build.mk to remove the comment marker # on the line "BuildFlavour = quick"
-  cd ..
-  perl boot
-  ./configure
+```
+# clone GHC's main Git repository (creates './ghc' folder in CWD)
+git clone git://github.com/ghc/ghc
+cd ghc
+./sync-all get
 
-  # build GHC
-  make -j8 # parallelize to at most 8 parallel jobs; adapt to actual number of cpu cores
-  ## edit build.mk to remove the comment marker # on the line stage=2
-  ```
+# configure build
+cd mk
+cp build.mk.sample build.mk
+## edit build.mk to remove the comment marker # on the line "BuildFlavour = quick"
+cd ..
+perl boot
+./configure
+
+# build GHC
+make -j8 # parallelize to at most 8 parallel jobs; adapt to actual number of cpu cores
+## edit build.mk to remove the comment marker # on the line stage=2
+```
 
 >
 > Note: replace `git://` by `http://` in the instructions above if you're behind a firewall blocking port 9418
