@@ -13,6 +13,7 @@ This is a list of tickets that [ Pedro](http://dreixel.net) wants to keep an eye
 - [\#9563](https://gitlab.haskell.org//ghc/ghc/issues/9563) (Support for deriving Generic1 for data families)
 - [\#9575](https://gitlab.haskell.org//ghc/ghc/issues/9575) (-XAutoDeriveTypeable fails to generate instances)
 - [\#9583](https://gitlab.haskell.org//ghc/ghc/issues/9583) (Simplifier ticks exhausted while compiling Cabal HEAD)
+- [\#9630](https://gitlab.haskell.org//ghc/ghc/issues/9630) (compile-time performance regression (probably due to Generics))
 
 
 Closed:
