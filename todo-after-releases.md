@@ -9,3 +9,5 @@
   ```
   git grep -l GLASGOW_ | grep -v 'users_guide\|testsuite'| xargs grep GLASGOW_ | grep -v '\712\|711\|710\|709\|708'
   ```
+
+- Make sure any new Haskell platform release [ http://www.haskell.org/platform/changelog.html](http://www.haskell.org/platform/changelog.html) corresponds with ghc-pkg list.
