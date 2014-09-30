@@ -16,6 +16,7 @@ This is a list of tickets that [ Pedro](http://dreixel.net) wants to keep an eye
 - [\#9630](https://gitlab.haskell.org//ghc/ghc/issues/9630) (compile-time performance regression (probably due to Generics))
 - [\#9639](https://gitlab.haskell.org//ghc/ghc/issues/9639) (Remove OldTypeable)
 - [\#9642](https://gitlab.haskell.org//ghc/ghc/issues/9642) (LANGUAGE pragma synonyms)
+- [\#9650](https://gitlab.haskell.org//ghc/ghc/issues/9650) (Unsatisfiable default signature)
 
 
 Closed:
