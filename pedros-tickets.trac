@@ -15,6 +15,7 @@ This is a list of tickets that [http://dreixel.net Pedro] wants to keep an eye o
 * #9630 (compile-time performance regression (probably due to Generics))
 * #9639 (Remove OldTypeable)
 * #9642 (LANGUAGE pragma synonyms)
+* #9650 (Unsatisfiable default signature)
 
 Closed:
 
