@@ -68,3 +68,72 @@ So manipulations need to happen at the `ParsedSource` level, but with the abilit
 
 
 At the moment HaRe manages this by building up a token tree indexed by SrcSpan with tokens at the leaves, constructed from the `ParsedSource`, and then indexes into it for changes based on the `RenamedSource`.  The token tree is fiddly and brittle, so it would be better to keep this information directy in the AST.
+
+## Abortive annotation parameter attempt
+
+[ D246](https://phabricator.haskell.org/D246) captures an attempt to work through a type parameter. This exploded in complexity, and was abandoned.
+
+## SPJ alternative suggestion
+
+>
+> Another way to tackle this would be to ensure that syntax tree nodes have a "node-key" (a bit like their source location) that clients could use in a finite map, to map node-key to values of their choice.
+
+
+An initial investigation shows some complexity blow up too.  The same effect can be achieved with a virtual node key.
+
+## AZ Virtual node key proposal
+
+
+Instead of physically placing a "node-key" in each AST Node, a virtual
+node key can be generated from any \`GenLocated SrcSpan e' comprising a
+combination of the `SrcSpan` value and a unique identifier from the
+constructor for `e`, perhaps using its `TypeRep`, since the entire AST
+derives Typeable.
+
+
+To further reduce the intrusiveness, a base Annotation type can be
+defined that captures the location of noise tokens for each AST
+constructor. This can then be emitted from the parser, if the
+appropriate flag is set to enable it.
+
+
+So
+
+```
+dataApiAnnKey=AKSrcSpanTypeRep
+
+    mkApiAnnKey ::(Located e)->ApiAnnKey
+    mkApiAnnKey =...dataAnn=....|AnnHsLetSrcSpan-- of the word "let"SrcSpan-- of the word "in"|AnnHsDoSrcSpan-- of the word "do"
+```
+
+
+And then in the parser
+
+```
+| 'let' binds 'in' exp   { mkAnnHsLet $1$3(LL$HsLet(unLoc $2)$4)}
+```
+
+
+The helper is
+
+```
+
+    mkAnnHsLet ::Located a ->Located b ->LHsExprRdrName->P(LHsExprRdrName)
+    mkAnnHsLet (L l_let _)(L l_in _) e =do
+      addAnnotation (mkAnnKey e)(AnnHsLet l_let l_in)
+      return e;
+```
+
+
+The Parse Monad would have to accumulate the annotations to be
+returned at the end, if called with the appropriate flag.
+
+
+There will be some boilerplate in getting the annotations and helper
+functions defined, but it will not pollute the rest.
+
+
+This technique can also potentially be backported to support older GHC
+versions via a modification to ghc-parser\[1\].
+
+[ https://hackage.haskell.org/package/ghc-parser](https://hackage.haskell.org/package/ghc-parser)
