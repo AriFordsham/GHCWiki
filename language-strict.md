@@ -9,7 +9,7 @@ The `Strict` language pragma switches Haskell from being a lazy-by-default to a 
 - Investigate how much implementations of lazy and strict languages need to differ.
 
 
-Examples of the first is numeric and/or array heavy code in the style of [ Repa](http://hackage.haskell.org/package/repa).
+Examples of the first is numeric and/or array heavy code in the style of [ Repa](http://hackage.haskell.org/package/repa). Trac ticket: [\#8347](https://gitlab.haskell.org//ghc/ghc/issues/8347).
 
 
 Non-goals:
