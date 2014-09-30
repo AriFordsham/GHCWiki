@@ -7,7 +7,7 @@ The `Strict` language pragma switches Haskell from being a lazy-by-default to a 
  * Test whether strictness can be made modular.
  * Investigate how much implementations of lazy and strict languages need to differ.
 
-Examples of the first is numeric and/or array heavy code in the style of [http://hackage.haskell.org/package/repa Repa].
+Examples of the first is numeric and/or array heavy code in the style of [http://hackage.haskell.org/package/repa Repa]. Trac ticket: #8347.
 
 Non-goals:
 
