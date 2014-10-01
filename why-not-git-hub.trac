@@ -8,11 +8,13 @@ A common suggestion that is brought up from time is to host GHC development at [
 
 Benefits of using !GitHub instead our self-maintained infrastructure include:
 
- - Reduce maintenance cost in light of our already limited men power
- - !GitHub's pull-request-based work-flow is well-known in the Haskell community, not the least due to the majority of Haskell packages being developed on !GitHub already
- - Trac poses a higher threshold for new contributors due to its interface being more complex
- - Right now, the patch submission process requires to attach patch files to feature/defect tickets
- - Trac uses its own wiki markup syntax (as opposed to Markdown everyone else is using)
+ - Reduce maintenance cost in light of our already limited resources.
+ - Potential contributors most likely have a GitHub account already and are used to contributing on GitHub, reducing disincentives to contributing.
+   - Projects like Cabal saw an uptick in contributions after moving to GitHub.
+ - !GitHub's pull-request-based work-flow is well-known in the Haskell community (and the wider developer community), not the least due to the majority of Haskell packages being developed on !GitHub already
+ - Trac poses a higher threshold for new contributors due to its interface being more complex and requiring registering yet another account.
+ - Right now, the patch submission process requires to attach patch files to feature/defect tickets.
+ - Trac uses its own wiki markup syntax (as opposed to Markdown everyone else is using).
  - !GitHub is well-integrated with services like [https://travis-ci.org Travis-CI] (which allow to automatically validate pull-requests)
  - TODO: write more
 
