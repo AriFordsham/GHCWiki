@@ -409,8 +409,7 @@ These options are added to the command line for all Haskell
 compilations.  We turn on `-fasm`, because that halves compilation
 time at the expense of a few percent performance. `-Rghc-timing`
 prints out a line of timing info about each compilation.  It's handy
-to keep an eye on.  `-Wall` turns on all the warnings; GHC is
-meant to be warning-clean with `-Wall`.
+to keep an eye on.
 </td></tr></table>
 
 <table><tr><th>`GhcStage1HcOpts = -O -fasm`</th>
@@ -431,6 +430,8 @@ after each modification.
 Also we turn on `-DDEBUG`, because that enables assertions and
 debugging code in the compiler itself.  Turning on DEBUG makes
 the compiler about 30% slower.
+`-Wall` turns on all the warnings; GHC is meant to be warning-clean
+with `-Wall`.
 </td></tr></table>
 
 <table><tr><th>`GhcLibHcOpts = -O -fasm -XGenerics`</th>
