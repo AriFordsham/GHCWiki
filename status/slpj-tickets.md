@@ -15,6 +15,7 @@
 - [\#9352](https://gitlab.haskell.org//ghc/ghc/issues/9352): allow `State#` in FFI types.
 - [\#9211](https://gitlab.haskell.org//ghc/ghc/issues/9211), [\#9090](https://gitlab.haskell.org//ghc/ghc/issues/9090): using equalities to let-bind type variables; level numbers on skolems
 - [\#9388](https://gitlab.haskell.org//ghc/ghc/issues/9388): narrow the state hack
+- [\#9367](https://gitlab.haskell.org//ghc/ghc/issues/9367): type-level "error" function
 
 ## Front end
 
