@@ -36,6 +36,8 @@ However, we still need help with it all. GHC is a community project, and as you 
 
 - **Backpack module system** - Edward Yang is working on extensions to GHC and Cabal to support Backpack.  Details in the [Backpack wiki page](backpack).  At the moment, module reexports, the package key infrastructure change, and module thinning and renaming are in GHC HEAD and definitely shipping with 7.10; signatures and Cabal support are coming down the pike.
 
+- **More list fusion** - Based on a new compiler transformation by Joachim Breitner, [CallArity](call-arity), `foldl` and related functions now can take part in list fusion. David Feuer then came up with fusion rules for many more functions. This change may not be a unambiguous improvement in all cases, so if you find regressions, we’d like to hear about them.
+
 ## Back-end and runtime system
 
 - **CPU-specific optimizations** - Austin Seipp is currently investigating the implementation of CPU-specific optimisations for GHC, including new `-march` and `-mcpu` flags to adjust tuning for a particular processor. Right now, there is some preliminary work towards optimizing copies on later Intel machines. There's interest in expanding this further as well.
