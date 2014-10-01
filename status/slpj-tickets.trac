@@ -99,7 +99,7 @@ See also [wiki:TemplateHaskell]
  * #2439: Strict dictionaries
  * #5916: `runST` isn't free
  * #5522, #6092: liberate-case runs out of memory
- * #3990, #7647: UNPACK for data families, and with phantom types, needs data con wrapper refactoring
+ * #3990, #7647: UNPACK for data families, and with phantom types, needs data con wrapper refactoring; see also #9655 if you are in this area.
  * #5928: running Specialise more than once
 
 == Numerics, floating point, and primops ==
