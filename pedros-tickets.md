@@ -7,6 +7,7 @@ This is a list of tickets that [ Pedro](http://dreixel.net) wants to keep an eye
 - [\#7897](https://gitlab.haskell.org//ghc/ghc/issues/7897) (MakeTypeRep fingerprints be proper, robust fingerprints)
 - [\#8516](https://gitlab.haskell.org//ghc/ghc/issues/8516) (Add (-\>) representation and the Invariant class to GHC.Generics)
 - [\#9043](https://gitlab.haskell.org//ghc/ghc/issues/9043) (Add missing type class instances for data types in GHC.Generics)
+- [\#9453](https://gitlab.haskell.org//ghc/ghc/issues/9453) (The example for GHC Generics is kinda broken)
 - [\#9526](https://gitlab.haskell.org//ghc/ghc/issues/9526) (Add missing Generic instances in base)
 - [\#9527](https://gitlab.haskell.org//ghc/ghc/issues/9527) (Add Generic instances for Language.Haskell.TH)
 - [\#9557](https://gitlab.haskell.org//ghc/ghc/issues/9557) (Deriving instances is slow)
