@@ -27,7 +27,7 @@ We decided to keep static linking as the default for ordinary standalone executa
 To ensure that all the libraries are available both to use in GHCi and to use when static linking, cabal has to build everything twice.  To mitigate the overhead of building everything twice, we implemented the `-dynamic-too` flag, which generates both static and dynamic object files from a single compilation, sharing most of the compilation pipeline and only performing the code-generation steps twice.
 
 
-GHCi can load object files if some source files are precompiled.  To make this work with dynamic linking, we have to link the object files together into a temporary shared library in `/tmp`, and then load that.  To make it possible for new object files to override old object files, we had to load shared libraries into separate namespaces, which lead to breakage in the old static linker that we still haven't found a good fix for: [\#8395](https://gitlab.haskell.org//ghc/ghc/issues/8395).
+GHCi can load object files if some source files are precompiled.  To make this work with dynamic linking, we have to link the object files together into a temporary shared library in `/tmp`, and then load that.  To make it possible for new object files to override old object files, we had to load shared libraries into separate namespaces, which lead to breakage in the old static linker that we still haven't found a good fix for: [\#8935](https://gitlab.haskell.org//ghc/ghc/issues/8935).
 
 
 When using TemplateHaskell, we have to be able to load object code into GHCi, which means we need to have dynamic versions of all the object files.  Therefore, we automatically enable `-dynamic-too` when `TemplateHaskell` is on.  This slows down compilation, and is an annoying special case.
@@ -52,6 +52,19 @@ What happens if we build a static executable and link in the GHC package?  Can w
 
 
 The dynamic linker doesn't support unloading objects currently, so if you want that functionality then the static linker is the only option.  The Haxl project at Facebook is using the static linker for this reason, and also due to the performance overhead of dynamic linking.  It's not known whether the dynamic linker can support unloading.
+
+## Do we need the dynamic linker anyway?
+
+
+Dynamic linking is useful: it reduces executable sizes for one thing.  We've supported dynamic linking of standalone executables for a while, just not in GHCi.  Supporting it in GHCi has brought with it a lot of trouble.
+
+## Linking C++ code
+
+
+One of the stated reasons for switching to dynamic linking was that we could support C++ code much better in GHCi.  I suspect this is a non-issue.
+
+- We support linking shared libraries containing C++ code regardless of whether GHCi is linking statically or dynamically.  This has always worked.
+- If you have C++ code in your Haskell package, then it should also work both ways, now that the RTS linker supports running constructor functions ([\#5435](https://gitlab.haskell.org//ghc/ghc/issues/5435)).
 
 ## Bugs in the static linker
 
@@ -85,15 +98,6 @@ Copied from [DynamicGhcPrograms](dynamic-ghc-programs):
 <th>**YES**</th>
 <th>no
 </th></tr>
-<tr><th>[\#2283 WIndows: loading objects that refer to DLL symbols](https://gitlab.haskell.org//ghc/ghc/issues/2283)</th>
-<th>no</th>
-<th>no</th>
-<th>no</th>
-<th>no</th>
-<th>**probably**</th>
-<th>**YES**</th>
-<th>no
-</th></tr>
 <tr><th>[\#3242 ghci: can't load .so/.DLL for: m (addDLL: could not load DLL)](https://gitlab.haskell.org//ghc/ghc/issues/3242)</th>
 <th>no</th>
 <th>no</th>
@@ -112,14 +116,6 @@ Copied from [DynamicGhcPrograms](dynamic-ghc-programs):
 <th>no</th>
 <th>no
 </th></tr>
-<tr><th>[\#4244 Use system linker in GHCi to support alpha, ia64, ppc64](https://gitlab.haskell.org//ghc/ghc/issues/4244)</th>
-<th>no</th>
-<th>no</th>
-<th>no</th>
-<th>no</th>
-<th>no</th>
-<th>no</th>
-<th>**YES**</th></tr>
 <tr><th>[\#5062 Patch: Debug output for OS X linker and coding standard upgrades](https://gitlab.haskell.org//ghc/ghc/issues/5062)</th>
 <th>**YES**</th>
 <th>**YES**</th>
@@ -137,14 +133,6 @@ Copied from [DynamicGhcPrograms](dynamic-ghc-programs):
 <th>**YES**</th>
 <th>**YES**</th>
 <th>**YES**</th></tr>
-<tr><th>[\#5435 GHCi linker should run constructors for linked libraries](https://gitlab.haskell.org//ghc/ghc/issues/5435)</th>
-<th>**YES**</th>
-<th>**YES**</th>
-<th>**YES**</th>
-<th>**YES**</th>
-<th>**YES**</th>
-<th>**YES**</th>
-<th>**YES**</th></tr>
 <tr><th>[\#6107 GHCi runtime linker cannot link with duplicate common symbols](https://gitlab.haskell.org//ghc/ghc/issues/6107)</th>
 <th>**YES**</th>
 <th>**YES**</th>
@@ -153,15 +141,6 @@ Copied from [DynamicGhcPrograms](dynamic-ghc-programs):
 <th>**YES**</th>
 <th>**YES**</th>
 <th>**YES**</th></tr>
-<tr><th>[\#7043 32-bit GHC ceiling of negative float SEGFAULT: 11](https://gitlab.haskell.org//ghc/ghc/issues/7043)</th>
-<th>no</th>
-<th>**YES**</th>
-<th>no</th>
-<th>no</th>
-<th>no</th>
-<th>no</th>
-<th>no
-</th></tr>
 <tr><th>[\#7056 GHCi loadArchive "libiconv.a":failed Unknown PEi386 section name \`.drectve'](https://gitlab.haskell.org//ghc/ghc/issues/7056)</th>
 <th>no</th>
 <th>no</th>
@@ -180,15 +159,6 @@ Copied from [DynamicGhcPrograms](dynamic-ghc-programs):
 <th>no</th>
 <th>no
 </th></tr>
-<tr><th>[\#7097 linker fails to load package with binding to foreign library](https://gitlab.haskell.org//ghc/ghc/issues/7097)</th>
-<th>no</th>
-<th>no</th>
-<th>no</th>
-<th>no</th>
-<th>**probably**</th>
-<th>**YES**</th>
-<th>no
-</th></tr>
 <tr><th>[\#7103 Compiler panic, when loading wxc in GHCi](https://gitlab.haskell.org//ghc/ghc/issues/7103)</th>
 <th>no</th>
 <th>no</th>
@@ -198,43 +168,146 @@ Copied from [DynamicGhcPrograms](dynamic-ghc-programs):
 <th>**YES**</th>
 <th>no
 </th></tr>
-<tr><th>[\#7134 ghc-7.6.0.20120810-x86_64-windows.exe -\> internal error R_X86_64_PC32](https://gitlab.haskell.org//ghc/ghc/issues/7134)</th>
+<tr><th>[\#8935 Obscure linker bug leads to crash in GHCi](https://gitlab.haskell.org//ghc/ghc/issues/8935)</th>
 <th>no</th>
 <th>no</th>
-<th>no</th>
-<th>no</th>
-<th>**YES**</th>
-<th>no</th>
-<th>no
-</th></tr>
-<tr><th>[\#7207 linker fails to load package with binding to foreign library (win64)](https://gitlab.haskell.org//ghc/ghc/issues/7207)</th>
-<th>no</th>
-<th>no</th>
-<th>no</th>
-<th>no</th>
-<th>**YES**</th>
-<th>no</th>
-<th>no
-</th></tr>
-<tr><th>[\#7299 threadDelay broken in ghci, Mac OS X](https://gitlab.haskell.org//ghc/ghc/issues/7299)</th>
 <th>**YES**</th>
 <th>**YES**</th>
 <th>no</th>
 <th>no</th>
-<th>no</th>
-<th>no</th>
-<th>no
-</th></tr>
-<tr><th>[\#7357 GHC.exe gives an internal error while linking vector's Monadic.hs](https://gitlab.haskell.org//ghc/ghc/issues/7357)</th>
-<th>no</th>
-<th>no</th>
-<th>no</th>
-<th>no</th>
-<th>**YES**</th>
-<th>no</th>
-<th>no
-</th></tr></table>
+<th>**YES**</th></tr></table>
 
 ## Bugs in dynamic linking
 
-[ticket:5620](https://gitlab.haskell.org//ghc/ghc/issues/5620)[ticket:8228](https://gitlab.haskell.org//ghc/ghc/issues/8228)
+
+Disclaimer: I just searched for bugs mentioning "dyn", there are probably duplicates and tickets that are easily fixed.  Some of these tickets are specific to dynamic support in GHCi, and some affect dynamic linking in general.
+
+<table><tr><th>Ticket</th>
+<th>Affects OS X x86_64?</th>
+<th>Affects OS X x86?</th>
+<th>Affects Linux x86_64?</th>
+<th>Affects Linux x86?</th>
+<th>Affects Windows x86_64?</th>
+<th>Affects Windows x86?</th>
+<th>Affects other platforms?
+</th></tr>
+<tr><th>[\#4824 Windows: Dynamic linking doesn't work out-of-the-box](https://gitlab.haskell.org//ghc/ghc/issues/4824)</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr>
+<tr><th>[\#5620 Dynamic linking and threading does not work on Windows](https://gitlab.haskell.org//ghc/ghc/issues/5620)</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr>
+<tr><th>[\#5786 Dynanmic way fails when GHC built with LLVM backend](https://gitlab.haskell.org//ghc/ghc/issues/5786)</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr>
+<tr><th>[\#5982 Incorrect dynamic library name in OSX](https://gitlab.haskell.org//ghc/ghc/issues/5982)</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr>
+<tr><th>[\#8228 GHC built under Windows does not generate dyn_hi files](https://gitlab.haskell.org//ghc/ghc/issues/8228)</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr>
+<tr><th>[\#7298 Test 2228 fails with dynamic-by-default](https://gitlab.haskell.org//ghc/ghc/issues/7298)</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr>
+<tr><th>[\#7478 setSessionDynFlags does not always work](https://gitlab.haskell.org//ghc/ghc/issues/7478)</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr>
+<tr><th>[dynamicToo001 fails on Windows](https://gitlab.haskell.org//ghc/ghc/issues/7665)</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr>
+<tr><th>[\#8024 Dynamic linking not working on PowerPC Linux.](https://gitlab.haskell.org//ghc/ghc/issues/8024)</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr>
+<tr><th>[\#8420 Spurious dynamic library dependencies](https://gitlab.haskell.org//ghc/ghc/issues/8420)</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr>
+<tr><th>[\#8721 Testsuite not reporting errors for DYN way on OS X](https://gitlab.haskell.org//ghc/ghc/issues/8721)</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr>
+<tr><th>[\#8736 GHCi doesn't load .dyn_o files appropriately](https://gitlab.haskell.org//ghc/ghc/issues/8736)</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr>
+<tr><th>[\#8909 ppc dyn executable compiled with ghc-7.8.1 RC2 segfaults](https://gitlab.haskell.org//ghc/ghc/issues/8909)</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr>
+<tr><th>[\#9121 Presence of dyn_o files not checked upon recompilation](https://gitlab.haskell.org//ghc/ghc/issues/9121)</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr>
+<tr><th>[\#9176 GHC not generating dyn_hi files](https://gitlab.haskell.org//ghc/ghc/issues/9176)</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr></table>
