@@ -28,6 +28,9 @@ pacman -S git curl tar binutils autoconf make libtool automake mingw-w64-x86_64-
 ```
 
 
+(Problems with PGP keys? Try `pacman-key --init` and `pacman-key --populate msys2`)
+
+
 If you want to run tests, you will need to install a Windows version of [ Python 2](https://www.python.org/download/releases/2.7.8/). Python is only used by the test runner though and is not necessary for building GHC.
 
 ## Host GHC setup
@@ -49,6 +52,7 @@ Building ghc requires [ Alex](http://www.haskell.org/alex/) and [ Happy](http://
 
 ```wiki
 curl http://www.haskell.org/cabal/release/cabal-install-1.20.0.3/cabal-1.20.0.3-i386-unknown-mingw32.tar.gz | tar -xz -C /usr/local/bin &&
+cabal update &&
 cabal install -j --prefix=/usr/local alex happy
 ```
 
