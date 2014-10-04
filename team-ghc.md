@@ -291,7 +291,7 @@ In order to see emails below, **you must login**.
 
 - [ Sergei Trofimovich](http://trofi.github.io/)
 
-  - VirusBlokAda Ltd. - Belarus, Minsk
+  - Google Inc - London, UK
   - **Trac**: slyfox; **email**: slyfox@…; **github**: [ https://github.com/trofi](https://github.com/trofi)
   - **Committer since**: August, 2014.
   - **Main areas of interest**: runtime system, cross-compilation, unregisterised ghc, codegen

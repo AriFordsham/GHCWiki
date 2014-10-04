@@ -249,7 +249,7 @@ In order to see emails below, '''you must login'''.
   * '''Main areas of interest''': runtime system, smp support (atomic memory op support)
 
  * [http://trofi.github.io/ Sergei Trofimovich]
-  * VirusBlokAda Ltd. - Belarus, Minsk
+  * Google Inc - London, UK
   * '''Trac''': slyfox; '''email''': slyfox@inbox.ru; '''github''': https://github.com/trofi
   * '''Committer since''': August, 2014.
   * '''Main areas of interest''': runtime system, cross-compilation, unregisterised ghc, codegen
