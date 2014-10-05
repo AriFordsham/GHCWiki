@@ -1,5 +1,8 @@
 # GHC Boot Library Version History
 
+
+See also the related [LanguagePragmaHistory](language-pragma-history) page
+
 <table><tr><th></th>
 <th>**HEAD**</th>
 <th>**7.8.3**</th>
