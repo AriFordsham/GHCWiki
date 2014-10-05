@@ -1,5 +1,7 @@
 = `{-# LANGUAGE #-}` Pragma History
 
+(see also the [[wiki:Commentary/Libraries/VersionHistory|GHC Boot Library Version History]])
+
 == Changes in GHC 7.0 (since GHC 6.12)
 
 Added LANGUAGE extensions:
