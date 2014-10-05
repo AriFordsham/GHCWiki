@@ -1,5 +1,8 @@
 # `{-# LANGUAGE #-}` Pragma History
 
+
+(see also the [GHC Boot Library Version History](commentary/libraries/version-history))
+
 ## Changes in GHC 7.0 (since GHC 6.12)
 
 
