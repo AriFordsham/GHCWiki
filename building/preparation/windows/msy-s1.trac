@@ -1,3 +1,5 @@
+'''IMPORTANT: This page is considered obsolete. Using MSYS1 is discouraged, please build on [wiki:Building/Preparation/Windows MSYS2] instead.'''
+
 = Setting up a Windows system for building GHC =
 
 Installing the following will get you a working build environment with MSYS. The instructions are current for GHC 7.6.

@@ -1,3 +1,5 @@
+**IMPORTANT: This page is considered obsolete. Using MSYS1 is discouraged, please build on [MSYS2](building/preparation/windows) instead.**
+
 # Setting up a Windows system for building GHC
 
 
