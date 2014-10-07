@@ -1,4 +1,12 @@
-## How can we have safer and more expressive type representations?
+# Safer and more expressive type representations
+
+
+This page summarises a proposed re-design (again!) of the `Typeable` class, to better support static values.  It should be read in conjunction with the [StaticPointers](static-pointers) page, and in particular with [Simon's blog post on static pointers](/trac/ghc/blog/simonpj/StaticPointers).
+
+
+The names of functions and type constructors is totally up for grabs.
+
+## Goal
 
 
 Our goal is some polykinded type 
@@ -25,18 +33,54 @@ splitTyConApp :: TypeRep -> (TyCon, [TypeRep])
 for `TypeRep a` so that we can figure out whether a given type is an arrow type, product type, etc.  
 
 
-This capability is necessary to implement `dynApply` for Typeable based dynamic typing.
+This capability is necessary to implement `dynApply` for Typeable based dynamic typing, without making `dynApply` part of the Trusted Code Base.  So `dynApply` makes a "poster-child" example.
 
 ```wiki
-data Dynamic = forall a. Typeable a => Dyn a
+data Dynamic where
+  Dyn :: Typeable a => a -> Dynamic
 
 dynApply :: Dynamic -> Dynamic -> Dynamic
 ```
 
+### Typeable a vs TypeRep a
+
+
+Currently `Typaeble a` is a type class, indexed by the type `a`; while `TypeRep` is a data type, with no type index (i.e. it has arity zero).  But it's often useful to be able pass a type-indexed value around directly, rather than indirectly as a type class.  It often makes the code clearer, especially in tricky cases, and much less laden with `proxy` arguments.
+
+
+So in this page we explore the possibility of making `TypeRep` type-indexed too, like this:
+
+```wiki
+class Typeable a where
+    typeRep :: TypeRep a
+```
+
+
+We'll need to add the following primitive to make sure that we always 
+have access to the Typeable class, even if we produce the TypeRep by pattern matching.  
+
+```wiki
+withTypeable :: TypeRep a -> (Typeable a => b) -> b
+```
+
+
+(This seems both simpler and more useful than making the Typeable class recursive through TypeRep data declaration.)
+
+
+Now we can define `Dynamic` either as above or, equivalently and more concretely, thus:
+
+```wiki
+data Dynamic where
+  Dyn :: TypeRep a -> a -> Dynamic
+```
+
+
+This change is somewhat orthogonal to the question of making a strongly-typed `DynApply`.
+
 ### Kind equalities are sufficient
 
 
-Consider the following GADT
+Here is the natural GADT to use for `TypeRep`:
 
 ```wiki
 {-# LANGUAGE PolyKinds, DataKinds, EmptyDataDecls, GADTs  #-}
@@ -46,7 +90,9 @@ data TypeRep (a :: k) :: * where
 ```
 
 
-While this GADT is expressible in GHC now (note the existential kind in TRApp), it is not very useful without kind equalities. 
+While this GADT is expressible in GHC now (note the existential kind in TRApp), **it is not very useful without kind equalities**.   (GHC does not currently support kind equalities, but Richard Eisenberg is working that very quesiton.)
+
+
 Pattern matching TypeRep would produce a TyCon with unknown kind but any cast function we could write, i.e. 
 
 ```wiki
@@ -57,8 +103,7 @@ eqTyCon :: forall (a b :: k). TyCon a -> TyCon b -> Maybe (a :~: b)
 must require the two arguments to have the same kind. 
 
 
-If we have kind equalities available, we could produce evidence that the kinds are equal  too. We need a kind-indexed GADT 
-to package that evidence up in a heterogenous equality type.
+If we have kind equalities available, we could produce evidence that the kinds are equal  too. We need a kind-indexed GADT to package that evidence up in a heterogenous equality type.
 
 ```wiki
 data JMeq (a :: k1) (b :: k2) where
@@ -122,30 +167,18 @@ ifArrow :: TypeRep a -> Maybe ArrowTy
 
 ```
 
+### Fast comparison of `TypeRep`
+
+
+The current implementation of `TypeRep` allows constant-type comparison based on fingerprints.  To support this in the new scheme we would want to add a fingerprint to every `TypeRep` node. But we would not want clients to see those fingerprints, lest they forge them.
+
+
+Conclusion: make `TypeRep` abstract.  But then how can we pattern-match on it?  Pattern synonyms seem to be exactly what we need.
+
 ### What can we do without kind equalities ?
 
-- Make `ifArrow` and other destructors primitive
 
-### What about the Typeable class?
-
-
-This class should be a wrapper for the runtime type representation.
-
-```wiki
-class Typeable a where
-    typeRep :: TypeRep a
-```
-
-
-We'll need to add the following primitive to make sure that we always 
-have access to the Typeable class, even if we produce the TypeRep by pattern matching.  
-
-```wiki
-withTypeable :: TypeRep a -> (Typeable a => b) -> b
-```
-
-
-(This seems both simpler and more useful than making the Typeable class recursive through TypeRep data declaration.)
+Before kind equalities are available, we can still offer decomposition, by making `ifArrow` and other destructors primitive; i.e. part of the TCB.
 
 ### Trusted computing base
 
@@ -190,7 +223,8 @@ apply :: forall k k1 (a :: k1 -> k) (b :: k1). TypeRep a -> TypeRep b -> TypeRep
 eqTyCon :: forall k (a :: k) (b :: k). TyCon a -> TyCon b -> Maybe (a :~: b)
 eqT :: forall k (a :: k) (b :: k). TypeRep a -> TypeRep b -> Maybe (a :~: b)
 
-ifArrow :: forall (a :: *) (d :: *). TypeRep a -> (forall (b :: *) (c :: *). TypeRep b -> TypeRep c -> (a :~: (b -> c)) -> d) -> d
+ifArrow :: forall (a :: *) (d :: *). TypeRep a -> (forall (b :: *) (c :: *).
+           TypeRep b -> TypeRep c -> (a :~: (b -> c)) -> d) -> d
 ```
 
 
