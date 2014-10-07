@@ -164,7 +164,8 @@ ifArrow :: TypeRep a -> Maybe ArrowTy
 
 ### What can we do without kind equalities ?
 
-- Make `ifArrow` and other destructors primitive
+
+Before kind equalities are available, we can still offer decomposition, by making `ifArrow` and other destructors primitive; i.e. part of the TCB.
 
 ### Trusted computing base
 
