@@ -193,7 +193,8 @@ apply :: forall k k1 (a :: k1 -> k) (b :: k1). TypeRep a -> TypeRep b -> TypeRep
 eqTyCon :: forall k (a :: k) (b :: k). TyCon a -> TyCon b -> Maybe (a :~: b)
 eqT :: forall k (a :: k) (b :: k). TypeRep a -> TypeRep b -> Maybe (a :~: b)
 
-ifArrow :: forall (a :: *) (d :: *). TypeRep a -> (forall (b :: *) (c :: *). TypeRep b -> TypeRep c -> (a :~: (b -> c)) -> d) -> d
+ifArrow :: forall (a :: *) (d :: *). TypeRep a -> (forall (b :: *) (c :: *).
+           TypeRep b -> TypeRep c -> (a :~: (b -> c)) -> d) -> d
 ```
 
 
