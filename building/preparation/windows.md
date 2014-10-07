@@ -1,131 +1,90 @@
-# Setting up a Windows system for building GHC
+# Building GHC on msys2
 
 
-Installing the following will get you a working build environment with MSYS. The instructions are current for GHC 7.6.
+This page documents the instructions for setting up a Windows build using [ msys2](http://sourceforge.net/projects/msys2/), which is a fairly complete build of MinGW + the msys tools. It is self contained and fixes several pesky bugs with the traditional implementation. It's also smaller and has a convenient package manager, `pacman`.
+
+
+This guide should get you running in \~5 minutes, modulo download speeds.
+
+## msys2 setup
+
+
+Download and run the [ msys2 installer (64-bit)](http://sourceforge.net/projects/msys2/files/Base/x86_64/msys2-x86_64-20140910.exe/download), or the [ 32-bit version](http://sourceforge.net/projects/msys2/files/Base/i686/msys2-i686-20140910.exe/download). Open a mingw64 shell.
+
+
+IMPORTANT: the msys2 installer creates multiple shortcuts, "MSYS2 Shell", "MinGW-w64 Win32 Shell" and "MinGW-w64 Win64 Shell". You need the latter one. The MSYS2 shell is set up for building applications  with Cygwin which provides a POSIX compatibility layer, while MinGW is set up for building native Windows applications, which is what we need for GHC. 
+
+
+An easy way to check that you are running the right shell is to check the output of "echo $PATH". The first item of the list should be /mingw64/bin.
+
+## Installing packages & tools
+
+
+The msys2 package uses `pacman` (the venerable ArchLinux package manager) to manage packages. Once you're set up, upgrade everything, and install system dependencies required for building GHC:
+
+```wiki
+pacman -Syu
+pacman -S git curl tar binutils autoconf make libtool automake mingw-w64-x86_64-gcc
+```
+
+
+(Problems with PGP keys? Try `pacman-key --init` and `pacman-key --populate msys2`)
+
+
+If you want to run tests, you will need to install a Windows version of [ Python 2](https://www.python.org/download/releases/2.7.8/). Python is only used by the test runner though and is not necessary for building GHC.
+
+## Host GHC setup
+
+
+A host GHC binary is required for bootstrapping. Let's download and install a prebuilt GHC into /usr/local:
+
+```wiki
+curl http://www.haskell.org/ghc/dist/7.8.3/ghc-7.8.3-$(uname -m)-unknown-mingw32.tar.xz | tar -xJ -C /tmp &&
+mkdir -p /usr/local &&
+mv /tmp/ghc-7.8.3/* /usr/local &&
+rmdir /tmp/ghc-7.8.3
+```
+
+## Cabal setup
+
+
+Building ghc requires [ Alex](http://www.haskell.org/alex/) and [ Happy](http://www.haskell.org/happy/). It is easiest to install them using cabal. We will also put them in /usr/local to make sure that they end up on $PATH.
+
+```wiki
+curl http://www.haskell.org/cabal/release/cabal-install-1.20.0.3/cabal-1.20.0.3-i386-unknown-mingw32.tar.gz | tar -xz -C /usr/local/bin &&
+cabal update &&
+cabal install -j --prefix=/usr/local alex happy
+```
+
+## A Quick Build
+
+
+You should now be able to build GHC:
+
+```wiki
+cd ~ &&
+git clone --recursive git://git.haskell.org/ghc.git &&
+cd ghc &&
+git clone git://git.haskell.org/ghc-tarballs.git ghc-tarballs &&
+./boot &&  # Consider setting up mk/build.mk here.
+./configure &&
+make -j5
+```
+
+
+Alternatively, just run:
+
+```wiki
+./validate
+```
+
+## Other documentation
 
 
 Other documentation for Windows includes:
 
-- [Using MSYS2](building/preparation/windows/msy-s2) to build GHC. MSYS2 is an updated version of MSYS which fixes some bugs (for example, parallel make works) and has an alternative package manager.
 - [Using MSYS1](building/preparation/windows/msy-s1) to build GHC (legacy)
-- [Using Cygwin](building/windows/cygwin) to build GHC. Using MSYS is the preferred approach though.
+- [Using Cygwin](building/windows/cygwin) to build GHC. Using MSYS2 is the preferred approach though.
 - [MinGW/MSYS/Cgwin](building/platforms/windows) information for people new to using UNIX tools on Windows.
 - [Using SSH](building/windows/ssh) on Windows.
 - [ Guidance on how to use Haskell on Windows](http://www.haskell.org/haskellwiki/Windows)
-
-## Setting up Windows
-
-1. **Install the following tools:**
-
-  - [ Haskell Platform](http://hackage.haskell.org/platform/)
-  - [ Git](http://git-scm.com/)
-  - [ Python](http://python.org/) (Version 2.7 is a good choice, we don't support version 3.x at this time)
-  - [ LLVM](http://www.llvm.org/releases/download.html) (Optional, for using GHC's LLVM backend, grab the file called 'LLVM Binaries for Mingw32/x86')
-
->
-> We recommend using the **default install locations** for all these tools.  If you choose your own paths, then we recommend not using a path containing spaces if the default did not have spaces.
-
-1. **Install the MinGW and MSYS tools:**
-
-  MinGW provides a windows version of GCC while MSYS provides a minimal UNIX environment (e.g bash, make... ect). The website for MinGW is totally confusing, so go here [ Mingw/MSYS Getting Started](http://www.mingw.org/wiki/Getting_Started) and follow the download instructions for the **mingw-get-setup** installer. This is an easy to use installer for installing both MinGW and MSYS.   Make sure when you run the installer that you select to install 
-
-  - mingw-developer-toolkit (this includes `autoconf` etc)
-  - binutils (this includes `ar`)
-
-1. **Set your `PATH`**. You need to include at least
-
-  - `c:/MinGW/bin` (contains `autoconf` etc)
-  - `c:/MinGW/msys/1.0/bin` (contains `bash`, `make` etc)
-  - `c:/git/bin` (or wherever you installed git)
-  - `c:/Python27` (or wherever you installed Python)
-  - `c:/dev/llvm/bin` (or wherever you installed LLVM, if you got it)
-  - The Haskell platform installer should have already done the work needed to make GHC, `happy`, and `alex` available on the path, but if not add them too: `$HP/bin` and `$HP/lib/extralibs/bin`. 
-
->
-> Moreover, **these must precede the standard `c:/windows/system32`**: see below for the Awful Warnings about your PATH.  
-
->
-> We recommend doing this by creating a file `.profile` in your home directory (by default `c:/MinGW/msys/1.0/home/<username>`). The contents of your `.profile` should be something like this:
->
-> ```wiki
-> # Add Python to path
-> export PATH=/c/Python27:$PATH
-> ...etc..etc...
-> ```
-
-1. **Mount `c:/mingw` as `/mingw`**.  You do this by saying
-
-  ```wiki
-  mount c:/mingw /mingw
-  ```
-
-  or by directly editing `c:/mingw/msys/1.0/etc/fstab` to have the line
-
-  ```wiki
-  c:/mingw /mingw
-  ```
-
-  You only need to do this once, at installation time. If you forget, you'll get an error from `automake` like this
-
-  ```wiki
-  Can't locate Autom4te/ChannelDefs.pm in @INC (@INC contains: /mingw/share/autoconf /usr/lib/perl5/5.8/msys /usr/lib/perl5/5.8 /usr/lib/perl5/site_perl/5.8/msys /usr/lib/perl5/site_perl/5.8 /usr/lib/perl5/site_perl/5.8 /usr/lib/perl5/vendor_perl/5.8/msys /usr/lib/perl5/vendor_perl/5.8 /usr/lib/perl5/vendor_perl/5.8 .) at /c/mingw/bin/autoreconf-2.68 line 40.
-  BEGIN failed--compilation aborted at /c/mingw/bin/autoreconf-2.68 line 40.
-  ```
-
-1. If you use a shell within Emacs, make sure your `SHELL` environment variable points to the `bash` in `c:/MinGW/msys/1.0/bin`. 
-
-1. **Launch the shell** by starting the 'Command Prompt' (cmd.exe via Run). Get into the MingW shell by running 'bash', and  use `autoconf --version` to check that you have at least version 2.68 of `autoconf`. Version 2.56 (which was around for a long time) does not work for GHC's build system.
-
-
-You should now have a working environment for getting the source for GHC and building it!
-
-## Disable realtime virus-scanning for your build
-
-
-Realtime virus scanners are prone to causing weird build failures, typically "permission denied" errors that go away when the build is restarted.  The best way to avoid these problems is to exclude the directory containing your GHC build from realtime virus scanning, if your scanner supports excluding particular directories.  You probably also want to exclude directories in which temporary files are stored, which by default is `C:/Users/<user>/Local Settings/Temp` on Windows Vista and later, `C:/Documents and Settings/<user>/Local Settings/Temp` on Windows XP and older, or `C:/Temp`.
-
-## Building documentation on Windows
-
-
-Building GHC's documentation is optional, but in order to build it in Windows you must currently use Cygwin (there isn't a working DocBook toolchain on MSYS as far as we know).
-
-
-In the Cygwin installer, just install the complete `Doc` category. You may have to help `configure` a little bit: Set the environment variables `XmllintCmd` and `XsltprocCmd` to the paths of the Cygwin executables `xmllint` and `xsltproc`, respectively, and set `fp_cv_dir_docbook_xsl` to the path of the directory where the XSL stylesheets are installed, e.g. `c:/cygwin/usr/share/docbook-xsl`.    
-
-
-If you want to build HTML Help, you have to install the [ HTML Help SDK](http://msdn.microsoft.com/library/default.asp?url=/library/en-us/htmlhelp/html/hworiHTMLHelpStartPage.asp), tool, and make sure that `hhc` is in your `PATH`.
-
-## Awful warnings about your PATH
-
-
-It is very important to put the msys/mingw stuff on your path *before*`c:/windows/system32`. Here is what happens if you don't.
-
-**Symptom**: `sh libtool` hangs indefinitely.  The process manager shows an extant `cmd` and `sed`, but nothing else.  `libtool` is a shell script that comes from a tarball, and is unpacked into `libraries/integer-gmp/gmp/gmpbuild/libtool`
-
-**Cause**: `libtool` invokes the following command line (in the function `func_convert_coer_msys_to_w32`):
-
-```wiki
-     cmd /c “echo blah”
-```
-
-
-and pipes the result to `sed`.  But MSYS mangles the command line to turn slashes into backslashes.  So the actual command line is more like
-
-```wiki
-     cmd \c “echo blah”
-```
-
-
-which does something entirely different, and indeed hangs waiting for input on stdin.
-
-**Solution**: How did this *ever* work on any MSYS installation?  Because 
-
-- `msys/1.0/bin` has a little script “cmd” which hands off to the real c:/windows/system32/cmd
-- MSYS does not mangle the command-line for programs in `msys/1.0/bin`
-- On my old laptop, `msys/1.0/bin` was in my path before `c:/windows/system32`.  So plain `cmd` gets the script, and MSYS does not mangle the command line. The script passes arguments on unchanged to the real cmd.
-
-
-NB: `c:/windows/system32` is in the “system” path, which precedes the “user” path.  So no amount of fiddling with the “user” path will fix this.  There are two solutions:
-
-- Modify the system path
-- Use a .bashrc file to prepend the stuff you need
