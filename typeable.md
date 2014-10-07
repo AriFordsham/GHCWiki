@@ -1,6 +1,9 @@
 ## How can we have safer and more expressive type representations?
 
 
+This page summarises a proposed re-design (again!) of the `Typeable` class, to better support static values.  It should be read in conjunction with the [StaticPointers](static-pointers) page, and in particular with [Simon's blog post on static pointers](/trac/ghc/blog/simonpj/StaticPointers).
+
+
 Our goal is some polykinded type 
 
 ```wiki
