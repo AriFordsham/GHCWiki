@@ -83,8 +83,8 @@ Alternatively, just run:
 
 Other documentation for Windows includes:
 
-- [Using MSYS1](building/preparation/windows/msy-s1) to build GHC (legacy)
-- [Using Cygwin](building/windows/cygwin) to build GHC. Using MSYS2 is the preferred approach though.
-- [MinGW/MSYS/Cgwin](building/platforms/windows) information for people new to using UNIX tools on Windows.
+- [MinGW/MSYS/Cygwin](building/platforms/windows) information for people new to using UNIX tools on Windows.
+- [Using MSYS1](building/preparation/windows/msy-s1) to build GHC (not recommended any more)
+- [Using Cygwin](building/windows/cygwin) to build GHC.
 - [Using SSH](building/windows/ssh) on Windows.
 - [ Guidance on how to use Haskell on Windows](http://www.haskell.org/haskellwiki/Windows)
