@@ -6,6 +6,14 @@ See [milestone:7.8.4](/trac/ghc/milestone/7.8.4)
 
 Note however, that not all tickets with a 7.8.4 milestone will be addressed for the final 7.8.4 release (if it happens at all).
 
+### [\#9439](https://gitlab.haskell.org//ghc/ghc/issues/9439): LLVM mangler mangles too vigorously
+
+
+After 7.8.3 it was realized that the LLVM code generator's mangler mangled occurrences of tokens occurring within strings of user code. This very non-obvious miscompilation. While the tokens involved aren't likely to appear in user code, they do appear in the code generator itself.  This will result in GHC builds bootstrapped with an affected compiler to produce incorrect binaries.
+
+
+This bug poses a potentially significant inconvenience to users of architectures supported only by the LLVM code generator (e.g. ARM) as they will be unable to bootstrap 7.10 with a 7.8 release. The fix is implemented in  [5895f2b8ffba72a8393e9f712461e6e5ed7ceced](/trac/ghc/changeset/5895f2b8ffba72a8393e9f712461e6e5ed7ceced/ghc). A configure-time check to ensure an affected compiler isn't used as stage0 is implemented in [bbd031134a571c1020945b2548e3fc4795b5047a](/trac/ghc/changeset/bbd031134a571c1020945b2548e3fc4795b5047a/ghc). Both of these should be easily backported to the 7.8 branch.
+
 ## Tickets marked merge with no milestone
 
 <table><tr><th>Ticket (Ticket query: status: merge, milestone: , group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: id)</th>
