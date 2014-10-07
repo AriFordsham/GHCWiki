@@ -910,118 +910,136 @@ some things that may be non-obvious.
 
 === TODOs ===
 
-* A partial type signature for a local definition is not generalised
-  when the [[span(!MonoLocalBinds, style=font-variant: small-caps)]]
-  flag is enabled, as [#local-definitions intended]. However, for
-  functions affected by this restriction, partial type signatures
-  aren't properly handled.
-  {{{
-  {-# LANGUAGE MonoLocalBinds, ScopedTypeVariables #-}
-  monoLoc :: forall a. a -> ((a, String), (a, String))
-  monoLoc x = (g True , g 'v')
-  where
-    -- g :: b -> (a, String) -- This signature is ok
-    g :: b -> (a, _) --      -- This signature is not
-    g y = (x, "foo")
-  }}}
-  This causes a panic (`StgCmmEnv: variable not found`). The
-  interaction of the function `tcPolyNoGen` in `TcBinds.lhs` with
-  partial type signatures must be fixed.
+  The TODOs are sorted by severity, i.e. the first TODO is the most
+  important one, the last one is only of minor importance.
+
+1. TODO A partial type signature for a local definition is not generalised
+   when the [[span(!MonoLocalBinds, style=font-variant: small-caps)]]
+   flag is enabled (this flag is implied by
+   [[span(GADTs, style=font-variant: small-caps)]] and
+   [[span(!TypeFamilies, style=font-variant: small-caps)]]!),
+   as [#local-definitions intended]. However, for functions affected
+   by this restriction (i.e. [https://ghc.haskell.org/trac/ghc/blog/LetGeneralisationInGhc7#Whichbindingsareaffected not all free variables are closed]),
+   partial type signatures aren't properly handled.
+   {{{
+   {-# LANGUAGE MonoLocalBinds, ScopedTypeVariables #-}
+   monoLoc :: forall a. a -> ((a, String), (a, String))
+   monoLoc x = (g True , g 'v')
+   where
+     -- g :: b -> (a, String) -- This signature is ok
+     g :: b -> (a, _) --      -- This signature is not
+     g y = (x, "foo")
+   }}}
+   This causes a panic (`StgCmmEnv: variable not found`). The
+   interaction of the function `tcPolyNoGen` in `TcBinds.lhs` with
+   partial type signatures must be fixed.
+
+   A stopgap solution would be to signal an error saying this particular scenario is unsupported, which
+   is not ''that'' common (see [http://research.microsoft.com/apps/pubs/default.aspx?id=162516 Section 4.3.1] of
+   ''[[span(!OutsideIn(X), style=font-variant: small-caps)]]: Modular type inference with local assumptions'').
+
+   We will look further into how to solve this, help is certainly welcome.
+
+2. TODO There is a bug in the handling of pattern bindings with partial type
+   signatures, i.e. the partial type signatures are ignored, e.g.
+   {{{
+   foo :: Bool -> _
+   Just foo = Just id
+   -- Inferred: forall a. a -> a
+   -- Instead of: Bool -> Bool
+   }}}
+   See test case `PatBind2`.
+
+   This doesn't seem to be difficult to solve, but requires some debugging.
+
+3. TODO One of the examples described in the [#mr section] about the monomorphism
+   restriction doesn't work:
+   {{{
+   {-# LANGUAGE MonomorphismRestriction, PartialTypeSignatures #-}
+   charlie :: _ => a
+   charlie = 3
+   }}}
+   We think that, as the type variable is annotated and thus unrestricted, the
+   constraint `Num a` should be inferred as an extra constraint. Unfortunately,
+   this doesn't happen:
+   {{{
+   No instance for (Num a) arising from the literal ‘3’
+   In the expression: 3
+   In an equation for ‘charlie’: charlie = 3
+   }}}
+   See test case `ExtraNumAMROn`. Either this needs to be fixed, or our
+   expectation of how the type checker should behave is wrong.
 
 
-* When reporting the types wildcards were instantiated to in error messages,
-  we mention the inferred type of the binding, but this doesn't include the
-  annotated constraints that weren't inferred during typechecking, e.g.
-  {{{
-  bar :: (Num a, _) => a -> a -> _
-  bar x y = x == y
-  }}}
-  Produces the following error message:
-  {{{
-  Example.hs:3:16:
-      Found hole ‘_’ with inferred constraints: Eq a
-      Where: ‘a’ is a rigid type variable bound by
-                 the inferred type of bar :: Eq a => a -> a -> Bool at Example.hs:3:8
-      To use the inferred type, enable PartialTypeSignatures
-      In the type signature for ‘bar’: bar :: (Num a, _) => a -> a -> _
+4. TODO When reporting the types wildcards were instantiated to in error messages,
+   we mention the inferred type of the binding, but this doesn't include the
+   annotated constraints that weren't inferred during typechecking, e.g.
+   {{{
+   bar :: (Num a, _) => a -> a -> _
+   bar x y = x == y
+   }}}
+   Produces the following error message:
+   {{{
+   Example.hs:3:16:
+       Found hole ‘_’ with inferred constraints: Eq a
+       Where: ‘a’ is a rigid type variable bound by
+                  the inferred type of bar :: Eq a => a -> a -> Bool at Example.hs:3:8
+       To use the inferred type, enable PartialTypeSignatures
+       In the type signature for ‘bar’: bar :: (Num a, _) => a -> a -> _
 
-  Example.hs:3:32:
-      Found hole ‘_’ with type: Bool
-      To use the inferred type, enable PartialTypeSignatures
-      In the type signature for ‘bar’: bar :: (Num a, _) => a -> a -> _
-  }}}
-  In the 4th line of the output shown above, the inferred type is displayed,
-  but the `Num a` constraint has disappeared, as it wasn't inferred. Two lines
-  below, it is displayed, but that is because the annotated partial type
-  signature is shown. The actual type of `bar`, `(Num a, Eq a) => a -> a -> Bool`,
-  is not shown to the user, as it isn't easily accessible when reporting the
-  error.
+   Example.hs:3:32:
+       Found hole ‘_’ with type: Bool
+       To use the inferred type, enable PartialTypeSignatures
+       In the type signature for ‘bar’: bar :: (Num a, _) => a -> a -> _
+   }}}
+   In the 4th line of the output shown above, the inferred type is displayed,
+   but the `Num a` constraint has disappeared, as it wasn't inferred. Two lines
+   below, it is displayed, but that is because the annotated partial type
+   signature is shown. The actual type of `bar`, `(Num a, Eq a) => a -> a -> Bool`,
+   is not shown to the user, as it isn't easily accessible when reporting the
+   error.
 
-* There is a bug in the handling of pattern bindings with partial type
-  signatures, i.e. the partial type signatures are ignored, e.g.
-  {{{
-  foo :: Bool -> _
-  Just foo = Just id
-  -- Inferred: forall a. a -> a
-  -- Instead of: Bool -> Bool
-  }}}
-  See test case `PatBind2`.
+   Related feature request for TypedHoles: #9091.
 
-* One of the examples described in the [#mr section] about the monomorphism
-  restriction doesn't work:
-  {{{
-  {-# LANGUAGE MonomorphismRestriction, PartialTypeSignatures #-}
-  charlie :: _ => a
-  charlie = 3
-  }}}
-  We think that, as the type variable is annotated and thus unrestricted, the
-  constraint `Num a` should be inferred as an extra constraint. Unfortunately,
-  this doesn't happen:
-  {{{
-  No instance for (Num a) arising from the literal ‘3’
-  In the expression: 3
-  In an equation for ‘charlie’: charlie = 3
-  }}}
-  See test case `ExtraNumAMROn`. Either this needs to be fixed, or our
-  expectation of how the type checker should behave is wrong.
+5. TODO The order in which type variables are tidied for printing is incorrect.
+   Wildcards which are generalised over become type variables with names
+   starting with `w_`. If a type variable with such a name already exists, the
+   existing ''tidying'' infrastructure should make sure that the suffixes `1`,
+   `2`, ... are added in order to differentiate the similarly named type
+   variables. However, the order in which the suffixes are added is
+   unsatisfactory, e.g.
+   {{{
+   barry :: _ -> w_
+   barry _ = undefined
+   -- Inferred (modulo alpha-equivalence): a -> b
+   }}}
+   Which causes the following hole error message:
+   {{{
+   Found hole ‘_’ with type: w_
+   Where: ‘w_’ is a rigid type variable bound by
+               the inferred type of barry :: w_ -> w_1 at Example.hs:3:1
+   To use the inferred type, enable PartialTypeSignatures
+   In the type signature for ‘barry’: barry :: _ -> w_
+   }}}
+   The problem is that the existing type variable `w_` is renamed to `w_1` and
+   the type variable generated by generalising over the wildcard gets `w_` as
+   name, instead of the inverse. See test case `TidyClash2`.
 
-* The order in which type variables are tidied for printing is incorrect.
-  Wildcards which are generalised over become type variables with names
-  starting with `w_`. If a type variable with such a name already exists, the
-  existing ''tidying'' infrastructure should make sure that the suffixes `1`,
-  `2`, ... are added in order to differentiate the similarly named type
-  variables. However, the order in which the suffixes are added is
-  unsatisfactory, e.g.
-  {{{
-  barry :: _ -> w_
-  barry _ = undefined
-  -- Inferred (modulo alpha-equivalence): a -> b
-  }}}
-  Which causes the following hole error message:
-  {{{
-  Found hole ‘_’ with type: w_
-  Where: ‘w_’ is a rigid type variable bound by
-              the inferred type of barry :: w_ -> w_1 at Example.hs:3:1
-  To use the inferred type, enable PartialTypeSignatures
-  In the type signature for ‘barry’: barry :: _ -> w_
-  }}}
-  The problem is that the existing type variable `w_` is renamed to `w_1` and
-  the type variable generated by generalising over the wildcard gets `w_` as
-  name, instead of the inverse. See test case `TidyClash2`.
+6. There are two actual TODOs in the code:
+   [[br]][[br]]
+    1. TODO In the function `insolubleWC :: WantedConstraints -> Bool`, in
+       `TcRnTypes.lhs`, `CHoleCan`s originating from a wildcard in a partial
+       type signature are ignored, as we want the constraint solver to solve
+       more constraints to report the correct inferred types. This is
+       not really a bug, but it looks like hack.
+    2. TODO In the local function `makeWanted` in `tcPolyInfer`, in `TcBinds.lhs`,
+       we create an `Implic`ation without skolem information, i.e. `UnkSkol`.
 
-* There are two actual TODOs in the code:
-  [[br]][[br]]
-   1. In the function `insolubleWC :: WantedConstraints -> Bool`, in
-      `TcRnTypes.lhs`, `CHoleCan`s originating from a wildcard in a partial
-      type signature are ignored, as we want the constraint solver to solve
-      more constraints to report the correct inferred types.
-   2. In the local function `makeWanted` in `tcPolyInfer`, in `TcBinds.lhs`,
-      we create an `Implic`ation without skolem information, i.e. `UnkSkol`.
+7. TODO The user manual should be updated. We'll do this when the time
+   comes.
 
-* The user manual should be updated.
-
-* We extended Haddock to support partial type signatures, but we haven't been
-  able to add tests to Haddock due to Cabal issues.
+8. TODO We extended Haddock to support partial type signatures, but we
+   haven't been able to add tests to Haddock due to Cabal issues.
 
 == Monomorphism restriction == #mr
 
