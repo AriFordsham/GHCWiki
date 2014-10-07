@@ -1,7 +1,7 @@
-# Building GHC on msys2
+# Building GHC on Windows
 
 
-This page documents the instructions for setting up a Windows build using [ msys2](http://sourceforge.net/projects/msys2/), which is a fairly complete build of MinGW + the msys tools. It is self contained and fixes several pesky bugs with the traditional implementation. It's also smaller and has a convenient package manager, `pacman`.
+This page documents the instructions for setting up a Windows build using [ MSYS2](http://sourceforge.net/projects/msys2/), which is a fairly complete build of MinGW + the MSYS2 tools.
 
 
 This guide should get you running in \~5 minutes, modulo download speeds.
@@ -12,10 +12,10 @@ This guide should get you running in \~5 minutes, modulo download speeds.
 Download and run the [ msys2 installer (64-bit)](http://sourceforge.net/projects/msys2/files/Base/x86_64/msys2-x86_64-20140910.exe/download), or the [ 32-bit version](http://sourceforge.net/projects/msys2/files/Base/i686/msys2-i686-20140910.exe/download). Open a mingw64 shell.
 
 
-IMPORTANT: the msys2 installer creates multiple shortcuts, "MSYS2 Shell", "MinGW-w64 Win32 Shell" and "MinGW-w64 Win64 Shell". You need the latter one. The MSYS2 shell is set up for building applications  with Cygwin which provides a POSIX compatibility layer, while MinGW is set up for building native Windows applications, which is what we need for GHC. 
+IMPORTANT: the msys2 installer creates multiple shortcuts, "MSYS2 Shell", "MinGW-w64 Win32 Shell" and "MinGW-w64 Win64 Shell". You need the latter one (or the middle one for 32-bit). The MSYS2 shell is set up for building applications with Cygwin which provides an additional POSIX compatibility layer, while MinGW is set up for building native Windows applications which is what we need for GHC. 
 
 
-An easy way to check that you are running the right shell is to check the output of "echo $PATH". The first item of the list should be /mingw64/bin.
+An easy way to check that you are running the right shell is to check the output of "echo $PATH". The first item of the list should be /mingw64/bin. Also, "echo $MSYSTEM" should show either "MINGW32" or "MINGW64".
 
 ## Installing packages & tools
 
