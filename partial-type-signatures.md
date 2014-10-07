@@ -704,13 +704,6 @@ wildcards in partial type signatures for local bindings, as the
 generalisation over constraints is exactly what led to *let should
 not be generalised*.
 
-
-All of this is currently not yet fully implemented. We have also not
-yet worked out what we should do precisely if MonoLocalBinds
-is not enabled, although our intention is to try and align as closely
-as possible to the generalisation that happens in the absence of a
-type signature.
-
 ## Partial Expression and Pattern Signatures
 
 
@@ -1058,7 +1051,25 @@ some things that may be non-obvious.
 
 ### TODOs
 
-- We have not yet taken care to correctly handle [local definitions](partial-type-signatures#).
+- A partial type signature for a local definition is not generalised
+  when the MonoLocalBinds
+  flag is enabled, as [intended](partial-type-signatures#). However, for
+  functions affected by this restriction, partial type signatures
+  aren't properly handled.
+
+  ```wiki
+  {-# LANGUAGE MonoLocalBinds, ScopedTypeVariables #-}
+  monoLoc :: forall a. a -> ((a, String), (a, String))
+  monoLoc x = (g True , g 'v')
+  where
+    -- g :: b -> (a, String) -- This signature is ok
+    g :: b -> (a, _) --      -- This signature is not
+    g y = (x, "foo")
+  ```
+
+  This causes a panic (`StgCmmEnv: variable not found`). The
+  interaction of the function `tcPolyNoGen` in `TcBinds.lhs` with
+  partial type signatures must be fixed.
 
 - When reporting the types wildcards were instantiated to in error messages,
   we mention the inferred type of the binding, but this doesn't include the
