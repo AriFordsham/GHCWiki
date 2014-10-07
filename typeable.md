@@ -28,7 +28,7 @@ splitTyConApp :: TypeRep -> (TyCon, [TypeRep])
 for `TypeRep a` so that we can figure out whether a given type is an arrow type, product type, etc.  
 
 
-This capability is necessary to implement `dynApply` for Typeable based dynamic typing.
+This capability is necessary to implement `dynApply` for Typeable based dynamic typing, without making `dynApply` part of the Trusted Code Base.  So `dynApply` makes a "poster-child" example.
 
 ```wiki
 data Dynamic = forall a. Typeable a => Dyn a
