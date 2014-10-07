@@ -48,7 +48,7 @@ rmdir /tmp/ghc-7.8.3
 ## Cabal setup
 
 
-Building ghc requires [ Alex](http://www.haskell.org/alex/) and [ Happy](http://www.haskell.org/happy/). It is easiest to install them using cabal. We will also put them in /usr/local to make sure that they end up on $PATH.
+Building ghc requires [ Alex](http://www.haskell.org/alex/) and [ Happy](http://www.haskell.org/happy/). It is easiest to install them using cabal. We will also put them in `/usr/local` to make sure that they end up on $PATH.
 
 ```wiki
 curl http://www.haskell.org/cabal/release/cabal-install-1.20.0.3/cabal-1.20.0.3-i386-unknown-mingw32.tar.gz | tar -xz -C /usr/local/bin &&
@@ -66,13 +66,22 @@ cd ~ &&
 git clone --recursive git://git.haskell.org/ghc.git &&
 cd ghc &&
 git clone git://git.haskell.org/ghc-tarballs.git ghc-tarballs &&
-./boot &&  # Consider setting up mk/build.mk here.
+```
+
+
+Consider setting up `mk/build.mk` here (`cp mk/build.mk.sample mk/build.mk && vim mk/build.mk`).
+
+
+Finally, to perform the actual build:
+
+```wiki
+./boot &&
 ./configure &&
 make -j5
 ```
 
 
-Alternatively, just run:
+Alternatively, to run a pristine build and tests (takes a while):
 
 ```wiki
 ./validate
