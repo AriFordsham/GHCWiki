@@ -9,7 +9,7 @@ This guide should get you running in \~5 minutes, modulo download speeds.
 ## msys2 setup
 
 
-Download and run the [ msys2 installer (64-bit)](http://sourceforge.net/projects/msys2/files/Base/x86_64/msys2-x86_64-20140910.exe/download), or the [ 32-bit version](http://sourceforge.net/projects/msys2/files/Base/i686/msys2-i686-20140910.exe/download). Open a mingw64 shell.
+Download and run the [ msys2 installer (64-bit)](http://sourceforge.net/projects/msys2/files/latest/download), or the [ 32-bit version](http://sourceforge.net/projects/msys2/files/Base/i686/msys2-i686-20140910.exe/download). Open a mingw64 shell.
 
 
 IMPORTANT: the msys2 installer creates multiple shortcuts, "MSYS2 Shell", "MinGW-w64 Win32 Shell" and "MinGW-w64 Win64 Shell". You need the latter one (or the middle one for 32-bit). The MSYS2 shell is set up for building applications with Cygwin which provides an additional POSIX compatibility layer, while MinGW is set up for building native Windows applications which is what we need for GHC. 
@@ -23,7 +23,7 @@ An easy way to check that you are running the right shell is to check the output
 The msys2 package uses `pacman` (the venerable ArchLinux package manager) to manage packages. Once you're set up, upgrade everything, and install system dependencies required for building GHC:
 
 ```wiki
-pacman -Syu
+pacman -Syu  # upgrade all packages to the newest available version
 pacman -S git curl tar binutils autoconf make libtool automake mingw-w64-x86_64-gcc
 ```
 
