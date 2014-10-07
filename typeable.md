@@ -31,10 +31,46 @@ for `TypeRep a` so that we can figure out whether a given type is an arrow type,
 This capability is necessary to implement `dynApply` for Typeable based dynamic typing, without making `dynApply` part of the Trusted Code Base.  So `dynApply` makes a "poster-child" example.
 
 ```wiki
-data Dynamic = forall a. Typeable a => Dyn a
+data Dynamic where
+  Dyn :: Typeable a => a -> Dynamic
 
 dynApply :: Dynamic -> Dynamic -> Dynamic
 ```
+
+### Typeable a vs TypeRep a
+
+
+Currently `Typaeble a` is a type class, indexed by the type `a`; while `TypeRep` is a data type, with no type index (i.e. it has arity zero).  But it's often useful to be able pass a type-indexed value around directly, rather than indirectly as a type class.  It often makes the code clearer, especially in tricky cases, and much less laden with `proxy` arguments.
+
+
+So in this page we explore the possibility of making `TypeRep` type-indexed too, like this:
+
+```wiki
+class Typeable a where
+    typeRep :: TypeRep a
+```
+
+
+We'll need to add the following primitive to make sure that we always 
+have access to the Typeable class, even if we produce the TypeRep by pattern matching.  
+
+```wiki
+withTypeable :: TypeRep a -> (Typeable a => b) -> b
+```
+
+
+(This seems both simpler and more useful than making the Typeable class recursive through TypeRep data declaration.)
+
+
+Now we can define `Dynamic` either as above or, equivalently and more concretely, thus:
+
+```wiki
+data Dynamic where
+  Dyn :: TypeRep a -> a -> Dynamic
+```
+
+
+This change is somewhat orthogonal to the question of making a strongly-typed `DynApply`.
 
 ### Kind equalities are sufficient
 
@@ -128,27 +164,6 @@ ifArrow :: TypeRep a -> Maybe ArrowTy
 ### What can we do without kind equalities ?
 
 - Make `ifArrow` and other destructors primitive
-
-### What about the Typeable class?
-
-
-This class should be a wrapper for the runtime type representation.
-
-```wiki
-class Typeable a where
-    typeRep :: TypeRep a
-```
-
-
-We'll need to add the following primitive to make sure that we always 
-have access to the Typeable class, even if we produce the TypeRep by pattern matching.  
-
-```wiki
-withTypeable :: TypeRep a -> (Typeable a => b) -> b
-```
-
-
-(This seems both simpler and more useful than making the Typeable class recursive through TypeRep data declaration.)
 
 ### Trusted computing base
 
