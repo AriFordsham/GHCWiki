@@ -167,6 +167,14 @@ ifArrow :: TypeRep a -> Maybe ArrowTy
 
 ```
 
+### Fast comparison of `TypeRep`
+
+
+The current implementation of `TypeRep` allows constant-type comparison based on fingerprints.  To support this in the new scheme we would want to add a fingerprint to every `TypeRep` node. But we would not want clients to see those fingerprints, lest they forge them.
+
+
+Conclusion: make `TypeRep` abstract.  But then how can we pattern-match on it?  Pattern synonyms seem to be exactly what we need.
+
 ### What can we do without kind equalities ?
 
 
