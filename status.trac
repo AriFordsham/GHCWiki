@@ -35,6 +35,9 @@ An overview of the number of <a rel="nofollow" href="/trac/ghc/wiki/Status/Ticke
 }}}
  * A curation of interesting tickets by SPJ, not discoverable otherwise on the wiki: [wiki:Status/SLPJ-Tickets]
 
+GHC's Trac is also used by the [http://www.haskell.org/haskellwiki/Core_Libraries_Committee Haskell Core Libraries Committee] to track progress on changes to the [http://www.haskell.org/haskellwiki/Library_submissions#The_Core_Libraries core libraries]. These tickets have "Component" set to "Core Libraries":
+ * [https://ghc.haskell.org/trac/ghc/query?status=infoneeded&status=merge&status=new&status=patch&status=upstream&component=Core+Libraries&col=id&col=summary&col=component&col=status&col=type&col=priority&col=milestone&order=priority Active Core Libraries tickets]
+
 == Biannual status reports ==
 
 Here are biannual GHC status reports, published in the [http://haskell.org/communities/ Haskell Communities and Activities Report]
