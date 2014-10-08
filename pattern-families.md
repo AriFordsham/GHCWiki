@@ -1,24 +1,91 @@
 
-This is a proposal for allowing **families of patterns** indexed by expressions.
+This is a proposal (formerly named *pattern families*) for extending pattern synonyms ([PatternSynonyms](pattern-synonyms)) allowing patterns to depend on terms. The implementation is a straightforward desugaring into pattern synonyms and view patterns ([ViewPatterns](view-patterns)) so familiarity with those two extensions is recommended before reading the proposal.
 
 
-It is similar to a pattern synonym ([PatternSynonyms](pattern-synonyms)) and desugars directly into a view pattern ([ViewPatterns](view-patterns)) so familiarity with those two extensions is recommended.
+The simplest use case is checking whether a set contains a value:
+
+```wiki
+    -- Normal Haskell
+    answer :: Set Int -> String
+    answer set = case member 42 set of
+      True  -> "We know the answer"
+      False -> "Never mind."
+
+    -- Using view patterns
+    answer :: Set Int -> String
+    answer (member 42 -> True)  = "We know the answer"
+    answer (member 42 -> False) = "Never mind."
+```
 
 
-The arguments to pattern families effectively fall into two categories: expressions used to index the pattern family (information flowing *into* the pattern) and the arguments that can be pattern matched against (information flowing *out of* the pattern).
+With this extension we could define patterns that check for containment:
+
+```wiki
+    pattern IsMember  val <- (member val -> True)
+    pattern NotMember val <- (member val -> False)
+
+    -- With extension
+    answer :: Set Int -> String
+    answer (IsMember  42) = "We know the answer"
+    answer (NotMember 42) = "Never mind."
+```
 
 
-The simplest useful example of this might be a `Between` pattern that only matches a particular range (a feature of [ Rust's pattern matching](http://doc.rust-lang.org/master/tutorial.html#pattern-matching) facility) — note that in this example, `Between` is indexed by two integers so there are *two* values (`from`, `to`) flowing into `Between` but no value flowing out:
+This allows us to avoid pattern matching on the Boolean result of `member`. In the case of `IsMember` (and `NotMember`) the argument `val` flows into the view pattern as indicated by this figure:
+
+[](/trac/ghc/attachment/wiki/PatternFamilies/member.png)
+
+
+Let's consider a similar example with a `Map` where we want to look up a value based on some key:
+
+```wiki
+    -- Normal Haskell
+    addressAlice :: Map Name Address -> Either String Address
+    addressAlice people = case lookup "Alice" people of
+      Just address -> Right address
+      Nothing      -> Left "Alice's address not found."
+```
+
+
+With the extension we define a pattern that only succeeds if `lookup` returns a value wrapped in `Just` which feeds that value back into the pattern:
+
+```wiki
+    pattern Lookup     key val <- (lookup key -> Just val)
+    pattern LookupFail key     <- (lookup key -> Nothing)
+
+    -- With extension
+    addressAlice :: Map Name Address -> Either String Address
+    addressAlice (Lookup "Alice" address) = Right address
+    addressAlice _                        = Left "Alice's address not found."
+```
+
+
+where the key `"Alice"` is used in the view pattern expression and the resulting value is made available in the pattern main pattern:
+
+[](/trac/ghc/attachment/wiki/PatternFamilies/lookup.png)
+
+
+Now we don't have to unnecessarily give a name to an argument (like `people`) like with view patterns but unlike view patterns we don't need to mention to `Bool` and `Maybe` success result values of member and lookup. These kinds of patterns also nest arbitrarily without too much noise:
+
+```wiki
+    foo :: Map Person (Map Receptacle (Set Items)) -> Status
+    foo = \case
+      Lookup "Bob" (Lookup Pocket (IsMember  Keys)) -> HasKeys
+      Lookup "Bob" (Lookup Pocket (NotMember Keys)) -> NoKeys
+      Lookup "Bob" (LookupFail Pocket)              -> NoPocket
+      LookupFail "Bob"                              -> Failure "No Bob"
+```
+
+
+Another simple example is the `Between` pattern that matches a particular range (a feature built into [ Rust](http://doc.rust-lang.org/master/tutorial.html#pattern-matching)):
 
 ```wiki
     import Data.Ix
 
     pattern Between from to <- (inRange (from, to) -> True)
 
-    -- A teenager is between thirteen and nineteen, would be:
-    --     13..19 => true,
-    --     _      => false
-    -- in Rust.
+    -- A teenager is between thirteen and nineteen.
+    -- `Between 13 19` would be `13..19` in Rust.
     isTeen :: Age -> Bool
     isTeen (Between 13 19) = True
     isTeen _               = False
@@ -37,10 +104,11 @@ that gets transformed into:
 
 ```wiki
     generalCategory' :: Char -> GeneralCategory 
-    generalCategory' (Between '\x00' '\x16') = Control
-    generalCategory' (Between 'a'    'z'   ) = LowercaseLetter
-    generalCategory' (Between 'A'    'Z'   ) = UppercaseLetter
-    generalCategory' (Between '0'    '9'   ) = DecimalNumber
+    generalCategory' = \case
+      Between '\x00' '\x16' -> Control
+      Between 'a'    'z'    -> LowercaseLetter
+      Between 'A'    'Z'    -> UppercaseLetter
+      Between '0'    '9'    -> DecimalNumber
 ```
 
 ## Syntax
@@ -49,55 +117,25 @@ that gets transformed into:
 The syntax from [PatternSynonyms](pattern-synonyms) can be reused for simplicity:
 
 ```wiki
-    pattern Take n xs <- (take n -> xs)
+    pattern Lookup key value <- (lookup key -> Just value)
 ```
 
 
-here `xs` is a normal variable as in [PatternSynonyms](pattern-synonyms) but `n` must be a concrete expression that the pattern is indexed by: this can be inferred from it appearing in the [ViewPatterns](view-patterns) expression (`take n`) rather than in the pattern.
+here `value` is a normal variable as in [PatternSynonyms](pattern-synonyms) but `key` is some term the view pattern is indexed by: this can be inferred from it appearing in the [ViewPatterns](view-patterns) expression (`lookup key`) rather than in the pattern (`Just value`).
 
 
 The function `fn`:
 
 ```wiki
-    fn :: [a] -> [a]
-    fn (Take 2 xs) = xs
+    fn :: Map String Int -> Int
+    fn (Lookup "five" n) = n
 
-    ghci> fn "hello"
-    "he"
+    ghci> fn (Map.fromList [("four", 4), ("five", 5)]
+    5
 ```
 
 
-is thus the same as writing `fn (take 2 -> xs) = xs` using view patterns.
-
-
-For the case of `Take 2` it can be rewritten using simple pattern synonyms:
-
-```wiki
-    pattern Take2 xs <- (take 2 -> xs)
-```
-
-
-but this would need to be defined for each `Int`. In this sense pattern families are a bit like polymorphic functions, just like `length` can be used rather than defining many specialized functions:
-
-```wiki
-    lengthInt    :: [Int]    -> Int
-    lengthBool   :: [Bool]   -> Int
-    lengthDouble :: [Double] -> Int
-    …
-```
-
-
-we can use `Take` with arguments (`Take 0`, `Take 1`, `Take 2`, …) to have the same meaning as the following (hypothetical!) pattern synonyms:
-
-```wiki
-    pattern Take0 xs <- (take 0 -> xs)
-    pattern Take1 xs <- (take 1 -> xs)
-    pattern Take2 xs <- (take 2 -> xs)
-    …
-```
-
-
-These patterns would not exist at all since pattern families desugar easily to view patterns — they're presented only to give an intuition of the `Take` family.
+is the same as writing `fn (lookup "five" -> Just n) = n` using view patterns.
 
 ### Grammar
 
@@ -130,22 +168,22 @@ where *pvarid<sub>j</sub>* may appear in `result` as in usual patterns. This the
 For the simple example of the pattern family `Take` this (where 3 is *expr<sub>1</sub>* and `xs` is *pval<sub>1</sub>*):
 
 ```wiki
-    foo (Take 3 xs) = xs ++ xs
+    foo (Lookup "five" n) = n + n
 ```
 
 
 would get translated to:
 
 ```wiki
-.    foo (take 3 -> xs) = xs ++ xs
+.    foo (lookup "five" -> Just n) = n + n
 ```
 
 
 which is the same as:
 
 ```wiki
-    foo ys = case take 3 ys of
-      xs -> xs ++ xs
+    foo ys = case lookup "five" n of
+      Just n -> n + n
 ```
 
 ## Static semantics (Typing)
@@ -207,17 +245,6 @@ Compare that to the the [ViewPatternsAlternative](view-patterns-alternative) pro
 
 Where the user has to worry about matching on `Just`s. 
 
-
-Using operators `:∈ = Has` and `:∉ = HasNot`:
-
-```wiki
-    delete x (x :∈ set)  = set
-    insert x (x :∉ S xs) = S (x:xs)
-```
-
-
-if one were so inclined.
-
 ### Erlang-style parsing
 
 
@@ -245,10 +272,7 @@ one can write a pattern like this:
 ```
 
 
-Note that this is our first example of nesting a pattern family. More examples follow in the more advanced examples below.
-
-
-Compare that to the [ViewPatternsAlternative](view-patterns-alternative) version:
+Where we can nest pattern families, more examples of nesting follow in the more advanced examples below. Compare that to the more verbose [ViewPatternsAlternative](view-patterns-alternative) version:
 
 ```wiki
     parsePacket :: ByteString -> _
