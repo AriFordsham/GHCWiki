@@ -73,8 +73,7 @@ We can implement B and C when somebody comes up with compelling use cases.
 
 == Proposed syntax
 
-Below is a list of various syntax proposed so far for this new feature. Two
-important things to consider when deciding on a concrete syntax are:
+Two important things to consider when deciding on a concrete syntax are:
 
   * '''Backwards compatibility''': at the moment no decision has been made on
     whether injectivity will become a part of existing `TypeFamilies` extension
@@ -87,173 +86,48 @@ important things to consider when deciding on a concrete syntax are:
   * '''Future extensibility''': if we only implement A we still want to be able
     to add B and C in the future without breaking A.
 
-=== Proposal 1
-
-Use syntax similar to functional dependencies. The injectivity declaration
-begins with `|` following type family declaration head. `|` is followed by a
-list of comma-separated injectivity conditions. Each injectivity condition has
-the form:
+We decided to use syntax similar to functional dependencies.  The injectivity
+declaration begins with `|` following type family declaration head.  `|` is
+followed by a list of comma-separated injectivity conditions. Each injectivity
+condition has the form:
 
 {{{#!hs
-result A -> B
+A -> B
 }}}
 
-where `A` is a possibly-empty list of type variables declared in type family
-head and `B` is non-empty list of said type variables. Things on the left and
-right of `->` are called LHS and RHS of an injectivity condition,
-respectively. `result` becomes a restricted word that cannot be used as a type
-variable's identifier in a type family head.  I think this is identical to how
-the `role` word is treated. Examples (taken from the previous section):
+where `A` and `B` are non-empty lists of type variables declared in type family
+head. Things on the left and right of `->` are called LHS and RHS of an
+injectivity condition, respectively. The user must be able to name the result of
+a type family. To achieve that we extend syntax of type family head by allowing
+to write `= tyvar` or `= (tyvar :: kind)` annotations in addition to already
+allowed `:: kind` annotation. In other words all these declaration are
+well-formed:
 
 {{{#!hs
-type family Id a     | result -> a where
-type family F a b c  | result -> a b c
-type family G a b c  | result -> a b where
-type family Plus a b | result a -> b, result b -> a where
-type family H a b c  | result a -> b c, result b -> a c
+type family Plus (a :: Nat) (b :: Nat) where ...
+type family Plus (a :: Nat) (b :: Nat) :: Nat where ...
+type family Plus (a :: Nat) (b :: Nat) = c where ...
+type family Plus (a :: Nat) (b :: Nat) = (c :: Nat) where ...
 }}}
+
+but the third or fourth form is required if the user wants to introduce
+injectivity declaration. Here are examples of injectivity declarations using
+proposed syntax:
+
+{{{#!hs
+type family Id a = result | result -> a where
+type family F a b c = d | d -> a b c
+type family G a b c = foo | foo -> a b where
+type family Plus a b = (sum :: Nat) | sum a -> b, sum b -> a where
+type family H a b c = xyz | xyz a -> b c, xyz b -> a c
+}}}
+
+Note that above examples demonstrate all three types of injectivivity but for
+now we only plan to implement injectivity A.
 
 Pros:
 
-  * has natural reading: `result a -> b` reads as "knowing the result and the
-    type variable a determines b".
-
-  * extensible for the future
-
-Cons:
-
-  * steals `result` identifier in the type family head. This means it would be
-    illegal to have a type variable named `result` in a type family.
-
-  * the above makes this proposal backwards incompatible with `TypeFamilies`
-    extension.
-
-Further proposals are based on this one in an attempt to solve the problem of
-stealing syntax and backwards incompatibility.
-
-
-=== Proposal 2
-
-Use `Result` instead of `result`:
-
-{{{#!hs
-type family Id a     | Result -> a where
-type family F a b c  | Result -> a b c
-type family G a b c  | Result -> a b where
-type family Plus a b | Result a -> b, Result b -> a where
-type family H a b c  | Result a -> b c, Result b -> a c
-}}}
-
-Pros:
-
-  * has natural reading
-
-  * extensible for the future
-
-  * allows to have type variables named `result` (does not steal syntax)
-
-Cons:
-
-  * all other keywords in Haskell are lower case. This would be the first one
-    that is capitalized.
-
-  * confusion could arise if we have a type `Result` and use it in the type
-    family head.
-
-Unknowns (for me):
-
-  * not sure if it would be possible to avoid name clash between `Result` and
-    type of the same name. If not then this proposal would also be backwards
-    incompatible with `TypeFamilies`.
-
-
-=== Proposal 3
-
-Use `type` instead of `result`:
-
-{{{#!hs
-type family Id a     | type -> a where
-type family F a b c  | type -> a b c
-type family G a b c  | type -> a b where
-type family Plus a b | type a -> b, type b -> a where
-type family H a b c  | type a -> b c, type b -> a c
-}}}
-
-Pros:
-
-  * extensible for the future
-
-  * no syntax stealing
-
-Cons:
-
-  * no natural reading
-
-  * usage of `type` here might seem unintuitive
-
-
-=== Proposal 4
-
-Use name of the type family instead of `result`:
-
-{{{#!hs
-type family Id a     | Id -> a where
-type family F a b c  | F -> a b c
-type family G a b c  | G -> a b where
-type family Plus a b | Plus a -> b, Plus b -> a where
-type family H a b c  | H a -> b c, H b -> a c
-}}}
-
-Pros:
-
-  * extensible for the future
-
-  * no syntax stealing
-
-Cons:
-
-  * writing something like `Plus a` might be confusing. It looks as if `Plus`
-    could be partially applied.
-
-=== Proposal 5
-
-A major drawback of all proposals 1-4, 6-7 is that if we only implement A injectivity then writing things like `result -> a b c d` is a lot of boilerplate (since there is only one possible injectivity condition anyway). We could avoid that by introducing `injective` keyword:
-
-{{{#!hs
-injective type family Id a where
-injective type family F a b c
-injective type family G a b c  where
-injective type family Plus a b where
-injective type family H a b c
-}}}
-
-Pros:
-
-  * no boilerplate for declaring A injectivity
-
-  * probably backwards compatible, since there is only one place where the `injective` keyword may go.
-
-  * could be extended in the future be allowing any of the proposals 1-4 to be used alternatively
-
-Cons:
-
-  * steals "injective" identifier in type family head (I think)
-
-  * not directly extensible. Introducing syntax from proposals 1-4 sometime in the future will end up with redundancy
-
-=== Proposal 6
-
-Don't write the `result`:
-
-{{{#!hs
-type family Id a     | -> a where
-type family F a b c  | -> a b c
-type family G a b c  | -> a b where
-type family Plus a b | a -> b, b -> a where
-type family H a b c  | a -> b c, b -> a c
-}}}
-
-Pros:
+  * natural reading: `res a -> b` reads as "knowing res and a determines b".
 
   * extensible for the future
 
@@ -261,31 +135,11 @@ Pros:
 
 Cons:
 
-  * might be a bit confusing?
+  * since we only plan to implement injectivity of form A we require that there
+    is only one injectivity condition, its LHS contains only a type variable
+    naming the result and its RHS contains all type variables naming the
+    arguments to a type family. This might be a bit annoying.
 
-=== Proposal 7
-
-Use type variable that names the RHS instead of `result`:
-
-{{{#!hs
-type family Id a :: result | result -> a where
-type family F a b c :: d | d -> a b c
-type family G a b c :: foo | foo-> a b where
-type family Plus a b :: sum | sum a -> b, sum b -> a where
-type family H a b c :: xyz | xyz a -> b c, xyz b -> a c
-}}}
-
-Pros:
-
-  * extensible for the future
-
-  * backwards compatible
-
-  * we already allow naming the RHS in this way
-
-Cons:
-
-  * ?
 
 == Real-life use cases
 
