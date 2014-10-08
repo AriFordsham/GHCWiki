@@ -65,10 +65,19 @@ where the key `"Alice"` is used in the view pattern expression and the resulting
 [](/trac/ghc/attachment/wiki/PatternFamilies/lookup.png)
 
 
-Now our patterns aren't cluttered with matching on the `Bool` and `Maybe` results of the member and lookup functions.
+Now we don't have to unnecessarily give a name to an argument (like `people`) like with view patterns but unlike view patterns we don't need to mention to `Bool` and `Maybe` success result values of member and lookup. These kinds of patterns also nest arbitrarily without too much noise:
+
+```wiki
+    foo :: Map Person (Map Receptacle (Set Items)) -> Status
+    foo = \case
+      Lookup "Bob" (Lookup Pocket (IsMember  Keys)) -> HasKeys
+      Lookup "Bob" (Lookup Pocket (NotMember Keys)) -> NoKeys
+      Lookup "Bob" (LookupFail Pocket)              -> NoPocket
+      LookupFail "Bob"                              -> Failure "No Bob"
+```
 
 
-Another simple example is the `Between` pattern that matches a particular range (a feature built into [ Rust](http://doc.rust-lang.org/master/tutorial.html#pattern-matching)) :
+Another simple example is the `Between` pattern that matches a particular range (a feature built into [ Rust](http://doc.rust-lang.org/master/tutorial.html#pattern-matching)):
 
 ```wiki
     import Data.Ix
