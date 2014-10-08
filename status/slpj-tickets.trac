@@ -66,6 +66,7 @@ See also [wiki:TemplateHaskell]
  * #7484: TH allows you to build invalid names
 
 == Demand analysis and CSE == 
+ * #8655: analysis for quick-to-evaluate thunks
  * #6070, #5949, #5775, #4267, #5302, #6087: Demand analysis
  * #5075, #3138: CPR for sum types (mostly done, needs finishing)
  * #2289, #2387, #1600, #1885: nested CPR analysis
