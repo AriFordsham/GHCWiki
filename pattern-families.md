@@ -117,55 +117,25 @@ that gets transformed into:
 The syntax from [PatternSynonyms](pattern-synonyms) can be reused for simplicity:
 
 ```wiki
-    pattern Take n xs <- (take n -> xs)
+    pattern Lookup key value <- (lookup key -> Just value)
 ```
 
 
-here `xs` is a normal variable as in [PatternSynonyms](pattern-synonyms) but `n` must be a concrete expression that the pattern is indexed by: this can be inferred from it appearing in the [ViewPatterns](view-patterns) expression (`take n`) rather than in the pattern.
+here `value` is a normal variable as in [PatternSynonyms](pattern-synonyms) but `key` is some term the view pattern is indexed by: this can be inferred from it appearing in the [ViewPatterns](view-patterns) expression (`lookup key`) rather than in the pattern (`Just value`).
 
 
 The function `fn`:
 
 ```wiki
-    fn :: [a] -> [a]
-    fn (Take 2 xs) = xs
+    fn :: Map String Int -> Int
+    fn (Lookup "five" n) = n
 
-    ghci> fn "hello"
-    "he"
+    ghci> fn (Map.fromList [("four", 4), ("five", 5)]
+    5
 ```
 
 
-is thus the same as writing `fn (take 2 -> xs) = xs` using view patterns.
-
-
-For the case of `Take 2` it can be rewritten using simple pattern synonyms:
-
-```wiki
-    pattern Take2 xs <- (take 2 -> xs)
-```
-
-
-but this would need to be defined for each `Int`. In this sense pattern families are a bit like polymorphic functions, just like `length` can be used rather than defining many specialized functions:
-
-```wiki
-    lengthInt    :: [Int]    -> Int
-    lengthBool   :: [Bool]   -> Int
-    lengthDouble :: [Double] -> Int
-    …
-```
-
-
-we can use `Take` with arguments (`Take 0`, `Take 1`, `Take 2`, …) to have the same meaning as the following (hypothetical!) pattern synonyms:
-
-```wiki
-    pattern Take0 xs <- (take 0 -> xs)
-    pattern Take1 xs <- (take 1 -> xs)
-    pattern Take2 xs <- (take 2 -> xs)
-    …
-```
-
-
-These patterns would not exist at all since pattern families desugar easily to view patterns — they're presented only to give an intuition of the `Take` family.
+is the same as writing `fn (lookup "five" -> Just n) = n` using view patterns.
 
 ### Grammar
 
@@ -198,22 +168,22 @@ where *pvarid<sub>j</sub>* may appear in `result` as in usual patterns. This the
 For the simple example of the pattern family `Take` this (where 3 is *expr<sub>1</sub>* and `xs` is *pval<sub>1</sub>*):
 
 ```wiki
-    foo (Take 3 xs) = xs ++ xs
+    foo (Lookup "five" n) = n + n
 ```
 
 
 would get translated to:
 
 ```wiki
-.    foo (take 3 -> xs) = xs ++ xs
+.    foo (lookup "five" -> Just n) = n + n
 ```
 
 
 which is the same as:
 
 ```wiki
-    foo ys = case take 3 ys of
-      xs -> xs ++ xs
+    foo ys = case lookup "five" n of
+      Just n -> n + n
 ```
 
 ## Static semantics (Typing)
@@ -275,17 +245,6 @@ Compare that to the the [ViewPatternsAlternative](view-patterns-alternative) pro
 
 Where the user has to worry about matching on `Just`s. 
 
-
-Using operators `:∈ = Has` and `:∉ = HasNot`:
-
-```wiki
-    delete x (x :∈ set)  = set
-    insert x (x :∉ S xs) = S (x:xs)
-```
-
-
-if one were so inclined.
-
 ### Erlang-style parsing
 
 
@@ -313,10 +272,7 @@ one can write a pattern like this:
 ```
 
 
-Note that this is our first example of nesting a pattern family. More examples follow in the more advanced examples below.
-
-
-Compare that to the [ViewPatternsAlternative](view-patterns-alternative) version:
+Where we can nest pattern families, more examples of nesting follow in the more advanced examples below. Compare that to the more verbose [ViewPatternsAlternative](view-patterns-alternative) version:
 
 ```wiki
     parsePacket :: ByteString -> _
