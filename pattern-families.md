@@ -1,24 +1,87 @@
 
-This is a proposal for allowing **families of patterns** indexed by expressions.
+This is a proposal (formerly named *pattern families*) for extending pattern synonyms ([PatternSynonyms](pattern-synonyms)) allowing patterns to depend on expressions. The implementation is a straightforward desugaring into pattern synonyms and view patterns ([ViewPatterns](view-patterns)) so familiarity with those two extensions is recommended before reading the proposal.
 
 
-It is similar to a pattern synonym ([PatternSynonyms](pattern-synonyms)) and desugars directly into a view pattern ([ViewPatterns](view-patterns)) so familiarity with those two extensions is recommended.
+The simplest use case is checking whether a set contains value:
+
+```wiki
+    -- Normal Haskell
+    answer :: Set Int -> String
+    answer set = case member 42 set of
+      True  -> "We know the answer"
+      False -> "Never mind."
+
+    -- Using view patterns
+    answer :: Set Int -> String
+    answer (member 42 -> True) = "We know the answer"
+    answer _                   = "Never mind."
+```
 
 
-The arguments to pattern families effectively fall into two categories: expressions used to index the pattern family (information flowing *into* the pattern) and the arguments that can be pattern matched against (information flowing *out of* the pattern).
+With this extension we could define patterns that check to containment:
+
+```wiki
+    pattern IsMember  val <- (member val -> True)
+    pattern NotMember val <- (member val -> False)
+```
 
 
-The simplest useful example of this might be a `Between` pattern that only matches a particular range (a feature of [ Rust's pattern matching](http://doc.rust-lang.org/master/tutorial.html#pattern-matching) facility) — note that in this example, `Between` is indexed by two integers so there are *two* values (`from`, `to`) flowing into `Between` but no value flowing out:
+where the code looks like:
+
+```wiki
+    -- With extension
+    answer :: Set Int -> String
+    answer (IsMember  42) = "We know the answer"
+    answer _              = "Never mind."
+```
+
+
+This allows us to avoid pattern matching on the Boolean result of `member`. In the case of `IsMember` (and `NotMember`) the argument `val` flows into the view pattern as indicated by this figure:
+
+[](/trac/ghc/attachment/wiki/PatternFamilies/member.png)
+
+
+Let's consider a similar example with a `Map` where we want to look up a value based on some key:
+
+```wiki
+    -- Normal Haskell
+    addressAlice :: Map Name Address -> Either String Address
+    addressAlice people = case lookup "Alice" people of
+      Just address -> Right address
+      Nothing      -> Left "Alice's address not found."
+```
+
+
+With the extension we define a pattern that only succeeds if `lookup` returns a value wrapped in `Just` which feeds that value back into the pattern:
+
+```wiki
+    pattern Lookup     key val <- (lookup key -> Just val)
+    pattern LookupFail key     <- (lookup key -> Nothing)
+
+    -- With extension
+    addressAlice :: Map Name Address -> Either String Address
+    addressAlice (Lookup "Alice" address) = Right address
+    addressAlice _                        = Left "Alice's address not found."
+```
+
+
+where the key `"Alice"` is used in the view pattern expression and the resulting value is made available in the pattern main pattern:
+
+[](/trac/ghc/attachment/wiki/PatternFamilies/lookup.png)
+
+
+Now our patterns aren't cluttered with matching on the `Bool` and `Maybe` results of the member and lookup functions.
+
+
+Another simple example is the `Between` pattern that matches a particular range (a feature built into [ Rust](http://doc.rust-lang.org/master/tutorial.html#pattern-matching)) :
 
 ```wiki
     import Data.Ix
 
     pattern Between from to <- (inRange (from, to) -> True)
 
-    -- A teenager is between thirteen and nineteen, would be:
-    --     13..19 => true,
-    --     _      => false
-    -- in Rust.
+    -- A teenager is between thirteen and nineteen.
+    -- `Between 13 19` would be `13..19` in Rust.
     isTeen :: Age -> Bool
     isTeen (Between 13 19) = True
     isTeen _               = False
