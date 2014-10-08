@@ -13,8 +13,8 @@ The simplest use case is checking whether a set contains a value:
 
     -- Using view patterns
     answer :: Set Int -> String
-    answer (member 42 -> True) = "We know the answer"
-    answer _                   = "Never mind."
+    answer (member 42 -> True)  = "We know the answer"
+    answer (member 42 -> False) = "Never mind."
 ```
 
 
@@ -27,7 +27,7 @@ With this extension we could define patterns that check for containment:
     -- With extension
     answer :: Set Int -> String
     answer (IsMember  42) = "We know the answer"
-    answer _              = "Never mind."
+    answer (NotMember 42) = "Never mind."
 ```
 
 
