@@ -15,16 +15,12 @@ The simplest use case is checking whether a set contains a value:
     answer _                   = "Never mind."
 }}}
 
-With this extension we could define patterns that check to containment:
+With this extension we could define patterns that check for containment:
 
 {{{
     pattern IsMember  val <- (member val -> True)
     pattern NotMember val <- (member val -> False)
-}}}
 
-where the code looks like:
-
-{{{
     -- With extension
     answer :: Set Int -> String
     answer (IsMember  42) = "We know the answer"

@@ -18,17 +18,12 @@ The simplest use case is checking whether a set contains a value:
 ```
 
 
-With this extension we could define patterns that check to containment:
+With this extension we could define patterns that check for containment:
 
 ```wiki
     pattern IsMember  val <- (member val -> True)
     pattern NotMember val <- (member val -> False)
-```
 
-
-where the code looks like:
-
-```wiki
     -- With extension
     answer :: Set Int -> String
     answer (IsMember  42) = "We know the answer"
