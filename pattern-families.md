@@ -100,10 +100,11 @@ that gets transformed into:
 
 ```wiki
     generalCategory' :: Char -> GeneralCategory 
-    generalCategory' (Between '\x00' '\x16') = Control
-    generalCategory' (Between 'a'    'z'   ) = LowercaseLetter
-    generalCategory' (Between 'A'    'Z'   ) = UppercaseLetter
-    generalCategory' (Between '0'    '9'   ) = DecimalNumber
+    generalCategory' = \case
+      Between '\x00' '\x16' -> Control
+      Between 'a'    'z'    -> LowercaseLetter
+      Between 'A'    'Z'    -> UppercaseLetter
+      Between '0'    '9'    -> DecimalNumber
 ```
 
 ## Syntax
