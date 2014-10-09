@@ -1,5 +1,6 @@
 = This is a proposal / discussion page for adding annotations to the AST, for ticket #9628 =
 
+The current design is outlined toward the end, see [#design design]
 
 Right now the locations of syntactic markers such as `do`/`let`/`where`/`in`/`of` in the source are discarded from the AST, although they are retained in the rich token stream.
 
@@ -196,7 +197,7 @@ you are engaging in with `mkAnnKey`.
 
 There was some further email between AZ and NDM (teaching AZ some basics) resulting in the following
 
-== Current POC implementation [https://phabricator.haskell.org/D297 D297] ==
+== [=#design Current] POC implementation [https://phabricator.haskell.org/D297 D297] ==
 
 Theory of operation.
 
