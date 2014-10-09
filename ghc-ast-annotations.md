@@ -85,7 +85,7 @@ An initial investigation shows some complexity blow up too.  The same effect can
 
 
 Instead of physically placing a "node-key" in each AST Node, a virtual
-node key can be generated from any \`GenLocated SrcSpan e' comprising a
+node key can be generated from any `GenLocated SrcSpan e` comprising a
 combination of the `SrcSpan` value and a unique identifier from the
 constructor for `e`, perhaps using its `TypeRep`, since the entire AST
 derives Typeable.
@@ -137,3 +137,99 @@ This technique can also potentially be backported to support older GHC
 versions via a modification to ghc-parser\[1\].
 
 [ https://hackage.haskell.org/package/ghc-parser](https://hackage.haskell.org/package/ghc-parser)
+
+## Neil Mitchell Response
+
+
+I was getting a bit lost between the idea and the implementation. Let
+me try rephrasing the idea in my own words.
+
+
+The goal: Capture inner source spans in AST syntax nodes. At the
+moment if ... then ... else ... captures the spans \[if \[...\] then
+\[...\] else \[...\]\]. We want to capture the spans for each keyword as
+well, so: \[{if} \[...\] {then} \[...\] {else} \[...\]\].
+
+
+The proposal: Rather than add anything to the AST, have a separate
+mapping `(SrcSpan,AstCtor)` to `[SrcSpan]`. So you give in the `SrcSpan`
+from the `IfThenElse` node, and some token for the `IfThenElse`
+constructor, and get back a list of `IfThenElse` for the particular
+keyword.
+
+
+I like the proposal because it adds nothing inside the AST, and
+requires no fresh invariants of the AST. I dislike it because the
+contents of that separate mapping are highly tied up with the AST, and
+easy to get out of sync. I think it's the right choice for three
+reasons, 1) it is easier to try out and doesn't break the AST, so we
+have more scope for changing our minds later; 2) the same technique is
+able to represent things other than `SrcSpan` without introducing a
+polymorphic src span; 3) the people who pay the complexity are the
+people who use it, which is relatively few people.
+
+
+That said, as a tweak to the API, rather than a single data type for
+all annotations, you could have:
+
+```
+dataAnnIfThenElse=AnnIfThenElse{posIf, posThen, posElse ::SrcSpan}dataAnnDo=AnnDo{posDo ::SrcSpan}
+```
+
+
+Then you could just have an opaque `Map (SrcSpan, TypeRep) Dynamic`,
+with the invariant that the `TypeRep` in the key matches the `Dynamic`.
+Then you can have: 
+
+```
+getAnnotation::Typeable a =>Annotations->SrcSpan->Maybe a
+```
+
+
+I think it simplifies some of the TypeRep trickery
+you are engaging in with `mkAnnKey`.
+
+
+There was some further email between AZ and NDM (teaching AZ some basics) resulting in the following
+
+## Current POC implementation [ D297](https://phabricator.haskell.org/D297)
+
+
+Theory of operation.
+
+
+The HsSyn AST does not capture the locations of certain keywords and
+punctuation, such as 'let', 'in', 'do', etc.
+
+
+These locations are required by any tools wanting to parse a haskell
+file, transform the AST in some way, and then regenerate the original
+layout for the unchaged parts.
+
+
+Rather than pollute the AST with information irrelevant to the actual
+compilation process, these locations are captured in the lexer /
+parser and returned as a separate structure ApiAnns structure in the
+ParsedSource.
+
+
+Each AST element that needs an annotation has an entry in this Map,
+which as a key comprising the SrcSpan of the original element and the
+TyeRep of the stored annotation, if it were wrapped in a Just.
+
+
+This allows code using the annotation to access this as follows
+
+<table><tr><th>processHsLet</th>
+<td>ApiAnns -\> LHsExpr -\> CustomReturnType
+processHsLet anns (L l (HsExpr localBinds expr)) = r
+where
+</td></tr>
+<tr><th>Just ann = getAnnotation anns l</th>
+<td>Maybe AnnHsLet
+...
+</td></tr></table>
+
+```
+typeApiAnns=Map.MapApiAnnKeyValuedataApiAnnKey=AKSrcSpanTypeRepderiving(Eq,Ord,Show)mkApiAnnKey::(Typeable a)=>SrcSpan-> a ->ApiAnnKeymkApiAnnKey l a =AK l (typeOf (Just a))
+```
