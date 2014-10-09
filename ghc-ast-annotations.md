@@ -220,16 +220,145 @@ TyeRep of the stored annotation, if it were wrapped in a Just.
 
 This allows code using the annotation to access this as follows
 
-<table><tr><th>processHsLet</th>
-<td>ApiAnns -\> LHsExpr -\> CustomReturnType
-processHsLet anns (L l (HsExpr localBinds expr)) = r
-where
-</td></tr>
-<tr><th>Just ann = getAnnotation anns l</th>
-<td>Maybe AnnHsLet
-...
-</td></tr></table>
+```
+processHsLet::ApiAnns->LHsExpr->CustomReturnTypeprocessHsLet anns (L l (HsExpr localBinds expr))= r
+  whereJust ann = getAnnotation anns l ::MaybeAnnHsLet...
+```
+
+
+Key data structures
 
 ```
-typeApiAnns=Map.MapApiAnnKeyValuedataApiAnnKey=AKSrcSpanTypeRepderiving(Eq,Ord,Show)mkApiAnnKey::(Typeable a)=>SrcSpan-> a ->ApiAnnKeymkApiAnnKey l a =AK l (typeOf (Just a))
+typeApiAnns=Map.MapApiAnnKeyValuedataApiAnnKey=AKSrcSpanTypeRepderiving(Eq,Ord,Show)mkApiAnnKey::(Typeable a)=>SrcSpan-> a ->ApiAnnKeymkApiAnnKey l a =AK l (typeOf (Just a))dataValue= forall a .(Eq a,Show a,Typeable a,Outputable a)=>Value a
+
+newValue::(Eq a,Show a,Typeable a,Outputable a)=> a ->ValuenewValue=ValuetypeValue::Value->TypeReptypeValue(Value x)= typeOf x
+
+fromValue::Typeable a =>Value-> a
+fromValue(Value x)= fromMaybe (error errMsg)$ res
+  where
+    res = cast x
+    errMsg ="fromValue, bad cast from "++ show (typeOf x)++" to "++ show (typeOf res)
 ```
+
+
+Note that the `Value` type is based on the one in [ shake](https://github.com/ndmitchell/shake/blob/master/Development/Shake/Value.hs)
+
+
+This allows the annotation to be retrieved by
+
+```
+-- | Retrieve an annotation based on the SrcSpan of the annotated AST-- element, and the known type of the annotation.getAnnotation::(Typeable a)=>ApiAnns->SrcSpan->Maybe a
+getAnnotation anns span = res
+  where res =caseMap.lookup (AK span (typeOf res)) anns ofNothing->NothingJust d ->Just$ fromValue d
+```
+
+### Annotation structures
+
+
+Each annotation is a separate data structure, named specifically for the constructor of the AST element being retrieved.
+
+
+So if we have an AST element `L l ConstructorXXX` the corresponding annotation will be called `AnnConstructorXXX`.
+
+
+An examples
+
+```
+-- TyClDecldataAnnClassDecl=AnnClassDecl{ aclassdecl_class   ::SrcSpan, aclassdecl_mwhere  ::MaybeSrcSpan, aclassdecl_mbraces ::Maybe(SrcSpan,SrcSpan)}deriving(Eq,Data,Typeable,Show)
+```
+
+### Capturing in the parser
+
+
+The annotations are captured in the lexer / parser by extending `PState` to include a field
+
+```
+dataPState=PState{...
+        annotations ::[(ApiAnnKey,Value)]}
+```
+
+
+The lexer exposes a helper function to add an annotation
+
+```
+addAnnotation::(Typeable a,Outputable a,Show a,Eq a)=>SrcSpan-> a ->P()addAnnotation l v =P$\s ->POk s {
+  annotations =(AK l (typeOf (Just v)), newValue v): annotations s
+  }()
+```
+
+
+The parser also has some helper functions of the form
+
+```
+gl= getLoc
+
+-- aa :: (Typeable a) => Located a -> b -> P ()aa a@(L l _) b = addAnnotation l b >> return a
+
+```
+
+
+This allows the annotations to be added in the parser productions as follows
+
+```
+export_subspec::{LocatedImpExpSubSpec}:{- empty -}{L0ImpExpAbs}|'(''..'')'{% aa (LLImpExpAll)(AnnImpExpAll(gl $1)(gl $2)(gl $3))}|'('')'{% aa (LL(ImpExpList nilCL))(AnnImpExpList(gl $1)(gl $2))}|'(' qcnames ')'{% aa (LL(ImpExpList(reverseCL $2)))(AnnImpExpList(gl $1)(gl $3))}
+```
+
+### Parse result
+
+```
+dataHsParsedModule=HsParsedModule{
+    hpm_module    ::Located(HsModuleRdrName),
+    hpm_src_files ::[FilePath],-- ^ extra source files (e.g. from #includes).  The lexer collects-- these from '# <file> <line>' pragmas, which the C preprocessor-- leaves behind.  These files and their timestamps are stored in-- the .hi file, so that we can force recompilation if any of-- them change (#3589)
+    hpm_annotations ::ApiAnns}-- | The result of successful parsing.dataParsedModule=ParsedModule{ pm_mod_summary   ::ModSummary, pm_parsed_source ::ParsedSource, pm_extra_src_files ::[FilePath], pm_annotations ::ApiAnns}
+```
+
+### Implications
+
+
+This approach has minimal implications on the rest of GHC, except that some AST elements will require to be `Located` to enable the annotation to be looked up.
+
+
+Also, initial `./validate` tests show that haddock complains of increased memory usage, due to the extra information being captured in the AST. If this becomes a major problem a flag could be introduced when invoking the parser as to whether to actually capture the annotations or not.
+
+## Open Questions (AZ)
+
+
+I am currently working annotations into the parser, provided them as a separate structure at the end of the parse, indexed to the original by SrcSpan and AST element type.
+
+
+The question I have is how to capture commas and semicolons in lists of items.
+
+
+There are at least three ways of doing this
+
+1. Make sure each of the items is Located, and add the possible comma location to the annotation structure for it.
+
+
+This has the drawback that all instances of the AST item annotation have the possible comma location in them, and it does not cope with multiple separators where these are allowed.
+
+1. Introduce a new hsSyn structure to explicitly capture comma-separated lists.
+
+
+This is the current approach I am taking, modelled on the OrdList implementation, but with an extra constructor to capture the separator location.
+
+
+Thus
+
+```
+dataHsCommaList a
+  =Empty|Cons a (HsCommaList a)|ExtraCommaSrcSpan(HsCommaList a)-- ^ We need a SrcSpan for the annotation|Snoc(HsCommaList a) a
+  |Two(HsCommaList a)-- Invariant: non-empty(HsCommaList a)-- Invariant: non-empty
+```
+
+1. Change the lists to be of type `[Either SrcSpan a]` to explicitly capture the comma locations in the list.
+
+1. A fourth way is to add a list of SrcSpan to the annotation for the parent structure of the list, simply tracking the comma positions. This will make working with the annotations complicated though.
+
+
+I am currently proceeding with option 2, but would appreciate some comment on whether this is the best approach to take. 
+
+
+Option 2 will allow the AST to capture the extra commas in record constructors, as suggested by SPJ in the debate on that feature.
+
+
+However, the structure is being misused in that `ExtraComma` is used to capture ALL commas, as well as semicolons in the `{ .. ; .. }` idiom.
