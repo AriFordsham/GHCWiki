@@ -14,7 +14,7 @@ The lifetime of a `Unique` is a single invocation of GHC, i.e. they must not 'le
 Note, that "one compiler invocation" is not the same as the compilation of a single `Module`. Invocations such as `ghc --make` or `ghc --interactive` give rise to longer invocation life-times. 
 
 
-This is also the reasons why `OccName`s are *not* ordered based on the `Unique`s of their underlying `FastString`s, but rather *lexicographically* (see [compiler/basicTypes/OccName.lhs](/trac/ghc/browser/ghc/compiler/basicTypes/OccName.lhs) for details).  **SLPJ:** I am far from sure that the Ord instance for `OccName` is ever used, so this remark is probably misleading.  Try deleting it and see where it is used (if at all).
+This is also the reasons why `OccName`s are *not* ordered based on the `Unique`s of their underlying `FastString`s, but rather *lexicographically* (see [compiler/basicTypes/OccName.lhs](/trac/ghc/browser/ghc/compiler/basicTypes/OccName.lhs) for details).  **SLPJ:** I am far from sure that the Ord instance for `OccName` is ever used, so this remark is probably misleading.  Try deleting it and see where it is used (if at all).  **End SLPJ**
 
 ## Redesign (2014)
 
