@@ -2,8 +2,15 @@
 
 `Unique`s provide a fast comparison mechanism for more complex things. Every `RdrName`, `Name`, `Var`, `TyCon`, `TyVar`, etc. has a `Unique`. When these more complex structures are collected (in `UniqFM`s or other types of collection), their `Unique` typically provides the key by which the collection is indexed.
 
+---
 
-A `Unique` consists of the *domain* of the thing it identifies and a unique integer value 'within' that domain. Details are discussed below.
+## Current design
+
+
+A `Unique` consists of the *domain* of the thing it identifies and a unique integer value 'within' that domain. The two are packed into a single `Int#`, with the *domain* being the top 8 bits.
+
+
+The domain is never inspected (SLPJ believes).  The sole reason for its existence is to provide a number of different ranges of `Unique` values that are guaranteed not to conflict.
 
 ### Lifetime
 
@@ -15,6 +22,41 @@ Note, that "one compiler invocation" is not the same as the compilation of a sin
 
 
 This is also the reasons why `OccName`s are *not* ordered based on the `Unique`s of their underlying `FastString`s, but rather *lexicographically* (see [compiler/basicTypes/OccName.lhs](/trac/ghc/browser/ghc/compiler/basicTypes/OccName.lhs) for details).  **SLPJ:** I am far from sure that the Ord instance for `OccName` is ever used, so this remark is probably misleading.  Try deleting it and see where it is used (if at all).  **End SLPJ**
+
+### Known-key things
+
+
+A hundred or two library entities (types, classes, functions) are so-called "known-key things". See [this page](commentary/compiler/wired-in).  A known-key thing has a fixed `Unique` that is fixed when the compiler is built, and thus lives across all invocations of that compiler.  These known-key `Unique`s *are* written into .hi files.  But that's ok because they are fully deterministic and never change.
+
+### Interface files
+
+
+Entities in a interface file (.hi file) are, for the most part, stored in a symbol table, and referred to (from elsewhere in the same interface file) by an index into that table.  Here are the details from [compiler/iface/BinIface.lhs](/trac/ghc/browser/ghc/compiler/iface/BinIface.lhs):
+
+```wiki
+-- Note [Symbol table representation of names]
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+-- An occurrence of a name in an interface file is serialized as a single 32-bit word.
+-- The format of this word is:
+--  00xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+--   A normal name. x is an index into the symbol table
+--  01xxxxxxxxyyyyyyyyyyyyyyyyyyyyyyyy
+--   A known-key name. x is the Unique's Char, y is the int part
+--  10xxyyzzzzzzzzzzzzzzzzzzzzzzzzzzzz
+--   A tuple name:
+--    x is the tuple sort (00b ==> boxed, 01b ==> unboxed, 10b ==> constraint)
+--    y is the thing (00b ==> tycon, 01b ==> datacon, 10b ==> datacon worker)
+--    z is the arity
+--  11xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+--   An implicit parameter TyCon name. x is an index into the FastString *dictionary*
+--
+-- Note that we have to have special representation for tuples and IP TyCons because they
+-- form an "infinite" family and hence are not recorded explicitly in wiredInTyThings or
+-- basicKnownKeyNames.
+```
+
+---
 
 ## Redesign (2014)
 
@@ -61,33 +103,7 @@ mkUniqueGrimily i = MkUnique (iUnbox i)
 this separation of concerns leaked out to [compiler/basicTypes/UniqSupply.lhs](/trac/ghc/browser/ghc/compiler/basicTypes/UniqSupply.lhs), because its `Int` argument is the *entire*`Unique` and not just the integer part 'under' the domain character. The function `mkSplitUniqSupply` made the domain-character accessible to all the other modules, by having a wholly separate implementation of the functionality of `mkUnique`.
 
 
-Another broken design choice is that `Unique`s should not appear in compiler output. However, from [compiler/iface/BinIface.lhs](/trac/ghc/browser/ghc/compiler/iface/BinIface.lhs):
-
-```wiki
--- Note [Symbol table representation of names]
--- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---
--- An occurrence of a name in an interface file is serialized as a single 32-bit word.
--- The format of this word is:
---  00xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
---   A normal name. x is an index into the symbol table
---  01xxxxxxxxyyyyyyyyyyyyyyyyyyyyyyyy
---   A known-key name. x is the Unique's Char, y is the int part
---  10xxyyzzzzzzzzzzzzzzzzzzzzzzzzzzzz
---   A tuple name:
---    x is the tuple sort (00b ==> boxed, 01b ==> unboxed, 10b ==> constraint)
---    y is the thing (00b ==> tycon, 01b ==> datacon, 10b ==> datacon worker)
---    z is the arity
---  11xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
---   An implicit parameter TyCon name. x is an index into the FastString *dictionary*
---
--- Note that we have to have special representation for tuples and IP TyCons because they
--- form an "infinite" family and hence are not recorded explicitly in wiredInTyThings or
--- basicKnownKeyNames.
-```
-
-
-Notice the `01`-case. It is not quite clear *why*`Unique`s are written to `hi`-files here.
+Another broken design choice is that `Unique`s should not appear in compiler output. 
 
 ### New plan
 
