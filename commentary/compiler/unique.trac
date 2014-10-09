@@ -55,7 +55,7 @@ Entities in a interface file (.hi file) are, for the most part, stored in a symb
 The redesign is to accomplish the following:
  * Allow derivation of type class instances for `Unique`
  * Restore invariants from the original design; hide representation details
- * Eliminate violations of invariants and design-violations in other places of the compiler (e.g. `Unique`s shouldn't be written to `hi`-files, but are)
+ * Eliminate violations of invariants and design-violations in other places of the compiler (e.g. `Unique`s shouldn't be written to `hi`-files, but are).  '''SLPJ''' I don't think this is a design violation; see above.  Do you have any other examples in mind? '''End SLPJ'''
 
 === Longer
 
@@ -94,5 +94,5 @@ newtype Unique = MkUnique Word
 }}}
 we win the ability to automatically derive things and should also be able to test how far optimisation has come in the past 20+ years; does default boxing with `newtype`-style wrapping have (nearly) the same performance as manual unboxing? This should follow from the tests.
 
-
+'''SLPJ''' I agree that a `newtype` around a `Word` is better than a `data` type around `Int#`. That is a small, simple change.  But I think you plan to do more than this, and that "more" is not documented here.  E.g. what is the new API to `Unique`?  '''End SLPJ'''
 
