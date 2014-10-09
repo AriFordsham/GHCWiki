@@ -100,7 +100,10 @@ mkUniqueGrimily i = MkUnique (iUnbox i)
 ```
 
 
-this separation of concerns leaked out to [compiler/basicTypes/UniqSupply.lhs](/trac/ghc/browser/ghc/compiler/basicTypes/UniqSupply.lhs), because its `Int` argument is the *entire*`Unique` and not just the integer part 'under' the domain character. The function `mkSplitUniqSupply` made the domain-character accessible to all the other modules, by having a wholly separate implementation of the functionality of `mkUnique`.
+this separation of concerns leaked out to [compiler/basicTypes/UniqSupply.lhs](/trac/ghc/browser/ghc/compiler/basicTypes/UniqSupply.lhs), because its `Int` argument is the *entire*`Unique` and not just the integer part 'under' the domain character. **SLPJ** OK, but to eliinate `mkUniqueGrimily` you need to examine the calls, decide how to do it better, and document the new design.  **End SLPJ**
+
+
+The function `mkSplitUniqSupply` made the domain-character accessible to all the other modules, by having a wholly separate implementation of the functionality of `mkUnique`.
 
 
 Another broken design choice is that `Unique`s should not appear in compiler output. 
