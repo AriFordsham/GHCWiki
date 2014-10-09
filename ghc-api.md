@@ -25,10 +25,7 @@ These include
 > undefined expressions. These have now been removed, allowing
 > standard traversal libraries to be used.
 
-1. Introduce an annotation structure to the ParsedSource to record the
-
-
-location of uncaptured keywords \[Alan Zimmerman\]
+1. Introduce an annotation structure to the ParsedSource to record the location of uncaptured keywords \[Alan Zimmerman\]
 
 >
 > At the moment the location of let / in / if / then / else / do
