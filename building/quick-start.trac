@@ -1,6 +1,6 @@
 = Quick Start: Just building and installing GHC =
 
-Below are quick instructions for '''just building and installing GHC'''. For instructions on how to '''working on GHC''' start over [wiki:Building/Hacking here].
+Below are quick instructions for '''just building and installing GHC'''. For instructions on how to '''work on GHC''' start over [wiki:Building/Hacking here].
 
 The following instructions assume that you have [wiki:Building/GettingTheSources got the sources] (note: not just a `git clone`) and [wiki:Building/Preparation installed the necessary tools].
 
