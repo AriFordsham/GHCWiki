@@ -289,86 +289,13 @@ nestedTCs = Just . (: []) . Left
 -- Inferred: forall a b. a -> Maybe [Either a b]
 }}}
 
-=== Constraint Wildcards ===
-
-'''NOTE''': we no longer intend to support constraint wildcards as
-described below. Only [#named-wildcards named wildcards] also
-occurring in monotype and an [#extra-constraints-wildcard extra-constraints wildcard]
-will be allowed.
-
-'''SLPJ''' I'm honestly not sure it's worth the complexity you have here. The
-power to weight ratio seems poor.
-I'd drop constraint wildcards, and implement only "extra constraint" wildcards.
-'''End SLPJ'''
-
-'''thomasw''' Seems [#issue-constraint-wildcards reasonable] to us. This certainly makes things easier. '''End thomasw'''
-
-'''thomasw update''' We still allow named wildcards in the constraints that
-must occur within the monotype, as described in the NOTE above. This requires
-nearly no extra effort, except for the simple check. '''End thomasw'''
-
-
-We call wildcards occurring within a constraint (inside a `C` in `(C1, C2, ..)`)
-''constraint wildcards'', e.g.
-{{{
-fstIsBool :: (Bool, _) ~ a => a -> Bool
-fstIsBool (b1, b2) = not b1 && b2
--- Inferred: (Bool, Bool) -> Bool
-
-class Two a b | a -> b where
-  one :: a -> a
-  two :: b -> b
-
--- Ignore the second parameter of the typeclass
-secondParam :: Two a _ => a -> a
-secondParam x = one x
--- Inferred type: forall a b. Two a b -> a -> a
-}}}
-GHC's constraint solver doesn't unify constraints with each other.
-E.g. `Eq _` or `_ a` will never be unified with `Eq a`. The problem
-the constraint solver is faced with is "deduce `Eq a` from `Eq _`,
-figuring out what the `_` should be instantiated to". Or, worse,
-"deduce `Eq a` from `_ a`" or something even less constrained. The
-constraint solver is absolutely not set up to figure out how to fill
-in existential variables in the "givens".
-
-So the following program will not
-work:
-{{{
--- Neither partial type signature will work
-impossible :: Eq _ => a -> a -> Bool
-impossible :: _  a => a -> a -> Bool
-impossible x y = x == y
--- Actual type: forall a. Eq a => a -> a -> Bool
-}}}
-Note that constraints are not unified for good reasons. One immediate
-problem is already that it could lead to ambiguities, consider for
-instance the following program.
-{{{
--- Incorrect partial type signature
-ambi :: _ a => a -> String
-ambi x = show (succ x) ++ show (x == x)
--- Actual type:
---   forall a. (Enum a, Eq a, Show a) => a -> String
-}}}
-As constraints are unordered, the constraint solver wouldn't know
-which one of the inferred constraints `(Enum a, Eq a, Show a)` the
-partially annotated constraint `(_ a)` should be unified with, it
-would have to guess. Regardless of whether constraints are unified,
-this program would have been rejected anyway, as only one constraint
-is partially annotated instead of all three.
 
 === Extra-constraints Wildcard === #extra-constraints-wildcard
 
-A third kind of wildcard we propose is the ''extra-constraints
-wildcard'', not to be confused with a constraint wildcard. Whereas
-constraint wildcards occur inside the `C`s in the constraints part
-`(C1, C2, ..)` of a partial type signature, an extra-constraints
-wildcard occurs ''as'' a `C` inside the constraints part.
-
-The presence of an extra-constraints wildcard indicates that an
-arbitrary number of extra constraints may be inferred during type
-checking and will be added to the type signature. In the example
+Another kind of wildcard we propose is the ''extra-constraints
+wildcard''. The presence of an extra-constraints wildcard indicates
+that an arbitrary number of extra constraints may be inferred during
+type checking and will be added to the type signature. In the example
 below, the extra-constraints wildcard is used to infer three extra
 constraints.
 {{{
@@ -403,11 +330,11 @@ wildcard is present and just inferring everything from scratch, we still do.
 
 === Named Wildcards === #named-wildcards
 
-A fourth and final kind of wildcard we propose is the ''named
-wildcard''. A named wildcard is a wildcard suffixed with an
-identifier. All occurrences of the same named wildcard within one type
-signature will unify to the same type. They are particularly useful to
-express constraints on unknown types, e.g.
+The type wildcards we described before can also be named by giving the
+underscore an indentifier as suffix, i.e. `_a`. All occurrences of the
+same ''named wildcard'' within one type signature will unify to the
+same type. They are particularly useful to express constraints on
+unknown types, e.g.
 {{{
 somethingShowable :: Show _x => _x -> _
 somethingShowable x = show x
@@ -417,6 +344,12 @@ somethingShowable' :: Show _x => _x -> _
 somethingShowable' x = show (not x)
 -- Inferred type: Bool -> String
 }}}
+Besides an extra-constraints wildcard, only named wildcards can occur
+in the constraints, e.g. the `_x` in `Show _x`. Furthermore, they must
+also occur in the monotype part of the type signature to make sure they
+[#constraint-wildcards unify with something]. Extra-constraints
+wildcards cannot be named.
+
 Named wildcards ''should not be confused with type variables''. Even
 though syntactically similar, named wildcards can unify with concrete
 types as well as be generalised over (and behave as type variables).
@@ -594,7 +527,7 @@ not be generalised''.
 
 == Partial Expression and Pattern Signatures ==
 
-Wildcards should be allowed in expression and pattern signatures, e.g.
+Wildcards are allowed in expression and pattern signatures, e.g.
 {{{
 bar1 :: _a -> Bool
 bar1 x = (x :: _a)
@@ -604,175 +537,12 @@ bar2 :: Bool -> _a
 bar2 (x :: _a) = x
 -- Inferred: Bool -> Bool
 }}}
-We do not intend to support an extra-constraints wildcard in such
-signatures, as the implementation difficulties it poses don't outweigh
-its usefulness.
+These wildcards are quantified in the expression or pattern signature
+they appear in.
 
-Wildcards occurring in a partial type signature are currently
-quantified in their type signature, unless they (being named
-wildcards) were already brought into scope by another partial type
-signature. The question now is: where should wildcards occurring in
-partial expression or pattern signatures be quantified? There a number
-of options. Remember: we're only talking about wildcards that aren't
-already in scope, and as unnamed wildcards can never already be in
-scope, this question only concerns named wildcards (of course, the
-[[span(!NamedWildcards, style=font-variant: small-caps)]] extension is
-turned on in the examples below).
-
-1. Quantify wildcards in the partial '''expression or pattern
-   signature''' they appear in. Consider the following example:
-   {{{
-   f :: _
-   f x y = let p :: _
-               p = (x :: _a)
-               q :: _
-               q = (y :: _a)
-          in (p, q)
-   -- Inferred:
-   -- f :: forall w_a w_a1. w_a -> w_a1 -> (w_a, w_a1)
-   --   p :: w_a
-   --   q :: w_a1
-   }}}
-   Both times, the `_a` in the expression signature isn't in scope, so
-   it is quantified once in each expression signature. This means that
-   the two occurrences of `_a` don't refer to the same named wildcard.
-   Still, this can be achieved by mentioning `_a` in a type signature
-   (where `_a` will then be quantified) of a common higher-level
-   binding:
-   {{{
-   f :: _a -> _
-   f x y = let p :: _
-               p = (x :: _a)
-               q :: _
-               q = (y :: _a)
-          in (p, q)
-   -- Inferred:
-   -- f :: forall w_a. w_a -> w_a -> (w_a, w_a)
-   --   p :: w_a
-   --   q :: w_a
-   }}}
-   Note that the first example is equivalent to the following program
-   (changing `f`'s partial type signature will also cause the same
-   change as in the example above):
-   {{{
-   f :: _
-   f x y = let p :: _a
-               p = x
-               q :: _a
-               q = y
-          in (p, q)
-   }}}
-   The named wildcards quantified in a partial expression or pattern
-   signature will be in scope in the expression or pattern to which
-   the signature was attached:
-   {{{
-   foo = (\(x :: _a, y) -> y) :: _ -> _a
-   -- Inferred: forall w_a . (w_a, w_a) -> w_a
-   }}}
-   Overall, this solution is the simplest, also to implement, and has
-   a good ''power-to-weight'' ratio. However, what happens in the
-   following example might be counter-intuitive to some users:
-   {{{
-   baz1 x y = (x :: _a, y :: _a)
-   -- Inferred:
-   --   forall w_a w_a1. w_a -> w_a1 -> (w_a, w_a1)
-   baz2 (x :: _a) (y :: _a) = (x, y)
-   -- Inferred:
-   --   forall w_a. w_a -> w_a -> (w_a, w_a)
-   }}}
-   In `baz1` in the example above, both `_a`s occur when there is no `_a` in
-   scope, and both are thus quantified in each expression signature
-   separately. Therefore, both occurrences of `_a` are distinct. This might be
-   perceived as counter-intuitive. Again, both occurrences can be made to
-   refer to the same named wildcard by mentioning `_a` in a signature common
-   to both expression signatures, e.g. by mentioning it in the type signature
-   of `baz1`.
-
-   In `baz2`, the first occurrence of `_a`, in the pattern signature of the
-   first argument, brings `_a` into scope, and `_a` will still be into scope
-   for the pattern signature of the second argument, as this is the way
-   patterns are examined.
-
-2. Quantify wildcards in the '''type signature of the innermost enclosing binding'''.
-   The first example of option 1 will behave exactly the same:
-   {{{
-   f :: _
-   f x y = let p :: _
-               p = (x :: _a)
-               q :: _
-               q = (y :: _a)
-          in (p, q)
-   -- Inferred:
-   -- f :: forall w_a w_a1. w_a -> w_a1 -> (w_a, w_a1)
-   --   p :: w_a
-   --   q :: w_a1
-   }}}
-   Contrary to option 1, the last example will behave more
-   intuitively:
-   {{{
-   baz1 x y = (x :: _a, y :: _a)
-   baz2 (x :: _a) (y :: _a) = (x, y)
-   -- Inferred for both:
-   --   forall w_a. w_a -> w_a -> (w_a, w_a)
-   }}}
-   In `baz1` and `baz2`, both occurrences of `_a` will refer to the
-   same named wildcard.
-
-   However, what if there's no enclosing binding with a type
-   signature, like in `baz1` and `baz2`? Quantifying the wildcards in
-   the binding itself could solve this, but makes the implementation
-   more complex.
-
-   Another downside has to do with the implementation. This option will
-   require an extra pass (in the renamer) over the body of a binding that will
-   extract the wildcards from the expression signatures to store them together
-   with the wildcards mentioned in the type signature.
-
-   An alternative is an invasive refactoring of the functions that deal with
-   renaming the bodies of a binding. It would involve threading a list of
-   extracted wildcards through these functions. A lot more code (certainly
-   more than we feel comfortable with) would have to be touched to implement
-   this.
-
-3. Quantify wildcards in the '''type signature of the top-level enclosing binding'''.
-   This option changes the behaviour of the first example of options 1
-   and 2, both occurrences of `_a` will refer to the same named
-   wildcard.
-   {{{
-   f :: _
-   f x y = let p :: _
-               p = (x :: _a)
-               q :: _
-               q = (y :: _a)
-          in (p, q)
-   -- Inferred:
-   -- f :: forall w_a. w_a -> w_a -> (w_a, w_a)
-   --   p :: w_a
-   --   q :: w_a
-   }}}
-   Consider the following example:
-   {{{
-   foo o = let f :: (_a, _) -> _a
-               f (u, _) = not u
-               g (x :: _a) (xs :: [_a]) = x : xs
-         in g (f o) []
-   -- Inferred:
-   -- foo :: forall a. (Bool, a) -> [Bool]
-   --   f :: forall b. (Bool, b) -> Bool
-   --   g :: Bool -> [Bool] -> [Bool]
-   }}}
-
-   Is it intuitive in the example above that all occurrences of `_a`
-   refer to the same named wildcard? What if `g` didn't have pattern
-   signatures, but the partial type signature `g :: _a -> [_a] -> _`?
-   Does it still make that much sense?
-
-   Besides the difference in scoping, this option is very similar to
-   option 2. It shares its downsides as well.
-
-Except for the possibly counter-intuitive behaviour in the `baz1` example, we
-believe that option 1 is preferable, and have implemented it.
-
+We don't support extra-constraints wildcards in such signatures, as
+the implementation difficulties they pose don't outweigh their
+usefulness.
 
 == Formalisation ==
 
@@ -1228,3 +998,62 @@ monomorphism restriction simply doesn't apply.
   {{{
   f :: (forall a. _ => a -> a) -> b -> b
   }}}
+
+== Appendices ==
+
+=== Not supported: Constraint Wildcards === #constraint-wildcards
+
+'''NOTE''': we no longer intend to support constraint wildcards as
+described below. Only [#named-wildcards named wildcards] also
+occurring in monotype and an [#extra-constraints-wildcard extra-constraints wildcard]
+will be allowed.
+
+We call wildcards occurring within a constraint (inside a `C` in `(C1, C2, ..)`)
+''constraint wildcards'', e.g.
+{{{
+fstIsBool :: (Bool, _) ~ a => a -> Bool
+fstIsBool (b1, b2) = not b1 && b2
+-- Inferred: (Bool, Bool) -> Bool
+
+class Two a b | a -> b where
+  one :: a -> a
+  two :: b -> b
+
+-- Ignore the second parameter of the typeclass
+secondParam :: Two a _ => a -> a
+secondParam x = one x
+-- Inferred type: forall a b. Two a b -> a -> a
+}}}
+GHC's constraint solver doesn't unify constraints with each other.
+E.g. `Eq _` or `_ a` will never be unified with `Eq a`. The problem
+the constraint solver is faced with is "deduce `Eq a` from `Eq _`,
+figuring out what the `_` should be instantiated to". Or, worse,
+"deduce `Eq a` from `_ a`" or something even less constrained. The
+constraint solver is absolutely not set up to figure out how to fill
+in existential variables in the "givens".
+
+So the following program will not
+work:
+{{{
+-- Neither partial type signature will work
+impossible :: Eq _ => a -> a -> Bool
+impossible :: _  a => a -> a -> Bool
+impossible x y = x == y
+-- Actual type: forall a. Eq a => a -> a -> Bool
+}}}
+Note that constraints are not unified for good reasons. One immediate
+problem is already that it could lead to ambiguities, consider for
+instance the following program.
+{{{
+-- Incorrect partial type signature
+ambi :: _ a => a -> String
+ambi x = show (succ x) ++ show (x == x)
+-- Actual type:
+--   forall a. (Enum a, Eq a, Show a) => a -> String
+}}}
+As constraints are unordered, the constraint solver wouldn't know
+which one of the inferred constraints `(Enum a, Eq a, Show a)` the
+partially annotated constraint `(_ a)` should be unified with, it
+would have to guess. Regardless of whether constraints are unified,
+this program would have been rejected anyway, as only one constraint
+is partially annotated instead of all three.
