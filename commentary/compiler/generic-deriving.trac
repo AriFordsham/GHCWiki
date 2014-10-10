@@ -296,7 +296,7 @@ be something like:
 }}}
 But I'm not entirely sure about this.
 
-== Using standard deriving for generic functions ==
+= Using standard deriving for generic functions =
 
 Currently, users can instantiate a generic function to their datatypes by doing the following:
 
@@ -318,7 +318,7 @@ Ultimately, this might even allow us to replace the generated code by classes su
 
 The ticket for this request is #5462. For this discussion, we'll refer to this new feature as `GeneralizedDeriving`.
 
-=== Which classes can be derived? ===
+== Which classes can be derived? ==
 
 How do we figure out which classes will now be allowed as part of a deriving clause? We've decided against coming up with a new pragma for tagging classes that can be derived. Instead, we will simply re-use the [http://www.haskell.org/ghc/docs/latest/html/users_guide/pragmas.html#minimal-pragma `MINIMAL` pragma]: if a class has an empty `MINIMAL` set, it means that its author is happy for it to be instantiated without giving any method definitions. This is exactly what we need for deriving the class: all its methods must have a default (be it a `DefaultSignature` or just a regular default).
 
@@ -326,7 +326,7 @@ Note that:
 1. Classes don't even have to use generics to be derivable.
 2. The typical generics class has one default signature, and perhaps a few more methods with a standard default. In this case, if there is no `MINIMAL` specified, it defaults to the empty set (as all methods have a default), so the class will be derivable.
 
-=== Interaction with `GeneralizedNewtypeDeriving` ===
+== Interaction with `GeneralizedNewtypeDeriving` ==
 
 [http://www.haskell.org/ghc/docs/latest/html/users_guide/deriving.html#newtype-deriving `GeneralizedNewtypeDeriving`] (GND) already allows many non-standard classes to be derived, but:
 1. It means something different from ordinary deriving. Instead of generating new code for the instance, GHC simply uses the instance for the type inside the newtype.
@@ -374,7 +374,7 @@ Of course, then we'd need to:
 2. Decide what to do when users ask for e.g. `... deriving (newtype Typeable)`.
 
 
-=== Standard vs. Standalone deriving ===
+== Standard vs. Standalone deriving ==
 
 There's no reason to restrict this new deriving form to be attached to a datatype. Users should be free to write the following, if they wish:
 {{{
@@ -385,7 +385,7 @@ deriving instance (GBinary a) => GBinary (Maybe a)
 instance (GBinary a) => GBinary (Maybe a)
 }}}
 
-=== Figuring out the context ===
+== Figuring out the context ==
 
 The only non-trivial part of actually generating the instances from a deriving clause is that now we have to figure out the context. Previously the user would have written
 {{{
