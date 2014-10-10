@@ -215,11 +215,13 @@ Open type families:
   equations must be identical under that substitution. If they are not identical
   then we declare that a type family is not injective.
 
+**RAE:** I believe this would also have to check that all variables mentioned in the LHS are mentioned in the RHS. Or, following along with Simon's idea in [comment:76:ticket:6018](https://gitlab.haskell.org//ghc/ghc/issues/6018), those variables that appear in the injectivity annotation must be mentioned in the RHS. **End RAE**
+
 
 Closed type families
 
 1. If a type family has only one equation we declare it to be injective (unless
-  case 1 above applies).
+  case 1 above applies). **RAE** or there are variables missing from the RHS **End RAE**
 
 1. If a type family has more equations then we check them one by one. Checking
   each equation consists of these steps:
@@ -236,7 +238,7 @@ Closed type families
 > b) if unification in a) succeeds and no substitutions are required then type
 > family is not injective and we report an error to the user. By "no
 > substitution" I mean situation when there are no type variables involved
-> ie. both sides declare the same concrete type (eg. Int).
+> ie. both sides declare the same concrete type (eg. Int). **RAE** This seems to be a straightforward special case of (c). Omit? **End RAE**
 
 >
 > c) if unification succeeds and there are type variables involved we substitute
@@ -245,6 +247,11 @@ Closed type families
 > (if this was the last equation then type family is injective). If it
 > doesn't then type family is not injective and we report an error to the
 > user. See examples and discussion below for more details.
+
+**RAE:** We have to be careful with the word *overlap* here. I think we want "overlaps" to be "is subsumed by". Basically, you want to know of the equation at hand is reachable, given the LHS substitution. Even if it is reachable, the (substituted) LHS may coincide with the LHS of the earlier equation whose RHS unified with the current RHS. So, just because the current LHS is reachable doesn't mean the family is not injective.
+
+
+Even subtler, it's possible that certain values for type variables are excluded if the current LHS is reachable (for example, some variable `a` couldn't be `Int`, because if `a` were `Int`, then a previous equation would have triggered). Perhaps these exclusions can also be taken into account. Thankfully, forgetting about the exclusions is conservative -- the exclusions can only make *more* families injective, not *fewer*. **End RAE**
 
 **Discussion**
 
@@ -297,6 +304,14 @@ we have not confirmed that `Ban` is injective so we may rightly refuse to answer
 `Z ~ Ban n` and conclude (correctly) that this type family is not injective. So it
 seems to me that we could allow self-recursion - I have not yet identified any
 corner cases that would prevent us from doing so.
+
+**RAE:** But it seems that, under this treatment, any self-recursion would automatically lead to a conclusion of "not injective", just like any other use of a type family. For example:
+
+```
+typefamilyIdNat n whereIdNatZ=ZIdNat(S n)=S(IdNat n)
+```
+
+`IdNat` is injective. But, following the algorithm above, GHC would see the recursive use of `IdNat`, not know whether `IdNat` is injective, and then give up, concluding "not injective". Is there a case where the special treatment of self-recursion leads to a conclusion of "injective"? **End RAE**
 
 
 Here's an example of case 4c in action:
