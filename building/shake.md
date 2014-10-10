@@ -11,7 +11,7 @@ This page is a working document to capture the ongoing work on migrating the cur
 
 The existing build system performs the following major steps:
 
-- **boot**: run `autoconf` on {`configure.ac`, ...} to produce the `configure` script, as well as `libraries/*/GNUmakefile` and `libraries/*/ghc.mk}` files. 
+- **boot**: run `autoconf` on {`configure.ac`, ...} to produce the `configure` script, as well as `libraries/*/GNUmakefile` and `libraries/*/ghc.mk` files. 
 
 - **configure**: take a bunch of `*.in` files {`config.mk.in`, `ghc.cabal.in`, `ghc-bin.cabal.in`, ...} and generate {`config.mk`, `ghc.cabal`, `ghc-bin.cabal`, ...}. 
 
@@ -59,3 +59,8 @@ Following the divide-and-conquer principle, we split the big goal into a number 
 
 
 The first intermediate goal is to choose a library and build it with `Shake`. This will be tested by running the existing build system, removing all the built stuff for this particular library, and then restoring it with `Shake`, hopefully getting the same result. It was decided to choose a library without `cbits` and `#include`'s for the first attempt. (A particular library has not yet been chosen, feel free to make suggestions.)
+
+## How to contribute
+
+
+Please email to `andrey dot mokhov at ncl dot ac dot uk` who coordinates the efforts if you'd like to contribute or have any comments/suggestions.
