@@ -36,7 +36,7 @@ We want to keep all existing naming conventions. For example, `*.o` files will s
 
 == Build options ==
 
-One of the major difficulties will be taking care of various build options. A possible direction to start with is pulling the configuration out of the `*.mk` files, with a ''parser'' for a subset of `Makefile`, resolve the variables, and then use that information to drive the `Shake` rules. Some initial inspiration can be taken from the `Shake.Config` module that can parse simple configuration files and is integrated with shake rules. Some configuration values can be passed as command line parameters to `Shake`, which can be handled using `shakeArgs`.
+One of the major difficulties will be taking care of various build options. A possible direction to start with is pulling the configuration out of the `*.mk` files, with a ''parser'' for a subset of `Makefile`, resolve the variables, and then use that information to drive the `Shake` rules. Some initial inspiration can be taken from the [https://github.com/ndmitchell/shake/blob/master/Development/Shake/Config.hs Shake.Config module] that can parse simple configuration files and is integrated with shake rules. Also see [https://github.com/ndmitchell/shake/tree/master/Development/Make Development.Make] for a simple `Makefile` parser embedded in `Shake`. Some configuration values can be passed as command line parameters to `Shake`, which can be handled using `shakeArgs`.
 
 Parsing the existing `*.mk` files and extracting variables is an interesting small standalone project -- one that could be delegated out. (Not yet taken up by anyone: feel free to volunteer!).
 
