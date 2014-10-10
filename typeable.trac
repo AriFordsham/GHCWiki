@@ -21,7 +21,7 @@ dynApply (Dyn tf f) (Dyn tx x) = ???
 }}}
 We need some way to decompose `tf` (the type representation for `f`), ask if it is an arrow type, and if so extract the type representation for the argument and result type.  Then we need to compare the argument type with `xt`'s representation. If so, we are good to go. 
 
-But at the moment we don't have any ''type-safe'' way to decompose `TypeRep`.  Indeed `dynApply` is define like this right now:
+But at the moment we don't have any ''type-safe'' way to decompose `TypeRep`.  Indeed `dynApply` is defined like this right now:
 {{{
 dynApply (Dyn tf f) (Dyn tx x)
   = case funResultTy tf tx of
