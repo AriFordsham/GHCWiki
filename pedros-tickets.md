@@ -27,3 +27,8 @@ Closed:
 - [\#8797](https://gitlab.haskell.org//ghc/ghc/issues/8797) (Generics instances for monoid and applicative newtypes)
 - [\#9576](https://gitlab.haskell.org//ghc/ghc/issues/9576) (-fdefer-type-errors doesn't defer errors from `deriving`)
 - [\#9650](https://gitlab.haskell.org//ghc/ghc/issues/9650) (Unsatisfiable default signature)
+
+
+Wiki pages:
+
+- GenericDeriving
