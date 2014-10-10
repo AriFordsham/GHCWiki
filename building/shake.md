@@ -63,4 +63,4 @@ The first intermediate goal is to choose a library and build it with `Shake`. Th
 ## How to contribute
 
 
-Please email to `andrey dot mokhov at ncl dot ac dot uk` who coordinates the efforts if you'd like to contribute or have any comments/suggestions.
+Please email to `andrey.mokhov@ncl.ac.uk` who coordinates the efforts if you'd like to contribute or have any comments/suggestions.
