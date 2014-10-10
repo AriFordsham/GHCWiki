@@ -24,7 +24,8 @@ used GNU '''make''''s extensions for including makefiles (but lost the
 ability to use macros, since at the time GNU '''make''' didn't have support
 for general macros).  In this third revision, we use even more of GNU
 '''make''''s extensions, and we make a fundamental change to the design, as
-described in the next section.
+described in the next section. Another (fourth) revision based on `Shake` is
+currently being attempted; see [wiki:Building/Shake] for more details.
 
 == Overall structure and important files ==
 
