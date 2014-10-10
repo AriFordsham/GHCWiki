@@ -10,7 +10,7 @@
 ## The Tasks
 
 
-The list of known problems tagged as Windows issues can be found [ on Trac](https://ghc.haskell.org/trac/ghc/query?status=!closed&os=Windows&desc=1&order=id). It would be particularly great if people with commit rights could review the patches in the waitlist.
+The list of known problems tagged as Windows issues can be found on Trac (Ticket query: status: !closed, os: Windows, desc: 1, order: id). It would be particularly great if people with commit rights could review the patches in the waitlist.
 
 ## The Process
 
