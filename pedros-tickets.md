@@ -31,4 +31,4 @@ Closed:
 
 Wiki pages:
 
-- GenericDeriving
+- [Commentary/Compiler/GenericDeriving](commentary/compiler/generic-deriving)
