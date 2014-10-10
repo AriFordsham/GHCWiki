@@ -39,7 +39,7 @@ This capability is necessary to implement `dynApply` for Typeable based dynamic 
 data Dynamic where
   Dyn :: Typeable a => a -> Dynamic
 
-dynApply :: Dynamic -> Dynamic -> Dynamic
+dynApply :: Dynamic -> Dynamic -> Maybe Dynamic
 ```
 
 ### Typeable a vs TypeRep a
