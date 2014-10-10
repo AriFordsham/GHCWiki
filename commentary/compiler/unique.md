@@ -21,12 +21,18 @@ The lifetime of a `Unique` is a single invocation of GHC, i.e. they must not 'le
 Note, that "one compiler invocation" is not the same as the compilation of a single `Module`. Invocations such as `ghc --make` or `ghc --interactive` give rise to longer invocation life-times. 
 
 
-This is also the reasons why `OccName`s are *not* ordered based on the `Unique`s of their underlying `FastString`s, but rather *lexicographically* (see [compiler/basicTypes/OccName.lhs](/trac/ghc/browser/ghc/compiler/basicTypes/OccName.lhs) for details).  **SLPJ:** I am far from sure that the Ord instance for `OccName` is ever used, so this remark is probably misleading.  Try deleting it and see where it is used (if at all).  **End SLPJ**
+This is also the reasons why `OccName`s are *not* ordered based on the `Unique`s of their underlying `FastString`s, but rather *lexicographically* (see [compiler/basicTypes/OccName.lhs](/trac/ghc/browser/ghc/compiler/basicTypes/OccName.lhs) for details).
+
+> > **SLPJ:** I am far from sure that the Ord instance for `OccName` is ever used, so this remark is probably misleading.  Try deleting it and see where it is used (if at all).
+>
+> **PKFH:** At least `Name` and `RdrName` (partially) define their own `Ord` instances in terms of the instance of `OccName`. Maybe these `Ord` instances are also redundant, but for now it seems wise to keep them in. When everything has `Data` instances (after this and many other redesigns), I'm sure it will be easier to find such dependency relations.
 
 ### Known-key things
 
 
 A hundred or two library entities (types, classes, functions) are so-called "known-key things". See [this page](commentary/compiler/wired-in).  A known-key thing has a fixed `Unique` that is fixed when the compiler is built, and thus lives across all invocations of that compiler.  These known-key `Unique`s *are* written into .hi files.  But that's ok because they are fully deterministic and never change.
+
+> **PKFH** That's fine then; we also know for sure these things fit in the 30 bits used in the `hi`-files. I'll comment appropriately.
 
 ### Interface files
 
@@ -67,7 +73,11 @@ The redesign is to accomplish the following:
 
 - Allow derivation of type class instances for `Unique`
 - Restore invariants from the original design; hide representation details
-- Eliminate violations of invariants and design-violations in other places of the compiler (e.g. `Unique`s shouldn't be written to `hi`-files, but are).  **SLPJ** I don't think this is a design violation; see above.  Do you have any other examples in mind? **End SLPJ**
+- Eliminate violations of invariants and design-violations in other places of the compiler (e.g. `Unique`s shouldn't be written to `hi`-files, but are).
+
+> > **SLPJ** I don't think this is a design violation; see above.  Do you have any other examples in mind?
+>
+> **PKFH** Not really of design-violations (and no other compiler-output stuff) other than the invariants mentioned above it, just yet. The key point, though, is that there are a lot of comments in `Unique` about not exporting things so that we know X, Y and Z, but then those things *are* exported, so we don't know them to be true. Case in point is the export of `mkUnique`, but also `mkUniqueGrimily`. The latter has a comment 'only for `UniqSupply`' but is also used in other places (like Template Haskell). One redesign is to put this restriction in the name, so there still is the facility offered by `mkUniqueGrimily`, but now it's called `mkUniqueOnlyForUniqSupply` (and `mkUniqueOnlyForTemplateHaskell`), the ugliness of which should help, over time, to get rid of them.
 
 ### Longer
 
@@ -100,13 +110,24 @@ mkUniqueGrimily i = MkUnique (iUnbox i)
 ```
 
 
-this separation of concerns leaked out to [compiler/basicTypes/UniqSupply.lhs](/trac/ghc/browser/ghc/compiler/basicTypes/UniqSupply.lhs), because its `Int` argument is the *entire*`Unique` and not just the integer part 'under' the domain character. **SLPJ** OK, but to eliinate `mkUniqueGrimily` you need to examine the calls, decide how to do it better, and document the new design.  **End SLPJ**
+this separation of concerns leaked out to [compiler/basicTypes/UniqSupply.lhs](/trac/ghc/browser/ghc/compiler/basicTypes/UniqSupply.lhs), because its `Int` argument is the *entire*`Unique` and not just the integer part 'under' the domain character.
+
+> > **SLPJ** OK, but to eliminate `mkUniqueGrimily` you need to examine the calls, decide how to do it better, and document the new design.
+>
+> **PKFH** See above; the solution for now is `mkUniqueOnlyForUniqSupply`. A separate patch will deal with trying to refactor/redesign `UniqSupply` if this is necessary.
 
 
 The function `mkSplitUniqSupply` made the domain-character accessible to all the other modules, by having a wholly separate implementation of the functionality of `mkUnique`.
 
 
-Another broken design choice is that `Unique`s should not appear in compiler output. 
+Where the intention was still to have a clean interface, the (would-be) hidden `mkUnique` is only called by functions defined in the `Unique` module with the corresponding character, e.g.
+
+```wiki
+mkAlphaTyVarUnique   i = mkUnique '1' i
+mkPreludeClassUnique i = mkUnique '2' i
+mkPreludeTyConUnique i = mkUnique '3' (3*i)
+...
+```
 
 ### New plan
 
@@ -127,4 +148,50 @@ newtype Unique = MkUnique Word
 
 we win the ability to automatically derive things and should also be able to test how far optimisation has come in the past 20+ years; does default boxing with `newtype`-style wrapping have (nearly) the same performance as manual unboxing? This should follow from the tests.
 
-**SLPJ** I agree that a `newtype` around a `Word` is better than a `data` type around `Int#`. That is a small, simple change.  But I think you plan to do more than this, and that "more" is not documented here.  E.g. what is the new API to `Unique`?  **End SLPJ**
+
+The encoding is kept the same, i.e. the `Word` is still built up with the domain encoded in the most significant bits and the integer-part in the remaining bits. However, instead encoding the domain as a `Char` in the (internal *and* external interface), we now create an ADT (sum-type) that encodes the domain. This has two advantages. First, it prevents people from picking domain-tags ad hoc an possibly overlapping. Second, encoding in the `Word` does not rely on the assumption that the domain requires and/or fits in 8 bits. Since Haskell `Char`s are unicode, the 8-bit assumption is wrong for the old design. In other words, the above examples are changed to:
+
+```wiki
+data UniqueDomain
+  = AlphaTyVar
+  | PreludeClass
+  | PreludeTyCon
+  ...
+  deriving (Enum,Bounded)
+
+domSiz :: Int  -- The size of domain in the encoded Unique. *NOT* exported, but change-safe and compile-time constant.
+domSiz = ceiling $ logBase 2 $ fromIntegral $ fromEnum (maxBound :: UniqueDomain) - fromEnum (minBound::UniqueDomain) + 1
+
+
+mkUnique :: UniqueDomain -> Int -> Unique -- *Can* be exported now, but all those helper functions are gone.
+```
+
+
+Ideal world scenario, the entire external interface would be:
+
+```wiki
+ UniqueDomain(..)
+ mkUnique    :: UniqueDomain -> Word -> Unique
+ pprUnique   :: Unique -> SDoc
+ showUnique  :: Unique -> String
+ serialise   :: Word8   -- number of bits to keep for other encoding
+             -> Unique  -- the thing to serialise
+             -> Word32  -- the serialised representation (for BinIface)
+ deserialise :: Word 8 -> Word32 -> Unique
+```
+
+
+and the instances for `Eq`, `Ord`, `Data`, etc. For now, though, it will also have
+
+```wiki
+ getKey :: Unique -> Int
+ mkUniqueOnlyForUniqSupply :: Int -> Unique
+ mkUniqueOnlyForTemplateHaskell :: FastInt -> Unique
+ incrUnique :: Unique -> Unique
+ deriveUnique :: Unique -> Int -> Unique
+ newTagUnique :: Unique -> UniqueDomain -> Unique
+```
+
+> > **SLPJ** I agree that a `newtype` around a `Word` is better than a `data` type around `Int#`. That is a small, simple change.  But I think you plan to do more than this, and that "more" is not documented here.  E.g. what is the new API to `Unique`?
+>
+> **PKFH** Added. See above.
