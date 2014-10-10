@@ -405,4 +405,6 @@ class GFunctor (f :: * -> *) where ...
 
 data MyMaybe a ... deriving (Generic, GBinary, GFunctor)
 }}}
-The instance head for the `GBinary (MyMaybe a)` instance will be guessed in the same way as if we were deriving an `Eq` instance. The instance head for the `GFunctor MyMaybe` instance will be guessed in the same way as if we were deriving a `Functor` instance. 
+The instance head for the `GBinary (MyMaybe a)` instance will be guessed in the same way as if we were deriving an `Eq` instance. The instance head for the `GFunctor MyMaybe` instance will be guessed in the same way as if we were deriving a `Functor` instance.
+
+The context might end up not being exactly what the user intended. For example, the class being derived might not require instances for each of the type arguments of the datatype. We ''could'' try to figure this out in a clever way from the definition of the class being derived, but this is very hard in general. So, in this case, we just leave the user to specify the context manually via standalone deriving (or, well, just giving an empty instance with a context, as they had to do before).
