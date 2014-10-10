@@ -121,7 +121,7 @@ dynApply _ _ = Nothing
 Is that not beautiful?  The second equation for `dynApply` is needed in case the `TRFun` pattern does not match.
 
 ---------------------
-== Step 3: Decomposing arbitrary types ===
+== Step 3: Decomposing arbitrary types ==
 
 It is all very well being able to decompose functions, but what about decomposing other types, like `Maybe Int`?  
 
@@ -231,7 +231,6 @@ We can do steps 1 and 2 without kind equalities, although the
 implementation of `decomposeFun` will use `unsafeCoerce` and will be part of the TCB.
 
 
------------------------------
 == Proposed API ==
 
 {{{

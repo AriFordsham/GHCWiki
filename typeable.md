@@ -170,7 +170,7 @@ Is that not beautiful?  The second equation for `dynApply` is needed in case the
 
 ---
 
-## Step 3: Decomposing arbitrary types =
+## Step 3: Decomposing arbitrary types
 
 
 It is all very well being able to decompose functions, but what about decomposing other types, like `Maybe Int`?  
@@ -314,8 +314,6 @@ Related but different issue: [ https://ghc.haskell.org/trac/ghc/ticket/7897](htt
 
 We can do steps 1 and 2 without kind equalities, although the 
 implementation of `decomposeFun` will use `unsafeCoerce` and will be part of the TCB.
-
----
 
 ## Proposed API
 
