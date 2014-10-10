@@ -211,9 +211,9 @@ injectivity. LHS refers to the arguments of that type family.
 Open type families:
 
 1. When checking equation of an open type family we try to unify its RHS with
-  RHSs of all equations we've seen so far. If we succeed this means that this type
-  family is not injective because two non-overlapping equations can produce types
-  that can be unified.
+  RHSs of all equations we've seen so far. If we succeed then LHSs of unified
+  equations must be identical under that substitution. If they are not identical
+  then we declare that a type family is not injective.
 
 
 Closed type families
