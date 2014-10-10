@@ -296,6 +296,64 @@ be something like:
 }}}
 But I'm not entirely sure about this.
 
+== A more conservative first approach to this problem ==
+
+Because what we've described so far is rather backwards-incompatible, we could at least try to improve the encoding of metadata, which is currently rather clunky (giving rise to lots of empty, compiler-generated datatypes and respective instances). We can do that by changing `M1` to keep the meta-information ''at the type level'':
+{{{
+newtype M1 i (c :: Meta) f p = M1 { unM1 :: f p }
+
+data Meta = MetaData Symbol Symbol  Bool
+          | MetaCons Symbol FixityI Bool
+          | MetaSel  Symbol
+
+data Fixity  = Prefix  | Infix  Associativity Int
+data FixityI = PrefixI | InfixI Associativity Nat
+
+data Associativity = LeftAssociative
+                   | RightAssociative
+                   | NotAssociative
+}}}
+
+Why do we need to add `FixityI`? Because `Fixity` does not promote. Yet, we want to expose `Fixity` to the user, not `FixityI`. Note that the meta-data classes remain unchanged:
+{{{
+class Datatype d where
+  datatypeName :: t d (f :: * -> *) a -> [Char]
+  moduleName   :: t d (f :: * -> *) a -> [Char]
+  isNewtype    :: t d (f :: * -> *) a -> Bool
+
+class Constructor c where
+  conName :: t c (f :: * -> *) a -> [Char]
+  conFixity :: t c (f :: * -> *) a -> Fixity
+  conIsRecord :: t c (f :: * -> *) a -> Bool
+
+class Selector s where
+  selName :: t s (f :: * -> *) a -> [Char]
+}}}
+
+But now, using the magic of singletons, we can give ''one single instance'' for each of these classes, instead of having to instantiate them each time a user derives `Generic`:
+{{{
+instance (KnownSymbol n, KnownSymbol m, SingI nt)
+    => Datatype (MetaData n m nt) where
+  datatypeName _ = symbolVal (Proxy :: Proxy n)
+  moduleName   _ = symbolVal (Proxy :: Proxy m)
+  isNewtype    _ = fromSing  (sing  :: Sing nt)
+
+instance (KnownSymbol n, SingI f, SingI r)
+    => Constructor (MetaCons n f r) where
+  conName     _ = symbolVal (Proxy :: Proxy n)
+  conFixity   _ = fromSing  (sing  :: Sing f)
+  conIsRecord _ = fromSing  (sing  :: Sing r)
+
+instance (KnownSymbol s) => Selector (MetaSel s) where
+  selName _ = symbolVal (Proxy :: Proxy s)
+}}}
+
+Naturally, we require singletons for `Bool`, `FixityI`, and `Associativity`, but that is one time boilerplate code, and is not visible for the user. (In particular, this is where we encode that the demotion of (the kind) `FixityI` is (the type) `Fixity`.)
+
+I believe this change is almost fully backwards-compatible, and lets us simplify the code for `deriving Generic` in GHC. Furthermore, I suspect it will be useful to writers of generic functions, who can now match at the type-level on things such as whether a constructor is a record or not.
+
+I say "almost fully backwards-compatible" because handwritten `Generic` instances might break with this change. But we've never recommended doing this, and I think users who do this are more than aware that they shouldn't rely on it working across different versions of GHC.
+
 = Using standard deriving for generic functions =
 
 Currently, users can instantiate a generic function to their datatypes by doing the following:
