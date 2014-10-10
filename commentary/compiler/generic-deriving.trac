@@ -361,6 +361,48 @@ Right now we already treat some classes specially for GND: `Read`, `Show`, `Type
 Maybe we don't even need to make this user-controllable; a handful of built-in classes may suffice.
 
 
+==== 4. Let users annotate their deriving clauses ====
+
+We could even let users specify which of the two types of deriving they want:
+{{{
+newtype MyInt = MyInt Int deriving (newtype GBinary, default GShow)
+}}}
+Here, we re-use the keywords `newtype` and `default` to specify that the `GBinary` instance should be created using GND (so that we do not have the unnecessary extra tag in the binary encoding), but `GShow` should use the "generic" instance (so that we still print "MyInt").
+
+Of course, then we'd need to:
+1. Agree on the syntax;
+2. Decide what to do when users ask for e.g. `... deriving (newtype Typeable)`.
+
+
 === Standard vs. Standalone deriving ===
 
+There's no reason to restrict this new deriving form to be attached to a datatype. Users should be free to write the following, if they wish:
+{{{
+deriving instance (GBinary a) => GBinary (Maybe a)
+}}}
+... even though the following would do exactly the same with 9 characters less:
+{{{
+instance (GBinary a) => GBinary (Maybe a)
+}}}
+
 === Figuring out the context ===
+
+The only non-trivial part of actually generating the instances from a deriving clause is that now we have to figure out the context. Previously the user would have written
+{{{
+data MyMaybe a ... deriving Generic
+instance (GBinary a) => GBinary (MyMaybe a)
+}}}
+Now they'll simply write
+{{{
+data MyMaybe a ... deriving (Generic, GBinary)
+}}}
+So it's now up to us to find out that the instance needs a `GBinary a =>` head.
+
+For this we propose using the already existing strategy in GHC. Consider the following case:
+{{{
+class GBinary  (a :: *)      where ...
+class GFunctor (f :: * -> *) where ...
+
+data MyMaybe a ... deriving (Generic, GBinary, GFunctor)
+}}}
+The instance head for the `GBinary (MyMaybe a)` instance will be guessed in the same way as if we were deriving an `Eq` instance. The instance head for the `GFunctor MyMaybe` instance will be guessed in the same way as if we were deriving a `Functor` instance. 
