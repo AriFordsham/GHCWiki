@@ -1,7 +1,7 @@
 # Shaking up GHC
 
 
-This page is a working document to capture the ongoing work on migrating the current GHC build system based on `make` into a new and (hopefully) better one based on `Shake`. See [Building/Architecture](building/architecture) and [Building/Using](building/using) for more details on the current implementation. For general reference to `Shake`, the first sources to try are:
+This page is a working document to capture the ongoing work on migrating the current GHC build system based on `make` into a new and (hopefully) better one based on `Shake`. See [Building/Architecture](building/architecture) and [Building/Using](building/using) for more details on the current build system. For general reference to `Shake`, the first sources to try are:
 
 - [ http://hackage.haskell.org/package/shake/docs/Development-Shake.html](http://hackage.haskell.org/package/shake/docs/Development-Shake.html) (Haddock docs)
 - [ https://github.com/ndmitchell/shake/blob/master/docs/Manual.md\#readme](https://github.com/ndmitchell/shake/blob/master/docs/Manual.md#readme) (User manual)
