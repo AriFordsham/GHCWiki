@@ -16,21 +16,23 @@ Download and run the [ msys2 installer (64-bit)](http://sourceforge.net/projects
 
 An easy way to check that you are running the right shell is to check the output of `echo $PATH`. The first item of the list should be `/mingw64/bin`. Also, `echo $MSYSTEM` should show either `MINGW32` or `MINGW64`.
 
+
+If you are using a preexisting msys2 installation, consider upgrading all installed packages to the latest versions. That takes a few steps, see [ MSYS2 installation instructions](http://sourceforge.net/p/msys2/wiki/MSYS2%20installation/) (section III).
+
 ## Installing packages & tools
 
 
-The msys2 package uses `pacman` (the venerable ArchLinux package manager) to manage packages. Once you're set up, upgrade everything, and install system dependencies required for building GHC:
+The msys2 package uses `pacman` (the venerable ArchLinux package manager) to manage packages. Let's install system dependencies required for building GHC:
 
 ```wiki
-pacman -Syu  # upgrade all packages to the newest available version
-pacman -S git curl tar binutils autoconf make libtool automake mingw-w64-x86_64-gcc
+pacman -Sy git curl tar binutils autoconf make libtool automake mingw-w64-x86_64-gcc
 ```
 
 
 (Problems with PGP keys? Try `pacman-key --init` and `pacman-key --populate msys2`)
 
 
-If you want to run tests, you will need to install a Windows version of [ Python 2](https://www.python.org/download/releases/2.7.8/). Python is only used by the test runner though and is not necessary for building GHC.
+If you want to run tests, you will need to install a Windows version of [ Python 2](https://www.python.org/download/releases/2.7.8/). Python is only used by the test runner and is not necessary for building GHC.
 
 ## Host GHC setup
 
@@ -78,6 +80,9 @@ Finally, to perform the actual build:
 ./configure &&
 make -j5
 ```
+
+
+Msys2 is known to be glitchy in some situations. If you see errors related to fork(), try closing and reopening the shell. Also there have been issues with the build process segfaulting. The reason is not known (we're looking into it). If that happens, simply rerunning `make` will continue the build process.
 
 
 Alternatively, to run a pristine build and tests (takes a while):
