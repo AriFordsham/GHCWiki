@@ -129,8 +129,8 @@ echo "${pwd_entry}" >> "/etc/passwd"
 # finally, register service with cygrunsrv
 /usr/bin/cygrunsrv -I sshd -d "CYGWIN sshd" -p /usr/bin/sshd -a "-D" -y tcpip -u cyg_server -w "${_password}"
 
-# the SSH service should start up automatically when the Windows VM is rebooted. You can manually restart the service by running `net stop ssh` + `net start ssh`
-net start ssh
+# the SSH service should start up automatically when the Windows VM is rebooted. You can manually restart the service by running `net stop sshd` + `net start sshd`
+net start sshd
 
 # if something doesn't work, make sure  /etc/ssh*_* /var/empty /var/log/lastlog /var/log/sshd.log are accessible by cyg_server user.
 
