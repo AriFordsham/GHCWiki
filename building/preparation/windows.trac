@@ -24,6 +24,9 @@ pacman -Sy git curl tar binutils autoconf make libtool automake mingw-w64-x86_64
 
 (Problems with PGP keys? Try `pacman-key --init` and `pacman-key --populate msys2`)
 
+{{{#!rbox question
+Why can't we use CygWin/MSYS2's packaged Python interpreter? It seems to work just fine...
+}}}
 If you want to run tests, you will need to install a Windows version of [https://www.python.org/download/releases/2.7.8/ Python 2]. Python is only used by the test runner and is not necessary for building GHC.
 
 == Host GHC setup ==
@@ -129,7 +132,11 @@ echo "${pwd_entry}" >> "/etc/passwd"
 # finally, register service with cygrunsrv
 /usr/bin/cygrunsrv -I sshd -d "CYGWIN sshd" -p /usr/bin/sshd -a "-D" -y tcpip -u cyg_server -w "${_password}"
 
+# the SSH service should start up automatically when the Windows VM is rebooted. You can manually restart the service by running `net stop sshd` + `net start sshd`
+net start sshd
+
 # if something doesn't work, make sure  /etc/ssh*_* /var/empty /var/log/lastlog /var/log/sshd.log are accessible by cyg_server user.
+
 
 # NB: if you need to tweak env-vars such as PATH or MSYSTEM, use ~/.bashrc or ~/.bash_profile
 }}}

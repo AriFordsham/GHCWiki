@@ -32,6 +32,9 @@ pacman -Sy git curl tar binutils autoconf make libtool automake mingw-w64-x86_64
 (Problems with PGP keys? Try `pacman-key --init` and `pacman-key --populate msys2`)
 
 
+Why can't we use CygWin/MSYS2's packaged Python interpreter? It seems to work just fine...
+
+
 If you want to run tests, you will need to install a Windows version of [ Python 2](https://www.python.org/download/releases/2.7.8/). Python is only used by the test runner and is not necessary for building GHC.
 
 ## Host GHC setup
@@ -130,7 +133,10 @@ While on CygWin setting up `sshd` is taken care of by the provided `ssh-host-con
   editrights -a SeDenyRemoteInteractiveLogonRight -u ${username}&&\
   editrights -a SeServiceLogonRight -u ${username}# add passwd entry
   pwd_entry="$(/usr/bin/mkpasswd -l -u "${username}"| /usr/bin/sed -n -e '/^'${username}'/s?\(^[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:\).*?\1'/var'/empty:/bin/false?p')"echo"${pwd_entry}" >> "/etc/passwd"pwd_entry="$(/usr/bin/mkpasswd -l -u "${unpriv_user}"| /usr/bin/sed -n -e '/^'${unpriv_user}'/s?\(^[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:\).*?\1'/var'/empty:/bin/false?p')"echo"${pwd_entry}" >> "/etc/passwd"# finally, register service with cygrunsrv
-  /usr/bin/cygrunsrv -I sshd -d "CYGWIN sshd" -p /usr/bin/sshd -a "-D" -y tcpip -u cyg_server -w "${_password}"# if something doesn't work, make sure  /etc/ssh*_* /var/empty /var/log/lastlog /var/log/sshd.log are accessible by cyg_server user.
+  /usr/bin/cygrunsrv -I sshd -d "CYGWIN sshd" -p /usr/bin/sshd -a "-D" -y tcpip -u cyg_server -w "${_password}"# the SSH service should start up automatically when the Windows VM is rebooted. You can manually restart the service by running `net stop sshd` + `net start sshd`
+  net start sshd
+
+  # if something doesn't work, make sure  /etc/ssh*_* /var/empty /var/log/lastlog /var/log/sshd.log are accessible by cyg_server user.
   # NB: if you need to tweak env-vars such as PATH or MSYSTEM, use ~/.bashrc or ~/.bash_profile
   ```
 
