@@ -32,6 +32,9 @@ pacman -Sy git curl tar binutils autoconf make libtool automake mingw-w64-x86_64
 (Problems with PGP keys? Try `pacman-key --init` and `pacman-key --populate msys2`)
 
 
+Why can't we use CygWin/MSYS2's packaged Python interpreter? It seems to work just fine...
+
+
 If you want to run tests, you will need to install a Windows version of [ Python 2](https://www.python.org/download/releases/2.7.8/). Python is only used by the test runner and is not necessary for building GHC.
 
 ## Host GHC setup
