@@ -42,7 +42,7 @@ We want to keep all existing naming conventions. For example, `*.o` files will s
 - or the filenames will be stored in `Set`-like structures (e.g., `setHsObj` and `setCObj`) and the corresponding build rules will be: 
 
   ```wiki
-  (`member` setHsObj) ?>  \out -> do { ... }.
+  (`member` setHsObj) ?> \out -> do { ... }.
   ```
 
 ## Build options
