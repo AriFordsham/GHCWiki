@@ -6,6 +6,9 @@ This page is a working document to capture the ongoing work on migrating the cur
 - [ http://hackage.haskell.org/package/shake/docs/Development-Shake.html](http://hackage.haskell.org/package/shake/docs/Development-Shake.html) (Haddock docs)
 - [ https://github.com/ndmitchell/shake/blob/master/docs/Manual.md\#readme](https://github.com/ndmitchell/shake/blob/master/docs/Manual.md#readme) (User manual)
 
+
+Somewhat related, [\#5793](https://gitlab.haskell.org//ghc/ghc/issues/5793) suggests using `Shake` for `nofib`, and there's some code attached as well: [attachment:Main.2.hs:ticket:5793](/trac/ghc/attachment/ticket/5793/Main.2.hs)[](/trac/ghc/raw-attachment/ticket/5793/Main.2.hs)
+
 ## The goal
 
 
