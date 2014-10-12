@@ -365,3 +365,17 @@ Option 2 will allow the AST to capture the extra commas in record constructors, 
 
 
 However, the structure is being misused in that `ExtraComma` is used to capture ALL commas, as well as semicolons in the `{ .. ; .. }` idiom.
+
+## Update 2014-10-12
+
+
+Based on further feedback from Neil Mitchell and SPJ, the basic annotation is now
+
+```
+typeApiAnns=Map.MapApiAnnKeySrcSpandataApiAnnKey=AKSrcSpanAnnderiving(Eq,Ord,Show)-- ----------------------------------------------------------------------- | Retrieve an annotation based on the SrcSpan of the annotated AST-- element, and the known type of the annotation.getAnnotation::ApiAnns->SrcSpan->Ann->MaybeSrcSpangetAnnotation anns span ann =Map.lookup (AK span ann) anns
+
+-- ---------------------------------------------------------------------- | Note: in general the names of these are taken from the-- corresponding token, unless otherwise noteddataAnn=AnnAs|AnnBang|AnnClass|AnnClose-- ^ } or ] or ) or #) etc|AnnComma|AnnDarrow|AnnData|AnnDcolon....
+```
+
+
+This is a lot simpler than before.
