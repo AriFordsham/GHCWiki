@@ -29,7 +29,7 @@ pacman -Sy git curl tar binutils autoconf make libtool automake mingw-w64-x86_64
 ```
 
 
-(Problems with PGP keys? Try `pacman-key --init` and `pacman-key --populate msys2`)
+(Problems with PGP keys? Try `pacman-key --init && pacman-key --populate msys2`)
 
 
 Why can't we use CygWin/MSYS2's packaged Python interpreter? It seems to work just fine...
