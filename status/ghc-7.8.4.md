@@ -3,9 +3,6 @@
 
 See [milestone:7.8.4](/trac/ghc/milestone/7.8.4)
 
-
-Note however, that not all tickets with a 7.8.4 milestone will be addressed for the final 7.8.4 release (if it happens at all).
-
 ### Show stoppers
 
 
@@ -20,6 +17,8 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
 
 >
 > Phabricator D173 [ https://phabricator.haskell.org/D173](https://phabricator.haskell.org/D173) has a patch that fixes both tickets. The patch applies cleanly (with an offset of a few lines).
+
+- [\#8690](https://gitlab.haskell.org//ghc/ghc/issues/8690) & co: `SpecConstr` frequently explodes in the wild, causing the compiler to essentially loop forever.
 
 ## Tickets marked merge with no milestone
 
@@ -37,6 +36,8 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
 <th></th></tr></table>
 
 ## Tickets slated for 7.8.4
+
+**NB**: How to remove 'closed' ticket query?
 
 ## Status: closed (36 matches)
 
