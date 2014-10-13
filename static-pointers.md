@@ -1,10 +1,10 @@
-# The design and implemenation of static pointers
+# The design and implementation of static pointers
 
 
 This page lays out thinking about the design of the `StaticPtr` language extensions.
 
 
-See also the root page for distributed Haskell?.
+See also [the root page for distributed Haskell](distributed-haskell).
 
 ## Background
 
