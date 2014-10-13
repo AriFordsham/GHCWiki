@@ -8,7 +8,7 @@ The corresponding Trac ticket to track progress is [\#7015](https://gitlab.haske
 
 Several distinct layers are involved; they constitute the main payload of this design:
 
-- [Typeable](typeable): built-in support for generating and using run-time type representations. The `Typeable` class has been part of (GHC) Haskell for many years, but it needs to evolve further.
+- [Typeable](typeable): built-in support for generating and using **run-time type representations**. The `Typeable` class has been part of (GHC) Haskell for many years, but it needs to evolve further.
 
 - [StaticPointers](static-pointers): built-in support for so-called **static pointers**.  These were introduced in the original Cloud Haskell paper (link below), but the design was not fleshed out there.
 
