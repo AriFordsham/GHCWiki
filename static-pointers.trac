@@ -1,231 +1,343 @@
 = Design notes for static pointers
 
-These notes discuss the design of the language extension for static pointers as proposed in [#c1 [1]] (called “static values” there). This language extension is useful for remoting computations to a distant machine. This wiki page documents the extension and its implementation, but first starts with how its meant tobe used with the help of some userland libraries (the “Cloud Haskell” section).
+These notes discuss the design of the language extension for static
+pointers as proposed in
+[http://research.microsoft.com/en-us/um/people/simonpj/papers/parallel/remote.pdf
+"Towards Haskell in the Cloud"] (Epstein et al, 2011) (called “static
+values” there). This language extension is useful for remoting
+computations to a distant machine. This wiki page motivates use cases
+for a language extension and proposes a design for an implementation.
+Much of the implementation is done in GHC "userland" so to speak, that
+is, in the form of libraries.
 
 The corresponding Trac ticket to track progress is #7015.
 
 See also [blog:simonpj/StaticPointers Simon PJ's long blog post].
 
-== Cloud Haskell
+== Introduction
 
-The `distributed-process` package [#c2 [2]] implements a framework for distributed computing. This in general requires sending computations remotely, i.e. sending closures. The `distributed-static` package [#c3 [3]] provides the facilities to represent closures in a way that can be shared remotely, under certain limitations. These facilities include means to represent closures, as well as combinators to build new closure representations from existing ones.
+In distributed programming, processes on different nodes exchange data
+by asynchronously sending messages to each other. It is useful to go
+beyond this model, and allow processes to send other processes to
+other nodes, not just first-order data. For instance, an extremely
+useful feature of distributed frameworks in Hasell (e.g.
+[https://hackage.haskell.org/package/distributed-process
+distributed-process], [https://hackage.haskell.org/package/hdph HdpH])
+and other languages (Erlang, Scala), is the ability for a process on
+one node to ''spawn'' a process on another node.
 
-A closure is a code pointer paired with an environment. The -XStaticPointers language extension offers first class support in the compiler for creating a portable representation of the pointer part of the closure. In order to retain compatibility with previous representations of code pointers used in `distributed-static` (which have the advantage of not requiring a compiler extension), work has been put into generalizing `distributed-static` [ [#c4 4], [#c5 5] ] in order to make the combinators defined there generic in the pointer representation. 
+For example, consider a simple calculator-as-a-service. It is
+a process living on some node B, accepting requests of some type
+`ArithRequest`, allowing to express simple arithmetic expressions.
+Given a request, the calculator-as-a-service must decode it, interpret
+the arithmetic expression, and return the result. But ideally, one
+would like a more direct way of performing computations remotely. As
+a client, a process on some node A, we would like to be able to do
+something like the following instead:
 
-=== `Closure a` values
-
-As defined in `distributed-static`, a Closure can be a pointer to a function paired with an environment, in serialized form:
 {{{
-data Closure a = Closure (Static (ByteString -> a)) ByteString
-  deriving Typeable
-
-instance Binary (Closure a) where ...
+client = do
+    spawn nodeB $ plus 10 2
+    spawn nodeB $ mult (2^10) (3^10)
+    spawn nodeB $ neg 1
 }}}
 
-The `Static a` type is a representation for pointers that we will discuss later. Closures can be unwrapped with a function `unclosure` which, for the sake of this discussion, can be given the following type:
+This avoids the need for effectively defining a new DSL, and avoids
+the need for an interpreter for this DSL on the other end. Expressing
+computations as straight Haskell expressions allows us to reuse GHC's
+syntax and type checking at little cost. The above code is similar to
+what one would write in a concurrent but single-node setting, using
+`forkIO` instead of spawn. Except that the above snippet implies that
+`spawn` is able to serialize arbitrary Haskell values (or ''closures'').
+This is undesirable, because in general closures might capture all
+manner of system and local resources (e.g. sockets, locks, file
+descriptors) that it makes no sense to send on the wire. We instead
+want to limit what can be spawned in this manner to so-called ''static
+closures'': values expressed using only top-level identifiers,
+literals, and ''serializable'' locally-bound variables.
+
+With this extension, one can write:
+
 {{{
-unclosure :: Closure a -> IO (Maybe a)
-}}}
-This function will return `Nothing` in case the closure cannot be resolved for whatever implementation-dependent reasons.
-
-A closure can be sent over the network using one of a few primitives provided by the package `distributed-process`.
-{{{
-spawn :: NodeId -> Closure (Process ()) -> Process ()
-send :: Serializable a => ProcessId -> a -> Process ()
-sendChan :: Serializable a => SendPort a -> a -> Process ()
-}}}
-
-In its current implementation, all these primitives send to the peer the serialized closure plus a fingerprint of its type representation. When receiving the message, the peer will use the fingerprint to verify that the type of the closure is the expected one. This doesn't protect the program against malicious code attempting to crash the application, but it does protect the programmer from coding mistakes that could lead to crashes.
-
-=== `Static a` values
-
-To a first approximation, a value of type `Static a` is a “label” (one could also say “reference”, “pointer”, or “name”) for a value of type `a`. Labels can be serialized, but the value they refer to need not be. Thus, a value of type `Static a` can be communicated between processes on disparate machines and dereferenced in any of them.
-
-The dereferencing operation is called `unstatic`. It can be given the type:
-{{{
-unstatic :: Static a -> IO (Maybe a)
-}}}
-The function `unstatic` either succeeds in dereferencing its argument or it returns `Nothing`. The idea is that if `unstatic` fails to find the actual value referred to, then it returns `Nothing`. 
-The notion of “label” in `distributed-static` is flexible: one can construct new labels as the composition of two existing labels. The main composition operator is:
-{{{
-staticApply :: Static (a -> b) -> Static a -> Static b
+client = do
+    spawn nodeB $ closure $ static (plus 10 2)
+    spawn nodeB $ closure $ static (mult (2^10) (3^10))
+    spawn nodeB $ closure $ static (neg 1)
 }}}
 
-Therefore, `Static` is not in fact the datatype of labels, but given some label type `l` one can lift a label to a `Static` and compose the result:
+
+== The `-XStaticPointers` language extension
+
+The proposed `StaticPointers` language extension adds a new syntactic
+construct to Haskell expressions:
+
 {{{
-data Static l a where
-  StaticLabel :: l -> Static l a
-  StaticApply :: Static l (a -> b) -> Static l a -> Static l b
-
-staticApply = StaticApply
-}}}
-Making `Static` parametric in the label type is necessary to keep compatibility with existing representations of code pointers. Better, it allows for arbitrary new notions of labels, such as using a per-application closed datatype representing all remotable functions (think *defunctionalization*). Thus, all types and functions using `Static` will also have to be parameterized by the label type, but this is a detail which does not further impact the discussion.
-
-Note: `Static` is *not* the free applicative functor over labels, because only labels can be lifted into a `Static`, not arbitrary types. That is, `StaticLabel` is not the unit of a free applicative functor.
-
-== The `StaticPointers` language extension
-
-With `-XStaticPointers` enabled, any expression of the form `static e` where `e :: a` produces a type-tagged compiler-generated label of type `StaticPtr a`. We have
-{{{
-newtype StaticPtr a = StaticPtr GlobalName
-}}}
-so we can define a lifting function for such labels:
-{{{
-staticLabel :: StaticPtr a -> Static GlobalName a
+E ::= ... | static E
 }}}
 
-Like `Static GlobalName a`, a reference of type `StaticPtr a` points to a value of type `a`. It also can be serialized and dereferenced in other processes with a function `deRef :: StaticPtr a -> IO (Maybe a)`. The main difference with a `Static GlobalName a` value is that a `StaticPtr a` is a type tagged label, whereas `Static a` is the type of label compositions.
+`E` is any Haskell expression, but restricted as follows: it must
+contain no free variables (module-level identifiers are ok). For
+technical reasons, the body `E` of a static form is further restricted
+to be of unqualified type. In other words, `E` is allowed to be of
+polymorphic type, but no unresolved type class or equality constraints
+of any kind are allowed.
 
-Other label types are not type tagged. One might ask, why lift values of type `StaticPtr a` rather than `GlobalName` directly? The reason is that it provides better type safety. If all the compiler generates is a label with no type information, then the user needs to invent some type for it when lifting it to a `Static`. It would go something like this:
+An expression of the form `static E` has type `StaticPtr T` if `E` has
+type `T`. Any value of type `StaticPtr T` can be "resolved" to a value
+of type `T` by the following new primitive, which can be brought into
+scope by importing `GHC.StaticPtr` (so-named by symmetry with
+`StablePtr`, `ForeignPtr`, etc):
+
 {{{
-globalNameClosure :: GlobalName -> Closure a
-
-do spawn there (globalNameClosure (static foo) :: Closure (Process ())
-}}}
-We would essentially lose any meaningful static guarantees, since the user could easily cast to the wrong type.
-
-Conversely, one may wonder whether it is possible to dispense entirely with the `GlobalName` datatype and instead define only `StaticPtr a`. But then there is no uniform type of compiler generated labels. Types of the form `Static GlobalName a` would have to be rewritten to `Static (StaticPtr ...) a`, but there is no good choice to fill in the ellipsis since a value of type `Static l a` may hold multiple references and each one of a different type.
-
-=== Using `-XStaticPointers` to produce `StaticPtr a` values
-
-With `-XStaticPointers`, GHC can generate a `StaticPtr a` for any closed expression `e` of type `a`. This is denoted as `static e`. With a closed expression meaning that the free variables of `e` are only identifiers of top-level bindings. All of the following definitions are permissible:
-{{{
-inc :: Int -> Int
-inc x = x + 1
-
-ref1 = static 1
-ref2 = static inc
-ref3 = static (inc 1)
-ref4 = static ((\x -> x + 1) (1 :: Int))
-ref5 y = static (let x = 1 in x)
-}}}
-While the following definitions are rejected:
-{{{
-ref6 = let x = 1 in static x      -- the body of static is not closed
-ref7 y = static (let x = 1 in y)  -- again the body is not closed
+unstatic :: StaticPtr a -> a
 }}}
 
-With this extension turned on, `static` is no longer a valid identifier.
+This is the full extent of the impact on GHC. The above isn't
+a standalone solution for remoting arbitrary computations across a set
+of nodes, but the remaining support can be implemented in userland
+libraries.
 
-The information contained in the reference is used by `deRef` to locate the values at runtime using the symbol tables in executables, libraries and object files. For this to work, symbol tables need to be made available at runtime. A simple way to ensure this is to pass the `-rdynamic` flag to GHC during linking.
+== Library support for static pointers
 
-Note that, because the symbol table does not contain type information about its entries, it is not possible to check that the value returned by `deRef` really is of the expected type. In an adversarial network, this would mean that some adversary could easily crash the local program by sending it a `x :: Static b` where a `Static a` is expected, disguising the `x` as a `Static a` by sending along the `TypeRep` for some `y :: Static a` along with `x` instead of the `TypeRep` for `x`. It should be noted, however, in the context of today’s Cloud Haskell, short of any authentication, there are many other ways for a remote program to abuse the local program anyways.
+The [https://hackage.haskell.org/package/distributed-process
+distributed-process package] implements a framework for distributed
+programming ''à la'' Erlang. Support for static closures is implemented
+in a separate package called
+[https://hackage.haskell.org/package/distributed-process
+distributed-static package]. We propose to patch this library in the
+following way, and rename it to `distributed-closure`. Ultimately,
+distributed-closure should be the one-stop shop for all distributed
+frameworks that wish allow users to program with static closures.
 
-A `Closure` can be obtained from a `StaticPtr` as in the following example:
+`distributed-closure` will define the following datatype:
+
 {{{
-client server = do
-  spawn server $ staticClosure $ staticLabel $ static (say “hello”)
-}}}
-where `staticClosure` is a combinator from the package distributed-static:
-{{{
-staticClosure :: Typeable a => Static a -> Closure a
-}}}
-Or we can internationalize the example:
-{{{
-sayI18N translate s = say (translate “hello”)
-
-client :: Static (String -> String) -> NodeId -> Process ProcessId
-client staticTranslate server = do
-  spawn server $ staticClosure $ 
-    staticLabel (static sayI18N) `staticApply` staticTranslate
+data Closure a
 }}}
 
-=== Static semantics of `StaticPtr a` values
+`Closure` is the type of ''static closures''. Morally, it contains some
+pointer to a static expression, paired with an environment of only
+serializable values.
 
-Informally, if we have a closed expression
-{{{
-e :: forall a_1 ... a_n. t
-}}}
-the static form is of type
-{{{
-static e :: forall a_1 ... a_n. StaticPtr t
-}}}
+Why do we need `Closure`? `Closure` is strictly more expressive than
+`StaticPtr`. `StaticPtr` can only be constructed from ''closed'' expressions
+(no free variables). `Closure` is built on top of `StaticPtr`. It allows
+encoding ''serializable expressions''. That is, expressions formed of
+only top-level identifiers, literals, and serializable free variables.
+for example, using `Closure`, one can write:
 
-The following definitions are valid:
 {{{
-ref8 = static id :: StaticPtr (a -> a)
-ref9 = static show :: StaticPtr (Int -> String)
-ref10 = static return :: StaticPtr (a -> IO a)
+f :: Int -> Int -> ...
+f x y = ... closure (static (+)) `closureAp` closurePure x `closureAp` closurePure y ...
 }}}
 
-Currently, the type of the body of the `static` form is constrained to have an unqualified rank-1 type. The following are therefore illegal:
+We introduce the following library functions on `Closure`:
+
 {{{
-static show                    -- show has a constraint (Show a)
-static Control.Monad.ST.runST  -- runST has a higher-ranked type
+closure :: Typeable a => StaticPtr a -> Closure a
+unclosure :: Typeable a => Closure a -> a
+
+closurePure :: Serializable a => a -> Closure a
+closureAp :: (Typeable a, Typeable b) => Closure (a -> b) -> Closure a -> Closure b
 }}}
 
-That being said, with the appropriate use of wrapper data types, the
-above limitations induce no loss of generality:
+The signature of `closure` mentions `Serializable`, which is a class
+defined as follows:
+
 {{{
-{-# LANGUAGE ConstraintKinds #-}
-{-# LANGUAGE ExistentialQuantification #-}
-{-# LANGUAGE Rank2Types #-}
-{-# LANGUAGE StaticPointers #-}
-
-import Control.Monad.ST
-import GHC.Ref
-
 data Dict c = c => Dict
 
-g1 :: StaticPtr (Dict (Show a) -> a -> String)
-g1 = static (\Dict -> show)
-
-data Rank2Wrapper f = R2W (forall s. f s)
-newtype Flip f a s = Flip { unFlip :: f s a }
-
-g2 :: StaticPtr (Rank2Wrapper (Flip ST a) -> a)
-g2 = static (\(R2W f) -> runST (unFlip f))
+class (Binary a, Typeable a) => Serializable a
+  serializableDict :: forall a proxy. proxy a -> StaticPtr (Dict (Serializable a))
 }}}
-It is proposed that the `Dict` wrapper in particular, for reified dictionaries, is reexported by the distributed-static package.
 
-=== Implementation
+In words, a ''serializable value'' is a value for which we have
+a `Binary` instance and a `Typeable` instance, but moreover for which
+we can obtain a `StaticPtr` referencing a reification of the
+`Serializable` dictionary for type `a`. (The `Dict` datatype can be
+obtained from the [http://hackage.haskell.org/package/constraints
+constraints package] on Hackage).
 
-The renamer checks that the free variables appearing in the body of the `static` forms are always identifiers of top-level bindings. This holds for both values and types.
+== Implementation
 
-The type-checker treats the static form mostly as if `static` were a function:
+=== Implementation in GHC
+
+TODO
+
+=== Implementation of `distributed-closure`
+
+The definition of `Closure a` is as follows:
+
 {{{
-static :: a -> StaticPtr a
+data Closure a where
+  StaticPtr :: StaticPtr a -> Closure a
+  Encoded :: ByteString -> Closure ByteString
+  Ap :: Closure (a -> b) -> Closure a -> Closure b
 }}}
-At the very end of the type-checking phase of a module, the types of the bodies of all found `static` forms are examined to determine if they are qualified, and if so they are rejected. This needs to be done at the end of type-checking because the monomorphism restriction may affect the inferred type.
 
-The desugarer replaces the `static` form with a `ref :: StaticPtr a` value pointing to the body of it. When the body is a single identifier, the value `ref` points to it. When not, the body is floated to a freshly generated top-level definition and the `ref` value points to it instead. 
+This definition permits an efficient implementation: there is no need
+to reserialize the environment everytime one composes two `Closures`s.
+The definition in the Cloud Haskell paper is as follows:
 
-An expression like `static return :: a -> IO a` may appear to have a single identifier in the body of `static`, but in the desugarer, it is really `return` applied to the `Monad IO` dictionary. Therefore, it will be floated.
-
-Currently, floating of the bodies of `static` forms is implemented in the type-checker. It has been pointed out that it would be desirable to do it in the desugarer. Another task the type-checker is doing is making sure that referenced identifiers do appear in symbol tables in the produced object files via calls to the function `keepAlive :: Name -> TcM ()`. Probably, this is something that could be done in the desugarer as well.
-
-=== The `StaticPtr` datatype
-
-The `StaticPtr` datatype is implemented in the module base:GHC.Ref.
 {{{
--- | A reference to a top-level value of type 'a'.
-data StaticPtr a = StaticPtr { unStaticPtr :: GlobalName }
-  deriving (Read, Show, Typeable)
-
--- | Global names identifying top-level values
---
--- > GlobalName package_id installed_package_id module_name value_name
---
-data GlobalName = GlobalName String String String String
-  deriving (Read, Show, Typeable)
+data Closure' a where
+  Closure' :: StaticPtr (ByteString -> a) -> ByteString -> Closure a
 }}}
 
-A GlobalName holds the information about a top-level value that the desugarer fills in when replacing a `static` form. It augments the information provided by `Language.Haskell.TH.Syntax.Name` with the information in the `installed_package_id` field. This field is [[http://hackage.haskell.org/package/Cabal-1.20.0.2/docs/Distribution-Package.html#t:InstalledPackageId|Cabal:Distribution.Package.InstalledPackageId]] and it would be needed to identify the package when multiple variations of it are installed.
+Note that the `Closure'` constructor can be simulated:
 
-The installed package id could be useful to locate the symbol if the dynamic dependencies of a program were not known when linking. However, the field is an empty string for all `static` forms requiring floating or pointing to identifiers in the current package. So its usefulness is very limited and we are considering to remove it.
+{{{
+Closure cf env <=> Ap (StaticPtr cf) (Encoded env)
+}}}
 
-=== In GHCi
+One can even add the following constructor for better efficiency:
 
-The `static` forms can be created in GHCi, but floating of expressions is not implemented there. This means that `deRef` has a chance to work in GHCi only when the body of the `static` form is a single identifier which does not depend on using any type class dictionaries. Any other kind of expression will require producing a new top-level binding and this is not done yet.
+{{{
+data Closure a where
+  ...
+  Closure :: Closure a -> a -> Closure a
+}}}
 
-== References
+Any `StaticPtr` can be lifted to a `Closure`, and so can any
+serializable value:
 
-[=#c1 [1]] Jeff Epstein, Andrew P. Black, and Simon Peyton-Jones. Towards Haskell in the cloud. SIGPLAN Not., 46(12):118–129, September 2011. ISSN 0362-1340. [[http://research.microsoft.com/en-us/um/people/simonpj/papers/parallel/remote.pdf|pdf]]
+{{{
+closure :: StaticPtr a -> Closure a
+closure x = StaticPtr 
 
-[=#c2 [2]] https://hackage.haskell.org/package/distributed-process
+closurePure :: Serializable a => a -> Closure a
+closurePure x =
+    StaticPtr (static decodeD) `closureAp`
+    serializableDict Proxy `closureAp`
+    Encoded (encode x)
+  where
+    decodeD :: Dict (Serializable a) -> ByteString -> a
+    decodeD Dict = decode
+}}}
 
-[=#c3 [3]] https://hackage.haskell.org/package/distributed-static
+Given any two `Closure`s with compatible types, they can be combined
+using `closureAp`:
 
-[=#c4 [4]] https://github.com/tweag/distributed-static/commits/globalnames
+{{{
+closureAp :: (Typeable a, Typeable b) => Closure (a -> b) -> Closure a -> Closure b
+closureAp = Ap
+}}}
 
-[=#c5 [5]] https://github.com/tweag/distributed-process/commits/generic-static4
+Closure serialization is straightforward, but closure deserialization
+is tricky. See
+[https://ghc.haskell.org/trac/ghc/blog/simonpj/StaticPointers#Serialisingstaticpointers
+this blog post section] from Simon PJ as to why. The issue is that
+when deserializing from a bytestring to target type `Closure b`, one
+needs to ensure that the target type matches the type of the closure
+before it was serialized, lest ''bad things happen''. We need to impose
+that `Typeable b` when deserializing to `Closure b`, but that doesn't
+help us for all closures. Consider in particular the type of `Ap`:
+
+{{{
+Ap :: Closure (a -> b) -> Closure a -> Closure b
+}}}
+
+Notice that the type `a` is not mentioned in the return type of the
+constructor. We need to know `Typeable (a -> b)` and `Typeable a` in
+order to recursively deserialize the subclosures, but we can't infer
+either from the context `Typeable b`. The trick is to introduce
+`ApDyn` and redefine `closureAp`:
+
+{{{
+newtype DynClosure = DynClosure Dynamic
+
+data Closure a where
+  ...
+  ApDyn :: DynClosure -> DynClosure -> Closure b
+
+closureAp :: Typeable a => Closure (a -> b) -> Closure a -> Closure b
+closureAp cf cx = ApDyn (DynClosure (toDynamic cf)) (DynClosure (toDynamic cx))
+}}}
+
+`DynClosure` is ''not'' a public type so we can assume whatever
+invariants we like: the user can't build any values of this type
+directly. One can serialize/deserialize a `DynClosure` quite easily:
+
+{{{
+instance Binary DynClosure where
+  put (DynClosure (Dynamic typerep x)) =
+      -- XXX Can't use Any because no Typeable Any.
+      let clos :: Closure () = unsafeCoerce x
+      in encode clos
+  get bs = do
+    typerep <- get
+    clos :: Closure () <- get
+    return $ DynClosure $ Dynamic typerep x
+}}}
+
+From whence we can have
+
+{{{
+instance Typeable a => Binary (Closure a) where
+  put = ... -- Does not use the ambient Typeable constraint.
+  get = ... -- Uses ambient Typeable constraint to check we are
+            -- deserializing against the right type.
+}}}
+
+We only need the `Typeable` constraint when deserializing, but not
+during deserialization, because the smart constructors `closurePure`,
+`closureAp` etc enforce that any `Closure a` has `Typeable a` by
+construction.
+
+The occurrence of `unsafeCoerce` above is quite ok: it is only used to
+recover structure from the wrapped `Dynamic`: that the type of the
+object stored in the `Dynamic` is in fact always of the form `Closure
+b` for some `b`. We are allowed to pretend `b == ()` always, just as
+`Dynamic` internally pretends that its content is of type `Any`. This
+structure is an invariant that we make sure to have the pubic API of
+our module enforce.
+
+All that remains is to implement `unclosure`:
+
+unclosure :: Typeabe a => Closure a -> a
+unclosure (StaticPtr sptr) = unstatic sptr
+unclosure (Encoded x) = x
+unclosure (Ap cf cx) = (unstatic cf) (unstatic cx)
+unclosure (ApDyn (DynClosure dyncf) (DynClosure dyncx)) = dynApply dyncf dyncx
+unclosure (Closure cx x) = x
+
+=== About performance
+
+We anticipate that the dynamic type checks associated with the use of
+`Dynamic` may have a substantial impact on performance. Not only that,
+the presence of these `Dynamic`s bloats the size of the messages that
+are sent over the wire. But one nice property of this approach is that
+we can always keep ''both'' `Ap` and `ApDyn` constructors, and define
+`unsafeClosureAp` as: 
+
+{{{
+unsafeClosureAp :: Typeable a => Closure (a -> b) -> Closure a -> Closure b
+unsafeClosureAp = Ap
+}}}
+
+`unsafeClosureAp` is used to send composite `Closure`s over the wire
+''without'' dynamic type checks. This in general may allow crafting
+messages that cause the remote side to segfault, but that's what the
+name is all about. And the remote side is free to refuse processing
+`Closure`s built with `unsafeClosureAp` if it doesn't trust the
+sender.
+
+== Conclusion
+
+It appears possible to implement a language extension first proposed
+in the original Cloud Haskell paper in a way that supports polymorphic
+types - a feature that was not considered in the paper. Furthermore,
+the proposal in the original Cloud Haskell paper compromised type
+safety since it allowed deserializing `Closure`s at arbitrary type,
+while this proposal adds extra safety yet still making it possible to
+use a backdoor for performance.
+
+What's the trusted code base (TCB) that you need to trust in order to
+guarantee type safety? GHC of course, but not only. This language
+extension adds one new primitive function to GHC. But one needs to
+also trust `dynamic-closure`, since it uses `unsafeCoerce`. Ideally
+one would only have to trust GHC and its standard libraries, and have
+`dynamic-closure` be part of the standard library. But in any case
+`dynamic-closure` depends on at least `binary` in order to do its
+work, which it would be undesirable to pull into `base`, so is best
+kept separate from GHC.
