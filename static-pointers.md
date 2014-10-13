@@ -145,11 +145,11 @@ f x y = ... closure (static (+)) `closureAp` closurePure x `closureAp` closurePu
 We introduce the following library functions on `Closure`:
 
 ```wiki
-closure :: Typeable a => StaticPtr a -> Closure a
-unclosure :: Typeable a => Closure a -> a
+closure :: StaticPtr a -> Closure a
+unclosure :: Closure a -> a
 
 closurePure :: Serializable a => a -> Closure a
-closureAp :: (Typeable a, Typeable b) => Closure (a -> b) -> Closure a -> Closure b
+closureAp :: Closure (a -> b) -> Closure a -> Closure b
 ```
 
 
@@ -238,7 +238,7 @@ Given any two `Closure`s with compatible types, they can be combined
 using `closureAp`:
 
 ```wiki
-closureAp :: (Typeable a, Typeable b) => Closure (a -> b) -> Closure a -> Closure b
+closureAp :: Closure (a -> b) -> Closure a -> Closure b
 closureAp = Ap
 ```
 
@@ -271,7 +271,7 @@ data Closure a where
   ...
   ApDyn :: DynClosure -> DynClosure -> Closure b
 
-closureAp :: Typeable a => Closure (a -> b) -> Closure a -> Closure b
+closureAp :: (Typeable a, Typeable b) => Closure (a -> b) -> Closure a -> Closure b
 closureAp cf cx = ApDyn (DynClosure (toDynamic cf)) (DynClosure (toDynamic cx))
 ```
 
