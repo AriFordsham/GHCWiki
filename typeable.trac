@@ -1,6 +1,6 @@
 = Safer and more expressive type representations  =
 
-This page summarises a proposed re-design (again!) of the `Typeable` class, to better support static values.  It should be read in conjunction with the [wiki:StaticPointers] page, and in particular with [blog:simonpj/StaticPointers Simon's blog post on static pointers].
+This page summarises a proposed re-design (again!) of the `Typeable` class, to better support static values.  It should be read in conjunction with the [wiki:DistributedHaskell root page for distributed Haskell], which was a major driving force for the design described here.
 
 The names of functions and type constructors is totally up for grabs.
 
