@@ -3,8 +3,7 @@
 
 These notes discuss the design of the language extension for static
 pointers as proposed in
-\[[ http://research.microsoft.com/en-us/um/people/simonpj/papers/parallel/remote.pdf](http://research.microsoft.com/en-us/um/people/simonpj/papers/parallel/remote.pdf)
-"Towards Haskell in the Cloud"\] (Epstein et al, 2011) (called “static
+[ Towards Haskell in the Cloud](http://research.microsoft.com/en-us/um/people/simonpj/papers/parallel/remote.pdf) (Epstein et al, 2011) (called “static
 values” there). This language extension is useful for remoting
 computations to a distant machine. This wiki page motivates use cases
 for a language extension and proposes a design for an implementation.
@@ -176,7 +175,7 @@ constraints package\] on Hackage).
 
 ### Implementation in GHC
 
-TODO
+TODO See [ old proposal](https://ghc.haskell.org/trac/ghc/wiki/StaticPointers/Old) and [ blog post](https://ghc.haskell.org/trac/ghc/blog/simonpj/StaticPointers) by Simon PJ.
 
 ### Implementation of `distributed-closure`
 
