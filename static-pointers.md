@@ -24,8 +24,7 @@ by asynchronously sending messages to each other. It is useful to go
 beyond this model, and allow processes to send other processes to
 other nodes, not just first-order data. For instance, an extremely
 useful feature of distributed frameworks in Hasell (e.g.
-\[[ https://hackage.haskell.org/package/distributed-process](https://hackage.haskell.org/package/distributed-process)
-distributed-process\], [ HdpH](https://hackage.haskell.org/package/hdph))
+[ distributed-process](https://hackage.haskell.org/package/distributed-process), [ HdpH](https://hackage.haskell.org/package/hdph))
 and other languages (Erlang, Scala), is the ability for a process on
 one node to *spawn* a process on another node.
 
@@ -108,12 +107,10 @@ libraries.
 ## Library support for static pointers
 
 
-The \[[ https://hackage.haskell.org/package/distributed-process](https://hackage.haskell.org/package/distributed-process)
-distributed-process package\] implements a framework for distributed
+The [ distributed-process package](https://hackage.haskell.org/package/distributed-process) implements a framework for distributed
 programming *à la* Erlang. Support for static closures is implemented
 in a separate package called
-\[[ https://hackage.haskell.org/package/distributed-process](https://hackage.haskell.org/package/distributed-process)
-distributed-static package\]. We propose to patch this library in the
+[ distributed-static package](https://hackage.haskell.org/package/distributed-static). We propose to patch this library in the
 following way, and rename it to `distributed-closure`. Ultimately,
 distributed-closure should be the one-stop shop for all distributed
 frameworks that wish allow users to program with static closures.
@@ -168,8 +165,7 @@ In words, a *serializable value* is a value for which we have
 a `Binary` instance and a `Typeable` instance, but moreover for which
 we can obtain a `StaticPtr` referencing a reification of the
 `Serializable` dictionary for type `a`. (The `Dict` datatype can be
-obtained from the \[[ http://hackage.haskell.org/package/constraints](http://hackage.haskell.org/package/constraints)
-constraints package\] on Hackage).
+obtained from the [ constraints package](http://hackage.haskell.org/package/constraints) on Hackage).
 
 ## Implementation
 
@@ -245,8 +241,7 @@ closureAp = Ap
 
 Closure serialization is straightforward, but closure deserialization
 is tricky. See
-\[[ https://ghc.haskell.org/trac/ghc/blog/simonpj/StaticPointers\#Serialisingstaticpointers](https://ghc.haskell.org/trac/ghc/blog/simonpj/StaticPointers#Serialisingstaticpointers)
-this blog post section\] from Simon PJ as to why. The issue is that
+[ this blog post section](https://ghc.haskell.org/trac/ghc/blog/simonpj/StaticPointers#Serialisingstaticpointers) from Simon PJ as to why. The issue is that
 when deserializing from a bytestring to target type `Closure b`, one
 needs to ensure that the target type matches the type of the closure
 before it was serialized, lest *bad things happen*. We need to impose
