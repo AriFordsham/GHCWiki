@@ -3,9 +3,6 @@
 
 See [milestone:7.8.4](/trac/ghc/milestone/7.8.4)
 
-
-Note however, that not all tickets with a 7.8.4 milestone will be addressed for the final 7.8.4 release (if it happens at all).
-
 ### Show stoppers
 
 
@@ -39,6 +36,8 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
 <th></th></tr></table>
 
 ## Tickets slated for 7.8.4
+
+**NB**: How to remove 'closed' ticket query?
 
 ## Status: closed (36 matches)
 
