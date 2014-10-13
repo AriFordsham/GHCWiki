@@ -61,7 +61,7 @@ Following the divide-and-conquer principle, we split the big goal into a number 
 ### Shaking up a library
 
 
-The first intermediate goal is to choose a library and build it with `Shake`. This will be tested by running the existing build system, removing all the built stuff for this particular library, and then restoring it with `Shake`, hopefully getting the same result. It was decided to choose a library without `cbits` and `#include`'s for the first attempt. (A particular library has not yet been chosen, feel free to make suggestions.)
+The first intermediate goal is to choose a library and build it with `Shake`. This will be tested by running the existing build system, removing all the built stuff for this particular library, and then restoring it with `Shake`, hopefully getting the same result. It was decided to choose a library without `cbits` and `#include`'s for the first attempt; `libraries/haskell2010` seems like a good candidate.
 
 ## How to contribute
 
