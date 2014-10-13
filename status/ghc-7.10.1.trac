@@ -12,7 +12,7 @@ We've written up some tentative [https://haskell.org/pipermail/ghc-devs/2014-Oct
    - Phab:D155: LLVM 3.5 compatibility
    - Phab:D169: Source code note infrastructure
    - Phab:D202: Injective type families
-   - Phab:Edward Yang's HEAP_ALLOCED saga, D270 through D293
+   - Phab:D270 through D293: Edward Yang's HEAP_ALLOCED saga
    - Phab:D130: Implementation of hsig (module signatures)
 
 See milestone:7.10.1 and [https://ghc.haskell.org/trac/ghc/query?status=infoneeded&status=merge&status=new&status=patch&group=status&milestone=7.10.1 Active tickets] for more.

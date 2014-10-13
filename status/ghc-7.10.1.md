@@ -13,7 +13,7 @@ We've written up some tentative [ plans for the 7.10.1 release](https://haskell.
 - [ Phab:D155](https://phabricator.haskell.org/D155): LLVM 3.5 compatibility
 - [ Phab:D169](https://phabricator.haskell.org/D169): Source code note infrastructure
 - [ Phab:D202](https://phabricator.haskell.org/D202): Injective type families
-- [ Phab:Edward](https://phabricator.haskell.org/Edward) Yang's HEAP_ALLOCED saga, D270 through D293
+- [ Phab:D270](https://phabricator.haskell.org/D270) through D293: Edward Yang's HEAP_ALLOCED saga
 - [ Phab:D130](https://phabricator.haskell.org/D130): Implementation of hsig (module signatures)
 
 
