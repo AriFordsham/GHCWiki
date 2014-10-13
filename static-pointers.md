@@ -1,373 +1,288 @@
-# Design notes for static pointers
+# The design and implemenation of static pointers
 
 
-These notes discuss the design of the language extension for static
-pointers as proposed in
-[ Towards Haskell in the Cloud](http://research.microsoft.com/en-us/um/people/simonpj/papers/parallel/remote.pdf) (Epstein et al, 2011) (called “static
-values” there). This language extension is useful for remoting
-computations to a distant machine. This wiki page motivates use cases
-for a language extension and proposes a design for an implementation.
-Much of the implementation is done in GHC "userland" so to speak, that
-is, in the form of libraries.
+This page lays out thinking about the design of the `StaticPtr` language extensions.
 
 
-The corresponding Trac ticket to track progress is [\#7015](https://gitlab.haskell.org//ghc/ghc/issues/7015).
+See also the root page for distributed Haskell?.
+
+## Background
 
 
-See also [Simon PJ's long blog post](/trac/ghc/blog/simonpj/StaticPointers).
+We take for granted the basic design of the Cloud Haskell paper.
+That is,
 
-## Introduction
+- A type constructor `StaticPtr :: * -> *`. Intuitively, a value of type `StaticPtr t` is represented by a static code pointer to a value of type `t`.  Note "code pointer" not "heap pointer".  That's the point!
+
+- A language construct `static <expr>`, whose type is `StaticPtr t` if `<expr>` has type `t`.  
+
+- In `static <expr>`, the free variables of `<expr>` must all be bound at top level. The implementation almost certainly works by giving `<expr>` a top-level definition with a new name, `static34 = <expr>`.
+
+- A function `unStatic :: StaticPtr a -> a`, to unwrap a static pointer.
+
+- `Static` values are serialisable.  Something like `instance Serialisable (StaticPtr a)`.  (This will turn out to be not quite right.)  Operationally this works by serialising the code pointer, or top-level name (e.g `"Foo.static34"`).
 
 
-In distributed programming, processes on different nodes exchange data
-by asynchronously sending messages to each other. It is useful to go
-beyond this model, and allow processes to send other processes to
-other nodes, not just first-order data. For instance, an extremely
-useful feature of distributed frameworks in Hasell (e.g.
-[ distributed-process](https://hackage.haskell.org/package/distributed-process), [ HdpH](https://hackage.haskell.org/package/hdph))
-and other languages (Erlang, Scala), is the ability for a process on
-one node to *spawn* a process on another node.
+All of this is built-in.  It is OK for the implementation of `StaticPtr` to be part of the TCB.
+But our goal is that *no other code need be in the TCB*.
+
+**A red herring**.  I'm not going to address the question of how to serialise a static pointer.  One method would be to serialise a machine address, but that only works if the encoding and decoding ends are running identical binaries.  But that's easily fixed: encode a static as the *name* of the static value e.g. "function `foo` from module `M` in package `p`".  Indeed, I'll informally assume an implementation of this latter kind.
 
 
-For example, consider a simple calculator-as-a-service. It is
-a process living on some node B, accepting requests of some type
-`ArithRequest`, allowing to express simple arithmetic expressions.
-Given a request, the calculator-as-a-service must decode it, interpret
-the arithmetic expression, and return the result. But ideally, one
-would like a more direct way of performing computations remotely. As
-a client, a process on some node A, we would like to be able to do
-something like the following instead:
+In general, I will say that what we ultimately serialise is a `StaticName`. You can think of a `StaticName` as package/module/function triple, or something like that. The implementation of `StaticName` is certainly not part of the client-visible API for `StaticPtr`; indeed, the type `StaticName` is not part of the API either.  But it gives us useful vocabulary.
+
+---
+
+# Serialising static pointers
+
+
+We can see immediately that we cannot expect to have `instance Serialisable (Static a)`,
+which is what the Cloud Haskell paper proposed.  If we had such an instance we would have
 
 ```wiki
-client = do
-    spawn nodeB $ plus 10 2
-    spawn nodeB $ mult (2^10) (3^10)
-    spawn nodeB $ neg 1
+encodeStatic :: forall a. StaticPtr a -> ByteString
+decodeStatic :: forall a. ByteString -> Maybe (StaticPtr a, ByteString)
 ```
 
 
-This avoids the need for effectively defining a new DSL, and avoids
-the need for an interpreter for this DSL on the other end. Expressing
-computations as straight Haskell expressions allows us to reuse GHC's
-syntax and type checking at little cost. The above code is similar to
-what one would write in a concurrent but single-node setting, using
-`forkIO` instead of spawn. Except that the above snippet implies that
-`spawn` is able to serialize arbitrary Haskell values (or *closures*).
-This is undesirable, because in general closures might capture all
-manner of system and local resources (e.g. sockets, locks, file
-descriptors) that it makes no sense to send on the wire. We instead
-want to limit what can be spawned in this manner to so-called *static
-closures*: values expressed using only top-level identifiers,
-literals, and *serializable* locally-bound variables.
+And it's immediately apparent that `decodeStatic`*cannot* be right. 
+I could get a `ByteString` from anywhere, apply `decodeStatic` to it,
+and thereby get a `StaticPtr a`.  Then use
+`unStatic` and you have a value of type `a`, for, *for any type `a`*!!
 
 
-With this extension, one can write:
+Plainly, what we need is (just in the case of `cast`) to do a dynamic typecheck, thus:
 
 ```wiki
-client = do
-    spawn nodeB $ closure $ static (plus 10 2)
-    spawn nodeB $ closure $ static (mult (2^10) (3^10))
-    spawn nodeB $ closure $ static (neg 1)
-```
-
-## The `-XStaticPointers` language extension
-
-
-The proposed `StaticPointers` language extension adds a new syntactic
-construct to Haskell expressions:
-
-```wiki
-E ::= ... | static E
-```
-
-`E` is any Haskell expression, but restricted as follows: it must
-contain no free variables (module-level identifiers are ok). For
-technical reasons, the body `E` of a static form is further restricted
-to be of unqualified type. In other words, `E` is allowed to be of
-polymorphic type, but no unresolved type class or equality constraints
-of any kind are allowed.
-
-
-An expression of the form `static E` has type `StaticPtr T` if `E` has
-type `T`. Any value of type `StaticPtr T` can be "resolved" to a value
-of type `T` by the following new primitive, which can be brought into
-scope by importing `GHC.StaticPtr` (so-named by symmetry with
-`StablePtr`, `ForeignPtr`, etc):
-
-```wiki
-unstatic :: StaticPtr a -> a
+decodeStatic :: forall a. Typeable a 
+                       => ByteString -> Maybe (StaticPtr a, ByteString)
 ```
 
 
-This is the full extent of the impact on GHC. The above isn't
-a standalone solution for remoting arbitrary computations across a set
-of nodes, but the remaining support can be implemented in userland
-libraries.
+Let's think operationally for a moment:
 
-## Library support for static pointers
+- GHC collects all the `StaticPtr` values in a table, the **static pointer table** or **SPT**.  Each row contains
 
+  - The `StaticName` of the value
+  - A pointer to closure for the value itself
+  - A pointer to its `TypeRep`
 
-The [ distributed-process package](https://hackage.haskell.org/package/distributed-process) implements a framework for distributed
-programming *à la* Erlang. Support for static closures is implemented
-in a separate package called
-[ distributed-static package](https://hackage.haskell.org/package/distributed-static). We propose to patch this library in the
-following way, and rename it to `distributed-closure`. Ultimately,
-distributed-closure should be the one-stop shop for all distributed
-frameworks that wish allow users to program with static closures.
+- `decodeStatic` now proceeds like this:
 
-`distributed-closure` will define the following datatype:
+  - Parse a `StaticName` from the `ByteString` (failure =\> `Nothing`)
+  - Look it up in table (not found =\> `Nothing`)
+  - Compare the `TypeRep` passed to `decodeStatic` (via the `Typeable a` dictionary) with the one ine the table (not equal =\> `Nothing`)
+  - Return the value
 
-```wiki
-data Closure a
-```
-
-`Closure` is the type of *static closures*. Morally, it contains some
-pointer to a static expression, paired with an environment of only
-serializable values.
+**Side note.** Another possibility is for `decodeStatic` not to take a `Typeable a` context but instead for `unStatic` to do so:: `unStatic :: Typeable a => StaticPtr a -> Maybe a`.  But that seems a mess.  Apart from anything else, it would mean that a value of type `StaticPtr a` might or might not point to a value of type `a`, so there's no point in having the type parameter in the first place. **End of side note.**
 
 
-Why do we need `Closure`? `Closure` is strictly more expressive than
-`StaticPtr`. `StaticPtr` can only be constructed from *closed* expressions
-(no free variables). `Closure` is built on top of `StaticPtr`. It allows
-encoding *serializable expressions*. That is, expressions formed of
-only top-level identifiers, literals, and serializable free variables.
-for example, using `Closure`, one can write:
+This design has some useful consequences that are worth calling out:
 
-```wiki
-f :: Int -> Int -> ...
-f x y = ... closure (static (+)) `closureAp` closurePure x `closureAp` closurePure y ...
-```
+- A `StaticPtr` is serialised simply to the `StaticName`; *the serialised form does not need to contain a `TypeRep`*.  Indeed it would not even be type-safe to serialise a `StaticPtr` to a pair of a `StaticName` and a `TypeRep`, trusting that the `TypeRep` described the type of the named function. Why not?  Think back to "Background: serialisation" above, and imagine we said
+
+  ```wiki
+  decode (encode ["wibble", "wobble"]) 
+    :: Typeable a => Maybe (StaticPtr a, ByteString)
+  ```
+
+  Here we create an essentially-garbage `ByteString` by encoding a `[String]`, and try to decode it.  If, by chance, we successfully parse a valid `StaticName` and `TypeRep`, there is absolutely no reason to suppose that the `TypeRep` will describe the type of the function. 
+
+  Instead, the `TypeRep` of the static pointer lives in the SPT, securely put there when the SPT was created.  Not only is this type-safe, but it also saves bandwidth by not transmitting`TypeReps`.
+
+- Since clients can effectively fabricate a `StaticName` (by supplying `decodeStatic` with a bogus `ByteString`, a `StaticName` is untrusted.  That gives the implementation a good deal of wiggle room for how it chooses to implement static names.  Even a simple index in the range 0..N would be type-safe! 
+
+  The motivation for choosing a richer representation for `StaticName` (eg package/module/name) is not type-safety but rather resilience to change.  For example, the Haskell programs at the two ends could be quite different, provided only that they agreed about what to call the static pointers that they want to exchange.
+
+## Statics and existentials
 
 
-We introduce the following library functions on `Closure`. This is the full API of `distributed-closure`:
+Here is something very reasonable:
 
 ```wiki
-data Closure a
+data StaticApp b where
+  SA :: StaticPtr (a->b) -> StaticPtr a -> StaticApp b
 
-closure :: StaticPtr a -> Closure a
-unclosure :: Closure a -> a
-
-closurePure :: Serializable a => a -> Closure a
-closureAp :: Closure (a -> b) -> Closure a -> Closure b
+unStaticApp :: StaticApp a -> a
+unStaticApp (SA f a) = unStatic f (unStatic a)
 ```
 
 
-The signature of `closure` mentions `Serializable`, which is a class
-defined as follows:
+(We might want to add more constructors, but I'm going to focus only on `SA`.)
+A `SA` is just a pair of `StaticPtr`s, one for a function and one for an argument.  We can securely unwrap it with `unStaticApp`.
+
+
+Now, here is the question: can we serialise `StaticApp`s?  Operationally, of course yes: to serialise a `SA`, just serialise the two `StaticPtrs` it contains, and dually for deserialisation.   But, as before, deserialisation is the hard bit.  We seek:
 
 ```wiki
-data Dict c = c => Dict
-newtype ctx :- c = Sub (ctx => Dict c)
-
-class (Binary a, Typeable a, Typeable ctx, ctx :=> Serializable a) => Serializable a where
-  serializableDict :: StaticPtr (ctx :- Serializable a)
+decodeSA :: Typeable b => ByteString -> Maybe (StaticApp b, ByteString)
 ```
 
 
-In words, a *serializable value* is a value for which we have
-a `Binary` instance and a `Typeable` instance, but moreover for which
-we can obtain a `StaticPtr` referencing a *proof that the set of constraints `ctx` entails `Serializable a`*. (The `Dict` datatype and `(:-)` can be obtained from the [ constraints package](http://hackage.haskell.org/package/constraints) on Hackage). In other words, a value of type `ctx :- Serializable a` is *explicit* evidence that GHC's instance resolution can derive `Serializable a` from `ctx`. The constraint `ctx :=> Serializable a` is what allows reifying this evidence of instance resolution.
-
-
-The above is useful for the implementation of `closurePure`.
-
-## Implementation
-
-### Implementation in GHC
-
-TODO See [ old proposal](https://ghc.haskell.org/trac/ghc/wiki/StaticPointers/Old) and [ blog post](https://ghc.haskell.org/trac/ghc/blog/simonpj/StaticPointers) by Simon PJ.
-
-### Implementation of `distributed-closure`
-
-
-The definition of `Closure a` is as follows:
+But how can we write `decodeSA`?  Here is the beginning of an attempt:
 
 ```wiki
-data Closure a where
-  StaticPtr :: StaticPtr a -> Closure a
-  Encoded :: ByteString -> Closure ByteString
-  Ap :: Closure (a -> b) -> Closure a -> Closure b
+decodeSA :: Typeable b => ByteString -> Maybe (StaticApp b, ByteString)
+decodeSA bs
+  = case decodeStatic bs :: Maybe (StaticPtr (a->b)) of
+      Nothing -> Nothing
+      Just (fun, bs1) -> ...
 ```
 
 
-This definition permits an efficient implementation: there is no need
-to reserialize the environment everytime one composes two `Closures`s.
-The definition in the Cloud Haskell paper is as follows:
+and you can immediately see that we are stuck.  Type variable `b` is not in scope.
+More concretely, we need a `Typeable (a->b)` to pass in to `decodeStatic`, 
+but we only have a `Typeable b` to hand.  
+
+
+What can we do?  Tantalisingly, we know that if `decodeStatic` succeeds in parsing a static `StaticName` from `bs` then, when we look up that `StaticName` in the Static Pointer Table, we'll find a `TypeRep` for the value.  So rather than passing a `Typeable` dictionary into `decodeStatic`, we'd like to get one out!
+
+
+With that in mind, here is a new type signature for `decodeStatic` that returns
+both pieces:
 
 ```wiki
-data Closure' a where
-  Closure' :: StaticPtr (ByteString -> a) -> ByteString -> Closure a
+data DynStaticPtr where
+  DSP :: Typeable a => StaticPtr a -> DynStaticPtr
+
+decodeStatic :: ByteString -> Maybe (DynStaticPtr, ByteString)
 ```
 
 
-Note that the `Closure'` constructor can be simulated:
+(The name `DynStaticPtr` comes from the fact that this data type is extremely similar to the library definition of `Dynamic`.)
+
+
+Operationally, `decodeStaticK bs fail cont` works like this;
+
+- Parse a `StaticName` from `bs` (failure =\> return Nothing)
+- Look it up in the SPT (not found =\> return Nothing)
+- Return the `TypeRep` and  the value found in the SPT, paired up with `DSP`. (Indeed the SPT could contain the `DynStaticPtr` values directly.)
+
+
+For the construction of `DynStaticPtr` to be type-safe, we need to know that the
+`TypeRep` passed really is a `TypeRep` for the value; so the construction
+of the SPT is (unsurprisingly) part of the TCB.
+
+
+Now we can write `decodeSA` (the monad is just the `Maybe` monad, nothing fancy):
 
 ```wiki
-Closure cf env <=> Ap (StaticPtr cf) (Encoded env)
+decodeSA :: forall b. Typeable b => ByteString -> Maybe (StaticApp b, ByteString)
+decodeSA bs
+  = do { (DSP (fun :: StaticPtr tfun), bs1) <- decodeStatic bs
+       ; (DSP (arg :: StaticPtr targ), bs2) <- decodeStatic bs1
+            -- At this point we have 
+            --     Typeable b      (from caller)
+            --     Typeable tfun   (from first DSP)
+            --     Typeable targ   (from second DSP)
+       ; fun' :: StaticPtr (targ->b) <- cast fun   
+       ; return (SA fun' arg, bs2) }
 ```
 
 
-One can even add the following constructor for better efficiency:
+The call to `cast` needs `Typeable tfun`, and `Typeable (targ->b)`. The
+former is bound by the first `DSP` pattern match.  The latter is
+constructed automatically from `Typeable targ` and `Typeable b`, both
+of which we have.  Bingo!
+
+
+Notice that *`decodeSA` is not part of the TCB*.  Clients can freely write code like `decodeSA` and be sure that it is type-safe.
+
+# Polymorphism and serialisation
+
+
+For this section I'll revert to the un-generalised single-parameter `StaticPtr`.
+
+## Parametric polymorphism
+
+
+Consider these definitions:
 
 ```wiki
-data Closure a where
-  ...
-  Closure :: Closure a -> a -> Closure a
+rs1 :: Static ([Int] -> [Int])
+rs1 = static reverse
+
+rs2 :: Static ([Bool] -> [Bool])
+rs2 = static reverse
+
+rs3 :: forall a. Typeable a => Static ([a] -> [a])
+rs3 = static reverse
 ```
 
 
-Any `StaticPtr` can be lifted to a `Closure`, and so can any
-serializable value:
+The first two are clearly fine. The SPT will get one row for each of the two monomorphic calls to reverse, one with a `TypeRep` of `[Int] -> [Int]` and one with a `TypeRep` of `[Bool] -> [Bool]`.
+
+
+But *both will have the same code pointer*, namely the code for the polymorpic `reverse` function.  Could we share just one `StaticName` for all instantiations of `reverse`, perhaps including `rs3` as well?
+
+
+I think we can.  The story would be this:
+
+- The SPT has a row for `reverse`, containing
+
+  - The `StaticName` for `reverse`
+  - A pointer to the code for `reverse` (or, more precisely, its static closure).
+  - A function of type `TypeRep -> TypeRep` that, given the `TypeRep` for `a` returns a `TypeRep` for `[a] -> [a]`.
+
+- When we serialise a `StaticPtr` we send 
+
+  - The `StaticName` of the (polymorphic) function
+  - A list of the `TypeRep`s of the type arguments of the function
+
+- The rule for `static <expr>` becomes this: the free *term* variables `<expr>` must all be top level, but it may have free *type* variables, provided they are all `Typeable`.
+
+
+All of this is part of the TCB, of course.
+
+## Type-class polymorphism
+
+
+Consider `static sort` where `sort :: Ord a => [a] -> [a]`.  Can we make such a `StaticPtr`.  After all, `sort` gets an implicit value argument, namely an `Ord a` dictionary.  If that dictionary can be defined at top level, well and good, so this should be OK:
 
 ```wiki
-closure :: StaticPtr a -> Closure a
-closure x = StaticPtr 
-
-closurePure :: Serializable a => a -> Closure a
-closurePure x =
-    StaticPtr (static decodeD) `closureAp`
-    serializableDict Proxy `closureAp`
-    Encoded (encode x)
-  where
-    decodeD :: Dict (Serializable a) -> ByteString -> a
-    decodeD Dict = decode
+ss1 :: StaticPtr ([Int] -> [Int])
+ss1 = static sort
 ```
 
 
-Given any two `Closure`s with compatible types, they can be combined
-using `closureAp`:
+But things go wrong as soon as you have polymorphism:
 
 ```wiki
-closureAp :: Closure (a -> b) -> Closure a -> Closure b
-closureAp = Ap
+ss2 :: forall a. Ord a => StaticPtr ([a] -> [a])
+ss2 = static sort  -- WRONG
 ```
 
 
-Closure serialization is straightforward, but closure deserialization
-is tricky. See
-[ this blog post section](https://ghc.haskell.org/trac/ghc/blog/simonpj/StaticPointers#Serialisingstaticpointers) from Simon PJ as to why. The issue is that
-when deserializing from a bytestring to target type `Closure b`, one
-needs to ensure that the target type matches the type of the closure
-before it was serialized, lest *bad things happen*. We need to impose
-that `Typeable b` when deserializing to `Closure b`, but that doesn't
-help us for all closures. Consider in particular the type of `Ap`:
+Now, clearly, the dictionary is a non-top-level free variable of the call to `sort`.
+
+
+We might consider letting you write this:
 
 ```wiki
-Ap :: Closure (a -> b) -> Closure a -> Closure b
+ss3 :: forall a. StaticPtr (Ord a => [a] -> [a])
+ss3 = static sort   -- ???
 ```
 
 
-Notice that the type `a` is not mentioned in the return type of the
-constructor. We need to know `Typeable (a -> b)` and `Typeable a` in
-order to recursively deserialize the subclosures, but we can't infer
-either from the context `Typeable b`. The trick is to introduce
-`ApDyn` and redefine `closureAp`:
+so now the `static` wraps a function expeting a dictionary.  But that edges us uncomforatbly close to impredicative types, which is known to contain many dragons.
+
+
+A simpler alternative is to use the Dict Trick (see Background above):
 
 ```wiki
-newtype DynClosure = DynClosure Dynamic
+ss4 :: forall a. StaticPtr (Dict (Ord a) -> [a] -> [a])
+ss4 = static sortD
 
-data Closure a where
-  ...
-  ApDyn :: DynClosure -> DynClosure -> Closure b
-
-closureAp :: (Typeable a, Typeable b) => Closure (a -> b) -> Closure a -> Closure b
-closureAp cf cx = ApDyn (DynClosure (toDynamic cf)) (DynClosure (toDynamic cx))
-```
-
-**Note: this far from the only solution and is not ideal (it repeats information the receiving end already knows). Alternative plan forthcoming.**
-
-`DynClosure` is *not* a public type so we can assume whatever
-invariants we like: the user can't build any values of this type
-directly. One can serialize/deserialize a `DynClosure` quite easily:
-
-```wiki
-instance Binary DynClosure where
-  put (DynClosure (Dynamic typerep x)) =
-      -- XXX Can't use Any because no Typeable Any.
-      let clos :: Closure () = unsafeCoerce x
-      in encode clos
-  get bs = do
-    typerep <- get
-    clos :: Closure () <- get
-    return $ DynClosure $ Dynamic typerep x
+sortD :: forall a. Dict (Ord a) -> [a] -> [a]
+sortD Dict xs = sort xs
 ```
 
 
-From whence we can have
+Now, at the call side, when we unwrap the `StaticPtr`, we need to supply an explicit `Ord` dictionary, like this:
 
 ```wiki
-instance Typeable a => Binary (Closure a) where
-  put = ... -- Does not use the ambient Typeable constraint.
-  get = ... -- Uses ambient Typeable constraint to check we are
-            -- deserializing against the right type.
+...(unStatic ss4 Dict)....
 ```
 
 
-We only need the `Typeable` constraint when deserializing, but not
-during deserialization, because the smart constructors `closurePure`,
-`closureAp` etc enforce that any `Closure a` has `Typeable a` by
-construction.
-
-
-The occurrence of `unsafeCoerce` above is quite ok: it is only used to
-recover structure from the wrapped `Dynamic`: that the type of the
-object stored in the `Dynamic` is in fact always of the form \`Closure
-b` for some `b`. We are allowed to pretend `b == ()\` always, just as
-`Dynamic` internally pretends that its content is of type `Any`. This
-structure is an invariant that we make sure to have the pubic API of
-our module enforce.
-
-
-All that remains is to implement `unclosure`:
-
-
-unclosure :: Typeabe a =\> Closure a -\> a
-unclosure (StaticPtr sptr) = unstatic sptr
-unclosure (Encoded x) = x
-unclosure (Ap cf cx) = (unstatic cf) (unstatic cx)
-unclosure (ApDyn (DynClosure dyncf) (DynClosure dyncx)) = dynApply dyncf dyncx
-unclosure (Closure cx x) = x
-
-### About performance
-
-
-We anticipate that the dynamic type checks associated with the use of
-`Dynamic` may have a substantial impact on performance. Not only that,
-the presence of these `Dynamic`s bloats the size of the messages that
-are sent over the wire. But one nice property of this approach is that
-we can always keep *both*`Ap` and `ApDyn` constructors, and define
-`unsafeClosureAp` as: 
-
-```wiki
-unsafeClosureAp :: Typeable a => Closure (a -> b) -> Closure a -> Closure b
-unsafeClosureAp = Ap
-```
-
-`unsafeClosureAp` is used to send composite `Closure`s over the wire
-*without* dynamic type checks. This in general may allow crafting
-messages that cause the remote side to segfault, but that's what the
-name is all about. And the remote side is free to refuse processing
-`Closure`s built with `unsafeClosureAp` if it doesn't trust the
-sender.
-
-## Conclusion
-
-
-It appears possible to implement a language extension first proposed
-in the original Cloud Haskell paper in a way that supports polymorphic
-types - a feature that was not considered in the paper. Furthermore,
-the proposal in the original Cloud Haskell paper compromised type
-safety since it allowed deserializing `Closure`s at arbitrary type,
-while this proposal adds extra safety yet still making it possible to
-use a backdoor for performance.
-
-
-What's the trusted code base (TCB) that you need to trust in order to
-guarantee type safety? GHC of course, but not only. This language
-extension adds one new primitive function to GHC. But one needs to
-also trust `dynamic-closure`, since it uses `unsafeCoerce`. Ideally
-one would only have to trust GHC and its standard libraries, and have
-`dynamic-closure` be part of the standard library. But in any case
-`dynamic-closure` depends on at least `binary` in order to do its
-work, which it would be undesirable to pull into `base`, so is best
-kept separate from GHC.
+For now, I propose to deal with type classes via the Dict Trick, which is entirely end-user programmable, leaving only parametric polymorphism for built-in support.
