@@ -18,7 +18,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
 >
 > Phabricator D173 [ https://phabricator.haskell.org/D173](https://phabricator.haskell.org/D173) has a patch that fixes both tickets. The patch applies cleanly (with an offset of a few lines).
 
-- [\#8690](https://gitlab.haskell.org//ghc/ghc/issues/8690) & co: `SpecConstr` frequently explodes in the wild, causing the compiler to essentially loop forever.
+- [\#8960](https://gitlab.haskell.org//ghc/ghc/issues/8960) & co: `SpecConstr` frequently explodes in the wild, causing the compiler to essentially loop forever.
 
 ## Tickets marked merge with no milestone
 
