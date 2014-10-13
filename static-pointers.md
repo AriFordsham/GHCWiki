@@ -139,9 +139,11 @@ f x y = ... closure (static (+)) `closureAp` closurePure x `closureAp` closurePu
 ```
 
 
-We introduce the following library functions on `Closure`:
+We introduce the following library functions on `Closure`. This is the full API of `distributed-closure`:
 
 ```wiki
+data Closure a
+
 closure :: StaticPtr a -> Closure a
 unclosure :: Closure a -> a
 
@@ -155,17 +157,19 @@ defined as follows:
 
 ```wiki
 data Dict c = c => Dict
+newtype ctx :- c = Sub (ctx => Dict c)
 
-class (Binary a, Typeable a) => Serializable a
-  serializableDict :: forall a proxy. proxy a -> StaticPtr (Dict (Serializable a))
+class (Binary a, Typeable a, Typeable ctx, ctx :=> Serializable a) => Serializable a where
+  serializableDict :: StaticPtr (ctx :- Serializable a)
 ```
 
 
 In words, a *serializable value* is a value for which we have
 a `Binary` instance and a `Typeable` instance, but moreover for which
-we can obtain a `StaticPtr` referencing a reification of the
-`Serializable` dictionary for type `a`. (The `Dict` datatype can be
-obtained from the [ constraints package](http://hackage.haskell.org/package/constraints) on Hackage).
+we can obtain a `StaticPtr` referencing a *proof that the set of constraints `ctx` entails `Serializable a`*. (The `Dict` datatype and `(:-)` can be obtained from the [ constraints package](http://hackage.haskell.org/package/constraints) on Hackage). In other words, a value of type `ctx :- Serializable a` is *explicit* evidence that GHC's instance resolution can derive `Serializable a` from `ctx`. The constraint `ctx :=> Serializable a` is what allows reifying this evidence of instance resolution.
+
+
+The above is useful for the implementation of `closurePure`.
 
 ## Implementation
 
@@ -269,6 +273,8 @@ data Closure a where
 closureAp :: (Typeable a, Typeable b) => Closure (a -> b) -> Closure a -> Closure b
 closureAp cf cx = ApDyn (DynClosure (toDynamic cf)) (DynClosure (toDynamic cx))
 ```
+
+**Note: this far from the only solution and is not ideal (it repeats information the receiving end already knows). Alternative plan forthcoming.**
 
 `DynClosure` is *not* a public type so we can assume whatever
 invariants we like: the user can't build any values of this type
