@@ -34,7 +34,7 @@ See [milestone:7.10.1](/trac/ghc/milestone/7.10.1) and [ Active tickets](https:/
 <th></th>
 <th></th></tr></table>
 
-## Tickets slated for 7.8.4
+## Tickets slated for 7.10.1
 
 ## Status: closed (341 matches)
 

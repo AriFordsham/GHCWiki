@@ -22,6 +22,6 @@ See milestone:7.10.1 and [https://ghc.haskell.org/trac/ghc/query?status=infoneed
 
 [[TicketQuery(status=merge,milestone=,format=table,col=type|summary|priority|owner,group=status)]]
 
-== Tickets slated for 7.8.4
+== Tickets slated for 7.10.1
 
 [[TicketQuery(milestone=7.10.1,format=table,col=type|summary|priority|owner,group=status)]]
