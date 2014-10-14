@@ -91,16 +91,19 @@ client = do
 I'm going to assume a a type class `Serialisable`, something like this:
 
 ```wiki
-class Serialisable a where
+class (Typeable a, Binary a) => Serialisable a
+
+class Binary a where
   encode :: a -> ByteString
   decode :: ByteString -> Maybe (a, ByteString)
 ```
 
 
-'ll use "encode" and "decode" as synonyms for "serialise" and "deserialise", because the former are easier to pronounce.
+(The real class `Binary` uses a `Put` and `Get` monad (with methods `put` and `get`), but I'll use the simpler form above because it introduces all issues that we need here without the clutter of the Real Thing.)
+I'll use "encode" and "decode" as synonyms for "serialise" and "deserialise", because the former are easier to pronounce.
 
 
-Here's an interesting question: are instances of `Serialisable` part of the TCB?  No, they are not.
+Here's an interesting question: are instances of `Binary` part of the TCB?  No, they are not.
 Here is a tricky case:
 
 ```wiki
