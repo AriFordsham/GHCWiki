@@ -149,7 +149,7 @@ currently doesn't work but should work with injectivity) please add them here.''
 '''Example 1'''
 
 {{{#!hs
-type family F a | result -> a where
+type family F a = result | result -> a where
     F Char = Bool
     F Bool = Int
     F Int  = Char
@@ -295,7 +295,7 @@ Case 1 above is conservative and may incorrectly reject injectivity declaration
 for some type families. For example type family `I`:
 
 {{{#!hs
-type family I a where
+type family I a = r | r -> a where
      I a = Id a -- Id defined earlier
 }}}
 
@@ -305,7 +305,7 @@ we already know are injective, and type constructors `Bar :: * -> *` and
 `Baz :: * -> * -> *`. Now we declare:
 
 {{{#!hs
-type family Foo a where
+type family Foo a = r | r -> a where
      Foo (Bar a)   = X a
      Foo (Baz a b) = Y a b
 }}}
@@ -321,7 +321,7 @@ What about self-recursion? Consider this type family:
 
 {{{#!hs
 -- assumes promoted Maybe and Nat
-type family NatToMaybe a where
+type family NatToMaybe a = r | r -> a where
      NatToMaybe Z     = Nothing
      NatToMaybe (S n) = Just (NatToMaybe n)
 }}}
@@ -330,7 +330,7 @@ Using Case 4a we will infer correctly that this type family is injective. Now
 consider this:
 
 {{{#!hs
-type family Ban a where
+type family Ban a = r | r -> a where
      Ban Z     = Z
      Ban (S n) = Ban n
 }}}
@@ -345,7 +345,7 @@ corner cases that would prevent us from doing so.
 '''RAE:''' But it seems that, under this treatment, any self-recursion would automatically lead to a conclusion of "not injective", just like any other use of a type family. For example:
 
 {{{#!hs
-type family IdNat n where
+type family IdNat n = r | r -> a where
   IdNat Z = Z
   IdNat (S n) = S (IdNat n)
 }}}
@@ -355,7 +355,7 @@ type family IdNat n where
 Here's an example of case 4c in action:
 
 {{{#!hs
-type family Bak a where
+type family Bak a = r | r -> a where
      Bak Int  = Char
      Bak Char = Int
      Bak a    = a

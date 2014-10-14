@@ -148,7 +148,7 @@ currently doesn't work but should work with injectivity) please add them here.*
 **Example 1**
 
 ```
-typefamilyF a | result -> a whereFChar=BoolFBool=IntFInt=CharidChar::(F a ~Bool)=> a ->CharidChar a = a
+typefamilyF a = result | result -> a whereFChar=BoolFBool=IntFInt=CharidChar::(F a ~Bool)=> a ->CharidChar a = a
 ```
 
 
@@ -282,7 +282,7 @@ Case 1 above is conservative and may incorrectly reject injectivity declaration
 for some type families. For example type family `I`:
 
 ```
-typefamilyI a whereI a =Id a -- Id defined earlier
+typefamilyI a = r | r -> a whereI a =Id a -- Id defined earlier
 ```
 
 
@@ -292,7 +292,7 @@ we already know are injective, and type constructors `Bar :: * -> *` and
 `Baz :: * -> * -> *`. Now we declare:
 
 ```
-typefamilyFoo a whereFoo(Bar a)=X a
+typefamilyFoo a = r | r -> a whereFoo(Bar a)=X a
      Foo(Baz a b)=Y a b
 ```
 
@@ -308,7 +308,7 @@ See also [\#4259](https://gitlab.haskell.org//ghc/ghc/issues/4259).
 What about self-recursion? Consider this type family:
 
 ```
--- assumes promoted Maybe and NattypefamilyNatToMaybe a whereNatToMaybeZ=NothingNatToMaybe(S n)=Just(NatToMaybe n)
+-- assumes promoted Maybe and NattypefamilyNatToMaybe a = r | r -> a whereNatToMaybeZ=NothingNatToMaybe(S n)=Just(NatToMaybe n)
 ```
 
 
@@ -316,7 +316,7 @@ Using Case 4a we will infer correctly that this type family is injective. Now
 consider this:
 
 ```
-typefamilyBan a whereBanZ=ZBan(S n)=Ban n
+typefamilyBan a = r | r -> a whereBanZ=ZBan(S n)=Ban n
 ```
 
 
@@ -330,7 +330,7 @@ corner cases that would prevent us from doing so.
 **RAE:** But it seems that, under this treatment, any self-recursion would automatically lead to a conclusion of "not injective", just like any other use of a type family. For example:
 
 ```
-typefamilyIdNat n whereIdNatZ=ZIdNat(S n)=S(IdNat n)
+typefamilyIdNat n = r | r -> a whereIdNatZ=ZIdNat(S n)=S(IdNat n)
 ```
 
 `IdNat` is injective. But, following the algorithm above, GHC would see the recursive use of `IdNat`, not know whether `IdNat` is injective, and then give up, concluding "not injective". Is there a case where the special treatment of self-recursion leads to a conclusion of "injective"? **End RAE**
@@ -339,7 +339,7 @@ typefamilyIdNat n whereIdNatZ=ZIdNat(S n)=S(IdNat n)
 Here's an example of case 4c in action:
 
 ```
-typefamilyBak a whereBakInt=CharBakChar=IntBak a    = a
+typefamilyBak a = r | r -> a whereBakInt=CharBakChar=IntBak a    = a
 ```
 
 
