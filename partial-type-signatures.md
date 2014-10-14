@@ -39,7 +39,9 @@ community.
 **UPDATE** See the section [implementation](partial-type-signatures#) and its
 subsections for the current state of this proposal.
 
-## Motivation and discussion
+---
+
+## Background and motivation
 
 ### Pragmatics
 
@@ -206,6 +208,8 @@ Other workarounds exist as well (see the
 for a discussion). They are typically based on adding computationally
 useless functions or dead code and we find them all less natural and
 elegant than our partial signatures.
+
+---
 
 ## Our Design
 
@@ -639,7 +643,7 @@ wildcards in partial type signatures for local bindings, as the
 generalisation over constraints is exactly what led to *let should
 not be generalised*.
 
-## Partial Expression and Pattern Signatures
+### Partial Expression and Pattern Signatures
 
 
 Wildcards are allowed in expression and pattern signatures, e.g.
@@ -662,6 +666,8 @@ they appear in.
 We don't support extra-constraints wildcards in such signatures, as
 the implementation difficulties they pose don't outweigh their
 usefulness.
+
+---
 
 ## Formalisation
 
@@ -689,6 +695,8 @@ have the same effect as the old rules.
 See the
 [ technical report](https://lirias.kuleuven.be/bitstream/123456789/424883/1/CW649.pdf)
 for more details.
+
+---
 
 ## Implementation
 

@@ -34,7 +34,8 @@ community.
 '''UPDATE''' See the section [#implementation implementation] and its
 subsections for the current state of this proposal.
 
-== Motivation and discussion ==
+---------------------------
+== Background and motivation ==
 
 === Pragmatics ===
 
@@ -186,7 +187,7 @@ for a discussion). They are typically based on adding computationally
 useless functions or dead code and we find them all less natural and
 elegant than our partial signatures.
 
-
+-------------------------------------------
 == Our Design ==
 
 A good way to think of a partial type signature is as follows. If a
@@ -534,7 +535,7 @@ generalisation over constraints is exactly what led to ''let should
 not be generalised''.
 
 
-== Partial Expression and Pattern Signatures ==
+=== Partial Expression and Pattern Signatures ===
 
 Wildcards are allowed in expression and pattern signatures, e.g.
 {{{
@@ -553,6 +554,7 @@ We don't support extra-constraints wildcards in such signatures, as
 the implementation difficulties they pose don't outweigh their
 usefulness.
 
+----------------------------------------------
 == Formalisation ==
 
 We worked out a rigorous formalisation of partial type signatures
@@ -577,6 +579,7 @@ See the
 [https://lirias.kuleuven.be/bitstream/123456789/424883/1/CW649.pdf technical report]
 for more details.
 
+----------------------------------------------
 == Implementation == #implementation
 
 We implemented our proposal as a branch of GHC (master), available at
