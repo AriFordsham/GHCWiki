@@ -239,7 +239,7 @@ It consists of three parts:
 
 
 We call wildcards occurring within the monotype (`tau`) part of the
-type signature *type wildcards*. Type wildcards can be instantiated
+type signature **type wildcards**. Type wildcards can be instantiated
 to any monotype like `Bool` or `Maybe [Bool]`, e.g.
 
 ```wiki
@@ -370,9 +370,8 @@ somethingShowable' x = show (not x)
 ```
 
 
-Besides an extra-constraints wildcard, only named wildcards can occur
-in the constraints, e.g. the `_x` in `Show _x`.  Extra-constraints
-wildcards cannot be named.
+Besides an extra-constraints wildcard (see below), only named wildcards can occur
+in the constraints, e.g. the `_x` in `Show _x`.
 
 
 Named wildcards *should not be confused with type variables*. Even
@@ -394,8 +393,8 @@ for more discussion.
 ### Extra-constraints Wildcard
 
 
-Another kind of wildcard we propose is the *extra-constraints
-wildcard*. The presence of an extra-constraints wildcard indicates
+Another kind of wildcard we propose is the **extra-constraints
+wildcard**. The presence of an extra-constraints wildcard indicates
 that an arbitrary number of extra constraints may be inferred during
 type checking and will be added to the type signature. In the example
 below, the extra-constraints wildcard is used to infer three extra
@@ -434,6 +433,9 @@ noCs = "noCs"
 As a single extra-constraints wildcard is enough to infer any number
 of constraints, only one is allowed in a type signature and it should
 come last in the list of constraints.
+
+
+Extra-constraints wildcards cannot be named.
 
 **NOTE** In spite of SLPJ's reasonable proposal to simplify things by not
 taking the annotated constraints into account when an extra-constraints
