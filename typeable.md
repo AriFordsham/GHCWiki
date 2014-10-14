@@ -123,7 +123,7 @@ If we want to decompose `TTypable`, at least in the function arrow case, we need
 decomposeFun :: TTypeRep fun
              -> r
              -> (forall arg res. (fun ~ (arg->res)) 
-                              => TypeRep arg -> TTypeRep res -> r)
+                              => TTypeRep arg -> TTypeRep res -> r)
              -> r
 -- (decomposeFun tf def k) sees if 'tf' is a function type
 -- If so, it applies 'k' to the argument and result type
@@ -142,7 +142,7 @@ dynApply (Dyn tf f) (Dyn tx x)
   = decomposeFun tf Nothing $ \ ta tr ->
     case eqTT ta tx of
       Nothing   -> Nothing
-      Just Refl -> Dyn tr (f x)
+      Just Refl -> Just (Dyn tr (f x))
 ```
 
 **Pattern synonyms**.  An alternative, rather nicer interface for `decomoposeFun` would use a [pattern synonym](pattern-synonyms) instead of continuation-passing style.  Here is the signature for the pattern synonym:
