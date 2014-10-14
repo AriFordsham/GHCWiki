@@ -39,7 +39,9 @@ community.
 **UPDATE** See the section [implementation](partial-type-signatures#) and its
 subsections for the current state of this proposal.
 
-## Motivation and discussion
+---
+
+## Background and motivation
 
 ### Pragmatics
 
@@ -207,6 +209,8 @@ for a discussion). They are typically based on adding computationally
 useless functions or dead code and we find them all less natural and
 elegant than our partial signatures.
 
+---
+
 ## Our Design
 
 
@@ -239,7 +243,7 @@ It consists of three parts:
 
 
 We call wildcards occurring within the monotype (`tau`) part of the
-type signature *type wildcards*. Type wildcards can be instantiated
+type signature **type wildcards**. Type wildcards can be instantiated
 to any monotype like `Bool` or `Maybe [Bool]`, e.g.
 
 ```wiki
@@ -337,11 +341,64 @@ nestedTCs = Just . (: []) . Left
 -- Inferred: forall a b. a -> Maybe [Either a b]
 ```
 
+### Named Wildcards
+
+
+Type wildcards can also be named by giving the
+underscore an indentifier as suffix, i.e. `_a`. These are called **named wildcards**.
+All occurrences of the
+same named wildcard within one type signature will unify to the
+same type. For example
+
+```wiki
+f :: _x -> _x
+f ('c', y) = ('d', error "Urk")
+ -- Inferrred: forall a. (Char, a) -> (Char, a)
+```
+
+
+The named wildcard forces the arugment and result types to be the same.
+Lacking a signature, GHC would have inferred `forall a b. (Char, a) -> (Char, b)`.
+A named wildcard can be mentioned in constraints,
+provided it also occurs in the monotype part of the type signature to make sure that
+[unify with something](partial-type-signatures#):
+
+```wiki
+somethingShowable :: Show _x => _x -> _
+somethingShowable x = show x
+-- Inferred type: Show x => x -> String
+
+somethingShowable' :: Show _x => _x -> _
+somethingShowable' x = show (not x)
+-- Inferred type: Bool -> String
+```
+
+
+Besides an extra-constraints wildcard (see below), only named wildcards can occur
+in the constraints, e.g. the `_x` in `Show _x`.
+
+
+Named wildcards *should not be confused with type variables*. Even
+though syntactically similar, named wildcards can unify with concrete
+types as well as be generalised over (and behave as type variables).
+
+
+In the first example above, `_x` is generalised over (and is
+effectively replaced by a fresh type variable). In the second example,
+`_x` is unified with the `Bool` type, and as `Bool` implements the
+`Show` typeclass, the constraint `Show Bool` can be simplified away.
+
+
+Currently, a named wildcard is in scope in the type signature where it
+appears, but also in signatures in the right-hand side of the
+implementation. See [the issues section](partial-type-signatures#)
+for more discussion.
+
 ### Extra-constraints Wildcard
 
 
-Another kind of wildcard we propose is the *extra-constraints
-wildcard*. The presence of an extra-constraints wildcard indicates
+Another kind of wildcard we propose is the **extra-constraints
+wildcard**. The presence of an extra-constraints wildcard indicates
 that an arbitrary number of extra constraints may be inferred during
 type checking and will be added to the type signature. In the example
 below, the extra-constraints wildcard is used to infer three extra
@@ -381,52 +438,12 @@ As a single extra-constraints wildcard is enough to infer any number
 of constraints, only one is allowed in a type signature and it should
 come last in the list of constraints.
 
+
+Extra-constraints wildcards cannot be named.
+
 **NOTE** In spite of SLPJ's reasonable proposal to simplify things by not
 taking the annotated constraints into account when an extra-constraints
 wildcard is present and just inferring everything from scratch, we still do.
-
-### Named Wildcards
-
-
-The type wildcards we described before can also be named by giving the
-underscore an indentifier as suffix, i.e. `_a`. All occurrences of the
-same *named wildcard* within one type signature will unify to the
-same type. They are particularly useful to express constraints on
-unknown types, e.g.
-
-```wiki
-somethingShowable :: Show _x => _x -> _
-somethingShowable x = show x
--- Inferred type: Show x => x -> String
-
-somethingShowable' :: Show _x => _x -> _
-somethingShowable' x = show (not x)
--- Inferred type: Bool -> String
-```
-
-
-Besides an extra-constraints wildcard, only named wildcards can occur
-in the constraints, e.g. the `_x` in `Show _x`. Furthermore, they must
-also occur in the monotype part of the type signature to make sure they
-[unify with something](partial-type-signatures#). Extra-constraints
-wildcards cannot be named.
-
-
-Named wildcards *should not be confused with type variables*. Even
-though syntactically similar, named wildcards can unify with concrete
-types as well as be generalised over (and behave as type variables).
-
-
-In the first example above, `_x` is generalised over (and is
-effectively replaced by a fresh type variable). In the second example,
-`_x` is unified with the `Bool` type, and as `Bool` implements the
-`Show` typeclass, the constraint `Show Bool` can be simplified away.
-
-
-Currently, a named wildcard is in scope in the type signature where it
-appears, but also in signatures in the right-hand side of the
-implementation. See [the issues section](partial-type-signatures#)
-for more discussion.
 
 ### Holes
 
@@ -626,7 +643,7 @@ wildcards in partial type signatures for local bindings, as the
 generalisation over constraints is exactly what led to *let should
 not be generalised*.
 
-## Partial Expression and Pattern Signatures
+### Partial Expression and Pattern Signatures
 
 
 Wildcards are allowed in expression and pattern signatures, e.g.
@@ -649,6 +666,8 @@ they appear in.
 We don't support extra-constraints wildcards in such signatures, as
 the implementation difficulties they pose don't outweigh their
 usefulness.
+
+---
 
 ## Formalisation
 
@@ -676,6 +695,8 @@ have the same effect as the old rules.
 See the
 [ technical report](https://lirias.kuleuven.be/bitstream/123456789/424883/1/CW649.pdf)
 for more details.
+
+---
 
 ## Implementation
 
