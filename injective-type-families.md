@@ -248,25 +248,12 @@ Closed type families
 > doesn't then type family is not injective and we report an error to the
 > user. See examples and discussion below for more details.
 
-**RAE:** We have to be careful with the word *overlap* here. I think we want "overlaps" to be "is subsumed by". Basically, you want to know of the equation at hand is reachable, given the LHS substitution. Even if it is reachable, the (substituted) LHS may coincide with the LHS of the earlier equation whose RHS unified with the current RHS. So, just because the current LHS is reachable doesn't mean the family is not injective.
+**RAE:** We have to be careful with the word *overlap* here. I think we want "overlaps" to be "is subsumed by".
 
 
 Even subtler, it's possible that certain values for type variables are excluded if the current LHS is reachable (for example, some variable `a` couldn't be `Int`, because if `a` were `Int`, then a previous equation would have triggered). Perhaps these exclusions can also be taken into account. Thankfully, forgetting about the exclusions is conservative -- the exclusions can only make *more* families injective, not *fewer*. **End RAE**
 
 **RAE's examples**
-
-
-Here are some examples that I've come up with that show some tricky points:
-
-```
-typefamilyE1 a = r | r -> a whereE1Int=IntE1 a   = a
-```
-
-
-According to the algorithm above, this would be rejected as non-injective. This is because clause (c) of the closed type family check says that if an equation is not subsumed by a previous equation, yet the RHSs unify, the family is flagged as non-injective. Yet, `E1`*is* injective.
-
-
-Here's another one:
 
 ```
 typefamilyE2(a ::Bool)= r | r -> a whereE2False=TrueE2True=FalseE2 a     =False
