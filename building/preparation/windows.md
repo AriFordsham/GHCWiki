@@ -85,7 +85,7 @@ make -j5
 ```
 
 
-Msys2 is known to be glitchy in some situations. If you see errors related to fork(), try closing and reopening the shell. Also there have been issues with the build process segfaulting. The reason is not known (we're looking into it). If that happens, simply rerunning `make` will continue the build process.
+Msys2 is known to be glitchy in some situations. If you see errors related to fork(), try closing and reopening the shell; see also [ msys2 issue \#74](http://sourceforge.net/p/msys2/tickets/74/). Also there have been issues with the build process segfaulting. The reason is not known (we're looking into it). If that happens, simply rerunning `make` will continue the build process.
 
 
 Alternatively, to run a pristine build and tests (takes a while):
