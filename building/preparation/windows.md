@@ -40,7 +40,7 @@ If you want to run tests, you will need to install a Windows version of [ Python
 ## Host GHC setup
 
 
-A host GHC binary is required for bootstrapping. Let's download and install a prebuilt GHC into /usr/local:
+A host GHC binary is required for bootstrapping. Let's download and install a prebuilt GHC into `/usr/local`:
 
 ```wiki
 curl http://www.haskell.org/ghc/dist/7.8.3/ghc-7.8.3-$(uname -m)-unknown-mingw32.tar.xz | tar -xJ -C /tmp &&
