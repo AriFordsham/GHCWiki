@@ -14,7 +14,7 @@ Somewhat related, [\#5793](https://gitlab.haskell.org//ghc/ghc/issues/5793) sugg
 
 The existing build system performs the following major steps:
 
-- **boot**: run `autoconf` on {`configure.ac`, ...} to produce the `configure` script, as well as `libraries/*/GNUmakefile` and `libraries/*/ghc.mk` files. 
+- **boot**: run `autoconf` on {`configure.ac`, ...} to produce the `configure` script, as well as `libraries/*/GNUmakefile` and `libraries/*/ghc.mk` files. Note that some `libraries/*` also contain `configure.ac` and thus require `autoconf` to create local `configure` scripts.
 
 - **configure**: take a bunch of `*.in` files {`config.mk.in`, `ghc.cabal.in`, `ghc-bin.cabal.in`, ...} and generate {`config.mk`, `ghc.cabal`, `ghc-bin.cabal`, ...}. 
 
