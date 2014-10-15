@@ -451,3 +451,23 @@ data Ann = AnnAs
 
 This is a lot simpler than before.
 
+== Notes / Shortcomings ==
+
+Currently the annotations are only guaranteed to apply to the `ParsedSource`, the renaming process flattens some of the location hooks for
+
+{{{
+#!haskell
+data HsType name
+  ...
+  | HsRecTy [Located [ConDeclField name]] -- Only in data type declarations
+  ...
+
+-- and
+
+    HsDataDefn { 
+    ...
+                 dd_cons   :: [Located [LConDecl name]],
+                     -- ^ Data constructors
+   ...
+}}}
+

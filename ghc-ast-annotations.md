@@ -379,3 +379,14 @@ typeApiAnns=Map.MapApiAnnKeySrcSpandataApiAnnKey=AKSrcSpanAnnderiving(Eq,Ord,Sho
 
 
 This is a lot simpler than before.
+
+## Notes / Shortcomings
+
+
+Currently the annotations are only guaranteed to apply to the `ParsedSource`, the renaming process flattens some of the location hooks for
+
+```
+dataHsType name
+  ...|HsRecTy[Located[ConDeclField name]]-- Only in data type declarations...-- andHsDataDefn{...
+                 dd_cons   ::[Located[LConDecl name]],-- ^ Data constructors...
+```
