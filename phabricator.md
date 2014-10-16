@@ -197,6 +197,9 @@ This will:
 - Push it upstream - Phabricator will then close the branch for you as it will see the differential revision notifier in the commit.
 
 
+If you dislike the rather verbose commit messages created by Phabricator, you can run `git rebase -i origin/master` before pushing and use the `reword` command on each commit.
+
+
 You're done!
 
 ### Audit: post-commit code review
