@@ -2,6 +2,7 @@
 
 
 This page describes language extension proposal to extend Haskell FFI with support for C structures.
+See also the [\#9700](https://gitlab.haskell.org//ghc/ghc/issues/9700).
 
 ## The issue we are trying to solve
 
