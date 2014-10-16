@@ -65,13 +65,13 @@ struct S {
   char c;
 };
 
-struct S test();
+struct S test(int i);
 ```
 
 ```wiki
 data S = S Int Char
 
-foreign import ccall "test" test :: S
+foreign import ccall "c_test" test :: Int -> S
 ```
 
 - Passing C structure as argument
@@ -88,13 +88,53 @@ int test(int, struct S);
 ```wiki
 data S = S Int Char
 
-foreign import ccall "test" test :: Int -> S -> Int
+foreign import ccall "c_test" test :: Int -> S -> Int
 ```
 
 ## Implementation
 
 
 Implementation can flatten structures and produce ccall with multiple arguments and return values of basic foreign types. The layout of arguments and return value should be carried around and passed way down to code generator to be used to generate platform specific code according to calling convention.
+
+### Desugaring examples
+
+
+Here are examples how foreign import declaration can be desugared. It is simplified slightly --
+e.g. RealWorld token handling, coercions and C type layout annotations are omitted.
+
+- Returning C structure
+
+```wiki
+data S = S Int Char
+
+foreign import ccall "c_test" test :: Int -> S
+```
+
+```wiki
+test = \arg ->
+  case arg of
+    I# arg_ ->
+      case ccall c_test arg_ of
+        (int_res_, char_res_) -> S (I# int_res_) (I# char_res_)
+```
+
+- Passing C structure as argument
+
+```wiki
+data S = S Int Char
+
+foreign import ccall "c_test" test :: Int -> S -> Int 
+```
+
+```wiki
+test -> \arg1 arg2 ->
+  case arg1 of
+    I# arg1_ ->
+      case arg2 of
+        S (I# int_arg_) (I# char_arg_) ->
+          case ccall c_test arg1_ int_arg_ char_arg_ of
+            res_ -> I# res_
+```
 
 ### Code generator
 
