@@ -282,8 +282,11 @@ We could mangle selector names (using `$sel:foo:T` instead of `foo`) even when t
 Turning on the `OverloadedRecordFields` extension automatically enables:
 
 - `DisambiguateRecordFields`, because ORF strictly generalises it
-- `FlexibleContexts`, because `r { x :: a }` decodes to `Has r "x" a` which contains a non-variable
+- `FlexibleContexts` and `DataKinds`, because `r { x :: a }` decodes to `Has r "x" a`, which contains a non-variable and a type-level string
 - `ConstraintKinds`, because `r { x :: a, y :: b }` decodes to a tuple constraint
+
+
+Is this what we want?
 
 ## Outstanding issues
 
