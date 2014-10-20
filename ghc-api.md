@@ -1,11 +1,8 @@
-# GHC 7.10 GHC-API Changes and proposed changes
+# Developments in the GHC API
 
 
-There are a number of changes in GHC 7.10 that will make it easier for
+This page summarises changes to the GHC API that will make it easier for
 tool writers to use the GHC API.
-
-
-These include
 
 1. More parser entrypoints, to explicitly parse fragments \[Andrew Gibiansky\]
 
@@ -17,15 +14,21 @@ These include
 > > parseExpression, parseTypeSignature,  parseFullStmt, parseStmt,
 > > parseIdentifier,  parseType, parseHeader
 
-1. No more landmines in the AST \[Alan Zimmerman\]
+1. No more landmines in the AST (Alan Zimmerman).
 
 >
 > In the past it was difficult to work with the GHC AST as any generic
 > traversals had to carefully tiptoe around an assortment of panic and
-> undefined expressions. These have now been removed, allowing
-> standard traversal libraries to be used.
+> undefined expressions. These have now been removed, by uses of `PostRn`, `PostTc`, etc, allowing
+> standard traversal libraries to be used.  See module `hsSyn/PlaceHolder`.
 
-1. Introduce an annotation structure to the ParsedSource to record the location of uncaptured keywords \[Alan Zimmerman\]
+>
+> The relevant commit is `7d3f2dfc7a45d741224c521e0f2a616a89f9506f`
+
+1. Introduce an annotation structure to the `ParsedSource` to record the location of un-captured keywords (Alan Zimmerman).  
+
+>
+> Ticket: [\#9628](https://gitlab.haskell.org//ghc/ghc/issues/9628). Wiki page: [GhcAstAnnotations](ghc-ast-annotations)
 
 >
 > At the moment the location of let / in / if / then / else / do
@@ -34,17 +37,13 @@ These include
 > preserving the original layout.
 
 >
-> The current proposal, which can be seen at \[1\] and a proof of
-> concept implementation at \[2\] returns a structure keyed to each AST
+> The [current proposal](ghc-ast-annotations), and a \[[ Phab:D297](https://phabricator.haskell.org/D297) proof of
+> concept implementation\] returns a structure keyed to each AST
 > element containing simply the specific SrcSpan's not already
 > captured in the AST.
 
 >
-> This is the analogue of the Language.Haskell.Exts.Annotated.Syntax
-> from haskell-src-exts, except a custom SrcSpanInfo structure is
+> This is the analogue of the `Language.Haskell.Exts.Annotated.Syntax`
+> from `haskell-src-exts`, except a custom `SrcSpanInfo` structure is
 > provided for each AST element constructor, and it is not embedded
 > within the AST.
-
-> \[1\][GhcAstAnnotations](ghc-ast-annotations)
-
-> \[2\][ https://phabricator.haskell.org/D297](https://phabricator.haskell.org/D297)
