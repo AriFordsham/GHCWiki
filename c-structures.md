@@ -53,6 +53,8 @@ Structures with one field are allowed.
 
 The extension should be enabled via `CStructures` language pragma.
 
+TODO Recursive definitions
+
 ### Examples
 
 
