@@ -1,29 +1,153 @@
 # This is a proposal / discussion page for adding annotations to the AST, for ticket [\#9628](https://gitlab.haskell.org//ghc/ghc/issues/9628)
 
 
-The current design is outlined toward the end, see [design](ghc-ast-annotations#)
-
-
 Right now the locations of syntactic markers such as `do`/`let`/`where`/`in`/`of` in the source are discarded from the AST, although they are retained in the rich token stream.
 
 
 The `haskell-src-exts` package deals with this by means of using the [ \`SrcSpanInfo\`](http://hackage.haskell.org/package/haskell-src-exts-1.15.0.1/docs/Language-Haskell-Exts-SrcLoc.html#t:SrcSpanInfo) data type which contains the SrcSpan as per the current GHC Located type but also has a list of `SrcSpan`s for the  syntactic markers, depending on the particular AST fragment being annotated.
 
 
-In addition, the annotation type is provided as a parameter to the AST, so that it can be changed as required, see [ here](http://hackage.haskell.org/package/haskell-src-exts-1.15.0.1/docs/Language-Haskell-Exts-Annotated-Syntax.html#t:Annotated).
-
-
 The motivation for this change is then
 
 1. Simplify the roundtripping and modification of source by explicitly capturing the missing location information for the syntactic markers.
 
-1. Allow the annotation to be a parameter so that it can be replaced with a different one in tools, for example HaRe would include the tokens for the AST fragment leaves.
-
-1. Aim for some level compatibility with haskell-src-exts so that tools developed for it could be easily ported to GHC, for example [ exactPrint](http://hackage.haskell.org/package/haskell-src-exts-1.15.0.1/docs/Language-Haskell-Exts-Annotated-ExactPrint.html#v:exactPrint).
-
 1. Allow simple round-tripping of code via a GHC variant of [ hindent](https://hackage.haskell.org/package/hindent)
 
-1. There is a strong motivation for the annotation to be / support Functor [ here](http://www.davidchristiansen.dk/2014/09/06/pretty-printing-idris/) for the idris IDE support
+1. Allow tools such as a future [ hlint](https://hackage.haskell.org/package/hlint) and [ HaRe](https://hackage.haskell.org/package/HaRe) to make changes to the AST and then return the source unchanged except for the intended changes.
+
+# Current design
+
+## Current POC implementation [ D297](https://phabricator.haskell.org/D297)
+
+
+Theory of operation.
+
+
+The HsSyn AST does not capture the locations of certain keywords and
+punctuation, such as 'let', 'in', 'do', etc.
+
+
+These locations are required by any tools wanting to parse a haskell
+file, transform the AST in some way, and then regenerate the original
+layout for the unchaged parts.
+
+
+Rather than pollute the AST with information irrelevant to the actual
+compilation process, these locations are captured in the lexer /
+parser and returned as a separate structure ApiAnns structure in the
+ParsedSource.
+
+
+Each AST element that needs an annotation has an entry in this Map,
+which as a key comprising the SrcSpan of the original element and the
+TyeRep of the stored annotation, if it were wrapped in a Just.
+
+
+This allows code using the annotation to access this as follows
+
+```
+processHsLet::ApiAnns->LHsExpr->CustomReturnTypeprocessHsLet anns (L l (HsExpr localBinds expr))= r
+  whereJust letPos = getAnnotation anns l AnnLetJust inPos  = getAnnotation anns l AnnIn...
+```
+
+
+Key data structures
+
+```
+typeApiAnns=Map.MapApiAnnKeySrcSpandataApiAnnKey=AKSrcSpanAnnderiving(Eq,Ord,Show)
+```
+
+
+This allows the annotation to be retrieved by
+
+```
+-- | Retrieve an annotation based on the SrcSpan of the annotated AST-- element, and the known type of the annotation.getAnnotation::ApiAnns->SrcSpan->Ann->MaybeSrcSpangetAnnotation anns span ann =Map.lookup (AK span ann) anns
+```
+
+### Annotation structures
+
+
+Each annotation is simply a `SrcSpan`.
+
+```
+-- | Note: in general the names of these are taken from the-- corresponding token, unless otherwise noteddataAnn=AnnAs|AnnAt|AnnBang|AnnBy|AnnCase|AnnClass|AnnClose-- ^ } or ] or ) or #) etc|AnnColon|AnnColon2..
+```
+
+
+Points to note:
+
+1. `AnnOpen` / `AnnClose` capture all bracketed structures.
+
+1. In the few places where the same annotation type can repeat, multiple indices are provided, hence `AnnColon` and `AnnColon2`.
+
+1. Where a value is being captured via e.g. `getINTEGER` the annotation index is called `AnnVal`.
+
+### Capturing in the parser
+
+
+The annotations are captured in the lexer / parser by extending `PState` to include a field
+
+```
+dataPState=PState{...
+        annotations ::[(ApiAnnKey,SrcSpan)]}
+```
+
+
+The lexer exposes a helper function to add an annotation
+
+```
+addAnnotation::SrcSpan->Ann->SrcSpan->P()addAnnotation l a v =P$\s ->POk s {
+  annotations =((AK l a), v): annotations s
+  }()
+```
+
+
+The parser also has some helper functions of the form
+
+```
+typeMaybeAnn=Maybe(SrcSpan->P())gl= getLoc
+gj x =Just(gl x)aa::Located a ->(Ann,Located c)->P(Located a)aa a@(L l _)(b,s)= addAnnotation l b (gl s)>> return a
+
+ams::Located a ->[MaybeAnn]->P(Located a)ams a@(L l _) bs =(mapM_ (\a -> a l)$ catMaybes bs)>> return a
+```
+
+
+This allows the annotations to be added in the parser productions as follows
+
+```
+ctypedoc::{LHsTypeRdrName}: 'forall' tv_bndrs '.' ctypedoc {% hintExplicitForall (getLoc $1)>>
+                                            ams (LL$ mkExplicitHsForAllTy $2(noLoc [])$4)[mj AnnForall$1,mj AnnDot$3]}| context '=>' ctypedoc         {% ams (LL$ mkQualifiedHsForAllTy   $1$3)[mj AnnDarrow$2]}| ipvar '::'type{% ams (LL(HsIParamTy(unLoc $1)$3))[mj AnnDcolon$2]}| typedoc                       {$1}
+```
+
+### Parse result
+
+```
+dataHsParsedModule=HsParsedModule{
+    hpm_module    ::Located(HsModuleRdrName),
+    hpm_src_files ::[FilePath],-- ^ extra source files (e.g. from #includes).  The lexer collects-- these from '# <file> <line>' pragmas, which the C preprocessor-- leaves behind.  These files and their timestamps are stored in-- the .hi file, so that we can force recompilation if any of-- them change (#3589)
+    hpm_annotations ::ApiAnns}-- | The result of successful parsing.dataParsedModule=ParsedModule{ pm_mod_summary   ::ModSummary, pm_parsed_source ::ParsedSource, pm_extra_src_files ::[FilePath], pm_annotations ::ApiAnns}
+```
+
+### Implications
+
+
+This approach has minimal implications on the rest of GHC, except that some AST elements will require to be `Located` to enable the annotation to be looked up.
+
+
+Also, initial `./validate` tests show that haddock complains of increased memory usage, due to the extra information being captured in the AST. If this becomes a major problem a flag could be introduced when invoking the parser as to whether to actually capture the annotations or not.
+
+## Notes / Shortcomings
+
+
+Currently the annotations are only guaranteed to apply to the `ParsedSource`, the renaming process flattens some of the location hooks for
+
+```
+dataHsType name
+  ...|HsRecTy[Located[ConDeclField name]]-- Only in data type declarations...-- andHsDataDefn{...
+                 dd_cons   ::[Located[LConDecl name]],-- ^ Data constructors...
+```
+
+# Early design discussion
 
 ## Richard Eisenberg response
 
@@ -195,31 +319,6 @@ you are engaging in with `mkAnnKey`.
 
 There was some further email between AZ and NDM (teaching AZ some basics) resulting in the following
 
-## Current POC implementation [ D297](https://phabricator.haskell.org/D297)
-
-
-Theory of operation.
-
-
-The HsSyn AST does not capture the locations of certain keywords and
-punctuation, such as 'let', 'in', 'do', etc.
-
-
-These locations are required by any tools wanting to parse a haskell
-file, transform the AST in some way, and then regenerate the original
-layout for the unchaged parts.
-
-
-Rather than pollute the AST with information irrelevant to the actual
-compilation process, these locations are captured in the lexer /
-parser and returned as a separate structure ApiAnns structure in the
-ParsedSource.
-
-
-Each AST element that needs an annotation has an entry in this Map,
-which as a key comprising the SrcSpan of the original element and the
-TyeRep of the stored annotation, if it were wrapped in a Just.
-
 
 This allows code using the annotation to access this as follows
 
@@ -269,59 +368,6 @@ An examples
 ```
 -- TyClDecldataAnnClassDecl=AnnClassDecl{ aclassdecl_class   ::SrcSpan, aclassdecl_mwhere  ::MaybeSrcSpan, aclassdecl_mbraces ::Maybe(SrcSpan,SrcSpan)}deriving(Eq,Data,Typeable,Show)
 ```
-
-### Capturing in the parser
-
-
-The annotations are captured in the lexer / parser by extending `PState` to include a field
-
-```
-dataPState=PState{...
-        annotations ::[(ApiAnnKey,Value)]}
-```
-
-
-The lexer exposes a helper function to add an annotation
-
-```
-addAnnotation::(Typeable a,Outputable a,Show a,Eq a)=>SrcSpan-> a ->P()addAnnotation l v =P$\s ->POk s {
-  annotations =(AK l (typeOf (Just v)), newValue v): annotations s
-  }()
-```
-
-
-The parser also has some helper functions of the form
-
-```
-gl= getLoc
-
--- aa :: (Typeable a) => Located a -> b -> P ()aa a@(L l _) b = addAnnotation l b >> return a
-
-```
-
-
-This allows the annotations to be added in the parser productions as follows
-
-```
-export_subspec::{LocatedImpExpSubSpec}:{- empty -}{L0ImpExpAbs}|'(''..'')'{% aa (LLImpExpAll)(AnnImpExpAll(gl $1)(gl $2)(gl $3))}|'('')'{% aa (LL(ImpExpList nilCL))(AnnImpExpList(gl $1)(gl $2))}|'(' qcnames ')'{% aa (LL(ImpExpList(reverseCL $2)))(AnnImpExpList(gl $1)(gl $3))}
-```
-
-### Parse result
-
-```
-dataHsParsedModule=HsParsedModule{
-    hpm_module    ::Located(HsModuleRdrName),
-    hpm_src_files ::[FilePath],-- ^ extra source files (e.g. from #includes).  The lexer collects-- these from '# <file> <line>' pragmas, which the C preprocessor-- leaves behind.  These files and their timestamps are stored in-- the .hi file, so that we can force recompilation if any of-- them change (#3589)
-    hpm_annotations ::ApiAnns}-- | The result of successful parsing.dataParsedModule=ParsedModule{ pm_mod_summary   ::ModSummary, pm_parsed_source ::ParsedSource, pm_extra_src_files ::[FilePath], pm_annotations ::ApiAnns}
-```
-
-### Implications
-
-
-This approach has minimal implications on the rest of GHC, except that some AST elements will require to be `Located` to enable the annotation to be looked up.
-
-
-Also, initial `./validate` tests show that haddock complains of increased memory usage, due to the extra information being captured in the AST. If this becomes a major problem a flag could be introduced when invoking the parser as to whether to actually capture the annotations or not.
 
 ## Open Questions (AZ)
 
@@ -379,14 +425,3 @@ typeApiAnns=Map.MapApiAnnKeySrcSpandataApiAnnKey=AKSrcSpanAnnderiving(Eq,Ord,Sho
 
 
 This is a lot simpler than before.
-
-## Notes / Shortcomings
-
-
-Currently the annotations are only guaranteed to apply to the `ParsedSource`, the renaming process flattens some of the location hooks for
-
-```
-dataHsType name
-  ...|HsRecTy[Located[ConDeclField name]]-- Only in data type declarations...-- andHsDataDefn{...
-                 dd_cons   ::[Located[LConDecl name]],-- ^ Data constructors...
-```
