@@ -147,6 +147,26 @@ dataHsType name
                  dd_cons   ::[Located[LConDecl name]],-- ^ Data constructors...
 ```
 
+# Possible Extension for Comments
+
+
+A possible extension to the above annotations would be to add comments as annotations, if enabled by the existing `Opt_KeepRawTokenStream` flag.
+
+
+This would add an additional structure to the `PState` for comments indexed by `SrcSpan`, and also a queue of pending comments.
+
+
+The basic mechanism would be to modify `lexToken` in `Lexer.x` to accumulate the comments in the queue as parsing progressed, and when the helper function `addComments` is called with a `SrcSpan` argument it moves any comments in the queue that fit within the `SrcSpan` into the comment annotation structure indexed by the given `SrcSpan`.
+
+
+These are then available for retrieval at the and, as with the existing annotations.
+
+## Notes on comments
+
+1. In practical terms, the usage of comments by tools requires them to be attached in some way to the logical units to which they apply. A case in point is comments preceding a function. In general, this is a hard problem, which is attacked via heuristics in `hindent` and `HaRe`.  This comment allocation would aim for a mechanistic allocation to the lowest enclosing `SrcSpan`, as a start.
+
+1. It is possible to put the lexer into `Opt_Haddock` mode, a flag which is currently unset when `Opt_KeepRawTokenStream` is enabled. If these were made inclusive, it would be possible to explicitly tag the comments as being of type haddock, so that at a future date the annotations could possibly be used directly by haddock, rather than the very complicated parsing rules currently in place.
+
 # Early design discussion
 
 ## Richard Eisenberg response
