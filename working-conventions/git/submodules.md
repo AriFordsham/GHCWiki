@@ -138,7 +138,10 @@ git add util/haddock
 git add testsuite/...
 
 # prepare a commit, and make sure to mention the string `submodule` in the commit message
-git commit -m 'update haddock submodule ... blablabla'# finally, push the commit to the remote `ghc.git` repo
+git commit -m 'update haddock submodule ... blablabla'# for the paranoid, inspect your commit one last time, including the submodule's commit headings
+git show --submodule
+
+# finally, push the commit to the remote `ghc.git` repo
 git push
 ```
 
