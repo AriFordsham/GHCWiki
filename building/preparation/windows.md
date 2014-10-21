@@ -25,8 +25,10 @@ If you are using a preexisting msys2 installation, consider upgrading all instal
 The msys2 package uses `pacman` (the venerable ArchLinux package manager) to manage packages. Let's install system dependencies required for building GHC:
 
 ```wiki
-pacman -Sy git tar binutils autoconf make libtool automake p7zip
+pacman -Sy git tar binutils autoconf make libtool automake p7zip mingw-w64-$(uname -m)-winpthreads
 ```
+
+<sub>(Installing winpthreads is a workaround for the in-place gcc not being smart enough to find its own pthread DLLs.)</sub>
 
 
 (Problems with PGP keys? Try `pacman-key --init && pacman-key --populate msys2`)
