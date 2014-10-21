@@ -9,7 +9,9 @@ Content previously on this page has been moved to the [wiki:Records/OverloadedRe
 
 == Code ==
 
-Development of the extension is taking place on forks of the [https://github.com/adamgundry/ghc ghc], [https://github.com/adamgundry/packages-base packages-base] and [https://github.com/adamgundry/haddock haddock] repositories (on branch `overloaded-record-fields`). A [https://github.com/adamgundry/records-prototype prototype implementation] is also available.
+The latest code is on the `wip/orf-new` branch of the `ghc` and `haddock` development repositories.  The forks of [https://github.com/adamgundry/ghc ghc], [https://github.com/adamgundry/packages-base packages-base] and [https://github.com/adamgundry/haddock haddock] have been superseded.
+
+A [https://github.com/adamgundry/records-prototype prototype implementation] of the design is also available.
 
 The design has mostly stabilised, but there is still some work to do on the implementation. We hope to have it merged before the release of 7.10.
 

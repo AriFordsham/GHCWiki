@@ -12,7 +12,10 @@ Content previously on this page has been moved to the [SORF](records/overloaded-
 ## Code
 
 
-Development of the extension is taking place on forks of the [ ghc](https://github.com/adamgundry/ghc), [ packages-base](https://github.com/adamgundry/packages-base) and [ haddock](https://github.com/adamgundry/haddock) repositories (on branch `overloaded-record-fields`). A [ prototype implementation](https://github.com/adamgundry/records-prototype) is also available.
+The latest code is on the `wip/orf-new` branch of the `ghc` and `haddock` development repositories.  The forks of [ ghc](https://github.com/adamgundry/ghc), [ packages-base](https://github.com/adamgundry/packages-base) and [ haddock](https://github.com/adamgundry/haddock) have been superseded.
+
+
+A [ prototype implementation](https://github.com/adamgundry/records-prototype) of the design is also available.
 
 
 The design has mostly stabilised, but there is still some work to do on the implementation. We hope to have it merged before the release of 7.10.
