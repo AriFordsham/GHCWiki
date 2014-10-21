@@ -288,17 +288,36 @@ Turning on the `OverloadedRecordFields` extension automatically enables:
 
 Is this what we want?
 
-## Outstanding issues
+# Current status
+
+
+We stalled previously on a refactoring to make `FieldLabel`s (stored in `TyCon`s) contain actual `CoAxiom`s, not just their `Name`s. This would allow them to be `implicitTyThings` of the `TyCon`, rather than requiring them to be brought into scope separately. (At the moment, there are new `tcg_axioms`, `mg_axioms` and `ic_axioms` fields to pass around axioms without corresponding type family instances.)
+
+
+However, at the moment construction of the axioms is intertwined with construction of the class instances, and the type of an axiom depends in fairly subtle ways on the structure of the `TyCon` (e.g. the types of all its fields). Thus attempts to build the axioms when creating the `TyCon` tend to end up in infinite loops caused by poking the wrong fields of the `TyCon` too early. (See also `"Note [Tricky iface loop]"` in LoadIface.)
+
+## Other outstanding issues
+
+
+From the latest merge with HEAD:
+
+- A few failing test cases remain.
+- The AST still contains landmines that should be defused.
+- The Haddock changes need testing.
+
+
+Old notes on possible refactoring:
 
 - The definition of `tcFldInsts` has a slightly fragile assertion that it does not obtain any evidence bindings when typechecking `Has`/`Upd` instances. Could these be returned somewhere instead? It should be possible to fuse `makeRecFldInstsFor` and `tcFldInsts`, or just generate and typecheck binds, using `tcValBinds` or similar for the typechecking.
-- It should be possible to remove the `tcg_axioms`, `mg_axioms` and `ic_axioms` fields, and instead use `tcg_tcs` when we need to get hold of the axioms in `TidyPgm`.  However, this  requires `FieldLabel`s (stored in `TyCon`s) to contain the actual `CoAxiom`s, not just their `Name`s, which in turn requires more refactoring.  Also note that universally quantified fields will not have axioms.
-- We contemplated making the `CoAxioms``implicitTyThings`, but I got stuck trying to do this because of the "Tricky iface loop" (see note in `LoadIface`).
 - Perhaps we should make record selector bindings in `TcFldInsts`, along with the new code.
 - We shouldn't need to mess with the `TypeEnv` in `tcRnHsBootDecls`. Instead:
 
   1. `tcTyClsInstDecls` should populate it with the `dfun_ids`
   1. `tcHsBootSigs` should populate it with `val_ids` and return an updated `TcGblEnv`
   1. Add a new field `tcg_boot_ids :: Bag Id` to `TcGblEnv` and pass `val_ids` to `mkBootModDetailsTc` that way, so it doesn't need to use the `TypeEnv`
+
+
+Future considerations:
+
 - Consider defaulting `Accessor p r n` to `p = (->)`, and defaulting `Has r "x"` constraints where there is only one datatype with a field `x` in scope.
-- We could add `HsVarOut RdrName id` instead of `HsSingleRecFld` (or perhaps rename `HsVar` to `HsVarIn`). This would also be useful to recall how the user referred to something.
 - Add syntax for record projection, perhaps using \# since it shouldn't conflict with `MagicHash`?
