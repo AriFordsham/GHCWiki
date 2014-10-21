@@ -34,7 +34,7 @@ If you want to run tests, you will need to install a Windows version of [https:/
 A host GHC binary is required for bootstrapping. Let's download and install a prebuilt GHC into `/usr/local`:
 
 {{{
-curl http://www.haskell.org/ghc/dist/7.8.3/ghc-7.8.3-$(uname -m)-unknown-mingw32.tar.xz | tar -xJ -C /tmp &&
+curl http://www.haskell.org/ghc/dist/7.8.3/ghc-7.8.3-$(uname -m | sed -e s/686/386/)-unknown-mingw32.tar.xz | tar -xJ -C /tmp &&
 mkdir -p /usr/local &&
 mv /tmp/ghc-7.8.3/* /usr/local &&
 rmdir /tmp/ghc-7.8.3
