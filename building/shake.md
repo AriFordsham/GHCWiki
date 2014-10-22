@@ -48,20 +48,94 @@ We want to keep all existing naming conventions. For example, `*.o` files will s
 ## Build options
 
 
-One of the major difficulties will be taking care of various build options. A possible direction to start with is pulling the configuration out of the `*.mk` files, with a *parser* for a subset of `Makefile`, resolve the variables, and then use that information to drive the `Shake` rules. Some initial inspiration can be taken from the [ Shake.Config module](https://github.com/ndmitchell/shake/blob/master/Development/Shake/Config.hs) that can parse simple configuration files and is integrated with shake rules. Also see [ Development.Make](https://github.com/ndmitchell/shake/tree/master/Development/Make) for a simple `Makefile` parser embedded in `Shake`. Some configuration values can be passed as command line parameters to `Shake`, which can be handled using `shakeArgs`.
+One of the major difficulties will be taking care of various build options. A possible direction to start with is pulling the configuration out of the `*.mk` files, with a *parser* for a subset of `Makefile`, resolve the variables, and then use that information to drive the `Shake` rules. Some initial inspiration can be taken from the [ Shake.Config module](http://hackage.haskell.org/package/shake-0.13.4/docs/Development-Shake-Config.html) that can parse simple configuration files and is integrated with shake rules. Also see [ Development.Make](https://github.com/ndmitchell/shake/tree/master/Development/Make) for a simple `Makefile` parser embedded in `Shake`. Some configuration values can be passed as command line parameters to `Shake`, which can be handled using `shakeArgs`.
 
 
-Parsing the existing `*.mk` files and extracting variables is an interesting small standalone project.
+Parsing the existing `*.mk` files and extracting variables is an interesting small standalone project (see intermediate goals).
+
+### Where options come from
+
+
+The table below explains where most build variables are defined (this is taken from `rules/distdir-way-opts.mk`). Arguments `$1-$4` stand for:
+
+- `$1` is the directory we're building in
+- `$2` is the distdir (e.g. "dist", "dist-install" etc.)
+- `$3` is the way (e.g. "v", "p", etc.)
+- `$4` is the stage ("1", "2", "3")
+
+<table><tr><th>  Variable </th>
+<th> Purpose </th>
+<th> Defined by<sup>\*</sup></th></tr>
+<tr><th>`$1_PACKAGE`</th>
+<th> Package name for this dir, if it is a package </th>
+<th>`$1/$2/ghc.mk`</th></tr>
+<tr><th>`CONF_HC_OPTS`</th>
+<th> GHC options from `./configure`</th>
+<th>`mk/config.mk.in`</th></tr>
+<tr><th>`CONF_HC_OPTS_STAGE$4`</th>
+<th> GHC options from `./configure` specific to stage `$4`</th>
+<th>`mk/config.mk.in`</th></tr>
+<tr><th>`WAY_$3_HC_OPTS`</th>
+<th> GHC options specific to way `$3`</th>
+<th>`mk/ways.mk`</th></tr>
+<tr><th>`SRC_HC_OPTS`</th>
+<th> source-tree-wide GHC options </th>
+<th>`mk/config.mk.in`, `mk/build.mk`, `mk/validate.mk`</th></tr>
+<tr><th>`SRC_HC_WARNING_OPTS`</th>
+<th> source-tree-wide GHC warning options </th>
+<th>`mk/config.mk.in`, `mk/build.mk`, `mk/validate.mk`</th></tr>
+<tr><th>`EXTRA_HC_OPTS`</th>
+<th> for supplying extra options on the command line </th>
+<th>`make EXTRA_HC_OPTS=...`</th></tr>
+<tr><th>`$1_HC_OPTS`</th>
+<th> GHC options specific to dir `$1`</th>
+<th>`$1/$2/package-data.mk`</th></tr>
+<tr><th>`$1_$2_HC_OPTS`</th>
+<th> GHC options specific to dir `$1` and distdir `$2`</th>
+<th>`$1/$2/package-data.mk`</th></tr>
+<tr><th>`$1_$2_$3_HC_OPTS`</th>
+<th> GHC options specific to dir `$1`, distdir `$2` and way `$3`</th>
+<th>`$1/$2/package-data.mk`</th></tr>
+<tr><th>`$1_$2_MORE_HC_OPTS`</th>
+<th> GHC options specific to dir `$1` and distdir `$2`</th>
+<th> ?? 
+</th></tr>
+<tr><th>`$1_$2_EXTRA_HC_OPTS`</th>
+<th> GHC options specific to dir `$1` and distdir `$2`</th>
+<th>`mk/build.mk`</th></tr>
+<tr><th>`$1_$2_HC_PKGCONF`</th>
+<th>`-package-db` flag if necessary </th>
+<th>`rules/package-config.mk`</th></tr>
+<tr><th>`$1_$2_HS_SRC_DIRS`</th>
+<th> dirs relative to `$1` containing source files </th>
+<th>`$1/$2/package-data.mk`</th></tr>
+<tr><th>`$1_$2_CPP_OPTS`</th>
+<th> CPP options </th>
+<th>`$1/$2/package-data.mk`</th></tr>
+<tr><th>`<file>_HC_OPTS`</th>
+<th> GHC options for this source file (without the extension) </th>
+<th>`$1/$2/ghc.mk`</th></tr></table>
+
+<sup>\*</sup> Note: this now appears to be outdated -- some variable definitions have been moved to other files.
+                          
 
 ## Intermediate goals
 
 
 Following the divide-and-conquer principle, we split the big goal into a number of less ambitious ones below. More intermediate goals will be added here as the project progresses.
 
+### Mining variables
+
+
+A parser for (a subset of) makefiles is being implemented in order to mine all variable definitions and associated conditions from the existing makefiles (876 makefiles found in the entire GHC tree). The definitions are to be further converted to Haskell code in a semi-automated way.
+
+
+System related `@variables@` which are expanded by `configure` are to be placed in `default.config.in` file that will be processed by `configure` to produce `default.config` file that will be read by the `Shake` build system. GHC developers can override some of the default settings using the `user.config` file, whose role will correspond to that of `build.mk` in the current build system.
+
 ### Shaking up a library
 
 
-The first intermediate goal is to choose a library and build it with `Shake`. This will be tested by running the existing build system, removing all the built stuff for this particular library, and then restoring it with `Shake`, hopefully getting the same result. It was decided to choose a library without `cbits` and `#include`'s for the first attempt; `libraries/haskell2010` seems like a good candidate.
+The first intermediate goal is to choose a library and build it with `Shake`. This will be tested by running the existing build system, removing all the built stuff for this particular library, and then restoring it with `Shake`, hopefully getting the same result. It was decided to choose a library without `cbits` and `#include`'s for the first attempt; `libraries/haskell2010` seems like a good candidate. The build code should be sufficiently generic to handle all other libraries without much rewriting.
 
 ## How to contribute
 
