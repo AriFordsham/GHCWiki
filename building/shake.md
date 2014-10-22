@@ -65,8 +65,7 @@ The table below explains where most build variables are defined (this is taken f
 
 <table><tr><th>  Variable </th>
 <th> Purpose </th>
-<th> Defined by 
-</th></tr>
+<th> Defined by<sup>\*</sup></th></tr>
 <tr><th>`$1_PACKAGE`</th>
 <th> Package name for this dir, if it is a package </th>
 <th>`$1/$2/ghc.mk`</th></tr>
@@ -116,6 +115,9 @@ The table below explains where most build variables are defined (this is taken f
 <tr><th>`<file>_HC_OPTS`</th>
 <th> GHC options for this source file (without the extension) </th>
 <th>`$1/$2/ghc.mk`</th></tr></table>
+
+<sup>\*</sup> Note: this now appears to be outdated -- some variable definitions have been moved to other files.
+                          
 
 ## Intermediate goals
 
