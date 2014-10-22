@@ -151,14 +151,17 @@ currently doesn't work but should work with injectivity) please add them here.''
 {{{#!hs
 type family F a = result | result -> a where
     F Char = Bool
-    F Bool = Int
-    F Int  = Char
+    F Bool = Char
+    F a    = a
 
 idChar :: (F a ~ Bool) => a -> Char
 idChar a = a
+
+idDouble :: (F b ~ Double) => b -> Double
+idDouble a = a
 }}}
 
-GHC should infer that `a` is in fact `Char`. Right now this program is rejected.
+GHC should infer that `a` is in fact `Char` and `b` is `Double`. Right now this program is rejected.
 
 '''Example 2''' (taken from [ticket:6018#comment:5])
 

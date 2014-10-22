@@ -148,11 +148,15 @@ currently doesn't work but should work with injectivity) please add them here.*
 **Example 1**
 
 ```
-typefamilyF a = result | result -> a whereFChar=BoolFBool=IntFInt=CharidChar::(F a ~Bool)=> a ->CharidChar a = a
+typefamilyF a = result | result -> a whereFChar=BoolFBool=CharF a    = a
+
+idChar::(F a ~Bool)=> a ->CharidChar a = a
+
+idDouble::(F b ~Double)=> b ->DoubleidDouble a = a
 ```
 
 
-GHC should infer that `a` is in fact `Char`. Right now this program is rejected.
+GHC should infer that `a` is in fact `Char` and `b` is `Double`. Right now this program is rejected.
 
 **Example 2** (taken from [6018\#comment:5](https://gitlab.haskell.org//ghc/ghc/issues/6018))
 
