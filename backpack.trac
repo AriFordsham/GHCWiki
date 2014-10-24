@@ -4,7 +4,8 @@ See also [wiki:CabalDependency]
 
 == Reading ==
 
-* [http://web.mit.edu/~ezyang/Public/backpack-impl.pdf Design document]: quite technical, but a lot of good information about how the system we are implementing differs from the Backpack paper
+* [https://git.haskell.org/ghc.git/blob/HEAD:/docs/backpack/backpack-impl.pdf Design document]: quite technical, but a lot of good information about how the system we are implementing differs from the Backpack paper
+* [https://git.haskell.org/ghc.git/blob/HEAD:/docs/backpack/backpack-manual.pdf Manual]: user facing specification of the system
 * [http://blog.ezyang.com/2014/08/whats-a-module-system-good-for-anyway/ What's a module system good for anyway?] Motivates *why* you might care about Backpack
 * [http://blog.ezyang.com/2014/08/a-taste-of-cabalized-backpack/ A taste of Cabalized Backpack]: Tutorial style introduction to the Cabal-style syntax for writing Backpack modules
 * The [wiki:Commentary/Compiler/Packages commentary pages about packages]
