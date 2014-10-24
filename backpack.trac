@@ -1,4 +1,4 @@
-[http://plv.mpi-sws.org/backpack/ Backpack] is a proposal for retrofitting Haskell with an applicative, mix-in module system. The theory of Backpack is developed in the paper and its accompanying technical appendix; we also have an [http://web.mit.edu/~ezyang/Public/backpack-impl.pdf in-depth implementation design document] (source: [[GhcFile(docs/backpack)]]). The purpose of this page is to track implementation progress. (Wondering what happened to the old text? Check the history; it will be integrated into the implementation design doc eventually).
+[http://plv.mpi-sws.org/backpack/ Backpack] is a proposal for retrofitting Haskell with an applicative, mix-in module system. The theory of Backpack is developed in the paper and its accompanying technical appendix. The purpose of this page is to track implementation progress. (Wondering what happened to the old text? Check the history; it will be integrated into the implementation design doc eventually).
 
 See also [wiki:CabalDependency]
 
