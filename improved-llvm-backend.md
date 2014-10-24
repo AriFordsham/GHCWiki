@@ -66,7 +66,7 @@ Certain things like dynamically shared objects or `-split-objs` support are tota
 The root of all these problems is *GHC has no control over the LLVM tools it may use*.
 
 
-The solution is simple: we ship and fix a version of LLVM for GHC, and release it with platforms like the binary distribution. These tools will be isolated and easily downloadable for users to test with.
+The solution is simple: we ship and fix a version of LLVM for GHC, and release it with platforms like the binary distribution. These tools will be isolated and easily downloadable for users to test with, or developers to use. And note: we *only* need `opt` and `llc`, so the distributions can be tiny.
 
 
 This has a number of advantages:
