@@ -152,6 +152,7 @@ See also [wiki:TemplateHaskell]
  * #4960: better inlining tests
 
 == Cmm and code generation ==
+ * #9718: avoiding `TidyPgm` having to predict arity and CAF-ref-ness
  * #9159: jump tables for dense cases
  * #9157: common block elimination
  * #8905: spilling around an eval

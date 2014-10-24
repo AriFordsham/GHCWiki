@@ -163,6 +163,7 @@ See also [TemplateHaskell](template-haskell)
 
 ## Cmm and code generation
 
+- [\#9718](https://gitlab.haskell.org//ghc/ghc/issues/9718): avoiding `TidyPgm` having to predict arity and CAF-ref-ness
 - [\#9159](https://gitlab.haskell.org//ghc/ghc/issues/9159): jump tables for dense cases
 - [\#9157](https://gitlab.haskell.org//ghc/ghc/issues/9157): common block elimination
 - [\#8905](https://gitlab.haskell.org//ghc/ghc/issues/8905): spilling around an eval
