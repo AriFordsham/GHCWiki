@@ -25,16 +25,10 @@ If you are using a preexisting msys2 installation, consider upgrading all instal
 The msys2 package uses `pacman` (the venerable ArchLinux package manager) to manage packages. Let's install system dependencies required for building GHC:
 
 ```wiki
-pacman -Sy git tar binutils autoconf make libtool automake p7zip mingw-w64-$(uname -m)-winpthreads
+pacman -Sy git tar binutils autoconf make libtool automake python2 p7zip mingw-w64-$(uname -m)-winpthreads
 ```
 
 <sub>(Installing winpthreads is a workaround for the in-place gcc not being smart enough to find its own pthread DLLs.)</sub>
-
-
-Why can't we use CygWin/MSYS2's packaged Python interpreter? It seems to work just fine...
-
-
-If you want to run tests, you will need to install a Windows version of [ Python 2](https://www.python.org/download/releases/2.7.8/). Python is only used by the test runner and is not necessary for building GHC.
 
 ## Host GHC setup
 
