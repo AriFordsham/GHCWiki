@@ -1,4 +1,4 @@
-== Distriubted closures ==
+== Distributed closures ==
 
 This page desribes a possible design for `distributed-closure`, a library that implements
 serialisable closures, building on top of [wiki:Typeable] and [wiki:StaticPointers].
@@ -310,6 +310,8 @@ Alternative 1:
 Alternative 2:
 - requires `dynApply`, which in turn requires `TypeRep`s to be trees, not simple fingerprints.
 - Potentially slower: dynamic type checks at every `Ap` node when doing `unDynClosure`.
+
+(facundo) It is not very clear which alternative requires the more runtime type checks. Which is the relation between the number of occurrences of `Ap` and `StaticPtr`s? I can think of expressions where there are more `Ap`s than `StaticPtr`s and vice-versa.
 
 === About performance
 
