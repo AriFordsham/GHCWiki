@@ -5,6 +5,7 @@
 - **Gintautas Miliauskas** \<gintautas.miliauskas@…\> (current coordinator)
 - **Tamar Christina** \<lonetiger@…\>
 - **Roman Kuznetsov** \<kuznero@…\>
+- **Kyrill Briantsev** \<kyrab@…\>
 - Should your name be here? Just edit the page and add yourself!
 
 ## The Tasks
