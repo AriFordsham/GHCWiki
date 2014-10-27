@@ -7,7 +7,11 @@
 * '''Tamar Christina''' <lonetiger@gmail.com>
 * '''Roman Kuznetsov''' <kuznero@gmail.com>
 * '''Kyrill Briantsev''' <kyrab@mail.ru>
-* Should your name be here? Just edit the page and add yourself!
+
+{{{#!box info
+Should your name be here? Just edit the page and add yourself 
+(and also add yourself to Phabricator's [Phab:project/view/11/ "GHC Windows Task Force"]-Team to get notified about related code-reviews!)
+}}}
 
 == The Tasks
 
