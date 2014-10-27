@@ -54,7 +54,7 @@ newtype ctx :- c = Sub (ctx => Dict c)
 
 class (Binary a, Typeable a, Typeable (Ctx a)) => Serializable a where
   type Ctx a :: Constraint
-  serializableDict :: StaticPtr (ctx :- Serializable a)
+  serializableDict :: StaticPtr (Ctx a :- Serializable a)
 }}}
 
 '''NOTE: this definition of `Serializable` is different from the current one as found in `distributed-process`, and also different from the one DistributedHaskell#Serialization.'''
