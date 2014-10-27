@@ -174,7 +174,11 @@ Ap :: Closure (b -> c) -> Closure b -> Closure c
 Notice that the type `b` is not mentioned in the return type of the
 constructor. We need to know `Typeable (b -> c)` and `Typeable b` in
 order to recursively deserialize the subclosures, but we can't infer
-either from the context `Typeable c`. 
+either from the context `Typeable c`.
+
+There are solutions to this problem.
+
+'''Alternative 1:'''
 
 The trick is to realize that in fact the type `b` does not matter: it could be arbitrary. After all, that's why it appears existentially quantified in the type of the `Ap` constructor. Type safety guarantees that the `Ap` constructor always combines two `Closure`s of compatible type. In other words, the type of the first argument of `Ap` could as well be taken to be `Closure (Any -> c)`, because any lifted type can be coerced to/from `Any`, so that any value of type `b` can reasonably also be ascribed type `Any`. Since we don't care about the type `b`, might as well take it to be `Any`. If one trusts closure serialization, and indeed closure serialization must be part of the TCB (see DistributedHaskell#Thetrustedcodebase), then when deserializing a closure, we can reconstruct an `Ap` node, taking `b ~ Any`, or equivalently, always deserializing at the following type:
 
@@ -182,26 +186,17 @@ The trick is to realize that in fact the type `b` does not matter: it could be a
 Ap :: Closure (Any -> c) -> Closure Any -> Closure c
 }}}
 
-One way to do this is to redefine `Closure`:
-
-{{{
-data Closure a where
-  ...
-  Ap :: Closure (Any -> c) -> Closure Any -> Closure c
-
-closureAp :: forall b c. Closure (b -> c) -> Closure b -> Closure c
-closureAp cf cx = Ap (unsafeCoerce cf :: Closure (Any -> c)) (unsafeCoerce cx)
-}}}
-
-The calls to `unsafeCoerce` are safe, as per the documentation on `Any` (TODO ref).
-
 '''Note:''' `Any` ''must'' have a `Typeable` instance. This is the case in GHC 7.8, but in GHC >= 7.9, `Any` is now a type family with no instance, hence cannot be given a `Typeable` instance (see tickets XXX and XXX). Deserialization can go something along the following lines (beware, highly idealized code):
 
 {{{
-decodeClosure :: Typeable a => ByteString -> (ByteString, Closure a)
+decodeClosure :: forall a. Typeable a => ByteString -> (ByteString, Closure a)
 decodeClosure (B.uncons -> '0':bs) = (StaticPtr <$> decodeStaticPtr) bs
 decodeClosure (B.uncons -> '1':bs) = Encoded bs
-decodeClosure (B.uncons -> '2':bs) = (Ap <$> decodeClosure <*> decodeClosure) bs
+decodeClosure (B.uncons -> '2':bs) = (do
+    cf <- decodeClosure :: Any -> a
+    cx <- decodeClosure :: Any
+    return $ ClosureAp cf cx
+    ) bs
 }}}
 
 Now it may often happen that `decodeStaticPtr` will be called against type `StaticPtr Any`, or `StaticPtr (Any -> c)`. `decodeStatic` internally compares `TypeRep`s before producing a result: it compares the `TypeRep` of the target type against the type found in the SPT. With the above definition of `Ap`, the `TypeRep`s in general will not match exactly: we will be comparing the `Typerep` of `Any -> c` to that of `b -> c` for some type `b`. For this to work, '''we need to carry out `TypeRep` matching modulo `Any`'''. More precisely, we require the following laws (for some `Typeable b`):
@@ -213,6 +208,32 @@ isJust (cast :: b -> Maybe Any) == True
 
 Insofar as `Any` is an internal compiler type not normally accessible to the user, the above should not compromise type safety.
 
+'''Alternative 2:'''
+
+Define
+
+{{{
+data DynClosure
+  = DynStaticPtr DynStaticPtr 
+  | DynEncoded ByteString 
+  | DynAp DynClosure DynClosure
+}}}
+
+{{{
+decodeDynStaticPtr :: ByteString -> (ByteString, DynStaticPtr)
+
+-- | Decodes an encoded @'Closure' a@ into a 'DynClosure'.
+decodeDynClosure :: ByteString -> (ByteString, DynClosure)
+decodeDynClosure (B.uncons -> '0':bs) = (DynStaticPtr <$> decodeDynStaticPtr) bs
+decodeDynClosure (B.uncons -> '1':bs) = DynEncoded bs
+decodeDynClosure (B.uncons -> '2':bs) = (DynAp <$> decodeClosure <*> decodeClosure) bs
+
+fromDynClosure :: Typeable a => DynClosure -> Closure a
+fromDynClosure = error "TODO"
+}}}
+
+'''End of alternatives.'''
+
 All that remains is to implement `unclosure`:
 
 {{{
@@ -220,10 +241,36 @@ unstatic :: StaticPtr a -> a
 
 unclosure :: Closure a -> a
 unclosure (StaticPtr sptr) = unstatic sptr
-unclosure (Encoded x) = x
 unclosure (Ap cf cx) = (unstatic cf) (unstatic cx)
 unclosure (Closure cx x) = x
 }}}
+
+Or in the case of Alternative 2 above:
+
+{{{
+unclosure :: Closure a -> a
+...
+unclosure (DynClosure dynclos) = fromJust $ unDynClosure dynclos
+
+unDynClosure :: Typeable a => DynClosure -> Maybe a
+unDynClosure dynclos = join $ fromDyn <$> go dynclos
+  where
+    go :: DynClosure -> Maybe Dynamic
+    go (DynStaticPtr (DSP sptr)) = return $ toDyn (unstatic sptr)
+    go (DynEncoded x) = return x
+    go (DynAp cf cx) = dynApply (go cf) (go cx)
+}}}
+
+'''Tradeoffs:'''
+
+Alternative 1:
+- requires a `Typeable` instance for `Any`.
+- requires type casting modulo `Any`.
+- Potentially faster: dynamic type checks done only once per `StaticPtr` in `decodeClosure`.
+
+Alternative 2:
+- requires `dynApply`, which in turn requires `TypeRep`s to be trees, not simple fingerprints.
+- Potentially slower: dynamic type checks at every `Ap` node when doing `unDynClosure`.
 
 === About performance
 
