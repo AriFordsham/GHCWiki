@@ -6,7 +6,10 @@
 - **Tamar Christina** \<lonetiger@…\>
 - **Roman Kuznetsov** \<kuznero@…\>
 - **Kyrill Briantsev** \<kyrab@…\>
-- Should your name be here? Just edit the page and add yourself!
+
+
+Should your name be here? Just edit the page and add yourself 
+(and also add yourself to Phabricator's [ GHC Windows Task Force](https://phabricator.haskell.org/project/view/11/)-Team to get notified about related code-reviews!)
 
 ## The Tasks
 
