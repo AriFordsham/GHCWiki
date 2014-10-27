@@ -52,7 +52,7 @@ defined as follows:
 data Dict c = c => Dict
 newtype ctx :- c = Sub (ctx => Dict c)
 
-class (Binary a, Typeable a, Typeable (Ctx a), Ctx a :=> Serializable a) => Serializable a where
+class (Binary a, Typeable a, Typeable (Ctx a)) => Serializable a where
   type Ctx a :: Constraint
   serializableDict :: StaticPtr (ctx :- Serializable a)
 }}}
@@ -68,13 +68,36 @@ One could make do with an empty class definition for `Serializable`, as is curre
 '''Variation:''' the above definition uses type families to to determine some context of constraints `ctx` from a type `a`, but one could equally well use functional dependencies for this:
 
 {{{
-class (Binary a, Typeable a, Typeable ctx, ctx :=> Serializable a) => Serializable ctx a | a -> ctx where
+class (Binary a, Typeable a, Typeable ctx) => Serializable ctx a | a -> ctx where
   serializableDict :: StaticPtr (ctx :- Serializable a)
 }}}
 
 Most of the time, instance definitions have an empty context, meaning that one can very often take `Ctx a == ()`.
 
 One might argue that `Serializable` is rather more complex than it could be. The central issue is that the `-XStaticPointers` extension alone does not offer any means to reify a constraint to ''static'' evidence in the form of a dictionary - a feature that is in general very useful indeed (see below). In principle this could be done, since dictionaries are morally either static, or simple combinations of static dictionaries, but it would require a further extension to the compiler, possibly to the type system itself. The above definition of `Serializable` comes at the economy of such a compiler extension.
+
+Below are some example instances:
+
+{{{
+instance Serializable Int where
+  type Ctx Int = ()
+  serializableDict = static (Sub Dict)
+
+instance Serializable (Maybe Int) where
+  type Ctx (Maybe Int) = ()
+  serializableDict = static (Sub Dict)
+
+instance Serializable b => Serializable (Either String b) where
+  type Ctx (Either String b) = Serializable b
+  serializableDict = static (Sub Dict)
+
+data Foo = Foo deriving (Generic, Typeable)
+
+instance Binary Foo
+instance Serializable Foo where
+  type Ctx Foo = ()
+  serializableDict = static (Sub Dict)
+}}}
 
 == Implementation
 
