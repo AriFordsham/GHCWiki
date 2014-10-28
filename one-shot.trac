@@ -22,7 +22,9 @@ the regular arity analysis of GHC would be able to clean up after fusing this wi
 
 Later, David Feuer creatd more good consumers that would rely on such eta-expansion to produce good code, such as `scanl`. Using `oneShot` in these would make this transformation more reliable, in particular when CallArity fails.
 
-Nofib shows (only) one case where – in the presence of Call Arity – this definition yields better results: `fft2` improves allocations by 1.5%. TODO: Why does Call Arity fail here?
+<del>Nofib shows (only) one case where – in the presence of Call Arity – this definition yields better results: `fft2` improves allocations by 1.5%.</del>
+
+After fixing the inlining of `iterateFB`, nofib does not exhibit any case where adding `oneShot` improves performance over Call Arity. But there is still a good chance that such cases occur out there.
 
 == Implementation ==
 
