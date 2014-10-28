@@ -22,7 +22,9 @@ the regular arity analysis of GHC would be able to clean up after fusing this wi
 
 Later, David Feuer creatd more good consumers that would rely on such eta-expansion to produce good code, such as `scanl`. Using `oneShot` in these would make this transformation more reliable, in particular when CallArity fails.
 
-Nofib shows (only) one case where – in the presence of Call Arity – this definition yields better results: `fft2` improves allocations by 1.5%. TODO: Why does Call Arity fail here?
+<del>Nofib shows (only) one case where – in the presence of Call Arity – this definition yields better results: `fft2` improves allocations by 1.5%.</del>
+
+After fixing the inlining of `iterateFB`, nofib does not exhibit any case where adding `oneShot` improves performance over Call Arity. But there is still a good chance that such cases occur out there.
 
 == Implementation ==
 
@@ -50,6 +52,10 @@ to
    in f () + g ()
 }}}
 but now the `OneShot` flag is not true any more. So likely it should be reset. OTOH, this might contradict the user’s intentions. Should CSE be aware of this and avoid CSE’ing these function? Or maybe leave the `OneShot` in place, even if incorrect at first glance, on the grounds that the only effect an incorrect `OneShot` annotation has will be to un-do the CSE?
+
+Observed placed where the flag may be lost:
+ * Unconditionally in `CoreTidy`, easily fixed.
+ * ''anything else?''
 
 The good things is that this can be tackled incrementally. Unless we give hard guarantees about the effect of `oneShot` (which we don’t), resetting it does not make programs go wrong, and not slower than if there is no `oneShot` annotation at all. So we improve over the previous state, and can keep improving as we make the transformation pay closer attention to this flag.
 
