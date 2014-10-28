@@ -72,6 +72,12 @@ to
 but now the `OneShot` flag is not true any more. So likely it should be reset. OTOH, this might contradict the user’s intentions. Should CSE be aware of this and avoid CSE’ing these function? Or maybe leave the `OneShot` in place, even if incorrect at first glance, on the grounds that the only effect an incorrect `OneShot` annotation has will be to un-do the CSE?
 
 
+Observed placed where the flag may be lost:
+
+- Unconditionally in `CoreTidy`, easily fixed.
+- *anything else?*
+
+
 The good things is that this can be tackled incrementally. Unless we give hard guarantees about the effect of `oneShot` (which we don’t), resetting it does not make programs go wrong, and not slower than if there is no `oneShot` annotation at all. So we improve over the previous state, and can keep improving as we make the transformation pay closer attention to this flag.
 
 ### Preservation of `setOneShotLambda` across module boundaries
