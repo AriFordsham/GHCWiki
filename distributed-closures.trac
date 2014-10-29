@@ -230,7 +230,7 @@ Ap :: Closure (Any -> c) -> Closure Any -> Closure c
 {{{
 decodeClosure :: forall a. Typeable a => ByteString -> (ByteString, Closure a)
 decodeClosure (B.uncons -> '0':bs) = (StaticPtr <$> decodeStaticPtr) bs
-decodeClosure (B.uncons -> '1':bs) = Encoded bs
+decodeClosure (B.uncons -> '1':bs) = (Encoded <$> decodeByteString) bs
 decodeClosure (B.uncons -> '2':bs) = (do
     cf <- decodeClosure :: Any -> a
     cx <- decodeClosure :: Any
@@ -249,27 +249,23 @@ Insofar as `Any` is an internal compiler type not normally accessible to the use
 
 '''Alternative 2:'''
 
-Define
-
 {{{
-data DynClosure
-  = DynStaticPtr DynStaticPtr 
-  | DynEncoded ByteString 
-  | DynAp DynClosure DynClosure
+-- Like dynApply, but for things of type Closure a.
+dynClosureApply :: Dynamic -> Dynamic -> Dynamic
+dynClosureApply x y = error "TODO"
+
+decodeClosure :: Typeable a => ByteString -> (ByteString, Closure a)
+decodeClosure = fromDyn <$> dyn
+  where
+    dyn :: ByteString -> (ByteString, Dynamic)
+    dyn ('0':bs) = (do
+        DS (sptr :: StaticPtr a) <- decodeStatic bs
+        return $ toDyn $ StaticPtr sptr) bs
+    dyn ('1':bs) = (toDyn . Encoded <$> decodeByteString) bs
+    dyn ('2':bs) = (dynClosureApply <$> dyn <*> dyn) bs
 }}}
 
-{{{
-decodeDynStaticPtr :: ByteString -> (ByteString, DynStaticPtr)
-
--- | Decodes an encoded @'Closure' a@ into a 'DynClosure'.
-decodeDynClosure :: ByteString -> (ByteString, DynClosure)
-decodeDynClosure (B.uncons -> '0':bs) = (DynStaticPtr <$> decodeDynStaticPtr) bs
-decodeDynClosure (B.uncons -> '1':bs) = DynEncoded bs
-decodeDynClosure (B.uncons -> '2':bs) = (DynAp <$> decodeClosure <*> decodeClosure) bs
-
-fromDynClosure :: Typeable a => DynClosure -> Closure a
-fromDynClosure = error "TODO"
-}}}
+Assuming this proposal for [wiki:Typeable Typeable], it should be possible to implement `dynClosureApply` in a type safe way, without using `unsafeCoerce` internally. Otherwise `dynClosureApply` will have to be part of the TCB.
 
 '''End of alternatives.'''
 
@@ -280,24 +276,9 @@ unstatic :: StaticPtr a -> a
 
 unclosure :: Closure a -> a
 unclosure (StaticPtr sptr) = unstatic sptr
+unclosure (Encoded x) = x
 unclosure (Ap cf cx) = (unstatic cf) (unstatic cx)
 unclosure (Closure cx x) = x
-}}}
-
-Or in the case of Alternative 2 above:
-
-{{{
-unclosure :: Closure a -> a
-...
-unclosure (DynClosure dynclos) = fromJust $ unDynClosure dynclos
-
-unDynClosure :: Typeable a => DynClosure -> Maybe a
-unDynClosure dynclos = join $ fromDyn <$> go dynclos
-  where
-    go :: DynClosure -> Maybe Dynamic
-    go (DynStaticPtr (DSP sptr)) = return $ toDyn (unstatic sptr)
-    go (DynEncoded x) = return x
-    go (DynAp cf cx) = dynApply (go cf) (go cx)
 }}}
 
 '''Tradeoffs:'''
@@ -308,10 +289,8 @@ Alternative 1:
 - Potentially faster: dynamic type checks done only once per `StaticPtr` in `decodeClosure`.
 
 Alternative 2:
-- requires `dynApply`, which in turn requires `TypeRep`s to be trees, not simple fingerprints.
+- in order to be implemented outside the TCB, requires the [wiki:Typeable Typeable] proposal.
 - Potentially slower: dynamic type checks at every `Ap` node when doing `unDynClosure`.
-
-(facundo) It is not very clear which alternative requires the more runtime type checks. Which is the relation between the number of occurrences of `Ap` and `StaticPtr`s? I can think of expressions where there are more `Ap`s than `StaticPtr`s and vice-versa.
 
 === About performance
 
