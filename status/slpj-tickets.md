@@ -17,6 +17,7 @@
 - [\#9388](https://gitlab.haskell.org//ghc/ghc/issues/9388): narrow the state hack
 - [\#9367](https://gitlab.haskell.org//ghc/ghc/issues/9367): type-level "error" function
 - [\#9669](https://gitlab.haskell.org//ghc/ghc/issues/9669): slow compilation with lots of `deriving` clauses
+- [\#9725](https://gitlab.haskell.org//ghc/ghc/issues/9725): kind equalities (Richard)
 
 ## Front end
 

@@ -16,6 +16,7 @@
  * #9388: narrow the state hack
  * #9367: type-level "error" function
  * #9669: slow compilation with lots of `deriving` clauses
+ * #9725: kind equalities (Richard)
 
 == Front end ==
 
