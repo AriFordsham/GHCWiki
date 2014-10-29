@@ -250,7 +250,7 @@ The trick is to realize that in fact the type `b` does not matter: it could be a
 Ap :: Closure (Any -> c) -> Closure Any -> Closure c
 ```
 
-**Note:**`Any`*must* have a `Typeable` instance. This is the case in GHC 7.8, but in GHC \>= 7.9, `Any` is now a type family with no instance, hence cannot be given a `Typeable` instance (see tickets XXX and XXX). Deserialization can go something along the following lines (beware, highly idealized code):
+**Note:**`Any`*must* have a `Typeable` instance. This is the case in GHC 7.8, but in GHC \>= 7.9, `Any` is now a type family with no instance, hence cannot be given a `Typeable` instance (see tickets [\#9429](https://gitlab.haskell.org//ghc/ghc/issues/9429)). Deserialization can go something along the following lines (beware, highly idealized code):
 
 ```wiki
 decodeClosure :: forall a. Typeable a => ByteString -> (ByteString, Closure a)
