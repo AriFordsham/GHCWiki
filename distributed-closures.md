@@ -318,11 +318,12 @@ Alternative 1:
 - requires a `Typeable` instance for `Any`.
 - requires type casting modulo `Any`.
 - Potentially faster: dynamic type checks done only once per `StaticPtr` in `decodeClosure`.
+- Makes `decodeClosure` part of the TCB.
 
 
 Alternative 2:
 
-- in order to be implemented outside the TCB, requires the [Typeable](typeable) proposal.
+- Can be be implemented outside the TCB, but requires the [Typeable](typeable) proposal to do so.
 - Potentially slower: dynamic type checks at every `Ap` node when doing `unDynClosure`.
 
 ### About performance
