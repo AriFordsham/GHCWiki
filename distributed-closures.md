@@ -164,8 +164,8 @@ closurePure x =
     serializableDict `closureAp`
     Encoded (encode x)
   where
-    decodeD :: (Ctx a :- Serializable a) -> ByteString -> a
-    decodeD Sub = decode
+    decodeD :: Dict (Serializable a) -> ByteString -> a
+    decodeD Dict = decode
 ```
 
 **Side note:**
