@@ -55,12 +55,8 @@ defined as follows:
 
 ```wiki
 data Dict c = c => Dict
-newtype ctx :- c = Sub (ctx => Dict c)
-
-class (Binary a, Typeable a, Typeable (Ctx a)) => Serializable a where
-  type Ctx a :: Constraint
-  type Ctx a = ()
-  serializableDict :: StaticPtr (Ctx a :- Serializable a)
+class (Binary a, Typeable a) => Serializable a where
+  serializableDict :: Closure (Dict (Serializable a))
 ```
 
 **NOTE: this definition of `Serializable` is different from the current one as found in `distributed-process`, and also different from the one [DistributedHaskell\#Serialization](distributed-haskell#).**
@@ -68,66 +64,47 @@ class (Binary a, Typeable a, Typeable (Ctx a)) => Serializable a where
 
 In words, a *serializable value* is a value for which we have
 a `Binary` instance and a `Typeable` instance, but moreover for which
-we can obtain a `StaticPtr` referencing a *proof that the set of constraints `Ctx a` entails `Serializable a`*. (The `Dict` datatype and `(:-)` can be obtained from the [ constraints package](http://hackage.haskell.org/package/constraints) on Hackage). In other words, a value of type `Ctx a :- Serializable a` is *explicit* evidence that GHC's instance resolution can derive `Serializable a` from `Ctx a`. The constraint `Ctx a :=> Serializable a` is what allows reifying this evidence of instance resolution.
+we can obtain a static proof of serializability, in form of a dictionary.
 
 
 One could make do with an empty class definition for `Serializable`, as is currently the case, but without this augmented definition, lifting arbitrary serializable values to `Closure`s becomes much less convenient (see `closurePure` below).
 
-**Variation:** the above definition uses type families to to determine some context of constraints `ctx` from a type `a`, but one could equally well use functional dependencies for this:
 
-```wiki
-class (Binary a, Typeable a, Typeable ctx) => Serializable ctx a | a -> ctx where
-  serializableDict :: StaticPtr (ctx :- Serializable a)
-```
-
-
-Most of the time, instance definitions have an empty context, meaning that one can very often take `Ctx a == ()` (this is a default, that must be overridden when necessary).
-
-
-One might argue that `Serializable` is rather more complex than it could be. The central issue is that the `-XStaticPointers` extension alone does not offer any means to reify a constraint to *static* evidence in the form of a dictionary - a feature that is in general very useful indeed (see below). In principle this could be done, since dictionaries are morally either static, or simple combinations of static dictionaries, but it would require a further extension to the compiler, possibly to the type system itself. The above definition of `Serializable` comes at the economy of such a compiler extension.
+One might argue that `Serializable` is a tad more complex than it could be. The central issue is that the `-XStaticPointers` extension alone does not offer any means to reify a constraint to *static* evidence in the form of a dictionary - a feature that is in general very useful indeed (see below). In principle this could be done, since dictionaries are morally either static, or simple combinations of static dictionaries, but it would require a further extension to the compiler, possibly to the type system itself. The above definition of `Serializable` comes at the economy of such a compiler extension.
 
 
 Below are some example instances:
 
 ```wiki
 instance Serializable Int where
-  serializableDict = static (Sub Dict)
+  serializableDict = closure $ static Dict
 
 instance Serializable (Maybe Int) where
-  serializableDict = static (Sub Dict)
+  serializableDict = closure $ static Dict
 
 instance Serializable b => Serializable (Either String b) where
-  type Ctx (Either String b) = Serializable b
-  serializableDict = static (Sub Dict)
+  serializableDict =
+    closure (static \Dict -> Dict) `closureApply` serializableDict
 
 data Foo = Foo deriving (Generic, Typeable)
 
 instance Binary Foo
 instance Serializable Foo where
-  serializableDict = static (Sub Dict)
+  serializableDict = static Dict
+
+-- Datatype of state transitions, where the state s need not be serializable.
+data Command s = Transition (Closure (s -> s))
+               | Stop
+
+instance Binary Command
+instance (Typeable s) => Serializable (Command s) where
+  -- NOTE: Requires the TTypeRep proposal.
+  serializableDict =
+    closure (static (`withTypeable` Dict)) `closureApply` closurePure tTypeRep
 ```
 
 
-If we define the following general instance in `distributed-closure`,
-
-```wiki
-instance (Serializable a, ctx ~ Ctx a) => ctx :=> Serializable a where
-  ins = unstatic serializableDict
-```
-
-
-we can slightly simplify all other instances, e.g.
-
-```wiki
-instance Serializable Foo where
-  serializableDict = static ins
-```
-
-
-Again, see the [ constraints package](http://hackage.haskell.org/package/constraints-0.4/docs/Data-Constraint.html) for the definition of the `(:=>)` type class.
-
-
-Notice the pay-as-you-go nature of the instances. Only instances with polymorphic heads need an explicit definition for the `Ctx` type family. Most users do not have type parameterized data types that they want to serialize. Those users never need to learn about associated type families.
+Notice the pay-as-you-go nature of the instances. Only in instances with polymorphic heads do you need to compose dictionaries by hand. Most users do not have type parameterized data types that they want to serialize. Those users never need to write more than simple one liner instances.
 
 ## Implementation
 
