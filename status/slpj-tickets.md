@@ -19,6 +19,7 @@
 - [\#9669](https://gitlab.haskell.org//ghc/ghc/issues/9669): slow compilation with lots of `deriving` clauses
 - [\#9725](https://gitlab.haskell.org//ghc/ghc/issues/9725): kind equalities (Richard)
 - [\#9717](https://gitlab.haskell.org//ghc/ghc/issues/9717), [\#9729](https://gitlab.haskell.org//ghc/ghc/issues/9729): orphan modules
+- [\#9583](https://gitlab.haskell.org//ghc/ghc/issues/9583), [\#9630](https://gitlab.haskell.org//ghc/ghc/issues/9630): code blowup in Generics/Binary
 
 ## Front end
 
