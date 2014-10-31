@@ -29,7 +29,7 @@ The structure of the Core-to-Core pipeline is determined in the `getCoreToDo` fu
 
 - **Call arity**: attempts to eta-expand local functions based on how they are used. If run, this pass is followed by a 0 phase of the simplifier. See Notes in [compiler/simplCore/CallArity.hs](/trac/ghc/browser/ghc/compiler/simplCore/CallArity.hs) and the relevant paper.
 
-- **Demand analysis, 1st pass** (a.k.a. cardinality or strictness analysis): runs the demand analyser followed by worker-wrapper transformation and 0 phase of the simplifier. This pass tries to determine if some expressions are certain to be used and whether they will be used once or many times.
+- **Demand analysis, 1st pass** (a.k.a. strictness analysis): runs the demand analyser followed by worker-wrapper transformation and 0 phase of the simplifier. This pass tries to determine if some expressions are certain to be used and whether they will be used once or many times (cardinality analysis). We currently don't have means of saying that a binding is certain to be used many times. We can only determine that it is certain to be one-shot (ie. used only once) or probable to be one shot. Demand analysis pass only annotates Core with strictness information. This information is later used by worker/wrapper pass to perform transformations.
 
 - **Full laziness, 2nd pass**: another full-laziness pass. This time partial applications and functions with free variables are floated out.
 
