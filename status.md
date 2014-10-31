@@ -32,7 +32,7 @@ We have several automated ways of monitoring GHC.  Each has its own detailed des
 
 ## Tickets and patches
 
-- [ ticket statistics](https://ghc.haskell.org/trac/ghc/ticketstats): **New** a page which graphs our 
+- [ Ticket statistics](https://ghc.haskell.org/trac/ghc/ticketstats): gives a graph of our ticket statistics over time 
 - [Summary of open tickets](/trac/ghc/wiki/Status/Tickets), listed by component.
 - [Status/SLPJ-Tickets](status/slpj-tickets) is a curation of interesting tickets by SPJ
 
