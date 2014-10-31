@@ -30,12 +30,14 @@ We have several automated ways of monitoring GHC.  Each has its own detailed des
 - [ Harbormaster](https://phabricator.haskell.org/harbormaster) is a part of Phabricator, which builds all GHC commits and incoming patches for testing. To find out more, see the [wiki:Phabricator/Harbormaster](phabricator/harbormaster) page.
 - [ Haskell.org server status page](http://status.haskell.org/)
 
-## Tickets
+## Tickets and patches
 
-- **New** A new page which graphs our [ ticket statistics](https://ghc.haskell.org/trac/ghc/ticketstats)
-- 
-  An overview of the number of [open tickets](/trac/ghc/wiki/Status/Tickets) by component.
-- A curation of interesting tickets by SPJ, not discoverable otherwise on the wiki: [Status/SLPJ-Tickets](status/slpj-tickets)
+- [ Ticket statistics](https://ghc.haskell.org/trac/ghc/ticketstats): gives a graph of our ticket statistics over time 
+- [Summary of open tickets](/trac/ghc/wiki/Status/Tickets), listed by component.
+- [Status/SLPJ-Tickets](status/slpj-tickets) is a curation of interesting tickets by SPJ
+
+- [ A list of all Phabricator patches](https://phabricator.haskell.org/differential/query/dUJ4ndtfSChZ/)
+- [ A list of all Phabricator patches that have been accepted](https://phabricator.haskell.org/differential/query/5LIb9B9n_08b/)
 
 
 GHC's Trac is also used by the [ Haskell Core Libraries Committee](http://www.haskell.org/haskellwiki/Core_Libraries_Committee) to track progress on changes to the [ core libraries](http://www.haskell.org/haskellwiki/Library_submissions#The_Core_Libraries):
