@@ -17,6 +17,7 @@
  * #9367: type-level "error" function
  * #9669: slow compilation with lots of `deriving` clauses
  * #9725: kind equalities (Richard)
+ * #9717, #9729: orphan modules
 
 == Front end ==
 
