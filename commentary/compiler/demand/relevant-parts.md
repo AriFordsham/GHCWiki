@@ -1,8 +1,8 @@
 # Relevant GHC parts for Demand Analysis results
 
-- `compiler/basicTypes/Demand.lhs` -- contains all information about demands and operations on them, as well as about serialization/deserialization of demand signatures. This module is supposed to be changes whenever the demand nature should be enhanced;
+- `compiler/basicTypes/Demand.lhs` -- contains all information about demands and operations on them, as well as about serialization/deserialization of demand signatures. This module is supposed to be changed whenever the demand nature should be enhanced;
 
-- `compiler/stranal/DmdAnal.lhs` -- the demand analysis itself. Check multiple comments for to figure out main principles of the algorithm.
+- `compiler/stranal/DmdAnal.lhs` -- the demand analysis itself. Check multiple comments to figure out main principles of the algorithm.
 
 - `compiler/stranal/WorkWrap.lhs` -- a worker-wrapper transform, main client of the demand analysis. The function split is performed in `worthSplittingFun` basing on demand annotations of a function's parameters. 
 
