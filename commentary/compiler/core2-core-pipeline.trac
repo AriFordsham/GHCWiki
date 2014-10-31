@@ -20,13 +20,13 @@ The structure of the Core-to-Core pipeline is determined in the `getCoreToDo` fu
 
   * '''Full laziness, 1st pass''': floats let-bindings outside of lambdas. This pass includes annotating bindings with level information and then running the float-out pass. In this first pass of the full laziness we don't float partial applications and bindings that contain free variables - this will be done by the second pass later in the pipeline. See "Further Reading" section below for pointers where to find the description of the full laziness algorithm.
 
-  * '''Float in, 1st pass''': the opposite of full laziness, this pass floats let-bindings as close to their use sites as possible. It will not undo the full laziness by sinking bindings inside a lambda, unless it is safe to do so. FIXME: How can we know it is safe to sink a let-binding inside a lambda if we haven't run the demand analyser yet?
+  * '''Float in, 1st pass''': the opposite of full laziness, this pass floats let-bindings as close to their use sites as possible. It will not undo the full laziness by sinking bindings inside a lambda, unless the lambda is one-shot. At this stage we have not yet run the demand analysis, so we only have demand information for things that we imported.
 
   * '''Simplifier, main run''': run the main passes of the simplifier (phases 2, 1 and 0). Phase 0 is run with at least 3 iterations.
 
   * '''Call arity''': attempts to eta-expand local functions based on how they are used. If run, this pass is followed by a 0 phase of the simplifier. See Notes in [[GhcFile(compiler/simplCore/CallArity.hs)]] and the relevant paper.
 
-  * '''Demand analysis, 1st pass''' (a.k.a. strictness analysis): runs the demand analyser followed by worker-wrapper transformation and 0 phase of the simplifier. This pass tries to determine if some expressions are certain to be used and whether they will be used once or many times (cardinality analysis). We currently don't have means of saying that a binding is certain to be used many times. We can only determine that it is certain to be one-shot (ie. used only once) or probable to be one shot. Demand analysis pass only annotates Core with strictness information. This information is later used by worker/wrapper pass to perform transformations.
+  * '''Demand analysis, 1st pass''' (a.k.a. strictness analysis): runs the demand analyser followed by worker-wrapper transformation and 0 phase of the simplifier. This pass tries to determine if some expressions are certain to be used and whether they will be used once or many times (cardinality analysis). We currently don't have means of saying that a binding is certain to be used many times. We can only determine that it is certain to be one-shot (ie. used only once) or probable to be one shot. Demand analysis pass only annotates Core with strictness information. This information is later used by worker/wrapper pass to perform transformations. CPR analysis is also done during demand analysis.
 
   * '''Full laziness, 2nd pass''': another full-laziness pass. This time partial applications and functions with free variables are floated out.
 
@@ -109,6 +109,5 @@ The so-called "gentle" run disables the case-of-case transformation and inlining
 
 == TODO
 
-  * How does CPR analysis fit into the picture?
   * Is there any paper that focuses on worker-wrapper transformation?
   * Does handling of unboxed values described in "Unboxed values as first class citizens in a non-strict functional language" fit in the scope of this page?
