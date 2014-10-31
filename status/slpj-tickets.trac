@@ -18,6 +18,7 @@
  * #9669: slow compilation with lots of `deriving` clauses
  * #9725: kind equalities (Richard)
  * #9717, #9729: orphan modules
+ * #9583, #9630: code blowup in Generics/Binary
 
 == Front end ==
 
