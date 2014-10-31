@@ -24,16 +24,18 @@ We have several automated ways of monitoring GHC.  Each has its own detailed des
  * [http://status.haskell.org/ Haskell.org server status page]
 
 
-== Tickets ==
-
+== Tickets and patches ==
 
  * [https://ghc.haskell.org/trac/ghc/ticketstats ticket statistics]: **New** a page which graphs our 
  * 
 {{{
 #!html
-<a rel="nofollow" href="/trac/ghc/wiki/Status/Tickets">Open tickets</a>, listed by component.
+<a rel="nofollow" href="/trac/ghc/wiki/Status/Tickets">Summary of open tickets</a>, listed by component.
 }}}
  * [wiki:Status/SLPJ-Tickets] is a curation of interesting tickets by SPJ
+
+ * [https://phabricator.haskell.org/differential/query/dUJ4ndtfSChZ/ A list of all Phabricator patches]
+ * [https://phabricator.haskell.org/differential/query/5LIb9B9n_08b/ A list of all Phabricator patches that have been accepted]
 
 GHC's Trac is also used by the [http://www.haskell.org/haskellwiki/Core_Libraries_Committee Haskell Core Libraries Committee] to track progress on changes to the [http://www.haskell.org/haskellwiki/Library_submissions#The_Core_Libraries core libraries]:
  * [https://ghc.haskell.org/trac/ghc/query?status=infoneeded&status=merge&status=new&status=patch&status=upstream&component=Core+Libraries&col=id&col=summary&col=component&col=status&col=type&col=priority&col=milestone&order=priority Active Core Libraries tickets] (these tickets have "Component" set to "Core Libraries")
