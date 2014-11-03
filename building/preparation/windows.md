@@ -53,9 +53,6 @@ cabal update &&
 cabal install -j --prefix=/usr/local alex happy
 ```
 
-
-(Note: the 'alex' build appears to be broken on the 32-bit platform, see [\#9712](https://gitlab.haskell.org//ghc/ghc/issues/9712).)
-
 ## A Quick Build
 
 
