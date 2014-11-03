@@ -20,7 +20,15 @@ The motivation for this change is then
 ## Current POC implementation [ D297](https://phabricator.haskell.org/D297)
 
 
-Theory of operation.
+Note: This implementation is currently being split apart, the first one covers the AST changes only [ D426](https://phabricator.haskell.org/D426)
+
+
+The second will cover the addition of annotations.
+
+
+Also, [ D412](https://phabricator.haskell.org/D412) adds the original source text to literals that are converted during parsing.
+
+### Theory of operation.
 
 
 The HsSyn AST does not capture the locations of certain keywords and
