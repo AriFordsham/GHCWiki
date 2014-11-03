@@ -29,7 +29,7 @@ pacman -Sy git tar binutils autoconf make libtool automake python2 p7zip mingw-w
 A host GHC binary is required for bootstrapping. Let's download and install a prebuilt GHC into `/usr/local`:
 
 {{{
-curl http://www.haskell.org/ghc/dist/7.8.3/ghc-7.8.3-$(uname -m | sed -e s/686/386/)-unknown-mingw32.tar.xz | tar -xJ -C /tmp &&
+curl -L http://www.haskell.org/ghc/dist/7.8.3/ghc-7.8.3-$(uname -m | sed -e s/686/386/)-unknown-mingw32.tar.xz | tar -xJ -C /tmp &&
 mkdir -p /usr/local &&
 mv /tmp/ghc-7.8.3/* /usr/local &&
 rmdir /tmp/ghc-7.8.3
@@ -40,7 +40,7 @@ rmdir /tmp/ghc-7.8.3
 Building ghc requires [http://www.haskell.org/alex/ Alex] and [http://www.haskell.org/happy/ Happy]. It is easiest to install them using cabal. We will also put them in `/usr/local` to make sure that they end up on $PATH.
 
 {{{
-curl http://www.haskell.org/cabal/release/cabal-install-1.20.0.3/cabal-1.20.0.3-i386-unknown-mingw32.tar.gz | tar -xz -C /usr/local/bin &&
+curl -L http://www.haskell.org/cabal/release/cabal-install-1.20.0.3/cabal-1.20.0.3-i386-unknown-mingw32.tar.gz | tar -xz -C /usr/local/bin &&
 cabal update &&
 cabal install -j --prefix=/usr/local alex happy
 }}}
