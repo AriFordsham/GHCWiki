@@ -14,13 +14,18 @@ The motivation for this change is then
 
 = Current design =
 
-== [=#design Current] POC implementation [https://phabricator.haskell.org/D297 D297] ==
+== [=#design Current] implementation ==
 
-Note: This implementation is currently being split apart, the first one covers the AST changes only [https://phabricator.haskell.org/D426 D426]
 
-The second will cover the addition of annotations.
+Note: This implementation has been split apart
+
+The first part covers the AST changes only [https://phabricator.haskell.org/D426 D426]
+
+The second covers the addition of annotations [https://phabricator.haskell.org/D438 D438].
 
 Also, [https://phabricator.haskell.org/D412 D412] adds the original source text to literals that are converted during parsing.
+
+The original proof of concept was [https://phabricator.haskell.org/D297 D297]
 
 
 === Theory of operation. ===
