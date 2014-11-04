@@ -6,7 +6,12 @@ Travis-CI is a free-for-open-source continuous integration service.
 ## What does it do?
 
 
-It watches the [repository](repositories) for new commits (any branch) and validates them. The results are presented at [ https://travis-ci.org/ghc/ghc/builds](https://travis-ci.org/ghc/ghc/builds), where you can see the statuses of recent builds and look at the logs. 
+It watches the [repository](repositories) for new commits (any branch) and validates them. The results are presented on
+
+- [ the Travis results page](https://travis-ci.org/ghc/ghc/builds)
+
+
+where you can see the statuses of recent builds and look at the logs. 
 
 ## What is validated?
 
