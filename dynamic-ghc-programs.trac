@@ -19,7 +19,7 @@ We have therefore added a `-dynamic-too` flag. This allows a single invocation o
 
 === Unix-like platforms ===
 
-Both `DYNAMIC_GHC_PROGRAMS` and `DYNAMIC_TOO` work on unix-like platforms. They are enabled by default provided the platform supports dynamic libraries (except on FreeBSD, where it is disabled for now, while we wait for a patch to rtld(1) to filter through to the FreeBSD release; #7819).
+Both `DYNAMIC_GHC_PROGRAMS` and `DYNAMIC_TOO` work on unix-like platforms. They are enabled by default provided the platform supports dynamic libraries.
 
 === Windows ===
 
