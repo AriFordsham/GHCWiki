@@ -17,16 +17,22 @@ The motivation for this change is then
 
 # Current design
 
-## Current POC implementation [ D297](https://phabricator.haskell.org/D297)
+## Current implementation
 
 
-Note: This implementation is currently being split apart, the first one covers the AST changes only [ D426](https://phabricator.haskell.org/D426)
+Note: This implementation has been split apart
 
 
-The second will cover the addition of annotations.
+The first part covers the AST changes only [ D426](https://phabricator.haskell.org/D426)
+
+
+The second covers the addition of annotations [ D438](https://phabricator.haskell.org/D438).
 
 
 Also, [ D412](https://phabricator.haskell.org/D412) adds the original source text to literals that are converted during parsing.
+
+
+The original proof of concept was [ D297](https://phabricator.haskell.org/D297)
 
 ### Theory of operation.
 
