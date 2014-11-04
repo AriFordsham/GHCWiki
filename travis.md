@@ -11,7 +11,14 @@ It watches the [repository](repositories) for new commits (any branch) and valid
 - [ the Travis results page](https://travis-ci.org/ghc/ghc/builds)
 
 
-where you can see the statuses of recent builds and look at the logs. 
+where you can select one of the recent build results.
+
+
+To view a build log, you would
+
+- click on the build number in the first column (e.g. 617)
+- then scroll down and select one of the two jobs (one is built with debugging, one without). Click on the number (e.g. 617.1)
+- the next page contains the build log, but presented using JavaScript, which may or may not be too much for your browser, and may be truncated. Therefore, while the page is loading, quickly click the “Download Log” button in the top right corner (a square with horizontal lines, [](https://travis-ci.org/images/icons/logs.svg)). This will open the log as a plain text file.
 
 ## What is validated?
 
@@ -60,9 +67,3 @@ If we can improve this, we could make Travis send mails directly to the commiter
 
 
 Again, this is configured in [ghc/.travis.yml](/trac/ghc/browser/ghc/.travis.yml)[](/trac/ghc/export/HEAD/ghc/.travis.yml). This also means that if you have a long-living feature branch you can put your own address in the file.
-
-## Viewing the build log
-
-
-GHC build logs are huge, and the JavaScript-based viewer that Travis uses by default will easily choke your browser when trying to display them. The trick is to quickly click the “Download Log” button in the top right corner (a square with horizontal lines, [](https://travis-ci.org/images/icons/logs.svg)). This will open the log as a plain text file
- 
