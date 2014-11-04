@@ -14,9 +14,9 @@ This is a list of tickets that [http://dreixel.net Pedro] wants to keep an eye o
 * #9575 (-XAutoDeriveTypeable fails to generate instances)
 * #9583 (Simplifier ticks exhausted while compiling Cabal HEAD)
 * #9630 (compile-time performance regression (probably due to Generics))
-* #9639 (Remove OldTypeable)
 * #9642 (LANGUAGE pragma synonyms)
 * #9750 (Core lint failure with TypeLits Symbol)
+* #9766 (Use TypeLits in the meta-data encoding of GHC.Generics)
 
 Closed:
 
@@ -25,6 +25,7 @@ Closed:
 * #8566 (Given kind equalities are discarded)
 * #8797 (Generics instances for monoid and applicative newtypes)
 * #9576 (-fdefer-type-errors doesn't defer errors from `deriving`)
+* #9639 (Remove OldTypeable)
 * #9650 (Unsatisfiable default signature)
 
 Wiki pages:

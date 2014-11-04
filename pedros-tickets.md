@@ -15,9 +15,9 @@ This is a list of tickets that [ Pedro](http://dreixel.net) wants to keep an eye
 - [\#9575](https://gitlab.haskell.org//ghc/ghc/issues/9575) (-XAutoDeriveTypeable fails to generate instances)
 - [\#9583](https://gitlab.haskell.org//ghc/ghc/issues/9583) (Simplifier ticks exhausted while compiling Cabal HEAD)
 - [\#9630](https://gitlab.haskell.org//ghc/ghc/issues/9630) (compile-time performance regression (probably due to Generics))
-- [\#9639](https://gitlab.haskell.org//ghc/ghc/issues/9639) (Remove OldTypeable)
 - [\#9642](https://gitlab.haskell.org//ghc/ghc/issues/9642) (LANGUAGE pragma synonyms)
 - [\#9750](https://gitlab.haskell.org//ghc/ghc/issues/9750) (Core lint failure with TypeLits Symbol)
+- [\#9766](https://gitlab.haskell.org//ghc/ghc/issues/9766) (Use TypeLits in the meta-data encoding of GHC.Generics)
 
 
 Closed:
@@ -27,6 +27,7 @@ Closed:
 - [\#8566](https://gitlab.haskell.org//ghc/ghc/issues/8566) (Given kind equalities are discarded)
 - [\#8797](https://gitlab.haskell.org//ghc/ghc/issues/8797) (Generics instances for monoid and applicative newtypes)
 - [\#9576](https://gitlab.haskell.org//ghc/ghc/issues/9576) (-fdefer-type-errors doesn't defer errors from `deriving`)
+- [\#9639](https://gitlab.haskell.org//ghc/ghc/issues/9639) (Remove OldTypeable)
 - [\#9650](https://gitlab.haskell.org//ghc/ghc/issues/9650) (Unsatisfiable default signature)
 
 
