@@ -8,6 +8,12 @@ can extend it, modify it, and use it to build your code.
 
 == Contents ==
 
+'''Getting started for developers'''
+
+ * [wiki:Building/Hacking Getting started with the build system]
+ * [wiki:Building/Rebuilding How do I re-build after updating or changing GHC?]
+ * [wiki:WorkingConventions Working Conventions (Git workflows, bug tracker, coding style etc.) ]
+
 '''Building GHC'''
 
  * [wiki:Building/Preparation Setting up your system for building GHC]
@@ -15,12 +21,6 @@ can extend it, modify it, and use it to build your code.
  * [wiki:Building/QuickStart Just building and installing GHC]
  * [wiki:Platforms Platforms that GHC currently supports]
  * [wiki:Builder The GHC Builder, which coordinates distributed nightly builds]
-
-'''Getting started for developers'''
-
- * [wiki:Building/Hacking Getting started with the build system]
- * [wiki:Building/Rebuilding How do I re-build after updating or changing GHC?]
- * [wiki:WorkingConventions Working Conventions (Git workflows, bug tracker, coding style etc.) ]
 
 '''More detailed information about using the build system'''
 
