@@ -1,5 +1,7 @@
 = Windows Support for GHC =
 
+GHC on Windows is supported by the [wiki:WindowsTaskForce Windows Task Force].
+
 == Versions supported ==
 
 We no longer support Windows 95, 98, ME or NT. We do support 2000, XP and Vista.
