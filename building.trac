@@ -44,14 +44,17 @@ can extend it, modify it, and use it to build your code.
  * [wiki:Building/RunningNoFib The NoFib benchmark suite]
  * [wiki:HackageTesting Testing GHC against all of Hackage]
  * [wiki:Debugging Debugging and performance-tuning for GHC]
- * [wiki:Debugging/InstallingPackagesInplace Installing extra packages for your in-place GHC]
+
+'''Information about libraries (= packages)'''
+
+ * [wiki:Debugging/InstallingPackagesInplace Installing extra libraries for your in-place GHC]
+ * [wiki:Commentary/Libraries The libraries on which GHC depends]
 
 '''More detailed information about how the build system works'''
 
  * [wiki:Commentary/SourceTree Overview of files and directories]
  * [wiki:Building/Architecture Architecture of the build system]
  * [wiki:Building/Modifying Modifying the build system]
- * [wiki:Commentary/Libraries The libraries on which GHC depends]
 
 '''Porting GHC and building cross compilers'''
 

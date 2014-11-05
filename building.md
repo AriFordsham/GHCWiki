@@ -45,14 +45,17 @@ can extend it, modify it, and use it to build your code.
 - [The NoFib benchmark suite](building/running-no-fib)
 - [Testing GHC against all of Hackage](hackage-testing)
 - [Debugging and performance-tuning for GHC](debugging)
-- [Installing extra packages for your in-place GHC](debugging/installing-packages-inplace)
+
+**Information about libraries (= packages)**
+
+- [Installing extra libraries for your in-place GHC](debugging/installing-packages-inplace)
+- [The libraries on which GHC depends](commentary/libraries)
 
 **More detailed information about how the build system works**
 
 - [Overview of files and directories](commentary/source-tree)
 - [Architecture of the build system](building/architecture)
 - [Modifying the build system](building/modifying)
-- [The libraries on which GHC depends](commentary/libraries)
 
 **Porting GHC and building cross compilers**
 
