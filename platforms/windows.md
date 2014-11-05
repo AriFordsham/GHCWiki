@@ -1,5 +1,8 @@
 # Windows Support for GHC
 
+
+GHC on Windows is supported by the [Windows Task Force](windows-task-force).
+
 ## Versions supported
 
 
