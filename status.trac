@@ -6,7 +6,9 @@ This page summarises the state of play on GHC
 
 Here are our [WorkingConventions/Releases release] plans for
   * [wiki:Status/GHC-7.10.1 GHC 7.10.1]
-  * [wiki:Status/GHC-7.8.4 GHC 7.8.4].  Whether or not we make this patch-level release at all, and when, depends on our users.
+  * [wiki:Status/GHC-7.8.4 GHC 7.8.4].
+
+We release GHC on multiple platforms; the [wiki:Platforms platforms page] gives details.
 
 For fun: the release plans for previous releases:
   * [wiki:Status/GHC-7.8.3 GHC 7.8.3]
