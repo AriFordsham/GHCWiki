@@ -9,6 +9,12 @@ can extend it, modify it, and use it to build your code.
 
 ## Contents
 
+**Getting started for developers**
+
+- [Getting started with the build system](building/hacking)
+- [How do I re-build after updating or changing GHC?](building/rebuilding)
+- [Working Conventions (Git workflows, bug tracker, coding style etc.) ](working-conventions)
+
 **Building GHC**
 
 - [Setting up your system for building GHC](building/preparation)
@@ -16,12 +22,6 @@ can extend it, modify it, and use it to build your code.
 - [Just building and installing GHC](building/quick-start)
 - [Platforms that GHC currently supports](platforms)
 - [The GHC Builder, which coordinates distributed nightly builds](builder)
-
-**Getting started for developers**
-
-- [Getting started with the build system](building/hacking)
-- [How do I re-build after updating or changing GHC?](building/rebuilding)
-- [Working Conventions (Git workflows, bug tracker, coding style etc.) ](working-conventions)
 
 **More detailed information about using the build system**
 
@@ -45,14 +45,17 @@ can extend it, modify it, and use it to build your code.
 - [The NoFib benchmark suite](building/running-no-fib)
 - [Testing GHC against all of Hackage](hackage-testing)
 - [Debugging and performance-tuning for GHC](debugging)
-- [Installing extra packages for your in-place GHC](debugging/installing-packages-inplace)
+
+**Information about libraries (= packages)**
+
+- [Installing extra libraries for your in-place GHC](debugging/installing-packages-inplace)
+- [The libraries on which GHC depends](commentary/libraries)
 
 **More detailed information about how the build system works**
 
 - [Overview of files and directories](commentary/source-tree)
 - [Architecture of the build system](building/architecture)
 - [Modifying the build system](building/modifying)
-- [The libraries on which GHC depends](commentary/libraries)
 
 **Porting GHC and building cross compilers**
 
