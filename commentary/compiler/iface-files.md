@@ -30,3 +30,31 @@ The contents of an interface file is the result of serialising the **`IfaceSyn`*
 
 
 Details of some of the types involved in GHC's representation of Modules and Interface files can be found [here](commentary/compiler/module-types).
+
+## When is an interface file loaded?
+
+
+The act of loading an interface file can cause various parts of the compiler to behave differently; for instance, a type class instance will only be used if the interface file which defines it was loaded.  Additionally, GHC tries to avoid loading interface files if it can avoid it, since every loaded interface file requires going to the file system and parsing the result.
+
+
+The big situations when we load an interface file:
+
+- When you import it (either explicitly using an `import`, or implicitly, e.g. through `-fimplicit-import-qualified` in GHCi; `loadSrcInterface`)
+- When we need to get the type for an identifier (`loadInterface` in `importDecl`)
+- When it is listed as an orphan of an imported module (`loadModuleInterfaces "Loading orphan modules"`)
+
+
+We also load interface files in some more obscure situations:
+
+- When it is used as the backing implementation of a signature (`loadSysInterface` in `tcRnSignature`)
+- When we look up its family instances (`loadSysInterface` in `getFamInsts`)
+- When its information or safety (`getModuleInterface` in `hscGetSafe`)
+- When we an identifier is explicitly used (including a use from Template Haskell), we load the interface to check if the identifier is deprecated (`loadInterfaceForName` in `warnIfDeprecated`/`loadInterfaceforName` in `rn_bracket`)
+- Recompilation checking (`needInterface` in `checkModUsage`)
+- When we need the fixity for an identifier (`loadInterfaceForName` in `lookupFixityRn`)
+- When we reify a module for Template Haskell (`loadInterfaceForModule` in `reifyModule`)
+- When we use a wired-in type constructor, since otherwise the interface file would not be loaded because the compiler already has the type for the identifier. (`Loading instances for wired-in things`)
+- When `-XParallelArrays` or `-fvectorise` are specified for DPH (`loadModule` in `initDs`)
+- When we load a plugin (`DynamicLoading`)
+- To check consistency against the `hi-boot` of a module
+- To check the old interface file for recompilation avoidance
