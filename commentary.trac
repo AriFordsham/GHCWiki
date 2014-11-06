@@ -79,6 +79,8 @@ The above commentary covers the source code of GHC. For material that doesn't co
    * [wiki:DeferErrorsToRuntime Deferring compilation type errors to runtime (`-fdefer-type-errors`)]
    * [wiki:Commentary/Compiler/Demand Demand analyser] Notes on the meanings, worker-wrapper splitting of demand signatures and relevant components of the compiler
    * [wiki:NewAxioms Closed type families]
+   * [wiki:OneShot] The magic `oneShot` function.
+
 
  * Notes on proposed or in progress (but out of tree) GHC compiler features:
    * [wiki:StrictLanguage Making Haskell strict]
@@ -114,7 +116,6 @@ The above commentary covers the source code of GHC. For material that doesn't co
    * [wiki:LambdasVsPatternMatching Lambda-Case]: Syntax for full (with branching) pattern matching on arguments of lambda abstractions
    * [wiki:Roles Roles]: Fixing the `-XGeneralizedNewtypeDeriving` bug.
    * [wiki:Typeable]: Making Typeable more expressive
-   * [wiki:OneShot] An explicit magic `oneShot` function.
 
  * Library issues
     * [wiki:SplitBase Splitting up the base package]

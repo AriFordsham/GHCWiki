@@ -92,6 +92,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
   - [Deferring compilation type errors to runtime (\`-fdefer-type-errors\`)](defer-errors-to-runtime)
   - [Demand analyser](commentary/compiler/demand) Notes on the meanings, worker-wrapper splitting of demand signatures and relevant components of the compiler
   - [Closed type families](new-axioms)
+  - [OneShot](one-shot) The magic `oneShot` function.
 
 - Notes on proposed or in progress (but out of tree) GHC compiler features:
 
@@ -128,7 +129,6 @@ The above commentary covers the source code of GHC. For material that doesn't co
   - [Lambda-Case](lambdas-vs-pattern-matching): Syntax for full (with branching) pattern matching on arguments of lambda abstractions
   - [Roles](roles): Fixing the `-XGeneralizedNewtypeDeriving` bug.
   - [Typeable](typeable): Making Typeable more expressive
-  - [OneShot](one-shot) An explicit magic `oneShot` function.
 
 - Library issues
 
