@@ -55,6 +55,7 @@ Below is a list of bugs that appear to be "low-hanging fruit" -- things that mig
 - [\#8308](https://gitlab.haskell.org//ghc/ghc/issues/8308) - Resurrect ticky code for counting constructor arity
 - [\#9259](https://gitlab.haskell.org//ghc/ghc/issues/9259) - GHCi should list its available command line options
 - [\#9776](https://gitlab.haskell.org//ghc/ghc/issues/9776) - -frule-check flag not recognized without parameter
+- [\#9777](https://gitlab.haskell.org//ghc/ghc/issues/9777) - -msse flag could be handled better by the driver
 
 
 Once you fix the bug, make sure to write a test-case proving that you've done what you said. Then, use git to prepare patches and post these to the bug report. If the patch looks good, one of the committers will put it into the GHC codebase. Then, tackle another bug!
