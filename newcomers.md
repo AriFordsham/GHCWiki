@@ -53,9 +53,8 @@ Below is a list of bugs that appear to be "low-hanging fruit" -- things that mig
 - [\#7401](https://gitlab.haskell.org//ghc/ghc/issues/7401) - Can't derive instance for Eq when datatype has no constructor, while it is trivial do do so.
 - [\#8100](https://gitlab.haskell.org//ghc/ghc/issues/8100) - Standalone deriving using template haskell
 - [\#8308](https://gitlab.haskell.org//ghc/ghc/issues/8308) - Resurrect ticky code for counting constructor arity
-- [\#9230](https://gitlab.haskell.org//ghc/ghc/issues/9230) - Make -fwarn-tabs the default
 - [\#9259](https://gitlab.haskell.org//ghc/ghc/issues/9259) - GHCi should list its available command line options
-- [\#9681](https://gitlab.haskell.org//ghc/ghc/issues/9681) - Printing of "\\n" in error messages is broken
+- [\#9776](https://gitlab.haskell.org//ghc/ghc/issues/9776) - -frule-check flag not recognized without parameter
 
 
 Once you fix the bug, make sure to write a test-case proving that you've done what you said. Then, use git to prepare patches and post these to the bug report. If the patch looks good, one of the committers will put it into the GHC codebase. Then, tackle another bug!
