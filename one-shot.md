@@ -3,14 +3,14 @@
 ## Synopsis
 
 
-This proposal proposes to add a function
+This documents the magic function
 
 ```wiki
 GHC.Exts.oneShot :: (a -> b) -> (a -> b)
 ```
 
 
-to the library. Semantically, it is the identity, but in addition it tell the compiler to assume that `oneShot f` is called at most once, which allows it to optimize the code more aggressively.
+Semantically, it is the identity, but in addition it tell the compiler to assume that `oneShot f` is called at most once, which allows it to optimize the code more aggressively.
 
 ## Motivation
 
@@ -31,18 +31,18 @@ the regular arity analysis of GHC would be able to clean up after fusing this wi
 Later, David Feuer creatd more good consumers that would rely on such eta-expansion to produce good code, such as `scanl`. Using `oneShot` in these would make this transformation more reliable, in particular when [CallArity](call-arity) fails.
 
 
-\<del\>Nofib shows (only) one case where – in the presence of Call Arity – this definition yields better results: `fft2` improves allocations by 1.5%.\</del\>
-
-
-After fixing the inlining of `iterateFB`, nofib does not exhibit any case where adding `oneShot` improves performance over Call Arity. But there is still a good chance that such cases occur out there.
+Nofib itself does not exhibit any case where adding `oneShot` improves performance over Call Arity. But there is still a good chance that such cases occur out there.
 
 ## Implementation
 
 
-GHC already supports one-shot lambdas, see `setOneShotLambda` in `Id.lhs`. We propose to implement `oneShot` as a built in function, similar to `lazy` etc. The branch `wip/oneShot` contains a first prototype: source:ghc/compiler/basicTypes/MkId.lhs?rev=wip/oneShot\#L1124
+GHC already supports one-shot lambdas, see `setOneShotLambda` in `Id.lhs`. We implemented `oneShot` as a built in function, similar to `lazy` etc. The crucial bit is to apply `setOneShotLambda` on the lambda’s binder in the unfolding, and to inline `oneShot` aggressively. This is [\[c271e32eac65ee95ba1aacc72ed1b24b58ef17ad\]](/trac/ghc/changeset/c271e32eac65ee95ba1aacc72ed1b24b58ef17ad/ghc)
 
 
-The crucial bit is to apply `setOneShotLambda` on the lambda’s binder in the unfolding, and to inline `oneShot` aggressively.
+Also, we need the `oneShot` information needs to prevail in unfoldings and across interfaces. For that, `IfaceExpr` was extended with a boolean flag on lambda binders in [\[c001bde73e38904ed161b0b61b240f99a3b6f48d\]](/trac/ghc/changeset/c001bde73e38904ed161b0b61b240f99a3b6f48d/ghc).
+
+
+Finally, `oneShot` is actually used in the libraries. This is [\[072259c78f77d6fe7c36755ebe0123e813c34457\]](/trac/ghc/changeset/072259c78f77d6fe7c36755ebe0123e813c34457/ghc).
 
 ## Challenges
 
@@ -75,42 +75,7 @@ to
 but now the `OneShot` flag is not true any more. So likely it should be reset. OTOH, this might contradict the user’s intentions. Should CSE be aware of this and avoid CSE’ing these function? Or maybe leave the `OneShot` in place, even if incorrect at first glance, on the grounds that the only effect an incorrect `OneShot` annotation has will be to un-do the CSE?
 
 
-Observed placed where the flag may be lost:
-
-- Unconditionally in `CoreTidy`, easily fixed.
-- *anything else?*
-
-
-The good things is that this can be tackled incrementally. Unless we give hard guarantees about the effect of `oneShot` (which we don’t), resetting it does not make programs go wrong, and not slower than if there is no `oneShot` annotation at all. So we improve over the previous state, and can keep improving as we make the transformation pay closer attention to this flag.
-
-### Preservation of `setOneShotLambda` across module boundaries
-
-
-For the motivational cause to work the `oneShot` information needs to prevail in unfoldings and across interfaces.
-
-
-The cleanest solution is to serialize the `OneShot` bit in interface files. To that end, the constructor
-
-```wiki
-IfaceLam :: IfaceBndr -> IfaceExpr -> IfaceExpr
-```
-
-
-needs to be changed to 
-
-```wiki
-IfaceLam :: IfaceOneShot -> IfaceBndr -> IfaceExpr -> IfaceExpr
-```
-
-
-with
-
-```wiki
-data IfaceOneShot = IfaceNoOneShot | IfaceOneShot 
-```
-
-
-The current `wip/oneShot` branch uses a different solution (avoiding inlining `oneShot` in unfoldings and rules), but this is not nice and fragile.
+So far, this is a hypothetical challenge: It seems that the `oneShotInfo` is preserved rather well. We’ll see if something else comes up.
 
 ## Wild, unverified ideas
 
