@@ -39,7 +39,7 @@ GHC relies on many GNU-isms that are not supported by the native Solaris build t
 > <th> needed to run the testsuite with multiple threads 
 > </th></tr>
 > <tr><th> GCC 4.1.2       </th>
-> <th> this exact version is strongly recommended 
+> <th> this exact version is strongly recommended (3.4.3 is known to not work, see [\#8829](https://gitlab.haskell.org//ghc/ghc/issues/8829)) 
 > </th></tr></table>
 
 
