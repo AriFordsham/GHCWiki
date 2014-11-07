@@ -18,7 +18,7 @@ GHC relies on many GNU-isms that are not supported by the native Solaris build t
  || GNU readline 5 || ||
  || GNU ncurses 5.5 || ||
  || Python 2.6.4 || needed to run the testsuite with multiple threads ||
- || GCC 4.1.2       || this exact version is strongly recommended ||
+ || GCC 4.1.2       || this exact version is strongly recommended (3.4.3 is known to not work, see #8829) ||
 
 Some of these can be obtained as binary versions from the  [http://www.blastwave.org/ blastwave.org] collection, others need to be downloaded as source from [http://www.gnu.org gnu.org].
 
