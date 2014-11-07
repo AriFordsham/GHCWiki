@@ -1,4 +1,8 @@
-# Setting up a MacOS X system for building GHC
+# Setting up a MacOS X system for building  GHC (HEAD)
+
+
+If your host OS X environment indicates that GCC is a wrapper for clang, (easily detected by looking at output of `/usr/bin/gcc --version` in the terminal),
+then please make sure you have an up to date release of GHC, Currently 7.8.3.
 
 
 You will need to install several tools, using one of  [ Homebrew](http://mxcl.github.com/homebrew/)  MacPorts or Fink.
@@ -20,30 +24,6 @@ Firstly, you need to install the Xcode Command Line tools from Apple. You can do
   - At the [ downloads page of Apple Developer](http://developer.apple.com/downloads), download the latest "Command line tools".
   - Install them.
 
-
-Note well: XCode 5 doesn't come with a real GCC, and currently GHC builds most easily if you use GCC rather than clang. Note also that Xcode 5 installs a "gcc" thats actually an alias for Clang.   You will need to install a real GCC, and make sure the gcc in your path points to a real gcc, or alternatively points to one of the "clang-wrapper" scripts that are available. Again, using a real GCC will be much simpler.
-
-
-In both cases, you need to [ register](https://developer.apple.com/programs/register/) as an Apple developer first (free).
-
-### OS X 10.9 Mavericks, 10.10 Yosemite: Clang
-
-
-Start by installing the latest Xcode or command line tools as per above. Then install a clang wrapper and update your GHC settings file ([ http://justtesting.org/post/64947952690/the-glasgow-haskell-compiler-ghc-on-os-x-10-9](http://justtesting.org/post/64947952690/the-glasgow-haskell-compiler-ghc-on-os-x-10-9) for instructions)
-
-
-If you are not bootstrapping from the haskell platform, but building using a binary distribution of ghc, or using [ ghcformacosx](http://github.com/ghcformacosx/ghc-dot-app) -- see the GHC section below -- then the wrapper is not needed.  Nevertheless, the configure script may still conclude that you are using gcc.  While this will still allow you to build ghc, you can specify that you are using clang explicitly by running the `configure` step thus:
-
-```wiki
-ghc> CC=/usr/bin/clang ./configure --with-gcc=/usr/bin/clang
-```
-
-
-which will add some extra clang-specific flags to the compilation.
-
-
-NB: You will still need to install llvm (eg, using `homebrew install llvm` to use the llvm back end.
-
 ### Previous versions of OS X and Xcode
 
 
@@ -58,11 +38,12 @@ Successful builds of older GHC sources have been reported using Xcode 3.0, 2.4 a
 Secondly, you need a installation of GHC for use as your bootstrap compiler.
 
 
-You can install a binary distribution of GHC in three ways:
+You can install a binary distribution of GHC in four ways:
 
-1. Install the [ Haskell Platform](http://www.haskell.org/platform/).
-1. Install a [binary distribution from GHC](http://www.haskell.org/ghc/download). This can be installed as a relocatable .app using [ ghcformacosx](http://github.com/ghcformacosx/ghc-dot-app)
+1. Install a [binary distribution from GHC](http://www.haskell.org/ghc/download). 
+1. Get the relocatable .app bundle using [ ghcformacosx](http://github.com/ghcformacosx/ghc-dot-app)
 1. Use one of Fink, MacPorts or Homebrew.  Be warned: if you're using Homebrew, you'll also need to install cabal-install and properly configure it, and then install other necessary packages.
+1. Install the [ Haskell Platform](http://www.haskell.org/platform/).  If your OS X version predates 10.8, This build (currently of GHC 7.8.3) is known to support as far back as OS X 10.6
 
 **NB:** You need to use a binary distribution of GHC 7.4.1 (or later) as your bootstrap compiler.
 
@@ -76,10 +57,10 @@ Thirdly, if you want to build the development version of GHC from the Git reposi
 
 Fourthly, if you like to use GHC's LLVM backend:
 
-- (Homebrew): `brew install llvm`
+- (Homebrew): `brew tap homebrew/dupes ; brew llvm34`
 
 
-GHC does not support LLVM 3.5 right now, which is the default version of llvm installed by Homebrew.  Furthermore, Homebrew's llvm is keg-only, and warns against overriding OS X's default install of LLVM.
+GHC 7.8 and older does not support LLVM 3.5 right now, which is the default version of llvm installed by Homebrew. Thus you have to install LLVM 3.4 for those GHC versions
 
 
 Finally, if you want to build the documentation you need to install DocBook. You can install it like so:
