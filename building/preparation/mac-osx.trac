@@ -1,6 +1,6 @@
 = Setting up a MacOS X system for building  GHC (HEAD) =
 
-If your host OS X environment indicates that GCC is a wrapper for clang, (easily detected by looking at output of `/usr/bin/gcc --version` in the terminal),
+'''If''' your host OS X environment indicates that GCC is a wrapper for clang, (easily detected by looking at output of `/usr/bin/gcc --version` in the terminal),
 then please make sure you have an up to date release of GHC, Currently 7.8.3.
 
 You will need to install several tools, using one of  [http://mxcl.github.com/homebrew/ Homebrew]  !MacPorts or Fink.
@@ -27,21 +27,26 @@ Successful builds of older GHC sources have been reported using Xcode 3.0, 2.4 a
 
 == GHC ==
 
-Secondly, you need an installation of GHC, Happy, and other tools for use as your bootstrap compiler environment.
+Secondly, you need an installation of GHC for use as your bootstrap compiler environment. 
 
-The easiest and recommended way to install all of the necessary components is to install the [http://www.haskell.org/platform/ Haskell Platform]. (If your OS X version predates 10.8, this build (currently of GHC 7.8.3) is known to support as far back as OS X 10.6.)
-
-However, if you would prefer, you can also install a binary distribution of GHC in three other ways, (be warned: if you're using one of these methods, you'll also need to install cabal and properly configure it, and then install other necessary packages):
+There are 4 different choices. Choose the one you are most comfortable with! The options below should be a GHC version >= 7.8.3.
 
   1. Install a [http://www.haskell.org/ghc/download binary distribution from GHC]. 
   2. Get the relocatable .app bundle using [http://github.com/ghcformacosx/ghc-dot-app ghcformacosx]
   3. Use one of Fink, MacPorts or Homebrew.
+  4. Install the [http://www.haskell.org/platform/ Haskell Platform].  If your OS X version predates 10.8, This build (currently of GHC 7.8.3) is known to support as far back as OS X 10.6 
 
 '''NB:''' You need to use a binary distribution of GHC 7.4.1 (or later) as your bootstrap compiler.
 
+== Additional Haskell tools ==
+
+Make sure you have up to date versions of  `alex` and `happy` installed and visible in your shell path. `cabal update ; cabal install alex happy` will install the most recent release for you.
+
+If you are trying out  using GHC head ( currently GHC 7.9 ) for software dev, you will need cabal and cabal install  Head  (current Cabal Head is 1.21, or a release version >= 1.22, currently cabal versions >= 1.21 are only on the github master for cabal and cabal-install).
+
 == Other tools ==
 
-Thirdly, if you want to build the development version of GHC from the Git repositories, you also need to install the GNU auto tools. You can get them as follows:
+Thirdly, if you want to build the development version of GHC from the Git repositories, you also need to install the GNU auto tools. You can build them yourself or use any of brew, fink, or macports:
 
  * (Homebrew): `brew install autoconf automake`
 
@@ -49,7 +54,7 @@ Fourthly, if you like to use GHC's LLVM backend:
 
  * (Homebrew): `brew tap homebrew/dupes ; brew llvm34`
 
-GHC 7.8 and older does not support LLVM 3.5 right now, which is the default version of llvm installed by Homebrew. Thus you have to install LLVM 3.4 for those GHC versions
+GHC 7.8 and older does not support LLVM >=3.5, which is the default version of llvm installed by Homebrew. Thus you have to install LLVM 3.4 for those GHC versions
 
 Finally, if you want to build the documentation you need to install !DocBook. You can install it like so:
 
