@@ -58,7 +58,7 @@ Below is a list of bugs that appear to be "low-hanging fruit" -- things that mig
 - [\#9777](https://gitlab.haskell.org//ghc/ghc/issues/9777) - -msse flag could be handled better by the driver
 
 
-Once you fix the bug, make sure to write a test-case proving that you've done what you said. Then, use git to prepare patches and post these to the bug report. If the patch looks good, one of the committers will put it into the GHC codebase. Then, tackle another bug!
+Once you fix the bug, make sure to write a test-case proving that you've done what you said. Then take some time to get to know and submit a code review to \[Phabricator\]. If the patch looks good, one of the committers will put it into the GHC codebase. Then, tackle another bug!
 
 ## Practical advice
 
