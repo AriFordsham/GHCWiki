@@ -46,7 +46,7 @@ You can install a binary distribution of GHC in three ways:
 
   1. Install the [http://www.haskell.org/platform/ Haskell Platform].
   2. Install a [http://www.haskell.org/ghc/download binary distribution from GHC]. This can be installed as a relocatable .app using [http://github.com/ghcformacosx/ghc-dot-app ghcformacosx]
-  3. Use one of Fink, MacPorts or Brew.   If using brew, we strongly recommend using Darin's [https://github.com/darinmorrison/homebrew-haskell brewtap]   for ghc
+  3. Use one of Fink, MacPorts or Homebrew.  Be warned: if you're using Homebrew, you'll also need to install cabal-install and properly configure it, and then install other necessary packages.
 
 '''NB:''' You need to use a binary distribution of GHC 7.4.1 (or later) as your bootstrap compiler.
 
@@ -59,6 +59,8 @@ Thirdly, if you want to build the development version of GHC from the Git reposi
 Fourthly, if you like to use GHC's LLVM backend:
 
  * (Homebrew): `brew install llvm`
+
+GHC does not support LLVM 3.5 right now, which is the default version of llvm installed by Homebrew.  Furthermore, Homebrew's llvm is keg-only, and warns against overriding OS X's default install of LLVM.
 
 Finally, if you want to build the documentation you need to install !DocBook. You can install it like so:
 
