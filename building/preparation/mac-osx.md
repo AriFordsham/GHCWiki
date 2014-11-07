@@ -35,15 +35,17 @@ Successful builds of older GHC sources have been reported using Xcode 3.0, 2.4 a
 ## GHC
 
 
-Secondly, you need a installation of GHC for use as your bootstrap compiler.
+Secondly, you need an installation of GHC, Happy, and other tools for use as your bootstrap compiler environment.
 
 
-You can install a binary distribution of GHC in four ways:
+The easiest and recommended way to install all of the necessary components is to install the [ Haskell Platform](http://www.haskell.org/platform/). (If your OS X version predates 10.8, this build (currently of GHC 7.8.3) is known to support as far back as OS X 10.6.)
+
+
+However, if you would prefer, you can also install a binary distribution of GHC in three other ways, (be warned: if you're using one of these methods, you'll also need to install cabal and properly configure it, and then install other necessary packages):
 
 1. Install a [binary distribution from GHC](http://www.haskell.org/ghc/download). 
 1. Get the relocatable .app bundle using [ ghcformacosx](http://github.com/ghcformacosx/ghc-dot-app)
-1. Use one of Fink, MacPorts or Homebrew.  Be warned: if you're using Homebrew, you'll also need to install cabal-install and properly configure it, and then install other necessary packages.
-1. Install the [ Haskell Platform](http://www.haskell.org/platform/).  If your OS X version predates 10.8, This build (currently of GHC 7.8.3) is known to support as far back as OS X 10.6
+1. Use one of Fink, MacPorts or Homebrew.
 
 **NB:** You need to use a binary distribution of GHC 7.4.1 (or later) as your bootstrap compiler.
 
