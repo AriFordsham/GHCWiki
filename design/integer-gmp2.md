@@ -15,6 +15,28 @@ This wiki page is meant as a scratch-pad to describe the plans/ideas behind the 
   - user code can still link with GMP, even though the primitive operation use `bsdnt`
 - Allow to implement (big) Natural number type w/o redundant sign handling
 
+## Roadmap
+
+
+This is not yet a definite accepted plan but rather wishful thinking at this point
+
+### For GHC 7.10.1
+
+- Switch to `integer-gmp2` as default `INTEGER_LIBRARY`
+
+  (but leave `integer-gmp` in place as build-option)
+- *(maybe)* update in-tree GMP version 
+
+  (by adding a `.patch` file for the existing GMP 5.0.3 tarball, or by retrieving a new GMP tarball from outside `ghc.git`, c.f. mingw `configure`-time autodownloading)
+- *(maybe)* implement `configure`-time selectable `bsdnt` backend as described below 
+
+  (could be easily backported as out-of-tree patch from GHC 7.11 branch if there's demand)
+
+### For GHC 7.12
+
+- all "*(maybe)*"-items from above if they didn't make it into 7.10
+- Implement link-time backend selection
+
 ## Rough Design
 
 ### Haskell-side API Types
