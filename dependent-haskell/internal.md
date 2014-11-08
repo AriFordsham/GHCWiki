@@ -117,13 +117,15 @@ RAE's decision after conversation: Continuing with Coherence1, noting SCW's disa
 GHC happily keeps a distinction between lifted and unlifted equality, but this is causing me grief. The primary cause of the grief is that I need to cast types by unlifted equality (casting by lifted equality is bogus because the evidence might be bottom), and there is no type-level construct to unpack a lifted equality. Here is the canonical example:
 
 ```wiki
-> data SameKind (k :: *) (a :: k) (b :: k)
-> challenge :: forall (k1 :: *) (k2 :: *) (a :: k1) (b :: k2). (k1 ~ k2) => SameKind k1 a b
-> challenge = ...
+data SameKind (k :: *) (a :: k) (b :: k)
+challenge :: forall (k1 :: *) (k2 :: *) (a :: k1) (b :: k2). (k1 ~ k2) => SameKind k1 a b
+challenge = ...
 ```
 
 
 During translation to FC, we have to give a name to `k1 ~ k2` (easy) but then somehow use it to cast `b` to have kind `k1`.
+
+### Equality today
 
 
 This problem provoked me (and SCW) to think about why we need lifted equality at all. Currently (7.8.3), this is the story:
@@ -145,5 +147,132 @@ data a ~ b :: Constraint where
 
 1. GADTs are rejigged in terms of lifted equality for the wrapper, but the worker is in terms of unlifted equality. This is important, because we don't want to make space to store the equalities! The wrapper unboxes before calling the worker.
 
+### Recent developments
 
-In t
+
+In recent Skype calls, I've discussed the issue with SPJ and DV, among others. Here are some the points that came out of these conversations:
+
+1. Once upon a time, equality evidence was all unlifted and considered to be a type variable. This caused endless havoc, because all other evidence (dictionaries, implicit parameters) are term variables.
+
+1. A refactoring made equality just like other evidence: lifted and term-level.
+
+1. Looking back, we questioned whether making equality lifted was necessary, while agreeing that it fits much better at the term level.
+
+1. The solver could just as easily work over unlifted equality. It would be a simplification, actually, in that the desugarer would no longer have to box and unbox. (The unnecessary boxing/unboxing is later removed by the simplifier.)
+
+1. A potential snafu is that the solver can spit out mutually-recursive groups of bindings. We, of course, cannot put an unlifted binding in a recursive group. So, the plan is to push the unlifted bindings into the RHSs of the letrec group, and use non-recursive lets. For example:
+
+```wiki
+let x :: C a = ... z ...
+    y :: t ~ s = ... x ...   -- class C could have an equality superclass
+    z :: t ~# s = unbox y
+```
+
+>
+> becomes
+
+```wiki
+let x :: C a = let z :: t ~# s = unbox y in ... z ...
+    y :: t ~ s = ... x ...
+```
+
+>
+> Simon has spotted a tricky bit here, but I can't recall it. Simon?
+
+1. Another small annoyance with unlifted equality is deferred type errors. This can likely be mitigated by floating in the (now-strict) calls to `error`.
+
+1. The bigger problem with unlifted equality is that unlifted things -- for good reasons -- can't be abstracted over. For example, if we have
+
+```wiki
+data Dict c where
+  Dict :: c => Dict c
+```
+
+>
+> it would be disastrous if `c` could become `a ~# b`. So, users still need to work in terms of lifted equality.
+
+1. I proposed a plan of redefining lifted equality thusly:
+
+```wiki
+class a ~# b => a ~ b
+instance a ~# b => a ~ b
+```
+
+>
+> Let's call this redefined lifted equality `~2`. Although the internal representation of `~2` is the same as that of `~`, the treatment in the solver would differ significantly. When the solver sees `~2`, it would just access the superclass (in the case of a given) or the one instance (in the case of a wanted), and then the real equality solving would happen over `~#`. This has the advantage of simplifying the desugarer, but still requiring the let-pushing in point 5, above. But, this is a big win for me because I need the solver to work over unlifted equality for kind casts, so using `~2` instead of `~` would mean that the solver works over only 1 equality type. There were no objections to this plan, as of Nov. 8, 2014.
+
+
+The point articulated directly above seems to be a nice resting place for this discussion, and it is my plan of record going forward. However, because my current hybrid solver (that works over both `~` and `~#`) is chugging along, doing this redesign is not a high priority. Furthermore, this plan does **not** fix [my original problem](dependent-haskell/internal#), of needing unlifted equality in types.
+
+### A simple solution the `SameKind` problem
+
+**When users write `~`, it means lifted equality, unless unlifted equality is necessary. In the latter case, `~` means unlifted equality.**
+
+
+For easy reference, here is the challenge:
+
+```wiki
+data SameKind (k :: *) (a :: k) (b :: k)
+challenge :: forall (k1 :: *) (k2 :: *) (a :: k1) (b :: k2). (k1 ~ k2) => SameKind k1 a b
+```
+
+
+When type-checking and desugaring the type of `challenge`, above, we can discover that the `k1 ~ k2` equality must be used "right away". Under my proposal, this means that the `~` would simply be interpreted as unlifted. This is possible at all because we can discover -- crucially, in the same type -- the need for unlifted equality quite easily. Thus, `challenge`'s type is translated to FC like this:
+
+```wiki
+challenge :: forall (k1 :: *) (k2 :: *) (a :: k1) (b :: k2) (c :: k1 ~# k2). SameKind k1 a (b |> sym c)
+```
+
+
+How can this be implemented? That's a little more challenging because type-checking and desugaring happen in the same pass (unlike for terms). By the time we've discovered that we need unlifted equality, the equality constraint has already been desugared from `HsType` to `Type`. There's a great trick we can pull here, though: parameterize `~` by a levity variable! (See [NoSubKinds](no-sub-kinds).) This unifies the types `~` and `~#`.
+
+
+We create a new type
+
+```wiki
+EQ# ::  forall (v :: Levity) (k1 :: *) (k2 :: *) (a :: k1) (b :: k2). TYPE v
+```
+
+
+That is, `EQ# Lifted` is good ol' `~` and `EQ# Unlifted` is just `~#`. When a user writes `~`, it desugars to `EQ# alpha`, where `alpha` is a levity metavariable. If this variable is still unconstrained when we're done type-checking the type, it defaults to `Lifted`. If an equality is used within the type, the type-checker will set `alpha` to `Unlifted`. This is very similar to the treatment of levity metavariables that arise when type-checking `->` or `error`. This idea also has the nice advantage of getting rid of `~` and `~#` as separate tycons within GHC -- we can now just talk in terms of `EQ#`.
+
+
+This is all really quite pleasing to me, as it seems to simplify things somewhat, rather than complicate them. That's a great thing when it happens.
+
+### Some non-solutions to the `SameKind` problem
+
+
+It seems worthwhile to jot down some failed ideas of how to solve `SameKind`:
+
+1. Write a type family `Cast`:
+
+```wiki
+type family Cast (k1 :: *) (k2 :: *) (a :: k1) (g :: k1 ~ k2) :: k2 where
+  Cast k1 k2 a (Eq# g#) = a |> g#
+```
+
+>
+> This type family does the unboxing and then casts. If the supplied lifted equality evidence is not `Eq#`, then the type family application is stuck, as it should be.
+
+>
+> This doesn't work because it's not compositional. If we have an equality for `Maybe a ~ Maybe b`, we can't case from `a` to `b`. This is because we can't use the coercion formers anywhere. A solution here is to just write type families that lift each coercion former into lifted equality. This works in every case but the `forall` coercion former, which can't be written as a type family because it binds a variable locally. If we had type-level lambdas, this approach could work.
+
+1. Have `~` always mean unlifted equality.
+
+>
+> This doesn't work because we then can't abstract over equality predicates.
+
+1. Write a type family `Unbox`:
+
+```wiki
+type family Unbox (k1 :: *) (k2 :: *) (g :: k1 ~ k2) :: k1 ~# k2 where
+  Unbox k1 k2 (Eq# g#) = g#
+```
+
+>
+> The problem here is that we certainly can't call a type family from within the coercion grammar. There's no way of using `Unbox`! Even if we made space somehow for just this one type family, when would it get "evaluated"? Never, so the system is broken.
+
+1. Introduce `case` into types.
+
+>
+> This actually works (I think) and shouldn't cause any undue wrinkles. The `case` would simplify through iota-reduction axioms that get applied (still no computation within types), but I think this could work. But, it's decidedly **not** simple.
