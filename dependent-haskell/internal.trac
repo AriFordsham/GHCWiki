@@ -1,0 +1,127 @@
+This page is to document various decisions / important emails / conversations that have come up in the course of implementing DependentHaskell. There is no effort at making the material here understandable to those not in the conversations. (Some of these conversations are with myself [= Richard Eisenberg], making the situation even worse.) There is also no concerted effort at a logical organization of this page. 
+
+== Roles, Coherence, and Kinds ==
+
+=== Email sent from RAE to SCW on 7/14/14 ===
+
+I've hit an unfortunate conflict between roles and "nokinds" and want some advice on how to merge them. I have a potential answer, but it involves introduce a second, symmetric form of coherence (but with different roles), and that feels wrong.
+
+The problem all starts with casts:
+
+{{{
+t : k1
+g : k1 ~ k2
+---------- CastTy_NoRoles
+t |> g : k2
+}}}
+
+Uniformity with the term level suggests the following:
+
+{{{
+t : k1
+g : k1 ~R k2
+------------- CastTy
+t |> g : k2
+}}}
+
+Notice that g is representational.
+
+Now, we must consider how coherence should work. Here is an attempt:
+
+{{{
+g : t1 ~r t2
+t1 |> h : k          -- that is, (t1 |> h) is well-formed
+-------- Coherence1
+g |> h : (t1 |> h) ~r t2
+}}}
+
+Note that `r` is a role metavariable; it is NOT (necessarily) "representational". The role of (g |> h) is the same as the role of g. Now, suppose we have (axAge : Age ~R Nat). Then, (<Zero> |> axAge) : (Zero |> axAge) ~N Zero. In other words, (Zero |> axAge) and Zero are nominally equal. This is disconcerting, though, because nominal equality should be the equality that the type-checker infers... and yet, casting by axAge is not inferrable; the user must put in a `coerce`. So, rule Coherence1 seems wrong.
+
+{{{
+g : t1 ~r t2
+t1 |> h : k
+------------- Coherence2
+g |> h : (t1 |> h) ~R t2
+}}}
+
+The Coherence2 rule allows g to have any role, but it restricts (g |> h) to be representational. Coherence2 would mean that nominal equality is not coherent! This seems troubling, too. (It would also break the lifting lemma, which crucially relies on proper coherence of all three equalities.)
+
+My current adopted rules are these:
+
+{{{
+g : t1 ~N t2
+t1 |> (sub h) : k
+--------------------- Coherence_Nom
+g |> h : (t1 |> sub h) ~N t2
+
+g : t1 ~R t2
+t1 |> h : k
+------------------- Coherence_Rep
+g |> h : (t1 |> h) ~R t2
+}}}
+
+These rules require that g and h have the same role, which is also the role of (g |> h). The problem here is that the lifting lemma breaks. Recall that the lifting lemma works with a substitution S from type variables to coercions. (It's slightly more involved, but this is a convenient simplification.) Let SL be the type-variable-to-type substitution that maps the domain of S to the left-hand types of the range of S. Define SR similarly, on the right. Then, then lifting lemma states that S(t) : SL(t) ~ SR(t). In the presence of roles, the lifting operation must also take an input role, making the lemma look like: S(t)_r : SL(t) ~r SR(t). See pages 19-20 of the extended version of the Coercible paper for the details.
+
+We must choose an implementation for S(t |> h)_r. We know, by induction, that S(t)_r : SL(t) ~r SR(t). We need a coercion of type (SL(t) |> SL(h)) ~r (SR(t) |> SR(h)). In the "nokinds" paper, we achieved this by using coherence on S(t) -- no problem. But, with the last two rules I wrote above, this doesn't work! `h` has the wrong role to use in a coherence, if the desired role is nominal, because `h` is representational, as we can see by its use in the cast (t |> h). We're stuck.
+
+The solution I have in mind is represented by this rule:
+
+{{{
+g : t1 ~N t2
+h : k1 ~N k2
+t1 |> h1 : k1
+t2 |> h2 : k2
+------------ NomCoherence
+g |>>_h (h1, h2) : (t1 |> h1) ~N (t2 |> h2)
+}}}
+
+Here, I've defined a new form. This is quite like a symmetric form of Coherence1, but it requires the target kinds to be *nominally* equal, which is a stronger requirement. This form would work in the lifting lemma fine: S(t |> h)_N = S(t)_N |>>_(S(k)_N) (SL(h), SR(h)), where k is the kind of (t |> h). Note that we still need the asymmetric coherence to deal with lifting context extension for existential variables (Def'n 5.6 of p. 9 of the "nokinds" paper).
+
+I don't see any real problems with introducing the new form, except for the extra weight it causes. And, having two very similar, but subtly different coercion forms just smells like there is a better design out there.
+
+=== Result of ensuing discussion ===
+
+Go with Coherence1. No actual problems are caused by it, and we don't have a semantics of nominal equality that we're aiming for, so there's nothing terribly wrong here.
+
+=== Conversation on 11/7/14 ===
+
+SCW said that Coherence_Nom + Coherence_Rep + NomCoherence was better. NomCoherence is actually more like the other congruence forms that we have in coercions. The only reason it's missing from the "nokinds" paper is that we can derive it from the other coherence rule. And, if we did have a semantics for nominal equality, Coherence1 would be questionable.
+
+RAE's decision after conversation: Continuing with Coherence1, noting SCW's disagreement. Reasons for this decision:
+1. The decision to go with Coherence1 was a result of another (less well-documented) conversation with SCW. Thus, there's not a clear, unchanging stance of the person with more experience.
+2. The cost of changing from Coherence1 to the 3 other rules is not likely to change if I continue more work based on Coherence1.
+3. There's a good chance that only one of these two possibilities is "Right". We'll know more later.
+4. I'm eager to make forward progress and not spin around this wheel again.
+
+== Lifted vs. Unlifted equality ==
+
+GHC happily keeps a distinction between lifted and unlifted equality, but this is causing me grief. The primary cause of the grief is that I need to cast types by unlifted equality (casting by lifted equality is bogus because the evidence might be bottom), and there is no type-level construct to unpack a lifted equality. Here is the canonical example:
+
+{{{
+> data SameKind (k :: *) (a :: k) (b :: k)
+> challenge :: forall (k1 :: *) (k2 :: *) (a :: k1) (b :: k2). (k1 ~ k2) => SameKind k1 a b
+> challenge = ...
+}}}
+
+During translation to FC, we have to give a name to `k1 ~ k2` (easy) but then somehow use it to cast `b` to have kind `k1`.
+
+This problem provoked me (and SCW) to think about why we need lifted equality at all. Currently (7.8.3), this is the story:
+
+1. The user writes lifted equalities only.
+
+2. Lifted equality is defined like
+
+{{{
+data a ~ b :: Constraint where
+  Eq# :: a ~# b -> a ~ b
+}}}
+
+3. The solver thinks in terms of lifted equalities only.
+
+4. Casts (only in terms, of course!) use unlifted equalities.
+
+5. The desugarer uses the result of the solver (the various `EvTerm`s and `EvBinds`s) to create and use lifted equalities. To use the lifted equalities in casts, the desugarer inserts `case` statements to unbox the lifted equalities. This is in `dsTcCoercion`.
+
+6. GADTs are rejigged in terms of lifted equality for the wrapper, but the worker is in terms of unlifted equality. This is important, because we don't want to make space to store the equalities! The wrapper unboxes before calling the worker.
+
+In t
