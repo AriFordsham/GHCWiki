@@ -176,7 +176,7 @@ instance a ~# b => a ~ b
 
 The point articulated directly above seems to be a nice resting place for this discussion, and it is my plan of record going forward. However, because my current hybrid solver (that works over both `~` and `~#`) is chugging along, doing this redesign is not a high priority. Furthermore, this plan does '''not''' fix [#samekind my original problem], of needing unlifted equality in types.
 
-=== A simple solution the `SameKind` problem ===
+=== A simple solution to the `SameKind` problem ===
 
 '''When users write `~`, it means lifted equality, unless unlifted equality is necessary. In the latter case, `~` means unlifted equality.'''
 
