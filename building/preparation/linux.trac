@@ -67,7 +67,7 @@ other packages that are useful for development:
    sudo apt-get install linux-tools-generic xutils-dev
 }}}
 
-The package `linux-tools` includes `perf`, see [wiki:Debugging/LowLevelProfiling/Perf]. The package `xutils-dev` provides the `lndir` program, see [wiki:Building/Using].
+The package `linux-tools` includes `perf`, see [wiki:Debugging/LowLevelProfiling/Perf]. The package `xutils-dev` provides the `lndir` program, need for running `make sdist` and useful for maintaining a separate build tree, see [wiki:Building/Using].
 
 == Arch ==
 
