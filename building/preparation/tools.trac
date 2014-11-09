@@ -115,21 +115,25 @@ In most cases the `configure` script will tell you if you are missing something.
   the latter files, you'll need {{{autoreconf}}} to
   rebuild the corresponding {{{configure}}}.
 
+ {{{diff}}}::
+  Most installations should have this by default.
+
+ {{{lndir}}}::
+  Needed if you want to prepare a binary distribution with 
+  `make sdist`, and useful for maintaining a separate
+  [Building/Using build tree].
+
  {{{sed}}}::
-  Most Unix installations and Cygwin/MSYS on
+  Most Unix installations and MSYS2 on
   Windows already come with `sed`, so you're probably OK.
   GNU sed version 2.0.4 is no good!  It has a bug
   in it that is tickled by the build-configuration.  2.0.5 is
   OK. Others are probably OK too (assuming we don't create too
   elaborate configure scripts.)
 
- {{{diff}}}::
-  Most installations should have this by default, but inexplicably 
-  Cygwin does not bundle it by default.
-
  Python::
   Required for [wiki:Building/RunningTests running the testsuite].
-  Version 2.6 or later is needed. Should also work with Python3.
+  Version 2.6 or later is needed. Python3 should also work.
 
  [http://www.thrysoee.dk/editline/ libedit]::
   If libedit is installed, ghci will be built with a nice interactive line-editing interface.  
