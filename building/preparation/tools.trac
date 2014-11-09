@@ -129,8 +129,7 @@ In most cases the `configure` script will tell you if you are missing something.
 
  Python::
   Required for [wiki:Building/RunningTests running the testsuite].
-  Version 2.5.2 or later is preferred, because you'll get support for
-  running the testsuite in parallel.  Stay away from 3.0 and later for now.
+  Version 2.6 or later is needed. Should also work with Python3.
 
  [http://www.thrysoee.dk/editline/ libedit]::
   If libedit is installed, ghci will be built with a nice interactive line-editing interface.  

@@ -151,8 +151,7 @@ Cygwin does not bundle it by default.
 <table><tr><th>Python</th>
 <td>
 Required for [running the testsuite](building/running-tests).
-Version 2.5.2 or later is preferred, because you'll get support for
-running the testsuite in parallel.  Stay away from 3.0 and later for now.
+Version 2.6 or later is needed. Should also work with Python3.
 </td></tr></table>
 
 <table><tr><th>[ libedit](http://www.thrysoee.dk/editline/)</th>
