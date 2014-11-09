@@ -4,7 +4,7 @@
 There has been a vigorous thread on error attribution ("I get a `head []` error; but who called `head`?").  This page summarises various approaches.
 
 
-Relevant tickets: [\#960](https://gitlab.haskell.org//ghc/ghc/issues/960), [\#1441](https://gitlab.haskell.org//ghc/ghc/issues/1441), [\#9049](https://gitlab.haskell.org//ghc/ghc/issues/9049).
+Relevant tickets: [\#960](https://gitlab.haskell.org//ghc/ghc/issues/960), [\#1441](https://gitlab.haskell.org//ghc/ghc/issues/1441), [\#3693](https://gitlab.haskell.org//ghc/ghc/issues/3693), [\#9049](https://gitlab.haskell.org//ghc/ghc/issues/9049).
 
 ## Approaches
 

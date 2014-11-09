@@ -2,7 +2,7 @@
 
 There has been a vigorous thread on error attribution ("I get a `head []` error; but who called `head`?").  This page summarises various approaches.
 
-Relevant tickets: #960, #1441, #9049.
+Relevant tickets: #960, #1441, #3693, #9049.
 
 == Approaches ==
 
