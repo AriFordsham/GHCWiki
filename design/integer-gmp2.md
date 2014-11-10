@@ -24,7 +24,11 @@ This is not yet a definite accepted plan but rather wishful thinking at this poi
 
 - Switch to `integer-gmp2` as default `INTEGER_LIBRARY`
 
-  (but leave `integer-gmp` in place as build-option)
+  - but leave `INTEGER_LIBRARY=integer-gmp` in place as build-option
+- We can leave the package name as `integer-gmp`, i.e. for
+
+  - `INTEGER_LIBRARY=integer-gmp` we end up with `integer-gmp-0.5.1.0`, while for 
+  - `INTEGER_LIBRARY=integer-gmp2` we end up with `integer-gmp-1.0.0.0`.
 - *(maybe)* update in-tree GMP version 
 
   (by adding a `.patch` file for the existing GMP 5.0.3 tarball, or by retrieving a new GMP tarball from outside `ghc.git`, c.f. mingw `configure`-time autodownloading)
@@ -42,7 +46,7 @@ This is not yet a definite accepted plan but rather wishful thinking at this poi
 ### Haskell-side API Types
 
 ```
--- | Type representing /raw/ arbitrary-precision Naturals---- This is common type used by 'Natural' and 'Integer'.  As this type-- consists of a single constructor wrapping a 'ByteArray#' it can be-- unpacked.---- Essential invariants:----  - 'ByteArray#' size is an exact multiple of 'Word#' size--  - limbs are stored in least-significant-limb-first order,--  - the most-significant limb must be non-zero, except for--  - @0@ which is represented as a 1-limb.dataBigNat=BN#ByteArray#-- | Invariant: 'Jn#' and 'Jp#' are used iff value doesn't fit in 'SI#'---- Useful properties resulting from the invariants:----  - @abs ('SI#' _) <= abs ('Jp#' _)@--  - @abs ('SI#' _) <  abs ('Jn#' _)@--dataInteger=SI#!Int#-- ^ iff value in @[minBound::'Int', maxBound::'Int']@ range|Jp#{-# UNPACK #-}!BigNat-- ^ iff value in @]maxBound::'Int', +inf[@ range|Jn#{-# UNPACK #-}!BigNat-- ^ iff value in @]-inf, minBound::'Int'[@ range-- | Type representing arbitrary-precision Naturals---- Invariant: 'NatJ#' is used iff when value doesn't fit in 'NatS#'dataNatural=NatS#!Word#-- ^ @[0, maxBound::Word]@|NatJ#{-# UNPACK #-}!BigNat-- ^ @]maxBound::GmpLimb, +inf[@deriving(Eq,Ord)
+-- | Type representing /raw/ arbitrary-precision Naturals---- This is common type used by 'Natural' and 'Integer'.  As this type-- consists of a single constructor wrapping a 'ByteArray#' it can be-- unpacked.---- Essential invariants:----  - 'ByteArray#' size is an exact multiple of 'Word#' size--  - limbs are stored in least-significant-limb-first order,--  - the most-significant limb must be non-zero, except for--  - @0@ which is represented as a 1-limb.dataBigNat=BN#ByteArray#-- | Invariant: 'Jn#' and 'Jp#' are used iff value doesn't fit in 'SI#'---- Useful properties resulting from the invariants:----  - @abs ('S#' _) <= abs ('Jp#' _)@--  - @abs ('S#' _) <  abs ('Jn#' _)@--dataInteger=S#Int#-- ^ iff value in @[minBound::'Int', maxBound::'Int']@ range|Jp#{-# UNPACK #-}!BigNat-- ^ iff value in @]maxBound::'Int', +inf[@ range|Jn#{-# UNPACK #-}!BigNat-- ^ iff value in @]-inf, minBound::'Int'[@ range-- | Type representing arbitrary-precision Naturals---- Invariant: 'NatJ#' is used iff when value doesn't fit in 'NatS#'dataNatural=NatS#Word#-- ^ @[0, maxBound::Word]@|NatJ#{-# UNPACK #-}!BigNat-- ^ @]maxBound::GmpLimb, +inf[@deriving(Eq,Ord)
 ```
 
 - `BigNat` is a internal common type to `Integer` and `Natural` and not exposed through `base`
