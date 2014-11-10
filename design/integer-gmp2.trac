@@ -24,7 +24,10 @@ This is not yet a definite accepted plan but rather wishful thinking at this poi
 === For GHC 7.10.1
 
  - Switch to `integer-gmp2` as default `INTEGER_LIBRARY` [[BR]]
-   (but leave `integer-gmp` in place as build-option)
+     - but leave `INTEGER_LIBRARY=integer-gmp` in place as build-option
+ - We can leave the package name as `integer-gmp`, i.e. for
+     - `INTEGER_LIBRARY=integer-gmp` we end up with `integer-gmp-0.5.1.0`, while for 
+     - `INTEGER_LIBRARY=integer-gmp2` we end up with `integer-gmp-1.0.0.0`.
  - //(maybe)// update in-tree GMP version [[BR]]
    (by adding a `.patch` file for the existing GMP 5.0.3 tarball, or by retrieving a new GMP tarball from outside `ghc.git`, c.f. mingw `configure`-time autodownloading)
  - //(maybe)// implement `configure`-time selectable `bsdnt` backend [[BR]]
@@ -58,10 +61,10 @@ data BigNat = BN# ByteArray#
 --
 -- Useful properties resulting from the invariants:
 --
---  - @abs ('SI#' _) <= abs ('Jp#' _)@
---  - @abs ('SI#' _) <  abs ('Jn#' _)@
+--  - @abs ('S#' _) <= abs ('Jp#' _)@
+--  - @abs ('S#' _) <  abs ('Jn#' _)@
 --
-data Integer  = SI#                !Int#
+data Integer  = S#                  Int#
                 -- ^ iff value in @[minBound::'Int', maxBound::'Int']@ range
               | Jp# {-# UNPACK #-} !BigNat
                 -- ^ iff value in @]maxBound::'Int', +inf[@ range
@@ -71,7 +74,7 @@ data Integer  = SI#                !Int#
 -- | Type representing arbitrary-precision Naturals
 --
 -- Invariant: 'NatJ#' is used iff when value doesn't fit in 'NatS#'
-data Natural = NatS#                !Word#    -- ^ @[0, maxBound::Word]@
+data Natural = NatS#                 Word#    -- ^ @[0, maxBound::Word]@
              | NatJ# {-# UNPACK #-} !BigNat   -- ^ @]maxBound::GmpLimb, +inf[@
              deriving (Eq,Ord)
 }}}
