@@ -4,7 +4,7 @@
 GHC includes a comprehensive testsuite for catching any regressions.
 
 
-The testsuite relies primarily on **GNU Make** and **Python**. Any version \>= 2.5.2 will do although avoid Python 2.6.1 as the testsuite tickles a bug in one of the included libraries.
+The testsuite relies primarily on **GNU Make** and **Python**. Any version \>= 2.6.2 will do.
 
 
 If you just want to run the whole testsuite, then in the root of the GHC tree, typing:
