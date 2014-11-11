@@ -14,6 +14,7 @@ This wiki page is meant as a scratch-pad to describe the plans/ideas behind the 
   - simplifies handling on platforms where GMP is not a system-library (mostly OSX and Windows)
   - user code can still link with GMP, even though the primitive operation use `bsdnt`
 - Allow to implement (big) Natural number type w/o redundant sign handling
+- somewhat more robust out-of-memory handling (since allocations occur in Haskell-land)
 
 ## Roadmap
 
