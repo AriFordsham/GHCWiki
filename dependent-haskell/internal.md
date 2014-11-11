@@ -282,3 +282,11 @@ type family Unbox (k1 :: *) (k2 :: *) (g :: k1 ~ k2) :: k1 ~# k2 where
 
 >
 > This actually works (I think) and shouldn't cause any undue wrinkles. The `case` would simplify through iota-reduction axioms that get applied (still no computation within types), but I think this could work. But, it's decidedly **not** simple.
+
+## Open questions
+
+1. What is the kind of `Equal#`? I propose `forall k1 k2. k1 -> k2 -> Constraint#` for a new kind `Constraint#`.
+
+1. What are the restrictions on the use of `Constraint#`s in tuples, superclasses, and such?
+
+1. What checks should Core Lint do about levity polymorphism? Where is it allowed and where is it not allowed?
