@@ -33,7 +33,7 @@
  * #8281: `UnliftedFFITypes` etc
  * #8441: family instances in hs-boot files
  * #9450: need more eager checking of compatibility with hs-boot files
- * #8427: stop EPS cache poisoning
+ * #2182, #8427: stop EPS cache poisoning
  * #5610, #7243: Better error messages for `foreign` declarations
  * #8240: better error messages for type-function equalities
  * #8095: very slow constraint solving
@@ -192,7 +192,6 @@ See also [wiki:TemplateHaskell]
 ------------------------
 == Outright bugs ==
 
- * #2182: GHCi session retains instance after removing a module from scope	
  * #1241: Lifting the Coverage Condition for functional dependencies isn’t the Right Thing	Manuel
 
 ------------------------
