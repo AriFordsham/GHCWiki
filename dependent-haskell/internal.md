@@ -237,7 +237,13 @@ EQ# ::  forall (v :: Levity) (k1 :: *) (k2 :: *) (a :: k1) (b :: k2). TYPE v
 That is, `EQ# Lifted` is good ol' `~` and `EQ# Unlifted` is just `~#`. When a user writes `~`, it desugars to `EQ# alpha`, where `alpha` is a levity metavariable. If this variable is still unconstrained when we're done type-checking the type, it defaults to `Lifted`. If an equality is used within the type, the type-checker will set `alpha` to `Unlifted`. This is very similar to the treatment of levity metavariables that arise when type-checking `->` or `error`. This idea also has the nice advantage of getting rid of `~` and `~#` as separate tycons within GHC -- we can now just talk in terms of `EQ#`.
 
 
+Simon has pointed out that users may still eventually want control over this inference. So, here is the concrete plan: lifted equality is denoted by `Equal` in user code; unlifted equality is denoted by `Equal#`. The notation `~` means, essentially, `EQ#` -- that is, infer whether to use `Equal` or `Equal#`. This should be fully backward-compatible.
+
+
 This is all really quite pleasing to me, as it seems to simplify things somewhat, rather than complicate them. That's a great thing when it happens.
+
+
+Question: What is the kind of `Equal#`? I propose `forall k1 k2. k1 -> k2 -> Constraint#`.
 
 ### Some non-solutions to the `SameKind` problem
 
@@ -276,3 +282,11 @@ type family Unbox (k1 :: *) (k2 :: *) (g :: k1 ~ k2) :: k1 ~# k2 where
 
 >
 > This actually works (I think) and shouldn't cause any undue wrinkles. The `case` would simplify through iota-reduction axioms that get applied (still no computation within types), but I think this could work. But, it's decidedly **not** simple.
+
+## Open questions
+
+1. What is the kind of `Equal#`? I propose `forall k1 k2. k1 -> k2 -> Constraint#` for a new kind `Constraint#`.
+
+1. What are the restrictions on the use of `Constraint#`s in tuples, superclasses, and such?
+
+1. What checks should Core Lint do about levity polymorphism? Where is it allowed and where is it not allowed?
