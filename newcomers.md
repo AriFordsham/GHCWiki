@@ -58,6 +58,7 @@ Below is a list of bugs that appear to be "low-hanging fruit" -- things that mig
 - [\#9259](https://gitlab.haskell.org//ghc/ghc/issues/9259) - GHCi should list its available command line options
 - [\#9776](https://gitlab.haskell.org//ghc/ghc/issues/9776) - -frule-check flag not recognized without parameter
 - [\#9777](https://gitlab.haskell.org//ghc/ghc/issues/9777) - -msse flag could be handled better by the driver
+- [\#9778](https://gitlab.haskell.org//ghc/ghc/issues/9778) - Namespace collision detection for promoted types
 - Most [ documentation](https://ghc.haskell.org/trac/ghc/query?component=Documentation&status=new) bugs.
 
 
