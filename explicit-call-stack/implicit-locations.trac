@@ -20,7 +20,7 @@ Now the displayed location will be the location of `f`'s ''call site'', rather t
 
 So `?location :: Location` is a rather special implicit parameter, but the ''only'' special-ness is in the typechecker.  Specifically, when solving a "wanted" constraint `w :: (?location :: Location)`:
 
- * If there is an enclosing "given" constraint `g :: (?location :: Location), usually from a type signature, the wanted constraint is solved from the given one, by pushing on `w`'s source location, something like
+ * If there is an enclosing "given" constraint `g :: (?location :: Location)`, usually from a type signature, the wanted constraint is solved from the given one, by pushing on `w`'s source location, something like
 {{{
   w = push <w's srcloc> g
 }}}
