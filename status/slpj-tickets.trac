@@ -102,7 +102,7 @@ See also [wiki:TemplateHaskell]
  * #8833, #3872, #5400, #5448, #5722, #7057, #7369, #9235: contravariant data type loop in simplifier inliner
  * #5954: performance regression. Duplication of primops?
  * #6047: GHC retains unnecessary binding
- * #2439: Strict dictionaries
+ * #2439: Strict dictionaries; see also map/coerce rule #9792
  * #5916: `runST` isn't free
  * #5522, #6092: liberate-case runs out of memory
  * #3990, #7647: UNPACK for data families, and with phantom types, needs data con wrapper refactoring; see also #9655 if you are in this area.
