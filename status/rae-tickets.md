@@ -5,9 +5,11 @@
 **Easy**
 
 - [\#7494](https://gitlab.haskell.org//ghc/ghc/issues/7494): Allow type synonyms in GADT return types
-- [\#8109](https://gitlab.haskell.org//ghc/ghc/issues/8109), [\#9608](https://gitlab.haskell.org//ghc/ghc/issues/9608): As-patterns in type patterns
+- [\#8109](https://gitlab.haskell.org//ghc/ghc/issues/8109): As-patterns in type patterns
 - [\#8634](https://gitlab.haskell.org//ghc/ghc/issues/8634): Dysfunctional dependencies
 - [\#9122](https://gitlab.haskell.org//ghc/ghc/issues/9122): Check for bogus `unsafeCoerce`
+- [\#9636](https://gitlab.haskell.org//ghc/ghc/issues/9636): Should `F Bool` be well-formed, if `F` is an empty closed type family? (blocked by [\#9637](https://gitlab.haskell.org//ghc/ghc/issues/9637))
+- [\#9687](https://gitlab.haskell.org//ghc/ghc/issues/9687): Need `Typeable (,,,,,,,,,,)` and friends
 
 **Medium**
 
@@ -19,6 +21,9 @@
 - [\#9427](https://gitlab.haskell.org//ghc/ghc/issues/9427): Break cycles in recursive class/type definitions (the second half of the fix for [\#9200](https://gitlab.haskell.org//ghc/ghc/issues/9200))
 - [\#9547](https://gitlab.haskell.org//ghc/ghc/issues/9547): Better inference for whether `() :: *` or `() :: Constraint`
 - [\#9569](https://gitlab.haskell.org//ghc/ghc/issues/9569): Tuple constraints should probably be flattened
+- [\#9637](https://gitlab.haskell.org//ghc/ghc/issues/9637): Type-level `Error` that aborts compilation
+- [\#9649](https://gitlab.haskell.org//ghc/ghc/issues/9649): Proper type-level strings
+- [\#9667](https://gitlab.haskell.org//ghc/ghc/issues/9667): Don't make tyvars untouchable when a GADT pattern-match isn't informative
 
 **Hard**
 
@@ -35,6 +40,7 @@
 - [\#7961](https://gitlab.haskell.org//ghc/ghc/issues/7961): Implement "nokinds" (RAE is working on!)
 
   - [\#9017](https://gitlab.haskell.org//ghc/ghc/issues/9017): Bad error message b/c of missing kind equality
+- [\#8338](https://gitlab.haskell.org//ghc/ghc/issues/8338): Incoherent instances without `-XIncoherentInstances`
 - [\#9429](https://gitlab.haskell.org//ghc/ghc/issues/9429): An alternative to `Any`. For example, we want `Typeable (forall x. x -> x)`.
 - [\#9562](https://gitlab.haskell.org//ghc/ghc/issues/9562): Type families + hs-boot files = `unsafeCoerce`
 
@@ -46,6 +52,7 @@
 - [\#9566](https://gitlab.haskell.org//ghc/ghc/issues/9566): Core Lint error
 - [\#9567](https://gitlab.haskell.org//ghc/ghc/issues/9567): Core Lint error
 - [\#9582](https://gitlab.haskell.org//ghc/ghc/issues/9582): Type families don't work in instance signatures (Andreas Abel is on the case, but stalled)
+- [\#9662](https://gitlab.haskell.org//ghc/ghc/issues/9662): Stack overflow during compilatinon. (SPJ is on the case)
 
 ## Roles & such
 
@@ -78,6 +85,8 @@
 - [\#9378](https://gitlab.haskell.org//ghc/ghc/issues/9378): Make unknown LANGUAGE pragmas warnings
 - [\#9394](https://gitlab.haskell.org//ghc/ghc/issues/9394): `:info` should show instances of data and type families.
 - [\#9497](https://gitlab.haskell.org//ghc/ghc/issues/9497): Report other errors before complaining about holes
+- [\#9778](https://gitlab.haskell.org//ghc/ghc/issues/9778): Allow warnings for unticked promoted things
+- [\#9784](https://gitlab.haskell.org//ghc/ghc/issues/9784): Report better error for `Foo.'Z`
 
 **Medium**
 
@@ -94,10 +103,13 @@
 - [\#7808](https://gitlab.haskell.org//ghc/ghc/issues/7808): Allow reification of a data instance name
 - [\#9022](https://gitlab.haskell.org//ghc/ghc/issues/9022): Fix semicolons in pretty-printer
 - [\#9113](https://gitlab.haskell.org//ghc/ghc/issues/9113): Warn about incomplete patterns in quotes. Fixed by [\#3927](https://gitlab.haskell.org//ghc/ghc/issues/3927)?
+- [\#9699](https://gitlab.haskell.org//ghc/ghc/issues/9699): Function to list all names in scope
+- [\#9703](https://gitlab.haskell.org//ghc/ghc/issues/9703): Add missing calling conventions (owned by cmsaperstein)
 
 *Unknown*
 
 - [\#9160](https://gitlab.haskell.org//ghc/ghc/issues/9160): Some panic with optimizations and `singletons`.
+- [\#9693](https://gitlab.haskell.org//ghc/ghc/issues/9693): Stale state left in failed compilation with GHCi and TH.
 
 **Design needed**
 
@@ -111,3 +123,9 @@
 - [\#8253](https://gitlab.haskell.org//ghc/ghc/issues/8253): Bad example of Core
 - [\#9247](https://gitlab.haskell.org//ghc/ghc/issues/9247): Document `-XDatatypeContexts`
 - [\#9248](https://gitlab.haskell.org//ghc/ghc/issues/9248): Document `-X` extensions
+- [\#9665](https://gitlab.haskell.org//ghc/ghc/issues/9665): Add a "since" field to language extensions
+
+## Tasks
+
+- Search for email with subject "Branched and unbranched" in my GHC folder -- about refactoring some `CoAxiom` stuff
+- Simplification for axioms: they can be applied to types, not coercions. See email with subject "checkAxInstCo"
