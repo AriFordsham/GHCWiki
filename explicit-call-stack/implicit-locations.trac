@@ -13,7 +13,7 @@ The idea is that `(?location :: Location)` expands to the current source locatio
 It is written in the syntax of [http://www.haskell.org/ghc/docs/7.8.2/html/users_guide/other-type-extensions.html#implicit-parameters implicit parameters] because the intention is that it can (if you wish) be passed implicitly from the caller, like this:
 {{{
 f :: (?location :: Location) => [a] -> Int
-f []     = error ("Failure at " ++ show (?location :: Location))
+f []     = error ("Failure at " ++ show ?location)
 f (x:xs) = ...
 }}}
 Now the displayed location will be the location of `f`'s ''call site'', rather than the location of the call to `show` inside `f`.  In fact `Location` is a value that captures a ''stack'' of source-locations, so that you get to see both.

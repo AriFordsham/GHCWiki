@@ -20,7 +20,7 @@ It is written in the syntax of [implicit parameters](http://www.haskell.org/ghc/
 
 ```wiki
 f :: (?location :: Location) => [a] -> Int
-f []     = error ("Failure at " ++ show (?location :: Location))
+f []     = error ("Failure at " ++ show ?location)
 f (x:xs) = ...
 ```
 
