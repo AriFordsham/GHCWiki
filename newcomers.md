@@ -59,7 +59,6 @@ Below is a list of bugs that appear to be "low-hanging fruit" -- things that mig
 - [\#9776](https://gitlab.haskell.org//ghc/ghc/issues/9776) - -frule-check flag not recognized without parameter
 - [\#9777](https://gitlab.haskell.org//ghc/ghc/issues/9777) - -msse flag could be handled better by the driver
 - [\#9778](https://gitlab.haskell.org//ghc/ghc/issues/9778) - Namespace collision detection for promoted types
-- Most [ documentation](https://ghc.haskell.org/trac/ghc/query?component=Documentation&status=new) bugs.
 
 
 You can also take a look at the [Roadmap](/trac/ghc/roadmap). Click on a milestone for a nice breakdown of tickets by component (for example for [Milestone 7.10.1](/trac/ghc/milestone/7.10.1)).
