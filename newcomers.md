@@ -61,9 +61,6 @@ Below is a list of bugs that appear to be "low-hanging fruit" -- things that mig
 - [\#9778](https://gitlab.haskell.org//ghc/ghc/issues/9778) - Namespace collision detection for promoted types
 
 
-You can also take a look at the [Roadmap](/trac/ghc/roadmap). Click on a milestone for a nice breakdown of tickets by component (for example for [Milestone 7.10.1](/trac/ghc/milestone/7.10.1)).
-
-
 Once you fix the bug, make sure to write a test-case proving that you've done what you said. Then take some time to get to know and submit a code review to [Phabricator](phabricator). If the patch looks good, one of the committers will put it into the GHC codebase. Then, tackle another bug!
 
 ## Practical advice
