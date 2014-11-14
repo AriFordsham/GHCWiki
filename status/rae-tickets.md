@@ -124,6 +124,7 @@
 - [\#9247](https://gitlab.haskell.org//ghc/ghc/issues/9247): Document `-XDatatypeContexts`
 - [\#9248](https://gitlab.haskell.org//ghc/ghc/issues/9248): Document `-X` extensions
 - [\#9665](https://gitlab.haskell.org//ghc/ghc/issues/9665): Add a "since" field to language extensions
+- [\#9737](https://gitlab.haskell.org//ghc/ghc/issues/9737): Document `ANN` in pragmas chapter
 
 ## Tasks
 

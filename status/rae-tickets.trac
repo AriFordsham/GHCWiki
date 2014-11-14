@@ -122,6 +122,7 @@
 * #9247: Document `-XDatatypeContexts`
 * #9248: Document `-X` extensions
 * #9665: Add a "since" field to language extensions
+* #9737: Document `ANN` in pragmas chapter
 
 == Tasks ==
 
