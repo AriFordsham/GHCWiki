@@ -402,6 +402,38 @@ injectivity. The reasons are:
   families, meaning that injectivity of open type families would be openly
   documented whereas for closed type families it would be hidden.
 
+## Injectivity for poly-kinded type families
+
+
+(based on Richard's comments on Phab)
+
+
+Current implementation of injectivity only works over \*type\* variables, ignoring \*kind\* variables. This is OK because all kind variables have to have type variables dependent on them, and if a type family is injective in its type variables, it then must be injective in its kind variables. But, if/when we allow partial injectivity annotations, this might require some more thought. Consider
+
+```wiki
+type family Foo (a :: k) (b :: *) = (r :: k) | r -> b
+```
+
+
+That family is injective in `k`, but you have to be careful to discover this fact. And, what about
+
+```wiki
+type family Bar (a :: k) = r | r -> a
+```
+
+
+Here, the family is still injective in `k`, but you need to make sure to note it when recording the partial injectivity.
+
+
+Currently we disallow:
+
+```wiki
+type family Baz (a :: k) = r | r -> k
+```
+
+
+But such a thing is reasonable to want! You're saying that result determines the kind of the input, though perhaps not the type.
+
 ## Other notes
 
 - This page does not mention anything about associated types. The intention is
