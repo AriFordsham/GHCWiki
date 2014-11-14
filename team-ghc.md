@@ -23,6 +23,13 @@ In order to see emails below, **you must login**.
   - **Committer since**: March, 2013.
   - **Main areas of interest**: IO manager
 
+- Andrey Mokhov
+
+  - Newcastle University, UK
+  - **Trac**: snowleopard; **email**: andrey.mokhov@…
+  - **Committer since**: November, 2014.
+  - **Main areas of interest**: build system, optimiser
+
 - [ Adam Gundry](https://personal.cis.strath.ac.uk/adam.gundry/)
 
   - Well-Typed LLP - Glasgow, UK
