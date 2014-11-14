@@ -71,3 +71,6 @@ I'm ok with both `Foo.md+lhs` and `Foo.lhs+md`, but currently my personal prefer
 
 
 The proposal would replace GHC's iteration over different extension with a linear scan of the directory to find any files with a valid composite extension. This linear scan has some performance cost, but since the number of files per directory is usually small (even the worst offender, `gl` has only 157) and GHC already uses caching, this should not be a problem in reality. If it does become a problem there are two simple optimisations to fix this issue. Firstly, we can keep the current behaviour and only do a linear scan after the current extension fail to find a file. Secondly, during a linear scan we can add all valid haskell names to our cache, resulting in only a single linear scan per directory.
+
+
+The boot files for `Foo.lhs.md` would simply be `Foo.lhs-boot`, unless someone believes literate bootfiles are valuable enough to include.
