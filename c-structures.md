@@ -47,13 +47,12 @@ I propose to extend the definition of marshallable foreign types with the follow
 This data type should be marshaled to/from C structure with **k** fields of corresponding C types with natural alignment. Packed structures are not allowed.
 
 
+Recursive data types are not allowed.
 Nested structures are allowed.
 Structures with one field are allowed.
 
 
 The extension should be enabled via `CStructures` language pragma.
-
-TODO Recursive definitions
 
 ### Examples
 
