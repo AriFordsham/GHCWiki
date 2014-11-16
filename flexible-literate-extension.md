@@ -73,7 +73,7 @@ I'm ok with both `Foo.md+lhs` and `Foo.lhs+md`, but currently my personal prefer
 ## Concrete (Current) Proposal
 
 
-This proposal liberalises GHC's current module-to-filepath mapping. This means that if, during a module lookup, GHC can't find a file name ending with one of the `hs`, `lhs`, `hsig` or `lhsig` extensions it will perform a scan of the directory and accept any file matching the `Foo.lhs` followed by any extension, such as: `Foo.lhs.md`, `Foo.lhs.rst` or `Foo.lhs.tex`. This proposal does \*not\* propose any changes to the way the contents of literate haskell files are interpreted/unlit'ed by GHC. While I'm sympathetic to more flexible literate files, I consider those orthogonal proposals.
+This proposal liberalises GHC's current module-to-filepath mapping. This means that if, during a module lookup, GHC can't find a file name ending with one of the `hs`, `lhs`, `hsig` or `lhsig` extensions it will perform a scan of the directory and accept any file matching the `Foo.lhs` followed by any extension, such as: `Foo.lhs.md`, `Foo.lhs.rst` or `Foo.lhs.tex`. This proposal does **not** propose any changes to the way the contents of literate haskell files are interpreted/unlit'ed by GHC. While I'm sympathetic to more flexible literate files, I consider those orthogonal proposals.
 
 
 The boot files extension for this newly allowed extensions would simply remain `Foo.lhs-boot`, as I don't think there's any real value to having literate bootfiles of the `Foo.lhs-boot.md` variety.
