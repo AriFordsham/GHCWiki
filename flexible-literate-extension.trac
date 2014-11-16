@@ -8,6 +8,8 @@ This page aims to summarise the results of the previous discussion and clarify t
 
 Currently GHC finds source files by computing a list of valid search paths, converting the module name to relative path, base filename and set of extensions. For every path in the set of search paths, GHC tries the relative path + base filename combination for all of the possible extensions (currently 4). GHC then caches the result for any found module.
 
+GHC will try the following extensions, in order, and picks the first match: `hs`, `lhs`, `hsig` and `lhsig`.
+
 == Proposal ==
 
 The proposal is to encode the type of the non-haskell content in a literate haskell file in the extension. This would involve generalising the allowed extension for literate haskell files to include a wildcard that indicates the type of the non-haskell content in the file. During the earlier mailing list discussion, the following naming conventions were proposed:
@@ -47,12 +49,12 @@ The `Foo+md.lhs` avoids conflicts with other compilers, but it's hard to find th
 
 The `Foo.md+lhs` and `Foo.lhs+md` variants are also easy to deal with using standard filepath libraries. The extension being different from both `.lhs` and `.md` avoids the file accidentally being interpreted as the wrong filetype. i.e., `Foo.lhs.md` being accidentally interpreted as a `md`.
 
-== Concrete (Current) Proposal ==
-
 Personally I consider `Foo.md.lhs` disqualified due to incompatibility with JHC. `Foo+md.lhs` qualified due to being awkward to work with and ugly looking.
 
 I'm ok with both `Foo.md+lhs` and `Foo.lhs+md`, but currently my personal preference leans towards `Foo.lhs.md`.
 
-The proposal would replace GHC's iteration over different extension with a linear scan of the directory to find any files with a valid composite extension. This linear scan has some performance cost, but since the number of files per directory is usually small (even the worst offender, `gl` has only 157) and GHC already uses caching, this should not be a problem in reality. If it does become a problem there are two simple optimisations to fix this issue. Firstly, we can keep the current behaviour and only do a linear scan after the current extension fail to find a file. Secondly, during a linear scan we can add all valid haskell names to our cache, resulting in only a single linear scan per directory.
+== Concrete (Current) Proposal ==
 
-The boot files for `Foo.lhs.md` would simply be `Foo.lhs-boot`, unless someone believes literate bootfiles are valuable enough to include.
+This proposal liberalises GHC's current module-to-filepath mapping. This means that if, during a module lookup, GHC can't find a file name ending with one of the `hs`, `lhs`, `hsig` or `lhsig` extensions it will perform a scan of the directory and accept any file matching the `Foo.lhs` followed by any extension, such as: `Foo.lhs.md`, `Foo.lhs.rst` or `Foo.lhs.tex`. This proposal does *not* propose any changes to the way the contents of literate haskell files are interpreted/unlit'ed by GHC. While I'm sympathetic to more flexible literate files, I consider those orthogonal proposals.
+
+The boot files extension for this newly allowed extensions would simply remain `Foo.lhs-boot`, as I don't think there's any real value to having literate bootfiles of the `Foo.lhs-boot.md` variety.
