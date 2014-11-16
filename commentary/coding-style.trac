@@ -102,7 +102,7 @@ Comments with a broad scope, describing the architecture or workings of more tha
 
 === Commit messages === 
 
-Please use commit messages to describe how something works, or give examples, ''even if the patch is devoted to a single change''.  The information is harder to find in a commit message, and (much worse) there is no explicit indication in the code that there is carefully-written information available about that particular line of code.  Instead, you can refer to the Note from the commit message.
+Please do not use commit messages to describe how something works, or give examples, ''even if the patch is devoted to a single change''.  The information is harder to find in a commit message, and (much worse) there is no explicit indication in the code that there is carefully-written information available about that particular line of code.  Instead, you can refer to the Note from the commit message.
 
 Commit messages can nevertheless contain substantial information, but it is usually of a global nature.  E.g. "This patch modifies 20 files to implement a new form of inlining pragma".  
 They are also a useful place to say which ticket is fixed by the commit, summarise the changes embodied in the commit etc.  
