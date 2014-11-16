@@ -7,7 +7,7 @@
 
 The parser is written using
  * [http://www.haskell.org/alex/ Alex], for lexical analysis.  Source file [[GhcFile(compiler/parser/Lexer.x)]]
- * [http://www.haskell.org/happy/ Happy], for the parser itself.  Source file [[GhcFile(compiler/parser/Parser.y.pp)]].  Note the `.pp` suffix; it is run through `cpp` to yield `Parser.y`.
+ * [http://www.haskell.org/happy/ Happy], for the parser itself.  Source file [[GhcFile(compiler/parser/Parser.y)]].
  * `RdrHsSyn`, for Haskell support functions.  Source file [[GhcFile(compiler/parser/RdrHsSyn.lhs)]]
 
 == Principles ==
