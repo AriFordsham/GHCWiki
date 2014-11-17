@@ -56,3 +56,41 @@ I'm happy to do this work, and would do the majority of the rewrite in the maste
 What do we think of this?
 
 # Implementation notes
+
+
+Nov 17, 2014: Essentially, I want to parameterize the handling of equalities over the choice of equality relation. There are two (non-trivial) equality relations in play: nominal and representational. Currently, everything in the solver thinks only in terms of nominal equality, and I'm looking to generalize it. There are a few consequences of this design:
+
+- I've written a new type `data EqRel = NomEq | ReprEq` in Type.lhs. The motivation for the new datatype (instead of just using `Role`) is because we don't want phantom equalities (which are meaningless) floating around in the solver. But I may revisit this decision.
+
+- The `EqPred` constructor of `PredTree` now has a field of type `EqRel`.
+
+- As I was updating the cases of `can_eq_nc'`, I was trying to figure out how to deal with newtypes. In previous implementation plans, I thought more of the struggle to deal with `AppTy`s, which have funny roles. (The type on the right of an `AppTy` must be nominal.) Bit. of course, the canonicalizer must also deal with newtypes. I thought of writing a clause of `can_eq_nc'` which unwraps one newtype, but I got worried about recursive newtypes and infinite loops. (Recall that recursive newtypes are allowed without any extensions, and I *don't* want GHC to be able to loop without any extensions enabled!) So, I was stuck.
+
+>
+> Then, I hit on this key idea: *When solving for representational equality, newtypes are just like type families.* (Well, not exactly like, because newtypes can appear unsaturated, but it's close.) So, instead of trying to unwrap newtypes in the canonicalizer, it seems more sensible to unwrap newtypes in the flattener.
+
+>
+> Accordingly, I've rewritten `FlattenEnv` like this:
+
+```wiki
+data FlattenEnv
+  = FE { fe_mode   :: FlattenMode
+       , fe_loc    :: CtLoc
+       , fe_nature :: CtNature
+       , fe_eq_rel :: EqRel }   -- See Note [Flattener EqRels]
+```
+
+>
+> This gets rid of the `CtEvidence` field, which was only used for G/W/D distinction and `CtLoc`, in favor of storing the individual pieces. (The new `CtNature` type is just an enumeration between G, W, and D.) There is also now an `EqRel` field, saying the equality relation that should be respected during flattening.
+
+>
+> The idea of flattening is to replace one type with another "equivalent" type (and to produce evidence of the equality). Previously, we've always used nominal equality. But, this same idea applies equally well to representational equality. So, the `EqRel` field says what equality should be respected during flattening. If `fe_eq_rel` is `ReprEq`, then the flattener will unwrap newtypes just as it reduces type families.
+
+- A further consequence is that we now need to store representational `CTyEqCan`s in the inert set, for use during representational flattening. But, these should be separated from nominal `CTyEqCan`s, because most of the time, we only want the nominal ones. I've added a new field `inert_repr_eqs` to `InertCans` that's just like `inert_eqs` but with representational equalities only. This new field is used when zonking tyvars in the flattener.
+
+
+This all seems like a lot of work, but it also seems like it will create a nice structure, treating nominal equality and representational equality as "equals" -- neither one is really more central to the solver design. Having them treated in parallel seems to be the most robust design.
+
+### Open questions
+
+- How do we avoid occurs-check problems? I believe that the substitution embodied by `inert_eqs` is *not* idempotent, and thus there must be a mechanism to prevent occurs-check problems. This mechanism will have to be extended to `inert_repr_eqs`. It's conceivable that zonking an individual tyvar (in a representational flattener call) will end up using equalities from both sets of equalities, possibly in an interleaved manner, so this may be delicate.
