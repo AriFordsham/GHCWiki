@@ -45,3 +45,6 @@ During canonicalization, I wish to break apart `g` into two equalities, `[G] h1 
 I'm happy to do this work, and would do the majority of the rewrite in the master branch and then merge into my Dependent Haskell branch.
 
 What do we think of this?
+
+= Implementation notes =
+
