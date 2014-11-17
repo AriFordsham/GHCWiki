@@ -54,3 +54,5 @@ I'm happy to do this work, and would do the majority of the rewrite in the maste
 
 
 What do we think of this?
+
+# Implementation notes
