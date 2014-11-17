@@ -189,13 +189,19 @@ If you want to clone your own fork instead, add an argument to `sync-all` to tel
   $ ./sync-all -r git://github.com/ghc get
 ```
 
-## Tracking the full repository state (pre-March 2014)
+## Tracking the full repository state (pre-March 2014, e.g., the 7.8.\* branches)
 
-**Since [db19c665e/ghc](/trac/ghc/changeset/db19c665e/ghc), all used repositories are submodules, so this is only relevant to track older states.** 
+**Since [db19c665e/ghc](/trac/ghc/changeset/db19c665e/ghc), all used repositories are submodules, so this is only relevant to track older states, e.g., for GHC 7.8.\*.** 
  
-The full state of a GHC repository includes the current state of the repositories for all of the GHC boot libraries that are used to to build GHC ([list of boot libraries](repositories)). The repositories for these libraries are fetched and updated by the `sync-all` script. To record the full repository state (including boot libraries), git submodules could be used, but they are not currently in favor (see [GHC Team perspective on submodules](darcs-conversion#the-perspective-on-submodules) for some reasons why). 
- 
-As an alternative to git submodules, the `fingerprint.py` script in `utils/fingerprint/` can create a "fingerprint" to uniquely identify a GHC repository state by recording the current commits of the GHC and boot library repositories. This fingerprint can be used later to restore the state of all repositories to the state captured by the fingerprint.  
+The full state of a GHC repository includes the current state of the repositories for all of the GHC boot libraries that are used to to build GHC ([list of boot libraries](repositories)). For GHC 7.8.\* the repositories for these libraries are fetched and updated by the `sync-all` script. To record the full repository state (including boot libraries), git submodules can be used starting from March 2014, but for 7.8.\* they are not fully usable, so fingerprints are provided instead in annotated & gpg-signed release tags, such as [ http://git.haskell.org/ghc.git/tag/refs/tags/ghc-7.8.3-release](http://git.haskell.org/ghc.git/tag/refs/tags/ghc-7.8.3-release).
+That way you're able to restore via the fingerprint for a given release, as in:
+
+```wiki
+$ ./utils/fingerprint/fingerprint.py restore -f <(git show ghc-7.8.3-release | grep -F '|')
+```
+
+
+Here is how such fingerprints are created. The `fingerprint.py` script in `utils/fingerprint/` can create a "fingerprint" to uniquely identify a GHC repository state by recording the current commits of the GHC and boot library repositories. This fingerprint can be used later to restore the state of all repositories to the state captured by the fingerprint.  
  
 To create a new fingerprint, run the `create` command in the top level ghc repo. The fingerprint can also be created from a [Builder](builder) log that contains the appropriate output from the `sync-all` command by passing the log file to the create command with the `-l` flag. 
  
