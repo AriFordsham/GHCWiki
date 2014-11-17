@@ -64,6 +64,15 @@ Nov 17, 2014: Essentially, I want to parameterize the handling of equalities ove
 
 - The `EqPred` constructor of `PredTree` now has a field of type `EqRel`.
 
+- We can just use `topNormaliseNewType_maybe` to unwrap newtypes in the canonicalizer. I thought, at one point (see "Old, wrong idea" below) that we should use flattening to squeeze out newtypes, much like it is used to get rid of type functions. However, this kind of power is *not* necessary. The flattener works bottom-up in types, getting rid of all type family applications. This is helpful when dealing with type families because flattening a part of a type might get a reduction to fire higher up in the tree. However, newtypes can *always* fire, and so simplifying lower down in the tree doesn't help. It's much simpler just to unwrap in the canonicalizer.
+
+- A further consequence is that we now need to store representational `CTyEqCan`s in the inert set, for use during representational flattening. But, these should be separated from nominal `CTyEqCan`s, because most of the time, we only want the nominal ones. I've added a new field `inert_repr_eqs` to `InertCans` that's just like `inert_eqs` but with representational equalities only. This new field is used when zonking tyvars in the flattener.
+
+
+This all seems like a lot of work, but it also seems like it will create a nice structure, treating nominal equality and representational equality as "equals" -- neither one is really more central to the solver design. Having them treated in parallel seems to be the most robust design.
+
+## Old, wrong idea
+
 - As I was updating the cases of `can_eq_nc'`, I was trying to figure out how to deal with newtypes. In previous implementation plans, I thought more of the struggle to deal with `AppTy`s, which have funny roles. (The type on the right of an `AppTy` must be nominal.) Bit. of course, the canonicalizer must also deal with newtypes. I thought of writing a clause of `can_eq_nc'` which unwraps one newtype, but I got worried about recursive newtypes and infinite loops. (Recall that recursive newtypes are allowed without any extensions, and I *don't* want GHC to be able to loop without any extensions enabled!) So, I was stuck.
 
 >
@@ -85,11 +94,6 @@ data FlattenEnv
 
 >
 > The idea of flattening is to replace one type with another "equivalent" type (and to produce evidence of the equality). Previously, we've always used nominal equality. But, this same idea applies equally well to representational equality. So, the `EqRel` field says what equality should be respected during flattening. If `fe_eq_rel` is `ReprEq`, then the flattener will unwrap newtypes just as it reduces type families.
-
-- A further consequence is that we now need to store representational `CTyEqCan`s in the inert set, for use during representational flattening. But, these should be separated from nominal `CTyEqCan`s, because most of the time, we only want the nominal ones. I've added a new field `inert_repr_eqs` to `InertCans` that's just like `inert_eqs` but with representational equalities only. This new field is used when zonking tyvars in the flattener.
-
-
-This all seems like a lot of work, but it also seems like it will create a nice structure, treating nominal equality and representational equality as "equals" -- neither one is really more central to the solver design. Having them treated in parallel seems to be the most robust design.
 
 ### Open questions
 
