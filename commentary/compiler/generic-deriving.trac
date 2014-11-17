@@ -374,15 +374,11 @@ data MyDatatype = .... deriving (Generic, GBinary)
 
 Ultimately, this might even allow us to replace the generated code by classes such as `Eq`, `Ord`, etc. with plain generic code.
 
-The ticket for this request is #5462. For this discussion, we'll refer to this new feature as `GeneralizedDeriving`.
+The ticket for this request is #5462. We refer to this new feature as `DeriveAnyClass`.
 
 == Which classes can be derived? ==
 
-How do we figure out which classes will now be allowed as part of a deriving clause? We've decided against coming up with a new pragma for tagging classes that can be derived. Instead, we will simply re-use the [http://www.haskell.org/ghc/docs/latest/html/users_guide/pragmas.html#minimal-pragma `MINIMAL` pragma]: if a class has an empty `MINIMAL` set, it means that its author is happy for it to be instantiated without giving any method definitions. This is exactly what we need for deriving the class: all its methods must have a default (be it a `DefaultSignature` or just a regular default).
-
-Note that:
-1. Classes don't even have to use generics to be derivable.
-2. The typical generics class has one default signature, and perhaps a few more methods with a standard default. In this case, if there is no `MINIMAL` specified, it defaults to the empty set (as all methods have a default), so the class will be derivable.
+How do we figure out which classes will now be allowed as part of a deriving clause? We don't; we allow any class! Although the feature makes more sense for classes whose [http://www.haskell.org/ghc/docs/latest/html/users_guide/pragmas.html#minimal-pragma `MINIMAL` set] is empty, it'll work for any other class too. It simply generates an instance without any method definitions.
 
 == Interaction with `GeneralizedNewtypeDeriving` ==
 
@@ -395,26 +391,25 @@ newtype MyInt = MyInt Int deriving (Eq, Num, Show)
 }}}
 `Eq` and `Num` operations will simply be lifted through the newtype coercion, but `show (MyInt 3)` will still print `MyInt 3`, not just `3`.
 
-GND interacts with `GeneralizedDeriving` because both are about generating instances for arbitrary classes, but they do it in different ways. There are multiple ways to handle this.
+GND interacts with `DeriveAnyClass` because both are about generating instances for arbitrary classes, but they do it in different ways. There are multiple ways to handle this.
 
-==== 1. Disallow `GeneralizedDeriving` for newtypes ====
+==== 1. Disallow `DeriveAnyClass` for newtypes ====
 
 In this case we simply do not allow `GeneralizedDeriving` for newtypes. It's simple to implement, but it's a bit limiting, in that if you happen to be using newtypes for which you want generic instances, you have to go back to manually writing down the empty instances.
 
 ==== 2. Try both approaches, fail if there's ambiguity ====
 
-In many cases it will be clear whether the user wants GND or the new `GeneralizedDeriving`:
-1. If GND is on, and `GeneralizedDeriving` is off, then we do GND.
-2. Conversely, if GND is off, and `GeneralizedDeriving` is on, then we do the latter.
-3. If both are on, but the class being derived does not have an empty `MINIMAL` set, we do GND.
-4. If both are on, and the class being derived has an empty `MINIMAL` set, we fail, because it's ambiguous.
+In many cases it will be clear whether the user wants GND or the new `DeriveAnyClass`:
+1. If GND is on, and `DeriveAnyClass` is off, then we do GND.
+2. Conversely, if GND is off, and `DeriveAnyClass` is on, then we do the latter.
+3. If both are on, we pick the `DeriveAnyClass` approach.
 
-The problem with this approach is that in situation 4 (which might be rather rare) users are left in a bad situation. If they wanted a `GeneralizedDeriving` instance, they can easily give an empty instance instead. However, if they wanted GND, they'll have to manually write a `Coercible` instance, which is not nice.
+The problem with this approach is that in situation 3 users are left in a bad situation if they actually wanted GND; they'll have to manually write a `Coercible` instance, which is not nice.
 
 
 ==== 3. Let class authors specify how their classes should be derived ====
 
-Right now we already treat some classes specially for GND: `Read`, `Show`, `Typeable`, `Data`, and `Generic` are derivable, but not via GND. We could make it a property of the class to say "do not use GND" in deriving clauses. In that case, we know that we can use the `GeneralizedDeriving` strategy for newtypes instead.
+Right now we already treat some classes specially for GND: `Read`, `Show`, `Typeable`, `Data`, and `Generic` are derivable, but not via GND. We could make it a property of the class to say "do not use GND" in deriving clauses. In that case, we know that we can use the `DeriveAnyClass` strategy for newtypes instead.
 
 Maybe we don't even need to make this user-controllable; a handful of built-in classes may suffice.
 
