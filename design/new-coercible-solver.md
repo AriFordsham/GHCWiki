@@ -95,6 +95,9 @@ data FlattenEnv
 >
 > The idea of flattening is to replace one type with another "equivalent" type (and to produce evidence of the equality). Previously, we've always used nominal equality. But, this same idea applies equally well to representational equality. So, the `EqRel` field says what equality should be respected during flattening. If `fe_eq_rel` is `ReprEq`, then the flattener will unwrap newtypes just as it reduces type families.
 
-### Open questions
+
+The aborted implementation of this idea is at [ https://github.com/goldfirere/ghc/tree/two-flatteners](https://github.com/goldfirere/ghc/tree/two-flatteners)
+
+## Open questions
 
 - How do we avoid occurs-check problems? I believe that the substitution embodied by `inert_eqs` is *not* idempotent, and thus there must be a mechanism to prevent occurs-check problems. This mechanism will have to be extended to `inert_repr_eqs`. It's conceivable that zonking an individual tyvar (in a representational flattener call) will end up using equalities from both sets of equalities, possibly in an interleaved manner, so this may be delicate.
