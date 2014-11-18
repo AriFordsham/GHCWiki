@@ -1,5 +1,7 @@
 = Type Checker Plugins =
 
+See Phab:D489 for the implementation and review.
+
 == Motivation ==
 
 There is much interest at present in various extensions to GHC Haskell
