@@ -118,6 +118,10 @@
 - [\#8679](https://gitlab.haskell.org//ghc/ghc/issues/8679): Include value and function signatures in their declarations
 - [\#8761](https://gitlab.haskell.org//ghc/ghc/issues/8761): Pattern synonyms
 
+## Generic programming
+
+- [\#8560](https://gitlab.haskell.org//ghc/ghc/issues/8560): Generic representation for GADTs
+
 ## Documentation
 
 - [\#8253](https://gitlab.haskell.org//ghc/ghc/issues/8253): Bad example of Core
