@@ -47,53 +47,86 @@ resulting constraint solvers to be used by non-developers.
 
 A type checker plugin, like a Core plugin, consists of a normal Haskell
 module that exports an identifier `plugin :: Plugin`.  We extend the
-`CoreMonad.Plugin` type with an additional field:
+`Plugin` type (moved to a new module `Plugins`) with an additional field:
 
 ```wiki
 data Plugin = Plugin
   { installCoreToDos :: ... -- as at present
   , tcPlugin         :: [CommandLineOption] -> Maybe TcPlugin
   }
-
-data TcPlugin = forall t . TcPlugin
-  { init  :: TcM t
-  , solve :: t -> [Ct] -> [Ct] -> TcS ([SolveResult], [Ct])
-  , close :: t -> TcM ()
-  }
-
-data SolveResult = Stuck | Impossible | Simplified EvTerm
 ```
 
 
-The exact design of the `TcPlugin` interface is open to debate, but
-the basic idea is as follows:
+The `TcPlugin` type and related pieces are defined in `TcRnTypes`:
 
-- When type checking a module, GHC calls `init` once before constraint
-  solving starts.  This allows the plugin to initialise mutable state
-  or open a connection to an external process (e.g. an external SMT
-  solver).
+```wiki
+data TcPlugin = forall s . TcPlugin
+  { tcPluginInit  :: TcPluginM s
+  , tcPluginSolve :: s -> TcPluginSolver
+  , tcPluginStop  :: s -> TcPluginM ()
+  }
 
-- During constraint solving, GHC repeatedly calls `solve`.  Given
-  lists of Given and Wanted constraints, this function should attempt
-  to simplify the Wanteds, returning a `SolveResult` corresponding to
-  each Wanted, and a list of additional constraints to introduce.  If
-  the plugin solver makes progress, GHC will re-start the constraint
-  solving pipeline, looping until a fixed point is reached.
+type TcPluginSolver = [Ct]    -- given
+                   -> [Ct]    -- derived
+                   -> [Ct]    -- wanted
+                   -> TcPluginM TcPluginResult
 
-- Finally, GHC calls `close` after constraint solving is finished,
-  allowing the plugin to dispose of any resources it has allocated
-  (e.g. terminating the SMT solver process).
+data TcPluginResult
+  = TcPluginContradiction [Ct]
+  | TcPluginOk [(EvTerm,Ct)] [Ct]
+```
+
+
+The basic idea is as follows:
+
+- When type checking a module, GHC calls `tcPluginInit` once before constraint solving starts.  This allows the plugin to look things up in the context, initialise mutable state or open a connection to an external process (e.g. an external SMT solver).  The plugin can return a result of any type it likes, and the result will be passed to the other two fields.
+
+- During constraint solving, GHC repeatedly calls `tcPluginSolve`.  Given lists of Given, Derived and Wanted constraints, this function should attempt to simplify them and return a `TcPluginResult` that indicates whether a contradiction was found or progress was made.  If the plugin solver makes progress, GHC will re-start the constraint solving pipeline, looping until a fixed point is reached.
+
+- Finally, GHC calls `tcPluginStop` after constraint solving is finished, allowing the plugin to dispose of any resources it has allocated (e.g. terminating the SMT solver process).
 
 
 The `Ct` type, representing constraints, is defined in [ TcRnTypes](https://ghc.haskell.org/trac/ghc/browser/ghc/compiler/typecheck/TcRnTypes.lhs#L932). A constraint is essentially a triple of a type (of kind `Constraint`, e.g. an equality or fully applied typeclass), an evidence term of that type (which will be a metavariable, for wanted constraints) and an original source location.
 
 
-Note that the `TcM` and `TcS` monads can perform arbitrary IO,
-although some care must be taken with side effects (particularly in
-`TcS`).  In general, it is up to the plugin author to make sure that
-any IO they do is safe.  The existentially quantified variable `t`
-allows the plugin to initialise some state and pass a handle to the
-function that does the solving.
+Plugin code runs in the `TcPluginM` monad defined in `TcRnTypes` as a wrapper around `TcM` (and hence around `IO`). Eventually the `TcPluginM` monad will supply wrappers for `TcM` functions that are appropriate for use in a plugin. Initially, plugins will need to rely on `unsafeTcPluginTcM :: TcM a -> TcPluginM a` if a wrapper is not available.
+
+
+Note that `TcPluginM` can perform arbitrary IO via `tcPluginIO :: IO a -> TcPluginM a`, although some care must be taken with side effects (particularly in `tcPluginSolve`).  In general, it is up to the plugin author to make sure that any IO they do is safe.
+
+### Calling plugins from the typechecker
+
+
+Typechecker plugins will be invoked at two points in the constraint solving process: after simplification of given constraints, and after unflattening of wanted constraints.  They can be distinguished because the deriveds/wanteds will be empty in the first case.
+
+
+During simplification of givens:
+
+- The deriveds and wanteds lists will be empty.
+
+- The givens will be flat, un-zonked and inert.
+
+- If the plugin finds a contradiction amongst the givens, it should return `TcPluginContradiction` containing the contradictory constraints.  These will turn into inaccessible code errors.
+
+- Otherwise, the plugin should return `TcPluginOk` with lists of "solved" givens and new givens.  "Solved" givens (i.e. those that are uninformative, such as `x * y ~ y * x` in a plugin for arithmetic) must be exactly as supplied to the plugin and will simply be dropped; the evidence term is ignored.  If there are any new givens, the main constraint solver will be re-invoked in case it can make progress, then the plugin will be invoked again.
+
+- If the plugin cannot make any progress, it should return `TcPluginOk [] []`.
+
+
+During solving of wanteds:
+
+- The givens and deriveds will be flat, un-zonked and inert.
+
+- The wanteds will be unflattened and zonked.
+
+- If the plugin finds a contradiction amongst the wanteds, it should return `TcPluginContradiction` containing the contradictory constraints.  These will turn into unsolved constraint errors.
+
+- Otherwise, the plugin should return `TcPluginOk` with lists of solved wanteds and new work.  Solved wanteds must be exactly as supplied to the plugin and must have a corresponding evidence term of the correct type.  If there are any new constraints, the main constraint solver will be re-invoked in case it can make progress, then the plugin will be invoked again.
+
+- If the plugin cannot make any progress, it should return `TcPluginOk [] []`.
+
+
+Plugins are provided with all available constraints, but it is easy for them to discard those that are not relevant to their domain, because they need return only those constraints for which they have made progress (either by solving or contradicting them).
 
 ### Using a plugin
 
@@ -126,22 +159,13 @@ The interface sketched above expects type checker plugins to produce
 evidence terms `EvTerm` for constraints they have simplified.
 Different plugins may take different approaches generating this
 evidence.  The simplest approach is to use "proof by blatant
-assertion": essentially this amounts to providing an axiom \`forall s t
-. s \~ t\` and trusting that the constraint solver uses it in a sound
+assertion": essentially this amounts to providing an axiom `forall s t . s ~ t`
+and trusting that the constraint solver uses it in a sound
 way.  However, in some cases (such as an abelian group unifier used
 for units of measure) it should be possible for the solver to encode
 the axioms of the equational theory and build proofs from them.
 
 ## Open questions and future directions
-
-- At which point should the plugin constraint solver be called during
-  GHC's constraint solving process?  Before or after the main
-  constraint solver, or does it depend on the plugin?  We may need an
-  additional variant on the solver for the simplifying givens stage.
-
-- Do we want to provide other extension points for the type checker,
-  for example extending typeclass or type family instance lookup, or
-  changing the generalisation/defaulting behaviour?
 
 - For units of measure, it would be nice to be able to extend the
   pretty-printer for types (so we could get a nicely formatted
@@ -154,7 +178,11 @@ the axioms of the equational theory and build proofs from them.
   messages that result from type checking, along the lines of error
   reflection in Idris.
 
+- At the moment there is not a very clear relationship between plugins and [hooks](ghc/hooks).  It might be nice to unify the two approaches, but they have quite different design goals.
+
 ## Reactions from community
+
+**N.B.** These comments refer to an earlier version of this page, prior to the implementation of the proposal.
 
 **Richard:** I really like the use of an existential type variable.
 
