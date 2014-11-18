@@ -24,7 +24,7 @@ We welcome your involvement in making GHC able to do more.  Here's how to do it.
   - Add a comment to say what you've done.
   - Fill out the field called "[Differential Revisions](phabricator#linking-reviews-to-trac-tickets-and-vice-versa)". Syntax: `Phab:D123`.
   - In the 'Action' part of the Trac ticket, select "Please review". This shifts responsibility to [the GHC team](team-ghc) to review and push your commit if it is accepted.
-  - Optional: if you did not manage to submit a code review to Phabricator for whatever reason, attach a patch bundle (run `git format-patch -n`, where *`n`* is the number of commits).
+  - Optional: if you did not manage to submit a code review to Phabricator for whatever reason, attach a patch bundle (run `git format-patch -n`, where *`n`* is the number of commits). When you do this, it is vital you set 'Action' to "Please review", or at least leave a comment, otherwise we aren't [ notified](http://trac.edgewall.org/ticket/2259) and your patch will get lost.
 
 ## Things to bear in mind
 
