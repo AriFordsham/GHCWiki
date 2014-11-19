@@ -16,6 +16,7 @@
 - [\#6018](https://gitlab.haskell.org//ghc/ghc/issues/6018): Injective type families (Jan is working on)
 - [\#7495](https://gitlab.haskell.org//ghc/ghc/issues/7495): Allowing list syntax for `HList`
 - [\#8128](https://gitlab.haskell.org//ghc/ghc/issues/8128): Derived instances sometimes have inaccessible code
+- [\#8388](https://gitlab.haskell.org//ghc/ghc/issues/8388): Have a consistent story around non-`*` types in a forall
 - [\#9180](https://gitlab.haskell.org//ghc/ghc/issues/9180): Compile-time `staticError` function; seems easy, but I don't know how to do this.
 - [\#9260](https://gitlab.haskell.org//ghc/ghc/issues/9260): Type-lits solver falls short (given to Iavor)
 - [\#9427](https://gitlab.haskell.org//ghc/ghc/issues/9427): Break cycles in recursive class/type definitions (the second half of the fix for [\#9200](https://gitlab.haskell.org//ghc/ghc/issues/9200))
