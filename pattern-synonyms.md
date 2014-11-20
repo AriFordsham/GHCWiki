@@ -284,24 +284,42 @@ into scope by the pattern pat on the right-hand side. The declaration
 brings the name `P` as a pattern synonym into the module-level scope.
 
 
-The pattern synonym `P` is assigned a *pattern type * of the form
+The pattern synonym `P` is assigned a *pattern type* of the form
 
 ```wiki
-pattern type CProv => P t1 t2 ... tN :: CReq => t 
+pattern P :: CProv => CReq => t1 -> t2 -> ... -> tN -> t 
 ```
 
 
-where `t` is a simple type with no context, and `CReq` and `CProv` are type contexts.
+where `t1`, ..., `tN` are the types of the parameters `var1`, ..., `varN`, `t` is the simple type (with no context) of the thing getting matched, and `CReq` and `CProv` are type contexts.
+
+`CReq` can be omitted if it is empty. If `CProv` is empty, but `CReq` is not, `()` is used. The following example shows cases:
+
+```wiki
+data Showable where
+    MkShowable :: (Show a) => a -> Showable
+
+-- Required context is empty
+pattern Sh :: (Show a) => a -> Showable
+pattern Sh x <- MkShowable x
+
+-- Provided context is empty, but required context is not
+pattern One :: () => (Num a, Eq a) => a
+pattern One <- 1
+```
 
 
-A pattern synonym of this type can be used in a pattern if the
+A pattern synonym can be used in a pattern if the
 instatiated (monomorphic) type satisfies the constraints of
 `CReq`. In this case, it extends the context available in the
 right-hand side of the match with `CProv`, just like how an
 existentially-typed data constructor can extend the context.
 
 
-For example, in the following definition:
+As with function and variable types, the pattern type signature can be inferred, or it can be explicitly written out on the program. 
+
+
+Here's a more complex example. Let's look at the following definition:
 
 ```wiki
 {-# LANGUAGE PatternSynonyms, GADTs, ViewPatterns #-}
@@ -316,10 +334,10 @@ pattern P x <- MkT (f -> True) x
 ```
 
 
-the pattern type of `P` is
+Here, the inferred type of `P` is
 
 ```wiki
-pattern type (Eq b) => P b :: (Show a) => T a
+pattern P :: (Eq b) => (Show a) => b -> T a
 ```
 
 
