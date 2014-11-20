@@ -6,17 +6,17 @@ See the [wiki:PatternSynonyms/Implementation implementation] page for implementa
 
 Relevant closed tickets:
  * #5144 (Pattern synonyms [https://github.com/ghc/ghc/commit/4f8369bf47d27b11415db251e816ef1a2e1eb3d8 merged into master] on 20 January 2014)
+ * #8968 (GADTs)
+ * #9417 (Haddock)
+ * #9514 (Haddock again)
+ * #8584 (pattern type signatures)
 
 Relevant open tickets:
  * #8581 (explicitly bidirectional)
  * #8582
  * #8583
- * #8584 (pattern type signatures)
  * #8761
  * #8779
- * #8968 (GADTs)
- * #9417 (Haddock)
- * #9514 (Haddock again)
 
 == Motivating example ==
 Here is a simple representation of types
