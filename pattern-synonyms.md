@@ -11,6 +11,10 @@ See the [implementation](pattern-synonyms/implementation) page for implementatio
 Relevant closed tickets:
 
 - [\#5144](https://gitlab.haskell.org//ghc/ghc/issues/5144) (Pattern synonyms [ merged into master](https://github.com/ghc/ghc/commit/4f8369bf47d27b11415db251e816ef1a2e1eb3d8) on 20 January 2014)
+- [\#8968](https://gitlab.haskell.org//ghc/ghc/issues/8968) (GADTs)
+- [\#9417](https://gitlab.haskell.org//ghc/ghc/issues/9417) (Haddock)
+- [\#9514](https://gitlab.haskell.org//ghc/ghc/issues/9514) (Haddock again)
+- [\#8584](https://gitlab.haskell.org//ghc/ghc/issues/8584) (pattern type signatures)
 
 
 Relevant open tickets:
@@ -18,12 +22,8 @@ Relevant open tickets:
 - [\#8581](https://gitlab.haskell.org//ghc/ghc/issues/8581) (explicitly bidirectional)
 - [\#8582](https://gitlab.haskell.org//ghc/ghc/issues/8582)
 - [\#8583](https://gitlab.haskell.org//ghc/ghc/issues/8583)
-- [\#8584](https://gitlab.haskell.org//ghc/ghc/issues/8584) (pattern type signatures)
 - [\#8761](https://gitlab.haskell.org//ghc/ghc/issues/8761)
 - [\#8779](https://gitlab.haskell.org//ghc/ghc/issues/8779)
-- [\#8968](https://gitlab.haskell.org//ghc/ghc/issues/8968) (GADTs)
-- [\#9417](https://gitlab.haskell.org//ghc/ghc/issues/9417) (Haddock)
-- [\#9514](https://gitlab.haskell.org//ghc/ghc/issues/9514) (Haddock again)
 
 ## Motivating example
 
