@@ -54,6 +54,16 @@ Make sure you have up to date versions of  `alex` and `happy` installed and visi
 
 If you are trying out  using GHC head ( currently GHC 7.9 ) for software dev, you will need cabal and cabal install  Head  (current Cabal Head is 1.21, or a release version \>= 1.22, currently cabal versions \>= 1.21 are only on the github master for cabal and cabal-install).
 
+## Important Considerations
+
+
+By default GHC tries to link to a system installed GMP lib, but depending on how you wish to distribute the resulting applications,
+its worth considering either using one of the non GMP integer libs.
+If you're OK with static linking GMP into the GHC RTS,
+you can add the line 
+`libraries/integer-gmp2_CONFIGURE_OPTS += --configure-option=--with-intree-gmp`
+to you `mk/build.mk` file  (which hosts all your other build system config preferences also.)
+
 ## Other tools
 
 
