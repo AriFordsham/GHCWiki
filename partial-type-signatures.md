@@ -831,7 +831,8 @@ some things that may be non-obvious.
     g y = (x, "foo")
   ```
 
-  This causes a panic (`StgCmmEnv: variable not found`). The
+  This causes a panic (`ASSERT failed! file compiler/typecheck/TcBinds.lhs line 1198 g_alB`).
+  After disabling the failing assert, another assert fails, one checking the touchable invariant (`checkTouchableInvariant`). The
   interaction of the function `tcPolyNoGen` in `TcBinds.lhs` with
   partial type signatures must be fixed.
 
