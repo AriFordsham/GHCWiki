@@ -48,6 +48,7 @@
 
 ## Typechecker
 
+- [\#7947](https://gitlab.haskell.org//ghc/ghc/issues/7947): Names generated when deriving `Data` should be more unique
 - [\#9450](https://gitlab.haskell.org//ghc/ghc/issues/9450): Interleave checking against an hs-boot file while typechecking definitions
 - [\#9554](https://gitlab.haskell.org//ghc/ghc/issues/9554): `-XUndecidableInstances` causes runtime loop
 - [\#9557](https://gitlab.haskell.org//ghc/ghc/issues/9557): Deriving instances is slow
