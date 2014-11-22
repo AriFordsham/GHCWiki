@@ -25,7 +25,7 @@ If you are using a preexisting msys2 installation, consider upgrading all instal
 The msys2 package uses `pacman` (the venerable ArchLinux package manager) to manage packages. Let's install system dependencies required for building GHC:
 
 ```wiki
-pacman -Sy git tar binutils autoconf make libtool automake python2 p7zip patch
+pacman -Sy git tar binutils autoconf make libtool automake python2 p7zip patch gcc
 ```
 
 ## Host GHC setup
@@ -60,7 +60,7 @@ You should now be able to build GHC:
 cd ~ &&
 git clone --recursive git://git.haskell.org/ghc.git &&
 cd ghc &&
-git clone git://git.haskell.org/ghc-tarballs.git ghc-tarballs
+./sync-all get
 ```
 
 
