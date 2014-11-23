@@ -9,7 +9,7 @@ This wiki page is meant as a scratch-pad to describe the plans/ideas behind the 
 - avoid issues when linking against other C libraries using GMP,
 - simplify code, as we would perform all heap allocations in Haskell code (and never inside Cmm/C code as its done now),
 - maybe even remove a few more superfluous temporary heap allocations.
-- link-time selectable integer-library backend (think `ghc --make -O -finteger-library=bsdnt` Hello.hs)
+- link-time selectable integer-library backend (think `ghc --make -O -finteger-library=bsdnt Hello.hs`)
 
   - simplifies handling on platforms where GMP is not a system-library (mostly OSX and Windows)
   - user code can still link with GMP, even though the primitive operation use `bsdnt`
@@ -18,15 +18,12 @@ This wiki page is meant as a scratch-pad to describe the plans/ideas behind the 
 
 ## Roadmap
 
-
-This is not yet a definite accepted plan but rather wishful thinking at this point
-
 ### For GHC 7.10.1
 
-- Switch to `integer-gmp2` as default `INTEGER_LIBRARY`
+- ***(done)*** Switch to `integer-gmp2` as default `INTEGER_LIBRARY`
 
   - but leave `INTEGER_LIBRARY=integer-gmp` in place as build-option
-- We can leave the package name as `integer-gmp`, i.e. for
+- ***(done)*** Leave the package name as `integer-gmp`, i.e. for
 
   - `INTEGER_LIBRARY=integer-gmp` we end up with `integer-gmp-0.5.1.0`, while for 
   - `INTEGER_LIBRARY=integer-gmp2` we end up with `integer-gmp-1.0.0.0`.
@@ -47,11 +44,11 @@ This is not yet a definite accepted plan but rather wishful thinking at this poi
 ### Haskell-side API Types
 
 ```
--- | Type representing /raw/ arbitrary-precision Naturals---- This is common type used by 'Natural' and 'Integer'.  As this type-- consists of a single constructor wrapping a 'ByteArray#' it can be-- unpacked.---- Essential invariants:----  - 'ByteArray#' size is an exact multiple of 'Word#' size--  - limbs are stored in least-significant-limb-first order,--  - the most-significant limb must be non-zero, except for--  - @0@ which is represented as a 1-limb.dataBigNat=BN#ByteArray#-- | Invariant: 'Jn#' and 'Jp#' are used iff value doesn't fit in 'SI#'---- Useful properties resulting from the invariants:----  - @abs ('S#' _) <= abs ('Jp#' _)@--  - @abs ('S#' _) <  abs ('Jn#' _)@--dataInteger=S#Int#-- ^ iff value in @[minBound::'Int', maxBound::'Int']@ range|Jp#{-# UNPACK #-}!BigNat-- ^ iff value in @]maxBound::'Int', +inf[@ range|Jn#{-# UNPACK #-}!BigNat-- ^ iff value in @]-inf, minBound::'Int'[@ range-- | Type representing arbitrary-precision Naturals---- Invariant: 'NatJ#' is used iff when value doesn't fit in 'NatS#'dataNatural=NatS#Word#-- ^ @[0, maxBound::Word]@|NatJ#{-# UNPACK #-}!BigNat-- ^ @]maxBound::GmpLimb, +inf[@deriving(Eq,Ord)
+-- | Type representing /raw/ arbitrary-precision Naturals---- This is common type used by 'Natural' and 'Integer'.  As this type-- consists of a single constructor wrapping a 'ByteArray#' it can be-- unpacked.---- Essential invariants:----  - 'ByteArray#' size is an exact multiple of 'Word#' size--  - limbs are stored in least-significant-limb-first order,--  - the most-significant limb must be non-zero, except for--  - @0@ which is represented as a 1-limb.dataBigNat=BN#ByteArray#-- | Invariant: 'Jn#' and 'Jp#' are used iff value doesn't fit in 'SI#'---- Useful properties resulting from the invariants:----  - @abs ('S#' _) <= abs ('Jp#' _)@--  - @abs ('S#' _) <  abs ('Jn#' _)@--dataInteger=S#Int#-- ^ iff value in @[minBound::'Int', maxBound::'Int']@ range|Jp#{-# UNPACK #-}!BigNat-- ^ iff value in @]maxBound::'Int', +inf[@ range|Jn#{-# UNPACK #-}!BigNat-- ^ iff value in @]-inf, minBound::'Int'[@ rangederiving(Eq)-- | Type representing arbitrary-precision Naturals---- Invariant: 'NatJ#' is used iff when value doesn't fit in 'NatS#'dataNatural=NatS#Word#-- ^ @[0, maxBound::Word]@|NatJ#{-# UNPACK #-}!BigNat-- ^ @]maxBound::GmpLimb, +inf[@deriving(Eq,Ord)
 ```
 
-- `BigNat` is a internal common type to `Integer` and `Natural` and not exposed through `base`
-- `Natural` finally fills the gap of the missing unsigned `Integer` counter-part in `base`
+- `BigNat` is an internal common type to `Integer` and `Natural` and not exposed through `base`
+- `Natural` ([\#9818](https://gitlab.haskell.org//ghc/ghc/issues/9818)) finally fills the gap of the missing unsigned `Integer` counter-part in `base`
 
   - requires fallback implementation (on top of `Integer`) in `base` if `integer-{simple,gmp}` are still to be supported
 
