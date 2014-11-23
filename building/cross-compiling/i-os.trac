@@ -188,9 +188,9 @@ Outstanding issues we should fix in rough priority order.
    * Evil Splicer [https://github.com/joeyh/git-annex/blob/master/Build/EvilSplicer.hs] / zeroth method [http://hackage.haskell.org/package/zeroth] (The most recently maintained repository is Adam Vogts fork of [https://github.com/mgsloan/zeroth])
    * A less powerful template-haskell extension
    * stage 2 in cross compilers
+   * Using the Out-Of-Process TH strategy that ghcjs uses. (work underway by angerman, see https://github.com/angerman/oopth)
  * Packaging with the wrapper scripts and perhaps release of binaries of official ghc releases
- * Would be nice to not have to disable dead-code removal. (Simon Marlow says "we have special hacks so that you don't have to disable dead-code removal on OS X, in the native code generator and (I presume) in the LLVM backend. Perhaps this just needs to be adapted to work on iOS too?")
-    I'm nearly done with this. -- angerman
+ * Would be nice to not have to disable dead-code removal. (Simon Marlow says "we have special hacks so that you don't have to disable dead-code removal on OS X, in the native code generator and (I presume) in the LLVM backend. Perhaps this just needs to be adapted to work on iOS too?") (done by angerman, part of 7.10)
  * Fix the copious link warnings
  * Stop llvm generating an unnecessary 'bx lr' (return) instruction after the GHC calling convention (which is actually a goto)
  * Programs outputting substantial text to the console can cause hangs in the RTS. (fixed by lukexi in ticket #8307).
