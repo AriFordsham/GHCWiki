@@ -10,7 +10,7 @@ This wiki page is meant as a scratch-pad to describe the plans/ideas behind the 
  - avoid issues when linking against other C libraries using GMP,
  - simplify code, as we would perform all heap allocations in Haskell code (and never inside Cmm/C code as its done now),
  - maybe even remove a few more superfluous temporary heap allocations.
- - link-time selectable integer-library backend (think `ghc --make -O -finteger-library=bsdnt` Hello.hs)
+ - link-time selectable integer-library backend (think `ghc --make -O -finteger-library=bsdnt Hello.hs`)
     - simplifies handling on platforms where GMP is not a system-library (mostly OSX and Windows)
     - user code can still link with GMP, even though the primitive operation use `bsdnt`
  - Allow to implement (big) Natural number type w/o redundant sign handling
@@ -18,15 +18,11 @@ This wiki page is meant as a scratch-pad to describe the plans/ideas behind the 
 
 == Roadmap ==
 
-{{{#!box note
-This is not yet a definite accepted plan but rather wishful thinking at this point
-}}}
-
 === For GHC 7.10.1
 
- - Switch to `integer-gmp2` as default `INTEGER_LIBRARY` [[BR]]
+ - '''''(done)''''' Switch to `integer-gmp2` as default `INTEGER_LIBRARY` [[BR]]
      - but leave `INTEGER_LIBRARY=integer-gmp` in place as build-option
- - We can leave the package name as `integer-gmp`, i.e. for
+ - '''''(done)''''' Leave the package name as `integer-gmp`, i.e. for
      - `INTEGER_LIBRARY=integer-gmp` we end up with `integer-gmp-0.5.1.0`, while for 
      - `INTEGER_LIBRARY=integer-gmp2` we end up with `integer-gmp-1.0.0.0`.
  - //(maybe)// update in-tree GMP version [[BR]]
@@ -71,6 +67,7 @@ data Integer  = S#                  Int#
                 -- ^ iff value in @]maxBound::'Int', +inf[@ range
               | Jn# {-# UNPACK #-} !BigNat
                 -- ^ iff value in @]-inf, minBound::'Int'[@ range
+              deriving (Eq)
 
 -- | Type representing arbitrary-precision Naturals
 --
@@ -80,8 +77,8 @@ data Natural = NatS#                 Word#    -- ^ @[0, maxBound::Word]@
              deriving (Eq,Ord)
 }}}
 
- - `BigNat` is a internal common type to `Integer` and `Natural` and not exposed through `base`
- - `Natural` finally fills the gap of the missing unsigned `Integer` counter-part in `base`
+ - `BigNat` is an internal common type to `Integer` and `Natural` and not exposed through `base`
+ - `Natural` (#9818) finally fills the gap of the missing unsigned `Integer` counter-part in `base`
         - requires fallback implementation (on top of `Integer`) in `base` if `integer-{simple,gmp}` are still to be supported
 
  - Most operations can avoid calling into the FFI backend integer-library, if the values don't exceed the `SI#`/`NatS#` capacity.  This also means that the performance difference between using e.g. `bsdnt` or `gmp` is only noticeable for large operands.
