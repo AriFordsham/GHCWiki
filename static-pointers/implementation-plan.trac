@@ -47,6 +47,7 @@ The cleanest way to avoid `encodeStaticPtr` / `decodeStaticPtr` being in the IO 
 encodeStaticPtr :: StaticPtr a -> String
 decodeStaticPtr :: String -> Maybe (DynStaticPtr, String))
 }}}
+But at least this interface is pure.
 
 === Implementation notes ===
 

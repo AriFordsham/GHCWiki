@@ -53,6 +53,9 @@ encodeStaticPtr :: StaticPtr a -> String
 decodeStaticPtr :: String -> Maybe (DynStaticPtr, String))
 ```
 
+
+But at least this interface is pure.
+
 ### Implementation notes
 
 - `StaticPtr` is defined as follows:
