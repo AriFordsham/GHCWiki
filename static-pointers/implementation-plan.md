@@ -15,7 +15,7 @@ However, there is a short-term workable plan for GHC 7.10, that does not require
 
 The proposal is therefore to:
 
-- Implement the extension in two phases: the full version with full dynamic type checks on top of a revised `Data.Typeable` in GHC 7.12, but an interim version in GHC 7.10 *with the same API* but with the dynamic type checks enabled by the SPT missing.
+- Implement the extension in two phases: the full version with full dynamic type checks on top of a revised `Data.Typeable` in GHC 7.12, but an interim version in GHC 7.10 **with the exact same API** but with the dynamic type checks enabled by the SPT missing.
 
 - In GHC 7.10, *implement only a shim SPT*, that looks just like the real thing, but does not include `tTypeRep`s or `TypeRep`s for any value. The reason we still need an SPT in GHC 7.10 is because there needs to be something that references static expressions throughout the lifetime of the program. The reason is that any such expression may at any time be referenced by a new `StaticPtr` produced from an incoming message. In other words, in a distributed system, other nodes may refer to values that are otherwise not live on the local node. The SPT must itself be protected against garbage collection, e.g. through the use of a `StablePtr`.
 
