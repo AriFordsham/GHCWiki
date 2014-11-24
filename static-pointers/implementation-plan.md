@@ -33,9 +33,12 @@ module GHC.StaticPtr
 
 data StaticPtr a
 
+-- | A 'Dynamic' that wraps a 'StaticPtr'
+type DynStaticPtr = Dynamic
+
 deRefStaticPtr :: StaticPtr a -> a
 fingerprint :: StaticPtr a -> Fingerprint
-lookup :: Fingerprint -> Maybe Dynamic -- or DynStaticPtr
+lookup :: Fingerprint -> Maybe DynStaticPtr
 ```
 
 **Remarks:**
@@ -56,7 +59,7 @@ lookup :: Fingerprint -> Maybe Dynamic -- or DynStaticPtr
 - Each occurrence of `static e` where `e :: a` incurs a new top-level definition:
 
   ```wiki
-  __static_f :: Dynamic
+  __static_f :: DynStaticPtr
   __static_f = toDynamic (StaticPtr (Fingerprint ...) e)
   ```
 
