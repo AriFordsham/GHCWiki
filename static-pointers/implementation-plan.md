@@ -19,10 +19,11 @@ The proposal is therefore to:
 
 - In GHC 7.10, *implement only a shim SPT*, that looks just like the real thing, but does not include `tTypeRep`s or `TypeRep`s for any value. The reason we still need an SPT in GHC 7.10 is because there needs to be something that references static expressions throughout the lifetime of the program. The reason is that any such expression may at any time be referenced by a new `StaticPtr` produced from an incoming message. In other words, in a distributed system, other nodes may refer to values that are otherwise not live on the local node. The SPT must itself be protected against garbage collection, e.g. through the use of a `StablePtr`.
 
+- In GHC 7.10, possibly only allow identifiers in the body of a `static` form, depending on the time required to implement floating of expressions to top-level adequately. This isn't a loss of generality, but is a loss of convenience for the user: one would have to float all expressions as top-level definitions manually.
+
 ### The API of `GHC.StaticPtr`
 
 ```wiki
-module GHC.StaticPtr
 module GHC.StaticPtr
   ( StaticPtr(..)
   , deRefStaticPtr
@@ -45,9 +46,39 @@ Remarks:
 - `CStringLen` can be converted to `ByteString` in constant time in application specific wrappers around `encodeStaticPtr`/`decodeStaticPtr`, which may furthermore expose these two functions behind a pure interface.
 
 
-The cleanest way to avoid `encodeStaticPtr` / `decodeStaticPtr` being in the IO monad is to make at least the `ByteString` type part of `base`, but that may not be an option for a whole host of reasons.
+The cleanest way to avoid `encodeStaticPtr` / `decodeStaticPtr` being in the IO monad is to make at least the `ByteString` type part of `base`, but that may not be an option for a whole host of reasons. There is an alternative to just use `String`, but that strikes as an unnecessary performance hit:
+
+```wiki
+encodeStaticPtr :: StaticPtr a -> String
+decodeStaticPtr :: String -> Maybe (DynStaticPtr, String))
+```
 
 ### Implementation notes
+
+- `StaticPtr` is defined as follows:
+
+  ```wiki
+  -- | Global names identifying top-level values
+  data GlobalName = StaticName String String String
+    deriving (Read, Show, Typeable)
+
+  data StaticPtr a = StaticPtr GlobalName a
+    deriving (Read, Show, Typeable)
+  ```
+- Floating of static expressions will be done in the desugarer, not the type checker.
+- Each occurrence of `static e` where `e :: a` incurs a new top-level definition:
+
+  ```wiki
+  __static_f :: StaticPtr a
+  __static_f = StaticPtr (GlobalName ...)
+  ```
+
+
+where `__static_f` is a fresh name.
+
+- All such `__static_*` definitions are considered SPT entries. All SPT entries are collected into the SPT for each module, constructed by the code produced by `mkModuleInit`.
+- A global SPT constructed using the SPT from each module by the RTS just before `main` is invoked.
+- The SPT is a hash table mapping `GlobalName`s to `StaticPtr`s.
 
 ### Appendix: notes about distributed-process
 
