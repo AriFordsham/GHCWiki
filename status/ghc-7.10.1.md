@@ -8,7 +8,7 @@ We've written up some tentative [ plans for the 7.10.1 release](https://haskell.
 - We'd like a release in **Feb 2015**, which is our goal.
 - We haven't planned an RC yet, but hope one **might be out by Christmas**.
 
-- [ Phab:D168](https://phabricator.haskell.org/D168): Partial type signatures
+- [ Phab:D168](https://phabricator.haskell.org/D168): Partial type signatures. **In flight**.
 - [ Phab:D155](https://phabricator.haskell.org/D155): LLVM 3.5 compatibility. **Done**.
 - [ Phab:D169](https://phabricator.haskell.org/D169): Source code note infrastructure
 - [ Phab:D396](https://phabricator.haskell.org/D396): DWARF debug information (dependent on [ Phab:D169](https://phabricator.haskell.org/D169))
