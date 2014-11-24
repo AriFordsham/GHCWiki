@@ -14,6 +14,8 @@ Several distinct layers are involved; they constitute the main payload of this d
 
 - [DistributedClosures](distributed-closures): library support for **serialisable closures**.  These closures can be implemented in a library, `distributed-closure` building on the two layers below, but the design of that library is far from trivial.
 
+- [StaticPointers/ImplementationPlan](static-pointers/implementation-plan): a phased approach to implementing the extension in GHC.
+
 
 Our goal is to identify the *smallest possible built-in extension to GHC*, with
 the smallest possible trusted code base, that would enable
