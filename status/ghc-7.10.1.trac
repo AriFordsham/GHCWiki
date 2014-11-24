@@ -23,4 +23,4 @@ See milestone:7.10.1 and [https://ghc.haskell.org/trac/ghc/query?status=infoneed
 
 == Tickets slated for 7.10.1
 
-[[TicketQuery(milestone=7.10.1,status!=closed,format=table,col=type|summary|priority|owner,group=status)]]
+[[TicketQuery(milestone=7.10.1,status!=closed,format=table,col=type|summary|priority|owner,group=status,order=priority)]]
