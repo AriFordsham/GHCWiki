@@ -35,7 +35,7 @@ data StaticPtr a
 
 deRefStaticPtr :: StaticPtr a -> a
 fingerprint :: StaticPtr a -> Fingerprint
-lookup :: Fingerprint -> Maybe DynStaticPtr
+lookup :: Fingerprint -> Maybe Dynamic -- or DynStaticPtr
 ```
 
 
@@ -50,15 +50,15 @@ Remarks:
 - `StaticPtr` is defined as follows:
 
   ```wiki
-  data StaticPtr a = StaticPtr !Fingerprint !TypeRep a
+  data StaticPtr a = StaticPtr !Fingerprint a
     deriving (Read, Show, Typeable)
   ```
 - Floating of static expressions will be done in the desugarer, not the type checker.
 - Each occurrence of `static e` where `e :: a` incurs a new top-level definition:
 
   ```wiki
-  __static_f :: Typeable a => StaticPtr a
-  __static_f = StaticPtr (Fingerprint ...) (typeOf :: a) e
+  __static_f :: Dynamic
+  __static_f = toDynamic (StaticPtr (Fingerprint ...) e)
   ```
 
 
