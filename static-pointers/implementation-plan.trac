@@ -39,7 +39,7 @@ Remarks:
 
 * `deRefStaticPtr` so named to make its name consistent with `deRefStablePtr` in `GHC.StablePtr`. Other possibilities include `unstatic` or `unStaticPtr`.
 * This module will be added to `base`, as for other primitives exposed by the compiler. This means we cannot depend on `bytestring` or any other package except `ghc-prim`.
-* As such, we should leave it up to user libraries how they wish to encode `StaticPtr`, using whatever target type they wish (e.g. `ByteString`). The solution is to ''not'' provide encoders / decoders to some string-like type, but instead to map to/from `Fingerprint` (used as the name for each entry in the SPT), which the user can encode/decode as she wishes (that part need ''not'' be part of the TCB).
+* As such, we should leave it up to user libraries how they wish to encode `StaticPtr`, using whatever target type they wish (e.g. `ByteString`). The solution is to ''not'' provide encoders / decoders to some string-like type, but instead to map to/from `GHC.Fingerprint.Fingerprint` (used as the name for each entry in the SPT), which the user can encode/decode as she wishes (that part need ''not'' be part of the TCB).
 
 === Implementation notes ===
 
