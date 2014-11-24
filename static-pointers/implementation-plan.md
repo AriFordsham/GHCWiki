@@ -66,6 +66,7 @@ where `__static_f` is a fresh name.
 - In the type checker, we add `Typeable a` to the set of constraints.
 - All such `__static_*` definitions are considered SPT entries. All SPT entries are collected into the SPT for each module, constructed by the code produced by `mkModuleInit`.
 - A global SPT constructed using the SPT from each module by the RTS just before `main` is invoked.
+- The RTS creates a `StablePtr` to the global SPT (and transitively any of its dependencies), to avoid it being garbage collected.
 - The SPT is a hash table mapping `Fingerprint`s to `StaticPtr`s.
 
 **Remark:** do we need `__static_f` at all? It looks like we could get `mkModuleInit` to generate the right code with all the entries, without the extra indirection.
