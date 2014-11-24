@@ -24,52 +24,40 @@ The proposal is therefore to:
 module GHC.StaticPtr
   ( StaticPtr(..)
   , deRefStaticPtr
-  , encodeStaticPtr
-  , decodeStaticPtr
+  , fingerprint
+  , lookup
   ) where
 
+data StaticPtr a
+
 deRefStaticPtr :: StaticPtr a -> a
-encodeStaticPtr :: StaticPtr a -> IO CStringLen
-decodeStaticPtr :: CStringLen -> IO (Maybe (DynStaticPtr, CStringLen))
+fingerprint :: StaticPtr a -> Fingerprint
+lookup :: Fingerprint -> Maybe DynStaticPtr
 }}}
 
 Remarks:
 
 * `deRefStaticPtr` so named to make its name consistent with `deRefStablePtr` in `GHC.StablePtr`. Other possibilities include `unstatic` or `unStaticPtr`.
 * This module will be added to `base`, as for other primitives exposed by the compiler. This means we cannot depend on `bytestring` or any other package except `ghc-prim`.
-* The use of `CStringLen` is inelegant, but it's arguably the next best thing short of having `ByteString` available.
-* Unfortunately, using `CStringLen` implies putting `encodeStaticPtr` and `decodeStaticPtr` in the `IO` monad, because unlike `ByteString` which is an abstract datatype with a fixed set of operations possible on it, a `CStringLen` is a `Ptr`, which when dereferencing might yield different values at different times due to arbitrary `poke`ing.
-* `CStringLen` can be converted to `ByteString` in constant time in application specific wrappers around `encodeStaticPtr`/`decodeStaticPtr`, which may furthermore expose these two functions behind a pure interface.
-
-The cleanest way to avoid `encodeStaticPtr` / `decodeStaticPtr` being in the IO monad is to make at least the `ByteString` type part of `base`, but that may not be an option for a whole host of reasons. There is an alternative to just use `String`, but that strikes as an unnecessary performance hit:
-
-{{{
-encodeStaticPtr :: StaticPtr a -> String
-decodeStaticPtr :: String -> Maybe (DynStaticPtr, String))
-}}}
-But at least this interface is pure.
+* As such, we should leave it up to user libraries how they wish to encode `StaticPtr`, using whatever type they wish (e.g. `ByteString`). The solution is to ''not'' provide encoders / decoders to some string-like type, but instead to map to/from `Finderprint` (used as the name for each entry in the SPT), which the user can encode/decode as she wishes (that part need ''not'' part of the TCB).
 
 === Implementation notes ===
 
 * `StaticPtr` is defined as follows:
 {{{
--- | Global names identifying top-level values
-data GlobalName = StaticName String String String
-  deriving (Read, Show, Typeable)
-
-data StaticPtr a = StaticPtr GlobalName a
+data StaticPtr a = StaticPtr Finderprint TypeRep a
   deriving (Read, Show, Typeable)
 }}}
 * Floating of static expressions will be done in the desugarer, not the type checker.
 * Each occurrence of `static e` where `e :: a` incurs a new top-level definition:
 {{{
-__static_f :: StaticPtr a
-__static_f = StaticPtr (GlobalName ...)
+__static_f :: Typeable a => StaticPtr a
+__static_f = StaticPtr (Fingerprint ...) (typeOf :: a) e
 }}}
 where `__static_f` is a fresh name.
 * All such `__static_*` definitions are considered SPT entries. All SPT entries are collected into the SPT for each module, constructed by the code produced by `mkModuleInit`.
 * A global SPT constructed using the SPT from each module by the RTS just before `main` is invoked.
-* The SPT is a hash table mapping `GlobalName`s to `StaticPtr`s.
+* The SPT is a hash table mapping `Fingerprint`s to `StaticPtr`s.
 
 === Appendix: notes about distributed-process ===
 
