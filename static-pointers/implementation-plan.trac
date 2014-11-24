@@ -1,5 +1,7 @@
 == Implementation plan for `-XStaticPointers` ==
 
+'''Read the StaticPointers proposal first.'''
+
 The `-XStaticPointers` language extension as currently envisioned is very lightweight, adding just one new syntactic form to expressions with its attendant typing rule. However, in order to implement the language extension with a smaller trusted code base, a few changes need to happen in unrelated parts of the compiler and base libraries. In particular, in order to avoid unsafe type casts in the implementation of [wiki:DistributedClosures distributed-closure], we will need the [wiki:Typeable typed Typeable] proposal. Further, in order to enable dynamic checks that static pointers are always decoded against the right type (recall that `StaticPointer a` has a phantom type parameter `a` which must match the type of the value referred to), GHC must maintain a Static Pointer Table (SPT) including one entry for each (unique) expression `e` appearing in the body of a `static e` form. This table is looked up at runtime, during decoding of static pointers.
 
 However, there is a short-term workable plan for GHC 7.10, that does not require redefining the `Data.Typeable` class at the last minute of the release engineering cycle. We observe that:
