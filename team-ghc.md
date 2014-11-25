@@ -114,6 +114,13 @@ In order to see emails below, **you must login**.
   - **Committer since**: September, 2010.
   - **Main areas of interest**: runtime system, codegen, gc
 
+- Facundo Domínguez
+
+  - Tweag I/O - Montevideo, Uruguay
+  - **Trac**: facundo.dominguez; **email**: facundo.dominguez@…
+  - **Committer since**: November, 2014.
+  - **Main areas of interest**: static pointers, cloud haskell
+
 - [ Gabor Greif](http://heisenbug.blogspot.com/)
 
   - Alcatel-Lucent - Nuremberg, Germany
