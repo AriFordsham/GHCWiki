@@ -57,7 +57,7 @@ type DynStaticPtr = Dynamic
 
 deRefStaticPtr :: StaticPtr a -> a
 staticName :: StaticPtr a -> StaticName
-lookup :: StaticName -> Maybe DynStaticPtr
+lookupStaticPtr :: StaticName -> Maybe DynStaticPtr
 }}}
 
 '''Remarks:'''
