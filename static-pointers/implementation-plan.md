@@ -51,8 +51,8 @@ data StaticPtr a
 module GHC.StaticPtr
   ( StaticPtr(..)
   , deRefStaticPtr
-  , fingerprint
-  , lookup
+  , staticName
+  , lookupStaticPtr
   ) where
 
 -- | A 'Dynamic' that wraps a 'StaticPtr'
