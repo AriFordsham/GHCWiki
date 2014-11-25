@@ -1,6 +1,8 @@
 
 This is a list of tickets that [ Pedro](http://dreixel.net) wants to keep an eye on (it doesn't necessarily mean that he is the owner, or responsible for those tickets).
 
+- [\#7109](https://gitlab.haskell.org//ghc/ghc/issues/7109) (Inlining depends on datatype size, even with INLINE pragmas)
+- [\#7114](https://gitlab.haskell.org//ghc/ghc/issues/7114) (Cannot recover (good) inlining behaviour from 7.0.2 in 7.4.1)
 - [\#7459](https://gitlab.haskell.org//ghc/ghc/issues/7459) (deriving Generic does not work with TypeLits)
 - [\#7492](https://gitlab.haskell.org//ghc/ghc/issues/7492) (Generic1 deriving: Can we replace Rec1 f with f :.: Par1?)
 - [\#7897](https://gitlab.haskell.org//ghc/ghc/issues/7897) (MakeTypeRep fingerprints be proper, robust fingerprints)
