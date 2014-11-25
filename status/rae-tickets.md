@@ -14,6 +14,9 @@
 **Medium**
 
 - [\#6018](https://gitlab.haskell.org//ghc/ghc/issues/6018): Injective type families (Jan is working on)
+- [\#7296](https://gitlab.haskell.org//ghc/ghc/issues/7296): Incoherent instance lookup is allowed within an instance declaration (by design)
+
+  - [\#9820](https://gitlab.haskell.org//ghc/ghc/issues/9820): Another example of the same behavior
 - [\#7495](https://gitlab.haskell.org//ghc/ghc/issues/7495): Allowing list syntax for `HList`
 - [\#8128](https://gitlab.haskell.org//ghc/ghc/issues/8128): Derived instances sometimes have inaccessible code
 - [\#8165](https://gitlab.haskell.org//ghc/ghc/issues/8165): GND should make associated types, too (not very well specified)
@@ -43,6 +46,8 @@
 
   - [\#9017](https://gitlab.haskell.org//ghc/ghc/issues/9017): Bad error message b/c of missing kind equality
 - [\#8338](https://gitlab.haskell.org//ghc/ghc/issues/8338): Incoherent instances without `-XIncoherentInstances`
+
+  - [\#2356](https://gitlab.haskell.org//ghc/ghc/issues/2356): Strangeness about GHC's lazy overlap check
 - [\#9429](https://gitlab.haskell.org//ghc/ghc/issues/9429): An alternative to `Any`. For example, we want `Typeable (forall x. x -> x)`.
 - [\#9562](https://gitlab.haskell.org//ghc/ghc/issues/9562): Type families + hs-boot files = `unsafeCoerce`
 
