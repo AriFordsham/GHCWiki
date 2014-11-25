@@ -26,6 +26,28 @@ The proposal is therefore to:
 ### The API of `GHC.StaticPtr`
 
 ```wiki
+module GHC.StaticPtr.Internal where
+
+-- | A globally unique term identifier. Isomorphic to 'Data.Typeable.TyCon' - should probably be unified with it.
+data StaticName = StaticName
+  { staticNameHash       :: !Fingerprint
+  , staticNamePackage    :: String
+  , staticNameModule     :: String
+  , staticNameIdentifier :: String
+  } deriving (Show, Typeable)
+
+instance Eq StaticName where
+  (StaticName t1 _ _ _) == (StaticName t2 _ _ _) = t1 == t2
+
+instance Ord StaticName where
+  (StaticName k1 _ _ _) <= (StaticName k2 _ _ _) = k1 <= k2
+
+mkStaticName :: String -> String -> String -> StaticName
+
+data StaticPtr a
+```
+
+```wiki
 module GHC.StaticPtr
   ( StaticPtr(..)
   , deRefStaticPtr
@@ -33,21 +55,21 @@ module GHC.StaticPtr
   , lookup
   ) where
 
-data StaticPtr a
-
 -- | A 'Dynamic' that wraps a 'StaticPtr'
 type DynStaticPtr = Dynamic
 
 deRefStaticPtr :: StaticPtr a -> a
-fingerprint :: StaticPtr a -> Fingerprint
-lookup :: Fingerprint -> Maybe DynStaticPtr
+staticName :: StaticPtr a -> StaticName
+lookup :: StaticName -> Maybe DynStaticPtr
 ```
 
 **Remarks:**
 
+- The module hierarchy mirrors exactly that of `Data.Typeable`: includes a public `Internal` module exposing the guts of all basic datatypes that do not need to be kept private for correctness. Only user defined serializers/deserializers should need to include this module. Encoders/decoders emphatically *do not need to be part of the TCB*.
 - `deRefStaticPtr` so named to make its name consistent with `deRefStablePtr` in `GHC.StablePtr`. Other possibilities include `unstatic` or `unStaticPtr`.
 - This module will be added to `base`, as for other primitives exposed by the compiler. This means we cannot depend on `bytestring` or any other package except `ghc-prim`.
-- As such, we should leave it up to user libraries how they wish to encode `StaticPtr`, using whatever target type they wish (e.g. `ByteString`). The solution is to *not* provide encoders / decoders to some string-like type, but instead to map to/from `GHC.Fingerprint.Fingerprint` (used as the name for each entry in the SPT), which the user can encode/decode as she wishes (that part need *not* be part of the TCB).
+- As such, we should leave it up to user libraries how they wish to encode `StaticPtr`, using whatever target type they wish (e.g. `ByteString`). The solution is to *not* provide encoders / decoders to some string-like type, but instead to map to/from `StaticName` (used as the name for each entry in the SPT), which the user can encode/decode as she wishes (again, these need not be part of the TCB).
+- The definition of `StaticName` must be part of the public API to make this work: otherwise there would be no way for the user to define her own encoder.
 
 ### Implementation notes
 
