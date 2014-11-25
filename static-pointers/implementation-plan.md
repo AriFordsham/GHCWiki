@@ -51,8 +51,8 @@ data StaticPtr a
 module GHC.StaticPtr
   ( StaticPtr(..)
   , deRefStaticPtr
-  , fingerprint
-  , lookup
+  , staticName
+  , lookupStaticPtr
   ) where
 
 -- | A 'Dynamic' that wraps a 'StaticPtr'
@@ -60,7 +60,7 @@ type DynStaticPtr = Dynamic
 
 deRefStaticPtr :: StaticPtr a -> a
 staticName :: StaticPtr a -> StaticName
-lookup :: StaticName -> Maybe DynStaticPtr
+lookupStaticPtr :: StaticName -> Maybe DynStaticPtr
 ```
 
 **Remarks:**
