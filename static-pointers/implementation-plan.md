@@ -70,6 +70,8 @@ lookupStaticPtr :: StaticName -> Maybe DynStaticPtr
 - This module will be added to `base`, as for other primitives exposed by the compiler. This means we cannot depend on `bytestring` or any other package except `ghc-prim`.
 - As such, we should leave it up to user libraries how they wish to encode `StaticPtr`, using whatever target type they wish (e.g. `ByteString`). The solution is to *not* provide encoders / decoders to some string-like type, but instead to map to/from `StaticName` (used as the name for each entry in the SPT), which the user can encode/decode as she wishes (again, these need not be part of the TCB).
 - The definition of `StaticName` must be part of the public API to make this work: otherwise there would be no way for the user to define her own encoder.
+- Encoders and decoders are normally overloaded functions of the 'binary' package, another package not included in base. It should be up to the application or framework to define these, in user libraries.
+- The above is the full extent of what needs to go into the base libraries and/or the compiler. Everything else, including distributed-closure, the definition of `Closure`, the `Serializable` type class, etc, can live in a separate package and need not be tied to any particular version of GHC.
 
 ### Implementation notes
 
