@@ -13,6 +13,7 @@ We've written up some tentative [https://haskell.org/pipermail/ghc-devs/2014-Oct
    - Phab:D396: DWARF debug information (dependent on Phab:D169). **Still needs closer review**.
    - Phab:D476: Deriving for arbitrary classes. **Done**.
    - Phab:D519: preliminary Complex and Ratio Storable instances for Base. **Done**
+   - Phab:D493: **stuck on Haddock panic, needs help**
 
 See milestone:7.10.1 and [https://ghc.haskell.org/trac/ghc/query?status=infoneeded&status=merge&status=new&status=patch&group=status&milestone=7.10.1 Active tickets] for more.
 
