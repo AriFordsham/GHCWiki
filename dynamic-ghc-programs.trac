@@ -56,6 +56,8 @@ As well as the [ticket:3658 ticket for implementing dynamic GHCi (#3658)], the t
 
 == Other issues ==
 
+#5620
+
 === Cabal support ===
 
 Currently released versions of Cabal/cabal-install don't handle dynamic GHCi well. In particular, if a library uses Template Haskell, then Cabal will build the ways in the wrong order, so compilation will fail. Cabal in HEAD handles it properly.
