@@ -116,6 +116,7 @@ See also [TemplateHaskell](template-haskell)
 ## Numerics, floating point, and primops
 
 - [\#9407](https://gitlab.haskell.org//ghc/ghc/issues/9407): 64-bit floating point behaves differently with and without -O
+- [\#5780](https://gitlab.haskell.org//ghc/ghc/issues/5780): aggressive-primop attempt that didn't quite work
 - [\#9328](https://gitlab.haskell.org//ghc/ghc/issues/9328): negative zero and case expressions
 - [\#9304](https://gitlab.haskell.org//ghc/ghc/issues/9304): floating point woes: 32 vs 64 bit
 - [\#7858](https://gitlab.haskell.org//ghc/ghc/issues/7858): `abs` on negative zero
