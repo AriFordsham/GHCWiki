@@ -10,6 +10,7 @@
 - [\#9122](https://gitlab.haskell.org//ghc/ghc/issues/9122): Check for bogus `unsafeCoerce`
 - [\#9636](https://gitlab.haskell.org//ghc/ghc/issues/9636): Should `F Bool` be well-formed, if `F` is an empty closed type family? (blocked by [\#9637](https://gitlab.haskell.org//ghc/ghc/issues/9637))
 - [\#9687](https://gitlab.haskell.org//ghc/ghc/issues/9687): Need `Typeable (,,,,,,,,,,)` and friends
+- [\#9838](https://gitlab.haskell.org//ghc/ghc/issues/9838): Don't require `PatternSynonyms` and `ConstraintKinds` at use sites
 
 **Medium**
 
