@@ -221,7 +221,7 @@ As well as the [ticket for implementing dynamic GHCi (\#3658)](https://gitlab.ha
 
 ## Other issues
 
-[\#4824](https://gitlab.haskell.org//ghc/ghc/issues/4824), [\#5620](https://gitlab.haskell.org//ghc/ghc/issues/5620)
+[\#4824](https://gitlab.haskell.org//ghc/ghc/issues/4824), [\#5291](https://gitlab.haskell.org//ghc/ghc/issues/5291), [\#5620](https://gitlab.haskell.org//ghc/ghc/issues/5620)
 
 ### Cabal support
 

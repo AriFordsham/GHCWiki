@@ -56,7 +56,7 @@ As well as the [ticket:3658 ticket for implementing dynamic GHCi (#3658)], the t
 
 == Other issues ==
 
-#4824, #5620
+#4824, #5291, #5620
 
 === Cabal support ===
 
