@@ -138,7 +138,7 @@ In order to see emails below, **you must login**.
 - [ George Karachalias](http://people.cs.kuleuven.be/~george.karachalias)
 
   - KU Leuven, Belgium
-  - **Trac**: gkaracha; **email**: george.karachalias@…
+  - **Trac**: gkarachalias; **email**: george.karachalias@…
   - **Committer since**: November, 2014.
   - **Main areas of interest**: frontend, type checker
 
