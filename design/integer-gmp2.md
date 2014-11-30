@@ -70,3 +70,31 @@ This wiki page is meant as a scratch-pad to describe the plans/ideas behind the 
   ```
 
 - The plan is to write a small shim-like C library that implements a uniform adapter for `integer-gmp2` to call into, that wraps libraries such as GMP or `bsdnt`. This small adapter is then selected at link-time by `ghc --make` similiar to how `ghc` selects one of its various runtimes (threaded, debugging, non-threaded, ...)
+
+## Simplifying 3rd party GMP-addon packages
+
+- `integer-gmp-1.0.0` provides an installed `<ghc-gmp.h>` header which is supposed to either include the system-wide `<gmp.h>` header, or correspond to the in-tree's GMP headers content.
+
+- `integer-gmp-1.0.0` persists meta-information about the build-time GMP library used in `HsIntegerGmp.h`.
+
+>
+> Here's an example for the definitions created for the in-tree GMP:
+>
+> ```
+> #define GHC_GMP_INTREE     1
+> #define GHC_GMP_VERSION_MJ 5
+> #define GHC_GMP_VERSION_MI 0
+> #define GHC_GMP_VERSION_PL 4
+> #define GHC_GMP_VERSION   (5 * 10000 + 0 * 100 + 4)
+> ```
+>
+>
+> And here's an example for a system-installed GMP:
+>
+> ```
+> #define GHC_GMP_INTREE     0
+> #define GHC_GMP_VERSION_MJ 6
+> #define GHC_GMP_VERSION_MI 0
+> #define GHC_GMP_VERSION_PL 0
+> #define GHC_GMP_VERSION   (6 * 10000 + 0 * 100 + 0)
+> ```
