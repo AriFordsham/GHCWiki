@@ -116,6 +116,12 @@ In order to see emails below, '''you must login'''.
   * '''Committer since''': August, 2011.
   * '''Main areas of interest''': Code generator (SIMD support, LLVM back-end), quasiquotation, Template Haskell.
 
+ * [http://people.cs.kuleuven.be/~george.karachalias George Karachalias]
+  * KU Leuven, Belgium
+  * '''Trac''': gkaracha; '''email''': george.karachalias@gmail.com
+  * '''Committer since''': November, 2014.
+  * '''Main areas of interest''': frontend, type checker
+
  * [http://gergo.erdi.hu/ Gergő Érdi]
   * Standard Chartered - London, UK
   * '''Trac''': cactus; '''email''': gergo@erdi.hu; '''github''': https://github.com/gergoerdi
