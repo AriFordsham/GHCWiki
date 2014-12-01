@@ -50,8 +50,8 @@ mViewPat :: Pat Id -> PmM [PmPat Id]
 It never generates `PmLitCon`s but may introduce guards in the middle of the
 clause in the following cases:
 
-- view patterns:  `(f -> p) ==> [x , p <- f x]`
-- `n+k` patterns: \`(n+k)    ==\> \[n', n'\>=k, let n = n'-k\]
+- view patterns:  `(f -> p) ==> [x , p <- f x]` (a variable and a guard)
+- `n+k` patterns: `(n+k)    ==> [n', n'>=k, let n = n'-k]` (a variable and two guards)
 
 
 Overloaded lists and pattern synonyms must be handled too but for now are just
