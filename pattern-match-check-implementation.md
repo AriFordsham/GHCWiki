@@ -120,6 +120,22 @@ The only reason we had to lift the algorithm in the `TcRnIf` is because we need
 fresh term and type variables but, apart from that, the main part of the algorithm
 is still purely syntactic.
 
+## Changes to `DsLclEnv`
+
+
+In order to handle correctly cases like [\#4139](https://gitlab.haskell.org//ghc/ghc/issues/4139), we have to collect constraints not
+only from the match we are currently checking but also from the context. Hence, we
+extend `DsLclEnv` with the additional field `ds_dicts :: Bag EvVar` where we accumulate
+constraints as we desugar the AST. Also, functions
+
+```wiki
+getDictsDs :: DsM (Bag EvVar)
+addDictsDs :: Bag EvVar -> DsM a -> DsM a
+```
+
+
+are used for retrieving and adding more constraints in the context.
+
 ## External interface
 
 
