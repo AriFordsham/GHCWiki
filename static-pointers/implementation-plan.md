@@ -85,19 +85,19 @@ lookupStaticPtr :: StaticName -> Maybe DynStaticPtr
 - Each occurrence of `static e` where `e :: a` incurs a new top-level definition:
 
   ```wiki
-  __static_f :: DynStaticPtr
-  __static_f = toDynamic (StaticPtr (Fingerprint ...) e)
+  sptEntry:0 :: DynStaticPtr
+  sptEntry:0 = toDynamic (StaticPtr (Fingerprint ...) e)
   ```
 
 
-where `__static_f` is a fresh name.
+where `sptEntry:0` is a fresh name.
 
 - In the type checker, we add `Typeable a` to the set of constraints.
-- All such `__static_*` definitions are considered SPT entries. Before `main` is invoked, modules are  initialized by inserting all their SPT entries into a global SPT which lives in the RTS. This initialization is implemented via [ constructor functions](https://gcc.gnu.org/onlinedocs/gcc/Function-Attributes.html) in the same way that module initialization is implemented for [ HPC](https://ghc.haskell.org/trac/ghc/wiki/Commentary/Hpc) (Coverage.hpcInitCode).
+- All such `sptEntry:*` definitions are considered SPT entries. Before `main` is invoked, modules are  initialized by inserting all their SPT entries into a global SPT which lives in the RTS. This initialization is implemented via [ constructor functions](https://gcc.gnu.org/onlinedocs/gcc/Function-Attributes.html) in the same way that module initialization is implemented for [ HPC](https://ghc.haskell.org/trac/ghc/wiki/Commentary/Hpc) (Coverage.hpcInitCode).
 - A `StablePtr` for each entry is created to avoid it being garbage collected (can we register the SPT as a source of roots with a single call?).
 - The SPT is a hash table mapping `Fingerprint`s to the closures of the SPT entries.
 
-**Remark:** do we need `__static_f` at all? It looks like we could generate the right code with all the entries, without the extra indirection.
+**Remark:** do we need `sptEntry:0` at all? It looks like we could generate the right code with all the entries, without the extra indirection.
 **Tentative answer:** at module initialization time, we need pointers to the SPT entries that we can insert into the SPT. Making SPT entries top-level definitions is a convenient mechanism to get such pointers. To avoid producing top-level definitions, we would need an alternative mechanism.
 
 ### Appendix: notes about distributed-process
