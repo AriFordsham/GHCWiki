@@ -86,7 +86,7 @@ data PmTriple = PmTriple { pmt_covered   :: [CoveredVec]
 `Delta` keeps track of the constraints that correspond to each clause, and includes
 both type constraints `EvVar` and term constraints (guards) `PmGuard`.
 `InVec` is simply a list of `PmPat`s where guards may appear anywhere in the
-vector. Both `Covered` and `Uncovered` represent intermediate vectors generated
+vector. Both `CoveredVec` and `UncoveredVec` represent intermediate vectors generated
 by the algorithm where the vectors are guard-free and all constraints are accumulated
 in `Delta`.
 Finally, `PmTriple`, as shown in the paper, is the information we get for every clause.
