@@ -7,7 +7,7 @@ of our approach see [wiki:PatternMatchCheck].
 
 == The `PmPat` datatype ==
 
-The `PmPat` data type as defined in `deSugar/Check.lhs` is defined as:
+The `PmPat` data type is defined in `deSugar/Check.lhs` as:
 {{{
 data PmPat id = PmGuardPat PmGuard
               | PmVarPat { pm_ty :: Type, pm_var :: id }
@@ -35,7 +35,7 @@ represent what a literal 'cannot be'.
 
 The main function for viewing `Pat Id` into our domain (`PmPat Id`) is
 {{{
-mViewPat :: Pat Id -> PmM [PmPat Id]`
+mViewPat :: Pat Id -> PmM [PmPat Id]
 }}}
 
 It never generates `PmLitCon`s but may introduce guards in the middle of the
