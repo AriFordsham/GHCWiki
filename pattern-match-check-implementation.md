@@ -35,7 +35,7 @@ clauses must have the same length.
 
 
 Also, negative literal patterns `PmLitCon` are used in cases where we we want to
-represent what a literal 'cannot be'.
+represent what a literal *cannot be*.
 
 ## Transforming `Pat` to `PmPat`
 
