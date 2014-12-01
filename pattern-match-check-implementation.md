@@ -5,7 +5,12 @@ This page describes how the exhaustiveness and redundancy cheker is implemented
 in GHC. If you are looking for a general description of the problem and an overview
 of our approach see [PatternMatchCheck](pattern-match-check).
 
-## The `PmPat` datatype
+
+See also
+
+- Peter Sestoft's paper for negative patterns [ ML's pattern matching compilation and partial evaluation](http://lambda.csail.mit.edu/~chet/papers/others/s/sestoft/sestoft96ml.pdf)
+
+## The `PmPat` datatype and friends
 
 
 The `PmPat` data type is defined in `deSugar/Check.lhs` as:
@@ -19,23 +24,32 @@ data PmPat id = PmGuardPat PmGuard
 ```
 
 
-Instead of using the more verbose type `Pat`, type `PmPat` represents only the
-following:
+where
 
-- Guards
-- Term variables
-- Constructor patterns
-- Literal patterns
-- Negative literal patterns
+```wiki
+type PmGuard  = CanItFail
 
-
-Note that `PmPat` is more liberal than `Pat`, in the sense that we allow guards
-to be interleaved with normal patterns. Hence, we lift the restriction that all
-clauses must have the same length.
+data PmLit id = PmLit HsLit
+              | PmOLit (HsOverLit id) (Maybe (SyntaxExpr id)) (SyntaxExpr id)
+```
 
 
-Also, negative literal patterns `PmLitCon` are used in cases where we we want to
-represent what a literal *cannot be*.
+Instead of using the more verbose type `Pat`, type `PmPat` represents only
+Guards, Term variables, Constructor patterns, Literal patterns and Negative literal patterns.
+Yet, note that `PmPat` is more liberal than `Pat`, in the sense that we allow guards
+to be interleaved with normal patterns. See next section for the translation from `Pat` to `PmPat`.
+Also, note that, since we allow arbitrary many guards to appear in the middle of the pattern vectors,
+we lift the restriction that all clauses must have the same length (Nevertheless, the number of actual
+patterns in every clause must be the same).
+
+
+Even though we could represent negative literals using guards, instead we use negative patterns (see
+Peter Sestoft's paper above), represented using `PmLitCon` (Literal Constraint). A `PmLitCon ty x lits`
+represents all literals `x` with type `ty`, except the ones that are in `lits`.
+
+
+Note that for now `PmGuard`s are simply represented by `CanItFail`. Yet, since we (try to) keep this type
+opaque, it can be extended in the future to support better reasoning for guards than we have now.
 
 ## Transforming `Pat` to `PmPat`
 
@@ -55,7 +69,35 @@ clause in the following cases:
 
 
 Overloaded lists and pattern synonyms must be handled too but for now are just
-introducing a variable and an unresolved guard.
+introducing a variable and a guard that can fail (`CanFail`).
+
+
+Literal patterns are desugared using functions (in `deSugar/MatchLit.lhs`):
+
+```wiki
+pmTidyLitPat :: HsLit -> Pat Id
+pmTidyNPat   :: HsOverLit Id -> Maybe (SyntaxExpr Id) -> SyntaxExpr Id -> Pat Id
+```
+
+
+The difference between these and the *proper*`tidyLitPat` and `tidyNPat` is
+that we do not wrap the literals in constructors. This way we do not expose their
+internal representation when we issue the warnings. Nevertheless, we unfold strings
+as lists of characters.
+
+
+Instead of calling `mViewPat` on every pattern, we define function
+
+```wiki
+preprocess_match :: EquationInfo -> PmM [PmPat Id]
+```
+
+
+That
+
+- Transforms all patterns using `mViewPat`
+- Extracts the `CaItFail` value out of the `MatchResult`
+- Puts them all together in a list of `PmPat Id`.
 
 ## Main algorithm
 
@@ -103,6 +145,11 @@ one_full_step :: [UncoveredVec] -> InVec -> PmM PmTriple
 
 `one_full_step` simply calls `one_step` on every uncovered vector and combines
 the results.
+
+
+Note that `one_step` also generates type constraints while traversing the pattern
+vectors (that's the reason we have annotated every data constructor of `PmPat` with
+the respective type) and stores them in `Delta` as it goes deeper.
 
 ## The `PmM` monad
 
