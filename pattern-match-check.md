@@ -97,23 +97,29 @@ we compute:
 
 For example, for function `f` above we have:
 
-```wiki
-f :: T a -> T a -> Bool
--- initial_missing = { _ _ }
-f T1 T1 = True
--- covers = { T1 T1 }
--- Forces the evaluation of the 1st argument
--- If 1st argument is T1 forces the evaluation of the 2nd argument
--- left uncovered = { T2 _ , T1 T2 }
-f T2 T2 = False
--- covers = { T2 T2 }
--- If 1st argument is T2 forces the evaluation of the 2nd argument
--- left uncovered = { T2 T1 , T1 T2 }
-f _  _  = undefined -- inaccessible
--- covers = { T2 T1 , T1 T2 }
--- doesn't force anything
--- left uncovered = {}
-```
+- initial_missing = `[[_ _]]`
+
+  ```wiki
+  f T1 T1 = True -- first clause
+  ```
+- Covers `[[T1 T1]]`
+- Forces the evaluation of the 1st argument
+- If 1st argument is `T1` forces the evaluation of the 2nd argument
+- Remain uncovered `[[T2 _], [T1 T2]]`
+
+  ```wiki
+  f T2 T2 = False -- second clause
+  ```
+- Covers `[[T2 T2]]`
+- If 1st argument is `T2` forces the evaluation of the 2nd argument
+- Remain uncovered `[[T2 T1], [T1 T2]]`
+
+  ```wiki
+  f _  _  = undefined -- third clause (inaccessible)
+  ```
+- Covers: `[[T2 T1], [T1 T2]]`
+- Doesn't force anything
+- Remain uncovered: `[]`
 
 
 Now we can easily check both covered and uncovered cases and filter out the
