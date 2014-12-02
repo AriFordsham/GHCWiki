@@ -16,6 +16,7 @@
 
 **Medium**
 
+- [\#3483](https://gitlab.haskell.org//ghc/ghc/issues/3483): Notation for known-inaccessible code, like `()` in Agda
 - [\#6018](https://gitlab.haskell.org//ghc/ghc/issues/6018): Injective type families (Jan is working on)
 - [\#7296](https://gitlab.haskell.org//ghc/ghc/issues/7296): Incoherent instance lookup is allowed within an instance declaration (by design)
 
