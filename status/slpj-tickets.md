@@ -2,13 +2,10 @@
 
 ## Urgent or in-flight
 
-- [\#9497](https://gitlab.haskell.org//ghc/ghc/issues/9497): typed holes: minor flag change
 - [\#9260](https://gitlab.haskell.org//ghc/ghc/issues/9260): type lits (Iavor owns)
 - [\#7015](https://gitlab.haskell.org//ghc/ghc/issues/7015): support for `static`
 - [\#9404](https://gitlab.haskell.org//ghc/ghc/issues/9404): `tcInfer` infelicity (Richard owns)
-- [\#9400](https://gitlab.haskell.org//ghc/ghc/issues/9400): `unpackCString#` rules (asked for volunteers)
 - [\#8634](https://gitlab.haskell.org//ghc/ghc/issues/8634), [\#9267](https://gitlab.haskell.org//ghc/ghc/issues/9267), [\#9227](https://gitlab.haskell.org//ghc/ghc/issues/9227): relaxing functional dependency rules `-XDysFunctionalDependencies`
-- [\#9318](https://gitlab.haskell.org//ghc/ghc/issues/9318): bad type error caused by wanted/wanted solving (talk to Dimitrios)
 - [\#8852](https://gitlab.haskell.org//ghc/ghc/issues/8852), [\#8980](https://gitlab.haskell.org//ghc/ghc/issues/8980), [\#8941](https://gitlab.haskell.org//ghc/ghc/issues/8941) (possibly), [\#8960](https://gitlab.haskell.org//ghc/ghc/issues/8960), [\#7898](https://gitlab.haskell.org//ghc/ghc/issues/7898), [\#7068](https://gitlab.haskell.org//ghc/ghc/issues/7068), [\#7944](https://gitlab.haskell.org//ghc/ghc/issues/7944), [\#5550](https://gitlab.haskell.org//ghc/ghc/issues/5550), [\#8836](https://gitlab.haskell.org//ghc/ghc/issues/8836): `SpecConstr` blowup
 - [\#9123](https://gitlab.haskell.org//ghc/ghc/issues/9123): higher order roles
 - [\#9200](https://gitlab.haskell.org//ghc/ghc/issues/9200), [\#9151](https://gitlab.haskell.org//ghc/ghc/issues/9151): kind inference for mutually recursive types (Richard owns)
@@ -23,7 +20,6 @@
 
 ## Front end
 
-- [\#8968](https://gitlab.haskell.org//ghc/ghc/issues/8968), [\#9226](https://gitlab.haskell.org//ghc/ghc/issues/9226): pattern synonyms and GADTs
 - [\#8581](https://gitlab.haskell.org//ghc/ghc/issues/8581): bidirectional pattern synonyms (with different constraints)
 - [\#8582](https://gitlab.haskell.org//ghc/ghc/issues/8582): pattern synonyms and record syntax
 - [\#9223](https://gitlab.haskell.org//ghc/ghc/issues/9223): error message mentioning untouchables
@@ -34,13 +30,10 @@
 - [\#8281](https://gitlab.haskell.org//ghc/ghc/issues/8281): `UnliftedFFITypes` etc
 - [\#8441](https://gitlab.haskell.org//ghc/ghc/issues/8441): family instances in hs-boot files
 - [\#9450](https://gitlab.haskell.org//ghc/ghc/issues/9450): need more eager checking of compatibility with hs-boot files
-- [\#2182](https://gitlab.haskell.org//ghc/ghc/issues/2182), [\#8427](https://gitlab.haskell.org//ghc/ghc/issues/8427): stop EPS cache poisoning
-- [\#5610](https://gitlab.haskell.org//ghc/ghc/issues/5610), [\#7243](https://gitlab.haskell.org//ghc/ghc/issues/7243): Better error messages for `foreign` declarations
 - [\#8240](https://gitlab.haskell.org//ghc/ghc/issues/8240): better error messages for type-function equalities
 - [\#8095](https://gitlab.haskell.org//ghc/ghc/issues/8095): very slow constraint solving
 - [\#8171](https://gitlab.haskell.org//ghc/ghc/issues/8171): extended default rules
 - [\#7259](https://gitlab.haskell.org//ghc/ghc/issues/7259): Eta-expansion of products in System FC
-- [\#6022](https://gitlab.haskell.org//ghc/ghc/issues/6022): over-general types are inferred
 - [\#5642](https://gitlab.haskell.org//ghc/ghc/issues/5642): slow constraint solving
 - [\#7828](https://gitlab.haskell.org//ghc/ghc/issues/7828), [\#5267](https://gitlab.haskell.org//ghc/ghc/issues/5267), [\#5777](https://gitlab.haskell.org//ghc/ghc/issues/5777), [\#5333](https://gitlab.haskell.org//ghc/ghc/issues/5333), [\#344](https://gitlab.haskell.org//ghc/ghc/issues/344): bugs in arrows
 - [\#7204](https://gitlab.haskell.org//ghc/ghc/issues/7204): a class to controll FFI marshalling; and newtype deriving for classes with ATs
@@ -63,7 +56,6 @@
 See also [TemplateHaskell](template-haskell)
 
 - [\#9262](https://gitlab.haskell.org//ghc/ghc/issues/9262): allow free variables in `reifyInstances`
-- [\#9209](https://gitlab.haskell.org//ghc/ghc/issues/9209): allow splicing declarations in `let`/`where`.  Currently we just get a crash.
 - [\#9113](https://gitlab.haskell.org//ghc/ghc/issues/9113): pattern match overlap/exhaustiveness checked in Typed TH
 - [TemplateHaskell/Annotations](template-haskell/annotations) Gergely's work on annotations in TH
 - [\#1475](https://gitlab.haskell.org//ghc/ghc/issues/1475): allow splicing of import declarations (5 in cc list)

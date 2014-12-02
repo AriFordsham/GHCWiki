@@ -1,13 +1,10 @@
 = This page collects tickets that Simon PJ is interested in, so that he remembers them =
 
 == Urgent or in-flight ==
- * #9497: typed holes: minor flag change
  * #9260: type lits (Iavor owns)
  * #7015: support for `static`
  * #9404: `tcInfer` infelicity (Richard owns)
- * #9400: `unpackCString#` rules (asked for volunteers)
  * #8634, #9267, #9227: relaxing functional dependency rules `-XDysFunctionalDependencies`
- * #9318: bad type error caused by wanted/wanted solving (talk to Dimitrios)
  * #8852, #8980, #8941 (possibly), #8960, #7898, #7068, #7944, #5550, #8836: `SpecConstr` blowup
  * #9123: higher order roles
  * #9200, #9151: kind inference for mutually recursive types (Richard owns)
@@ -22,7 +19,6 @@
 
 == Front end ==
 
- * #8968, #9226: pattern synonyms and GADTs
  * #8581: bidirectional pattern synonyms (with different constraints)
  * #8582: pattern synonyms and record syntax
  * #9223: error message mentioning untouchables
@@ -33,13 +29,10 @@
  * #8281: `UnliftedFFITypes` etc
  * #8441: family instances in hs-boot files
  * #9450: need more eager checking of compatibility with hs-boot files
- * #2182, #8427: stop EPS cache poisoning
- * #5610, #7243: Better error messages for `foreign` declarations
  * #8240: better error messages for type-function equalities
  * #8095: very slow constraint solving
  * #8171: extended default rules
  * #7259: Eta-expansion of products in System FC
- * #6022: over-general types are inferred
  * #5642: slow constraint solving
  * #7828, #5267, #5777, #5333, #344: bugs in arrows
  * #7204: a class to controll FFI marshalling; and newtype deriving for classes with ATs
@@ -60,7 +53,6 @@
 See also [wiki:TemplateHaskell]
 
  * #9262: allow free variables in `reifyInstances`
- * #9209: allow splicing declarations in `let`/`where`.  Currently we just get a crash.
  * #9113: pattern match overlap/exhaustiveness checked in Typed TH
  * [wiki:TemplateHaskell/Annotations] Gergely's work on annotations in TH
  * #1475: allow splicing of import declarations (5 in cc list)
