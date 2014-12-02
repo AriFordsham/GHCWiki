@@ -72,30 +72,23 @@ lookupStaticPtr :: StaticName -> Maybe DynStaticPtr
 
 === Implementation notes ===
 
-* `StaticPtr` is defined as follows:
+** `StaticPtr` is defined as follows:
 {{{
 data StaticPtr a = StaticPtr !Fingerprint a
   deriving (Read, Show, Typeable)
 }}}
 
 * The compiler passes work like this
-  * `HsSyn`: new constructor `HsStatic` in `HsExpr`.
-
-  * '''Lexical analysis''': `static` is a keyword when `-XStaticPointers` is on
-
-  * '''Renaming''': in `(static e)`, check that all free variables of `e` are bound at top level
-
-  * '''Typechecking'''. In the type checker, we add `Typeable a` to the set of constraints.
-
-
+  * '''Lexical analysis''': `static` is a keyword when `-XStaticPointers` is on[[BR]][[BR]]
+  * '''Parsing''': new constructor `HsStatic` in `HsExpr`, to represent `(static e)`.[[BR]][[BR]]
+  * '''Renaming''': in `(static e)`, check that all free variables of `e` are bound at top level[[BR]][[BR]]
+  * '''Typechecking'''. In the type checker, we add `Typeable a` to the set of constraints.[[BR]][[BR]]
   * '''Desugaring''': desugar `(static e)` to ??, and create a new top-level binding
 {{{
 sptEntry:0 :: DynStaticPtr
 sptEntry:0 = toDynamic (StaticPtr (Fingerprint ...) e)
 }}}
-  where `sptEntry:0` is a fresh name.
-
-
+  where `sptEntry:0` is a fresh name.[[BR]][[BR]]
   * '''Code generation'''.  All such `sptEntry:*` definitions are considered SPT entries. Before `main` is invoked, modules are  initialized by inserting all their SPT entries into a global SPT which lives in the RTS. This initialization is implemented via [https://gcc.gnu.org/onlinedocs/gcc/Function-Attributes.html constructor functions] in the same way that module initialization is implemented for [https://ghc.haskell.org/trac/ghc/wiki/Commentary/Hpc HPC] (Coverage.hpcInitCode).
 
 * A `StablePtr` for each entry is created to avoid it being garbage collected (can we register the SPT as a source of roots with a single call?).

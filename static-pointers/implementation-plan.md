@@ -75,33 +75,29 @@ lookupStaticPtr :: StaticName -> Maybe DynStaticPtr
 
 ### Implementation notes
 
-- `StaticPtr` is defined as follows:
+**`StaticPtr` is defined as follows:
+**
 
-  ```wiki
-  data StaticPtr a = StaticPtr !Fingerprint a
-    deriving (Read, Show, Typeable)
-  ```
+```wiki
+data StaticPtr a = StaticPtr !Fingerprint a
+  deriving (Read, Show, Typeable)
+```
 
 - The compiler passes work like this
 
-  - `HsSyn`: new constructor `HsStatic` in `HsExpr`.
+  - **Lexical analysis**: `static` is a keyword when `-XStaticPointers` is on
+  - **Parsing**: new constructor `HsStatic` in `HsExpr`, to represent `(static e)`.
+  - **Renaming**: in `(static e)`, check that all free variables of `e` are bound at top level
+  - **Typechecking**. In the type checker, we add `Typeable a` to the set of constraints.
+  - **Desugaring**: desugar `(static e)` to ??, and create a new top-level binding
 
-- **Lexical analysis**: `static` is a keyword when `-XStaticPointers` is on
+    ```wiki
+    sptEntry:0 :: DynStaticPtr
+    sptEntry:0 = toDynamic (StaticPtr (Fingerprint ...) e)
+    ```
 
-- **Renaming**: in `(static e)`, check that all free variables of `e` are bound at top level
-
-- **Typechecking**. In the type checker, we add `Typeable a` to the set of constraints.
-
-- **Desugaring**: desugar `(static e)` to ??, and create a new top-level binding
-
-  ```wiki
-  sptEntry:0 :: DynStaticPtr
-  sptEntry:0 = toDynamic (StaticPtr (Fingerprint ...) e)
-  ```
-
-  where `sptEntry:0` is a fresh name.
-
-- **Code generation**.  All such `sptEntry:*` definitions are considered SPT entries. Before `main` is invoked, modules are  initialized by inserting all their SPT entries into a global SPT which lives in the RTS. This initialization is implemented via [ constructor functions](https://gcc.gnu.org/onlinedocs/gcc/Function-Attributes.html) in the same way that module initialization is implemented for [ HPC](https://ghc.haskell.org/trac/ghc/wiki/Commentary/Hpc) (Coverage.hpcInitCode).
+    where `sptEntry:0` is a fresh name.
+  - **Code generation**.  All such `sptEntry:*` definitions are considered SPT entries. Before `main` is invoked, modules are  initialized by inserting all their SPT entries into a global SPT which lives in the RTS. This initialization is implemented via [ constructor functions](https://gcc.gnu.org/onlinedocs/gcc/Function-Attributes.html) in the same way that module initialization is implemented for [ HPC](https://ghc.haskell.org/trac/ghc/wiki/Commentary/Hpc) (Coverage.hpcInitCode).
 
 - A `StablePtr` for each entry is created to avoid it being garbage collected (can we register the SPT as a source of roots with a single call?).
 - The SPT is a hash table mapping `Fingerprint`s to the closures of the SPT entries.
