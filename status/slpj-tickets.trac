@@ -168,6 +168,7 @@ See also [wiki:TemplateHaskell]
  * #3462: allocate large objects with `allocateLocal()`
  * #2289: cheap check at start of case alternatives
  * #2731: avoiding unnecessary evaluation when unpacking constructors
+ * #4121: arity and CAF info computation is horribly fragile
 
 === Optimiser ===
  * #5059: specialise on value arguments
