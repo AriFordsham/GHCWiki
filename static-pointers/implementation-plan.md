@@ -5,6 +5,8 @@
 
 The `-XStaticPointers` language extension as currently envisioned is very lightweight, adding just one new syntactic form to expressions with its attendant typing rule. However, in order to implement the language extension with a smaller trusted code base, a few changes need to happen in unrelated parts of the compiler and base libraries. In particular, in order to avoid unsafe type casts in the implementation of [distributed-closure](distributed-closures), we will need the [typed Typeable](typeable) proposal. Further, in order to enable dynamic checks that static pointers are always decoded against the right type (recall that `StaticPointer a` has a phantom type parameter `a` which must match the type of the value referred to), GHC must maintain a Static Pointer Table (SPT) including one entry for each (unique) expression `e` appearing in the body of a `static e` form. This table is looked up at runtime, during decoding of static pointers.
 
+## Interim plan for 7.10
+
 
 However, there is a short-term workable plan for GHC 7.10, that does not require redefining the `Data.Typeable` class at the last minute of the release engineering cycle. We observe that:
 
@@ -23,7 +25,7 @@ The proposal is therefore to:
 
 - In GHC 7.10, possibly only allow identifiers in the body of a `static` form, depending on the time required to implement floating of expressions to top-level adequately. This isn't a loss of generality, but is a loss of convenience for the user: one would have to float all expressions as top-level definitions manually.
 
-### The API of `GHC.StaticPtr`
+### The API of `GHC.StaticPtr` (interim version for 7.10)
 
 ```wiki
 module GHC.StaticPtr.Internal where
@@ -73,27 +75,34 @@ lookupStaticPtr :: StaticName -> Maybe DynStaticPtr
 - Encoders and decoders are normally overloaded functions of the 'binary' package, another package not included in base. It should be up to the application or framework to define these, in user libraries.
 - The above is the full extent of what needs to go into the base libraries and/or the compiler. Everything else, including distributed-closure, the definition of `Closure`, the `Serializable` type class, etc, can live in a separate package and need not be tied to any particular version of GHC.
 
-### Implementation notes
+---
 
-- `StaticPtr` is defined as follows:
+## Implementation notes for interim version
 
-  ```wiki
-  data StaticPtr a = StaticPtr !Fingerprint a
-    deriving (Read, Show, Typeable)
-  ```
-- Floating of static expressions will be done in the desugarer, not the type checker.
-- Each occurrence of `static e` where `e :: a` incurs a new top-level definition:
+**`StaticPtr` is defined as follows:
+**
 
-  ```wiki
-  sptEntry:0 :: DynStaticPtr
-  sptEntry:0 = toDynamic (StaticPtr (Fingerprint ...) e)
-  ```
+```wiki
+data StaticPtr a = StaticPtr !Fingerprint a
+  deriving (Read, Show, Typeable)
+```
 
+- The compiler passes work like this
 
-where `sptEntry:0` is a fresh name.
+  - **Lexical analysis**: `static` is a keyword when `-XStaticPointers` is on
+  - **Parsing**: new constructor `HsStatic` in `HsExpr`, to represent `(static e)`.
+  - **Renaming**: in `(static e)`, check that all free variables of `e` are bound at top level
+  - **Typechecking**. In the type checker, we add `Typeable a` to the set of constraints.
+  - **Desugaring**: desugar `(static e)` to ??, and create a new top-level binding
 
-- In the type checker, we add `Typeable a` to the set of constraints.
-- All such `sptEntry:*` definitions are considered SPT entries. Before `main` is invoked, modules are  initialized by inserting all their SPT entries into a global SPT which lives in the RTS. This initialization is implemented via [ constructor functions](https://gcc.gnu.org/onlinedocs/gcc/Function-Attributes.html) in the same way that module initialization is implemented for [ HPC](https://ghc.haskell.org/trac/ghc/wiki/Commentary/Hpc) (Coverage.hpcInitCode).
+    ```wiki
+    sptEntry:0 :: DynStaticPtr
+    sptEntry:0 = toDynamic (StaticPtr (Fingerprint ...) e)
+    ```
+
+    where `sptEntry:0` is a fresh name.
+  - **Code generation**.  All such `sptEntry:*` definitions are considered SPT entries. Before `main` is invoked, modules are  initialized by inserting all their SPT entries into a global SPT which lives in the RTS. This initialization is implemented via [ constructor functions](https://gcc.gnu.org/onlinedocs/gcc/Function-Attributes.html) in the same way that module initialization is implemented for [ HPC](https://ghc.haskell.org/trac/ghc/wiki/Commentary/Hpc) (Coverage.hpcInitCode).
+
 - A `StablePtr` for each entry is created to avoid it being garbage collected (can we register the SPT as a source of roots with a single call?).
 - The SPT is a hash table mapping `Fingerprint`s to the closures of the SPT entries.
 
