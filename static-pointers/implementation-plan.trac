@@ -4,6 +4,8 @@
 
 The `-XStaticPointers` language extension as currently envisioned is very lightweight, adding just one new syntactic form to expressions with its attendant typing rule. However, in order to implement the language extension with a smaller trusted code base, a few changes need to happen in unrelated parts of the compiler and base libraries. In particular, in order to avoid unsafe type casts in the implementation of [wiki:DistributedClosures distributed-closure], we will need the [wiki:Typeable typed Typeable] proposal. Further, in order to enable dynamic checks that static pointers are always decoded against the right type (recall that `StaticPointer a` has a phantom type parameter `a` which must match the type of the value referred to), GHC must maintain a Static Pointer Table (SPT) including one entry for each (unique) expression `e` appearing in the body of a `static e` form. This table is looked up at runtime, during decoding of static pointers.
 
+== Interim plan for 7.10 == 
+
 However, there is a short-term workable plan for GHC 7.10, that does not require redefining the `Data.Typeable` class at the last minute of the release engineering cycle. We observe that:
 
 * The typed `Typeable` proposal makes it possible to avoid unsafe type casts in the presence of existentials (as does appear in the implementation of distributed-closure), but is otherwise not required. In other words, that proposal helps reduce the size of trusted base, but does not otherwise enable any particular feature.
@@ -20,7 +22,7 @@ The proposal is therefore to:
 
 * In GHC 7.10, possibly only allow identifiers in the body of a `static` form, depending on the time required to implement floating of expressions to top-level adequately. This isn't a loss of generality, but is a loss of convenience for the user: one would have to float all expressions as top-level definitions manually.
 
-=== The API of `GHC.StaticPtr` ===
+=== The API of `GHC.StaticPtr` (interim version for 7.10) ===
 
 {{{
 module GHC.StaticPtr.Internal where
@@ -70,7 +72,8 @@ lookupStaticPtr :: StaticName -> Maybe DynStaticPtr
 * Encoders and decoders are normally overloaded functions of the 'binary' package, another package not included in base. It should be up to the application or framework to define these, in user libraries.
 * The above is the full extent of what needs to go into the base libraries and/or the compiler. Everything else, including distributed-closure, the definition of `Closure`, the `Serializable` type class, etc, can live in a separate package and need not be tied to any particular version of GHC.
 
-=== Implementation notes ===
+--------------------------
+== Implementation notes for interim version ==
 
 ** `StaticPtr` is defined as follows:
 {{{
