@@ -31,7 +31,7 @@ The proposal is therefore to:
 module GHC.StaticPtr
   ( StaticPtr
   , StaticKey
-  , StaticPtrInfo
+  , StaticPtrInfo(..)
   , deRefStaticPtr
   , staticPtrKey
   , unsafeLookupStaticPtr
