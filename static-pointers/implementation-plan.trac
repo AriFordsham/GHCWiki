@@ -28,36 +28,26 @@ The proposal is therefore to:
 module GHC.StaticPtr
   ( StaticPtr
   , StaticKey
-  , DynStaticPtr
   , StaticPtrInfo
   , deRefStaticPtr
   , staticPtrKey
-  , lookupDynStaticPtr
+  , unsafeLookupStaticPtr
   , staticPtrInfo
   ) where
 
--- | A key for `StaticPtrs` that can be serialized and used with 'lookupStaticPtr'.
+-- | A key for `StaticPtrs` that can be serialized and used with 'unsafeLookupStaticPtr'.
 type StaticKey = Fingerprint
 
--- | A 'Dynamic' that wraps a 'StaticPtr'
-type DynStaticPtr = Dynamic
-
 -- | Miscelaneous information available for debugging purposes.
-data StaticPtrInfo = StaticPtrInfo { pkgId, moduleName :: String }
+data StaticPtrInfo = StaticPtrInfo { pkgId, moduleName :: String, ... }
 
-deRefStaticPtr     :: StaticPtr a -> a
-staticPtrKey       :: StaticPtr a -> StaticKey
-lookupDynStaticPtr :: StaticKey   -> Maybe DynStaticPtr
-staticPtrInfo      :: StaticPtr   -> StaticPtrInfo
+deRefStaticPtr        :: StaticPtr a -> a
+staticPtrKey          :: StaticPtr a -> StaticKey
+staticPtrInfo         :: StaticPtr a -> StaticPtrInfo
+unsafeLookupStaticPtr :: StaticKey   -> Maybe (StaticPtr a)
 
 data StaticPtr
 }}}
-
-'''Question:''' Should we include for convenience
-{{{
-lookupStaticPtr :: Typeable a => StaticKey   -> Maybe (StaticPtr a)
-}}}
-?
 
 '''Remarks:'''
 
