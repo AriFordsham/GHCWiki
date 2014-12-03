@@ -51,18 +51,26 @@ data StaticPtr a
 
 ```wiki
 module GHC.StaticPtr
-  ( StaticPtr(..)
+  ( StaticPtr
+  , staticName
   , deRefStaticPtr
   , staticName
   , lookupStaticPtr
   ) where
 
+-- | A key for `StaticPtrs` that can be serialized and used with 'lookupStaticPtr'.
+type StaticKey = Fingerprint
+
 -- | A 'Dynamic' that wraps a 'StaticPtr'
 type DynStaticPtr = Dynamic
 
-deRefStaticPtr :: StaticPtr a -> a
-staticName :: StaticPtr a -> StaticName
-lookupStaticPtr :: StaticName -> Maybe DynStaticPtr
+-- | Miscelaneous information available for debugging purposes.
+data StaticPtrInfo = StaticPtrInfo { pkgId, moduleName :: String }
+
+deRefStaticPtr  :: StaticPtr a -> a
+staticPtrKey    :: StaticPtr a -> StaticKey
+lookupStaticPtr :: StaticKey   -> Maybe DynStaticPtr
+staticPtrInfo   :: StaticPtr   -> StaticPtrInfo
 ```
 
 **Remarks:**
@@ -70,8 +78,8 @@ lookupStaticPtr :: StaticName -> Maybe DynStaticPtr
 - The module hierarchy mirrors exactly that of `Data.Typeable`: includes a public `Internal` module exposing the guts of all basic datatypes that do not need to be kept private for correctness. Only user defined serializers/deserializers should need to include this module. Encoders/decoders emphatically *do not need to be part of the TCB*.
 - `deRefStaticPtr` so named to make its name consistent with `deRefStablePtr` in `GHC.StablePtr`. Other possibilities include `unstatic` or `unStaticPtr`.
 - This module will be added to `base`, as for other primitives exposed by the compiler. This means we cannot depend on `bytestring` or any other package except `ghc-prim`.
-- As such, we should leave it up to user libraries how they wish to encode `StaticPtr`, using whatever target type they wish (e.g. `ByteString`). The solution is to *not* provide encoders / decoders to some string-like type, but instead to map to/from `StaticName` (used as the name for each entry in the SPT), which the user can encode/decode as she wishes (again, these need not be part of the TCB).
-- The definition of `StaticName` must be part of the public API to make this work: otherwise there would be no way for the user to define her own encoder.
+- As such, we should leave it up to user libraries how they wish to encode `StaticPtr`, using whatever target type they wish (e.g. `ByteString`). The solution is to provide a serializable `StaticKey` for each `StaticPtr`.
+- The definition of `StaticKey` must be part of the public API to make this work: otherwise there would be no way for the user to define her own encoder.
 - Encoders and decoders are normally overloaded functions of the 'binary' package, another package not included in base. It should be up to the application or framework to define these, in user libraries.
 - The above is the full extent of what needs to go into the base libraries and/or the compiler. Everything else, including distributed-closure, the definition of `Closure`, the `Serializable` type class, etc, can live in a separate package and need not be tied to any particular version of GHC.
 
@@ -83,8 +91,11 @@ lookupStaticPtr :: StaticName -> Maybe DynStaticPtr
 **
 
 ```wiki
-data StaticPtr a = StaticPtr !Fingerprint a
-  deriving (Read, Show, Typeable)
+data StaticPtr a = StaticPtr !Fingerprint StaticPtrInfo a
+  deriving Typeable
+
+instance Show (StaticPtr a) where
+  show (StaticPtr fp nfo _) = "StaticPtr " ++ show fp ++ " " ++ show nfo
 ```
 
 - The compiler passes work like this
