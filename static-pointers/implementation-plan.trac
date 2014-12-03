@@ -25,34 +25,15 @@ The proposal is therefore to:
 === The API of `GHC.StaticPtr` (interim version for 7.10) ===
 
 {{{
-module GHC.StaticPtr.Internal where
-
--- | A globally unique term identifier. Isomorphic to 'Data.Typeable.TyCon' - should probably be unified with it.
-data StaticName = StaticName
-  { staticNameHash       :: !Fingerprint
-  , staticNamePackage    :: String
-  , staticNameModule     :: String
-  , staticNameIdentifier :: String
-  } deriving (Show, Typeable)
-
-instance Eq StaticName where
-  (StaticName t1 _ _ _) == (StaticName t2 _ _ _) = t1 == t2
-
-instance Ord StaticName where
-  (StaticName k1 _ _ _) <= (StaticName k2 _ _ _) = k1 <= k2
-
-mkStaticName :: String -> String -> String -> StaticName
-
-data StaticPtr a
-}}}
-
-{{{
 module GHC.StaticPtr
   ( StaticPtr
-  , staticName
+  , StaticKey
+  , DynStaticPtr
+  , StaticPtrInfo
   , deRefStaticPtr
-  , staticName
-  , lookupStaticPtr
+  , staticPtrKey
+  , lookupDynStaticPtr
+  , staticPtrInfo
   ) where
 
 -- | A key for `StaticPtrs` that can be serialized and used with 'lookupStaticPtr'.
@@ -64,15 +45,22 @@ type DynStaticPtr = Dynamic
 -- | Miscelaneous information available for debugging purposes.
 data StaticPtrInfo = StaticPtrInfo { pkgId, moduleName :: String }
 
-deRefStaticPtr  :: StaticPtr a -> a
-staticPtrKey    :: StaticPtr a -> StaticKey
-lookupStaticPtr :: StaticKey   -> Maybe DynStaticPtr
-staticPtrInfo   :: StaticPtr   -> StaticPtrInfo
+deRefStaticPtr     :: StaticPtr a -> a
+staticPtrKey       :: StaticPtr a -> StaticKey
+lookupDynStaticPtr :: StaticKey   -> Maybe DynStaticPtr
+staticPtrInfo      :: StaticPtr   -> StaticPtrInfo
+
+data StaticPtr
 }}}
+
+'''Question:''' Should we include for convenience
+{{{
+lookupStaticPtr :: Typeable a => StaticKey   -> Maybe (StaticPtr a)
+}}}
+?
 
 '''Remarks:'''
 
-* The module hierarchy mirrors exactly that of `Data.Typeable`: includes a public `Internal` module exposing the guts of all basic datatypes that do not need to be kept private for correctness. Only user defined serializers/deserializers should need to include this module. Encoders/decoders emphatically ''do not need to be part of the TCB''.
 * `deRefStaticPtr` so named to make its name consistent with `deRefStablePtr` in `GHC.StablePtr`. Other possibilities include `unstatic` or `unStaticPtr`.
 * This module will be added to `base`, as for other primitives exposed by the compiler. This means we cannot depend on `bytestring` or any other package except `ghc-prim`.
 * As such, we should leave it up to user libraries how they wish to encode `StaticPtr`, using whatever target type they wish (e.g. `ByteString`). The solution is to provide a serializable `StaticKey` for each `StaticPtr`.
