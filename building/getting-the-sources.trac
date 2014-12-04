@@ -73,6 +73,22 @@ where `~/ghc` is the repository you want to branch and `~/ghc-branch` is where y
   $ ./sync-all -r git://git.haskell.org remote set-url origin
 }}}
 
+== Making a new workdir ==
+
+I (ezyang) use Git workdirs to manage all of my GHC checkouts. It is quite nice: there is logically only one local repository, and just many checkouts of it, so it's very easy to share patches between various checkouts and your branches are all in one centralized place. However, sharing all of your submodules too takes a bit of work to setup, since Git doesn't natively support this workflow.
+
+Here's what I do:
+
+1. Start by making some pristine GHC checkout (call it `ghc-pristine`) which is an ordinary Git clone of the main GHC repository.
+
+2. Remove all of the submodules that Git recursively created. This is because they are in the wrong format. You can do it with this command: {{{for i in `git submodule status | cut -d' ' -f3`; do rm -rf $i; done}}}
+
+3. Re-checkout the submodules using a normal git clone, rather than the submodule tool. This can be done with this command: {{{for i in `git submodule status | cut -d' ' -f2`; do git clone git://git.haskell.org/`echo "$i" | sed s/libraries/packages/ | sed s/utils\\///`.git $i; done}}}
+
+Now, to create a new workdir, run `git new-workdir ghc-pristine ghc-newdir`, and then inside `ghc-newdir`, run `` to recursively make workdirs of all the submodules.
+
+ToDo: Someone should scriptify this.
+
 == Getting a branch (GHC 7.9 or later) ==
 
 The above instructions will get the HEAD, the main trunk of GHC development. There is also a branch for each stable release line, as well as branches for development of major new features. The active branches are listed on [wiki:ActiveBranches].
