@@ -101,3 +101,90 @@ The aborted implementation of this idea is at [ https://github.com/goldfirere/gh
 ## Open questions
 
 - How do we avoid occurs-check problems? I believe that the substitution embodied by `inert_eqs` is *not* idempotent, and thus there must be a mechanism to prevent occurs-check problems. This mechanism will have to be extended to `inert_repr_eqs`. It's conceivable that zonking an individual tyvar (in a representational flattener call) will end up using equalities from both sets of equalities, possibly in an interleaved manner, so this may be delicate.
+
+# Termination
+
+
+It's a delicate thing, this termination. This section is about how we know that rewriting terminates.
+
+## Current situation
+
+
+There are three flavours of equalities: Givens (G), Deriveds (D), and Wanteds (W). There are restrictions on which flavour can rewrite which other flavour: G can rewrite anything, D can rewrite only D. (W cannot rewrite.)
+
+
+An invariant on the inert set is that it truly is inert: no equality can rewrite any other, taking the flavours into account. Thus, the following is inert:
+
+```wiki
+  [G] c1 : a ~ [b]
+  [D] c2 : b ~ Int
+```
+
+
+It looks like `c2` can rewrite `c1`, but the flavours prevent it.
+
+
+So, assuming an inert set that is truly inert, how do we know that rewriting a work item will terminate? We need the following two conditions on the flavours:
+
+1. Pick a flavour `g`. Now, consider the set of flavours `F` such that every flavour in `F` can rewrite the flavour `g`. Pick `f1` and `f2` from the set `F`. It must be the case that either `f1` can rewrite `f2` or `f2` can rewrite `f1`.
+
+1. The rewrite relation among flavours is transitive.
+
+**Theorem:** The two conditions on flavours above, along with the inertness of the inert set, imply that rewriting a work item terminates.
+
+
+I have discovered a truly remarkable proof of this theorem which this margin is too small to contain. In any case, I believe the theorem.
+
+## Situation with roles
+
+
+Adding the ability to rewrite by representational equalities essentially adds a new dimension to the flavours, because nominal equalities can rewrite representational ones, but not vice versa. We now write flavours as, for example, G/N for a nominal Given or D/R for a representational Derived. So, adding this naively to the can-rewrite relation, we get the following:
+
+- G/N can rewrite anything
+- G/R can rewrite G/R, D/R and W/R
+- D/N can rewrite D/N and D/R
+- D/R can rewrite D/R
+- W/N cannot rewrite
+- W/R cannot rewrite
+
+
+Sadly, condition (1), above, doesn't hold! Specifically, let `g` be D/R. Then, `F` contains G/N, G/R, and D/N. Pick `f1` = G/R and `f2` = D/N. Neither `f1` nor `f2` can rewrite the other. This means we risk non-termination. And, this isn't purely a theoretical concern. Here's a concrete example:
+
+```wiki
+  inert set:
+    [G/R] c1 : a ~ [b]
+    [D/N] c2 : b ~ [a]
+
+  work item:
+    [D/R] c3 : a ~ Int
+```
+
+
+Note that the inert set really is inert. Yet, rewriting `c3` will continue forever.
+
+
+What to do?
+
+### Solution 1: Split the inert set into nominal and representational components
+
+
+The idea here is to forbid nominal equalities from rewriting representational ones, but also to duplicate all nominal equalities as representational equivalents. So, when canonicalizing `[D/N] c2 : b ~ [a]`, that equality would get added to the inert set, but we would also try to canonicalize `[D/R] c2 : b ~ [a]`, which would then be rewritten by `c1` to show an occurs-check problem.
+
+
+This works quite nicely, except for one caveat: it makes GHC take up lots more memory when there are lots of nominal equalities around! This was discovered with test case `perf/compiler/T5837`, but I imagine the problem is not just there. We're *doubling* our work, in some sense. Argh.
+
+### Solution 2: Forbid \[D/R\]
+
+
+If we just eliminate the possibility of \[D/R\] equalities, then we're OK again. Deriveds are useful only for improvement: when we eventually discover that some unification variable equals some type and then we can fill the unification variable. Representational equalities can't be solved by unification, so it seems that \[D/R\] is a useless point in the space. But, representational equalities *can* give rise to nominal ones. Take `[D/R] c4 : G a ~ G Bool`, where `G` is a GADT and its parameter has a nominal role. Canonicalizing `c4` will then produce `[D/N] a ~ Bool`, which is a very useful Derived nominal. So, while this solution works, it seems to reduce the number of programs that typecheck.
+
+### Solution 3: Like solution 1, but copy only \[D/N\] equalities
+
+
+Solution 1 means that *no* nominal equality can rewrite a representational one. But, we don't need to prune the can-rewrite relation that much to restore termination. Instead, if we just remove one edge in the graph, we can get it: the \[D/N\]-to-\[D/R\] edge. If we remove just that one can-rewrite, then we have conditions (1) and (2) above, and thus termination.
+
+
+However, we still want \[D/N\] to have an opportunity to rewrite \[D/R\] equalities. So, we copy the \[D/N\]s, like in Solution 1. When canonicalizing a \[D/N\], we'll spawn off an equivalent \[D/R\] equality as well. We then say that \[D/N\] cannot rewrite \[D/R\]. This has the unfortunate effect of copying some equalities, but \[D/N\] equalities should be *much* less common in practice than \[G/N\] equalities, making this copying not so painful.
+
+
+As of now (Dec. 5, 2014, afternoon) Solution 3 is my plan going forward.
