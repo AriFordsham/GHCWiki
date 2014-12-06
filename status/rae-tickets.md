@@ -44,6 +44,7 @@
 **Rocket Science**
 
 - [\#1965](https://gitlab.haskell.org//ghc/ghc/issues/1965): Allow existentials in newtypes
+- [\#2256](https://gitlab.haskell.org//ghc/ghc/issues/2256): Quantify over implication constraints
 - [\#4259](https://gitlab.haskell.org//ghc/ghc/issues/4259): Allow recursive checks for compatibility in type families
 - [\#7259](https://gitlab.haskell.org//ghc/ghc/issues/7259): Eta expansion of products
 - [\#7961](https://gitlab.haskell.org//ghc/ghc/issues/7961): Implement "nokinds" (RAE is working on!)
