@@ -19,11 +19,9 @@ However, there is a short-term workable plan for GHC 7.10, that does not require
 
 The proposal is therefore to:
 
-- Implement the extension in two phases: the full version with full dynamic type checks on top of a revised `Data.Typeable` in GHC 7.12, but an interim version in GHC 7.10 **with the exact same API** but with the dynamic type checks enabled by the SPT missing.
+- Implement the extension in two phases: the full version with full dynamic type checks on top of a revised `Data.Typeable` in GHC 7.12, but an interim version in GHC 7.10 **with a similar API** but missing the dynamic type checks enabled by the SPT.
 
 - In GHC 7.10, *implement only a shim SPT*, that looks just like the real thing, but does not include `tTypeRep`s or `TypeRep`s for any value. The reason we still need an SPT in GHC 7.10 is because there needs to be something that references static expressions throughout the lifetime of the program. The reason is that any such expression may at any time be referenced by a new `StaticPtr` produced from an incoming message. In other words, in a distributed system, other nodes may refer to values that are otherwise not live on the local node. The SPT must itself be protected against garbage collection, e.g. through the use of a `StablePtr`.
-
-- In GHC 7.10, possibly only allow identifiers in the body of a `static` form, depending on the time required to implement floating of expressions to top-level adequately. This isn't a loss of generality, but is a loss of convenience for the user: one would have to float all expressions as top-level definitions manually.
 
 ### The API of `GHC.StaticPtr` (interim version for 7.10)
 
@@ -54,7 +52,7 @@ data StaticPtr
 
 **Remarks:**
 
-- `deRefStaticPtr` so named to make its name consistent with `deRefStablePtr` in `GHC.StablePtr`. Other possibilities include `unstatic` or `unStaticPtr`.
+- `deRefStaticPtr` so named to make its name consistent with `deRefStablePtr` in `GHC.StablePtr`.
 - This module will be added to `base`, as for other primitives exposed by the compiler. This means we cannot depend on `bytestring` or any other package except `ghc-prim`.
 - As such, we should leave it up to user libraries how they wish to encode `StaticPtr`, using whatever target type they wish (e.g. `ByteString`). The solution is to provide a serializable `StaticKey` for each `StaticPtr`.
 - The definition of `StaticKey` must be part of the public API to make this work: otherwise there would be no way for the user to define her own encoder.
@@ -71,22 +69,19 @@ data StaticPtr
 ```wiki
 data StaticPtr a = StaticPtr !Fingerprint StaticPtrInfo a
   deriving Typeable
-
-instance Show (StaticPtr a) where
-  show (StaticPtr fp nfo _) = "StaticPtr " ++ show fp ++ " " ++ show nfo
 ```
 
 - The compiler passes work like this
 
   - **Lexical analysis**: `static` is a keyword when `-XStaticPointers` is on
   - **Parsing**: new constructor `HsStatic` in `HsExpr`, to represent `(static e)`.
-  - **Renaming**: in `(static e)`, check that all free variables of `e` are bound at top level
-  - **Typechecking**. In the type checker, we add `Typeable a` to the set of constraints.
-  - **Desugaring**: desugar `(static e)` to ??, and create a new top-level binding
+  - **Renaming**: in `(static e)`, check that all free variables of `e` are bound at top level. And check that static does not occur in splices (but can occur in quotations).
+  - **Typechecking**. In the type checker, we add `Typeable a` to the set of constraints, and we treat the body of the static form as if it were a top level definition.
+  - **Desugaring**: desugar `(static e)` to `sptEntry:0`, and create a new top-level binding
 
     ```wiki
-    sptEntry:0 :: DynStaticPtr
-    sptEntry:0 = toDynamic (StaticPtr (Fingerprint ...) e)
+    sptEntry:0 :: StaticPtr (type of e)
+    sptEntry:0 = StaticPtr (fingerprintString "packageId:module.sptEntry:0")  (StaticPtrInfo ...) e
     ```
 
     where `sptEntry:0` is a fresh name.
