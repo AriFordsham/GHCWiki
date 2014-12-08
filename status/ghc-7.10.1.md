@@ -15,6 +15,7 @@ We've written up some tentative [ plans for the 7.10.1 release](https://haskell.
 - [ Phab:D476](https://phabricator.haskell.org/D476): Deriving for arbitrary classes. **Done**.
 - [ Phab:D550](https://phabricator.haskell.org/D550): Static values. **Done**.
 - [ Phab:D519](https://phabricator.haskell.org/D519): preliminary Complex and Ratio Storable instances for Base. **Done**
+- [ Phab:D524](https://phabricator.haskell.org/D524): Two step allocator for 64-bit systems. **Done**
 
 
 See [milestone:7.10.1](/trac/ghc/milestone/7.10.1) and [ Active tickets](https://ghc.haskell.org/trac/ghc/query?status=infoneeded&status=merge&status=new&status=patch&group=status&milestone=7.10.1) for more.

@@ -14,6 +14,7 @@ We've written up some tentative [https://haskell.org/pipermail/ghc-devs/2014-Oct
    - Phab:D476: Deriving for arbitrary classes. **Done**.
    - Phab:D550: Static values. **Done**.
    - Phab:D519: preliminary Complex and Ratio Storable instances for Base. **Done**
+   - Phab:D524: Two step allocator for 64-bit systems. **Done**
 
 See milestone:7.10.1 and [https://ghc.haskell.org/trac/ghc/query?status=infoneeded&status=merge&status=new&status=patch&group=status&milestone=7.10.1 Active tickets] for more.
 
