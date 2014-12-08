@@ -33,7 +33,7 @@ After GHC has produced [Cmm](commentary/compiler/cmm-type) (use -ddump-cmm or -d
 - [compiler/nativeGen/NCGMonad.hs](/trac/ghc/browser/ghc/compiler/nativeGen/NCGMonad.hs)
 
   defines the the main monad in the NCG: the Native code Machine instruction Monad, `NatM`, and related functions.  *Note: the NCG switches between two monads at times, especially in `AsmCodeGen`: `NatM` and the `UniqSM` Monad used throughout the compiler.*
-- [compiler/nativeGen/PositionIndependentCode.hs](/trac/ghc/browser/ghc/compiler/nativeGen/PositionIndependentCode.hs)
+- [compiler/nativeGen/PIC.hs](/trac/ghc/browser/ghc/compiler/nativeGen/PIC.hs)
 
   handles generation of position independent code and issues related to dynamic linking in the NCG; related to many other modules outside the NCG that handle symbol import, export and references, including `CLabel`, `Cmm`, `codeGen` and the RTS, and the Mangler
 - [compiler/nativeGen/PprMach.hs](/trac/ghc/browser/ghc/compiler/nativeGen/PprMach.hs)
