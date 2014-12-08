@@ -23,7 +23,7 @@ After GHC has produced [wiki:Commentary/Compiler/CmmType Cmm] (use -ddump-cmm or
    contains data definitions and some functions (comparison, size, simple conversions) for machine instructions, mostly carried out through the {{{Instr}}} data type, defined here[[BR]][[BR]]
  * [[GhcFile(compiler/nativeGen/NCGMonad.hs)]][[BR]]
    defines the the main monad in the NCG: the Native code Machine instruction Monad, {{{NatM}}}, and related functions.  ''Note: the NCG switches between two monads at times, especially in {{{AsmCodeGen}}}: {{{NatM}}} and the {{{UniqSM}}} Monad used throughout the compiler.''[[BR]][[BR]]
- * [[GhcFile(compiler/nativeGen/PositionIndependentCode.hs)]][[BR]]
+ * [[GhcFile(compiler/nativeGen/PIC.hs)]][[BR]]
    handles generation of position independent code and issues related to dynamic linking in the NCG; related to many other modules outside the NCG that handle symbol import, export and references, including {{{CLabel}}}, {{{Cmm}}}, {{{codeGen}}} and the RTS, and the Mangler[[BR]][[BR]]
  * [[GhcFile(compiler/nativeGen/PprMach.hs)]][[BR]]
    Pretty prints machine instructions ({{{Instr}}}) to assembler code (currently readable by GNU's {{{as}}}), with some small modifications, especially for comparing and adding floating point numbers on x86 architectures[[BR]][[BR]]
