@@ -11,8 +11,9 @@ We've written up some tentative [ plans for the 7.10.1 release](https://haskell.
 - [ Phab:D168](https://phabricator.haskell.org/D168): Partial type signatures. **Done**.
 - [ Phab:D155](https://phabricator.haskell.org/D155): LLVM 3.5 compatibility. **Done**.
 - [ Phab:D169](https://phabricator.haskell.org/D169): Source code note infrastructure. **Final revision from Peter**.
-- [ Phab:D396](https://phabricator.haskell.org/D396): DWARF debug information (dependent on [ Phab:D169](https://phabricator.haskell.org/D169)). **Still needs closer review**.
+- [ Phab:D396](https://phabricator.haskell.org/D396): DWARF debug information (dependent on [ Phab:D169](https://phabricator.haskell.org/D169)). **Done**.
 - [ Phab:D476](https://phabricator.haskell.org/D476): Deriving for arbitrary classes. **Done**.
+- [ Phab:D550](https://phabricator.haskell.org/D550): Static values. **Done**.
 - [ Phab:D519](https://phabricator.haskell.org/D519): preliminary Complex and Ratio Storable instances for Base. **Done**
 - [ Phab:D493](https://phabricator.haskell.org/D493): Use `TypeLits` in the meta-data encoding of `GHC.Generics`**stuck on Haddock panic, needs help**
 

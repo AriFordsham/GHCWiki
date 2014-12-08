@@ -10,8 +10,9 @@ We've written up some tentative [https://haskell.org/pipermail/ghc-devs/2014-Oct
    - Phab:D168: Partial type signatures. **Done**.
    - Phab:D155: LLVM 3.5 compatibility. **Done**.
    - Phab:D169: Source code note infrastructure. **Final revision from Peter**.
-   - Phab:D396: DWARF debug information (dependent on Phab:D169). **Still needs closer review**.
+   - Phab:D396: DWARF debug information (dependent on Phab:D169). **Done**.
    - Phab:D476: Deriving for arbitrary classes. **Done**.
+   - Phab:D550: Static values. **Done**.
    - Phab:D519: preliminary Complex and Ratio Storable instances for Base. **Done**
    - Phab:D493: Use `TypeLits` in the meta-data encoding of `GHC.Generics` **stuck on Haddock panic, needs help**
 
