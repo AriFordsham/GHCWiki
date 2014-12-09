@@ -17,7 +17,7 @@ First cd into your ghc directory that you checkout according to [wiki:Building/G
 Thats it!
 This mounts your ghc source code into the docker container.
 This way you can still hack on GHC with Emacs, etc, but you are just building from the docker container.
-Note that arc is installed in the image (although you can also use it from your docker host) along with vim-tiny for editing commit messages.
+Note that `arc` (the ghc patch submission tool) is installed in the image (although you can also use it from your docker host) along with vim-tiny for editing commit messages.
 
 == Fedora ==
 
