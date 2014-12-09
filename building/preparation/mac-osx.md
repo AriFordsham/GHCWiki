@@ -86,3 +86,14 @@ Finally, if you want to build the documentation you need to install DocBook. You
 
 
 DocBook is a fairly large system unto itself and configuring it to build the documentation in its various formats can be a maze. Verifying that your SGML_CATALOG_FILES and XML_CATALOG_FILES environment variables are pointed at the right places will fix most problems.
+
+## Docker
+
+
+See the Linux page for instructions on running Docker
+[ https://ghc.haskell.org/trac/ghc/wiki/Building/Preparation/Linux\#Docker](https://ghc.haskell.org/trac/ghc/wiki/Building/Preparation/Linux#Docker)
+
+## VMWare / Virtualbox
+
+
+If you are familiar with VMWare or Virtualbox you can compile Haskell on Linux. You can go to the [Building/Preparation/Linux](building/preparation/linux) page to install GHC.
