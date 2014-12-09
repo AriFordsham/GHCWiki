@@ -5,6 +5,17 @@
 
 If you're on a recent Linux system, then you should be able to get a working build environment by installing the following packages using your system's package manager.
 
+== Docker ==
+
+If you are familiar with docker, this is a 1 step install. First cd into your ghc directory that you checkout according to [wiki:Building/GettingTheSources]
+
+{{{
+     docker run --rm -i -t -v `pwd`:/home/ghc gregweber/ghc-haskell-dev /bin/bash
+}}}
+
+Thats it!
+This mounts your ghc source code into the docker container. This way you can still hack on GHC with Emacs, etc, but you are just building from the docker container.
+
 == Fedora ==
 
  * `glibc-devel`
