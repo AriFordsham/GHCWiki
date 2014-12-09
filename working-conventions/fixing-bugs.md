@@ -15,7 +15,7 @@ Here's how to go about helping with a bug.
 1. **Fix the bug**!
 
   - If your proposed fix has non-local consequences, please consult us (on ghc-devs@…) before investing too much of your time.
-  - Please follow our [coding conventions](working-conventions#).
+  - Please follow our [coding conventions](commentary/coding-style).
   - Comment your fix in the source code, and include a reference to the bug ticket number, e.g. "`#1466`" (this helps when grepping for the fix later).  It is often helpful to give a small example code fragment that demonstrates the need for your fix.  This isn't always relevant; sometimes you are fixing a plain error, but often it's more subtle than that.
 1. **Make a commit** that embodies your fix.  Please follow our convention for naming commits: [WorkingConventions/Git](working-conventions/git#commit-messages).
 1. **Test your commit** using the [validation script](testing-patches). Alternatively, you can let [Harbormaster](phabricator/harbormaster) build and validate your commit, see next step. (If you have write permission to the repository, then you **must** validate before pushing.)
