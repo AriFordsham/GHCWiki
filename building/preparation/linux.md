@@ -6,7 +6,8 @@ If you're on a recent Linux system, then you should be able to get a working bui
 ## Docker
 
 
-If you are familiar with docker, this is a 1 step install. First cd into your ghc directory that you checkout according to [Building/GettingTheSources](building/getting-the-sources)
+If you are familiar with docker, this is a 1 step install for a development image (ghc build requirements plus a few development related tools).
+First cd into your ghc directory that you checkout according to [Building/GettingTheSources](building/getting-the-sources)
 
 ```wiki
      docker run --rm -i -t -v `pwd`:/home/ghc gregweber/ghc-haskell-dev /bin/bash
@@ -14,7 +15,9 @@ If you are familiar with docker, this is a 1 step install. First cd into your gh
 
 
 Thats it!
-This mounts your ghc source code into the docker container. This way you can still hack on GHC with Emacs, etc, but you are just building from the docker container.
+This mounts your ghc source code into the docker container.
+This way you can still hack on GHC with Emacs, etc, but you are just building from the docker container.
+Note that arc is installed in the image (although you can also use it from your docker host) along with vim-tiny for editing commit messages.
 
 ## Fedora
 
