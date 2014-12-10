@@ -58,7 +58,9 @@ The following targets are accepted only by the top-level `Makefile`:
   tree for GHC, complete with some extra files included for
   convenience so that the user doesn't need to install `autoconf`,
   `Happy`, or `Alex` in order to build it.  Hence `make sdist` only
-  works in a completely built tree.
+  works in a completely built tree. Note:
+  [https://ghc.haskell.org/trac/ghc/wiki/Building/GettingTheSources#QuicklygettingtheGHCsourcerepository ghc-tarballs]
+  is required, even on non-Windows.
 
   `TAGS`, `tags`::
   Makes files `TAGS` (for emacs) and `tags` (for vim) in the top-level directory.
