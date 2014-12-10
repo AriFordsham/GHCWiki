@@ -85,6 +85,8 @@ Here's what I do:
 
 3. Re-checkout the submodules using a normal git clone, rather than the submodule tool. This can be done with this command: {{{for i in `git submodule status | cut -d' ' -f2`; do git clone git://git.haskell.org/`echo "$i" | sed s/libraries/packages/ | sed s/utils\\///`.git $i; done}}} (On OS X you might have to escape the backslash two more times)
 
+4. Finish off the configuration by running {{{git submodule init}}} and {{{git submodule update}}}
+
 Now, to create a new workdir, run `git-new-workdir ghc-pristine ghc-newdir`, and then inside `ghc-newdir`, run {{{for i in `git submodule status | cut -d' ' -f2`; do rmdir $i; git-new-workdir ../ghc-pristine/$i $i; done}}} to recursively make workdirs of all the submodules.
 
 ToDo: Someone should scriptify this.
