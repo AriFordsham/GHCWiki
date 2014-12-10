@@ -92,7 +92,7 @@ Here's what I do:
 
 1. Remove all of the submodules that Git recursively created. This is because they are in the wrong format. You can do it with this command: `for i in `git submodule status | cut -d' ' -f3`; do rm -rf $i; done`
 
-1. Re-checkout the submodules using a normal git clone, rather than the submodule tool. This can be done with this command: `for i in `git submodule status | cut -d' ' -f2`; do git clone git://git.haskell.org/`echo "$i" | sed s/libraries/packages/ | sed s/utils\\///`.git $i; done`
+1. Re-checkout the submodules using a normal git clone, rather than the submodule tool. This can be done with this command: `for i in `git submodule status | cut -d' ' -f2`; do git clone git://git.haskell.org/`echo "$i" | sed s/libraries/packages/ | sed s/utils\\///`.git $i; done` (On OS X you might have to escape the backslash two more times)
 
 
 Now, to create a new workdir, run `git-new-workdir ghc-pristine ghc-newdir`, and then inside `ghc-newdir`, run `for i in `git submodule status | cut -d' ' -f2`; do rmdir $i; git-new-workdir ../ghc-pristine/$i $i; done` to recursively make workdirs of all the submodules.
