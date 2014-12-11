@@ -4,13 +4,12 @@
 
 - [\#9260](https://gitlab.haskell.org//ghc/ghc/issues/9260): type lits (Iavor owns)
 - [\#7015](https://gitlab.haskell.org//ghc/ghc/issues/7015): support for `static`
+- [\#9867](https://gitlab.haskell.org//ghc/ghc/issues/9867): pattern synonyms and scoped type variables (Gergo)
 - [\#9404](https://gitlab.haskell.org//ghc/ghc/issues/9404): `tcInfer` infelicity (Richard owns)
 - [\#8634](https://gitlab.haskell.org//ghc/ghc/issues/8634), [\#9267](https://gitlab.haskell.org//ghc/ghc/issues/9267), [\#9227](https://gitlab.haskell.org//ghc/ghc/issues/9227): relaxing functional dependency rules `-XDysFunctionalDependencies`
 - [\#8852](https://gitlab.haskell.org//ghc/ghc/issues/8852), [\#8980](https://gitlab.haskell.org//ghc/ghc/issues/8980), [\#8941](https://gitlab.haskell.org//ghc/ghc/issues/8941) (possibly), [\#8960](https://gitlab.haskell.org//ghc/ghc/issues/8960), [\#7898](https://gitlab.haskell.org//ghc/ghc/issues/7898), [\#7068](https://gitlab.haskell.org//ghc/ghc/issues/7068), [\#7944](https://gitlab.haskell.org//ghc/ghc/issues/7944), [\#5550](https://gitlab.haskell.org//ghc/ghc/issues/5550), [\#8836](https://gitlab.haskell.org//ghc/ghc/issues/8836): `SpecConstr` blowup
 - [\#9123](https://gitlab.haskell.org//ghc/ghc/issues/9123): higher order roles
-- [\#9200](https://gitlab.haskell.org//ghc/ghc/issues/9200), [\#9151](https://gitlab.haskell.org//ghc/ghc/issues/9151): kind inference for mutually recursive types (Richard owns)
 - [\#9352](https://gitlab.haskell.org//ghc/ghc/issues/9352): allow `State#` in FFI types.
-- [\#9211](https://gitlab.haskell.org//ghc/ghc/issues/9211), [\#9090](https://gitlab.haskell.org//ghc/ghc/issues/9090): using equalities to let-bind type variables; level numbers on skolems
 - [\#9388](https://gitlab.haskell.org//ghc/ghc/issues/9388): narrow the state hack
 - [\#9367](https://gitlab.haskell.org//ghc/ghc/issues/9367): type-level "error" function
 - [\#9669](https://gitlab.haskell.org//ghc/ghc/issues/9669): slow compilation with lots of `deriving` clauses
