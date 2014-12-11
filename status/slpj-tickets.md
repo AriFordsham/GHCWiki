@@ -11,7 +11,7 @@
 - [\#9123](https://gitlab.haskell.org//ghc/ghc/issues/9123): higher order roles
 - [\#9352](https://gitlab.haskell.org//ghc/ghc/issues/9352): allow `State#` in FFI types.
 - [\#9388](https://gitlab.haskell.org//ghc/ghc/issues/9388): narrow the state hack
-- [\#9367](https://gitlab.haskell.org//ghc/ghc/issues/9367): type-level "error" function
+- [\#9637](https://gitlab.haskell.org//ghc/ghc/issues/9637): type-level "error" function
 - [\#9669](https://gitlab.haskell.org//ghc/ghc/issues/9669): slow compilation with lots of `deriving` clauses
 - [\#9725](https://gitlab.haskell.org//ghc/ghc/issues/9725): kind equalities (Richard)
 - [\#9717](https://gitlab.haskell.org//ghc/ghc/issues/9717), [\#9729](https://gitlab.haskell.org//ghc/ghc/issues/9729): orphan modules
@@ -266,7 +266,6 @@ See also [TemplateHaskell](template-haskell)
 - [\#5429](https://gitlab.haskell.org//ghc/ghc/issues/5429): docase and joinads
 - [\#5391](https://gitlab.haskell.org//ghc/ghc/issues/5391): better deriving Typeable
 - [\#5248](https://gitlab.haskell.org//ghc/ghc/issues/5248): Infer context in type signatures
-- [\#5144](https://gitlab.haskell.org//ghc/ghc/issues/5144): pattern synonyms
 - [\#5073](https://gitlab.haskell.org//ghc/ghc/issues/5073): `blockST` and friends
 - [\#2895](https://gitlab.haskell.org//ghc/ghc/issues/2895): Class aliases 
 - [\#2595](https://gitlab.haskell.org//ghc/ghc/issues/2595): record updates
@@ -277,7 +276,6 @@ See also [TemplateHaskell](template-haskell)
 - [\#3701](https://gitlab.haskell.org//ghc/ghc/issues/3701): Implicitly declared existentials: a class as a type
 - [\#3217](https://gitlab.haskell.org//ghc/ghc/issues/3217): better flag handling for GHCi
 - [\#2600](https://gitlab.haskell.org//ghc/ghc/issues/2600), [\#2110](https://gitlab.haskell.org//ghc/ghc/issues/2110): **Bind type variables and constraints in RULES**
-- [\#1930](https://gitlab.haskell.org//ghc/ghc/issues/1930): Infix type operators:  a+b.        
 - [\#960](https://gitlab.haskell.org//ghc/ghc/issues/960): Generate local info for ‘undefined’.  Implicit location parameters in general        
 - [\#2135](https://gitlab.haskell.org//ghc/ghc/issues/2135): Warn when exporting a function whose type mentions a type constructor defined locally but not itself exported        
 - [\#2526](https://gitlab.haskell.org//ghc/ghc/issues/2526): Add -fwarn-missing-export-signatures        
