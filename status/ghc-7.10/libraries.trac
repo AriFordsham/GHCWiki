@@ -144,6 +144,8 @@ Note: Libraries with a "^1^" marker are used internally (e.g. by `ghci` or `hadd
 === Cabal ===
 
  - upstream: http://github.com/haskell/cabal.git
+ - reminded of RC
+ - TODO: wait for reaction
 
 === Win32 ===
 
@@ -156,14 +158,20 @@ Note: Libraries with a "^1^" marker are used internally (e.g. by `ghci` or `hadd
 === bytestring ===
 
  - upstream: http://github.com/haskell/bytestring.git
+ - reminded about RC
+ - TODO: waiting for reaction
 
 === containers ===
 
  - upstream: http://github.com/haskell/containers
+ - reminded about RC
+ - TODO: wait for RC
 
 === [hackage:filepath] ===
 
  - upstream: http://github.com/haskell/filepath
+ - reminded about RC
+ - TODO: wait for reaction
 
 === haskeline^1^ ===
 
@@ -194,6 +202,7 @@ Note: Libraries with a "^1^" marker are used internally (e.g. by `ghci` or `hadd
 === transformers ===
 
  - upstream: http://git.haskell.org/darcs-mirrors/transformers.git
+ - synced to hac:transformers-0.4.2.0
 
 === vector^2^ ===
 

@@ -827,6 +827,8 @@ Note: Libraries with a "<sup>1</sup>" marker are used internally (e.g. by `ghci`
 ### Cabal
 
 - upstream: [ http://github.com/haskell/cabal.git](http://github.com/haskell/cabal.git)
+- reminded of RC
+- TODO wait for reaction
 
 ### Win32
 
@@ -839,14 +841,20 @@ Note: Libraries with a "<sup>1</sup>" marker are used internally (e.g. by `ghci`
 ### bytestring
 
 - upstream: [ http://github.com/haskell/bytestring.git](http://github.com/haskell/bytestring.git)
+- reminded about RC
+- TODO waiting for reaction
 
 ### containers
 
 - upstream: [ http://github.com/haskell/containers](http://github.com/haskell/containers)
+- reminded about RC
+- TODO wait for RC
 
 ### [ filepath](http://hackage.haskell.org/package/filepath)
 
 - upstream: [ http://github.com/haskell/filepath](http://github.com/haskell/filepath)
+- reminded about RC
+- TODO wait for reaction
 
 ### haskeline<sup>1</sup>
 
@@ -890,6 +898,7 @@ Note: Libraries with a "<sup>1</sup>" marker are used internally (e.g. by `ghci`
 ### transformers
 
 - upstream: [ http://git.haskell.org/darcs-mirrors/transformers.git](http://git.haskell.org/darcs-mirrors/transformers.git)
+- synced to hac:transformers-0.4.2.0
 
 ### vector<sup>2</sup>
 
