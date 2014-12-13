@@ -170,3 +170,6 @@ As a result of this, in HEAD, essentially every single upstream repository we tr
 - \[1\] These libraries are not installed in the resulting compiler when you do `make install`
 
 - \[2\] These libraries are not required to build the compiler, but may be used for tests or other libraries. Right now, most of these are based on whether you build DPH. At the moment, DPH is turned off. To build these libraries, set `BUILD_DPH=YES` in `mk/build.mk`. You can skip haddock by setting `HADDOCK_DOCS=NO` in `mk/build.mk`. TODO Explain how to skip `deepseq`, since it seems to only be used for tests.
+
+
+The table above is maintained manually and can sometimes get out of sync. If in doubt, the primary data source is  the [ packages](http://git.haskell.org/ghc.git/blob_plain/HEAD:/packages) file in the top-level `ghc.git` repo folder.
