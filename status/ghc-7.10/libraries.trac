@@ -17,6 +17,7 @@ Common tasks:
 
 === [hackage:array] ===
 
+ - TODO: point release
 
 === [hackage:base] ===
 
@@ -57,7 +58,7 @@ module GHC.Exts
 
 [[Image(https://travis-ci.org/ghc/packages-hoopl.png?branch=master,link=https://travis-ci.org/ghc/packages-hoopl)]]
 
- - TODO
+ - TODO: point rls
 
 === [hackage:hpc] ===
 
@@ -116,7 +117,7 @@ module GHC.Exts
 
 === [hackage:template-haskell] ===
 
- - TODO
+ - TODO: `changelog.md`(?)
 
 === [hackage:unix] ===
 
@@ -144,22 +145,23 @@ Note: Libraries with a "^1^" marker are used internally (e.g. by `ghci` or `hadd
 === Cabal ===
 
  - upstream: http://github.com/haskell/cabal.git
- - reminded of RC
- - TODO: wait for reaction
+ - TODO: RC promised for Thursday 18th
 
 === Win32 ===
 
  - upstream: http://github.com/haskell/win32.git
+ - TODO: contact Bryan
 
 === binary ===
 
  - upstream: http://github.com/kolmodin/binary.git
+ - synced up to hackage:binary-0.7.2.3
 
 === bytestring ===
 
  - upstream: http://github.com/haskell/bytestring.git
  - reminded about RC
- - TODO: waiting for reaction
+ - TODO: waiting for RC
 
 === containers ===
 
@@ -170,22 +172,25 @@ Note: Libraries with a "^1^" marker are used internally (e.g. by `ghci` or `hadd
 === [hackage:filepath] ===
 
  - upstream: http://github.com/haskell/filepath
- - reminded about RC
- - TODO: wait for reaction
+ - Synced up to hackage:filepath-1.3.1.0 RC
+ - TODO: wait for final release of hackage:filepath-1.3.1.0
 
 === haskeline^1^ ===
 
  - upstream: https://github.com/judah/haskeline
+ - TODO
 
 === pretty ===
 
 [[TicketQuery(status!=closed,component=libraries/pretty,format=table,col=type|summary|priority|owner|reporter)]]
 
  - upstream: http://github.com/haskell/pretty
+ - synced up to hackage:pretty-1.1.1.1
 
 === primitive^2^ ===
 
  - upstream: https://github.com/haskell/primitive
+ - TODO (RC2)
 
 === random^2^ ===
 
@@ -194,19 +199,22 @@ Note: Libraries with a "^1^" marker are used internally (e.g. by `ghci` or `hadd
 === terminfo^1^ ===
 
  - upstream: https://github.com/judah/terminfo
+ - TODO
 
 === time ===
 
  - upstream: https://github.com/haskell/time
+ - synced up to hackage:time-1.5.0.1
 
 === transformers ===
 
  - upstream: http://git.haskell.org/darcs-mirrors/transformers.git
- - synced to hac:transformers-0.4.2.0
+ - synced to hackage:transformers-0.4.2.0
 
 === vector^2^ ===
 
  - upstream: https://github.com/haskell/vector
+ - TODO (RC2)
 
 === xhtml^1^ ===
 
