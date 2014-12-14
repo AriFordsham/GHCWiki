@@ -57,6 +57,8 @@ cd docs/users_guide
 make html stage=0 FAST=YES
 ```
 
+**Note:** This way of building documentation alone is currently broken, see [\#9772](https://gitlab.haskell.org//ghc/ghc/issues/9772).
+
 
 substitute 'html' for 'pdf' or 'ps' to build other types of documentation.
 
