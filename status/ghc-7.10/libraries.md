@@ -827,22 +827,23 @@ Note: Libraries with a "<sup>1</sup>" marker are used internally (e.g. by `ghci`
 ### Cabal
 
 - upstream: [ http://github.com/haskell/cabal.git](http://github.com/haskell/cabal.git)
-- reminded of RC
-- TODO wait for reaction
+- TODO RC promised for Thursday 18th
 
 ### Win32
 
 - upstream: [ http://github.com/haskell/win32.git](http://github.com/haskell/win32.git)
+- TODO
 
 ### binary
 
 - upstream: [ http://github.com/kolmodin/binary.git](http://github.com/kolmodin/binary.git)
+- synced up to [ hackage:binary-0.7.2.3](http://hackage.haskell.org/package/binary-0.7.2.3)
 
 ### bytestring
 
 - upstream: [ http://github.com/haskell/bytestring.git](http://github.com/haskell/bytestring.git)
 - reminded about RC
-- TODO waiting for reaction
+- TODO waiting for RC
 
 ### containers
 
@@ -859,6 +860,7 @@ Note: Libraries with a "<sup>1</sup>" marker are used internally (e.g. by `ghci`
 ### haskeline<sup>1</sup>
 
 - upstream: [ https://github.com/judah/haskeline](https://github.com/judah/haskeline)
+- TODO
 
 ### pretty
 
@@ -878,31 +880,36 @@ Note: Libraries with a "<sup>1</sup>" marker are used internally (e.g. by `ghci`
 <th></th></tr></table>
 
 - upstream: [ http://github.com/haskell/pretty](http://github.com/haskell/pretty)
+- synced up to [ hackage:pretty-1.1.1.1](http://hackage.haskell.org/package/pretty-1.1.1.1)
 
 ### primitive<sup>2</sup>
 
 - upstream: [ https://github.com/haskell/primitive](https://github.com/haskell/primitive)
+- TODO (can wait till RC2)
 
 ### random<sup>2</sup>
 
-- TODO GHC's repo has diverged from upstream
+- TODO (can wait till RC2): GHC's repo has diverged from upstream
 
 ### terminfo<sup>1</sup>
 
 - upstream: [ https://github.com/judah/terminfo](https://github.com/judah/terminfo)
+- TODO
 
 ### time
 
 - upstream: [ https://github.com/haskell/time](https://github.com/haskell/time)
+- synced up to [ hackage:time-1.5.0.1](http://hackage.haskell.org/package/time-1.5.0.1)
 
 ### transformers
 
 - upstream: [ http://git.haskell.org/darcs-mirrors/transformers.git](http://git.haskell.org/darcs-mirrors/transformers.git)
-- synced to hac:transformers-0.4.2.0
+- synced to [ hackage:transformers-0.4.2.0](http://hackage.haskell.org/package/transformers-0.4.2.0)
 
 ### vector<sup>2</sup>
 
 - upstream: [ https://github.com/haskell/vector](https://github.com/haskell/vector)
+- TODO (can wait till RC2)
 
 ### xhtml<sup>1</sup>
 
