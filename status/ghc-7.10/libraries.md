@@ -15,6 +15,8 @@ Common tasks:
 
 ### [ array](http://hackage.haskell.org/package/array)
 
+- TODO point release
+
 ### [ base](http://hackage.haskell.org/package/base)
 
 ##
@@ -314,7 +316,7 @@ Common tasks:
 
 [](https://travis-ci.org/ghc/packages-hoopl)
 
-- TODO
+- TODO point rls
 
 ### [ hpc](http://hackage.haskell.org/package/hpc)
 
@@ -768,7 +770,7 @@ Common tasks:
 
 ### [ template-haskell](http://hackage.haskell.org/package/template-haskell)
 
-- TODO
+- TODO`changelog.md`(?)
 
 ### [ unix](http://hackage.haskell.org/package/unix)
 
@@ -832,7 +834,7 @@ Note: Libraries with a "<sup>1</sup>" marker are used internally (e.g. by `ghci`
 ### Win32
 
 - upstream: [ http://github.com/haskell/win32.git](http://github.com/haskell/win32.git)
-- TODO
+- TODO contact Bryan
 
 ### binary
 
@@ -854,8 +856,8 @@ Note: Libraries with a "<sup>1</sup>" marker are used internally (e.g. by `ghci`
 ### [ filepath](http://hackage.haskell.org/package/filepath)
 
 - upstream: [ http://github.com/haskell/filepath](http://github.com/haskell/filepath)
-- reminded about RC
-- TODO wait for reaction
+- Synced up to [ hackage:filepath-1.3.1.0](http://hackage.haskell.org/package/filepath-1.3.1.0) RC
+- TODO wait for final release of [ hackage:filepath-1.3.1.0](http://hackage.haskell.org/package/filepath-1.3.1.0)
 
 ### haskeline<sup>1</sup>
 
@@ -885,11 +887,11 @@ Note: Libraries with a "<sup>1</sup>" marker are used internally (e.g. by `ghci`
 ### primitive<sup>2</sup>
 
 - upstream: [ https://github.com/haskell/primitive](https://github.com/haskell/primitive)
-- TODO (can wait till RC2)
+- TODO (RC2)
 
 ### random<sup>2</sup>
 
-- TODO (can wait till RC2): GHC's repo has diverged from upstream
+- TODO GHC's repo has diverged from upstream
 
 ### terminfo<sup>1</sup>
 
@@ -909,7 +911,7 @@ Note: Libraries with a "<sup>1</sup>" marker are used internally (e.g. by `ghci`
 ### vector<sup>2</sup>
 
 - upstream: [ https://github.com/haskell/vector](https://github.com/haskell/vector)
-- TODO (can wait till RC2)
+- TODO (RC2)
 
 ### xhtml<sup>1</sup>
 
