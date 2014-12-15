@@ -2,7 +2,7 @@
 There are several examples where one would like access to desugared typeclass dictionary types. For example, creating new instances at runtime like in [ reflection](https://www.fpcomplete.com/user/thoughtpolice/using-reflection#turning-up-the-magic-to-over-9000). Indeed, access to dictionary constructors would probably make the reflection package much simpler and less spooky.
 
 
-Currently, typeclass dictionary constructors are [ prepended with "D:"](https://github.com/ghc/ghc/blob/4d5f83a8dcf1f1125863a8fb4f847d78766f1617/compiler/basicTypes/OccName.hs#L615) ("VD:" for the vectorised version), ensuring that no source level Haskell code can access them.  
+Currently, typeclass dictionary constructors are [ prepended with "D:"](https://github.com/ghc/ghc/blob/4d5f83a8dcf1f1125863a8fb4f847d78766f1617/compiler/basicTypes/OccName.hs#L615), ensuring that no source level Haskell code can access them.  
 
 
 This proposal is about allowing source level access to the dictionary constructors. Note that it is not about local instances: There would be no way to override the type-based dictionary usage, just like the present. Instead, all it would allow is something like the following:
