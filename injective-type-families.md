@@ -1,8 +1,7 @@
 # Injective type families
 
 
-This page summarizes the design behind injective type families ([\#6018](https://gitlab.haskell.org//ghc/ghc/issues/6018)). It is a
-work in progress. This page will evolve to reflect the progress made.
+This page summarizes the design behind injective type families ([\#6018](https://gitlab.haskell.org//ghc/ghc/issues/6018)). For the latest information about implementation progress see [ D202](https://phabricator.haskell.org/D202). ETA: based on current progress I estimate that this should be completed around March 2015. This means injective type families will be available in GHC 7.12.
 
 
 Person responsible for this page and the implementation: Jan Stolarek (just so
