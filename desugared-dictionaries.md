@@ -1,0 +1,29 @@
+
+There are several examples where one would like access to desugared typeclass dictionary types. For example, creating new instances at runtime like in [ reflection](https://www.fpcomplete.com/user/thoughtpolice/using-reflection#turning-up-the-magic-to-over-9000). Indeed, access to dictionary constructors would probably make the reflection package much simpler and less spooky.
+
+
+Currently, typeclass dictionary constructors are [ prepended with "D:"](https://github.com/ghc/ghc/blob/4d5f83a8dcf1f1125863a8fb4f847d78766f1617/compiler/basicTypes/OccName.hs#L615) ("VD:" for the vectorised version), ensuring that no source level Haskell code can access them.  
+
+
+This proposal is about allowing source level access to the dictionary constructors. Note that it is not about local instances: There would be no way to override the type-based dictionary usage, just like the present. Instead, all it would allow is something like the following:
+
+```wiki
+class Monoid a where
+    mempty :: a
+    mconcat :: a -> a -> a
+
+--allows access to the following type in the same module as the class declaration
+
+data Monoid a = Monoid { mempty :: a, mconcat :: a -> a -> a} -- :: Constraint
+```
+
+
+If the reflection package was merged into base, ideally it would also generate the instances to allow reification to be used like so (from the article):
+
+```wiki
+using (Monoid (+) 0) $ mempty <> 10 <> 12 -- evaluates to 22
+using (Monoid (*) 1) $ mempty <> 10 <> 12 -- evaluates to 120
+```
+
+
+The first shot at allowing access to the constructors is to simply replace the string "D:" with "".
