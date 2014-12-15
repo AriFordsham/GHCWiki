@@ -1,9 +1,6 @@
-
-Content has been copied over from GHC 7.8 and needs clean-up
-
 # Status of GHC 7.8 Boot Libraries
 
-TODO Update [Version History](commentary/libraries/version-history) when GHC 7.8 release reaches RC phase.
+TODO Update [Version History](commentary/libraries/version-history) when GHC 7.10.1 release reaches RC phase.
 
 ## GHC-owned Libraries
 
@@ -302,7 +299,7 @@ Common tasks:
 
 ### [ deepseq](http://hackage.haskell.org/package/deepseq)
 
-- TODO get `deepseq-1.4.0.0` ready
+- TODO waiting for review by Edward K
 
 ### [ directory](http://hackage.haskell.org/package/directory)
 
@@ -310,7 +307,7 @@ Common tasks:
 
 ### [ ghc-prim](http://hackage.haskell.org/package/ghc-prim)
 
-- TODO upload a non-candidate to hackage at latest when GHC 7.8.1 is released
+- TODO
 
 ### [ hoopl](http://hackage.haskell.org/package/hoopl)
 
@@ -731,7 +728,7 @@ Common tasks:
 
 - Note: **extra** library (i.e. not part of normal distribution)
 
-- TODO
+- GHC 7.10 compatible rls uploaded as [ hackage:parallel-3.2.0.5](http://hackage.haskell.org/package/parallel-3.2.0.5)
 
 - For next major version: contains many `DEPRECATED` functions in `Control.Parallel.Strategies` since at least 2010:
 
@@ -766,11 +763,11 @@ Common tasks:
 
 - Note: this is an **extra** library (i.e. not part of binary distribution); not critical for release; [ stm-2.4.2](http://hackage.haskell.org/package/stm-2.4.2) still builds fine with GHC HEAD.
 
-- TODO
+- TODO low-prio point rls
 
 ### [ template-haskell](http://hackage.haskell.org/package/template-haskell)
 
-- TODO`changelog.md`(?)
+- TODO maybe create `changelog.md` (low-prio)
 
 ### [ unix](http://hackage.haskell.org/package/unix)
 
@@ -819,7 +816,7 @@ Common tasks:
 
 ### DPH
 
-- TODO ???
+- TODO (no idea if DPH is in a useful state right now, nor whether we need it to be; it's been neglected for some time)
 
 ## 3rd Party Libraries
 
@@ -844,14 +841,14 @@ Note: Libraries with a "<sup>1</sup>" marker are used internally (e.g. by `ghci`
 ### bytestring
 
 - upstream: [ http://github.com/haskell/bytestring.git](http://github.com/haskell/bytestring.git)
-- reminded about RC
-- TODO waiting for RC
+- synced up to [ hackage:bytestring-0.10.6.0](http://hackage.haskell.org/package/bytestring-0.10.6.0) RC
+- TODO wait for (minor) version bump from current 0.10.5 to 0.10.6
 
 ### containers
 
 - upstream: [ http://github.com/haskell/containers](http://github.com/haskell/containers)
 - reminded about RC
-- TODO wait for RC
+- TODO wait for RC (expected by end of Monday 15th)
 
 ### [ filepath](http://hackage.haskell.org/package/filepath)
 
@@ -862,7 +859,8 @@ Note: Libraries with a "<sup>1</sup>" marker are used internally (e.g. by `ghci`
 ### haskeline<sup>1</sup>
 
 - upstream: [ https://github.com/judah/haskeline](https://github.com/judah/haskeline)
-- TODO
+- synced up to latest Git snapshot
+- TODO wait for version bump to 0.7.2 (or 0.8?)
 
 ### pretty
 
@@ -896,7 +894,8 @@ Note: Libraries with a "<sup>1</sup>" marker are used internally (e.g. by `ghci`
 ### terminfo<sup>1</sup>
 
 - upstream: [ https://github.com/judah/terminfo](https://github.com/judah/terminfo)
-- TODO
+- synced up to [ hackage:terminfo-0.4.0.0](http://hackage.haskell.org/package/terminfo-0.4.0.0) (+ base-version-bump)
+- TODO (low-prio) wait for [ hackage:terminfo-0.4.0.1](http://hackage.haskell.org/package/terminfo-0.4.0.1) rls
 
 ### time
 
