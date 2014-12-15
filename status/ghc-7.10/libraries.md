@@ -841,14 +841,14 @@ Note: Libraries with a "<sup>1</sup>" marker are used internally (e.g. by `ghci`
 ### bytestring
 
 - upstream: [ http://github.com/haskell/bytestring.git](http://github.com/haskell/bytestring.git)
-- reminded about RC
-- TODO waiting for RC
+- synced up to [ hackage:bytestring-0.10.6.0](http://hackage.haskell.org/package/bytestring-0.10.6.0) RC
+- TODO wait for (minor) version bump from current 0.10.5 to 0.10.6
 
 ### containers
 
 - upstream: [ http://github.com/haskell/containers](http://github.com/haskell/containers)
 - reminded about RC
-- TODO wait for RC
+- TODO wait for RC (expected by end of Monday 15th)
 
 ### [ filepath](http://hackage.haskell.org/package/filepath)
 
@@ -859,7 +859,8 @@ Note: Libraries with a "<sup>1</sup>" marker are used internally (e.g. by `ghci`
 ### haskeline<sup>1</sup>
 
 - upstream: [ https://github.com/judah/haskeline](https://github.com/judah/haskeline)
-- TODO
+- synced up to latest Git snapshot
+- TODO wait for version bump to 0.7.2 (or 0.8?)
 
 ### pretty
 
@@ -893,7 +894,8 @@ Note: Libraries with a "<sup>1</sup>" marker are used internally (e.g. by `ghci`
 ### terminfo<sup>1</sup>
 
 - upstream: [ https://github.com/judah/terminfo](https://github.com/judah/terminfo)
-- TODO
+- synced up to [ hackage:terminfo-0.4.0.0](http://hackage.haskell.org/package/terminfo-0.4.0.0) (+ base-version-bump)
+- TODO (low-prio) wait for [ hackage:terminfo-0.4.0.1](http://hackage.haskell.org/package/terminfo-0.4.0.1) rls
 
 ### time
 
