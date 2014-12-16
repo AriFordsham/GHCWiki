@@ -23,10 +23,10 @@ Afterwords Phab will send you a verification email, which you'll need to open an
 ## Understanding the interface
 
 
-Phabricator is actually a suite of applications - there are a few that are the most important for GHC development, but many auxiliary ones in use by other projects. In general, **the most important tool is Differential, located on the top of the left-side panel**. The other tools you may want are **Herald**, **Audit**, and **Diffusion**.
+Phabricator is actually a suite of applications. The one you will use the most is **Differential, located on the top of the left-side panel**. 
 
 
-Finally, you'll also *really* want the command line tool, **Arcanist**. It's not strictly necessary, but makes code review and many other tasks significantly faster and easier.
+You will also *really* want the command line tool, **Arcanist**. It's not strictly necessary, but makes code review and many other tasks significantly faster and easier.
 
 ## The CLI: Arcanist
 
