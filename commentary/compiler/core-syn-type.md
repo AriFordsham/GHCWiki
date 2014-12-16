@@ -9,22 +9,22 @@ The Core language is GHC's central data types.  Core is a very small, explicitly
 
 The `CoreSyn` type, and the functions that operate over it, gets an entire directory [compiler/coreSyn](/trac/ghc/browser/ghc/compiler/coreSyn):
 
-- [compiler/coreSyn/CoreSyn.lhs](/trac/ghc/browser/ghc/compiler/coreSyn/CoreSyn.lhs): the data type itself.
+- [compiler/coreSyn/CoreSyn.hs](/trac/ghc/browser/ghc/compiler/coreSyn/CoreSyn.hs): the data type itself.
 
-- [compiler/coreSyn/PprCore.lhs](/trac/ghc/browser/ghc/compiler/coreSyn/PprCore.lhs): pretty-printing.
-- [compiler/coreSyn/CoreFVs.lhs](/trac/ghc/browser/ghc/compiler/coreSyn/CoreFVs.lhs): finding free variables.
-- [compiler/coreSyn/CoreSubst.lhs](/trac/ghc/browser/ghc/compiler/coreSyn/CoreSubst.lhs): substitution.
-- [compiler/coreSyn/CoreUtils.lhs](/trac/ghc/browser/ghc/compiler/coreSyn/CoreUtils.lhs): a variety of other useful functions over Core.
+- [compiler/coreSyn/PprCore.hs](/trac/ghc/browser/ghc/compiler/coreSyn/PprCore.hs): pretty-printing.
+- [compiler/coreSyn/CoreFVs.hs](/trac/ghc/browser/ghc/compiler/coreSyn/CoreFVs.hs): finding free variables.
+- [compiler/coreSyn/CoreSubst.hs](/trac/ghc/browser/ghc/compiler/coreSyn/CoreSubst.hs): substitution.
+- [compiler/coreSyn/CoreUtils.hs](/trac/ghc/browser/ghc/compiler/coreSyn/CoreUtils.hs): a variety of other useful functions over Core.
 
-- [compiler/coreSyn/CoreUnfold.lhs](/trac/ghc/browser/ghc/compiler/coreSyn/CoreUnfold.lhs): dealing with "unfoldings".
+- [compiler/coreSyn/CoreUnfold.hs](/trac/ghc/browser/ghc/compiler/coreSyn/CoreUnfold.hs): dealing with "unfoldings".
 
-- [compiler/coreSyn/CoreLint.lhs](/trac/ghc/browser/ghc/compiler/coreSyn/CoreLint.lhs): type-check the Core program. This is an incredibly-valuable consistency check, enabled by the flag `-dcore-lint`.
+- [compiler/coreSyn/CoreLint.hs](/trac/ghc/browser/ghc/compiler/coreSyn/CoreLint.hs): type-check the Core program. This is an incredibly-valuable consistency check, enabled by the flag `-dcore-lint`.
 
-- [compiler/coreSyn/CoreTidy.lhs](/trac/ghc/browser/ghc/compiler/coreSyn/CoreTidy.lhs): part of the [the CoreTidy pass](commentary/compiler/hsc-main) (the rest is in [compiler/main/TidyPgm.lhs](/trac/ghc/browser/ghc/compiler/main/TidyPgm.lhs)).
-- [compiler/coreSyn/CorePrep.lhs](/trac/ghc/browser/ghc/compiler/coreSyn/CorePrep.lhs): [the CorePrep pass](commentary/compiler/hsc-main)
+- [compiler/coreSyn/CoreTidy.hs](/trac/ghc/browser/ghc/compiler/coreSyn/CoreTidy.hs): part of the [the CoreTidy pass](commentary/compiler/hsc-main) (the rest is in [compiler/main/TidyPgm.hs](/trac/ghc/browser/ghc/compiler/main/TidyPgm.hs)).
+- [compiler/coreSyn/CorePrep.hs](/trac/ghc/browser/ghc/compiler/coreSyn/CorePrep.hs): [the CorePrep pass](commentary/compiler/hsc-main)
 
 
-Here is the entire Core type [compiler/coreSyn/CoreSyn.lhs](/trac/ghc/browser/ghc/compiler/coreSyn/CoreSyn.lhs):
+Here is the entire Core type [compiler/coreSyn/CoreSyn.hs](/trac/ghc/browser/ghc/compiler/coreSyn/CoreSyn.hs):
 
 ```wiki
 type CoreExpr = Expr Var
@@ -128,7 +128,7 @@ case (reverse xs) of y { DEFAULT -> f y }
 
 Case expressions have several invariants
 
-- The `res_ty` type is the same as the type of any of the right-hand sides (up to refining unification -- coreRefineTys in [compiler/types/Unify.lhs](/trac/ghc/browser/ghc/compiler/types/Unify.lhs) -- in pre-[FC](commentary/compiler/fc)).
+- The `res_ty` type is the same as the type of any of the right-hand sides (up to refining unification -- coreRefineTys in [compiler/types/Unify.hs](/trac/ghc/browser/ghc/compiler/types/Unify.hs) -- in pre-[FC](commentary/compiler/fc)).
 
 - If there is a `DEFAULT` alternative, it must appear first.  This makes finding a `DEFAULT` alternative easy, when it exists.
 
@@ -162,7 +162,7 @@ allowed. In other words, it is possible to come across a definition of a
 variable that has the same name (`realUnique`) as some other one that is
 already in scope. One of the possible ways to deal with that is to
 use `Subst` (substitution environment from
-[compiler/coreSyn/CoreSubst.lhs](/trac/ghc/browser/ghc/compiler/coreSyn/CoreSubst.lhs)), which maintains the list of
+[compiler/coreSyn/CoreSubst.hs](/trac/ghc/browser/ghc/compiler/coreSyn/CoreSubst.hs)), which maintains the list of
 variables in scope and makes it possible to clone (i.e. rename) only the
 variables that actually capture names of some earlier ones. For some more
 explanations about this approach see 
