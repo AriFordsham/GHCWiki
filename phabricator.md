@@ -1,13 +1,11 @@
 # Using Phabricator for GHC development
 
-[ Phabricator](http://phabricator.org) (AKA "Phab") is a suite of tools for software development, initially developed by Facebook. It consists of a suite of applications which are useful for the entire software development lifecycle, but for GHC specifically, **Phabricator is a code review tool**, and we use it to read and accept patches from contributors - both new ones, and existing ones.
+[ Phabricator](http://phabricator.org) (AKA "Phab") is a suite of tools for software development, initially developed by Facebook. The functionality is similar to using github and TravisCI: it is primarily used for code review and automated builds. Uses include:
 
-**Note**: Phabricator is *not* required for GHC committers. If you have commit access, you're free to push patches directly. But do feel free to post reviews for things you're working on - it generally will only help your work. Benefits include:
-
-- Better tools: side-by-side diffs, inline comments, blocking states, command line access
+- side-by-side diffs, inline comments, blocking states, command line access
 - Better notifications: use "Herald" to control emails very closely, or commits or reviews you are interested in.
 - Increased visibility for code review and feedback.
-- **NEW**: Automatic `./validate` of all your diffs when using Arcanist! (see "Harbormaster" below)
+- Automatic `./validate` builds when using Arcanist! (see "Harbormaster" below)
 - Meme support (optional)
 - Other features you might like, such as an IRC bot, and [ Terminator jokes](https://github.com/phacility/phabricator/blob/8756d82cf6c13d86019efeb9df8bcdaad1b17ec8/src/infrastructure/daemon/bot/handler/PhabricatorBotObjectNameHandler.php#L66).
 
