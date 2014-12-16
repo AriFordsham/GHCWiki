@@ -172,6 +172,11 @@ Note that when you run `arc diff`, it will drop you into an editor to summarize 
 
 Finally, **GHC Trac Tickets** should be a comma separated list of issue numbers, for example, `GHC Trac Issues: #123, #456`. This will add metadata in Differential allowing you to see the ticket.
 
+#### Differential UI
+
+
+Don't forget the keyboard shortcuts, in particular `z` lets you post a comment without scrolling past a diff.
+
 #### Landing reviews
 
 
