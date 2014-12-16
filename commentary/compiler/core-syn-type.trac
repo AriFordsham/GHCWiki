@@ -7,21 +7,21 @@ Video: [http://www.youtube.com/watch?v=EQA69dvkQIk&list=PLBkRCigjPwyeCSD_DFxpd24
 The Core language is GHC's central data types.  Core is a very small, explicitly-typed, variant of System F.  The exact variant is called [wiki:Commentary/Compiler/FC System FC], which embodies equality constraints and coercions.
 
 The {{{CoreSyn}}} type, and the functions that operate over it, gets an entire directory [[GhcFile(compiler/coreSyn)]]:
-  * [[GhcFile(compiler/coreSyn/CoreSyn.lhs)]]: the data type itself.
+  * [[GhcFile(compiler/coreSyn/CoreSyn.hs)]]: the data type itself.
 
-  * [[GhcFile(compiler/coreSyn/PprCore.lhs)]]: pretty-printing.
-  * [[GhcFile(compiler/coreSyn/CoreFVs.lhs)]]: finding free variables.
-  * [[GhcFile(compiler/coreSyn/CoreSubst.lhs)]]: substitution.
-  * [[GhcFile(compiler/coreSyn/CoreUtils.lhs)]]: a variety of other useful functions over Core.
+  * [[GhcFile(compiler/coreSyn/PprCore.hs)]]: pretty-printing.
+  * [[GhcFile(compiler/coreSyn/CoreFVs.hs)]]: finding free variables.
+  * [[GhcFile(compiler/coreSyn/CoreSubst.hs)]]: substitution.
+  * [[GhcFile(compiler/coreSyn/CoreUtils.hs)]]: a variety of other useful functions over Core.
 
-  * [[GhcFile(compiler/coreSyn/CoreUnfold.lhs)]]: dealing with "unfoldings".
+  * [[GhcFile(compiler/coreSyn/CoreUnfold.hs)]]: dealing with "unfoldings".
 
-  * [[GhcFile(compiler/coreSyn/CoreLint.lhs)]]: type-check the Core program. This is an incredibly-valuable consistency check, enabled by the flag {{{-dcore-lint}}}.
+  * [[GhcFile(compiler/coreSyn/CoreLint.hs)]]: type-check the Core program. This is an incredibly-valuable consistency check, enabled by the flag {{{-dcore-lint}}}.
 
-  * [[GhcFile(compiler/coreSyn/CoreTidy.lhs)]]: part of the [wiki:Commentary/Compiler/HscMain the CoreTidy pass] (the rest is in [[GhcFile(compiler/main/TidyPgm.lhs)]]).
-  * [[GhcFile(compiler/coreSyn/CorePrep.lhs)]]: [wiki:Commentary/Compiler/HscMain the CorePrep pass]
+  * [[GhcFile(compiler/coreSyn/CoreTidy.hs)]]: part of the [wiki:Commentary/Compiler/HscMain the CoreTidy pass] (the rest is in [[GhcFile(compiler/main/TidyPgm.hs)]]).
+  * [[GhcFile(compiler/coreSyn/CorePrep.hs)]]: [wiki:Commentary/Compiler/HscMain the CorePrep pass]
 
-Here is the entire Core type [[GhcFile(compiler/coreSyn/CoreSyn.lhs)]]:
+Here is the entire Core type [[GhcFile(compiler/coreSyn/CoreSyn.hs)]]:
 {{{
 type CoreExpr = Expr Var
 
@@ -104,7 +104,7 @@ case (reverse xs) of y { DEFAULT -> f y }
 }}}
 
 Case expressions have several invariants
- * The {{{res_ty}}} type is the same as the type of any of the right-hand sides (up to refining unification -- coreRefineTys in [[GhcFile(compiler/types/Unify.lhs)]] -- in pre-[wiki:Commentary/Compiler/FC FC]).
+ * The {{{res_ty}}} type is the same as the type of any of the right-hand sides (up to refining unification -- coreRefineTys in [[GhcFile(compiler/types/Unify.hs)]] -- in pre-[wiki:Commentary/Compiler/FC FC]).
  
  * If there is a {{{DEFAULT}}} alternative, it must appear first.  This makes finding a {{{DEFAULT}}} alternative easy, when it exists.
 
@@ -132,7 +132,7 @@ allowed. In other words, it is possible to come across a definition of a
 variable that has the same name (`realUnique`) as some other one that is
 already in scope. One of the possible ways to deal with that is to
 use `Subst` (substitution environment from
-[[GhcFile(compiler/coreSyn/CoreSubst.lhs)]]), which maintains the list of
+[[GhcFile(compiler/coreSyn/CoreSubst.hs)]]), which maintains the list of
 variables in scope and makes it possible to clone (i.e. rename) only the
 variables that actually capture names of some earlier ones. For some more
 explanations about this approach see 
