@@ -1,3 +1,54 @@
+## Base proposal
+
+
+Expose the constructor of the dictionary datatype created by desugaring typeclasses.
+
+### Additional proposals
+
+- Integrate the *reflection* and parts of the *constraints* library into the core class libraries, and this: 
+
+```wiki
+newtype Lift (p :: * -> Constraint) (a :: *) (s :: *) = Lift { lower :: a }
+
+class ReifiableConstraint p where
+  reifiedIns :: Reifies s (p a) :- p (Lift p a s)
+
+
+with :: p a -> (forall s. Reifies s (p a) => Lift p a s) -> a
+with d v = reify d (lower . asProxyOf v)
+  where
+    asProxyOf :: f s -> Proxy s -> f s
+    asProxyOf x _ = x
+
+using :: forall p a. ReifiableConstraint p => p a -> (p a => a) -> a
+using d m = reify d $ \(_ :: Proxy s) ->
+  let replaceProof :: Reifies s (p a) :- p a
+      replaceProof = trans proof reifiedIns
+        where proof = unsafeCoerceConstraint :: p (Lift p a s) :- p a
+  in m \\ replaceProof
+
+```
+
+
+Example usage of this:
+
+```wiki
+--These two instances can and should be automatically created by the compiler eventually, but it isn't strictly necessary
+instance ReifiableConstraint Monoid where
+  reifiedIns = Sub Dict
+
+instance Reifies s (Monoid a) => Monoid (Lift Monoid a s) where
+  mappend a b        = Lift $ mappend_ (reflect a) (lower a) (lower b)
+  mempty = a where a = Lift $ mempty_ (reflect a)
+
+--now to use it
+
+using (Monoid (+) 0) $ mempty <> 10 <> 12 -- evaluates to 22
+using (Monoid (*) 1) $ mempty <> 10 <> 12 -- evaluates to 120
+```
+
+## Rationale
+
 
 There are several examples where one would like access to desugared typeclass dictionary types. For example, creating new instances at runtime like in [ reflection](https://www.fpcomplete.com/user/thoughtpolice/using-reflection#turning-up-the-magic-to-over-9000). Indeed, access to dictionary constructors would probably make the reflection package much simpler and less spooky.
 
@@ -7,29 +58,14 @@ Currently, typeclass dictionary constructors are [ prepended with "D:"](https://
 
 This proposal is about allowing source level access to the dictionary constructors. Note that it is not about local instances: There would be no way to override the type-based dictionary usage, just like the present. Instead, all it would allow is something like the following:
 
-```wiki
-class Monoid a where
-    mempty :: a
-    mconcat :: a -> a -> a
-
---allows access to the following type in the same module as the class declaration
-
-data Monoid a = Monoid { mempty :: a, mconcat :: a -> a -> a} -- :: Constraint
-```
-
-
-If the reflection package was merged into base, ideally it would also generate the instances to allow reification to be used like so (from the article):
-
-```wiki
-using (Monoid (+) 0) $ mempty <> 10 <> 12 -- evaluates to 22
-using (Monoid (*) 1) $ mempty <> 10 <> 12 -- evaluates to 120
-```
-
 
 The first shot at allowing access to the constructors is to simply replace the string "D:" with "".
 
 
-Doing so reveals two things: 1) In ghci, it still does not work - the parser catches "Monoid undefined undefined undefined" with "Not in scope: data constructor Monoid"
+Doing so reveals two things: 
+
+
+1) It still does not work - the parser catches "Monoid undefined undefined undefined" with "Not in scope: data constructor Monoid". Is this because it's getting caught in the parser?
 2) 
 
 ```wiki
@@ -46,3 +82,6 @@ testsuite/tests/indexed-types/should_compile/Deriving.hs:8:1: Warning:
 /tmp/ghc13400_0/ghc13400_2.s:811:0:
      Error: symbol `ShouldCompile_C_static_info' is already defined
 ```
+
+
+This goes away when the "D:" is replaced with something like "MkDict" instead of a blank.
