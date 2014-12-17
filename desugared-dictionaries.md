@@ -5,7 +5,7 @@ Expose the constructor of the dictionary datatype created by desugaring typeclas
 
 ### Additional proposals
 
-- Integrate the *reflection* and parts of the *constraints* library into the core class libraries, and this: 
+- Integrate the *reflection* and parts of the *constraints* library into the core class libraries, and this: (code from [ here](https://www.fpcomplete.com/user/thoughtpolice/using-reflection)) 
 
 ```wiki
 newtype Lift (p :: * -> Constraint) (a :: *) (s :: *) = Lift { lower :: a }

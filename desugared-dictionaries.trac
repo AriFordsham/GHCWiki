@@ -2,7 +2,7 @@
 == Base proposal ==
 Expose the constructor of the dictionary datatype created by desugaring typeclasses. This seems unlikely to require any further changes - local type-based instances are still not allowed, but arbitrary dictionaries can be constructed and passed manually. This is possible /already/, but it requires creating a seperate type which mimics the structure of the desugared dictionary. No inference changes are required, no new syntax.
 === Additional proposals ===
-* Integrate the ''reflection'' and parts of the ''constraints'' library into the core class libraries, and this: 
+* Integrate the ''reflection'' and parts of the ''constraints'' library into the core class libraries, and this: (code from [https://www.fpcomplete.com/user/thoughtpolice/using-reflection here]) 
 
 {{{
 newtype Lift (p :: * -> Constraint) (a :: *) (s :: *) = Lift { lower :: a }
