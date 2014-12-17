@@ -1,7 +1,7 @@
 ## Base proposal
 
 
-Expose the constructor of the dictionary datatype created by desugaring typeclasses.
+Expose the constructor of the dictionary datatype created by desugaring typeclasses. This seems unlikely to require any further changes - local type-based instances are still not allowed, but arbitrary dictionaries can be constructed and passed manually. This is possible /already/, but it requires creating a seperate type which mimics the structure of the desugared dictionary. No inference changes are required, no new syntax.
 
 ### Additional proposals
 
@@ -47,6 +47,14 @@ using (Monoid (+) 0) $ mempty <> 10 <> 12 -- evaluates to 22
 using (Monoid (*) 1) $ mempty <> 10 <> 12 -- evaluates to 120
 ```
 
+## What this proposal is NOT
+
+
+It is not a proposal for local typeclass instances based on type. That is, this proposal allows easier access to creating dictionary terms, but not not in types. This is basically just removing the need to create identical data structures as a workaround. 
+
+
+It is not a proposal for any new syntax or runtime behaviour or types.
+
 ## Rationale
 
 
@@ -56,7 +64,12 @@ There are several examples where one would like access to desugared typeclass di
 Currently, typeclass dictionary constructors are [ prepended with "D:"](https://github.com/ghc/ghc/blob/4d5f83a8dcf1f1125863a8fb4f847d78766f1617/compiler/basicTypes/OccName.hs#L615), ensuring that no source level Haskell code can access them.  
 
 
-This proposal is about allowing source level access to the dictionary constructors. Note that it is not about local instances: There would be no way to override the type-based dictionary usage, just like the present. Instead, all it would allow is something like the following:
+This proposal is about allowing source level access to the dictionary constructors. Note that it is not about local instances: There would be no way to override the type-based dictionary usage, just like the present. 
+
+
+It would allow, for example, far greater ease of implementation of dictionary-based methods, such as is often needed in constructive category theory. 
+
+## Implementation
 
 
 The first shot at allowing access to the constructors is to simply replace the string "D:" with "".
