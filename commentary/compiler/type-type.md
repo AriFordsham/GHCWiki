@@ -35,12 +35,12 @@ Even when considering only types (not kinds, sorts, coercions) you need to know 
 
 These two "views" are supported by a family of functions operating over that view:
 
-- [compiler/types/TypeRep.lhs](/trac/ghc/browser/ghc/compiler/types/TypeRep.lhs): here is where `Type` is defined.
-- [compiler/types/Type.lhs](/trac/ghc/browser/ghc/compiler/types/Type.lhs): core-view utility functions over `Type`.
-- [compiler/typecheck/TcType.lhs](/trac/ghc/browser/ghc/compiler/typecheck/TcType.lhs): source-view utility functions over `Type`.
+- [compiler/types/TypeRep.hs](/trac/ghc/browser/ghc/compiler/types/TypeRep.hs): here is where `Type` is defined.
+- [compiler/types/Type.hs](/trac/ghc/browser/ghc/compiler/types/Type.hs): core-view utility functions over `Type`.
+- [compiler/typecheck/TcType.hs](/trac/ghc/browser/ghc/compiler/typecheck/TcType.hs): source-view utility functions over `Type`.
 
 
-The "view" functions are *shallow*, not deep---a view function just looks at the *root* of the tree representing the type.  For example, part of the `coreView` function ([compiler/types/Type.lhs](/trac/ghc/browser/ghc/compiler/types/Type.lhs)) looks like this:
+The "view" functions are *shallow*, not deep---a view function just looks at the *root* of the tree representing the type.  For example, part of the `coreView` function ([compiler/types/Type.hs](/trac/ghc/browser/ghc/compiler/types/Type.hs)) looks like this:
 
 ```wiki
   coreView :: Type -> Maybe Type
@@ -76,7 +76,7 @@ Neat, huh?
 ## The representation of `Type`
 
 
-Here, then is the representation of types (see [compiler/types/TypeRep.lhs](/trac/ghc/browser/ghc/compiler/types/TypeRep.lhs) for more details):
+Here, then is the representation of types (see [compiler/types/TypeRep.hs](/trac/ghc/browser/ghc/compiler/types/TypeRep.hs) for more details):
 
 ```wiki
 type TyVar = Var
