@@ -67,7 +67,7 @@ Currently, typeclass dictionary constructors are [ prepended with "D:"](https://
 This proposal is about allowing source level access to the dictionary constructors. Note that it is not about local instances: There would be no way to override the type-based dictionary usage, just like the present. 
 
 
-It would allow, for example, far greater ease of implementation of dictionary-based methods, such as is often needed in constructive category theory. Otherwise, it is [ messy as hell](https://hackage.haskell.org/package/data-category-0.6.1/docs/Data-Category-Monoidal.html#t:MonoidObject).
+It would allow, for example, far greater ease of implementation of dictionary-based methods, such as is often needed in constructive category theory. Otherwise, it is [ messy as hell](https://hackage.haskell.org/package/data-category-0.6.1/docs/Data-Category-Monoidal.html#t:MonoidObject). Additionally, this kept coming up while working on the monoidal category proposal for replacing arrow notation; it was a huge barrier to a nice interface/api.
 
 ## Implementation
 
