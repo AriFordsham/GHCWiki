@@ -724,8 +724,6 @@ Common tasks:
 
 ### [ parallel](http://hackage.haskell.org/package/parallel)
 
-[](https://travis-ci.org/ghc/packages-parallel)
-
 - Note: **extra** library (i.e. not part of normal distribution)
 
 - GHC 7.10 compatible rls uploaded as [ hackage:parallel-3.2.0.5](http://hackage.haskell.org/package/parallel-3.2.0.5)
@@ -831,7 +829,8 @@ Note: Libraries with a "<sup>1</sup>" marker are used internally (e.g. by `ghci`
 ### Win32
 
 - upstream: [ http://github.com/haskell/win32.git](http://github.com/haskell/win32.git)
-- TODO contact Bryan
+- Officially owned by CLC now
+- TODO make ready for RC
 
 ### binary
 
@@ -844,11 +843,10 @@ Note: Libraries with a "<sup>1</sup>" marker are used internally (e.g. by `ghci`
 - synced up to [ hackage:bytestring-0.10.6.0](http://hackage.haskell.org/package/bytestring-0.10.6.0) RC
 - TODO wait for (minor) version bump from current 0.10.5 to 0.10.6
 
-### containers
+### [ containers](http://hackage.haskell.org/package/containers)
 
 - upstream: [ http://github.com/haskell/containers](http://github.com/haskell/containers)
-- reminded about RC
-- TODO wait for RC (expected by end of Monday 15th)
+- synced up to [ hackage:containers-0.5.6.1](http://hackage.haskell.org/package/containers-0.5.6.1)
 
 ### [ filepath](http://hackage.haskell.org/package/filepath)
 
@@ -859,8 +857,7 @@ Note: Libraries with a "<sup>1</sup>" marker are used internally (e.g. by `ghci`
 ### haskeline<sup>1</sup>
 
 - upstream: [ https://github.com/judah/haskeline](https://github.com/judah/haskeline)
-- synced up to latest Git snapshot
-- TODO wait for version bump to 0.7.2 (or 0.8?)
+- synced up to [ hackage:haskeline-0.7.2](http://hackage.haskell.org/package/haskeline-0.7.2) RC
 
 ### pretty
 
@@ -889,13 +886,12 @@ Note: Libraries with a "<sup>1</sup>" marker are used internally (e.g. by `ghci`
 
 ### random<sup>2</sup>
 
-- TODO GHC's repo has diverged from upstream
+- TODO GHC's repo has diverged from upstream; what's it even used for in GHC?
 
 ### terminfo<sup>1</sup>
 
 - upstream: [ https://github.com/judah/terminfo](https://github.com/judah/terminfo)
-- synced up to [ hackage:terminfo-0.4.0.0](http://hackage.haskell.org/package/terminfo-0.4.0.0) (+ base-version-bump)
-- TODO (low-prio) wait for [ hackage:terminfo-0.4.0.1](http://hackage.haskell.org/package/terminfo-0.4.0.1) rls
+- synced up to [ hackage:terminfo-0.4.0.1](http://hackage.haskell.org/package/terminfo-0.4.0.1) RC
 
 ### time
 
