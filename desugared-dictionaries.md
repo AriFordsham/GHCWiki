@@ -1,9 +1,53 @@
+
+(WIP)
+
 ## Base proposal
 
 
 Expose the constructor of the dictionary datatype created by desugaring typeclasses. This seems unlikely to require any further changes - local type-based instances are still not allowed, but arbitrary dictionaries can be constructed and passed manually. This is possible /already/, but it requires creating a seperate type which mimics the structure of the desugared dictionary. No inference changes are required, no new syntax.
 
-### Additional proposals
+
+Say one has the typeclass 
+
+```wiki
+class Monoid a where
+    mempty :: a
+    mappend :: a -> a -> a
+```
+
+
+It currently will desugar into (roughly) the following:
+
+```wiki
+data Monoid a = D:Monoid { mempty :: a; mappend :: a -> a -> a}
+```
+
+
+The problem is that the constructor, *D:Monoid*, is an invalid Haskell source token, and cannot be called explicitly. The proposal is to make the constructor visible at the source level, so one can construct instances of the type *Monoid a* at runtime. 
+
+## What this proposal is NOT
+
+
+It is not a proposal for local typeclass instances based on type. That is, this proposal allows easier access to creating dictionary terms, but not not in types. This is basically just removing the need to create identical data structures as a workaround. 
+
+
+It is not a proposal for any new syntax or runtime behaviour or types. It is not creating any new types; rather, just exposing types which are already being created behind the scenes in the desugaring process.
+
+## Rationale
+
+
+There are several examples where one would like access to desugared typeclass dictionary types. For example, creating new instances at runtime like in [ reflection](https://www.fpcomplete.com/user/thoughtpolice/using-reflection#turning-up-the-magic-to-over-9000). Indeed, access to dictionary constructors would probably make the reflection package much simpler and less spooky.
+
+
+Currently, typeclass dictionary constructors are [ prepended with "D:"](https://github.com/ghc/ghc/blob/4d5f83a8dcf1f1125863a8fb4f847d78766f1617/compiler/basicTypes/OccName.hs#L615), ensuring that no source level Haskell code can access them.  
+
+
+This proposal is about allowing source level access to the dictionary constructors. Note that it is not about local instances: There would be no way to override the type-based dictionary usage, just like the present. 
+
+
+It would allow, for example, far greater ease of implementation of dictionary-based methods, such as is often needed in constructive category theory. Otherwise, it is [ messy as hell](https://hackage.haskell.org/package/data-category-0.6.1/docs/Data-Category-Monoidal.html#t:MonoidObject). Additionally, this kept coming up while working on the monoidal category proposal for replacing arrow notation; it was a huge barrier to a nice interface/api.
+
+## Additional proposals
 
 - Integrate the *reflection* and parts of the *constraints* library into the core class libraries, and this: (code from [ here](https://www.fpcomplete.com/user/thoughtpolice/using-reflection)) 
 
@@ -46,28 +90,6 @@ instance Reifies s (Monoid a) => Monoid (Lift Monoid a s) where
 using (Monoid (+) 0) $ mempty <> 10 <> 12 -- evaluates to 22
 using (Monoid (*) 1) $ mempty <> 10 <> 12 -- evaluates to 120
 ```
-
-## What this proposal is NOT
-
-
-It is not a proposal for local typeclass instances based on type. That is, this proposal allows easier access to creating dictionary terms, but not not in types. This is basically just removing the need to create identical data structures as a workaround. 
-
-
-It is not a proposal for any new syntax or runtime behaviour or types.
-
-## Rationale
-
-
-There are several examples where one would like access to desugared typeclass dictionary types. For example, creating new instances at runtime like in [ reflection](https://www.fpcomplete.com/user/thoughtpolice/using-reflection#turning-up-the-magic-to-over-9000). Indeed, access to dictionary constructors would probably make the reflection package much simpler and less spooky.
-
-
-Currently, typeclass dictionary constructors are [ prepended with "D:"](https://github.com/ghc/ghc/blob/4d5f83a8dcf1f1125863a8fb4f847d78766f1617/compiler/basicTypes/OccName.hs#L615), ensuring that no source level Haskell code can access them.  
-
-
-This proposal is about allowing source level access to the dictionary constructors. Note that it is not about local instances: There would be no way to override the type-based dictionary usage, just like the present. 
-
-
-It would allow, for example, far greater ease of implementation of dictionary-based methods, such as is often needed in constructive category theory. Otherwise, it is [ messy as hell](https://hackage.haskell.org/package/data-category-0.6.1/docs/Data-Category-Monoidal.html#t:MonoidObject). Additionally, this kept coming up while working on the monoidal category proposal for replacing arrow notation; it was a huge barrier to a nice interface/api.
 
 ## Implementation
 
