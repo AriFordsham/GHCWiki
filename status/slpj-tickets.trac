@@ -4,6 +4,7 @@
  * #9260: type lits (Iavor owns)
  * #7015: support for `static` (Facundo)
  * #9867: pattern synonyms and scoped type variables (Gergo)
+ * #9891: pattern synonym fixity
  * #9879: partial type signature panic (Thomas)
  * #8634, #9267, #9227: relaxing functional dependency rules `-XDysFunctionalDependencies`
  * #8852, #8980, #8941 (possibly), #8960, #7898, #7068, #7944, #5550, #8836: `SpecConstr` blowup
