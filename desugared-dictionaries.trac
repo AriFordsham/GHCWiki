@@ -34,8 +34,8 @@ instance ReifiableConstraint Monoid where
   reifiedIns = Sub Dict
 
 instance Reifies s (Monoid a) => Monoid (Lift Monoid a s) where
-  mappend a b        = Lift $ mappend_ (reflect a) (lower a) (lower b)
-  mempty = a where a = Lift $ mempty_ (reflect a)
+  mappend a b        = Lift $ mappend (reflect a) (lower a) (lower b)
+  mempty = a where a = Lift $ mempty (reflect a)
 
 --now to use it
 
@@ -57,8 +57,6 @@ Currently, typeclass dictionary constructors are [https://github.com/ghc/ghc/blo
 This proposal is about allowing source level access to the dictionary constructors. Note that it is not about local instances: There would be no way to override the type-based dictionary usage, just like the present. 
 
 It would allow, for example, far greater ease of implementation of dictionary-based methods, such as is often needed in constructive category theory. 
-
-
 == Implementation ==
 The first shot at allowing access to the constructors is to simply replace the string "D:" with "".
 

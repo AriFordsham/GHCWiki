@@ -38,8 +38,8 @@ instance ReifiableConstraint Monoid where
   reifiedIns = Sub Dict
 
 instance Reifies s (Monoid a) => Monoid (Lift Monoid a s) where
-  mappend a b        = Lift $ mappend_ (reflect a) (lower a) (lower b)
-  mempty = a where a = Lift $ mempty_ (reflect a)
+  mappend a b        = Lift $ mappend (reflect a) (lower a) (lower b)
+  mempty = a where a = Lift $ mempty (reflect a)
 
 --now to use it
 
