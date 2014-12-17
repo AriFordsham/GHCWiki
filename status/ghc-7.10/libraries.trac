@@ -40,7 +40,7 @@ module GHC.Exts
 
 === [hackage:deepseq] ===
 
- - TODO: waiting for review by Edward K
+ - released hackage:deepseq-1.4.0.0
 
 === [hackage:directory] ===
 
@@ -107,7 +107,7 @@ module GHC.Exts
 
  - Note: this is an '''extra''' library (i.e. not part of binary distribution); not critical for release; [hackage:stm-2.4.2] still builds fine with GHC HEAD.
 
- - TODO: low-prio point rls
+ - released hackage:stm-2.4.4
 
 === [hackage:template-haskell] ===
 

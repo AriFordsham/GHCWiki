@@ -299,7 +299,7 @@ Common tasks:
 
 ### [ deepseq](http://hackage.haskell.org/package/deepseq)
 
-- TODO waiting for review by Edward K
+- released [ hackage:deepseq-1.4.0.0](http://hackage.haskell.org/package/deepseq-1.4.0.0)
 
 ### [ directory](http://hackage.haskell.org/package/directory)
 
@@ -761,7 +761,7 @@ Common tasks:
 
 - Note: this is an **extra** library (i.e. not part of binary distribution); not critical for release; [ stm-2.4.2](http://hackage.haskell.org/package/stm-2.4.2) still builds fine with GHC HEAD.
 
-- TODO low-prio point rls
+- released [ hackage:stm-2.4.4](http://hackage.haskell.org/package/stm-2.4.4)
 
 ### [ template-haskell](http://hackage.haskell.org/package/template-haskell)
 
