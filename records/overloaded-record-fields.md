@@ -18,7 +18,7 @@ The latest code is on the `wip/orf-new` branch of the `ghc` and `haddock` develo
 A [ prototype implementation](https://github.com/adamgundry/records-prototype) of the design is also available.
 
 
-The design has mostly stabilised, but there is still some work to do on the implementation. We hope to have it merged before the release of 7.10.
+The design has mostly stabilised, but there is still some work to do on the implementation. See [notes for GHC hackers on the current status of the code](records/overloaded-record-fields/implementation#current-status).
 
 ## History
 
