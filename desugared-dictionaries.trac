@@ -86,7 +86,7 @@ The first shot at allowing access to the constructors is to simply replace the s
 
 Doing so reveals two things: 
 
-1) It still does not work - the parser catches "Monoid undefined undefined undefined" with "Not in scope: data constructor Monoid". Is this because it's getting caught in the parser?
+1) It still does not work - the parser catches "Monoid undefined undefined undefined" with "Not in scope: data constructor Monoid". Is this because it's getting caught in the typechecker?
 2) 
 
 {{{
