@@ -153,6 +153,8 @@ way.  However, in some cases (such as an abelian group unifier used
 for units of measure) it should be possible for the solver to encode
 the axioms of the equational theory and build proofs from them.
 
+At present, plugins can produce blatant assertions using a `UnivCo` inside a `TcCoercion`. GHC has limited support for theory-specific axioms in the form of `CoAxiomRule`, but this is limited to built-in axioms relating to type literals. A plugin that creates its own `CoAxiomRule` may at first appear to work fine, but if such an axiom is exposed in an interface file (e.g. via an unfolding) then GHC will crash with a `tcIfaceCoAxiomRule` panic when importing it. See [https://www.haskell.org/pipermail/ghc-devs/2014-December/007626.html this ghc-devs thread] for discussion of the problem and a potential solution.
+
 
 == Open questions and future directions ==
 
