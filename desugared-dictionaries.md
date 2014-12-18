@@ -25,6 +25,13 @@ data Monoid a = D:Monoid { mempty :: a; mappend :: a -> a -> a}
 
 The problem is that the constructor, *D:Monoid*, is an invalid Haskell source token, and cannot be called explicitly. The proposal is to make the constructor visible at the source level, so one can construct instances of the type *Monoid a* at runtime. 
 
+
+For example:
+
+```wiki
+let sumMonoid = Monoid 0 (+) in <some expression>
+```
+
 ## What this proposal is NOT
 
 
