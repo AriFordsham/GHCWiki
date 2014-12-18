@@ -25,6 +25,13 @@ data Monoid a = D:Monoid { mempty :: a; mappend :: a -> a -> a}
 
 The problem is that the constructor, *D:Monoid*, is an invalid Haskell source token, and cannot be called explicitly. The proposal is to make the constructor visible at the source level, so one can construct instances of the type *Monoid a* at runtime. 
 
+
+For example:
+
+```wiki
+let sumMonoid = Monoid 0 (+) in <some expression>
+```
+
 ## What this proposal is NOT
 
 
@@ -46,6 +53,9 @@ This proposal is about allowing source level access to the dictionary constructo
 
 
 It would allow, for example, far greater ease of implementation of dictionary-based methods, such as is often needed in constructive category theory. Otherwise, it is [ messy as hell](https://hackage.haskell.org/package/data-category-0.6.1/docs/Data-Category-Monoidal.html#t:MonoidObject). Additionally, this kept coming up while working on the monoidal category proposal for replacing arrow notation; it was a huge barrier to a nice interface/api.
+
+
+Another issue which this addresses is the problem of a single datatype having multiple possible instances. For example, the set of integers have two simple monoids available: (1,(\*)) and (0,(+)). To choose between different monoids with the integers, one has to wrap them in newtypes (i.e. the Product and Sum newtypes) which then implement the separate instances.
 
 ## Additional proposals
 
@@ -100,7 +110,7 @@ The first shot at allowing access to the constructors is to simply replace the s
 Doing so reveals two things: 
 
 
-1) It still does not work - the parser catches "Monoid undefined undefined undefined" with "Not in scope: data constructor Monoid". Is this because it's getting caught in the parser?
+1) It still does not work - the parser catches "Monoid undefined undefined undefined" with "Not in scope: data constructor Monoid". Is this because it's getting caught in the typechecker?
 2) 
 
 ```wiki
