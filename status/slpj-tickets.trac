@@ -3,7 +3,7 @@
 == Urgent or in-flight ==
  * #9260: type lits (Iavor owns)
  * #7015: support for `static` (Facundo)
- * #9867, #9891, #9793, #9783, #9732, #8761, #8581, #8779, #8761, #8583: pattern synonyms (Gergo)
+ * #9900, #9867, #9891, #9793, #9783, #9732, #8761, #8581, #8779, #8761, #8583: pattern synonyms (Gergo)
  * #9879: partial type signature panic (Thomas)
  * #8634, #9267, #9227: relaxing functional dependency rules `-XDysFunctionalDependencies`
  * #8852, #8980, #8941 (possibly), #8960, #7898, #7068, #7944, #5550, #8836: `SpecConstr` blowup
