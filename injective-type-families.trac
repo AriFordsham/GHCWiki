@@ -5,6 +5,13 @@ This page summarizes the design behind injective type families (#6018). For the 
 Person responsible for this page and the implementation: Jan Stolarek (just so
 you now who is meant by "I").
 
+My current implementation is located on GitHub:
+
+  * https://github.com/jstolarek/ghc/tree/T6018-injective-type-families
+  * https://github.com/jstolarek/haddock/tree/T6018-injective-type-families
+
+Note that you need to update the haddock submodule as well. Since it's a work in progress things might be broken. Also, I tend to do upstream rebases with these branches so beware when using `git pull`.
+
 == Forms of injectivity
 
 The idea behind #6018 is to allow users to declare that a type family is
