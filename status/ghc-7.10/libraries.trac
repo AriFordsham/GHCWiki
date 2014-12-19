@@ -66,6 +66,7 @@ module GHC.Exts
 
 === [hackage:integer-gmp] ===
 
+ - hackage:integer-gmp-1.0.0.0/candidate
  - TODO
 
 === [hackage:parallel] ===
@@ -99,7 +100,7 @@ module GHC.Exts
 
 [[TicketQuery(status!=closed,component=libraries/process,format=table,col=type|summary|priority|owner|reporter)]]
 
- - TODO
+ - hackage:process-1.2.1.0
 
 === [hackage:stm] ===
 
@@ -126,7 +127,7 @@ module GHC.Exts
     {-# DEPRECATED setProcessGroupID "This function is scheduled to be replaced by something different in the future, we therefore recommend that you do not use this version and use setProcessGroupIdOf instead." #-} -- deprecated in 7.2
     }}}
 
- - TODO
+ - hackage:unix-2.7.1.0
 
 === DPH ===
 
@@ -139,7 +140,8 @@ Note: Libraries with a "^1^" marker are used internally (e.g. by `ghci` or `hadd
 === Cabal ===
 
  - upstream: http://github.com/haskell/cabal.git
- - TODO: RC promised for Thursday 18th
+ - GHC HEAD tracking Cabal 1.22 branch
+ - TODO: wait for final 1.22 rls
 
 === Win32 ===
 
@@ -156,7 +158,7 @@ Note: Libraries with a "^1^" marker are used internally (e.g. by `ghci` or `hadd
 
  - upstream: http://github.com/haskell/bytestring.git
  - synced up to hackage:bytestring-0.10.6.0 RC
- - TODO: wait for (minor) version bump from current 0.10.5 to 0.10.6
+ - TODO: wait for final rls
 
 === [hackage:containers] ===
 

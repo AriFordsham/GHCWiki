@@ -720,6 +720,7 @@ Common tasks:
 
 ### [ integer-gmp](http://hackage.haskell.org/package/integer-gmp)
 
+- [ hackage:integer-gmp-1.0.0.0/candidate](http://hackage.haskell.org/package/integer-gmp-1.0.0.0/candidate)
 - TODO
 
 ### [ parallel](http://hackage.haskell.org/package/parallel)
@@ -753,7 +754,7 @@ Common tasks:
 <th></th>
 <th></th></tr></table>
 
-- TODO
+- [ hackage:process-1.2.1.0](http://hackage.haskell.org/package/process-1.2.1.0)
 
 ### [ stm](http://hackage.haskell.org/package/stm)
 
@@ -810,7 +811,7 @@ Common tasks:
   {-# DEPRECATED createProcessGroup "This function is scheduled to be replaced by something different in the future, we therefore recommend that you do not use this version and use createProcessGroupFor instead." #-}-- deprecated in 7.2{-# DEPRECATED setProcessGroupID "This function is scheduled to be replaced by something different in the future, we therefore recommend that you do not use this version and use setProcessGroupIdOf instead." #-}-- deprecated in 7.2
   ```
 
-- TODO
+- [ hackage:unix-2.7.1.0](http://hackage.haskell.org/package/unix-2.7.1.0)
 
 ### DPH
 
@@ -824,7 +825,8 @@ Note: Libraries with a "<sup>1</sup>" marker are used internally (e.g. by `ghci`
 ### Cabal
 
 - upstream: [ http://github.com/haskell/cabal.git](http://github.com/haskell/cabal.git)
-- TODO RC promised for Thursday 18th
+- GHC HEAD tracking Cabal 1.22 branch
+- TODO wait for final 1.22 rls
 
 ### Win32
 
@@ -841,7 +843,7 @@ Note: Libraries with a "<sup>1</sup>" marker are used internally (e.g. by `ghci`
 
 - upstream: [ http://github.com/haskell/bytestring.git](http://github.com/haskell/bytestring.git)
 - synced up to [ hackage:bytestring-0.10.6.0](http://hackage.haskell.org/package/bytestring-0.10.6.0) RC
-- TODO wait for (minor) version bump from current 0.10.5 to 0.10.6
+- TODO wait for final rls
 
 ### [ containers](http://hackage.haskell.org/package/containers)
 
