@@ -23,7 +23,7 @@ let sumMonoid = Monoid 0 (+) in <some expression>
 }}}
 == What this proposal is NOT ==
 
-It is not a proposal for local typeclass instances based on type. That is, this proposal allows easier access to creating dictionary terms, but not not in types. This is basically just removing the need to create identical data structures as a workaround. 
+It is not a proposal for local typeclass instances based on type. That is, this proposal allows easier access to creating dictionary terms, but not in types. This is basically just removing the need to create identical data structures as a workaround, due to there almost always being a one-to-one correspondance between a typeclass and a desired dictionary type (e.g. Monoid class being identical to a dictionary for construction of monoids at runtime; same with Category, Num, etc...)
 
 It is not a proposal for any new syntax or runtime behaviour or types. It is not creating any new types; rather, just exposing types which are already being created behind the scenes in the desugaring process.
 
