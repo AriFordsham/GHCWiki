@@ -1,6 +1,12 @@
 
 This page sketches the ideas how to equip `GHC.Generics` with type-level reasoning facilities. This page describes *work in progress*. Initially responsible for this page is Gabor Greif.
 
+
+=Status Nov 2014=
+
+
+At the HacBerin 2014 GGR and JPM discussed the issue and we settled it in a way so that no changes to GHC are necessary. The trick is to obtain type equality witness from the Rep T and push that down to its innards. This way we need no propeq for constructors etc. Also Pedro is working towards a clean solution utilizing DataKinds.
+
 # Motivation
 
 
