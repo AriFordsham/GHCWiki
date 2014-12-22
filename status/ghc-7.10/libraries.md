@@ -848,7 +848,7 @@ Note: Libraries with a "<sup>1</sup>" marker are used internally (e.g. by `ghci`
 ### [ containers](http://hackage.haskell.org/package/containers)
 
 - upstream: [ http://github.com/haskell/containers](http://github.com/haskell/containers)
-- synced up to [ hackage:containers-0.5.6.1](http://hackage.haskell.org/package/containers-0.5.6.1)
+- synced up to [ hackage:containers-0.5.6.2](http://hackage.haskell.org/package/containers-0.5.6.2)
 
 ### [ filepath](http://hackage.haskell.org/package/filepath)
 
@@ -879,7 +879,7 @@ Note: Libraries with a "<sup>1</sup>" marker are used internally (e.g. by `ghci`
 <th></th></tr></table>
 
 - upstream: [ http://github.com/haskell/pretty](http://github.com/haskell/pretty)
-- synced up to [ hackage:pretty-1.1.1.1](http://hackage.haskell.org/package/pretty-1.1.1.1)
+- synced up to [ hackage:pretty-1.1.1.3](http://hackage.haskell.org/package/pretty-1.1.1.3)
 
 ### primitive<sup>2</sup>
 
@@ -888,7 +888,7 @@ Note: Libraries with a "<sup>1</sup>" marker are used internally (e.g. by `ghci`
 
 ### random<sup>2</sup>
 
-- TODO GHC's repo has diverged from upstream; what's it even used for in GHC?
+- synced up to [ hackage:random-1.1](http://hackage.haskell.org/package/random-1.1)
 
 ### terminfo<sup>1</sup>
 
