@@ -16,6 +16,8 @@ Special things of note:
 
 - Austin will disable the `dll-split` check for 7.10.1 RC2 since we're not building dynamically on Windows.
 
+- For 7.10.1, we're going to try to distribute Windows binaries using `minghc`.
+
 ## Tickets slated for 7.10.1
 
 <table><tr><th>Ticket (Ticket query: status: !closed, milestone: 7.10.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: id)</th>
