@@ -6,6 +6,22 @@ GHC 7.10.1 RC1 has been released. We're moving into stabilization and bug-fixing
 
 See [milestone:7.10.1](/trac/ghc/milestone/7.10.1) and [ Active tickets](https://ghc.haskell.org/trac/ghc/query?status=infoneeded&status=merge&status=new&status=patch&group=status&milestone=7.10.1) for more.
 
+
+Anything in 'patch' status will be merged for 7.10.1.
+
+
+Special things of note:
+
+- [ Phab:D538](https://phabricator.haskell.org/D538) - Alan needs this in and Austin will get it done for RC2.
+
+- Austin will disable the `dll-split` check for 7.10.1 RC2 since we're not building dynamically on Windows.
+
+- For 7.10.1, we're going to try to distribute Windows binaries using `minghc`.
+
+- Austin will overhaul `ghc-7.10` branch release notes.
+
+- Austin & Herbert will deal with Haddock branching.
+
 ## Tickets slated for 7.10.1
 
 <table><tr><th>Ticket (Ticket query: status: !closed, milestone: 7.10.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: id)</th>
