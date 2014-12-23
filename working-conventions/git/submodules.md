@@ -96,7 +96,7 @@ So, in order to make change to a submodule you can either:
 > 1) Work directly on the detached HEAD in the submodule directory.
 
 >
-> 2) Checkout the respective branch the commit is supposed to be pointed at from (normally `master`. See the table below for the full branch/repo summary). 
+> 2) Checkout the respective branch the commit is supposed to be pointed at from (normally `master`. See the table on [the submodules page](working-conventions/git/submodules) for the full branch/repo summary). 
 
 
 The example below will demonstrate the latter approach for the `utils/haddock` submodule:
