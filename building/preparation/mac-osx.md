@@ -64,6 +64,11 @@ you can add the line
 `libraries/integer-gmp2_CONFIGURE_OPTS += --configure-option=--with-intree-gmp`
 to you `mk/build.mk` file  (which hosts all your other build system config preferences also.)
 
+## Supporting Older OS X versions with your build
+
+
+running a command like  `export MACOSX_DEPLOYMENT_TARGET=version` before building will  imply setting `-mmacosx-version-min=version` for clang and friends, and will result in a GHC build that can run on any OS X `>= version` (where version can be older than the host machine's OS X version).  Of course, test that this actually works for you.  Theres a lot of decent resources online about how these flags work for OS X 
+
 ## Other tools
 
 
