@@ -295,7 +295,7 @@ tools and/or improving infrastructure further:
   tail-calls are very common, and not entirely straight-forward to
   prevent. This is significant, because sometimes we positively want
   to know whether a certain function is on the stack frame or not.
-  Arash Hourani has been working on a way to implement
+  Arash Rouhani has been working on a way to implement
   `forceStackFrame`, hopefully we'll have something like that
   eventually.
 
