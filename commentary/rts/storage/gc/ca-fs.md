@@ -19,7 +19,7 @@ File: [includes/rts/storage/InfoTables.h](/trac/ghc/browser/ghc/includes/rts/sto
 
 
 The info table of various closures may contain information about what static objects are
-references by the closure.  This information is stored in two parts:
+referenced by the closure.  This information is stored in two parts:
 
 1. a static reference table (SRT), which is an array of references to static objects
 1. a bitmask which specifies which of the objects are actually used by the closure.
