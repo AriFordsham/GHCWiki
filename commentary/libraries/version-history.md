@@ -5,6 +5,8 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 
 <table><tr><th></th>
 <th>**HEAD**</th>
+<th>**7.10.0.20141222**</th>
+<th>**7.8.4**</th>
 <th>**7.8.3**</th>
 <th>**7.8.2**</th>
 <th>**7.8.1**</th>
@@ -20,7 +22,8 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th>**7.0.2**</th>
 <th>**7.0.1**</th></tr>
 <tr><th>`Cabal`</th>
-<th>  1.21.1.0  </th>
+<th>  1.22.0.0  </th>
+<th>  1.18.1.5  </th>
 <th>  1.18.1.3  </th>
 <th>  1.16.0  </th>
 <th>  1.14.0  </th>
@@ -35,6 +38,7 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th></th>
 <th></th>
 <th></th>
+<th></th>
 <th></th></tr>
 <tr><th>`Win32`</th>
 <th>  2.3.0.2  </th>
@@ -43,6 +47,8 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th>  2.2.1.0  </th>
 <th>  2.2.0.2  
 </th>
+<th></th>
+<th></th>
 <th></th>
 <th></th>
 <th></th>
@@ -69,9 +75,12 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th></th>
 <th></th>
 <th></th>
+<th></th>
+<th></th>
 <th></th></tr>
 <tr><th>`base`</th>
 <th>  4.8.0.0  </th>
+<th>  4.7.0.2  </th>
 <th>  4.7.0.1  </th>
 <th>  4.7.0.0  </th>
 <th>  4.6.0.1  </th>
@@ -83,6 +92,7 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th>  4.3.1.0  </th>
 <th>  4.3.0.0  
 </th>
+<th></th>
 <th></th>
 <th></th>
 <th></th>
@@ -103,8 +113,11 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th></th>
 <th></th>
 <th></th>
+<th></th>
+<th></th>
 <th></th></tr>
 <tr><th>`binary`</th>
+<th>  0.7.2.3  </th>
 <th>  0.7.1.0  </th>
 <th>  0.5.1.1  </th>
 <th>  0.5.1.0  </th>
@@ -119,8 +132,10 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th></th>
 <th></th>
 <th></th>
+<th></th>
 <th></th></tr>
 <tr><th>`bytestring`</th>
+<th>  0.10.6.0  </th>
 <th>  0.10.4.0  </th>
 <th>  0.10.0.2  </th>
 <th>  0.10.0.0  </th>
@@ -136,8 +151,10 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th></th>
 <th></th>
 <th></th>
+<th></th>
 <th></th></tr>
 <tr><th>`containers`</th>
+<th>  0.5.6.2  </th>
 <th>  0.5.5.1  </th>
 <th>  0.5.0.0  </th>
 <th>  0.4.2.1  </th>
@@ -153,13 +170,16 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th></th>
 <th></th>
 <th></th>
+<th></th>
 <th></th></tr>
 <tr><th>`deepseq`</th>
-<th>  1.3.0.3  </th>
+<th>  1.4.0.0  </th>
 <th>  1.3.0.2  </th>
 <th>  1.3.0.1  </th>
 <th>  1.3.0.0  </th>
 <th>*none*</th>
+<th></th>
+<th></th>
 <th></th>
 <th></th>
 <th></th>
@@ -186,6 +206,8 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th></th>
 <th></th>
 <th></th>
+<th></th>
+<th></th>
 <th></th></tr>
 <tr><th>`extensible-exceptions`</th>
 <th>*none*</th>
@@ -193,6 +215,8 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th>  0.1.1.3  </th>
 <th>  0.1.1.2  
 </th>
+<th></th>
+<th></th>
 <th></th>
 <th></th>
 <th></th>
@@ -220,9 +244,11 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th></th>
 <th></th>
 <th></th>
+<th></th>
+<th></th>
 <th></th></tr>
 <tr><th>`filepath`</th>
-<th>  1.3.0.3  </th>
+<th>  1.3.1.0  </th>
 <th>  1.3.0.2  </th>
 <th>  1.3.0.1  </th>
 <th>  1.3.0.0  </th>
@@ -237,9 +263,13 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th></th>
 <th></th>
 <th></th>
+<th></th>
+<th></th>
 <th></th></tr>
 <tr><th>`ghc`</th>
-<th>  7.9.20140926\*  </th>
+<th>  7.11.20141225\*  </th>
+<th>  7.10.0.20141222\*  </th>
+<th>  7.8.4\*  </th>
 <th>  7.8.3\*  </th>
 <th>  7.8.2\*  </th>
 <th>  7.8.1\*  </th>
@@ -271,6 +301,8 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th></th>
 <th></th>
 <th></th>
+<th></th>
+<th></th>
 <th></th></tr>
 <tr><th>`ghc-prim`</th>
 <th>  0.3.1.0  </th>
@@ -288,9 +320,11 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th></th>
 <th></th>
 <th></th>
+<th></th>
+<th></th>
 <th></th></tr>
 <tr><th>`haskeline`</th>
-<th>  0.7.1.3  </th>
+<th>  0.7.2.0  </th>
 <th>  0.7.1.2  </th>
 <th>*none*</th>
 <th></th>
@@ -304,9 +338,11 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th></th>
 <th></th>
 <th></th>
+<th></th>
+<th></th>
 <th></th></tr>
 <tr><th>`haskell2010`</th>
-<th>  1.1.2.1\*  </th>
+<th>*none*</th>
 <th>  1.1.2.0\*  </th>
 <th>  1.1.1.0\*  </th>
 <th>  1.1.0.1\*  </th>
@@ -321,9 +357,11 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th></th>
 <th></th>
 <th></th>
+<th></th>
+<th></th>
 <th></th></tr>
 <tr><th>`haskell98`</th>
-<th>  2.0.0.4\*  </th>
+<th>*none*</th>
 <th>  2.0.0.3\*  </th>
 <th>  2.0.0.2\*  </th>
 <th>  2.0.0.1\*  </th>
@@ -331,6 +369,8 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th>  1.1.0.1  </th>
 <th>  1.1.0.0  
 </th>
+<th></th>
+<th></th>
 <th></th>
 <th></th>
 <th></th>
@@ -346,6 +386,8 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th>  3.8.7.3  </th>
 <th>  3.8.7.1  </th>
 <th>*none*</th>
+<th></th>
+<th></th>
 <th></th>
 <th></th>
 <th></th>
@@ -371,8 +413,11 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th></th>
 <th></th>
 <th></th>
+<th></th>
+<th></th>
 <th></th></tr>
 <tr><th>`integer-gmp`</th>
+<th>  1.0.0.0  </th>
 <th>  0.5.1.0  </th>
 <th>  0.5.0.0  </th>
 <th>  0.4.0.0  </th>
@@ -388,9 +433,10 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th></th>
 <th></th>
 <th></th>
+<th></th>
 <th></th></tr>
 <tr><th>`old-locale`</th>
-<th>  1.0.0.7  </th>
+<th>*none*</th>
 <th>  1.0.0.6  </th>
 <th>  1.0.0.5  </th>
 <th>  1.0.0.4  </th>
@@ -405,9 +451,11 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th></th>
 <th></th>
 <th></th>
+<th></th>
+<th></th>
 <th></th></tr>
 <tr><th>`old-time`</th>
-<th>  1.1.0.3  </th>
+<th>*none*</th>
 <th>  1.1.0.2  </th>
 <th>  1.1.0.1  </th>
 <th>  1.1.0.0  </th>
@@ -422,8 +470,11 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th></th>
 <th></th>
 <th></th>
+<th></th>
+<th></th>
 <th></th></tr>
 <tr><th>`pretty`</th>
+<th>  1.1.1.3  </th>
 <th>  1.1.1.1  </th>
 <th>  1.1.1.0  </th>
 <th>  1.1.0.0  </th>
@@ -439,9 +490,10 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th></th>
 <th></th>
 <th></th>
+<th></th>
 <th></th></tr>
 <tr><th>`process`</th>
-<th>  1.2.0.1  </th>
+<th>  1.2.1.0  </th>
 <th>  1.2.0.0  </th>
 <th>  1.1.0.2  </th>
 <th>  1.1.0.1  </th>
@@ -449,6 +501,8 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th>  1.0.1.5  </th>
 <th>  1.0.1.4  
 </th>
+<th></th>
+<th></th>
 <th></th>
 <th></th>
 <th></th>
@@ -473,10 +527,14 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th></th>
 <th></th>
 <th></th>
+<th></th>
+<th></th>
 <th></th></tr>
 <tr><th>`rts`</th>
 <th>  1.0  
 </th>
+<th></th>
+<th></th>
 <th></th>
 <th></th>
 <th></th>
@@ -507,8 +565,11 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th></th>
 <th></th>
 <th></th>
+<th></th>
+<th></th>
 <th></th></tr>
 <tr><th>`terminfo`</th>
+<th>  0.4.0.1  </th>
 <th>  0.4.0.0  </th>
 <th>*none*</th>
 <th></th>
@@ -523,9 +584,10 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th></th>
 <th></th>
 <th></th>
+<th></th>
 <th></th></tr>
 <tr><th>`time`</th>
-<th>  1.5  </th>
+<th>  1.5.0.1  </th>
 <th>  1.4.2  </th>
 <th>  1.4.0.1  </th>
 <th>  1.4  </th>
@@ -540,9 +602,11 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th></th>
 <th></th>
 <th></th>
+<th></th>
+<th></th>
 <th></th></tr>
 <tr><th>`transformers`</th>
-<th>  0.4.1.0  </th>
+<th>  0.4.2.0  </th>
 <th>  0.3.0.0  </th>
 <th>*none*</th>
 <th></th>
@@ -556,9 +620,11 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th></th>
 <th></th>
 <th></th>
+<th></th>
+<th></th>
 <th></th></tr>
 <tr><th>`unix`</th>
-<th>  2.7.0.2  </th>
+<th>  2.7.1.0  </th>
 <th>  2.7.0.1  </th>
 <th>  2.6.0.1  </th>
 <th>  2.6.0.0  </th>
@@ -568,6 +634,8 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th>  2.4.2.0  </th>
 <th>  2.4.1.0  
 </th>
+<th></th>
+<th></th>
 <th></th>
 <th></th>
 <th></th>
@@ -589,9 +657,13 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th></th>
 <th></th>
 <th></th>
+<th></th>
+<th></th>
 <th></th></tr>
 <tr><th></th>
 <th>**HEAD**</th>
+<th>**7.10.0.20141222**</th>
+<th>**7.8.4**</th>
 <th>**7.8.3**</th>
 <th>**7.8.2**</th>
 <th>**7.8.1**</th>
