@@ -83,7 +83,7 @@ Added LANGUAGE extensions:
 - (`No`)`PatternSynonyms`
 - (`No`)`RoleAnnotations`
 
-## Changes in GHC 7.10 (WIP)
+## Changes in GHC 7.10
 
 
 Added LANGUAGE extensions:
@@ -93,3 +93,5 @@ Added LANGUAGE extensions:
 - (`No`)`NamedWildCards`
 - (`No`)`PartialTypeSignatures`
 - (`No`)`StaticPointers`
+
+## Changes in GHC 7.12 (WIP)
