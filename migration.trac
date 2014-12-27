@@ -4,6 +4,8 @@
 
 This page shall provide information to help migrating between major GHC releases.
 
+== Related Information ==
+
 Possibly useful information can also be found in the following places:
 
  - Commentary/Libraries/VersionHistory 
@@ -11,7 +13,9 @@ Possibly useful information can also be found in the following places:
  - "Release Notes" chapter in the ''GHC User's Guide''
  - GHC Boot Package changelogs on Hackage (e.g. [http://hackage.haskell.org/package/base/changelog base's changelog])
 
-== [wiki:Migration/7.10 Migrating from GHC 7.8.x to GHC 7.10.x] ==
+== Version-specific Migration Guides ==
 
-== [wiki:Migration/7.8 Migrating from GHC 7.6.x to GHC 7.8.x] ==
+ - '''[wiki:Migration/7.10 Migrating from GHC 7.8.x to GHC 7.10.x]'''
+
+ - '''[wiki:Migration/7.8 Migrating from GHC 7.6.x to GHC 7.8.x]'''
 
