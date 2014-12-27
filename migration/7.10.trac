@@ -2,6 +2,17 @@
 
 = GHC 7.10.x Migration Guide =
 
+== Compiler changes
+
+=== Inferred type-signatures now may require to enable `FlexibleContexts`, `GADTs`, or `TypeFamilies`
+
+Basically GHC has become stricter and needs to explicitly enable language extensions in some cases that weren't needed previously. GHC will tell you which extension to enable. See also #8883 for details.
+
+Example breakages:
+
+ - https://github.com/haskell/HTTP/issues/62
+ - https://github.com/bos/attoparsec/issues/67
+ - https://github.com/diagrams/force-layout/pull/1
 
 == Library changes
 
