@@ -42,7 +42,7 @@ instance Alternative Foo where
     empty = mzero
 }}}
 
-==== GHC says `No instance for (Foldable ...) arising from the use of elem/null` ====
+==== GHC says `No instance for (Foldable ...) arising from the use of...` ====
 
 Some functions in the Prelude were generalised to `Foldable`s in the implementation of the FTP. This can lead to type-inference problems for code making use of `-XOverloadedStrings`, in which code like e.g.
 
