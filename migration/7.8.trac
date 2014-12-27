@@ -1,4 +1,4 @@
-== GHC 7.8 FAQ ==
+= GHC 7.8.x Migration Guide =
 
 GHC 7.8 came with a lot of breaking changes for users that might not initially be well understood. This page is an effort to help spell out what some of the differences really are.
 
