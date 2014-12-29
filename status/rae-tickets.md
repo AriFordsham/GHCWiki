@@ -11,7 +11,6 @@
 - [\#9122](https://gitlab.haskell.org//ghc/ghc/issues/9122): Check for bogus `unsafeCoerce`
 - [\#9636](https://gitlab.haskell.org//ghc/ghc/issues/9636): Should `F Bool` be well-formed, if `F` is an empty closed type family? (blocked by [\#9637](https://gitlab.haskell.org//ghc/ghc/issues/9637))
 - [\#9687](https://gitlab.haskell.org//ghc/ghc/issues/9687): Need `Typeable (,,,,,,,,,,)` and friends
-- [\#9838](https://gitlab.haskell.org//ghc/ghc/issues/9838): Don't require `PatternSynonyms` and `ConstraintKinds` at use sites
 - [\#9840](https://gitlab.haskell.org//ghc/ghc/issues/9840): Allow empty closed type families
 
 **Medium**
@@ -29,11 +28,9 @@
 - [\#9260](https://gitlab.haskell.org//ghc/ghc/issues/9260): Type-lits solver falls short (given to Iavor)
 - [\#9427](https://gitlab.haskell.org//ghc/ghc/issues/9427): Break cycles in recursive class/type definitions (the second half of the fix for [\#9200](https://gitlab.haskell.org//ghc/ghc/issues/9200))
 - [\#9547](https://gitlab.haskell.org//ghc/ghc/issues/9547): Better inference for whether `() :: *` or `() :: Constraint`
-- [\#9569](https://gitlab.haskell.org//ghc/ghc/issues/9569): Tuple constraints should probably be flattened
 - [\#9637](https://gitlab.haskell.org//ghc/ghc/issues/9637): Type-level `Error` that aborts compilation
 - [\#9649](https://gitlab.haskell.org//ghc/ghc/issues/9649): Proper type-level strings
 - [\#9667](https://gitlab.haskell.org//ghc/ghc/issues/9667): Don't make tyvars untouchable when a GADT pattern-match isn't informative
-- [\#9872](https://gitlab.haskell.org//ghc/ghc/issues/9872): Type families are too slow
 
 **Hard**
 
@@ -59,14 +56,10 @@
 
 ## Typechecker
 
-- [\#7947](https://gitlab.haskell.org//ghc/ghc/issues/7947): Names generated when deriving `Data` should be more unique
+- [\#7788](https://gitlab.haskell.org//ghc/ghc/issues/7788): More intelligent behavior around loopy type families
 - [\#9450](https://gitlab.haskell.org//ghc/ghc/issues/9450): Interleave checking against an hs-boot file while typechecking definitions
 - [\#9554](https://gitlab.haskell.org//ghc/ghc/issues/9554): `-XUndecidableInstances` causes runtime loop
 - [\#9557](https://gitlab.haskell.org//ghc/ghc/issues/9557): Deriving instances is slow
-- [\#9566](https://gitlab.haskell.org//ghc/ghc/issues/9566): Core Lint error
-- [\#9567](https://gitlab.haskell.org//ghc/ghc/issues/9567): Core Lint error
-- [\#9582](https://gitlab.haskell.org//ghc/ghc/issues/9582): Type families don't work in instance signatures (Andreas Abel is on the case, but stalled)
-- [\#9662](https://gitlab.haskell.org//ghc/ghc/issues/9662): Stack overflow during compilatinon. (SPJ is on the case)
 
 ## Roles & such
 
@@ -79,26 +72,18 @@
 
 **Error messages**
 
-- [\#8984](https://gitlab.haskell.org//ghc/ghc/issues/8984)
-- [\#9444](https://gitlab.haskell.org//ghc/ghc/issues/9444)
 - [\#9518](https://gitlab.haskell.org//ghc/ghc/issues/9518)
 
 **Solver**
 
-- [\#9117](https://gitlab.haskell.org//ghc/ghc/issues/9117): Doesn't find eta expanded versions
-- [\#9153](https://gitlab.haskell.org//ghc/ghc/issues/9153): Context reduction stack overflow
-
 ## Front end
 
-- [\#2526](https://gitlab.haskell.org//ghc/ghc/issues/2526): Warn only about exported missing signatures
 - [\#7169](https://gitlab.haskell.org//ghc/ghc/issues/7169): Warn about incomplete record selectors
 - [\#7668](https://gitlab.haskell.org//ghc/ghc/issues/7668): Better locations in deferred type errors
-- [\#9109](https://gitlab.haskell.org//ghc/ghc/issues/9109): Better "untouchable" errors
 - [\#9194](https://gitlab.haskell.org//ghc/ghc/issues/9194): Remove the magic from parsing `~`. Some open design questions.
 - [\#9376](https://gitlab.haskell.org//ghc/ghc/issues/9376): Improve error messages for closed type families that get stuck on the dark corners
 - [\#9378](https://gitlab.haskell.org//ghc/ghc/issues/9378): Make unknown LANGUAGE pragmas warnings
 - [\#9394](https://gitlab.haskell.org//ghc/ghc/issues/9394): `:info` should show instances of data and type families.
-- [\#9497](https://gitlab.haskell.org//ghc/ghc/issues/9497): Report other errors before complaining about holes
 - [\#9778](https://gitlab.haskell.org//ghc/ghc/issues/9778): Allow warnings for unticked promoted things
 - [\#9784](https://gitlab.haskell.org//ghc/ghc/issues/9784): Report better error for `Foo.'Z`
 
