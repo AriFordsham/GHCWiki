@@ -3,6 +3,8 @@
 
 This is a lightweight proposal to help with error-finding; see the [ExplicitCallStack](explicit-call-stack) summary page.
 
+## Specification of the feature
+
 
 Suppose we write
 
