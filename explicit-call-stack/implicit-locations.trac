@@ -2,6 +2,8 @@
 
 This is a lightweight proposal to help with error-finding; see the [wiki:ExplicitCallStack] summary page.
 
+== Specification of the feature ==
+
 Suppose we write
 {{{
 f :: [a] -> Int
