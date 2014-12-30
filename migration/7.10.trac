@@ -2,6 +2,9 @@
 
 = GHC 7.10.x Migration Guide =
 
+This guide summarises the changes you may need to make to your code to migrate from GHC 7.8 to GHC 7.10.
+
+----------------------------------
 == Compiler changes
 
 === Inferred type-signatures now may require to enable `FlexibleContexts`, `GADTs`, or `TypeFamilies`
@@ -14,6 +17,7 @@ Example breakages:
  - https://github.com/bos/attoparsec/issues/67
  - https://github.com/diagrams/force-layout/pull/1
 
+--------------------------------
 == Library changes
 
 === `base-4.8.0.0`
