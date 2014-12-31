@@ -248,3 +248,142 @@ type family Unbox (k1 :: *) (k2 :: *) (g :: k1 ~ k2) :: k1 ~# k2 where
 2. What are the restrictions on the use of `Constraint#`s in tuples, superclasses, and such?
 
 3. What checks should Core Lint do about levity polymorphism? Where is it allowed and where is it not allowed?
+
+= `TcTyVars` =
+
+This is from emails with SPJ & DV on 12/31/14:
+
+'''RAE:'''
+1) Is there a reason to have `SkolemTv False` TcTyVars separate from
+proper, zonked TyVars? There is some effort at switching back and
+forth between proper TyVars and skolems, but I'm not sure why. I even
+recall finding a case (we talked about it -- I forget the Trac #)
+where a skolem tyvar got past zonking and into Core, with no ill
+effect. Conversely, TyVars are seen during kind unification (see
+comments toward end of TcUnify), also to no ill effect.
+
+'''SPJ:'''
+Well my original invariant was supposed to be:
+
+  the typechecker sees only TcTyVars (except perhaps as the 
+  quantifier of a forall)
+
+  the rest of the compiler never sees a TcTyVar
+
+The SkolemTv False thing was just to ensure this. You'll see lots of ASSERTs for isTcTyVar which would fail if we used a TyVar. But I think nothing would actually go wrong if we allowed TyVars.  And as you observe, the invariant is not rigorously observed.
+
+Originally SkolemTvs had lots of SkolemInfo in them, but they don't any more.
+
+'''RAE:'''
+In my branch, this change may be somewhat forced, for exactly the same reason that sometimes TyVars appear during kind unification. Of course, with type=kind, then the TyVars can appear anywhere! I won't actively actually remove SkolemTv for now (too much is broken at the moment, and this would only break more things!), but I won't care too much about the distinction, with a note to myself to clean this up later.
+
+'''RAE:'''
+2) In the TcS monad, there are two facilities that accomplish the same
+goal but with very different mechanisms: meta-tyvars and EvBindsVar
+stuff. Both allow in-place updating of types or coercions, but one
+does it in a distributed manner (meta-tyvars) and one via a central
+master list of bindings (EvBindsVar). Is there an advantage to having
+these different mechanisms?
+
+'''SPJ:'''
+The original idea was that the ''solver'' would be pure.  It would have no side effects, and so in principle you could do backtracking search without having to undo side effects.  The TcS monad even carried a TvSubst which we used ''instead'' of side-effecting updates of the meta-tyvars.  When exiting the TcS monad we applied the substitution in a side-effecting way.
+
+But (a) there was no powerful motivation for the goal of purity.  The only place we try search is in TcSimplify.disambigGroup when we see if we can solve things by filling in a meta-tyvar with Int, or Integer, or Float, etc.  But that's now done another way.
+
+Moreover (b) the goal of purity was never achieved. Reason: the EvBindsVar stuff.  The solver solves an entire tree of constraints, side-effecting bindings in the EvBindVars kept at various points in the tree.   These EvBindsVars are ''also'' referred to from the HsSyn tree.  Now, we could have maintained a substitution from EvBindsVar -> EvBinds, and applied that when exiting the substitution, but I never tried that.
+
+Finally (c) if you ''don't'' need to undo things, then side-effecting substitution is very efficient!  (At least I think so; I have not actually measured it.)  Building a functional substitution and subsequently applying it by side effect seems necessarily slower.
+
+So I removed the functional TvSubst and do both the EvBinds and meta-tyavar by side effect.
+
+'''RAE:''' Is there something to be gained by
+unifying these approaches?
+
+'''SPJ:'''
+Actually they ''are'' the same already.  In both cases we update a mutable variable.  In the EvBinds case it's not a single central "master" list; each Implication has its own EvBindsVar, which becomes the ambient one when we walk inside the Implication.
+
+
+'''RAE:'''
+But, with this approach, zonking becomes simply applying a substitution,
+no? Continuing on from my first point, above, it might be possible to
+eliminate TcTyVars entirely. This would seem to be a nice
+simplification: no more zonking as a separate algorithm (2,
+actually!), and no more instSkolTyVars. (Zonking inside the knot would
+perhaps need to remain, as applying a subst can be strict in
+TyCons...)
+
+'''SPJ:'''
+You seem to be suggesting extending the functional-substitution idea outside TcS to TcM.  Yes, we could do that.  But in effect the mutable store *IS* a single, global, ambient substitution!  But one that is implemented by the memory system.  So what would be gained, really?
+
+'''RAE:'''
+3) Part of recent refactoring allows the TcS monad to update a meta-
+tyvar directly, with setWantedTyBind. In some places, the code that
+calls setWantedTyBind then kicks out relevant bits of the inert set.
+In other places, there is no kick-out. I would think we would ''always''
+want to kick out after setWantedTyBind, but perhaps I'm missing the
+subtleties of fmvs and such.
+
+'''SPJ:'''
+The kick-out stuff is necessary only when we have an active InertCans and work-list; ie during TcInteract. Outside that, it doesn't matter.
+
+'''RAE:''' Specifically, I'm worried about
+defaultTyVar, which is misbehaving on me. Relatedly, does Note
+[DefaultTyVar] still apply when there is no sub-kinding?
+
+'''SPJ:'''
+When there is no sub-kinding I think we can get rid of defaultTyVar ''altogether''.  But maybe something different happens instead? What happens with the example in the Note?
+
+{{{
+    instance Show (a->b)
+    foo x = show (\_ -> True)
+}}}
+
+What kind do you get for `p` in the `Show (p -> q)` constraint?
+
+'''RAE:'''
+This doesn't really change.
+
+We infer `(\_ -> True) :: (c -> Bool)`, where
+{{{
+ c :: TYPE v
+ v :: Levity
+}}}
+and `c` and `v` are meta-vars. The instance doesn't apply because the kind of `a` in the instance is *, distinct from the kind of `c`. Defaulting (in my branch) simply writes `v := Lifted` using setWantedTyBind. So we have all the same issues at play, just with a different underlying mechanism.
+
+= Separating `TcType` from `Type` =
+
+Also from emails 12/31/14.
+
+'''SPJ:'''
+On this question, I had been thinking about a more radical solution: make TcType and Type into distinct types, just as TcCoercion and Coercion are different.
+
+A powerful reason for doing this is that TcTypes could have location information at every node in the tree, which is good for error reporting; Lennart gave a great talk at the Haskell Implementors Meeting about this.  Another reason is that we'd have a static guarantee that there were no meta-tyvars surviving after typechecking.
+
+There are minor things too. For example, we could have a special constructor for type-function applications.
+
+How hard would this be?  For much of the code it'd be easy.  E.g. a global Id contains a Type, which must be instantiated to a TcType even if it has no quantifiers.  A local Id would be a TcId, not an Id, with no IdInfo but with other info currently stored in the ATcId structure.
+
+I'm quite sure there would be some dark and tricky corners, perhaps around the places where our current invariant doesn't quite hold.  But sorting them out would make everything cleaner and more robust.
+
+It's a big, unforced change.  But I think it would be a jolly good thing.
+
+Any opinions?
+
+'''RAE:'''
+Funny -- I just ran across a different place (in my branch) where this was called for.
+
+My need is that the type-checker thinks in terms of TcCoercions, and occasionally needs to cast a type by a TcCoercion. Of course, Type has no room for such a cast. I've carefully avoided making this a problem, using two tricks:
+ - I've rejigged TcUnify.uType & friends to produce a Coercion, not a TcCoercion. This was straightforward, now that we can inject a Coercion into a TcCoercion (unifyType, the exported function, still produces a TcCoercion). But, now uType can deal with the heterogeneous case.
+
+ - In the solver, the same problem happens, but the solution isn't so easy. Say we have a Type s and a TcCoercion tco. We wish to write (s |> tco), but this is ill-formed. So, I create a new covar c of the same type as tco, bound to tco. I can then use CoVarCo to put c in a Coercion, and make (s |> c). When desugaring, this all works out, because any lifted coercion variables in a TcCoercion get unboxed, so all is good in the end. But, this all smells wrong.
+
+And, it's always possible I'll come across a case where I need a type casted by a TcCoercion and no trick works.
+
+
+With this change, it also opens up the door to separating desugaring of types from type-checking. The TcType could support wrappers, like HsExprs do. I currently don't think we'll need wrappers in types to implement dependent types, but I could very well be wrong.
+
+While we're at it, we could be more general in the form of annotation. The flattener would awfully like to know whether a type is fully normalised w.r.t. type families, but that would have to be stored at every node.
+
+I'm generally of the opinion that more types are better, unsurprisingly. (I've wanted to separate out Id, CoVar, TyVar, and TcTyVar for some time, along similar lines.)
+
+My guess is that this change would decrease performance in places, with the extra conversions. Would this be significant? Probably not, but worth noting as a "con".
