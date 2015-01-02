@@ -244,8 +244,7 @@ This yields us a profiling view that looks as follows:
 
 
 DWARF information allows `perf` to locate the source code that belongs
-to the "hot" assembler code. Note that the fairly nonsensical \`add
-%al,(%r8)` instructions is info table data, which `perf\` is
+to the "hot" assembler code. Note that the fairly nonsensical `add %al,(%r8)` instructions is info table data, which `perf` is
 interpreting as code.
 
 ## Open Issues
