@@ -104,3 +104,37 @@ The `Location` type is abstract, but has functions to:
 - I've been writing `?location :: Location`, but it's the type name that matters. It'd be fine to use any name for the implicit parameter itself, e.g. `?loc :: Location`
 
 - GHC has number of other special cases in the constraint solver: for `Coercible`, `Has` and `Upd` (overloaded record fields), so another special case there is not a big deal.  There are no other implications for the compiler whatsoever.
+
+## Implementation Details
+
+
+These notes are based on the proposed implementation at [ https://phabricator.haskell.org/D578](https://phabricator.haskell.org/D578).
+
+- We add a new module `GHC.Location` that exports two datatypes
+
+  1. `SrcLoc`, a single source location including package/module/file names and a source span, and
+  1. `Location`, a stack of `SrcLoc`s.
+    Both datatypes are currently kept abstract so only GHC can create new values. I think this is the "right" thing to do as it makes the types more trustworthy, but perhaps there's a good argument for allowing users to update `SrcLoc`s and `Location`s.
+
+- GHC completely ignores the name of an implicit Location parameter, e.g.
+
+  ```wiki
+  f = show (?loc :: Location)
+  ```
+
+  and
+
+  ```wiki
+  g = show (?location :: Location)
+  ```
+
+  are both valid. But furthermore, in
+
+  ```wiki
+  f :: (?loc :: Location) => IO ()
+  f = print (?location :: Location)
+  ```
+
+  the printed call-stack will **also include**`f`s call-site. This last example might be unsettling to some. I think the behavior will ease creation of cross-package call-stacks, but could be convinced that it veers too far from what users would expect of ImplicitParams.
+
+- Responding to the open question above, GHC will **never** infer an implicit Location constraint.
