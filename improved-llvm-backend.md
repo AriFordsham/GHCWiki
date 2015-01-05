@@ -83,5 +83,5 @@ Briefly, there are a few major things to fix in order to do all this:
 
 1. We need to **fix compatibility with recent LLVM versions**. This really sucks for users. **Ben Gamari** is working on this, see [\#9142](https://gitlab.haskell.org//ghc/ghc/issues/9142) and [ Phab:D155](https://phabricator.haskell.org/D155)
 1. We need to fix up the LLVM IR generation in GHC, and fix the compiler driver to invoke the tools with a better set of optimizations. **Nathan Howell** has been wrangled into looking into this.
-1. We need to ship a pre-built version of LLVM for developers and users, and put them in binary distributions for major platforms. **Austin Seipp** could handle this.
+1. We need to ship a pre-built version of LLVM for developers and users, and put them in binary distributions for major platforms. Source code will also be available for less commonly used architectures and can be built using a special configure option. **Austin Seipp** could handle this.
 1. We can fix other bugs, like LLVM `-split-obj` support, which opens the way to shipping GHC with LLVM-optimized base libraries. **Reid Barton** expressed some interest in this.
