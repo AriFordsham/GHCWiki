@@ -28,17 +28,23 @@ Here is the setup in more detail:
   - The mirror should be updated from the upstream repo at least every minute or so.
   - The authoritative info for the mirror URL is in the file `.gitmodules` in the root directory of the main GHC repo.
 
-- **Upstream GHC branch**.  As GHC's HEAD moves on, between releases, there is often a need to update a library in sync.  Each library has a named branch, the **upstream GHC branch** to which patches can be pushed.  (See table below.)  If the library author is actively developing the library, he or she will typically do so on a different branch from the upstream GHC branch.  The typical sequence is
+- **Upstream GHC branch** (see table below).
+
+  - As GHC's HEAD moves on between releases, there is often a need to update a library in sync.  Each library has a named branch, the **upstream GHC branch** to which patches can be pushed.  
+  - If the library author is actively developing the library, he or she will typically do so on a different branch from the upstream GHC branch, to avoid discombobulating GHC HEAD.
+
+- **Updating sub-repos**.  If you want to update a library to track some change in GHC HEAD, the sequence typically looks like this:
 
   - `cd libraries/parallel`
-  - `git checkout master`, or whatever the "upstream GHC branch" is called.
+  - `git checkout master`, or whatever the "upstream GHC branch" is called.  Previously the submodule would be in a detached-head state.
   - Make modifications to the library
-  - `git push`: push the patch (may need to ask the maintainer to do this)
-  - Wait for the mirror
+  - `git push`: push the patch to the upstream repo (may need to ask the maintainer to do this)
   - `cd ../..`: back into the GHC directory
   - `git add libraries/parallel`: record the new library commit in the main GHC repo.
   - `git push`, with a commit message mentioning the word "submodule"
-    More details in [the Submodules page](working-conventions/git/submodules)
+
+>
+> More details in [the Submodules page](working-conventions/git/submodules)
 
 
 Here are the submodules we use, and where their upstreams point:
