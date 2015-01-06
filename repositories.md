@@ -6,10 +6,42 @@ This page lists the active repositories relating to GHC. These are Git repositor
 ## Repository listing
 
 
-The GHC source code tracks many related sub-repositories, which are needed for external dependencies during the build, or tools that are included in the build. Not every sub-repository is maintained by us; in fact, the large majority are *not* maintained by GHC HQ (roughly: if the repository is hosted on Github, it is maintained on Github, and patches and issues should go there).
+The GHC source code uses many related sub-repositories, which are needed for external dependencies during the build, or tools that are included in the build. Every single upstream repository we track is tracked with a **git submodule**, so that for any particular GHC commit, Git's submodule mechanism makes it possible to check out exactly the right version of each sub-repository.
 
 
-As a result of this, in HEAD, essentially every single upstream repository we track is tracked with a **git submodule**. These submodules are mirrored for us, and we send patches we need to the upstream maintainer. Here are the submodules we use, and where their upstreams point:
+Some submodules are maintained by GHC HQ, and some by their parties.  You can find out by looking at the `.cabal` file.
+
+
+Here is the setup in more detail:
+
+- **Upstream repo**.
+
+  - Each submodule has an **upstream**, or master, repository.
+  - Patches to the submodule must be pushed to the upstream repo.
+  - The authoritative info for the upstream URL is in the file `packages` in the root directory of the main GHC repo.
+  - If the `packages` file gives an upstream URL of "-", authoritative info is in the file `.gitmodules`.
+
+- **Mirror repo**.
+
+  - If the upstream repo is not at `git.haskell.org`, then we maintain a **mirror** repo at `git.haskell.org`.
+  - Pulling and cloning happens from the mirror repo, so that we can build GHC without relying on lots of other machines being up.
+  - The mirror should be updated from the upstream repo at least every minute or so.
+  - The authoritative info for the mirror URL is in the file `.gitmodules` in the root directory of the main GHC repo.
+
+- **Upstream GHC branch**.  As GHC's HEAD moves on, between releases, there is often a need to update a library in sync.  Each library has a named branch, the **upstream GHC branch** to which patches can be pushed.  (See table below.)  If the library author is actively developing the library, he or she will typically do so on a different branch from the upstream GHC branch.  The typical sequence is
+
+  - `cd libraries/parallel`
+  - `git checkout master`, or whatever the "upstream GHC branch" is called.
+  - Make modifications to the library
+  - `git push`: push the patch (may need to ask the maintainer to do this)
+  - Wait for the mirror
+  - `cd ../..`: back into the GHC directory
+  - `git add libraries/parallel`: record the new library commit in the main GHC repo.
+  - `git push`, with a commit message mentioning the word "submodule"
+    More details in [the Submodules page](working-conventions/git/submodules)
+
+
+Here are the submodules we use, and where their upstreams point:
 
 <table><tr><th>**Location in tree**</th>
 <th>**Upstream repo**</th>
@@ -157,7 +189,7 @@ As a result of this, in HEAD, essentially every single upstream repository we tr
 <th>No</th>
 <th>No</th></tr>
 <tr><th>libraries/parallel</th>
-<th>https://git.haskell.org/packages/parallel.git</th>
+<th>https://github.com/haskell/parallel</th>
 <th>master</th>
 <th>No</th>
 <th>No</th></tr>
