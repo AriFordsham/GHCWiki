@@ -9,7 +9,7 @@ There are two rather different sets of issues:
 
 This page focuses exclusively on the first, narrow issue of disambiguating record field names.  We have a separate Wiki page, [wiki:ExtensibleRecords], on the broad issue of first class record types.
 
-'''This page summarises the problem, and discusses alternative designs. The extension that was eventually implemented, [wiki:Records/OverloadedRecordFields OverloadedRecordFields], is described on its own page.'''
+'''This page summarises the problem, and discusses alternative possible designs. [wiki:Records/OverloadedRecordFields OverloadedRecordFields], an extension that has been implemented (but not yet merged into HEAD as of January 2015), is described separately.'''
 
 == The problem: record name spacing ==
 
