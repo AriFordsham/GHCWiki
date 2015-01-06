@@ -59,7 +59,7 @@ On Github, but it says "WORK-IN-PROGRESS / DO NOT USE YET":
 <tr><td>libraries/bytestring</td>   <td>https://github.com/haskell/bytestring</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
 <tr><td>libraries/Cabal</td>        <td>https://github.com/haskell/Cabal</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
 <tr><td>libraries/containers</td>   <td>https://github.com/haskell/containers</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
-<tr><td>libraries/deepseq</td>      <td>https://git.haskell.org/packages/deepseq.git</td> <td>master</td> <td>No</td> <td>No</td></tr>
+<tr><td>libraries/deepseq</td>      <td>https://github.com/haskell/deepseq</td> <td>master</td> <td>No</td> <td>No</td></tr>
 <tr><td>libraries/directory</td>    <td>https://github.com/haskell/directory</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
 <tr><td>libraries/filepath</td>     <td>https://github.com/haskell/filepath</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
 <tr><td>libraries/haskeline</td>    <td>https://github.com/judah/haskeline</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>

@@ -95,7 +95,7 @@ Here are the submodules we use, and where their upstreams point:
 <th>Yes</th>
 <th>Yes</th></tr>
 <tr><th>libraries/deepseq</th>
-<th>https://git.haskell.org/packages/deepseq.git</th>
+<th>https://github.com/haskell/deepseq</th>
 <th>master</th>
 <th>No</th>
 <th>No</th></tr>
