@@ -110,10 +110,10 @@ The `Location` type is abstract, but has functions to:
 
 These notes are based on the proposed implementation at [ https://phabricator.haskell.org/D578](https://phabricator.haskell.org/D578).
 
-- We add a new module `GHC.Location` that exports two datatypes
+- We add a two new datatypes to `base`:
 
-  1. `SrcLoc`, a single source location including package/module/file names and a source span, and
-  1. `CallStack`, a stack of `SrcLoc`s.
+  1. `GHC.SrcLoc.SrcLoc`, a single source location including package/module/file names and a source span, and
+  1. `GHC.Stack.CallStack`, a stack of `SrcLoc`s.
     Both datatypes are currently kept abstract so only GHC can create new values. I think this is the "right" thing to do as it makes the types more trustworthy, but perhaps there's a good argument for allowing users to update `SrcLoc`s and `CallStack`s.
 
 - GHC completely ignores the name of an implicit CallStack parameter, e.g.
