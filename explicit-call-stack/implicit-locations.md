@@ -113,8 +113,10 @@ These notes are based on the proposed implementation at [ https://phabricator.ha
 - We add a two new datatypes to `base`:
 
   1. `GHC.SrcLoc.SrcLoc`, a single source location including package/module/file names and a source span, and
-  1. `GHC.Stack.CallStack`, a stack of `SrcLoc`s.
-    Both datatypes are currently kept abstract so only GHC can create new values. I think this is the "right" thing to do as it makes the types more trustworthy, but perhaps there's a good argument for allowing users to update `SrcLoc`s and `CallStack`s.
+  1. `GHC.Stack.CallStack`, a `[(String, SrcLoc)]`s. The `String` always corresponds to the name of the function that was called, and the list is sorted by most recent call. Furthermore, GHC guarantees that the list will never be empty (we'll always have the location where the `CallStack` IP was used).
+
+>
+> Both datatypes are currently kept abstract so only GHC can create new values. I think this is the "right" thing to do as it makes the types more trustworthy, but perhaps there's a good argument for allowing users to update `SrcLoc`s and `CallStack`s.
 
 - GHC completely ignores the name of an implicit CallStack parameter, e.g.
 
@@ -138,3 +140,5 @@ These notes are based on the proposed implementation at [ https://phabricator.ha
   the printed call-stack will **also include**`f`s call-site. This last example might be unsettling to some. I think the behavior will ease creation of cross-package call-stacks, but could be convinced that it veers too far from what users would expect of ImplicitParams.
 
 - Responding to the open question above, GHC will **never** infer an implicit CallStack constraint.
+
+- A potential "gotcha" in the current implementation is that the `:type` command in GHCi will not report `?loc :: CallStack` constraints, as the typechecker will immediately solve them. Using `:info` instead prints the unsolved type.
