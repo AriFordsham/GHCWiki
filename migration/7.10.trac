@@ -122,6 +122,32 @@ instead of relying on the default method implementation.
 
 For more details (and how to use the new facilities) see Haddock documentation of hackage:deepseq
 
+=== `integer-gmp-1.0.0.0`
+
+The internal representation for `Integer`s has changed. Code only referencing the `S#` constructor should not be affected. The `J#` constructor however has been replaced by two new `Jp#` and `Jn#` constructors (see below).
+
+Old representation:
+
+{{{#!hs
+data Integer
+   = S# Int#            -- ^ \"small\" integers fitting into an 'Int#'
+   | J# Int# ByteArray# -- ^ \"big\" integers (legal to be used to represent 'Int#'-range)
+}}}
+
+New representation:
+
+{{{#!hs
+data Integer 
+  = S# Int#      -- ^ iff value in @[minBound::'Int', maxBound::'Int']@ range
+  | Jp# !BigNat  -- ^ iff value in @]maxBound::'Int', +inf[@ range
+  | Jn# !BigNat  -- ^ iff value in @]-inf, minBound::'Int'[@ range
+}}}
+
+Please note that the new representation is now '''stricter regarding internal invariants''' (note the if-and-only-ifs `iff`s in the comments above). For more details, see
+
+ - wiki:Design/IntegerGmp2 and
+ - [hackage:integer-gmp-1.0.0.0/candidate/docs/GHC-Integer-GMP-Internals.html GHC.Integer.GMP.Internals's Haddock]
+
 === `template-haskell-2.10.0.0`
 
 There are a number of API changes in this release of Template Haskell.
