@@ -10,7 +10,7 @@ For the beginners there is [a short getting started guide](newcomers).
 For the dedicated, there are [videos of Simon and Simon giving an overview of GHC](about-videos), at the 2006 [GHC Hackathon](hackathon).
 
 
-Also check out the [GHC Reading List](reading-list), which gives lots of background reading that will help you understand the actual implementation.
+Also check out the [GHC Reading List](reading-list), which gives lots of background reading that will help you understand the actual implementation.  Here's [ another reading list](http://www.stephendiehl.com/posts/essential_compilers.html) from Stephen Diehl.
 
 ## Editing the Commentary
 
