@@ -455,3 +455,61 @@ I'm generally of the opinion that more types are better, unsurprisingly. (I've w
 
 
 My guess is that this change would decrease performance in places, with the extra conversions. Would this be significant? Probably not, but worth noting as a "con".
+
+# Separating type signatures from definitions
+
+
+In order to support induction recursion, we'll need to typecheck type-level signatures separately from definitions. For example, in
+
+```wiki
+data G a where
+  MkG :: forall (g :: G *). Proxy g -> G Int
+```
+
+
+we need to kind-check and desugar `G` before working on `MkG`. This is because `G` is used as a kind in the type of `MkG`.
+
+
+Right now, this would be impossible, because `G` is knot-tied when processing `MkG`, and kind-checking that type would surely loop. The only real way forward is to treat the header of `G` separate from the body. This would, of course, only be possible with a CUSK:
+
+```wiki
+data G (a :: *) where ...
+```
+
+
+(Without the CUSK, we'd need to kind-check the datacons before being able to deal with the header, and that's loopy... I'll leave it as an exercise to the reader to determine if there is a better way.)
+
+
+Implementation plan: don't store tycon RHSs in the tycon itself, but in the environment. Here are the fields that have to move:
+
+
+From `AlgTyCon`:
+
+- `algTcRhs`: This is the big change. Although, it may be best to keep the nature of the RHS (family vs. data vs. newtype) in the `TyCon`. This won't pose a challenge.
+  The challenge is that we sometimes use `tyConDataCons` away from `TcM`.
+
+  - To create the `tag` in `mkDataCon`. Seems easy enough to re-plumb.
+  - Sometimes with a class (`mkDictSelId`, `mkDictSelRhs`). May need to add the datacon to the `Class` object. Shouldn't be too bad, as classes are never loopy in this way. Actually, when we promote classes, they **can** be loopy in this way, but we're not going to worry about that now.
+  - Some code-gen stuff. In a monad, but one with an env?
+  - Core Lint. Could add the env to the linter monad. But the use is just a warning.
+  - Producing worker ids in `CorePrep.mkDataConWorkers`. New plumbing around here?
+  - Getting from one datacon to another (`DsUtils.mkDataConCase`). Perhaps the datacons could all refer to each other.
+  - And a bunch of other places. Might not be so easy.
+
+- `algTcRec`: No problem here. In one place (`checkRecTc` for avoiding recursive-newtype loops) it's accessed far from `TcM`, but it's just an optimization there. Otherwise, we have `TcM` to hand.
+
+
+From `SynonymTyCon`: Nothing. Synonyms can't be loopy!
+
+
+From `FamilyTyCon`: Closed type family RHSs.
+
+---
+
+
+Alternate plan: Make a new type `TcTyCon` that is missing the RHS and then zonk it to a `TyCon`. But this is terrible because we'd then need a `TcType` that stores `TcTyCon`s. And this change might not be enough, by itself, as we might need the RHS of `TcTyCon`s in places.
+
+---
+
+
+Other alternate plan: Be really loopy and dance among black holes, keeping the existing structure but putting everything into a bigger knot. This might actually not be so terrible.
