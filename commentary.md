@@ -65,6 +65,32 @@ The above commentary covers the source code of GHC. For material that doesn't co
   - [ The Scrap your boilerplate homepage](http://sourceforge.net/apps/mediawiki/developers/index.php?title=ScrapYourBoilerplate).
   - [Optimisation Ordering](commentary/compiler/opt-ordering) Describe the ordering and interaction of optimisation passes (Old).
   - [ GHC Illustrated](https://github.com/takenobu-hs/haskell-ghc-illustrated) (follow the PDF link), a very insightful tutorial on GHC's internals.
+  - [ 24 days of GHC Extensions](https://ocharles.org.uk/blog/pages/2014-12-01-24-days-of-ghc-extensions.html)
+
+    - [ Welcome](https://ocharles.org.uk/blog/posts/2014-12-01-24-days-of-ghc-extensions.html)
+    - [ Static Pointers](https://ocharles.org.uk/blog/guest-posts/2014-12-23-static-pointers.html)
+    - [ Template Haskell](https://ocharles.org.uk/blog/guest-posts/2014-12-22-template-haskell.html)
+    - [ Arrows](https://ocharles.org.uk/blog/guest-posts/2014-12-21-arrows.html)
+    - [ Scoped Type Variables](https://ocharles.org.uk/blog/guest-posts/2014-12-20-scoped-type-variables.html)
+    - [ Existential Quantification](https://ocharles.org.uk/blog/guest-posts/2014-12-19-existential-quantification.html)
+    - [ Rank N Types](https://ocharles.org.uk/blog/guest-posts/2014-12-18-rank-n-types.html)
+    - [ Overloaded Strings](https://ocharles.org.uk/blog/posts/2014-12-17-overloaded-strings.html)
+    - [ DeriveGeneric](https://ocharles.org.uk/blog/posts/2014-12-16-derive-generic.html)
+    - [ Deriving](https://ocharles.org.uk/blog/guest-posts/2014-12-15-deriving.html)
+    - [ Functional Dependencies](https://ocharles.org.uk/blog/posts/2014-12-14-functional-dependencies.html)
+    - [ Multi-parameter Type Classes](https://ocharles.org.uk/blog/posts/2014-12-13-multi-param-type-classes.html)
+    - [ Type Families](https://ocharles.org.uk/blog/posts/2014-12-12-type-families.html)
+    - [ Implicit Parameters](https://ocharles.org.uk/blog/posts/2014-12-11-implicit-params.html)
+    - [ Nullary Type Classes](https://ocharles.org.uk/blog/posts/2014-12-10-nullary-type-classes.html)
+    - [ Recursive Do](https://ocharles.org.uk/blog/posts/2014-12-09-recursive-do.html)
+    - [ Type Operators](https://ocharles.org.uk/blog/posts/2014-12-08-type-operators.html)
+    - [ List Comprehensions](https://ocharles.org.uk/blog/guest-posts/2014-12-07-list-comprehensions.html)
+    - [ Rebindable Syntax](https://ocharles.org.uk/blog/guest-posts/2014-12-06-rebindable-syntax.html)
+    - [ Bang Patterns](https://ocharles.org.uk/blog/posts/2014-12-05-bang-patterns.html)
+    - [ Record Wildcards](https://ocharles.org.uk/blog/posts/2014-12-04-record-wildcards.html)
+    - [ Pattern Synonyms](https://ocharles.org.uk/blog/posts/2014-12-03-pattern-synonyms.html)
+    - [ View Patterns](https://ocharles.org.uk/blog/posts/2014-12-02-view-patterns.html)
+    - [ Thanks](https://ocharles.org.uk/blog/posts/2014-12-24-conclusion.html)
 
 - Notes on implemented GHC features:
 
