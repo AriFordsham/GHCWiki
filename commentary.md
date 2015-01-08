@@ -65,7 +65,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
   - [ The Scrap your boilerplate homepage](http://sourceforge.net/apps/mediawiki/developers/index.php?title=ScrapYourBoilerplate).
   - [Optimisation Ordering](commentary/compiler/opt-ordering) Describe the ordering and interaction of optimisation passes (Old).
   - [ GHC Illustrated](https://github.com/takenobu-hs/haskell-ghc-illustrated) (follow the PDF link), a very insightful tutorial on GHC's internals.
-  - [ 24 days of GHC Extensions](https://ocharles.org.uk/blog/pages/2014-12-01-24-days-of-ghc-extensions.html)
+  - [ Ollie Charles's 24 days of GHC Extensions](https://ocharles.org.uk/blog/pages/2014-12-01-24-days-of-ghc-extensions.html), and [ Lennart Augstsson's commentary](http://augustss.blogspot.com/2014/12/a-commentary-on-24-days-of-ghc.html)
 
     - [ Welcome](https://ocharles.org.uk/blog/posts/2014-12-01-24-days-of-ghc-extensions.html)
     - [ Static Pointers](https://ocharles.org.uk/blog/guest-posts/2014-12-23-static-pointers.html)
