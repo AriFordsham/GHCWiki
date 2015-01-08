@@ -52,6 +52,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
    * [wiki:ExternalCore External Core]: Describes the process of bringing External Core up to speed. Once finished, this will simply describe what External Core is, and how it works. 
    * [http://sourceforge.net/apps/mediawiki/developers/index.php?title=ScrapYourBoilerplate The Scrap your boilerplate homepage].
    * [wiki:Commentary/Compiler/OptOrdering Optimisation Ordering] Describe the ordering and interaction of optimisation passes (Old).
+   * [https://github.com/takenobu-hs/haskell-ghc-illustrated GHC Illustrated] (follow the PDF link), a very insightful tutorial on GHC's internals.
 
  * Notes on implemented GHC features:
    * [https://www.fpcomplete.com/tutorial-preview/4431/z0KpB0ai2R Evaluation order and state tokens]: notes written by Michael Snoyberg in response to #9390.
