@@ -21,6 +21,7 @@ This is a list of tickets that [ Pedro](http://dreixel.net) wants to keep an eye
 - [\#9766](https://gitlab.haskell.org//ghc/ghc/issues/9766) (Use TypeLits in the meta-data encoding of GHC.Generics)
 - [\#9821](https://gitlab.haskell.org//ghc/ghc/issues/9821) (DeriveAnyClass support for higher-kinded classes + some more comments)
 - [\#9858](https://gitlab.haskell.org//ghc/ghc/issues/9858) (Typeable instance for datatype and its promoted constructor is the same)
+- [\#9968](https://gitlab.haskell.org//ghc/ghc/issues/9968) (DeriveAnyClass fails on multi-parameter type classes)
 
 
 Closed:
