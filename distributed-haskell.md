@@ -16,6 +16,8 @@ Several distinct layers are involved; they constitute the main payload of this d
 
 - [StaticPointers/ImplementationPlan](static-pointers/implementation-plan): a phased approach to implementing the extension in GHC.
 
+- [StaticPointers/TypesafeDecoding](static-pointers/typesafe-decoding): options for encoding and decoding static pointers.
+
 
 Our goal is to identify the *smallest possible built-in extension to GHC*, with
 the smallest possible trusted code base, that would enable
