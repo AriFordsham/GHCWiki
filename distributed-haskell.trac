@@ -14,6 +14,8 @@ Several distinct layers are involved; they constitute the main payload of this d
 
 * [wiki:StaticPointers/ImplementationPlan]: a phased approach to implementing the extension in GHC.
 
+* [wiki:StaticPointers/TypesafeDecoding]: options for encoding and decoding static pointers.
+
 Our goal is to identify the ''smallest possible built-in extension to GHC'', with
 the smallest possible trusted code base, that would enable
 libraries like `distributed-closure` to be written in an entirely type-safe way.
