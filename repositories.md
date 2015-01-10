@@ -145,7 +145,7 @@ Here are the submodules we use, and where their upstreams point:
 <th>Yes</th>
 <th>Yes</th></tr>
 <tr><th>libraries/process</th>
-<th>https://github.com/process</th>
+<th>https://github.com/haskell/process</th>
 <th>master</th>
 <th>Yes</th>
 <th>Yes</th></tr>
