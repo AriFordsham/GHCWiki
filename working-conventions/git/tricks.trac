@@ -125,6 +125,10 @@ As you can see, the `reflog` saved me here: I undid some nasty work in my person
 
 '''The reflog is not needed often, but it is often indispensable when you need it.'''
 
+== Intermediate Git tricks ==
+
+See [https://www.andyjeffries.co.uk/25-tips-for-intermediate-git-users/ 25 Tips for Intermediate Git Users] blog post.
+
 == Advanced Git tricks ==
 
 Finally, there are some '''advanced tips''', not for the faint of heart:

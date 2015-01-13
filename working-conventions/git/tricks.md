@@ -148,6 +148,11 @@ As you can see, the `reflog` saved me here: I undid some nasty work in my person
 
 **The reflog is not needed often, but it is often indispensable when you need it.**
 
+## Intermediate Git tricks
+
+
+See [ 25 Tips for Intermediate Git Users](https://www.andyjeffries.co.uk/25-tips-for-intermediate-git-users/) blog post.
+
 ## Advanced Git tricks
 
 
