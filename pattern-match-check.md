@@ -8,7 +8,7 @@ we describe the problem and the algorithm we are currently implementing.
 
 See also
 
-- Our (on-going) work on the formalisation of the algorithm \[url-here Algorithm\].
+- Our (on-going) work on the formalisation of the algorithm [ description.pdf](https://ghc.haskell.org/trac/ghc/raw-attachment/wiki/PatternMatchCheck/description.pdf).
 - The paper on which the previous approach were based [ Two techniques for compiling lazy pattern matching](http://moscova.inria.fr/~maranget/papers/lazy-pats-derniere.ps.gz)
 - [PatternMatchCheckImplementation](pattern-match-check-implementation) talks about the implementation in GHC.
 

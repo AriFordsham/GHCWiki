@@ -6,7 +6,7 @@ crufty and misbehaves with several GHC's extensions, notably GADTs. In this page
 we describe the problem and the algorithm we are currently implementing.
 
 See also
- * Our (on-going) work on the formalisation of the algorithm [url-here Algorithm].
+ * Our (on-going) work on the formalisation of the algorithm [https://ghc.haskell.org/trac/ghc/raw-attachment/wiki/PatternMatchCheck/description.pdf description.pdf].
  * The paper on which the previous approach were based [http://moscova.inria.fr/~maranget/papers/lazy-pats-derniere.ps.gz Two techniques for compiling lazy pattern matching]
  * [wiki:PatternMatchCheckImplementation] talks about the implementation in GHC.
 
