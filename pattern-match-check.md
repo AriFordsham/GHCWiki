@@ -6,11 +6,42 @@ crufty and misbehaves with several GHC's extensions, notably GADTs. In this page
 we describe the problem and the algorithm we are currently implementing.
 
 
-See also
+Background:
+
+- The paper on which the previous approach were based [ Two techniques for compiling lazy pattern matching](http://moscova.inria.fr/~maranget/papers/lazy-pats-derniere.ps.gz)
+- Peter Sestoft's paper for negative patterns [ ML's pattern matching compilation and partial evaluation](http://lambda.csail.mit.edu/~chet/papers/others/s/sestoft/sestoft96ml.pdf)
+
+
+Our solution
 
 - Our (on-going) work on the formalisation of the algorithm [ description.pdf](https://ghc.haskell.org/trac/ghc/raw-attachment/wiki/PatternMatchCheck/description.pdf).
-- The paper on which the previous approach were based [ Two techniques for compiling lazy pattern matching](http://moscova.inria.fr/~maranget/papers/lazy-pats-derniere.ps.gz)
 - [PatternMatchCheckImplementation](pattern-match-check-implementation) talks about the implementation in GHC.
+
+
+Related tickets (ones that are closed are still useful examples in the wild; they were only closed as duplicates):
+
+- [\#29](https://gitlab.haskell.org//ghc/ghc/issues/29)
+- [\#322](https://gitlab.haskell.org//ghc/ghc/issues/322)
+- [\#366](https://gitlab.haskell.org//ghc/ghc/issues/366)
+- [\#595](https://gitlab.haskell.org//ghc/ghc/issues/595)
+- [\#851](https://gitlab.haskell.org//ghc/ghc/issues/851)
+- [\#1307](https://gitlab.haskell.org//ghc/ghc/issues/1307)
+- [\#2006](https://gitlab.haskell.org//ghc/ghc/issues/2006)
+- [\#2204](https://gitlab.haskell.org//ghc/ghc/issues/2204)
+- [\#3078](https://gitlab.haskell.org//ghc/ghc/issues/3078)
+- [\#3927](https://gitlab.haskell.org//ghc/ghc/issues/3927)
+- [\#4139](https://gitlab.haskell.org//ghc/ghc/issues/4139)
+- [\#5724](https://gitlab.haskell.org//ghc/ghc/issues/5724)
+- [\#5728](https://gitlab.haskell.org//ghc/ghc/issues/5728)
+- [\#5762](https://gitlab.haskell.org//ghc/ghc/issues/5762)
+- [\#6124](https://gitlab.haskell.org//ghc/ghc/issues/6124)
+- [\#7669](https://gitlab.haskell.org//ghc/ghc/issues/7669)
+- [\#8016](https://gitlab.haskell.org//ghc/ghc/issues/8016)
+- [\#8494](https://gitlab.haskell.org//ghc/ghc/issues/8494)
+- [\#8853](https://gitlab.haskell.org//ghc/ghc/issues/8853)
+- [\#8970](https://gitlab.haskell.org//ghc/ghc/issues/8970)
+- [\#9113](https://gitlab.haskell.org//ghc/ghc/issues/9113)
+- [\#9951](https://gitlab.haskell.org//ghc/ghc/issues/9951)
 
 # The main problem we wish to solve
 
