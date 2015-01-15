@@ -6,10 +6,15 @@ crufty and misbehaves with several GHC's extensions, notably GADTs. In this page
 we describe the problem and the algorithm we are currently implementing.
 
 
-See also
+Background:
+
+- The paper on which the previous approach were based [ Two techniques for compiling lazy pattern matching](http://moscova.inria.fr/~maranget/papers/lazy-pats-derniere.ps.gz)
+- Peter Sestoft's paper for negative patterns [ ML's pattern matching compilation and partial evaluation](http://lambda.csail.mit.edu/~chet/papers/others/s/sestoft/sestoft96ml.pdf)
+
+
+Our solution
 
 - Our (on-going) work on the formalisation of the algorithm [ description.pdf](https://ghc.haskell.org/trac/ghc/raw-attachment/wiki/PatternMatchCheck/description.pdf).
-- The paper on which the previous approach were based [ Two techniques for compiling lazy pattern matching](http://moscova.inria.fr/~maranget/papers/lazy-pats-derniere.ps.gz)
 - [PatternMatchCheckImplementation](pattern-match-check-implementation) talks about the implementation in GHC.
 
 # The main problem we wish to solve
