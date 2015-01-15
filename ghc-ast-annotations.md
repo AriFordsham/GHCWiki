@@ -1,3 +1,6 @@
+
+The completed feature is described at [ApiAnnotations](api-annotations). This page now captures the discussion leading up to the implementation.
+
 # This is a proposal / discussion page for adding annotations to the AST, for ticket [\#9628](https://gitlab.haskell.org//ghc/ghc/issues/9628)
 
 
