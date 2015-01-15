@@ -13,6 +13,30 @@ Our solution
  * Our (on-going) work on the formalisation of the algorithm [https://ghc.haskell.org/trac/ghc/raw-attachment/wiki/PatternMatchCheck/description.pdf description.pdf].
  * [wiki:PatternMatchCheckImplementation] talks about the implementation in GHC.
 
+Related tickets (ones that are closed are still useful examples in the wild; they were only closed as duplicates):
+ * #29
+ * #322
+ * #366
+ * #595
+ * #851
+ * #1307
+ * #2006
+ * #2204
+ * #3078
+ * #3927
+ * #4139
+ * #5724
+ * #5728
+ * #5762
+ * #6124
+ * #7669
+ * #8016
+ * #8494
+ * #8853
+ * #8970
+ * #9113
+ * #9951
+
 = The main problem we wish to solve =
 
 Since GHC's exhaustiveness/redundancy checker is outdated, it does not take into
