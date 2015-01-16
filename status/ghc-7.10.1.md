@@ -22,6 +22,8 @@ Special things of note:
 
 - Austin will overhaul `ghc-7.10` branch release notes.
 
+- Pull in Peter's DWARF fixes.
+
 ## Migration Guide to 7.10
 
 [ https://ghc.haskell.org/trac/ghc/wiki/Migration/7.10](https://ghc.haskell.org/trac/ghc/wiki/Migration/7.10)
