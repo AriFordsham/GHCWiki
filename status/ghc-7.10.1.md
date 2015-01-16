@@ -12,6 +12,8 @@ Anything in 'patch' status will be merged for 7.10.1.
 
 Special things of note:
 
+- [ Phab:D538/Phab:D620](https://phabricator.haskell.org/D538/Phab:D620) - Alan needs this in and Austin will get it done for RC2. 
+
 - Austin will disable the `dll-split` check for 7.10.1 RC2 since we're not building dynamically on Windows.
 
 - For 7.10.1, we're going to try to distribute Windows binaries using `minghc`.
