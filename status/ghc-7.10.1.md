@@ -18,8 +18,6 @@ Special things of note:
 
 - Austin will overhaul `ghc-7.10` branch release notes.
 
-- Austin & Herbert will deal with Haddock branching.
-
 ## Migration Guide to 7.10
 
 [ https://ghc.haskell.org/trac/ghc/wiki/Migration/7.10](https://ghc.haskell.org/trac/ghc/wiki/Migration/7.10)
