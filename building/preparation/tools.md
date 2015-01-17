@@ -139,7 +139,7 @@ Most installations should have this by default.
 
 <table><tr><th>`lndir`</th>
 <td>
-Needed if you want to prepare a binary distribution with 
+Needed if you want to prepare a source distribution with 
 `make sdist`, and useful for maintaining a separate
 [build tree](building/using).
 </td></tr></table>
