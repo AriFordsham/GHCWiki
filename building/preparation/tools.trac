@@ -119,7 +119,7 @@ In most cases the `configure` script will tell you if you are missing something.
   Most installations should have this by default.
 
  {{{lndir}}}::
-  Needed if you want to prepare a binary distribution with 
+  Needed if you want to prepare a source distribution with 
   `make sdist`, and useful for maintaining a separate
   [Building/Using build tree].
 
