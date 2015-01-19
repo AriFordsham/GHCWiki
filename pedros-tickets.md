@@ -13,15 +13,13 @@ This is a list of tickets that [ Pedro](http://dreixel.net) wants to keep an eye
 - [\#9453](https://gitlab.haskell.org//ghc/ghc/issues/9453) (The example for GHC Generics is kinda broken)
 - [\#9526](https://gitlab.haskell.org//ghc/ghc/issues/9526) (Add missing Generic instances in base)
 - [\#9557](https://gitlab.haskell.org//ghc/ghc/issues/9557) (Deriving instances is slow)
-- [\#9563](https://gitlab.haskell.org//ghc/ghc/issues/9563) (Support for deriving Generic1 for data families)
-- [\#9575](https://gitlab.haskell.org//ghc/ghc/issues/9575) (-XAutoDeriveTypeable fails to generate instances)
-- [\#9583](https://gitlab.haskell.org//ghc/ghc/issues/9583) (Simplifier ticks exhausted while compiling Cabal HEAD)
 - [\#9630](https://gitlab.haskell.org//ghc/ghc/issues/9630) (compile-time performance regression (probably due to Generics))
 - [\#9642](https://gitlab.haskell.org//ghc/ghc/issues/9642) (LANGUAGE pragma synonyms)
 - [\#9766](https://gitlab.haskell.org//ghc/ghc/issues/9766) (Use TypeLits in the meta-data encoding of GHC.Generics)
 - [\#9821](https://gitlab.haskell.org//ghc/ghc/issues/9821) (DeriveAnyClass support for higher-kinded classes + some more comments)
 - [\#9858](https://gitlab.haskell.org//ghc/ghc/issues/9858) (Typeable instance for datatype and its promoted constructor is the same)
 - [\#9968](https://gitlab.haskell.org//ghc/ghc/issues/9968) (DeriveAnyClass fails on multi-parameter type classes)
+- [\#9999](https://gitlab.haskell.org//ghc/ghc/issues/9999) (Typeable deriving behavior different between data families and associated data types)
 
 
 Closed:
@@ -32,10 +30,14 @@ Closed:
 - [\#8566](https://gitlab.haskell.org//ghc/ghc/issues/8566) (Given kind equalities are discarded)
 - [\#8797](https://gitlab.haskell.org//ghc/ghc/issues/8797) (Generics instances for monoid and applicative newtypes)
 - [\#9527](https://gitlab.haskell.org//ghc/ghc/issues/9527) (Add Generic instances for Language.Haskell.TH)
+- [\#9563](https://gitlab.haskell.org//ghc/ghc/issues/9563) (Support for deriving Generic1 for data families)
+- [\#9575](https://gitlab.haskell.org//ghc/ghc/issues/9575) (-XAutoDeriveTypeable fails to generate instances)
 - [\#9576](https://gitlab.haskell.org//ghc/ghc/issues/9576) (-fdefer-type-errors doesn't defer errors from `deriving`)
+- [\#9583](https://gitlab.haskell.org//ghc/ghc/issues/9583) (Simplifier ticks exhausted while compiling Cabal HEAD)
 - [\#9639](https://gitlab.haskell.org//ghc/ghc/issues/9639) (Remove OldTypeable)
 - [\#9650](https://gitlab.haskell.org//ghc/ghc/issues/9650) (Unsatisfiable default signature)
 - [\#9750](https://gitlab.haskell.org//ghc/ghc/issues/9750) (Core lint failure with TypeLits Symbol)
+- [\#10000](https://gitlab.haskell.org//ghc/ghc/issues/10000) (Derived DataKinds Typeable instance collision leads to [SafeHaskell](safe-haskell) violation)
 
 
 Wiki pages:
