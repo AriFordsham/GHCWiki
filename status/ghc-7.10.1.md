@@ -13,6 +13,7 @@ Anything in 'patch' status will be merged for 7.10.1.
 Special things of note:
 
 - RC2 is expected **Friday the 23rd, February 2015**.
+
 - [ Phab:D538](https://phabricator.haskell.org/D538)[ Phab:D620](https://phabricator.haskell.org/D620) - Alan needs this in and Austin will get it done for RC2. 
 
 - Austin will disable the `dll-split` check for 7.10.1 RC2 since we're not building dynamically on Windows.
