@@ -1,6 +1,7 @@
 = This page collects tickets that Simon PJ is interested in, so that he remembers them =
 
 == Urgent or in-flight ==
+ * #9999: `AutoDeriveTypeable` bug.
  * #9960, #9805: `TrieMap` stuff
  * #9260: type lits (Iavor owns)
  * #9953, #9900, #9867, #9891, #9793, #8761, #8581, #8779, #8761, #8583, #9911, #9889: pattern synonyms (Gergo)
