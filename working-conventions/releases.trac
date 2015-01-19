@@ -12,7 +12,7 @@ Releases are made by the release manager, currently Austin Seipp. The release ma
 
 == Release policies ==
 
- * Tier 1 platforms must all be in a working state before the release is made.  We make every effort to fix bugs in other platforms too, but bugs on Tier 2/3 platforms are not treated as release-blockers.
+ * Tier 1 [wiki:Platforms platforms] must all be in a working state before the release is made.  We make every effort to fix bugs in other platforms too, but bugs on Tier 2/3 platforms are not treated as release-blockers.
 
 === Major releases ===
 
