@@ -73,8 +73,7 @@ So we have decided to avoid the extensible record debate, but how can we have mu
 1. **polymorphic extensible records with scoped labels** by Daan Leijen, [ (implemented in Elm)](http://elm-lang.org/blog/announce/version-0.7.elm) and in the DSL [ WaveScript](http://www.cs.indiana.edu/~rrnewton/wavescope/WaveScope_+_WaveScript/)
 
 1. **[ type-level strings for field access](http://nikita-volkov.github.io/record/)**`data Record2 (n1 :: Symbol) v1 (n2 :: Symbol) v2 = Record2 v1 v2`
-
-  1. **Are there any other approaches?**
+1. **Are there any other approaches?**
 
 
 The [OverloadedRecordFields](records/overloaded-record-fields) extension eventually implemented was based on SORF, but with some modifications based on feedback. Of course, this may not be the end of the story...

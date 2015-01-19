@@ -57,7 +57,7 @@ So we have decided to avoid the extensible record debate, but how can we have mu
  9. '''[wiki:Records/ExplicitClassyRecords Explicit Classy Records]'''
  10. '''polymorphic extensible records with scoped labels''' by Daan Leijen, [http://elm-lang.org/blog/announce/version-0.7.elm (implemented in Elm)] and in the DSL [http://www.cs.indiana.edu/~rrnewton/wavescope/WaveScope_+_WaveScript/ WaveScript]
 11. '''[http://nikita-volkov.github.io/record/ type-level strings for field access]'''  {{{data Record2 (n1 :: Symbol) v1 (n2 :: Symbol) v2 = Record2 v1 v2}}}
- 12. '''Are there any other approaches?'''
+12. '''Are there any other approaches?'''
 
 The [wiki:Records/OverloadedRecordFields OverloadedRecordFields] extension eventually implemented was based on SORF, but with some modifications based on feedback. Of course, this may not be the end of the story...
 
