@@ -14,6 +14,8 @@ Special things of note:
 
 - RC2 is expected **Friday the 23rd, January 2015**.
 
+- Only tickets marked "highest", or in "patch" status will go into RC2. If you know of another serious bug that should hold up RC2, yell now.
+
 - [ Phab:D538](https://phabricator.haskell.org/D538)[ Phab:D620](https://phabricator.haskell.org/D620) - Alan needs this in and Austin will get it done for RC2. 
 
 - Austin will disable the `dll-split` check for 7.10.1 RC2 since we're not building dynamically on Windows.
