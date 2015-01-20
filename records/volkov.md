@@ -1,0 +1,10 @@
+# Anonymous Records with lenses
+
+
+This page is to discuss adding support for Nikita Volkov's record design to GHC.
+
+
+Links
+
+- The record package on Hackage: [ http://hackage.haskell.org/package/record](http://hackage.haskell.org/package/record)
+- Reddit discussion: [ http://nikita-volkov.github.io/record/](http://nikita-volkov.github.io/record/)
