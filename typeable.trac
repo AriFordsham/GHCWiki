@@ -322,5 +322,15 @@ we actually supply a kind parameter `k0`. GHC tries to find a value for `k0`, fa
 
 comment:16:ticket:9858 is a demonstration that the boat is taking on water! Fix the leak, fast!
 
-The "obvious" answer -- don't supply the `k` here -- doesn't work. The instance for `PK` would become `Typeable <forall k. k -> *> PK`, where a normally-implicit kind parameter is supplied in angle brackets. This is an '''impredicative kind''', certainly beyond GHC's type system's abilities at the moment.
+The "obvious" answer -- don't supply the `k` here -- doesn't work. The instance for `PK` would become `Typeable <forall k. k -> *> PK`, where a normally-implicit kind parameter is supplied in angle brackets. This is an '''impredicative kind''', certainly beyond GHC's type system's abilities at the moment, especially in a type-class argument.
 
+One (somewhat unpleasant) way forward is to allow kind parameters to be supplied in `Typeable` instances, but still restrict type parameters. So, we would have
+
+{{{
+deriving instance Typeable (PK :: * -> *)
+deriving instance Typeable (PK :: (* -> *) -> *)
+}}}
+
+which would yield instances `Typeable <* -> *> (PK <*>)` and `Typeable <(* -> *) -> *> (PK <* -> *>)` -- two separate instances with different, and distinguishable `TypeRep`s. What's painful here is that, clearly, there are an ''infinite'' number of such instantiations of `PK`. We could maybe provide a handful of useful ones, but we could never provide them all.
+
+That, then, is the current plan of attack. `Typeable` instance heads must include concrete instantiations of all kind parameters but no type parameters. `base` will provide several instantiations for poly-kinded datatypes, but users may have to write orphan instances to get others. `AutoDeriveTypeable`  will ignore poly-kinded datatype definitions -- users must write explicit instances if they want to.
