@@ -56,6 +56,8 @@ and the typechecker will syntactically expand `#x` to `field (proxy# :: Proxy# "
 
  4. provide neither instance in base, so use of `#x` as either a selector function or a van Laarhoven lens would require either an orphan instance or conversion via a combinator.
 
+We could also choose a canonical lens representation and make `#x` produce a lens in that representation, which is effectively what the `record` library does. This would be simpler, and removes the need for the `IsRecordField` class, but it would require a combinator to use the field as a selector or any other lens type.
+
 
 == Design choice 3: sugar-free magic classes ==
 
@@ -77,13 +79,48 @@ class HasField n r => FieldUpdate (n :: Symbol) r t where
   setField :: Proxy# n -> r -> t -> UpdatedRecordType n r t
 }}}
 
-These were previously called `Has` and `Upd`, but I suggest using longer and hopefully more meaningful names. There is substantial bikeshedding to be done about the details of these definitions (names, parameter number and order), but it should not substantially alter the proposal.
+These were previously called `Has` and `Upd`, but I suggest using longer and hopefully more meaningful names. There is substantial bikeshedding to be done about the details of these definitions (names, parameter number and order), but it should not substantially alter the proposal. Note that these classes correspond to the `FieldOwner` class in the `record` library (two separate classes are needed to support type-changing update).
 
 Rather than giving instances for these classes directly, they will be implicitly created by the typechecker as required (similarly to `Coercible`), so there is no code generation overhead for datatype definitions other than the existing selector functions and a small new updater function.  Moreover, users will be permitted to write their own instances, provided they will not clash with the automatically generated ones.  This permits virtual fields, and a library like `record` could make its anonymous records work seamlessly with uses of OverloadedRecordFields.
 
-I propose we drop the `r { x :: t }` syntactic sugar for `(HasField "x" r, FieldType "x" r ~ t)`, because it's hard to avoid the underlying representation leaking out (e.g. when updates are involved).
+
+== Design extension: sugar for class constraints ==
+
+This is not necessary to begin with, but we may want `r { x :: t }` to be syntactic sugar for `(HasField "x" r, FieldType "x" r ~ t)`, although this might conflict with syntax for anonymous records. This is easy to desugar in the typechecker, but it is slightly harder to re-apply the sugar in inferred types and error messages. A similar syntax for updates would be nice, but it's not clear what.
+
+In general, it is hard to ensure that we get nice inferred types and error messages that don't mention the type families unless absolutely necessary.
 
 
 == Design extension: anonymous records ==
 
-Note that if the above extension is implemented, a library like `record` can reuse its typeclass machinery in order to work seamlessly with the `#` syntax.  Moreover, we could subsequently add a syntax for anonymous record types (for example `{| x :: Int, y :: Int |}`) which would be entirely compatible with the `#` syntax.
+Note that if the above extension is implemented, even without any further work a library like `record` can reuse its typeclass machinery in order to work seamlessly with the `#` syntax.  Moreover, we could subsequently add a syntax for anonymous record types (for example `{| x :: Int, y :: Int |}`) which would be entirely compatible with the `#` syntax.
+
+For example, the following should work fine:
+
+{{{
+f :: HasField "x" r => r -> FieldType "x" r
+f r = view #x r
+
+z :: [r| { x :: Int, y :: Int } |]
+z = [r| { x = 3, y = 2 } |]
+
+a :: Int
+a = f z
+}}}
+
+For this to be possible, the `Record<n>` tuple datatypes defined by the `record` library would need to have instances for `HasField` and `FieldUpdate` that are polymorphic in the name of the field, like this:
+
+{{{
+data Record2 (n1 :: Symbol) v1 (n2 :: Symbol) v2 =
+  Record2 v1 v2
+
+instance HasField n1 (Record2 n1 v1 n2 v2) where
+  type FieldType n1 (Record2 n1 v1 n2 v2) = v1
+  getField _ (Record2 x _) = x
+
+instance HasField n2 (Record2 n1 v1 n2 v2) where
+  type FieldType n2 (Record2 n1 v1 n2 v2) = v2
+  getField _ (Record2 _ x) = x
+}}}
+
+These correspond to the existing `FieldOwner` instances in the `record` library.
