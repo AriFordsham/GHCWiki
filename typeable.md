@@ -148,9 +148,10 @@ dynApply (Dyn tf f) (Dyn tx x)
 **Pattern synonyms**.  An alternative, rather nicer interface for `decomoposeFun` would use a [pattern synonym](pattern-synonyms) instead of continuation-passing style.  Here is the signature for the pattern synonym:
 
 ```wiki
-pattern type TRFun :: TTypeRep arg 
+pattern type TRFun :: fun ~ (arg -> res)
+                   => TTypeRep arg 
                    -> TTypeRep res 
-                   -> TypeRep (TTypeRep (arg->res))
+                   -> TTypeRep fun
 ```
 
 
@@ -161,7 +162,7 @@ dynApply :: Dynamic -> Dynamic -> Maybe Dynamic
 dynApply (Dyn (TRFun ta tr) f) (Dyn tx x)
   = case eqTT ta tx of
       Nothing   -> Nothing
-      Just Refl -> Dyn tr (f x)
+      Just Refl -> Just (Dyn tr (f x))
 dynApply _ _ = Nothing
 ```
 
@@ -196,7 +197,7 @@ While this GADT is expressible in GHC now (note the existential kind in TRApp), 
 
 ```wiki
 TRApp :: forall k1 k2. forall (a :: k1 -> k2) (b :: k1).
-         TTypeRep <k1->k2> a -> TTypeRep <k2> b -> TTypeRep <k2> (a b)
+         TTypeRep <k1->k2> a -> TTypeRep <k1> b -> TTypeRep <k2> (a b)
 ```
 
 
@@ -353,6 +354,8 @@ eqTyCon :: forall k1 k2 (a :: k1) (b :: k2).
            TTyCon a -> TTyCon b -> Maybe (a :~~: b)
 eqT :: forall k1 k2 (a :: k1) (b :: k2). 
        TTypeRep a -> TTypeRep b -> Maybe (a :~~: b)
+
+-- can now implement TRFun in terms of TRApp, outside of TCB
 ```
 
 **SLPJ**: Do we need both `:~:` and `:~~:`?
@@ -371,4 +374,50 @@ Can we get the representation of a Kind from a TyCon?  I.e. should we have somet
 ```
 
 
-Seems like this would be a good thing to add, but it is not clear.  
+Seems like this would be a good thing to add, but it is not clear.
+
+## Kind-polymorphism
+
+### `unsafeCoerce` can be written
+
+
+As painfully demonstrated (painful in the conclusion, not the demonstration!) in [comment:16:ticket:9858](https://gitlab.haskell.org//ghc/ghc/issues/9858), `Typeable` can now (7.10.1 RC1) be abused to write `unsafeCoerce`. The problem is that today's `TypeRep`s ignore kind parameters.
+
+
+Drawing this out somewhat: we allow only `Typeable` instances for unapplied constructors. That is, we have
+
+```wiki
+deriving instance Typeable Maybe
+```
+
+
+never
+
+```wiki
+deriving instance Typeable (Maybe Int)
+```
+
+
+However, what if we have
+
+```wiki
+data PK (a :: k)
+```
+
+
+? `PK` properly has *two* parameters: the kind `k` and the type `a :: k`. However, whenever we write `PK` in source code, the `k` parameter is implicitly provided. Thus,
+when we write
+
+```wiki
+deriving instance Typeable PK
+```
+
+
+we actually supply a kind parameter `k0`. GHC tries to find a value for `k0`, fails, and leaves it as a skolem variable. We get an instance `forall k. Typeable (PK k)`. But, of course, `PK *` and `PK (* -> *)` should have *different*`TypeRep`s. Disaster!
+
+### A stop-gap solution
+
+[comment:16:ticket:9858](https://gitlab.haskell.org//ghc/ghc/issues/9858) is a demonstration that the boat is taking on water! Fix the leak, fast!
+
+
+The "obvious" answer -- don't supply the `k` here -- doesn't work. The instance for `PK` would become `Typeable <forall k. k -> *> PK`, where a normally-implicit kind parameter is supplied in angle brackets. This is an **impredicative kind**, certainly beyond GHC's type system's abilities at the moment.
