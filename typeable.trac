@@ -334,3 +334,36 @@ deriving instance Typeable (PK :: (* -> *) -> *)
 which would yield instances `Typeable <* -> *> (PK <*>)` and `Typeable <(* -> *) -> *> (PK <* -> *>)` -- two separate instances with different, and distinguishable `TypeRep`s. What's painful here is that, clearly, there are an ''infinite'' number of such instantiations of `PK`. We could maybe provide a handful of useful ones, but we could never provide them all.
 
 That, then, is the current plan of attack. `Typeable` instance heads must include concrete instantiations of all kind parameters but no type parameters. `base` will provide several instantiations for poly-kinded datatypes, but users may have to write orphan instances to get others. `AutoDeriveTypeable`  will ignore poly-kinded datatype definitions -- users must write explicit instances if they want to.
+
+'''Question:''' With this design, orphan instances will be unavoidable. Given that two different authors may introduce the same orphan instances, would it work to mark every `Typeable` instance as `{-# INCOHERENT #-}`? For this to work out, we would need a guarantee that the fingerprints of the instances are the same regardless of originating module.
+
+=== Long-term solution ===
+
+We actually don't have a good long-term solution available. We thought that `* :: *` and kind equalities would fix this, but they don't. To see why, let's examine the type of `trApp`:
+
+{{{
+trApp :: forall k k1 (a :: k1 -> k) (b :: k1). 
+         TTypeRep a -> TTypeRep b -> TTypeRep (a b)
+}}}
+
+In the `* :: *` world, it would be reasonable to have `TTypeRep`s for kinds, assuming we have `TTypeRep`s always take explicit kind parameters. So, we might imagine having a `TTypeRep` for `PK` (call it `pkRep`) and a `TTypeRep` for `Bool` (call it `boolRep`). Does {{{pkRep `trApp` boolRep`}}} type-check? Unfortunately, no. We have
+
+{{{
+pkRep   :: TTypeRep <forall k. k -> *> PK
+boolRep :: TTypeRep <*> Bool
+}}}
+
+but `trApp` says that `a` must have type `k1 -> k` for some `k1` and `k`. Here `PK` would be the value for `a`, but `PK`'s kind is `forall k. k -> *`, which doesn't fit `k1 -> k` at all! We would need to generalize `trApp` to
+
+{{{
+trApp2 :: forall (k1 :: *) (k :: k1 -> *)
+                 (a :: pi (b :: k1). k b) (b :: k1).
+          TTypeRep <pi (b :: k1). k b> a -> TTypeRep <k1> b
+       -> TTypeRep <k b> (a b)
+}}}
+
+Note that the kind of `a` is a Π-type, dependent on the choice of `b`, and that `x -> y` would be considered shorthand for `pi (_ :: x). y`. While Richard's branch includes support for such types, there are no plans for type-level lambda or higher-order unification, both of which would be necessary to make this definition usable. For example, calling `trApp2` on `PK` would ''still'' fail, because we try to match `pi (b :: k1). k b` with `forall k2. k2 -> *`. The `k2` is not the last parameter of the body of the forall, so straightforward unification fails. We must choose `k1 := *, k := \x. x -> *` to get the types to line up. Urgh.
+
+=== Why kind equalities, then? ===
+
+Given the fact that Richard's branch doesn't solve this problem, what is it good for? It still works wonders in the mono-kinded case, such as for decomposing `->`. It's just that poly-kinded constructors are still a pain.
