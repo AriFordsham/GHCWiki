@@ -18,3 +18,6 @@ The most important drawbacks of this design relative to other designs are:
 - Lack of support for strict and unpacked fields
 - Lack of support for polymorphic (Rank-N) fields
 - Fixed limit on the number of fields (24 in the current implementation)
+
+
+Also, it is questionable whether any record extension should bake in a particular lens type.
