@@ -273,3 +273,11 @@ eqT :: forall k1 k2 (a :: k1) (b :: k2).
 Some of this design is motivated by the desire to allow flexibility in the implementation to allow for fingerprinting for fast equality comparisons. Naturally, the fingerprints have to be in the TCB. If it weren't for them, though, the `TypeRep` type could be exported concretely.
 
 Could we simplify this a bit by removing `TyCon`?
+
+Can we get the representation of a Kind from a TyCon?  I.e. should we have something like
+
+{{{
+   getKind :: forall k. TTCon (a :: k) -> TTypeRep (k :: *)
+}}}
+
+Seems like this would be a good thing to add, but it is not clear.  
