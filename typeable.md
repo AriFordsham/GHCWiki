@@ -362,3 +362,13 @@ Some of this design is motivated by the desire to allow flexibility in the imple
 
 
 Could we simplify this a bit by removing `TyCon`?
+
+
+Can we get the representation of a Kind from a TyCon?  I.e. should we have something like
+
+```wiki
+   getKind :: forall k. TTCon (a :: k) -> TTypeRep (k :: *)
+```
+
+
+Seems like this would be a good thing to add, but it is not clear.  
