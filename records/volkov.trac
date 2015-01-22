@@ -5,7 +5,8 @@ This page is to discuss adding support for Nikita Volkov's record design to GHC.
 Links
 
 * The record package on Hackage: http://hackage.haskell.org/package/record
-* Reddit discussion: http://nikita-volkov.github.io/record/
+* Homepage and tutorial: http://nikita-volkov.github.io/record/
+* Reddit discussion: http://www.reddit.com/r/haskell/comments/2svayz/i_think_ive_nailed_it_ive_solved_the_records/
 
 == Drawbacks ==
 
