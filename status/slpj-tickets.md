@@ -2,7 +2,7 @@
 
 ## Urgent or in-flight
 
-- [\#9999](https://gitlab.haskell.org//ghc/ghc/issues/9999): `AutoDeriveTypeable` bug.
+- [\#9858](https://gitlab.haskell.org//ghc/ghc/issues/9858): `Typeable` should be kind-aware.
 - [\#9960](https://gitlab.haskell.org//ghc/ghc/issues/9960), [\#9805](https://gitlab.haskell.org//ghc/ghc/issues/9805): `TrieMap` stuff
 - [\#9260](https://gitlab.haskell.org//ghc/ghc/issues/9260): type lits (Iavor owns)
 - [\#9953](https://gitlab.haskell.org//ghc/ghc/issues/9953), [\#9900](https://gitlab.haskell.org//ghc/ghc/issues/9900), [\#9867](https://gitlab.haskell.org//ghc/ghc/issues/9867), [\#9891](https://gitlab.haskell.org//ghc/ghc/issues/9891), [\#9793](https://gitlab.haskell.org//ghc/ghc/issues/9793), [\#8761](https://gitlab.haskell.org//ghc/ghc/issues/8761), [\#8581](https://gitlab.haskell.org//ghc/ghc/issues/8581), [\#8779](https://gitlab.haskell.org//ghc/ghc/issues/8779), [\#8761](https://gitlab.haskell.org//ghc/ghc/issues/8761), [\#8583](https://gitlab.haskell.org//ghc/ghc/issues/8583), [\#9911](https://gitlab.haskell.org//ghc/ghc/issues/9911), [\#9889](https://gitlab.haskell.org//ghc/ghc/issues/9889): pattern synonyms (Gergo)
