@@ -459,3 +459,27 @@ instance (Int ~ f) => IV "x" (T -> f) where
 
 x = $sel_T_x   -- The H98 selector, when OverloadedRecordFields is not on
 ```
+
+### Reflections
+
+
+An `IV` constraint is, in effect, rather like a (family of) single-method type classes.  Instead of
+
+```wiki
+f :: Ix a => a -> a -> a -> Bool
+f i u l = inRange (l,u) i
+```
+
+
+which uses only one method from `Ix`, you could write the finer-grained function
+
+```wiki
+f :: (IV "inRange" ((a,a) -> a -> Bool)) 
+  => a -> a -> Bool
+f i u l = #inRange (l,u) i
+```
+
+
+Note that this example has nothing to do with records, which is part of the point. 
+Perhaps `IV` will find other uses.
+It is rather reminiscent of Carlos Camaro's [ System CT](http://homepages.dcc.ufmg.br/~camarao/CT/).
