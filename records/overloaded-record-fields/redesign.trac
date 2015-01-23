@@ -1,6 +1,6 @@
 = Overloaded record fields: a modest proposal =
 
-This is an attempt to redesign and clarify the design of the OverloadedRecordFields extension, in order to develop a plan for implementation.  It has benefited from the extensive discussion surrounding [wiki:Records/Volkov Nikita Vokov's record library].  The following design choices are not set in stone, but are intended as a concrete proposal for further discussion.  For reference, here is the [wiki:Records/OverloadedRecordFields/Design previous design].
+This is an attempt to redesign and clarify the design of the OverloadedRecordFields extension, in order to develop a plan for implementation.  It has benefited from the extensive discussion surrounding [wiki:Records/Volkov Nikita Volkov's record library].  The following design choices are not set in stone, but are intended as a concrete proposal for further discussion.  For reference, here is the [wiki:Records/OverloadedRecordFields/Design previous design].
 
 
 == Design choice 1: use existing Haskell records ==
