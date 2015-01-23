@@ -192,7 +192,7 @@ class IV (x :: Symbol) a where
 Exactly like `IP` but without the functional dependency.  The "`IV`" stands
 for "implicit values" (we can argue about the name later).  It behaves like this:
 
- * When you write `#x` in an expression, what GHC does today is to replace it with `(iv @ "x" @ alpha)`, where `alpha` is a unification variable and `@` is type application.   Just like implicit parameters.
+ * When you write `#x` in an expression, what GHC does is to replace it with `(iv @ "x" @ alpha)`, where `alpha` is a unification variable and `@` is type application.   Just like implicit parameters, in fact.
 
  * Of course the call `(iv @ "x" @ alpha)` gives rise to a constraint `(IV "x" alpha)` which must be satisfied by the context.
 
