@@ -33,7 +33,10 @@ For each field in each record datatype, regardless of whether the extension is e
 In a change to previous versions of [OverloadedRecordFields](records/overloaded-record-fields), I propose that bare uses of the field refer only to the selector function, and work only if this is unambiguous.  Thus, in the above example `name :: Person -> String` but bare use of `personId` leads to a name resolution error.  This means that turning on [OverloadedRecordFields](records/overloaded-record-fields) for an existing module is a conservative extension: since the module can have no duplicate field names, everything still works.  Moreover, changes to GHC's renamer should be minimal.  In addition, uses of fields that are always unambiguous (because they mention the constructor, e.g. construction and pattern-matching) may freely use duplicated names.
 
 
-However, we want some way to select and update overloaded fields.  Here we take an idea from the `record` library: provide a separate syntax for treating an identifier as a field, interpreted as a lens.  This syntax is open for discussion but as a straw man proposal I suggest a prefix `#` sign (which is unambiguous because `MagicHash` permits it only as a suffix).  The syntactic distinction means that we can identify overloaded uses of fields without complicated name resolution rules.
+However, we want some way to select and update overloaded fields.  Here we take an idea from the `record` library: provide a separate syntax for treating an identifier as a field, interpreted as a lens.  The syntactic distinction means that we can identify overloaded uses of fields without complicated name resolution rules.  This syntax is open for discussion; suggestions include:
+
+- using a prefix `#` sign (but this conflicts with use of `#` as an operator, which would require spaces);
+- using a prefix `@` sign (but this has previously been earmarked for [ExplicitTypeApplication](explicit-type-application)).
 
 
 For example, one could write
@@ -46,7 +49,26 @@ f v = over #x (+1) v
 as the function that adds 1 to the `x` field of any type, where `over` is defined in your favourite lens library.
 
 
-To make this overloading work, we will have a new class
+A slightly different suggestion is not to syntactically distinguish fields, but to designate a magic module name (e.g. `GHC.Records`) and make the renamer resolve imported names from that module into fields. For example, we could permit this:
+
+```wiki
+import GHC.Records as R
+
+view R.x      rec
+set  R.x 3    rec
+over R.x (+2) rec
+```
+
+
+However, this means that we have to use qualified names for fields, or there will be clashes with the selector functions.
+
+
+The remainder of this page currently assumes the `#` syntax.
+
+## Design choice 3: pick-and-mix lenses
+
+
+To make interpret fields as lenses, we will have a new class
 
 ```wiki
 class IsRecordField (n :: Symbol) t where
@@ -67,7 +89,7 @@ and the typechecker will syntactically expand `#x` to `field (proxy# :: Proxy# "
 
 We could also choose a canonical lens representation and make `#x` produce a lens in that representation, which is effectively what the `record` library does. This would be simpler, and removes the need for the `IsRecordField` class, but it would require a combinator to use the field as a selector or any other lens type.
 
-## Design choice 3: sugar-free magic classes
+## Design choice 4: sugar-free magic classes
 
 
 In order to write the `IsRecordField` instances, we need some way to solve constraints of the form "type `r` has a field `x` of type `a`".  This is provided by the `HasField` and `FieldUpdate` classes:
