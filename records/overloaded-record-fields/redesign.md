@@ -268,7 +268,7 @@ data S = MkS { x :: Bool }
 which will generate
 
 ```wiki
-instance (a ~ Bool) => IV (S -> a) where
+instance (a ~ Bool) => IV "x" (S -> a) where
   iv (MkS x) = x
 ```
 
