@@ -227,7 +227,7 @@ data S = MkS { x :: Bool }
 }}}
 which will generate
 {{{
-instance (a ~ Bool) => IV (S -> a) where
+instance (a ~ Bool) => IV "x" (S -> a) where
   iv (MkS x) = x
 }}}
 The effect of all this is that we can freely use `#x` as an overloaded record selector.  Thus:
