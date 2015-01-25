@@ -116,11 +116,11 @@ See [how the renamer reports unused imports](commentary/compiler/unused-imports)
 (too much detail?)
 
 
-As anticipated by the variants `Orig` and `Exact` of `RdrName`, some names should not change during renaming, whereas others need to be turned into unique names. In this context, the two functions `RnEnv.newTopSrcBinder` and `RnEnv.newLocals` are important: 
+As anticipated by the variants `Orig` and `Exact` of `RdrName`, some names should not change during renaming, whereas others need to be turned into unique names. In this context, the two functions `RnEnv.newTopSrcBinder` and `RnEnv.newLocalBndrRn` are important: 
 
 ```wiki
 newTopSrcBinder :: Module -> Maybe Name -> Located RdrName -> RnM Name
-newLocalsRn     :: [Located RdrName] -> RnM [Name]
+newLocalBndrRn :: Located RdrName -> RnM Name
 ```
 
 
