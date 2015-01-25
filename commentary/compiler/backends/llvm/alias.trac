@@ -20,7 +20,7 @@ Max had a crack at writing a custom alias analysis pass for LLVM, relevant links
 
  * [http://lists.cs.uiuc.edu/pipermail/llvmdev/2011-September/043603.html Email to LLVM dev]
  * [http://blog.omega-prime.co.uk/?p=135 Blog post about results]
-
+ * [https://github.com/bgamari/ghc-llvm-analyses A port to LLVM 3.6]
 == TBAA ==
 
 LLVM as of version 2.9 includes Type Based Alias Analysis. This mean using metadata you can specify a type hierarchy (with alias properties between types) and annotate your code with these types to improve the alias information. This should allow us to improve the alias analysis without any changes to LLVM itself like Max made.

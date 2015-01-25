@@ -24,6 +24,7 @@ Max had a crack at writing a custom alias analysis pass for LLVM, relevant links
 
 - [ Email to LLVM dev](http://lists.cs.uiuc.edu/pipermail/llvmdev/2011-September/043603.html)
 - [ Blog post about results](http://blog.omega-prime.co.uk/?p=135)
+- [ A port to LLVM 3.6](https://github.com/bgamari/ghc-llvm-analyses)
 
 ## TBAA
 
