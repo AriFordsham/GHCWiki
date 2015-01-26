@@ -20,8 +20,6 @@ Special things of note:
 
 - For 7.10.1, we're going to try to distribute Windows binaries using `minghc`.
 
-- Austin will overhaul `ghc-7.10` branch release notes.
-
 ## Migration Guide to 7.10
 
 [ https://ghc.haskell.org/trac/ghc/wiki/Migration/7.10](https://ghc.haskell.org/trac/ghc/wiki/Migration/7.10)
