@@ -31,6 +31,7 @@
 - [\#9637](https://gitlab.haskell.org//ghc/ghc/issues/9637): Type-level `Error` that aborts compilation
 - [\#9649](https://gitlab.haskell.org//ghc/ghc/issues/9649): Proper type-level strings
 - [\#9667](https://gitlab.haskell.org//ghc/ghc/issues/9667): Don't make tyvars untouchable when a GADT pattern-match isn't informative
+- [\#9883](https://gitlab.haskell.org//ghc/ghc/issues/9883): Heterogeneous `OverloadedLists`
 
 **Hard**
 
