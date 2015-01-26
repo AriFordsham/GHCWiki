@@ -433,3 +433,56 @@ Alternate plan: Make a new type `TcTyCon` that is missing the RHS and then zonk 
 ----------------------
 
 Other alternate plan: Be really loopy and dance among black holes, keeping the existing structure but putting everything into a bigger knot. This might actually not be so terrible.
+
+= `tcUnifyTys` vs `tcMatchTys` =
+
+Email exchange with SPJ, early Jan. 2015:
+
+Hi Simon,
+
+The `Unify` module exports `tcMatchTys` for template-against-target matching and `tcUnifyTys` for full unification. However, the latter is parameterized by a function that informs it which variables it can add to its substitution. Is there a reason we can't implement `tcMatchTys` in terms of `tcUnifyTys`? When I looked at this once before, the answer was "sub-kinds", which matching respected but unification didn't bother about. Now that I don't have sub-kinds, do you see any reason not to make this drastic simplification?
+
+Background info: I ask because I need to do somewhat delicate surgery to these functions, and would prefer to do it only once! Here's the scenario:
+
+{{{
+class C k1 k2 (a :: k1 -> k2) (b :: k1)
+data A = MkA
+data Foo :: A -> *
+type family FA where FA = A   -- thus, axFA :: FA ~ A
+forall (b :: FA). instance C A * Foo (b |> axFA)   -- call this (1)
+}}}
+
+Now, I need an instance for
+
+{{{
+target: C A * Foo MkA    -- call this (T)
+}}}
+
+But, just using `tcMatchTys` on (1) won't yield a match for (T). We need to look through casts, smartly, producing `(b |-> (MkA |> sym axFA))`. I think I know how to do such a match, but it's delicate, as you might imagine. Incidentally, I know this means that `lookupInstEnv` will now produce instances that might be slightly different than requested. In the example, `lookupInstEnv` would produce `(instance C A * Foo (MkA |> sym axFA |> axFA))`, instead of exactly (T). It turns out that this is OK -- callers to `lookupInstEnv` just need to take a bit more care to call a new function `buildCoherenceCo`, which will find the coercion between two types that are identical modulo casts.
+
+In any case, I'm feeling pretty good about all of the above, except that I wanted a double-check before erasing the implementation of `tcMatchTys`.
+
+Thanks!
+Richard
+
+'''SPJ:'''
+
+* `tcMatchTy` observes alpha-equivalence for the template.  In particular the template variables can in principle occur in the type it is matching against have the same variables.  E.g.
+
+{{{
+   Template        [x].  x->x
+   Type to match   Maybe x -> Maybe x
+
+   Result: success with x -> Maybe x
+}}}
+
+This obviously doesn't work for unification.  
+
+I'm not sure we ''use'' this, but it's one less thing to worry about.
+
+* `tcUnifyTy` doesn't work for foralls ('''RAE:''' It does now!), whereas `tcMatchTy` does. Maybe that doesn't matter.
+
+* `tcMatchTy` is a lot simpler, and hence perhaps more efficient.
+
+
+I didn't follow the "background info" I'm afraid; I didn't even understand instance declaration (1).  We don't usually get casts in an instance head.  Do we really need them?
