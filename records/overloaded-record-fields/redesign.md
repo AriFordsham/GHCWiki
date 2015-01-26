@@ -396,20 +396,28 @@ but they are a *separate* thing, which is good.
 ### Syntax
 
 
-It's not absolutely necessary to use `#x` for a field.  We could say "if there is at lesat one data type in scope with a field `x`, then `x` is treated like `(iv @ "x" @ alpha)`".  But I hate it.  And it doesn't work for virtual fields like `#area` above.  So we'd end up wanting a top-level declaration 
+It's not absolutely necessary to use `#x` for a field.  Here are two alternatives
 
-```wiki
-field area
-```
+- We could say "if there is at lesat one data type in scope with a field `x`, then `x` is treated like `(iv @ "x" @ alpha)`".  But I hate it.  And it doesn't work for virtual fields like `#area` above.  
+
+- (Suggested by Edward K.)  We could define a magic module `GHC.ImplicitValues`, and say that if you say
+
+  ```wiki
+  import GHC.ImplicitValues( p, q, area )
+  ```
+
+  then all occurrences of `p`, `q`, `area` will be treated as implicit values (written `#p`, `#q`, `#area` above).  That has the merit that it works fine for virtual fields like `area`, and it removes the `#p` syntactic clutter.
+
+>
+> It leaves open questions.  If you declare a H98 record with fields `p`, etc, do you have to import `p` from `GHC.ImplicitValues` as well?  Presumably not?  What if you *import* such a record?
 
 
-or something, to say "treat an occurrence of `area` as `(iv @ "area" @ alpha)`.  
+But *neither of these exploit the similarity to implicit parameters*.
+I really really like the similarity between the models, and I think it'd be a pity to lose it.
+And would implicit parameters *really* be better (from a software engineering point of view) if we replaced `?x` notation with `import GHC.ImplicitParameters( x )`?
 
 
-But really that is truly horrible.  And (most important) *it's not how we treat implicit parameters*.  I really really like the similarity between the models.
-
-
-The `#x` form only behaves specially if you have `OverloadedRecordFields`. So existing libraries that use `#` as an operator will work fine.  If you want `OverloadedRecordFields` as well, you'll have to put a space between an infix `#` and its second argument, thus `(a # b)` not `(a #b)`.  But that's not so bad. And exactly the same constraint applies with `MagicHash`: you must put a space between the `a` and the `#`, not `(a# b)`.  I don't think this is a big deal.
+Note that the `#x` form only behaves specially if you have `OverloadedRecordFields`. So existing libraries that use `#` as an operator will work fine.  If you want `OverloadedRecordFields` as well, you'll have to put a space between an infix `#` and its second argument, thus `(a # b)` not `(a #b)`.  But that's not so bad. And exactly the same constraint applies with `MagicHash`: you must put a space between the `a` and the `#`, not `(a# b)`.  I don't think this is a big deal.
 
 ### Implementation notes
 
