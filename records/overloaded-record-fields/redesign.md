@@ -81,7 +81,7 @@ class IV (x :: Symbol) a where
 ```
 
 
-Exactly like `IP` but without the functional dependency, and with a proxy argument so it can be called from user code. (SLPJ note: whoa!  We can't call `ip` from "user code" so why should we call "iv"?  Simpler and more uniform to omit the `Proxy` argument.) 
+Exactly like `IP` but without the functional dependency, and with a proxy argument so it can be called from user code. (SLPJ note: whoa!  We can't call `ip` from "user code" so why should we call `iv`?  Simpler and more uniform to omit the `Proxy` argument.) 
 
 
 The "`IV`" stands for "implicit values" (we can argue about the name later).  It behaves like this:
