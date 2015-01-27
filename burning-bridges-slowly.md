@@ -115,7 +115,7 @@ The operations themselves (listed below) seem to miss some operations that could
 ## Some historical remarks
 
 
-Many moons ago a similar generalization of the Prelude was considered.  That time it was about, e.g., generalizing the type of `map` that was generalized to have the type that `fmap` has today.  This proposal was consider to radical and was ultimately rejected.
+Many moons ago a similar generalization of the Prelude was considered.  That time it was about, e.g., generalizing the type of `map` that was generalized to have the type that `fmap` has today.  This proposal was consider too radical and was ultimately rejected.
 
 ## Links
 
