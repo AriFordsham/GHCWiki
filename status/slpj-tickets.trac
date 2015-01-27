@@ -21,6 +21,7 @@
 == Front end ==
 
  * #8581: bidirectional pattern synonyms (with different constraints)
+ * #10027: export behaviour for data families
  * #8582: pattern synonyms and record syntax
  * #9223: error message mentioning untouchables
  * #9198: slow typechecker (big types!)
