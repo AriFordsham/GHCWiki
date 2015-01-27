@@ -2,6 +2,7 @@
 
 == Urgent or in-flight ==
  * #9858: `Typeable` should be kind-aware.
+ * #10031: `Coercible` makes compiler loop
  * #9960, #9805: `TrieMap` stuff
  * #10016: UNPACK support for existentials
  * #9260: type lits (Iavor owns)
@@ -20,6 +21,7 @@
 == Front end ==
 
  * #8581: bidirectional pattern synonyms (with different constraints)
+ * #10027: export behaviour for data families
  * #8582: pattern synonyms and record syntax
  * #9223: error message mentioning untouchables
  * #9198: slow typechecker (big types!)
