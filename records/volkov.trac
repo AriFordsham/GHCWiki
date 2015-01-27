@@ -12,9 +12,9 @@ Links
 
 The most important drawbacks of this design relative to other designs are:
 
- * Lack of support for type-changing update
- * Lack of support for strict and unpacked fields
+ * Support of only a limited subset of Haskell syntax (A work's being done to provide full support)
+ * Lack of support for strict and unpacked fields (Support for strict records will be implemented in future versions)
  * Lack of support for polymorphic (Rank-N) fields
- * Fixed limit on the number of fields (24 in the current implementation)
+ * Fixed limit on the number of fields (24 in the current implementation, but the implementation can easily be updated to extend this range to an arbitrary amount)
 
 Also, it is questionable whether any record extension should bake in a particular lens type.
