@@ -44,10 +44,17 @@ we have concrete proposals.
   -   Unlike AMP, the change is controversial (clearly).
   -   Easier to make changes to New Prelude if it isn't the default.
 
-## Proposal 3: (still missing)
+## Proposal 3:
 
 
-The only remaining problem is that Data.List and Control.Monad have been similarly generalised, and while changing the Prelude with a language pragma makes sense, changing those modules doesn't. As yet no one has come up with a good way to allow both versions to coexist.
+The only remaining problem is that `Data.List` and `Control.Monad` have been similarly generalised, and while changing the Prelude with a language pragma makes sense, changing those modules doesn't.  This problem only exists if, e.g. `Data.List` has been imported unqualified and without an import list.
+
+
+We can solve this by leaving `Data.List` and `Control.Monad` unchanged and having ghc warn when they are imported in a way that will conflict when BPP goes into effect (in a similar way ghc warned about AMP).  It could look like this:
+
+```wiki
+Foo:5:1  Warning: Data.List imported unqualified, this will conflict with BBP.  Instead use 'import Data.List(maximumBy, sortBy)'
+```
 
 ## Rationale
 
