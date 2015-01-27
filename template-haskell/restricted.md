@@ -2,7 +2,7 @@
 A Proposal for Restricted Template Haskell
 
 
-Just so we aren't being so negative, we can also call this Macro Template Haskell.
+Just so we aren't being so negative, we can call this Macro Template Haskell.
 
 ## Problem
 
@@ -38,7 +38,7 @@ We can define different levels of restriction
 
 - level 1: no runIO
 - level 2: no Q Monad (I think we still need newName though). no reify, because that gets into looking outside the module making compilation more difficult and subverting [SafeHaskell](safe-haskell)
-- level 3: no mkName
+- level 3: no mkName (we could call this Pure Template Haskell)
 
 ### Syntax
 
