@@ -1,2 +1,238 @@
 
 This is a placeholder for information about the "Burning Bridges" Prelude update.
+
+
+Raw diff of changes to base from 7.8 to 7.10:
+
+```wiki
+Control.Monad
++ (<$!>) :: Monad m => (a -> b) -> m a -> m b
+- class Monad m
++ class Applicative m => Monad m
+- class Monad m => MonadPlus m
++ class (Alternative m, Monad m) => MonadPlus m
+- foldM :: Monad m => (a -> b -> m a) -> a -> [b] -> m a
++ foldM :: (Foldable t, Monad m) => (b -> a -> m b) -> b -> t a -> m b
+- foldM_ :: Monad m => (a -> b -> m a) -> a -> [b] -> m ()
++ foldM_ :: (Foldable t, Monad m) => (b -> a -> m b) -> b -> t a -> m ()
+- forM :: Monad m => [a] -> (a -> m b) -> m [b]
++ forM :: (Traversable t, Monad m) => t a -> (a -> m b) -> m (t b)
+- forM_ :: Monad m => [a] -> (a -> m b) -> m ()
++ forM_ :: (Foldable t, Monad m) => t a -> (a -> m b) -> m ()
+- guard :: MonadPlus m => Bool -> m ()
++ guard :: (Alternative f) => Bool -> f ()
+- mapM :: Monad m => (a -> m b) -> [a] -> m [b]
++ mapM :: (Traversable t, Monad m) => (a -> m b) -> t a -> m (t b)
+- mapM_ :: Monad m => (a -> m b) -> [a] -> m ()
++ mapM_ :: (Foldable t, Monad m) => (a -> m b) -> t a -> m ()
+- msum :: MonadPlus m => [m a] -> m a
++ msum :: (Foldable t, MonadPlus m) => t (m a) -> m a
+- sequence :: Monad m => [m a] -> m [a]
++ sequence :: (Traversable t, Monad m) => t (m a) -> m (t a)
+- sequence_ :: Monad m => [m a] -> m ()
++ sequence_ :: (Foldable t, Monad m) => t (m a) -> m ()
+- unless :: Monad m => Bool -> m () -> m ()
++ unless :: (Applicative f) => Bool -> f () -> f ()
+- when :: Monad m => Bool -> m () -> m ()
++ when :: (Applicative f) => Bool -> f () -> f ()
+
+Data.Bits
++ countLeadingZeros :: FiniteBits b => b -> Int
++ countTrailingZeros :: FiniteBits b => b -> Int
++ toIntegralSized :: (Integral a, Integral b, Bits a, Bits b) => a -> Maybe b
+
+Data.Monoid
++ Alt :: f a -> Alt f a
++ getAlt :: Alt f a -> f a
++ newtype Alt f a
+
+Data.List
+- all :: (a -> Bool) -> [a] -> Bool
++ all :: Foldable t => (a -> Bool) -> t a -> Bool
+- and :: [Bool] -> Bool
++ and :: Foldable t => t Bool -> Bool
+- any :: (a -> Bool) -> [a] -> Bool
++ any :: Foldable t => (a -> Bool) -> t a -> Bool
+- concat :: [[a]] -> [a]
++ concat :: Foldable t => t [a] -> [a]
+- concatMap :: (a -> [b]) -> [a] -> [b]
++ concatMap :: Foldable t => (a -> [b]) -> t a -> [b]
+- elem :: Eq a => a -> [a] -> Bool
++ elem :: (Foldable t, Eq a) => a -> t a -> Bool
+- find :: (a -> Bool) -> [a] -> Maybe a
++ find :: Foldable t => (a -> Bool) -> t a -> Maybe a
+- foldl :: (b -> a -> b) -> b -> [a] -> b
++ foldl :: Foldable t => (b -> a -> b) -> b -> t a -> b
+- foldl' :: (b -> a -> b) -> b -> [a] -> b
++ foldl' :: Foldable t => (b -> a -> b) -> b -> t a -> b
+- foldl1 :: (a -> a -> a) -> [a] -> a
++ foldl1 :: Foldable t => (a -> a -> a) -> t a -> a
+- foldr :: (a -> b -> b) -> b -> [a] -> b
++ foldr :: Foldable t => (a -> b -> b) -> b -> t a -> b
+- foldr1 :: (a -> a -> a) -> [a] -> a
++ foldr1 :: Foldable t => (a -> a -> a) -> t a -> a
++ isSubsequenceOf :: (Eq a) => [a] -> [a] -> Bool
+- length :: [a] -> Int
++ length :: Foldable t => t a -> Int
+- mapAccumL :: (acc -> x -> (acc, y)) -> acc -> [x] -> (acc, [y])
++ mapAccumL :: Traversable t => (a -> b -> (a, c)) -> a -> t b -> (a, t c)
+- mapAccumR :: (acc -> x -> (acc, y)) -> acc -> [x] -> (acc, [y])
++ mapAccumR :: Traversable t => (a -> b -> (a, c)) -> a -> t b -> (a, t c)
+- maximum :: Ord a => [a] -> a
++ maximum :: (Foldable t, Ord a) => t a -> a
+- maximumBy :: (a -> a -> Ordering) -> [a] -> a
++ maximumBy :: Foldable t => (a -> a -> Ordering) -> t a -> a
+- minimum :: Ord a => [a] -> a
++ minimum :: (Foldable t, Ord a) => t a -> a
+- minimumBy :: (a -> a -> Ordering) -> [a] -> a
++ minimumBy :: Foldable t => (a -> a -> Ordering) -> t a -> a
+- notElem :: Eq a => a -> [a] -> Bool
++ notElem :: (Foldable t, Eq a) => a -> t a -> Bool
+- null :: [a] -> Bool
++ null :: Foldable t => t a -> Bool
+- or :: [Bool] -> Bool
++ or :: Foldable t => t Bool -> Bool
+- product :: Num a => [a] -> a
++ product :: (Foldable t, Num a) => t a -> a
++ scanl' :: (b -> a -> b) -> b -> [a] -> [b]
++ sortOn :: Ord b => (a -> b) -> [a] -> [a]
+- sum :: Num a => [a] -> a
++ sum :: (Foldable t, Num a) => t a -> a
++ uncons :: [a] -> Maybe (a, [a])
+
+Foreign.Marshal.Alloc
++ calloc :: Storable a => IO (Ptr a)
++ callocBytes :: Int -> IO (Ptr a)
+
+Foreign.Marshal.Utils
++ fillBytes :: Ptr a -> Word8 -> Int -> IO ()
+
+Foreign.Marshal.Array
++ callocArray :: Storable a => Int -> IO (Ptr a)
++ callocArray0 :: Storable a => Int -> IO (Ptr a)
+
+Control.Exception.Base
++ AllocationLimitExceeded :: AllocationLimitExceeded
++ data AllocationLimitExceeded
++ displayException :: Exception e => e -> String
+
+Control.Exception
++ AllocationLimitExceeded :: AllocationLimitExceeded
++ data AllocationLimitExceeded
++ displayException :: Exception e => e -> String
+
+Prelude
++ (*>) :: Applicative f => f a -> f b -> f b
++ (<*) :: Applicative f => f a -> f b -> f a
++ (<*>) :: Applicative f => f (a -> b) -> f a -> f b
+- all :: (a -> Bool) -> [a] -> Bool
++ all :: Foldable t => (a -> Bool) -> t a -> Bool
+- and :: [Bool] -> Bool
++ and :: Foldable t => t Bool -> Bool
+- any :: (a -> Bool) -> [a] -> Bool
++ any :: Foldable t => (a -> Bool) -> t a -> Bool
+- class Monad m
++ class Applicative m => Monad m
++ class Monoid a
++ class Functor f => Applicative f
++ class Foldable t
++ class (Functor t, Foldable t) => Traversable t
+- concat :: [[a]] -> [a]
++ concat :: Foldable t => t [a] -> [a]
+- concatMap :: (a -> [b]) -> [a] -> [b]
++ concatMap :: Foldable t => (a -> [b]) -> t a -> [b]
++ data Word :: *
+- elem :: Eq a => a -> [a] -> Bool
++ elem :: (Foldable t, Eq a) => a -> t a -> Bool
++ foldMap :: (Foldable t, Monoid m) => (a -> m) -> t a -> m
+- foldl :: (b -> a -> b) -> b -> [a] -> b
++ foldl :: Foldable t => (b -> a -> b) -> b -> t a -> b
+- foldl1 :: (a -> a -> a) -> [a] -> a
++ foldl1 :: Foldable t => (a -> a -> a) -> t a -> a
+- foldr :: (a -> b -> b) -> b -> [a] -> b
++ foldr :: Foldable t => (a -> b -> b) -> b -> t a -> b
+- foldr1 :: (a -> a -> a) -> [a] -> a
++ foldr1 :: Foldable t => (a -> a -> a) -> t a -> a
+- length :: [a] -> Int
++ length :: Foldable t => t a -> Int
+- mapM :: Monad m => (a -> m b) -> [a] -> m [b]
++ mapM :: (Traversable t, Monad m) => (a -> m b) -> t a -> m (t b)
+- mapM_ :: Monad m => (a -> m b) -> [a] -> m ()
++ mapM_ :: (Foldable t, Monad m) => (a -> m b) -> t a -> m ()
++ mappend :: Monoid a => a -> a -> a
+- maximum :: Ord a => [a] -> a
++ maximum :: (Foldable t, Ord a) => t a -> a
++ mconcat :: Monoid a => [a] -> a
++ mempty :: Monoid a => a
+- minimum :: Ord a => [a] -> a
++ minimum :: (Foldable t, Ord a) => t a -> a
+- notElem :: Eq a => a -> [a] -> Bool
++ notElem :: (Foldable t, Eq a) => a -> t a -> Bool
+- null :: [a] -> Bool
++ null :: Foldable t => t a -> Bool
+- or :: [Bool] -> Bool
++ or :: Foldable t => t Bool -> Bool
+- product :: Num a => [a] -> a
++ product :: (Foldable t, Num a) => t a -> a
++ pure :: Applicative f => a -> f a
+- sequence :: Monad m => [m a] -> m [a]
++ sequence :: (Traversable t, Monad m) => t (m a) -> m (t a)
++ sequenceA :: (Traversable t, Applicative f) => t (f a) -> f (t a)
+- sequence_ :: Monad m => [m a] -> m ()
++ sequence_ :: (Foldable t, Monad m) => t (m a) -> m ()
+- sum :: Num a => [a] -> a
++ sum :: (Foldable t, Num a) => t a -> a
++ traverse :: (Traversable t, Applicative f) => (a -> f b) -> t a -> f (t b)
+
+Data.Function
++ (&) :: a -> (a -> b) -> b
+
+Control.Monad.Instances
+- class Monad m
++ class Applicative m => Monad m
+
+Data.Coerce
+- coerce :: Coercible k a b => a -> b
++ coerce :: Coercible * a b => a -> b
+
+Data.Version
++ makeVersion :: [Int] -> Version
+
+Data.Complex
+- cis :: RealFloat a => a -> Complex a
++ cis :: Floating a => a -> Complex a
+- conjugate :: RealFloat a => Complex a -> Complex a
++ conjugate :: Num a => Complex a -> Complex a
+- imagPart :: RealFloat a => Complex a -> a
++ imagPart :: Complex a -> a
+- mkPolar :: RealFloat a => a -> a -> Complex a
++ mkPolar :: Floating a => a -> a -> Complex a
+- realPart :: RealFloat a => Complex a -> a
++ realPart :: Complex a -> a
+
+Data.Foldable
++ length :: Foldable t => t a -> Int
++ null :: Foldable t => t a -> Bool
+
+System.Exit
++ die :: String -> IO a
+
+Numeric.Natural
++ data Natural
+
+Data.Bifunctor
++ bimap :: Bifunctor p => (a -> b) -> (c -> d) -> p a c -> p b d
++ class Bifunctor p
++ first :: Bifunctor p => (a -> b) -> p a c -> p b c
++ second :: Bifunctor p => (b -> c) -> p a b -> p a c
+
+Data.Functor.Identity
++ Identity :: a -> Identity a
++ newtype Identity a
++ runIdentity :: Identity a -> a
+
+Data.Void
++ absurd :: Void -> a
++ data Void
++ vacuous :: Functor f => f Void -> f a
+```
