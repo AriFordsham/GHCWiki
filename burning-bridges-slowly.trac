@@ -1,6 +1,79 @@
-This is a placeholder for information about the "Burning Bridges" Prelude update.
+The next version (7.10) of GHC is slated to have a drastically changed Prelude.
+This message is very late in the release process, but I would urge caution before changing.
 
-Raw diff of changes to base from 7.8 to 7.10:
+The changes are (aptly) named the Burning Bridges Proposal (BBP).
+Even though the work has been going on for a while, it seems that this
+change is coming as a surprise to many people (including Simon Peyton
+Jones).  In summary, it generalizes many list operation, e.g., foldr,
+to be overloaded.
+
+There is much to welcome in BBP, but changing the Prelude cannot be
+done lightly since it really is like changing the language.
+So I think it's really important for a large number of people to be able to
+try out such changes before they come into effect, and to have time
+to let the changes stabilize (you rarely get it right the first time).
+
+I've discussed this with a number of people, including Simon PJ, and
+we have concrete proposals.
+
+== Proposal 1: ==
+*    Add a new pragma
+        {-# LANGUAGE Prelude=AlternativePrelude #-}
+      *   This is a new feature, but it is easy and low-risk to implement.
+      *   Which Prelude you use really is a language choice; appropriate for a LANGUAGE pragma.
+      *   Semantics is name-space only: import Prelude (); import AlternativePrelude
+      *   No effect on desugaring or typing of built-in syntax (list comprehensions, do-notation etc).
+*    Ship with both old and new prelude.
+*    So now old and new behaviour are easy to achieve, in the module or in a .cabal file.
+*    The question becomes "what is the default".
+
+== Proposal 2: ==
+*    Make the default be the old rather than the new.
+      *   Altering the default Prelude API should be done slowly, with lots of warning; because all users get it willy-nilly.
+      *   Unlike AMP, the change is controversial (clearly).
+      *   Easier to make changes to New Prelude if it isn't the default.
+
+That's it.
+
+
+
+
+Discussing the BBP proposal we also came up with a number of technical questions:
+
+== Q1 ==
+An alternative to Foldable would be
+{{{
+  class Enumerable t where
+    toList :: t a -> [a]   -- Implementations should use 'build'
+}}}
+Is Foldable more general (or efficient) than a Enumerable class, plus fusion?
+
+Consider a new data type X a.  I write
+{{{
+     foldX :: (a -> b -> b) -> b -> X a -> b
+     foldX = ...lots of code...
+
+     toList :: X a -> [a]  {-# INLINE toList #-}
+     toList x = build (\c n. foldX c n x)
+}}}
+
+So now toList is small and easy to inline.  Every good list consumer of a call to toList will turn into a call to foldX, which is what we want.
+
+== Q2 ==
+What are the criteria for being in Foldable?
+For instance, why are 'sum', 'product' in Foldable, but not 'and', 'or'?
+
+
+Q3
+What's the relationship of Foldable to GHC.Exts.IsList?
+Which also has toList, fromList, and does work with ByteString.
+*  For example, could we use IsList instead of Foldable?
+    Specifically, Foldable does not use its potential power to apply the type constructor t to different arguments.  (Unlike Traversable which does.)
+{{{
+        foldr :: IsList l => (Item l->b->b) -> b -> l -> b
+}}}
+
+== Raw diff of changes to base from 7.8 to 7.10 ==
 {{{
 Control.Monad
 + (<$!>) :: Monad m => (a -> b) -> m a -> m b
