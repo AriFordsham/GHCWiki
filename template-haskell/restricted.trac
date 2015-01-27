@@ -40,3 +40,7 @@ We can define different levels of restriction
 === Syntax ===
 
 We may be out of dollar signs to use for this. Suggestions are very welcome!
+
+My general feeling is that invocation syntax is not very important because it is not done a lot. I would rather have something cumbersome to use that doesn't take away precious syntax or names. Then if we figure out something is popular we could look for more convenient syntax.
+
+So we could use something pretty ugly for now such as: `$pure$`, `$safe$`, and `$noIO$`.
