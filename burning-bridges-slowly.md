@@ -1,13 +1,14 @@
 
-The next version (7.10) of GHC is slated to have a drastically changed Prelude.
-This message is very late in the release process, but I would urge caution before changing.
+The next version (7.10) of GHC is slated to have a drastically changed Prelude,
+driven by the (aptly) named Burning Bridges Proposal (BBP). This proposal generalises
+many list operations, e.g. foldr, so they are overloaded - typically becoming members of
+either Foldable or Traversable.
 
 
-The changes are (aptly) named the Burning Bridges Proposal (BBP).
+This message comes very late in the release process, but we would urge caution before changing.
 Even though the work has been going on for a while, it seems that this
 change is coming as a surprise to many people (including Simon Peyton
-Jones).  In summary, it generalizes many list operation, e.g., foldr,
-to be overloaded.
+Jones).
 
 
 There is much to welcome in BBP, but changing the Prelude cannot be
@@ -44,8 +45,10 @@ we have concrete proposals.
   -   Unlike AMP, the change is controversial (clearly).
   -   Easier to make changes to New Prelude if it isn't the default.
 
+## Proposal 3: (still missing)
 
-That's it.
+
+The only remaining problem is that Data.List and Control.Monad have been similarly generalised, and while changing the Prelude with a language pragma makes sense, changing those modules doesn't. As yet no one has come up with a good way to allow both versions to coexist.
 
 
 Discussing the BBP proposal we also came up with a number of technical questions:
@@ -83,8 +86,9 @@ So now toList is small and easy to inline.  Every good list consumer of a call t
 What are the criteria for being in Foldable?
 For instance, why are 'sum', 'product' in Foldable, but not 'and', 'or'?
 
+## Q3
 
-Q3
+
 What's the relationship of Foldable to GHC.Exts.IsList?
 Which also has toList, fromList, and does work with ByteString.
 
@@ -96,6 +100,11 @@ Which also has toList, fromList, and does work with ByteString.
 > ```wiki
 >         foldr :: IsList l => (Item l->b->b) -> b -> l -> b
 > ```
+
+## Q4
+
+
+The operations themselves (listed below) seem to miss some operations that could be generalised (isPrefixOf, scanl, findIndex), and some contexts still use Monad when they could be adjusted to Applicative (sequence_). We suspect there will be additional generalisations in the next version of the base library.
 
 ## Raw diff of changes to base from 7.8 to 7.10
 
