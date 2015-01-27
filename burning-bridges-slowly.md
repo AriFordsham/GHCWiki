@@ -1,6 +1,6 @@
 
 The next version (7.10) of GHC is slated to have a drastically changed Prelude,
-driven by the (aptly) named Burning Bridges Proposal (BBP). This proposal generalises
+driven by the (aptly) named Burning Bridges Proposal (BBP), ticket [9586](https://gitlab.haskell.org//ghc/ghc/issues/9586). This proposal generalises
 many list operations, e.g. foldr, so they are overloaded - typically becoming members of
 either Foldable or Traversable.
 
@@ -25,8 +25,7 @@ we have concrete proposals.
 
 -    Add a new pragma
 
->
-> {-\# LANGUAGE Prelude=AlternativePrelude \#-}
+> `{-# LANGUAGE Prelude=AlternativePrelude #-}`
 
 -   This is a new feature, but it is easy and low-risk to implement.
 -   Which Prelude you use really is a language choice; appropriate for a LANGUAGE pragma.
@@ -50,10 +49,17 @@ we have concrete proposals.
 
 The only remaining problem is that Data.List and Control.Monad have been similarly generalised, and while changing the Prelude with a language pragma makes sense, changing those modules doesn't. As yet no one has come up with a good way to allow both versions to coexist.
 
+## Rationale
+
+
+What is the rationale behind proposal 1?  We want to make it easy to switch an entire package over to an alternative Prelude.  This can be done by putting the pragma in the .cabal file.  Using the `NoImplicitPrelude` doesn't work, because that disables importing the Prelude altogether; we just want a different one, but with desugaring still being done in terms of the regular Prelude.
+
+## Questions
+
 
 Discussing the BBP proposal we also came up with a number of technical questions:
 
-## Q1
+### Q1
 
 
 An alternative to Foldable would be
@@ -64,47 +70,58 @@ An alternative to Foldable would be
 ```
 
 
-Is Foldable more general (or efficient) than a Enumerable class, plus fusion?
+Is `Foldable` more general (or efficient) than a `Enumerable` class, plus fusion?
 
 
 Consider a new data type X a.  I write
 
 ```wiki
-     foldX :: (a -> b -> b) -> b -> X a -> b
-     foldX = ...lots of code...
+  foldX :: (a -> b -> b) -> b -> X a -> b
+  foldX = ...lots of code...
 
-     toList :: X a -> [a]  {-# INLINE toList #-}
-     toList x = build (\c n. foldX c n x)
+  toList :: X a -> [a]  {-# INLINE toList #-}
+  toList x = build (\c n. foldX c n x)
 ```
 
 
-So now toList is small and easy to inline.  Every good list consumer of a call to toList will turn into a call to foldX, which is what we want.
+So now `toList` is small and easy to inline.  Every good list consumer of a call to `toList` will turn into a call to `foldX`, which is what we want.
 
-## Q2
+### Q2
 
 
 What are the criteria for being in Foldable?
-For instance, why are 'sum', 'product' in Foldable, but not 'and', 'or'?
+For instance, why are `sum`, `product` in `Foldable`, but not `and`, `or`?
 
-## Q3
+### Q3
 
 
-What's the relationship of Foldable to GHC.Exts.IsList?
-Which also has toList, fromList, and does work with ByteString.
+What's the relationship of `Foldable` to `GHC.Exts.IsList`?
+Which also has `toList`, `fromList`, and does work with `ByteString`.
 
--  For example, could we use IsList instead of Foldable?
+-  For example, could we use `IsList` instead of `Foldable`?
 
 >
-> Specifically, Foldable does not use its potential power to apply the type constructor t to different arguments.  (Unlike Traversable which does.)
+> Specifically, `Foldable` does not use its potential power to apply the type constructor `t` to different arguments.  (Unlike `Traversable` which does.)
 >
 > ```wiki
->         foldr :: IsList l => (Item l->b->b) -> b -> l -> b
+>   foldr :: IsList l => (Item l->b->b) -> b -> l -> b
 > ```
 
-## Q4
+### Q4
 
 
 The operations themselves (listed below) seem to miss some operations that could be generalised (isPrefixOf, scanl, findIndex), and some contexts still use Monad when they could be adjusted to Applicative (sequence_). We suspect there will be additional generalisations in the next version of the base library.
+
+## Some historical remarks
+
+
+Many moons ago a similar generalization of the Prelude was considered.  That time it was about, e.g., generalizing the type of `map` that was generalized to have the type that `fmap` has today.  This proposal was consider to radical and was ultimately rejected.
+
+## Links
+
+- [ http://neilmitchell.blogspot.co.uk/2014/10/how-to-rewrite-prelude.html](http://neilmitchell.blogspot.co.uk/2014/10/how-to-rewrite-prelude.html)
+- [ http://neilmitchell.blogspot.co.uk/2014/10/why-traversablefoldable-should-not-be.html](http://neilmitchell.blogspot.co.uk/2014/10/why-traversablefoldable-should-not-be.html)
+- [ http://www.yesodweb.com/blog/2014/10/classy-base-prelude](http://www.yesodweb.com/blog/2014/10/classy-base-prelude), [ http://www.reddit.com/r/haskell/comments/2if0fu/on_concerns_about_haskells_prelude_favoring/](http://www.reddit.com/r/haskell/comments/2if0fu/on_concerns_about_haskells_prelude_favoring/)
 
 ## Raw diff of changes to base from 7.8 to 7.10
 
