@@ -77,6 +77,15 @@ Which also has toList, fromList, and does work with ByteString.
 
 The operations themselves (listed below) seem to miss some operations that could be generalised (isPrefixOf, scanl, findIndex), and some contexts still use Monad when they could be adjusted to Applicative (sequence_). We suspect there will be additional generalisations in the next version of the base library.
 
+== Some historical remarks ==
+
+Many moons ago a similar generalization of the Prelude was considered.  That time it was about, e.g., generalizing the type of `map` that was generalized to have the type that `fmap` has today.  This proposal was consider to radical and was ultimately rejected.
+
+== Links ==
+ * http://neilmitchell.blogspot.co.uk/2014/10/how-to-rewrite-prelude.html
+ * http://neilmitchell.blogspot.co.uk/2014/10/why-traversablefoldable-should-not-be.html
+ * http://www.yesodweb.com/blog/2014/10/classy-base-prelude, http://www.reddit.com/r/haskell/comments/2if0fu/on_concerns_about_haskells_prelude_favoring/
+
 == Raw diff of changes to base from 7.8 to 7.10 ==
 {{{
 Control.Monad
