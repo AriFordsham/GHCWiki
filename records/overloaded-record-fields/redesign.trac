@@ -86,10 +86,46 @@ The "`IV`" stands for "implicit values" (we can argue about the name later).  It
 
 Notice that implicit values might be useful for all sorts of things that are nothing to do with records; that is why I don't mention "record" in their name.
 
+=== Overloaded record fields ===
 
-=== Back to records ===
+Under this proposal, when GHC encounters a data type declaration with record fields, it generates (or behaves as if it generates -- see "Implementation notes" below) instances of two new classes, `HasField` and `FieldUpdate`.  For example, given
+{{{
+data T = MkT { x :: Int }
+}}}
+GHC will generate
+{{{
+instance HasField "x" T Int where
+  getField _ (MkT x) = x
 
-So does it have ''anything'' to do with records?  Yes, because of the `IV` instance for functions
+instance FieldUpdate "x" T T Int Int where
+  setField _ (MkT _) x = MkT x
+}}}
+These two classes are defined like this:
+{{{
+-- | HasField x r means that r is a record type with a field x of type a
+class HasField (x :: Symbol) r a | x r -> a where
+  -- | Extract the field from the record
+  getField :: Proxy# x -> r -> a
+
+-- | FieldUpdate x s t a b means that s is a record type with a field x
+--   of type a, that can be assigned a value of type b to produce a record type t
+class HasField x s a => FieldUpdate (x :: Symbol) s t a b | x s -> a, x t -> b, x s b -> t, x t a -> s where
+  setField :: Proxy# x -> s -> b -> t
+}}}
+
+These were previously called `Has` and `Upd`, but I suggest using longer and hopefully more meaningful names. There is substantial bikeshedding to be done about the details of these definitions (names, parameter number and order, whether to use functional dependencies or type families), but it should not substantially alter the proposal. These are the functional dependency based versions, for variety. Note that these classes correspond to the `FieldOwner` class in the `record` library.
+
+More precisely, 
+
+ * GHC will generate a `HasField` instance whenever it currently generates a selector.  Not every field has a selector today, because of existentials (see [https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/data-type-extensions.html#existential-records user manual]).  Moreover, it will only generate a `HasField` instance if the field type is of rank 1, with all the foralls at the top.  (Otherwise we would need impredicative polymorphism.)
+
+ * GHC will generate a `FieldUpdate` instance only for rank-0 fields, that is, ones with no foralls.  (Same reason: impredicativity.)  Plus, of course, ones that do not mention an existential variable.  
+
+
+
+=== Back to implicit values ===
+
+How are records and implicit values connected?  They are connected by the `IV` instance for functions
 {{{
 instance HasField x r a => IV x (r -> a) where
   iv = getField
@@ -125,37 +161,6 @@ instances and provide additional meanings to the `#x` syntax.  Lens library auth
  4. provide neither instance in base, so use of `#x` as either a selector function or a van Laarhoven lens would require either an orphan instance or conversion via a combinator.
 
 
-=== Magic classes ===
-
-In order to write the `IV` instances for functions or lenses, we need some way to solve constraints of the form "type `r` has a field `x` of type `a`".  This is provided by the `HasField` and `FieldUpdate` classes:
-
-{{{
--- | HasField x r means that r is a record type with a field x of type a
-class HasField (x :: Symbol) r a | x r -> a where
-  -- | Extract the field from the record
-  getField :: Proxy# x -> r -> a
-
--- | FieldUpdate x s t a b means that s is a record type with a field x
---   of type a, that can be assigned a value of type b to produce a record type t
-class HasField x s a => FieldUpdate (x :: Symbol) s t a b | x s -> a, x t -> b, x s b -> t, x t a -> s where
-  setField :: Proxy# x -> s -> b -> t
-}}}
-
-These were previously called `Has` and `Upd`, but I suggest using longer and hopefully more meaningful names. There is substantial bikeshedding to be done about the details of these definitions (names, parameter number and order, whether to use functional dependencies or type families), but it should not substantially alter the proposal. These are the functional dependency based versions, for variety. Note that these classes correspond to the `FieldOwner` class in the `record` library.
-
-We can imagine that GHC generates instances for each data type, like this:
-
-{{{
-data T = MkT { x :: Int }
-
-instance HasField "x" T Int where
-  getField _ (MkT x) = x
-
-instance FieldUpdate "x" T T Int Int where
-  setField _ (MkT _) x = MkT x
-}}}
-
-(Actually, rather than giving instances for these classes directly, they will be implicitly created by the typechecker as required (similarly to `Coercible`), so there is no code generation overhead for datatype definitions other than the existing selector functions and a small new updater function.)
 
 
 === Hand-written instances ===
