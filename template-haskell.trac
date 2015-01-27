@@ -6,3 +6,4 @@ Stuff about Template Haskell
  * [wiki:TemplateHaskell/RichKinds Polymorphic kinds in Template Haskell]
  * [wiki:TemplateHaskell/UsingHaskellSrcExts Unifying TH syntax with `haskell-src-exts`]
  * [wiki:TemplateHaskell/Conversions Conversions between different data types in TH]
+ * [wiki:TemplateHaskell/Restricted A Proposal for restricted subsets of TH]
