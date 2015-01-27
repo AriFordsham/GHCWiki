@@ -112,7 +112,7 @@ data T = MkT { x :: Int }
 GHC will generate
 
 ```wiki
-instance HasField "x" T Int where
+instance f ~ Int => HasField "x" T f where
   getField _ (MkT x) = x
 
 instance FieldUpdate "x" T T Int Int where
@@ -143,6 +143,9 @@ More precisely,
 - GHC will generate a `HasField` instance whenever it currently generates a selector.  Not every field has a selector today, because of existentials (see [ user manual](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/data-type-extensions.html#existential-records)).  Moreover, it will only generate a `HasField` instance if the field type is of rank 1, with all the foralls at the top.  (Otherwise we would need impredicative polymorphism.)
 
 - GHC will generate a `FieldUpdate` instance only for rank-0 fields, that is, ones with no foralls.  (Same reason: impredicativity.)  Plus, of course, ones that do not mention an existential variable.  
+
+
+(SLPJ note: I'm confused about function dependencies, vs `(f ~ Int)` context in the instances, vs type families.)
 
 ### Back to implicit values
 

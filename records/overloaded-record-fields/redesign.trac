@@ -94,7 +94,7 @@ data T = MkT { x :: Int }
 }}}
 GHC will generate
 {{{
-instance HasField "x" T Int where
+instance f ~ Int => HasField "x" T f where
   getField _ (MkT x) = x
 
 instance FieldUpdate "x" T T Int Int where
@@ -122,6 +122,7 @@ More precisely,
  * GHC will generate a `FieldUpdate` instance only for rank-0 fields, that is, ones with no foralls.  (Same reason: impredicativity.)  Plus, of course, ones that do not mention an existential variable.  
 
 
+(SLPJ note: I'm confused about function dependencies, vs `(f ~ Int)` context in the instances, vs type families.)
 
 === Back to implicit values ===
 
