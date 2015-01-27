@@ -81,8 +81,10 @@ class IV (x :: Symbol) a where
 ```
 
 
-(SLPJ note: if the `Proxy` argument isn't needed for implicit parameters, it should not be needed here either.)
-Exactly like `IP` but without the functional dependency, and with a proxy argument so it can be called from user code.  The "`IV`" stands for "implicit values" (we can argue about the name later).  It behaves like this:
+Exactly like `IP` but without the functional dependency, and with a proxy argument so it can be called from user code. (SLPJ note: whoa!  We can't call `ip` from "user code" so why should we call "iv"?  Simpler and more uniform to omit the `Proxy` argument.) 
+
+
+The "`IV`" stands for "implicit values" (we can argue about the name later).  It behaves like this:
 
 - When you write `#x` in an expression, what GHC does is to replace it with `(iv @ "x" @ alpha) proxy#`, where `alpha` is a unification variable and `@` is type application.   Just like implicit parameters, in fact.
 
