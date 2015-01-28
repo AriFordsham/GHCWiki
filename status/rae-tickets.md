@@ -104,12 +104,12 @@
 - [\#9022](https://gitlab.haskell.org//ghc/ghc/issues/9022): Fix semicolons in pretty-printer
 - [\#9113](https://gitlab.haskell.org//ghc/ghc/issues/9113): Warn about incomplete patterns in quotes. Fixed by [\#3927](https://gitlab.haskell.org//ghc/ghc/issues/3927)?
 - [\#9699](https://gitlab.haskell.org//ghc/ghc/issues/9699): Function to list all names in scope
-- [\#9703](https://gitlab.haskell.org//ghc/ghc/issues/9703): Add missing calling conventions (owned by cmsaperstein)
 
 *Unknown*
 
 - [\#9160](https://gitlab.haskell.org//ghc/ghc/issues/9160): Some panic with optimizations and `singletons`.
 - [\#9693](https://gitlab.haskell.org//ghc/ghc/issues/9693): Stale state left in failed compilation with GHCi and TH.
+- [\#10019](https://gitlab.haskell.org//ghc/ghc/issues/10019): Reification in GHCi
 
 **Design needed**
 
