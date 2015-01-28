@@ -23,10 +23,10 @@ Nothing here proposes any change to AMP (which made `Applicative` a superclass o
 
 Simon Marlow rightly points out that adding a new `LANGUAGE` pragma is full of backwards compatibility problems.  So instead of the proposals below, here's a different plan how to introduce BBP.
 
- 1 Leave `Data.List` type signatures and exports alone.
- 1 Make ghc 7.10 warn when `Data.List` has been imported in a way that will break with BBP.
- 1 No changes to `Prelude` signatures, but ship ghc 7.10 with `PreludeBBP`.
- 1 Make `PreludeBBP` the default in ghc 7.12 (or later).
+ 1. Leave `Data.List` type signatures and exports alone.
+ 1. Make ghc 7.10 warn when `Data.List` has been imported in a way that will break with BBP.
+ 1. No changes to `Prelude` signatures, but ship ghc 7.10 with `PreludeBBP`.
+ 1. Make `PreludeBBP` the default in ghc 7.12 (or later).
 
 This will give us time to discuss exactly what should go into `Foldable`.
 
