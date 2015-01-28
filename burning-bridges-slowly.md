@@ -39,7 +39,7 @@ With these changes, the current and new behaviour are easy to achieve, in the mo
 The question becomes "what is the default?".
 
 
-NB: `{-# LANGUAGE Prelude=AlternativePrelude #-}` is *not* the same as `{-# LANGUAGE NoImplicitPrelude #-}` combined with `import AlternativePrelude`.  The latter affects the typing and desugaring of built-in syntax; the former does not.
+Another alternative to `{-# LANGUAGE Prelude=AlternativePrelude #-}` would be to use `{-# LANGUAGE NoImplicitPrelude #-}` combined with `import AlternativePrelude`.  This requires source-code changes, but has no issues with backward compatibility with earlier versions of GHC.
 
 ## Proposal 2:
 
