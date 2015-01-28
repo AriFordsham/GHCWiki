@@ -143,12 +143,31 @@ These were previously called `Has` and `Upd`, but I suggest using longer and hop
 
 More precisely, 
 
-- GHC will generate a `HasField` instance whenever it currently generates a selector.  Not every field has a selector today, because of existentials (see [ user manual](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/data-type-extensions.html#existential-records)).  Moreover, it will only generate a `HasField` instance if the field type is of rank 1, with all the foralls at the top.  (Otherwise we would need impredicative polymorphism.)
+- GHC will generate a `HasField` instance whenever it currently generates a selector.  Not every field has a selector today, because of existentials (see [ user manual](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/data-type-extensions.html#existential-records)).  Moreover, it will only generate a `HasField` instance if the field type is rank-0, i.e. it has no foralls.  (Even rank-1 types are out, because they violate the functional dependency on `HasField`, and higher ranks we would need impredicative polymorphism.)
 
-- GHC will generate a `FieldUpdate` instance only for rank-0 fields, that is, ones with no foralls.  (Same reason: impredicativity.)  Plus, of course, ones that do not mention an existential variable.  
+- Similarly, GHC will generate a `FieldUpdate` instance only for rank-0 fields, that is, ones with no foralls.  (Same reason: impredicativity.)  Plus, of course, ones that do not mention an existential variable.  There are some slightly subtle conditions about when `FieldUpdate` permits updates to change parameter types, as describe in [the original design](records/overloaded-record-fields/design#).
 
 
-(SLPJ note: I'm confused about function dependencies, vs `(f ~ Int)` context in the instances, vs type families.)
+Crucially, we must have some kind of relationship between the record type and field type parameters of `HasField` (and similarly for `FieldUpdate`): otherwise, the composition of two fields
+
+```wiki
+getField (proxy# :: Proxy# "g") . getField (proxy# :: Proxy# "f")
+    :: (HasField "g" b c, HasField "f" a b) => a -> c
+```
+
+
+has an ambiguous type variable `b`, and we get terrible type inference behaviour. The options are:
+
+1. a functional dependency `HasField x r a | x r -> a`
+
+1. a type family `a ~ FieldType x r => HasField x r a`
+
+1. a two-parameter class `HasField x r` with a type family `FieldType x r`
+
+
+Options 2 and 3 were explored in the original `OverloadedRecordFields`, and are pretty much equivalent; we initially thought 2 might give nicer inferred types but in fact they tend to be of the form `HasField x r (FieldType x r)` so we might as well go for the two-parameter class. Option 1 should give prettier inferred types (and be easier to use with the `r { x :: t}` syntactic sugar described below), but the lack of evidence for fundeps, and the inability to mention the type of a field, may be restrictive in hard-to-predict ways.
+
+**AMG**: I'm tempted to revert to option 3 (i.e. stick with the `OverloadedRecordFields` design). At the moment this page mostly uses option 1, but I'll rewrite it in due course.
 
 ### Back to implicit values
 
