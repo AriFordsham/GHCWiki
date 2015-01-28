@@ -39,6 +39,9 @@ Nothing here proposes any change to AMP (which made `Applicative` a superclass o
 -    So now old and new behaviour are easy to achieve, in the module or in a .cabal file.
 -    The question becomes "what is the default".
 
+
+NB: `{-# LANGUAGE Prelude=AlternativePrelude #-}` is *not* the same as `{-# LANGUAGE NoImplicitPrelude #-}` combined with `import AlternativePrelude`.  The latter affects the typing and desugaring of built-in syntax; the former does not.
+
 ## Proposal 2:
 
 -    Make the default be the old rather than the new.
