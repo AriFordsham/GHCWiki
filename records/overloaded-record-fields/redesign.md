@@ -115,10 +115,12 @@ data T = MkT { x :: Int }
 GHC will generate
 
 ```wiki
-instance f ~ Int => HasField "x" T f where
+instance HasField "x" T where
+  type FieldType "x" T = Int
   getField _ (MkT x) = x
 
-instance FieldUpdate "x" T T Int Int where
+instance FieldUpdate "x" T Int where
+  type UpdatedRecordType "x" T Int = T
   setField _ (MkT _) x = MkT x
 ```
 
@@ -126,19 +128,24 @@ instance FieldUpdate "x" T T Int Int where
 These two classes are defined like this:
 
 ```wiki
--- | HasField x r means that r is a record type with a field x of type a
-class HasField (x :: Symbol) r a | x r -> a where
+-- | HasField x r means that r is a record type with a field x
+class HasField (x :: Symbol) r where
+  -- | The type of the field x in the record r
+  type FieldType x r
   -- | Extract the field from the record
-  getField :: Proxy# x -> r -> a
+  getField :: Proxy# x -> r -> FieldType x r
 
--- | FieldUpdate x s t a b means that s is a record type with a field x
---   of type a, that can be assigned a value of type b to produce a record type t
-class HasField x s a => FieldUpdate (x :: Symbol) s t a b | x s -> a, x t -> b, x s b -> t, x t a -> s where
-  setField :: Proxy# x -> s -> b -> t
+-- | FieldUpdate x r a means that r is a record type with a field x
+--   that can be assigned a value of type a
+class HasField x r => FieldUpdate (x :: Symbol) r a where
+  -- | The type of the updated record
+  type UpdatedRecordType x r a
+  -- | Set the field in the record
+  setField :: Proxy# x -> r -> a -> UpdatedRecordType x r a
 ```
 
 
-These were previously called `Has` and `Upd`, but I suggest using longer and hopefully more meaningful names. There is substantial bikeshedding to be done about the details of these definitions (names, parameter number and order, whether to use functional dependencies or type families), but it should not substantially alter the proposal. These are the functional dependency based versions, for variety. Note that these classes correspond to the `FieldOwner` class in the `record` library.
+These were previously called `Has` and `Upd`, but I suggest using longer and hopefully more meaningful names. There is substantial bikeshedding to be done about the details of these definitions (names, parameter number and order, whether to use functional dependencies or type families), but it should not substantially alter the proposal. Note that these classes correspond to the `FieldOwner` class in the `record` library.
 
 
 More precisely, 
@@ -148,7 +155,7 @@ More precisely,
 - Similarly, GHC will generate a `FieldUpdate` instance only for rank-0 fields, that is, ones with no foralls.  (Same reason: impredicativity.)  Plus, of course, ones that do not mention an existential variable.  There are some slightly subtle conditions about when `FieldUpdate` permits updates to change parameter types, as describe in [the original design](records/overloaded-record-fields/design#).
 
 
-Crucially, we must have some kind of relationship between the record type and field type parameters of `HasField` (and similarly for `FieldUpdate`): otherwise, the composition of two fields
+Crucially, we must have some kind of relationship between the record type and field type of `HasField` (and similarly for `FieldUpdate`): otherwise, the composition of two fields (using a three-parameter version of `HasField`)
 
 ```wiki
 getField (proxy# :: Proxy# "g") . getField (proxy# :: Proxy# "f")
@@ -158,16 +165,14 @@ getField (proxy# :: Proxy# "g") . getField (proxy# :: Proxy# "f")
 
 has an ambiguous type variable `b`, and we get terrible type inference behaviour. The options are:
 
-1. a functional dependency `HasField x r a | x r -> a`
+1. a three-parameter class with a functional dependency: `HasField x r a | x r -> a`
 
-1. a type family `a ~ FieldType x r => HasField x r a`
+1. a three-parameter class with a type family simulating a functional dependency: `a ~ FieldType x r => HasField x r a`
 
 1. a two-parameter class `HasField x r` with a type family `FieldType x r`
 
 
-Options 2 and 3 were explored in the original `OverloadedRecordFields`, and are pretty much equivalent; we initially thought 2 might give nicer inferred types but in fact they tend to be of the form `HasField x r (FieldType x r)` so we might as well go for the two-parameter class. Option 1 should give prettier inferred types (and be easier to use with the `r { x :: t}` syntactic sugar described below), but the lack of evidence for fundeps, and the inability to mention the type of a field, may be restrictive in hard-to-predict ways.
-
-**AMG**: I'm tempted to revert to option 3 (i.e. stick with the `OverloadedRecordFields` design). At the moment this page mostly uses option 1, but I'll rewrite it in due course.
+Options 2 and 3 were explored in the original `OverloadedRecordFields`, and are pretty much equivalent; we initially thought 2 might give nicer inferred types but in fact they tend to be of the form `HasField x r (FieldType x r)` so we might as well go for the two-parameter class. Option 1 should give prettier inferred types (and be easier to use with the `r { x :: t}` syntactic sugar described below), but the lack of evidence for fundeps, and the inability to mention the type of a field, may be restrictive in hard-to-predict ways. At the moment, this page is written to assume option 3.
 
 ### Back to implicit values
 
@@ -175,7 +180,7 @@ Options 2 and 3 were explored in the original `OverloadedRecordFields`, and are 
 How are records and implicit values connected?  They are connected by the `IV` instance for functions
 
 ```wiki
-instance HasField x r a => IV x (r -> a) where
+instance (HasField x r, a ~ FieldType x r) => IV x (r -> a) where
   iv = getField (proxy# :: Proxy# x)
 ```
 
@@ -184,14 +189,15 @@ which would allow us to freely use `#x` as an overloaded record selector.  Thus:
 
 ```wiki
 xPlusOne r = #x r + 1::Int    -- Inferred type
-                              -- xPlusOne :: HasField "x" r Int => r -> Int
+                              -- xPlusOne :: (HasField "x" r, FieldType "x" r ~ Int) => r -> Int
 ```
 
 
 Alternatively, we might choose to give this instance
 
 ```wiki
-instance (Functor f, FieldUpdate x s t a b) => IV x ((a -> f b) -> s -> f t) where
+instance (Functor f, FieldUpdate x s b, a ~ FieldType x s, t ~ UpdatedRecordType x s b)
+        => IV x ((a -> f b) -> s -> f t) where
   iv w s = setField (proxy# :: Proxy# x) s <$> w (getField (proxy# :: Proxy# x) s)
 ```
 
@@ -231,9 +237,11 @@ data Circle   = Circle Float           -- Radius
 Then we are free to say
 
 ```wiki
-instance HasField "area" Triangle Float where
+instance HasField "area" Triangle where
+   type FieldType "area" Triangle = Float
    getField _ (Tri b h _) = 0.5 * b * h
-instance HasField "area" Circle Float where
+instance HasField "area" Circle where
+   type FieldType "area" Circle = Float
    getField _ (Circle r) = pi * r * r
 ```
 
@@ -288,8 +296,8 @@ Moreover, we could subsequently add a syntax for anonymous record types (for exa
 For example, the following should work fine:
 
 ```wiki
-f :: FieldUpdate "x" r r t t => r -> t
-f r = view #x r
+f :: HasField "x" r => r -> FieldType "x" r
+f r = #x r
 
 z :: [r| { x :: Int, y :: Int } |]
 z = [r| { x = 3, y = 2 } |]
@@ -305,15 +313,17 @@ For this to be possible, the `Record<n>` tuple datatypes defined by the `record`
 data Record2 (n1 :: Symbol) v1 (n2 :: Symbol) v2 =
   Record2 v1 v2
 
-instance HasField n1 (Record2 n1 v1 n2 v2) v1 where
+instance HasField n1 (Record2 n1 v1 n2 v2) where
+  type FieldType n1 (Record2 n1 v1 n2 v2) = v1
   getField _ (Record2 x _) = x
 
-instance HasField n2 (Record2 n1 v1 n2 v2) v2 where
+instance HasField n2 (Record2 n1 v1 n2 v2) where
+  type FieldType n2 (Record2 n1 v1 n2 v2) = v2
   getField _ (Record2 _ x) = x
 ```
 
 
-These correspond to the existing `FieldOwner` instances in the `record` library.
+These correspond to the existing `FieldOwner` instances in the `record` library. (Actually this doesn't quite work, because the two instances for `FieldType` overlap, but it is possible with a bit more trickery.)
 
 ### Implementation notes
 
@@ -327,14 +337,15 @@ data T = MkT { x :: Int }
 generates the instance
 
 ```wiki
-instance f ~ Int => HasField "x" T f where
+instance HasField "x" T where
+  type FieldType "x" T = Int
   getField _ (MkT x) = x
 ```
 
 
 but GHC doesn't *actually* have to generate and compile
 a whole instance declaration.  It can simply have a
-built-in constraint solving rule for `(HasField "x" T t)` where `x` is a field of data type `T`.
+built-in constraint solving rule for `(HasField "x" T)` and `(FieldType "x" T)` where `x` is a field of data type `T`.
 The programmer will not know or care, but it should remove a plethora of instances.
 
 
@@ -358,7 +369,8 @@ So we'll probably generate this:
 $sel_T_x :: T -> S
 $sel_T_x (MkT x) = x
 
-instance (Int ~ f) => HasField "x" T f where
+instance HasField "x" T where
+  type FieldType "x" T = S
   getField _ = $sel_T_x
 
 x = $sel_T_x   -- The H98 selector, when OverloadedRecordFields is not on
