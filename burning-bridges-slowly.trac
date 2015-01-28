@@ -17,7 +17,26 @@ to let the changes stabilize (you rarely get it right the first time).
 I've discussed this with a number of people, including Simon PJ, and
 we have concrete proposals.
 
-Nothing here proposes any change to AMP (which made `Applicative` a superclass of `Monad`).  AMP is a change to Preludec, but it was discussed for much longer; was brought in over more than one GHC version (GHC 7.8 had custom warnings to encourage library authors to make changes); and is structurally baked into GHC (because of the connection with desugaring).   In contrast BBP is a library-only change.   Anyway, there is no suggestion here to row back on AMP.
+Nothing here proposes any change to AMP (which made `Applicative` a superclass of `Monad`).  AMP is a change to Prelude, but it was discussed for much longer; was brought in over more than one GHC version (GHC 7.8 had custom warnings to encourage library authors to make changes); and is structurally baked into GHC (because of the connection with desugaring).   In contrast BBP is a library-only change.   Anyway, there is no suggestion here to row back on AMP.
+
+== Plan B ==
+
+Simon Marlow rightly points out that adding a new `LANGUAGE` pragma is full of backwards compatibility problems.  So instead of the proposals below, here's a different plan how to introduce BBP.
+
+ 1 Leave `Data.List` type signatures and exports alone.
+ 1 Make ghc 7.10 warn when `Data.List` has been imported in a way that will break with BBP.
+ 1 No changes to `Prelude` signatures, but ship ghc 7.10 with `PreludeBBP`.
+ 1 Make `PreludeBBP` the default in ghc 7.12 (or later).
+
+This will give us time to discuss exactly what should go into `Foldable`.
+
+The signature changes in `Control.Monad` and other modules are unrelated to BBP and should be in ghc 7.10.
+
+The ghc warning for importing `Data.List` should be as helpful as possible, something like:
+{{{
+Foo:5:1  Warning: Data.List imported unqualified, this will conflict with BBP.
+         Instead use 'import Data.List(maximumBy, sortBy)'
+}}}
 
 == Proposal 1: ==
  
