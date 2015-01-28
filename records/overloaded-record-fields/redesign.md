@@ -77,16 +77,16 @@ Now consider the following class:
 
 ```wiki
 class IV (x :: Symbol) a where
-  iv :: Proxy# x -> a
+  iv :: a
 ```
 
 
-Exactly like `IP` but without the functional dependency, and with a proxy argument so it can be called from user code. (SLPJ note: whoa!  We can't call `ip` from "user code" so why should we call `iv`?  Simpler and more uniform to omit the `Proxy` argument.) 
+Exactly like `IP` but without the functional dependency.
 
 
 The "`IV`" stands for "implicit values" (we can argue about the name later).  It behaves like this:
 
-- When you write `#x` in an expression, what GHC does is to replace it with `(iv @ "x" @ alpha) proxy#`, where `alpha` is a unification variable and `@` is type application.   Just like implicit parameters, in fact.
+- When you write `#x` in an expression, what GHC does is to replace it with `(iv @ "x" @ alpha)`, where `alpha` is a unification variable and `@` is type application.   Just like implicit parameters, in fact.
 
 - Of course the call `(iv @ "x" @ alpha)` gives rise to a constraint `(IV "x" alpha)` which must be satisfied by the context.
 
@@ -98,6 +98,9 @@ The "`IV`" stands for "implicit values" (we can argue about the name later).  It
 
 
 Notice that implicit values might be useful for all sorts of things that are nothing to do with records; that is why I don't mention "record" in their name.
+
+
+User code can never (usefully) call `iv` (or `ip`) directly, because without explicit type application there is no way to fix `x`.
 
 ### Overloaded record fields
 
@@ -154,7 +157,7 @@ How are records and implicit values connected?  They are connected by the `IV` i
 
 ```wiki
 instance HasField x r a => IV x (r -> a) where
-  iv = getField
+  iv = getField (proxy# :: Proxy# x)
 ```
 
 
@@ -170,7 +173,7 @@ Alternatively, we might choose to give this instance
 
 ```wiki
 instance (Functor f, FieldUpdate x s t a b) => IV x ((a -> f b) -> s -> f t) where
-  iv p w s = setField p s <$> w (getField p s)
+  iv w s = setField (proxy# :: Proxy# x) s <$> w (getField (proxy# :: Proxy# x) s)
 ```
 
 
