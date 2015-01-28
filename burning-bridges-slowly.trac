@@ -20,20 +20,22 @@ we have concrete proposals.
 Nothing here proposes any change to AMP (which made `Applicative` a superclass of `Monad`).  AMP is a change to Preludec, but it was discussed for much longer; was brought in over more than one GHC version (GHC 7.8 had custom warnings to encourage library authors to make changes); and is structurally baked into GHC (because of the connection with desugaring).   In contrast BBP is a library-only change.   Anyway, there is no suggestion here to row back on AMP.
 
 == Proposal 1: ==
-*    Add a new pragma
-        `{-# LANGUAGE Prelude=AlternativePrelude #-}`
+ 
+ * Add a new pragma `{-# LANGUAGE Prelude=AlternativePrelude #-}`
       *   This is a new feature, but it is easy and low-risk to implement.
       *   Which Prelude you use really is a language choice; appropriate for a LANGUAGE pragma.
       *   Semantics is name-space only: import Prelude (); import AlternativePrelude
       *   No effect on desugaring or typing of built-in syntax (list comprehensions, do-notation etc).
-*    Ship with both old and new prelude.
-*    So now old and new behaviour are easy to achieve, in the module or in a .cabal file.
-*    The question becomes "what is the default".
+ * Ship with both old and new prelude.
+
+With these changes, the current and new behaviour are easy to achieve, in the module or in a .cabal file.
+The question becomes "what is the default?".
 
 NB: `{-# LANGUAGE Prelude=AlternativePrelude #-}` is ''not'' the same as `{-# LANGUAGE NoImplicitPrelude #-}` combined with `import AlternativePrelude`.  The latter affects the typing and desugaring of built-in syntax; the former does not.
 
 == Proposal 2: ==
-*    Make the default be the old rather than the new.
+
+Make the default be the old rather than the new.
       *   Altering the default Prelude API should be done slowly, with lots of warning; because all users get it willy-nilly.
       *   Unlike AMP, the change is controversial (clearly).
       *   Easier to make changes to New Prelude if it isn't the default.
