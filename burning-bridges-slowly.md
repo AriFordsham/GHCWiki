@@ -2,7 +2,7 @@
 The next version (7.10) of GHC is slated to have a drastically changed Prelude,
 driven by the (aptly) named Burning Bridges Proposal (BBP), ticket [9586](https://gitlab.haskell.org//ghc/ghc/issues/9586). This proposal generalises
 many list operations, e.g. foldr, so they are overloaded - typically becoming members of
-either Foldable or Traversable.
+either Foldable or Traversable.  A complete list pf changes is given at the foot of this page.
 
 
 This message comes very late in the release process, but we would urge caution before changing.
