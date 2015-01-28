@@ -38,6 +38,15 @@ Foo:5:1  Warning: Data.List imported unqualified, this will conflict with BBP.
          Instead use 'import Data.List(maximumBy, sortBy)'
 }}}
 
+=== Possible ghc 7.12 extension ===
+If we feel forcing people to change `Data.List` imports is too onerous, I suggest a small extension to name lookup in ghc.  You can declare a symbol to be weak, and in the presence of a weak and a strong symbol the lookup will pick the strong one.  So in `Data.List` you'd say
+{{{
+  {-# WEAK foldr #-}
+  foldr :: (a->b->b) -> b -> [a] -> b
+  foldr = ...
+}}}
+And the `Foldable` version of `foldr` would be normal.  The compiler would then pick the `Foldable` symbol and issue a warning.  I view this extension purely as a device to be used to make these kinds of transitions smooth.
+
 == Proposal 1: ==
  
  * Add a new pragma `{-# LANGUAGE Prelude=AlternativePrelude #-}`
