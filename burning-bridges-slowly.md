@@ -21,6 +21,9 @@ to let the changes stabilize (you rarely get it right the first time).
 I've discussed this with a number of people, including Simon PJ, and
 we have concrete proposals.
 
+
+Nothing here proposes any change to AMP (which made `Applicative` a superclass of `Monad`).  AMP is a change to Preludec, but it was discussed for much longer, was brought in over more than one GHC version (GHC 7.8 had custom warnings to encourage library authors to make changes), and is structurally baked into GHC (because of the connection with desugaring).   So there is no suggestion here to row back on AMP.
+
 ## Proposal 1:
 
 -    Add a new pragma
