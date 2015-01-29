@@ -98,7 +98,7 @@ makeBlank n = Node { n | left = (), right = () }
 Note that in this example it is important that we can
 update *both* fields at the same time---we could not
 change the fields one at a time, as the intermediate value
-would not be well typed.  This type of update is suppoerted
+would not be well typed.  This type of update is supported
 by standard Haskell records, but it is not supported by most
 other proposals, including ones that generate lenses.
 
