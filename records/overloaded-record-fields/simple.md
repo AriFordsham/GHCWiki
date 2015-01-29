@@ -18,7 +18,7 @@ benefits:
 ## The Design
 
 
-The following paragraphs describe the various operations.
+The following paragraphs describe the various operations on records.
 
 ### Declaration
 
