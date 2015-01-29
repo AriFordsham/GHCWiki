@@ -156,7 +156,7 @@ with various record accessing mechanisms.
 
 It is common to update the value of a field based on the *previous* value of the same field.
 In some cases, it might be cumbersome to pattern match just to get the old value for an update.
-In such situation, the following piece of syntactic sugar for record updates might be handy:
+In such situations, the following piece of syntactic sugar for record updates might be handy:
 
 ```wiki
 C { e | f1 = e1, f2 := e2 }
