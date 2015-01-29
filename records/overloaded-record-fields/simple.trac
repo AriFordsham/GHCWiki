@@ -26,17 +26,16 @@ the same module have distinct field names.
 
 For example:
 {{{
-data Two   = Two   { left :: Int, right :: Int }
-data Three = Three { left :: Bool, middle :: Bool, right :: Bool }
-}}}
+data Person   = Person   { name :: String, age :: Int }
+data Variable = Variable { name :: Int, varType :: Type }
 
 
 === Construction ===
 
 Record values are constructed in exactly the same way as in Haskell'98.  For example:
 {{{
-two x   = Two   { left = x, right = x}
-three x = Three { left = x, middle = x, right = x }
+john = Person { name = "John", age = 10 }
+var  = Variable { name = 0, varType = TInt }
 }}}
 
 There is no ambiguity when constructing values
@@ -46,11 +45,12 @@ because the constructors are still unique for each datatype.
 
 The update notation of Haskell'98 is not compatible with reusing
 fields across records, because it leads to ambiguity.  For example,
-if we write `x { left = True, right = True }`, we don't know if `x` is of type
-`Two` or of type `Three`.
+if we write `\a -> x { name = a }` we don't know if we are setting
+the field `name` for a `Person`, or `Variable`.
+
 
 To work around this, we propose an alternative notation for record update,
-which mirrors the notation for record construction:
+which is similar to the notation for record construction:
 {{{
 C { e | f1 = e1, f2 = e2 }
 }}}
