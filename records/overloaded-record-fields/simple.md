@@ -165,7 +165,7 @@ C { e | f1 = e1, f2 := e2 }
 
 As before, `C` is a constructor, `e` is the record that is being updated, `f1` is a field
 that is being set to the value of `e1`.  The new syntax is in field
-`f2`: the `:=` notation signifies that `e2` is an ``updating function``.  This means
+`f2`: the `:=` notation signifies that `e2` is an *updating function*.  This means
 that the new value for `f2` will be obtained by applying `e2` to the old value of `f2`
 (i.e., the value that's in `e`).
 
