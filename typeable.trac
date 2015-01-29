@@ -337,6 +337,18 @@ That, then, is the current plan of attack. `Typeable` instance heads must includ
 
 '''Question:''' With this design, orphan instances will be unavoidable. Given that two different authors may introduce the same orphan instances, would it work to mark every `Typeable` instance as `{-# INCOHERENT #-}`? For this to work out, we would need a guarantee that the fingerprints of the instances are the same regardless of originating module.
 
+=== Medium-term solution ===
+
+Although it is impossible to create all necessary `Typeable` instances for poly-kinded constructors at the definition site (there's an infinite number), it ''is'' possible to create `Typeable` "instances" on demand at use sites. The idea (originally proposed in comment:20:ticket:9858) is to add some custom logic to the solver to invent `Typeable` evidence on demand. Then, whenever the solver needs to satisfy a `Typeable` constraint, it will just recur down to the type's leaves and invent evidence there.
+
+For poly-kinded type constructors, we still need to worry about kind parameters. This is easy, actually: we just come up with some mechanism with which to incoporate kind parameters into a `TypeRep`s fingerprint. One such mechanism would be to use the current fingerprint-generation algorithm (used on types) and just apply it to the kinds. Of course, kinds are different from types, but there's no reason we can't use the same algorithm. Problem solved.
+
+Some drawbacks:
+* There is no way to inspect a `TypeRep`'s kind or its kind parameters. But that's OK for now.
+* Under this proposal, ''everything'' is `Typeable`. But maybe that's not so bad.
+* It seems much more efficient to generate type constructor fingerprints at definition sites. Doing so would add to the code size of every type-declaring module. Worse, we would have to add data constructor fingerprints, too, considering the possibility of promotion.
+* More complexity in the solver.
+
 === Long-term solution ===
 
 We actually don't have a good long-term solution available. We thought that `* :: *` and kind equalities would fix this, but they don't. To see why, let's examine the type of `trApp`:
