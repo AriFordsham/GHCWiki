@@ -28,7 +28,7 @@ For example:
 {{{
 data Person   = Person   { name :: String, age :: Int }
 data Variable = Variable { name :: Int, varType :: Type }
-
+}}}
 
 === Construction ===
 
