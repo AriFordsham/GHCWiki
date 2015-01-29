@@ -24,8 +24,8 @@ The following paragraphs describe the various operations on records.
 
 
 Records are declared in exactly the same way as they are in Haskell'98.
-However, we don't need to change the multiple record declarations in
-the same module have the same field name.
+However, we don't need to check that multiple record declarations in
+the same module have distinct field names.
 
 
 For example:
