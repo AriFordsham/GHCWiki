@@ -399,3 +399,19 @@ f i u l = #inRange (l,u) i
 Note that this example has nothing to do with records, which is part of the point.
 Perhaps `IV` will find other uses.
 It is rather reminiscent of Carlos Camaro's [ System CT](http://homepages.dcc.ufmg.br/~camarao/CT/).
+
+## Summary
+
+
+We propose three essentially orthogonal additions to GHC:
+
+1. `HasField` and `FieldUpdate` typeclasses, with special-purpose constraint solving behaviour (just like `Coercible`, we do not require a special extension to enable this, as its effect is limited to code that imports the relevant module);
+1. an extension `ImplicitValues` to enable the `#x` syntax, interpreted with the `IV` typeclass;
+1. an extension `OverloadedRecordFields` to permit the same field name to be used multiple times in the same module.
+
+
+These are all useful independently, but complement each other:
+
+- Without either of the extensions, the special typeclasses allow users to write code that works for all datatypes with particular fields (albeit without a nice built-in syntax).
+- `-XImplicitValues` uses the special typeclasses through the instance for `IV x (r -> a)`, but is also useful when used at other types (e.g. we could give an instance `IV x (Proxy x)` to allow implicit values to represent Symbol proxies).
+- For convenience, `-XOverloadedRecordFields` will enable `-XImplicitValues`, but `-XOverloadedRecordFields -XNoImplicitValues` is a perfectly sensible combination: it allows duplicate field names provided they are not used ambiguously.
