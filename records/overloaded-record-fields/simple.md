@@ -102,6 +102,8 @@ would not be well typed.  This type of update is supported
 by standard Haskell records, but it is not supported by most
 other proposals, including ones that generate lenses.
 
+**RAE:** But this doesn't allow a record update to affect potentially more than one constructor. Currently, if multiple constructors of one type include the same field name, you can update all constructors. Given that this change is not backward compatible, what's the migration strategy? **End RAE**
+
 ### Selectors
 
 
