@@ -228,6 +228,8 @@ And would implicit parameters ''really'' be better (from a software engineering 
 
 Note that the `#x` form only behaves specially if you have `ImplicitValues` or `OverloadedRecordFields` enabled. So existing libraries that use `#` as an operator will work fine.  If you want `OverloadedRecordFields` as well, you'll have to put a space between an infix `#` and its second argument, thus `(a # b)` not `(a #b)`.  But that's not so bad. And exactly the same constraint applies with `MagicHash`: you must put a space between the `a` and the `#`, not `(a# b)`.  I don't think this is a big deal.
 
+The downside of the `#x` syntax is that uses of lenses like `foo^.bar.baz` become something like `foo ^. #bar . #baz` or `foo ^. xx #bar . xx #baz` (if we need a combinator `xx` to turn an implicit value into a lens). However, this can be mitigated to some extent by users by making their own definitions `bar = xx #bar; baz = xx #baz`.
+
 
 === Design extension: sugar for class constraints ===
 
