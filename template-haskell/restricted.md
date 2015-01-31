@@ -41,7 +41,12 @@ We can define different levels of restriction
 - level 3: no mkName (we could call this Pure Template Haskell)
 
 
-Rather than levels, we may be able to have more flexibility by thinking in terms of capabilities
+Rather than levels, we may be able to have more flexibility by thinking in terms of [ capabilities](https://github.com/Icelandjack/Capabilities/blob/master/src/Capabilities.hs)
+
+```wiki
+reify :: Name -> Restrict (TH :+: Reify) Info
+runIO :: IO a -> Restrict (TH :+: RunIO) a
+```
 
 ### Module-based Resrictions for library authors
 
