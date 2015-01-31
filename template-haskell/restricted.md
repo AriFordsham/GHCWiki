@@ -40,6 +40,9 @@ We can define different levels of restriction
 - level 2: no Q Monad (I think we still need newName though). no reify, because that gets into looking outside the module making compilation more difficult and subverting [SafeHaskell](safe-haskell)
 - level 3: no mkName (we could call this Pure Template Haskell)
 
+
+Rather than levels, we may be able to have more flexibility by thinking in terms of capabilities
+
 ### Module-based Resrictions for library authors
 
 
