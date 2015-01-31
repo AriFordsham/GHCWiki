@@ -40,7 +40,20 @@ We can define different levels of restriction
 - level 2: no Q Monad (I think we still need newName though). no reify, because that gets into looking outside the module making compilation more difficult and subverting [SafeHaskell](safe-haskell)
 - level 3: no mkName (we could call this Pure Template Haskell)
 
-### Syntax
+### Module-based Resrictions for library authors
+
+
+There could be separate modules defined for the various restriction levels
+
+```wiki
+module Language.Haskell.TH.Safe (
+  module Language.Haskell.TH,
+  reifyWithoutNameG,
+ )  where
+import Language.Haskell.TH hiding (runIO, reify*)
+```
+
+### Syntax at the call site
 
 
 We may be out of dollar signs to use for this. Suggestions are very welcome!
