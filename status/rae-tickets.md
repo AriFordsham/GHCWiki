@@ -110,6 +110,7 @@
 - [\#9160](https://gitlab.haskell.org//ghc/ghc/issues/9160): Some panic with optimizations and `singletons`.
 - [\#9693](https://gitlab.haskell.org//ghc/ghc/issues/9693): Stale state left in failed compilation with GHCi and TH.
 - [\#10019](https://gitlab.haskell.org//ghc/ghc/issues/10019): Reification in GHCi
+- [\#10047](https://gitlab.haskell.org//ghc/ghc/issues/10047): Scoping weirdness around quasiquotation
 
 **Design needed**
 
