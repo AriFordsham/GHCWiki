@@ -111,6 +111,35 @@ RAE's decision after conversation: Continuing with Coherence1, noting SCW's disa
 1. There's a good chance that only one of these two possibilities is "Right". We'll know more later.
 1. I'm eager to make forward progress and not spin around this wheel again.
 
+### New idea on 2/2/15
+
+
+This whole coherence thing is a mess. Specifically, with Coherence1, we have to require that (kind g) always be representational, regardless of the role on g. This is because Coherence1 allows for nominal equality between types of kinds that are only representationally equal. This, in turn, causes problems in the solver, because homogenizing equalities spits out representational kind coercions, which then can't be solved by unification. (Right now, I have a hack to unify these. But I hate it.)
+
+
+So, new, drastic proposal: Have `eqType` ignore casts and coercion arguments, as long as the two types have the same kind. This means that `t` and `t |> <k>` are definitionally equal. This is actually a nice simplification, because it means that instance lookup, etc., properly ignores irrelevant bits. (The fact that my current implementation doesn't ignore these bits causes real problems.) A further consequence of this decision is that `tcUnifyTys` should work only up to this new definition of equality, which will require some re-engineering.
+
+
+I thought for a while that the change would mean that we can drop coherence entirely. But this is wrong. Suppose we have `g :: t1 ~ t2`. We need a way to say `g' :: t1 |> h ~ t2`, when `h` is not reflexive. For non-reflexive `h`, `t1` and `t1 |> h` are *not* definitionally equal. Thus, we need to be able to build `g'` from `g` somehow. This is necessary in, say, `canEqCast` in the canonicalizer.
+
+
+But the change does mean that we can use a modified `NomCoherence` rule, and drop the asymmetrical versions. We never need an asymmetrical coherence rule because we can always slot in a reflexive coercion where we wish to omit one -- reflexive coercions are always ignored! Here's the rule
+
+```wiki
+g : t1 ~r t2
+h : k1 ~r k2
+t1 |> h1 : k1
+t1 |> h2 : k2
+------------------------------------------- Coherence*
+g |>_h (h1, h2) : (t1 |> h1) ~r (t2 |> h2)
+```
+
+
+This is just like `NomCoherence` above, but `Coherence*` allows `g` and `h` to have any (same) role. The `h` coercion is redundant if `r` is representational, but it is critically necessary if `r` is nominal. After all, we want `kind g` to have the same role as `g` in the end!
+
+
+Going ahead with this idea now...
+
 ## Lifted vs. Unlifted equality
 
 
