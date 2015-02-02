@@ -1,0 +1,70 @@
+# Rationale
+
+`unsafeCoerce#` allow unsafe coercions between different types,
+however it's safe only for following uses:
+
+    * Casting any lifted type to Any
+    * Casting Any back to the real type
+    * Casting an unboxed type to another unboxed type of the same size (but not coercions between floating-point and integral types)
+    * Casting between two types that have the same runtime representation. One case is when the two types differ only in "phantom" type parameters, for example Ptr Int to Ptr Float, or [Int] to [Float] when the list is known to be empty. Also, a newtype of a type T has the same representation at runtime as T.
+
+However GHC doesn't check if it's safe to use `unsafeCoerce#` as a result bugs can appear, see [ticket:9035].
+In order to solve this problem a solution was proposed by Simon [ticket:9122], quote:
+
+> I think it would be a great idea for Core Lint to check for uses of unsafeCoerce that don't obey the rules. It won't catch all cases, of course, but it would have caught #9035. Specficially, look for:
+>
+>    Coercions between lifted and unboxed types
+>    Coercion between unboxed types of different sizes
+>    Coercion between unboxed ints and floats. 
+>
+> Would anyone like to make a patch for this? Anything that can be checked by Core Lint, should be checked!
+
+This proposal is about implementation of the task.
+
+# Progress
+
+Current progress could be found on [Phab:D637](https://phabricator.haskell.org/D637). It implements
+proposed checks modulo few questions mentioned in this proposal. Solution introduces following
+changes in core specification:
+
+{{{
+-G |-ty t1 : k
+------------------------------ :: UnivCo
+-G |-co t1 ==>!_R t2 : t1 ~R k t2
++G |-ty t1 : k1
++G |-ty t2 : k2
++isUnLiftedTy t1 = isUnLiftedTy t2
++(not (isUnLiftedTy t1)) \/ ((activeSizeTy t1 = activeSizeTy t2) /\ (isFloatingTy t1 = isFloatingTy t2))
++-------------------------------------------------------------------------------------- :: UnivCo
++G |-co t1 ==>!_R t2 : t1 ~R k2 t2
+}}}
+
+Basically it introduces three new predicates in UnivCo rule:
+
+  1. Both types should be lifted or both types should be unlifted (Qnikst: note that original task forbids coercion between lifted and *unboxed*)
+
+  2. If types are unlifted then their activeSize should be equal
+
+  3. If types are unlifted then they either should be both floating or both integral
+
+# Questions
+
+There are few dark places in this semantics change that should be clafiried
+
+## Size of value
+
+GHC has 2 different sizes: word aligned size of values, and active size in bytes that actually used.
+The question is if we need to allow coercion between values with same word size, but different active size.
+(Qnikst. current implementation forbids it, as values with different active size can contain garbage, however
+   coercion from value with bigger active size to value with smaller potentially should be fine).
+
+## Unboxed Tuples
+
+A big question is how to treat unboxed tuples if they have same size, can we coerce between `(# Int, Int64 #)` and `(# Int64, Int #)'?
+How to check is value is floating in this case?
+(Qnikst. current implementation allow such coercions and doesn't check "floatiness" of values)
+
+## User programs
+
+Should those check be applied only to internal GHC's transformations, for user programs should also be
+checked?
