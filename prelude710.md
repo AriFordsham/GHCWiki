@@ -23,10 +23,12 @@ We discussed many alternatives, but ended up with two simple ones:
 
 - **Plan Foldable** - generalize many of the functions in Prelude, Data.List and Control.Monad from lists to Foldable/Traversable.  Specifically, 
 
-  - From Prelude: all, and, any, concat, concatMap, elem, foldl, foldl1, foldr, foldr1, length, mapM, mapM_, maximum, minimum, notElem, null, or, product, sequence, sequence_, sum
-  - From Control.Monad: foldM, foldM_, forM, forM_, mapM, mapM_, msum, sequence, sequence_
-  - From Data.List: all, and, any, concat, concatMap, elem, find, foldl, foldl', foldl1, foldr, foldr1, length, mapAccumL, mapAccumR, maximum, maximumBy, minimum, minimumBy, notElem, null, or, product, sum
-    The generalised types are almost entirely backward compatible.  However the `Foldable` class (in particular) has almost certainly not reached its final form, and is likely to evolve further.
+  - From `Prelude`: all, and, any, concat, concatMap, elem, foldl, foldl1, foldr, foldr1, length, mapM, mapM_, maximum, minimum, notElem, null, or, product, sequence, sequence_, sum
+  - From `Control.Monad`: foldM, foldM_, forM, forM_, mapM, mapM_, msum, sequence, sequence_
+  - From `Data.List`: all, and, any, concat, concatMap, elem, find, foldl, foldl', foldl1, foldr, foldr1, length, mapAccumL, mapAccumR, maximum, maximumBy, minimum, minimumBy, notElem, null, or, product, sum
+
+>
+> The generalised types are almost entirely backward compatible.  However the `Foldable` class (in particular) has almost certainly not reached its final form, and is likely to evolve further.
 
 - **Plan List** - leave the functions working on lists, as they do in GHC 7.8.
 
