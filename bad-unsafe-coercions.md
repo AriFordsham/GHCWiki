@@ -50,7 +50,7 @@ Basically it introduces three new predicates in UnivCo rule:
 
 1. Both types should be lifted or both types should be unlifted (Qnikst: note that original task forbids coercion between lifted and *unboxed*)
 
-1. If types are unlifted then their activeSize should be equal. (**SPJ**: what is "active size"?)
+1. If types are unlifted then their *size* should be equal. For the meaning of *size* see "Size of value" section (**SPJ**: what is "active size"? **Qnikst**: I have generalized description so discussion about "active size" can be in one place)
 
 1. If types are unlifted then they either should be both floating or both integral
 
@@ -65,6 +65,29 @@ There are few dark places in this semantics change that should be clarified
 GHC has 2 different sizes: word aligned size of values, and active size in bytes that actually used.  **SPJ**: where do you see these two different sizes in GHC's source code?
 
 
+Term 'active size' is used to describe number of bytes that value actually use, at this moment such numbers are used
+in Vectors, see `primElemRepSizeB` in ([source:compiler/types/TyCon.hs](/trac/ghc/browser/compiler/types/TyCon.hs)[](/trac/ghc/export/HEAD/ghc/compiler/types/TyCon.hs)). The reasons about forbidding coercions between
+values with a different active size is that in the rest bytes there will be a garbase:
+
+
+Hypothetical example for a Word16 on machine with 4-byte word size:
+
+>
+> \[A\|A\|W\|W\]
+>
+> >
+> > 0 1 2 3 
+
+
+the real size of this value will be 1 word (4 bytes), active size will be (2 bytes), bytes 2,3 will contain garbage.
+So if we will check *real size* to coerce from Word16 to Word32, this coercion will be allowed, even if resulting
+value will have no sense. 
+
+
+However equality between `active size` looks like overestimation, as it's completely safe to coerce from larger value
+(`Word32`) to lesser (`Word16`). (**Qnikst**: is it really true in all cases signed/unsigned ints and floating values?)
+
+
 The question is if we need to allow coercion between values with same word size, but different active size.
 (Qnikst. current implementation forbids it, as values with different active size can contain garbage, however coercion from value with bigger active size to value with smaller potentially should be fine).
 
@@ -73,10 +96,18 @@ The question is if we need to allow coercion between values with same word size,
 
 A big question is how to treat unboxed tuples if they have same size, can we coerce between `(# Int, Int64 #)` and \`(\# Int64, Int \#)'?
 
-**SPJ**: I think it should be ok to coerce from `(# a, b #)` to `(# c,d #)` if it's safe to coerce from `a` to `c`, and ditto `b` to `d`.  The tuples must have the same length.
+**SPJ**: I think it should be ok to coerce from `(# a, b #)` to `(# c,d #)` if it's safe to coerce from `a` to `c`, and ditto `b` to `d`.  The tuples must have the same length. 
+**Qnikst**: Do I understand correctly that it should not be possible to coerce `(# a, b, c #)` to `(# a, d #)` where `size b + size c == size d`? 
+ 
 
 
 How to check is value is floating in this case?  **SPJ** I don't understand the question.
+**Qnikst**: 'Coercion between unboxed ints and floats.' so we need to specify how it works for tuples.
+
+
+As far as I understand coerce from `(# a, b #)` to `(# c, d #)` should not be allowed if either `a`, `b` or `c`,`d` violates rule.
+However if `(# a, b, c #)` could be converted to  `(# a, d #)` then what should be the rules for `b`, `c` -\> `d`, as far as I understand
+it's correct if `b`,`c`,`d`  are ints and not correct in any other case. 
 
 
 (Qnikst. current implementation allow such coercions and doesn't check "floatiness" of values)
