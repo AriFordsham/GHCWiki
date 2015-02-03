@@ -39,8 +39,11 @@ This proposal is about implementation of the task.
 
 
 Current progress could be found on [ D637](https://phabricator.haskell.org/D637)([ https://phabricator.haskell.org/D637](https://phabricator.haskell.org/D637)). It implements
-proposed checks modulo few questions mentioned in this proposal. Solution introduces following
-changes in core specification:
+proposed checks modulo few questions mentioned in this proposal. 
+
+
+The solution introduces following
+changes in the core specification, `docs/core-spec/CoreLint.ott` in the source tree ([ PDF here](https://github.com/ghc/ghc/blob/master/docs/core-spec/core-spec.pdf)):
 
 ```wiki
 -G |-ty t1 : k
