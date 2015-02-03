@@ -18,19 +18,7 @@ However GHC doesn't check if it's safe to use `unsafeCoerce#` as a result bugs c
 In order to solve this problem a solution was proposed by Simon in [9122](https://gitlab.haskell.org//ghc/ghc/issues/9122), quote:
 
 >
-> I think it would be a great idea for Core Lint to check for uses of `unsafeCoerce` that don't obey the rules. It won't catch all cases, of course, but it would have caught [\#9035](https://gitlab.haskell.org//ghc/ghc/issues/9035). Specficially, look for:
->
-> >
-> > Coercions between lifted and unboxed types
->
-> >
-> > Coercion between unboxed types of different sizes
->
-> >
-> > Coercion between unboxed ints and floats. 
->
->
-> Would anyone like to make a patch for this? Anything that can be checked by Core Lint, should be checked!
+> I think it would be a great idea for Core Lint to check for uses of `unsafeCoerce` that don't obey the rules. It won't catch all cases, of course, but it would have caught [\#9035](https://gitlab.haskell.org//ghc/ghc/issues/9035). 
 
 
 This proposal is about implementation of the task.
