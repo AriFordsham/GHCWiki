@@ -140,6 +140,30 @@ This is just like `NomCoherence` above, but `Coherence*` allows `g` and `h` to h
 
 Going ahead with this idea now...
 
+### It's all gone pear-shaped!
+
+
+So, the above idea doesn't quite work. Say we have
+
+```wiki
+ [G] co: t1 |> g ~N t2
+   where
+  t1 :: k1
+  g  :: k1 ~R k1'
+  t2 :: k2
+```
+
+
+How should we canonicalize? In practice, it's very important to be able to deal with casted types, as they come up a lot as we have only partial information about kinds. (Often, we have a levity metavariable that we don't yet know is `Lifted`, yielding quite a few coercions in types.) A new principle is that, if `s1 ~N s2` then `s1`'s kind is N-equal to `s2`'s kind. This is how `kind` of an N coercion yields an N coercion. We know from the given `co` above that `k1'` is N-equal to `k2`. However, if we strip off the cast, then we know only that `k1` is **R**-equal to `k2`. We can't then reduce `co` to something involving `t1 ~N t2`!
+
+
+It's possible that we could come up with a new way to solve in the presence of casted types without stripping off casts. (For example, this system allows for moving casts from one side of an equality to the other.) But it's hard to know how to proceed.
+
+### A way forward?
+
+
+What if `kind` always produced a **nominal** coercion? That solves the problem immediately above. And, with the right coherence rule, this might work out. Let me try.
+
 ## Lifted vs. Unlifted equality
 
 
