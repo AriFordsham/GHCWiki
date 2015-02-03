@@ -60,32 +60,37 @@ changes in the core specification, `docs/core-spec/CoreLint.ott` in the source t
 
 Basically it introduces three new predicates in UnivCo rule:
 
-1. Both types should be lifted or both types should be unlifted (Qnikst: note that original task forbids coercion between lifted and \*unboxed\*)
+1. Both types should be lifted or both types should be unlifted (Qnikst: note that original task forbids coercion between lifted and *unboxed*)
 
-1. If types are unlifted then their activeSize should be equal
+1. If types are unlifted then their activeSize should be equal. (**SPJ**: what is "active size"?)
 
 1. If types are unlifted then they either should be both floating or both integral
 
 ## Questions
 
 
-There are few dark places in this semantics change that should be clafiried
+There are few dark places in this semantics change that should be clarified
 
 ### Size of value
 
 
-GHC has 2 different sizes: word aligned size of values, and active size in bytes that actually used.
-The question is if we need to allow coercion between values with same word size, but different active size.
-(Qnikst. current implementation forbids it, as values with different active size can contain garbage, however
+GHC has 2 different sizes: word aligned size of values, and active size in bytes that actually used.  **SPJ**: where do you see these two different sizes in GHC's source code?
 
->
-> coercion from value with bigger active size to value with smaller potentially should be fine).
+
+The question is if we need to allow coercion between values with same word size, but different active size.
+(Qnikst. current implementation forbids it, as values with different active size can contain garbage, however coercion from value with bigger active size to value with smaller potentially should be fine).
 
 ### Unboxed Tuples
 
 
 A big question is how to treat unboxed tuples if they have same size, can we coerce between `(# Int, Int64 #)` and \`(\# Int64, Int \#)'?
-How to check is value is floating in this case?
+
+**SPJ**: I think it should be ok to coerce from `(# a, b #)` to `(# c,d #)` if it's safe to coerce from `a` to `c`, and ditto `b` to `d`.  The tuples must have the same length.
+
+
+How to check is value is floating in this case?  **SPJ** I don't understand the question.
+
+
 (Qnikst. current implementation allow such coercions and doesn't check "floatiness" of values)
 
 ### User programs
@@ -93,6 +98,8 @@ How to check is value is floating in this case?
 
 Should those check be applied only to internal GHC's transformations, for user programs should also be
 checked?
+
+**SPJ** Both ideally.  Emit a warning for uer programs with visible problems.  And check in Lint.  Start with the latter.
 
 ## Implementors
 
