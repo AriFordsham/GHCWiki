@@ -22,20 +22,11 @@ There are a number of concerns with the generalization as proposed for GHC 7.10.
 
 - There are lots of places that are Monad that could be Applicative. Given we're generalising List to Foldable, that now seems a bit weird. Similarly things like length vs genericLength now look very weird, given the structure is generalised but the number isn't.
 
-- I worry that while all the operations now work on lists and things like Vector, they don't work on things like ByteString or Text, which
+- I worry that while all the operations now work on lists and things like Vector, they don't work on things like ByteString or Text, which I find myself using far more than other non-list containers.
 
+- The functions in List which are generalised vs those which aren't is a bit surprising. isPrefixOf is not generalised, why not? I don't see any good reason for Data.List having a single list in an argument position in the new world.
 
-I find myself using far more than other non-list containers.
-
-- The functions in List which are generalised vs those which aren't is a bit surprising. isPrefixOf is not generalised, why not? I don't see
-
-
-any good reason for Data.List having a single list in an argument position in the new world.
-
-- Where should we stop? Certainly you can write any transformation, e.g. sort/reverse, on Traversable. Should we? Of course, you can't
-
-
-write reverse on Traversable as efficiently without adding a new method to Traversable - are we going to not do that?
+- Where should we stop? Certainly you can write any transformation, e.g. sort/reverse, on Traversable. Should we? Of course, you can't write reverse on Traversable as efficiently without adding a new method to Traversable - are we going to not do that?
 
 ## Approaches to the generalization
 
