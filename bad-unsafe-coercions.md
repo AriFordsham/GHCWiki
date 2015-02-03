@@ -9,7 +9,7 @@ however it's safe only for following uses:
 
 - Casting an unboxed type to another unboxed type of the same size (but not coercions between floating-point and integral types)
 
-- Casting between two types that have the same runtime representation. One case is when the two types differ only in "phantom" type parameters, for example Ptr Int to Ptr Float, or \[Int\] to \[Float\] when the list is known to be empty. Also, a newtype of a type T has the same representation at runtime as T.
+- Casting between two types that have the same runtime representation. One case is when the two types differ only in "phantom" type parameters, for example Ptr Int to Ptr Float, or \[Int\] to \[Float\] when the list is known to be empty. Also, a newtype of a type T has the same representation at runtime as T. (**RAE:** This last usecase is subsumed by `Data.Coerce.coerce`, at least when the newtype constructor is in scope.)
 
 
 However GHC doesn't check if it's safe to use `unsafeCoerce#` as a result bugs can appear, see [9035](https://gitlab.haskell.org//ghc/ghc/issues/9035).
@@ -92,7 +92,7 @@ checked?
 ## Implementors
 
 
-implementation: Alexander Vershilov
+implementation: Alexander Vershilov / Qnikst
 
 
-advisor: Richard Eisenberg
+advisor: Richard Eisenberg / goldfire / RAE
