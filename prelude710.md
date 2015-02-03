@@ -30,7 +30,7 @@ We discussed many alternatives, but ended up with two simple ones:
 >
 > The generalised types are almost entirely backward compatible.  However the `Foldable` class (in particular) has almost certainly not reached its final form, and is likely to evolve further.
 
-- **Plan List** - leave the functions working on lists, as they do in GHC 7.8.
+- **Plan List** - leave these functions working on lists, as they do in GHC 7.8.  The generalised versions would still be available, but you would have to import them, and using hiding or specific imports to avoid name clashes.  e.g. `foldr` is defined on lists in the current `Prelude`, but is generalised in `Data.Foldable`.
 
 
 Regardless of which plan is chosen the GHC 7.10 base libraries will
