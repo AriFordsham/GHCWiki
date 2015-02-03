@@ -36,18 +36,14 @@ Regardless of which plan is chosen the GHC 7.10 base libraries will
 - Incorporate the [ Applicative-Monad proposal](https://wiki.haskell.org/Functor-Applicative-Monad_Proposal)
 - Include `Data.Traversable` and `Data.Foldable` as in 7.8, but evolved somewhat. 
 
-
-More details:
-
-- [ Plan Foldable](https://wiki.haskell.org/Foldable_and_Traversable)
-- [Concerns about Plan Foldable](prelude710-list)
-
 ## The plan for GHC 7.12
 
 
 This discussion only covers what will ship with GHC 7.10. The expectation is that if we pick Plan List, then work will be put in place to achieve the goals of the Foldable/Traversable proposal in a future release. Alternatively, if we pick Plan Foldable, it is expected that the Foldable class will evolve in future releases and that some methods in Data.List may become specialized to list once again.
 
 ## Reasons for Plan Foldable: Generalize in GHC 7.10
+
+[ The Plan Foldable home page](https://wiki.haskell.org/Foldable_and_Traversable) describes and motivates the plan in more detail.
 
 - GHC 7.10 RC2 contains an implementation of the Foldable/Traversable generalizations. Authors who have modified their code to work with GHC 7.10 may have to undo some of those changes (but not the Applicative-Monad related changes).
 - With Foldable/Traversable there are fewer name clashes in the base library.
@@ -56,7 +52,7 @@ This discussion only covers what will ship with GHC 7.10. The expectation is tha
 ## Reasons for Plan List: Stay with list in GHC 7.10
 
 - There is not yet a consensus on many of the Plan Foldable changes. Another release cycle would give us time to build such a consensus, possibly leading to alterations in the proposal.
-- The Prelude is special, as it provides the default functions everyone gets. After Foldable and Traversable are incorporated into the Prelude, they are harder to change.
+- The Prelude is special; many people regard it as part of the language specification, and it provides the default functions everyone gets. After Foldable and Traversable are incorporated into the Prelude, they are harder to change.
 - There are concerns about which methods are generalized in Plan Foldable, whether methods in Data.List should be restricted to list even if the Prelude is generalized etc. Another release will give us the time to address some of these issues.
 - [Prelude710List](prelude710-list) outlines further concerns and possible approaches to take to achieve the Foldable/Traversable goals in GHC 7.12.
 
