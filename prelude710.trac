@@ -1,6 +1,6 @@
 = The GHC 7.10 Prelude =
 
-GHC 7.10 is coming soon, and we need to decide what the Prelude for GHC 7.10 will look like. The question is whether to generalize many of the functions in Prelude, Data.List and Control.Monad from lists to Foldable/Traversable. Regardless of which option is chosen, the GHC 7.10 base libraries will incorporate the [https://wiki.haskell.org/Functor-Applicative-Monad_Proposal Applicative-Monad proposal] and the extensions to the Foldable class required to support a future generalization. The Foldable/Traversable proposal then goes on to generalize the following methods:
+GHC 7.10 is coming soon, and we need to decide what the Prelude for GHC 7.10 will look like. The question is whether to generalize many of the functions in Prelude, Data.List and Control.Monad from lists to Foldable/Traversable. Regardless of which option is chosen, the GHC 7.10 base libraries will incorporate the [https://wiki.haskell.org/Functor-Applicative-Monad_Proposal Applicative-Monad proposal] and the extensions to the Foldable class required to support a future generalization. The Foldable/Traversable proposal then goes on to generalize the following functions:
 
 * From Prelude: all, and, any, concat, concatMap, elem, foldl, foldl1, foldr, foldr1, length, mapM, mapM_, maximum, minimum, notElem, null, or, product, sequence, sequence_, sum
 * From Control.Monad: foldM, foldM_, forM, forM_, mapM, mapM_, msum, sequence, sequence_
@@ -21,6 +21,7 @@ This discussion only covers what will ship with GHC 7.10. The expectation is tha
 * There is not yet a consensus on many of the changes. Another release cycle would give us time to build such a consensus, possibly leading to alterations in the proposal.
 * The Prelude is special, as it provides the default functions everyone gets. After Foldable and Traversable are incorporated into the Prelude, they are harder to change.
 * There are concerns about which methods have been generalised, whether methods in Data.List should be restricted to list even if the Prelude is generalised etc. Another release will give us the time to address some of these issues.
+* [[Prelude710List]] outlines further concerns and possible approaches to take to achieve the Foldable/Traversable goals in GHC 7.12.
 
 == What next? ==
 
