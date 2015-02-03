@@ -40,7 +40,7 @@ Regardless of which plan is chosen the GHC 7.10 base libraries will
 More details:
 
 - [ Plan Foldable](https://wiki.haskell.org/Foldable_and_Traversable)
-- [ Concerns about Plan Foldable](https://ghc.haskell.org/trac/ghc/wiki/BurningBridgesSlowly)
+- [Concerns about Plan Foldable](prelude710-list)
 
 ## The plan for GHC 7.12
 
