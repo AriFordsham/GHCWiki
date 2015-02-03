@@ -1,15 +1,17 @@
 ## Rationale
 
-`unsafeCoerce#` allow unsafe coercions between different types,
-however it's safe only for following uses:
+`unsafeCoerce#` allow unsafe coercions between different types.
+According to the [ documentation in GHC.Prim](http://hackage.haskell.org/package/ghc-prim-0.3.1.0/docs/GHC-Prim.html#v:unsafeCoerce-35-), it is safe only for following uses:
 
-- Casting any lifted type to Any
+- Casting any lifted type to `Any`
 
-- Casting Any back to the real type
+- Casting `Any` back to the real type
 
 - Casting an unboxed type to another unboxed type of the same size (but not coercions between floating-point and integral types)
 
-- Casting between two types that have the same runtime representation. One case is when the two types differ only in "phantom" type parameters, for example Ptr Int to Ptr Float, or \[Int\] to \[Float\] when the list is known to be empty. Also, a newtype of a type T has the same representation at runtime as T. (**RAE:** This last usecase is subsumed by `Data.Coerce.coerce`, at least when the newtype constructor is in scope.)
+- Casting between two types that have the same runtime representation. One case is when the two types differ only in "phantom" type parameters, for example `Ptr Int` to `Ptr Float`, or `[Int]` to `[Float]` when the list is known to be empty. 
+
+- Casting between a newtype of a type `T` and `T` itself.  (**RAE:** This last usecase is subsumed by `Data.Coerce.coerce`, at least when the newtype constructor is in scope.)
 
 
 However GHC doesn't check if it's safe to use `unsafeCoerce#` as a result bugs can appear, see [9035](https://gitlab.haskell.org//ghc/ghc/issues/9035).
