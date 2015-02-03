@@ -1,7 +1,11 @@
 # The 7.10 Prelude should remain list based
 
 
-As per [Prelude710](prelude710), there is debate over whether the list functions in the GHC 7.10 should be generalized to Foldable/Traversable. The page [BurningBridgesSlowly](burning-bridges-slowly) collects some thoughts, and \[[ http://neilmitchell.blogspot.co.uk/2014/10/how-to-rewrite-prelude.html](http://neilmitchell.blogspot.co.uk/2014/10/how-to-rewrite-prelude.html) blog\] [ posts](http://neilmitchell.blogspot.co.uk/2014/10/why-traversablefoldable-should-not-be.html) have also made arguments.
+As per [Prelude710](prelude710), there is debate over whether the list functions in the GHC 7.10 should be generalized to Foldable/Traversable. This page attempts to itemize some of the concerns about the generalization, and also some alternative approaches to getting some of the benefits of generalization. There is more information at:
+
+- [BurningBridgesSlowly](burning-bridges-slowly)
+- [ http://neilmitchell.blogspot.co.uk/2014/10/how-to-rewrite-prelude.html](http://neilmitchell.blogspot.co.uk/2014/10/how-to-rewrite-prelude.html)
+- [ http://neilmitchell.blogspot.co.uk/2014/10/why-traversablefoldable-should-not-be.html](http://neilmitchell.blogspot.co.uk/2014/10/why-traversablefoldable-should-not-be.html)
 
 ## Concerns with the generalization
 
