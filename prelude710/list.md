@@ -7,6 +7,15 @@ As per [Prelude710](prelude710), there is debate over whether the list functions
 - [ http://neilmitchell.blogspot.co.uk/2014/10/how-to-rewrite-prelude.html](http://neilmitchell.blogspot.co.uk/2014/10/how-to-rewrite-prelude.html)
 - [ http://neilmitchell.blogspot.co.uk/2014/10/why-traversablefoldable-should-not-be.html](http://neilmitchell.blogspot.co.uk/2014/10/why-traversablefoldable-should-not-be.html)
 
+## Concerns with the reasons and motivations
+
+
+There isn't clear agreement that generalization should be done at all.
+
+- One motivation behind the generalization is to modernize the Prelude and standardize on the Foldable/Traversable. But the Prelude, though far from perfect, but has withstood years as workable base for Haskell. Developers of all sorts routinely build more customized basic sets of libraries to import into their code, either as alternative Preludes, or as a common import. This mechanism works and allows diversity of opinion on what should commonly be in scope.
+
+- Another motivation behind the generalization is to allow the generic functions exported by Data.Foldable andD Data.Traversable, such as foldr and sequence, to be in scope unqualified without clashing with the same named functions in the Prelude (which are mostly from Data.List). But Haskell has existing facilities for handling this situation. The common way would be to Import Data.Foldable qualified, perhaps under a short name like F. In this way, foldr is the Prelude list based version, and F.foldr is the generic version. This is the approach used for many modules that have common, short named functions such as Data.Map and Data.Text.
+
 ## Concerns with the generalization
 
 
@@ -35,7 +44,7 @@ There are a number of concerns with the generalizations proposed for GHC 7.10. S
 ## Concerns for the ecosystem
 
 
-Not all concerns are about the libraries themselves. The base libraries, and especially the Prelude, are foundations of the larger ecosystem around Haskell. How such a change alters that ecosystem should be taken into account.
+The base libraries, and especially the Prelude, are foundations of the larger ecosystem around Haskell. How such a change alters that ecosystem should be taken into account.
 
 - While most code compiles and works as intended with the Foldable changes in, not all does. For very large code bases (think 1M lines or more), moving up to a generalized Prelude would take considerable engineering effort. Most such installations would probably delay adopting such a Prelude, perhaps for years.
 
@@ -48,12 +57,12 @@ Not all concerns are about the libraries themselves. The base libraries, and esp
 ## Alternatives to the generalization
 
 
-One motivation behind the generalization is to modernize the Prelude and standardize on the Foldable/Traversable. Another motivation behind the generalization is to avoid name clashes, so that both Data.List and Data.Foldable can be imported without making functions such as sum ambiguous. There are a number of alternative approaches that might help achieve some of these goals. None of these approaches are fully worked through, and would not be ready for GHC 7.10, but could be adapted for GHC 7.12.
-
-- Make no change at all, and simply import Foldable and Traversable qualified. This adds as little as two characters to each use (F.foldr instead of foldr), and is the norm for many common modules (Map, Text, Vector, ByteString, Lazy ByteString, etc...). In particular, the Text and ByteString packages both provide lazy and strict variants, which are often used together, and clash on almost all identifiers.
+There are a number of alternative approaches to how the generalization could be introduced into the code base. None of these approaches are fully worked through, and would not be ready for GHC 7.10, but could be adapted for GHC 7.12.
 
 - A language pragma could be used select alternative Preludes.
 
 - We could support restricting type signatures in export lists, so that when both a specific and general version are imported they do not clash.
 
 - A module with only the non-Foldable overlapping bits of Data.List could be created, allowing users who wanted Foldable plus some list functions to avoid name clashes.
+
+- The functions in Data.Foldable and Data.Traversable could be renamed not to clash. It is very common for generalized versions of functions to have a different name than their non-generalized counter parts: fmap and map, mappend and (++).  If the members of Data.Foldable were minimized (see above), then it might be reasonable to reanme its foldr something like ffoldr.
