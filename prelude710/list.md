@@ -12,7 +12,7 @@ As per [Prelude710](prelude710), there is debate over whether the list functions
 
 There are a number of concerns with the generalizations proposed for GHC 7.10. Some of these could be ignored, but the volume of concerns is in itself somewhat concerning.
 
-- Foldable has lots of class members. While the minimal definition is foldMap, in GHC 7.8 it contains 8 fold functions. In the Foldable/Traversable extension many members have been added, including sum, product, maximum, minimum. There is no obvious bound on the number of specialized folds that could be added.
+- Foldable has lots of class members. While the minimal definition is foldMap, in GHC 7.8 it contains 8 fold functions. In the Foldable/Traversable extension many additional members have been added, including sum, product, maximum, minimum. There is no obvious bound on the number of specialized folds that could be added.
 
 - Traversable contains both Monad and Applicative variants for each function, and following the Applicative-Monad proposal, the Monad variants (mapM and sequence) are now redundant. As a consequence, the derived functions forM and for are also duplicates.
 
@@ -28,9 +28,9 @@ There are a number of concerns with the generalizations proposed for GHC 7.10. S
 
 - Some functions in Data.List could be generalised to Traversable, but have not been. For example, sort and reverse can be generalized. However, such generalizations are likely to add a performance penalty.
 
-- Given that lots of functions could be generalized, it seems we should either generalize everything, or have a good story for where to stop. For example, isPrefix can be generalized, but stripPrefix can only be partly generalized, so should isPrefixOf be generalized?
+- Given that lots of functions could be generalized, it seems we should either generalize everything, or have a good story for where to stop. For example, isPrefix can be generalized, but the related function stripPrefix can only be partly generalized, so should isPrefixOf be generalized?
 
-- The IsList class seems an alternative generalization that could be made for some functions, and would work for ByteString and Text. Neither Foldable nor IsList is strictly more general, so both are potential alternatives.
+- The IsList class is an alternative generalization that could be made for some functions, and would work for ByteString and Text. Neither Foldable nor IsList is strictly more general, so both are potential alternatives.
 
 ## Concerns for the ecosystem
 
@@ -54,6 +54,6 @@ The primary motivation behind the generalization seems to be to avoid name clash
 
 - A language pragma could be used select alternative Preludes.
 
-- We could support restricting type signatures in export lists, so that when both a specific and general version were imported they did not clash.
+- We could support restricting type signatures in export lists, so that when both a specific and general version are imported they do not clash.
 
 - A module with only the non-Foldable overlapping bits of Data.List could be created, allowing users who wanted Foldable plus some list functions to avoid name clashes.
