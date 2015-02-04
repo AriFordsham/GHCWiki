@@ -22,7 +22,7 @@ There are a number of concerns with the generalizations proposed for GHC 7.10. S
 
 * While the Prelude operations (e.g. foldr) will now work on contains such as Vector, they still won't work on things like ByteString or Text, which in some code is used far more than other non-list containers.
 
-* Some functions in Data.List could be generalised to Foldable, but have not been. For example, isPrefixOf and isInfixOf can be generalised. More generally, anything with a list in an argument position can be generalized.
+* Some functions in Data.List could be generalized to Foldable, but have not been. For example, isPrefixOf and isInfixOf can be generalised. More generally, anything with a list in an argument position can be generalized.
 
 * Some functions in Data.List could be generalised to Traversable, but have not been. For example, sort and reverse can be generalized. However, such generalizations are likely to add a performance penalty.
 
