@@ -59,7 +59,7 @@ This discussion only covers what will ship with GHC 7.10. The expectation is tha
 - There is not yet a consensus on many of the Plan Foldable changes. Another release cycle would give us time to build such a consensus, possibly leading to alterations in the proposal.
 - The Prelude is special; many people regard it as part of the language specification, and it provides the default functions everyone gets. After Foldable and Traversable are incorporated into the Prelude, they are harder to change.
 - There are concerns about which methods are generalized in Plan Foldable, whether methods in Data.List should be restricted to list even if the Prelude is generalized etc. Another release will give us the time to address some of these issues.
-- [Prelude710List](prelude710-list) outlines further concerns and possible approaches to take to achieve the Foldable/Traversable goals in GHC 7.12.
+- [Prelude710/List](prelude710/list) outlines further concerns and possible approaches to take to achieve the Foldable/Traversable goals in GHC 7.12.
 
 ## What next?
 
