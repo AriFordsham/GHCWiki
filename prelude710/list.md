@@ -12,21 +12,23 @@ As per [Prelude710](prelude710), there is debate over whether the list functions
 
 There are a number of concerns with the generalization as proposed for GHC 7.10. Some of these could be ignored, but the volume of concerns is in itself somewhat concerning.
 
-- Foldable seems too big. It has gained a number of methods, and seems to have no natural bound on its eventual size.
+- Foldable has lots of class members. While the minimal definition is foldMap, in GHC 7.8 it contains 8 fold functions. In the Foldable/Traversable extension many members have been added, including sum, product, maximum, minimum. There is no obvious bound on the number of specialized folds that could be added.
 
-- Traversable seem to be twice as big as it should be, with both Monad and Applicative variants.
+- Traversable contains both Monad and Applicative variants for each function, and following the Applicative-Monad proposal, the Monad variants (mapM and sequence) are now redundant. As a consequence, the derived functions forM and for are also duplicates.
 
-- Given Foldable and Traversable could do with further refinement, dragging them into Prelude seems too soon.
+- Given Foldable and Traversable may benefit from further refinement, dragging them into Prelude seems premature.
 
-- Data.List is now methods not on list, but on Foldable, which is weird just from a naming perspective.
+- Data.List now has many functions that don't mention list in their type signature, for example find, length and null. Having such functions in the Data.List module is awkward from a naming perspective.
 
-- There are lots of places that are Monad that could be Applicative. Given we're generalising List to Foldable, that now seems a bit weird. Similarly things like length vs genericLength now look very weird, given the structure is generalised but the number isn't.
+- There are lots of functions that could be generalised further, but are not. For example, mapM, forM and sequence could all be expressed in terms of Applicative instead of Monad. Similarly things like length could be generalised to Num, making length vs genericLength more inconsistent.
 
-- While the list operations will now work on things like Vector, they still won't work on things like ByteString or Text, which in some code is used far more than other non-list containers.
+- While the Prelude operations (e.g. foldr) will now work on things like Vector, they still won't work on things like ByteString or Text, which in some code is used far more than other non-list containers.
 
-- The functions in List which are generalised vs those which aren't is a bit surprising. isPrefixOf is not generalised, why not? Is there any good reason for Data.List having a single list in an argument position in the new world?
+- Some functions in Data.List could be generalised to Foldable, but have not been. For example, isPrefixOf and isInfixOf can be generalised. More generally, anything with a list in an argument position can be generalised.
 
-- Where should we stop? Certainly you can write any length-preserving transformation, e.g. sort/reverse, on Traversable. Should we? Of course, you can't write reverse on Traversable as efficiently without adding a new method to Traversable - are we going to not do that?
+- Some functions in Data.List could be generalised to Traversable, but have not been. For example, sort and reverse can be generalized. However, such generalizations are likely to add a performance penalty.
+
+- Given that lots of functions could be generalized, we should either generalize everything, or have a good story for where to stop.
 
 ## Concerns for the ecosystem
 
