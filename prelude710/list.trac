@@ -16,7 +16,7 @@ There are a number of concerns with the generalizations proposed for GHC 7.10. S
 
 * Given Foldable and Traversable may benefit from further refinement, dragging them into Prelude seems premature.
 
-* Data.List now has many functions that don't mention list in their type signature, for example find, length and null. Having such functions in the Data.List module is awkward from a naming perspective.
+* Data.List now has many functions that don't mention list in their type signature, for example find, length and null. Having such functions in the Data.List module is awkward from a naming perspective. In contrast, modules like Data.Map export many functions from Data.Foldable, specialized to Map.
 
 * There are lots of functions that could be generalized further, but are not. For example, mapM, forM and sequence could all be expressed in terms of Applicative instead of Monad. Similarly things like length could be generalized to Num, making length and genericLength equivalent.
 
