@@ -48,7 +48,7 @@ Not all concerns are about the libraries themselves. The base libraries, and esp
 ## Alternatives to the generalization
 
 
-The primary motivation behind the generalization seems to be to avoid name clashes, so that both Data.List and Data.Foldable can be imported without making functions such as sum ambiguous. There are a number of approaches to fix the name clashes without generalizing Prelude. None of these approaches are fully worked through, and would not be ready for GHC 7.10, but could be adapted for GHC 7.12.
+One motivation behind the generalization is to modernize the Prelude and standardize on the Foldable/Traversable. Another motivation behind the generalization is to avoid name clashes, so that both Data.List and Data.Foldable can be imported without making functions such as sum ambiguous. There are a number of alternative approaches that might help achieve these goals. None of these approaches are fully worked through, and would not be ready for GHC 7.10, but could be adapted for GHC 7.12.
 
 - Make no change at all, and simply import Foldable and Traversable qualified. This adds as little as two characters to each use (F.foldr instead of foldr), and is the norm for many common modules (Map, Text, Vector, ByteString, Lazy ByteString, etc...). In particular, the Text and ByteString packages both provide lazy and strict variants, which are often used together, and clash on almost all identifiers.
 
