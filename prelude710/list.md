@@ -24,7 +24,7 @@ There are a number of concerns with the generalization as proposed for GHC 7.10.
 
 - While the list operations will now work on things like Vector, they still won't work on things like ByteString or Text, which in some code is used far more than other non-list containers.
 
-- The functions in List which are generalised vs those which aren't is a bit surprising. isPrefixOf is not generalised, why not? Is there any good reason for Data.List having a single list in an argument position in the new world.
+- The functions in List which are generalised vs those which aren't is a bit surprising. isPrefixOf is not generalised, why not? Is there any good reason for Data.List having a single list in an argument position in the new world?
 
 - Where should we stop? Certainly you can write any length-preserving transformation, e.g. sort/reverse, on Traversable. Should we? Of course, you can't write reverse on Traversable as efficiently without adding a new method to Traversable - are we going to not do that?
 
