@@ -106,7 +106,7 @@ The question is if we need to allow coercion between values with same word size,
 A big question is how to treat unboxed tuples if they have same size, can we coerce between `(# Int, Int64 #)` and \`(\# Int64, Int \#)'?
 
 **SPJ**: I think it should be ok to coerce from `(# a, b #)` to `(# c,d #)` if it's safe to coerce from `a` to `c`, and ditto `b` to `d`.  The tuples must have the same length. 
-**Qnikst**: Do I understand correctly that it should not be possible to coerce `(# a, b, c #)` to `(# a, d #)` where `size b + size c == size d`? 
+**Qnikst**: Do I understand correctly that it should not be possible to coerce `(# a, b, c #)` to `(# a, d #)` where `size b + size c == size d`?   **SPJ** Correct. Like I say "the tuples must have the same length".
  
 
 
