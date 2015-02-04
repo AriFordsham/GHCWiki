@@ -10,23 +10,27 @@ As per [Prelude710](prelude710), there is debate over whether the list functions
 ## Concerns with the generalization
 
 
-There are a number of concerns with the generalization as proposed for GHC 7.10. Some of these could be ignored, but the volume of concerns is in itself somewhat concerning.
+There are a number of concerns with the generalizations proposed for GHC 7.10. Some of these could be ignored, but the volume of concerns is in itself somewhat concerning.
 
-- Foldable seems too big. It has gained a number of methods, and seems to have no natural bound on its eventual size.
+- Foldable has lots of class members. While the minimal definition is foldMap, in GHC 7.8 it contains 8 fold functions. In the Foldable/Traversable extension many additional members have been added, including sum, product, maximum, minimum. There is no obvious bound on the number of specialized folds that could be added.
 
-- Traversable seem to be twice as big as it should be, with both Monad and Applicative variants.
+- Traversable contains both Monad and Applicative variants for each function, and following the Applicative-Monad proposal, the Monad variants (mapM and sequence) are now redundant. As a consequence, the derived functions forM and for are also duplicates.
 
-- Given Foldable and Traversable could do with further refinement, dragging them into Prelude seems too soon.
+- Given Foldable and Traversable may benefit from further refinement, dragging them into Prelude seems premature.
 
-- Data.List is now methods not on list, but on Foldable, which is weird just from a naming perspective.
+- Data.List now has many functions that don't mention list in their type signature, for example find, length and null. Having such functions in the Data.List module is awkward from a naming perspective. In contrast, modules like Data.Map export many functions from Data.Foldable, specialized to Map.
 
-- There are lots of places that are Monad that could be Applicative. Given we're generalising List to Foldable, that now seems a bit weird. Similarly things like length vs genericLength now look very weird, given the structure is generalised but the number isn't.
+- There are lots of functions that could be generalized further, but are not. For example, mapM, forM and sequence could all be expressed in terms of Applicative instead of Monad. Similarly things like length could be generalized to Num, making length and genericLength equivalent.
 
-- While the list operations will now work on things like Vector, they still won't work on things like ByteString or Text, which in some code is used far more than other non-list containers.
+- While the Prelude operations (e.g. foldr) will now work on contains such as Vector, they still won't work on things like ByteString or Text, which in some code is used far more than other non-list containers.
 
-- The functions in List which are generalised vs those which aren't is a bit surprising. isPrefixOf is not generalised, why not? Is there any good reason for Data.List having a single list in an argument position in the new world?
+- Some functions in Data.List could be generalized to Foldable, but have not been. For example, isPrefixOf and isInfixOf can be generalised. More generally, anything with a list in an argument position can be generalized.
 
-- Where should we stop? Certainly you can write any length-preserving transformation, e.g. sort/reverse, on Traversable. Should we? Of course, you can't write reverse on Traversable as efficiently without adding a new method to Traversable - are we going to not do that?
+- Some functions in Data.List could be generalised to Traversable, but have not been. For example, sort and reverse can be generalized. However, such generalizations are likely to add a performance penalty.
+
+- Given that lots of functions could be generalized, it seems we should either generalize everything, or have a good story for where to stop. For example, isPrefix can be generalized, but the related function stripPrefix can only be partly generalized, so should isPrefixOf be generalized?
+
+- The IsList class is an alternative generalization that could be made for some functions, and would work for ByteString and Text. Neither Foldable nor IsList is strictly more general, so both are potential alternatives.
 
 ## Concerns for the ecosystem
 
@@ -44,12 +48,12 @@ Not all concerns are about the libraries themselves. The base libraries, and esp
 ## Alternatives to the generalization
 
 
-The primary motivation behind the generalization seems to be to avoid name clashes. There are a number of approaches to fix the name clashes without generalizing Prelude. None of these approaches are fully worked through, and would not be ready for GHC 7.10, but could be adapted for GHC 7.12.
+One motivation behind the generalization is to modernize the Prelude and standardize on the Foldable/Traversable. Another motivation behind the generalization is to avoid name clashes, so that both Data.List and Data.Foldable can be imported without making functions such as sum ambiguous. There are a number of alternative approaches that might help achieve some of these goals. None of these approaches are fully worked through, and would not be ready for GHC 7.10, but could be adapted for GHC 7.12.
 
-- Make no change at all, and simply import Foldable and Traversable qualified. This adds as little as two characters to each use, and is the norm for many common modules (Map, Text, Vector, etc...).
+- Make no change at all, and simply import Foldable and Traversable qualified. This adds as little as two characters to each use (F.foldr instead of foldr), and is the norm for many common modules (Map, Text, Vector, ByteString, Lazy ByteString, etc...). In particular, the Text and ByteString packages both provide lazy and strict variants, which are often used together, and clash on almost all identifiers.
 
 - A language pragma could be used select alternative Preludes.
 
-- We could support restricting type signatures in export lists, so that when both a specific and general version were imported they did not clash.
+- We could support restricting type signatures in export lists, so that when both a specific and general version are imported they do not clash.
 
-- A module with only the non-Foldable overlapping bits of Data.List could be created.
+- A module with only the non-Foldable overlapping bits of Data.List could be created, allowing users who wanted Foldable plus some list functions to avoid name clashes.
