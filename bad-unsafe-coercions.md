@@ -111,7 +111,7 @@ A big question is how to treat unboxed tuples if they have same size, can we coe
 
 
 How to check is value is floating in this case?  **SPJ** I don't understand the question.
-**Qnikst**: 'Coercion between unboxed ints and floats.' so we need to specify how it works for tuples.  *\@SPJ* I'm sorry I still don't understand what the issue is.  Can you just give a concrete example?
+**Qnikst**: 'Coercion between unboxed ints and floats.' so we need to specify how it works for tuples.  **SPJ** I'm sorry I still don't understand what the issue is.  Can you just give a concrete example?
 
 
 As far as I understand coerce from `(# a, b #)` to `(# c, d #)` should not be allowed if either `a`, `b` or `c`,`d` violates rule.
