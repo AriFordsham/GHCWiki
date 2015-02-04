@@ -64,7 +64,7 @@ There are few dark places in this semantics change that should be clarified
 **SPJ** I can't make head or tail of this section, and I am pretty sure that this section is all wrong.  But we need Geoff Mainland to help us out.  
 
 
-I think that the difference between "active size" and "real size" is caused by `VecRep`, which in turn is Geoff Mainland's support for vector instructions; I think the most up to date description is [SIMD](simd).  So we can have a type for a 4-vector of 32-bit quantities.  But these things may well be held in special registers, a bit like `Float`, and are probably not inter-coercible with anything else. 
+I think that the difference between "active size" and "real size" (concepts whose very existence I dispute) is caused by `VecRep`, which in turn is Geoff Mainland's support for vector instructions; I think the most up to date description is [SIMD](simd).  So we can have a type for a 4-vector of 32-bit quantities.  But these things may well be held in special registers, a bit like `Float`, and are probably not inter-coercible with anything else. 
 
 
 For now, do something simple and conservative
