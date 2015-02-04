@@ -44,7 +44,7 @@ Regardless of which plan is chosen the GHC 7.10 base libraries will
 ## The plan for GHC 7.12
 
 
-This discussion only covers what will ship with GHC 7.10. The expectation is that if we pick Plan List, then work will be put in place to achieve the goals of the Foldable/Traversable proposal in a future release. Alternatively, if we pick Plan Foldable, it is expected that the Foldable class will evolve in future releases and that some methods in Data.List may become specialized to list once again.
+This discussion only covers what will ship with GHC 7.10. The expectation is that if we pick Plan List, then work will be put in place to achieve the goals of the Foldable/Traversable proposal in a future release. Alternatively, if we pick Plan Foldable, it is expected that the Foldable class will evolve in future releases and that some methods in Data.List may be removed or become specialized to list once again. 
 
 ## Reasons for Plan Foldable: Generalize in GHC 7.10
 
