@@ -61,22 +61,31 @@ There are few dark places in this semantics change that should be clarified
 
 ### Size of value
 
+**SPJ** I can't make head or tail of this section, and I am pretty sure that this section is all wrong.  But we need Geoff Mainland to help us out.  
+
+
+I think that the difference between "active size" and "real size" (concepts whose very existence I dispute) is caused by `VecRep`, which in turn is Geoff Mainland's support for vector instructions; I think the most up to date description is [SIMD](simd).  So we can have a type for a 4-vector of 32-bit quantities.  But these things may well be held in special registers, a bit like `Float`, and are probably not inter-coercible with anything else. 
+
+
+For now, do something simple and conservative
+ 
+**End of SPJ**
+
 
 GHC has 2 different sizes: word aligned size of values, and active size in bytes that actually used.  **SPJ**: where do you see these two different sizes in GHC's source code?
 
 
 Term 'active size' is used to describe number of bytes that value actually use, at this moment such numbers are used
 in Vectors, see `primElemRepSizeB` in ([source:compiler/types/TyCon.hs](/trac/ghc/browser/compiler/types/TyCon.hs)[](/trac/ghc/export/HEAD/ghc/compiler/types/TyCon.hs)). The reasons about forbidding coercions between
-values with a different active size is that in the rest bytes there will be a garbase:
+values with a different active size is that in the rest bytes there will be garbage:
 
 
 Hypothetical example for a Word16 on machine with 4-byte word size:
 
->
-> \[A\|A\|W\|W\]
->
-> >
-> > 0 1 2 3 
+```wiki
+   [A|A|W|W]
+    0 1 2 3 
+```
 
 
 the real size of this value will be 1 word (4 bytes), active size will be (2 bytes), bytes 2,3 will contain garbage.
@@ -97,12 +106,12 @@ The question is if we need to allow coercion between values with same word size,
 A big question is how to treat unboxed tuples if they have same size, can we coerce between `(# Int, Int64 #)` and \`(\# Int64, Int \#)'?
 
 **SPJ**: I think it should be ok to coerce from `(# a, b #)` to `(# c,d #)` if it's safe to coerce from `a` to `c`, and ditto `b` to `d`.  The tuples must have the same length. 
-**Qnikst**: Do I understand correctly that it should not be possible to coerce `(# a, b, c #)` to `(# a, d #)` where `size b + size c == size d`? 
+**Qnikst**: Do I understand correctly that it should not be possible to coerce `(# a, b, c #)` to `(# a, d #)` where `size b + size c == size d`?   **SPJ** Correct. Like I say "the tuples must have the same length".
  
 
 
 How to check is value is floating in this case?  **SPJ** I don't understand the question.
-**Qnikst**: 'Coercion between unboxed ints and floats.' so we need to specify how it works for tuples.
+**Qnikst**: 'Coercion between unboxed ints and floats.' so we need to specify how it works for tuples.  **SPJ** I'm sorry I still don't understand what the issue is.  Can you just give a concrete example?
 
 
 As far as I understand coerce from `(# a, b #)` to `(# c, d #)` should not be allowed if either `a`, `b` or `c`,`d` violates rule.
@@ -121,6 +130,8 @@ checked?
 **SPJ** Both ideally.  Emit a warning for uer programs with visible problems.  And check in Lint.  Start with the latter.
 
 **RAE** So that means that a warning would be issued, followed by a CoreLint failure. This violates the invariant that CoreLint catches only GHC's mistakes. I loosely agree with this approach here (because I want to allow users to do terrible things if they really want to), but we'll have to be careful about wording the error message that CoreLint spits out. This also implies that users who are actively trying to shoot themselves in the foot will have to avoid `-dcore-lint`, which is slightly dissatisfying. Maybe add a flag asking whether or not CoreLint should perform these checks? I guess my tension stems from the fact that we want to protect most users from mistakes and want to detect mistakes in GHC, while still allowing crazy things to happen. (Like still exporting [ this function](https://github.com/haskell/bytestring/blob/2530b1c28f15d0f320a84701bf507d5650de6098/Data/ByteString/Internal.hs#L599).)
+ 
+**SPJ** Let's not make the best the enemy of the good.  Make the whole lot into warnings or something, if that would reassure you.  Mostly we are trying to identify smelly code; some of it might just possibly work.  On a particular processor, when the sun is shining.  
 
 ## Implementors
 
