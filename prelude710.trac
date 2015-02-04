@@ -2,7 +2,7 @@
 
 The [https://wiki.haskell.org/Core_Libraries_Committee Core Libraries Committee] is responsible for developing the core libraries that ship with GHC.  This is an important but painstaking task, and we owe the CLC a big vote of thanks for taking it on.
 
-For over a year the CLC has been working on integrating the `Foldable` and `Traversable` classes (shipped in `base` in GHC 7.8) into the core libraries, and into the Prelude in particular.  Then we had a failure of communication.  Detailed planning for GHC 7.10 started in the autumn of 2014, and the CLC went ahead with this integration.  ''That entails substantial changes to the `Prelude`''; that is, changes to the experience that everyone willy-nilly has when they fire up `ghci`.  These changes were not well signposted, so many people have only recently woken up to them, and some have objected (both in principle and detail).
+For over a year the CLC has been working on integrating the `Foldable` and `Traversable` classes (shipped in `base` in GHC 7.8) into the core libraries, and into the Prelude in particular.  Then we had a failure of communication.  Detailed planning for GHC 7.10 started in the autumn of 2014, and the CLC went ahead with this integration.  ''That entails substantial changes to the `Prelude`''; that is, changes to what is in scope by default in all Haskell code, and the experience that everyone willy-nilly has when they fire up `ghci`.  These changes were not well signposted, so many people have only recently woken up to them, and some have objected (both in principle and detail).
 
 This is an extremely unfortunate situation.  On the one hand we are at RC2 for GHC 7.10, so library authors have invested effort in updating their libraries to the new Prelude.  On the other, altering the Prelude is in effect altering the language, something we take pretty seriously.  We should have had this debate back in 2014, but here we are, and it is unproductive to argue about whose fault it is.  We all share responsiblity.
 
@@ -24,7 +24,7 @@ We discussed many alternatives, but ended up with two simple ones:
 
   Note that this is a divergence from Haskell 2010, although for the most part code that compiles with Haskell 2010 continues to compile under this scheme.
 
-* '''Plan List''' - leave these functions working on lists, as they do in GHC 7.8 (and Haskell 2010).  The generalised versions would still be available, but you would have to import them, and using hiding or specific imports to avoid name clashes.  e.g. `foldr` is defined on lists in the current `Prelude`, but is generalised in `Data.Foldable`.
+* '''Plan List''' - leave these functions working on lists, as they do in GHC 7.8 (and Haskell 2010).  The generalised versions would still be available, but you would have to import them, and use qualification, hiding or specific imports to avoid name clashes.  e.g. `foldr` is defined on lists in the current `Prelude`, but is generalised in `Data.Foldable`.
 
 Regardless of which plan is chosen the GHC 7.10 base libraries will
  * Incorporate the [https://wiki.haskell.org/Functor-Applicative-Monad_Proposal Applicative-Monad proposal]
