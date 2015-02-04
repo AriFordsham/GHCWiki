@@ -61,22 +61,31 @@ There are few dark places in this semantics change that should be clarified
 
 ### Size of value
 
+**SPJ** I can't make head or tail of this section, and I am pretty sure that this section is all wrong.  But we need Geoff Mainland to help us out.  
+
+
+I think that the difference between "active size" and "real size" is caused by `VecRep`, which in turn is Geoff Mainland's support for vector instructions; I think the most up to date description is [SIMD](simd).  So we can have a type for a 4-vector of 32-bit quantities.  But these things may well be held in special registers, a bit like `Float`, and are probably not inter-coercible with anything else. 
+
+
+For now, do something simple and conservative
+ 
+**End of SPJ**
+
 
 GHC has 2 different sizes: word aligned size of values, and active size in bytes that actually used.  **SPJ**: where do you see these two different sizes in GHC's source code?
 
 
 Term 'active size' is used to describe number of bytes that value actually use, at this moment such numbers are used
 in Vectors, see `primElemRepSizeB` in ([source:compiler/types/TyCon.hs](/trac/ghc/browser/compiler/types/TyCon.hs)[](/trac/ghc/export/HEAD/ghc/compiler/types/TyCon.hs)). The reasons about forbidding coercions between
-values with a different active size is that in the rest bytes there will be a garbase:
+values with a different active size is that in the rest bytes there will be garbage:
 
 
 Hypothetical example for a Word16 on machine with 4-byte word size:
 
->
-> \[A\|A\|W\|W\]
->
-> >
-> > 0 1 2 3 
+```wiki
+   [A|A|W|W]
+    0 1 2 3 
+```
 
 
 the real size of this value will be 1 word (4 bytes), active size will be (2 bytes), bytes 2,3 will contain garbage.
