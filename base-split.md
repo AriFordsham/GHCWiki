@@ -1,4 +1,7 @@
 
+This is not about the more recent effort of splitting up `base`, see [SplitBase](split-base) for that
+
+
 This page is about what needs to be dealt with in GHC (and the `base` package) in order for it to support altarnate `base` packages (for example, a prototype of Haskell 2's library).
 
 ## Wired-in types and classes
