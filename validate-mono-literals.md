@@ -43,7 +43,7 @@ And now for a small detour about literals.
 Some efficient and frequently used data structures, such as `Text` and `ByteString` don't really have a convenient way of being written directly, instead of converted from existing values, like `String` and `[Word8]`. To counter this hassle we have extensions like `OverloadedStrings` and now `OverloadedLists`, allowing plain, easy to write literals to be automatically converted to some other type that does not have an easily typeable form.
 
 
-Now, one of the common pitfalls of these `OverloadedX` extensions and the `Num` typeclass is that these conversions have to be **total**, if they're partial then literals may end up producing runtime errors, which is obviously undesirable. However, many sensible types do not have total conversions, so they either silently do the "wrong" thing or just end up producing runtime errors.
+Now, one of the common pitfalls of these `OverloadedX` extensions and the `Num` typeclass is that these conversions have to be **total**. If they're partial then literals may end up producing runtime errors, which is obviously undesirable. However, many sensible types do not have total conversions, so they either silently do the "wrong" thing or just end up producing runtime errors.
 
 
 Examples of "Doing The Wrong Thing" are: `ByteString`'s `IsString` instance silently truncating all values to ASCII, `Word8` resulting in modulo 256 results (i.e. "(256 :: Word8) == 0"). Now GHC recently gained warnings for overflowing literals for built in numeric types, but this doesn't solve any issues for user overloaded literals.
