@@ -137,6 +137,41 @@ System related `@variables@` which are expanded by `configure` are to be placed 
 
 The first intermediate goal is to choose a library and build it with `Shake`. This will be tested by running the existing build system, removing all the built stuff for this particular library, and then restoring it with `Shake`, hopefully getting the same result. It was decided to choose a library without `cbits` and `#include`'s for the first attempt; `libraries/haskell2010` seems like a good candidate. The build code should be sufficiently generic to handle all other libraries without much rewriting.
 
+## Notes on configuration
+
+
+In discussions we came up with a plan for dealing with configuration options, that will probably be delayed until after the first version is produced. The plan is to introduce the types approximately like:
+
+```wiki
+data Config = Config {compileProfiling :: Bool, enableRTSDebugging :: Bool, intLibrary :: IntLibrary, extraSettings :: [Setting]}
+
+data Setting = Setting {builder :: Builder, file :: Maybe FilePath, package :: Maybe FilePath, disable :: Bool, args :: [String]}
+```
+
+
+Users who want a custom configuration will write a Config.hs file such as:
+
+```wiki
+module UserConfig where
+
+import GhcBuild.Config
+
+userConfig :: Config -> Config
+userConfig c = (crossCompile $ fastBuild c){intLibrary = IntInteger2}
+```
+
+
+All rules currently in the Makefile's will be written in a module inside the build system such as:
+
+```wiki
+module BuildConfig where
+
+buildConfig :: Config -> [Setting]
+buildConfig Config{..} =
+    [Setting (GHC Stage2) (Just "RTS.hs") Nothing False ["-DINTEGER2"] | intLibrary == IntInteger2] ++
+    extraSettings
+```
+
 ## How to contribute
 
 
