@@ -34,7 +34,7 @@ mkEven :: Int -> Maybe Even
 This succesfully forces users to validate any input is appropriate and helps us preserve important program invariants, there is however a problem. In many scenarios a programmer will have to write constants into their program. For example, someone writing a HTTP or SMTP implementation will likely have to include various `ByteString`'s with specific protocol commands in their source. And now our type safety becomes a hassle.
 
 
-We now somehow have to handle a failure condition that, logically, should never happen. If the constant we wrote it should always succeed and if it's wrong it can never work. Yet we find ourselves dealing with this uncomfortable `Maybe` that we can't really get rid off.
+We now somehow have to handle a failure condition that, logically, should never happen. If the constant we wrote is correct, it should always succeed and if the constant is wrong it can never work. Yet we find ourselves dealing with this uncomfortable `Maybe` that we can't really get rid off.
 
 
 And now for a small detour about literals.
