@@ -118,6 +118,8 @@ buildConfig Config{..} =
     extraSettings
 }}}
 
+The setting information would be cached in an oracle and matched on when supplying arguments to builders.
+
 == How to contribute ==
 
 Please email to `andrey.mokhov@ncl.ac.uk` who coordinates the efforts if you'd like to contribute or have any comments/suggestions.

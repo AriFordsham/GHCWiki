@@ -172,6 +172,9 @@ buildConfig Config{..} =
     extraSettings
 ```
 
+
+The setting information would be cached in an oracle and matched on when supplying arguments to builders.
+
 ## How to contribute
 
 
