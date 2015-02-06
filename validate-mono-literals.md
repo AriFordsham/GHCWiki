@@ -112,6 +112,14 @@ However, this notation is rather noisy and in compound expressions can make the 
 
 This clearly only makes sense for monomorphic literals (else, how would you decide which validation function to use!), hence the name `ValidateMonoLiterals`
 
+### Summary
+
+
+To clarify the exact change proposed:
+
+
+When the [ValidateMonoLiterals](validate-mono-literals) is enabled GHC would replace `fromString`/`fromInteger`/`fromList` expressions originating from literals with a Typed TH splice along the lines of `validate` for all monomorphic cases. Validating polymorphic cases at compile time is not really a sensible thing to do, so those should just remain with the current behaviour.
+
 ## Various Bikesheds in Need of Colouring
 
 
