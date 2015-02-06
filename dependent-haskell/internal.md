@@ -164,6 +164,11 @@ It's possible that we could come up with a new way to solve in the presence of c
 
 What if `kind` always produced a **nominal** coercion? That solves the problem immediately above. And, with the right coherence rule, this might work out. Let me try.
 
+**Edit:** This was quickly a terrible idea -- it doesn't make any sense at all.
+
+
+Current plan (2/6/15): Just keep the old coherence rule, along with the added insight that whenever the type-checker needs to equate `(t1 :: k1)` and `(t2 :: k2)`, it produces `[W] t1 ~N t2` and `[W] k1 ~N k2`. If we're consistent about requiring **both** of these every time, it should all be OK.
+
 ## Lifted vs. Unlifted equality
 
 
