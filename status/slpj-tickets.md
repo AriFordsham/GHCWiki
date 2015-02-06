@@ -2,6 +2,7 @@
 
 ## Urgent or in-flight
 
+- [\#10068](https://gitlab.haskell.org//ghc/ghc/issues/10068): runtime reflection API for modules, names.
 - [\#9858](https://gitlab.haskell.org//ghc/ghc/issues/9858): `Typeable` should be kind-aware.
 - [\#10031](https://gitlab.haskell.org//ghc/ghc/issues/10031): `Coercible` makes compiler loop
 - [\#9960](https://gitlab.haskell.org//ghc/ghc/issues/9960), [\#9805](https://gitlab.haskell.org//ghc/ghc/issues/9805): `TrieMap` stuff
