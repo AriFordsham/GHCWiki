@@ -1,18 +1,24 @@
 # The GHC 7.10 Prelude
 
 
-The [ Core Libraries Committee](https://wiki.haskell.org/Core_Libraries_Committee) is responsible for developing the core libraries that ship with GHC.  This is an important but painstaking task, and we owe the CLC a big vote of thanks for taking it on.
+The [ Core Libraries Committee](https://wiki.haskell.org/Core_Libraries_Committee) (CLC) is responsible for developing the core libraries that ship with GHC.  This is an important but painstaking task, and we owe the CLC a big vote of thanks for taking it on.
 
 
-For over a year the CLC has been working on integrating the `Foldable` and `Traversable` classes (shipped in `base` in GHC 7.8) into the core libraries, and into the Prelude in particular.  Then we had a failure of communication.  Detailed planning for GHC 7.10 started in the autumn of 2014, and the CLC went ahead with this integration.  *That entails substantial changes to the `Prelude`*; that is, changes to what is in scope by default in all Haskell code, and the experience that everyone willy-nilly has when they fire up `ghci`.  These changes were not well signposted, so many people have only recently woken up to them, and some have objected (both in principle and detail).
+For over a year the CLC has been working on integrating the `Foldable` and `Traversable` classes (shipped in `base` in GHC 7.8) into the core libraries, and into the Prelude in particular.  Then we had a failure of communication.  Detailed planning for GHC 7.10 started in the autumn of 2013, and the CLC went ahead with this integration. 
 
 
-This is an extremely unfortunate situation.  On the one hand we are at RC2 for GHC 7.10, so library authors have invested effort in updating their libraries to the new Prelude.  On the other, altering the Prelude is in effect altering the language, something we take pretty seriously.  We should have had this debate back in 2014, but here we are, and it is unproductive to argue about whose fault it is.  We all share responsiblity.
+As these changes affect the Prelude, which is in scope for all users of Haskell, these changes should be held to a higher bar than the regular `libraries@` review process.
+
+
+As changes were not particularly well signposted, many people have only recently woken up to them, and some have objected (both in principle and detail).
+
+
+This is an extremely unfortunate situation.  On the one hand we are at RC2 for GHC 7.10, so library authors have invested effort in updating their libraries to the new Prelude.  On the other, altering the Prelude is in effect altering the language, something we take pretty seriously.  We should have had this debate back in 2014, but here we are, and it is unproductive to argue about whose fault it is.  We all share responsibility.
 
 
 We need to decide what to do now.  A small group of us met by Skype and we've decided to do this:
 
-- Push back GHC 7.10's release by at least a month
+- Push back GHC 7.10's release by at least a month (in part due to this, but also to address an unrelated showstopping bug)
 - Invite input from the Haskell community on which of two approaches to adopt (see below)
 - Ask Simon Marlow and Simon Peyton Jones to decide which approach to follow for GHC 7.10.
 
@@ -28,7 +34,7 @@ We discussed many alternatives, but ended up with two simple ones:
   - From `Data.List`: all, and, any, concat, concatMap, elem, find, foldl, foldl', foldl1, foldr, foldr1, length, mapAccumL, mapAccumR, maximum, maximumBy, minimum, minimumBy, notElem, null, or, product, sum
 
 >
-> The generalised types are almost entirely backward compatible.  However the `Foldable` class (in particular) has almost certainly not reached its final form, and is likely to evolve further.
+> The generalised types are almost entirely backward compatible.  However the `Foldable` class (in particular) may evolve further.
 
 >
 > Note that this is a divergence from Haskell 2010, although for the most part code that compiles with Haskell 2010 continues to compile under this scheme.
@@ -47,15 +53,15 @@ It should also be noted that `Traversable` can be added to `Prelude` without add
 ## The plan for GHC 7.12
 
 
-This discussion only covers what will ship with GHC 7.10. The expectation is that if we pick Plan List, then work will be put in place to achieve the goals of the Foldable/Traversable proposal in a future release. Alternatively, if we pick Plan Foldable, it is expected that the Foldable class will evolve in future releases and that some methods in Data.List may be removed or become specialized to list once again. 
+This discussion only covers what will ship with GHC 7.10. The expectation is that if we pick Plan List, then work will be put in place to achieve the goals of the Foldable/Traversable proposal in a future release. Alternatively, if we pick Plan Foldable, it is expected that the Foldable class may evolve in future releases and that some methods in Data.List may be removed or become specialized to list once again. 
 
 ## Reasons for Plan Foldable: Generalize in GHC 7.10
 
-[ The Plan Foldable home page](https://wiki.haskell.org/Foldable_and_Traversable) describes and motivates the plan in more detail.
+[ The Plan Foldable home page](https://wiki.haskell.org/Prelude710/FTP) describes and motivates the plan in more detail.
 
 - GHC 7.10 RC2 contains an implementation of the Foldable/Traversable generalizations. Authors who have modified their code to work with GHC 7.10 may have to undo some of those changes (but not the Applicative-Monad related changes).
-- With Foldable/Traversable there are fewer name clashes in the base library.
-- The functions in Prelude become applicable to other data structures, for example Vector and Map.
+- With Foldable/Traversable there are no name clashes between Prelude and the rest of base.
+- The functions in Prelude become consistently applicable to other data structures, for example `Vector`, `Map`, `Maybe`, `Either a`, `(,) a`, `Set`, etc.
 
 ## Reasons for Plan List: Stay with list in GHC 7.10
 
