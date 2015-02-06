@@ -40,7 +40,7 @@ This discussion only covers what will ship with GHC 7.10. The expectation is tha
 
 == Reasons for Plan Foldable: Generalize in GHC 7.10 ==
 
-[https://wiki.haskell.org/Prelude710/FTP The Plan Foldable home page] describes and motivates the plan in more detail.
+[[Prelude710/FTP]] describes and motivates the plan in more detail.
 
 * GHC 7.10 RC2 contains an implementation of the Foldable/Traversable generalizations. Authors who have modified their code to work with GHC 7.10 may have to undo some of those changes (but not the Applicative-Monad related changes).
 * With Foldable/Traversable there are no name clashes between Prelude and the rest of base.
