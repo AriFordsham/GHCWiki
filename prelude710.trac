@@ -34,8 +34,6 @@ Regardless of which plan is chosen the GHC 7.10 base libraries will
  * Incorporate the [https://wiki.haskell.org/Functor-Applicative-Monad_Proposal Applicative-Monad proposal]
  * Include `Data.Traversable` and `Data.Foldable` as in 7.8, but evolved somewhat. 
 
-It should also be noted that `Traversable` can be added to `Prelude` without adding `Foldable`.  Today `Foldable` is a superclass of `Traversable`, but there is no real need for that.  (E.g., building the lens package and all its dependencies only requires 9 trivial changes when `Foldable` is no longer a superclass.)
-
 == The plan for GHC 7.12 ==
 
 This discussion only covers what will ship with GHC 7.10. The expectation is that if we pick Plan List, then work will be put in place to achieve the goals of the Foldable/Traversable proposal in a future release. Alternatively, if we pick Plan Foldable, it is expected that the Foldable class may evolve in future releases and that some methods in Data.List may be removed or become specialized to list once again. 
