@@ -189,10 +189,10 @@ GHC's submodules contain `/` in their path, which GitHub doesn't support. So the
 	insteadOf = http://github.com/ghc/packages/
 [url "https://github.com/ghc/packages-"]
 	insteadOf = https://github.com/ghc/packages/
-[url "ssh://git\@github.com/ghc/packages-"]
-	insteadOf = ssh://git\@github.com/ghc/packages/
-[url "git\@github.com:/ghc/packages-"]
-	insteadOf = git\@github.com:/ghc/packages/
+[url "ssh://git@github.com/ghc/packages-"]
+	insteadOf = ssh://git@github.com/ghc/packages/
+[url "git@github.com:/ghc/packages-"]
+	insteadOf = git@github.com:/ghc/packages/
 ```
 
 
