@@ -100,6 +100,15 @@ So, in order to make change to a submodule you can either:
 > 2) Checkout the respective branch the commit is supposed to be pointed at from (normally `master`. See the table on [the submodules page](working-conventions/git/submodules) for the full branch/repo summary). 
 
 
+If you merely need to update a submodule to point to the latest upstream commit of that submodule, there's a shortcut (for the example of `libraries/Cabal`). This also takes care to lookup the proper upstream Git branch (in case it's not `master`) as specified in the `.gitmodules` file:
+
+```wiki
+git submodule update --remote libraries/Cabal
+git commit libraries/Cabal
+git push
+```
+
+
 The example below will demonstrate the latter approach for the `utils/haddock` submodule:
 
 ```
@@ -180,6 +189,5 @@ Check out the [Repositories](working-conventions/repositories) page for a full b
 
 ## TODO
 
-- Describe how to make use of `git submodule update --remote`
 - Describe darcs mirroring for `transformers`
 - Describe status of `pretty` which is one-off at the moment and doesn't exactly track upstream.
