@@ -100,7 +100,8 @@ So, in order to make change to a submodule you can either:
 > 2) Checkout the respective branch the commit is supposed to be pointed at from (normally `master`. See the table on [the submodules page](working-conventions/git/submodules) for the full branch/repo summary). 
 
 
-If you merely need to update a submodule to point to the latest upstream commit of that submodule, there's a shortcut (for the example of `libraries/Cabal`). This also takes care to lookup the proper upstream Git branch (in case it's not `master`) as specified in the `.gitmodules` file:
+If you merely need to update a submodule to point to the latest upstream commit of that submodule, which also takes care to lookup the proper upstream Git branch (in case it's not `master`) as specified in the `.gitmodules` file.
+For example, to update `libraries/Cabal`, you can run the following commands:
 
 ```wiki
 git submodule update --remote libraries/Cabal
