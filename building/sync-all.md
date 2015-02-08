@@ -1,4 +1,4 @@
-**Note**: This page is here mostly for historical reasons. A GHC tree used to consist of multiple independent  repositories. The `sync-all` script let you operate over them all at once. It is still present in the root directory of the tree, but since all [repositories](repositories) have been turned into git submodules, you shouldn't need it anymore. See [git working conventions](working-conventions/git) and [git submodules](working-conventions/git/submodules) for the new submodule workflow.
+**Note**: This page is here mostly for historical reasons. A GHC tree used to consist of multiple independent  repositories. The `sync-all` script let you operate over them all at once. It is still present in the root directory of the tree, but since all [repositories](repositories) have been turned into git submodules, you shouldn't need it anymore. See [getting the sources](building/getting-the-sources) for up-to date information about fetching the sources, and [git working conventions](working-conventions/git) and [git submodules](working-conventions/git/submodules) for the new submodule workflow.
 
 ### sync-all: operations over all GHC repositories at once
 
