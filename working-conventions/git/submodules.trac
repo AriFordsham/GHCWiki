@@ -173,10 +173,10 @@ GHC's submodules contain `/` in their path, which GitHub doesn't support. So the
 	insteadOf = http://github.com/ghc/packages/
 [url "https://github.com/ghc/packages-"]
 	insteadOf = https://github.com/ghc/packages/
-[url "ssh://<user>@github.com/ghc/packages-"]
-	insteadOf = ssh://<user>@github.com/ghc/packages/
-[url "<user>@github.com:/ghc/packages-"]
-	insteadOf = <user>@github.com:/ghc/packages/
+[url "ssh://git\@github.com/ghc/packages-"]
+	insteadOf = ssh://git\@github.com/ghc/packages/
+[url "git\@github.com:/ghc/packages-"]
+	insteadOf = git\@github.com:/ghc/packages/
 }}}
 
 With these substitutions, `git clone --recursive git://github.com/ghc/ghc/`, `git clone --recursive http://github.com/ghc/ghc/` etc. should work.
