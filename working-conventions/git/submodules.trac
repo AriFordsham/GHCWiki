@@ -19,6 +19,7 @@ git clone --recursive git://git.haskell.org/ghc.git
 }}}
 
 (Obviously, the clone URL can be replaced by any of the supported `ghc.git` URLs as listed on http://git.haskell.org/ghc.git)
+See [Building/GettingTheSources getting the sources] for more ways of getting the sources (e.g., from the GitHub mirror)
 
 == Updating an existing GHC source tree clone ==
 
@@ -161,25 +162,6 @@ There are server-side validation hooks in place on `git.haskell.org` to make sur
 == Upstream repositories ==
 
 Check out the [wiki:Repositories Repositories] page for a full breakdown of all the repositories GHC uses.
-
-== Using the GitHub mirror ==
-
-GHC's submodules contain `/` in their path, which GitHub doesn't support. So the corresponding github repositories use `-` instead. To translate between these conventions, add the following to your `~/.gitconfig`:
-
-{{{
-[url "git://github.com/ghc/packages-"]
-	insteadOf = git://github.com/ghc/packages/
-[url "http://github.com/ghc/packages-"]
-	insteadOf = http://github.com/ghc/packages/
-[url "https://github.com/ghc/packages-"]
-	insteadOf = https://github.com/ghc/packages/
-[url "ssh://git@github.com/ghc/packages-"]
-	insteadOf = ssh://git@github.com/ghc/packages/
-[url "git@github.com:/ghc/packages-"]
-	insteadOf = git@github.com:/ghc/packages/
-}}}
-
-With these substitutions, `git clone --recursive git://github.com/ghc/ghc/`, `git clone --recursive http://github.com/ghc/ghc/` etc. should work.
 
 == TODO ==
 
