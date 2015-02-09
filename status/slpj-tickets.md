@@ -23,7 +23,6 @@
 ## Front end
 
 - [\#8581](https://gitlab.haskell.org//ghc/ghc/issues/8581): bidirectional pattern synonyms (with different constraints)
-- [\#10056](https://gitlab.haskell.org//ghc/ghc/issues/10056): more systematic treatment of `(~)` in parser and renamer
 - [\#10027](https://gitlab.haskell.org//ghc/ghc/issues/10027): export behaviour for data families
 - [\#8582](https://gitlab.haskell.org//ghc/ghc/issues/8582): pattern synonyms and record syntax
 - [\#9223](https://gitlab.haskell.org//ghc/ghc/issues/9223): error message mentioning untouchables
@@ -47,6 +46,7 @@
 
 ## Type families, roles, and `Coercible`
 
+- [\#10056](https://gitlab.haskell.org//ghc/ghc/issues/10056): more systematic treatment of `(~)` in parser and renamer 
 - [\#9918](https://gitlab.haskell.org//ghc/ghc/issues/9918): closed type families, apartness, and overlapping instances (inconsistency)
 - [\#9118](https://gitlab.haskell.org//ghc/ghc/issues/9118): Eta reduction for `Coercible` (not expressible in Core, yet)
 - [\#6018](https://gitlab.haskell.org//ghc/ghc/issues/6018): injective type families
@@ -163,6 +163,7 @@ See also [TemplateHaskell](template-haskell)
 
 ## Cmm and code generation
 
+- [\#10012](https://gitlab.haskell.org//ghc/ghc/issues/10012): Cheap-to-compute values aren't pushed into case branches
 - [\#9718](https://gitlab.haskell.org//ghc/ghc/issues/9718): avoiding `TidyPgm` having to predict arity and CAF-ref-ness
 - [\#9159](https://gitlab.haskell.org//ghc/ghc/issues/9159): jump tables for dense cases
 - [\#9157](https://gitlab.haskell.org//ghc/ghc/issues/9157): common block elimination

@@ -22,7 +22,6 @@
 == Front end ==
 
  * #8581: bidirectional pattern synonyms (with different constraints)
- * #10056: more systematic treatment of `(~)` in parser and renamer
  * #10027: export behaviour for data families
  * #8582: pattern synonyms and record syntax
  * #9223: error message mentioning untouchables
@@ -46,6 +45,7 @@
 
 == Type families, roles, and `Coercible` ==
  
+ * #10056: more systematic treatment of `(~)` in parser and renamer 
  * #9918: closed type families, apartness, and overlapping instances (inconsistency)
  * #9118: Eta reduction for `Coercible` (not expressible in Core, yet)
  * #6018: injective type families
@@ -152,6 +152,7 @@ See also [wiki:TemplateHaskell]
  * #4960: better inlining tests
 
 == Cmm and code generation ==
+ * #10012: Cheap-to-compute values aren't pushed into case branches
  * #9718: avoiding `TidyPgm` having to predict arity and CAF-ref-ness
  * #9159: jump tables for dense cases
  * #9157: common block elimination
