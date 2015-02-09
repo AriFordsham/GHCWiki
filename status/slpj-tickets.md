@@ -23,6 +23,7 @@
 ## Front end
 
 - [\#8581](https://gitlab.haskell.org//ghc/ghc/issues/8581): bidirectional pattern synonyms (with different constraints)
+- [\#10056](https://gitlab.haskell.org//ghc/ghc/issues/10056): more systematic treatment of `(~)` in parser and renamer
 - [\#10027](https://gitlab.haskell.org//ghc/ghc/issues/10027): export behaviour for data families
 - [\#8582](https://gitlab.haskell.org//ghc/ghc/issues/8582): pattern synonyms and record syntax
 - [\#9223](https://gitlab.haskell.org//ghc/ghc/issues/9223): error message mentioning untouchables

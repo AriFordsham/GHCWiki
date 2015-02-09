@@ -22,6 +22,7 @@
 == Front end ==
 
  * #8581: bidirectional pattern synonyms (with different constraints)
+ * #10056: more systematic treatment of `(~)` in parser and renamer
  * #10027: export behaviour for data families
  * #8582: pattern synonyms and record syntax
  * #9223: error message mentioning untouchables
