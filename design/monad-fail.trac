@@ -26,3 +26,20 @@ class (MonadZero m) => MonadPlus m where
   (++) :: m a -> m a -> m a
 }}}
 
+However, when Haskell 98 was drafted [http://marc.info/?l=haskell&m=66622011823641 issues with irrefutable patterns]  lead to `MonadZero` being folded into the `Monad` class (but it doesn't seem to have been an unanimous nor easy decision back then).
+
+The issue is highlighted by deconstructing a monadic action returning a single-constructor value:
+
+{{{#!hs
+f :: Monad m => m (a,b) -> m a
+f m1 = do { x <- m1; return (fst x) }
+
+g :: ??? m => m (a,b) -> m a
+g m1 = do { (a,_) <- m1; return a }
+
+h :: Monad m => m (a,b) -> m a
+h m1 = do { ~(a,_) <- m1; return a }
+}}}
+
+Should `???` for `g` be `Monad` or `MonadZero`? The single-constructor pattern match will never fail ("unfailable"), so `zero` is never used. In fact, in Haskell 1.4 `g` would only require `Monad`, but requires the concept of `"unfailable" pattern matches (in addition to "irrefutable" pattern matches).
+
