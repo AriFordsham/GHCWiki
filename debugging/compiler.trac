@@ -30,7 +30,7 @@ When compiling the program (see also the [http://www.haskell.org/ghc/docs/latest
 GhcStage2HcOpts    = -O0 $(GhcFAsm) -fprof-auto -DDEBUG
 }}}
 
- * You can also get stack traces from `pprTrace` if you change the use of `trace` in the definition of `pprTrace` (in `utils/Outputable.hs`) to `traceStack` from `Debug.Trace`.
+ * You can also get stack traces from `pprTrace` if you change the use of `trace` in the definition of `pprTrace` (in `utils/Outputable.hs`) to `traceStack` (from `Debug.Trace`).
 
 == Debugging segfaults ==
 
