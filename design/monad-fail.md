@@ -3,6 +3,28 @@
 
 At this point this is just a scratch pad for collecting ideas
 
+## The Basic Idea
+
+
+The basic idea is to split the `Monad` class into
+
+```
+classApplicative m =>Monad m where(>>=):: m a ->(a -> m b)-> m b
+
+  (>>):: m a -> m b -> m b
+  m >> k = m >>=\_-> k 
+
+  return :: a -> m a -- still in Monad for historic reasons
+  return = pure
+
+classMonad m =>MonadFail m where
+  fail ::String-> m a
+```
+
+
+and adapt `do`-desugaring accordingly.
+See [ https://github.com/quchen/articles/blob/master/monad_fail.md](https://github.com/quchen/articles/blob/master/monad_fail.md) for more details.
+
 ## History
 
 
@@ -35,3 +57,8 @@ h m1 =do{~(a,_)<- m1; return a }
 
 
 Should `???` for `g` be `Monad` or `MonadZero`? The single-constructor pattern match will never fail ("unfailable"), so `zero` is never used. In fact, in Haskell 1.4 `g` would only require `Monad`, but requires the concept of \`"unfailable" pattern matches (in addition to "irrefutable" pattern matches).
+
+## Related Concepts/Proposals
+
+- [ MonadPlus reform proposal](https://wiki.haskell.org/MonadPlus_reform_proposal)
+- [ApplicativeDo](applicative-do)
