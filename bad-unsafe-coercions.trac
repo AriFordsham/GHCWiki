@@ -62,6 +62,12 @@ For now, do something simple and conservative
  
 '''End of SPJ'''
 
+'''Qnikst''' I see your point and going to use this approach as a first step in implementing this proposal. However I want  to clarify my concerns in order to ask if they are valid.
+Here is a concrete example: on 64bit platform word aligned size of `Int#` and `Int64#` sizes are equal (so we can coerce back and forth), this means that 
+actual value of the `unsafeCoerce# ((a::Int#) +# (b::Int#)) :: Int64#` will depend on memory and register state, so it this call have to referential transparency.
+And I don't know if it's the issue, if it is then we need to have some notion of "actual" size or "used" size, if not then plain and simple check of word size will be enough.
+'''End Qnikst'''
+
 
 GHC has 2 different sizes: word aligned size of values, and active size in bytes that actually used.  '''SPJ''': where do you see these two different sizes in GHC's source code?
 
