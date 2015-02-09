@@ -12,7 +12,7 @@ There isn't clear agreement that generalization should be done at all.
 
 * One motivation behind the generalization is to modernize the Prelude and standardize on the Foldable/Traversable. But the Prelude, though far from perfect, but has withstood years as workable base for Haskell. Developers of all sorts routinely build more customized basic sets of libraries to import into their code, either as alternative Preludes, or as a common import. This mechanism works and allows diversity of opinion on what should commonly be in scope.
 
-* Another motivation behind the generalization is to allow the generic functions exported by Data.Foldable andD Data.Traversable, such as foldr and sequence, to be in scope unqualified without clashing with the same named functions in the Prelude (which are mostly from Data.List). But Haskell has existing facilities for handling this situation. The common way would be to Import Data.Foldable qualified, perhaps under a short name like F. In this way, foldr is the Prelude list based version, and F.foldr is the generic version. This is the approach used for many modules that have common, short named functions such as Data.Map and Data.Text.
+* Another motivation behind the generalization is to allow the generic functions exported by Data.Foldable and Data.Traversable, such as foldr and sequence, to be in scope unqualified without clashing with the same named functions in the Prelude (which are mostly from Data.List). But Haskell has existing facilities for handling this situation. The common way would be to Import Data.Foldable qualified, perhaps under a short name like F. In this way, foldr is the Prelude list based version, and F.foldr is the generic version. This is the approach used for many modules that have common, short named functions such as Data.Map and Data.Text.
 
 
 == Concerns with the generalization ==
@@ -29,13 +29,13 @@ There are a number of concerns with the generalizations proposed for GHC 7.10. S
 
 * There are lots of functions that could be generalized further, but are not. For example, mapM, forM and sequence could all be expressed in terms of Applicative instead of Monad. Similarly things like length could be generalized to Num, making length and genericLength equivalent.
 
-* While the Prelude operations (e.g. foldr) will now work on contains such as Vector, they still won't work on things like ByteString or Text, which in some code is used far more than other non-list containers.
+* While the Prelude operations (e.g. foldr) will now work on containers such as Vector, they still won't work on things like ByteString or Text, which in some code is used far more than other non-list containers.
 
 * Some functions in Data.List could be generalized to Foldable, but have not been. For example, isPrefixOf and isInfixOf can be generalised. More generally, anything with a list in an argument position can be generalized.
 
 * Some functions in Data.List could be generalised to Traversable, but have not been. For example, sort and reverse can be generalized. However, such generalizations are likely to add a performance penalty.
 
-* Given that lots of functions could be generalized, it seems we should either generalize everything, or have a good story for where to stop. For example, isPrefix can be generalized, but the related function stripPrefix can only be partly generalized, so should isPrefixOf be generalized?
+* Given that lots of functions could be generalized, it seems we should either generalize everything, or have a good story for where to stop. For example, isPrefixOf can be generalized, but the related function stripPrefix can only be partly generalized, so should isPrefixOf be generalized?
 
 * The IsList class is an alternative generalization that could be made for some functions, and would work for ByteString and Text. Neither Foldable nor IsList is strictly more general, so both are potential alternatives.
 
@@ -64,4 +64,4 @@ There are a number of alternative approaches to how the generalization could be 
 
 * A module with only the non-Foldable overlapping bits of Data.List could be created, allowing users who wanted Foldable plus some list functions to avoid name clashes.
 
-* The functions in Data.Foldable and Data.Traversable could be renamed not to clash. It is very common for generalized versions of functions to have a different name than their non-generalized counter parts: fmap and map, mappend and (++).  If the members of Data.Foldable were minimized (see above), then it might be reasonable to reanme its foldr something like ffoldr.
+* The functions in Data.Foldable and Data.Traversable could be renamed not to clash. It is very common for generalized versions of functions to have a different name than their non-generalized counter parts: fmap and map, mappend and (++).  If the members of Data.Foldable were minimized (see above), then it might be reasonable to rename its foldr something like ffoldr.
