@@ -48,7 +48,6 @@
 ## Type families, roles, and `Coercible`
 
 - [\#9918](https://gitlab.haskell.org//ghc/ghc/issues/9918): closed type families, apartness, and overlapping instances (inconsistency)
-- [\#9117](https://gitlab.haskell.org//ghc/ghc/issues/9117): rules for solving `Coercible` constraints
 - [\#9118](https://gitlab.haskell.org//ghc/ghc/issues/9118): Eta reduction for `Coercible` (not expressible in Core, yet)
 - [\#6018](https://gitlab.haskell.org//ghc/ghc/issues/6018): injective type families
 - [\#8161](https://gitlab.haskell.org//ghc/ghc/issues/8161): associated type more specific than class decl
