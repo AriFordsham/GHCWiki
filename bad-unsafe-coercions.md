@@ -52,7 +52,7 @@ Basically it introduces three new predicates in UnivCo rule:
 
 1. If types are unlifted then their *size* should be equal, under the size we mean word aligned size of value see ([source:compiler/types/TyCon.hs](/trac/ghc/browser/compiler/types/TyCon.hs)[](/trac/ghc/export/HEAD/ghc/compiler/types/TyCon.hs)), for unboxed tuples
   total size of the tuple should be checked, but not sizes of each values.
-  For the meaning of *size* see "Size of value" section (**SPJ**: what is "active size"? **Qnikst**: I have generalized description so discussion about "active size" can be in one place)
+  (For additional discussion of term *size* see "Size of value" section)
 
 1. If types are unlifted then they either should be both floating or both integral.
 
