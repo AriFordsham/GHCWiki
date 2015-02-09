@@ -5,7 +5,7 @@
 
 When compiling GHC:
 
-- add `-DDEBUG` to your `GhcStage1HcOpts` and/or `GhcStage2HcOpts` in `mk/build.mk`.  This enables assertions and extra debug code.
+- add `-DDEBUG` to your `GhcStage1HcOpts` and/or `GhcStage2HcOpts` in `mk/build.mk`.  This enables assertions and extra debug code. This is done for you if you choose the `devel1` or `devel2` mode of building.
 
 
 When compiling the program (see also the [relevant User Manual section](http://www.haskell.org/ghc/docs/latest/html/users_guide/options-debugging.html)):
@@ -16,13 +16,21 @@ When compiling the program (see also the [relevant User Manual section](http://w
 
 - Add `-ddump-simpl` to see the optimised Core output.  There are a number of other `-ddump-x` flags; see the user manual.
 
-- The flag `-dppr-debug` makes the `-ddump-x` flags print much more verbose output.  Use this if you are getting desperate!
+- The flag `-dppr-debug` makes the `-ddump-x` flags print much more verbose output.  Use this if you are getting desperate! To be able to read the output, you may want to add `-dsuppress-module-prefixes` and `-dsuppress-var-kinds` as well.
 
 ## Adding debugging code to the compiler
 
-- `Outputable.pprTrace` is a nice way to print trace messages from the compiler
+- `Outputable.pprTrace` is a nice way to print trace messages from the compiler. The output will only appear when the compiler has `-DDEBUG` turned on.
 
 - `ASSERT(p)`, `ASSERT2(p,msg)`, `WARN(p,msg)` are assertions and warning enabled only when the compiler is compiled with `-DDEBUG`.  There are also variants of these that work better in a monad setting; see [compiler/HsVersions.h](/trac/ghc/browser/ghc/compiler/HsVersions.h).
+
+- If you have built a profiling compiler, an `ASSERT` failure will also print a stack trace. Stack traces use only GHC call centres, so you will probably also want `-fprof-auto` to get the most informative stack. One way to get the knobs set correctly is to choose the `prof` build in `build.mk`, and use this line in the `prof` section:
+
+```wiki
+GhcStage2HcOpts    = -O0 $(GhcFAsm) -fprof-auto -DDEBUG
+```
+
+- You can also get stack traces from `pprTrace` if you change the use of `trace` in the definition of `pprTrace` (in `utils/Outputable.hs`) to `traceStack`.
 
 ## Debugging segfaults
 
