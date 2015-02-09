@@ -30,7 +30,7 @@ When compiling the program (see also the [relevant User Manual section](http://w
 GhcStage2HcOpts    = -O0 $(GhcFAsm) -fprof-auto -DDEBUG
 ```
 
-- You can also get stack traces from `pprTrace` if you change the use of `trace` in the definition of `pprTrace` (in `utils/Outputable.hs`) to `traceStack`.
+- You can also get stack traces from `pprTrace` if you change the use of `trace` in the definition of `pprTrace` (in `utils/Outputable.hs`) to `traceStack` from `Debug.Trace`.
 
 ## Debugging segfaults
 
