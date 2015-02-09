@@ -93,7 +93,8 @@ A big question is how to treat unboxed tuples if they have same size, can we coe
  
 
 How to check is value is floating in this case?  '''SPJ''' I don't understand the question.
-'''Qnikst''': 'Coercion between unboxed ints and floats.' so we need to specify how it works for tuples.  '''SPJ''' I'm sorry I still don't understand what the issue is.  Can you just give a concrete example?
+'''Qnikst''': 'Coercion between unboxed ints and floats.' so we need to specify how it works for tuples.  '''SPJ''' I'm sorry I still don't understand what the issue is.  Can you just give a concrete example? 
+'''Qnikst''': assuming that size of Double = 2*size of Float on target arch, can we coerce `(# Float#, Float#, Int# #)` to `(# Double#, Int# #)`? To `(# Float#, Int#, Float# #)? What is the easiest way to express this rule?
 
 As far as I understand coerce from `(# a, b #)` to `(# c, d #)` should not be allowed if either `a`, `b` or `c`,`d` violates rule.
 However if `(# a, b, c #)` could be converted to  `(# a, d #)` then what should be the rules for `b`, `c` -> `d`, as far as I understand
