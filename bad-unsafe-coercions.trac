@@ -35,8 +35,8 @@ changes in the core specification, `docs/core-spec/CoreLint.ott` in the source t
 +G |-ty t1 : k1
 +G |-ty t2 : k2
 +isUnLiftedTy t1 = isUnLiftedTy t2
-+(not (isUnLiftedTy t1)) \/ ((activeSizeTy t1 = activeSizeTy t2) /\ (isFloatingTy t1 = isFloatingTy t2))
-+-------------------------------------------------------------------------------------- :: UnivCo
++(not (isUnLiftedTy t1)) \/ ((sizeTy t1 = sizeTy t2) /\ (isFloatingTy t1 = isFloatingTy t2))
++------------------------------------------------------------------------------------- :: UnivCo
 +G |-co t1 ==>!_R t2 : t1 ~R k2 t2
 }}}
 
@@ -44,9 +44,14 @@ Basically it introduces three new predicates in UnivCo rule:
 
   1. Both types should be lifted or both types should be unlifted (Qnikst: note that original task forbids coercion between lifted and ''unboxed'')
 
-  2. If types are unlifted then their ''size'' should be equal. For the meaning of ''size'' see "Size of value" section ('''SPJ''': what is "active size"? '''Qnikst''': I have generalized description so discussion about "active size" can be in one place)
+  2. If types are unlifted then their ''size'' should be equal, under the size we mean word aligned size of value see (source:compiler/types/TyCon.hs), for unboxed tuples
+     total size of the tuple should be checked, but not sizes of each values.
+     For the meaning of ''size'' see "Size of value" section ('''SPJ''': what is "active size"? '''Qnikst''': I have generalized description so discussion about "active size" can be in one place)
 
-  3. If types are unlifted then they either should be both floating or both integral
+  3. If types are unlifted then they either should be both floating or both integral.
+
+If any of rules are violated then linter should produce a warning, but not a error. Those checks should catch
+both errors provided by user and ghc itself.
 
 == Questions ==
 
