@@ -12,7 +12,9 @@ Anything in 'patch' status will be merged for 7.10.1.
 
 Special things of note:
 
-- The *Final Release* will probably happen in (late) March 2015.
+- The **Final Release** will probably happen in (late) March 2015.
+
+- We'll probably do an RC3 in February.
 
 - Austin will disable the `dll-split` check for 7.10.1 RC2 since we're not building dynamically on Windows.
 
