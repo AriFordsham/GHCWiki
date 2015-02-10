@@ -120,8 +120,7 @@ At the same time, an unintended but interesting consequence is that members of t
 
 Finally, in a proposal back in September, David Feuer and Reid Barton proposed adding several more members to `Foldable` to enable specific containers to offer asymptotically even more efficient versions of many combinators.
 
-
-As ugly as it may be, `Foldable` is nearly as small as it can be without either changing the semantics of existing programs on their authors, or compromising the asymptotic performance of `Foldable` operations.
+`Foldable` is nearly as small as it can be without either changing the semantics of existing programs on their authors, or compromising the asymptotic performance of `Foldable` operations.
 
 # `Traversable` contains both `Monad` and `Applicative` variants for each function, and following the `Applicative`-`Monad` proposal, the `Monad` variants (`mapM` and `sequence`) are now redundant.
 
