@@ -6,6 +6,8 @@ As per [[Prelude710]], there is debate over whether the list functions in the GH
 * http://neilmitchell.blogspot.co.uk/2014/10/how-to-rewrite-prelude.html
 * http://neilmitchell.blogspot.co.uk/2014/10/why-traversablefoldable-should-not-be.html
 
+A brief summary of both this plan and the alternative being considered at this point is available at [[Prelude710]], while the details of the Plan Foldable counter-proposal are available at [[Prelude710/FTP]].
+
 == Concerns with the reasons and motivations ==
 
 There isn't clear agreement that generalization should be done at all.
