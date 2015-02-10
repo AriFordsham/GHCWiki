@@ -83,6 +83,8 @@ actual value of the `unsafeCoerce# ((a::Int#) +# (b::Int#)) :: Int64#` will depe
 And I don't know if it's the issue, if it is then we need to have some notion of "actual" size or "used" size, if not then plain and simple check of word size will be enough.
 **End Qnikst**
 
+**SPJ** I'm really sorry but I still don't understand.  Perhaps you are trying to say that there might be a *platform-specific* coercion between `Int64#` and `Int#`, which is valid on some platforms but not on others.  Perhaps.  Maybe.  But then you'd need to consult platform flags to figure it out. If you want to do that, go ahead.  But (a) it's nothing to do with alignment; just that `Int#` is simply identical to `Int64#` on a 64-bit platform.  and (b) the "active size" and "real size" terminology is quite confusing (do not use it). **End SPJ**
+
 
 GHC has 2 different sizes: word aligned size of values, and active size in bytes that actually used.  **SPJ**: where do you see these two different sizes in GHC's source code?
 
@@ -124,7 +126,7 @@ A big question is how to treat unboxed tuples if they have same size, can we coe
 
 How to check is value is floating in this case?  **SPJ** I don't understand the question.
 **Qnikst**: 'Coercion between unboxed ints and floats.' so we need to specify how it works for tuples.  **SPJ** I'm sorry I still don't understand what the issue is.  Can you just give a concrete example? 
-**Qnikst**: assuming that size of Double = 2\*size of Float on target arch, can we coerce `(# Float#, Float#, Int# #)` to `(# Double#, Int# #)`? To \`(\# Float\#, Int\#, Float\# \#)? What is the easiest way to express this rule?
+**Qnikst**: assuming that size of Double = 2\*size of Float on target arch, can we coerce `(# Float#, Float#, Int# #)` to `(# Double#, Int# #)`? To \`(\# Float\#, Int\#, Float\# \#)? What is the easiest way to express this rule?  **SPJ** No no no.  Let me say it once again, as clearly as I can: **you cannot coerce between unboxed tuples of different arities**.  No. No. No. **End SPJ**.
 
 
 As far as I understand coerce from `(# a, b #)` to `(# c, d #)` should not be allowed if either `a`, `b` or `c`,`d` violates rule.
