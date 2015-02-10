@@ -25,33 +25,62 @@ This proposal is about implementation of the task.
 Current progress could be found on [Phab:D637](https://phabricator.haskell.org/D637). It implements
 proposed checks modulo few questions mentioned in this proposal. 
 
-The solution introduces following
-changes in the core specification, `docs/core-spec/CoreLint.ott` in the source tree ([https://github.com/ghc/ghc/blob/master/docs/core-spec/core-spec.pdf PDF here]):
+The solution introduces following changes in the core specification, `docs/core-spec/CoreLint.ott` in the source tree ([https://github.com/ghc/ghc/blob/master/docs/core-spec/core-spec.pdf PDF here]):
 
 {{{
--G |-ty t1 : k
------------------------------- :: UnivCo
--G |-co t1 ==>!_R t2 : t1 ~R k t2
-+G |-ty t1 : k1
-+G |-ty t2 : k2
-+isUnLiftedTy t1 = isUnLiftedTy t2
-+(not (isUnLiftedTy t1)) \/ ((sizeTy t1 = sizeTy t2) /\ (isFloatingTy t1 = isFloatingTy t2))
-+------------------------------------------------------------------------------------- :: UnivCo
-+G |-co t1 ==>!_R t2 : t1 ~R k2 t2
+G |-ty t1 : k1
+G |-ty t2 : k2
+isUnLiftedTy t1 = isUnLiftedTy t2
+(not (isUnLiftedTy t1)) \/ ((sizeTy t1 = sizeTy t2) /\ (isFloatingTy t1 = isFloatingTy t2))
+------------------------------------------------------------------------------------- :: UnivCo
+G |-co t1 ==>!_R t2 : t1 ~R k2 t2
 }}}
+('''Qnikst''': forth rule was not added to spec yet)
 
-Basically it introduces three new predicates in UnivCo rule:
+
+Basically it introduces for new predicates in UnivCo rule:
 
   1. Both types should be lifted or both types should be unlifted (Qnikst: note that original task forbids coercion between lifted and ''unboxed'')
 
-  2. If types are unlifted then their ''size'' should be equal, under the size we mean word aligned size of value see (source:compiler/types/TyCon.hs), for unboxed tuples
-     total size of the tuple should be checked, but not sizes of each values.
-     (For additional discussion of term ''size'' see "Size of value" section)
+  2. If types are unlifted then their ''size'' should be equal, see `primRepSizeW` in (source:compiler/types/TyCon.hs)
 
   3. If types are unlifted then they either should be both floating or both integral.
 
-If any of rules are violated then linter should produce a warning, but not a error. Those checks should catch
-both errors provided by user and ghc itself.
+  4. If types are unboxed tuples then tuple `(A_1,..,A_n)` can be coerced to `(B_1,..,B_m)` if `n=m` and for each pair `A_i, B_i` rules 1-4 holds.
+
+If any of those rules are violated then linter should produce a warning.
+Checks are applied to both errors produced by user code and GHC itself. (see "User programs" section for additional discussion). 
+
+
+== Possible Extensions ==
+
+=== Support tuples with different length ===
+
+In some cases it may be reasonable coerce tuples with different length, or tuples to value `(# A, B #)` -> `C` if they have
+equal size.
+
+=== User programs ===
+
+Should those check be applied only to internal GHC's transformations, for user programs should also be
+checked?
+
+'''SPJ''' Both ideally.  Emit a warning for user programs with visible problems.  And check in Lint.  Start with the latter.
+
+'''RAE''' So that means that a warning would be issued, followed by a !CoreLint failure. This violates the invariant that !CoreLint catches only GHC's mistakes. I loosely agree with this approach here (because I want to allow users to do terrible things if they really want to), but we'll have to be careful about wording the error message that !CoreLint spits out. This also implies that users who are actively trying to shoot themselves in the foot will have to avoid `-dcore-lint`, which is slightly dissatisfying. Maybe add a flag asking whether or not !CoreLint should perform these checks? I guess my tension stems from the fact that we want to protect most users from mistakes and want to detect mistakes in GHC, while still allowing crazy things to happen. (Like still exporting [https://github.com/haskell/bytestring/blob/2530b1c28f15d0f320a84701bf507d5650de6098/Data/ByteString/Internal.hs#L599 this function].)
+ 
+'''SPJ''' Let's not make the best the enemy of the good.  Make the whole lot into warnings or something, if that would reassure you.  Mostly we are trying to identify smelly code; some of it might just possibly work.  On a particular processor, when the sun is shining.  
+
+
+== Implementors ==
+
+implementation: Alexander Vershilov / Qnikst
+
+advisor: Richard Eisenberg / goldfire / RAE
+
+
+== Old discussions ==
+
+
 
 == Questions ==
 
@@ -114,19 +143,4 @@ it's correct if `b`,`c`,`d`  are ints and not correct in any other case.
 
 (Qnikst. current implementation allow such coercions and doesn't check "floatiness" of values)
 
-=== User programs ===
 
-Should those check be applied only to internal GHC's transformations, for user programs should also be
-checked?
-
-'''SPJ''' Both ideally.  Emit a warning for uer programs with visible problems.  And check in Lint.  Start with the latter.
-
-'''RAE''' So that means that a warning would be issued, followed by a !CoreLint failure. This violates the invariant that !CoreLint catches only GHC's mistakes. I loosely agree with this approach here (because I want to allow users to do terrible things if they really want to), but we'll have to be careful about wording the error message that !CoreLint spits out. This also implies that users who are actively trying to shoot themselves in the foot will have to avoid `-dcore-lint`, which is slightly dissatisfying. Maybe add a flag asking whether or not !CoreLint should perform these checks? I guess my tension stems from the fact that we want to protect most users from mistakes and want to detect mistakes in GHC, while still allowing crazy things to happen. (Like still exporting [https://github.com/haskell/bytestring/blob/2530b1c28f15d0f320a84701bf507d5650de6098/Data/ByteString/Internal.hs#L599 this function].)
- 
-'''SPJ''' Let's not make the best the enemy of the good.  Make the whole lot into warnings or something, if that would reassure you.  Mostly we are trying to identify smelly code; some of it might just possibly work.  On a particular processor, when the sun is shining.  
-
-== Implementors ==
-
-implementation: Alexander Vershilov / Qnikst
-
-advisor: Richard Eisenberg / goldfire / RAE
