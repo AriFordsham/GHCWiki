@@ -32,9 +32,9 @@ However, there are many good reasons to do both the AMP and FTP generalizations 
 
 The first variant of `Foldable` that people tend to propose is to reduce it to something like
 
-```wiki
-class Foldable f where
-  toList :: f a -> [a]
+```
+classFoldable f where
+  toList :: f a ->[a]
 ```
 
 
@@ -43,9 +43,9 @@ But this requires us to be able to fully re-associate all of the elements of the
 
 To repair that we need to switch to something like
 
-```wiki
-class Foldable f where
-  foldMap :: Monoid m => (a -> m) -> f a -> m
+```
+classFoldable f where
+  foldMap ::Monoid m =>(a -> m)-> f a -> m
 ```
 
 
@@ -63,10 +63,8 @@ Some combinators in `Foldable` compute their answers by different means than the
 
 There are at least 3 different camps out there for what the proper definition of `sum` should be:
 
-```wiki
-sum = foldl (+) 0
-sum = getSum . foldMap Sum
-sum = foldl' (+) 0
+```
+sum= foldl (+)0sum= getSum . foldMap Sumsum= foldl' (+)0
 ```
 
 
