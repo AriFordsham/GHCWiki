@@ -33,7 +33,6 @@ To aid transition, we can keep `fail` in `Monad`, and start out with
 ```
 classMonad m =>MonadFail m where
   mfail ::String-> m a
-  mfail = fail
 ```
 
 
@@ -41,6 +40,8 @@ classMonad m =>MonadFail m where
 
 
 The `MonadFail(mfail)` desugaring of `do` could then be enabled via a language pragma `{-# LANGUAGE MonadFail -#}`, allowing for have a future `-XHaskell201x` to switch that feature on by default, while retaining `-XHaskell2010` with the current old `Monad(fail)` desugaring semantics.
+
+`Monad(fail)` could default to `MonadFail(mfail)` via `-XDefaultSignatures`
 
 ## History
 
