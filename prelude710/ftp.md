@@ -29,7 +29,7 @@ However, there are many good reasons to do both the AMP and FTP generalizations 
 
 - Stretching out these sorts of changes over many releases increases the complexity of CPP and other tricks that authors have to use to maintain their packages over long support windows, so there is a case to be made for a fairly "sharp shock" to get this out of the way at the same time as the `Applicative`-`Monad` Proposal. Results so far have shown that the AMP changes break far more code than generalizing these signatures.
 
-- Finally, once we make `Applicative` a superclass of `Monad`, `mapM` is basically \*never\* the right combinator for, well, anything. It requires too tight a constraint (`Monad` rather than `Applicative`) on one hand. Going the 'wrong' direction and adding a monomorphized `traverse` breaks far more code, and makes the scoping problems even worse.
+- Finally, once we make `Applicative` a superclass of `Monad`, `mapM` is basically **never** the right combinator for, well, anything. It requires too tight a constraint (`Monad` rather than `Applicative`) on one hand. Going the 'wrong' direction and adding a monomorphized `traverse` breaks far more code, and makes the scoping problems even worse.
 
 ## Details
 
