@@ -25,6 +25,22 @@ classMonad m =>MonadFail m where
 and adapt `do`-desugaring accordingly.
 See [ https://github.com/quchen/articles/blob/master/monad_fail.md](https://github.com/quchen/articles/blob/master/monad_fail.md) for more details.
 
+### Misc Ideas
+
+
+To aid transition, we can keep `fail` in `Monad`, and start out with
+
+```
+classMonad m =>MonadFail m where
+  fail ::String-> m a
+```
+
+
+(or maybe even require `MonadPlus`, as `fail _ = mzero` is a sensible default)
+
+
+The `MonadFail(mfail)` desugaring of `do` could then be enabled via language pragma `{-# LANGUAGE MonadFail -#}`, allowing for have a future `-XHaskell201x` to switch that on by default, while retaining `-XHaskell2010` w/ the current old `Monad(fail)` semantics.
+
 ## History
 
 
@@ -57,22 +73,6 @@ h m1 =do{~(a,_)<- m1; return a }
 
 
 Should `???` for `g` be `Monad` or `MonadZero`? The single-constructor pattern match will never fail ("unfailable"), so `zero` is never used. In fact, in Haskell 1.4 `g` would only require `Monad`, but requires the concept of \`"unfailable" pattern matches (in addition to "irrefutable" pattern matches).
-
-### Misc Ideas
-
-
-To aid transition, we can keep `fail` in `Monad`, and start out with
-
-```
-classMonad m =>MonadFail m where
-  fail ::String-> m a
-```
-
-
-(or maybe even require `MonadPlus`, as `fail _ = mzero` is a sensible default)
-
-
-The `MonadFail(mfail)` desugaring of `do` could then be enabled via language pragma `{-# LANGUAGE MonadFail -#}`, allowing for have a future `-XHaskell201x` to switch that on by default, while retaining `-XHaskell2010` w/ the current old `Monad(fail)` semantics.
 
 ## Related Concepts/Proposals
 
