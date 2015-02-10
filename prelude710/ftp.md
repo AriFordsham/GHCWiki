@@ -19,9 +19,9 @@ However, there are many good reasons to do both the AMP and FTP generalizations 
 
 - Despite this broad explanatory power and the ability to derive connections between a large chunk of the combinators that came before these abstractions were even named, they remain relegated to modules off to the side that contain combinators that are harder to use for the simple reason that using them requires qualified imports or massive amounts of manual hiding.
 
-- Nothing in `Foldable` or `Traversable` ever changes the "shape" of the container it is given. This is actually more information for the user than seeing a combinator accepts any list and returns any list. While we give up the knowledge that the thing we're walking over is a list, we gain information as well. The more general signatures can often tell the user more about what a combinator can do behind the scenes. e.g. we can know that `forM` will not change the number of elements in the container by leaning on the `Traversable` laws alone and the lack of any other way to construct the result value. We're not just able to rely the fact that it gives back a list, but we can rely on the specific shape of the structure we get back.
+- Nothing in `Foldable` or `Traversable` ever changes the "shape" of the container it is given. This is actually more information for the user than seeing a combinator accepts any list and returns any list. While we give up the knowledge that the thing we're walking over is a list, we gain information as well. **The more general signatures can often tell the user more** about what a combinator can do behind the scenes. e.g. we can know that `forM` will not change the number of elements in the container by leaning on the `Traversable` laws alone and the lack of any other way to construct the result value. We're not just able to rely the fact that it gives back a list, but we can rely on the specific shape of the structure we get back.
 
-- At the time of the "Burning Bridges Proposal" thread on the libraries mailing list back in 2013, this question was widely polled, and there was an overwhelmingly strong call from the community for generalization. Admittedly, this was from the self-selecting subset of the community that is active on the [ libraries@ mailing list](https://www.haskell.org/mailman/listinfo/libraries).
+- At the time of the "Burning Bridges Proposal" thread on the libraries mailing list back in 2013, this question was widely polled, and there was an **overwhelmingly strong call from the community for generalization**. Admittedly, this was from the self-selecting subset of the community that is active on the [ libraries@ mailing list](https://www.haskell.org/mailman/listinfo/libraries).
 
 - One thing that we were very careful to avoid during this entire wave of generalization is an impact to performance on either asymptotic or constant factor grounds. The continuous performance testing that is done on GHC has done a lot to keep us honest in this regard, but has definitely complicated development.
 
@@ -49,10 +49,7 @@ The obvious paths to get there that don't require hard to explain excuses have t
 - Veering off into uncharted territory that would require a future Haskell Report to lean on a much larger language standard should also be avoided. This pushes us away from designs such as `mono-traversable` or `IsList`.
 
 
-The details of the current implementation are available on the [ Foldable/Traversable in Prelude](https://wiki.haskell.org/Foldable_Traversable_In_Prelude) HaskellWiki page.
-
-
-That article, however, remains written from a more neutral point of view.
+The details of the current implementation are available on the [ Foldable/Traversable in Prelude](https://wiki.haskell.org/Foldable_Traversable_In_Prelude) HaskellWiki page. That article, however, remains written from a more neutral point of view.
 
 ## FAQ
 
