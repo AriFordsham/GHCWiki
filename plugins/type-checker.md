@@ -225,3 +225,35 @@ The interface looks fine by me, I do have some questions/remarks:
 - Yes, generating new constraints is a form of progress: some plugins might simply add new constraints that are implied by the existing ones, which might lead to additional metavariables being solved by the main solver. (This is basically how functional dependencies work.)
 
 **End Adam**
+
+## FAQ
+
+### Error: `Module imports form a cycle`
+
+
+If you use `-fplugin=MyPlugin` on the command-line and compile in `--make` mode, you may get the error
+
+```wiki
+Module imports form a cycle:
+  module ‘MyPlugin’ (./MyPlugin.hs) imports itself
+```
+
+
+This occurs because `-fplugin=MyPlugin` essentially imports `MyPlugin` in every module being compiled. When you do `ghc -fplugin=MyPlugin --make M` the dependencies of `M` are compiled with the `-fplugin=MyPlugin` command-line flag, and hence you end up compiling `MyPlugin` with a dependency on itself.
+
+
+If you're defining and using a plugin in a single package, use `OPTIONS_GHC` pragmas in the modules that rely on the plugin, rather than supplying `-fplugin` on the command line. Alternatively, you can define the plugin in one package and use it in another, then it is easy to compile the first package without `-fplugin`, and you can use it globally in the second package.
+
+### Error: `cannot find normal object file`
+
+
+When compiling with a plugin, if you receive the error
+
+```wiki
+<no location info>:
+    cannot find normal object file ‘./MyPlugin.dyn_o’
+    while linking an interpreted expression
+```
+
+
+you need to compile `MyPlugin` with one of the `-dynamic` or `-dynamic-too` options.
