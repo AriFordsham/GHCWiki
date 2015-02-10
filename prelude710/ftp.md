@@ -25,7 +25,7 @@ However, there are many good reasons to do both the AMP and FTP generalizations 
 
 ## FAQ
 
-# Foldable has lots of class members. Why is it so complicated?
+# `Foldable` has lots of class members. Why is it so complicated?
 
 
 The first variant of `Foldable` that people tend to propose is to reduce it to something like
@@ -85,13 +85,13 @@ Finally, in a proposal back in September, David Feuer and Reid Barton proposed a
 
 The class is nearly as small as it can be without either changing the semantics of existing programs on their authors, or compromising the asymptotic performance of `Foldable` operations.
 
-# Traversable contains both Monad and Applicative variants for each function, and following the Applicative-Monad proposal, the Monad variants (mapM and sequence) are now redundant.
+# `Traversable` contains both `Monad` and `Applicative` variants for each function, and following the Applicative-Monad proposal, the Monad variants (mapM and sequence) are now redundant.
 
 
-We cannot remove `mapM` from the `Traversable` class without a deprecation cycle. Users have defined \*many\* instances of this class in the wild.
+We cannot remove `mapM` from the `Traversable` class without a deprecation cycle. Users have defined \*many\* instances of this class in the wild that happen to define their `mapM` member manually rather than rely on the default newtype-wrapper-based implementation.
 
 
-But there is another concern. It turns out that there exists a form of container that you can write for which `traverse` will blow the stack when `mapM` will not!
+But there is another technical concern: it turns out that there exists a form of container that you can write for which `traverse` will blow the stack when `mapM` will not! If we are able to eventually resolve this conflict, then by all means, a longer term goal would be to deprecate the redefinition of the members of `Traversable` other than `traverse`, move the remainder to top level definitions outside of the class, and generalize their signatures. However, we don't currently see how to get there from here and it remains not only possible, but probable that this issue cannot be resolved.
 
 # Given Foldable and Traversable may benefit from further refinement, dragging them into Prelude seems premature.
 
