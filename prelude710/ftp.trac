@@ -22,7 +22,8 @@ However, there are many good reasons to do both the AMP and FTP generalizations 
 
 == FAQ ==
 
-* Foldable has lots of class members. Why is it so complicated?
+{{{#!box help
+= Foldable has lots of class members. Why is it so complicated?
 
 The first variant of `Foldable` that people tend to propose is to reduce it to something like
 
@@ -68,19 +69,29 @@ Finally, in a proposal back in September, David Feuer and Reid Barton proposed a
 
 The class is nearly as small as it can be without either changing the semantics of existing programs on their authors, or compromising the asymptotic performance of `Foldable` operations.
 
-* Traversable contains both Monad and Applicative variants for each function, and following the Applicative-Monad proposal, the Monad variants (mapM and sequence) are now redundant.
+}}}
+
+{{{#!box help
+= Traversable contains both Monad and Applicative variants for each function, and following the Applicative-Monad proposal, the Monad variants (mapM and sequence) are now redundant.
 
 We cannot remove `mapM` from the `Traversable` class without a deprecation cycle. Users have defined *many* instances of this class in the wild.
 
 But there is another concern. It turns out that there exists a form of container that you can write for which `traverse` will blow the stack when `mapM` will not!
 
-* Given Foldable and Traversable may benefit from further refinement, dragging them into Prelude seems premature.
+}}}
+
+{{{#!box help
+= Given Foldable and Traversable may benefit from further refinement, dragging them into Prelude seems premature.
 
 The combinators will remain, on the other hand whether we go through a smooth deprecation cycle to remove some from the class and move them out to top level definitions when and if we can find ways to implement them without suffering an asymptotic or large constant factor hit is the major concern.
 
-We are proactively seeking ways to resolve this issue. Ticket [#10071](https://ghc.haskell.org/trac/ghc/ticket/10071) explores adding the ability to deprecate class member redefinition. This gives us the ability to move things out of the class over a pair of release cycles, should we find something we can improve in this manner.
+We are proactively seeking ways to resolve this issue. Ticket [[https://ghc.haskell.org/trac/ghc/ticket/10071|#10071]] explores adding the ability to deprecate class member redefinition. This gives us the ability to move things out of the class over a pair of release cycles, should we find something we can improve in this manner.
 
-* Data.List now has many functions that don't mention list in their type signature. Having such functions in the Data.List module is awkward from a naming perspective. In contrast, modules like Data.Map export many functions from Data.Foldable, specialized to Map.
+}}}
+
+
+{{{#!box help
+= `Data.List` now has many functions that don't mention list in their type signature. Having such functions in the Data.List module is awkward from a naming perspective. In contrast, modules like Data.Map export many functions from Data.Foldable, specialized to Map.
 
 From a data-driven perspective, the vast majority of users of `Data.List` import it unqualified to get at other combinators, such as `sort`, which aren't mentioned in the `Prelude`. Let's call this "group A". Having such an import break dozens of unrelated combinators seems like a bad idea.
 
@@ -96,66 +107,103 @@ A second alternative that may be viable is to concoct some form of WEAK pragma o
 
 By adopting the intermediate state we enable the maximal amount of existing code to continue to work, without committing to either one of these plans at this time without broader community discussion.
 
-* There are lots of functions that could be generalized further, but are not. For example, mapM, forM and sequence could all be expressed in terms of Applicative instead of Monad. 
+}}}
+
+{{{#!box help
+= There are lots of functions that could be generalized further, but are not. For example, mapM, forM and sequence could all be expressed in terms of Applicative instead of Monad. 
 
 We can't remove `mapM` for the reasons mentioned above at this time: It is an existing member of the class and can't be removed without a deprecation cycle, but it also has the concrete counter-example where `mapM` can avoid blowing the stack where `traverse` must. `sequence` is similarly an existing member of the class, and can't be removed without a deprecation cycle. 
 
-* Similarly things like length could be generalized to Num, making length and genericLength equivalent.
+}}}
+
+{{{#!box help
+= Similarly things like length could be generalized to Num, making length and genericLength equivalent.
 
 `length` is left ungeneralized with regards to the numeric type primarily because `genericLength` has absolutely abysmal performance. One of the pragmatic guidelines we followed is that we can't make code slower.
+}}}
 
-* While the Prelude operations (e.g. foldr) will now work on containers such as Vector, they still won't work on things like ByteString or Text, which in some code is used far more than other non-list containers.
+{{{#!box help
+= While the Prelude operations (e.g. foldr) will now work on containers such as Vector, they still won't work on things like ByteString or Text, which in some code is used far more than other non-list containers.
 
 The trend of API duplication for monomorphic containers cannot be entirely reversed without accepting a lot of limitations, moving to a library that lies outside of what is standardizable, and simultaneously giving up a lot of the nice theoretical properties that motivate Foldable and Traversable.
 
-* Some functions in Data.List could be generalized to Foldable, but have not been. For example, isPrefixOf and isInfixOf can be generalised. More generally, anything with a list in an argument position can be generalized.
+}}}
+
+{{{#!box help
+= Some functions in Data.List could be generalized to Foldable, but have not been. For example, isPrefixOf and isInfixOf can be generalised. More generally, anything with a list in an argument position can be generalized.
 
 There are two lists involved in the signatures of `isPrefixOf` and `isInfixOf`. Which gets generalized? Both? Adding `toList` to the class to avoid destroying sharing on the list case with `foldr (:) []` enables us to match the existing performance of these operations even with generalized signatures. However, they aren't in the `Prelude`, and they aren't historically in `Data.Foldable`. There isn't a strong argument _against_ generalizing them except for the fact that the generalized forms would have no good place to live. The changes we've made enable such general code to be written efficiently by users who want them.
+}}}
 
-* Some functions in Data.List could be generalised to Traversable, but have not been. For example, sort and reverse can be generalized. However, such generalizations are likely to add a performance penalty.
+{{{#!box help
+= Some functions in Data.List could be generalised to Traversable, but have not been. For example, sort and reverse can be generalized. However, such generalizations are likely to add a performance penalty.
 
 The runs afoul of the "first do no harm" principle from the standpoint of performance.
+}}}
 
-* Given that lots of functions could be generalized, it seems we should either generalize everything, or have a good story for where to stop. For example, isPrefixOf can be generalized, but the related function stripPrefix can only be partly generalized, so should isPrefixOf be generalized?
+{{{#!box help
 
-* The IsList class is an alternative generalization that could be made for some functions, and would work for ByteString and Text. Neither Foldable nor IsList is strictly more general, so both are potential alternatives.
+= Given that lots of functions could be generalized, it seems we should either generalize everything, or have a good story for where to stop. For example, isPrefixOf can be generalized, but the related function stripPrefix can only be partly generalized, so should isPrefixOf be generalized?
+
+}}}
+
+{{{#!box help
+= The IsList class is an alternative generalization that could be made for some functions, and would work for ByteString and Text. Neither Foldable nor IsList is strictly more general, so both are potential alternatives.
 
 It also gives up a number of existing inhabitants, or gives up the ability to reason polymorphically about the existing inhabitants such as Data.Map. There are _many_ Foldable containers that contain more than just their elements. IsList requires both the ability to consume the elements of a structure but the ability to construct the structure as well.
 
-* It should also be noted that `Traversable` can be added to `Prelude` without adding `Foldable`.  Today `Foldable` is a superclass of `Traversable`, but there is no real need for that.  (E.g., building the lens package and all its dependencies only requires 9 trivial changes when `Foldable` is no longer a superclass.)
+}}}
+
+{{{#!box help
+= It should also be noted that `Traversable` can be added to `Prelude` without adding `Foldable`.  Today `Foldable` is a superclass of `Traversable`, but there is no real need for that.  (E.g., building the lens package and all its dependencies only requires 9 trivial changes when `Foldable` is no longer a superclass.)
 
 Removing Foldable as a superclass of Traversable destroys a relationship between the Traversable class and 33+ operations with well known and well understood semantics.
 
-* The existing corpus of books, tutorials, syllabi, and the like usually have a significant portion of the text dedicated to these very Prelude functions - and they would all need significant revision. 
+The same argument has historically been applied to argue against adding `Applicative` as a superclass of `Monad`. It can also be applied equally well to say that `Ord` doesn't need `Eq` as a superclass, despite the fact that `Ord` provides us obvious laws giving us guidance for how the corresponding `Eq` should work.
+}}}
+
+{{{#!box help
+= The existing corpus of books, tutorials, syllabi, and the like usually have a significant portion of the text dedicated to these very Prelude functions - and they would all need significant revision. 
 
 At least two books already teach the Foldable and Traversable abstractions: "Learn You a Haskell" and "Beginning Haskell". Moreover, other texts such as "Real World Haskell" introduce the monad operations by telling the user to pretend the monad operations are specific to IO. "Read m as IO when you see it".
+}}}
 
-* Teaching beginners what sequence means in its full generality is going to be a challenge.
+{{{#!box help
+= Teaching beginners what sequence means in its full generality is going to be a challenge.
 
-This somehow has never been a problem for Python. They don't even have the types to help guide them.
+This somehow has never been a problem for Python. They don't even have the types to help guide them!
+}}}
 
-== Alternatives to the generalization ==
-
-There are a number of alternative approaches to how the generalization could be introduced into the code base. None of these approaches are fully worked through, and would not be ready for GHC 7.10, but could be adapted for GHC 7.12.
-
-* A language pragma could be used select alternative Preludes.
+{{{#!box help
+= A language pragma could be used select alternative Preludes.
 
 This fails on many grounds. 
 
-`Control.Monad` re-exports `mapM`, `mapM_`, `sequence`, `sequence_`, `forM` and `forM_`. Which version do users get?
+* `Control.Monad` re-exports `mapM`, `mapM_`, `sequence`, `sequence_`, `forM` and `forM_`. Which version do users get?
 
-`Data.List` re-exports large numbers of combinators from the Prelude as well.
+* `Data.List` re-exports large numbers of combinators from the Prelude as well.
 
-The `mtl` and many other libraries based around monads and monad transformers re-exports `Control.Monad`, so you get a whole ecosystem where where folks some times have 15+ imports at the top of a module, and every one of them would have to agree on which variant of the Prelude they were re-exporting or you'd start getting conflicts.
+* The `mtl` and many other libraries based around monads and monad transformers re-exports `Control.Monad`, so you get a whole ecosystem where where folks some times have 15+ imports at the top of a module, and every one of them would have to agree on which variant of the Prelude they were re-exporting or you'd start getting conflicts.
 
-* We could support restricting type signatures in export lists, so that when both a specific and general version are imported they do not clash.
+}}}
 
-When and if such a proposal was implemented we could use this to resolve the intermediate Data.List ugliness, yes.
 
-* A module with only the non-Foldable overlapping bits of Data.List could be created, allowing users who wanted Foldable plus some list functions to avoid name clashes.
+{{{#!box help
+= We could support restricting type signatures in export lists, so that when both a specific and general version are imported they do not clash.
 
-This requires a proactive change on the behalf of a rather large segment of users.
+When and if such a proposal was implemented we could use this to resolve the intermediate Data.List ugliness, yes!
 
-* The functions in Data.Foldable and Data.Traversable could be renamed not to clash. It is very common for generalized versions of functions to have a different name than their non-generalized counter parts: fmap and map, mappend and (++).  If the members of Data.Foldable were minimized (see above), then it might be reasonable to rename its foldr something like ffoldr.
+}}}
 
-This ignores the fact that a very very large segment of the community is already using those combinators.
+{{{#!box help
+= A module with only the non-Foldable overlapping bits of Data.List could be created, allowing users who wanted Foldable plus some list functions to avoid name clashes.
+
+This requires a proactive change on the behalf of a rather large segment of users and is a path we for which we can't offer a nice deprecation cycle.
+}}}
+
+
+{{{#!box help
+= The functions in Data.Foldable and Data.Traversable could be renamed not to clash. It is very common for generalized versions of functions to have a different name than their non-generalized counter parts: fmap and map, mappend and (++).  If the members of Data.Foldable were minimized (see above), then it might be reasonable to rename its foldr something like ffoldr.
+
+This ignores the fact that a very very large segment of the community has already been using those combinators for several years.
+}}}
