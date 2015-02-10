@@ -29,6 +29,19 @@ class Monad m => MonadFail m where
 and adapt `do`-desugaring accordingly.
 See https://github.com/quchen/articles/blob/master/monad_fail.md for more details.
 
+=== Misc Ideas
+
+To aid transition, we can keep `fail` in `Monad`, and start out with
+
+{{{#!hs
+class Monad m => MonadFail m where
+  fail :: String -> m a
+}}}
+
+(or maybe even require `MonadPlus`, as `fail _ = mzero` is a sensible default)
+
+The `MonadFail(mfail)` desugaring of `do` could then be enabled via language pragma `{-# LANGUAGE MonadFail -#}`, allowing for have a future `-XHaskell201x` to switch that on by default, while retaining `-XHaskell2010` w/ the current old `Monad(fail)` semantics.
+
 == History
 
 In [http://haskell.org/definition/haskell-report-1.4.ps.gz Haskell 1.4 (postscript)] `fail` was not part of the `Monad` class. Instead there was a separate `MonadZero` class containing the `zero` operation whose purpose was to handle pattern-failures in `do`-syntax (akin to what `fail` does today). Here are the original Haskell 1.4 class definitions quoted from section "6.2.5 Monadic Classes":
@@ -68,18 +81,6 @@ Should `???` for `g` be `Monad` or `MonadZero`? The single-constructor pattern m
 
 
 
-=== Misc Ideas
-
-To aid transition, we can keep `fail` in `Monad`, and start out with
-
-{{{#!hs
-class Monad m => MonadFail m where
-  fail :: String -> m a
-}}}
-
-(or maybe even require `MonadPlus`, as `fail _ = mzero` is a sensible default)
-
-The `MonadFail(mfail)` desugaring of `do` could then be enabled via language pragma `{-# LANGUAGE MonadFail -#}`, allowing for have a future `-XHaskell201x` to switch that on by default, while retaining `-XHaskell2010` w/ the current old `Monad(fail)` semantics.
 
 == Related Concepts/Proposals
 
