@@ -118,7 +118,7 @@ However, it is an ugly intermediate state at best.
 There are two clear paths for how to evolve `Data.List` from here.
 
 
-1.) Deprecate the re-export of the methods from the `Prelude` in GHC 7.12 and to remove them entirely in GHC 7.14. This ensures that group A never feels any pain at all, and that group B gets a deprecation window of warnings notifying them that they don't have to use the combinators qualified any more. The cost of this approach is that we'd have no place in `base` to house monomorphic versions of these combinators.
+1.) Deprecate the re-export of the methods from the `Prelude` in GHC 7.12 and to remove them entirely in GHC 7.14. This ensures that group A never feels any pain at all, and that group B gets a deprecation window of warnings notifying them that they don't have to use the combinators qualified any more. The cost of this approach is that we'd have no place in `base` to house monomorphic versions of these combinators. Ticket [ \#4879](https://ghc.haskell.org/trac/ghc/ticket/4879) addresses the need for deprecated re-exports, which are useful for many things and a patch is now available that can enable this functionality.
 
 
 2.) Concoct some form of `{-# WEAK #-} ` pragma or enable users to export type restricted versions of another combinator and then apply this pragma to these members of `Data.List`. This could revert those combinators to monomorphic form, but requires a more controversial language extension that has some potentially thorny implementation issues to work through, and we've elected not to presume they can be resolved.
@@ -191,7 +191,7 @@ Removing Foldable as a superclass of Traversable destroys a relationship between
 
 The same argument has historically been applied to argue against adding `Applicative` as a superclass of `Monad`. It can also be applied equally well to say that `Ord` doesn't need `Eq` as a superclass, despite the fact that `Ord` provides us obvious laws giving us guidance for how the corresponding `Eq` should work.
 
-# The existing corpus of books, tutorials, syllabi, and the like usually have a significant portion of the text dedicated to these very Prelude functions - and they would all need significant revision.
+# The existing corpus of books, tutorials, syllabi, and the like usually have a significant portion of the text dedicated to these very `Prelude` functions - and they would all need significant revision.
 
 
 At least two books already teach the Foldable and Traversable abstractions: "Learn You a Haskell" and "Beginning Haskell". Moreover, other texts such as "Real World Haskell" introduce the monad operations by telling the user to pretend the monad operations are specific to IO. "Read m as IO when you see it".
@@ -201,7 +201,7 @@ At least two books already teach the Foldable and Traversable abstractions: "Lea
 
 This somehow has never been a problem for Python. They don't even have the types to help guide them!
 
-# A language pragma could be used select alternative Preludes.
+# A language pragma could be used select alternative `Prelude` options.
 
 
 This fails on many grounds. 
@@ -215,9 +215,9 @@ This fails on many grounds.
 # We could support restricting type signatures in export lists, so that when both a specific and general version are imported they do not clash.
 
 
-When and if such a proposal was implemented we could use this to resolve the intermediate Data.List ugliness, yes!
+When and if such a proposal was implemented we could use this to resolve the intermediate `Data.List` ugliness, yes!
 
-# A module with only the non-Foldable overlapping bits of Data.List could be created, allowing users who wanted Foldable plus some list functions to avoid name clashes.
+# A module with only the non-`Foldable` overlapping bits of `Data.List` could be created, allowing users who wanted `Foldable` plus some list functions to avoid name clashes.
 
 
 This requires a proactive change on the behalf of a rather large segment of users and is a path we for which we can't offer a nice deprecation cycle.
