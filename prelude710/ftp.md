@@ -149,7 +149,7 @@ fmap f . fmap g = fmap (f . g)
 ```
 
 
-However, given parametricity, once you have proven the first one, the second follows via a free theorem. Moreover, the existing `Functor` class can be defined entirely within Haskell 98/2010.
+However, given parametricity, once you have proven the first one, the second follows via a free theorem. This ensures that Functor instances are easy to write, and hard to screw up. Moreover, the existing `Functor` class can be defined entirely within Haskell 98/2010.
 
 
 The trend of API duplication for monomorphic containers cannot be entirely reversed without accepting a lot of limitations, moving to a library that lies outside of what is standardizable, and simultaneously giving up a lot of the nice theoretical properties that motivate `Foldable` and `Traversable`.
@@ -173,28 +173,34 @@ The runs afoul of the "first do no harm" principle from the standpoint of perfor
 
 Also it turns out that none of members we've added in this current wave of generalization were added strictly for _constant_ performance factors, merely asymptotic ones, or due to increased stack utilization causing asymptotically more space usage.
 
-# Given that lots of functions could be generalized, it seems we should either generalize everything, or have a good story for where to stop. For example, isPrefixOf can be generalized, but the related function stripPrefix can only be partly generalized, so should isPrefixOf be generalized?
+# Given that lots of functions could be generalized, it seems we should either generalize everything, or have a good story for where to stop. For example, `isPrefixOf` can be generalized, but the related function `stripPrefix` can only be partly generalized, so should `isPrefixOf` be generalized?
 
 
-A generalized `isPrefixOf` lacks a good home, so fortunately we're spared being hoist on the horns of this dilemma.
+A generalized `isPrefixOf` lacks a good home, so fortunately we're spared being hoist on the horns of this particular dilemma.
 
-# The IsList class is an alternative generalization that could be made for some functions, and would work for ByteString and Text. Neither Foldable nor IsList is strictly more general, so both are potential alternatives.
+# The `IsList` class is an alternative generalization that could be made for some functions, and would work for `ByteString` and `Text`. Neither `Foldable` nor `IsList` is strictly more general, so both are potential alternatives.
 
 
-It also gives up a number of existing inhabitants, or gives up the ability to reason polymorphically about the existing inhabitants such as Data.Map. There are _many_ Foldable containers that contain more than just their elements. IsList requires both the ability to consume the elements of a structure but the ability to construct the structure as well.
+It also gives up a number of existing inhabitants, or gives up the ability to reason polymorphically about the existing inhabitants such as `Data.Map`. There are _many_ `Foldable` containers that contain more than just their elements. `IsList` requires both the ability to consume the elements of a structure but the ability to construct the structure as well.
 
 # It should also be noted that `Traversable` can be added to `Prelude` without adding `Foldable`.  Today `Foldable` is a superclass of `Traversable`, but there is no real need for that.  (E.g., building the lens package and all its dependencies only requires 9 trivial changes when `Foldable` is no longer a superclass.)
 
 
-Removing Foldable as a superclass of Traversable destroys a relationship between the Traversable class and 33+ operations with well known and well understood semantics.
+Removing `Foldable` as a superclass of `Traversable` destroys a relationship between the `Traversable` class and 33+ operations with well known and well understood semantics.
 
 
-The same argument has historically been applied to argue against adding `Applicative` as a superclass of `Monad`. It can also be applied equally well to say that `Ord` doesn't need `Eq` as a superclass, despite the fact that `Ord` provides us obvious laws giving us guidance for how the corresponding `Eq` should work.
+The same argument has historically been applied to argue against adding `Applicative` as a superclass of `Monad`. 
+
+
+It can also be applied equally well to say that `Ord` doesn't need `Eq` as a superclass, despite the fact that `Ord` provides us obvious laws giving us guidance for how the corresponding `Eq` should work.
+
+
+It would seem remarkably backwards to finally unify all the work on `Applicative` and `Monad` and simultaneously cleave apart all the work on `Foldable` and `Traversable` creating a variant on the `ap` vs. `(<*>)`, `fmap` vs. `liftM` problem but now spanning dozens of combinators.
 
 # The existing corpus of books, tutorials, syllabi, and the like usually have a significant portion of the text dedicated to these very `Prelude` functions - and they would all need significant revision.
 
 
-At least two books already teach the Foldable and Traversable abstractions: "Learn You a Haskell" and "Beginning Haskell". Moreover, other texts such as "Real World Haskell" introduce the monad operations by telling the user to pretend the monad operations are specific to IO. "Read m as IO when you see it".
+At least two books already teach the `Foldable` and `Traversable` abstractions: "Learn You a Haskell" and "Beginning Haskell". Moreover, other texts such as "Real World Haskell" introduce the monad operations by telling the user to pretend the monad operations are specific to IO. "Read `m` as `IO` when you see it".
 
 # Teaching beginners what sequence means in its full generality is going to be a challenge.
 
@@ -210,7 +216,7 @@ This fails on many grounds.
 
 - `Data.List` re-exports large numbers of combinators from the Prelude as well.
 
-- The `mtl` and many other libraries based around monads and monad transformers re-exports `Control.Monad`, so you get a whole ecosystem where where folks some times have 15+ imports at the top of a module, and every one of them would have to agree on which variant of the Prelude they were re-exporting or you'd start getting conflicts.
+- The `mtl` and many other libraries based around monads and monad transformers re-exports `Control.Monad`, so you get a whole ecosystem where where folks some times have 15+ imports at the top of a module, and every one of them would have to agree on which variant of the `Prelude` they were re-exporting or you'd start getting conflicts.
 
 # We could support restricting type signatures in export lists, so that when both a specific and general version are imported they do not clash.
 
