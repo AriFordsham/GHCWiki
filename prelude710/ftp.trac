@@ -20,7 +20,7 @@ However, there are many good reasons to do both the AMP and FTP generalizations 
 
 * One thing that we were very careful to avoid during this entire wave of generalization is an impact to performance on either asymptotic or constant factor grounds. The continuous performance testing that is done on GHC has done a lot to keep us honest in this regard, but has definitely complicated development.
 
-* Nothing in `Foldable` or `Traversable` ever changes the "shape" of the container it is given. This is actually more information for the user than seeing a combinator accepts any list and returns any list. The more general signatures can often tell the user more about what a combinator can do behind the scenes. 
+* Nothing in `Foldable` or `Traversable` ever changes the "shape" of the container it is given. This is actually more information for the user than seeing a combinator accepts any list and returns any list. While we give up the knowledge that the thing we're walking over is a list, we gain information as well. The more general signatures can often tell the user more about what a combinator can do behind the scenes. e.g. we can know that `forM` will not change the number of elements in the container by leaning on the `Traversable` laws alone and the lack of any other way to construct the result value. We're not just able to rely the fact that it gives back a list, but we can rely on the specific shape of the structure we get back.
 
 == FAQ ==
 
