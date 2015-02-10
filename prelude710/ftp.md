@@ -265,6 +265,29 @@ So, generalizations such as `Foldable`/`Traversable` are in fact taught (and rec
 
 This somehow has never been a problem for Python. They don't even have the types to help guide them!
 
+# We could support restricting type signatures in export lists, so that when both a specific and general version are imported they do not clash.
+
+
+Such an extension could be used as a blunt instrument to make it so that imports of `Data.Foldable` and `Data.Traversable` combinators would automatically shadow the `Prelude` versions by having the `Prelude` versions be type-restricted versions of whatever `Data.Foldable` and `Data.Traversable` supply, but the end result of this is that all users still have to use those imports, and those concepts remain demoted to fringes.
+
+
+However, this does nothing to address the desire for a more general replacement for `mapM` suitable for `Applicative` to be in scope, which comes about as a first-order consequence of the AMP.
+
+
+There also remain questions of what happens when two such restricted imports come into scope, as well as type checker concerns, and as such an extension starts affecting the behavior of the Prelude out of the box, it becomes a language extension that we now have to standardize.
+
+
+All of these issues conspire to make this alternative far less palatable than it appears at first glance.
+
+
+When and if such a proposal was implemented we could definitely use this to resolve the intermediate `Data.List` ugliness, yes! 
+
+
+Of course, this proposal isn't unique in that regard. We could also use a `WEAK` pragma that made it so an export was only used in the absence of a normal export, or a `QUALIFIED` pragma that said we only brought an identifier into scope when it was used explicitly qualified or via an explicit import list, or one of several other such proposals to allow the combinators we've generalized in `Data.List` to revert to a more palatable, simpler state.
+
+
+To do any of these, however, we'd still have to accept a report-affecting language extension, which is a much bigger proposal than generalizing a few signatures in a way that does not affect the semantics of existing programs.
+
 # A language pragma could be used select alternative `Prelude` options.
 
 
@@ -276,11 +299,6 @@ This fails on many grounds.
 
 - The `mtl` and many other libraries based around monads and monad transformers re-exports `Control.Monad`, so you get a whole ecosystem where where folks some times have 15+ imports at the top of a module, and every one of them would have to agree on which variant of the `Prelude` they were re-exporting or you'd start getting conflicts.
 
-# We could support restricting type signatures in export lists, so that when both a specific and general version are imported they do not clash.
-
-
-When and if such a proposal was implemented we could use this to resolve the intermediate `Data.List` ugliness, yes!
-
 # A module with only the non-`Foldable` overlapping bits of `Data.List` could be created, allowing users who wanted `Foldable` plus some list functions to avoid name clashes.
 
 
@@ -289,4 +307,4 @@ This requires a proactive change on the behalf of a rather large segment of user
 # The functions in `Data.Foldable` and `Data.Traversable` could be renamed not to clash. It might be reasonable to rename its `foldr` something like `ffoldr`.
 
 
-This ignores the fact that a very large segment of the community has already been using those combinators for several years.
+This proposal ignores the fact that a very large segment of the community has already been using those combinators for several years, and that they have been actively taught in books for almost four years.
