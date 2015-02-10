@@ -19,7 +19,7 @@ However, there are many good reasons to do both the AMP and FTP generalizations 
 
 - `Foldable` shows us a fairly deep connection between 33+ seemingly unrelated operations from the `Prelude`. `Traversable` adds connections between several more to that mix.
 
-- Once we make `Applicative` a superclass of `Monad`, `mapM` is basically \*never\* the right combinator for, well, anything. It requires too tight a constraint (`Monad` rather than `Applicative) on one hand. Going the 'wrong' direction and adding a monomorphized `traverse\` breaks far more code, and makes the scoping problems worse.
+- Once we make `Applicative` a superclass of `Monad`, `mapM` is basically \*never\* the right combinator for, well, anything. It requires too tight a constraint (`Monad` rather than `Applicative`) on one hand. Going the 'wrong' direction and adding a monomorphized `traverse` breaks far more code, and makes the scoping problems even worse.
 
 - One thing that we were very careful to avoid during this entire wave of generalization is an impact to performance on either asymptotic or constant factor grounds. The continuous performance testing that is done on GHC has done a lot to keep us honest in this regard, but has definitely complicated development.
 
