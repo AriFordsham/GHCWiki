@@ -288,7 +288,7 @@ Of course, this proposal isn't unique in that regard. We could also use a `WEAK`
 To do any of these, however, we'd still have to accept a report-affecting language extension, which is a much bigger proposal than generalizing a few signatures in a way that does not affect the semantics of existing programs.
 }}}
 
-[=#alternatives]
+[=#multiple-preludes]
 {{{#!box help
 = A language pragma could be used select alternative `Prelude` options.
 
@@ -299,6 +299,8 @@ This fails on many grounds.
 * `Data.List` re-exports large numbers of combinators from the Prelude as well.
 
 * The `mtl` and many other libraries based around monads and monad transformers re-exports `Control.Monad`, so you get a whole ecosystem where where folks some times have 15+ imports at the top of a module, and every one of them would have to agree on which variant of the `Prelude` they were re-exporting or you'd start getting conflicts.
+
+If we removed these re-exports, then in the future we'd be able to employ a strategy like this much more easily, but it isn't an option today.
 }}}
 
 [=#common-list]
