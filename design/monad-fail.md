@@ -33,13 +33,14 @@ To aid transition, we can keep `fail` in `Monad`, and start out with
 ```
 classMonad m =>MonadFail m where
   mfail ::String-> m a
+  mfail = fail
 ```
 
 
-(or maybe even require `MonadPlus`, as `fail _ = mzero` is a sensible default). This would be a similiar situation as we with `pure` and `return` post-AMP, where `return` is to be phased out into a non-method long-term.
+(or maybe even require `MonadPlus`, as `fail _ = mzero` is a sensible default). This is a comparable situation as  with post-AMP `pure`/`return` , where the now redundant `return` (which is now an alias for `pure`) is to be phased out into an ordinary top-level (non-method) function in the long term.
 
 
-The `MonadFail(mfail)` desugaring of `do` could then be enabled via language pragma `{-# LANGUAGE MonadFail -#}`, allowing for have a future `-XHaskell201x` to switch that on by default, while retaining `-XHaskell2010` w/ the current old `Monad(fail)` semantics.
+The `MonadFail(mfail)` desugaring of `do` could then be enabled via a language pragma `{-# LANGUAGE MonadFail -#}`, allowing for have a future `-XHaskell201x` to switch that feature on by default, while retaining `-XHaskell2010` with the current old `Monad(fail)` desugaring semantics.
 
 ## History
 
