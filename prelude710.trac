@@ -19,14 +19,16 @@ We need to decide what to do now.  A small group of us met by Skype and we've de
 
 We discussed many alternatives, but ended up with two simple ones:
 
-* '''Plan Foldable''' - generalize many of the functions in Prelude, Data.List and Control.Monad from lists to Foldable/Traversable.  Specifically, 
+* '''Plan Foldable''' - replace many of the functions in `Prelude`, `Data.List` and `Control.Monad` with the versions from `Data.Foldable` and `Data.Traversable` as appropriate.  Specifically, 
   * From `Prelude`: all, and, any, concat, concatMap, elem, foldl, foldl1, foldr, foldr1, length, mapM, mapM_, maximum, minimum, notElem, null, or, product, sequence, sequence_, sum
   * From `Control.Monad`: foldM, foldM_, forM, forM_, mapM, mapM_, msum, sequence, sequence_
   * From `Data.List`: all, and, any, concat, concatMap, elem, find, foldl, foldl', foldl1, foldr, foldr1, length, mapAccumL, mapAccumR, maximum, maximumBy, minimum, minimumBy, notElem, null, or, product, sum
 
-  The generalised types are almost entirely backward compatible.  However the `Foldable` class (in particular) may evolve further.
+  In the process of doing so, extend `Foldable` in such a way that we can do this without changing the semantics of existing programs or suffering performance regressions.
 
-  Note that this is a divergence from Haskell 2010, although for the most part code that compiles with Haskell 2010 continues to compile under this scheme.
+  While this is a divergence from Haskell 2010, for the most part code that compiles with Haskell 2010 continues to compile under this scheme. The [https://wiki.haskell.org/Functor-Applicative-Monad_Proposal Applicative-Monad proposal] is also a divergence from Haskell 2010, but by way of contrast it is one that requires active changes in user code for it to continue to compile.
+
+  The generalised types are almost entirely backward compatible.  However the `Foldable` class (in particular) may evolve further.
 
 * '''Plan List''' - leave these functions working on lists, as they do in GHC 7.8 (and Haskell 2010).  The generalised versions would still be available, but you would have to import them, and use qualification, hiding or specific imports to avoid name clashes.  e.g. `foldr` is defined on lists in the current `Prelude`, but is generalised in `Data.Foldable`.
 
