@@ -2,7 +2,7 @@
 
 The [https://wiki.haskell.org/Core_Libraries_Committee Core Libraries Committee] (CLC) is responsible for developing the core libraries that ship with GHC.  This is an important but painstaking task, and we owe the CLC a big vote of thanks for taking it on.
 
-For over a year the CLC has been working on integrating the `Foldable` and `Traversable` classes (shipped in `base` in GHC 7.8) into the core libraries, and into the Prelude in particular.  Detailed planning for GHC 7.10 started in the autumn of 2013, and the CLC went ahead with this integration.  Then we had a failure of communication.  
+For over a year the CLC has been working on integrating the `Foldable` and `Traversable` classes (shipped in `base` in GHC 7.8) into the core libraries, and into the Prelude in particular.  Detailed planning for GHC 7.10 started in the autumn of 2014, and the CLC went ahead with this integration.  Then we had a failure of communication.  
 
 As these changes affect the Prelude, which is in scope for all users of Haskell, these changes should be held to a higher bar than the regular `libraries@` review process.
 
