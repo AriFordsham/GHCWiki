@@ -186,7 +186,7 @@ At least two books already teach the `Foldable` and `Traversable` abstractions: 
 }}}
 
 {{{#!box help
-= Teaching beginners what sequence means in its full generality is going to be a challenge.
+= Teaching beginners what the new types mean in their full generality is going to be a challenge.
 
 This somehow has never been a problem for Python. They don't even have the types to help guide them!
 }}}
