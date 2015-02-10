@@ -188,7 +188,7 @@ It would seem remarkably backwards to finally unify all the work on `Applicative
 
 At least two books already teach the `Foldable` and `Traversable` abstractions: [[http://learnyouahaskell.com/functors-applicative-functors-and-monoids|"Learn You a Haskell"]] and "Beginning Haskell".
 
-[[http://book.realworldhaskell.org/read/io.html#x_TE|Real World Haskell]] dispels this concern around the generality of the `Monad` operations with a quick aside:
+[[http://book.realworldhaskell.org/read/io.html#x_TE|Real World Haskell]] dispels this same sort of concern around the generality of the `Monad` operations with a quick aside:
 
 {{{#!box tip style="background-color:white"
 Tip: These functions actually work for more than just I/O; they work for any `Monad`. For now, wherever you see `m`, just think `IO`.
