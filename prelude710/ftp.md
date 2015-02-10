@@ -194,7 +194,7 @@ When and if such a proposal was implemented we could use this to resolve the int
 
 This requires a proactive change on the behalf of a rather large segment of users and is a path we for which we can't offer a nice deprecation cycle.
 
-# The functions in Data.Foldable and Data.Traversable could be renamed not to clash. It is very common for generalized versions of functions to have a different name than their non-generalized counter parts: fmap and map, mappend and (++).  If the members of Data.Foldable were minimized (see above), then it might be reasonable to rename its foldr something like ffoldr.
+# The functions in `Data.Foldable` and `Data.Traversable` could be renamed not to clash. It might be reasonable to rename its `foldr` something like `ffoldr`.
 
 
-This ignores the fact that a very very large segment of the community has already been using those combinators for several years.
+This ignores the fact that a very large segment of the community has already been using those combinators for several years.
