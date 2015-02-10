@@ -320,6 +320,11 @@ This requires a proactive change on the behalf of a rather large segment of user
 
 This proposal ignores the fact that a very large segment of the community has already been using those combinators for several years, and that they have been actively taught in books for almost four years.
 
+# How may I express my support or disapproval?
+
+
+We actively are seeking feedback through a [ survey](https://goo.gl/forms/XP1W2JdfpX) through February 21st. Once the results are in Simon Peyton Jones and Simon Marlow have agreed to weigh the matter and decide the direction we will take in GHC 7.10.
+
 # I have a question/concern not addressed here... ?
 
 
