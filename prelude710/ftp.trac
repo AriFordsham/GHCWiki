@@ -8,6 +8,8 @@ You can also try it out today, by downloading GHC 7.10RC2.
 
 It has recently been highlighted that as these changes affect the `Prelude`, and thus affect what users of Haskell see out of the box, they should be held to a higher bar than the usual libraries@ traffic. In particular, there was concern that while the [[https://wiki.haskell.org/Functor-Applicative-Monad_Proposal|Applicative/Monad Proposal]] was warned about extensively in GHC 7.8, the [[https://wiki.haskell.org/Foldable_Traversable_In_Prelude|Foldable/Traversable Proposal]] was not nearly as well broadcast.
 
+A brief summary of both alternatives being considered at this point is available at [[Prelude710]], while the details of the '''Plan List''' counter-proposal are available at [[Prelude710/List]]. 
+
 However, there are many good reasons to do both the AMP and FTP generalizations at this time.
 
 * '''By generalizing the `Prelude`, the `Prelude` will no longer cause name collisions anywhere within `base`'''. This is a very simple rule to state; it is a very simple rule to understand. This is no panacea, other packages can and do still export combinators that collide with `Prelude`, but it means that simple things like explaining how `traverse` relates to `mapM` in `ghci` will no longer invite a comedy of errors and name conflicts.
