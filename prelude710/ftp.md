@@ -226,13 +226,41 @@ It would seem remarkably backwards to finally unify all the work on `Applicative
 
 # The existing corpus of books, tutorials, syllabi, and the like usually have a significant portion of the text dedicated to these very `Prelude` functions - and they would all need significant revision.
 
-
-At least two books already teach the `Foldable` and `Traversable` abstractions: [ Learn You a Haskell](http://learnyouahaskell.com/functors-applicative-functors-and-monoids) and "Beginning Haskell".
-
 [ Real World Haskell](http://book.realworldhaskell.org/read/io.html#x_TE) dispels this same sort of concern around the generality of the `Monad` operations with a quick aside:
 
 
 Tip: These functions actually work for more than just I/O; they work for any `Monad`. For now, wherever you see `m`, just think `IO`.
+
+
+Moreover, at least two books aimed at beginners (the very popular [ Learn You a Haskell](http://learnyouahaskell.com/functors-applicative-functors-and-monoids) as well as "Beginning Haskell") already teach and promote the `Foldable` and `Traversable` abstractions with words like
+
+>
+> Because there are so many data structures that work nicely with folds,
+> the `Foldable` type class was introduced. Much like `Functor` is for
+> things that can be mapped over, `Foldable` is for things that can be
+> folded up!
+
+
+or
+
+>
+> As you saw in the previous chapter, lots of different algorithms can be
+> expressed using folds. The module Data.Foldable includes most of them,
+> like maximum or elem. One easy way to make your functions more general
+> is hiding the functions with those names from the Prelude and importing
+> the ones using Foldable.
+
+
+...and go on to promote their use with the words
+
+>
+> But now that you know about them, you should aim for the largest
+> degree of abstraction that you can achieve.
+
+
+So, generalisations such as Foldable/Traversable are in fact taught (and
+recommended) to beginners via books. Its use is rather going to
+increase the more newcomers read those books, so we should rather make sure they're properly integrated into the standard libraries than sending mixed signals by making them awkward to use.
 
 # Teaching beginners what the new types mean in their full generality is going to be a challenge.
 
