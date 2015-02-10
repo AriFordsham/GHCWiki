@@ -202,7 +202,7 @@ It would seem remarkably backwards to finally unify all the work on `Applicative
 
 At least two books already teach the `Foldable` and `Traversable` abstractions: "Learn You a Haskell" and "Beginning Haskell". Moreover, other texts such as "Real World Haskell" introduce the monad operations by telling the user to pretend the monad operations are specific to IO. "Read `m` as `IO` when you see it".
 
-# Teaching beginners what sequence means in its full generality is going to be a challenge.
+# Teaching beginners what the new types mean in their full generality is going to be a challenge.
 
 
 This somehow has never been a problem for Python. They don't even have the types to help guide them!
