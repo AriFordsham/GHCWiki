@@ -1,7 +1,7 @@
 # The 7.10 Prelude should be generalized
 
 
-In 2013, two proposals passed through the libraries@ process. Unlike most proposals before them, these proposals affect types in the Prelude. These are the Applicative/Monad Proposal (AMP) and the Foldable/Traversable Proposal (FTP) (also sometimes referred to as the "Burning Bridges Proposal" based on the title of the original thread).
+In 2013, two proposals passed through the libraries@ process. Unlike most proposals before them, these proposals affect types in the Prelude. These are the [ Applicative/Monad Proposal (AMP)](https://wiki.haskell.org/Functor-Applicative-Monad_Proposal) and the [ Foldable/Traversable Proposal (FTP)](https://wiki.haskell.org/Foldable_Traversable_In_Prelude) (also sometimes referred to as the "Burning Bridges Proposal" based on the title of the original thread).
 
 
 It has recently been highlighted that as these changes affect the Prelude, and thus affect what users of Haskell see out of the box, they should be held to a higher bar than the usual libraries@ traffic. In particular, there was concern that while the `Applicative`/`Monad` Proposal was warned about extensively in GHC 7.8, the `Foldable`/`Traversable` Proposal was not nearly as well broadcast.
