@@ -68,6 +68,19 @@ Should `???` for `g` be `Monad` or `MonadZero`? The single-constructor pattern m
 
 
 
+=== Misc Ideas
+
+To aid transition, we can keep `fail` in `Monad`, and start out with
+
+{{{#!hs
+class Monad m => MonadFail m where
+  fail :: String -> m a
+}}}
+
+(or maybe even require `MonadPlus`, as `fail _ = mzero` is a sensible default)
+
+The `MonadFail(mfail)` desugaring of `do` could then be enabled via language pragma `{-# LANGUAGE MonadFail -#}`, allowing for have a future `-XHaskell201x` to switch that on by default, while retaining `-XHaskell2010` w/ the current old `Monad(fail)` semantics.
+
 == Related Concepts/Proposals
 
  - [https://wiki.haskell.org/MonadPlus_reform_proposal MonadPlus reform proposal]
