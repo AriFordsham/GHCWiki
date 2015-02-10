@@ -79,10 +79,11 @@ The third group notes that the `foldl` definition is sadly naïve, and requires 
 
 By adding some of these methods where the `Prelude` behavior and `Data.Foldable` behavior to the class, we are able to ensure that the existing semantics hold for existing programs that were using the `Prelude` combinators without compromising on the asymptotic behavior of code that is written with `Foldable` today.
 
+At the same time, an unintended but interesting consequence is that members of that third group can wire up their container types to get vastly improved performance over the Prelude version as well.
+
 Finally, in a proposal back in September, David Feuer and Reid Barton proposed adding several more members to `Foldable` to enable specific containers to offer asymptotically even more efficient versions of many combinators.
 
-The class is nearly as small as it can be without either changing the semantics of existing programs on their authors, or compromising the asymptotic performance of `Foldable` operations.
-
+As ugly as it may be, `Foldable` is nearly as small as it can be without either changing the semantics of existing programs on their authors, or compromising the asymptotic performance of `Foldable` operations.
 }}}
 
 {{{#!box help
