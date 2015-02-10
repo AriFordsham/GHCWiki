@@ -263,6 +263,7 @@ So, generalizations such as `Foldable`/`Traversable` are in fact taught (and rec
 
 }}}
 
+[=#teaching]
 {{{#!box help
 = Teaching beginners what the new types mean in their full generality is going to be a challenge.
 
