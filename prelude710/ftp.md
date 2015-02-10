@@ -23,6 +23,8 @@ However, there are many good reasons to do both the AMP and FTP generalizations 
 
 - One thing that we were very careful to avoid during this entire wave of generalization is an impact to performance on either asymptotic or constant factor grounds. The continuous performance testing that is done on GHC has done a lot to keep us honest in this regard, but has definitely complicated development.
 
+- Nothing in `Foldable` or `Traversable` ever changes the "shape" of the container it is given. This is actually more information for the user than seeing a combinator accepts any list and returns any list. The more general signatures can often tell the user more about what a combinator can do behind the scenes. 
+
 ## FAQ
 
 # `Foldable` has lots of class members. Why is it so complicated?
@@ -107,19 +109,19 @@ We are proactively seeking ways to resolve this issue. Ticket [ \#10071](https:/
 From a data-driven perspective, the vast majority of users of `Data.List` import it unqualified to get at other combinators, such as `sort`, which aren't mentioned in the `Prelude`. Let's call this "group A". Having such an import break dozens of unrelated combinators seems like a bad idea.
 
 
-By exporting generalized versions rather than removing them, we are able to support group A, but also the second most common scenario, where users of Data.List follow the qualified import pattern of Data.Map, let us call this "group B".
+By exporting generalized versions rather than removing them, we are able to support group A, but also the second most common scenario, where users of `Data.List` follow the qualified import pattern of `Data.Map`, let us call this "group B".
 
 
 However, it is an ugly intermediate state at best.
 
 
-There are two clear paths for how to evolve Data.List from here.
+There are two clear paths for how to evolve `Data.List` from here.
 
 
-1.) Deprecate the re-export of the methods from the Prelude in 7.12 and to remove them entirely in 7.14. This ensures that group A never feels any pain at all, and that group B gets a deprecation window of warnings notifying them that they don't have to use the combinators qualified any more. The cost of this approach is that we'd have no place in `base` to house monomorphic versions of these combinators.
+1.) Deprecate the re-export of the methods from the `Prelude` in GHC 7.12 and to remove them entirely in GHC 7.14. This ensures that group A never feels any pain at all, and that group B gets a deprecation window of warnings notifying them that they don't have to use the combinators qualified any more. The cost of this approach is that we'd have no place in `base` to house monomorphic versions of these combinators.
 
 
-2.) Concoct some form of WEAK pragma or enable users to export type restricted versions of another combinator and then apply this pragma to these members of `Data.List`. This could revert those combinators to monomorphic form, but requires a more controversial language extension that has some potentially thorny implementation issues to work through, and we've elected not to presume they can be resolved.
+2.) Concoct some form of `{-# WEAK #-} ` pragma or enable users to export type restricted versions of another combinator and then apply this pragma to these members of `Data.List`. This could revert those combinators to monomorphic form, but requires a more controversial language extension that has some potentially thorny implementation issues to work through, and we've elected not to presume they can be resolved.
 
 
 By adopting this admittedly awkward intermediate state we enable the maximal amount of existing code to continue to work, without committing to either one of these plans at this time without broader community discussion.
@@ -139,6 +141,17 @@ We can't remove `mapM` for the reasons mentioned above at this time: It is an ex
 The same could be said for `Functor`.
 
 
+However, we derive a lot of benefit from having polymorphism on hand to help enforce one of the `Functor` laws. We have two `Functor` laws:
+
+```wiki
+fmap id = id
+fmap f . fmap g = fmap (f . g)
+```
+
+
+However, given parametricity, once you have proven the first one, the second follows via a free theorem. Moreover, the existing `Functor` class can be defined entirely within Haskell 98/2010.
+
+
 The trend of API duplication for monomorphic containers cannot be entirely reversed without accepting a lot of limitations, moving to a library that lies outside of what is standardizable, and simultaneously giving up a lot of the nice theoretical properties that motivate `Foldable` and `Traversable`.
 
 
@@ -147,17 +160,23 @@ Packages such as `mono-traversable` attempt to address this more general need. H
 
 Finally, the `mono-traversable` path is also incapable of handling type-changing assignments. Variants which are capable of type-changing assignment, such as `Each` in the `lens` package introduce a number of type inference concerns in practice.
 
-# Some functions in Data.List could be generalized to Foldable, but have not been. For example, isPrefixOf and isInfixOf can be generalised. More generally, anything with a list in an argument position can be generalized.
+# Some functions in `Data.List` could be generalized to `Foldable`, but have not been. For example, `isPrefixOf` and `isInfixOf` can be generalised. More generally, anything with a list in an argument position can be generalized.
 
 
 There are two lists involved in the signatures of `isPrefixOf` and `isInfixOf`. Which gets generalized? Both? Adding `toList` to the class to avoid destroying sharing on the list case with `foldr (:) []` enables us to match the existing performance of these operations even with generalized signatures. However, they aren't in the `Prelude`, and they aren't historically in `Data.Foldable`. There isn't a strong argument _against_ generalizing them except for the fact that the generalized forms would have no good place to live. The changes we've made enable such general code to be written efficiently by users who want them.
 
-# Some functions in Data.List could be generalised to Traversable, but have not been. For example, sort and reverse can be generalized. However, such generalizations are likely to add a performance penalty.
+# Some functions in `Data.List` could be generalized to `Traversable`, but have not been. For example, `sort` and `reverse` can be generalized. However, such generalizations are likely to add a performance penalty.
 
 
-The runs afoul of the "first do no harm" principle from the standpoint of performance.
+The runs afoul of the "first do no harm" principle from the standpoint of performance. 
+
+
+Also it turns out that none of members we've added in this current wave of generalization were added strictly for _constant_ performance factors, merely asymptotic ones, or due to increased stack utilization causing asymptotically more space usage.
 
 # Given that lots of functions could be generalized, it seems we should either generalize everything, or have a good story for where to stop. For example, isPrefixOf can be generalized, but the related function stripPrefix can only be partly generalized, so should isPrefixOf be generalized?
+
+
+A generalized `isPrefixOf` lacks a good home, so fortunately we're spared being hoist on the horns of this dilemma.
 
 # The IsList class is an alternative generalization that could be made for some functions, and would work for ByteString and Text. Neither Foldable nor IsList is strictly more general, so both are potential alternatives.
 
