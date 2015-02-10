@@ -19,7 +19,7 @@ This is an extremely unfortunate situation.  On the one hand we are at RC2 for G
 We need to decide what to do now.  A small group of us met by Skype and we've decided to do this:
 
 - Push back GHC 7.10's release by at least a month (in part due to this, but also to address an unrelated showstopping bug)
-- Invite input from the Haskell community on which of two approaches to adopt (see below)
+- Invite input from the Haskell community on which of two approaches to adopt via a [ survey](https://goo.gl/forms/XP1W2JdfpX) through February 21st.
 - Ask Simon Marlow and Simon Peyton Jones to decide which approach to follow for GHC 7.10.
 
 ## The two alternative approaches
@@ -74,4 +74,7 @@ This discussion only covers what will ship with GHC 7.10. The expectation is tha
 ## What next?
 
 
-We're actively seeking feedback. Once the feedback is collected, Simon Peyton Jones and Simon Marlow will make a final decision.
+We're actively seeking feedback via a survey at [ https://goo.gl/forms/XP1W2JdfpX](https://goo.gl/forms/XP1W2JdfpX) through February 21st.
+
+
+Once the feedback is collected, Simon Peyton Jones and Simon Marlow will make a final decision.
