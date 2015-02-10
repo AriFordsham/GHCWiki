@@ -307,6 +307,9 @@ This fails on many grounds.
 
 - The `mtl` and many other libraries based around monads and monad transformers re-exports `Control.Monad`, so you get a whole ecosystem where where folks some times have 15+ imports at the top of a module, and every one of them would have to agree on which variant of the `Prelude` they were re-exporting or you'd start getting conflicts.
 
+
+If we removed these re-exports, then in the future we'd be able to employ a strategy like this much more easily, but it isn't an option today.
+
 # A module with only the non-`Foldable` overlapping bits of `Data.List` could be created, allowing users who wanted `Foldable` plus some list functions to avoid name clashes.
 
 
