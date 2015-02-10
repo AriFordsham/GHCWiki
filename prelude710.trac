@@ -6,7 +6,7 @@ For over a year the CLC has been working on integrating the `Foldable` and `Trav
 
 As these changes affect the Prelude, which is in scope for all users of Haskell, these changes should be held to a higher bar than the regular `libraries@` review process.
 
-As changes were not particularly well signposted, many people have only recently woken up to them, and some have objected (both in principle and detail).
+However, in fact the changes were not particularly well signposted.  Many people have only recently woken up to them, and some have objected (both in principle and detail).
 
 This is an extremely unfortunate situation.  On the one hand we are at RC2 for GHC 7.10, so library authors have invested effort in updating their libraries to the new Prelude.  On the other, altering the Prelude is in effect altering the language, something we take pretty seriously.  We should have had this debate back in 2014, but here we are, and it is unproductive to argue about whose fault it is.  We all share responsibility.
 
