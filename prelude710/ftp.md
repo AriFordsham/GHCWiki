@@ -85,7 +85,7 @@ Finally, in a proposal back in September, David Feuer and Reid Barton proposed a
 
 The class is nearly as small as it can be without either changing the semantics of existing programs on their authors, or compromising the asymptotic performance of `Foldable` operations.
 
-# `Traversable` contains both `Monad` and `Applicative` variants for each function, and following the Applicative-Monad proposal, the Monad variants (mapM and sequence) are now redundant.
+# `Traversable` contains both `Monad` and `Applicative` variants for each function, and following the `Applicative`-`Monad` proposal, the `Monad` variants (`mapM` and `sequence`) are now redundant.
 
 
 We cannot remove `mapM` from the `Traversable` class without a deprecation cycle. Users have defined \*many\* instances of this class in the wild that happen to define their `mapM` member manually rather than rely on the default newtype-wrapper-based implementation.
@@ -93,7 +93,7 @@ We cannot remove `mapM` from the `Traversable` class without a deprecation cycle
 
 But there is another technical concern: it turns out that there exists a form of container that you can write for which `traverse` will blow the stack when `mapM` will not! If we are able to eventually resolve this conflict, then by all means, a longer term goal would be to deprecate the redefinition of the members of `Traversable` other than `traverse`, move the remainder to top level definitions outside of the class, and generalize their signatures. However, we don't currently see how to get there from here and it remains not only possible, but probable that this issue cannot be resolved.
 
-# Given Foldable and Traversable may benefit from further refinement, dragging them into Prelude seems premature.
+# Given `Foldable` and `Traversable` may benefit from further refinement, dragging them into `Prelude` seems premature.
 
 
 The combinators will remain, on the other hand whether we go through a smooth deprecation cycle to remove some from the class and move them out to top level definitions when and if we can find ways to implement them without suffering an asymptotic or large constant factor hit is the major concern.
@@ -101,7 +101,7 @@ The combinators will remain, on the other hand whether we go through a smooth de
 
 We are proactively seeking ways to resolve this issue. Ticket [ \#10071](https://ghc.haskell.org/trac/ghc/ticket/10071) explores adding the ability to deprecate class member redefinition. This gives us the ability to move things out of the class over a pair of release cycles, should we find something we can improve in this manner.
 
-# `Data.List` now has many functions that don't mention list in their type signature. Having such functions in the Data.List module is awkward from a naming perspective. In contrast, modules like Data.Map export many functions from Data.Foldable, specialized to Map.
+# `Data.List` now has many functions that don't mention list in their type signature. Having such functions in the `Data.List` module is awkward from a naming perspective.
 
 
 From a data-driven perspective, the vast majority of users of `Data.List` import it unqualified to get at other combinators, such as `sort`, which aren't mentioned in the `Prelude`. Let's call this "group A". Having such an import break dozens of unrelated combinators seems like a bad idea.
@@ -116,27 +116,36 @@ However, it is an ugly intermediate state at best.
 There are two clear paths for how to evolve Data.List from here.
 
 
-The first is to deprecate the re-export of the methods from the Prelude in 7.12 and to remove them entirely in 7.14. This ensures that group A never feels any pain at all, and that group B gets a deprecation window of warnings notifying them that they don't have to use the combinators qualified any more. The cost of this approach is that we'd have no place in `base` to house monomorphic versions of these combinators.
+1.) Deprecate the re-export of the methods from the Prelude in 7.12 and to remove them entirely in 7.14. This ensures that group A never feels any pain at all, and that group B gets a deprecation window of warnings notifying them that they don't have to use the combinators qualified any more. The cost of this approach is that we'd have no place in `base` to house monomorphic versions of these combinators.
 
 
-A second alternative that may be viable is to concoct some form of WEAK pragma or enable users to export type restricted versions of another combinator and then apply this pragma to these members of `Data.List`. This could revert those combinators to monomorphic form, but requires a more controversial language extension that has some potentially thorny implementation issues to work through, and we've elected not to presume they can be resolved.
+2.) Concoct some form of WEAK pragma or enable users to export type restricted versions of another combinator and then apply this pragma to these members of `Data.List`. This could revert those combinators to monomorphic form, but requires a more controversial language extension that has some potentially thorny implementation issues to work through, and we've elected not to presume they can be resolved.
 
 
-By adopting the intermediate state we enable the maximal amount of existing code to continue to work, without committing to either one of these plans at this time without broader community discussion.
+By adopting this admittedly awkward intermediate state we enable the maximal amount of existing code to continue to work, without committing to either one of these plans at this time without broader community discussion.
 
-# There are lots of functions that could be generalized further, but are not. For example, mapM, forM and sequence could all be expressed in terms of Applicative instead of Monad.
+# There are lots of functions that could be generalized further, but are not. For example, `mapM`, `forM` and `sequence` could all be expressed in terms of `Applicative` instead of `Monad`.
 
 
-We can't remove `mapM` for the reasons mentioned above at this time: It is an existing member of the class and can't be removed without a deprecation cycle, but it also has the concrete counter-example where `mapM` can avoid blowing the stack where `traverse` must. `sequence` is similarly an existing member of the class, and can't be removed without a deprecation cycle. 
+We can't remove `mapM` for the reasons mentioned above at this time: It is an existing member of the class and can't be removed without a deprecation cycle, but it also has the concrete counter-example where `mapM` can avoid blowing the stack where `traverse` must. `sequence` is similarly an existing member of the class, and can't be removed without a deprecation cycle, and can't be generalized without breaking the existing instances and since it is implemented through `mapM id` suffers the same concern as `mapM`.
 
-# Similarly things like length could be generalized to Num, making length and genericLength equivalent.
+# Similarly things like `length` could be generalized to `Num`, making `length` and `genericLength` equivalent.
 
 `length` is left ungeneralized with regards to the numeric type primarily because `genericLength` has absolutely abysmal performance. One of the pragmatic guidelines we followed is that we can't make code slower.
 
-# While the Prelude operations (e.g. foldr) will now work on containers such as Vector, they still won't work on things like ByteString or Text, which in some code is used far more than other non-list containers.
+# While the `Prelude` operations (e.g. `foldr`) will now work on containers such as `Vector`, they still won't work on things like `ByteString` or `Text`, which in some code is used far more than other non-list containers.
 
 
-The trend of API duplication for monomorphic containers cannot be entirely reversed without accepting a lot of limitations, moving to a library that lies outside of what is standardizable, and simultaneously giving up a lot of the nice theoretical properties that motivate Foldable and Traversable.
+The same could be said for `Functor`.
+
+
+The trend of API duplication for monomorphic containers cannot be entirely reversed without accepting a lot of limitations, moving to a library that lies outside of what is standardizable, and simultaneously giving up a lot of the nice theoretical properties that motivate `Foldable` and `Traversable`.
+
+
+Packages such as `mono-traversable` attempt to address this more general need. However, they rely on many language extensions. Inviting an API that is necessarily based on type families or MPTCs + fundeps into standards discussion would be a huge move, but then there are pragmatic concerns around polymorphic recursion and the details of all intermediate types used during a `Traversal` leaking into the signature of your methods, so the `mono-traversable` path is not a clear win. 
+
+
+Finally, the `mono-traversable` path is also incapable of handling type-changing assignments. Variants which are capable of type-changing assignment, such as `Each` in the `lens` package introduce a number of type inference concerns in practice.
 
 # Some functions in Data.List could be generalized to Foldable, but have not been. For example, isPrefixOf and isInfixOf can be generalised. More generally, anything with a list in an argument position can be generalized.
 
