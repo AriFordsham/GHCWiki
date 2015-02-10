@@ -244,6 +244,9 @@ This occurs because `-fplugin=MyPlugin` essentially imports `MyPlugin` in every 
 
 If you're defining and using a plugin in a single package, use `OPTIONS_GHC` pragmas in the modules that rely on the plugin, rather than supplying `-fplugin` on the command line. Alternatively, you can define the plugin in one package and use it in another, then it is easy to compile the first package without `-fplugin`, and you can use it globally in the second package.
 
+
+See [\#10077](https://gitlab.haskell.org//ghc/ghc/issues/10077) for more information.
+
 ### Error: `cannot find normal object file`
 
 
