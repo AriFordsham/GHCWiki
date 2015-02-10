@@ -634,3 +634,24 @@ I'm not sure we *use* this, but it's one less thing to worry about.
 
 
 I didn't follow the "background info" I'm afraid; I didn't even understand instance declaration (1).  We don't usually get casts in an instance head.  Do we really need them?
+
+# Definitional equality wrinkle
+
+
+I've decided that it's a good idea for `t` and `t |> refl` to be equal according to `eqType`. In fact, I want to make any arrangement of coercions within a type irrelevant, as long as the kinds of the types are the same. This decision has pervasive effects, mostly good. We can now worry a lot less about coherence coercions, which won't exist between types of the same kind. But there is a wrinkle:
+
+
+Suppose we have
+
+```wiki
+a :: Raining -> *
+T :: Bool -> *
+
+b :: Raining
+```
+
+
+and we're matching `a b` with `T True`. According to a definitional equality that ignores casts, this match should succeed, with `a |-> T |> sym axRaining -> <*>` and `b |-> sym axRaining`. This is success because `(T |> sym axRaining -> <*>) (True |> sym axRaining)` is well-typed and `eqType` to `T True`. But, we've hit a major problem, in that `axRaining` isn't mentioned anywhere in the query! There's no way for the unifier to produce it. Yet, failing on this match would be **wrong**, as it wouldn't respect definitional equality.
+
+
+Proposed solution: "tag" each application with the kind of its argument. These tags remain relevant during the equality check. According to this slightly more restricted (finer) definitional equality, `a b` doesn't match with `T True`, because the kind tags are different! Problem solved.
