@@ -4,16 +4,16 @@
 As per [Prelude710](prelude710), this page attempts to address concerns about the [ Foldable/Traversable Proposal](https://wiki.haskell.org/Foldable_Traversable_In_Prelude).
 
 
-In 2013, two proposals passed through the libraries@ process. Unlike most proposals before them, these proposals affect types in the Prelude. These are the [ Applicative/Monad Proposal (AMP)](https://wiki.haskell.org/Functor-Applicative-Monad_Proposal) and the [ Foldable/Traversable Proposal (FTP)](https://wiki.haskell.org/Foldable_Traversable_In_Prelude) (also sometimes referred to as the "Burning Bridges Proposal" based on the title of the original thread).
-
-
-It has recently been highlighted that as these changes affect the `Prelude`, and thus affect what users of Haskell see out of the box, they should be held to a higher bar than the usual libraries@ traffic. In particular, there was concern that while the [ Applicative/Monad Proposal](https://wiki.haskell.org/Functor-Applicative-Monad_Proposal) was warned about extensively in GHC 7.8, the [ Foldable/Traversable Proposal](https://wiki.haskell.org/Foldable_Traversable_In_Prelude) was not nearly as well broadcast.
-
-
 A brief summary of both this plan and the alternative being considered at this point is available at [Prelude710](prelude710), while the details of the **Plan List** counter-proposal are available at [Prelude710/List](prelude710/list). 
 
 
-You can try out this solution today, by downloading GHC 7.10RC2.
+In 2013, two proposals passed through the libraries@ process. Unlike most proposals before them, these proposals affect types in the Prelude. These are the [ Applicative/Monad Proposal (AMP)](https://wiki.haskell.org/Functor-Applicative-Monad_Proposal) and the [ Foldable/Traversable Proposal (FTP)](https://wiki.haskell.org/Foldable_Traversable_In_Prelude) (also sometimes referred to as the "Burning Bridges Proposal" based on the title of the original thread).
+
+
+You can try out both of these solutions today simply by downloading GHC 7.10RC2.
+
+
+It has recently been highlighted that as these changes affect the `Prelude`, and thus affect what users of Haskell see out of the box, they should be held to a higher bar than the usual libraries@ traffic. In particular, there was concern that while the [ Applicative/Monad Proposal](https://wiki.haskell.org/Functor-Applicative-Monad_Proposal) was warned about extensively in GHC 7.8, the [ Foldable/Traversable Proposal](https://wiki.haskell.org/Foldable_Traversable_In_Prelude) was not nearly as well broadcast.
 
 
 However, there are many good reasons to do both the AMP and FTP generalizations at this time.
