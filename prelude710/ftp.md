@@ -308,3 +308,8 @@ This requires a proactive change on the behalf of a rather large segment of user
 
 
 This proposal ignores the fact that a very large segment of the community has already been using those combinators for several years, and that they have been actively taught in books for almost four years.
+
+# I have a question/concern not addressed here... ?
+
+
+There's an IRC channel `#haskell-ftp` (on freenode) where we're happy to try to answer additional questions you may have!
