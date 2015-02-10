@@ -36,11 +36,11 @@ With the advent of the AMP, bringing `traverse` into scope is rather important. 
 
 The obvious paths to get there that don't require hard to explain excuses have the side benefits of letting us clean up the library by removing duplication and generalize things, but any such cleanup has to be tempered by pragmatic considerations:
 
-* Ideally it should be able to be done without incurring a major performance penalty. Going in, this was actually a pressing concern. Would generalizing the Prelude to Foldable compromise foldr/build fusion? We went in expecting some performance loss, but for the most part haven't seen any at all and have actually seen some speedups.
+* '''Avoid incurring a major performance penalty.''' Going in, this was actually a pressing concern. Would generalizing the Prelude to Foldable compromise foldr/build fusion? We went in expecting some performance loss, but for the most part haven't seen any at all and have actually seen some speedups.
 
-* We should avoid introducing massive breakage -- see the issues surrounding `Data.List` in the FAQ below.
+* '''Avoid introducing massive breakage.''' -- see the issues surrounding `Data.List` in the FAQ below.
 
-* Veering off into uncharted territory that would require a future Haskell Report to lean on a much larger language standard should also be avoided. This pushes us away from designs such as `mono-traversable` or `IsList`.
+* '''Avoid requiring a future Haskell Report to lean on a much larger language standard''' or veering off into uncharted territory. This pushes us away from designs such as `mono-traversable` or `IsList`.
 
 The details of the current implementation are available on the [[https://wiki.haskell.org/Foldable_Traversable_In_Prelude|Foldable/Traversable in Prelude]] HaskellWiki page. That article, however, remains written from a more neutral point of view.
 
