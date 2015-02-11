@@ -48,9 +48,9 @@ The functions `tcRnModule` and `tcRnModuleTcRnM` control the complete static ana
 
 The actual type checking and renaming process is initiated via `TcRnDriver.tcRnSrcDecls`, which uses a helper called `tc_rn_src_decls` to implement the iterative renaming and type checking process required by [http://darcs.haskell.org/ghc/docs/comm/exts/th.html Template Haskell] (TODO: Point at new commentary equivalent). After it invokes `tc_rn_src_decls`, it simplifies type constraints and zonking (see below regarding the later).
 
-The function `tc_rn_src_decls` partitions static analysis of a whole module into multiple rounds, where the initial round is followed by an additional one for each toplevel splice. It collects all declarations up to the next splice into an `HsDecl.HsGroup` to rename and type check that declaration group by calling `TcRnDriver.tcRnGroup`. Afterwards, it executes the splice (if there are any left) and proceeds to the next group, which includes the declarations produced by the splice.
+The function `tc_rn_src_decls` partitions static analysis of a whole module into multiple rounds, where the initial round is followed by an additional one for each toplevel splice. It collects all declarations up to the next splice into an `HsDecl.HsGroup`. To rename and type check that declaration group it calls `TcRnDriver.rnTopSrcDecls` and `TcRnDriver.tcTopSrcDecls`. Afterwards, it executes the splice (if there are any left) and proceeds to the next group, which includes the declarations produced by the splice.
 
-The function `tcRnGroup`, finally, gets down to invoke the actual renaming and type checking via `TcRnDriver.rnTopSrcDecls` and `TcRnDriver.tcTopSrcDecls`, respectively. The renamer, apart from renaming, computes the global type checking environment, of type `TcRnTypes.TcGblEnv`, which is stored in the [wiki:Commentary/Compiler/TcRnMonad type checking monad] before type checking commences.
+The renamer, apart from renaming, computes the global type checking environment, of type `TcRnTypes.TcGblEnv`, which is stored in the [wiki:Commentary/Compiler/TcRnMonad type checking monad] before type checking commences.
 
 == Type Checking a Declaration Group ==
 
