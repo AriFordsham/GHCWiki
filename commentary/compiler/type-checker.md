@@ -48,7 +48,7 @@ It is also noteworthy, that the representations of types changes during type che
 ### Entry Points Into the Type Checker
 
 
-The interface of the type checker (and [renamer](commentary/compiler/renamer)) to the rest of the compiler is provided by [TcRnDriver](/trac/ghc/browser/ghc/compiler/typecheck/TcRnDriver.lhs). Entire modules are processed by calling `tcRnModule` and GHCi uses `tcRnStmt`, `tcRnExpr`, and `tcRnType` to typecheck statements and expressions, and to kind check types, respectively. Moreover, `tcRnExtCore` is provided to typecheck external Core code. Moreover, `tcTopSrcDecls` is used by Template Haskell - more specifically by `TcSplice.tc_bracket` - to type check the contents of declaration brackets.
+The interface of the type checker (and [renamer](commentary/compiler/renamer)) to the rest of the compiler is provided by [TcRnDriver](/trac/ghc/browser/ghc/compiler/typecheck/TcRnDriver.lhs). Entire modules are processed by calling `tcRnModule` and GHCi uses `tcRnStmt`, `tcRnExpr`, and `tcRnType` to typecheck statements and expressions, and to kind check types, respectively. Moreover, `tcTopSrcDecls` is used by Template Haskell - more specifically by `TcSplice.tc_bracket` - to type check the contents of declaration brackets.
 
 ### Renaming and Type Checking a Module
 
