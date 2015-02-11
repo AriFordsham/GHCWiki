@@ -35,16 +35,18 @@ isUnLiftedTy t1 = isUnLiftedTy t2
 ------------------------------------------------------------------------------------- :: UnivCo
 G |-co t1 ==>!_R t2 : t1 ~R k2 t2
 }}}
-('''Qnikst''': forth rule was not added to spec yet)
+('''Qnikst''': forth rule was not added to spec yet)  '''SPJ''' What spec?  Give a link.
 
 
 Basically it introduces for new predicates in UnivCo rule:
 
-  1. Both types should be lifted or both types should be unlifted (Qnikst: note that original task forbids coercion between lifted and ''unboxed'')
+  1. Both types should be lifted or both types should be unlifted (Qnikst: note that original task forbids coercion between lifted and ''unboxed'').  Reason: casting between pointers and non-pointers is likely to cause seg-faults if the garbage collector happens to run.
+
+'''SPJ''' Actually it should be ''unboxed'' not ''unlifted''.  It's wrong to cast between `Array# Int` and `Int#` because the former is a pointer and the latter is not.
 
   2. If types are unlifted then their ''size'' should be equal, see `primRepSizeW` in source:compiler/types/TyCon.hs
 
-  3. If types are unlifted then they either should be both floating or both integral.
+  3. If types are unlifted then they either should be both floating or both integral.  Reason: on many architectures, floating point values are held in special registers.
 
   4. If types are unboxed tuples then tuple `(# A_1,..,A_n #)` can be coerced to `(# B_1,..,B_m #)` if `n=m` and for each pair `A_i, B_i` rules 1-4 holds.
 
