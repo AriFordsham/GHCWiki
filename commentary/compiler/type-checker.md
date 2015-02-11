@@ -67,7 +67,7 @@ The renamer, apart from renaming, computes the global type checking environment,
 ## Type Checking a Declaration Group
 
 
-The type checking of a declaration group, performed by `tcTopSrcDecls` starts by processing of the type and class declarations of the current module, using the function `TcTyClsDecls.tcTyAndClassDecls`. This is followed by a first round over instance declarations using `TcInstDcls.tcInstDecls1`, which in particular generates all additional bindings due to the deriving process. Then come foreign import declarations (`TcForeign.tcForeignImports`) and default declarations (`TcDefaults.tcDefaults`).
+The type checking of a declaration group, performed by `tcTopSrcDecls` and its helper function `tcTyClsInstDecls`, starts by processing of the type and class declarations of the current module, using the function `TcTyClsDecls.tcTyAndClassDecls`. This is followed by a first round over instance declarations using `TcInstDcls.tcInstDecls1`, which in particular generates all additional bindings due to the deriving process. Then come foreign import declarations (`TcForeign.tcForeignImports`) and default declarations (`TcDefaults.tcDefaults`).
 
 
 Now, finally, toplevel value declarations (including derived ones) are type checked using `TcBinds.tcTopBinds`. Afterwards, `TcInstDcls.tcInstDecls2` traverses instances for the second time. Type checking concludes with processing foreign exports (`TcForeign.tcForeignExports`) and rewrite rules (`TcRules.tcRules`). Finally, the global environment is extended with the new bindings.
