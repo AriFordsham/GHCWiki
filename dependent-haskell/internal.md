@@ -655,3 +655,17 @@ and we're matching `a b` with `T True`. According to a definitional equality tha
 
 
 Proposed solution: "tag" each application with the kind of its argument. These tags remain relevant during the equality check. According to this slightly more restricted (finer) definitional equality, `a b` doesn't match with `T True`, because the kind tags are different! Problem solved.
+
+### Alternate solution
+
+
+The plan above is a little dissatisfying, because it means that matching is less eager than a user might reasonably expect... I can see answering a bug report as not-a-bug in some time over this issue.
+
+
+An alternate plan would be to leave definitional equality intact, but to "invent" coercions during matching to fill the void. These could be `UnivCo`s with a distinguished provenance. When matching is all done, we could subst into the template, add some magic to `mkAppTy` so that casts on both types can cancel each other, and then check to see if any of the invented coercions is still present. We'd have to be careful, because the substs produced during matching/unifying are applied to more than just the template. In every case I could find, one of these two tricks would work:
+
+1. Pass the match/unify function a list (possibly long) of places the subst will be used. The end-of-algorithm check for invented coercions would look throughout this list.
+1. Emit the invented coercions as wanted during type-checking.
+
+
+I can't think of any property that *guarantees* that approach (1) or (2) would always work, but searching through the codebase suggests that one of these options is always available.
