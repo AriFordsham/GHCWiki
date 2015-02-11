@@ -43,6 +43,8 @@ There are a number of concerns with the generalizations proposed for GHC 7.10. S
 
 * It should also be noted that `Traversable` can be added to `Prelude` without adding `Foldable`.  Today `Foldable` is a superclass of `Traversable`, but there is no real need for that.  (E.g., building the lens package and all its dependencies only requires 9 trivial changes when `Foldable` is no longer a superclass.)
 
+* Containers with a constrained element type (e.g. `StorableVector`, `Vector.Storable` and `Vector.Unboxed`) cannot be made instances of the `Foldable` class.
+
 == Concerns for the ecosystem ==
 
 The base libraries, and especially the Prelude, are foundations of the larger ecosystem around Haskell. How such a change alters that ecosystem should be taken into account.
