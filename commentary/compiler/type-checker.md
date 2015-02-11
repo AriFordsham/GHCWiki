@@ -42,7 +42,7 @@ It is also noteworthy, that the representations of types changes during type che
 - Underlying infrastructure:
 
   - `TcRnTypes`: a big collection of the types used during type checking
-  - `TcRnMonad`: the main typechecker monad
+  - [TcRnMonad](commentary/compiler/tc-rn-monad): the main typechecker monad
   - `TcType`: pure functions over types, used by the type checker
 
 ### Entry Points Into the Type Checker
@@ -62,7 +62,7 @@ The actual type checking and renaming process is initiated via `TcRnDriver.tcRnS
 The function `tc_rn_src_decls` partitions static analysis of a whole module into multiple rounds, where the initial round is followed by an additional one for each toplevel splice. It collects all declarations up to the next splice into an `HsDecl.HsGroup` to rename and type check that declaration group by calling `TcRnDriver.tcRnGroup`. Afterwards, it executes the splice (if there are any left) and proceeds to the next group, which includes the declarations produced by the splice.
 
 
-The function `tcRnGroup`, finally, gets down to invoke the actual renaming and type checking via `TcRnDriver.rnTopSrcDecls` and `TcRnDriver.tcTopSrcDecls`, respectively. The renamer, apart from renaming, computes the global type checking environment, of type `TcRnTypes.TcGblEnv`, which is stored in the type checking monad before type checking commences.
+The function `tcRnGroup`, finally, gets down to invoke the actual renaming and type checking via `TcRnDriver.rnTopSrcDecls` and `TcRnDriver.tcTopSrcDecls`, respectively. The renamer, apart from renaming, computes the global type checking environment, of type `TcRnTypes.TcGblEnv`, which is stored in the [type checking monad](commentary/compiler/tc-rn-monad) before type checking commences.
 
 ## Type Checking a Declaration Group
 
@@ -105,7 +105,7 @@ As explained in [TcType](/trac/ghc/browser/ghc/compiler/typecheck/TcType.lhs), G
 ### Type Checking Environment
 
 
-During type checking, GHC maintains a *type environment* whose type definitions are fixed in the module [TcRnTypes](/trac/ghc/browser/ghc/compiler/typecheck/TcRnTypes.lhs) with the operations defined in [TcEnv](/trac/ghc/browser/ghc/compiler/typecheck/TcEnv.lhs). Among other things, the environment contains all imported and local instances as well as a list of *global* entities (imported and local types and classes together with imported identifiers) and *local* entities (locally defined identifiers). This environment is threaded through the type checking monad, whose support functions including initialisation can be found in the module [TcRnMonad](/trac/ghc/browser/ghc/compiler/typecheck/TcRnMonad.lhs).
+During type checking, GHC maintains a *type environment* whose type definitions are fixed in the module [TcRnTypes](/trac/ghc/browser/ghc/compiler/typecheck/TcRnTypes.lhs) with the operations defined in [TcEnv](/trac/ghc/browser/ghc/compiler/typecheck/TcEnv.lhs). Among other things, the environment contains all imported and local instances as well as a list of *global* entities (imported and local types and classes together with imported identifiers) and *local* entities (locally defined identifiers). This environment is threaded through the [type checking monad](commentary/compiler/tc-rn-monad).
 
 ### Expressions
 
