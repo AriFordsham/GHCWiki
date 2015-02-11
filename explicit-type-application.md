@@ -16,6 +16,15 @@ choosing at the definition site to either:
 If you choose (a) you must always give explicit kind arguments.
 If you choose (b) you cannot ever give explicit kind arguments. 
 
+
+Relevant tickets (at least)
+
+- [\#5296](https://gitlab.haskell.org//ghc/ghc/issues/5296)
+- [\#4466](https://gitlab.haskell.org//ghc/ghc/issues/4466)
+
+
+See also [ImpredicativePolymorphism](impredicative-polymorphism).
+
 ## Examples
 
 
