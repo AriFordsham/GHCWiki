@@ -20,7 +20,7 @@ test2 = foo . bar
 ```
 
 
-Should `test1` typecheck?  Yes: GHC can see that `foo`'s argument should have type `forall a. a->a`, and indeed `bar x` has that type.  It involves higher-rank type inference (see \[[ http://research.microsoft.com/en-us/um/people/simonpj/papers/higher-rank/index.htm](http://research.microsoft.com/en-us/um/people/simonpj/papers/higher-rank/index.htm) Practical type inference for higher rank types), but GHC has supported this for ages.
+Should `test1` typecheck?  Yes: GHC can see that `foo`'s argument should have type `forall a. a->a`, and indeed `bar x` has that type.  It involves higher-rank type inference (see [ Practical type inference for higher rank types](http://research.microsoft.com/en-us/um/people/simonpj/papers/higher-rank/index.htm)), but GHC has supported this for ages.
 
 
 What about `test2`?  After all, it's just an eta-abstracted version of `test1`.  No, `test2` is rejected.  Remember the type of `(.)`:
@@ -73,3 +73,16 @@ Here are some useful papers about type inference for impredicative polymorphism;
 There are lots of tickets in GHC's Trac that boil down to impredicativity.  Here is a non-exhaustive list (please add to it):
 
 - [\#4295](https://gitlab.haskell.org//ghc/ghc/issues/4295)
+- [\#8808](https://gitlab.haskell.org//ghc/ghc/issues/8808)
+
+### The way forward
+
+
+Personally I think there are two ways forward:
+
+- Add explicit type application in some shape or form.  That is, tell GHC exactly how to instantiate those polymorphic type variables.  Explicit type application is what happens in the intermediate language, System FC, and there are many reasons for wanting it in the source language.  See the [explicit type application wiki page](explicit-type-application).
+
+- Do something along the lines of QML.
+
+
+The key is to be less ambitious than our previous attempts.  Anything in FC should be *expressible* in source Haskell, but we may have to accept relatively-intrusive type annotations to achieve it.
