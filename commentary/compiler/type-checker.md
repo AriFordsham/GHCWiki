@@ -53,10 +53,10 @@ The interface of the type checker (and [renamer](commentary/compiler/renamer)) t
 ### Renaming and Type Checking a Module
 
 
-The function `tcRnModule` controls the complete static analysis of a Haskell module. It sets up the combined renamer and type checker monad, resolves all import statements, initiates the actual renaming and type checking process, and finally, wraps off by processing the export list.
+The functions `tcRnModule` and `tcRnModuleTcRnM` control the complete static analysis of a Haskell module. They set up the combined renamer and type checker monad, resolve all import statements, take care of hi-boot files, initiate the actual renaming and type checking process, and finally, wrap off by processing the export list.
 
 
-The actual type checking and renaming process is initiated via `TcRnDriver.tcRnSrcDecls`, which uses a helper called `tc_rn_src_decls` to implement the iterative renaming and type checking process required by [ Template Haskell](http://darcs.haskell.org/ghc/docs/comm/exts/th.html) (TODO Point at new commentary equivalent). However, before it invokes `tc_rn_src_decls`, it takes care of hi-boot files; afterwards, it simplifies type constraints and zonking (see below regarding the later).
+The actual type checking and renaming process is initiated via `TcRnDriver.tcRnSrcDecls`, which uses a helper called `tc_rn_src_decls` to implement the iterative renaming and type checking process required by [ Template Haskell](http://darcs.haskell.org/ghc/docs/comm/exts/th.html) (TODO Point at new commentary equivalent). After it invokes `tc_rn_src_decls`, it simplifies type constraints and zonking (see below regarding the later).
 
 
 The function `tc_rn_src_decls` partitions static analysis of a whole module into multiple rounds, where the initial round is followed by an additional one for each toplevel splice. It collects all declarations up to the next splice into an `HsDecl.HsGroup` to rename and type check that declaration group by calling `TcRnDriver.tcRnGroup`. Afterwards, it executes the splice (if there are any left) and proceeds to the next group, which includes the declarations produced by the splice.
