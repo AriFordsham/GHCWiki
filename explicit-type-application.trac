@@ -14,6 +14,12 @@ choosing at the definition site to either:
 If you choose (a) you must always give explicit kind arguments.
 If you choose (b) you cannot ever give explicit kind arguments. 
 
+Relevant tickets (at least)
+ * #5296
+ * #4466
+
+See also [wiki:ImpredicativePolymorphism].
+
 == Examples ==
 
 (b) above is the current behaviour; you can only specify kinds by
