@@ -1,4 +1,4 @@
-[ Up: [wiki:Commentary/Compiler/HscMain] ]
+[ Up: [wiki:Commentary/Compiler/TypeChecker] ]
 
 = The monad for renaming, typechecking, desugaring =
 
