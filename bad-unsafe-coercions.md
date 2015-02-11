@@ -49,11 +49,11 @@ Basically it introduces for new predicates in UnivCo rule:
 
 1. Both types should be lifted or both types should be unlifted (Qnikst: note that original task forbids coercion between lifted and *unboxed*)
 
-1. If types are unlifted then their *size* should be equal, see `primRepSizeW` in ([source:compiler/types/TyCon.hs](/trac/ghc/browser/compiler/types/TyCon.hs)[](/trac/ghc/export/HEAD/ghc/compiler/types/TyCon.hs))
+1. If types are unlifted then their *size* should be equal, see `primRepSizeW` in [source:compiler/types/TyCon.hs](/trac/ghc/browser/compiler/types/TyCon.hs)[](/trac/ghc/export/HEAD/ghc/compiler/types/TyCon.hs)
 
 1. If types are unlifted then they either should be both floating or both integral.
 
-1. If types are unboxed tuples then tuple `(A_1,..,A_n)` can be coerced to `(B_1,..,B_m)` if `n=m` and for each pair `A_i, B_i` rules 1-4 holds.
+1. If types are unboxed tuples then tuple `(# A_1,..,A_n #)` can be coerced to `(# B_1,..,B_m #)` if `n=m` and for each pair `A_i, B_i` rules 1-4 holds.
 
 
 If any of those rules are violated then linter should produce a warning.
