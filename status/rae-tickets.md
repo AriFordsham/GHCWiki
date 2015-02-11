@@ -32,6 +32,7 @@
 - [\#9649](https://gitlab.haskell.org//ghc/ghc/issues/9649): Proper type-level strings
 - [\#9667](https://gitlab.haskell.org//ghc/ghc/issues/9667): Don't make tyvars untouchable when a GADT pattern-match isn't informative
 - [\#9883](https://gitlab.haskell.org//ghc/ghc/issues/9883): Heterogeneous `OverloadedLists`
+- [\#10075](https://gitlab.haskell.org//ghc/ghc/issues/10075): `Constraint` vs `*`
 
 **Hard**
 
@@ -58,6 +59,8 @@
 ## Typechecker
 
 - [\#7788](https://gitlab.haskell.org//ghc/ghc/issues/7788): More intelligent behavior around loopy type families
+
+  - [\#8550](https://gitlab.haskell.org//ghc/ghc/issues/8550): Probably a dup of [\#7788](https://gitlab.haskell.org//ghc/ghc/issues/7788)
 - [\#9450](https://gitlab.haskell.org//ghc/ghc/issues/9450): Interleave checking against an hs-boot file while typechecking definitions
 - [\#9554](https://gitlab.haskell.org//ghc/ghc/issues/9554): `-XUndecidableInstances` causes runtime loop
 - [\#9557](https://gitlab.haskell.org//ghc/ghc/issues/9557): Deriving instances is slow
