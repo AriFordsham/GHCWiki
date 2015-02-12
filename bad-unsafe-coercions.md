@@ -42,7 +42,7 @@ G |-co t1 ==>!_R t2 : t1 ~R k2 t2
 ```
 
 
-(**Qnikst**: forth rule was not added to spec yet)  **SPJ** What spec?  Give a link.
+(**Qnikst**: forth rule (about unboxed tuples) was not added to spec ([source:docs/core-spec/CoreLint.ott](/trac/ghc/browser/docs/core-spec/CoreLint.ott)[](/trac/ghc/export/HEAD/ghc/docs/core-spec/CoreLint.ott)) yet)  **SPJ** What spec?  Give a link.
 
 
 Basically it introduces for new predicates in UnivCo rule:
