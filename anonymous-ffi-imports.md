@@ -76,10 +76,11 @@ foreign import ccall "cos" c_cos :: CDouble -> CDouble
 Is desugared to (eliminating the core background noise from the `-ddump-ds` output)
 
 ```wiki
+c_cos :: CDouble -> CDouble
 c_cos =
-  let f (x :: Double) =
-        D# $ {__pkg_ccall_GC main cos Double# -> State# RealWorld -> (# State# RealWorld, Double# #)} x realWorld#
-  in f `cast` (Sym CDouble -> Sym CDouble :: ((Double -> Double) ~# (CDouble -> CDouble)))
+  (\(x :: Double) -> D# $ {__pkg_ccall_GC main cos Double# -> State# RealWorld -> (# State# RealWorld, Double# #)} x realWorld#)
+    `cast`
+  (Sym CDouble -> Sym CDouble :: ((Double -> Double) ~# (CDouble -> CDouble)))
 ```
 
 
