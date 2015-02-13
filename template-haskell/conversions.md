@@ -25,7 +25,10 @@ HsSyn Name --------'        |
 We currently have `TcSplice.reify` for reifying a `TyThing` into TH syntax, and `Convert` for converting TH syntax back into `HsSyn`.  Also, we have `DsMeta` for converting the contents of TH brackets into the `Core` code which generates the TH syntax for those brackets.
 
 
-We need A, for Haddock.
+We do not have (A), (B), or (C).
+
+
+We need (A), for Haddock.
 
 
 Hence, we could:
