@@ -47,7 +47,7 @@ G |-co t1 ==>!_R t2 : t1 ~R k2 t2
 
 Basically it introduces for new predicates in UnivCo rule:
 
-1. Both types should be lifted or both types should be unlifted (Qnikst: note that original task forbids coercion between lifted and *unboxed*).  Reason: casting between pointers and non-pointers is likely to cause seg-faults if the garbage collector happens to run.
+1. Coercions between lifted and unboxed are not allowed.  Reason: casting between pointers and non-pointers is likely to cause seg-faults if the garbage collector happens to run.
 
 **SPJ** Actually it should be *unboxed* not *unlifted*.  It's wrong to cast between `Array# Int` and `Int#` because the former is a pointer and the latter is not.
 
@@ -88,6 +88,17 @@ implementation: Alexander Vershilov / Qnikst
 
 
 advisor: Richard Eisenberg / goldfire / RAE
+
+## Questions
+
+### Vectors
+
+
+Coercion between vectors are should be clarified (under vectors I mean 'VecRep').
+
+
+Is it possible to coerce between vectors with elements of different length, but when vector size matches,
+for example `Vector 4 Word8ElemRep` to `Vector 2 Word16ElemRep`?
 
 ## Old discussions
 
