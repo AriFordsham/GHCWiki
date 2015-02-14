@@ -19,7 +19,7 @@ This is a list of tickets that [ Pedro](http://dreixel.net) wants to keep an eye
 - [\#9821](https://gitlab.haskell.org//ghc/ghc/issues/9821) (DeriveAnyClass support for higher-kinded classes + some more comments)
 - [\#9858](https://gitlab.haskell.org//ghc/ghc/issues/9858) (Typeable instance for datatype and its promoted constructor is the same)
 - [\#9968](https://gitlab.haskell.org//ghc/ghc/issues/9968) (DeriveAnyClass fails on multi-parameter type classes)
-- [\#10030](https://gitlab.haskell.org//ghc/ghc/issues/10030) (packageName for GHC.Generics.Datatype)
+- [\#10087](https://gitlab.haskell.org//ghc/ghc/issues/10087) (DefaultSignatures: error message mentions internal name)
 
 
 Closed:
@@ -39,8 +39,10 @@ Closed:
 - [\#9750](https://gitlab.haskell.org//ghc/ghc/issues/9750) (Core lint failure with TypeLits Symbol)
 - [\#9999](https://gitlab.haskell.org//ghc/ghc/issues/9999) (Typeable deriving behavior different between data families and associated data types)
 - [\#10000](https://gitlab.haskell.org//ghc/ghc/issues/10000) (Derived DataKinds Typeable instance collision leads to [SafeHaskell](safe-haskell) violation)
+- [\#10030](https://gitlab.haskell.org//ghc/ghc/issues/10030) (packageName for GHC.Generics.Datatype)
 
 
 Wiki pages:
 
 - [Commentary/Compiler/GenericDeriving](commentary/compiler/generic-deriving)
+- [StaticPointers](static-pointers)
