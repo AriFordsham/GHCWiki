@@ -60,7 +60,7 @@ This discussion only covers what will ship with GHC 7.10. The expectation is tha
 [Prelude710/FTP](prelude710/ftp) describes and motivates the plan in more detail.
 
 - GHC 7.10 RC2 already contains an implementation of the Foldable/Traversable generalizations. If we went with Plan List, then authors who have modified their code to work with GHC 7.10 would have to undo some of those changes (but not the Applicative-Monad related changes).
-- With the Applicative/Monad Proposal in place, `mapM` now too restrictive in the class of effects it allows, as well as the type of containers it allows you to traverse. This motivates bringing `traverse` into scope.
+- With the Applicative/Monad Proposal in place, `mapM` is now too restrictive in the class of effects it allows, as well as the type of containers it allows you to traverse. This motivates bringing `traverse` into scope.
 - With Foldable/Traversable there are no longer any name clashes between Prelude and the rest of base.
 - The functions in Prelude become consistently applicable to other data structures, for example `Vector`, `Map`, `Maybe`, `Either a`, `(,) a`, `Set`, etc.
 
