@@ -15,7 +15,7 @@ A brief summary of both this plan and the alternative being considered at this p
 
 There isn't clear agreement that generalization should be done at all.
 
-- One motivation behind the generalization is to modernize the Prelude and standardize on the Foldable/Traversable. But the Prelude, though far from perfect, but has withstood years as workable base for Haskell. Developers of all sorts routinely build more customized basic sets of libraries to import into their code, either as alternative Preludes, or as a common import. This mechanism works and allows diversity of opinion on what should commonly be in scope.
+- One motivation behind the generalization is to modernize the Prelude and standardize on the Foldable/Traversable. But the Prelude, though far from perfect, has withstood years as a workable base for Haskell. Developers of all sorts routinely build more customized basic sets of libraries to import into their code, either as alternative Preludes, or as a common import. This mechanism works and allows diversity of opinion on what should commonly be in scope.
 
 - Another motivation behind the generalization is to allow the generic functions exported by Data.Foldable and Data.Traversable, such as foldr and sequence, to be in scope unqualified without clashing with the same named functions in the Prelude (which are mostly from Data.List). But Haskell has existing facilities for handling this situation. The common way would be to Import Data.Foldable qualified, perhaps under a short name like F. In this way, foldr is the Prelude list based version, and F.foldr is the generic version. This is the approach used for many modules that have common, short named functions such as Data.Map and Data.Text.
 
