@@ -2,6 +2,7 @@
 
 ## Urgent or in-flight
 
+- [\#10087](https://gitlab.haskell.org//ghc/ghc/issues/10087): typechecking generic default methods
 - [\#10068](https://gitlab.haskell.org//ghc/ghc/issues/10068): runtime reflection API for modules, names.
 - [\#9858](https://gitlab.haskell.org//ghc/ghc/issues/9858): `Typeable` should be kind-aware.
 - [\#10045](https://gitlab.haskell.org//ghc/ghc/issues/10045): partial type sig bug (Thomas W is working on this)
