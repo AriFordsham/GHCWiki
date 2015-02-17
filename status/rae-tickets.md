@@ -107,6 +107,7 @@
 - [\#9022](https://gitlab.haskell.org//ghc/ghc/issues/9022): Fix semicolons in pretty-printer
 - [\#9113](https://gitlab.haskell.org//ghc/ghc/issues/9113): Warn about incomplete patterns in quotes. Fixed by [\#3927](https://gitlab.haskell.org//ghc/ghc/issues/3927)?
 - [\#9699](https://gitlab.haskell.org//ghc/ghc/issues/9699): Function to list all names in scope
+- [\#10094](https://gitlab.haskell.org//ghc/ghc/issues/10094): Partial type signatures in TH
 
 *Unknown*
 
