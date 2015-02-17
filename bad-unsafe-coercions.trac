@@ -83,8 +83,10 @@ advisor: Richard Eisenberg / goldfire / RAE
 
 Coercion between vectors are should be clarified (under vectors I mean 'VecRep').
 
+By "vector" we mean the (new) data types in GHC over which architecture-supported SIMD instructions work.  For example Intel SSE or ARM Neon instructions.   All this is documented on [wiki:SIMD the SIMD pages].
+
 Is it possible to coerce between vectors with elements of different length, but when vector size matches,
-for example `Vector 4 Word8ElemRep` to `Vector 2 Word16ElemRep`?
+for example `Vector 4 Word8ElemRep` to `Vector 2 Word16ElemRep`?  '''SPJ''': for now, at any rate, NO.  It's all very architecture-specific, and I have no idea what the rules are.  No is a simple answer!
 
 
 == Old discussions ==
