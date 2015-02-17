@@ -29,7 +29,7 @@ $ ./utils/fingerprint/fingerprint.py restore -f simd.fp
 
 1. Configure and build as you would normally (see Building), but choose the `perf-llvm``BuildFlavour` in your `mk/build.mk` file.
 
-# Obsolete sub-topics
+## Obsolete sub-topics
 
 - An [implementation plan](simd/implementation/plan).
 - Manuel's notes on [implementing SIMD support in GHC using LLVM](simd/implementation/llvm).
