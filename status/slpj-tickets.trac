@@ -74,7 +74,7 @@ See also [wiki:TemplateHaskell]
  * #1171: strictness and exceptions (long, open ticket)
 
 == Optimisation ==
- * #9370: massive blow-up unless you switch off all optimisation
+ * #9370: respecting mixed `-O` and `-O0` in `ghc --make`, especially concerning cross-module inlining
  * #9279: local wrapper remains in final program
  * #9246: Too much case-of-case leads to bad code
  * #8613, #9070, #8319: simplifier ticks exhausted (there are others)
