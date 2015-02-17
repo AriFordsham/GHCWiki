@@ -22,6 +22,7 @@
 
 ## Front end
 
+- [\#10089](https://gitlab.haskell.org//ghc/ghc/issues/10089): better warnings for unused data types (involves instances)
 - [\#8581](https://gitlab.haskell.org//ghc/ghc/issues/8581): bidirectional pattern synonyms (with different constraints)
 - [\#10027](https://gitlab.haskell.org//ghc/ghc/issues/10027): export behaviour for data families
 - [\#8582](https://gitlab.haskell.org//ghc/ghc/issues/8582): pattern synonyms and record syntax
@@ -33,7 +34,6 @@
 - [\#8281](https://gitlab.haskell.org//ghc/ghc/issues/8281): `UnliftedFFITypes` etc
 - [\#8441](https://gitlab.haskell.org//ghc/ghc/issues/8441): family instances in hs-boot files
 - [\#9450](https://gitlab.haskell.org//ghc/ghc/issues/9450): need more eager checking of compatibility with hs-boot files
-- [\#8240](https://gitlab.haskell.org//ghc/ghc/issues/8240): better error messages for type-function equalities
 - [\#8095](https://gitlab.haskell.org//ghc/ghc/issues/8095): very slow constraint solving
 - [\#8171](https://gitlab.haskell.org//ghc/ghc/issues/8171): extended default rules
 - [\#7259](https://gitlab.haskell.org//ghc/ghc/issues/7259): Eta-expansion of products in System FC
@@ -41,7 +41,6 @@
 - [\#7828](https://gitlab.haskell.org//ghc/ghc/issues/7828), [\#5267](https://gitlab.haskell.org//ghc/ghc/issues/5267), [\#5777](https://gitlab.haskell.org//ghc/ghc/issues/5777), [\#5333](https://gitlab.haskell.org//ghc/ghc/issues/5333), [\#344](https://gitlab.haskell.org//ghc/ghc/issues/344): bugs in arrows
 - [\#7204](https://gitlab.haskell.org//ghc/ghc/issues/7204): a class to controll FFI marshalling; and newtype deriving for classes with ATs
 - [\#7862](https://gitlab.haskell.org//ghc/ghc/issues/7862): overlap beween givens and instances
-- [\#7643](https://gitlab.haskell.org//ghc/ghc/issues/7643): dark corner of sub-kinding and `unsafeCoerce#`
 - [\#7842](https://gitlab.haskell.org//ghc/ghc/issues/7842): polymorphism in recursive do-blocks
 
 ## Type families, roles, and `Coercible`
@@ -215,12 +214,9 @@ See also [TemplateHaskell](template-haskell)
 - [TypeFunctionsStatus](type-functions-status)
 - [\#9637](https://gitlab.haskell.org//ghc/ghc/issues/9637): type level error messages
 - [\#9587](https://gitlab.haskell.org//ghc/ghc/issues/9587), [\#9607](https://gitlab.haskell.org//ghc/ghc/issues/9607): `-XAllowAmbiguousTypes` debate
-- [\#9497](https://gitlab.haskell.org//ghc/ghc/issues/9497): typed holes: silencing them
-- [\#9404](https://gitlab.haskell.org//ghc/ghc/issues/9404): tcInfer and `PolyTv`
 - [\#9334](https://gitlab.haskell.org//ghc/ghc/issues/9334): instance chains
 - [\#9427](https://gitlab.haskell.org//ghc/ghc/issues/9427): SCC analysis for type and class decls
 - [\#9422](https://gitlab.haskell.org//ghc/ghc/issues/9422): Glomming all instances in EPT is too crude for `--make`
-- [\#7908](https://gitlab.haskell.org//ghc/ghc/issues/7908): Kind polymorphism notation
 - [\#7503](https://gitlab.haskell.org//ghc/ghc/issues/7503): Kind polymorphism and mutual recursion
 - [\#6018](https://gitlab.haskell.org//ghc/ghc/issues/6018), [\#4259](https://gitlab.haskell.org//ghc/ghc/issues/4259): Injective type families and type family overlap
 - [\#4296](https://gitlab.haskell.org//ghc/ghc/issues/4296): SkolemOccurs
@@ -232,7 +228,6 @@ See also [TemplateHaskell](template-haskell)
 - [\#1965](https://gitlab.haskell.org//ghc/ghc/issues/1965): make existentials have a really cheap implementation
 - [\#5224](https://gitlab.haskell.org//ghc/ghc/issues/5224): make it cheaper to check for inconsistent type family instances
 - [\#4466](https://gitlab.haskell.org//ghc/ghc/issues/4466), [\#5296](https://gitlab.haskell.org//ghc/ghc/issues/5296), [\#8631](https://gitlab.haskell.org//ghc/ghc/issues/8631): explicit type application
-- [\#3714](https://gitlab.haskell.org//ghc/ghc/issues/3714): distinguish type parameters from indices
 - [\#4259](https://gitlab.haskell.org//ghc/ghc/issues/4259): overlapping type family instances
 - [\#3490](https://gitlab.haskell.org//ghc/ghc/issues/3490): superclasses and ambiguity
 - [\#3632](https://gitlab.haskell.org//ghc/ghc/issues/3632): better update for records with existentials
@@ -244,7 +239,6 @@ See also [TemplateHaskell](template-haskell)
 - [\#9456](https://gitlab.haskell.org//ghc/ghc/issues/9456): more info in "relevant bindings" message
 - [\#9244](https://gitlab.haskell.org//ghc/ghc/issues/9244): suggest scoped type variables
 - [\#9173](https://gitlab.haskell.org//ghc/ghc/issues/9173): inferred/expected error messages
-- [\#4921](https://gitlab.haskell.org//ghc/ghc/issues/4921): ambiguous type variables
 - [\#1330](https://gitlab.haskell.org//ghc/ghc/issues/1330): another bad error message (Church2)
 - [\#2648](https://gitlab.haskell.org//ghc/ghc/issues/2648): Report out of date interface files robustly        
 - [\#1928](https://gitlab.haskell.org//ghc/ghc/issues/1928): Confusing type error message (Claus makes suggestions)        
@@ -265,13 +259,9 @@ See also [TemplateHaskell](template-haskell)
 
 ## Features
 
-- [\#5462](https://gitlab.haskell.org//ghc/ghc/issues/5462): deriving for arbitrary classes
 - [\#6024](https://gitlab.haskell.org//ghc/ghc/issues/6024): allow defining a *kind* without also getting the corresponding *type*
 - [\#5927](https://gitlab.haskell.org//ghc/ghc/issues/5927): Constraints with universal quantification
-- [\#5630](https://gitlab.haskell.org//ghc/ghc/issues/5630): External core needs love
 - [\#5429](https://gitlab.haskell.org//ghc/ghc/issues/5429): docase and joinads
-- [\#5391](https://gitlab.haskell.org//ghc/ghc/issues/5391): better deriving Typeable
-- [\#5248](https://gitlab.haskell.org//ghc/ghc/issues/5248): Infer context in type signatures
 - [\#5073](https://gitlab.haskell.org//ghc/ghc/issues/5073): `blockST` and friends
 - [\#2895](https://gitlab.haskell.org//ghc/ghc/issues/2895): Class aliases 
 - [\#2595](https://gitlab.haskell.org//ghc/ghc/issues/2595): record updates
@@ -284,7 +274,6 @@ See also [TemplateHaskell](template-haskell)
 - [\#2600](https://gitlab.haskell.org//ghc/ghc/issues/2600), [\#2110](https://gitlab.haskell.org//ghc/ghc/issues/2110): **Bind type variables and constraints in RULES**
 - [\#960](https://gitlab.haskell.org//ghc/ghc/issues/960): Generate local info for ‘undefined’.  Implicit location parameters in general        
 - [\#2135](https://gitlab.haskell.org//ghc/ghc/issues/2135): Warn when exporting a function whose type mentions a type constructor defined locally but not itself exported        
-- [\#2526](https://gitlab.haskell.org//ghc/ghc/issues/2526): Add -fwarn-missing-export-signatures        
 - [\#2119](https://gitlab.haskell.org//ghc/ghc/issues/2119): Explicitly importing deprecated symbols should generate deprecation warnings        
 - [\#2207](https://gitlab.haskell.org//ghc/ghc/issues/2207): Load interfaces for GHC.\* even without -O        
 - [\#1231](https://gitlab.haskell.org//ghc/ghc/issues/1231): Better deprecations        
