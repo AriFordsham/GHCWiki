@@ -1,6 +1,11 @@
-The goal of the SIMD project is to allow GHC and Haskell libraries to take advantage of SIMD vector instructions. Please see the proposed [wiki:SIMD/Design design] and the current [wiki:SIMD/Implementation/Status implementation status] for further details.
+= SIMD instructions in GHC =
 
-= Building the SIMD branch =
+The goal of the SIMD project is to allow GHC and Haskell libraries to take advantage of SIMD vector instructions. Please see more information on
+
+ * [wiki:SIMD/Design design]
+ * [wiki:SIMD/Implementation/Status implementation status]
+
+== Building the SIMD branch ==
 
 SIMD support currently requires a version of ghc built from the simd branch. Vectors primops only work when compiling with `-fllvm`. You will also need patched versions of the `dph` and `vector` libraries. Here are the steps to get the SIMD branch up and running.
 
