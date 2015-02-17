@@ -21,6 +21,7 @@
 
 == Front end ==
 
+ * #10089: better warnings for unused data types (involves instances)
  * #8581: bidirectional pattern synonyms (with different constraints)
  * #10027: export behaviour for data families
  * #8582: pattern synonyms and record syntax
@@ -32,7 +33,6 @@
  * #8281: `UnliftedFFITypes` etc
  * #8441: family instances in hs-boot files
  * #9450: need more eager checking of compatibility with hs-boot files
- * #8240: better error messages for type-function equalities
  * #8095: very slow constraint solving
  * #8171: extended default rules
  * #7259: Eta-expansion of products in System FC
@@ -40,7 +40,6 @@
  * #7828, #5267, #5777, #5333, #344: bugs in arrows
  * #7204: a class to controll FFI marshalling; and newtype deriving for classes with ATs
  * #7862: overlap beween givens and instances
- * #7643: dark corner of sub-kinding and `unsafeCoerce#`
  * #7842: polymorphism in recursive do-blocks
 
 == Type families, roles, and `Coercible` ==
@@ -199,12 +198,9 @@ See also [wiki:TemplateHaskell]
  * [wiki:TypeFunctionsStatus]
  * #9637: type level error messages
  * #9587, #9607: `-XAllowAmbiguousTypes` debate
- * #9497: typed holes: silencing them
- * #9404: tcInfer and `PolyTv`
  * #9334: instance chains
  * #9427: SCC analysis for type and class decls
  * #9422: Glomming all instances in EPT is too crude for `--make`
- * #7908: Kind polymorphism notation
  * #7503: Kind polymorphism and mutual recursion
  * #6018, #4259: Injective type families and type family overlap
  * #4296: !SkolemOccurs
@@ -216,7 +212,6 @@ See also [wiki:TemplateHaskell]
  * #1965: make existentials have a really cheap implementation
  * #5224: make it cheaper to check for inconsistent type family instances
  * #4466, #5296, #8631: explicit type application
- * #3714: distinguish type parameters from indices
  * #4259: overlapping type family instances
  * #3490: superclasses and ambiguity
  * #3632: better update for records with existentials
@@ -227,7 +222,6 @@ See also [wiki:TemplateHaskell]
  * #9456: more info in "relevant bindings" message
  * #9244: suggest scoped type variables
  * #9173: inferred/expected error messages
- * #4921: ambiguous type variables
  * #1330: another bad error message (Church2)
  * #2648: Report out of date interface files robustly	
  * #1928: Confusing type error message (Claus makes suggestions)	
@@ -245,13 +239,9 @@ See also [wiki:TemplateHaskell]
  * #4222: design of reification for TH
 
 == Features == 
- * #5462: deriving for arbitrary classes
  * #6024: allow defining a ''kind'' without also getting the corresponding ''type''
  * #5927: Constraints with universal quantification
- * #5630: External core needs love
  * #5429: docase and joinads
- * #5391: better deriving Typeable
- * #5248: Infer context in type signatures
  * #5073: `blockST` and friends
  * #2895: Class aliases 
  * #2595: record updates
@@ -264,7 +254,6 @@ See also [wiki:TemplateHaskell]
  * #2600, #2110: '''Bind type variables and constraints in RULES'''
  * #960: Generate local info for ‘undefined’.  Implicit location parameters in general	
  * #2135: Warn when exporting a function whose type mentions a type constructor defined locally but not itself exported	
- * #2526: Add -fwarn-missing-export-signatures	
  * #2119: Explicitly importing deprecated symbols should generate deprecation warnings	
  * #2207: Load interfaces for GHC.* even without -O	
  * #1231: Better deprecations	
