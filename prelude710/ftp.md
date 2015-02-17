@@ -170,6 +170,9 @@ We can't remove `mapM` for the reasons mentioned above at this time: It is an ex
 
 `length` is left ungeneralized with regards to the numeric type primarily because `genericLength` has absolutely abysmal performance. One of the pragmatic guidelines we followed is that we can't make code slower.
 
+
+Reply by dfeuer: The abysmal performance of `genericLength` is not inherent to its type signature, but rather to its definition, which makes it good for producing certain varieties of lazy natural number while making it terrible for anything else. We could give `length` a sensible default by applying `fromIntegral` to a `Word`, or simply by using a strict left fold. The biggest potential problem, I believe, is that code that uses `length` and does not give the result an explicit signature will get an `Integer` by default, which seems rather rude.
+
 # While the `Prelude` operations (e.g. `foldr`) will now work on containers such as `Vector`, they still won't work on things like `ByteString` or `Text`, which in some code is used far more than other non-list containers.
 
 
