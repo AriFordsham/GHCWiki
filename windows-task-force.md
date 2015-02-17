@@ -2,7 +2,6 @@
 
 ## The People
 
-- **Gintautas Miliauskas** \<gintautas.miliauskas@…\> (current coordinator)
 - **Tamar Christina** \<lonetiger@…\>
 - **Roman Kuznetsov** \<kuznero@…\>
 - **Kyrill Briantsev** \<kyrab@…\>
