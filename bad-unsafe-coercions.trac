@@ -89,13 +89,8 @@ Is it possible to coerce between vectors with elements of different length, but 
 for example `Vector 4 Word8ElemRep` to `Vector 2 Word16ElemRep`?  '''SPJ''': for now, at any rate, NO.  It's all very architecture-specific, and I have no idea what the rules are.  No is a simple answer!
 
 
+--------------------------
 == Old discussions ==
-
-
-
-== Questions ==
-
-There are few dark places in this semantics change that should be clarified
 
 === Size of value ===
 
