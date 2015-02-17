@@ -51,7 +51,9 @@ G |-co t1 ==>!_R t2 : t1 ~R k2 t2
 
 1. If types are unlifted then they either should be both floating or both integral.  Reason: on many architectures, floating point values are held in special registers.
 
-1. If types are unboxed tuples then tuple `(# A_1,..,A_n #)` can be coerced to `(# B_1,..,B_m #)` if `n=m` and for each pair `A_i, B_i` rules 1-4 holds.
+1. No coercions between vector ([wiki:SIMD](simd) SIMD pages) types are allowed at all. (Reason: there is no correct rules for such coercions)
+
+1. If types are unboxed tuples then tuple `(# A_1,..,A_n #)` can be coerced to `(# B_1,..,B_m #)` if `n=m` and for each pair `A_i, B_i` rules 1-5 holds.
 
 
 If any of those rules are violated then linter should produce a warning.
