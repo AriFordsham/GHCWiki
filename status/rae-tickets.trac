@@ -102,6 +102,7 @@
 * #9022: Fix semicolons in pretty-printer
 * #9113: Warn about incomplete patterns in quotes. Fixed by #3927?
 * #9699: Function to list all names in scope
+* #10094: Partial type signatures in TH
 
 ''Unknown''
 
