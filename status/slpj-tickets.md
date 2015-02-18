@@ -2,9 +2,10 @@
 
 ## Urgent or in-flight
 
-- [\#10087](https://gitlab.haskell.org//ghc/ghc/issues/10087): typechecking generic default methods
+- [\#10079](https://gitlab.haskell.org//ghc/ghc/issues/10079): type inference for `Coercible` (Richard)
+- [\#10087](https://gitlab.haskell.org//ghc/ghc/issues/10087): typechecking generic default methods (Pedro)
 - [\#10068](https://gitlab.haskell.org//ghc/ghc/issues/10068): runtime reflection API for modules, names.
-- [\#9858](https://gitlab.haskell.org//ghc/ghc/issues/9858): `Typeable` should be kind-aware.
+- [\#9858](https://gitlab.haskell.org//ghc/ghc/issues/9858): `Typeable` should be kind-aware (Iavor)
 - [\#10045](https://gitlab.haskell.org//ghc/ghc/issues/10045): partial type sig bug (Thomas W is working on this)
 - [\#9960](https://gitlab.haskell.org//ghc/ghc/issues/9960), [\#9805](https://gitlab.haskell.org//ghc/ghc/issues/9805): `TrieMap` stuff
 - [\#10016](https://gitlab.haskell.org//ghc/ghc/issues/10016): UNPACK support for existentials
@@ -69,6 +70,7 @@ See also [TemplateHaskell](template-haskell)
 
 ## Demand analysis and CSE
 
+- [\#10069](https://gitlab.haskell.org//ghc/ghc/issues/10069): bad reboxing in data types with many fields
 - [\#8655](https://gitlab.haskell.org//ghc/ghc/issues/8655): analysis for quick-to-evaluate thunks
 - [\#6070](https://gitlab.haskell.org//ghc/ghc/issues/6070), [\#5949](https://gitlab.haskell.org//ghc/ghc/issues/5949), [\#5775](https://gitlab.haskell.org//ghc/ghc/issues/5775), [\#4267](https://gitlab.haskell.org//ghc/ghc/issues/4267), [\#5302](https://gitlab.haskell.org//ghc/ghc/issues/5302), [\#6087](https://gitlab.haskell.org//ghc/ghc/issues/6087): Demand analysis
 - [\#5075](https://gitlab.haskell.org//ghc/ghc/issues/5075), [\#3138](https://gitlab.haskell.org//ghc/ghc/issues/3138): CPR for sum types (mostly done, needs finishing)
@@ -236,6 +238,7 @@ See also [TemplateHaskell](template-haskell)
 
 ### Better error messages
 
+- [\#9901](https://gitlab.haskell.org//ghc/ghc/issues/9901): `f is applied to two arguments, but its type has only two`
 - [\#9479](https://gitlab.haskell.org//ghc/ghc/issues/9479): more info in "hole" error messages
 - [\#9456](https://gitlab.haskell.org//ghc/ghc/issues/9456): more info in "relevant bindings" message
 - [\#9244](https://gitlab.haskell.org//ghc/ghc/issues/9244): suggest scoped type variables
