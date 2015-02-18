@@ -2,9 +2,10 @@
 
 ## The People
 
-- **Tamar Christina** \<lonetiger@…\>
+- **Tamar Christina** \<tamar@…\>
 - **Roman Kuznetsov** \<kuznero@…\>
 - **Kyrill Briantsev** \<kyrab@…\>
+- **Darren Grant** \<dedgrant@…\>
 
 
 Should your name be here? Just edit the page and add yourself 
