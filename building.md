@@ -37,6 +37,7 @@ can extend it, modify it, and use it to build your code.
 - [Building under MacOS X](building/mac-osx)
 - [Building under Solaris](building/solaris)
 - [Building under FreeBSD](building/preparation/free-bsd)
+- [Building under Windows](windows-ghc)
 
 **How to test and benchmark changes to GHC**
 
