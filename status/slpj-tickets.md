@@ -238,6 +238,7 @@ See also [TemplateHaskell](template-haskell)
 
 ### Better error messages
 
+- [\#9901](https://gitlab.haskell.org//ghc/ghc/issues/9901): `f is applied to two arguments, but its type has only two`
 - [\#9479](https://gitlab.haskell.org//ghc/ghc/issues/9479): more info in "hole" error messages
 - [\#9456](https://gitlab.haskell.org//ghc/ghc/issues/9456): more info in "relevant bindings" message
 - [\#9244](https://gitlab.haskell.org//ghc/ghc/issues/9244): suggest scoped type variables
