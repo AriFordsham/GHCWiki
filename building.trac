@@ -36,6 +36,7 @@ can extend it, modify it, and use it to build your code.
  * [wiki:Building/MacOSX Building under MacOS X]
  * [wiki:Building/Solaris Building under Solaris]
  * [wiki:Building/Preparation/FreeBSD Building under FreeBSD]
+ * [wiki:WindowsGhc Building under Windows]
 
 '''How to test and benchmark changes to GHC'''
 
