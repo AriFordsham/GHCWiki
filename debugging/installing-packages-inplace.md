@@ -12,16 +12,16 @@ Every GHC, including the inplace one, comes with the [boot libraries](commentary
 This method is quick and easy, but can fail if your `cabal` program is out of date with respect to the GHC version you are building.  Here's how to install a library against a GHC build tree:
 
 ```wiki
-cabal install --with-compiler=<inplace-ghc> <package>
+cabal install --with-compiler=<inplace-ghc> --with-package-db=<inplace-package-db> <package>
 ```
 
 
-where `<inplace ghc>` is the path to your inplace GHC (usually `$(TOP)/inplace/bin/ghc-stage2`; make sure it's absolute), and \<package\> is the name of the package.
+where `<inplace-ghc>` is the path to your inplace GHC (`$(TOP)/inplace/bin/ghc-stage2`; make sure it's absolute), `<inplace-package-db>` is the path to your inplace package database (`$(TOP)/inplace/lib/package.conf.d`; again, make sure it's absolute) and \<package\> is the name of the package.
 
 
 Points to note:
 
-- This will install the package in your home directory (e.g. somewhere under `~/.cabal/lib` on a Unix system), and it will register the package in your private package database, so you'll probably want to remove and unregister it by hand when you've finished.
+- The testsuite driver doesn't search the user package database for extra packages (it calls 'ghc-pkg --no-user-package-db describe \<package\>), therefore we install the package in the inplace package database.
 
 
 Plan A can fail, because sometimes GHC changes require corresponding Cabal changes (this happened in GHC 6.12, and after the GHC 7.6.1 release). If the format changed you might get a message like
@@ -36,7 +36,7 @@ But incompatibility can result in other problems installing packages. In that ca
 ## Plan B: use the Cabal library bundled with GHC
 
 
-This method is slightly more work, but it does have the advantage of not installing anything in your home directory that you have to go and remove later.
+This method is slightly more work, but might work in case plan A failed.
 
 
 Go to a directory where you are happy to keep the newly-downloaded code.
