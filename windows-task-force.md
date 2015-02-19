@@ -18,7 +18,7 @@ Should your name be here? Just edit the page and add yourself
 The list of known problems tagged as Windows issues can be found on Trac (Ticket query: status: !closed, os: Windows, desc: 1, order: id). It would be particularly great if people with commit rights could review the patches in the waitlist.
 
 
-An overview of tasks currently being worked on and their progress can be found on the [ Windows Task Force Fabricator](https://phabricator.haskell.org/project/board/11/)
+An overview of tasks currently being worked on and their progress can be found on the [ Windows Task Force Fabricator](https://phabricator.haskell.org/project/board/11/) board
 
 ## The Process
 
