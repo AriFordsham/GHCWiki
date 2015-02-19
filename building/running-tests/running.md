@@ -106,10 +106,10 @@ The extra packages are:
 - packedstring
 - lang
 - QuickCheck
-- regex-posix
 - regex-compat
 - parsec
 - hmatrix
+- random
 
 ## Problems running the testsuite
 
