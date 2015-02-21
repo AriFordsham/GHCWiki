@@ -14,7 +14,7 @@ Special things of note:
 
 - The **Final Release** will probably happen in (late) March 2015.
 
-- We'll probably do an RC3 in February.
+- We'll probably do an RC3 in ~~February~~March.
 
 - We will fix `merge`, `patch`, and `highest` priority bugs (only) in the list below
 
