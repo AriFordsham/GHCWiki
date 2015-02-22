@@ -1,0 +1,19 @@
+= GHC plans for 7.12.1 =
+
+'''Development currently ongoing'''.
+
+See milestone:7.12.1 and [https://ghc.haskell.org/trac/ghc/query?status=infoneeded&status=merge&status=new&status=patch&group=status&milestone=7.12.1 Active tickets] for more.
+
+== Migration Guide to 7.12
+
+FIXME: Write the migration guide.
+
+https://ghc.haskell.org/trac/ghc/wiki/Migration/7.12
+
+== Tickets marked merge with no milestone
+
+[[TicketQuery(status=merge,milestone=,format=table,col=type|summary|priority|owner,group=status)]]
+
+== Tickets slated for 7.12.1
+
+[[TicketQuery(milestone=7.12.1,status!=closed,format=table,col=type|summary|priority|owner,group=status,order=priority)]]
