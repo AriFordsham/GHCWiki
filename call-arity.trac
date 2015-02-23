@@ -6,4 +6,4 @@ This pages does '''not''' document Call Arity as implemented; that documentation
 
 This page used to discuss possible changes to the analysis, but these are implemented now ([cb8a63c]), so I removed the obsolete notes from here.
 
-More information on the analysis can be found in the [http://www.joachim-breitner.de/publications/CallArity-TFP.pdf TFP 2013 paper].
+More information on the analysis can be found in the [http://www.joachim-breitner.de/publications/CallArity-TFP.pdf TFP 2013 paper]. A proof of safety can be found in a paper [http://www.joachim-breitner.de/publications/CallArity-ICFP2015-preprint.pdf submitted to ICFP'15] and in the [http://afp.sourceforge.net/entries/Call_Arity.shtml Isabelle formalization of Call Arity.]
