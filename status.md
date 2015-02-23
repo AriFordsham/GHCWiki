@@ -8,6 +8,7 @@ This page summarises the state of play on GHC
 
 Here are our [release](working-conventions/releases) plans for
 
+- [GHC 7.12.1](status/ghc-7.12.1).
 - [GHC 7.10.1](status/ghc-7.10.1).
 
 
