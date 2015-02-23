@@ -14,8 +14,6 @@ Special things of note:
 
   - We will fix `merge`, `patch`, and `highest` priority bugs (only) in the list below
 
-  - Austin will disable the `dll-split` check for 7.10.1 RC2 since we're not building dynamically on Windows.
-
   - For 7.10.1, we're going to try to distribute Windows binaries using `minghc`.
 
 == Migration Guide to 7.10
