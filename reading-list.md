@@ -22,6 +22,8 @@ You can ask questions on `ghc-devs@haskell.org`. People are friendly.  See also 
 
 ## Types and type inference
 
+- [ System FC, as implemented in GHC](http://git.haskell.org/ghc.git/blob/refs/heads/master:/docs/core-spec/core-spec.pdf) (2013), Richard Eisenberg.
+
 - [ Modular type inference with local assumptions](http://haskell.org/haskellwiki/Simonpj/Talk:OutsideIn), Simon Peyton Jones, Dimitrios Vytiniotis, Tom Schrijvers, Martin Suzmann, Journal of Functional Programming, 2011.  This epic 83-page JFP paper brings together, in a single uniform framework, a series of our earlier papers on type inference for type systems involving local constraints, including GADTs and indexed type families.  
 
 - [ Papers about type equalities in GHC's intermediate language](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/)
