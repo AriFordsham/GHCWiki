@@ -37,7 +37,7 @@ These two "views" are supported by a family of functions operating over that vie
 
 - [compiler/types/TypeRep.hs](/trac/ghc/browser/ghc/compiler/types/TypeRep.hs): here is where `Type` is defined.
 - [compiler/types/Type.hs](/trac/ghc/browser/ghc/compiler/types/Type.hs): core-view utility functions over `Type`.
-- [compiler/typecheck/TcType.hs](/trac/ghc/browser/ghc/compiler/typecheck/TcType.hs): source-view utility functions over `Type`.
+- [compiler/types/Type.hs](/trac/ghc/browser/ghc/compiler/types/Type.hs): source-view utility functions over `Type`.
 
 
 The "view" functions are *shallow*, not deep---a view function just looks at the *root* of the tree representing the type.  For example, part of the `coreView` function ([compiler/types/Type.hs](/trac/ghc/browser/ghc/compiler/types/Type.hs)) looks like this:

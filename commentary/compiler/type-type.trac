@@ -29,7 +29,7 @@ These two "views" are supported by a family of functions operating over that vie
 
  * [[GhcFile(compiler/types/TypeRep.hs)]]: here is where {{{Type}}} is defined.
  * [[GhcFile(compiler/types/Type.hs)]]: core-view utility functions over {{{Type}}}.
- * [[GhcFile(compiler/typecheck/TcType.hs)]]: source-view utility functions over {{{Type}}}.
+ * [[GhcFile(compiler/types/Type.hs)]]: source-view utility functions over {{{Type}}}.
 
 The "view" functions are ''shallow'', not deep---a view function just looks at the ''root'' of the tree representing the type.  For example, part of the `coreView` function ([[GhcFile(compiler/types/Type.hs)]]) looks like this:
 {{{
