@@ -102,14 +102,20 @@ Some of the tests in the testsuite rely on packages that aren't part of the stan
 
 The extra packages are:
 
-- syb
-- packedstring
-- lang
-- QuickCheck
-- regex-compat
-- parsec
+- dph-lifted-copy
+- dph-lifted-vseg
+- dph-prim-par
 - hmatrix
+- mtl
+- parallel
+- parsec
+- primitive
+- QuickCheck
 - random
+- regex-compat
+- syb
+- utf8-string
+- vector
 
 ## Problems running the testsuite
 
