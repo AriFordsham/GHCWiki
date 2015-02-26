@@ -20,6 +20,8 @@ Our goal is to identify the ''smallest possible built-in extension to GHC'', wit
 the smallest possible trusted code base, that would enable
 libraries like `distributed-closure` to be written in an entirely type-safe way.
 
+See also this ticket about rationalising the runtime reflection naming structures: #10068.
+
 Much of what is suggested here is implemented, in some form, in two existing projects
  * '''Cloud Haskell libraries''' [https://hackage.haskell.org/package/distributed-static distributed-static] and [https://hackage.haskell.org/package/rank1dynamic rank1dynamic].  Background in the paper [http://research.microsoft.com/en-us/um/people/simonpj/papers/parallel/ Towards Haskell in the Cloud].
 
