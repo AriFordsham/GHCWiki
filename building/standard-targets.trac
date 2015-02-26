@@ -27,7 +27,7 @@ The following targets are accepted only by the top-level `Makefile`:
  `install`::
   installs the things built by `all`.  Where does it install them?  In
   the places you specified when running `configure`, principally set
-  by the `--prefix` flag; see [wiki:Building/Installing].
+  by the `--prefix` flag, or in `DESTDIR`; see [wiki:Building/Installing].
 
  `distclean`::
   The same as `clean`, but also removes files created by `configure`.

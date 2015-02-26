@@ -37,7 +37,7 @@ The following targets are accepted only by the top-level `Makefile`:
 <td>
 installs the things built by `all`.  Where does it install them?  In
 the places you specified when running `configure`, principally set
-by the `--prefix` flag; see [Building/Installing](building/installing).
+by the `--prefix` flag, or in `DESTDIR`; see [Building/Installing](building/installing).
 </td></tr></table>
 
 <table><tr><th>`distclean`</th>
