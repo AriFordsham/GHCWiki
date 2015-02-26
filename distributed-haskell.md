@@ -24,6 +24,9 @@ the smallest possible trusted code base, that would enable
 libraries like `distributed-closure` to be written in an entirely type-safe way.
 
 
+See also this ticket about rationalising the runtime reflection naming structures: [\#10068](https://gitlab.haskell.org//ghc/ghc/issues/10068).
+
+
 Much of what is suggested here is implemented, in some form, in two existing projects
 
 - **Cloud Haskell libraries**[ distributed-static](https://hackage.haskell.org/package/distributed-static) and [ rank1dynamic](https://hackage.haskell.org/package/rank1dynamic).  Background in the paper [ Towards Haskell in the Cloud](http://research.microsoft.com/en-us/um/people/simonpj/papers/parallel/).
