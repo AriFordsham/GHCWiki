@@ -19,38 +19,37 @@ The module `TypeRep` exposes the representation because a few other modules (`Ty
 ## Views of types
 
 
-Even when considering only types (not kinds, sorts, coercions) you need to know that GHC uses a *single* data type for types, even though there are two different "views".  
+Even when considering only types (not kinds, sorts, coercions) you need to know that GHC uses a *single* data type for types. You can look at the same type in different ways:
 
-- The "typechecker view" (or "source view") regards the type as a Haskell type, complete with implicit parameters, class constraints, and the like.  For example:
+- The "typechecker view" regards the type as a Haskell type, complete with implicit parameters, class constraints, and the like.  For example:
 
   ```wiki
-    forall a. (Eq a, %x::Int) => a -> Int
+    forall a. (Eq a, ?x::Int) => a -> Int
   ```
+
+  Functions in `TcType` take this view of types; e.g. `tcSplitSigmaTy` splits up a type into its forall'd type variables, its constraints, and the rest.
+
 - The "core view" regards the type as a Core-language type, where class and implicit parameter constraints are treated as function arguments:
 
   ```wiki
     forall a. Eq a -> Int -> a -> Int
   ```
 
-
-These two "views" are supported by a family of functions operating over that view:
-
-- [compiler/types/TypeRep.hs](/trac/ghc/browser/ghc/compiler/types/TypeRep.hs): here is where `Type` is defined.
-- [compiler/types/Type.hs](/trac/ghc/browser/ghc/compiler/types/Type.hs): core-view utility functions over `Type`.
-- [compiler/types/Type.hs](/trac/ghc/browser/ghc/compiler/types/Type.hs): source-view utility functions over `Type`.
+  Functions in `Type` take this view.
 
 
-The "view" functions are *shallow*, not deep---a view function just looks at the *root* of the tree representing the type.  For example, part of the `coreView` function ([compiler/types/Type.hs](/trac/ghc/browser/ghc/compiler/types/Type.hs)) looks like this:
+The data type `Type` represents type synonym applications in un-expanded form.  E.g.
 
 ```wiki
-  coreView :: Type -> Maybe Type
-  coreView (PredTy p)    = Just (predTypeRep p)
-  coreView (NoteTy _ ty) = Just ty
-  coreView other         = Nothing
+type T a = a -> a
+f :: T Int
 ```
 
 
-Notice that in the `NoteTy` case, `coreView` does not call itself.  Now, clients of the view look like this:
+Here `f`'s type doesn't look like a function type, but it really is.  The function `Type.coreView :: Type -> Maybe Type` takes a type and, if it's a type synonym application, it expands the synonym and returns `Just <expanded-type>`.  Otherwise it returns `Nothing`.
+
+
+Now, other functions use `coreView` to expand where necessary, thus:
 
 ```wiki
   splitFunTy_maybe :: Type -> Maybe (Type,Type)
@@ -71,7 +70,7 @@ Notice the first line, which uses the view, and recurses when the view 'fires'. 
 ```
 
 
-Neat, huh?
+You will also see a function `tcView` which is defined to be equal to `coreView`.  In the olden days they differed (it was all a bit hacky) but now things are simple and uniform.  We should probably nuke `tcView`.
 
 ## The representation of `Type`
 
