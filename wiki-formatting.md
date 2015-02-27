@@ -82,12 +82,45 @@ multiple lines
 </td></tr></table>
 
 </th></tr>
-<tr><th>[Preformatted Text](wiki-formatting#preformatted-text){{{
+<tr><th>[Preformatted Text](wiki-formatting#preformatted-text)
+[Processors](wiki-formatting#processors)
+[Comments](wiki-formatting#comments)
+
+</th>
+<th>```wiki
+{{{
 multiple lines, ''no wiki''
       white space respected
 }}}
+```
+
+</th>
+<th>```wiki
 multiple lines, ''no wiki''
       white space respected
+```
+
+</th></tr>
+<tr><th>```wiki
+{{{#!hs
+main :: IO ()
+main = putStrLn "Hello, World"
+}}}
+```
+
+</th>
+<th>```
+main::IO()main= putStrLn "Hello, World"
+```
+
+</th>
+<th></th></tr>
+<tr><th>```wiki
+{{{#!comment
+Note to Editors: ...
+}}}
+```
+
 </th>
 <th></th>
 <th></th></tr>
@@ -136,11 +169,11 @@ space the text is quoted
 <tr><th>`ticket:1, ticket:1#comment:1`</th>
 <th>[ticket:1](https://gitlab.haskell.org//ghc/ghc/issues/1), [ticket:1\#comment:1](https://gitlab.haskell.org//ghc/ghc/issues/1)</th>
 <th></th></tr>
-<tr><th>`Ticket [ticket:1]`, `[ticket:1 ticket one]`</th>
-<th> Ticket [1](https://gitlab.haskell.org//ghc/ghc/issues/1), [ticket one](https://gitlab.haskell.org//ghc/ghc/issues/1)</th>
+<tr><th>`Ticket [ticket:1]`, `[ticket:1 ticket one]`</th>
+<th> Ticket [1](https://gitlab.haskell.org//ghc/ghc/issues/1), [ticket one](https://gitlab.haskell.org//ghc/ghc/issues/1)</th>
 <th></th></tr>
-<tr><th>`Ticket [[ticket:1]]`, `[[ticket:1|ticket one]]`</th>
-<th> Ticket [1](https://gitlab.haskell.org//ghc/ghc/issues/1), [ticket one](https://gitlab.haskell.org//ghc/ghc/issues/1)</th>
+<tr><th>`Ticket [[ticket:1]]`, `[[ticket:1|ticket one]]`</th>
+<th> Ticket [1](https://gitlab.haskell.org//ghc/ghc/issues/1), [ticket one](https://gitlab.haskell.org//ghc/ghc/issues/1)</th>
 <th></th></tr>
 <tr><th>[Setting Anchors](wiki-formatting#setting-anchors)
 
@@ -175,24 +208,6 @@ space the text is quoted
 <th>*(short list of all available macros)*</th></tr>
 <tr><th>`[[Image?]]`</th>
 <th>*(help for the Image macro)*</th>
-<th></th></tr>
-<tr><th>[Processors](wiki-formatting#processors){{{
-\#!div style="font-size: 80%"
-Code highlighting:
-  {{{\#!python
-  hello = lambda: "world"
-  }}}
-}}}
-
-Code highlighting:
-hello =lambda:"world"</th>
-<th></th>
-<th></th></tr>
-<tr><th>[Comments](wiki-formatting#comments){{{\#!comment
-Note to Editors: ...
-}}}
-</th>
-<th></th>
 <th></th></tr>
 <tr><th>[Miscellaneous](wiki-formatting#miscellaneous)Line \[\[br\]\] break 
 Line \\\\ break
@@ -461,7 +476,36 @@ def HelloWorld():
 </th></tr></table>
 
 
+See [Processors](wiki-formatting#processors) for syntax highlighting.
+
+
 Note that this kind of block is also used for selecting lines that should be processed through [WikiProcessors](wiki-processors).
+
+## Comments
+
+
+Comments can be added to the plain text. These will not be rendered and will not display in any other format than plain text.
+
+<table><tr><th> Wiki Markup </th>
+<th> Display 
+</th></tr>
+<tr><th>```wiki
+Nothing to
+{{{
+#!comment
+Your comment for editors here
+}}}
+see ;-)
+```
+
+</th>
+<th>
+> Nothing to
+>
+>
+> see ;-)
+
+</th></tr></table>
 
 ## Blockquotes
 
@@ -1074,32 +1118,6 @@ to write content on multiple lines.
 
 
 See [WikiProcessors](wiki-processors) for more information.
-
-## Comments
-
-
-Comments can be added to the plain text. These will not be rendered and will not display in any other format than plain text.
-
-<table><tr><th> Wiki Markup </th>
-<th> Display 
-</th></tr>
-<tr><th>```wiki
-Nothing to
-{{{
-#!comment
-Your comment for editors here
-}}}
-see ;-)
-```
-
-</th>
-<th>
-> Nothing to
->
->
-> see ;-)
-
-</th></tr></table>
 
 ## Miscellaneous
 
