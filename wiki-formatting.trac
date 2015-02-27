@@ -92,7 +92,11 @@ Second paragraph.
         multiple lines
 }}}
 |-----------------------------------------------------------
-||= [#PreformattedText Preformatted Text] =||\
+{{{#!th rowspan=3
+[#PreformattedText Preformatted Text]\\
+[#Processors Processors]\\
+[#Comments Comments]
+}}}
 {{{#!td
  {{{
  {{{
@@ -105,6 +109,34 @@ Second paragraph.
  {{{
  multiple lines, ''no wiki''
        white space respected
+ }}}
+}}}
+||
+{{{#!td
+ {{{
+ {{{#!hs
+ main :: IO ()
+ main = putStrLn "Hello, World"
+ }}}
+ }}}
+}}}
+{{{#!td
+ {{{#!hs
+ main :: IO ()
+ main = putStrLn "Hello, World"
+ }}}
+}}}
+||
+{{{#!td
+ {{{
+ {{{#!comment
+ Note to Editors: ...
+ }}}
+ }}}
+}}}
+{{{#!td style="padding-left: 2em"
+ {{{#!comment
+ Note to Editors: ...
  }}}
 }}}
 |-----------------------------------------------------------
@@ -161,10 +193,10 @@ Second paragraph.
 || #1 (ticket), [1] (changeset), {1} (report) ||
 || `ticket:1, ticket:1#comment:1` ||\
 || ticket:1, ticket:1#comment:1 ||
-|| `Ticket [ticket:1]`, `[ticket:1 ticket one]` ||\
-|| Ticket [ticket:1], [ticket:1 ticket one] ||
-|| `Ticket [[ticket:1]]`, `[[ticket:1|ticket one]]` ||\
-|| Ticket [[ticket:1]], [[ticket:1|ticket one]] ||
+|| `Ticket [ticket:1]`, `[ticket:1 ticket one]` ||\
+|| Ticket [ticket:1], [ticket:1 ticket one] ||
+|| `Ticket [[ticket:1]]`, `[[ticket:1|ticket one]]` ||\
+|| Ticket [[ticket:1]], [[ticket:1|ticket one]] ||
 |-----------------------------------------------------------
 {{{#!th rowspan=2 
 [#SettingAnchors Setting Anchors]
@@ -191,42 +223,6 @@ Second paragraph.
 }}}
 || `[[MacroList(*)]]` ||  ''(short list of all available macros)''  ||
 || `[[Image?]]` ||  ''(help for the Image macro)''  ||
-|-----------------------------------------------------------
-||= [#Processors Processors] =||\
-{{{#!td
- {{{
- {{{
- #!div style="font-size: 80%"
- Code highlighting:
-   {{{#!python
-   hello = lambda: "world"
-   }}}
- }}}
- }}}
-}}}
-{{{#!td style="padding-left: 2em"
- {{{
- #!div style="font-size: 80%"
- Code highlighting:
-   {{{#!python 
-   hello = lambda: "world"
-   }}}
- }}}
-}}}
-|-----------------------------------------------------------
-||= [#Comments Comments] =||\
-{{{#!td
- {{{
- {{{#!comment
- Note to Editors: ...
- }}}
- }}}
-}}}
-{{{#!td style="padding-left: 2em"
- {{{#!comment
- Note to Editors: ...
- }}}
-}}}
 |-----------------------------------------------------------
 ||= [#Miscellaneous Miscellaneous] =||\
 {{{#!td
@@ -451,7 +447,35 @@ Block containing preformatted text are suitable for source code snippets, notes 
   }}}
 }}}
 
+See [#Processors Processors] for syntax highlighting.
+
 Note that this kind of block is also used for selecting lines that should be processed through WikiProcessors.
+
+
+== Comments ==
+
+Comments can be added to the plain text. These will not be rendered and will not display in any other format than plain text.
+
+||= Wiki Markup =||= Display =||
+{{{#!td
+  {{{
+  Nothing to
+  {{{
+  #!comment
+  Your comment for editors here
+  }}}
+  see ;-)
+  }}}
+}}}
+{{{#!td
+  Nothing to
+  {{{
+  #!comment
+  Your comment for editors here
+  }}}
+  see ;-)
+}}}
+
 
 == Blockquotes ==
 
@@ -942,30 +966,6 @@ if __name__ == '__main__':
 
 See WikiProcessors for more information.
 
-
-== Comments ==
-
-Comments can be added to the plain text. These will not be rendered and will not display in any other format than plain text.
-
-||= Wiki Markup =||= Display =||
-{{{#!td
-  {{{
-  Nothing to
-  {{{
-  #!comment
-  Your comment for editors here
-  }}}
-  see ;-)
-  }}}
-}}}
-{{{#!td
-  Nothing to
-  {{{
-  #!comment
-  Your comment for editors here
-  }}}
-  see ;-)
-}}}
 
 == Miscellaneous ==
 
