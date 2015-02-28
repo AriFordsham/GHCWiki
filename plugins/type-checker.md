@@ -199,6 +199,27 @@ See also [ "EvTerms and how they are used" on ghc-devs](https://mail.haskell.org
 
 - At the moment there is not a very clear relationship between plugins and [hooks](ghc/hooks).  It might be nice to unify the two approaches, but they have quite different design goals.
 
+## Applications
+
+
+Known plugins:
+
+- [ type-nat-solver](https://github.com/yav/type-nat-solver) is a plugin for solving numeric constraints using an SMT solver
+
+- [ uom-plugin](https://github.com/adamgundry/uom-plugin) is an implementation of units of measure that uses a typechecker plugin to implement the equational theory of abelian groups
+
+
+Other possible applications:
+
+- making particular type families [injective](injective-type-families) (cf. [\#6018](https://gitlab.haskell.org//ghc/ghc/issues/6018))
+
+- adding functional dependency style behaviour to particular typeclasses
+
+- eta-expansion of type-level products ([\#7259](https://gitlab.haskell.org//ghc/ghc/issues/7259))
+
+
+Feel free to extend these lists.
+
 ## Reactions from community
 
 **N.B.** These comments refer to an earlier version of this page, prior to the implementation of the proposal.
