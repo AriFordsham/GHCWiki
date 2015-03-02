@@ -1,5 +1,4 @@
-
-\# Allow rules to examine context
+# Allow rewrite rules to examine term context
 
 
 As of GHC 7.10 rewrite rules, even built-in ones, cannot inspect the context of the term they are considering in deciding whether they will rewrite it. Context can be an important hint in determining whether a given term will benefit from a rewrite.
@@ -35,8 +34,7 @@ which produces the same branch-y assembler as the user was likely trying to avoi
 
 For this reason, we'd like to ensure that `litEq` (and similar built-in rewrite rules) does not rewrite unless the term is directly scrutinized by a case expression.
 
-
-\#\# Implementation
+## Implementation
 
 
 Built-in rewrite rules are currently encoded as a \[\[`RuleFun`\],
