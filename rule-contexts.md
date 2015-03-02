@@ -1,4 +1,7 @@
 
+\# Allow rules to examine context
+
+
 As of GHC 7.10 rewrite rules, even built-in ones, cannot inspect the context of the term they are considering in deciding whether they will rewrite it. Context can be an important hint in determining whether a given term will benefit from a rewrite.
 
 
@@ -30,4 +33,21 @@ f::Int->Stringf=\ ds_dPI ->case ds_dPI of_{I# n_an9 ->case n_an9 of_{
 which produces the same branch-y assembler as the user was likely trying to avoid in the first place.
 
 
-For this reason, we'd like to ensure that `litEq` does not rewrite unless the term is directly scrutinized by a case expression.
+For this reason, we'd like to ensure that `litEq` (and similar built-in rewrite rules) does not rewrite unless the term is directly scrutinized by a case expression.
+
+
+\#\# Implementation
+
+
+Built-in rewrite rules are currently encoded as a \[\[`RuleFun`\],
+
+```
+typeRuleFun=DynFlags->InScopeEnv-- ^ The scope within which the call is embedded->Id-- ^ The name of the called function->[CoreExpr]-- ^ The arguments of the call->MaybeCoreExpr-- ^ The resulting rewrite if appropriate
+```
+
+
+The simplifier currently encodes the context surrounding the term being simplified in a zipper-like fashion in the `SimplCont` type. We want to allow the `RuleFun` access to the `SimplCont` so that it can account for context when deciding whether to rewrite,
+
+```
+typeRuleFun=DynFlags->InScopeEnv-- ^ The scope within which the call is embedded->SimplCont-- ^ The context surrounding the call->Id-- ^ The name of the called function->[CoreExpr]-- ^ The arguments of the call->MaybeCoreExpr-- ^ The resulting rewrite if appropriate
+```
