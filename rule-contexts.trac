@@ -14,8 +14,8 @@ the user might write,
 {{{#!hs
 f :: Int -> String
 f (I# n) = case isTrue# pred of
-        True -> "That's Numberwang!"
-        _    -> "Oh dear." 
+        True  -> "That's Numberwang!"
+        False -> "Oh dear." 
   where
     pred = (n ==# 3#) `orI#` (n ==# 42#) `orI#` (n ==# 78#) `orI#` (n ==# 90#)
 }}}
@@ -38,7 +38,7 @@ f =
 
 which produces the same branch-y assembler as the user was likely trying to avoid in the first place.
 
-For this reason, we'd like to ensure that `litEq` (and similar built-in rewrite rules) does not rewrite unless the term is directly scrutinized by a case expression.
+For this reason, we'd like to ensure that `litEq` (and similar built-in rewrite rules) does not rewrite unless the term is directly scrutinized by a case expression, ensuring that the user's careful work is preserved.
 
 == Implementation ==
 
@@ -64,6 +64,7 @@ type RuleFun = DynFlags
 
 As the simplifier already keeps track of the context when evaluating rules, the change is mostly straightforward.
 
+
 === Rule checker issues ===
 
 The primary difficulty is posed by the `ruleCheck` diagnostics functionality. This code is intended to provide the user with human-readable feedback on why rewrite rules matching a user-specified predicate do not fire on a term-by-term basis. The implementation is currently quite simple: it traverses the program examining function applications, looking for rules which both pertain to the applied function and match a user-specified predicate. It then produces a human-readable message in the event that the rule would not fire. Unfortunately, to evaluate whether the rule will fire we actually need to try calling the `RuleFun`, which now requires having a `SimplCont`.
@@ -81,3 +82,4 @@ Unfortunately the rule checker knows nothing about `SimplCont` and teaching it t
  3. Fold the rule check into the simplifier. It seems like this folds
     what is currently quite simple code into the already rather complex
     simplifier.
+
