@@ -7,6 +7,7 @@
 - **Kyrill Briantsev** \<kyrab@…\>
 - **Darren Grant** \<dedgrant@…\>
 - **David Macek** \<david.macek.0@…\>
+- **Michael Steele** \<mikesteele81@…\>
 
 
 Should your name be here? Just edit the page and add yourself 
