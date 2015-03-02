@@ -56,12 +56,12 @@ source tree, containing only revision-controlled files (besides files
 you created yourself, like for example mk/build.mk).
 </td></tr></table>
 
-<table><tr><th>`test`</th>
+<table><tr><th>`fasttest` or `fast`</th>
 <td>
 Runs the testsuite in fast mode with some sensible default settings.
 </td></tr></table>
 
-<table><tr><th>`fulltest`</th>
+<table><tr><th>`fulltest` or `test`</th>
 <td>
 Runs the full testsuite with some sensible default settings.
 </td></tr></table>
