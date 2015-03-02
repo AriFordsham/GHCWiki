@@ -32,7 +32,7 @@ f::Int->Stringf=\ ds_dPI ->case ds_dPI of_{I# n_an9 ->case n_an9 of_{
 which produces the same branch-y assembler as the user was likely trying to avoid in the first place.
 
 
-For this reason, we'd like to ensure that `litEq` (and similar built-in rewrite rules) does not rewrite unless the term is directly scrutinized by a case expression, ensuring that the user's careful work is preserved.
+For this reason, we'd like to ensure that `litEq` (and similar built-in rewrite rules) does not rewrite unless the term is directly scrutinized by a case expression, ensuring that the user's careful work is preserved (open question: might this give up desirable optimizations?).
 
 ## Implementation
 
