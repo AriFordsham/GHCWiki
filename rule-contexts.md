@@ -49,3 +49,26 @@ The simplifier currently encodes the context surrounding the term being simplifi
 ```
 typeRuleFun=DynFlags->InScopeEnv-- ^ The scope within which the call is embedded->SimplCont-- ^ The context surrounding the call->Id-- ^ The name of the called function->[CoreExpr]-- ^ The arguments of the call->MaybeCoreExpr-- ^ The resulting rewrite if appropriate
 ```
+
+
+As the simplifier already keeps track of the context when evaluating rules, the change is mostly straightforward.
+
+### Rule checker issues
+
+
+The primary difficulty is posed by the `ruleCheck` diagnostics functionality. This code is intended to provide the user with human-readable feedback on why rewrite rules matching a user-specified predicate do not fire on a term-by-term basis. The implementation is currently quite simple: it traverses the program examining function applications, looking for rules which both pertain to the applied function and match a user-specified predicate. It then produces a human-readable message in the event that the rule would not fire. Unfortunately, to evaluate whether the rule will fire we actually need to try calling the `RuleFun`, which now requires having a `SimplCont`.
+
+
+Unfortunately the rule checker knows nothing about `SimplCont` and teaching it to track context would introduce a substantial amount of complexity. As far as I can tell there are three ways to address this,
+
+1. Pass a dummy `SimplCont` (probably a `Stop`) to the `RuleFun`. This
+  is by far the easiest option but will result in discrepancies
+  between the rule check and the rules actually fired by simplifier.
+
+1. Replicate the simplifier's logic to produce a `SimplCont` in the
+  rule check. This seems like it will result in a great deal of
+  unnecessary (and non-trivial) code duplication.
+
+1. Fold the rule check into the simplifier. It seems like this folds
+  what is currently quite simple code into the already rather complex
+  simplifier.
