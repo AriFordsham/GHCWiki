@@ -41,10 +41,10 @@ The following targets are accepted only by the top-level `Makefile`:
   source tree, containing only revision-controlled files (besides files
   you created yourself, like for example mk/build.mk).
 
- `test`::
+ `fasttest` or `fast`::
   Runs the testsuite in fast mode with some sensible default settings.
 
- `fulltest`::
+ `fulltest` or `test`::
   Runs the full testsuite with some sensible default settings.
 
  `binary-dist`::
