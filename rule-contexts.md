@@ -72,3 +72,13 @@ Unfortunately the rule checker knows nothing about `SimplCont` and teaching it t
 1. Fold the rule check into the simplifier. It seems like this folds
   what is currently quite simple code into the already rather complex
   simplifier.
+
+### Specialiser issues
+
+
+The specialiser also interacts with rewrite rules in ways I'm not entirely sure I yet understand. See "Note \[Specialisations already covered\]" in `Specialise.hs`.
+
+## Status
+
+
+There is a preliminary patch set [ here](https://github.com/bgamari/ghc/tree/wip/rule-context).
