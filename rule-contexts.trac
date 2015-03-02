@@ -1,0 +1,39 @@
+As of GHC 7.10 rewrite rules, even built-in ones, cannot inspect the context of the term they are considering in deciding whether they will rewrite it. Context can be an important hint in determining whether a given term will benefit from a rewrite.
+
+Consider, for example, the `litEq` built-in rule (see Bug #9661 for further motivation). This rewrites expressions such as `n ==# 3` into case analyses of the form,
+{{{#!hs
+case n of
+  3  -> True
+  _  -> False
+}}}
+
+While this is usually a good thing, when applied indiscriminantly it will interfere with the user's attempt at using unboxed booleans. For instance,
+the user might write,
+{{{#!hs
+f :: Int -> String
+f (I# n) = case isTrue# pred of
+        True -> "That's Numberwang!"
+        _    -> "Oh dear." 
+  where
+    pred = (n ==# 3#) `orI#` (n ==# 42#) `orI#` (n ==# 78#) `orI#` (n ==# 90#)
+}}}
+
+Unfortunately in this case `litEq` will rewrite the user's carefully written unboxed expression as a case expression,
+{{{#!hs
+f :: Int -> String
+f =
+  \ ds_dPI ->
+    case ds_dPI of _ { I# n_an9 ->
+    case n_an9 of _ {
+      __DEFAULT -> lvl_r3yJ;
+      3 -> lvl1_r3yK;
+      42 -> lvl1_r3yK;
+      78 -> lvl1_r3yK;
+      90 -> lvl1_r3yK
+    }
+    }
+}}}
+
+which produces the same branch-y assembler as the user was likely trying to avoid in the first place.
+
+For this reason, we'd like to ensure that `litEq` does not rewrite unless the term is directly scrutinized by a case expression.
