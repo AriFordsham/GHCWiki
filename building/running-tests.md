@@ -10,14 +10,28 @@ The testsuite relies primarily on **GNU Make** and **Python**. Any version \>= 2
 If you just want to run the whole testsuite, then in the root of the GHC tree, typing:
 
 ```wiki
-$ make fasttest # shorthand: `make fast`
+$ make fasttest
 ```
 
 
-will do a run in "fast" mode (which gives an idea whether there are major problems), or
+or
 
 ```wiki
-$ make fulltest # shorthand: `make test`
+$ make fast
+```
+
+
+will do a run in "fast" mode (which gives an idea whether there are major problems). On the other hand, typing:
+
+```wiki
+$ make fulltest
+```
+
+
+or
+
+```wiki
+$ make test
 ```
 
 
