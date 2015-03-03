@@ -126,7 +126,7 @@ Finally, clone, configure, and build GHC (see [Newcomers](newcomers) for details
    # configure build
    cd mk
    cp build.mk.sample build.mk
-   ## edit build.mk to remove the comment marker # on the line "BuildFlavour = quick"
+   # edit build.mk to remove the comment marker # on the line "BuildFlavour = quick"
    cd ..
    ./sync-all get
    patchShebangs .
