@@ -99,3 +99,39 @@ The package `linux-tools` includes `perf`, see [Debugging/LowLevelProfiling/Perf
 
 
 The list of dependencies is the same as for [ ghc-git](https://aur.archlinux.org/packages/ghc-git/) package on AUR.
+
+## Nix/NixOS
+
+
+First, you need to clone Nixpkgs, so you could use recent Nix recipes:
+
+```wiki
+   git clone https://github.com/NixOS/nixpkgs  
+```
+
+
+Then, you can build the environment needed for compiling HEAD (assuming that the `nixpkgs` directory is in `/home/user`):
+
+```wiki
+   cd ~
+   nix-build '<nixpkgs>' -A haskell-ng.compiler.ghcHEAD --run-env -I /home/user
+```
+
+
+Finally, clone, configure, and build GHC (see [Newcomers](newcomers) for details), but replace the usual `configure && make` with the Nix build phases:
+
+```wiki
+   git clone --recursive git://github.com/ghc/ghc
+   cd ghc/
+   # configure build
+   cd mk
+   cp build.mk.sample build.mk
+   ## edit build.mk to remove the comment marker # on the line "BuildFlavour = quick"
+   cd ..
+   ./sync-all get
+   patchShebangs .
+   ./boot
+   configurePhase
+   buildPhase
+   # edit build.mk to remove the comment marker # on the line stage=2
+```
