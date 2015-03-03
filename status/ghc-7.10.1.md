@@ -12,9 +12,7 @@ Anything in 'patch' status will be merged for 7.10.1.
 
 Special things of note:
 
-- The **Final Release** will probably happen in (late) March 2015.
-
-- We'll do an RC3 in early March.
+- A GHC 7.10 **3rd Release Candidate** on **March 13, 2015**, and **Final Release** is planned to happen on **March 20th, 2015**.
 
 - We will fix `merge`, `patch`, and `highest` priority bugs (only) in the list below
 
