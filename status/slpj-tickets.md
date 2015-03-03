@@ -2,6 +2,7 @@
 
 ## Urgent or in-flight
 
+- [\#10132](https://gitlab.haskell.org//ghc/ghc/issues/10132): inconsistent kind polymorphism for top-level and associated type families
 - [\#10079](https://gitlab.haskell.org//ghc/ghc/issues/10079): type inference for `Coercible` (Richard)
 - [\#10087](https://gitlab.haskell.org//ghc/ghc/issues/10087): typechecking generic default methods (Pedro)
 - [\#10068](https://gitlab.haskell.org//ghc/ghc/issues/10068): runtime reflection API for modules, names.
