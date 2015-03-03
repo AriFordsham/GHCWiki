@@ -123,11 +123,12 @@ Finally, clone, configure, and build GHC (see [Newcomers](newcomers) for details
 ```wiki
    git clone --recursive https://github.com/ghc/ghc
    cd ghc/
-   # configure build
-   cd mk
-   cp build.mk.sample build.mk
+   # TODO: The Nix recipe overwrites build.mk.  Find a way to configure build,
+   # so the following is possible:
+   # cd mk
+   # cp build.mk.sample build.mk
    # edit build.mk to remove the comment marker # on the line "BuildFlavour = quick"
-   cd ..
+   # cd ..
    ./sync-all get
    patchShebangs .
    ./boot
