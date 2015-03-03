@@ -1,6 +1,6 @@
 = Haskell Program Coverage =
 
-This page describes the Haskell Program Coverage implementation inside GHC. You can find the original homepage of HPC [http://projects.unsafeperformio.com/hpc/ here].
+This page describes the Haskell Program Coverage implementation inside GHC. Background information can be found in the paper [http://www.ittc.ku.edu/~andygill/papers/Hpc07.pdf Haskell Program Coverage] by Andy Gill and Colin Runciman, and the Haskell wiki page [https://wiki.haskell.org/Haskell_program_coverage Haskell program coverage].
 
 The basic idea is this
  * For each (sub)expression in the Haskell Syntax, write the (sub)expression in a    
