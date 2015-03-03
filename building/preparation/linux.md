@@ -121,7 +121,7 @@ Then, you can build the environment needed for compiling HEAD (assuming that the
 Finally, clone, configure, and build GHC (see [Newcomers](newcomers) for details), but replace the usual `configure && make` with the Nix build phases:
 
 ```wiki
-   git clone --recursive git://github.com/ghc/ghc
+   git clone --recursive https://github.com/ghc/ghc
    cd ghc/
    # configure build
    cd mk
