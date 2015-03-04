@@ -338,6 +338,13 @@ In order to see emails below, **you must login**.
   - **Committer since**: always.
   - **Main areas of interest**: renamer, type checker, optimiser.
 
+- [ Thomas Miedema](http://thomie.github.io)
+
+  - N/A - Paris, France
+  - **Trac**: thomie; **email**: thomasmiedema@…; **github**: [ https://github.com/thomie](https://github.com/thomie)
+  - **Committer since**: March, 2014.
+  - **Main areas of interest**: bugs
+
 - [ Thomas Schilling](http://nominolo.blogspot.com/)
 
   - Erudify AG - Zürich, Switzerland
