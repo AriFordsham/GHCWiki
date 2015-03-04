@@ -18,7 +18,7 @@ To view a build log, you would
 
 - click on the build number in the first column (e.g. 617)
 - then scroll down and select one of the two jobs (one is built with debugging, one without). Click on the number (e.g. 617.1)
-- the next page contains the build log, but presented using JavaScript, which may or may not be too much for your browser, and may be truncated. Therefore, while the page is loading, quickly click the “Download Log” button in the top right corner (a square with horizontal lines, [](https://travis-ci.org/images/icons/logs.svg)). This will open the log as a plain text file.
+- the next page contains the build log, but presented using JavaScript, which may or may not be too much for your browser, and may be truncated. Therefore, while the page is loading, quickly click the “Download Log” above the build log. This will open the log as a plain text file.
 
 ## What is validated?
 
