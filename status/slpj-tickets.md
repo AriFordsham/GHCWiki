@@ -48,6 +48,7 @@
 
 ## Type families, roles, and `Coercible`
 
+- [\#8165](https://gitlab.haskell.org//ghc/ghc/issues/8165): GND for classes with associated types
 - [\#10075](https://gitlab.haskell.org//ghc/ghc/issues/10075): `Constraint` vs `*`
 - [\#10056](https://gitlab.haskell.org//ghc/ghc/issues/10056): more systematic treatment of `(~)` in parser and renamer 
 - [\#9918](https://gitlab.haskell.org//ghc/ghc/issues/9918): closed type families, apartness, and overlapping instances (inconsistency)
