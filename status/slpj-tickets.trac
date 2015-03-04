@@ -89,7 +89,7 @@ See also [wiki:TemplateHaskell]
  * #8335: more gc entry points
  * #8336: sinking pass does not sink
  * #8327: dead code (in heap checks) not eliminated by C--
- * #8317, #8326, #9661: don't push heapchecks into case branches too aggressively.  This is closely related to work Jan Stolarek did on unboxed booleans #6135; ahd perhaps also to #10124
+ * #8317, #8326, #9661: don't push heapchecks into case branches too aggressively.  This is closely related to work Jan Stolarek did on unboxed booleans #6135; and perhaps also to #10124, #10137
  * #8308: resurrect ticky histograms
  * #8321: branch prediction for stack/heap checks for LLVM
  * #8279: alignment and its effect on performance
