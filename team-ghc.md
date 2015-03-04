@@ -342,7 +342,7 @@ In order to see emails below, **you must login**.
 
   - N/A - Paris, France
   - **Trac**: thomie; **email**: thomasmiedema@…; **github**: [ https://github.com/thomie](https://github.com/thomie)
-  - **Committer since**: March, 2014.
+  - **Committer since**: March, 2015.
   - **Main areas of interest**: bugs
 
 - [ Thomas Schilling](http://nominolo.blogspot.com/)
