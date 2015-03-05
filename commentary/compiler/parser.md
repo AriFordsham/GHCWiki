@@ -86,3 +86,14 @@ The top-level of a Haskell file does not automatically have a layout context; wh
 
 
 When writing grammars that accept semicolon-separated sequences, be sure to include a rule allowing for trailing semicolons (see the previous section), otherwise, you will reject layout.
+
+## Syntax extensions
+
+
+Many syntactic features must be enabled with a `LANGUAGE` flag, since they could cause existing Haskell programs to stop compiling, as turn some identifiers into keywords. We primarily affect this change of behavior in the lexer, by turning on/off certain tokens. This is done using predicates, which let Alex turn token rules on and off depending on what extensions are enabled:
+
+```wiki
+<0> {                                                                              
+  "[|"        / { ifExtension thEnabled } { token ITopenExpQuote } 
+}
+```
