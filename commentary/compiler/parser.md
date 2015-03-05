@@ -97,3 +97,6 @@ Many syntactic features must be enabled with a `LANGUAGE` flag, since they could
   "[|"        / { ifExtension thEnabled } { token ITopenExpQuote } 
 }
 ```
+
+
+To add a new syntax extension, add a constructor to `ExtBits` and set the bit appropriately in `mkPState`.
