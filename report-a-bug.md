@@ -60,7 +60,6 @@ The Trac bug report system has various fields. Here's how to fill them in:
 
   - **bug**: incorrect behaviour by GHC
   - **feature request**: something you would like GHC to do
-  - **proposal**: reserved for use with the [ Library submissions](http://www.haskell.org/haskellwiki/Library_submissions) process
   - **task** (for use by GHC developers only): something we intend to do sometime
 
 - **Type of failure**: the nature of the failure (compile-time crash, incorrect result, etc.).  This allows us to prioritize important bugs.
