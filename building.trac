@@ -1,6 +1,6 @@
 {{{#!comment
 
-Let's try to keep this page for information about manually building and installing of GHC only. Any information that developers need to make *changes* to GHC is better linked to from [wiki:Newcomers] and [wiki:WorkingConventions]. Information about automatic builders is all under [wiki:Status] and [wiki:Infrastructure].
+Let's keep this page for information about manually building and installing of GHC only. Any information that developers need to make changes to GHC (excluding the build system) is better linked to from [wiki:Newcomers] and [wiki:WorkingConventions]. Information about automatic builders is all under [wiki:Status] and [wiki:Infrastructure].
 
 Links to platform specific preparation and build instructions are all grouped on the [wiki:Building/Preparation] page.
 }}}
@@ -31,13 +31,12 @@ can extend it, modify it, and use it to build your code.
  * [wiki:Building/Installing Installing GHC from a build]
  * [wiki:Building/Unregisterised Unregisterised builds]
 
-'''How to test and benchmark changes to GHC'''
+'''How to test and benchmark GHC'''
 
- * [wiki:TestingPatches Validating changes]
- * [wiki:Building/RunningTests Running the GHC test framework]
- * [wiki:Building/RunningNoFib The NoFib benchmark suite]
+ * [wiki:TestingPatches Validating Patches]
+ * [wiki:Building/RunningTests Running the regression test suite]
  * [wiki:HackageTesting Testing GHC against all of Hackage]
- * [wiki:Debugging Debugging and performance-tuning for GHC]
+ * [wiki:Building/RunningNoFib The NoFib benchmark suite]
 
 '''Information about libraries (= packages)'''
 

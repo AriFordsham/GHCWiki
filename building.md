@@ -25,13 +25,12 @@ can extend it, modify it, and use it to build your code.
 - [Installing GHC from a build](building/installing)
 - [Unregisterised builds](building/unregisterised)
 
-**How to test and benchmark changes to GHC**
+**How to test and benchmark GHC**
 
-- [Validating changes](testing-patches)
-- [Running the GHC test framework](building/running-tests)
-- [The NoFib benchmark suite](building/running-no-fib)
+- [Validating Patches](testing-patches)
+- [Running the regression test suite](building/running-tests)
 - [Testing GHC against all of Hackage](hackage-testing)
-- [Debugging and performance-tuning for GHC](debugging)
+- [The NoFib benchmark suite](building/running-no-fib)
 
 **Information about libraries (= packages)**
 
