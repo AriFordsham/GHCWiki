@@ -31,13 +31,6 @@ can extend it, modify it, and use it to build your code.
  * [wiki:Building/Installing Installing GHC from a build]
  * [wiki:Building/Unregisterised Unregisterised builds]
 
-'''How to test and benchmark GHC'''
-
- * [wiki:TestingPatches Validating Patches]
- * [wiki:Building/RunningTests Running the regression test suite]
- * [wiki:HackageTesting Testing GHC against all of Hackage]
- * [wiki:Building/RunningNoFib The NoFib benchmark suite]
-
 '''Information about libraries (= packages)'''
 
  * [wiki:Debugging/InstallingPackagesInplace Installing extra libraries for your in-place GHC]
