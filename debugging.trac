@@ -1,32 +1,42 @@
+= Testing, Measuring and Debugging =
+
+This part of the wiki collects all the information related to testing, measuring and debugging GHC. That includes the compiler itself, the libraries, the runtime system, the code generator, or the build system.
 
 
-= Debugging =
+== Testing ==
 
-This part of the wiki collects all the information related to debugging GHC: that includes debugging the compiler itself, the libraries, the runtime system, the code generator, or the build system.
+ * All patches that go into GHC must first pass ''validation'', which ensures that a basic build works and the ''regression test suite'' passes. The policy on validating patches, and how to perform validation, is at: [wiki:TestingPatches Validating Patches].
+ 
+ * Details about the regression test suite, and how to use it are at: [wiki:Building/RunningTests Running Tests].
 
- * '''Testing and measuring'''
-   * Use the [wiki:Building/RunningTests testsuite] to test the compiler on thousands of regression tests
-   * [wiki:HackageTesting]: Testing GHC against all of hackage.
-   * Use the [wiki:Building/RunningNoFib nofib suite], and the nofib-analyse tool, to compare performance on 50-odd benchmarks.
-   * Use [wiki:Debugging#count_lines count_lines] to count the number of lines of code in the compiler
-   * Use [wiki:Debugging#compareSizes compareSizes] to compare the sizes of corresponding .o or .hi files in two trees.
+ * [wiki:HackageTesting]: Testing GHC against all of hackage.
 
- * '''Reproducing the test case'''.  You may need to install some packages to reproduce the test case, and that may take a little care: [wiki:Debugging/InstallingPackagesInplace].
 
- * '''Debugging the compiler itself'''.  If you're debugging a compiler panic or some problem in GHC itself, then go to [wiki:Debugging/Compiler]
+== Measuring ==
 
- * '''Debugging a compiled program'''. If the compiled program crashes or panics, then go to [wiki:Debugging/CompiledCode]
+ * Use the [wiki:Building/RunningNoFib nofib suite], and the nofib-analyse tool, to compare performance on 50-odd benchmarks.
 
- * '''Debugging the runtime system'''.  See [wiki:Debugging/RuntimeSystem]
+ * Use [wiki:Debugging#count_lines count_lines] to count the number of lines of code in the compiler
 
- * '''Debugging when running under GHCi'''.  See [wiki:Commentary/Compiler/Backends/GHCi]
+ * Use [wiki:Debugging#compareSizes compareSizes] to compare the sizes of corresponding .o or .hi files in two trees.
+ 
 
- * '''Performance debugging'''. 
+== Debugging ==
+
+ * If you're debugging a compiler panic or some problem in GHC itself, then go to [wiki:Debugging/Compiler]
+
+ * If the compiled program crashes or panics, then go to [wiki:Debugging/CompiledCode]
+
+ * For debugging the runtime system, see [wiki:Debugging/RuntimeSystem]
+
+ * For debugging when running under GHCi, see [wiki:Commentary/Compiler/Backends/GHCi]
+
+ * Performance debugging. 
    * [wiki:Debugging/ProfilingGhc]: Profiling the compiler itself.  
    * [wiki:Debugging/TickyTicky]: for debugging performance-related issues in compiled code.  Typically for performance debugging of the Simplifier and Core-level optimisations.
    * [wiki:Debugging/LowLevelProfiling]: way to investigate low-level performance, typically for performance debugging of the code generator or RTS.
 
- * '''Build failures'''.  If you're trying to debug a build failure, then you probably want to look at
+ * Build failures.  If you're trying to debug a build failure, then you probably want to look at
    * [wiki:Building/Troubleshooting]: Fixing common problems in a GHC build
    * [wiki:Building/Modifying#Debugging]: Debugging the build system
 
