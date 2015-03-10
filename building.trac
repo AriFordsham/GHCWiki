@@ -29,10 +29,9 @@ can extend it, modify it, and use it to build your code.
  * [wiki:Building/Docs Building the documentation]
  * [wiki:Building/Installing Installing GHC from a build]
  * [wiki:Building/Unregisterised Unregisterised builds]
+
+'''Platform-specific building notes'''
  * [wiki:Platforms Platforms that GHC currently supports]
-
-'''Platform-specific building notes (see also''' [wiki:Building/Preparation Setting up your system for building GHC]''')'''
-
  * [wiki:Building/MacOSX Building under MacOS X]
  * [wiki:Building/Solaris Building under Solaris]
  * [wiki:Building/Preparation/FreeBSD Building under FreeBSD]
