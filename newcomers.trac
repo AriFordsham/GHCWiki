@@ -49,13 +49,17 @@ make -j8 # parallelize to at most 8 parallel jobs; adapt to actual number of cpu
 
 * If you've made it this far, you're well on your way to becoming a GHC developer. You should subscribe to the [http://www.haskell.org/mailman/listinfo/ghc-devs ghc-devs] mailing list.
 
-== Fixing a bug ==
+== Fixing a bug or implementing a new feature ==
 
-Below is a list of bugs that appear to be "low-hanging fruit" -- things that might be reasonable for a newcomer to GHC hacking. Of course, we can't ever be sure of how hard a task is before doing it, so apologies if one of these is too hard.
+Below is a list of tickets that appear to be "low-hanging fruit" -- things that might be reasonable for a newcomer to GHC hacking. Of course, we can't ever be sure of how hard a task is before doing it, so apologies if one of these is too hard.
 
-[[TicketQuery(status=infoneeded,status=new,keywords=~newcomer,owner=)]]
+Bugs:
+[[TicketQuery(status=infoneeded,status=new,keywords=~newcomer,owner=,type=bug)]]
+Feature requests:
+[[TicketQuery(status=infoneeded,status=new,keywords=~newcomer,owner=,type=feature request)]]
 
-Once you fix the bug, make sure to write a test-case proving that you've done what you said. Then take some time to get to know and submit a code review to [wiki:Phabricator]. If the patch looks good, one of the committers will put it into the GHC codebase. Then, tackle another bug!
+
+Once you fix the bug or implement the new feature, make sure to write a test-case proving that you've done what you said. Then take some time to get to know and submit a code review to [wiki:Phabricator]. If the patch looks good, one of the committers will put it into the GHC codebase. Then, tackle another bug!
 
 == Practical advice ==
 
