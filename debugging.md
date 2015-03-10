@@ -9,7 +9,7 @@ This part of the wiki collects all the information related to testing, measuring
 
 - Details about the regression test suite, and how to use it are at: [Running Tests](building/running-tests).
 
-- [HackageTesting](hackage-testing): Testing GHC against all of hackage.
+- Testing GHC against all of hackage: [HackageTesting](hackage-testing).
 
 ## Measuring
 
