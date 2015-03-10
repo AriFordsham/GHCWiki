@@ -1,27 +1,6 @@
-= Testing, Measuring and Debugging =
+= Debugging =
 
-This part of the wiki collects all the information related to testing, measuring and debugging GHC. That includes the compiler itself, the libraries, the runtime system, the code generator, or the build system.
-
-
-== Testing ==
-
- * All patches that go into GHC must first pass ''validation'', which ensures that a basic build works and the ''regression test suite'' passes. The policy on validating patches, and how to perform validation, is at: [wiki:TestingPatches Validating Patches].
- 
- * Details about the regression test suite, and how to use it are at: [wiki:Building/RunningTests Running Tests].
-
- * Testing GHC against all of hackage: [wiki:HackageTesting].
-
-
-== Measuring ==
-
- * Use the [wiki:Building/RunningNoFib nofib suite], and the nofib-analyse tool, to compare performance on 50-odd benchmarks.
-
- * Use [wiki:Debugging#count_lines count_lines] to count the number of lines of code in the compiler
-
- * Use [wiki:Debugging#compareSizes compareSizes] to compare the sizes of corresponding .o or .hi files in two trees.
- 
-
-== Debugging ==
+This part of the wiki collects all the information related to debugging GHC. That includes debugging the compiler itself, the libraries, the runtime system, the code generator, or the build system.
 
  * If you're debugging a compiler panic or some problem in GHC itself, then go to [wiki:Debugging/Compiler]
 
@@ -39,6 +18,11 @@ This part of the wiki collects all the information related to testing, measuring
  * Build failures.  If you're trying to debug a build failure, then you probably want to look at
    * [wiki:Building/Troubleshooting]: Fixing common problems in a GHC build
    * [wiki:Building/Modifying#Debugging]: Debugging the build system
+
+ * Use [wiki:Debugging#count_lines count_lines] to count the number of lines of code in the compiler
+
+ * Use [wiki:Debugging#compareSizes compareSizes] to compare the sizes of corresponding .o or .hi files in two trees.
+
 
 --------------------
 == count_lines ==
