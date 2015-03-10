@@ -2,6 +2,7 @@
 
 Let's try to keep this page for information about manually building and installing of GHC only. Any information that developers need to make *changes* to GHC is better linked to from [wiki:Newcomers] and [wiki:WorkingConventions]. Information about automatic builders is all under [wiki:Status] and [wiki:Infrastructure].
 
+Links to platform specific preparation and build instructions are all grouped on the [wiki:Building/Preparation] page.
 }}}
 
 = Building and Porting GHC =
@@ -16,7 +17,7 @@ can extend it, modify it, and use it to build your code.
 
 '''Getting started'''
 
- * [wiki:Building/Preparation Setting up your system for building GHC]
+ * [wiki:Building/Preparation Setting up your system for building GHC (including platform specific instructions)]
  * [wiki:Building/GettingTheSources Getting the sources]
  * [wiki:Building/QuickStart Quick Start to just building and installing GHC]
  * [wiki:Building/Hacking Quick Start to using the build system as a developer]
@@ -29,13 +30,6 @@ can extend it, modify it, and use it to build your code.
  * [wiki:Building/Docs Building the documentation]
  * [wiki:Building/Installing Installing GHC from a build]
  * [wiki:Building/Unregisterised Unregisterised builds]
-
-'''Platform-specific building notes'''
- * [wiki:Platforms Platforms that GHC currently supports]
- * [wiki:Building/MacOSX Building under MacOS X]
- * [wiki:Building/Solaris Building under Solaris]
- * [wiki:Building/Preparation/FreeBSD Building under FreeBSD]
- * [wiki:WindowsGhc Building under Windows]
 
 '''How to test and benchmark changes to GHC'''
 
@@ -57,7 +51,7 @@ can extend it, modify it, and use it to build your code.
  * [wiki:Building/Modifying Modifying the build system]
 
 '''Porting GHC and building cross compilers'''
-
+ * [wiki:Platforms Platforms that GHC currently supports]
  * [wiki:Building/CrossCompiling Cross-compilation]
  * [wiki:Building/Compiling32on64 Compiling for 32 bits on 64 bits]
 
