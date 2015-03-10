@@ -11,7 +11,7 @@ can extend it, modify it, and use it to build your code.
 
 **Getting started**
 
-- [Setting up your system for building GHC](building/preparation)
+- [Setting up your system for building GHC (including platform specific instructions)](building/preparation)
 - [Getting the sources](building/getting-the-sources)
 - [Quick Start to just building and installing GHC](building/quick-start)
 - [Quick Start to using the build system as a developer](building/hacking)
@@ -24,14 +24,6 @@ can extend it, modify it, and use it to build your code.
 - [Building the documentation](building/docs)
 - [Installing GHC from a build](building/installing)
 - [Unregisterised builds](building/unregisterised)
-
-**Platform-specific building notes**
-
-- [Platforms that GHC currently supports](platforms)
-- [Building under MacOS X](building/mac-osx)
-- [Building under Solaris](building/solaris)
-- [Building under FreeBSD](building/preparation/free-bsd)
-- [Building under Windows](windows-ghc)
 
 **How to test and benchmark changes to GHC**
 
@@ -54,6 +46,7 @@ can extend it, modify it, and use it to build your code.
 
 **Porting GHC and building cross compilers**
 
+- [Platforms that GHC currently supports](platforms)
 - [Cross-compilation](building/cross-compiling)
 - [Compiling for 32 bits on 64 bits](building/compiling32on64)
 
