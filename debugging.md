@@ -1,25 +1,7 @@
-# Testing, Measuring and Debugging
+# Debugging
 
 
-This part of the wiki collects all the information related to testing, measuring and debugging GHC. That includes the compiler itself, the libraries, the runtime system, the code generator, or the build system.
-
-## Testing
-
-- All patches that go into GHC must first pass *validation*, which ensures that a basic build works and the *regression test suite* passes. The policy on validating patches, and how to perform validation, is at: [Validating Patches](testing-patches).
-
-- Details about the regression test suite, and how to use it are at: [Running Tests](building/running-tests).
-
-- Testing GHC against all of hackage: [HackageTesting](hackage-testing).
-
-## Measuring
-
-- Use the [nofib suite](building/running-no-fib), and the nofib-analyse tool, to compare performance on 50-odd benchmarks.
-
-- Use [count_lines](debugging#) to count the number of lines of code in the compiler
-
-- Use [compareSizes](debugging#comparesizes) to compare the sizes of corresponding .o or .hi files in two trees.
-
-## Debugging
+This part of the wiki collects all the information related to debugging GHC. That includes debugging the compiler itself, the libraries, the runtime system, the code generator, or the build system.
 
 - If you're debugging a compiler panic or some problem in GHC itself, then go to [Debugging/Compiler](debugging/compiler)
 
@@ -39,6 +21,10 @@ This part of the wiki collects all the information related to testing, measuring
 
   - [Building/Troubleshooting](building/troubleshooting): Fixing common problems in a GHC build
   - [Building/Modifying](building/modifying#debugging): Debugging the build system
+
+- Use [count_lines](debugging#) to count the number of lines of code in the compiler
+
+- Use [compareSizes](debugging#comparesizes) to compare the sizes of corresponding .o or .hi files in two trees.
 
 ---
 
