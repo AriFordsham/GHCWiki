@@ -9,28 +9,22 @@ can extend it, modify it, and use it to build your code.
 
 ## Contents
 
-**Getting started for developers**
-
-- [Getting started with the build system](building/hacking)
-- [How do I re-build after updating or changing GHC?](building/rebuilding)
-- [Working Conventions (Git workflows, bug tracker, coding style etc.) ](working-conventions)
-
-**Building GHC**
+**Getting started**
 
 - [Setting up your system for building GHC](building/preparation)
 - [Getting the sources](building/getting-the-sources)
-- [Just building and installing GHC](building/quick-start)
-- [Platforms that GHC currently supports](platforms)
-- [The GHC Builder, which coordinates distributed nightly builds](builder)
+- [Quick Start: Just building and installing GHC](building/quick-start)
+- [Quick Start to using the build system as a developer](building/hacking)
 
 **More detailed information about using the build system**
 
-- [Using the build system](building/using)
+- [Comprehensive overview of using the build system](building/using)
 - [Standard targets](building/standard-targets)
 - [Making GHC's source code searchable with Hoogle](building/hoogle)
 - [Building the documentation](building/docs)
 - [Installing GHC from a build](building/installing)
 - [Unregisterised builds](building/unregisterised)
+- [Platforms that GHC currently supports](platforms)
 
 **Platform-specific building notes (see also**[Setting up your system for building GHC](building/preparation)**)**
 
