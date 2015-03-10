@@ -1,3 +1,9 @@
+{{{#!comment
+
+Let's try to keep this page for information about manually building and installing of GHC only. Any information that developers need to make *changes* to GHC is better linked to from [wiki:Newcomers] and [wiki:WorkingConventions]. Information about automatic builders is all under [wiki:Status] and [wiki:Infrastructure].
+
+}}}
+
 = Building and Porting GHC =
 
 This Guide is primarily aimed at those who want to build and/or
@@ -8,28 +14,22 @@ can extend it, modify it, and use it to build your code.
 
 == Contents ==
 
-'''Getting started for developers'''
-
- * [wiki:Building/Hacking Getting started with the build system]
- * [wiki:Building/Rebuilding How do I re-build after updating or changing GHC?]
- * [wiki:WorkingConventions Working Conventions (Git workflows, bug tracker, coding style etc.) ]
-
-'''Building GHC'''
+'''Getting started'''
 
  * [wiki:Building/Preparation Setting up your system for building GHC]
  * [wiki:Building/GettingTheSources Getting the sources]
- * [wiki:Building/QuickStart Just building and installing GHC]
- * [wiki:Platforms Platforms that GHC currently supports]
- * [wiki:Builder The GHC Builder, which coordinates distributed nightly builds]
+ * [wiki:Building/QuickStart Quick Start: Just building and installing GHC]
+ * [wiki:Building/Hacking Quick Start to using the build system as a developer]
 
 '''More detailed information about using the build system'''
 
- * [wiki:Building/Using Using the build system]
+ * [wiki:Building/Using Comprehensive overview of using the build system]
  * [wiki:Building/StandardTargets Standard targets]
  * [wiki:Building/Hoogle Making GHC's source code searchable with Hoogle]
  * [wiki:Building/Docs Building the documentation]
  * [wiki:Building/Installing Installing GHC from a build]
  * [wiki:Building/Unregisterised Unregisterised builds]
+ * [wiki:Platforms Platforms that GHC currently supports]
 
 '''Platform-specific building notes (see also''' [wiki:Building/Preparation Setting up your system for building GHC]''')'''
 
