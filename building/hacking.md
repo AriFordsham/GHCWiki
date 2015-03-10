@@ -1,7 +1,7 @@
-# Getting started with the build system
+# Quick Start for developers: The build system
 
 
-There is more complete documentation for the build system later on in this guide (see [Building/Using](building/using)), but this page gives a quick overview of how to get around the GHC build system.
+This page gives a quick overview of how to get around the GHC build system as a developer. There is more complete documentation for the build system later on in this guide (see [Building/Using](building/using)). If you are not looking to hack on GHC at all, but just want to build and install GHC, head on over to [Building/QuickStart](building/quick-start). 
 
 ## Before starting your build
 
