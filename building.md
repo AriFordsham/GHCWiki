@@ -24,10 +24,10 @@ can extend it, modify it, and use it to build your code.
 - [Building the documentation](building/docs)
 - [Installing GHC from a build](building/installing)
 - [Unregisterised builds](building/unregisterised)
+
+**Platform-specific building notes**
+
 - [Platforms that GHC currently supports](platforms)
-
-**Platform-specific building notes (see also**[Setting up your system for building GHC](building/preparation)**)**
-
 - [Building under MacOS X](building/mac-osx)
 - [Building under Solaris](building/solaris)
 - [Building under FreeBSD](building/preparation/free-bsd)
