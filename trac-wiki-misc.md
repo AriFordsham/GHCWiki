@@ -16,6 +16,11 @@ When writing Wiki pages you need to know the markup conventions:
 
 The notes on the rest of this page are the GHC team's observations and/or clarifications.
 
+## Guidelines
+
+- Don't duplicate information
+- Don't link everything from everywhere
+
 ## Pointing to source files
 
 
