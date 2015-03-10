@@ -18,7 +18,7 @@ can extend it, modify it, and use it to build your code.
 
  * [wiki:Building/Preparation Setting up your system for building GHC]
  * [wiki:Building/GettingTheSources Getting the sources]
- * [wiki:Building/QuickStart Quick Start to building and installing GHC]
+ * [wiki:Building/QuickStart Quick Start to just building and installing GHC]
  * [wiki:Building/Hacking Quick Start to using the build system as a developer]
 
 '''More detailed information about using the build system'''

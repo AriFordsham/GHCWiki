@@ -13,7 +13,7 @@ can extend it, modify it, and use it to build your code.
 
 - [Setting up your system for building GHC](building/preparation)
 - [Getting the sources](building/getting-the-sources)
-- [Quick Start to building and installing GHC](building/quick-start)
+- [Quick Start to just building and installing GHC](building/quick-start)
 - [Quick Start to using the build system as a developer](building/hacking)
 
 **More detailed information about using the build system**
