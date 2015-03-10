@@ -9,7 +9,7 @@ Please don't duplicate that can easily be found in the sidebar. That includes ye
 
 GHC is a BSD-licensed open-source project, and we welcome your help in making it better. This page and the side bar on the left have pointers to information you'll need.
 
- * [wiki:WorkingConventions/FixingBugs How to fix a bug in GHC]. Also check out the summary of [wiki:Status/Tickets open tickets, listed by component], and the [wiki:BugSweep GHC bug sweep].
+ * [wiki:WorkingConventions/FixingBugs How to fix a bug in GHC].
 
  * [wiki:WorkingConventions/AddingFeatures How to add a new feature to GHC].
 
