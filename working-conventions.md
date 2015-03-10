@@ -3,9 +3,9 @@
 
 GHC is a BSD-licensed open-source project, and we welcome your help in making it better. This page and the side bar on the left have pointers to information you'll need.
 
-- [How to fix a bug in GHC](working-conventions/fixing-bugs). You can see all open bugs by clicking on "All bugs" in the left margin of this page.  At the top of the list is a filter you can use to refine your search. Also check out the [summary of open tickets, listed by component](status/tickets), and the [GHC bug sweep](bug-sweep).
+- [How to fix a bug in GHC](working-conventions/fixing-bugs). Also check out the summary of [open tickets, listed by component](status/tickets), and the [GHC bug sweep](bug-sweep).
 
-- [How to add a new feature to GHC](working-conventions/adding-features). You can see all open feature requests by clicking on "All bugs" in the left margin of this page.  At the top of the list is a filter you can use to refine your search.
+- [How to add a new feature to GHC](working-conventions/adding-features).
 
 - [ How to propose a change to the libraries](http://haskell.org/haskellwiki/Library_submissions)
 
