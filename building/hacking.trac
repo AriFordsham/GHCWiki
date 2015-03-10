@@ -1,9 +1,9 @@
 
 [[PageOutline]]
 
-= Getting started with the build system =
+= Quick Start for developers: The build system =
 
-There is more complete documentation for the build system later on in this guide (see [wiki:Building/Using]), but this page gives a quick overview of how to get around the GHC build system.
+This page gives a quick overview of how to get around the GHC build system as a developer. There is more complete documentation for the build system later on in this guide (see [wiki:Building/Using]). If you are not looking to hack on GHC at all, but just want to build and install GHC, head on over to [wiki:Building/QuickStart]. 
 
 == Before starting your build ==
 
