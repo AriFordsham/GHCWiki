@@ -18,8 +18,8 @@ The notes on the rest of this page are the GHC team's observations and/or clarif
 
 ## Guidelines
 
-- Don't duplicate information
-- Don't link everything from everywhere
+- Don't duplicate information. Don't link everything from everywhere.
+- If for example a page accessible from the left side bar (i.e. Debugging) already has all the links for a certain topic (Testing), then another page ([WorkingConventions](working-conventions)) shouldn't duplicate all those links.
 
 ## Pointing to source files
 
