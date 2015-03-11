@@ -34,6 +34,7 @@
 - [\#9667](https://gitlab.haskell.org//ghc/ghc/issues/9667): Don't make tyvars untouchable when a GADT pattern-match isn't informative
 - [\#9883](https://gitlab.haskell.org//ghc/ghc/issues/9883): Heterogeneous `OverloadedLists`
 - [\#10075](https://gitlab.haskell.org//ghc/ghc/issues/10075): `Constraint` vs `*`
+- [\#10114](https://gitlab.haskell.org//ghc/ghc/issues/10114): Non-`*` bodies of foralls
 - [\#10121](https://gitlab.haskell.org//ghc/ghc/issues/10121): Correct operational semantics around letrec.
 
 **Hard**
