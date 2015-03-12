@@ -77,7 +77,7 @@ x  = 10
 ```
 
 
-Markdown supports snippets of code in different languages, which is why there is `haskelll` after the ticks.
+Markdown supports snippets of code in different languages, which is why there is `haskell` after the ticks.
 If a language is not explicitly specified, then we assume that the block contains Haskell---after all, we are
 working with literate Haskell files.  
 
