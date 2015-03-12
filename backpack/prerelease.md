@@ -307,3 +307,5 @@ You can compile with:
 ```wiki
 ghc --backpack sorted.bkp
 ```
+
+> **Remark:** It is interesting to observe how Haskell went down an evolutionarily different path in order to support the case of multiple instances on a single data type.  In Haskell'98, the way to reuse the `insert` function with different `Ord` instances is to either use the non-overloaded version `insertBy`; in modern GHC Haskell you can newtype `Int`, and use the new `coerce` function described in [Roles](roles) in order to get from a `[Int]` to a `[DescInt]` in constant time.
