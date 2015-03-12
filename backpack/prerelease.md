@@ -1,7 +1,10 @@
 ## Examples
 
 
-As a convention in this section, all of the code examples are runnable.  Simply copy paste any code samples prefixed with a comment `-- filename.hs` into an appropriately named file.
+In this section, we give a few examples of using "Backpack in the small." They are a little contorted, since Backpack's primary design case was to facilitate at the level of libraries/packages; however, it's a bit difficult to experiment with a system if you're told that it is only suitable to build a giant software system! Backpack can be used to do small-scale separate modular development, since it is a proper module system; it just can be a bit messy at times.
+
+
+As a convention, all of the code examples are runnable.  Simply copy paste any code samples prefixed with a comment `-- filename.hs` into an appropriately named file.
 
 ### Hello World
 
