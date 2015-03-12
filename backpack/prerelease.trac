@@ -11,7 +11,9 @@ To test that everything is working properly, create the following two files:
 executable hello where
   includes: base
   main-is: hello
+}}}
 
+{{{
 -- hello.hs
 main = putStrLn "Hello world!"
 }}}
@@ -70,7 +72,9 @@ Now, `P.hs` and `Q.hs` can omit their import lists:
 module P(ptest) where
 import System.Directory
 ptest = doesFileExist "no_it_does_not" >>= print
+}}}
 
+{{{
 -- p/Q.hs
 module Q(qtest) where
 import System.Directory
@@ -85,7 +89,7 @@ executable Main where
     main-is: Main
 }}}
 
-**In progress:** At the moment, order matters! Make sure the `directory` include (providing the implementation) comes before the `p` include (requiring the implementation).
+  **In progress:** At the moment, order matters! Make sure the `directory` include (providing the implementation) comes before the `p` include (requiring the implementation).
 
 This juxtaposition triggers a linking step, where GHC recognizes that `p` has a hole (signature without an implementation) named `System.Directory`, while `directory`.
 
@@ -118,9 +122,9 @@ You can check that other functions from `System.Directory` are not available by 
 
 In general, to import a subset of the interface of a module, you create an hsig file which contains the signatures you want. Additionally, an actual implementation of the module must not be in scope (if it is in scope, it takes precedence over the signatures).
 
-**Under construction:** The error message you get when you attempt to use a function which is available from the underlying implementation but not from your signature could be improved.
+  **Under construction:** The error message you get when you attempt to use a function which is available from the underlying implementation but not from your signature could be improved.
 
-**Open question:** Should there be an easier way of loading a specific implementation narrowed to some interface? The most general way to use Backpack suggests that you should commit to an implementation as late as possible, which means this style of development should be discouraged.
+  **Open question:** Should there be an easier way of loading a specific implementation narrowed to some interface? The most general way to use Backpack suggests that you should commit to an implementation as late as possible, which means this style of development should be discouraged.
 
 == Type classes ==
 
