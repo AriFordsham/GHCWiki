@@ -1,3 +1,7 @@
+= Backpack pre-release =
+
+If you would like to try out our new Backpack support in GHC, we invite you to download and install a pre-release version of GHC with various Backpack: http://web.stanford.edu/~ezyang/backpack/ You can build the sources using  the instructions in [wiki:Building/QuickStart], and there are also some binary distributions available.
+
 == Examples ==
 
 In this section, we give a few examples of using "Backpack in the small." They are a little contorted, since Backpack's primary design case was to facilitate at the level of libraries/packages; however, it's a bit difficult to experiment with a system if you're told that it is only suitable to build a giant software system! Backpack can be used to do small-scale separate modular development, since it is a proper module system; it just can be a bit messy at times.

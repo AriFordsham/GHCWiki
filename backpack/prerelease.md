@@ -1,3 +1,8 @@
+# Backpack pre-release
+
+
+If you would like to try out our new Backpack support in GHC, we invite you to download and install a pre-release version of GHC with various Backpack: [ http://web.stanford.edu/\~ezyang/backpack/](http://web.stanford.edu/~ezyang/backpack/) You can build the sources using  the instructions in [Building/QuickStart](building/quick-start), and there are also some binary distributions available.
+
 ## Examples
 
 
