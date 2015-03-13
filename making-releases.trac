@@ -39,6 +39,14 @@ You should now have source tarballs `sdistprep/ghc-<VERSION>-src.tar.bz2` and `s
 
 == Making the binary builds ==
 
+First, you should make sure your environment has all of the tools necessary to make a proper release build.  This can include more tools than an "ordinary" build of GHC requires, since documentation requires extra tools.  You will need:
+
+ * dblatex
+ * HsColour (cabal install hscolour)
+ * docbook-xsl (otherwise you will get error `failed to load external entity "http://docbook.sourceforge.net/release/xsl/current/html/chunk.xsl"`)
+
+A good sanity check is to check the output of `configure` and make sure all of the tool fields are filled out.
+
 Untar the `src` tarball. Then:
 {{{
 $ cat > mk/build.mk <<EOF
