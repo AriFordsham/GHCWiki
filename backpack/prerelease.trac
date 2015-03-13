@@ -2,6 +2,16 @@
 
 If you would like to try out our new Backpack support in GHC, we invite you to download and install a pre-release version of GHC with various Backpack: http://web.stanford.edu/~ezyang/backpack/ You can build the sources using  the instructions in [wiki:Building/QuickStart], and there are also some binary distributions available.
 
+Source distributions:
+
+ * [http://web.stanford.edu/~ezyang/backpack/ghc-7.11.20150312-src.tar.bz2 ghc-7.11.20150312-src.tar.bz2]. This provides the compiler and a minimal set of libraries. For more information on building, see the [wiki:Building building guide].
+ * [http://web.stanford.edu/~ezyang/backpack/ghc-7.11.20150312-testsuite.tar.bz2 ghc-7.11.20150312-testsuite.tar.bz2]. If you unpack this tarball on top of the above then you will be able to run the testsuite.
+ * [http://web.stanford.edu/~ezyang/backpack/ghc-7.11.20150312-windows-extra-src.tar.bz2 ghc-7.11.20150312-windows-extra-src.tar.bz2]. This provides extra build tools which are a requirement for building on Windows. Simply unpack this tarball on top of the regular source distribution.
+
+Binary distributions:
+
+* [http://web.stanford.edu/~ezyang/backpack/ghc-7.11.20150312-x86_64-unknown-linux.tar.bz2 ghc-7.11.20150312-x86_64-unknown-linux.tar.bz2]. Generic amd64 Linux. This is a complete build, including interactive system, profiling libraries and documentation. It was made on a Arch Linux system and requires libgmp.so.10 (typically GMP 5.x). 
+
 == Examples ==
 
 In this section, we give a few examples of using "Backpack in the small." They are a little contorted, since Backpack's primary design case was to facilitate at the level of libraries/packages; however, it's a bit difficult to experiment with a system if you're told that it is only suitable to build a giant software system! Backpack can be used to do small-scale separate modular development, since it is a proper module system; it just can be a bit messy at times.

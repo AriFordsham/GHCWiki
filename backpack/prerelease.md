@@ -3,6 +3,18 @@
 
 If you would like to try out our new Backpack support in GHC, we invite you to download and install a pre-release version of GHC with various Backpack: [ http://web.stanford.edu/\~ezyang/backpack/](http://web.stanford.edu/~ezyang/backpack/) You can build the sources using  the instructions in [Building/QuickStart](building/quick-start), and there are also some binary distributions available.
 
+
+Source distributions:
+
+- [ ghc-7.11.20150312-src.tar.bz2](http://web.stanford.edu/~ezyang/backpack/ghc-7.11.20150312-src.tar.bz2). This provides the compiler and a minimal set of libraries. For more information on building, see the [building guide](building).
+- [ ghc-7.11.20150312-testsuite.tar.bz2](http://web.stanford.edu/~ezyang/backpack/ghc-7.11.20150312-testsuite.tar.bz2). If you unpack this tarball on top of the above then you will be able to run the testsuite.
+- [ ghc-7.11.20150312-windows-extra-src.tar.bz2](http://web.stanford.edu/~ezyang/backpack/ghc-7.11.20150312-windows-extra-src.tar.bz2). This provides extra build tools which are a requirement for building on Windows. Simply unpack this tarball on top of the regular source distribution.
+
+
+Binary distributions:
+
+- [ ghc-7.11.20150312-x86_64-unknown-linux.tar.bz2](http://web.stanford.edu/~ezyang/backpack/ghc-7.11.20150312-x86_64-unknown-linux.tar.bz2). Generic amd64 Linux. This is a complete build, including interactive system, profiling libraries and documentation. It was made on a Arch Linux system and requires libgmp.so.10 (typically GMP 5.x). 
+
 ## Examples
 
 
