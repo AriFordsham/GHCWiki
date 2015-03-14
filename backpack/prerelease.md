@@ -14,6 +14,7 @@ Source distributions:
 Binary distributions:
 
 - [ ghc-7.11.20150312-x86_64-unknown-linux.tar.bz2](http://web.stanford.edu/~ezyang/backpack/ghc-7.11.20150312-x86_64-unknown-linux.tar.bz2). Generic amd64 Linux. This is a complete build, including interactive system, profiling libraries and documentation. It was made on a Arch Linux system and requires libgmp.so.10 (typically GMP 5.x). 
+- [ ghc-7.11.20150312-x86_64-unknown-mingw32.tar.bz2](http://web.stanford.edu/~ezyang/backpack/ghc-7.11.20150312-x86_64-unknown-mingw32.tar.bz2). Windows 64bit. This is a complete build. It also includes support for compiling C++ files. 
 
 ## Examples
 
