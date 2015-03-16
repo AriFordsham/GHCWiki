@@ -1,14 +1,15 @@
 # Internships on Haskell and GHC, at Microsoft Research, Cambridge
 
-[ Microsoft Research Cambridge](http://research.microsoft.com/aboutmsr/labs/cambridge/) now runs a year-round [ internship programme](http://research.microsoft.com/en-us/jobs/intern/about_uk.aspx).  You can apply for an internship slot in any area covered by the lab, but Simon and I are of course keen to attract strong applications from people interested in functional programming, Haskell, and GHC.
+[ Microsoft Research Cambridge](http://research.microsoft.com/aboutmsr/labs/cambridge/) runs two internship programmes:
+
+- The [ PhD student internship programme](http://research.microsoft.com/en-us/jobs/intern/about_uk.aspx) is mainly for graduate students in mid-PhD.  This is not an absolute requirement; for example, post-PhD is certainly possible.  It has an annual cycle, with applications due by end Feb.  The internship itself is for 12 weeks, usually over the summer, but the precise timing is flexible.  You don't need to be an EU citizen.
+
+- The [ undergraduate Bright Minds programme](http://research.microsoft.com/en-us/projects/undergrad/) is for undergraduates.    Again there's an annual cycle with an application deadline of end Feb.  The internship runs for 8 weeks, and the timing is fixed. You need to have the right to work in the UK (so the lab doesn't have to get work permits), which in practice means EU citizens.
 
 ## What is an internship?
 
 
-An internship is a paid post, for three months (occasionally up to 6), at Microsoft Research in Cambridge (MSRC).  You get to work on a project agreed, usually in advance, with your MSRC sponsor.  Both parties benefit.  You get to work in a leading-edge research lab, with fantastic people floating around all the time.  We get the benefit of your hard work, and perhaps the start of a collaborative relationship.
-
-
-Almost all interns are in the middle of their PhD.  This is not an absolute requirement; for example, post-PhD is certainly possible.  However, if you are, say, an undergraduate you'd need to be exceptional to beat out the PhD applicants.  
+An internship is a paid post at Microsoft Research in Cambridge (MSRC).  You get to work on a project agreed, usually in advance, with your MSRC sponsor.  Both parties benefit.  You get to work in a leading-edge research lab, with fantastic people floating around all the time.  We get the benefit of your hard work, and perhaps the start of a collaborative relationship.
 
 
 In principle, Microsoft owns any intellectual property you generate, but this isn't relevant for an open-source project like GHC.  You're also strongly encouraged to publish your work as a paper, often written jointly with your sponsor.
