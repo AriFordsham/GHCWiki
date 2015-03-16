@@ -33,9 +33,21 @@ type family XOut m1 m2 where
     XOut a@(ValueS vbase vs) (MonadCtx2Dummy' m2 s2 env set m s) = MonadCtx2Dummy' m2 s2 (XEnv env a) (XSet set a) m (XSafety s a)
 }}}
 
+
+== Rationale ==
+
+This proposal targets adding syntactic sugar that allow to write
+expressions contain type synonims in a natural way, like patterns.
+
+
 == Implementation plan ==
 
 1. Add nodes into AST Tree to support as-patterns.
+
+{{{
+Add | HsAsPat (Located id) (LHSType id)
+}}}
+
 
 2. Add support in typechecker
 
@@ -44,6 +56,8 @@ type family XOut m1 m2 where
 4. Add type familes as-patterns support to parser
 
 5. Add tests.
+
+
 
 
 == Implementation progress ==

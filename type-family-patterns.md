@@ -28,9 +28,19 @@ Another example taked from [\#9608](https://gitlab.haskell.org//ghc/ghc/issues/9
 typefamilyXOut m1 m2 whereXOut a@(ValueS vbase vs)(MonadCtx2Dummy' m2 s2 env set m s)=MonadCtx2Dummy' m2 s2 (XEnv env a)(XSet set a) m (XSafety s a)
 ```
 
+## Rationale
+
+
+This proposal targets adding syntactic sugar that allow to write
+expressions contain type synonims in a natural way, like patterns.
+
 ## Implementation plan
 
 1. Add nodes into AST Tree to support as-patterns.
+
+```wiki
+Add | HsAsPat (Located id) (LHSType id)
+```
 
 1. Add support in typechecker
 
