@@ -36,10 +36,10 @@ expressions contain type synonims in a natural way, like patterns.
 
 ## Implementation plan
 
-1. Add nodes into AST Tree to support as-patterns.
+1. Add nodes into AST Tree to support as-patterns:
 
 ```wiki
-Add | HsAsPat (Located id) (LHSType id)
+   | HsAsPat (Located name) (LHSType name)
 ```
 
 1. Add support in typechecker
