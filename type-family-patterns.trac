@@ -42,10 +42,10 @@ expressions contain type synonims in a natural way, like patterns.
 
 == Implementation plan ==
 
-1. Add nodes into AST Tree to support as-patterns.
+1. Add nodes into AST Tree to support as-patterns:
 
 {{{
-Add | HsAsPat (Located id) (LHSType id)
+   | HsAsPat (Located name) (LHSType name)
 }}}
 
 
