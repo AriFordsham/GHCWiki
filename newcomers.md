@@ -1,7 +1,7 @@
 # Resources for newcomers to GHC
 
 
-This page is intended to serve as the first stop for those people who say, "I want to contribute to GHC, but I don't know quite where to begin." Begin here. While the [building guide](building), [working conventions page](working-conventions), [commentary](commentary) and [debugging](debugging) pages (always linked from the left sidebar) have great information that can come in handy while you're working on your first, or first several patches, this page is intended to have the details you will need to get rolling.
+This page is intended to serve as the first stop for those people who say, "I want to contribute to GHC, but I don't know quite where to begin." Begin here. While the [building guide](building), [working conventions](working-conventions), [commentary](commentary) and [debugging](debugging) pages (always linked from the left sidebar) have great information that can come in handy while you're working on your first, or first several patches, this page is intended to have the details you will need to get rolling.
 
 ## First steps
 
@@ -38,11 +38,11 @@ replace `git://` by `http://` or `https://` in the instructions above if you're 
 
 - After a successful build, you should have your brand new compiler in `ghc/inplace/bin/ghc-stage2`. (GHCi is launched with `ghc/inplace/bin/ghc-stage2 --interactive`). Try it out.
 
-- The final edit of `build.mk` makes sure that only the stage-2 compiler will be build after this (see [here](building/architecture/idiom/stages) about stages). This will be much faster, and usually what you want. If, for some reason, you're working on the stage-1 compiler, you can undo that change and use `make 1`, but you must be in the compiler subdirectory, not the ghc subdirectory.
+- To speed up the development cycle, the final edit of `build.mk` makes sure that only the stage-2 compiler will be rebuild after this (see [here](building/architecture/idiom/stages) about stages).
 
-- A good first sanity check is to twiddle some error message in the code, just to see that changed error message pop up when you compile a file. Write some Haskell code with an error in it, and look at the error message. Search through the ghc code for that error message (almost all the relevant code is in the `compiler/` subdirectory of `ghc`). Change the message, and then rebuild (run `make` in the `ghc` subdirectory of `ghc` -- that is, `ghc/ghc`). If you see the changed message, you're good to go.
+- A good first sanity check is to twiddle some error message in the code, just to see that changed error message pop up when you compile a file. Write some Haskell code with an error in it, and look at the error message. Search through the code for that error message. Change the message, rebuild ghc (run `make` again), and recompile your file again with `ghc/inplace/bin/ghc-stage2`. If you see the changed message, you're good to go.
 
-- If you've made it this far, you're well on your way to becoming a GHC developer. You should subscribe to the [ ghc-devs](http://www.haskell.org/mailman/listinfo/ghc-devs) mailing list.
+- To further speed up the development cycle, after you make some changes, don't run `make` directly in the ghc root directory (where you ran `make` the first time). Instead run it in the directory where you are making your changes, usually `compiler`, `ghc`, `rts` or one of the `libraries` or `utils` subdirectories. This greatly speeds up a rebuild.
 
 ## Fixing a bug or implementing a new feature
 
