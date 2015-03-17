@@ -1,7 +1,7 @@
 # Resources for newcomers to GHC
 
 
-This page is intended to serve as the first stop for those people who say, "I want to contribute to GHC, but I don't know quite where to begin." Begin here. While [the working conventions page](working-conventions) has great information that can come in handy while you're working on your first, or first several patches, this page is intended to have the details you will need to get rolling.
+This page is intended to serve as the first stop for those people who say, "I want to contribute to GHC, but I don't know quite where to begin." Begin here. While the [building guide](building), [working conventions page](working-conventions), [commentary](commentary) and [debugging](debugging) pages (always linked from the left sidebar) have great information that can come in handy while you're working on your first, or first several patches, this page is intended to have the details you will need to get rolling.
 
 ## First steps
 
