@@ -1,6 +1,6 @@
 = Resources for newcomers to GHC =
 
-This page is intended to serve as the first stop for those people who say, "I want to contribute to GHC, but I don't know quite where to begin." Begin here. While [wiki:WorkingConventions the working conventions page] has great information that can come in handy while you're working on your first, or first several patches, this page is intended to have the details you will need to get rolling.
+This page is intended to serve as the first stop for those people who say, "I want to contribute to GHC, but I don't know quite where to begin." Begin here. While the [wiki:Building building guide], [wiki:WorkingConventions working conventions page], [wiki:Commentary commentary] and [wiki:Debugging debugging] pages (always linked from the left sidebar) have great information that can come in handy while you're working on your first, or first several patches, this page is intended to have the details you will need to get rolling.
 
 == First steps ==
 
@@ -9,7 +9,8 @@ This page is intended to serve as the first stop for those people who say, "I wa
 * While you're reading that article, download and build the sources. [wiki:Building/Preparation Prepare] your machine, [wiki:Building/GettingTheSources download] the source, and [wiki:Building/Hacking build]. For the short, short version, which may or may not work for your machine, you can try this:
 
 {{{#!comment
-git clone --recursive git://git.haskell.org/ghc.git   # see note below if this fails
+-- Note: when this page got mentioned on reddit, git.haskell.org couldn't handle the load, so we now tell newcomers to clone from github, even though it requires one more initial step.
+git clone --recursive git://git.haskell.org/ghc.git
 }}}
 
 {{{
