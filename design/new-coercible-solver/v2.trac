@@ -20,7 +20,7 @@ I (Richard E.) don't really know why recursive newtypes are all that important. 
 
 == Solutions ==
 
-I don't have any. Do you?
+Simon and I agree that recursive newtypes aren't all that important, except in one case: when we have `newtype N a = ty`, we '''must''' be able to prove `N x ~R ty[a |-> x]`, even in the recursive case. Happily, this is captured by an eager reflexivity check, done after unwrapping. So, that's the plan going forward.
 
 One very dissatisfying solution is to track role annotations and recursivity and then decide between decomposition and unwrapping based on these flags. For a role-annotated, recursive newtype, we just do our best, for some definition of best.
 
@@ -264,3 +264,15 @@ foo = coerce
 }}}
 
 This should work, but this would require a lot more engineering. The problem is that `AppTy`s can't be decomposed, so it's hard to make the constraints canonical and then usable in substitution.
+
+-----------------------------------
+
+{{{
+newtype N1 a = MkN1 a
+newtype N2 a = MkN2 (N1 a)
+
+foo :: N1 a -> N2 a
+foo = coerce
+}}}
+
+Here, we '''won't''' decompose, because the heads differ. Even though this is similar to a case where we do decompose. Simon says that this means we should prefer unwrapping. I agree.
