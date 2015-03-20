@@ -12,6 +12,9 @@ Following the 2015 redesign, we have three separate components to implement, whi
 - the `ImplicitValues` extension, to enable the `#x` syntax;
 - the `HasField` and `FieldUpdate` typeclasses, with special-purpose constraint solving behaviour, which do not require a language extension.
 
+
+As of March 2015, work is progressing on the implementation, and Part 1 (the simplified `OverloadedRecordFields` extension) is nearly complete. Once it is ready, a Phab diff will be opened for review, then parts 2 and 3 will be worked on. Note that all the parts are useful in isolation.
+
 # 1. The `OverloadedRecordFields` extension
 
 
@@ -187,31 +190,65 @@ We could mangle selector names (using `$sel:foo:T` instead of `foo`) even when t
 
 ## 2. The `ImplicitValues` extension
 
-TODO
+
+This part is new in the 2015 redesign, and has not previously been implemented, so there is not yet much to record here.  However, the implementation should be fairly straightforward and close to (but simpler than) the existing `ImplicitParameters` extension.
 
 ## 3. The magic type classes
 
 
-The `HasField` and `FieldUpdate` classes, and `FieldType` and `UpdatedRecordType` type families, will be defined in the module `GHC.Records` in the `base` package.
+The `HasField` and `FieldUpdate` classes, and `FieldType` and `UpdatedRecordType` type families, will be defined in the module `GHC.Records` in the `base` package.  Contrary to the previous design, we will not generate any dfuns/axioms for these classes \*at all\*.  Instead, the typechecker will implicitly create evidence as required.  This gets rid of a whole lot of complexity.
+
+
+The only additional things that need to be generated at datatype declarations are updater functions (one per field), which correspond to the selector functions that are already generated.  So for example
 
 ```wiki
-$dfHasTx :: forall a . a ~ Int => Has T "x" b -- corresponds to the Has instance decl
-$dfHasTx = Has { getField _ = $sel_x_T }
-
-$dfUpdTx :: forall a . a ~ Int => Upd T "x" a -- corresponds to the Upd instance decl
-$dfUpdTx = Upd { setField _ s e = s { x = e } }
-
-axiom TFCo:R:FldTy:T:x : FldTy T "x" = Int   -- corresponds to the FldTy type family instance
-axiom TFCo:R:UpdTy:T:x : UpdTy T "x" Int = T -- corresponds to the UpdTy type family instance
+data T = MkT { x, y :: Int }
 ```
 
-## Automatic instance generation
+
+will generate
+
+```wiki
+$sel:x:T :: T -> Int
+$sel:x:T (MkT x _) = x
+
+$upd:x:T :: T -> Int -> T
+$upd:x:T (MkT _ y) x = MkT x y
+```
 
 
-Typeclass and family instances are generated and typechecked by `makeOverloadedRecFldInsts` in `TcInstDecls`, regardless of whether or not the extension is enabled. This is called by `tcTopSrcDecls` to generate instances for fields from datatypes in the current group (just after derived instances, from **deriving** clauses, are generated). Overloaded record field instances are not exported to other modules (via `tcg_insts` and `tcg_fam_insts`), though underlying dfun ids and axioms are exported from the module as usual (via `tcg_binds` and a new field `tcg_axioms`). The new field is needed because there is otherwise no way to export an axiom without exporting the corresponding family instance.
+The updater function will always have a name prefixed with `$upd:`, regardless of whether `OverloadedRecordFields` is enabled.
+
+## GADT record updates
 
 
-Since the instances are not in scope in the usual way, `matchClassInst` and `tcLookupFamInst` look for the relevant constraints or type families and find the instances directly, rather than consulting `tcg_inst_env` or `tcg_fam_inst_env`. They first perform a lookup to check that the field name is in scope.
+Consider the example
+
+```wiki
+data W a where
+    MkW :: a ~ b => { x :: a, y :: b } -> W (a, b)
+```
+
+
+It would be nice to generate
+
+```wiki
+-- $upd:x:W :: W (a, b) -> a -> W (a, b)
+$upd:x:W s e = s { x = e }
+```
+
+
+but this record update is rejected by the typechecker, even though it is perfectly sensible, because of [\#2595](https://gitlab.haskell.org//ghc/ghc/issues/2595). The currently implemented workaround is instead to generate the explicit update
+
+```wiki
+$upd:x:W (MkW _ y) x = MkW x y
+```
+
+
+which is fine, but rather long-winded if there are many constructors or fields. Essentially this is doing the job of the desugarer for record updates.
+
+
+Note that `W` does not admit type-changing single update for either field, because of the `a ~ b` constraint. Without it, though, type-changing update should be allowed.
 
 ## Unused imports
 
@@ -230,11 +267,11 @@ module C where
   import B( S(x) )
 
   foo :: T -> Int
-  foo r = x r + 2
+  foo r = #x r + 2
 ```
 
 
-Now, do we expect to report the `import B( S(x) )` as unused? Only the typechecker will eventually know that. To record this, I've added a new field `tcg_used_selectors :: TcRef NameSet` to the `TcGblEnv`, which records the selector names for fields that are encountered during typechecking (when looking up a `Has` instance etc.). This set is used to calculate the import usage and unused top-level bindings. Thus a field will be counted as used if it is needed by the typechecker, regardless of whether any definitions it appears in are themselves used.
+Now, do we expect to report the `import B( S(x) )` as unused? Only the typechecker will eventually know that. To record this, a new field `tcg_used_selectors :: TcRef NameSet` in the `TcGblEnv` records the selector names for fields that are encountered during typechecking (when looking up a `HasField` instance etc.). This set is used to calculate the import usage and unused top-level bindings. Thus a field will be counted as used if it is needed by the typechecker, regardless of whether any definitions it appears in are themselves used.
 
 
 Unused local bindings are trickier, as the following example illustrates:
@@ -244,74 +281,9 @@ module M (f)
   data S = MkS { foo :: Int }
   data T = MkT { foo :: Int }
 
-  f = foo (MkS 3)
-  g x = foo x
+  f = #foo (MkS 3)
+  g x = #foo x
 ```
 
 
-The renamer calculates the free variables of each definition, to produce a list of `DefUses`. In both `f` and `g` we get potential uses of `S(foo)` and `T(foo)`, but the typechecker will discover that `f` uses only `S(foo)` while `g` uses neither. (But `g` requires `foo` to be in scope somehow!) The simplest thing is to make an occurrence of an overloaded field in an expression return as free variables all the selectors it might refer to. This will sometimes fail to report unused local bindings: in the example, it will not spot that `T(foo)` is unused.
-
-## GADT record updates
-
-
-Consider the example
-
-```wiki
-data W a where
-    MkW :: a ~ b => { x :: a, y :: b } -> W (a, b)
-```
-
-
-It would be nice to generate
-
-```wiki
--- setField :: Proxy# "x" -> W (a, b) -> a -> W (a, b)
-setField _ s e = s { x = e }
-```
-
-
-but this record update is rejected by the typechecker, even though it is perfectly sensible, because of [\#2595](https://gitlab.haskell.org//ghc/ghc/issues/2595). The currently implemented workaround is instead to generate the explicit update
-
-```wiki
-setField _ (MkW _ y) x = MkW x y
-```
-
-
-which is fine, but rather long-winded if there are many constructors or fields. Essentially this is doing the job of the desugarer for record updates.
-
-
-Note that `W` does not admit type-changing single update for either field, because of the `a ~ b` constraint. Without it, though, type-changing update should be allowed.
-
-# Current status
-
-
-We stalled previously on a refactoring to make `FieldLabel`s (stored in `TyCon`s) contain actual `CoAxiom`s, not just their `Name`s. This would allow them to be `implicitTyThings` of the `TyCon`, rather than requiring them to be brought into scope separately. (At the moment, there are new `tcg_axioms`, `mg_axioms` and `ic_axioms` fields to pass around axioms without corresponding type family instances.)
-
-
-However, at the moment construction of the axioms is intertwined with construction of the class instances, and the type of an axiom depends in fairly subtle ways on the structure of the `TyCon` (e.g. the types of all its fields). Thus attempts to build the axioms when creating the `TyCon` tend to end up in infinite loops caused by poking the wrong fields of the `TyCon` too early. (See also `"Note [Tricky iface loop]"` in LoadIface.)
-
-## Other outstanding issues
-
-
-From the latest merge with HEAD:
-
-- A few failing test cases remain.
-- The AST still contains landmines that should be defused.
-- The Haddock changes need testing.
-
-
-Old notes on possible refactoring:
-
-- The definition of `tcFldInsts` has a slightly fragile assertion that it does not obtain any evidence bindings when typechecking `Has`/`Upd` instances. Could these be returned somewhere instead? It should be possible to fuse `makeRecFldInstsFor` and `tcFldInsts`, or just generate and typecheck binds, using `tcValBinds` or similar for the typechecking.
-- Perhaps we should make record selector bindings in `TcFldInsts`, along with the new code.
-- We shouldn't need to mess with the `TypeEnv` in `tcRnHsBootDecls`. Instead:
-
-  1. `tcTyClsInstDecls` should populate it with the `dfun_ids`
-  1. `tcHsBootSigs` should populate it with `val_ids` and return an updated `TcGblEnv`
-  1. Add a new field `tcg_boot_ids :: Bag Id` to `TcGblEnv` and pass `val_ids` to `mkBootModDetailsTc` that way, so it doesn't need to use the `TypeEnv`
-
-
-Future considerations:
-
-- Consider defaulting `Accessor p r n` to `p = (->)`, and defaulting `Has r "x"` constraints where there is only one datatype with a field `x` in scope.
-- Add syntax for record projection, perhaps using \# since it shouldn't conflict with `MagicHash`?
+The renamer calculates the free variables of each definition, to produce a list of `DefUses`. The typechecker will discover that `f` uses only `S(foo)` while `g` uses neither. The simplest thing is to make an occurrence of an overloaded field in an expression return as free variables all the selectors it might refer to. This will sometimes fail to report unused local bindings: in the example, it will not spot that `T(foo)` is unused.
