@@ -3,8 +3,9 @@
 
 The `OverloadedRecordFields` extension for GHC allows multiple record datatypes to share the same field names, and uses type information to disambiguate them. For more information, see:
 
-- [Design of the extension](records/overloaded-record-fields/design) (for power users)
-- [Notes on the implementation](records/overloaded-record-fields/implementation) (for GHC hackers)
+- [Original design of the extension](records/overloaded-record-fields/design)
+- [Redesigned variant involving three extensions](records/overloaded-record-fields/redesign) (being implemented as of March 2015)
+- [Notes on the implementation](records/overloaded-record-fields/implementation)
 
 
 Content previously on this page has been moved to the [SORF](records/overloaded-record-fields/sorf) page.
