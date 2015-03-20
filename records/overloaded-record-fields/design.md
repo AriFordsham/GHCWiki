@@ -1,6 +1,6 @@
 # [OverloadedRecordFields](records/overloaded-record-fields) design
 
-**This page describes the design of the `OverloadedRecordFields` extension, as implemented. It is targeted at GHC power users.**
+**This page describes the design of the `OverloadedRecordFields` extension, as implemented in 2013. It has been superseded by the [2015 redesign](records/overloaded-record-fields/redesign), but may be useful for background context.**
 
 
 Separate [notes on the implementation](records/overloaded-record-fields/implementation) are available, but not necessarily comprehensible. See the [OverloadedRecordFields overview page](records/overloaded-record-fields) for information about the history and current status of the extension.
