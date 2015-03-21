@@ -24,7 +24,7 @@ where all these names are now {{{Name}}}s.
 
 In addition, the renamer does the following things:
 
- * Sort out fixities. The parser parses all infix applications as '''right-associative''', regardless of fixity.  For example "{{{a * b + c}}}" is parsed as "{{{a * (b + c)}}}".  The renamer re-associates such nested operator applications, using the fixities declared in the module.
+ * Sort out fixities. The parser parses all infix applications as '''left-associative''', regardless of fixity.  For example "{{{a + b * c}}}" is parsed as "{{{(a + b) * c}}}".  The renamer re-associates such nested operator applications, using the fixities declared in the module.
 
  * Dependency analysis for mutually-recursive groups of declarations.  This divides the declarations into strongly-connected components.
 
