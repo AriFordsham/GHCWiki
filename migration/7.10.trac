@@ -191,5 +191,5 @@ There are a number of API changes in this release of Template Haskell.
 
 The major breaking change in hackage:time-1.5.0.1 is not requiring `old-locale` anymore and providing its own locale-type. 
 
-See https://github.com/bos/aeson/commit/730a8c42b75f38e241da39933b03735a7c905538 for an example how to make code compatible with both, `time < 1.5` and `time >= 1.5`.
+See https://github.com/bos/aeson/commit/730a8c42b75f38e241da39933b03735a7c905538 for an example how to make code compatible with both, `time < 1.5` and `time >= 1.5`, or use http://hackage.haskell.org/package/time-locale-compat.
 
