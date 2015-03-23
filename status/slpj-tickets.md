@@ -25,6 +25,7 @@
 
 ## Front end
 
+- [\#10183](https://gitlab.haskell.org//ghc/ghc/issues/10183): warning for redundant constraints, and pattern-match overlap warnings
 - [\#10179](https://gitlab.haskell.org//ghc/ghc/issues/10179): displaying kinds
 - [\#10089](https://gitlab.haskell.org//ghc/ghc/issues/10089): better warnings for unused data types (involves instances)
 - [\#8581](https://gitlab.haskell.org//ghc/ghc/issues/8581): bidirectional pattern synonyms (with different constraints)
