@@ -24,6 +24,7 @@
 
 == Front end ==
 
+ * #10179: displaying kinds
  * #10089: better warnings for unused data types (involves instances)
  * #8581: bidirectional pattern synonyms (with different constraints)
  * #10027: export behaviour for data families
