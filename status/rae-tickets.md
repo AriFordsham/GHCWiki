@@ -89,12 +89,12 @@
 
 - [\#7169](https://gitlab.haskell.org//ghc/ghc/issues/7169): Warn about incomplete record selectors
 - [\#7668](https://gitlab.haskell.org//ghc/ghc/issues/7668): Better locations in deferred type errors
-- [\#9194](https://gitlab.haskell.org//ghc/ghc/issues/9194): Remove the magic from parsing `~`. Some open design questions.
 - [\#9376](https://gitlab.haskell.org//ghc/ghc/issues/9376): Improve error messages for closed type families that get stuck on the dark corners
 - [\#9378](https://gitlab.haskell.org//ghc/ghc/issues/9378): Make unknown LANGUAGE pragmas warnings
 - [\#9394](https://gitlab.haskell.org//ghc/ghc/issues/9394): `:info` should show instances of data and type families.
 - [\#9778](https://gitlab.haskell.org//ghc/ghc/issues/9778): Allow warnings for unticked promoted things
 - [\#9784](https://gitlab.haskell.org//ghc/ghc/issues/9784): Report better error for `Foo.'Z`
+- [\#10056](https://gitlab.haskell.org//ghc/ghc/issues/10056): Remove the magic from parsing `~`. Some open design questions.
 
 **Medium**
 
