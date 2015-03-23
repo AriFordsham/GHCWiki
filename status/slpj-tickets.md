@@ -25,6 +25,8 @@
 
 ## Front end
 
+- [\#10183](https://gitlab.haskell.org//ghc/ghc/issues/10183): warning for redundant constraints, and pattern-match overlap warnings
+- [\#10179](https://gitlab.haskell.org//ghc/ghc/issues/10179): displaying kinds
 - [\#10089](https://gitlab.haskell.org//ghc/ghc/issues/10089): better warnings for unused data types (involves instances)
 - [\#8581](https://gitlab.haskell.org//ghc/ghc/issues/8581): bidirectional pattern synonyms (with different constraints)
 - [\#10027](https://gitlab.haskell.org//ghc/ghc/issues/10027): export behaviour for data families
@@ -48,6 +50,7 @@
 
 ## Type families, roles, and `Coercible`
 
+- [\#10184](https://gitlab.haskell.org//ghc/ghc/issues/10184),[\#10185](https://gitlab.haskell.org//ghc/ghc/issues/10185): incompleteness in `Coercible` solver
 - [\#8165](https://gitlab.haskell.org//ghc/ghc/issues/8165): GND for classes with associated types
 - [\#10075](https://gitlab.haskell.org//ghc/ghc/issues/10075): `Constraint` vs `*`
 - [\#10056](https://gitlab.haskell.org//ghc/ghc/issues/10056): more systematic treatment of `(~)` in parser and renamer 
