@@ -50,7 +50,7 @@
 
 ## Type families, roles, and `Coercible`
 
-- [\#10185](https://gitlab.haskell.org//ghc/ghc/issues/10185): incompleteness in `Coercible` solver
+- [\#10184](https://gitlab.haskell.org//ghc/ghc/issues/10184),[\#10185](https://gitlab.haskell.org//ghc/ghc/issues/10185): incompleteness in `Coercible` solver
 - [\#8165](https://gitlab.haskell.org//ghc/ghc/issues/8165): GND for classes with associated types
 - [\#10075](https://gitlab.haskell.org//ghc/ghc/issues/10075): `Constraint` vs `*`
 - [\#10056](https://gitlab.haskell.org//ghc/ghc/issues/10056): more systematic treatment of `(~)` in parser and renamer 
