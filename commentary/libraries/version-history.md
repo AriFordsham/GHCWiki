@@ -5,7 +5,7 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 
 <table><tr><th></th>
 <th>**HEAD**</th>
-<th>**7.10.0.20141222**</th>
+<th>**7.10.1**</th>
 <th>**7.8.4**</th>
 <th>**7.8.3**</th>
 <th>**7.8.2**</th>
@@ -22,7 +22,7 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th>**7.0.2**</th>
 <th>**7.0.1**</th></tr>
 <tr><th>`Cabal`</th>
-<th>  1.22.0.0  </th>
+<th>  1.22.2.0  </th>
 <th>  1.18.1.5  </th>
 <th>  1.18.1.3  </th>
 <th>  1.16.0  </th>
@@ -41,6 +41,7 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th></th>
 <th></th></tr>
 <tr><th>`Win32`</th>
+<th>  2.3.1.0  </th>
 <th>  2.3.0.2  </th>
 <th>  2.3.0.0  </th>
 <th>  2.2.2.0  </th>
@@ -57,10 +58,9 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th></th>
 <th></th>
 <th></th>
-<th></th>
 <th></th></tr>
 <tr><th>`array`</th>
-<th>  0.5.0.1  </th>
+<th>  0.5.1.0  </th>
 <th>  0.5.0.0  </th>
 <th>  0.4.0.1  </th>
 <th>  0.4.0.0  </th>
@@ -79,6 +79,7 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th></th>
 <th></th></tr>
 <tr><th>`base`</th>
+<th>  4.8.1.0  </th>
 <th>  4.8.0.0  </th>
 <th>  4.7.0.2  </th>
 <th>  4.7.0.1  </th>
@@ -92,7 +93,6 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th>  4.3.1.0  </th>
 <th>  4.3.0.0  
 </th>
-<th></th>
 <th></th>
 <th></th>
 <th></th>
@@ -117,7 +117,7 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th></th>
 <th></th></tr>
 <tr><th>`binary`</th>
-<th>  0.7.2.3  </th>
+<th>  0.7.3.0  </th>
 <th>  0.7.1.0  </th>
 <th>  0.5.1.1  </th>
 <th>  0.5.1.0  </th>
@@ -173,7 +173,7 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th></th>
 <th></th></tr>
 <tr><th>`deepseq`</th>
-<th>  1.4.0.0  </th>
+<th>  1.4.1.1  </th>
 <th>  1.3.0.2  </th>
 <th>  1.3.0.1  </th>
 <th>  1.3.0.0  </th>
@@ -191,7 +191,7 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th></th>
 <th></th></tr>
 <tr><th>`directory`</th>
-<th>  1.2.1.1  </th>
+<th>  1.2.2.0  </th>
 <th>  1.2.1.0  </th>
 <th>  1.2.0.1  </th>
 <th>  1.2.0.0  </th>
@@ -248,7 +248,7 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th></th>
 <th></th></tr>
 <tr><th>`filepath`</th>
-<th>  1.3.1.0  </th>
+<th>  1.4.0.0  </th>
 <th>  1.3.0.2  </th>
 <th>  1.3.0.1  </th>
 <th>  1.3.0.0  </th>
@@ -267,8 +267,8 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th></th>
 <th></th></tr>
 <tr><th>`ghc`</th>
-<th>  7.11.20141225\*  </th>
-<th>  7.10.0.20141222\*  </th>
+<th>  7.11.20150324\*  </th>
+<th>  7.10.1\*  </th>
 <th>  7.8.4\*  </th>
 <th>  7.8.3\*  </th>
 <th>  7.8.2\*  </th>
@@ -305,6 +305,7 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th></th>
 <th></th></tr>
 <tr><th>`ghc-prim`</th>
+<th>  0.4.0.0  </th>
 <th>  0.3.1.0  </th>
 <th>  0.3.0.0  </th>
 <th>  0.2.0.0  
@@ -321,10 +322,9 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th></th>
 <th></th>
 <th></th>
-<th></th>
 <th></th></tr>
 <tr><th>`haskeline`</th>
-<th>  0.7.2.0  </th>
+<th>  0.7.2.1  </th>
 <th>  0.7.1.2  </th>
 <th>*none*</th>
 <th></th>
@@ -474,7 +474,7 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th></th>
 <th></th></tr>
 <tr><th>`pretty`</th>
-<th>  1.1.1.3  </th>
+<th>  1.1.2.0  </th>
 <th>  1.1.1.1  </th>
 <th>  1.1.1.0  </th>
 <th>  1.1.0.0  </th>
@@ -493,7 +493,7 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th></th>
 <th></th></tr>
 <tr><th>`process`</th>
-<th>  1.2.1.0  </th>
+<th>  1.2.3.0  </th>
 <th>  1.2.0.0  </th>
 <th>  1.1.0.2  </th>
 <th>  1.1.0.1  </th>
@@ -662,7 +662,7 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th></th></tr>
 <tr><th></th>
 <th>**HEAD**</th>
-<th>**7.10.0.20141222**</th>
+<th>**7.10.1**</th>
 <th>**7.8.4**</th>
 <th>**7.8.3**</th>
 <th>**7.8.2**</th>
