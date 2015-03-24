@@ -20,7 +20,7 @@ https://ghc.haskell.org/trac/ghc/wiki/Migration/7.12
 
 === merge/patch/upstream
 
-[[TicketQuery(milestone=7.12.1,status=merge|patch|upstream,format=table,col=type|summary|priority|owner,group=status,order=priority)]]
+[[TicketQuery(milestone=7.12.1,status=merge|patch|upstream,format=table,col=type|summary|priority|differential|owner,group=status,order=priority)]]
 
 === new
 
