@@ -143,6 +143,13 @@ $(eval $(call bindist,utils/hpc,ghc.mk))
 ```
 
 
+You also need to modify the top-level `ghc.mk` file and add a `BUILD_DIRS` entry for your new program:
+
+```wiki
+BUILD_DIRS += utils/hpc
+```
+
+
 This is all that is necessary to build and install a program.  Taking each of these lines in turn:
 
 ```wiki
