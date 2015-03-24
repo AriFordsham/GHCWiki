@@ -17,3 +17,11 @@ When the top level '''make''' includes all these `ghc.mk` files, it will see tha
 Other standard targets such as `clean`, `install`, and so on use the same technique.  There are pre-canned macros to define your "all" and "clean" targets, take a look in `rules/all-target.mk` and `rules/clean-target.mk`.
 
 These targets also work for the libraries, eg `make all_libraries/ghc-prim_dist-install`.  This target is parsed as make `all` in `libraries/ghc-prim` for the `dist-install` build. Some libraries also have a `dist-boot` build.
+
+In order for `make` to be able to find your new directory and apply the rules to it you need to add it to the `BUILD_DIRS` list in the top-level `ghc.mk`:
+
+{{{
+BUILD_DIRS += rts
+}}}
+
+Without this entry calling '''make''' will not allow it to find a `target` for the new entry.
