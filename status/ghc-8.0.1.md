@@ -5,6 +5,17 @@
 
 See milestone:7.12.1 and [ Active tickets](https://ghc.haskell.org/trac/ghc/query?status=infoneeded&status=merge&status=new&status=patch&group=status&milestone=7.12.1) for more.
 
+## Tentative release highlights
+
+- An [Improved LLVM Backend](improved-llvm-backend) that ships with every major Tier 1 platform.
+- Improved [DWARF based debugging support](dwarf) from Peter Wortmann & Arash Rouhani, with e.g. LLVM support and Haskell backtraces from Haskell code.
+- Support for [Applicative Do](applicative-do), allowing GHC to desugar do-notation to `Applicative` where possible.
+- Support for [Injective Type Families](injective-type-families), which allows you to specify type families which are injective, i.e. a one-to-one relationship.
+- Support for [implicit parameters providing callstacks/source locations](explicit-call-stack/implicit-locations), allowing you to have a light-weight means of getting a call-stack in a Haskell application.
+- Support for **Type Signature Sections**, allowing you to write `(:: ty)` as a shorthand for `(\x -> x :: ty)`.
+- A huge improvement to pattern matching (including much better coverage of GADTs), based on the work of Simon PJ and Georgios Karachalias. For more details, see [ their paper](http://research.microsoft.com/en-us/um/people/simonpj/papers/pattern-matching/gadtpm.pdf).
+- A (possible) overhaul of GHC's build system to use **Shake** instead of Make.
+
 ## Migration Guide to 7.12
 
 FIXME Write the migration guide.
