@@ -16,4 +16,14 @@ https://ghc.haskell.org/trac/ghc/wiki/Migration/7.12
 
 == Tickets slated for 7.12.1
 
-[[TicketQuery(milestone=7.12.1,status!=closed,format=table,col=type|summary|priority|owner,group=status,order=priority)]]
+=== merge/patch/upstream
+
+[[TicketQuery(milestone=7.12.1,status=merge|patch|upstream,format=table,col=type|summary|priority|owner,group=status,order=priority)]]
+
+=== new
+
+[[TicketQuery(milestone=7.12.1,status=new,format=table,col=type|summary|priority|owner,group=status,order=priority)]]
+
+=== infoneeded
+
+[[TicketQuery(milestone=7.12.1,status=infoneeded,format=table,col=type|summary|priority|owner,group=status,order=priority)]]
