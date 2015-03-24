@@ -15,3 +15,6 @@ variable `utils/hsc2hs_dist_HS_SRCS` ('''make''' doesn't mind slashes in variabl
 names).  The pattern is: ''directory''_''distdir''_''variable''.
 
 See also [wiki:Building/Architecture/Idiom/Macros Idiom: macros] where many applications of this naming idiom are necessary.
+
+== Variables affecting compilation
+The file [[GhcFile(rules/distdir-way-opts.mk)]] contains a list of the variables affecting compilation, such as `$1_$2_HC_OPTS` and `$1_$2_MORE_HC_OPTS`.

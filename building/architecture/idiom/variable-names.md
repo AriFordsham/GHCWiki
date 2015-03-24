@@ -16,3 +16,8 @@ names).  The pattern is: *directory*_*distdir*_*variable*.
 
 
 See also [Idiom: macros](building/architecture/idiom/macros) where many applications of this naming idiom are necessary.
+
+## Variables affecting compilation
+
+
+The file [rules/distdir-way-opts.mk](/trac/ghc/browser/ghc/rules/distdir-way-opts.mk) contains a list of the variables affecting compilation, such as `$1_$2_HC_OPTS` and `$1_$2_MORE_HC_OPTS`.
