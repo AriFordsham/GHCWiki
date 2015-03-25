@@ -2,7 +2,7 @@
 
 
 This wiki page documents the design and
-implementation of the GHC extension for overloading Haskell's list notation.
+implementation of the GHC extension for overloading Haskell's list notation (added in GHC 7.8).
 
 ## Current Implementation
 
