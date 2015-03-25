@@ -3,7 +3,7 @@
 [Basic view patterns](#Basicviewpatterns)[Semantics](#Semantics)[Examples](#Examples)[Further Syntactic Extensions](#FurtherSyntacticExtensions)[Implicit Maybe](#ImplicitMaybe)[Implicit View Functions](#ImplicitViewFunctions)[Compilation](#Compilation)[Features views can have](#Featuresviewscanhave)[Related work](#Relatedwork)
 
 
-This page has been revised to reflect what we've implemented.  
+This page has been revised to reflect what we've implemented in GHC (since 6.10).  
 
 - For the previous discussion, see [ViewPatternsArchive](view-patterns-archive).
 - For an assessment of view patterns in practice, see [ Neil Mitchell's blog entry](http://neilmitchell.blogspot.com/2009/11/reviewing-view-patterns.html)
