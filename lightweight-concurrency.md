@@ -550,3 +550,4 @@ Thus, except for resume tokens, asynchronous exceptions are transparently handle
 - [ Lightweight Concurrent Primitives for GHC](http://community.haskell.org/~simonmar/papers/conc-substrate.pdf)
 - [ Tackling the awkward squad](http://research.microsoft.com/en-us/um/people/simonpj/papers/marktoberdorf/)
 - [ Runtime Support for Multicore Haskell](http://community.haskell.org/~simonmar/papers/multicore-ghc.pdf)
+- [ Composable Scheduler Activations for Haskell](http://kcsrk.info/papers/schedact_jfp15.pdf)
