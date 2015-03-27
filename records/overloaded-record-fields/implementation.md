@@ -138,6 +138,8 @@ The renamer (`rnHsRecFields`) supplies `Left sel_name` for the selector if it is
 
 1. Use the type signature of the record expression, if it exists and is a `TyConApp`.
 
+TODO it would be nice if we could enforce in the types that ambiguous fields occur only in record updates, and only between the renamer and the typechecker. However, this would require yet more refactoring.
+
 ## Deprecated field names
 
 
