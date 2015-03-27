@@ -177,7 +177,7 @@ data Integer
 Please note that the new representation is now '''stricter regarding internal invariants''' (note the if-and-only-ifs `iff`s in the comments above). For more details, see
 
  - wiki:Design/IntegerGmp2 and
- - [hackage:integer-gmp-1.0.0.0/candidate/docs/GHC-Integer-GMP-Internals.html GHC.Integer.GMP.Internals's Haddock]
+ - [hackage:integer-gmp-1.0.0.0/docs/GHC-Integer-GMP-Internals.html GHC.Integer.GMP.Internals's Haddock]
 
 === `template-haskell-2.10.0.0`
 
