@@ -13,7 +13,7 @@ Following the 2015 redesign, we have three separate components to implement, whi
 - the `HasField` and `FieldUpdate` typeclasses, with special-purpose constraint solving behaviour, which do not require a language extension.
 
 
-As of March 2015, work is progressing on the implementation, and Part 1 (the simplified `OverloadedRecordFields` extension) is nearly complete. Once it is ready, a Phab diff will be opened for review, then parts 2 and 3 will be worked on. Note that all the parts are useful in isolation.
+As of March 2015, work is progressing on the implementation. Part 1 (the simplified `OverloadedRecordFields` extension) is available at [ Phab:D761](https://phabricator.haskell.org/D761) to be reviewed and merged. Parts 2 and 3 will then be implemented. Note that all the parts are useful in isolation.
 
 # 1. The `OverloadedRecordFields` extension
 
