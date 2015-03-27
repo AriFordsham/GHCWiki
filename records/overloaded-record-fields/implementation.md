@@ -182,6 +182,12 @@ We could mangle selector names (using `$sel:foo:T` instead of `foo`) even when t
 - Trouble with deriving instances in GHC.Generics (makes up un-renamed syntax using field `RdrName`s)
 - Boot files that export record selectors not working
 
+
+Note that Template Haskell will see the mangled selector names instead of the original field labels, when looking at a datatype declared in a module with `OverloadedRecordFields` enabled. This isn't ideal - should we change the TH representation type so it can get access to both the label and selector?
+
+
+In the new design, we could perhaps consider only mangling selector names when there is actually a name conflict, but this has not been investigated in any detail.
+
 ## GHC API changes
 
 - The `minf_exports` field of `ModuleInfo` is now of type `[AvailInfo]` rather than `NameSet`, as this provides accurate export information. An extra function `modInfoExportsWithSelectors` gives a list of the exported names including overloaded record selectors (whereas `modInfoExports` includes only non-mangled selectors).
