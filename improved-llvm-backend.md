@@ -17,6 +17,9 @@ LLVM as a toolchain has very few guarantees about backwards compatibility (a lot
 
 This also means that when the semantics of LLVM's IR change, they often change in ways that manifest horribly for users. For example, see [\#9142](https://gitlab.haskell.org//ghc/ghc/issues/9142) (and [ Phab:D155](https://phabricator.haskell.org/D155)), in which the semantics of LLVM aliases changed, completely breaking compatibility with LLVM 3.4 and later (although the ticket mentions 3.5.0). Furthermore, due to the lack of synchronization between LLVM and GHC release cycles, things often break 'mid way' into the lifetime of a stable release, causing more complications.
 
+
+One solution might be to make GHC work with one specific version of LLVM, eg llvm-3.6. Debian and Ubuntu already ship version specific LLVM packages allowing say llvm-3.4 and llvm-3.6 to be installed at the same time and providing versioned binaries like `llc-3.4` and `llc-3.6`.
+
 ## We can't teach LLVM new things
 
 
@@ -33,7 +36,7 @@ However, due to lack of API guarantees mentioned above, it becomes difficult to 
 
 The current design of the way LLVM is invoked is suboptimal. Briefly speaking, we mostly look inside a users `$PATH`, find two executables (`opt` and `llc`), and call out to them. Unfortunately this has a number of downsides:
 
-- We have to support any end user version, meaning we have to parse output and fiddle with the tool to understand what features it has.
+- We have to support any end user version, meaning we have to parse output and fiddle with the tool to understand what features it has. This can be mostly alleviated by searching for specific versions of these tools (eg `llc-X.Y` and `opt-X.Y`) as implemented in [\#10170](https://gitlab.haskell.org//ghc/ghc/issues/10170).
 - Similarly, we have to special case or blacklist some versions due to support differences.
 - It is generally impossible to know what you're working with.
 
@@ -66,7 +69,7 @@ Certain things like dynamically shared objects or `-split-objs` support are tota
 The root of all these problems is *GHC has no control over the LLVM tools it may use*.
 
 
-The solution is simple: we ship and fix a version of LLVM for GHC, and release it with platforms like the binary distribution. These tools will be isolated and easily downloadable for users to test with, or developers to use. And note: we *only* need `opt` and `llc`, so the distributions can be tiny.
+The solution is simple: we ship and fix a version of LLVM for GHC, and release it with platforms like the binary distribution. These tools will be isolated and easily downloadable for users to test with, or developers to use. And note: we *only* need `opt-X.Y` and `llc-X.Y`, so the distributions can be tiny.
 
 
 This has a number of advantages:
@@ -81,7 +84,7 @@ This has a number of advantages:
 
 Briefly, there are a few major things to fix in order to do all this:
 
-1. We need to **fix compatibility with recent LLVM versions**. This really sucks for users. **Ben Gamari** is working on this, see [\#9142](https://gitlab.haskell.org//ghc/ghc/issues/9142) and [ Phab:D155](https://phabricator.haskell.org/D155)
+1. We need to **fix compatibility with recent LLVM versions**. This really sucks for users. **Ben Gamari** made git HEAD work with llvm-3.6 only ([\#10074](https://gitlab.haskell.org//ghc/ghc/issues/10074)) and **Erik de Castro Lopo** added version specific detection of the LLVM tools in ([\#10170](https://gitlab.haskell.org//ghc/ghc/issues/10170)) which also separates the llvm version used by the bootstrap compiler and the one used by the compiler about to be built.
 1. We need to fix up the LLVM IR generation in GHC, and fix the compiler driver to invoke the tools with a better set of optimizations. **Nathan Howell** has been wrangled into looking into this.
 1. We need to ship a pre-built version of LLVM for developers and users, and put them in binary distributions for major platforms. Source code will also be available for less commonly used architectures and can be built using a special configure option. **Austin Seipp** could handle this.
 1. We can fix other bugs, like LLVM `-split-obj` support, which opens the way to shipping GHC with LLVM-optimized base libraries. **Reid Barton** expressed some interest in this.
