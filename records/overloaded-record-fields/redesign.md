@@ -32,7 +32,7 @@ For each field in each record datatype, regardless of whether the extension is e
 
 Bare uses of the field refer only to the selector function, and work only if this is unambiguous.  Thus, in the above example `name :: Person -> String` but bare use of `personId` leads to a name resolution error.  This means that turning on `OverloadedRecordFields` for an existing module is a conservative extension: since the module can have no duplicate field names, everything still works.  Moreover, changes to GHC's renamer should be minimal.  In addition, uses of fields that are always unambiguous (because they mention the constructor, e.g. construction and pattern-matching) may freely use duplicated names.
 
-**Design question**: an alternative is that when `OverloadedRecordFields` is turned on, we do not get even unambiguous selector functions at the top level. Would that be preferable?
+**Design question**: just like for record updates, we could disambiguate record selectors using bidirectional type inference. This would mean deferring some more name resolution to the typechecker, but we would get even more power out of `OverloadedRecordFields` without type system extensions. Would this be worthwhile?
 
 
 We propose *no change whatsoever to how Haskell 98 records are constructed* (e.g. `MkT { x = 3, y = True }`). Moreover, we propose *no change to how records are updated*, which remains monomorphic (e.g. `t { y = False }`).  If there are many `y` fields in scope, the type of `t` must fix which one is intended.  This is a soft spot, but there is really no way around it because Haskell's type-changing update requires modifying multiple fields simultaneously.
@@ -101,6 +101,8 @@ Notice that implicit values might be useful for all sorts of things that are not
 
 
 User code can never (usefully) call `iv` (or `ip`) directly, because without explicit type application there is no way to fix `x`.
+
+**Bikeshedding**: perhaps `OverloadedLabels` or `OverloadedSymbols` would be a better name than `ImplicitValues`? The connection to implicit parameters is nice from an implementation point of view, but I'm not sure how relevant it is to users, and the behaviour is rather more like a souped-up `OverloadedStrings`.
 
 ### Overloaded record fields
 
