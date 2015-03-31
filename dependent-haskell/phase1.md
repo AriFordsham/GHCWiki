@@ -5,6 +5,76 @@ This page is a discussion of the implementation of kind equalities in GHC. It is
 
 ## Points of interest
 
+### `TyVar` --\> `TyCoVar`
+
+
+In many functions and datatypes throughout GHC, I changed names including
+`TyVar` to names include `TyCoVar`. These functions/types now may contain
+coercion variables as well as type variables. The name change does two
+things: it calls my attention to these functions when something changes
+during a merge, and the new name reminds me (and, potentially, others
+someday) to handle both type variables and coercion variables.
+
+### All coercion variables are Pi-bound
+
+
+What is the type of `\ (c :: Int ~# Bool). 5 |> c`? In theory, it could be
+`(Int ~# Bool) -> Bool` or `forall (c :: Int ~# Bool). Bool`. I always choose
+the latter, to make `exprType` sane. That `forall` should really be spelled `pi`.
+
+### Kind equalities and data constructors
+
+**Universal variables are type variables; existentials might be coercion variables**
+
+
+A type constructor's type variables are just that: they are sure to be proper
+type variables. There doesn't seem to be anything wrong, in theory, with including
+coercion variables here, but there also doesn't seem to be a need. However,
+a data constructor's *existential* variables might be coercions. Indeed,
+this is how all GADTs are currently encoded. For example:
+
+```wiki
+data G1 a where
+  MkG1 :: Int -> G1 Bool
+data G2 (a :: k) where
+  MkG2 :: Char -> G2 Double
+```
+
+
+The rejigged types look like this:
+
+```wiki
+MkG1 :: forall (a :: *). forall (gadt :: a ~# Bool). Int -> G1 a
+MkG2 :: forall (k :: *) (a :: k).
+        forall (gadt1 :: k ~# *) (gadt2 :: a |> gadt1 ~# Double).
+        Char -> G2 k a
+```
+
+
+Thus, a `TyCon` can have coercion-variable arguments, but only if that
+`TyCon` is really a promoted datacon.
+
+**Separation between dependent and non-dependent equalities**
+
+
+Various bits of code refer to dependent vs. non-dependent equalities. A "dependent
+equality" is a coercion that is used in a type; a non-dependent equality is not
+used in a type. At one point, I was thinking that a GADT datacon should be careful
+to distinguish between dependent equalities and non-dependent ones. That way,
+we could defer type errors for non-dependent equalities by using a lifted coercion
+instead of an unlifted one there. But, now I think everything should just use
+unlifted equality and that we should remove this distinction. Bottom line: don't
+worry about this too much.
+
+**GADT coercions are now existential variables**
+
+
+In accordance with the two points above, all GADT-induced coercions are now considered
+existential variables. This causes a little work around datacon signatures, because
+a signature includes a separate field for existential variables as it does for GADT
+equalities. This could be cleaned up somewhat, now that I've decided that all GADT
+equalities really should be existentials.
+
 ### `tryTcS` is now really pure
 
 
@@ -54,3 +124,9 @@ Somewhere along the way (I think in wildcard implementation?), an `instance Eq T
 Once upon a time, I embarked on a mission to reduce imports of `TyCoRep`, instead aiming to export functions to make exposing `Type`'s innards unnecessary. This effort became `analyzeType` and `mapType`, both in `Type.hs`. `mapType` is a clear win, removing gobs of zonking code and making a relatively clean interface. See simplifications in TcHsSyn and TcMType. It's not clear if `analyzeType` is paying its weight though. I could easily undo this change.
 
 ## Tasks
+
+- Fully remove non-dependent GADT equalities.
+
+- Try to restore optimizations in zonking.
+
+- Check kind variables when determining whether or not a declaration has a CUSK.
