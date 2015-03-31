@@ -22,6 +22,57 @@ What is the type of `\ (c :: Int ~# Bool). 5 |> c`? In theory, it could be
 `(Int ~# Bool) -> Bool` or `forall (c :: Int ~# Bool). Bool`. I always choose
 the latter, to make `exprType` sane. That `forall` should really be spelled `pi`.
 
+### `Binder`
+
+`Type` now has merged `FunTy` and `ForAllTy`. Here is the declaration for the
+new `ForAllTy`:
+
+```wiki
+  | ForAllTy Binder Type   -- ^ A Π type.
+```
+
+
+with
+
+```wiki
+-- | A 'Binder' represents an argument to a function. Binders can be dependent
+-- ('Named') or nondependent ('Anon'). They may also be visible or not.
+data Binder
+  = Named Var VisibilityFlag
+  | Anon Type   -- visibility is determined by the type (Constraint vs. *)
+```
+
+
+The `Binder` type is meant to be abstract throughout the codebase. The only substantive difference between the combined `ForAllTy` and the separate `FunTy`/`ForAllTy` is that we now store visibility information. This allows use to distinguish between, for example
+
+```wiki
+data Proxy1 (a :: k) = P1
+```
+
+
+and
+
+```wiki
+data Proxy2 k (a :: k) = P2
+```
+
+`Proxy1`'s kind argument is `Invisible` and `Proxy2`'s is `Visible`.
+
+
+Currently, any `Named``ForAllTy`s classifying *terms* are all `Invisible`.
+
+
+This design change has a number of knock-on effects. In particular, `splitForAllTys` now splits regular functions, too. In some cases, this actually simplified code. In others, the code had to use the new `splitNamedForAllTys`, which is equivalent to the old `splitForAllTys`.
+
+
+Another knock-on effect is that `mkForAllTy` now takes a `Binder`. To make this easier for callers, there is a new `mkInvForAllTy :: TyCoVar -> Type -> Type` which makes a `Named`, `Invisible``Binder` for the `ForAllTy`.
+
+
+In general, I've been happy with this new design. In some preliminary work toward Pi, `Binder` has added a few more bits, making this redesign even better going forward.
+
+
+Previously, we've thought about adding visibility information to the anonymous case. I still think this is a good idea. I just haven't done it yet.
+
 ### Kind equalities and data constructors
 
 **Universal variables are type variables; existentials might be coercion variables**
@@ -112,6 +163,14 @@ I have not yet re-examined to see if there is a way to restore this behavior. Th
 
 
 In Simon's refactoring in fall 2014, the `MaybeNew` type disappeared from the solver infrastructure. I found this type useful, so I brought it back. It seemed like a better way to structure my algorithm than working without it.
+
+### Lots more "`OrCoVar`" functions in `Id` module
+
+
+A `CoVar` is now a distinct flavour of an `Id`, with its own `IdDetails`. This is necessary because we often want to see -- quickly -- whether or not a var is a covar. However, there are many places in the code that creates an `Id`, without really knowing if the `Id` should be a plain old `Id` or really a `CoVar`. There are also a bunch of places where we're sure it's really not a `CoVar`. The `OrCoVar` functions allow call sites to distinguish when the `CoVar`-check (done by looking at a var's type) should be made. This is not just an optimization: in one obscure scenario (in the simplifier, if I recall), the type is actually a panic.
+
+
+This could stand some cleaning up, but it was hard for me to figure out when we're sure an `Id` isn't a `CoVar`.
 
 ### No more `instance Eq Type`
 
