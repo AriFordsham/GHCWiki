@@ -58,7 +58,7 @@ git submodule update --init
 A commonly defined Git alias that combines the two commands into one convenient Git alias is:
 
 ```
-git config --global alias.pullall '!f(){ git pull "$@" && git submodule update --init --recursive; }; f'
+git config --global alias.pullall '!f(){ git pull --ff-only "$@" && git submodule update --init --recursive; }; f'
 ```
 
 
