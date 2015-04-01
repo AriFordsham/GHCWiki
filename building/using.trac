@@ -296,7 +296,7 @@ take a look in [[GhcFile(mk/config.mk.in)]].
   simple, BSD-licensed Haskell implementation will be used instead.
 
  `BUILD_DPH`::
-  (default: `YES`)
+  (default: `NO`)
   Enable building of DPH libraries
 
 ==== How to make GHC build quickly ====
@@ -320,7 +320,6 @@ GhcStage2HcOpts = -O0 -DDEBUG -Wall
 GhcLibHcOpts    = -O -fasm -XGenerics
 GhcLibWays      = v
 SplitObjs       = NO
-BUILD_DPH       = NO
 }}}
 
 What do these options do?
