@@ -302,7 +302,7 @@ Options added when compiling the stage 3 GHC.
 
 <table><tr><th>`GhcLibHcOpts`</th>
 <td>
-(default: `-O2 -XGenerics`)
+(default: `-O2`)
 
 Options added when compiling the libraries.
 </td></tr></table>
@@ -396,7 +396,7 @@ Here are the `build.mk` settings that we use to build fast:
 SRC_HC_OPTS     = -H32m -O -fasm
 GhcStage1HcOpts = -O -fasm
 GhcStage2HcOpts = -O0 -DDEBUG -Wall
-GhcLibHcOpts    = -O -fasm -XGenerics
+GhcLibHcOpts    = -O -fasm
 GhcLibWays      = v
 SplitObjs       = NO
 ```
@@ -433,14 +433,11 @@ the compiler about 30% slower.
 with `-Wall`.
 </td></tr></table>
 
-<table><tr><th>`GhcLibHcOpts = -O -fasm -XGenerics`</th>
+<table><tr><th>`GhcLibHcOpts = -O -fasm`</th>
 <td>
 You almost certainly want optimisation *on* when building
 libraries, otherwise the code you build with this compiler
-goes really slowly.  `-XGenerics` adds generics support to the
-libraries - you can turn this off if you like (it'll make the
-libraries a bit smaller), but you won't be able to use Generics in
-the code you build against these libraries.
+goes really slowly.
 </td></tr></table>
 
 <table><tr><th>`GhcLibWays = v`</th>
