@@ -277,6 +277,8 @@ Options added when compiling GHC (all
 [stages](building/architecture/idiom/stages))
 </td></tr></table>
 
+> `-Rghc-timing` prints out a line of timing info about each compilation. It is not set when `V=0`, but handy to keep an eye on otherwise. 
+
 <table><tr><th>`GhcStage1HcOpts`</th>
 <td>
 (default: *empty*)
@@ -391,7 +393,7 @@ Here are the `build.mk` settings that we use to build fast:
 
 ```wiki
 # My build settings for hacking on stage 2
-SRC_HC_OPTS     = -H32m -O -fasm -Rghc-timing
+SRC_HC_OPTS     = -H32m -O -fasm
 GhcStage1HcOpts = -O -fasm
 GhcStage2HcOpts = -O0 -DDEBUG -Wall
 GhcLibHcOpts    = -O -fasm -XGenerics
@@ -402,13 +404,11 @@ SplitObjs       = NO
 
 What do these options do?
 
-<table><tr><th>`SRC_HC_OPTS = -H32m -O -fasm -Rghc-timing`</th>
+<table><tr><th>`SRC_HC_OPTS = -H32m -O -fasm`</th>
 <td>
 These options are added to the command line for all Haskell
 compilations.  We turn on `-fasm`, because that halves compilation
-time at the expense of a few percent performance. `-Rghc-timing`
-prints out a line of timing info about each compilation.  It's handy
-to keep an eye on.
+time at the expense of a few percent performance.
 </td></tr></table>
 
 <table><tr><th>`GhcStage1HcOpts = -O -fasm`</th>
