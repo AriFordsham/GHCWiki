@@ -21,6 +21,9 @@ $ cd array/should_run
 $ make accept
 ```
 
+`make accept` does not change the expected output of tests that are
+marked as `expect_broken` or `expect_broken_for`. 
+
 ## Performance tests
 
 
