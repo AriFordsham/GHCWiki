@@ -2,6 +2,37 @@
 
 This page is a discussion of the implementation of kind equalities in GHC. It is meant as a guide to the interesting bits.
 
+== The new type system ==
+
+The new type system adheres rather closely to what is proposed in the original "FC with Kind Equality" paper, available [http://www.cis.upenn.edu/~eir/papers/2013/fckinds/fckinds-extended.pdf here], with the addition of NoSubKinds. The type system, as implemented, is in the [https://github.com/goldfirere/ghc/raw/nokinds/docs/core-spec/core-spec.pdf Core Specification] document. Here are the highlights of the changes:
+
+* Two new constructors for `Type`: `CastTy :: Type -> Coercion -> Type` (which performs a kind cast) and `CoercionTy :: Coercion -> Type` which embeds coercions into types. The former eliminates kind coercions (that's the whole point of this change!) and the latter allows for the promotion of GADT data constructors, which will promote to a type taking a coercion argument.
+
+* Forall-coercions now take a `ForAllCoBndr`:
+{{{
+data ForAllCoBndr = ForAllCoBndr Coercion TyCoVar TyCoVar (Maybe CoVar)
+}}}
+  Suppose `g :: forall a1:k1.t1 ~ forall a2:k2.t2`. Unlike previously, `k1` and `k2` can be different. This necessitates storing both `a1` and `a2` in the forall-coercion. The `Coercion` datum is a proof that `k1 ~ k2`, and the `Maybe CoVar` proves that `a1 ~ a2`, when `a1` and `a2` are type variables. (When they're coercion variables, we can just use proof-irrelevance, described below.)
+
+* New coercion forms: `CoherenceCo` (which proves equality between a type and that type with a cast on it) and `KindCo` (which extracts a kind coercion from a heterogeneous type coercion).
+
+* `UnivCo` provenances are now a datatype instead of a string:
+{{{
+data UnivCoProvenance
+  = UnsafeCoerceProv   -- ^ From @unsafeCoerce#@
+  | PhantomProv        -- ^ From the need to create a phantom coercion;
+                       --   the UnivCo must be Phantom.
+  | ProofIrrelProv     -- ^ From the fact that any two coercions are
+                       --   considered equivalent
+}}}
+  A `ProofIrrelProv` `UnivCo` requires that the two types in the `UnivCo` are both just coercions. Proofs are irrelevant in FC. A `PhantomProv` `UnivCo` requires that the role of the `UnivCo` be `Phantom`. These checks are part of !CoreLint.
+
+* NoSubKinds.
+
+* Roles on kind coercions, as described in my recent ICFP submission [http://www.cis.upenn.edu/~eir/papers/2015/equalities/equalities-extended.pdf here].
+
+* The new mutual recursion between types and coercions means that !TypeRep has been renamed !TyCoRep. There is also a non-trivial Coercion.hs-boot file.
+
 == Points of interest ==
 
 === `TyVar` --> `TyCoVar` ===
@@ -12,6 +43,8 @@ coercion variables as well as type variables. The name change does two
 things: it calls my attention to these functions when something changes
 during a merge, and the new name reminds me (and, potentially, others
 someday) to handle both type variables and coercion variables.
+
+Similarly, a `TvSubst` without a coercion substitution just doesn't make sense. So, `TvSubst` and `CvSubst` have been combined to `TCvSubst`.
 
 A pervasive effect is that `mkTyVarTy` has been split into `mkOnlyTyVarTy`, which works only on type variables, and `mkTyCoVarTy`, which works on both type and coercion variables. The latter checks what it's given and behaves accordingly.
 
@@ -129,6 +162,41 @@ In HEAD, a datacon worker differs from a datacon wrapper in two distinct ways: t
 `rejigConRes`. The wrapper has the datacon's original type.
 
 This design caused endless headaches for me. (Sadly, I can't recall exactly what the problem was -- something to do with applying kind substitutions to variables. I can easily recall going round and round trying to figure out the right datacon design, though!) So, I changed wrappers to have a rejigged type. (Workers are unchanged.) This was actually a nice simplification in several places -- specifically in GADT record update. The only annoying bit is that we have to be careful to print out the right user-facing type, which is implemented in `DataCon.dataConUserType`.
+
+=== `liftCoSubst` ===
+
+The lifting operation has become subtler. Happily, it is well described in Section 5 of [http://www.cis.upenn.edu/~eir/papers/2013/fckinds/fckinds-extended.pdf this paper]. The actual, implemented, role-aware version of lifting is included in Appendix B of [http://www.cis.upenn.edu/~eir/papers/2015/equalities/equalities-extended.pdf this paper].
+
+=== New `eqType` ===
+
+Is `Int` the same as `Int |> <*>`? In the formalism: no. This is OK, because we have a coercion form (`CoherenceCo`) that proves `Int ~ (Int |> <*>)`. But, in practice, this is very very annoying. It's tempting to write `eqType` simply to ignore casts... but that would be wrong, because it can equate two types with different kinds. So, the solution is to have an "erased equality check" that compares types ignoring coercions, but to use that check on the types in question ''and their kinds''. This is all implemented in `eqType`. The upshot is that two types are equal when they have the same kinds and the types are the same, ignoring coercions. Nice and simple.
+
+There are, of course, wrinkles:
+* We wish to avoid ever comparing coercions. So, I removed `eqCoercion` and replaced it with a check looking at a coercion's type. After all, if two proofs prove the same thing, they should be interchangeable. This change includes a vast simplification to `CoercionMap` in !TrieMap.
+
+* There is a bizarre wrinkle around unification. We want unification to succeed whenever a unifying substitution exists. Take this example:
+
+{{{
+type family Bool2 where
+  Bool2 = Bool
+
+data T :: Bool -> *
+}}}
+
+  Now, we wish to unify `T True` with `a b`, where `a :: Bool2 -> *` and `b :: Bool2`. A solution exists: `[a |-> T |> (sym axBool2 -> *), b |-> True |> sym axBool2]`. But the substitution requires `axBool2`, which isn't mentioned in the input. Figuring out this kind of unification is beyond the scope of the unifier. (It gets even harder to justify with open type families.)
+
+  My solution is to say that `(T |> (axBool2 -> *)) (True |> sym axBool)` is '''not''' equal to `T True`. When doing the erased equality check, we also check the kind of every application argument. Because the kind of `True |> sym axBool` differs from the kind of `True`, the types above differ. With this change, unification is complete. Note that the issue comes up only with `AppTy`s, never `TyConApp`s, because a `TyCon`'s kind is always closed. If there is a difference in the kind of an argument, that difference must show up earlier in a kind argument. See also `Note [Non-trivial definitional equality] in !TyCoRep.
+
+* We need a `TypeMap` now to treat all `eqType` types equally. This takes some work, implemented in !TrieMap.
+
+=== Unboxed tuples are more parameterized ===
+
+Because an unboxed tuple can contain both boxed bits and unboxed bits, it is necessary to parameterize the type and data constructors over levity variables. For example:
+
+{{{
+(#,,#) :: forall (v1 :: Levity) (v2 :: Levity) (v3 :: Levity)
+                 TYPE v1 -> TYPE v2 -> TYPE v3 -> *
+}}}
 
 === Fewer optimizations in zonking ===
 
