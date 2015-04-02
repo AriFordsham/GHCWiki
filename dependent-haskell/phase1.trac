@@ -13,6 +13,8 @@ things: it calls my attention to these functions when something changes
 during a merge, and the new name reminds me (and, potentially, others
 someday) to handle both type variables and coercion variables.
 
+A pervasive effect is that `mkTyVarTy` has been split into `mkOnlyTyVarTy`, which works only on type variables, and `mkTyCoVarTy`, which works on both type and coercion variables. The latter checks what it's given and behaves accordingly.
+
 === All coercion variables are Pi-bound ===
 
 What is the type of `\ (c :: Int ~# Bool). 5 |> c`? In theory, it could be
