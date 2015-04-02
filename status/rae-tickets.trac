@@ -42,6 +42,7 @@
 * #3927: Warnings are broken for GADTs (Dimitrios is working on)
   * #7669: Empty case warnings are broken
 * #8828: Type pattern synonyms
+* #10227: Backward reasoning from closed type families
 
 '''Rocket Science'''
 
