@@ -168,6 +168,11 @@ a signature includes a separate field for existential variables as it does for G
 equalities. This could be cleaned up somewhat, now that I've decided that all GADT
 equalities really should be existentials.
 
+### Parsing is just wrong
+
+
+I've removed the kind parser, in favor of just using the type parser. This is wrong, if only because of the type `*`. See proposed solution [here](dependent-haskell#parsing/namespace-resolution), under "UPDATE".
+
 ### `tryTcS` is now really pure
 
 
@@ -222,6 +227,16 @@ data T :: Bool -> *
 
 - We need a `TypeMap` now to treat all `eqType` types equally. This takes some work, implemented in TrieMap.
 
+### Substitution in the desugarer
+
+
+Solving may produce top-level unlifted coercions. Of course, we can't have top-level unlifted things. So, the desugarer inlines these as it works. This causes *a lot* of line changes, but it's all very straightforward.
+
+### `evBindsCvSubstEnv`
+
+
+There are several scenarios (in particular, in TcTyClsDecls) where we need to extract a coercion substitution from a `Bag EvBind`. This happens when we don't have a convenient place to bind coercion variables.
+
 ### Unboxed tuples are more parameterized
 
 
@@ -231,6 +246,16 @@ Because an unboxed tuple can contain both boxed bits and unboxed bits, it is nec
 (#,,#) :: forall (v1 :: Levity) (v2 :: Levity) (v3 :: Levity)
                  TYPE v1 -> TYPE v2 -> TYPE v3 -> *
 ```
+
+### Renaming in `LHsTyVarBndrs`
+
+
+The salient difference between the two fields of `LHsTyVarBndrs` is no longer that one is kinds and one is types, but how the bits are declared. What was `hsq_kvs` is now `hsq_implicit` (for implicitly-declared) and what was `hsq_tvs` is now `hsq_explicit`.
+
+### Refactoring in `iface/`
+
+
+There's a bunch of changes to the `iface` code, but it's all rather boring.
 
 ### Fewer optimizations in zonking
 
@@ -273,3 +298,7 @@ Once upon a time, I embarked on a mission to reduce imports of `TyCoRep`, instea
 - Try to restore optimizations in zonking.
 
 - Check kind variables when determining whether or not a declaration has a CUSK.
+
+- Sort out the debugger. It's scary, so I've ignored it. Any help/advice appreciated.
+
+- Fix parser.
