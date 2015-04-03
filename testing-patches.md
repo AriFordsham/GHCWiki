@@ -42,7 +42,7 @@ In order to save time while debugging problems revealed by validate, the validat
 
 - **`--no-clean`**:  validate will not clean the tree before starting, so it will continue a previous build. 
 - **`--fast`**:  validate skips the build-a-distribution step, does not build dynamic libraries, and all but the first `way` are skipped. 
-- **`--slow`**: turns on `-DDEBUG` for the stage2 compiler, and runs more tests
+- **`--slow`**: turns on `-DDEBUG` for the stage2 compiler, and runs more tests (except those that call `compiler_stats_num_fields`, those are skipped when debugging is on)
 - **`--testsuite-only`**: then validate will not build the tree at all, but only run the testsuite. This is useful if the problems validate found were only due to the testsuite falling out of sync with the code. 
 
 **Important:** When using either of these flags, be careful that you don't end up pushing patches that have not been properly validated!
