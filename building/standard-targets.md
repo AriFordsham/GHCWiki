@@ -87,5 +87,5 @@ is required, even on non-Windows.
 
 <table><tr><th>`TAGS`, `tags`</th>
 <td>
-Makes files `TAGS` (for emacs) and `tags` (for vim) in the top-level directory.
+Makes files `TAGS` (for emacs) and `tags` (for vim) in the top-level directory. To make Vim happy, use this command to sort them: `LC_COLLATE=C sort tags`.
 </td></tr></table>
