@@ -4,7 +4,7 @@
 This section gives information on how to use the testsuite.
 
 
-The following commands can all be executed simply from the top level directory of the testsuite.
+The following commands can all be executed simply from the `testsuite` directory.
 
 
 To run the full testsuite (slow) against a GHC build in the same source tree:
