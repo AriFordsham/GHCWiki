@@ -33,6 +33,14 @@ data UnivCoProvenance
 
 * The new mutual recursion between types and coercions means that !TypeRep has been renamed !TyCoRep. There is also a non-trivial Coercion.hs-boot file.
 
+== Changes to the typechecker ==
+
+Type-checking types (that is, the functions in !TcHsType) can now emit constraints deferred to the solver. This means that every call of these functions must be in a context that can deal with emitted constraints. For types that appear within expressions, this is automatic. For top-level declarations, though, it was necessary to add calls to `captureConstraints`. This is mostly done via the new function `TcSimplify.solveTopConstraints :: TcM a -> TcM (a, Bag EvBind)` which captures constraints and then solves them. The "top" in there is because there are no givens or skolems.
+
+The resulting `EvBind`s then must be dealt with. However, there is often no place to put them. (For example, consider a `data` declaration.) So, I convert the `EvBind`s to a coercion substitution (see `TcEvidence.evBindsSubst` and `TcEvidence.evBindsCvSubstEnv`) and inline the coercions. This operation doesn't work as expected if the `EvTerm`s in the `EvBind`s can't be converted cleanly to `Coercion`s. (This will happen with superclass equalities and with deferred type errors.) Currently, my implementation just fails in this case, often with an unbound variable during !CoreLint. We obviously need a better story here, but I'm not quite sure of the best approach.
+
+(I am confident that ''some'' solution exists here. As a strawman, it is easy to detect when the `EvTerm` --> `Coercion` conversion fails and we could issue an error. These errors would happen only with superclass equalities and deferred type errors, so they would be predictable and could be reasonably dealt with by programmers. Of course, I'd like to do better, but not having a solution to this particular problem isn't a dire situation.)
+
 == Points of interest ==
 
 === `TyVar` --> `TyCoVar` ===
@@ -102,6 +110,8 @@ Previously, we've thought about adding visibility information to the anonymous c
 The impedance mismatch between `Coercion` and `TcCoercion` has become more painful. This is chiefly because `TcType`s and `Type`s are the same, and `Type`s have `Coercion`s inside, not `TcCoercion`s. Recently, we have injected `Coercion` into `TcCoercion`, and this helped my branch considerably. In particular, this means that many algorithms that previously returned a `TcCoercion` now return a `Coercion`, which is more flexible: `Coercion`s can be used in types or can be easily converted to a `TcCoercion`, if required. (In particular, `TcUnify.uType` now returns a `Coercion`. `unifyType`, the exported function, still returns a `TcCoercion`.)
 
 It is also sometimes necessary to convert a `TcCoercion` into a `Coercion`. This happens in the solver, when the witness of an equality constraint must be used in a type. On the surface, this conversion seems harder, but there's a trick that makes it easy: to convert a `TcCoercion` into a `Coercion`, emit a new bound !EvVar `c` whose value is the `TcCoercion` in question. Then, your `Coercion` is `CoVarCo c`. Works like a charm. See `TcSMonad.dirtyTcCoToCo`. (I actually don't think this trick is all that dirty anymore. It felt wrong at first.)
+
+Due to some eager inlining of coercions, the function `DsBinds.ds_tc_coercion` -- the function that converts a zonked `TcCoercion` to a `Coercion` -- is now `TcEvidence.tcCoercionToCoercion`.
 
 All of this has gotten me thinking: I think we can do away with `TcCoercion`s altogether. The only reason to have `TcCoercion` is to support `TcLetCo`. However, it seems that this can be done with a new `EvLet :: TcEvBinds -> EvTerm -> EvTerm` constructor for `EvTerm`. If a `let` is needed deep within some coercion, just bind a new !EvVar to an `EvLet` and use `CoVarCo`. Getting rid of `TcCoercion` would be a vast simplification, unless I'm missing some critical detail.
 
@@ -280,3 +290,7 @@ Once upon a time, I embarked on a mission to reduce imports of `TyCoRep`, instea
 * Refactor !TcErrors.
 
 * Remove lifted equality predicates from the solver.
+
+* Figure out what to do about superclass equalities.
+
+* Figure out what to do about deferred kind errors.
