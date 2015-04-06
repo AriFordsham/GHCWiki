@@ -39,6 +39,26 @@ The new type system adheres rather closely to what is proposed in the original "
 
 - The new mutual recursion between types and coercions means that TypeRep has been renamed TyCoRep. There is also a non-trivial Coercion.hs-boot file.
 
+## Changes to the typechecker
+
+
+Type-checking types (that is, the functions in TcHsType) can now emit constraints deferred to the solver. This means that every call of these functions must be in a context that can deal with emitted constraints. For types that appear within expressions, this is automatic. For top-level declarations, though, it was necessary to add calls to `captureConstraints`. This is mostly done via the new function `TcSimplify.solveTopConstraints :: TcM a -> TcM (a, Bag EvBind)` which captures constraints and then solves them. The "top" in there is because there are no givens or skolems.
+
+
+The resulting `EvBind`s then must be dealt with. However, there is often no place to put them. (For example, consider a `data` declaration.) So, I convert the `EvBind`s to a coercion substitution (see `TcEvidence.evBindsSubst` and `TcEvidence.evBindsCvSubstEnv`) and inline the coercions. This operation doesn't work as expected if the `EvTerm`s in the `EvBind`s can't be converted cleanly to `Coercion`s. (This will happen with superclass equalities and with deferred type errors.) Currently, my implementation just fails in this case, often with an unbound variable during CoreLint. We obviously need a better story here, but I'm not quite sure of the best approach.
+
+
+(I am confident that *some* solution exists here. As a strawman, it is easy to detect when the `EvTerm` --\> `Coercion` conversion fails and we could issue an error. These errors would happen only with superclass equalities and deferred type errors, so they would be predictable and could be reasonably dealt with by programmers. Of course, I'd like to do better, but not having a solution to this particular problem isn't a dire situation.)
+
+- TcCanonical didn't change all that much. It now must canonicalize casts (see `TcCanonical.canEqCast`), but that's straightforward. The biggest wrinkle is that I retain the invariant that canonical equalities are still homogeneous. So, before producing the `CTyEqCan`, we must homogenize the kind. This is done in `TcCanonical.homogeniseRhsKind`, the implementation of which is unsurprising.
+
+- TcFlatten has a bit of a sorry story. It seems the following is a nice invariant to have: a flattened type always has a flattened kind. However, flattening now (even in HEAD) takes roles into account. Because the role of a kind coercion is representation, no matter the role of the type coercion, it only makes sense to say that a flattened type's kind is flattened with respect to *representational* equality.
+
+>
+> If we have `newtype Age = MkAge Int` and `data Proxy k (a :: k) = P` (where the kind parameter is explicit), flattening `Proxy Age` (w.r.t. nominal equality) gives us `(Proxy Age) |> (axAge -> <*>) :: Int -> *`, which is generally not what we want. See `Note [Kinds when flattening an AppTy]` in TcFlatten. This problem is surmountable, but this wrinkle demands more thought. There are several comments throughout TcFlatten about issues emanating from this one that will need to get fixed.
+
+- Final zonking (in TcHsSyn) now works with a `CvSubstEnv` extracted from the `EvBind`s. This is so that the zonked types used in `TyCon` definitions have their coercion variables inlined. It wouldn't work just to do zonking as before and then substitute, because we would need to zonk again, and then substitute again, etc. (Plus, we're sometimes in the typechecking knot, when we're forced to do it all in one pass.)
+
 ## Points of interest
 
 ### `TyVar` --\> `TyCoVar`
@@ -114,6 +134,25 @@ In general, I've been happy with this new design. In some preliminary work towar
 
 
 Previously, we've thought about adding visibility information to the anonymous case. I still think this is a good idea. I just haven't done it yet.
+
+### `Coercion` and `TcCoercion`
+
+
+The impedance mismatch between `Coercion` and `TcCoercion` has become more painful. This is chiefly because `TcType`s and `Type`s are the same, and `Type`s have `Coercion`s inside, not `TcCoercion`s. Recently, we have injected `Coercion` into `TcCoercion`, and this helped my branch considerably. In particular, this means that many algorithms that previously returned a `TcCoercion` now return a `Coercion`, which is more flexible: `Coercion`s can be used in types or can be easily converted to a `TcCoercion`, if required. (In particular, `TcUnify.uType` now returns a `Coercion`. `unifyType`, the exported function, still returns a `TcCoercion`.)
+
+
+It is also sometimes necessary to convert a `TcCoercion` into a `Coercion`. This happens in the solver, when the witness of an equality constraint must be used in a type. On the surface, this conversion seems harder, but there's a trick that makes it easy: to convert a `TcCoercion` into a `Coercion`, emit a new bound EvVar `c` whose value is the `TcCoercion` in question. Then, your `Coercion` is `CoVarCo c`. Works like a charm. See `TcSMonad.dirtyTcCoToCo`. (I actually don't think this trick is all that dirty anymore. It felt wrong at first.)
+
+
+Due to some eager inlining of coercions, the function `DsBinds.ds_tc_coercion` -- the function that converts a zonked `TcCoercion` to a `Coercion` -- is now `TcEvidence.tcCoercionToCoercion`.
+
+
+All of this has gotten me thinking: I think we can do away with `TcCoercion`s altogether. The only reason to have `TcCoercion` is to support `TcLetCo`. However, it seems that this can be done with a new `EvLet :: TcEvBinds -> EvTerm -> EvTerm` constructor for `EvTerm`. If a `let` is needed deep within some coercion, just bind a new EvVar to an `EvLet` and use `CoVarCo`. Getting rid of `TcCoercion` would be a vast simplification, unless I'm missing some critical detail.
+
+### Lifted vs.\~unlifted equality predicates
+
+
+Now, both `a ~ b` and `a ~# b` are considered predicates. This means that the solver deals with both lifted and unlifted equality. This is suboptimal, and the plan is to have the solver work only with unlifted equality, defining `class a ~# b => a ~ b` to make lifted equality unmagical. See [this page](dependent-haskell/internal#) for more discussion. Because of the two forms of equality, there are some extra steps in a few places within the typechecker.
 
 ### Kind equalities and data constructors
 
@@ -223,9 +262,11 @@ data T :: Bool -> *
 > Now, we wish to unify `T True` with `a b`, where `a :: Bool2 -> *` and `b :: Bool2`. A solution exists: `[a |-> T |> (sym axBool2 -> *), b |-> True |> sym axBool2]`. But the substitution requires `axBool2`, which isn't mentioned in the input. Figuring out this kind of unification is beyond the scope of the unifier. (It gets even harder to justify with open type families.)
 
 >
-> My solution is to say that `(T |> (axBool2 -> *)) (True |> sym axBool)` is **not** equal to `T True`. When doing the erased equality check, we also check the kind of every application argument. Because the kind of `True |> sym axBool` differs from the kind of `True`, the types above differ. With this change, unification is complete. Note that the issue comes up only with `AppTy`s, never `TyConApp`s, because a `TyCon`'s kind is always closed. If there is a difference in the kind of an argument, that difference must show up earlier in a kind argument. See also \`Note \[Non-trivial definitional equality\] in TyCoRep.
+> My solution is to say that `(T |> (axBool2 -> *)) (True |> sym axBool)` is **not** equal to `T True`. When doing the erased equality check, we also check the kind of every application argument. Because the kind of `True |> sym axBool` differs from the kind of `True`, the types above differ. With this change, unification is complete. Note that the issue comes up only with `AppTy`s, never `TyConApp`s, because a `TyCon`'s kind is always closed. If there is a difference in the kind of an argument, that difference must show up earlier in a kind argument. See also `Note [Non-trivial definitional equality]` in TyCoRep.
 
 - We need a `TypeMap` now to treat all `eqType` types equally. This takes some work, implemented in TrieMap.
+
+- Instance lookup now returns a matching instance along with a coercion witnessing the equality between the found instance and the desired instance. This is because, say, a lookup of `Foo (Int |> co)` should find the instance `Foo Int`. Similarly, unification returns a unifying substitution and a coercion.
 
 ### Substitution in the desugarer
 
@@ -236,6 +277,14 @@ Solving may produce top-level unlifted coercions. Of course, we can't have top-l
 
 
 There are several scenarios (in particular, in TcTyClsDecls) where we need to extract a coercion substitution from a `Bag EvBind`. This happens when we don't have a convenient place to bind coercion variables.
+
+### Error messages
+
+
+Now that kind errors in types can be deferred to the solver, all the error-message generating machinery in TcHsType is gone. Instead, I've had to add a lot of ad-hoc processing in TcErrors in an attempt to recreate the errors just as before. (We can debate whether the messages should be reformatted, but I wanted to ensure there was no degradation in the quality of errors.) The changes to TcErrors are mostly terrible, and the whole lot needs refactoring. This state of affairs is somewhat intentional, because I was really unsure what was going to be necessary to get good errors. As I get closer to 0 testsuite failures, the picture is becoming clearer. Soon, I'll be able to figure out a better way to do TcErrors and will refactor. In the meantime, we deal with the mess.
+
+
+One particular step I had to take is to include extra information in the `TypeEqOrigin``CtOrigin`. Previously, it had fields for "expected type" and "actual type". It now includes a flag whether the error message should say "type" or "kind", along with the thing that has the actual type. This "thing with actual type" is not used in term-level error message printing, in order to avoid spurious testsuite failures, but it could (and should) be. See `TcRnTypes.CtOrigin`.
 
 ### Unboxed tuples are more parameterized
 
@@ -295,10 +344,22 @@ Once upon a time, I embarked on a mission to reduce imports of `TyCoRep`, instea
 
 - Fully remove non-dependent GADT equalities.
 
-- Try to restore optimizations in zonking.
+- Try to restore optimizations in zonking. (Could be after merging)
 
 - Check kind variables when determining whether or not a declaration has a CUSK.
 
 - Sort out the debugger. It's scary, so I've ignored it. Any help/advice appreciated.
 
 - Fix parser.
+
+- Remove `TcCoercion`. (Could be after merging)
+
+- Refactor TcErrors. (Could be after merging)
+
+- Remove lifted equality predicates from the solver.
+
+- Figure out what to do about superclass equalities. (Could be after merging)
+
+- Figure out what to do about deferred kind errors. (Could be after merging)
+
+- Fix flattening. See comments in TcFlatten.
