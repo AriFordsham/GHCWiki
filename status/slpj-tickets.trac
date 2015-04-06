@@ -128,7 +128,8 @@ See also [wiki:TemplateHaskell]
 == Compile time ==
  * #7450, #7258: deriving `Read` generates gigantic code. Better now, but still not linear.
  * #7428: Non-linear compile time: `addFingerprint`??
-
+ * #2346: desugaring let-bindings
+ * Use wildcards for dead variables in interface files.
 
 == Features ==
  * #9049: explicit call stack, abstractable call site information
@@ -184,10 +185,6 @@ See also [wiki:TemplateHaskell]
  * #2374: SAT and `MutableByteArray`	Max?
  * #7080: inconsistent treatment of RULES and SPECIALISE
  * #876: make `length` into a good consumer. Perhaps using `foldl`?
-
-=== Compiler performance ===
- * #2346: desugaring let-bindings
- * Use wildcards for dead variables in interface files.
 
 == GHCi ==
  * #9394: Display type/data family instance information in `:info`

@@ -135,6 +135,8 @@ See also [TemplateHaskell](template-haskell)
 
 - [\#7450](https://gitlab.haskell.org//ghc/ghc/issues/7450), [\#7258](https://gitlab.haskell.org//ghc/ghc/issues/7258): deriving `Read` generates gigantic code. Better now, but still not linear.
 - [\#7428](https://gitlab.haskell.org//ghc/ghc/issues/7428): Non-linear compile time: `addFingerprint`??
+- [\#2346](https://gitlab.haskell.org//ghc/ghc/issues/2346): desugaring let-bindings
+- Use wildcards for dead variables in interface files.
 
 ## Features
 
@@ -196,11 +198,6 @@ See also [TemplateHaskell](template-haskell)
 - [\#2374](https://gitlab.haskell.org//ghc/ghc/issues/2374): SAT and `MutableByteArray`        Max?
 - [\#7080](https://gitlab.haskell.org//ghc/ghc/issues/7080): inconsistent treatment of RULES and SPECIALISE
 - [\#876](https://gitlab.haskell.org//ghc/ghc/issues/876): make `length` into a good consumer. Perhaps using `foldl`?
-
-### Compiler performance
-
-- [\#2346](https://gitlab.haskell.org//ghc/ghc/issues/2346): desugaring let-bindings
-- Use wildcards for dead variables in interface files.
 
 ## GHCi
 
