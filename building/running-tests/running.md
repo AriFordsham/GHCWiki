@@ -102,9 +102,6 @@ Some of the tests in the testsuite rely on packages that aren't part of the stan
 
 The extra packages are:
 
-- dph-lifted-copy
-- dph-lifted-vseg
-- dph-prim-par
 - hmatrix
 - mtl
 - parallel
