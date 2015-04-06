@@ -285,7 +285,7 @@ Once upon a time, I embarked on a mission to reduce imports of `TyCoRep`, instea
 
 * Fully remove non-dependent GADT equalities.
 
-* Try to restore optimizations in zonking.
+* Try to restore optimizations in zonking. (Could be after merging)
 
 * Check kind variables when determining whether or not a declaration has a CUSK.
 
@@ -293,14 +293,14 @@ Once upon a time, I embarked on a mission to reduce imports of `TyCoRep`, instea
 
 * Fix parser.
 
-* Remove `TcCoercion`.
+* Remove `TcCoercion`. (Could be after merging)
 
-* Refactor !TcErrors.
+* Refactor !TcErrors. (Could be after merging)
 
 * Remove lifted equality predicates from the solver.
 
-* Figure out what to do about superclass equalities.
+* Figure out what to do about superclass equalities. (Could be after merging)
 
-* Figure out what to do about deferred kind errors.
+* Figure out what to do about deferred kind errors. (Could be after merging)
 
 * Fix flattening. See comments in !TcFlatten.
