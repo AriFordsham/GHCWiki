@@ -41,6 +41,8 @@ The resulting `EvBind`s then must be dealt with. However, there is often no plac
 
 (I am confident that ''some'' solution exists here. As a strawman, it is easy to detect when the `EvTerm` --> `Coercion` conversion fails and we could issue an error. These errors would happen only with superclass equalities and deferred type errors, so they would be predictable and could be reasonably dealt with by programmers. Of course, I'd like to do better, but not having a solution to this particular problem isn't a dire situation.)
 
+* !TcCanonical didn't change all that much. It now must canonicalize casts (see `TcCanonical.canEqCast`), but that's straightforward. The biggest wrinkle is that I retain the invariant that canonical equalities are still homogeneous. So, before producing the `CTyEqCan`, we must homogenize the kind. This is done in `TcCanonical.homogeniseRhsKind`, the implementation of which is unsurprising.
+
 == Points of interest ==
 
 === `TyVar` --> `TyCoVar` ===
