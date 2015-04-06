@@ -72,9 +72,14 @@ $ make CLEANUP=1 CLEAN_ONLY=YES
 Some of the tests in the testsuite rely on packages that aren't part of the standard libraries included with GHC. These tests will be skipped then unless you [wiki:Debugging/InstallingPackagesInplace install] the required packages for them.
 
 The extra packages are:
+
+{{{#!comment
+dph-* packages are obsolete and not maintained anymore. TODO: clean up tests that still require them.
  * dph-lifted-copy
  * dph-lifted-vseg
  * dph-prim-par
+}}}
+
  * hmatrix
  * mtl
  * parallel
