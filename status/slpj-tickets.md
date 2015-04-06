@@ -13,7 +13,7 @@
 - [\#9260](https://gitlab.haskell.org//ghc/ghc/issues/9260): type lits (Iavor owns)
 - [\#9793](https://gitlab.haskell.org//ghc/ghc/issues/9793), [\#8761](https://gitlab.haskell.org//ghc/ghc/issues/8761), [\#8581](https://gitlab.haskell.org//ghc/ghc/issues/8581), [\#8779](https://gitlab.haskell.org//ghc/ghc/issues/8779), [\#8761](https://gitlab.haskell.org//ghc/ghc/issues/8761), [\#8583](https://gitlab.haskell.org//ghc/ghc/issues/8583), [\#9911](https://gitlab.haskell.org//ghc/ghc/issues/9911), [\#7736](https://gitlab.haskell.org//ghc/ghc/issues/7736): pattern synonyms (Gergo)
 - [\#8634](https://gitlab.haskell.org//ghc/ghc/issues/8634), [\#9267](https://gitlab.haskell.org//ghc/ghc/issues/9267), [\#9227](https://gitlab.haskell.org//ghc/ghc/issues/9227): relaxing functional dependency rules `-XDysFunctionalDependencies`
-- [\#8852](https://gitlab.haskell.org//ghc/ghc/issues/8852), [\#8980](https://gitlab.haskell.org//ghc/ghc/issues/8980), [\#8941](https://gitlab.haskell.org//ghc/ghc/issues/8941) (possibly), [\#8960](https://gitlab.haskell.org//ghc/ghc/issues/8960), [\#7898](https://gitlab.haskell.org//ghc/ghc/issues/7898), [\#7068](https://gitlab.haskell.org//ghc/ghc/issues/7068), [\#7944](https://gitlab.haskell.org//ghc/ghc/issues/7944), [\#5550](https://gitlab.haskell.org//ghc/ghc/issues/5550), [\#8836](https://gitlab.haskell.org//ghc/ghc/issues/8836): `SpecConstr` blowup
+- [\#8852](https://gitlab.haskell.org//ghc/ghc/issues/8852), [\#8980](https://gitlab.haskell.org//ghc/ghc/issues/8980), [\#8941](https://gitlab.haskell.org//ghc/ghc/issues/8941) (possibly), [\#9803](https://gitlab.haskell.org//ghc/ghc/issues/9803), [\#8960](https://gitlab.haskell.org//ghc/ghc/issues/8960), [\#7898](https://gitlab.haskell.org//ghc/ghc/issues/7898), [\#7068](https://gitlab.haskell.org//ghc/ghc/issues/7068), [\#7944](https://gitlab.haskell.org//ghc/ghc/issues/7944), [\#5550](https://gitlab.haskell.org//ghc/ghc/issues/5550), [\#8836](https://gitlab.haskell.org//ghc/ghc/issues/8836): `SpecConstr` blowup
 - [\#9123](https://gitlab.haskell.org//ghc/ghc/issues/9123): higher order roles
 - [\#9352](https://gitlab.haskell.org//ghc/ghc/issues/9352): allow `State#` in FFI types.
 - [\#9388](https://gitlab.haskell.org//ghc/ghc/issues/9388): narrow the state hack
@@ -56,7 +56,7 @@
 - [\#10056](https://gitlab.haskell.org//ghc/ghc/issues/10056): more systematic treatment of `(~)` in parser and renamer 
 - [\#9918](https://gitlab.haskell.org//ghc/ghc/issues/9918): closed type families, apartness, and overlapping instances (inconsistency)
 - [\#9118](https://gitlab.haskell.org//ghc/ghc/issues/9118): Eta reduction for `Coercible` (not expressible in Core, yet)
-- [\#6018](https://gitlab.haskell.org//ghc/ghc/issues/6018): injective type families
+- [\#6018](https://gitlab.haskell.org//ghc/ghc/issues/6018), [\#10227](https://gitlab.haskell.org//ghc/ghc/issues/10227): injective type families
 - [\#8161](https://gitlab.haskell.org//ghc/ghc/issues/8161): associated type more specific than class decl
 - [\#8177](https://gitlab.haskell.org//ghc/ghc/issues/8177): role signature for type families
 
@@ -120,14 +120,12 @@ See also [TemplateHaskell](template-haskell)
 
 - [\#9407](https://gitlab.haskell.org//ghc/ghc/issues/9407): 64-bit floating point behaves differently with and without -O
 - [\#5780](https://gitlab.haskell.org//ghc/ghc/issues/5780): aggressive-primop attempt that didn't quite work
-- [\#9328](https://gitlab.haskell.org//ghc/ghc/issues/9328): negative zero and case expressions
+- [\#9328](https://gitlab.haskell.org//ghc/ghc/issues/9328), [\#10215](https://gitlab.haskell.org//ghc/ghc/issues/10215): negative zero and case expressions
 - [\#9304](https://gitlab.haskell.org//ghc/ghc/issues/9304): floating point woes: 32 vs 64 bit
-- [\#7858](https://gitlab.haskell.org//ghc/ghc/issues/7858): `abs` on negative zero
 - [\#5615](https://gitlab.haskell.org//ghc/ghc/issues/5615): poor code for div with powers of 2
 - [\#4101](https://gitlab.haskell.org//ghc/ghc/issues/4101): constant folding for `(**)`
 - [\#3676](https://gitlab.haskell.org//ghc/ghc/issues/3676): `realToFrac` conversions
 - [\#3744](https://gitlab.haskell.org//ghc/ghc/issues/3744): comparisons against `minBound` and `maxBound` are not optimised away
-- [\#3065](https://gitlab.haskell.org//ghc/ghc/issues/3065): quot is sub-optimal
 - [\#2269](https://gitlab.haskell.org//ghc/ghc/issues/2269): Word type to Double or Float conversions 
 - [\#3070](https://gitlab.haskell.org//ghc/ghc/issues/3070): NaNs and divide-by-zero
 - [\#9251](https://gitlab.haskell.org//ghc/ghc/issues/9251): branchless max/min
@@ -135,8 +133,11 @@ See also [TemplateHaskell](template-haskell)
 
 ## Compile time
 
+- [\#10228](https://gitlab.haskell.org//ghc/ghc/issues/10228): regression from 7.8.4 to 7.10.1
 - [\#7450](https://gitlab.haskell.org//ghc/ghc/issues/7450), [\#7258](https://gitlab.haskell.org//ghc/ghc/issues/7258): deriving `Read` generates gigantic code. Better now, but still not linear.
 - [\#7428](https://gitlab.haskell.org//ghc/ghc/issues/7428): Non-linear compile time: `addFingerprint`??
+- [\#2346](https://gitlab.haskell.org//ghc/ghc/issues/2346): desugaring let-bindings
+- Use wildcards for dead variables in interface files.
 
 ## Features
 
@@ -198,11 +199,6 @@ See also [TemplateHaskell](template-haskell)
 - [\#2374](https://gitlab.haskell.org//ghc/ghc/issues/2374): SAT and `MutableByteArray`        Max?
 - [\#7080](https://gitlab.haskell.org//ghc/ghc/issues/7080): inconsistent treatment of RULES and SPECIALISE
 - [\#876](https://gitlab.haskell.org//ghc/ghc/issues/876): make `length` into a good consumer. Perhaps using `foldl`?
-
-### Compiler performance
-
-- [\#2346](https://gitlab.haskell.org//ghc/ghc/issues/2346): desugaring let-bindings
-- Use wildcards for dead variables in interface files.
 
 ## GHCi
 
