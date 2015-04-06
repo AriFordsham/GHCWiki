@@ -12,7 +12,7 @@
  * #9260: type lits (Iavor owns)
  * #9793, #8761, #8581, #8779, #8761, #8583, #9911, #7736: pattern synonyms (Gergo)
  * #8634, #9267, #9227: relaxing functional dependency rules `-XDysFunctionalDependencies`
- * #8852, #8980, #8941 (possibly), #8960, #7898, #7068, #7944, #5550, #8836: `SpecConstr` blowup
+ * #8852, #8980, #8941 (possibly), #9803, #8960, #7898, #7068, #7944, #5550, #8836: `SpecConstr` blowup
  * #9123: higher order roles
  * #9352: allow `State#` in FFI types.
  * #9388: narrow the state hack
