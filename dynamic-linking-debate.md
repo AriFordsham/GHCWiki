@@ -37,6 +37,7 @@ When using TemplateHaskell, we have to be able to load object code into GHCi, wh
 - GHCi starts up faster (when the dynamic libs are cached)
 - We can get GHCi support on some platforms where we couldn't before, using the LLVM backend + dynamic linking
 - Some weird workarounds could go away: the GlobalStore in the RTS and related nonsense in the base package, which is necessary to handle the fact that with static linking we had two copies of the base package loaded.  There is similar stuff in the GHC package for the same reason (see [\#8276](https://gitlab.haskell.org//ghc/ghc/issues/8276))
+- If we could fully replace the static linker, we could remove that code from the RTS (but see "Do we need the static linker anyway?" below).
 
 ## Cons of dynamic linking
 
