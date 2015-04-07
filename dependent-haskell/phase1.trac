@@ -57,6 +57,8 @@ The resulting `EvBind`s then must be dealt with. However, there is often no plac
 
 * In HEAD, GHC is not as good as it could be keeping proper `TyVar`s out of the typechecker and keeping skolems in. HEAD's kind-level `TyVar`s, in particular, may be encountered in the typechecker. This problem is worse in my branch, meaning that `TyVar`s can be encountered in types and in kinds. My solution is to just allow this to happen, calling `TyVar`s vanilla skolems: `tcTyVarDetails` no longer requires a `TcTyVar`. An alternate solution is to do a better job instantiating, etc.
 
+'''SLPJ'''.  A project I have in the back of my mind is to separate `TcType` from `Type`.  The former have unification variables, and perhaps other clutter (e.g. evidence bindings perhaps).  The latter do not.  Desugaring woudl convert `TcType` to `Type`.
+
 * `TcMType.quantifyTyCoVars` may deserve special attention. It now uses `quantifyPred` (taken from `decideQuantification`) to figure out what to do with covars. I believe it works as written, but it's a substantial change from before.
 
 * Just like we sometimes have to promote tyvars in `simplifyInfer`, we now have to promote covars. Promoting a covar is simply re-emitting it as a Wanted in a larger context.
@@ -96,7 +98,7 @@ the latter, to make `exprType` sane. That `forall` should really be spelled `pi`
 new `ForAllTy`:
 
 {{{
-  | ForAllTy Binder Type   -- ^ A Π type.
+  | ForAllTy Binder Type   -- ^ A ? type.
 }}}
 
 with
@@ -108,6 +110,7 @@ data Binder
   = Named Var VisibilityFlag
   | Anon Type   -- visibility is determined by the type (Constraint vs. *)
 }}}
+'''SLPJ''' So `ForAllTy (Anon ty1) ty2` is `ty1 -> ty2`. Worth saying this!  And presumably it's pretty-printed like that too.
 
 The `Binder` type is meant to be abstract throughout the codebase. The only substantive difference between the combined `ForAllTy` and the separate `FunTy`/`ForAllTy` is that we now store visibility information. This allows use to distinguish between, for example
 
@@ -121,11 +124,13 @@ and
 data Proxy2 k (a :: k) = P2
 }}}
 
-`Proxy1`'s kind argument is `Invisible` and `Proxy2`'s is `Visible`.
+`Proxy1`'s kind argument is `Invisible` and `Proxy2`'s is `Visible`.  '''SLPJ''' Don't understand. Is this some new source-Haskell feature?
 
 Currently, any `Named` `ForAllTy`s classifying ''terms'' are all `Invisible`.
 
 This design change has a number of knock-on effects. In particular, `splitForAllTys` now splits regular functions, too. In some cases, this actually simplified code. In others, the code had to use the new `splitNamedForAllTys`, which is equivalent to the old `splitForAllTys`.
+
+'''SLPJ''': Do you really mean `splitNamedForAllTys` here, or do you mean `splitTypeLevelForAlls`?  That is, are you trying to split on ''visibilty'' or on ''erasibility''?  And why?
 
 Another knock-on effect is that `mkForAllTy` now takes a `Binder`. To make this easier for callers, there is a new `mkInvForAllTy :: TyCoVar -> Type -> Type` which makes a `Named`, `Invisible` `Binder` for the `ForAllTy`.
 
@@ -139,9 +144,19 @@ The impedance mismatch between `Coercion` and `TcCoercion` has become more painf
 
 It is also sometimes necessary to convert a `TcCoercion` into a `Coercion`. This happens in the solver, when the witness of an equality constraint must be used in a type. On the surface, this conversion seems harder, but there's a trick that makes it easy: to convert a `TcCoercion` into a `Coercion`, emit a new bound !EvVar `c` whose value is the `TcCoercion` in question. Then, your `Coercion` is `CoVarCo c`. Works like a charm. See `TcSMonad.dirtyTcCoToCo`. (I actually don't think this trick is all that dirty anymore. It felt wrong at first.)
 
+'''SLPJ''' I'm still struggling with the idea that a term (the result of deaugaring a `TcCoercion`) can appear in a type (admittedly via its name).  What if it is bottom?  When is it evaluated?
+
 Due to some eager inlining of coercions, the function `DsBinds.ds_tc_coercion` -- the function that converts a zonked `TcCoercion` to a `Coercion` -- is now `TcEvidence.tcCoercionToCoercion`.
 
 All of this has gotten me thinking: I think we can do away with `TcCoercion`s altogether. The only reason to have `TcCoercion` is to support `TcLetCo`. However, it seems that this can be done with a new `EvLet :: TcEvBinds -> EvTerm -> EvTerm` constructor for `EvTerm`. If a `let` is needed deep within some coercion, just bind a new !EvVar to an `EvLet` and use `CoVarCo`. Getting rid of `TcCoercion` would be a vast simplification, unless I'm missing some critical detail.
+
+'''SLPJ''' But `TcCoercion` represents a lifted equality, whereas `Coercion` represents an unlifted one.
+
+Moreover I don't think you can float out those coercions. What if it looks like
+{{{
+forall a. let g = ...a... in ... 
+}}}
+where the `forall` is a `TcForAllCo` and the `let` is a `TcLetCo`.  Look at `TcSMonad.deferTcSForAllEq`.
 
 === Lifted vs.~unlifted equality predicates ===
 
@@ -211,7 +226,7 @@ I have a sinking feeling that a type has a CUSK now only when all types '''and k
 
 === Datacon wrappers are now rejigged ===
 
-In HEAD, a datacon worker differs from a datacon wrapper in two distinct ways: the worker's types are `UNPACK`ed as requested, and the worker's type is rejigged, à la
+In HEAD, a datacon worker differs from a datacon wrapper in two distinct ways: the worker's types are `UNPACK`ed as requested, and the worker's type is rejigged,   la
 `rejigConRes`. The wrapper has the datacon's original type.
 
 This design caused endless headaches for me. (Sadly, I can't recall exactly what the problem was -- something to do with applying kind substitutions to variables. I can easily recall going round and round trying to figure out the right datacon design, though!) So, I changed wrappers to have a rejigged type. (Workers are unchanged.) This was actually a nice simplification in several places -- specifically in GADT record update. The only annoying bit is that we have to be careful to print out the right user-facing type, which is implemented in `DataCon.dataConUserType`.
