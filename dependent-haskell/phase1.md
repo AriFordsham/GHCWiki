@@ -67,6 +67,8 @@ The resulting `EvBind`s then must be dealt with. However, there is often no plac
 
 - In HEAD, GHC is not as good as it could be keeping proper `TyVar`s out of the typechecker and keeping skolems in. HEAD's kind-level `TyVar`s, in particular, may be encountered in the typechecker. This problem is worse in my branch, meaning that `TyVar`s can be encountered in types and in kinds. My solution is to just allow this to happen, calling `TyVar`s vanilla skolems: `tcTyVarDetails` no longer requires a `TcTyVar`. An alternate solution is to do a better job instantiating, etc.
 
+**SLPJ**.  A project I have in the back of my mind is to separate `TcType` from `Type`.  The former have unification variables, and perhaps other clutter (e.g. evidence bindings perhaps).  The latter do not.  Desugaring woudl convert `TcType` to `Type`.
+
 - `TcMType.quantifyTyCoVars` may deserve special attention. It now uses `quantifyPred` (taken from `decideQuantification`) to figure out what to do with covars. I believe it works as written, but it's a substantial change from before.
 
 - Just like we sometimes have to promote tyvars in `simplifyInfer`, we now have to promote covars. Promoting a covar is simply re-emitting it as a Wanted in a larger context.
@@ -75,12 +77,7 @@ The resulting `EvBind`s then must be dealt with. However, there is often no plac
 
 - In general, TcSimplify may deserve a little extra attention, as there are a lot of non-trivial and non-obvious changes there.
 
-- `rejigConRes` has become more complicated. As it (at least at one point) had quite
-
-
-a lot of faffing about with coercions, I moved the tricky bits to `Coercion.mkGADTVars`.
-See the comments around that function. Once non-dependent equalities are eliminated fully,
-some aspects of this will get slightly simpler.
+- `rejigConRes` has become more complicated. As it (at least at one point) had quite a lot of faffing about with coercions, I moved the tricky bits to `Coercion.mkGADTVars`.  See the comments around that function. Once non-dependent equalities are eliminated fully, some aspects of this will get slightly simpler.
 
 ## Points of interest
 
@@ -93,6 +90,8 @@ coercion variables as well as type variables. The name change does two
 things: it calls my attention to these functions when something changes
 during a merge, and the new name reminds me (and, potentially, others
 someday) to handle both type variables and coercion variables.
+
+**SLPJ** type/kind variable are erased, but coercion variables are value-level and are not erased.  So a `TyCoVar` is a bit of a mysterious beast.
 
 
 Similarly, a `TvSubst` without a coercion substitution just doesn't make sense. So, `TvSubst` and `CvSubst` have been combined to `TCvSubst`.
@@ -113,7 +112,7 @@ the latter, to make `exprType` sane. That `forall` should really be spelled `pi`
 new `ForAllTy`:
 
 ```wiki
-  | ForAllTy Binder Type   -- ^ A Π type.
+  | ForAllTy Binder Type   -- ^ A ? type.
 ```
 
 
@@ -126,6 +125,8 @@ data Binder
   = Named Var VisibilityFlag
   | Anon Type   -- visibility is determined by the type (Constraint vs. *)
 ```
+
+**SLPJ** So `ForAllTy (Anon ty1) ty2` is `ty1 -> ty2`. Worth saying this!  And presumably it's pretty-printed like that too.
 
 
 The `Binder` type is meant to be abstract throughout the codebase. The only substantive difference between the combined `ForAllTy` and the separate `FunTy`/`ForAllTy` is that we now store visibility information. This allows use to distinguish between, for example
@@ -141,13 +142,15 @@ and
 data Proxy2 k (a :: k) = P2
 ```
 
-`Proxy1`'s kind argument is `Invisible` and `Proxy2`'s is `Visible`.
+`Proxy1`'s kind argument is `Invisible` and `Proxy2`'s is `Visible`.  **SLPJ** Don't understand. Is this some new source-Haskell feature?
 
 
 Currently, any `Named``ForAllTy`s classifying *terms* are all `Invisible`.
 
 
 This design change has a number of knock-on effects. In particular, `splitForAllTys` now splits regular functions, too. In some cases, this actually simplified code. In others, the code had to use the new `splitNamedForAllTys`, which is equivalent to the old `splitForAllTys`.
+
+**SLPJ**: Do you really mean `splitNamedForAllTys` here, or do you mean `splitTypeLevelForAlls`?  That is, are you trying to split on *visibilty* or on *erasibility*?  And why?
 
 
 Another knock-on effect is that `mkForAllTy` now takes a `Binder`. To make this easier for callers, there is a new `mkInvForAllTy :: TyCoVar -> Type -> Type` which makes a `Named`, `Invisible``Binder` for the `ForAllTy`.
@@ -166,11 +169,25 @@ The impedance mismatch between `Coercion` and `TcCoercion` has become more painf
 
 It is also sometimes necessary to convert a `TcCoercion` into a `Coercion`. This happens in the solver, when the witness of an equality constraint must be used in a type. On the surface, this conversion seems harder, but there's a trick that makes it easy: to convert a `TcCoercion` into a `Coercion`, emit a new bound EvVar `c` whose value is the `TcCoercion` in question. Then, your `Coercion` is `CoVarCo c`. Works like a charm. See `TcSMonad.dirtyTcCoToCo`. (I actually don't think this trick is all that dirty anymore. It felt wrong at first.)
 
+**SLPJ** I'm still struggling with the idea that a term (the result of deaugaring a `TcCoercion`) can appear in a type (admittedly via its name).  What if it is bottom?  When is it evaluated?
+
 
 Due to some eager inlining of coercions, the function `DsBinds.ds_tc_coercion` -- the function that converts a zonked `TcCoercion` to a `Coercion` -- is now `TcEvidence.tcCoercionToCoercion`.
 
 
 All of this has gotten me thinking: I think we can do away with `TcCoercion`s altogether. The only reason to have `TcCoercion` is to support `TcLetCo`. However, it seems that this can be done with a new `EvLet :: TcEvBinds -> EvTerm -> EvTerm` constructor for `EvTerm`. If a `let` is needed deep within some coercion, just bind a new EvVar to an `EvLet` and use `CoVarCo`. Getting rid of `TcCoercion` would be a vast simplification, unless I'm missing some critical detail.
+
+**SLPJ** But `TcCoercion` represents a lifted equality, whereas `Coercion` represents an unlifted one.
+
+
+Moreover I don't think you can float out those coercions. What if it looks like
+
+```wiki
+forall a. let g = ...a... in ... 
+```
+
+
+where the `forall` is a `TcForAllCo` and the `let` is a `TcLetCo`.  Look at `TcSMonad.deferTcSForAllEq`.
 
 ### Lifted vs.\~unlifted equality predicates
 
@@ -209,6 +226,8 @@ MkG2 :: forall (k :: *) (a :: k).
 Thus, a `TyCon` can have coercion-variable arguments, but only if that
 `TyCon` is really a promoted datacon.
 
+**SLPJ** How does promotion work now? What is the kind of `'MkG2`?
+
 **Separation between dependent and non-dependent equalities**
 
 
@@ -230,6 +249,8 @@ a signature includes a separate field for existential variables as it does for G
 equalities. This could be cleaned up somewhat, now that I've decided that all GADT
 equalities really should be existentials.
 
+**SLPJ** Given an example.  GADTs have the `eqSpec` stuff...
+
 ### Parsing is just wrong
 
 
@@ -243,6 +264,8 @@ In HEAD, `tryTcS` claims to "throw away all evidence generated". This isn't quit
 
 This works nicely in practice, but one does have to be careful when reading a `-ddump-tc-trace`, because a `writeMetaTyVar` might not be the final word. (If that's an issue, it's easy to fix. The `TcS` monad could know whether it's pure or not and print out accordingly.)
 
+**SLPJ** Ha ha.  `tryTcS` is no longer used. It's dead code.  (It was always only used for defaulting, in very restricted way, and I got rid of that part, but forgot to remove `tryTcS` itself.)
+
 ### CUSKs
 
 
@@ -251,11 +274,13 @@ I have a sinking feeling that a type has a CUSK now only when all types **and ki
 ### Datacon wrappers are now rejigged
 
 
-In HEAD, a datacon worker differs from a datacon wrapper in two distinct ways: the worker's types are `UNPACK`ed as requested, and the worker's type is rejigged, à la
+In HEAD, a datacon worker differs from a datacon wrapper in two distinct ways: the worker's types are `UNPACK`ed as requested, and the worker's type is rejigged,   la
 `rejigConRes`. The wrapper has the datacon's original type.
 
 
 This design caused endless headaches for me. (Sadly, I can't recall exactly what the problem was -- something to do with applying kind substitutions to variables. I can easily recall going round and round trying to figure out the right datacon design, though!) So, I changed wrappers to have a rejigged type. (Workers are unchanged.) This was actually a nice simplification in several places -- specifically in GADT record update. The only annoying bit is that we have to be careful to print out the right user-facing type, which is implemented in `DataCon.dataConUserType`.
+
+**SLPJ** so `:t K`, where `K` is a GADT data constructor, will show... ah maybe it's ok.  And `:info K` knows to use `dataConUserType`.  Need a `Note` about this. Pattern matching may need care.
 
 ### Bad GADT return types cause panic
 
@@ -271,12 +296,16 @@ original, unsubsted result ty in the `DataCon` for just this reason, or
 result ty, or (3) do something else. I want your input, as both (1)
 and (2) are terrible.
 
+**SLPJ** We'd better discuss this.  It can't be that hard.
+
 ### `liftCoSubst`
 
 
 The lifting operation has become subtler. Happily, it is well described in Section 5 of [ this paper](http://www.cis.upenn.edu/~eir/papers/2013/fckinds/fckinds-extended.pdf). The actual, implemented, role-aware version of lifting is included in Appendix B of [ this paper](http://www.cis.upenn.edu/~eir/papers/2015/equalities/equalities-extended.pdf).
 
 ### New `eqType`
+
+**SLPJ** I'm also worried about the type-level equivalent of `CoreSubst.exprIsConApp_maybe`.  This is a complicated function!  Do we need to do something similar when trying to persuade a type to look like a `TyConApp`?  In general there are lots of functions in `Type` and every one of them must be adjusted to handle casts.  Is it clear how?
 
 
 Is `Int` the same as `Int |> <*>`? In the formalism: no. This is OK, because we have a coercion form (`CoherenceCo`) that proves `Int ~ (Int |> <*>)`. But, in practice, this is very very annoying. It's tempting to write `eqType` simply to ignore casts... but that would be wrong, because it can equate two types with different kinds. So, the solution is to have an "erased equality check" that compares types ignoring coercions, but to use that check on the types in question *and their kinds*. This is all implemented in `eqType`. The upshot is that two types are equal when they have the same kinds and the types are the same, ignoring coercions. Nice and simple.
@@ -285,6 +314,8 @@ Is `Int` the same as `Int |> <*>`? In the formalism: no. This is OK, because we 
 There are, of course, wrinkles:
 
 - We wish to avoid ever comparing coercions. So, I removed `eqCoercion` and replaced it with a check looking at a coercion's type. After all, if two proofs prove the same thing, they should be interchangeable. This change includes a vast simplification to `CoercionMap` in TrieMap.
+
+**SLPJ** good idea!  But it should still be called `eqCoercion` shouldn't it?  It just has a better implementation.
 
 - There is a bizarre wrinkle around unification. We want unification to succeed whenever a unifying substitution exists. Take this example:
 
@@ -310,10 +341,14 @@ data T :: Bool -> *
 
 Solving may produce top-level unlifted coercions. Of course, we can't have top-level unlifted things. So, the desugarer inlines these as it works. This causes *a lot* of line changes, but it's all very straightforward.
 
+**SLPJ** How do we know they are non-recursive?
+
 ### `evBindsCvSubstEnv`
 
 
 There are several scenarios (in particular, in TcTyClsDecls) where we need to extract a coercion substitution from a `Bag EvBind`. This happens when we don't have a convenient place to bind coercion variables.
+
+**SLPJ** eh?
 
 ### Error messages
 
@@ -337,6 +372,15 @@ Because an unboxed tuple can contain both boxed bits and unboxed bits, it is nec
 
 
 The salient difference between the two fields of `LHsTyVarBndrs` is no longer that one is kinds and one is types, but how the bits are declared. What was `hsq_kvs` is now `hsq_implicit` (for implicitly-declared) and what was `hsq_tvs` is now `hsq_explicit`.
+
+**SLPJ** we could do with nailing down terminology
+
+- implicit vs explicit
+- visible vs invisible
+- erased vs non-erased
+
+
+and use it consistently.
 
 ### Refactoring in `iface/`
 
@@ -363,6 +407,8 @@ GHC infer a normally-visible argument, and we need a way of specifying an invisi
 argument at call sites. Currently, because there is no override, there is no syntax
 for providing a role annotation to an invisible argument. Thus, all invisible arguments
 default to having a nominal role, in order to preserve abstraction.
+
+**SLPJ** Don't understand.
 
 ### `MaybeNew` is back
 
