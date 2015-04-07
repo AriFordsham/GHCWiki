@@ -89,6 +89,8 @@ things: it calls my attention to these functions when something changes
 during a merge, and the new name reminds me (and, potentially, others
 someday) to handle both type variables and coercion variables.
 
+**SLPJ** type/kind variable are erased, but coercion variables are value-level and are not erased.  So a `TyCoVar` is a bit of a mysterious beast.
+
 
 Similarly, a `TvSubst` without a coercion substitution just doesn't make sense. So, `TvSubst` and `CvSubst` have been combined to `TCvSubst`.
 
