@@ -59,6 +59,22 @@ The resulting `EvBind`s then must be dealt with. However, there is often no plac
 
 - Final zonking (in TcHsSyn) now works with a `CvSubstEnv` extracted from the `EvBind`s. This is so that the zonked types used in `TyCon` definitions have their coercion variables inlined. It wouldn't work just to do zonking as before and then substitute, because we would need to zonk again, and then substitute again, etc. (Plus, we're sometimes in the typechecking knot, when we're forced to do it all in one pass.)
 
+- See `Note [Bidirectional type checking]` in TcHsType. In brief, I now support higher-rank kinds via a simple bidirectional type checking algorithm.
+
+- Dealing with `LHsTyVarBndrs` has become more challenging, because there can be dependency between the variables: we must bring a variable into scope before checking any subsequent variables. See `{kt}cHsTyVarBndrs` and `splitTelescopeTvs` in TcHsType. See also `Note [Typechecking telescopes]`.
+
+- Gobs of code dealing exclusively with kinds has been removed from TcHsType.
+
+- In HEAD, GHC is not as good as it could be keeping proper `TyVar`s out of the typechecker and keeping skolems in. HEAD's kind-level `TyVar`s, in particular, may be encountered in the typechecker. This problem is worse in my branch, meaning that `TyVar`s can be encountered in types and in kinds. My solution is to just allow this to happen, calling `TyVar`s vanilla skolems: `tcTyVarDetails` no longer requires a `TcTyVar`. An alternate solution is to do a better job instantiating, etc.
+
+- `TcMType.quantifyTyCoVars` may deserve special attention. It now uses `quantifyPred` (taken from `decideQuantification`) to figure out what to do with covars. I believe it works as written, but it's a substantial change from before.
+
+- Just like we sometimes have to promote tyvars in `simplifyInfer`, we now have to promote covars. Promoting a covar is simply re-emitting it as a Wanted in a larger context.
+
+- We should discuss `simplifyRule`. I'm still a little mystified about how RULES are typechecked.
+
+- In general, TcSimplify may deserve a little extra attention, as there are a lot of non-trivial and non-obvious changes there.
+
 ## Points of interest
 
 ### `TyVar` --\> `TyCoVar`
@@ -234,6 +250,20 @@ In HEAD, a datacon worker differs from a datacon wrapper in two distinct ways: t
 
 This design caused endless headaches for me. (Sadly, I can't recall exactly what the problem was -- something to do with applying kind substitutions to variables. I can easily recall going round and round trying to figure out the right datacon design, though!) So, I changed wrappers to have a rejigged type. (Workers are unchanged.) This was actually a nice simplification in several places -- specifically in GADT record update. The only annoying bit is that we have to be careful to print out the right user-facing type, which is implemented in `DataCon.dataConUserType`.
 
+### Bad GADT return types cause panic
+
+
+Writing a bogus GADT return type causes a panic. The problem is that
+`checkValidDataCon` is supposed to check if `rejigConRes` was valid. To do
+this, `checkValidDataCon` needs the user-specified result type. Normally,
+this is retrieved from `dataConOrigResTy`. The problem is that, now, 
+the `dataConOrigResTy` is substed by the kind substitution produced in
+`rejigConRes`. This is an ugly circular dependency. We could (1) store the
+original, unsubsted result ty in the `DataCon` for just this reason, or
+(2) install lots of ugly plumbing in TcTyClsDecls to carry the unsubsted
+result ty, or (3) do something else. I want your input, as both (1)
+and (2) are terrible.
+
 ### `liftCoSubst`
 
 
@@ -363,3 +393,17 @@ Once upon a time, I embarked on a mission to reduce imports of `TyCoRep`, instea
 - Figure out what to do about deferred kind errors. (Could be after merging)
 
 - Fix flattening. See comments in TcFlatten.
+
+- Fix pattern synonyms.
+
+## Questions
+
+1. What to do about bad GADT return types
+
+1. Clarify typechecking RULES
+
+1. How to expose levity polymorphism to users
+
+1. Keep `analyzeType`?
+
+1. How to deal with superclass equalities and deferred kind errors
