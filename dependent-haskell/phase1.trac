@@ -191,6 +191,8 @@ MkG2 :: forall (k :: *) (a :: k).
 Thus, a `TyCon` can have coercion-variable arguments, but only if that
 `TyCon` is really a promoted datacon.
 
+'''SLPJ''' How does promotion work now? What is the kind of `'MkG2`?
+
 '''Separation between dependent and non-dependent equalities'''
 
 Various bits of code refer to dependent vs. non-dependent equalities. A "dependent
@@ -210,6 +212,8 @@ a signature includes a separate field for existential variables as it does for G
 equalities. This could be cleaned up somewhat, now that I've decided that all GADT
 equalities really should be existentials.
 
+'''SLPJ''' Given an example.  GADTs have the `eqSpec` stuff...
+
 === Parsing is just wrong ===
 
 I've removed the kind parser, in favor of just using the type parser. This is wrong, if only because of the type `*`. See proposed solution [wiki:DependentHaskell#Parsingnamespaceresolution here], under "UPDATE".
@@ -219,6 +223,9 @@ I've removed the kind parser, in favor of just using the type parser. This is wr
 In HEAD, `tryTcS` claims to "throw away all evidence generated". This isn't quite true. `tryTcS` can still set metavariables and may twiddle `EvBindsVar`s inside of implications. With kind equalities, this won't do. The problem is that solving may invent new coercion variables; these variables may end up in types. If a metavariable is then set to point to a type with a fresh coercion variable in it, we have a problem: after throwing away the evidence, that coercion variable is unbound. (This actually happens in practice.) So, `tryTcS` must be very careful to be properly pure. It does this by maintaining the set of filled-in metavariables ''and'' a way to roll back any changes to nested `EvBindsVar`s. After the inner `TcS` action is complete, `tryTcS` rolls back the changes.
 
 This works nicely in practice, but one does have to be careful when reading a `-ddump-tc-trace`, because a `writeMetaTyVar` might not be the final word. (If that's an issue, it's easy to fix. The `TcS` monad could know whether it's pure or not and print out accordingly.)
+
+'''SLPJ''' Ha ha.  `tryTcS` is no longer used. It's dead code.  (It was always only used for defaulting, in very restricted way, and I got rid of that part, but forgot to remove `tryTcS` itself.)
+
 
 === CUSKs ===
 
@@ -230,6 +237,8 @@ In HEAD, a datacon worker differs from a datacon wrapper in two distinct ways: t
 `rejigConRes`. The wrapper has the datacon's original type.
 
 This design caused endless headaches for me. (Sadly, I can't recall exactly what the problem was -- something to do with applying kind substitutions to variables. I can easily recall going round and round trying to figure out the right datacon design, though!) So, I changed wrappers to have a rejigged type. (Workers are unchanged.) This was actually a nice simplification in several places -- specifically in GADT record update. The only annoying bit is that we have to be careful to print out the right user-facing type, which is implemented in `DataCon.dataConUserType`.
+
+'''SLPJ''' so `:t K`, where `K` is a GADT data constructor, will show... ah maybe it's ok.  And `:info K` knows to use `dataConUserType`.  Need a `Note` about this. Pattern matching may need care.
 
 === Bad GADT return types cause panic ===
 
@@ -244,16 +253,23 @@ original, unsubsted result ty in the `DataCon` for just this reason, or
 result ty, or (3) do something else. I want your input, as both (1)
 and (2) are terrible.
 
+
+'''SLPJ''' We'd better discuss this.  It can't be that hard.
+
 === `liftCoSubst` ===
 
 The lifting operation has become subtler. Happily, it is well described in Section 5 of [http://www.cis.upenn.edu/~eir/papers/2013/fckinds/fckinds-extended.pdf this paper]. The actual, implemented, role-aware version of lifting is included in Appendix B of [http://www.cis.upenn.edu/~eir/papers/2015/equalities/equalities-extended.pdf this paper].
 
 === New `eqType` ===
 
+'''SLPJ''' I'm also worried about the type-level equivalent of `CoreSubst.exprIsConApp_maybe`.  This is a complicated function!  Do we need to do something similar when trying to persuade a type to look like a `TyConApp`?  In general there are lots of functions in `Type` and every one of them must be adjusted to handle casts.  Is it clear how?
+
 Is `Int` the same as `Int |> <*>`? In the formalism: no. This is OK, because we have a coercion form (`CoherenceCo`) that proves `Int ~ (Int |> <*>)`. But, in practice, this is very very annoying. It's tempting to write `eqType` simply to ignore casts... but that would be wrong, because it can equate two types with different kinds. So, the solution is to have an "erased equality check" that compares types ignoring coercions, but to use that check on the types in question ''and their kinds''. This is all implemented in `eqType`. The upshot is that two types are equal when they have the same kinds and the types are the same, ignoring coercions. Nice and simple.
 
 There are, of course, wrinkles:
 * We wish to avoid ever comparing coercions. So, I removed `eqCoercion` and replaced it with a check looking at a coercion's type. After all, if two proofs prove the same thing, they should be interchangeable. This change includes a vast simplification to `CoercionMap` in !TrieMap.
+
+'''SLPJ''' good idea!  But it should still be called `eqCoercion` shouldn't it?  It just has a better implementation.
 
 * There is a bizarre wrinkle around unification. We want unification to succeed whenever a unifying substitution exists. Take this example:
 
@@ -276,9 +292,13 @@ data T :: Bool -> *
 
 Solving may produce top-level unlifted coercions. Of course, we can't have top-level unlifted things. So, the desugarer inlines these as it works. This causes ''a lot'' of line changes, but it's all very straightforward.
 
+'''SLPJ''' How do we know they are non-recursive?
+
 === `evBindsCvSubstEnv` ===
 
 There are several scenarios (in particular, in !TcTyClsDecls) where we need to extract a coercion substitution from a `Bag EvBind`. This happens when we don't have a convenient place to bind coercion variables.
+
+'''SLPJ''' eh?
 
 === Error messages ===
 
@@ -298,6 +318,12 @@ Because an unboxed tuple can contain both boxed bits and unboxed bits, it is nec
 === Renaming in `LHsTyVarBndrs` ===
 
 The salient difference between the two fields of `LHsTyVarBndrs` is no longer that one is kinds and one is types, but how the bits are declared. What was `hsq_kvs` is now `hsq_implicit` (for implicitly-declared) and what was `hsq_tvs` is now `hsq_explicit`.
+
+'''SLPJ''' we could do with nailing down terminology
+ * implicit vs explicit
+ * visible vs invisible
+ * erased vs non-erased
+and use it consistently.
 
 === Refactoring in `iface/` ===
 
@@ -319,6 +345,8 @@ GHC infer a normally-visible argument, and we need a way of specifying an invisi
 argument at call sites. Currently, because there is no override, there is no syntax
 for providing a role annotation to an invisible argument. Thus, all invisible arguments
 default to having a nominal role, in order to preserve abstraction.
+
+'''SLPJ''' Don't understand.
 
 === `MaybeNew` is back ===
 
