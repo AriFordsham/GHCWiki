@@ -65,6 +65,11 @@ The resulting `EvBind`s then must be dealt with. However, there is often no plac
 
 * In general, !TcSimplify may deserve a little extra attention, as there are a lot of non-trivial and non-obvious changes there.
 
+* `rejigConRes` has become more complicated. As it (at least at one point) had quite
+a lot of faffing about with coercions, I moved the tricky bits to `Coercion.mkGADTVars`.
+See the comments around that function. Once non-dependent equalities are eliminated fully,
+some aspects of this will get slightly simpler.
+
 == Points of interest ==
 
 === `TyVar` --> `TyCoVar` ===
@@ -292,6 +297,15 @@ The zonking algorithm in !TcHsSyn knot-ties `Id`s. Of course, coercion variables
 
 I have not yet re-examined to see if there is a way to restore this behavior. There probably is, as coercion variables can't be recursive!
 
+=== Overring visibility assumptions ===
+
+My limited experience in programming in the enhanced language tells me that we really
+need ways to override a visibility specification. That is, we need to allow `_` to have
+GHC infer a normally-visible argument, and we need a way of specifying an invisible
+argument at call sites. Currently, because there is no override, there is no syntax
+for providing a role annotation to an invisible argument. Thus, all invisible arguments
+default to having a nominal role, in order to preserve abstraction.
+
 === `MaybeNew` is back ===
 
 In Simon's refactoring in fall 2014, the `MaybeNew` type disappeared from the solver infrastructure. I found this type useful, so I brought it back. It seemed like a better way to structure my algorithm than working without it.
@@ -348,3 +362,4 @@ Once upon a time, I embarked on a mission to reduce imports of `TyCoRep`, instea
 
 5. How to deal with superclass equalities and deferred kind errors
 
+6. What concrete syntax to use for overriding visibility specifications?
