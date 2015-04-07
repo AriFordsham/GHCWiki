@@ -65,10 +65,7 @@ The resulting `EvBind`s then must be dealt with. However, there is often no plac
 
 * In general, !TcSimplify may deserve a little extra attention, as there are a lot of non-trivial and non-obvious changes there.
 
-* `rejigConRes` has become more complicated. As it (at least at one point) had quite
-a lot of faffing about with coercions, I moved the tricky bits to `Coercion.mkGADTVars`.
-See the comments around that function. Once non-dependent equalities are eliminated fully,
-some aspects of this will get slightly simpler.
+* `rejigConRes` has become more complicated. As it (at least at one point) had quite a lot of faffing about with coercions, I moved the tricky bits to `Coercion.mkGADTVars`.  See the comments around that function. Once non-dependent equalities are eliminated fully, some aspects of this will get slightly simpler.
 
 == Points of interest ==
 
