@@ -62,13 +62,11 @@
 == Template Haskell ==
 See also [wiki:TemplateHaskell]
 
- * #9262: allow free variables in `reifyInstances`
+ * #10271: difficulty resolving overloading in typed TH
  * #9113: pattern match overlap/exhaustiveness checked in Typed TH
  * [wiki:TemplateHaskell/Annotations] Gergely's work on annotations in TH
  * #1475: allow splicing of import declarations (5 in cc list)
- * #8100: support standalone deriving
- * #4429: `reinerp` work on `newName` and export reorganisation
- * #7484: TH allows you to build invalid names
+
 
 == Demand analysis and CSE == 
  * #10069: bad reboxing in data types with many fields

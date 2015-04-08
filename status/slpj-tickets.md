@@ -65,13 +65,10 @@
 
 See also [TemplateHaskell](template-haskell)
 
-- [\#9262](https://gitlab.haskell.org//ghc/ghc/issues/9262): allow free variables in `reifyInstances`
+- [\#10271](https://gitlab.haskell.org//ghc/ghc/issues/10271): difficulty resolving overloading in typed TH
 - [\#9113](https://gitlab.haskell.org//ghc/ghc/issues/9113): pattern match overlap/exhaustiveness checked in Typed TH
 - [TemplateHaskell/Annotations](template-haskell/annotations) Gergely's work on annotations in TH
 - [\#1475](https://gitlab.haskell.org//ghc/ghc/issues/1475): allow splicing of import declarations (5 in cc list)
-- [\#8100](https://gitlab.haskell.org//ghc/ghc/issues/8100): support standalone deriving
-- [\#4429](https://gitlab.haskell.org//ghc/ghc/issues/4429): `reinerp` work on `newName` and export reorganisation
-- [\#7484](https://gitlab.haskell.org//ghc/ghc/issues/7484): TH allows you to build invalid names
 
 ## Demand analysis and CSE
 
