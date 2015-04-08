@@ -120,6 +120,9 @@ The actual implementation should be easy: add parsing support for TYPE and then 
 ### Issues from Dimitrios
 
 
+(Apr 15: These issues are absolutely present in Richard's current implementation.)
+
+
 You make it sound as if the only problem is defaulting. But I do not think it is enough. For instance, what prevents a user from writing:
 
 ```wiki
@@ -131,8 +134,8 @@ You make it sound as if the only problem is defaulting. But I do not think it is
 The only plausible explanation from that subsection is that TYPE and levities are not exposed to programmers, so they can't shoot themselves in the foot. \*However\* there are cases where you \*must\* expose levities to programmers, for instance to give a signature to an eta-expansion of "error". Example:
 
 ```wiki
-	g :: forall (a:*). forall v. forall (b :: TYPE v). Show a => a -> b
-                g x = error (show x) 
+  g :: forall (a:*). forall v. forall (b :: TYPE v). Show a => a -> b
+  g x = error (show x) 
 ```
 
 
@@ -157,8 +160,10 @@ Where the `FIXED v1` is like a derived kind class constraint emitted during kind
 However, in the end of type inference we will be left with constraints of the form:
 
 ```wiki
-	FIXED levity_unification_variable          ==> can be defaulted to Lifted   (this will allow us to infer sound types)
-	FIXED levity_skolem_variable                 ==> are genuine errors! 
+	FIXED levity_unification_variable  ==> can be defaulted to Lifted
+                                               (this will allow us to infer sound types)
+
+	FIXED levity_skolem_variable       ==> are genuine errors! 
 ```
 
 
