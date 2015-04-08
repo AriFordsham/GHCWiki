@@ -143,3 +143,9 @@ g x = x
 
 foo _ = g (# error "a", error "b" #)
 }}}
+
+Some conclusions:
+ * `forall (l:Levity). ty` has kind `*`.  We think of it as a pi, a value abstraction.  So `undefined :: forall l. forall (a:Type l). a` has a type whose kind is `*`, and is ''lifted.
+
+ * The body of a type forall should have kind `Type l` for some levity `l`, and that is the kind of the forall.  That is, the body cannot have kind `* -> *`, and certainly not `k`.  This makes `forall k (a::k). a` ill-kinded.  (Cf #10114.)
+
