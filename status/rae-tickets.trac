@@ -109,6 +109,7 @@
 * #9113: Warn about incomplete patterns in quotes. Fixed by #3927?
 * #9699: Function to list all names in scope
 * #10094: Partial type signatures in TH
+* #10267: Add holes (jstolarek)
 
 ''Unknown''
 

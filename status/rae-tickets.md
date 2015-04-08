@@ -114,6 +114,7 @@
 - [\#9113](https://gitlab.haskell.org//ghc/ghc/issues/9113): Warn about incomplete patterns in quotes. Fixed by [\#3927](https://gitlab.haskell.org//ghc/ghc/issues/3927)?
 - [\#9699](https://gitlab.haskell.org//ghc/ghc/issues/9699): Function to list all names in scope
 - [\#10094](https://gitlab.haskell.org//ghc/ghc/issues/10094): Partial type signatures in TH
+- [\#10267](https://gitlab.haskell.org//ghc/ghc/issues/10267): Add holes (jstolarek)
 
 *Unknown*
 
