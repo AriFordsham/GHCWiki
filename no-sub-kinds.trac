@@ -97,7 +97,7 @@ The actual implementation should be easy: add parsing support for TYPE and then 
 
  * We need a Lint check for what types are OK; i.e. which FC programs are well typed.
 
- * Proposed criterion: '''`(ty:TYPE l)` cannot occur on the left of an arrow, or in the type of a binder of a let'''.  And hence not as a field of a constructor, because then the constructor's type is illegal.
+ * Proposed criterion: '''`(ty:TYPE l)` cannot occur on the left of an arrow, or in the type of any binder'''.  And hence not as a field of a constructor, because then the constructor's type is illegal.
 
  * `(Int -> (ty:TYPE l)) -> Int` is ok
  * `((ty:TYPE l) -> Int) -> Int` is not ok
