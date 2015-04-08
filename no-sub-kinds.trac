@@ -93,7 +93,17 @@ The actual implementation should be easy: add parsing support for TYPE and then 
 
 === Issues from Dimitrios ===
 
-(Apr 15: These issues are absolutely present in Richard's current implementation.)
+'''Note Apr 15''': These issues are absolutely present in Richard's current implementation.
+
+ * We need a Lint check for what types are OK; i.e. which FC programs are well typed.
+
+ * Proposed criterion: '''`(ty:TYPE l)` cannot occur on the left of an arrow, or in the type of a binder of a let'''.  And hence not as a field of a constructor, because then the constructor's type is illegal.
+
+ * `(Int -> (ty:TYPE l)) -> Int` is ok
+ * `((ty:TYPE l) -> Int) -> Int` is not ok
+ * `data T l (a:TYPE l) = MkT (Int -> a)` is ok.  
+ * And so `MkT Unlifted Int# (\n -> error Unlifted Int# "urk")` is ok.
+ * Moreover the top-level defintion of `undefined` is also ok because `undefined :: forall v. forall (a:TYPE v). a`
 
 You make it sound as if the only problem is defaulting. But I do not think it is enough. For instance, what prevents a user from writing:
 {{{
@@ -124,3 +134,12 @@ However, in the end of type inference we will be left with constraints of the fo
 	FIXED levity_skolem_variable       ==> are genuine errors! 
 }}}
 I don't think it would be that hard to generate kind constraints like the `FIXED` kind class, and treat them specially during defaulting, would it? In fact this might be something we want to introduce to GHC *today* even without sucking in the fully glory of your kind equalities, is my guess. 
+
+Interesting example
+{{{
+g :: (forall a. (# a, a #)) -> (# Int, Int #)
+{-# NOINLINE g #-}
+g x = x
+
+foo _ = g (# error "a", error "b" #)
+}}}
