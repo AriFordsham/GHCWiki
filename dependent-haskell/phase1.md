@@ -477,27 +477,24 @@ Once upon a time, I embarked on a mission to reduce imports of `TyCoRep`, instea
 
 - Proposal: remove dependent coercion quantification.  
 
-  - That is, not allow `forall (c::a~b). ...(ty |> c)....`.  Instead only allow anonymous quantification, thus `(a~b) => ....`.   
+  - That is, not allow `forall (c::a~b). ...(ty |> c)....`.  Instead only allow anonymous quantification, thus `(a~b) => ....`.
+  - Another way to say this: coercion variables are only bound by terms, not in types.
+  - We do not lose any kind-indexed GADTs, because we have hererogeneous equality.  The prototypical example is
 
-- Another way to say this: coercion variables are only bound by terms, not in types.
+    ```wiki
+    data Eq (a::k1) (b::k2) where
+      EQ :: forall (c::k). Eq c c
 
-- We do not lose any kind-indexed GADTs, because we have hererogeneous equality.  The prototypical example is
+      -- EQ :: forall k1 k2 (a::k1) (b::k2). (a ~ b) => Eq k1 k2 a b
+    ```
+  - Richard has an exotic example of what is lost.  We could not write this type:
 
-  ```wiki
-  data Eq (a::k1) (b::k2) where
-    EQ :: forall (c::k). Eq c c
-
-    -- EQ :: forall k1 k2 (a::k1) (b::k2). (a ~ b) => Eq k1 k2 a b
-  ```
-
-- Richard has an exotic example of what is lost.  We could not write this type:
-
-  ```wiki
-  foo :: forall k (a::k). (F k ~ G k) => Proxy [H1 a, H2 a]
-  where
-    H1 :: forall k. a -> F k
-    H2 :: forall k. a -> G k
-  ```
+    ```wiki
+    foo :: forall k (a::k). (F k ~ G k) => Proxy [H1 a, H2 a]
+    where
+      H1 :: forall k. a -> F k
+      H2 :: forall k. a -> G k
+    ```
 
 - Coercion equalities solved by `TcCoVars`, *not* via the `EvBinds` stuff.  Enables getting rid of `TcLetCo` and hence collapse `Coercion` and `TcCoercion`.  Deferred type errors collected by zonker when zonking coercions.
 
