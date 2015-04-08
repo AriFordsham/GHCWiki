@@ -225,6 +225,8 @@ instances and provide additional meanings to the `#x` syntax.  Lens library auth
 
 1. provide neither instance in base, so use of `#x` as either a selector function or a van Laarhoven lens would require either an orphan instance or conversion via a combinator.
 
+**Design question**: we could sidestep the whole question by instead translating `#x` to a proxy of type `Proxy "x"`, avoiding the need for the `IV` class, but requiring a library to provide a function to convert the symbol to a selector/lens. This is slightly simpler, but perhaps too great a sacrifice of convenience.
+
 ### Hand-written instances
 
 
