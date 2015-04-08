@@ -146,10 +146,12 @@ Now, I agree with you that defaulting is part of the solution but, what we reall
 ```
 
 
-Where the "FIXED v1" is like a derived kind class constraint emitted during kind inference (but of course there's no associated evidence with it), which prevents a levity variable from getting generalized. Hence, during type inference:
+Where the `FIXED v1` is like a derived kind class constraint emitted during kind inference (but of course there's no associated evidence with it), which prevents a levity variable from getting generalized. Hence, during type inference:
 
-> FIXED Lifted  =\> is just discharged successfully
-> FIXED Unlifted =\> is just discharged successfully
+```wiki
+	FIXED Lifted  => is just discharged successfully
+	FIXED Unlifted => is just discharged successfully
+```
 
 
 However, in the end of type inference we will be left with constraints of the form:
@@ -160,4 +162,4 @@ However, in the end of type inference we will be left with constraints of the fo
 ```
 
 
-I don't think it would be that hard to generate kind constraints like the FIXED kind class, and treat them specially during defaulting, would it? In fact this might be something we want to introduce to GHC \*today\* even without sucking in the fully glory of your kind equalities, is my guess. 
+I don't think it would be that hard to generate kind constraints like the `FIXED` kind class, and treat them specially during defaulting, would it? In fact this might be something we want to introduce to GHC \*today\* even without sucking in the fully glory of your kind equalities, is my guess. 
