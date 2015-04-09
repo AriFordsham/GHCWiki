@@ -3,7 +3,7 @@
 **This page gives implementation details of the [OverloadedRecordFields](records/overloaded-record-fields) extension.  It is targeted at GHC hackers.**
 
 - See the [redesign page](records/overloaded-record-fields/redesign) for a more gentle introduction.
-- See [ Adam's blog post](http://www.well-typed.com/blog/107/)
+- See [ Adam's post on the Well-Typed blog](http://www.well-typed.com/blog/2015/03/overloadedrecordfields-revived/)
 
 
 Following the 2015 redesign, we have three separate components to implement, which will be described (and implemented) in order:
