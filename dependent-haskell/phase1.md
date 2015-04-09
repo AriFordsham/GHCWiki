@@ -461,6 +461,8 @@ Once upon a time, I embarked on a mission to reduce imports of `TyCoRep`, instea
 
 - Use `pushRefl` when splitting a coercion. Unless we're guaranteed that the input is non-Refl. And then ASSERT.
 
+- Document the new weird type equality (which ignores casts)
+
 ## Questions
 
 1. What to do about bad GADT return types
