@@ -2,7 +2,8 @@
 
 '''This page gives implementation details of the [wiki:Records/OverloadedRecordFields OverloadedRecordFields] extension.  It is targeted at GHC hackers.'''
 
-See the [wiki:Records/OverloadedRecordFields/Redesign redesign page] for a more gentle introduction.
+ * See the [wiki:Records/OverloadedRecordFields/Redesign redesign page] for a more gentle introduction.
+ * See [http://www.well-typed.com/blog/107/ Adam's blog post]
 
 Following the 2015 redesign, we have three separate components to implement, which will be described (and implemented) in order:
 
