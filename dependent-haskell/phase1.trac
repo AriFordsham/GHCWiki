@@ -392,6 +392,8 @@ Once upon a time, I embarked on a mission to reduce imports of `TyCoRep`, instea
 
 * Fix pattern synonyms.
 
+* Use `pushRefl` when splitting a coercion.
+
 == Questions ==
 
 1. What to do about bad GADT return types
