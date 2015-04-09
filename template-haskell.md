@@ -9,3 +9,4 @@ Stuff about Template Haskell
 - [Unifying TH syntax with \`haskell-src-exts\`](template-haskell/using-haskell-src-exts)
 - [Conversions between different data types in TH](template-haskell/conversions)
 - [A Proposal for restricted subsets of TH](template-haskell/restricted)
+- Compilation?
