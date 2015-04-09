@@ -10,10 +10,10 @@ Another example is (thanks to merijn) the splice "maxBound :: Int", which would 
 on the host does not have.
 
 rwbarton shared a few more points that require TH to run on the target platform:
-- Because TH can do arbitrary IO, which one might want to have running on the target platform, it would require ghc to completely 
-emulate the target to produce the identical results.
+- Because TH can do arbitrary IO, which one might want to have running on the target platform, it would require ghc to completely emulate the target to produce the identical results.
 - Some detect endianness through pointer/peek, which would also require the target to be emulated.
-sairheit also shared a nice explanation as well: the point of cross compilation is not to run code on the host, but TH can do it. You can't force the host to behave like the target. (e.g. what libc would you use?)
+sairheit also shared a nice explanation as well: 
+- the point of cross compilation is not to run code on the host, but TH can do it. You can't force the host to behave like the target. (e.g. what libc would you use?)
 
 = Possible Solutions =
 
