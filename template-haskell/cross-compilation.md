@@ -1,6 +1,8 @@
 
 BEWARE: this page is still under construction and should be considered work in progress.
 
+# Template Haskell under Cross Compilation
+
 
 Template Haskell does not properly work with cross compilers so far.  So why does Template Haskell not work with cross compilation?  The
 main reason is that (thanks to rwbarton) Template Haskell needs to be able to evaluate arbitrary expression.  These expressions could for
@@ -10,7 +12,7 @@ example link with other libraries that are only available on the target architec
 Another example is (thanks to merijn) the splice "maxBound :: Int", which would be architecture dependent on the Int type. Which the compiler
 on the host does not have.
 
-# Solutions
+# Possible Solutions
 
 
 There are a few solutions, which mostly consist of duming the splices and running them through a separate pass, (e.g. evil Splicer).
@@ -18,4 +20,5 @@ There are a few solutions, which mostly consist of duming the splices and runnin
 
 And there is also the solution which is uses in ghcjs, which is that there is a runner (think slave compiler) running on the target architecture,
 to which the TH splices are handed from the ghc running on the host to compile the splice on the target, which in return produces the
-correctly evaluated splice and ships it back to the ghc on the host.
+correctly evaluated splice and ships it back to the ghc on the host. I (angerman) am in the process of porting this mechanism from ghcjs to
+ghc.
