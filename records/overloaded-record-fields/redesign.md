@@ -3,10 +3,15 @@
 
 This is an attempt to redesign and clarify the design of the [OverloadedRecordFields](records/overloaded-record-fields) extension, in order to develop a plan for implementation.  It has benefited from the extensive discussion surrounding [Nikita Volkov's record library](records/volkov).  The following design choices are not set in stone, but are intended as a concrete proposal for further discussion.  For reference, here is the [previous design](records/overloaded-record-fields/design).
 
+
+See also the [ high-level summary of the current plan on the Well-Typed blog](http://www.well-typed.com/blog/2015/03/overloadedrecordfields-revived/).
+
+## Part 1: Records with duplicate field labels
+
 ### Use existing Haskell records
 
 
-The `OverloadedRecordFields` extension permits existing Haskell records to overload field names.  Thus the following is legal in a single module:
+The `OverloadedRecordFields` extension permits existing Haskell records to use duplicate field labels.  Thus the following is legal in a single module:
 
 ```wiki
 data Person  = Person  { personId :: Int, name :: String }
@@ -32,13 +37,16 @@ For each field in each record datatype, regardless of whether the extension is e
 
 Bare uses of the field refer only to the selector function, and work only if this is unambiguous.  Thus, in the above example `name :: Person -> String` but bare use of `personId` leads to a name resolution error.  This means that turning on `OverloadedRecordFields` for an existing module is a conservative extension: since the module can have no duplicate field names, everything still works.  Moreover, changes to GHC's renamer should be minimal.  In addition, uses of fields that are always unambiguous (because they mention the constructor, e.g. construction and pattern-matching) may freely use duplicated names.
 
-**Design question**: just like for record updates, we could disambiguate record selectors using bidirectional type inference. This would mean deferring some more name resolution to the typechecker, but we would get even more power out of `OverloadedRecordFields` without type system extensions. Would this be worthwhile?
+
+Even though a field label is duplicated in its defining module, it may be possible to use the selector unambiguously elsewhere. For example, another module could import `Person(personId)` but not `Address(personId)`, and then use `personId` unambiguously. Thus it is not enough simply to avoid generating selector functions for duplicated fields.
 
 
 We propose *no change whatsoever to how Haskell 98 records are constructed* (e.g. `MkT { x = 3, y = True }`). Moreover, we propose *no change to how records are updated*, which remains monomorphic (e.g. `t { y = False }`).  If there are many `y` fields in scope, the type of `t` must fix which one is intended.  This is a soft spot, but there is really no way around it because Haskell's type-changing update requires modifying multiple fields simultaneously.
 
+## Part 2: Polymorphism over record fields
 
-So how are we want to select and update overloaded fields?
+
+Bare field names in expressions refer to the selector function only if unambiguous, so how are we want to select and update overloaded fields?
 
 ### Digression: implicit parameters
 
@@ -422,3 +430,5 @@ These are all useful independently, but complement each other:
 - Without either of the extensions, the special typeclasses allow users to write code that works for all datatypes with particular fields (albeit without a nice built-in syntax).
 - `-XImplicitValues` uses the special typeclasses through the instance for `IV x (r -> a)`, but is also useful when used at other types (e.g. we could give an instance `IV x (Proxy x)` to allow implicit values to represent Symbol proxies).
 - For convenience, `-XOverloadedRecordFields` will enable `-XImplicitValues`, but `-XOverloadedRecordFields -XNoImplicitValues` is a perfectly sensible combination: it allows duplicate field names provided they are not used ambiguously.
+
+**Bikeshedding**: perhaps we should expose an extension called `LiberalRecordFields` that has the behaviour described in part 1 (i.e. permitting duplicate fields but without the new syntax or fancy types of part 2)? Then `OverloadedRecordFields` would just switch on `LiberalRecordFields` and `ImplicitValues`, but `LiberalRecordFields` is a perfectly sensible extension to use on its own.
