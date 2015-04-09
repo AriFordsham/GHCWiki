@@ -20,5 +20,5 @@ There are a few solutions, which mostly consist of duming the splices and runnin
 
 And there is also the solution which is uses in ghcjs, which is that there is a runner (think slave compiler) running on the target architecture,
 to which the TH splices are handed from the ghc running on the host to compile the splice on the target, which in return produces the
-correctly evaluated splice and ships it back to the ghc on the host. I (angerman) am in the process of porting this mechanism from ghcjs to
+correctly evaluated splice and ships it back to the ghc on the host. I am in the process of porting this mechanism from ghcjs to
 ghc.
