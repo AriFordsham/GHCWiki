@@ -392,7 +392,7 @@ Once upon a time, I embarked on a mission to reduce imports of `TyCoRep`, instea
 
 * Fix pattern synonyms.
 
-* Use `pushRefl` when splitting a coercion.
+* Use `pushRefl` when splitting a coercion. Unless we're guaranteed that the input is non-Refl. And then ASSERT.
 
 == Questions ==
 
