@@ -492,10 +492,16 @@ Once upon a time, I embarked on a mission to reduce imports of `TyCoRep`, instea
   - Richard has an exotic example of what is lost.  We could not write this type:
 
     ```wiki
-    foo :: forall k (a::k). (F k ~ G k) => Proxy [H1 a, H2 a]
+    foo :: forall k (a::k). (c: F k ~ G k) => Proxy [H1 a |> c, H2 a]
     where
       H1 :: forall k. k -> F k
       H2 :: forall k. k -> G k
+    ```
+
+    But you can write this without using dependent coercions:
+
+    ```wiki
+    foo :: forall (a::k) (b :: F k). (b ~ H2 a) => Proxy [H1 a, b]
     ```
 
 - Coercion equalities solved by `TcCoVars`, *not* via the `EvBinds` stuff.  Enables getting rid of `TcLetCo` and hence collapse `Coercion` and `TcCoercion`.  Deferred type errors collected by zonker when zonking coercions.
