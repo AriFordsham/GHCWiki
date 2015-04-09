@@ -504,6 +504,12 @@ Once upon a time, I embarked on a mission to reduce imports of `TyCoRep`, instea
     foo :: forall (a::k) (b :: F k). (b ~ H2 a) => Proxy [H1 a, b]
     ```
 
+    But what about
+
+    ```wiki
+       forall (c: t1~t2). K c   where   K :: (t1~t2) => *
+    ```
+
 - Coercion equalities solved by `TcCoVars`, *not* via the `EvBinds` stuff.  Enables getting rid of `TcLetCo` and hence collapse `Coercion` and `TcCoercion`.  Deferred type errors collected by zonker when zonking coercions.
 
 - Give up on deferred kind errors.
