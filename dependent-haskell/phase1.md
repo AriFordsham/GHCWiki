@@ -461,6 +461,8 @@ Once upon a time, I embarked on a mission to reduce imports of `TyCoRep`, instea
 
 - Use `pushRefl` when splitting a coercion. Unless we're guaranteed that the input is non-Refl. And then ASSERT.
 
+- Document the new weird type equality (which ignores casts)
+
 ## Questions
 
 1. What to do about bad GADT return types
@@ -492,10 +494,22 @@ Once upon a time, I embarked on a mission to reduce imports of `TyCoRep`, instea
   - Richard has an exotic example of what is lost.  We could not write this type:
 
     ```wiki
-    foo :: forall k (a::k). (F k ~ G k) => Proxy [H1 a, H2 a]
+    foo :: forall k (a::k). (c: F k ~ G k) => Proxy [H1 a |> c, H2 a]
     where
-      H1 :: forall k. a -> F k
-      H2 :: forall k. a -> G k
+      H1 :: forall k. k -> F k
+      H2 :: forall k. k -> G k
+    ```
+
+    But you can write this without using dependent coercions:
+
+    ```wiki
+    foo :: forall (a::k) (b :: F k). (b ~ H2 a) => Proxy [H1 a, b]
+    ```
+
+    But what about
+
+    ```wiki
+       forall (c: t1~t2). K c   where   K :: (t1~t2) => *
     ```
 
 - Coercion equalities solved by `TcCoVars`, *not* via the `EvBinds` stuff.  Enables getting rid of `TcLetCo` and hence collapse `Coercion` and `TcCoercion`.  Deferred type errors collected by zonker when zonking coercions.
