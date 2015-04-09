@@ -269,7 +269,8 @@ Is `Int` the same as `Int |> <*>`? In the formalism: no. This is OK, because we 
 There are, of course, wrinkles:
 * We wish to avoid ever comparing coercions. So, I removed `eqCoercion` and replaced it with a check looking at a coercion's type. After all, if two proofs prove the same thing, they should be interchangeable. This change includes a vast simplification to `CoercionMap` in !TrieMap.
 
-'''SLPJ''' good idea!  But it should still be called `eqCoercion` shouldn't it?  It just has a better implementation.
+'''SLPJ''' good idea!  But it should still be called `eqCoercion` shouldn't it?  It just has a better implementation. '''RAE''' Yes, 
+that's entirely unclear above. It still is called `eqCoercion`.
 
 * There is a bizarre wrinkle around unification. We want unification to succeed whenever a unifying substitution exists. Take this example:
 
