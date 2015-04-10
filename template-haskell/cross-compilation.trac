@@ -15,6 +15,16 @@ rwbarton shared a few more points that require TH to run on the target platform:
 sairheit also shared a nice explanation as well: 
 - the point of cross compilation is not to run code on the host, but TH can do it. You can't force the host to behave like the target. (e.g. what libc would you use?)
 
+= But Template Haskell is Terrible altogether =
+
+TH, being a GHC extension and potentially unsafe, and also allowing arbitrary IO during compile time (launch missiles anyone?). There are quite a few discussions if TH should be embraced or not.
+See for example the following link, which has lots of pointers to relevant topics.
+- http://stackoverflow.com/questions/10857030/whats-so-bad-about-template-haskell
+
+Yesod, is probably one of the more prominent larger users of TH and Michael Snoyman has layed out the reasoning here: http://www.yesodweb.com/blog/2011/04/yesod-template-haskell
+
+To me, ultimately looking for example at the list of packages depending on template haskell through a reverse search, http://packdeps.haskellers.com/reverse/template-haskell, would rule out the use of quite a few packages. 
+
 = Possible Solutions =
 
 There are a few solutions, which mostly consist of duming the splices and running them through a separate pass, (e.g. evil Splicer).
