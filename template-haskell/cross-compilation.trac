@@ -35,3 +35,9 @@ And there is also the solution which is uses in ghcjs, which is that there is a 
 to which the TH splices are handed from the ghc running on the host to compile the splice on the target, which in return produces the
 correctly evaluated splice and ships it back to the ghc on the host. I am in the process of porting this mechanism from ghcjs to
 ghc.
+
+= Open Questions =
+
+This is not an exhaustive list, but should highlight all the known questions so far
+
+- Given the TH splice being evaluated on the target, and it would perform arbitrary IO (e.g. include a file) which is dependent on the hosts environment, this will work under no-cross compilation, but fail under cross-compilation with a slave process on the target, as the target might not have the same environment. Example: [https://hackage.haskell.org/package/git-embed git-embed], which runs git to obtain the branch and commit hash information. The repository would be available to the host, but not the the runner (slave), nor is guaranteed that the slave will have git available (or that any other programm for that matter is available on the target architecture)
