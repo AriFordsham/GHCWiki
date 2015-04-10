@@ -32,7 +32,7 @@ See for example the following link, which has lots of pointers to relevant topic
 - [ http://stackoverflow.com/questions/10857030/whats-so-bad-about-template-haskell](http://stackoverflow.com/questions/10857030/whats-so-bad-about-template-haskell)
 
 
-There is a wiki entry that takes this critique into account
+Here is a blog entry that takes this critique into account with a Template Haskell Proposal (New directions for Template Haskell)
 
 - [ https://ghc.haskell.org/trac/ghc/blog/Template%20Haskell%20Proposal](https://ghc.haskell.org/trac/ghc/blog/Template%20Haskell%20Proposal)
 

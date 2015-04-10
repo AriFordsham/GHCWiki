@@ -20,7 +20,7 @@ sairheit also shared a nice explanation as well:
 TH, being a GHC extension and potentially unsafe, and also allowing arbitrary IO during compile time (launch missiles anyone?). There are quite a few discussions if TH should be embraced or not.
 See for example the following link, which has lots of pointers to relevant topics.
 - http://stackoverflow.com/questions/10857030/whats-so-bad-about-template-haskell
-There is a wiki entry that takes this critique into account
+Here is a blog entry that takes this critique into account with a Template Haskell Proposal (New directions for Template Haskell)
 - https://ghc.haskell.org/trac/ghc/blog/Template%20Haskell%20Proposal
 
 Yesod, is probably one of the more prominent larger users of TH and Michael Snoyman has layed out the reasoning here: http://www.yesodweb.com/blog/2011/04/yesod-template-haskell
