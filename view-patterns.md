@@ -417,7 +417,7 @@ Of course, you can only use one view function for each hidden-type/view-type pai
 The above implementation of `size` is given the following type:
 
 ```wiki
-   size :: View a TypView -> a -> Int
+   size :: View a TypView => a -> Int
 ```
 
 
