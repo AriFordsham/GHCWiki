@@ -66,11 +66,27 @@ Haskell currently has three quantifiers: `forall`, `->`, and `=>`, as classified
 
 <table><tr><th>Required</th>
 <td>
-A *required* quantification is one that must textually appear in the type signature. Note that Haskell freely infers the type `a -> a` really to mean `forall a. a -> a`, by looking for free variables (abbreviated to FVs, above). Haskell currently does slightly more than analyze just free variables, though: it also quantifies over free *kind* variables that do not textually appear in a type. For example, the type `Proxy a -> Proxy a` really means (in today's Haskell) `forall (k :: BOX) (a :: k). Proxy a -> Proxy a`, even though `k` does not appear in the body of the type. Note that a *visible* quantifications impose a requirement on how a thing is used/written; *required* quantifications impose a requirement on how a thing's type is written.
+(Not very important.) A *required* quantification is one that must textually appear in the type signature. Note that Haskell freely infers the type `a -> a` really to mean `forall a. a -> a`, by looking for free variables (abbreviated to FVs, above). Haskell currently does slightly more than analyze just free variables, though: it also quantifies over free *kind* variables that do not textually appear in a type. For example, the type `Proxy a -> Proxy a` really means (in today's Haskell) `forall (k :: BOX) (a :: k). Proxy a -> Proxy a`, even though `k` does not appear in the body of the type. Note that a *visible* quantifications impose a requirement on how a thing is used/written; *required* quantifications impose a requirement on how a thing's type is written.
 </td></tr></table>
 
 <table><tr><th>Visible</th>
-<td>*Visibility* refers to whether or not the argument must appear at **call sites** in the program text. If something is not visible, the table lists how GHC is to fill in the missing bit at call sites. If something is visible, we must specify how it is parsed, noting that the term- and type-level parsers are different.  For example, if `f :: forall a. Ord a => a -> Int`, then a call must look like `f "foo"`, omitting the type argument and the `Ord String` argument.
+<td>*Visibility* refers to whether or not the argument must appear at **definitions** and **call sites** in the program text. If something is not visible, the table lists how GHC is to fill in the missing bit at call sites. If something is visible, we must specify how it is parsed, noting that the term- and type-level parsers are different. For example:
+
+```wiki
+-- Invisible ----
+f1 :: forall a. a -> a
+f1 x = x
+
+g1 x = f1 True
+
+-- Visible ----
+f1 :: forall a -> a -> a
+f1 a x = x 
+
+g1 x = f1 Bool True
+```
+
+Similarly, type-class arguments, whose types look like `Ord a => a -> Int`, are invisible at both definition and use; but we don't have a visible form.
 </td></tr></table>
 
 <table><tr><th>Relevant</th>

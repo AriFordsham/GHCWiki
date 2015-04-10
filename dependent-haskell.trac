@@ -32,10 +32,24 @@ Haskell currently has three quantifiers: `forall`, `->`, and `=>`, as classified
   ''Dependent'' means that the quantified thing (henceforth, ''quantifiee'') can appear later in the type. This is clearly true for `forall`-quantified things and clearly not true for `->`-quantified things. (That is, if we have `Int -> Bool`, we can't mention the `Int` value after the `->`!)
 
  Required::
-  A ''required'' quantification is one that must textually appear in the type signature. Note that Haskell freely infers the type `a -> a` really to mean `forall a. a -> a`, by looking for free variables (abbreviated to FVs, above). Haskell currently does slightly more than analyze just free variables, though: it also quantifies over free ''kind'' variables that do not textually appear in a type. For example, the type `Proxy a -> Proxy a` really means (in today's Haskell) `forall (k :: BOX) (a :: k). Proxy a -> Proxy a`, even though `k` does not appear in the body of the type. Note that a ''visible'' quantifications impose a requirement on how a thing is used/written; ''required'' quantifications impose a requirement on how a thing's type is written.
+  (Not very important.) A ''required'' quantification is one that must textually appear in the type signature. Note that Haskell freely infers the type `a -> a` really to mean `forall a. a -> a`, by looking for free variables (abbreviated to FVs, above). Haskell currently does slightly more than analyze just free variables, though: it also quantifies over free ''kind'' variables that do not textually appear in a type. For example, the type `Proxy a -> Proxy a` really means (in today's Haskell) `forall (k :: BOX) (a :: k). Proxy a -> Proxy a`, even though `k` does not appear in the body of the type. Note that a ''visible'' quantifications impose a requirement on how a thing is used/written; ''required'' quantifications impose a requirement on how a thing's type is written.
 
  Visible::
-  ''Visibility'' refers to whether or not the argument must appear at '''call sites''' in the program text. If something is not visible, the table lists how GHC is to fill in the missing bit at call sites. If something is visible, we must specify how it is parsed, noting that the term- and type-level parsers are different.  For example, if `f :: forall a. Ord a => a -> Int`, then a call must look like `f "foo"`, omitting the type argument and the `Ord String` argument.
+  ''Visibility'' refers to whether or not the argument must appear at '''definitions''' and '''call sites''' in the program text. If something is not visible, the table lists how GHC is to fill in the missing bit at call sites. If something is visible, we must specify how it is parsed, noting that the term- and type-level parsers are different. For example:
+{{{
+-- Invisible ----
+f1 :: forall a. a -> a
+f1 x = x
+
+g1 x = f1 True
+
+-- Visible ----
+f1 :: forall a -> a -> a
+f1 a x = x 
+
+g1 x = f1 Bool True
+}}}
+ Similarly, type-class arguments, whose types look like `Ord a => a -> Int`, are invisible at both definition and use; but we don't have a visible form.
 
  Relevant::
   ''Relevance'' refers to how the quantifiee can be used in the term classified by the type in question. (This is distinct from dependence, which says how the quantifiee can be used in the ''type'' that follows!) `forall`-quantifiees are not relevant. While they can textually appear in the classified term, they appear only in irrelevant positions -- that is, in type annotations and type signatures. `->`- and `=>`-quantifiees, on the other hand, can be used freely. Relevance is something of a squirrely issue. It is (RAE believes) closely related to parametricity, in that if `forall`-quantifiees were relevant, Haskell would lose the parametricity property. Another way to think about this is that parametric arguments are irrelevant and non-parametric arguments are relevant. See also [#type-level-relevance this discussion] for perhaps further intuition.
