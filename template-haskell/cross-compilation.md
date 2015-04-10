@@ -27,9 +27,7 @@ sairheit also shared a nice explanation as well:
 
 
 TH, being a GHC extension and potentially unsafe, and also allowing arbitrary IO during compile time (launch missiles anyone?). There are quite a few discussions if TH should be embraced or not.
-See for example the following link, which has lots of pointers to relevant topics.
-
-- [ http://stackoverflow.com/questions/10857030/whats-so-bad-about-template-haskell](http://stackoverflow.com/questions/10857030/whats-so-bad-about-template-haskell)
+See for example [ SO: Why does Template Haskell allow arbitrary IO operations during compilation?](http://stackoverflow.com/questions/13785753/why-does-template-haskell-allow-arbitrary-io-operations-during-compilation) and [ SO: What's so bad about Template Haskell?](http://stackoverflow.com/questions/10857030/whats-so-bad-about-template-haskell)
 
 
 Here is a blog entry that takes this critique into account with a [ Major proposed revision of Template Haskell](https://ghc.haskell.org/trac/ghc/wiki/TemplateHaskell/BlogPostChanges), which is the evolution of [ New directions for Template Haskell](https://ghc.haskell.org/trac/ghc/blog/Template%20Haskell%20Proposal).
