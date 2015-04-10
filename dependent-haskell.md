@@ -62,17 +62,69 @@ Haskell currently has three quantifiers: `forall`, `->`, and `=>`, as classified
 
 <table><tr><th>Dependent</th>
 <td>*Dependent* means that the quantified thing (henceforth, *quantifiee*) can appear later in the type. This is clearly true for `forall`-quantified things and clearly not true for `->`-quantified things. (That is, if we have `Int -> Bool`, we can't mention the `Int` value after the `->`!)
-</td></tr>
-<tr><th>Visible</th>
-<td>*Visibility* refers to whether or not the argument must appear at call sites in the program text. If something is not visible, the table lists how GHC is to fill in the missing bit at call sites. If something is visible, we must specify how it is parsed, noting that the term- and type-level parsers are different.  For example, if `f :: forall a. Ord a => a -> Int`, then a call must look like `f "foo"`, omitting the type argument and the `Ord String` argument.
-</td></tr>
-<tr><th>Required</th>
-<td>
-A *required* quantification is one that must textually appear in the type. Note that Haskell freely infers the type `a -> a` really to mean `forall a. a -> a`, by looking for free variables (abbreviated to FVs, above). Haskell currently does slightly more than analyze just free variables, though: it also quantifies over free *kind* variables that do not textually appear in a type. For example, the type `Proxy a -> Proxy a` really means (in today's Haskell) `forall (k :: BOX) (a :: k). Proxy a -> Proxy a`, even though `k` does not appear in the body of the type. Note that a *visible* quantifications impose a requirement on how a thing is used/written; *required* quantifications impose a requirement on how a thing's type is written.
-</td></tr>
-<tr><th>Relevant</th>
-<td>*Relevance* refers to how the quantifiee can be used in the term classified by the type in question. (This is distinct from dependence, which says how the quantifiee can be used in the *type* that follows!) `forall`-quantifiees are not relevant. While they can textually appear in the classified term, they appear only in irrelevant positions -- that is, in type annotations and type signatures. `->`- and `=>`-quantifiees, on the other hand, can be used freely. Relevance is something of a squirrely issue. It is (RAE believes) closely related to parametricity, in that if `forall`-quantifiees were relevant, Haskell would lose the parametricity property. Another way to think about this is that parametric arguments are irrelevant and non-parametric arguments are relevant. See also [this discussion](dependent-haskell#) for perhaps further intuition.
 </td></tr></table>
+
+<table><tr><th>Required</th>
+<td>
+(Not very important.) A *required* quantification is one that must textually appear in the type signature. Note that Haskell freely infers the type `a -> a` really to mean `forall a. a -> a`, by looking for free variables (abbreviated to FVs, above). Haskell currently does slightly more than analyze just free variables, though: it also quantifies over free *kind* variables that do not textually appear in a type. For example, the type `Proxy a -> Proxy a` really means (in today's Haskell) `forall (k :: BOX) (a :: k). Proxy a -> Proxy a`, even though `k` does not appear in the body of the type. Note that a *visible* quantifications impose a requirement on how a thing is used/written; *required* quantifications impose a requirement on how a thing's type is written.
+</td></tr></table>
+
+<table><tr><th>Visible</th>
+<td>*Visibility* refers to whether or not the argument must appear at **definitions** and **call sites** in the program text. If something is not visible, the table lists how GHC is to fill in the missing bit at call sites. If something is visible, we must specify how it is parsed, noting that the term- and type-level parsers are different. For example (not implemented):
+
+```wiki
+-- Invisible ----
+f1 :: forall a. a -> a
+f1 x = x
+
+g1 x = f1 True
+
+-- Visible ----
+f1 :: forall a -> a -> a
+f1 a x = x 
+
+g1 x = f1 Bool True
+```
+
+Same at the type level (but this *is* implemented):
+
+```wiki
+-- Invisible ----
+-- Proxy1 :: forall k. k -> *
+data Proxy1 (a :: k) = P1
+f1 :: Proxy1 Int -> Bool
+
+-- Visible ----
+-- Proxy2 :: forall k -> k -> *
+data Proxy2 k (a :: k) = P2
+f2 :: Proxy2 * Int
+```
+
+(The kind signatures for `Proxy1`/`Proxy2` are output, but can't yet be written.)
+</td></tr></table>
+
+>
+> Similarly, type-class arguments, whose types look like `Ord a => a -> Int`, are invisible at both definition and use; but we don't have a visible form.
+
+<table><tr><th>Relevant</th>
+<td>*Relevance* refers to how the quantifiee can be used in the term classified by the type in question. For terms and their types, a binder is relevant iff it is not erased; that is, it is needed at runtime. In GHC terms, relevant binders are `Id`s and irrelevant ones are `TyVar`s.
+</td></tr></table>
+
+>
+> For types and their kinds, we can't talk about erasure (since the are all erased!) but the relevance idea works the same, one level up.  Example
+>
+> ```wiki
+> type family Id (x::k1) (y::k2) :: (k1,k2) where
+>   Id True  v = (False, v)
+>   Id False v = (True,  v)
+>   Id x     v = (x,     v)
+> ```
+>
+>
+> If `Id`'s kind was `forall k1 k2. k1 -> k2 -> (k1,k2)`, it looks parametric in both `k1` and `k2`.  But it isn't, because it can pattern-match on `k1`.  So `k1` is relevant, but `k2` is irrelevant.
+
+>
+> (This is distinct from dependence, which says how the quantifiee can be used in the *type* that follows!) `forall`-quantifiees are not relevant. While they can textually appear in the classified term, they appear only in irrelevant positions -- that is, in type annotations and type signatures. `->`- and `=>`-quantifiees, on the other hand, can be used freely. Relevance is something of a squirrely issue. It is (RAE believes) closely related to parametricity, in that if `forall`-quantifiees were relevant, Haskell would lose the parametricity property. Another way to think about this is that parametric arguments are irrelevant and non-parametric arguments are relevant. See also [this discussion](dependent-haskell#) for perhaps further intuition.
 
 
 Having explained our terms with the current Haskell, the proposed set of quantifiers for dependent Haskell is below:
