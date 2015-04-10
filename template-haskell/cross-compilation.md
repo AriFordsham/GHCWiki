@@ -32,7 +32,7 @@ See for example the following link, which has lots of pointers to relevant topic
 - [ http://stackoverflow.com/questions/10857030/whats-so-bad-about-template-haskell](http://stackoverflow.com/questions/10857030/whats-so-bad-about-template-haskell)
 
 
-Here is a blog entry that takes this critique into account with a [ Major proposed revision of Template Haskell](https://ghc.haskell.org/trac/ghc/wiki/TemplateHaskell/BlogPostChanges), which is the evolution of [ https://ghc.haskell.org/trac/ghc/blog/Template%20Haskell%20Proposal](https://ghc.haskell.org/trac/ghc/blog/Template%20Haskell%20Proposal) New directions for Template Haskell\].
+Here is a blog entry that takes this critique into account with a [ Major proposed revision of Template Haskell](https://ghc.haskell.org/trac/ghc/wiki/TemplateHaskell/BlogPostChanges), which is the evolution of [ New directions for Template Haskell](https://ghc.haskell.org/trac/ghc/blog/Template%20Haskell%20Proposal).
 
 
 Yesod, is probably one of the more prominent larger users of TH and Michael Snoyman has layed out the reasoning here: [ http://www.yesodweb.com/blog/2011/04/yesod-template-haskell](http://www.yesodweb.com/blog/2011/04/yesod-template-haskell)
