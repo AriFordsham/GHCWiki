@@ -326,7 +326,7 @@ Of course, you can only use one view function for each hidden-type/view-type pai
 ==== Functional dependencies ====
 The above implementation of `size` is given the following type:
 {{{
-   size :: View a TypView -> a -> Int
+   size :: View a TypView => a -> Int
 }}}
 which may or may not be what you want.  (For example, with nested view patterns, you can get into situations where the middle type connecting two view patterns is not determined.)  
 
