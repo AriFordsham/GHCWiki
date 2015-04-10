@@ -36,7 +36,8 @@ Here is a blog entry that takes this critique into account with a [ Major propos
 Yesod, is probably one of the more prominent larger users of TH and Michael Snoyman has layed out the reasoning here: [ http://www.yesodweb.com/blog/2011/04/yesod-template-haskell](http://www.yesodweb.com/blog/2011/04/yesod-template-haskell)
 
 
-To me, ultimately looking for example at the list of packages depending on template haskell through a reverse search, [ http://packdeps.haskellers.com/reverse/template-haskell](http://packdeps.haskellers.com/reverse/template-haskell), would rule out the use of quite a few packages. 
+To me, ultimately looking for example at [ the list of packages depending on template haskell](http://packdeps.haskellers.com/reverse/template-haskell) through a reverse search, gives the list of
+packages that can not be used without TH support.
 
 # Possible Solutions
 
