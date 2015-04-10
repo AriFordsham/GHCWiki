@@ -86,39 +86,53 @@ There are several small design questions that can be asked of Explicit Type Appl
 
 - *Is a type annotation and/or signature required for a function in order to use type applications when applying it?*
 
-
-No. Haskell generalizes certain functions, with a simple, straightforward signature; all the type variables are at the top, and it is a fairly simple signature to instantiate and work with. 
+>
+> No. Haskell generalizes certain functions, with a simple, straightforward signature; all the type variables are at the top, and it is a fairly simple signature to instantiate and work with. 
 
 - *Should we require a forall in the signature?*
 
-
-No, for similar reasons as above. Additionally, we did not want to create a dependency on the "ExplicitForAll" flag, and wanted type applications to be a small, surgical feature that has as few side effects as possible.
+>
+> No, for similar reasons as above. Additionally, we did not want to create a dependency on the "ExplicitForAll" flag, and wanted type applications to be a small, surgical feature that has as few side effects as possible.
 
 - *What order is used to instantiate the type variables?*
 
-
-Left-to-right order of the type variables appearing in the foralls. This is the most logical order that occurs when the instantiation is done at the type-variable level. Nested foralls work slightly differently, but at a single forall location with multiple variables, left-to-right order takes place. (See below for nested foralls).
+>
+> Left-to-right order of the type variables appearing in the foralls. This is the most logical order that occurs when the instantiation is done at the type-variable level. Nested foralls work slightly differently, but at a single forall location with multiple variables, left-to-right order takes place. (See below for nested foralls).
 
 - *How will it work with partial function application? Will we allow: leaving out arguments in function application, but allow type application to de-generalize the expression?*
 
-
-Yes. This will allow the programmer to use the partially applied the function later, but only to arguments with specific types. This could be useful for a library designer, to use a generalized function internally, and only expose a specialized version of that function in the interface.  
+>
+> Yes. This will allow the programmer to use the partially applied the function later, but only to arguments with specific types. This could be useful for a library designer, to use a generalized function internally, and only expose a specialized version of that function in the interface.  
 
 - * Wildcard Application*
+  Allows the programmer to not instantiate every type variable if they do not want to. Example
 
+  ```wiki
+  f xs = reverse @ (Maybe _) xs
+  -- Instantiates reverse at a Maybe type
+  -- but lets GHC infer which
+  ```
 
-Allows the programmer to not instantiate every type variable if they do not want to. See the examples section (above) for a use case.
+  An explicit application `@ _` is just like the implicit form: instantiate with a fresh unification variable.  
+
+- *Named wildcards*.  Can you write
+
+  ```wiki
+  f xs = reverse @ (_a -> _a) xs
+  ```
+
+  The intent here is that `_a` stands for a type, but not necessarily a type variable.
 
 - *Should non-prenex-form functions be allowed to use type applications? If so, how should we allow it? *
 
-
-Yes. We allow this by requiring that type application appear where the forall is located in the type. See the following example:
-
-```wiki
-many :: forall a b. a -> b -> forall c. [c] -> forall d . Num d => d -> (a, b, [c], d)
-many a b c d = (a, b, c, d)
-foo =  many @Int @Bool 5 True @Char "hello" @Float 17
-```
+>
+> Yes. We allow this by requiring that type application appear where the forall is located in the type. See the following example:
+>
+> ```wiki
+> many :: forall a b. a -> b -> forall c. [c] -> forall d . Num d => d -> (a, b, [c], d)
+> many a b c d = (a, b, c, d)
+> foo =  many @Int @Bool 5 True @Char "hello" @Float 17
+> ```
 
 - *Concrete Syntax*:
 
