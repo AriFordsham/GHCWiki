@@ -22,6 +22,7 @@
 - [\#9725](https://gitlab.haskell.org//ghc/ghc/issues/9725): kind equalities (Richard)
 - [\#9717](https://gitlab.haskell.org//ghc/ghc/issues/9717), [\#9729](https://gitlab.haskell.org//ghc/ghc/issues/9729): orphan modules
 - [\#9583](https://gitlab.haskell.org//ghc/ghc/issues/9583), [\#9630](https://gitlab.haskell.org//ghc/ghc/issues/9630): code blowup in Generics/Binary
+- [\#10293](https://gitlab.haskell.org//ghc/ghc/issues/10293): too much time in `CallArity` (Joachim)
 
 ## Front end
 
