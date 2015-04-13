@@ -37,6 +37,13 @@ $ make test
 
 will do a full testsuite run (more thorough, but takes a lot longer). You should expect that there are no test case failures for the "fast" mode as that is a quality level that all GHC developers are expected to maintain when they check in code. There will usually be some test case failures for the full testsuite run though.
 
+
+The run time of the testsuite can be reduced by running it with multiple threads. For instance if your machine has 8 cores, the following is probably appropriate:
+
+```wiki
+$ make fulltest THREADS=6
+```
+
 ## Using the Testsuite
 
 - [Running the testsuite](building/running-tests/running)
