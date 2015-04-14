@@ -4,7 +4,7 @@ See milestone:7.10.2 and [https://ghc.haskell.org/trac/ghc/query?status=infoneed
 
 == Tickets slated for 7.10.2
 
-[[TicketQuery(milestone=7.10.2,status!=closed,format=table,col=type|summary|priority|owner,group=status,order=priority)]]
+[[TicketQuery(milestone=7.10.2,format=table,col=type|summary|priority|owner,group=status,order=priority)]]
 
 == Tickets marked merge with no milestone
 
