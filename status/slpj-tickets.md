@@ -15,7 +15,6 @@
 - [\#8634](https://gitlab.haskell.org//ghc/ghc/issues/8634), [\#9267](https://gitlab.haskell.org//ghc/ghc/issues/9267), [\#9227](https://gitlab.haskell.org//ghc/ghc/issues/9227): relaxing functional dependency rules `-XDysFunctionalDependencies`
 - [\#9123](https://gitlab.haskell.org//ghc/ghc/issues/9123): higher order roles
 - [\#9352](https://gitlab.haskell.org//ghc/ghc/issues/9352): allow `State#` in FFI types.
-- [\#9388](https://gitlab.haskell.org//ghc/ghc/issues/9388): narrow the state hack
 - [\#9637](https://gitlab.haskell.org//ghc/ghc/issues/9637): type-level "error" function
 - [\#9725](https://gitlab.haskell.org//ghc/ghc/issues/9725): kind equalities (Richard)
 - [\#9717](https://gitlab.haskell.org//ghc/ghc/issues/9717), [\#9729](https://gitlab.haskell.org//ghc/ghc/issues/9729): orphan modules
@@ -91,6 +90,31 @@ See also [TemplateHaskell](template-haskell)
 - [\#6040](https://gitlab.haskell.org//ghc/ghc/issues/6040), [\#5945](https://gitlab.haskell.org//ghc/ghc/issues/5945), [\#3458](https://gitlab.haskell.org//ghc/ghc/issues/3458), [\#1216](https://gitlab.haskell.org//ghc/ghc/issues/1216): lambda-lift functions with a few args, just before code gen
 - [\#1171](https://gitlab.haskell.org//ghc/ghc/issues/1171): strictness and exceptions (long, open ticket)
 
+### Arity
+
+- [\#9388](https://gitlab.haskell.org//ghc/ghc/issues/9388): narrow the state hack
+- [\#10260](https://gitlab.haskell.org//ghc/ghc/issues/10260): not enough eta expansion
+- [\#7542](https://gitlab.haskell.org//ghc/ghc/issues/7542): optimisation of eta expansion/reduction
+- [\#5809](https://gitlab.haskell.org//ghc/ghc/issues/5809): arity analysis could be better
+- [\#3924](https://gitlab.haskell.org//ghc/ghc/issues/3924): weak arity leads to weak strictness
+- [\#3698](https://gitlab.haskell.org//ghc/ghc/issues/3698): arity analysis again
+- [\#3697](https://gitlab.haskell.org//ghc/ghc/issues/3697): class method selectors
+- [\#3034](https://gitlab.haskell.org//ghc/ghc/issues/3034): divInt and arity
+- [\#2915](https://gitlab.haskell.org//ghc/ghc/issues/2915): arity too small
+- [\#2823](https://gitlab.haskell.org//ghc/ghc/issues/2823): another arity expansion bug (related to dictionaries)
+- [\#2440](https://gitlab.haskell.org//ghc/ghc/issues/2440): bad code with type families; I believe this is also arity-related
+- [\#1547](https://gitlab.haskell.org//ghc/ghc/issues/1547): profiling and arity
+- [\#5587](https://gitlab.haskell.org//ghc/ghc/issues/5587), [\#7364](https://gitlab.haskell.org//ghc/ghc/issues/7364): eta-expansion can imcrease termination.  These tickets are closed because we don't know how to fix them properly, not becuase they are really fixed.
+
+### Inlining
+
+- [\#4833](https://gitlab.haskell.org//ghc/ghc/issues/4833): finding the right loop breaker
+- [\#3781](https://gitlab.haskell.org//ghc/ghc/issues/3781), [\#3755](https://gitlab.haskell.org//ghc/ghc/issues/3755): inlining for local functions: discount for scrutinising free vars
+- [\#3765](https://gitlab.haskell.org//ghc/ghc/issues/3765): CONLIKE things and case expressions (need two unfoldings)
+- [\#3073](https://gitlab.haskell.org//ghc/ghc/issues/3073) and [Commentary/Compiler/DesugaringInstances](commentary/compiler/desugaring-instances): better desugaring for instances
+- [\#3123](https://gitlab.haskell.org//ghc/ghc/issues/3123): feature request: recursive inlining and peeling
+- [\#4960](https://gitlab.haskell.org//ghc/ghc/issues/4960): better inlining tests
+
 ## Optimisation
 
 - [\#9370](https://gitlab.haskell.org//ghc/ghc/issues/9370): respecting mixed `-O` and `-O0` in `ghc --make`, especially concerning cross-module inlining
@@ -144,29 +168,6 @@ See also [TemplateHaskell](template-haskell)
 - [\#5972](https://gitlab.haskell.org//ghc/ghc/issues/5972): option to suppress record selectors
 
 ---
-
-### Arity
-
-- [\#7542](https://gitlab.haskell.org//ghc/ghc/issues/7542): optimisation of eta expansion/reduction
-- [\#5809](https://gitlab.haskell.org//ghc/ghc/issues/5809): arity analysis could be better
-- [\#3924](https://gitlab.haskell.org//ghc/ghc/issues/3924): weak arity leads to weak strictness
-- [\#3698](https://gitlab.haskell.org//ghc/ghc/issues/3698): arity analysis again
-- [\#3697](https://gitlab.haskell.org//ghc/ghc/issues/3697): class method selectors
-- [\#3034](https://gitlab.haskell.org//ghc/ghc/issues/3034): divInt and arity
-- [\#2915](https://gitlab.haskell.org//ghc/ghc/issues/2915): arity too small
-- [\#2823](https://gitlab.haskell.org//ghc/ghc/issues/2823): another arity expansion bug (related to dictionaries)
-- [\#2440](https://gitlab.haskell.org//ghc/ghc/issues/2440): bad code with type families; I believe this is also arity-related
-- [\#1547](https://gitlab.haskell.org//ghc/ghc/issues/1547): profiling and arity
-- [\#5587](https://gitlab.haskell.org//ghc/ghc/issues/5587), [\#7364](https://gitlab.haskell.org//ghc/ghc/issues/7364): eta-expansion can imcrease termination.  These tickets are closed because we don't know how to fix them properly, not becuase they are really fixed.
-
-### Inlining
-
-- [\#4833](https://gitlab.haskell.org//ghc/ghc/issues/4833): finding the right loop breaker
-- [\#3781](https://gitlab.haskell.org//ghc/ghc/issues/3781), [\#3755](https://gitlab.haskell.org//ghc/ghc/issues/3755): inlining for local functions: discount for scrutinising free vars
-- [\#3765](https://gitlab.haskell.org//ghc/ghc/issues/3765): CONLIKE things and case expressions (need two unfoldings)
-- [\#3073](https://gitlab.haskell.org//ghc/ghc/issues/3073) and [Commentary/Compiler/DesugaringInstances](commentary/compiler/desugaring-instances): better desugaring for instances
-- [\#3123](https://gitlab.haskell.org//ghc/ghc/issues/3123): feature request: recursive inlining and peeling
-- [\#4960](https://gitlab.haskell.org//ghc/ghc/issues/4960): better inlining tests
 
 ## Cmm and code generation
 
