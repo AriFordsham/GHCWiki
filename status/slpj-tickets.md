@@ -93,7 +93,7 @@ See also [TemplateHaskell](template-haskell)
 ### Arity
 
 - [\#9388](https://gitlab.haskell.org//ghc/ghc/issues/9388): narrow the state hack
-- [\#10260](https://gitlab.haskell.org//ghc/ghc/issues/10260): not enough eta expansion
+- [\#10260](https://gitlab.haskell.org//ghc/ghc/issues/10260), [\#9020](https://gitlab.haskell.org//ghc/ghc/issues/9020), [\#10319](https://gitlab.haskell.org//ghc/ghc/issues/10319): not enough eta expansion
 - [\#7542](https://gitlab.haskell.org//ghc/ghc/issues/7542): optimisation of eta expansion/reduction
 - [\#5809](https://gitlab.haskell.org//ghc/ghc/issues/5809): arity analysis could be better
 - [\#3924](https://gitlab.haskell.org//ghc/ghc/issues/3924): weak arity leads to weak strictness
