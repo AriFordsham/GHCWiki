@@ -88,7 +88,7 @@ See also [wiki:TemplateHaskell]
 
 === Arity ===
  * #9388: narrow the state hack
- * #10260: not enough eta expansion
+ * #10260, #9020, #10319: not enough eta expansion
  * #7542: optimisation of eta expansion/reduction
  * #5809: arity analysis could be better
  * #3924: weak arity leads to weak strictness
