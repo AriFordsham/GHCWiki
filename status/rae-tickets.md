@@ -8,7 +8,6 @@
 - [\#7494](https://gitlab.haskell.org//ghc/ghc/issues/7494): Allow type synonyms in GADT return types
 - [\#8109](https://gitlab.haskell.org//ghc/ghc/issues/8109): As-patterns in type patterns
 - [\#8634](https://gitlab.haskell.org//ghc/ghc/issues/8634): Dysfunctional dependencies
-- [\#9122](https://gitlab.haskell.org//ghc/ghc/issues/9122): Check for bogus `unsafeCoerce`
 - [\#9636](https://gitlab.haskell.org//ghc/ghc/issues/9636): Should `F Bool` be well-formed, if `F` is an empty closed type family? (blocked by [\#9637](https://gitlab.haskell.org//ghc/ghc/issues/9637))
 - [\#9687](https://gitlab.haskell.org//ghc/ghc/issues/9687): Need `Typeable (,,,,,,,,,,)` and friends
 - [\#9840](https://gitlab.haskell.org//ghc/ghc/issues/9840): Allow empty closed type families
@@ -38,6 +37,7 @@
 - [\#10114](https://gitlab.haskell.org//ghc/ghc/issues/10114): Non-`*` bodies of foralls
 - [\#10121](https://gitlab.haskell.org//ghc/ghc/issues/10121): Correct operational semantics around letrec.
 - [\#10134](https://gitlab.haskell.org//ghc/ghc/issues/10134): Unexpected "Let should not be generalised" problem 
+- [\#10318](https://gitlab.haskell.org//ghc/ghc/issues/10318): Allow superclass cycles
 
 **Hard**
 
@@ -64,11 +64,7 @@
 
 ## Typechecker
 
-- [\#7788](https://gitlab.haskell.org//ghc/ghc/issues/7788): More intelligent behavior around loopy type families
-
-  - [\#8550](https://gitlab.haskell.org//ghc/ghc/issues/8550): Probably a dup of [\#7788](https://gitlab.haskell.org//ghc/ghc/issues/7788)
 - [\#9450](https://gitlab.haskell.org//ghc/ghc/issues/9450): Interleave checking against an hs-boot file while typechecking definitions
-- [\#9554](https://gitlab.haskell.org//ghc/ghc/issues/9554): `-XUndecidableInstances` causes runtime loop
 - [\#9557](https://gitlab.haskell.org//ghc/ghc/issues/9557): Deriving instances is slow
 - [\#10141](https://gitlab.haskell.org//ghc/ghc/issues/10141): Add a hint about CUSKs to relevant error messages
 
@@ -94,7 +90,6 @@
 - [\#9376](https://gitlab.haskell.org//ghc/ghc/issues/9376): Improve error messages for closed type families that get stuck on the dark corners
 - [\#9378](https://gitlab.haskell.org//ghc/ghc/issues/9378): Make unknown LANGUAGE pragmas warnings
 - [\#9394](https://gitlab.haskell.org//ghc/ghc/issues/9394): `:info` should show instances of data and type families.
-- [\#9778](https://gitlab.haskell.org//ghc/ghc/issues/9778): Allow warnings for unticked promoted things
 - [\#9784](https://gitlab.haskell.org//ghc/ghc/issues/9784): Report better error for `Foo.'Z`
 - [\#10056](https://gitlab.haskell.org//ghc/ghc/issues/10056): Remove the magic from parsing `~`. Some open design questions.
 
@@ -119,10 +114,7 @@
 
 *Unknown*
 
-- [\#9160](https://gitlab.haskell.org//ghc/ghc/issues/9160): Some panic with optimizations and `singletons`.
 - [\#9693](https://gitlab.haskell.org//ghc/ghc/issues/9693): Stale state left in failed compilation with GHCi and TH.
-- [\#10019](https://gitlab.haskell.org//ghc/ghc/issues/10019): Reification in GHCi
-- [\#10047](https://gitlab.haskell.org//ghc/ghc/issues/10047): Scoping weirdness around quasiquotation
 
 **Design needed**
 
