@@ -13,7 +13,7 @@ This is a proposal to add support to GHC for desugaring do-notation into Applica
 1. Some Monads have the property that Applicative bind is more
   efficient than Monad bind.  Sometimes this is *really
   important*, such as when the Applicative bind is 
-  concurrent whereas the Monad bind is sequential (c.f. Haxl).  For
+  concurrent whereas the Monad bind is sequential (c.f. [ Haxl](https://github.com/facebook/Haxl)).  For
   these monads we would like the do-notation to desugar to
   Applicative bind where possible, to take advantage of the improved
   behaviour but without forcing the user to explicitly choose.
@@ -48,15 +48,10 @@ Since in general Applicative composition might behave differently from monadic b
    {-# LANGUAGE ApplicativeDo #-}
 ```
 
-## Stage 1
+## Example 1
 
 
-This section describes a transformation that could be performed during
-desugaring.  It covers use case (1), but not (2).  I'm describing this
-first because it is easy to understand by itself, and extends to a
-solution for (2).  We might consider implementing this first.
-
-### Examples
+We'll cover a few examples first, and then describe the transformation in general.
 
 ```wiki
    do
@@ -69,19 +64,63 @@ solution for (2).  We might consider implementing this first.
 desugars to
 
 ```wiki
-   do
-     (x,y) <- (,) <$> A <*> B
-     return (f x y)
+   (\x y -> f x y) <$> A <*> B
 ```
 
 
-Note that the tuples introduces like this will probably be optimised
-away when the Monad type is known and its bind can be inlined, but for
-overloaded Monad code they will not be.  In Stage 2 (below) we'll get
-rid of the tuples in some cases.
+which simplifies further to 
+
+```wiki
+   f <$> A <*> B
+```
 
 
-In general we might have
+Since this doesn't refer to any of the `Monad` operations, the typechecker will infer that it only requires `Applicative`. 
+
+## Example 2
+
+```wiki
+   do
+     x <- A
+     y <- B x
+     z <- C
+     return (f x y z)
+```
+
+
+Now we have a dependency: `y` depends on `x`, but there is still an opportunity to use `Applicative` since `z` does not depend on `x` or `y`.  In this case we end up with:
+
+```wiki
+  (\(x,y) z -> f x y z) <$> (do x <- A; y <- B x; return (x,y)) <*> C
+```
+
+
+Note that we had to introduce a tuple to return both the values of `x` and `y` from the inner `do` expression
+
+
+It's important that we keep the original ordering.  For example, we don't want this:
+
+```wiki
+  do 
+    (x,z) <- (,) <$> A <*> C
+    y <- B
+    return (f x y z)
+```
+
+
+because now evaluating the expression in a monad that cares about ordering will give a different result.
+
+
+Another wrong result would be:
+
+```wiki
+  do
+    x <- A
+    (\y z -> f x y z) <$> B <*> C
+```
+
+
+Because this version has less parallelism than the first result, in which `A` and `B` could be performed at the same time as `C`.
 
 ```wiki
   do
