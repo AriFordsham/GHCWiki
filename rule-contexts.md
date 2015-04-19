@@ -37,7 +37,7 @@ For this reason, we'd like to ensure that `litEq` (and similar built-in rewrite 
 ## Implementation
 
 
-Built-in rewrite rules are currently encoded as a \[\[`RuleFun`\],
+Built-in rewrite rules are currently encoded as a `RuleFun`,
 
 ```
 typeRuleFun=DynFlags->InScopeEnv-- ^ The scope within which the call is embedded->Id-- ^ The name of the called function->[CoreExpr]-- ^ The arguments of the call->MaybeCoreExpr-- ^ The resulting rewrite if appropriate
