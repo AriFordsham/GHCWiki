@@ -3,6 +3,9 @@
 
 This is a proposal to add support to GHC for desugaring do-notation into Applicative expressions where possible.
 
+
+To jump to the code, see [ https://phabricator.haskell.org/D729](https://phabricator.haskell.org/D729).
+
 ## Related proposals
 
 - [ Max's proposal on haskell-cafe](http://www.haskell.org/pipermail/haskell-cafe/2011-September/095153.html)
@@ -77,6 +80,28 @@ which simplifies further to
 
 Since this doesn't refer to any of the `Monad` operations, the typechecker will infer that it only requires `Applicative`. 
 
+## Example 1a
+
+
+We might not have a `return`, e.g.:
+
+```wiki
+   do
+     x <- A
+     y <- B  -- B does not refer to x
+     f x y
+```
+
+
+In which case the result is similar, but we need to add a `join`:
+
+```wiki
+   join ((\x y -> f x y) <$> A <*> B)
+```
+
+
+Of course this requires a `Monad`, since `join` is a `Monad` operation.
+
 ## Example 2
 
 ```wiki
@@ -122,149 +147,57 @@ Another wrong result would be:
 
 Because this version has less parallelism than the first result, in which `A` and `B` could be performed at the same time as `C`.
 
-```wiki
-  do
-    .. stmts1 ..
-    x <- A
-    y <- B
-    z <- E[y]
-    .. stmts2 ..
-```
-
-
-which we desugar to
+## Example 3
 
 ```wiki
   do
-    .. stmts1 ..
-    (x,y) <- (,) <$> A <*> B
-    z <- E[y]
-    .. stmts2 ..
+    x1 <- A
+    x2 <- B
+    x3 <- C x1
+    x4 <- D x2
+    return (x1,x2,x3,x4)
 ```
 
 
-this is the best we can do: the rest of the do expression might refer
-to x or y.
-
-
-So in general we want to take the largest consecutive sequence of
-statements where none of the rhs's refer to any of the bound
-variables, and lift them into an Applicative expression.
-
-
-A non-binding statement can be considered to be a binding statement
-with a wildcard pattern.
+Here we can do `A` and `B` in parallel, and `C` and `D` in parallel.  We could do it like this:
 
 ```wiki
-   do
-     x <- A
-     y <- B  -- B does not refer to x
-     C       -- C does not refer to x or y
-     return (f x y)
+  do
+    (x1,x2) <- (,) <$> A <*> B
+    (\x3 x4 -> (x1,x2,x3,x4)) <$> C x1 <*> D x2
 ```
 
 
-desugars to
+But it is slightly more elegant like this:
 
 ```wiki
-   do
-     (x,y,_) <- (,,) <$> A <*> B <*> C
-     return (f x y)
+   join ((\x1 x2 -> (\x3 x4 -> (x1,x2,x3,x4)) <$> C x1 <*> D x2)) <$> A <*> B)
 ```
 
 
-or we can be slightly more clever:
+because we avoid the intermediate tuple.
 
-```wiki
-   do
-     (x,y) <- (,) <$> A <*> (B <* C)
-     return (f x y)
-```
+## In general
 
 
-What if there are more than 63(?) statements, and we don't have a
-tuple big enough?  We have to desugar to nested tuples in this case.
-Not a huge problem, this is exactly what we do for pattern bindings.
-
-### No unique grouping
+Let's use a more concise syntax to talk about the structure of these expressions.  We'll use ; to mean bind, and \| to mean an `Applicative` composition of two expressions.  So the solution to Example 3 would be written `(A | B) ; (C | D)`, making it clear that we want `A` and `B` in parallel, then a bind, followed by `C` and `D` in parallel.
 
 
-There isn't a guaranteed unique way of doing the grouping. Eg
-
-```wiki
-do { x <- A
-   ; y <- B  -- no x
-   ; z <- C x }
-```
+The general problem can be stated like this:
 
 
-could be grouped with the first two in an applicative, or the second two, but not all three. Which one "wins"?
+Given a sequence of statements S1...Sn, find a way to express the list as a nested application of the operators `|` and `;`, such that 
 
-## Stage 2
-
-
-This covers a more comprehensive transformation that would also enable
-us to drop a Monad constraint to an Applicative constraint in the
-typing of do expressions for a certain well-defined subset of the do
-syntax.
+- in every `A | B`, `B` does not depend on anything in `A`, and
+- we get the maximum available parallelism.
 
 
-Back to our first example:
+To define parallelism, we could replace each statement with the value 1, `;` with `+`, and `|` with `max`, and evaluate the expression.  A lower result indicates more parallelism.
 
-```wiki
-   do
-     x <- A
-     y <- B  -- B does not refer to x
-     return (f x y)
-```
+## Implementation
 
 
-we can go further in desugaring this:
-
-```wiki
-    (\x y -> f x y) <$> A <*> B
-```
+The implementation is tricky, because we want to do a transformation that affects type checking (and renaming, because we might be using `RebindableSyntax`), but we still want type errors in terms of the original source code.  Therefore we calculate everything necessary to do the transformation during renaming, but leave enough information behind to reconstruct the original source code for the purposes of error messages.
 
 
-(obviously the lambda expression can be eta-reduced in this example,
-but that's not the case in general).
-
-
-For this to work we have to recognise "return".  Or perhaps "pure".
-
-
-There are two advantages here:
-
-- This code could be typed with an Applicative constraint rather than
-  Monad.
-
-- It leads to more efficient code when the Monad type is not known,
-  because we have eliminated the intermediate pair.
-
-
-What if the final expression is not a "return"?
-
-```wiki
-   do
-     x <- A
-     y <- B  -- B does not refer to x
-     f x y
-```
-
-
-this is
-
-```wiki
-   join ((\x y -> f x y) <$> A <*> B)
-```
-
-
-Note: \*not\* an Applicative, because "join" is a Monad operation.
-However we have eliminated the pair.
-
-
-Problems:
-
-- desugaring comes after typechecking, so the type checker would need
-  its own version of the desugaring rules to be able to tell when a
-  do expression can be fully desugared to Applicative syntax.
+See comments in [ https://phabricator.haskell.org/D729](https://phabricator.haskell.org/D729) for more details.
