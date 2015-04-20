@@ -117,6 +117,8 @@
 *Unknown*
 
 - [\#9693](https://gitlab.haskell.org//ghc/ghc/issues/9693): Stale state left in failed compilation with GHCi and TH.
+- [\#10279](https://gitlab.haskell.org//ghc/ghc/issues/10279): Issue with package names
+- [\#10330](https://gitlab.haskell.org//ghc/ghc/issues/10330): Better locations in error messages
 
 **Design needed**
 
