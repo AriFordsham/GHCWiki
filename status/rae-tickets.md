@@ -114,7 +114,7 @@
 - [\#10094](https://gitlab.haskell.org//ghc/ghc/issues/10094): Partial type signatures in TH
 - [\#10267](https://gitlab.haskell.org//ghc/ghc/issues/10267): Add holes (jstolarek)
 
-*Unknown*
+**Unknown**
 
 - [\#9693](https://gitlab.haskell.org//ghc/ghc/issues/9693): Stale state left in failed compilation with GHCi and TH.
 - [\#10279](https://gitlab.haskell.org//ghc/ghc/issues/10279): Issue with package names
@@ -128,6 +128,7 @@
 - [\#5467](https://gitlab.haskell.org//ghc/ghc/issues/5467): Haddock in TH
 - [\#8679](https://gitlab.haskell.org//ghc/ghc/issues/8679): Include value and function signatures in their declarations
 - [\#8761](https://gitlab.haskell.org//ghc/ghc/issues/8761): Pattern synonyms
+- [\#10331](https://gitlab.haskell.org//ghc/ghc/issues/10331): Better interop between TH and HsSyn
 
 ## Generic programming
 
