@@ -71,6 +71,7 @@ See also [wiki:TemplateHaskell]
 
  * #10279: `reifyPackage`
  * #10330: better TH error locations
+ * #6089: nested declaration splices
  * #10271: difficulty resolving overloading in typed TH
  * #9113: pattern match overlap/exhaustiveness checked in Typed TH
  * [wiki:TemplateHaskell/Annotations] Gergely's work on annotations in TH
