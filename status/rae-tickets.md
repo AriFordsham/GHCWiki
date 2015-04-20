@@ -61,6 +61,7 @@
   - [\#2356](https://gitlab.haskell.org//ghc/ghc/issues/2356): Strangeness about GHC's lazy overlap check
 - [\#9429](https://gitlab.haskell.org//ghc/ghc/issues/9429): An alternative to `Any`. For example, we want `Typeable (forall x. x -> x)`.
 - [\#9562](https://gitlab.haskell.org//ghc/ghc/issues/9562): Type families + hs-boot files = `unsafeCoerce`
+- [\#10327](https://gitlab.haskell.org//ghc/ghc/issues/10327): Closed type families should reduce regardless of infinite types
 
 ## Typechecker
 
@@ -105,6 +106,7 @@
 
 **Easy**
 
+- [\#6089](https://gitlab.haskell.org//ghc/ghc/issues/6089): Allow nested declaration splices
 - [\#7808](https://gitlab.haskell.org//ghc/ghc/issues/7808): Allow reification of a data instance name
 - [\#9022](https://gitlab.haskell.org//ghc/ghc/issues/9022): Fix semicolons in pretty-printer
 - [\#9113](https://gitlab.haskell.org//ghc/ghc/issues/9113): Warn about incomplete patterns in quotes. Fixed by [\#3927](https://gitlab.haskell.org//ghc/ghc/issues/3927)?
