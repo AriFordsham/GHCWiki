@@ -38,9 +38,14 @@ One candidate would be `tradcpp` (see http://www.freshports.org/devel/tradcpp/)
 
  - `cpphs` is actively maintained
 
+ - no more `fork(2)/exec(2)`
 
 === Plan 3: Write native BSD-licenced Haskell implementation from scratch
 
  - Requires menpower and time
+
+ - no more `fork(2)/exec(2)`
+ 
+ - Tailored to GHC's needs
 
  - Additional long-term maintenance effort for GHC-HQ
