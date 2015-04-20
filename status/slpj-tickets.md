@@ -73,6 +73,7 @@
 
 See also [TemplateHaskell](template-haskell)
 
+- [\#10279](https://gitlab.haskell.org//ghc/ghc/issues/10279): `reifyPackage`
 - [\#10271](https://gitlab.haskell.org//ghc/ghc/issues/10271): difficulty resolving overloading in typed TH
 - [\#9113](https://gitlab.haskell.org//ghc/ghc/issues/9113): pattern match overlap/exhaustiveness checked in Typed TH
 - [TemplateHaskell/Annotations](template-haskell/annotations) Gergely's work on annotations in TH
