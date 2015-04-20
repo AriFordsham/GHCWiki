@@ -105,6 +105,7 @@
 
 **Easy**
 
+- [\#6089](https://gitlab.haskell.org//ghc/ghc/issues/6089): Allow nested declaration splices
 - [\#7808](https://gitlab.haskell.org//ghc/ghc/issues/7808): Allow reification of a data instance name
 - [\#9022](https://gitlab.haskell.org//ghc/ghc/issues/9022): Fix semicolons in pretty-printer
 - [\#9113](https://gitlab.haskell.org//ghc/ghc/issues/9113): Warn about incomplete patterns in quotes. Fixed by [\#3927](https://gitlab.haskell.org//ghc/ghc/issues/3927)?
