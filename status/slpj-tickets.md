@@ -2,17 +2,16 @@
 
 ## Urgent or in-flight
 
-- [\#10182](https://gitlab.haskell.org//ghc/ghc/issues/10182), [\#7262](https://gitlab.haskell.org//ghc/ghc/issues/7262), [\#10333](https://gitlab.haskell.org//ghc/ghc/issues/10333): hs-boot niggles
+- [\#10182](https://gitlab.haskell.org//ghc/ghc/issues/10182), [\#7262](https://gitlab.haskell.org//ghc/ghc/issues/7262), [\#10333](https://gitlab.haskell.org//ghc/ghc/issues/10333), [\#7672](https://gitlab.haskell.org//ghc/ghc/issues/7672): hs-boot niggles
 - [\#10114](https://gitlab.haskell.org//ghc/ghc/issues/10114): `AnyK` and kind generalisation in type synonyms
 - [\#10285](https://gitlab.haskell.org//ghc/ghc/issues/10285): a small bug in `Coercible` (Richard)
 - [\#10087](https://gitlab.haskell.org//ghc/ghc/issues/10087): typechecking generic default methods (Pedro)
 - [\#10068](https://gitlab.haskell.org//ghc/ghc/issues/10068): runtime reflection API for modules, names.
-- [\#9858](https://gitlab.haskell.org//ghc/ghc/issues/9858): `Typeable` should be kind-aware (Iavor)
 - [\#10045](https://gitlab.haskell.org//ghc/ghc/issues/10045): partial type sig bug (Thomas W is working on this)
 - [\#9960](https://gitlab.haskell.org//ghc/ghc/issues/9960), [\#9805](https://gitlab.haskell.org//ghc/ghc/issues/9805): `TrieMap` stuff
 - [\#10016](https://gitlab.haskell.org//ghc/ghc/issues/10016): UNPACK support for existentials
 - [\#9260](https://gitlab.haskell.org//ghc/ghc/issues/9260): type lits (Iavor owns)
-- [\#9793](https://gitlab.haskell.org//ghc/ghc/issues/9793), [\#8761](https://gitlab.haskell.org//ghc/ghc/issues/8761), [\#8581](https://gitlab.haskell.org//ghc/ghc/issues/8581), [\#8779](https://gitlab.haskell.org//ghc/ghc/issues/8779), [\#8761](https://gitlab.haskell.org//ghc/ghc/issues/8761), [\#8583](https://gitlab.haskell.org//ghc/ghc/issues/8583), [\#9911](https://gitlab.haskell.org//ghc/ghc/issues/9911), [\#7736](https://gitlab.haskell.org//ghc/ghc/issues/7736): pattern synonyms (Gergo)
+- [\#9793](https://gitlab.haskell.org//ghc/ghc/issues/9793), [\#8761](https://gitlab.haskell.org//ghc/ghc/issues/8761), [\#8581](https://gitlab.haskell.org//ghc/ghc/issues/8581), [\#8779](https://gitlab.haskell.org//ghc/ghc/issues/8779), [\#8761](https://gitlab.haskell.org//ghc/ghc/issues/8761), [\#8583](https://gitlab.haskell.org//ghc/ghc/issues/8583), [\#9911](https://gitlab.haskell.org//ghc/ghc/issues/9911), [\#7736](https://gitlab.haskell.org//ghc/ghc/issues/7736), [\#8582](https://gitlab.haskell.org//ghc/ghc/issues/8582), [\#10339](https://gitlab.haskell.org//ghc/ghc/issues/10339): pattern synonyms (Gergo)
 - [\#8634](https://gitlab.haskell.org//ghc/ghc/issues/8634), [\#9267](https://gitlab.haskell.org//ghc/ghc/issues/9267), [\#9227](https://gitlab.haskell.org//ghc/ghc/issues/9227): relaxing functional dependency rules `-XDysFunctionalDependencies`
 - [\#9123](https://gitlab.haskell.org//ghc/ghc/issues/9123): higher order roles
 - [\#9352](https://gitlab.haskell.org//ghc/ghc/issues/9352): allow `State#` in FFI types.
@@ -39,7 +38,6 @@
 - [\#10089](https://gitlab.haskell.org//ghc/ghc/issues/10089): better warnings for unused data types (involves instances)
 - [\#8581](https://gitlab.haskell.org//ghc/ghc/issues/8581): bidirectional pattern synonyms (with different constraints)
 - [\#10027](https://gitlab.haskell.org//ghc/ghc/issues/10027): export behaviour for data families
-- [\#8582](https://gitlab.haskell.org//ghc/ghc/issues/8582): pattern synonyms and record syntax
 - [\#9223](https://gitlab.haskell.org//ghc/ghc/issues/9223): error message mentioning untouchables
 - [\#9198](https://gitlab.haskell.org//ghc/ghc/issues/9198): slow typechecker (big types!)
 - [\#9210](https://gitlab.haskell.org//ghc/ghc/issues/9210), [\#9103](https://gitlab.haskell.org//ghc/ghc/issues/9103): functional dependencies and overlapping instances
@@ -57,8 +55,9 @@
 - [\#7862](https://gitlab.haskell.org//ghc/ghc/issues/7862): overlap beween givens and instances
 - [\#7842](https://gitlab.haskell.org//ghc/ghc/issues/7842): polymorphism in recursive do-blocks
 
-## Type families, roles, and `Coercible`
+## Type families, roles, `Coercible`, `Typeable`, kind polymorphism
 
+- [\#9858](https://gitlab.haskell.org//ghc/ghc/issues/9858), [\#10343](https://gitlab.haskell.org//ghc/ghc/issues/10343): `Typeable` and kind polymorphism
 - [\#10184](https://gitlab.haskell.org//ghc/ghc/issues/10184),[\#10185](https://gitlab.haskell.org//ghc/ghc/issues/10185): incompleteness in `Coercible` solver
 - [\#8165](https://gitlab.haskell.org//ghc/ghc/issues/8165): GND for classes with associated types
 - [\#10075](https://gitlab.haskell.org//ghc/ghc/issues/10075): `Constraint` vs `*`
@@ -220,6 +219,7 @@ See also [TemplateHaskell](template-haskell)
 ## Types and type inference
 
 - [TypeFunctionsStatus](type-functions-status)
+- [\#10338](https://gitlab.haskell.org//ghc/ghc/issues/10338): delicacy in generalisation: `MonoLocalBinds` isn't enough
 - [\#9637](https://gitlab.haskell.org//ghc/ghc/issues/9637): type level error messages
 - [\#9587](https://gitlab.haskell.org//ghc/ghc/issues/9587), [\#9607](https://gitlab.haskell.org//ghc/ghc/issues/9607): `-XAllowAmbiguousTypes` debate
 - [\#9334](https://gitlab.haskell.org//ghc/ghc/issues/9334): instance chains
