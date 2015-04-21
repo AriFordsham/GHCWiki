@@ -11,7 +11,7 @@
  * #9960, #9805: `TrieMap` stuff
  * #10016: UNPACK support for existentials
  * #9260: type lits (Iavor owns)
- * #9793, #8761, #8581, #8779, #8761, #8583, #9911, #7736, #10339: pattern synonyms (Gergo)
+ * #9793, #8761, #8581, #8779, #8761, #8583, #9911, #7736, #8582, #10339: pattern synonyms (Gergo)
  * #8634, #9267, #9227: relaxing functional dependency rules `-XDysFunctionalDependencies`
  * #9123: higher order roles
  * #9352: allow `State#` in FFI types.
@@ -37,7 +37,6 @@
  * #10089: better warnings for unused data types (involves instances)
  * #8581: bidirectional pattern synonyms (with different constraints)
  * #10027: export behaviour for data families
- * #8582: pattern synonyms and record syntax
  * #9223: error message mentioning untouchables
  * #9198: slow typechecker (big types!)
  * #9210, #9103: functional dependencies and overlapping instances
@@ -208,6 +207,7 @@ See also [wiki:TemplateHaskell]
 == Types and type inference ==
 
  * [wiki:TypeFunctionsStatus]
+ * #10338: delicacy in generalisation: `MonoLocalBinds` isn't enough
  * #9637: type level error messages
  * #9587, #9607: `-XAllowAmbiguousTypes` debate
  * #9334: instance chains
