@@ -56,6 +56,21 @@ All of this concerns the *source* language.  GHC's *internal language*, System F
 
 We've made various attempts to support impredicativity, so there is a flag `-XImpredicativeTypes`.  But it doesn't work, and is absolutely unsupported.  If you use it, you are on your own; I make no promises about what will happen.
 
+### Workarounds
+
+
+So if you need impredicativity and `-XImpredicativeTypes` doesn't work, what can you do?  The main workaround is this: define a newtype to wrap the polymorphic function.  
+
+
+For example, you can't have a list of polymorphic functions, say `[forall a. [a] -> [a]]`.  But you can wrap it like this:
+
+```wiki
+newtype ListList = LL { unLL :: forall a. [a] -> [a] }
+```
+
+
+Now `[ListList]` is a perfectly fine type.  The downside is that you have to wrap and unwrap, with `LL` and `unLL`, which is tiresome.
+
 ### Reading
 
 
