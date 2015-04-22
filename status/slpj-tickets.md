@@ -2,7 +2,7 @@
 
 ## Urgent or in-flight
 
-- [\#10182](https://gitlab.haskell.org//ghc/ghc/issues/10182), [\#7262](https://gitlab.haskell.org//ghc/ghc/issues/7262), [\#10333](https://gitlab.haskell.org//ghc/ghc/issues/10333): hs-boot niggles
+- [\#10182](https://gitlab.haskell.org//ghc/ghc/issues/10182), [\#7262](https://gitlab.haskell.org//ghc/ghc/issues/7262), [\#10333](https://gitlab.haskell.org//ghc/ghc/issues/10333), [\#7672](https://gitlab.haskell.org//ghc/ghc/issues/7672): hs-boot niggles
 - [\#10114](https://gitlab.haskell.org//ghc/ghc/issues/10114): `AnyK` and kind generalisation in type synonyms
 - [\#10285](https://gitlab.haskell.org//ghc/ghc/issues/10285): a small bug in `Coercible` (Richard)
 - [\#10087](https://gitlab.haskell.org//ghc/ghc/issues/10087): typechecking generic default methods (Pedro)
