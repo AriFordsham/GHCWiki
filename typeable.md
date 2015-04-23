@@ -6,6 +6,11 @@ This page summarises a proposed re-design (again!) of the `Typeable` class, to b
 
 The names of functions and type constructors is totally up for grabs.
 
+
+See also 
+
+- [\#10343](https://gitlab.haskell.org//ghc/ghc/issues/10343) is highly relevant
+
 ## Goal
 
 
