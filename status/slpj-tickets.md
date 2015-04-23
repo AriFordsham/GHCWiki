@@ -33,6 +33,7 @@
 
 ## Front end
 
+- [\#10321](https://gitlab.haskell.org//ghc/ghc/issues/10321): normalising a type in `:type` in GHCi
 - [\#10183](https://gitlab.haskell.org//ghc/ghc/issues/10183): warning for redundant constraints, and pattern-match overlap warnings
 - [\#10179](https://gitlab.haskell.org//ghc/ghc/issues/10179): displaying kinds
 - [\#10089](https://gitlab.haskell.org//ghc/ghc/issues/10089): better warnings for unused data types (involves instances)
@@ -58,6 +59,7 @@
 ## Type families, roles, `Coercible`, `Typeable`, kind polymorphism
 
 - [\#9858](https://gitlab.haskell.org//ghc/ghc/issues/9858), [\#10343](https://gitlab.haskell.org//ghc/ghc/issues/10343): `Typeable` and kind polymorphism
+- [\#10347](https://gitlab.haskell.org//ghc/ghc/issues/10347): wrong "unused data constructor" warning for a newtype (using `Coercible`)
 - [\#10184](https://gitlab.haskell.org//ghc/ghc/issues/10184),[\#10185](https://gitlab.haskell.org//ghc/ghc/issues/10185): incompleteness in `Coercible` solver
 - [\#8165](https://gitlab.haskell.org//ghc/ghc/issues/8165): GND for classes with associated types
 - [\#10075](https://gitlab.haskell.org//ghc/ghc/issues/10075): `Constraint` vs `*`
