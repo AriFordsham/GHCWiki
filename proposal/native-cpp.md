@@ -61,3 +61,9 @@ Nothing is gained, but since the issue remains unsolved, we may risk to become p
 
 - Similar to e.g. ZeroMG, [ http://zeromq.org/area:licensing](http://zeromq.org/area:licensing)
 - [ http://programmers.stackexchange.com/questions/179084/is-there-a-modified-lgpl-license-that-allows-static-linking](http://programmers.stackexchange.com/questions/179084/is-there-a-modified-lgpl-license-that-allows-static-linking)
+
+### `ghc` package's current license
+
+
+The `ghc` package which can be linked into programs currently depends on the packages
+`array`, `base`, `binary`, `bin-package-db`, `bytestring`, `containers`, `deepseq`, `directory`, `filepath`, `ghc-prim`, `hoopl`, `hpc`, `integer-gmp`, `pretty`, `process`, `rts`, `template-haskell`, `time`, `transformers`, and `unix` whose collated `LICENSE` have been pasted as [ http://lpaste.net/131294](http://lpaste.net/131294)
