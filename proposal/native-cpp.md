@@ -57,10 +57,19 @@ Nothing is gained, but since the issue remains unsolved, we may risk to become p
 
 - Additional long-term maintenance effort for GHC-HQ
 
-## *LGPLv2 with static linking exception* in more detail
+## `cpphs`'s licence in more detail
 
-- Similar to e.g. ZeroMG, [ http://zeromq.org/area:licensing](http://zeromq.org/area:licensing)
+- The library portion of the `cpphs` is dual-licensed (see [ http://code.haskell.org/cpphs/COPYRIGHT](http://code.haskell.org/cpphs/COPYRIGHT)):
+
+  - [ LGPL v2.1](https://www.gnu.org/licenses/lgpl-2.1.html) with static linking exception
+
+    >
+    > As a relaxation of clause 6 of the LGPL, the copyright holders of this library give permission to use, copy, link, modify, and distribute, binary-only object-code versions of an executable linked with the original unmodified Library, without requiring the supply of any mechanism to modify or replace the Library and relink (clauses 6a, 6b, 6c, 6d, 6e), provided that all the other terms of clause 6 are complied with.
+  - for binary distributions only: [ http://code.haskell.org/cpphs/LICENCE-commercial](http://code.haskell.org/cpphs/LICENCE-commercial)
+
+- LGPL w/ static linking exception is sometimes used: cf. ZeroMQ [ http://zeromq.org/area:licensing](http://zeromq.org/area:licensing)
 - [ http://programmers.stackexchange.com/questions/179084/is-there-a-modified-lgpl-license-that-allows-static-linking](http://programmers.stackexchange.com/questions/179084/is-there-a-modified-lgpl-license-that-allows-static-linking)
+- [ wikipedia:GPL_linking_exception](http://en.wikipedia.org/wiki/GPL_linking_exception)
 
 ### `ghc` package's current license
 
