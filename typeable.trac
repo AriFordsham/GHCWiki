@@ -125,7 +125,27 @@ dynApply _ _ = Nothing
 Is that not beautiful?  The second equation for `dynApply` is needed in case the `TRFun` pattern does not match.
 
 ---------------------
-== Step 3: Decomposing arbitrary types ==
+== Step 3: Extracting kind equalities ==
+
+Suppose we have a `TTypeRep (a :: k)`. It might be nice to get a `TTypeRep (k :: *)`
+out of it. (Here, we assume `* :: *`, but the idea actually works without that assumption.) An example is an attempt to typecheck the ''expression''
+
+{{{
+typeOf :: Typeable (a :: k) => Proxy a -> TypeRep
+}}}
+
+where `typeOf :: Typeable a => a -> TypeRep` is a long-standing part of the `Typeable` API. To typecheck that expression, we need a `Typeable (Proxy a)` dictionary. Of course, to build such a thing, we need `Typeable k`, which we have no way of getting.
+
+So, we now include
+
+{{{
+kindRep :: TTypeRep (a :: k) -> TTypeRep k
+}}}
+
+in the API. I (Richard) conjecture that this is all possible without kind equalities, but would be rather awkward due to GHC's insistence that kind parameters be implicit. See #10343, which inspired this bit.
+
+----------------
+== Step 4: Decomposing arbitrary types ==
 
 It is all very well being able to decompose functions, but what about decomposing other types, like `Maybe Int`?  
 
@@ -206,7 +226,7 @@ So Step 3 (allowing `TypeRep` to be fully decomposed in a type safe way) absolut
 
 === Fast comparison of `TypeRep` ===
 
-The current implementation of `TypeRep` allows constant-type comparison based on fingerprints.  To support this in the new scheme we would want to add a fingerprint to every `TypeRep` node. But we would not want clients to see those fingerprints, lest they forge them.
+The current implementation of `TypeRep` allows constant-time comparison based on fingerprints.  To support this in the new scheme we would want to add a fingerprint to every `TypeRep` node. But we would not want clients to see those fingerprints, lest they forge them.
 
 Conclusion: make `TypeRep` abstract.  But then how can we pattern-match on it?  Pattern synonyms seem to be exactly what we need.
 
@@ -218,6 +238,7 @@ TTyCon a  --- abstract type
 eqTyCon :: forall k1 k2. forall (a :: k1) (b :: k2). 
            TTyCon a -> TTyCon b -> Maybe (a :~~: b)
 }}}
+'''RAE stuck:''' We have `data TTyCon (a :: k) = ...`, but how is that used to represent poly-kinded tycons? If we want a representation of `Proxy`, it would have to be `TTyCon <forall k. k -> *> Proxy`, writing in the kind argument explicitly. And that's impredicative! Or do `TTyCon`s store type constructors applied to all dependent (i.e. kind) arguments?
 
 `withTypeable` could be written in core (and perhaps could be generalized to other constraints) but not in source Haskell:
 {{{
@@ -323,6 +344,8 @@ we actually supply a kind parameter `k0`. GHC tries to find a value for `k0`, fa
 
 === A stop-gap solution ===
 
+'''NB:''' This was not implemented. The "medium-term solution" below was, as of 7.10.1.
+
 comment:16:ticket:9858 is a demonstration that the boat is taking on water! Fix the leak, fast!
 
 The "obvious" answer -- don't supply the `k` here -- doesn't work. The instance for `PK` would become `Typeable <forall k. k -> *> PK`, where a normally-implicit kind parameter is supplied in angle brackets. This is an '''impredicative kind''', certainly beyond GHC's type system's abilities at the moment, especially in a type-class argument.
@@ -336,11 +359,13 @@ deriving instance Typeable (PK :: (* -> *) -> *)
 
 which would yield instances `Typeable <* -> *> (PK <*>)` and `Typeable <(* -> *) -> *> (PK <* -> *>)` -- two separate instances with different, and distinguishable `TypeRep`s. What's painful here is that, clearly, there are an ''infinite'' number of such instantiations of `PK`. We could maybe provide a handful of useful ones, but we could never provide them all.
 
-That, then, is the current plan of attack. `Typeable` instance heads must include concrete instantiations of all kind parameters but no type parameters. `base` will provide several instantiations for poly-kinded datatypes, but users may have to write orphan instances to get others. `AutoDeriveTypeable`  will ignore poly-kinded datatype definitions -- users must write explicit instances if they want to.
+That, then, is the current plan of attack. ('''No, it's not.''') `Typeable` instance heads must include concrete instantiations of all kind parameters but no type parameters. `base` will provide several instantiations for poly-kinded datatypes, but users may have to write orphan instances to get others. `AutoDeriveTypeable`  will ignore poly-kinded datatype definitions -- users must write explicit instances if they want to.
 
 '''Question:''' With this design, orphan instances will be unavoidable. Given that two different authors may introduce the same orphan instances, would it work to mark every `Typeable` instance as `{-# INCOHERENT #-}`? For this to work out, we would need a guarantee that the fingerprints of the instances are the same regardless of originating module.
 
 === Medium-term solution ===
+
+'''This is implemented in 7.10.'''
 
 Although it is impossible to create all necessary `Typeable` instances for poly-kinded constructors at the definition site (there's an infinite number), it ''is'' possible to create `Typeable` "instances" on demand at use sites. The idea (originally proposed in comment:20:ticket:9858) is to add some custom logic to the solver to invent `Typeable` evidence on demand. Then, whenever the solver needs to satisfy a `Typeable` constraint, it will just recur down to the type's leaves and invent evidence there.
 
