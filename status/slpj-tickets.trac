@@ -21,6 +21,7 @@
 == Performance (compile time or runtime) ==
  * #8852, #8980, #8941 (possibly), #9803, #8960, #7898, #7068, #7944, #5550, #8836: `SpecConstr` blowup
  * #10108: 3600x slowdown with -O2
+ * #10289: 2.5k static `HashSet` takes too much memory to compile
  * #9669: slow compilation with lots of `deriving` clauses
  * #9583, #9630: code blowup in Generics/Binary
  * #10293: too much time in `CallArity` (Joachim) * #10228: regression from 7.8.4 to 7.10.1
@@ -32,6 +33,7 @@
 == Front end ==
 
  * #10321: normalising a type in `:type` in GHCi
+ * #10318: recursive superclasses
  * #10183: warning for redundant constraints, and pattern-match overlap warnings
  * #10179: displaying kinds
  * #10089: better warnings for unused data types (involves instances)
