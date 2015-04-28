@@ -196,7 +196,8 @@ See also [TemplateHaskell](template-haskell)
 
 ### Optimiser
 
-- [\#10346](https://gitlab.haskell.org//ghc/ghc/issues/10346), [\#2255](https://gitlab.haskell.org//ghc/ghc/issues/2255), [\#3767](https://gitlab.haskell.org//ghc/ghc/issues/3767), [\#2642](https://gitlab.haskell.org//ghc/ghc/issues/2642), [\#3831](https://gitlab.haskell.org//ghc/ghc/issues/3831), [\#4941](https://gitlab.haskell.org//ghc/ghc/issues/4941), [\#2598](https://gitlab.haskell.org//ghc/ghc/issues/2598): Improve **`SpecConstr`** in various ways, including for free variables, and for join points. \* [\#5059](https://gitlab.haskell.org//ghc/ghc/issues/5059): specialise on value arguments
+- [\#10346](https://gitlab.haskell.org//ghc/ghc/issues/10346), [\#2255](https://gitlab.haskell.org//ghc/ghc/issues/2255), [\#3767](https://gitlab.haskell.org//ghc/ghc/issues/3767), [\#2642](https://gitlab.haskell.org//ghc/ghc/issues/2642), [\#3831](https://gitlab.haskell.org//ghc/ghc/issues/3831), [\#4941](https://gitlab.haskell.org//ghc/ghc/issues/4941), [\#2598](https://gitlab.haskell.org//ghc/ghc/issues/2598): Improve **`SpecConstr`** in various ways, including for free variables, and for join points.
+- [\#5059](https://gitlab.haskell.org//ghc/ghc/issues/5059): specialise on value arguments
 - [\#5974](https://gitlab.haskell.org//ghc/ghc/issues/5974): casts, RULES, and parametricity
 - [\#5262](https://gitlab.haskell.org//ghc/ghc/issues/5262): seq magic
 - [\#605](https://gitlab.haskell.org//ghc/ghc/issues/605): strict/unboxed enumerations
