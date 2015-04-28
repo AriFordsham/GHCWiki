@@ -143,8 +143,8 @@ The above commentary covers the source code of GHC. For material that doesn't co
    * [wiki:ExplicitTypeApplication Syntax for explicit type application and scoped type variables]
    * [wiki:GhcKinds/KindsWithoutData Syntax for defining kinds that do not arise from datatype promotion]
    * [wiki:LambdasVsPatternMatching Lambda-Case]: Syntax for full (with branching) pattern matching on arguments of lambda abstractions
-   * [wiki:Roles Roles]: Fixing the `-XGeneralizedNewtypeDeriving` bug.
    * [wiki:Typeable]: Making Typeable more expressive
+   * [wiki:SafeRoles]: Roles & Safe Haskell
 
  * Library issues
     * [wiki:SplitBase Splitting up the base package]
