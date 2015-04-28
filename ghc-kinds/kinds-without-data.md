@@ -70,7 +70,7 @@ types and kinds, so we won't be able to make such fine distinctions.
 
 
 As kinds and types currently share a namespace, `data kind` and
-`data type` declarations ```in the same module``` can still
+`data type` declarations **in the same module** can still
 conflict.  However, if they are in separate modules, this can be controlled by
 use of the module system.
 
@@ -95,7 +95,7 @@ datatype, `Star` is just an empty datatype.
 
 - Use `data only` instead of `data type`.
 - Use `'data` instead of `data kind`, suggested by Gabor Greif.
-- Use `type data` instead of `data type`, suggested (preferred) by Gabor Greif.
+- Use `type data` instead of `data kind`, suggested (preferred) by Gabor Greif.
 
 
 In both cases, we felt that using `type` and `kind` as the modifiers to the `data` declaration better reflect what's being defined.
