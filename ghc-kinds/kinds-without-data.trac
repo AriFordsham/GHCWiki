@@ -81,5 +81,6 @@ datatype, `Star` is just an empty datatype.
 
  * Use `data only` instead of `data type`.
  * Use `'data` instead of `data kind`, suggested by Gabor Greif.
+ * Use `type data` instead of `data type`, suggested (preferred) by Gabor Greif.
 
 In both cases, we felt that using `type` and `kind` as the modifiers to the `data` declaration better reflect what's being defined.
