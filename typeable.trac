@@ -293,6 +293,8 @@ pattern type TRFun :: TTypeRep arg -> TTypeRep res
 eqTT    :: forall k1 k2 (a :: k1) (b :: k2). 
            TTypeRep a -> TTypeRep b -> Maybe (a :~~: b)
 
+typeRepKind :: forall k (a :: k). TTypeRep a -> TTypeRep k
+
 }}}
 
 '''SLPJ''': Do we need both `:~:` and `:~~:`?
