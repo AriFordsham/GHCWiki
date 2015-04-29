@@ -29,8 +29,8 @@ While on CygWin setting up `sshd` is taken care of by the provided `ssh-host-con
 
   # set infinite passwd expiry
   passwed -e ${username}# set required priviledges; 
-  # NOTE: `editrights.exe` doesn't seem to be packaged in MSYS2 yet;
-  #       use editrights.exe + cygwin1.dll from a CygWin install for the meantime.
+  # As of 2015/04/28 the `editrights.exe` program is available in MSYS2 from
+  # either the mingw-w64-i686-editrights or mingw-w64-x86_64-editrights package.
   editrights -a SeAssignPrimaryTokenPrivilege -u ${username}&&\
   editrights -a SeCreateTokenPrivilege -u ${username}&&\
   editrights -a SeTcbPrivilege -u ${username}&&\
