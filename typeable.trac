@@ -232,18 +232,21 @@ Conclusion: make `TypeRep` abstract.  But then how can we pattern-match on it?  
 
 === Trusted computing base ===
 
-With all of this, what is left in the TCB?  The `TyCon` type is a new abstract type, and the comparison (based on fingerprints) must be in the TCB.
+With all of this, what is left in the TCB?  The `TTyCon` type is a new abstract type, and the comparison (based on fingerprints) must be in the TCB.
 {{{
 TTyCon a  --- abstract type
 eqTyCon :: forall k1 k2. forall (a :: k1) (b :: k2). 
            TTyCon a -> TTyCon b -> Maybe (a :~~: b)
+tyConKind :: TTyCon (a :: k) -> TTypeRep (k :: *)
 }}}
-'''RAE stuck:''' We have `data TTyCon (a :: k) = ...`, but how is that used to represent poly-kinded tycons? If we want a representation of `Proxy`, it would have to be `TTyCon <forall k. k -> *> Proxy`, writing in the kind argument explicitly. And that's impredicative! Or do `TTyCon`s store type constructors applied to all dependent (i.e. kind) arguments?
+Note that `TTyCon` represents type constructors already applied to any kind arguments. Even with kind equalities, we have no way of creating a representation for `Proxy :: forall k. k -> *`, as that would require an impredicative kind for the implicit kind argument to `TTyCon`.
 
 `withTypeable` could be written in core (and perhaps could be generalized to other constraints) but not in source Haskell:
 {{{
 withTypeable :: TypeRep a -> (Typeable a => b) -> b
 }}}
+
+Implementing the "fast comparison" idea above will require putting more code in the TCB because of interaction with fingerprints. But the functions above are morally the only ones that need be trusted.
 
 === What about structure information? ===
 
@@ -252,62 +255,61 @@ Related but different issue: https://ghc.haskell.org/trac/ghc/ticket/7897
 -----------------------------
 == Step by step == 
 
-We can do steps 1 and 2 without kind equalities, although the 
-implementation of `decomposeFun` will use `unsafeCoerce` and will be part of the TCB.
-
+We can do steps 1 and 2 (and probably 3) without kind equalities, although the 
+implementation of `decomposeFun` will use `unsafeCoerce` and will be part of the TCB. However, this will all likely happen after merging with kind equalities.
 
 == Proposed API ==
+
+This assumes heterogeneous equality (that is, with kind equalities). If you really want to see this with homogeneous equality, look through the history of this page, before April 29, 2015.
 
 {{{
 data TTypeRep (a :: k)        -- abstract
 data TTyCon (a :: k)          -- abstract
 
+tyConKind :: forall k (a :: k). TTyCon a -> TTypeRep k
+
 -- Costructors
-trCon :: forall k (a :: k). TTyCon a -> TTypeRep a  -- in TCB
+trCon :: forall k (a :: k). TTyCon a -> TTypeRep a
 trApp :: forall k k1 (a :: k1 -> k) (b :: k1). 
-         TTypeRep a -> TTypeRep b -> TTypeRep (a b)  -- in TCB
+         TTypeRep a -> TTypeRep b -> TTypeRep (a b)
 
 -- Destructors
 pattern type TRCon :: forall k (a :: k). TyCon a -> TTypeRep a
 pattern type TRApp :: forall k. exists k1 (a :: k1 -> k) (b :: k1). 
                       TTypeRep a -> TTypeRep b -> TTypeRep (a b)
-pattern type TRFun :: TTypeRep arg 
-                   -> TTypeRep res 
-                   -> TypeRep (TTypeRep (arg->res))
 
-
--- For now, homogeneous equalities
-eqTyCon :: forall k (a :: k) (b :: k). 
-           TTyCon a -> TTyCon b -> Maybe (a :~: b)
-eqTT    :: forall k (a :: k) (b :: k). 
-           TTypeRep a ->T TypeRep b -> Maybe (a :~: b)
-}}}
-When we get kind equalities, we can generalise `eqTyCon` and `eqTT`:
-{{{
+-- this definition to go into Data.Type.Equality
 data (a :: k1) :~~: (b :: k2) where
    HRefl :: a :~~: a
 
 eqTyCon :: forall k1 k2 (a :: k1) (b :: k2). 
            TTyCon a -> TTyCon b -> Maybe (a :~~: b)
-eqT :: forall k1 k2 (a :: k1) (b :: k2). 
-       TTypeRep a -> TTypeRep b -> Maybe (a :~~: b)
 
--- can now implement TRFun in terms of TRApp, outside of TCB
+-- the following definitions can be defined on top of the interface
+-- above, but would be included for convenience
+pattern type TRFun :: TTypeRep arg -> TTypeRep res
+                   -> TTypeRep (arg -> res)
+
+eqTT    :: forall k1 k2 (a :: k1) (b :: k2). 
+           TTypeRep a -> TTypeRep b -> Maybe (a :~~: b)
+
+typeRepKind :: forall k (a :: k). TTypeRep a -> TTypeRep k
+
+class forall k (a :: k). Typeable k => Typeable a where
+  tTypeRep :: TTypeRep a
 }}}
 
 '''SLPJ''': Do we need both `:~:` and `:~~:`?
 
+'''RAE''': I don't think it's strictly necessary, but keeping the distinction might be useful. `:~:` will unify the kinds of its arguments during type inference, and that might be what the programmer wants. I don't feel strongly here.
+
 Some of this design is motivated by the desire to allow flexibility in the implementation to allow for fingerprinting for fast equality comparisons. Naturally, the fingerprints have to be in the TCB. If it weren't for them, though, the `TypeRep` type could be exported concretely.
 
-Could we simplify this a bit by removing `TyCon`?
+Could we simplify this a bit by removing `TyCon`? '''RAE''': No.
 
-Can we get the representation of a Kind from a TyCon?  I.e. should we have something like
+The class declaration for `Typeable` is highly suspect, as it is manifestly cyclic. However, (forgetting about implementation) this doesn't cause a problem here, because all kinds have kind `*`. Thus, we know the cycle terminates. Implementation is an open question, but I (RAE) surmise that this barrier is surmountable.
 
-{{{
-   getKind :: forall k. TTCon (a :: k) -> TTypeRep (k :: *)
-}}}
-
-Seems like this would be a good thing to add, but it is not clear.
+'''RAE:''' How can we get a `TTyCon` for a known-at-compile-time tycon? I want something like `tyConRep @(->)` that will give something of type `TTyCon (->)`. The problem is that the type argument to `tyConRep` might not be a bare type constructor... but I would hate to have such a function return a `Maybe`, as it would be very annoying in practice, and it could be checked at compile time. I almost wonder if a new highly-magical language primitive would be helpful here.
 
 == Kind-polymorphism ==
 
