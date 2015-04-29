@@ -374,14 +374,21 @@ pattern type TRCon :: forall k (a :: k). TyCon a -> TTypeRep a
 pattern type TRApp :: forall k. exists k1 (a :: k1 -> k) (b :: k1). 
                       TTypeRep a -> TTypeRep b -> TTypeRep (a b)
 
--- to go into Data.Type.Equality
+-- this definition to go into Data.Type.Equality
 data (a :: k1) :~~: (b :: k2) where
    HRefl :: a :~~: a
 
 eqTyCon :: forall k1 k2 (a :: k1) (b :: k2). 
            TTyCon a -> TTyCon b -> Maybe (a :~~: b)
+
+-- the following definitions can be defined on top of the interface
+-- above, but would be included for convenience
+pattern type TRFun :: TTypeRep arg -> TTypeRep res
+                   -> TTypeRep (arg -> res)
+
 eqTT    :: forall k1 k2 (a :: k1) (b :: k2). 
            TTypeRep a -> TTypeRep b -> Maybe (a :~~: b)
+
 ```
 
 **SLPJ**: Do we need both `:~:` and `:~~:`?
@@ -392,17 +399,9 @@ eqTT    :: forall k1 k2 (a :: k1) (b :: k2).
 Some of this design is motivated by the desire to allow flexibility in the implementation to allow for fingerprinting for fast equality comparisons. Naturally, the fingerprints have to be in the TCB. If it weren't for them, though, the `TypeRep` type could be exported concretely.
 
 
-Could we simplify this a bit by removing `TyCon`?
+Could we simplify this a bit by removing `TyCon`? **RAE**: No.
 
-
-Can we get the representation of a Kind from a TyCon?  I.e. should we have something like
-
-```wiki
-   getKind :: forall k. TTCon (a :: k) -> TTypeRep (k :: *)
-```
-
-
-Seems like this would be a good thing to add, but it is not clear.
+**RAE:** How can we get a `TTyCon` for a known-at-compile-time tycon? I want something like `tyConRep @(->)` that will give something of type `TTyCon (->)`. The problem is that the type argument to `tyConRep` might not be a bare type constructor... but I would hate to have such a function return a `Maybe`, as it would be very annoying in practice, and it could be checked at compile time. I almost wonder if a new highly-magical language primitive would be helpful here.
 
 ## Kind-polymorphism
 
