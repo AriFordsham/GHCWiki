@@ -391,6 +391,8 @@ eqTT    :: forall k1 k2 (a :: k1) (b :: k2).
 
 typeRepKind :: forall k (a :: k). TTypeRep a -> TTypeRep k
 
+class forall k (a :: k). Typeable k => Typeable a where
+  tTypeRep :: TTypeRep a
 ```
 
 **SLPJ**: Do we need both `:~:` and `:~~:`?
@@ -402,6 +404,9 @@ Some of this design is motivated by the desire to allow flexibility in the imple
 
 
 Could we simplify this a bit by removing `TyCon`? **RAE**: No.
+
+
+The class declaration for `Typeable` is highly suspect, as it is manifestly cyclic. However, (forgetting about implementation) this doesn't cause a problem here, because all kinds have kind `*`. Thus, we know the cycle terminates. Implementation is an open question, but I (RAE) surmise that this barrier is surmountable.
 
 **RAE:** How can we get a `TTyCon` for a known-at-compile-time tycon? I want something like `tyConRep @(->)` that will give something of type `TTyCon (->)`. The problem is that the type argument to `tyConRep` might not be a bare type constructor... but I would hate to have such a function return a `Maybe`, as it would be very annoying in practice, and it could be checked at compile time. I almost wonder if a new highly-magical language primitive would be helpful here.
 
