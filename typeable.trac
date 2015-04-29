@@ -232,18 +232,21 @@ Conclusion: make `TypeRep` abstract.  But then how can we pattern-match on it?  
 
 === Trusted computing base ===
 
-With all of this, what is left in the TCB?  The `TyCon` type is a new abstract type, and the comparison (based on fingerprints) must be in the TCB.
+With all of this, what is left in the TCB?  The `TTyCon` type is a new abstract type, and the comparison (based on fingerprints) must be in the TCB.
 {{{
 TTyCon a  --- abstract type
 eqTyCon :: forall k1 k2. forall (a :: k1) (b :: k2). 
            TTyCon a -> TTyCon b -> Maybe (a :~~: b)
+tyConKind :: TTyCon (a :: k) -> TTypeRep (k :: *)
 }}}
-'''RAE stuck:''' We have `data TTyCon (a :: k) = ...`, but how is that used to represent poly-kinded tycons? If we want a representation of `Proxy`, it would have to be `TTyCon <forall k. k -> *> Proxy`, writing in the kind argument explicitly. And that's impredicative! Or do `TTyCon`s store type constructors applied to all dependent (i.e. kind) arguments?
+Note that `TTyCon` represents type constructors already applied to any kind arguments. Even with kind equalities, we have no way of creating a representation for `Proxy :: forall k. k -> *`, as that would require an impredicative kind for the implicit kind argument to `TTyCon`.
 
 `withTypeable` could be written in core (and perhaps could be generalized to other constraints) but not in source Haskell:
 {{{
 withTypeable :: TypeRep a -> (Typeable a => b) -> b
 }}}
+
+Implementing the "fast comparison" idea above will require putting more code in the TCB because of interaction with fingerprints. But the functions above are morally the only ones that need be trusted.
 
 === What about structure information? ===
 
@@ -252,50 +255,42 @@ Related but different issue: https://ghc.haskell.org/trac/ghc/ticket/7897
 -----------------------------
 == Step by step == 
 
-We can do steps 1 and 2 without kind equalities, although the 
-implementation of `decomposeFun` will use `unsafeCoerce` and will be part of the TCB.
-
+We can do steps 1 and 2 (and probably 3) without kind equalities, although the 
+implementation of `decomposeFun` will use `unsafeCoerce` and will be part of the TCB. However, this will all likely happen after merging with kind equalities.
 
 == Proposed API ==
+
+This assumes heterogeneous equality (that is, with kind equalities). If you really want to see this with homogeneous equality, look through the history of this page, before April 29, 2015.
 
 {{{
 data TTypeRep (a :: k)        -- abstract
 data TTyCon (a :: k)          -- abstract
 
+tyConKind :: forall k (a :: k). TTyCon a -> TTypeRep k
+
 -- Costructors
-trCon :: forall k (a :: k). TTyCon a -> TTypeRep a  -- in TCB
+trCon :: forall k (a :: k). TTyCon a -> TTypeRep a
 trApp :: forall k k1 (a :: k1 -> k) (b :: k1). 
-         TTypeRep a -> TTypeRep b -> TTypeRep (a b)  -- in TCB
+         TTypeRep a -> TTypeRep b -> TTypeRep (a b)
 
 -- Destructors
 pattern type TRCon :: forall k (a :: k). TyCon a -> TTypeRep a
 pattern type TRApp :: forall k. exists k1 (a :: k1 -> k) (b :: k1). 
                       TTypeRep a -> TTypeRep b -> TTypeRep (a b)
-pattern type TRFun :: TTypeRep arg 
-                   -> TTypeRep res 
-                   -> TypeRep (TTypeRep (arg->res))
 
-
--- For now, homogeneous equalities
-eqTyCon :: forall k (a :: k) (b :: k). 
-           TTyCon a -> TTyCon b -> Maybe (a :~: b)
-eqTT    :: forall k (a :: k) (b :: k). 
-           TTypeRep a ->T TypeRep b -> Maybe (a :~: b)
-}}}
-When we get kind equalities, we can generalise `eqTyCon` and `eqTT`:
-{{{
+-- to go into Data.Type.Equality
 data (a :: k1) :~~: (b :: k2) where
    HRefl :: a :~~: a
 
 eqTyCon :: forall k1 k2 (a :: k1) (b :: k2). 
            TTyCon a -> TTyCon b -> Maybe (a :~~: b)
-eqT :: forall k1 k2 (a :: k1) (b :: k2). 
-       TTypeRep a -> TTypeRep b -> Maybe (a :~~: b)
-
--- can now implement TRFun in terms of TRApp, outside of TCB
+eqTT    :: forall k1 k2 (a :: k1) (b :: k2). 
+           TTypeRep a -> TTypeRep b -> Maybe (a :~~: b)
 }}}
 
 '''SLPJ''': Do we need both `:~:` and `:~~:`?
+
+'''RAE''': I don't think it's strictly necessary, but keeping the distinction might be useful. `:~:` will unify the kinds of its arguments during type inference, and that might be what the programmer wants. I don't feel strongly here.
 
 Some of this design is motivated by the desire to allow flexibility in the implementation to allow for fingerprinting for fast equality comparisons. Naturally, the fingerprints have to be in the TCB. If it weren't for them, though, the `TypeRep` type could be exported concretely.
 
