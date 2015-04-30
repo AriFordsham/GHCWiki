@@ -102,7 +102,7 @@ instance Ord MInt where
     compare (MInt a) (MInt b) = compare b a
 
 main =
-  let ints    = [MInt 1, MInt 3, MInt 5, MInt 2] :: [MInt]
+  let ints  = [MInt 1, MInt 3, MInt 5, MInt 2] :: [MInt]
       mintS = foldr insertMinList (newMinList $ MInt 3) ints
       intS  = coerce mintS :: Set Int
   in do
