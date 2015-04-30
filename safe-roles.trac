@@ -1,3 +1,5 @@
+[[PageOutline]]
+
 = Roles, Abstraction & Safety =
 
 GHC 7.8 introduced a new mechanism, roles, for implementing `GeneralizedNewtypeDeriving` safely. Roles solves a big issue with GND, type-safety. Previously, GND could be used to generate an `unsafeCoerce` function, which can easily segfault a program.
@@ -6,7 +8,64 @@ However, GND had a second issue, it's ability to break module boundaries. How th
 
 The design chosen settled on enabling easier use of GND over enforcing module boundaries. This document tries to summaries the situation and propose alternatives for future GHC versions.
 
-A major focus is on improving the situation of Roles & GND for Safe Haskell.
+A major focus is on improving the situation of Roles & GND for Safe Haskell. We'll start with solutions, but please read the rest of the document to understand the problem better.
+
+== Roles & Safe Haskell ==
+
+Roles are an unfortunate mechanism for control right now. Since
+representational is the default role for most type constructors, to enforce
+invariants on abstract data types, library authors need to set their type
+constructors to have nominal roles.
+
+This requires that library authors understand roles to enforce what they expect
+to happen according to Haskell2010 semantics and opens a very easy to forget vulnerability in code.
+
+Due to this, Safe Haskell so far has disallowed both `Data.Coerce` and GND.
+
+== Approaches to the Problem ==
+
+1) '''Do Nothing''' -- Keep Roles & GND unchanged, keep them unsafe in Safe Haskell.
+
+2) '''Accept as Safe''' -- Keep Roles & GND unchanged, accept them as safe in Safe Haskell and warn users that they need `nominal` role annotations on ADTs.
+
+3) '''In-scope constructor restriction for lifting instances''' -- The newtype constructor restriction for unwrapping instances could be extended to both data types, and the lifting instances of `Data.Coerce`. We'd want some new syntax for allowing the old behavior (Role syntax doesn't apply as this restriction or non-restriction of constructors in scope is somewhat orthogonal to roles. I.e., it applies to the polymorphic type, while roles apply to the type parameters).
+
+4) '''Change default role to nominal''' -- Claim is that this will break a lot of code using GND and place an ongoing burden on the community to add role annotations.
+
+5) '''Nominal default when constructors aren't exported''' -- When a module doesn't export all the constructors of a data type, then the type parameters of the data type should default to nominal. This heuristic seems to capture somewhat the intention of the user, but given the practice of defining an `Internal` module that exports everything, it seems of limited use.
+
+6) '''Warn when representational and constructors not exported''' -- This would be similar to 5, but rather than switch a types default for roles to nominal when it's constructors aren't exported, we simply warn the user.
+
+7) '''Nominal default in future''' -- Add a new extension, `SafeNewtypeDeriving` that switches the default role to nominal, but continue to provide a deprecated `GND` extension to help with the transition. The claims in support of representational roles as default though believe that nominal by default has an ongoing, continuous tax, not just a transition cost. So it isn't clear that any scheme like this satisfies that argument.
+
+8) '''Safe Haskell Specific''' -- Many of the above approaches could be adopted in a Safe Haskell specific manner. This isn't ideal as it makes safe-inference harder and Safe Haskell less likely to remain viable going forward.
+
+=== Subtleties of 3 ===
+
+Option 3 seems like a good choice that matches well with the expectations of developers. It obeys a good rule of, "Could I implement this by hand?", and `Data.Coerce` simply acts as an optimization of what is already possible.
+
+However, it can get tricky. Take this [https://mail.haskell.org/pipermail/glasgow-haskell-users/2013-October/024368.html example]:
+
+{{{
+module A where
+data S a b = S1 a | S2 b
+data T a b = MkT (S a b)
+
+module B where
+import A ( {- what goes here? -} )
+
+class C a where
+  mkT :: T Bool a
+
+instance C Int where ...
+newtype Age = MkAge Int deriving C
+}}}
+
+What constructors should be required to be in scope to derive the `C Age` instance? If typing by hand, it would require `MkT` and `S2` but not `S1`. This matches the rule, but as you can see, it can get tricky.
+
+A simple approach would be to over-approximate and require for each involved type, '''all''' constructors are in-scope, or, the type has been marked with the new syntax of allowing coercion without constructors.
+
+https://mail.haskell.org/pipermail/glasgow-haskell-users/2013-October/024378.html
 
 == Problem Pre-GHC-7.8 ==
 
@@ -321,59 +380,3 @@ So the GND instance for `TT` uses the `Show` instance for `T` rather than the sh
 Use roles is a global property of the type. So while it may be reasonable as a library writer of an ADT, `Set`, to want to use the `coerce` function internally, but disallow it externally, you currently can't do this.
 
 Newtype's provide this property somewhat, but as pointed out, only for their '''unwrapping instances''', the '''lifting instances''' are only controllable through roles.
-
-== Roles & Safe Haskell ==
-
-Roles are an unfortunate mechanism for control right now. Since
-representational is the default role for most type constructors, to enforce
-invariants on abstract data types, library authors need to set their type
-constructors to have nominal roles.
-
-This requires that library authors understand roles to enforce what they expect
-to happen according to Haskell2010 semantics and opens a very easy to forget vulnerability in code.
-
-Due to this, Safe Haskell so far has disallowed both `Data.Coerce` and GND.
-
-== Approaches to the Problem ==
-
-1) '''Do Nothing''' -- Keep Roles & GND unchanged, keep them unsafe in Safe Haskell.
-
-2) '''Accept as Safe''' -- Keep Roles & GND unchanged, accept them as safe in Safe Haskell and warn users that they need `nominal` role annotations on ADTs.
-
-3) '''In-scope constructor restriction for lifting instances''' -- The newtype constructor restriction for unwrapping instances could be extended to both data types, and the lifting instances of `Data.Coerce`. We'd want some new syntax for allowing the old behavior (Role syntax doesn't apply as this restriction or non-restriction of constructors in scope is somewhat orthogonal to roles. I.e., it applies to the polymorphic type, while roles apply to the type parameters).
-
-4) '''Change default role to nominal''' -- Claim is that this will break a lot of code using GND and place an ongoing burden on the community to add role annotations.
-
-5) '''Nominal default when constructors aren't exported''' -- When a module doesn't export all the constructors of a data type, then the type parameters of the data type should default to nominal. This heuristic seems to capture somewhat the intention of the user, but given the practice of defining an `Internal` module that exports everything, it seems of limited use.
-
-6) '''Warn when representational and constructors not exported''' -- This would be similar to 5, but rather than switch a types default for roles to nominal when it's constructors aren't exported, we simply warn the user.
-
-7) '''Nominal default in future''' -- Add a new extension, `SafeNewtypeDeriving` that switches the default role to nominal, but continue to provide a deprecated `GND` extension to help with the transition. The claims in support of representational roles as default though believe that nominal by default has an ongoing, continuous tax, not just a transition cost. So it isn't clear that any scheme like this satisfies that argument.
-
-=== Subtleties of 3 ===
-
-Option 3 seems like a good choice that matches well with the expectations of developers. It obeys a good rule of, "Could I implement this by hand?", and `Data.Coerce` simply acts as an optimization of what is already possible.
-
-However, it can get tricky. Take this [https://mail.haskell.org/pipermail/glasgow-haskell-users/2013-October/024368.html example]:
-
-{{{
-module A where
-data S a b = S1 a | S2 b
-data T a b = MkT (S a b)
-
-module B where
-import A ( {- what goes here? -} )
-
-class C a where
-  mkT :: T Bool a
-
-instance C Int where ...
-newtype Age = MkAge Int deriving C
-}}}
-
-What constructors should be required to be in scope to derive the `C Age` instance? If typing by hand, it would require `MkT` and `S2` but not `S1`. This matches the rule, but as you can see, it can get tricky.
-
-A simple approach would be to over-approximate and require for each involved type, '''all''' constructors are in-scope, or, the type has been marked with the new syntax of allowing coercion without constructors.
-
-https://mail.haskell.org/pipermail/glasgow-haskell-users/2013-October/024378.html
-
