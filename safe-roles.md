@@ -16,8 +16,6 @@ A major focus is on improving the situation of Roles & GND for Safe Haskell.
 
 [GND Pre-GHC-7.8](safe-roles/pre78-gnd)
 
-## Safe Haskell Pre-GHC-7.8
-
 
 Due to both the type-safety and abstraction issues, GND was considered unsafe in Safe Haskell.
 
