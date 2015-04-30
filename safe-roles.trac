@@ -1,0 +1,43 @@
+= Roles, Abstraction & Safety =
+
+Userguide:
+* https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/roles.html
+
+GHC Wiki:
+* https://ghc.haskell.org/trac/ghc/wiki/Roles
+* https://ghc.haskell.org/trac/ghc/wiki/Roles2
+
+Email Threads:
+* "Default Roles" -- https://mail.haskell.org/pipermail/glasgow-haskell-users/2013-October/024360.html
+* "Role Signatures in Libraries" -- https://mail.haskell.org/pipermail/libraries/2013-November/021707.html
+* "We need to add role annotations for 7.8" -- https://mail.haskell.org/pipermail/libraries/2014-March/022321.html
+
+- If you could use GND only where the constructors are available, then some valid current use of GND would break, I believe. It would mean that GND would be unable to coerce a (Map String Int) to a (Map String Age), because the constructor of Set is (rightly) not exported. This would have a direct runtime significance for some users -- their code would run slower.
+
+Tickets:
+* "Inferring Safe mode with GeneralizedNewtypeDeriving is wrong" -- https://ghc.haskell.org/trac/ghc/ticket/8827
+* "GeneralizedNewtypeDeriving is still not Safe" -- https://ghc.haskell.org/trac/ghc/ticket/8745
+* "Require -XIncoherentInstances to write role annotations on class definitions" -- https://ghc.haskell.org/trac/ghc/ticket/8773
+* "Incoherent instances without -XIncoherentInstances" -- https://ghc.haskell.org/trac/ghc/ticket/8338
+
+
+Opinions:
+
+https://mail.haskell.org/pipermail/glasgow-haskell-users/2013-October/024368.html
+
+https://mail.haskell.org/pipermail/glasgow-haskell-users/2013-October/024378.html
+
+2.) It also indicates that making any typeclass with a representational (/
+phantom?) argument shouldn't be possible in valid SafeHaskell, as you can
+use it to subvert the current restrictions on OverlappingInstances.
+
+
+
+Pathways:
+
+Changing default role to nominal
+In GHC 7.8, unannotated datatype parameters default to phantom. This means that most normal parameters are given a representational role. It has been argued that perhaps nominal is a better (safer) default, and that users should specify representational when they want it. The problem with a nominal default is that it breaks all current usages of GND by default. Furthering the problem, when a user is unable to use GND it's the library that has to change, not the user's code.
+
+On Mar 31, 2014, Dominique Devriese writes the following suggestion:
+
+What I was wondering about is if the dilemma could be solved by choosing nominal-by-default in the long term for the role inference (so that library writers cannot accidentally leave abstraction holes open by forgetting to add role annotations) and use them in the long-term-supported SafeNewtypeDeriving extension, but provide a deprecated not-quite-as-safe GND extension for helping out users of libraries that have not yet added role annotations. I would fancy that this not-quite-as-safe GND could use unsafeCoerce wherever the safe one would give an error about annotated roles.
