@@ -330,6 +330,9 @@ Then we can coerce from `T a` to `a` without access to the constructor for `T`!
 
 This is worrying, but appears reasonably hard to exploit as it relies on using polymorphic types in the definition of `plugin`. If we replace `plugin` with the type `plugin :: Coercible (T Int) Int => T Int -> Int -> IO ()`, then the module fails to compile as the constructor-in-scope check is enforced.
 
+
+Perhaps someone smarter though can figure out how to gain access to the dictionary indirectly like this while still using concrete types.
+
 ## Roles & Safe Haskell
 
 
