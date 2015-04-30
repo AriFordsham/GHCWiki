@@ -34,11 +34,11 @@ Due to this, Safe Haskell so far has disallowed both `Data.Coerce` and GND.
 
 5) '''Nominal default when constructors aren't exported''' -- When a module doesn't export all the constructors of a data type, then the type parameters of the data type should default to nominal. This heuristic seems to capture somewhat the intention of the user, but given the practice of defining an `Internal` module that exports everything, it seems of limited use.
 
-6) '''Warn when representational and constructors not exported''' -- This would be similar to 5, but rather than switch a types default for roles to nominal when it's constructors aren't exported, we simply warn the user.
+6) '''Nominal default in future''' -- Add a new extension, `SafeNewtypeDeriving` that switches the default role to nominal, but continue to provide a deprecated `GND` extension to help with the transition. The claims in support of representational roles as default though believe that nominal by default has an ongoing, continuous tax, not just a transition cost. So it isn't clear that any scheme like this satisfies that argument.
 
-7) '''Nominal default in future''' -- Add a new extension, `SafeNewtypeDeriving` that switches the default role to nominal, but continue to provide a deprecated `GND` extension to help with the transition. The claims in support of representational roles as default though believe that nominal by default has an ongoing, continuous tax, not just a transition cost. So it isn't clear that any scheme like this satisfies that argument.
+7) '''Safe Haskell Specific''' -- Many of the above approaches could be adopted in a Safe Haskell specific manner. This isn't ideal as it makes safe-inference harder and Safe Haskell less likely to remain viable going forward. [https://mail.haskell.org/pipermail/haskell-cafe/2015-April/118999.html Richard suggests one such idea].
 
-8) '''Safe Haskell Specific''' -- Many of the above approaches could be adopted in a Safe Haskell specific manner. This isn't ideal as it makes safe-inference harder and Safe Haskell less likely to remain viable going forward. [https://mail.haskell.org/pipermail/haskell-cafe/2015-April/118999.html Richard suggests one such idea].
+8) '''Warn when representational and constructors not exported''' -- This would be similar to 5, but rather than switch a types default for roles to nominal when it's constructors aren't exported, we simply warn the user.
 
 === Subtleties of 3 ===
 
