@@ -17,10 +17,7 @@ In GHC 7.6 or earlier, assume a library author writes the following `MinList` da
 
 {{{
 module MinList (
-        MinList,
-        newMinList,
-        insertMinList,
-        printIntMinList
+        MinList, newMinList, insertMinList,
     ) where
 
 data MinList a = MinList a [a] deriving (Show)
@@ -96,6 +93,140 @@ Tickets:
 == Roles Overview ==
 
 [wiki:SafeRoles/RolesOverview Roles Overview]
+
+Consider the code:
+
+{{{
+newtype Set a = MkSet [a]
+}}}
+
+This gives the following instances of `Coercible`:
+
+First, the '''unwrapping instances''':
+
+{{{
+instance Coercible [a] b => Coercible (Set a) b
+instance Coercible a [b] => Coercible a (Set b)
+}}}
+
+These are only available when the `Set` constructor, `MkSet`, is in scope. This was specifically done to preserve some notion of abstraction.
+
+Secondly, you get the '''lifting instances''':
+
+{{{
+instance Coercible a b => Coercible (Set a) (Set b)
+}}}
+
+This instance is produced for both `data` and `newtype` types and is available for both regardless of if or if not the constructors of the type are in scope.
+
+The only way to control the availability of the '''lifting instance''' is to use a role annotation:
+
+{{{
+type role Set nominal
+}}}
+
+== Problem GHC-7.8+ ==
+
+Consider MinList:
+
+{{{
+module MinList (
+        MinList, newMinList, insertMinList,
+    ) where
+
+data MinList a = MinList a [a] deriving (Show)
+
+newMinList :: Ord a => a -> MinList a
+newMinList n = MinList n []
+
+insertMinList :: Ord a => MinList a -> a -> MinList a
+insertMinList s@(MinList m xs) n | n > m     = MinList m (n:xs)
+                                 | otherwise = s
+}}}
+
+This is perfectly valid and reasonable code to write. However, a consumer of MinList could now write:
+
+{{{
+module Main where
+
+import MinList
+import Data.Coerce
+
+newtype MInt = MInt Int deriving (Eq, Show)
+
+instance Ord MInt where
+    compare (MInt a) (MInt b) = compare b a
+
+main =
+  let ints    = [MInt 1, MInt 3, MInt 5, MInt 2] :: [MInt]
+      mintS = foldr insertMinList (newMinList $ MInt 3) ints
+      intS  = coerce mintS :: Set Int
+  in do
+    print mintS
+    print intS
+}}}
+
+Using the `coerce` function in a simple way to break invariants. Below we'll outline some subtleties of Roles.
+
+=== Data.Coerce isn't Needed ===
+
+The way that GND is implemented now, is through the `coerce` function essentially. For example:
+
+{{{
+class Default a where
+    def :: a
+
+instance Default Int where
+    def = 0
+
+newtype MInt = MkInt Int
+
+deriving instance Default MInt
+}}}
+
+The GND instance `Default MInt` is equivalent to writing out by hand the following instance:
+
+{{{
+instance Default MInt where
+    def = coerce (def :: Int)
+}}}
+
+Because of this, as before we can use GND to create coercion functions without an explicit import of the `Data.Coerce` module. For example,with the `MinList` example, we can simply use a typeclass as before to create a coercion function:
+
+{{{
+class IntIso t where
+    intIso :: MinList t -> MinList Int
+
+deriving instance IntIso Mint
+}}}
+
+Unlike in GHC 7.6, we need to use more concrete types due to the role mechanism, but we can still derive coercion functions.
+
+== Roles & Safe Haskell == 
+
+Roles are an unfortunate mechanism for control right now. Since
+representational is the default role for most type constructors, to enforce
+invariants on abstract data types, library authors need to set their type
+constructors to have nominal roles.
+
+This requires that library authors understand roles to enforce what they expect
+to happen according to Haskell2010 semantics. It also prevents them using
+`coerce` internally and gaining the optimization, which is insulting as they
+can write the code that coerce is semantically equivalent to.
+
+It seems a different approach is needed, of either:
+
+1) Require that all constructors are in scope when calling `coerce`. There is
+some precedence for this as 7.10 requires that a newtype's constructor is in
+scope to use `coerce`.
+
+**NO**: This was requirement wasn't place of data types since some types (like
+`IORef`) don't even have constructors that can be in scope.
+
+2) Allow specifying internal + external role annotations.
+
+3) Change the default to be nominal when all the constructors aren't exported,
+and allow weakening of this to referential with role annotations.
 
 == Opinions ==
 
