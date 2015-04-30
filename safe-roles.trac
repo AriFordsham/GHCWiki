@@ -28,7 +28,7 @@ Due to this, Safe Haskell so far has disallowed both `Data.Coerce` and GND.
 
 2) '''Accept as Safe''' -- Keep Roles & GND unchanged, accept them as safe in Safe Haskell and warn users that they need `nominal` role annotations on ADTs.
 
-3) '''In-scope constructor restriction for lifting instances''' -- The newtype constructor restriction for unwrapping instances could be extended to both data types, and the lifting instances of `Data.Coerce`. We'd want some new syntax for allowing the old behavior (Role syntax doesn't apply as this restriction or non-restriction of constructors in scope is somewhat orthogonal to roles. I.e., it applies to the polymorphic type, while roles apply to the type parameters).
+3) '''In-scope constructor restriction for lifting instances''' -- The newtype constructor restriction for unwrapping instances could be extended to both data types, and the lifting instances of `Data.Coerce`. This is, GND & Coercing under a type constructor is allowed if (a) all involved constructors are in scope, or (b) the constructors involved have been explicitly declared to allow coercion without them being in scope. I.e., (b) allows library authors to opt-into the current GHC behavior.  This would require new syntax, probably just an explicit `deriving Coercible` statement.
 
 4) '''Change default role to nominal''' -- Claim is that this will break a lot of code using GND and place an ongoing burden on the community to add role annotations.
 
@@ -38,11 +38,13 @@ Due to this, Safe Haskell so far has disallowed both `Data.Coerce` and GND.
 
 7) '''Nominal default in future''' -- Add a new extension, `SafeNewtypeDeriving` that switches the default role to nominal, but continue to provide a deprecated `GND` extension to help with the transition. The claims in support of representational roles as default though believe that nominal by default has an ongoing, continuous tax, not just a transition cost. So it isn't clear that any scheme like this satisfies that argument.
 
-8) '''Safe Haskell Specific''' -- Many of the above approaches could be adopted in a Safe Haskell specific manner. This isn't ideal as it makes safe-inference harder and Safe Haskell less likely to remain viable going forward.
+8) '''Safe Haskell Specific''' -- Many of the above approaches could be adopted in a Safe Haskell specific manner. This isn't ideal as it makes safe-inference harder and Safe Haskell less likely to remain viable going forward. [https://mail.haskell.org/pipermail/haskell-cafe/2015-April/118999.html Richard suggests one such idea].
 
 === Subtleties of 3 ===
 
-Option 3 seems like a good choice that matches well with the expectations of developers. It obeys a good rule of, "Could I implement this by hand?", and `Data.Coerce` simply acts as an optimization of what is already possible.
+Option 3 seems like a good choice that matches well with the expectations of developers. It obeys a good rule of, "Could I implement this by hand?", and `Data.Coerce` simply acts as an optimization of what is already possible. It also resolves being able to use `coerce` internally as an optimization, while disallowing it's use externally. Something not easily expressible today.
+
+We'd want some new syntax for allowing the old behavior (Role syntax doesn't apply as this restriction or non-restriction of constructors in scope is somewhat orthogonal to roles. I.e., it applies to the polymorphic type, while roles apply to the type parameters).
 
 However, it can get tricky. Take this [https://mail.haskell.org/pipermail/glasgow-haskell-users/2013-October/024368.html example]:
 
@@ -65,7 +67,13 @@ What constructors should be required to be in scope to derive the `C Age` instan
 
 A simple approach would be to over-approximate and require for each involved type, '''all''' constructors are in-scope, or, the type has been marked with the new syntax of allowing coercion without constructors.
 
-https://mail.haskell.org/pipermail/glasgow-haskell-users/2013-October/024378.html
+Another issue is the syntax and how it would interact with Roles. The easiest seems to be:
+
+{{{
+data MinList a = MinList a [a] deriving Coercible
+}}}
+
+Which would allow clients to use the default instances of `Coercible` regardless of if the constructors are in scope or not. Syntax beyond this is interesting in it's finer grained control over `Coercible`, but gets complicated quickly and conflicts with role annotations.
 
 == Problem Pre-GHC-7.8 ==
 
