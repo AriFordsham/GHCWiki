@@ -110,7 +110,19 @@ main =
     print intS
 }}}
 
-Using the `coerce` function in a simple way to break invariants. Below we'll outline some subtleties of Roles.
+Using the `coerce` function in a simple way to break invariants. 
+
+== Why is this a problem? ==
+
+It's reasonable to say that this all is fine. If library writers want to enforce invariants, then they simply add a role annotation. This is unsatisfying as:
+
+* It breaks the expected semantics of Haskell2010. A library writer needs to understand a GHC specific extension to get the behavior that they expect.
+* It sets the default to be that type-class invariants are enforceable.
+* Reasoning about an abstract data type by inspecting the export list and types is no longer enough, you need to look at the role annotations or lack of them.
+
+== Role Subtleties ==
+
+Below we'll outline some subtleties of Roles.
 
 === Data.Coerce isn't Needed ===
 
@@ -145,6 +157,63 @@ deriving instance IntIso Mint
 }}}
 
 Unlike in GHC 7.6, we need to use more concrete types due to the role mechanism, but we can still derive coercion functions.
+
+=== Type-classes are nominal by Default ===
+
+By default, type parameters for type-classes have nominal roles. This protects against the creation of incoherent instances. This appears to be safe and the correct decision. For example:
+
+{{{
+{-# LANGUAGE RoleAnnotations #-}
+{-# LANGUAGE IncoherentInstances #-}
+module ExpDicts_Sub (
+    MEQ(..), normMEQ
+  ) where
+
+-- Requires we explicitly use representational
+type role MEQ representational
+class MEQ a where { meq :: a -> a -> Bool }
+
+instance MEQ Char where { meq _ _ = True }
+
+normMEQ :: MEQ a => a -> a -> Bool
+normMEQ a b = a `meq` b
+}}}
+
+Can then be used by another module as follows:
+
+{{{
+{-# LANGUAGE GADTs #-}
+module Main where
+
+import Data.Coerce
+import ExpDicts_Sub
+
+data C a where
+  C :: MEQ a => C a
+
+newtype CChar = CChar Char
+
+instance MEQ CChar where
+  meq _ _ = False
+
+dictChar :: C Char
+dictChar = C
+
+dictCChar :: C CChar
+dictCChar = C
+
+dictChar' :: C Char
+dictChar' = coerce dictCChar
+
+expMEQ :: C a -> a -> a -> Bool
+expMEQ C a b = a `meq` b
+
+main :: IO ()
+main = do
+  print $ expMEQ dictChar  'a' 'a'                   -- True
+  print $ expMEQ dictCChar  (CChar 'a') (CChar 'a')  -- False
+  print $ expMEQ dictChar' 'a' 'a'                   -- False
+}}}
 
 == Roles & Safe Haskell == 
 
