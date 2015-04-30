@@ -30,7 +30,7 @@ Due to this, Safe Haskell so far has disallowed both `Data.Coerce` and GND.
 
 3) '''In-scope constructor restriction for lifting instances''' -- The newtype constructor restriction for unwrapping instances could be extended to both data types, and the lifting instances of `Data.Coerce`. This is, GND & Coercing under a type constructor is allowed if (a) all involved constructors are in scope, or (b) the constructors involved have been explicitly declared to allow coercion without them being in scope. I.e., (b) allows library authors to opt-into the current GHC behavior.  This would require new syntax, probably just an explicit `deriving Coercible` statement.
 
-4) '''Change default role to nominal''' -- Claim is that this will break a lot of code using GND and place an ongoing burden on the community to add role annotations.
+4) '''Change default role to nominal''' -- This will prioritize safety over GND, and the belief is that it may break a lot of code. Worse, that it will be an ongoing tax as role annotations will be needed to enable GND.
 
 5) '''Nominal default when constructors aren't exported''' -- When a module doesn't export all the constructors of a data type, then the type parameters of the data type should default to nominal. This heuristic seems to capture somewhat the intention of the user, but given the practice of defining an `Internal` module that exports everything, it seems of limited use.
 
