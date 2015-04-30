@@ -141,7 +141,7 @@ Using the `coerce` function in a simple way to break invariants.
 It's reasonable to say that this all is fine. If library writers want to enforce invariants, then they simply add a role annotation. This is unsatisfying as:
 
 - It breaks the expected semantics of Haskell2010. A library writer needs to understand a GHC specific extension to get the behavior that they expect.
-- It sets the default to be that type-class invariants are enforceable.
+- It sets the default to be that type-class invariants are not enforceable.
 - Reasoning about an abstract data type by inspecting the export list and types is no longer enough, you need to look at the role annotations or lack of them.
 
 ## Role Subtleties
@@ -245,6 +245,90 @@ main = do
   print $ expMEQ dictCChar  (CChar 'a') (CChar 'a')  -- False
   print $ expMEQ dictChar' 'a' 'a'                   -- False
 ```
+
+### Unwrapping Instances require Constructor in Scope
+
+
+Newtype introduces **unwrapping instances** as well as the standard lifting instance. Unwrapping instances however, are only available when the constructor for the newtype is in scope.
+
+
+For example:
+
+```wiki
+module Sub (
+    T(), mkT, castTs
+  ) where
+
+import Data.Coerce
+import Sub_Evil
+
+newtype T a = T a deriving (Eq, Ord, Show)
+
+mkT :: a -> T a
+mkT = T
+
+castTs :: [T a] -> [a]
+castTs = coerce
+```
+
+
+Within the module `Sub` we can coerce from `T a` to `a` as the construct, `T`, is in scope. However, in a consumer of `Sub` we cannot since the constructor isn't exported:
+
+```wiki
+module Consumer where
+
+import Data.Coerce
+
+import Sub
+
+-- Can't write since T constructor not in scope!
+castTs' :: [T a] -> [a]
+castTs' = coerce
+```
+
+
+The above will fail to compile.
+
+### Coerce Dictionary Access
+
+
+One subtle point though is that this access to the `coerce` function is being controlled through type-classes, and so the dictionaries that implement then at run-time. This can be tricky to get right due to the implicit nature of them.
+
+
+For example, if `Sub` imported the module `Sub_Evil` and called the following code:
+
+```wiki
+-- module Sub ...
+
+runPlugin :: IO ()
+runPlugin = plugin (T 1 :: T Int) (2 :: Int)
+```
+
+
+And `Sub_Evil` is defined as follows:
+
+```wiki
+{-# LANGUAGE ScopedTypeVariables #-}
+module Sub_Evil (
+    plugin
+  ) where
+
+import Data.Coerce
+
+-- Can gain access to dictionary without constructor if passed in at location
+-- that can access constructor.
+plugin :: forall a b. (Show a, Show b, Coercible a b) => a -> b -> IO ()
+plugin x y = do
+  putStrLn $ "A : " ++ show x
+  putStrLn $ "B : " ++ show y
+  putStrLn $ "A': " ++ show (coerce x :: b)
+```
+
+
+Then we can coerce from `T a` to `a` without access to the constructor for `T`!
+
+
+This is worrying, but appears reasonably hard to exploit as it relies on using polymorphic types in the definition of `plugin`. If we replace `plugin` with the type `plugin :: Coercible (T Int) Int => T Int -> Int -> IO ()`, then the module fails to compile as the constructor-in-scope check is enforced.
 
 ## Roles & Safe Haskell
 
