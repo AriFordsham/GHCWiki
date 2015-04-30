@@ -17,10 +17,7 @@ In GHC 7.6 or earlier, assume a library author writes the following `MinList` da
 
 {{{
 module MinList (
-        MinList,
-        newMinList,
-        insertMinList,
-        printIntMinList
+        MinList, newMinList, insertMinList,
     ) where
 
 data MinList a = MinList a [a] deriving (Show)
@@ -127,6 +124,83 @@ The only way to control the availability of the '''lifting instance''' is to use
 {{{
 type role Set nominal
 }}}
+
+== Problem GHC-7.8+ ==
+
+Consider MinList:
+
+{{{
+module MinList (
+        MinList, newMinList, insertMinList,
+    ) where
+
+data MinList a = MinList a [a] deriving (Show)
+
+newMinList :: Ord a => a -> MinList a
+newMinList n = MinList n []
+
+insertMinList :: Ord a => MinList a -> a -> MinList a
+insertMinList s@(MinList m xs) n | n > m     = MinList m (n:xs)
+                                 | otherwise = s
+}}}
+
+This is perfectly valid and reasonable code to write. However, a consumer of MinList could now write:
+
+{{{
+module Main where
+
+import MinList
+import Data.Coerce
+
+newtype MInt = MInt Int deriving (Eq, Show)
+
+instance Ord MInt where
+    compare (MInt a) (MInt b) = compare b a
+
+main =
+  let ints    = [MInt 1, MInt 3, MInt 5, MInt 2] :: [MInt]
+      mintS = foldr insertMinList (newMinList $ MInt 3) ints
+      intS  = coerce mintS :: Set Int
+  in do
+    print mintS
+    print intS
+}}}
+
+Using the `coerce` function in a simple way to break invariants. Below we'll outline some subtleties of Roles.
+
+=== Data.Coerce isn't Needed ===
+
+The way that GND is implemented now, is through the `coerce` function essentially. For example:
+
+{{{
+class Default a where
+    def :: a
+
+instance Default Int where
+    def = 0
+
+newtype MInt = MkInt Int
+
+deriving instance Default MInt
+}}}
+
+The GND instance `Default MInt` is equivalent to writing out by hand the following instance:
+
+{{{
+instance Default MInt where
+    def = coerce (def :: Int)
+}}}
+
+Because of this, as before we can use GND to create coercion functions without an explicit import of the `Data.Coerce` module. For example,with the `MinList` example, we can simply use a typeclass as before to create a coercion function:
+
+{{{
+class IntIso t where
+    intIso :: MinList t -> MinList Int
+
+deriving instance IntIso Mint
+}}}
+
+Unlike in GHC 7.6, we need to use more concrete types due to the role mechanism, but we can still derive coercion functions.
 
 == Roles & Safe Haskell == 
 
