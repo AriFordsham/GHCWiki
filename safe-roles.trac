@@ -4,9 +4,9 @@
 
 GHC 7.8 introduced a new mechanism, roles, for implementing `GeneralizedNewtypeDeriving` safely. Roles solves a big issue with GND, type-safety. Previously, GND could be used to generate an `unsafeCoerce` function, which can easily segfault a program.
 
-However, GND had a second issue, it's ability to break module boundaries. How this should be handled with the new roles infrastructure and what the default should be was a major point of discussion before GHC 7.8 and after.
+However, GND had a second issue, its ability to break module boundaries. How this should be handled with the new roles infrastructure and what the default should be was a major point of discussion before GHC 7.8 and after.
 
-The design chosen settled on enabling easier use of GND over enforcing module boundaries. This document tries to summaries the situation and propose alternatives for future GHC versions.
+The design chosen settled on enabling easier use of GND over enforcing module boundaries. This document tries to summarize the situation and propose alternatives for future GHC versions.
 
 A major focus is on improving the situation of Roles & GND for Safe Haskell. We'll start with solutions, but please read the rest of the document to understand the problem better.
 
@@ -28,7 +28,14 @@ Due to this, Safe Haskell so far has disallowed both `Data.Coerce` and GND.
 
 2) '''Accept as Safe''' -- Keep Roles & GND unchanged, accept them as safe in Safe Haskell and warn users that they need `nominal` role annotations on ADTs.
 
+'''RAE''' What do you mean by ''warn'' here? Is this warning done via social outreach, or from GHC itself? If from GHC, when would the warning trigger? Adding a "you're potentially violating abstraction" warning has been very tempting, but we've never been able to figure out quite the right trigger for it. 
+
+Separately, I'll add the observation that if roles were widely understood by library-writers, this would be the "obvious" option. The only reason roles are considered unsafe is that library-writers might accidentally omit a needed annotation. If roles were widely understood, then omitting a role annotation would be as much the library-writer's fault as omitting an export list. To pursue this further, it might be interesting to see what percentage of packages with reverse dependencies on Hackage have role annotations. If this percentage is quite high, then it's an argument that library-writers are with the program and know of the need to protect abstractions.
+'''End RAE'''
+
 3) '''In-scope constructor restriction for lifting instances''' -- The newtype constructor restriction for unwrapping instances could be extended to both data types, and the lifting instances of `Data.Coerce`. This is, GND & Coercing under a type constructor is allowed if (a) all involved constructors are in scope, or (b) the constructors involved have been explicitly declared to allow coercion without them being in scope. I.e., (b) allows library authors to opt-into the current GHC behavior.  This would require new syntax, probably just an explicit `deriving Coercible` statement.
+
+'''RAE''' This seems straightforward to implement. We just need to decide on a syntax. `deriving Coercible` is one such syntax. Another is simply the presence of a role annotation. '''End RAE'''
 
 4) '''Change default role to nominal''' -- This will prioritize safety over GND, and the belief is that it may break a lot of code. Worse, that it will be an ongoing tax as role annotations will be needed to enable GND.
 
@@ -36,9 +43,11 @@ Due to this, Safe Haskell so far has disallowed both `Data.Coerce` and GND.
 
 6) '''Nominal default in future''' -- Add a new extension, `SafeNewtypeDeriving` that switches the default role to nominal, but continue to provide a deprecated `GND` extension to help with the transition. The claims in support of representational roles as default though believe that nominal by default has an ongoing, continuous tax, not just a transition cost. So it isn't clear that any scheme like this satisfies that argument.
 
+'''RAE''' This doesn't make sense to me. The roles are set at definition time, yet that extension looks like it would happen at the use site. Perhaps I'm misunderstanding. '''End RAE'''
+
 7) '''Safe Haskell Specific''' -- Many of the above approaches could be adopted in a Safe Haskell specific manner. This isn't ideal as it makes safe-inference harder and Safe Haskell less likely to remain viable going forward. [https://mail.haskell.org/pipermail/haskell-cafe/2015-April/118999.html Richard suggests one such idea].
 
-8) '''Warn when representational and constructors not exported''' -- This would be similar to 5, but rather than switch a types default for roles to nominal when it's constructors aren't exported, we simply warn the user.
+8) '''Warn when representational and constructors not exported''' -- This would be similar to 5, but rather than switch a types default for roles to nominal when its constructors aren't exported, we simply warn the user.
 
 === Subtleties of 3 ===
 
@@ -65,7 +74,7 @@ newtype Age = MkAge Int deriving C
 
 What constructors should be required to be in scope to derive the `C Age` instance? If typing by hand, it would require `MkT` and `S2` but not `S1`. This matches the rule, but as you can see, it can get tricky.
 
-A simple approach would be to over-approximate and require for each involved type, '''all''' constructors are in-scope, or, the type has been marked with the new syntax of allowing coercion without constructors.
+A simple approach would be to over-approximate and require for each involved type, '''all''' constructors are in-scope, or, the type has been marked with the new syntax of allowing coercion without constructors. '''RAE''' Yes, please! '''End RAE'''
 
 Another issue is the syntax and how it would interact with Roles. The easiest seems to be:
 
@@ -73,7 +82,7 @@ Another issue is the syntax and how it would interact with Roles. The easiest se
 data MinList a = MinList a [a] deriving Coercible
 }}}
 
-Which would allow clients to use the default instances of `Coercible` regardless of if the constructors are in scope or not. Syntax beyond this is interesting in it's finer grained control over `Coercible`, but gets complicated quickly and conflicts with role annotations.
+Which would allow clients to use the default instances of `Coercible` regardless of if the constructors are in scope or not. Syntax beyond this is interesting in its finer grained control over `Coercible`, but gets complicated quickly and conflicts with role annotations. '''RAE''' I vote for the simple thing until real clients start shouting '''End RAE'''
 
 == Problem Pre-GHC-7.8 ==
 
@@ -193,7 +202,7 @@ Below we'll outline some subtleties of Roles.
 
 === Data.Coerce isn't Needed ===
 
-The way that GND is implemented now, is through the `coerce` function essentially. For example:
+The way that GND is implemented now, is through the `coerce` function essentially. '''RAE''' Not "essentially." It really ''is'' just the `coerce` function! '''End RAE''' For example:
 
 {{{
 class Default a where
@@ -355,6 +364,7 @@ This is worrying, but appears reasonably hard to exploit as it relies on using p
 
 Perhaps someone smarter though can figure out how to gain access to the dictionary indirectly like this while still using concrete types.
 
+'''RAE''' I'm not terribly worried about this exploit, as evidence that something strange is going on is in the type signature. '''End RAE'''
 
 === GND and Super-classes ===
 
@@ -383,8 +393,19 @@ main = do
 
 So the GND instance for `TT` uses the `Show` instance for `T` rather than the show instance for `TT`.
 
+'''RAE''' This one is a red herring -- nothing to do with GND. If I remove the `deriving C` from `TT` and instead write
+
+{{{
+instance C TT where
+  op (MkTT t) = op t
+}}}
+
+I get the same behavior as the original code. Note: no `coerce`! '''End RAE'''
+
 === Nominal prevents opimizations ===
 
 Use roles is a global property of the type. So while it may be reasonable as a library writer of an ADT, `Set`, to want to use the `coerce` function internally, but disallow it externally, you currently can't do this.
 
 Newtype's provide this property somewhat, but as pointed out, only for their '''unwrapping instances''', the '''lifting instances''' are only controllable through roles.
+
+'''RAE''' Yes, but you can have a `SetInternal` datatype with whatever roles you please, use that throughout your library, and then have `newtype Set x y z = MkSet (SetInternal x y z)` with more restrictive roles and without an exported constructor. This is perhaps less than ideal, but not so painful that we need to worry about inventing something better. '''End RAE'''
