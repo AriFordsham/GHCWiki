@@ -2,12 +2,14 @@
 
 ''Thomas Winant, Dominique Devriese, Frank Piessens, Tom Schrijvers''
 
+Relevant links
+ * [https://www.fpcomplete.com/user/thomasw/new-in-ghc-7-10-partial-type-signatures Thomas Winant's blog post]
+ * Ticket to track progress: #9478
+ 
 In Haskell, programmers have a binary choice between omitting the type
 signature (and relying on type inference) or explicitly providing the
 type entirely; there are no intermediate options. Partial type
 signatures have been often proposed as an intermediate option.
-
-Ticket to track progress: #9478
 
 In a partial type signature, annotated types can be mixed with
 inferred types. A type signature is written like before, but can now
@@ -29,10 +31,6 @@ This document attempts to describe our design and our
 [https://github.com/mrBliss/ghc current implementation] from a more practical
 point of view in the hope to get some feedback from the GHC developers
 community.
-
-
-'''UPDATE''' See the section [#implementation implementation] and its
-subsections for the current state of this proposal.
 
 ---------------------------
 == Background and motivation ==
