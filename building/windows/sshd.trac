@@ -60,3 +60,10 @@ net start sshd
 
 # NB: if you need to tweak env-vars such as PATH or MSYSTEM, use ~/.bashrc or ~/.bash_profile
 }}}
+
+
+{{{#!box note
+
+TODO: evaluate alternative script at https://gist.github.com/samhocevar/00eec26d9e9988d080ac
+
+}}}

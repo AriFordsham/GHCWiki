@@ -43,3 +43,5 @@ While on CygWin setting up `sshd` is taken care of by the provided `ssh-host-con
   # if something doesn't work, make sure  /etc/ssh*_* /var/empty /var/log/lastlog /var/log/sshd.log are accessible by cyg_server user.
   # NB: if you need to tweak env-vars such as PATH or MSYSTEM, use ~/.bashrc or ~/.bash_profile
   ```
+
+TODO evaluate alternative script at [ https://gist.github.com/samhocevar/00eec26d9e9988d080ac](https://gist.github.com/samhocevar/00eec26d9e9988d080ac)
