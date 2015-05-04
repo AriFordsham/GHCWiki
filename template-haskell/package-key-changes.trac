@@ -1,4 +1,9 @@
-In GHC 7.10, we changed the internal representation of names to be based on package keys (`base_XXXXXX`) rather than package IDs (`base-4.7.0.1`), however, we forgot to update the Template Haskell API to track these changes.  This lead to some bugs in TH code which was synthesizing names by using package name and version directly, e.g. #10279
+In GHC 7.10, we changed the internal representation of names to be based on package keys (`base_XXXXXX`) rather than package IDs (`base-4.7.0.1`)—see #9265 for the motivation behind this change—however, we forgot to update the Template Haskell API to track these changes.  This lead to some bugs in TH code which was synthesizing names by using package name and version directly, of which we've seen two cases (and there are probably more):
+
+        https://github.com/ekmett/lens/issues/496
+        https://ghc.haskell.org/trac/ghc/ticket/10279
+
+The primary use-case for generating a `Name` from scratch is in order to provide some functions intended for use in Template Haskell which need to refer to a renamed identifier, e.g. `GHC.Num.(+)`, but WITHOUT using a TH splice to get the name `[| (+) |]`
 
 We now propose the following changes to the TH API in order to track these changes:
 
@@ -10,13 +15,17 @@ Currently, a TH `NameG` contains a `PkgName`, defined as:
 newtype PkgName = PkgName String
 }}}
 
-This is badly misleading, even in the old world order, since these needed version numbers as well (except for wired-in packages, which did not have a version number). We propose that this be renamed to `PkgKey`:
+This is badly misleading, even in the old world order, since these needed version numbers as well (except for wired-in packages, which are always just a bare package name). We propose that this be renamed to `PkgKey`:
 
 {{{
 newtype PkgKey = PkgKey String
 mkPackageKey :: String -> PackageKey
 mkPackageKey = PkgKey
 }}}
+
+**Variation 1.** Keep the old `PkgName` type and constructor around for backwards compatibility.  One reason **not** to do this is that the change from package name to package key was a semantic change, meaning that people who were faking keys by concatenating a name with a version had their code break. (On the other hand, by the end of the 7.10 cycle most people probably will be using the old name correctly.)
+
+Here is the GitHub search for uses of `NameG`, which usually indicates a package key is being manipulated directly: https://github.com/search?l=haskell&q=NameG&type=Code&utf8=%E2%9C%93
 
 == Querying about packages ==
 
@@ -25,6 +34,10 @@ Package keys are somewhat hard to synthesize, so we also offer an API for queryi
 {{{
 data Package
 packageKey :: Package -> PkgKey
+packageVersionString :: Package -> String
+packageName          :: Package -> String
+
+packageDependencies :: Package -> Q [Package]
 }}}
 
 and some functions for getting packages:
@@ -38,6 +51,8 @@ reifyPackage :: PkgKey -> Q Package
 }}}
 
 We could add other functions (e.g., return all packages with a package name).
+
+**Flex point 1.** Should hidden packages be hidden from this query, or reported but with their `exposed` field set to `False`?
 
 == Retrieving the current package key ==
 
@@ -64,3 +79,5 @@ And a convenience function for accessing the current module:
  thisPackage :: Q Package
  thisPackage = reifyPackage =<< thisPackageKey
 }}}
+
+**Variation 1.** The current package and module is accessible from `qLocation`. Should the types in the record that `qLocation` returns change?
