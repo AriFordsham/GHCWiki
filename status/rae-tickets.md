@@ -56,6 +56,7 @@
 - [\#7961](https://gitlab.haskell.org//ghc/ghc/issues/7961): Implement "nokinds" (RAE is working on!)
 
   - [\#9017](https://gitlab.haskell.org//ghc/ghc/issues/9017): Bad error message b/c of missing kind equality
+  - [\#10379](https://gitlab.haskell.org//ghc/ghc/issues/10379): Can't parse prefix `[]` in kind
 - [\#8338](https://gitlab.haskell.org//ghc/ghc/issues/8338): Incoherent instances without `-XIncoherentInstances`
 
   - [\#2356](https://gitlab.haskell.org//ghc/ghc/issues/2356): Strangeness about GHC's lazy overlap check
