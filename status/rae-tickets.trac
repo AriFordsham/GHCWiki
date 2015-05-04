@@ -53,6 +53,7 @@
 * #7259: Eta expansion of products
 * #7961: Implement "nokinds" (RAE is working on!)
   * #9017: Bad error message b/c of missing kind equality
+  * #10379: Can't parse prefix `[]` in kind
 * #8338: Incoherent instances without `-XIncoherentInstances`
   * #2356: Strangeness about GHC's lazy overlap check
 * #9429: An alternative to `Any`. For example, we want `Typeable (forall x. x -> x)`.
