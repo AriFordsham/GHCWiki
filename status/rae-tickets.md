@@ -69,6 +69,7 @@
 - [\#9450](https://gitlab.haskell.org//ghc/ghc/issues/9450): Interleave checking against an hs-boot file while typechecking definitions
 - [\#9557](https://gitlab.haskell.org//ghc/ghc/issues/9557): Deriving instances is slow
 - [\#10141](https://gitlab.haskell.org//ghc/ghc/issues/10141): Add a hint about CUSKs to relevant error messages
+- [\#10381](https://gitlab.haskell.org//ghc/ghc/issues/10381): RebindableSyntax and RankNTypes
 
 ## Roles & such
 
@@ -114,6 +115,7 @@
 - [\#9699](https://gitlab.haskell.org//ghc/ghc/issues/9699): Function to list all names in scope
 - [\#10094](https://gitlab.haskell.org//ghc/ghc/issues/10094): Partial type signatures in TH
 - [\#10267](https://gitlab.haskell.org//ghc/ghc/issues/10267): Add holes (jstolarek)
+- [\#10385](https://gitlab.haskell.org//ghc/ghc/issues/10385): Add extra check around TH annotations
 
 **Unknown**
 
