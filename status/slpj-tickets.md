@@ -78,7 +78,7 @@
 
 See also [TemplateHaskell](template-haskell)
 
-- [\#10279](https://gitlab.haskell.org//ghc/ghc/issues/10279): `reifyPackage`
+- [\#10279](https://gitlab.haskell.org//ghc/ghc/issues/10279), [wiki page](template-haskell/package-key-changes): `reifyPackage`
 - [\#10330](https://gitlab.haskell.org//ghc/ghc/issues/10330): better TH error locations
 - [\#6089](https://gitlab.haskell.org//ghc/ghc/issues/6089): nested declaration splices
 - [\#10271](https://gitlab.haskell.org//ghc/ghc/issues/10271): difficulty resolving overloading in typed TH
