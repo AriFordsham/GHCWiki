@@ -1,5 +1,5 @@
 
-In GHC 7.10, we changed the internal representation of names to be based on package keys (`base_XXXXXX`) rather than package IDs (`base-4.7.0.1`)—see [\#9265](https://gitlab.haskell.org//ghc/ghc/issues/9265), [\#10279](https://gitlab.haskell.org//ghc/ghc/issues/10279) for the motivation behind this change—however, we forgot to update the Template Haskell API to track these changes.  This lead to some bugs in TH code which was synthesizing names by using package name and version directly, of which we've seen two cases (and there are probably more):
+In GHC 7.10, we changed the internal representation of names to be based on package keys (`base_XXXXXX`) rather than package IDs (`base-4.7.0.1`).  However, we forgot to update the Template Haskell API to track these changes.  This lead to some bugs in TH code which was synthesizing names by using package name and version directly, of which we've seen two cases (and there are probably more):
 
 > [ https://github.com/ekmett/lens/issues/496](https://github.com/ekmett/lens/issues/496)[ https://ghc.haskell.org/trac/ghc/ticket/10279](https://ghc.haskell.org/trac/ghc/ticket/10279)
 
@@ -7,7 +7,11 @@ In GHC 7.10, we changed the internal representation of names to be based on pack
 The primary use-case for generating a `Name` from scratch is in order to provide some functions intended for use in Template Haskell which need to refer to a renamed identifier, e.g. `GHC.Num.(+)`, but WITHOUT using a TH splice to get the name `[| (+) |]`
 
 
-We now propose the following changes to the TH API in order to track these changes:
+We now propose the following changes to the TH API in order to track these changes.  See these tickets for background and motivation
+
+- [\#9265](https://gitlab.haskell.org//ghc/ghc/issues/9265): why move to package keys instead of package names
+- \#102979: breakage caused by faking package keys
+- [ Similar lens bug](https://github.com/ekmett/lens/issues/496)
 
 ## Rename PkgName to PkgKey
 
