@@ -74,6 +74,7 @@
 == Template Haskell ==
 See also [wiki:TemplateHaskell]
 
+ * #10385: TH and annotations
  * #10279, [wiki:TemplateHaskell/PackageKeyChanges wiki page]: `reifyPackage`
  * #10330: better TH error locations
  * #6089: nested declaration splices
