@@ -1,4 +1,4 @@
-In GHC 7.10, we changed the internal representation of names to be based on package keys (`base_XXXXXX`) rather than package IDs (`base-4.7.0.1`)—see #9265 for the motivation behind this change—however, we forgot to update the Template Haskell API to track these changes.  This lead to some bugs in TH code which was synthesizing names by using package name and version directly, of which we've seen two cases (and there are probably more):
+In GHC 7.10, we changed the internal representation of names to be based on package keys (`base_XXXXXX`) rather than package IDs (`base-4.7.0.1`)—see #9265, #10279 for the motivation behind this change—however, we forgot to update the Template Haskell API to track these changes.  This lead to some bugs in TH code which was synthesizing names by using package name and version directly, of which we've seen two cases (and there are probably more):
 
         https://github.com/ekmett/lens/issues/496
         https://ghc.haskell.org/trac/ghc/ticket/10279
