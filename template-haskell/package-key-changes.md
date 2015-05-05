@@ -10,7 +10,7 @@ The primary use-case for generating a `Name` from scratch is in order to provide
 We now propose the following changes to the TH API in order to track these changes.  See these tickets for background and motivation
 
 - [\#9265](https://gitlab.haskell.org//ghc/ghc/issues/9265): why move to package keys instead of package names
-- \#102979: breakage caused by faking package keys
+- [\#10279](https://gitlab.haskell.org//ghc/ghc/issues/10279): breakage caused by faking package keys
 - [ Similar lens bug](https://github.com/ekmett/lens/issues/496)
 
 ## Rename PkgName to PkgKey
