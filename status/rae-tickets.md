@@ -115,6 +115,7 @@
 - [\#9699](https://gitlab.haskell.org//ghc/ghc/issues/9699): Function to list all names in scope
 - [\#10094](https://gitlab.haskell.org//ghc/ghc/issues/10094): Partial type signatures in TH
 - [\#10267](https://gitlab.haskell.org//ghc/ghc/issues/10267): Add holes (jstolarek)
+- [\#10385](https://gitlab.haskell.org//ghc/ghc/issues/10385): Add extra check around TH annotations
 
 **Unknown**
 
