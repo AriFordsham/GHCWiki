@@ -12,7 +12,7 @@ Currently, GHC relies on the system-installed [ C-preprocessor](http://en.wikipe
 
 - As system-`cpp` is designed to handle mostly C-code, it conflicts with Haskell's tokenization/syntax, for instance:
 
-  - Haskell-multi-line string literals can't be used anymore with `-XCPP`
+  - Haskell-multi-line string literals can't be used anymore with `-XCPP` (c.f. [ SO Question](http://stackoverflow.com/questions/2549167/cpp-extension-and-multiline-literals-in-haskell) and/or [\#10230](https://gitlab.haskell.org//ghc/ghc/issues/10230))
   - Haddock comments get mangled as system-`cpp` isn't aware of Haskell comments
   - system-`cpp` may complain about "unterminated" `'`s even though in Haskell they are not always used for quoting character literals (e.g. `data Foo = Foo' ()`)
   - Some valid Haskell operators such as `/*`, `*/` or `//` are misinterpreted by system-`cpp`
