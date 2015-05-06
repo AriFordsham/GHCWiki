@@ -60,8 +60,12 @@ Currently, GHC relies on the system-installed [ C-preprocessor](http://en.wikipe
   As system-`cpp` is designed to handle mostly C-code, it conflicts with Haskell's tokenization/syntax, specifically:
   Haskell-multi-line string literals can't be used anymore with `-XCPP` (c.f. [ SO Question](http://stackoverflow.com/questions/2549167/cpp-extension-and-multiline-literals-in-haskell) and/or [\#10230](https://gitlab.haskell.org//ghc/ghc/issues/10230))
   Haddock comments get mangled as system-`cpp` isn't aware of Haskell comments
-  system-`cpp` may complain about "unterminated" `'`s even though in Haskell they are not always used for quoting character literals (e.g. `data Foo = Foo' ()`)
-  Some valid Haskell operators such as `/*`, `*/` or `//` are misinterpreted by system-`cpp`Lack of ability to extend/evolve `-XCPP` as we have no control over system-`cpp`Possible Course of ActionsPlan 0: No change (i.e. keep using relying on system-`cpp`)
+  system-`cpp` may get confused about "unterminated" `'`s even though in Haskell they are not always used for quoting character literals. As a practical example from the hac:int-cast package, in the following code
+  \#if defined(WORD_SIZE_IN_BITS)typeinstanceIntBaseTypeInt='FixedIntTagWORD_SIZE_IN_BITStypeinstanceIntBaseTypeWord='FixedWordTagWORD_SIZE_IN_BITS\#else\#errorCannot determine bit-size of'Int'/'Word'type\#endif
+  GNU `cpp` fails to macro-expand `WORD_SIZE_IN_BITS` due to the unterminated `'`-quote
+  Valid Haskell operators such as `/*`, `*/` or `//` are misinterpreted by system-`cpp` as comment-starters
+  Unix She-bang (`#!/usr/bin/env runghc`) Haskell scripts can't be used with `-XCPP` (c.f. [ SO Q](http://stackoverflow.com/questions/8177950/how-can-i-load-a-runhaskell-script-without-a-hs-extension-with-ghci))
+  Lack of ability to extend/evolve `-XCPP` as we have no control over system-`cpp`Possible Course of ActionsPlan 0: No change (i.e. keep using relying on system-`cpp`)
   Nothing is gained, but since the issue remains unsolved, we may risk to become pressed for time (and/or cause GHC release delays) if the circumstances change suddenly and force us to act (e.g. if GCC's or Clang's `cpp` change in an incompatible way for GHC).
   Plan 1: Use custom fixed `cpp` implementation bundled with GHCOne candidate would be the C-implemented `tradcpp` (see [ http://www.freshports.org/devel/tradcpp/](http://www.freshports.org/devel/tradcpp/))
   Probably not easy to extend/evolve to be more Haskell-syntax-aware
@@ -82,7 +86,9 @@ Currently, GHC relies on the system-installed [ C-preprocessor](http://en.wikipe
   As a practical consequence of the *LGPL with static-linking-exception* (LGPL+SLE), **if no modifications are made to the `cpphs`-parts** (i.e. the LGPL+SLE covered modules) of the GHC code-base, **then there is no requirement to ship (or make available) any source code** together with the binaries, even if other parts of the GHC code-base were modified.
   LGPL w/ static linking exception is sometimes used: cf. ZeroMQ [ http://zeromq.org/area:licensing](http://zeromq.org/area:licensing)[ http://programmers.stackexchange.com/questions/179084/is-there-a-modified-lgpl-license-that-allows-static-linking](http://programmers.stackexchange.com/questions/179084/is-there-a-modified-lgpl-license-that-allows-static-linking)[ wikipedia:GPL_linking_exception](http://en.wikipedia.org/wiki/GPL_linking_exception)`ghc` package's current license
   The `ghc` package which can be linked into programs currently depends on the packages
-  `array`, `base`, `binary`, `bin-package-db`, `bytestring`, `containers`, `deepseq`, `directory`, `filepath`, `ghc-prim`, `hoopl`, `hpc`, `integer-gmp`, `pretty`, `process`, `rts`, `template-haskell`, `time`, `transformers`, and `unix` whose collated `LICENSE` have been pasted as [ http://lpaste.net/131294](http://lpaste.net/131294)Download in other formats:[Plain Text](/trac/ghc/wiki/Proposal/NativeCpp?version=8&format=txt)[](http://trac.edgewall.org/)Powered by [Trac 1.2.2](/trac/ghc/about)
+  `array`, `base`, `binary`, `bin-package-db`, `bytestring`, `containers`, `deepseq`, `directory`, `filepath`, `ghc-prim`, `hoopl`, `hpc`, `integer-gmp`, `pretty`, `process`, `rts`, `template-haskell`, `time`, `transformers`, and `unix` whose collated `LICENSE` have been pasted as [ http://lpaste.net/131294](http://lpaste.net/131294)
+          jQuery.loadStyleSheet("/trac/ghc/pygments/trac.css", "text/css");
+      Download in other formats:[Plain Text](/trac/ghc/wiki/Proposal/NativeCpp?version=9&format=txt)[](http://trac.edgewall.org/)Powered by [Trac 1.2.2](/trac/ghc/about)
 
           By [Edgewall Software](http://www.edgewall.org/).Visit the Trac open source project at
   [http://trac.edgewall.org/](http://trac.edgewall.org/)
