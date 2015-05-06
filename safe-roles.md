@@ -280,6 +280,59 @@ deriving instance IntIso Mint
 
 Unlike in GHC 7.6, we need to use more concrete types due to the role mechanism, but we can still derive coercion functions.
 
+### Constructors aren't needed
+
+
+Although `newtype` has the restriction (for unwrapping instances only) that the constructor must be in scope, this can be side-stepped by declaring a `Coercible` constraint in your function context, and convincing the calling module to generate the dictionary for you if it has access to the constructors.
+
+
+For example, consider a `Secret` type:
+
+```wiki
+module Secret (Secret(..)) where
+
+newtype Secret = MkS String
+```
+
+
+Then consider the module that imports it without access to the constructor but uses `Coercible` still:
+
+```wiki
+module UnsafeUser where
+
+import Data.Coerce
+import Secret (Secret())
+
+runPlugin :: Coercible a String => a -> IO ()
+runPlugin s = do
+    let sv = coerce a
+    putStrLn $ "Secret is: " ++ sv
+```
+
+
+A module may try to run it as below:
+
+```wiki
+module Main where
+
+import Secret
+import UnsafeUser
+
+main :: IO ()
+main = do
+    let s = Secret "my secret"
+    (runPlugin :: Secret -> IO ()) s
+```
+
+
+Due to how GND and `coerce` is implemented through type-classes, you end up with a error-prone situation when trying to secure code from accessing `Coercible` dictionaries due to the ability of modules to defer their creation to others.
+
+
+One approach (without GHC changes), is to make sure that you have a 'shim' module between you and any untrusted code, and carefully audit the shim to ensure it doesn't have the ability to create dictionaries that are security sensitive.
+
+
+Another would be to regard `Coercible` constraints as unsafe since they defer checking of safety constraints. This seems appropriate given that the `Coercible` type-class approach is a bit of a hack anyway.
+
 ### Type-classes are nominal by Default
 
 
