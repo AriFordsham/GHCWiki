@@ -7,6 +7,16 @@ Full results here (updated **May 5th, 2015**)
 
 [ https://gist.githubusercontent.com/thoughtpolice/4fd02766ea0ce7925817/raw/396987c0ea46af9ca29d380e67a35faa6d15a495/gistfile1.txt](https://gist.githubusercontent.com/thoughtpolice/4fd02766ea0ce7925817/raw/396987c0ea46af9ca29d380e67a35faa6d15a495/gistfile1.txt)
 
+**NB**: Rerun in slow mode for nofib, to get more accurate results.
+
+### Nofib outliers
+
+#### Binary sizes
+
+#### Allocations
+
+#### Runtime
+
 ## tests/perf/compiler\` results
 
 ### 7.6 vs 7.8
