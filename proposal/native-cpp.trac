@@ -4,7 +4,7 @@
 
 Currently, GHC relies on the system-installed [http://en.wikipedia.org/wiki/C_preprocessor C-preprocessor] (lateron referred to as system-`cpp`) accompanying the C compiler for implementing `{-# LANGUAGE CPP #-}`. However, this has several drawbacks:
 
- - We already have a couple of tickets filed w/ the `cpp` keyword: [[TicketQuery(keywords~=cpp)]]
+ - We already have a couple of tickets filed w/ the `cpp` keyword: [[TicketQuery(keywords~=cpp,resolution!=duplicate)]]
 
  - Fragile semantics, as the "traditional mode" in `cpp` GHC relies on is not well-specified, and therefore implementations disagree in subtle but annoying ways
     - Consider all the Clang-issues GHC experienced when Apple switched from the GCC toolchain to the Clang toolchain
