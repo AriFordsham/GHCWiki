@@ -60,7 +60,7 @@ Currently, GHC relies on the system-installed [ C-preprocessor](http://en.wikipe
   As system-`cpp` is designed to handle mostly C-code, it conflicts with Haskell's tokenization/syntax, specifically:
   Haskell-multi-line string literals can't be used anymore with `-XCPP` (c.f. [ SO Question](http://stackoverflow.com/questions/2549167/cpp-extension-and-multiline-literals-in-haskell) and/or [\#10230](https://gitlab.haskell.org//ghc/ghc/issues/10230))
   Haddock comments get mangled as system-`cpp` isn't aware of Haskell comments
-  system-`cpp` may get confused about "unterminated" `'`s even though in Haskell they are not always used for quoting character literals. As a practical example from the [ int-cast](http://hackage.haskell.org/package/int-cast) package, in the following code
+  system-`cpp` may get confused about "unterminated" `'`s even though in Haskell they are not always used for quoting character literals. For example, Haskell allows variable names like `x'` or even `x'y`.  Another practical example from the [ int-cast](http://hackage.haskell.org/package/int-cast) package, in the following code
   \#if defined(WORD_SIZE_IN_BITS)typeinstanceIntBaseTypeInt='FixedIntTagWORD_SIZE_IN_BITStypeinstanceIntBaseTypeWord='FixedWordTagWORD_SIZE_IN_BITS\#else\#errorCannot determine bit-size of'Int'/'Word'type\#endif
   GNU `cpp` fails to macro-expand `WORD_SIZE_IN_BITS` due to the unterminated `'`-quote
   Valid Haskell operators such as `/*`, `*/` or `//` are misinterpreted by system-`cpp` as comment-starters
@@ -69,13 +69,13 @@ Currently, GHC relies on the system-installed [ C-preprocessor](http://en.wikipe
   Nothing is gained, but since the issue remains unsolved, we may risk to become pressed for time (and/or cause GHC release delays) if the circumstances change suddenly and force us to act (e.g. if GCC's or Clang's `cpp` change in an incompatible way for GHC).
   Plan 1: Use custom fixed `cpp` implementation bundled with GHCOne candidate would be the C-implemented `tradcpp` (see [ http://www.freshports.org/devel/tradcpp/](http://www.freshports.org/devel/tradcpp/))
   Probably not easy to extend/evolve to be more Haskell-syntax-aware
-  Plan 2: Embed Malcom's `cpphs` into GHC`cpphs` is licensed as "LGPLv2 w/ static linking exception" (see below)
+  Plan 2: Embed Malcom's `cpphs` into GHC**Advantages**`cpphs` has been widely used, hence it's proven code
+  It's already more Haskell-aware than system-`cpp``cpphs` is actively maintained
+  no more `fork(2)/exec(2)`**Disadvantages**`cpphs` is licensed as "LGPLv2 w/ static linking exception" (see below)
   GHC's total licence agreement getting extended (TODO show concrete change)
   The `ghc` package would be tainted by this license augmentation
-  `cpphs` has been widely used, hence it's proven code
-  It's already more Haskell-aware than system-`cpp``cpphs` is actively maintained
-  no more `fork(2)/exec(2)`Plan 3: Write native BSD-licenced Haskell implementation from scratchRequires menpower and time
-  no more `fork(2)/exec(2)`Tailored to GHC's needs
+  Plan 3: Write native BSD-licenced Haskell implementation from scratch**Advantages**no more `fork(2)/exec(2)`Tailored to GHC's needs
+  **Disadvantages**Requires menpower and time
   Additional long-term maintenance effort for GHC-HQ
   `cpphs`'s licence in more detailThe main intent behind `cpphs`'s current licensing is to have modifications/improvements of redistributed `cpphs` binaries made publicly available to recipients of the binaries (so that they can be e.g. merged upstream if useful). This is a concern the BSD3 licence doesn't address.
   The library portion of the `cpphs` is dual-licensed (see [ http://code.haskell.org/cpphs/COPYRIGHT](http://code.haskell.org/cpphs/COPYRIGHT)):
@@ -88,7 +88,7 @@ Currently, GHC relies on the system-installed [ C-preprocessor](http://en.wikipe
   The `ghc` package which can be linked into programs currently depends on the packages
   `array`, `base`, `binary`, `bin-package-db`, `bytestring`, `containers`, `deepseq`, `directory`, `filepath`, `ghc-prim`, `hoopl`, `hpc`, `integer-gmp`, `pretty`, `process`, `rts`, `template-haskell`, `time`, `transformers`, and `unix` whose collated `LICENSE` have been pasted as [ http://lpaste.net/131294](http://lpaste.net/131294)
           jQuery.loadStyleSheet("/trac/ghc/pygments/trac.css", "text/css");
-      Download in other formats:[Plain Text](/trac/ghc/wiki/Proposal/NativeCpp?version=10&format=txt)[](http://trac.edgewall.org/)Powered by [Trac 1.2.2](/trac/ghc/about)
+      Download in other formats:[Plain Text](/trac/ghc/wiki/Proposal/NativeCpp?version=11&format=txt)[](http://trac.edgewall.org/)Powered by [Trac 1.2.2](/trac/ghc/about)
 
           By [Edgewall Software](http://www.edgewall.org/).Visit the Trac open source project at
   [http://trac.edgewall.org/](http://trac.edgewall.org/)

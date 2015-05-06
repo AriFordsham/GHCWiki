@@ -13,7 +13,7 @@ Currently, GHC relies on the system-installed [http://en.wikipedia.org/wiki/C_pr
  - As system-`cpp` is designed to handle mostly C-code, it conflicts with Haskell's tokenization/syntax, specifically:
     - Haskell-multi-line string literals can't be used anymore with `-XCPP` (c.f. [http://stackoverflow.com/questions/2549167/cpp-extension-and-multiline-literals-in-haskell SO Question] and/or #10230)
     - Haddock comments get mangled as system-`cpp` isn't aware of Haskell comments
-    - system-`cpp` may get confused about "unterminated" `'`s even though in Haskell they are not always used for quoting character literals. As a practical example from the [hackage:int-cast] package, in the following code
+    - system-`cpp` may get confused about "unterminated" `'`s even though in Haskell they are not always used for quoting character literals. For example, Haskell allows variable names like `x'` or even `x'y`.  Another practical example from the [hackage:int-cast] package, in the following code
       {{{#!haskell
 #if defined(WORD_SIZE_IN_BITS)
 type instance IntBaseType Int    = 'FixedIntTag  WORD_SIZE_IN_BITS
@@ -42,26 +42,27 @@ Nothing is gained, but since the issue remains unsolved, we may risk to become p
 
 === Plan 2: Embed Malcom's `cpphs` into GHC
 
+'''Advantages'''
+ - `cpphs` has been widely used, hence it's proven code
+ - It's already more Haskell-aware than system-`cpp`
+ - `cpphs` is actively maintained
+ - no more `fork(2)/exec(2)`
+
+'''Disadvantages'''
  - `cpphs` is licensed as "LGPLv2 w/ static linking exception" (see below)
     - GHC's total licence agreement getting extended (TODO: show concrete change)
     - The `ghc` package would be tainted by this license augmentation
 
- - `cpphs` has been widely used, hence it's proven code
 
- - It's already more Haskell-aware than system-`cpp`
-
- - `cpphs` is actively maintained
-
- - no more `fork(2)/exec(2)`
 
 === Plan 3: Write native BSD-licenced Haskell implementation from scratch
 
- - Requires menpower and time
-
+'''Advantages'''
  - no more `fork(2)/exec(2)`
- 
  - Tailored to GHC's needs
 
+'''Disadvantages'''
+ - Requires menpower and time
  - Additional long-term maintenance effort for GHC-HQ
 
 
