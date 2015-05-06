@@ -3,6 +3,8 @@
 
 Full results here (updated **May 5th, 2015**)
 
+**NB**: The baseline here is 7.6.
+
 [ https://gist.githubusercontent.com/thoughtpolice/4fd02766ea0ce7925817/raw/396987c0ea46af9ca29d380e67a35faa6d15a495/gistfile1.txt](https://gist.githubusercontent.com/thoughtpolice/4fd02766ea0ce7925817/raw/396987c0ea46af9ca29d380e67a35faa6d15a495/gistfile1.txt)
 
 ## tests/perf/compiler\` results
