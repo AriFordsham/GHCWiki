@@ -27,14 +27,10 @@ Currently, GHC relies on the system-installed [ C-preprocessor](http://en.wikipe
   <td>Wrong line number reported with CPP and line beginning with \#</td></tr>
   <tr><th>[\#10146](https://gitlab.haskell.org//ghc/ghc/issues/10146)</th>
   <td>Clang CPP adds extra newline character</td></tr>
-  <tr><th>[\#10147](https://gitlab.haskell.org//ghc/ghc/issues/10147)</th>
-  <td>Clang CPP adds extra newline character</td></tr>
   <tr><th>[\#10230](https://gitlab.haskell.org//ghc/ghc/issues/10230)</th>
   <td>multiline literals doesn't work with CPP extension.</td></tr>
   <tr><th>[\#10543](https://gitlab.haskell.org//ghc/ghc/issues/10543)</th>
   <td>MacOS: validate fails on \\u</td></tr>
-  <tr><th>[\#10628](https://gitlab.haskell.org//ghc/ghc/issues/10628)</th>
-  <td>clang's cpp causes incorrect line numbers in type errors</td></tr>
   <tr><th>[\#12391](https://gitlab.haskell.org//ghc/ghc/issues/12391)</th>
   <td>LANGUAGE CPP messes up parsing when backslash like \\\\ is at end of line (eol)</td></tr>
   <tr><th>[\#12516](https://gitlab.haskell.org//ghc/ghc/issues/12516)</th>
@@ -88,7 +84,7 @@ Currently, GHC relies on the system-installed [ C-preprocessor](http://en.wikipe
   The `ghc` package which can be linked into programs currently depends on the packages
   `array`, `base`, `binary`, `bin-package-db`, `bytestring`, `containers`, `deepseq`, `directory`, `filepath`, `ghc-prim`, `hoopl`, `hpc`, `integer-gmp`, `pretty`, `process`, `rts`, `template-haskell`, `time`, `transformers`, and `unix` whose collated `LICENSE` have been pasted as [ http://lpaste.net/131294](http://lpaste.net/131294)
           jQuery.loadStyleSheet("/trac/ghc/pygments/trac.css", "text/css");
-      Download in other formats:[Plain Text](/trac/ghc/wiki/Proposal/NativeCpp?version=11&format=txt)[](http://trac.edgewall.org/)Powered by [Trac 1.2.2](/trac/ghc/about)
+      Download in other formats:[Plain Text](/trac/ghc/wiki/Proposal/NativeCpp?version=12&format=txt)[](http://trac.edgewall.org/)Powered by [Trac 1.2.2](/trac/ghc/about)
 
           By [Edgewall Software](http://www.edgewall.org/).Visit the Trac open source project at
   [http://trac.edgewall.org/](http://trac.edgewall.org/)
