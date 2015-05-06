@@ -60,7 +60,7 @@ Currently, GHC relies on the system-installed [ C-preprocessor](http://en.wikipe
   As system-`cpp` is designed to handle mostly C-code, it conflicts with Haskell's tokenization/syntax, specifically:
   Haskell-multi-line string literals can't be used anymore with `-XCPP` (c.f. [ SO Question](http://stackoverflow.com/questions/2549167/cpp-extension-and-multiline-literals-in-haskell) and/or [\#10230](https://gitlab.haskell.org//ghc/ghc/issues/10230))
   Haddock comments get mangled as system-`cpp` isn't aware of Haskell comments
-  system-`cpp` may get confused about "unterminated" `'`s even though in Haskell they are not always used for quoting character literals. As a practical example from the hac:int-cast package, in the following code
+  system-`cpp` may get confused about "unterminated" `'`s even though in Haskell they are not always used for quoting character literals. As a practical example from the [ int-cast](http://hackage.haskell.org/package/int-cast) package, in the following code
   \#if defined(WORD_SIZE_IN_BITS)typeinstanceIntBaseTypeInt='FixedIntTagWORD_SIZE_IN_BITStypeinstanceIntBaseTypeWord='FixedWordTagWORD_SIZE_IN_BITS\#else\#errorCannot determine bit-size of'Int'/'Word'type\#endif
   GNU `cpp` fails to macro-expand `WORD_SIZE_IN_BITS` due to the unterminated `'`-quote
   Valid Haskell operators such as `/*`, `*/` or `//` are misinterpreted by system-`cpp` as comment-starters
@@ -88,7 +88,7 @@ Currently, GHC relies on the system-installed [ C-preprocessor](http://en.wikipe
   The `ghc` package which can be linked into programs currently depends on the packages
   `array`, `base`, `binary`, `bin-package-db`, `bytestring`, `containers`, `deepseq`, `directory`, `filepath`, `ghc-prim`, `hoopl`, `hpc`, `integer-gmp`, `pretty`, `process`, `rts`, `template-haskell`, `time`, `transformers`, and `unix` whose collated `LICENSE` have been pasted as [ http://lpaste.net/131294](http://lpaste.net/131294)
           jQuery.loadStyleSheet("/trac/ghc/pygments/trac.css", "text/css");
-      Download in other formats:[Plain Text](/trac/ghc/wiki/Proposal/NativeCpp?version=9&format=txt)[](http://trac.edgewall.org/)Powered by [Trac 1.2.2](/trac/ghc/about)
+      Download in other formats:[Plain Text](/trac/ghc/wiki/Proposal/NativeCpp?version=10&format=txt)[](http://trac.edgewall.org/)Powered by [Trac 1.2.2](/trac/ghc/about)
 
           By [Edgewall Software](http://www.edgewall.org/).Visit the Trac open source project at
   [http://trac.edgewall.org/](http://trac.edgewall.org/)

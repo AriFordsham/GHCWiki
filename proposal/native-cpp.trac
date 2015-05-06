@@ -13,7 +13,7 @@ Currently, GHC relies on the system-installed [http://en.wikipedia.org/wiki/C_pr
  - As system-`cpp` is designed to handle mostly C-code, it conflicts with Haskell's tokenization/syntax, specifically:
     - Haskell-multi-line string literals can't be used anymore with `-XCPP` (c.f. [http://stackoverflow.com/questions/2549167/cpp-extension-and-multiline-literals-in-haskell SO Question] and/or #10230)
     - Haddock comments get mangled as system-`cpp` isn't aware of Haskell comments
-    - system-`cpp` may get confused about "unterminated" `'`s even though in Haskell they are not always used for quoting character literals. As a practical example from the hac:int-cast package, in the following code
+    - system-`cpp` may get confused about "unterminated" `'`s even though in Haskell they are not always used for quoting character literals. As a practical example from the [hackage:int-cast] package, in the following code
       {{{#!haskell
 #if defined(WORD_SIZE_IN_BITS)
 type instance IntBaseType Int    = 'FixedIntTag  WORD_SIZE_IN_BITS
