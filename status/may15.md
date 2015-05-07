@@ -58,7 +58,7 @@ The current plan is to steam forward to the end of the year, and begin to get re
 
 - TODO about Docbook.
 
-- Andrey Mokhov (with support from Neil Mitchell, Simon Marlow and Simon PJ) is working on a new `Shake`-based build system for GHC. The goal is to make it much more understandable, maintainable and convenient to use than the current `make`-based one. It also expected that the new build system will be faster, because Shake allows to express build dependencies more accurately. See the [wiki page](building/shake) for more details.
+- Andrey Mokhov (with support from Neil Mitchell, Simon Marlow and Simon PJ) is working on a new `Shake`-based build system for GHC. The goal is to make it much more understandable, maintainable and convenient to use than the current `make`-based one. It is also expected that the new build system will be faster, because Shake allows to express build dependencies more accurately. See the [wiki page](building/shake) for more details.
 
 # References
 
