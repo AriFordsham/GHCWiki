@@ -24,13 +24,7 @@ tool writers to use the GHC API.
 1. Introduce an annotation structure to the `ParsedSource` to record the location of un-captured keywords (Alan Zimmerman).  
 
 >
-> Ticket: [\#9628](https://gitlab.haskell.org//ghc/ghc/issues/9628). Wiki page: [GhcAstAnnotations](ghc-ast-annotations)
-
->
 > At the moment the location of let / in / if / then / else / do etc is not captured in the AST. This makes it difficult to parse some source, transform the AST, and then output it again preserving the original layout.
 
 >
-> The [current proposal](ghc-ast-annotations), and a [ proof of concept implementation](https://phabricator.haskell.org/D297) returns a structure keyed to each AST element containing simply the specific SrcSpan's not already captured in the AST.
-
->
-> This is the analogue of the `Language.Haskell.Exts.Annotated.Syntax` from `haskell-src-exts`, except a custom `SrcSpanInfo` structure is provided for each AST element constructor, and it is not embedded within the AST.
+> Wiki page: [ApiAnnotations](api-annotations)
