@@ -70,7 +70,7 @@ Currently, GHC relies on the system-installed [ C-preprocessor](http://en.wikipe
   It's already more Haskell-aware than system-`cpp``cpphs` is actively maintained
   no more `fork(2)/exec(2)`**Disadvantages**`cpphs` is licensed as "LGPLv2 w/ static linking exception" (see below)
   GHC's total licence agreement getting extended (TODO show concrete change)
-  The `ghc` package would be tainted by this license augmentation
+  The `ghc` package would be tainted by this license augmentation. (But no more tainted than it is already, by the LGPL integer-gmp package.)
   Plan 3: Write native BSD-licenced Haskell implementation from scratch**Advantages**no more `fork(2)/exec(2)`Tailored to GHC's needs
   **Disadvantages**Requires menpower and time
   Additional long-term maintenance effort for GHC-HQ
@@ -91,7 +91,7 @@ Currently, GHC relies on the system-installed [ C-preprocessor](http://en.wikipe
   The `ghc` package which can be linked into programs currently depends on the packages
   `array`, `base`, `binary`, `bin-package-db`, `bytestring`, `containers`, `deepseq`, `directory`, `filepath`, `ghc-prim`, `hoopl`, `hpc`, `integer-gmp`, `pretty`, `process`, `rts`, `template-haskell`, `time`, `transformers`, and `unix` whose collated `LICENSE` have been pasted as [ http://lpaste.net/131294](http://lpaste.net/131294)
           jQuery.loadStyleSheet("/trac/ghc/pygments/trac.css", "text/css");
-      Download in other formats:[Plain Text](/trac/ghc/wiki/Proposal/NativeCpp?version=14&format=txt)[](http://trac.edgewall.org/)Powered by [Trac 1.2.2](/trac/ghc/about)
+      Download in other formats:[Plain Text](/trac/ghc/wiki/Proposal/NativeCpp?version=15&format=txt)[](http://trac.edgewall.org/)Powered by [Trac 1.2.2](/trac/ghc/about)
 
           By [Edgewall Software](http://www.edgewall.org/).Visit the Trac open source project at
   [http://trac.edgewall.org/](http://trac.edgewall.org/)
