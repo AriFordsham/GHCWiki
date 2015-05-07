@@ -38,7 +38,9 @@ Nothing is gained, but since the issue remains unsolved, we may risk to become p
 
  - One candidate would be the C-implemented `tradcpp` (see http://www.freshports.org/devel/tradcpp/)
 
- - Probably not easy to extend/evolve to be more Haskell-syntax-aware
+ - Clang's `cpp` could be another candidate (as suggested [http://permalink.gmane.org/gmane.comp.lang.haskell.cafe/116403 here]). Needs more investigation
+
+ - Probably not as easy to extend/evolve to be more Haskell-syntax-aware
 
 === Plan 2: Embed Malcom's `cpphs` into GHC
 

@@ -64,7 +64,8 @@ Currently, GHC relies on the system-installed [ C-preprocessor](http://en.wikipe
   Lack of ability to extend/evolve `-XCPP` as we have no control over system-`cpp`Possible Course of ActionsPlan 0: No change (i.e. keep using relying on system-`cpp`)
   Nothing is gained, but since the issue remains unsolved, we may risk to become pressed for time (and/or cause GHC release delays) if the circumstances change suddenly and force us to act (e.g. if GCC's or Clang's `cpp` change in an incompatible way for GHC).
   Plan 1: Use custom fixed `cpp` implementation bundled with GHCOne candidate would be the C-implemented `tradcpp` (see [ http://www.freshports.org/devel/tradcpp/](http://www.freshports.org/devel/tradcpp/))
-  Probably not easy to extend/evolve to be more Haskell-syntax-aware
+  Clang's `cpp` could be another candidate (as suggested [ here](http://permalink.gmane.org/gmane.comp.lang.haskell.cafe/116403)). Needs more investigation
+  Probably not as easy to extend/evolve to be more Haskell-syntax-aware
   Plan 2: Embed Malcom's `cpphs` into GHC**Advantages**`cpphs` has been widely used, hence it's proven code
   It's already more Haskell-aware than system-`cpp``cpphs` is actively maintained
   no more `fork(2)/exec(2)`**Disadvantages**`cpphs` is licensed as "LGPLv2 w/ static linking exception" (see below)
@@ -90,7 +91,7 @@ Currently, GHC relies on the system-installed [ C-preprocessor](http://en.wikipe
   The `ghc` package which can be linked into programs currently depends on the packages
   `array`, `base`, `binary`, `bin-package-db`, `bytestring`, `containers`, `deepseq`, `directory`, `filepath`, `ghc-prim`, `hoopl`, `hpc`, `integer-gmp`, `pretty`, `process`, `rts`, `template-haskell`, `time`, `transformers`, and `unix` whose collated `LICENSE` have been pasted as [ http://lpaste.net/131294](http://lpaste.net/131294)
           jQuery.loadStyleSheet("/trac/ghc/pygments/trac.css", "text/css");
-      Download in other formats:[Plain Text](/trac/ghc/wiki/Proposal/NativeCpp?version=13&format=txt)[](http://trac.edgewall.org/)Powered by [Trac 1.2.2](/trac/ghc/about)
+      Download in other formats:[Plain Text](/trac/ghc/wiki/Proposal/NativeCpp?version=14&format=txt)[](http://trac.edgewall.org/)Powered by [Trac 1.2.2](/trac/ghc/about)
 
           By [Edgewall Software](http://www.edgewall.org/).Visit the Trac open source project at
   [http://trac.edgewall.org/](http://trac.edgewall.org/)
