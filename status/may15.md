@@ -52,6 +52,8 @@ The current plan is to steam forward to the end of the year, and begin to get re
 
 - **DWARF-based stack tracing** - Peter Wortmann and Arash Rouhani (with support from the Simons) are working on enabling GHC to now use the DWARF debugging information it generates. This should allow us to obtain stack traces and do profiling without the need for instrumentation, directly from Haskell executables.
 
+- **Native code generator for PowerPC 64-bit** - Peter Trommler has been working on an extension of the PowerPC native code backend to support 64-bit Linux systems. There are two 64-bit ELF ABI versions. The implementation of ABI version 1, which is mostly used by big endian systems, is fairly stable and support for ABI version 2, which is used by systems with POWER8 processors running in little endian mode, is currently under testing.
+
 ## Frontend, build-system, and miscellaneous changes
 
 - TODO about Docbook.
