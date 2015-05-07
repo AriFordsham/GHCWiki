@@ -16,6 +16,13 @@ In order to see emails below, **you must login**.
 
 ### Current list
 
+- [ Alan Zimmerman](https://github.com/alanz)
+
+  - Independent - Cape Town, South Africa
+  - **Trac**: alanz; **email**: alan.zimm@…
+  - **Committer since**: May, 2015.
+  - **Main areas of interest**: API Annotations, GHC API
+
 - [ Andreas Voellmy](http://haskell.cs.yale.edu/people/andreas-voellmy/)
 
   - Yale University - New Haven, CT
