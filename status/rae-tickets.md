@@ -126,6 +126,8 @@
 **Design needed**
 
 - [\#1475](https://gitlab.haskell.org//ghc/ghc/issues/1475): Adding imports/exports
+
+  - [\#10391](https://gitlab.haskell.org//ghc/ghc/issues/10391): Reify exports
 - [\#1831](https://gitlab.haskell.org//ghc/ghc/issues/1831): `reify` never provides variable info
 - [\#4222](https://gitlab.haskell.org//ghc/ghc/issues/4222): Reifying abstract types
 - [\#5467](https://gitlab.haskell.org//ghc/ghc/issues/5467): Haddock in TH
