@@ -22,6 +22,8 @@ When we shipped GHC 7.10, we incorporated some major new features - but not with
 
  * **DWARF support for debugging symbols**. Peter Wortmann has gotten the first piece of his long-term work in place: support for GHC to emit DWARF symbols to object files, so debuggers can utilize it. The preliminary support works for simple cases, but is very experimental! (Case in point: it was broken in 7.10.1 due to #10236.)
 
+ * **API Annotations and other GHC API changes** - Alan Zimmerman has added API Annotations to the AST, so that the precise layout of the original source code can be regenerated. See ApiAnnotations for details. An initial library making use of these to fully round trip Haskell source code is here https://github.com/alanz/ghc-exactprint. This will be updated on hackage shortly after 7.10.2 comes out, and then used to manage the changing AST for HaRe.  Also, the landmines have been removed from the AST, so that traversals over it no longer need to tiptoe around embedded `panic` values. Andrew Gibiansky has added more parser entry points, so that tools can now parse fragments of source code. See GhcApi.
+
 == Upcoming plans for the next release ==
 
 The current plan is to steam forward to the end of the year, and begin to get ready for a new release, probably in February of 2016. We have some tentative plans marked below - and some of them are huge! In particular - we may ship GHC 8.0 next year, if we're going to change the entire Core language!
