@@ -13,9 +13,32 @@ Full results here (updated **May 5th, 2015**)
 
 #### Binary sizes
 
+##### 7.6 to 7.8
+
+- Solid average binary size increase of **5.3%**.
+
+##### 7.8 to 7.10
+
+- Average size increase of **0.5%**.
+
 #### Allocations
 
+##### 7.6 to 7.8
+
+- **spectral-norm**: increases by **17.0%**.
+
+##### 7.8 to 7.10
+
+- **gcd**: increases by **20.7%**.
+- **multiplier**: increases by **9.1%**.
+- **pidigits**: increases by **7.4%**.
+- **primetest**: went down **27.5%** in 7.6-to-7.8, but **8.8%** slower than 7.6 now - in total it got something like **36.6%** worse.
+
 #### Runtime
+
+##### 7.6 to 7.8
+
+##### 7.8 to 7.10
 
 ## tests/perf/compiler\` results
 
