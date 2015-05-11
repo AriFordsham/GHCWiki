@@ -1,21 +1,41 @@
 ## Nofib results
 
 
-Full results here (updated **May 5th, 2015**)
+Full results [ are here](https://gist.githubusercontent.com/thoughtpolice/498d51153240cc4d899c/raw/9a43f6bbfd642cf4e7b15188f9c0b053d311f7b9/gistfile1.txt) (updated **May 5th, 2015**)
 
 **NB**: The baseline here is 7.6.3
-
-[ https://gist.githubusercontent.com/thoughtpolice/4fd02766ea0ce7925817/raw/396987c0ea46af9ca29d380e67a35faa6d15a495/gistfile1.txt](https://gist.githubusercontent.com/thoughtpolice/4fd02766ea0ce7925817/raw/396987c0ea46af9ca29d380e67a35faa6d15a495/gistfile1.txt)
-
-**NB**: Rerun in slow mode for nofib, to get more accurate results.
 
 ### Nofib outliers
 
 #### Binary sizes
 
+##### 7.6 to 7.8
+
+- Solid average binary size increase of **5.3%**.
+
 #### Allocations
 
+##### 7.6 to 7.8
+
+- **spectral-norm**: increases by **17.0%**.
+
+##### 7.8 to 7.10
+
+- **gcd**: increases by **20.7%**.
+- **multiplier**: increases by **9.1%**.
+- **pidigits**: increases by **7.4%**.
+- **primetest**: went down **27.5%** in 7.6-to-7.8, but **8.8%** slower than 7.6 now - in total it got something like **36.6%** worse.
+
 #### Runtime
+
+##### 7.6 to 7.8
+
+- `lcss`: increases by **12.6%**.
+
+##### 7.8 to 7.10
+
+- `lcss`: decreased by \~5% in 7.10, but still **7%** slower than 7.6.
+- `multiplier`: increases by **7.6%**.
 
 ## tests/perf/compiler\` results
 
