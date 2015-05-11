@@ -13,10 +13,6 @@ Full results [ are here](https://gist.githubusercontent.com/thoughtpolice/498d51
 
 - Solid average binary size increase of **5.3%**.
 
-##### 7.8 to 7.10
-
-- Average size increase of **0.5%**.
-
 #### Allocations
 
 ##### 7.6 to 7.8
