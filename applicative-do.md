@@ -6,10 +6,23 @@ This is a proposal to add support to GHC for desugaring do-notation into Applica
 
 To jump to the code, see [ https://phabricator.haskell.org/D729](https://phabricator.haskell.org/D729).
 
-## Related proposals
+## Summary
 
-- [ Max's proposal on haskell-cafe](http://www.haskell.org/pipermail/haskell-cafe/2011-September/095153.html)
-- [ Control.Applicative.QQ.ADo](http://hackage.haskell.org/package/applicative-quoters-0.1.0.7/docs/Control-Applicative-QQ-ADo.html)
+`ApplicativeDo` is a language extension enabled in the usual way via
+
+```wiki
+{-# LANGUAGE ApplicativeDo #-}
+```
+
+
+When `ApplicativeDo` is turned on, GHC will use a different method for desugaring `do`-notation, which attempts to use the `Applicative` operator `<*>` as far as possible, along with `fmap` and `join`.
+
+`ApplicativeDo` makes it possible to use `do`-notation for types that are `Applicative` but not `Monad`.  (See examples below).
+
+
+For a type that is a`Monad`, `ApplicativeDo` implements the same semantics as the standard `do`-notation desugaring, provided `<*>` = `ap` for this type.
+
+`ApplicativeDo` respects `RebindableSyntax`: it will pick up whatever `<*>`, `fmap`, and `join` are in scope when `RebindableSyntax` is on.
 
 ## Motivation
 
@@ -35,74 +48,78 @@ To jump to the code, see [ https://phabricator.haskell.org/D729](https://phabric
   do x <- expr1; y <- expr2; z <- expr3; return $ x*y + y*z + z*x
   ```
 
-1. Do-notation can't be desugared into Applicative in general, but a certain
-  subset of it can be.  For Applicatives that aren't also Monads, we would still like to
-  be able to use the do-notation, albeit with some restrictions,
-  and have an Applicative constraint inferred rather than Monad.
-
-
-Clearly we need Applicative to be a superclass of Monad for this to
-work, hence this can only happen after the AMP changes have landed.
-
-
-Since in general Applicative composition might behave differently from monadic bind, any automatic desugaring to Applicative operations would be an opt-in extension:
-
-```wiki
-   {-# LANGUAGE ApplicativeDo #-}
-```
-
 ## Example 1
 
-
-We'll cover a few examples first, and then describe the transformation in general.
-
 ```wiki
-   do
-     x <- A
-     y <- B  -- B does not refer to x
-     return (f x y)
+do
+  x <- a
+  y <- b
+  return (f x y)
 ```
 
 
-desugars to
+This translates to
 
 ```wiki
-   (\x y -> f x y) <$> A <*> B
+(\x y -> f x y) <$> a <*> b
 ```
 
 
-which simplifies further to 
-
-```wiki
-   f <$> A <*> B
-```
-
-
-Since this doesn't refer to any of the `Monad` operations, the typechecker will infer that it only requires `Applicative`. 
-
-## Example 1a
-
-
-We might not have a `return`, e.g.:
-
-```wiki
-   do
-     x <- A
-     y <- B  -- B does not refer to x
-     f x y
-```
-
-
-In which case the result is similar, but we need to add a `join`:
-
-```wiki
-   join ((\x y -> f x y) <$> A <*> B)
-```
-
-
-Of course this requires a `Monad`, since `join` is a `Monad` operation.
+Here we noticed that the statements `x <- a` and `y <- b` are independent, so we can make an `Applicative` expression.  Note that the desugared version uses the operators `<$>` and `<*>`, so its inferred type will mention `Applicative` only rather than `Monad`.  Therefore this `do` block will work for a type that is `Applicative` but not `Monad`.
 
 ## Example 2
+
+
+If the final statement does not have a `return`, then we need to use `join`:
+
+```wiki
+do
+  x <- a
+  y <- b
+  f x y
+```
+
+
+Translates to
+
+```wiki
+join (\x y -> f x y) <$> a <*> b
+```
+
+
+Since `join` is a `Monad` operation, this expression requires `Monad`.
+
+## Example 3
+
+```wiki
+  do
+    x1 <- A
+    x2 <- B
+    x3 <- C x1
+    x4 <- D x2
+    return (x1,x2,x3,x4)
+```
+
+
+Here we can do `A` and `B` together, and `C` and `D` together.  We could do it like this:
+
+```wiki
+  do
+    (x1,x2) <- (,) <$> A <*> B
+    (\x3 x4 -> (x1,x2,x3,x4)) <$> C x1 <*> D x2
+```
+
+
+But it is slightly more elegant like this:
+
+```wiki
+   join ((\x1 x2 -> (\x3 x4 -> (x1,x2,x3,x4)) <$> C x1 <*> D x2)) <$> A <*> B)
+```
+
+
+because we avoid the intermediate tuple.
+
+## Example 4
 
 ```wiki
    do
@@ -133,7 +150,7 @@ It's important that we keep the original ordering.  For example, we don't want t
 ```
 
 
-because now evaluating the expression in a monad that cares about ordering will give a different result.
+because this has a different semantics from the standard 'do' desugaring; a `Monad` that cares about ordering will expose the difference.
 
 
 Another wrong result would be:
@@ -147,52 +164,48 @@ Another wrong result would be:
 
 Because this version has less parallelism than the first result, in which `A` and `B` could be performed at the same time as `C`.
 
-## Example 3
+## Example 5
+
+
+In general, `ApplicativeDo` might have to build a complicated nested `Applicative` expression.
 
 ```wiki
-  do
-    x1 <- A
-    x2 <- B
-    x3 <- C x1
-    x4 <- D x2
-    return (x1,x2,x3,x4)
+do
+  x1 <- a
+  x2 <- b
+  x3 <- c x1
+  x4 <- d
+  return (x2,x3,x4)
 ```
 
 
-Here we can do `A` and `B` in parallel, and `C` and `D` in parallel.  We could do it like this:
+Here we can do `a/b/d` in parallel, but `c` depends on `x1`, which makes things a bit tricky: remember that we have to retain the semantics of standard `do` desugaring, so we can't move the call to `c` after the call to `d`.
+
+
+This translates to
 
 ```wiki
-  do
-    (x1,x2) <- (,) <$> A <*> B
-    (\x3 x4 -> (x1,x2,x3,x4)) <$> C x1 <*> D x2
+join ((\(x2,x3) x4 -> f x2 x3 x4)
+        <$> join ((\x1 x2 -> do
+                               x3 <- c x1
+                               return (x2,x3))
+                    <$> a
+                    <*> b)
+        <*> d)
 ```
 
 
-But it is slightly more elegant like this:
-
-```wiki
-   join ((\x1 x2 -> (\x3 x4 -> (x1,x2,x3,x4)) <$> C x1 <*> D x2)) <$> A <*> B)
-```
+We can write this expression in a simpler way using `|` for applicative composition (like parallel composition) and `;` for monadic composition (like sequential composition): `((a | b) ; c) | d`.
 
 
-because we avoid the intermediate tuple.
+Note that this isn't the only good way to translate this expression, this is also possible: `(a ; b | c) | d`.  It's not possible to know which is better.  `ApplicativeDo` makes a best-effort attempt to use parallel composition where possible while retaining the semantics of the standard 'do' desugaring.
 
-## In general
+---
 
+## Related proposals
 
-Let's use a more concise syntax to talk about the structure of these expressions.  We'll use ; to mean bind, and \| to mean an `Applicative` composition of two expressions.  So the solution to Example 3 would be written `(A | B) ; (C | D)`, making it clear that we want `A` and `B` in parallel, then a bind, followed by `C` and `D` in parallel.
-
-
-The general problem can be stated like this:
-
-
-Given a sequence of statements S1...Sn, find a way to express the list as a nested application of the operators `|` and `;`, such that 
-
-- in every `A | B`, `B` does not depend on anything in `A`, and
-- we get the maximum available parallelism.
-
-
-To define parallelism, we could replace each statement with the value 1, `;` with `+`, and `|` with `max`, and evaluate the expression.  A lower result indicates more parallelism.
+- [ Max's proposal on haskell-cafe](http://www.haskell.org/pipermail/haskell-cafe/2011-September/095153.html)
+- [ Control.Applicative.QQ.ADo](http://hackage.haskell.org/package/applicative-quoters-0.1.0.7/docs/Control-Applicative-QQ-ADo.html)
 
 ## Implementation
 
