@@ -34,7 +34,12 @@ modules, the user compiling the code must trust the package that any
 author of the `-XTrustworthy` module to have only exposed a safe
 interface despite the unsafe internals.
 
-## Instance Selection
+## GHC 7.10 & Earlier
+
+
+This is how overlapping instances were handled in GHC 7.10 and earlier.
+
+### Instance Selection
 
 
 In the security use-case, if we have code involving overlapping
@@ -58,7 +63,7 @@ This essentially is a same-origin-policy, `-XSafe` modules can use
 overlapping instances, but can only overlap themselves and no one
 else.
 
-## Instances and Safe-Inference
+### Instances and Safe-Inference
 
 
 How do we infer safety given the above policy? We take a conservative
@@ -79,7 +84,7 @@ instances except the one removed came from the same `-XSafe` module).
 As we can't change the semantics of Haskell when inferring safety, we
 need to be conservative.
 
-### Bug in Safe vs Safe-Inferred
+#### Bug in Safe vs Safe-Inferred
 
 
 Interestingly, this isn't exactly true. Consider the following module:
@@ -137,10 +142,17 @@ safe-inference to alter the compilation success of some cases. How
 common it is to have overlapping declarations without
 `-XOverlappingInstances` specified needs to be tested.
 
-## New Overlapping Instances -- a.k.a Instance Specific Pragmas
+## GHC 7.12 & Later
 
 
-GHC 7.10 is adding in instance specific pragmas to control overlapping
+We have significantly changed how overlapping instances work in 
+GHC 7.12 and later. This is both to improve the design, and also to
+make use of the new overlapping instance pragmas added in GHC 7.10.
+
+### Overlapping Instance Pragmas
+
+
+GHC 7.10 added in instance specific pragmas to control overlapping
 of instances. They consist of:
 
 - `OVERLAPPABLE` -- Specifies that the instance author allows this
@@ -150,62 +162,97 @@ of instances. They consist of:
 - `OVERLAPS` -- Implies both `OVERLAPPABLE` and `OVERLAPPING`. This is
   equivalent to the old `-XOverlappingInstances` behavior.
 
+### Problems with GHC 7.10 Approach
 
-Addressing them individually for code compiled with `-XSafe`:
-
-- `OVERLAPPABLE` -- We will adopt the convention that all-bets
-  are off with such instances. Code compiled with `-XSafe` will be
-  allowed to overlap such instances, even if they are in a different
-  module.
-- `OVERLAPPING` -- This will keep the current instance behavior. Code
-  in `-XSafe` code can only overlap instances declared `OVERLAPPING`
-  if those instances are from the same module.
-- `OVERLAPS` -- Ideally we'd like to remove this pragma as we think
-  it's security implications (since it implies OVERLAPPABLE and
-  OVERLAPPING which both have very different security properties) are
-  subtle and could easily lead to developers expressing the wrong
-  policy. Instead, we'd prefer developer specify both instance overlap
-  policies manually.
+#### Can't detect declaration of overlapping instances
 
 
-This enables more flexibility than before with Safe Haskell. Now you
-can allow your instances to be overlapped through `OVERLAPPABLE`
-(i.e., somewhat analogous to being an open type class), or
-simply overlap your own instances through `OVERLAPPING` but not export
-that property to the world (i.e., somewhat analogous to being a closed
-type class).
+We previously try to detect when a module declared overlapping
+instances and mark it unsafe when it did (at least for inference).
+This doesn't work. Overlapping instances are a global property.
+We only know when an overlap occurs at a particular call site for
+a type-class method.
 
 
-The nice thing is the new design also encourages library authors to be specific about the overlap property of their instances. So hopefully fixing the current bug with safe-inference and overlapping instances has even less of an effect.
+For example, it is perfectly reasonable to write two modules
+as follows:
 
-### Safe Inference
+```wiki
+module A where
 
+  instance C [a] where { op = ... }
 
-Safe inference becomes a trickier question with the new pragmas.
-Firstly, an easy decision:
+module B where
 
-- `-XOverlappingInstances` -- causes a module to be inferred unsafe.
-
-
-What should the use of `OVERLAPPABLE`, `OVERLAPPING` and `OVERLAPS` do
-though? Let's assume a module M is considered safe by default, and
-when we consider each instance declared in a module M, we can either
-leave M considered safe, or switch M to be unsafe (a one-way
-transition). Our initial thoughts are the following:
-
-- `OVERLAPPABLE` -- leaves M in current state (i.e., safe).
-- `OVERLAPPING` -- switches M to be unsafe.
-- `OVERLAPS` -- switches M to be unsafe.
+   instance C [Int] where { op = ... }
+```
 
 
-Why this? Well because if we infer a module M containing only
-`OVERLAPPABLE` instances as Safe, then compiling M instead with
-`-XSafe` will give you a module M' with the same semantics as M when
-consumed.
+Neither module in isolation declares overlapping instances. It's
+only when we import both modules and call `op` that we can detect
+the overlap.
 
 
-However, if M contains `OVERLAPPING` or `OVERLAPS` instances, then
-consumers of M get slightly different behavior when M is considered
-safe compared to when it is considered unsafe. Safe inference
-shouldn't change the behavior of a module, so we must infer M as
-unsafe.
+Due to the new instance specific pragmas in GHC 7.10, we could 
+simply declare all modules that declare `OVERLAPPABLE` instances
+to be unsafe. But this would be heavily over-approximate.
+
+
+A closer approximation would be to declare all orphan instances
+that are marked `OVERLAPPABLE` as unsafe. Since, if at a
+type-class method call site, if the instance selected is not
+an orphan instance, then I must either depend on the type
+declared in the same module as the instance, or I must depend
+on the type-class declared in the same module. In both situations
+the dependency is explicit, so safe.
+
+
+However, MPTC make this tricky. So we decided to detect unsafe
+overlaps at call-sites, not at declaration.
+
+#### Safe Inference
+
+
+GHC 7.10 had a different rule for `-XSafe` modules and
+safe-inferred modules with respect to overlapping instances.
+This lack of symmetry is a huge problem. See the bugs it
+causes for example, list earlier.
+
+### GHC 7.12 Approach
+
+
+We detect unsafe overlaps at call-sites and ensure symmetry
+between `-XSafe` and safe-inference.
+
+
+The rule to determine if a particular call-site of a type-class
+method is **unsafe** is:
+
+- Most specific instance, **Ix**', defined in an `-XSafe`
+  compiled module.
+- **Ix** is an orphan instance or a multi-parameter-type-class.
+- At least one overlapped instance, **Iy**, is both:
+
+  - From a different module than **Ix**
+  - **Iy** is not marked `OVERLAPPABLE`.
+
+### Where this check applies
+
+
+This check is enforced in `-XSafe` and `-XTrustworthy` modules.
+We also use it to infer safety. `-XUnsafe` modules don't have the
+check enforced.
+
+
+A nice extension may be to tie this check into whether a module was
+imported as a safe import or not. This wouldn't change `-XSafe`
+modules, but would allow selective application of the rule to
+`-XTrustworthy` and `-XUnsafe` modules. So far we haven't done this
+as it isn't clear where an instance is imported from, since they
+can be brought into scope recursively by multiple imports. It also
+complicates safe imports and isn't clear if the gain is worth it.
+
+
+One way forward would be to implement this extension, and when an
+import is imported through multiple paths, to take the conservative
+join of the two.
