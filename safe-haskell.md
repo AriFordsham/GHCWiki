@@ -8,8 +8,8 @@ This is a proposal for a Haskell extension through which people can safely execu
 - This page details the SafeHaskell extension
 - See this [page](safe-haskell/base-package) the safety status of the **Base package**.
 - See this [page](safe-haskell/safe-compilation) for the **Safe Compilation** extension.
-- See this [page](safe-haskell/new-overlapping-instances) for information on the new overlapping instances design in GHC 7.10.
-- See this [page](safe-roles) for information on GND & Roles in GHC 7.10 and later.
+- See this [page](safe-haskell/new-overlapping-instances) for information on the new **overlapping instances** design in GHC 7.10.
+- See this [page](safe-roles) for information on **GND & Roles** in GHC 7.8 and later.
 
 ## Setup
 
