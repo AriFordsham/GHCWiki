@@ -38,7 +38,7 @@ The current plan is to steam forward to the end of the year, and begin to get re
 
  * **Using an SMT Solver as a type-checker plugin** [TCSMT].  For GHC 7.10, Iavor Diatchki implemented support for compiler-plugins augmenting the type-checker - and not for no reason. He's also working on implementing support for using SMT solvers in the typechecker with this. Currently, the main focus for this is improved support for reasoning with type-level natural numbers, but it opens the doors to other interesting functionality, such as supported for lifted (i.e., type-level) `(&&)`, and `(||)`, type-level bit-vectors (perhaps this could be used to implement type-level sets of fixed size), and others.   This work is happening on branch `wip/ext-solver` (FIXME: is that accurate?)
 
- * **Kind equality, kind coercions, and dependently typed Core** [KindEqualities].  Richard Eisenberg (with support from Simon PJ and Stephanie Weirich, among others) is implementing a change to the Core language, as described in "[http://www.seas.upenn.edu/~eir/papers/2013/fckinds/fckinds-extended.pdf System FC with explicit kind equality]" [!FCkinds].  When this work is complete, ''all'' types will be promotable to kinds, and ''all'' data constructors will be promotable to types. This will include promoting type synonyms and type families. As the details come together, there may be other source language effects, such as the ability to make kind variables explicit. It is not expected for this to be a breaking change -- the change should allow strictly more programs to be accepted.
+ * **Kind equality, kind coercions, and dependently typed Core** [KindEqualities].  Richard Eisenberg (with support from Simon PJ and Stephanie Weirich, among others) is implementing a change to the Core language, as described in "[http://www.seas.upenn.edu/~eir/papers/2013/fckinds/fckinds-extended.pdf System FC with explicit kind equality]" [FCkinds].  When this work is complete, ''all'' types will be promotable to kinds, and ''all'' data constructors will be promotable to types. This will include promoting type synonyms and type families. As the details come together, there may be other source language effects, such as the ability to make kind variables explicit. It is not expected for this to be a breaking change -- the change should allow strictly more programs to be accepted.
   This can also go down as one of the '''larger''' changes in recent memory - https://phabricator.haskell.org/D808 is the biggest Phabricator review we've done to date, changing over 10,000 lines of code in the compiler!
 
  * **Injective type families**  [InjectiveTypeFamilies [InjectiveTypeFamilies]].  Jan Stolarek (with support from Richard Eisenberg and Simon PJ) is working on adding injective type families to GHC. With this feature it will be possible to annotate declaration of a type family - closed, open or associated with class - with injectivity annotation and GHC will be able to use that information during type checking.
@@ -59,7 +59,7 @@ The current plan is to steam forward to the end of the year, and begin to get re
 
  * TODO: about Docbook.
 
- * Andrey Mokhov (with support from Neil Mitchell, Simon Marlow and Simon PJ) is working on a new `Shake`-based build system for GHC. The goal is to make it much more understandable, maintainable and convenient to use than the current `make`-based one. It is also expected that the new build system will be faster, because Shake allows to express build dependencies more accurately. See the [[Building/Shake|wiki page]] for more details.
+ * Shaking up GHC [wiki:Building/Shake [Shake]].  Andrey Mokhov (with support from Neil Mitchell, Simon Marlow and Simon PJ) is working on a new `Shake`-based build system for GHC. The goal is to make it much more understandable, maintainable and convenient to use than the current `make`-based one. It is also expected that the new build system will be faster, because Shake allows to express build dependencies more accurately.
 
 = References =
 
@@ -68,15 +68,17 @@ The current plan is to steam forward to the end of the year, and begin to get re
  - [Backpack] TODO: FIXME
  - [DistributedHaskell] https://ghc.haskell.org/trac/ghc/wiki/DistributedHaskell
  - [DWARF] https://ghc.haskell.org/trac/ghc/wiki/DWARF
- - [!FCKinds] System FC with explicit kind equality, Weirich, Hsu, and Eisenberg, ICFP 13. http://www.seas.upenn.edu/~eir/papers/2013/fckinds/fckinds-extended.pdf
+ - [http://www.seas.upenn.edu/~eir/papers/2013/fckinds/fckinds-extended.pdf FCkinds] System FC with explicit kind equality, Weirich, Hsu, and Eisenberg, ICFP 13. http://www.seas.upenn.edu/~eir/papers/2013/fckinds/fckinds-extended.pdf
  - [GhcApi] https://ghc.haskell.org/trac/ghc/wiki/GhcApi
- - [wiki:ImprovedLLVMBackend] https://ghc.haskell.org/trac/ghc/wiki/ImprovedLLVMBackend
+ - [wiki:ImprovedLLVMBackend [ImprovedLLVMBackend]] https://ghc.haskell.org/trac/ghc/wiki/ImprovedLLVMBackend
  - [InjectiveTypeFamilies] https://ghc.haskell.org/trac/ghc/wiki/InjectiveTypeFamilies
  - [KindEqualities] TODO: FIXME
  - [wiki:Records/OverloadedRecordFields] https://ghc.haskell.org/trac/ghc/wiki/Records/OverloadedRecordFields
  - [PartialTypeSignatures] https://ghc.haskell.org/trac/ghc/wiki/PartialTypeSignatures
- - [PPC64-NCG] https://phabricator.haskell.org/D629
- - [Prelude710] https://ghc.haskell.org/trac/ghc/wiki/prelude710
+ - [https://phabricator.haskell.org/D629 [PPC64-NCG]] https://phabricator.haskell.org/D629
+ - [wiki:Prelude710 [Prelude710]] https://ghc.haskell.org/trac/ghc/wiki/prelude710
+ - [wiki:Building/Shake [Shake]] https://ghc.haskell.org/trac/ghc/wiki/Building/Shake
  - [StaticPointers] https://ghc.haskell.org/trac/ghc/wiki/StaticPointers
  - [TCSMT] TODO: FIXME
- - [Typeable] https://ghc.haskell.org/trac/ghc/wiki/Typeable
+ - [wiki:Typeable Typeable] https://ghc.haskell.org/trac/ghc/wiki/Typeable
+
