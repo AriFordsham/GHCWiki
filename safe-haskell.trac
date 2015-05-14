@@ -9,6 +9,7 @@ This is a proposal for a Haskell extension through which people can safely execu
  * See this [wiki:SafeHaskell/BasePackage page] the safety status of the '''Base package'''.
  * See this [wiki:SafeHaskell/SafeCompilation page] for the '''Safe Compilation''' extension.
  * See this [wiki:SafeHaskell/NewOverlappingInstances page] for information on the new overlapping instances design in GHC 7.10.
+ * See this [wiki:SafeRoles page] for information on GND & Roles in GHC 7.10 and later.
 
 == Setup ==
 
