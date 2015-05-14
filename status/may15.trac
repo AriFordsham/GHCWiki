@@ -43,6 +43,10 @@ The current plan is to steam forward to the end of the year, and begin to get re
 
  * **Injective type families**  [InjectiveTypeFamilies [InjectiveTypeFamilies]].  Jan Stolarek (with support from Richard Eisenberg and Simon PJ) is working on adding injective type families to GHC. With this feature it will be possible to annotate declaration of a type family - closed, open or associated with class - with injectivity annotation and GHC will be able to use that information during type checking.
 
+ * **Safe Haskell & Overlapping Instances** [SafeHaskell/NewOverlappingInstances].  David Terei has overhauled how overlapping instances work under Safe Haskell. This greatly expands the number of regular Haskell programs that work under Safe Haskell and makes use of the new per-instance overlapping instances added in GHC 7.10. It also unifies how overlapping instances work when inferring a modules safety, vs. explicit use of `-XSafe`. A bug in the previous design.
+
+* **Safe Haskell, GND & Roles** [SafeRoles].  David Terei and Richard Eisenberg are currently discussing possible changes to how Roles should work to allow them to be included in the safe-language of Safe Haskell. These are early discussions with no changes yet planned, but they'd love any feedback. The wiki page contains a wealth of information. Both the background and possible paths forward.
+
 == Back-end and runtime system ==
 
  * **CPU-specific optimizations** - Austin Seipp is currently investigating the implementation of CPU-specific optimisations for GHC, including new `-march` and `-mcpu` flags to adjust tuning for a particular processor. Right now, there is some preliminary work towards optimizing copies on later Intel machines. There's interest in expanding this further as well.
