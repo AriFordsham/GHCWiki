@@ -10,21 +10,21 @@ When we shipped GHC 7.10, we incorporated some major new features - but not with
 
 - **Making Applicative a superclass of Monad** - Yes, finally!
 
-- **Generalizing Prelude operators** - Known in various circles as 'The Burning-Bridges Proposal' (BBP), 'The Foldable Traversable Proposal' (FTP), this proposal offered to generalize many `Prelude` operations to functions in `Data.Traversable` and `Data.Foldable`. However, this plan stirred up a relatively large amount of debate regarding deviations from the standard, communicative plans, and the implications will be. In the end, Simon Peyton Jones and Simon Marlow ended up making a final decision in February, after hundreds of input votes from the community, and decided to move forward with the plan.
+- **Generalizing Prelude operators**[\[Prelude710](prelude710)\].  Known in various circles as 'The Burning-Bridges Proposal' (BBP), 'The Foldable Traversable Proposal' (FTP), this proposal offered to generalize many `Prelude` operations to functions in `Data.Traversable` and `Data.Foldable`. However, this plan stirred up a relatively large amount of debate regarding deviations from the standard, communicative plans, and the implications will be. In the end, Simon Peyton Jones and Simon Marlow [ sought feedback from the community](https://mail.haskell.org/pipermail/libraries/2015-February/024925.html), and ended up [ making a final decision](https://mail.haskell.org/pipermail/libraries/2015-February/025009.html) in February, after hundreds of input votes from the community, and decided to move forward with the plan.
 
-- **Distributed programming, `static` values, and reflection** \[[DistributedHaskell](distributed-haskell), [StaticPointers](static-pointers), Typeable\].  Mathieu Boespflug and Facundo Domínguez at TweagIO completely reimplemented their old proposal for `static` values, primarily intended to support Cloud Haskell, and it was merged into GHC 7.10. The support as it stands should be experimental, but the new implementation is much simpler and easier to understand.  This is part of a larger 
+- **Distributed programming, `static` values, and reflection**[\[StaticPointers](static-pointers)\].  Mathieu Boespflug and Facundo Dom nguez at TweagIO completely reimplemented their old proposal for `static` values, primarily intended to support Cloud Haskell, and it was merged into GHC 7.10. The support as it stands should be experimental, but the new implementation is much simpler and easier to understand.  This is part of a larger project involving runtime reflection [\[Typeable](typeable)\] and distributed progmraming [\[DistributedHaskell](distributed-haskell)\],
 
 - **Binary literals** ([\#9224](https://gitlab.haskell.org//ghc/ghc/issues/9224)) - Herbert Valerio Riedel implemented the `-XBinaryLiterals` language extension which finally closes the syntax gap relative to other languages which allow to write base-2 literals such as `0b11001001`.
 
-- **Partial type signatures** \[[PartialTypeSignatures](partial-type-signatures)\]. Thomas Winant and Dominique Devriese implemented partial type signatures for GHC. A partial type signature is a type signature that can contain *wildcards*, written as underscores. These wildcards can be types unknown to the programmer or types he doesn't care to annotate. The type checker will use the annotated parts of the partial type signature to type check the program, and infer the types for the wildcards. A wildcard can also occur at the end of the constraints part of a type signature, which indicates that an arbitrary number of extra constraints may be inferred. Whereas `-XTypedHoles` allow holes in your terms, `-XPartialTypeSignatures` allow holes in your types! 
+- **Partial type signatures**[\[PartialTypeSignatures](partial-type-signatures)\]. Thomas Winant and Dominique Devriese implemented partial type signatures for GHC. A partial type signature is a type signature that can contain *wildcards*, written as underscores. These wildcards can be types unknown to the programmer or types he doesn't care to annotate. The type checker will use the annotated parts of the partial type signature to type check the program, and infer the types for the wildcards. A wildcard can also occur at the end of the constraints part of a type signature, which indicates that an arbitrary number of extra constraints may be inferred. Whereas `-XTypedHoles` allow holes in your terms, `-XPartialTypeSignatures` allow holes in your types!
 
 - **Preliminary backpack support** - Edward Yang has been working tirelessly on support for Backpack features in GHC. GHC 7.10 shipped with some preliminary code to support it, including signature file support and some Cabal support, but we have a new plan for GHC 7.12, with new syntax and a new implementation strategy. \[Backpack\]
 
 - **Reimplemented GMP-based `Integer` backend ([\#9281](https://gitlab.haskell.org//ghc/ghc/issues/9281))** - Herbert Valerio Riedel completely reimplemented the `integer-gmp` backend, and is now shipping it on all Tier 1 platforms. This should make interoperation with GMP (and C libraries that depend on GMP) radically simpler, while being easier to maintain.
 
-- **DWARF support for debugging symbols**. Peter Wortmann has gotten the first piece of his long-term work in place: support for GHC to emit DWARF symbols to object files, so debuggers can utilize it. The preliminary support works for simple cases, but is very experimental! (Case in point: it was broken in 7.10.1 due to [\#10236](https://gitlab.haskell.org//ghc/ghc/issues/10236).) \[DWARF\]
+- **DWARF support for debugging symbols**[\[DWARF](dwarf)\]. Peter Wortmann has gotten the first piece of his long-term work in place: support for GHC to emit DWARF symbols to object files, so debuggers can utilize it. The preliminary support works for simple cases, but is very experimental! (Case in point: it was broken in 7.10.1 due to [\#10236](https://gitlab.haskell.org//ghc/ghc/issues/10236).) \[DWARF\]
 
-- **API Annotations and other GHC API changes** - Alan Zimmerman has added API Annotations to the AST, so that the precise layout of the original source code can be regenerated. See [ApiAnnotations](api-annotations) for details. An initial library making use of these to fully round trip Haskell source code is here [ https://github.com/alanz/ghc-exactprint](https://github.com/alanz/ghc-exactprint). This will be updated shortly after 7.10.2 comes out, and then used by HaRe to handle the low level AST manipulation.  Also, the landmines have been removed from the AST, so that traversals over it no longer need to tiptoe around embedded `panic` values. Andrew Gibiansky has added more parser entry points, so that tools can now parse fragments of source code. See [GhcApi](ghc-api).
+- **API Annotations and other GHC API changes**[\[ApiAnnotations](api-annotations)\]. Alan Zimmerman has added API Annotations to the AST, so that the precise layout of the original source code can be regenerated. An initial library making use of these to fully round trip Haskell source code is here [ https://github.com/alanz/ghc-exactprint](https://github.com/alanz/ghc-exactprint). This will be updated shortly after 7.10.2 comes out, and then used by HaRe to handle the low level AST manipulation.  Also, the landmines have been removed from the AST, so that traversals over it no longer need to tiptoe around embedded `panic` values. Andrew Gibiansky has added more parser entry points, so that tools can now parse fragments of source code [\[GhcApi](ghc-api)\]
 
 ## Upcoming plans for the next release
 
@@ -35,9 +35,9 @@ The current plan is to steam forward to the end of the year, and begin to get re
 
 - **Signature sections**.  Lennart Augustsson is implementing `(:: ty)` to work the same as `(\x -> x :: ty)`. FIXME is there a ticket for this?
 
-- **[ApplicativeDo](applicative-do)** - Now that `Applicative` is a superclass of `Monad`, Simon Marlow has implemented a new extension for GHC, which will allow `do` notation to be used in the context of `Applicative`, not just `Monad`. The patch for review is available at [ https://phabricator.haskell.org/D729](https://phabricator.haskell.org/D729), and Simon Marlow believes it's ready for review and merge. \[[ApplicativeDo](applicative-do)\]
+- **[ApplicativeDo](applicative-do)**[\[ApplicativeDo](applicative-do)\]. Now that `Applicative` is a superclass of `Monad`, Simon Marlow has implemented a new extension for GHC, which will allow `do` notation to be used in the context of `Applicative`, not just `Monad`. The patch for review is available at [ https://phabricator.haskell.org/D729](https://phabricator.haskell.org/D729), and Simon Marlow believes it's ready for review and merge.
 
-- **Overloaded record fields** - After countless more discussions and several revisions, Adam Gundry implemented the new `-XOverloadedRecordFields` extension for GHC - again! - but this time with a newer design - and the first piece of the implementation is up for review at [ https://phabricator.haskell.org/D761](https://phabricator.haskell.org/D761) - we're hoping to review it and integrate it soon. \[ORF\]
+- **Overloaded record fields**[\[OverloadedRecordFields](records/overloaded-record-fields)\]. After countless more discussions and several revisions, Adam Gundry implemented the new `-XOverloadedRecordFields` extension for GHC - again! - but this time with a newer design - and the first piece of the implementation is up for review at [ https://phabricator.haskell.org/D761](https://phabricator.haskell.org/D761) - we're hoping to review it and integrate it soon.
 
 - **Using an SMT Solver as a type-checker plugin** - For GHC 7.10, Iavor Diatchki implemented support for compiler-plugins augmenting the type-checker - and not for no reason. He's also working on implementing support for using SMT solvers in the typechecker with this. Currently, the main focus for this is improved support for reasoning with type-level natural numbers, but it opens the doors to other interesting functionality, such as supported for lifted (i.e., type-level) `(&&)`, and `(||)`, type-level bit-vectors (perhaps this could be used to implement type-level sets of fixed size), and others.   This work is happening on branch `wip/ext-solver` (FIXME is that accurate?) \[TCSMT\]
 
@@ -66,14 +66,19 @@ The current plan is to steam forward to the end of the year, and begin to get re
 
 # References
 
-- \[PPC64-NCG\] [ https://phabricator.haskell.org/D629](https://phabricator.haskell.org/D629)
-- \[DWARF\] [ https://ghc.haskell.org/trac/ghc/wiki/DWARF](https://ghc.haskell.org/trac/ghc/wiki/DWARF)
-- \[ImprovedLLVMBackend\] [ https://ghc.haskell.org/trac/ghc/wiki/ImprovedLLVMBackend](https://ghc.haskell.org/trac/ghc/wiki/ImprovedLLVMBackend)
-- \[[PartialTypeSignatures](partial-type-signatures)\] [ https://ghc.haskell.org/trac/ghc/wiki/PartialTypeSignatures](https://ghc.haskell.org/trac/ghc/wiki/PartialTypeSignatures)
-- \[Backpack\] TODOFIXME
-- \[[StaticPointers](static-pointers)\] [ https://ghc.haskell.org/trac/ghc/wiki/StaticPointers](https://ghc.haskell.org/trac/ghc/wiki/StaticPointers)
+- \[[ApiAnnotations](api-annotations)\] [ https://ghc.haskell.org/trac/ghc/wiki/ApiAnnotations](https://ghc.haskell.org/trac/ghc/wiki/ApiAnnotations)
 - \[[ApplicativeDo](applicative-do)\] [ https://ghc.haskell.org/trac/ghc/wiki/ApplicativeDo](https://ghc.haskell.org/trac/ghc/wiki/ApplicativeDo)
-- \[ORF\] [ http://www.well-typed.com/blog/2015/03/overloadedrecordfields-revived/](http://www.well-typed.com/blog/2015/03/overloadedrecordfields-revived/)
-- \[TCSMT\] TODOFIXME
-- \[KindEqualities\] TODOFIXME
+- \[Backpack\] TODOFIXME
+- \[[DistributedHaskell](distributed-haskell)\] [ https://ghc.haskell.org/trac/ghc/wiki/DistributedHaskell](https://ghc.haskell.org/trac/ghc/wiki/DistributedHaskell)
+- \[DWARF\] [ https://ghc.haskell.org/trac/ghc/wiki/DWARF](https://ghc.haskell.org/trac/ghc/wiki/DWARF)
+- \[[GhcApi](ghc-api)\] [ https://ghc.haskell.org/trac/ghc/wiki/GhcApi](https://ghc.haskell.org/trac/ghc/wiki/GhcApi)
+- \[ImprovedLLVMBackend\] [ https://ghc.haskell.org/trac/ghc/wiki/ImprovedLLVMBackend](https://ghc.haskell.org/trac/ghc/wiki/ImprovedLLVMBackend)
 - \[[InjectiveTypeFamilies](injective-type-families)\] [ https://ghc.haskell.org/trac/ghc/wiki/InjectiveTypeFamilies](https://ghc.haskell.org/trac/ghc/wiki/InjectiveTypeFamilies)
+- \[KindEqualities\] TODOFIXME
+- [Records/OverloadedRecordFields](records/overloaded-record-fields)[ https://ghc.haskell.org/trac/ghc/wiki/Records/OverloadedRecordFields](https://ghc.haskell.org/trac/ghc/wiki/Records/OverloadedRecordFields)
+- \[[PartialTypeSignatures](partial-type-signatures)\] [ https://ghc.haskell.org/trac/ghc/wiki/PartialTypeSignatures](https://ghc.haskell.org/trac/ghc/wiki/PartialTypeSignatures)
+- \[PPC64-NCG\] [ https://phabricator.haskell.org/D629](https://phabricator.haskell.org/D629)
+- \[Prelude710\] [ https://ghc.haskell.org/trac/ghc/wiki/prelude710](https://ghc.haskell.org/trac/ghc/wiki/prelude710)
+- \[[StaticPointers](static-pointers)\] [ https://ghc.haskell.org/trac/ghc/wiki/StaticPointers](https://ghc.haskell.org/trac/ghc/wiki/StaticPointers)
+- \[TCSMT\] TODOFIXME
+- \[Typeable\] [ https://ghc.haskell.org/trac/ghc/wiki/Typeable](https://ghc.haskell.org/trac/ghc/wiki/Typeable)
