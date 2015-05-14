@@ -5,6 +5,7 @@ The `OverloadedRecordFields` extension for GHC allows multiple record datatypes 
  * [wiki:Records/OverloadedRecordFields/Design Original design of the extension]
  * [wiki:Records/OverloadedRecordFields/Redesign Redesigned variant involving three extensions] (being implemented as of March 2015)
  * [wiki:Records/OverloadedRecordFields/Implementation Notes on the implementation]
+ * [http://www.well-typed.com/blog/2015/03/overloadedrecordfields-revived/ Adam Gundry's blog post]
 
 Content previously on this page has been moved to the [wiki:Records/OverloadedRecordFields/SORF SORF] page.
 
