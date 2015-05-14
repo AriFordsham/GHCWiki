@@ -44,7 +44,7 @@ The current plan is to steam forward to the end of the year, and begin to get re
 - **Kind equality, kind coercions, and dependently typed Core** - Richard Eisenberg (with support from Simon PJ and Stephanie Weirich, among others) is implementing a change to the Core language, as described in a recent paper [ FC](http://www.seas.upenn.edu/~eir/papers/2013/fckinds/fckinds-extended.pdf). When this work is complete, *all* types will be promotable to kinds, and *all* data constructors will be promotable to types. This will include promoting type synonyms and type families. As the details come together, there may be other source language effects, such as the ability to make kind variables explicit. It is not expected for this to be a breaking change -- the change should allow strictly more programs to be accepted.
   This can also go down as one of the **larger** changes in recent memory - [ https://phabricator.haskell.org/D808](https://phabricator.haskell.org/D808) is the biggest Phabricator review we've done to date, changing over 10,000 lines of code in the compiler! \[KindEqualities\]
 
-- **Injective type families** - Jan Stolarek (with support from Richard Eisenberg and Simon PJ) is working on adding injective type families to GHC. With this feature it will be possible to annotate declaration of a type family - closed, open or associated with class - with injectivity annotation and GHC will be able to use that information during type checking. \[[InjectiveTypeFamilies](injective-type-families)\]
+- **Injective type families**[\[InjectiveTypeFamilies](injective-type-families)\].  Jan Stolarek (with support from Richard Eisenberg and Simon PJ) is working on adding injective type families to GHC. With this feature it will be possible to annotate declaration of a type family - closed, open or associated with class - with injectivity annotation and GHC will be able to use that information during type checking.
 
 ## Back-end and runtime system
 
@@ -52,11 +52,11 @@ The current plan is to steam forward to the end of the year, and begin to get re
 
 - **Changes to static closures for faster garbage collection** - Edward Yang is working on an overhaul of how static closures represented at runtime to eliminate some expensive memory dereferences in the GC hotpath. The initial results are encouraging: these changes can result in an up to 8% in the runtime of some GC heavy benchmarks, see [\#8199](https://gitlab.haskell.org//ghc/ghc/issues/8199).
 
-- **DWARF-based stack tracing** - Peter Wortmann and Arash Rouhani (with support from the Simons) are working on enabling GHC to now use the DWARF debugging information it generates. This should allow us to obtain stack traces and do profiling without the need for instrumentation, directly from Haskell executables. \[DWARF\]
+- **DWARF-based stack tracing**[\[DWARF](dwarf)\]. Peter Wortmann and Arash Rouhani (with support from the Simons) are working on enabling GHC to now use the DWARF debugging information it generates. This should allow us to obtain stack traces and do profiling without the need for instrumentation, directly from Haskell executables.
 
-- **[ An Improved LLVM Backend](https://ghc.haskell.org/trac/ghc/wiki/ImprovedLLVMBackend)** that ships with every major Tier 1 platform. \[ImprovedLLVMBackend\]
+- **An Improved LLVM Backend** \[ImprovedLLVMBackend \[ImprovedLLVMBackend\]\] that ships with every major Tier 1 platform.
 
-- **Native code generator for PowerPC 64-bit** - Peter Trommler has been working on an extension of the PowerPC native code backend to support 64-bit Linux systems. There are two 64-bit ELF ABI versions. The implementation of ABI version 1, which is mostly used by big endian systems, is fairly stable and support for ABI version 2, which is used by systems with POWER8 processors running in little endian mode, is currently under testing. See [\#9863](https://gitlab.haskell.org//ghc/ghc/issues/9863). \[PPC64-NCG\]
+- **Native code generator for PowerPC 64-bit**\[PPC64-NCG?\].  Peter Trommler has been working on an extension of the PowerPC native code backend to support 64-bit Linux systems. There are two 64-bit ELF ABI versions. The implementation of ABI version 1, which is mostly used by big endian systems, is fairly stable and support for ABI version 2, which is used by systems with POWER8 processors running in little endian mode, is currently under testing. See [\#9863](https://gitlab.haskell.org//ghc/ghc/issues/9863).
 
 ## Frontend, build-system, and miscellaneous changes
 
@@ -72,7 +72,7 @@ The current plan is to steam forward to the end of the year, and begin to get re
 - \[[DistributedHaskell](distributed-haskell)\] [ https://ghc.haskell.org/trac/ghc/wiki/DistributedHaskell](https://ghc.haskell.org/trac/ghc/wiki/DistributedHaskell)
 - \[DWARF\] [ https://ghc.haskell.org/trac/ghc/wiki/DWARF](https://ghc.haskell.org/trac/ghc/wiki/DWARF)
 - \[[GhcApi](ghc-api)\] [ https://ghc.haskell.org/trac/ghc/wiki/GhcApi](https://ghc.haskell.org/trac/ghc/wiki/GhcApi)
-- \[ImprovedLLVMBackend\] [ https://ghc.haskell.org/trac/ghc/wiki/ImprovedLLVMBackend](https://ghc.haskell.org/trac/ghc/wiki/ImprovedLLVMBackend)
+- [ImprovedLLVMBackend](improved-llvm-backend)[ https://ghc.haskell.org/trac/ghc/wiki/ImprovedLLVMBackend](https://ghc.haskell.org/trac/ghc/wiki/ImprovedLLVMBackend)
 - \[[InjectiveTypeFamilies](injective-type-families)\] [ https://ghc.haskell.org/trac/ghc/wiki/InjectiveTypeFamilies](https://ghc.haskell.org/trac/ghc/wiki/InjectiveTypeFamilies)
 - \[KindEqualities\] TODOFIXME
 - [Records/OverloadedRecordFields](records/overloaded-record-fields)[ https://ghc.haskell.org/trac/ghc/wiki/Records/OverloadedRecordFields](https://ghc.haskell.org/trac/ghc/wiki/Records/OverloadedRecordFields)
