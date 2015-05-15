@@ -24,6 +24,9 @@ When we shipped GHC 7.10, we incorporated some major new features - but not with
 
  * **API Annotations and other GHC API changes** [ApiAnnotations [ApiAnnotations]]. Alan Zimmerman has added API Annotations to the AST, so that the precise layout of the original source code can be regenerated. An initial library making use of these to fully round trip Haskell source code is here https://github.com/alanz/ghc-exactprint. This will be updated shortly after 7.10.2 comes out, and then used by HaRe to handle the low level AST manipulation.  Also, the landmines have been removed from the AST, so that traversals over it no longer need to tiptoe around embedded `panic` values. Andrew Gibiansky has added more parser entry points, so that tools can now parse fragments of source code [wiki:GhcApi [GhcApi]]
 
+ * **Typechecker plugins** [wiki:Plugins/TypeChecker [TCPlugins]]. Iavor Diatchki, Eric Seidel and Adam Gundry implemented preliminary support for extending the typechecker using plugins, making it easier to experiment with custom constraint solvers. 
+
+
 = Upcoming plans for the next release =
 
 The current plan is to steam forward to the end of the year, and begin to get ready for a new release, probably in February of 2016. We have some tentative plans marked below - and some of them are huge! In particular - we may ship GHC 8.0 next year, if we're going to change the entire Core language!
@@ -36,7 +39,7 @@ The current plan is to steam forward to the end of the year, and begin to get re
 
  * **Overloaded record fields** [wiki:Records/OverloadedRecordFields [OverloadedRecordFields]]. After countless more discussions and several revisions, Adam Gundry implemented the new `-XOverloadedRecordFields` extension for GHC - again! - but this time with a newer design - and the first piece of the implementation is up for review at https://phabricator.haskell.org/D761 - we're hoping to review it and integrate it soon.
 
- * **Using an SMT Solver as a type-checker plugin** [TCSMT].  For GHC 7.10, Iavor Diatchki implemented support for compiler-plugins augmenting the type-checker - and not for no reason. He's also working on implementing support for using SMT solvers in the typechecker with this. Currently, the main focus for this is improved support for reasoning with type-level natural numbers, but it opens the doors to other interesting functionality, such as supported for lifted (i.e., type-level) `(&&)`, and `(||)`, type-level bit-vectors (perhaps this could be used to implement type-level sets of fixed size), and others.   This work is happening on branch `wip/ext-solver` (FIXME: is that accurate?)
+ * **Using an SMT Solver as a type-checker plugin** [https://github.com/yav/type-nat-solver [TCSMT]]. Iavor Diatchki is working on implementing support for using SMT solvers in the typechecker, via the plugins mechanism. Currently, the main focus for this is improved support for reasoning with type-level natural numbers, but it opens the doors to other interesting functionality, such as supported for lifted (i.e., type-level) `(&&)`, and `(||)`, type-level bit-vectors (perhaps this could be used to implement type-level sets of fixed size), and others. 
 
  * **Kind equality, kind coercions, and dependently typed Core** [KindEqualities].  Richard Eisenberg (with support from Simon PJ and Stephanie Weirich, among others) is implementing a change to the Core language, as described in "[http://www.seas.upenn.edu/~eir/papers/2013/fckinds/fckinds-extended.pdf System FC with explicit kind equality]" [FCkinds].  When this work is complete, ''all'' types will be promotable to kinds, and ''all'' data constructors will be promotable to types. This will include promoting type synonyms and type families. As the details come together, there may be other source language effects, such as the ability to make kind variables explicit. It is not expected for this to be a breaking change -- the change should allow strictly more programs to be accepted.
   This can also go down as one of the '''larger''' changes in recent memory - https://phabricator.haskell.org/D808 is the biggest Phabricator review we've done to date, changing over 10,000 lines of code in the compiler!
@@ -83,6 +86,7 @@ The current plan is to steam forward to the end of the year, and begin to get re
  - [wiki:Prelude710 [Prelude710]] https://ghc.haskell.org/trac/ghc/wiki/prelude710
  - [wiki:Building/Shake [Shake]] https://ghc.haskell.org/trac/ghc/wiki/Building/Shake
  - [StaticPointers] https://ghc.haskell.org/trac/ghc/wiki/StaticPointers
- - [TCSMT] TODO: FIXME
+ - [wiki:Plugins/TypeChecker [TCPlugins]] https://ghc.haskell.org/trac/ghc/wiki/Plugins/TypeChecker
+ - [https://github.com/yav/type-nat-solver [TCSMT]] https://github.com/yav/type-nat-solver
  - [wiki:Typeable Typeable] https://ghc.haskell.org/trac/ghc/wiki/Typeable
 
