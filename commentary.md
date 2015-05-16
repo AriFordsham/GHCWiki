@@ -91,6 +91,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
     - [ Pattern Synonyms](https://ocharles.org.uk/blog/posts/2014-12-03-pattern-synonyms.html)
     - [ View Patterns](https://ocharles.org.uk/blog/posts/2014-12-02-view-patterns.html)
     - [ Thanks](https://ocharles.org.uk/blog/posts/2014-12-24-conclusion.html)
+  - [Commentary/Rts/CompilerWays](commentary/rts/compiler-ways): Compiler *ways* in GHC, what, how, and where
 
 - Notes on implemented GHC features:
 
