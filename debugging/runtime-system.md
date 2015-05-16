@@ -1,7 +1,7 @@
 ## Debugging the runtime system
 
 
-If you link with `-debug` you'll get the "debugging RTS".  This has some extra consistency checking (which makes it run a little slower), and has lots of logging infrastructure to tell what is going on.
+If you link with `-debug` you'll get the "debugging RTS" (the debugging [way](commentary/rts/compiler-ways)).  This has some extra consistency checking (which makes it run a little slower), and has lots of logging infrastructure to tell what is going on.
 
 
 The extra features are controlled with the `-D` runtime system flag. So you might say
