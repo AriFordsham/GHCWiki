@@ -31,11 +31,11 @@ Here  is a table of available ways in a standard GHC, as of May 2015.
 ||=`-eventlog` =|| WayEventLog || `l`    || RTS  || Event logging (for ghc-events, threadscope, and EdenTV) ||
 ||=`-dyn`      =|| WayDyn      || `dyn`  || Full || Dynamic linking ||
 
-The code (see below) contains some mode historic ways which are unmaintained (`WayNDP`, `WayPar`, `WayGran`).
-
 The standard (''vanilla'') way of GHC has a name (''vanilla''), but it could (probably?) even be switched off in a custom build if desired.
 Obviously, the libraries would still need to be built in the vanilla way for all RTS-only ways, so one would need `GhcLibWays=v` when building any
 other RTS-only way.
+
+The code (see below) contains another way, for Glasgow parallel Haskell, which is currently unmaintained (`WayPar`).
 
 === Ways for parallel execution on clusters and multicores === 
 The parallel Haskell runtime system for Eden (available from http://github.com/jberthold/ghc) defines several RTS-only ways for Eden.
