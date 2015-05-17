@@ -11,14 +11,8 @@ There are a number of services and tools that GHC developers should be aware of.
 - For code review, we use a [Phabricator](phabricator) instance at [ https://phabricator.haskell.org/](https://phabricator.haskell.org/)
 - We use [Travis](travis) to validate each new commit: see [ https://travis-ci.org/ghc/ghc/builds](https://travis-ci.org/ghc/ghc/builds) for the current status
 - We also validate new commits using [Harbormaster](phabricator/harbormaster): see [ https://phabricator.haskell.org/diffusion/GHC/history/](https://phabricator.haskell.org/diffusion/GHC/history/) for the current status
+- The evolution of the performance of our master branch is tracked on [ http://perf.haskell.org/ghc](http://perf.haskell.org/ghc)
 - We also use dedicated [builders](builder) to do nightly [ builds](http://haskell.inf.elte.hu/builders/) of GHC and the [ user documentation](http://haskell.inf.elte.hu/docs/). See the [ builder summary page](builder-summary) for more information. 
-
-## Beta tools
-
-
-These tools are currently being evaluated.
-
-- A dashboard tracking the performance numbers of each commit is running at [ http://ghcspeed-nomeata.rhcloud.com/](http://ghcspeed-nomeata.rhcloud.com/) by nomeata
 
 ## External tools
 
