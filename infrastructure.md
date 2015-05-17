@@ -12,7 +12,6 @@ There are a number of services and tools that GHC developers should be aware of.
 - We use [Travis](travis) to validate each new commit: see [ https://travis-ci.org/ghc/ghc/builds](https://travis-ci.org/ghc/ghc/builds) for the current status
 - We also validate new commits using [Harbormaster](phabricator/harbormaster): see [ https://phabricator.haskell.org/diffusion/GHC/history/](https://phabricator.haskell.org/diffusion/GHC/history/) for the current status
 - We also use dedicated [builders](builder) to do nightly [ builds](http://haskell.inf.elte.hu/builders/) of GHC and the [ user documentation](http://haskell.inf.elte.hu/docs/). See the [ builder summary page](builder-summary) for more information. 
-- We can quickly install different versions of GHC with these [ Debian packages](http://deb.haskell.org/).
 
 ## Beta tools
 
