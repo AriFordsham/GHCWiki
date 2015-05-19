@@ -44,10 +44,17 @@ TODO Build 7.10 with `integer-gmp 0.5` (not "`integer-gmp2`") to compare allocat
 
 - `lcss`: increases by **12.6%**.
 
+  - Ticky says it seems to be `map` calls yet again! These jump hugely here from 21014 to 81002. Also, another inner loop with `algb` it looks like gets called a huge number of times too - `algb2` is called **2001056 times vs 7984760 times**!
+  - Same story with HEAD!
+
 ##### 7.8 to 7.10
 
 - `lcss`: decreased by \~5% in 7.10, but still **7%** slower than 7.6.
+
+  - See above for real regressions.
 - `multiplier`: increases by **7.6%**.
+
+  - `map` strikes again? 2601324 vs 3597333 calls, with an accompanying allocation delta.
 
 ## tests/perf/compiler\` results
 
