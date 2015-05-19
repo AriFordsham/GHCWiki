@@ -42,7 +42,10 @@ TODO: Build 7.10 with `integer-gmp 0.5` (not "`integer-gmp2`") to compare alloca
 ===== 7.6 to 7.8 =====
 
   - `lcss`: increases by '''12.6%'''.
-    - Ticky says it seems to be `map` calls yet again! These jump hugely here from 21014 to 81002. Also, another inner loop with `algb` it looks like gets called a huge number of times too - `algb2` is called '''2001056 times vs 7984760 times'''!
+    - Ticky says it seems to be `map` calls yet again! These jump hugely here from 21014 to 81002.
+    - Also, another inner loop with `algb` it looks like gets called a huge number of times too - `algb2` is called '''2001056 times vs 7984760 times'''!
+      - Same with `algb` and `algb1`, which seem to be called more often too.
+    - Some other similar things; a few regressions in the # of calls to things like `Text.ParserCombinator.ReadP` specializations, I think.
     - Same story with HEAD!
 
 ===== 7.8 to 7.10 =====
