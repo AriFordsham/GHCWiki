@@ -61,6 +61,7 @@ TODO Lots of fusion changes have happened in the last few months too - but these
 - `multiplier`: increases by **7.6%**.
 
   - `map` strikes again? 2601324 vs 3597333 calls, with an accompanying allocation delta.
+  - But some other inner loops here work and go away correctly (mainly `go`), unlike e.g. `lcss`.
 
 ## tests/perf/compiler\` results
 
