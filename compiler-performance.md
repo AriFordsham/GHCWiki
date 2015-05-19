@@ -38,6 +38,8 @@ Full results [ are here](https://gist.githubusercontent.com/thoughtpolice/498d51
 
 TODO Build 7.10 with `integer-gmp 0.5` (not "`integer-gmp2`") to compare allocation baselines - did the compiler or the rewrite cause these failures?
 
+TODO Lots of fusion changes have happened in the last few months too - but these should all be pretty diagnosable with some reverts, since they're usually very localized. Maybe worth looking through `base` changes.
+
 #### Runtime
 
 ##### 7.6 to 7.8
