@@ -21,8 +21,8 @@ Full results [ are here](https://gist.githubusercontent.com/thoughtpolice/498d51
 
   - A **lot** more calls to `map`, over 100 more! Maybe inliner failure?
   - Over **twice** as many calls to `ghc-prim:GHC.Classes.$fEqChar_$c=={v r90O}` (& similar functions). Also over twice as many calls to `elem`, 
-  - Similarly, many more calls to other specializations, like `base:Text.ParserCombinators.ReadP.$fMonadPlusP_$cmplus{v r1sr}`, which adds even more allocations (from 301 to 3928!)
-  - Basically the same story up to HEAD!
+  - Similarly, many more calls to other specializations, like `base:Text.ParserCombinators.ReadP.$fMonadPlusP_$cmplus{v r1sr}`, which adds even more allocations (from 301 to 3928 for this one entry!)
+  - Basically the same story up to `HEAD`!
 
 ##### 7.8 to 7.10
 
@@ -35,6 +35,8 @@ Full results [ are here](https://gist.githubusercontent.com/thoughtpolice/498d51
 - **primetest**: went down **27.5%** in 7.6-to-7.8, but **8.8%** slower than 7.6 now - in total it got something like **36.6%** worse.
 
   - Much like **pidigits**, a lot more `integer-gmp` stuff shows up in these profiles. While it's still just like the last one, there are some other regressions; for example, `GHC.Integer.Type.remInteger` seems to have 245901/260800 calls/bytes allocated, vs 121001/200000 for 7.8
+
+TODO Build 7.10 with `integer-gmp 0.5` (not "`integer-gmp2`") to compare allocation baselines - did the compiler or the rewrite cause these failures?
 
 #### Runtime
 
