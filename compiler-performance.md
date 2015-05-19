@@ -158,7 +158,7 @@ TODO But we don't really use `IntMap` almost anywhere in GHC, except for the `Tr
 
 TODO I'm not sure if this scaled before; maybe the commit increased the amount of work `substExpr` now does, and it was always Somewhat inefficient?
 
-## Build times
+## Compile/build times
 
 
 (NB: Sporadically updated)
@@ -172,3 +172,15 @@ TODO I'm not sure if this scaled before; maybe the commit increased the amount o
 
 
 Random note: GHC 7.10's build system actually disabled DPH (half a dozen more packages and probably a hundred extra modules), yet things \*still\* got slower over time!
+
+
+Relevant tickets
+
+- [\#10370](https://gitlab.haskell.org//ghc/ghc/issues/10370): OpenGLRaw
+- [\#10289](https://gitlab.haskell.org//ghc/ghc/issues/10289): 2.5k static HashSet takes too much memory to compile
+- [\#9669](https://gitlab.haskell.org//ghc/ghc/issues/9669): slow compilation with lots of deriving clauses
+- [\#9583](https://gitlab.haskell.org//ghc/ghc/issues/9583), [\#9630](https://gitlab.haskell.org//ghc/ghc/issues/9630): code blowup in Generics/Binary
+- [\#10228](https://gitlab.haskell.org//ghc/ghc/issues/10228): regression from 7.8.4 to 7.10.1
+- [\#7450](https://gitlab.haskell.org//ghc/ghc/issues/7450), [\#7258](https://gitlab.haskell.org//ghc/ghc/issues/7258): deriving Read generates gigantic code. Better now, but still not linear.
+- [\#7428](https://gitlab.haskell.org//ghc/ghc/issues/7428): Non-linear compile time: addFingerprint??
+- [\#2346](https://gitlab.haskell.org//ghc/ghc/issues/2346): desugaring let-bindings 
