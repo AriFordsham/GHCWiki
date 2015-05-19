@@ -158,6 +158,10 @@ TODO But we don't really use `IntMap` almost anywhere in GHC, except for the `Tr
 
 TODO I'm not sure if this scaled before; maybe the commit increased the amount of work `substExpr` now does, and it was always Somewhat inefficient?
 
+TODO Revert aforementioned commit, and compare the HC profiles.
+
+TODO Regenerate new HC profiles
+
 ## Compile/build times
 
 
