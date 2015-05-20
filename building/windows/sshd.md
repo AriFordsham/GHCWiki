@@ -28,7 +28,7 @@ While on CygWin setting up `sshd` is taken care of by the provided `ssh-host-con
   net user "${unpriv_user}" /add /fullname:"${unpriv_user} privsep""/homedir:${dos_var_empty}" /active:no
 
   # set infinite passwd expiry
-  passwed -e ${username}# set required priviledges; 
+  passwd -e ${username}# set required priviledges; 
   # As of 2015/04/28 the `editrights.exe` program is available in MSYS2 from
   # either the mingw-w64-i686-editrights or mingw-w64-x86_64-editrights package.
   editrights -a SeAssignPrimaryTokenPrivilege -u ${username}&&\
