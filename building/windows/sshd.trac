@@ -31,7 +31,7 @@ net localgroup "${admingroup}" "${username}" /add
 net user "${unpriv_user}" /add /fullname:"${unpriv_user} privsep" "/homedir:${dos_var_empty}" /active:no
 
 # set infinite passwd expiry
-passwed -e ${username}
+passwd -e ${username}
 
 # set required priviledges; 
 # As of 2015/04/28 the `editrights.exe` program is available in MSYS2 from
