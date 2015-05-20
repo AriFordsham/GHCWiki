@@ -18,6 +18,7 @@ _password=...
 
 username=cyg_server
 unpriv_user=sshd
+admin_user=Administrator
 
 # Usually, 'admingroup=Administrators'
 admingroup=$(/usr/bin/mkgroup -l | /usr/bin/awk -F: '{if ( $2 == "S-1-5-32-544" ) print $1;}')
@@ -49,9 +50,7 @@ echo "${pwd_entry}" >> "/etc/passwd"
 pwd_entry="$(/usr/bin/mkpasswd -l -u "${unpriv_user}" | /usr/bin/sed -n -e '/^'${unpriv_user}'/s?\(^[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:\).*?\1'/var'/empty:/bin/false?p')"
 echo "${pwd_entry}" >> "/etc/passwd" 
 
-# add Administrator to passwd
-username=Administrator
-pwd_entry="$(/usr/bin/mkpasswd -l -u "${username}" | /usr/bin/sed -n -e '/^'${username}'/s?\(^[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:\).*?\1'/home'/Administrator:/bin/bash?p')"
+pwd_entry="$(/usr/bin/mkpasswd -l -u "${admin_user}" | /usr/bin/sed -n -e '/^'${admin_user}'/s?\(^[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:\).*?\1'/home'/Administrator:/bin/bash?p')"
 echo "${pwd_entry}" >> "/etc/passwd"
 
 # finally, register service with cygrunsrv
