@@ -588,7 +588,7 @@ Often when you're working in a particular part of the tree, the rest of the tree
 Another useful trick is
 
  `make stage=0`::
-   Does not build any GHC stages at all.  `stage=0` can be used in combination with other targets and settings. `FAST=YES` implies `stage=0`.
+   Does not build any GHC stages at all.  `stage=0` can be used in combination with other targets and settings. `FAST=YES` implies `stage=0` in the libraries subdirectories.
 
 == Verbose build ==
 
