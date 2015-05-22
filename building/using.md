@@ -483,7 +483,7 @@ without being installed first.
 Here is a high level view of what happens when you build GHC:
 
 - First, we build a few packages that GHC itself depends on, such as
-  `Cabal`, and `filepath`, using your installed GHC.  These packages
+  `Cabal`, using your installed GHC.  These packages
   are under `libraries`, and each is built in a subdirectory
   `dist-boot`; for example the bootstrap build of Cabal will be in
   `libraries/Cabal/dist-boot`.
