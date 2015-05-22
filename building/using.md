@@ -713,7 +713,7 @@ Another useful trick is
 
 <table><tr><th>`make stage=0`</th>
 <td>
-Does not build any GHC stages at all.  `stage=0` can be used in combination with other targets and settings. `FAST=YES` implies `stage=0`.
+Does not build any GHC stages at all.  `stage=0` can be used in combination with other targets and settings. `FAST=YES` implies `stage=0` in the libraries subdirectories.
 </td></tr></table>
 
 ## Verbose build
