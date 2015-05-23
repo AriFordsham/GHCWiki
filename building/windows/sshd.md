@@ -6,7 +6,7 @@ As most GHC developers are used to work on Unix workstations, having to use a gr
 
 While on CygWin setting up `sshd` is taken care of by the provided `ssh-host-config` shell script which creates the required user accounts and installs `sshd` as a system service in Windows, with MSYS2 these steps need to be performed manually. To this end, here's the steps needed to setup `sshd` manually (which I had to find out the hard, time-consuming way, hence documenting them here):
 
-- `pacman -S cygrunsrv openssh`
+- `pacman -S cygrunsrv openssh mingw-w64-$(uname -m)-editrights`
 - `ssh-keygen -A`
 
 - Create priviledged `cyg_server` user (required in most current Windows versions)
@@ -18,9 +18,7 @@ While on CygWin setting up `sshd` is taken care of by the provided `ssh-host-con
 
   username=cyg_server
   unpriv_user=sshd
-  admin_user=Administrator
-
-  # Usually, 'admingroup=Administrators'
+  admin_user=$(whoami)# Usually, 'admingroup=Administrators'
   admingroup=$(/usr/bin/mkgroup -l | /usr/bin/awk -F: '{if ( $2 == "S-1-5-32-544" ) print $1;}')# NB: From some reason, calling `net` doesn't work in MSYS's bash (seems that '/' isn't passed transparently)
   net user "${username}""${_password}" /add /fullname:"Privileged server" /homedir:${dos_var_empty} /yes
 
@@ -32,6 +30,7 @@ While on CygWin setting up `sshd` is taken care of by the provided `ssh-host-con
   passwd -e ${username}# set required priviledges; 
   # As of 2015/04/28 the `editrights.exe` program is available in MSYS2 from
   # either the mingw-w64-i686-editrights or mingw-w64-x86_64-editrights package.
+  exportPATH=/mingw64/bin/:/mingw32/bin:$PATH
   editrights -a SeAssignPrimaryTokenPrivilege -u ${username}&&\
   editrights -a SeCreateTokenPrivilege -u ${username}&&\
   editrights -a SeTcbPrivilege -u ${username}&&\
