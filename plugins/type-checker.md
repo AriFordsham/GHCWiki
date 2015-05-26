@@ -4,6 +4,8 @@
 
 - See [ Phab:D841](https://phabricator.haskell.org/D841) for the addition of empty closed type families.
 
+- See [ Phab:D909](https://phabricator.haskell.org/D909) for extensions to the TcPluginM API for creating constraints.
+
 - See [discussion of most recent proposed changes below](plugins/type-checker#).
 
 ## Motivation
@@ -200,6 +202,9 @@ newGiven   :: CtLoc -> PredType -> EvTerm -> TcPluginM CtEvidence
 
 
 The implementation of `newGiven` will require `TcPluginM` to pass around an `EvBindsVar`, so that it can bind a new evidence variable. This is not available in `tcPluginInit` and `tcPluginStop`, so using `newGiven` there will result in a crash. (I previously considered making `TcPluginM` wrap `TcS` directly, but that turns out to require a lot of rearrangement and probably hs-boot files.)
+
+
+This is being reviewed. See [ Phab:D909](https://phabricator.haskell.org/D909).
 
 ### Defining type families
 
