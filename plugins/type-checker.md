@@ -1,7 +1,10 @@
 # Type Checker Plugins
 
+- See [ Phab:D489](https://phabricator.haskell.org/D489) for the original implementation.
 
-See [ Phab:D489](https://phabricator.haskell.org/D489) for the implementation and review.
+- See [ Phab:D841](https://phabricator.haskell.org/D841) for the addition of empty closed type families.
+
+- See [discussion of most recent proposed changes below](plugins/type-checker#).
 
 ## Motivation
 
@@ -174,15 +177,56 @@ At present, plugins can produce blatant assertions using a `UnivCo` inside a `Tc
 
 See also [ "EvTerms and how they are used" on ghc-devs](https://mail.haskell.org/pipermail/ghc-devs/2015-February/008414.html) for details on constructing evidence for typeclass constraints using `EvDFunApp`.
 
+## Post-7.10 changes to TcPluginM API
+
+
+In the light of experience with GHC 7.10.1, we are considering some changes to the typechecker plugins API for the next release.
+
+### Empty closed type families
+
+
+Plugins that define type families often need to ensure that those type families have no normal instances, to avoid inconsistency, but empty closed type families were previously rejected ([\#9840](https://gitlab.haskell.org//ghc/ghc/issues/9840)). They are now permitted in HEAD. See [ Phab:D841](https://phabricator.haskell.org/D841).
+
+### Creating constraints
+
+
+The existing API does not offer a very direct way for plugins to create new constraints. In particular, creating new givens is problematic now that [ givens contain EvVars rather than EvTerms](https://github.com/ghc/ghc/commit/fa46c597db9939de1de4bc9b917c8dc1d9e2093a). I propose that we add new functions to `TcPluginM`:
+
+```wiki
+newWanted  :: CtLoc -> PredType -> TcPluginM CtEvidence
+newDerived :: CtLoc -> PredType -> TcPluginM CtEvidence
+newGiven   :: CtLoc -> PredType -> EvTerm -> TcPluginM CtEvidence
+```
+
+
+The implementation of `newGiven` will require `TcPluginM` to be a wrapper around `TcS` rather than `TcM`, so that it can bind a new evidence variable. It is thus tempting to additionally expose
+
+```wiki
+unsafeTcPluginTcS :: TcS a -> TcPluginM a
+```
+
+### Defining type families
+
+
+Defining type families in plugins is more work than it needs to be, because the current interface forces the plugin to search the unsolved constraints for the type family in question (which might be anywhere within the types), then emit a new given constraint to reduce the type family. Instead, it should be possible to plug in to `matchFam` directly.
+
+
+I propose to extend the `TcPlugin` data type with a new field
+
+```wiki
+tcPluginMatchFam :: s -> TyCon -> [Type] -> TcPluginM (Maybe (TcCoercion, TcType))
+```
+
+
+This is similar to `sfMatchFam`, which gives the definition of built-in type families like `(+)`. However, it would be invoked only in `matchFam`, rather than `reduceTyFamApp_maybe`, to save having to load plugins at all the call sites of the latter. Thus plugin-defined type families would reduce in the constraint solver, but not necessarily elsewhere.
+
 ## Outstanding issues
 
-- As discussed above, plugins should be able to create their own `CoAxiomRule`s, but this requires some way of serialising them in interface files.
+- Dynamic loading seems to be subtly broken on Windows or when using multiple plugins (see [\#10301](https://gitlab.haskell.org//ghc/ghc/issues/10301)). There is a [ workaround](https://github.com/clash-lang/ghc-typelits-natnormalise/commit/afc4f2538081b46439e26e1a2bc6b7a5c3751781).
+
+- As discussed above, plugins should be able to create their own `CoAxiomRule`s, but this requires some way of serialising them in interface files. 
 
 - Generating instances for typeclass constraints would be easier if `EvTerm` could contain Core expressions directly, rather than having a selection of special cases (e.g. `EvLit`).
-
-- Plugins that define type families often need to ensure that those type families have no normal instances, to avoid inconsistency, but empty closed type families are currently rejected ([\#9840](https://gitlab.haskell.org//ghc/ghc/issues/9840)).
-
-- Defining type families is more work than it needs to be, because the current interface forces the plugin to search the unsolved constraints for the type family in question (which might be anywhere within the types), then emit a new given constraint to reduce the type family. Instead, it should be possible to plug in to `matchFam` directly.
 
 - For units of measure, it would be nice to be able to extend the
   pretty-printer for types (so we could get a nicely formatted
