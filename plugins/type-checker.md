@@ -199,11 +199,7 @@ newGiven   :: CtLoc -> PredType -> EvTerm -> TcPluginM CtEvidence
 ```
 
 
-The implementation of `newGiven` will require `TcPluginM` to be a wrapper around `TcS` rather than `TcM`, so that it can bind a new evidence variable. It is thus tempting to additionally expose
-
-```wiki
-unsafeTcPluginTcS :: TcS a -> TcPluginM a
-```
+The implementation of `newGiven` will require `TcPluginM` to pass around an `EvBindsVar`, so that it can bind a new evidence variable. This is not available in `tcPluginInit` and `tcPluginStop`, so using `newGiven` there will result in a crash. (I previously considered making `TcPluginM` wrap `TcS` directly, but that turns out to require a lot of rearrangement and probably hs-boot files.)
 
 ### Defining type families
 
