@@ -15,7 +15,7 @@ sh$ ./MyProg +RTS -Ds
 to see logging information from the scheduler.
 
 
-Use `+RTS -?` to see a list of all the `-D` flags. The current list (GHC 6.12) is:
+Use `+RTS -?` to see a list of all the `-D` flags. The current list (GHC 7.8) is:
 
 ```wiki
   -Ds  DEBUG: scheduler
@@ -27,12 +27,12 @@ Use `+RTS -?` to see a list of all the `-D` flags. The current list (GHC 6.12) i
   -DS  DEBUG: sanity
   -Dt  DEBUG: stable
   -Dp  DEBUG: prof
-  -Dr  DEBUG: gran
-  -DP  DEBUG: par
+  -Da  DEBUG: apply
   -Dl  DEBUG: linker
   -Dm  DEBUG: stm
-  -Dz  DEBUG: stack squezing
+  -Dz  DEBUG: stack squeezing
   -Dc  DEBUG: program coverage
+  -Dr  DEBUG: sparks
 ```
 
 
