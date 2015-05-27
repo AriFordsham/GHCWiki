@@ -238,6 +238,7 @@ See also [wiki:TemplateHaskell]
  * #2641: revise what `-XExtendedDefaultRules` does
 
 === Better error messages ===
+ * #10450: poor error message when arg is insufficiently polymorphic
  * #9901: `f is applied to two arguments, but its type has only two`
  * #9479: more info in "hole" error messages
  * #9456: more info in "relevant bindings" message
