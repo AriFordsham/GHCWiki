@@ -218,6 +218,8 @@ tcPluginMatchFam :: s -> TyCon -> [Type] -> TcPluginM (Maybe (TcCoercion, TcType
 
 This is similar to `sfMatchFam`, which gives the definition of built-in type families like `(+)`. However, it would be invoked only in `matchFam`, rather than `reduceTyFamApp_maybe`, to save having to load plugins at all the call sites of the latter. Thus plugin-defined type families would reduce in the constraint solver, but not necessarily elsewhere.
 
+**Richard:** This makes me uncomfortable, in exactly the same way that I was made to feel uncomfortable in the comments starting with [comment:4:ticket:9840](https://gitlab.haskell.org//ghc/ghc/issues/9840). The fact that the new, (what I will call) *external* type families will behave differently than internal type families is further evidence that something is amiss. (The difference in behavior I'm referring to is the difference between `matchFam` and `reduceTyFamApp_maybe`.) This, of course, ties into [\#9636](https://gitlab.haskell.org//ghc/ghc/issues/9636) as well and to some of the more esoteric issues that cropped up while working on [\#6018](https://gitlab.haskell.org//ghc/ghc/issues/6018)/[ Phab:D202](https://phabricator.haskell.org/D202) and perhaps even [\#10327](https://gitlab.haskell.org//ghc/ghc/issues/10327). I would love to approach this problem with the idea of making broader changes instead of looking for a minimal change just to support typechecker plugins better. **End Richard**
+
 ### Embedding CoreExpr in EvTerm
 
 
@@ -239,7 +241,7 @@ I'm not very clear on whether we need to extend zonking to work on `CoreExpr`? O
 
 - Dynamic loading seems to be subtly broken on Windows or when using multiple plugins (see [\#10301](https://gitlab.haskell.org//ghc/ghc/issues/10301)). There is a [ workaround](https://github.com/clash-lang/ghc-typelits-natnormalise/commit/afc4f2538081b46439e26e1a2bc6b7a5c3751781).
 
-- As discussed above, plugins should be able to create their own `CoAxiomRule`s, but this requires some way of serialising them in interface files. 
+- As discussed above, plugins should be able to create their own `CoAxiomRule`s, but this requires some way of serialising them in interface files. **Richard:** While we're at it, we should probably merge `CoAxiomRule` with `CoAxiom` somehow. I believe `CoAxiomRule` is just a generalization of `CoAxiom`. **End Richard**
 
 - For units of measure, it would be nice to be able to extend the
   pretty-printer for types (so we could get a nicely formatted
