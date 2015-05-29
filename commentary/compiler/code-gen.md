@@ -33,7 +33,7 @@ The CPS-converted Cmm is fed to one of the backends. This is done by `codeOutput
   - Parameter passing is made explicit; the calling convention depends on the target architecture.  The key function is `CmmCallConv.assignArgumentsPos`. 
 
     - Parameters are passed in virtual registers R1, R2 etc. \[These map 1-1 to real registers.\] 
-    - Overflow parameters are passed on the stack using explicit memory stores, to locations described abstractly using the [''Stack Area'' abstraction.](commentary/compiler/stack-areas).   
+    - Overflow parameters are passed on the stack using explicit memory stores, to locations described abstractly using the [''Stack Area'' abstraction](commentary/compiler/stack-areas).   
     - Making the calling convention explicit includes an explicit store instruction of the return address, which is stored explicitly on the stack in the same way as overflow parameters. This is done (obscurely) in `StgCmmMonad.mkCall`.
 
 ## Second stage: the Cmm pipeline
