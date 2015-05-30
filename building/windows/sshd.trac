@@ -51,7 +51,7 @@ echo "${pwd_entry}" >> "/etc/passwd"
 pwd_entry="$(/usr/bin/mkpasswd -l -u "${unpriv_user}" | /usr/bin/sed -n -e '/^'${unpriv_user}'/s?\(^[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:\).*?\1'/var'/empty:/bin/false?p')"
 echo "${pwd_entry}" >> "/etc/passwd" 
 
-pwd_entry="$(/usr/bin/mkpasswd -l -u "${admin_user}" | /usr/bin/sed -n -e '/^'${admin_user}'/s?\(^[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:\).*?\1'/home'/Administrator:/bin/bash?p')"
+pwd_entry="$(/usr/bin/mkpasswd -l -u "${admin_user}")"
 echo "${pwd_entry}" >> "/etc/passwd"
 
 # finally, register service with cygrunsrv

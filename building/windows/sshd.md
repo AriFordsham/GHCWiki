@@ -36,7 +36,7 @@ While on CygWin setting up `sshd` is taken care of by the provided `ssh-host-con
   editrights -a SeTcbPrivilege -u ${username}&&\
   editrights -a SeDenyRemoteInteractiveLogonRight -u ${username}&&\
   editrights -a SeServiceLogonRight -u ${username}# add passwd entry
-  pwd_entry="$(/usr/bin/mkpasswd -l -u "${username}"| /usr/bin/sed -n -e '/^'${username}'/s?\(^[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:\).*?\1'/var'/empty:/bin/false?p')"echo"${pwd_entry}" >> "/etc/passwd"pwd_entry="$(/usr/bin/mkpasswd -l -u "${unpriv_user}"| /usr/bin/sed -n -e '/^'${unpriv_user}'/s?\(^[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:\).*?\1'/var'/empty:/bin/false?p')"echo"${pwd_entry}" >> "/etc/passwd"pwd_entry="$(/usr/bin/mkpasswd -l -u "${admin_user}"| /usr/bin/sed -n -e '/^'${admin_user}'/s?\(^[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:\).*?\1'/home'/Administrator:/bin/bash?p')"echo"${pwd_entry}" >> "/etc/passwd"# finally, register service with cygrunsrv
+  pwd_entry="$(/usr/bin/mkpasswd -l -u "${username}"| /usr/bin/sed -n -e '/^'${username}'/s?\(^[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:\).*?\1'/var'/empty:/bin/false?p')"echo"${pwd_entry}" >> "/etc/passwd"pwd_entry="$(/usr/bin/mkpasswd -l -u "${unpriv_user}"| /usr/bin/sed -n -e '/^'${unpriv_user}'/s?\(^[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:\).*?\1'/var'/empty:/bin/false?p')"echo"${pwd_entry}" >> "/etc/passwd"pwd_entry="$(/usr/bin/mkpasswd -l -u "${admin_user}")"echo"${pwd_entry}" >> "/etc/passwd"# finally, register service with cygrunsrv
   /usr/bin/cygrunsrv -I sshd -d "CYGWIN sshd" -p /usr/bin/sshd -a "-D" -y tcpip -u cyg_server -w "${_password}"# the SSH service should start up automatically when the Windows VM is rebooted. You can manually restart the service by running `net stop sshd` + `net start sshd`
   net start sshd
 
