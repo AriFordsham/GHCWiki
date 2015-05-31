@@ -17,9 +17,9 @@ This is a list of tickets that [ Pedro](http://dreixel.net) wants to keep an eye
 - [\#9642](https://gitlab.haskell.org//ghc/ghc/issues/9642) (LANGUAGE pragma synonyms)
 - [\#9766](https://gitlab.haskell.org//ghc/ghc/issues/9766) (Use TypeLits in the meta-data encoding of GHC.Generics)
 - [\#9821](https://gitlab.haskell.org//ghc/ghc/issues/9821) (DeriveAnyClass support for higher-kinded classes + some more comments)
-- [\#9858](https://gitlab.haskell.org//ghc/ghc/issues/9858) (Typeable instance for datatype and its promoted constructor is the same)
 - [\#9968](https://gitlab.haskell.org//ghc/ghc/issues/9968) (DeriveAnyClass fails on multi-parameter type classes)
 - [\#10087](https://gitlab.haskell.org//ghc/ghc/issues/10087) (DefaultSignatures: error message mentions internal name)
+- [\#10361](https://gitlab.haskell.org//ghc/ghc/issues/10361) (DeriveAnyClass does not fill in associated type defaults)
 
 
 Closed:
@@ -37,6 +37,7 @@ Closed:
 - [\#9639](https://gitlab.haskell.org//ghc/ghc/issues/9639) (Remove OldTypeable)
 - [\#9650](https://gitlab.haskell.org//ghc/ghc/issues/9650) (Unsatisfiable default signature)
 - [\#9750](https://gitlab.haskell.org//ghc/ghc/issues/9750) (Core lint failure with TypeLits Symbol)
+- [\#9858](https://gitlab.haskell.org//ghc/ghc/issues/9858) (Typeable instance for datatype and its promoted constructor is the same)
 - [\#9999](https://gitlab.haskell.org//ghc/ghc/issues/9999) (Typeable deriving behavior different between data families and associated data types)
 - [\#10000](https://gitlab.haskell.org//ghc/ghc/issues/10000) (Derived DataKinds Typeable instance collision leads to [SafeHaskell](safe-haskell) violation)
 - [\#10030](https://gitlab.haskell.org//ghc/ghc/issues/10030) (packageName for GHC.Generics.Datatype)
