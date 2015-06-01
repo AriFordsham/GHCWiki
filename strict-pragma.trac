@@ -1,14 +1,39 @@
-= The Strict Language Pragma =
 
-This page explains the motivation, semantics, and implementation of a new language pragma named `Strict`.
+This page explains the motivation, semantics, and implementation of new language pragmas `StrictData` and  `Strict`.
 
 == The Problem ==
 
 High-performance Haskell code (e.g. numeric code) can sometimes be littered with bang patterns, making it harder to read. The reason is that laziness isn't the right default in this particular code, but the programmer has no way to say that except by repeatedly adding bang patterns. This page proposes a new language pragma that allows the programmer to switch the default on a per module basis.
 
+= StrictData =
+
+Informally the `-XStrictData` language extension switches data type declarations to be strict by default (what is currently possible using `BangPatters`) allowing fields to be lazy by adding a `~` in front of the field.
+
+== Semantics ==
+
+When the user writes
+
+{{{
+data T = C a
+}}}
+
+we interpret it as if she had written
+
+{{{
+data T = C !a
+}}}
+
+Haskell doesn't allow for `~` patterns in data constructor definitions today: we'll add support for such definitions and have it give the current lazy behavior.
+
+The pragma only affects definitions in ''this module''.
+
+= Strict =
+
 == Semantics ==
 
 Informally the `-XStrict` language extension switches functions, data types, and bindings to be strict by default, allowing optional laziness by adding `~` in front of a variable. This essentially reverses the present situation where laziness is default and strictness can be optionally had by adding `!` in front of a variable.
+
+`-XStrict` implies `-XStrictData`.
 
  * '''Function definitions.'''  When the user writes
 {{{
@@ -69,16 +94,6 @@ let !pat = ...
  (y,z) = if x > 10 then True else False
 }}}
  Here `x` and the pattern binding `(y,z)` remain lazy.  Reason: there is no good moment to force them, until first use.
-
- * '''Data types.''' When the user writes
-{{{
-data T = C a
-}}}
- we interpret it as if she had written
-{{{
-data T = C !a
-}}}
- Haskell doesn't allow for `~` patterns in data constructor definitions today. We'll add support for such patterns and have it give the old lazy behavior.
 
  * '''Newtypes.'''  There is no effect on newtypes, which simply rename existing types.  For example:
 {{{
