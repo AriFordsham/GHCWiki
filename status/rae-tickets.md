@@ -87,6 +87,8 @@
 
 **Solver**
 
+- [\#8095](https://gitlab.haskell.org//ghc/ghc/issues/8095): More type-families optimizations
+
 ## Front end
 
 - [\#7169](https://gitlab.haskell.org//ghc/ghc/issues/7169): Warn about incomplete record selectors
