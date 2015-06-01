@@ -1,15 +1,15 @@
 
-This page explains the motivation, semantics, and implementation of new language pragmas `StrictData` and  `Strict`.
+This page explains the motivation, semantics, and implementation of the new language extensions `StrictData` and  `Strict`.
 
 ## The Problem
 
 
-High-performance Haskell code (e.g. numeric code) can sometimes be littered with bang patterns, making it harder to read. The reason is that laziness isn't the right default in this particular code, but the programmer has no way to say that except by repeatedly adding bang patterns. This page proposes a new language pragma that allows the programmer to switch the default on a per module basis.
+High-performance Haskell code (e.g. numeric code) can sometimes be littered with bang patterns, making it harder to read. The reason is that laziness isn't the right default in this particular code, but the programmer has no way to say that except by repeatedly adding bang patterns. This page proposes a new language extension that allows the programmer to switch the default on a per module basis.
 
 # StrictData
 
 
-Informally the `-XStrictData` language extension switches data type declarations to be strict by default allowing fields to be lazy by adding a `~` in front of the field.
+Informally the `StrictData` language extension switches data type declarations to be strict by default allowing fields to be lazy by adding a `~` in front of the field.
 
 ## Semantics
 
@@ -31,16 +31,16 @@ data T = C !a
 Haskell doesn't allow for `~` patterns in data constructor definitions today: we'll add support for such definitions and have it give the current lazy behavior.
 
 
-The pragma only affects definitions in *this module*.
+The extension only affects definitions in *this module*.
 
 # Strict
 
 ## Semantics
 
 
-Informally the `-XStrict` language extension switches functions, data types, and bindings to be strict by default, allowing optional laziness by adding `~` in front of a variable. This essentially reverses the present situation where laziness is default and strictness can be optionally had by adding `!` in front of a variable.
+Informally the `Strict` language extension switches functions, data types, and bindings to be strict by default, allowing optional laziness by adding `~` in front of a variable. This essentially reverses the present situation where laziness is default and strictness can be optionally had by adding `!` in front of a variable.
 
-`-XStrict` implies `-XStrictData`.
+`Strict` implies `StrictData`.
 
 - **Function definitions.**  When the user writes
 
@@ -83,7 +83,7 @@ Informally the `-XStrict` language extension switches functions, data types, and
    let !(p,q) = if flob then (undefined, undefined) else (True, False)
   ```
 
-  which will strictly evaluate the RHS, and bind `p` and `q` to the components of the pair.  But the pair itself is lazy (unless we also compile the Prelude with `-XStrict`; see "Modularity" below).  So `p` and `q` may end up bound to `undefined`.  See also "Recursive and polymorphic let bindings" below.
+  which will strictly evaluate the RHS, and bind `p` and `q` to the components of the pair.  But the pair itself is lazy (unless we also compile the Prelude with `Strict`; see "Modularity" below).  So `p` and `q` may end up bound to `undefined`.  See also "Recursive and polymorphic let bindings" below.
 
 - **Case expressions.**  The patterns of a case expression get an implicit bang, unless disabled with `~`.  For example
 
@@ -103,7 +103,7 @@ Informally the `-XStrict` language extension switches functions, data types, and
     case x of y -> rhs
   ```
 
-  is lazy in Haskell, but with `-XStrict` is interpreted as
+  is lazy in Haskell, but with `Strict` is interpreted as
 
   ```wiki
    case x of !y -> rhs
@@ -115,9 +115,9 @@ Informally the `-XStrict` language extension switches functions, data types, and
    case x of MkAge i -> rhs
   ```
 
-  is lazy in Haskell; but with `-XStrict` the added bang makes it strict.
+  is lazy in Haskell; but with `Strict` the added bang makes it strict.
 
-- **Top level bindings** are unaffected by `-XStrict`.  For example:
+- **Top level bindings** are unaffected by `Strict`.  For example:
 
   ```wiki
    x = factorial 20
@@ -134,12 +134,12 @@ Informally the `-XStrict` language extension switches functions, data types, and
   g !(C x) = rhs2
   ```
 
-  In ordinary Haskell , `f` is lazy in its argument and hence in `x`; and `g` is strict in its argument and hence also strict in `x`.  With `-XStrict`, both become strict because `f`'s argument gets an implict bang.
+  In ordinary Haskell , `f` is lazy in its argument and hence in `x`; and `g` is strict in its argument and hence also strict in `x`.  With `Strict`, both become strict because `f`'s argument gets an implict bang.
 
 ### Modularity
 
 
-The pragma only affects definitions *in this module*. Functions and data types imported from other modules are unaffected. For example, we won't evaluate the argument to `Just` before applying the constructor. Similarly we won't evaluate the first argument to `Data.Map.findWithDefault` before applying the function.
+The extension only affects definitions *in this module*. Functions and data types imported from other modules are unaffected. For example, we won't evaluate the argument to `Just` before applying the constructor. Similarly we won't evaluate the first argument to `Data.Map.findWithDefault` before applying the function.
 
 
 This is crucial to preserve correctness. Entities defined in other modules might rely on laziness for correctness (whether functional or performance).
@@ -174,9 +174,9 @@ The intent was that it is valid to desugar such a binding to
 This currently applies even if the pattern is just a single variable, so that the `case` boils down to a `seq`.
 
 
-Continuing with this rule would mean that `-XStrict` would not allow recursive or polymoprhic pattern bindings *at all*.  So instead we propose the following revised specification for bang patterns in let bindings.
+Continuing with this rule would mean that `Strict` would not allow recursive or polymoprhic pattern bindings *at all*.  So instead we propose the following revised specification for bang patterns in let bindings.
 
-- **Static semantics.** Exactly as in Haskell, unaffected by `-XStrict`.  This is more permissive than the current rule for bang patterns in let bindings, because it supports bang-patterns for polymorphic and recursive bindings.
+- **Static semantics.** Exactly as in Haskell, unaffected by `Strict`.  This is more permissive than the current rule for bang patterns in let bindings, because it supports bang-patterns for polymorphic and recursive bindings.
 
 - **Dynamic semantics.** Consider the rules in the box of [ Section 3.12 of the Haskell report](http://www.haskell.org/onlinereport/exps.html#sect3.12).  Replace these rules with the following ones, where `v` stands for a variable
 
