@@ -2,6 +2,7 @@
 
 ## Urgent or in-flight
 
+- [\#8613](https://gitlab.haskell.org//ghc/ghc/issues/8613), [\#9070](https://gitlab.haskell.org//ghc/ghc/issues/9070), [\#8319](https://gitlab.haskell.org//ghc/ghc/issues/8319), [\#7521](https://gitlab.haskell.org//ghc/ghc/issues/7521), [\#10459](https://gitlab.haskell.org//ghc/ghc/issues/10459): simplifier ticks exhausted (there are others). [\#10459](https://gitlab.haskell.org//ghc/ghc/issues/10459) is clearly a loop; and affects a real package.
 - [\#7262](https://gitlab.haskell.org//ghc/ghc/issues/7262), [\#10333](https://gitlab.haskell.org//ghc/ghc/issues/10333), [\#7672](https://gitlab.haskell.org//ghc/ghc/issues/7672), [\#10083](https://gitlab.haskell.org//ghc/ghc/issues/10083): hs-boot niggles
 - [\#10114](https://gitlab.haskell.org//ghc/ghc/issues/10114): `AnyK` and kind generalisation in type synonyms
 - [\#10285](https://gitlab.haskell.org//ghc/ghc/issues/10285): a small bug in `Coercible` (Richard)
@@ -132,7 +133,6 @@ See also [TemplateHaskell](template-haskell)
 - [\#9370](https://gitlab.haskell.org//ghc/ghc/issues/9370): respecting mixed `-O` and `-O0` in `ghc --make`, especially concerning cross-module inlining
 - [\#9279](https://gitlab.haskell.org//ghc/ghc/issues/9279): local wrapper remains in final program
 - [\#9246](https://gitlab.haskell.org//ghc/ghc/issues/9246): Too much case-of-case leads to bad code
-- [\#8613](https://gitlab.haskell.org//ghc/ghc/issues/8613), [\#9070](https://gitlab.haskell.org//ghc/ghc/issues/9070), [\#8319](https://gitlab.haskell.org//ghc/ghc/issues/8319): simplifier ticks exhausted (there are others)
 - [\#9136](https://gitlab.haskell.org//ghc/ghc/issues/9136): better constant folding
 - [\#9041](https://gitlab.haskell.org//ghc/ghc/issues/9041): bad code from native code generator (NCG)
 - [\#6056](https://gitlab.haskell.org//ghc/ghc/issues/6056): conflict between the w/w unfolding and the one from INLINEABLE
