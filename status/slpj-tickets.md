@@ -29,7 +29,8 @@
 - [\#10289](https://gitlab.haskell.org//ghc/ghc/issues/10289): 2.5k static `HashSet` takes too much memory to compile
 - [\#9669](https://gitlab.haskell.org//ghc/ghc/issues/9669), [\#9557](https://gitlab.haskell.org//ghc/ghc/issues/9557), [\#8731](https://gitlab.haskell.org//ghc/ghc/issues/8731): slow compilation with lots of `deriving` clauses
 - [\#9583](https://gitlab.haskell.org//ghc/ghc/issues/9583), [\#9630](https://gitlab.haskell.org//ghc/ghc/issues/9630): code blowup in Generics/Binary
-- [\#10293](https://gitlab.haskell.org//ghc/ghc/issues/10293): too much time in `CallArity` (Joachim) \* [\#10228](https://gitlab.haskell.org//ghc/ghc/issues/10228): regression from 7.8.4 to 7.10.1
+- [\#10293](https://gitlab.haskell.org//ghc/ghc/issues/10293): too much time in `CallArity` (Joachim)
+- [\#10228](https://gitlab.haskell.org//ghc/ghc/issues/10228): compile-time regression from 7.8.4 to 7.10.1
 - [\#7450](https://gitlab.haskell.org//ghc/ghc/issues/7450), [\#7258](https://gitlab.haskell.org//ghc/ghc/issues/7258): deriving `Read` generates gigantic code. Better now, but still not linear.
 - [\#7428](https://gitlab.haskell.org//ghc/ghc/issues/7428): Non-linear compile time: `addFingerprint`??
 - [\#2346](https://gitlab.haskell.org//ghc/ghc/issues/2346): desugaring let-bindings
