@@ -84,6 +84,7 @@
 **Error messages**
 
 - [\#9518](https://gitlab.haskell.org//ghc/ghc/issues/9518)
+- [\#10471](https://gitlab.haskell.org//ghc/ghc/issues/10471): When someone forgets `deriving`
 
 **Solver**
 
