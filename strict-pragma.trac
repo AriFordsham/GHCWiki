@@ -7,7 +7,7 @@ High-performance Haskell code (e.g. numeric code) can sometimes be littered with
 
 = StrictData =
 
-Informally the `-XStrictData` language extension switches data type declarations to be strict by default (what is currently possible using `BangPatters`) allowing fields to be lazy by adding a `~` in front of the field.
+Informally the `-XStrictData` language extension switches data type declarations to be strict by default allowing fields to be lazy by adding a `~` in front of the field.
 
 == Semantics ==
 
