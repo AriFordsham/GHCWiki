@@ -145,7 +145,7 @@ It's important that we keep the original ordering.  For example, we don't want t
 ```wiki
   do 
     (x,z) <- (,) <$> A <*> C
-    y <- B
+    y <- B x
     return (f x y z)
 ```
 
@@ -158,7 +158,7 @@ Another wrong result would be:
 ```wiki
   do
     x <- A
-    (\y z -> f x y z) <$> B <*> C
+    (\y z -> f x y z) <$> B x <*> C
 ```
 
 
@@ -185,13 +185,13 @@ Here we can do `a/b/d` in parallel, but `c` depends on `x1`, which makes things 
 This translates to
 
 ```wiki
-join ((\(x2,x3) x4 -> f x2 x3 x4)
-        <$> join ((\x1 x2 -> do
-                               x3 <- c x1
-                               return (x2,x3))
-                    <$> a
-                    <*> b)
-        <*> d)
+(\(x2,x3) x4 -> (x2, x3, x4))
+  <$> join ((\x1 x2 -> do
+                         x3 <- c x1
+                         return (x2,x3))
+              <$> a
+              <*> b)
+  <*> d)
 ```
 
 

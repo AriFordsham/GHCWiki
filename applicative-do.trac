@@ -128,7 +128,7 @@ It's important that we keep the original ordering.  For example, we don't want t
 {{{
   do 
     (x,z) <- (,) <$> A <*> C
-    y <- B
+    y <- B x
     return (f x y z)
 }}}
 
@@ -139,7 +139,7 @@ Another wrong result would be:
 {{{
   do
     x <- A
-    (\y z -> f x y z) <$> B <*> C
+    (\y z -> f x y z) <$> B x <*> C
 }}}
 
 Because this version has less parallelism than the first result, in which `A` and `B` could be performed at the same time as `C`.
@@ -162,13 +162,13 @@ Here we can do `a/b/d` in parallel, but `c` depends on `x1`, which makes things 
 This translates to
 
 {{{
-join ((\(x2,x3) x4 -> f x2 x3 x4)
-        <$> join ((\x1 x2 -> do
-                               x3 <- c x1
-                               return (x2,x3))
-                    <$> a
-                    <*> b)
-        <*> d)
+(\(x2,x3) x4 -> (x2, x3, x4))
+  <$> join ((\x1 x2 -> do
+                         x3 <- c x1
+                         return (x2,x3))
+              <$> a
+              <*> b)
+  <*> d)
 }}}
 
 We can write this expression in a simpler way using `|` for applicative composition (like parallel composition) and `;` for monadic composition (like sequential composition): `((a | b) ; c) | d`.
