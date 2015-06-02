@@ -4,7 +4,7 @@ This page explains the motivation, semantics, and implementation of the new lang
 ## The Problem
 
 
-High-performance Haskell code (e.g. numeric code) can sometimes be littered with bang patterns, making it harder to read. The reason is that laziness isn't the right default in this particular code, but the programmer has no way to say that except by repeatedly adding bang patterns. This page proposes a new language extension that allows the programmer to switch the default on a per module basis.
+High-performance Haskell code (e.g. numeric code) can sometimes be littered with bang patterns, making it harder to read. The reason is that laziness isn't the right default in this particular code, but the programmer has no way to say that except by repeatedly adding bang patterns. This page proposes two new language extensions, `StrictData` and `Strict`, that allow the programmer to switch the default on a per module basis.
 
 # StrictData
 
