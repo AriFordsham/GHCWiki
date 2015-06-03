@@ -304,12 +304,10 @@ There are a number of predicates which can be used:
 - **tag(t)**                the compiler has tag `t`
 
 
-The following helpers should normally not be used; instead, use the `expect_broken*`
-functions above so that the problem doesn't get forgotten about, and when we
-come back to look at the test later we know whether current behaviour is why
-we marked it as expected to fail:
+The following two setup functions should normally not be used; instead, use the `expect_broken*`
+functions above so that the problem or unfinished feature doesn't get forgotten about.
 
-- **expect_fail**           this test is an expected failure, i.e. there is a known bug in the compiler, but we don't want to fix it.
+- **expect_fail**           this test is an expected failure. When used, it's usually in combination with a specific OS or platform (e.g. `when(opsys('mingw32'),expect_fail)` or `when(platform('i386-unknown-mingw32'), expect_fail)`).
 - **expect_fail_for(ways)** expect failure for certain ways 
 
 
