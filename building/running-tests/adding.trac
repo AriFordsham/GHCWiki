@@ -122,26 +122,19 @@ test('Over',
      ['OverD', '-no-hs-main -c -v0'])
 }}}
 
-== Advanced multiple module test cases ==
+== Advanced multiple module test case ==
 
-If you have a test case that can't be built with the simpler two methods described above then you should try one of the methods described below. The build method below allows you to explicitly provide a list of source files that GHC should try to build. They are also built in the order you specify. This is useful for test cases say that use a .cmm source file or .c source file, these are files that GHC can build but aren't picked up by `--make`.
-
-The more advanced method comes in two forms of <test-fn>'s. The first one is `mutlisrc_compile...` and the other one is `multi_...`. They differ only in that the later method allows you to not only list individual files for GHC to compile but also allows you to set arguments that should be passed to GHC when compiling a specific file. The `multisrc_compile...` method only allows arguments to GHC to be set globally for all files. Below are some examples of how to use these two <test-fn>
+If you have a test case that can't be built with the simpler two methods described above then you should try the method described below. The build method below allows you to explicitly provide a list of `(source file, GHC flags)` tuples. GHC then builts those in the order you specify. This is useful for test cases say that use a .cmm source file or .c source file, these are files that GHC can build but aren't picked up by `--make`.
 
 Then for a test case that should compile and run fine we would put this line in all.T:
 {{{
-test('cgrun069', omit_ways(['ghci']), multisrc_compile_and_run,
-                 ['cgrun069', ['cgrun069_cmm.cmm'], ''])
+test('cgrun069', omit_ways(['ghci']), multi_compile_and_run,
+                 ['cgrun069', [('cgrun069_cmm.cmm', '')], ''])
 
 }}}
 This test case relies on a .cmm file, hence it can't use the simpler `multimod_compile_and_run` <test-fn>. We also see here how we can stop a test case running in a certain WAY.
 
 For a test case that should compile but you don't want run, we would put this line in all.T:
-{{{
-test('Check02', normal, multisrc_compile, ['Check02', ['Check02_A.hs', 'Check02_B.hs'], '-trust base'])
-}}}
-
-OR equivalently we could use the `multi_compile` version and just pass no extra arguments to the specific files to compile:
 {{{
 test('Check02', normal, multi_compile, ['Check02', [
                                        ('Check02_A.hs', ''),
@@ -156,7 +149,8 @@ test('Check01', normal, multi_compile_fail, ['Check01', [
                                             ('Check01_B.hs', '-trust base')
                                             ], ''])
 }}}
-This test case must use the `multi_compile_fail` method as it relies on being able to compile the file Check01_B.hs with the argument '-trust base' but not compile any of the other files with this flag.
+
+This test case must use the `multi_compile_fail` method as it relies on being able to compile the file Check01_B.hs with the argument '-trust base' but not compile any of the other files with this flag. 
 
 == Format of the test entries in all.T ==
 
@@ -330,21 +324,10 @@ file. The possible test functions are:
       ''<topmod>'': The top level source file for your test case. [[BR]]
       ''<extra_hc_opts>'': arguments to pass to GHC when it compiles your test case.
 
- * '''multisrc_compile''', '''multisrc_compile_fail''', '''multisrc_compile_and_run''': [[BR]]
+ * '''multi_compile''', '''multi_compile_fail''', '''multi_compile_and_run''': [[BR]]
  Compile a multi source test case. This is for cases where the GHC `--make` build system is
  not enough, such as when you first need to compile a .c or .cmm file before compiling the
  Haskell top level module.
-
- ''<args...> = [<topmod>, [<extra_mods>], <extra_hc_opts>]''
-
- Where:
-      ''<topmod>'': The top level source file for your test case. [[BR]]
-      ''[<extra_mods>]'': A list of other source files that GHC should compile before compiling <topmod>. [[BR]]
-      ''<extra_hc_opts>'': arguments to pass to GHC when it compiles your test case.
-
- * '''multi_compile''', '''multi_compile_fail''', '''multi_compile_and_run''': [[BR]]
- This is essentially the same as `multisrc_compile...` but also allows arguments to GHC to be set
- for individual files to be compiled, not just globally as <extra_hc_opts> is.
 
  ''<args...> = [<topmod>, [(<extra_mod>, <hc_opts>)], <extra_hc_opts>]''
 
