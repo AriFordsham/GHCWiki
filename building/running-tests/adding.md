@@ -307,7 +307,7 @@ There are a number of predicates which can be used:
 The following two setup functions should normally not be used; instead, use the `expect_broken*`
 functions above so that the problem or unfinished feature doesn't get forgotten about.
 
-- **expect_fail**           this test is an expected failure, i.e. the compiler, testdriver, OS or platform is missing a certain feature, and we don't plan to fix it now or in the future. When used, it should usually be in combination with a specific OS or platform type (e.g. `when(opsys('mingw32'), expect_fail)` or `when(platform('i386-unknown-mingw32'), expect_fail)`). Otherwise, mark it as `expect_broken`.
+- **expect_fail**           this test is an expected failure, i.e. the compiler, testdriver, OS or platform is missing a certain feature, and we don't plan to or can't fix it now or in the future. When used, it should usually be in combination with a specific OS or platform type (e.g. `when(opsys('mingw32'), expect_fail)` or `when(platform('i386-unknown-mingw32'), expect_fail)`). Otherwise, mark it as `expect_broken`.
 - **expect_fail_for(ways)** expect failure for certain ways 
 
 
