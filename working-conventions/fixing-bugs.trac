@@ -14,7 +14,7 @@ Here's how to go about helping with a bug.
    * Please follow our [wiki:Commentary/CodingStyle coding conventions].
    * Comment your fix in the source code, and include a reference to the bug ticket number, e.g. "`#1466`" (this helps when grepping for the fix later).  It is often helpful to give a small example code fragment that demonstrates the need for your fix.  This isn't always relevant; sometimes you are fixing a plain error, but often it's more subtle than that.[[BR]][[BR]]
  0. '''Make a commit''' that embodies your fix.  Please follow our convention for naming commits: [wiki:WorkingConventions/Git#Commitmessages].[[BR]][[BR]]
- 0. '''Test your commit''' using the [wiki:TestingPatches validation script]. Alternatively, you can let [wiki:Phabricator/Harbormaster Harbormaster] build and validate your commit, see next step. (If you have write permission to the repository, then you '''must''' validate before pushing.)[[BR]][[BR]]
+ 0. '''Test your commit''' using the [wiki:TestingPatches validation script or Travis]. Alternatively, you can let [wiki:Phabricator/Harbormaster Harbormaster] build and validate your commit, see next step. (If you have write permission to the repository, then you '''must''' validate before pushing.)[[BR]][[BR]]
  0. '''Submit a code review''' to [wiki:Phabricator]. Wait for [wiki:Phabricator/Harbormaster] to build and validate your commit (~35 minutes, September 2014).[[BR]][[BR]]
  0. '''Update the Trac ticket.'''
    * Add a comment to say what you've done.
