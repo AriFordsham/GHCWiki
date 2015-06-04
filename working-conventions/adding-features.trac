@@ -9,7 +9,7 @@ We welcome your involvement in making GHC able to do more.  Here's how to do it.
  0. '''Implement the feature'''!
    * Please follow our [wiki:WorkingConventions#Coding coding conventions].
    * Comment your fix in the source code, and include a reference to the bug ticket number, e.g. "`#1466`" (this helps when grepping for the fix later).  It is often helpful to give a small example code fragment that demonstrates the need for your fix.  This isn't always relevant; sometimes you are fixing a plain error, but often it's more subtle than that.[[BR]][[BR]]
- 0. '''Test the feature''' by creating a reasonable collection of tests that exercise the new capabilities, and incorporating the new tests in the main testsuite.  The building guide contains a [wiki:Building/RunningTests description of how to add tests].[[BR]][[BR]]
+ 0. '''Test the feature''' by creating a reasonable collection of tests that exercise the new capabilities, and incorporating the new tests in the main testsuite.  The building guide contains a [wiki:Building/RunningTests/Adding description of how to add tests].[[BR]][[BR]]
  0. '''Make a commit''' that embodies your feature.  
    * Please follow our convention for '''naming''' commits: [wiki:WorkingConventions/Git#Commitmessages]. 
    * Please give the commit a '''description''' that (a) explains what the commit does, and (b) sketches how it works. 
