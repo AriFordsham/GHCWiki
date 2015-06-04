@@ -17,7 +17,7 @@ We welcome your involvement in making GHC able to do more.  Here's how to do it.
   - Please follow our convention for **naming** commits: [WorkingConventions/Git](working-conventions/git#commit-messages). 
   - Please give the commit a **description** that (a) explains what the commit does, and (b) sketches how it works. 
   - Include updates to the **user manual** that documents your feature.  The user manual is in the same repository as the main compiler source code, so the user-manual commit can form part of the main source-code commit.
-1. **Test your commit** using the [validation script](testing-patches). Alternatively, you can let [Harbormaster](phabricator/harbormaster) build and validate your commit, see next step. (If you have write permission to the repository, then you **must** validate before pushing.)
+1. **Test your commit** using the [validation script or Travis](testing-patches). Alternatively, you can let [Harbormaster](phabricator/harbormaster) build and validate your commit, see next step. (If you have write permission to the repository, then you **must** validate before pushing.)
 1. **Submit a code review** to [Phabricator](phabricator). Wait for [Phabricator/Harbormaster](phabricator/harbormaster) to build and validate your commit (\~35 minutes, September 2014).
 1. **Update the Trac ticket.**
 
