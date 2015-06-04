@@ -13,7 +13,7 @@ There are three ways to validate your patches.
 
 Any patch submitted to [Phabricator](phabricator) is automatically validated by [Harbormaster](phabricator/harbormaster).
 
-### Travis CI
+### Travis
 
 
 Travis CI is a free-for-open-source continuous integration service. When your patch is not quite ready yet for review on Phabricator, you can let Travis validate it in the privacy of your own Github fork.
