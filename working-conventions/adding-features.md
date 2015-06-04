@@ -11,7 +11,7 @@ We welcome your involvement in making GHC able to do more.  Here's how to do it.
 
   - Please follow our [coding conventions](working-conventions#).
   - Comment your fix in the source code, and include a reference to the bug ticket number, e.g. "`#1466`" (this helps when grepping for the fix later).  It is often helpful to give a small example code fragment that demonstrates the need for your fix.  This isn't always relevant; sometimes you are fixing a plain error, but often it's more subtle than that.
-1. **Test the feature** by creating a reasonable collection of tests that exercise the new capabilities, and incorporating the new tests in the main testsuite.  The building guide contains a [description of how to add tests](building/running-tests).
+1. **Test the feature** by creating a reasonable collection of tests that exercise the new capabilities, and incorporating the new tests in the main testsuite.  The building guide contains a [description of how to add tests](building/running-tests/adding).
 1. **Make a commit** that embodies your feature.  
 
   - Please follow our convention for **naming** commits: [WorkingConventions/Git](working-conventions/git#commit-messages). 
