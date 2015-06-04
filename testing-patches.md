@@ -1,15 +1,33 @@
 # Validating Patches
 
 
-We have a strict policy for testing patches before committing them.
+We have a strict policy for validating patches before pushing them. First make sure you read either [how to fix a bug](working-conventions/fixing-bugs) or [WorkingConventions/AddingFeatures](working-conventions/adding-features), and the page about [how to add a test to the testsuite](building/running-tests/adding).
 
 ## How to validate patches
 
 
-In order to test your patches:
+There are three ways to validate your patches:
 
-- Get a repository containing the latest HEAD, the patches you want to push, and no other patches or unrecorded changes. Depending on what you are doing, your working repository might be appropriate; otherwise you might prefer to keep a separate repository just for patch testing - see below ("Workflow with validate").
+### Phabricator
 
+
+Any patch submitted to [Phabricator](phabricator) is automatically validated.
+
+### Travis
+
+
+Travis is a free continuous integration service for building and testing Github repositories. When your patch is not quite ready yet for review on Phabricator, you can let Travis validate it in the privacy of your own Github fork.
+
+- Fork the GHC repository on [ Github](https://github.com/ghc/ghc)
+- Sign up for [ Travis](https://travis-ci.org/)
+- During the signup process, flick your ghc repository fork switch on (it will be clear when you sign up)
+- Push your changes to your Github fork (any branch will do)
+- You (and only you) will get an email if your patch failed to build
+- Settings are in the file `.travis.yml`, though you shouldn't have to change anything. See [Travis](travis) for details.
+
+### Locally
+
+- Get a repository containing the latest HEAD, the patches you want to push, and no other patches or unrecorded changes.
 - In the root directory of the tree, run
 
   ```wiki
@@ -19,8 +37,6 @@ In order to test your patches:
   This will do a "quick" build and then run the testsuite in "fast" mode.
 
 - Depending on the nature of the changes, more testing might be sensible. e.g. if possible, build system changes should be tested on Linux, Mac OS X and Windows machines.  Look at the full documentation for the [test suite](building/running-tests).
-
-- If you wish to add a test for your change, it should go in `testsuite/tests`, in a suitable subdirectory.
 
 
 The validate script should take around 40mins on a fast, dual core machine.  If you have more cores, you can use them like this:
@@ -39,7 +55,7 @@ Assuming all is well, go ahead and commit your changes! If you have commit acces
 `validate` usually starts by `make maintainer-clean` to make sure that everything builds from scratch.  Furthermore, it ignores the build settings you have put in `mk/build.mk`, and instead uses those in `mk/validate-settings.mk`.
 
 
-You may want to validate a different configuration, e.g. with `GhcLibWays = p`. Create a new file `mk/validate.mk` and put those settings in there.
+You may want to validate a different configuration, e.g. with `GhcLibWays = p`. To do that, create a new file `mk/validate.mk` and put those settings in there.
 
 
 After you run `validate` your tree will continue to use the same settings. The way to get back to using your own `build.mk` is to run `make distclean`.  Less brutally, simply remove the file `mk/are-validating.mk`.
@@ -62,7 +78,7 @@ The best thing to do is to fix them! This will help make the world a better plac
 
 Fixing them could mean one of two things: Fix a bug in GHC (or the libraries) that the test is reporting, or fixing a broken test to not report a failure when nothing is actually going wrong.
 
-### I tried to fix them, but I got stuck
+#### I tried to fix them, but I got stuck
 
 
 If you can't fix them yourself, then first file a ticket for the problem so that it doesn't get forgotten about. First run the testsuite for just that test (e.g. `make fast TEST=thefailingtest`), and include the full testsuite output in the ticket description. If you found any information out that might be useful to someone later fixing the bug, add that too. Also, add the name of the test in the `Test Case` field.
