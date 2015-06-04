@@ -1,7 +1,7 @@
 # Travis
 
 
-Travis-CI is a free-for-open-source continuous integration service.
+Travis-CI is a free-for-open-source continuous integration service. See [Validating Patches](testing-patches#travis) for how to use it to validate your own GHC fork on Github.
 
 ## What does it do?
 
