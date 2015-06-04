@@ -1,12 +1,12 @@
 # Validating Patches
 
 
-We have a strict policy for validating patches before pushing them. First make sure you read either [how to fix a bug](working-conventions/fixing-bugs) or [WorkingConventions/AddingFeatures](working-conventions/adding-features), and the page about [how to add a test to the testsuite](building/running-tests/adding).
+We have a strict policy for validating patches before pushing them. First make sure you read either [How to fix a bug](working-conventions/fixing-bugs) or [How to add a feature](working-conventions/adding-features), and the page about [How to add a test](building/running-tests/adding).
 
 ## How to validate patches
 
 
-There are three ways to validate your patches:
+There are three ways to validate your patches.
 
 ### Phabricator
 
@@ -16,13 +16,13 @@ Any patch submitted to [Phabricator](phabricator) is automatically validated.
 ### Travis
 
 
-Travis is a free continuous integration service for building and testing Github repositories. When your patch is not quite ready yet for review on Phabricator, you can let Travis validate it in the privacy of your own Github fork.
+Travis is a free-for-open-source continuous integration service. When your patch is not quite ready yet for review on Phabricator, you can let Travis validate it in the privacy of your own Github fork.
 
-- Fork the GHC repository on [ Github](https://github.com/ghc/ghc)
-- Sign up for [ Travis](https://travis-ci.org/)
-- During the signup process, flick your ghc repository fork switch on (it will be clear when you sign up)
-- Push your changes to your Github fork (any branch will do)
-- You (and only you) will get an email if your patch failed to build
+- Fork the GHC repository on [ Github](https://github.com/ghc/ghc).
+- Sign up for [ Travis](https://travis-ci.org/).
+- During the signup process, flick your ghc repository fork switch on (it will be clear when you sign up).
+- Push your changes to your Github fork (any branch will do).
+- You (and only you) will get an email if your patch failed to build.
 - Settings are in the file `.travis.yml`, though you shouldn't have to change anything. See [Travis](travis) for details.
 
 ### Locally
@@ -45,10 +45,7 @@ The validate script should take around 40mins on a fast, dual core machine.  If 
 CPUS=8 sh validate
 ```
 
-
-Assuming all is well, go ahead and commit your changes! If you have commit access then just push as normal. If not, use "git send-email" and add a note to say what testing you have done, and on which operating system/architecture. Or send a normal email with a pull request to the ghc mailing list.
-
-## More details on validation
+## More details on the validate script
 
 ### Configuration files
 
