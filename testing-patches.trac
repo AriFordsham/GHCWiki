@@ -8,16 +8,16 @@ We have a strict policy for validating patches before pushing them. First make s
 There are three ways to validate your patches.
 
 === Phabricator ===
-Any patch submitted to [wiki:Phabricator] is automatically validated.
+Any patch submitted to [wiki:Phabricator] is automatically validated by [wiki:Phabricator/Harbormaster Harbormaster].
 
-=== Travis ===
-Travis is a free-for-open-source continuous integration service. When your patch is not quite ready yet for review on Phabricator, you can let Travis validate it in the privacy of your own Github fork.
+=== Travis CI ===
+Travis CI is a free-for-open-source continuous integration service. When your patch is not quite ready yet for review on Phabricator, you can let Travis validate it in the privacy of your own Github fork.
 * Fork the GHC repository on [https://github.com/ghc/ghc Github].
-* Sign up for [https://travis-ci.org/ Travis].
+* Sign up for [https://travis-ci.org/ Travis CI].
 * During the signup process, flick your ghc repository fork switch on (it will be clear when you sign up).
 * Push your changes to your Github fork (any branch will do).
 * You (and only you) will get an email if your patch failed to build.
-* Settings are in the file `.travis.yml`, though you shouldn't have to change anything. See [wiki:Travis Travis] for details.
+* Settings are in the file `.travis.yml`, though you shouldn't have to change anything. See the [wiki:Travis Travis wiki page] for details.
 
 === Locally === 
 
