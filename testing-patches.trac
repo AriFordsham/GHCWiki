@@ -10,7 +10,7 @@ There are three ways to validate your patches.
 === Phabricator ===
 Any patch submitted to [wiki:Phabricator] is automatically validated by [wiki:Phabricator/Harbormaster Harbormaster].
 
-=== Travis CI ===
+=== Travis ===
 Travis CI is a free-for-open-source continuous integration service. When your patch is not quite ready yet for review on Phabricator, you can let Travis validate it in the privacy of your own Github fork.
 * Fork the GHC repository on [https://github.com/ghc/ghc Github].
 * Sign up for [https://travis-ci.org/ Travis CI].
