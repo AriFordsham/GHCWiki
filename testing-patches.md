@@ -52,25 +52,6 @@ In order to save time while debugging problems revealed by validate, the validat
 
 You may want to validate a different configuration, e.g. with `GhcLibWays = p`. When validating, `mk/build.mk`, where you would normally put this, is ignored; use `mk/validate.mk` instead.
 
-## Finding unrecorded or unpushed patches
-
-
-In order to find unrecorded changes run:
-
-```wiki
-./sync-all status
-```
-
-
-from the root of your tree. To find unpushed patches, run:
-
-```wiki
-./sync-all new
-```
-
-
-also from the root of your tree.
-
 ## Validate has failing tests without any local patches; what do I do?
 
 
