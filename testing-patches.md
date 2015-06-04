@@ -3,6 +3,8 @@
 
 We have a strict policy for testing patches before committing them.
 
+## How to validate patches
+
 
 In order to test your patches:
 
@@ -32,10 +34,17 @@ Assuming all is well, go ahead and commit your changes! If you have commit acces
 
 ## More details on validation
 
-`validate` usually starts by `make maintainer-clean` to make sure that everything builds from scratch.  Furthermore, it ignores the build settings you have put in `mk/build.mk`, and instead uses those in `mk/validate-settings.mk`.  (It does not mess up your `mk/build.mk` file of course.)
+### Configuration files
+
+`validate` usually starts by `make maintainer-clean` to make sure that everything builds from scratch.  Furthermore, it ignores the build settings you have put in `mk/build.mk`, and instead uses those in `mk/validate-settings.mk`.
+
+
+You may want to validate a different configuration, e.g. with `GhcLibWays = p`. Create a new file `mk/validate.mk` and put those settings in there.
 
 
 After you run `validate` your tree will continue to use the same settings. The way to get back to using your own `build.mk` is to run `make distclean`.  Less brutally, simply remove the file `mk/are-validating.mk`.
+
+### Flags
 
 
 In order to save time while debugging problems revealed by validate, the validate script understands several flags. These flags, and others understood by `validate` are documented in the `validate` script itself.
@@ -45,12 +54,7 @@ In order to save time while debugging problems revealed by validate, the validat
 - **`--slow`**: turns on `-DDEBUG` for the stage2 compiler, and runs more tests (except those that call `compiler_stats_num_fields`, those are skipped when debugging is on)
 - **`--testsuite-only`**: then validate will not build the tree at all, but only run the testsuite. This is useful if the problems validate found were only due to the testsuite falling out of sync with the code. 
 
-## Testing different configurations
-
-
-You may want to validate a different configuration, e.g. with `GhcLibWays = p`. When validating, `mk/build.mk`, where you would normally put this, is ignored; use `mk/validate.mk` instead.
-
-## Validate has failing tests without any local patches; what do I do?
+### Validate has failing tests without any local patches; what do I do?
 
 
 The best thing to do is to fix them! This will help make the world a better place, and gain you the admiration and thanks of your colleagues.
