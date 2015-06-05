@@ -5,16 +5,15 @@ what do they all mean?  I think the biggest source of confusion (for
 myself included) is keeping straight not only what these terms mean,
 but also what people want them to mean in the future, and what we
 *actually* care about.  So I want to help clarify this a bit, by
-clearly separating the *motivation* from the *mechanism*.
+clearly separating the *problem you are trying to solve* from *how you are solving the problem*.
 
 
 The content here overlaps with [wiki:Commentary/Packages](commentary/packages) but is looking at the latest iteration of the multi-instances and Backpack work.
 
-## Motivations
+## What problems do we need to solve?
 
 
-They are a number of different ways we can identify a package,
-driven by different MOTIVATIONS:
+When we come up with identification schemes for packages, we are trying to solve a few problems:
 
 <table><tr><th>\[SYMBOL\]</th>
 <td>
@@ -31,25 +30,29 @@ What symbol names should we put in the binary? (e.g., the "foozm0zi1" in   "fooz
 
 <table><tr><th>\[ABI\]</th>
 <td>
-When can I swap out one compiled package with another WITHOUT recompiling, i.e. what is the ABI of the package? Equal ABIs implies equal symbols.
+When can I swap out one compiled package with another WITHOUT recompiling, i.e. what is the ABI of the package? Equal ABIs implies equal symbols, though not vice versa. ABI is usually computed after compilation is complete.
 </td></tr></table>
 
 <table><tr><th>\[SOURCE\]</th>
 <td>
-What is the specific stream of bytes that represents the source package?  In Hackage, this constitutes the unit of distribution, i.e. how do you identify the source tarball a package maintainer uploads to Hackage.
+What is the unit of distribution? In other words, when a maintainer uploads an sdist to Hackage, how do you identify that source tarball?
 
 - On Hackage, a package name plus version uniquely identifies an
   sdist.  This is enforced by community standards; in a local
   development environment, this may not hold since devs will edit
-  code without updating the version number.
+  code without updating the version number. Call this \[WEAK SOURCE\].
 - Alternately, a cryptographic hash of the source code uniquely
-  identifies the stream of bytes.  This is enforced by math.
+  identifies the stream of bytes.  This is enforced by math. Call this \[STRONG SOURCE\].
 
 </td></tr></table>
 
 <table><tr><th>\[NIX\]</th>
 <td>
-What is the specific stream of bytes that represents the source package and the source of all of its transitive dependencies? Put alternately, what is the full stream of bytes that, in isolation, would be sufficient to reproduce a build (assuming a deterministic compiler.)
+What is the full set of source which I can use to reproduceably build a build product?
+
+- In today's Cabal, you could approximate this by taking \[WEAK SOURCE\] of a package, as well as all of its transitive dependencies. Call this \[WEAK NIX\].
+- The Nix approach is to ensure deterministic builds by taking the hash of the source \[STRONG SOURCE\] and also recursively including the \[NIX\] of each direct dependency. Call this \[STRONG NIX\].
+
 </td></tr></table>
 
 <table><tr><th>\[TYPES\]</th>
@@ -148,3 +151,17 @@ If I have package foo compiled against bar-0.1, and baz compiled against bar-0.2
 <td>
 If I have a package foo-0.2 which depends on a library bar-0.1, but not in any externally visible way, it should be allowed for a client to separately use bar-0.2. This is LOWEST priority; amusingly, in 7.10, this is already supported by GHC, but not by Cabal.
 </td></tr></table>
+
+## ezyang's proposal
+
+
+For an implementer, it is best if each problem is solved separately.  However, Simon has argued strongly it is best if we REDUCE the amount of package naming concepts. You can see this in pre-7.10 GHC, where the package ID (package name + version) was used fulfill many functions: linker symbols, type identity as well as being a unit of distribution.
+
+
+So the way I want to go about arguing for the necessity of a given identifier is by showing that it is IMPOSSIBLE (by the intended functions) for a single identifier to serve both roles. Here are the main constraints:
+
+- \[SYMBOL\] and \[STRONG NIX\]/\[STRONG SOURCE\] are incompatible.  If you modify your source code, a \[STRONG NIX/SOURCE\] identifier must change; if this means \[SYMBOL\] changes too, you will have to recompile everything. Not good.
+
+- \[SOURCE\] and \[TYPES\] are incompatible under non-destructive installs and private dependencies. With private dependencies (which GHC supports!), I may link against the multiple instances of the same source but compiled against different dependencies; we MUST NOT consider these types to be the same. Note: GHC used to use package ID for both of these; so coherence was guaranteed by requiring destructive installs.
+
+- \[NIX\] and \[TYPES\] are incompatible under Backpack.  In Backpack, a library author may distribute a package with the explicit intent that it may be used in the same client multiple times with different instantiations of its holes; these types must be kept distinct.
