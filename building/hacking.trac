@@ -81,7 +81,7 @@ $ make clean
 
 == Testing ==
 
-The [wiki:TestingPatches validation script] does a build of GHC from scratch and runs the test suite. If it passes without any errors, then it is ok to submit the patches from your tree. You should of course either be adding onto the test suite or running manual tests to verify your changes.
+The [wiki:TestingPatches validation script] does a build of GHC from scratch and runs the [wiki:Building/RunningTests test suite]. If it passes without any errors, then it is ok to submit the patches from your tree. You should of course either be [wiki:Building/RunningTests/Adding adding] onto the test suite or [wiki:Building/RunningTests/Running running] manual tests to verify your changes.
 
 == Parallel builds ==
 
