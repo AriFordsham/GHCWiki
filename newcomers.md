@@ -30,9 +30,6 @@ make -j8 # parallelize to at most 8 parallel jobs; adapt to actual number of cpu
 ## edit build.mk to remove the comment marker # on the line stage=2
 ```
 
-
-replace `git://` by `http://` or `https://` in the instructions above if you're behind a firewall blocking port 9418. For more details see also [Building/GettingTheSources](building/getting-the-sources).
-
 >
 > If your machine has all the prerequisites, this might just work. Expect it all to take roughly an hour.
 
