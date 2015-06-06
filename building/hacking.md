@@ -94,7 +94,7 @@ $ make clean
 ## Testing
 
 
-The [validation script](testing-patches) does a build of GHC from scratch and runs the test suite. If it passes without any errors, then it is ok to submit the patches from your tree. You should of course either be adding onto the test suite or running manual tests to verify your changes.
+The [validation script](testing-patches) does a build of GHC from scratch and runs the [test suite](building/running-tests). If it passes without any errors, then it is ok to submit the patches from your tree. You should of course either be [adding](building/running-tests/adding) onto the test suite or [running](building/running-tests/running) manual tests to verify your changes.
 
 ## Parallel builds
 
