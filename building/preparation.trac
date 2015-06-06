@@ -24,3 +24,7 @@ If you think one of these pages linked from here is out-of-date, either update t
 Alternatively:
 
  * [wiki:Building/Preparation/Tools List of tools needed to build GHC]
+
+See the [wiki:Building building guide], notably the following two sections, for how to proceed after this:
+ * [wiki:Building/QuickStart Quick Start to just building and installing GHC]
+ * [wiki:Building/Hacking Quick Start to using the build system as a developer]
