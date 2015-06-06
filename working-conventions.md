@@ -11,7 +11,7 @@ GHC is a BSD-licensed open-source project, and we welcome your help in making it
 
 ## Working conventions
 
-- **Using Git**: Our conventions for using git are here: [Using Git](working-conventions/git), information about our submodule setup is in [WorkingConventions/Git/Submodules](working-conventions/git/submodules), and some useful tricks are in [WorkingConventions/Git/Tricks](working-conventions/git/tricks), .
+- **Using Git**: Our conventions for using git are here: [Using Git](working-conventions/git), information about our submodule setup is in [WorkingConventions/Git/Submodules](working-conventions/git/submodules), and some useful Git tricks are in [WorkingConventions/Git/Tricks](working-conventions/git/tricks).
 
 - **Using Phabricator**: we use Phabricator as a code review tool; here are [our Phabricator guidance notes](phabricator).
 
