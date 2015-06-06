@@ -1,13 +1,13 @@
 [[PageOutline]]
 = Validating Patches =
 
-We have a strict policy for validating [wiki:WorkingConventions/FixingBugs patches] before pushing them.
+When you [wiki:WorkingConventions/FixingBugs contribute a patch] to GHC, it has to be validated before we push it to the master branch.
 
-First, [wiki:Building/RunningTests/Adding add a new test] for your patch, and [wiki:Building/RunningTests/Running run it].
+First, [wiki:Building/RunningTests/Adding add a new test], and [wiki:Building/RunningTests/Running run it].
 
 == How to validate patches ==
 
-There are three ways to validate your patches.
+There are three ways to validate your patch.
 
 === Phabricator ===
 Any patch submitted to [wiki:Phabricator] is automatically validated by [wiki:Phabricator/Harbormaster Harbormaster].
