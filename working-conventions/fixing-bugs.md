@@ -19,10 +19,8 @@ Here's how to go about helping with a bug. For [adding features](working-convent
 1. **Submit a code review** to [Phabricator](phabricator). Wait for [Phabricator/Harbormaster](phabricator/harbormaster) to build and validate your commit (\~35 minutes, September 2014).
 1. **Update the Trac ticket.**
 
-  - Add a comment to say what you've done.
   - Fill out the field called "[Differential Revisions](phabricator#linking-reviews-to-trac-tickets-and-vice-versa)". Syntax: `Phab:D123`.
-
-- Optional: if you did not manage to submit a code review to Phabricator for whatever reason, attach a patch bundle (run `git format-patch -n`, where *`n`* is the number of commits). When you do this, it is vital you set 'Action' to "Please review", or at least leave a comment, otherwise we aren't [ notified](http://trac.edgewall.org/ticket/2259) and your patch will get lost.
+  - Optional: if you did not manage to submit a code review to Phabricator for whatever reason, attach a patch bundle (run `git format-patch -n`, where *`n`* is the number of commits). When you do this, it is vital you set 'Action' to "Please review", or at least leave a comment, otherwise we aren't [ notified](http://trac.edgewall.org/ticket/2259) and your patch will get lost.
 
 
 Then have a beer on us.  We are truly grateful.
