@@ -5,7 +5,7 @@ GHC is a BSD-licensed open-source project, and we welcome your help in making it
 
 - [How to contribute a patch to GHC](working-conventions/fixing-bugs).
 
-- [How to add a new feature to GHC](working-conventions/adding-features).
+- [How to contribute a new feature to GHC](working-conventions/adding-features).
 
 - [ How to propose a change to the libraries](http://haskell.org/haskellwiki/Library_submissions)
 
