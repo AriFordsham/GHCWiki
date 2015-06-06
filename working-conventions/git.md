@@ -1,61 +1,14 @@
-# Guidelines for using git with GHC
+# How to use git with GHC
 
 
-GHC uses [ Git](http://git-scm.com/) (version 1.7.3.4 or newer recommended) for revision control. This page describes various GHC-specific conventions for using Git, together with some suggestions and tips for using Git effectively.
+GHC uses [ Git](http://git-scm.com/) (version 1.7.3.4 or newer recommended) for revision control. This page describes various suggestions and tips for using Git effectively with the GHC repositories.
 
 # Setup
 
 
 This page is mostly concerned about using Git for contributing actively to GHC and extends upon the
-instructions provided in [Building/GettingTheSources](building/getting-the-sources).
-
-## General Guidelines
-
-- Try to make small patches (i.e. work in consistent increments).
-
-- Separate changes that affect functionality from those that just affect
-  code layout, indentation, whitespace, filenames etc.  This means that
-  when looking at patches later, we don't have to wade through loads of
-  non-functional changes to get to the important parts of the patch.   
-
-- If possible, commit often.  This helps to avoid conflicts.
-
-- Your patches need to pass validation: see [TestingPatches](testing-patches).
-
-- When making changes to other repositories in a GHC tree, see [WorkingConventions/Git/Submodules](working-conventions/git/submodules).
-
-## Author
-
-
-Please make sure you have setup git to use the correct name and email for your commits. Use the same name and email on all machines you may commit from, or add an entry to the `.mailmap` file in the ghc root directory.
-
-```wiki
-$ git config --global user.name "Firstname Lastname"
-$ git config --global user.email "your_email@youremail.com"
-```
-
-
-This will set your name and email globally. To set it for just the GHC repo, remove the `--global` flag.
-
-## Line endings
-
-
-Files in GHC repos should use Unix conventions for line endings.
-If you are on Windows, ensure that git handles line-endings sanely by running:
-
-```wiki
-git config --global core.autocrlf false
-```
-
-
-To find out what files in your tree have windows (CRLF) line endings,  use
-
-```wiki
-find . -name '*hs' | xargs file | grep CRLF
-```
-
-
-Do this before you commit them!
+instructions provided in [Building/GettingTheSources](building/getting-the-sources). See: [WorkingConventions/FixingBugs](working-conventions/fixing-bugs) for how to contribute a patch to GHC.
+ 
 
 ## Push access
 
@@ -72,45 +25,23 @@ git config --global url."ssh://git@git.haskell.org/".pushInsteadOf git://git.has
 
 This uses the `ssh://` protocol (which has much higher latency due to the SSH handshake occurring for each connect) only for `git push` operations, and the very fast unauthenticated `git://` protocol for everything else (if you originally cloned `git://git.haskell.org/ghc.git`)
 
+- If possible, commit often.  This helps to avoid conflicts.
+
 # Working with the tree
-
-## Commit messages
-
-
-Please try to follow the general convention for the [ Git commit message structure](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html) as many Git tools rely on this. Moreover, take into account that the commit message text is interpreted as [WikiFormatting](wiki-formatting) in Trac.
-
-
-In particular, if your patch addresses or fixes a bug/ticket, then include the ticket number in the form "`#NNNN`" in the commit message, e.g.
-
-```wiki
-  withMVar family have a bug (fixes #767)
-```
-
-***Git will then add a link to the commit from the ticket*** (as soon as the commit becomes reachable from the `master` HEAD), so that people watching the ticket can see that a fix has been committed, and in the future we can easily find the patch that addressed the ticket.  When navigating the Git history on Trac, you will also be able to jump directly to the ticket from the commit.
-
-## Contributing patches
-
-
-See: [how to contibute a patch to GHC](working-conventions/fixing-bugs).
 
 ## Submodules
 
 
-GHC uses many git repositories which are tracked as Git submodules. For more information, check the [Submodules](working-conventions/git/submodules) page.
+When making changes to other repositories in a GHC tree, see [WorkingConventions/Git/Submodules](working-conventions/git/submodules).
 
-## Tricks
+## Branches
 
-
-See [WorkingConventions/Git/Tricks](working-conventions/git/tricks).
-
-# Branches
-
-## The stable branch
+#### The stable branch
 
 
 See [WorkingConventions/Releases](working-conventions/releases).
 
-## Development branches
+#### Development branches
 
 
 See [ActiveBranches](active-branches) for a description of **known** development branches.
@@ -120,3 +51,8 @@ The live list of currently **existing** branches in the `ghc` repository can be 
 
 
 New development branches names should be prefixed with `wip/` (e.g. "`wip/dependent-types`"), as otherwise the current Git server-side configuration disallows branch deletion and [ non-fast-forward updates](http://stackoverflow.com/questions/4684352/whats-a-fast-forward-in-git).
+
+## Tricks
+
+
+See [WorkingConventions/Git/Tricks](working-conventions/git/tricks).
