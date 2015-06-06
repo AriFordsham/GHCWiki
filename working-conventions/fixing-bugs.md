@@ -1,7 +1,7 @@
-# How to contribute a bug fix to GHC
+# How to contribute a patch to GHC
 
 
-Here's how to go about helping with a bug. For [adding features](working-conventions/adding-features), there are a few extra steps to follow.
+Here's how to submit a bug fix to GHC. For [adding features](working-conventions/adding-features), there are a few extra steps to follow.
 
 1. **Make sure the bug is in Trac**.  Usually it is (that's why you are working on it), but if it's a bug you have found yourself, add it to Trac before you start work. It's important to have a ticket, because it makes sure that the bug report, discussion about the fix, the regression test that checks it, and the eventual conclusion, are all recorded together.  Comments in the code can refer to the ticket (e.g. `See Trac #2382 for an example`). And so on.  If there's no ticket, there is every chance that it'll get lost.
 1. **Take ownership of the bug in Trac**, by using the "Action" chunk at the bottom of the Trac bug display (you need to be logged in to see it), and putting your name in the "reassign to" box.  This makes sure that two people don't work on the same bug.  You can skip this step if you've submitted your patch to Phabricator already (see below). If you later decide you can't do it after all, remove your name. 
