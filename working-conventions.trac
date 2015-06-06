@@ -2,7 +2,7 @@
 
 {{{#!comment
 
-Please don't duplicate that can easily be found in the sidebar. That includes yet another link to the building guide, or how to test patches (it's under Debugging, which should probably be renamed, or the information moved to a new page called Testing, and also linked from the side bar).
+Please don't duplicate stuff that can easily be found in the sidebar. That includes yet another link to the building guide, or how to test patches (also found in the building guide, but probably deserves its own link in the side bar).
 
 }}}
 
@@ -17,7 +17,7 @@ GHC is a BSD-licensed open-source project, and we welcome your help in making it
 
 == Working conventions ==
 
- * '''Using Git''': Our conventions and some useful tips for using git are here: [wiki:WorkingConventions/Git Using Git], and information about our submodule setup is in [wiki:WorkingConventions/Git/Submodules].
+ * '''Using Git''': Our conventions for using git are here: [wiki:WorkingConventions/Git Using Git], information about our submodule setup is in [wiki:WorkingConventions/Git/Submodules], and some useful tricks are in [wiki:WorkingConventions/Git/Tricks], .
 
  * '''Using Phabricator''': we use Phabricator as a code review tool; here are [wiki:Phabricator our Phabricator guidance notes].
 
