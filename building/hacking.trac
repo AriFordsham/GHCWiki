@@ -19,7 +19,7 @@ and then edit {{{mk/build.mk}}} to select the build you want.  If you're not sur
 want, just uncommenting this line
 
 {{{
-#BuildFlavour = quick
+#BuildFlavour = devel2
 }}}
 
 is usually a good choice.  For more information on what you can do with `build.mk`, see [wiki:Building/Using#Buildconfiguration Build configuration].  In particular, you might want to [wiki:Building/Using#HowtomakeGHCbuildquickly make GHC build quickly].
