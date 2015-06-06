@@ -78,7 +78,7 @@ GHC uses the `autoconf` tools in the standard Unixy way, described in more detai
       |             |                      |
       ---------------            maintainer-clean
         |                                  |
-    perl boot (runs autoconf)              | 
+      ./boot (runs autoconf)               | 
         |                                  |
         v                                  |   
       ----------------------------         |
@@ -134,7 +134,7 @@ pre-generated for you.
 Change directory to `$(TOP)` and issue the command
 
 ```wiki
-$ perl boot
+$ ./boot
 ```
 
 

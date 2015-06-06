@@ -7,7 +7,7 @@ The following instructions assume that you have [wiki:Building/GettingTheSources
 If you are starting from a `git` checkout then:
 
 {{{
-$ perl boot
+$ ./boot
 }}}
 
 (this step isn't necessary if you have a source distribution).
