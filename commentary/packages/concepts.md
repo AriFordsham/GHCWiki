@@ -31,6 +31,10 @@ What symbol names should we put in the binary? (e.g., the "foozm0zi1" in   "fooz
 <table><tr><th>\[ABI\]</th>
 <td>
 When can I swap out one compiled package with another WITHOUT recompiling, i.e. what is the ABI of the package? Equal ABIs implies equal symbols, though not vice versa. ABI is usually computed after compilation is complete.
+
+- ABI can serve as correctness condition: if we link against a specific ABI, we can be sure that anything with an equivalent ABI won't cause our package to segfault.
+- ABI can also serve as an indirection: we linked against an ABI, anything that is compatible can be hotswapped in without compilation. In practice, this capability is rarely used by users because it's quite hard to compile a package multiple times with the same ABI, because (1) compilation is nondeterministic, and (2) even if no types change, a change in implementation can cause a different exported unfolding, which is ABI relevant.
+
 </td></tr></table>
 
 <table><tr><th>\[SOURCE\]</th>
