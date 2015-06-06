@@ -25,7 +25,7 @@ instructions provided in [wiki:Building/GettingTheSources].
 
 == Author ==
 
-Please make sure you have setup git to use the correct name and email for your commits. Use the same name and email on all machines you may commit from. Add an entry to the `.mailmap` file in the ghc root directory if you mess up.
+Please make sure you have setup git to use the correct name and email for your commits. Use the same name and email on all machines you may commit from, or add an entry to the `.mailmap` file in the ghc root directory.
 
 {{{
 $ git config --global user.name "Firstname Lastname"
