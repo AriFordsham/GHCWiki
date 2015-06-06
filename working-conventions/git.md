@@ -20,9 +20,7 @@ instructions provided in [Building/GettingTheSources](building/getting-the-sourc
 
 - If possible, commit often.  This helps to avoid conflicts.
 
-- Only push when your tree passes validation: see [TestingPatches](testing-patches).
-
-- Discuss anything you think might be controversial before pushing it.
+- Your patches need to pass validation: see [TestingPatches](testing-patches).
 
 - When making changes to other repositories in a GHC tree, see [WorkingConventions/Git/Submodules](working-conventions/git/submodules).
 
