@@ -172,12 +172,12 @@ Tasks:
 <tr><th>[\#16277](https://gitlab.haskell.org//ghc/ghc/issues/16277)</th>
 <td>Make JUnit report stdout/stderr in more cases</td></tr></table>
 
-
-Once you fix the bug or implement the new feature, make sure to [add a test](building/running-tests/adding) to the [testsuite](building/running-tests) proving that you've done what you said. Then take some time to get to know and submit a code review to [Phabricator](phabricator). If the patch looks good, one of the committers will put it into the GHC codebase. Then, tackle another bug!
-
 ## Practical advice
 
-- [This page](working-conventions/fixing-bugs) describes in more detail the steps you are expected to take for submitting a bugfix.
+- The following page describes in more detail the steps you are expected to take for submitting a bugfix: [WorkingConventions/FixingBugs](working-conventions/fixing-bugs). Notably:
+
+  - make sure to [add a test](building/running-tests/adding) to the [testsuite](building/running-tests)
+  - submit a code review to [Phabricator](phabricator).
 
 - Learn about our [git working conventions](working-conventions/git) and [git submodules](working-conventions/git/submodules).
 
