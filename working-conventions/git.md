@@ -27,15 +27,15 @@ instructions provided in [Building/GettingTheSources](building/getting-the-sourc
 ## Author
 
 
-Please make sure you have setup git to use the correct name and email for your commits. Use the same name and email on all machines you may push from.
+Please make sure you have setup git to use the correct name and email for your commits. Use the same name and email on all machines you may commit from. Add an entry to the `.mailmap` file in the ghc root directory if you mess up.
 
 ```wiki
-$ git config --global user.name "Firstname Lastname" # Sets the name of the user for all git instances on the system
+$ git config --global user.name "Firstname Lastname"
 $ git config --global user.email "your_email@youremail.com"
 ```
 
 
-This will set your name and email globally. To set it for just the GHC repo, remove the `--global` flag. Also, the environment variables `GIT_COMMITTER_NAME`, `GIT_COMMITTER_EMAIL`, `GIT_AUTHOR_NAME` and `GIT_AUTHOR_EMAIL` will override git-config settings if they are defined.
+This will set your name and email globally. To set it for just the GHC repo, remove the `--global` flag.
 
 ## Line endings
 
