@@ -2,7 +2,10 @@
 
 There are two ways to get sources to GHC: download a source distribution, or get the sources directly from our repository using [http://git-scm.com/ git].
 
-See the [wiki:Building building guide], notably [wiki:Building/Preparation], for how to proceed after this.
+See the [wiki:Building building guide], notably the following three sections, for how to proceed after you have succeeded with one of those methods:
+    * [wiki:Building/Preparation Setting up your system for building GHC (including platform specific instructions)]
+    * [wiki:Building/QuickStart Quick Start to just building and installing GHC]
+    * [wiki:Building/Hacking Quick Start to using the build system as a developer]
 
 == Source distributions ==
 
