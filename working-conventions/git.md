@@ -74,18 +74,6 @@ git config --global url."ssh://git@git.haskell.org/".pushInsteadOf git://git.has
 
 This uses the `ssh://` protocol (which has much higher latency due to the SSH handshake occurring for each connect) only for `git push` operations, and the very fast unauthenticated `git://` protocol for everything else (if you originally cloned `git://git.haskell.org/ghc.git`)
 
-### Ignoring unrecorded changes in submodules
-
-
-You may probably also want to set
-
-```wiki
-  $ git config --global diff.ignoreSubmodules dirty
-```
-
-
-to stop Git in the ghc repo from checking for unrecorded changes in the submodules.
-
 # Working with the tree
 
 ## Tricks
