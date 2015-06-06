@@ -69,10 +69,6 @@ This uses the `ssh://` protocol (which has much higher latency due to the SSH ha
 
 = Working with the tree =
 
-== Tricks ==
-
-See [wiki:WorkingConventions/Git/Tricks].
-
 == Commit messages ==
 
 Please try to follow the general convention for the [http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html Git commit message structure] as many Git tools rely on this. Moreover, take into account that the commit message text is interpreted as WikiFormatting in Trac.
@@ -87,9 +83,13 @@ In particular, if your patch addresses or fixes a bug/ticket, then include the t
 
 See: [wiki:WorkingConventions/FixingBugs how to contibute a patch to GHC].
 
-= Submodules =
+== Submodules ==
 
 GHC uses many git repositories which are tracked as Git submodules. For more information, check the [wiki:WorkingConventions/Git/Submodules Submodules] page.
+
+== Tricks ==
+
+See [wiki:WorkingConventions/Git/Tricks].
 
 = Branches =
 

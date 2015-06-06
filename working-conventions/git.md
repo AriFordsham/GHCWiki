@@ -74,11 +74,6 @@ This uses the `ssh://` protocol (which has much higher latency due to the SSH ha
 
 # Working with the tree
 
-## Tricks
-
-
-See [WorkingConventions/Git/Tricks](working-conventions/git/tricks).
-
 ## Commit messages
 
 
@@ -98,10 +93,15 @@ In particular, if your patch addresses or fixes a bug/ticket, then include the t
 
 See: [how to contibute a patch to GHC](working-conventions/fixing-bugs).
 
-# Submodules
+## Submodules
 
 
 GHC uses many git repositories which are tracked as Git submodules. For more information, check the [Submodules](working-conventions/git/submodules) page.
+
+## Tricks
+
+
+See [WorkingConventions/Git/Tricks](working-conventions/git/tricks).
 
 # Branches
 
