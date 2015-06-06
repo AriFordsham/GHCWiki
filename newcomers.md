@@ -181,8 +181,6 @@ Once you fix the bug or implement the new feature, make sure to [add a test](bui
 
 - Learn about our [git working conventions](working-conventions/git) and [git submodules](working-conventions/git/submodules).
 
-- I (Richard E) use emacs to edit the code, and I have a hotkey dedicated to searching the ghc codebase, and another one dedicated to compiling ghc. This makes work on ghc much more interactive. See [the Emacs page](emacs) for more info.
-
 ## Less practical advice
 
 - Don't get scared. GHC is a big codebase, but it makes sense when you stare at it long enough!
@@ -192,7 +190,7 @@ Once you fix the bug or implement the new feature, make sure to [add a test](bui
 ## Need help?
 
 
-You can email the [ ghc-devs](http://www.haskell.org/mailman/listinfo/ghc-devs) list, or Richard Eisenberg (`eir at cis . upenn . edu`), a newish GHC developer himself who would be happy to foster more participation and answer your emails.
+You can email the [ ghc-devs](http://www.haskell.org/mailman/listinfo/ghc-devs) list, or ask on irc in \#ghc.
 
 
 Happy hacking!

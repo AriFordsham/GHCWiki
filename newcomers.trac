@@ -66,8 +66,6 @@ Once you fix the bug or implement the new feature, make sure to [wiki:Building/R
 
 * Learn about our [WorkingConventions/Git git working conventions] and [WorkingConventions/Git/Submodules git submodules].
 
-* I (Richard E) use emacs to edit the code, and I have a hotkey dedicated to searching the ghc codebase, and another one dedicated to compiling ghc. This makes work on ghc much more interactive. See [wiki:Emacs the Emacs page] for more info.
-
 == Less practical advice ==
 
 * Don't get scared. GHC is a big codebase, but it makes sense when you stare at it long enough!
@@ -77,6 +75,6 @@ Once you fix the bug or implement the new feature, make sure to [wiki:Building/R
 
 == Need help? ==
 
-You can email the [http://www.haskell.org/mailman/listinfo/ghc-devs ghc-devs] list, or Richard Eisenberg (`eir at cis . upenn . edu`), a newish GHC developer himself who would be happy to foster more participation and answer your emails.
+You can email the [http://www.haskell.org/mailman/listinfo/ghc-devs ghc-devs] list, or ask on irc in #ghc.
 
 Happy hacking!
