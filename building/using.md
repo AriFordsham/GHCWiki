@@ -7,65 +7,6 @@ how to interact with the build system when you're developing some part
 of GHC, its libraries or tools.  The section aims to be comprehensive;
 for a quick start, read [Building/Hacking](building/hacking) first.
 
-## Source trees and build trees
-
-
-Sometimes we want to separate the build tree from the source tree.
-There are a few advantages to doing this:
-
-- You can make multiple different builds from the same sources,
-  perhaps for testing different build settings, or for building
-  on different platforms.
-
-- You might want to put the source tree on a remote, backed-up,
-  filesystem, but keep your build tree on a local fast unbacked-up
-  drive (this is a configuration we use regularly at GHC HQ).  It
-  doesn't matter if you lose the build tree: it can easily be
-  regenerated.
-
-- It's easy to blow away a build tree and start again, without
-  modifying your source tree.  `make maintainer-clean` is usually
-  good for this too, but it can miss files that it doesn't know
-  about, or files that are remnants from older versions of GHC.
-
-- It helps to avoid mistakes whereby you edit a file that happens
-  to be automatically generated, instead of the original source
-  file (e.g. editing `config.mk` instead of `config.mk.in`).  If
-  you only edit files in the source tree, then this can't happen.
-
-
-However, if you just want to build the software once on a single
-platform, then your source tree can also be your build tree, and you
-can skip the rest of this section.
-
-**Windows users**: so far as we know, symbolic links do not work right on MSYS at least, so we never use separate source and build trees on Windows.
-
-**Mac OS X 10.8 users**: Apple no longer includes X11 with Xcode (which provided `lndir`). Install [ XQuartz](http://xquartz.macosforge.org/landing/) \>= 2.7.2 or build it directly in `utils/lndir` (as below).
-
-
-A *build tree* is just an exact copy of the source tree, except that
-every file in it is a symbolic link to the appropriate file in the
-source tree.  There are "standard" Unix utilities that make such
-copies, so standard that they go by different names: `lndir` and
-`mkshadowdir` are two (If you don't have either, the GHC source
-tree contains sources for the X11 `lndir` check out
-`utils/lndir`).  To create a separate build tree, the typical sequence is something like this:
-
-```wiki
-  $ mkdir ghc-build
-  $ cd ghc-build
-  $ lndir <source>
-  $ ln -s <source>/.git .
-```
-
-
-Where `<source>` is the directory containing your source tree.  Note the last step: GHC's `configure` script likes to see the `.git` directory, and by default `lndir` will not link `.git` directories.  Things will still work if you omit this step, but the GHC version number for your build won't contain the date (i.e. it will be "7.7" instead of something like "7.7.20121218").
-
-
-You need to be a bit careful when using a build tree, that any new files you create
-(if you do any development work) are in the source tree, not the build
-tree!  This is especially easy to mess up when creating new tests, so watch out.
-
 ## Booting, configuring, cleaning
 
 
