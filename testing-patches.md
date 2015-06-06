@@ -1,7 +1,10 @@
 # Validating Patches
 
 
-We have a strict policy for validating patches before pushing them. First make sure you read either [How to fix a bug](working-conventions/fixing-bugs) or [How to add a feature](working-conventions/adding-features), and the page about [How to add a test](building/running-tests/adding).
+We have a strict policy for validating [patches](working-conventions/fixing-bugs) before pushing them.
+
+
+First, [add a new test](building/running-tests/adding) for your patch, and [run it](building/running-tests/running).
 
 ## How to validate patches
 
