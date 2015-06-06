@@ -100,7 +100,3 @@ and to start GHCi, just add the `--interactive` flag.  You can also see what pac
 {{{
 $ ./inplace/bin/ghc-pkg list
 }}}
-
-== Old stuff ==
-
-[http://www.youtube.com/watch?v=zkMJ6GQpGyc&list=PLBkRCigjPwyeCSD_DFxpd246YIF7_RDDI Video: Getting and Building], layout of the source tree, how to set up build.mk (23'43")
