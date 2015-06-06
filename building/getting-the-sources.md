@@ -43,28 +43,6 @@ Notes:
 
 - The above directions are valid for cloning GHC 7.9 or newer. For cloning GHC 7.8 or earlier, see the [legacy](building/getting-the-sources/legacy) instructions.
 
-## Making a new workdir
-
-
-I (ezyang) use Git workdirs to manage all of my GHC checkouts. It is quite nice: there is logically only one local repository, and just many checkouts of it, so it's very easy to share patches between various checkouts and your branches are all in one centralized place. However, sharing all of your submodules too takes a bit of work to setup, since Git doesn't natively support this workflow.
-
-
-Here's what I do:
-
-1. Start by making some pristine GHC checkout (call it `ghc-pristine`) which is an ordinary Git clone of the main GHC repository.
-
-1. Remove all of the submodules that Git recursively created. This is because they are in the wrong format. You can do it with this command: `for i in `git submodule status | cut -d' ' -f3`; do rm -rf $i; done`
-
-1. Re-checkout the submodules using a normal git clone, rather than the submodule tool. This can be done with this command: `for i in `git submodule status | cut -d' ' -f2`; do git clone git://git.haskell.org/`echo "$i" | sed s/libraries/packages/ | sed s/utils\\///`.git $i; done` (On OS X you might have to escape the backslash two more times)
-
-1. Finish off the configuration by running `git submodule init` and `git submodule update`
-
-
-Now, to create a new workdir, run `git-new-workdir ghc-pristine ghc-newdir`, and then inside `ghc-newdir`, run `for i in `git submodule status | cut -d' ' -f2`; do rmdir $i; git-new-workdir ../ghc-pristine/$i $i; done` to recursively make workdirs of all the submodules.
-
-
-ToDo: Someone should scriptify this.
-
 ## Getting a branch
 
 
