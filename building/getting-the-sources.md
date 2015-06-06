@@ -52,24 +52,6 @@ And then read [Git Working Conventions](working-conventions/git) for instruction
 
 - If you have **push access**, see the [Git Working Conventions - Push Access](working-conventions/git#push-access) for info on setting your push URLs.
 
-## Making a local clone
-
-TODO investigate&document `--reference`-based `git clone` which may work better with submodules and doesn't require resetting the origin Repo back to `git.haskell.org`
-
-
-You can make a local clone of a GHC tree with
-
-```wiki
- $ git clone ~/ghc ~/ghc-branch
-```
-
-
-where `~/ghc` is the repository you want to branch and `~/ghc-branch` is where you want to put the branch. Then use `sync-all` (see [Building/SyncAll](building/sync-all)) to clone the rest of the repositories.  Note that the `origin` for the local clone will point back to the repository that it was cloned from - if you want `origin` to point back to the main GHC repo then do this:
-
-```wiki
-  $ ./sync-all -r git://git.haskell.org remote set-url origin
-```
-
 ## Making a new workdir
 
 
