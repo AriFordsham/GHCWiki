@@ -20,7 +20,7 @@ and then edit `mk/build.mk` to select the build you want.  If you're not sure wh
 want, just uncommenting this line
 
 ```wiki
-#BuildFlavour = quick
+#BuildFlavour = devel2
 ```
 
 
