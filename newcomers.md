@@ -174,12 +174,7 @@ Tasks:
 
 ## Practical advice
 
-- The following page describes in more detail the steps you are expected to take for submitting a bugfix: [WorkingConventions/FixingBugs](working-conventions/fixing-bugs). Notably:
-
-  - make sure to [add a test](building/running-tests/adding) to the [testsuite](building/running-tests)
-  - submit a code review to [Phabricator](phabricator).
-
-- Learn about our [git working conventions](working-conventions/git) and [git submodules](working-conventions/git/submodules).
+- Read up on the steps you are expected to take for [contributing a bug fix to GHC](working-conventions/fixing-bugs).
 
 ## Less practical advice
 

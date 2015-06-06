@@ -59,11 +59,7 @@ Tasks:
 
 == Practical advice ==
 
-* The following page describes in more detail the steps you are expected to take for submitting a bugfix: [wiki:WorkingConventions/FixingBugs]. Notably:
-    * make sure to [wiki:Building/RunningTests/Adding add a test] to the [wiki:Building/RunningTests testsuite]
-    * submit a code review to [wiki:Phabricator].
-
-* Learn about our [WorkingConventions/Git git working conventions] and [WorkingConventions/Git/Submodules git submodules].
+* Read up on the steps you are expected to take for [wiki:WorkingConventions/FixingBugs contributing a bug fix to GHC].
 
 == Less practical advice ==
 
