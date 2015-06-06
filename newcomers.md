@@ -173,11 +173,11 @@ Tasks:
 <td>Make JUnit report stdout/stderr in more cases</td></tr></table>
 
 
-Once you fix the bug or implement the new feature, make sure to write a test-case proving that you've done what you said. Then take some time to get to know and submit a code review to [Phabricator](phabricator). If the patch looks good, one of the committers will put it into the GHC codebase. Then, tackle another bug!
+Once you fix the bug or implement the new feature, make sure to [add a test](building/running-tests/adding) to the [testsuite](building/running-tests) proving that you've done what you said. Then take some time to get to know and submit a code review to [Phabricator](phabricator). If the patch looks good, one of the committers will put it into the GHC codebase. Then, tackle another bug!
 
 ## Practical advice
 
-- [This page](working-conventions/fixing-bugs) describes in more detail workflow for fixing bugs.
+- [This page](working-conventions/fixing-bugs) describes in more detail the steps you are expected to take for submitting a bugfix.
 
 - Learn about our [git working conventions](working-conventions/git) and [git submodules](working-conventions/git/submodules).
 

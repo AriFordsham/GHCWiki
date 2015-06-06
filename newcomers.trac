@@ -58,11 +58,11 @@ Tasks:
 [[TicketQuery(status=infoneeded,status=new,keywords=~newcomer,owner=,type=task)]]
 
 
-Once you fix the bug or implement the new feature, make sure to write a test-case proving that you've done what you said. Then take some time to get to know and submit a code review to [wiki:Phabricator]. If the patch looks good, one of the committers will put it into the GHC codebase. Then, tackle another bug!
+Once you fix the bug or implement the new feature, make sure to [wiki:Building/RunningTests/Adding add a test] to the [wiki:Building/RunningTests testsuite] proving that you've done what you said. Then take some time to get to know and submit a code review to [wiki:Phabricator]. If the patch looks good, one of the committers will put it into the GHC codebase. Then, tackle another bug!
 
 == Practical advice ==
 
-* [WorkingConventions/FixingBugs This page] describes in more detail workflow for fixing bugs.
+* [WorkingConventions/FixingBugs This page] describes in more detail the steps you are expected to take for submitting a bugfix.
 
 * Learn about our [WorkingConventions/Git git working conventions] and [WorkingConventions/Git/Submodules git submodules].
 
