@@ -15,7 +15,7 @@ Back to [GarbageCollectorNotes](garbage-collector-notes)
 - FUN - functions
 - IND - indirections - what is left behind after thunk evalution since we dont know who all would be referring to the thunk. 
 - TSO - thread state object - see discussion at [CapabilitiesAndScheduling](capabilities-and-scheduling)
-- PAP - partial application - a function onject to which only some arguements have been applied.
+- PAP - partial application - a function object to which only some arguements have been applied.
 
 # Backward Pointers
 
