@@ -3,6 +3,14 @@
 
 When working with GHC, there are a lot of ways you can use Git to make your life easier. Below are some of them:
 
+=== Ignoring unrecorded changes in submodules ===
+
+Use
+{{{
+  $ git config --global diff.ignoreSubmodules dirty
+}}}
+to stop Git in the ghc repo from checking for unrecorded changes in the submodules.
+
 === Locate commit by SHA1 ===
 
 You can use `http://git.haskell.org/.findhash/<sha1-prefix>` or the convenient form below (also available at the front page of http://git.haskell.org/):
