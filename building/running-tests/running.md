@@ -97,7 +97,7 @@ $ make CLEANUP=1 CLEAN_ONLY=YES
 ## Additional Packages
 
 
-Some of the tests in the testsuite rely on packages that aren't part of the standard libraries included with GHC. These tests will be skipped then unless you [install](debugging/installing-packages-inplace) the required packages for them.
+Some of the tests in the testsuite rely on packages that aren't part of the standard libraries included with GHC. These tests will be skipped then unless you [install](debugging/installing-packages-inplace) the required packages for them. Since we don't run these tests very often, some might be currently broken.
 
 
 The extra packages are:
