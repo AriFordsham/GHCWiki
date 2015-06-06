@@ -10,7 +10,7 @@ The following instructions assume that you have [got the sources](building/getti
 If you are starting from a `git` checkout then:
 
 ```wiki
-$ perl boot
+$ ./boot
 ```
 
 
