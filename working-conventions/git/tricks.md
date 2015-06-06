@@ -3,6 +3,18 @@
 
 When working with GHC, there are a lot of ways you can use Git to make your life easier. Below are some of them:
 
+### Ignoring unrecorded changes in submodules
+
+
+Use
+
+```wiki
+  $ git config --global diff.ignoreSubmodules dirty
+```
+
+
+to stop Git in the ghc repo from checking for unrecorded changes in the submodules.
+
 ### Locate commit by SHA1
 
 
