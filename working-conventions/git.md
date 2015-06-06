@@ -96,7 +96,7 @@ In particular, if your patch addresses or fixes a bug/ticket, then include the t
 ## Contributing patches
 
 
-The best and easiest way to contribute patches is to upload them to [Phabricator](phabricator).  Other developers can review and comment on your patch, our automated systems will build and test it, and we can easily commit it when it's ready.
+See: [how to contibute a patch to GHC](working-conventions/fixing-bugs).
 
 # Submodules
 
