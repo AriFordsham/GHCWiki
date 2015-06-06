@@ -1,12 +1,15 @@
 # Validating Patches
 
 
-We have a strict policy for validating patches before pushing them. First make sure you read either [How to fix a bug](working-conventions/fixing-bugs) or [How to add a feature](working-conventions/adding-features), and the page about [How to add a test](building/running-tests/adding).
+When you [contribute a patch](working-conventions/fixing-bugs) to GHC, it has to be validated before we push it to the master branch.
+
+
+First, [add a new test](building/running-tests/adding), and [run it](building/running-tests/running).
 
 ## How to validate patches
 
 
-There are three ways to validate your patches.
+There are three ways to validate your patch.
 
 ### Phabricator
 
