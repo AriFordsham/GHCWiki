@@ -1,14 +1,7 @@
 # Getting the GHC Sources
 
 
-There are two ways to get sources to GHC: download a source distribution, or get the sources directly from our repository using [ git](http://git-scm.com/).
-
-
-See the [building guide](building), notably the following three sections, for how to proceed after you have succeeded with one of those methods:
-
-- [Setting up your system for building GHC (including platform specific instructions)](building/preparation)
-- [Quick Start to just building and installing GHC](building/quick-start)
-- [Quick Start to using the build system as a developer](building/hacking)
+There are two ways to get sources to GHC: download a source distribution, or clone the [ git](http://git-scm.com/) repository.
 
 ## Source distributions
 
@@ -16,14 +9,9 @@ See the [building guide](building), notably the following three sections, for ho
 A source distribution is a file like `ghc-7.8.3-src.tar.xz`, which contains a complete snapshot of the source tree for a particular version of GHC. Source distributions for all versions of GHC are available from the [download page](http://www.haskell.org/ghc/download).
 
 
-Source distributions are easier to build, because we also include the output from running certain external tools like [ Happy](http://haskell.org/happy), so you don't need to install these tools (see below for more).
+Source distributions are easier to build, because we also include the output from running certain external tools like [ Happy](http://haskell.org/happy), so you don't need to install these tools.
 
 ## Git clone
-
-
-The first thing to do is install [ git](http://git-scm.com/). 
-
-**Note:** The following directions are valid for cloning GHC 7.9 or newer. For cloning GHC 7.8 or earlier, see the [legacy](building/getting-the-sources/legacy) instructions.
 
 
 On Unix-like systems (Linux, OS X), a complete GHC source tree can be obtained (located in `ghc`) by saying:
@@ -46,11 +34,14 @@ A source tree consists of more than one repository: at the top level there is th
 
 And then read [Git Working Conventions](working-conventions/git) for instructions on how to use Git with GHC development.
 
+
+Notes:
+
 - `git.haskell.org` is reachable via IPv6 as well as IPv4.
 
 - If you're behind a **firewall blocking port 9418** (or `git clone git://...` fails for some other reason), try replacing `git://` by `http://` or `https://` in the instructions above.
 
-- If you have **push access**, see the [Git Working Conventions - Push Access](working-conventions/git#push-access) for info on setting your push URLs.
+- The above directions are valid for cloning GHC 7.9 or newer. For cloning GHC 7.8 or earlier, see the [legacy](building/getting-the-sources/legacy) instructions.
 
 ## Making a new workdir
 
