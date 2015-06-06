@@ -112,29 +112,6 @@ In particular, if your patch addresses or fixes a bug/ticket, then include the t
 
 The best and easiest way to contribute patches is to upload them to [Phabricator](phabricator).  Other developers can review and comment on your patch, our automated systems will build and test it, and we can easily commit it when it's ready.
 
-
-Alternatively you can send a patch to the mailing list using git.  Please write your patch and then rebase to the latest version of GHC HEAD before sending to us. You can use the following command to send patches via email:
-
-```wiki
-git send-email --to=ghc-devs@haskell.org <hash-id> -1
-```
-
-
-where `<hash-id>` is the hash of the commit to send. If you'd prefer to create patch files and send them via email another way (or attach them to trac tickets) then you can use this command:
-
-```wiki
-git format-patch [-o <outputdir>] <revision range>
-```
-
-
-Where `<revision range>` specifies the commit that git should stop at when going from HEAD backwards, creating a patch for each commit in the range \<revision range\>..HEAD.
-
-## Applying patches from email
-
-```wiki
-git am -3 <email>
-```
-
 # Submodules
 
 
