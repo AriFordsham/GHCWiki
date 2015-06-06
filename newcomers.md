@@ -22,7 +22,7 @@ cd mk
 cp build.mk.sample build.mk
 ## edit build.mk to remove the comment marker # on the line "BuildFlavour = quick"
 cd ..
-perl boot
+./boot
 ./configure
 
 # build GHC
