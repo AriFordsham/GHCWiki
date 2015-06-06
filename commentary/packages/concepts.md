@@ -159,7 +159,7 @@ If I have a package foo-0.2 which depends on a library bar-0.1, but not in any e
 
 <table><tr><th>Hot swappable libraries</th>
 <td>
-If I install a library and it's assigned ABI hash 123abc, and then I install a number of libraries that depend on it, hot swappable library means that I can replace that installed library with another version with the same ABI hash, and everything will keep working. This feature is accidentally supported by GHC today, but no one uses it (because ABIs are not stable enough), and supporting this mode of use is lowest priority.
+If I install a library and it's assigned ABI hash 123abc, and then I install a number of libraries that depend on it, hot swappable library means that I can replace that installed library with another version with the same ABI hash, and everything will keep working. This feature is accidentally supported by GHC today, but no one uses it (because ABIs are not stable enough); we are willing to break this mode of use to support other features.
 </td></tr></table>
 
 ## ezyang's proposal
