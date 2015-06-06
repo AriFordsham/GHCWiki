@@ -1,3 +1,13 @@
+{{{#!comment
+A note to editors. I (thomie) came up with the following structure:
+* Building/GettingTheSources: for initial cloning instructions only
+* WorkingConventions/Git (this page): for HELPING developers use git effectively with ghc.
+* WorkingConventions/FixingBugs: for the RULES that we want contributors to follow for submitting patches. That includes git commit naming conventions.
+
+By moving some git stuff to the FixingBugs page, we end up with a single page for how to contribute to GHC, which is easier to refer to and to use as a checklist.
+}}}
+
+
 = How to contribute a patch to GHC =
 
 Here's how to submit a bug fix to GHC. For [wiki:WorkingConventions/AddingFeatures adding features], there are a few extra steps to follow.
