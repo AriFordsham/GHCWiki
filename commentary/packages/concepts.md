@@ -52,6 +52,7 @@ What is the full set of source which I can use to reproduceably build a build pr
 
 - In today's Cabal, you could approximate this by taking \[WEAK SOURCE\] of a package, as well as all of its transitive dependencies. Call this \[WEAK NIX\].
 - The Nix approach is to ensure deterministic builds by taking the hash of the source \[STRONG SOURCE\] and also recursively including the \[NIX\] of each direct dependency. Call this \[STRONG NIX\].
+- Note that \[ABI\] does NOT imply \[NIX\]; a package might be binary compatible but do something different, and in a Nix model they should be recorded differently.
 
 </td></tr></table>
 
