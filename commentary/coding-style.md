@@ -34,6 +34,9 @@ x86_regUsageOfInstr :: Platform -> Instr -> RegUsage
 
 We use Haddock so that the comment is included in the generated HTML documentation.
 
+
+There's a bit of a broken window effect going on, but please try to follow this rule for new functions you add.
+
 ### Comments in the source code
 
 
