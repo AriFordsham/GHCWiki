@@ -3,6 +3,9 @@
 
 There are two ways to get sources to GHC: download a source distribution, or get the sources directly from our repository using [ git](http://git-scm.com/).
 
+
+See the [building guide](building), notably [Building/Preparation](building/preparation), for how to proceed after this.
+
 ## Source distributions
 
 
@@ -11,12 +14,12 @@ A source distribution is a file like `ghc-7.8.3-src.tar.xz`, which contains a co
 
 Source distributions are easier to build, because we also include the output from running certain external tools like [ Happy](http://haskell.org/happy), so you don't need to install these tools (see below for more).
 
-## Quickly getting the GHC source repository
+## Git clone
 
 
-The first thing to do is install [ git](http://git-scm.com/). You'll also need some tools - see [Building/Preparation](building/preparation) for details.
+The first thing to do is install [ git](http://git-scm.com/). 
 
-**Note:** The following directions are valid for cloning GHC 7.9 or newer. For cloning GHC 7.8 or earlier, see [below](building/getting-the-sources#).
+**Note:** The following directions are valid for cloning GHC 7.9 or newer. For cloning GHC 7.8 or earlier, see the [legacy](building/getting-the-sources/legacy) instructions.
 
 
 On Unix-like systems (Linux, OS X), a complete GHC source tree can be obtained (located in `ghc`) by saying:
@@ -108,7 +111,7 @@ and switch between branches on an existing clone by
   $ git submodule update --init
 ```
 
-**Note:** The instructions above apply to branches that contain the commit [\[db19c665ec5055c2193b2174519866045aeff09a/ghc\]](/trac/ghc/changeset/db19c665ec5055c2193b2174519866045aeff09a/ghc) which converted all sub-repos into submodules. To clone a branch prior to that commit, follow the instructions below instead. It is best not to attempt to cross that commit with `git checkout`; instead make a fresh clone of the desired branch directly.
+**Note:** The instructions above apply to branches that contain the commit [\[db19c665ec5055c2193b2174519866045aeff09a/ghc\]](/trac/ghc/changeset/db19c665ec5055c2193b2174519866045aeff09a/ghc) which converted all sub-repos into submodules. To clone a branch prior to that commit, follow the [legacy](building/getting-the-sources/legacy) instructions instead. It is best not to attempt to cross that commit with `git checkout`; instead make a fresh clone of the desired branch directly.
 
 ## Getting a tag
 
@@ -116,6 +119,9 @@ and switch between branches on an existing clone by
 Starting with GHC 7.10.1, you can simply clone a specific tag via:
 
 `git clone -b ghc-7.10.1-release --recursive git://git.haskell.org/ghc.git ghc-7.10.1`
+
+
+For 7.8 or earlier, follow the [legacy](building/getting-the-sources/legacy) instructions.
 
 ## Getting a GHC repository from GitHub
 
