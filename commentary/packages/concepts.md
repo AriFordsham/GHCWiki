@@ -31,6 +31,10 @@ What symbol names should we put in the binary? (e.g., the "foozm0zi1" in   "fooz
 <table><tr><th>\[ABI\]</th>
 <td>
 When can I swap out one compiled package with another WITHOUT recompiling, i.e. what is the ABI of the package? Equal ABIs implies equal symbols, though not vice versa. ABI is usually computed after compilation is complete.
+
+- ABI can serve as correctness condition: if we link against a specific ABI, we can be sure that anything with an equivalent ABI won't cause our package to segfault.
+- ABI can also serve as an indirection: we linked against an ABI, anything that is compatible can be hotswapped in without compilation. In practice, this capability is rarely used by users because it's quite hard to compile a package multiple times with the same ABI, because (1) compilation is nondeterministic, and (2) even if no types change, a change in implementation can cause a different exported unfolding, which is ABI relevant.
+
 </td></tr></table>
 
 <table><tr><th>\[SOURCE\]</th>
@@ -150,7 +154,12 @@ If I have package foo compiled against bar-0.1, and baz compiled against bar-0.2
 
 <table><tr><th>Private dependencies</th>
 <td>
-If I have a package foo-0.2 which depends on a library bar-0.1, but not in any externally visible way, it should be allowed for a client to separately use bar-0.2. This is LOWEST priority; amusingly, in 7.10, this is already supported by GHC, but not by Cabal.
+If I have a package foo-0.2 which depends on a library bar-0.1, but not in any externally visible way, it should be allowed for a client to separately use bar-0.2. This is LOW priority; amusingly, in 7.10, this is already supported by GHC, but not by Cabal.
+</td></tr></table>
+
+<table><tr><th>Hot swappable libraries</th>
+<td>
+If I install a library and it's assigned ABI hash 123abc, and then I install a number of libraries that depend on it, hot swappable library means that I can replace that installed library with another version with the same ABI hash, and everything will keep working. This feature is accidentally supported by GHC today, but no one uses it (because ABIs are not stable enough); we are willing to break this mode of use to support other features.
 </td></tr></table>
 
 ## ezyang's proposal
