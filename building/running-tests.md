@@ -3,8 +3,15 @@
 
 GHC includes a comprehensive testsuite for catching any regressions.
 
+## Using the Testsuite as a developer
 
-The testsuite relies primarily on **GNU Make** and **Python**. Any version \>= 2.6.2 will do.
+- [Running the testsuite](building/running-tests/running)
+- [Testsuite Settings and WAYS](building/running-tests/settings)
+- [Updating test case results](building/running-tests/updating)
+- [Adding new test cases](building/running-tests/adding)
+- [Testsuite implementation details](building/running-tests/details)
+
+## Using the Testsuite as a user
 
 
 If you just want to run the whole testsuite, then in the root of the GHC tree, typing:
@@ -29,11 +36,3 @@ The run time of the testsuite can be reduced by running it with multiple threads
 ```wiki
 $ make fulltest THREADS=6
 ```
-
-## Using the Testsuite
-
-- [Running the testsuite](building/running-tests/running)
-- [Testsuite Settings and WAYS](building/running-tests/settings)
-- [Updating test case results](building/running-tests/updating)
-- [Adding new test cases](building/running-tests/adding)
-- [Testsuite implementation details](building/running-tests/details)
