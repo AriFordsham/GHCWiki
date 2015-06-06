@@ -11,23 +11,6 @@ A source distribution is a file like `ghc-7.8.3-src.tar.xz`, which contains a co
 
 Source distributions are easier to build, because we also include the output from running certain external tools like [ Happy](http://haskell.org/happy), so you don't need to install these tools (see below for more).
 
-## Using git: preliminary setup
-
-
-Please make sure that you have the correct name and email address set for Git that you want your commits to be recorded as. Make sure you use the same name and email on all your machines so we can easily track a single author. This can be done in Git by running:
-
-```wiki
-$ git config --global user.name "Firstname Lastname"
-$ git config --global user.email "your_email@youremail.com"
-```
-
-
-Then, **if you are on Windows**, ensure that git handles line-endings sanely by running:
-
-```wiki
-$ git config --global core.autocrlf false
-```
-
 ## Quickly getting the GHC source repository
 
 
