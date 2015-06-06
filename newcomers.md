@@ -5,9 +5,7 @@ This page is intended to serve as the first stop for those people who say, "I wa
 
 ## First steps
 
-- To orient yourself to the general architecture of GHC, [ this article](http://www.aosabook.org/en/ghc.html), written by two of the chief architects of GHC, Simon Marlow and Simon Peyton-Jones, is excellent and current (2012).
-
-- While you're reading that article, download and build the sources. [Prepare](building/preparation) your machine, [download](building/getting-the-sources) the source, and [build](building/hacking). For the short, short version, which may or may not work for your machine, you can try this:
+[Prepare](building/preparation) your machine, [clone](building/getting-the-sources) the git repo, and [build](building/hacking) GHC. For the short, short version, which may or may not work for your machine, you can try this:
 
 ```
 # needed only once, URL rewrite rule is persisted in ${HOME}/.gitconfig
@@ -20,7 +18,7 @@ git clone git://github.com/ghc/ghc-tarballs.git  # Windows only
 # configure build
 cd mk
 cp build.mk.sample build.mk
-## edit build.mk to remove the comment marker # on the line "BuildFlavour = quick"
+## edit build.mk to remove the comment marker # on the line "BuildFlavour = devel2"
 cd ..
 ./boot
 ./configure
@@ -32,6 +30,8 @@ make -j8 # parallelize to at most 8 parallel jobs; adapt to actual number of cpu
 
 >
 > If your machine has all the prerequisites, this might just work. Expect it all to take roughly an hour.
+
+- While you are waiting for your build to finish, orient yourself to the general architecture of GHC. This [ article](http://www.aosabook.org/en/ghc.html) is written by two of the chief architects of GHC, Simon Marlow and Simon Peyton-Jones, is excellent and current (2012).
 
 - After a successful build, you should have your brand new compiler in `ghc/inplace/bin/ghc-stage2`. (GHCi is launched with `ghc/inplace/bin/ghc-stage2 --interactive`). Try it out.
 
