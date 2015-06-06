@@ -174,7 +174,7 @@ Tasks:
 
 ## Practical advice
 
-- Read up on the steps you are expected to take for [contributing a bug fix to GHC](working-conventions/fixing-bugs).
+- Read up on the steps you are expected to take for [contributing a patch to GHC](working-conventions/fixing-bugs).
 
 ## Less practical advice
 

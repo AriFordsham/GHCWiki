@@ -59,7 +59,7 @@ Tasks:
 
 == Practical advice ==
 
-* Read up on the steps you are expected to take for [wiki:WorkingConventions/FixingBugs contributing a bug fix to GHC].
+* Read up on the steps you are expected to take for [wiki:WorkingConventions/FixingBugs contributing a patch to GHC].
 
 == Less practical advice ==
 
