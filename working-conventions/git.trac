@@ -131,5 +131,5 @@ This uses the `ssh://` protocol (which has much higher latency due to the SSH ha
 
 * If possible, commit often.  This helps to avoid conflicts.
 
-== General git tips ==
+== More git tips ==
 The [wiki:WorkingConventions/Git/Tricks Git Tricks] page describes some more suggestions and tips for using Git.
