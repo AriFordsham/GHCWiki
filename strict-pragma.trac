@@ -240,6 +240,10 @@ in body
 }}}
 Note that the bang has no effect at all in this case
 
+=== Interaction with irrefutable patterns ===
+
+With `-XStrict` the `~` is used to recover ordinary patterns, to build an irrefutable pattern  `~~` is used.
+
 == Implementation ==
 
 TODO: Find all the places where we do special things for bang patterns and list them here.
