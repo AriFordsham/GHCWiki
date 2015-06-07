@@ -16,7 +16,7 @@ This page will help you to use git effectively when [wiki:WorkingConventions/Fix
 == A single GHC git tree ==
 
 === Submodules ===
-See [wiki:/WorkingConventions/Git/Submodules git submodules] when making changes to other repositories in a GHC tree.
+See [wiki:/WorkingConventions/Git/Submodules git submodules] when making changes to one of the libraries or utils that have their own repository in a GHC tree.
 
 === Branches ===
 

@@ -8,7 +8,7 @@ This page will help you to use git effectively when [contributing patches to GHC
 ### Submodules
 
 
-See [git submodules](working-conventions/git/submodules) when making changes to other repositories in a GHC tree.
+See [git submodules](working-conventions/git/submodules) when making changes to one of the libraries or utils that have their own repository in a GHC tree.
 
 ### Branches
 
