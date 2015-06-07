@@ -21,20 +21,12 @@ Note that `arc` (the ghc patch submission tool) is installed in the image (altho
 
 ## Fedora
 
-- `glibc-devel`
-- `ncurses-devel`
-- `gmp-devel`
-- `autoconf`
-- `automake`
-- `libtool`
-- `gcc`
-- `make`
-- `perl`
-- `python`
-- `ghc`
-- `happy`
-- `alex`
-- `git`
+
+Install the [ required tools](https://ghc.haskell.org/trac/ghc/wiki/Building/Preparation/Tools) using the following command for Fedora 22 and later (for earlier versions of Fedora, use `yum` instead of `dnf`):
+
+```wiki
+ sudo dnf install glibc-devel ncurses-devel gmp-devel autoconf automake libtool gcc make perl python ghc happy alex git
+```
 
 
 For building the documentation: (User's Guide and Cabal guide):
