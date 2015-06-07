@@ -131,4 +131,4 @@ This uses the `ssh://` protocol (which has much higher latency due to the SSH ha
 ## General git tips
 
 
-The [Git Tricks](working-conventions/git/tricks) page describes some non-GHC specific suggestions and tips for using Git.
+The [Git Tricks](working-conventions/git/tricks) page describes some more suggestions and tips for using Git.
