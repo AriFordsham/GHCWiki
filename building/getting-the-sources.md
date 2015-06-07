@@ -14,9 +14,6 @@ Source distributions are easier to build, because we also include the output fro
 ## Git
 
 
-{{{!comment
-1.7.8 is the first release where submodule/.git is a file instead of directory. Might or might not be important when using git new-workdir below.  
-}}}
 GHC uses Git for revision control (version 1.7.8 or newer recommended).
 
 ### Cloning HEAD
