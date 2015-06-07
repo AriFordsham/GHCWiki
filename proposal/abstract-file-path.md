@@ -1,0 +1,95 @@
+**WORK-IN-PROGRESS - NOT READY FOR PUBLICATION YET**
+
+# Abstract `FilePath` Proposal (AFPP)
+
+*Herbert Valerio Riedel & Neil Mitchell*
+
+## Motivation
+
+
+The [ Haskell2010](https://www.haskell.org/onlinereport/haskell2010/)`Prelude` defines
+
+```
+typeFilePath=String
+```
+
+
+This representation has several shortcomings:
+
+- Inefficient in both time and space due to `[Char]`:
+
+  - On 64bit GHC it typically allocates 24 bytes per `FilePath`-character.
+  - Heap fragmentation as each character is represented by a separate heap object.
+  - Manipulating `FilePath` values involves lots of costly pointer chasing.
+
+- Requires conversions/allocations for each system-call
+  (e.g. POSIX this requires conversion to/from `CString`) as well as
+  validations.
+
+- Round-tripping issues, where files have their underlying encoding lost on conversion to `String`.
+
+- Not type-safe by being a synonym of `String`.
+
+- Different types of representation in packages such as
+  [ hackage:posix-paths](http://hackage.haskell.org/package/posix-paths) and
+  the [ hackage:unix](http://hackage.haskell.org/package/unix) package (e.g. `System.Posix.*.ByteString`)
+
+
+One approach would be to create a new `FilePath` type, while leaving
+`type FilePath = String` in place.  However, since the
+`Prelude.FilePath` type is ubiquitously used in many APIs, this would
+either amount to duplicate APIs or require conversions between the old
+and the new `FilePath` type.
+
+## Proposal
+
+
+Instead, we propose to phase out `type FilePath = String` in 3 phases:
+
+<table><tr><th>**Phase 1**</th>
+<td>Introduce conversion functions for
+forward-compatibility in the `filepath` package:
+</td></tr></table>
+
+```
+moduleSystem.FilePathwhere-- | Total Unicode-friendly encodingtoFilePath::String->FilePathtoFilePath= id
+
+fromFilePath::FilePath->StringfromFilePath= id
+```
+
+<table><tr><th>**Phase 2**</th>
+<td>Have GHC warn when a `String`-value is used where the
+`FilePath` synonym is expected
+</td></tr></table>
+
+> TODO needs investigation if it's feasible to implement
+
+<table><tr><th>**Phase 3**</th>
+<td>Make `FilePath` abstract in `base`, i.e. make
+`FilePath` into a `newtype`/`data` but don't export its
+constructor via non-internal modules. `Prelude` would continue to
+export the type `FilePath`.
+</td></tr></table>
+
+>
+> Since the internal details are not exposed, they can be changed later,
+> but we envisage:
+
+```
+-- | Internal module exposing internals needed for add-on packages to-- provide efficient operations involving `FilePath`smoduleGHC.FilePath(FilePath(..),...)where...-- Using unpinned bytearrays to avoid Heap fragmentation and-- which are reasonably cheap to pass to FFI calls-- wrapped with typeclass-friendly types allowing to avoid CPP-- dataWindowsFilePath=WFPByteArray#-- UTF16 datadataPosixFilePath=PFPByteArray#-- char[] data as passed to syscalls#ifdef WINDOWStypePlatformFilePath=WindowsFilePath#elif POSIXtypePlatformFilePath=PosixFilePath#else#error"no filepath representation available for this platform yet"#endif
+
+-- | Type representing filenames/pathnamesnewtypeFilePath=FilePathPlatformFilePath-- constructor not exported from PreludeinstanceIsStringFilePathwhere fromString = toFilePath
+
+-- | \"String-Concatenation\" for 'FilePaths'---- This allows to write forward-compatible code for Haskell2010 'FilePath`s---- E.g. code can be written like---- > tarfname = basedir </> "ghc-" <> ver <> "~" <> gitid <.> "tar.xz"---- That has the same semantics with pre-AFPP and post-AFPP 'FilePath's---- NB: 'mappend' is *not* the same as '(</>)', but rather matches the semantics for pre-AFPP 'FilePaths'instanceMonoidFilePathwhere mappend a b =<...string-concat...>
+```
+
+
+Throughout the process, the `System.FilePath` module in the [ hackage:filepath](http://hackage.haskell.org/package/filepath) package would continue to expose the same API as now, changing with the internal `FilePath` definition as necessary.
+
+## Issues not addressed by this Proposal
+
+- This proposal does not define the platform/implementation-specific representation of the new `FilePath` type.
+
+## Decisions assumed by this Proposal
+
+- This propsoal assumes there is no type-level distinction of path-subtypes, e.g. relative/absolute or directory/file.
