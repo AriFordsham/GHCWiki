@@ -3,7 +3,7 @@
 
 This page will help you to use git effectively when [contributing patches to GHC](working-conventions/fixing-bugs), and extends upon the instructions provided in [getting the sources](building/getting-the-sources).
 
-## Working in a single git tree
+## A single GHC git tree
 
 ### Submodules
 
@@ -27,11 +27,6 @@ The live list of currently **existing** branches in the `ghc` repository can be 
 
 
 New development branches names should be prefixed with `wip/` (e.g. "`wip/dependent-types`"), as otherwise the current Git server-side configuration disallows branch deletion and [ non-fast-forward updates](http://stackoverflow.com/questions/4684352/whats-a-fast-forward-in-git).
-
-### Tips
-
-
-The [Git Tricks](working-conventions/git/tricks) page describes some non-GHC specific suggestions and tips for using Git.
 
 ## Working with a separate build tree
 
@@ -132,3 +127,8 @@ git config --global url."ssh://git@git.haskell.org/".pushInsteadOf git://git.has
 This uses the `ssh://` protocol (which has much higher latency due to the SSH handshake occurring for each connect) only for `git push` operations, and the very fast unauthenticated `git://` protocol for everything else (if you originally cloned `git://git.haskell.org/ghc.git`)
 
 - If possible, commit often.  This helps to avoid conflicts.
+
+## General git tips
+
+
+The [Git Tricks](working-conventions/git/tricks) page describes some non-GHC specific suggestions and tips for using Git.

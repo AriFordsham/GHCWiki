@@ -13,7 +13,7 @@ By moving some git stuff to the FixingBugs page, we end up with a single checkli
 
 This page will help you to use git effectively when [wiki:WorkingConventions/FixingBugs contributing patches to GHC], and extends upon the instructions provided in [wiki:Building/GettingTheSources getting the sources].
 
-== Working in a single git tree ==
+== A single GHC git tree ==
 
 === Submodules ===
 See [wiki:/WorkingConventions/Git/Submodules git submodules] when making changes to other repositories in a GHC tree.
@@ -31,8 +31,6 @@ The live list of currently **existing** branches in the `ghc` repository can be 
 
 New development branches names should be prefixed with `wip/` (e.g. "`wip/dependent-types`"), as otherwise the current Git server-side configuration disallows branch deletion and [http://stackoverflow.com/questions/4684352/whats-a-fast-forward-in-git non-fast-forward updates].
 
-=== Tips ===
-The [wiki:WorkingConventions/Git/Tricks Git Tricks] page describes some non-GHC specific suggestions and tips for using Git.
 
 == Working with a separate build tree ==
 
@@ -133,3 +131,5 @@ This uses the `ssh://` protocol (which has much higher latency due to the SSH ha
 
 * If possible, commit often.  This helps to avoid conflicts.
 
+== General git tips ==
+The [wiki:WorkingConventions/Git/Tricks Git Tricks] page describes some non-GHC specific suggestions and tips for using Git.
