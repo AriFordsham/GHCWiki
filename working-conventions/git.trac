@@ -11,8 +11,7 @@ By moving some git stuff to the FixingBugs page, we end up with a single checkli
 [[PageOutline]]
 = Using git with GHC =
 
-This page describes how to use Git for [wiki:WorkingConventions/FixingBugs contributing patches to GHC] and extends upon the
-instructions provided in [wiki:Building/GettingTheSources getting the sources].
+This page will help you to use git effectively when [wiki:WorkingConventions/FixingBugs contributing patches to GHC], and extends upon the instructions provided in [wiki:Building/GettingTheSources getting the sources].
 
 == Working in a single git tree ==
 
