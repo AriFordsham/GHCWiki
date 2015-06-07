@@ -8,11 +8,8 @@ Everything starts with the main GHC repository (see [wiki:Building/GettingTheSou
 
 == Files in `$(TOP)` ==
 
- '''`sync-all`'''::
-  [wiki:Building/SyncAll This script] allows you to get or pull all the additional repositories that you need to build GHC. The command-line interface is documented in the file itself.
-
  '''`packages`'''::
-  Lists the packages that `sync-all` should get or pull.  `packages` is looked at by `boot`, `sync-all` and `rules/extra-packages.mk`.
+  Despite the name "package", this file contains the master list of the *repositories* that make up GHC. It is parsed by `./boot`.
 
  '''`tarballs`'''::
   Lists the various tarballs (binary packages) that ghc relies on and where to unpack them during a build.
