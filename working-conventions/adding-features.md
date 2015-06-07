@@ -15,8 +15,6 @@ We welcome your involvement in making GHC able to do more. Here's how to do it.
 While we love new features, we think twice before incorporating them into GHC's main code base. Here are some things to bear in mind:
  
 
-- Your proposal does not need to be incorporated in the main GHC repository to be useful. The joy of Git is that you can send it to anyone, and they can use it quite independently.
-
 - It may seem that running 'git push' is practically free for us; you have done all the hard work.  But it isn't:
 
   - It effectively commits us to maintaining it indefinitely, and worrying about its interactions with existing features
