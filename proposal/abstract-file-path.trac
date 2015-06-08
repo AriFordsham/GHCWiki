@@ -4,7 +4,7 @@
 
 = Abstract `FilePath` Proposal (AFPP)
 
-''Herbert Valerio Riedel & Neil Mitchell''
+''Herbert Valerio Riedel, Neil Mitchell & Michael Snoyman''
 
 == Motivation
 
@@ -80,6 +80,9 @@ Instead, we propose to phase out `type FilePath = String` in 3 phases:
     -- which are reasonably cheap to pass to FFI calls
     -- wrapped with typeclass-friendly types allowing to avoid CPP
     -- 
+    -- Note that, while unpinned bytearrays incur a memcpy on each
+    -- FFI call, this overhead is generally much preferable to
+    -- the memory fragmentation of pinned bytearrays
     data WindowsFilePath = WFP ByteArray# -- UTF16 data
     data PosixFilePath   = PFP ByteArray# -- char[] data as passed to syscalls
     
