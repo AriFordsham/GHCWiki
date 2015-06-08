@@ -24,19 +24,26 @@ Note that `arc` (the ghc patch submission tool) is installed in the image (altho
 Install the [https://ghc.haskell.org/trac/ghc/wiki/Building/Preparation/Tools required tools] using the following command for Fedora 22 and later (for earlier versions of Fedora, use `yum` instead of `dnf`):
 
 {{{
- sudo dnf install glibc-devel ncurses-devel gmp-devel autoconf automake libtool gcc make perl python ghc happy alex git
+   sudo dnf install glibc-devel ncurses-devel gmp-devel autoconf automake libtool gcc make perl python ghc happy alex git
 }}}
 
 For building the documentation: (User's Guide and Cabal guide):
+(optional)
+{{{
+   sudo dnf install docbook-utils docbook-utils-pdf docbook-style-xsl
+}}}
 
- * `docbook-utils`
- * `docbook-utils-pdf`
- * `docbook-style-xsl`
+other  packages that are useful for development:
+(optional)
+{{{
+   sudo dnf install strace patch
+}}}
 
-other packages that are useful for development:
+Now the system should be ready to build GHC.
 
- * `strace`
- * `patch`
+For a quickstart, follow the commands listed under:
+
+https://github.com/ghc/ghc#building--installing
 
 == Debian, Ubuntu, and other Debian-based systems ==
 
