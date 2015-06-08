@@ -19,6 +19,9 @@ This mounts your ghc source code into the docker container.
 This way you can still hack on GHC with Emacs, etc, but you are just building from the docker container.
 Note that `arc` (the ghc patch submission tool) is installed in the image (although you can also use it from your docker host) along with vim-tiny for editing commit messages.
 
+
+Send pull requests to [ https://github.com/gregwebs/ghc-docker-dev](https://github.com/gregwebs/ghc-docker-dev) if something is out-of-date.
+
 ## Fedora
 
 
