@@ -2,7 +2,7 @@
 
 # Abstract `FilePath` Proposal (AFPP)
 
-*Herbert Valerio Riedel & Neil Mitchell*
+*Herbert Valerio Riedel, Neil Mitchell & Michael Snoyman*
 
 ## Motivation
 
@@ -76,7 +76,7 @@ export the type `FilePath`.
 > but we envisage:
 
 ```
--- | Internal module exposing internals needed for add-on packages to-- provide efficient operations involving `FilePath`smoduleGHC.FilePath(FilePath(..),...)where...-- Using unpinned bytearrays to avoid Heap fragmentation and-- which are reasonably cheap to pass to FFI calls-- wrapped with typeclass-friendly types allowing to avoid CPP-- dataWindowsFilePath=WFPByteArray#-- UTF16 datadataPosixFilePath=PFPByteArray#-- char[] data as passed to syscalls#ifdef WINDOWStypePlatformFilePath=WindowsFilePath#elif POSIXtypePlatformFilePath=PosixFilePath#else#error"no filepath representation available for this platform yet"#endif
+-- | Internal module exposing internals needed for add-on packages to-- provide efficient operations involving `FilePath`smoduleGHC.FilePath(FilePath(..),...)where...-- Using unpinned bytearrays to avoid Heap fragmentation and-- which are reasonably cheap to pass to FFI calls-- wrapped with typeclass-friendly types allowing to avoid CPP-- -- Note that, while unpinned bytearrays incur a memcpy on each-- FFI call, this overhead is generally much preferable to-- the memory fragmentation of pinned bytearraysdataWindowsFilePath=WFPByteArray#-- UTF16 datadataPosixFilePath=PFPByteArray#-- char[] data as passed to syscalls#ifdef WINDOWStypePlatformFilePath=WindowsFilePath#elif POSIXtypePlatformFilePath=PosixFilePath#else#error"no filepath representation available for this platform yet"#endif
 
 -- | Type representing filenames/pathnamesnewtypeFilePath=FilePathPlatformFilePath-- constructor not exported from PreludeinstanceIsStringFilePathwhere fromString = toFilePath
 
