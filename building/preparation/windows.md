@@ -1,7 +1,7 @@
 # Building GHC on Windows
 
 
-This page documents the instructions for setting up a Windows build using [ MSYS2](http://sourceforge.net/projects/msys2/), which is a fairly complete build of MinGW + the MSYS2 tools.
+This page documents the instructions for setting up a Windows build using [ MSYS2](http://sourceforge.net/projects/msys2/), which is a fairly complete build of \[mingw-w64.org/ MinGW-w64\] + the MSYS2 tools.
 
 
 This guide should get you running in \~5 minutes, modulo download speeds.
