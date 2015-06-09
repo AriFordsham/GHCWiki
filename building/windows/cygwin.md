@@ -1,4 +1,7 @@
-# Setting Up Cygwin for building GHC
+# Setting Up Cygwin for building GHC (unsupported)
+
+
+We no longer support Cygwin. This page is here only for historical reasons.
 
 1. Install [ Cygwin](http://www.cygwin.com/)
 
