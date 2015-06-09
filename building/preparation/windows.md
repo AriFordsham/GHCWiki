@@ -60,7 +60,7 @@ You should now be able to build GHC:
 cd ~ &&
 git clone --recursive git://git.haskell.org/ghc.git &&
 cd ghc &&
-./sync-all get
+git clone git://git.haskell.org/ghc-tarballs.git
 ```
 
 
