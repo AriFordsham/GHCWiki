@@ -79,86 +79,6 @@ TODO: Lots of fusion changes have happened in the last few months too - but thes
     - `max_bytes_used` increased in some cases, but not much, probably GC wibbles.
   - No major regressions, mostly wibbles.
 
-== The case of #10370 ==
-
-#10370 seems to be attributable to a change in b8392ae76a6d39c57be94b5ba041c450ab479e2b, which caused a large space leak it seems. This can be boiled down essentially to most of the allocations being done in `simplTopBinds -> completeCall -> addCoerce`, which was refactored in the aforementioned commit.
-
-As the attachments show, this seems to be a large growth in the usage of some `IntMap` types. However this seems to really be a problem that boils down to: `substExpr` (or something below it) seems inefficient when doing simplification.
-
-If you apply [https://gist.githubusercontent.com/thoughtpolice/26bb202459e747db5cd5/raw/2c506e8b615455bdab1e442aaf8b161310d0d007/T10370.patch the following patch], and run a profiled compiler over the testcase in #10370#comment:3, you get a result like this:
-
-{{{
-COST CENTRE        MODULE       %time %alloc
-
-CoreTidy           HscMain       25.7   24.1
-CompleteCall       Simplify       9.3    7.7
-AddCoerceSubstExpr Simplify       9.0   22.2
-tc_rn_src_decls    TcRnDriver     5.2    5.4
-
-...
-            SimpleExprF1App                       Simplify                  1584      198000    0.2    0.2    14.9   26.6
-             SimpleExprF1Cast                     Simplify                  1669        6000    0.0    0.0     0.1    0.0
-              SimpleCoercion                      Simplify                  1671        6000    0.1    0.0     0.1    0.0
-             SimpleExprF1Lam                      Simplify                  1590        3000    0.0    0.0     0.0    0.0
-             ApplyToVal                           Simplify                  1588      120000    0.0    0.0     0.0    0.0
-             ApplyToTy                            Simplify                  1587       78000    0.0    0.0     0.0    0.0
-             SimpleExprF1Var                      Simplify                  1585      159000    0.4    0.4    14.6   26.3
-              SimpleExprF1Cast                    Simplify                  1658        9000    0.0    0.0     0.5    0.3
-               SimpleCoercion                     Simplify                  1660        9000    0.4    0.3     0.4    0.3
-              SimpleExprF1Lit                     Simplify                  1593        3000    0.0    0.0     0.0    0.0
-              CompleteCall                        Simplify                  1586      123000    2.1    1.5    13.7   25.6
-               Typecheck-Rename                   HscMain                   1664           0    0.0    0.0     0.0    0.0
-                tcRnImports                       TcRnDriver                1665           0    0.0    0.0     0.0    0.0
-               SimpleExprF1Cast                   Simplify                  1659           0    0.0    0.0     0.1    0.0
-                AddCoerce                         Simplify                  1662        9000    0.1    0.0     0.1    0.0
-                 AddCoerceArgSe                   Simplify                  1677        3000    0.0    0.0     0.0    0.0
-                 AddCoercePair                    Simplify                  1663        6000    0.0    0.0     0.0    0.0
-                SimpleCoercion                    Simplify                  1661           0    0.0    0.0     0.0    0.0
-               SimpleExprF                        Simplify                  1648       21000    0.1    0.0    11.0   23.8
-                SimpleExprF1Cast                  Simplify                  1651        6000    0.0    0.0     9.8   22.9
-                 AddCoerce                        Simplify                  1653       21000    0.5    0.5     9.5   22.8
-                  AddCoercePairApplyToTy          Simplify                  1667        6000    0.0    0.0     0.0    0.0
-                  AddCoerceSplitForAllTy          Simplify                  1666        6000    0.0    0.0     0.0    0.0
-                  AddCoercePairApplyToVal         Simplify                  1657        9000    0.0    0.0     0.0    0.0
-                  AddCoerceSubstExpr              Simplify                  1656        9000    9.0   22.2     9.0   22.2
-                  AddCoerceDecomposeCo            Simplify                  1655        9000    0.0    0.0     0.0    0.0
-
-}}}
-
-... which points to this SCC:
-
-{{{#!hs
-simplCast :: SimplEnv -> InExpr -> Coercion -> SimplCont
-          -> SimplM (SimplEnv, OutExpr)
-simplCast env body co0 cont0
-  = do  { co1 <- {-# SCC "SimpleCoercion" #-} simplCoercion env co0
-        ; -- pprTrace "simplCast" (ppr co1) $
-          simplExprF env body (addCoerce co1 cont0) }
-  where
-       addCoerce co cont = {-# SCC "AddCoerce" #-} add_coerce co (coercionKind co) cont
-       ...
-       add_coerce co (Pair s1s2 t1t2) (ApplyToVal { sc_arg = arg, sc_env = arg_se
-         ...
-         = {-# SCC "AddCoercePairApplyToVal" #-} ApplyToVal { sc_arg  = mkCast arg' (mkSymCo co1)
-                      , sc_env  = zapSubstEnv arg_se
-                      , sc_dup  = dup
-                      , sc_cont = addCoerce co2 cont }
-         where
-           ...
-           arg'       = {-# SCC "AddCoerceSubstExpr" #-} substExpr (text "move-cast") arg_se' arg
-           ...
-}}}
-
-in `Simplify.hs`
-
-TODO: But we don't really use `IntMap` almost anywhere in GHC, except for the `TrieMap` module perhaps (and by extension a few places in `coreSyn`)! Need to trace this down more.
-
-TODO: I'm not sure if this scaled before; maybe the commit increased the amount of work `substExpr` now does, and it was always Somewhat inefficient?
-
-TODO: Revert aforementioned commit, and compare the HC profiles.
-
-TODO: Regenerate new HC profiles
-
 == Compile/build times ==
 
 (NB: Sporadically updated)
@@ -172,13 +92,17 @@ TODO: Regenerate new HC profiles
 
 Random note: GHC 7.10's build system actually disabled DPH (half a dozen more packages and probably a hundred extra modules), yet things *still* got slower over time!
 
+== Performance-related tickets ==
+
 Relevant tickets
 
  * #10370: OpenGLRaw
  * #10289: 2.5k static HashSet takes too much memory to compile
+   - Significantly improved in memory usage from #10370, but worse at overall wall-clock time!
  * #9669: slow compilation with lots of deriving clauses
  * #9583, #9630: code blowup in Generics/Binary
  * #10228: regression from 7.8.4 to 7.10.1
  * #7450, #7258: deriving Read generates gigantic code. Better now, but still not linear.
  * #7428: Non-linear compile time: addFingerprint??
+   - Still a huge problem with GHC 7.10.1: looks like quadratic behavior around `TidyCore`/`CorePrep`.
  * #2346: desugaring let-bindings 
