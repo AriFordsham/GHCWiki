@@ -1,6 +1,9 @@
 # Windows platforms: Cygwin, MSYS, and MinGW
 
 
+Warning. This page, although still useful, is somewhat out of date. There have been multiple forks in this space. We currently use [ MSYS2](http://sourceforge.net/projects/msys2/) instead of [ MSYS(1)](http://mingw.org/wiki/MSYS) and [ MinGW-W64](http://mingw-w64.org/) instead of the original [ MinGW](http://mingw.org/). And Cygwin is no longer supported for building GHC.
+
+
 The build system is built around UNIX Makefiles. Because it's not native, the Windows situation for building GHC is a little confusing. This section tries to outline the situation for building GHC on Windows.
 
 
