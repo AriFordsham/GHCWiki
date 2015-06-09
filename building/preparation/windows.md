@@ -97,6 +97,6 @@ Other documentation for Windows includes:
 - [MinGW/MSYS/Cygwin](building/platforms/windows) information for people new to using UNIX tools on Windows.
 - [Setting up a SSH Daemon](building/windows/sshd) on CygWin/MinGW and let's you treat Windows as yet another remote SSH session.
 - [Using MSYS1](building/preparation/windows/msy-s1) to build GHC (not recommended any more)
-- [Using Cygwin](building/windows/cygwin) to build GHC.
+- [Using Cygwin](building/windows/cygwin) to build GHC. (no longer supported)
 - [Using SSH](building/windows/ssh) on Windows.
 - [ Guidance on how to use Haskell on Windows](http://www.haskell.org/haskellwiki/Windows)
