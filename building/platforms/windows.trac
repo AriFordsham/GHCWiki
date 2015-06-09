@@ -1,5 +1,9 @@
 = Windows platforms: Cygwin, MSYS, and MinGW =
 
+{{{#!box note
+Warning. This page, although still useful, is somewhat out of date. There have been multiple forks in this space. We currently use [http://sourceforge.net/projects/msys2/ MSYS2] instead of [http://mingw.org/wiki/MSYS MSYS(1)] and [http://mingw-w64.org/ MinGW-W64] instead of the original [http://mingw.org/ MinGW]. And Cygwin is no longer supported for building GHC.
+}}}
+
 The build system is built around UNIX Makefiles. Because it's not native, the Windows situation for building GHC is a little confusing. This section tries to outline the situation for building GHC on Windows.
 
 If you are already familiar with using UNIX build tools on Windows and simply want to build GHC the jump to [http://hackage.haskell.org/trac/ghc/wiki/Building/Preparation/Windows build preparation].
