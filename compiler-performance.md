@@ -117,3 +117,4 @@ Relevant tickets
 
   - Still a huge problem with GHC 7.10.1: looks like quadratic behavior around `TidyCore`/`CorePrep`.
 - [\#2346](https://gitlab.haskell.org//ghc/ghc/issues/2346): desugaring let-bindings 
+- [\#10491](https://gitlab.haskell.org//ghc/ghc/issues/10491): Huge explosion in compilation time for `Accelerate`

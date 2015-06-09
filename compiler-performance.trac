@@ -106,3 +106,4 @@ Relevant tickets
  * #7428: Non-linear compile time: addFingerprint??
    - Still a huge problem with GHC 7.10.1: looks like quadratic behavior around `TidyCore`/`CorePrep`.
  * #2346: desugaring let-bindings 
+ * #10491: Huge explosion in compilation time for `Accelerate`
