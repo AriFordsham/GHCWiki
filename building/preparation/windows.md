@@ -25,8 +25,12 @@ If you are using a preexisting msys2 installation, consider upgrading all instal
 The msys2 package uses `pacman` (the venerable ArchLinux package manager) to manage packages. Let's install system dependencies required for building GHC:
 
 ```wiki
-pacman -Sy git tar binutils autoconf make libtool automake python2 p7zip patch gcc docbook-xsl dblatex
+pacman -Sy git tar binutils autoconf make libtool automake python2 p7zip patch gcc docbook-xsl
 ```
+
+
+Note: `dblatex` isn't available as a [ MSYS2 package](https://github.com/Alexpux/MSYS2-packages), so the user's guide won't be build in ps and pdf format (only html).
+  
 
 ## Host GHC setup
 
