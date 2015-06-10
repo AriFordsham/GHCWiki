@@ -5,7 +5,9 @@ We welcome your involvement in making GHC able to do more. Here's how to do it.
  0. Write down the '''specification''' of the feature and create a Wiki page for it.  Specifying before implementing is obviously a good idea; and it makes it possible for others to comment on your design before you invest heavily in building the feature.  [[BR]][[BR]]
  0. Get '''feedback''' by emailing a suitable list (`ghc-devs` for nitty-gritty GHC internals, `glasgow-haskell-users` for user-visible features).  Often you'll get useful ideas.  [[BR]][[BR]]
  0. Follow the instructions for '''[wiki:WorkingConventions/FixingBugs contributing a patch]'''.  [[BR]][[BR]]
- 0. Include updates to the '''user manual''' that documents your feature (`docs/users_guide/*`).  [[BR]][[BR]]
+ 0. Include updates to the '''user manual''' that documents your feature. For features that introduce a new flag, at least two sections need to be updated:
+    * The flag reference section in `docs/users-guide/flags.xml` lists all available flags together with a short description.
+    * The flag descriptions in `docs/users_guide/using.xml` provide a detailed explanation of each flags' usage. [[BR]][[BR]]
  0. Add a section to the latest '''release notes''' (`docs/users_guide/7.12.1-notes.xml`).
 
 == Things to bear in mind ==
