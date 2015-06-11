@@ -82,7 +82,7 @@ Fixing them could mean one of two things: Fix a bug in GHC (or the libraries) th
 #### I tried to fix them, but I got stuck
 
 
-If you can't fix them yourself, then first file a ticket for the problem so that it doesn't get forgotten about. First run the testsuite for just that test (e.g. `make fast TEST=thefailingtest`), and include the full testsuite output in the ticket description. If you found any information out that might be useful to someone later fixing the bug, add that too. Also, add the name of the test in the `Test Case` field.
+If you can't fix them yourself, then first file a ticket for the problem so that it doesn't get forgotten about. First run the testsuite for just that test (e.g. `make fast TEST=thefailingtest` in `testsuite` directory), and include the full testsuite output in the ticket description. If you found any information out that might be useful to someone later fixing the bug, add that too. Also, add the name of the test in the `Test Case` field.
 
 
 Then add `expect_broken(123)` to the test options for that test, where `123` is the number of the ticket you just opened. If the problem only applies in certain circumstances, then only mark it broken for those circumstances, e.g. `when(opsys('mingw32'), expect_broken(123))`.
