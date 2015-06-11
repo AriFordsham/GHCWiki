@@ -79,10 +79,7 @@ install\`.
 Builds a source distribution.  A source distribution is a source
 tree for GHC, complete with some extra files included for
 convenience so that the user doesn't need to install `autoconf`,
-`Happy`, or `Alex` in order to build it.  Hence `make sdist` only
-works in a completely built tree. Note:
-[ ghc-tarballs](https://ghc.haskell.org/trac/ghc/wiki/Building/GettingTheSources#QuicklygettingtheGHCsourcerepository)
-is required, even on non-Windows.
+`Happy`, or `Alex` in order to build it.
 </td></tr></table>
 
 <table><tr><th>`TAGS`, `tags`</th>
