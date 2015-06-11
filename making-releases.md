@@ -38,7 +38,7 @@ First [check out the branch](building/getting-the-sources#getting-a-branch), and
 ```wiki
 $ perl boot
 $ ./configure
-$ make
+$ make         # GHC <= 7.10 only
 $ make sdist
 ```
 

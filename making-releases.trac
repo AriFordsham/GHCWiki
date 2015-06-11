@@ -29,7 +29,7 @@ First [wiki:Building/GettingTheSources#Gettingabranch check out the branch], and
 {{{
 $ perl boot
 $ ./configure
-$ make
+$ make         # GHC <= 7.10 only
 $ make sdist
 }}}
 
