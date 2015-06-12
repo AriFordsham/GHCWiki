@@ -32,6 +32,7 @@ moduleM1whereclassC a where
   -- New class-method deprecation annotation-- NB: the pragma is indented at the class body level!{-# DEPRECATED bar "'bar' will cease to be a method of C, please avoid referring to it as a method of C!" #-}
 
   doo :: a
+  doo x = x
 
 -- This is an ordinary (old-style) top-level indented deprecation{-# DEPRECATED foo "'foo' is obsolete and going away soon, please use 'doo' instead" #-}
 ```
@@ -42,7 +43,10 @@ moduleM1whereclassC a where
 For the example of class `C` from the previous section, the following code fragments exemplify the expected warnings
 
 ```
-importM1x= bar ()-- no warning, because the import doesn't limit `bar` to be a method of `C`
+importM1x= bar ()-- no warning, because the import doesn't limit `bar` to be a method of `C`instanceC()where
+  foo =()-- no warninginstanceCBoolwhere
+  foo =True
+  bar = not -- triggers warning, because this forces `bar` to be a method of C
 ```
 
 ```
