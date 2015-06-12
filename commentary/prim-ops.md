@@ -4,7 +4,7 @@
 PrimOps are functions that cannot be implemented in Haskell, and are provided natively by GHC.  For example, adding two `Int#` values is provided as the PrimOp `+#`, and allocating a new mutable array is the PrimOp `newArray#`.
 
 
-PrimOps are made available to Haskell code through the virtual module `GHC.Prim`.  This module has no implementation, and its interface never resides on disk: if `GHC.Prim` is imported, we use a built-in `ModIface` value - see `ghcPrimIface` in [compiler/iface/LoadIface.lhs](/trac/ghc/browser/ghc/compiler/iface/LoadIface.lhs).
+PrimOps are made available to Haskell code through the virtual module `GHC.Prim`.  This module has no implementation, and its interface never resides on disk: if `GHC.Prim` is imported, we use a built-in `ModIface` value - see `ghcPrimIface` in [compiler/iface/LoadIface.hs](/trac/ghc/browser/ghc/compiler/iface/LoadIface.hs).
 
 
 It would also be useful to look at the [Wired-in and known-key things](commentary/compiler/wired-in) wiki page to understand this topic.
@@ -32,7 +32,7 @@ primop   IntegerMulOp   "timesInteger#" GenPrimOp
 
 The `primops.txt.pp` file is processed first by CPP, and then by the `genprimopcode` program (see [utils/genprimopcode](/trac/ghc/browser/ghc/utils/genprimopcode)).  `genprimopcode` generates the following bits from `primops.txt.pp`:
 
-- Various files that are `#include`d into [compiler/prelude/PrimOp.lhs](/trac/ghc/browser/ghc/compiler/prelude/PrimOp.lhs),
+- Various files that are `#include`d into [compiler/prelude/PrimOp.hs](/trac/ghc/browser/ghc/compiler/prelude/PrimOp.hs),
   containing declarations of data types and functions describing the PrimOps.  See
   [compiler/Makefile](/trac/ghc/browser/ghc/compiler/Makefile).
 
@@ -126,9 +126,9 @@ In addition, if new primtypes are being added, the following files need to be up
 
 - [utils/genprimopcode/Main.hs](/trac/ghc/browser/ghc/utils/genprimopcode/Main.hs) -- extend ppType :: Type -\> String function
 
-- [compiler/prelude/PrelNames.lhs](/trac/ghc/browser/ghc/compiler/prelude/PrelNames.lhs) -- add a new unique id using mkPreludeTyConUnique
+- [compiler/prelude/PrelNames.hs](/trac/ghc/browser/ghc/compiler/prelude/PrelNames.hs) -- add a new unique id using mkPreludeTyConUnique
 
-- [compiler/prelude/TysPrim.lhs](/trac/ghc/browser/ghc/compiler/prelude/TysPrim.lhs) -- there are a raft of changes here; you need to create `*PrimTy`, `*PrimTyCon` and  `*PrimTyConName` variables. The most important thing to make sure you get right is when you make a PrimTyCon, you pick the correct `PrimRep` for your type.  For example, if you’ve introduced a new GC'able object, you should use `PtrRep`; however, if it's a pointer that shouldn't be GC'd, you should use `AddrRep` instead.  The full list is in [compiler/types/TyCon.lhs](/trac/ghc/browser/ghc/compiler/types/TyCon.lhs)
+- [compiler/prelude/TysPrim.hs](/trac/ghc/browser/ghc/compiler/prelude/TysPrim.hs) -- there are a raft of changes here; you need to create `*PrimTy`, `*PrimTyCon` and  `*PrimTyConName` variables. The most important thing to make sure you get right is when you make a PrimTyCon, you pick the correct `PrimRep` for your type.  For example, if you’ve introduced a new GC'able object, you should use `PtrRep`; however, if it's a pointer that shouldn't be GC'd, you should use `AddrRep` instead.  The full list is in [compiler/types/TyCon.hs](/trac/ghc/browser/ghc/compiler/types/TyCon.hs)
 
 
 See also [AddingNewPrimitiveOperations](adding-new-primitive-operations), a blow-by-blow description of the process for adding a new out-of-line primop from someone who went through the process.
