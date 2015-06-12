@@ -202,7 +202,7 @@ There are many pre-defined functions which can be used in this field:
  * '''ignore_output'''         don't try to compare output
 
  * '''compile_timeout_multiplier(n)''' and '''run_timeout_multiplier(n)'''
-   modify the default compile and run timeout respectively (usually 300s, displayed at the beginning of the testsuite) by a given factor. The timeout program returns with exit code 99 if it kills your test. So if you want a timeout to mean success instead of failure, add exit_code(99) as a setup function.
+   modify the default timeout (usually 300s, displayed at the beginning of the testsuite) by a given factor for either the compile or the run part of your test. Note that the timeout program returns with exit code 99 when it kills your test. So if you want a timeout to mean success instead of failure, add exit_code(99) as a setup function.
 
  * '''high_memory_usage'''     this test uses a lot of memory (allows the testsuite driver to be intelligent about what it runs in parallel)
 
