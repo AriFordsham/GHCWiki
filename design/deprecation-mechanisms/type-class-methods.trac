@@ -54,7 +54,7 @@ instance C () where
 
 instance C Bool where
   foo = True
-  bar = not -- triggers warning, because this forces `bar` to be a method of C
+  bar = not -- triggers warning, because this requires `bar` to be a method of C
 }}}
 
 {{{#!hs

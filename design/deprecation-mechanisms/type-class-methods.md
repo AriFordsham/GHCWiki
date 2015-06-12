@@ -46,7 +46,7 @@ For the example of class `C` from the previous section, the following code fragm
 importM1x= bar ()-- no warning, because the import doesn't limit `bar` to be a method of `C`instanceC()where
   foo =()-- no warninginstanceCBoolwhere
   foo =True
-  bar = not -- triggers warning, because this forces `bar` to be a method of C
+  bar = not -- triggers warning, because this requires `bar` to be a method of C
 ```
 
 ```
