@@ -22,23 +22,18 @@ Or put differently, the warning shall forecast the compile errors that would occ
 
 It's already possible to attach (deprecation) warnings to class methods. However, we need a different syntax for this new variant of warnings attached to methods:
 
-```wiki
-module M1 where
-
-class C a where
+```
+moduleM1whereclassC a where
   foo :: a
 
   bar :: a -> a
   bar x = x
  
-  -- New class-method deprecation annotation
-  -- NB: the pragma is indented at the class body level!
-  {-# DEPRECATED bar "'bar' will cease to be a method of C, please avoid referring to it as a method of C!" #-}
+  -- New class-method deprecation annotation-- NB: the pragma is indented at the class body level!{-# DEPRECATED bar "'bar' will cease to be a method of C, please avoid referring to it as a method of C!" #-}
 
   doo :: a
 
--- This is an ordinary (old-style) top-level indented deprecation
-{-# DEPRECATED foo "'foo' is obsolete and going away soon, please use 'doo' instead" #-}
+-- This is an ordinary (old-style) top-level indented deprecation{-# DEPRECATED foo "'foo' is obsolete and going away soon, please use 'doo' instead" #-}
 ```
 
 ## Examples

@@ -20,7 +20,7 @@ Or put differently, the warning shall forecast the compile errors that would occ
 
 It's already possible to attach (deprecation) warnings to class methods. However, we need a different syntax for this new variant of warnings attached to methods:
 
-{{{
+{{{#!hs
 module M1 where
 
 class C a where
