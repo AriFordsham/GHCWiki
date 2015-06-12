@@ -63,6 +63,7 @@
 - [\#9429](https://gitlab.haskell.org//ghc/ghc/issues/9429): An alternative to `Any`. For example, we want `Typeable (forall x. x -> x)`.
 - [\#9562](https://gitlab.haskell.org//ghc/ghc/issues/9562): Type families + hs-boot files = `unsafeCoerce`
 - [\#10327](https://gitlab.haskell.org//ghc/ghc/issues/10327): Closed type families should reduce regardless of infinite types
+- [\#10514](https://gitlab.haskell.org//ghc/ghc/issues/10514): `Generic` for existentials
 
 ## Typechecker
 
