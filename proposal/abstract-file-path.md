@@ -47,14 +47,19 @@ and the new `FilePath` type.
 Instead, we propose to phase out `type FilePath = String` in 3 phases:
 
 <table><tr><th>**Phase 1**</th>
-<td>Introduce conversion functions for
-forward-compatibility in the `filepath` package:
+<td>
+Add type forward-compat conversion functions `toFilePath` & `fromFilePath` to the standard `System.IO` module, as that module is the official home of the `FilePath` type in the Haskell Report.
 </td></tr></table>
 
+>
+> Also add these conversion functions for
+> forward-compatibility to the `filepath` package:
+
 ```
-moduleSystem.FilePathwhere-- | Total Unicode-friendly encodingtoFilePath::String->FilePathtoFilePath= id
+moduleSystem.FilePathwhere#ifMIN_VERSION_base(4,9,0)-- re-export {to,from}FilePath from System.IO#else-- | Total Unicode-friendly encodingtoFilePath::String->FilePathtoFilePath= id
 
 fromFilePath::FilePath->StringfromFilePath= id
+#endif
 ```
 
 <table><tr><th>**Phase 2**</th>
@@ -67,8 +72,8 @@ fromFilePath::FilePath->StringfromFilePath= id
 <table><tr><th>**Phase 3**</th>
 <td>Make `FilePath` abstract in `base`, i.e. make
 `FilePath` into a `newtype`/`data` but don't export its
-constructor via non-internal modules. `Prelude` would continue to
-export the type `FilePath`.
+constructor via non-internal modules. `Prelude`  and `System.IO` would continue to
+export the type `FilePath`. `System.IO` will continue to export `toFilePath`/`fromFilePath`. 
 </td></tr></table>
 
 >
@@ -78,9 +83,11 @@ export the type `FilePath`.
 ```
 -- | Internal module exposing internals needed for add-on packages to-- provide efficient operations involving `FilePath`smoduleGHC.FilePath(FilePath(..),...)where...-- Using unpinned bytearrays to avoid Heap fragmentation and-- which are reasonably cheap to pass to FFI calls-- wrapped with typeclass-friendly types allowing to avoid CPP-- -- Note that, while unpinned bytearrays incur a memcpy on each-- FFI call, this overhead is generally much preferable to-- the memory fragmentation of pinned bytearraysdataWindowsFilePath=WFPByteArray#-- UTF16 datadataPosixFilePath=PFPByteArray#-- char[] data as passed to syscalls#ifdef WINDOWStypePlatformFilePath=WindowsFilePath#elif POSIXtypePlatformFilePath=PosixFilePath#else#error"no filepath representation available for this platform yet"#endif
 
--- | Type representing filenames/pathnamesnewtypeFilePath=FilePathPlatformFilePath-- constructor not exported from PreludeinstanceIsStringFilePathwhere fromString = toFilePath
+-- | Type representing filenames/pathnamesnewtypeFilePath=FilePathPlatformFilePath-- constructor not exported from PreludeinstanceIsStringFilePathwhere 
+    fromString = toFilePath
 
--- | \"String-Concatenation\" for 'FilePaths'---- This allows to write forward-compatible code for Haskell2010 'FilePath`s---- E.g. code can be written like---- > tarfname = basedir </> "ghc-" <> ver <> "~" <> gitid <.> "tar.xz"---- That has the same semantics with pre-AFPP and post-AFPP 'FilePath's---- NB: 'mappend' is *not* the same as '(</>)', but rather matches the semantics for pre-AFPP 'FilePaths'instanceMonoidFilePathwhere mappend a b =<...string-concat...>
+-- | \"String-Concatenation\" for 'FilePaths'---- This allows to write forward-compatible code for Haskell2010 'FilePath`s---- E.g. code can be written like---- > tarfname = basedir </> "ghc-" <> ver <> "~" <> gitid <.> "tar.xz"---- That has the same semantics with pre-AFPP and post-AFPP 'FilePath's---- NB: 'mappend' is *not* the same as '(</>)', but rather matches the semantics for pre-AFPP 'FilePaths'instanceMonoidFilePathwhere 
+    mappend a b =<...string-concat...>
 ```
 
 
