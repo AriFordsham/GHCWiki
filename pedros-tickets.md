@@ -20,6 +20,7 @@ This is a list of tickets that [ Pedro](http://dreixel.net) wants to keep an eye
 - [\#9968](https://gitlab.haskell.org//ghc/ghc/issues/9968) (DeriveAnyClass fails on multi-parameter type classes)
 - [\#10087](https://gitlab.haskell.org//ghc/ghc/issues/10087) (DefaultSignatures: error message mentions internal name)
 - [\#10361](https://gitlab.haskell.org//ghc/ghc/issues/10361) (DeriveAnyClass does not fill in associated type defaults)
+- [\#10487](https://gitlab.haskell.org//ghc/ghc/issues/10487) (DeriveGeneric breaks when the same data name is used in different modules)
 
 
 Closed:
