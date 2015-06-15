@@ -23,6 +23,13 @@ In order to see emails below, **you must login**.
   - **Committer since**: May, 2015.
   - **Main areas of interest**: API Annotations, GHC API
 
+- [ Alejandro Serrano](http://www.cs.uu.nl/staff/mena.html)
+
+  - Utrecht University, Netherlands
+  - **Trac**: AlejandroSerrano; **email**: A.SerranoMena@…, trupill@…; **github**: [ https://github.com/serras](https://github.com/serras)
+  - **Committer since**: June, 2015.
+  - **Main areas of interest**: impredicativity
+
 - [ Andreas Voellmy](http://haskell.cs.yale.edu/people/andreas-voellmy/)
 
   - Yale University - New Haven, CT
