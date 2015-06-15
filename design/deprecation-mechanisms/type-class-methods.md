@@ -37,6 +37,21 @@ moduleM1whereclassC a where
 -- This is an ordinary (old-style) top-level indented deprecation{-# DEPRECATED foo "'foo' is obsolete and going away soon, please use 'doo' instead" #-}
 ```
 
+## Specification
+
+
+The existing `{-# DEPRECATED foo ".." #}` pragma causes a deprecation warning to be emitted whenever `foo` is referred to in any way.
+
+
+But under this proposal, when `{-# DEPRECATED bar ".." #}` is attached to the definition site of a class method in a class `C`, the principle is that *a deprecation warning is emitted only when `bar` is referred to in such a way that it must be a class method*.
+
+
+More precisely, a deprecation warning is emitted under the following circumstances (only):
+
+- An instance of `C` gives a definition for method `bar`
+- A module imports `C(bar)` explicitly; that is, `bar` as a method of class `C`.  If `bar` is not mentioned by name, no warning is emitted; e.g. `C(..)`.
+- A module exports `C(bar)` explicitly.
+
 ## Examples
 
 
@@ -64,18 +79,6 @@ importM1(C(..))x= bar ()-- triggers warning, because `bar` is imported via `C(..
 ```
 importM1(C(..),bar)x= bar ()-- no warning, because the import doesn't limit `bar` to be a method of `C`
 ```
-
-## Specification
-
-
-The existing `{-# DEPRECATED foo ".." #}` pragma causes a deprecation warning to be emitted whenever `foo` is referred to in any way.
-
-
-But under this proposal, when `{-# DEPRECATED bar ".." #}` is attached to the definition site of a class method in a class `C`, a deprecation warning is emitted under the following circumstances (only):
-
-- An instance of `C` gives a definition for method `bar`
-- A module imports `C(bar)` explicitly; that is, `bar` as a method of class `C`.  If `bar` is not mentioned by name, no warning is emitted; e.g. `C(..)`.
-- A module exports `C(bar)` explicitly.
 
 ## Practical Use Case
 
