@@ -37,6 +37,47 @@ moduleM1whereclassC a where
 -- This is an ordinary (old-style) top-level indented deprecation{-# DEPRECATED foo "'foo' is obsolete and going away soon, please use 'doo' instead" #-}
 ```
 
+## Review of DEPRECATED
+
+
+The existing `{-# DEPRECATED foo ".." #}` pragma in a module `Def` causes a deprecation warning to be emitted whenever `foo` is referred to.  But note that we do **not** warn when `foo` is used 
+
+- In the same module that it was defined.
+- In import and export lists.
+
+
+So, deliberately, a module that gathers and re-exports deprecated functions does not cause a complaint:
+
+```wiki
+module Gather( foo, f, g ) wehre
+  import Def( foo, f )
+  import Blah( g )
+```
+
+## Specification of deprecated class methods
+
+
+Under this new deprecated-class-methods proposal, when `{-# DEPRECATED bar ".." #}` (in module `Def`) is attached to the definition site of a class method in a class `C`, the principle is that *a deprecation warning is emitted only when `bar` is referred to in such a way that it must be a class method*.
+
+
+More precisely, a deprecation warning is emitted under the following circumstances (only):
+
+- An instance of `C`, in a module other than `Def`, gives a definition for method `bar`, 
+- `bar` is mentioned by a declaration in a module other than `Def`, and `bar` is in scope only via import items that imply `bar` is a class method, namely `C(..)` or `C(bar)`.
+
+
+A possible alternative is to tighten up the latter to complain if *any* of the import items are offensive.  E.g.
+
+```wiki
+module Use where
+  import Def( C( bar ) )
+  imoprt Def( bar )
+  x = bar {}
+```
+
+
+Here `bar` is in scope in two ways.  Does this cause a complaint?
+
 ## Examples
 
 
