@@ -68,7 +68,7 @@ importM1(C(..),bar)x= bar ()-- no warning, because the import doesn't limit `bar
 ## Specification
 
 
-The existing `{-# DEPRECATED bar ".." #}` pragma causes a deprecation warning to be emitted whenever `foo` is referred to in any way.
+The existing `{-# DEPRECATED foo ".." #}` pragma causes a deprecation warning to be emitted whenever `foo` is referred to in any way.
 
 
 But under this proposal, when `{-# DEPRECATED bar ".." #}` is attached to the definition site of a class method in a class `C`, a deprecation warning is emitted under the following circumstances (only):
