@@ -2,6 +2,8 @@
 
 GHC does not (yet) support impredicative polymorphism, but it's a topic that comes up regularly, so this page collects the state of play.
 
+See the new plan at [wiki:ImpredicativePolymorphism/Impredicative-2015]
+
 === What is impredicative polymorphism? ===
 
 Consider this
