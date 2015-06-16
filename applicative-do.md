@@ -83,7 +83,7 @@ do
 Translates to
 
 ```wiki
-join (\x y -> f x y) <$> a <*> b
+join ((\x y -> f x y) <$> a <*> b)
 ```
 
 

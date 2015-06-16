@@ -72,7 +72,7 @@ do
 Translates to
 
 {{{
-join (\x y -> f x y) <$> a <*> b
+join ((\x y -> f x y) <$> a <*> b)
 }}}
 
 Since `join` is a `Monad` operation, this expression requires `Monad`.
