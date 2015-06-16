@@ -45,7 +45,7 @@ For a type that is a`Monad`, `ApplicativeDo` implements the same semantics as th
   vs.
 
   ```wiki
-  do x <- expr1; y <- expr2; z <- expr3; return $ x*y + y*z + z*x
+  do x <- expr1; y <- expr2; z <- expr3; return (x*y + y*z + z*x)
   ```
 
 ## Example 1
@@ -83,7 +83,7 @@ do
 Translates to
 
 ```wiki
-join (\x y -> f x y) <$> a <*> b
+join ((\x y -> f x y) <$> a <*> b)
 ```
 
 
@@ -214,3 +214,20 @@ The implementation is tricky, because we want to do a transformation that affect
 
 
 See comments in [ https://phabricator.haskell.org/D729](https://phabricator.haskell.org/D729) for more details.
+
+### Tricky case
+
+```wiki
+ do { x <- A
+    ; y <- B
+    ; z <- C x
+    ; return (z+y) }
+```
+
+
+Then we could do `A ; (B | C)` or `(A | B) ; C`.  
+
+- If `tA + (max( tB, tC )) < max( tA, tB ) + tC`, then first is best, otherwise second.
+
+
+If A is smaller than B and C, first is best.  If C is smaller than A and B then second is best.
