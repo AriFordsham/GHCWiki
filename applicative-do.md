@@ -225,4 +225,9 @@ See comments in [ https://phabricator.haskell.org/D729](https://phabricator.hask
 ```
 
 
-Then we could do `A ; (B | C)` or `(A | B) ; C`.  If B is long-running, then the second is best; if C is long-running then the first is best.  Neither wins all the time.
+Then we could do `A ; (B | C)` or `(A | B) ; C`.  
+
+- If `tA + (max( tB, tC )) < max( tA, tB ) + tC`, then first is best, otherwise second.
+
+
+If A is smaller than B and C, first is best.  If C is smaller than A and B then second is best.
