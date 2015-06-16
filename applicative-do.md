@@ -45,7 +45,7 @@ For a type that is a`Monad`, `ApplicativeDo` implements the same semantics as th
   vs.
 
   ```wiki
-  do x <- expr1; y <- expr2; z <- expr3; return $ x*y + y*z + z*x
+  do x <- expr1; y <- expr2; z <- expr3; return (x*y + y*z + z*x)
   ```
 
 ## Example 1
