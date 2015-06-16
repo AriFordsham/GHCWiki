@@ -214,3 +214,15 @@ The implementation is tricky, because we want to do a transformation that affect
 
 
 See comments in [ https://phabricator.haskell.org/D729](https://phabricator.haskell.org/D729) for more details.
+
+### Tricky case
+
+```wiki
+ do { x <- A
+    ; y <- B
+    ; z <- C x
+    ; return (z+y) }
+```
+
+
+Then we could do `A ; (B | C)` or `(A | B) ; C`.  If B is long-running, then the second is best; if C is long-running then the first is best.  Neither wins all the time.

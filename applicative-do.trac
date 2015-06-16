@@ -188,3 +188,14 @@ Note that this isn't the only good way to translate this expression, this is als
 The implementation is tricky, because we want to do a transformation that affects type checking (and renaming, because we might be using `RebindableSyntax`), but we still want type errors in terms of the original source code.  Therefore we calculate everything necessary to do the transformation during renaming, but leave enough information behind to reconstruct the original source code for the purposes of error messages.
 
 See comments in [https://phabricator.haskell.org/D729] for more details.
+
+=== Tricky case
+
+{{{
+ do { x <- A
+    ; y <- B
+    ; z <- C x
+    ; return (z+y) }
+}}}
+Then we could do `A ; (B | C)` or `(A | B) ; C`.  If B is long-running, then the second is best; if C is long-running then the first is best.  Neither wins all the time.
+
