@@ -43,7 +43,7 @@ At the high level, transactions are computations that read and write to {{{TVar}
 
 == Reading and Writing ==
 
-The semantics of a transaction require that when a {{{TVar}}} is read in a transaction, ts value will stay the same for the duration of execution. Similarly a write to a {{{TVar}}} will keep the same value for the duration of the transaction. The transaction itself, however, from the perspective of other threads can apply all of its effects in one moment. That is, other threads cannot see intermediate states of the transaction, so it is as if all the effects happen in a single moment.
+The semantics of a transaction require that when a {{{TVar}}} is read in a transaction, its value will stay the same for the duration of execution. Similarly a write to a {{{TVar}}} will keep the same value for the duration of the transaction. The transaction itself, however, from the perspective of other threads can apply all of its effects in one moment. That is, other threads cannot see intermediate states of the transaction, so it is as if all the effects happen in a single moment.
 
 As a simple example we can consider a transaction that transfers value between two accounts:
 
