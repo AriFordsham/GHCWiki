@@ -48,7 +48,7 @@ Nothing is gained, but since the issue remains unsolved, we may risk to become p
  - `cpphs` has been widely used, hence it's proven code
  - It's already more Haskell-aware than system-`cpp`
  - `cpphs` is actively maintained
- - no more `fork(2)/exec(2)`
+ - no more `fork(2)/exec(2)` ([http://permalink.gmane.org/gmane.comp.lang.haskell.ghc.devel/8869 avoids substantial overhead on Windows])
 
 '''Disadvantages'''
  - `cpphs` is licensed as "LGPLv2 w/ static linking exception" (see below)
@@ -58,7 +58,7 @@ Nothing is gained, but since the issue remains unsolved, we may risk to become p
 === Plan 3: Write native BSD-licenced Haskell implementation from scratch
 
 '''Advantages'''
- - no more `fork(2)/exec(2)`
+ - no more `fork(2)/exec(2)` ([http://permalink.gmane.org/gmane.comp.lang.haskell.ghc.devel/8869 avoids substantial overhead on Windows])
  - Tailored to GHC's needs
 
 '''Disadvantages'''
