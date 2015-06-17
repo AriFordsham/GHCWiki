@@ -8,8 +8,8 @@ This wiki discusses how bringing [ Nix](https://nixos.org/nix/)-style package ma
 [](http://www.well-typed.com/blog/aux/images/cabal-hell/install-example1.png)
 
 
-There are situations where Cabal&rsquo;s chosen solution would involve reinstalling an existing version of a package but built with different dependencies.
-In this example, after installing app-1.1, app-1.0 and other-0.1 will be broken. The root of the problem is having to delete &ndash; or if you like, mutate &ndash; package instances when installing new packages. This is due to the limitation of only being able to have one instance of a package version installed at once.
+There are situations where Cabal's chosen solution would involve reinstalling an existing version of a package but built with different dependencies.
+In this example, after installing app-1.1, app-1.0 and other-0.1 will be broken. The root of the problem is having to delete or mutate package instances when installing new packages. This is due to the limitation of only being able to have one instance of a package version installed at once.
 
 ## Type errors when using packages together
 
@@ -17,7 +17,7 @@ In this example, after installing app-1.1, app-1.0 and other-0.1 will be broken.
 
 
 The second, orthogonal, problem is that it is possible to install two packages and then load them both in GHCi and find that you get type errors when composing things defined in the two different packages. Effectively you cannot use these two particular installed packages together.
-The fundamental problem is that developers expect to be able to use combinations of their installed packages together, but the package tools do not enforce consistency of the developer&rsquo;s environment.
+The fundamental problem is that developers expect to be able to use combinations of their installed packages together, but the package tools do not enforce consistency of the developer's environment.
 
 # Goals
 
@@ -43,7 +43,7 @@ It will have additional benefit that package will not be built again if same sou
 ## Views
 
 
-Views will the subset of packages of package store whose modules can be imported. Views will be present as various \*.view file in &lt;Package DB location&gt;/views like default.view. The view file contains list of installed package IDs. There will exist a default view which contains packages installed by cabal install outside sandbox. If a package name is installed two times, default view will contain the instance of package which is installed at last. Views&rsquo; packages will also act like GC roots.
+Views will the subset of packages of package store whose modules can be imported. Views will be present as various \*.view file in \<Package DB location\>/views like default.view. The view file contains list of installed package IDs. There will exist a default view which contains packages installed by cabal install outside sandbox. If a package name is installed two times, default view will contain the instance of package which is installed at last. Views' packages will also act like GC roots.
 
 
 To facilitate views, ghc-pkg will need some new commands:
@@ -89,7 +89,7 @@ It will require additional constraint to check that there is no other instance o
 ## Garbage collection
 
 
-This will firstly involve determining the root packages and package list. Root packages are the packages which are in some view. Then we find list of all packages in the database. As there will be single database after implementing views, we don&rsquo;t need to call it for every sandbox database. Then we need to do mark-sweep and find which package are not in the reachable package list and select it for garbage collection. Then the selected packages will be deleted from the package store and also unregistered from database with ghc-pkg.
+This will firstly involve determining the root packages and package list. Root packages are the packages which are in some view. Then we find list of all packages in the database. As there will be single database after implementing views, we don't need to call it for every sandbox database. Then we need to do mark-sweep and find which package are not in the reachable package list and select it for garbage collection. Then the selected packages will be deleted from the package store and also unregistered from database with ghc-pkg.
 
 ## cabal remove
 
