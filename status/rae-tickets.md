@@ -141,6 +141,7 @@
 - [\#8679](https://gitlab.haskell.org//ghc/ghc/issues/8679): Include value and function signatures in their declarations
 - [\#8761](https://gitlab.haskell.org//ghc/ghc/issues/8761): Pattern synonyms
 - [\#10331](https://gitlab.haskell.org//ghc/ghc/issues/10331): Better interop between TH and HsSyn
+- [\#10541](https://gitlab.haskell.org//ghc/ghc/issues/10541): Reifying tyvars' kinds
 
 ## Generic programming
 
