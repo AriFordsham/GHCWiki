@@ -1,6 +1,6 @@
 = New impredicativity (June 2015) =
 
-The **goal** is to build a better story for impredicative and higher-rank polymorphism in GHC. For that aim we introduce a new type of constraint, `InstanceOf t1 t2`, which expresses that //type `t1` is an instance of `t2`//. This new type of constraint is inspired on ideas from the MLF and HML systems.
+The **goal** is to build a better story for impredicative and higher-rank polymorphism in GHC. For that aim we introduce a new type of constraint, `InstanceOf t1 t2`, which expresses that //type `t2` is an instance of `t1`//. This new type of constraint is inspired on ideas from the MLF and HML systems.
 
 This is the result of discussion between Alejandro Serrano Mena <A.SerranoMena@uu.nl>, Jurriaan Hage, Dimitrios Vytiniotis, and Simon PJ.
 
@@ -17,8 +17,8 @@ This is the result of discussion between Alejandro Serrano Mena <A.SerranoMena@u
 == Some basic facts ==
 
 * `InstanceOf` has kind `* -> * -> Constraint`.
-* The evidence for `InstanceOf sigma1 sigma2` is a function `sigma2 -> sigma1`.
-* The canonical forms associated with the constraint are `InstanceOf sigma1 alpha1` and `InstanceOf alpha2 sigma2`, where `sigma1` is not a type variable.
+* The evidence for `InstanceOf sigma1 sigma2` is a function `sigma1 -> sigma2`. This accounts for the weird order of parameters in `InstanceOf`.
+* The canonical forms associated with the constraint are `InstanceOf sigma1 alpha1` and `InstanceOf alpha2 sigma2`, where `sigma2` is not a type variable.
 
 //Implementation note//: `InstanceOf` needs to be defined in `libraries/ghc-prim/GHC/Types.hs`.
 
@@ -28,9 +28,9 @@ This is the result of discussion between Alejandro Serrano Mena <A.SerranoMena@u
 
 Luckily, in order to work with `InstanceOf` constraints, we only need to add new rules to the canonicalization step in the solver. These rules are:
 
-* [IOCan1] `InstanceOf t1                     (T sigma1 ... sigman)` ----> `t1 ~ (T sigma1 ... sigman)`
-* [IOCan2] `InstanceOf (T sigma1 ... sigman)  (forall a. Q2 => tau2)` ----> `(T sigma1 ... sigman) ~ [a/alpha]tau2  /\  [a/alpha]Q2`
-* [IOCan3] `InstanceOf (forall a. Q1 => tau1) sigma2` ----> `forall a. (Q1 => InstanceOf tau1 sigma2)`
+* [IOCan1] `InstanceOf (T sigma1 ... sigman)  t1                    ` ----> `(T sigma1 ... sigman) ~ t1`
+* [IOCan2] `InstanceOf (forall a. Q2 => tau2) (T sigma1 ... sigman) ` ----> `[a/alpha]tau2 ~ (T sigma1 ... sigman)  /\  [a/alpha]Q2`
+* [IOCan3] `InstanceOf sigma2`                (forall a. Q1 => tau1)` ----> `forall a. (Q1 => InstanceOf sigma2 tau1)`
 
 But we also need to generate evidence for each of these steps!
 
@@ -45,21 +45,21 @@ But we also need to generate evidence for each of these steps!
 Suppose we want to type check `runST ($) (e :: forall s. ST s Int)`. Let us denote `alpha` the type of `runST`, `beta` the type of `e` and `gamma` the type of the entire expression. The initial set of constraints which are generated (details on generation below) are:
 
 {{{
-InstanceOf (alpha -> beta -> gamma) (forall a b. (a -> b) -> a -> b)  [from ($)]
-InstanceOf alpha (forall a. (forall s. ST s a) -> a)                  [from runST]
-InstanceOf beta  (forall s. ST s Int)                                 [from e]
+InstanceOf (forall a b. (a -> b) -> a -> b) (alpha -> beta -> gamma)  [from ($)]
+InstanceOf (forall a. (forall s. ST s a) -> a) alpha                  [from runST]
+InstanceOf (forall s. ST s Int)                beta                   [from e]
 }}}
 
 The series of solving steps are:
 
 {{{
-InstanceOf (alpha -> beta -> gamma) (forall a b. (a -> b) -> a -> b)  [1]
-InstanceOf alpha (forall a. (forall s. ST s a) -> a)                  [2]
-InstanceOf beta  (forall s. ST s Int)                                 [3]
+InstanceOf (forall a b. (a -> b) -> a -> b) (alpha -> beta -> gamma)  [1]
+InstanceOf (forall a. (forall s. ST s a) -> a) alpha                  [2]
+InstanceOf (forall s. ST s Int)                beta                   [3]
 
 ----> [IOCan2] over [1]
 
-(alpha -> beta -> gamma) ~ ((delta -> epsilon) -> delta -> epsilon)   [4]
+((delta -> epsilon) -> delta -> epsilon) ~ (alpha -> beta -> gamma)   [4]
 + [2] and [3]
 
 ----> type deconstruction in [4]
@@ -71,31 +71,31 @@ gamma ~ epsilon
 
 ----> substitution in [2] and [3]
 
-InstanceOf (delta -> epsilon) (forall a. (forall s. ST s a) -> a)     [5]
-InstanceOf delta (forall s. ST s Int)                                 [6]
+InstanceOf (forall a. (forall s. ST s a) -> a) (delta -> epsilon)     [5]
+InstanceOf (forall s. ST s Int) delta                                 [6]
 
 ----> [IOCan2] over [5]
 
-(delta -> epsilon) ((forall s. ST s eta) -> eta)                      [7]
-InstanceOf delta (forall s. ST s Int)
+((forall s. ST s eta) -> eta) ~ (delta -> epsilon)                    [7]
+InstanceOf (forall s. ST s Int) delta
 
 ----> type deconstruction in [7]
 
 delta   ~ forall s. ST s eta
 epsilon ~ eta
-InstanceOf delta (forall s. ST s Int)
+InstanceOf (forall s. ST s Int) delta
 
 ----> substitution
 
-InstanceOf (forall s. ST s eta) (forall s. ST s Int)                  [8]
+InstanceOf (forall s. ST s Int) (forall s. ST s eta)                  [8]
 
 ----> [IOCan3] over [8]
 
-forall s. (_ => Instance (ST s eta) (forall s'. ST s' Int)            [9]
+forall s. (_ => InstanceOf (forall s'. ST s' Int) (ST s eta))         [9]
 
 ----> [IOCan2] under (=>) of [9]
 
-forall s. (_ => Instance (ST s eta) (ST pi Int)                       [10]
+forall s. (_ => Instance (ST pi Int) (ST s eta))                      [10]
 
 ----> canonicalization under (=>)
 
@@ -113,29 +113,29 @@ We get that the type assigned to the whole expression is `gamma ~ epsilon ~ eta 
 
 === Evidence generation ===
 
-For [IOCan1] we want to find evidence for `W1 :: InstanceOf t1 (T sigma1 ... sigman)` from `W2 :: t1 ~ (T sigma1 ... sigman)`. Such an evidence must be a function `W1 :: (T sigma1 ... sigman) -> T1`. We can get it by applying the coercion resulting from `W2`. More schematically:
+For [IOCan1] we want to find evidence for `W1 :: InstanceOf (T sigma1 ... sigman) t1` from `W2 :: (T sigma1 ... sigman) ~ t1`. Such an evidence must be a function `W1 :: (T sigma1 ... sigman) -> t1`. We can get it by applying the coercion resulting from `W2`. More schematically:
 
 {{{
-W1 :: InstanceOf t1 (T sigma1 ... sigman)
+W1 :: InstanceOf (T sigma1 ... sigman) t1
 
 ---->
 
 W1 :: T sigma1 ... sigman -> t1
-W1 = \x -> x |> (sym W2)
+W1 = \x -> x |> W2
 
-W2 :: t1 ~ (T sigma1 ... sigman)
+W2 :: (T sigma1 ... sigman) ~ t1
 }}}
 
 
 {{{
-W1 :: InstanceOf (T sigma1 ... sigman)  (forall a. Q1 ... Qn => tau2)
+W1 :: InstanceOf (forall a. Q1 ... Qn => tau2) (T sigma1 ... sigman)
 
 ---->
 
 W1 :: (forall a. Q1 ... Qn => tau2) -> T sigma1 ... sigman
-W1 = \x -> (x alpha V1 ... Vn) |> (sym W2)
+W1 = \x -> (x alpha V1 ... Vn) |> W2
 
-W2 :: (T sigma1 ... sigman) ~ [a/alpha]tau2
+W2 :: [a/alpha]tau2 ~ (T sigma1 ... sigman)
 V1 :: [a/alpha]Q1, ..., Vn :: [a/alpha]Qn
 }}}
 
@@ -143,20 +143,25 @@ V1 :: [a/alpha]Q1, ..., Vn :: [a/alpha]Qn
 The case [IOCan3] is the most complex one: we need to generate a function from the evidence generated by an implication. Such an implication generates a series of bindings, which we denote here using `[ ]`. Note that we abstract by values, types and constraints, but this is OK, because it is a System FC term.
 
 {{{
-W1 :: InstanceOf (forall a. Q1 => tau1) sigma2
+W1 :: InstanceOf sigma2 (forall a. Q1 => tau1)
 
 ---->
 
 W1 :: sigma2 -> (forall a. Q1 => tau1)
 W1 = \x -> /\a -> \(d : Q1) -> let [ ] in (W2 x)
 
-W2 :: forall a. (d : Q1) => (W2 :: InstanceOf tau1 sigma2)
+W2 :: forall a. (d : Q1) => (W2 :: InstanceOf sigma2 tau1)
 }}}
+
+
+=== Zonking ===
+
+While in the solver we want `InstanceOf` constraints to have their own identity. However, when converted to Core, they must be converted into functions. This means that the types of `EvTerms` with `InstanceOf` constraints also need to change to functions. This is done in the zonking phase.
 
 
 === Design choice: `InstanceOf` and `->` ===
 
-In the designed proposed above, `->` is treated as any other type constructor. That means that if we are canonicalizing `InstanceOf (sigma1 -> sigma2) (sigma3 -> sigma4), the result is `sigma1 ~ sigma3 /\ sigma2 ~ sigma4`. That is, `->` is treated invariantly in both arguments. Other possible design choices are:
+In the designed proposed above, `->` is treated as any other type constructor. That means that if we are canonicalizing `InstanceOf (sigma3 -> sigma4) (sigma1 -> sigma2), the result is `sigma1 ~ sigma3 /\ sigma2 ~ sigma4`. That is, `->` is treated invariantly in both arguments. Other possible design choices are:
 
 * `->` treated co- and contravariantly, leading to `InstanceOf sigma3 sigma1 /\ InstanceOf sigma2 sigma4`.
 * Treat inly the co-domain covariantly, leading to `sigma1 ~ sigma3 /\ InstanceOf sigma2 sigma4`.
@@ -166,7 +171,7 @@ Which are the the benefits of each option?
 
 == Changes to approximation ==
 
-One nasty side-effect of this approach is that the solver may produce non-Haskell 2010 types. For example, when type checking `singleton id`, where `singleton :: forall a. a -> [a]` and `id :: forall a. a -> a`, the result would be `forall a. InstanceOf a (forall b. b -> b) => [a]`. In short, we want to get rid of the `InstanceOf` constraints once a binding has been found to type check. This process is part of a larger one which in GHC is known as **approximation**.
+One nasty side-effect of this approach is that the solver may produce non-Haskell 2010 types. For example, when type checking `singleton id`, where `singleton :: forall a. a -> [a]` and `id :: forall a. a -> a`, the result would be `forall a. InstanceOf (forall b. b -> b) a => [a]`. In short, we want to get rid of the `InstanceOf` constraints once a binding has been found to type check. This process is part of a larger one which in GHC is known as **approximation**.
 
 There are two main procedures to move to types without `InstanceOf` constraints:
 
@@ -178,8 +183,8 @@ We aim to implement the second option, since it leads to types which are more si
 The procedure works by appling repeatedly the following rules:
 
 {{{
-InstanceOf a (forall b. Q => tau)  ---->  a ~ [b/beta]tau  /\  [b/beta]Q
-InstanceOf (forall b. Q => tau) a  ---->  a ~ (forall b. Q => tau)
+InstanceOf (forall b. Q => tau) a  ---->  a ~ [b/beta]tau  /\  [b/beta]Q
+InstanceOf a (forall b. Q => tau)  ---->  a ~ (forall b. Q => tau)
 }}}
 
 The first rule is a version of [IOCon2] which applies to canonical `InstanceOf` constraints. The second rule ensures that the `InstanceOf` constraint is satisfied.
@@ -196,7 +201,7 @@ In principle, the only rule that needs to change is that of variables in the ter
 {{{
    x : sigma \in \Gamma        alpha fresh
 --------------------------------------------- [VAR]
-Gamma |- x : alpha --> InstanceOf alpha sigma
+Gamma |- x : alpha --> InstanceOf sigma alpha
 }}}
 
 
@@ -209,10 +214,10 @@ Unfortunately, this is not enough. Suppose we have the following piece of code:
 We want to typecheck it, and we give the argument `f` a type variable `alpha`, and each of its appearances the types variables `beta` and `gamma`. The constraints that are generated are:
 
 {{{
-InstanceOf beta  alpha  [usage in (f 1)]
-InstanceOf gamma alpha  [usgae in (f True)]
-InstanceOf alpha (forall a. a -> a)
-InstanceOf alpha (Bool -> Bool)
+InstanceOf alpha beta  [usage in (f 1)]
+InstanceOf alpha gamma [usage in (f True)]
+InstanceOf (forall a. a -> a) alpha
+InstanceOf (Bool -> Bool)     alpha
 }}}
 
 At this point we are stuck, since we have no rule that could be applied. One might think about applying transitivity of `InstanceOf`, but this is just calling trouble, because it is not clear how to do this without losing information.
@@ -273,7 +278,7 @@ The reason for including a block of `fi`s is to cover cases such as `runST $ do 
 There are some unwanted interactions between type classes and families and the `InstanceOf` constraint. For example, if we want to type `[] == []`, we obtain as canonical constraints:
 
 {{{
-Eq a /\ InstanceOf a (forall b. [b])
+Eq a /\ InstanceOf (forall b. [b]) a
 }}}
 
 At this point we are stuck. We need to instantiate `b` before `Eq` can scrutinize its argument to check whether an instance is available. One possibility is to instantiate by default every type linked to a variable appearing in a type class or type family.
@@ -285,8 +290,8 @@ type family F a b
 type instance F [a] b = b -> b
 }}}
 
-Using the rule of always instantiating, the result of `gamma ~ F [Int] b, InstanceOf b (forall a. a -> a)` is `gamma ~ (delta -> delta) -> (delta -> delta)`. We have lost polymorphism in a way which was not expected. What we hoped is to get `gamma ~ (forall a. a -> a) -> (forall a. a -> a)`.
+Using the rule of always instantiating, the result of `gamma ~ F [Int] b, InstanceOf (forall a. a -> a) b` is `gamma ~ (delta -> delta) -> (delta -> delta)`. We have lost polymorphism in a way which was not expected. What we hoped is to get `gamma ~ (forall a. a -> a) -> (forall a. a -> a)`.
 
-Thus, we need to have a way to instantiate variables appearing in type classes and families, but only as necessary. We do this by temporarily instantiating variables when checking for axiom application, and returning extra constraints which make this instantiation possible if the match is successful. For example, in the previous case we want to apply the axiom `forall e. Eq e => Eq [e]`, and thus we need to instantiate `a`. We return as residual constraints `Eq e /\ Eq a ~ Eq [e]`, and the solver takes care of the rest, that is, `InstanceOf [e] (forall b. [b])`.
+Thus, we need to have a way to instantiate variables appearing in type classes and families, but only as necessary. We do this by temporarily instantiating variables when checking for axiom application, and returning extra constraints which make this instantiation possible if the match is successful. For example, in the previous case we want to apply the axiom `forall e. Eq e => Eq [e]`, and thus we need to instantiate `a`. We return as residual constraints `Eq e /\ Eq a ~ Eq [e]`, and the solver takes care of the rest, that is, `InstanceOf (forall b. [b]) [e]`.
 
 //Implementation note//: the changes need to be done in the `lookupInstEnv'` function in `compiler/types/InstEnv.hs`. The solver needs to be changed at `compiler/typecheck/TcInteract.hs` to use the new information.
