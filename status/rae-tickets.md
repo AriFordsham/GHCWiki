@@ -123,6 +123,7 @@
 - [\#10385](https://gitlab.haskell.org//ghc/ghc/issues/10385): Add extra check around TH annotations
 - [\#10486](https://gitlab.haskell.org//ghc/ghc/issues/10486): More `addTopDecls`
 - [\#10522](https://gitlab.haskell.org//ghc/ghc/issues/10522): Type-level operator support
+- [\#10548](https://gitlab.haskell.org//ghc/ghc/issues/10548): Type wildcards
 
 **Unknown**
 
