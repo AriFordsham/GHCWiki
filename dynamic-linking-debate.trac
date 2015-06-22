@@ -1,6 +1,6 @@
 = The Dynamic Linking Debate =
 
-In GHC 7.8 we made GHCi dynamically-linked.  That is, it links against compiled Haskell packages (it already used dynamically-linked C libraries, that is not the issue here).
+In GHC 7.8 we [wiki:DynamicGhcPrograms made] GHCi dynamically-linked.  That is, it links against compiled Haskell packages (it already used dynamically-linked C libraries, that is not the issue here).
 
 Why did we do this?  The main reason is that we need a complete linker implementation in the RTS, and that's hard (~7000 LoC currently, supporting three object file formats).  This is a lot of code to get right, and a lot to maintain.  Supporting all the dark corners of the linking semantics is difficult: e.g. weak symbols were not supported (but have since been implemented).  The linker semantics on OS X in particular change from time to time, and we have to keep up.
 
