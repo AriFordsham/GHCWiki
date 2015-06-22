@@ -1,3 +1,5 @@
+**This is implemented, and partially working. See [DynamicLinkingDebate](dynamic-linking-debate) for further contemplation.**
+
 # Dynamic GHC programs
 
 
