@@ -35,6 +35,17 @@ Keyword: t
 Now typing `t <query>` into the title bar searches the GHC ticket
 database using Google, which is much faster than Trac's search.
 
+## Searching the wiki
+
+
+Add a new bookmark/entry, with
+
+```wiki
+Name: [w] GHC wiki search
+Location/URL: http://www.google.com/search?q=%s site:ghc.haskell.org/trac/ghc/wiki
+Keyword: w
+```
+
 ## Searching for emails
 
 
