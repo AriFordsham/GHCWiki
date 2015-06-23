@@ -7,13 +7,13 @@
 
 Following the 2015 redesign, we have three separate components to implement, which will be described (and implemented) in order:
 
- * the `OverloadedRecordFields` extension, which permits the same field name to be used multiple times in the same module, but only where unambiguous;
- * the `ImplicitValues` extension, to enable the `#x` syntax;
+ * the `AllowDuplicateRecordFields` extension, which permits the same field name to be used multiple times in the same module, but only where unambiguous;
+ * the `OverloadedLabels` extension, to enable the `#x` syntax;
  * the `HasField` and `FieldUpdate` typeclasses, with special-purpose constraint solving behaviour, which do not require a language extension.
 
-As of March 2015, work is progressing on the implementation. Part 1 (the simplified `OverloadedRecordFields` extension) is available at Phab:D761 to be reviewed and merged. Parts 2 and 3 will then be implemented. Note that all the parts are useful in isolation.
+As of March 2015, work is progressing on the implementation. Part 1 (the `AllowDuplicateRecordFields` extension) is available at Phab:D761 and being reviewed. Part 2 (the `OverloadedLabels` extension) is nearly ready, and part 3 will be implemented after the first two parts have been completed. Note that all the parts are useful in isolation.
 
-= 1. The `OverloadedRecordFields` extension =
+= 1. The `AllowDuplicateRecordFields` extension =
 
 When this extension is enabled, typechecking a record datatype still generates record selectors, but their `Name`s have a `$sel` prefix and end with the name of their type. For example,
 
@@ -30,7 +30,7 @@ $sel:x:T (MkT x) = x
 
 This allows the same field label to occur multiple times in the same module, but with distinct `Name`s.
 
-Turning on the `OverloadedRecordFields` extension automatically enables `DisambiguateRecordFields`, because ORF strictly generalises it. Once `ImplicitValues` is implemented, ORF will also enable `ImplicitValues` by default.
+Turning on `AllowDuplicateRecordFields` automatically enables `DisambiguateRecordFields`, because it strictly generalises it.
 
 
 == The naming of cats ==
@@ -50,7 +50,7 @@ type FieldLabelString = FastString
 type FieldLabel = FieldLbl Name
 }}}
 
-For this purpose, a field "is overloaded" if it was defined in a module with `-XOverloadedRecordFields` enabled, so its selector name differs from its label. That is, it is irrelevant whether there are actually multiple identical field labels in the module. Every field has a label (`FastString`) and selector name. The `dcFields` field of `DataCon` stores a list of `FieldLabel`. In interface files, the `ifConFields` field of `IfaceConDecl` stores a list of `IfaceTopBndr`s for selectors, and `IfaceConDecls` for datatypes/newtypes stores the field labels.
+For this purpose, a field "is overloaded" if it was defined in a module with `AllowDuplicateRecordFields` enabled, so its selector name differs from its label. That is, it is irrelevant whether there are actually multiple identical field labels in the module. Every field has a label (`FastString`) and selector name. The `dcFields` field of `DataCon` stores a list of `FieldLabel`. In interface files, the `ifConFields` field of `IfaceConDecl` stores a list of `IfaceTopBndr`s for selectors, and `IfaceConDecls` for datatypes/newtypes stores the field labels.
 
 
 === `AvailInfo` and `IE` ===
@@ -95,7 +95,7 @@ Note that the `OccName` used when adding a GRE to the environment (`greOccName`)
 
 == Source expressions ==
 
-The `HsExpr` type has an extra constructor `HsSingleRecFld RdrName id`. Regardless of whether `-XOverloadedRecordFields` is enabled, when `rnExpr` encounters `HsVar "x"` where `x` refers to an unambiguous record field `foo`, it replaces it with `HsSingleRecFld foo $sel_foo_T`. The point of this constructor is so we can pretty-print the field name (as the user typed it, hence a `RdrName`), but store the selector name for typechecking.
+The `HsExpr` type has an extra constructor `HsSingleRecFld RdrName id`. Regardless of whether `AllowDuplicateRecordFields` is enabled, when `rnExpr` encounters `HsVar "x"` where `x` refers to an unambiguous record field `foo`, it replaces it with `HsSingleRecFld foo $sel_foo_T`. The point of this constructor is so we can pretty-print the field name (as the user typed it, hence a `RdrName`), but store the selector name for typechecking.
 
 Where an AST representation type (e.g. `HsRecField` or `ConDeclField`) contained an argument of type `Located id` for a field, it now stores a `Located RdrName` for the label, and some representation of the selector. The parser uses a placeholder for the selector; it is filled in by the renamer  (by `rnHsRecFields` in `RnPat`, and `rnField` in `RnTypes`). The new definition of `ConDeclField` (used in types) is:
 
@@ -163,7 +163,7 @@ We could mangle selector names (using `$sel:foo:T` instead of `foo`) even when t
   * Trouble with deriving instances in GHC.Generics (makes up un-renamed syntax using field `RdrName`s)
   * Boot files that export record selectors not working
 
-Note that Template Haskell will see the mangled selector names instead of the original field labels, when looking at a datatype declared in a module with `OverloadedRecordFields` enabled. This isn't ideal - should we change the TH representation type so it can get access to both the label and selector?
+Note that Template Haskell will see the mangled selector names instead of the original field labels, when looking at a datatype declared in a module with `AllowDuplicateRecordFields` enabled. This isn't ideal - should we change the TH representation type so it can get access to both the label and selector?
 
 In the new design, we could perhaps consider only mangling selector names when there is actually a name conflict, but this has not been investigated in any detail.
 
@@ -175,9 +175,19 @@ In the new design, we could perhaps consider only mangling selector names when t
 * TODO: are there any more changes?
 
 
-== 2. The `ImplicitValues` extension ==
+== 2. The `OverloadedLabels` extension ==
 
-This part is new in the 2015 redesign, and has not previously been implemented, so there is not yet much to record here.  However, the implementation should be fairly straightforward and close to (but simpler than) the existing `ImplicitParameters` extension.
+This part is new in the 2015 redesign  The implementation is fairly straightforward and close to (but simpler than) the existing `ImplicitParameters` extension. The key points:
+
+ * We extend the lexer to treat `#x` as a single lexeme (only when `OverloadedLabels` is enabled) and parse it into a new constructor `HsOverLabel "x"` of `HsSyn`.
+
+ * A new module `GHC.OverloadedLabels` defines the (renamed) `IV` class
+{{{
+class OverloadedLabel (x :: Symbol) a where
+  overloadedLabel :: a
+}}}
+
+ * When the typechecker sees `HsOverLabel "x"`, it emits a new wanted constraint `OverloadedLabel "x" alpha`, just like `HsIPVar`.
 
 
 == 3. The magic type classes ==
