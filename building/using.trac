@@ -209,7 +209,7 @@ take a look in [[GhcFile(mk/config.mk.in)]].
 
  `GhcDebugged`::
   (default: `NO`)[[br]]
-  Set to `YES` to pass `-debug` when building GHC (stage 2).
+  Set to `YES` to pass `-debug` when building GHC (stage 1,2 and 3).
 
  `GhcLibWays`::
   (default: `v p`)[[br]]

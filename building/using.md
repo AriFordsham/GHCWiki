@@ -259,7 +259,7 @@ Set to `YES` to enable profiling for GHC itself (stage 2).  You'll also need to 
 <td>
 (default: `NO`)
 
-Set to `YES` to pass `-debug` when building GHC (stage 2).
+Set to `YES` to pass `-debug` when building GHC (stage 1,2 and 3).
 </td></tr></table>
 
 <table><tr><th>`GhcLibWays`</th>
