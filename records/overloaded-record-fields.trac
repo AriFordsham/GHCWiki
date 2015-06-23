@@ -11,11 +11,11 @@ Content previously on this page has been moved to the [wiki:Records/OverloadedRe
 
 == Code ==
 
-The latest code is on the `wip/orf-new` branch of the `ghc` and `haddock` development repositories.  The forks of [https://github.com/adamgundry/ghc ghc], [https://github.com/adamgundry/packages-base packages-base] and [https://github.com/adamgundry/haddock haddock] have been superseded.
+See Phab:D761 for the first part of the latest implementation. The latest code is on the `wip/orf-*` branches of the `ghc` and `haddock` development repositories.  The forks of [https://github.com/adamgundry/ghc ghc], [https://github.com/adamgundry/packages-base packages-base] and [https://github.com/adamgundry/haddock haddock] have been superseded.
 
 A [https://github.com/adamgundry/records-prototype prototype implementation] of the design is also available.
 
-The design has mostly stabilised, but there is still some work to do on the implementation. See [wiki:Records/OverloadedRecordFields/Implementation#Currentstatus notes for GHC hackers on the current status of the code].
+The design has mostly stabilised, but there is still some work to do on the implementation. We aim to merge in the summer of 2015.
 
 == History ==
 
