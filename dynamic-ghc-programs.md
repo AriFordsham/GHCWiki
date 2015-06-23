@@ -1,4 +1,4 @@
-**This is implemented, and partially working. See [DynamicLinkingDebate](dynamic-linking-debate) for further contemplation.**
+**This is implemented, and partially working. See [DynamicLinkingDebate](dynamic-linking-debate) for further contemplation.** See also [DynamicByDefault](dynamic-by-default) for a more far-reaching approach that we didn't go for in the end.
 
 # Dynamic GHC programs
 
