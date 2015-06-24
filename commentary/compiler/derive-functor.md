@@ -205,7 +205,7 @@ This mechanism cannot derive `Functor`, `Foldable`, or `Traversable` instances f
 >
 > Note that there are two exceptions to this rule: tuple and function types.
 
-1. The data type cannot use `-XDatatypeContexts`. For example, `data Ord a => O a = O a deriving Functor` would be rejected.
+1. The data type's last type variable cannot used in a `-XDatatypeContexts` constraint. For example, `data Ord a => O a = O a deriving Functor` would be rejected.
 1. The data type's last type variable must be truly universally quantified, i.e., it must not have any class or equality constraints. This means that the following is legal:
 
 ```
