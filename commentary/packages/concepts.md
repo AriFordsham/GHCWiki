@@ -118,7 +118,7 @@ change in the future.  Here are the few that I am aware of:
 <td>
 In our conversations last summer, Duncan reported to me that he
 wanted to change Installed Package ID so that it was a hash
-of the source code and other relevant bits, serving the role of \[NIX\] hashes.
+of the source code, the Cabal flags selected (not command line flags), the IPIDs of the direct dependencies (and in Backpack, a mapping from hole module name to installed package ID and module), serving the role of \[NIX\] hashes.
 I recorded this in this Cabal bug [ https://github.com/haskell/cabal/issues/2199](https://github.com/haskell/cabal/issues/2199)</td></tr></table>
 
 <table><tr><th>Package Key (WITHOUT KEYS OF INCLUDES)</th>
