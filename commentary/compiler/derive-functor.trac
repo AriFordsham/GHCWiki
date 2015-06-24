@@ -199,7 +199,7 @@ This mechanism cannot derive {{{Functor}}}, {{{Foldable}}}, or {{{Traversable}}}
 3. The data type's last type parameter cannot be used in the "wrong place" in any constructor's data arguments. For example, in {{{data Right a = Right [a] (Either Int a)}}}, the type parameter {{{a}}} is only ever used as the last type argument in {{{[]}}} and {{{Either}}}, so both {{{[a]}}} and {{{Either Int a}}} values can be {{{fmap}}}ped. However, in {{{data Wrong a = Wrong (Either a a)}}}, the type variable {{{a}}} appears in a position other than the last, so trying to {{{fmap}}} an {{{Either a a}}} value would not typecheck.
 
    Note that there are two exceptions to this rule: tuple and function types.
-4. The data type cannot use {{{-XDatatypeContexts}}}. For example, {{{data Ord a => O a = O a deriving Functor}}} would be rejected.
+4. The data type's last type variable cannot used in a {{{-XDatatypeContexts}}} constraint. For example, {{{data Ord a => O a = O a deriving Functor}}} would be rejected.
 5. The data type's last type variable must be truly universally quantified, i.e., it must not have any class or equality constraints. This means that the following is legal:
 
 {{{#!hs
