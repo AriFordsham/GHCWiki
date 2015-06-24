@@ -73,7 +73,7 @@ When are two types the same?  If there are from differing packages, they are obv
 
 </td></tr></table>
 
-## Mechanisms
+## Current mechanisms
 
 
 Today, we have a lot of different MECHANISMS for identifying these:
@@ -90,51 +90,51 @@ Something like "0.1.2"
 
 <table><tr><th>Package ID</th>
 <td>
-Package name plus version.  By today's Hackage conventions,
-this can identify a \[SOURCE\].  Pre-GHC 7.10, it also identified
-\[SYMBOL\] and \[TYPES\].
+Package name plus version.  With Hackage today, this identifies a unit of distribution: given a package ID you can download a source tarball \[SOURCE\] of a package (but not build it). Pre-GHC 7.10, the package ID was used for symbols and type-checking (\[SYMBOL\] and \[TYPES\]), but this is no longer the case.
 </td></tr></table>
 
 <table><tr><th>Installed Package ID</th>
 <td>
-Package name, package version, and the output of ghc --abi-hash.
-This identifies \[ABI\].
+Package name, package version, and the output of ghc --abi-hash.  This is currently used to uniquely identify a built package, although technically it only identifies \[ABI\].
 </td></tr></table>
 
 <table><tr><th>Package Key (new in 7.10)</th>
 <td>
 Hash of package name, package version, the package keys of all
-direct dependencies the package was compiled against, and a
-a mapping of how Backpack holes in the package were instantiated.
-This now identifies \[SYMBOL\] and \[TYPES\].  It also identifies \[NIX\]
-if you assume that package IDs adequately identify a \[SOURCE\].
+textual dependencies the package included, and in Backpack
+a mapping from hole name to module by package key.
+In GHC 7.10 this is used for symbols and type-checking (\[SYMBOL\] and \[TYPES\]).  Because it includes package keys of textual dependencies, it also distinguishes between different dependency resolutions, ala \[WEAK NIX\].
 </td></tr></table>
 
+## Proposed mechanisms
 
-Furthermore, there have been some proposals for how things should further
-change in the future.  Here are the few that I am aware of:
 
-<table><tr><th>Installed Package ID (WITHOUT ABI)</th>
+Here are the changes to the mechanisms which we have in flight.
+
+<table><tr><th>Installed Package ID (without ABI)</th>
 <td>
-In our conversations last summer, Duncan reported to me that he
-wanted to change Installed Package ID so that it was a hash
-of the source code, the Cabal flags selected (not command line flags), the IPIDs of the direct dependencies (and in Backpack, a mapping from hole module name to installed package ID and module), serving the role of \[NIX\] hashes.
-I recorded this in this Cabal bug [ https://github.com/haskell/cabal/issues/2199](https://github.com/haskell/cabal/issues/2199)</td></tr></table>
-
-<table><tr><th>Package Key (WITHOUT KEYS OF INCLUDES)</th>
-<td>
-While I was working on Backpack I discovered that our current
-definition of package key is circular (and thus undefined) in
-some use-cases which we might eventually want to support.  The
-refinement I currently have in my working Git copy is that
-I have removed from the hash the package keys of the direct
-dependencies of the package.  If you apply this change, package
-keys NO LONGER identify a \[NIX\].
+Hash of source code sdist tarball, selected Cabal flags (not the command line flags), IPIDs of direct dependencies (and in Backpack, a mapping from hole names to modules by installed package IDs). This brings IPIDs more inline with the concept of a \[NIX\] hash, which lets us truly uniquely identify builds of packages (whereas a package key may conclude two builds are the same, although their source has changed.) This is especially important if all sandboxed builds are being installed to the same location. This proposal is in Cabal bug [ https://github.com/haskell/cabal/issues/2199](https://github.com/haskell/cabal/issues/2199) and subject to today's GSOC.
 </td></tr></table>
 
-<table><tr><th>Package KEY (WITH SOURCE HASH)</th>
+<table><tr><th>Version hash</th>
 <td>
-In this 2015 Haskell GSoC proposal [ https://gist.github.com/fugyk/37510958b52589737274](https://gist.github.com/fugyk/37510958b52589737274) Vishal Agrawal proposes adding a hash of the source tarball to the package key. This would make it implement \[NIX\] in the strong sense. However, this proposal would make package key unsuitable for \[SOURCE\]
+Hash of package name, package version, and the version hashes of all textual dependencies (i.e. packages which were `include`.)  A version hash is a coarse approximation of installed package IDs, which are suitable for inclusion in package keys (you don't want to put an IPID in a package key, since it means the key will change any time the source changes.)
+</td></tr></table>
+
+<table><tr><th>Package Key (with version hashes)</th>
+<td>
+Version hash (and in Backpack, a mapping from hole names to modules by package key). The delta is that we no longer include package keys of direct dependencies; this is replaced with the version hash.  This new definition avoids infinite regress when defining a package key for this package:
+
+```wiki
+package p where
+    signature H
+    module M
+package q where
+    module H
+    include p
+```
+
+With the old definition, the package q would refer to the package key of q when recording textual dependencies, and the instantiated package q would refer to the package key p in the hole instantiations: loop!  (Recursive binders seem like overkill for this case, where there is no "real" mutual recursion going on.)
 </td></tr></table>
 
 ## Features
@@ -162,7 +162,7 @@ If I have a package foo-0.2 which depends on a library bar-0.1, but not in any e
 If I install a library and it's assigned ABI hash 123abc, and then I install a number of libraries that depend on it, hot swappable library means that I can replace that installed library with another version with the same ABI hash, and everything will keep working. This feature is accidentally supported by GHC today, but no one uses it (because ABIs are not stable enough); we are willing to break this mode of use to support other features.
 </td></tr></table>
 
-## ezyang's proposal
+## Constraints
 
 
 For an implementer, it is best if each problem is solved separately.  However, Simon has argued strongly it is best if we REDUCE the amount of package naming concepts. You can see this in pre-7.10 GHC, where the package ID (package name + version) was used fulfill many functions: linker symbols, type identity as well as being a unit of distribution.
