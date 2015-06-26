@@ -4,7 +4,7 @@ The **goal** is to build a better story for impredicative and higher-rank polymo
 
 This is the result of discussion between Alejandro Serrano Mena <A.SerranoMena@uu.nl>, Jurriaan Hage, Dimitrios Vytiniotis, and Simon PJ.
 
-= The most up-to-date description is available as an attachment [attachment:the-doc.pdf] =
+'''The most up-to-date description is available here: [attachment:the-doc.pdf Impredicativity in GHC (PDF)]'''
 
 The rest of the document is kept for historical purposes, and because it contains useful information about how the design is implemented inside GHC.
 
