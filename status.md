@@ -36,6 +36,11 @@ We have several automated ways of monitoring GHC.  Each has its own detailed des
 - [ Our previous performance dashboard](http://ghcspeed-nomeata.rhcloud.com) is also still around, at least for now.
 - [ Haskell.org server status page](http://status.haskell.org/)
 
+## Components
+
+
+Template Haskell has its own status page at [TemplateHaskell/Status](template-haskell/status).
+
 ## Tickets and patches
 
 - [ Ticket statistics](https://ghc.haskell.org/trac/ghc/ticketstats): gives a graph of our ticket statistics over time 
