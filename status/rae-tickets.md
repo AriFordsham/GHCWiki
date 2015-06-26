@@ -124,6 +124,7 @@
 - [\#10486](https://gitlab.haskell.org//ghc/ghc/issues/10486): More `addTopDecls`
 - [\#10522](https://gitlab.haskell.org//ghc/ghc/issues/10522): Type-level operator support
 - [\#10548](https://gitlab.haskell.org//ghc/ghc/issues/10548): Type wildcards
+- [\#10572](https://gitlab.haskell.org//ghc/ghc/issues/10572): Quantify over quoted variables
 
 **Unknown**
 
