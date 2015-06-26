@@ -1,5 +1,3 @@
-**WORK-IN-PROGRESS - NOT READY FOR PUBLICATION YET**
-
 # Abstract `FilePath` Proposal (AFPP)
 
 *Herbert Valerio Riedel, Neil Mitchell & Michael Snoyman*
@@ -86,7 +84,8 @@ export the type `FilePath`. `System.IO` will continue to export `toFilePath`/`fr
 -- | Type representing filenames/pathnamesnewtypeFilePath=FilePathPlatformFilePath-- constructor not exported from PreludeinstanceIsStringFilePathwhere 
     fromString = toFilePath
 
--- | \"String-Concatenation\" for 'FilePaths'---- This allows to write forward-compatible code for Haskell2010 'FilePath`s---- E.g. code can be written like---- > tarfname = basedir </> "ghc-" <> ver <> "~" <> gitid <.> "tar.xz"---- That has the same semantics with pre-AFPP and post-AFPP 'FilePath's---- NB: 'mappend' is *not* the same as '(</>)', but rather matches the semantics for pre-AFPP 'FilePaths'instanceMonoidFilePathwhere 
+-- | \"String-Concatenation\" for 'FilePaths'---- This allows to write forward-compatible code for Haskell2010 'FilePath`s---- E.g. code can be written (assuming `-XOverloadedStrings`) like---- > tarfname = basedir </> "ghc-" <> ver <> "~" <> gitid <.> "tar.xz"---- That has the same semantics with pre-AFPP and post-AFPP 'FilePath's---- NB: 'mappend' is *not* the same as '(</>)', but rather matches the semantics for pre-AFPP 'FilePaths'instanceMonoidFilePathwhere 
+    mempty      =<...>
     mappend a b =<...string-concat...>
 ```
 
