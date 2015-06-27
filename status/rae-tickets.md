@@ -38,6 +38,7 @@
 - [\#10121](https://gitlab.haskell.org//ghc/ghc/issues/10121): Correct operational semantics around letrec.
 - [\#10134](https://gitlab.haskell.org//ghc/ghc/issues/10134): Unexpected "Let should not be generalised" problem 
 - [\#10318](https://gitlab.haskell.org//ghc/ghc/issues/10318): Allow superclass cycles
+- [\#10581](https://gitlab.haskell.org//ghc/ghc/issues/10581): Recommend ScopedTypeVariables
 
 **Hard**
 
