@@ -5,6 +5,8 @@
 **Easy**
 
 - [\#3699](https://gitlab.haskell.org//ghc/ghc/issues/3699): Wildcards in type patterns
+
+  - [\#10586](https://gitlab.haskell.org//ghc/ghc/issues/10586): Panic on underscore in a pattern
 - [\#7494](https://gitlab.haskell.org//ghc/ghc/issues/7494): Allow type synonyms in GADT return types
 - [\#8109](https://gitlab.haskell.org//ghc/ghc/issues/8109): As-patterns in type patterns
 - [\#8634](https://gitlab.haskell.org//ghc/ghc/issues/8634): Dysfunctional dependencies
