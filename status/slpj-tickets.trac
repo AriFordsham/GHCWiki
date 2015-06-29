@@ -81,6 +81,7 @@
 == Template Haskell ==
 See also [wiki:TemplateHaskell]
 
+ * #10541: reify kind information
  * #10385: TH and annotations
  * #10279, [wiki:TemplateHaskell/PackageKeyChanges wiki page]: `reifyPackage`
  * #10330: better TH error locations
