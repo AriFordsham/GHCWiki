@@ -4,6 +4,9 @@
 This page lays out thinking about the design of the `StaticPtr` language extensions.
 
 
+The basic idea is laid out in the original [ Cloud Haskell paper](http://research.microsoft.com/~simonpj/papers/parallel).
+
+
 See also [the root page for distributed Haskell](distributed-haskell).
 
 ## Background
