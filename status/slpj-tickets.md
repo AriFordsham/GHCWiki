@@ -2,7 +2,7 @@
 
 ## Urgent or in-flight
 
-- [\#8613](https://gitlab.haskell.org//ghc/ghc/issues/8613), [\#9070](https://gitlab.haskell.org//ghc/ghc/issues/9070), [\#8319](https://gitlab.haskell.org//ghc/ghc/issues/8319), [\#7521](https://gitlab.haskell.org//ghc/ghc/issues/7521), [\#10459](https://gitlab.haskell.org//ghc/ghc/issues/10459): simplifier ticks exhausted (there are others). [\#10459](https://gitlab.haskell.org//ghc/ghc/issues/10459) is clearly a loop; and affects a real package.
+- [\#8613](https://gitlab.haskell.org//ghc/ghc/issues/8613), [\#9070](https://gitlab.haskell.org//ghc/ghc/issues/9070), [\#8319](https://gitlab.haskell.org//ghc/ghc/issues/8319), [\#7521](https://gitlab.haskell.org//ghc/ghc/issues/7521), [\#10459](https://gitlab.haskell.org//ghc/ghc/issues/10459), [\#10584](https://gitlab.haskell.org//ghc/ghc/issues/10584), [\#10565](https://gitlab.haskell.org//ghc/ghc/issues/10565): simplifier ticks exhausted (there are others). [\#10459](https://gitlab.haskell.org//ghc/ghc/issues/10459) is clearly a loop; and affects a real package.
 - [\#7262](https://gitlab.haskell.org//ghc/ghc/issues/7262), [\#10333](https://gitlab.haskell.org//ghc/ghc/issues/10333), [\#7672](https://gitlab.haskell.org//ghc/ghc/issues/7672), [\#10083](https://gitlab.haskell.org//ghc/ghc/issues/10083): hs-boot niggles
 - [\#10114](https://gitlab.haskell.org//ghc/ghc/issues/10114): `AnyK` and kind generalisation in type synonyms
 - [\#10285](https://gitlab.haskell.org//ghc/ghc/issues/10285): a small bug in `Coercible` (Richard)
@@ -85,6 +85,7 @@
 
 See also [TemplateHaskell](template-haskell)
 
+- [\#10541](https://gitlab.haskell.org//ghc/ghc/issues/10541): reify kind information
 - [\#10385](https://gitlab.haskell.org//ghc/ghc/issues/10385): TH and annotations
 - [\#10279](https://gitlab.haskell.org//ghc/ghc/issues/10279), [wiki page](template-haskell/package-key-changes): `reifyPackage`
 - [\#10330](https://gitlab.haskell.org//ghc/ghc/issues/10330): better TH error locations
