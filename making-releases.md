@@ -192,22 +192,6 @@ Please test as much as possible; bugs are much cheaper if we find them
 before the release!
 ```
 
-## Tagging repositories
-
-```wiki
-./sync-all tag ghc-7.6.2-release
-```
-
-
-Also `git tag <<LIBRARY>>-<<VERSION>>-release`[libraries that we maintain](repositories) (other than `ghc-prim`).
-
-
-Set `RELEASE` back to `NO` and commit.
-
-```wiki
-./sync-all push --tags
-```
-
 ## Uploading libraries
 
 

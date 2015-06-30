@@ -161,20 +161,6 @@ Please test as much as possible; bugs are much cheaper if we find them
 before the release!
 }}}
 
-== Tagging repositories ==
-
-{{{
-./sync-all tag ghc-7.6.2-release
-}}}
-
-Also `git tag <<LIBRARY>>-<<VERSION>>-release` [wiki:Repositories libraries that we maintain] (other than `ghc-prim`).
-
-Set `RELEASE` back to `NO` and commit.
-
-{{{
-./sync-all push --tags
-}}}
-
 == Uploading libraries ==
 
 If any library [wiki:Repositories that we maintain] (other than bin-package-db, ghc-prim, integer-gmp and integer-simple which don't get uploaded) has been changed, then the new version should be uploaded to hackage.
