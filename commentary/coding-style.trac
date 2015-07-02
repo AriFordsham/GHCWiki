@@ -186,11 +186,9 @@ If the module can be compiled multiple ways (eg. GHCI vs. non-GHCI), make sure t
 
 == Compiler versions and language extensions ==
 
-GHC must be compilable by the previous two major releases, and itself. It isn't necessary for it to be compilable by every intermediate development version (that includes last week's darcs sources). 
+GHC must be compilable by the previous two major releases, and itself. It isn't necessary for it to be compilable by every intermediate development version. 
 
 To maintain compatibility, use [wiki:Commentary/CodingStyle#HsVersions.h HsVersions.h] (see below) where possible, and try to avoid using #ifdef in the source itself. 
-
-Also, it is necessary to avoid certain language extensions.  In particular, the {{{ScopedTypeVariables}}} extension must not be used.
 
 ===  The OPTIONS pragma ===
 
