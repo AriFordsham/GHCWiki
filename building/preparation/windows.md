@@ -47,13 +47,20 @@ Note: `dblatex` isn't available as a [ MSYS2 package](https://github.com/Alexpux
 ## Host GHC setup
 
 
-A host GHC binary is required for bootstrapping. Let's download and install a prebuilt GHC into `/usr/local`:
+A host GHC binary is required for bootstrapping. In order to keep different architectures separate, download and install a prebuilt GHC into `/mingw64` or `/mingw32`:
+
+
+So for 64-bit you'd run
 
 ```wiki
-curl -L http://www.haskell.org/ghc/dist/7.8.3/ghc-7.8.3-$(uname -m | sed -e s/686/386/)-unknown-mingw32.tar.xz | tar -xJ -C /tmp &&
-mkdir -p /usr/local &&
-mv /tmp/ghc-7.8.3/* /usr/local &&
-rmdir /tmp/ghc-7.8.3
+curl -L http://www.haskell.org/ghc/dist/7.8.4/ghc-7.8.4-x86_64-unknown-mingw32.tar.xz | tar -xJ -C /mingw64
+```
+
+
+and for 32-bit you'd run
+
+```wiki
+curl -L http://www.haskell.org/ghc/dist/7.8.4/ghc-7.8.4-i386-unknown-mingw32.tar.xz | tar -xJ -C /mingw32
 ```
 
 ## Cabal setup
@@ -94,7 +101,7 @@ make
 <sub>Running parallel make (e.g., make -j5) is faster, but appears to cause segfaults during the build sometimes. The reasons are not clear yet.</sub>
 
 
-Msys2 is known to be glitchy in some situations. If you see errors related to fork(), try closing and reopening the shell; see also [ msys2 issue \#74](http://sourceforge.net/p/msys2/tickets/74/). Also there have been issues with the build process segfaulting. The reason is not known (we're looking into it). If that happens, simply rerunning `make` will continue the build process.
+MSYS2 is known to be glitchy in some situations. If you see errors related to fork(), try closing and reopening the shell; see also [ msys2 issue \#74](http://sourceforge.net/p/msys2/tickets/74/). Also there have been issues with the build process segfaulting. The reason is not known (we're looking into it). If that happens, simply rerunning `make` will continue the build process.
 
 
 Alternatively, to run a pristine build and tests (takes a while):
