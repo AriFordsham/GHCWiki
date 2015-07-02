@@ -11,7 +11,7 @@ This guide should get you running in \~5 minutes, modulo download speeds.
 ### 64-bit
 
 
-Download and run the [ msys2 installer (64-bit)](http://sourceforge.net/projects/msys2/files/latest/download). Be sure to open a mingw64 shell (see below).
+Download and run the [ 64-bit MSYS2 installer](http://sourceforge.net/projects/msys2/files/latest/download). Be sure to open a mingw64 shell (see below).
 
 ### 32-bit
 
@@ -66,10 +66,10 @@ curl -L http://www.haskell.org/ghc/dist/7.8.4/ghc-7.8.4-i386-unknown-mingw32.tar
 ## Cabal setup
 
 
-Building ghc requires [ Alex](http://www.haskell.org/alex/) and [ Happy](http://www.haskell.org/happy/). It is easiest to install them using cabal. We will also put them in `/usr/local` to make sure that they end up on $PATH.
+Building GHC requires [ Alex](http://www.haskell.org/alex/) and [ Happy](http://www.haskell.org/happy/). It is easiest to install them using cabal. We will also put them in `/usr/local` to make sure that they end up on `$PATH`.
 
 ```wiki
-curl -L http://www.haskell.org/cabal/release/cabal-install-1.20.0.3/cabal-1.20.0.3-i386-unknown-mingw32.tar.gz | tar -xz -C /usr/local/bin &&
+curl -L http://www.haskell.org/cabal/release/cabal-install-1.20.0.3/cabal-1.20.0.3-i386-unknown-mingw32.tar.gz | tar -xz -C /usr/local/bin && # for some version of cabal you may need to rename the exe to cabal.exe
 cabal update &&
 cabal install -j --prefix=/usr/local alex happy
 ```
