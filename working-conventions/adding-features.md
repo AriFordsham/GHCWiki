@@ -10,7 +10,7 @@ We welcome your involvement in making GHC able to do more. Here's how to do it. 
 
   - The flag reference section in `docs/users-guide/flags.xml` lists all available flags together with a short description.
   - The flag descriptions in `docs/users_guide/using.xml` provide a detailed explanation of each flags' usage. 
-1. Add a section to the latest **release notes** (`docs/users_guide/7.12.1-notes.xml`).
+1. Add a section to the latest **release notes** (`docs/users_guide/7.12.1-notes.xml` or `libraries/base/changelog.md`).
 
 ## Things to bear in mind
 
