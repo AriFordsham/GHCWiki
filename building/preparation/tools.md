@@ -80,13 +80,12 @@ order to build GHC.
 Happy is a parser generator tool for Haskell, and is
 used to generate GHC's parsers.
 
-If you start from a source tarball of GHC (i.e. not a darcs
-checkout), then you don't need Happy, because we supply the
+If you start from a source tarball of GHC, then you don't need Happy, because we supply the
 pre-processed versions of the Happy parsers.  If you intend to
-modify the compiler and/or you're using a darcs checkout, then you
+modify the compiler and/or build from a git repository, then you
 need Happy.
 
-Happy version 1.16 is currently required to build GHC.
+Happy version 1.18.6 or higher is currently required to build GHC.
 Grab a copy from
 [ Happy's Web Page](http://www.haskell.org/happy/).
 </td></tr></table>
@@ -98,10 +97,11 @@ which GHC uses to generate its lexer.
 
 Like Happy, you don't need Alex if you're building GHC from a
 source tarball, but you do need it if you're modifying GHC and/or
-building a darcs checkout.
+building from a git repository.
 
+Alex version 2.3.4 or higher is currently required to build GHC.
 Alex is
-written in Haskell and is a project in the darcs repository.
+written in Haskell.
 Alex distributions are available from 
 [ Alex's Web Page](http://www.haskell.org/alex/).
 </td></tr></table>
