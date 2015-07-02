@@ -277,8 +277,8 @@ instanceFoldableTwhere
 Deriving `Foldable` instances for GADTs with equality constraints can become murky, however. Consider this GADT:
 
 ```
-dataE a whereE1::(a ~Int)=> a   ->E1 a
-    E2::Int->E1IntE3::(b ~Int)=> b   ->E1IntE4::(a ~Int)=>Int->E1 a
+dataE a whereE1::(a ~Int)=> a   ->E a
+    E2::Int->EIntE3::(b ~Int)=> b   ->EIntE4::(a ~Int)=>Int->E a
 ```
 
 
@@ -308,7 +308,7 @@ dataUnknownConstraints a whereUC::Mystery a =>Int->UnknownConstraints a
 For all we know, it may be that `a ~ Int => Mystery a`. Does this mean that the `Int` argument in `UC` should be folded over?
 
 
-To avoid these thorny edge cases, we only consider constructor arguments whose types are *syntactically* equivalent to the last type parameter. In the above `E` example, only `E1` fits the bill, so the derived `Foldable` instance should actually be:
+To avoid these thorny edge cases, we only consider constructor arguments (1) whose types are *syntactically* equivalent to the last type parameter and (2) in cases when the last type parameter is a *simple* type variable. In the above `E` example, only `E1` fits the bill, so the derived `Foldable` instance should actually be:
 
 ```
 instanceFoldableEwhere
@@ -322,6 +322,16 @@ instanceFoldableEwhere
     foldMap f (E3 e)= mempty
     foldMap f (E4 e)= mempty
 ```
+
+
+To expound more on the meaning of criterion (2), we want not only to avoid cases like `E2 :: Int -> E Int`, but also something like this:
+
+```
+dataHigherKinded f a whereHigherKinded:: f a ->HigherKinded f (f a)
+```
+
+
+In this example, the last type variable is instantiated with `f a`, which contains one type variable `f` applied to another type variable `a`. We would *not* fold over the argument of type `f a` in this case, because the last type variable should be *simple*, i.e., contain only a single variable without any application.
 
 
 For the original discussion on this proposal, see [ \#10447](https://ghc.haskell.org/trac/ghc/ticket/10447).
