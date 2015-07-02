@@ -196,7 +196,7 @@ Also, it is necessary to avoid certain language extensions.  In particular, the 
 
 An {{{{-# OPTIONS_GHC ... #-}}}} pragma is optional, but if present it should go right at the top of the file.
 
-Don't bother putting `-cpp` or `-fglasgow-exts` in the `OPTIONS` pragma; these are already added to the command line by the build system. 
+Don't bother putting `-cpp` in the `OPTIONS` pragma; these are already added to the command line by the build system. 
 
 === {{{HsVersions.h}}} ===
 
