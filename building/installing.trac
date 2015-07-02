@@ -4,11 +4,30 @@ After GHC has been built, it can be installed as follows:
 
 == Non-Windows ==
 
+There are two methods available; you can install directly from your built source tree, or you can build a binary distribution and then unpack and install it.
+
+=== Installing from a built source tree
+
 {{{
 $ make install
 }}}
 
 This will build anything that isn't up-to-date, copy the files into the right places (see below) and make sure all the packages are registered properly.
+
+GHC will be installed to the directory that you specified at configure time with the `--prefix` option. If you forgot to do so, then rather than reconfiguring and rebuilding, it's probably faster to build and install from a binary distribution as described below.
+
+=== Building and installing from a binary distribution
+
+{{{
+$ make binary-dist
+}}}
+
+This will produce a binary distribution in the root of source tree with a name like `ghc-XXXXXX.tar.bz2`. Unpack it somewhere, `cd` into the unpacked tree and run
+
+{{{
+$ ./configure --prefix=<my-dir>                # to specify the installation directory
+$ make install
+}}}
 
 == Windows ==
 
@@ -16,7 +35,7 @@ This will build anything that isn't up-to-date, copy the files into the right pl
 $ make binary-dist
 }}}
 
-This will make a compressed tar file and place it in the root of the source directory so you can install it like any Windows distribution.
+This will make a compressed tar file and place it in the root of the source directory. On Windows the binary distribution is simply the install tree containing GHC and its libraries, so you can install it like any Windows distribution. The Windows installation is relocatable (see below) so there is no need to specify the final installation directory in advance.
 
 == Layout of the installed files ==
 
@@ -55,6 +74,8 @@ $ make install DESTDIR=/tmp/ghc-install
 }}}
 
 this will install as usual, but prepend $(DESTDIR) to every file that is installed.  So for example if $(bindir) is `/usr/bin`, then the `ghc` binary will end up in `/tmp/ghc-install/usr/bin/ghc`.
+
+Note that you will not then be able to actually run the compiler from this location, since the installed tree contains absolute paths that refer to the final location where it expects to be installed, as described below. If you want to install to a location other than the default, you must specify that location when configuring either the source tree or a binary distribution.
 
 == The installed copy of MinGW on Windows ==
 
