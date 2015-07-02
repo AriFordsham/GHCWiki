@@ -6,18 +6,30 @@ This page documents the instructions for setting up a Windows build using [ MSYS
 
 This guide should get you running in \~5 minutes, modulo download speeds.
 
-## msys2 setup
+## MSYS2 setup
+
+### 64-bit
 
 
-Download and run the [ msys2 installer (64-bit)](http://sourceforge.net/projects/msys2/files/latest/download) (a [ 32-bit version](http://sourceforge.net/projects/msys2/files/Base/i686/) is also available). Open a mingw64 shell.
+Download and run the [ msys2 installer (64-bit)](http://sourceforge.net/projects/msys2/files/latest/download). Be sure to open a mingw64 shell (see below).
 
-**IMPORTANT:** the msys2 installer creates multiple shortcuts, "MSYS2 Shell", "MinGW-w64 Win32 Shell" and "MinGW-w64 Win64 Shell". You need the latter one (or the middle one for 32-bit). The MSYS2 shell is set up for building applications with Cygwin which provides an additional POSIX compatibility layer, while MinGW is set up for building native Windows applications which is what we need for GHC. 
-
-
-An easy way to check that you are running the right shell is to check the output of `echo $PATH`. The first item of the list should be `/mingw64/bin`. Also, `echo $MSYSTEM` should show either `MINGW32` or `MINGW64`.
+### 32-bit
 
 
-If you are using a preexisting msys2 installation, consider upgrading all installed packages to the latest versions. That takes a few steps, see [ MSYS2 installation instructions](http://sourceforge.net/p/msys2/wiki/MSYS2%20installation/) (section III).
+Download and run the [ 32-bit MSYS2 installer](http://sourceforge.net/projects/msys2/files/Base/i686/). Be sure to open a mingw32 shell (see below).
+
+
+The result of attempting to create a 32-bit build on a 64-bit machine has not been documented yet. Building on a 32-bit version of Windows works, of course.
+
+### Configuring MinGW properly
+
+**IMPORTANT:** The MSYS2 installer creates multiple shortcuts, "MSYS2 Shell", "MinGW-w64 Win32 Shell" and "MinGW-w64 Win64 Shell". You do **not** want the "MSYS2 Shell." The MSYS2 shell is set up for building applications with Cygwin which provides an additional POSIX compatibility layer, while MinGW is set up for building native Windows applications which is what we need for GHC. 
+
+
+An easy way to check that you are running the right shell is to check the output of `echo $MSYSTEM`. It should show either `MINGW32` or `MINGW64`. You can also tell by examining the `$PATH`.
+
+
+Consider upgrading all installed packages to the latest versions. See [ MSYS2 installation instructions](http://sourceforge.net/p/msys2/wiki/MSYS2%20installation/) (section III) for details.
 
 ## Installing packages & tools
 
