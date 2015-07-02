@@ -34,7 +34,7 @@ To see how these targets are defined: [Building/Architecture/Idiom/StandardTarge
 The following targets are accepted only by the top-level `Makefile`:
 
 <table><tr><th>`install`</th>
-<td>
+<td>(Non-Windows only)
 installs the things built by `all`.  Where does it install them?  In
 the places you specified when running `configure`, principally set
 by the `--prefix` flag, or in `DESTDIR`; see [Building/Installing](building/installing).
