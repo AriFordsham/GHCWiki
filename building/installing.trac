@@ -1,12 +1,22 @@
 = Installing GHC from a build tree =
 
-After GHC has been built, it can be installed on your system with
+After GHC has been built, it can be installed as follows:
+
+== Non-Windows ==
 
 {{{
 $ make install
 }}}
 
 This will build anything that isn't up-to-date, copy the files into the right places (see below) and make sure all the packages are registered properly.
+
+== Windows ==
+
+{{{
+$ make binary-dist
+}}}
+
+This will make a compressed tar file and place it in the root of the source directory so you can install it like any Windows distribution.
 
 == Layout of the installed files ==
 
