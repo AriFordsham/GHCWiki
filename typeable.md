@@ -357,7 +357,35 @@ implementation of `decomposeFun` will use `unsafeCoerce` and will be part of the
 ## Proposed API
 
 
-This assumes heterogeneous equality (that is, with kind equalities). If you really want to see this with homogeneous equality, look through the history of this page, before April 29, 2015.
+This version assumes homoegeneous equality (as GHC is today, July 2, 2015). Below is the version with heterogeneous equality.
+
+```wiki
+data TTypeRep (a :: k)        -- abstract
+data TTyCon (a :: k)          -- abstract
+
+-- Costructors
+trCon :: forall k (a :: k). TTyCon a -> TTypeRep a  -- in TCB
+trApp :: forall k k1 (a :: k1 -> k) (b :: k1). 
+         TTypeRep a -> TTypeRep b -> TTypeRep (a b)  -- in TCB
+
+-- Destructors
+pattern type TRCon :: forall k (a :: k). TyCon a -> TTypeRep a
+pattern type TRApp :: forall k. exists k1 (a :: k1 -> k) (b :: k1). 
+                      TTypeRep a -> TTypeRep b -> TTypeRep (a b)
+pattern type TRFun :: TTypeRep arg 
+                   -> TTypeRep res 
+                   -> TypeRep (TTypeRep (arg->res))
+
+
+-- For now, homogeneous equalities
+eqTyCon :: forall k (a :: k) (b :: k). 
+           TTyCon a -> TTyCon b -> Maybe (a :~: b)
+eqTT    :: forall k (a :: k) (b :: k). 
+           TTypeRep a ->T TypeRep b -> Maybe (a :~: b)
+```
+
+
+This assumes heterogeneous equality (that is, with kind equalities).
 
 ```wiki
 data TTypeRep (a :: k)        -- abstract
