@@ -155,7 +155,7 @@ The [validate script](testing-patches), which is used to test the build before c
 Currently we are some way from our goal, so some modules have a
 
 ```wiki
-{-# OPTIONS -w #-}
+{-# OPTIONS_GHC -fno-warn-... #-}
 ```
 
 
@@ -233,14 +233,6 @@ GHC must be compilable by the previous two major releases, and itself. It isn't 
 
 To maintain compatibility, use [HsVersions.h](commentary/coding-style#) (see below) where possible, and try to avoid using \#ifdef in the source itself. 
 
-### The OPTIONS pragma
-
-
-An `{-# OPTIONS_GHC ... #-`} pragma is optional, but if present it should go right at the top of the file.
-
-
-Don't bother putting `-cpp` in the `OPTIONS` pragma; these are already added to the command line by the build system. 
-
 ### `HsVersions.h`
 
 `HsVersions.h` is a CPP header file containing a number of macros that help smooth out the differences between compiler versions. It defines, for example, macros for library module names which have moved between versions. Take a look [compiler/HsVersions.h](/trac/ghc/browser/ghc/compiler/HsVersions.h).
@@ -257,8 +249,7 @@ In GHC we use a mixture of literate (`.lhs`) and non-literate (`.hs`) source. I 
 ### The C Preprocessor (CPP)
 
 
-Currently we pass all the compiler sources through CPP. The -cpp flag is always added by the build system. 
-However, whenever possible we try to avoid using CPP, as it can hide code from the compiler (which means changes that work on one platform can break the build on another) and code using CPP can be harder to understand.
+Whenever possible we try to avoid using CPP, as it can hide code from the compiler (which means changes that work on one platform can break the build on another) and code using CPP can be harder to understand.
 
 
 The following CPP symbols are used throughout the compiler: 
