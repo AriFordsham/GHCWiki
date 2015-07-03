@@ -195,3 +195,21 @@ before the release!
 ## Uploading libraries
 
 TODOFIXME Normally Herbert and upstream maintainers take care of this - we always attempt to have full releases for all package by the time the final release happens (although not necessarily so for an RC - they may ship slight interim states).
+
+
+Heuristic for detecting submodule libraries which have no proper release:
+
+```wiki
+$ git submodule  | grep -F -- '-g'
+ b6658e5d73eb0579b3054593de21f329ab491e77 libffi-tarballs (ghc-7.8.1-release-1-gb6658e5)
+ 3b573ee058560d1199a19efab10c016278dff252 libraries/Win32 (Win32-2.3.0.2-release-19-g3b573ee)
+ 33eb2fb7e178c18f2afd0d537d791d021ff75231 libraries/dph (2009-06-25-1149-g33eb2fb)
+ 29cb0db59803c9d9181f7c4ce35ef1c6cbc6ccfb libraries/primitive (primitive-0.5.2.1-release-22-g29cb0db)
+ c0308f1c4f57859d9a8b10d504afe56eebbb27c5 libraries/vector (0_9_1-129-gc0308f1)
+ 69bae89103aca6e498b811d562f387830fbcb959 nofib (2009-06-25-226-g69bae89)
+ f48474f640387dca4b42182c1ac78ba30865742d utils/haddock (haddock-2.16.0-release-32-gf48474f)
+ c16032d83c8ce7ac3e11b99f8e80bfdfc77f0d1f utils/hsc2hs (2009-06-25-87-gc16032d)
+```
+
+
+The listing above shows submodules which point to submodules that have no \*annotated\* tag, and which need further investigation. In some cases the tag just wasn't propagated from the upstream repo into our local Git mirror.
