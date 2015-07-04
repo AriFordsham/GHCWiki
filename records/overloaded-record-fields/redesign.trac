@@ -7,7 +7,7 @@ This is an attempt to redesign and clarify the design of the OverloadedRecordFie
 See also the [http://www.well-typed.com/blog/2015/03/overloadedrecordfields-revived/ high-level summary of the current plan on the Well-Typed blog].
 
 
-== Part 1: Records with duplicate field labels ==
+== Part 1: Records with duplicate fields ==
 
 === Use existing Haskell records ===
 
@@ -40,7 +40,7 @@ Even though a field label is duplicated in its defining module, it may be possib
 We propose ''no change whatsoever to how Haskell 98 records are constructed'' (e.g. `MkT { x = 3, y = True }`). Moreover, we propose ''no change to how records are updated'', which remains monomorphic (e.g. `t { y = False }`).  If there are many `y` fields in scope, the type of the context must fix which one is intended, or a type annotation must be supplied.  This is a soft spot, but there is really no way around it because Haskell's type-changing update requires modifying multiple fields simultaneously.
 
 
-== Part 2: Polymorphism over record fields ==
+== Part 2: Overloaded labels ==
 
 Bare field names in expressions refer to the selector function only if unambiguous, so how are we want to select and update overloaded fields?
 
@@ -75,28 +75,30 @@ And that's really about it.  The class `IP` is treated specially in a few other 
 
 Now consider the following class:
 {{{
-class IV (x :: Symbol) a where
-  iv :: a
+class IsLabel (x :: Symbol) a where
+  fromLabel :: a
 }}}
-Exactly like `IP` but without the functional dependency.
+Exactly like `IP` but without the functional dependency. It is also rather similar to a version of the `IsString` class from `OverloadedStrings`, but with an additional parameter making the string available at the type level.
 
-The "`IV`" stands for "implicit values" (we can argue about the name later).  It behaves like this:
+It behaves like this:
 
- * When you write `#x` in an expression, what GHC does is to replace it with `(iv @ "x" @ alpha)`, where `alpha` is a unification variable and `@` is type application.   Just like implicit parameters, in fact.
+ * When you write `#x` in an expression, what GHC does is to replace it with `(fromLabel @ "x" @ alpha)`, where `alpha` is a unification variable and `@` is type application.   Just like implicit parameters, in fact.
 
- * Of course the call `(iv @ "x" @ alpha)` gives rise to a constraint `(IV "x" alpha)` which must be satisfied by the context.
+ * Of course the call `(fromLabel @ "x" @ alpha)` gives rise to a constraint `(IsLabel "x" alpha)` which must be satisfied by the context.
 
  * The form `#x` in an expression is only valid with `{-# LANGUAGE OverloadedLabels #-}` (which is implied by `OverloadedRecordFields`).
 
- * The pretty printer prints `IV "x" t` as `#x::t`.
+ * The pretty printer could print `IsLabel "x" t` as `#x::t` ('''AMG''': I don't plan to implement this initially).
 
- * There is no functional dependency, and no equivalent to the implicit-parameter `let ?x=e` binding.  So implicit values are much less special than implicit parameters.
+ * There is no functional dependency, and no equivalent to the implicit-parameter `let ?x=e` binding.  So overloaded labels are much less special than implicit parameters.
 
-Notice that implicit values might be useful for all sorts of things that are nothing to do with records; that is why I don't mention "record" in their name.
+Notice that overloaded labels might be useful for all sorts of things that are nothing to do with records; that is why they don't mention "record" in their name.
 
-User code can never (usefully) call `iv` (or `ip`) directly, because without explicit type application there is no way to fix `x`.
+User code can never (usefully) call `fromLabel` (or `ip`) directly, because without explicit type application there is no way to fix `x`.
 
 '''AMG''': I've switched to the name `OverloadedLabels` rather than `ImplicitValues`. The connection to implicit parameters is nice from an implementation point of view, but I'm not sure how relevant it is to users, and the behaviour is rather more like a souped-up `OverloadedStrings`.
+
+== Part 3: Polymorphism over record fields ==
 
 === Overloaded record fields ===
 
@@ -156,12 +158,12 @@ has an ambiguous type variable `b`, and we get terrible type inference behaviour
 Options 2 and 3 were explored in the original `OverloadedRecordFields`, and are pretty much equivalent; we initially thought 2 might give nicer inferred types but in fact they tend to be of the form `HasField x r (FieldType x r)` so we might as well go for the two-parameter class. Option 1 should give prettier inferred types (and be easier to use with the `r { x :: t }` syntactic sugar described below), but the lack of evidence for fundeps, and the inability to mention the type of a field, may be restrictive in hard-to-predict ways. At the moment, this page is written to assume option 3.
 
 
-=== Back to implicit values ===
+=== Back to overloaded labels ===
 
-How are records and implicit values connected?  They are connected by the `IV` instance for functions
+How are records and overloaded labels connected?  They are connected by the `IsLabel` instance for functions
 {{{
-instance (HasField x r, a ~ FieldType x r) => IV x (r -> a) where
-  iv = getField (proxy# :: Proxy# x)
+instance (HasField x r, a ~ FieldType x r) => IsLabel x (r -> a) where
+  fromLabel = getField (proxy# :: Proxy# x)
 }}}
 which would allow us to freely use `#x` as an overloaded record selector.  Thus:
 {{{
@@ -172,8 +174,8 @@ xPlusOne r = #x r + 1::Int    -- Inferred type
 Alternatively, we might choose to give this instance
 {{{
 instance (Functor f, FieldUpdate x s b, a ~ FieldType x s, t ~ UpdatedRecordType x s b)
-        => IV x ((a -> f b) -> s -> f t) where
-  iv w s = setField (proxy# :: Proxy# x) s <$> w (getField (proxy# :: Proxy# x) s)
+        => IsLabel x ((a -> f b) -> s -> f t) where
+  fromLabel w s = setField (proxy# :: Proxy# x) s <$> w (getField (proxy# :: Proxy# x) s)
 }}}
 which would allow us to use `#x` as a lens that identifies record fields of that name, for example
 {{{
@@ -181,20 +183,20 @@ f v = over #x (+1) v -- Inferred type
                      -- f :: (FieldUpdate "x" r r a a, Num a) => r -> r
 }}}
 
-In either case, lens libraries other than `lens`, which have data types for their lenses, could also give `IV`
-instances and provide additional meanings to the `#x` syntax.  Lens library authors are free to experiment to their hearts' content with various sorts of lenes and lens generation.
+In either case, lens libraries other than `lens`, which have data types for their lenses, could also give `IsLabel`
+instances and provide additional meanings to the `#x` syntax.  Lens library authors are free to experiment to their hearts' content with various sorts of lenes and lens generation.  Similarly, extensible records libraries can be integrated.
 
-'''Design question''': there are in fact a number of choices for the `(->)` instance for `IV`:
+'''Design question''': there are in fact a number of choices for the `(->)` instance for `IsLabel`:
 
- 1. provide an instance in base for `IV n (r -> a)`, allowing `#x` to be used as a selector function but requiring a combinator at the use site to convert it into a van Laarhoven lens;
+ 1. provide an instance in base for `IsLabel n (r -> a)`, allowing `#x` to be used as a selector function but requiring a combinator at the use site to convert it into a van Laarhoven lens;
 
- 2. provide an instance in base for `IV n ((a -> f b) -> (r -> f s))`, allowing `#x` to be used as a van Laarhoven lens but requiring a combinator to convert it into a selector function;
+ 2. provide an instance in base for `IsLabel n ((a -> f b) -> (r -> f s))`, allowing `#x` to be used as a van Laarhoven lens but requiring a combinator to convert it into a selector function;
 
  3. provide both instances in base, with some clever typeclass trickery to avoid incoherence (which is perfectly possible but might lead to confusing inferred types);
 
  4. provide neither instance in base, so use of `#x` as either a selector function or a van Laarhoven lens would require either an orphan instance or conversion via a combinator.
 
-'''Design question''': we could sidestep the whole question by instead translating `#x` to a proxy of type `Proxy "x"`, avoiding the need for the `IV` class, but requiring a library to provide a function to convert the symbol to a selector/lens. This is slightly simpler, but perhaps too great a sacrifice of convenience.
+'''Design question''': we could sidestep the whole question by instead translating `#x` to a proxy of type `Proxy "x"`, avoiding the need for the `IsLabel` class, but requiring a library to provide a function to convert the symbol to a selector/lens. This is slightly simpler, but perhaps too great a sacrifice of convenience.
 
 
 
@@ -229,7 +231,7 @@ The exact rules for when user-defined instances are legal will require some care
 
 * We could use `@x`, though that would prevent it being used for explicit type application (which is common practice in writing, even if the extension to permit it in Haskell syntax hasn't made much progress). This is the syntax used by [http://hackage.haskell.org/package/record-preprocessor record-preprocessor].
 
-* We could say "if there is at least one data type in scope with a field `x`, then `x` is treated like `(iv @ "x" @ alpha)`".  But I hate it.  And it doesn't work for virtual fields like `#area` above.
+* We could say "if there is at least one data type in scope with a field `x`, then `x` is treated like `(fromLabel @ "x" @ alpha)`".  But I hate it.  And it doesn't work for virtual fields like `#area` above.
 
 * (Suggested by Edward K.)  We could define a magic module `GHC.ImplicitValues`, and say that if you say
 {{{
@@ -333,19 +335,19 @@ instance HasField "x" T where
 
 === Reflections ===
 
-An `IV` constraint is, in effect, rather like a (family of) single-method type classes.  Instead of
+An `IsLabel` constraint is, in effect, rather like a (family of) single-method type classes.  Instead of
 {{{
 f :: Ix a => a -> a -> a -> Bool
 f i u l = inRange (l,u) i
 }}}
 which uses only one method from `Ix`, you could write the finer-grained function
 {{{
-f :: (IV "inRange" ((a,a) -> a -> Bool))
+f :: (IsLabel "inRange" ((a,a) -> a -> Bool))
   => a -> a -> Bool
 f i u l = #inRange (l,u) i
 }}}
 Note that this example has nothing to do with records, which is part of the point.
-Perhaps `IV` will find other uses.
+Perhaps `IsLabel` will find other uses.
 It is rather reminiscent of Carlos Camaro's [http://homepages.dcc.ufmg.br/~camarao/CT/ System CT].
 
 
@@ -354,7 +356,7 @@ It is rather reminiscent of Carlos Camaro's [http://homepages.dcc.ufmg.br/~camar
 We propose three essentially orthogonal additions to GHC:
 
  1. `HasField` and `FieldUpdate` typeclasses, with special-purpose constraint solving behaviour (just like `Coercible`, we do not require a special extension to enable this, as its effect is limited to code that imports the relevant module);
- 2. an extension `OverloadedLabels` to enable the `#x` syntax, interpreted with the `IV` typeclass;
+ 2. an extension `OverloadedLabels` to enable the `#x` syntax, interpreted with the `IsLabel` typeclass;
  3. an extension `AllowDuplicateRecordFields` to permit the same field name to be used multiple times in the same module.
 
 The `OverloadedRecordFields` extension is then defined as the combination of `OverloadedLabels` and `AllowDuplicateRecordFields`.
@@ -362,5 +364,5 @@ The `OverloadedRecordFields` extension is then defined as the combination of `Ov
 These are all useful independently, but complement each other:
 
  * Without either of the extensions, the special typeclasses allow users to write code that works for all datatypes with particular fields (albeit without a nice built-in syntax).
- * `OverloadedLabels` uses the special typeclasses through the instance for `IV x (r -> a)`, but is also useful when used at other types (e.g. we could give an instance `IV x (Proxy x)` to allow implicit values to represent Symbol proxies).
+ * `OverloadedLabels` uses the special typeclasses through the instance for `IsLabel x (r -> a)`, but is also useful when used at other types (e.g. we could give an instance `IsLabel x (Proxy x)` to allow implicit values to represent Symbol proxies).
  * `AllowDuplicateRecordFields` is perfectly sensible without `OverloadedLabels`: it allows duplicate field names provided they are not used ambiguously.
