@@ -128,6 +128,7 @@
 - [\#10522](https://gitlab.haskell.org//ghc/ghc/issues/10522): Type-level operator support
 - [\#10548](https://gitlab.haskell.org//ghc/ghc/issues/10548): Type wildcards
 - [\#10572](https://gitlab.haskell.org//ghc/ghc/issues/10572): Quantify over quoted variables
+- [\#10603](https://gitlab.haskell.org//ghc/ghc/issues/10603): Better parentheses in TH pretty-printer
 
 **Unknown**
 
