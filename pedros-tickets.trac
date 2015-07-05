@@ -21,6 +21,7 @@ This is a list of tickets that [http://dreixel.net Pedro] wants to keep an eye o
 * #10361 (DeriveAnyClass does not fill in associated type defaults)
 * #10487 (DeriveGeneric breaks when the same data name is used in different modules)
 * #10512 (Generic instances missing for Int32, Word64 etc.)
+* #10982 (DeriveAnyClass and GND don't work well together)
 
 
 
