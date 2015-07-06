@@ -85,6 +85,7 @@
 == Template Haskell ==
 See also [wiki:TemplateHaskell]
 
+ * #10548: partial type sigs and TH
  * #10541: reify kind information
  * #10385: TH and annotations
  * #10279, [wiki:TemplateHaskell/PackageKeyChanges wiki page]: `reifyPackage`

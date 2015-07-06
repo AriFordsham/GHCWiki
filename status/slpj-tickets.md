@@ -90,6 +90,7 @@
 
 See also [TemplateHaskell](template-haskell)
 
+- [\#10548](https://gitlab.haskell.org//ghc/ghc/issues/10548): partial type sigs and TH
 - [\#10541](https://gitlab.haskell.org//ghc/ghc/issues/10541): reify kind information
 - [\#10385](https://gitlab.haskell.org//ghc/ghc/issues/10385): TH and annotations
 - [\#10279](https://gitlab.haskell.org//ghc/ghc/issues/10279), [wiki page](template-haskell/package-key-changes): `reifyPackage`
