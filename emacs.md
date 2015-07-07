@@ -219,6 +219,8 @@ If you switch between active trees, you must use a `setq` to change this variabl
 
 **Description**: By having GHC be built with a hotkey, working on GHC becomes much more interactive. In a typical session, though, I have to change the actual compilation command based on my needs. So, by default, "compiling GHC" means fast-building the stage-2 compiler, but I do frequently change `ghc-compile`.
 
+TODO the description below does not make use of `(haskell-compile)`, nor the use of `-ferror-spans`, which provide a much better experience than the vanilla `(compile)`-mode
+
 **How to enable**:
 
 ```
