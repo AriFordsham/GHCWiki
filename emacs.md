@@ -231,6 +231,15 @@ A few things to note here:
 - The above code binds C-q (perhaps a bad combination, as I've accidentally quit Emacs from my Mac with the wrong modifier key!) to compiling GHC from *any* Haskell file, even those unrelated to GHC. But, when I'm working outside of GHC, I tend to use C-c C-l to load into GHCi, so this works out OK.
 - By default, as said above, this will compile the stage 2 compiler for the GHC at `ghc-location`. If you set `ghc-compile` with, say, M-: `(setq ghc-compile "cd compiler; make 1")` \<Enter\>, then this will build the stage 1 compiler.
 
+## Lint GHC
+
+
+Runs `arc lint` and in the GHC source dir and outputs it in a navigatable buffer similar to above compilation.
+
+```
+(defunlint-ghc()(interactive)(compile(concat"cd "ghc-location"; ""arc lint --output compiler --rev master"))(set-buffer"*compilation*")(setqdefault-directoryghc-location))
+```
+
 ## Make the quotes in GHC error messages display nicely
 
 **Description**: If you run a shell within emacs, you'll see weird escape sequences when GHC displays error message involving Unicode forward or back quotes, eg
