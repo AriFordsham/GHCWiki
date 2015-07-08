@@ -19,6 +19,7 @@
 
 ## Generics and DeriveAnyClass
 
+- [\#10598](https://gitlab.haskell.org//ghc/ghc/issues/10598): `DeriveAnyClasss` and GND
 - [\#10604](https://gitlab.haskell.org//ghc/ghc/issues/10604): make `Generic1` kind-polymorphic
 - [\#10087](https://gitlab.haskell.org//ghc/ghc/issues/10087): typechecking generic default methods (Pedro)
 - [\#10487](https://gitlab.haskell.org//ghc/ghc/issues/10487): `Generic` name clash
