@@ -8,7 +8,6 @@
 - [\#10285](https://gitlab.haskell.org//ghc/ghc/issues/10285): a small bug in `Coercible` (Richard)
 
 - [\#10068](https://gitlab.haskell.org//ghc/ghc/issues/10068): runtime reflection API for packages, modules, names; `SrcLoc` etc.
-- [\#10519](https://gitlab.haskell.org//ghc/ghc/issues/10519): partial type sig bug (Thomas W is working on this)
 - [\#9960](https://gitlab.haskell.org//ghc/ghc/issues/9960), [\#9805](https://gitlab.haskell.org//ghc/ghc/issues/9805): `TrieMap` stuff
 - [\#10016](https://gitlab.haskell.org//ghc/ghc/issues/10016): UNPACK support for existentials
 - [\#9260](https://gitlab.haskell.org//ghc/ghc/issues/9260): type lits (Iavor owns)
@@ -34,6 +33,8 @@
 ## Performance (compile time or runtime)
 
 - [\#10491](https://gitlab.haskell.org//ghc/ghc/issues/10491): In `accelerate`, simplifier blows up size of term by factor of 100.  Regression from 7.8.
+- [\#8095](https://gitlab.haskell.org//ghc/ghc/issues/8095): very slow constraint solving
+- [\#5642](https://gitlab.haskell.org//ghc/ghc/issues/5642): slow constraint solving
 - [\#10370](https://gitlab.haskell.org//ghc/ghc/issues/10370): `OpenGLRaw`
 - [\#9979](https://gitlab.haskell.org//ghc/ghc/issues/9979): attoparsec regressed 7.8.4 to HEAD
 - [\#8852](https://gitlab.haskell.org//ghc/ghc/issues/8852), [\#8980](https://gitlab.haskell.org//ghc/ghc/issues/8980), [\#8941](https://gitlab.haskell.org//ghc/ghc/issues/8941) (possibly), [\#9803](https://gitlab.haskell.org//ghc/ghc/issues/9803), [\#8960](https://gitlab.haskell.org//ghc/ghc/issues/8960), [\#7898](https://gitlab.haskell.org//ghc/ghc/issues/7898), [\#7068](https://gitlab.haskell.org//ghc/ghc/issues/7068), [\#7944](https://gitlab.haskell.org//ghc/ghc/issues/7944), [\#5550](https://gitlab.haskell.org//ghc/ghc/issues/5550), [\#8836](https://gitlab.haskell.org//ghc/ghc/issues/8836): `SpecConstr` blowup
@@ -53,7 +54,6 @@
 - [\#10321](https://gitlab.haskell.org//ghc/ghc/issues/10321): normalising a type in `:type` in GHCi
 - [\#10018](https://gitlab.haskell.org//ghc/ghc/issues/10018): fixity for data constructors in GHCi
 - [\#10318](https://gitlab.haskell.org//ghc/ghc/issues/10318): recursive superclasses
-- [\#10183](https://gitlab.haskell.org//ghc/ghc/issues/10183): warning for redundant constraints, and pattern-match overlap warnings
 - [\#10179](https://gitlab.haskell.org//ghc/ghc/issues/10179): displaying kinds
 - [\#10089](https://gitlab.haskell.org//ghc/ghc/issues/10089): better warnings for unused data types (involves instances)
 - [\#8581](https://gitlab.haskell.org//ghc/ghc/issues/8581): bidirectional pattern synonyms (with different constraints)
@@ -66,14 +66,17 @@
 - [\#8281](https://gitlab.haskell.org//ghc/ghc/issues/8281): `UnliftedFFITypes` etc
 - [\#8441](https://gitlab.haskell.org//ghc/ghc/issues/8441): family instances in hs-boot files
 - [\#9450](https://gitlab.haskell.org//ghc/ghc/issues/9450): need more eager checking of compatibility with hs-boot files
-- [\#8095](https://gitlab.haskell.org//ghc/ghc/issues/8095): very slow constraint solving
-- [\#8171](https://gitlab.haskell.org//ghc/ghc/issues/8171): extended default rules
 - [\#7259](https://gitlab.haskell.org//ghc/ghc/issues/7259): Eta-expansion of products in System FC
-- [\#5642](https://gitlab.haskell.org//ghc/ghc/issues/5642): slow constraint solving
-- [\#7828](https://gitlab.haskell.org//ghc/ghc/issues/7828), [\#5267](https://gitlab.haskell.org//ghc/ghc/issues/5267), [\#5777](https://gitlab.haskell.org//ghc/ghc/issues/5777), [\#5333](https://gitlab.haskell.org//ghc/ghc/issues/5333), [\#344](https://gitlab.haskell.org//ghc/ghc/issues/344): bugs in arrows
 - [\#7204](https://gitlab.haskell.org//ghc/ghc/issues/7204): a class to controll FFI marshalling; and newtype deriving for classes with ATs
-- [\#7862](https://gitlab.haskell.org//ghc/ghc/issues/7862): overlap beween givens and instances
 - [\#7842](https://gitlab.haskell.org//ghc/ghc/issues/7842): polymorphism in recursive do-blocks
+
+## Type inference
+
+- [\#10614](https://gitlab.haskell.org//ghc/ghc/issues/10614): display constraints for typed holes
+- [\#10183](https://gitlab.haskell.org//ghc/ghc/issues/10183): warning for redundant constraints, and pattern-match overlap warnings
+- [\#8171](https://gitlab.haskell.org//ghc/ghc/issues/8171): extended default rules
+- [\#7828](https://gitlab.haskell.org//ghc/ghc/issues/7828), [\#5267](https://gitlab.haskell.org//ghc/ghc/issues/5267), [\#5777](https://gitlab.haskell.org//ghc/ghc/issues/5777), [\#5333](https://gitlab.haskell.org//ghc/ghc/issues/5333), [\#344](https://gitlab.haskell.org//ghc/ghc/issues/344): bugs in arrows
+- [\#7862](https://gitlab.haskell.org//ghc/ghc/issues/7862): overlap beween givens and instances
 
 ## Type families, roles, `Coercible`, `Typeable`, kind polymorphism
 
