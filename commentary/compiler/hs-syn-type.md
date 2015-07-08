@@ -9,18 +9,18 @@ The program is initially parsed into "**`HsSyn`**", a collection of data types t
 
 The `HsSyn` modules live in the [compiler/hsSyn](/trac/ghc/browser/ghc/compiler/hsSyn) directory.  Each module declares a related group of declarations, *and* gives their pretty-printer.
 
-- [compiler/hsSyn/HsSyn.lhs](/trac/ghc/browser/ghc/compiler/hsSyn/HsSyn.lhs): the root module.  It exports everything you need, and it's generally what you should import.
-- [compiler/hsSyn/HsBinds.lhs](/trac/ghc/browser/ghc/compiler/hsSyn/HsBinds.lhs): bindings.
-- [compiler/hsSyn/HsImpExp.lhs](/trac/ghc/browser/ghc/compiler/hsSyn/HsImpExp.lhs): imports and exports.
-- [compiler/hsSyn/HsDecls.lhs](/trac/ghc/browser/ghc/compiler/hsSyn/HsDecls.lhs): top-level declarations.
-- [compiler/hsSyn/HsExpr.lhs](/trac/ghc/browser/ghc/compiler/hsSyn/HsExpr.lhs): expressions, match expressions, comprehensions.
-- [compiler/hsSyn/HsLit.lhs](/trac/ghc/browser/ghc/compiler/hsSyn/HsLit.lhs): literals.
-- [compiler/hsSyn/HsPat.lhs](/trac/ghc/browser/ghc/compiler/hsSyn/HsPat.lhs): patterns.
-- [compiler/hsSyn/HsTypes.lhs](/trac/ghc/browser/ghc/compiler/hsSyn/HsTypes.lhs): types.
-- [compiler/hsSyn/HsUtils.lhs](/trac/ghc/browser/ghc/compiler/hsSyn/HsUtils.lhs): utility functions (no data types).
+- [compiler/hsSyn/HsSyn.hs](/trac/ghc/browser/ghc/compiler/hsSyn/HsSyn.hs): the root module.  It exports everything you need, and it's generally what you should import.
+- [compiler/hsSyn/HsBinds.hs](/trac/ghc/browser/ghc/compiler/hsSyn/HsBinds.hs): bindings.
+- [compiler/hsSyn/HsImpExp.hs](/trac/ghc/browser/ghc/compiler/hsSyn/HsImpExp.hs): imports and exports.
+- [compiler/hsSyn/HsDecls.hs](/trac/ghc/browser/ghc/compiler/hsSyn/HsDecls.hs): top-level declarations.
+- [compiler/hsSyn/HsExpr.hs](/trac/ghc/browser/ghc/compiler/hsSyn/HsExpr.hs): expressions, match expressions, comprehensions.
+- [compiler/hsSyn/HsLit.hs](/trac/ghc/browser/ghc/compiler/hsSyn/HsLit.hs): literals.
+- [compiler/hsSyn/HsPat.hs](/trac/ghc/browser/ghc/compiler/hsSyn/HsPat.hs): patterns.
+- [compiler/hsSyn/HsTypes.hs](/trac/ghc/browser/ghc/compiler/hsSyn/HsTypes.hs): types.
+- [compiler/hsSyn/HsUtils.hs](/trac/ghc/browser/ghc/compiler/hsSyn/HsUtils.hs): utility functions (no data types).
 
 
-There is significant mutual recursion between modules, and hence a couple of `lhs-boot` files. Look at [ModuleDependencies](module-dependencies) to see the dependencies.
+There is significant mutual recursion between modules, and hence a couple of `hs-boot` files. Look at [ModuleDependencies](module-dependencies) to see the dependencies.
 
 ## Decorating `HsSyn` with type information
 
@@ -80,7 +80,7 @@ The type checker adds type information to the syntax tree, otherwise leaving it 
 
 ## Source Locations
 
-`HsSyn` makes heavy use of the `Located` type ([compiler/basicTypes/SrcLoc.lhs](/trac/ghc/browser/ghc/compiler/basicTypes/SrcLoc.lhs)):
+`HsSyn` makes heavy use of the `Located` type ([compiler/basicTypes/SrcLoc.hs](/trac/ghc/browser/ghc/compiler/basicTypes/SrcLoc.hs)):
 
 ```wiki
 data Located e = L SrcSpan e
@@ -93,7 +93,7 @@ A `Located t` is just a pair of a `SrcSpan` (which describes the source location
 - `SrcSpan` specifes a range of source locations: (filename, start line number and character position, end line number and character position)
 
 
-More details in [compiler/basicTypes/SrcLoc.lhs](/trac/ghc/browser/ghc/compiler/basicTypes/SrcLoc.lhs).
+More details in [compiler/basicTypes/SrcLoc.hs](/trac/ghc/browser/ghc/compiler/basicTypes/SrcLoc.hs).
 
 
 Naming convention within the code: "`LHs`" means located Haskell, e.g.

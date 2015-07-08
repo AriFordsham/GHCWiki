@@ -19,7 +19,7 @@ Look at the picture first.  The yellow boxes are compiler passes, while the blue
 >
 > These three passes can all discover programmer errors, which are sorted and reported to the user.
 
-- The **Desugarer** ([compiler/deSugar/Desugar.lhs](/trac/ghc/browser/ghc/compiler/deSugar/Desugar.lhs)) converts from the massive `HsSyn` type to [GHC's intermediate language, CoreSyn](commentary/compiler/core-syn-type).  This Core-language data type is unusually tiny: just eight constructors.) (`-ddump-ds`)
+- The **Desugarer** ([compiler/deSugar/Desugar.hs](/trac/ghc/browser/ghc/compiler/deSugar/Desugar.hs)) converts from the massive `HsSyn` type to [GHC's intermediate language, CoreSyn](commentary/compiler/core-syn-type).  This Core-language data type is unusually tiny: just eight constructors.) (`-ddump-ds`)
 
   Generally speaking, the desugarer produces few user errors or warnings. But it does produce *some*.  In particular, (a) pattern-match overlap warnings are produced here; and (b) when desugaring Template Haskell code quotations, the desugarer may find that `THSyntax` is not expressive enough.  In that case, we must produce an error ([compiler/deSugar/DsMeta.hs](/trac/ghc/browser/ghc/compiler/deSugar/DsMeta.hs)).
 
@@ -28,7 +28,7 @@ Look at the picture first.  The yellow boxes are compiler passes, while the blue
   - error messages can display precisely the syntax that the user wrote; and 
   - desugaring is not required to preserve type-inference properties.
 
-- The **SimplCore** pass ([compiler/simplCore/SimplCore.lhs](/trac/ghc/browser/ghc/compiler/simplCore/SimplCore.lhs)) is a bunch of Core-to-Core passes that optimise the program; see [ A transformation-based optimiser for Haskell (SCP'98)](http://research.microsoft.com/%7Esimonpj/Papers/comp-by-trans-scp.ps.gz) for a more-or-less accurate overview.  See [Commentary/Compiler/Core2CorePipeline](commentary/compiler/core2-core-pipeline) for an overview of the Core-to-Core optimisation pipeline. The main passes are:
+- The **SimplCore** pass ([compiler/simplCore/SimplCore.hs](/trac/ghc/browser/ghc/compiler/simplCore/SimplCore.hs)) is a bunch of Core-to-Core passes that optimise the program; see [ A transformation-based optimiser for Haskell (SCP'98)](http://research.microsoft.com/%7Esimonpj/Papers/comp-by-trans-scp.ps.gz) for a more-or-less accurate overview.  See [Commentary/Compiler/Core2CorePipeline](commentary/compiler/core2-core-pipeline) for an overview of the Core-to-Core optimisation pipeline. The main passes are:
 
   - The **Simplifier**, which applies lots of small, local optimisations to the program.  The simplifier is big and complicated, because it implements a *lot* of transformations; and tries to make them cascade nicely.  The transformation-based optimiser paper gives lots of details, but two other papers are particularly relevant: [ Secrets of the Glasgow Haskell Compiler inliner (JFP'02)](http://research.microsoft.com/%7Esimonpj/Papers/inlining/index.htm) and [ Playing by the rules: rewriting as a practical optimisation technique in GHC (Haskell workshop 2001)](http://research.microsoft.com/%7Esimonpj/Papers/rules.htm).  (`-ddump-simpl`)
   - The **float-out** and **float-in** transformations, which move let-bindings outwards and inwards respectively.  See [ Let-floating: moving bindings to give faster programs (ICFP '96)](http://research.microsoft.com/%7Esimonpj/papers/float.ps.gz).
@@ -43,11 +43,11 @@ Look at the picture first.  The yellow boxes are compiler passes, while the blue
 > It makes a difference whether or not you are using `-O` at this stage.  With `-O` (or rather, with `-fomit-interface-pragmas` which is a consequence of `-O`), the tidied program (produced by `tidyProgram`) has unfoldings for Ids, and RULES.  Without `-O` the unfoldings and RULES are omitted from the tidied program.  And that, in turn, affects the interface file generated subsequently.
 
 >
-> There are good notes at the top of the file [compiler/main/TidyPgm.lhs](/trac/ghc/browser/ghc/compiler/main/TidyPgm.lhs); the main function is `tidyProgram`, for some reason documented as "Plan B".
+> There are good notes at the top of the file [compiler/main/TidyPgm.hs](/trac/ghc/browser/ghc/compiler/main/TidyPgm.hs); the main function is `tidyProgram`, for some reason documented as "Plan B".
 
 - At this point, the data flow forks.  First, the tidied program is dumped into an interface file.  This part happens in two stages:
 
-  - It is **converted to `IfaceSyn`** (defined in [compiler/iface/IfaceSyn.lhs](/trac/ghc/browser/ghc/compiler/iface/IfaceSyn.lhs) and [compiler/iface/IfaceType.lhs](/trac/ghc/browser/ghc/compiler/iface/IfaceType.lhs)).
+  - It is **converted to `IfaceSyn`** (defined in [compiler/iface/IfaceSyn.hs](/trac/ghc/browser/ghc/compiler/iface/IfaceSyn.hs) and [compiler/iface/IfaceType.hs](/trac/ghc/browser/ghc/compiler/iface/IfaceType.hs)).
   - The `IfaceSyn` is **serialised into a binary output file** ([compiler/iface/BinIface.hs](/trac/ghc/browser/ghc/compiler/iface/BinIface.hs)).
 
 > >
@@ -55,8 +55,8 @@ Look at the picture first.  The yellow boxes are compiler passes, while the blue
 
 - The same, tidied Core program is now fed to the Back End.  First there is a two-stage conversion from `CoreSyn` to [GHC's intermediate language, StgSyn](commentary/compiler/stg-syn-type).
 
-  - The first step is called **CorePrep**, a Core-to-Core pass that puts the program into A-normal form (ANF).  In ANF, the argument of every application is a variable or literal; more complicated arguments are let-bound.  Actually `CorePrep` does quite a bit more: there is a detailed list at the top of the file [compiler/coreSyn/CorePrep.lhs](/trac/ghc/browser/ghc/compiler/coreSyn/CorePrep.lhs).
-  - The second step, **CoreToStg**, moves to the `StgSyn` data type ([compiler/stgSyn/CoreToStg.lhs](/trac/ghc/browser/ghc/compiler/stgSyn/CoreToStg.lhs)).  The output of CorePrep is carefully arranged to exactly match what `StgSyn` allows (notably ANF), so there is very little work to do. However, `StgSyn` is decorated with lots of redundant information (free variables, let-no-escape indicators), which is generated on-the-fly by `CoreToStg`.
+  - The first step is called **CorePrep**, a Core-to-Core pass that puts the program into A-normal form (ANF).  In ANF, the argument of every application is a variable or literal; more complicated arguments are let-bound.  Actually `CorePrep` does quite a bit more: there is a detailed list at the top of the file [compiler/coreSyn/CorePrep.hs](/trac/ghc/browser/ghc/compiler/coreSyn/CorePrep.hs).
+  - The second step, **CoreToStg**, moves to the `StgSyn` data type ([compiler/stgSyn/CoreToStg.hs](/trac/ghc/browser/ghc/compiler/stgSyn/CoreToStg.hs)).  The output of CorePrep is carefully arranged to exactly match what `StgSyn` allows (notably ANF), so there is very little work to do. However, `StgSyn` is decorated with lots of redundant information (free variables, let-no-escape indicators), which is generated on-the-fly by `CoreToStg`.
 
 - Next, the **[Code Generator](commentary/compiler/code-gen)** converts the STG program to a `C--` program.  The code generator is a Big Mother, and lives in directory [compiler/codeGen](/trac/ghc/browser/ghc/compiler/codeGen)
 
