@@ -5,8 +5,6 @@
 - [\#8613](https://gitlab.haskell.org//ghc/ghc/issues/8613), [\#9070](https://gitlab.haskell.org//ghc/ghc/issues/9070), [\#8319](https://gitlab.haskell.org//ghc/ghc/issues/8319), [\#7521](https://gitlab.haskell.org//ghc/ghc/issues/7521), [\#10459](https://gitlab.haskell.org//ghc/ghc/issues/10459), [\#10584](https://gitlab.haskell.org//ghc/ghc/issues/10584), [\#10565](https://gitlab.haskell.org//ghc/ghc/issues/10565): simplifier ticks exhausted (there are others). [\#10459](https://gitlab.haskell.org//ghc/ghc/issues/10459) is clearly a loop; and affects a real package.
 - [\#7262](https://gitlab.haskell.org//ghc/ghc/issues/7262), [\#10333](https://gitlab.haskell.org//ghc/ghc/issues/10333), [\#7672](https://gitlab.haskell.org//ghc/ghc/issues/7672), [\#10083](https://gitlab.haskell.org//ghc/ghc/issues/10083): hs-boot niggles
 - [\#10114](https://gitlab.haskell.org//ghc/ghc/issues/10114): `AnyK` and kind generalisation in type synonyms
-- [\#10285](https://gitlab.haskell.org//ghc/ghc/issues/10285): a small bug in `Coercible` (Richard)
-
 - [\#10068](https://gitlab.haskell.org//ghc/ghc/issues/10068): runtime reflection API for packages, modules, names; `SrcLoc` etc.
 - [\#9960](https://gitlab.haskell.org//ghc/ghc/issues/9960), [\#9805](https://gitlab.haskell.org//ghc/ghc/issues/9805): `TrieMap` stuff
 - [\#10016](https://gitlab.haskell.org//ghc/ghc/issues/10016): UNPACK support for existentials
@@ -32,17 +30,13 @@
 
 ## Performance (compile time or runtime)
 
-- [\#10491](https://gitlab.haskell.org//ghc/ghc/issues/10491): In `accelerate`, simplifier blows up size of term by factor of 100.  Regression from 7.8.
 - [\#8095](https://gitlab.haskell.org//ghc/ghc/issues/8095): very slow constraint solving
 - [\#5642](https://gitlab.haskell.org//ghc/ghc/issues/5642): slow constraint solving
-- [\#10370](https://gitlab.haskell.org//ghc/ghc/issues/10370): `OpenGLRaw`
 - [\#9979](https://gitlab.haskell.org//ghc/ghc/issues/9979): attoparsec regressed 7.8.4 to HEAD
 - [\#8852](https://gitlab.haskell.org//ghc/ghc/issues/8852), [\#8980](https://gitlab.haskell.org//ghc/ghc/issues/8980), [\#8941](https://gitlab.haskell.org//ghc/ghc/issues/8941) (possibly), [\#9803](https://gitlab.haskell.org//ghc/ghc/issues/9803), [\#8960](https://gitlab.haskell.org//ghc/ghc/issues/8960), [\#7898](https://gitlab.haskell.org//ghc/ghc/issues/7898), [\#7068](https://gitlab.haskell.org//ghc/ghc/issues/7068), [\#7944](https://gitlab.haskell.org//ghc/ghc/issues/7944), [\#5550](https://gitlab.haskell.org//ghc/ghc/issues/5550), [\#8836](https://gitlab.haskell.org//ghc/ghc/issues/8836): `SpecConstr` blowup
-- [\#10108](https://gitlab.haskell.org//ghc/ghc/issues/10108): 3600x slowdown with -O2
 - [\#10289](https://gitlab.haskell.org//ghc/ghc/issues/10289): 2.5k static `HashSet` takes too much memory to compile
 - [\#9669](https://gitlab.haskell.org//ghc/ghc/issues/9669), [\#9557](https://gitlab.haskell.org//ghc/ghc/issues/9557), [\#8731](https://gitlab.haskell.org//ghc/ghc/issues/8731): slow compilation with lots of `deriving` clauses
 - [\#9583](https://gitlab.haskell.org//ghc/ghc/issues/9583), [\#9630](https://gitlab.haskell.org//ghc/ghc/issues/9630): code blowup in Generics/Binary
-- [\#10293](https://gitlab.haskell.org//ghc/ghc/issues/10293): too much time in `CallArity` (Joachim)
 - [\#10228](https://gitlab.haskell.org//ghc/ghc/issues/10228): compile-time regression from 7.8.4 to 7.10.1
 - [\#7450](https://gitlab.haskell.org//ghc/ghc/issues/7450), [\#7258](https://gitlab.haskell.org//ghc/ghc/issues/7258): deriving `Read` generates gigantic code. Better now, but still not linear.
 - [\#7428](https://gitlab.haskell.org//ghc/ghc/issues/7428): Non-linear compile time: `addFingerprint`??
