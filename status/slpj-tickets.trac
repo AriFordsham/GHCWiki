@@ -4,10 +4,7 @@
  * #8613, #9070, #8319, #7521, #10459, #10584, #10565: simplifier ticks exhausted (there are others). #10459 is clearly a loop; and affects a real package.
  * #7262, #10333, #7672, #10083: hs-boot niggles
  * #10114: `AnyK` and kind generalisation in type synonyms
- * #10285: a small bug in `Coercible` (Richard)
-
  * #10068: runtime reflection API for packages, modules, names; `SrcLoc` etc.
- * #10519: partial type sig bug (Thomas W is working on this)
  * #9960, #9805: `TrieMap` stuff
  * #10016: UNPACK support for existentials
  * #9260: type lits (Iavor owns)
@@ -20,19 +17,23 @@
  * #9717, #9729: orphan modules
 
 == Generics and DeriveAnyClass ==
+ * #10598: `DeriveAnyClasss` and GND
  * #10604: make `Generic1` kind-polymorphic
  * #10087: typechecking generic default methods (Pedro)
+ * #10487: `Generic` name clash
+
+=== Impredicativity and higher rank ===
+ * #10619: higher rank and order of equations
+ * #4281, #4295, #4347, #7264, #8808, #9420, #9730: impredicativity
 
 == Performance (compile time or runtime) ==
- * #10491: In `accelerate`, simplifier blows up size of term by factor of 100.  Regression from 7.8.
- * #10370: `OpenGLRaw`
+ * #8095: very slow constraint solving
+ * #5642: slow constraint solving
  * #9979: attoparsec regressed 7.8.4 to HEAD
  * #8852, #8980, #8941 (possibly), #9803, #8960, #7898, #7068, #7944, #5550, #8836: `SpecConstr` blowup
- * #10108: 3600x slowdown with -O2
  * #10289: 2.5k static `HashSet` takes too much memory to compile
  * #9669, #9557, #8731: slow compilation with lots of `deriving` clauses
  * #9583, #9630: code blowup in Generics/Binary
- * #10293: too much time in `CallArity` (Joachim)
  * #10228: compile-time regression from 7.8.4 to 7.10.1
  * #7450, #7258: deriving `Read` generates gigantic code. Better now, but still not linear.
  * #7428: Non-linear compile time: `addFingerprint`??
@@ -44,7 +45,6 @@
  * #10321: normalising a type in `:type` in GHCi
  * #10018: fixity for data constructors in GHCi
  * #10318: recursive superclasses
- * #10183: warning for redundant constraints, and pattern-match overlap warnings
  * #10179: displaying kinds
  * #10089: better warnings for unused data types (involves instances)
  * #8581: bidirectional pattern synonyms (with different constraints)
@@ -57,14 +57,17 @@
  * #8281: `UnliftedFFITypes` etc
  * #8441: family instances in hs-boot files
  * #9450: need more eager checking of compatibility with hs-boot files
- * #8095: very slow constraint solving
- * #8171: extended default rules
  * #7259: Eta-expansion of products in System FC
- * #5642: slow constraint solving
- * #7828, #5267, #5777, #5333, #344: bugs in arrows
  * #7204: a class to controll FFI marshalling; and newtype deriving for classes with ATs
- * #7862: overlap beween givens and instances
  * #7842: polymorphism in recursive do-blocks
+
+== Type inference ==
+
+ * #10614: display constraints for typed holes
+ * #10183: warning for redundant constraints, and pattern-match overlap warnings
+ * #8171: extended default rules
+ * #7828, #5267, #5777, #5333, #344: bugs in arrows
+ * #7862: overlap beween givens and instances
 
 == Type families, roles, `Coercible`, `Typeable`, kind polymorphism ==
  
@@ -237,7 +240,6 @@ See also [wiki:TemplateHaskell]
  * #8109: as-patterns in type-family declarations
  * #6065: GHC suggests a type signature that it then rejects
  * #5320, #7296: overlap delicacy
- * #4281, #4295, #4347, #7264, #8808, #9420, #9730: impredicativity
  * #1965: make existentials have a really cheap implementation
  * #5224: make it cheaper to check for inconsistent type family instances
  * #4466, #5296, #8631: explicit type application
