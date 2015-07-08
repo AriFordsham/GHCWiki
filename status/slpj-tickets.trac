@@ -22,6 +22,7 @@
 == Generics and DeriveAnyClass ==
  * #10604: make `Generic1` kind-polymorphic
  * #10087: typechecking generic default methods (Pedro)
+ * #10487: `Generic` name clash
 
 == Performance (compile time or runtime) ==
  * #10491: In `accelerate`, simplifier blows up size of term by factor of 100.  Regression from 7.8.
