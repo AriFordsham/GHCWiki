@@ -6,6 +6,8 @@ Links
 
 * The record package on Hackage: http://hackage.haskell.org/package/record
 * Homepage and tutorial: http://nikita-volkov.github.io/record/
+* Talk: http://www.techcast.com/events/bigtechday8/maffei-1005/
+* Mailing list: https://mail.haskell.org/pipermail/ghc-devs/2015-January/008049.html
 * Reddit discussion: http://www.reddit.com/r/haskell/comments/2svayz/i_think_ive_nailed_it_ive_solved_the_records/
 
 == Drawbacks ==
