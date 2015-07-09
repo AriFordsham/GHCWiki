@@ -97,6 +97,7 @@ See also [TemplateHaskell](template-haskell)
 
 - [\#10267](https://gitlab.haskell.org//ghc/ghc/issues/10267): typed holes and TH
 - [\#10548](https://gitlab.haskell.org//ghc/ghc/issues/10548): partial type sigs and TH
+- [\#10486](https://gitlab.haskell.org//ghc/ghc/issues/10486): allow `addTopDecls` to create annotations
 - [\#10541](https://gitlab.haskell.org//ghc/ghc/issues/10541): reify kind information
 - [\#10385](https://gitlab.haskell.org//ghc/ghc/issues/10385): TH and annotations
 - [\#10279](https://gitlab.haskell.org//ghc/ghc/issues/10279), [wiki page](template-haskell/package-key-changes): `reifyPackage`
@@ -106,6 +107,14 @@ See also [TemplateHaskell](template-haskell)
 - [\#9113](https://gitlab.haskell.org//ghc/ghc/issues/9113): pattern match overlap/exhaustiveness checked in Typed TH
 - [TemplateHaskell/Annotations](template-haskell/annotations) Gergely's work on annotations in TH
 - [\#1475](https://gitlab.haskell.org//ghc/ghc/issues/1475): allow splicing of import declarations (5 in cc list)
+- [\#1012](https://gitlab.haskell.org//ghc/ghc/issues/1012): mutually recursive modules and TH
+- [\#5959](https://gitlab.haskell.org//ghc/ghc/issues/5959): top level splices and renaming
+- [\#5416](https://gitlab.haskell.org//ghc/ghc/issues/5416): local modules
+- [\#4372](https://gitlab.haskell.org//ghc/ghc/issues/4372): better quasiquotation support
+- [\#2041](https://gitlab.haskell.org//ghc/ghc/issues/2041): Splicing in concrete syntax
+- [\#1475](https://gitlab.haskell.org//ghc/ghc/issues/1475): Allow TH to generate import declarations        
+- [\#2340](https://gitlab.haskell.org//ghc/ghc/issues/2340): Better TH error recovery.  Easy to do; change to signature of qRecover.
+- [\#4222](https://gitlab.haskell.org//ghc/ghc/issues/4222): design of reification for TH
 
 ## Demand analysis and CSE
 
@@ -277,18 +286,6 @@ See also [TemplateHaskell](template-haskell)
 - [\#1928](https://gitlab.haskell.org//ghc/ghc/issues/1928): Confusing type error message (Claus makes suggestions)        
 
 ---
-
-## Template Haskell
-
-- Blog post: [ http://hackage.haskell.org/trac/ghc/blog/Template%20Haskell%20Proposal](http://hackage.haskell.org/trac/ghc/blog/Template%20Haskell%20Proposal)
-- [\#1012](https://gitlab.haskell.org//ghc/ghc/issues/1012): mutually recursive modules and TH
-- [\#5959](https://gitlab.haskell.org//ghc/ghc/issues/5959): top level splices and renaming
-- [\#5416](https://gitlab.haskell.org//ghc/ghc/issues/5416): local modules
-- [\#4372](https://gitlab.haskell.org//ghc/ghc/issues/4372): better quasiquotation support
-- [\#2041](https://gitlab.haskell.org//ghc/ghc/issues/2041): Splicing in concrete syntax
-- [\#1475](https://gitlab.haskell.org//ghc/ghc/issues/1475): Allow TH to generate import declarations        
-- [\#2340](https://gitlab.haskell.org//ghc/ghc/issues/2340): Better TH error recovery.  Easy to do; change to signature of qRecover.
-- [\#4222](https://gitlab.haskell.org//ghc/ghc/issues/4222): design of reification for TH
 
 ## Features
 
