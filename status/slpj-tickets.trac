@@ -21,6 +21,7 @@
  * #10604: make `Generic1` kind-polymorphic
  * #10087: typechecking generic default methods (Pedro)
  * #10487: `Generic` name clash
+ * #10514: `Generic` for existentials
 
 === Impredicativity and higher rank ===
  * #10619: higher rank and order of equations
