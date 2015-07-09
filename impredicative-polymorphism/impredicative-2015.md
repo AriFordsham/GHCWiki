@@ -180,10 +180,10 @@ While in the solver we want `InstanceOf` constraints to have their own identity.
 ### Design choice: `InstanceOf` and `->`
 
 
-In the designed proposed above, `->` is treated as any other type constructor. That means that if we are canonicalizing `InstanceOf (sigma3 -> sigma4) (sigma1 -> sigma2), the result is `sigma1 \~ sigma3 /\\ sigma2 \~ sigma4`. That is, `-\>\` is treated invariantly in both arguments. Other possible design choices are:
+In the designed proposed above, `->` is treated as any other type constructor. That means that if we are canonicalizing `InstanceOf (sigma3 -> sigma4) (sigma1 -> sigma2)`, the result is `sigma1 ~ sigma3 /\ sigma2 ~ sigma4`. That is, `->` is treated invariantly in both arguments. Other possible design choices are:
 
 - `->` treated co- and contravariantly, leading to `InstanceOf sigma3 sigma1 /\ InstanceOf sigma2 sigma4`.
-- Treat inly the co-domain covariantly, leading to `sigma1 ~ sigma3 /\ InstanceOf sigma2 sigma4`.
+- Treat only the co-domain covariantly, leading to `sigma1 ~ sigma3 /\ InstanceOf sigma2 sigma4`.
 
 
 Which are the the benefits of each option?
