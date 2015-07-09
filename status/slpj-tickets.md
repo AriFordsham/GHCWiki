@@ -9,13 +9,13 @@
 - [\#9960](https://gitlab.haskell.org//ghc/ghc/issues/9960), [\#9805](https://gitlab.haskell.org//ghc/ghc/issues/9805): `TrieMap` stuff
 - [\#10016](https://gitlab.haskell.org//ghc/ghc/issues/10016): UNPACK support for existentials
 - [\#9260](https://gitlab.haskell.org//ghc/ghc/issues/9260): type lits (Iavor owns)
-- [\#9793](https://gitlab.haskell.org//ghc/ghc/issues/9793), [\#8761](https://gitlab.haskell.org//ghc/ghc/issues/8761), [\#8581](https://gitlab.haskell.org//ghc/ghc/issues/8581), [\#8779](https://gitlab.haskell.org//ghc/ghc/issues/8779), [\#8761](https://gitlab.haskell.org//ghc/ghc/issues/8761), [\#8583](https://gitlab.haskell.org//ghc/ghc/issues/8583), [\#9911](https://gitlab.haskell.org//ghc/ghc/issues/9911), [\#7736](https://gitlab.haskell.org//ghc/ghc/issues/7736), [\#8582](https://gitlab.haskell.org//ghc/ghc/issues/8582), [\#10339](https://gitlab.haskell.org//ghc/ghc/issues/10339): pattern synonyms (Gergo)
+- [\#9793](https://gitlab.haskell.org//ghc/ghc/issues/9793), [\#8761](https://gitlab.haskell.org//ghc/ghc/issues/8761), [\#8581](https://gitlab.haskell.org//ghc/ghc/issues/8581), [\#8779](https://gitlab.haskell.org//ghc/ghc/issues/8779), [\#8761](https://gitlab.haskell.org//ghc/ghc/issues/8761), [\#8583](https://gitlab.haskell.org//ghc/ghc/issues/8583), [\#9911](https://gitlab.haskell.org//ghc/ghc/issues/9911), [\#7736](https://gitlab.haskell.org//ghc/ghc/issues/7736), [\#8582](https://gitlab.haskell.org//ghc/ghc/issues/8582), [\#10339](https://gitlab.haskell.org//ghc/ghc/issues/10339), [\#10426](https://gitlab.haskell.org//ghc/ghc/issues/10426), [\#10404](https://gitlab.haskell.org//ghc/ghc/issues/10404): pattern synonyms (Gergo)
 - [\#8634](https://gitlab.haskell.org//ghc/ghc/issues/8634), [\#9267](https://gitlab.haskell.org//ghc/ghc/issues/9267), [\#9227](https://gitlab.haskell.org//ghc/ghc/issues/9227): relaxing functional dependency rules `-XDysFunctionalDependencies`
 - [\#9123](https://gitlab.haskell.org//ghc/ghc/issues/9123): higher order roles
 - [\#9352](https://gitlab.haskell.org//ghc/ghc/issues/9352): allow `State#` in FFI types.
 - [\#9637](https://gitlab.haskell.org//ghc/ghc/issues/9637): type-level "error" function
 - [\#9725](https://gitlab.haskell.org//ghc/ghc/issues/9725): kind equalities (Richard)
-- [\#9717](https://gitlab.haskell.org//ghc/ghc/issues/9717), [\#9729](https://gitlab.haskell.org//ghc/ghc/issues/9729): orphan modules
+- [\#9717](https://gitlab.haskell.org//ghc/ghc/issues/9717), [\#9729](https://gitlab.haskell.org//ghc/ghc/issues/9729), [\#10420](https://gitlab.haskell.org//ghc/ghc/issues/10420): orphan modules
 
 ## Generics and DeriveAnyClass
 
@@ -23,8 +23,9 @@
 - [\#10604](https://gitlab.haskell.org//ghc/ghc/issues/10604): make `Generic1` kind-polymorphic
 - [\#10087](https://gitlab.haskell.org//ghc/ghc/issues/10087): typechecking generic default methods (Pedro)
 - [\#10487](https://gitlab.haskell.org//ghc/ghc/issues/10487): `Generic` name clash
+- [\#10514](https://gitlab.haskell.org//ghc/ghc/issues/10514): `Generic` for existentials
 
-### Impredicativity and higher rank
+## Impredicativity and higher rank
 
 - [\#10619](https://gitlab.haskell.org//ghc/ghc/issues/10619): higher rank and order of equations
 - [\#4281](https://gitlab.haskell.org//ghc/ghc/issues/4281), [\#4295](https://gitlab.haskell.org//ghc/ghc/issues/4295), [\#4347](https://gitlab.haskell.org//ghc/ghc/issues/4347), [\#7264](https://gitlab.haskell.org//ghc/ghc/issues/7264), [\#8808](https://gitlab.haskell.org//ghc/ghc/issues/8808), [\#9420](https://gitlab.haskell.org//ghc/ghc/issues/9420), [\#9730](https://gitlab.haskell.org//ghc/ghc/issues/9730): impredicativity
@@ -94,7 +95,9 @@
 
 See also [TemplateHaskell](template-haskell)
 
+- [\#10267](https://gitlab.haskell.org//ghc/ghc/issues/10267): typed holes and TH
 - [\#10548](https://gitlab.haskell.org//ghc/ghc/issues/10548): partial type sigs and TH
+- [\#10486](https://gitlab.haskell.org//ghc/ghc/issues/10486): allow `addTopDecls` to create annotations
 - [\#10541](https://gitlab.haskell.org//ghc/ghc/issues/10541): reify kind information
 - [\#10385](https://gitlab.haskell.org//ghc/ghc/issues/10385): TH and annotations
 - [\#10279](https://gitlab.haskell.org//ghc/ghc/issues/10279), [wiki page](template-haskell/package-key-changes): `reifyPackage`
@@ -104,6 +107,14 @@ See also [TemplateHaskell](template-haskell)
 - [\#9113](https://gitlab.haskell.org//ghc/ghc/issues/9113): pattern match overlap/exhaustiveness checked in Typed TH
 - [TemplateHaskell/Annotations](template-haskell/annotations) Gergely's work on annotations in TH
 - [\#1475](https://gitlab.haskell.org//ghc/ghc/issues/1475): allow splicing of import declarations (5 in cc list)
+- [\#1012](https://gitlab.haskell.org//ghc/ghc/issues/1012): mutually recursive modules and TH
+- [\#5959](https://gitlab.haskell.org//ghc/ghc/issues/5959): top level splices and renaming
+- [\#5416](https://gitlab.haskell.org//ghc/ghc/issues/5416): local modules
+- [\#4372](https://gitlab.haskell.org//ghc/ghc/issues/4372): better quasiquotation support
+- [\#2041](https://gitlab.haskell.org//ghc/ghc/issues/2041): Splicing in concrete syntax
+- [\#1475](https://gitlab.haskell.org//ghc/ghc/issues/1475): Allow TH to generate import declarations        
+- [\#2340](https://gitlab.haskell.org//ghc/ghc/issues/2340): Better TH error recovery.  Easy to do; change to signature of qRecover.
+- [\#4222](https://gitlab.haskell.org//ghc/ghc/issues/4222): design of reification for TH
 
 ## Demand analysis and CSE
 
@@ -275,18 +286,6 @@ See also [TemplateHaskell](template-haskell)
 - [\#1928](https://gitlab.haskell.org//ghc/ghc/issues/1928): Confusing type error message (Claus makes suggestions)        
 
 ---
-
-## Template Haskell
-
-- Blog post: [ http://hackage.haskell.org/trac/ghc/blog/Template%20Haskell%20Proposal](http://hackage.haskell.org/trac/ghc/blog/Template%20Haskell%20Proposal)
-- [\#1012](https://gitlab.haskell.org//ghc/ghc/issues/1012): mutually recursive modules and TH
-- [\#5959](https://gitlab.haskell.org//ghc/ghc/issues/5959): top level splices and renaming
-- [\#5416](https://gitlab.haskell.org//ghc/ghc/issues/5416): local modules
-- [\#4372](https://gitlab.haskell.org//ghc/ghc/issues/4372): better quasiquotation support
-- [\#2041](https://gitlab.haskell.org//ghc/ghc/issues/2041): Splicing in concrete syntax
-- [\#1475](https://gitlab.haskell.org//ghc/ghc/issues/1475): Allow TH to generate import declarations        
-- [\#2340](https://gitlab.haskell.org//ghc/ghc/issues/2340): Better TH error recovery.  Easy to do; change to signature of qRecover.
-- [\#4222](https://gitlab.haskell.org//ghc/ghc/issues/4222): design of reification for TH
 
 ## Features
 
