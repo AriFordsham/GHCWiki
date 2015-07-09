@@ -52,7 +52,7 @@ Here again we need impredicative polymorphism, to instantiate `($)`'s type, very
 ### The internal language
 
 
-All of this concerns the *source* language.  GHC's *internal language*, System FC, is fully impredicative.  This works find becuase there is no type inference in System FC.  It's only type *inference* that is the problem with impredicativity.
+All of this concerns the *source* language.  GHC's *internal language*, System FC, is fully impredicative.  This works fine because there is no type inference in System FC.  It's only type *inference* that is the problem with impredicativity.
 
 ### What about `-XImpredicativeTypes`?
 
