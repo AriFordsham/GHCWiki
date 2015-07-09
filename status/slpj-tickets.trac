@@ -8,7 +8,7 @@
  * #9960, #9805: `TrieMap` stuff
  * #10016: UNPACK support for existentials
  * #9260: type lits (Iavor owns)
- * #9793, #8761, #8581, #8779, #8761, #8583, #9911, #7736, #8582, #10339: pattern synonyms (Gergo)
+ * #9793, #8761, #8581, #8779, #8761, #8583, #9911, #7736, #8582, #10339, #10426: pattern synonyms (Gergo)
  * #8634, #9267, #9227: relaxing functional dependency rules `-XDysFunctionalDependencies`
  * #9123: higher order roles
  * #9352: allow `State#` in FFI types.
