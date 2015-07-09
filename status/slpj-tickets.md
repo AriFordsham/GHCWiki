@@ -15,7 +15,7 @@
 - [\#9352](https://gitlab.haskell.org//ghc/ghc/issues/9352): allow `State#` in FFI types.
 - [\#9637](https://gitlab.haskell.org//ghc/ghc/issues/9637): type-level "error" function
 - [\#9725](https://gitlab.haskell.org//ghc/ghc/issues/9725): kind equalities (Richard)
-- [\#9717](https://gitlab.haskell.org//ghc/ghc/issues/9717), [\#9729](https://gitlab.haskell.org//ghc/ghc/issues/9729): orphan modules
+- [\#9717](https://gitlab.haskell.org//ghc/ghc/issues/9717), [\#9729](https://gitlab.haskell.org//ghc/ghc/issues/9729), [\#10420](https://gitlab.haskell.org//ghc/ghc/issues/10420): orphan modules
 
 ## Generics and DeriveAnyClass
 

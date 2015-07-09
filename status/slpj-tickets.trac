@@ -14,7 +14,7 @@
  * #9352: allow `State#` in FFI types.
  * #9637: type-level "error" function
  * #9725: kind equalities (Richard)
- * #9717, #9729: orphan modules
+ * #9717, #9729, #10420: orphan modules
 
 == Generics and DeriveAnyClass ==
  * #10598: `DeriveAnyClasss` and GND
