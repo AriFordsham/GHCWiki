@@ -18,6 +18,7 @@ See milestone:7.12.1 and [ Active tickets](https://ghc.haskell.org/trac/ghc/quer
 - A (possible) overhaul of GHC's build system to use **Shake** instead of Make.
 - Support for reasoning about kind equalities, which gives promotion of GADTs to kinds, kind families, heterogeneous equality (kind-indexed GADTs), and `* :: *`. There is some discussion in [DependentHaskell/Phase1](dependent-haskell/phase1), but that's very low-level. I (Richard) have no good user-oriented write-up yet, but there shouldn't be much in the way of new syntax -- just fewer type errors.
 - A new, type-indexed type representation, `data TTypeRep (a :: k)`. This change should be fully backward compatible. See [Typeable](typeable).
+- More Backpack is chugging along; we have a new user-facing syntax which allows multiple modules to be defined a single file, and are hoping to release at least the ability to publish multiple "units" in a single Cabal file.
 
 ## Migration Guide to 7.12
 
