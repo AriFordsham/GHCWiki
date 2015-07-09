@@ -19,8 +19,8 @@ Links
 
 The most important drawbacks of this design relative to other designs are:
 
-- Support of only a limited subset of Haskell syntax (A work's being done to provide full support)
-- Lack of support for strict and unpacked fields (Support for strict records will be implemented in future versions)
+- Support of only a limited subset of Haskell syntax (presumably not an issue if built in to GHC)
+- Lack of support for strict and unpacked fields (a recent version provides entirely strict records, but not per-field strictness control otherwise the number of datatypes explodes)
 - Lack of support for polymorphic (Rank-N) fields
 - Fixed limit on the number of fields (24 in the current implementation, but the implementation can easily be updated to extend this range to an arbitrary amount)
 
