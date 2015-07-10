@@ -1,0 +1,60 @@
+= Overview =
+Proposed API for type indexed type representations, and basic {{{Dynamic}}} functionality, without using pattern synonyms.
+We consider 3 modules {{{TyConT}}}, {{{Typeable}}} and {{{Dynamic}}}, built up in that order.
+We consider two varients, one for ghc as of 2015-07-10 with kind-homogenous equalities {{{a:~:b}}} only, and one for type hetrogenous type equalities {{{a:~~:b}}}.
+The TCB consists of {{{TyConT}}} and {{{Typeable}}} in the homogenous case, and just {{{TyConT}}} in the hetrogenous case.
+
+== Homogenous Case ==
+{{{TyConT}}}:
+{{{#!hs
+data TyConT (a::k) -- abstract
+
+eqTyConT :: TyConT (a :: k1) -> TyConT (b :: k2) -> Bool
+eqTyConTHom :: TyConT (a :: k) -> TyConT (b :: k) -> (a :~: b) -- this needs unsafeCoerce
+
+-- compiler support for generating (e.g.)
+tyConTBool :: TyConT Bool
+tyConTArr :: TyConT (->)
+}}}
+Note {{{eqTyConT}}} is not hugely useful as (if it returns True) we know that types and kinds are the same, but GHC doesn't, so unsafeCoerce is often needed.
+
+{{{Typeable}}}:
+{{{#!hs
+data TypeRetT (a::k) --abstract
+class Typeable (a :: k) where
+  typeRepT :: TypeRepT a
+instance (Typeable c, Typeable a) => Typeable (c a)
+
+typeOf :: Typeable a => a -> TypeRepT a -- for convenience
+
+eqTT :: TypeRepT (a::k1) -> TypeRepT (b::k2) -> Bool
+eqTTHom :: TypeRepT (a::k) -> TypeRepT (b::k) -> Maybe (a :~: b)
+
+data GetApp (a::k) where
+  GA :: TypeRepT a -> TypeRepT b -> GetApp (a b)
+
+getApp :: TypeRepT (a::k) -> Maybe (GetApp a) -- no unsafeCoerce needed
+
+data GetFn (a :: *) where -- must have a :: * as GF cannot be GADT-like in its *kind* arguments
+  GF :: TypeRepT a -> TypeRepT b -> GetFn (a -> b)
+
+getFn :: TypeRepT (a :: *) -> Maybe (GetFn a) -- this needs unsafeCoerce
+
+-- compiler support for generating (e.g.)
+instance Typeable Bool
+instance Typeable (->)
+}}}
+Similar notes to {{{eqTyConT}}} apply to {{{eqTT}}}.
+
+{{{Dynamic}}}
+{{{#!hs
+data Dynamic where
+  Dyn :: TypeRepT a -> a -> Dynamic
+
+mkDyn :: Typeable a => a -> Dynamic -- for convenience
+
+dynApply :: Dynamic -> Dynamic -> Maybe Dynamic -- type-safely apply a dynamic function to a dynamic argument
+}}}
+
+== Hetrogenous Case ==
+The only changes are that {{{eqTyConT}}} and {{{eqTT}}} now return {{{a:~~:b}}}, and are more useful (don't force us to use {{{unsafeCoerce}}}), {{{getFn}}} doesn't need {{{unsafeCoerce}}}, and we can generalise {{{GetFn}}} and {{{getFn}}} to be poly-kinded.
