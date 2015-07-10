@@ -97,6 +97,7 @@ See also [TemplateHaskell](template-haskell)
 
 - [\#10267](https://gitlab.haskell.org//ghc/ghc/issues/10267): typed holes and TH
 - [\#10548](https://gitlab.haskell.org//ghc/ghc/issues/10548): partial type sigs and TH
+- [\#10047](https://gitlab.haskell.org//ghc/ghc/issues/10047): inconsistency in name binding between splice and quasiquotation
 - [\#10486](https://gitlab.haskell.org//ghc/ghc/issues/10486): allow `addTopDecls` to create annotations
 - [\#10541](https://gitlab.haskell.org//ghc/ghc/issues/10541): reify kind information
 - [\#10385](https://gitlab.haskell.org//ghc/ghc/issues/10385): TH and annotations
