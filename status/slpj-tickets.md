@@ -49,7 +49,7 @@
 
 - [\#10321](https://gitlab.haskell.org//ghc/ghc/issues/10321): normalising a type in `:type` in GHCi
 - [\#10018](https://gitlab.haskell.org//ghc/ghc/issues/10018): fixity for data constructors in GHCi
-- [\#10318](https://gitlab.haskell.org//ghc/ghc/issues/10318): recursive superclasses
+- [\#10318](https://gitlab.haskell.org//ghc/ghc/issues/10318), [\#10592](https://gitlab.haskell.org//ghc/ghc/issues/10592): recursive superclasses
 - [\#10179](https://gitlab.haskell.org//ghc/ghc/issues/10179): displaying kinds
 - [\#10089](https://gitlab.haskell.org//ghc/ghc/issues/10089): better warnings for unused data types (involves instances)
 - [\#8581](https://gitlab.haskell.org//ghc/ghc/issues/8581): bidirectional pattern synonyms (with different constraints)
@@ -97,6 +97,7 @@ See also [TemplateHaskell](template-haskell)
 
 - [\#10267](https://gitlab.haskell.org//ghc/ghc/issues/10267): typed holes and TH
 - [\#10548](https://gitlab.haskell.org//ghc/ghc/issues/10548): partial type sigs and TH
+- [\#10047](https://gitlab.haskell.org//ghc/ghc/issues/10047): inconsistency in name binding between splice and quasiquotation
 - [\#10486](https://gitlab.haskell.org//ghc/ghc/issues/10486): allow `addTopDecls` to create annotations
 - [\#10541](https://gitlab.haskell.org//ghc/ghc/issues/10541): reify kind information
 - [\#10385](https://gitlab.haskell.org//ghc/ghc/issues/10385): TH and annotations
