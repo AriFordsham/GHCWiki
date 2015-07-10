@@ -1,4 +1,6 @@
-= Overview =
+= Type Indexed Type Representations Proposal =
+
+== Overview ==
 Proposed API for type indexed type representations, and basic {{{Dynamic}}} functionality, without using pattern synonyms.
 We consider 3 modules {{{TyConT}}}, {{{Typeable}}} and {{{Dynamic}}}, built up in that order.
 We consider two varients, one for ghc as of 2015-07-10 with kind-homogenous equalities {{{a:~:b}}} only, and one for type hetrogenous type equalities {{{a:~~:b}}}.

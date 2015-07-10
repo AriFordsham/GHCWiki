@@ -1,4 +1,6 @@
-# Overview
+# Type Indexed Type Representations Proposal
+
+## Overview
 
 
 Proposed API for type indexed type representations, and basic `Dynamic` functionality, without using pattern synonyms.
