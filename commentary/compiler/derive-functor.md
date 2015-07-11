@@ -278,7 +278,7 @@ Deriving `Foldable` instances for GADTs with equality constraints can become mur
 
 ```
 dataE a whereE1::(a ~Int)=> a   ->E a
-    E2::Int->EIntE3::(b ~Int)=> b   ->EIntE4::(a ~Int)=>Int->E a
+    E2::Int->EIntE3::(a ~Int)=> a   ->EIntE4::(a ~Int)=>Int->E a
 ```
 
 
