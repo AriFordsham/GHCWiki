@@ -30,6 +30,9 @@ Here are the techniques that we use.  Note, for many of these diagnosis techniqu
  `make show VALUE=VAR`::
   prints the value of variable `VAR`.  Useful for quick diagnosis.
 
+ `make show! VALUE=VAR`::
+  same as `make show`, but works right after ./configure (it skips reading package-data.mk files).
+
  `make TRACE=1`::
   prints messages about certain macros that are called and their arguments.  This is basically a system of `$(warning)` calls enabled when the value of `$(TRACE)` is non-empty.  To see how it works, look at the file [source:rules/trace.mk], and feel free to add trace calls to more places in the build system.
 
