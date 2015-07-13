@@ -37,10 +37,17 @@ data GetApp (a::k) where
 
 getApp :: TypeRepT (a::k) -> Maybe (GetApp a) -- no unsafeCoerce needed
 
-data GetFn (a :: *) where -- must have a :: * as GF cannot be GADT-like in its *kind* arguments
-  GF :: TypeRepT a -> TypeRepT b -> GetFn (a -> b)
+data G1 c a where
+  G1 :: TypeRepT a -> G1 c (c a)
+get1 :: TypeRepT (c :: k1->k) -> TypeRepT (a::k) -> Maybe (G1 c a) -- uses an unsafeCoerce
 
-getFn :: TypeRepT (a :: *) -> Maybe (GetFn a) -- this needs unsafeCoerce
+data G2 c a where
+  G1 :: TypeRepT a -> TypeRepT b -> G2 c (c a b)
+get2 :: TypeRepT (c :: k2->k1->k) -> TypeRepT (a::k) -> Maybe (G1 c a) --uses an unsafeCoerce
+
+--TODO: how many of these should we provide?
+
+getFn :: TypeRepT (a :: *) -> Maybe (G2 (->) a) -- convenience, specialise get2, don't need unsafeCoerce
 
 -- compiler support for generating (e.g.)
 instance Typeable Bool
