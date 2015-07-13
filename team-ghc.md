@@ -16,6 +16,12 @@ In order to see emails below, **you must login**.
 
 ### Current list
 
+- Andres Loh
+
+  - Haskell consultant at [ Well Typed](http://well-typed.com)
+  - **Trac**: kosmikus; **email**: andres@…
+  - **Main areas of interest**: generic programming, `DeriveAnyClass`
+
 - [ Alan Zimmerman](https://github.com/alanz)
 
   - Independent - Cape Town, South Africa
