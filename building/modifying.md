@@ -39,6 +39,11 @@ out the parameters for a particular macro call.    Want to test your hypothesis 
 prints the value of variable `VAR`.  Useful for quick diagnosis.
 </td></tr></table>
 
+<table><tr><th>`make show! VALUE=VAR`</th>
+<td>
+same as `make show`, but works right after ./configure (it skips reading package-data.mk files).
+</td></tr></table>
+
 <table><tr><th>`make TRACE=1`</th>
 <td>
 prints messages about certain macros that are called and their arguments.  This is basically a system of `$(warning)` calls enabled when the value of `$(TRACE)` is non-empty.  To see how it works, look at the file [rules/trace.mk](/trac/ghc/browser/rules/trace.mk)[](/trac/ghc/export/HEAD/ghc/rules/trace.mk), and feel free to add trace calls to more places in the build system.
