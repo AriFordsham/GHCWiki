@@ -39,4 +39,5 @@ dataDynamicwhereDyn::TypeRepT a -> a ->DynamicmkDyn::Typeable a => a ->Dynamic--
 ## Hetrogenous Case
 
 
-The only changes are that `eqTyConT` and `eqTT` now return `a:~~:b`, and are more useful (don't force us to use `unsafeCoerce`), `getFn` doesn't need `unsafeCoerce`, and we can generalise `GetFn` and `getFn` to be poly-kinded.
+The only changes are that `eqTyConT` and `eqTT` now return `a:~~:b`, and are more useful (don't force us to use `unsafeCoerce`), `get1` and `get2` don't need `unsafeCoerce`, and we can generalise `getFn` to be poly-kinded.
+The `get*` could now be implemented outside of the TCB, but we should keep them around for compatibility and convenience.
