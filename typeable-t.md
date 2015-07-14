@@ -17,6 +17,9 @@ dataTyConT(a::k)-- abstracteqTyConT::TyConT(a :: k1)->TyConT(b :: k2)->BooleqTyC
 ```
 
 
+The type `(:~:)` comes from `Data.Type.Equality`.
+
+
 Note `eqTyConT` is not hugely useful as (if it returns True) we know that types and kinds are the same, but GHC doesn't, so unsafeCoerce is often needed.
 
 `Typeable`:
