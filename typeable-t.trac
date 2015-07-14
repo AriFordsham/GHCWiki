@@ -12,7 +12,8 @@ The TCB consists of {{{TyConT}}} and {{{Typeable}}} in the homogenous case, and 
 data TyConT (a::k) -- abstract
 
 eqTyConT :: TyConT (a :: k1) -> TyConT (b :: k2) -> Bool
-eqTyConTHom :: TyConT (a :: k) -> TyConT (b :: k) -> (a :~: b) -- this needs unsafeCoerce
+eqTyConTHom :: TyConT (a :: k) -> TyConT (b :: k) -> Maybe (a :~: b) 
+     -- eqTyConTHom needs unsafeCoerce its implementation
 
 -- compiler support for generating (e.g.)
 tyConTBool :: TyConT Bool
@@ -22,10 +23,16 @@ Note {{{eqTyConT}}} is not hugely useful as (if it returns True) we know that ty
 
 {{{Typeable}}}:
 {{{#!hs
-data TypeRetT (a::k) --abstract
+data TypeRepT (a::k) -- Type-indexed type representation; abstract
+
+appT   :: TypeRepT a -> TypeRepT b -> TypeRepT (a b)
+tyConT :: TyConT a -> TypeRepT a
+
 class Typeable (a :: k) where
   typeRepT :: TypeRepT a
-instance (Typeable c, Typeable a) => Typeable (c a)
+
+withTypeRepT :: TypeRepT a -> (Typeable a => b) -> b
+-- c.f. Trac #2439
 
 typeOf :: Typeable a => a -> TypeRepT a -- for convenience
 
@@ -35,21 +42,29 @@ eqTTHom :: TypeRepT (a::k) -> TypeRepT (b::k) -> Maybe (a :~: b)
 data GetApp (a::k) where
   GA :: TypeRepT a -> TypeRepT b -> GetApp (a b)
 
-getApp :: TypeRepT (a::k) -> Maybe (GetApp a) -- no unsafeCoerce needed
+getAppT :: TypeRepT (a::k) -> Maybe (GetApp a) -- no unsafeCoerce needed
 
 data G1 c a where
   G1 :: TypeRepT a -> G1 c (c a)
-get1 :: TypeRepT (c :: k1->k) -> TypeRepT (a::k) -> Maybe (G1 c a) -- uses an unsafeCoerce
+
+getT1 :: TypeRepT (c :: k1->k) -> TypeRepT (a::k) -> Maybe (G1 c a)
+   -- Implementation uses an unsafeCoerce
 
 data G2 c a where
-  G1 :: TypeRepT a -> TypeRepT b -> G2 c (c a b)
-get2 :: TypeRepT (c :: k2->k1->k) -> TypeRepT (a::k) -> Maybe (G1 c a) --uses an unsafeCoerce
+  G2 :: TypeRepT a -> TypeRepT b -> G2 c (c a b)
+
+getT2 :: TypeRepT (c :: k2->k1->k) -> TypeRepT (a::k) -> Maybe (G1 c a)
+   -- Implementation uses an unsafeCoerce
 
 --TODO: how many of these should we provide?
 
-getFn :: TypeRepT (a :: *) -> Maybe (G2 (->) a) -- convenience, specialise get2, don't need unsafeCoerce
+getFnT :: TypeRepT (a :: *) -> Maybe (G2 (->) a
+getFnT = getT2 (tyConT tyConTFun)
+    -- convenience, specialise get2, don't need unsafeCoerce
 
--- compiler support for generating (e.g.)
+-- GHC has magic built-in support for Typeable instances
+-- but the effect is similar to declarations like these:
+instance (Typeable c, Typeable a) => Typeable (c a)
 instance Typeable Bool
 instance Typeable (->)
 }}}
@@ -63,6 +78,13 @@ data Dynamic where
 mkDyn :: Typeable a => a -> Dynamic -- for convenience
 
 dynApply :: Dynamic -> Dynamic -> Maybe Dynamic -- type-safely apply a dynamic function to a dynamic argument
+
+getDynamic
+        :: TypeRepT a
+        -> Dynamic      -- ^ the dynamically-typed object
+        -> Maybe a      -- ^ returns: @'Just' a@, if the dynamically-typed
+                        -- object has the correct type (and @a@ is its value), 
+                        -- or 'Nothing' otherwise.
 }}}
 
 == Hetrogenous Case ==
