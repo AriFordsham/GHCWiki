@@ -26,7 +26,7 @@ Note {{{eqTyConT}}} is not hugely useful as (if it returns True) we know that ty
 data TypeRepT (a::k) -- Type-indexed type representation; abstract
 class Typeable (a :: k) where
   typeRepT :: TypeRepT a
-instance (Typeable c, Typeable a) => Typeable (c a)
+
 
 typeOf :: Typeable a => a -> TypeRepT a -- for convenience
 
@@ -50,7 +50,9 @@ get2 :: TypeRepT (c :: k2->k1->k) -> TypeRepT (a::k) -> Maybe (G1 c a) --uses an
 
 getFn :: TypeRepT (a :: *) -> Maybe (G2 (->) a) -- convenience, specialise get2, don't need unsafeCoerce
 
--- compiler support for generating (e.g.)
+-- GHC has magic built-in support for Typeable instances
+-- but the effect is similar to declarations like these:
+instance (Typeable c, Typeable a) => Typeable (c a)
 instance Typeable Bool
 instance Typeable (->)
 }}}
