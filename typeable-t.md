@@ -38,7 +38,8 @@ Similar notes to `eqTyConT` apply to `eqTT`.
 `Dynamic`
 
 ```
-dataDynamicwhereDyn::TypeRepT a -> a ->DynamicmkDyn::Typeable a => a ->Dynamic-- for conveniencedynApply::Dynamic->Dynamic->MaybeDynamic-- type-safely apply a dynamic function to a dynamic argument
+dataDynamicwhereDyn::TypeRepT a -> a ->DynamicmkDyn::Typeable a => a ->Dynamic-- for conveniencedynApply::Dynamic->Dynamic->MaybeDynamic-- type-safely apply a dynamic function to a dynamic argumentgetDynamic::TypeRepT a
+        ->Dynamic-- ^ the dynamically-typed object->Maybe a      -- ^ returns: @'Just' a@, if the dynamically-typed-- object has the correct type (and @a@ is its value), -- or 'Nothing' otherwise.
 ```
 
 ## Hetrogenous Case
