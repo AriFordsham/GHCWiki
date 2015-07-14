@@ -23,7 +23,7 @@ Note {{{eqTyConT}}} is not hugely useful as (if it returns True) we know that ty
 
 {{{Typeable}}}:
 {{{#!hs
-data TypeRetT (a::k) --abstract
+data TypeRepT (a::k) -- Type-indexed type representation; abstract
 class Typeable (a :: k) where
   typeRepT :: TypeRepT a
 instance (Typeable c, Typeable a) => Typeable (c a)
