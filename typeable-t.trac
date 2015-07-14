@@ -40,15 +40,20 @@ getApp :: TypeRepT (a::k) -> Maybe (GetApp a) -- no unsafeCoerce needed
 
 data G1 c a where
   G1 :: TypeRepT a -> G1 c (c a)
-get1 :: TypeRepT (c :: k1->k) -> TypeRepT (a::k) -> Maybe (G1 c a) -- uses an unsafeCoerce
+
+get1 :: TypeRepT (c :: k1->k) -> TypeRepT (a::k) -> Maybe (G1 c a)
+   -- Implementation uses an unsafeCoerce
 
 data G2 c a where
-  G1 :: TypeRepT a -> TypeRepT b -> G2 c (c a b)
-get2 :: TypeRepT (c :: k2->k1->k) -> TypeRepT (a::k) -> Maybe (G1 c a) --uses an unsafeCoerce
+  G2 :: TypeRepT a -> TypeRepT b -> G2 c (c a b)
+
+get2 :: TypeRepT (c :: k2->k1->k) -> TypeRepT (a::k) -> Maybe (G1 c a)
+   -- Implementation uses an unsafeCoerce
 
 --TODO: how many of these should we provide?
 
-getFn :: TypeRepT (a :: *) -> Maybe (G2 (->) a) -- convenience, specialise get2, don't need unsafeCoerce
+getFn :: TypeRepT (a :: *) -> Maybe (G2 (->) a)
+    -- convenience, specialise get2, don't need unsafeCoerce
 
 -- GHC has magic built-in support for Typeable instances
 -- but the effect is similar to declarations like these:
