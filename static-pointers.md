@@ -171,14 +171,18 @@ Now we can write `decodeSA` (the monad is just the `Maybe` monad, nothing fancy)
 ```wiki
 decodeSA :: forall b. Typeable b => ByteString -> Maybe (StaticApp b, ByteString)
 decodeSA bs
-  = do { (DSP (fun :: StaticPtr tfun), bs1) <- decodeStatic bs
-       ; (DSP (arg :: StaticPtr targ), bs2) <- decodeStatic bs1
+  = do { (DSP (trf :: TypeRepT tfun) (fun :: StaticPtr tfun), bs1) <- decodeStatic bs
+       ; (DSP (tra :: TypeRepT targ) (arg :: StaticPtr targ), bs2) <- decodeStatic bs1
             -- At this point we have 
             --     Typeable b      (from caller)
             --     Typeable tfun   (from first DSP)
             --     Typeable targ   (from second DSP)
-       ; fun' :: StaticPtr (targ->b) <- cast fun   
+       ; Refl <- eqTT ....
+
+       ; fun' :: StaticPtr (targ->b) <- cast ( :: tfun :~: targ -> b) fun   
        ; return (SA fun' arg, bs2) }
+
+cast :: (a :~: b) -> a -> Maybe b
 ```
 
 
