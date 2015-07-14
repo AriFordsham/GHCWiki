@@ -145,7 +145,7 @@ both pieces:
 
 ```wiki
 data DynStaticPtr where
-  DSP :: Typeable a => StaticPtr a -> DynStaticPtr
+  DSP :: TypeRepT a -> StaticPtr a -> DynStaticPtr
 
 decodeStatic :: ByteString -> Maybe (DynStaticPtr, ByteString)
 ```

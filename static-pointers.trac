@@ -109,7 +109,7 @@ With that in mind, here is a new type signature for `decodeStatic` that returns
 both pieces:
 {{{
 data DynStaticPtr where
-  DSP :: Typeable a => StaticPtr a -> DynStaticPtr
+  DSP :: TypeRepT a -> StaticPtr a -> DynStaticPtr
 
 decodeStatic :: ByteString -> Maybe (DynStaticPtr, ByteString)
 }}}
