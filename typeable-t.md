@@ -13,7 +13,7 @@ The TCB consists of `TyConT` and `Typeable` in the homogenous case, and just `Ty
 `TyConT`:
 
 ```
-dataTyConT(a::k)-- abstracteqTyConT::TyConT(a :: k1)->TyConT(b :: k2)->BooleqTyConTHom::TyConT(a :: k)->TyConT(b :: k)->(a :~: b)-- this needs unsafeCoerce-- compiler support for generating (e.g.)tyConTBool::TyConTBooltyConTArr::TyConT(->)
+dataTyConT(a::k)-- abstracteqTyConT::TyConT(a :: k1)->TyConT(b :: k2)->BooleqTyConTHom::TyConT(a :: k)->TyConT(b :: k)->Maybe(a :~: b)-- eqTyConTHom needs unsafeCoerce its implementation-- compiler support for generating (e.g.)tyConTBool::TyConTBooltyConTArr::TyConT(->)
 ```
 
 

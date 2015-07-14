@@ -12,7 +12,8 @@ The TCB consists of {{{TyConT}}} and {{{Typeable}}} in the homogenous case, and 
 data TyConT (a::k) -- abstract
 
 eqTyConT :: TyConT (a :: k1) -> TyConT (b :: k2) -> Bool
-eqTyConTHom :: TyConT (a :: k) -> TyConT (b :: k) -> (a :~: b) -- this needs unsafeCoerce
+eqTyConTHom :: TyConT (a :: k) -> TyConT (b :: k) -> Maybe (a :~: b) 
+     -- eqTyConTHom needs unsafeCoerce its implementation
 
 -- compiler support for generating (e.g.)
 tyConTBool :: TyConT Bool
