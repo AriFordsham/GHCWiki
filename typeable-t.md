@@ -27,8 +27,8 @@ dataTypeRepT(a::k)-- Type-indexed type representation; abstractappT::TypeRepT a 
 classTypeable(a :: k)where
   typeRepT ::TypeRepT a
 
-
-typeOf::Typeable a => a ->TypeRepT a -- for convenienceeqTT::TypeRepT(a::k1)->TypeRepT(b::k2)->BooleqTTHom::TypeRepT(a::k)->TypeRepT(b::k)->Maybe(a :~: b)dataGetApp(a::k)whereGA::TypeRepT a ->TypeRepT b ->GetApp(a b)getAppT::TypeRepT(a::k)->Maybe(GetApp a)-- no unsafeCoerce neededdataG1 c a whereG1::TypeRepT a ->G1 c (c a)getT1::TypeRepT(c :: k1->k)->TypeRepT(a::k)->Maybe(G1 c a)-- Implementation uses an unsafeCoercedataG2 c a whereG2::TypeRepT a ->TypeRepT b ->G2 c (c a b)getT2::TypeRepT(c :: k2->k1->k)->TypeRepT(a::k)->Maybe(G1 c a)-- Implementation uses an unsafeCoerce--TODO: how many of these should we provide?getFnT::TypeRepT(a ::*)->Maybe(G2(->) a
+withTypeRepT::TypeRepT a ->(Typeable a => b)-> b
+-- c.f. Trac #2439typeOf::Typeable a => a ->TypeRepT a -- for convenienceeqTT::TypeRepT(a::k1)->TypeRepT(b::k2)->BooleqTTHom::TypeRepT(a::k)->TypeRepT(b::k)->Maybe(a :~: b)dataGetApp(a::k)whereGA::TypeRepT a ->TypeRepT b ->GetApp(a b)getAppT::TypeRepT(a::k)->Maybe(GetApp a)-- no unsafeCoerce neededdataG1 c a whereG1::TypeRepT a ->G1 c (c a)getT1::TypeRepT(c :: k1->k)->TypeRepT(a::k)->Maybe(G1 c a)-- Implementation uses an unsafeCoercedataG2 c a whereG2::TypeRepT a ->TypeRepT b ->G2 c (c a b)getT2::TypeRepT(c :: k2->k1->k)->TypeRepT(a::k)->Maybe(G1 c a)-- Implementation uses an unsafeCoerce--TODO: how many of these should we provide?getFnT::TypeRepT(a ::*)->Maybe(G2(->) a
 getFnT= getT2 (tyConT tyConTFun)-- convenience, specialise get2, don't need unsafeCoerce-- GHC has magic built-in support for Typeable instances-- but the effect is similar to declarations like these:instance(Typeable c,Typeable a)=>Typeable(c a)instanceTypeableBoolinstanceTypeable(->)
 ```
 

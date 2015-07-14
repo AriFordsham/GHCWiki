@@ -31,6 +31,8 @@ tyConT :: TyConT a -> TypeRepT a
 class Typeable (a :: k) where
   typeRepT :: TypeRepT a
 
+withTypeRepT :: TypeRepT a -> (Typeable a => b) -> b
+-- c.f. Trac #2439
 
 typeOf :: Typeable a => a -> TypeRepT a -- for convenience
 
