@@ -89,7 +89,7 @@ You need to be a bit careful when using a build tree, that any new files you cre
 (if you do any development work) are in the source tree, not the build
 tree!  This is especially easy to mess up when creating new tests, so watch out.
 
-### Using git new-workdir
+### Creating a buildtree with git-new-workdir
 
 
 I (ezyang) use Git workdirs to manage all of my GHC checkouts. It is quite nice: there is logically only one local repository, and just many checkouts of it, so it's very easy to share patches between various checkouts and your branches are all in one centralized place. However, sharing all of your submodules too takes a bit of work to setup, since Git doesn't natively support this workflow.
@@ -108,8 +108,10 @@ Here's what I do:
 
 Now, to create a new workdir, run `git-new-workdir ghc-pristine ghc-newdir`, and then inside `ghc-newdir`, run `for i in `git submodule status | cut -d' ' -f2`; do rmdir $i; git-new-workdir ../ghc-pristine/$i $i; done` to recursively make workdirs of all the submodules.
 
+### Creating a buildtree with git-new-workdir-recursive
 
-ToDo: Someone should scriptify this.
+
+This is a script to automate the steps from the previous section: [ https://github.com/thomie/git-new-workdir-recursive](https://github.com/thomie/git-new-workdir-recursive).
 
 ## Push access
 
