@@ -67,14 +67,13 @@ Let's think operationally for a moment:
 - GHC collects all the `StaticPtr` values in a table, the **static pointer table** or **SPT**.  Each row contains
 
   - The `StaticName` of the value
-  - A pointer to closure for the value itself
-  - A pointer to its `TypeRep`
+  - A `Dynamic` for its value (i.e. a pair of the value itself and its `TypeRep`)
 
 - `decodeStatic` now proceeds like this:
 
   - Parse a `StaticName` from the `ByteString` (failure =\> `Nothing`)
   - Look it up in table (not found =\> `Nothing`)
-  - Compare the `TypeRep` passed to `decodeStatic` (via the `Typeable a` dictionary) with the one ine the table (not equal =\> `Nothing`)
+  - Use `fromDynamic` to compare the `TypeRep` passed to `decodeStatic` (via the `Typeable a` dictionary) with the one in the table (not equal =\> `Nothing`)
   - Return the value
 
 **Side note.** Another possibility is for `decodeStatic` not to take a `Typeable a` context but instead for `unStatic` to do so:: `unStatic :: Typeable a => StaticPtr a -> Maybe a`.  But that seems a mess.  Apart from anything else, it would mean that a value of type `StaticPtr a` might or might not point to a value of type `a`, so there's no point in having the type parameter in the first place. **End of side note.**
