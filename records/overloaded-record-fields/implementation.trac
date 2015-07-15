@@ -24,8 +24,8 @@ data T = MkT { x :: Int }
 generates
 
 {{{
-$sel:x:T :: T -> Int -- record selector (used to be called `x`)
-$sel:x:T (MkT x) = x
+$sel:x:MkT :: T -> Int -- record selector (used to be called `x`)
+$sel:x:MkT (MkT x) = x
 }}}
 
 This allows the same field label to occur multiple times in the same module, but with distinct `Name`s.
@@ -42,8 +42,8 @@ A field is represented by the following datatype, parameterised by the represent
 {{{
 data FieldLbl a = FieldLabel {
       flLabel        :: FieldLabelString, -- ^ Label of the field
-      flIsOverloaded :: Bool,             -- ^ Is this field overloaded?
-      flSelector     :: a,                -- ^ Record selector function
+      flIsOverloaded :: Bool, -- ^ AllowDuplicateRecordFields enabled at definition site?
+      flSelector     :: a,    -- ^ Record selector function
     }
 
 type FieldLabelString = FastString
@@ -87,7 +87,7 @@ then `N` exports two different selectors with the `FieldLabelString` `"foo"`. Si
 The `Parent` type has an extra constructor `FldParent Name (Maybe FieldLabelString)` that stores the parent `Name` and the field label. The `GlobalRdrElt` (`GRE`) for a field stores the selector name directly, and uses the `FldParent` constructor to store the field. Thus a field `x` of type `T` gives rise this entry in the `GlobalRdrEnv`:
 
 {{{
-x |->  GRE $sel:x:T (FldParent T (Just x)) LocalDef
+x |->  GRE $sel:x:MkT (FldParent T (Just x)) LocalDef
 }}}
 
 Note that the `OccName` used when adding a GRE to the environment (`greOccName`) now depends on the parent field: for `FldParent` it is the field label, if present, rather than the selector name.
@@ -95,13 +95,21 @@ Note that the `OccName` used when adding a GRE to the environment (`greOccName`)
 
 == Source expressions ==
 
-The `HsExpr` type has an extra constructor `HsSingleRecFld RdrName id`. Regardless of whether `AllowDuplicateRecordFields` is enabled, when `rnExpr` encounters `HsVar "x"` where `x` refers to an unambiguous record field `foo`, it replaces it with `HsSingleRecFld foo $sel_foo_T`. The point of this constructor is so we can pretty-print the field name (as the user typed it, hence a `RdrName`), but store the selector name for typechecking.
+An occurrence of a field is represented by the new datatype
 
-Where an AST representation type (e.g. `HsRecField` or `ConDeclField`) contained an argument of type `Located id` for a field, it now stores a `Located RdrName` for the label, and some representation of the selector. The parser uses a placeholder for the selector; it is filled in by the renamer  (by `rnHsRecFields` in `RnPat`, and `rnField` in `RnTypes`). The new definition of `ConDeclField` (used in types) is:
+{{{
+data FieldOcc name = FieldOcc RdrName (PostRn name name)
+}}}
+
+where the first component is the field name as written by the user (hence `RdrName`), and the second component (filled in by the renamer) is the name of the selector function.
+
+The `HsExpr` type has an extra constructor `HsSingleRecFld (FieldOcc id)`. Regardless of whether `AllowDuplicateRecordFields` is enabled, when `rnExpr` encounters `HsVar "x"` where `x` refers to an unambiguous record field `foo`, it replaces it with `HsSingleRecFld (FieldOcc "foo" $sel:foo:MkT)`. The point of this constructor is so we can pretty-print the field name, but store the selector name for typechecking.
+
+Where an AST representation type (e.g. `HsRecField` or `ConDeclField`) contained an argument of type `Located id` for a field, it now stores a `Located (FieldOcc id)` aka `LFieldOcc id`. The new definition of `ConDeclField` (used in types) is:
 
 {{{
 data ConDeclField name
-  = ConDeclField { cd_fld_names :: [(Located RdrName, PostRn name Name)]
+  = ConDeclField { cd_fld_names :: [LFieldOcc name]
                    cd_fld_type  :: LBangType name, 
                    cd_fld_doc   :: Maybe LHsDocString }
 }}}
@@ -110,13 +118,23 @@ The new definition of `HsRecField` is:
 
 {{{
 data HsRecField id arg = HsRecField {
-        hsRecFieldLbl :: Located RdrName,
-        hsRecFieldSel :: Either id [(id, id)],
+        hsRecFieldLbl :: LFieldOcc id,
         hsRecFieldArg :: arg,
         hsRecPun      :: Bool }
 }}}
 
-The renamer (`rnHsRecFields`) supplies `Left sel_name` for the selector if it is unambiguous, or `Right xs` if it is ambiguous (because it is for a record update, and there are multiple fields with the correct label in scope). In the latter case, the possibilities `xs` are represented as a list of (parent name, selector name) pairs. The typechecker (`tcExpr`) tries three ways to disambiguate the update:
+Rather than using this type for record construction/pattern-matching and update, a separate representation is used for updates, namely
+
+{{{
+data HsRecUpdField id = HsRecUpdField {
+        hsRecUpdFieldLbl :: Located RdrName,
+        hsRecUpdFieldSel :: PostRn id [id],
+        hsRecUpdFieldArg :: LHsExpr id,
+        hsRecUpdPun      :: Bool
+  }
+}}}
+
+We still have the `RdrName` as written by the user, but the individual selector may be ambiguous, and hence is represented by a list of possible selector names. The typechecker (`tcExpr`) tries three ways to disambiguate the update:
 
 1. Perhaps only one type has all the fields that are being updated.
 
@@ -124,7 +142,7 @@ The renamer (`rnHsRecFields`) supplies `Left sel_name` for the selector if it is
 
 3. Use the type signature of the record expression, if it exists and is a `TyConApp`.
 
-TODO: it would be nice if we could enforce in the types that ambiguous fields occur only in record updates, and only between the renamer and the typechecker. However, this would require yet more refactoring.
+TODO: it would be nice if we could enforce in the types that ambiguous fields occur only between the renamer and the typechecker. For now, `hsRecUpdFieldSel` is guaranteed to contain a singleton list after the typechecker.
 
 
 == Deprecated field names ==
@@ -148,17 +166,12 @@ data instance F Int  = MkF1 { foo :: Int }
 data instance F Bool = MkF2 { foo :: Bool }
 }}}
 
-This is perfectly sensible, and gives rise to two *different* record selectors `foo`. Thus we use the name of the representation tycon, rather than the family tycon, when naming the record selectors: we get `$sel:foo:R:FInt` and `$sel:foo:R:FBool`. This requires a bit of care, because lexically (in the `GlobalRdrEnv`) the selectors still have the family tycon are their parent.
-
-In order to have access to the representation tycon name in the renamer, it is generated by `getLocalNonValBinders` and stored in a new field `dfid_rep_tycon` of `DataFamInstDecl`. It would be nice if we could do the same for all the derived names, in order to localise the set of names that have been used (currently stored in the `tcg_dfun_n` mutable field). However, this is tricky:
-* Default associated type declarations result in axioms being generated during typechecking.
-* DFun names for instances of `Typeable` and the `Generics` classes are generated during typechecking.
-We could work around this but it may not be worth the bother.
+This is perfectly sensible, and gives rise to two *different* record selectors `foo`. Thus we use the name of the first data constructor, rather than the type constructor, when naming the record selectors: we get `$sel:foo:R:MkF1` and `$sel:foo:R:MkF2`. Lexically (in the `GlobalRdrEnv`) the selectors still have the family tycon are their parent.
 
 
 == Mangling selector names ==
 
-We could mangle selector names (using `$sel:foo:T` instead of `foo`) even when the extension is disabled, but we decided not to because the selectors really should be in scope with their original names, and doing otherwise leads to:
+We could mangle selector names (using `$sel:foo:MkT` instead of `foo`) even when the extension is disabled, but we decided not to because the selectors really should be in scope with their original names, and doing otherwise leads to:
   * Trouble with import/export
   * Trouble with deriving instances in GHC.Generics (makes up un-renamed syntax using field `RdrName`s)
   * Boot files that export record selectors not working
