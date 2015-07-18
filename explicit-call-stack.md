@@ -4,7 +4,7 @@
 There has been a vigorous thread on error attribution ("I get a `head []` error; but who called `head`?").  This page summarises various approaches.
 
 
-Relevant tickets: [\#960](https://gitlab.haskell.org//ghc/ghc/issues/960), [\#1441](https://gitlab.haskell.org//ghc/ghc/issues/1441), [\#3693](https://gitlab.haskell.org//ghc/ghc/issues/3693), [\#9049](https://gitlab.haskell.org//ghc/ghc/issues/9049).
+Relevant tickets: [\#960](https://gitlab.haskell.org//ghc/ghc/issues/960), [\#1441](https://gitlab.haskell.org//ghc/ghc/issues/1441), [\#3693](https://gitlab.haskell.org//ghc/ghc/issues/3693), [\#9049](https://gitlab.haskell.org//ghc/ghc/issues/9049), [\#10656](https://gitlab.haskell.org//ghc/ghc/issues/10656)
 
 ## Approaches
 
@@ -25,13 +25,13 @@ Here are the approaches we have under consideration
 >
 > Programs run slower, of course, but that may not matter when debugging.  But a crash in a production system will generate no useful information.
 
-- **(DYN) Walk the call stack, generating a dynamic backtrace.**  This is what every other language does; it works in a production system (ie all debug flags off); and it carries zero runtime overhead unless a crash actually happens.
+- **(DYN) Walk the call stack, generating a dynamic backtrace.**  This is what every other language does; it works in a production system (i.e. all debug flags off); and it carries zero runtime overhead unless a crash actually happens.
 
 >
 > One difficulty is that the backtrace is unintuitive, because of lazy evaluation, but it is still massively better than nothing.  Another difficulty is that GHC shakes the program around during optimisation, so it is hard to say what code comes from where.
 
 >
-> Addressing these challenges is the subject of Peter Wortman's PhD.  He has a paper [ Causality of Optimized Haskell: What is burning our cycles?](http://eprints.whiterose.ac.uk/77401/), and an implementation is well advanced (not quite yet in HEAD, May 2014).
+> Addressing these challenges is the subject of Peter Wortman's PhD.  He has a paper [ Causality of Optimized Haskell: What is burning our cycles?](http://eprints.whiterose.ac.uk/77401/), and an implementation is well advanced (in GHC 7.10).
 
 - **(NEEDLE) Finding the needle**.  This is a cross between (PROF) and (DYN).  It transforms the program, but in a less invasive way than for full profiling.  Lots more details on [ExplicitCallStack/FindingTheNeedle](explicit-call-stack/finding-the-needle).  We don't currently plan to implement this in HEAD: it is not clear that, given (PROF) and (DYN), it's worth a third path, and one that is non-trivial to implement (as you'll see from the paper).
 
