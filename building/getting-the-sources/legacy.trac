@@ -1,5 +1,8 @@
 = Getting the GHC Sources (GHC 7.8 or earlier) =
 
+{{{#!box warning
+These instructions refer to GHC 7.8 or earlier. For more recent GHC versions, see Building/GettingTheSources
+}}}
 
 == Getting a branch == #checkout-old-branch
 
