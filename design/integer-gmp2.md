@@ -34,7 +34,7 @@ This wiki page is meant as a scratch-pad to describe the plans/ideas behind the 
 
   (could be easily backported as out-of-tree patch from GHC 7.11 branch if there's demand)
 
-### For GHC 7.12
+### For GHC 7.12 (or later)
 
 - all "*(maybe)*"-items from above if they didn't make it into 7.10
 - Implement link-time backend selection as described below
