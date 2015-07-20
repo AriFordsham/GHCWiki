@@ -7,13 +7,13 @@
 
 Following the 2015 redesign, we have three separate components to implement, which will be described (and implemented) in order:
 
- * the `AllowDuplicateRecordFields` extension, which permits the same field name to be used multiple times in the same module, but only where unambiguous;
+ * the `DuplicateRecordFields` extension, which permits the same field name to be used multiple times in the same module, but only where unambiguous;
  * the `OverloadedLabels` extension, to enable the `#x` syntax;
  * the `HasField` and `FieldUpdate` typeclasses, with special-purpose constraint solving behaviour, which do not require a language extension.
 
-As of March 2015, work is progressing on the implementation. Part 1 (the `AllowDuplicateRecordFields` extension) is available at Phab:D761 and being reviewed. Part 2 (the `OverloadedLabels` extension) is nearly ready, and part 3 will be implemented after the first two parts have been completed. Note that all the parts are useful in isolation.
+As of March 2015, work is progressing on the implementation. Part 1 (the `DuplicateRecordFields` extension) is available at Phab:D761 and being reviewed. Part 2 (the `OverloadedLabels` extension) is nearly ready, and part 3 will be implemented after the first two parts have been completed. Note that all the parts are useful in isolation.
 
-= 1. The `AllowDuplicateRecordFields` extension =
+= 1. The `DuplicateRecordFields` extension =
 
 When this extension is enabled, typechecking a record datatype still generates record selectors, but their `Name`s have a `$sel` prefix and end with the name of their type. For example,
 
@@ -30,7 +30,7 @@ $sel:x:MkT (MkT x) = x
 
 This allows the same field label to occur multiple times in the same module, but with distinct `Name`s.
 
-Turning on `AllowDuplicateRecordFields` automatically enables `DisambiguateRecordFields`, because it strictly generalises it.
+Turning on `DuplicateRecordFields` automatically enables `DisambiguateRecordFields`, because it strictly generalises it.
 
 
 == The naming of cats ==
@@ -42,7 +42,7 @@ A field is represented by the following datatype, parameterised by the represent
 {{{
 data FieldLbl a = FieldLabel {
       flLabel        :: FieldLabelString, -- ^ Label of the field
-      flIsOverloaded :: Bool, -- ^ AllowDuplicateRecordFields enabled at definition site?
+      flIsOverloaded :: Bool, -- ^ DuplicateRecordFields enabled at definition site?
       flSelector     :: a,    -- ^ Record selector function
     }
 
@@ -50,7 +50,7 @@ type FieldLabelString = FastString
 type FieldLabel = FieldLbl Name
 }}}
 
-For this purpose, a field "is overloaded" if it was defined in a module with `AllowDuplicateRecordFields` enabled, so its selector name differs from its label. That is, it is irrelevant whether there are actually multiple identical field labels in the module. Every field has a label (`FastString`) and selector name. The `dcFields` field of `DataCon` stores a list of `FieldLabel`. In interface files, the `ifConFields` field of `IfaceConDecl` stores a list of `IfaceTopBndr`s for selectors, and `IfaceConDecls` for datatypes/newtypes stores the field labels.
+For this purpose, a field "is overloaded" if it was defined in a module with `DuplicateRecordFields` enabled, so its selector name differs from its label. That is, it is irrelevant whether there are actually multiple identical field labels in the module. Every field has a label (`FastString`) and selector name. The `dcFields` field of `DataCon` stores a list of `FieldLabel`. In interface files, the `ifConFields` field of `IfaceConDecl` stores a list of `IfaceTopBndr`s for selectors, and `IfaceConDecls` for datatypes/newtypes stores the field labels.
 
 
 === `AvailInfo` and `IE` ===
@@ -103,7 +103,7 @@ data FieldOcc name = FieldOcc RdrName (PostRn name name)
 
 where the first component is the field name as written by the user (hence `RdrName`), and the second component (filled in by the renamer) is the name of the selector function.
 
-The `HsExpr` type has an extra constructor `HsSingleRecFld (FieldOcc id)`. Regardless of whether `AllowDuplicateRecordFields` is enabled, when `rnExpr` encounters `HsVar "x"` where `x` refers to an unambiguous record field `foo`, it replaces it with `HsSingleRecFld (FieldOcc "foo" $sel:foo:MkT)`. The point of this constructor is so we can pretty-print the field name, but store the selector name for typechecking.
+The `HsExpr` type has an extra constructor `HsSingleRecFld (FieldOcc id)`. Regardless of whether `DuplicateRecordFields` is enabled, when `rnExpr` encounters `HsVar "x"` where `x` refers to an unambiguous record field `foo`, it replaces it with `HsSingleRecFld (FieldOcc "foo" $sel:foo:MkT)`. The point of this constructor is so we can pretty-print the field name, but store the selector name for typechecking.
 
 Where an AST representation type (e.g. `HsRecField` or `ConDeclField`) contained an argument of type `Located id` for a field, it now stores a `Located (FieldOcc id)` aka `LFieldOcc id`. The new definition of `ConDeclField` (used in types) is:
 
@@ -176,7 +176,7 @@ We could mangle selector names (using `$sel:foo:MkT` instead of `foo`) even when
   * Trouble with deriving instances in GHC.Generics (makes up un-renamed syntax using field `RdrName`s)
   * Boot files that export record selectors not working
 
-Note that Template Haskell will see the mangled selector names instead of the original field labels, when looking at a datatype declared in a module with `AllowDuplicateRecordFields` enabled. This isn't ideal - should we change the TH representation type so it can get access to both the label and selector?
+Note that Template Haskell will see the mangled selector names instead of the original field labels, when looking at a datatype declared in a module with `DuplicateRecordFields` enabled. This isn't ideal - should we change the TH representation type so it can get access to both the label and selector?
 
 In the new design, we could perhaps consider only mangling selector names when there is actually a name conflict, but this has not been investigated in any detail.
 
