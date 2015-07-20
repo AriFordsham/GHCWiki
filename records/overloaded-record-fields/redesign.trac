@@ -11,7 +11,7 @@ See also the [http://www.well-typed.com/blog/2015/03/overloadedrecordfields-revi
 
 === Use existing Haskell records ===
 
-The `AllowDuplicateRecordFields` extension permits existing Haskell records to use duplicate field labels.  Thus the following is legal in a single module:
+The `DuplicateRecordFields` extension permits existing Haskell records to use duplicate field labels.  Thus the following is legal in a single module:
 
 {{{
 data Person  = Person  { personId :: Int, name :: String }
@@ -24,7 +24,7 @@ While we might choose to add anonymous records later, they are not central to th
 
  * abstraction and representation hiding work just as in normal Haskell: if a field selector is not exported, client code cannot observe it;
 
- * application code can use `AllowDuplicateRecordFields` even with libraries that do not;
+ * application code can use `DuplicateRecordFields` even with libraries that do not;
 
  * no new declaration syntax is added.
 
@@ -33,7 +33,7 @@ For each field in each record datatype, regardless of whether the extension is e
 
 === No changes to record selectors, construction or update ===
 
-Bare uses of the field refer only to the selector function, and work only if this is unambiguous.  Thus, in the above example `name :: Person -> String` but bare use of `personId` leads to a name resolution error.  This means that turning on `AllowDuplicateRecordFields` for an existing module is a conservative extension: since the module can have no duplicate field names, everything still works.  Moreover, changes to GHC's renamer should be minimal.  In addition, uses of fields that are always unambiguous (because they mention the constructor, e.g. construction and pattern-matching) may freely use duplicated names.
+Bare uses of the field refer only to the selector function, and work only if this is unambiguous.  Thus, in the above example `name :: Person -> String` but bare use of `personId` leads to a name resolution error.  This means that turning on `DuplicateRecordFields` for an existing module is a conservative extension: since the module can have no duplicate field names, everything still works.  Moreover, changes to GHC's renamer should be minimal.  In addition, uses of fields that are always unambiguous (because they mention the constructor, e.g. construction and pattern-matching) may freely use duplicated names.
 
 Even though a field label is duplicated in its defining module, it may be possible to use the selector unambiguously elsewhere. For example, another module could import `Person(personId)` but not `Address(personId)`, and then use `personId` unambiguously. Thus it is not enough simply to avoid generating selector functions for duplicated fields.
 
@@ -71,7 +71,7 @@ class IP (x :: Symbol) a | x -> a where
 And that's really about it.  The class `IP` is treated specially in a few other places in GHC.  If you are interested, grep for the string "`isIP`".
 
 
-=== Implicit values ===
+=== Overloaded labels ===
 
 Now consider the following class:
 {{{
@@ -357,12 +357,12 @@ We propose three essentially orthogonal additions to GHC:
 
  1. `HasField` and `FieldUpdate` typeclasses, with special-purpose constraint solving behaviour (just like `Coercible`, we do not require a special extension to enable this, as its effect is limited to code that imports the relevant module);
  2. an extension `OverloadedLabels` to enable the `#x` syntax, interpreted with the `IsLabel` typeclass;
- 3. an extension `AllowDuplicateRecordFields` to permit the same field name to be used multiple times in the same module.
+ 3. an extension `DuplicateRecordFields` to permit the same field name to be used multiple times in the same module.
 
-The `OverloadedRecordFields` extension is then defined as the combination of `OverloadedLabels` and `AllowDuplicateRecordFields`.
+The `OverloadedRecordFields` extension is then defined as the combination of `OverloadedLabels` and `DuplicateRecordFields`.
 
 These are all useful independently, but complement each other:
 
  * Without either of the extensions, the special typeclasses allow users to write code that works for all datatypes with particular fields (albeit without a nice built-in syntax).
  * `OverloadedLabels` uses the special typeclasses through the instance for `IsLabel x (r -> a)`, but is also useful when used at other types (e.g. we could give an instance `IsLabel x (Proxy x)` to allow implicit values to represent Symbol proxies).
- * `AllowDuplicateRecordFields` is perfectly sensible without `OverloadedLabels`: it allows duplicate field names provided they are not used ambiguously.
+ * `DuplicateRecordFields` is perfectly sensible without `OverloadedLabels`: it allows duplicate field names provided they are not used ambiguously.
