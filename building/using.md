@@ -317,6 +317,12 @@ simple, BSD-licensed Haskell implementation will be used instead.
 Enable building of DPH libraries
 </td></tr></table>
 
+<table><tr><th>`V`</th>
+<td>
+(default: `1`)
+Set `V=0` to get prettier build output. See [Building/Using\#Verbosebuild](building/using#verbose-build) below.
+</td></tr></table>
+
 #### How to make GHC build quickly
 
 
@@ -660,26 +666,23 @@ Does not build any GHC stages at all.  `stage=0` can be used in combination with
 ## Verbose build
 
 
-By default, the build log is printed in a compact form, where each invocation
-of the compiler looks something like:
+From [Design/BuildSystem](design/build-system):
+
+>
+> "The build system should clearly report what it's doing (and sometimes why), without being too verbose. It should emit actual command lines as much as possible, so that they can be inspected and cut & pasted."
+
+
+That's why, by default, the build log is printed with the full command lines that are being used, so you can copy/paste and rerun them on build failures/warnings.
+
+
+You can use `make V=0` for a prettier, more compact output, where each invocation of the compiler looks something like.
 
 ```wiki
 HC [stage 0] compiler/stage1/build/Constants.o
 ```
 
 
-This makes it easier to see the build progress, but sometimes it can be useful
-to inspect the full command lines that are being used.
-
-
-To enable full output, run `make` with the `V=1` option:
-
-```wiki
-make V=1
-```
-
-
-You can also put the "`V=1`" in your `build.mk` or `validate.mk` file.
+You can also put the "`V=0`" in your `build.mk` or `validate.mk` file.
 
 ## Installing extra packages
 
