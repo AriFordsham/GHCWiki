@@ -6,18 +6,6 @@ The NoFib benchmark suite is a collection of (mostly old) Haskell programs that 
 
 Trac [\#5793](https://gitlab.haskell.org//ghc/ghc/issues/5793) is about improving NoFib.
 
-## Getting nofib
-
-
-The NoFib suite is kept in a separate git repository (see [Repositories](repositories)), and it should be checked out at the top level of a GHC source tree, i.e. at the same level as `compiler` and `libraries`. From your GHC tree, run:
-
-```wiki
-./sync-all --nofib get
-```
-
-
-It will be pulled into the a "nofib" subdirectory.
-
 ## Benchmarking
 
 
