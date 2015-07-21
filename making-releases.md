@@ -51,6 +51,9 @@ It is advisable to use a machine with as recent an `autoreconf` as possible; in 
 
 You should now have source tarballs `sdistprep/ghc-<VERSION>-src.tar.bz2` and `sdistprep/ghc-<VERSION>-testsuite.tar.bz2`.
 
+
+N.B. the `lndir` utility required by `make sdist` is provided by `xutils-dev` on Debian.
+
 ## Making the binary builds
 
 
