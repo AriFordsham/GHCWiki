@@ -10,6 +10,9 @@ clearly separating the *problem you are trying to solve* from *how you are solvi
 
 The content here overlaps with [wiki:Commentary/Packages](commentary/packages) but is looking at the latest iteration of the multi-instances and Backpack work.
 
+
+Some relevant tickets: [\#10622](https://gitlab.haskell.org//ghc/ghc/issues/10622)
+
 ## What problems do we need to solve?
 
 
@@ -111,19 +114,34 @@ In GHC 7.10 this is used for symbols and type-checking (\[SYMBOL\] and \[TYPES\]
 
 Here are the changes to the mechanisms which we have in flight.
 
-<table><tr><th>Installed Package ID (without ABI)</th>
+<table><tr><th>Units (as opposed to packages)</th>
 <td>
-Hash of source code sdist tarball, selected Cabal flags (not the command line flags), IPIDs of direct dependencies (and in Backpack, a mapping from hole names to modules by installed package IDs). This brings IPIDs more inline with the concept of a \[NIX\] hash, which lets us truly uniquely identify builds of packages (whereas a package key may conclude two builds are the same, although their source has changed.) This is especially important if all sandboxed builds are being installed to the same location. This proposal is in Cabal bug [ https://github.com/haskell/cabal/issues/2199](https://github.com/haskell/cabal/issues/2199) and subject to today's GSOC.
+A unit is an internal notion to the installed unit database (renamed from installed package database) which organizes fragments of code and interface files \[TYPES, ABI, SYMBOL\]; e.g. GHC queries this database to figure out how to typecheck things. Units are different from packages, which are distribution on Hackage \[SOURCE\]. Units are local only.
 </td></tr></table>
 
-<table><tr><th>Version hash</th>
+<table><tr><th>Installed Package ID (no ABI)</th>
 <td>
-Hash of package name, package version, and the version hashes of all textual dependencies (i.e. packages which were `include`.)  A version hash is a coarse approximation of installed package IDs, which are suitable for inclusion in package keys (you don't want to put an IPID in a package key, since it means the key will change any time the source changes.)
+Hash of source code sdist tarball, selected Cabal flags (not the command line flags), IPIDs of direct dependencies. This brings IPIDs more inline with the concept of a \[NIX\] hash, which lets us truly uniquely identify builds of packages (whereas a package key may conclude two builds are the same, although their source has changed.) This is especially important if all sandboxed builds are being installed to the same location. This proposal is in Cabal bug [ https://github.com/haskell/cabal/issues/2199](https://github.com/haskell/cabal/issues/2199) and subject to today's GSOC.
 </td></tr></table>
 
-<table><tr><th>Package Key (with version hashes)</th>
+<table><tr><th>Installed Unit ID (renamed from Installed Package ID, no ABI)</th>
 <td>
-Version hash (and in Backpack, a mapping from hole names to modules by package key). The delta is that we no longer include package keys of direct dependencies; this is replaced with the version hash.  This new definition avoids infinite regress when defining a package key for this package:
+Installed Package ID, plus a unit name and a mapping from hole names to modules by installed unit IDs. If no Backpack, Installed Unit ID is the same as Installed Package Id; however, a single installed package could have multiple installed units.
+</td></tr></table>
+
+<table><tr><th>Library name</th>
+<td>
+Hash of package name, package version, and the library names of all textual dependencies (i.e. packages which were `include`.)  A library name is a coarse approximation of installed package IDs, which are suitable for inclusion in package keys (you don't want to put an IPID in a package key, since it means the key will change any time the source changes.) When Backpack is not involved, this coincides with package key. There's one library name per PACKAGE (keeping with the invariant that there is one packages and libraries are in ONE-TO-ONE correspondence.) A package may install multiple units, but only ONE will be externally visible as a "library."
+</td></tr></table>
+
+<table><tr><th>Unit Name</th>
+<td>
+Something like "lens".  The unit name that coincides with the package name is the publically visible unit.  All other units are private for Backpack business.
+</td></tr></table>
+
+<table><tr><th>Unit Key (renamed from Package Key)</th>
+<td>
+Library name (and in Backpack, a unit name and a mapping from hole names to modules by package key). The delta is that we no longer include package keys of direct dependencies; this is replaced with the library names.  This new definition avoids infinite regress when defining a package key for this package:
 
 ```wiki
 package p where
