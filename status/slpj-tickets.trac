@@ -146,7 +146,7 @@ See also [wiki:TemplateHaskell]
  * #4960: better inlining tests
 
 == Optimisation ==
- * #8457 (summarises), #917, #1945, #3273, #4276, #5729: full laziness sometimes makes things worse.
+ * #8457 (summarises), #917, #1945, #3273, #4276, #5729 (closed as dups, but not fixed): full laziness sometimes makes things worse.
  * #9370: respecting mixed `-O` and `-O0` in `ghc --make`, especially concerning cross-module inlining
  * #9279: local wrapper remains in final program
  * #9246: Too much case-of-case leads to bad code
