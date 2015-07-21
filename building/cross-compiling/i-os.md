@@ -38,11 +38,9 @@ You will need to check out the scripts at [ https://github.com/ghc-ios/ghc-ios-s
 
 Check out as described at [Building and Porting GHC](building), except:
 
-- use the following for your sync-all to omit dph packages, because Template Haskell doesn't work yet, and dph depends on it
 - replace libffi with a newer version that fixes some bugs
 
 ```wiki
-./sync-all get
 rm libffi-tarballs/libffi-3.0.11.tar.gz
 wget https://github.com/ghc-ios/libffi-tarballs/blob/master/libffi-3.0.14.tar.gz?raw=true -O libffi-tarballs/libffi-3.0.14.tar.gz
 perl boot
