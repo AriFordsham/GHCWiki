@@ -52,7 +52,7 @@ rm -rf libraries/parallel
 git submodule update --init
 ```
 
-### Using a Git alias
+### `git pullall`
 
 
 A commonly defined Git alias that combines the two commands into one convenient Git alias is:
