@@ -14,6 +14,8 @@ In `docs/users_guide`, add a `$VERSION-notes.xml` file and write the release not
 
 Add a corresponding `relnotes$PATCH_LEVEL` entity to `ug-ent.xml.in`, and use the entity at the end of the chapter in `intro.xml`.
 
+Ensure that the changelogs in `libraries/*` are up-to-date.
+
 == Updating the tree ==
 
 Update the `ANNOUNCE` file in the root of the tree.
@@ -36,6 +38,8 @@ $ make sdist
 It is advisable to use a machine with as recent an `autoreconf` as possible; in particular, 2.61 is known to make a configure script that doesn't work on Windows.
 
 You should now have source tarballs `sdistprep/ghc-<VERSION>-src.tar.bz2` and `sdistprep/ghc-<VERSION>-testsuite.tar.bz2`.
+
+N.B. the `lndir` utility required by `make sdist` is provided by `xutils-dev` on Debian.
 
 == Making the binary builds ==
 
