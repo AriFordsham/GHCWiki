@@ -71,7 +71,7 @@ We have the following repositories:
 
 
 Normal GHC developers, who are uninterested in Hoopl, ignore all
-this.  If they download HEAD, and then do `git submodule update` they'll get
+this.  If they download HEAD including all submodules, they'll get
 HooplLag, which is always guaranteed to work with HEAD.
 
 
