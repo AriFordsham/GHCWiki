@@ -167,7 +167,7 @@ release commit on a different branch.
 
 
 If you are not modifying these packages then you don't need to do
-anything special: A regular `./sync-all pull` will update the submodules
+anything special: A regular `git submodule update` will update the submodules
 as normal. However, you may find it useful to run
 
 ```wiki
@@ -192,7 +192,6 @@ cd libraries/foo
 git reset --hard some_commit_id
 cd ../..
 git commit -a
-./sync-all push
 ```
 
 
@@ -219,16 +218,10 @@ git commit -a
 git push -f origin HEAD:refs/heads/ghc-head
 cd ../..
 git commit -a
-./sync-all push
 ```
 
 
 (use e.g. `ghc-7.6` rather than `ghc-head` if this patch is for a branch only).
-
-**Important:** If you make a change to a submodule, then make sure you
-commit in both that repository and the ghc repository before using
-`./sync-all get` or `./sync-all pull`. Those commands run
-`git submodule update`, which may cause you to lose unrecorded changes.
 
 ### From the upstream maintainer's point of view
 
