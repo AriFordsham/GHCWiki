@@ -129,7 +129,6 @@ Finally, clone, configure, and build GHC (see [Newcomers](newcomers) for details
 ```wiki
    git clone --recursive https://github.com/ghc/ghc
    cd ghc/
-   ./sync-all get
    patchShebangs .
    ./boot
    configurePhase
