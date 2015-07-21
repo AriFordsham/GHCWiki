@@ -156,6 +156,7 @@ See also [TemplateHaskell](template-haskell)
 
 ## Optimisation
 
+- [\#8475](https://gitlab.haskell.org//ghc/ghc/issues/8475) (summarises), [\#917](https://gitlab.haskell.org//ghc/ghc/issues/917), [\#1945](https://gitlab.haskell.org//ghc/ghc/issues/1945), [\#3273](https://gitlab.haskell.org//ghc/ghc/issues/3273), [\#4276](https://gitlab.haskell.org//ghc/ghc/issues/4276), [\#5729](https://gitlab.haskell.org//ghc/ghc/issues/5729): full laziness sometimes makes things worse.
 - [\#9370](https://gitlab.haskell.org//ghc/ghc/issues/9370): respecting mixed `-O` and `-O0` in `ghc --make`, especially concerning cross-module inlining
 - [\#9279](https://gitlab.haskell.org//ghc/ghc/issues/9279): local wrapper remains in final program
 - [\#9246](https://gitlab.haskell.org//ghc/ghc/issues/9246): Too much case-of-case leads to bad code
