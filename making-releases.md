@@ -19,6 +19,9 @@ In `docs/users_guide`, add a `$VERSION-notes.xml` file and write the release not
 
 Add a corresponding `relnotes$PATCH_LEVEL` entity to `ug-ent.xml.in`, and use the entity at the end of the chapter in `intro.xml`.
 
+
+Ensure that the changelogs in `libraries/*` are up-to-date.
+
 ## Updating the tree
 
 
