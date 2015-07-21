@@ -1,4 +1,6 @@
-
+{{{#!box warning
+This page is obsolete. See Building/GettingTheSources instead.
+}}}
 
 [http://www.youtube.com/watch?v=zkMJ6GQpGyc&list=PLBkRCigjPwyeCSD_DFxpd246YIF7_RDDI  Video: Getting and Building], layout of the source tree, how to set up build.mk (23'43")
 
