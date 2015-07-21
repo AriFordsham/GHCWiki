@@ -82,7 +82,7 @@ Header files for the runtime system; see [Commentary/SourceTree/Includes](commen
 ## `utils/`, `libffi/`
 
 
-The `utils` directory contains support utilities that GHC uses.  Some of these are themselves separate repositories that `sync-all` pulls; others are part of the main GHC repository. 
+The `utils` directory contains support utilities that GHC uses.
 
 
 These utils may be built with the bootstrapping compiler, for use during the build, or with the stage1 or stage2 compiler, for installing. Some of them are built with both; we can't install the utils built with the bootstrapping compiler as they may use different versions of C libraries. The reason we use sometimes stage2 rather than stage1 is that some utils, e.g. haddock, need the GHC API package.
@@ -104,7 +104,7 @@ This contains some tarball files (binary packages) that GHC relies upon. Used fo
 ## `testsuite/`, `nofib/`
 
 
-The `testsuite/` and `nofib/` directories contain apparatus for testing GHC.  Each is a separate repository, which can be gotten with `sync-all`.   More info on each is at:
+The `testsuite/` and `nofib/` directories contain apparatus for testing GHC.
 
 - [Building/RunningTests](building/running-tests)
 - [Building/RunningNoFib](building/running-no-fib)
