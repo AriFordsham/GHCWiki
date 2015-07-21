@@ -53,7 +53,7 @@ See MakingReleases and TodoAfterReleases.
 
 The `master` branch of all repositories is the main development branch.  We often call this "HEAD" for historical reasons.
 
-There is a '''stable branch''' corresponding to each major release, named after the major version.  For example, the stable branch corresponding to the 7.8 series of releases is called `ghc-7.8`.  Every repository (see [wiki:Repositories]) has a `ghc-7.8` branch, so you can switch a complete tree to the branch with `./sync-all checkout ghc-7.8`.
+There is a '''stable branch''' corresponding to each major release, named after the major version.  For example, the stable branch corresponding to the 7.10 series of releases is called `ghc-7.10`.  Every repository (see [wiki:Repositories]) has a `ghc-7.10` branch, so you can switch a complete tree to the branch with `git checkout ghc-7.10; git submodule update`.
 
 '''Releases are only made from the stable branch.'''  The stable branch for a major release is created by the release manager shortly before the release candidate (a couple of weeks or so).  When the release is made, the stable branch (of all repositories) is tagged with the release name, e.g. `ghc-7.8.1`.
 
