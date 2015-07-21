@@ -66,10 +66,14 @@ After you run `validate` your tree will continue to use the same settings. The w
 
 In order to save time while debugging problems revealed by validate, the validate script understands several flags. These flags, and others understood by `validate` are documented in the `validate` script itself.
 
-- **`--no-clean`**:  validate will not clean the tree before starting, so it will continue a previous build. 
+- **`--no-clean`**:  validate will not clean the tree before starting, so it will continue a previous build.
+- **`--testsuite-only`**: then validate will not build the tree at all, but only run the testsuite. This is useful if the problems validate found were only due to the testsuite falling out of sync with the code.
+- **`--hpc`**: build stage2 with -fhpc, and see how much of the compiler the test suite covers.
 - **`--fast`**:  validate skips the build-a-distribution step, does not build dynamic libraries, and all but the first `way` are skipped. 
 - **`--slow`**: turns on `-DDEBUG` for the stage2 compiler, and runs more tests (except those that call `compiler_stats_num_fields`, those are skipped when debugging is on)
-- **`--testsuite-only`**: then validate will not build the tree at all, but only run the testsuite. This is useful if the problems validate found were only due to the testsuite falling out of sync with the code. 
+- **`--dph`**: set `BUILD_DPH=YES`.
+- **`--quiet`**: show less output. By default all shell commands are shown so you can copy/paste and rerun them on failures.
+- **`--help`**: show help.
 
 ### Validate has failing tests without any local patches; what do I do?
 
