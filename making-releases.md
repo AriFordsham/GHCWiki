@@ -30,6 +30,15 @@ Update the `ANNOUNCE` file in the root of the tree.
 
 In the `AC_INIT` line of `configure.ac`, set the version number. A few lines below, set `RELEASE=YES`.
 
+## Tagging the release
+
+
+Create a signed git tag,
+
+```wiki
+git tag -asu "Ben Gamari <ben@well-typed.com>" ghc-7.10.2-release HEAD
+```
+
 ## Making the source tarball
 
 
