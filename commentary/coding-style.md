@@ -228,7 +228,7 @@ If the module can be compiled multiple ways (eg. GHCI vs. non-GHCI), make sure t
 ## Compiler versions and language extensions
 
 
-GHC must be compilable by the previous two major releases, and itself. It isn't necessary for it to be compilable by every intermediate development version. 
+GHC must be compilable and validate by the previous two major GHC releases, and itself. It isn't necessary for it to be compilable by every intermediate development version. 
 
 
 To maintain compatibility, use [HsVersions.h](commentary/coding-style#) (see below) where possible, and try to avoid using \#ifdef in the source itself. 
