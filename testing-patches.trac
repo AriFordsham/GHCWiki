@@ -33,10 +33,12 @@ Travis CI is a free-for-open-source continuous integration service. When your pa
 
  * Depending on the nature of the changes, more testing might be sensible. e.g. if possible, build system changes should be tested on Linux, Mac OS X and Windows machines.  Look at the full documentation for the [wiki:Building/RunningTests test suite].
 
-The validate script should take around 40mins on a fast, dual core machine.  If you have more cores, you can use them like this:
+validate runs `make -j$THREADS`, where by default `THREADS` is the number of
+cpus your computer has +1. You can set the environment variable `THREADS` to
+override this. For a sequential build (and also test run) you would for example use
 
 {{{
-CPUS=8 sh validate
+THREADS=1 ./validate
 }}}
 
 == More details on the validate script ==
