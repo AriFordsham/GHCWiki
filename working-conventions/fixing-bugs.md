@@ -14,6 +14,7 @@ Here's how to submit a bug fix to GHC. For [adding features](working-conventions
   - If your proposed fix has non-local consequences, please consult us before investing too much of your time. 
   - Please follow our [coding conventions](commentary/coding-style). 
   - Comment your fix in the source code, and include a reference to the bug ticket number, e.g. "`#1466`" (this helps when grepping for the fix later). 
+  - GHC is guaranteed to compile and validate with the last two GHC releases; write your patch with this in mind. For instance, if you are working on what will be GHC 7.12 your patch should compile with GHC 7.8 and GHC 7.10.
 1. **Make one or several commits** that embody your fix. 
 
   - Separate changes that affect functionality from those that just affect
