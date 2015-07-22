@@ -42,7 +42,13 @@ pacman -Sy git tar binutils autoconf make libtool automake python2 p7zip patch g
 
 
 Note: `dblatex` isn't available as a [ MSYS2 package](https://github.com/Alexpux/MSYS2-packages), so the user's guide won't be build in ps and pdf format (only html).
-  
+
+
+It may be necessary to explicitly set the `XML_CATALOG_FILES` environment variable to convince `configure` that docbook is usable,
+
+```wiki
+export XML_CATALOG_FILES="/etc/xml/docbook-xml /etc/xml/catalog"
+```
 
 ## Host GHC setup
 
