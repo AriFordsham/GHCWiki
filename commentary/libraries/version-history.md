@@ -5,6 +5,7 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 
 <table><tr><th></th>
 <th>**HEAD**</th>
+<th>**7.10.2**</th>
 <th>**7.10.1**</th>
 <th>**7.8.4**</th>
 <th>**7.8.3**</th>
@@ -22,6 +23,8 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th>**7.0.2**</th>
 <th>**7.0.1**</th></tr>
 <tr><th>`Cabal`</th>
+<th>  1.23.0.0  </th>
+<th>  1.22.4.0  </th>
 <th>  1.22.2.0  </th>
 <th>  1.18.1.5  </th>
 <th>  1.18.1.3  </th>
@@ -38,7 +41,6 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th></th>
 <th></th>
 <th></th>
-<th></th>
 <th></th></tr>
 <tr><th>`Win32`</th>
 <th>  2.3.1.0  </th>
@@ -48,6 +50,7 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th>  2.2.1.0  </th>
 <th>  2.2.0.2  
 </th>
+<th></th>
 <th></th>
 <th></th>
 <th></th>
@@ -77,8 +80,10 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th></th>
 <th></th>
 <th></th>
+<th></th>
 <th></th></tr>
 <tr><th>`base`</th>
+<th>  4.8.2.0  </th>
 <th>  4.8.1.0  </th>
 <th>  4.8.0.0  </th>
 <th>  4.7.0.2  </th>
@@ -115,8 +120,10 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th></th>
 <th></th>
 <th></th>
+<th></th>
 <th></th></tr>
 <tr><th>`binary`</th>
+<th>  0.7.5.0  </th>
 <th>  0.7.3.0  </th>
 <th>  0.7.1.0  </th>
 <th>  0.5.1.1  </th>
@@ -152,6 +159,7 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th></th>
 <th></th>
 <th></th>
+<th></th>
 <th></th></tr>
 <tr><th>`containers`</th>
 <th>  0.5.6.2  </th>
@@ -171,6 +179,7 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th></th>
 <th></th>
 <th></th>
+<th></th>
 <th></th></tr>
 <tr><th>`deepseq`</th>
 <th>  1.4.1.1  </th>
@@ -178,6 +187,7 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th>  1.3.0.1  </th>
 <th>  1.3.0.0  </th>
 <th>*none*</th>
+<th></th>
 <th></th>
 <th></th>
 <th></th>
@@ -208,6 +218,7 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th></th>
 <th></th>
 <th></th>
+<th></th>
 <th></th></tr>
 <tr><th>`extensible-exceptions`</th>
 <th>*none*</th>
@@ -227,11 +238,13 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th></th>
 <th></th>
 <th></th>
+<th></th>
 <th></th></tr>
 <tr><th>`ffi`</th>
 <th>*none*</th>
 <th>  1.0  
 </th>
+<th></th>
 <th></th>
 <th></th>
 <th></th>
@@ -265,9 +278,11 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th></th>
 <th></th>
 <th></th>
+<th></th>
 <th></th></tr>
 <tr><th>`ghc`</th>
-<th>  7.11.20150324\*  </th>
+<th>  7.11.20150720\*  </th>
+<th>  7.10.2\*  </th>
 <th>  7.10.1\*  </th>
 <th>  7.8.4\*  </th>
 <th>  7.8.3\*  </th>
@@ -303,6 +318,7 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th></th>
 <th></th>
 <th></th>
+<th></th>
 <th></th></tr>
 <tr><th>`ghc-prim`</th>
 <th>  0.4.0.0  </th>
@@ -322,11 +338,13 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th></th>
 <th></th>
 <th></th>
+<th></th>
 <th></th></tr>
 <tr><th>`haskeline`</th>
 <th>  0.7.2.1  </th>
 <th>  0.7.1.2  </th>
 <th>*none*</th>
+<th></th>
 <th></th>
 <th></th>
 <th></th>
@@ -359,6 +377,7 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th></th>
 <th></th>
 <th></th>
+<th></th>
 <th></th></tr>
 <tr><th>`haskell98`</th>
 <th>*none*</th>
@@ -378,6 +397,7 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th></th>
 <th></th>
 <th></th>
+<th></th>
 <th></th></tr>
 <tr><th>`hoopl`</th>
 <th>  3.10.0.2  </th>
@@ -386,6 +406,7 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th>  3.8.7.3  </th>
 <th>  3.8.7.1  </th>
 <th>*none*</th>
+<th></th>
 <th></th>
 <th></th>
 <th></th>
@@ -415,6 +436,7 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th></th>
 <th></th>
 <th></th>
+<th></th>
 <th></th></tr>
 <tr><th>`integer-gmp`</th>
 <th>  1.0.0.0  </th>
@@ -434,6 +456,7 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th></th>
 <th></th>
 <th></th>
+<th></th>
 <th></th></tr>
 <tr><th>`old-locale`</th>
 <th>*none*</th>
@@ -443,6 +466,7 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th>  1.0.0.3  </th>
 <th>  1.0.0.2  
 </th>
+<th></th>
 <th></th>
 <th></th>
 <th></th>
@@ -472,6 +496,7 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th></th>
 <th></th>
 <th></th>
+<th></th>
 <th></th></tr>
 <tr><th>`pretty`</th>
 <th>  1.1.2.0  </th>
@@ -480,6 +505,7 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th>  1.1.0.0  </th>
 <th>  1.0.1.2  
 </th>
+<th></th>
 <th></th>
 <th></th>
 <th></th>
@@ -510,6 +536,7 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th></th>
 <th></th>
 <th></th>
+<th></th>
 <th></th></tr>
 <tr><th>`random`</th>
 <th>*none*</th>
@@ -529,10 +556,12 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th></th>
 <th></th>
 <th></th>
+<th></th>
 <th></th></tr>
 <tr><th>`rts`</th>
 <th>  1.0  
 </th>
+<th></th>
 <th></th>
 <th></th>
 <th></th>
@@ -567,11 +596,13 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th></th>
 <th></th>
 <th></th>
+<th></th>
 <th></th></tr>
 <tr><th>`terminfo`</th>
 <th>  0.4.0.1  </th>
 <th>  0.4.0.0  </th>
 <th>*none*</th>
+<th></th>
 <th></th>
 <th></th>
 <th></th>
@@ -604,11 +635,13 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th></th>
 <th></th>
 <th></th>
+<th></th>
 <th></th></tr>
 <tr><th>`transformers`</th>
 <th>  0.4.2.0  </th>
 <th>  0.3.0.0  </th>
 <th>*none*</th>
+<th></th>
 <th></th>
 <th></th>
 <th></th>
@@ -641,6 +674,7 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th></th>
 <th></th>
 <th></th>
+<th></th>
 <th></th></tr>
 <tr><th>`xhtml`</th>
 <th>  3000.2.1  </th>
@@ -659,9 +693,11 @@ See also the related [LanguagePragmaHistory](language-pragma-history) page
 <th></th>
 <th></th>
 <th></th>
+<th></th>
 <th></th></tr>
 <tr><th></th>
 <th>**HEAD**</th>
+<th>**7.10.2**</th>
 <th>**7.10.1**</th>
 <th>**7.8.4**</th>
 <th>**7.8.3**</th>
