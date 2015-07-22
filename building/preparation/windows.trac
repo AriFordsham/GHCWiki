@@ -34,7 +34,12 @@ pacman -Sy git tar binutils autoconf make libtool automake python2 p7zip patch g
 }}}
 
 Note: `dblatex` isn't available as a [https://github.com/Alexpux/MSYS2-packages MSYS2 package], so the user's guide won't be build in ps and pdf format (only html).
-  
+
+It may be necessary to explicitly set the `XML_CATALOG_FILES` environment variable to convince `configure` that docbook is usable,
+{{{
+export XML_CATALOG_FILES="/etc/xml/docbook-xml /etc/xml/catalog"
+}}}
+
 == Host GHC setup ==
 
 A host GHC binary is required for bootstrapping. In order to keep different architectures separate, download and install a prebuilt GHC into `/mingw64` or `/mingw32`:
