@@ -180,7 +180,7 @@ See also [TemplateHaskell](template-haskell)
 - [\#5954](https://gitlab.haskell.org//ghc/ghc/issues/5954): performance regression. Duplication of primops?
 - [\#6047](https://gitlab.haskell.org//ghc/ghc/issues/6047): GHC retains unnecessary binding
 - [\#2439](https://gitlab.haskell.org//ghc/ghc/issues/2439): Strict dictionaries; see also map/coerce rule [\#9792](https://gitlab.haskell.org//ghc/ghc/issues/9792)
-- [\#5916](https://gitlab.haskell.org//ghc/ghc/issues/5916): `runST` isn't free
+- [\#5916](https://gitlab.haskell.org//ghc/ghc/issues/5916), [\#10678](https://gitlab.haskell.org//ghc/ghc/issues/10678): `runST` isn't free
 - [\#5522](https://gitlab.haskell.org//ghc/ghc/issues/5522), [\#6092](https://gitlab.haskell.org//ghc/ghc/issues/6092): liberate-case runs out of memory
 - [\#3990](https://gitlab.haskell.org//ghc/ghc/issues/3990), [\#7647](https://gitlab.haskell.org//ghc/ghc/issues/7647): UNPACK for data families, and with phantom types, needs data con wrapper refactoring; see also [\#9655](https://gitlab.haskell.org//ghc/ghc/issues/9655) if you are in this area.
 - [\#5928](https://gitlab.haskell.org//ghc/ghc/issues/5928): running Specialise more than once
