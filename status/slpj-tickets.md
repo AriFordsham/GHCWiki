@@ -56,7 +56,7 @@
 - [\#10027](https://gitlab.haskell.org//ghc/ghc/issues/10027): export behaviour for data families
 - [\#9223](https://gitlab.haskell.org//ghc/ghc/issues/9223): error message mentioning untouchables
 - [\#9198](https://gitlab.haskell.org//ghc/ghc/issues/9198): slow typechecker (big types!)
-- [\#9210](https://gitlab.haskell.org//ghc/ghc/issues/9210), [\#9103](https://gitlab.haskell.org//ghc/ghc/issues/9103): functional dependencies and overlapping instances
+- [\#9210](https://gitlab.haskell.org//ghc/ghc/issues/9210), [\#10675](https://gitlab.haskell.org//ghc/ghc/issues/10675): functional dependencies and overlapping instances
 - [\#8673](https://gitlab.haskell.org//ghc/ghc/issues/8673): more generous GADT record selectors
 - [\#8550](https://gitlab.haskell.org//ghc/ghc/issues/8550): Don't build recursive type-function dictionaries
 - [\#8281](https://gitlab.haskell.org//ghc/ghc/issues/8281): `UnliftedFFITypes` etc
@@ -180,7 +180,7 @@ See also [TemplateHaskell](template-haskell)
 - [\#5954](https://gitlab.haskell.org//ghc/ghc/issues/5954): performance regression. Duplication of primops?
 - [\#6047](https://gitlab.haskell.org//ghc/ghc/issues/6047): GHC retains unnecessary binding
 - [\#2439](https://gitlab.haskell.org//ghc/ghc/issues/2439): Strict dictionaries; see also map/coerce rule [\#9792](https://gitlab.haskell.org//ghc/ghc/issues/9792)
-- [\#5916](https://gitlab.haskell.org//ghc/ghc/issues/5916): `runST` isn't free
+- [\#5916](https://gitlab.haskell.org//ghc/ghc/issues/5916), [\#10678](https://gitlab.haskell.org//ghc/ghc/issues/10678): `runST` isn't free
 - [\#5522](https://gitlab.haskell.org//ghc/ghc/issues/5522), [\#6092](https://gitlab.haskell.org//ghc/ghc/issues/6092): liberate-case runs out of memory
 - [\#3990](https://gitlab.haskell.org//ghc/ghc/issues/3990), [\#7647](https://gitlab.haskell.org//ghc/ghc/issues/7647): UNPACK for data families, and with phantom types, needs data con wrapper refactoring; see also [\#9655](https://gitlab.haskell.org//ghc/ghc/issues/9655) if you are in this area.
 - [\#5928](https://gitlab.haskell.org//ghc/ghc/issues/5928): running Specialise more than once
