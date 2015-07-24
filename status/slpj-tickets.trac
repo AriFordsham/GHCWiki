@@ -52,7 +52,7 @@
  * #10027: export behaviour for data families
  * #9223: error message mentioning untouchables
  * #9198: slow typechecker (big types!)
- * #9210, #9103: functional dependencies and overlapping instances
+ * #9210, #10675: functional dependencies and overlapping instances
  * #8673: more generous GADT record selectors
  * #8550: Don't build recursive type-function dictionaries
  * #8281: `UnliftedFFITypes` etc
