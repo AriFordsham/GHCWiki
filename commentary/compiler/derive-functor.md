@@ -206,7 +206,12 @@ This mechanism cannot derive `Functor`, `Foldable`, or `Traversable` instances f
 > Note that there are two exceptions to this rule: tuple and function types.
 
 1. The data type's last type variable cannot used in a `-XDatatypeContexts` constraint. For example, `data Ord a => O a = O a deriving Functor` would be rejected.
-1. The data type's last type variable must be truly universally quantified, i.e., it must not have any class or equality constraints. This means that the following is legal:
+
+
+In addition, GHC performs checks for certain classes only:
+
+1. For derived `Foldable` and `Traversable` instances, a data type cannot use function types. This restriction does not apply to derived `Functor` instances, however.
+1. For derived `Functor` and `Traversable` instances, the data type's last type variable must be truly universally quantified, i.e., it must not have any class or equality constraints. This means that the following is legal:
 
 ```
 dataT a b whereT1:: a -> b ->T a b      -- Fine! Vanilla H-98T2:: b -> c ->T a b      -- Fine! Existential c, but we can still map over 'b'T3:: b ->TInt b         -- Fine! Constraint 'a', but 'b' is still polymorphicderivinginstanceFunctor(T a){-
@@ -224,13 +229,12 @@ instance Functor (T a) where
 dataT a b whereT4::Ord b => b ->T a b  -- No!  'b' is constrainedT5:: b ->T b b           -- No!  'b' is constrainedT6::T a (b,b)-- No!  'b' is constrained
 ```
 
+>
+> This restriction does not apply to derived `Foldable` instances. See the following section for more details.
 
-For derived `Foldable` and `Traversable` instances, a data type cannot use function types. This restriction does not apply to derived `Functor` instances, however.
+### Relaxed universality check for `DeriveFoldable`
 
-### Proposal: relax universality check for `DeriveFoldable`
-
-
-In the Requirements for legal instances section, restriction 5 applies to `DeriveFunctor`, `DeriveFoldable`, and `DeriveTraversable` alike. However, `Foldable` instances are unique in that they do not produce constraints, but only consume them. Therefore, it is permissible to derive `Foldable` instances for constrained data types (e.g., GADTs), so restriction 5 should be lifted for `DeriveFoldable`.
+`DeriveFunctor` and `DeriveTraversable` cannot be used with data types that use existential constraints, since the type signatures of `fmap` and `traverse` make this impossible. However, `Foldable` instances are unique in that they do not produce constraints, but only consume them. Therefore, it is permissible to derive `Foldable` instances for constrained data types (e.g., GADTs).
 
 
 For example, consider the following GADT:
@@ -265,7 +269,7 @@ classFoldable t where
 ```
 
 
-Therefore, a derived `Foldable` instance for `T` would typecheck:
+Therefore, a derived `Foldable` instance for `T` typechecks:
 
 ```
 instanceFoldableTwhere
@@ -274,7 +278,7 @@ instanceFoldableTwhere
 ```
 
 
-Deriving `Foldable` instances for GADTs with equality constraints can become murky, however. Consider this GADT:
+Deriving `Foldable` instances for GADTs with equality constraints could become murky, however. Consider this GADT:
 
 ```
 dataE a whereE1::(a ~Int)=> a   ->E a
@@ -308,7 +312,7 @@ dataUnknownConstraints a whereUC::Mystery a =>Int->UnknownConstraints a
 For all we know, it may be that `a ~ Int => Mystery a`. Does this mean that the `Int` argument in `UC` should be folded over?
 
 
-To avoid these thorny edge cases, we only consider constructor arguments (1) whose types are *syntactically* equivalent to the last type parameter and (2) in cases when the last type parameter is a *simple* type variable. In the above `E` example, only `E1` fits the bill, so the derived `Foldable` instance should actually be:
+To avoid these thorny edge cases, we only consider constructor arguments (1) whose types are *syntactically* equivalent to the last type parameter and (2) in cases when the last type parameter is a truly universally polymorphic. In the above `E` example, only `E1` fits the bill, so the derived `Foldable` instance is actually:
 
 ```
 instanceFoldableEwhere
