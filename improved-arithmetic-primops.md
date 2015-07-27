@@ -5,8 +5,10 @@ To make arithmetic safer: [ http://article.gmane.org/gmane.comp.lang.haskell.ghc
 
 ## What's already there?
 
-`Data.SafeInt` uses these primops, which only work on `Int`s: `addIntC#`, `subIntC#`, `mulIntMayOflo#`.
-Also, `maxInt#` and `minInt#` exist in `libraries/base/GHC/Base.hs`, but not `maxWord#` or `maxInt64#`, etc.
+- `Data.SafeInt` uses these primops, which only work on `Int`s: `addIntC#`, `subIntC#`, `mulIntMayOflo#`.
+- `maxInt#` and `minInt#` exist in `libraries/base/GHC/Base.hs`, but not `maxWord#` or `maxInt64#`, etc.
+- In `libraries/integer-gmp/src/GHC/Integer/Type.hs`, there's `subWordC# :: Word# -> Word# -> (# Word#, Int# #)`
+  defined as a helper, which should be replaced by a proper primop.
 
 ## How do I add a new primop?
 
