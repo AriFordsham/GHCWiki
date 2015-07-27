@@ -10,7 +10,7 @@ You can see exactly which versions of what packages GHC depends on by looking in
 
 = Building packages that GHC doesn't depend on =
 
-You can make the build system build extra packages, on which GHC doesn't strictly depend, by adding them to the `$(TOP)/packages` file, with an `extra` tag.
+You can make the build system build extra packages, on which GHC doesn't strictly depend, by adding them to the `$(TOP)/packages` file, with an `extra` tag. Then set `BUILD_EXTRA_PKGS=YES` in your `mk/build.mk` file.
 
 It should be exceptional, but you can make the build system provide per-package compiler flags, by adding some definitions in `$(TOP)/ghc.mk`, just below the comment
 {{{
