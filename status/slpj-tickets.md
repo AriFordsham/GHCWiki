@@ -158,7 +158,7 @@ See also [TemplateHaskell](template-haskell)
 
 - [\#8457](https://gitlab.haskell.org//ghc/ghc/issues/8457) (summarises), [\#917](https://gitlab.haskell.org//ghc/ghc/issues/917), [\#1945](https://gitlab.haskell.org//ghc/ghc/issues/1945), [\#3273](https://gitlab.haskell.org//ghc/ghc/issues/3273), [\#4276](https://gitlab.haskell.org//ghc/ghc/issues/4276), [\#5729](https://gitlab.haskell.org//ghc/ghc/issues/5729) (closed as dups, but not fixed): full laziness sometimes makes things worse.
 - [\#10535](https://gitlab.haskell.org//ghc/ghc/issues/10535), [\#7367](https://gitlab.haskell.org//ghc/ghc/issues/7367), [\#7206](https://gitlab.haskell.org//ghc/ghc/issues/7206), [\#7309](https://gitlab.haskell.org//ghc/ghc/issues/7309): float-out and excessive sharing 
-- [\#9370](https://gitlab.haskell.org//ghc/ghc/issues/9370): respecting mixed `-O` and `-O0` in `ghc --make`, especially concerning cross-module inlining
+- [\#9370](https://gitlab.haskell.org//ghc/ghc/issues/9370), [\#8635](https://gitlab.haskell.org//ghc/ghc/issues/8635): respecting mixed `-O` and `-O0` in `ghc --make`, especially concerning cross-module inlining
 - [\#9279](https://gitlab.haskell.org//ghc/ghc/issues/9279): local wrapper remains in final program
 - [\#9246](https://gitlab.haskell.org//ghc/ghc/issues/9246): Too much case-of-case leads to bad code
 - [\#9136](https://gitlab.haskell.org//ghc/ghc/issues/9136): better constant folding
