@@ -8,7 +8,7 @@ Detailed information about the build system may be found [wiki:Building here]; w
 
 Most projects keep the parts of their build machinery in files called {{{Makefile}}} found in many/most subdirectories of the source tree.  GHC uses the filename {{{ghc.mk}}} instead; you'll find a file with this name in quite a number of subdirectories.
 
-There are subdirectories of name {{{mk/}}} at various levels that contain rules, targets, and so on specific to a project - or, in the case of the toplevel, the default rules for the whole system. Each {{{mk/}}} directory contains a file {{{boilerplate.mk}}} that ties the various other makefiles together. Files called {{{target.mk}}}, {{{paths.mk}}}, and {{{suffix.mk}}} contain make targets, definitions of variables containing paths, and suffix rules, respectively.
+Other build system files are in {{{rules/}}} and {{{mk/}}}.
 
 == Coding Style ==
 
