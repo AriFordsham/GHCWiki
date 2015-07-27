@@ -95,3 +95,8 @@ Added LANGUAGE extensions:
 - (`No`)`StaticPointers`
 
 ## Changes in GHC 7.12 (WIP)
+
+
+Added LANGUAGE extensions:
+
+- (`No`)`StrictData`
