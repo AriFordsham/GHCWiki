@@ -62,13 +62,13 @@ The Trac bug report system has various fields. Here's how to fill them in:
   - **feature request**: something you would like GHC to do
   - **task** (for use by GHC developers only): something we intend to do sometime
 
-- **Type of failure**: the nature of the failure (compile-time crash, incorrect result, etc.).  This allows us to prioritize important bugs.
-
 - **Full description**.  This is where you describe your bug in details.  See "What information to provide" below.  Use the [wiki markup](trac-wiki-misc) in your description, especially `{{{` ... `}}}` brackets to mark up literal code.
 
 - **CC**.  If you are only logged in as *guest* then please consider including your email address (using a comma or space as separator, not a semicolon). That way we can ask you questions, and you'll get email from Trac when something happens to your bug.
 
-- **Component**, **Version**, **Operating system**, **Architecture** all help to describe the setup that failed. Please pay particular attention to **version**, which is the version of GHC that you are running. Ideally, the version field is used to denote the first version a bug/issue is known to exist in (regardless whether that version is "supported" or not). 
+- **Operating system** and **Architecture**. Only fill these in if you think the bug is platform dependent. Otherwise, use `Unknown/Multiple`.
+
+- **Component** and **Version**. Please pay particular attention to **version**, which is the version of GHC that you are running. Ideally, the version field is used to denote the first version a bug/issue is known to exist in (regardless whether that version is "supported" or not). 
 
 - **Priority**, **Milestone**, **Assign to**, **Difficulty**, **Test case**, **Blocking**, **Blocked by**:  these are all for use by GHC developers; please don't fill these in.
 
