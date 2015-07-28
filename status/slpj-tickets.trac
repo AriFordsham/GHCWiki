@@ -177,6 +177,7 @@ See also [wiki:TemplateHaskell]
  * #5928: running Specialise more than once
 
 == Numerics, floating point, and primops ==
+ * #10555: division primops on LHS of a RULE
  * #9407: 64-bit floating point behaves differently with and without -O
  * #5780: aggressive-primop attempt that didn't quite work
  * #9328, #10215: negative zero and case expressions
