@@ -1,5 +1,5 @@
 
-Say you have a program `TestCase.hs` in which a rewrite rule stopped firing at some point between GHC 7.10.1 and 7.10. It can often be useful to know which commit introduced the regression. Bisection is an efficient way of determining this, requiring at most `log_2(N)` commits to find the culprit among `N` commits.
+Say you have a program `TestCase.hs` in which a rewrite rule stopped firing at some point between GHC 7.10.1 and 7.10. It can often be useful to know which commit introduced the regression. [ Bisection](https://en.wikipedia.org/wiki/Bisection_%28software_engineering%29) is an efficient way of determining this, requiring at most `log_2(N)` commits to find the culprit among `N` commits.
 
 
 This approach is especially appealing as git provides convenient support in the form of [ \`git bisect\`](https://www.kernel.org/pub/software/scm/git/docs/git-bisect.html). `git bisect` coupled with a reliable test case and the script below (with appropriate modifications) turns the task of bisection into a relatively painless exercise.
@@ -7,20 +7,20 @@ This approach is especially appealing as git provides convenient support in the 
 **Note:** Bisecting revisions before the switch to submodules (i.e. more than a couple of months prior to the GHC 7.10.1 release) is quite difficult and is generally not worth the effort. The script below probably won't work in this regime.
 
 
-To begin, it's best to minimize the work required to build GHC. For this `BuildFlavour=quick` in `mk/build.mk` is recommended. Next download the script below and edit it to reflect your test-case. Now begin the bisection,
+To begin, it's best to minimize the work required to build GHC. For this setting `BuildFlavour=quick` in `mk/build.mk` is recommended. Next download the script below and edit it to reflect your test-case. Now begin the bisection,
 
 ```
 $ git bisect start
-$ git bisect good ghc-7.10.1-release
-$ git bisect bad ghc-7.10.2-release
+$ git bisect good ghc-7.10.1-release   # we know the testcase worked here
+$ git bisect bad ghc-7.10.2-release    # but it fails here
 $ git bisect run ghc-bisect.sh
 ```
 
 
-This will run the script for point in the bisection, skipping commits which are unbuildable. A log of this procedure will be place in `$logs`; `$logs/all` gives a nice high-level overview and the remaining files record each step of the bisection.
+This will run the script for each point in the bisection, skipping commits which are unbuildable. Hopefully this will end with a message informing you of the first bad commit. A log of this procedure will be place in `$logs`: `$logs/all` gives a nice high-level overview and the remaining files record each step of the bisection.
 
 
-By default this will clean the tree for every commit. While this is likely to give correct results, it performs a number of potentially redundant rebuilds. The process can be made faster by setting \`ALWAYS_CLEAN=0", which will only clean the tree when a commit fails to build.
+By default the script will clean the tree for every commit. While this is likely to give correct results, it performs a number of potentially redundant rebuilds. The process can be made faster by setting \`ALWAYS_CLEAN=0", which will only clean the tree when a commit fails to build.
 
 ## ghc-bisect.sh
 
@@ -51,6 +51,6 @@ build="inplace/bin/ghc-stage2 $testcase -O -i$text -DMIN_VERSION_bytestring(x,y,
 do_it prebuild $build -fforce-recomp ||exit127
 touch $testcase
 do_it build $build -ddump-rule-firings ||exit127if ! grep "Rule fired: TEXT literal"$logs/$rev-build.log ;then
-        log "Commit $rev: failed"exit1;else
-        log "Commit $rev: passed"exit0;fi
+    log "Commit $rev: failed"exit1;else
+    log "Commit $rev: passed"exit0;fi
 ```
