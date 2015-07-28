@@ -73,6 +73,8 @@ Please add: System FC, GADTs, kind polymorphism etc
 
 - [Concurrent Haskell](http://www.haskell.org/ghc/docs/papers/concurrent-haskell.ps.gz), Simon Peyton Jones, Andrew Gordon, Sigbjorn Finne. Deals with the various concurrency constructs in GHC and the Haskell language. E.g., MVars.
 
+- [ Composable Memory Transactions](http://research.microsoft.com/pubs/67418/2005-ppopp-composable.pdf), Tim Harris, Simon Marlow, Simon Peyton-Jones, and Maurice Herlihy.  In Proceedings of the tenth ACM SIGPLAN symposium on Principles and practice of parallel programming (PPoPP '05)
+
 ## Intermediate Representation of GHC (Core & Related)
 
 - [An External Representation for the GHC Core Language](http://www.haskell.org/ghc/docs/6.10.4/html/ext-core/core.pdf) Gives an overview of the semantics and syntax of Core, GHC's internal intermediate representation for Haskell that most of the optimisation work is done on. A good language to understand when starting with GHC.
