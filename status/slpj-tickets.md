@@ -188,6 +188,7 @@ See also [TemplateHaskell](template-haskell)
 
 ## Numerics, floating point, and primops
 
+- [\#10555](https://gitlab.haskell.org//ghc/ghc/issues/10555): division primops on LHS of a RULE
 - [\#9407](https://gitlab.haskell.org//ghc/ghc/issues/9407): 64-bit floating point behaves differently with and without -O
 - [\#5780](https://gitlab.haskell.org//ghc/ghc/issues/5780): aggressive-primop attempt that didn't quite work
 - [\#9328](https://gitlab.haskell.org//ghc/ghc/issues/9328), [\#10215](https://gitlab.haskell.org//ghc/ghc/issues/10215): negative zero and case expressions
