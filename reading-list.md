@@ -6,6 +6,9 @@ Suppose you want to start contributing to GHC: what should you read by way of ba
 
 You can ask questions on `ghc-devs@haskell.org`. People are friendly.  See also [working on GHC](working-conventions) and [The GHC Team](team-ghc).
 
+
+See also [ Stephen Deihl's Haskell implementation reading list](http://www.stephendiehl.com/posts/essential_compilers.html).
+
 ## General background
 
 - The [GHC Commentary](commentary) is a Wiki that describes GHC's implementation.  It is a Wiki.  That means that you can, and should, fix errors and write new chapters.
