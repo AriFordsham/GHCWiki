@@ -75,6 +75,8 @@ Please add: System FC, GADTs, kind polymorphism etc
 
 - [ Composable Memory Transactions](http://research.microsoft.com/pubs/67418/2005-ppopp-composable.pdf), Tim Harris, Simon Marlow, Simon Peyton-Jones, and Maurice Herlihy.  In Proceedings of the tenth ACM SIGPLAN symposium on Principles and practice of parallel programming (PPoPP '05)
 
+- [ Transactional Memory with Data Invariants](http://research.microsoft.com/en-us/um/people/simonpj/papers/stm/stm-invariants.pdf), Tim Harris and Simon Peyton Jones.  In TRANSACT '06
+
 ## Intermediate Representation of GHC (Core & Related)
 
 - [An External Representation for the GHC Core Language](http://www.haskell.org/ghc/docs/6.10.4/html/ext-core/core.pdf) Gives an overview of the semantics and syntax of Core, GHC's internal intermediate representation for Haskell that most of the optimisation work is done on. A good language to understand when starting with GHC.
