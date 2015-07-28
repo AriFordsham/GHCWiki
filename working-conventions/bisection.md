@@ -29,28 +29,36 @@ By default the script will clean the tree for every commit. While this is likely
 logs=/mnt/work/ghc/tickets/T10528/logs
 make_opts="-j9"
 
-mkdir -p $logsrev=$(git rev-parse HEAD)function log(){echo"$@"| tee -a $logs/all
+mkdir -p $logsrev=$(git rev-parse HEAD)function skip_commit(){exit125}function log(){echo"$@"| tee -a $logs/all
 }function do_it(){step=$1shift
     log "Commit $rev: $step = $@"$@2>&1| tee  $logs/$rev-$step.log
     ret=$?
     log "Commit $rev: $step = $ret"return$ret}
 
-do_it submodules git submodule update ||exit127# We run `make` twice as sometimes it will spuriously fail with -j
+do_it submodules git submodule update || bad_commit
+# We run `make` twice as sometimes it will spuriously fail with -j
 if["x$ALWAYS_CLEAN"=="x0"];then# First try building without cleaning, if that fails then clean and try again
     do_it ghc1 make $make_opts||\
       do_it ghc2 make $make_opts||\
       do_it clean make clean &&\
       do_it ghc3 make $make_opts||\
       do_it ghc4 make $make_opts||\
-exit127else
-    do_it clean make clean ||echo"clean failed"
-    do_it ghc1 make $make_opts|| do_it ghc2 make $make_opts||exit127fi# This is the actual testcase
+      skip_commit
+else
+    do_it clean make clean || log "clean failed"
+    do_it ghc1 make $make_opts|| do_it ghc2 make $make_opts|| skip_commit
+fi# This is the actual testcase
+# Note that this particular case depended upon the `text`
+# library, which is checked out in $text
 text=/mnt/work/ghc/text
 testcase=/mnt/work/ghc/tickets/T10528/hi.hs
 build="inplace/bin/ghc-stage2 $testcase -O -i$text -DMIN_VERSION_bytestring(x,y,z)=1 -I$text/include/"
-do_it prebuild $build -fforce-recomp ||exit127
+do_it prebuild $build -fforce-recomp || skip_commit
 touch $testcase
-do_it build $build -ddump-rule-firings ||exit127if ! grep "Rule fired: TEXT literal"$logs/$rev-build.log ;then
+do_it build $build -ddump-rule-firings || skip_commit
+
+# The test has succeeded if the rule fired 
+if ! grep "Rule fired: TEXT literal"$logs/$rev-build.log ;then
     log "Commit $rev: failed"exit1;else
     log "Commit $rev: passed"exit0;fi
 ```
