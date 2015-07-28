@@ -248,6 +248,10 @@ take a look in [[GhcFile(mk/config.mk.in)]].
   (default: `NO`)
   Enable building of DPH libraries
 
+ `BUILD_EXTRA_PKGS`::
+  (default: `NO`)
+  Enable building of the extra libraries: those packages that have an `'extra'` tag in the `./packages` file. To quick way to see what those packages are, is to run `make show VALUE=PACKAGES_STAGE2 BUILD_EXTRA_PKGS=YES` (although `BUILD_DPH=YES` adds packages to that list as well).
+
  `V`::
   (default: `1`)
   Set `V=0` to get prettier build output. See Building/Using#Verbosebuild below.

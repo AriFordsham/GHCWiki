@@ -317,6 +317,12 @@ simple, BSD-licensed Haskell implementation will be used instead.
 Enable building of DPH libraries
 </td></tr></table>
 
+<table><tr><th>`BUILD_EXTRA_PKGS`</th>
+<td>
+(default: `NO`)
+Enable building of the extra libraries: those packages that have an `'extra'` tag in the `./packages` file. To quick way to see what those packages are, is to run `make show VALUE=PACKAGES_STAGE2 BUILD_EXTRA_PKGS=YES` (although `BUILD_DPH=YES` adds packages to that list as well).
+</td></tr></table>
+
 <table><tr><th>`V`</th>
 <td>
 (default: `1`)
