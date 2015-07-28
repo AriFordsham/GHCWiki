@@ -1,0 +1,15 @@
+# The GHC Library
+
+
+This page is meant to serve as a one-stop shop for all papers that directly discuss aspects of GHC and how it is implemented. Naturally, these will fall out of date as GHC evolves, but it is immensely helpful to have the original, long-hand explanations around. If you're aware of work that belongs on this page (including your own, of course!), please by all means add it.
+
+## Implemented
+
+
+The ideas in these papers are implemented and merged into master. 
+
+- **System F with Type Equality Coercions**. Martin Sulzmann, Manuel Chakravarty, and Simon Peyton Jones. TLDI '07.
+
+## In progress
+
+## Proposed
