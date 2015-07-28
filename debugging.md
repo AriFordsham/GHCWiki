@@ -26,6 +26,8 @@ This part of the wiki collects all the information related to debugging GHC. Tha
 
 - Use [compareSizes](debugging#comparesizes) to compare the sizes of corresponding .o or .hi files in two trees.
 
+- If know the last good commit, [bisection](bisection) may be useful to identify which commit introduced the bug.
+
 ---
 
 ## count_lines
