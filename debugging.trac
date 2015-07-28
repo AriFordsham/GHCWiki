@@ -23,6 +23,7 @@ This part of the wiki collects all the information related to debugging GHC. Tha
 
  * Use [wiki:Debugging#compareSizes compareSizes] to compare the sizes of corresponding .o or .hi files in two trees.
 
+ * If know the last good commit, [wiki:Bisection bisection] may be useful to identify which commit introduced the bug.
 
 --------------------
 == count_lines ==
