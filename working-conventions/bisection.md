@@ -1,0 +1,38 @@
+
+Say you have a program `TestCase.hs` that ran when compiled with GHC 7.10.1 yet crashes when compiled with some later commit `0123456789abcde`. It can often be useful to know which commit introduced the regression. Bisection is an efficient way of determining this, requiring at most `log_2(N)` commits to find the culprit in `N` commits.
+
+
+This approach is especially appealing as git provides convenient support in the form of [ \`git bisect\`](https://www.kernel.org/pub/software/scm/git/docs/git-bisect.html). `git bisect` coupled with a reliable test case and the script below (with appropriate modifications) turns the task of bisection into a relatively painless exercise.
+
+**Note:** Bisecting revisions before the switch to submodules (i.e. more than a couple of months prior to the GHC 7.10.1 release) is quite difficult and is generally not worth the effort. The script below probably won't work in this regime.
+
+```
+#!/bin/bash
+logs=/mnt/work/ghc/tickets/T10528/logs
+make_opts="-j9"
+
+mkdir -p $logsrev=$(git rev-parse HEAD)function log(){echo"$@"| tee -a $logs/all
+}function do_it(){step=$1shift
+    log "Commit $rev: $step = $@"$@2>&1| tee  $logs/$rev-$step.log
+    ret=$?
+    log "Commit $rev: $step = $ret"return$ret}
+
+do_it submodules git submodule update ||exit127# We run `make` twice as sometimes it will spuriously fail with -j
+if["x$ALWAYS_CLEAN"=="x1"];then
+    do_it clean make clean ||echo"clean failed"
+    do_it ghc1 make $make_opts|| do_it ghc2 make $make_opts||exit127else# First try building without cleaning, if that fails then clean and try again
+    do_it ghc1 make $make_opts||\
+      do_it ghc2 make $make_opts||\
+      do_it clean make clean ||\
+      do_it ghc3 make $make_opts||\
+      do_it ghc4 make $make_opts||\
+exit127fi# This is the actual testcase
+text=/mnt/work/ghc/text
+testcase=/mnt/work/ghc/tickets/T10528/hi.hs
+build="inplace/bin/ghc-stage2 $testcase -O -i$text -DMIN_VERSION_bytestring(x,y,z)=1 -I$text/include/"
+do_it prebuild $build -fforce-recomp ||exit127
+touch $testcase
+do_it build $build -ddump-rule-firings ||exit127if ! grep "Rule fired: TEXT literal"$logs/$rev-build.log ;then
+        log "Commit $rev: failed"exit1;else
+        log "Commit $rev: passed"exit0;fi
+```
