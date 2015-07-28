@@ -83,15 +83,15 @@ The name of the bug-reporting game is: facts, facts, facts. Don't omit them beca
 
 **The absolutely key thing is that we must be able to reproduce the bug**.  Without this, we are virtually helpless; we know there's a problem but we usually can make no progress with fixing it.  The easiest way to help us reproduce the bug is to provide us with a program that elicits it:
 
-- The smaller the better.  It costs you real work to "boil down" the bug from a big program to a small one, but the plain truth is that the easier the bug is to reproduce, and the smaller the test program (= smaller debug output), the more likely we are to fix it. Also, as you are familiar with the code, it is generally easier for you to boil it down than for us to.
-- The fewer dependencies the better.  If your program depends on many libraries, it's harder for us to reproduce.  
+- **As small as possible**.  It costs you real work to "boil down" the bug from a big program to a small one, but the plain truth is that the easier the bug is to reproduce, and the smaller the test program (= smaller debug output), the less time it costs us to fix it. Also, as you are familiar with the code, it is generally easier for you to boil it down than for us to.
+- **Zero dependencies**.  If we have to run `cabal install`, we can't put it in the testsuite *as is*.  
 
 
 One way to cut down programs is to replace library functions with definitions like
 
 ```wiki
   displayWidget :: This -> IO That
-  displayWidget = error "urk"
+  displayWidget = undefined
 ```
 
 
@@ -101,7 +101,7 @@ and thereby avoid the necessity for the supporting library.
 Here is a check-list of things to cover in your description:
 
 1. The source code of the program that shows the bug.  You can give the code inline, or attach a file, or attach a tarball.
-1. What kind of machine are you running on, and exactly what version of the operating system are you using? (on a Unix system, `uname -a` or `cat /etc/motd` will show the desired information.) In the bug tracker, this information can be given in the "Architecture" and "Operating system" fields.
+1. \[Only if you think the bug is platform dependent\]: what kind of machine are you running on, and exactly what version of the operating system are you using? (on a Unix system, `uname -a` or `cat /etc/motd` will show the desired information.) In the bug tracker, this information can be given in the "Architecture" and "Operating system" fields.
 1. What version of GCC are you using? `gcc -v` will tell you.
 1. Run the sequence of compiles/runs that caused the offending behaviour, cut-and-paste the whole session into the bug report. We'd prefer to see the whole thing.
 1. Add the `-v` flag when running GHC, so we can see exactly what was run, what versions of things you have, etc.
@@ -109,4 +109,4 @@ Here is a check-list of things to cover in your description:
 1. What is the program behaviour that is wrong, in your opinion?
 
 
-If you are a Hero and track down the problem in the compilation-system sources, please [send us patches](working-conventions/submissions).
+If you are a Hero and track down the problem in the compilation-system sources, please [send us patches](working-conventions/fixing-bugs).
