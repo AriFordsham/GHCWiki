@@ -25,7 +25,7 @@
 
 == Impredicativity and higher rank ==
  * #10619: higher rank and order of equations
- * #4281, #4295, #4347, #7264, #8808, #9420, #9730: impredicativity
+ * #4281, #4295, #4347, #7264, #8808, #9420, #9730, #10709: impredicativity
 
 == Performance (compile time or runtime) ==
  * #8095: very slow constraint solving
