@@ -28,7 +28,7 @@
 ## Impredicativity and higher rank
 
 - [\#10619](https://gitlab.haskell.org//ghc/ghc/issues/10619): higher rank and order of equations
-- [\#4281](https://gitlab.haskell.org//ghc/ghc/issues/4281), [\#4295](https://gitlab.haskell.org//ghc/ghc/issues/4295), [\#4347](https://gitlab.haskell.org//ghc/ghc/issues/4347), [\#7264](https://gitlab.haskell.org//ghc/ghc/issues/7264), [\#8808](https://gitlab.haskell.org//ghc/ghc/issues/8808), [\#9420](https://gitlab.haskell.org//ghc/ghc/issues/9420), [\#9730](https://gitlab.haskell.org//ghc/ghc/issues/9730): impredicativity
+- [\#4281](https://gitlab.haskell.org//ghc/ghc/issues/4281), [\#4295](https://gitlab.haskell.org//ghc/ghc/issues/4295), [\#4347](https://gitlab.haskell.org//ghc/ghc/issues/4347), [\#7264](https://gitlab.haskell.org//ghc/ghc/issues/7264), [\#8808](https://gitlab.haskell.org//ghc/ghc/issues/8808), [\#9420](https://gitlab.haskell.org//ghc/ghc/issues/9420), [\#9730](https://gitlab.haskell.org//ghc/ghc/issues/9730), [\#10709](https://gitlab.haskell.org//ghc/ghc/issues/10709): impredicativity
 
 ## Performance (compile time or runtime)
 
