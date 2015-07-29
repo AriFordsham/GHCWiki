@@ -118,6 +118,8 @@ Please add: System FC, GADTs, kind polymorphism etc
 
 - [ A Single Intermediate Language That Supports Multiple Implementations of Exceptions](http://research.microsoft.com/en-us/um/people/simonpj/papers/c--/c--exn-pldi.ps.gz), Norman Ramsey and Simon Peyton Jones, PLDI 2000.
 
+- [ An LLVM Backend for GHC](https://www.davidterei.com/downloads/papers/terei:2010:llvm.pdf), David Terei and Manuel M. T. Chakravarty. Haskell Symposium 2010
+
 ## IO and Related
 
 - [ Tackling the awkward squad: monadic input/output, concurrency, exceptions, and foreign-language calls in Haskell](https://research.microsoft.com/en-us/um/people/simonpj/papers/marktoberdorf/mark.pdf), Simon Peyton Jones. Deals with the incarnation of IO in Haskell and GHC. The history getting to monads, handling exceptions and handling concurrency.
