@@ -27,13 +27,19 @@ See also [ Stephen Deihl's Haskell implementation reading list](http://www.steph
 
 - [ System FC, as implemented in GHC](http://git.haskell.org/ghc.git/blob/refs/heads/master:/docs/core-spec/core-spec.pdf) (2013), Richard Eisenberg.
 
-- [ Modular type inference with local assumptions](http://haskell.org/haskellwiki/Simonpj/Talk:OutsideIn), Simon Peyton Jones, Dimitrios Vytiniotis, Tom Schrijvers, Martin Suzmann, Journal of Functional Programming, 2011.  This epic 83-page JFP paper brings together, in a single uniform framework, a series of our earlier papers on type inference for type systems involving local constraints, including GADTs and indexed type families.  
+- [ Modular type inference with local assumptions](http://haskell.org/haskellwiki/Simonpj/Talk:OutsideIn)[ doi link](http://dx.doi.org/10.1017/S0956796811000098), Simon Peyton Jones, Dimitrios Vytiniotis, Tom Schrijvers, Martin Sulzmann, Journal of Functional Programming, 2011.  This epic 83-page JFP paper brings together, in a single uniform framework, a series of our earlier papers on type inference for type systems involving local constraints, including GADTs and indexed type families.  
+
+- [ Practical Type Inference for Arbitrary-Rank Types](http://repository.upenn.edu/cis_papers/315/). Simon Peyton Jones, Dimitrios Vytiniotis, Stephanie Weirich, Mark Shields. JFP '07. [ doi](http://dx.doi.org/10.1017/S0956796806006034)[ technical appendix](http://repository.upenn.edu/cis_reports/58/) Describes type inference for higher-rank types.
 
 - [ Papers about type equalities in GHC's intermediate language](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/)
 
-  - *Equality proofs and deferred type errors*, Simon Peyton Jones, Dimitrios Vytiniotis and Pedro Magalhaes (ICFP 2012).  An exploration of what happens when you take equality proofs seriously in a compiler.
-  - *Giving Haskell a promotion*, Brent Yorgey, Stepanie Weirich, Julien Cretin, Simon Peyton Jones, and Dimitrios Vytiniotis (TLDI 2012).  How to (a) add kind polymorphism and (b) promote data types to become data kinds.
-  - *System F with Type Equality Coercions*, Martin Sulzmann, Manuel Chakravarty, and Simon Peyton Jones (TLDI 2007).  The first paper about System FC.
+  - *Equality proofs and deferred type errors*, Simon Peyton Jones, Dimitrios Vytiniotis and Pedro Magalhaes (ICFP 2012).  An exploration of what happens when you take equality proofs seriously in a compiler. [ doi](http://dx.doi.org/10.1145/2364527.2364554)[ pdf](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/icfp12.pdf)
+  - *Giving Haskell a promotion*, Brent Yorgey, Stepanie Weirich, Julien Cretin, Simon Peyton Jones, and Dimitrios Vytiniotis (TLDI 2012).  How to (a) add kind polymorphism and (b) promote data types to become data kinds. [ doi](http://dx.doi.org/10.1145/2103786.2103795)[ pdf](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/promotion.pdf)
+  - *System F with Type Equality Coercions*, Martin Sulzmann, Manuel Chakravarty, and Simon Peyton Jones (TLDI 2007).  The first paper about System FC. [ doi](http://dx.doi.org/10.1145/1190315.1190324)[ extended pdf](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/tldi22-sulzmann-with-appendix.pdf)
+
+- [ Associated Types with Class](http://research.microsoft.com/en-us/um/people/simonpj/Papers/assoc-types/assoc.pdf). Manuel M. T. Chakravarty, Gabriele Keller, Simon Peyton Jones, Simon Marlow. POPL '05. [ doi](http://dx.doi.org/10.1145/1040305.1040306) Introduces associated data families.
+
+- [ Associated Type Synonyms](http://research.microsoft.com/en-us/um/people/simonpj/papers/assoc-types/at-syns.pdf). Manuel M. T. Chakravarty, Gabriele Keller, Simon Peyton Jones. ICFP '05. [ doi](http://dx.doi.org/10.1145/1086365.1086397) Introduces associated type families.
 
 - [ Type Classes in Haskell](http://research.microsoft.com/~simonpj/Papers/classhask.ps.gz), Cordelia Hall, Kevin Hammond, Simon Peyton Jones, and Philip Wadler, European Symposium On Programming 1994. Type inference for type classes.
 

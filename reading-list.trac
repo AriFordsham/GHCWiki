@@ -23,12 +23,18 @@ See also [http://www.stephendiehl.com/posts/essential_compilers.html Stephen Dei
 
  * [http://git.haskell.org/ghc.git/blob/refs/heads/master:/docs/core-spec/core-spec.pdf System FC, as implemented in GHC] (2013), Richard Eisenberg.
 
- * [http://haskell.org/haskellwiki/Simonpj/Talk:OutsideIn Modular type inference with local assumptions], Simon Peyton Jones, Dimitrios Vytiniotis, Tom Schrijvers, Martin Suzmann, Journal of Functional Programming, 2011.  This epic 83-page JFP paper brings together, in a single uniform framework, a series of our earlier papers on type inference for type systems involving local constraints, including GADTs and indexed type families.  
+ * [http://haskell.org/haskellwiki/Simonpj/Talk:OutsideIn Modular type inference with local assumptions] [http://dx.doi.org/10.1017/S0956796811000098 doi link], Simon Peyton Jones, Dimitrios Vytiniotis, Tom Schrijvers, Martin Sulzmann, Journal of Functional Programming, 2011.  This epic 83-page JFP paper brings together, in a single uniform framework, a series of our earlier papers on type inference for type systems involving local constraints, including GADTs and indexed type families.  
+
+* [http://repository.upenn.edu/cis_papers/315/ Practical Type Inference for Arbitrary-Rank Types]. Simon Peyton Jones, Dimitrios Vytiniotis, Stephanie Weirich, Mark Shields. JFP '07. [http://dx.doi.org/10.1017/S0956796806006034 doi] [http://repository.upenn.edu/cis_reports/58/ technical appendix] Describes type inference for higher-rank types.
 
  * [http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/ Papers about type equalities in GHC's intermediate language]
-   * ''Equality proofs and deferred type errors'', Simon Peyton Jones, Dimitrios Vytiniotis and Pedro Magalhaes (ICFP 2012).  An exploration of what happens when you take equality proofs seriously in a compiler.
-   * ''Giving Haskell a promotion'', Brent Yorgey, Stepanie Weirich, Julien Cretin, Simon Peyton Jones, and Dimitrios Vytiniotis (TLDI 2012).  How to (a) add kind polymorphism and (b) promote data types to become data kinds.
-   * ''System F with Type Equality Coercions'', Martin Sulzmann, Manuel Chakravarty, and Simon Peyton Jones (TLDI 2007).  The first paper about System FC.
+   * ''Equality proofs and deferred type errors'', Simon Peyton Jones, Dimitrios Vytiniotis and Pedro Magalhaes (ICFP 2012).  An exploration of what happens when you take equality proofs seriously in a compiler. [http://dx.doi.org/10.1145/2364527.2364554 doi] [http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/icfp12.pdf pdf]
+   * ''Giving Haskell a promotion'', Brent Yorgey, Stepanie Weirich, Julien Cretin, Simon Peyton Jones, and Dimitrios Vytiniotis (TLDI 2012).  How to (a) add kind polymorphism and (b) promote data types to become data kinds. [http://dx.doi.org/10.1145/2103786.2103795 doi] [http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/promotion.pdf pdf]
+   * ''System F with Type Equality Coercions'', Martin Sulzmann, Manuel Chakravarty, and Simon Peyton Jones (TLDI 2007).  The first paper about System FC. [http://dx.doi.org/10.1145/1190315.1190324 doi] [http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/tldi22-sulzmann-with-appendix.pdf extended pdf]
+
+* [http://research.microsoft.com/en-us/um/people/simonpj/Papers/assoc-types/assoc.pdf Associated Types with Class]. Manuel M. T. Chakravarty, Gabriele Keller, Simon Peyton Jones, Simon Marlow. POPL '05. [http://dx.doi.org/10.1145/1040305.1040306 doi] Introduces associated data families.
+
+* [http://research.microsoft.com/en-us/um/people/simonpj/papers/assoc-types/at-syns.pdf Associated Type Synonyms]. Manuel M. T. Chakravarty, Gabriele Keller, Simon Peyton Jones. ICFP '05. [http://dx.doi.org/10.1145/1086365.1086397 doi] Introduces associated type families.
 
  * [http://research.microsoft.com/~simonpj/Papers/classhask.ps.gz Type Classes in Haskell], Cordelia Hall, Kevin Hammond, Simon Peyton Jones, and Philip Wadler, European Symposium On Programming 1994. Type inference for type classes.
 
