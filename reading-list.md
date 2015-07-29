@@ -1,7 +1,7 @@
 # The GHC reading list
 
 
-Suppose you want to start contributing to GHC: what should you read by way of background?  Here is an annotated list.  Please add to it as you come across useful material.
+Suppose you want to start contributing to GHC: what should you read by way of background?  Here is an annotated list.  Please add to it as you come across useful material. When you do so, please consider adding a link to a place where you are reasonably confident the resource will be available in 10 or 20 years. [ doi](http://doi.org/) purports to enable such links.
 
 
 You can ask questions on `ghc-devs@haskell.org`. People are friendly.  See also [working on GHC](working-conventions) and [The GHC Team](team-ghc).
@@ -33,13 +33,23 @@ See also [ Stephen Deihl's Haskell implementation reading list](http://www.steph
 
 - [ Papers about type equalities in GHC's intermediate language](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/)
 
+  - [ System FC with Explicit Kind Equality](http://www.seas.upenn.edu/~sweirich/papers/fckinds.pdf). Stephanie Weirich, Justin Hsu, Richard A. Eisenberg. ICFP '13. [ doi](http://dx.doi.org/10.1145/2500365.2500599) Merges types with kinds, allowing promotion of GADTs and type families. Implementation not yet merged (July 2015).
   - *Equality proofs and deferred type errors*, Simon Peyton Jones, Dimitrios Vytiniotis and Pedro Magalhaes (ICFP 2012).  An exploration of what happens when you take equality proofs seriously in a compiler. [ doi](http://dx.doi.org/10.1145/2364527.2364554)[ pdf](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/icfp12.pdf)
   - *Giving Haskell a promotion*, Brent Yorgey, Stepanie Weirich, Julien Cretin, Simon Peyton Jones, and Dimitrios Vytiniotis (TLDI 2012).  How to (a) add kind polymorphism and (b) promote data types to become data kinds. [ doi](http://dx.doi.org/10.1145/2103786.2103795)[ pdf](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/promotion.pdf)
+  - *Evidence Normalization in System FC*. Dimitrios Vytiniotis, Simon Peyton Jones. RTA '13. [ doi](http://dx.doi.org/10.4230/LIPIcs.RTA.2013.20)[ pdf](http://drops.dagstuhl.de/opus/volltexte/2013/4050/pdf/3.pdf) Explains the coercion optimizer.
   - *System F with Type Equality Coercions*, Martin Sulzmann, Manuel Chakravarty, and Simon Peyton Jones (TLDI 2007).  The first paper about System FC. [ doi](http://dx.doi.org/10.1145/1190315.1190324)[ extended pdf](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/tldi22-sulzmann-with-appendix.pdf)
 
-- [ Associated Types with Class](http://research.microsoft.com/en-us/um/people/simonpj/Papers/assoc-types/assoc.pdf). Manuel M. T. Chakravarty, Gabriele Keller, Simon Peyton Jones, Simon Marlow. POPL '05. [ doi](http://dx.doi.org/10.1145/1040305.1040306) Introduces associated data families.
+- Type families:
 
-- [ Associated Type Synonyms](http://research.microsoft.com/en-us/um/people/simonpj/papers/assoc-types/at-syns.pdf). Manuel M. T. Chakravarty, Gabriele Keller, Simon Peyton Jones. ICFP '05. [ doi](http://dx.doi.org/10.1145/1086365.1086397) Introduces associated type families.
+  - [ Associated Types with Class](http://research.microsoft.com/en-us/um/people/simonpj/Papers/assoc-types/assoc.pdf). Manuel M. T. Chakravarty, Gabriele Keller, Simon Peyton Jones, Simon Marlow. POPL '05. [ doi](http://dx.doi.org/10.1145/1040305.1040306) Introduces associated data families.
+  - [ Associated Type Synonyms](http://research.microsoft.com/en-us/um/people/simonpj/papers/assoc-types/at-syns.pdf). Manuel M. T. Chakravarty, Gabriele Keller, Simon Peyton Jones. ICFP '05. [ doi](http://dx.doi.org/10.1145/1086365.1086397) Introduces associated type families.
+  - [ Closed Type Families with Overlapping Equations](http://www.seas.upenn.edu/~sweirich/papers/popl14-axioms.pdf). Richard A. Eisenberg, Dimitrios Vytiniotis, Simon Peyton Jones, Stephanie Weirich. POPL '14. [ doi](http://dx.doi.org/10.1145/2535838.2535856)[ extended version](http://repository.upenn.edu/cis_reports/990/) Introduces closed type families.
+
+- [ Safe Zero-Cost Coercions for Haskell](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/coercible.pdf). Joachim Breitner, Richard A. Eisenberg, Simon Peyton Jones, Stephanie Weirich. ICFP '14. [ doi](http://dx.doi.org/10.1145/2628136.2628141)[ extended pdf](http://www.seas.upenn.edu/~sweirich/papers/coercible-extended.pdf) Introduces the `Coercible` mechanism.
+
+- [ Partial Type Signatures for Haskell](https://lirias.kuleuven.be/bitstream/123456789/423475/3/paper.pdf). Thomas Winant, Dominique Devriese, Frank Piessens, Tom Schrijvers.  PADL 2014 [ TR](https://lirias.kuleuven.be/bitstream/123456789/424883/1/CW649.pdf)[ doi](http://dx.doi.org/10.1007/978-3-319-04132-2_2) Introduces partial type signatures.
+
+- [ Understanding Functional Dependencies via Constraint Handling Rules](http://research-srv.microsoft.com/en-us/um/people/simonpj/papers/fd-chr/jfp06.pdf). Martin Sulzmann, Gregory J. Duck, Simon Peyton Jones, Peter J. Stuckey. JFP '07. [ doi](http://dx.doi.org/10.1017/S0956796806006137)
 
 - [ Type Classes in Haskell](http://research.microsoft.com/~simonpj/Papers/classhask.ps.gz), Cordelia Hall, Kevin Hammond, Simon Peyton Jones, and Philip Wadler, European Symposium On Programming 1994. Type inference for type classes.
 
@@ -131,3 +141,9 @@ Please add: System FC, GADTs, kind polymorphism etc
 - [Time and space profiling for non-strict, higher-order functional languages](http://www.haskell.org/ghc/docs/papers/profiling.ps.gz), Patrick M. Sansom and Simon Peyton Jones, POPL 1995.
 
 - [The Concurrent Haskell Foreign Function Interface](http://www.haskell.org/ghc/docs/papers/threads.ps.gz), Wolfgang Thaller. An Addendum to Haskell 98 FFI Report.
+
+## Other GHC features
+
+- [ Template Meta-programming for Haskell](http://research.microsoft.com/en-us/um/people/simonpj/papers/meta-haskell/meta-haskell.pdf). Tim Sheard, Simon Peyton Jones. Haskell '02. [ doi](http://dx.doi.org/10.1145/636517.636528) Introduces Template Haskell.
+
+- [ Scrap your Boilerplate: a Practical Design Pattern for Generic Programming](http://research.microsoft.com/en-us/um/people/simonpj/papers/hmap/index.htm). Ralf Lämmel, Simon Peyton Jones. TLDI '03. [ doi](http://dx.doi.org/10.1145/604174.604179) Introduces `Typeable` and `Data`.
