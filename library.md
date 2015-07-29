@@ -77,6 +77,11 @@ The ideas in these papers are implemented and merged into master.
 >
 > Introduces the `Coercible` mechanism.
 
+- **Partial Type Signatures for Haskell**, Thomas Winant, Dominique Devriese, Frank Piessens, Tom Schrijvers.  PADL 2014 [ pdf](https://lirias.kuleuven.be/bitstream/123456789/423475/3/paper.pdf)[ TR](https://lirias.kuleuven.be/bitstream/123456789/424883/1/CW649.pdf)[ doi](http://dx.doi.org/10.1007/978-3-319-04132-2_2)
+
+>
+> Introduces partial type signatures.
+
 ## In progress
 
 
