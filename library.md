@@ -1,3 +1,6 @@
+
+The content here is supposed to merged into the [ReadingList](reading-list) page
+
 # The GHC Library
 
 
