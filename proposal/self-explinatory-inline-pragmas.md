@@ -73,14 +73,6 @@ Con: too verbose?
 
 Con: not immediately clear what will happen in the phases that aren't specified (the answer is: 'no inline', as opposed to the default 'maybe inline').
 
-## Questions and possible minor variations
-
-- With these pragmas, do we still need the brackets `[`..`]` as part of the syntax, or can we drop that, as in
-
-```wiki
-{-# INLINE_FROM 2 f #-}
-```
-
 ## Alternatives
 
 
@@ -102,4 +94,12 @@ Instead of adding such wordy pragmas, we can maybe make the content of the `[..]
 {-#   INLINE[~n] f #-}  becomes  {-#     INLINE[ > n] f #-}
 {-# NOINLINE[n]  f #-}  becomes  {-# MAY_INLINE[<= n] f #-}
 {-# NOINLINE[~n] f #-}  becomes  {-# MAY_INLINE[ > n] f #-}
+```
+
+## Questions and possible minor variations
+
+- With these pragmas, do we still need the brackets `[`..`]` as part of the syntax, or can we drop that, as in
+
+```wiki
+{-# INLINE_FROM 2 f #-}
 ```
