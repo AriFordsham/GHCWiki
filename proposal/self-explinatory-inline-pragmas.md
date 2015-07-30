@@ -37,10 +37,10 @@ We can probably do a better job by using easier-to-understand pragmas.
 ### Proposal 1
 
 ```wiki
-INLINE[n]    becomes   INLINE_FROM[n]
-INLINE[~n]   becomes   INLINE_BEFORE[n]
-NOINLINE[n]  becomes NOINLINE_BEFORE[n]
-NOINLINE[~n] becomes NOINLINE_FROM[n]
+{-#   INLINE[n]  f #-}  becomes  {-#   INLINE_FROM[n]   f #-}
+{-#   INLINE[~n] f #-}  becomes  {-#   INLINE_BEFORE[n] f #-}
+{-# NOINLINE[n]  f #-}  becomes  {-# NOINLINE_BEFORE[n] f #-}
+{-# NOINLINE[~n] f #-}  becomes  {-# NOINLINE_FROM[n]   f #-}
 ```
 
 
@@ -52,10 +52,10 @@ Con: `INLINE_FROM[n]` and `NOINLINE_FROM[n]` are still asymmetric (don't affect 
 ### Proposal 2
 
 ```wiki
-INLINE[n]    becomes NO_INLINE_BEFORE[n], INLINE_FROM[n]
-INLINE[~n]   becomes NO_INLINE_FROM[n], INLINE_BEFORE[n]
-NOINLINE[n]  becomes NO_INLINE_BEFORE[n]
-NOINLINE[~n] becomes NO_INLINE_FROM[n]
+{-#   INLINE[n]  f #-}  becomes {-#     INLINE_FROM[n]   f #-} {-# NOINLINE_BEFORE[n] f #-} 
+{-#   INLINE[~n] f #-}  becomes {-#     INLINE_BEFORE[n] f #-} {-# NOINLINE_FROM[n]   f #-} 
+{-# NOINLINE[n]  f #-}  becomes {-# MAY_INLINE_FROM[n]   f #-} {-# NOINLINE_BEFORE[n] f #-} 
+{-# NOINLINE[~n] f #-}  becomes {-# MAY_INLINE_BEFORE[n] f #-} {-# NOINLINE_FROM[n]   f #-}
 ```
 
 
@@ -64,11 +64,14 @@ Con: too verbose?
 ### Proposal 3
 
 ```wiki
-INLINE[n]    becomes     INLINE_FROM[n]
-INLINE[~n]   becomes     INLINE_BEFORE[n]
-NOINLINE[n]  becomes MAY_INLINE_FROM[n]
-NOINLINE[~n] becomes MAY_INLINE_BEFORE[n]
+{-#   INLINE[n]  f #-}  becomes  {-#     INLINE_FROM[n]   f #-}
+{-#   INLINE[~n] f #-}  becomes  {-#     INLINE_BEFORE[n] f #-}
+{-# NOINLINE[n]  f #-}  becomes  {-# MAY_INLINE_FROM[n]   f #-}
+{-# NOINLINE[~n] f #-}  becomes  {-# MAY_INLINE_BEFORE[n] f #-}
 ```
+
+
+Con: not immediately clear what will happen in the phases that aren't specified (the answer is: 'no inline', as opposed to the default 'maybe inline').
 
 ## Questions and possible minor variations
 
@@ -83,14 +86,20 @@ NOINLINE[~n] becomes MAY_INLINE_BEFORE[n]
 
 Instead of adding such wordy pragmas, we can maybe make the content of the `[..]` more helpful, by allowing more complex specification of phase ranges.
 
-### Proposal 3b
-
-
-Using comparis operators (note that phases count down):
+### Proposal 2b
 
 ```wiki
-INLINE[n]    becomes     INLINE <= n
-INLINE[~n]   becomes     INLINE > n
-NOINLINE[n]  becomes MAY_INLINE <= n
-NOINLINE[~n] becomes MAY_INLINE > n
+{-#   INLINE[n]  f #-}  becomes  {-#     INLINE[<= n] f #-} {-# NOINLINE[ > n] f #-}
+{-#   INLINE[~n] f #-}  becomes  {-#     INLINE[ > n] f #-} {-# NOINLINE[<= n] f #-}
+{-# NOINLINE[n]  f #-}  becomes  {-# MAY_INLINE[<= n] f #-} {-# NOINLINE[ > n] f #-}
+{-# NOINLINE[~n] f #-}  becomes  {-# MAY_INLINE[ > n] f #-} {-# NOINLINE[<= n] f #-}
+```
+
+### Proposal 3b
+
+```wiki
+{-#   INLINE[n]  f #-}  becomes  {-#     INLINE[<= n] f #-}
+{-#   INLINE[~n] f #-}  becomes  {-#     INLINE[ > n] f #-}
+{-# NOINLINE[n]  f #-}  becomes  {-# MAY_INLINE[<= n] f #-}
+{-# NOINLINE[~n] f #-}  becomes  {-# MAY_INLINE[ > n] f #-}
 ```
