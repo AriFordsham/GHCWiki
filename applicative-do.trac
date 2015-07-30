@@ -181,16 +181,16 @@ There's a toy implementation which includes the syntax, desugaring, transformati
 
 Syntax: 
 
-```
+{{{
   expr ::= ... | do [stmt] expr | ...
 
   stmt ::= pat <- expr
          | (mblock_1{vs1} | ... | mblock_n{vsn})    -- n>=2
-```
+}}}
 
 Desugaring for `do stmts expr`:
 
-```
+{{{
 dsBlock [] tail = tail
 
 dsBlock [pat <- rhs] (return expr)
@@ -211,7 +211,7 @@ dsBlock [stmts1{vs1} | ... | stmtsn{vsn} : stmts] tail =
      <$> dsBlock stmts1 (return vs1)
      <*> ...
      <*> dsBlock stmtsn (return vsn)
-```
+}}}
 
 ---------------------------------
 

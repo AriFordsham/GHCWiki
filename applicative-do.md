@@ -208,61 +208,38 @@ There's a toy implementation which includes the syntax, desugaring, transformati
 
 Syntax: 
 
-``\`
+```wiki
+  expr ::= ... | do [stmt] expr | ...
 
->
-> expr ::= ... \| do \[stmt\] expr \| ...
-
->
-> stmt ::= pat \<- expr
->
-> >
-> > \| (mblock_1{vs1} \| ... \| mblock_n{vsn})    -- n\>=2
-
-``\`
+  stmt ::= pat <- expr
+         | (mblock_1{vs1} | ... | mblock_n{vsn})    -- n>=2
+```
 
 
 Desugaring for `do stmts expr`:
 
-``\`
-dsBlock \[\] tail = tail
+```wiki
+dsBlock [] tail = tail
 
+dsBlock [pat <- rhs] (return expr)
+  | pat == expr = rhs
+  | otherwise = (\pat -> expr) <$> rhs
 
-dsBlock \[pat \<- rhs\] (return expr)
+dsBlock [stmts1{vs1} | ... | stmtsn{vsn}] (return expr) =
+  (\vs1 .. vsn -> expr)
+     <$> dsBlock stmts1 (return vs1)
+     <*> ...
+     <*> dsBlock stmtsn (return vsn)
 
->
-> \| pat == expr = rhs
-> \| otherwise = (\\pat -\> expr) \<$\> rhs
+dsBlock [pat <- rhs : stmts] tail =
+   rhs >>= \pat -> dsBlock stmts tail
 
-
-dsBlock \[stmts1{vs1} \| ... \| stmtsn{vsn}\] (return expr) =
-
->
-> (\\vs1 .. vsn -\> expr)
->
-> >
-> > \<$\> dsBlock stmts1 (return vs1)
-> > \<\*\> ...
-> > \<\*\> dsBlock stmtsn (return vsn)
-
-
-dsBlock \[pat \<- rhs : stmts\] tail =
-
->
-> rhs \>\>= \\pat -\> dsBlock stmts tail
-
-
-dsBlock \[stmts1{vs1} \| ... \| stmtsn{vsn} : stmts\] tail =
-
->
-> join (\\vs1 .. vsn -\> dsBlock stmts tail) 
->
-> >
-> > \<$\> dsBlock stmts1 (return vs1)
-> > \<\*\> ...
-> > \<\*\> dsBlock stmtsn (return vsn)
-
-``\`
+dsBlock [stmts1{vs1} | ... | stmtsn{vsn} : stmts] tail =
+  join (\vs1 .. vsn -> dsBlock stmts tail) 
+     <$> dsBlock stmts1 (return vs1)
+     <*> ...
+     <*> dsBlock stmtsn (return vsn)
+```
 
 ---
 
