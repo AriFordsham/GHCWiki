@@ -47,7 +47,7 @@ NOINLINE[~n] becomes NOINLINE_FROM[n]
 The choice of “from” and “before” over (as was proposed as well) ”after” is that with “after” it is not so clear what should happen in stage `n`.
 
 
-Con: doesn't solve the asymmetry problem.
+Con: `INLINE_FROM[n]` and `NOINLINE_FROM[n]` are still asymmetric (don't affect the same phases), as are `INLINE_BEFORE[n]` and `NOINLINE_BEFORE[n]`.
 
 ### Proposal 2
 
@@ -81,12 +81,12 @@ NOINLINE[~n] becomes MAY_INLINE_BEFORE[n]
 ## Alternatives
 
 
-Instead of adding such wordy pragmas, can we maybe make the content of the `[..]` more helpful, by allowing more complex specification of phase ranges there?
+Instead of adding such wordy pragmas, we can maybe make the content of the `[..]` more helpful, by allowing more complex specification of phase ranges.
 
-### Using comparison operators
+### Proposal 3b
 
 
-Proposal 3b would look like this (note that phases count down):
+Using comparis operators (note that phases count down):
 
 ```wiki
 INLINE[n]    becomes     INLINE <= n
