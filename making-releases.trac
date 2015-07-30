@@ -131,7 +131,9 @@ Sanity check `http://www.haskell.org/ghc/docs/<<VERSION>>/`. In particular, chec
 
 In the `http://www.github.com/haskell-infra/ghc-homepage` git repository, create a `download_ghc_<<MANGLED_VERSION>>.shtml` page based on the previous one.
 
-Sanity check `http://www.haskell.org/ghc/download_ghc_<<MANGLED_VERSION>>`. In particular, check that the release notes and documentation links work.
+Sanity check `http://www.haskell.org/ghc/download_ghc_<<MANGLED_VERSION>>`. In particular, check that the release notes and documentation links work. Ensure release is in "news" section of `index.html`.
+
+Push your changes to `webhost.haskell.org` (TODO site should pull from git repo).
 
 == Upload the binaries ==
 
