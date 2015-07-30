@@ -175,6 +175,44 @@ We can write this expression in a simpler way using `|` for applicative composit
 
 Note that this isn't the only good way to translate this expression, this is also possible: `(a ; b | c) | d`.  It's not possible to know which is better.  `ApplicativeDo` makes a best-effort attempt to use parallel composition where possible while retaining the semantics of the standard 'do' desugaring.
 
+== Syntax & spec
+
+There's a toy implementation which includes the syntax, desugaring, transformation and some examples here: https://github.com/simonmar/ado/blob/52ba028cad68af578bcdfb3f1c5b905f5b9c5617/adosim.hs
+
+Syntax: 
+
+```
+  expr ::= ... | do [stmt] expr | ...
+
+  stmt ::= pat <- expr
+         | (mblock_1{vs1} | ... | mblock_n{vsn})    -- n>=2
+```
+
+Desugaring for `do stmts expr`:
+
+```
+dsBlock [] tail = tail
+
+dsBlock [pat <- rhs] (return expr)
+  | pat == expr = rhs
+  | otherwise = (\pat -> expr) <$> rhs
+
+dsBlock [stmts1{vs1} | ... | stmtsn{vsn}] (return expr) =
+  (\vs1 .. vsn -> expr)
+     <$> dsBlock stmts1 (return vs1)
+     <*> ...
+     <*> dsBlock stmtsn (return vsn)
+
+dsBlock [pat <- rhs : stmts] tail =
+   rhs >>= \pat -> dsBlock stmts tail
+
+dsBlock [stmts1{vs1} | ... | stmtsn{vsn} : stmts] tail =
+  join (\vs1 .. vsn -> dsBlock stmts tail) 
+     <$> dsBlock stmts1 (return vs1)
+     <*> ...
+     <*> dsBlock stmtsn (return vsn)
+```
+
 ---------------------------------
 
 == Related proposals
