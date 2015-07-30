@@ -1,46 +1,15 @@
-## The problem
 
+Some proposals are under this namespace:
 
-Currently, the pragmas used for inlining phase control are rather tricky to remember right:
-
-```wiki
-                           -- Before phase 2     Phase 2 and later
-  {-# INLINE   [2]  f #-}  --      No                 Yes
-  {-# INLINE   [~2] f #-}  --      Yes                No
-  {-# NOINLINE [2]  f #-}  --      No                 Maybe
-  {-# NOINLINE [~2] f #-}  --      Maybe              No
-
-  {-# INLINE   f #-}       --      Yes                Yes
-  {-# NOINLINE f #-}       --      No                 No
-```
-
-
-Without this table from the docs, most of us are lost as to the precise semantics of these.
-
-## The proposal
-
-
-We can probably do a better job by using easier-to-understand pragmas such as
-
-```wiki
-INLINE[n]    becomes INLINE_FROM[n]
-INLINE[~n]   becomes INLINE_BEFORE[n]
-NOINLINE[n]  becomes NOINLINE_BEFORE[n]
-NOINLINE[~n] becomes NOINLINE_FROM[n]
-```
-
-
-The choice of “from” and “before” over (as was proposed as well) ”after” is that with “after” it is not so clear what should happen in stage `n`.
-
-## Questions and possible minor variations
-
-- With these pragmas, do we still need the brackets `[`..`]` as part of the syntax, or can we drop that, as in
-
-```wiki
-{-# INLINE_FROM 2 f #-}
-```
-
-## Alternatives
-
-
-Instead of adding such wordy pragmas, can we maybe make the content of the `[..]` more helpful, by allowing more complex specification of phase ranges there? But I don’t have a very convincing story for a syntax yet, as we have we have three possible states per phase (inline, do not inline, maybe inline).
+- [Proposal/AbstractFilePath](/trac/ghc/wiki/Proposal/AbstractFilePath)
+- [Proposal/CustomTypeErrors](/trac/ghc/wiki/Proposal/CustomTypeErrors)
+- [Proposal/ErrorMessages](/trac/ghc/wiki/Proposal/ErrorMessages)
+- [Proposal/HelpfulImportError](/trac/ghc/wiki/Proposal/HelpfulImportError)
+- [Proposal/LeftAssocSemigroupOp](/trac/ghc/wiki/Proposal/LeftAssocSemigroupOp)
+- [Proposal/MonadOfNoReturn](/trac/ghc/wiki/Proposal/MonadOfNoReturn)
+- [Proposal/MonadOfNoReturn/Discussion](/trac/ghc/wiki/Proposal/MonadOfNoReturn/Discussion)
+- [Proposal/NativeCpp](/trac/ghc/wiki/Proposal/NativeCpp)
+- [Proposal/OpenImportExtension](/trac/ghc/wiki/Proposal/OpenImportExtension)
+- [Proposal/SelfExplinatoryInlinePragmas](/trac/ghc/wiki/Proposal/SelfExplinatoryInlinePragmas)
+- [Proposal/SemigroupMonoid](/trac/ghc/wiki/Proposal/SemigroupMonoid)
+- [Proposal/SpecializationInfo](/trac/ghc/wiki/Proposal/SpecializationInfo)
