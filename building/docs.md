@@ -19,11 +19,11 @@ to your `mk/build.mk`.
 It is also possible to process the libraries sources using [ HsColour](http://hackage.haskell.org/cgi-bin/hackage-scripts/package/hscolour), and for the Haddock documentation to include links to the HsColoured source code; in order to do this, just install `HsColour` and re-run `./configure`.  The configure script will tell you whether it found `HsColour` at the end.
 
 
-To build *just* the Haddock docs for a given library, do this:
+To build the Haddock docs for a given library, do this:
 
 ```wiki
 cd libraries/base
-make html stage=0 FAST=YES
+make html
 ```
 
 ## DocBook documentation
@@ -33,9 +33,6 @@ The rest of the documentation, in particular the Users' Guide and Cabal document
 
 
 To install the tools necessary for building the documentation, see [Building/Preparation](building/preparation).
-
-
-At the moment, we are not able to build documentation in PDF format due to tool flakiness.  If you manage to find a way to process the documentation into readable PDF, please let us know!
 
 
 The following make variables control the building of each type of documentation:
@@ -54,10 +51,8 @@ To build a document on its own, for example the Users Guide, do this:
 
 ```wiki
 cd docs/users_guide
-make html stage=0 FAST=YES
+make html
 ```
-
-**Note:** This way of building documentation alone is currently broken, see [\#9772](https://gitlab.haskell.org//ghc/ghc/issues/9772).
 
 
 substitute 'html' for 'pdf' or 'ps' to build other types of documentation.
