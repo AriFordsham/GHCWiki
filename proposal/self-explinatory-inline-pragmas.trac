@@ -2,29 +2,61 @@
 
 Currently, the pragmas used for inlining phase control are rather tricky to remember right:
 {{{
-                           -- Before phase 2     Phase 2 and later
-  {-# INLINE   [2]  f #-}  --      No                 Yes
-  {-# INLINE   [~2] f #-}  --      Yes                No
-  {-# NOINLINE [2]  f #-}  --      No                 Maybe
-  {-# NOINLINE [~2] f #-}  --      Maybe              No
+  Should we inline `f`?       -- Before phase 2     Phase 2 and later
 
-  {-# INLINE   f #-}       --      Yes                Yes
-  {-# NOINLINE f #-}       --      No                 No
+  no inline pragmas (default) --      Maybe              Maybe
+
+  {-# INLINE   [2]  f #-}     --      No                 Yes
+  {-# INLINE   [~2] f #-}     --      Yes                No
+  {-# NOINLINE [2]  f #-}     --      No                 Maybe
+  {-# NOINLINE [~2] f #-}     --      Maybe              No
+
+  {-# INLINE   f #-}          --      Yes                Yes
+  {-# NOINLINE f #-}          --      No                 No
 }}}
+
+Note that there are three possible states per phase (inline, do not inline, maybe inline).
+
 Without this table from the docs, most of us are lost as to the precise semantics of these.
 
-== The proposal ==
+The problems are:
+1. The phase controls `[2]` and `[~2]` are not self-explanatory.
+2. `NO_INLINE [2]` and `INLINE [2]` are asymmetric. `NO_INLINE [2]` affects inlining before phase 2 only, whereas `INLINE [2]` affects inlining for all phases. This assymetry is unfortunate, given the symmetry between `NO_INLINE` and `INLINE` (without phase controls). 
 
-We can probably do a better job by using easier-to-understand pragmas such as
+== The proposals ==
+
+We can probably do a better job by using easier-to-understand pragmas.
+
+=== Proposal 1 ===
 
 {{{
-INLINE[n]    becomes INLINE_FROM[n]
-INLINE[~n]   becomes INLINE_BEFORE[n]
+INLINE[n]    becomes   INLINE_FROM[n]
+INLINE[~n]   becomes   INLINE_BEFORE[n]
 NOINLINE[n]  becomes NOINLINE_BEFORE[n]
 NOINLINE[~n] becomes NOINLINE_FROM[n]
 }}}
 
 The choice of “from” and “before” over (as was proposed as well) ”after” is that with “after” it is not so clear what should happen in stage `n`.
+
+Con: doesn't solve the asymmetry problem.
+
+=== Proposal 2 ===
+{{{
+INLINE[n]    becomes NO_INLINE_BEFORE[n], INLINE_FROM[n]
+INLINE[~n]   becomes NO_INLINE_FROM[n], INLINE_BEFORE[n]
+NOINLINE[n]  becomes NO_INLINE_BEFORE[n]
+NOINLINE[~n] becomes NO_INLINE_FROM[n]
+}}}
+
+Con: too verbose?
+
+=== Proposal 3 ===
+{{{
+INLINE[n]    becomes     INLINE_FROM[n]
+INLINE[~n]   becomes     INLINE_BEFORE[n]
+NOINLINE[n]  becomes MAY_INLINE_FROM[n]
+NOINLINE[~n] becomes MAY_INLINE_BEFORE[n]
+}}}
 
 == Questions and possible minor variations ==
 
@@ -37,4 +69,13 @@ The choice of “from” and “before” over (as was proposed as well) ”afte
 
 == Alternatives ==
 
-Instead of adding such wordy pragmas, can we maybe make the content of the `[..]` more helpful, by allowing more complex specification of phase ranges there? But I don’t have a very convincing story for a syntax yet, as we have we have three possible states per phase (inline, do not inline, maybe inline).
+Instead of adding such wordy pragmas, can we maybe make the content of the `[..]` more helpful, by allowing more complex specification of phase ranges there?
+
+=== Using comparison operators ===
+Proposal 3b would look like this (note that phases count down):
+{{{
+INLINE[n]    becomes     INLINE <= n
+INLINE[~n]   becomes     INLINE > n
+NOINLINE[n]  becomes MAY_INLINE <= n
+NOINLINE[~n] becomes MAY_INLINE > n
+}}}
