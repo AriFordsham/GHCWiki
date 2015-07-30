@@ -226,7 +226,7 @@ dsBlock [pat <- rhs] (return expr)
   | pat == expr = rhs
   | otherwise = (\pat -> expr) <$> rhs
 
-dsBlock [{stmts1{vs1} | ... | stmtsn{vsn}}] (return expr) =
+dsBlock [(stmts1{vs1} | ... | stmtsn{vsn})] (return expr) =
   (\vs1 .. vsn -> expr)
      <$> dsBlock stmts1 (return vs1)
      <*> ...
@@ -235,7 +235,7 @@ dsBlock [{stmts1{vs1} | ... | stmtsn{vsn}}] (return expr) =
 dsBlock [pat <- rhs : stmts] tail =
    rhs >>= \pat -> dsBlock stmts tail
 
-dsBlock [{stmts1{vs1} | ... | stmtsn{vsn}} : stmts] tail =
+dsBlock ((stmts1{vs1} | ... | stmtsn{vsn}) : stmts) tail =
   join (\vs1 .. vsn -> dsBlock stmts tail) 
      <$> dsBlock stmts1 (return vs1)
      <*> ...
