@@ -36,8 +36,6 @@ Full results [ are here](https://gist.githubusercontent.com/thoughtpolice/498d51
 
   - Much like **pidigits**, a lot more `integer-gmp` stuff shows up in these profiles. While it's still just like the last one, there are some other regressions; for example, `GHC.Integer.Type.remInteger` seems to have 245901/260800 calls/bytes allocated, vs 121001/200000 for 7.8
 
-TODO Build 7.10 with `integer-gmp 0.5` (not "`integer-gmp2`") to compare allocation baselines - did the compiler or the rewrite cause these failures?
-
 TODO Lots of fusion changes have happened in the last few months too - but these should all be pretty diagnosable with some reverts, since they're usually very localized. Maybe worth looking through `base` changes.
 
 #### Runtime
@@ -62,6 +60,32 @@ TODO Lots of fusion changes have happened in the last few months too - but these
 
   - `map` strikes again? 2601324 vs 3597333 calls, with an accompanying allocation delta.
   - But some other inner loops here work and go away correctly (mainly `go`), unlike e.g. `lcss`.
+
+#### Comparing integer-gmp 0.5 and 2.0
+
+
+One of the major factors that has changed recently is `integer-gmp`. Namely, GHC 7.10 includes `integer-gmp-2.0`, a major rework of `integer-gmp-0.5`. I've compiled GHC 7.10.1 with `integer-gmp` 0.5 and 2.0. \[Here [ https://gist.github.com/bgamari/5de75ac998a346b70ce8](https://gist.github.com/bgamari/5de75ac998a346b70ce8)\] is a nofib comparison. There are a few interesting points here,
+
+- Binary sizes dropped dramatically and consistently (typically around 60 to 70%) from 0.5 to 2.0.
+- Runtime is almost always within error. A few exceptions,
+
+  - `binary-trees`: 6% slower with 2.0
+  - `pidigits`: 5% slower
+  - `integer`: 4% slower
+  - `cryptarithm1`: 2.5% slower
+  - `circsim`: 3% faster
+  - `lcss`: 5% faster
+  - `power`: 17% faster
+- Allocations are typically similar. The only test that improves significantly
+  is `prime` whose allocations decreased by 24% Many more tests regress
+  considerably,
+
+  - `bernoulli`: +15%
+  - `gcd`: +21%
+  - `kahan`: +40%
+  - `mandel` +34%
+  - `primetest`: +50%
+  - `rsa`: +53%
 
 ## tests/perf/compiler\` results
 
