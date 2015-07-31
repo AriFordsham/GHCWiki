@@ -1,9 +1,18 @@
 ## Nofib results
 
+### Austin, 5 May 2015
+
 
 Full results [ are here](https://gist.githubusercontent.com/thoughtpolice/498d51153240cc4d899c/raw/9a43f6bbfd642cf4e7b15188f9c0b053d311f7b9/gistfile1.txt) (updated **May 5th, 2015**)
 
 **NB**: The baseline here is 7.6.3
+
+### Ben, 31 July 2015
+
+[ http://home.smart-cactus.org/\~ben/nofib.html](http://home.smart-cactus.org/~ben/nofib.html)
+
+
+Baseline is 7.4.2.
 
 ### Nofib outliers
 
@@ -14,6 +23,13 @@ Full results [ are here](https://gist.githubusercontent.com/thoughtpolice/498d51
 - Solid average binary size increase of **5.3%**.
 
 #### Allocations
+
+##### 7.4 to 7.6
+
+- **fannkuck-redux**: increased by factor of 10,000?!?!
+
+  - 7.6.3: `<<ghc: 870987952 bytes, 1668 GCs (1666 + 2), 0/0 avg/max bytes residency (0 samples), 84640 bytes GC work, 1M in use, 0.00 INIT (0.00 elapsed), 2.43 MUT (2.43 elapsed), 0.00 GC (0.00 elapsed), 0.00 GC(0) (0.00 elapsed), 0.00 GC(1) (0.00 elapsed), 1 balance :ghc>>`
+  - 7.4.2: `<<ghc: 74944 bytes, 1 GCs (0 + 1), 0/0 avg/max bytes residency (0 samples), 3512 bytes GC work, 1M in use, 0.00 INIT (0.00 elapsed), 2.25 MUT (2.25 elapsed), 0.00 GC (0.00 elapsed), 0.00 GC(0) (0.00 elapsed), 0.00 GC(1) (0.00 elapsed), 1 balance :ghc>>`
 
 ##### 7.6 to 7.8
 
@@ -35,8 +51,6 @@ Full results [ are here](https://gist.githubusercontent.com/thoughtpolice/498d51
 - **primetest**: went down **27.5%** in 7.6-to-7.8, but **8.8%** slower than 7.6 now - in total it got something like **36.6%** worse.
 
   - Much like **pidigits**, a lot more `integer-gmp` stuff shows up in these profiles. While it's still just like the last one, there are some other regressions; for example, `GHC.Integer.Type.remInteger` seems to have 245901/260800 calls/bytes allocated, vs 121001/200000 for 7.8
-
-TODO Build 7.10 with `integer-gmp 0.5` (not "`integer-gmp2`") to compare allocation baselines - did the compiler or the rewrite cause these failures?
 
 TODO Lots of fusion changes have happened in the last few months too - but these should all be pretty diagnosable with some reverts, since they're usually very localized. Maybe worth looking through `base` changes.
 
@@ -62,6 +76,46 @@ TODO Lots of fusion changes have happened in the last few months too - but these
 
   - `map` strikes again? 2601324 vs 3597333 calls, with an accompanying allocation delta.
   - But some other inner loops here work and go away correctly (mainly `go`), unlike e.g. `lcss`.
+
+#### Comparing integer-gmp 0.5 and 2.0
+
+
+One of the major factors that has changed recently is `integer-gmp`. Namely, GHC 7.10 includes `integer-gmp-2.0`, a major rework of `integer-gmp-0.5`. I've compiled GHC 7.10.1 with `integer-gmp` 0.5 and 2.0. \[Here [ https://gist.github.com/bgamari/5de75ac998a346b70ce8](https://gist.github.com/bgamari/5de75ac998a346b70ce8)\] is a nofib comparison. There are a few interesting points here,
+
+- Binary sizes dropped dramatically and consistently (typically around 60 to 70%) from 0.5 to 2.0.
+- Runtime is almost always within error. A few exceptions,
+
+  - `binary-trees`: 6% slower with 2.0
+  - `pidigits`: 5% slower
+  - `integer`: 4% slower
+  - `cryptarithm1`: 2.5% slower
+  - `circsim`: 3% faster
+  - `lcss`: 5% faster
+  - `power`: 17% faster
+- Allocations are typically similar. The only test that improves significantly
+  is `prime` whose allocations decreased by 24% Many more tests regress
+  considerably,
+
+  - `bernoulli`: +15%
+  - `gcd`: +21%
+  - `kahan`: +40%
+  - `mandel` +34%
+  - `primetest`: +50%
+  - `rsa`: +53%
+
+
+The allocation issue is actually discussed in the commit message ([c774b28f76ee4c220f7c1c9fd81585e0e3af0e8a](/trac/ghc/changeset/c774b28f76ee4c220f7c1c9fd81585e0e3af0e8a/ghc)),
+
+>
+> Due to the different (over)allocation scheme and potentially different
+> accounting (via the new `{shrink,resize}MutableByteArray#` primitives),
+> some of the nofib benchmarks actually results in increased allocation
+> numbers (but not necessarily an increase in runtime!).  I believe the
+> allocation numbers could improve if `{resize,shrink}MutableByteArray#`
+> could be optimised to reallocate in-place more efficiently.
+
+
+The message then goes on to list exactly the nofib tests mentioned above. Given that there isn't a strong negative trend in runtime corresponding with these increased allocations, I'm leaning towards ignoring these for now.
 
 ## tests/perf/compiler\` results
 
