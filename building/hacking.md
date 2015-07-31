@@ -34,6 +34,9 @@ To build the whole thing (compiler, libraries, compiler again), do this:
 ```wiki
 $ ./boot
 $ ./configure
+# NOTE: On Windows you need to download some binary distributables before being able to build
+# This only has to be done once and can be done by adding a flag to the call to configure:
+# ./configure --enable-tarballs-autodownload
 $ make
 ```
 

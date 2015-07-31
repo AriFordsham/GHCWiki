@@ -147,6 +147,12 @@ the ones you might need:
   Typically on Unix systems the default for `--prefix` is
   `/usr/local`.  See also [wiki:Building/Installing] for more details.
 
+ `--enable-tarballs-autodownload`::
+  On Windows in order to build GHC and to be able to create a binary
+  distribution package some extra binaries are needed. These binaries
+  only have to be downloaded once. This flag will automatically download
+  the dependencies if missing.
+
 === Build configuration ===
 
 Next, you say how this build of GHC is to differ from the standard
