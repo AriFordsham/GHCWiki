@@ -26,14 +26,6 @@ $ git clone --recursive git://git.haskell.org/ghc.git
 ```
 
 
-On Windows, you need to additionally fetch an extra repository containing some build tools. After running `clone`:
-
-```wiki
-$ cd ghc/
-$ git clone git://git.haskell.org/ghc-tarballs.git
-```
-
-
 A source tree consists of more than one repository: at the top level there is the main GHC repository, and certain subdirectories contain separate git repositories (for a list see [Repositories](repositories)).
 
 
