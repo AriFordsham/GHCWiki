@@ -17,10 +17,23 @@ $ ./boot
 (this step isn't necessary if you have a source distribution).
 
 
-Next:
+Next on non-Windows:
 
 ```wiki
 $ ./configure
+$ make
+$ make install
+```
+
+
+On Windows:
+
+
+NOTE: On Windows you need to download some binary distributables before being able to build.
+This only has to be done once and can be done by adding a flag to the call to configure
+
+```wiki
+$ ./configure --enable-tarballs-autodownload
 $ make
 $ make install
 ```

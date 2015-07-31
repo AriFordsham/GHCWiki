@@ -88,8 +88,7 @@ You should now be able to build GHC:
 ```wiki
 cd ~ &&
 git clone --recursive git://git.haskell.org/ghc.git &&
-cd ghc &&
-git clone git://git.haskell.org/ghc-tarballs.git
+cd ghc
 ```
 
 
@@ -100,7 +99,7 @@ Finally, to perform the actual build:
 
 ```wiki
 ./boot &&
-./configure &&
+./configure --enable-tarballs-autodownload &&
 make
 ```
 

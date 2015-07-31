@@ -12,13 +12,25 @@ $ ./boot
 
 (this step isn't necessary if you have a source distribution).
 
-Next:
+Next on non-Windows:
 
 {{{
 $ ./configure
 $ make
 $ make install
 }}}
+
+On Windows:
+
+NOTE: On Windows you need to download some binary distributables before being able to build.
+This only has to be done once and can be done by adding a flag to the call to configure
+{{{
+$ ./configure --enable-tarballs-autodownload
+$ make
+$ make install
+}}}
+
+
 
 This will do a 2-stage bootstrap build of the compiler, with profiling libraries, and install the results in the default location (under {{{/usr/local}}} on Unix, for example).
 
