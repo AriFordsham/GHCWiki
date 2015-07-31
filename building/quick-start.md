@@ -4,7 +4,7 @@
 Below are quick instructions for **just building and installing GHC**. For instructions on how to use the build system as a **developer**, go to the [Quick Start to using the build system as a developer](building/hacking).
 
 
-The following instructions assume that you have [got the sources](building/getting-the-sources) (note: not just a `git clone`) and [installed the necessary tools](building/preparation).
+The following instructions assume that you have [got the sources](building/getting-the-sources) and [installed the necessary tools](building/preparation).
 
 
 If you are starting from a `git` checkout then:
