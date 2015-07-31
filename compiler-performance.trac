@@ -78,6 +78,16 @@ One of the major factors that has changed recently is `integer-gmp`. Namely, GHC
       - `primetest`: +50%
       - `rsa`: +53%
 
+The allocation issue is actually discussed in the commit message (c774b28f76ee4c220f7c1c9fd81585e0e3af0e8a),
+> Due to the different (over)allocation scheme and potentially different
+> accounting (via the new `{shrink,resize}MutableByteArray#` primitives),
+> some of the nofib benchmarks actually results in increased allocation
+> numbers (but not necessarily an increase in runtime!).  I believe the
+> allocation numbers could improve if `{resize,shrink}MutableByteArray#`
+> could be optimised to reallocate in-place more efficiently.
+    
+
+
 
 == tests/perf/compiler` results ==
 
