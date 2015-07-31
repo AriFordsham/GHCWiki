@@ -14,7 +14,7 @@ git config --global url."git://github.com/ghc/packages-".insteadOf git://github.
 # clone GHC's main Git repository (creates './ghc' folder in CWD)
 git clone --recursive git://github.com/ghc/ghc
 cd ghc/
-git clone git://github.com/ghc/ghc-tarballs.git  # Windows only
+
 # configure build
 cd mk
 cp build.mk.sample build.mk
@@ -22,6 +22,9 @@ cp build.mk.sample build.mk
 cd ..
 ./boot
 ./configure
+# NOTE: On Windows you need to download some binary distributables before being able to build
+# This only has to be done once and can be done by adding a flag to the call to configure:
+./configure --enable-tarballs-autodownload
 
 # build GHC
 make -j8 # parallelize to at most 8 parallel jobs; adapt to actual number of cpu cores
