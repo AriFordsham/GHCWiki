@@ -98,6 +98,9 @@ The allocation issue is actually discussed in the commit message ([c774b28f76ee4
 > allocation numbers could improve if `{resize,shrink}MutableByteArray#`
 > could be optimised to reallocate in-place more efficiently.
 
+
+The message then goes on to list exactly the nofib tests mentioned above. Given that there isn't a strong negative trend in runtime corresponding with these increased allocations, I'm leaning towards ignoring these for now.
+
 ## tests/perf/compiler\` results
 
 ### 7.6 vs 7.8
