@@ -10,15 +10,6 @@ To report a bug, either:
  * Less preferred:
      * To submit an anonymous bug: use login "guest", password "guest"
 
-== Frequently reported bugs ==
-
-The following cause an internal error (panic) and are already fixed in the development version.
-
- * GHC 7.4: Lowercase identifier used in a deriving clause, such as {{{data A = B deriving show}}}. Use uppercase: {{{deriving Show}}}. Bug #5961.
- * GHC 7.4: Invalid instances: {{{instance A => B => C where ...}}}, {{{instance A -> B}}}, {{{instance (A, B)}}} etc. Bug #5951.
- * GHC 7.6: Invalid strictness annotation {{{data X = X (!Maybe Int)}}}. The correct way is {{{data X = X (!(Maybe Int))}}}. Bug #7210.
- * GHC 7.6: kindFunResult panic when `lift` is applied to two parameters (e.g. `lift putStrLn "hello"`). This is a kind error, it should be `lift (putStrLn "hello").` Bugs #7368, #7920.
-
 == How do I tell if I should report my bug? ==
 
  * Take a look at the [http://haskell.org/haskellwiki/GHC/FAQ FAQ] and [http://www.haskell.org/ghc/docs/latest/html/users_guide/wrong.html What to do when something goes wrong] from the GHC User's Guide, which will give you some guidance as to whether the behaviour you're seeing is really a bug or not.
