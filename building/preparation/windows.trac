@@ -71,8 +71,7 @@ You should now be able to build GHC:
 {{{
 cd ~ &&
 git clone --recursive git://git.haskell.org/ghc.git &&
-cd ghc &&
-git clone git://git.haskell.org/ghc-tarballs.git
+cd ghc
 }}}
 
 Consider setting up `mk/build.mk` here (`cp mk/build.mk.sample mk/build.mk && vim mk/build.mk`).
@@ -81,7 +80,7 @@ Finally, to perform the actual build:
 
 {{{
 ./boot &&
-./configure &&
+./configure --enable-tarballs-autodownload &&
 make
 }}}
 
