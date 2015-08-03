@@ -174,3 +174,15 @@ Relevant tickets
   - Still a huge problem with GHC 7.10.1: looks like quadratic behavior around `TidyCore`/`CorePrep`.
 - [\#2346](https://gitlab.haskell.org//ghc/ghc/issues/2346): desugaring let-bindings 
 - [\#10491](https://gitlab.haskell.org//ghc/ghc/issues/10491): Huge explosion in compilation time for `Accelerate`
+
+## Compile time
+
+- [\#9557](https://gitlab.haskell.org//ghc/ghc/issues/9557): Deriving instances is slow
+- [\#8731](https://gitlab.haskell.org//ghc/ghc/issues/8731): long compilation time for module with large data type and partial record selectors 
+- [\#7258](https://gitlab.haskell.org//ghc/ghc/issues/7258): Compiling DynFlags is jolly slow
+- [\#7450](https://gitlab.haskell.org//ghc/ghc/issues/7450): Regression in optimisation time of functions with many patterns (6.12 to 7.4)? 
+
+  - [ Phab:D1041](https://phabricator.haskell.org/D1041), [ Phab:D1012](https://phabricator.haskell.org/D1012)
+  - Unnecessary recomputation of free variables ([ Phab:D1012](https://phabricator.haskell.org/D1012))
+  - Thunk leak in `Bitmap` ([ Phab:D1040](https://phabricator.haskell.org/D1040))
+- [\#9669](https://gitlab.haskell.org//ghc/ghc/issues/9669): Long compile time/high memory usage for modules with many deriving clauses
