@@ -165,10 +165,8 @@ Relevant tickets
 - [\#10289](https://gitlab.haskell.org//ghc/ghc/issues/10289): 2.5k static HashSet takes too much memory to compile
 
   - Significantly improved in memory usage from [\#10370](https://gitlab.haskell.org//ghc/ghc/issues/10370), but worse at overall wall-clock time!
-- [\#9669](https://gitlab.haskell.org//ghc/ghc/issues/9669): slow compilation with lots of deriving clauses
 - [\#9583](https://gitlab.haskell.org//ghc/ghc/issues/9583), [\#9630](https://gitlab.haskell.org//ghc/ghc/issues/9630): code blowup in Generics/Binary
 - [\#10228](https://gitlab.haskell.org//ghc/ghc/issues/10228): regression from 7.8.4 to 7.10.1
-- [\#7450](https://gitlab.haskell.org//ghc/ghc/issues/7450), [\#7258](https://gitlab.haskell.org//ghc/ghc/issues/7258): deriving Read generates gigantic code. Better now, but still not linear.
 - [\#7428](https://gitlab.haskell.org//ghc/ghc/issues/7428): Non-linear compile time: addFingerprint??
 
   - Still a huge problem with GHC 7.10.1: looks like quadratic behavior around `TidyCore`/`CorePrep`.
