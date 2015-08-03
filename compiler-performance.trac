@@ -149,7 +149,8 @@ Relevant tickets
    - Still a huge problem with GHC 7.10.1: looks like quadratic behavior around `TidyCore`/`CorePrep`.
  * #2346: desugaring let-bindings 
  * #10491: Huge explosion in compilation time for `Accelerate`
-https://ghc.haskell.org/trac/ghc/query?status=infoneeded&status=merge&status=new&status=patch&status=upstream&failure=Runtime+performance+bug&type=bug&col=id&col=summary&col=status&col=owner&col=type&col=priority&col=milestone&order=priority
+
+https://ghc.haskell.org/trac/ghc/query?status=!closed&failure=Runtime+performance+bug&type=bug
 
 == Compile time ==
 
