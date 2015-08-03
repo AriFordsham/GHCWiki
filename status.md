@@ -28,6 +28,11 @@ For fun: the release plans for previous releases:
 ## Automated builds and performance testing
 
 
+We keep notes on
+
+- [Compiler performance](compiler-performance)
+
+
 We have several automated ways of monitoring GHC.  Each has its own detailed description page.
 
 - [Harbormaster](phabricator/harbormaster) is a part of [Phabricator](phabricator), which builds all [ GHC commits](https://phabricator.haskell.org/diffusion/GHC/history/) and incoming patches for testing.

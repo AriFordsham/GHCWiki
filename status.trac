@@ -21,6 +21,9 @@ For fun: the release plans for previous releases:
 
 == Automated builds and performance testing ==
 
+We keep notes on
+ * [wiki:CompilerPerformance Compiler performance]
+
 We have several automated ways of monitoring GHC.  Each has its own detailed description page.
  * [wiki:Phabricator/Harbormaster Harbormaster] is a part of [wiki:Phabricator Phabricator], which builds all [https://phabricator.haskell.org/diffusion/GHC/history/ GHC commits] and incoming patches for testing.
  * [wiki:BuilderSummary The GHC builders] build GHC every night on multiple platforms.
