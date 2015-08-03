@@ -149,6 +149,7 @@ Relevant tickets
    - Still a huge problem with GHC 7.10.1: looks like quadratic behavior around `TidyCore`/`CorePrep`.
  * #2346: desugaring let-bindings 
  * #10491: Huge explosion in compilation time for `Accelerate`
+https://ghc.haskell.org/trac/ghc/query?status=infoneeded&status=merge&status=new&status=patch&status=upstream&failure=Runtime+performance+bug&type=bug&col=id&col=summary&col=status&col=owner&col=type&col=priority&col=milestone&order=priority
 
 == Compile time ==
 
@@ -160,3 +161,5 @@ Relevant tickets
    * Unnecessary recomputation of free variables (Phab:D1012)
    * Thunk leak in `Bitmap` (Phab:D1040)
  * #9669: Long compile time/high memory usage for modules with many deriving clauses
+
+https://ghc.haskell.org/trac/ghc/query?status=!closed&failure=Compile-time+performance+bug

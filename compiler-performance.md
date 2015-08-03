@@ -173,6 +173,8 @@ Relevant tickets
 - [\#2346](https://gitlab.haskell.org//ghc/ghc/issues/2346): desugaring let-bindings 
 - [\#10491](https://gitlab.haskell.org//ghc/ghc/issues/10491): Huge explosion in compilation time for `Accelerate`
 
+[ https://ghc.haskell.org/trac/ghc/query?status=infoneeded&status=merge&status=new&status=patch&status=upstream&failure=Runtime+performance+bug&type=bug&col=id&col=summary&col=status&col=owner&col=type&col=priority&col=milestone&order=priority](https://ghc.haskell.org/trac/ghc/query?status=infoneeded&status=merge&status=new&status=patch&status=upstream&failure=Runtime+performance+bug&type=bug&col=id&col=summary&col=status&col=owner&col=type&col=priority&col=milestone&order=priority)
+
 ## Compile time
 
 - [\#9557](https://gitlab.haskell.org//ghc/ghc/issues/9557): Deriving instances is slow
@@ -184,3 +186,5 @@ Relevant tickets
   - Unnecessary recomputation of free variables ([ Phab:D1012](https://phabricator.haskell.org/D1012))
   - Thunk leak in `Bitmap` ([ Phab:D1040](https://phabricator.haskell.org/D1040))
 - [\#9669](https://gitlab.haskell.org//ghc/ghc/issues/9669): Long compile time/high memory usage for modules with many deriving clauses
+
+[ https://ghc.haskell.org/trac/ghc/query?status=!closed&failure=Compile-time+performance+bug](https://ghc.haskell.org/trac/ghc/query?status=!closed&failure=Compile-time+performance+bug)
