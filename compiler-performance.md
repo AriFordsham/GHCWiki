@@ -79,15 +79,15 @@ TODO Lots of fusion changes have happened in the last few months too - but these
   - `map` strikes again? 2601324 vs 3597333 calls, with an accompanying allocation delta.
   - But some other inner loops here work and go away correctly (mainly `go`), unlike e.g. `lcss`.
 
-#### Comparing integer-gmp 0.5 and 2.0
+#### Comparing integer-gmp 0.5 and 1.0
 
 
-One of the major factors that has changed recently is `integer-gmp`. Namely, GHC 7.10 includes `integer-gmp-2.0`, a major rework of `integer-gmp-0.5`. I've compiled GHC 7.10.1 with `integer-gmp` 0.5 and 2.0. \[Here [ https://gist.github.com/bgamari/5de75ac998a346b70ce8](https://gist.github.com/bgamari/5de75ac998a346b70ce8)\] is a nofib comparison. There are a few interesting points here,
+One of the major factors that has changed recently is `integer-gmp`. Namely, GHC 7.10 includes `integer-gmp-1.0`, a major rework of `integer-gmp-0.5`. I've compiled GHC 7.10.1 with `integer-gmp` 0.5 and 1.0. \[Here [ https://gist.github.com/bgamari/5de75ac998a346b70ce8](https://gist.github.com/bgamari/5de75ac998a346b70ce8)\] is a nofib comparison. There are a few interesting points here,
 
-- Binary sizes dropped dramatically and consistently (typically around 60 to 70%) from 0.5 to 2.0.
+- Binary sizes dropped dramatically and consistently (typically around 60 to 70%) from 0.5 to 1.0.
 - Runtime is almost always within error. A few exceptions,
 
-  - `binary-trees`: 6% slower with 2.0
+  - `binary-trees`: 6% slower with 1.0
   - `pidigits`: 5% slower
   - `integer`: 4% slower
   - `cryptarithm1`: 2.5% slower
