@@ -89,6 +89,7 @@
 - [\#6018](https://gitlab.haskell.org//ghc/ghc/issues/6018), [\#10227](https://gitlab.haskell.org//ghc/ghc/issues/10227): injective type families
 - [\#8161](https://gitlab.haskell.org//ghc/ghc/issues/8161): associated type more specific than class decl
 - [\#8177](https://gitlab.haskell.org//ghc/ghc/issues/8177): role signature for type families
+- [\#9547](https://gitlab.haskell.org//ghc/ghc/issues/9547): kinding for empty constraint tuples
 
 ## Template Haskell
 
