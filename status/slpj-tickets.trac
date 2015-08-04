@@ -85,6 +85,7 @@
  * #6018, #10227: injective type families
  * #8161: associated type more specific than class decl
  * #8177: role signature for type families
+ * #9547: kinding for empty constraint tuples
 
 == Template Haskell ==
 See also [wiki:TemplateHaskell]
