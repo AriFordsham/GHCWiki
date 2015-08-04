@@ -82,7 +82,7 @@ TODO Lots of fusion changes have happened in the last few months too - but these
 #### Comparing integer-gmp 0.5 and 1.0
 
 
-One of the major factors that has changed recently is `integer-gmp`. Namely, GHC 7.10 includes `integer-gmp-1.0`, a major rework of `integer-gmp-0.5`. I've compiled GHC 7.10.1 with `integer-gmp` 0.5 and 1.0. \[Here [ https://gist.github.com/bgamari/5de75ac998a346b70ce8](https://gist.github.com/bgamari/5de75ac998a346b70ce8)\] is a nofib comparison. There are a few interesting points here,
+One of the major factors that has changed recently is `integer-gmp`. Namely, GHC 7.10 includes `integer-gmp-1.0`, a major rework of `integer-gmp-0.5`. I've compiled GHC 7.10.1 with `integer-gmp` 0.5 and 1.0. [ Here](http://home.smart-cactus.org/~ben/nofib.html) is a nofib comparison. There are a few interesting points here,
 
 - Binary sizes dropped dramatically and consistently (typically around 60 to 70%) from 0.5 to 1.0.
 - Runtime is almost always within error. A few exceptions,
