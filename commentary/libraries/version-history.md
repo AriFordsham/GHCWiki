@@ -1,7 +1,10 @@
 # GHC Boot Library Version History
 
 
-See also the related [LanguagePragmaHistory](language-pragma-history) page
+This table lists the versions of GHC against those of its boot libraries, including most notably the `base` library.  This may be useful if you ever want to find out which version of the `base` package was bundled with which version of GHC or vice versa.
+
+
+See also: [LanguagePragmaHistory](language-pragma-history), which lists the language extensions added and/or removed in each GHC version.
 
 <table><tr><th></th>
 <th>**HEAD**</th>
