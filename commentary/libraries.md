@@ -7,7 +7,7 @@ All GHC build trees contain a set of libraries, called the **Boot Packages**.  T
 The repository structure of a GHC source tree is described in [Repositories](repositories).
 
 
-You can see exactly which versions of what packages GHC depends on by looking in [compiler/ghc.cabal.in](/trac/ghc/browser/compiler/ghc.cabal.in)[](/trac/ghc/export/HEAD/ghc/compiler/ghc.cabal.in).
+You can see exactly which versions of what packages GHC depends on by looking in [compiler/ghc.cabal.in](/trac/ghc/browser/compiler/ghc.cabal.in)[](/trac/ghc/export/HEAD/ghc/compiler/ghc.cabal.in).  The versions of the boot packages (including the `base` library) associated with each GHC release are tabulated in [GHC Boot Library Version History](commentary/libraries/version-history).
 
 # Building packages that GHC doesn't depend on
 
