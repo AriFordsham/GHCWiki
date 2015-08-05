@@ -62,6 +62,10 @@ Follow the directions it specifies - afterwards, your arcanist tool will be prop
 '''Question''': How does `arc install-certificate` know what URL to use?
 '''Answer''': It's located in a file called `.arcconfig` in the GHC repository. This is why you have to `cd` there first.
 
+== Help! I'm getting a strange error when running `arc` that I didn't get yesterday ==
+
+Probably GHC's Phabricator instance was updated and your `arc` client is now out of sync. Try `arc upgrade`.
+
 == Starting off: Fixing a bug, submitting a review ==
 
 (This assumes you have installed Arcanist).
