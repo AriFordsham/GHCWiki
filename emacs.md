@@ -219,8 +219,6 @@ If you switch between active trees, you must use a `setq` to change this variabl
 
 **Description**: By having GHC be built with a hotkey, working on GHC becomes much more interactive. In a typical session, though, I have to change the actual compilation command based on my needs. So, by default, "compiling GHC" means fast-building the stage-2 compiler, but I do frequently change `ghc-compile`.
 
-TODO the description below does not make use of `(haskell-compile)`, nor the use of `-ferror-spans`, which provide a much better experience than the vanilla `(compile)`-mode
-
 **How to enable**:
 
 ```
@@ -233,14 +231,23 @@ A few things to note here:
 - The above code binds C-q (perhaps a bad combination, as I've accidentally quit Emacs from my Mac with the wrong modifier key!) to compiling GHC from *any* Haskell file, even those unrelated to GHC. But, when I'm working outside of GHC, I tend to use C-c C-l to load into GHCi, so this works out OK.
 - By default, as said above, this will compile the stage 2 compiler for the GHC at `ghc-location`. If you set `ghc-compile` with, say, M-: `(setq ghc-compile "cd compiler; make 1")` \<Enter\>, then this will build the stage 1 compiler.
 
+### Alternative compile command with `-ferror-spans`
+
+```
+(defuncompile-ghc()(interactive)(save-some-buffers(notcompilation-ask-about-save)(if(boundp'compilation-save-buffers-predicate);; since Emacs 24.1(?)compilation-save-buffers-predicate))(let((compile-command(concat"EXTRA_HC_OPTS=-ferror-spans "(if(boundp'ghc-compile)(concat"cd "ghc-location"; "ghc-compile)(concat"cd "ghc-location"/ghc; make 2")))))(compilation-startcompile-command'haskell-compilation-mode))(set-buffer"*haskell-compilation*")(setqdefault-directoryghc-location))
+```
+
 ## Lint GHC
 
 
 Runs `arc lint` and in the GHC source dir and outputs it in a navigatable buffer similar to above compilation.
 
 ```
-(defunlint-ghc()(interactive)(compile(concat"cd "ghc-location"; ""arc lint --output compiler --rev master"))(set-buffer"*compilation*")(setqdefault-directoryghc-location))
+(defunlint-ghc()(interactive)(let((revision(if(boundp'ghc-revision)(ghc-revision)("master"))))(compile(concat"cd "ghc-location"; ""arc lint --output compiler --rev "revision)))(set-buffer"*compilation*")(setqdefault-directoryghc-location))
 ```
+
+
+If you are not working of off `master` you can `setq``ghc-revision` to lint against your choosen commit.
 
 ## Make the quotes in GHC error messages display nicely
 
