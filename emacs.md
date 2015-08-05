@@ -243,7 +243,7 @@ A few things to note here:
 Runs `arc lint` and in the GHC source dir and outputs it in a navigatable buffer similar to above compilation.
 
 ```
-(defunlint-ghc()(interactive)(let((revision(if(boundp'ghc-revision)(ghc-revision)("master"))))(compile(concat"cd "ghc-location"; ""arc lint --output compiler --rev "revision)))(set-buffer"*compilation*")(setqdefault-directoryghc-location))
+(defunlint-ghc()(interactive)(let((revision(if(boundp'ghc-revision)(ghc-revision)"master")))(compile(concat"cd "ghc-location"; arc lint --output compiler --rev "revision)))(set-buffer"*compilation*")(setqdefault-directoryghc-location))
 ```
 
 
