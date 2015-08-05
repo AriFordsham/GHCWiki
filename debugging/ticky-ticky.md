@@ -1,5 +1,3 @@
-TODO document each active counter, especially regarding its accuracy.
-
 # Ticky-ticky profiling
 
 
@@ -330,3 +328,208 @@ The C-- macros are defined in [includes/Cmm.h](/trac/ghc/browser/ghc/includes/Cm
 
 
 The code in the RTS that prints out the ticky report is in [rts/Ticky.c](/trac/ghc/browser/ghc/rts/Ticky.c).
+
+## Ticky-Tickey counters
+
+TODO document each active counter, especially regarding its accuracy.
+
+
+These are the counters present in GHC 7.10.1
+If you are interested in these, you may want to look at the comments in `StgCmmTicky.hs`.
+
+
+Allocations numbers are all in bytes.
+
+#### Naming convention ===
+
+
+You will sometimes see sets of counters with names of the form `$NAME_$suffix`. These suffixes typically describe which aspect of `$NAME` the counter measures,
+
+- `_tot`: a running total (e.g. total bytes allocated over the life of the program).
+- `_ctr`: number of events (e.g. number of times we allocated)
+- `_adm`: administrative overhead (e.g. the size of headers)
+- `_gds`: the size of the goods themselves (e.g. the size of the "meat" of an allocated object)
+- `_slp`: the "slop" of the block actually allocated (e.g. allocated block size - `gds` - `adm`)
+
+#### Counters =
+
+<table><tr><th> Counter                       </th>
+<th> Status      </th>
+<th> Meaning                                     
+</th></tr>
+<tr><th>**RTS statistics**</th>
+<th></th>
+<th></th></tr>
+<tr><th>`HEAP_CHK_ctr`</th>
+<th> Works         </th>
+<th> Bumped whenever a heap-check is performed     
+</th></tr>
+<tr><th>`STK_CHK_ctr`</th>
+<th> Works         </th>
+<th> Bumped whenever a stack-check is performed    
+</th></tr>
+<tr><th>**Allocation statistics**</th>
+<th></th>
+<th></th></tr>
+<tr><th>`ALLOC_HEAP_tot`</th>
+<th> ?             </th>
+<th> Total size of global heap allocations         
+</th></tr>
+<tr><th>`ALLOC_HEAP_ctr`</th>
+<th> ?             </th>
+<th> Total number of global heap allocations       
+</th></tr>
+<tr><th>`ALLOC_PRIM_ctr`</th>
+<th> ?             </th>
+<th></th></tr>
+<tr><th>`ALLOC_PRIM_adm`</th>
+<th> ?             </th>
+<th></th></tr>
+<tr><th>`ALLOC_PRIM_gds`</th>
+<th> ?             </th>
+<th></th></tr>
+<tr><th>`ALLOC_PRIM_slp`</th>
+<th> ?             </th>
+<th></th></tr>
+<tr><th>`ALLOC_UP_THK_ctr`</th>
+<th> ?             </th>
+<th> Number of UP? thunk allocations               
+</th></tr>
+<tr><th>`ALLOC_THK_adm`</th>
+<th> ?             </th>
+<th></th></tr>
+<tr><th>`ALLOC_THK_gds`</th>
+<th> ?             </th>
+<th></th></tr>
+<tr><th>`ALLOC_THK_slp`</th>
+<th> ?             </th>
+<th></th></tr>
+<tr><th>`ALLOC_PAP_ctr`</th>
+<th> ?             </th>
+<th></th></tr>
+<tr><th>`ALLOC_PAP_gds`</th>
+<th> ?             </th>
+<th></th></tr>
+<tr><th>`ALLOC_PAP_slp`</th>
+<th> ?             </th>
+<th></th></tr>
+<tr><th>`ALLOC_CON_ctr`</th>
+<th> ?             </th>
+<th></th></tr>
+<tr><th>`ALLOC_CON_gds`</th>
+<th> ?             </th>
+<th></th></tr>
+<tr><th>`ALLOC_FUN_ctr`</th>
+<th> ?             </th>
+<th></th></tr>
+<tr><th>`ALLOC_FUN_gds`</th>
+<th> ?             </th>
+<th></th></tr>
+<tr><th>**Call statistics**</th>
+<th></th>
+<th></th></tr>
+<tr><th>`KNOWN_CALL_ctr`</th>
+<th> ?             </th>
+<th></th></tr>
+<tr><th>`KNOWN_CALL_TOO_FEW_ARGS_ctr`</th>
+<th> ?             </th>
+<th></th></tr>
+<tr><th>`KNOWN_CALL_EXTRA_ARGS_ctr`</th>
+<th> ?             </th>
+<th></th></tr>
+<tr><th>`UNKNOWN_CALL_ctr`</th>
+<th> ?             </th>
+<th></th></tr>
+<tr><th>`VERY_SLOW_CALL_ctr`</th>
+<th> ?             </th>
+<th></th></tr>
+<tr><th>**Closure entry statistics**</th>
+<th></th>
+<th></th></tr>
+<tr><th>`ENT_DYN_CON_ctr`</th>
+<th> ?             </th>
+<th></th></tr>
+<tr><th>`ENT_STATIC_CON_ctr`</th>
+<th> ?             </th>
+<th></th></tr>
+<tr><th>`ENT_VIA_NODE_ctr`</th>
+<th> ?             </th>
+<th></th></tr>
+<tr><th>`ENT_STATIC_THK_SINGLE_ctr`</th>
+<th> ?             </th>
+<th></th></tr>
+<tr><th>`ENT_STATIC_THK_MANY_ctr`</th>
+<th> ?             </th>
+<th></th></tr>
+<tr><th>`ENT_DYN_THK_SINGLE_ctr`</th>
+<th> ?             </th>
+<th></th></tr>
+<tr><th>`ENT_DYN_THK_MANY_ctr`</th>
+<th> ?             </th>
+<th></th></tr>
+<tr><th>`UPD_BH_SINGLE_ENTRY_ctr`</th>
+<th> ?             </th>
+<th></th></tr>
+<tr><th>`UPD_BH_UPDATABLE_ctr`</th>
+<th> ?             </th>
+<th></th></tr>
+<tr><th>`UPD_CAF_BH_UPDATABLE_ctr`</th>
+<th> ?             </th>
+<th></th></tr>
+<tr><th>`UPD_CAF_BH_SINGLE_ENTRY_ctr`</th>
+<th> ?             </th>
+<th></th></tr>
+<tr><th>`ENT_STATIC_FUN_DIRECT_ctr`</th>
+<th> ?             </th>
+<th></th></tr>
+<tr><th>`ENT_DYN_FUN_DIRECT_ctr`</th>
+<th> ?             </th>
+<th></th></tr>
+<tr><th>`ENT_LNE_ctr`</th>
+<th> ?             </th>
+<th></th></tr>
+<tr><th>**Return statistics**</th>
+<th></th>
+<th></th></tr>
+<tr><th>`RET_OLD_ctr`</th>
+<th> ?             </th>
+<th></th></tr>
+<tr><th>`RET_OLD_hst`</th>
+<th> ?             </th>
+<th></th></tr>
+<tr><th>`RET_NEW_ctr`</th>
+<th> ?             </th>
+<th></th></tr>
+<tr><th>`RET_NEW_hst`</th>
+<th> ?             </th>
+<th></th></tr>
+<tr><th>`RET_UNBOXED_TUP_ctr`</th>
+<th> ?             </th>
+<th></th></tr>
+<tr><th>`RET_UNBOXED_TUP_hst`</th>
+<th> ?             </th>
+<th></th></tr>
+<tr><th>`VEC_RETURN_ctr`</th>
+<th> ?             </th>
+<th></th></tr>
+<tr><th>`RET_VEC_RETURN_hsr`</th>
+<th> ?             </th>
+<th></th></tr>
+<tr><th>**Update frame statistics?**</th>
+<th></th>
+<th></th></tr>
+<tr><th>`UPDF_PUSHED_ctr`</th>
+<th> ?             </th>
+<th> Update frame pushed 
+</th></tr>
+<tr><th>`UPDF_OMITTED_ctr`</th>
+<th> ?             </th>
+<th> Update frame omitted 
+</th></tr></table>
+
+### HEAP_CHK
+
+
+This counter is bumped when a heap check is performed.
+
+### STK_CHK

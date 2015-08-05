@@ -1,7 +1,5 @@
 [[PageOutline]]
 
-TODO document each active counter, especially regarding its accuracy.
-
 = Ticky-ticky profiling =
 
 Ticky-ticky profiling adds counters to every STG function.  It's very low-level, but it really tells you what is going on:
@@ -255,3 +253,87 @@ Some `TICK_...` C-- macros are sprinkled throughout the RTS. In the debug way (c
 The C-- macros are defined in [[GhcFile(includes/Cmm.h)]]. Most of them (probably all of them, at the moment) just increment counters (variables in C) that are declared in [[GhcFile(includes/stg/Ticky.h)]]. The latter file is likely to get out of sync with the former, so it really should be automatically generated.
 
 The code in the RTS that prints out the ticky report is in [[GhcFile(rts/Ticky.c)]].
+
+== Ticky-Tickey counters ==
+
+TODO document each active counter, especially regarding its accuracy.
+
+These are the counters present in GHC 7.10.1
+If you are interested in these, you may want to look at the comments in `StgCmmTicky.hs`.
+
+Allocations numbers are all in bytes.
+
+==== Naming convention ===
+
+You will sometimes see sets of counters with names of the form `$NAME_$suffix`. These suffixes typically describe which aspect of `$NAME` the counter measures,
+
+ * `_tot`: a running total (e.g. total bytes allocated over the life of the program).
+ * `_ctr`: number of events (e.g. number of times we allocated)
+ * `_adm`: administrative overhead (e.g. the size of headers)
+ * `_gds`: the size of the goods themselves (e.g. the size of the "meat" of an allocated object)
+ * `_slp`: the "slop" of the block actually allocated (e.g. allocated block size - `gds` - `adm`)
+
+==== Counters =====
+
+||= Counter                       =||= Status      =||= Meaning                                     =||
+|| **RTS statistics** ||
+|| `HEAP_CHK_ctr`                  || Works         || Bumped whenever a heap-check is performed     ||
+|| `STK_CHK_ctr`                   || Works         || Bumped whenever a stack-check is performed    ||
+|| **Allocation statistics** ||
+|| `ALLOC_HEAP_tot`                || ?             || Total size of global heap allocations         ||
+|| `ALLOC_HEAP_ctr`                || ?             || Total number of global heap allocations       ||
+|| `ALLOC_PRIM_ctr`                || ?             || ||
+|| `ALLOC_PRIM_adm`                || ?             || ||
+|| `ALLOC_PRIM_gds`                || ?             || ||
+|| `ALLOC_PRIM_slp`                || ?             || ||
+|| `ALLOC_UP_THK_ctr`              || ?             || Number of UP? thunk allocations               ||
+|| `ALLOC_THK_adm`                 || ?             || ||
+|| `ALLOC_THK_gds`                 || ?             || ||
+|| `ALLOC_THK_slp`                 || ?             || ||
+|| `ALLOC_PAP_ctr`                 || ?             || ||
+|| `ALLOC_PAP_gds`                 || ?             || ||
+|| `ALLOC_PAP_slp`                 || ?             || ||
+|| `ALLOC_CON_ctr`                 || ?             || ||
+|| `ALLOC_CON_gds`                 || ?             || ||
+|| `ALLOC_FUN_ctr`                 || ?             || ||
+|| `ALLOC_FUN_gds`                 || ?             || ||
+|| **Call statistics** ||
+|| `KNOWN_CALL_ctr`                || ?             || ||
+|| `KNOWN_CALL_TOO_FEW_ARGS_ctr`   || ?             || ||
+|| `KNOWN_CALL_EXTRA_ARGS_ctr`     || ?             || ||
+|| `UNKNOWN_CALL_ctr`              || ?             || ||
+|| `VERY_SLOW_CALL_ctr`            || ?             || ||
+|| **Closure entry statistics** ||
+|| `ENT_DYN_CON_ctr`               || ?             || ||
+|| `ENT_STATIC_CON_ctr`            || ?             || ||
+|| `ENT_VIA_NODE_ctr`              || ?             || ||
+|| `ENT_STATIC_THK_SINGLE_ctr`     || ?             || ||
+|| `ENT_STATIC_THK_MANY_ctr`       || ?             || ||
+|| `ENT_DYN_THK_SINGLE_ctr`        || ?             || ||
+|| `ENT_DYN_THK_MANY_ctr`          || ?             || ||
+|| `UPD_BH_SINGLE_ENTRY_ctr`       || ?             || ||
+|| `UPD_BH_UPDATABLE_ctr`          || ?             || ||
+|| `UPD_CAF_BH_UPDATABLE_ctr`      || ?             || ||
+|| `UPD_CAF_BH_SINGLE_ENTRY_ctr`   || ?             || ||
+|| `ENT_STATIC_FUN_DIRECT_ctr`     || ?             || ||
+|| `ENT_DYN_FUN_DIRECT_ctr`        || ?             || ||
+|| `ENT_LNE_ctr`                   || ?             || ||
+|| **Return statistics** ||
+|| `RET_OLD_ctr`                   || ?             || ||
+|| `RET_OLD_hst`                   || ?             || ||
+|| `RET_NEW_ctr`                   || ?             || ||
+|| `RET_NEW_hst`                   || ?             || ||
+|| `RET_UNBOXED_TUP_ctr`           || ?             || ||
+|| `RET_UNBOXED_TUP_hst`           || ?             || ||
+|| `VEC_RETURN_ctr`                || ?             || ||
+|| `RET_VEC_RETURN_hsr`            || ?             || ||
+|| **Update frame statistics?** ||
+|| `UPDF_PUSHED_ctr`               || ?             || Update frame pushed ||
+|| `UPDF_OMITTED_ctr`              || ?             || Update frame omitted ||
+ 
+=== HEAP_CHK ===
+
+This counter is bumped when a heap check is performed.
+
+=== STK_CHK ===
+
