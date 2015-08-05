@@ -329,7 +329,7 @@ The C-- macros are defined in [includes/Cmm.h](/trac/ghc/browser/ghc/includes/Cm
 
 The code in the RTS that prints out the ticky report is in [rts/Ticky.c](/trac/ghc/browser/ghc/rts/Ticky.c).
 
-## Ticky-Tickey counters
+## Ticky-Ticky counters
 
 TODO document each active counter, especially regarding its accuracy.
 
@@ -340,7 +340,7 @@ If you are interested in these, you may want to look at the comments in `StgCmmT
 
 Allocations numbers are all in bytes.
 
-#### Naming convention ===
+#### Naming convention
 
 
 You will sometimes see sets of counters with names of the form `$NAME_$suffix`. These suffixes typically describe which aspect of `$NAME` the counter measures,
@@ -351,7 +351,7 @@ You will sometimes see sets of counters with names of the form `$NAME_$suffix`. 
 - `_gds`: the size of the goods themselves (e.g. the size of the "meat" of an allocated object)
 - `_slp`: the "slop" of the block actually allocated (e.g. allocated block size - `gds` - `adm`)
 
-#### Counters =
+#### Counters
 
 <table><tr><th> Counter                       </th>
 <th> Status      </th>
@@ -526,10 +526,3 @@ You will sometimes see sets of counters with names of the form `$NAME_$suffix`. 
 <th> ?             </th>
 <th> Update frame omitted 
 </th></tr></table>
-
-### HEAP_CHK
-
-
-This counter is bumped when a heap check is performed.
-
-### STK_CHK
