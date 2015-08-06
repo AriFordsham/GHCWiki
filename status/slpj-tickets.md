@@ -76,6 +76,7 @@
 
 ## Type families, roles, `Coercible`, `Typeable`, kind polymorphism
 
+- [\#7102](https://gitlab.haskell.org//ghc/ghc/issues/7102): type instance overlap in GHCi is unsound
 - [\#10493](https://gitlab.haskell.org//ghc/ghc/issues/10493), [\#10494](https://gitlab.haskell.org//ghc/ghc/issues/10494): Bogus inaccessible code from `Coercible`
 - [\#10362](https://gitlab.haskell.org//ghc/ghc/issues/10362), [\#10359](https://gitlab.haskell.org//ghc/ghc/issues/10359): make tuple constraints into a class
 - [\#9858](https://gitlab.haskell.org//ghc/ghc/issues/9858), [\#10343](https://gitlab.haskell.org//ghc/ghc/issues/10343): `Typeable` and kind polymorphism
