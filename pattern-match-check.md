@@ -42,6 +42,8 @@ Related tickets (ones that are closed are still useful examples in the wild; the
 - [\#8970](https://gitlab.haskell.org//ghc/ghc/issues/8970)
 - [\#9113](https://gitlab.haskell.org//ghc/ghc/issues/9113)
 - [\#9951](https://gitlab.haskell.org//ghc/ghc/issues/9951)
+- [\#10116](https://gitlab.haskell.org//ghc/ghc/issues/10116)
+- [\#10746](https://gitlab.haskell.org//ghc/ghc/issues/10746)
 
 # The main problem we wish to solve
 
