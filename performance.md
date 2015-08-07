@@ -1,5 +1,5 @@
 
 When one speaks of "GHC performance" this could refer to one of two things,
 
-- Performance/Runtime Runtime performance?: The efficiency of the code produced by GHC
-- Performance/Compiler Compiler performance?: The efficiency of GHC itself as it compiles a program.
+- [Runtime performance](performance/runtime): The efficiency of the code produced by GHC
+- [Compiler performance](performance/compiler): The efficiency of GHC itself as it compiles a program.
