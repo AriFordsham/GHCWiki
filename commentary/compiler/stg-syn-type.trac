@@ -6,7 +6,7 @@ Video: [http://www.youtube.com/watch?v=v0J1iZ7F7W8&list=PLBkRCigjPwyeCSD_DFxpd24
 
 Before code generation, GHC converts the Core-language program into {{{StgSyn}}}.  The basic ideas are still pretty much exactly as described in the paper [http://research.microsoft.com/en-us/um/people/simonpj/papers/spineless-tagless-gmachine.ps.gz Implementing lazy functional languages on stock hardware: the Spineless Tagless G-machine].
 
-The best way to think of STG is as special form of [wiki:Commentary/Compiler/CoreSynType Core].  Specifically, the differences are these (see [[GhcFile(compiler/stgSyn/StgSyn.lhs)]]):
+The best way to think of STG is as special form of [wiki:Commentary/Compiler/CoreSynType Core].  Specifically, the differences are these (see [[GhcFile(compiler/stgSyn/StgSyn.hs)]]):
  * Function arguments are atoms (literals or variables), of type {{{StgArg}}}.
  * The right hand side of a let-binding, {{{StgRhs}}}, is either
     * `StgRhsCon`: a constructor application, or 
