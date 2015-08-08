@@ -15,6 +15,7 @@
 - [\#9840](https://gitlab.haskell.org//ghc/ghc/issues/9840): Allow empty closed type families
 - [\#10116](https://gitlab.haskell.org//ghc/ghc/issues/10116): Warn on incomplete closed type families
 - [\#10177](https://gitlab.haskell.org//ghc/ghc/issues/10177): `Typeable` "regression"
+- [\#10756](https://gitlab.haskell.org//ghc/ghc/issues/10756): Impossible patterns
 
 **Medium**
 
