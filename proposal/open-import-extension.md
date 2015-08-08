@@ -1,5 +1,5 @@
 
-This pages outlines a new proposed extension to GHC - `-XOpenQualifiedImports` - that allows one to locally add more symbols into the environment scoped over by let and where bindings.
+This pages outlines a new proposed extension to GHC - `-XOpenQualifiedImports` - that allows one to locally add more symbols into the environment scoped over by `let` and `where` bindings.
 
 
 Under this extension a user can open a previously qualified import (defined at the module level).
@@ -27,9 +27,9 @@ A new keyword is added that is only valid in the definition of let/where binding
 *Usage*
 
 ```wiki
-open M -- add all symbols
-open M (a, B) -- add just a and B
-open M hiding (C) -- add everything except C
+open M             -- add all symbols
+open M (a, B)      -- add just a and B
+open M hiding (C)  -- add everything except C
 ```
 
 
@@ -62,3 +62,14 @@ in readFile -- ambiguous
 
 
 This matches the behaviour of import statements and top-level definitions.
+
+*Scope*
+
+
+When opening a qualified import, the symbols imported are valid to both:
+
+1. the body the bindings scope over (the function owning a `where` statement, or the body of a `let ... in` statement), 
+1. the other sibling bindings.
+
+
+Point 2 is consistent with the behavior of importing in a module and defining top-level definitions - the top-level definitions have access to imported symbols.
