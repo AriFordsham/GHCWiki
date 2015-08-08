@@ -27,9 +27,15 @@ A new keyword is added that is only valid in the definition of let/where binding
 *Usage*
 
 ```wiki
-open M             -- add all symbols
-open M (a, B)      -- add just a and B
-open M hiding (C)  -- add everything except C
+import qualified M
+import qualified M as N
+
+-- later
+...
+  where
+    open M             -- add all symbols
+    open M (a, B)      -- add just a and B
+    open N hiding (C)  -- add everything except C
 ```
 
 
