@@ -6,6 +6,7 @@ To make arithmetic safer: [ http://article.gmane.org/gmane.comp.lang.haskell.ghc
 ## What's already there?
 
 - `Data.SafeInt` uses these primops, which only work on `Int`s: `addIntC#`, `subIntC#`, `mulIntMayOflo#`.
+- `plusWord2#` and `timesWord2#` in `compiler/prelude/primops.txt.pp`, but no primop for subtraction (see below).
 - `maxInt#` and `minInt#` exist in `libraries/base/GHC/Base.hs`, but not `maxWord#` or `maxInt64#`, etc.
 - In `libraries/integer-gmp/src/GHC/Integer/Type.hs`, there's `subWordC# :: Word# -> Word# -> (# Word#, Int# #)`
   defined as a helper, which should be replaced by a proper primop.
