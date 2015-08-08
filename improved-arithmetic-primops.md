@@ -11,6 +11,13 @@ To make arithmetic safer: [ http://article.gmane.org/gmane.comp.lang.haskell.ghc
 - In `libraries/integer-gmp/src/GHC/Integer/Type.hs`, there's `subWordC# :: Word# -> Word# -> (# Word#, Int# #)`
   defined as a helper, which should be replaced by a proper primop.
 
+## TODO
+
+- Add `subWordC#` as a primop.
+- Add overflow-aware `absInt#` (for the `abs minBound` case).
+- Add overflow-aware shifts for `Int#` and `Word#`.
+- Maybe look at the bottom of `libraries/integer-gmp/src/GHC/Integer/Type.hs` for inspiration.
+
 ## How do I add a new primop?
 
 
