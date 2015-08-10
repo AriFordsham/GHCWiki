@@ -12,6 +12,7 @@ See also
 - [RolesImplementation](roles-implementation) talks about the implementation in GHC. 
 - [ Richard's blog post about roles](http://typesandkinds.wordpress.com/2013/08/15/roles-a-new-feature-of-ghc/). (Note: some aspects of that blog post are out of date, as of December 17, 2013.)
 - This email thread: [ More GND + role inference woes](http://www.haskell.org/pipermail/ghc-devs/2013-October/003003.html).
+- [Safe Roles](safe-roles) discusses safety issues (from abstraction, not memory-safety point-of-view) around Roles and how they might be addressed. The specific focus is on Safe Haskell.
 
 ## The problem we wish to solve
 
