@@ -4,6 +4,8 @@
 
 GHC 7.8 introduced a new mechanism, roles, for implementing `GeneralizedNewtypeDeriving` safely. Roles solves a big issue with GND, type-safety. Previously, GND could be used to generate an `unsafeCoerce` function, which can easily segfault a program.
 
+Please also refer to the main [wiki:Roles Roles page].
+
 However, GND had a second issue, its ability to break module boundaries. How this should be handled with the new roles infrastructure and what the default should be was a major point of discussion before GHC 7.8 and after.
 
 The design chosen settled on enabling easier use of GND over enforcing module boundaries. This document tries to summarize the situation and propose alternatives for future GHC versions.
