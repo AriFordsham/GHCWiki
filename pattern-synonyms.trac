@@ -13,10 +13,10 @@ Relevant closed tickets:
 
 Relevant open tickets:
  * #8581 (explicitly bidirectional)
- * #8582
- * #8583
- * #8761
- * #8779
+ * #8582 (Record patterns)
+ * #8583 (Associated patterns)
+ * #8761 (template haskell support)
+ * #8779 (exhaustiveness checks)
 
 == Motivating example ==
 Here is a simple representation of types
@@ -373,3 +373,55 @@ greetTimes (S rest) message = putStrLn message >> greetTimes rest message
 }}}
 
 As a nice collateral win this proposal handles `pattern Name name <- Person name workplace | Dog name vet` too.
+
+== Record Pattern Synonyms == 
+
+Normal pattern synonyms provide a convenient way to abstract away from ADTs by explicitly defining the meaning of the pattern and the ability to define the constructor.
+
+Currently there is no way to similar way to project an existing datatype to a record.
+Adding this feature provides completeness as pattern synonyms would become equally expressive as ordinary data type declarations. 
+
+=== Design ===
+
+The proposed syntax is as follows
+
+{{{
+pattern Foo{bar, baz} = (bar, baz)
+}}}
+
+which overloads the syntax for named field puns. 
+
+If a unidirectional pattern is declared then the pattern along with record selectors are provided. The following five definitions are equivalent.
+
+{{{
+getFst1 Foo{bar} = bar
+
+getFst2 Foo{bar=qux} = qux
+
+getFst3 Foo{..} = bar
+
+getFst4 (Foo v _) = v
+
+getFst5 v = bar v
+}}}
+
+
+When a bidirectional synonym is declared then the constructor `Foo` is also declared which can be used in two ways.
+
+{{{
+myFoo = Foo "first" 2
+
+hisFoo = Foo { bar = "first", baz = 2 }
+}}}
+
+Finally we consider record updates.
+
+{{{
+updateBaz x = x {baz = 6}
+}}}
+
+
+An unresolved design point is how record updates should be handled. Given Foo is in scope then there is an unambiguous type for this expression (as baz is uniquely a selector for `Foo`). Thus the inferred type of `updateBaz` would be `updateBaz :: (a, b) -> (Int, b)`. 
+
+This whole construct seems quite strange as it would also seem possible to write (the currently illegal)  `(1,2) {baz = Just 6}` as well as `(Foo 1 2) { baz = Just 6}`. Currently pattern synonyms do not change the semantics of programs outside from the explicit use of the synonym. This example is slightly different as we do not use `Foo` but merely the field name `baz`. I am not sure whether this would be confusing to users.
+
