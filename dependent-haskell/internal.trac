@@ -140,6 +140,17 @@ What if `kind` always produced a '''nominal''' coercion? That solves the problem
 
 Current plan (2/6/15): Just keep the old coherence rule, along with the added insight that whenever the type-checker needs to equate `(t1 :: k1)` and `(t2 :: k2)`, it produces `[W] t1 ~N t2` and `[W] k1 ~N k2`. If we're consistent about requiring '''both''' of these every time, it should all be OK.
 
+=== Status update, Aug 2015 ===
+
+The last point above -- the "Current plan (2/6/15)" -- is implemented and is working, generally. But it's dissatisfyingly baroque. A particular thorny point, not covered in detail here, is that it all requires a change to `AppCo`. The naive definition for `AppCo` takes two `Coercion`s, representing the lifted version of applied types. Suppose:
+
+{{{
+t1 :: k1 -> k2
+t2 :: k1
+t1' :: k1' -> k2'
+t2' :: k1'`, `c1 :: t1 t2 ~# t1' t2'` and `c2 ::
+}}}
+
 == Lifted vs. Unlifted equality ==
 
 GHC happily keeps a distinction between lifted and unlifted equality, but this is causing me grief. The primary cause of the grief is that I need to cast types by unlifted equality (casting by lifted equality is bogus because the evidence might be bottom), and there is no type-level construct to unpack a lifted equality. Here is the [=#samekind canonical example]:
