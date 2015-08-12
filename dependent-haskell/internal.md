@@ -169,6 +169,39 @@ What if `kind` always produced a **nominal** coercion? That solves the problem i
 
 Current plan (2/6/15): Just keep the old coherence rule, along with the added insight that whenever the type-checker needs to equate `(t1 :: k1)` and `(t2 :: k2)`, it produces `[W] t1 ~N t2` and `[W] k1 ~N k2`. If we're consistent about requiring **both** of these every time, it should all be OK.
 
+### Status update, Aug 2015
+
+
+The last point above -- the "Current plan (2/6/15)" -- is implemented and is working, generally. But it's dissatisfyingly baroque. A particular thorny point, not covered in detail here, is that it all requires a change to `AppCo`. The naive definition for `AppCo` takes two `Coercion`s, representing the lifted version of applied types. Suppose:
+
+```wiki
+t1 :: k1 -> k2
+t2 :: k1
+t1' :: k1' -> k2'
+t2' :: k1'
+c1 :: t1 t2 ~N t1' t2'
+c2 :: k2 ~N k2' 
+```
+
+
+We have now followed the advice above, by having `k2 ~N k2'` alongside `t1 t2 ~N t1' t2'`. But what if we decompose the `AppCo`? We get, on the right, `t2 ~N t2'`, but we **don't** get `k1 ~N k1'`. This is problematic, as it violates our desire stated above. The solution is to put that second equality in `AppCo` as a third argument. This solution isn't actually terrible in the implementation, but it's an odd wrinkle in the theory, to be sure.
+
+
+Simon has strongly entreated me to back off this stance. Instead, he proposes having all equalities among kinds be nominal. In particular, he wants this casting rule:
+
+```wiki
+t :: k1
+c :: k1 ~N k2
+------------- CastTy
+t |> c :: k2 
+```
+
+
+Note that the coercion is nominal. By choosing this `CastTy`, all of the problems above are avoided. The considerable cost to this approach is that it prevents the straightforward promotion of expressions to types, as those expressions will have representational casts in them. But that's OK, for now, as we're not planning on doing any promotion *of Core* from expressions to types until we have Pi. And then, maybe we'll have a better idea.
+
+
+I plan to make this change, and use the above `CastTy` rule.
+
 ## Lifted vs. Unlifted equality
 
 
@@ -669,3 +702,92 @@ An alternate plan would be to leave definitional equality intact, but to "invent
 
 
 I can't think of any property that *guarantees* that approach (1) or (2) would always work, but searching through the codebase suggests that one of these options is always available.
+
+### An easier approach
+
+
+We have no guarantee that the matcher/unifier is complete. Just fail (with `MaybeApart`) in the tricky case. No need to complicate definitional equality.
+
+# Matching axioms
+
+
+Axioms may have casts in their LHS. This poses a problem for matching. So the matcher has been made more clever and essentially ignores coercions. This is a little thorny, but not terrible. The problem is that ignoring coercions means that the matcher has no way of discovering the value of coercion variables. But this makes some good sense, as coercion variables may be arbitrarily buried within coercions, and there's no reason at all that matching two coercions should reveal the same structure.
+
+
+So: the matcher cannot find the value of coercion variables.
+
+
+However, covars **can** appear in axiom RHSs. So this is a bit of a sad state of affairs, because there seems to be no pure way to simplify type family applications. When we can emit constraints, it's all OK, because we can just emit the covars as wanted and let the solver deal with it.
+
+
+Further thought led to this observation: this is exactly the same situation as with class instances. There is no pure way to answer the question "Is there an instance for `C` at some type `t`?" because instances can be constrained. What makes type families harder is that type instances have an RHS; class instances essentially don't (as far as the type system is concerned). Because of this observation, I'm less bothered by the fact that we cannot reduce type families purely. Furthermore, the ability to reduce a family in a pure situation seems never to be absolutely necessary: it's done for optimizations and such.
+
+
+The plan going forward is as described above: emit constraints when reducing a type family, and be incomplete when in pure code.
+
+### A red herring
+
+
+I thought for some time that axiom LHSs would have to be devoid of coercions, replacing any coercion with a bare variable to facilitate matching. This is wrong, precisely because the matcher ignores coercions. So, much of the time, coercion variables in axioms are unnecessary.
+
+### An example
+
+
+Here is an example of where we want a coercion variable in an axiom:
+
+```wiki
+
+type family F a
+
+type family Blah (x :: k) :: F k
+
+data Foo :: forall k. k -> F k -> * -> *
+
+type family G a
+type instance G (Foo @k a (Blah a) (Blah a)) = Int
+```
+
+
+The instance will infer `c :: F k ~ *`.
+
+
+It's possible that we will want such things to be available only when a user declares:
+
+```wiki
+type instance (F k ~ *) => G (Foo @k ...) = ...
+```
+
+
+Emitting constraints when reducing type families also opens the door to arbitrary constraints that control instance selection. However, these constraints would be just like class instance constraints, in that they would be emitted only *after* matching the types. This behavior is probably not what folks want when they ask for constrained type instances.
+
+### Possible improvement
+
+
+It seems that, whenever a target type is well-kinded, there is *some* solution for the coercion variables in an axiom LHS. Since this is the case, I can imagine building machinery that does indeed solve for coercion variables in a pure manner. But this problem is left for another day.
+
+### User-facing design issues
+
+
+It seems much better from a user standpoint to make these constraints be explicit, like the rephrasing at the end of the example, above. Thus, **design decision:** inferred unsolved equality constraints when checking type family equations are always errors, regardless of what `quantifyPred` thinks. The user can write a context (containing only equality constraints, for now) if they want other behavior.
+
+
+In data families, it's a little subtler, because the RHS is not just a type. In particular, tycons can't have covars. If they did, the covars would have to act quite like stupid thetas, and we don't want that. Instead, every data constructor must also share the constraint(s) of the instance head. This is necessary because data family instances are injective: we must be able to get the LHS from the RHS. This is needed, specifically, in implementing datacon wrappers. Consider this, following from the example above:
+
+```wiki
+data family D a
+data instance D (Foo @k a (Blah k a) (Blah k a)) = MkD (Blah k a)
+
+-->
+[k :: *, a :: k; c :: F k ~ *]. D (Foo k a (Blah k a) (Blah k a |> c)) ~ DCon k a
+data DCon k a where
+  MkD :: forall k (a :: k). (F k ~ *) => Blah k a -> DCon k a
+```
+
+
+We need a wrapper for `MkD`:
+
+```wiki
+wrapMkD :: forall k (a :: k). (F k ~ *) => Blah k a -> D (Foo @k a (Blah k a) (Blah k a))
+```
+
+**There's that darned pear again! ** This doesn't work because of the "SameKind" problem: we need to use the `F k ~ *` constraint in the type. We're not implementing this until we have Pi. So this is out of reach. Conclusion: reject constrained data family instances, for now.
