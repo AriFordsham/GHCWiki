@@ -588,3 +588,53 @@ An alternate plan would be to leave definitional equality intact, but to "invent
 2. Emit the invented coercions as wanted during type-checking.
 
 I can't think of any property that ''guarantees'' that approach (1) or (2) would always work, but searching through the codebase suggests that one of these options is always available.
+
+=== An easier approach ===
+
+We have no guarantee that the matcher/unifier is complete. Just fail (with `MaybeApart`) in the tricky case. No need to complicate definitional equality.
+
+= Matching axioms =
+
+Axioms may have casts in their LHS. This poses a problem for matching. So the matcher has been made more clever and essentially ignores coercions. This is a little thorny, but not terrible. The problem is that ignoring coercions means that the matcher has no way of discovering the value of coercion variables. But this makes some good sense, as coercion variables may be arbitrarily buried within coercions, and there's no reason at all that matching two coercions should reveal the same structure.
+
+So: the matcher cannot find the value of coercion variables.
+
+However, covars '''can''' appear in axiom RHSs. So this is a bit of a sad state of affairs, because there seems to be no pure way to simplify type family applications. When we can emit constraints, it's all OK, because we can just emit the covars as wanted and let the solver deal with it.
+
+Further thought led to this observation: this is exactly the same situation as with class instances. There is no pure way to answer the question "Is there an instance for `C` at some type `t`?" because instances can be constrained. What makes type families harder is that type instances have an RHS; class instances essentially don't (as far as the type system is concerned). Because of this observation, I'm less bothered by the fact that we cannot reduce type families purely. Furthermore, the ability to reduce a family in a pure situation seems never to be absolutely necessary: it's done for optimizations and such.
+
+The plan going forward is as described above: emit constraints when reducing a type family, and be incomplete when in pure code.
+
+=== A red herring ===
+
+I thought for some time that axiom LHSs would have to be devoid of coercions, replacing any coercion with a bare variable to facilitate matching. This is wrong, precisely because the matcher ignores coercions. So, much of the time, coercion variables in axioms are unnecessary.
+
+=== An example ===
+
+Here is an example of where we want a coercion variable in an axiom:
+
+{{{
+
+type family F a
+
+type family Blah (x :: k) :: F k
+
+data Foo :: forall k. k -> F k -> * -> *
+
+type family G a
+type instance G (Foo @k a (Blah a) (Blah a)) = Int
+}}}
+
+The instance will infer `c :: F k ~ *`.
+
+It's possible that we will want such things to be available only when a user declares:
+
+{{{
+type instance (F k ~ *) => G (Foo @k ...) = ...
+}}}
+
+Emitting constraints when reducing type families also opens the door to arbitrary constraints that control instance selection. However, these constraints would be just like class instance constraints, in that they would be emitted only ''after'' matching the types. This behavior is probably not what folks want when they ask for constrained type instances.
+
+=== Possible improvement ===
+
+It seems that, whenever a target type is well-kinded, there is ''some'' solution for the coercion variables in an axiom LHS. Since this is the case, I can imagine building machinery that does indeed solve for coercion variables in a pure manner. But this problem is left for another day.
