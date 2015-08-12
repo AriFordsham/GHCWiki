@@ -771,4 +771,23 @@ It seems that, whenever a target type is well-kinded, there is *some* solution f
 It seems much better from a user standpoint to make these constraints be explicit, like the rephrasing at the end of the example, above. Thus, **design decision:** inferred unsolved equality constraints when checking type family equations are always errors, regardless of what `quantifyPred` thinks. The user can write a context (containing only equality constraints, for now) if they want other behavior.
 
 
-In data families, it's a little subtler, because the RHS is not just a type. In particular, tycons can't have covars. So any coercion variables needed for the LHS are simply not available on the RHS. That is, the instance context scopes over the data family LHS but not the RHS. If you want it on the RHS, specify the constraint on each data constructor. If we didn't do this, we'd end up with something quite like stupid thetas! And we don't want that.
+In data families, it's a little subtler, because the RHS is not just a type. In particular, tycons can't have covars. If they did, the covars would have to act quite like stupid thetas, and we don't want that. Instead, every data constructor must also share the constraint(s) of the instance head. This is necessary because data family instances are injective: we must be able to get the LHS from the RHS. This is needed, specifically, in implementing datacon wrappers. Consider this, following from the example above:
+
+```wiki
+data family D a
+data instance D (Foo @k a (Blah k a) (Blah k a)) = MkD (Blah k a)
+
+-->
+[k :: *, a :: k; c :: F k ~ *]. D (Foo k a (Blah k a) (Blah k a |> c)) ~ DCon k a
+data DCon k a where
+  MkD :: forall k (a :: k). (F k ~ *) => Blah k a -> DCon k a
+```
+
+
+We need a wrapper for `MkD`:
+
+```wiki
+wrapMkD :: forall k (a :: k). (F k ~ *) => Blah k a -> D (Foo @k a (Blah k a) (Blah k a))
+```
+
+**There's that darned pear again! ** This doesn't work because of the "SameKind" problem: we need to use the `F k ~ *` constraint in the type. We're not implementing this until we have Pi. So this is out of reach. Conclusion: reject constrained data family instances, for now.
