@@ -178,8 +178,29 @@ The last point above -- the "Current plan (2/6/15)" -- is implemented and is wor
 t1 :: k1 -> k2
 t2 :: k1
 t1' :: k1' -> k2'
-t2' :: k1'`, `c1 :: t1 t2 ~# t1' t2'` and `c2 ::
+t2' :: k1'
+c1 :: t1 t2 ~N t1' t2'
+c2 :: k2 ~N k2' 
 ```
+
+
+We have now followed the advice above, by having `k2 ~N k2'` alongside `t1 t2 ~N t1' t2'`. But what if we decompose the `AppCo`? We get, on the right, `t2 ~N t2'`, but we **don't** get `k1 ~N k1'`. This is problematic, as it violates our desire stated above. The solution is to put that second equality in `AppCo` as a third argument. This solution isn't actually terrible in the implementation, but it's an odd wrinkle in the theory, to be sure.
+
+
+Simon has strongly entreated me to back off this stance. Instead, he proposes having all equalities among kinds be nominal. In particular, he wants this casting rule:
+
+```wiki
+t :: k1
+c :: k1 ~N k2
+------------- CastTy
+t |> c :: k2 
+```
+
+
+Note that the coercion is nominal. By choosing this `CastTy`, all of the problems above are avoided. The considerable cost to this approach is that it prevents the straightforward promotion of expressions to types, as those expressions will have representational casts in them. But that's OK, for now, as we're not planning on doing any promotion *of Core* from expressions to types until we have Pi. And then, maybe we'll have a better idea.
+
+
+I plan to make this change, and use the above `CastTy` rule.
 
 ## Lifted vs. Unlifted equality
 
