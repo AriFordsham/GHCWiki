@@ -764,3 +764,11 @@ Emitting constraints when reducing type families also opens the door to arbitrar
 
 
 It seems that, whenever a target type is well-kinded, there is *some* solution for the coercion variables in an axiom LHS. Since this is the case, I can imagine building machinery that does indeed solve for coercion variables in a pure manner. But this problem is left for another day.
+
+### User-facing design issues
+
+
+It seems much better from a user standpoint to make these constraints be explicit, like the rephrasing at the end of the example, above. Thus, **design decision:** inferred unsolved equality constraints when checking type family equations are always errors, regardless of what `quantifyPred` thinks. The user can write a context (containing only equality constraints, for now) if they want other behavior.
+
+
+In data families, it's a little subtler, because the RHS is not just a type. In particular, tycons can't have covars. So any coercion variables needed for the LHS are simply not available on the RHS. That is, the instance context scopes over the data family LHS but not the RHS. If you want it on the RHS, specify the constraint on each data constructor. If we didn't do this, we'd end up with something quite like stupid thetas! And we don't want that.
