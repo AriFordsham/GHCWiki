@@ -44,7 +44,7 @@ The format of the log file is described by the header EventLogFormat.h that come
 
 ## Publications
 
-- [ Parallel Performance Tuning for Haskell (Don Jones Jr., Simon Marlow, Satnam Singh) Haskell '09: Proceedings of the second ACM SIGPLAN symposium on Haskell, Edinburgh, Scotland, ACM, 2009](http://www.haskell.org/~simonmar/bib/threadscope-09_abstract.html)
+- [ Parallel Performance Tuning for Haskell (Don Jones Jr., Simon Marlow, Satnam Singh) Haskell '09: Proceedings of the second ACM SIGPLAN symposium on Haskell, Edinburgh, Scotland, ACM, 2009](http://research.microsoft.com/pubs/80976/ghc-parallel-tuning2.pdf)
 
 ## Contributors
 
