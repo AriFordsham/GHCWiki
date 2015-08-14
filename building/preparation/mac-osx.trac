@@ -64,7 +64,7 @@ Thirdly, if you want to build the development version of GHC from the Git reposi
 
 Fourthly, if you like to use GHC's LLVM backend:
 
- * (Homebrew): `brew tap homebrew/dupes ; brew llvm34`
+ * (Homebrew): `brew tap homebrew/versions ; brew install llvm34`
 
 GHC 7.8 and older does not support LLVM >=3.5, which is the default version of llvm installed by Homebrew. Thus you have to install LLVM 3.4 for those GHC versions
 
