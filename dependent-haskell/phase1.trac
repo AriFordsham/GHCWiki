@@ -1,5 +1,68 @@
 = Adding kind equalities to GHC =
 
+This page -- a description of the first phase of integrating full dependent types into GHC -- has two main parts: the first stretch describes user-facing changes to GHC that I (Richard Eisenberg) expect to land for 7.12. The second is notes I put together for discussion with other implementors, chiefly Simon PJ.
+
+= User-facing changes =
+
+The changes described below are intended to be controlled by a new extension `-XStarInStar`, which will imply `-XPolyKinds` and `-XDataKinds`. But in some cases, it would be quite hard for GHC to know that the new features are being used. These cases all fall under the use of `-XPolyKinds`. So the `-XPolyKinds` language will become modestly more expressive under this proposal. But Haskell98 and Haskell2010 modes remain as standards-compliant as they are today.
+
+== Kinds and types are the same ==
+
+There will be no distinction in the language between kinds and types. (Error messages will, however, do their best to use the words "type" and "kind" much like they do now. I take non-degradation of error messages very seriously.)
+
+This means that inhabited kinds have type `*`. In particular, `*` has type `*`. Though this causes inconsistency in other dependently-typed languages, it does not in Haskell, essentially because equality proofs are written in a different sub-language than ordinary terms. See [http://www.seas.upenn.edu/~sweirich/papers/fckinds.pdf our paper] for more details.
+
+Essentially, this is the one master change coming with Phase 1. But there are many consequences, as I draw out below.
+
+== Kind variables may be explicit ==
+
+This will work:
+
+{{{
+data Proxy k (a :: k) = Proxy
+data Proxy2 :: forall k. k -> * where
+  Proxy2 :: forall k (a :: k). Proxy2 a
+}}}
+
+Note that we're dealing with kind variables explicitly here. Explicit kind variables will work everywhere that explicit type variables do -- after all, kinds and types are the same. For backward compatibility and convenience, kind variables may be implicitly quantified, just like today.
+
+== All types can be promoted to kinds ==
+
+Actually, promotion from type to kind is a no-op. So this holds quite easily. Note that this means we now effectively have ''kind'' families.
+
+== All data constructors can be promoted to types ==
+
+This includes GADT constructors and constructors that use type families.
+
+== GADTs may be GADT-like in kind parameters ==
+
+But of course, because kinds and types are the same. Here are two examples:
+
+{{{
+data (a :: k1) :~~: (b :: k2) where
+  HRefl :: forall k (a :: k). a :~~: a
+    -- explicit forall there unnecessary but informative
+
+data TypeRep (a :: k) where
+  TInt   :: TypeRep Int
+  TMaybe :: TypeRep Maybe
+}}}
+
+== `*` is hard to parse ==
+
+Say the phrase `Foo * Int` appears in a type. Is that the type operator `*` applied to `Foo` and `Int` or the the type `Foo` applied to the kind `*` and `Int`? It's impossible to know. So we have to do something strange here.
+
+Without `-XStarInStar`, GHC will continue to use its knowledge of whether you are in a type or a kind to distinguish between the type operator `*` and the kind `*`. So all existing code will continue to work, quite conveniently.
+
+With `-XStarInStar`, GHC will treat the kind `*` as an identifier exported from the `Prelude` (and also from `GHC.Exts`). Currently, GHC must parse expressions with operators essentially as a space-separated list of tokens, because it can't know fixities until it figures out where all the operators have been imported from. Thus, when sorting out fixities, the kind `*` will just have a magical fixity which instructs the renamer to treat it like an alphanumeric identifier, not a symbol. This should all work out fine in most code. The only problem is when a user has both the kind `*` and some type operator `*` in scope, such as from `GHC.TypeLits`. Using `*` in this scenario will be a straightforward ambiguous identifier and is an error. Note that `-XStarInStar -XNoImplicitPrelude` will then mean that you cannot use the kind `*` in your program without importing it from somewhere.
+
+== Type family equations can be constrained ==
+
+Consider the following mess:
+
+{{{
+
+
 This page is a discussion of the implementation of kind equalities in GHC. It is meant as a guide to the interesting bits.
 
 == The new type system ==
