@@ -56,14 +56,32 @@ Without `-XStarInStar`, GHC will continue to use its knowledge of whether you ar
 
 With `-XStarInStar`, GHC will treat the kind `*` as an identifier exported from the `Prelude` (and also from `GHC.Exts`). Currently, GHC must parse expressions with operators essentially as a space-separated list of tokens, because it can't know fixities until it figures out where all the operators have been imported from. Thus, when sorting out fixities, the kind `*` will just have a magical fixity which instructs the renamer to treat it like an alphanumeric identifier, not a symbol. This should all work out fine in most code. The only problem is when a user has both the kind `*` and some type operator `*` in scope, such as from `GHC.TypeLits`. Using `*` in this scenario will be a straightforward ambiguous identifier and is an error. Note that `-XStarInStar -XNoImplicitPrelude` will then mean that you cannot use the kind `*` in your program without importing it from somewhere.
 
+== Visible type application ==
+
+With all the type variables floating around, it will be very convenient to sometimes specify a type variable visibly in source code.
+
+So, if `id :: forall a. a -> a`, then `id @Int :: Int -> Int`. See also a [http://www.seas.upenn.edu/~sweirich/papers/type-app-extended.pdf draft paper] on the subject.
+
 == Type family equations can be constrained ==
 
 Consider the following mess:
 
 {{{
+type family F a
 
+type family Blah (x :: k) :: F k
 
-This page is a discussion of the implementation of kind equalities in GHC. It is meant as a guide to the interesting bits.
+data Foo :: forall k. k -> F k -> * -> *
+
+type family G a
+type instance (F k ~ *) => G (Foo @k a (Blah a) (Blah a)) = Int
+}}}
+
+Note that there is no way to write the equation for `G` without assuming that `F k ~ *`. So we allow this with the syntax above. This will work quite similar to class instances, in that the patterns are matched ''first'' and the constraints examined only ''after'' an equation is chosen. This is likely not what you want out of constrained type family equations, but it seems the only way forward that plays nicely with the rest of GHC.
+
+This feature will not carry over to data families (which for reasons beyond the scope of this post require full dependent types), though it will work for closed type families.
+
+= Implementation notes =
 
 == The new type system ==
 
