@@ -152,7 +152,9 @@ Note that when you run `arc diff`, it will drop you into an editor to summarize 
 
 '''A change cannot be merged until at least one reviewer has signed off'''. All revisions must have at least one reviewer. Ideally, multiple people will review a change.
 
-'''You should always at least add `austin` to a review'''. If you want wider attention, you can specify the reviewer as `#ghc` - this specifies a group of GHC developers who may come to review it as well.
+Some reviewers are automatically added by '''herald'''. These are currently bgamari and austin.
+
+If you want wider attention, you can specify the reviewer as `#ghc` - this specifies a group of GHC developers who may come to review it as well.
 
 ('''Question''': What does the `#ghc` mean? '''Answer''': Essentially, in Phabricator, a Project is composed of a group of people. A project can be referred to by a hashtag, which basically incorporates everyone involved in the project.)
 
