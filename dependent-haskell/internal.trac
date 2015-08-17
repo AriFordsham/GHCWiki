@@ -662,3 +662,22 @@ wrapMkD :: forall k (a :: k). (F k ~ *) => Blah k a -> D (Foo @k a (Blah k a) (B
 }}}
 
 '''There's that darned pear again! ''' This doesn't work because of the "SameKind" problem: we need to use the `F k ~ *` constraint in the type. We're not implementing this until we have Pi. So this is out of reach. Conclusion: reject constrained data family instances, for now.
+
+=== Sometimes, we want to infer constraints ===
+
+Take this new example:
+
+{{{
+type family F a
+
+data G a where
+  MkG :: F a ~ Bool => G a
+
+foo :: G a -> F a
+foo MkG = False
+
+type family Foo (x :: G a) :: F a
+type instance Foo MkG = False
+}}}
+
+Without the type family, this compiles on GHC 7.8. We thus desperately want the type family to compile with our extension. But it won't, if all type instance constraints must be declared. So we make an exception for equalities brought into scope by a GADT pattern-match. Should be easy enough to implement and specify.
