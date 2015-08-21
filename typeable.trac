@@ -109,10 +109,10 @@ dynApply (Dyn tf f) (Dyn tx x)
 
 '''Pattern synonyms'''.  An alternative, rather nicer interface for `decomoposeFun` would use a [wiki:PatternSynonyms pattern synonym] instead of continuation-passing style.  Here is the signature for the pattern synonym:
 {{{
-pattern type TRFun :: fun ~ (arg -> res)
-                   => TTypeRep arg 
-                   -> TTypeRep res 
-                   -> TTypeRep fun
+pattern TRFun :: fun ~ (arg -> res)
+              => TTypeRep arg 
+              -> TTypeRep res 
+              -> TTypeRep fun
 }}}
 which looks (by design) very like the signature for a GADT data constructor.  Now we can use `TRFun` in a pattern, thus:
 {{{
