@@ -154,10 +154,10 @@ dynApply (Dyn tf f) (Dyn tx x)
 **Pattern synonyms**.  An alternative, rather nicer interface for `decomoposeFun` would use a [pattern synonym](pattern-synonyms) instead of continuation-passing style.  Here is the signature for the pattern synonym:
 
 ```wiki
-pattern type TRFun :: fun ~ (arg -> res)
-                   => TTypeRep arg 
-                   -> TTypeRep res 
-                   -> TTypeRep fun
+pattern TRFun :: fun ~ (arg -> res)
+              => TTypeRep arg 
+              -> TTypeRep res 
+              -> TTypeRep fun
 ```
 
 
