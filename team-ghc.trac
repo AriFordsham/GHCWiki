@@ -2,7 +2,9 @@
 
 [[PageOutline]]
 
-GHC is the result of the hard work of many people. This page gives detail on exactly who is responsible for what in precise detail. For a more general overview of the responsibilities people take, see [wiki:CodeOwners the Code Owners] page.
+GHC is the result of the hard work of many people. This page gives detail on exactly who is responsible for what. 
+ * For a more general overview of the responsibilities people take, see [wiki:CodeOwners the Code Owners] page.
+ * We have a [wiki:WindowsTaskForce task force for Windows]
 
 == Committers ==
 
