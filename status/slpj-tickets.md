@@ -20,6 +20,7 @@
 ## Generics and DeriveAnyClass
 
 - [\#10598](https://gitlab.haskell.org//ghc/ghc/issues/10598): `DeriveAnyClasss` and GND
+- [\#10716](https://gitlab.haskell.org//ghc/ghc/issues/10716): strictness annotations and generics
 - [\#10604](https://gitlab.haskell.org//ghc/ghc/issues/10604): make `Generic1` kind-polymorphic
 - [\#10087](https://gitlab.haskell.org//ghc/ghc/issues/10087): typechecking generic default methods (Pedro)
 - [\#10487](https://gitlab.haskell.org//ghc/ghc/issues/10487): `Generic` name clash
@@ -158,6 +159,7 @@ See also [TemplateHaskell](template-haskell)
 
 ## Optimisation
 
+- [\#7374](https://gitlab.haskell.org//ghc/ghc/issues/7374), [\#10417](https://gitlab.haskell.org//ghc/ghc/issues/10417), [\#10418](https://gitlab.haskell.org//ghc/ghc/issues/10418), [\#7287](https://gitlab.haskell.org//ghc/ghc/issues/7287), [\#7398](https://gitlab.haskell.org//ghc/ghc/issues/7398): rules not firing; e.g. class methods, newtype constructors
 - [\#8457](https://gitlab.haskell.org//ghc/ghc/issues/8457) (summarises), [\#917](https://gitlab.haskell.org//ghc/ghc/issues/917), [\#1945](https://gitlab.haskell.org//ghc/ghc/issues/1945), [\#3273](https://gitlab.haskell.org//ghc/ghc/issues/3273), [\#4276](https://gitlab.haskell.org//ghc/ghc/issues/4276), [\#5729](https://gitlab.haskell.org//ghc/ghc/issues/5729) (closed as dups, but not fixed): full laziness sometimes makes things worse.
 - [\#10528](https://gitlab.haskell.org//ghc/ghc/issues/10528), [\#10595](https://gitlab.haskell.org//ghc/ghc/issues/10595): RULES for class methods
 - [\#10535](https://gitlab.haskell.org//ghc/ghc/issues/10535), [\#7367](https://gitlab.haskell.org//ghc/ghc/issues/7367), [\#7206](https://gitlab.haskell.org//ghc/ghc/issues/7206), [\#7309](https://gitlab.haskell.org//ghc/ghc/issues/7309): float-out and excessive sharing 

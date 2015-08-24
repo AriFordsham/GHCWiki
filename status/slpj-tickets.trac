@@ -18,6 +18,7 @@
 
 == Generics and DeriveAnyClass ==
  * #10598: `DeriveAnyClasss` and GND
+ * #10716: strictness annotations and generics
  * #10604: make `Generic1` kind-polymorphic
  * #10087: typechecking generic default methods (Pedro)
  * #10487: `Generic` name clash
@@ -148,6 +149,7 @@ See also [wiki:TemplateHaskell]
  * #4960: better inlining tests
 
 == Optimisation ==
+ * #7374, #10417, #10418, #7287, #7398: rules not firing; e.g. class methods, newtype constructors
  * #8457 (summarises), #917, #1945, #3273, #4276, #5729 (closed as dups, but not fixed): full laziness sometimes makes things worse.
  * #10528, #10595: RULES for class methods
  * #10535, #7367, #7206, #7309: float-out and excessive sharing 
