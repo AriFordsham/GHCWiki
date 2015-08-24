@@ -1,7 +1,10 @@
 # The Glasgow Haskell Team
 
 
-GHC is the result of the hard work of many people. This page gives detail on exactly who is responsible for what in precise detail. For a more general overview of the responsibilities people take, see [the Code Owners](code-owners) page.
+GHC is the result of the hard work of many people. This page gives detail on exactly who is responsible for what. 
+
+- For a more general overview of the responsibilities people take, see [the Code Owners](code-owners) page.
+- We have a [task force for Windows](windows-task-force)
 
 ## Committers
 
