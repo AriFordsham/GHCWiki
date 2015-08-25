@@ -3,78 +3,101 @@
 ## Overview
 
 
-Proposed API for type indexed type representations, and basic `Dynamic` functionality, without using pattern synonyms.
-We consider 3 modules `TyConT`, `Typeable` and `Dynamic`, built up in that order.
+We propose an API for type indexed type representations, basic `Dynamic` functionality, static pointers and distributed closures.
+We consider 4 modules `TypeableT`, `DynamicT`, `StaticPtr` and `DistributedClosure`, built up in that order.
 We consider two varients, one for ghc as of 2015-07-10 with kind-homogenous equalities `a:~:b` only, and one for kind-hetrogenous type equalities `a:~~:b`.
-The TCB consists of `TyConT` and `Typeable` in the homogenous case, and just `TyConT` in the hetrogenous case.
 
-## Homogenous Case
 
-`TyConT`:
+The TCB consists of (in the homogenous case), the implementation of `data TypeRepT`, `class TypeableT` and its implementations, `eqRR` and `eqRRHom` (comparison of `TypeRepT`s), `getR1` and `getR2` (decomposing `TypeRepT`s); and the RTS support for building the static pointer table.
+As is currently done for `Typeable`, the instances for `TypeableT` should be "magically" provided by GHC.
+
+
+In the kind-hetrogenous case, `getR1` and `getR2` come out of the TCB.
+
+## Transition Plan
+
+
+We could replace `Typeable` with the new version, perhaps providing an `OldTypeable` library for compatibility.
+Hopefully this will not be disruptive, unless one is manipulating `TypeRep`s explicitly.
+If we do go down this route, dropping `T` suffices etc to match names with the current `base` version may be a good idea.
+
+
+Dynamic should be a fairly seamless changeover, since `Dynamic` is abstract currently (although we cannot provide a `dynTypeRep :: Dynamic -> TypeRepT ?` function - this does not seem oft-used & can be avoided by pattern matching as our `DynamicT` is not abstract, or by providing a `Typeable` based on top of `TypeableT`).
+
+
+Note that the static pointer support requires a static pointer table in a different form to what GHC already supports, and an extension to the static keyword.
+
+## Questions
+
+- Now is the easiest time to rename things - do you have suggestions for better naming schemes?
+- How many `getR1`, `getR2` etc should we provide?
+- Do we want explicit names for some type representations?
+  Perhaps `typeRepTBool` etc., and just for Prelude defined types.
+  (It is nice to avoid writing `typeRepT :: TypeRepT Bool`)
+- Do we want to provide `dynApp` which calls `error` instead of returning `Nothing`?
+  It seems to be much less used than `dynApply`, and personally I dislike that style.
+- The static "polymorphism" support is a bit kludgy - any comments on this would be most helpful!
+- Any comments would be gladly recieved!
+
+## API
+
+### Homogenous Case
+
+#### TypeableT
+
+
+Naming scheme: put an `R` suffix on variants that take an explicit `TypeRepT` parameter, no suffix for `TypeableT` constraint versions.
 
 ```
-dataTyConT(a::k)-- abstracteqTyConT::TyConT(a :: k1)->TyConT(b :: k2)->BooleqTyConTHom::TyConT(a :: k)->TyConT(b :: k)->Maybe(a :~: b)-- eqTyConTHom needs unsafeCoerce its implementation-- compiler support for generating (e.g.)tyConTBool::TyConTBooltyConTArr::TyConT(->)
-```
-
-
-The type `(:~:)` comes from `Data.Type.Equality`.
-
-
-Note `eqTyConT` is not hugely useful as (if it returns True) we know that types and kinds are the same, but GHC doesn't, so unsafeCoerce is often needed.
-
-`Typeable`:
-
-```
-dataTypeRepT(a::k)-- Type-indexed type representation; abstracttyConT::TyConT a ->TypeRepT a
-appT::TypeRepT a ->TypeRepT b ->TypeRepT(a b)classTypeable(a :: k)where
+dataTypeRepT(a :: k)-- abstractappR::TypeRepT(a :: k -> k')->TypeRepT(b :: k)->TypeRepT(a b)classTypeableT(a :: k)where
   typeRepT ::TypeRepT a
 
-withTypeRepT::TypeRepT a ->(Typeable a => b)-> b
--- c.f. Trac #2439typeOf::Typeable a => a ->TypeRepT a -- for convenienceeqTT::TypeRepT(a::k1)->TypeRepT(b::k2)->BooleqTTHom::TypeRepT(a::k)->TypeRepT(b::k)->Maybe(a :~: b)getConT::TypeRepT a ->Maybe(TyConT a)dataGetApp(a::k)whereGA::TypeRepT a ->TypeRepT b ->GetApp(a b)getAppT::TypeRepT(a::k)->Maybe(GetApp a)-- no unsafeCoerce neededdataG1 c a whereG1::TypeRepT a ->G1 c (c a)getT1::TypeRepT(c :: k1->k)->TypeRepT(a::k)->Maybe(G1 c a)-- Implementation uses an unsafeCoercedataG2 c a whereG2::TypeRepT a ->TypeRepT b ->G2 c (c a b)getT2::TypeRepT(c :: k2->k1->k)->TypeRepT(a::k)->Maybe(G1 c a)-- Implementation uses an unsafeCoerce--TODO: how many of these should we provide?getFnT::TypeRepT(a ::*)->Maybe(G2(->) a
-getFnT= getT2 (tyConT tyConTFun)-- convenience, specialise get2, don't need unsafeCoerce-- GHC has magic built-in support for Typeable instances-- but the effect is similar to declarations like these:instance(Typeable c,Typeable a)=>Typeable(c a)instanceTypeableBoolinstanceTypeable(->)
+-- GHC has magic built-in support for Typeable instances-- but the effect is similar to declarations like these:instance(TypeableT c,TypeableT a)=>TypeableT(c a)instanceTypeableTBoolinstanceTypeableT(->)withTypeRepT::TypeRepT a ->(Typeable a => b)-> b
+-- c.f. Trac #2439eqRR::TypeRepT(a :: k1)->TypeRepT(b :: k2)->BooleqRRHom::TypeRepT(a :: k)->TypeRepT(b :: k)->Maybe(a :~: b)dataGetAppT(a :: k)whereGA::TypeRepT(a :: k1 -> k2)->TypeRepT(b :: k1)->GetAppT(a b)getAppR::TypeRepT(a :: k)->Maybe(GetAppT a)dataG1 c a whereG1::TypeRepT(a :: k)->G1(c :: k -> k')(c a)getR1::TypeRepT(ct :: k1 -> k)->TypeRepT(c'at :: k)->Maybe(G1 ct c'at)-- Implementation uses an unsafeCoercedataG2 c a whereG2::TypeRepT(a :: k1)->TypeRepT(b :: k2)->G2(c :: k1 -> k2 -> k3)(c a b)getR2::TypeRepT(c :: k2 -> k1 -> k)->TypeRepT(a :: k)->Maybe(G2 c a)-- Implementation uses an unsafeCoerce-- rest are for conveniencetypeOf::TypeableT a =>(a ::*)->TypeRepT a
+getFnR::TypeRepT(a ::*)->Maybe(G2(->) a)castR::TypeRepT(a ::*)->TypeRepT(b ::*)-> a ->Maybe b
+cast::(TypeableT(a ::*),TypeableT(b ::*))=> a ->Maybe b
+gcastR::TypeRepT(a :: k)->TypeRepT(b :: k)-> c a ->Maybe(c b)gcast::(TypeableT(a :: k),TypeableT(b :: k))=> c a ->Maybe(c b)gcastR1::TypeRepT(t :: k1 -> k2)->TypeRepT(t' :: k1 -> k2)-> c (t a)->Maybe(c (t' a))gcast1::(TypeableT(t :: k1 -> k2),TypeableT(t' :: k1 -> k2))=> c (t a)->Maybe(c (t' a))gcastR2::TypeRepT(t :: k1 -> k2 -> k3)->TypeRepT(t' :: k1 -> k2 -> k3)-> c (t a b)->Maybe(c (t' a b))gcast2::(TypeableT(t :: k1 -> k2 -> k3),TypeableT(t' :: k1 -> k2 -> k3))=> c (t a b)->Maybe(c (t' a b))
 ```
 
 
-Similar notes to `eqTyConT` apply to `eqTT`.
+Note that the type `(:~:)` comes from `Data.Type.Equality`.
+Note also `eqRR` is not hugely useful as (if it returns True) we know that types and kinds are the same, but GHC doesn't, so unsafeCoerce is often needed.
 
-`Dynamic`
+#### Dynamic
+
+
+API follows current API, except missing `dynTypeRep`, as detailed above.
+Provide varients of functions that take explicit `TypeRepT` arguments.
 
 ```
-dataDynamicwhereDyn::TypeRepT a -> a ->DynamicmkDyn::Typeable a => a ->Dynamic-- for conveniencegetDyn::TypeRepT a
-        ->Dynamic-- ^ the dynamically-typed object->Maybe a      -- ^ returns: @'Just' a@, if the dynamically-typed-- object has the correct type (and @a@ is its value), -- or 'Nothing' otherwise.dynApply::Dynamic->Dynamic->MaybeDynamic-- type-safely apply a dynamic function to a dynamic argument
+dataDynamicwhereDynamic::TypeRepT a -> a ->DynamictoDynR::TypeRepT a -> a ->DynamictoDyn::TypeableT a => a ->DynamicfromDynamicR::TypeRepT a ->Dynamic->Maybe a
+fromDynamic::TypeableT a =>Dynamic->Maybe a
+fromDynR::TypeRepT a ->Dynamic-> a -> a
+fromDyn::TypeableT a =>Dynamic-> a -> a
+dynApp::Dynamic->Dynamic->Dynamic-- may call errordynApply::Dynamic->Dynamic->MaybeDynamic-- This is a mid-point between fully dynamic & fully static-- We statically know some "Shape" information, but not all info about type-- e.g., could know is a list, but not know type of elements.dataSDynamic s whereSDynamic::TypeRepT a -> s a ->SDynamic s
+
+toSDynR::TypeRepT a -> s a ->SDynamic s
+toSDyn::TypeableT a => s a ->SDynamic s
+fromSDynamicR::TypeRepT a ->SDynamic s ->Maybe(s a)fromSDynamic::TypeableT a =>SDynamic s ->Maybe(s a)fromSDynR::TypeRepT a ->SDynamic s -> s a -> s a
+fromSDyn::TypeableT a =>SDynamic s -> s a -> s a
 ```
 
-## Hetrogenous Case
+#### Static Pointers
+
+TODO api, talk about poly
+
+#### Distributed Closure
+
+TODO
+
+### Hetrogenous Case
 
 
 In this case, where we have a kind-hetrogenous `:~~:`, life becomes simpler: we now never need unsafeCoerce in `getT1` and the like, so we can now just export `getAppT` and leave the rest to the users.
- 
-The changes are that `eqTyConT` and `eqTT` now return `a:~~:b`, and are more useful (don't force us to use `unsafeCoerce`), `getT1` and `getT2` don't need `unsafeCoerce`, and we can generalise `getFnT` to be poly-kinded.
-We obviously may want to provide (and deprecate) `getT1`, `eqTyConTHom` etc. for compatibility, and maybe provide `getFnT` for convenience, if it turns out to be used a lot etc.
+
+
+The changes are that `eqRR` now return `a:~~:b` rather than `Bool`, and are more useful (don't force us to use `unsafeCoerce`); `getT1` and `getT2` don't need `unsafeCoerce`, and we can generalise `getFnT` to be poly-kinded.
+We obviously may want to provide (and deprecate) `getT1`, `eqRRHom` etc. for compatibility, and maybe provide `getFnT` for convenience, if it turns out to be used a lot etc.
 
 
 (I am not yet sure whether it would be useful to keep the homogenous equality functions around --- potentially enforcing kind homogeneity could be useful)
-
-`TyConT`:
-
-```
-dataTyConT(a::k)-- abstracteqTyConT::TyConT(a :: k1)->TyConT(b :: k2)->Maybe(a :~~: b)-- compiler support for generating (e.g.)tyConTBool::TyConTBooltyConTArr::TyConT(->)
-```
-
-`Typeable`:
-
-```
-dataTypeRepT(a::k)-- Type-indexed type representation; abstracttyConT::TyConT a ->TypeRepT a
-appT::TypeRepT a ->TypeRepT b ->TypeRepT(a b)classTypeable(a :: k)where
-  typeRepT ::TypeRepT a
-
-withTypeRepT::TypeRepT a ->(Typeable a => b)-> b
--- c.f. Trac #2439typeOf::Typeable a => a ->TypeRepT a -- for convenienceeqTT::TypeRepT(a::k1)->TypeRepT(b::k2)->Maybe(a:~~:b)getConT::TypeRepT a ->Maybe(TyConT a)dataGetApp(a::k)whereGA::TypeRepT a ->TypeRepT b ->GetApp(a b)getAppT::TypeRepT(a::k)->Maybe(GetApp a)-- no unsafeCoerce needed-- GHC has magic built-in support for Typeable instances-- but the effect is similar to declarations like these:instance(Typeable c,Typeable a)=>Typeable(c a)instanceTypeableBoolinstanceTypeable(->)
-```
-
-`Dynamic`
-
-```
-dataDynamicwhereDyn::TypeRepT a -> a ->DynamicmkDyn::Typeable a => a ->Dynamic-- for conveniencegetDyn::TypeRepT a
-        ->Dynamic-- ^ the dynamically-typed object->Maybe a      -- ^ returns: @'Just' a@, if the dynamically-typed-- object has the correct type (and @a@ is its value), -- or 'Nothing' otherwise.dynApply::Dynamic->Dynamic->MaybeDynamic-- type-safely apply a dynamic function to a dynamic argument
-```
