@@ -1,7 +1,5 @@
-TODO Move content from [CompilerPerformance](compiler-performance)
 
-
-Here is where we track various on-going efforts to improve the runtime performance of code produced by GHC.
+Here is where we track various on-going efforts to improve the runtime performance of code produced by GHC. If you are interested in the performance of the compiler itself, see [Performance/Compiler](performance/compiler).
 
 ## Nofib results
 
