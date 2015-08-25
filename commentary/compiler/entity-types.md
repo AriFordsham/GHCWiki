@@ -9,6 +9,7 @@ For each kind of Haskell entity (identifier, type variable, type constructor, da
 - **Type constructors** are represented by the `TyCon` type ([compiler/types/TyCon.lhs](/trac/ghc/browser/ghc/compiler/types/TyCon.lhs)).
 - **Classes** are represented by the `Class` type ([compiler/types/Class.lhs](/trac/ghc/browser/ghc/compiler/types/Class.lhs)).
 - **Data constructors** are represented by the `DataCon` type ([compiler/basicTypes/DataCon.lhs](/trac/ghc/browser/ghc/compiler/basicTypes/DataCon.lhs)).
+- **Pattern synonyms** are represented by the `PatSyn` type ([compiler/basicTypes/PatSyn.lhs](/trac/ghc/browser/ghc/compiler/basicTypes/PatSyn.lhs)).
 - **Term variables**`Id` and **type variables**`TyVar` are both represented by the `Var` type ([compiler/basicTypes/Var.lhs](/trac/ghc/browser/ghc/compiler/basicTypes/Var.lhs)).
 
 
@@ -18,9 +19,11 @@ All of these entities have a `Name`, but that's about all they have in common.  
 
   ```wiki
   data TyThing = AnId     Id
-  	     | ADataCon DataCon
+  	     | AConLike ConLike
   	     | ATyCon   TyCon
   	     | AClass   Class
+
+  data ConLike = RealDataCon DataCont | PatSynCon PatSyn
   ```
 
   For example, a type environment is a map from `Name` to `TyThing`.  (The fact that a `Name` tells what name space it belongs to allow, for example, identically named values and types to  sit in a single map.)
