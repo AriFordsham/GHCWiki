@@ -16,10 +16,9 @@ Below are the major highlights of 7.12. If you believe your
 ### Done
 
 - Support for [Injective Type Families](injective-type-families), which allows you to specify type families which are injective, i.e. a one-to-one relationship.
-- Support for Strict language extension?, 
+- Support for \`Strict\` language extension?, 
 - Support for [implicit parameters providing callstacks/source locations](explicit-call-stack/implicit-locations), allowing you to have a light-weight means of getting a call-stack in a Haskell application.
 - Support for **Type Signature Sections**, allowing you to write `(:: ty)` as a shorthand for `(\x -> x :: ty)`.
-- A (possible) overhaul of GHC's build system to use **Shake** instead of Make.
 - Support for reasoning about kind equalities, which gives promotion of GADTs to kinds, kind families, heterogeneous equality (kind-indexed GADTs), and `* :: *`. There is some discussion in [DependentHaskell/Phase1](dependent-haskell/phase1), but that's very low-level. I (Richard) have no good user-oriented write-up yet, but there shouldn't be much in the way of new syntax -- just fewer type errors.
 - A new, type-indexed type representation, `data TTypeRep (a :: k)`. This change should be fully backward compatible. See [Typeable](typeable).
 - Better performance feedback. The compiler will now attempt to warn you if a requested inlining could not be performed due to missing `INLINE` pragma
@@ -27,6 +26,7 @@ Below are the major highlights of 7.12. If you believe your
 
 ### To-do
 
+- A (possible) overhaul of GHC's build system to use **Shake** instead of Make.
 - A huge improvement to pattern matching (including much better coverage of GADTs), based on the work of Simon PJ and Georgios Karachalias. For more details, see [ their paper](http://research.microsoft.com/en-us/um/people/simonpj/papers/pattern-matching/gadtpm.pdf).
 - Support for [injective type families](injective-type-families). Phab
 - Improved [DWARF based debugging support](dwarf) from Peter Wortmann & Arash Rouhani, with e.g. LLVM support and Haskell backtraces from Haskell code.
