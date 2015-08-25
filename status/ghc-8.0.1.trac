@@ -6,20 +6,31 @@
 
 See milestone:7.12.1 and [https://ghc.haskell.org/trac/ghc/query?status=infoneeded&status=merge&status=new&status=patch&group=status&milestone=7.12.1 Active tickets] for more.
 
+Release candidate by mid-December. Release in January 2016.
+
 == Tentative release highlights
 
-  - An [wiki:ImprovedLLVMBackend Improved LLVM Backend] that ships with every major Tier 1 platform.
-  - Improved [wiki:DWARF DWARF based debugging support] from Peter Wortmann & Arash Rouhani, with e.g. LLVM support and Haskell backtraces from Haskell code.
-  - Support for [wiki:ApplicativeDo Applicative Do], allowing GHC to desugar do-notation to `Applicative` where possible.
+Below are the major highlights of 7.12. If you believe your 
+
+=== Done
   - Support for [wiki:InjectiveTypeFamilies Injective Type Families], which allows you to specify type families which are injective, i.e. a one-to-one relationship.
-  - Support for [wiki:OverloadedRecordFields Overloaded Record Fields], allowing multiple uses of the same field name and a form of type-directed name resolution.
+  - Support for [wiki:Strict Strict language extension], 
   - Support for [wiki:ExplicitCallStack/ImplicitLocations implicit parameters providing callstacks/source locations], allowing you to have a light-weight means of getting a call-stack in a Haskell application.
   - Support for '''Type Signature Sections''', allowing you to write `(:: ty)` as a shorthand for `(\x -> x :: ty)`.
-  - A huge improvement to pattern matching (including much better coverage of GADTs), based on the work of Simon PJ and Georgios Karachalias. For more details, see [http://research.microsoft.com/en-us/um/people/simonpj/papers/pattern-matching/gadtpm.pdf their paper].
   - A (possible) overhaul of GHC's build system to use '''Shake''' instead of Make.
   - Support for reasoning about kind equalities, which gives promotion of GADTs to kinds, kind families, heterogeneous equality (kind-indexed GADTs), and `* :: *`. There is some discussion in [wiki:DependentHaskell/Phase1], but that's very low-level. I (Richard) have no good user-oriented write-up yet, but there shouldn't be much in the way of new syntax -- just fewer type errors.
   - A new, type-indexed type representation, `data TTypeRep (a :: k)`. This change should be fully backward compatible. See [wiki:Typeable].
+  - Better performance feedback. The compiler will now attempt to warn you if a requested inlining could not be performed due to missing `INLINE` pragma
   - More Backpack is chugging along; we have a new user-facing syntax which allows multiple modules to be defined a single file, and are hoping to release at least the ability to publish multiple "units" in a single Cabal file.
+
+=== To-do
+
+  - A huge improvement to pattern matching (including much better coverage of GADTs), based on the work of Simon PJ and Georgios Karachalias. For more details, see [http://research.microsoft.com/en-us/um/people/simonpj/papers/pattern-matching/gadtpm.pdf their paper].
+  - Support for [wiki:InjectiveTypeFamilies injective type families]. Phab
+  - Improved [wiki:DWARF DWARF based debugging support] from Peter Wortmann & Arash Rouhani, with e.g. LLVM support and Haskell backtraces from Haskell code.
+  - Support for [wiki:ApplicativeDo Applicative Do], allowing GHC to desugar do-notation to `Applicative` where possible.
+  - An [wiki:ImprovedLLVMBackend Improved LLVM Backend] that ships with every major Tier 1 platform.
+  - Support for [wiki:OverloadedRecordFields Overloaded Record Fields], allowing multiple uses of the same field name and a form of type-directed name resolution.
 
 == Migration Guide to 7.12
 
