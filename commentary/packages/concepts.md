@@ -145,29 +145,24 @@ A definite unit record is a fully-instantiated unit with its associated library.
 
 And now the identifiers:
 
-<table><tr><th>Unit name</th>
+<table><tr><th>Unit Name</th>
 <td>
 Something like "p", a unit name is a source-level identifier which distinguishes the multiple units in a package; e.g. `unit p where ...` defines a unit with name `p`.  The unit name that is the same as the containing package is special: it is the "public" unit that is externally accessible.
-</td></tr></table>
-
-<table><tr><th>Unit occurrence</th>
-<td>
-Something like the "p" in `include p`, a unit occurrence is a string which occurs in a Backpack file and is intended to refer to a indefinite unit.  If the Backpack file has a unit named `p`, it refers to that unit; otherwise, the unit occurrence must be renamed to point to a specific installed unit ID (e.g., by some flags to GHC).
-</td></tr></table>
-
-<table><tr><th>(Installed) indefinite unit ID</th>
-<td>
-Installed package ID and unit name which identifies the (transitive) source code of an indefinite unit.
-</td></tr></table>
-
-<table><tr><th>Installed (definite) unit ID (previously package key)</th>
-<td>
-Indefinite unit ID and a mapping from holes to modules (installed definite unit ID plus module name).  In the absence of Backpack, installed indefinite unit IDs, installed definite unit IDs, and installed package IDs are all the same. \[LIBRARY, TYPES, ABI, SYMBOL\]  With the [ https://github.com/haskell/cabal/issues/2745](https://github.com/haskell/cabal/issues/2745) , this also subsumes what we previously referred to as "library names" or "version hashes"
 </td></tr></table>
 
 <table><tr><th>Installed Package ID (not based off of ABI)</th>
 <td>
 Hash of source code sdist tarball, selected Cabal flags (not the command line flags), GHC flags, IPIDs of direct dependencies. This brings IPIDs more inline with the concept of a \[NIX\] hash, which lets us truly uniquely identify builds of packages (whereas a package key may conclude two builds are the same, although their source has changed.) This is especially important if all sandboxed builds are being installed to the same location. This proposal is in Cabal bug [ https://github.com/haskell/cabal/issues/2199](https://github.com/haskell/cabal/issues/2199) and subject to today's GSOC.
+</td></tr></table>
+
+<table><tr><th>(Installed) Indefinite Unit ID</th>
+<td>
+Installed package ID and unit name which identifies the (transitive) source code of an indefinite unit. For non-Backapck units, the unit name is omitted (so you can distinguish a Backpack unit from a non-Backpack unit based on whether or not there is a unit name).
+</td></tr></table>
+
+<table><tr><th>(Installed Definite) Unit ID</th>
+<td>
+For non-Backpack units, the unit ID is equivalent to the installed package ID.  For Backpack units, the unit ID is the indefinite unit ID plus a mapping from holes to modules (unit ID plus module name). The most unambiguous way to refer to this is "installed definite unit ID", but since we have a lot of references to these in GHC we will refer to them as "unit IDs". These serve the role of \[SYMBOL, LIBRARY, TYPES\]
 </td></tr></table>
 
 ## Features
@@ -203,7 +198,7 @@ For an implementer, it is best if each problem is solved separately.  However, S
 
 So the way I want to go about arguing for the necessity of a given identifier is by showing that it is IMPOSSIBLE (by the intended functions) for a single identifier to serve both roles. Here are the main constraints:
 
-- \[SYMBOL\] and \[STRONG NIX\]/\[STRONG SOURCE\] are incompatible.  If you modify your source code, a \[STRONG NIX/SOURCE\] identifier must change; if this means \[SYMBOL\] changes too, you will have to recompile everything. Not good.
+- \[SYMBOL\] and \[STRONG NIX\]/\[STRONG SOURCE\] don't play nicely together.  If you modify your source code, a \[STRONG NIX/SOURCE\] identifier must change; if this means \[SYMBOL\] changes too, you will have to recompile everything. However, you can work around this problem by using fake identifiers during development to avoid recompilation, recompiling with the correct NIX identifier when it's finally time to install.
 
 - \[SOURCE\] and \[TYPES\] are incompatible under non-destructive installs and private dependencies. With private dependencies (which GHC supports!), I may link against the multiple instances of the same source but compiled against different dependencies; we MUST NOT consider these types to be the same. Note: GHC used to use package ID for both of these; so coherence was guaranteed by requiring destructive installs.
 
