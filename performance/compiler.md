@@ -50,12 +50,11 @@ Relevant tickets
 
   - Significantly improved in memory usage from [\#10370](https://gitlab.haskell.org//ghc/ghc/issues/10370), but worse at overall wall-clock time!
 - [\#9583](https://gitlab.haskell.org//ghc/ghc/issues/9583), [\#9630](https://gitlab.haskell.org//ghc/ghc/issues/9630): code blowup in Generics/Binary
-- [\#10228](https://gitlab.haskell.org//ghc/ghc/issues/10228): regression from 7.8.4 to 7.10.1
+- [\#10228](https://gitlab.haskell.org//ghc/ghc/issues/10228): increase in compiler memory usage, regression from 7.8.4 to 7.10.1
 - [\#7428](https://gitlab.haskell.org//ghc/ghc/issues/7428): Non-linear compile time: addFingerprint??
 
   - Still a huge problem with GHC 7.10.1: looks like quadratic behavior around `TidyCore`/`CorePrep`.
 - [\#2346](https://gitlab.haskell.org//ghc/ghc/issues/2346): desugaring let-bindings 
-- [\#10491](https://gitlab.haskell.org//ghc/ghc/issues/10491): Huge explosion in compilation time for `Accelerate`
 
 [ https://ghc.haskell.org/trac/ghc/query?status=!closed&failure=Runtime+performance+bug&type=bug](https://ghc.haskell.org/trac/ghc/query?status=!closed&failure=Runtime+performance+bug&type=bug)
 
