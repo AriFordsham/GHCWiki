@@ -68,8 +68,13 @@ gcastR::TypeRep(a :: k)->TypeRep(b :: k)-> c a ->Maybe(c b)gcast::(Typeable(a ::
 
 Notes:
 
-- Many of these functions come in two variants: one which takes an explicit `TypeRep` argument, and one that take an implicit `TypeRep` argument via a `Typeable a` constraint.
-  We use a consistent naming scheme: put an `R` suffix on variants that take an explicit `TypeRep` parameter, no suffix for `Typeable` constraint versions.
+- Many of these functions come in two variants: 
+
+  - one which takes an explicit `TypeRep` argument, and 
+  - one that take an implicit `TypeRep` argument via a `Typeable a` constraint.
+
+>
+> We use a consistent naming scheme: put an `R` suffix on variants that take an explicit `TypeRep` parameter, no suffix for `Typeable` constraint versions.
 
 - Note that the type `(:~:)` comes from `Data.Type.Equality`.
 
