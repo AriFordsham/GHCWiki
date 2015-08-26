@@ -6,7 +6,7 @@ This page describes a new API for type indexed type representations, basic `Dyna
 It is a specific realisation of the ideas in [wiki:DistributedHaskell].
 
 Just as in [wiki:DistributedHaskell], we provide 4 APIs
- * `Data.Typeable`: type-indexed type representation.  This replaces the existing `Data.Typeable`, and the kind of `TypeRep` changes.
+ * `Data.Typeable`: type-indexed type representation.  This replaces the existing `Typeable` class, and the kind of `TypeRep` changes to `TypeRep :: k -> *`.
 
  * `Data.Dynamic`: dynamically-typed values; replaces the existing `Data.Dynamic`.  The API is almost unchanged.
 

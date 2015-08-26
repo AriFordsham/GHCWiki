@@ -9,7 +9,7 @@ It is a specific realisation of the ideas in [DistributedHaskell](distributed-ha
 
 Just as in [DistributedHaskell](distributed-haskell), we provide 4 APIs
 
-- `Data.Typeable`: type-indexed type representation.  This replaces the existing `Data.Typeable`, and the kind of `TypeRep` changes.
+- `Data.Typeable`: type-indexed type representation.  This replaces the existing `Typeable` class, and the kind of `TypeRep` changes to `TypeRep :: k -> *`.
 
 - `Data.Dynamic`: dynamically-typed values; replaces the existing `Data.Dynamic`.  The API is almost unchanged.
 
