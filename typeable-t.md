@@ -115,11 +115,21 @@ In the kind-heterogeneous case, `getR1` and `getR2` come out of the TCB.
 ### Questions
 
 - How many `getR1`, `getR2` etc should we provide?
+
 - Do we want explicit names for some type representations?
   Perhaps `typeRepBool` etc., and just for Prelude defined types.
   (It is nice to avoid writing `typeRep :: TypeRep Bool`)
-- `TyCon` is now entirely hidden from the user.
-  Is there a use-case where this is not desirable?
+
+- `TyCon` is used internally but is now entirely hidden from the user.
+  Is there a use-case where this is not desirable?  By way of background, the internal representatation looks like this
+
+  ```wiki
+  data TypeRep (a :: k) where
+    TRCon :: TyCon a -> TypeRep a
+    TRApp :: TypeRep a -> TypeRep b -> TypeRep (a b)
+  ```
+
+  where the `TyCon a` is a now-internal data type describing a type constructor.
 
 ---
 
