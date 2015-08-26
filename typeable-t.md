@@ -58,7 +58,7 @@ But until GHC gets kind equalities we offer a variant ("homogeneous case") that 
 dataTypeRep(a :: k)-- abstractappR::TypeRep(a :: k -> k')->TypeRep(b :: k)->TypeRep(a b)classTypeable(a :: k)where
   typeRep ::TypeRep a
 
--- GHC has magic built-in support for Typeable instances-- but the effect is similar to declarations like these:instance(Typeable c,Typeable a)=>Typeable(c a)instanceTypeableBoolinstanceTypeable(->)withTypeRep::TypeRep a ->(Typeable a => b)-> b
+-- GHC has magic built-in support for Typeable instances-- but the effect is similar to declarations like these:instance(Typeable c,Typeable a)=>Typeable(c a)instanceTypeableBoolinstanceTypeable(->)withTypeable::TypeRep a ->(Typeable a => b)-> b
 -- c.f. Trac #2439eqRR::TypeRep(a :: k1)->TypeRep(b :: k2)->BooleqRRHom::TypeRep(a :: k)->TypeRep(b :: k)->Maybe(a :~: b)dataGetApp(a :: k)whereGA::TypeRep(a :: k1 -> k2)->TypeRep(b :: k1)->GetApp(a b)getAppR::TypeRep(a :: k)->Maybe(GetApp a)dataG1 c a whereG1::TypeRep(a :: k)->G1(c :: k -> k')(c a)getR1::TypeRep(ct :: k1 -> k)->TypeRep(c'at :: k)->Maybe(G1 ct c'at)-- Implementation uses an unsafeCoercedataG2 c a whereG2::TypeRep(a :: k1)->TypeRep(b :: k2)->G2(c :: k1 -> k2 -> k3)(c a b)getR2::TypeRep(c :: k2 -> k1 -> k)->TypeRep(a :: k)->Maybe(G2 c a)-- Implementation uses an unsafeCoerce-- rest are for conveniencetypeOf::Typeable a =>(a ::*)->TypeRep a
 getFnR::TypeRep(a ::*)->Maybe(G2(->) a)castR::TypeRep(a ::*)->TypeRep(b ::*)-> a ->Maybe b
 cast::(Typeable(a ::*),Typeable(b ::*))=> a ->Maybe b
@@ -79,6 +79,8 @@ Notes:
 - Note that the type `(:~:)` comes from `Data.Type.Equality`.
 
 - Note also `eqRR` is not hugely useful as (if it returns True) we know that types and kinds are the same, but GHC doesn't, so `unsafeCoerce` is often needed.
+
+- The `withTypeable` function is useful, and illustrates a generally useful pattern: see [Typeable/WithTypeable](typeable/with-typeable).
 
 ### Key differences from GHC 7.10
 
