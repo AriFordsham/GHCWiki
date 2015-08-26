@@ -90,6 +90,8 @@ Notes:
 
 - Functions for constructing and destructing `TypeRep`s differ, in particular destructing needs a GADT return type to deal with existentially hidden `TypeRep` indices.
 
+- The new API does not expose `TyCon`, and is therefore a much smaller API; see questions below.
+
 ### With kind equalities
 
 
