@@ -6,7 +6,7 @@ This page describes a new API for type indexed type representations, basic `Dyna
 It is a specific realisation of the ideas in [wiki:DistributedHaskell].
 
 Just as in [wiki:DistributedHaskell], we provide 4 APIs
- * `Data.Typeable`: type-indexed type representation.  This replaces the existing `Data.Typeable`, and the kind of `TypeRep` changes.
+ * `Data.Typeable`: type-indexed type representation.  This replaces the existing `Typeable` class, and the kind of `TypeRep` changes to `TypeRep :: k -> *`.
 
  * `Data.Dynamic`: dynamically-typed values; replaces the existing `Data.Dynamic`.  The API is almost unchanged.
 
@@ -91,8 +91,10 @@ gcast2 :: (Typeable (t :: k1 -> k2 -> k3), Typeable (t' :: k1 -> k2 -> k3)) => c
 }}}
 
 Notes:
- * Many of these functions come in two variants: one which takes an explicit `TypeRep` argument, and one that take an implicit `TypeRep` argument via a `Typeable a` constraint.
-   We use a consistent naming scheme: put an `R` suffix on variants that take an explicit `TypeRep` parameter, no suffix for `Typeable` constraint versions.
+ * Many of these functions come in two variants: 
+   * one which takes an explicit `TypeRep` argument, and 
+   * one that take an implicit `TypeRep` argument via a `Typeable a` constraint.
+ We use a consistent naming scheme: put an `R` suffix on variants that take an explicit `TypeRep` parameter, no suffix for `Typeable` constraint versions.
 
  * Note that the type `(:~:)` comes from `Data.Type.Equality`.
 
@@ -107,6 +109,8 @@ Notes:
    Indeed the class dictionary precisely is a single type representation.
 
  * Functions for constructing and destructing `TypeRep`s differ, in particular destructing needs a GADT return type to deal with existentially hidden `TypeRep` indices.
+
+ * The new API does not expose `TyCon`, and is therefore a much smaller API; see questions below.
 
 === With kind equalities ===
 
@@ -128,11 +132,19 @@ In the kind-heterogeneous case, `getR1` and `getR2` come out of the TCB.
 === Questions ===
 
 * How many `getR1`, `getR2` etc should we provide?
+
 * Do we want explicit names for some type representations?
-  Perhaps `typeRepTBool` etc., and just for Prelude defined types.
+  Perhaps `typeRepBool` etc., and just for Prelude defined types.
   (It is nice to avoid writing `typeRep :: TypeRep Bool`)
-* `TyCon` is now entirely hidden from the user.
-  Is there a use-case where this is not desirable?
+
+* `TyCon` is used internally but is now entirely hidden from the user.
+  Is there a use-case where this is not desirable?  By way of background, the internal representatation looks like this
+{{{
+data TypeRep (a :: k) where
+  TRCon :: TyCon a -> TypeRep a
+  TRApp :: TypeRep a -> TypeRep b -> TypeRep (a b)
+}}}
+  where the `TyCon a` is a now-internal data type describing a type constructor.
 
 --------------------------------
 == Data.Dynamic ==
@@ -179,7 +191,7 @@ unpackDynamic :: Dynamic -> (forall a. TypeRep a -> a -> r) -> r
    We statically know some "Shape" information, but not all info about type.
    e.g., `SDynamic Maybe` contains a value that is definitely a `Maybe ty` for some type `ty`, but the type `ty` can vary between values of type `SDynamic Maybe`.
 
-   One use-case is in the implementation of `StaticPtr`.
+ One use-case is in the implementation of `StaticPtr`.
 
 === Questions ===
 
