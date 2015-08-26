@@ -114,18 +114,23 @@ a mapping from hole name to module by package key.
 In GHC 7.10 this is used for library identification, symbols and type-checking (\[LIBRARY\], \[SYMBOL\] and \[TYPES\]).  Because it includes package keys of textual dependencies, it also distinguishes between different dependency resolutions, ala \[WEAK NIX\].
 </td></tr></table>
 
-## Proposed mechanisms
+## Unifying IPIDs and package keys
 
 
-Here are the changes to the mechanisms which we have in flight.
+We change installed package IDs and package keys in the following ways:
 
-
-First, some new concepts:
-
-<table><tr><th>Unit</th>
+<table><tr><th>Installed Package ID</th>
 <td>
-Backpack introduces the concept of a unit, which is a package-like code organization principle which allows multiple modules to be structured together.  A package contains one or more units, one of which is a distinguished unit that is publicly available to other packages; most packages contain exactly one unit.
-</td></tr></table>
+Hash of source code sdist tarball, selected Cabal flags (not the command line flags), GHC flags, IPIDs of direct dependencies. This brings IPIDs more inline with the concept of a \[NIX\] hash, which lets us truly uniquely identify builds of packages (whereas a package key may conclude two builds are the same, although their source has changed.) This is especially important if all sandboxed builds are being installed to the same location. The patch to make Cabal compute this is being tracked here: [ https://github.com/haskell/cabal/pull/2752](https://github.com/haskell/cabal/pull/2752)</td></tr></table>
+
+<table><tr><th>Package Key</th>
+<td>
+Without Backpack, package keys are now equivalent to installed package IDs. This change is tracked in: [ https://github.com/haskell/cabal/pull/2792](https://github.com/haskell/cabal/pull/2792)</td></tr></table>
+
+## New concepts for Backpack
+
+
+Backpack introduces the concept of a unit, which is a package-like code organization principle which allows multiple modules to be structured together.  A package contains one or more units, one of which is a distinguished unit that is publicly available to other packages; most packages contain exactly one unit.  This means that many definitions which worked with packages now work with units:
 
 <table><tr><th>Indefinite/definite unit</th>
 <td>
@@ -143,26 +148,21 @@ A definite unit record is a fully-instantiated unit with its associated library.
 </td></tr></table>
 
 
-And now the identifiers:
+To handle these, we need some new identifiers:
 
 <table><tr><th>Unit Name</th>
 <td>
 Something like "p", a unit name is a source-level identifier which distinguishes the multiple units in a package; e.g. `unit p where ...` defines a unit with name `p`.  The unit name that is the same as the containing package is special: it is the "public" unit that is externally accessible.
 </td></tr></table>
 
-<table><tr><th>Installed Package ID (not based off of ABI)</th>
-<td>
-Hash of source code sdist tarball, selected Cabal flags (not the command line flags), GHC flags, IPIDs of direct dependencies. This brings IPIDs more inline with the concept of a \[NIX\] hash, which lets us truly uniquely identify builds of packages (whereas a package key may conclude two builds are the same, although their source has changed.) This is especially important if all sandboxed builds are being installed to the same location. This proposal is in Cabal bug [ https://github.com/haskell/cabal/issues/2199](https://github.com/haskell/cabal/issues/2199) and subject to today's GSOC.
-</td></tr></table>
-
 <table><tr><th>(Installed) Indefinite Unit ID</th>
 <td>
-Installed package ID and unit name which identifies the (transitive) source code of an indefinite unit. For non-Backapck units, the unit name is omitted (so you can distinguish a Backpack unit from a non-Backpack unit based on whether or not there is a unit name).
+Installed package ID and unit name which identifies the (transitive) source code of an indefinite unit. For non-Backpack units, the unit name is omitted.
 </td></tr></table>
 
-<table><tr><th>(Installed Definite) Unit ID</th>
+<table><tr><th>Unit Key (previously named Package Key; also known as an Installed Definite Unit ID)</th>
 <td>
-For non-Backpack units, the unit ID is equivalent to the installed package ID.  For Backpack units, the unit ID is the indefinite unit ID plus a mapping from holes to modules (unit ID plus module name). The most unambiguous way to refer to this is "installed definite unit ID", but since we have a lot of references to these in GHC we will refer to them as "unit IDs". These serve the role of \[SYMBOL, LIBRARY, TYPES\]
+For Backpack units, the unit key is the indefinite unit ID plus a mapping from holes to modules (unit key plus module name). For non-Backpack units, the unit key is equivalent to the installed package ID (since there is no unit name, and the hole mapping is empty). These serve the role of \[SYMBOL, LIBRARY, TYPES\]
 </td></tr></table>
 
 ## Features
