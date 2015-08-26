@@ -102,7 +102,7 @@ withTypeable :: TTypeRep a -> (Typeable a => b) -> b
 ```
 
 
-(This seems both simpler and more useful than making the Typeable class recursive through TypeRep data declaration.)
+(This seems both simpler and more useful than making the Typeable class recursive through TypeRep data declaration.) See more on the [sub-page](typeable/with-typeable).
 
 
 We can also compare two `TTypeReps` to give a statically-usable proof of equality:
@@ -337,6 +337,9 @@ Note that `TTyCon` represents type constructors already applied to any kind argu
 ```wiki
 withTypeable :: TypeRep a -> (Typeable a => b) -> b
 ```
+
+
+See more [here](typeable/with-typeable).
 
 
 Implementing the "fast comparison" idea above will require putting more code in the TCB because of interaction with fingerprints. But the functions above are morally the only ones that need be trusted.
