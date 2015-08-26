@@ -91,7 +91,7 @@ When opening a qualified import, the symbols imported are valid to both:
 
 Point 2 is consistent with the behavior of importing in a module and defining top-level definitions - the top-level definitions have access to imported symbols.
 
-''Comparison With Other Languages''
+'''Comparison With Other Languages'''
 
 This concept has been explored in other languages.
 
