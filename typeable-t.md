@@ -116,7 +116,7 @@ In the kind-heterogeneous case, `getR1` and `getR2` come out of the TCB.
 
 - How many `getR1`, `getR2` etc should we provide?
 - Do we want explicit names for some type representations?
-  Perhaps `typeRepTBool` etc., and just for Prelude defined types.
+  Perhaps `typeRepBool` etc., and just for Prelude defined types.
   (It is nice to avoid writing `typeRep :: TypeRep Bool`)
 - `TyCon` is now entirely hidden from the user.
   Is there a use-case where this is not desirable?
