@@ -157,10 +157,10 @@ Something like "p", a unit name is a source-level identifier which distinguishes
 
 <table><tr><th>(Installed) Indefinite Unit ID</th>
 <td>
-Installed package ID and unit name, which identifies the (transitive) source code of an indefinite unit, Cabal flags, build flags, etc. For non-Backpack units, the unit name is omitted.
+Installed package ID and unit name, which identifies the (transitive) source code of an indefinite unit, Cabal flags, build flags, etc. For non-Backpack units, the unit name is omitted. Equivalently, an indefinite unit ID is a unit key such that for each hole mapping for A is to HOLE:A.
 </td></tr></table>
 
-<table><tr><th>Unit Key (previously named Package Key</th>
+<table><tr><th>Unit Key (previously named Package Key)</th>
 <td>
 For Backpack units, the unit key is the indefinite unit ID plus a mapping from holes to modules (unit key plus module name). For non-Backpack units, the unit key is equivalent to the installed package ID (since there is no unit name, and the hole mapping is empty). There is also a distinguished key, called "HOLE", which is for the "hole package", representing modules which are not yet implemented (there is not actually a unit named hole, it's just a notational convention). These serve the role of \[SYMBOL, LIBRARY, TYPES\]
 </td></tr></table>
