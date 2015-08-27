@@ -115,7 +115,7 @@ To handle these, we need some new identifiers:
         The hole key is a distinguished unit key, which is for the "hole package", representing modules which are not yet implemented (there is not actually a unit named hole, it's just a notational convention).
 
     Installed (Fully) Definite Unit ID::
-        An installed definite unit ID, is a unit key, whose holes are filled with installed definite unit IDs (transitively); alternately, it's just a unit key with no occurrences of the unit key HOLE, e.g. `p(A -> uid, B -> uid2)` where `uid` and `uid2` are fully definite unit IDs.
+        An installed definite unit ID, is a unit key, whose requirements are fully filled with installed definite unit IDs (transitively); alternately, it's just a unit key with no occurrences of the unit key HOLE, e.g. `p(A -> uid, B -> uid2)` where `uid` and `uid2` are fully definite unit IDs.
 
     Module::
         A unit key plus a module name.

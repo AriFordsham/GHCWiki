@@ -172,7 +172,7 @@ The hole key is a distinguished unit key, which is for the "hole package", repre
 
 <table><tr><th>Installed (Fully) Definite Unit ID</th>
 <td>
-An installed definite unit ID, is a unit key, whose holes are filled with installed definite unit IDs (transitively); alternately, it's just a unit key with no occurrences of the unit key HOLE, e.g. `p(A -> uid, B -> uid2)` where `uid` and `uid2` are fully definite unit IDs.
+An installed definite unit ID, is a unit key, whose requirements are fully filled with installed definite unit IDs (transitively); alternately, it's just a unit key with no occurrences of the unit key HOLE, e.g. `p(A -> uid, B -> uid2)` where `uid` and `uid2` are fully definite unit IDs.
 </td></tr></table>
 
 <table><tr><th>Module</th>
