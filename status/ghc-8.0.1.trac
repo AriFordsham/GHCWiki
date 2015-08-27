@@ -43,6 +43,10 @@ Below are the major highlights of 7.12.
 
   - Support for [wiki:StrictPragma Strict Haskell] including both the `StrictData` and `Strict` language extensions
 
+  - Support for record pattern synonyms (Phab:D1152)
+
+  - Implement the `MonadFail` proposal (#10751)
+
   - Support for [wiki:OverloadedRecordFields Overloaded Record Fields], allowing multiple uses of the same field name and a form of type-directed name resolution.
 
   - A huge improvement to pattern matching (including much better coverage of GADTs), based on the work of Simon PJ and Georgios Karachalias. For more details, see [http://research.microsoft.com/en-us/um/people/simonpj/papers/pattern-matching/gadtpm.pdf their paper].
