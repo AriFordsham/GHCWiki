@@ -165,7 +165,7 @@ Installed package ID and unit name, which identifies the (transitive) source cod
 For Backpack units, the unit key is the indefinite unit ID plus a mapping from holes to modules (unit key plus module name). For non-Backpack units, the unit key is equivalent to the installed package ID (since there is no unit name, and the hole mapping is empty). There is also a distinguished key, called "HOLE", which is for the "hole package", representing modules which are not yet implemented (there is not actually a unit named hole, it's just a notational convention). These serve the role of \[SYMBOL, LIBRARY, TYPES\]
 </td></tr></table>
 
-<table><tr><th>Installed Definite Unit ID</th>
+<table><tr><th>Installed (Fully) Definite Unit ID</th>
 <td>
 An installed definite unit ID, is a unit key, whose holes are filled with installed definite unit IDs (transitively); alternately, it's just a unit key with no occurrences of the unit key HOLE.
 </td></tr></table>
