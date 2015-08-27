@@ -82,7 +82,7 @@ Today, we have a lot of different MECHANISMS for identifying these:
 We change installed package IDs and package keys in the following ways:
 
     Installed Package ID::
-        Hash of source code sdist tarball, selected Cabal flags (not the command line flags), GHC flags, IPIDs of direct dependencies. This brings IPIDs more inline with the concept of a [NIX] hash, which lets us truly uniquely identify builds of packages (whereas a package key may conclude two builds are the same, although their source has changed.) This is especially important if all sandboxed builds are being installed to the same location. The patch to make Cabal compute this is being tracked here: https://github.com/haskell/cabal/pull/2752
+        Hash of source code sdist tarball, selected Cabal flags (not the command line flags), GHC flags, IPIDs of direct dependencies (the `build-depends` of the library in the Cabal file). This brings IPIDs more inline with the concept of a [NIX] hash, which lets us truly uniquely identify builds of packages (whereas a package key may conclude two builds are the same, although their source has changed.) This is especially important if all sandboxed builds are being installed to the same location. The patch to make Cabal compute this is being tracked here: https://github.com/haskell/cabal/pull/2752
 
     Package Key::
         Without Backpack, package keys are now equivalent to installed package IDs. This change is tracked in: https://github.com/haskell/cabal/pull/2792
