@@ -157,7 +157,7 @@ Something like "p", a unit name is a source-level identifier which distinguishes
 
 <table><tr><th>(Installed) (Fully) Indefinite Unit ID</th>
 <td>
-Installed package ID and unit name, which identifies the (transitive) source code of an indefinite unit, Cabal flags, build flags, etc. For non-Backpack units, the unit name is omitted. Equivalently, an indefinite unit ID is a unit key such that for each hole mapping for A is to HOLE:A.
+Installed package ID and unit name, which identifies the (transitive) source code of an indefinite unit, Cabal flags, build flags, etc. For non-Backpack units, the unit name is omitted. Equivalently, an indefinite unit ID is a unit key such that for each hole mapping for A is to HOLE:A, e.g. `p(A -> HOLE:A, B -> HOLE:B)`.
 </td></tr></table>
 
 <table><tr><th>Unit Key (previously named Package Key)</th>
@@ -167,7 +167,7 @@ For Backpack units, the unit key is the indefinite unit ID plus a mapping from h
 
 <table><tr><th>Installed (Fully) Definite Unit ID</th>
 <td>
-An installed definite unit ID, is a unit key, whose holes are filled with installed definite unit IDs (transitively); alternately, it's just a unit key with no occurrences of the unit key HOLE.
+An installed definite unit ID, is a unit key, whose holes are filled with installed definite unit IDs (transitively); alternately, it's just a unit key with no occurrences of the unit key HOLE, e.g. `p(A -> uid, B -> uid2)` where `uid` and `uid2` are fully definite unit IDs.
 </td></tr></table>
 
 <table><tr><th>Module</th>
