@@ -137,12 +137,12 @@ Backpack introduces the concept of a unit, which is a package-like code organiza
 An indefinite unit is a single unit which hasn't been instantiated; a definite unit is one that has an instantiation of its holes.  Units without holes are both definite and indefinite (they can be used for both contexts).
 </td></tr></table>
 
-<table><tr><th>Indefinite unit record</th>
+<table><tr><th>Indefinite unit record (in indefinite unit database)</th>
 <td>
 An indefinite unit record is the most general result of type-checking a unit without any of its holes instantiated.  It is identified by an installed indefinite unit ID, and consists of the types of the modules in the unit (ModIfaces) as well as the source code of the unit (so that it can be recompiled into a definite unit). Indefinite unit records can be installed in the "indefinite unit database."
 </td></tr></table>
 
-<table><tr><th>Definite unit record (previously installed package record)</th>
+<table><tr><th>Definite unit record (previously installed package record, in the definite unit database, previously the installed package database)</th>
 <td>
 A definite unit record is a fully-instantiated unit with its associated library. It is identified by an installed definite unit ID, and consists of the types and objects of the compiled unit; they also contain metadata for their associated package.  Definite unit records can be installed in the "definite unit database" (previously known as the "installed package database.") If the unit is the distinguished unit for the package, this record also contains all of the metadata about the containing package.
 </td></tr></table>
@@ -163,6 +163,11 @@ Installed package ID and unit name, which identifies the (transitive) source cod
 <table><tr><th>Unit Key (previously named Package Key; also known as an Installed Definite Unit ID)</th>
 <td>
 For Backpack units, the unit key is the indefinite unit ID plus a mapping from holes to modules (unit key plus module name). For non-Backpack units, the unit key is equivalent to the installed package ID (since there is no unit name, and the hole mapping is empty). These serve the role of \[SYMBOL, LIBRARY, TYPES\]
+</td></tr></table>
+
+<table><tr><th>Module</th>
+<td>
+A unit key plus a module name.
 </td></tr></table>
 
 ## Features

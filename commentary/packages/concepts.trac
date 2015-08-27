@@ -94,10 +94,10 @@ Backpack introduces the concept of a unit, which is a package-like code organiza
     Indefinite/definite unit::
         An indefinite unit is a single unit which hasn't been instantiated; a definite unit is one that has an instantiation of its holes.  Units without holes are both definite and indefinite (they can be used for both contexts).
 
-    Indefinite unit record::
+    Indefinite unit record (in indefinite unit database)::
         An indefinite unit record is the most general result of type-checking a unit without any of its holes instantiated.  It is identified by an installed indefinite unit ID, and consists of the types of the modules in the unit (ModIfaces) as well as the source code of the unit (so that it can be recompiled into a definite unit). Indefinite unit records can be installed in the "indefinite unit database."
 
-    Definite unit record (previously installed package record)::
+    Definite unit record (previously installed package record, in the definite unit database, previously the installed package database)::
         A definite unit record is a fully-instantiated unit with its associated library. It is identified by an installed definite unit ID, and consists of the types and objects of the compiled unit; they also contain metadata for their associated package.  Definite unit records can be installed in the "definite unit database" (previously known as the "installed package database.") If the unit is the distinguished unit for the package, this record also contains all of the metadata about the containing package.
 
 To handle these, we need some new identifiers:
@@ -110,6 +110,9 @@ To handle these, we need some new identifiers:
 
     Unit Key (previously named Package Key; also known as an Installed Definite Unit ID)::
         For Backpack units, the unit key is the indefinite unit ID plus a mapping from holes to modules (unit key plus module name). For non-Backpack units, the unit key is equivalent to the installed package ID (since there is no unit name, and the hole mapping is empty). These serve the role of [SYMBOL, LIBRARY, TYPES]
+
+    Module::
+        A unit key plus a module name.
 
 == Features ==
 
