@@ -57,6 +57,7 @@ Below are the major highlights of 7.12.
 
 - Support for **Type Signature Sections**, allowing you to write `(:: ty)` as a shorthand for `(\x -> x :: ty)`.
 - A (possible) overhaul of GHC's build system to use **Shake** instead of Make.
+- A `DEPRECATED` pragma for exports ([\#4879](https://gitlab.haskell.org//ghc/ghc/issues/4879))
 
 ## Migration Guide to 7.12
 
