@@ -20,7 +20,7 @@ Each is described in more detail below.
 
 We propose to
  * ''Outright replace'' the existing `Typeable` class with the new one; ditto the `TypeRep` type.
-   This seems better than inventing new names for everything (e.g. class `TypeableT`, data type `TypeRepT`.
+   This seems better than inventing new names for everything (e.g. class `TypeableT`, data type `TypeRepT`).
    Not many packages use `TypeRep` explicitly, we want to encourage those that do to switch over.
 
  * GHC magic for the `Typeable` class will apply to the new class.
@@ -212,11 +212,24 @@ unpackDynamic :: Dynamic -> (forall a. TypeRep a -> a -> r) -> r
 
 * Do we want to provide `dynApp` which calls `error` instead of returning `Nothing`?
   It seems to be much less used than `dynApply`, and personally I dislike that style.
+* Since we are modifying things, perhaps we should think about a more invasive change (or alternatively an extension to the API!)
+  'Maybe' is not very informative, perhaps we should change to `Either String` or `Either FromError` and `Either ApplyError`.
+  Note in `dynApply` two errors are currently conflated:
+    * "first arg is not a function",
+    * "function expects different type to arg given".
+  Also, it is not particularly easy to print out what the type mis-match was in `fromDynamic`.
 
 --------------------------
 == Data.StaticPtr ==
 
-Note that the static pointer support requires a static pointer table in a different form to what GHC already supports, and an extension to the static keyword.
+Note that the static pointer support requires a static pointer table in a different form to what GHC already supports, and an extension to the `static` keyword (or a new `polystatic` keyword).
+Recall:
+ * `static` is a language construct, and `static <expr>`, has type `StaticPtr t` if `<expr>` has type `t`.
+ * In `static <expr>`, the free variables (and type variables) of `<expr>` must all be bound at top level.
+ * The implementation could work by giving `<expr>` a top-level definition with a new name, `static34 = <expr>`, then adding a row in the static pointer table recording that the `StaticPtr` of name "<expr>-key" points to `static34`, of type `t`, and a reflection: `TypeRep t`.
+   * This `TypeRep t` enables us to do a dynamic typecheck when deserialising a `StaticPtr`, which is serialised as just its key in the static pointer table.
+
+See below for a description of `polystatic`
 
 {{{#!hs
 data Dict c where
@@ -259,15 +272,84 @@ Notes
    * If we want to support overlapping SPTs, we could do a (package,module,name) triple
    Since we have a safe lookup function, this choice cannot impact type-safety
 * We don't actually expore a `lookupSPT` function, but that is the content of `getStaticPtr`.
+* It would be nice to have a different keyword and type (as currently: `StaticPre` vs `Static`) for polymorphic support, as the serialization of a `StaticPtr` is small, but for a polymorphic `Static`, may be suprisingly large.
 
-TODO: talk about poly
+=== Polymorphism ===
+We can't support true polymorphism, as we can't have a `TypeRep(forall a. a)` (because of impredicativity).
+What we actually turn out to need (to implement `closurePure` (or nice `Serialisable` instances, rather)), is just "the polymorphic function `f` with its one free type variable instantiated at `a`", where `a` is given by a ''static'' `Typeable` dictionary, and we need this instantiated "`f @ a`" to be serialisable.
+(Note that we may use multiple types `a` at different places, or polymorphism wouldn't be necessary!)
+
+We limit ourselves to one free type variable of kind `*` and rank 1 polymorphism.
+(Our approach could be extended with a 2-polymorphic flavour of `Static` easily (or 3- etc), but it is not clear how to do one flavour which is polymorphic of arbitrary arity.)
+
+The idea is to do this (as `closurePure` serialises a `Serialisable` value as a static decoding function and a bytestring):
+{{{#!hs
+--Our polymorphic "wrap a `Maybe` around this Typeable/Binary dictionary" functions:
+-- these just point to enteries in the Polymorphic Pointer Table
+sMaybeDB :: Static (Dict (Typeable (a :: *))) -> Static (Dict (Binary a) -> Dict (Binary (Maybe a)))
+sMaybeDB = polyStatic (\(Dict :: Dict (Binary a)) -> Dict :: Dict (Binary (Maybe a)))
+
+sMaybeDT :: Static (Dict (Typeable (a :: *))) -> Static (Dict (Typeable (Maybe a)))
+sMaybeDT = polyStatic (Dict :: Dict (Typeable (Maybe a)))
+
+class (Binary a, Typeable a) => Serializable a where
+  binDict :: Static (Dict (Binary a))
+  typDict :: Static (Dict (Typeable a))
+
+instance Serializable b => Serializable (Maybe b) where
+  binDict = sMaybeDB typDict `staticApp` binDict
+  typDict = sMaybeDT typDict
+}}}
+
+Thus, to support (restricted) polymorphism, we:
+ * have that if `<expr> :: forall a . Typeable a => t` (`a` occurs in `t`) `polystatic <expr>` has type `forall a . Static (Dict (Typeable (a :: *))) -> Static t`, where `a` can occur in `t`, but all other (value and type) variables are bound at top level.
+   * Note the scoping of `Static`s: we only support static polymorphic values which have then been "monomorphised": this is to enable encoding and decoding them.
+ * The implementation could work by giving `<expr>` a top-level definition with a new name, `polystatic34 = \(Dict :: Dict(Typeable a))  -> <expr>`, then adding a row in the polymorphic static pointer table recording that the `Static` of name "<expr>-key" points to `polystatic34`, and a reflection of its type: `Typeable a => TypeRep t`, where in `t`, the free type variable is bound to `a` from the constraint.
+
+(The actual mock-up of the implementation is a bit convoluted, as we need to represent `t` as a type-level function, i.e. by a associated type family.
+To match types up to fit all polymorphic pointers into one table, this is a 2-ary family, taking a "phantom" type as a tag to distinguish `reverse` from `head` etc).
+
+Note that to serialise a polymorphic pointer, we send its name and a description of the (static) type at which the polymorphism is "applied", which may itself be a deeply nested combination of static applications and more polymorphism.
+This is why it may be surprisingly large!
+Thus it is more efficient to declare commonly used static values monomorphically if possible (see the `Control.DistributedClosure` notes for an example).
+
+
+Other approaches we may take to `Serializable` and `closurePure`:
+ * Don't support any polymorphism or any `instance Serializable b => Serializable (Maybe b)` instances.
+   This forces the user to write `Serializable` instatnces for each type they are interested in, not just each type former.
+   One benefit though, is the instances will be trivial, as there is no polymorphism going on, and the `typDict` member can be removed
+ * The approach of `rank1dynamic`: cast everything to `Any` (or similar), and implement our own typechecker.
+   This needs `unsafeCoerce`, whereas our approach doesn't, but has the advantage of not requiring `Static`-`Typeable`-ness, but requires a different, rank-1 `Typeable`.
+   It supports "proper" polymorphism: in `rank`dynamic`, you can create a dynamic reverse function which then can be extracted at any type, but with our approach the type is fixed on creation.
+   This also doesn't have the one-type-variable constraint.
+ * (Warning: speculative)
+   Add magic to GHC for the `Serializable` constraint so as soon as a `Serializable t` where `t` is monomorphic appears, GHC solves `Binary t` (no need for `Typeable t` in this approach), recovers a `b :: Binary t` and splices in `static b` in place of the constraint (i.e. implicit argument).
+   This could be generalised to magic for a new class `SC (c :: Constraint)` being a Static Constraint of type `c`.
+   e.g.:
+   {{{#!hs
+   f :: Serializable [a] => a -> Closure [a]
+   f x = closurePure [x,x]
+
+   g :: Serializable [Maybe b] -> Closure [Maybe b]
+   g y = f $ Just y
+
+   -- so far, nothing strange
+   -- now, when the user finally says (g True), we need to find a Serializable [Maybe Bool] instance.
+   -- But this is exactly a static Binary [Maybe Bool] instance,
+   -- and a Binary [Maybe Bool] is a top-level monomorphic value (morally),
+   -- so we can just stuff that into the SPT and be done!
+   }}}
+
+Note that these would all avoid the issue of non-obvious large serialisations.
+
 
 === Trusted Code Base ===
-Just the RTS support for building the static pointer table.
+Just the RTS and GHC support for building the static pointer table.
+(The "`rank1dynamic`" alternative approach obviously has a much larger TCB).
 
 === Questions ===
 
-* Naming of `deRef*`: for StaticPtr, this was chosen for consistency with current GHC
+* Naming of `deRef*`: for StaticPtr, this was chosen for consistency with current GHC.
   Consistency between `Static` and `StaticPtr` is nice, but `deRefStatic` makes the operation sound trivial (follow a pointer?), but we may need to do arbitrary computations to evaluate applications.
   * Option 1: leave as is
   * Option 2: rename `deRefStatic` to `unStatic` (then consistent with Closures)
@@ -310,3 +392,15 @@ putClosure :: Closure a -> Put
 getClosure :: TypeRep a -> Get (Closure a)
 instance Typeable a => Binary (Closure a) where
 }}}
+
+=== Notes ===
+Being based on our polymorphism support, `closurePure` can be inefficient, in the sense that it will expand in to a lot of data to send across the network.
+This is because, it serialises a static decoder for the required type, as well as the value.
+This static decoder is built automatically by the `Serializable` class, but this machinery heavily relies upon the polymorphism support of static pointers.
+For example, at the time of writing, `closurePure $ Just [Just False,Nothing]` serialises as 162 bytes, of which only 12 are the data.
+(These numbers may fluctuate slightly with implementation changes, but the general problem remains.)
+However, it is possible to avoid using `closurePure` is some situations, for example, instead of
+{{{f x = (closureS $ static not) `closureApp` (closurePure x)}}}
+one could write
+{{{f x = (closureS $ static (not . (decode :: ByteString -> Bool))) `closureApp` (closureEnc $ encode x)}}},
+which "bakes in" the correct decoder to a static pointer.
