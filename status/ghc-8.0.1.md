@@ -27,8 +27,6 @@ Below are the major highlights of 7.12.
 
 - Support for [implicit parameters providing callstacks/source locations](explicit-call-stack/implicit-locations), allowing you to have a light-weight means of getting a call-stack in a Haskell application. ([ Phab:D861](https://phabricator.haskell.org/D861))
 
-- Better optimization diagnostics. The compiler will now attempt to warn the user a rewrite rule may not fire due to missing `INLINE`
-
 - Support for wildcards in data and type family instances ([ Phab:1092](https://phabricator.haskell.org/1092))
 
 ### In-flight, and likely to land in time
