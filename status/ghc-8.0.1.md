@@ -25,21 +25,25 @@ Below are the major highlights of 7.12.
 
 ### Landed in HEAD
 
-- Support for [implicit parameters providing callstacks/source locations](explicit-call-stack/implicit-locations), allowing you to have a light-weight means of getting a call-stack in a Haskell application.
+- Support for [implicit parameters providing callstacks/source locations](explicit-call-stack/implicit-locations), allowing you to have a light-weight means of getting a call-stack in a Haskell application. ([ Phab:D861](https://phabricator.haskell.org/D861))
 
 - Better optimization diagnostics. The compiler will now attempt to warn you if a requested inlining could not be performed due to missing `INLINE` pragma.
+
+- Support for wildcards in data and type family instances ([ Phab:1092](https://phabricator.haskell.org/1092))
 
 ### In-flight, and likely to land in time
 
 - A new, type-indexed type representation, `data TTypeRep (a :: k)`. See [TypeableT](typeable-t).
 
-- Visible type application
+- Visible type application ([ Phab:D1138](https://phabricator.haskell.org/D1138))
+
+- Support for deriving the `Lift` typeclass ([ Phab:D1168](https://phabricator.haskell.org/D1168))
 
 - Support for reasoning about kind equalities, which gives promotion of GADTs to kinds, kind families, heterogeneous equality (kind-indexed GADTs), and `* :: *`. There is some discussion in [DependentHaskell/Phase1](dependent-haskell/phase1), but that's very low-level. I (Richard) have no good user-oriented write-up yet, but there shouldn't be much in the way of new syntax -- just fewer type errors.
 
-- Support for [Injective Type Families](injective-type-families), which allows you to specify type families which are injective, i.e. a one-to-one relationship.
+- Support for [Injective Type Families](injective-type-families), which allows you to specify type families which are injective, i.e. a one-to-one relationship. ([ Phab:D202](https://phabricator.haskell.org/D202))
 
-- Support for [Strict Haskell](strict-pragma).
+- Support for [Strict Haskell](strict-pragma) including both the `StrictData` and `Strict` language extensions
 
 - Support for [Overloaded Record Fields](overloaded-record-fields), allowing multiple uses of the same field name and a form of type-directed name resolution.
 
