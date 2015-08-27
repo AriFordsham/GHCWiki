@@ -27,7 +27,7 @@ Below are the major highlights of 7.12.
 
 - Support for [implicit parameters providing callstacks/source locations](explicit-call-stack/implicit-locations), allowing you to have a light-weight means of getting a call-stack in a Haskell application.
 
-- Better performance feedback. The compiler will now attempt to warn you if a requested inlining could not be performed due to missing `INLINE` pragma. (SPJ: I don't understand this.)
+- Better optimization diagnostics. The compiler will now attempt to warn you if a requested inlining could not be performed due to missing `INLINE` pragma.
 
 ### In-flight, and likely to land in time
 
