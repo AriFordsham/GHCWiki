@@ -16,6 +16,7 @@
 - [\#10116](https://gitlab.haskell.org//ghc/ghc/issues/10116): Warn on incomplete closed type families
 - [\#10177](https://gitlab.haskell.org//ghc/ghc/issues/10177): `Typeable` "regression"
 - [\#10756](https://gitlab.haskell.org//ghc/ghc/issues/10756): Impossible patterns
+- [\#10789](https://gitlab.haskell.org//ghc/ghc/issues/10789): Warn about type families stuck on kinds
 
 **Medium**
 
