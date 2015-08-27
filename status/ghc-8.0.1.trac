@@ -37,7 +37,7 @@ Below are the major highlights of 7.12.
 
   - Support for deriving the `Lift` typeclass (Phab:D1168)
 
-  - Support for reasoning about kind equalities, which gives promotion of GADTs to kinds, kind families, heterogeneous equality (kind-indexed GADTs), and `* :: *`. There is some discussion in [wiki:DependentHaskell/Phase1], but that's very low-level. I (Richard) have no good user-oriented write-up yet, but there shouldn't be much in the way of new syntax -- just fewer type errors.
+  - Support for reasoning about kind equalities, which gives promotion of GADTs to kinds, kind families, heterogeneous equality (kind-indexed GADTs), and `* :: *`. There is some discussion in [wiki:DependentHaskell/Phase1], but that's very low-level. I (Richard) have no good user-oriented write-up yet, but there shouldn't be much in the way of new syntax -- just fewer type errors. (Phab:D808)
 
   - Support for [wiki:InjectiveTypeFamilies Injective Type Families], which allows you to specify type families which are injective, i.e. a one-to-one relationship. (Phab:D202)
 
@@ -53,7 +53,7 @@ Below are the major highlights of 7.12.
 
   - Backpack is chugging along; we have a new user-facing syntax which allows multiple modules to be defined a single file, and are hoping to release at least the ability to publish multiple "units" in a single Cabal file.
 
-  - Support for [wiki:ApplicativeDo Applicative Do], allowing GHC to desugar do-notation to `Applicative` where possible.
+  - Support for [wiki:ApplicativeDo Applicative Do], allowing GHC to desugar do-notation to `Applicative` where possible. (Phab:D729)
 
   - Improved [wiki:DWARF DWARF based debugging support] from Peter Wortmann & Arash Rouhani, with e.g. LLVM support and Haskell backtraces from Haskell code.
 
