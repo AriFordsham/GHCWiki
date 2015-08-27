@@ -157,7 +157,7 @@ Something like "p", a unit name is a source-level identifier which distinguishes
 
 <table><tr><th>(Installed) Indefinite Unit ID</th>
 <td>
-Installed package ID and unit name which identifies the (transitive) source code of an indefinite unit, Cabal flags, build flags, etc. For non-Backpack units, the unit name is omitted.
+Installed package ID and unit name, which identifies the (transitive) source code of an indefinite unit, Cabal flags, build flags, etc. For non-Backpack units, the unit name is omitted.
 </td></tr></table>
 
 <table><tr><th>Unit Key (previously named Package Key; also known as an Installed Definite Unit ID)</th>
