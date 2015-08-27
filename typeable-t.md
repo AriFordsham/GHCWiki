@@ -105,8 +105,14 @@ Once we have kind equalities, we have a kind-heterogeneous `:~~:`.
 Now we do not `unsafeCoerce` in `getR1` and the like, so we can now just export `getAppR` and leave the rest to the users.
 
 
-The changes are that `eqRR` now return `a:~~:b` rather than `Bool`, and are more useful (don't force us to use `unsafeCoerce`); `getR1` and `getR2` don't need `unsafeCoerce`, and we can generalise `getFnR` to be poly-kinded.
-We obviously may want to provide (and deprecate) `getR1`, `eqRRHom` etc. for compatibility, and maybe provide `getFnR` for convenience, if it turns out to be used a lot etc.
+The changes are that now:
+
+- `eqRR :: TypeRep (a :: k1) -> TypeRep (b :: k2) -> a :~~: b` (i.e. now returns `a:~~:b` rather than `Bool`), and is more useful (doesn't force us to use `unsafeCoerce`)
+- `getR1` and `getR2` don't need `unsafeCoerce`, and we can generalise `G1`, `getR1` etc. to be poly-kinded i.e. `getR1 :: TypeRep (a :: k1 -> k) -> TypeRep (b :: k2) -> Maybe (G1 a b)` where `k /= k2`
+
+
+.
+We obviously may want to provide (and deprecate) `getR1`, `eqRRHom` etc. for compatibility, but they now can be written entirely safely in user-code.
 
 
 (I am not yet sure whether it would be useful to keep the homogeneous equality functions around --- potentially enforcing kind homogeneity could be useful)
@@ -200,7 +206,32 @@ Notes
 
 Note that the static pointer support requires a static pointer table in a different form to what GHC already supports, and an extension to the static keyword.
 
-TODO api, talk about poly
+```
+dataDict c whereDict:: forall c . c =>Dict c
+
+-- A StaticPtr is just a /code/ pointer to a monomorphic valuedataStaticPtr(a ::*)-- abstractdeRefStaticPtr::StaticPtr a -> a
+
+putSDynStaticPtr::SDynamicStaticPtr->PutgetSDynStaticPtr::Get(SDynamicStaticPtr)instanceBinary(SDynamicStaticPtr)putStaticPtr::StaticPtr a ->PutgetStaticPtr::TypeRep a ->Get(StaticPtr a)instanceTypeable a =>Binary(StaticPtr a)-- A Static is either a StaticPtr, a "polymorphic code pointer", or a syntax tree of applications of such.dataStatic(a ::*)-- abstractdeRefStatic::Static a -> a
+
+staticMono::StaticPtr a ->Static a
+staticApp::Static(a -> b)->Static a ->Static b
+
+putSDynStatic::SDynamicStatic->PutgetSDynStatic::Get(SDynamicStatic)instanceBinary(SDynamicStatic)putStatic::Static a ->PutgetStatic::TypeRep a ->Get(Static a)instanceTypeable a =>Binary(Static a)
+```
+
+
+Notes
+
+- To serialise a static pointer, we just serialise it's name
+
+  - What a name actually comprises is fairly flexible:
+
+    - If all binaries have the same SPT, we could just have an numeric index into the SPT
+    - If we want to support overlapping SPTs, we could do a (package,module,name) triple
+      Since we have a safe lookup function, this choice cannot impact type-safety
+- We don't actually expore a `lookupSPT` function, but that is the content of `getStaticPtr`.
+
+TODO talk about poly
 
 ### Trusted Code Base
 
@@ -209,10 +240,38 @@ Just the RTS support for building the static pointer table.
 
 ### Questions
 
+- Naming of `deRef*`: for StaticPtr, this was chosen for consistency with current GHC
+  Consistency between `Static` and `StaticPtr` is nice, but `deRefStatic` makes the operation sound trivial (follow a pointer?), but we may need to do arbitrary computations to evaluate applications.
+
+  - Option 1: leave as is
+  - Option 2: rename `deRefStatic` to `unStatic` (then consistent with Closures)
+  - Option 3: rename both `deRef*` to `un*`
+
+- `Dict` should probably live somewhere else. Where?
+
 - The static "polymorphism" support is a bit kludgy - any comments on this would be most helpful!
 
 ---
 
 ## Control.DistributedClosure
 
-TODO
+`Closure`s are based on the fact that both `Static`s and `ByteString`s are easilly serialisable.
+The `Serialisable` class and `closurePure` use this by noting that if we have a 'static' decoding function `sf` for `a`, then we can serialise `sf` and `encode a :: ByteString`, and this is a serialisation of `a` itself.
+
+
+Note however, that we require a fully-fledged 'static' `Typeable` and `Binary` dictionary, this enables us to be able to write instances like `instance Serializable b => Serializable (Maybe b)`.
+These instances are where we require our polymorphism support in `Data.StaticPtr`
+
+```
+dataClosure(a ::*)-- abstractunclosure::Closure a -> a
+
+closureSP::StaticPtr a ->Closure a
+closureS::Static a ->Closure a
+closureEnc::ByteString->ClosureByteStringclosureApp::Closure(a -> b)->Closure a ->Closure b
+
+-- | A class for those types for which we have /static/ evidence of their 'Binary' and 'Typeable'-- nature, and so can serialise them (via 'closurePure')class(Binary a,Typeable a)=>Serializable a where
+  binDict ::Static(Dict(Binary a))
+  typDict ::Static(Dict(Typeable a))closurePure::Serializable a => a ->Closure a
+
+putSDynClosure::SDynamicClosure->PutgetSDynClosure::Get(SDynamicClosure)instanceBinary(SDynamicClosure)whereputClosure::Closure a ->PutgetClosure::TypeRep a ->Get(Closure a)instanceTypeable a =>Binary(Closure a)where
+```
