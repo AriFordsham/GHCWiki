@@ -82,14 +82,14 @@ The following tables show which combinations of the `-dynamic` and `-fPIC` flags
 == PowerPC 32-Bit and x86 Linux ==
 
 ||              ||dynamic libraries||static code||dynamically linked executables||statically linked plugins||dynamically linked plugins||
-||(no flags)    ||NO               ||YES        ||NO                            ||YES**         ||NO||
-||-dynamic      ||NO               ||YES        ||YES*                          ||YES**         ||NO||
+||(no flags)    ||NO               ||YES        ||NO                            ||YES{{{**}}}   ||NO||
+||-dynamic      ||NO               ||YES        ||YES*                          ||YES{{{**}}}   ||NO||
 ||-fPIC         ||NO               ||YES        ||NO                            ||YES           ||NO||
 ||-dynamic -fPIC||YES              ||YES        ||NO                            ||YES           ||YES||
 
 (*) Dynamically linked executables have to be built via the native code genetator (when using `-O`, specify `-fasm`).
 
-(**) Position-dependent code theoretically leads to increased load times and prevents sharing between multiple instances of the code.
+({{{**}}}) Position-dependent code theoretically leads to increased load times and prevents sharing between multiple instances of the code.
 
 Via-C compilation with `-fPIC` or `-dynamic` currently doesn't work (not implemented on x86, buggy on PPC).
 

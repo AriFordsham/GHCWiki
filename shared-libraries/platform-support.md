@@ -136,33 +136,120 @@ The following tables show which combinations of the `-dynamic` and `-fPIC` flags
 <th>NO               </th>
 <th>YES        </th>
 <th>NO                            </th>
-<th>YES**NO
--dynamic      NO               YES        YES\*                          YES****NO
--fPIC         NO               YES        NO                            YES           NO
--dynamic -fPICYES              YES        NO                            YES           YES
+<th>YES`**`</th>
+<th>NO
+</th></tr>
+<tr><th>-dynamic      </th>
+<th>NO               </th>
+<th>YES        </th>
+<th>YES\*                          </th>
+<th>YES`**`</th>
+<th>NO
+</th></tr>
+<tr><th>-fPIC         </th>
+<th>NO               </th>
+<th>YES        </th>
+<th>NO                            </th>
+<th>YES           </th>
+<th>NO
+</th></tr>
+<tr><th>-dynamic -fPIC</th>
+<th>YES              </th>
+<th>YES        </th>
+<th>NO                            </th>
+<th>YES           </th>
+<th>YES
+</th></tr></table>
+
 
 (\*) Dynamically linked executables have to be built via the native code genetator (when using `-O`, specify `-fasm`).
 
-(**) Position-dependent code theoretically leads to increased load times and prevents sharing between multiple instances of the code.
-**
+
+(`**`) Position-dependent code theoretically leads to increased load times and prevents sharing between multiple instances of the code.
+
+
 Via-C compilation with `-fPIC` or `-dynamic` currently doesn't work (not implemented on x86, buggy on PPC).
-PowerPC 64-Bit Linuxdynamic librariesstatic codedynamically linked executablesstatically linked pluginsdynamically linked plugins
-(no flags)    YES              YES        YES                           YES           YES
--dynamic      YES              YES        YES                           YES           YES
--fPIC         YES              YES        YES                           YES           YES
--dynamic -fPICYES              YES        YES                           YES           YES
+
+## PowerPC 64-Bit Linux
+
+<table><tr><th></th>
+<th>dynamic libraries</th>
+<th>static code</th>
+<th>dynamically linked executables</th>
+<th>statically linked plugins</th>
+<th>dynamically linked plugins
+</th></tr>
+<tr><th>(no flags)    </th>
+<th>YES              </th>
+<th>YES        </th>
+<th>YES                           </th>
+<th>YES           </th>
+<th>YES
+</th></tr>
+<tr><th>-dynamic      </th>
+<th>YES              </th>
+<th>YES        </th>
+<th>YES                           </th>
+<th>YES           </th>
+<th>YES
+</th></tr>
+<tr><th>-fPIC         </th>
+<th>YES              </th>
+<th>YES        </th>
+<th>YES                           </th>
+<th>YES           </th>
+<th>YES
+</th></tr>
+<tr><th>-dynamic -fPIC</th>
+<th>YES              </th>
+<th>YES        </th>
+<th>YES                           </th>
+<th>YES           </th>
+<th>YES
+</th></tr></table>
+
 
 Now that's a boring table... `-fPIC` is ignored, and `-dynamic` doesn't affect code generation. Everything just works.
-x86 Windows
-Windows support isn't there yet. In theory, though, this is how it will look like:
-dynamic librariesstatic codedynamically linked executablesstatically linked pluginsdynamically linked plugins
-(no flags)    NO               YES        NO                            YES           NO
--dynamic      YES              NO         YES                           NO            YES
--fPIC         NO               YES        NO                            YES           NO
--dynamic -fPICYES              NO         YES                           NO            YES
-`-fPIC` is ignored.
-Download in other formats:[Plain Text](/trac/ghc/wiki/SharedLibraries/PlatformSupport?version=2&format=txt)[](http://trac.edgewall.org/)Powered by [Trac 1.2.2](/trac/ghc/about)
 
-        By [Edgewall Software](http://www.edgewall.org/).Visit the Trac open source project at
-[http://trac.edgewall.org/](http://trac.edgewall.org/)**</th>
-<th></th></tr></table>
+# x86 Windows
+
+
+Windows support isn't there yet. In theory, though, this is how it will look like:
+
+<table><tr><th></th>
+<th>dynamic libraries</th>
+<th>static code</th>
+<th>dynamically linked executables</th>
+<th>statically linked plugins</th>
+<th>dynamically linked plugins
+</th></tr>
+<tr><th>(no flags)    </th>
+<th>NO               </th>
+<th>YES        </th>
+<th>NO                            </th>
+<th>YES           </th>
+<th>NO
+</th></tr>
+<tr><th>-dynamic      </th>
+<th>YES              </th>
+<th>NO         </th>
+<th>YES                           </th>
+<th>NO            </th>
+<th>YES
+</th></tr>
+<tr><th>-fPIC         </th>
+<th>NO               </th>
+<th>YES        </th>
+<th>NO                            </th>
+<th>YES           </th>
+<th>NO
+</th></tr>
+<tr><th>-dynamic -fPIC</th>
+<th>YES              </th>
+<th>NO         </th>
+<th>YES                           </th>
+<th>NO            </th>
+<th>YES
+</th></tr></table>
+
+`-fPIC` is ignored.
