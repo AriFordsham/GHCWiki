@@ -29,6 +29,10 @@ We propose to
    * The old API via a (deprecated) new module `Data.Typeable710`.
    * The old API via the exiting module `Data.Typeable` but with new names for (deprecated) old types and functions.
 
+(Code will be forthcoming: it implements the library side of `Data.Typeable` and `Data.StaticPtr` and all of `Data.Dynamic` and `Control.DistributedClosure`.
+The GHC support for deriving `Typeable` and the `static` keyword (and thus building the static pointer table) is not done, but there is a mock-up in library code.
+We provide the new `Typeable` and `Dynamic` in `Data.TypeableT` and `Data.DynamicT` to avoid name clashes for now.)
+
 == Questions ==
 
 See also the individual questions sections below.
@@ -58,7 +62,7 @@ instance (Typeable c, Typeable a) => Typeable (c a)
 instance Typeable Bool
 instance Typeable (->)
 
-withTypeable :: TypeRep a -> (Typeable a => b) -> b
+withTypeRep :: TypeRep a -> (Typeable a => b) -> b
 -- c.f. Trac #2439
 
 eqRR :: TypeRep (a :: k1) -> TypeRep (b :: k2) -> Bool
@@ -105,7 +109,7 @@ Notes:
 
  * Note also {{{eqRR}}} is not hugely useful as (if it returns True) we know that types and kinds are the same, but GHC doesn't, so `unsafeCoerce` is often needed.
 
- * The `withTypeable` function is useful, and illustrates a generally useful pattern: see [wiki:Typeable/WithTypeable].
+ * The `withTypeRep` function is potentially useful, and illustrates a generally useful pattern: see [wiki:Typeable/WithTypeable].
 
 === Key differences from GHC 7.10 ===
 
@@ -160,6 +164,25 @@ data TypeRep (a :: k) where
   TRApp :: TypeRep a -> TypeRep b -> TypeRep (a b)
 }}}
   where the `TyCon a` is a now-internal data type describing a type constructor.
+
+* For compatability, the old API is exported from `Data.Typeable` with `710` as a suffix on everything, and under the old names from `Data.Typeable.Typeable710`.
+  Comments on naming scheme are welcome!
+
+* Currently, all fingerprints match between the old, `base`, `TypeRep`, the new `TypeRep` and the compatability `TypeRep710`.
+  Is this the correct route, or should we force them to be different, or perhaps different in a predictable way (xor with "new_____", "old_____" and "compat__" or some-such)?
+
+* A related ticket: [ticket:7897] (MakeTypeRep fingerprints be proper, robust fingerprints) describes a situation where the data type can change, but the fingerprint remains the same (as it is a hash of "<package-key> <module> <type name>"), but it only really affects the main package.
+  The conclusion appears to be to keep the status quo.
+
+* Should we name it `withTypeRep` or `withTypeable`?
+
+* `withTypeRep` is not actually needed in the current code base, as most functions have a variant which takes a plain `TypeRep`.
+  (However, we do use `Dict (Typeable a)` in the Static Pointer Table code, which we could potentially do without if we use `withTypeRep`.)
+  Do we want to provide it?
+  (Note that one cannot write it safely in source Haskell, but it is trivial in Core, as (Typeable is a one-method class, implemented basically as a newtype, and is a singleton, so there are no incoherence issues)).
+
+* Relatedly, `withTypeRep` is currently in its own module, as I am not particularly comfortable with the contortions one needs in source Haskell to write it.
+  Should it be made an first-class member of the API and exported from `Data.Typeable`?
 
 --------------------------------
 == Data.Dynamic ==
@@ -339,6 +362,13 @@ Other approaches we may take to `Serializable` and `closurePure`:
    -- and a Binary [Maybe Bool] is a top-level monomorphic value (morally),
    -- so we can just stuff that into the SPT and be done!
    }}}
+
+   One problem with magic "StaticConstraint" class: you must declare the ''types'' you are interested in at compile time.
+   As opposed to the ''type formers'', i.e. can only accept `Int`, `[Int]` and `[[Int]]`, rather than the "closure under type application" of `Int` and `[] :: * -> *` – i.e. `Int`, `[Int]`, `[[Int]]`, `[[[Int]]]`, ad infinitum.
+   This may be problematic if the nodes in a distributed system do not run the same code.
+   Note, that one can write a function `purify :: TypeRep a -> Closure a -> Closure a` which reduces some closures to `closurePure _` and leaves others alone, by inspecting the `TypeRep`.
+   "Some" means "some `a`"s, and can be all combinations of `Int`, `Bool`, `[]`, `Maybe` (for example) under the polymorphism proposal, but could only be a fixed, finitely sized list of types under the "magic serializable" proposal.
+
 
 Note that these would all avoid the issue of non-obvious large serialisations.
 
