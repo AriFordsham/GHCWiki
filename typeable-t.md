@@ -13,7 +13,7 @@ Just as in [DistributedHaskell](distributed-haskell), we provide 4 APIs
 
 - `Data.Dynamic`: dynamically-typed values; replaces the existing `Data.Dynamic`.  The API is almost unchanged.
 
-- `Data.StaticPtr`: static pointers. The idea is that this will ultimately by the foundation for the `[https://hackage.haskell.org/package/distributed-static Cloud Haskell]` package.
+- `Data.StaticPtr`: static pointers. The idea is that this will ultimately by the foundation for the [ Cloud Haskell](https://hackage.haskell.org/package/distributed-static) package.
 
 - `Control.DistributedClosure`: serialisable closures.  The idea is that this will ultimately by the foundation for the Cloud Haskell `distributed-static` package.
 
