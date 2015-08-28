@@ -20,6 +20,7 @@ Each is described in more detail below.
 
 We propose to
  * ''Outright replace'' the existing `Typeable` class with the new one; ditto the `TypeRep` type.
+   This will change the API.
    This seems better than inventing new names for everything (e.g. class `TypeableT`, data type `TypeRepT`).
    Not many packages use `TypeRep` explicitly, we want to encourage those that do to switch over.
 
@@ -28,6 +29,12 @@ We propose to
  * To ease the transition we will provide both
    * The old API via a (deprecated) new module `Data.Typeable710`.
    * The old API via the exiting module `Data.Typeable` but with new names for (deprecated) old types and functions.
+
+ * Update the existing `Dynamic` type to be based on the new `Typeable` class.
+   This will keep the same API, except we have to drop the function `dynTypeRep :: Dynamic -> TypeRep ?`, as we cannot return an indexed `TypeRep`.
+   We allow pattern matching on the `Dynamic` type as an alternative.
+
+ * The static pointer and closure modules are new.
 
 (Code will be forthcoming: it implements the library side of `Data.Typeable` and `Data.StaticPtr` and all of `Data.Dynamic` and `Control.DistributedClosure`.
 The GHC support for deriving `Typeable` and the `static` keyword (and thus building the static pointer table) is not done, but there is a mock-up in library code.
@@ -125,7 +132,7 @@ Notes:
 
 === With kind equalities ===
 
-Once we have kind equalities, we have a kind-heterogeneous `:~~:`.
+Once we have kind equalities, we have a kind-heterogeneous `(:~~:) :: k1 -> k2 -> *`.
 Now we do not `unsafeCoerce` in `getR1` and the like, so we can now just export `getAppR` and leave the rest to the users.
 
 The changes are that now:
@@ -153,7 +160,7 @@ In the kind-heterogeneous case, `getR1` and `getR2` come out of the TCB.
   Or perhaps provide both `eqRR` with fingerprints and `eqRRParanoid` recursively?
 
 * Do we want explicit names for some type representations?
-  Perhaps `typeRepBool` etc., and just for Prelude defined types.
+  Perhaps `typeRepBool` etc., just for Prelude defined types.
   (It is nice to avoid writing `typeRep :: TypeRep Bool`)
 
 * `TyCon` is used internally but is now entirely hidden from the user.
@@ -169,12 +176,12 @@ data TypeRep (a :: k) where
   Comments on naming scheme are welcome!
 
 * Currently, all fingerprints match between the old, `base`, `TypeRep`, the new `TypeRep` and the compatability `TypeRep710`.
-  Is this the correct route, or should we force them to be different, or perhaps different in a predictable way (xor with "new_____", "old_____" and "compat__" or some-such)?
+  Is this the correct route, or should we force them to be different, or perhaps different in a predictable way (xor with `"new_____"`, `"old_____"` and `"compat__"` or some-such)?
 
 * A related ticket: [ticket:7897] (MakeTypeRep fingerprints be proper, robust fingerprints) describes a situation where the data type can change, but the fingerprint remains the same (as it is a hash of "<package-key> <module> <type name>"), but it only really affects the main package.
   The conclusion appears to be to keep the status quo.
 
-* Should we name it `withTypeRep` or `withTypeable`?
+* Naming question: is `withTypeRep` or `withTypeable` preferred?
 
 * `withTypeRep` is not actually needed in the current code base, as most functions have a variant which takes a plain `TypeRep`.
   (However, we do use `Dict (Typeable a)` in the Static Pointer Table code, which we could potentially do without if we use `withTypeRep`.)
@@ -220,7 +227,7 @@ fromSDyn :: Typeable a => SDynamic s -> s a -> s a
 Notes
  * These is no trusted code here; i.e. no `unsafeCorece`s in the implementation.
 
- * `Dynamic` is ''not'' abstract so that you can pattern match on it. If it was abstract we'd need to add
+ * `Dynamic` is ''not'' abstract, so you can pattern match on it. If it were abstract we'd need to add
 {{{
 unpackDynamic :: Dynamic -> (forall a. TypeRep a -> a -> r) -> r
 }}}
@@ -236,7 +243,7 @@ unpackDynamic :: Dynamic -> (forall a. TypeRep a -> a -> r) -> r
 * Do we want to provide `dynApp` which calls `error` instead of returning `Nothing`?
   It seems to be much less used than `dynApply`, and personally I dislike that style.
 * Since we are modifying things, perhaps we should think about a more invasive change (or alternatively an extension to the API!)
-  'Maybe' is not very informative, perhaps we should change to `Either String` or `Either FromError` and `Either ApplyError`.
+  `Maybe` is not very informative, perhaps we should change to `Either String` or `Either FromError` and `Either ApplyError`.
   Note in `dynApply` two errors are currently conflated:
     * "first arg is not a function",
     * "function expects different type to arg given".
@@ -252,8 +259,9 @@ Recall:
  * The implementation could work by giving `<expr>` a top-level definition with a new name, `static34 = <expr>`, then adding a row in the static pointer table recording that the `StaticPtr` of name "<expr>-key" points to `static34`, of type `t`, and a reflection: `TypeRep t`.
    * This `TypeRep t` enables us to do a dynamic typecheck when deserialising a `StaticPtr`, which is serialised as just its key in the static pointer table.
 
-See below for a description of `polystatic`
+See below for a description of `polystatic`.
 
+The API:
 {{{#!hs
 data Dict c where
   Dict :: forall c . c => Dict c
@@ -289,7 +297,7 @@ instance Typeable a => Binary (Static a)
 }}}
 
 Notes
-* To serialise a static pointer, we just serialise it's name
+* To serialise a static pointer, we just serialise its name
  * What a name actually comprises is fairly flexible:
    * If all binaries have the same SPT, we could just have an numeric index into the SPT
    * If we want to support overlapping SPTs, we could do a (package,module,name) triple
@@ -298,22 +306,58 @@ Notes
 * It would be nice to have a different keyword and type (as currently: `StaticPre` vs `Static`) for polymorphic support, as the serialization of a `StaticPtr` is small, but for a polymorphic `Static`, may be suprisingly large.
 
 === Polymorphism ===
-We can't support true polymorphism, as we can't have a `TypeRep(forall a. a)` (because of impredicativity).
-What we actually turn out to need (to implement `closurePure` (or nice `Serialisable` instances, rather)), is just "the polymorphic function `f` with its one free type variable instantiated at `a`", where `a` is given by a ''static'' `Typeable` dictionary, and we need this instantiated "`f @ a`" to be serialisable.
-(Note that we may use multiple types `a` at different places, or polymorphism wouldn't be necessary!)
+We may wish to be able to have {{{staticReverse = static reverse :: StaticPtr (forall a. [a] -> [a])}}}, but this is not possible.
+If we attempted it, we would need to put a row in the static pointer table along the lines of {{{("staticReverse-key", reverse :: forall a. [a] -> [a], TypeRep (forall a. [a] -> [a]))}}}, but the type representation runs into impredicativity issues.
 
+Warning: polymorphism seems to be a tricky issue: it certianly took up the vast majority of my time and thinking!
+We may wish to not support it at all - see "Possible approaches to avoid polymorphism".
+
+==== Our Approach ====
+
+Our approach for closures, however, needs polymorphism support: we wish for some class `Serializable (a :: *)` and a function `closurePure :: Serializable a => a -> Closure a`, which lets us take any `Int` or `Bool` or `[Maybe (Int, Bool)]` etc and create a closure.
+Our approach is that, roughly `Serializable` has a method `binDict :: Static (Dict (Binary a))`, and a `closurePure x` is serialised as this static dictionary and `encode x :: Bytestring`.
+To write `instance Serializable a => Serializable (Maybe a)` we need a static function `sMaybeDB :: Static (Dict (Binary a) -> Dict (Binary (Maybe a)))`, which is polymorphic.
+Then the instance can be written:
+{{{#!hs
+instance Serializable b => Serializable (Maybe b) where
+  binDict = sMaybeDB `staticApp` binDict
+}}}
+The problem now is that we don't know how to put `sMaybeDB` into the SPT, as it has a polymorphic type.
+
+Thankfully, we actually turn out to need just "the polymorphic function `f` with its one free type variable instantiated at `a`", where `a` is given by a ''static'' `Typeable` dictionary, and we need this instantiated "`f @ a`" to be serialisable.
+(Note that we may use multiple types `a` at different places, or polymorphism wouldn't be necessary!)
+As on [wiki:StaticPointers], we propose to only deal with parametric polymorphism, and not type-class polymorphism, which users can reduce to the former using the Dict Trick (see [DistributedHaskell].
 We limit ourselves to one free type variable of kind `*` and rank 1 polymorphism.
 (Our approach could be extended with a 2-polymorphic flavour of `Static` easily (or 3- etc), but it is not clear how to do one flavour which is polymorphic of arbitrary arity.)
 
-The idea is to do this (as `closurePure` serialises a `Serialisable` value as a static decoding function and a bytestring):
+So we want:
+   * if `<expr> :: forall a . Typeable a => t` (`a` occurs in `t`), then `polystatic <expr>` has type `forall a . Static (Dict (Typeable (a :: *))) -> Static t`, where `a` can occur in `t`, but all other (value and type) variables are bound at top level.
+   * This is put into a "polymorphic pointer table" (PPT) as a row `("<expr>-key", expr' :: forall (a :: *) . Dict (Typeable a) -> (t, TypeRep t))`
+   * Note that
+     {{{
+     sMaybeDB :: Static (Dict (Typeable (a :: *))) -> Static (Dict (Binary a) -> Dict (Binary (Maybe a)))
+     sMaybeDB = polystatic (\(Dict :: Dict (Binary a)) -> Dict :: Dict (Binary (Maybe a)))
+     }}}
+     So `sMaybeDB` is not `Static`, so we never try to serialise it, just things of the form `sMaybeDB (staticTypeDictMaybeInt :: Static (Dict (Typeable (Maybe Int))))`.
+     This we can serialise as
+     	  * a tag to show this is a polymorphic thing (as opposed to a `staticApp` or a plain `StaticPtr`)
+	  * then `"sMaybeDB-key"`
+	  * finally the serialization of `staticTypeDictMaybeInt` (which will itself probably be `sMaybeDB staticTypeDictInt`, where `staticTypeDictInt` is finally a plain `StaticPtr`, which is serialized as `"staticTypeDictInt-key"`).
+     We can then decode in the obvious way, making dynamic typechecks where necessary.
+   * The implementation could work by giving `<expr>` a top-level definition with a new name, `polystatic34 = \(Dict :: Dict(Typeable a))  -> <expr>`, then `expr'` in the PPT becomes the code pointer to `polystatic34`
+   * Note the types won't line up nicely to naively have the PPT being a list, so we currently use type families to have a type-level function, `PolyTag`, so instead of `t` above, we have `PolyTag MaybeDBTag a` instead (where `MaybeDBTag` is a new data type whose only role is as an argument to PolyTag.
+     Then we can have the homgeneous rows (Key, tag , forall a . Dict (Typeable a) -> (PolyTag tag a, TypeRep (PolyTag tag a))).
+
+Then our instance can be nicely written:
+(note that we also need a `Static (Dict (Typeable a))` in `Serializable a`, as we need to pass that to `sMaybeDB`, so we have to add a bit more code to build a `Static (Dict (Typeable (Maybe a)))` also.
 {{{#!hs
 --Our polymorphic "wrap a `Maybe` around this Typeable/Binary dictionary" functions:
 -- these just point to enteries in the Polymorphic Pointer Table
 sMaybeDB :: Static (Dict (Typeable (a :: *))) -> Static (Dict (Binary a) -> Dict (Binary (Maybe a)))
-sMaybeDB = polyStatic (\(Dict :: Dict (Binary a)) -> Dict :: Dict (Binary (Maybe a)))
+sMaybeDB = polystatic (\(Dict :: Dict (Binary a)) -> Dict :: Dict (Binary (Maybe a)))
 
 sMaybeDT :: Static (Dict (Typeable (a :: *))) -> Static (Dict (Typeable (Maybe a)))
-sMaybeDT = polyStatic (Dict :: Dict (Typeable (Maybe a)))
+sMaybeDT = polystatic (Dict :: Dict (Typeable (Maybe a)))
 
 class (Binary a, Typeable a) => Serializable a where
   binDict :: Static (Dict (Binary a))
@@ -324,58 +368,89 @@ instance Serializable b => Serializable (Maybe b) where
   typDict = sMaybeDT typDict
 }}}
 
-Thus, to support (restricted) polymorphism, we:
- * have that if `<expr> :: forall a . Typeable a => t` (`a` occurs in `t`) `polystatic <expr>` has type `forall a . Static (Dict (Typeable (a :: *))) -> Static t`, where `a` can occur in `t`, but all other (value and type) variables are bound at top level.
-   * Note the scoping of `Static`s: we only support static polymorphic values which have then been "monomorphised": this is to enable encoding and decoding them.
- * The implementation could work by giving `<expr>` a top-level definition with a new name, `polystatic34 = \(Dict :: Dict(Typeable a))  -> <expr>`, then adding a row in the polymorphic static pointer table recording that the `Static` of name "<expr>-key" points to `polystatic34`, and a reflection of its type: `Typeable a => TypeRep t`, where in `t`, the free type variable is bound to `a` from the constraint.
-
-(The actual mock-up of the implementation is a bit convoluted, as we need to represent `t` as a type-level function, i.e. by a associated type family.
-To match types up to fit all polymorphic pointers into one table, this is a 2-ary family, taking a "phantom" type as a tag to distinguish `reverse` from `head` etc).
-
 Note that to serialise a polymorphic pointer, we send its name and a description of the (static) type at which the polymorphism is "applied", which may itself be a deeply nested combination of static applications and more polymorphism.
 This is why it may be surprisingly large!
 Thus it is more efficient to declare commonly used static values monomorphically if possible (see the `Control.DistributedClosure` notes for an example).
 
-
+=== Possible alternate approaches to polymorphism ===
 Other approaches we may take to `Serializable` and `closurePure`:
- * Don't support any polymorphism or any `instance Serializable b => Serializable (Maybe b)` instances.
-   This forces the user to write `Serializable` instatnces for each type they are interested in, not just each type former.
-   One benefit though, is the instances will be trivial, as there is no polymorphism going on, and the `typDict` member can be removed
- * The approach of `rank1dynamic`: cast everything to `Any` (or similar), and implement our own typechecker.
-   This needs `unsafeCoerce`, whereas our approach doesn't, but has the advantage of not requiring `Static`-`Typeable`-ness, but requires a different, rank-1 `Typeable`.
-   It supports "proper" polymorphism: in `rank`dynamic`, you can create a dynamic reverse function which then can be extracted at any type, but with our approach the type is fixed on creation.
-   This also doesn't have the one-type-variable constraint.
- * (Warning: speculative)
-   Add magic to GHC for the `Serializable` constraint so as soon as a `Serializable t` where `t` is monomorphic appears, GHC solves `Binary t` (no need for `Typeable t` in this approach), recovers a `b :: Binary t` and splices in `static b` in place of the constraint (i.e. implicit argument).
-   This could be generalised to magic for a new class `SC (c :: Constraint)` being a Static Constraint of type `c`.
-   e.g.:
-   {{{#!hs
-   f :: Serializable [a] => a -> Closure [a]
-   f x = closurePure [x,x]
 
-   g :: Serializable [Maybe b] -> Closure [Maybe b]
-   g y = f $ Just y
+==== The `rank1dynamic` approach ====
+We actually support more polymorphism, at the expense of lying to GHC!
+The approach of `rank1dynamic` is basically casting everything to `Any` (or similar), and implementing our own typechecker.
+This needs `unsafeCoerce`, whereas our approach doesn't, but has the advantage of not requiring `Static`-`Typeable`-ness, but requires a different, rank-1 `Typeable`.
+It supports "proper" polymorphism: in `rank1dynamic`, you can create a dynamic reverse function which then can be extracted at any type, but with our approach the type is fixed on creation.
+This also doesn't have the one-type-variable constraint.
 
-   -- so far, nothing strange
-   -- now, when the user finally says (g True), we need to find a Serializable [Maybe Bool] instance.
-   -- But this is exactly a static Binary [Maybe Bool] instance,
-   -- and a Binary [Maybe Bool] is a top-level monomorphic value (morally),
-   -- so we can just stuff that into the SPT and be done!
-   }}}
+==== Don't support nice `Serializable` instances ====
+This is the "abandon ship" approach.
+We don't support any polymorphism or any `instance Serializable b => Serializable (Maybe b)` instances.
+This forces the user to write `Serializable` instances for each type they are interested in, not just each type former.
+One benefit though, is the instances will be trivial, as there is no polymorphism going on, and the `typDict` member can be removed.
+{{{#!hs
+instance Serializable (Maybe [Bool]) where
+  binDict = static (Dict :: Dict (Binary (Maybe [Bool])))
+}}}
+This will just add a row in the SPT for each static dictionary.
 
-   One problem with magic "StaticConstraint" class: you must declare the ''types'' you are interested in at compile time.
-   As opposed to the ''type formers'', i.e. can only accept `Int`, `[Int]` and `[[Int]]`, rather than the "closure under type application" of `Int` and `[] :: * -> *` – i.e. `Int`, `[Int]`, `[[Int]]`, `[[[Int]]]`, ad infinitum.
-   This may be problematic if the nodes in a distributed system do not run the same code.
-   Note, that one can write a function `purify :: TypeRep a -> Closure a -> Closure a` which reduces some closures to `closurePure _` and leaves others alone, by inspecting the `TypeRep`.
-   "Some" means "some `a`"s, and can be all combinations of `Int`, `Bool`, `[]`, `Maybe` (for example) under the polymorphism proposal, but could only be a fixed, finitely sized list of types under the "magic serializable" proposal.
+==== The GHC magic approach ====
+Like the "abandon ship" approach, we don't support polymorphism, but we do support nice `Serializable` instances.
+Again we add a row in the SPT for each dictionary at each type we are interested in, but this time, GHC gains magic to write the trivial instances automatically.
+(Warning, this is the most speculative approach!)
+We slightly generalise our goal, from `Binary` to arbitrary classes.
 
+We define a new class (note `SC :: Constraint -> Constraint`), where `SC` stands for "Static Constraint"
+{{{#!hs
+class c => SC c where
+  dict :: Static (Dict s)
+}}}
+These act as normal, except when GHC comes to solve one where `c` has no free type variables, it solves `c`, and takes a dictionary `d :: Dict c` of that and essentially splices in `static d`.
+Thus the effect is to generate, on the fly,
+{{{#!hs
+instance SC (Binary (Maybe [Bool])) where
+  dict = static (Dict :: Dict (Binary (Maybe [Bool])))
+}}}
+Thus we can write
+{{{#!hs
+data Closure a where
+  ...
+  ClosurePure :: SC (Binary a) => a -> Closure a
+  ...
 
-Note that these would all avoid the issue of non-obvious large serialisations.
+f :: Serializable [a] => a -> Closure [a]
+f x = closurePure [x,x]
+
+g :: Serializable [Maybe b] => Closure [Maybe b]
+g y = f $ Just y
+}}}
+So far, this is all non-magical, but when the user finally says `g True`, we need to find a `Serializable [Maybe Bool]` instance.
+But this is exactly a static `Binary [Maybe Bool]` instance, and a `Binary [Maybe Bool]` is trivially solveable, as (morally) a top level value with no free variables (or type variables).
+So GHC can just stuff that into the SPT and be done!
+Thus, the following works (without having to think about manually instanciating `Serializable`)
+{{{
+g True :: Closure [Maybe Bool]
+}}}
+
+One problem with magic "StaticConstraint" class is that you must declare the ''types'' you are interested in at compile time.
+This is as opposed to the ''type formers'' that our polymorhism proposal requires.
+i.e. you can only accept `Int`, `[Int]` and `[[Int]]`, rather than the "closure under type application" of `Int` and `[] :: * -> *` – i.e. `Int`, `[Int]`, `[[Int]]`, `[[[Int]]]`, ad infinitum.
+
+One benefit with all these alternatives is that they would all avoid the issue of non-obvious large serialisations (as they never build a large "polymorphic/static application" tree to describe a static dictionary.
+
+=== A reason to support polymorphism ===
+We may want a function `purify :: SDynamic Closure -> SDynamic Closure` which converts (some) arbitrary closures into `closurePure` format.
+(Imagine asking a powerfull remote node to factorise large numbers for you, or some other hard problem).
+By "some", we mean some types, i.e. for some `a`s we make `Closure a`s pure, and leave other `Closure b`s alone.
+If the set of interesting `a`s is finite, (just `Int` and `Integer`) in the example above, then we are easilly able to do this under all the above proposals.
+However, if we want all combinations of, say, `Int`, `Bool`, `[]` and `Maybe`, then we cannot do it under the non-polymorphic approaches, but we can under our proposal.
+
+Exersise: implement this!
+(Hint: consider `getSerializeable :: TypeRep a -> Maybe (Dict (Serializable a))` which recurses on the `TypeRep`, doing dynamic checks to see if it is `Int` or `Bool` or `[_]` or `Maybe _` at each stage.)
 
 
 === Trusted Code Base ===
 Just the RTS and GHC support for building the static pointer table.
-(The "`rank1dynamic`" alternative approach obviously has a much larger TCB).
+(The "`rank1dynamic`" alternative approach obviously has a much larger TCB, and the "magic GHC" approach has the magic in the TCB, of course!).
 
 === Questions ===
 
@@ -386,6 +461,10 @@ Just the RTS and GHC support for building the static pointer table.
   * Option 3: rename both `deRef*` to `un*`
 
 * `Dict` should probably live somewhere else. Where?
+
+* Recall our comment above that `closurePure x` is serialised as a static Binary dictionary and `encode x :: Bytestring`.
+  This is slightly different to what we are doing at the moment, which is encoding it as a {{{closureS (polystatic decode' `staticApp` binDict) `closureApp` (encode x)}}}, where `decode' :: Dict (Binary a) -> ByteString -> a`.
+  I am starting to favour serialising the dictionary, does anyone else have a preference?
 
 * The static "polymorphism" support is a bit kludgy - any comments on this would be most helpful!
 
