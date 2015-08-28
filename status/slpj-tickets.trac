@@ -7,7 +7,7 @@
  * #10068: runtime reflection API for packages, modules, names; `SrcLoc` etc.
  * #9960, #9805: `TrieMap` stuff
  * #10016: UNPACK support for existentials
- * #9260: type lits (Iavor owns)
+ * #10803: type signature sections (Lennart)
  * #9793, #8761, #8581, #8779, #8761, #8583, #9911, #7736, #8582, #10339, #10426, #10404: pattern synonyms (Gergo)
  * #8634, #9267, #9227: relaxing functional dependency rules `-XDysFunctionalDependencies`
  * #9123: higher order roles
@@ -23,6 +23,7 @@
  * #10087: typechecking generic default methods (Pedro)
  * #10487: `Generic` name clash
  * #10514: `Generic` for existentials
+ * #9766: use data type promotion to improve the implementation of generics
 
 == Impredicativity and higher rank ==
  * #10619: higher rank and order of equations
@@ -126,6 +127,7 @@ See also [wiki:TemplateHaskell]
  * #1171: strictness and exceptions (long, open ticket)
 
 === Arity ===
+ * #7411: state hack changes exception semantics
  * #9388: narrow the state hack
  * #10260, #9020, #10319: not enough eta expansion
  * #7542: optimisation of eta expansion/reduction

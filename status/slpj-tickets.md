@@ -8,7 +8,7 @@
 - [\#10068](https://gitlab.haskell.org//ghc/ghc/issues/10068): runtime reflection API for packages, modules, names; `SrcLoc` etc.
 - [\#9960](https://gitlab.haskell.org//ghc/ghc/issues/9960), [\#9805](https://gitlab.haskell.org//ghc/ghc/issues/9805): `TrieMap` stuff
 - [\#10016](https://gitlab.haskell.org//ghc/ghc/issues/10016): UNPACK support for existentials
-- [\#9260](https://gitlab.haskell.org//ghc/ghc/issues/9260): type lits (Iavor owns)
+- [\#10803](https://gitlab.haskell.org//ghc/ghc/issues/10803): type signature sections (Lennart)
 - [\#9793](https://gitlab.haskell.org//ghc/ghc/issues/9793), [\#8761](https://gitlab.haskell.org//ghc/ghc/issues/8761), [\#8581](https://gitlab.haskell.org//ghc/ghc/issues/8581), [\#8779](https://gitlab.haskell.org//ghc/ghc/issues/8779), [\#8761](https://gitlab.haskell.org//ghc/ghc/issues/8761), [\#8583](https://gitlab.haskell.org//ghc/ghc/issues/8583), [\#9911](https://gitlab.haskell.org//ghc/ghc/issues/9911), [\#7736](https://gitlab.haskell.org//ghc/ghc/issues/7736), [\#8582](https://gitlab.haskell.org//ghc/ghc/issues/8582), [\#10339](https://gitlab.haskell.org//ghc/ghc/issues/10339), [\#10426](https://gitlab.haskell.org//ghc/ghc/issues/10426), [\#10404](https://gitlab.haskell.org//ghc/ghc/issues/10404): pattern synonyms (Gergo)
 - [\#8634](https://gitlab.haskell.org//ghc/ghc/issues/8634), [\#9267](https://gitlab.haskell.org//ghc/ghc/issues/9267), [\#9227](https://gitlab.haskell.org//ghc/ghc/issues/9227): relaxing functional dependency rules `-XDysFunctionalDependencies`
 - [\#9123](https://gitlab.haskell.org//ghc/ghc/issues/9123): higher order roles
@@ -25,6 +25,7 @@
 - [\#10087](https://gitlab.haskell.org//ghc/ghc/issues/10087): typechecking generic default methods (Pedro)
 - [\#10487](https://gitlab.haskell.org//ghc/ghc/issues/10487): `Generic` name clash
 - [\#10514](https://gitlab.haskell.org//ghc/ghc/issues/10514): `Generic` for existentials
+- [\#9766](https://gitlab.haskell.org//ghc/ghc/issues/9766): use data type promotion to improve the implementation of generics
 
 ## Impredicativity and higher rank
 
@@ -134,6 +135,7 @@ See also [TemplateHaskell](template-haskell)
 
 ### Arity
 
+- [\#7411](https://gitlab.haskell.org//ghc/ghc/issues/7411): state hack changes exception semantics
 - [\#9388](https://gitlab.haskell.org//ghc/ghc/issues/9388): narrow the state hack
 - [\#10260](https://gitlab.haskell.org//ghc/ghc/issues/10260), [\#9020](https://gitlab.haskell.org//ghc/ghc/issues/9020), [\#10319](https://gitlab.haskell.org//ghc/ghc/issues/10319): not enough eta expansion
 - [\#7542](https://gitlab.haskell.org//ghc/ghc/issues/7542): optimisation of eta expansion/reduction
