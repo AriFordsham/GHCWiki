@@ -23,6 +23,7 @@
  * #10087: typechecking generic default methods (Pedro)
  * #10487: `Generic` name clash
  * #10514: `Generic` for existentials
+ * #9766: use data type promotion to improve the implementation of generics
 
 == Impredicativity and higher rank ==
  * #10619: higher rank and order of equations

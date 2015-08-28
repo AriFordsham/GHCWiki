@@ -25,6 +25,7 @@
 - [\#10087](https://gitlab.haskell.org//ghc/ghc/issues/10087): typechecking generic default methods (Pedro)
 - [\#10487](https://gitlab.haskell.org//ghc/ghc/issues/10487): `Generic` name clash
 - [\#10514](https://gitlab.haskell.org//ghc/ghc/issues/10514): `Generic` for existentials
+- [\#9766](https://gitlab.haskell.org//ghc/ghc/issues/9766): use data type promotion to improve the implementation of generics
 
 ## Impredicativity and higher rank
 
