@@ -4,17 +4,12 @@
 
 **Easy**
 
-- [\#3699](https://gitlab.haskell.org//ghc/ghc/issues/3699): Wildcards in type patterns
-
-  - [\#10586](https://gitlab.haskell.org//ghc/ghc/issues/10586): Panic on underscore in a pattern
 - [\#7494](https://gitlab.haskell.org//ghc/ghc/issues/7494): Allow type synonyms in GADT return types
 - [\#8109](https://gitlab.haskell.org//ghc/ghc/issues/8109): As-patterns in type patterns
 - [\#8634](https://gitlab.haskell.org//ghc/ghc/issues/8634): Dysfunctional dependencies
 - [\#9636](https://gitlab.haskell.org//ghc/ghc/issues/9636): Should `F Bool` be well-formed, if `F` is an empty closed type family? (blocked by [\#9637](https://gitlab.haskell.org//ghc/ghc/issues/9637))
 - [\#9687](https://gitlab.haskell.org//ghc/ghc/issues/9687): Need `Typeable (,,,,,,,,,,)` and friends
-- [\#9840](https://gitlab.haskell.org//ghc/ghc/issues/9840): Allow empty closed type families
 - [\#10116](https://gitlab.haskell.org//ghc/ghc/issues/10116): Warn on incomplete closed type families
-- [\#10177](https://gitlab.haskell.org//ghc/ghc/issues/10177): `Typeable` "regression"
 - [\#10756](https://gitlab.haskell.org//ghc/ghc/issues/10756): Impossible patterns
 - [\#10789](https://gitlab.haskell.org//ghc/ghc/issues/10789): Warn about type families stuck on kinds
 
@@ -30,7 +25,6 @@
 - [\#8165](https://gitlab.haskell.org//ghc/ghc/issues/8165): GND should make associated types, too (not very well specified)
 - [\#8388](https://gitlab.haskell.org//ghc/ghc/issues/8388): Have a consistent story around non-`*` types in a forall
 - [\#9180](https://gitlab.haskell.org//ghc/ghc/issues/9180): Compile-time `staticError` function; seems easy, but I don't know how to do this.
-- [\#9260](https://gitlab.haskell.org//ghc/ghc/issues/9260): Type-lits solver falls short (given to Iavor)
 - [\#9427](https://gitlab.haskell.org//ghc/ghc/issues/9427): Break cycles in recursive class/type definitions (the second half of the fix for [\#9200](https://gitlab.haskell.org//ghc/ghc/issues/9200))
 - [\#9547](https://gitlab.haskell.org//ghc/ghc/issues/9547): Better inference for whether `() :: *` or `() :: Constraint`
 - [\#9637](https://gitlab.haskell.org//ghc/ghc/issues/9637): Type-level `Error` that aborts compilation
@@ -39,8 +33,6 @@
 - [\#9883](https://gitlab.haskell.org//ghc/ghc/issues/9883): Heterogeneous `OverloadedLists`
 - [\#10075](https://gitlab.haskell.org//ghc/ghc/issues/10075): `Constraint` vs `*`
 - [\#10114](https://gitlab.haskell.org//ghc/ghc/issues/10114): Non-`*` bodies of foralls
-- [\#10121](https://gitlab.haskell.org//ghc/ghc/issues/10121): Correct operational semantics around letrec.
-- [\#10134](https://gitlab.haskell.org//ghc/ghc/issues/10134): Unexpected "Let should not be generalised" problem 
 - [\#10318](https://gitlab.haskell.org//ghc/ghc/issues/10318): Allow superclass cycles
 
   - [\#10592](https://gitlab.haskell.org//ghc/ghc/issues/10592): Allow superclass cycles
@@ -48,9 +40,6 @@
 
 **Hard**
 
-- [\#3927](https://gitlab.haskell.org//ghc/ghc/issues/3927): Warnings are broken for GADTs (Dimitrios is working on)
-
-  - [\#7669](https://gitlab.haskell.org//ghc/ghc/issues/7669): Empty case warnings are broken
 - [\#8828](https://gitlab.haskell.org//ghc/ghc/issues/8828): Type pattern synonyms
 - [\#10227](https://gitlab.haskell.org//ghc/ghc/issues/10227): Backward reasoning from closed type families
 
@@ -79,6 +68,7 @@
 - [\#10141](https://gitlab.haskell.org//ghc/ghc/issues/10141): Add a hint about CUSKs to relevant error messages
 - [\#10361](https://gitlab.haskell.org//ghc/ghc/issues/10361): Make `DeriveAnyClass` work with associated type defaults
 - [\#10381](https://gitlab.haskell.org//ghc/ghc/issues/10381): RebindableSyntax and RankNTypes
+- [\#10808](https://gitlab.haskell.org//ghc/ghc/issues/10808): Type families and record updates
 
 ## Roles & such
 
@@ -92,7 +82,6 @@
 **Error messages**
 
 - [\#9518](https://gitlab.haskell.org//ghc/ghc/issues/9518)
-- [\#10471](https://gitlab.haskell.org//ghc/ghc/issues/10471): When someone forgets `deriving`
 
 **Solver**
 
@@ -123,14 +112,10 @@
 - [\#6089](https://gitlab.haskell.org//ghc/ghc/issues/6089): Allow nested declaration splices
 - [\#7808](https://gitlab.haskell.org//ghc/ghc/issues/7808): Allow reification of a data instance name
 - [\#9022](https://gitlab.haskell.org//ghc/ghc/issues/9022): Fix semicolons in pretty-printer
-- [\#9113](https://gitlab.haskell.org//ghc/ghc/issues/9113): Warn about incomplete patterns in quotes. Fixed by [\#3927](https://gitlab.haskell.org//ghc/ghc/issues/3927)?
 - [\#9699](https://gitlab.haskell.org//ghc/ghc/issues/9699): Function to list all names in scope
-- [\#10094](https://gitlab.haskell.org//ghc/ghc/issues/10094): Partial type signatures in TH
 - [\#10267](https://gitlab.haskell.org//ghc/ghc/issues/10267): Add holes (jstolarek)
 - [\#10385](https://gitlab.haskell.org//ghc/ghc/issues/10385): Add extra check around TH annotations
 - [\#10486](https://gitlab.haskell.org//ghc/ghc/issues/10486): More `addTopDecls`
-- [\#10522](https://gitlab.haskell.org//ghc/ghc/issues/10522): Type-level operator support
-- [\#10548](https://gitlab.haskell.org//ghc/ghc/issues/10548): Type wildcards
 - [\#10572](https://gitlab.haskell.org//ghc/ghc/issues/10572): Quantify over quoted variables
 - [\#10603](https://gitlab.haskell.org//ghc/ghc/issues/10603): Better parentheses in TH pretty-printer
 
@@ -159,10 +144,8 @@
 
 ## Documentation
 
-- [\#8253](https://gitlab.haskell.org//ghc/ghc/issues/8253): Bad example of Core
 - [\#9247](https://gitlab.haskell.org//ghc/ghc/issues/9247): Document `-XDatatypeContexts`
 - [\#9248](https://gitlab.haskell.org//ghc/ghc/issues/9248): Document `-X` extensions
-- [\#9665](https://gitlab.haskell.org//ghc/ghc/issues/9665): Add a "since" field to language extensions
 - [\#9737](https://gitlab.haskell.org//ghc/ghc/issues/9737): Document `ANN` in pragmas chapter
 
 ## Tasks
