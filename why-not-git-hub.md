@@ -14,7 +14,6 @@ Benefits of using GitHub instead our self-maintained infrastructure include:
   - Projects like Cabal saw an uptick in contributions after moving to GitHub.
 - GitHub's pull-request-based work-flow is well-known in the Haskell community (and the wider developer community), not the least due to the majority of Haskell packages being developed on GitHub already
 - Trac poses a higher threshold for new contributors due to its interface being more complex and requiring registering yet another account.
-- Right now, the patch submission process requires to attach patch files to feature/defect tickets.
 - Trac uses its own wiki markup syntax (as opposed to Markdown everyone else is using).
 - GitHub is well-integrated with services like [ Travis-CI](https://travis-ci.org) (which allow to automatically validate pull-requests)
 - TODO write more
