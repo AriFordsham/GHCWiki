@@ -224,6 +224,31 @@ argexpr ({stmt_1; ..; stmt_n} {var_1..var_n})  =
   dsDo {stmt_1; ..; stmt_n; return (var_1, ..., var_n)}
 }}}
 
+== Transformation ==
+
+{{{
+ado {}    tail = tail
+ado {pat <- expr} {return expr'} = (mkArg(pat <- expr)); return expr'
+ado {one} tail = one : tail
+ado stmts tail
+  | n == 1 = ado before (ado after tail) where (before,after) = split(stmts_1)
+  | n > 1  = (mkArg(stmts_1) | ... | mkArg(stmts_n)); tail
+  where
+    {stmts_1 .. stmts_n} = segments(stmts)
+
+segments(stmts) =
+  -- divide stmts into segments with no interdependencies
+
+mkArg({pat <- expr}) = (pat <- expr)
+mkArg({stmt_1; ...; stmt_n}) =
+  {stmt_1; ...; stmt_n} {vars(stmt_1) u .. u vars(stmt_n)}
+
+split({stmt_1; ..; stmt_n) =
+  ({stmt_1; ..; stmt_i}, {stmt_i+1; ..; stmt_n})
+  -- 1 <= i <= n
+  -- i is a good place to insert a bind
+}}}
+
 == Differences from the actual implementation ==
 
 1. The final expr in a "do" is a LastStmt, instead of being carried around separately.
