@@ -230,15 +230,15 @@ dsDo {pat <- rhs; stmts} expr =
 
 dsDo {(arg_1 | ... | arg_n)} (return expr) =
   (\argpat (arg_1) .. argpat(arg_n) -> expr)
-     <$> argexpr arg_1
+     <$> argexpr(arg_1)
      <*> ...
-     <*> argexpr arg_n
+     <*> argexpr(arg_n)
 
 dsDo {(arg_1 | ... | arg_n); stmts} expr =
   join (\argpat (arg_1) .. argpat(arg_n) -> dsDo stmts expr)
-     <$> argexpr arg_1
+     <$> argexpr(arg_1)
      <*> ...
-     <*> argexpr arg_n
+     <*> argexpr(arg_n)
 ```
 
 
@@ -287,6 +287,28 @@ The syntax and desugaring rules are:
 ```
 
 ```wiki
+dsDo {expr} = expr
+
+dsDo {pat <- rhs; stmts} =
+   rhs >>= \pat -> dsDo stmts
+
+dsDo {(arg_1 | ... | arg_n); stmts} =
+  (\argpat (arg_1) .. argpat(arg_n) -> dsDo stmts)
+     <$> argexpr(arg_1)
+     <*> ...
+     <*> argexpr(arg_n)
+
+dsDo {join (arg_1 | ... | arg_n); stmts} =
+  join (\argpat (arg_1) .. argpat(arg_n) -> dsDo stmts)
+     <$> argexpr(arg_1)
+     <*> ...
+     <*> argexpr(arg_n)
+```
+
+
+where
+
+```wiki
 argpat (pat <- expr)   = pat
 argpat ({stmt_1..stmt_n} {var_1..var_n} _)  = (var_1, .., var_n)
 
@@ -295,25 +317,6 @@ argexpr ({stmt_1..stmt_n} {var_1..var_n} ())  =
   dsDo {stmt_1; ..; stmt_n; (var_1, ..., var_n)}
 argexpr ({stmt_1..stmt_n} {var_1..var_n} return)  =
   dsDo {stmt_1; ..; stmt_n; return (var_1, ..., var_n)}
-```
-
-```wiki
-dsDo {expr} = expr
-
-dsDo {pat <- rhs; stmts} =
-   rhs >>= \pat -> dsDo stmts
-
-dsDo {(arg_1 | ... | arg_n); stmts} =
-  (\argpat (arg_1) .. argpat(arg_n) -> dsDo stmts)
-     <$> argexpr arg_1
-     <*> ...
-     <*> argexpr arg_n
-
-dsDo {join (arg_1 | ... | arg_n); stmts} =
-  join (\argpat (arg_1) .. argpat(arg_n) -> dsDo stmts)
-     <$> argexpr arg_1
-     <*> ...
-     <*> argexpr arg_n
 ```
 
 
