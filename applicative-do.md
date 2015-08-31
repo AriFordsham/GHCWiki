@@ -255,13 +255,9 @@ argexpr ({stmt_1; ..; stmt_n} {var_1..var_n})  =
 
 ## Differences from the actual implementation
 
-1. The final expr in a "do" is a LastStmt, instead of being
+1. The final expr in a "do" is a LastStmt, instead of being carried around separately.
 
-
-carried around separately.
-
-1. there is no stripping of "return" during desugaring, it is
-  handled earlier in the renamer instead.
+1. there is no stripping of "return" during desugaring, it is handled earlier in the renamer instead.
 
 1. arg has an optional "return", for the same reason as (2)
 
