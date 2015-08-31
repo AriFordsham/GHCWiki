@@ -182,37 +182,109 @@ There's a toy implementation which includes the syntax, desugaring, transformati
 Syntax: 
 
 {{{
-  expr ::= ... | do [stmt] expr | ...
+  expr ::= ... | do {stmt_1; ..; stmt_n} expr | ...
 
   stmt ::= pat <- expr
-         | (mblock_1{vs1} | ... | mblock_n{vsn})  -- applicative composition, n>=2
-         | ...                                    -- other kinds of statement (e.g. let)
+         | (arg_1 | ... | arg_n)  -- applicative composition, n>=1
+         | ...                    -- other kinds of statement (e.g. let)
+
+  arg ::= pat <- expr
+        | {stmt_1; ..; stmt_n} {var_1..var_n}
 }}}
 
-Desugaring for `do stmts expr`:
+Desugaring for `do stmts`:
 
 {{{
-dsBlock [] tail = tail
+dsDo {} expr = expr
 
-dsBlock [pat <- rhs] (return expr)
-  | pat == expr = rhs
-  | otherwise = (\pat -> expr) <$> rhs
+dsDo {pat <- rhs; stmts} expr =
+   rhs >>= \pat -> dsDo stmts expr
 
-dsBlock [(stmts1{vs1} | ... | stmtsn{vsn})] (return expr) =
-  (\vs1 .. vsn -> expr)
-     <$> dsBlock stmts1 (return vs1)
+dsDo {(arg_1 | ... | arg_n)} (return expr) =
+  (\argpat (arg_1) .. argpat(arg_n) -> expr)
+     <$> argexpr arg_1
      <*> ...
-     <*> dsBlock stmtsn (return vsn)
+     <*> argexpr arg_n
 
-dsBlock [pat <- rhs : stmts] tail =
-   rhs >>= \pat -> dsBlock stmts tail
-
-dsBlock ((stmts1{vs1} | ... | stmtsn{vsn}) : stmts) tail =
-  join (\vs1 .. vsn -> dsBlock stmts tail) 
-     <$> dsBlock stmts1 (return vs1)
+dsDo {(arg_1 | ... | arg_n); stmts} expr =
+  join (\argpat (arg_1) .. argpat(arg_n) -> dsDo stmts expr)
+     <$> argexpr arg_1
      <*> ...
-     <*> dsBlock stmtsn (return vsn)
+     <*> argexpr arg_n
 }}}
+
+where
+
+{{{
+argpat (pat <- expr)   = pat
+argpat ({stmt_1; ..; stmt_n} {var_1..var_n})  = (var_1, .., var_n)
+
+argexpr (pat <- expr)  = expr
+argexpr ({stmt_1; ..; stmt_n} {var_1..var_n})  =
+  dsDo {stmt_1; ..; stmt_n; return (var_1, ..., var_n)}
+}}}
+
+== Differences from the actual implementation ==
+
+1. The final expr in a "do" is a LastStmt, instead of being
+carried around separately.
+
+2. there is no stripping of "return" during desugaring, it is
+  handled earlier in the renamer instead.
+
+3. arg has an optional "return", for the same reason as (2)
+
+(2) and (3) are so that we can typecheck the syntax without having to desugar it first.
+
+The syntax and desugaring rules are:
+
+{{{
+  expr ::= ... | do {stmt_1; ..; stmt_n} | ...
+
+  stmt ::= expr                   -- last stmt in a "do" must be this
+         | pat <- expr
+         | (arg_1 | ... | arg_n)
+         | join (arg_1 | ... | arg_n)
+         | ...
+
+  arg ::= pat <- expr
+        | {stmt_1..stmt_n} {var_1..var_n} maybe_return
+
+  maybe_return ::= return | ()
+}}}
+
+{{{
+argpat (pat <- expr)   = pat
+argpat ({stmt_1..stmt_n} {var_1..var_n} _)  = (var_1, .., var_n)
+
+argexpr (pat <- expr)  = expr
+argexpr ({stmt_1..stmt_n} {var_1..var_n} ())  =
+  dsDo {stmt_1; ..; stmt_n; (var_1, ..., var_n)}
+argexpr ({stmt_1..stmt_n} {var_1..var_n} return)  =
+  dsDo {stmt_1; ..; stmt_n; return (var_1, ..., var_n)}
+}}}
+
+{{{
+dsDo {expr} = expr
+
+dsDo {pat <- rhs; stmts} =
+   rhs >>= \pat -> dsDo stmts
+
+dsDo {(arg_1 | ... | arg_n); stmts} =
+  (\argpat (arg_1) .. argpat(arg_n) -> dsDo stmts)
+     <$> argexpr arg_1
+     <*> ...
+     <*> argexpr arg_n
+
+dsDo {join (arg_1 | ... | arg_n); stmts} =
+  join (\argpat (arg_1) .. argpat(arg_n) -> dsDo stmts)
+     <$> argexpr arg_1
+     <*> ...
+     <*> argexpr arg_n
+}}}
+
+Note that there's no matching on "return" during desugaring, the
+"return" has already been removed.
 
 ---------------------------------
 
