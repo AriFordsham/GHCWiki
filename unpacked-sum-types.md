@@ -71,6 +71,37 @@ computing the representation of `C` is quite simple. We just splice in the union
 
 (In practice we might group pointers and non-pointers fields in the actual heap object representation.)
 
+### Populating the constructor
+
+
+Given
+
+```wiki
+data T1 = C1 x_1..x_n | C2 y_1..y_n
+data T2 = C {-# UNPACK #-} !T1
+```
+
+
+and the representation
+
+<table><tr><th> Info table pointer </th>
+<th> T1 constructor tag </th>
+<th> x_1..x_n </th>
+<th> y_1..y_n 
+</th></tr></table>
+
+
+we must figure out what values to write write for e.g. the fields of `C2` when creating a `C1` value:
+
+```wiki
+mkC (C1 x_1..x_n) = C c1_tag# x_1..x_n ???
+```
+
+
+At the very least we need to write something into those y_1..y_n fields that contain pointers, or the GC will crash when traversing constructor. For now we will just write a pointer to `bottom` in those fields.
+
+TODO This needs to be expanded on. Writing something in the unused fields in easy in the code gen, but at the core level we might need to conjure up some values of the right type to put in all fields.
+
 ### Avoiding reboxing in case statements
 
 
