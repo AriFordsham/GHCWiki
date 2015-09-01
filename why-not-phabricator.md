@@ -49,7 +49,7 @@ Compare this to a Github workflow, where you just push your updated branch (with
 >
 > Here is an example: [ https://phabricator.haskell.org/D1081\#inline-8264](https://phabricator.haskell.org/D1081#inline-8264).
 
-- All commits for a revisions get squashed upon landing. This makes it more difficult to use tools such as `git blame`. The `history.immutable` setting might be a solution here.
+- All commits in a revision get squashed upon landing. This makes it more difficult to use tools such as `git blame`. The `history.immutable` setting might be a solution here.
 
 >
 > Todo: try to quantify this, perhaps by comparing the number of consecutive commits by the same author (Phabricator will have less such commits, since they're all squashed together, and contributors don't bother with creating multiple revisions using `Depends on`), or by looking at the number of lines changed for each commit (Phabricator commits change more lines).
