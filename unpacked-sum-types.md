@@ -27,7 +27,7 @@ Here the representation of the `C` constructor will contain a pointer to e.g. th
 
 In this example there is an alternative, unpacked representation that is more memory efficient and has fewer indirections. We could store a constructor tag together with the union of the fields of `T1` inside `C`. Conceptually the memory layout would look like this (in practice we might group pointer and non-pointer fields together):
 
-<table><tr><th> C header </th>
+<table><tr><th> T2 info table pointer </th>
 <th> T1 constructor tag </th>
 <th> Fields of `Some`</th>
 <th> Fields of `None`</th></tr></table>
@@ -49,7 +49,27 @@ There are several possible representations we could chose from. Briefly they are
 - Store a constructor tag and the maximum number of needed pointer and non-pointer fields.
 
 
-The former is simpler, especially when it comes to represent the types of the fields (since there's no aliasing), but the latter is more efficient.
+The former is simpler, especially when it comes to represent the types of the fields (since there's no aliasing), but the latter is more efficient. We will use the former for now.
+
+
+Given
+
+```wiki
+data T1 = C1 x_1..x_n | C2 y_1..y_n
+data T2 = C {-# UNPACK #-} !T1
+```
+
+
+computing the representation of `C` is quite simple. We just splice in the union of the fields of all the constructors of `T1`.
+
+<table><tr><th> Info table pointer </th>
+<th> T1 constructor tag </th>
+<th> x_1..x_n </th>
+<th> y_1..y_n 
+</th></tr></table>
+
+
+(In practice we might group pointers and non-pointers fields in the actual heap object representation.)
 
 ### Avoiding reboxing in case statements
 
