@@ -69,6 +69,8 @@ A common suggestion that is brought up from time is to host GHC development at [
 
 - Github is not open-source, so we can't fix any (future) issue we might have with it.
 
+- Some people will have a different handle on GitHub then they do on Trac.
+
 ## Related mailing-list discussion threads
 
 - [ "Any interest in moving GHC issues / wiki to github?" (Jul 2013 @ ghc-devs)](http://thread.gmane.org/gmane.comp.lang.haskell.ghc.devel/1444)
