@@ -13,12 +13,13 @@ A common suggestion that is brought up from time is to host GHC development at [
 
  - !GitHub's pull-request-based work-flow is well-known in the Haskell community (and the wider developer community), not the least due to the majority of Haskell packages being developed on !GitHub already
 
+ - !GitHub is well-integrated with services like [https://travis-ci.org Travis-CI] (which allow to automatically validate pull-requests)
+
  - Trac poses a higher threshold for new contributors due to its interface being more complex and requiring registering yet another account.
 
  - Trac uses its own wiki markup syntax (as opposed to Markdown everyone else is using).
 
- - !GitHub is well-integrated with services like [https://travis-ci.org Travis-CI] (which allow to automatically validate pull-requests)
-
+ - See also: [wiki:WhyNotPhabricator].
 
 == Drawbacks of migrating to !GitHub ==
 === Code review ===
@@ -58,7 +59,9 @@ A common suggestion that is brought up from time is to host GHC development at [
 
 === Continuous Integration ===
 
-- The free for open-source version of Travis-CI has a time limit of 50 minutes for jobs, which means we can't run `validate --slow`.
+- The free for open-source version of Travis-CI only provides limited resources. Currently this means we can only run `./validate --fast` (this could be a feature, to press us into not letting the build and the testsuite become slower).
+
+- If a pull request contains multiple commits, only the last commit gets validated. This can (and will) result in some commits not passing validation, making `git bisect` more difficult to use.
 
 - Any kind of integration with a '''CI system''', at some level, is going to require custom infrastructure on our side, so we can't rely on Travis-CI alone. (thomie: I don't understand this one)
 
