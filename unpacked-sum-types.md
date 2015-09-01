@@ -99,7 +99,7 @@ case t2 of
 ===> (case-of-case and case of known constructor)
 
 case t2 of
-    C tag# x_1..x_n y_1..y_n -> (case tag# of
+    C tag# x_1..x_n y_1..y_n -> case tag# of
         0# -> ... x_1..x_n ...
         1# -> ... y_1..y_n ...
 ```
