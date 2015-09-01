@@ -88,15 +88,13 @@ Compare this to a Github workflow, where you just push your updated branch (with
 - "I've been using `arc` somewhat creatively, so this could be my fault."
 - "I can probably easily rebase my changes on top of yours, but I dunno how to submit an arc differential for that?"
 - "how do I delete an arc diff?"
-- "so am I \*supposed\* to run it as arc diff HEAD<sup>, whatever that means, or something else?"
-  </sup>
+- "so am I \*supposed\* to run it as arc diff `HEAD^`, whatever that means, or something else?"
 - **"arc is a frickin' mystery."**
 - "I don't get along very well with arc." 
 - "will I absolutely need arc to creating a diff for phab?"
 - "but seriously, we can't require this for contributing to GHC... the entry barrier is already high enough"
 - "I guess I was also thrown off by the fact that ubuntu telling me that I could just apt-get install arc, but that didn't work"
-- "(if you're paranoid, or 'arc diff' insists on picking up more than the one commit you  want to submit, run 'arc diff HEAD<sup>'"
-  </sup>
+- "(if you're paranoid, or 'arc diff' insists on picking up more than the one commit you  want to submit, run 'arc diff `HEAD^`'"
 - "just types ‘arc diff’ and hopes for the best"
 - "I still think it's abysmal we require PHP of all things though"
 - "I did "git pull" + "git rebase master" and now arc diff yells at me"
