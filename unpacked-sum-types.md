@@ -25,7 +25,7 @@ data T2 = C !T1  -- Cannot UNPACK here
 Here the representation of the `C` constructor will contain a pointer to e.g. the `Some` constructor. The `Some` constructor will be a separate heap object and thus needs one word to store its info table pointer.
 
 
-In this example there is an alternative, unpacked representation that is more memory efficient and has fewer indirections. We could store a constructor tag together with the union of the fields of `T1` inside `C`. The memory layout would look like this:
+In this example there is an alternative, unpacked representation that is more memory efficient and has fewer indirections. We could store a constructor tag together with the union of the fields of `T1` inside `C`. Conceptually the memory layout would look like this (in practice we might group pointer and non-pointer fields together):
 
 <table><tr><th> C header </th>
 <th> T1 constructor tag </th>
@@ -37,3 +37,69 @@ In this example there is an alternative, unpacked representation that is more me
 
 
 This representation saves one word and one indirection compared to the packed representation, which uses four words.
+
+## Implementation
+
+### Computing the representation
+
+### Avoiding reboxing in case statements
+
+
+Given
+
+```wiki
+data T1 = C1 x_1..x_n | C2 y_1..y_n
+data T2 = C {-# UNPACK #-} !T1
+```
+
+
+we might worried that doing
+
+```wiki
+case t2 of
+    C t1 -> case t1 of
+        C1 x_1..x_n -> ...
+        C2 y_1..y_n -> ...
+```
+
+
+would require that we need to allocate a `C1` or `C2` constructor just to deconstruct it again. Fortunately we should be able to avoid that because when we construct either `C1` or `C2` from the unpacked representation in `C` we'd do that we a case, like so:
+
+```wiki
+unpack (C tag# x_1..x_n y_1..y_n) = case tag# of
+    0# -> C1 x_1..x_n
+    1# -> C2 y_1..y_n
+```
+
+
+This gives us
+
+```wiki
+case t2 of
+    C t1 -> case t1 of
+        C1 x_1..x_n -> ...
+        C2 y_1..y_n -> ...
+
+===>
+
+case t2 of
+    C t1 -> unpack t1 of
+        C1 x_1..x_n -> ...
+        C2 y_1..y_n -> ...
+
+===>
+
+case t2 of
+    C tag# x_1..x_n y_1..y_n -> (case tag# of
+        0# -> C1 x_1..x_n
+        1# -> C2 y_1..y_n) of
+            C1 x_1..x_n -> ...
+            C2 y_1..y_n -> ...
+
+===> (case-of-case)
+
+case t2 of
+    C tag# x_1..x_n y_1..y_n -> (case tag# of
+        0# -> ... x_1..x_n ...
+        1# -> ... y_1..y_n ...
+```
