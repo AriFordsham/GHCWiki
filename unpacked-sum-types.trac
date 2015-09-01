@@ -76,7 +76,7 @@ case t2 of
 ===>
 
 case t2 of
-    C t1 -> unpack t1 of
+    C t1 -> case unpack t2 of
         C1 x_1..x_n -> ... x_1..x_n ...
         C2 y_1..y_n -> ... y_1..y_n ...
 
