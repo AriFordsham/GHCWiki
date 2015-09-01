@@ -132,3 +132,30 @@ case t2 of
         0# -> ... x_1..x_n ...
         1# -> ... y_1..y_n ...
 }}}
+
+= Work in progress notes =
+
+Nothing to see here!
+
+== Core ==
+
+We add a new type of unboxed sums:
+
+{{{
+|#_n_m t_1 | ... | t_n #|  -- stands for nth constructor out of m
+}}}
+
+There's an construction and elimination form. Construction:
+
+{{{
+|#_n_m x_n #|
+}}}
+
+Elimination:
+
+{{{
+case x of
+    |#_n_m x_n #| -> ...
+}}}
+
+== Core to STG ==
