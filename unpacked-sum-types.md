@@ -27,7 +27,7 @@ Here the representation of the `C` constructor will contain a pointer to e.g. th
 
 In this example there is an alternative, unpacked representation that is more memory efficient and has fewer indirections. We could store a constructor tag together with the union of the fields of `T1` inside `C`. Conceptually the memory layout would look like this (in practice we might group pointer and non-pointer fields together):
 
-<table><tr><th> C header </th>
+<table><tr><th> T2 info table pointer </th>
 <th> T1 constructor tag </th>
 <th> Fields of `Some`</th>
 <th> Fields of `None`</th></tr></table>
@@ -41,6 +41,66 @@ This representation saves one word and one indirection compared to the packed re
 ## Implementation
 
 ### Computing the representation
+
+
+There are several possible representations we could chose from. Briefly they are:
+
+- Store a constructor tag and the union of all the fields.
+- Store a constructor tag and the maximum number of needed pointer and non-pointer fields.
+
+
+The former is simpler, especially when it comes to represent the types of the fields (since there's no aliasing), but the latter is more efficient. We will use the former for now.
+
+
+Given
+
+```wiki
+data T1 = C1 x_1..x_n | C2 y_1..y_n
+data T2 = C {-# UNPACK #-} !T1
+```
+
+
+computing the representation of `C` is quite simple. We just splice in the union of the fields of all the constructors of `T1`.
+
+<table><tr><th> Info table pointer </th>
+<th> T1 constructor tag </th>
+<th> x_1..x_n </th>
+<th> y_1..y_n 
+</th></tr></table>
+
+
+(In practice we might group pointers and non-pointers fields in the actual heap object representation.)
+
+### Populating the constructor
+
+
+Given
+
+```wiki
+data T1 = C1 x_1..x_n | C2 y_1..y_n
+data T2 = C {-# UNPACK #-} !T1
+```
+
+
+and the representation
+
+<table><tr><th> Info table pointer </th>
+<th> T1 constructor tag </th>
+<th> x_1..x_n </th>
+<th> y_1..y_n 
+</th></tr></table>
+
+
+we must figure out what values to write write for e.g. the fields of `C2` when creating a `C1` value:
+
+```wiki
+mkC (C1 x_1..x_n) = C c1_tag# x_1..x_n ???
+```
+
+
+At the very least we need to write something into those y_1..y_n fields that contain pointers, or the GC will crash when traversing constructor. For now we will just write a pointer to `bottom` in those fields.
+
+TODO This needs to be expanded on. Writing something in the unused fields in easy in the code gen, but at the core level we might need to conjure up some values of the right type to put in all fields.
 
 ### Avoiding reboxing in case statements
 
@@ -77,15 +137,15 @@ This gives us
 ```wiki
 case t2 of
     C t1 -> case t1 of
-        C1 x_1..x_n -> ...
-        C2 y_1..y_n -> ...
+        C1 x_1..x_n -> ... x_1..x_n ...
+        C2 y_1..y_n -> ... y_1..y_n ...
 
 ===>
 
 case t2 of
-    C t1 -> unpack t1 of
-        C1 x_1..x_n -> ...
-        C2 y_1..y_n -> ...
+    C t1 -> case unpack t2 of
+        C1 x_1..x_n -> ... x_1..x_n ...
+        C2 y_1..y_n -> ... y_1..y_n ...
 
 ===> (inline unpack)
 
@@ -93,13 +153,13 @@ case t2 of
     C tag# x_1..x_n y_1..y_n -> (case tag# of
         0# -> C1 x_1..x_n
         1# -> C2 y_1..y_n) of
-            C1 x_1..x_n -> ...
-            C2 y_1..y_n -> ...
+            C1 x_1..x_n -> ... x_1..x_n ...
+            C2 y_1..y_n -> ... y_1..y_n ...
 
-===> (case-of-case)
+===> (case-of-case and case of known constructor)
 
 case t2 of
-    C tag# x_1..x_n y_1..y_n -> (case tag# of
+    C tag# x_1..x_n y_1..y_n -> case tag# of
         0# -> ... x_1..x_n ...
         1# -> ... y_1..y_n ...
 ```
