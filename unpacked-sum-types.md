@@ -211,7 +211,10 @@ we convert it to a call to STG which includes the minimal number of arguments ne
 f args...
 ```
 
-## Storage representation
+
+This should be done in compiler/simplStg/unariseStg.hs, just like it is for unboxed tuples.
+
+## Code generation
 
 
 code: codeGen/StgCmmCon
