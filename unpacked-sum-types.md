@@ -42,6 +42,15 @@ This representation saves one word and one indirection compared to the packed re
 
 ### Computing the representation
 
+
+There are several possible representations we could chose from. Briefly they are:
+
+- Store a constructor tag and the union of all the fields.
+- Store a constructor tag and the maximum number of needed pointer and non-pointer fields.
+
+
+The former is simpler, especially when it comes to represent the types of the fields (since there's no aliasing), but the latter is more efficient.
+
 ### Avoiding reboxing in case statements
 
 
