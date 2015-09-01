@@ -150,7 +150,7 @@ case t2 of
 ===> (inline unpack)
 
 case t2 of
-    C tag# x_1..x_n y_1..y_n -> (case tag# of
+    C tag# x_1..x_n y_1..y_n -> case (case tag# of
         0# -> C1 x_1..x_n
         1# -> C2 y_1..y_n) of
             C1 x_1..x_n -> ... x_1..x_n ...
