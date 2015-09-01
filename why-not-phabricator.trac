@@ -106,7 +106,7 @@ Compare this to a Github workflow, where you just push your updated branch (with
  * "I see what I did wrong before, apparently 'arc patch --nobranch <differential revision>' checks out the submodules to the versions they were at when the revision was created? I wonder why that is"
  * "how can I remove the check for unstaged changes in 'arc diff'?"
  * "so shouldn't the docs say "don't use 'arc land'" 
- * "that what? arc diff ^HEAD? what does that even do?"
+ * "that what? arc diff `^HEAD`? what does that even do?"
  * "'arc patch D123' doesn't work, it says I have uncommitted changes (it also takes ages and gives me no feedback on what it's doing)"
  * "I think I totally confused arc by creating D759 on top of a branch named arcpatch-D758"
  * "I have generally found, that if you try to use Phab without arc, "u gonna have a bad time""
