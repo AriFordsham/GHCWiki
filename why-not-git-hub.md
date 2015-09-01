@@ -5,31 +5,47 @@ A common suggestion that is brought up from time is to host GHC development at [
 
 ## Benefits of migrating to GitHub
 
-
-Benefits of using GitHub instead our self-maintained infrastructure include:
-
 - Reduce maintenance cost in light of our already limited resources.
+
 - Potential contributors most likely have a GitHub account already and are used to contributing on GitHub, reducing disincentives to contributing.
 
   - Projects like Cabal saw an uptick in contributions after moving to GitHub.
+
 - GitHub's pull-request-based work-flow is well-known in the Haskell community (and the wider developer community), not the least due to the majority of Haskell packages being developed on GitHub already
+
 - Trac poses a higher threshold for new contributors due to its interface being more complex and requiring registering yet another account.
+
 - Trac uses its own wiki markup syntax (as opposed to Markdown everyone else is using).
+
 - GitHub is well-integrated with services like [ Travis-CI](https://travis-ci.org) (which allow to automatically validate pull-requests)
-- TODO write more
 
-## Benefits of self-maintained infrastructure
+## Drawbacks of migrating to GitHub
 
+### Code review
 
-However, there are also quite a few reasons/benefits for keeping our own Trac-centered infrastructure:
+- Every inline comment results in a separate email.
+
+- On Github, [\#1234](https://gitlab.haskell.org//ghc/ghc/issues/1234) doesn't link to Trac ticket 1234. You'd have to say: [ https://ghc.haskell.org/ticket/1234](https://ghc.haskell.org/ticket/1234).
+
+- No possibility to do Post-Commit Code Reviews (i.e. Audit in Phabricator).
+
+- No possibility to do Rule-based Code Reviews (i.e. Herald in Phabricator)
+
+- No review-queue (i.e. list of pull-requests that haven't been reviewed yet) 
+
+- Doesn't show code reviews (pull-requests) that touch the same file.
+
+- 'git push' doesn't run the linter locally, while 'arc diff' does.
+
+- No possibility to mark inline comments 'Done'.
+
+### Git repository
 
 - GitHub lacks several things we already use. For example, there is **no way to add pre commit hooks** to repositories that ban commits containing whitespace, trailing spaces, and other `lint` errors. [ https://git.haskell.org](https://git.haskell.org) automatically enforces this to help keep new code tab-free. GitHub has no alternative to this.
 
 - We also use this facility to **keep Git submodules sane**: as of today, [ https://git.haskell.org](https://git.haskell.org) will not let you commit a *dangling submodule reference* to [ ghc.git](https://git.haskell.org/ghc.git). You must push the corresponding submodule code first, so the top-level repository never breaks. This is also not possible with GitHub and has been a historical error source for developers.
 
-- Any kind of integration with a **CI system**, at some level, is going to require custom infrastructure on our side, so we can't rely on Travis-CI alone.
-
-- Speaking of that, we need to maintain our own server so that Git pushes can interface with Trac, and the **mailing notifier**.
+### Issue Tracking
 
 - **Migration cost.** GHC is probably one of the largest Trac installations around at nearly 10.000 tickets, a gigantic wiki, and tons of meta-data and a **lot** of users. Preserving the necessary meta-data, rewriting intra-wiki links, references, and preserving everything is just going to be a ton of work. GitHub doesn't even have a proper "import" facility.
 
@@ -37,9 +53,20 @@ However, there are also quite a few reasons/benefits for keeping our own Trac-ce
 
 - Trac's wiki syntax (which is available in ticket comments as well) is extensible and allows for dynamic content generation via [WikiMacros](wiki-macros), such as dynamically generated tables of tickets.
 
-- TODO write more
+### Continuous Integration
+
+- The free for open-source version of Travis-CI has a time limit of 50 minutes for jobs, which means we can't run `validate --slow`.
+
+- Any kind of integration with a **CI system**, at some level, is going to require custom infrastructure on our side, so we can't rely on Travis-CI alone. (thomie: I don't understand this one)
+
+### Other issues
+
+- We would still need to maintain our own server so that Git pushes can interface with Trac, and the **mailing notifier**.
+
+- Github is not open-source, so we can't fix any (future) issue we might have with it.
 
 ## Related mailing-list discussion threads
 
 - [ "Any interest in moving GHC issues / wiki to github?" (Jul 2013 @ ghc-devs)](http://thread.gmane.org/gmane.comp.lang.haskell.ghc.devel/1444)
 - [ "Phabricator for patches and code review" (Jun 2014 @ ghc-devs)](http://thread.gmane.org/gmane.comp.lang.haskell.ghc.devel/4829/focus=4861)
+- [ "I think the amout of contributions would increase significantly if GHC migrated to GitHub and started accepting pull requests." (Sep 2014 @ reddit)](https://www.reddit.com/r/haskell/comments/2hes8m/the_ghc_source_code_contains_1088_todos_please/ckrzyec)
