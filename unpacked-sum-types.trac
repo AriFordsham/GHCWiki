@@ -1,0 +1,29 @@
+This page explains the motivation and implementation of unpacking for sum types.
+
+== Motivation ==
+
+GHC does a good job of unpacking product types. Given a declaration like
+
+{{{
+data T1 = C1 a b
+data T2 = C2 {-# UNPACK #-} !T1
+}}}
+
+`C2` will have a representation where all the overhead of the `C1` constructor, both the pointer to it in the `C2` constructor and the info table pointer in the `C1` constructor, has been removed. This saves two words and one indirection  compared to a packed representation, which uses five words.
+
+Unfortunately, a similar example using sum types cannot be unpacked today:
+
+{{{
+data T1 = Some a | None
+data T2 = C !T1  -- Cannot UNPACK here
+}}}
+
+Here the representation of the `C` constructor will contain a pointer to e.g. the `Some` constructor. The `Some` constructor will be a separate heap object and thus needs one word to store its info table pointer.
+
+In this example there is an alternative, unpacked representation that is more memory efficient and has fewer indirections. We could store a constructor tag together with the union of the fields of `T1` inside `C`. The memory layout would look like this:
+
+|| C header || T1 constructor tag || Fields of `Some` || Fields of `None` ||
+
+(In this case `None` has no fields.)
+
+This representation saves one word and one indirection compared to the packed representation, which uses four words.
