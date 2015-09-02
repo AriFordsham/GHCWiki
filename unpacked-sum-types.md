@@ -117,7 +117,7 @@ Given
 
 ```wiki
 data T1 a = Some a | None
-data T2 a = C !(T1 a)  -- Cannot UNPACK here
+data T2 a = C {-# UNPACK #-} !(T1 a)
 ```
 
 
