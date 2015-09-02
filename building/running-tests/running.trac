@@ -2,21 +2,25 @@
 
 This section gives information on how to use the testsuite.
 
-The following commands can all be executed simply from the `testsuite` directory.
+The commands on this page can all be executed from the `testsuite` directory.
 
-To run the full testsuite (slow) against a GHC build in the same source tree:
-{{{
-$ make
-}}}
+== Speed settings ==
+You can run `make fast`, `make test` (which uses the default speed settings, and is the same as just `make`) or `make slow`.
 
-If you have python 2.5.2 or later then you can run the testsuite in parallel to speed it up:
+This table shows the differences between these three speed settings.
+
+||= make =||= how many tests =||= how many ways =||= used by whom ||
+|| fast   || some || 1   || Travis (to stay within time limit) ||
+|| test   || all  || 1   || Phabricator (slow takes too long?) ||
+|| slow   || all  || all || Nightly (slow is ok) ||
+
+See also `Note [validate and testsuite speed]` in the toplevel `Makefile`.
+
+== Commonly used options ==
+
+You can run the testsuite in parallel to speed it up:
 {{{
 $ make THREADS=4
-}}}
-
-To run a reduced (fast) version of the testsuite:
-{{{
-$ make fast
 }}}
 
 By default the testsuite uses the stage2 compiler. If you want to use another stage then:
