@@ -40,6 +40,9 @@ This representation saves one word and one indirection compared to the packed re
 
 ## Implementation
 
+
+The implementation proceeds by adding a new type for unboxed sums and then using that in the unpacking of sum types.
+
 ### Core
 
 
