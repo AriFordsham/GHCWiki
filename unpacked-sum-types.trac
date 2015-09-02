@@ -30,139 +30,38 @@ This representation saves one word and one indirection compared to the packed re
 
 == Implementation ==
 
-=== Computing the representation ===
+=== Core ===
 
-There are several possible representations we could chose from. Briefly they are:
-
- * Store a constructor tag and the union of all the fields.
- * Store a constructor tag and the maximum number of needed pointer and non-pointer fields.
-
-The former is simpler, especially when it comes to represent the types of the fields (since there's no aliasing), but the latter is more efficient. We will use the former for now.
-
-Given
+We add a new primitive type constructor for the family of unboxed sums:
 
 {{{
-data T1 = C1 x_1..x_n | C2 y_1..y_n
-data T2 = C {-# UNPACK #-} !T1
+|# t_1 | ... | t_n #|_n
 }}}
 
-computing the representation of `C` is quite simple. We just splice in the union of the fields of all the constructors of `T1`.
+This gets added to [[GhcFile(compiler/prelude/TysWiredIn.hs)]], just like for unboxed tuples.
 
-|| Info table pointer || T1 constructor tag || x_1..x_n || y_1..y_n ||
+There's an construction and elimination form.
 
-(In practice we might group pointers and non-pointers fields in the actual heap object representation.)
-
-=== Populating the constructor ===
-
-Given
+Construction:
 
 {{{
-data T1 = C1 x_1..x_n | C2 y_1..y_n
-data T2 = C {-# UNPACK #-} !T1
+|# x #|_i_n
 }}}
 
-and the representation
-
-|| Info table pointer || T1 constructor tag || x_1..x_n || y_1..y_n ||
-
-we must figure out what values to write write for e.g. the fields of `C2` when creating a `C1` value:
-
-{{{
-mkC (C1 x_1..x_n) = C c1_tag# x_1..x_n ???
-}}}
-
-At the very least we need to write something into those y_1..y_n fields that contain pointers, or the GC will crash when traversing constructor. For now we will just write a pointer to `bottom` in those fields.
-
-TODO: This needs to be expanded on. Writing something in the unused fields in easy in the code gen, but at the core level we might need to conjure up some values of the right type to put in all fields.
-
-=== Avoiding reboxing in case statements ===
-
-Given
-
-{{{
-data T1 = C1 x_1..x_n | C2 y_1..y_n
-data T2 = C {-# UNPACK #-} !T1
-}}}
-
-we might worried that doing
-
-{{{
-case t2 of
-    C t1 -> case t1 of
-        C1 x_1..x_n -> ...
-        C2 y_1..y_n -> ...
-}}}
-
-would require that we need to allocate a `C1` or `C2` constructor just to deconstruct it again. Fortunately we should be able to avoid that because when we construct either `C1` or `C2` from the unpacked representation in `C` we'd do that we a case, like so:
-
-{{{
-unpack (C tag# x_1..x_n y_1..y_n) = case tag# of
-    0# -> C1 x_1..x_n
-    1# -> C2 y_1..y_n
-}}}
-
-This gives us
-
-{{{
-case t2 of
-    C t1 -> case t1 of
-        C1 x_1..x_n -> ... x_1..x_n ...
-        C2 y_1..y_n -> ... y_1..y_n ...
-
-===>
-
-case t2 of
-    C t1 -> case unpack t2 of
-        C1 x_1..x_n -> ... x_1..x_n ...
-        C2 y_1..y_n -> ... y_1..y_n ...
-
-===> (inline unpack)
-
-case t2 of
-    C tag# x_1..x_n y_1..y_n -> case (case tag# of
-        0# -> C1 x_1..x_n
-        1# -> C2 y_1..y_n) of
-            C1 x_1..x_n -> ... x_1..x_n ...
-            C2 y_1..y_n -> ... y_1..y_n ...
-
-===> (case-of-case and case of known constructor)
-
-case t2 of
-    C tag# x_1..x_n y_1..y_n -> case tag# of
-        0# -> ... x_1..x_n ...
-        1# -> ... y_1..y_n ...
-}}}
-
-= Work in progress notes =
-
-Nothing to see here!
-
-== Core ==
-
-We add a new type of unboxed sums:
-
-{{{
-|# t_1 | ... | t_n #|  -- stands for nth constructor out of m
-}}}
-
-There's an construction and elimination form. Construction:
-
-{{{
-|#_n x_n #|
-}}}
+This creates the ''i''th option of an n-ary sum.
 
 Elimination:
 
 {{{
 case x of
-    |#_1 x_1 #| -> ...
-    ...
-    |#_n x_n #| -> ...
+    |# x_1 #|_i_n -> ...
 }}}
 
-code: compiler/prelude/TysWiredIn.hs
+This matches against the ''i''th option of an n-ary sum.
 
-== Core to STG ==
+=== Core to STG ===
+
+When going to STG we need to eliminate the unboxed sums. This can be done in [[GhcFile(compiler/simplStg/UnariseStg.hs)]], just like for tuples.
 
 Given the Core function
 
@@ -170,14 +69,59 @@ Given the Core function
 f :: |# t_1 | ... | t_n #| -> ...
 }}}
 
-we convert it to a call to STG which includes the minimal number of arguments needed to catch all pointer and non-pointer arguments e.g.
+we convert it to a call to STG which includes the tag and the maximum number of pointer and non-pointer arguments we might need. Example:
+
+||= Core =||||= STG =||
+|| {{{ f :: |# Int#, Bool #|_n -> ... }}} || {{{ f :: Word -> Word -> Pointer -> ... }}} ||
+|| {{{ f :: |# Int#, Word# #|_n -> ... }}} || {{{ f :: Word -> Word -> ... }}} ||
+
+=== Code generation ===
+
+We need to make sure we generate closure types for the constructors we unpack into. This is done in [[GhcFile(compiler/codeGen/StgCmmCon.hs)]].
+
+We use the same algorithm as is used in the Core to STG step to compute the maximum number of pointer and non-pointer fields we might need.
+
+=== Unpacking ===
+
+Given
 
 {{{
-f args...
+data T1 a = Some a | None
+data T2 a = C !(T1 a)  -- Cannot UNPACK here
 }}}
 
-This should be done in compiler/simplStg/unariseStg.hs, just like it is for unboxed tuples.
+we generate a "worker" constructor
 
-== Code generation ==
+{{{
+C |# a, (# #) #|_2
+}}}
 
-code: codeGen/StgCmmCon
+(`(# #)` playing the role of void.)
+
+We then translate the construction of `C` as follows:
+
+{{{
+C x
+
+===> (translates to)
+
+case x of
+    Some y -> C (|# #|_1_2 y)
+    None   -> C (|# #|_2_2 (# #))
+}}}
+
+We then translate the elimination of `C` as follows:
+
+{{{
+case e of
+    C x -> ... x ...
+
+===> (translates to)
+
+case e of
+    C x' -> let x = case x' of
+        |# #|_1_2 y -> Some y
+        |# #|_2_2 _ -> None
+}}}
+
+This above reboxing will go away, using case-of-case and case-of-known-constructor, if we scrutinize the result of the above expression again.
