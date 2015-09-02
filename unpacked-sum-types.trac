@@ -119,9 +119,11 @@ case e of
 ===> (translates to)
 
 case e of
-    C x' -> let x = case x' of
-        |# #|_1_2 y -> Some y
-        |# #|_2_2 _ -> None
+    C x' ->
+        let x = case x' of
+            |# #|_1_2 y -> Some y
+            |# #|_2_2 _ -> None
+        in ... x ...
 }}}
 
 This above reboxing will go away, using case-of-case and case-of-known-constructor, if we scrutinize the result of the above expression again.

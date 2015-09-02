@@ -150,9 +150,11 @@ case e of
 ===> (translates to)
 
 case e of
-    C x' -> let x = case x' of
-        |# #|_1_2 y -> Some y
-        |# #|_2_2 _ -> None
+    C x' ->
+        let x = case x' of
+            |# #|_1_2 y -> Some y
+            |# #|_2_2 _ -> None
+        in ... x ...
 ```
 
 
