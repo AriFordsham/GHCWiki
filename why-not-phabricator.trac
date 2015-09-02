@@ -27,7 +27,7 @@ to create them. See [wiki:Phabricator] for more information.
    - "Do you want to amend this change to the current commit? [y/N]"
    - "You have not specified any reviewers. Continue anyway? [y/N]"
  
- * You have to edit revision summaries manually in the browser. Updating the commit message and running `arc diff --update HEAD^` doesn't work.
+ * You have to edit revision summaries manually on https://phabricator.haskell.org/D1234. Updating the commit message and running `arc diff --update D1234 HEAD^` doesn't work.
 
  * Creating a revision in the browser doesn't trigger the continuous integration system.
   
@@ -38,6 +38,8 @@ to create them. See [wiki:Phabricator] for more information.
  * When you have have a stack of commits, each linked to a different revision, `arc diff` will tell you to use `--update` to choose one of those revisions. Running `arc diff --update` with a different revision (say a typo) results in that revision getting overwritten without warning.
 
  * After updating a revision that other revisions depend on, you have to update those dependent revisions as well (running `arc diff HEAD^` for each of them). This triggers another validate run for each of them (arguably a good thing), but forgetting to do so may result in those revisions becoming out-of-date, not validated at all, and impossible to run `arc patch` on.
+
+ * `Depends on` clauses in your commit message are reapplied when running `arc diff --update D1234`, even if in the meantime you made changes to the list of dependencies manually on https://phabricator.haskell.org/D1234.
 
 Compare this to a Github workflow, where you just push your updated branch (with `git push -f`), and be done with it.
 
