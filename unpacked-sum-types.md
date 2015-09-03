@@ -131,7 +131,7 @@ data T2 a = C {-# UNPACK #-} !(T1 a)
 we generate a "worker" constructor
 
 ```wiki
-C |# a, (# #) #|_2
+C (# a | (# #) #)
 ```
 
 
