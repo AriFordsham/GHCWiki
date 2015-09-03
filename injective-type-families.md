@@ -55,7 +55,7 @@ typeinstanceGIntCharBool=BooltypeinstanceGIntCharInt=BooltypeinstanceGBoolIntInt
 
 ```
 typefamilyPlus a b wherePlusZ     n = n
-     Plus(S m) n =S(Plus n m)
+     Plus(S m) n =S(Plus m n)
 ```
 
 >
