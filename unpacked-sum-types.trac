@@ -37,7 +37,13 @@ The implementation proceeds by adding a new type for unboxed sums and then using
 We add a new primitive type constructor for the family of unboxed sums:
 
 {{{
-|# t_1 | ... | t_n #|_n
+(# | ... | #)
+}}}
+
+A sum of n "|"s is a n+1 ary sum. The type constructor can then be used to create a type, like so:
+
+{{{
+(# t1 | ... | tn #)
 }}}
 
 This gets added to [[GhcFile(compiler/prelude/TysWiredIn.hs)]], just like for unboxed tuples.
@@ -47,19 +53,19 @@ There's an construction and elimination form.
 Construction:
 
 {{{
-|# x #|_i_n
+(# ... | x | ... #)
 }}}
 
-This creates the ''i''th option of an n-ary sum.
+Again we count the bars to decide which alternative of the sum we are creating.
 
 Elimination:
 
 {{{
 case x of
-    |# x_1 #|_i_n -> ...
+    (# ... | x | ... #) -> ...
 }}}
 
-This matches against the ''i''th option of an n-ary sum.
+This matches against one of the alternatives of the n-ary sum.
 
 === Core to STG ===
 
@@ -68,14 +74,14 @@ When going to STG we need to eliminate the unboxed sums. This can be done in [[G
 Given the Core function
 
 {{{
-f :: |# t_1 | ... | t_n #| -> ...
+f :: (# t_1 | ... | t_n #) -> ...
 }}}
 
 we convert it to a call to STG which includes the tag and the maximum number of pointer and non-pointer arguments we might need. Example:
 
 ||= Core =||||= STG =||
-|| {{{ f :: |# Int#, Bool #|_n -> ... }}} || {{{ f :: Word -> Word -> Pointer -> ... }}} ||
-|| {{{ f :: |# Int#, Word# #|_n -> ... }}} || {{{ f :: Word -> Word -> ... }}} ||
+|| {{{ f :: (# Int# | Bool #) -> ... }}} || {{{ f :: Word -> Word -> Pointer -> ... }}} ||
+|| {{{ f :: (# Int# | Word# #) -> ... }}} || {{{ f :: Word -> Word -> ... }}} ||
 
 === Code generation ===
 
@@ -108,8 +114,8 @@ C x
 ===> (translates to)
 
 case x of
-    Some y -> C (|# #|_1_2 y)
-    None   -> C (|# #|_2_2 (# #))
+    Some y -> C (# y | #)
+    None   -> C (# | (# #) #)
 }}}
 
 We then translate the elimination of `C` as follows:
@@ -123,8 +129,8 @@ case e of
 case e of
     C x' ->
         let x = case x' of
-            |# #|_1_2 y -> Some y
-            |# #|_2_2 _ -> None
+            (# y | #) -> Some y
+            (# | _ #) -> None
         in ... x ...
 }}}
 
