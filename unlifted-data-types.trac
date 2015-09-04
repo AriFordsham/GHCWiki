@@ -53,7 +53,7 @@ Should be simple, except maybe for syntax.
 
 **How do I unlift a symbolic type constructor?** Syntax is currently unspecified. Suggestions welcome.
 
-**What order to my binders get evaluated?** Backwards, but we should fix this. See #10824
+**In what order do my binders get evaluated?** Backwards, but we should fix this. See #10824
 
 **Why do we need a new kind `Unlifted`, does `#` work OK?** Actually, it would; but with a new kind, we can make a distinction between types with uniform representation (boxed), and types without it (unboxed).
 
