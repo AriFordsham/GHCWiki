@@ -57,7 +57,7 @@ Below are the major highlights of 7.12.
 
 - Support for [Applicative Do](applicative-do), allowing GHC to desugar do-notation to `Applicative` where possible. ([ Phab:D729](https://phabricator.haskell.org/D729))
 
-- Improved [DWARF based debugging support](dwarf) from Peter Wortmann & Arash Rouhani, with e.g. LLVM support and Haskell backtraces from Haskell code.
+- Improved [DWARF based debugging support](dwarf) from Peter Wortmann, Arash Rouhani, and Ben Gamari with backtraces from Haskell code.
 
 - An [Improved LLVM Backend](improved-llvm-backend) that ships with every major Tier 1 platform.
 
