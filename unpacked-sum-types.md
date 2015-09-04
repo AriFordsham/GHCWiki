@@ -49,7 +49,7 @@ The implementation proceeds by adding a new type for unboxed sums and then using
 We add a new primitive type constructor for the family of unboxed sums:
 
 ```wiki
-(# | ... | #)
+(#|...|#)
 ```
 
 
@@ -57,6 +57,13 @@ A sum of n "\|"s is a n+1 ary sum. The type constructor can then be used to crea
 
 ```wiki
 (# t1 | ... | tn #)
+```
+
+
+The data constructor looks similar, except that we use an "_" to mark which alternative of the sum we want:
+
+```wiki
+(#...|_|...#)
 ```
 
 
