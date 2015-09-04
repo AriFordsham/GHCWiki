@@ -54,7 +54,7 @@ data Force :: * -> Unlifted where
   Force :: !a -> Force a
 
 data Box :: Unlifted -> * where
-  Box :: a -> Box a
+  Box :: Force a -> Box (Force a)
 }}}
 
 Intuitively, `Force a` is the "head strict" version of `a`: if you have `x :: Force Int` in scope, it is guaranteed to have already been evaluated to an `Int`. Similarly, `Box a` delays the execution of the unlifted type.
@@ -76,9 +76,11 @@ but this example does not:
 
 Of course, this is just the well-known phenomenon that inlining in a CBV language does not necessarily preserve semantics.
 
-**(TODO) Introduce coercions that witness representational equality.** Ideally, we would like to define the coercion `Coercible (Force a) a`, to witness the fact that `Force a` is representationally the same as `a`. However, this coercion is ill-kinded (`Force a` has kind `Unlifted` but `a` has kind `*`), so we would need John Major equality style coercions.
+**Box is compiled without any boxing.** `Force a` is representationally equal to `a`, meaning that `Box` can be representationally equal to `a` as well. I haven't deduced a general principle for when this representational equality here would hold, so for now it is a special case for `Box`.
 
-A well-kinded coercion would be `Coercible (Box (Force a)) a` . However, without any optimization for `Box` in this case, these are NOT representationally equal, so this coercion is not valid.
+**Introduce coercions that witness representational equality.** Ideally, we would like to define the coercion `Coercible (Force a) a`, to witness the fact that `Force a` is representationally the same as `a`. However, this coercion is ill-kinded (`Force a` has kind `Unlifted` but `a` has kind `*`), so we would need John Major equality style coercions.
+
+Instead, we introduce the well-kinded coercion `Coercible (Box (Force a)) a` . This is valid due to the special case representational equality for `Box`.
 
 **(OPTIONAL) Give some syntax for `Force`.** Instead of writing `f :: Force Int -> Force Int`, we might like to write `f :: Int! -> Int!`. We define post-fix application of bang to be a wrapping of `Force`.
 
