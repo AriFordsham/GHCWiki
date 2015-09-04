@@ -1,6 +1,6 @@
 = Unlifted data types =
 
-This page describes the unlifted data types, i.e. algebraic data types which live in kind # rather than kind *.
+This page describes the unlifted data types, i.e. algebraic data types which live in kind Unlifted rather than kind *.
 
 == Motivation ==
 
@@ -16,14 +16,39 @@ The reason, of course, is that whenever you write `data T = T`, you define a typ
 
 3. Haskell already has the ability to specify a field of a constructor as strict, forcing it to be evaluated when it is constructed. Strictness enables such optimizations as unpacking, and other benefits. Why not also make it possible to specify a type as strict as a whole?
 
-Fortunately, we already have the kind # for unlifted data types. So, the idea is to make it possible to define data types in kind #.
+Our proposal is to allow a new kind Unlifted, a minor variant of the existing kind #, available for all data types (making them unlifted, but NOT unboxed).
+
+== Syntax ==
+
+We define a new kind `Unlifted` (subject to bikeshedding), which represents unlifted but boxed data types.
+
+All data declarations `data Foo a b = ...` currently define a type constructor `Foo :: * -> * -> *`. When `UnliftedDataTypes` is enabled, we can unlift this constructor with the bang-prefix operator: `!Foo :: * -> * -> Unlifted`. 
+
+Unlifted types are "evaluated strictly". For example, in the following code:
+
+{{{
+foo :: !Int -> !Int
+foo x = x + 1
+
+main :: IO ()
+main = let y = foo (error "foo")
+       in error "bar"
+}}}
+
+the output is the error "foo", not "bar", as it would be if y was bound using a strict pattern match, or if foo's type had been `Int# -> Int#`. In practice, the evaluation rules will follow from how Core manages kind # today.
 
 == Implementation ==
 
-1. Introduce syntax for the # kind. Probably something like `Unlifted`, so we don't add anymore really special unary syntax (like star.)
+Should be simple, except maybe for syntax.
 
-2. Add `unliftedTypeKindTyConName` to the `tc_kind_var_app` to accept it from user
+== FAQ ==
 
-3. Don't require kind of data type to be `*`
+**Is `!Maybe !Int` allowed?** No, because `!Int` has kind `Unlifted` but `!Maybe` has kind `* -> Unlifted`. A data type declaration must be explicitly written to accept an unlifted type (`data StrictMaybe (a :: Unlifted) = SMaybe a`), or simply be strict in its field (`data StrictMaybe2 a = SMaybe2 !a`).
 
-4. (???)
+**Can I instantiate a polymorphic function to an unlifted type?** Not for now, but with "levity polymorphism" we could make polymorphic types take any type of kind * or Unlifted, as these representations are uniform.
+
+**What's the difference between `!Int` and `Int#`?** `!Int` is an unlifted, boxed integer; `Int#` is an unlifted, unboxed integer.
+
+**Why aren't strict patterns enough?** A user can forget to write a strict pattern at a use-site. Putting a type in kind unlifted forces all use-sites to act as if they had strict patterns.
+
+**How do I unlift a symbolic type constructor?** Syntax is currently unspecified. Suggestions welcome.
