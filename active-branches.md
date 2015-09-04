@@ -21,6 +21,8 @@ This list overviews the active branches in the main GHC repository.
 
 - `wip/generics-propeq`: **Propositional equality for `GHC.Generics`**. Gabor Greif. For interworking of `hackage://gdiff` with `GHC.Generics` we need parametrized meta-data types. The idea is to replace `GHC.Generics.D1Bool` by `GHC.Generics.Dat "GHC.Types" "Bool"` and `GHC.Generics.C1_0Bool` (aka. `True`) by `GHC.Generics.Constr "GHC.Types" ("True", 1)`, and so on. This opens them up to type-level reasoning with `KnownSymbol`, `sameSymbol` etc.
 
+- `wip/gadtpm`: **Pattern Matching Coverage/Exhaustiveness Checker**. George Karachalias. Notes (to be updated soon) can be found [here](pattern-match-check) and [here](pattern-match-check-implementation).
+
 # Limbo branches
 
 
