@@ -37,6 +37,7 @@
 
   - [\#10592](https://gitlab.haskell.org//ghc/ghc/issues/10592): Allow superclass cycles
 - [\#10581](https://gitlab.haskell.org//ghc/ghc/issues/10581): Recommend ScopedTypeVariables
+- [\#10836](https://gitlab.haskell.org//ghc/ghc/issues/10836): Continue reporting errors between mut. rec. groups
 
 **Hard**
 
