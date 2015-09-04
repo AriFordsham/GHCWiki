@@ -91,7 +91,7 @@ Of course, this is just the well-known phenomenon that inlining in a CBV languag
 **TODO Introduce coercions that witness representational equality.** Ideally, we would like to define the coercion `Coercible (Force a) a`, to witness the fact that `Force a` is representationally the same as `a`. However, this coercion is ill-kinded (`Force a` has kind `Unlifted` but `a` has kind `*`), so we would need John Major equality style coercions.
 
 
-Additionally, we would also like to have the coercion `Coercible (Box (Force a)) a` . However, without any optimization for `Box` in this case, these are NOT representationally equal, so this coercion is not valid.
+A well-kinded coercion would be `Coercible (Box (Force a)) a` . However, without any optimization for `Box` in this case, these are NOT representationally equal, so this coercion is not valid.
 
 **(OPTIONAL) Give some syntax for `Force`.** Instead of writing `f :: Force Int -> Force Int`, we might like to write `f :: Int! -> Int!`. We define post-fix application of bang to be a wrapping of `Force`.
 
