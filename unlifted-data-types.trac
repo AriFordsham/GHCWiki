@@ -52,3 +52,5 @@ Should be simple, except maybe for syntax.
 **Why aren't strict patterns enough?** A user can forget to write a strict pattern at a use-site. Putting a type in kind unlifted forces all use-sites to act as if they had strict patterns.
 
 **How do I unlift a symbolic type constructor?** Syntax is currently unspecified. Suggestions welcome.
+
+**What order to my binders get evaluated?** Backwards, but we should fix this. See: https://ghc.haskell.org/trac/ghc/ticket/10824
