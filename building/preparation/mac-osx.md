@@ -89,6 +89,11 @@ Finally, if you want to build the documentation you need to install DocBook. You
 
 - (Homebrew): `brew install docbook` and `brew install docbook-xsl`
 
+>
+> A Reddit user [ reported](https://www.reddit.com/r/haskell/comments/3jq3cu/hacking_on_ghc_is_not_that_hard/cursd94)
+> that `brew install docbook2x` is needed.
+> Please update this page if that is indeed the magic command to get the documentation to build on Mac.
+
 
 DocBook is a fairly large system unto itself and configuring it to build the documentation in its various formats can be a maze. Verifying that your SGML_CATALOG_FILES and XML_CATALOG_FILES environment variables are pointed at the right places will fix most problems.
 
