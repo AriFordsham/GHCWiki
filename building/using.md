@@ -539,6 +539,34 @@ You can also clean a single component of the tree, just by saying
 `make clean` in a subdirectory.  Again this is equivalent to issuing a
 command at the top of the tree of the form `make clean_libraries/base`.
 
+### Building a single file
+
+
+It's possible to tell make to build a single file, from any subdirectory in the tree.  For example, suppose I want to build just the module `Control.Monad` in the `base` package, I can do it like this:
+
+```wiki
+$ make libraries/base/dist-install/build/Control/Monad.o
+```
+
+
+(you have to know that `dist-install` is the distdir for a package, and object files are put in the subdirectory `build`).  It's also possible to do this from the `libraries/base` subdirectory:
+
+```wiki
+$ cd libraries/base
+$ make dist-install/build/Control/Monad.o
+```
+
+
+suppose you wanted to build this module with a few extra flags, perhaps because you want to see what GHC's optimiser is doing on this module:
+
+```wiki
+$ rm dist-install/build/Control/Monad.o
+$ make dist-install/build/Control/Monad.o EXTRA_HC_OPTS=-dcore-lint
+```
+
+
+you could also cut-and-paste the command-line to add flags, but sometimes the `EXTRA_HC_OPTS` method is more convenient.
+
 ### Rebuilding the GHC binary after making changes
 
 
@@ -592,34 +620,6 @@ stage = 2
 
 
 this prevents stage 1 from being rebuilt until this line is removed or commented-out again.  It's a handy trick when you're working on GHC.
-
-### Building a single file
-
-
-It's possible to tell make to build a single file, from any subdirectory in the tree.  For example, suppose I want to build just the module `Control.Monad` in the `base` package, I can do it like this:
-
-```wiki
-$ make libraries/base/dist-install/build/Control/Monad.o
-```
-
-
-(you have to know that `dist-install` is the distdir for a package, and object files are put in the subdirectory `build`).  It's also possible to do this from the `libraries/base` subdirectory:
-
-```wiki
-$ cd libraries/base
-$ make dist-install/build/Control/Monad.o
-```
-
-
-suppose you wanted to build this module with a few extra flags, perhaps because you want to see what GHC's optimiser is doing on this module:
-
-```wiki
-$ rm dist-install/build/Control/Monad.o
-$ make dist-install/build/Control/Monad.o EXTRA_HC_OPTS=-dcore-lint
-```
-
-
-you could also cut-and-paste the command-line to add flags, but sometimes the `EXTRA_HC_OPTS` method is more convenient.
 
 ### Fast rebuilding
 
