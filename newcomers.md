@@ -60,7 +60,7 @@ There are 4 things to remember:
   [skip dependency building](building/using#skip-dependency-building).
 
 
-A good first sanity check is to twiddle some error message in the code, just to see that changed error message pop up when you compile a file. Write some Haskell code with an error in it, and look at the error message. Search through the code for that error message. Change the message, rebuild ghc (run `make fast` in the `compiler` directory), and recompile your file again with `./inplace/bin/ghc-stage2`. If you see the changed message, you're good to go.
+A good first sanity check is to twiddle some error message in the code, just to see that changed error message pop up when you compile a file. Write some Haskell code with an error in it, and look at the error message. Search through the code for that error message. Change the message, rebuild ghc (run `make fast` in the `ghc` directory), and recompile your file again with `./inplace/bin/ghc-stage2`. If you see the changed message, you're good to go.
 
 ## Finding a ticket
 
