@@ -18,7 +18,4 @@ Alternatively:
 - [List of tools needed to build GHC](building/preparation/tools)
 
 
-See the [building guide](building), notably the following two sections, for how to proceed after this:
-
-- [Quick Start to just building and installing GHC](building/quick-start)
-- [Quick Start to using the build system as a developer](building/hacking)
+See the [Newcomers](newcomers) page for how to proceed after this.
