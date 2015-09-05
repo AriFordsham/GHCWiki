@@ -1,33 +1,7 @@
 # Mac OS X Installer Packages
 
-## What's inside?
+
+Please use the `haskell-platform`. See [ https://www.haskell.org/platform/mac.html](https://www.haskell.org/platform/mac.html) for further details. 
 
 
-GHC is packaged as a [ framework bundle](http://developer.apple.com/documentation/MacOSX/Conceptual/BPFrameworks/Frameworks.html), which uses GHC's integer version number, consisting of the major and minor version component only, to assign framework versions - i.e., packages of the 6.8 branch install framework version 608.  This is in line with Apple's recommendation to use version numbers that signify API changes for frameworks.
-
-
-The package installs appropriate links in /usr/bin, /usr/man/man1, and /usr/share/doc to make the binaries, ghc manpage, and html documentation easily accessible.  Furthermore, it comes with a shell script, installed at `/Library/Frameworks/GHC.framework/Tools/Uninstaller`, that removes the GHC.framework and all symbolic links into the framework.
-
-
-Currently, GHC only supports building systemwide frameworks installed at `/Library/Frameworks`.  Relocatable frameworks would be desirable, but are much more messy as GHC (once installed) is currently not easily relocatable.  (The GHC Xcode project under `distrib/MacOS/GHC.xcodeproj`, which builds GHC frameworks, includes a partially completed target to build a relocatable package if anybody is interested in getting their hands dirty.)  A hybrid installer that let's users choose between a systemwide and a non-admin install is AFAIK currently not feasible due to limitations of Apple's PackageMaker software unless we include two separate distributions in one package (leading to a very large package).
-
-## Multiple versions
-
-
-In principle, it should be possible to have multiple versions of the `GHC.framework` installed simultaneously.  However, this doesn't seem to work at the moment.  Installing a newer versions, seems to delete the old one.  Installing an older version - I ticked the downgradable option in PackageMaker - seems to mess things up completely (i.e., the framework structure is still there, but both versions are gone).  If any PackageMaker guru could shed light on that behaviour, that'd be great.  (There is also a package version in the PackageMaker document, which I am unsure what it is for - given we already have framework versions.)
-
-## PPC and Tiger
-
-
-I have tested package building only on Intel Leopard with Xcode 3.0.  I expect that PPC Leopard works without any further adjustments.  However, the Xcode project building the framework may not be suitable for Xcode 2.5, which is the latest version on Tiger.  Nevertheless, it should be possible to build packages on Leopard that run on both Tiger and Leopard.  This will require some tweaks, but may not be difficult to achieve.
-
-## Where is the code?
-
-
-All code and documents needed to build Mac installers is below `distrib/MacOS`.  There is an Xcode project `GHC.xcodeproj` that builds GHC appropriately, creates the framework structure (at `/tmp/GHC.dest/Library/Frameworks`), and installs GHC into that framework structure.  Moreover the PackageMaker document `GHC-system.pmdoc` specifies the installer package layout and meta information.  The post-install script setting up the links and the uninstaller are in the `installer-scripts` directory. 
-
-
-NB: This is no longer true for recent versions of the repository.  There is no `distrib/MacOS` .  A new build system is under development called `haskell-platform`.  See [ https://github.com/haskell/haskell-platform/tree/new-build](https://github.com/haskell/haskell-platform/tree/new-build) for further details. 
-
-
-A self-contained relocatable binary release for Mac OS X, that avoids the need for putting files in `/usr/bin`, etc, can be found at [ https://github.com/ghcformacosx/ghc-dot-app](https://github.com/ghcformacosx/ghc-dot-app).  This is probably the least intrusive way of getting a version of GHC onto a Mac at present (mid-2014) and will allow you to build GHC from source (other than the documentation).  
+Alternatively, a self-contained relocatable binary release for Mac OS X, that avoids the need for putting files in `/usr/bin`, etc, can be found at [ https://github.com/ghcformacosx/ghc-dot-app](https://github.com/ghcformacosx/ghc-dot-app).  This is probably the least intrusive way of getting a version of GHC onto a Mac at present (mid-2014) and will allow you to build GHC from source (other than the documentation).  
