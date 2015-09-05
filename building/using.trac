@@ -538,21 +538,25 @@ make GHC development a much more interactive experience.
 === Rebuilding the GHC binary after making changes ===
 
 There are specific commands to quickly rebuild the GHC binary.
-These commands only work in the `ghc` and `compiler` subdirectories.
+These commands work in the `ghc` subdirectory, but also in 
+the `compiler` subdirectory (which is probably why they were
+added).
 
 If you followed the advice of freezing the stage 1 compiler,
 by setting `stage=2` in your `build.mk` file, you won't need these,
-and `make fast` accomplishes the same thing.
+and `make fast` in the `ghc` subdirectory accomplishes the same thing.
+They can be handy shorthands though.
 
  * `make 1` means `make stage=1 FAST=YES`
  * `make 2` means `make stage=2 FAST=YES`
  * `make 3` means `make stage=3 FAST=YES`
+
+The `re1`, `re2`, and `re3` targets are sometimes used for
+relinking the compiler after a change like `GhcDebugged=YES`.
+
  * `make re2` means `rm $PATH_TO_STAGE1_EXECUTABLE; make 1`
  * `make re2` means `rm $PATH_TO_STAGE2_EXECUTABLE; make 2`
  * `make re2` means `rm $PATH_TO_STAGE3_EXECUTABLE; make 3`
-
-The `re1`, `re2`, and `re3` are useful for relinking the
-compiler after a change like `GhcDebugged=YES`.
 
 Note that if you’ve never built stage3 before, you will need
 to create dependencies for it using `make stage=3`. This is
