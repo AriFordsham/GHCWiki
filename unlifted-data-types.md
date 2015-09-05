@@ -45,16 +45,6 @@ main = let y = unot (error "foo")
 
 In this example, we get the error "foo", not bar, because the binding of `y` must be evaluated strictly.
 
-**Single constructor, single field unlifted data types are compiled without any boxing.** Consider the following data type:
-
-```wiki
-data Id :: * -> Unlifted where
-  Id :: a -> Id a
-```
-
-
-If `Id` had kind `* -> *`, it would be necessary to introduce a level of indirection in order to distinguish between `undefined` and `Id undefined`. However, when `Id a` is `Unlifted`, the first case is no longer possible. Thus, we can compile these data types without actually introducing any representation overhead, akin to `newtype`.
-
 **To easily unlift/lift existing data types, introduce a pair of special data types.** With the new ability to kind data types unlifted, we can define two data types:
 
 ```wiki
@@ -88,7 +78,9 @@ but this example does not:
 
 Of course, this is just the well-known phenomenon that inlining in a CBV language does not necessarily preserve semantics.
 
-**Box is compiled without any boxing.**`Force a` is representationally equal to `a`, meaning that `Box` can be representationally equal to `a` as well. I haven't deduced a general principle for when this representational equality here would hold, so for now it is a special case for `Box`.
+**Force is compiled without any boxing.**  A value of type `Force a` only admits the value `Force a`: `undefined` is excluded by the `Unlifted` kind, and `Force undefined` is excluded by the strict field.  Thus, we can represent `Force` on the heap simply as an unlifted pointer to `a`, which is never undefined.
+
+**Box is compiled without any boxing.** A value of type `Box (Force a)` is only admits the values `undefined` and `Box a`: `Box undefined` is excluded by the `Unlifted` kind of `Force a`.  Thus, we can represent `Box` on the heap simply as a lifted pointer to `a` which may be undefined.
 
 **Introduce coercions that witness representational equality.** Ideally, we would like to define the coercion `Coercible (Force a) a`, to witness the fact that `Force a` is representationally the same as `a`. However, this coercion is ill-kinded (`Force a` has kind `Unlifted` but `a` has kind `*`), so we would need John Major equality style coercions.
 
