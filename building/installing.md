@@ -15,7 +15,14 @@ $ make install
 ```
 
 
-This will build anything that isn't up-to-date, copy the files into the right places (see below) and make sure all the packages are registered properly.
+or
+
+```wiki
+$ make install-strip
+```
+
+
+This will build anything that isn't up-to-date, copy the files into the right places (see below) and make sure all the packages are registered properly. The `install-strip` variant strips executable files while installing them.
 
 
 GHC will be installed to the directory that you specified at configure time with the `--prefix` option. If you forgot to do so, then rather than reconfiguring and rebuilding, it's probably faster to build and install from a binary distribution as described below.
