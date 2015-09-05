@@ -17,6 +17,27 @@ The reason, of course, is that whenever you write `data Nat = Z | S !Nat`, you d
 
 An auxiliary concern is in the implementation of mutable variables: it is extremely useful to be able to assume that a pointer you have is to the honest closure that contains the mutable field, not an indirection to that closure. Without this guarantee, code which writes to this mutable variable has to first check if the thunk is fully evaluated before actually performing the memory write. For this reason, the `MutVar#` primitive (which is a GC'd object) lives in kind \#, the kind of unlifted types.
 
+## The summary
+
+```wiki
+-- | A new kind of unlifted data types.
+data Unlifted
+
+-- | Unlifts a lifted type.
+data Force :: * -> Unlifted where
+  Force :: !a -> Force a
+
+-- | Lifts an unlifted type.
+data Box (a :: Unlifted) = Box a
+
+instance Coercible (Box (Force a)) a
+instance Coercible a (Box (Force a))
+
+-- | Suspend an unlifted computation (without returning a Box).
+suspend :: Force a -> a
+suspend a = coerce (Box a)
+```
+
 ## The plan
 
 **Split `#` into two kinds, `Unlifted` and `Unboxed`.** We separate `#` into a new kind `Unlifted` (name due for bikeshedding), which represents unlifted but boxed data types, distinguished from `Unboxed`, which is unlifted and unboxed data types. Currently, `MutVar#` and `Int#` have the same kind; under this change, `MutVar#` is now `Unlifted`, while `Int#` is `Unboxed`.
