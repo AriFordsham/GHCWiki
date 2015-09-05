@@ -33,11 +33,12 @@ To see how these targets are defined: [Building/Architecture/Idiom/StandardTarge
 
 The following targets are accepted only by the top-level `Makefile`:
 
-<table><tr><th>`install`</th>
+<table><tr><th>`install` and `install-strip`</th>
 <td>(Non-Windows only)
 installs the things built by `all`.  Where does it install them?  In
 the places you specified when running `configure`, principally set
 by the `--prefix` flag, or in `DESTDIR`; see [Building/Installing](building/installing).
+The `install-strip` variant strips executable files while installing them.
 </td></tr></table>
 
 <table><tr><th>`distclean`</th>
@@ -56,14 +57,19 @@ source tree, containing only revision-controlled files (besides files
 you created yourself, like for example mk/build.mk).
 </td></tr></table>
 
-<table><tr><th>`fasttest` (GHC \<= 7.10: `test`)</th>
+<table><tr><th>`test`</th>
 <td>
-Runs the testsuite in fast mode with some sensible default settings.
+Runs the testsuite with some sensible default settings.
 </td></tr></table>
 
-<table><tr><th>`fulltest`</th>
+<table><tr><th>`fasttest`</th>
 <td>
-Runs the full testsuite with some sensible default settings.
+Runs the testsuite in fast mode.
+</td></tr></table>
+
+<table><tr><th>`slowtest` (GHC \<= 7.10: `fulltest`)</th>
+<td>
+Runs the full testsuite.
 </td></tr></table>
 
 <table><tr><th>`binary-dist`</th>

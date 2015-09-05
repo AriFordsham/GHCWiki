@@ -24,10 +24,11 @@ To see how these targets are defined: [wiki:Building/Architecture/Idiom/Standard
 
 The following targets are accepted only by the top-level `Makefile`:
 
- `install`:: (Non-Windows only)
+ `install` and `install-strip`:: (Non-Windows only)
   installs the things built by `all`.  Where does it install them?  In
   the places you specified when running `configure`, principally set
   by the `--prefix` flag, or in `DESTDIR`; see [wiki:Building/Installing].
+  The `install-strip` variant strips executable files while installing them.
 
  `distclean`::
   The same as `clean`, but also removes files created by `configure`.
@@ -41,11 +42,14 @@ The following targets are accepted only by the top-level `Makefile`:
   source tree, containing only revision-controlled files (besides files
   you created yourself, like for example mk/build.mk).
 
- `fasttest` (GHC <= 7.10: `test`)::
-  Runs the testsuite in fast mode with some sensible default settings.
+ `test`::
+  Runs the testsuite with some sensible default settings.
 
- `fulltest`::
-  Runs the full testsuite with some sensible default settings.
+ `fasttest` ::
+  Runs the testsuite in fast mode.
+
+ `slowtest` (GHC <= 7.10: `fulltest`)::
+  Runs the full testsuite.
 
  `binary-dist`::
   Builds a binary distribution.  A binary distribution is a copy of
