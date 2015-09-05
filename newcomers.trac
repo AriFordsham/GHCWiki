@@ -4,7 +4,7 @@ This page is intended to serve as the first stop for those people who say, "I wa
 
 == First steps ==
 
-[wiki:Building/Preparation Prepare] your machine, [wiki:Building/GettingTheSources clone] the git repo, and [wiki:Building/Hacking build] GHC. For the short, short version, which may or may not work for your machine, you can try this:
+[wiki:Building/Preparation Prepare] your machine, [wiki:Building/GettingTheSources clone] the git repo, and [wiki:Building/Using build] GHC. For the short, short version, which may or may not work for your machine, you can try this:
 
 {{{#!comment
 -- Note: when this page got mentioned on reddit, git.haskell.org couldn't handle the load, so we now tell newcomers to clone from github, even though it requires one more initial step.
