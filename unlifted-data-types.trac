@@ -82,6 +82,15 @@ Of course, this is just the well-known phenomenon that inlining in a CBV languag
 
 Instead, we introduce the well-kinded coercion `Coercible (Box (Force a)) a` . This is valid due to the special case representational equality for `Box`.
 
+**Non-polymorphic unlifted types can directly be unpacked.** The following declarations are representationally equivalent:
+
+{{{
+data T = T {-# UNPACK #-} !Int
+data T = T {-# UNPACK #-} (Force Int)
+}}}
+
+Of course, the constructors still have different types.
+
 **(OPTIONAL) Give some syntax for `Force`.** Instead of writing `f :: Force Int -> Force Int`, we might like to write `f :: Int! -> Int!`. We define post-fix application of bang to be a wrapping of `Force`.
 
 == Implementation ==
