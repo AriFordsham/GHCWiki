@@ -494,7 +494,9 @@ There are 4 things to remember:
   See [Building a single sub-component](building/using#).
 
 1. Set `stage=2` in your `build.mk` file, to
-  [freeze the stage 1 compiler](building/using#freezing-stage-1).
+  [freeze the stage 1 compiler](building/using#freezing-stage-1),
+  and only rebuild the stage 2 compiler from now on
+  (see [here](building/architecture/idiom/stages) about stages).
 
 1. Use `make fast` to
   [skip dependency building](building/using#skip-dependency-building).
