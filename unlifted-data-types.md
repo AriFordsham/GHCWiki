@@ -174,7 +174,7 @@ Should be simple, except maybe for syntax and the special `Thunk` pattern synony
 
 **Why do you get to use error in the unlifted examples, isn't error a bottom?**`error` is specially treated to be both lifted and unlifted. It's interpretation in an unlifted setting is that it immediately causes an exception when it is evaluated (it never goes into the heap).
 
-**Why not `!Int` rather than `Int!` as the syntax proposal?** This syntax conflicts with strict data fields. `data S a = S !a` has a constructor of type `S :: Int -> S`, taking a lifted type and evaluating it before placing it in the constructor; `data S a = S a!` has a constructor of type `S :: Force Int -> S`, which requires the \*user\* to have forced the integer.
+**Why not `!Int` rather than `Int!` as the syntax proposal?** This syntax conflicts with strict data fields. `data S a = S !a` has a constructor of type `S :: Int -> S`, taking a lifted type and evaluating it before placing it in the constructor; `data S a = S a!` has a constructor of type `S :: Force Int -> S`, which requires the *user* to have forced the integer. Representationally, the data types are the same, but the outward behavior for clients differs dramatically.
 
 **Is `Force (Maybe (Force Int))` allowed?** No, because `Force Int` has kind `Unlifted` but `Maybe` has kind `* -> Unlifted`. A data type declaration must be explicitly written to accept an unlifted type (`data StrictMaybe (a :: Unlifted) = SMaybe a`), or simply be strict in its field (`data StrictMaybe2 a = SMaybe2 !a`).
 
