@@ -18,6 +18,7 @@ cd ghc/
 # configure build
 cd mk
 cp build.mk.sample build.mk
+
 ## edit build.mk to remove the comment marker # on the line "BuildFlavour = devel2"
 cd ..
 ./boot
