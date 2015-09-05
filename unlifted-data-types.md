@@ -81,10 +81,29 @@ Of course, this is just the well-known phenomenon that inlining in a CBV languag
 
 **Box is compiled without any boxing.** A value of type `Box a` is only admits the values `undefined` and `Box a`: `Box undefined` is excluded by the `Unlifted` kind of `a`.  Thus, we can represent `Box` on the heap simply as a lifted pointer to `a` which may be undefined.
 
-**Introduce coercions that witness representational equality.** Ideally, we would like to define the coercion `Coercible (Force a) a`, to witness the fact that `Force a` is representationally the same as `a`. However, this coercion is ill-kinded (`Force a` has kind `Unlifted` but `a` has kind `*`), so we would need John Major equality style coercions.
+**Introduce coercions that witness representational equality.** Ideally, we would like to define the coercion `Coercible (Force a) a`, to witness the fact that `Force a` is representationally the same as `a`. However, this coercion is ill-kinded (`Force a` has kind `Unlifted` but `a` has kind `*`), so we would need John Major equality style coercions. Instead, we introduce the well-kinded coercion `Coercible (Box (Force a)) a` . This is valid due to the special case representational equality for `Box`.
+
+**Define a function `suspend`.** It is defined as follows:
+
+```wiki
+suspend :: Force a -> a
+suspend a = coerce (Box a)
+```
 
 
-Instead, we introduce the well-kinded coercion `Coercible (Box (Force a)) a` . This is valid due to the special case representational equality for `Box`. You can box and coerce using the special bidirectional pattern synonym `Thunk`:
+This function can be used to suspend unlifted computations, e.g. `suspend (error "foo")` does not error until forced. Like `Box`, unlifted computations may not be lifted out of `suspend` without changing the semantics.
+
+**Non-polymorphic unlifted types can directly be unpacked.** The following declarations are representationally equivalent:
+
+```wiki
+data T = T {-# UNPACK #-} !Int
+data T = T {-# UNPACK #-} (Force Int)
+```
+
+
+Of course, the constructors still have different types.
+
+**(OPTIONAL) Introduce a pattern synonym `Thunk`.**`suspend` can be generalized into the bidirectional pattern synonym `Thunk`:
 
 ```wiki
 pattern Thunk a <- x | let a = Force x
@@ -106,16 +125,6 @@ does not error. Pattern matching over `Thunk` forces the argument (similar to ba
 let Thunk x = 3 + 5 :: Int
 in x :: Force Int
 ```
-
-**Non-polymorphic unlifted types can directly be unpacked.** The following declarations are representationally equivalent:
-
-```wiki
-data T = T {-# UNPACK #-} !Int
-data T = T {-# UNPACK #-} (Force Int)
-```
-
-
-Of course, the constructors still have different types.
 
 **(OPTIONAL) Give some syntax for `Force`.** Instead of writing `f :: Force Int -> Force Int`, we might like to write `f :: Int! -> Int!`. We define post-fix application of bang to be a wrapping of `Force`.
 
