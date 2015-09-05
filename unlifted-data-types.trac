@@ -132,11 +132,7 @@ Should be simple, except maybe for syntax and the special `Thunk` pattern synony
 
 **Why aren't strict patterns enough?** A user can forget to write a strict pattern at a use-site. Putting a type in kind unlifted forces all use-sites to act as if they had strict patterns.
 
-**In what order do my binders get evaluated?** Backwards, but we should fix this. See #10824
-
 **Why do we need a new kind `Unlifted`, does `#` work OK?** Actually, it would; but with a new kind, we can make a distinction between types with uniform representation (boxed), and types without it (unboxed).
-
-**Can I unlift newtypes/type synonyms/...?** This is probably OK, in which case this proposal should be called `UnliftedTypes` instead?
 
 **Is `Force [a]` the type of strict lists?** No. It is the type of a lazy list whose head is always evaluated and non-bottom.
 
