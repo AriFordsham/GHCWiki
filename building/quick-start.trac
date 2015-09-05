@@ -1,6 +1,6 @@
 = Quick Start to just building and installing GHC =
 
-Below are quick instructions for '''just building and installing GHC'''. If you are an aspiring GHC developer, read the Newcomers page instead.
+Below are quick instructions for '''just building and installing GHC'''. If you are an aspiring GHC developer, read the [wiki:Newcomers Newcomers] page instead.
 
 The following instructions assume that you have [wiki:Building/GettingTheSources got the sources] and [wiki:Building/Preparation installed the necessary tools].
 
