@@ -41,7 +41,7 @@ make -j8 # parallelize to at most 8 parallel jobs; adapt to actual number of cpu
 
 - To speed up the development cycle, the final edit of `build.mk` (uncommenting `stage=2`) makes sure that only the stage-2 compiler will be rebuild after this (see [here](building/architecture/idiom/stages) about stages).
 
-- To further speed up the development cycle, after you make some changes, don't run `make` directly in the ghc root directory (where you ran `make` the first time). Instead run `make` in the directory where you are making your changes, usually `compiler`, `ghc`, `rts` or one of the `libraries` or `utils` subdirectories. This [greatly speeds up a rebuild](building/using#developing-in-a-ghc-build-tree).
+- To further speed up the development cycle, after you make some changes, don't run `make` directly in the ghc root directory (where you ran `make` the first time). Instead run `make` in the directory where you are making your changes, usually `compiler`, `ghc`, `rts` or one of the `libraries` or `utils` subdirectories. This [greatly speeds up a rebuild](building/using#rebuilding-the-ghc-binary-after-making-changes).
 
 - A good first sanity check is to twiddle some error message in the code, just to see that changed error message pop up when you compile a file. Write some Haskell code with an error in it, and look at the error message. Search through the code for that error message. Change the message, rebuild ghc (run `make` in the `ghc` or `compiler` directory), and recompile your file again with `ghc/inplace/bin/ghc-stage2`. If you see the changed message, you're good to go.
 
