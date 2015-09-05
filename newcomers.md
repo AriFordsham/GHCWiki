@@ -5,7 +5,7 @@ This page is intended to serve as the first stop for those people who say, "I wa
 
 ## First steps
 
-[Prepare](building/preparation) your machine, [clone](building/getting-the-sources) the git repo, and [build](building/hacking) GHC. For the short, short version, which may or may not work for your machine, you can try this:
+[Prepare](building/preparation) your machine, [clone](building/getting-the-sources) the git repo, and [build](building/using) GHC. For the short, short version, which may or may not work for your machine, you can try this:
 
 ```
 # needed only once, URL rewrite rule is persisted in ${HOME}/.gitconfig
