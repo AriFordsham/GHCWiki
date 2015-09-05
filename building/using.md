@@ -350,35 +350,17 @@ build setup can make the difference between several hours to build
 GHC, and less than an hour.  
 
 
-Here are the `build.mk` settings that we use to build fast:
+In the `build.mk` file, select `BuildFlavour = devel2` to make the
+build fast, and suitable for working on the stage2 compiler.
+Here's the reasoning behind some of the `devel2` settings:
 
-```wiki
-# My build settings for hacking on stage 2
-SRC_HC_OPTS     = -H32m -O -fasm
-GhcStage1HcOpts = -O -fasm
-GhcStage2HcOpts = -O0 -DDEBUG -Wall
-GhcLibHcOpts    = -O -fasm
-GhcLibWays      = v
-SplitObjs       = NO
-```
-
-
-What do these options do?
-
-<table><tr><th>`SRC_HC_OPTS = -H32m -O -fasm`</th>
-<td>
-These options are added to the command line for all Haskell
-compilations.  We turn on `-fasm`, because that halves compilation
-time at the expense of a few percent performance.
-</td></tr></table>
-
-<table><tr><th>`GhcStage1HcOpts = -O -fasm`</th>
+<table><tr><th>`GhcStage1HcOpts = -O`</th>
 <td>
 Build stage 1 optimised: we're going to be rebuilding stage 2 a lot,
 so we want the compiler that does the building to be fast.
 </td></tr></table>
 
-<table><tr><th>`GhcStage2HcOpts = -O0 -DDEBUG -Wall`</th>
+<table><tr><th>`GhcStage2HcOpts = -O0 -DDEBUG`</th>
 <td>
 We turn off optimisation here, assuming you'll be modifying and
 testing stage 2.  With optimisation off, rebuilding GHC after
@@ -390,29 +372,16 @@ after each modification.
 Also we turn on `-DDEBUG`, because that enables assertions and
 debugging code in the compiler itself.  Turning on DEBUG makes
 the compiler about 30% slower.
-`-Wall` turns on all the warnings; GHC is meant to be warning-clean
-with `-Wall`.
 </td></tr></table>
 
-<table><tr><th>`GhcLibHcOpts = -O -fasm`</th>
+<table><tr><th>`GhcLibHcOpts = -O -dcore-lint`</th>
 <td>
 You almost certainly want optimisation *on* when building
 libraries, otherwise the code you build with this compiler
 goes really slowly.
-</td></tr></table>
 
-<table><tr><th>`GhcLibWays = v`</th>
-<td>
-Normally the profiled libraries are built.  Setting `GhcLibWays` to
-just "v" disables this, so you only build the normal libs.
-</td></tr></table>
-
-<table><tr><th>`SplitObjs = NO`</th>
-<td>
-Object splitting causes each module to be split into smaller
-pieces in the final library, to reduce executable sizes when
-linking against the library.  It can be quite time and
-memory-consuming, so turn it off when you're hacking.
+When building the libraries, also turn on heavyweight intra-pass
+sanity-checking within GHC, at the Core level.
 </td></tr></table>
 
 ## Building things

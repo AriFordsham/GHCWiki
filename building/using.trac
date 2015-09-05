@@ -273,30 +273,15 @@ first place, and quick to rebuild after making changes.  Tuning your
 build setup can make the difference between several hours to build
 GHC, and less than an hour.  
 
-Here are the `build.mk` settings that we use to build fast:
+In the `build.mk` file, select `BuildFlavour = devel2` to make the
+build fast, and suitable for working on the stage2 compiler.
+Here's the reasoning behind some of the `devel2` settings:
 
-{{{
-# My build settings for hacking on stage 2
-SRC_HC_OPTS     = -H32m -O -fasm
-GhcStage1HcOpts = -O -fasm
-GhcStage2HcOpts = -O0 -DDEBUG -Wall
-GhcLibHcOpts    = -O -fasm
-GhcLibWays      = v
-SplitObjs       = NO
-}}}
-
-What do these options do?
-
- {{{SRC_HC_OPTS = -H32m -O -fasm}}}::
-  These options are added to the command line for all Haskell
-  compilations.  We turn on `-fasm`, because that halves compilation
-  time at the expense of a few percent performance.
-
- {{{GhcStage1HcOpts = -O -fasm}}}::
+ {{{GhcStage1HcOpts = -O}}}::
   Build stage 1 optimised: we're going to be rebuilding stage 2 a lot,
   so we want the compiler that does the building to be fast.
 
- {{{GhcStage2HcOpts = -O0 -DDEBUG -Wall}}}::
+ {{{GhcStage2HcOpts = -O0 -DDEBUG}}}::
   We turn off optimisation here, assuming you'll be modifying and
   testing stage 2.  With optimisation off, rebuilding GHC after
   modifying it will be ''much'' quicker, not only because the
@@ -307,24 +292,14 @@ What do these options do?
   Also we turn on {{{-DDEBUG}}}, because that enables assertions and
   debugging code in the compiler itself.  Turning on DEBUG makes
   the compiler about 30% slower.
-  [[br]][[br]]
-  `-Wall` turns on all the warnings; GHC is meant to be warning-clean
-  with `-Wall`.
 
- {{{GhcLibHcOpts = -O -fasm}}}::
+ {{{GhcLibHcOpts = -O -dcore-lint}}}::
   You almost certainly want optimisation ''on'' when building
   libraries, otherwise the code you build with this compiler
   goes really slowly.
-
- {{{GhcLibWays = v}}}::
-  Normally the profiled libraries are built.  Setting {{{GhcLibWays}}} to
-  just "v" disables this, so you only build the normal libs.
-
- {{{SplitObjs = NO}}}::
-  Object splitting causes each module to be split into smaller
-  pieces in the final library, to reduce executable sizes when
-  linking against the library.  It can be quite time and
-  memory-consuming, so turn it off when you're hacking.
+  [[br]][[br]]
+  When building the libraries, also turn on heavyweight intra-pass
+  sanity-checking within GHC, at the Core level.
 
 == Building things ==
 
