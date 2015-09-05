@@ -595,7 +595,7 @@ $ make 2
 ```
 
 
-This is like `make stage=2`, except that it omits the dependency-building phase (`make 2` is in fact just shorthand for `make stage=2 FAST=YES`; see [Fast Rebuilding](building/using#fast-rebuilding) below).  If you have changed the imports in any modules, those new dependencies will not be taken into account by the build system, so you might get a build failure.  On the other hand, this shortcut usually works and the few seconds it saves can make GHC development a much more interactive experience.  There are also targets
+This is like `make stage=2`, except that it omits the dependency-building phase (`make 2` is in fact just shorthand for `make stage=2 FAST=YES`; see [Fast Rebuilding](building/using#fast-rebuilding) below).  If you have changed the imports in any modules, those new dependencies will not be taken into account by the build system, so you **might get a build failure**.  On the other hand, this shortcut usually works and the few seconds it saves can make GHC development a much more interactive experience.  There are also targets
 
 - `make 1`
 - `make 3`
@@ -632,6 +632,9 @@ Only has an effect in a subdirectory.  Setting `FAST=YES` causes `make` to omit 
 and also omits some of the [phases](building/architecture/idiom/phase-ordering).  `FAST=YES` is allowed in conjunction
 with any other target; for example, it makes sense when rebuilding a single file, as in the previous section.
 </td></tr></table>
+
+>
+> Note that with `FAST=YES`, if you have changed the imports in any modules, those new dependencies will not be taken into account by the build system, so you **might get a build failure**.  
 
 <table><tr><th>`make fast`</th>
 <td>

@@ -490,7 +490,7 @@ $ cd ghc
 $ make 2
 }}}
 
-This is like `make stage=2`, except that it omits the dependency-building phase (`make 2` is in fact just shorthand for `make stage=2 FAST=YES`; see [#Fastrebuilding Fast Rebuilding] below).  If you have changed the imports in any modules, those new dependencies will not be taken into account by the build system, so you might get a build failure.  On the other hand, this shortcut usually works and the few seconds it saves can make GHC development a much more interactive experience.  There are also targets
+This is like `make stage=2`, except that it omits the dependency-building phase (`make 2` is in fact just shorthand for `make stage=2 FAST=YES`; see [#Fastrebuilding Fast Rebuilding] below).  If you have changed the imports in any modules, those new dependencies will not be taken into account by the build system, so you **might get a build failure**.  On the other hand, this shortcut usually works and the few seconds it saves can make GHC development a much more interactive experience.  There are also targets
  * `make 1` 
  * `make 3` 
 to make the stage 1 and stage 3 compilers respectively.  These targets work in both the `ghc` and `compiler` subdirectories ([wiki:Commentary/SourceTree]).
@@ -518,6 +518,8 @@ Often when you're working in a particular part of the tree, the rest of the tree
    Only has an effect in a subdirectory.  Setting `FAST=YES` causes `make` to omit rebuilding the `.depend` file (if any),
    and also omits some of the [wiki:Building/Architecture/Idiom/PhaseOrdering phases].  `FAST=YES` is allowed in conjunction
    with any other target; for example, it makes sense when rebuilding a single file, as in the previous section.
+
+   Note that with `FAST=YES`, if you have changed the imports in any modules, those new dependencies will not be taken into account by the build system, so you **might get a build failure**.  
 
  `make fast`::
    Shorthand for `make all FAST=YES`.
