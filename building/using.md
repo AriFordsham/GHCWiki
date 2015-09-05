@@ -489,8 +489,8 @@ There are 4 things to remember:
 1. Select `BuildFlavour = devel2` in your `build.mk` file, to
   [make GHC build quickly](building/using#how-to-make-ghc-build-quickly).
 
-1. Don't run `make` in the ghc root directory. Instead, first change to
-  the directory where you're making your changes (usually `compiler`).
+1. Don't run `make` directly in the ghc root directory. Instead, first
+  change to the directory where you're making your changes.
   See [Building a single sub-component](building/using#).
 
 1. Set `stage=2` in your `build.mk` file, to
