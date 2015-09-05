@@ -12,6 +12,27 @@ The reason, of course, is that whenever you write `data Nat = Z | S !Nat`, you d
 
 An auxiliary concern is in the implementation of mutable variables: it is extremely useful to be able to assume that a pointer you have is to the honest closure that contains the mutable field, not an indirection to that closure. Without this guarantee, code which writes to this mutable variable has to first check if the thunk is fully evaluated before actually performing the memory write. For this reason, the `MutVar#` primitive (which is a GC'd object) lives in kind #, the kind of unlifted types.
 
+== The summary ==
+
+{{{
+-- | A new kind of unlifted data types.
+data Unlifted
+
+-- | Unlifts a lifted type. Does not change representation of object (like newtype).
+data Force :: * -> Unlifted where
+  Force :: !a -> Force a
+
+-- | Lifts an unlifted type. Does not change representation of object (like newtype).
+data Box (a :: Unlifted) = Box a
+
+instance Coercible (Box (Force a)) a
+instance Coercible a (Box (Force a))
+
+-- | Suspend an unlifted computation (without returning a Box).
+suspend :: Force a -> a
+suspend a = coerce (Box a)
+}}}
+
 == The plan ==
 
 **Split `#` into two kinds, `Unlifted` and `Unboxed`.** We separate `#` into a new kind `Unlifted` (name due for bikeshedding), which represents unlifted but boxed data types, distinguished from `Unboxed`, which is unlifted and unboxed data types. Currently, `MutVar#` and `Int#` have the same kind; under this change, `MutVar#` is now `Unlifted`, while `Int#` is `Unboxed`.
@@ -44,8 +65,7 @@ In this example, we get the error "foo", not bar, because the binding of `y` mus
 data Force :: * -> Unlifted where
   Force :: !a -> Force a
 
-data Box :: Unlifted -> * where
-  Box :: forall (a :: Unlifted). a -> Box a
+data Box (a :: Unlifted) = Box a
 }}}
 
 Intuitively, `Force a` is the "head strict" version of `a`: if you have `x :: Force Int` in scope, it is guaranteed to have already been evaluated to an `Int`. Similarly, `Box a` delays the execution of the unlifted type.
@@ -71,9 +91,27 @@ Of course, this is just the well-known phenomenon that inlining in a CBV languag
 
 **Box is compiled without any boxing.** A value of type `Box a` is only admits the values `undefined` and `Box a`: `Box undefined` is excluded by the `Unlifted` kind of `a`.  Thus, we can represent `Box` on the heap simply as a lifted pointer to `a` which may be undefined.
 
-**Introduce coercions that witness representational equality.** Ideally, we would like to define the coercion `Coercible (Force a) a`, to witness the fact that `Force a` is representationally the same as `a`. However, this coercion is ill-kinded (`Force a` has kind `Unlifted` but `a` has kind `*`), so we would need John Major equality style coercions.
+**Introduce coercions that witness representational equality.** Ideally, we would like to define the coercion `Coercible (Force a) a`, to witness the fact that `Force a` is representationally the same as `a`. However, this coercion is ill-kinded (`Force a` has kind `Unlifted` but `a` has kind `*`), so we would need John Major equality style coercions. Instead, we introduce the well-kinded coercion `Coercible (Box (Force a)) a` . This is valid due to the special case representational equality for `Box`.
 
-Instead, we introduce the well-kinded coercion `Coercible (Box (Force a)) a` . This is valid due to the special case representational equality for `Box`. You can box and coerce using the special bidirectional pattern synonym `Thunk`:
+**Define a function `suspend`.** It is defined as follows:
+
+{{{
+suspend :: Force a -> a
+suspend a = coerce (Box a)
+}}}
+
+This function can be used to suspend unlifted computations, e.g. `suspend (error "foo")` does not error until forced. Like `Box`, unlifted computations may not be lifted out of `suspend` without changing the semantics.
+
+**Non-polymorphic unlifted types can directly be unpacked.** The following declarations are representationally equivalent:
+
+{{{
+data T = T {-# UNPACK #-} !Int
+data T = T {-# UNPACK #-} (Force Int)
+}}}
+
+Of course, the constructors still have different types.
+
+**(OPTIONAL) Introduce a pattern synonym `Thunk`.** `suspend` can be generalized into the bidirectional pattern synonym `Thunk`:
 
 {{{
 pattern Thunk a <- x | let a = Force x
@@ -94,24 +132,31 @@ let Thunk x = 3 + 5 :: Int
 in x :: Force Int
 }}}
 
-**Non-polymorphic unlifted types can directly be unpacked.** The following declarations are representationally equivalent:
-
-{{{
-data T = T {-# UNPACK #-} !Int
-data T = T {-# UNPACK #-} (Force Int)
-}}}
-
-Of course, the constructors still have different types.
-
 **(OPTIONAL) Give some syntax for `Force`.** Instead of writing `f :: Force Int -> Force Int`, we might like to write `f :: Int! -> Int!`. We define post-fix application of bang to be a wrapping of `Force`.
+
+== Dynamic semantics of unlifted types ==
+
+In this section, we review the dynamic semantics of unlifted types.  These are not being added by our proposal (since they are already implemented by `#`), but since they are fairly unfamiliar to most Haskell users, I think this section will be useful.
+
+**Case binding.** Given `case e of x1 -> e1`, where `e` is `Unlifted`, `e` is evaluated to whnf, and then the result is case-matched upon. (i.e. it is always as if it is a strict pattern match.)
+
+**Let bindings.** Given `let x = e in e'`, where `x` is `Unlifted)`, this desugars to `let !x = e in e'` which desugars to `case e of !x -> e'`. Mutually recursive let bindings of unlifted variables are not allowed. Let bindings are evaluated bottom up (but see #10824).
+
+**Conditionals.** Given `if e then e1 else e2` where `e1` and `e2` are `Unlifted`, this desugars into the obvious case. (NB: this means `e1` and `e2` are not eagerly evaluated, as they would be for an `ifthenelse` function.)
+
+**Constructors and function application.** Given `K e` where `e` is `Unlifted`, this desugars into `case e of !x -> K x`. NB: if `K` is in kind star, then this expression admits bottom!
+
+Intuitively, if you have an unlifted type, anywhere you let bind it or pass it to a function, you evaluate it. Strict let bindings cannot be arbitrarily floated; you must preserve the ordering of bindings and they cannot be floated beyond an expression kinded `*`.
 
 == Implementation ==
 
-Should be simple, except maybe for syntax.
+Should be simple, except maybe for syntax and the special `Thunk` pattern synonym.
 
 == FAQ ==
 
-**Why not `!Int` rather than `Int!` as the syntax proposal?** This syntax conflicts with strict data fields. `data S a = S !a` has a constructor of type `S :: Int -> S`, taking a lifted type and evaluating it before placing it in the constructor; `data S a = S a!` has a constructor of type `S :: Force Int -> S`, which requires the *user* to have forced the integer.
+**Why do you get to use error in the unlifted examples, isn't error a bottom?** `error` is specially treated to be both lifted and unlifted. It's interpretation in an unlifted setting is that it immediately causes an exception when it is evaluated (it never goes into the heap).
+
+**Why not `!Int` rather than `Int!` as the syntax proposal?** This syntax conflicts with strict data fields. `data S a = S !a` has a constructor of type `S :: Int -> S`, taking a lifted type and evaluating it before placing it in the constructor; `data S a = S a!` has a constructor of type `S :: Force Int -> S`, which requires the //user// to have forced the integer. Representationally, the data types are the same, but the outward behavior for clients differs dramatically.
 
 **Is `Force (Maybe (Force Int))` allowed?** No, because `Force Int` has kind `Unlifted` but `Maybe` has kind `* -> Unlifted`. A data type declaration must be explicitly written to accept an unlifted type (`data StrictMaybe (a :: Unlifted) = SMaybe a`), or simply be strict in its field (`data StrictMaybe2 a = SMaybe2 !a`).
 
@@ -121,11 +166,7 @@ Should be simple, except maybe for syntax.
 
 **Why aren't strict patterns enough?** A user can forget to write a strict pattern at a use-site. Putting a type in kind unlifted forces all use-sites to act as if they had strict patterns.
 
-**In what order do my binders get evaluated?** Backwards, but we should fix this. See #10824
-
 **Why do we need a new kind `Unlifted`, does `#` work OK?** Actually, it would; but with a new kind, we can make a distinction between types with uniform representation (boxed), and types without it (unboxed).
-
-**Can I unlift newtypes/type synonyms/...?** This is probably OK, in which case this proposal should be called `UnliftedTypes` instead?
 
 **Is `Force [a]` the type of strict lists?** No. It is the type of a lazy list whose head is always evaluated and non-bottom.
 
