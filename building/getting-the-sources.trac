@@ -79,8 +79,11 @@ Starting with GHC 7.10.1, you can simply clone a specific tag via:
 For 7.8 or earlier, follow the [Building/GettingTheSources/Legacy legacy] instructions.
 
 
-=== Getting a GHC repository from !GitHub ===
-
+=== Cloning from !GitHub ===
+{{{#!comment
+The url `wiki:Building/GettingTheSources/CloningfromGitHub` is mentioned in `./boot`.
+Please don't update it willy-nilly.
+}}}
 The official mirror for GHC on GitHub is located at [https://github.com/ghc/ghc].
 
 First configure the following Git url rewrites to account for the different naming scheme on GitHub (due to GitHub not supporting `/` in repository names) before cloning (those rules are persisted in `${HOME}/.gitconfig` so you need to perform it only once):
