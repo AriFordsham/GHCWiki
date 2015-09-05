@@ -5,7 +5,7 @@
 This part of the guide is about *using* the build system, that is,
 how to interact with the build system when you're developing some part
 of GHC, its libraries or tools.  The section aims to be comprehensive;
-for a quick start, read [Building/Hacking](building/hacking) first.
+for a quick start, read [Newcomers](newcomers) first.
 
 ## Booting, configuring, cleaning
 
@@ -55,7 +55,7 @@ See also [standard targets](building/architecture/idiom/standard-targets) and [C
 
 
 We gave a quick getting-started introduction to building GHC in
-[Building/Hacking](building/hacking), the following sections describe each step
+[Newcomers](newcomers), the following sections describe each step
 in more detail.
 
 

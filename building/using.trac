@@ -6,7 +6,7 @@
 This part of the guide is about ''using'' the build system, that is,
 how to interact with the build system when you're developing some part
 of GHC, its libraries or tools.  The section aims to be comprehensive;
-for a quick start, read [wiki:Building/Hacking] first.
+for a quick start, read [wiki:Newcomers] first.
 
 
 == Booting, configuring, cleaning ==
@@ -52,7 +52,7 @@ See also [wiki:Building/Architecture/Idiom/StandardTargets standard targets] and
 == Steps to prepare for building ==
 
 We gave a quick getting-started introduction to building GHC in
-[wiki:Building/Hacking], the following sections describe each step
+[wiki:Newcomers], the following sections describe each step
 in more detail.
 
 In the build system, the path to the top of your build tree is
