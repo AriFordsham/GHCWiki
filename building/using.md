@@ -337,53 +337,6 @@ Enable building of the extra libraries: those packages that have an `'extra'` ta
 Set `V=0` to get prettier build output. See [Building/Using\#Verbosebuild](building/using#verbose-build) below.
 </td></tr></table>
 
-#### How to make GHC build quickly
-
-
-The GHC build tree is set up so that, by default, it builds a compiler
-ready for installing and using.  That means full optimisation, and the
-build can take a *long* time.  If you unpack your source tree and
-right away say `./configure; make`, expect to have to wait a while.
-For hacking, you want the build to be quick - quick to build in the
-first place, and quick to rebuild after making changes.  Tuning your
-build setup can make the difference between several hours to build
-GHC, and less than an hour.  
-
-
-In the `build.mk` file, select `BuildFlavour = devel2` to make the
-build fast, and suitable for working on the stage2 compiler.
-Here's the reasoning behind some of the `devel2` settings:
-
-<table><tr><th>`GhcStage1HcOpts = -O`</th>
-<td>
-Build stage 1 optimised: we're going to be rebuilding stage 2 a lot,
-so we want the compiler that does the building to be fast.
-</td></tr></table>
-
-<table><tr><th>`GhcStage2HcOpts = -O0 -DDEBUG`</th>
-<td>
-We turn off optimisation here, assuming you'll be modifying and
-testing stage 2.  With optimisation off, rebuilding GHC after
-modifying it will be *much* quicker, not only because the
-individual compilations will be quicker, but also there will be
-fewer dependencies between modules, so much less stuff is recompiled
-after each modification.
-
-Also we turn on `-DDEBUG`, because that enables assertions and
-debugging code in the compiler itself.  Turning on DEBUG makes
-the compiler about 30% slower.
-</td></tr></table>
-
-<table><tr><th>`GhcLibHcOpts = -O -dcore-lint`</th>
-<td>
-You almost certainly want optimisation *on* when building
-libraries, otherwise the code you build with this compiler
-goes really slowly.
-
-When building the libraries, also turn on heavyweight intra-pass
-sanity-checking within GHC, at the Core level.
-</td></tr></table>
-
 ## Building things
 
 
@@ -500,45 +453,6 @@ downside is that it will build everything right though to the stage2
 compiler and including all the documentation, which might be overkill
 if all you wanted to do was to test a small change to GHC.
 
-### Building a single sub-component
-
-
-Each subdirectory of the source tree has a
-[stub makefile](building/architecture/idiom/stub-makefiles),
-most of which follow this pattern:
-
-```wiki
-dir = libraries/base
-TOP = ../..
-include $(TOP)/mk/sub-makefile.mk
-```
-
-
-the main purpose of the stub makefile is to invoke `make` at the
-top-level of the tree: GHC's build system is
-[non-recursive](building/architecture/idiom/non-recursive-make), so
-in effect there is really just one `Makefile`, at the top level.
-However, the stub makefile has another purpose: it passes a target to
-the top-level `Makefile`, telling it to build just the components of
-the system in this directory.  For example, when you say `make` in the
-`rts` directory, this is actually equivalent to
-
-```wiki
-$ make -C .. all_rts
-```
-
-
-where "`-C ..`" tells make to invoke the `Makefile` in the directory "`..`", and `all_rts` is the target that makes everything in the `rts` subdirectory.
-Equivalently, `make all_libraries/base` at the top level would build
-everything in the `libraries/base` subdirectory.  To understand how
-the `all` targets are defined, see
-[standard targets](building/architecture/idiom/standard-targets).
-
-
-You can also clean a single component of the tree, just by saying
-`make clean` in a subdirectory.  Again this is equivalent to issuing a
-command at the top of the tree of the form `make clean_libraries/base`.
-
 ### Building a single file
 
 
@@ -567,87 +481,200 @@ $ make dist-install/build/Control/Monad.o EXTRA_HC_OPTS=-dcore-lint
 
 you could also cut-and-paste the command-line to add flags, but sometimes the `EXTRA_HC_OPTS` method is more convenient.
 
-### Rebuilding the GHC binary after making changes
+## Fast rebuilding
 
 
-Suppose you want to make a small change to GHC itself and test it.
-Assuming that your tree is already up to date, the best way to do this
-is as follows:
+There are 4 things to remember:
+
+1. Select `BuildFlavour = devel2` in your `build.mk` file, to
+  [make GHC build quickly](building/using#how-to-make-ghc-build-quickly).
+
+1. Don't run `make` in the ghc root directory. Instead, first change to
+  the directory where you're making your changes (usually `compiler`).
+  See [Building a single sub-component](building/using#).
+
+1. Set `stage=2` in your `build.mk` file, to
+  [freeze the stage 1 compiler](building/using#freezing-stage-1).
+
+1. Use `make fast` to
+  [skip dependency building](building/using#skip-dependency-building).
+
+### How to make GHC build quickly
+
+
+The GHC build tree is set up so that, by default, it builds a compiler
+ready for installing and using.  That means full optimisation, and the
+build can take a *long* time.  If you unpack your source tree and
+right away say `./configure; make`, expect to have to wait a while.
+For hacking, you want the build to be quick - quick to build in the
+first place, and quick to rebuild after making changes.  Tuning your
+build setup can make the difference between several hours to build
+GHC, and less than an hour.  
+
+
+In the `build.mk` file, select `BuildFlavour = devel2` to make the
+build fast, and suitable for working on the stage2 compiler.
+
+
+Here's the reasoning behind some of the `devel2` settings:
+
+<table><tr><th>`GhcStage1HcOpts = -O`</th>
+<td>
+Build stage 1 optimised: we're going to be rebuilding stage 2 a lot,
+so we want the compiler that does the building to be fast.
+</td></tr></table>
+
+<table><tr><th>`GhcStage2HcOpts = -O0 -DDEBUG`</th>
+<td>
+We turn off optimisation here, assuming you'll be modifying and
+testing stage 2.  With optimisation off, rebuilding GHC after
+modifying it will be *much* quicker, not only because the
+individual compilations will be quicker, but also there will be
+fewer dependencies between modules, so much less stuff is recompiled
+after each modification.
+
+Also we turn on `-DDEBUG`, because that enables assertions and
+debugging code in the compiler itself.  Turning on DEBUG makes
+the compiler about 30% slower.
+</td></tr></table>
+
+<table><tr><th>`GhcLibHcOpts = -O -dcore-lint`</th>
+<td>
+You almost certainly want optimisation *on* when building
+libraries, otherwise the code you build with this compiler
+goes really slowly.
+
+When building the libraries, also turn on heavyweight intra-pass
+sanity-checking within GHC, at the Core level.
+</td></tr></table>
+
+### Building a single sub-component
+
+
+Often when you're working in a particular part of the tree,
+the rest of the tree is up to date, and you just want to
+rebuild the component you're working on after making changes.
+So the GHC build system provides ways to do this.
+
+
+Each subdirectory of the source tree has a
+[stub makefile](building/architecture/idiom/stub-makefiles),
+most of which follow this pattern:
 
 ```wiki
-$ cd ghc
-$ make stage=2
+dir = libraries/base
+TOP = ../..
+include $(TOP)/mk/sub-makefile.mk
 ```
 
 
-Note that the first command above takes you to the `ghc` subdirectory of the source tree, not into the source tree (which is also named `ghc` if you did a `git clone`).  So if you did a `git clone` from your home directory, you'll be in `~/ghc/ghc/`, not `~/ghc/`.  Many of the compiler-building `make` commands must be performed from this subdirectory, not from the root of the source tree.
+the main purpose of the stub makefile is to invoke `make` at the
+top-level of the tree: GHC's build system is
+[non-recursive](building/architecture/idiom/non-recursive-make), so
+in effect there is really just one `Makefile`, at the top level.
+However, the stub makefile has another purpose: it passes a target to
+the top-level `Makefile`, telling it to build just the component
+in this directory.
 
 
-This will bring the stage 2 compiler up to date only.  Setting `stage=2` has the effect of disabling all the
-rules that build the stage 1 compiler, so the build system will ignore the fact that the stage 1 compiler is also out of date, and hence all the libraries are also potentially out of date.  If you just did `make`
-from the top-level, all of these dependencies would be taken into
-account, and a lot of rebuilding would probably ensue.  There's another target
-that takes an even quicker shortcut:
+For example:
 
 ```wiki
-$ cd ghc
-$ make 2
+$ cd compiler
+$ make
 ```
 
 
-This is like `make stage=2`, except that it omits the dependency-building phase (`make 2` is in fact just shorthand for `make stage=2 FAST=YES`; see [Fast Rebuilding](building/using#fast-rebuilding) below).  If you have changed the imports in any modules, those new dependencies will not be taken into account by the build system, so you **might get a build failure**.  On the other hand, this shortcut usually works and the few seconds it saves can make GHC development a much more interactive experience.  There are also targets
+is actually equivalent to:
 
-- `make 1`
-- `make 3`
-
-
-to make the stage 1 and stage 3 compilers respectively.  These targets work in both the `ghc` and `compiler` subdirectories ([Commentary/SourceTree](commentary/source-tree)).
+```wiki
+$ make -C .. all_compiler
+```
 
 
-In addition, the `re1`, `re2`, and `re3` rules quickly rebuilds the stage 1, 2, and 3 compiler executables (e.g. `re2` is equivalent to `rm $PATH_TO_STAGE2_EXECUTABLE; make 2`). This is useful for relinking the compiler after a change like `GhcDebugged=YES`.
+where "`-C ..`" tells make to invoke the `Makefile` in the directory
+"`..`", and `all_compiler` is the target that makes everything in the
+`compiler` subdirectory.
 
 
-Note that if you’ve never built stage3 before, you will need to create dependencies for it using `make stage=3`. This is because a normal build will skip building the stage3 compiler. You will then be able to run `make 3` as usual.
+Equivalently, `make all_libraries/base` at the top level would build
+everything in the `libraries/base` subdirectory.  To understand how
+the `all` targets are defined, see
+[standard targets](building/architecture/idiom/standard-targets).
+
+
+You can also clean a single component of the tree, just by saying
+`make clean` in a subdirectory.  Again this is equivalent to issuing a
+command at the top of the tree of the form `make clean_libraries/base`.
 
 ### Freezing stage 1
 
 
-Often when working on GHC we find ourselves doing `make 2` a lot.  If we accidentally say `make` at some point, that will start building stage 1 (because presumably something in the GHC source code has changed), which has many knock-on effects: all the libraries will be reconfigured, rebuilt, and then stage 2 will be completely rebuilt.  To prevent this from happening, we can "freeze" stage 1 by adding a line to `mk/build.mk`:
+We can "freeze" the stage 1 compiler by adding a line to `mk/build.mk`:
 
 ```wiki
-stage = 2
+stage=2
 ```
 
 
-this prevents stage 1 from being rebuilt until this line is removed or commented-out again.  It's a handy trick when you're working on GHC.
+Setting `stage=2` has the effect of disabling all the
+rules that build the stage 1 compiler, so the build
+system will ignore the fact that the stage 1 compiler
+is also out of date, and hence all the libraries are
+also potentially out of date. If you ran `make` without
+setting `stage=2`, all of these dependencies would be
+taken into account, and a lot of rebuilding would
+probably ensue. 
 
-### Fast rebuilding
-
-
-Often when you're working in a particular part of the tree, the rest of the tree is up to date, and you just want to rebuild the component you're working on after making changes.  To speed things up, we'd like to avoid having `make` check that everything else in the tree is up-to-date before building the component we're working on.  So the GHC build system provides a couple of ways to do this:
-
-<table><tr><th>`make FAST=YES`</th>
-<td>
-Only has an effect in a subdirectory.  Setting `FAST=YES` causes `make` to omit rebuilding the `.depend` file (if any),
-and also omits some of the [phases](building/architecture/idiom/phase-ordering).  `FAST=YES` is allowed in conjunction
-with any other target; for example, it makes sense when rebuilding a single file, as in the previous section.
-</td></tr></table>
-
->
-> Note that with `FAST=YES`, if you have changed the imports in any modules, those new dependencies will not be taken into account by the build system, so you **might get a build failure**.  
-
-<table><tr><th>`make fast`</th>
-<td>
-Shorthand for `make all FAST=YES`.
-</td></tr></table>
+### Skip dependency building
 
 
-Another useful trick is
+Use `make fast` to skip dependency building. This
+command works only in the subdirectories.
 
-<table><tr><th>`make stage=0`</th>
-<td>
-Does not build any GHC stages at all.  `stage=0` can be used in combination with other targets and settings. `FAST=YES` implies `stage=0` in the libraries subdirectories.
-</td></tr></table>
+`make fast` is a shorthand for `make all FAST=YES`.
+Setting `FAST=YES` causes `make` to omit rebuilding the
+`.depend` file (if any), and also omits some of the
+[phases](building/architecture/idiom/phase-ordering).
+`FAST=YES` is allowed in conjunction with any other
+target; for example, it also makes sense when
+rebuilding a single file.
+
+
+Note that with `FAST=YES`, if you have changed the
+imports in any modules, those new dependencies will not
+be taken into account by the build system, so you
+**might get a build failure**. On the other hand, this
+shortcut usually works and the few seconds it saves can
+make GHC development a much more interactive experience. 
+
+### Rebuilding the GHC binary after making changes
+
+
+There are specific commands to quickly rebuild the GHC binary.
+These commands only work in the `ghc` and `compiler` subdirectories.
+
+
+If you followed the advice of freezing the stage 1 compiler,
+by setting `stage=2` in your `build.mk` file, you won't need these,
+and `make fast` accomplishes the same thing.
+
+- `make 1` means `make stage=1 FAST=YES`
+- `make 2` means `make stage=2 FAST=YES`
+- `make 3` means `make stage=3 FAST=YES`
+- `make re2` means `rm $PATH_TO_STAGE1_EXECUTABLE; make 1`
+- `make re2` means `rm $PATH_TO_STAGE2_EXECUTABLE; make 2`
+- `make re2` means `rm $PATH_TO_STAGE3_EXECUTABLE; make 3`
+
+
+The `re1`, `re2`, and `re3` are useful for relinking the
+compiler after a change like `GhcDebugged=YES`.
+
+
+Note that if you’ve never built stage3 before, you will need
+to create dependencies for it using `make stage=3`. This is
+because a normal build will skip building the stage3 compiler.
+You will then be able to run `make 3`.
 
 ## Verbose build
 
