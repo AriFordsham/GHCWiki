@@ -51,8 +51,7 @@ In this example, we get the error "foo", not bar, because the binding of `y` mus
 data Force :: * -> Unlifted where
   Force :: !a -> Force a
 
-data Box :: Unlifted -> * where
-  Box :: forall (a :: Unlifted). a -> Box a
+data Box (a :: Unlifted) = Box a
 ```
 
 
