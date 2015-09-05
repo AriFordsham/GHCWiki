@@ -119,10 +119,23 @@ Of course, the constructors still have different types.
 
 **(OPTIONAL) Give some syntax for `Force`.** Instead of writing `f :: Force Int -> Force Int`, we might like to write `f :: Int! -> Int!`. We define post-fix application of bang to be a wrapping of `Force`.
 
+## Dynamic semantics of unlifted types
+
+
+In this section, we review the dynamic semantics of unlifted types.  These are not being added by our proposal (since they are already implemented by `#`), but since they are fairly unfamiliar to most Haskell users, I think this section will be useful.
+
+**Case binding.** Given `case e of x1 -> e1`, where `e` is `Unlifted`, `e` is evaluated to whnf, and then the result is case-matched upon.
+
+**Let bindings.** Given `let x = e in e'`, where `x` is `Unlifted)`, this desugars to `let !x = e in e'` which desugars to `case e of !x -> e'`. Mutually recursive let bindings of unlifted variables are not allowed. Let bindings are evaluated bottom up (but see [\#10824](https://gitlab.haskell.org//ghc/ghc/issues/10824)).
+
+**Conditionals.** Given `if e then e1 else e2` where `e1` and `e2` are `Unlifted`, this desugars into the obvious case. (NB: this means `e1` and `e2` are not eagerly evaluated, as they would be for an `ifthenelse` function.)
+
+**Constructors.** Given `K e` where `e` is `Unlifted`, this desugars into `case e of !x -> K x`. Nb: if `K` is in kind star, then this expression admits bottom!
+
 ## Implementation
 
 
-Should be simple, except maybe for syntax.
+Should be simple, except maybe for syntax and the special `Thunk` pattern synonym.
 
 ## FAQ
 
