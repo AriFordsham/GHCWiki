@@ -1,6 +1,6 @@
 = Quick Start to just building and installing GHC =
 
-Below are quick instructions for '''just building and installing GHC'''. For instructions on how to use the build system as a '''developer''', go to the [wiki:Building/Hacking Quick Start to using the build system as a developer].
+Below are quick instructions for '''just building and installing GHC'''. For instructions on how to use the build system as a '''developer''', go to the [wiki:Newcomers Newcomers page].
 
 The following instructions assume that you have [wiki:Building/GettingTheSources got the sources] and [wiki:Building/Preparation installed the necessary tools].
 
