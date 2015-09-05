@@ -397,25 +397,6 @@ you could also cut-and-paste the command-line to add flags, but sometimes the `E
 
 
 == Fast rebuilding ==
-{{{#!comment
-This section should be kept in sync with Newcomers#Fastrebuilding. It is copied there so that all important information for newcomers is on that page as much as possible, and they don't have to click a whole bunch of links to get it.
-}}}
-
-There are 4 things to remember:
- 1. Select `BuildFlavour = devel2` in your `build.mk` file, to
-    [Building/Using#HowtomakeGHCbuildquickly make GHC build quickly].
-
- 2. Don't run `make` directly in the ghc root directory. Instead, first
-    change to the directory where you're making your changes.
-    See [Building/Using#Buildingasinglesub-component Building a single sub-component].
- 
- 3. Set `stage=2` in your `build.mk` file, to
-    [wiki:Building/Using#Freezingstage1 freeze the stage 1 compiler],
-    and only rebuild the stage 2 compiler from now on
-    (see [wiki:Building/Architecture/Idiom/Stages here] about stages).
-
- 4. Use `make fast` to
-    [wiki:Building/Using#Skipdependencybuilding skip dependency building].
 
 === How to make GHC build quickly ===
 
