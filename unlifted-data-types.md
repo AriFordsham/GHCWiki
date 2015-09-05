@@ -52,7 +52,7 @@ data Force :: * -> Unlifted where
   Force :: !a -> Force a
 
 data Box :: Unlifted -> * where
-  Box :: Force a -> Box (Force a)
+  Box :: forall (a :: Unlifted). a -> Box a
 ```
 
 
@@ -80,12 +80,33 @@ Of course, this is just the well-known phenomenon that inlining in a CBV languag
 
 **Force is compiled without any boxing.**  A value of type `Force a` only admits the value `Force a`: `undefined` is excluded by the `Unlifted` kind, and `Force undefined` is excluded by the strict field.  Thus, we can represent `Force` on the heap simply as an unlifted pointer to `a`, which is never undefined.
 
-**Box is compiled without any boxing.** A value of type `Box (Force a)` is only admits the values `undefined` and `Box a`: `Box undefined` is excluded by the `Unlifted` kind of `Force a`.  Thus, we can represent `Box` on the heap simply as a lifted pointer to `a` which may be undefined.
+**Box is compiled without any boxing.** A value of type `Box a` is only admits the values `undefined` and `Box a`: `Box undefined` is excluded by the `Unlifted` kind of `a`.  Thus, we can represent `Box` on the heap simply as a lifted pointer to `a` which may be undefined.
 
 **Introduce coercions that witness representational equality.** Ideally, we would like to define the coercion `Coercible (Force a) a`, to witness the fact that `Force a` is representationally the same as `a`. However, this coercion is ill-kinded (`Force a` has kind `Unlifted` but `a` has kind `*`), so we would need John Major equality style coercions.
 
 
-Instead, we introduce the well-kinded coercion `Coercible (Box (Force a)) a` . This is valid due to the special case representational equality for `Box`.
+Instead, we introduce the well-kinded coercion `Coercible (Box (Force a)) a` . This is valid due to the special case representational equality for `Box`. You can box and coerce using the special bidirectional pattern synonym `Thunk`:
+
+```wiki
+pattern Thunk a <- x | let a = Force x
+  where Thunk a = (coerce :: Box (Force a) -> a) (Box a)
+```
+
+
+For example:
+
+```wiki
+let x = Thunk (error "foo" :: Force Int) :: Int
+in True
+```
+
+
+does not error. Pattern matching over `Thunk` forces the argument (similar to bang patterns) and returns the unlifted value (unlike bang patterns):
+
+```wiki
+let Thunk x = 3 + 5 :: Int
+in x :: Force Int
+```
 
 **Non-polymorphic unlifted types can directly be unpacked.** The following declarations are representationally equivalent:
 
