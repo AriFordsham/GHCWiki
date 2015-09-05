@@ -18,11 +18,11 @@ An auxiliary concern is in the implementation of mutable variables: it is extrem
 -- | A new kind of unlifted data types.
 data Unlifted
 
--- | Unlifts a lifted type.
+-- | Unlifts a lifted type. Does not change representation of object (like newtype).
 data Force :: * -> Unlifted where
   Force :: !a -> Force a
 
--- | Lifts an unlifted type.
+-- | Lifts an unlifted type. Does not change representation of object (like newtype).
 data Box (a :: Unlifted) = Box a
 
 instance Coercible (Box (Force a)) a
