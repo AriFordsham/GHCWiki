@@ -108,7 +108,7 @@ Of course, the constructors still have different types.
 
 In this section, we review the dynamic semantics of unlifted types.  These are not being added by our proposal (since they are already implemented by `#`), but since they are fairly unfamiliar to most Haskell users, I think this section will be useful.
 
-**Case binding.** Given `case e of x1 -> e1`, where `e` is `Unlifted`, `e` is evaluated to whnf, and then the result is case-matched upon.
+**Case binding.** Given `case e of x1 -> e1`, where `e` is `Unlifted`, `e` is evaluated to whnf, and then the result is case-matched upon. (i.e. it is always as if it is a strict pattern match.)
 
 **Let bindings.** Given `let x = e in e'`, where `x` is `Unlifted)`, this desugars to `let !x = e in e'` which desugars to `case e of !x -> e'`. Mutually recursive let bindings of unlifted variables are not allowed. Let bindings are evaluated bottom up (but see #10824).
 
