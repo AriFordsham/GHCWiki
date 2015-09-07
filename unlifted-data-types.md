@@ -68,7 +68,7 @@ data MyInt' = MyInt' {-# UNPACK #-} !Int
 ```
 
 
-Of course, the constructors for `MyInt` and `MyInt#` have different types.
+Of course, the constructors for `MyInt` and `MyInt'` have different types.
 
 ## Proposal 2: Polymorphism over a new Unlifted kind
 
@@ -108,7 +108,7 @@ map f (BCons x xs) = BCons (f x) (map f xs)
 ```
 
 
-We do not know if `f x` should be evaluated strictly or lazily; it depends on whether or not `b` is unlifted or lifted. This case can be handled by specializing `map` for the lifted and unlifted cases.
+We do not know if `f x` should be evaluated strictly or lazily; it depends on whether or not `b` is unlifted or lifted. This case can be handled by specializing `map` for the lifted and unlifted cases.  The fact that the semantics of the function change depending on the type is a bit questionable (though not entirely unprecedented, c.f. type classes); additionally, there isn't any reason why we couldn't also generate copies of the code for all unboxed types, dealing with `Int#`, `Float#` and `Double#`: it's unclear when to stop generating copies. (For reference, .NET does this on the fly.)
 
 ## Proposal 3: Allow newtypes over unlifted types
 
@@ -120,7 +120,7 @@ newtype MyInt# = MkInt# Int#
 ```
 
 
-with `MyInt# :: #`. GHC already supports coercions in kind `#`, so this should be very simple to implement.
+with `MyInt# :: #`. GHC already supports coercions over kind `#`, so this should be very simple to implement.
 
 ## Proposal 4: Allow unlifting existing data types with no overhead
 
