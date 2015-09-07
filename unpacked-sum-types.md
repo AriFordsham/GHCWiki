@@ -38,60 +38,77 @@ In this example there is an alternative, unpacked representation that is more me
 
 This representation saves one word and one indirection compared to the packed representation, which uses four words.
 
+## Source language design
+
+
+We add new built-in types for anonymous sums, and for anonymous unboxed sums.  These are directly analogous to the existing anonymous tuples (in Haskell) and anonymous unboxed tuples (a GHC extension).  Specifically:
+
+- We add a family of new built-in **type constructors** for sums and unboxed sums:
+
+  ```wiki
+  (|),   (||),   (|||),   (||||), etc
+  (#|#), (#||#), (#|||#), (#||||#), etc
+  ```
+
+  A sum of n "\|"s is a n+1 ary sum.  (Just like tuples `(,)`, `(,,)`, etc.)
+
+- Each n-ary-sum type constructor comes with n **data constructors**, with systematically-derived names, thus:
+
+  ```wiki
+  data (||) a b c = (_||) a
+                  | (|_|) b
+                  | (||_) c
+  ```
+
+  and similarly for unboxed sums.  The `_` indicates with disjunct of the sum we mean.
+
+- You use the type constructor in a distfix way, not just prefix, like so:
+
+  ```wiki
+  (Int | Bool)          means   (|) Int Bool
+  (Int | Bool | Int)    means   (||) Int Bool Int
+  (# Int | Bool #)      means   (#|#) Int Bool
+  ```
+
+  And similarly the data constructors:
+
+  ```wiki
+  (| True)     means   (|_) True
+  (#| 'c' |#)  means   (#|_|#) 'c'
+  ```
+
+- You can use the data constructors both in terms (to construct) and in patterns (to decompose).  For patterns, illustrating both prefix and distfix forms:
+
+  ```wiki
+  case x of
+      (#| x ||#) -> ...   -- Distrix
+      (#_|||#) y -> ...   -- Prefix
+      ...two more disjuncts needed to be exhaustive
+  ```
+
+
+Anonymous sums, both boxed and unboxed, are first class values. They
+can be passed as an argument to a function, returned as its result, be
+the type of a data constructor field, and so on.  Of course, unboxed
+sums are unlifted (cannot be bottom), and should be represented
+efficiently (more on that below).
+
+
+All of this is precisely the case for tuples (boxed and unboxed).
+
+---
+
 ## Implementation
 
-
-The implementation proceeds by adding a new type for unboxed sums and then using that in the unpacking of sum types.
-
-### Core
+## Wired-in types
 
 
-We add a new primitive type constructor for the family of unboxed sums:
+Boxed and unboxed sums get implemented very like boxed and unboxed tuples; see [compiler/prelude/TysWiredIn.hs](/trac/ghc/browser/ghc/compiler/prelude/TysWiredIn.hs).
 
-```wiki
-(#|...|#)
-```
+## The Core language
 
 
-A sum of n "\|"s is a n+1 ary sum. The type constructor can then be used to create a type, like so:
-
-```wiki
-(# t1 | ... | tn #)
-```
-
-
-The data constructor looks similar, except that we use an "_" to mark which alternative of the sum we want:
-
-```wiki
-(#...|_|...#)
-```
-
-
-This gets added to [compiler/prelude/TysWiredIn.hs](/trac/ghc/browser/ghc/compiler/prelude/TysWiredIn.hs), just like for unboxed tuples.
-
-
-There's an construction and elimination form.
-
-
-Construction:
-
-```wiki
-(# ... | x | ... #)
-```
-
-
-Again we count the bars to decide which alternative of the sum we are creating.
-
-
-Elimination:
-
-```wiki
-case x of
-    (# ... | x | ... #) -> ...
-```
-
-
-This matches against one of the alternatives of the n-ary sum.
+There are no changes to Core!  (Apart from the above new built-in type constructors.)
 
 ### Core to STG
 
@@ -176,3 +193,57 @@ case e of
 
 
 This above reboxing will go away, using case-of-case and case-of-known-constructor, if we scrutinize `x` again.
+
+---
+
+# Exploiting nullary constructors
+
+
+Joachim [ writes](https://mail.haskell.org/pipermail/ghc-devs/2015-September/009831.html): The current proposed layout for a 
+
+```wiki
+    data D a = D a {-# UNPACK #-} !(Maybe a) would be
+    [D’s pointer] [a] [tag (0 or 1)] [Just’s a]
+```
+
+
+So the representation of
+
+```wiki
+         D foo (Just bar)     is     [D_info] [&foo] [1] [&bar]
+and of   D foo Nothing        is     [D_info] [&foo] [0] [&dummy]
+```
+
+
+where `dummy` is something that makes the GC happy.
+
+
+But assuming this dummy object is something that is never a valid heap objects of its own, then this should be sufficient to distinguish the two cases, and we could actually have that the representation of 
+
+```wiki
+         D foo (Just bar)     is     [D_info] [&foo] [&bar]
+and of   D foo Nothing        is     [D_info] [&foo] [&dummy]
+```
+
+
+and an case analysis on D would compare the pointer in the third word with the well-known address of dummy to determine if we have Nothing or Just. This saves one word.
+
+
+If we generate a number of such static dummy objects, we can generalize this tag-field avoiding trick to other data types than Maybe. It seems that it is worth doing that if
+
+- the number of constructors is no more than the number of static dummy objects, and
+- there is one constructor which has more pointer fields than all other constructors.
+
+
+Also, this trick cannot be applied repeatedly: If we have
+
+```wiki
+  data D = D {-# UNPACK #-} !(Maybe a) | D'Nothing
+  data E = E {-# UNPACK #-} !(D a)
+```
+
+
+then it cannot be applied when unpacking `D` into `E`. (Or maybe it can, but care has to be taken that `D`’s `Nothing` is represented by a different dummy object than `Maybe`’s `Nothing`.)
+
+
+Anyways, this is an optimization that can be implemented once unboxed sum type are finished and working reliably.
