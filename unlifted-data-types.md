@@ -52,15 +52,23 @@ main = let y = unot (error "foo")
 
 In this example, we get the error "foo", not bar, because the binding of `y` must be evaluated strictly.
 
-**Non-polymorphic unlifted types can directly be unpacked.** The following declarations are representationally equivalent:
+**Non-polymorphic unlifted types can directly be unpacked.** The following declaration is valid:
 
 ```wiki
-data T = T {-# UNPACK #-} !Int
-data T = T {-# UNPACK #-} (Force Int)
+data unlifted StrictInt = StrictInt Int#
+data MyInt = MyInt {-# UNPACK #-} StrictInt
 ```
 
 
-Of course, the constructors still have different types.
+and is representationally equivalent to `MyInt'` here:
+
+```wiki
+data Int = Int Int#
+data MyInt' = MyInt' {-# UNPACK #-} !Int
+```
+
+
+Of course, the constructors for `MyInt` and `MyInt#` have different types.
 
 ## Proposal 1.1: Polymorphism over a new Unlifted kind
 
@@ -112,7 +120,7 @@ newtype MyInt# = MkInt# Int#
 ```
 
 
-with `MyInt# :: #`. GHC already supports coercions in box `#`.
+with `MyInt# :: #`. GHC already supports coercions in kind `#`, so this should be very simple to implement.
 
 ## Proposal 3: Allow unlifting existing data types with no overhead
 
@@ -132,7 +140,14 @@ suspend a = a
 > `suspend (error "foo" :: Int#)` does not error until forced. Like `Box`, unlifted computations may not be lifted out of `suspend` without changing the semantics.
 
 
-This can all be written as library code under the first proposal; however, we notice that the value of type `Force a` only admits the value `Force a`: `undefined` is excluded by the `Unlifted` kind, and `Force undefined` is excluded by the strict field.  Thus, we can represent `Force` on the heap simply as an unlifted pointer to `a`, which is never undefined.
+This can all be written as library code under the first proposal; however, we notice that the value of type `Force a` only admits the value `Force a`: `undefined` is excluded by the `Unlifted` kind, and `Force undefined` is excluded by the strict field.  Thus, it would be great if we could represent `Force` on the heap simply as an unlifted pointer to `a`, which is never undefined.
+
+
+Ideally, we would like to define the coercion `Coercible (Force a) a`, to witness the fact that `Force a` is representationally the same as `a`. However, there are two problems:
+
+1. This coercion is ill-kinded (`Force a` has kind `Unlifted` but `a` has kind `*`), so we would need John Major equality style coercions.
+
+1. The coercion is only valid in one direction: I can coerce from `Force a` to `a`, but not vice-versa: in the other direction, evaluation may be necessary.
 
 ## Optional extensions
 
@@ -148,7 +163,7 @@ data Box (a :: Unlifted) = Box a
 Normally, such a data type would require an indirection; however, a value of type `Box a` is only admits the values `undefined` and `Box a`: `Box undefined` is excluded by the `Unlifted` kind of `a`.  Thus, we can represent `Box` on the heap simply as a lifted pointer to `a` which may be undefined.
 
 
-Ideally, we would like to define the coercion `Coercible (Force a) a`, to witness the fact that `Force a` is representationally the same as `a`. However, this coercion is ill-kinded (`Force a` has kind `Unlifted` but `a` has kind `*`), so we would need John Major equality style coercions. With `Box`, we can instead introduce the well-kinded coercion `Coercible (Box (Force a)) a` . This is valid due to the special case representational equality for `Box`.
+we can instead introduce the well-kinded coercion `Coercible (Box (Force a)) a` . This is valid due to the special case representational equality for `Box`.
 
 **(OPTIONAL) Introduce a pattern synonym `Thunk`.**`suspend` can be generalized into the bidirectional pattern synonym `Thunk`:
 
@@ -188,11 +203,6 @@ In this section, we review the dynamic semantics of unlifted types.  These are n
 
 
 Intuitively, if you have an unlifted type, anywhere you let bind it or pass it to a function, you evaluate it. Strict let bindings cannot be arbitrarily floated; you must preserve the ordering of bindings and they cannot be floated beyond an expression kinded `*`.
-
-## Implementation
-
-
-Should be simple, except maybe for syntax and the special `Thunk` pattern synonym.
 
 ## FAQ
 
