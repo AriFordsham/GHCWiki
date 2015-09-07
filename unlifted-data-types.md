@@ -149,27 +149,18 @@ Ideally, we would like to define the coercion `Coercible (Force a) a`, to witnes
 
 1. The coercion is only valid in one direction: I can coerce from `Force a` to `a`, but not vice-versa: in the other direction, evaluation may be necessary.
 
+
+My suggested implementation strategy is to bake in `Force` as a special data type, which is represented explicitly in Core, but then optimized away in STG.
+
 ## Optional extensions
 
 **(OPTIONAL) Give some syntax for `Force`.** Instead of writing `f :: Force Int -> Force Int`, we might like to write `f :: Int! -> Int!`. We define post-fix application of bang to be a wrapping of `Force`.
-
-**(OPTIONAL) To easily lift unlifted data types, define a data type `Box`.**`Box a` delays the execution of the unlifted type, and is defined as follows:
-
-```wiki
-data Box (a :: Unlifted) = Box a
-```
-
-
-Normally, such a data type would require an indirection; however, a value of type `Box a` is only admits the values `undefined` and `Box a`: `Box undefined` is excluded by the `Unlifted` kind of `a`.  Thus, we can represent `Box` on the heap simply as a lifted pointer to `a` which may be undefined.
-
-
-we can instead introduce the well-kinded coercion `Coercible (Box (Force a)) a` . This is valid due to the special case representational equality for `Box`.
 
 **(OPTIONAL) Introduce a pattern synonym `Thunk`.**`suspend` can be generalized into the bidirectional pattern synonym `Thunk`:
 
 ```wiki
 pattern Thunk a <- x | let a = Force x
-  where Thunk a = (coerce :: Box (Force a) -> a) (Box a)
+  where Thunk (Force a) = a
 ```
 
 
@@ -232,10 +223,6 @@ but this example does not:
 
 **Why aren't strict patterns enough?** A user can forget to write a strict pattern at a use-site. Putting a type in kind unlifted forces all use-sites to act as if they had strict patterns.
 
-**Why do we need a new kind `Unlifted`, does `#` work OK?** Actually, it would; but with a new kind, we can make a distinction between types with uniform representation (boxed), and types without it (unboxed).
-
 **Is `Force [a]` the type of strict lists?** No. It is the type of a lazy list whose head is always evaluated and non-bottom.
 
 **Does `foo :: Force [a] -> Force [a]` force just the first constructor or the whole spine?** You can't tell; the head not withstanding, `[a]` is still a lazy list, so you would need to look at the function body to see if any extra forcing goes on. `Force` does not induce `seq`ing: it is an obligation for the call-site.
-
-**Split `#` into two kinds, `Unlifted` and `Unboxed`.** We separate `#` into a new kind `Unlifted` (name due for bikeshedding), which represents unlifted but boxed data types, distinguished from `Unboxed`, which is unlifted and unboxed data types. Currently, `MutVar#` and `Int#` have the same kind; under this change, `MutVar#` is now `Unlifted`, while `Int#` is `Unboxed`.
