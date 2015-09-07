@@ -176,3 +176,57 @@ case e of
 
 
 This above reboxing will go away, using case-of-case and case-of-known-constructor, if we scrutinize `x` again.
+
+---
+
+# Exploiting nullary constructors
+
+
+Joachim [ writes](https://mail.haskell.org/pipermail/ghc-devs/2015-September/009831.html): The current proposed layout for a 
+
+```wiki
+    data D a = D a {-# UNPACK #-} !(Maybe a) would be
+    [D’s pointer] [a] [tag (0 or 1)] [Just’s a]
+```
+
+
+So the representation of
+
+```wiki
+         D foo (Just bar)     is     [D_info] [&foo] [1] [&bar]
+and of   D foo Nothing        is     [D_info] [&foo] [0] [&dummy]
+```
+
+
+where `dummy` is something that makes the GC happy.
+
+
+But assuming this dummy object is something that is never a valid heap objects of its own, then this should be sufficient to distinguish the two cases, and we could actually have that the representation of 
+
+```wiki
+         D foo (Just bar)     is     [D_info] [&foo] [&bar]
+and of   D foo Nothing        is     [D_info] [&foo] [&dummy]
+```
+
+
+and an case analysis on D would compare the pointer in the third word with the well-known address of dummy to determine if we have Nothing or Just. This saves one word.
+
+
+If we generate a number of such static dummy objects, we can generalize this tag-field avoiding trick to other data types than Maybe. It seems that it is worth doing that if
+
+- the number of constructors is no more than the number of static dummy objects, and
+- there is one constructor which has more pointer fields than all other constructors.
+
+
+Also, this trick cannot be applied repeatedly: If we have
+
+```wiki
+  data D = D {-# UNPACK #-} !(Maybe a) | D'Nothing
+  data E = E {-# UNPACK #-} !(D a)
+```
+
+
+then it cannot be applied when unpacking `D` into `E`. (Or maybe it can, but care has to be taken that `D`’s `Nothing` is represented by a different dummy object than `Maybe`’s `Nothing`.)
+
+
+Anyways, this is an optimization that can be implemented once unboxed sum type are finished and working reliably.
