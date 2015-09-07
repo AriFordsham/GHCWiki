@@ -38,60 +38,69 @@ In this example there is an alternative, unpacked representation that is more me
 
 This representation saves one word and one indirection compared to the packed representation, which uses four words.
 
+## Source language design
+
+
+We add new built-in types for anonymous sums, and for anonymous unboxed sums.  These are directly analogous to the existing anonymous tuples (in Haskell) and anonymous unboxed tuples (a GHC extension.  Specifically:
+
+- We add new primitive type constructors for the family of sums and unboxed sums:
+
+  ```wiki
+  (|), (||), (|||), (||||), etc
+  (#|#), (#||#), (#|||#), (#||||#),  
+  ```
+
+
+A sum of n "\|"s is a n+1 ary sum.  (Just like tuples `(,)`, `(,,)`, etc.)
+
+- Each n-ary-sum type constructor comes with n data constructors, with systematically-derived names, thus:
+
+  ```wiki
+  data (||) a b c = (_||) a
+                  | (|_|) b
+                  | (||_) c
+  ```
+
+  and similarly for unboxed sums.  The `_` indicates with disjunct of the sum we mean.
+
+- You use the type constructor in a distfix way, not just prefix, like so:
+
+```wiki
+(Int | Bool)          means   (|) Int Bool
+(Int | Bool | Int)    means   (||) Int Bool Int
+(# Int | Bool #)      means   (#|#) Int Bool
+```
+
+>
+> And similarly the data constructors:
+>
+> ```wiki
+> (| True)     means   (|_) True
+> (#| 'c' |#)  means   (#|_|#) 'c'
+> ```
+
+- You can use the data constructors both in terms (to construct) and in case patterns (to decompose).  Thus, illustrating both prefix and distfix forms:
+
+  ```wiki
+  case x of
+      (#| x ||#) -> ...
+      (#_|||#) y -> ...
+      ...two more disjuncts needed to te exhaustive
+  ```
+
+---
+
 ## Implementation
 
-
-The implementation proceeds by adding a new type for unboxed sums and then using that in the unpacking of sum types.
-
-### Core
+## Wired-in types
 
 
-We add a new primitive type constructor for the family of unboxed sums:
+Boxed and unboxed sums get implemented very like boxed and unboxed tuples; see [compiler/prelude/TysWiredIn.hs](/trac/ghc/browser/ghc/compiler/prelude/TysWiredIn.hs).
 
-```wiki
-(#|...|#)
-```
+## The Core language
 
 
-A sum of n "\|"s is a n+1 ary sum. The type constructor can then be used to create a type, like so:
-
-```wiki
-(# t1 | ... | tn #)
-```
-
-
-The data constructor looks similar, except that we use an "_" to mark which alternative of the sum we want:
-
-```wiki
-(#...|_|...#)
-```
-
-
-This gets added to [compiler/prelude/TysWiredIn.hs](/trac/ghc/browser/ghc/compiler/prelude/TysWiredIn.hs), just like for unboxed tuples.
-
-
-There's an construction and elimination form.
-
-
-Construction:
-
-```wiki
-(# ... | x | ... #)
-```
-
-
-Again we count the bars to decide which alternative of the sum we are creating.
-
-
-Elimination:
-
-```wiki
-case x of
-    (# ... | x | ... #) -> ...
-```
-
-
-This matches against one of the alternatives of the n-ary sum.
+There are no changes to Core!  (Apart from the above new built-in type constructors.)
 
 ### Core to STG
 
