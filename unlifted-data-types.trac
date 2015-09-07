@@ -62,7 +62,7 @@ Of course, the constructors for `MyInt` and `MyInt#` have different types.
 
 Currently, we have two different kinds (ahem) of unlifted types which live in `#`: unboxed, unlifted types such as `Int#`, and boxed, unlifted types such as `Array#` and the unlifted data types we can now define.
 
-This subproposal is to distinguish between these two kinds, calling boxed, unlifted kinds `Unlifted`. The motivation is that if users start defining and using unlifted types in normal code, they are more likely to be able to be polymorphic over unlifted types. There are two particular cases of polymorphism we might like to support:
+This subproposal is to distinguish between these two kinds, calling boxed, unlifted kinds `Unlifted`. If users start defining and using unlifted types in normal code,  it is likely that they will request polymorphism over unlifted types. There are two particular cases of polymorphism we might like to support:
 
 **Polymorphism over unlifted types in types and functions.** In data types and functions, we may want to be polymorphic over a type variable in kind `Unlifted`:
 
