@@ -1,7 +1,11 @@
 # Unlifted data types
 
 
-This page describes the unlifted data types, i.e. algebraic data types which live in kind Unlifted rather than kind \*.
+This page describes the unlifted data types, i.e. algebraic data types which live in kind `#` rather than kind \*. In fact, this is a collection of standalone proposals:
+
+1. Allow data types to be declared unlifted. (Should be easy; but has a harder subproposal to separate a new kind `Unlifted` from `#`)
+1. Allow newtypes over unlifted types (giving them kind `#`). (Should be easy.)
+1. Provide a built-in `Force a` which is an unlifted version of `a`, with no indirection cost. (Harder.)
 
 ## Motivation
 
@@ -12,40 +16,28 @@ Bob Harper [ has written](https://existentialtype.wordpress.com/2011/04/24/the-r
 > Haskell suffers from a paucity of types.  It is not possible in Haskell to define the type of natural numbers, nor the type of lists of natural numbers (or lists of anything else), nor any other inductive type!
 
 
-The reason, of course, is that whenever you write `data Nat = Z | S !Nat`, you define a type of strict natural numbers, AS WELL AS bottom. Ensuring that an `x :: Nat` is never bottom requires all use-sites of this type to do strict pattern matching / force the value appropriately. It would be nice if there was some type-directed mechanism which specified that a value `x` was always evaluated.
+The reason, of course, is that whenever you write `data Nat = Z | S !Nat`, you define a type of strict natural numbers, AS WELL AS bottom. Ensuring that an `x :: Nat` is never bottom requires all use-sites of this type to do strict pattern matching / force the value appropriately. It would be nice if there was some type-directed mechanism which specified that a value `x` was always evaluated. This would give benefits, e.g. for code generation, where we can assume that a pointer never points to a thunk or indirection.
 
 
-An auxiliary concern is in the implementation of mutable variables: it is extremely useful to be able to assume that a pointer you have is to the honest closure that contains the mutable field, not an indirection to that closure. Without this guarantee, code which writes to this mutable variable has to first check if the thunk is fully evaluated before actually performing the memory write. For this reason, the `MutVar#` primitive (which is a GC'd object) lives in kind \#, the kind of unlifted types.
+It would be hard to justify drastically changing Haskell to allow defining a type which doesn't include bottom, but as it turns out, GHC *already* supports such non-bottom types, in the form of unlifted types of kind `#`. In particular, we already have special strict evaluation rules for unlifted types like `Int#` and `Array#`.
 
-## The summary
 
-```wiki
--- | A new kind of unlifted data types.
-data Unlifted
+The fact that a pointer never points to a thunk is especially helpful in the implementation of mutable variables: without this guarantee, code which writes to this mutable variable has to first check if the thunk is fully evaluated before actually performing the memory write. For this reason, the `MutVar#` primitive (which is a GC'd object) lives in kind `#`.
 
--- | Unlifts a lifted type. Does not change representation of object (like newtype).
-data Force :: * -> Unlifted where
-  Force :: !a -> Force a
+## Proposal 1: Allow data types to be declared as unlifted
 
--- | Suspend an unlifted computation (without returning a Box).
-suspend :: Force a -> a
-suspend (Force a) = a
-```
 
-## The plan
-
-**Split `#` into two kinds, `Unlifted` and `Unboxed`.** We separate `#` into a new kind `Unlifted` (name due for bikeshedding), which represents unlifted but boxed data types, distinguished from `Unboxed`, which is unlifted and unboxed data types. Currently, `MutVar#` and `Int#` have the same kind; under this change, `MutVar#` is now `Unlifted`, while `Int#` is `Unboxed`.
-
-**Permit data declarations to be defined in kind `Unlifted`.** This makes the following type definition now legal:
+A data type can be declared as unlifted by writing `data unlifted`, e.g.:
 
 ```wiki
-data UBool :: Unlifted where
-  UTrue :: UBool
-  UFalse :: UBool
+data unlifted UBool = UTrue | UFalse
 ```
 
 
-Intuitively, if you have `x :: UBool` in scope, you are guaranteed to have `UTrue` or `UFalse`, and never bottom. In fact, the evaluation rules for types kinded `Unlifted` are identical to the existing rules we have for types kinded `#`. For example:
+Such data types are always boxed, but the type does not include bottom and is operationally represented as a pointer to the value. Intuitively, if you have `x :: UBool` in scope, you are guaranteed to have `UTrue` or `UFalse`, and not bottom.
+
+
+The evaluation rules for unlifted data types are identical to the existing rules we have for types kinded `#`: lets are strict, cannot be recursive, and function arguments are evaluated before calls. For example:
 
 ```wiki
 unot :: UBool -> UBool
@@ -60,79 +52,113 @@ main = let y = unot (error "foo")
 
 In this example, we get the error "foo", not bar, because the binding of `y` must be evaluated strictly.
 
-**To easily unlift existing data types, introduce `Force`.** With the new ability to kind data types unlifted, we can define a data type to represent unlifted data:
+**Non-polymorphic unlifted types can directly be unpacked.** The following declaration is valid:
+
+```wiki
+data unlifted StrictInt = StrictInt Int#
+data MyInt = MyInt {-# UNPACK #-} StrictInt
+```
+
+
+and is representationally equivalent to `MyInt'` here:
+
+```wiki
+data Int = Int Int#
+data MyInt' = MyInt' {-# UNPACK #-} !Int
+```
+
+
+Of course, the constructors for `MyInt` and `MyInt#` have different types.
+
+## Proposal 1.1: Polymorphism over a new Unlifted kind
+
+
+Currently, we have two different kinds (ahem) of unlifted types which live in `#`: unboxed, unlifted types such as `Int#`, and boxed, unlifted types such as `Array#` and the unlifted data types we can now define.
+
+
+This subproposal is to distinguish between these two kinds, calling boxed, unlifted kinds `Unlifted`. Here are a few reasons why it would be useful to distinguish over these:
+
+**Polymorphism over unlifted types in types and functions.** In data types and functions, we may want to be polymorphic over a type variable in kind `Unlifted`:
+
+```wiki
+data unlifted UList (a :: Unlifted)
+  = UNil | UCons a UList
+umap :: forall (a :: Unlifted) (b :: Unlifted).
+        UList a -> (a -> b) -> UList b
+```
+
+
+We cannot be polymorphic in `#` in general, because this includes unboxed types like `Int#` which don't have uniform representation. However, we can be polymorphic over unlifted types, which do have uniform representation.
+
+**Boxed levity polymorphism in types (and functions with extra code generation).** In data types, we may want to have a type parameter which is polymorphic over all boxed types:
+
+```wiki
+data BList (a :: Boxed)
+  = BNil | BCons a BList
+```
+
+`BList` is representationally the same whether or not it is instantiated with a boxed lifted type, or a boxed unlifted type.
+
+
+However, for levity polymorphism over functions we must generate code twice. Consider::
+
+```wiki
+map :: forall a (b :: Boxed). (a -> b) -> BList a -> BList b
+map f (BCons x xs) = BCons (f x) (map f xs)
+```
+
+
+We do not know if `f x` should be evaluated strictly or lazily; it depends on whether or not `b` is unlifted or lifted. This case can be handled by specializing `map` for the lifted and unlifted cases.
+
+## Proposal 2: Allow newtypes over unlifted types
+
+
+This allows newtypes to be written over types of kind `#`, with the resulting newtype being in kind `#`. For example:
+
+```wiki
+newtype MyInt# = MkInt# Int#
+```
+
+
+with `MyInt# :: #`. GHC already supports coercions in kind `#`, so this should be very simple to implement.
+
+## Proposal 3: Allow unlifting existing data types with no overhead
+
+
+With the new ability to kind data types unlifted, we can define a data type to represent unlifted data, and a corresponding function to suspend computations in `#`:
 
 ```wiki
 data Force :: * -> Unlifted where
   Force :: !a -> Force a
-```
 
-
-Intuitively, `Force a` is the "head strict" version of `a`: if you have `x :: Force Int` in scope, it is guaranteed to have already been evaluated to an `Int`.
-
-**Force is compiled without any boxing.**  A value of type `Force a` only admits the value `Force a`: `undefined` is excluded by the `Unlifted` kind, and `Force undefined` is excluded by the strict field.  Thus, we can represent `Force` on the heap simply as an unlifted pointer to `a`, which is never undefined.
-
-**Define a function `suspend`.** It is defined as follows:
-
-```wiki
 suspend :: Force a -> a
-suspend a = coerce (Box a)
+suspend a = a
 ```
 
-
-This function can be used to suspend unlifted computations, e.g. `suspend (error "foo")` does not error until forced. Like `Box`, unlifted computations may not be lifted out of `suspend` without changing the semantics.
-
-
-Note that `suspend` must be used carefully. This example errors:
-
-```wiki
-  let x = error "foo" :: Force Int
-      y = suspend x :: Int
-  in True
-```
+`Force a` is the "head strict" version of `a`: if you have `x :: Force Int` in scope, it is guaranteed to have already been evaluated to an `Int`. Forced computations can be lifted: `suspend (error "foo" :: Int#)` does not error until forced. Like `Box`, unlifted computations may not be lifted out of `suspend` without changing the semantics.
 
 
-but this example does not:
-
-```wiki
-  let y = suspend (error "foo" :: Force Int) :: Int
-  in True
-```
+This can all be written as library code under the first proposal; however, we notice that the value of type `Force a` only admits the value `Force a`: `undefined` is excluded by the `Unlifted` kind, and `Force undefined` is excluded by the strict field.  Thus, it would be great if we could represent `Force` on the heap simply as an unlifted pointer to `a`, which is never undefined.
 
 
-Of course, this is just the well-known phenomenon that inlining in a CBV language does not necessarily preserve semantics.
+Ideally, we would like to define the coercion `Coercible (Force a) a`, to witness the fact that `Force a` is representationally the same as `a`. However, there are two problems:
 
-**Non-polymorphic unlifted types can directly be unpacked.** The following declarations are representationally equivalent:
+1. This coercion is ill-kinded (`Force a` has kind `Unlifted` but `a` has kind `*`), so we would need John Major equality style coercions.
 
-```wiki
-data T = T {-# UNPACK #-} !Int
-data T = T {-# UNPACK #-} (Force Int)
-```
+1. The coercion is only valid in one direction: I can coerce from `Force a` to `a`, but not vice-versa: in the other direction, evaluation may be necessary.
 
 
-Of course, the constructors still have different types.
+My suggested implementation strategy is to bake in `Force` as a special data type, which is represented explicitly in Core, but then optimized away in STG.
 
 ## Optional extensions
 
 **(OPTIONAL) Give some syntax for `Force`.** Instead of writing `f :: Force Int -> Force Int`, we might like to write `f :: Int! -> Int!`. We define post-fix application of bang to be a wrapping of `Force`.
 
-**(OPTIONAL) To easily lift unlifted data types, define a data type `Box`.**`Box a` delays the execution of the unlifted type, and is defined as follows:
-
-```wiki
-data Box (a :: Unlifted) = Box a
-```
-
-
-Normally, such a data type would require an indirection; however, a value of type `Box a` is only admits the values `undefined` and `Box a`: `Box undefined` is excluded by the `Unlifted` kind of `a`.  Thus, we can represent `Box` on the heap simply as a lifted pointer to `a` which may be undefined.
-
-
-Ideally, we would like to define the coercion `Coercible (Force a) a`, to witness the fact that `Force a` is representationally the same as `a`. However, this coercion is ill-kinded (`Force a` has kind `Unlifted` but `a` has kind `*`), so we would need John Major equality style coercions. With `Box`, we can instead introduce the well-kinded coercion `Coercible (Box (Force a)) a` . This is valid due to the special case representational equality for `Box`.
-
 **(OPTIONAL) Introduce a pattern synonym `Thunk`.**`suspend` can be generalized into the bidirectional pattern synonym `Thunk`:
 
 ```wiki
 pattern Thunk a <- x | let a = Force x
-  where Thunk a = (coerce :: Box (Force a) -> a) (Box a)
+  where Thunk (Force a) = a
 ```
 
 
@@ -167,11 +193,6 @@ In this section, we review the dynamic semantics of unlifted types.  These are n
 
 Intuitively, if you have an unlifted type, anywhere you let bind it or pass it to a function, you evaluate it. Strict let bindings cannot be arbitrarily floated; you must preserve the ordering of bindings and they cannot be floated beyond an expression kinded `*`.
 
-## Implementation
-
-
-Should be simple, except maybe for syntax and the special `Thunk` pattern synonym.
-
 ## FAQ
 
 **Why do you get to use error in the unlifted examples, isn't error a bottom?**`error` is specially treated to be both lifted and unlifted. It's interpretation in an unlifted setting is that it immediately causes an exception when it is evaluated (it never goes into the heap).
@@ -180,13 +201,25 @@ Should be simple, except maybe for syntax and the special `Thunk` pattern synony
 
 **Is `Force (Maybe (Force Int))` allowed?** No, because `Force Int` has kind `Unlifted` but `Maybe` has kind `* -> Unlifted`. A data type declaration must be explicitly written to accept an unlifted type (`data StrictMaybe (a :: Unlifted) = SMaybe a`), or simply be strict in its field (`data StrictMaybe2 a = SMaybe2 !a`).
 
-**Can I instantiate a polymorphic function to an unlifted type?** Not for now, but with "levity polymorphism" we could make polymorphic types take any type of kind \* or Unlifted, as these representations are uniform.
+**How does this affect inlining?** In any CBV language, inlining doesn't always preserve semantics; unlifted types are no different. For example, this errors:
+
+```wiki
+  let x = error "foo" :: Force Int
+      y = suspend x :: Int
+  in True
+```
+
+
+but this example does not:
+
+```wiki
+  let y = suspend (error "foo" :: Force Int) :: Int
+  in True
+```
 
 **What's the difference between `Force Int` and `Int#`?**`Force Int` is an unlifted, boxed integer; `Int#` is an unlifted, unboxed integer.
 
 **Why aren't strict patterns enough?** A user can forget to write a strict pattern at a use-site. Putting a type in kind unlifted forces all use-sites to act as if they had strict patterns.
-
-**Why do we need a new kind `Unlifted`, does `#` work OK?** Actually, it would; but with a new kind, we can make a distinction between types with uniform representation (boxed), and types without it (unboxed).
 
 **Is `Force [a]` the type of strict lists?** No. It is the type of a lazy list whose head is always evaluated and non-bottom.
 
