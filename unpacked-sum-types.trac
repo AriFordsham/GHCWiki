@@ -32,6 +32,8 @@ This representation saves one word and one indirection compared to the packed re
 
 We add new built-in types for anonymous sums, and for anonymous unboxed sums.  These are directly analogous to the existing anonymous tuples (in Haskell) and anonymous unboxed tuples (a GHC extension).  Specifically:
 
+* A new language extension `AnonymousSums`.
+
 * We add a family of new built-in '''type constructors''' for sums and unboxed sums:
 {{{
 (|),   (||),   (|||),   (||||), etc
@@ -75,6 +77,14 @@ efficiently (more on that below).
 
 All of this is precisely the case for tuples (boxed and unboxed).
 
+=== Design questions ===
+
+The expression `(x ||)` could mean:
+ * The same as `(_||)`, namely injecting `x` into the first disjunct of a 3-way sum.
+ * An operator section meaning `( (||) x )`.
+Similarly `(|| x)`.
+
+Which should we choose?  Simon PJ thinks the first (i.e steal the existing syntax). 
 
 ----------------------------------
 == Implementation ==
