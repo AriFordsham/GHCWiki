@@ -105,7 +105,7 @@ with `MyInt# :: #`. GHC already supports coercions over kind `#`, so this should
 
 == Proposal 4: Allow unlifting existing data types with no overhead ==
 
-Proposal 1 requires a user to define a new data type for every unlifted type they want to define. However, for every lifted data type a user can defined, there is an obvious unlifted type one might be interested in: the one without bottom. Fortunately, we can define a data type to unlift an arbitrary lifted type:
+Proposal 1 requires a user to define a new data type for every unlifted type they want to define. However, for every lifted data type a user can define, there is an obvious unlifted type one might be interested in: the one without bottom. Fortunately, we can define a data type to unlift an arbitrary lifted type:
 
 {{{
 data Force :: * -> Unlifted where
