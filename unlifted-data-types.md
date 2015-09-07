@@ -135,9 +135,7 @@ suspend :: Force a -> a
 suspend a = a
 ```
 
-`Force a` is the "head strict" version of `a`: if you have `x :: Force Int` in scope, it is guaranteed to have already been evaluated to an `Int`. Forced computations can be lifted:
-
-> `suspend (error "foo" :: Int#)` does not error until forced. Like `Box`, unlifted computations may not be lifted out of `suspend` without changing the semantics.
+`Force a` is the "head strict" version of `a`: if you have `x :: Force Int` in scope, it is guaranteed to have already been evaluated to an `Int`. Forced computations can be lifted: `suspend (error "foo" :: Int#)` does not error until forced. Like `Box`, unlifted computations may not be lifted out of `suspend` without changing the semantics.
 
 
 This can all be written as library code under the first proposal; however, we notice that the value of type `Force a` only admits the value `Force a`: `undefined` is excluded by the `Unlifted` kind, and `Force undefined` is excluded by the strict field.  Thus, it would be great if we could represent `Force` on the heap simply as an unlifted pointer to `a`, which is never undefined.
