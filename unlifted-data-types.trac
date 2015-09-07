@@ -22,15 +22,9 @@ data Unlifted
 data Force :: * -> Unlifted where
   Force :: !a -> Force a
 
--- | Lifts an unlifted type. Does not change representation of object (like newtype).
-data Box (a :: Unlifted) = Box a
-
-instance Coercible (Box (Force a)) a
-instance Coercible a (Box (Force a))
-
 -- | Suspend an unlifted computation (without returning a Box).
 suspend :: Force a -> a
-suspend a = coerce (Box a)
+suspend (Force a) = a
 }}}
 
 == The plan ==
@@ -59,39 +53,16 @@ main = let y = unot (error "foo")
 
 In this example, we get the error "foo", not bar, because the binding of `y` must be evaluated strictly.
 
-**To easily unlift/lift existing data types, introduce a pair of special data types.** With the new ability to kind data types unlifted, we can define two data types:
+**To easily unlift existing data types, introduce `Force`.** With the new ability to kind data types unlifted, we can define a data type to represent unlifted data:
 
 {{{
 data Force :: * -> Unlifted where
   Force :: !a -> Force a
-
-data Box (a :: Unlifted) = Box a
 }}}
 
-Intuitively, `Force a` is the "head strict" version of `a`: if you have `x :: Force Int` in scope, it is guaranteed to have already been evaluated to an `Int`. Similarly, `Box a` delays the execution of the unlifted type.
-
-Note that `Box` must be used carefully. This example errors:
-
-{{{
-  let x = error "foo" :: Force Int
-      y = Box x :: Box (Force Int)
-  in True
-}}}
-
-but this example does not:
-
-{{{
-  let y = Box (error "foo" :: Force Int) :: Box (Force Int)
-  in True
-}}}
-
-Of course, this is just the well-known phenomenon that inlining in a CBV language does not necessarily preserve semantics.
+Intuitively, `Force a` is the "head strict" version of `a`: if you have `x :: Force Int` in scope, it is guaranteed to have already been evaluated to an `Int`.
 
 **Force is compiled without any boxing.**  A value of type `Force a` only admits the value `Force a`: `undefined` is excluded by the `Unlifted` kind, and `Force undefined` is excluded by the strict field.  Thus, we can represent `Force` on the heap simply as an unlifted pointer to `a`, which is never undefined.
-
-**Box is compiled without any boxing.** A value of type `Box a` is only admits the values `undefined` and `Box a`: `Box undefined` is excluded by the `Unlifted` kind of `a`.  Thus, we can represent `Box` on the heap simply as a lifted pointer to `a` which may be undefined.
-
-**Introduce coercions that witness representational equality.** Ideally, we would like to define the coercion `Coercible (Force a) a`, to witness the fact that `Force a` is representationally the same as `a`. However, this coercion is ill-kinded (`Force a` has kind `Unlifted` but `a` has kind `*`), so we would need John Major equality style coercions. Instead, we introduce the well-kinded coercion `Coercible (Box (Force a)) a` . This is valid due to the special case representational equality for `Box`.
 
 **Define a function `suspend`.** It is defined as follows:
 
@@ -102,6 +73,23 @@ suspend a = coerce (Box a)
 
 This function can be used to suspend unlifted computations, e.g. `suspend (error "foo")` does not error until forced. Like `Box`, unlifted computations may not be lifted out of `suspend` without changing the semantics.
 
+Note that `suspend` must be used carefully. This example errors:
+
+{{{
+  let x = error "foo" :: Force Int
+      y = suspend x :: Int
+  in True
+}}}
+
+but this example does not:
+
+{{{
+  let y = suspend (error "foo" :: Force Int) :: Int
+  in True
+}}}
+
+Of course, this is just the well-known phenomenon that inlining in a CBV language does not necessarily preserve semantics.
+
 **Non-polymorphic unlifted types can directly be unpacked.** The following declarations are representationally equivalent:
 
 {{{
@@ -110,6 +98,20 @@ data T = T {-# UNPACK #-} (Force Int)
 }}}
 
 Of course, the constructors still have different types.
+
+== Optional extensions ==
+
+**(OPTIONAL) Give some syntax for `Force`.** Instead of writing `f :: Force Int -> Force Int`, we might like to write `f :: Int! -> Int!`. We define post-fix application of bang to be a wrapping of `Force`.
+
+**(OPTIONAL) To easily lift unlifted data types, define a data type `Box`.** `Box a` delays the execution of the unlifted type, and is defined as follows:
+
+{{{
+data Box (a :: Unlifted) = Box a
+}}}
+
+Normally, such a data type would require an indirection; however, a value of type `Box a` is only admits the values `undefined` and `Box a`: `Box undefined` is excluded by the `Unlifted` kind of `a`.  Thus, we can represent `Box` on the heap simply as a lifted pointer to `a` which may be undefined.
+
+Ideally, we would like to define the coercion `Coercible (Force a) a`, to witness the fact that `Force a` is representationally the same as `a`. However, this coercion is ill-kinded (`Force a` has kind `Unlifted` but `a` has kind `*`), so we would need John Major equality style coercions. With `Box`, we can instead introduce the well-kinded coercion `Coercible (Box (Force a)) a` . This is valid due to the special case representational equality for `Box`.
 
 **(OPTIONAL) Introduce a pattern synonym `Thunk`.** `suspend` can be generalized into the bidirectional pattern synonym `Thunk`:
 
@@ -131,8 +133,6 @@ does not error. Pattern matching over `Thunk` forces the argument (similar to ba
 let Thunk x = 3 + 5 :: Int
 in x :: Force Int
 }}}
-
-**(OPTIONAL) Give some syntax for `Force`.** Instead of writing `f :: Force Int -> Force Int`, we might like to write `f :: Int! -> Int!`. We define post-fix application of bang to be a wrapping of `Force`.
 
 == Dynamic semantics of unlifted types ==
 
