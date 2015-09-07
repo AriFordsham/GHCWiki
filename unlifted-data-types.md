@@ -76,7 +76,7 @@ Of course, the constructors for `MyInt` and `MyInt#` have different types.
 Currently, we have two different kinds (ahem) of unlifted types which live in `#`: unboxed, unlifted types such as `Int#`, and boxed, unlifted types such as `Array#` and the unlifted data types we can now define.
 
 
-This subproposal is to distinguish between these two kinds, calling boxed, unlifted kinds `Unlifted`. Here are a few reasons why it would be useful to distinguish over these:
+This subproposal is to distinguish between these two kinds, calling boxed, unlifted kinds `Unlifted`. The motivation is that if users start defining and using unlifted types in normal code, they are more likely to be able to be polymorphic over unlifted types. There are two particular cases of polymorphism we might like to support:
 
 **Polymorphism over unlifted types in types and functions.** In data types and functions, we may want to be polymorphic over a type variable in kind `Unlifted`:
 
@@ -113,7 +113,7 @@ We do not know if `f x` should be evaluated strictly or lazily; it depends on wh
 ## Proposal 3: Allow newtypes over unlifted types
 
 
-This allows newtypes to be written over types of kind `#`, with the resulting newtype being in kind `#`. For example:
+To allow cost-free abstraction over unlifted types, we should allow newtypes to be written over types of kind `#`, with the resulting newtype being in kind `#`. For example:
 
 ```wiki
 newtype MyInt# = MkInt# Int#
@@ -125,7 +125,7 @@ with `MyInt# :: #`. GHC already supports coercions in kind `#`, so this should b
 ## Proposal 4: Allow unlifting existing data types with no overhead
 
 
-With the new ability to kind data types unlifted, we can define a data type to represent unlifted data, and a corresponding function to suspend computations in `#`:
+Proposal 1 requires a user to define a new data type for every unlifted type they want to define. However, for every lifted data type a user can defined, there is an obvious unlifted type one might be interested in: the one without bottom. Fortunately, we can define a data type to unlift an arbitrary lifted type:
 
 ```wiki
 data Force :: * -> Unlifted where
@@ -135,10 +135,9 @@ suspend :: Force a -> a
 suspend a = a
 ```
 
-`Force a` is the "head strict" version of `a`: if you have `x :: Force Int` in scope, it is guaranteed to have already been evaluated to an `Int`. Forced computations can be lifted: `suspend (error "foo" :: Int#)` does not error until forced. Like `Box`, unlifted computations may not be lifted out of `suspend` without changing the semantics.
+`Force a` is the "head strict" version of `a`: if you have `x :: Force Int` in scope, it is guaranteed to have already been evaluated to an `Int`. We can also suspend these strict computations: `suspend (error "foo" :: Int#)` does not error until forced. Like `Box`, unlifted computations may not be lifted out of `suspend` without changing the semantics.
 
-
-This can all be written as library code under the first proposal; however, we notice that the value of type `Force a` only admits the value `Force a`: `undefined` is excluded by the `Unlifted` kind, and `Force undefined` is excluded by the strict field.  Thus, it would be great if we could represent `Force` on the heap simply as an unlifted pointer to `a`, which is never undefined.
+`Force` and `suspend` can be written purely as library code, however there is a cost of an indirection of `Force`. We might notice, however, that the value of type `Force a` only admits the value `Force a`: `undefined` is excluded by the `Unlifted` kind, and `Force undefined` is excluded by the strict field.  Thus, it would be great if we could represent `Force` on the heap simply as an unlifted pointer to `a`, which is never undefined.
 
 
 Ideally, we would like to define the coercion `Coercible (Force a) a`, to witness the fact that `Force a` is representationally the same as `a`. However, there are two problems:
