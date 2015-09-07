@@ -41,19 +41,18 @@ This representation saves one word and one indirection compared to the packed re
 ## Source language design
 
 
-We add new built-in types for anonymous sums, and for anonymous unboxed sums.  These are directly analogous to the existing anonymous tuples (in Haskell) and anonymous unboxed tuples (a GHC extension.  Specifically:
+We add new built-in types for anonymous sums, and for anonymous unboxed sums.  These are directly analogous to the existing anonymous tuples (in Haskell) and anonymous unboxed tuples (a GHC extension).  Specifically:
 
-- We add new primitive type constructors for the family of sums and unboxed sums:
+- We add a family of new built-in **type constructors** for sums and unboxed sums:
 
   ```wiki
-  (|), (||), (|||), (||||), etc
-  (#|#), (#||#), (#|||#), (#||||#),  
+  (|),   (||),   (|||),   (||||), etc
+  (#|#), (#||#), (#|||#), (#||||#), etc
   ```
 
+  A sum of n "\|"s is a n+1 ary sum.  (Just like tuples `(,)`, `(,,)`, etc.)
 
-A sum of n "\|"s is a n+1 ary sum.  (Just like tuples `(,)`, `(,,)`, etc.)
-
-- Each n-ary-sum type constructor comes with n data constructors, with systematically-derived names, thus:
+- Each n-ary-sum type constructor comes with n **data constructors**, with systematically-derived names, thus:
 
   ```wiki
   data (||) a b c = (_||) a
@@ -65,28 +64,37 @@ A sum of n "\|"s is a n+1 ary sum.  (Just like tuples `(,)`, `(,,)`, etc.)
 
 - You use the type constructor in a distfix way, not just prefix, like so:
 
-```wiki
-(Int | Bool)          means   (|) Int Bool
-(Int | Bool | Int)    means   (||) Int Bool Int
-(# Int | Bool #)      means   (#|#) Int Bool
-```
+  ```wiki
+  (Int | Bool)          means   (|) Int Bool
+  (Int | Bool | Int)    means   (||) Int Bool Int
+  (# Int | Bool #)      means   (#|#) Int Bool
+  ```
 
->
-> And similarly the data constructors:
->
-> ```wiki
-> (| True)     means   (|_) True
-> (#| 'c' |#)  means   (#|_|#) 'c'
-> ```
+  And similarly the data constructors:
 
-- You can use the data constructors both in terms (to construct) and in case patterns (to decompose).  Thus, illustrating both prefix and distfix forms:
+  ```wiki
+  (| True)     means   (|_) True
+  (#| 'c' |#)  means   (#|_|#) 'c'
+  ```
+
+- You can use the data constructors both in terms (to construct) and in patterns (to decompose).  For patterns, illustrating both prefix and distfix forms:
 
   ```wiki
   case x of
-      (#| x ||#) -> ...
-      (#_|||#) y -> ...
-      ...two more disjuncts needed to te exhaustive
+      (#| x ||#) -> ...   -- Distrix
+      (#_|||#) y -> ...   -- Prefix
+      ...two more disjuncts needed to be exhaustive
   ```
+
+
+Anonymous sums, both boxed and unboxed, are first class values. They
+can be passed as an argument to a function, returned as its result, be
+the type of a data constructor field, and so on.  Of course, unboxed
+sums are unlifted (cannot be bottom), and should be represented
+efficiently (more on that below).
+
+
+All of this is precisely the case for tuples (boxed and unboxed).
 
 ---
 

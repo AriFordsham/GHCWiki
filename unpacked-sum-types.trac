@@ -30,16 +30,16 @@ This representation saves one word and one indirection compared to the packed re
 
 == Source language design ==
 
-We add new built-in types for anonymous sums, and for anonymous unboxed sums.  These are directly analogous to the existing anonymous tuples (in Haskell) and anonymous unboxed tuples (a GHC extension.  Specifically:
+We add new built-in types for anonymous sums, and for anonymous unboxed sums.  These are directly analogous to the existing anonymous tuples (in Haskell) and anonymous unboxed tuples (a GHC extension).  Specifically:
 
-* We add new primitive type constructors for the family of sums and unboxed sums:
+* We add a family of new built-in '''type constructors''' for sums and unboxed sums:
 {{{
-(|), (||), (|||), (||||), etc
-(#|#), (#||#), (#|||#), (#||||#),  
+(|),   (||),   (|||),   (||||), etc
+(#|#), (#||#), (#|||#), (#||||#), etc
 }}}
-A sum of n "|"s is a n+1 ary sum.  (Just like tuples `(,)`, `(,,)`, etc.)
+  A sum of n "|"s is a n+1 ary sum.  (Just like tuples `(,)`, `(,,)`, etc.)
 
-* Each n-ary-sum type constructor comes with n data constructors, with systematically-derived names, thus:
+* Each n-ary-sum type constructor comes with n '''data constructors''', with systematically-derived names, thus:
 {{{
 data (||) a b c = (_||) a
                 | (|_|) b
@@ -48,7 +48,6 @@ data (||) a b c = (_||) a
   and similarly for unboxed sums.  The `_` indicates with disjunct of the sum we mean.
 
 * You use the type constructor in a distfix way, not just prefix, like so:
-
 {{{
 (Int | Bool)          means   (|) Int Bool
 (Int | Bool | Int)    means   (||) Int Bool Int
@@ -60,15 +59,21 @@ data (||) a b c = (_||) a
 (#| 'c' |#)  means   (#|_|#) 'c'
 }}}
 
-* You can use the data constructors both in terms (to construct) and in case patterns (to decompose).  Thus, illustrating both prefix and distfix forms:
+* You can use the data constructors both in terms (to construct) and in patterns (to decompose).  For patterns, illustrating both prefix and distfix forms:
 {{{
 case x of
-    (#| x ||#) -> ...
-    (#_|||#) y -> ...
-    ...two more disjuncts needed to te exhaustive
+    (#| x ||#) -> ...   -- Distrix
+    (#_|||#) y -> ...   -- Prefix
+    ...two more disjuncts needed to be exhaustive
 }}}
 
+Anonymous sums, both boxed and unboxed, are first class values. They
+can be passed as an argument to a function, returned as its result, be
+the type of a data constructor field, and so on.  Of course, unboxed
+sums are unlifted (cannot be bottom), and should be represented
+efficiently (more on that below).
 
+All of this is precisely the case for tuples (boxed and unboxed).
 
 
 ----------------------------------
@@ -186,4 +191,3 @@ Also, this trick cannot be applied repeatedly: If we have
 then it cannot be applied when unpacking `D` into `E`. (Or maybe it can, but care has to be taken that `D`’s `Nothing` is represented by a different dummy object than `Maybe`’s `Nothing`.)
 
 Anyways, this is an optimization that can be implemented once unboxed sum type are finished and working reliably.
-
