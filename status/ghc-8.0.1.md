@@ -29,7 +29,7 @@ Below are the major highlights of 8.0.
 
 - Improved optimization diagnostics. The compiler is now more liberal about issues warnings of potentially non-firing rewrite rules
 
-- Support for wildcards in data and type family instances ([ Phab:1092](https://phabricator.haskell.org/1092))
+- Support for wildcards in data and type family instances ([ Phab:D1092](https://phabricator.haskell.org/D1092))
 
 ### In-flight, and likely to land in time
 
