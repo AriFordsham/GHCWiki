@@ -1,7 +1,7 @@
 # GHC plans for 8.0.1
 
 
-This page is our road-map for what will be in 7.12.
+This page is our road-map for what will be in 8.0.
 
 - We hope to incorporate all the "Landed" and "In-flight" stuff under "Release highlights" below.
 
@@ -21,7 +21,7 @@ Release candidate by* mid-December 2015**. Release in **January 2016**.
 ## Release highlights
 
 
-Below are the major highlights of 7.12. 
+Below are the major highlights of 8.0.
 
 ### Landed in HEAD
 
@@ -67,11 +67,11 @@ Below are the major highlights of 7.12.
 - A (possible) overhaul of GHC's build system to use **Shake** instead of Make.
 - A `DEPRECATED` pragma for exports ([\#4879](https://gitlab.haskell.org//ghc/ghc/issues/4879))
 
-## Migration Guide to 7.12
+## Migration Guide to 8.0
 
 FIXME Write the migration guide.
 
-[ https://ghc.haskell.org/trac/ghc/wiki/Migration/7.12](https://ghc.haskell.org/trac/ghc/wiki/Migration/7.12)
+[ https://ghc.haskell.org/trac/ghc/wiki/Migration/8.0](https://ghc.haskell.org/trac/ghc/wiki/Migration/8.0)
 
 ## Tickets marked merge with no milestone
 
@@ -88,7 +88,7 @@ FIXME Write the migration guide.
 <th></th>
 <th></th></tr></table>
 
-## Tickets slated for 7.12.1
+## Tickets slated for 8.0.1
 
 ### merge/patch/upstream
 
