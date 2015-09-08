@@ -52,6 +52,17 @@ main = let y = unot (error "foo")
 
 In this example, we get the error "foo", rather than returning `()`, because the binding of `y` must be evaluated strictly.
 
+
+Just like other unlifted types, you cannot bind values of an unlifted data type at top level, or in a recursive group.  So this is illegal
+
+```wiki
+module M where
+  data unlifted UBool = UTrue | UFalse
+
+  utrue :: UBool
+  uTrue = UTrue   -- Illegal!
+```
+
 **Non-polymorphic unlifted types can directly be unpacked.** The following declaration is valid:
 
 ```wiki
