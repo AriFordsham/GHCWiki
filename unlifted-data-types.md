@@ -223,3 +223,145 @@ but this example does not:
 **Is `Force [a]` the type of strict lists?** No. It is the type of a lazy list whose head is always evaluated and non-bottom.
 
 **Does `foo :: Force [a] -> Force [a]` force just the first constructor or the whole spine?** You can't tell; the head not withstanding, `[a]` is still a lazy list, so you would need to look at the function body to see if any extra forcing goes on. `Force` does not induce `seq`ing: it is an obligation for the call-site.
+
+# Fully alternate proposal
+
+
+This section describes a totally alternate proposal to the one(s) above. The motivation is the same, but the proposal otherwise starts from scratch.
+
+## Proposal B1. Allow newtypes over unlifted types
+
+
+Identical to Proposal 3 above.
+
+## Proposal B2. More levity polymorphism
+
+[NoSubKinds](no-sub-kinds) proposes the following arrangement:
+
+```wiki
+data Levity = Lifted | Unlifted
+TYPE :: Levity -> *
+type * = TYPE 'Lifted
+type # = TYPE 'Unlifted
+```
+
+
+Instead, Proposal B2 suggests the following generalization:
+
+```wiki
+data Boxity = Boxed | Unboxed
+data Levity = Lifted | Unlifted
+TYPE :: Boxity -> Levity -> *
+type * = TYPE 'Boxed 'Lifted
+-- TYPE 'Boxed 'Unlifted is the kind of boxed, unlifted types
+-- TYPE 'Unboxed 'Unlifted is the kind of unboxed, unlifted types
+-- TYPE 'Unboxed 'Lifted is utterly wrong, and prohibited from ever appearing in a desugared program
+
+type B_L   = TYPE 'Boxed   'Lifted    -- just for this wiki page
+type B_UL  = TYPE 'Boxed   'Unlifted  -- just for this wiki page
+type UB_UL = TYPE 'Unboxed 'Unlifted  -- just for this wiki page
+```
+
+
+Type variables would be allowed to have kinds `B_L` or `B_UL` but never `UB_UL`. This would allow polymorphism over boxed-but-unlifted things, by separating out the kinds. Functions could still not be properly levity-polymorphic -- GHC would default a `Boxity` metavariable to `'Boxed` and a levity metavariable to `'Lifted` during zonking. (Unless the `Levity` metavariable is paired with a boxity metavariable that is already known to be `'Unboxed`.)
+
+
+This treatment is a simple extension of levity polymorphism, and it serves the same goals: to have a few cases where we really do want levity-polymorphic code (`error`, `undefined`) while providing a nicely uniform structure for kinds-of-types-with-values. I (Richard) am a little bothered by the existence of an unused spot in the structure (`TYPE 'Unboxed 'Lifted`) but not enough to back down.
+
+**Definition:** A **valued kind** is a kind of types that have values. In released GHC, the valued kinds are `*`, `#`, and `Constraint`. Proposal B2 suggests adding `TYPE 'Boxed 'Unlifted` and `TYPE 'Unboxed 'Unlifted` to this set.
+
+
+(**Extension:** Edward Kmett would recommend
+
+```wiki
+data Constraintiness = Constraint | NotConstraint
+TYPE :: Boxity -> Levity -> Constraintiness -> *
+```
+
+
+to allow better inference around tuple types. While RAE thinks this would actually work just fine, it feels like one bridge too far.)
+
+## Proposal B3. Levity polymorphic data types
+
+
+Proposal 1, above, allows users to make unlifted data types, separately from lifted ones. RAE is worried that this approach would lead to tons of duplication of data types (we might need **four** variants of `Maybe`, for example) and wants a more uniform way forward. Hence this Proposal B3.
+
+
+The proposal will explain by way of example. (The use of GADT syntax here is incidental, but it makes the text in this proposal work out better. The normal traditional-syntax declaration would have identical behavior.)
+
+```wiki
+data Maybe a where
+  Just    :: a -> Maybe a
+  Nothing :: Maybe a
+```
+
+
+All we know about the type variable `a` is that it is used as an argument to `->`. Functions can naturally have any valued kind as an argument. But it would be silly to allow `a :: TYPE 'Unboxed 'Unlifted`, as we'll have trouble generating code for that. Furthermore, we wish to treat **all** datatypes as levity polymorphic in their return kind (the heart of Proposal B3). So, we infer this kind for `Maybe`:
+
+```wiki
+Maybe :: forall (v1 :: Levity) (v2 :: Levity).
+         TYPE 'Boxed v1 -> TYPE 'Boxed v2
+```
+
+
+Of course, this is all a bit of a hack. There really must be 4 datatypes under the hood. But each of the 4 make sense to have, and would, no doubt, be wanted ere long by programmers. When zonking term-level program text, we would need to squeeze out any remaining levity polymorphism so that the back-end could figure out which of the four `Maybe` types we really want here. (The four types really make a `data family`, don't they? Using data families in the implementation might simplify things a bit.)
+
+
+To reiterate: the levity polymorphism here is just to simplify the life of the programmer by using one name -- `Maybe` -- for all four sensible variants of an option type. Just like using levity polymorphism for `undefined` make the life easier for the programmer.
+
+### A recursive example
+
+
+Let's look at a recursive datatype to see how this works out:
+
+```wiki
+data List a where
+  Nil :: List a
+  Cons :: a -> List a -> List a
+```
+
+
+After inference and with everything explicit, we would get
+
+```wiki
+data List :: forall (v1 :: Levity) (v2 :: Levity).
+             TYPE 'Boxed v1 -> TYPE 'Boxed v2 where
+  Nil :: forall (v1 :: Levity) (v2 :: Levity) (a :: TYPE 'Boxed v1).
+         List v1 v2 a
+  Cons :: forall (v1 :: Levity) (v2 :: Levity) (a :: TYPE 'Boxed v1).
+          a -> List v1 v2 a -> List v1 v2 a
+```
+
+
+According to this definition, `List a :: B_UL` is really a proper strict list. That is, we avoid some of the problems in the original proposal (not the "B" proposals) by avoiding issues around affecting only the head of lists. This definition affects the **whole** list.
+
+
+Of course, users are free to use levity polymorphic recursion to achieve other combinations of strictness, but the default is to have either all lazy or all strict. 
+
+**Note:** This Proposal B3 does overlap some concerns: it combines the idea of unlifted datatypes with a means for using one name for multiple entities. But I think this makes sense given the convenience of this approach.
+
+### Design questions
+
+1. Should levity polymorphism apply to **all** datatypes? If we think "yes", do we turn it off when a user explicitly writes `-> *` in a kind signature for a datatype?
+
+1. It's tempting to say that the `!` prefix operator is now just an identity operation with kind `B_UL -> B_UL`. That is, it just forces the existing kind inference machinery to infer an unlifted kind. But this would seem to break existing code that expects `!` not to affect kinds.
+
+## Proposal B4: Levity polymorphic functions
+
+
+Carrying forward from Proposal B3, we could extend levity polymorphism to work on functions. For example, `map` could be inferred to have this type
+
+```wiki
+map :: forall (v1 :: Levity) (v2 :: Levity) (v3 :: Levity) (v4 :: Levity)
+              (a :: TYPE 'Boxed v1) (b :: TYPE 'Boxed v2).
+       (a -> b) -> [] @v1 @v3 a -> [] @v2 @v4 b
+```
+
+
+Here, `v1` and `v2` are the levities of `a` and `b`, respectively, and `v3` and `v4` are the levities of the argument and result lists, respectively. As previously articulated, we can't have proper levity polymorphic functions, instead requiring specialization. This would mean **sixteen**`map`s. That's quite a high number. But I (Richard) think all of the variants make sense. I'd love for there to be some optimization to prevent the need to export 16 definitions here, but I don't see one. In any case, I do think this would work swimmingly for users. Is it worth the cost? That's up for debate.
+
+**Conjecture:** If we take this idea to its logical extreme -- of making all functions levity polymorphic in all of the datatypes mentioned -- then RAE believes that using `!` to control kinds in datatype definitions would not break any code.
+
+### Design questions
+
+1. Is there a way to reduce duplication in object code? If we can't find a "yes" answer, this problem may kill the idea.
