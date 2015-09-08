@@ -346,6 +346,8 @@ Of course, users are free to use levity polymorphic recursion to achieve other c
 
 1. It's tempting to say that the `!` prefix operator is now just an identity operation with kind `B_UL -> B_UL`. That is, it just forces the existing kind inference machinery to infer an unlifted kind. But this would seem to break existing code that expects `!` not to affect kinds.
 
+1. Could the `Force` and `suspend` ideas from the non-B proposals help here? Perhaps. RAE doesn't fully understand `Force`.
+
 ## Proposal B4: Levity polymorphic functions
 
 
