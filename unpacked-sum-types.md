@@ -88,15 +88,17 @@ We add new built-in types for anonymous sums, and for anonymous unboxed sums.  T
       ...two more disjuncts needed to be exhaustive
   ```
 
+- Anonymous sums, both boxed and unboxed, are first class values. They can be passed as an argument to a function, returned as its result, be the type of a data constructor field, and so on.  Of course, unboxed sums are unlifted (cannot be bottom), and should be represented efficiently (more on that below).
 
-Anonymous sums, both boxed and unboxed, are first class values. They
-can be passed as an argument to a function, returned as its result, be
-the type of a data constructor field, and so on.  Of course, unboxed
-sums are unlifted (cannot be bottom), and should be represented
-efficiently (more on that below).
+- Just as for tuples:
 
+  - The components of a boxed sum type must be of kind `*`.  For example `(Int|Bool)` is fine, but `(Int#|Bool)` is not.
+  - The components of an unboxed sum type may be of kind `*` or `#`.  So `(# Int# | Bool #)` is fine.  And you can nest unboxed sums and tuple arbitrarily, e.g.
 
-All of this is precisely the case for tuples (boxed and unboxed).
+    - `(# (# Int,Bool #) | Char# #)`
+    - `(# (# Int# | Char # #) | Int #)`
+
+`All` of these rules follow the same pattern as the rules for boxed/unboxed tuples.
 
 ### Design questions
 
