@@ -1,5 +1,7 @@
 # The `SignatureSections` Language Extension
 
+TODO forbid `(:: forall a . a)` (any variables must be in scope), mention wildcards, explain restrictions, typing-rule == type-checking the translation, ...
+
 ## Semantics
 
 
