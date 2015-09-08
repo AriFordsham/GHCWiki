@@ -102,17 +102,18 @@ We add new built-in types for anonymous sums, and for anonymous unboxed sums.  T
 
 ### Design questions
 
+1. The expression `(x ||)` could mean:
 
-The expression `(x ||)` could mean:
+  - The same as `(_||)`, namely injecting `x` into the first disjunct of a 3-way sum.
+  - An operator section meaning `( (||) x )`.
 
-- The same as `(_||)`, namely injecting `x` into the first disjunct of a 3-way sum.
-- An operator section meaning `( (||) x )`.
+>
+> Similarly `(|| x)`.
 
+>
+> Which should we choose?  Simon PJ thinks the first (i.e steal the existing syntax). (Note that there's also stolen syntax around any operators `(|#)` and `(#|)`, as well as type operators such as `(|||)` and `(#|#)`.)
 
-Similarly `(|| x)`.
-
-
-Which should we choose?  Simon PJ thinks the first (i.e steal the existing syntax). 
+1. For large-arity anonymous sums, the data constructor syntax requires counting vertical bars. This is annoying. Might we consider switching to a new syntax where `(0 of 3 | x)` means `(x | | )` and `(2 of 6 | y)` means `( | | y | | | )`? I (Richard) saw this syntax in an email and thought it might be an improvement.
 
 ---
 
