@@ -17,6 +17,7 @@
  * #9717, #9729, #10420: orphan modules
 
 == Generics and DeriveAnyClass ==
+ * #10361: `DeriveAnyClass` and associated types
  * #10598: `DeriveAnyClasss` and GND
  * #10716: strictness annotations and generics
  * #10604: make `Generic1` kind-polymorphic
