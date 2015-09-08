@@ -1,4 +1,4 @@
-# GHC plans for 7.12.1
+# GHC plans for 8.0.1
 
 
 This page is our road-map for what will be in 7.12.
