@@ -185,7 +185,7 @@ TODO
 
 == 3rd Party Libraries ==
 
-Note: Libraries with a "^1^" marker are used internally (e.g. by `ghci` or `haddock`) and not exposed in the (boot-)package database. Libraries marked "^2^" are used by DPH (and only installed when `InstallExtraPackages=YES`)
+Note: Libraries with a "^1^" marker are used internally (e.g. by `ghci` or `haddock`) and not exposed in the (boot-)package database. Libraries marked "^2^" are used by DPH.
 
 === Cabal ===
 
