@@ -1,6 +1,18 @@
 # GHC plans for 7.10.3
 
 
+We have not yet decided when, or even whether, to release GHC 7.10.3.  We will do so if (but only if!) we have cases from users where
+ 
+
+- You are unable to use 7.10.2 because of some bug
+- There is no reasonable workaround, so you are truly stuck
+- We know how to fix it
+- The fix is not too disruptive; i.e. does not risk introducing a raft of new bugs
+
+
+So please tell us if your problem falls in to this category.
+
+
 See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https://ghc.haskell.org/trac/ghc/query?status=infoneeded&status=merge&status=new&status=patch&group=status&milestone=7.10.3) for more.
 
 ## Tickets slated for 7.10.3
