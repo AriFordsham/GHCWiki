@@ -62,7 +62,7 @@ There are 4 things to remember:
     [wiki:Building/Using#Freezingstage1 freeze the stage 1 compiler].
     This makes sure that only the
     [wiki:Building/Architecture/Idiom/Stages stage-2] compiler will be
-    rebuild after this.
+    rebuilt after this.
 
  4. Use `make fast` to
     [wiki:Building/Using#Skipdependencybuilding skip dependency building].

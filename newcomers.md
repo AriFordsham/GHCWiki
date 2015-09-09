@@ -59,7 +59,7 @@ There are 4 things to remember:
   [freeze the stage 1 compiler](building/using#freezing-stage-1).
   This makes sure that only the
   [stage-2](building/architecture/idiom/stages) compiler will be
-  rebuild after this.
+  rebuilt after this.
 
 1. Use `make fast` to
   [skip dependency building](building/using#skip-dependency-building).
