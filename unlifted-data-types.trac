@@ -1,5 +1,7 @@
 = Unlifted data types =
 
+[[PageOutline]]
+
 This page describes the unlifted data types, i.e. algebraic data types which live in kind `#` rather than kind *. In fact, this is a collection of standalone proposals:
 
 1. Allow data types to be declared unlifted. (Should be easy; but has a harder subproposal to separate a new kind `Unlifted` from `#`)
