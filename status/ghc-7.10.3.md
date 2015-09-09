@@ -10,7 +10,7 @@ We have not yet decided when, or even whether, to release GHC 7.10.3.  We will d
 - The fix is not too disruptive; i.e. does not risk introducing a raft of new bugs
 
 
-So please tell us if your problem falls in to this category.
+So please tell us if your problem falls in to this category, saying a bit about why it is important to you, and why you can't work around it.  It's worth attaching the details to the relevant ticket, plus send a heads-up email to ghc-devs to draw attention to it.
 
 
 See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https://ghc.haskell.org/trac/ghc/query?status=infoneeded&status=merge&status=new&status=patch&group=status&milestone=7.10.3) for more.
