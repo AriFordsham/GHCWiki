@@ -15,7 +15,7 @@ So please tell us if your problem falls in to this category, saying a bit about 
 
 Here's a list of the tickets that appear to fall into this show-stopping category:
 
-- [\#10829](https://gitlab.haskell.org//ghc/ghc/issues/10829)
+- [\#10829](https://gitlab.haskell.org//ghc/ghc/issues/10829), [\#10745](https://gitlab.haskell.org//ghc/ghc/issues/10745) (same underlying issue I think)
 
 
 See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https://ghc.haskell.org/trac/ghc/query?status=infoneeded&status=merge&status=new&status=patch&group=status&milestone=7.10.3) for more.
