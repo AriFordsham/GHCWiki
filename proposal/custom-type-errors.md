@@ -39,3 +39,82 @@ The kind `ErrorMessage` is a small DSL for constructing error messages, and may 
 ```
 data{-kind-}ErrorMessage=TextSymbol-- Show this text as is| forall t.ShowType t               -- Pretty print a type|ErrorMessage:<>:ErrorMessage-- Put two chunks of error message next to each other|ErrorMessage:$$:ErrorMessage-- Put two chunks of error message above each other
 ```
+
+### Examples
+
+
+Here are some examples of how one might use these:
+
+```
+instanceTypeError(Text"Cannot 'Show' functions.":$$:Text"Perhaps there is a missing argument?")=>Show(a -> b)where
+   showsPrec =error"unreachable"
+```
+
+
+The resulting error message from GHC is:
+
+```wiki
+Cannot 'Show' functions.
+Perhaps there is a missing argument?
+In the expression: show id
+In an equation for ‘f’: f = show id
+```
+
+
+Similarly, one may use the same sort of technique in type family instances;
+
+```wiki
+type family F a where
+  F Int     = Bool
+  F Integer = Bool
+  F Char    = Int
+  F a       = TypeError (Text "Function F does not work for type " :<>:
+                        ShowType a :<>: Text "." :$$:
+                        Text "It works only on integers and characters.")
+```
+
+
+The resulting error message from GHC is:
+
+```wiki
+Function F does not work for type [Int].
+It works only on integers and characters.
+In the expression: undefined
+In an equation for ‘f’: f = undefined
+```
+
+### Implementation
+
+
+The implementation in GHC is fairly straight-forward:
+
+1. When we are reducing a type function, and we notice that the RHS is of the form `TyperError msg :: k`, then
+  we stop reducing the type function, and instead we emit a new wanted constraint `TypeError msg :: Constraint`.
+  Since there is no way to solve such constraints, this constraint is eventually reported as an error, and will
+  be rendered using a custom pretty printer.  (QUESTION:  Should we mark the `TypeError` constraint as unsolvable straight away?).
+
+1. We add custom pretty printing for unsolved constraints of the form `TypeError msg :: Constraint`.
+  The custom pretty printing code examines `msg` and interprets it using the standard pretty printing combinators.
+
+1. When interpreting `msg` it is useful to evaluate type level functions that we encounter along the way.
+  This allows the programmer to use type-level functions to construct the `msg`.  OTOH, the types within
+  `ShowType` are printed as is, without evaluating function any more than usual.
+
+1. `TypeError msg :: k` where `k` is not constraint is printed simply as `(type error)`.  The reason for this
+
+> >
+> > is that on occasion such types may appear in other parts of the error message and we don't want to print the
+> > error multiple times, or in its ugly DSL form.
+
+### Alternative Design
+
+
+It is our intention that `TypeError` will usually in the RHS of a type-level function defintion,
+or as the sole participant in the context of a class `instance`.   It is probably not useful to write `TypeError` in
+a user-defined signature or a datatype declaration, but it also does not appear to be harmful to do so---at least
+not any more harmful than any other partial type-level function.
+
+
+Instead of using the type function `TypeError`, we could ad special language syntax for error-reporting class instances
+and type-family instances.  This seems like a bit heavy-weight, and it is not clear that it buys us much.  Also, we'd
+have to think of more syntax and implement it.
