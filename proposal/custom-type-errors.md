@@ -88,19 +88,25 @@ In an equation for ‘f’: f = undefined
 
 The implementation in GHC is fairly straight-forward:
 
-1. When we are reducing a type function, and we notice that the RHS is of the form `TyperError msg :: k`, then
-  we stop reducing the type function, and instead we emit a new wanted constraint `TypeError msg :: Constraint`.
-  Since there is no way to solve such constraints, this constraint is eventually reported as an error, and will
-  be rendered using a custom pretty printer.  (QUESTION:  Should we mark the `TypeError` constraint as unsolvable straight away?).
+- When we are reducing a type function, and we notice that the RHS is of the form `TyperError msg :: k`, then
 
-1. We add custom pretty printing for unsolved constraints of the form `TypeError msg :: Constraint`.
-  The custom pretty printing code examines `msg` and interprets it using the standard pretty printing combinators.
+> >
+> > we stop reducing the type function, and instead we emit a new wanted constraint `TypeError msg :: Constraint`.
+> > Since there is no way to solve such constraints, this constraint is eventually reported as an error, and will
+> > be rendered using a custom pretty printer.  (QUESTION:  Should we mark the `TypeError` constraint as unsolvable straight away?).
 
-1. When interpreting `msg` it is useful to evaluate type level functions that we encounter along the way.
-  This allows the programmer to use type-level functions to construct the `msg`.  OTOH, the types within
-  `ShowType` are printed as is, without evaluating function any more than usual.
+- We add custom pretty printing for unsolved constraints of the form `TypeError msg :: Constraint`.
 
-1. `TypeError msg :: k` where `k` is not constraint is printed simply as `(type error)`.  The reason for this
+> >
+> > The custom pretty printing code examines `msg` and interprets it using the standard pretty printing combinators.
+
+- When interpreting `msg` it is useful to evaluate type level functions that we encounter along the way.
+
+> >
+> > This allows the programmer to use type-level functions to construct the `msg`.  OTOH, the types within
+> > `ShowType` are printed as is, without evaluating function any more than usual.
+
+- `TypeError msg :: k` where `k` is not constraint is printed simply as `(type error)`.  The reason for this
 
 > >
 > > is that on occasion such types may appear in other parts of the error message and we don't want to print the
