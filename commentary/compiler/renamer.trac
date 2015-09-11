@@ -36,7 +36,7 @@ The renamer sits between the parser and the typechecker. However, its operation 
 
 A big part of the renamer's task is to build the '''global rdr-env''' for the module, of type {{{GlobalRdrEnv}}}.  This environment allows us to take a qualified or un-qualified {{{RdrName}}} and figure out which {{{Name}}} it means.  The global rdr-env is built by looking at all the imports, and the top-level declarations of the module.
 
-You might think that the global rdr-env would be a mapping from {{{RdrName}}} to {{{Name}}}, but it isn't.  Here is what it looks like, after at least three iterations (all in [[GhcFile(compiler/basicTypes/RdrName.lhs)]]):
+You might think that the global rdr-env would be a mapping from {{{RdrName}}} to {{{Name}}}, but it isn't.  Here is what it looks like, after at least three iterations (all in [[GhcFile(compiler/basicTypes/RdrName.hs)]]):
 {{{
 type GlobalRdrEnv = OccEnv [GlobalRdrElt]
   -- An (OccEnv a) is a mapping from OccName to a
@@ -52,7 +52,7 @@ data ImportSpec = ImpSpec { is_decl :: ImpDeclSpec, is_item ::  ImpItemSpec }
 data Parent = NoParent | ParentIs Name
 }}}
 Here is how to understand these types:
- * The environment (`GlobalRdrEnv`) maps an {{{OccName}}} to a list of all entities with that occurence name that are in scope (in any way).  
+ * The environment (`GlobalRdrEnv`) maps an {{{OccName}}} to a list of all entities with that occurrence name that are in scope (in any way).  
 
  * Each of these is represented by a {{{GlobalRdrElt}}}, which gives the entity's {{{Name}}} plus a specification of how it is in scope, its {{{Provenance}}}.  
 
@@ -65,16 +65,16 @@ Here is how to understand these types:
 {{{
 import qualified M( x, T(g) ) as Q
 }}}
- the {{{ImpDeclSpec}}} would describe the {{{qualified}}} and {{{as}}} part, while the {{{ImpItemSpec}}} describes the {{{T(g)}}} part.  You can look in {{{RdrName.lhs}}} to see what an {{{ImportDeclSpec}}} and {{{ImpItemSpec}}} are like!
+ the {{{ImpDeclSpec}}} would describe the {{{qualified}}} and {{{as}}} part, while the {{{ImpItemSpec}}} describes the {{{T(g)}}} part.  You can look in {{{RdrName.hs}}} to see what an {{{ImportDeclSpec}}} and {{{ImpItemSpec}}} are like!
  * The {{{Parent}}} of an entity is the {{{Name}}} under which it is grouped when the forms `T(..)` or `T(C,D)` are used in an export or import list.  In the `T(..)` form, all the things whose {{{Parent}}} is `T` are chosen.  In the `T(C,D)` form, it is required that `C` and `D` have `T` as parents.  
    For example, 
    * The `Parent` of a data constructor is its data type
    * The `Parent` of a record field selector is its data type
    * The `Parent` of a class operation is its class
 
-With all that information, we can give good error messages, especially in the case where an occurrence "f" is ambiguous (i.e. different entities, both called "f", were imported by diffferent import statements).
+With all that information, we can give good error messages, especially in the case where an occurrence "f" is ambiguous (i.e. different entities, both called "f", were imported by different import statements).
 
-The global rdr-env is created by [[GhcFile(compiler/rename/RnNames.lhs)]].
+The global rdr-env is created by [[GhcFile(compiler/rename/RnNames.hs)]].
 
 It is important to note that the global rdr-env is created  ''before'' the renamer actually descends into the top-level bindings of a module. In other words, before {{{TcRnDriver.rnTopSrcDecls}}} performs the renaming of a module by way of {{{RnSource.rnSrcDecls}}}, it uses {{{RnNames.importsFromLocalDecls}}} to set up the global rdr-env environment, which contains {{{Names}}} for all imported and all locally defined toplevel binders.  Hence, when the helpers of {{{rnSrcDecls}}} come across the defining occurences of a toplevel {{{RdrName}}}, they don't rename it by generating a new name, but they simply look up its name in the global rdr-env. 
 
