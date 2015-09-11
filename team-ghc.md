@@ -6,6 +6,17 @@ GHC is the result of the hard work of many people. This page gives detail on exa
 - For a more general overview of the responsibilities people take, see [the Code Owners](code-owners) page.
 - We have a [task force for Windows](windows-task-force)
 
+
+(**NB**: GHC's development *as a whole* is not led by any particular group, company, or individual. Affiliations below are listed for identification purposes only, and are optional; contributions do not necessarily represent the interests of employers or academic institutions.)
+
+## Contributor Trac names
+
+
+Lots of people contribute to GHC without yet having commit rights.  This list not only celebrates them but also translates their inscrutable Trac names to their real names.  Please add yours if you aren't here yet.
+
+- Eric Seidel (UCSD).  Trac: gridaphobe
+- Ryan Yates (Rochester).  Trac: fryguybob
+
 ## Committers
 
 
@@ -13,11 +24,6 @@ The following page lists the current people who are allowed to commit to GHC, al
 
 
 In order to see emails below, **you must login**.
-
-
-(**NB**: GHC's development *as a whole* is not led by any particular group, company, or individual. Affiliations below are listed for identification purposes only, and are optional; contributions do not necessarily represent the interests of employers or academic institutions.)
-
-### Current list
 
 - Andres Loh
 
@@ -375,7 +381,7 @@ In order to see emails below, **you must login**.
   - **Committer since**: September, 2008.
   - **Main areas of interest**: GHC API
 
-### Becoming a committer
+## Becoming a committer
 
 
 At a certain point after you've made enough contributions, the question of commit access inevitably arises. We welcome a steady stream of contributors, because it broadens the sense of ownership of GHC, which is great.
@@ -389,7 +395,7 @@ To be granted access, please contact **Austin Seipp** above. As it currently sta
 
 (In some cases, you may also be approached by an existing committer who's willing to represent you, which is great! You'll be contacted appropriately, then.)
 
-### Prior committers
+## Prior committers
 
 
 This list people who have contributed wonderful things to GHC in the past, but are no longer actively working with us. After 1 year of no commits, **we revoke peoples access and add them from the list above to this one**. If you're one of these people, contact Austin and we can give access back to you.
