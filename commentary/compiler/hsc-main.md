@@ -43,7 +43,7 @@ Look at the picture first.  The yellow boxes are compiler passes, while the blue
 > It makes a difference whether or not you are using `-O` at this stage.  With `-O` (or rather, with `-fomit-interface-pragmas` which is a consequence of `-O`), the tidied program (produced by `tidyProgram`) has unfoldings for Ids, and RULES.  Without `-O` the unfoldings and RULES are omitted from the tidied program.  And that, in turn, affects the interface file generated subsequently.
 
 >
-> There are good notes at the top of the file [compiler/main/TidyPgm.hs](/trac/ghc/browser/ghc/compiler/main/TidyPgm.hs); the main function is `tidyProgram`, for some reason documented as "Plan B".
+> There are good notes at the top of the file [compiler/main/TidyPgm.hs](/trac/ghc/browser/ghc/compiler/main/TidyPgm.hs); the main function is `tidyProgram`, documented as "Plan B" ("Plan A" is a simplified tidy pass that is run when we have only typechecked, but haven't run the desugarer or simplifier).
 
 - At this point, the data flow forks.  First, the tidied program is dumped into an interface file.  This part happens in two stages:
 
