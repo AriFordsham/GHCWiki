@@ -79,12 +79,12 @@ https://ghc.haskell.org/trac/ghc/wiki/Migration/8.0
 
 === merge/patch/upstream
 
-[[TicketQuery(milestone=7.12.1,status=merge|patch|upstream,format=table,col=type|summary|priority|differential|owner,group=status,order=priority)]]
+[[TicketQuery(milestone=8.0.1,status=merge|patch|upstream,format=table,col=type|summary|priority|differential|owner,group=status,order=priority)]]
 
 === new
 
-[[TicketQuery(milestone=7.12.1,status=new,format=table,col=type|summary|priority|owner,group=status,order=priority)]]
+[[TicketQuery(milestone=8.0.1,status=new,format=table,col=type|summary|priority|owner,group=status,order=priority)]]
 
 === infoneeded
 
-[[TicketQuery(milestone=7.12.1,status=infoneeded,format=table,col=type|summary|priority|owner,group=status,order=priority)]]
+[[TicketQuery(milestone=8.0.1,status=infoneeded,format=table,col=type|summary|priority|owner,group=status,order=priority)]]
