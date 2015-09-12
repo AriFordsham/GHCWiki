@@ -136,6 +136,7 @@ Compare this to a Github workflow, where you just push your updated branch (with
 - "I rebased onto master, but now arcanist is asking me confusing shit when I try to update my differential..."
 - "arcanist is yelling at me, despite not changing anything"
 - "Oh, I don't really expect arcanist to get submodules right"
+- **"the main obstacle for me as a new contributor is that I need to learn phab, etc. instead of just hacking and sending a pr"**
 
 - "I really like the whole arc stuff, much better than attaching patches to trac tickets"
 
