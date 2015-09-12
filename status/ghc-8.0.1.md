@@ -92,12 +92,12 @@ FIXME Write the migration guide.
 
 ### merge/patch/upstream
 
-<table><tr><th>Ticket (Ticket query: status: merge, status: patch, status: upstream, milestone: 7.12.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: id)</th>
-<th>Type (Ticket query: status: merge, status: patch, status: upstream, milestone: 7.12.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: type)</th>
-<th>Summary (Ticket query: status: merge, status: patch, status: upstream, milestone: 7.12.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: summary)</th>
-<th>Priority (Ticket query: status: merge, status: patch, status: upstream, milestone: 7.12.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, desc: 1, order: priority)</th>
-<th>Differential Rev(s) (Ticket query: status: merge, status: patch, status: upstream, milestone: 7.12.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: differential)</th>
-<th>Owner (Ticket query: status: merge, status: patch, status: upstream, milestone: 7.12.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: owner)</th></tr>
+<table><tr><th>Ticket (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.0.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: id)</th>
+<th>Type (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.0.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: type)</th>
+<th>Summary (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.0.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: summary)</th>
+<th>Priority (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.0.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, desc: 1, order: priority)</th>
+<th>Differential Rev(s) (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.0.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: differential)</th>
+<th>Owner (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.0.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: owner)</th></tr>
 <tr><th>
             No tickets found
           </th>
@@ -109,26 +109,96 @@ FIXME Write the migration guide.
 
 ### new
 
-<table><tr><th>Ticket (Ticket query: status: new, milestone: 7.12.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: id)</th>
-<th>Type (Ticket query: status: new, milestone: 7.12.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: type)</th>
-<th>Summary (Ticket query: status: new, milestone: 7.12.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: summary)</th>
-<th>Priority (Ticket query: status: new, milestone: 7.12.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: priority)</th>
-<th>Owner (Ticket query: status: new, milestone: 7.12.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: owner)</th></tr>
-<tr><th>
-            No tickets found
-          </th>
-<th></th>
-<th></th>
-<th></th>
+## Status: new (3 matches)
+
+<table><tr><th>Ticket (Ticket query: status: new, milestone: 8.0.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: id)</th>
+<th>Type (Ticket query: status: new, milestone: 8.0.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: type)</th>
+<th>Summary (Ticket query: status: new, milestone: 8.0.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: summary)</th>
+<th>Priority (Ticket query: status: new, milestone: 8.0.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: priority)</th>
+<th>Owner (Ticket query: status: new, milestone: 8.0.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: owner)</th></tr>
+<tr><th>[\#10735](https://gitlab.haskell.org//ghc/ghc/issues/10735)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      task
+                    </th>
+<th>[Smooth out the differences between \`compiler/utils/Pretty.hs\` and \`libraries/pretty\`](https://gitlab.haskell.org//ghc/ghc/issues/10735)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th></th></tr>
+<tr><th>[\#10927](https://gitlab.haskell.org//ghc/ghc/issues/10927)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[IndexError: pop from empty list](https://gitlab.haskell.org//ghc/ghc/issues/10927)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th></th></tr>
+<tr><th>[\#3351](https://gitlab.haskell.org//ghc/ghc/issues/3351)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[Generated ghc man page missing xrefs](https://gitlab.haskell.org//ghc/ghc/issues/3351)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      lowest
+                    </th>
 <th></th></tr></table>
 
 ### infoneeded
 
-<table><tr><th>Ticket (Ticket query: status: infoneeded, milestone: 7.12.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: id)</th>
-<th>Type (Ticket query: status: infoneeded, milestone: 7.12.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: type)</th>
-<th>Summary (Ticket query: status: infoneeded, milestone: 7.12.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: summary)</th>
-<th>Priority (Ticket query: status: infoneeded, milestone: 7.12.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: priority)</th>
-<th>Owner (Ticket query: status: infoneeded, milestone: 7.12.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: owner)</th></tr>
+<table><tr><th>Ticket (Ticket query: status: infoneeded, milestone: 8.0.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: id)</th>
+<th>Type (Ticket query: status: infoneeded, milestone: 8.0.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: type)</th>
+<th>Summary (Ticket query: status: infoneeded, milestone: 8.0.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: summary)</th>
+<th>Priority (Ticket query: status: infoneeded, milestone: 8.0.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: priority)</th>
+<th>Owner (Ticket query: status: infoneeded, milestone: 8.0.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: owner)</th></tr>
 <tr><th>
             No tickets found
           </th>
