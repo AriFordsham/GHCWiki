@@ -508,26 +508,26 @@ not control. Having to define these synonyms at the definition site is too restr
 
 In both cases it is noted that the type of the associated synonym should be checked to ensure it matches with the other constructors.
 
-== Unnatural Association ==
+=== Unnatural Association ===
 
 There is some discussion about what should happen with synonyms which target types defined in the prelude. 
 It is very uncommon to explicitly import datatypes defined in the prelude, thus this kind of association is very rare in practice
 but should be allowed.
 
-== Module Chasing ==
+=== Module Chasing ===
 
 Simon is a bit worried that once we allow this association then there is no limit to the number of constructors which
 can be associated with a type. With normal datatypes, `T(..)` means some subset of the constructors defined where `T` is
 defined. With this proposal `T(..)` has no maximal meaning, I don't see any problem with this behaviour as the meaning can still
 be determined by the renamer.
 
-== The Privilege Objection ==
+=== The Privilege Objection ===
 
 Simon also wonders why it is possible to privilege pattern synonyms in this way and not normal functions for example.
 I don't think this is particularly puzzling as at their most general pattern synonyms allow for the definition of unassociated 
 data constructors. Being able to later associate them with types only brings their behaviour closer to ordinary data constructors.
 
-== Polymorphic Synonyms ==
+=== Polymorphic Synonyms ===
 
 The following is a valid pattern synonym declaration which doesn't have a definite constructor.
 
