@@ -24,8 +24,8 @@ Relevant open tickets:
 - [\#8583](https://gitlab.haskell.org//ghc/ghc/issues/8583) (Associated patterns)
 - [\#8761](https://gitlab.haskell.org//ghc/ghc/issues/8761) (template haskell support)
 - [\#8779](https://gitlab.haskell.org//ghc/ghc/issues/8779) (exhaustiveness checks)
-
 - [\#10783](https://gitlab.haskell.org//ghc/ghc/issues/10783) (partial type signatures in pattern synonym signatures)
+- [\#10653](https://gitlab.haskell.org//ghc/ghc/issues/10653) (Associated pattern synonyms with types)
 
 ## Motivating example
 
@@ -515,3 +515,138 @@ An unresolved design point is how record updates should be handled. Given Foo is
 
 
 This whole construct seems quite strange as it would also seem possible to write (the currently illegal)  `(1,2) {baz = Just 6}` as well as `(Foo 1 2) { baz = Just 6}`. Currently pattern synonyms do not change the semantics of programs outside from the explicit use of the synonym. This example is slightly different as we do not use `Foo` but merely the field name `baz`. I am not sure whether this would be confusing to users.
+
+## Associating synonyms with types
+
+
+This section is based upon [\#10653](https://gitlab.haskell.org//ghc/ghc/issues/10653).
+
+
+Pattern synonyms allow for constructors to be defined, exported and imported separately from the types which they build.
+However, it is sometimes convenient to associate synonyms with types so that we can more closely model ordinary data constructors.
+
+
+If we want to refactor to change the internal representation of this maybe-like type to use Maybe.
+
+```wiki
+-- Main.hs
+module Main where
+
+import Internal ( A(..))
+
+-- Internal.hs
+module Internal where
+
+data A = MkA Int | NoA
+```
+
+
+If we modify `Internal.hs` as follows
+
+```wiki
+{-# LANGUAGE PatternSynonyms #-}
+module Internal where
+
+newtype A = NewA (Just Int)
+
+pattern MkA n = A (Just n)
+
+pattern NoA = A Nothing
+```
+
+
+Then local definitions to `Internal` which used `A` would work as before but modules importing `Internal` and `A`
+will no longer work as importing `A(..)` will import the type `A` and the constructor `NewA`. We can explicitly import the
+new patterns but the usage of pattern synonyms should be transparent to the end user. What's needed is to be able to
+associate the new synonyms with a type such that client code is oblivious to this implementation.
+
+### Proposal 1
+
+
+Richard proposes that synonyms are associated at the export of a datatype. Our running example would then look as follows:
+
+```wiki
+{-# LANGUAGE PatternSynonyms #-}
+module Internal(A(MkA, NoA)) where
+
+newtype A = NewA (Just Int)
+
+pattern MkA n = A (Just n)
+
+pattern NoA = A Nothing
+```
+
+### Proposal 2
+
+
+Simon proposes that synonyms are associated at the definition of a datatype. Our running example would look as follows:
+
+```wiki
+{-# LANGUAGE PatternSynonyms #-}
+module Internal(A(MkA, NoA)) where
+
+newtype A = NewA (Just Int)
+    with (MkA, NoA)
+
+pattern MkA n = A (Just n)
+
+pattern NoA = A Nothing
+```
+
+
+In the rest of the discussion I refer to Richard's suggestion rather than Simon's refinement. 
+Consider two packages `old-rep` and `new-rep` which have  different representations of the same structure. 
+The library author wants to smooth the transition for his users by providing a compatibility package `compat-rep`
+so that code using the old representation in `old-rep` can work seamlessly with `new-rep`. 
+
+
+The problem is to define `compat-rep` such that by changing the dependencies of our package, our code to continues to work
+but without depending on `old-rep`. More generally, an author may want to write a `*-compat` package for two packages which they do
+not control. Having to define these synonyms at the definition site is too restrictive for this case .
+
+
+In both cases it is noted that the type of the associated synonym should be checked to ensure it matches with the other constructors.
+
+## Unnatural Association
+
+
+There is some discussion about what should happen with synonyms which target types defined in the prelude. 
+It is very uncommon to explicitly import datatypes defined in the prelude, thus this kind of association is very rare in practice
+but should be allowed.
+
+## Module Chasing
+
+
+Simon is a bit worried that once we allow this association then there is no limit to the number of constructors which
+can be associated with a type. With normal datatypes, `T(..)` means some subset of the constructors defined where `T` is
+defined. With this proposal `T(..)` has no maximal meaning, I don't see any problem with this behaviour as the meaning can still
+be determined by the renamer.
+
+## The Privilege Objection
+
+
+Simon also wonders why it is possible to privilege pattern synonyms in this way and not normal functions for example.
+I don't think this is particularly puzzling as at their most general pattern synonyms allow for the definition of unassociated 
+data constructors. Being able to later associate them with types only brings their behaviour closer to ordinary data constructors.
+
+## Polymorphic Synonyms
+
+
+The following is a valid pattern synonym declaration which doesn't have a definite constructor.
+
+```wiki
+{-# LANGUAGE PatternSynonyms, ViewPatterns #-}
+module Foo where
+
+class C f where
+  build :: a -> f a
+  destruct :: f a -> a
+
+pattern P :: () => C f => a -> f a
+pattern P x <- (destruct -> x)
+  where
+    P x = build x
+```
+
+
+I propose that we allow such synonyms to be associated with a type `T` as long as it typechecks. I don't expect this to be much used in practice. 
