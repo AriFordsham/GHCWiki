@@ -84,21 +84,36 @@ In an equation for ‘f’: f = undefined
 
 The implementation in GHC is fairly straight-forward:
 
-   * When we are reducing a type function, and we notice that the RHS is of the form `TyperError msg :: k`, then
-      we stop reducing the type function, and instead we emit a new wanted constraint `TypeError msg :: Constraint`.
-      Since there is no way to solve such constraints, this constraint is eventually reported as an error, and will
-      be rendered using a custom pretty printer.  (QUESTION:  Should we mark the `TypeError` constraint as unsolvable straight away?).
+* `TypeError` is a type function.  So the flattener already automatically extracts it from inside any types, into a `CFunEqCan`.  We don't need to hunt for it!
 
-   * We add custom pretty printing for unsolved constraints of the form `TypeError msg :: Constraint`.
-      The custom pretty printing code examines `msg` and interprets it using the standard pretty printing combinators.
+* When we are reducing a type function, and we notice that the RHS is of the form `TyperError msg :: k`, then we stop reducing the type function, and instead we emit a new insoluble wanted constraint `TypeError msg :: Constraint`.  ('''SLPJ''': I hate this.  See SLPJ alternative below.)
 
-   * When interpreting `msg` it is useful to evaluate type level functions that we encounter along the way.
-      This allows the programmer to use type-level functions to construct the `msg`.  OTOH, the types within
-      `ShowType` are printed as is, without evaluating function any more than usual.
+* The new insoluble wanted constraint is very like the current `CHoleCan` constraint that we use for type and term wildcards.
+  * We mark it as insoluble right away.
+  * It is kept in the residual `WantedConstraints` returned by the constraint solver (i.e. we do ''not'' report the error right away).
+  * The error is reported later, by `TcErrors.reportUnsolved`.
+  * Because of this delay, the ultimate error message will embody the result of all unifications that take place, which makes the error message more informative.
 
-   * `TypeError msg :: k` where `k` is not constraint is printed simply as `(type error)`.  The reason for this
-       is that on occasion such types may appear in other parts of the error message and we don't want to print the
-       error multiple times, or in its ugly DSL form.
+* We add custom pretty printing (in `TcErrors`) for unsolved constraints of the form `TypeError msg :: Constraint`.  The custom pretty printing code examines `msg` and interprets it using the standard pretty printing combinators.
+
+* When interpreting `msg` it is useful to evaluate type level functions that we encounter along the way. This allows the programmer to use type-level functions to construct the `msg`.  OTOH, the types within `ShowType` are printed as is, without evaluating function any more than usual.  '''SLPJ''' Here I'm not sure.  A good deal of evaluation will happen automatically simply through the usual flattening mechanism. Including in the arugment of `ShowType` unless we take measures to stop it.
+
+* `TypeError msg :: k` where `k` is not constraint is printed simply as `(type error)`.  The reason for this is that on occasion such types may appear in other parts of the error message and we don't want to print the error multiple times, or in its ugly DSL form.
+
+=== SLPJ alternative design ===
+
+* I think the easiest way to both describe and implement the feature is this:
+  * `TypeError` is a type function
+  * It reduces immediately to `Any` (or possibly to a variant of `Any`, whose name is `(type error)`).
+  * When it reduces to `Any`, GHC emits a custom error message
+
+* There are two reasons I suggest that it reduces to `Any`:
+  * To avoid emitting the same error message multiple times, as the constraint solver repeatedly re-considers the same `(TypeError m)` function call.
+  * Reducing to `Any` (or `(type error)`) automatically means that any types involving `TypeError` will, if displayed, print `Any` (or `(type error)`), not an elaborate call to `TypeError`.
+
+* The "emit a custom error message" bit is implemented as you have it now, by emitting a special insoluble.
+
+This approach would be quite a bit simpler than your current story, where you specially recognise type functions whose RHS is `TypeError`, and also have to suppress calls to `TypeError` that appear embedded in types.
 
   
 
@@ -129,9 +144,7 @@ have to think of more syntax and implement it.
     
 
 
-
-
-
+----
 
 
 
