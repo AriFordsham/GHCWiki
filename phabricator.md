@@ -37,8 +37,7 @@ The most important tool you're going to use with Phab is called **arcanist**, wh
 To install PHP on Debian or Ubuntu, run `apt-get install php5-cli php5-curl`.
 On OS X PHP is already installed and you can skip directly to grabbing the arcanist sources.
 
-
-Don't install `arc` using the package manager from your Linux distribution (e.g. Debian, even unstable). It might work when you first install it from Debian, but sooner or later the packaged version will fall behind the version used on the server. You need the source checked out.
+**WARNING**: Don't install `arc` using the package manager from your Linux distribution (e.g. Debian, even unstable). It might work when you first install it from Debian, but sooner or later the packaged version will fall behind the version used on the server. You need the source checked out.
 
 
 Getting the source to Arcanist is very easy, just check out two git repositories next to each other, and put the binaries in your `$PATH`:
