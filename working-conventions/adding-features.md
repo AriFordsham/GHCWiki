@@ -3,8 +3,9 @@
 
 We welcome your involvement in making GHC able to do more. Here's how to do it. Note that proposals for a change to the libraries (including base) should be send to the [ libraries mailinglist](http://haskell.org/haskellwiki/Library_submissions).
 
-1. Write down the **specification** of the feature and create a Wiki page for it. For smaller features you can use the description of the Trac ticket.  Specifying before implementing is obviously a good idea; and it makes it possible for others to comment on your design before you invest heavily in building the feature.  
-1. Get **feedback** by emailing a suitable list (`ghc-devs` for nitty-gritty GHC internals, `glasgow-haskell-users` for user-visible features).  Often you'll get useful ideas.  
+1. Open a ticket. 
+1. Write down the **specification** of the feature and create a Wiki page for it.  Specifying before implementing is obviously a good idea; and it makes it possible for others to comment on your design before you invest heavily in building the feature.  
+1. Get **feedback** by emailing a suitable list (`ghc-devs` for nitty-gritty GHC internals, `glasgow-haskell-users` for user-visible features).  Often you'll get useful ideas. Put a link and a summary of the discussion in the Trac ticket. 
 1. Follow the instructions for **[contributing a patch](working-conventions/fixing-bugs)**.  
 1. Include updates to the **user manual** that documents your feature. For features that introduce a new flag, at least two sections need to be updated:
 
