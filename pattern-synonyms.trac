@@ -440,6 +440,11 @@ baz = Pat { foo = 5 }
 
     Here, I'm intending `Pat { foo = 5 }` to be a record //update//, not a record //construction//. But it's confusing! Does this work?
 
+==== Answer ====
+
+Not currently - `baz` is parsed as a `RecordCon` which then fails as `Pat` is not a constructor with field `foo`.
+
+
 * Import/export syntax has to be extended to accommodate the field labels. So, if we have
 
 {{{
