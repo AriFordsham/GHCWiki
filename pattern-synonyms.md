@@ -650,3 +650,36 @@ pattern P x <- (destruct -> x)
 
 
 I propose that we allow such synonyms to be associated with a type `T` as long as it typechecks. I don't expect this to be much used in practice. 
+
+### Specification
+
+
+This proposal only changes module imports and exports. 
+
+#### Definition
+
+
+We say that a pattern synonym `P` is associated with a type `T` relative to module `M` when `M` exports `T` whilst associating `P`. 
+
+#### Exports
+
+
+For any modules `M``N`, we say that `M` exports `T` whilst associating `P` either when
+
+- The export has the form `T(c1, ..., cn, P)` where c1 to cn are a mixture of other field names, constructors and pattern synonyms. 
+
+- In the case of the abbreviated form `T(..)`, If `M` imports `T` from `N` then `T(..)` names the type and any constructors and field names which are in scope as well as any pattern synonyms (in scope) which are associated to `T` relative to `N`. 
+
+#### Imports
+
+
+For any modules `M``N`, if we import `N` from `M`,
+
+- The abbreviated form `T(..)` brings into scope all the constructors, methods or field names exported by `N` as well any patterns associated with `T` relative to `N`. 
+- The explicit form `T(c1,...,cn)` can name any constructors, methods or field names exported by `N` as well as any patterns associated with `T` relative to `N`. 
+
+#### Clarification
+
+- Associated patterns are **not** typechecked to ensure that their type matches the type they are associated with.
+
+- Hence, all synonyms must be initially explicitly associated but a module which imports an associated synonym is oblivious to whether they import a synonym or a constructor.
