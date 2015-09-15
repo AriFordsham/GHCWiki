@@ -5,7 +5,7 @@ We welcome your involvement in making GHC able to do more. Here's how to do it. 
 
 1. Open a [ feature request](https://ghc.haskell.org/trac/ghc/newticket?type=feature+request)**ticket** on Trac.
 1. Write down the **specification** of the feature and create a Wiki [page](proposal) for it. Specifying before implementing is obviously a good idea; and it makes it possible for others to comment on your design before you invest heavily in building the feature.
-1. Get **feedback** by emailing a suitable list (`ghc-devs` for nitty-gritty GHC internals, `glasgow-haskell-users` for user-visible features). Update the specification as needed. 
+1. Get **feedback** by emailing a suitable list (`ghc-devs` for nitty-gritty GHC internals, `glasgow-haskell-users` for user-visible features). Often you'll get useful ideas. Update the wiki page as needed. 
 1. Put a link and a **summary** to the discussion in the Trac ticket.
 1. For language extensions, **wait for approval** by GHC HQ.
 1. Follow the instructions for **[contributing a patch](working-conventions/fixing-bugs)**.
