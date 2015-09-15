@@ -427,6 +427,27 @@ An unresolved design point is how record updates should be handled. Given Foo is
 
 This whole construct seems quite strange as it would also seem possible to write (the currently illegal)  `(1,2) {baz = Just 6}` as well as `(Foo 1 2) { baz = Just 6}`. Currently pattern synonyms do not change the semantics of programs outside from the explicit use of the synonym. This example is slightly different as we do not use `Foo` but merely the field name `baz`. I am not sure whether this would be confusing to users.
 
+=== Tricky bits ===
+
+* There is now a potential ambiguity.
+
+{{{
+data D = MkD { foo :: Int }
+pattern Pat = MkD { foo = Int }
+
+baz = Pat { foo = 5 }
+}}}
+
+    Here, I'm intending `Pat { foo = 5 }` to be a record //update//, not a record //construction//. But it's confusing! Does this work?
+
+* Import/export syntax has to be extended to accommodate the field labels. So, if we have
+
+{{{
+pattern Pat { a } = Just a
+}}}
+
+    then we should be able to write any of the following in an export list: `pattern Pat`, `pattern Pat(..)`, `pattern Pat(a)`. (The last two mean the same thing.) It would only be logical to extend this syntax to also allow record data constructors to operate the same way. Question: should record data constructors be allowed to use this syntax when exported without the `pattern` keyword?
+
 == Associating synonyms with types ==
 
 This section is based upon #10653.
@@ -560,7 +581,7 @@ We say that a pattern synonym `P` is associated with a type `T` relative to modu
 
 For any modules `M` `N`, we say that `M` exports `T` whilst associating `P` either when
 
-* The export has the form `T(c1, ..., cn, P)` where c1 to cn are a mixture of other field names, constructors and pattern synonyms. 
+* The export has the form `T(c1, ..., cn, P)` where c1 to cn are a mixture of other field names, constructors and pattern synonyms. This mixture of other stuff may include the special token `..`, which indicates either 1) all constructors and field names from `T`'s declaration, if `T` is declared in this module; or 2) all symbols imported with `T`, which might perhaps include patterns associated with `T` in some other module. In case (2), `..` might in fact be a union of sets, if `T` is imported from multiple modules with different sets of associated definitions.
 
 * In the case of the abbreviated form `T(..)`, If `M` imports `T` from `N` then `T(..)` names the type and any constructors and field names which are in scope as well as any pattern synonyms (in scope) which are associated to `T` relative to `N`. 
 
@@ -577,4 +598,4 @@ For any modules `M` `N`, if we import `N` from `M`,
 
 * Hence, all synonyms must be initially explicitly associated but a module which imports an associated synonym is oblivious to whether they import a synonym or a constructor.
 
-
+* According to this proposal, only pattern synonyms may be associated with a datatype. But it would be trivial to expand this proposal to allow arbitrary associations.
