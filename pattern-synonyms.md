@@ -516,6 +516,29 @@ An unresolved design point is how record updates should be handled. Given Foo is
 
 This whole construct seems quite strange as it would also seem possible to write (the currently illegal)  `(1,2) {baz = Just 6}` as well as `(Foo 1 2) { baz = Just 6}`. Currently pattern synonyms do not change the semantics of programs outside from the explicit use of the synonym. This example is slightly different as we do not use `Foo` but merely the field name `baz`. I am not sure whether this would be confusing to users.
 
+### Tricky bits
+
+- There is now a potential ambiguity.
+
+```wiki
+data D = MkD { foo :: Int }
+pattern Pat = MkD { foo = Int }
+
+baz = Pat { foo = 5 }
+```
+
+>
+> Here, I'm intending `Pat { foo = 5 }` to be a record *update*, not a record *construction*. But it's confusing! Does this work?
+
+- Import/export syntax has to be extended to accommodate the field labels. So, if we have
+
+```wiki
+pattern Pat { a } = Just a
+```
+
+>
+> then we should be able to write any of the following in an export list: `pattern Pat`, `pattern Pat(..)`, `pattern Pat(a)`. (The last two mean the same thing.) It would only be logical to extend this syntax to also allow record data constructors to operate the same way. Question: should record data constructors be allowed to use this syntax when exported without the `pattern` keyword?
+
 ## Associating synonyms with types
 
 
