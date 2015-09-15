@@ -666,7 +666,7 @@ We say that a pattern synonym `P` is associated with a type `T` relative to modu
 
 For any modules `M``N`, we say that `M` exports `T` whilst associating `P` either when
 
-- The export has the form `T(c1, ..., cn, P)` where c1 to cn are a mixture of other field names, constructors and pattern synonyms. 
+- The export has the form `T(c1, ..., cn, P)` where c1 to cn are a mixture of other field names, constructors and pattern synonyms. This mixture of other stuff may include the special token `..`, which indicates either 1) all constructors and field names from `T`'s declaration, if `T` is declared in this module; or 2) all symbols imported with `T`, which might perhaps include patterns associated with `T` in some other module. In case (2), `..` might in fact be a union of sets, if `T` is imported from multiple modules with different sets of associated definitions.
 
 - In the case of the abbreviated form `T(..)`, If `M` imports `T` from `N` then `T(..)` names the type and any constructors and field names which are in scope as well as any pattern synonyms (in scope) which are associated to `T` relative to `N`. 
 
@@ -683,3 +683,5 @@ For any modules `M``N`, if we import `N` from `M`,
 - Associated patterns are **not** typechecked to ensure that their type matches the type they are associated with.
 
 - Hence, all synonyms must be initially explicitly associated but a module which imports an associated synonym is oblivious to whether they import a synonym or a constructor.
+
+- According to this proposal, only pattern synonyms may be associated with a datatype. But it would be trivial to expand this proposal to allow arbitrary associations.
