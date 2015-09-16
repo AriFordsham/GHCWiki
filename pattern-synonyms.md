@@ -728,9 +728,7 @@ Could you give examples ti illustrate the re-export thing?  Which I do not under
 
 **SLPJ** this second bullet does not seem to be part of the definition of "`M` exports `T` whilst associating `P`".  Correct?
 
-**MP** No, this second section describes the case when `T` is not defined in `M`. The first case solely concerns when `T`*is* defined in `M`.  
-
-- In the case of the abbreviated form `T(..)`, If `M` imports `T` from `N` then `T(..)` names the type and any constructors and field names which are in scope as well as any pattern synonyms (in scope) which are associated to `T` relative to `N`. 
+**MP** Ah, I see how Richard's edits seemed to have confused this a bit. I don't think it's necessary anymore. 
 
 #### Imports
 
@@ -750,67 +748,26 @@ For any modules `M``N`, if we import `N` from `M`,
 
 #### Examples
 
-```wiki
-module N(T(.., P)) where
-
-data T = MkT Int
-
-pattern P = MkT 5
-
--- M.hs
-module M where
-
-import N (T(..))
+```
+moduleN(T(..,P))wheredataT=MkTIntpatternP=MkT5-- M.hsmoduleMwhereimportN(T(..))
 ```
 
 `P` is associated with `T` relative to `N`. M imports `T`, `MkT` and `P`.
 
-```wiki
-module N(T(..)) where
-
-data T = MkT Int
-
-pattern P = MkT 5
-
--- M.hs
-module M where
-
-import N (T(..))
+```
+moduleN(T(..))wheredataT=MkTIntpatternP=MkT5-- M.hsmoduleMwhereimportN(T(..))
 ```
 
 `P` is unassociated. `M` imports `T` and `MkT`. 
 
-```wiki
-module N(T(P)) where
-
-data T = MkT Int
-
-pattern P = MkT 5
-
--- M.hs
-module M where
-
-import N (T(..))
+```
+moduleN(T(P))wheredataT=MkTIntpatternP=MkT5-- M.hsmoduleMwhereimportN(T(..))
 ```
 
 `P` is associated with `T` relative to `N`. M imports `T`, and `P`.
 
-```wiki
-module N(T(P)) where
-
-data T = MkT Int
-
-pattern P = MkT 5
-
--- M.hs
-module M (T(..)) where
-
-import N (T(..))
-
--- O.hs
-module O where
-
-import M (T(..))
+```
+moduleN(T(P))wheredataT=MkTIntpatternP=MkT5-- M.hsmoduleM(T(..))whereimportN(T(..))-- O.hsmoduleOwhereimportM(T(..))
 ```
 
 `P` is associated with `T` relative to `N`.
@@ -819,24 +776,10 @@ import M (T(..))
 As `M` imports `N` and imports `T`, `P` is associated with `T` relative to `M`. Thus `M` exports `T` and `P`.
 
 
-Therefore when `O` imports `T(..)` from `M`, it also imports `P`. 
+Therefore when `O` imports `T(..)` from `M`, it imports `T` and `P`. 
 
-```wiki
-module N(T(..)) where
-
-data T = MkT Int
-
--- M.hs
-module M(T(P)) where
-
-import N (T(..))
-
-pattern P = MkT 5
-
--- O.hs
-module O where
-
-import M (T(..))
+```
+moduleN(T(..))wheredataT=MkTInt-- M.hsmoduleM(T(P))whereimportN(T(..))patternP=MkT5-- O.hsmoduleOwhereimportM(T(..))
 ```
 
 
