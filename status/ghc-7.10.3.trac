@@ -12,6 +12,7 @@ So please tell us if your problem falls in to this category, saying a bit about 
 Here's a list of the tickets that appear to fall into this show-stopping category:
  * #10829, #10745 (same underlying issue I think)
  * #10726, #10795 ([https://mail.haskell.org/pipermail/glasgow-haskell-users/2015-September/026035.html Ruben Moor email])
+ * #10568, #10672 ([https://mail.haskell.org/pipermail/ghc-devs/2015-September/009973.html Luke Iannini email])
 
 
 See milestone:7.10.3 and [https://ghc.haskell.org/trac/ghc/query?status=infoneeded&status=merge&status=new&status=patch&group=status&milestone=7.10.3 Active tickets] for more.
