@@ -579,14 +579,31 @@ This proposal only changes module imports and exports.
 
 ==== Definition ====
 
-We say that a pattern synonym `P` is associated with a type `T` relative to module `M` when `M` exports `T` whilst associating `P`. 
+We say that "a pattern synonym `P` is associated with a type `T` relative to module `M`" if and only if "`M` exports `T` whilst associating `P`". 
 
+'''SLPJ''': this definition simply defines one three-place term in terms of another equally-undefined three-place term.  Would be possible to abandon one form of words or the other.
 
 ==== Exports ====
 
-For any modules `M` `N`, we say that `M` exports `T` whilst associating `P` either when
+'''SLPJ''' OK here comes the definition of the latter term.  Good.
+
+For any modules `M` `N`, we say that "`M` exports `T` whilst associating `P`" either when
 
 * The export has the form `T(c1, ..., cn, P)` where c1 to cn are a mixture of other field names, constructors and pattern synonyms. This mixture of other stuff may include the special token `..`, which indicates either 1) all constructors and field names from `T`'s declaration, if `T` is declared in this module; or 2) all symbols imported with `T`, which might perhaps include patterns associated with `T` in some other module. In case (2), `..` might in fact be a union of sets, if `T` is imported from multiple modules with different sets of associated definitions.
+
+'''SLPJ'''  This seems odd.  Example:
+{{{
+module M( T(A,B,P) ) where
+  data T = A | B
+  pattern P = Nothing
+}}}
+Is this ok?  Does `M` export `T` whilst associating `P`?  Do you really mean to allow pattern synonyms to be associated with entirely unrelated types?
+
+Can a pattern synonym be associated with more than one type?
+
+Could you give examples ti illustrate the re-export thing?  Which I do not understand.
+
+'''SLPJ''' this second bullet does not seem to be part of the definition of "`M` exports `T` whilst associating `P`".  Correct?
 
 * In the case of the abbreviated form `T(..)`, If `M` imports `T` from `N` then `T(..)` names the type and any constructors and field names which are in scope as well as any pattern synonyms (in scope) which are associated to `T` relative to `N`. 
 
