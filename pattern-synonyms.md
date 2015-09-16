@@ -730,14 +730,6 @@ Could you give examples ti illustrate the re-export thing?  Which I do not under
 
 **MP** Ah, I see how Richard's edits seemed to have confused this a bit. I don't think it's necessary anymore. 
 
-
-{{{!\#comment
-
-- In the case of the abbreviated form `T(..)`, If `M` imports `T` from `N` then `T(..)` names the type and any constructors and field names which are in scope as well as any pattern synonyms (in scope) which are associated to `T` relative to `N`. 
-
-
-}}}
-
 #### Imports
 
 
