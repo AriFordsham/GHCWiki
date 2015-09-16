@@ -11,12 +11,21 @@ Link to discussions on
 == Specification ==
 
 {{{
- import modid maybeImpspec maybeAs
+import modid maybeImpspec maybeAs
 }}}
 
-Semantics are the same as existing imports unless both an `impspec` (i.e.
-a parenthesised list of identifiers optionally prefixed with the `hiding`
-keyword) and an `as` (e.g. `as M`) are present. In such a case, all  identifiers exported by `modid` are accessible behind the prefix given by  the `as`.
+Semantics are the same as existing imports unless both an `impspec` (i.e. a parenthesised list of identifiers optionally prefixed with the `hiding` keyword) and an `as` (e.g. `as M`) are present. In such a case, all identifiers exported by `modid` are accessible behind the prefix given by the `as`.
+
+In the language spec,
+
+{{{
+impdecl	→	import [qualified] modid [as modid] [impspec]
+}}}
+
+This grammar leaves out things like package imports and source imports, so I'm not sure if you want me to provide one grammar for all of them. For ShortImports, the grammar is,
+{{{
+impdecl -> import modid impspec as modid 
+}}}
 
 == Examples ==
 
