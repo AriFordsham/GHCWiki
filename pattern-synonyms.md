@@ -778,7 +778,7 @@ moduleN(T(P))wheredataT=MkTIntpatternP=MkT5-- M.hsmoduleM(T(..))whereimportN(T(.
 As `M` imports `N` and imports `T`, `P` is associated with `T` relative to `M`. Thus `M` exports `T` and `P`.
 
 
-Therefore when `O` imports `T(..)` from `M`, it also imports `P`. 
+Therefore when `O` imports `T(..)` from `M`, it imports `T` and `P`. 
 
 ```
 moduleN(T(..))wheredataT=MkTInt-- M.hsmoduleM(T(P))whereimportN(T(..))patternP=MkT5-- O.hsmoduleOwhereimportM(T(..))
