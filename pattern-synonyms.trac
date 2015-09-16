@@ -589,7 +589,9 @@ We say that "a pattern synonym `P` is associated with a type `T` relative to mod
 
 For any modules `M` `N`, we say that "`M` exports `T` whilst associating `P`" either when
 
-* The export has the form `T(c1, ..., cn, P)` where c1 to cn are a mixture of other field names, constructors and pattern synonyms. This mixture of other stuff may include the special token `..`, which indicates either 1) all constructors and field names from `T`'s declaration, if `T` is declared in this module; or 2) all symbols imported with `T`, which might perhaps include patterns associated with `T` in some other module. In case (2), `..` might in fact be a union of sets, if `T` is imported from multiple modules with different sets of associated definitions.
+* The export has the form `T(c1, ..., cn, P)` where c1 to cn are a mixture of other field names, constructors and pattern synonyms. 
+
+  This mixture of other stuff may include the special token `..`, which indicates either 1) all constructors and field names from `T`'s declaration, if `T` is declared in this module; or 2) all symbols imported with `T`, which might perhaps include patterns associated with `T` in some other module. In case (2), `..` might in fact be a union of sets, if `T` is imported from multiple modules with different sets of associated definitions.
 
 '''SLPJ'''  This seems odd.  Example:
 {{{
@@ -599,11 +601,19 @@ module M( T(A,B,P) ) where
 }}}
 Is this ok?  Does `M` export `T` whilst associating `P`?  Do you really mean to allow pattern synonyms to be associated with entirely unrelated types?
 
+'''MP''' Yes, this is ok with the current proposal. 
+
 Can a pattern synonym be associated with more than one type?
+
+'''MP''' Yes, this could also be useful in the case of polymorphic synonyms such as the example in the above section.
 
 Could you give examples ti illustrate the re-export thing?  Which I do not understand.
 
+'''MP''' I have added examples in a new section below.
+
 '''SLPJ''' this second bullet does not seem to be part of the definition of "`M` exports `T` whilst associating `P`".  Correct?
+
+'''MP''' No, this second section describes the case when `T` is not defined in `M`. The first case solely concerns when `T` ''is'' defined in `M`.  
 
 * In the case of the abbreviated form `T(..)`, If `M` imports `T` from `N` then `T(..)` names the type and any constructors and field names which are in scope as well as any pattern synonyms (in scope) which are associated to `T` relative to `N`. 
 
@@ -620,4 +630,99 @@ For any modules `M` `N`, if we import `N` from `M`,
 
 * Hence, all synonyms must be initially explicitly associated but a module which imports an associated synonym is oblivious to whether they import a synonym or a constructor.
 
-* According to this proposal, only pattern synonyms may be associated with a datatype. But it would be trivial to expand this proposal to allow arbitrary associations.
+* According to this proposal, only pattern synonyms may be associated with a datatype. But it would be trivial to expand this proposal to allow arbitrary associations. 
+
+==== Examples ====
+
+{{{
+module N(T(.., P)) where
+
+data T = MkT Int
+
+pattern P = MkT 5
+
+-- M.hs
+module M where
+
+import N (T(..))
+}}}
+
+
+`P` is associated with `T` relative to `N`. M imports `T`, `MkT` and `P`.
+
+{{{
+module N(T(..)) where
+
+data T = MkT Int
+
+pattern P = MkT 5
+
+-- M.hs
+module M where
+
+import N (T(..))
+}}}
+
+`P` is unassociated. `M` imports `T` and `MkT`. 
+
+
+{{{
+module N(T(P)) where
+
+data T = MkT Int
+
+pattern P = MkT 5
+
+-- M.hs
+module M where
+
+import N (T(..))
+}}}
+
+`P` is associated with `T` relative to `N`. M imports `T`, and `P`.
+
+{{{
+module N(T(P)) where
+
+data T = MkT Int
+
+pattern P = MkT 5
+
+-- M.hs
+module M (T(..)) where
+
+import N (T(..))
+
+-- O.hs
+module O where
+
+import M (T(..))
+}}}
+
+`P` is associated with `T` relative to `N`.
+
+As `M` imports `N` and imports `T`, `P` is associated with `T` relative to `M`. Thus `M` exports `T` and `P`.
+
+Therefore when `O` imports `T(..)` from `M`, it also imports `P`. 
+
+{{{
+module N(T(..)) where
+
+data T = MkT Int
+
+-- M.hs
+module M(T(P)) where
+
+import N (T(..))
+
+pattern P = MkT 5
+
+-- O.hs
+module O where
+
+import M (T(..))
+}}}
+
+This example highlights being able to freely reassociate synonyms. 
+
+`M` imports `T` and `MkT` from `N` but then as `M` associates `P` with `T`, when `O` imports `M`, `T` and `P` are brought into scope. 
