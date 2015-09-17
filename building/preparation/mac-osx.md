@@ -93,7 +93,7 @@ Finally, if you want to build the documentation you need to install DocBook, PsU
 Without `docbook2x`, the build fails after attempting network access for a required DTD. Without `psutils`, the build fails when trying to build the PostScript file used to generate `haddock.pdf`.
 
 
-DocBook is a fairly large system unto itself and configuring it to build the documentation in its various formats can be a maze. Verifying that your SGML_CATALOG_FILES and XML_CATALOG_FILES environment variables are pointed at the right places will fix most problems.
+DocBook is a fairly large system unto itself and configuring it to build the documentation in its various formats can be a maze. Verifying that your SGML_CATALOG_FILES and XML_CATALOG_FILES environment variables are pointed at the right places will fix most problems. (What should they point to? After `brew install docbook-xsl` they are both empty.)
 
 ## Docker
 
