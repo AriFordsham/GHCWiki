@@ -3,7 +3,21 @@
 ## Motivation
 
 
-In large build systems unnecessary recompilation of Haskell files becomes a performance problem. With the current GHC if you build the same sources with the same environment and flags twice you don't always get the same result.
+In large build systems unnecessary recompilation of Haskell files becomes a performance problem. With the current GHC if you build the same sources with the same environment and flags twice you don't always get the same result. That leads to a chain of dependents being gratuitously rebuilt.
+
+## Goal
+
+
+Given the same same sources, flags and environment produce the same interface files. GHC will not recompile if the .hi files of dependencies didn't change, so we get a performance win if we make .hi files deterministic.
+
+## Scope
+
+
+Do you care about what happens if you recompile GHC, say with different optimisation settings? That would affect order of evaluation, and hence the order of allocation of uniques.
+Do you care about recompiling the same source file with different environments; e.g. different compiler flags, changes in imported interface files.
+
+
+No, that's a non-goal. 
 
 ## A concrete example
 
@@ -102,6 +116,11 @@ dist/build/Text/PrettyPrint.hi
 a445878a7cec5681355a62b238e7cd00  -
 # the hashes are different but the environment didn't change
 ```
+
+## Deterministic multithreaded builds
+
+
+At this moment we don't need it, but judging by the comments on [\#4012](https://gitlab.haskell.org//ghc/ghc/issues/4012) some people would and we might in the future.
 
 ## Previous discussions
 
