@@ -3,3 +3,107 @@
 == Motivation ==
 
 In large build systems unnecessary recompilation of Haskell files becomes a performance problem. With the current GHC if you build the same sources with the same environment and flags twice you don't always get the same result.
+
+== A concrete example ==
+
+{{{
+$ ghc --version
+The Glorious Glasgow Haskell Compilation System, version 7.11.20150915
+# I'm using HEAD and 7.10.2 has the same problems
+$ git clone http://github.com/haskell/pretty.git
+Cloning into 'pretty'...
+remote: Counting objects: 10363, done.
+remote: Total 10363 (delta 0), reused 0 (delta 0), pack-reused 10363
+Receiving objects: 100% (10363/10363), 5.04 MiB, done.
+Resolving deltas: 100% (5795/5795), done.
+$ cd pretty
+$ cabal sandbox init
+Writing a default package environment file to
+/data/users/bnitka/pretty/cabal.sandbox.config
+Creating a new sandbox at /data/users/bnitka/pretty/.cabal-sandbox
+$ git checkout -b some-source-file-change 2ce46a57385ef480ba0777d790ed5ed554d4544b
+Switched to a new branch 'some-source-file-change'
+$ cabal build
+Package has never been configured. Configuring with default flags. If this
+fails, please run configure manually.
+Warning: The package list for 'hackage.haskell.org' is 28.0 days old.
+Run 'cabal update' to get the latest list of available packages.
+Resolving dependencies...
+Configuring pretty-1.1.3.1...
+Building pretty-1.1.3.1...
+Preprocessing library pretty-1.1.3.1...
+[1 of 6] Compiling Text.PrettyPrint.Annotated.HughesPJ ( src/Text/PrettyPrint/Annotated/HughesPJ.hs, dist/build/Text/PrettyPrint/Annotated/HughesPJ.o )
+[2 of 6] Compiling Text.PrettyPrint.Annotated.HughesPJClass ( src/Text/PrettyPrint/Annotated/HughesPJClass.hs, dist/build/Text/PrettyPrint/Annotated/HughesPJClass.o )
+[3 of 6] Compiling Text.PrettyPrint.Annotated ( src/Text/PrettyPrint/Annotated.hs, dist/build/Text/PrettyPrint/Annotated.o )
+[4 of 6] Compiling Text.PrettyPrint.HughesPJ ( src/Text/PrettyPrint/HughesPJ.hs, dist/build/Text/PrettyPrint/HughesPJ.o )
+[5 of 6] Compiling Text.PrettyPrint.HughesPJClass ( src/Text/PrettyPrint/HughesPJClass.hs, dist/build/Text/PrettyPrint/HughesPJClass.o )
+[6 of 6] Compiling Text.PrettyPrint ( src/Text/PrettyPrint.hs, dist/build/Text/PrettyPrint.o )
+In-place registering pretty-1.1.3.1...
+$ for i in $(find dist/ | grep \.hi); do echo $i; ghc --show-iface $i | md5sum; done
+dist/build/Text/PrettyPrint/Annotated/HughesPJ.hi
+6dd20478ebd71f5e57b203adfa53b750  -
+dist/build/Text/PrettyPrint/Annotated/HughesPJClass.hi
+992914f5b7fbeec8e05fe3ef14f8901d  -
+dist/build/Text/PrettyPrint/Annotated.hi
+33326048d7c0c2285cab7b2b7fa66261  -
+dist/build/Text/PrettyPrint/HughesPJ.hi
+5a8ba7a564a8e0bf3accfe733bc121df  -
+dist/build/Text/PrettyPrint/HughesPJClass.hi
+2de926deed2ad05fc3789e8671a0e510  -
+dist/build/Text/PrettyPrint.hi
+12d5132a2675af831120d386181c5d41  -
+$ git checkout HEAD^ . # checkout an earlier version
+$ cabal build
+./pretty.cabal has been changed. Re-configuring with most recently used
+options. If this fails, please run configure manually.
+Warning: The package list for 'hackage.haskell.org' is 28.0 days old.
+Run 'cabal update' to get the latest list of available packages.
+Resolving dependencies...
+Configuring pretty-1.1.3.1...
+Building pretty-1.1.3.1...
+Preprocessing library pretty-1.1.3.1...
+[1 of 6] Compiling Text.PrettyPrint.Annotated.HughesPJ ( src/Text/PrettyPrint/Annotated/HughesPJ.hs, dist/build/Text/PrettyPrint/Annotated/HughesPJ.o )
+[2 of 6] Compiling Text.PrettyPrint.Annotated.HughesPJClass ( src/Text/PrettyPrint/Annotated/HughesPJClass.hs, dist/build/Text/PrettyPrint/Annotated/HughesPJClass.o )
+[3 of 6] Compiling Text.PrettyPrint.Annotated ( src/Text/PrettyPrint/Annotated.hs, dist/build/Text/PrettyPrint/Annotated.o )
+[4 of 6] Compiling Text.PrettyPrint.HughesPJ ( src/Text/PrettyPrint/HughesPJ.hs, dist/build/Text/PrettyPrint/HughesPJ.o )
+[5 of 6] Compiling Text.PrettyPrint.HughesPJClass ( src/Text/PrettyPrint/HughesPJClass.hs, dist/build/Text/PrettyPrint/HughesPJClass.o )
+[6 of 6] Compiling Text.PrettyPrint ( src/Text/PrettyPrint.hs, dist/build/Text/PrettyPrint.o )
+In-place registering pretty-1.1.3.1...
+$ git checkout HEAD . # go back
+$ cabal build
+./pretty.cabal has been changed. Re-configuring with most recently used
+options. If this fails, please run configure manually.
+Warning: The package list for 'hackage.haskell.org' is 28.0 days old.
+Run 'cabal update' to get the latest list of available packages.
+Resolving dependencies...
+Configuring pretty-1.1.3.1...
+Building pretty-1.1.3.1...
+Preprocessing library pretty-1.1.3.1...
+[1 of 6] Compiling Text.PrettyPrint.Annotated.HughesPJ ( src/Text/PrettyPrint/Annotated/HughesPJ.hs, dist/build/Text/PrettyPrint/Annotated/HughesPJ.o )
+[2 of 6] Compiling Text.PrettyPrint.Annotated.HughesPJClass ( src/Text/PrettyPrint/Annotated/HughesPJClass.hs, dist/build/Text/PrettyPrint/Annotated/HughesPJClass.o )
+[3 of 6] Compiling Text.PrettyPrint.Annotated ( src/Text/PrettyPrint/Annotated.hs, dist/build/Text/PrettyPrint/Annotated.o )
+[4 of 6] Compiling Text.PrettyPrint.HughesPJ ( src/Text/PrettyPrint/HughesPJ.hs, dist/build/Text/PrettyPrint/HughesPJ.o )
+[5 of 6] Compiling Text.PrettyPrint.HughesPJClass ( src/Text/PrettyPrint/HughesPJClass.hs, dist/build/Text/PrettyPrint/HughesPJClass.o )
+[6 of 6] Compiling Text.PrettyPrint ( src/Text/PrettyPrint.hs, dist/build/Text/PrettyPrint.o )
+In-place registering pretty-1.1.3.1...
+$ for i in $(find dist/ | grep \.hi); do echo $i; ghc --show-iface $i | md5sum; done # look at the hashes again
+dist/build/Text/PrettyPrint/Annotated/HughesPJ.hi
+9529ab766d3a3cc31fb406b10936c01d  -
+dist/build/Text/PrettyPrint/Annotated/HughesPJClass.hi
+ad9fa48557707dfb3bc6e62565f4f55c  -
+dist/build/Text/PrettyPrint/Annotated.hi
+7dfdb86e28f7386555b615793434df55  -
+dist/build/Text/PrettyPrint/HughesPJ.hi
+bcc8cb188cf0cb7354485db3178473df  -
+dist/build/Text/PrettyPrint/HughesPJClass.hi
+38aec999daf02c393a0925740d6f46ac  -
+dist/build/Text/PrettyPrint.hi
+a445878a7cec5681355a62b238e7cd00  -
+# the hashes are different but the environment didn't change
+}}}
+
+== Previous discussions ==
+
+https://mail.haskell.org/pipermail/ghc-devs/2015-September/009964.html
+
+#4012
