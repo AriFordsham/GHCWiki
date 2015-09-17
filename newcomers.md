@@ -3,11 +3,6 @@
 
 This page is intended to serve as the first stop for those people who say, "I want to contribute to GHC, but I don't know quite where to begin." Begin here. While the [building guide](building), [working conventions](working-conventions), [commentary](commentary) and [debugging](debugging) pages (always linked from the left sidebar) have great information that can come in handy while you're working on your first, or first several patches, this page is intended to have the details you will need to get rolling.
 
-
-You may want to look at these "how it went for me" blog posts.  (Do add more here.)
-
-- [ Hacking on GHC](http://rawgit.com/gibiansky/4c54f767bf21a6954b23/raw/67c62c5555f40c6fb67b124307725df168201361/exp.html) by Andrew Gibiansky
-
 ## First steps
 
 [Prepare](building/preparation) your machine, [clone](building/getting-the-sources) the git repo, and [build](building/using) GHC. For the short, short version, which may or may not work for your machine, you can try this:
@@ -207,6 +202,10 @@ Tasks:
 - Don't get scared. GHC is a big codebase, but it makes sense when you stare at it long enough!
 
 - Be forewarned that many pages on the GHC wiki are somewhat out-of-date. Always check the last modification date. Email if you're not sure.
+
+- You may want to look at these "how it went for me" blog posts.
+
+  - [ Hacking on GHC (is not that hard)](http://rawgit.com/gibiansky/4c54f767bf21a6954b23/raw/67c62c5555f40c6fb67b124307725df168201361/exp.html) by Andrew Gibiansky
 
 ## Need help?
 
