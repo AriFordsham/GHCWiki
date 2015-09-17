@@ -1,0 +1,6 @@
+# Deterministic builds
+
+## Motivation
+
+
+In large build systems unnecessary recompilation of Haskell files becomes a performance problem. With the current GHC if you build the same sources with the same environment and flags twice you don't always get the same result.
