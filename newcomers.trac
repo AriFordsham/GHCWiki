@@ -2,8 +2,6 @@
 
 This page is intended to serve as the first stop for those people who say, "I want to contribute to GHC, but I don't know quite where to begin." Begin here. While the [wiki:Building building guide], [wiki:WorkingConventions working conventions], [wiki:Commentary commentary] and [wiki:Debugging debugging] pages (always linked from the left sidebar) have great information that can come in handy while you're working on your first, or first several patches, this page is intended to have the details you will need to get rolling.
 
-You may want to look at these "how it went for me" blog posts.  (Do add more here.)
- * [http://rawgit.com/gibiansky/4c54f767bf21a6954b23/raw/67c62c5555f40c6fb67b124307725df168201361/exp.html Hacking on GHC] by Andrew Gibiansky
 
 
 
@@ -90,6 +88,9 @@ Tasks:
 * Don't get scared. GHC is a big codebase, but it makes sense when you stare at it long enough!
 
 * Be forewarned that many pages on the GHC wiki are somewhat out-of-date. Always check the last modification date. Email if you're not sure.
+
+* You may want to look at these "how it went for me" blog posts.
+ - [http://rawgit.com/gibiansky/4c54f767bf21a6954b23/raw/67c62c5555f40c6fb67b124307725df168201361/exp.html Hacking on GHC (is not that hard)] by Andrew Gibiansky
 
 
 == Need help? ==
