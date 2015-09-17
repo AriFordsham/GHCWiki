@@ -6,7 +6,7 @@ This page is intended to serve as the first stop for those people who say, "I wa
 
 You may want to look at these "how it went for me" blog posts.  (Do add more here.)
 
-- [ Hacking on GHC](http://www.theregister.co.uk/2015/09/04/number_of_schools_fail_to_train_teachers_in_coding_computing_curriculum/?mt=1441400335078) by Andrew Gibiansky
+- [ Hacking on GHC](http://rawgit.com/gibiansky/4c54f767bf21a6954b23/raw/67c62c5555f40c6fb67b124307725df168201361/exp.html) by Andrew Gibiansky
 
 ## First steps
 
