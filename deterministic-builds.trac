@@ -2,18 +2,32 @@
 
 == Motivation ==
 
-In large build systems unnecessary recompilation of Haskell files becomes a performance problem. With the current GHC if you build the same sources with the same environment and flags twice you don't always get the same result. That leads to a chain of dependents being gratuitously rebuilt.
+Given the same inputs (source files and flags), GHC does not produce deterministic outputs.  This causes a number of problems:
+
+* Gratuitous recompilation.  Suppose you edit a module in the middle of a project, changing only a comment.  GHC recompiles the module, producing a result that differs from the previous version, and then recompilation proceeds up the tree forcing many more modules to be recompiled.  This is an extreme example, but it happens on a smaller scale all the time.  The effect is much worse when optimisation is on, because gratuitous changes in unfoldings and other cross-module optimisation properties are more likely.
+* Problems for third-party build and packaging systems such as Nix and Debian (see #4012).  For example in Debian, if a package changes its hash, everything that depends on it (transitively) needs to be recompiled.  GHC's non-determinism means that simply recompiling a package can change its hash; so this forces a lot of unnecessary recompiling of packages.
+* Problems for build systems that cache build outputs, which assume that compilation is deterministic.  Build systems that assume a given set of inputs will produce the same (or a compatible) output don't work with GHC. 
 
 == Goal ==
 
-Given the same same sources, flags and environment produce the same interface files. GHC will not recompile if the .hi files of dependencies didn't change, so we get a performance win if we make .hi files deterministic.
+Given the same 
+
+* GHC (see below)
+* source files
+* flags (excluding --make, -j, and debugging flags)
+* installed packages
+
+GHC should always produce the same interface files.
+
+In particular we're not aiming for bit-for-bit identical object files (at least initially).  Identical interface files implies ABI compatibility, and ABI compatibility implies that the object files are, if not identical, at least compatible, since the ABI describes everything that an external client knows about the object file.  ABI compatibility addresses all the points in the motivation.
 
 == Scope ==
 
-Do you care about what happens if you recompile GHC, say with different optimisation settings? That would affect order of evaluation, and hence the order of allocation of uniques.
-Do you care about recompiling the same source file with different environments; e.g. different compiler flags, changes in imported interface files.
+What do we mean by "the same GHC"? Can we recompile GHC with different optimisation flags, or with profiling?  
 
-No, that's a non-goal. 
+For most purposes, e.g. those in Motivatiion above, "the very same GHC binary" is an acceptable definition of "the same GHC".  However, consider what happens when we rebuild GHC itself in a GHC source tree - suppose we rebuild stage 1 in a way that only changes a comment, or only changes an optimisation setting, and then we recompile a library module. Should it produce the same output?  It would be strange if it didn't, and it would lead to a *lot* of recompilation when developing GHC.  Currently GHC is rarely this non-deterministic, and there's no reason it should be.  But it's hard to nail down exactly what this definition should be.
+
+For the sake of having a concrete definition, let's use "built from the same sources with the same flags, excluding optimisation and profiling flags".  This doesn't capture everything, but it's good enough.
 
 == A concrete example ==
 
