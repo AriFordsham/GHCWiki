@@ -120,6 +120,8 @@ Alternatively, to run a pristine build and tests (takes a while):
 
 **NOTE**: You may see an error like `make 7628 child_info_fork::abort: ... make: fork: Resource temporarily unavailable` when running `make`. To fix this, go to the root of your MSYS dir and run `autorebase.bat`; see [ http://sourceforge.net/projects/mingw/files/MSYS/Extension/rebase/rebase-4.0.1_1-1/](http://sourceforge.net/projects/mingw/files/MSYS/Extension/rebase/rebase-4.0.1_1-1/) and again [ http://sourceforge.net/p/msys2/tickets/74/](http://sourceforge.net/p/msys2/tickets/74/). Alternatively, run `shutdown //r`.
 
+**NOTE**: If the build seems super slow (takes more than 1 hour to complete), check your virus scanner and whitelist C:/msys64.
+
 ## Other documentation
 
 
