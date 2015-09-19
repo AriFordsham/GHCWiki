@@ -588,7 +588,7 @@ will no longer work as importing `A(..)` will import the type `A` and the constr
 new patterns but the usage of pattern synonyms should be transparent to the end user. What's needed is to be able to
 associate the new synonyms with a type such that client code is oblivious to this implementation.
 
-### Proposal 1
+### Proposal
 
 
 Richard proposes that synonyms are associated at the export of a datatype. Our running example would then look as follows:
@@ -604,81 +604,6 @@ pattern MkA n = A (Just n)
 pattern NoA = A Nothing
 ```
 
-### Proposal 2
-
-
-Simon proposes that synonyms are associated at the definition of a datatype. Our running example would look as follows:
-
-```wiki
-{-# LANGUAGE PatternSynonyms #-}
-module Internal(A(MkA, NoA)) where
-
-newtype A = NewA (Just Int)
-    with (MkA, NoA)
-
-pattern MkA n = A (Just n)
-
-pattern NoA = A Nothing
-```
-
-
-In the rest of the discussion I refer to Richard's suggestion rather than Simon's refinement. 
-Consider two packages `old-rep` and `new-rep` which have  different representations of the same structure. 
-The library author wants to smooth the transition for his users by providing a compatibility package `compat-rep`
-so that code using the old representation in `old-rep` can work seamlessly with `new-rep`. 
-
-
-The problem is to define `compat-rep` such that by changing the dependencies of our package, our code to continues to work
-but without depending on `old-rep`. More generally, an author may want to write a `*-compat` package for two packages which they do
-not control. Having to define these synonyms at the definition site is too restrictive for this case .
-
-
-In both cases it is noted that the type of the associated synonym should be checked to ensure it matches with the other constructors.
-
-### Unnatural Association
-
-
-There is some discussion about what should happen with synonyms which target types defined in the prelude. 
-It is very uncommon to explicitly import datatypes defined in the prelude, thus this kind of association is very rare in practice
-but should be allowed.
-
-### Module Chasing
-
-
-Simon is a bit worried that once we allow this association then there is no limit to the number of constructors which
-can be associated with a type. With normal datatypes, `T(..)` means some subset of the constructors defined where `T` is
-defined. With this proposal `T(..)` has no maximal meaning, I don't see any problem with this behaviour as the meaning can still
-be determined by the renamer.
-
-### The Privilege Objection
-
-
-Simon also wonders why it is possible to privilege pattern synonyms in this way and not normal functions for example.
-I don't think this is particularly puzzling as at their most general pattern synonyms allow for the definition of unassociated 
-data constructors. Being able to later associate them with types only brings their behaviour closer to ordinary data constructors.
-
-### Polymorphic Synonyms
-
-
-The following is a valid pattern synonym declaration which doesn't have a definite constructor.
-
-```wiki
-{-# LANGUAGE PatternSynonyms, ViewPatterns #-}
-module Foo where
-
-class C f where
-  build :: a -> f a
-  destruct :: f a -> a
-
-pattern P :: () => C f => a -> f a
-pattern P x <- (destruct -> x)
-  where
-    P x = build x
-```
-
-
-I propose that we allow such synonyms to be associated with a type `T` as long as it typechecks. I don't expect this to be much used in practice. 
-
 ### Specification
 
 
@@ -689,46 +614,15 @@ This proposal only changes module imports and exports.
 
 We say that "a pattern synonym `P` is associated with a type `T` relative to module `M`" if and only if "`M` exports `T` whilst associating `P`". 
 
-**SLPJ**: this definition simply defines one three-place term in terms of another equally-undefined three-place term.  Would be possible to abandon one form of words or the other.
-
 #### Exports
 
-**SLPJ** OK here comes the definition of the latter term.  Good.
 
+For any modules `M``N`, we say that "`M` exports `T` whilst associating `P`" just when
 
-For any modules `M``N`, we say that "`M` exports `T` whilst associating `P`" either when
+- The export has the form `T(c1, ..., cn, P)` where c1 to cn (n \>= 0) are a mixture of other field names, constructors, pattern synonyms and the special token `..`. The special token `..`, which indicates either 
 
-- The export has the form `T(c1, ..., cn, P)` where c1 to cn are a mixture of other field names, constructors and pattern synonyms. 
-
->
-> This mixture of other stuff may include the special token `..`, which indicates either 1) all constructors and field names from `T`'s declaration, if `T` is declared in this module; or 2) all symbols imported with `T`, which might perhaps include patterns associated with `T` in some other module. In case (2), `..` might in fact be a union of sets, if `T` is imported from multiple modules with different sets of associated definitions.
-
-**SLPJ**  This seems odd.  Example:
-
-```wiki
-module M( T(A,B,P) ) where
-  data T = A | B
-  pattern P = Nothing
-```
-
-
-Is this ok?  Does `M` export `T` whilst associating `P`?  Do you really mean to allow pattern synonyms to be associated with entirely unrelated types?
-
-**MP** Yes, this is ok with the current proposal. 
-
-
-Can a pattern synonym be associated with more than one type?
-
-**MP** Yes, this could also be useful in the case of polymorphic synonyms such as the example in the above section.
-
-
-Could you give examples ti illustrate the re-export thing?  Which I do not understand.
-
-**MP** I have added examples in a new section below.
-
-**SLPJ** this second bullet does not seem to be part of the definition of "`M` exports `T` whilst associating `P`".  Correct?
-
-**MP** Ah, I see how Richard's edits seemed to have confused this a bit. I don't think it's necessary anymore. 
+  1. all constructors and field names from `T`'s declaration, if `T` is declared in this module; or 
+  1. all symbols imported with `T`, which might perhaps include patterns associated with `T` in some other module. In case (2), `..` might in fact be a union of sets, if `T` is imported from multiple modules with different sets of associated definitions.
 
 #### Imports
 
@@ -740,7 +634,7 @@ For any modules `M``N`, if we import `N` from `M`,
 
 #### Clarification
 
-- Associated patterns are **not** typechecked to ensure that their type matches the type they are associated with.
+- Associated patterns are typechecked to ensure that their type matches the type they are associated with.
 
 - Hence, all synonyms must be initially explicitly associated but a module which imports an associated synonym is oblivious to whether they import a synonym or a constructor.
 
@@ -786,3 +680,77 @@ moduleN(T(..))wheredataT=MkTInt-- M.hsmoduleM(T(P))whereimportN(T(..))patternP=M
 This example highlights being able to freely reassociate synonyms. 
 
 `M` imports `T` and `MkT` from `N` but then as `M` associates `P` with `T`, when `O` imports `M`, `T` and `P` are brought into scope. 
+
+### Unnatural Association
+
+
+There is some discussion about what should happen with synonyms which target types defined in the prelude. 
+It is very uncommon to explicitly import datatypes defined in the prelude, thus this kind of association is very rare in practice
+but should be allowed.
+
+### Module Chasing
+
+
+Simon is a bit worried that once we allow this association then there is no limit to the number of constructors which
+can be associated with a type. With normal datatypes, `T(..)` means some subset of the constructors defined where `T` is
+defined. With this proposal `T(..)` has no maximal meaning, I don't see any problem with this behaviour as the meaning can still
+be determined by the renamer.
+
+### The Privilege Objection
+
+
+Simon also wonders why it is possible to privilege pattern synonyms in this way and not normal functions for example.
+I don't think this is particularly puzzling as at their most general pattern synonyms allow for the definition of unassociated 
+data constructors. Being able to later associate them with types only brings their behaviour closer to ordinary data constructors.
+
+### Polymorphic Synonyms
+
+
+The following is a valid pattern synonym declaration which doesn't have a definite constructor.
+
+```wiki
+{-# LANGUAGE PatternSynonyms, ViewPatterns #-}
+module Foo where
+
+class C f where
+  build :: a -> f a
+  destruct :: f a -> a
+
+pattern P :: () => C f => a -> f a
+pattern P x <- (destruct -> x)
+  where
+    P x = build x
+```
+
+
+I propose that we allow such synonyms to be associated with a type `T` as long as it typechecks. I don't expect this to be much used in practice. 
+
+### Associatation at definition
+
+
+Simon proposed that synonyms are associated at the definition of a datatype. Our running example would look as follows:
+
+```wiki
+{-# LANGUAGE PatternSynonyms #-}
+module Internal(A(MkA, NoA)) where
+
+newtype A = NewA (Just Int)
+    with (MkA, NoA)
+
+pattern MkA n = A (Just n)
+
+pattern NoA = A Nothing
+```
+
+
+The proposal refers to Richard's suggestion rather than Simon's refinement for the following reasons.
+
+
+Consider two packages `old-rep` and `new-rep` which have  different representations of the same structure. 
+The library author wants to smooth the transition for his users by providing a compatibility package `compat-rep`
+so that code using the old representation in `old-rep` can work seamlessly with `new-rep`. 
+
+
+The problem is to define `compat-rep` such that by changing the dependencies of our package, our code to continues to work
+but without depending on `old-rep`. More generally, an author may want to write a `*-compat` package for two packages which they do
+not control. Having to define these synonyms at the definition site is too restrictive for this case .
