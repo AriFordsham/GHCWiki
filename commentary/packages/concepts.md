@@ -96,7 +96,7 @@ Something like "lens"
 Something like "0.1.2"
 </td></tr></table>
 
-<table><tr><th>Package ID</th>
+<table><tr><th>(Source) Package ID</th>
 <td>
 Package name plus version.  With Hackage today, this identifies a unit of distribution: given a package ID you can download a source tarball \[SOURCE\] of a package (but not build it). Pre-GHC 7.10, the package ID was used for library identification, symbols and type-checking (\[LIBRARY\], \[SYMBOL\] and \[TYPES\]), but this is no longer the case.
 </td></tr></table>
@@ -119,32 +119,31 @@ In GHC 7.10 this is used for library identification, symbols and type-checking (
 
 We change installed package IDs and package keys in the following ways:
 
-<table><tr><th>Installed Package ID</th>
+<table><tr><th>Component source hash (previously Installed Package ID)</th>
 <td>
-Hash of source code sdist tarball, selected Cabal flags (not the command line flags), GHC flags, IPIDs of direct dependencies (the `build-depends` of the library in the Cabal file). This brings IPIDs more inline with the concept of a \[NIX\] hash, which lets us truly uniquely identify builds of packages (whereas a package key may conclude two builds are the same, although their source has changed.) This is especially important if all sandboxed builds are being installed to the same location. The patch to make Cabal compute this is being tracked here: [ https://github.com/haskell/cabal/pull/2752](https://github.com/haskell/cabal/pull/2752)</td></tr></table>
+Hash of source code sdist tarball, selected Cabal flags (not the command line flags), GHC flags, hashes of direct dependencies (the `build-depends` of the library in the Cabal file). This brings component source hashes more inline with the concept of a \[NIX\] hash, which lets us truly uniquely identify builds of packages (whereas a package key may conclude two builds are the same, although their source has changed.) This is especially important if all sandboxed builds are being installed to the same location. The patch to make Cabal compute this is being tracked here: [ https://github.com/haskell/cabal/pull/2752](https://github.com/haskell/cabal/pull/2752)</td></tr></table>
 
-<table><tr><th>Package Key</th>
-<td>
-Without Backpack, package keys are now equivalent to installed package IDs. This change is tracked in: [ https://github.com/haskell/cabal/pull/2792](https://github.com/haskell/cabal/pull/2792)</td></tr></table>
+
+Package keys are now just component source hashes, there's no distinction between the two of them.
 
 ## New concepts for Backpack
 
 
-Backpack introduces the concept of a unit, which is a package-like code organization principle which allows multiple modules to be structured together.  A package contains one or more units, one of which is a distinguished unit that is publicly available to other packages; most packages contain exactly one unit.  This means that many definitions which worked with packages now work with units:
+Cabal packages have always had the ability to define multiple components, each of which define their own dependencies and have their own sets of modules. However, Cabal always assumed there would only ever be one component installed: the library. Backpack generalizes components to units, all of which can be installed. Like before, there is distinguished unit which is publicly available to other packages (most packages contain exactly one unit); however, installing a package may also install other private, "helper" units. In particular, in Backpack we have these concepts:
 
 <table><tr><th>Indefinite/definite unit</th>
 <td>
 An indefinite unit is a single unit which hasn't been instantiated; a definite unit is one that has an instantiation of its holes.  Units without holes are both definite and indefinite (they can be used for both contexts).
 </td></tr></table>
 
-<table><tr><th>Indefinite unit record (in indefinite unit database)</th>
+<table><tr><th>Indefinite unit record (in "logical" indefinite unit database)</th>
 <td>
-An indefinite unit record is the most general result of type-checking a unit without any of its holes instantiated.  It is identified by an installed indefinite unit ID, and consists of the types of the modules in the unit (ModIfaces) as well as the source code of the unit (so that it can be recompiled into a definite unit). Indefinite unit records can be installed in the "indefinite unit database."
+An indefinite unit record is the most general result of type-checking a unit without any of its holes instantiated.  It consists of the types of the modules in the unit (ModIfaces) as well as the source code of the unit (so that it can be recompiled into a definite unit). Indefinite unit records can be installed in the "indefinite unit database."
 </td></tr></table>
 
 <table><tr><th>Definite unit record (previously installed package record, in the definite unit database, previously the installed package database)</th>
 <td>
-A definite unit record is a fully-instantiated unit with its associated library. It is identified by an installed definite unit ID, and consists of the types and objects of the compiled unit; they also contain metadata for their associated package.  Definite unit records can be installed in the "definite unit database" (previously known as the "installed package database.") If the unit is the distinguished unit for the package, this record also contains all of the metadata about the containing package.
+A definite unit record is a fully-instantiated unit with its associated library. It consists of the types and objects of the compiled unit; they also contain metadata for their associated package.  Definite unit records can be installed in the "definite unit database" (previously known as the "installed package database.")
 </td></tr></table>
 
 
@@ -152,27 +151,22 @@ To handle these, we need some new identifiers:
 
 <table><tr><th>Unit Name</th>
 <td>
-Something like "p", a unit name is a source-level identifier which distinguishes the multiple units in a package; e.g. `unit p where ...` defines a unit with name `p`.  The unit name that is the same as the containing package is special: it is the "public" unit that is externally accessible.
+Something like "p", a unit name is a source-level identifier which distinguishes the multiple units in a package; e.g. `unit p where ...` defines a unit with name `p`.  The unit name that is the same as the containing package is special: it is the "public" unit that is externally accessible (i.e. the same as the library component).
 </td></tr></table>
 
-<table><tr><th>(Installed) (Fully) Indefinite Unit ID</th>
+<table><tr><th>Component Source Hash</th>
 <td>
-Installed package ID and unit name, which identifies the (transitive) source code of an indefinite unit, Cabal flags, build flags, etc. For non-Backpack units, the unit name is omitted. Equivalently, an indefinite unit ID is a unit key such that for each hole mapping for A is to HOLE:A, e.g. `p(A -> HOLE:A, B -> HOLE:B)`.
+A component source hash is as before, but it can also contain a unit name, to identify which unit in the package we are discussing. For non-Backpack units, the unit name is omitted.
 </td></tr></table>
 
 <table><tr><th>Unit Key (previously named Package Key)</th>
 <td>
-For Backpack units, the unit key is the indefinite unit ID plus a mapping from holes to modules (unit key plus module name). For non-Backpack units, the unit key is equivalent to the installed package ID (since there is no unit name, and the hole mapping is empty). There is also a distinguished key, called "HOLE". These serve the role of \[SYMBOL, LIBRARY, TYPES\]. (Partially definite unit keys can occur on-the-fly during type checking.)
+For Backpack units, the unit key is the component source hash plus a mapping from holes to modules (unit key plus module name). For non-Backpack units, the unit key is equivalent to the component source hash (the hole mapping is empty). These serve the role of \[SYMBOL, LIBRARY, TYPES\]. (Partially definite unit keys can occur on-the-fly during type checking.) When all of the requirements are filled (so there is no occurrence of HOLE), the unit key serves as the primary key for the installed unit database. (We might call this an "installed unit ID" in this context)
 </td></tr></table>
 
 <table><tr><th>Hole Key</th>
 <td>
-The hole key is a distinguished unit key, which is for the "hole package", representing modules which are not yet implemented (there is not actually a unit named hole, it's just a notational convention).
-</td></tr></table>
-
-<table><tr><th>Installed (Fully) Definite Unit ID</th>
-<td>
-An installed definite unit ID, is a unit key, whose requirements are fully filled with installed definite unit IDs (transitively); alternately, it's just a unit key with no occurrences of the unit key HOLE, e.g. `p(A -> uid, B -> uid2)` where `uid` and `uid2` are fully definite unit IDs.
+The hole key "HOLE" is a distinguished unit key, which is for the "hole package", representing modules which are not yet implemented (there is not actually a unit named hole, it's just a notational convention).
 </td></tr></table>
 
 <table><tr><th>Module</th>
