@@ -29,7 +29,6 @@ Travis CI is a free-for-open-source continuous integration service. When your pa
 {{{
 ./validate
 }}}
- This will do a "quick" build and then run the testsuite in "fast" mode.
 
  * Depending on the nature of the changes, more testing might be sensible. e.g. if possible, build system changes should be tested on Linux, Mac OS X and Windows machines.  Look at the full documentation for the [wiki:Building/RunningTests test suite].
 
