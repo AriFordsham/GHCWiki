@@ -31,7 +31,7 @@ In particular we're not aiming for bit-for-bit identical object files (at least 
 What do we mean by "the same GHC"? Can we recompile GHC with different optimisation flags, or with profiling?  
 
 
-For most purposes, e.g. those in Motivatiion above, "the very same GHC binary" is an acceptable definition of "the same GHC".  However, consider what happens when we rebuild GHC itself in a GHC source tree - suppose we rebuild stage 1 in a way that only changes a comment, or only changes an optimisation setting, and then we recompile a library module. Should it produce the same output?  It would be strange if it didn't, and it would lead to a \*lot\* of recompilation when developing GHC.  Currently GHC is rarely this non-deterministic, and there's no reason it should be.  But it's hard to nail down exactly what this definition should be.
+For most purposes, e.g. those in Motivation above, "the very same GHC binary" is an acceptable definition of "the same GHC".  However, consider what happens when we rebuild GHC itself in a GHC source tree - suppose we rebuild stage 1 in a way that only changes a comment, or only changes an optimisation setting, and then we recompile a library module. Should it produce the same output?  It would be strange if it didn't, and it would lead to a \*lot\* of recompilation when developing GHC.  Currently GHC is rarely this non-deterministic, and there's no reason it should be.  But it's hard to nail down exactly what this definition should be.
 
 
 For the sake of having a concrete definition, let's use "built from the same sources with the same flags, excluding optimisation and profiling flags".  This doesn't capture everything, but it's good enough.
