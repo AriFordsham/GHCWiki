@@ -128,7 +128,7 @@ Objects fall into two categories:
  * ''static'' objects reside in the compiled object code.  They are never moved, because pointers to such objects are
    scattered through the object code, and only the linker knows where.
 
-To find out whether a particular object is dynamic or static, use the [wiki:Commentary/Rts/Storage/HeapAlloced HEAP_ALLOCED()] macro, from [source:rts/sm/MBlock.h].  This macro works by consulting a bitmap (or structured bitmap) that tells for each [wiki:Commentary/Rts/Storage#Structureofblocks megablock] of memory whether it is part of the dynamic heap or not.
+To find out whether a particular object is dynamic or static, use the [wiki:Commentary/Rts/Storage/HeapAlloced HEAP_ALLOCED()] macro, from [source:rts/sm/HeapAlloc.h].  This macro works by consulting a bitmap (or structured bitmap) that tells for each [wiki:Commentary/Rts/Storage#Structureofblocks megablock] of memory whether it is part of the dynamic heap or not.
 
 === Dynamic objects ===
 
