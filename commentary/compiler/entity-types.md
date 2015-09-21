@@ -23,7 +23,7 @@ All of these entities have a `Name`, but that's about all they have in common.  
   	     | ATyCon   TyCon
   	     | AClass   Class
 
-  data ConLike = RealDataCon DataCont | PatSynCon PatSyn
+  data ConLike = RealDataCon DataCon | PatSynCon PatSyn
   ```
 
   For example, a type environment is a map from `Name` to `TyThing`.  (The fact that a `Name` tells what name space it belongs to allow, for example, identically named values and types to  sit in a single map.)
