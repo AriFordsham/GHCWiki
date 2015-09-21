@@ -16,7 +16,7 @@ Every ticket has a **status** and a **type**, which appear in the title of the t
 - **Status** says what state the ticket is in.  It is one of these:
 
   - **New** is for open tickets that need to be triaged or fixed.
-  - **Infoneeded** means that the ticket is stalled awaiting information from the submitter (or anyone else).
+  - **Infoneeded** means that the ticket is stalled awaiting information from the submitter.
   - **Closed** means what it says.
   - **Merge** means that a fix has been committed to the HEAD, but should be propagated to the current release branch.
   - **Patch** means that the ticket includes a patch for review.  We love patches!  So we try hard to review patches promptly and either commit them, or start a conversation with the author.
@@ -34,7 +34,7 @@ You change the status of a ticket using the Action box at the bottom.  Particula
 For any given status, 'someone' is responsible for what happens to it next:
 
 - **New** means the bug is still open, and thus in the hands of the GHC team.
-- **Infoneeded** means that the ticket is stalled awaiting information from the submitter (or anyone else), and the responsibility to move forward requires someone to help.
+- **Infoneeded** means that the ticket is stalled awaiting information from the submitter.
 - **Merge** tickets will be handled by Austin or Herbert and merged into the tree before the next release.
 - **Patch** tickets will be handled by Austin or Herbert and merged into the tree.
 - **Upstream** means that we're waiting on action from an upstream maintainer. Normally, when a ticket is marked 'upstream', a change will be proposed to the maintainer, who will merge it (or something equivalent). The ticket will then be moved back to **patch** status, indicating GHC developers need to pick up the change.
