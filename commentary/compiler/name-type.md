@@ -1,7 +1,7 @@
 # The `Name` type
 
 
-Every entity (type constructor, class, identifier, type variable) has a `Name`. The Name type is pervasive in GHC, and is defined in [compiler/basicTypes/Name.lhs](/trac/ghc/browser/ghc/compiler/basicTypes/Name.lhs). Here is what a `Name` looks like, though it is private to the Name module:
+Every entity (type constructor, class, identifier, type variable) has a `Name`. The Name type is pervasive in GHC, and is defined in [compiler/basicTypes/Name.hs](/trac/ghc/browser/ghc/compiler/basicTypes/Name.hs). Here is what a `Name` looks like, though it is private to the Name module:
 
 ```wiki
 data Name = Name {
