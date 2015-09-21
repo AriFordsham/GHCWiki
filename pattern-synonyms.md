@@ -622,7 +622,10 @@ For any modules `M``N`, we say that "`M` exports `T` whilst associating `P`" jus
 - The export has the form `T(c1, ..., cn, P)` where c1 to cn (n \>= 0) are a mixture of other field names, constructors, pattern synonyms and the special token `..`. The special token `..`, which indicates either 
 
   1. all constructors and field names from `T`'s declaration, if `T` is declared in this module; or 
-  1. all symbols imported with `T`, which might perhaps include patterns associated with `T` in some other module. In case (2), `..` might in fact be a union of sets, if `T` is imported from multiple modules with different sets of associated definitions.
+  1. all symbols imported with `T`, which might perhaps include patterns associated with `T` in some other module.
+
+
+In case (2), `..` might in fact be a union of sets if `T` is imported from multiple modules with different sets of associated definitions.
 
 #### Imports
 
