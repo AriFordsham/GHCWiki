@@ -126,7 +126,7 @@ All the value bindings in the module being compiled (whether top level or not) a
 
 ## `GlobalIdDetails` and implict Ids
 
-`GlobalId`s are further classified by their `GlobalIdDetails`.  This type is defined in [compiler/basicTypes/IdInfo](/trac/ghc/browser/ghc/compiler/basicTypes/IdInfo), because it mentions other structured types such as `DataCon`. Unfortunately it is *used* in Var.hs so there's a hi-boot knot to get it there. Anyway, here's the declaration (elided a little):
+`GlobalId`s are further classified by their `GlobalIdDetails`.  This type is defined in [compiler/basicTypes/IdInfo.hs](/trac/ghc/browser/ghc/compiler/basicTypes/IdInfo.hs), because it mentions other structured types such as `DataCon`. Unfortunately it is *used* in Var.hs so there's a hi-boot knot to get it there. Anyway, here's the declaration (elided a little):
 
 ```wiki
 data GlobalIdDetails
