@@ -1,3 +1,15 @@
+== Current status: GHC 8.0 ==
+
+We're planning on shipping '''GHC 8.0''' with the fundamental improvements outlined here, namely:
+
+  - '''Done''': GHC HEAD now requires LLVM 3.6.x, thanks to Ben Gamari (already in HEAD for months now)
+  - '''In flight''': Prebuilt binaries for Tier 1 platforms, to be shipped.
+
+Not in scope for 8.0:
+
+  - Fixing split-objs (but also see Phab:D1242)
+  - Tweaking optimization settings
+
 == An improved LLVM backend ==
 
 Since version 7.0, GHC has supported a backend for the LLVM toolchain. LLVM is a highly optimizing, compiler-neutral intermediate representation and associated toolchain. In short, it is a compiler IR you can use to generate fast code for lots of platforms, and with a lot of supporting tools.
