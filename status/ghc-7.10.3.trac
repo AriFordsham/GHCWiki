@@ -15,6 +15,9 @@ Here's a list of the tickets that appear to fall into this show-stopping categor
  * #10568, #10672 ([https://mail.haskell.org/pipermail/ghc-devs/2015-September/009973.html Luke Iannini email])
  * #10726 and #10777 (Windows): some pressure to get these patches into 7.10.3
 
+Possible (not world ending, but probably not easy to workaround and breaks):
+
+ * #9238 (Levent Erkok): mentioned [https://www.reddit.com/r/haskell/comments/3kwsu4/ghcdev_anyone_need_ghc_7103 reddit] as a [https://github.com/LeventErkok/sbv/issues/138#issuecomment-139804285 bug for SBV]
 
 See milestone:7.10.3 and [https://ghc.haskell.org/trac/ghc/query?status=infoneeded&status=merge&status=new&status=patch&group=status&milestone=7.10.3 Active tickets] for more.
 
