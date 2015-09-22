@@ -1,4 +1,4 @@
-## Current status: GHC 8.0
+# Current status: GHC 8.0
 
 
 We're planning on shipping **GHC 8.0** with the fundamental improvements outlined here, namely:
@@ -11,6 +11,8 @@ Not in scope for 8.0:
 
 - Fixing split-objs (but also see [ Phab:D1242](https://phabricator.haskell.org/D1242))
 - Tweaking optimization settings
+
+# See below for full notes
 
 ## An improved LLVM backend
 
