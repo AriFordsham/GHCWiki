@@ -1,4 +1,4 @@
-# Moving User's Guide Away from DocBook
+# Moving the User's Guide away from DocBook
 
 ## The Problem
 
