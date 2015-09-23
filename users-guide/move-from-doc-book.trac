@@ -1,4 +1,6 @@
-= The Problem
+= Moving User's Guide Away from DocBook
+
+== The Problem
 
 The GHC Users Guide is the primary reference resource for users of GHC. It is critical for the health of the GHC project and wider Haskell community that it remain accessible to readers as well as easy to contribute to.
 As of September 2015 the Users Guide is written in DocBook.
@@ -13,21 +15,21 @@ choice of markup language used for GHC's users guide motivated by a few issues w
 
  * Getting even a simple image displayed consistently in the PDF and HTML output is an [[https://ghc.haskell.org/trac/ghc/ticket/10416|exercise in futility]]
 
-= Alternatives to DocBook
+== Alternatives to DocBook
 
 There are a few alternatives that we could switch to (I here refers to Ben Gamari),
 
-== Markdown
+=== Markdown
 
 While ubiquitous, its syntax isn't nearly expressive enough to accommodate the users guide.
 
-== asciidoc
+=== asciidoc
 
 This was the front-runner in the thread. Unfortunately, when I tried to use it in anger on the users guide things pretty quickly fell apart start to come apart. The syntax is sadly not very composable: tasks like nesting a code block inside a list becomes fragile and quite unreadable due to the need for continuation characters (as delimited blocks like code blocks must begin at column 0).
     
 Despite this I did manage to get much of the way through an [[https://github.com/bgamari/ghc/blob/asciidoc/docs/users_guide/|asciidoc-ification]] of the users guide but only through a great deal of manual fixing. While asciidoc does strive to map one-to-one onto DocBook, my experience is that the converse is not true; a conversion to asciidoc require that we drop some of the finer distinctions between code-like inline elements. For an example of the continuation character issue, see [https://github.com/bgamari/ghc/blame/asciidoc/docs/users_guide/ghci.asciidoc#L2162 ghci.asciidoc].
 
-== ReStructuredText
+=== ReStructuredText
 
 This was a close second-place in the thread and has a fairly wide user base. The primary implementation, Sphinx, is used by Python, MathJAX, LLVM, Ubuntu, Ceph, Blender, and others. The syntax is fairly similar to Markdown and is at least as expressive as asciidoc.
 
@@ -42,13 +44,13 @@ Of course, there are a few annoyances: the doctree construct doesn't quite work 
 
 Another nice advantage here is that Trac has [[http://trac.edgewall.org/wiki/WikiRestructuredText|native support]] for rendering RST which could come in handy when pasting between documents.
 
-= Proposal
+== Proposal
 
 In light of the above, ReStructuredText seems to be the most appropriate option:
 the tooling is much better the DocBook, the format reasonably easy to grok and
 expressive enough to accommodate the majority of the users guide unmodified.
 
-= Execution
+== Execution
 
 If we want to move forward with ReStructuredText I think we will want to
 move quickly. While the conversion is mostly automated, there is some
