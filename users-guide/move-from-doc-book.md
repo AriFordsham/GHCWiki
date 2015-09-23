@@ -3,7 +3,7 @@
 
 The GHC Users Guide is the primary reference resource for users of GHC. It is critical for the health of the GHC project and wider Haskell community that it remain accessible to readers as well as easy to contribute to.
 As of September 2015 the Users Guide is written in DocBook.
-In late 2014 there was a brief thread \[1\] on this list discussing the
+In late 2014 there was a [ https://mail.haskell.org/pipermail/ghc-devs/2014-October/006599.html brief thread](https://mail.haskell.org/pipermail/ghc-devs/2014-October/006599.html brief thread) on this list discussing the
 choice of markup language used for GHC's users guide motivated by a few issues with DocBook which have been increasingly problematic,
 
 - The format's documentation is ancient and isn't terribly approachable.
@@ -16,7 +16,7 @@ choice of markup language used for GHC's users guide motivated by a few issues w
   non-Linux platforms
 
 - Getting even a simple image displayed consistently in the PDF and
-  HTML output is an exercise in futility \[2\]
+  HTML output is an [ https://ghc.haskell.org/trac/ghc/ticket/10416 exercise in futility](https://ghc.haskell.org/trac/ghc/ticket/10416 exercise in futility)
 
 # Alternatives to DocBook
 
@@ -36,12 +36,12 @@ There are a few alternatives that we could switch to (I here refers to Ben Gamar
 
 > >
 > > Despite this I did manage to get much of the way through an
-> > asciidoc-ification of the users guide \[2\] but only through a great
+> > asciidoc-ification https://github.com/bgamari/ghc/blob/asciidoc/docs/users_guide/? of the users guide but only through a great
 > > deal of manual fixing. While asciidoc does strive to map one-to-one
 > > onto DocBook, my experience is that the converse is not true; a
 > > conversion to asciidoc require that we drop some of the finer
 > > distinctions between code-like inline elements. For an example of
-> > the continuation character issue, see \[3\].
+> > the continuation character issue, see [ ghci.asciidoc](https://github.com/bgamari/ghc/blame/asciidoc/docs/users_guide/ghci.asciidoc#L2162).
 
 - ReStructuredText: this was a close second-place in the thread and
   has a fairly wide user base. The primary implementation, Sphinx, is
@@ -78,7 +78,7 @@ There are a few alternatives that we could switch to (I here refers to Ben Gamar
 > > of DocBook.
 
 > >
-> > Another nice advantage here is that Trac has native support \[5\] for
+> > Another nice advantage here is that Trac has [ http://trac.edgewall.org/wiki/WikiRestructuredText native support](http://trac.edgewall.org/wiki/WikiRestructuredText native support) for
 > > rendering RST which could come in handy when pasting between
 > > documents.
 
@@ -100,5 +100,3 @@ amount of manual fiddling necessary to get things formatted nicely.
 There are a few open Differentials that would need to be amended after
 the change but Ben would be happy to help authors through this transition if
 necessary.
-
-\[1\][ https://mail.haskell.org/pipermail/ghc-devs/2014-October/006599.html](https://mail.haskell.org/pipermail/ghc-devs/2014-October/006599.html)\[2\][ https://ghc.haskell.org/trac/ghc/ticket/10416](https://ghc.haskell.org/trac/ghc/ticket/10416)\[3\][ https://github.com/bgamari/ghc/blob/asciidoc/docs/users_guide/](https://github.com/bgamari/ghc/blob/asciidoc/docs/users_guide/)\[4\][ https://github.com/bgamari/ghc/blame/asciidoc/docs/users_guide/ghci.asciidoc\#L2162](https://github.com/bgamari/ghc/blame/asciidoc/docs/users_guide/ghci.asciidoc#L2162)\[5\][ http://trac.edgewall.org/wiki/WikiRestructuredText](http://trac.edgewall.org/wiki/WikiRestructuredText)
