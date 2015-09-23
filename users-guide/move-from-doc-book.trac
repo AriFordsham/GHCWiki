@@ -40,7 +40,7 @@ I have converted the entire users guide to ReStructuredText with a modified Pand
 
 Of course, there are a few annoyances: the doctree construct doesn't quite work how one might expect, requiring one to split up files a bit more than one might like. Like asciidoc, there is no good way to express nested inlines, so we still lose some of the expressiveness of DocBook.
 
-Another nice advantage here is that Trac has [[http://trac.edgewall.org/wiki/WikiRestructuredText native support]] for rendering RST which could come in handy when pasting between documents.
+Another nice advantage here is that Trac has [[http://trac.edgewall.org/wiki/WikiRestructuredText|native support]] for rendering RST which could come in handy when pasting between documents.
 
 = Proposal
 
