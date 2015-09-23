@@ -23,7 +23,7 @@ While ubiquitous, its syntax isn't nearly expressive enough to accommodate the u
 
 == asciidoc
 
-This was the front-runner in [1]. Unfortunately, when I tried to use it in anger on the users guide things pretty quickly fell apart start to come apart. The syntax is sadly not very composable: tasks like nesting a code block inside a list becomes fragile and quite unreadable due to the need for continuation characters (as delimited blocks like code blocks must begin at column 0).
+This was the front-runner in the thread. Unfortunately, when I tried to use it in anger on the users guide things pretty quickly fell apart start to come apart. The syntax is sadly not very composable: tasks like nesting a code block inside a list becomes fragile and quite unreadable due to the need for continuation characters (as delimited blocks like code blocks must begin at column 0).
     
 Despite this I did manage to get much of the way through an [[https://github.com/bgamari/ghc/blob/asciidoc/docs/users_guide/|asciidoc-ification]] of the users guide but only through a great deal of manual fixing. While asciidoc does strive to map one-to-one onto DocBook, my experience is that the converse is not true; a conversion to asciidoc require that we drop some of the finer distinctions between code-like inline elements. For an example of the continuation character issue, see [https://github.com/bgamari/ghc/blame/asciidoc/docs/users_guide/ghci.asciidoc#L2162 ghci.asciidoc].
 
