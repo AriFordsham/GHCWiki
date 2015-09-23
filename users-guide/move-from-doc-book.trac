@@ -34,9 +34,9 @@ This was a close second-place in the thread and has a fairly wide user base. The
 I have converted the entire users guide to ReStructuredText with a modified Pandoc. While some tweaking is still certainly necessary the output from the most-mechanical conversion looks quite good,
 
  - HTML (using a modified version of LLVM's theme), http://smart-cactus.org/~ben/ghc-user-manual/html/index.html
- - PDF produced by xetex (used to get convenient Unicode support), http://smart-cactus.org/~ben/ghc-user-manual/xetex/GHCUsersGuide.pdf
+ - PDF produced by xetex (for convenient Unicode support), http://smart-cactus.org/~ben/ghc-user-manual/xetex/GHCUsersGuide.pdf
  - ePub (I know nothing about this format) http://smart-cactus.org/~ben/ghc-user-manual/epub/GHCUsersGuide.epub
- - Even Github's rendering of the source looks reasonable good, https://github.com/bgamari/ghc/blob/doc-rst/docs/users_guide/ghci.rst
+ - Even Github's rendering of the source looks reasonably good, https://github.com/bgamari/ghc/blob/doc-rst/docs/users_guide/ghci.rst
 
 Of course, there are a few annoyances: the doctree construct doesn't quite work how one might expect, requiring one to split up files a bit more than one might like. Like asciidoc, there is no good way to express nested inlines, so we still lose some of the expressiveness of DocBook.
 
