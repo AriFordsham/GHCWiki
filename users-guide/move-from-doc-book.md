@@ -42,16 +42,14 @@ There are a few alternatives that we could switch to (I here refers to Ben Gamar
 > >
 > > Another nice advantage here is that Trac has [ http://trac.edgewall.org/wiki/WikiRestructuredText native support](http://trac.edgewall.org/wiki/WikiRestructuredText native support) for rendering RST which could come in handy when pasting between documents.
 
-
-\# Proposal
+# Proposal
 
 
 In light of the above, ReStructuredText seems to be the most appropriate option: the tooling is much better the DocBook, the format reasonably easy to grok
 and expressive enough to accommodate the majority of the users guide
 unmodified.
 
-
-\# Execution
+# Execution
 
 
 If we want to move forward with ReStructuredText I think we will want to
