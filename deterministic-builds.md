@@ -25,6 +25,24 @@ GHC should always produce the same interface files.
 
 In particular we're not aiming for bit-for-bit identical object files (at least initially).  Identical interface files implies ABI compatibility, and ABI compatibility implies that the object files are, if not identical, at least compatible, since the ABI describes everything that an external client knows about the object file.  ABI compatibility addresses all the points in the motivation.
 
+
+What *can* change, and still get identical output?  (A non-exhaustive list.)
+
+- The contents of the file system (eg `/tmp`)
+- Old interface files
+
+
+For example: 
+
+- compile the package 
+- change `Foo.hs`
+- recompile
+- undo the change
+- recompile
+
+
+The final step should have identical output to the first.
+
 ## Scope
 
 
