@@ -568,6 +568,21 @@ For any modules `M` `N`, if we import `N` from `M`,
 * The abbreviated form `T(..)` brings into scope all the constructors, methods or field names exported by `N` as well any patterns associated with `T` relative to `N`. 
 * The explicit form `T(c1,...,cn)` can name any constructors, methods or field names exported by `N` as well as any patterns associated with `T` relative to `N`. 
 
+
+==== Typing ====
+
+WIP
+{{{#!comment
+If we associate a pattern synonym `P` with a type `T` then we must check that `P` is an instance of `T`. 
+
+* If `P :: T t1 t2 .. tn` then `P` is an instance of `T. We completely ignore constraints in this case.
+* If `P :: f t1 t2 .. tn`, in other words, if `P` is polymorphic in `f`, then `f` must be brought into scope by a constraint. In this case we check that `T u1 ... un` is a subtype of `ReqTheta => f t1 t2 ... tn`. We must involve `ReqTheta` in the case that it contains equality constraints and/or type families.
+
+We decide what can be associated based on the possibility that it could at some stage have the correct type. 
+
+A few examples are included for clarification in the final section.
+}}}
+
 ==== Clarification ====
 
 * Associated patterns are typechecked to ensure that their type matches the type they are associated with.
