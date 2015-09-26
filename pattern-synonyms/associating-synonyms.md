@@ -94,9 +94,17 @@ For any modules `M``N`, if we import `N` from `M`,
 
 WIP
 
-#### Clarification
 
-- Associated patterns are typechecked to ensure that their type matches the type they are associated with.
+If we associate a pattern synonym `P` with a type `T` then we consider three separate cases depending on the type of `P`. 
+
+- If `P :: T t1 t2 .. tn` then `P` is an instance of \`T. We completely ignore constraints in this case.
+- If `P :: f t1 t2 .. tn`, in other words, if `P` is polymorphic in `f`, then `f` must be brought into scope by a constraint. In this case we check that `T u1 ... un` is a subtype of `ReqTheta => f t1 t2 ... tn`. We must involve `ReqTheta` in the case that it contains equality constraints and/or type families. In the case that ReqTheta contains a class constraint, we require that the correct instance for `T` is in scope.
+- If `P :: F v1 .. vm` where `F` is a type family then unless `F v1 ... vm ~ T t1 t2 ... tn` we do not allow `P` to be associated with `T`.
+
+
+A few examples are included for clarification in the final section.
+
+#### Clarification
 
 - Hence, all synonyms must be initially explicitly associated but a module which imports an associated synonym is oblivious to whether they import a synonym or a constructor.
 
@@ -142,8 +150,6 @@ moduleN(T(..))wheredataT=MkTInt-- M.hsmoduleM(T(P))whereimportN(T(..))patternP=M
 This example highlights being able to freely reassociate synonyms. 
 
 `M` imports `T` and `MkT` from `N` but then as `M` associates `P` with `T`, when `O` imports `M`, `T` and `P` are brought into scope. 
-
-#### Typing Examples
 
 #### Typing Examples
 
@@ -196,13 +202,12 @@ patternP x <-(destruct -> x)whereP x = build x
 ```
 
 
-THIS SECTION IS VERY SUSPECT
-
-
 In this example, `P` is once again polymorphic in the constructor `f`. It might
 seem that we should only allow `P` when there is an instance for `C Identity`
 in scope. However, we completely ignore class constraints as a user may
-provide an orphan instance whichs allows the pattern to be used.
+provide an orphan instance which allows the pattern to be used. Despite this,
+it is more conservative and perhaps less surprising to require that the correct
+instance is in scope.
 
 
 It may seen like we should not allow any synonym which is polymorphic in the
@@ -221,7 +226,7 @@ patternP=B
 
 
 Things get even more hairy when we remember that classes can have equality constraints.
-Consider the quite weird example.
+Consider this quite weird example.
 
 ```
 {-# LANGUAGE PatternSynonyms #-}{-# LANGUAGE MultiParamTypeClasses #-}{-# LANGUAGE GADTs #-}{-# LANGUAGE ViewPatterns #-}moduleFoo(A(P))whereclass(f ~A)=>C f a where
@@ -243,10 +248,10 @@ patternP x <-(destruct -> x)whereP x = build x
 We should only allow `P` to be associated with `A` due to the superclass constraint
 `f ~ A`.
 
-##### Type Families =
+##### Type Families
 
 
-The final example is when an equality constraint involves a type family.
+The final example is when the result type is given by a type family.
 
 ```
 {-# LANGUAGE PatternSynonyms #-}moduleFoo(A(P))wheredataA=AtypefamilyF a
@@ -259,7 +264,7 @@ There are no instances for `F` but a client module which imports `A` and `P`
 could provide such an instance which then may or may not type check.
 
 
-I think that such patterns should not be allowed to be associated.
+Like classes, unless `F Bool` is defined then we should not allow `P` to be associated with `A`.
 
 ### Unnatural Association
 
