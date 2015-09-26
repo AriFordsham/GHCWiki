@@ -94,9 +94,17 @@ For any modules `M``N`, if we import `N` from `M`,
 
 WIP
 
-#### Clarification
 
-- Associated patterns are typechecked to ensure that their type matches the type they are associated with.
+If we associate a pattern synonym `P` with a type `T` then we consider two separate cases depending on the type of `P`. 
+
+- If `P :: T t1 t2 .. tn` then `P` is an instance of \`T. We completely ignore constraints in this case.
+- If `P :: f t1 t2 .. tn`, in other words, if `P` is polymorphic in `f`, then `f` must be brought into scope by a constraint. In this case we check that `T u1 ... un` is a subtype of `ReqTheta => f t1 t2 ... tn`. We must involve `ReqTheta` in the case that it contains equality constraints and/or type families. In the case that ReqTheta contains a class constraint, we require that the correct instance for `T` is in scope.
+- If `P :: F v1 .. vm` where `F` is a type family then unless `F v1 ... vm ~ T t1 t2 ... tn` we do not allow `P` to be associated with `T`.
+
+
+A few examples are included for clarification in the final section.
+
+#### Clarification
 
 - Hence, all synonyms must be initially explicitly associated but a module which imports an associated synonym is oblivious to whether they import a synonym or a constructor.
 
@@ -142,8 +150,6 @@ moduleN(T(..))wheredataT=MkTInt-- M.hsmoduleM(T(P))whereimportN(T(..))patternP=M
 This example highlights being able to freely reassociate synonyms. 
 
 `M` imports `T` and `MkT` from `N` but then as `M` associates `P` with `T`, when `O` imports `M`, `T` and `P` are brought into scope. 
-
-#### Typing Examples
 
 #### Typing Examples
 
@@ -196,13 +202,12 @@ patternP x <-(destruct -> x)whereP x = build x
 ```
 
 
-THIS SECTION IS VERY SUSPECT
-
-
 In this example, `P` is once again polymorphic in the constructor `f`. It might
 seem that we should only allow `P` when there is an instance for `C Identity`
 in scope. However, we completely ignore class constraints as a user may
-provide an orphan instance whichs allows the pattern to be used.
+provide an orphan instance whichs allows the pattern to be used. However,
+it is more conservative and perhaps less surprising to require that the correct
+instance is in scope.
 
 
 It may seen like we should not allow any synonym which is polymorphic in the
