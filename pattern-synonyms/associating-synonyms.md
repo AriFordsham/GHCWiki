@@ -248,7 +248,7 @@ patternP x <-(destruct -> x)whereP x = build x
 We should only allow `P` to be associated with `A` due to the superclass constraint
 `f ~ A`.
 
-##### Type Families =
+##### Type Families
 
 
 The final example is when the result type is given by a type family.
