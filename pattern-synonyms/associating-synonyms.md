@@ -95,7 +95,7 @@ For any modules `M``N`, if we import `N` from `M`,
 WIP
 
 
-If we associate a pattern synonym `P` with a type `T` then we consider two separate cases depending on the type of `P`. 
+If we associate a pattern synonym `P` with a type `T` then we consider three separate cases depending on the type of `P`. 
 
 - If `P :: T t1 t2 .. tn` then `P` is an instance of \`T. We completely ignore constraints in this case.
 - If `P :: f t1 t2 .. tn`, in other words, if `P` is polymorphic in `f`, then `f` must be brought into scope by a constraint. In this case we check that `T u1 ... un` is a subtype of `ReqTheta => f t1 t2 ... tn`. We must involve `ReqTheta` in the case that it contains equality constraints and/or type families. In the case that ReqTheta contains a class constraint, we require that the correct instance for `T` is in scope.
@@ -205,7 +205,7 @@ patternP x <-(destruct -> x)whereP x = build x
 In this example, `P` is once again polymorphic in the constructor `f`. It might
 seem that we should only allow `P` when there is an instance for `C Identity`
 in scope. However, we completely ignore class constraints as a user may
-provide an orphan instance whichs allows the pattern to be used. Despite this,
+provide an orphan instance which allows the pattern to be used. Despite this,
 it is more conservative and perhaps less surprising to require that the correct
 instance is in scope.
 
@@ -226,7 +226,7 @@ patternP=B
 
 
 Things get even more hairy when we remember that classes can have equality constraints.
-Consider the quite weird example.
+Consider this quite weird example.
 
 ```
 {-# LANGUAGE PatternSynonyms #-}{-# LANGUAGE MultiParamTypeClasses #-}{-# LANGUAGE GADTs #-}{-# LANGUAGE ViewPatterns #-}moduleFoo(A(P))whereclass(f ~A)=>C f a where
