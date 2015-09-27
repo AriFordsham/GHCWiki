@@ -55,10 +55,27 @@ mappend = (<>)
 
 === Phase 1 (GHC 8.0)
 
-Move `Data.Semigroup` & `Data.List.NonEmpty` from `semigroups-0.18` to `base`.
+ - Move `Data.Semigroup` & `Data.List.NonEmpty` from `semigroups-0.18` to `base`.
 
-(maybe) Implement a warning about definitions of an operator named (<>) that indicate it will be coming into Prelude in 8.2. We should warn about missing Semigroup instances at any use site of (<>) as they'll break in 8.2.
+ - (maybe) Implement a warning about definitions of an operator named `(<>)` that indicate it will be coming into Prelude in 8.2. We should warn about missing Semigroup instances at any use site of `(<>)` as they'll break in 8.2.
 
-=== Phase 2 (GHC 8.2)
+=== Phase 2a (maybe merge into Phase 1?)
+
+ - move `Semigroup` class into prelude in anticipation of it becoming a superclass of `Monoid`
+
+=== Phase 2b
+
+ - Make `Semigroup` a superclass of `Monoid`
+
+=== Phase 3
+
+ - Deprecate manual definitions of `mappend` (c.f. "Monad of no `return` Proposal") 
+ - encourage overriding the current default-implementation of `(<>)` via `MINIMAL` pragma
+
+=== Phase 4
+
+ - Move the now deprecated `mappend` method out of the `Monoid` class, and possibly turn `mappend` into a legacy top-level binding (c.f. "Monad of no `return` Proposal")
+
+----
 
 TODO: ...integrate migration roadmap outlined in http://permalink.gmane.org/gmane.comp.lang.haskell.libraries/24526
