@@ -125,6 +125,7 @@ See also [TemplateHaskell](template-haskell)
 
 ## Demand analysis and CSE
 
+- [\#10918](https://gitlab.haskell.org//ghc/ghc/issues/10918): float in used-once things into recursive bindings
 - [\#7782](https://gitlab.haskell.org//ghc/ghc/issues/7782): late demand analysis
 - [\#10069](https://gitlab.haskell.org//ghc/ghc/issues/10069): bad reboxing in data types with many fields
 - [\#8655](https://gitlab.haskell.org//ghc/ghc/issues/8655): analysis for quick-to-evaluate thunks
