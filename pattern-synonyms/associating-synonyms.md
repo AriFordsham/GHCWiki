@@ -14,12 +14,13 @@ If we want to refactor to change the internal representation of this maybe-like 
 -- Main.hs
 module Main where
 
-import Internal ( A(..))
+  import Internal ( A(..))
+  ...more stuff using MkA...
 
 -- Internal.hs
 module Internal where
 
-data A = MkA Int | NoA
+  data A = MkA Int | NoA
 ```
 
 
@@ -29,11 +30,11 @@ If we modify `Internal.hs` as follows
 {-# LANGUAGE PatternSynonyms #-}
 module Internal where
 
-newtype A = NewA (Just Int)
+  newtype A = NewA (Maybe Int)
 
-pattern MkA n = A (Just n)
+  pattern MkA n = A (Just n)
 
-pattern NoA = A Nothing
+  pattern NoA = A Nothing
 ```
 
 
