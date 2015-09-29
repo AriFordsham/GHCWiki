@@ -114,22 +114,17 @@ a mapping from hole name to module by package key.
 In GHC 7.10 this is used for library identification, symbols and type-checking (\[LIBRARY\], \[SYMBOL\] and \[TYPES\]).  Because it includes package keys of textual dependencies, it also distinguishes between different dependency resolutions, ala \[WEAK NIX\].
 </td></tr></table>
 
-## Unifying IPIDs and package keys
-
-
-We change installed package IDs and package keys in the following ways:
-
-<table><tr><th>Component source hash (previously Installed Package ID)</th>
-<td>
-Hash of source code sdist tarball, selected Cabal flags (not the command line flags), GHC flags, hashes of direct dependencies (the `build-depends` of the library in the Cabal file). This brings component source hashes more inline with the concept of a \[NIX\] hash, which lets us truly uniquely identify builds of packages (whereas a package key may conclude two builds are the same, although their source has changed.) This is especially important if all sandboxed builds are being installed to the same location. The patch to make Cabal compute this is being tracked here: [ https://github.com/haskell/cabal/pull/2752](https://github.com/haskell/cabal/pull/2752)</td></tr></table>
-
-
-Package keys are now just component source hashes, there's no distinction between the two of them.
-
 ## New concepts for Backpack
 
 
-Cabal packages have always had the ability to define multiple components, each of which define their own dependencies and have their own sets of modules. However, Cabal always assumed there would only ever be one component installed: the library. Backpack generalizes components to units, all of which can be installed. Like before, there is distinguished unit which is publicly available to other packages (most packages contain exactly one unit); however, installing a package may also install other private, "helper" units. In particular, in Backpack we have these concepts:
+First, we have to take the concept of an InstalledPackageId and make it more precise, having it identity components rather than packages.
+
+<table><tr><th>Component source hash (previously Installed Package ID)</th>
+<td>
+Hash of source code sdist tarball, selected Cabal flags (not the command line flags), GHC flags, hashes of direct dependencies of the component (the `build-depends` of the library in the Cabal file), and the name of the component. See [ https://github.com/haskell/cabal/pull/2846](https://github.com/haskell/cabal/pull/2846)</td></tr></table>
+
+
+Then in Backpack we have these concepts:
 
 <table><tr><th>Indefinite/definite unit</th>
 <td>
@@ -151,12 +146,7 @@ To handle these, we need some new identifiers:
 
 <table><tr><th>Unit Name</th>
 <td>
-Something like "p", a unit name is a source-level identifier which distinguishes the multiple units in a package; e.g. `unit p where ...` defines a unit with name `p`.  The unit name that is the same as the containing package is special: it is the "public" unit that is externally accessible (i.e. the same as the library component).
-</td></tr></table>
-
-<table><tr><th>Component Source Hash</th>
-<td>
-A component source hash is as before, but it can also contain a unit name, to identify which unit in the package we are discussing. For non-Backpack units, the unit name is omitted.
+Something like "p", a unit name is a source-level identifier which distinguishes the multiple units in a package; e.g. `unit p where ...` defines a unit with name `p`.  The unit name that is the same as the containing package is special: it is the "public" unit that is externally accessible (i.e. the same as the library component). Unit name specifies the name of the component.
 </td></tr></table>
 
 <table><tr><th>Unit Key (previously named Package Key)</th>
