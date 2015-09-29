@@ -78,6 +78,8 @@ Please add: System FC, GADTs, kind polymorphism etc
 
 - [ Constructed Product Result Analysis for Haskell](http://research.microsoft.com/en-us/um/people/simonpj/papers/cpr/cpr.ps.gz), Clem Baker-Finch, Kevin Glynn, and Simon Peyton Jones, Journal of Functional Programming 14(2), 211–245, March 2004. Describes optimisation that allows to return tuple components in registers (for functions that return tuples).
 
+- [ Demand analysis](http://research.microsoft.com/en-us/um/people/simonpj/papers/demand-anal/demand.ps), Simon Peyton Jones, Peter Sestoft, and John Hughes, draft, 2006. The demand-analyser draft paper is as yet unpublished, but gives the most accurate overview of the way GHC's demand analyser works.
+
 ## Data Parallel Haskell and concurrency
 
 - [ Data Parallel Haskell: a status report](http://www.cse.unsw.edu.au/~chak/papers/data-parallel-haskell.pdf), Manuel M. T. Chakravarty, Roman Leshchinskiy, Simon Peyton Jones, Gabriele Keller, and Simon Marlow. , DAMP 2007: Workshop on Declarative Aspects of Multicore Programming, 2007
