@@ -13,7 +13,7 @@ Here's a list of the tickets that appear to fall into this show-stopping categor
  * #10528, #10829, #10745 (simplification on LHS and RHS of rules)
  * #10726, #10795 ([https://mail.haskell.org/pipermail/glasgow-haskell-users/2015-September/026035.html Ruben Moor email], [https://mail.haskell.org/pipermail/glasgow-haskell-users/2015-September/026049.html Moritz Drexl email])
  * #10568, #10672 ([https://mail.haskell.org/pipermail/ghc-devs/2015-September/009973.html Luke Iannini email])
- * #10777 (Windows): some pressure to get these patches into 7.10.3
+ * #10777 (Windows): some pressure to get these patches into 7.10.3, eg same Moritz Drexl email above
 
 Possible (not world ending, but probably not easy to workaround and breaks):
 
