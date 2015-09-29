@@ -339,3 +339,31 @@ In this example, the last type variable is instantiated with `f a`, which contai
 
 
 For the original discussion on this proposal, see [ \#10447](https://ghc.haskell.org/trac/ghc/ticket/10447).
+
+## Future work
+
+
+The `Bifunctor` class (born from the [ bifunctors](http://hackage.haskell.org/package/bifunctors) library) [ was added](https://ghc.haskell.org/trac/ghc/ticket/9682) to `base` in GHC 7.10, and [ there are plans](https://ghc.haskell.org/trac/ghc/ticket/10448) to add `Bifoldable` and `Bitraversable` to `base` in the future. All three classes could be derived in much the same way as their cousins `Functor`, `Foldable`, and `Traversable`. The existing algorithms would simply need to be adapted to accommodate two type parameters instead of one.
+
+
+The [ Data.Bifunctor.TH ](https://github.com/ekmett/bifunctors/blob/8e975aead363802610dedccf414b884f9b39b1f4/src/Data/Bifunctor/TH.hs) module from the `bifunctors` library demonstrates an implementation of the following proposal using Template Haskell.
+
+### Classes
+
+
+The classes are defined as follows:
+
+```
+classBifunctor p where
+    bimap ::(a -> b)->(c -> d)-> p a c -> p b d
+
+classBifoldable p where
+    bifoldMap ::Monoid m =>(a -> m)->(b -> m)-> p a b -> m
+    bifoldr ::(a -> c -> c)->(b -> c -> c)-> c -> p a b -> c
+
+class(Bifunctor t,Bifoldable t)=>Bitraversable t where
+    bitraverse ::Applicative f =>(a -> f c)->(b -> f d)-> t a b -> f (t c d)
+```
+
+
+Each class contains further methods, but they can be defined in terms of the above ones. Therefore, we need only derive implementations for them. This also mirrors how the algorithms currently work in the one-parameter cases, as they only implement `fmap`, `foldMap`, `foldr`, and `traverse`.

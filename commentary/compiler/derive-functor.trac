@@ -335,3 +335,26 @@ data HigherKinded f a where
 In this example, the last type variable is instantiated with {{{f a}}}, which contains one type variable {{{f}}} applied to another type variable {{{a}}}. We would ''not'' fold over the argument of type {{{f a}}} in this case, because the last type variable should be ''simple'', i.e., contain only a single variable without any application.
 
 For the original discussion on this proposal, see [https://ghc.haskell.org/trac/ghc/ticket/10447 #10447].
+
+== Future work ==
+The `Bifunctor` class (born from the [http://hackage.haskell.org/package/bifunctors bifunctors] library) [https://ghc.haskell.org/trac/ghc/ticket/9682 was added] to `base` in GHC 7.10, and [https://ghc.haskell.org/trac/ghc/ticket/10448 there are plans] to add `Bifoldable` and `Bitraversable` to `base` in the future. All three classes could be derived in much the same way as their cousins `Functor`, `Foldable`, and `Traversable`. The existing algorithms would simply need to be adapted to accommodate two type parameters instead of one.
+
+The [https://github.com/ekmett/bifunctors/blob/8e975aead363802610dedccf414b884f9b39b1f4/src/Data/Bifunctor/TH.hs Data.Bifunctor.TH ] module from the `bifunctors` library demonstrates an implementation of the following proposal using Template Haskell.
+
+=== Classes ===
+
+The classes are defined as follows:
+
+{{{#!hs
+class Bifunctor p where
+    bimap :: (a -> b) -> (c -> d) -> p a c -> p b d
+
+class Bifoldable p where
+    bifoldMap :: Monoid m => (a -> m) -> (b -> m) -> p a b -> m
+    bifoldr :: (a -> c -> c) -> (b -> c -> c) -> c -> p a b -> c
+
+class (Bifunctor t, Bifoldable t) => Bitraversable t where
+    bitraverse :: Applicative f => (a -> f c) -> (b -> f d) -> t a b -> f (t c d)
+}}}
+
+Each class contains further methods, but they can be defined in terms of the above ones. Therefore, we need only derive implementations for them. This also mirrors how the algorithms currently work in the one-parameter cases, as they only implement `fmap`, `foldMap`, `foldr`, and `traverse`.
