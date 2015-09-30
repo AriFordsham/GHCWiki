@@ -112,7 +112,7 @@ importM1(C(..),bar)x= bar ()-- no warning, because the import doesn't limit `bar
 This would aid long-term transitions like phasing out class-methods, such as e.g. `Monad(return)` in the spirit of [\#4834](https://gitlab.haskell.org//ghc/ghc/issues/4834):
 
 
-With the AMP, `Monad(return)` being a class method becomes an historic artifact. The ideal long-term situation would rather be to have `return` become a top-level definition (i.e. outside the `Monad`-class), generalised to `Applicative` just aliasing `Applicative(pure)`. Moreover, the [MonadFail](design/monad-fail) proposal would have the `fail` method move to a new `MonadFail` class. I.e.
+With the AMP, `Monad(return)` and `Monad((>>))` being a class method becomes an historic artifact. The ideal long-term situation would rather be to have `return` become a top-level definition (i.e. outside the `Monad`-class), generalised to `Applicative` just aliasing `Applicative(pure)`. Moreover, the [MonadFail](design/monad-fail) proposal would have the `fail` method move to a new `MonadFail` class. I.e.
 
 ```
 -- Haskell 2010 ReportclassMonad m where(>>=):: m a ->(a -> m b)-> m b
@@ -126,13 +126,15 @@ is to become
 
 ```
 -- Hypothetical Haskell 201x ReportclassApplicative m =>Monad m where(>>=):: m a ->(a -> m b)-> m b
-  (>>):: m a -> m b -> m b
 
 classMonad m =>MonadFailwhere
   fail   ::String-> m a
 
 -- legacy synonym generalised to Applicativereturn::Applicative f => a -> f a
 return= pure
+
+-- legacy synonym generalised to Applicative(>>)::Applicative f => f a -> f b -> f b
+(>>)=(*>)
 ```
 
 
