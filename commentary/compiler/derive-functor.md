@@ -179,7 +179,7 @@ dataContraFun1 a =ContraFun1(a ->Int)dataContraFun2 a =ContraFun2((Int-> a)->Int
 In `CovFun1`, `CovFun2`, and `CovFun3`, all occurrences of the type variable `a` are in *covariant* positions (i.e., the `a` values are produced), whereas in `ContraFun1`, `ContraFun2`, and `ContraFun3`, all occurrences of `a` are in *contravariant* positions (i.e., the `a` values are consumed). If we have a function `f :: a -> b`, we can't apply `f` to an `a` value in a contravariant position, which precludes a `Functor` instance.
 
 
-Most type variables appear in covariant positions. Functions are special in that the lefthand side of a function arrow reverses variance. If a function type `a -> b` appears in a covariant position (e.g., `CovFun1` above), then `a` is in a contravariant position and `b` is in a covariant position. Similarly, if `a -> b` appears in a contravariant position (e.g., `CovFun2` above), then `a` is in a covariant position and `b` is in a contravariant position.
+Most type variables appear in covariant positions. Functions are special in that the lefthand side of a function arrow reverses variance. If a function type `a -> b` appears in a covariant position (e.g., `CovFun1` above), then `a` is in a contravariant position and `b` is in a covariant position. Similarly, if `a -> b` appears in a contravariant position (e.g., `ContraFun1` above), then `a` is in a covariant position and `b` is in a contravariant position.
 
 
 If we annotate covariant positions with `p` (for positive) and contravariant positions with `n` (for negative), then we can examine the above examples with the following pseudo-type signatures:
