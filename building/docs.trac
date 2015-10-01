@@ -36,6 +36,16 @@ BUILD_DOCBOOK_PDF  = YES/NO
 
 They are set to `YES` or `NO` in `mk/config.mk` by configure, depending on whether the necessary tools were detected on your system.  You can override the automatic settings in your `mk/build.mk` file.
 
+To build a document on its own, for example the Users Guide, do this:
+
+{{{
+cd docs/users_guide
+make html
+}}}
+
+substitute 'html' for 'pdf' or 'ps' to build other types of documentation. Note that this will still build the whole compiler if you have not already built it as some pages
+of the documentation are automatically generated. 
+
 == Installing documentation ==
 
 Documentation is installed by default by 'make install'.
