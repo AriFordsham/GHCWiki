@@ -1,7 +1,6 @@
+# Status of DWARF work slated for GHC 8.0
 
-Notation
-
----
+## Notation
 
 
 These are in various states of completion which I'll encode with the
@@ -34,10 +33,7 @@ the expected future direction of the work.
 
 I'll list the commits in the order of their logical progression,
 
-
-The Patches
-
----
+## The Patches
 
 
 These preparatory commits address a few bugs and deficiencies in the
