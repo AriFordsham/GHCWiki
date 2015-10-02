@@ -383,6 +383,23 @@ Normal pattern synonyms provide a convenient way to abstract away from ADTs by e
 Currently there is no way to similar way to project an existing datatype to a record.
 Adding this feature provides completeness as pattern synonyms would become equally expressive as ordinary data type declarations. 
 
+=== Specification ===
+
+The syntax for defining pattern synonyms is extened as follows
+
+{{{
+patsyndecl_w_records ::=  patsyndecl
+             |  'pattern' con '{' var1 ',' ... ',' varn '}' <- pat
+}}}
+
+A bidirectional record pattern synonym `P` with type `T` and arguments `f1, f2, ..., fn` which have types `t1, t2, ...., tn` should behave just as if `P` had been defined as a record constructor for `T` with the corresponding fields.
+
+For example,
+
+{{{
+data T ... = ... |  P { f1 :: t1, f2 :: t2, ..., fn :: tn }
+}}}
+
 === Design ===
 
 The proposed syntax is as follows
@@ -426,6 +443,8 @@ updateBaz x = x {baz = 6}
 An unresolved design point is how record updates should be handled. Given Foo is in scope then there is an unambiguous type for this expression (as baz is uniquely a selector for `Foo`). Thus the inferred type of `updateBaz` would be `updateBaz :: (a, b) -> (Int, b)`. 
 
 This whole construct seems quite strange as it would also seem possible to write (the currently illegal)  `(1,2) {baz = Just 6}` as well as `(Foo 1 2) { baz = Just 6}`. Currently pattern synonyms do not change the semantics of programs outside from the explicit use of the synonym. This example is slightly different as we do not use `Foo` but merely the field name `baz`. I am not sure whether this would be confusing to users.
+
+
 
 === Tricky bits ===
 

@@ -467,6 +467,26 @@ Normal pattern synonyms provide a convenient way to abstract away from ADTs by e
 Currently there is no way to similar way to project an existing datatype to a record.
 Adding this feature provides completeness as pattern synonyms would become equally expressive as ordinary data type declarations. 
 
+### Specification
+
+
+The syntax for defining pattern synonyms is extened as follows
+
+```wiki
+patsyndecl_w_records ::=  patsyndecl
+             |  'pattern' con '{' var1 ',' ... ',' varn '}' <- pat
+```
+
+
+A bidirectional record pattern synonym `P` with type `T` and arguments `f1, f2, ..., fn` which have types `t1, t2, ...., tn` should behave just as if `P` had been defined as a record constructor for `T` with the corresponding fields.
+
+
+For example,
+
+```wiki
+data T ... = ... |  P { f1 :: t1, f2 :: t2, ..., fn :: tn }
+```
+
 ### Design
 
 
