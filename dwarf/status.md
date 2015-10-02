@@ -7,25 +7,30 @@ Notation
 These are in various states of completion which I'll encode with the
 following designations,
 
-- MERGED: Already merged to `master`, listed here for completeness
 
-- READY:  Believed to be finished with no expectation of major rework
+MERGED:: Already merged to `master`, listed here for completeness
 
-> >
-> > being necessary. Should be in merge-worthy condition, pending
-> > code review.
 
-- RFC:    Code done, builds, and tested to some extent; needs design
+READY::  Believed to be finished with no expectation of major rework
 
-> >
-> > review.
+>
+> being necessary. Should be in merge-worthy condition, pending
+> code review.
 
-- EXPLOR: Exploratory work, may not even build but included to document
 
-> >
-> > the expected future direction of the work.
+RFC::    Code done, builds, and tested to some extent; needs design
 
-- IDEA:   Just an idea, no implementation yet.
+>
+> review.
+
+
+EXPLOR:: Exploratory work, may not even build but included to document
+
+>
+> the expected future direction of the work.
+
+
+IDEA::   Just an idea, no implementation yet.
 
 
 I'll list the commits in the order of their logical progression,
