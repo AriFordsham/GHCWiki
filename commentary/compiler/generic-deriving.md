@@ -538,3 +538,144 @@ The instance head for the `GBinary (MyMaybe a)` instance will be guessed in the 
 
 
 The context might end up not being exactly what the user intended. For example, the class being derived might not require instances for each of the type arguments of the datatype. We *could* try to figure this out in a clever way from the definition of the class being derived, but this is very hard in general. So, in this case, we just leave the user to specify the context manually via standalone deriving (or, well, just giving an empty instance with a context, as they had to do before).
+
+# Handling unlifted types
+
+
+A weakness of generics (prior to GHC 8.0) was that it wasn't expressive enough to represent types of kind `#`. Part of the reason was due to `Rec0` expecting a type of kind `*`, not kind `#`. More importantly, polymorphism over `#` isn't even possible in the first place!
+
+
+Having a generic `#` representation would be desirable to mimic GHC's built-in support for certain unlifted types when deriving `Eq`, `Ord`, and `Show`:
+
+```
+dataIntHash=IntHashInt#deriving(Eq,Ord,Show)-- Wouldn't have been allowed!derivinginstanceGenericIntHash
+```
+
+
+Since polymorphism over `#` is a no-go, a more clever way of encoding unlifted types is needed.
+
+## Attempt 1: re-use `Rec0`
+
+
+One especially simple approach to this problem would be to mark occurrences of `Int#` with `Rec0 Int`, `Char#` with `Rec0 Char`, etc. After all, `data Int = I# Int#`, so it would be simple to wrap up an occurrence of `Int#` with `I#`.
+
+
+This approach suffers from a number of issues:
+
+- Ambiguity. When we encounter `Rec0 Int`, does it refer to `Int` or `Int#`? Without giving `K1` a different tag, there'd be no way to distinguish them.
+- Legacy issues. Because of the ambiguity of the representation, previously written generic code (which was not aware of unlifted types) will start to work with data types that have unlifted arguments. This may not be desirable. For example, a programmer may not want their class to support datatypes with unlifted arguments at all.
+
+## Attempt 2: introduce new data types
+
+
+To avoid reusing `Int`, `Char`, etc., we could introduce new data types such as `data UInt = UInt Int#`, `data UChar = UChar Char#`, etc. to represent occurrences of `Int#`, `Char#`, etc. in generic code. This would avoid any ambiguity issues, because we now have datatypes with the sole purpose of boxing unlifted types *in generic code*.
+
+
+This approach is still lacking, however, because `UInt`, `UChar`, etc. aren't really representation types. To illustrate what that means, consider a simple generic program:
+
+```
+classGShow f where
+    gshow :: f a ->String...instanceShow c =>GShow(K1 c)where
+    gshow (K1 x)= gshow x
+
+...dataExample=ExampleInt#derivingGenericinstanceShowExamplewhere show = gshow . from
+```
+
+
+When GHC creates the `Generic Example` instance, `UInt` appears as a type parameter of `K1` in `Example`'s representation type. This means that one can't use `GShow` to define how `UInt`s should be shown. Rather, one must use `Show` directly! This is a bit awkward, since we'd like to provide a `Show UInt` instance from `GHC.Generics` directly, but that would enforce how all generic programmers must show `UInt`.
+
+## Attempt 3: separate unlifted representation types
+
+
+Instead of using `Rec0` at all, let's create standalone representation types to mark occurrences of unlifted types:
+
+```
+dataUInt(p ::*)=UIntInt#dataUChar(p ::*)=UCharChar#...
+```
+
+
+This solves the problems with the previous two approaches, since (1) unlifted types are now completely separate cases from `Rec0`, and (2) we can properly use a `GShow UInt` instance (as an example).
+
+
+There's a thorny issue that arises with this method: how can we define generic code that behaves the same on *every* unlifted data type? For example, what if a programmer wanted the string `"<unlifted>"` to show whenever any unlifted data type is encountered? She could write this:
+
+```
+instanceGShowUIntwhere
+    gshow _= gshowUnlifted
+
+instanceGShowUCharwhere
+    gshow _= gshowUnlifted
+
+...gshowUnlifted::StringgshowUnlifted="<unlifted>"
+```
+
+
+But then she'd be writing `gshow _ = gshowUnlifted` for every single unlifted data type under consideration. That's more boilerplate than any reasonable programmer should have to deal with!
+
+## Attempt 4: use a GADT
+
+
+We could reformulate `UInt`, `UAddr`, etc. into a single GADT:
+
+```
+dataURec::*->*->*whereUInt::Int#->URecInt  p
+    UChar::Char#->URecChar p
+    ...
+```
+
+
+Now the `GShow` example above can be dramatically simplified:
+
+```
+instanceGShow(URec a)where
+    gshow _="<unlifted>"
+```
+
+
+From a conceptual standpoint, however, a GADT doesn't quite capture the notion of what `URec` is trying to represent. A GADT implies a closed set of things that can be exhaustively pattern matched, but we certainly aren't encoding every unlifted data type in existence into `URec`! On the contrary, we deliberately only choose a handful of unlifted types to achieve parity with GHC's built-in deriving. Imagine if we were to support more unlifted types in the future—code which pattern-matched on a `URec` value would no longer be exhaustive!
+
+## Current design: data family instances
+
+
+To convey the property that `URec` is "open", we use a data family:
+
+```
+datafamilyURec a p
+datainstanceURec(Ptr()) p =UAddr{ uAddr#::Addr#}datainstanceURecChar     p =UChar{ uChar#::Char#}datainstanceURecDouble   p =UDouble{ uDouble#::Double#}datainstanceURecInt      p =UInt{ uInt#::Int#}datainstanceURecFloat    p =UFloat{ uFloat#::Float#}datainstanceURecWord     p =UWord{ uWord#::Word#}typeUAddr=URec(Ptr())typeUChar=URecChartypeUDouble=URecDoubletypeUFloat=URecFloattypeUInt=URecInttypeUWord=URecWord
+```
+
+
+With this approach, it is still possible to write an all-encompassing unlifted type case:
+
+```
+instanceGShow(URec a)where
+    gshow _="<unlifted>"
+```
+
+
+Or, if a programmer desires, she can write type-specific cases:
+
+```
+instanceGShowUIntwhere
+    gshow (UInt i)= show (I# i)instanceGShowUCharwhere
+    gshow (UChar c)= show (C# c)...
+```
+
+
+One downside is that data families are conceptually more complicated than any of the tricks we've used in previous approaches, which may add some cognitive overhead for generic programmers. What is clever about this design, however, is that if a programmer wishes, he can simply use the provided type synonyms and pretend that the `URec` family doesn't exist!
+
+## Example
+
+
+The following declaration:
+
+```
+dataIntHash=IntHashInt#derivingGeneric
+```
+
+
+yields:
+
+```
+instanceGenericIntHashwheretypeRepIntHash=D1D1IntHash(C1C1_0IntHash(S1NoSelectorUInt))
+```
