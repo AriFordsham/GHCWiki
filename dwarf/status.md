@@ -7,30 +7,29 @@ Notation
 These are in various states of completion which I'll encode with the
 following designations,
 
+<table><tr><th>MERGED</th>
+<td>Already merged to `master`, listed here for completeness
+</td></tr></table>
 
-MERGED:: Already merged to `master`, listed here for completeness
+<table><tr><th>READY</th>
+<td>Believed to be finished with no expectation of major rework
+being necessary. Should be in merge-worthy condition, pending
+code review.
+</td></tr></table>
 
+<table><tr><th>RFC</th>
+<td>Code done, builds, and tested to some extent; needs design
+review.
+</td></tr></table>
 
-READY::  Believed to be finished with no expectation of major rework
+<table><tr><th>EXPLOR</th>
+<td>Exploratory work, may not even build but included to document
+the expected future direction of the work.
+</td></tr></table>
 
->
-> being necessary. Should be in merge-worthy condition, pending
-> code review.
-
-
-RFC::    Code done, builds, and tested to some extent; needs design
-
->
-> review.
-
-
-EXPLOR:: Exploratory work, may not even build but included to document
-
->
-> the expected future direction of the work.
-
-
-IDEA::   Just an idea, no implementation yet.
+<table><tr><th>IDEA</th>
+<td>Just an idea, no implementation yet.
+</td></tr></table>
 
 
 I'll list the commits in the order of their logical progression,
