@@ -28,7 +28,7 @@ This mechanism replaces the [previous generic classes implementation](http://www
 
 ## What already works
 
-- `Generic` instances can be derived when `-XDeriveGeneric` is enabled.
+- `Generic` and `Generic1` instances can be derived when `-XDeriveGeneric` is enabled.
 
 - The `default` keyword can used for generic default method signatures when `-XDefaultSignatures` is enabled.
 
