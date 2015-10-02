@@ -42,7 +42,7 @@ To get measurements for simulated instruction counts, memory reads/writes, and "
 you'll need to get hold of Cachegrind, which is part of 
 [http://valgrind.org Valgrind]. You can run nofib under valgrind like this:
 {{{
-  $ make SRC_RUNTEST_OPTS=-cachegrind
+  $ make EXTRA_RUNTEST_OPTS=-cachegrind
 }}}
 
 == Complete recipe ==
