@@ -34,10 +34,6 @@ This mechanism replaces the [http://www.haskell.org/ghc/docs/6.12.2/html/users_g
 
  * Base types like `[]`, `Maybe`, tuples, come with Generic instances.
 
-== To be done ==
-
- * Derive `Generic1` instances
-
 == Testing ==
 
  * Tests are available under the `generics` directory of the testsuite.
