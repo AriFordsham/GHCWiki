@@ -59,11 +59,10 @@ mappend = (<>)
 
  - (maybe) Implement a warning about definitions of an operator named `(<>)` that indicate it will be coming into Prelude in 8.2. We should warn about missing Semigroup instances at any use site of `(<>)` as they'll break in 8.2.
 
-=== Phase 2a (maybe merge into Phase 1?)
-
+=== Phase 2a
  - move `Semigroup` class into prelude in anticipation of it becoming a superclass of `Monoid`
 
-=== Phase 2b
+=== Phase 2b (either merge with 2a or with 3)
 
  - Make `Semigroup` a superclass of `Monoid`
 
