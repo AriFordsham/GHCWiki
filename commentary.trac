@@ -109,6 +109,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
    * [wiki:Commentary/Compiler/Demand Demand analyser] Notes on the meanings, worker-wrapper splitting of demand signatures and relevant components of the compiler
    * [wiki:NewAxioms Closed type families]
    * [wiki:OneShot] The magic `oneShot` function.
+   * [wiki:Commentary/Compiler/DeriveFunctor Deriving Functor, Foldable, and Traversable]
 
 
  * Notes on proposed or in progress (but out of tree) GHC compiler features:
