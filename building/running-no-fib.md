@@ -51,7 +51,7 @@ you'll need to get hold of Cachegrind, which is part of
 [ Valgrind](http://valgrind.org). You can run nofib under valgrind like this:
 
 ```wiki
-  $ make SRC_RUNTEST_OPTS=-cachegrind
+  $ make EXTRA_RUNTEST_OPTS=-cachegrind
 ```
 
 ## Complete recipe
