@@ -26,3 +26,12 @@ As of GHC 7.10 there is no effective way to demote a typeclass method to a norma
  * removing the `mappend` method from `Monoid` as proposed in [[Proposal/SemigroupMonoid]]
 
 A concrete proposal for allowing `DEPRECATED` pragmas to be attached to class methods can be found at [[Design/DeprecationMechanisms/TypeClassMethods]].
+
+== `REMOVED` Pragma
+
+Once a method or function is finally removed, we just get a compiler error which doesn't give much guidance what to use instead. A suggestion is to have a `REMOVED` pragma into which a `DEPRECATED` pragma can be rewritten into, providing additional guidance for a missing symbol that was once there.
+
+Possible extension for removed class `method`s: When defining a no-more existent `method` as part of an instance definition, ignore definitions matching a set of specified implementation bodies. E.g. for AMP defining `return = pure` even though `return` has been `REMOVED` could be tolerated. This would allow for a CPP-less transition.
+
+TODO: Write specification
+
