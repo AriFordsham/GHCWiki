@@ -24,7 +24,10 @@ TODO Write specification
 ## Class method deprecation
 
 
-As of GHC 7.10 there is no effective way to demote a typeclass method to a normal top-level binding (see [\#10071](https://gitlab.haskell.org//ghc/ghc/issues/10071)). One such case where this would be useful is to remove the `return` method from `Monad`.
+As of GHC 7.10 there is no effective way to demote a typeclass method to a normal top-level binding (see [\#10071](https://gitlab.haskell.org//ghc/ghc/issues/10071)). This would be useful in cases such as
+
+- removing the `return` method from `Monad` as proposed by the [ Monad of No Return proposal](https://mail.haskell.org/pipermail/libraries/2015-September/026121.html)
+- removing the `mappend` method from `Monoid` as proposed in [Proposal/SemigroupMonoid](proposal/semigroup-monoid)
 
 
 A concrete proposal for allowing `DEPRECATED` pragmas to be attached to class methods can be found at [Design/DeprecationMechanisms/TypeClassMethods](design/deprecation-mechanisms/type-class-methods).
