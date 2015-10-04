@@ -1,6 +1,9 @@
 
 This page serves as a place to collect proposals, tickets, open problems, and ideas regarding mechanisms for deprecating program interfaces.
 
+
+For motivation for these mechanisms one can look to a number of recently-considered proposals for reworking the core libraries, for instance the [ Applicative-Monad Proposal](https://wiki.haskell.org/Functor-Applicative-Monad_Proposal#Future-proofing_current_code).
+
 ## Warning on import of `DEPRECATED` definitions
 
 
