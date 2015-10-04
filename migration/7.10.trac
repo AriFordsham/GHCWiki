@@ -34,16 +34,26 @@ Foo.hs:7:10:
     In the instance declaration for ‘Monad Foo’
 }}}
 
-then the easiest way to fix this error is by defining an `Applicative` (and possibly a `Functor`) instance:
+then an easy way to fix this error is by defining an `Applicative` (and possibly a `Functor`) instance:
 
 {{{#!hs
 instance Functor Foo where
     fmap  = liftM
+    -- or alternatively:
+    --  fmap = m >>= pure . f
 
 instance Applicative Foo where
-    pure  = return
-    (<*>) = ap  -- defined in Control.Monad
+    pure  = {- move the definition of `return` from the `Monad` instance -}
+
+    (<*>) = ap  {- defined in Control.Monad -}
+    -- or alternatively:
+    --  f1 <*> f2 = f1 >>= \v1 -> f2 >>= (pure . v1)
+
+instance Monad Foo where
+    return = pure {- definition moved to `Applicative(pure)` -}
+    {- ...retain other previous definitions... -}
 }}}
+
 
 For more details see [https://www.haskell.org/haskellwiki/Functor-Applicative-Monad_Proposal#Future-proofing_current_code AMP Proposal: Future-proofing current code].
 
