@@ -8,8 +8,14 @@ Sadly, this design doesn't account for instances where a deprecated definition i
 
 TODO Write formal specification.
 
+== Deprecating exports
+
+GHC's existing `DEPRECATED` pragma only covers definitions, not their visibility. #4879 argues that GHC should allow `DEPRECATED` pragmas to be attached to names in export lists, meaning that the definition itself isn't deprecated (allowing warning-free uses within the defining module), only its role as an outward-facing interface.
+
+TODO Write specification
 
 == Class method deprecation
 
 As of GHC 7.10 there is no effective way to demote a typeclass method to a normal top-level binding (see #10071). One such case where this would be useful is to remove the `return` method from `Monad`.
+
 A concrete proposal for allowing `DEPRECATED` pragmas to be attached to class methods can be found at [[Design/MethodDeprecations]].
