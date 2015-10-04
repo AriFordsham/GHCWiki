@@ -12,23 +12,23 @@ becomes
 
 ```
 classFunctor f  where
-        fmap    ::(a -> b)-> f a -> f b
+    fmap    ::(a -> b)-> f a -> f b
 
 
-    classFunctor f =>Applicative f  where
-        pure    :: a -> f a
-        (<*>):: f (a -> b)-> f a -> f b
-     
-        (*>):: f a -> f b -> f b
-        u *> v  =…(<*):: f a -> f b -> f a
-        u <* v  =…classApplicative m =>Monad m  where(>>=):: m a ->(a -> m b)-> m b
+classFunctor f =>Applicative f  where
+    pure    :: a -> f a
+    (<*>):: f (a -> b)-> f a -> f b
+ 
+    (*>):: f a -> f b -> f b
+    u *> v  =…(<*):: f a -> f b -> f a
+    u <* v  =…classApplicative m =>Monad m  where(>>=):: m a ->(a -> m b)-> m b
 
-        return  :: a -> m a
-        return  = pure
-    
-        (>>):: m a -> m b -> m b
-        m >> k  =…classMonad m =>MonadFail m  where
-        fail    ::String-> m a
+    return  :: a -> m a
+    return  = pure
+
+    (>>):: m a -> m b -> m b
+    m >> k  =…classMonad m =>MonadFail m  where
+    fail    ::String-> m a
 ```
 
 
@@ -74,9 +74,8 @@ define a top-level binding with the weaker `Applicative` typeclass
 constraint:
 
 ```
--- | Legacy alias for 'pure' 
-    return ::Applicative f => a -> f a
-    return = pure
+-- | Legacy alias for 'pure' return::Applicative f => a -> f a
+return= pure
 ```
 
 
@@ -109,10 +108,10 @@ represents a proper minimal instance definition post-AMP:
 
 ```
 instanceFunctorFoowhere
-        fmap g foo  =…instanceApplicativeFoowhere
-        pure x      =…
-        a1 <*> a2   =…instanceMonadFoowhere
-        m >>= f     =…-- NB: No mention of `return`
+    fmap g foo  =…instanceApplicativeFoowhere
+    pure x      =…
+    a1 <*> a2   =…instanceMonadFoowhere
+    m >>= f     =…-- NB: No mention of `return`
 ```
 
 
@@ -141,9 +140,7 @@ importControl.Monad(Monad((>>=),return))
 or
 
 ```
-importPreludehiding(Monad(..))importControl.Monad(Monad(..)) as Monad
-
-    f =Monad.return ()
+importPreludehiding(Monad(..))importControl.Monad(Monad(..)) as Monadf=Monad.return ()
 ```
 
 
@@ -160,12 +157,12 @@ Hackage source-code revealed only 21 packages affected.
 
 ```
 instanceFunctorFoowhere
-        fmap g foo  =…instanceApplicativeFoowhere
-        pure x      =…
-        a1 <*> a2   =…instanceMonadFoowhere
-        m >>= f     =…#if!(MIN_VERSION_base(4,8,0))
-        return = pure
-    #endif
+    fmap g foo  =…instanceApplicativeFoowhere
+    pure x      =…
+    a1 <*> a2   =…instanceMonadFoowhere
+    m >>= f     =…#if!(MIN_VERSION_base(4,8,0))
+    return = pure
+#endif
 ```
 
 ## Migration Strategy
