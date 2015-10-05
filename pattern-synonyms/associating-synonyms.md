@@ -96,11 +96,22 @@ For any modules `M``N`, if we import `N` from `M`,
 WIP
 
 
-If we associate a pattern synonym `P` with a type `T` then we consider three separate cases depending on the type of `P`. 
+If we associate a pattern synonym `P` with a type `T` then we consider three separate cases depending on the type of `P`. **RAE:** To the right of `::` below, I assume you mean to refer only to the "result" part of the type, allowing arguments to the left of arrows. **End RAE**
 
 - If `P :: T t1 t2 .. tn` then `P` is an instance of \`T. We completely ignore constraints in this case.
 - If `P :: f t1 t2 .. tn`, in other words, if `P` is polymorphic in `f`, then `f` must be brought into scope by a constraint. In this case we check that `T u1 ... un` is a subtype of `ReqTheta => f t1 t2 ... tn`. We must involve `ReqTheta` in the case that it contains equality constraints and/or type families. In the case that ReqTheta contains a class constraint, we require that the correct instance for `T` is in scope.
+
+> **RAE:** I'm a little baffled here. What does "`f` must be brought into scope by a constraint" mean? Constraints aren't scoping constructs. You're checking whether `T u1 ... un` is a subtype of `ReqTheta => f t1 ... tn`. Call the first type `τ` and the second one `θ => σ`. In other words, you want `τ` to be more polymorphic than `θ => σ`. But this is still a little unclear. What type variables are allowed to be unified? Those in `τ`? Those in `θ => σ`? And by saying that `τ` is more polymorphic than `θ => σ`, that means that we're *assuming*`θ`. And indeed you mean that for `θ`'s equality constraints. But then you say that we check for the existence of class constraints, which makes it sound like we're not assuming `θ` after all.
+
+>
+> Further down, in the examples, you talk about the possibility of a later module introducing an orphan and claim that class constraints are ignored. But that conflicts with this statement here. **End RAE**
+
 - If `P :: F v1 .. vm` where `F` is a type family then unless `F v1 ... vm ~ T t1 t2 ... tn` we do not allow `P` to be associated with `T`.
+
+> **RAE:** This might be more restrictive than you mean it to be. What if `F Int ~ T` and `F Bool ~ T` but `F Char ~ Q`? According to your spec, you require that `F` have a "universal" instance... which means that `F` is as expressive as a vanilla type synonym. **End RAE**
+
+**RAE:** Given all of the deep, unending confusion around here, I propose the following, much simpler, scheme: Just use the first bullet above. It's exceedingly
+simple, obviously safe, intuitive to users, and easy to implement. It misses out on some more exotic type system features. But no one is asking to write pattern synonyms with these exotic features and then associate them! When they do ask, we can relax restrictions appropriately, armed with real use cases. I'm also worried that, in many of these exotic cases, type-correct synonyms are in fact impossible to write at all. This is another reason to wait for use cases. It's really easy to relax these restrictions later -- no breakage required. **End RAE**
 
 
 A few examples are included for clarification in the final section.
