@@ -19,7 +19,7 @@ Relevant open tickets:
  * #8779 (exhaustiveness checks)
  * #10783 (partial type signatures in pattern synonym signatures)
  * #10653 (Associated pattern synonyms with types)
- * #10932 (View patterns with arguments)
+ * #9671 (Allow expressions in patterns)
 
 == Motivating example ==
 Here is a simple representation of types
