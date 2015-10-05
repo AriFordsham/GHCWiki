@@ -26,6 +26,7 @@ Relevant open tickets:
 - [\#8779](https://gitlab.haskell.org//ghc/ghc/issues/8779) (exhaustiveness checks)
 - [\#10783](https://gitlab.haskell.org//ghc/ghc/issues/10783) (partial type signatures in pattern synonym signatures)
 - [\#10653](https://gitlab.haskell.org//ghc/ghc/issues/10653) (Associated pattern synonyms with types)
+- [\#10932](https://gitlab.haskell.org//ghc/ghc/issues/10932) (View patterns with arguments)
 
 ## Motivating example
 
