@@ -41,5 +41,6 @@ Once a method or function is finally removed, we just get a compiler error which
 
 
 Possible extension for removed class methods: When defining a no-more existent `method` as part of an instance definition, ignore definitions matching a set of specified implementation bodies. E.g. for AMP defining `return = pure` even though `return` has been `REMOVED` could be tolerated. This would allow for a CPP-less transition.
+**Richard:** Interesting extension. But this should surely cause a warning even if it is tolerated. **End Richard**
 
 TODO Write specification
