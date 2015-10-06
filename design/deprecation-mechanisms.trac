@@ -10,7 +10,7 @@ GHC has for a long time allowed users to attach `DEPRECATED` pragmas to definiti
 
 Sadly, this design doesn't account for instances where a deprecated definition is explicitly imported but not actually ''used''. #2119 argues that GHC should issue a warning when an explicit import of a deprecated definition is found.
 
-'''SimonM''' If you import a `DEPRECATED` identifier, then there are two cases: either it is mentioned somewhere, in which case the deprecation warning will be shows, or it is not mentioned, in which case there will be an unused import warning (provided it is enabled), so this seems less useful than the other suggestions on this page. '''End SimonM'''
+'''SimonM''' If you import a `DEPRECATED` identifier, then there are two cases: either it is mentioned somewhere, in which case the deprecation warning will be shown, or it is not mentioned, in which case there will be an unused import warning (provided it is enabled), so this seems less useful than the other suggestions on this page. '''End SimonM'''
 
 TODO Write formal specification.
 
