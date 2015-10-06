@@ -61,6 +61,7 @@
 
 == Typechecker ==
 
+* #8095: More type-families optimizations, dropping coercions without `-dcore-lint`
 * #9450: Interleave checking against an hs-boot file while typechecking definitions
 * #9557: Deriving instances is slow
 * #10141: Add a hint about CUSKs to relevant error messages
@@ -80,10 +81,6 @@
 '''Error messages'''
 
 * #9518
-
-'''Solver'''
-
-* #8095: More type-families optimizations
 
 == Front end ==
 
