@@ -54,6 +54,9 @@ instance Monad Foo where
     {- ...retain other previous definitions... -}
 }}}
 
+{{{#!box info
+Starting with GHC 7.10, defining `Monad(return)` is optional (with the default implementation `return = pure`). For code not required to be compatible with GHC versions prior to GHC 7.10 it's recommended to omit the explicit `return` definition.
+}}}
 
 For more details see [https://www.haskell.org/haskellwiki/Functor-Applicative-Monad_Proposal#Future-proofing_current_code AMP Proposal: Future-proofing current code].
 
