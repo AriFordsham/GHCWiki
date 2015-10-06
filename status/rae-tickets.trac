@@ -100,6 +100,10 @@
 
 * #7870: Customized error messages
 
+== Optimizations ==
+
+* #10906: Better `SPECIALISE instance`
+
 == Template Haskell ==
 
 '''Easy'''
