@@ -2,7 +2,6 @@
 
 [[PageOutline]]
 
-
 This page is our road-map for what will be in 8.0.
 
  * We hope to incorporate all the "Landed" and "In-flight" stuff under "Release highlights" below.
@@ -33,14 +32,15 @@ Below are the major highlights of 8.0.
 
   - Support for [wiki:ApplicativeDo Applicative Do], allowing GHC to desugar do-notation to `Applicative` where possible. (Phab:D729)
 
- 
+  - Support for deriving the `Lift` typeclass (Phab:D1168)
+
+  - A beautiful new users guide, written in reStructured Text, and significantly improved output.
+
 === In-flight, and likely to land in time
 
   - A new, type-indexed type representation, `data TTypeRep (a :: k)`. See [wiki:TypeableT].
 
   - Visible type application (Phab:D1138)
-
-  - Support for deriving the `Lift` typeclass (Phab:D1168)
 
   - Support for reasoning about kind equalities, which gives promotion of GADTs to kinds, kind families, heterogeneous equality (kind-indexed GADTs), and `* :: *`. There is some discussion in [wiki:DependentHaskell/Phase1], but that's very low-level. I (Richard) have no good user-oriented write-up yet, but there shouldn't be much in the way of new syntax -- just fewer type errors. (Phab:D808)
 
