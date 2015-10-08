@@ -302,7 +302,7 @@ f x = [| $x + (True 'c') |]
 ```
 
 
-because the quote is obviously ill-typed.  Only quotes nested inside top-level splices would avoid the type checker (because if the splice is run in the renamer, we can't typecheck the nexted quote).  For example:
+because the quote is obviously ill-typed.  Only quotes nested inside top-level splices would avoid the type checker (because if the splice is run in the renamer, we can't typecheck the nested quote).  For example:
 
 ```wiki
 $(f [| True 'c' |])
@@ -375,7 +375,7 @@ return a well-typed term. With `TExp` there is.
 
 Points to notice
 
-- Unlike TH, the *only* way to construct a value of type `TExp` is with a quote.  You cannot drop into do-ntation, nor use explicit construction of the values in the `Exp` algebraic data type.  That restriction limits expressiveness, but it enables the strong typing guarantees.
+- Unlike TH, the *only* way to construct a value of type `TExp` is with a quote.  You cannot drop into do-notation, nor use explicit construction of the values in the `Exp` algebraic data type.  That restriction limits expressiveness, but it enables the strong typing guarantees.
 
 - There are no declaration, type, or pattern quotes for these typed quotes.  Only terms.
 
@@ -483,7 +483,7 @@ TH processes this module as follows:
 
 1. Typecheck down to, but not including, the first splice, `$(th1 4)`.  These declarations constitute the first *declaration group*.
 1. Typecheck and run the splice, which returns a bunch of declarations D1
-1. Typecheck the declarations D1 combined with the declarations down to, but not including, the second splice.  These declarations consitute the second declaration group.
+1. Typecheck the declarations D1 combined with the declarations down to, but not including, the second splice.  These declarations constitute the second declaration group.
 1. Typecheck and run the next splice, `$(th2 10)`
 1. Rinse and repeat
 
@@ -494,7 +494,7 @@ So the proposal is as follows. A *declaration group* is the chunk of declaration
 So, in the preceding example:
 
 - A `reify` inside the splice `$(th1 ..)` would see the definition of `f`.
-- A `reify` inside the splice `$(blah)` woudl see the definition of `f`, but would not see any bindings created by `$(th1...)`.
+- A `reify` inside the splice `$(blah)` would see the definition of `f`, but would not see any bindings created by `$(th1...)`.
 - A `reify` inside the splice `$(th2..)` would see the definition of `f`, all the bindings created by `$(th1..)`, and teh definition of `h`.
 - A `reify` inside the splice `$(blah2)` would see the same definitions as the splice `$(th2...)`.
 
