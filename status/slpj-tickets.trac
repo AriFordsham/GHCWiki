@@ -33,7 +33,7 @@
  * #4281, #4295, #4347, #7264, #8808, #9420, #9730, #10709: impredicativity
 
 == Performance (compile time or runtime) ==
- * #8095: very slow constraint solving
+ * #8095: very slow constraint solving; perhaps discard large constraints using `UnivCo`
  * #5642: slow constraint solving
  * #9979, #8814, #8835: attoparsec regressed 7.8.4 to HEAD
  * #8852, #8980, #8941 (possibly), #9803, #8960, #7898, #7068, #7944, #5550, #8836: `SpecConstr` blowup
