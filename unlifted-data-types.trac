@@ -8,6 +8,8 @@ This page describes the unlifted data types, i.e. algebraic data types which liv
 2. Allow newtypes over unlifted types (giving them kind `#`). (Should be easy.)
 3. Provide a built-in `Force a` which is an unlifted version of `a`, with no indirection cost. (Harder.)
 
+See also [wiki:UnpackedSumTypes].
+
 == Motivation ==
 
 Bob Harper [https://existentialtype.wordpress.com/2011/04/24/the-real-point-of-laziness/ has written]:
