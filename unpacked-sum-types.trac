@@ -1,4 +1,8 @@
+= Unpacked sum types =
+
 This page explains the motivation and implementation of unpacking for sum types.
+
+See also [wiki:UnliftedDataTypes]
 
 == Motivation ==
 
