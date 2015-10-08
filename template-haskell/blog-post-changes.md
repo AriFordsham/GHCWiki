@@ -507,7 +507,7 @@ g y = $(do { info <- reify 'f; ... })
 ```
 
 
-because there is no top=level splice between the declaration of `f` and the splice. 
+because there is no top-level splice between the declaration of `f` and the splice. 
 But that seems reasonable to me.  If you want that behaviour you can say
 
 ```wiki
@@ -578,4 +578,4 @@ This part is unrelated to the preceding proposals, and is responding to [\#4372]
 
 This section collects other TH changes that I think should be done.
 
-- The `InfixE` construtor of `Syntax.Exp` should only allow a `Var` in the operator position.  See Trac [\#4877](https://gitlab.haskell.org//ghc/ghc/issues/4877)
+- The `InfixE` constructor of `Syntax.Exp` should only allow a `Var` in the operator position.  See Trac [\#4877](https://gitlab.haskell.org//ghc/ghc/issues/4877)
