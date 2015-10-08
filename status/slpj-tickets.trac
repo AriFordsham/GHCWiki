@@ -26,6 +26,7 @@
  * #10487: `Generic` name clash
  * #10514: `Generic` for existentials
  * #9766: use data type promotion to improve the implementation of generics
+ * #9968: panic with `DeriveAnyClass`
 
 == Impredicativity and higher rank ==
  * #10619: higher rank and order of equations

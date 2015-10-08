@@ -28,6 +28,7 @@
 - [\#10487](https://gitlab.haskell.org//ghc/ghc/issues/10487): `Generic` name clash
 - [\#10514](https://gitlab.haskell.org//ghc/ghc/issues/10514): `Generic` for existentials
 - [\#9766](https://gitlab.haskell.org//ghc/ghc/issues/9766): use data type promotion to improve the implementation of generics
+- [\#9968](https://gitlab.haskell.org//ghc/ghc/issues/9968): panic with `DeriveAnyClass`
 
 ## Impredicativity and higher rank
 
