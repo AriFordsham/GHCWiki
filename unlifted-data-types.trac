@@ -331,3 +331,44 @@ Here, `v1` and `v2` are the levities of `a` and `b`, respectively, and `v3` and 
 === Design questions ===
 
 1. Is there a way to reduce duplication in object code? If we can't find a "yes" answer, this problem may kill the idea.
+
+
+== Parametricity ==
+
+Some of the examples given in the alternate proposals (B3 and B4) are not parametric polymorphism, but rather ad-hoc polymorphism of levities. For instance, the `map` example does not have one uniform implementation, but many based on the instantiations, and each case has quite different behavior.
+
+However, there are many examples of functions that can be properly levity polymorphic, because they are just (at a low level) moving pointers around, and the levity only tracks the overall calling convention for those pointers, rather than the operation of the body of the function. The most immediate example is constructors of data types. If we have:
+
+{{{#!hs
+data T :: forall (l :: Levity). (a :: TYPE 'Boxed l) -> TYPE 'Boxed 'Lifted where
+  C :: forall (l :: Levity) (a :: Type 'Boxed l). a -> T a
+}}}
+
+Then `C` is genuinely parametric in `l`. It accepts a pointer to a value that is either lifted or not, stores it, and matching on it later yields a pointer to a value with the same status. It is unclear to the present author whether `C` would also be genuinely parametric if `T` were parameterized on its levity status as well.
+
+There are examples beyond constructors, though. All mutable cells for boxed types have the same behavior of simply storing a pointer, so put and get operations should be genuinely parametric. They simply preserve the calling conventions of things they are fed and return. Further, this area is quite rich, and enabling these parametric uses fixes problems with duplication, type safety and efficiency in primops. Right now one must choose between:
+
+{{{#!hs
+ArrayArray# -- not type safe
+Array# (Array a) -- has extra indirection
+}}}
+
+whereas with levity polymorphic `Array#`, one could have `Array# (Array# a)` which is the best of both worlds (eliminating the need for duplication).
+
+As a final thought, let's consider the `map` example:
+
+{{{#!hs
+map :: forall (v1 v2 v3 v4 :: Levity)
+              (a :: TYPE 'Boxed v1)
+              (b :: TYPE 'Boxed v2)
+       (a -> b) -> [] @v1 @v3 a -> [] @v2 @v4 b
+map f [] = []
+map f (x:xs) =
+  let y = f x
+      ys = map f xs
+   in y:ys
+}}}
+
+The author believes that `map` is parametric in `v1`, as the list stored `a` values with that calling convention, and `f` expects them with the same. However, `v2` determines whether a closure needs to be built for `y`, and unless this is somehow attributed to `f`, different code must be generated for `map`. The same seems to go for `v4`, except the fact that it's a recursive call suggests that it doesn't matter who we attribute the closure-building responsibility to, and `map` is not parametric in it. The remaining question is `v3`, but it would seem that `map` is not parametric in it, either, since it determines whether case analysis is required to ensure evaluation. So `map` is only parametric polymorphic in one of the four variables given.
+
+It is this author's opinion that it would be unfortunate to give ad-hoc levity polymorphism the same syntax as parametric polymorphism (and also that making everything ad-hoc overloaded in levity would probably be confusing), given that there are substantial examples of the latter.
