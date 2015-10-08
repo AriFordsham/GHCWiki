@@ -26,7 +26,7 @@ Other pages
 
 The `Integer` type is now provided by a separate `integer` package, which provides an API that hides the implementation details. By default this is `integer-gmp`. To change it, set `INTEGER_LIBRARY=integer-foo` in `mk/build.mk`.
 
-There is an alternative implementation [http://darcs.haskell.org/libraries/integer-simple/ integer-simple], although as we don't regularly test builds with it you may need to make a few tweaks to get it to work. `integer-simple` is intended to be easily understood, entirely Haskell code that is ''fast enough''. For serious number crunching one of the highly tuned big integer libraries will be needed, but hopefully `integer-simple` will suffice for normal use. In order to test this, we need to do some testing, e.g. nofib runs.
+There is an alternative implementation [http://git.haskell.org/packages/integer-simple.git integer-simple], although as we don't regularly test builds with it you may need to make a few tweaks to get it to work. `integer-simple` is intended to be easily understood, entirely Haskell code that is ''fast enough''. For serious number crunching one of the highly tuned big integer libraries will be needed, but hopefully `integer-simple` will suffice for normal use. In order to test this, we need to do some testing, e.g. nofib runs.
 
 It would also be interesting to separate out the `J#/S#` wrapper from the GMP `Integer`, and to compare all 4 combinations: `GMP`, `GMP+J#/S#`, `simple`, `simple+S#/J#`.
 
