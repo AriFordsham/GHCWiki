@@ -2,9 +2,11 @@
 
 = `MonadFail`
 
-{{{#!box info
+{{{#!box warn
 
-At this point this is just a scratch pad for collecting ideas
+This page contains some notes and ideas that predate the official '''MonadFail Proposal (MFP)''' which can be found at
+
+https://wiki.haskell.org/MonadFail_Proposal
 
 }}}
 
