@@ -54,6 +54,9 @@ We provide the new `Typeable` and `Dynamic` in `Data.TypeableT` and `Data.Dynami
 See also the individual questions sections below.
 
 - Now is the easiest time to rename things - do you have suggestions for better naming schemes?
+- It remains to be seen if this implementation is suitable as a foundation for the Cloud Haskell packages.
+  The polymorphic static pointer support is different, and I'm not entirely certain that CH doesn't need full rank-1 polymorphism support (but I am fairly confident).
+  At the very least, there is more overhead (on the wire), and some performance tests should be done before committing to anything.
 - Any comments would be gladly received!
 
 ---
