@@ -1,7 +1,9 @@
 # `MonadFail`
 
 
-At this point this is just a scratch pad for collecting ideas
+This page contains some notes and ideas that predate the official **[MonadFail](design/monad-fail) Proposal (MFP)** which can be found at
+
+[ https://wiki.haskell.org/MonadFail_Proposal](https://wiki.haskell.org/MonadFail_Proposal)
 
 ## The Basic Idea
 
