@@ -1,0 +1,101 @@
+The `DuplicateRecordFields` extension permits existing Haskell records to use duplicate field labels.  Thus the following is legal in a single module:
+
+{{{
+data Person  = MkPerson  { personId :: Int, name :: String }
+data Address = MkAddress { personId :: Int, address :: String }
+}}}
+
+Without the extension, this module will not compile because it tries to generate two selector functions called `personId`. When the extension is enabled, both selector functions are generated, and the renamer will determine which is meant at use sites.
+
+
+=== Selector functions ===
+
+Bare uses of the field refer only to the selector function, and work only if this is unambiguous.  Thus, with the above example definitions we can write
+{{{
+x p = name p
+}}}
+but bare use of `personId` leads to a name resolution error, e.g. in
+{{{
+y p = personId p
+}}}
+There is not yet any facility for using types to disambiguate which selector function is meant.
+
+Even though a field label is duplicated in its defining module, it may be possible to use the selector unambiguously elsewhere. For example, another module could import `Person(personId)` but not `Address(personId)`, and then use `personId` unambiguously. Thus it is not enough simply to avoid generating selector functions for duplicated fields.
+
+
+=== Construction and pattern-matching ===
+
+Uses of fields that are always unambiguous because they mention the constructor, including construction and pattern-matching, may freely use duplicated names.  For example, the following are permitted with both `Person(personId)` and `Address(personId)` in scope:
+{{{
+a = MkPerson { personId = 1, name = "Julius" }
+
+f (MkPerson{personId = i}) = i
+}}}
+In particular, this makes it possible to extract a field from a record even if the selector function is ambiguous.
+
+
+=== Disambiguating record updates ===
+
+In a record update such as `e { personId = 1 }`, if there are multiple `personId` fields in scope, the type of the context must fix which record datatype is intended, or a type annotation must be supplied. While we require record updates to determine a single unambiguous record type, we can be slightly more liberal than Haskell 98 in how we determine that record type. Consider the following definitions:
+
+{{{
+data S = MkS { foo :: Int }
+data T = MkT { foo :: Int, bar :: Int }
+data U = MkU { bar :: Int, baz :: Int }
+}}}
+
+Previously, an update mentioning `foo` would automatically be ambiguous if all these definitions were in scope. With `DuplicateRecordFields`, however, we can try the following:
+
+1. Check for types that have all the fields being updated. For example:
+{{{
+f x = x { foo = 3, bar = 2 }
+}}}
+   Here `f` must be updating `T` because neither `S` nor `U` have
+   both fields. This may also discover that no possible type exists.
+   For example the following will be rejected:
+{{{
+f' x = x { foo = 3, baz = 3 }
+}}}
+
+2. Use the type being pushed in, if it is an application of a type constructor. The following are valid updates to `T`:
+{{{
+g :: T -> T
+g x = x { foo = 3 }
+
+g' x = x { foo = 3 } :: T
+}}}
+
+3. Use the type signature of the record expression, if it exists and is an application of a type constructor. Thus this is valid update to `T`:
+{{{
+h x = (x :: T) { foo = 3 }
+}}}
+
+Note that we do not look up the types of variables being updated, and no constraint-solving is performed, so for example the following will be rejected as ambiguous:
+
+{{{
+let x :: T
+    x = blah
+in x { foo = 3 }
+
+\x -> [x { foo = 3 },  blah :: T ]
+
+\ (x :: T) -> x { foo = 3 }
+}}}
+
+We could add further tests, of a more heuristic nature. For example, rather than looking for an explicit signature, we could try to infer the type of the record expression, in case we are lucky enough to get an application of a type constructor straight away. However, it might be hard for programmers to predict whether a particular update is sufficiently obvious for the signature to be omitted.
+
+
+=== Import and export of record fields ===
+
+When `DuplicateRecordFields` is enabled, an ambiguous field must be exported as part of its datatype, rather than at the top level. For example, the following is legal:
+{{{
+module M ( Person(personId), Address(..) ) where
+data Person  = MkPerson  { personId :: Int, name :: String }
+data Address = MkAddress { personId :: Int, address :: String }
+}}}
+However, this would not be permitted, because `personId` is ambiguous:
+{{{
+module M (personId) where ...
+}}}
+
+Similar restrictions apply on import.
