@@ -229,17 +229,6 @@ data AmbiguousFieldOcc name
 An `AmbiguousFieldOcc` represents an occurrence of a field that is potentially ambiguous after the renamer, with the ambiguity resolved by the typechecker.  We always store the 'RdrName' that the user originally wrote, and store the selector function after the renamer (for unambiguous occurrences) or the typechecker (for ambiguous occurrences).
 
 
-=== Deprecated field names ===
-
-Deprecations and fixity declarations look for a top-level `OccName`, so they cannot be applied to duplicate record fields. Perhaps this should change: we could make
-
-{{{
-{-# DEPRECATED foo "Don't use foo" #-}
-}}}
-
-apply to all the `foo` fields in a module, but there are difficulties in deciding when a deprecated field has been used similar to those for [#Unusedimports unused imports].
-
-
 === Data families ===
 
 Consider the following:
@@ -271,3 +260,9 @@ In the new design, we could perhaps consider only mangling selector names when t
 * The `HsExpr`, `hsRecField` and `ConDeclField` AST types have changed as described above.
 * TODO: are there any more changes?
 
+
+== Outstanding issues ==
+
+ * Deprecations and fixity declarations look for a top-level `OccName`, so they cannot be applied to duplicate record fields. Perhaps this should change: we could make `{-# DEPRECATED foo "Don't use foo" #-}` apply to all the `foo` fields in a module.
+
+ * At the moment, unused imports reporting works by collecting a set of `RdrName` (as at present) and a set of `FieldOcc Name` (because we need both the `RdrName` that the user wrote, and the selector to which it was resolved). These are extracted from GREs, then later on we reconstruct the GREs. In principle, we could instead collect a set of GREs directly.
