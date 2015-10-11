@@ -94,11 +94,11 @@ define top-level bindings with the weaker `Applicative` typeclass
 constraint:
 
 {{{#!hs
--- | Legacy alias for 'pure' 
+-- | Alias for 'pure' 
 return :: Applicative f => a -> f a
 return = pure
 
--- | Legacy alias for `(*>)`
+-- | Alias for `(*>)`
 (>>) :: Applicative f => f a -> f b -> f b
 (>>) = (*>)
 }}}
