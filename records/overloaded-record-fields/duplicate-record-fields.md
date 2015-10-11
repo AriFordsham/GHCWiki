@@ -299,6 +299,29 @@ Note that Template Haskell will see the mangled selector names instead of the or
 
 In the new design, we could perhaps consider only mangling selector names when there is actually a name conflict, but this has not been investigated in any detail.
 
+### Unused imports
+
+
+Unused imports and generation of the minimal import list (`RnNames.warnUnusedImportDecls`) use a map from selector names to labels, in order to print fields correctly. Moreover, consider the following:
+
+```wiki
+module A where
+  data T = MkT { x,y:Int }
+
+module B where
+  data S = MkS { x,y::Bool }
+
+module C where
+  import A( T(x) )
+  import B( S(x) )
+
+  foo :: T -> T
+  foo r = r { x = 3 }
+```
+
+
+Now, do we expect to report the `import B( S(x) )` as unused? Only the typechecker will eventually know that. To record this, a new field `tcg_used_selectors :: TcRef (FieldOcc Name)` in the `TcGblEnv` records the field occurrences that are disambiguated during typechecking. This set is used to calculate the import usage and unused top-level bindings. Thus a field will be counted as used if it is needed by the typechecker, regardless of whether any definitions it appears in are themselves used.
+
 ### GHC API changes
 
 - The `minf_exports` field of `ModuleInfo` is now of type `[AvailInfo]` rather than `NameSet`, as this provides accurate export information. An extra function `modInfoExportsWithSelectors` gives a list of the exported names including overloaded record selectors (whereas `modInfoExports` includes only non-mangled selectors).
