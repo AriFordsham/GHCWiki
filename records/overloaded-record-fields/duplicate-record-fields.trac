@@ -268,3 +268,7 @@ In the new design, we could perhaps consider only mangling selector names when t
  * Deprecations and fixity declarations look for a top-level `OccName`, so they cannot be applied to duplicate record fields. Perhaps this should change: we could make `{-# DEPRECATED foo "Don't use foo" #-}` apply to all the `foo` fields in a module.
 
  * At the moment, unused imports reporting works by collecting a set of `RdrName` (as at present) and a set of `FieldOcc Name` (because we need both the `RdrName` that the user wrote, and the selector to which it was resolved). These are extracted from GREs, then later on we reconstruct the GREs. In principle, we could instead collect a set of GREs directly.
+
+ * Haddock probably needs updates to document modules with DuplicateRecordFields correctly.
+
+ * The user manual documentation needs to be adapted to the new format, after the new format is merged.
