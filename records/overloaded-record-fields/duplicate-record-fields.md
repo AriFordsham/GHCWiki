@@ -177,6 +177,9 @@ For this purpose, a field "is overloaded" if it was defined in a module with `Du
 
 In interface files, the `ifConFields` field of `IfaceConDecl` stores a list of `IfaceTopBndr`s for selectors, and `IfaceConDecls` for datatypes/newtypes stores the field labels.
 
+
+Why do we need the `flIsOverloaded` flag at all? Overloaded and non-overloaded fields are treated differently in various places, as non-overloaded fields can be thought of as exported at the top level of a module, whereas overloaded fields are exported only in the context of their parent type constructor. Notably, `availNames` returns the names of non-overloaded but not overloaded selectors. Moreover, Haddock needs to treat them differently.
+
 ### `AvailInfo` and `IE`
 
 
