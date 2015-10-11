@@ -52,6 +52,9 @@ f (MkPerson{personId = i}) = i
 
 In particular, this makes it possible to extract a field from a record even if the selector function is ambiguous.
 
+
+Turning on `DuplicateRecordFields` automatically enables `DisambiguateRecordFields`, because the former strictly generalises the latter.
+
 ### Disambiguating record updates
 
 
@@ -135,7 +138,7 @@ Similar restrictions apply on import.
 ## Implementation
 
 
-When this extension is enabled, typechecking a record datatype still generates record selectors, but their `Name`s have a `$sel` prefix and end with the name of their type. For example,
+When this extension is enabled, typechecking a record datatype still generates record selectors, but their `Name`s have a `$sel` prefix and end with the name of their first data constructor. For example,
 
 ```wiki
 data T = MkT { x :: Int }
@@ -150,12 +153,7 @@ $sel:x:MkT (MkT x) = x
 ```
 
 
-This allows the same field label to occur multiple times in the same module, but with distinct `Name`s.
-
-
-Turning on `DuplicateRecordFields` automatically enables `DisambiguateRecordFields`, because it strictly generalises it.
-
-## The naming of cats
+This allows the same field label to occur multiple times in the same module, but with distinct `Name`s. Correspondingly, the renamer has to treat field labels specially, so that it finds `$sel:x:MkT` when looking up the `RdrName``x`.
 
 ### `FieldLabel`
 
@@ -174,7 +172,10 @@ type FieldLabel = FieldLbl Name
 ```
 
 
-For this purpose, a field "is overloaded" if it was defined in a module with `DuplicateRecordFields` enabled, so its selector name differs from its label. That is, it is irrelevant whether there are actually multiple identical field labels in the module. Every field has a label (`FastString`) and selector name. The `dcFields` field of `DataCon` stores a list of `FieldLabel`. In interface files, the `ifConFields` field of `IfaceConDecl` stores a list of `IfaceTopBndr`s for selectors, and `IfaceConDecls` for datatypes/newtypes stores the field labels.
+For this purpose, a field "is overloaded" if it was defined in a module with `DuplicateRecordFields` enabled, so its selector name differs from its label. That is, it is irrelevant whether there are actually multiple identical field labels in the module. Every field has a label (`FastString`) and selector name. The `dcFields` field of `DataCon` stores a list of `FieldLabel`.
+
+
+In interface files, the `ifConFields` field of `IfaceConDecl` stores a list of `IfaceTopBndr`s for selectors, and `IfaceConDecls` for datatypes/newtypes stores the field labels.
 
 ### `AvailInfo` and `IE`
 
@@ -182,15 +183,11 @@ For this purpose, a field "is overloaded" if it was defined in a module with `Du
 The new definition of `AvailInfo` is:
 
 ```wiki
-data AvailInfo      = Avail Name | AvailTC Name [Name] AvailFields
-type AvailFlds name = [AvailFld name]
-type AvailFld name  = (name, Maybe FieldLabelString)
-type AvailFields    = AvailFlds Name
-type AvailField     = AvailFld Name
+data AvailInfo      = Avail Name | AvailTC Name [Name] [FieldLabel]
 ```
 
 
-The `AvailTC` constructor represents a type and its pieces that are in scope. Record fields are now stored separately in the third argument. If a field is not overloaded, we store only its selector name (the second component of the pair is `Nothing`), whereas if it is overloaded, we store the label as well. The `IEThingWith name [name] (AvailFlds name)` constructor of `IE` represents a thing that can be imported or exported, and also has a separate argument for fields.
+The `AvailTC` constructor represents a type and its pieces that are in scope. Record fields are now stored separately in the third argument. Similarly, the `IEThingWith (Located name) [Located name] [Located (FieldLbl name)]` constructor of `IE`, which represents a thing that can be imported or exported, also has a separate argument for fields.
 
 
 Note that a `FieldLabelString` and parent is not enough to uniquely identify a selector, because of data families: if we have
@@ -220,7 +217,7 @@ x |->  GRE $sel:x:MkT (FldParent T (Just x)) LocalDef
 
 Note that the `OccName` used when adding a GRE to the environment (`greOccName`) now depends on the parent field: for `FldParent` it is the field label, if present, rather than the selector name.
 
-## Source expressions
+### Source expressions
 
 
 An occurrence of a field is represented by the new datatype
@@ -249,39 +246,31 @@ data ConDeclField name
 The new definition of `HsRecField` is:
 
 ```wiki
-data HsRecField id arg = HsRecField {
-        hsRecFieldLbl :: LFieldOcc id,
+type HsRecField id arg = HsRecField' (FieldOcc id) arg
+data HsRecField' id arg = HsRecField {
+        hsRecFieldLbl :: Located id,
         hsRecFieldArg :: arg,
         hsRecPun      :: Bool }
 ```
 
 
-Rather than using this type for record construction/pattern-matching and update, a separate representation is used for updates, namely
+This is used for record construction and pattern-matching. A separate representation is used for updates, namely
 
 ```wiki
-data HsRecUpdField id = HsRecUpdField {
-        hsRecUpdFieldLbl :: Located RdrName,
-        hsRecUpdFieldSel :: PostRn id [id],
-        hsRecUpdFieldArg :: LHsExpr id,
-        hsRecUpdPun      :: Bool
-  }
+type HsRecUpdField id = HsRecField' (AmbiguousFieldOcc id) (LHsExpr id)
+
+data AmbiguousFieldOcc name
+  = Unambiguous RdrName (PostRn name name)
+  | Ambiguous   RdrName (PostTc name name)
 ```
 
 
-We still have the `RdrName` as written by the user, but the individual selector may be ambiguous, and hence is represented by a list of possible selector names. The typechecker (`tcExpr`) tries three ways to disambiguate the update:
+An `AmbiguousFieldOcc` represents an occurrence of a field that is potentially ambiguous after the renamer, with the ambiguity resolved by the typechecker.  We always store the 'RdrName' that the user originally wrote, and store the selector function after the renamer (for unambiguous occurrences) or the typechecker (for ambiguous occurrences).
 
-1. Perhaps only one type has all the fields that are being updated.
-
-1. Use the type being pushed in, if it is already a `TyConApp`. 
-
-1. Use the type signature of the record expression, if it exists and is a `TyConApp`.
-
-TODO it would be nice if we could enforce in the types that ambiguous fields occur only between the renamer and the typechecker. For now, `hsRecUpdFieldSel` is guaranteed to contain a singleton list after the typechecker.
-
-## Deprecated field names
+### Deprecated field names
 
 
-Deprecations and fixity declarations look for a top-level name, so they cannot be applied to overloaded record fields. Perhaps this should change. Deprecations actually work by `OccName`, so we could make
+Deprecations and fixity declarations look for a top-level `OccName`, so they cannot be applied to duplicate record fields. Perhaps this should change: we could make
 
 ```wiki
 {-# DEPRECATED foo "Don't use foo" #-}
@@ -290,7 +279,7 @@ Deprecations and fixity declarations look for a top-level name, so they cannot b
 
 apply to all the `foo` fields in a module, but there are difficulties in deciding when a deprecated field has been used similar to those for [unused imports](records/overloaded-record-fields/duplicate-record-fields#unused-imports).
 
-## Data families
+### Data families
 
 
 Consider the following:
@@ -304,7 +293,7 @@ data instance F Bool = MkF2 { foo :: Bool }
 
 This is perfectly sensible, and gives rise to two \*different\* record selectors `foo`. Thus we use the name of the first data constructor, rather than the type constructor, when naming the record selectors: we get `$sel:foo:R:MkF1` and `$sel:foo:R:MkF2`. Lexically (in the `GlobalRdrEnv`) the selectors still have the family tycon are their parent.
 
-## Mangling selector names
+### Mangling selector names
 
 
 We could mangle selector names (using `$sel:foo:MkT` instead of `foo`) even when the extension is disabled, but we decided not to because the selectors really should be in scope with their original names, and doing otherwise leads to:
@@ -319,7 +308,7 @@ Note that Template Haskell will see the mangled selector names instead of the or
 
 In the new design, we could perhaps consider only mangling selector names when there is actually a name conflict, but this has not been investigated in any detail.
 
-## GHC API changes
+### GHC API changes
 
 - The `minf_exports` field of `ModuleInfo` is now of type `[AvailInfo]` rather than `NameSet`, as this provides accurate export information. An extra function `modInfoExportsWithSelectors` gives a list of the exported names including overloaded record selectors (whereas `modInfoExports` includes only non-mangled selectors).
 - The `HsExpr`, `hsRecField` and `ConDeclField` AST types have changed as described above.
