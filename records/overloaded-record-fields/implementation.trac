@@ -56,7 +56,7 @@ $upd:x:T (MkT _ y) x = MkT x y
 The updater function will always have a name prefixed with `$upd:`, regardless of whether `OverloadedRecordFields` is enabled.
 
 
-== GADT record updates ==
+=== GADT record updates ===
 
 Consider the example
 
@@ -83,28 +83,9 @@ which is fine, but rather long-winded if there are many constructors or fields. 
 Note that `W` does not admit type-changing single update for either field, because of the `a ~ b` constraint. Without it, though, type-changing update should be allowed.
 
 
-== Unused imports ==
+=== Unused bindings ===
 
-Unused imports and generation of the minimal import list (`RnNames.warnUnusedImportDecls`) use a map from selector names to labels, in order to print fields correctly. Moreover, consider the following:
-
-{{{
-module A where
-  data T = MkT { x,y:Int }
-
-module B where
-  data S = MkS { x,y::Bool }
-
-module C where
-  import A( T(x) )
-  import B( S(x) )
-
-  foo :: T -> Int
-  foo r = #x r + 2
-}}}
-
-Now, do we expect to report the `import B( S(x) )` as unused? Only the typechecker will eventually know that. To record this, a new field `tcg_used_selectors :: TcRef NameSet` in the `TcGblEnv` records the selector names for fields that are encountered during typechecking (when looking up a `HasField` instance etc.). This set is used to calculate the import usage and unused top-level bindings. Thus a field will be counted as used if it is needed by the typechecker, regardless of whether any definitions it appears in are themselves used.
-
-Unused local bindings are trickier, as the following example illustrates:
+Unused local bindings are tricky in the presence of the magic type classes, as the following example illustrates:
 
 {{{
 module M (f)
@@ -115,4 +96,6 @@ module M (f)
   g x = #foo x
 }}}
 
-The renamer calculates the free variables of each definition, to produce a list of `DefUses`. The typechecker will discover that `f` uses only `S(foo)` while `g` uses neither. The simplest thing is to make an occurrence of an overloaded field in an expression return as free variables all the selectors it might refer to. This will sometimes fail to report unused local bindings: in the example, it will not spot that `T(foo)` is unused.
+The renamer calculates the free variables of each definition, to produce a list of `DefUses`. The typechecker will discover that `f` uses only `S(foo)` while `g` uses neither. The simplest thing might be to make an occurrence of an overloaded field in an expression return as free variables all the selectors it might refer to. This will sometimes fail to report unused local bindings: in the example, it will not spot that `T(foo)` is unused.
+
+TODO: this needs some thought in the new story. An overloaded label might not have anything to do with fields. Moreover, what if the typechecker solves a `HasField` constraint that was introduced without using the overloaded label syntax? Can we defer unused local binding reporting somehow?
