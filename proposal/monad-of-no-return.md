@@ -1,3 +1,9 @@
+
+The original first revision of this proposal can be found [ here](https://mail.haskell.org/pipermail/libraries/2015-September/026121.html).
+
+
+See wiki page [History](proposal/monad-of-no-return?action=history) for changes relative to that first revision.
+
 # Monad of no `return` Proposal (MRP)
 
 

@@ -1,3 +1,10 @@
+{{{#!box info
+
+The original first revision of this proposal can be found [https://mail.haskell.org/pipermail/libraries/2015-September/026121.html here].
+
+See wiki page [?action=history History] for changes relative to that first revision.
+}}}
+
 = Monad of no `return` Proposal (MRP) =
 
 [[PageOutline]]
