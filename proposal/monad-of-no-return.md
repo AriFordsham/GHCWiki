@@ -20,7 +20,6 @@ becomes
 classFunctor f  where
     fmap    ::(a -> b)-> f a -> f b
 
-
 classFunctor f =>Applicative f  where
     pure    :: a -> f a
     (<*>):: f (a -> b)-> f a -> f b
@@ -176,19 +175,19 @@ instanceFunctorFoowhere
 
 The migration strategy is straightforward:
 
-**Phase 1***(GHC 8.0)*: Implement new warning in GHC which gets
+<table><tr><th>Phase 1 *(GHC 8.0)*</th>
+<td>Implement new warning in GHC which gets
+triggered when `Monad` instances explicitly override the
+default `return` method implementation.
+</td></tr></table>
 
->
-> triggered when `Monad` instances explicitly override the
-> default `return` method implementation.
-
-**Phase 2***(GHC 8.2 or later)*: When we're confident that the
-
->
-> majority of Hackage has reacted to the warning (with the help of
-> Stackage actively pursuing maintainers to update their packages) we
-> turn the `return` method into a top-level binding and remove the
-> warning implemented in Phase 1 from GHC again.
+<table><tr><th>Phase 2 *(GHC 8.2 or later)*</th>
+<td>When we're confident that the
+majority of Hackage has reacted to the warning (with the help of
+Stackage actively pursuing maintainers to update their packages) we
+turn the `return` method into a top-level binding and remove the
+warning implemented in **Phase 1** from GHC again.
+</td></tr></table>
 
 ## Discussion period
 

@@ -21,7 +21,6 @@ becomes
 class  Functor f  where
     fmap    :: (a -> b) -> f a -> f b
 
-
 class  Functor f => Applicative f  where
     pure    :: a -> f a
     (<*>)   :: f (a -> b) -> f a -> f b
@@ -32,7 +31,6 @@ class  Functor f => Applicative f  where
     (<*)    :: f a -> f b -> f a
     u <* v  = …
 
-
 class  Applicative m => Monad m  where
     (>>=)   :: m a -> (a -> m b) -> m b
 
@@ -41,7 +39,6 @@ class  Applicative m => Monad m  where
 
     (>>)    :: m a -> m b -> m b
     m >> k  = …
-    
 
 class  Monad m => MonadFail m  where
     fail    :: String -> m a
@@ -134,7 +131,7 @@ that are valid under this proposal starting with GHC 7.10/`base-4.8`.
 
 Heuristically `grep`ing through Hackage source-code reveals a
 non-negligible number of packages defining `Monad` instances with
-explicit `return` definitions[4]. This has a comparable impact to the
+explicit `return` definitions![4]. This has a comparable impact to the
 AMP, and similarly will require a transition scheme aided by compiler
 warnings.
 
@@ -162,7 +159,7 @@ export specifications.
 
 However, given that `return` is exported by `Prelude` and the examples
 above are rather artificial, we don't expect this to be a major source
-of breakage in the case of `return`. In fact, a heuristic grep[5] over
+of breakage in the case of `return`. In fact, a heuristic grep![5] over
 Hackage source-code revealed only 21 packages affected.
 
 === Example for writing compatible code
@@ -187,15 +184,15 @@ instance Monad Foo where
 
 The migration strategy is straightforward:
 
-**Phase 1** ''(GHC 8.0)'': Implement new warning in GHC which gets
+ Phase 1 ''(GHC 8.0)'':: Implement new warning in GHC which gets
    triggered when `Monad` instances explicitly override the
    default `return` method implementation.
 
-**Phase 2** ''(GHC 8.2 or later)'': When we're confident that the
+ Phase 2 ''(GHC 8.2 or later)'':: When we're confident that the
    majority of Hackage has reacted to the warning (with the help of
    Stackage actively pursuing maintainers to update their packages) we
    turn the `return` method into a top-level binding and remove the
-   warning implemented in Phase 1 from GHC again.
+   warning implemented in **Phase 1** from GHC again.
 
 
 == Discussion period ==
