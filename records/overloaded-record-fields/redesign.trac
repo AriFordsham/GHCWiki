@@ -11,91 +11,14 @@ See also the [http://www.well-typed.com/blog/2015/03/overloadedrecordfields-revi
 
 == Part 1: Records with duplicate fields ==
 
-=== Use existing Haskell records ===
-
-The `DuplicateRecordFields` extension permits existing Haskell records to use duplicate field labels.  Thus the following is legal in a single module:
+The `DuplicateRecordFields` extension permits existing Haskell records to declare duplicate field labels.  Thus the following is legal in a single module:
 
 {{{
 data Person  = Person  { personId :: Int, name :: String }
 data Address = Address { personId :: Int, address :: String }
 }}}
 
-While we might choose to add anonymous records later, they are not central to the design.  In particular, this means that
-
- * all existing features of Haskell datatypes, such as multiple constructors, strictness and unpacking, are supported unchanged;
-
- * abstraction and representation hiding work just as in normal Haskell: if a field selector is not exported, client code cannot observe it;
-
- * application code can use `DuplicateRecordFields` even with libraries that do not;
-
- * no new declaration syntax is added.
-
-For each field in each record datatype, regardless of whether the extension is enabled, a selector function and an update function will be generated (at present, only a selector function is generated).
-
-
-=== No changes to record selectors or construction ===
-
-Bare uses of the field refer only to the selector function, and work only if this is unambiguous.  Thus, in the above example `name :: Person -> String` but bare use of `personId` leads to a name resolution error.  This means that turning on `DuplicateRecordFields` for an existing module is a conservative extension: since the module can have no duplicate field names, everything still works.  Moreover, changes to GHC's renamer should be minimal.  In addition, uses of fields that are always unambiguous (because they mention the constructor, e.g. construction and pattern-matching) may freely use duplicated names.
-
-Even though a field label is duplicated in its defining module, it may be possible to use the selector unambiguously elsewhere. For example, another module could import `Person(personId)` but not `Address(personId)`, and then use `personId` unambiguously. Thus it is not enough simply to avoid generating selector functions for duplicated fields.
-
-We propose ''no change whatsoever to how Haskell 98 records are constructed'' (e.g. `MkT { x = 3, y = True }`). Moreover, we propose ''no change to how records are updated'', which remains monomorphic (e.g. `t { y = False }`).  If there are many `y` fields in scope, the type of the context must fix which one is intended, or a type annotation must be supplied.  This is a soft spot, but there is really no way around it because Haskell's type-changing update requires modifying multiple fields simultaneously.
-
-
-=== Disambiguating record updates ===
-
-While we require record updates to determine a single unambiguous record type, we can be slightly more liberal than Haskell 98 in how we determine that record type. Consider the following definitions:
-
-{{{
-data S = MkS { foo :: Int }
-data T = MkT { foo :: Int, bar :: Int }
-data U = MkU { bar :: Int, baz :: Int }
-}}}
-
-Previously, an update mentioning `foo` would automatically be ambiguous if all these definitions were in scope. With `DuplicateRecordFields`, however, we can try the following:
-
-1. Check for types that have all the fields being updated. For example:
-{{{
-f x = x { foo = 3, bar = 2 }
-}}}
-   Here `f` must be updating `T` because neither `S` nor `U` have
-   both fields. This may also discover that no possible type exists.
-   For example the following will be rejected:
-{{{
-f' x = x { foo = 3, baz = 3 }
-}}}
-
-2. Use the type being pushed in, if it is an application of a type constructor. The following are valid updates to `T`:
-{{{
-g :: T -> T
-g x = x { foo = 3 }
-
-g' x = x { foo = 3 } :: T
-}}}
-
-3. Use the type signature of the record expression, if it exists and is an application of a type constructor. Thus this is valid update to `T`:
-{{{
-h x = (x :: T) { foo = 3 }
-}}}
-
-Note that we do not look up the types of variables being updated, and no constraint-solving is performed, so for example the following will be rejected as ambiguous:
-
-{{{
-let x :: T
-    x = blah
-in x { foo = 3 }
-
-\x -> [x { foo = 3 },  blah :: T ]
-
-\ (x :: T) -> x { foo = 3 }
-}}}
-
-We could add further tests, of a more heuristic nature. For example,
-rather than looking for an explicit signature, we could try to infer
-the type of the record expression, in case we are lucky enough to get
-an application of a type constructor straight away. However, it might be hard for programmers to
-predict whether a particular update is sufficiently obvious for the
-signature to be omitted.
+We defer the ambiguity check to use sites. See [wiki:Records/OverloadedRecordFields/DuplicateRecordFields DuplicateRecordFields] for more details.
 
 
 == Part 2: Overloaded labels ==
@@ -407,6 +330,19 @@ f i u l = #inRange (l,u) i
 Note that this example has nothing to do with records, which is part of the point.
 Perhaps `IsLabel` will find other uses.
 It is rather reminiscent of Carlos Camaro's [http://homepages.dcc.ufmg.br/~camarao/CT/ System CT].
+
+
+=== Anonymous records ===
+
+While we might choose to add anonymous records later, they are not central to the design.  In particular, this means that
+
+ * all existing features of Haskell datatypes, such as multiple constructors, strictness and unpacking, are supported unchanged;
+
+ * abstraction and representation hiding work just as in normal Haskell: if a field selector is not exported, client code cannot observe it;
+
+ * application code can use `DuplicateRecordFields` even with libraries that do not;
+
+ * no new declaration syntax is added.
 
 
 == Summary ==
