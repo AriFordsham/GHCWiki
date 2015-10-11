@@ -1,3 +1,5 @@
+# [DuplicateRecordFields](records/overloaded-record-fields/duplicate-record-fields)
+
 
 The `DuplicateRecordFields` extension permits existing Haskell records to use duplicate field labels.  Thus the following is legal in a single module:
 
