@@ -63,6 +63,8 @@ rewrite `return` to weaken its `Monad m =>` constraint to
 `Applicative m =>` in order to benefit existing code at the cost
 of introducing magic behavior at the type level.
 
+An additional (somewhat minor) benefit results from having smaller class dictionaries, as well as avoiding the additional indirection through the `Monad` class dictionary (when the class dictionary can't be resolved at compile time).
+
 For `(>>)`, in addition to arguments applying to `return`, the
 status quo is optimising `(>>)` and forgetting about `(*>)`. 
 This unfortunate situation also blocks us from being able to remove
@@ -177,7 +179,7 @@ above are rather artificial, we don't expect this to be a major source
 of breakage in the case of `return`. In fact, a heuristic grep![5] over
 Hackage source-code revealed only 21 packages affected.
 
-=== Example for writing compatible code
+=== Example for writing future-proof code
 
 {{{#!rbox note
 **GHC extension** to reduce code-breakage: 
@@ -211,22 +213,21 @@ instance Monad Foo where
 
 === Original Simple Variant ===
 
-The migration strategy is straightforward:
-
 {{{#!rbox info
 In this transition scheme, the time when **Phase 2** starts is determined by the amount of packages already converted at that time. "GHC 8.2" is only the earliest //theoretical// time to begin **Phase 2**, but a more realistic time would be "GHC 8.6" or even later.
 }}}
 
+The migration strategy is straightforward:
+
  Phase 1 ''(GHC 8.0)'':: Implement new warning in GHC which gets
    triggered when `Monad` instances explicitly override the
-   default `return` method implementation.
+   default `return`/`(>>)` methods implementation.
 
  Phase 2 ''(GHC 8.2 OR LATER)'':: When we're confident that the
    majority of Hackage has reacted to the warning (with the help of
    Stackage actively pursuing maintainers to update their packages) we
-   turn the `return` method into a top-level binding and remove the
+   turn the `return` and `(>>)` methods into a top-level binding and remove the
    warning implemented in **Phase 1** from GHC again.
-
 
 === Reduced Breakage Variant ===
 
@@ -237,7 +238,7 @@ Based on the feedback from the proposal discussion this alternative transition s
    default `return` and `(>>)` method implementations with non-lawful 
    definitions (see compatible instance definition example in previous section).
 
- Phase 2 ''(GHC 8.4 OR EVEN LATER)'':: When we're confident that the
+ Phase 2 ''(GHC 8.4 or even later)'':: When we're confident that the
    majority of Hackage has reacted to the warning (with the help of
    Stackage actively pursuing maintainers to update their packages) we
    turn the `return` and `(>>)` methods into a top-level binding and let GHC ignore lawful method definitions of `return` and `(>>)`. 
