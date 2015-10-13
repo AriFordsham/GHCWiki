@@ -45,7 +45,7 @@ GHC development spurs on, with an exciting new announcement - the next release w
 
 - An [Improved LLVM Backend](improved-llvm-backend) that ships with every major Tier 1 platform.
 
-### Possible, if the authors push forward fast enough
+## After 8.0
 
 - Support for **Type Signature Sections**, allowing you to write `(:: ty)` as a shorthand for `(\x -> x :: ty)`.
 - A (possible) overhaul of GHC's build system to use **Shake** instead of Make.
