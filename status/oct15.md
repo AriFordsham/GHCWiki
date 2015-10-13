@@ -1,7 +1,7 @@
 # GHC Status Report, October 2015
 
 
-GHC development spurs on, with an exciting new announcement - the next release will be a super-major one, culminating in **GHC 8.0**... Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+GHC development spurs on, with an exciting new announcement - the next release will be a super-major one, culminating in **GHC 8.0**... Lorem ipsum dolor sit amet, ...
 
 ## Major changes in GHC 8.0.1
 
@@ -45,7 +45,7 @@ GHC development spurs on, with an exciting new announcement - the next release w
 
 - An [Improved LLVM Backend](improved-llvm-backend) that ships with every major Tier 1 platform.
 
-### Possible, if the authors push forward fast enough
+## After 8.0
 
 - Support for **Type Signature Sections**, allowing you to write `(:: ty)` as a shorthand for `(\x -> x :: ty)`.
 - A (possible) overhaul of GHC's build system to use **Shake** instead of Make.
