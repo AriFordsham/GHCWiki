@@ -58,7 +58,7 @@ data TypeRep (a :: k) where
   TMaybe :: TypeRep Maybe
 ```
 
-## `*` is hard to parse, will become `type`
+## `*` is hard to parse, will become `Type`
 
 
 Say the phrase `Foo * Int` appears in a type. Is that the type operator `*` applied to `Foo` and `Int` or the the type `Foo` applied to the kind `*` and `Int`? It's impossible to know. So we have to do something strange here.
@@ -70,7 +70,7 @@ Without `-XTypeInType`, GHC will continue to use its knowledge of whether you ar
 With `-XTypeInType`, GHC will treat the kind `*` as an identifier exported from the `Prelude` (and also from `GHC.Exts`). Currently, GHC must parse expressions with operators essentially as a space-separated list of tokens, because it can't know fixities until it figures out where all the operators have been imported from. Thus, when sorting out fixities, the kind `*` will just have a magical fixity which instructs the renamer to treat it like an alphanumeric identifier, not a symbol. This should all work out fine in most code. The only problem is when a user has both the kind `*` and some type operator `*` in scope, such as from `GHC.TypeLits`. Using `*` in this scenario will be a straightforward ambiguous identifier and is an error. Note that `-XTypeInType -XNoImplicitPrelude` will then mean that you cannot use the kind `*` in your program without importing it from somewhere.
 
 
-In addition to the above treatment, the keyword `type` will have the same meaning as `*`, as requested by several people in the community. The eventual plan is to deprecate and remove `*` as a parsing oddity. `type` will work both with and without `-XTypeInType`. The primary motivation for using `type` here (as opposed to `Type` or `TYPE` or `U`) is that it does not clobber any existing syntax.
+In addition to the above treatment, some standard library module (probably `Data.Kind`, if that's not taken) will export `Type`, which will have the same meaning as `*`, as requested by several people in the community. The eventual plan is to deprecate and remove `*` as a parsing oddity. `Type`, naturally, will work both with and without `-XTypeInType`. `Type` does conflict with existing code, but the choice is backward compatible because it's not exported from the `Prelude`. `Type` will be a normal identifier in every way, and it can be aliased through a normal type synonym definition if necessary to avoid naming conflicts.
 
 **QUESTION:** Should `*` just be disabled in `-XTypeInType` code? This is backward compatible but creates a terrible migration story for someone who wants to use `-XTypeInType` in GHC 8.0 but not in previous versions.
 
