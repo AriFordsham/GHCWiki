@@ -18,6 +18,8 @@ GHC development spurs on, with an exciting new announcement - the next release w
 
   - Support for deriving the `Lift` typeclass (Phab:D1168)
 
+  - Support for PowerPC 64-bit native code generation on Linux in big endian and little endian mode. (Phab:D629)
+
   - A beautiful new users guide, written in reStructured Text, and significantly improved output.
 
 === Incoming work, likely in time for 8.0
