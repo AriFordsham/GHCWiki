@@ -278,11 +278,18 @@ module C where
 Now, do we expect to report the `import B( S(x) )` as unused? Only the typechecker will eventually know that. To record this, a new field `tcg_used_selectors :: TcRef (FieldOcc Name)` in the `TcGblEnv` records the field occurrences that are disambiguated during typechecking. This set is used to calculate the import usage and unused top-level bindings. Thus a field will be counted as used if it is needed by the typechecker, regardless of whether any definitions it appears in are themselves used.
 
 
+=== Template Haskell ===
+
+At the moment, Template Haskell has no special support for distinguishing between field labels and selector functions, so the TH representation of a datatype compiled with `DuplicateRecordFields` includes selector function names like `$sel:x:MkT`.
+
+TODO: should we modify the TH AST to be able to represent fields correctly?
+
+
 === GHC API changes ===
 
 * The `minf_exports` field of `ModuleInfo` is now of type `[AvailInfo]` rather than `NameSet`, as this provides accurate export information. An extra function `modInfoExportsWithSelectors` gives a list of the exported names including overloaded record selectors (whereas `modInfoExports` includes only non-mangled selectors).
 * The `HsExpr`, `hsRecField` and `ConDeclField` AST types have changed as described above.
-* TODO: are there any more changes?
+* TODO: are there any more changes? Are the ones we have desirable?
 
 
 == Outstanding issues ==
@@ -291,6 +298,6 @@ Now, do we expect to report the `import B( S(x) )` as unused? Only the typecheck
 
  * At the moment, unused imports reporting works by collecting a set of `RdrName` (as at present) and a set of `FieldOcc Name` (because we need both the `RdrName` that the user wrote, and the selector to which it was resolved). These are extracted from GREs, then later on we reconstruct the GREs. In principle, we could instead collect a set of GREs directly.
 
- * Haddock probably needs updates to document modules with DuplicateRecordFields correctly.
+ * Haddock compiles, but probably needs updates to document modules with DuplicateRecordFields correctly.
 
- * The user manual documentation needs to be adapted to the new format, after the new format is merged.
+ * The user manual documentation needs to be adapted to the new format.
