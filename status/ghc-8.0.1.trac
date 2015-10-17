@@ -30,6 +30,8 @@ Below are the major highlights of 8.0.
 
   - Support for [wiki:InjectiveTypeFamilies Injective Type Families], which allows you to specify type families which are injective, i.e. a one-to-one relationship. (Phab:D202)
 
+  - Support for typed holes in Template Haskell (Phab:D835)
+
   - Support for [wiki:ApplicativeDo Applicative Do], allowing GHC to desugar do-notation to `Applicative` where possible. (Phab:D729)
 
   - Support for deriving the `Lift` typeclass (Phab:D1168)
