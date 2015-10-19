@@ -161,6 +161,11 @@ Required for [running the testsuite](building/running-tests).
 Version 2.6 or later is needed. Python3 should also work.
 </td></tr></table>
 
+<table><tr><th>Sphinx</th>
+<td>
+Required for building the [documentation](building/docs).
+</td></tr></table>
+
 <table><tr><th>[ libedit](http://www.thrysoee.dk/editline/)</th>
 <td>
 If libedit is installed, ghci will be built with a nice interactive line-editing interface.  
