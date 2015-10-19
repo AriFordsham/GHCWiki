@@ -119,9 +119,10 @@ In GHC 7.10 this is used for library identification, symbols and type-checking (
 
 First, we have to take the concept of an InstalledPackageId and make it more precise, having it identity components rather than packages.
 
-<table><tr><th>Component source hash (previously Installed Package ID)</th>
+<table><tr><th>Component ID</th>
 <td>
-Hash of source code sdist tarball, selected Cabal flags (not the command line flags), GHC flags, hashes of direct dependencies of the component (the `build-depends` of the library in the Cabal file), and the name of the component. See [ https://github.com/haskell/cabal/pull/2846](https://github.com/haskell/cabal/pull/2846)</td></tr></table>
+The package name, the package version, the name of the component (blank in the case of the default library component), and the hash of source code sdist tarball, selected Cabal flags (not the command line flags), GHC flags, hashes of direct dependencies of the component (the `build-depends` of the library in the Cabal file).
+</td></tr></table>
 
 
 Then in Backpack we have these concepts:
@@ -144,24 +145,14 @@ A definite unit record is a fully-instantiated unit with its associated library.
 
 To handle these, we need some new identifiers:
 
-<table><tr><th>Unit Name</th>
+<table><tr><th>Unit Id (previously named Package Key)</th>
 <td>
-Something like "p", a unit name is a source-level identifier which distinguishes the multiple units in a package; e.g. `unit p where ...` defines a unit with name `p`.  The unit name that is the same as the containing package is special: it is the "public" unit that is externally accessible (i.e. the same as the library component). Unit name specifies the name of the component.
-</td></tr></table>
-
-<table><tr><th>Unit Key (previously named Package Key)</th>
-<td>
-For Backpack units, the unit key is the component source hash plus a mapping from holes to modules (unit key plus module name). For non-Backpack units, the unit key is equivalent to the component source hash (the hole mapping is empty). These serve the role of \[SYMBOL, LIBRARY, TYPES\]. (Partially definite unit keys can occur on-the-fly during type checking.) When all of the requirements are filled (so there is no occurrence of HOLE), the unit key serves as the primary key for the installed unit database. (We might call this an "installed unit ID" in this context)
-</td></tr></table>
-
-<table><tr><th>Hole Key</th>
-<td>
-The hole key "HOLE" is a distinguished unit key, which is for the "hole package", representing modules which are not yet implemented (there is not actually a unit named hole, it's just a notational convention).
+For Backpack units, the unit ID is the component ID plus a mapping from holes to modules (unit key plus module name). For non-Backpack units, the unit ID is equivalent to the component source hash (the hole mapping is empty). These serve the role of \[SYMBOL, LIBRARY, TYPES\]. (Partially definite unit keys can occur on-the-fly during type checking.) When all of the requirements are filled (so there is no occurrence of HOLE), the unit key serves as the primary key for the installed unit database. (We might call this an "installed unit ID" in this context) The unit ID "HOLE" is a distinguished unit ID, which is for the "hole package", representing modules which are not yet implemented (there is not actually a unit named hole, it's just a notational convention).
 </td></tr></table>
 
 <table><tr><th>Module</th>
 <td>
-A unit key plus a module name.
+A unit ID plus a module name.
 </td></tr></table>
 
 ## Features
