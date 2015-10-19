@@ -136,6 +136,9 @@ In most cases the `configure` script will tell you if you are missing something.
   Required for [wiki:Building/RunningTests running the testsuite].
   Version 2.6 or later is needed. Python3 should also work.
 
+ Sphinx::
+  Required for building the [wiki:Building/Docs documentation].
+
  [http://www.thrysoee.dk/editline/ libedit]::
   If libedit is installed, ghci will be built with a nice interactive line-editing interface.  
   Version 2.6.9 and later are known to work; note that the libeditline package listed on some distros is too old.
