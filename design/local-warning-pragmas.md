@@ -1,3 +1,8 @@
+**WORK IN PROGRESS**
+
+
+THIS IS NOT READY FOR PUBLIC BIKESHEDDING YET
+
 # Local Warning Pragmas
 
 ### What is it and why is it needed?
