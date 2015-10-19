@@ -26,16 +26,25 @@ cd libraries/base
 make html
 ```
 
-## DocBook documentation
+## User's Guide
 
 
-The rest of the documentation, in particular the Users' Guide and Cabal documentation, are in [ DocBook](http://www.docbook.org/) XML format.  In order to process the documentation into HTML or printable formats, you need appropriate tools installed.  The `configure` script searches for the appropriate tools, and will tell you whether it found any.
+In order to process the documentation into HTML or printable formats, you need appropriate tools installed.  The `configure` script searches for the appropriate tools, and will tell you whether it found any.
 
 
 To install the tools necessary for building the documentation, see [Building/Preparation](building/preparation).
 
 
 The following make variables control the building of each type of documentation:
+
+```wiki
+BUILD_SPHINX_HTML = YES/NO
+BUILD_SPHINX_PS   = YES/NO
+BUILD_SPHINX_PDF  = YES/NO
+```
+
+
+Note: for GHC \<= 7.10, use:
 
 ```wiki
 BUILD_DOCBOOK_HTML = YES/NO
