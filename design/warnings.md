@@ -5,6 +5,9 @@ THIS IS NOT READY FOR PUBLIC BIKESHEDDING YET
 
 # Redesigned GHC Warnings
 
+
+TLDR: Borrow some ideas from GCC/Clang's warning-related CLI for GHC.
+
 ## Current Situation (GHC 7.10)
 
 
@@ -95,15 +98,30 @@ While the following (ab)use the `-f` flag namespace (rather than the the `-W` na
 
 TODO needs more elaboration & motivation
 
-- Keep the current `-f(no-)warn-$WARNTYPE` flags as hidden flag aliases for
-- newly introduced `-W(no-)$WARNTYPE` flags more in line with GCC's conventions, e.g.
+
+By reusing the GCC CLI convention for warning-flags we can make GHC's CLI a bit more intuitive to people used to GCC (& Clang's) CLI. `-W`/`-Wno-` is shorter than `-fwarn-`/`fno-warn-`. With GHC 8.0 starting a new "epoch", this would be a good opportunity to redesign the CLI a bit.
+
+- Keep the current `-f(no-)warn-$WARNTYPE` flags as hidden flag aliases for...
+- ...newly introduced `-W(no-)$WARNTYPE` flags more in line with GCC's conventions, e.g.
 
   - `-Worphans` instead of `fwarn-orphans`
   - `-Wno-missing-methods` instead of `-fno-warn-missing-methods`
+
 - Introduce variant of `-Werror` (c.f. GCC's `-Werror=*`) which allows to specify the individual warnings to be promoted to errors, e.g.
 
   - `-Wall -Werror=orphans` would only promote `-Worphans` warnings into errors
   - `-Wall -Wno-error=missing-methods` would promote all warnings *except*`-Wmissing-methods` into errors
+
 - Introduce some warning sets, e.g.
 
   - `-Wcompat` could refer to all warnings about future compatility GHC *currently* knows about (like e.g. `-Wcompat-amp`, `-Wcompat-mfp`, `-Wcompat-mrp`)
+
+- When emitting warnings/errors, show which warning flag was responsible ([\#10752](https://gitlab.haskell.org//ghc/ghc/issues/10752)),
+  e.g.
+
+  ```wiki
+  foo.hs:1:1: Warning:  [-Wmissing-signatures]
+    Top-level binding with no type signature: main :: IO ()
+  ```
+
+  making it easier to silence specific warnings via e.g. `-Wno-missing-signatures`
