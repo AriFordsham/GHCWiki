@@ -40,10 +40,7 @@ This is where we track various efforts to characterize and improve the performan
 
 Random note: GHC 7.10's build system actually disabled DPH (half a dozen more packages and probably a hundred extra modules), yet things \*still\* got slower over time!
 
-## Performance-related tickets
-
-
-Relevant tickets
+## Relevant tickets
 
 - [\#2346](https://gitlab.haskell.org//ghc/ghc/issues/2346): desugaring let-bindings
 - [\#7428](https://gitlab.haskell.org//ghc/ghc/issues/7428): Non-linear compile time: addFingerprint??
@@ -56,10 +53,6 @@ Relevant tickets
   - Significantly improved in memory usage from [\#10370](https://gitlab.haskell.org//ghc/ghc/issues/10370), but worse at overall wall-clock time!
 - [\#10370](https://gitlab.haskell.org//ghc/ghc/issues/10370): OpenGLRaw
 - [\#8095](https://gitlab.haskell.org//ghc/ghc/issues/8095): TypeFamilies painfully slow 
-
-[ https://ghc.haskell.org/trac/ghc/query?status=!closed&failure=Runtime+performance+bug&type=bug](https://ghc.haskell.org/trac/ghc/query?status=!closed&failure=Runtime+performance+bug&type=bug)
-
-## Compile time
 
 - [\#9557](https://gitlab.haskell.org//ghc/ghc/issues/9557): Deriving instances is slow
 - [\#8731](https://gitlab.haskell.org//ghc/ghc/issues/8731): long compilation time for module with large data type and partial record selectors 
