@@ -39,6 +39,8 @@ Below are the major highlights of 8.0.
 
 - Support for deriving the `Lift` typeclass ([ Phab:D1168](https://phabricator.haskell.org/D1168))
 
+- Support for [DuplicateRecordFields](records/overloaded-record-fields/duplicate-record-fields), allowing multiple datatypes to declare the same record field names provided they are used unambiguously ([ Phab:D761](https://phabricator.haskell.org/D761))
+
 - A beautiful new users guide, written in reStructured Text, and significantly improved output.
 
 ### In-flight, and likely to land in time
@@ -55,7 +57,7 @@ Below are the major highlights of 8.0.
 
 - Implement the `MonadFail` proposal ([\#10751](https://gitlab.haskell.org//ghc/ghc/issues/10751))
 
-- Support for [Overloaded Record Fields](overloaded-record-fields), allowing multiple uses of the same field name and a form of type-directed name resolution.
+- Support for [OverloadedLabels](records/overloaded-record-fields/overloaded-labels), allowing a form of type-directed name resolution ([ Phab:D1331](https://phabricator.haskell.org/D1331))
 
 - A huge improvement to pattern matching (including much better coverage of GADTs), based on the work of Simon PJ and Georgios Karachalias. For more details, see [ their paper](http://research.microsoft.com/en-us/um/people/simonpj/papers/pattern-matching/gadtpm.pdf).
 
@@ -70,6 +72,7 @@ Below are the major highlights of 8.0.
 - Support for **Type Signature Sections**, allowing you to write `(:: ty)` as a shorthand for `(\x -> x :: ty)`.
 - A (possible) overhaul of GHC's build system to use **Shake** instead of Make.
 - A `DEPRECATED` pragma for exports ([\#4879](https://gitlab.haskell.org//ghc/ghc/issues/4879))
+- Complete support for [OverloadedRecordFields](records/overloaded-record-fields)
 
 ## Migration Guide to 8.0
 
