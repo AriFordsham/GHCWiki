@@ -1,7 +1,7 @@
 # `OverloadedLabels`
 
 
-This page describes the `OverloadedLabels` extension, part 2 of the [OverloadedRecordFields proposal](records/overloaded-record-fields).
+This page describes the `OverloadedLabels` extension, part 2 of the [OverloadedRecordFields proposal](records/overloaded-record-fields). See [ Phab:D1331](https://phabricator.haskell.org/D1331) for the code.
 
 ### Digression: implicit parameters
 
@@ -64,3 +64,17 @@ Notice that overloaded labels might be useful for all sorts of things that are n
 
 
 User code can never (usefully) call `fromLabel` (or `ip`) directly, because without explicit type application there is no way to fix `x`.
+
+## Implementation
+
+
+The implementation is fairly straightforward and close to (but simpler than) the existing `ImplicitParameters` extension. The key points:
+
+- We extend the lexer to treat `#x` as a single lexeme (only when `OverloadedLabels` is enabled) and parse it into a new constructor `HsOverLabel "x"` of `HsSyn`.
+
+- A new module `GHC.OverloadedLabels` defines the `IsLabel` class
+
+- When the typechecker sees `HsOverLabel "x"`, it emits a new wanted constraint `IsLabel "x" alpha`, just like `HsIPVar`.
+
+
+The only complicated part is that the lexer currently treats `#` specially if it is the first symbol on a line, because of `#!` shell script markers and `#line` pragmas, so some more substantial lexer tweaks are needed.
