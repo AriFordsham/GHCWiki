@@ -7,6 +7,7 @@ The `OverloadedRecordFields` extension for GHC allows multiple record datatypes 
 
   - Part 1: [DuplicateRecordFields](records/overloaded-record-fields/duplicate-record-fields)
   - Part 2: [OverloadedLabels](records/overloaded-record-fields/overloaded-labels)
+  - Part 3: [Magic type classes](records/overloaded-record-fields/magic-classes)
 - [Notes on the implementation](records/overloaded-record-fields/implementation)
 - [ Adam Gundry's blog post](http://www.well-typed.com/blog/2015/03/overloadedrecordfields-revived/)
 
