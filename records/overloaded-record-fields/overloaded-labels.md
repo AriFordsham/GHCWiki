@@ -65,6 +65,37 @@ Notice that overloaded labels might be useful for all sorts of things that are n
 
 User code can never (usefully) call `fromLabel` (or `ip`) directly, because without explicit type application there is no way to fix `x`.
 
+### Syntax
+
+
+It's not absolutely necessary to use `#x` for a field.  Here are some alternatives:
+
+- We could use `@x`, though that would prevent it being used for explicit type application (which is common practice in writing, even if the extension to permit it in Haskell syntax hasn't made much progress). This is the syntax used by [ record-preprocessor](http://hackage.haskell.org/package/record-preprocessor).
+
+- We could say "if there is at least one data type in scope with a field `x`, then `x` is treated like `(fromLabel @ "x" @ alpha)`".  But I hate it.  And it doesn't work for virtual fields like `#area` above.
+
+- (Suggested by Edward K.)  We could define a magic module `GHC.ImplicitValues`, and say that if you say
+
+  ```wiki
+  import GHC.ImplicitValues( p, q, area )
+  ```
+
+  then all occurrences of `p`, `q`, `area` will be treated as implicit values (written `#p`, `#q`, `#area` above).  That has the merit that it works fine for virtual fields like `area`, and it removes the `#p` syntactic clutter.
+
+>
+> It leaves open questions.  If you declare a H98 record with fields `p`, etc, do you have to import `p` from `GHC.ImplicitValues` as well?  Presumably not?  What if you *import* such a record?
+
+
+But *neither of these exploit the similarity to implicit parameters*.
+I really really like the similarity between the models, and I think it'd be a pity to lose it.
+And would implicit parameters *really* be better (from a software engineering point of view) if we replaced `?x` notation with `import GHC.ImplicitParameters( x )`?
+
+
+Note that the `#x` form only behaves specially if you have `OverloadedLabels` or `OverloadedRecordFields` enabled. So existing libraries that use `#` as an operator will work fine.  If you want `OverloadedRecordFields` as well, you'll have to put a space between an infix `#` and its second argument, thus `(a # b)` not `(a #b)`.  But that's not so bad. And exactly the same constraint applies with `MagicHash`: you must put a space between the `a` and the `#`, not `(a# b)`.  I don't think this is a big deal.
+
+
+The downside of the `#x` syntax is that uses of lenses like `foo^.bar.baz` become something like `foo ^. #bar . #baz` or `foo ^. xx #bar . xx #baz` (if we need a combinator `xx` to turn an implicit value into a lens). However, this can be mitigated to some extent by users by making their own definitions `bar = xx #bar; baz = xx #baz`.
+
 ## Implementation
 
 
