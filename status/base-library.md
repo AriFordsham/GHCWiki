@@ -5,7 +5,7 @@ This page aims to provide a concise summarized view of major planned changes for
 
 ## GHC 8.0 (`base-4.9`)
 
-- Add `Data.Semigroups` and `Data.List.NonEmpty` modules
+- Add `Data.Semigroup` and `Data.List.NonEmpty` modules
 
   ([\#10365](https://gitlab.haskell.org//ghc/ghc/issues/10365), i.e. Phase1 of [Proposal/SemigroupMonoid](proposal/semigroup-monoid))
 - TODO ...
