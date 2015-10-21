@@ -81,7 +81,7 @@ For adding any test case, follow these guide lines and then refer to the more sp
   It allows you to say if the test case should fail to compile, run fine, run but terminate
   with a certain exit code... ect. The \<args...\> argument is a list argument, where the length
   and format of the list depends on the \<test-fn\> you use. The choice of \<test-fn\> is largely
-  dependent on how complex it is to build you test case. The \<test-fn\> specifies a build method
+  dependent on how complex it is to build your test case. The \<test-fn\> specifies a build method
   more then anything else.
 
 >
@@ -163,7 +163,7 @@ test('Over',
 ## Advanced multiple module test case
 
 
-If you have a test case that can't be built with the simpler two methods described above then you should try the method described below. The build method below allows you to explicitly provide a list of `(source file, GHC flags)` tuples. GHC then builts those in the order you specify. This is useful for test cases say that use a .cmm source file or .c source file, these are files that GHC can build but aren't picked up by `--make`.
+If you have a test case that can't be built with the simpler two methods described above then you should try the method described below. The build method below allows you to explicitly provide a list of `(source file, GHC flags)` tuples. GHC then builds those in the order you specify. This is useful for test cases say that use a .cmm source file or .c source file, these are files that GHC can build but aren't picked up by `--make`.
 
 
 Then for a test case that should compile and run fine we would put this line in all.T:
