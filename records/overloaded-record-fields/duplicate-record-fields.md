@@ -1,7 +1,7 @@
 # `DuplicateRecordFields`
 
 
-This page describes the `DuplicateRecordFields` extension, part 1 of the [OverloadedRecordFields proposal](records/overloaded-record-fields/redesign).
+This page describes the `DuplicateRecordFields` extension, part 1 of the [OverloadedRecordFields proposal](records/overloaded-record-fields).
 
 ## Design
 
