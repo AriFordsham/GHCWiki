@@ -96,6 +96,30 @@ Note that the `#x` form only behaves specially if you have `OverloadedLabels` or
 
 The downside of the `#x` syntax is that uses of lenses like `foo^.bar.baz` become something like `foo ^. #bar . #baz` or `foo ^. xx #bar . xx #baz` (if we need a combinator `xx` to turn an implicit value into a lens). However, this can be mitigated to some extent by users by making their own definitions `bar = xx #bar; baz = xx #baz`.
 
+### Reflections
+
+
+An `IsLabel` constraint is, in effect, rather like a (family of) single-method type classes.  Instead of
+
+```wiki
+f :: Ix a => a -> a -> a -> Bool
+f i u l = inRange (l,u) i
+```
+
+
+which uses only one method from `Ix`, you could write the finer-grained function
+
+```wiki
+f :: (IsLabel "inRange" ((a,a) -> a -> Bool))
+  => a -> a -> Bool
+f i u l = #inRange (l,u) i
+```
+
+
+Note that this example has nothing to do with records, which is part of the point.
+Perhaps `IsLabel` will find other uses.
+It is rather reminiscent of Carlos Camaro's [ System CT](http://homepages.dcc.ufmg.br/~camarao/CT/).
+
 ## Implementation
 
 
