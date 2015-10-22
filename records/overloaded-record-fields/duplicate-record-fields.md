@@ -344,3 +344,17 @@ TODO should we modify the TH AST to be able to represent fields correctly?
 - Haddock compiles, but probably needs updates to document modules with [DuplicateRecordFields](records/overloaded-record-fields/duplicate-record-fields) correctly.
 
 - The user manual documentation needs to be adapted to the new format.
+
+### Disambiguating selectors
+
+TODO We disambiguate updates by signature, but could we do that for record selectors too
+
+```wiki
+address (p :: Person)
+```
+
+
+would work even if there was another record type with an `address` field.  That would be more consistent.
+
+
+Perhaps this is not too complex, if we require the type annotation to occur in precisely the right place (around the first argument to the selector). That is, we wouldn't do any inference. And it would mean that duplicated fields could always be used, even as selectors, provided enough type annotations were provided.
