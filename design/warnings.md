@@ -114,7 +114,7 @@ By reusing the GCC CLI convention for warning-flags we can make GHC's CLI a bit 
 
 - Introduce some warning sets, e.g.
 
-  - `-Wcompat` could refer to all warnings about future compatility GHC *currently* knows about (like e.g. `-Wcompat-amp`, `-Wcompat-mfp`, `-Wcompat-mrp`)
+  - `-Wcompat` ([\#11000](https://gitlab.haskell.org//ghc/ghc/issues/11000)) could refer to all warnings about future compatility GHC *currently* knows about (like e.g. `-Wcompat-amp`, `-Wcompat-mfp`, `-Wcompat-mrp`)
 
 - When emitting warnings/errors, show which warning flag was responsible ([\#10752](https://gitlab.haskell.org//ghc/ghc/issues/10752)),
   e.g.
