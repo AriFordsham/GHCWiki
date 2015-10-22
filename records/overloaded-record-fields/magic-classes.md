@@ -3,10 +3,10 @@
 
 This page describes new built-in magic typeclasses that form part 3 of the [OverloadedRecordFields proposal](records/overloaded-record-fields). These are not a language extension as such, rather they are classes with special-purpose solver behaviour (like `Coercible` and `Typeable`).
 
-## The classes
+## Design
 
 
-Under this proposal, when GHC encounters a data type declaration with record fields, it generates (or behaves as if it generates -- see "Implementation notes" below) instances of two new classes, `HasField` and `FieldUpdate`.  For example, given
+Under this proposal, when GHC encounters a data type declaration with record fields, it generates (or behaves as if it generates -- see "Implementation" below) instances of two new classes, `HasField` and `FieldUpdate`.  For example, given
 
 ```wiki
 data T = MkT { x :: Int }
@@ -208,7 +208,7 @@ instance HasField n2 (Record2 n1 v1 n2 v2) where
 
 These correspond to the existing `FieldOwner` instances in the `record` library. (Actually this doesn't quite work, because the two instances for `FieldType` overlap, but it is possible with a bit more trickery.)
 
-### Implementation notes
+## Implementation
 
 **Instances**.  We said that the data type declaration
 
@@ -256,3 +256,81 @@ instance HasField "x" T where
   type FieldType "x" T = S
   getField _ = $sel_T_x
 ```
+
+
+The `HasField` and `FieldUpdate` classes, and `FieldType` and `UpdatedRecordType` type families, will be defined in the module `GHC.Records` in the `base` package.  Contrary to the previous design, we will not generate any dfuns/axioms for these classes \*at all\*.  Instead, the typechecker will implicitly create evidence as required.  This gets rid of a whole lot of complexity.
+
+
+The only additional things that need to be generated at datatype declarations are updater functions (one per field), which correspond to the selector functions that are already generated.  So for example
+
+```wiki
+data T = MkT { x, y :: Int }
+```
+
+
+will generate
+
+```wiki
+$sel:x:T :: T -> Int
+$sel:x:T (MkT x _) = x
+
+$upd:x:T :: T -> Int -> T
+$upd:x:T (MkT _ y) x = MkT x y
+```
+
+
+The updater function will always have a name prefixed with `$upd:`, regardless of whether `OverloadedRecordFields` is enabled.
+
+### GADT record updates
+
+
+Consider the example
+
+```wiki
+data W a where
+    MkW :: a ~ b => { x :: a, y :: b } -> W (a, b)
+```
+
+
+It would be nice to generate
+
+```wiki
+-- $upd:x:W :: W (a, b) -> a -> W (a, b)
+$upd:x:W s e = s { x = e }
+```
+
+
+but this record update is rejected by the typechecker, even though it is perfectly sensible, because of [\#2595](https://gitlab.haskell.org//ghc/ghc/issues/2595). The currently implemented workaround is instead to generate the explicit update
+
+```wiki
+$upd:x:W (MkW _ y) x = MkW x y
+```
+
+
+which is fine, but rather long-winded if there are many constructors or fields. Essentially this is doing the job of the desugarer for record updates.
+
+
+Note that `W` does not admit type-changing single update for either field, because of the `a ~ b` constraint. Without it, though, type-changing update should be allowed.
+
+### Unused bindings
+
+
+Unused local bindings are tricky in the presence of the magic type classes, as the following example illustrates:
+
+```wiki
+module M (f) where
+
+data S = MkS { foo :: Int }
+data T = MkT { foo :: Int }
+
+f = #foo (MkS 3)
+g x = #foo x
+```
+
+
+The renamer calculates the free variables of each definition, to produce a list of `DefUses`. This is then used to report unused local bindings.  However, we will not discover until the typechecker that `f` uses `S(foo)`, and hence may report it as unused. Note that `g` uses neither `S(foo)` nor `T(foo)`.
+
+
+It doesn't really make sense to have an occurrence of an overloaded label in an expression return as free variables all the selectors it might refer to, because in the new story, an overloaded label might not have anything to do with fields. Moreover, the typechecker might encounter and solve a `HasField` constraint that was introduced without using the overloaded label syntax.
+
+TODO can we defer reporting of unused local bindings until after the typechecker, and make use of the information it records?
