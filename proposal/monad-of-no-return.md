@@ -46,7 +46,9 @@ classMonad m =>MonadFail m  where
 
 Consequently, the `Monad` class is left with a now redundant `return`
 method as a historic artifact, as there's no compelling reason to
-have `pure` and `return` implemented differently.
+have `pure` and `return` implemented differently. 
+More to the point, in the interest of correctness and
+"making illegal states unrepresentable" demands removing this redundancy.
 
 
 Traditionally, `return` is often used where `pure` would suffice
