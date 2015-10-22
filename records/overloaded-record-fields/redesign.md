@@ -1,9 +1,7 @@
-# Overloaded record fields: a modest proposal
+# `OverloadedRecordFields`: design overview
 
 
 This is an attempt to redesign and clarify the design of the [OverloadedRecordFields](records/overloaded-record-fields) extension, in order to develop a plan for implementation.  It has benefited from the extensive discussion surrounding [Nikita Volkov's record library](records/volkov).  The following design choices are not set in stone, but are intended as a concrete proposal for further discussion.  For reference, here is the [previous design](records/overloaded-record-fields/design).
-
-[Implementation notes here](records/overloaded-record-fields/implementation).
 
 
 See also the [ high-level summary of the current plan on the Well-Typed blog](http://www.well-typed.com/blog/2015/03/overloadedrecordfields-revived/).
@@ -31,7 +29,26 @@ Bare field names in expressions refer to the selector function only if unambiguo
 
 Once we have overloaded labels, we need [a little typeclass magic](records/overloaded-record-fields/magic-classes) to allow overloaded labels to refer to record fields.
 
-## Anonymous records
+## Summary
+
+
+We propose three essentially orthogonal additions to GHC:
+
+1. an extension `DuplicateRecordFields` to permit the same field name to be used multiple times in the same module;
+1. an extension `OverloadedLabels` to enable the `#x` syntax, interpreted with the `IsLabel` typeclass;
+1. typeclasses with special-purpose constraint solving behaviour to enable polymorphism over record fields. 
+
+
+The `OverloadedRecordFields` extension is then defined as the combination of `OverloadedLabels` and `DuplicateRecordFields`.
+
+
+These are all useful independently, but complement each other:
+
+- `DuplicateRecordFields` is perfectly sensible without `OverloadedLabels`: it allows duplicate field names provided they are not used ambiguously.
+- `OverloadedLabels` uses the special typeclasses through the instance for `IsLabel x (r -> a)`, but is also useful when used at other types (e.g. we could give an instance `IsLabel x (Proxy x)` to allow implicit values to represent Symbol proxies).
+- Without either of the extensions, the special typeclasses allow users to write code that works for all datatypes with particular fields (albeit without a nice built-in syntax).
+
+### Anonymous records
 
 
 While we might choose to add anonymous records later, they are not central to the design.  In particular, this means that
@@ -43,22 +60,3 @@ While we might choose to add anonymous records later, they are not central to th
 - application code can use `DuplicateRecordFields` even with libraries that do not;
 
 - no new declaration syntax is added.
-
-## Summary
-
-
-We propose three essentially orthogonal additions to GHC:
-
-1. `HasField` and `FieldUpdate` typeclasses, with special-purpose constraint solving behaviour (just like `Coercible`, we do not require a special extension to enable this, as its effect is limited to code that imports the relevant module);
-1. an extension `OverloadedLabels` to enable the `#x` syntax, interpreted with the `IsLabel` typeclass;
-1. an extension `DuplicateRecordFields` to permit the same field name to be used multiple times in the same module.
-
-
-The `OverloadedRecordFields` extension is then defined as the combination of `OverloadedLabels` and `DuplicateRecordFields`.
-
-
-These are all useful independently, but complement each other:
-
-- Without either of the extensions, the special typeclasses allow users to write code that works for all datatypes with particular fields (albeit without a nice built-in syntax).
-- `OverloadedLabels` uses the special typeclasses through the instance for `IsLabel x (r -> a)`, but is also useful when used at other types (e.g. we could give an instance `IsLabel x (Proxy x)` to allow implicit values to represent Symbol proxies).
-- `DuplicateRecordFields` is perfectly sensible without `OverloadedLabels`: it allows duplicate field names provided they are not used ambiguously.
