@@ -6,16 +6,11 @@ This is where we track various efforts to characterize and improve the performan
 ## Relevant tickets
 
 - [\#2346](https://gitlab.haskell.org//ghc/ghc/issues/2346): desugaring let-bindings
-- [\#7428](https://gitlab.haskell.org//ghc/ghc/issues/7428): Non-linear compile time: addFingerprint??
-
-  - Still a huge problem with GHC 7.10.1: looks like quadratic behavior around `TidyCore`/`CorePrep`.
 - [\#9583](https://gitlab.haskell.org//ghc/ghc/issues/9583), [\#9630](https://gitlab.haskell.org//ghc/ghc/issues/9630): code blowup in Generics/Binary
 - [\#10228](https://gitlab.haskell.org//ghc/ghc/issues/10228): increase in compiler memory usage, regression from 7.8.4 to 7.10.1
 - [\#10289](https://gitlab.haskell.org//ghc/ghc/issues/10289): 2.5k static HashSet takes too much memory to compile
 
   - Significantly improved in memory usage from [\#10370](https://gitlab.haskell.org//ghc/ghc/issues/10370), but worse at overall wall-clock time!
-- [\#10370](https://gitlab.haskell.org//ghc/ghc/issues/10370): OpenGLRaw
-
 - [\#8731](https://gitlab.haskell.org//ghc/ghc/issues/8731): long compilation time for module with large data type and partial record selectors 
 - [\#7258](https://gitlab.haskell.org//ghc/ghc/issues/7258): Compiling DynFlags is jolly slow
 - [\#7450](https://gitlab.haskell.org//ghc/ghc/issues/7450): Regression in optimisation time of functions with many patterns (6.12 to 7.4)? 
