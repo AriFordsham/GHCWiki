@@ -6,7 +6,6 @@ The `OverloadedRecordFields` extension for GHC allows multiple record datatypes 
     * Part 1: [wiki:Records/OverloadedRecordFields/DuplicateRecordFields DuplicateRecordFields]
     * Part 2: [wiki:Records/OverloadedRecordFields/OverloadedLabels OverloadedLabels]
     * Part 3: [wiki:Records/OverloadedRecordFields/MagicClasses Magic type classes]
- * [wiki:Records/OverloadedRecordFields/Implementation Notes on the implementation]
  * [http://www.well-typed.com/blog/2015/03/overloadedrecordfields-revived/ Adam Gundry's blog post]
 
 Content previously on this page has been moved to the [wiki:Records/OverloadedRecordFields/SORF SORF] page.
@@ -14,8 +13,8 @@ Content previously on this page has been moved to the [wiki:Records/OverloadedRe
 == Code ==
 
  * Phab:D761 (merged): `DuplicateRecordFields` extension
- * Phab:D1331 (being worked on): `OverloadedLabels` extension
- * A [https://github.com/adamgundry/records-prototype prototype implementation] of an early design is also available.
+ * Phab:D1331 (being reviewed): `OverloadedLabels` extension
+ * [https://github.com/adamgundry/records-prototype Prototype implementation of the magic typeclasses]
 
 == History ==
 
