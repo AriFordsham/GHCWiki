@@ -5,7 +5,6 @@ This is where we track various efforts to characterize and improve the performan
 
 ## Relevant tickets
 
-- [\#10980](https://gitlab.haskell.org//ghc/ghc/issues/10980): quadratic behaviour of derived `Read`.
 - [\#2346](https://gitlab.haskell.org//ghc/ghc/issues/2346): desugaring let-bindings
 - [\#7428](https://gitlab.haskell.org//ghc/ghc/issues/7428): Non-linear compile time: addFingerprint??
 
@@ -17,7 +16,6 @@ This is where we track various efforts to characterize and improve the performan
   - Significantly improved in memory usage from [\#10370](https://gitlab.haskell.org//ghc/ghc/issues/10370), but worse at overall wall-clock time!
 - [\#10370](https://gitlab.haskell.org//ghc/ghc/issues/10370): OpenGLRaw
 
-- [\#9557](https://gitlab.haskell.org//ghc/ghc/issues/9557): Deriving instances is slow
 - [\#8731](https://gitlab.haskell.org//ghc/ghc/issues/8731): long compilation time for module with large data type and partial record selectors 
 - [\#7258](https://gitlab.haskell.org//ghc/ghc/issues/7258): Compiling DynFlags is jolly slow
 - [\#7450](https://gitlab.haskell.org//ghc/ghc/issues/7450): Regression in optimisation time of functions with many patterns (6.12 to 7.4)? 
@@ -32,7 +30,7 @@ This is where we track various efforts to characterize and improve the performan
 ### Coercion pile-up
 
 
-One theme that seems to pop up rather often is the production of Core with long strings of coercions, with the size scaling non-linearly with the size of the types in the source program. This i 
+One theme that seems to pop up rather often is the production of Core with long strings of coercions, with the size scaling non-linearly with the size of the types in the source program. These may or may not be due to similar root-causes.
 
 - [\#8095](https://gitlab.haskell.org//ghc/ghc/issues/8095): TypeFamilies painfully slow
 
@@ -44,6 +42,15 @@ One theme that seems to pop up rather often is the production of Core with long 
 
 
 One possible solution (proposed in [\#8095](https://gitlab.haskell.org//ghc/ghc/issues/8095)) is to eliminate coercions from the Core AST during usual compilation, instead only including them when we want to lint the Core.
+
+### Deriving instances
+
+
+Another theme often seen is issues characterized by perceived slowness during compilation of code deriving instances. These don't usually share much as far as root-cause is concerned, but nevertheless this is a useful categorization,
+
+- [\#9557](https://gitlab.haskell.org//ghc/ghc/issues/9557): Deriving instances is slow
+- [\#10858](https://gitlab.haskell.org//ghc/ghc/issues/10858): Smaller generated `Ord` instances
+- [\#10980](https://gitlab.haskell.org//ghc/ghc/issues/10980): quadratic behaviour of derived `Read`.
 
 ## tests/perf/compiler\` results
 
