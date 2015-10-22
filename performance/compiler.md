@@ -15,9 +15,20 @@ This is where we track various efforts to characterize and improve the performan
   - [ Phab:D1041](https://phabricator.haskell.org/D1041), [ Phab:D1012](https://phabricator.haskell.org/D1012)
   - Unnecessary recomputation of free variables ([ Phab:D1012](https://phabricator.haskell.org/D1012))
   - Thunk leak in `Bitmap` ([ Phab:D1040](https://phabricator.haskell.org/D1040))
-- 
+- [\#10800](https://gitlab.haskell.org//ghc/ghc/issues/10800): vector-0.11 compile time increased substantially with 7.10.1
+
+  - Regression in `vector` testsuite perhaps due to change in inlinings
 
 [ https://ghc.haskell.org/trac/ghc/query?status=!closed&failure=Compile-time+performance+bug](https://ghc.haskell.org/trac/ghc/query?status=!closed&failure=Compile-time+performance+bug)
+
+### Type pile-up
+
+
+Some programs can produce very deeply nested types of non-linear size. See Scrap your type applications? for a way to improve these bad cases
+
+- [\#9198](https://gitlab.haskell.org//ghc/ghc/issues/9198): large performance regression in type checker speed in 7.8 
+
+  - Types in Core blowing up quadratically (as seen in `-ddump-ds` output)
 
 ### Coercion pile-up
 
