@@ -51,6 +51,7 @@ Another theme often seen is issues characterized by perceived slowness during co
 - [\#9557](https://gitlab.haskell.org//ghc/ghc/issues/9557): Deriving instances is slow
 - [\#10858](https://gitlab.haskell.org//ghc/ghc/issues/10858): Smaller generated `Ord` instances
 - [\#10980](https://gitlab.haskell.org//ghc/ghc/issues/10980): quadratic behaviour of derived `Read`.
+- [\#5642](https://gitlab.haskell.org//ghc/ghc/issues/5642): Deriving Generic of a big type takes a long time and lots of space
 
 ## tests/perf/compiler\` results
 
