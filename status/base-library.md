@@ -19,7 +19,7 @@ This page aims to provide a concise summarized view of major planned changes for
 
 ## GHC 8.4
 
-- Turn the Semigroup and MonadFail warnings into warnings that are on by default.
+- Turn the `Semigroup` and `MonadFail` warnings into warnings that are on by default.
 - Warn about the pending removal of the default definitions for `log1p`, etc.
 
 ## GHC 8.6
