@@ -157,3 +157,4 @@
 
 - Search for email with subject "Branched and unbranched" in my GHC folder -- about refactoring some `CoAxiom` stuff
 - Simplification for axioms: they can be applied to types, not coercions. See email with subject "checkAxInstCo"
+- Refactor the type-checking algorithm, à la [Typechecking](typechecking).
