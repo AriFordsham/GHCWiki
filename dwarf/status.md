@@ -51,8 +51,8 @@ These introduce DWARF parsing and stack unwinding to the RTS by
 introducing an optional dependency on `libdw`. This is the same library
 used by `perf`.
 
-- \[READY\]   [ Phab:D1196](https://phabricator.haskell.org/D1196): Libdw: Add libdw-based stack unwinding
-- \[READY\]   [ Phab:D1197](https://phabricator.haskell.org/D1197): Signals: Print backtrace on SIGUSR2
+- \[MERGED\]   [ Phab:D1196](https://phabricator.haskell.org/D1196): Libdw: Add libdw-based stack unwinding
+- \[MERGED\]   [ Phab:D1197](https://phabricator.haskell.org/D1197): Signals: Print backtrace on SIGUSR2
 
 
 With the RTS groundwork in place we can plumb things in for use by user
