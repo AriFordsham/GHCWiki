@@ -2,6 +2,7 @@
 
 ## Urgent or in-flight
 
+- [\#9479](https://gitlab.haskell.org//ghc/ghc/issues/9479), [\#10954](https://gitlab.haskell.org//ghc/ghc/issues/10954), [\#9091](https://gitlab.haskell.org//ghc/ghc/issues/9091): more info in "hole" error messages
 - [UnliftedDataTypes](unlifted-data-types) and [UnpackedSumTypes](unpacked-sum-types)
 - [\#10844](https://gitlab.haskell.org//ghc/ghc/issues/10844), [\#10845](https://gitlab.haskell.org//ghc/ghc/issues/10845), [\#10846](https://gitlab.haskell.org//ghc/ghc/issues/10846): implicit call stacks
 - [\#8613](https://gitlab.haskell.org//ghc/ghc/issues/8613), [\#9070](https://gitlab.haskell.org//ghc/ghc/issues/9070), [\#8319](https://gitlab.haskell.org//ghc/ghc/issues/8319), [\#7521](https://gitlab.haskell.org//ghc/ghc/issues/7521), [\#10459](https://gitlab.haskell.org//ghc/ghc/issues/10459), [\#10584](https://gitlab.haskell.org//ghc/ghc/issues/10584), [\#10565](https://gitlab.haskell.org//ghc/ghc/issues/10565): simplifier ticks exhausted (there are others). [\#10459](https://gitlab.haskell.org//ghc/ghc/issues/10459) is clearly a loop; and affects a real package.
@@ -294,7 +295,6 @@ See also [TemplateHaskell](template-haskell)
 
 - [\#10450](https://gitlab.haskell.org//ghc/ghc/issues/10450): poor error message when arg is insufficiently polymorphic
 - [\#9901](https://gitlab.haskell.org//ghc/ghc/issues/9901): `f is applied to two arguments, but its type has only two`
-- [\#9479](https://gitlab.haskell.org//ghc/ghc/issues/9479): more info in "hole" error messages
 - [\#9456](https://gitlab.haskell.org//ghc/ghc/issues/9456): more info in "relevant bindings" message
 - [\#9244](https://gitlab.haskell.org//ghc/ghc/issues/9244): suggest scoped type variables
 - [\#9173](https://gitlab.haskell.org//ghc/ghc/issues/9173): inferred/expected error messages
