@@ -155,10 +155,31 @@ foo.hs:4:1: Warning:
 }}}
 
 {{{#!rbox note
-This `import Prelude`-trick, however, doesn't work when explicit import lists are used. In that case, `qualified` imports can be used if `-XCPP` is to be avoided at all costs.
+This `import Prelude`-trick, however, doesn't work when explicit import lists are used. In that case, `qualified` imports can be used if `-XCPP` needs to be avoided at all costs.
 }}}
 One obvious way to silence such warnings is use `-XCPP`. However, there's also a less-known trick/hack to moving the implicit `import Prelude` into an explicit one after all `base`-imports. In the code example above just de-comment the `-- import Prelude` line.
 
+A more robust way (that works when the trick above doesn't work) to convince GHC without `-XCPP` to suppress redundancy-warnings is by referencing a module-prefixed entity form the respective module at least once. In the example below, `pure` is referenced just once via `A.pure`, thereby marking the `import` essential:
+
+{{{#!hs
+import Control.Applicative as A (Applicative(..))
+
+data Maybe' a = Nothing' | Just' a
+
+instance Functor Maybe' where
+    fmap f (Just' v) = Just' (f v)
+    fmap _ Nothing'  = Nothing'
+
+instance Applicative Maybe' where
+    pure = Just'
+    f1 <*> f2   = f1 >>= \v1 -> f2 >>= (pure . v1)
+
+instance Monad Maybe' where
+    Nothing' >>= _  = Nothing'
+    Just' x  >>= f  = f x
+
+    return = A.pure -- NB: This definition is redundant since GHC 7.10/base-4.8
+}}}
 === `deepseq-1.4.0.0` (& `deepseq-1.4.1.0`)
 
 The default method implementation has been changed, so instances defined via
