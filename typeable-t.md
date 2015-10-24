@@ -59,6 +59,9 @@ See also the individual questions sections below.
   At the very least, there is more overhead (on the wire), and some performance tests should be done before committing to anything.
 - Any comments would be gladly received!
 
+
+There is [\#11011](https://gitlab.haskell.org//ghc/ghc/issues/11011) for discussion of this proposal.
+
 ---
 
 ## Data.Typeable
