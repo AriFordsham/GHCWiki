@@ -102,3 +102,9 @@ redundancy.
  * [EXPLOR] Phab:D1213: Core notes
  * [IDEA]   Record tree of Core fragments into DWARF DIEs
 
+
+=== Documentation ===
+
+Now since we have all of these features, we need to make sure the user knows what they do.
+
+ * [RFC] Phab:D1369   Add debugging information chapter to the GHC users guide
