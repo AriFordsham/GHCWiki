@@ -25,7 +25,7 @@ For example you have a function in your source file that can perform some unsafe
 I don't know conventions about naming pragmas, so let it be something like this.
 
 ```
-{-# SUPPRESS_WARNINGS $warning_name$ #-}foo::IORefIntfoo= unsafePerformIO (newIORef 10)
+{-# SUPPRESS_WARNINGS #-}foo::IORefIntfoo= unsafePerformIO (newIORef 10)
 ```
 
 
@@ -35,5 +35,5 @@ We are suppressing warnings for one particular function
 Or we can suppress warnings for some part of source code:
 
 ```
-{-# SUPPRESS_WARNINGS $warning_names$ #-}foo::IORefIntfoo= unsafePerformIO (newIORef 10)bar::IORefIntbar= unsafePerformIO (newIORef 11)baz::IORefIntbaz= unsafePerformIO (newIORef 12){-# UNSUPPRESS_WARNINGS $warning_names$ #-}
+{-# SUPPRESS_WARNINGS #-}foo::IORefIntfoo= unsafePerformIO (newIORef 10)bar::IORefIntbar= unsafePerformIO (newIORef 11)baz::IORefIntbaz= unsafePerformIO (newIORef 12){-# UNSUPPRESS_WARNINGS #-}
 ```
