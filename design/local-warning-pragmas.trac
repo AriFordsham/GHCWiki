@@ -31,7 +31,7 @@ foo = unsafePerformIO (newIORef 10)
 
 We are suppressing warnings for one particular function 
 
-Or we can do this in top-level, i mean in the file header we can write and compiler will suppress warnings, that foo will throw
+Or we can do this in top-level, i mean in the file header we can write and compiler will suppress warnings, that foo will throw, see [https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/pragmas.html this] about WARNING and DEPRECATED pragmas
 
 {{{#!hs
 {-# SUPPRESS foo  #-}

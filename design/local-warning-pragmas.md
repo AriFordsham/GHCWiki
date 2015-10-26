@@ -35,7 +35,7 @@ I don't know conventions about naming pragmas, so let it be something like this.
 We are suppressing warnings for one particular function 
 
 
-Or we can do this in top-level, i mean in the file header we can write and compiler will suppress warnings, that foo will throw
+Or we can do this in top-level, i mean in the file header we can write and compiler will suppress warnings, that foo will throw, see [ this](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/pragmas.html) about WARNING and DEPRECATED pragmas
 
 ```
 {-# SUPPRESS foo  #-}--some code herefoo::IORefIntfoo= unsafePerformIO (newIORef 10)
