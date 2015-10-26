@@ -28,15 +28,15 @@ For example you have a function in your source file that can perform some unsafe
 I don't know conventions about naming pragmas, so let it be something like this.
 
 ```
-{-# SUPPRESS_WARNINGS #-}foo::IORefIntfoo= unsafePerformIO (newIORef 10)
+{-# SUPPRESS #-}foo::IORefIntfoo= unsafePerformIO (newIORef 10)
 ```
 
 
 We are suppressing warnings for one particular function 
 
 
-Or we can suppress warnings for some part of source code(but this is not preferable):
+Or we can do this in top-level, i mean in the file header we can write and compiler will suppress warnings, that foo will throw
 
 ```
-{-# SUPPRESS_WARNINGS #-}foo::IORefIntfoo= unsafePerformIO (newIORef 10)bar::IORefIntbar= unsafePerformIO (newIORef 11)baz::IORefIntbaz= unsafePerformIO (newIORef 12){-# UNSUPPRESS_WARNINGS #-}
+{-# SUPPRESS foo  #-}--some code herefoo::IORefIntfoo= unsafePerformIO (newIORef 10)
 ```
