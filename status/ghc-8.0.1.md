@@ -52,6 +52,7 @@ Below are the major highlights of 8.0.
 - Support for [Strict Haskell](strict-pragma) including both the `StrictData` and `Strict` language extensions
 
 - Support for record pattern synonyms ([ Phab:D1152](https://phabricator.haskell.org/D1152))
+- Allow patterns synonyms to be exported in the same way as data constructors ([ Phab:D1258](https://phabricator.haskell.org/D1258))
 
 - Implement the `MonadFail` proposal ([\#10751](https://gitlab.haskell.org//ghc/ghc/issues/10751))
 
@@ -71,7 +72,7 @@ Below are the major highlights of 8.0.
 - A `DEPRECATED` pragma for exports ([\#4879](https://gitlab.haskell.org//ghc/ghc/issues/4879))
 - Complete support for [OverloadedRecordFields](records/overloaded-record-fields)
 
-### Won't make it
+### Won't make it, but being actively worked on
 
 - A new, type-indexed type representation, `data TTypeRep (a :: k)`. See [TypeableT](typeable-t).
 - A (possible) overhaul of GHC's build system to use **Shake** instead of Make.
