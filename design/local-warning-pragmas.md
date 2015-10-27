@@ -40,3 +40,10 @@ Or we can do this in top-level, i mean in the file header we can write and compi
 ```
 {-# SUPPRESS foo  #-}--some code herefoo::IORefIntfoo= unsafePerformIO (newIORef 10)
 ```
+
+
+Or as seen [ here](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/pragmas.html) for INLINE pragma one can write
+
+```
+foo::IORefIntfoo= unsafePerformIO (newIORef 10){-# SUPPRESS foo #-}
+```

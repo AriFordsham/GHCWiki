@@ -41,3 +41,10 @@ Or we can do this in top-level, i mean in the file header we can write and compi
 foo :: IORef Int
 foo = unsafePerformIO (newIORef 10)
 }}}
+
+Or as seen [https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/pragmas.html here] for INLINE pragma one can write
+{{{#!hs
+foo :: IORef Int
+foo = unsafePerformIO (newIORef 10)
+{-# SUPPRESS foo #-}
+}}}
