@@ -367,6 +367,13 @@ In order to see emails below, **you must login**.
   - **Committer since**: always.
   - **Main areas of interest**: renamer, type checker, optimiser.
 
+- [ Tamar Christina](http://blog.zhox.com)
+
+  - N/A - Leiden, The Netherlands
+  - **Trac**: Phyx-; **email**: tamar@…; **github**: [ https://github.com/Mistuke](https://github.com/Mistuke)
+  - **Committer since**: October, 2015.
+  - **Main areas of interest**: Windows maintenance
+
 - [ Thomas Miedema](http://thomie.github.io)
 
   - N/A - Paris, France
