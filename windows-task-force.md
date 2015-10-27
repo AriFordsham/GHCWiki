@@ -2,9 +2,9 @@
 
 ## The People
 
-- **Tamar Christina** \<tamar@…\>
+- **Tamar Christina** \<tamar@…\> Phyx
 - **Roman Kuznetsov** \<kuznero@…\>
-- **Kyrill Briantsev** \<kyrab@…\>
+- **Kyrill Briantsev** \<kyrab@…\> awson
 - **Darren Grant** \<dedgrant@…\>
 - **David Macek** \<david.macek.0@…\>
 - **Michael Steele** \<mikesteele81@…\>
