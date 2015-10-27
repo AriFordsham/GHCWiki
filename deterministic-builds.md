@@ -152,6 +152,33 @@ a445878a7cec5681355a62b238e7cd00  -
 # the hashes are different but the environment didn't change
 ```
 
+## Known sources of nondeterminism
+
+### Nondeterministic Uniques
+
+
+The order of allocated Uniques is not stable across rebuilds. The main reason for that is that type-checking interface files pulls 
+Uniques from UniqSupply and the interface file for the module being currently compiled can, but doesn't have to exist.
+It gets more complicated if you take into account that the interface files are loaded lazily and that building multiple files at once has to
+work for any subset of interface files present. When you add parallelism this makes Uniques hopelessly random.
+
+## Testing
+
+
+Two new flags were added to GHC:
+
+- `-dinitial-unique`
+- `-dunique-increment`
+
+
+By varying these you can get interesting effects:
+
+- `-dinitial-unique=0 -dunique-increment=1` - current sequential UniqSupply
+
+- `-dinitial-unique=16777215 -dunique-increment=-1` - UniqSupply that generates in decreasing order
+
+- `-dinitial-unique=1 -dunique-increment=PRIME` - where PRIME big enough to overflow often, eg. `8338881` - nonsequential order
+
 ## Deterministic multithreaded builds
 
 
