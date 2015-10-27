@@ -422,3 +422,72 @@ The author believes that `map` is parametric in `v1`, as the list stored `a` val
 
 
 It is this author's opinion that it would be unfortunate to give ad-hoc levity polymorphism the same syntax as parametric polymorphism (and also that making everything ad-hoc overloaded in levity would probably be confusing), given that there are substantial examples of the latter.
+
+# Minimal Semantics
+
+
+With regard to the quote in the Motivation section, it should be noted that it
+is mostly untrue. The data type `data Nat = Z | S !Nat` is a flat domain of
+natural numbers; but this is also true in strict languages like ML. The only
+difference between it and `data unlifted UNat = UZ | US UNat` is the (default)
+'calling convention' for operations on the type. For `Nat` the calling
+convention is non-strict by default (although one can force strictness), and for
+`UNat` (and the type in ML) it is (necessarily) strict. The strict calling
+convention allows one to ignore the domain aspect for arguments to a function
+(as opposed to expressions of a type, which coudl denote bottom).
+
+
+Thus, it seems as though the semantic gap could be filled if `!Nat` and the like
+were simply proper types. We could have `!Nat :: Unlifted`. It could be
+represented identically to `Nat`, but bindings of that type would need to be
+evaluated eagerly (and probably wouldn't be possible at the top level), and
+'values' of the type could be relied upon to never be bottom. So for instance, a
+function of type `!Nat -> ...` would be able to rely upon its first argument
+being a non-bottom, evaluated natural number. Semantically, the values of `!Nat`
+are exactly the set of natural numbers, and expressions denote the flat domain,
+but the eager callling conventions ensure that we don't need to think about
+bottom as a value.
+
+
+In fact, this minimal addition bears a strong resemblance to the original
+version of this proposal. However, it was noted that there is a problem with
+the current meanting of `!a` in constructors. Given the declaration:
+
+```wiki
+data T = C !Nat !Nat
+```
+
+
+The constructor `C` has type `Nat -> Nat -> T` which forces its arguments,
+rather than `!Nat -> !Nat -> T`. And changing it to the latter would be a
+significant, backward-incompatible change.
+
+
+However, there may be a solution to this problem in the upcoming work on
+impredicativity. That work proposes to add a new constraint `t <~ u`, meaning
+that `t` can-be-instantiated/is-a-subtype-of `u`. The core-level witness of
+`t <~ u` is simply a function `t -> u`.
+
+
+It is conceivable that with this work, we could add the axiom `!a <~ a`. The
+witness of this is simply an identity function that has an effect of forgetting
+that its argument must already be evaluated, because the values of type `!a` are
+also valid values of type `a`. Then, if the match:
+
+```wiki
+case t of
+  C x y -> ...
+```
+
+
+resulted in `x, y :: !Nat`, the judgments `x :: Nat` and `y :: Nat` (as the
+Haskell report would specify) are valid. And also, if we have `x, y :: !Nat`,
+the application `C x y` is well-typed with `C :: Nat -> Nat -> T` as a
+constructor that evaluates its arguments. The only remaining piece of the puzzle
+would be to have an optimization pass that eliminates the redundant evaluation
+that `C` would do if called with arguments of type `!Nat` (via weakening to
+`Nat`).
+
+
+Assuming this all works as outlined above, it appears to introduce no redundancy
+to the language, contrary to having an entirely separate data declaration form.
