@@ -33,11 +33,14 @@ In the `AC_INIT` line of `configure.ac`, set the version number. A few lines bel
 ## Tagging the release
 
 
-Create a signed git tag,
+Create a signed annotated git tag,
 
 ```wiki
 git tag -asu "Ben Gamari <ben@well-typed.com>" ghc-7.10.2-release HEAD
 ```
+
+
+In the case of release candidates an unannotated tag is sufficient (e.g. `git tag ghc-7.10.2-rc1 HEAD`).
 
 ## Making the source tarball
 
@@ -68,9 +71,9 @@ N.B. the `lndir` utility required by `make sdist` is provided by `xutils-dev` on
 
 First, you should make sure your environment has all of the tools necessary to make a proper release build.  This can include more tools than an "ordinary" build of GHC requires, since documentation requires extra tools.  You will need:
 
-- dblatex
+- [ Sphinx](http://www.sphinx-doc.org/)
 - HsColour (cabal install hscolour)
-- docbook-xsl (otherwise you will get error `failed to load external entity "http://docbook.sourceforge.net/release/xsl/current/html/chunk.xsl"`)
+- [ xelatex](http://xetex.sourceforge.net/)
 
 
 A good sanity check is to check the output of `configure` and make sure all of the tool fields are filled out.
@@ -82,11 +85,9 @@ Untar the `src` tarball. Then:
 $ cat > mk/build.mk <<EOF
 V=1
 HADDOCK_DOCS=YES
-LATEX_DOCS=YES
 HSCOLOUR_SRCS=YES
-BUILD_DOCBOOK_HTML=YES
-BUILD_DOCBOOK_PDF=YES
-BUILD_DOCBOOK_PS=YES
+BUILD_SPHINX_HTML=YES
+BUILD_SPHINX_PDF=YES
 BeConservative=YES
 EOF
 ```
