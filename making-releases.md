@@ -53,7 +53,8 @@ First [check out the branch](building/getting-the-sources#getting-a-branch), and
 ```wiki
 $ perl boot
 $ ./configure
-$ make         # GHC <= 7.10 only
+$ ./mk/get-win32-tarballs.sh download all     # ensure all Windows tarballs are available
+$ make                                        # GHC <= 7.10 only
 $ make sdist
 ```
 

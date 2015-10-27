@@ -40,7 +40,8 @@ First [wiki:Building/GettingTheSources#Gettingabranch check out the branch], and
 {{{
 $ perl boot
 $ ./configure
-$ make         # GHC <= 7.10 only
+$ ./mk/get-win32-tarballs.sh download all     # ensure all Windows tarballs are available
+$ make                                        # GHC <= 7.10 only
 $ make sdist
 }}}
 
