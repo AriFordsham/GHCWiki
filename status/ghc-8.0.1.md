@@ -66,6 +66,8 @@ Below are the major highlights of 8.0.
 
 - An [Improved LLVM Backend](improved-llvm-backend) that ships with every major Tier 1 platform.
 
+- [Custom type errors](proposal/custom-type-errors). ([ Phab:D1236](https://phabricator.haskell.org/D1236)).
+
 ### Possible, if the authors push forward fast enough
 
 - Support for **Type Signature Sections**, allowing you to write `(:: ty)` as a shorthand for `(\x -> x :: ty)`.
