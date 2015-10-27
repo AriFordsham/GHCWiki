@@ -47,16 +47,21 @@ classMonad m =>MonadFail m  where
 Consequently, the `Monad` class is left with a now redundant `return`
 method as a historic artifact, as there's no compelling reason to
 have `pure` and `return` implemented differently. 
-More to the point, in the interest of correctness and
-"making illegal states unrepresentable" removing this redundancy is important.
+
+
+More to the point, this redundancy violates the
+"**making illegal states unrepresentable**" idiom: Due to the default 
+implementation of `return` this redundancy leads to
+error prone situations which aren't caught by the compiler; for instance, when
+`return` is removed while the `Applicative` instance is left with a
+`pure = return` definition, this leads to a cyclic definition which
+can be quite tedious to debug as it only manifests at runtime by a
+hanging process.
 
 
 Traditionally, `return` is often used where `pure` would suffice
 today, forcing a `Monad` constraint even if a weaker `Applicative`
-would have sufficed.
-
-
-As a result, language extensions like `ApplicativeDo`\[3\] have to
+would have sufficed. As a result, language extensions like `ApplicativeDo`\[3\] have to
 rewrite `return` to weaken its `Monad m =>` constraint to
 `Applicative m =>` in order to benefit existing code at the cost
 of introducing magic behavior at the type level.
@@ -66,7 +71,8 @@ An additional (somewhat minor) benefit results from having smaller class diction
 
 
 For `(>>)`, in addition to arguments applying to `return`, the
-status quo is optimising `(>>)` and forgetting about `(*>)`. 
+status quo is optimising `(>>)` and forgetting about `(*>)`, resulting
+in unexpected performance regressions when code is generalised from `Monad` to `Applicative`.
 This unfortunate situation also blocks us from being able to remove
 the post-AMP method redundancy in the `Foldable`/`Traversable` classes.
 
@@ -88,6 +94,19 @@ getting `return` out of the way is desirable to facilitate
 standardising potential candidates such as the earlier mentioned
 `ApplicativeDo` in the future and avoids the technical debt incurred
 by keeping around this language wart.
+
+
+When considered out of context, the enumerated reason above could be considered 
+weak on their own and would maybe not be enough to carry this proposal
+individually. But put together, those smaller benefits form one bigger
+composite benefit, and taken in the context of the recent AMP, and the
+upcoming MFP, the costs are comparatively low (especially with the
+reduced-breakage-transition-strategy), and it makes sense to settle this technical debt soon
+while it's still relatively cheap. 
+
+
+It's easy to underestimate the infinite accrued cost of
+retaining language warts which persist in the language indefinitely.
 
 ## Proposed Change
 
