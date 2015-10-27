@@ -49,6 +49,7 @@ Below are the major highlights of 8.0.
   - Support for [wiki:StrictPragma Strict Haskell] including both the `StrictData` and `Strict` language extensions
 
   - Support for record pattern synonyms (Phab:D1152)
+  - Allow patterns synonyms to be exported in the same way as data constructors (Phab:D1258)
 
   - Implement the `MonadFail` proposal (#10751)
 
