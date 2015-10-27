@@ -29,7 +29,14 @@ The result of attempting to create a 32-bit build on a 64-bit machine has not be
 An easy way to check that you are running the right shell is to check the output of `echo $MSYSTEM`. It should show either `MINGW32` or `MINGW64`. You can also tell by examining the `$PATH`.
 
 
-Consider upgrading all installed packages to the latest versions. See [ MSYS2 installation instructions](http://sourceforge.net/p/msys2/wiki/MSYS2%20installation/) (section III) for details.
+Consider upgrading all installed packages to the latest versions
+
+```wiki
+pacman -Suy
+```
+
+
+See [ MSYS2 installation instructions](http://sourceforge.net/p/msys2/wiki/MSYS2%20installation/) (section III) for details.
 
 ## Installing packages & tools
 
@@ -37,17 +44,7 @@ Consider upgrading all installed packages to the latest versions. See [ MSYS2 in
 The msys2 package uses `pacman` (the venerable ArchLinux package manager) to manage packages. Let's install system dependencies required for building GHC:
 
 ```wiki
-pacman -Sy git tar binutils autoconf make libtool automake python2 p7zip patch gcc docbook-xsl
-```
-
-
-Note: `dblatex` isn't available as a [ MSYS2 package](https://github.com/Alexpux/MSYS2-packages), so the user's guide won't be build in ps and pdf format (only html).
-
-
-It may be necessary to explicitly set the `XML_CATALOG_FILES` environment variable to convince `configure` that docbook is usable,
-
-```wiki
-export XML_CATALOG_FILES="/etc/xml/docbook-xml /etc/xml/catalog"
+pacman -Sy git tar binutils autoconf make libtool automake python2 p7zip patch gcc
 ```
 
 ## Host GHC setup
