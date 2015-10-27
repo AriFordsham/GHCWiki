@@ -183,6 +183,15 @@ above are rather artificial, we don't expect this to be a major source
 of breakage in the case of `return`. In fact, a heuristic grep![5] over
 Hackage source-code revealed only 21 packages affected.
 
+=== Tool for (Semi)Automatic Refactoring
+
+There is ongoing work in the
+[https://github.com/hvr/Hs2010To201x Hs2010To201x] project to
+provide automatic refactoring assistance for migrating pre-AMP
+code-bases to AMP+MFP+MRP. Tooling of this sort can dramatically
+reduce the maintenance cost incurred by the recent `Monad`
+restructuring changes.
+
 === Example for writing future-proof code
 
 {{{#!rbox note
