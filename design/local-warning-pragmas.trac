@@ -1,9 +1,3 @@
-{{{#!box warning
-'''WORK IN PROGRESS'''
-
-THIS IS NOT READY FOR PUBLIC BIKESHEDDING YET
-}}}
-
 = Local Warning Pragmas =
 
 === What is it and why is it needed? ===
@@ -25,8 +19,12 @@ Having source file delimeted by pragmas is not good idea as for me, because it w
 
 For example you have a function in your source file that can perform some unsafe actions(unsafe I/O maybe). You think you are smarter than GHC, and you don't want to read such long warning's texts. So you apply pragma to your function and compiler does not throw warnings and you are happy with that.
 
+
 == Exempli gratia ==
 
+{{{#!comment 
+Dear editors, if you have nice example of annoying warnings coming from imports, instances, or typeclasses, feel free to add them here
+}}}
 I don't know conventions about naming pragmas, so let it be something like this.
 
 {{{#!hs
