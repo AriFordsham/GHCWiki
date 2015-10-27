@@ -66,7 +66,7 @@ Below are the major highlights of 8.0.
 
 - An [Improved LLVM Backend](improved-llvm-backend) that ships with every major Tier 1 platform.
 
-- [Custom type errors](proposal/custom-type-errors). ([ Phab:D1236](https://phabricator.haskell.org/D1236)).
+- [Custom type errors](proposal/custom-type-errors). ([\#9637](https://gitlab.haskell.org//ghc/ghc/issues/9637), [ Phab:D1236](https://phabricator.haskell.org/D1236)).
 
 ### Possible, if the authors push forward fast enough
 
