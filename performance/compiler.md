@@ -24,9 +24,13 @@ One theme that seems to pop up rather often is the production of Core with long 
 - [\#8095](https://gitlab.haskell.org//ghc/ghc/issues/8095): TypeFamilies painfully slow
 
   - Here a recursive type family instance leads to quadratic blow-up of coercions
+
+  This ticket has a discussion about a way to snip off coercions when not using `-dcore-lint`.
+
 - [\#7428](https://gitlab.haskell.org//ghc/ghc/issues/7428): GHC compile times are seriously non-linear in program size
 
   - Here a CPS'd State monad is leading to a quadratic blowup in Core size over successive simplifier iterations
+
 - [\#5642](https://gitlab.haskell.org//ghc/ghc/issues/5642): Deriving Generic of a big type takes a long time and lots of space
 
 
