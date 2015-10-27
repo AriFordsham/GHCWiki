@@ -5,20 +5,6 @@ This is where we track various efforts to characterize and improve the performan
 
 ## Relevant tickets
 
-- [\#2346](https://gitlab.haskell.org//ghc/ghc/issues/2346): desugaring let-bindings
-- [\#10228](https://gitlab.haskell.org//ghc/ghc/issues/10228): increase in compiler memory usage, regression from 7.8.4 to 7.10.1
-- [\#10289](https://gitlab.haskell.org//ghc/ghc/issues/10289): 2.5k static HashSet takes too much memory to compile
-
-  - Significantly improved in memory usage from [\#10370](https://gitlab.haskell.org//ghc/ghc/issues/10370), but worse at overall wall-clock time!
-- [\#7450](https://gitlab.haskell.org//ghc/ghc/issues/7450): Regression in optimisation time of functions with many patterns (6.12 to 7.4)? 
-
-  - [ Phab:D1041](https://phabricator.haskell.org/D1041), [ Phab:D1012](https://phabricator.haskell.org/D1012)
-  - Unnecessary recomputation of free variables ([ Phab:D1012](https://phabricator.haskell.org/D1012))
-  - Thunk leak in `Bitmap` ([ Phab:D1040](https://phabricator.haskell.org/D1040))
-- [\#10800](https://gitlab.haskell.org//ghc/ghc/issues/10800): vector-0.11 compile time increased substantially with 7.10.1
-
-  - Regression in `vector` testsuite perhaps due to change in inlinings
-
 [ https://ghc.haskell.org/trac/ghc/query?status=!closed&failure=Compile-time+performance+bug](https://ghc.haskell.org/trac/ghc/query?status=!closed&failure=Compile-time+performance+bug)
 
 ### Type pile-up
@@ -38,9 +24,13 @@ One theme that seems to pop up rather often is the production of Core with long 
 - [\#8095](https://gitlab.haskell.org//ghc/ghc/issues/8095): TypeFamilies painfully slow
 
   - Here a recursive type family instance leads to quadratic blow-up of coercions
+
+  This ticket has a discussion about a way to snip off coercions when not using `-dcore-lint`.
+
 - [\#7428](https://gitlab.haskell.org//ghc/ghc/issues/7428): GHC compile times are seriously non-linear in program size
 
   - Here a CPS'd State monad is leading to a quadratic blowup in Core size over successive simplifier iterations
+
 - [\#5642](https://gitlab.haskell.org//ghc/ghc/issues/5642): Deriving Generic of a big type takes a long time and lots of space
 
 
@@ -66,6 +56,22 @@ While it's possible to fix (1) and (2), (3) is inherent.
 - [\#9583](https://gitlab.haskell.org//ghc/ghc/issues/9583), [\#9630](https://gitlab.haskell.org//ghc/ghc/issues/9630): code blowup in Generics/Binary
 - [\#9669](https://gitlab.haskell.org//ghc/ghc/issues/9669): Long compile time/high memory usage for modules with many deriving clauses
 - [\#7258](https://gitlab.haskell.org//ghc/ghc/issues/7258): (probably) Compiling DynFlags is jolly slow
+
+### Uncategorised compiler performance issues
+
+- [\#2346](https://gitlab.haskell.org//ghc/ghc/issues/2346): desugaring let-bindings
+- [\#10228](https://gitlab.haskell.org//ghc/ghc/issues/10228): increase in compiler memory usage, regression from 7.8.4 to 7.10.1
+- [\#10289](https://gitlab.haskell.org//ghc/ghc/issues/10289): 2.5k static HashSet takes too much memory to compile
+
+  - Significantly improved in memory usage from [\#10370](https://gitlab.haskell.org//ghc/ghc/issues/10370), but worse at overall wall-clock time!
+- [\#7450](https://gitlab.haskell.org//ghc/ghc/issues/7450): Regression in optimisation time of functions with many patterns (6.12 to 7.4)? 
+
+  - [ Phab:D1041](https://phabricator.haskell.org/D1041), [ Phab:D1012](https://phabricator.haskell.org/D1012)
+  - Unnecessary recomputation of free variables ([ Phab:D1012](https://phabricator.haskell.org/D1012))
+  - Thunk leak in `Bitmap` ([ Phab:D1040](https://phabricator.haskell.org/D1040))
+- [\#10800](https://gitlab.haskell.org//ghc/ghc/issues/10800): vector-0.11 compile time increased substantially with 7.10.1
+
+  - Regression in `vector` testsuite perhaps due to change in inlinings
 
 ## tests/perf/compiler\` results
 
