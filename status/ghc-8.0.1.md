@@ -71,7 +71,7 @@ Below are the major highlights of 8.0.
 - A `DEPRECATED` pragma for exports ([\#4879](https://gitlab.haskell.org//ghc/ghc/issues/4879))
 - Complete support for [OverloadedRecordFields](records/overloaded-record-fields)
 
-### Won't make it
+### Won't make it, but being actively worked on
 
 - A new, type-indexed type representation, `data TTypeRep (a :: k)`. See [TypeableT](typeable-t).
 - A (possible) overhaul of GHC's build system to use **Shake** instead of Make.
