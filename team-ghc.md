@@ -129,12 +129,12 @@ In order to see emails below, **you must login**.
   - **Committer since**: July, 2013.
   - **Main areas of interest**: ...
 
-- [ Erik de Castro Lopo](http://www.mega-nerd.com/erikd/Blog/)
+- [ Erik de Castro Lopo](https://github.com/erikd/)
 
   - Independent - Sydney, Australia
   - **Trac**: erikd; **email**: erikd@…
   - **Committer since**: August, 2012.
-  - **Main areas of interest**: PPC support
+  - **Main areas of interest**: PPC, Arm and Arm64 support, Runtime linker
 
 - [ Edward Yang](http://ezyang.com/)
 
