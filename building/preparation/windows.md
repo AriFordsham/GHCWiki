@@ -29,13 +29,6 @@ The result of attempting to create a 32-bit build on a 64-bit machine has not be
 An easy way to check that you are running the right shell is to check the output of `echo $MSYSTEM`. It should show either `MINGW32` or `MINGW64`. You can also tell by examining the `$PATH`.
 
 
-Consider upgrading all installed packages to the latest versions
-
-```wiki
-pacman -Suy
-```
-
-
 See [ MSYS2 installation instructions](http://sourceforge.net/p/msys2/wiki/MSYS2%20installation/) (section III) for details.
 
 ## Installing packages & tools
@@ -44,8 +37,14 @@ See [ MSYS2 installation instructions](http://sourceforge.net/p/msys2/wiki/MSYS2
 The msys2 package uses `pacman` (the venerable ArchLinux package manager) to manage packages. Let's install system dependencies required for building GHC:
 
 ```wiki
-pacman -Sy git tar binutils autoconf make libtool automake python2 p7zip patch gcc
+pacman --sync --sysupgrade --needed --refresh git tar binutils autoconf make libtool automake python2 p7zip patch gcc
 ```
+
+
+The `--sync` (abbreviated as `-S`) indicates that you wish to install the given packages. `--sysupgrade` (short form `-u`) indicates that you want to upgrade existing packages. `--refresh` (short form `-y`) indicates that the local package indexes should be updated.
+
+
+If this `pacman` process fails (as it sometimes does) you can simply re-run it as it ought to be idempotent.
 
 ## Host GHC setup
 
