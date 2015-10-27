@@ -15,7 +15,15 @@ According to [\#602](https://gitlab.haskell.org//ghc/ghc/issues/602):
 "One way to achieve this is to allow parts of a file to be delimited by pragmas specifying the warnings to be suppressed, and then filter out the warnings during compilation based on the source location attached to the warning."
 
 
-For starting point i think, i would like to suppress warnings thrown by a single function. I think that suppressing warnings for bindings or particular expressions inside functions for example will ruin the readability of code. There is a nice example in [ Java](http://docs.oracle.com/javase/7/docs/api/java/lang/SuppressWarnings.html) of suppressing warnings for particular methods in classes. 
+Very natural thing is to suppress warnings, that can be thrown by some syntactic elements. To sum up, it would be a nice feature to have warning suppression for four things:
+
+- Functions
+- Instances
+- Imports
+- Type classes
+
+
+Having source file delimeted by pragmas is not good idea as for me, because it will ruin code clarity and for me, for example, it would be too hard to read such source file. So i think that having a single pragma, attached to a function, instance import or typeclass will be a tool of power and precise. There is a nice example in [ Java](http://docs.oracle.com/javase/7/docs/api/java/lang/SuppressWarnings.html) of suppressing warnings for particular methods in classes
 
 ## Use cases
 
@@ -35,7 +43,7 @@ I don't know conventions about naming pragmas, so let it be something like this.
 We are suppressing warnings for one particular function 
 
 
-Or we can do this in top-level, i mean in the file header we can write and compiler will suppress warnings, that foo will throw, see [ this](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/pragmas.html) about WARNING and DEPRECATED pragmas
+Alternatively, we can do this in top-level, i mean in the file header we can write and compiler will suppress warnings, that foo will throw, see [ this](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/pragmas.html) about WARNING and DEPRECATED pragmas
 
 ```
 {-# SUPPRESS foo  #-}--some code herefoo::IORefIntfoo= unsafePerformIO (newIORef 10)
