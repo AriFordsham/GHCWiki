@@ -49,14 +49,14 @@ Below are the major highlights of 8.0.
 
 - Support for reasoning about kind equalities, which gives promotion of GADTs to kinds, kind families, heterogeneous equality (kind-indexed GADTs), and `* :: *`. There is some discussion in [DependentHaskell/Phase1](dependent-haskell/phase1), but that's very low-level. I (Richard) have no good user-oriented write-up yet, but there shouldn't be much in the way of new syntax -- just fewer type errors. ([ Phab:D808](https://phabricator.haskell.org/D808))
 
-- Support for [Strict Haskell](strict-pragma) including both the `StrictData` and `Strict` language extensions
+- Support for [Strict Haskell](strict-pragma) including both the `StrictData` and `Strict` language extensions ([ Phab:D1142](https://phabricator.haskell.org/D1142)
 
 - Support for record pattern synonyms ([ Phab:D1152](https://phabricator.haskell.org/D1152))
 - Allow patterns synonyms to be exported in the same way as data constructors ([ Phab:D1258](https://phabricator.haskell.org/D1258))
 
 - Implement the `MonadFail` proposal ([\#10751](https://gitlab.haskell.org//ghc/ghc/issues/10751))
 
-- Support for [OverloadedLabels](records/overloaded-record-fields/overloaded-labels), allowing a form of type-directed name resolution ([ Phab:D1331](https://phabricator.haskell.org/D1331))
+- Support for [OverloadedLabels](records/overloaded-record-fields/overloaded-labels), allowing a form of type-directed name resolution ([ Phab:D1033](https://phabricator.haskell.org/D1033) and [ Phab:D1331](https://phabricator.haskell.org/D1331))
 
 - A huge improvement to pattern matching (including much better coverage of GADTs), based on the work of Simon PJ and Georgios Karachalias. For more details, see [ their paper](http://research.microsoft.com/en-us/um/people/simonpj/papers/pattern-matching/gadtpm.pdf).
 
