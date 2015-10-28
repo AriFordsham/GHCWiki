@@ -1,5 +1,5 @@
 
-This version has been revised based on the feedback gathered from the [proposal discussion](proposal/monad-of-no-return#discussion). The original revision of this proposal can be found [ here](https://mail.haskell.org/pipermail/libraries/2015-September/026121.html). See wiki page [History](proposal/monad-of-no-return?action=history) for changes relative to that first revision.
+This proposal has been revised based on the feedback gathered from the [proposal discussion](proposal/monad-of-no-return#discussion). The original revision of this proposal can be found [ here](https://mail.haskell.org/pipermail/libraries/2015-September/026121.html). See wiki page [History](proposal/monad-of-no-return?action=history) for changes relative to that first revision.
 
 # Monad of no `return` Proposal (MRP) <sup>*2e*</sup>
 
