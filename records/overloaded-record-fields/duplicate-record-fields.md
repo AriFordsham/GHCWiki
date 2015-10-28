@@ -358,3 +358,6 @@ would work even if there was another record type with an `address` field.  That 
 
 
 Perhaps this is not too complex, if we require the type annotation to occur in precisely the right place (around the first argument to the selector). That is, we wouldn't do any inference. And it would mean that duplicated fields could always be used, even as selectors, provided enough type annotations were provided.
+
+
+This is now implemented as [ Phab:D1391](https://phabricator.haskell.org/D1391); the rest of this page needs to be rewritten to incorporate it.
