@@ -244,7 +244,7 @@ instance Monad Foo where
 === Original Simple Variant ===
 
 {{{#!box warn
-This is transition scheme is **not** proposed anymore; see [#ReducedBreakageVariant new strategy below]
+This transition scheme is **not** proposed anymore; see [#ReducedBreakageVariant new strategy below]
 }}}
 
 {{{#!rbox info
