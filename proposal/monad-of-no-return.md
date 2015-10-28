@@ -51,8 +51,8 @@ have `pure` and `return` implemented differently.
 
 More to the point, this redundancy violates the
 "**making illegal states unrepresentable**" idiom: Due to the default 
-implementation of `return` this redundancy leads to
-error prone situations which aren't caught by the compiler; for instance, when
+implementation of `return`**this redundancy leads to
+error-prone situations** which aren't caught by the compiler; for instance, when
 `return` is removed while the `Applicative` instance is left with a
 `pure = return` definition, this leads to a cyclic definition which
 can be quite tedious to debug as it only manifests at runtime by a
@@ -60,28 +60,28 @@ hanging process.
 
 
 Traditionally, `return` is often used where `pure` would suffice
-today, forcing a `Monad` constraint even if a weaker `Applicative`
-would have sufficed. As a result, language extensions like `ApplicativeDo`\[3\] have to
+today, **forcing a `Monad` constraint even if a weaker `Applicative`
+would have sufficed**. As a result, language extensions like `ApplicativeDo`\[3\] have to
 rewrite `return` to weaken its `Monad m =>` constraint to
 `Applicative m =>` in order to benefit existing code at the cost
 of introducing magic behavior at the type level.
 
 
-An additional (somewhat minor) benefit results from having smaller class dictionaries, as well as avoiding the additional indirection through the `Monad` class dictionary (when the class dictionary can't be resolved at compile time).
+An additional (somewhat minor) benefit results from having **smaller class dictionaries**, as well as **avoiding the additional indirection** through the `Monad` class dictionary (when the class dictionary can't be resolved at compile time).
 
 
 For `(>>)`, in addition to arguments applying to `return`, the
 status quo is optimising `(>>)` and forgetting about `(*>)`, resulting
-in unexpected performance regressions when code is generalised from `Monad` to `Applicative`.
-This unfortunate situation also blocks us from being able to remove
-the post-AMP method redundancy in the `Foldable`/`Traversable` classes.
+in **unexpected performance regressions** when code is generalised from `Monad` to `Applicative`.
+This unfortunate situation also **blocks us from being able to remove
+the post-AMP method redundancy in the `Foldable`/`Traversable` classes**.
 
 
 Finally, this redundancy becomes even more significant when viewed in
 light of the renewed Haskell standardisation process\[7\]: The next
 Haskell Report will almost certainly incorporate the AMP (and MFP)
-changes, and there's no justification for the Report to retain
-`return` nor `(>>)` as methods of `Monad`. A good reason would have been to
+changes, and **there is no justification for the next Haskell Report to retain
+`return` nor `(>>)` as methods of `Monad`**. A good reason would have been to
 retain backward compatibility with Haskell 2010. However, as the AMP
 superclass hierarchy requires `Monad` instances to be accompanied by
 `Applicative` instances (which aren't part of Haskell 2010, c.f. \[6\]),
