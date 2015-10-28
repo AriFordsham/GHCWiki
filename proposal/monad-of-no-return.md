@@ -81,7 +81,7 @@ Finally, this redundancy becomes even more significant when viewed in
 light of the renewed Haskell standardisation process\[7\]: The next
 Haskell Report will almost certainly incorporate the AMP (and MFP)
 changes, and there's no justification for the Report to retain
-`return` nor `(*>)` as methods of `Monad`. A good reason would have been to
+`return` nor `(>>)` as methods of `Monad`. A good reason would have been to
 retain backward compatibility with Haskell 2010. However, as the AMP
 superclass hierarchy requires `Monad` instances to be accompanied by
 `Applicative` instances (which aren't part of Haskell 2010, c.f. \[6\]),
