@@ -13,3 +13,6 @@ Some proposals are under this namespace:
 - [Proposal/SelfExplinatoryInlinePragmas](/trac/ghc/wiki/Proposal/SelfExplinatoryInlinePragmas)
 - [Proposal/SemigroupMonoid](/trac/ghc/wiki/Proposal/SemigroupMonoid)
 - [Proposal/SpecializationInfo](/trac/ghc/wiki/Proposal/SpecializationInfo)
+
+
+See also [Design](design)s
