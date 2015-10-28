@@ -12,7 +12,7 @@ Content previously on this page has been moved to the [wiki:Records/OverloadedRe
 
 == Code ==
 
- * Phab:D761 (merged): `DuplicateRecordFields` extension
+ * Phab:D761 (merged) and Phab:D1391 (being reviewed): `DuplicateRecordFields` extension
  * Phab:D1331 (being reviewed): `OverloadedLabels` extension
  * [https://github.com/adamgundry/records-prototype Prototype implementation of the magic typeclasses]
 
