@@ -141,10 +141,10 @@ have to think of more syntax and implement it.
 
 ## Design questions (RAE)
 
-1. What happens with Given `TypeError` constraints? Naively, the `TypeError` constraint on an instance would seem to lead to an "inaccessible code" error. (And this point would be right! It *is* inaccessible code.)
+1. What happens with Given `TypeError` constraints? Naively, the `TypeError` constraint on an instance would seem to lead to an "inaccessible code" error. (And this point would be right! It *is* inaccessible code.)  *Lennart*:  Yes, we know any methods are inaccessible, but I don't think the compiler needs to know specially about `TypeError`.  Instead the method definition will be treated as usual.  This can always be refined later if we want.
 
-1. Relatedly, when definition an instance with a `TypeError` constraint, what should users write in the body? Leaving it empty causes warnings, but anything written in there would never be called.
+1. Relatedly, when definition an instance with a `TypeError` constraint, what should users write in the body? Leaving it empty causes warnings, but anything written in there would never be called.  *Lennart*: See above.
 
-1. Do we support `foo :: TypeError (Text "") -> TypeError (Text ""); foo = id`? I don't have a strong feeling one way or the other, but it would be nice to have this specified.
+1. Do we support `foo :: TypeError (Text "") -> TypeError (Text ""); foo = id`? I don't have a strong feeling one way or the other, but it would be nice to have this specified.  *Lennart*: I would expect this to result in a type error at some point.  If, after typechecking, there are any residual `TypeError` occurrences in types then something has gone wrong.
 
 ---
