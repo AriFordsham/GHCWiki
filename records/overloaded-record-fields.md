@@ -15,7 +15,7 @@ Content previously on this page has been moved to the [SORF](records/overloaded-
 
 ## Code
 
-- [ Phab:D761](https://phabricator.haskell.org/D761) (merged): `DuplicateRecordFields` extension
+- [ Phab:D761](https://phabricator.haskell.org/D761) (merged) and [ Phab:D1391](https://phabricator.haskell.org/D1391) (being reviewed): `DuplicateRecordFields` extension
 - [ Phab:D1331](https://phabricator.haskell.org/D1331) (being reviewed): `OverloadedLabels` extension
 - [ Prototype implementation of the magic typeclasses](https://github.com/adamgundry/records-prototype)
 
