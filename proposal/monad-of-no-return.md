@@ -236,7 +236,7 @@ instanceFunctorFoowhere
 ### Original Simple Variant
 
 
-This is transition scheme is **not** proposed anymore; see [new strategy below](proposal/monad-of-no-return#reduced-breakage-variant)
+This transition scheme is **not** proposed anymore; see [new strategy below](proposal/monad-of-no-return#reduced-breakage-variant)
 
 
 In this transition scheme, the time when **Phase 2** starts is determined by the amount of packages already converted at that time. "GHC 8.2" is only the earliest *theoretical* time to begin **Phase 2**, but a more realistic time would be "GHC 8.6" or even later.
