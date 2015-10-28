@@ -133,7 +133,13 @@ have to think of more syntax and implement it.
 
 == Design questions (RAE) ==
 
-1. What happens with Given `TypeError` constraints? Naively, the `TypeError` constraint on an instance would seem to lead to an "inaccessible code" error. (And this point would be right! It ''is'' inaccessible code.)  ''Lennart'':  Yes, we know any methods are inaccessible, but I don't think the compiler needs to know specially about `TypeError`.  Instead the method definition will be treated as usual.  This can always be refined later if we want.
+1. What happens with Given `TypeError` constraints? Naively, the `TypeError` constraint on an instance would seem to lead to an "inaccessible code" error. (And this point would be right! It ''is'' inaccessible code.)  ''Lennart'':  Yes, we know any methods are inaccessible, but I don't think the compiler needs to know specially about `TypeError`.  Instead the method definition will be treated as usual.  This can always be refined later if we want. ''RAE:'' But I think people will want this:
+
+{{{#!hs
+instance TypeError "You can't compare functions for equality" => Eq (a -> b)
+}}}
+
+    If that's inaccessible code and an error, they can't do this.
 
 2. Relatedly, when definition an instance with a `TypeError` constraint, what should users write in the body? Leaving it empty causes warnings, but anything written in there would never be called.  ''Lennart'': See above.
 
