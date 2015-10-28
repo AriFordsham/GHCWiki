@@ -141,6 +141,13 @@ instance TypeError "You can't compare functions for equality" => Eq (a -> b)
 
     If that's inaccessible code and an error, they can't do this.
 
+I don't think it will be so bad to write
+{{{#!hs
+instance TypeError "You can't compare functions for equality" => Eq (a -> b) where (==) = undefined
+}}}
+
+    I see no reason to complicate the compiler for this.
+
 2. Relatedly, when definition an instance with a `TypeError` constraint, what should users write in the body? Leaving it empty causes warnings, but anything written in there would never be called.  ''Lennart'': See above.
 
 3. Do we support `foo :: TypeError (Text "") -> TypeError (Text ""); foo = id`? I don't have a strong feeling one way or the other, but it would be nice to have this specified.  ''Lennart'': I would expect this to result in a type error at some point.  If, after typechecking, there are any residual `TypeError` occurrences in types then something has gone wrong.
