@@ -143,6 +143,7 @@ See also [TemplateHaskell](template-haskell)
 
 ### Arity
 
+- [\#11029](https://gitlab.haskell.org//ghc/ghc/issues/11029): eta expansion causes slow-down
 - [\#7411](https://gitlab.haskell.org//ghc/ghc/issues/7411): state hack changes exception semantics
 - [\#9388](https://gitlab.haskell.org//ghc/ghc/issues/9388): narrow the state hack
 - [\#10260](https://gitlab.haskell.org//ghc/ghc/issues/10260), [\#9020](https://gitlab.haskell.org//ghc/ghc/issues/9020), [\#10319](https://gitlab.haskell.org//ghc/ghc/issues/10319): not enough eta expansion
