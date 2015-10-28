@@ -143,22 +143,23 @@ have to think of more syntax and implement it.
 
 1. What happens with Given `TypeError` constraints? Naively, the `TypeError` constraint on an instance would seem to lead to an "inaccessible code" error. (And this point would be right! It *is* inaccessible code.)  *Lennart*:  Yes, we know any methods are inaccessible, but I don't think the compiler needs to know specially about `TypeError`.  Instead the method definition will be treated as usual.  This can always be refined later if we want. *RAE:* But I think people will want this:
 
-```
-instanceTypeError"You can't compare functions for equality"=>Eq(a -> b)
-```
+  ```
+  instanceTypeError"You can't compare functions for equality"=>Eq(a -> b)
+  ```
 
 >
 > If that's inaccessible code and an error, they can't do this.
 
-
-I don't think it will be so bad to write
-
-```
-instanceTypeError"You can't compare functions for equality"=>Eq(a -> b)where(==)= undefined
-```
+> *Lennart:* I don't think it will be so bad to write
+>
+> ```
+> instanceTypeError"You can't compare functions for equality"=>Eq(a -> b)where(==)= undefined
+> ```
 
 >
 > I see no reason to complicate the compiler for this.
+
+> *RAE:* But that code will issue an "inaccessible code" error. I'm OK (but I don't love it) if the user has to write out bogus method definitions -- that's not what I'm worried about.
 
 1. Relatedly, when definition an instance with a `TypeError` constraint, what should users write in the body? Leaving it empty causes warnings, but anything written in there would never be called.  *Lennart*: See above.
 
@@ -178,11 +179,13 @@ The idea is that whenever a type function is about to reduce to `TypeError`, we 
 
 With this in mind the answers to your questions would be:
 
-1. `TypeError` should not appear directly in a given context. 
+1. `TypeError` should not appear directly in a given context. *RAE:* But this is exactly what happens when typechecking method definitions in an instance with a `TypeError` context. Or is there special reasoning in the compiler not to typecheck these methods?
 1. As mentioned above, the methods of an instance with `TypeError` in the context are irrelevant.  I think it is OK to simply leave them unspecified, or define them as `undefined`.
 1. `TypeError` should not appear in types written by the user, except for the two special cases above.  So no `TypeError` in user-defined type signatures, type declarations, class instance heads, parameters to type functions, etc.
 
 
 The current implementation does not have any explicit checks to make sure that programmers don't write `TypeError` in places where they are not supposed to. It might be nice to implement such a check, but I am not sure it is really necessary.   With the current implementation, if you wrote `TypeError` in a place that you were not supposed to, you would get the same behavior as for any other type function with no instances.
+
+*RAE:* I don't really follow. If `TypeError` can be used in the RHS of a type family equation, then it can appear anywhere any type can. Having a syntactic restriction around the literal use of `TypeError` in code seems unhelpful.
 
 ---
