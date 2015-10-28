@@ -4,6 +4,8 @@ Here is the list of language extensions added (and sometimes removed) by the Gla
 
 See also [[wiki:Commentary/Libraries/VersionHistory|GHC Boot Library Version History]], which tabulates the GHC versions against the versions of the `base` library and other boot libraries.
 
+See also http://damianfral.github.io/ghcaniuse/.
+
 == Changes in GHC 7.12 (WIP)
 
 Added LANGUAGE extensions:
