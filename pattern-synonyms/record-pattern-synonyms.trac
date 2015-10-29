@@ -81,9 +81,9 @@ Unidirectional pattern synonyms can only be used in pattern contexts and as reco
 
 
 
+---------------------
 
-
-=== Design ===
+= Further Design (Old) =
 
 The proposed syntax is as follows
 
