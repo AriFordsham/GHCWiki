@@ -33,7 +33,7 @@ data T ... = ... |  P { f1 :: t1, f2 :: t2, ..., fn :: tn }
 Say we define a record pattern synonym `P` with fields `f1,..,fn` as follows.
 
 ```wiki
-pattern :: t1 -> ... -> tn -> T a1 ... am
+pattern P :: t1 -> ... -> tn -> T a1 ... am
 pattern P{f1,...,fn} = pat
 ```
 
@@ -49,12 +49,23 @@ We can then use `P` in seven different situations. Precisely those locations whe
 We can use `P` to construct a value of type `T a1 ... am` by using `P` in an application `P v1 ... vn` where `v1 .. vn` have types `t1 ... tn`. In order to construct this type, we substitute `v1` for `f1` in `pat`. 
 
 
-Further, we can also use record syntax to construct the same value. `P { fi = vi, ..., fj = vj }` where for all `i, j``fi` is distinct from `fj` and all field labels `fk` are labels of `P`. We then perform the obvious substitution \`pat\[fi/vi\]...\[fj/vj\] in order to construct the value.
+Further, we can also use record syntax to construct the same value. `P { fi = vi, ..., fj = vj }` where for all `i, j``fi` is distinct from `fj` and all field labels `fk` are labels of `P`. We then perform the obvious substitution `pat[fi/vi]...[fj/vj]` in order to construct the value.
 
 ### Record Updates
 
 
-We extend record updates such that if we have the record update `e1 { fi = vi, ..., fj = vj }` then if `fi,...,fj` are all field labels from the same pattern synonym `P` then 
+We extend record updates such that if we have the record update `e1 { fi = vi, ..., fj = vj }` then if `fi,...,fj` are all field labels from the same pattern synonym `P` then we behave as follows.
+
+
+First define `pick`:
+
+>
+> If the ith component of a pattern synonym P has the field label f, and if f = v appears in the binding list bs, then pick_i P bs d is v. Otherwise, pick_i P bs d is the default value d.
+
+```wiki
+e1 {bs} = case e1 of
+                 (P f1 ... fn) -> P (pick_1 P bs f1) ... (pick_n P bs fn)
+```
 
 ## Pattern Contexts
 
@@ -82,7 +93,9 @@ f1 pat = f1
 
 Unidirectional pattern synonyms can only be used in pattern contexts and as record selectors. 
 
-### Design
+---
+
+# Further Design (Old)
 
 
 The proposed syntax is as follows
