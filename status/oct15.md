@@ -25,11 +25,9 @@ GHC development spurs on, with an exciting new announcement - the next release w
 
 ### Incoming work, likely in time for 8.0
 
-- A new, type-indexed type representation, `data TTypeRep (a :: k)`. See [TypeableT](typeable-t).
+- Visible type application ([ Phab:D1138](https://phabricator.haskell.org/D1138)). This allows you to say, for example `id @Bool` to specialize `id` to `Bool -> Bool`. With this feature, proxies are never needed.
 
-- Visible type application ([ Phab:D1138](https://phabricator.haskell.org/D1138))
-
-- Support for reasoning about kind equalities, which gives promotion of GADTs to kinds, kind families, heterogeneous equality (kind-indexed GADTs), and `* :: *`. There is some discussion in [DependentHaskell/Phase1](dependent-haskell/phase1), but that's very low-level. I (Richard) have no good user-oriented write-up yet, but there shouldn't be much in the way of new syntax -- just fewer type errors. ([ Phab:D808](https://phabricator.haskell.org/D808))
+- Support for reasoning about kind equalities, which gives promotion of GADTs to kinds, kind families, heterogeneous equality (kind-indexed GADTs), and `* :: *`. There is a review of the user-facing changes in [DependentHaskell/Phase1](dependent-haskell/phase1). ([ Phab:D808](https://phabricator.haskell.org/D808))
 
 - Support for [Strict Haskell](strict-pragma) including both the `StrictData` and `Strict` language extensions
 
@@ -49,6 +47,7 @@ GHC development spurs on, with an exciting new announcement - the next release w
 
 ## After 8.0
 
+- A new, type-indexed type representation, `data TTypeRep (a :: k)`. See [TypeableT](typeable-t).
 - Support for **Type Signature Sections**, allowing you to write `(:: ty)` as a shorthand for `(\x -> x :: ty)`.
 - A (possible) overhaul of GHC's build system to use **Shake** instead of Make.
 - A `DEPRECATED` pragma for exports ([\#4879](https://gitlab.haskell.org//ghc/ghc/issues/4879))
