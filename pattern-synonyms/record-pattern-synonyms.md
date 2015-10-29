@@ -33,7 +33,7 @@ data T ... = ... |  P { f1 :: t1, f2 :: t2, ..., fn :: tn }
 Say we define a record pattern synonym `P` with fields `f1,..,fn` as follows.
 
 ```wiki
-pattern :: t1 -> ... -> tn -> T a1 ... am
+pattern P :: t1 -> ... -> tn -> T a1 ... am
 pattern P{f1,...,fn} = pat
 ```
 
@@ -54,7 +54,18 @@ Further, we can also use record syntax to construct the same value. `P { fi = vi
 ### Record Updates
 
 
-We extend record updates such that if we have the record update `e1 { fi = vi, ..., fj = vj }` then if `fi,...,fj` are all field labels from the same pattern synonym `P` then 
+We extend record updates such that if we have the record update `e1 { fi = vi, ..., fj = vj }` then if `fi,...,fj` are all field labels from the same pattern synonym `P` then we behave as follows.
+
+
+First define `pick`:
+
+>
+> If the ith component of a pattern synonym P has the field label f, and if f = v appears in the binding list bs, then pick_i P bs d is v. Otherwise, pick_i P bs d is the default value d.
+
+```wiki
+e1 {bs} = case e1 of
+                 (P f1 ... fn) -> P (pick_1 P bs f1) ... (pick_2 P bs fn)
+```
 
 ## Pattern Contexts
 
