@@ -64,7 +64,7 @@ First define `pick`:
 
 ```wiki
 e1 {bs} = case e1 of
-                 (P f1 ... fn) -> P (pick_1 P bs f1) ... (pick_2 P bs fn)
+                 (P f1 ... fn) -> P (pick_1 P bs f1) ... (pick_n P bs fn)
 ```
 
 ## Pattern Contexts
