@@ -161,6 +161,8 @@ have to think of more syntax and implement it.
 
 > *RAE:* But that code will issue an "inaccessible code" error. I'm OK (but I don't love it) if the user has to write out bogus method definitions -- that's not what I'm worried about.
 
+> *Lennart:* I don't understand how you can get an inaccessible code error, unless you perform a link-time check if all instances have actually been used.  Since instances are always exported there is no module level check you can make to see if an instance is used.
+
 1. Relatedly, when definition an instance with a `TypeError` constraint, what should users write in the body? Leaving it empty causes warnings, but anything written in there would never be called.  *Lennart*: See above.
 
 1. Do we support `foo :: TypeError (Text "") -> TypeError (Text ""); foo = id`? I don't have a strong feeling one way or the other, but it would be nice to have this specified.  *Lennart*: I would expect this to result in a type error at some point.  If, after typechecking, there are any residual `TypeError` occurrences in types then something has gone wrong.
