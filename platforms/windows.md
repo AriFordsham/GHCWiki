@@ -11,7 +11,7 @@ We no longer support Windows 95, 98, ME or NT. We do support 2000, XP and Vista.
 ## Building 32-bit Windows programs
 
 
-Current releases of GHC provide a 32bit Windows version for building 32bit programs on Windows. It ships with a small [ MinGW](http://mingw.org/) system bundled, which provides tools (such as a C compiler, linker and assembler) that are used by the compiler.
+Current releases of GHC provide a 32bit Windows version for building 32bit programs on Windows. It ships with a small [ MinGW-w64](http://mingw-w64.sourceforge.net/) system bundled, which provides tools (such as a C compiler, linker and assembler) that are used by the compiler.
 
 ## Building 64-bit Windows programs
 
