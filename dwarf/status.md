@@ -65,9 +65,9 @@ Unfortunately up until this point we have no ability to unwind out of
 Haskell code back to the C stack. These commits introduce the ability to
 unwind all the way back to `_start`,
 
-- \[READY\]  [ Phab:D1224](https://phabricator.haskell.org/D1224): Dwarf: Preserve stack pointer register
-- \[READY\]  [ Phab:D1225](https://phabricator.haskell.org/D1225): cmm: Expose machine's stack pointer and return address registers
-- \[READY\]  [ Phab:D1223](https://phabricator.haskell.org/D1223): StgStartup: Add DWARF unwinding annotations for stg_stop_thread
+- \[MERGED\]  [ Phab:D1224](https://phabricator.haskell.org/D1224): Dwarf: Preserve stack pointer register
+- \[MERGED\]  [ Phab:D1225](https://phabricator.haskell.org/D1225): cmm: Expose machine's stack pointer and return address registers
+- \[MERGED\]  [ Phab:D1223](https://phabricator.haskell.org/D1223): StgStartup: Add DWARF unwinding annotations for stg_stop_thread
 
 
 This should be enough to get reasonable backtraces for error-handling
@@ -125,7 +125,7 @@ recording the Core fragments without introducing enormous amounts of
 redundancy.
 
 - \[EXPLOR\] [ Phab:D1213](https://phabricator.haskell.org/D1213): Core notes
-- \[IDEA\]   Record tree of Core fragments into DWARF DIEs
+- \[IDEA\]   Record tree of Core fragments into DWARF DIEs (Core Notes)
 
 ### Documentation
 
