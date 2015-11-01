@@ -40,6 +40,7 @@ used by `perf`.
 
  * [MERGED]   Phab:D1196: Libdw: Add libdw-based stack unwinding
  * [MERGED]   Phab:D1197: Signals: Print backtrace on SIGUSR2
+ * [RFC]      Phab:D1418: Produce a stacktrace when the RTS barfs
 
 With the RTS groundwork in place we can plumb things in for use by user
 programs,
