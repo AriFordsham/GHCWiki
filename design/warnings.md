@@ -110,7 +110,7 @@ By reusing the GCC CLI convention for warning-flags we can make GHC's CLI a bit 
 - Introduce variant of `-Werror` (c.f. GCC's `-Werror=*`) which allows to specify the individual warnings to be promoted to errors, e.g.
 
   - `-Wall -Werror=orphans` would only promote `-Worphans` warnings into errors
-  - `-Wall -Wno-error=missing-methods` would promote all warnings *except*`-Wmissing-methods` into errors
+  - `-Wall -Werror -Wno-error=missing-methods` would promote all warnings *except*`-Wmissing-methods` into errors
 
 - Introduce some warning sets, e.g.
 
