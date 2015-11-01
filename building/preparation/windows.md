@@ -37,7 +37,9 @@ See [ MSYS2 installation instructions](http://sourceforge.net/p/msys2/wiki/MSYS2
 The msys2 package uses `pacman` (the venerable ArchLinux package manager) to manage packages. Let's install system dependencies required for building GHC:
 
 ```wiki
-pacman --sync --sysupgrade --needed --refresh git tar binutils autoconf make libtool automake python2 p7zip patch gcc mingw-w64-$(uname -m)-python3-sphinx
+pacman --sync --sysupgrade --needed --refresh git tar \
+    binutils autoconf make libtool automake python2 \
+    p7zip patch gcc mingw-w64-$(uname -m)-python3-sphinx
 ```
 
 
