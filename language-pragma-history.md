@@ -9,11 +9,14 @@ See also [GHC Boot Library Version History](commentary/libraries/version-history
 
 See also [ http://damianfral.github.io/ghcaniuse/](http://damianfral.github.io/ghcaniuse/).
 
-## Changes in GHC 7.12 (WIP)
+## Changes in GHC 8.0 (WIP)
 
 
 Added LANGUAGE extensions:
 
+- `[No]ApplicativeDo`
+- `[No]DuplicateRecordFields`
+- `[No]StaticPointers`
 - `[No]StrictData`
 
 ## Changes in GHC 7.10
@@ -106,3 +109,7 @@ Added LANGUAGE extensions:
 - `[No]DatatypeContexts`
 - `[No]DoAndIfThenElse`
 - `[No]RebindableSyntax`
+
+## Language pragmas existing prior to GHC 7.0
+
+TODO
