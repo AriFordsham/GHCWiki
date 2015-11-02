@@ -33,7 +33,23 @@ y p = personId p
 ```
 
 
-There is not yet any facility for using types to disambiguate which selector function is meant.
+We can use the type being pushed in to the occurrence of the selector, or a type signature on its argument, to determine the datatype that is meant. For example, the following are permitted:
+
+```wiki
+f = personId :: Person -> Int
+
+g :: Address -> Int
+g = personId
+
+z = personId (p :: Person)
+```
+
+
+However, we do not infer the type of the argument to determine the datatype, or have any way of deferring the choice to the constraint solver. Thus the following is ambiguous:
+
+```wiki
+bad (p :: Person) = personId p
+```
 
 
 Even though a field label is duplicated in its defining module, it may be possible to use the selector unambiguously elsewhere. For example, another module could import `Person(personId)` but not `Address(personId)`, and then use `personId` unambiguously. Thus it is not enough simply to avoid generating selector functions for duplicated fields.
@@ -48,9 +64,6 @@ a = MkPerson { personId = 1, name = "Julius" }
 
 f (MkPerson{personId = i}) = i
 ```
-
-
-In particular, this makes it possible to extract a field from a record even if the selector function is ambiguous.
 
 
 Turning on `DuplicateRecordFields` automatically enables `DisambiguateRecordFields`, because the former strictly generalises the latter.
@@ -344,20 +357,3 @@ TODO should we modify the TH AST to be able to represent fields correctly?
 - Haddock compiles, but probably needs updates to document modules with [DuplicateRecordFields](records/overloaded-record-fields/duplicate-record-fields) correctly.
 
 - The user manual documentation needs to be adapted to the new format.
-
-### Disambiguating selectors
-
-TODO We disambiguate updates by signature, but could we do that for record selectors too
-
-```wiki
-address (p :: Person)
-```
-
-
-would work even if there was another record type with an `address` field.  That would be more consistent.
-
-
-Perhaps this is not too complex, if we require the type annotation to occur in precisely the right place (around the first argument to the selector). That is, we wouldn't do any inference. And it would mean that duplicated fields could always be used, even as selectors, provided enough type annotations were provided.
-
-
-This is now implemented as [ Phab:D1391](https://phabricator.haskell.org/D1391); the rest of this page needs to be rewritten to incorporate it.
