@@ -41,7 +41,7 @@ Criteria for Tier 1 platforms:
 <th> Yes                   </th>
 <th> Yes          </th>
 <th> Yes(\*W)            </th>
-<th></th>
+<th> GHC HQ </th>
 <th>[WindowsGhc](windows-ghc)</th></tr>
 <tr><th> x86          </th>
 <th> Linux           </th>
@@ -51,7 +51,7 @@ Criteria for Tier 1 platforms:
 <th> Yes                   </th>
 <th> Yes          </th>
 <th> Yes               </th>
-<th></th>
+<th> GHC HQ </th>
 <th></th></tr>
 <tr><th> x86-64       </th>
 <th> Linux           </th>
@@ -61,7 +61,7 @@ Criteria for Tier 1 platforms:
 <th> Yes                   </th>
 <th> Yes          </th>
 <th> Yes               </th>
-<th></th>
+<th> GHC HQ </th>
 <th></th></tr>
 <tr><th> x86          </th>
 <th> MacOS X         </th>
@@ -71,7 +71,7 @@ Criteria for Tier 1 platforms:
 <th> Yes                   </th>
 <th> Yes          </th>
 <th> No                </th>
-<th></th>
+<th> needed </th>
 <th>[Attic/X86OSXGhc](attic/x86-osx-ghc)</th></tr>
 <tr><th> x86-64       </th>
 <th> MacOS X         </th>
@@ -82,7 +82,8 @@ Criteria for Tier 1 platforms:
 <th> Yes          </th>
 <th> Yes               </th>
 <th></th>
-<th></th></tr>
+<th> needed 
+</th></tr>
 <tr><th> x86          </th>
 <th> FreeBSD         </th>
 <th> i386-portbld-freebsd    </th>

@@ -19,11 +19,11 @@ Criteria for Tier 1 platforms:
 
 
 || '''Architecture''' || '''OS''' || '''Build name''' || '''Reg'd''' || '''GHCi''' || '''NCG''' || '''f.i.''' || '''Dyn libs''' || '''Sponsor''' || '''!WikiPage''' ||
-|| x86          || Windows (MinGW) || i386-unknown-mingw32    || Yes          || Yes  || Yes                   || Yes          || Yes(*W)            || || [wiki:WindowsGhc] ||
-|| x86          || Linux           || i386-unknown-{linux,gnu} || Yes          || Yes  || Yes                   || Yes          || Yes               || || ||
-|| x86-64       || Linux           || x86_64-unknown-linux    || Yes          || Yes  || Yes                   || Yes          || Yes               || || ||
-|| x86          || MacOS X         || i386-apple-darwin       || Yes          || Yes  || Yes                   || Yes          || No                || || [wiki:Attic/X86OSXGhc] ||
-|| x86-64       || MacOS X         || x86_64-apple-darwin     || Yes          || Yes  || Yes    || Yes          || Yes               || || ||
+|| x86          || Windows (MinGW) || i386-unknown-mingw32    || Yes          || Yes  || Yes                   || Yes          || Yes(*W)            || GHC HQ || [wiki:WindowsGhc] ||
+|| x86          || Linux           || i386-unknown-{linux,gnu} || Yes          || Yes  || Yes                   || Yes          || Yes               || GHC HQ || ||
+|| x86-64       || Linux           || x86_64-unknown-linux    || Yes          || Yes  || Yes                   || Yes          || Yes               || GHC HQ || ||
+|| x86          || MacOS X         || i386-apple-darwin       || Yes          || Yes  || Yes                   || Yes          || No                || needed || [wiki:Attic/X86OSXGhc] ||
+|| x86-64       || MacOS X         || x86_64-apple-darwin     || Yes          || Yes  || Yes    || Yes          || Yes               || || needed ||
 || x86          || FreeBSD         || i386-portbld-freebsd    || Yes          || Yes  || Yes    || Yes          || Yes                || Gabor Pali || [wiki:FreeBSDGhc] ||
 || x86-64       || FreeBSD         || amd64-portbld-freebsd   || Yes          || Yes  || Yes    || Yes          || Yes                || Gabor Pali || [wiki:FreeBSDGhc] ||
 
