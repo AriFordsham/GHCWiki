@@ -287,7 +287,7 @@ module C where
   foo r = r { x = 3 }
 }}}
 
-Now, do we expect to report the `import B( S(x) )` as unused? Only the typechecker will eventually know that. To record this, a new field `tcg_used_selectors :: TcRef (FieldOcc Name)` in the `TcGblEnv` records the field occurrences that are disambiguated during typechecking. This set is used to calculate the import usage and unused top-level bindings. Thus a field will be counted as used if it is needed by the typechecker, regardless of whether any definitions it appears in are themselves used.
+Now, do we expect to report the `import B( S(x) )` as unused? Only the typechecker will eventually know that. Thus field occurrences that are disambiguated during typechecking must be added to `tcg_used_gres`. This set is used to calculate the import usage.
 
 
 === Template Haskell ===
@@ -307,8 +307,6 @@ TODO: should we modify the TH AST to be able to represent fields correctly?
 == Outstanding issues ==
 
  * Deprecations and fixity declarations look for a top-level `OccName`, so they cannot be applied to duplicate record fields. Perhaps this should change: we could make `{-# DEPRECATED foo "Don't use foo" #-}` apply to all the `foo` fields in a module.
-
- * At the moment, unused imports reporting works by collecting a set of `RdrName` (as at present) and a set of `FieldOcc Name` (because we need both the `RdrName` that the user wrote, and the selector to which it was resolved). These are extracted from GREs, then later on we reconstruct the GREs. In principle, we could instead collect a set of GREs directly.
 
  * Haddock compiles, but probably needs updates to document modules with DuplicateRecordFields correctly.
 
