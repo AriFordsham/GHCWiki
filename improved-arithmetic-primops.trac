@@ -9,7 +9,7 @@ To make arithmetic safer: http://article.gmane.org/gmane.comp.lang.haskell.ghc.d
   defined as a helper, which should be replaced by a proper primop.
 
 == TODO ==
-* Add `subWordC#` as a primop.
+* Add `subWordC#` as a primop.  DONE: https://github.com/ghc/ghc/commit/8160f42b8dad33e47b4c73ed3f9bf889462e7bfe
 * Add overflow-aware `absInt#` (for the `abs minBound` case).
 * Add overflow-aware shifts for `Int#` and `Word#`.
 * Maybe look at the bottom of `libraries/integer-gmp/src/GHC/Integer/Type.hs` for inspiration.
