@@ -1,47 +1,46 @@
 # GHC Status Report, October 2015
 
 
-GHC development spurs on, with an exciting new announcement - the next release will be a super-major one, culminating in **GHC 8.0**... Lorem ipsum dolor sit amet, ...
+GHC development spurs on, with an exciting new announcement - the next release will be a super-major one, culminating in **GHC 8.0**. There are many reasons for this change, but one of the most exciting is that GHC is getting a **completely new core language**. While this adds a bit of complexity to the compiler, it paves the way to implement **Dependent Haskell** over the course of the next few years.
+
+
+On top of that, we've also done a ton of other work over the past half year, including...
 
 ## Major changes in GHC 8.0.1
 
-### Already in HEAD
+- **Support for simple, implicit callstacks with source locations** \[ImplicitCallstacks\] implicit parameters providing callstacks/source locations\], allowing you to have a light-weight means of getting a call-stack in a Haskell application. ([ Phab:D861](https://phabricator.haskell.org/D861))
 
-- Support for [implicit parameters providing callstacks/source locations](explicit-call-stack/implicit-locations), allowing you to have a light-weight means of getting a call-stack in a Haskell application. ([ Phab:D861](https://phabricator.haskell.org/D861))
-
-- Improved optimization diagnostics. The compiler is now more liberal about issues warnings of potentially non-firing rewrite rules
+- **Improved optimization diagnostics**. The compiler is now more liberal about issues warnings of potentially non-firing rewrite rules and other potential gotchas.
 
 - Support for wildcards in data and type family instances ([ Phab:D1092](https://phabricator.haskell.org/D1092))
 
-- Support for [Injective Type Families](injective-type-families), which allows you to specify type families which are injective, i.e. a one-to-one relationship. ([ Phab:D202](https://phabricator.haskell.org/D202))
+- **Injective type families** \[[InjectiveTypeFamilies](injective-type-families)\]. Injective TFs allow you to specify type families which are injective, i.e. have a one-to-one relationship. ([ Phab:D202](https://phabricator.haskell.org/D202)).
 
-- Support for [Applicative Do](applicative-do), allowing GHC to desugar do-notation to `Applicative` where possible. ([ Phab:D729](https://phabricator.haskell.org/D729))
+- **Applicative do notation** \[[ApplicativeDo](applicative-do)\]. With the new `-XApplicativeDo`, GHC tries to desugar do-notation to `Applicative` where possible, giving a more convenient sugar for many common Applicative expressions. ([ Phab:D729](https://phabricator.haskell.org/D729))
 
-- Support for deriving the `Lift` typeclass ([ Phab:D1168](https://phabricator.haskell.org/D1168))
+- **Support for deriving the `Lift` typeclass** - a very common need when working with Template Haskell. ([ Phab:D1168](https://phabricator.haskell.org/D1168))
 
-- Support for PowerPC 64-bit native code generation on Linux in big endian and little endian mode. ([ Phab:D629](https://phabricator.haskell.org/D629))
+- **A PowerPC 64bit code generator**. The new native codegen supports Linux/ppc64 in both big endian and little endian mode. ([ Phab:D629](https://phabricator.haskell.org/D629)).
 
-- A beautiful new users guide, written in reStructured Text, and significantly improved output.
+- **A beautiful new users guide**. Now rewritten in reStructured Text, and with significantly improved output and documentation.
 
-### Incoming work, likely in time for 8.0
+- **Visible type application** - \[[ExplicitTypeApplication](explicit-type-application)\]. This allows you to say, for example `id @Bool` to specialize `id` to `Bool -> Bool`. With this feature, proxies are never needed.
 
-- Visible type application ([ Phab:D1138](https://phabricator.haskell.org/D1138)). This allows you to say, for example `id @Bool` to specialize `id` to `Bool -> Bool`. With this feature, proxies are never needed.
+- **Kind Equalities**, which form the first step to building Dependent Haskell. This feature enables promotion of GADTs to kinds, kind families, heterogeneous equality (kind-indexed GADTs), and `* :: *`. ([ Phab:D808](https://phabricator.haskell.org/D808))
 
-- Support for reasoning about kind equalities, which gives promotion of GADTs to kinds, kind families, heterogeneous equality (kind-indexed GADTs), and `* :: *`. There is a review of the user-facing changes in [DependentHaskell/Phase1](dependent-haskell/phase1). ([ Phab:D808](https://phabricator.haskell.org/D808))
-
-- Support for [Strict Haskell](strict-pragma) including both the `StrictData` and `Strict` language extensions
+- **Strict Haskell support**. This includes new `-XStrictData` and `-XStrict` language extensions.
 
 - Support for record pattern synonyms ([ Phab:D1152](https://phabricator.haskell.org/D1152))
 
-- Implement the `MonadFail` proposal ([\#10751](https://gitlab.haskell.org//ghc/ghc/issues/10751))
+- **Implement phase 1 of the `MonadFail` proposal**. ([\#10751](https://gitlab.haskell.org//ghc/ghc/issues/10751))
 
-- Support for [Overloaded Record Fields](overloaded-record-fields), allowing multiple uses of the same field name and a form of type-directed name resolution.
+- **Overloaded record fields** \[[OverloadedRecordFields](overloaded-record-fields)\]. At long last, ORF will finally be available in GHC 8.0, allowing multiple uses of the same field name and a form of type-directed name resolution.
 
 - A huge improvement to pattern matching (including much better coverage of GADTs), based on the work of Simon PJ and Georgios Karachalias. For more details, see [ their paper](http://research.microsoft.com/en-us/um/people/simonpj/papers/pattern-matching/gadtpm.pdf).
 
-- Backpack is chugging along; we have a new user-facing syntax which allows multiple modules to be defined a single file, and are hoping to release at least the ability to publish multiple "units" in a single Cabal file.
+- **More Backpack improvements**. There's a new user-facing syntax which allows multiple modules to be defined a single file, and we're hoping to release at least the ability to publish multiple "units" in a single Cabal file.
 
-- Improved [DWARF based debugging support](dwarf) from Peter Wortmann, Arash Rouhani, and Ben Gamari with backtraces from Haskell code.
+- **Support for DWARF based stacktraces** \[DWARF\]. from Peter Wortmann, Arash Rouhani, and Ben Gamari with backtraces from Haskell code.
 
 - An [Improved LLVM Backend](improved-llvm-backend) that ships with every major Tier 1 platform.
 
@@ -53,6 +52,12 @@ GHC development spurs on, with an exciting new announcement - the next release w
 - A `DEPRECATED` pragma for exports ([\#4879](https://gitlab.haskell.org//ghc/ghc/issues/4879))
 
 # References
+
+- \[[ExplicitTypeApplication](explicit-type-application)\] [ https://ghc.haskell.org/trac/ghc/wiki/ExplicitTypeApplication](https://ghc.haskell.org/trac/ghc/wiki/ExplicitTypeApplication)
+- \[ImplicitCallstacks\] [ https://ghc.haskell.org/trac/ghc/wiki/ExplicitCallStack/ImplicitLocations](https://ghc.haskell.org/trac/ghc/wiki/ExplicitCallStack/ImplicitLocations)
+- \[[InjectiveTypeFamilies](injective-type-families)\] [ https://ghc.haskell.org/trac/ghc/wiki/InjectiveTypeFamilies](https://ghc.haskell.org/trac/ghc/wiki/InjectiveTypeFamilies)
+- \[KindEqualities\] [ https://ghc.haskell.org/trac/ghc/wiki/DependentHaskell/Phase1](https://ghc.haskell.org/trac/ghc/wiki/DependentHaskell/Phase1)
+- \[[OverloadedRecordFields](overloaded-record-fields)\] [ https://ghc.haskell.org/trac/ghc/wiki/OverloadedRecordFields](https://ghc.haskell.org/trac/ghc/wiki/OverloadedRecordFields)
 
 - \[[ApiAnnotations](api-annotations)\] [ https://ghc.haskell.org/trac/ghc/wiki/ApiAnnotations](https://ghc.haskell.org/trac/ghc/wiki/ApiAnnotations)
 - \[[ApplicativeDo](applicative-do)\] [ https://ghc.haskell.org/trac/ghc/wiki/ApplicativeDo](https://ghc.haskell.org/trac/ghc/wiki/ApplicativeDo)
