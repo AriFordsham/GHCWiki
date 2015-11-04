@@ -6,7 +6,7 @@ GHC development spurs on, with an exciting new announcement - the next release w
 
 On top of that, we've also done a ton of other work over the past half year, including...
 
-## Major changes in GHC 8.0.1
+# Major changes in GHC 8.0.1
 
 - **Support for simple, implicit callstacks with source locations** \[ImplicitCallstacks\] implicit parameters providing callstacks/source locations\], allowing you to have a light-weight means of getting a call-stack in a Haskell application. ([ Phab:D861](https://phabricator.haskell.org/D861))
 
@@ -44,12 +44,29 @@ On top of that, we've also done a ton of other work over the past half year, inc
 
 - An [Improved LLVM Backend](improved-llvm-backend) that ships with every major Tier 1 platform.
 
-## After 8.0
+# Upcoming post-8.0 plans
+
+
+Naturally, there were several things we didn't get around to this cycle, or things which are still in flight and being worked on. (And you can always try to join us if you want something done!)
+
+## Libraries, source language, type system
 
 - A new, type-indexed type representation, `data TTypeRep (a :: k)`. See [TypeableT](typeable-t).
 - Support for **Type Signature Sections**, allowing you to write `(:: ty)` as a shorthand for `(\x -> x :: ty)`.
 - A (possible) overhaul of GHC's build system to use **Shake** instead of Make.
 - A `DEPRECATED` pragma for exports ([\#4879](https://gitlab.haskell.org//ghc/ghc/issues/4879))
+
+## Back-end and runtime system
+
+
+Lorem ipsum...
+
+## Frontend, build system and miscellaneous changes
+
+
+Lorem ipsum...
+
+# Development updates and "Thank You"s
 
 # References
 
