@@ -42,7 +42,7 @@ On top of that, we've also done a ton of other work over the past half year, inc
 
 - **Support for DWARF based stacktraces** \[DWARF\]. from Peter Wortmann, Arash Rouhani, and Ben Gamari with backtraces from Haskell code.
 
-- An [Improved LLVM Backend](improved-llvm-backend) that ships with every major Tier 1 platform.
+- **A better LLVM backend** \[ImprovedLLVMBackend\]. We're planning on a major build system change that will ship GHC 8.0 with a pre-baked copy of LLVM 3.7.0, that ships with every major Tier 1 platform.
 
 # Upcoming post-8.0 plans
 
@@ -68,10 +68,14 @@ Lorem ipsum...
 
 # Development updates and "Thank You"s
 
+
+Lorem ipsum...
+
 # References
 
 - \[[ExplicitTypeApplication](explicit-type-application)\] [ https://ghc.haskell.org/trac/ghc/wiki/ExplicitTypeApplication](https://ghc.haskell.org/trac/ghc/wiki/ExplicitTypeApplication)
 - \[ImplicitCallstacks\] [ https://ghc.haskell.org/trac/ghc/wiki/ExplicitCallStack/ImplicitLocations](https://ghc.haskell.org/trac/ghc/wiki/ExplicitCallStack/ImplicitLocations)
+- [\[ImprovedLLVMBackend](improved-llvm-backend)\] [ https://ghc.haskell.org/trac/ghc/wiki/ImprovedLLVMBackend](https://ghc.haskell.org/trac/ghc/wiki/ImprovedLLVMBackend)
 - \[[InjectiveTypeFamilies](injective-type-families)\] [ https://ghc.haskell.org/trac/ghc/wiki/InjectiveTypeFamilies](https://ghc.haskell.org/trac/ghc/wiki/InjectiveTypeFamilies)
 - \[KindEqualities\] [ https://ghc.haskell.org/trac/ghc/wiki/DependentHaskell/Phase1](https://ghc.haskell.org/trac/ghc/wiki/DependentHaskell/Phase1)
 - \[[OverloadedRecordFields](overloaded-record-fields)\] [ https://ghc.haskell.org/trac/ghc/wiki/OverloadedRecordFields](https://ghc.haskell.org/trac/ghc/wiki/OverloadedRecordFields)

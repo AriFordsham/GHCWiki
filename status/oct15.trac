@@ -40,7 +40,7 @@ On top of that, we've also done a ton of other work over the past half year, inc
 
   - '''Support for DWARF based stacktraces''' [DWARF]. from Peter Wortmann, Arash Rouhani, and Ben Gamari with backtraces from Haskell code.
 
-  - An [wiki:ImprovedLLVMBackend Improved LLVM Backend] that ships with every major Tier 1 platform.
+  - '''A better LLVM backend''' [ImprovedLLVMBackend]. We're planning on a major build system change that will ship GHC 8.0 with a pre-baked copy of LLVM 3.7.0, that ships with every major Tier 1 platform.
 
 = Upcoming post-8.0 plans =
 
@@ -63,11 +63,13 @@ Lorem ipsum...
 
 = Development updates and "Thank You"s =
 
+Lorem ipsum...
 
 = References =
 
  - [ExplicitTypeApplication] https://ghc.haskell.org/trac/ghc/wiki/ExplicitTypeApplication
  - [ImplicitCallstacks] https://ghc.haskell.org/trac/ghc/wiki/ExplicitCallStack/ImplicitLocations
+ - [wiki:ImprovedLLVMBackend [ImprovedLLVMBackend]] https://ghc.haskell.org/trac/ghc/wiki/ImprovedLLVMBackend
  - [InjectiveTypeFamilies] https://ghc.haskell.org/trac/ghc/wiki/InjectiveTypeFamilies
  - [KindEqualities] https://ghc.haskell.org/trac/ghc/wiki/DependentHaskell/Phase1
  - [OverloadedRecordFields] https://ghc.haskell.org/trac/ghc/wiki/OverloadedRecordFields
