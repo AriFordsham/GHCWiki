@@ -2,7 +2,7 @@
 
 = `DuplicateRecordFields` =
 
-This page describes the `DuplicateRecordFields` extension, part 1 of the [wiki:Records/OverloadedRecordFields OverloadedRecordFields proposal].
+This page describes the `DuplicateRecordFields` extension, part 1 of the [wiki:Records/OverloadedRecordFields OverloadedRecordFields proposal]. This was implemented as Phab:D761 and Phab:D1391 and **will be in GHC 8.0**.
 
 == Design ==
 
