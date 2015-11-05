@@ -65,6 +65,8 @@ Notice that overloaded labels might be useful for all sorts of things that are n
 
 User code can never (usefully) call `fromLabel` (or `ip`) directly, because without explicit type application there is no way to fix `x`.
 
+*Lennart*: I don't like the type of `fromLabel`.  I'd much rather it had type `fromLabel :: Proxy# x -> a`, because then it can be used without the explicit type application extension.
+
 ### Syntax
 
 
