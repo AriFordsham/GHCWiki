@@ -78,6 +78,10 @@ has an ambiguous type variable `b`, and we get terrible type inference behaviour
 
 Options 2 and 3 were explored in the original `OverloadedRecordFields`, and are pretty much equivalent; we initially thought 2 might give nicer inferred types but in fact they tend to be of the form `HasField x r (FieldType x r)` so we might as well go for the two-parameter class. Option 1 should give prettier inferred types (and be easier to use with the `r { x :: t }` syntactic sugar described below), but the lack of evidence for fundeps, and the inability to mention the type of a field, may be restrictive in hard-to-predict ways. At the moment, this page is written to assume option 3.
 
+*Lennart*: Why is `HasField` a superclass of `FieldUpdate`?  It seems superfluous.
+
+*Lennart*: I implemented option 1 for `HasField`.
+
 ### Back to overloaded labels
 
 
