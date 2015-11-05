@@ -1,7 +1,7 @@
 # `DuplicateRecordFields`
 
 
-This page describes the `DuplicateRecordFields` extension, part 1 of the [OverloadedRecordFields proposal](records/overloaded-record-fields).
+This page describes the `DuplicateRecordFields` extension, part 1 of the [OverloadedRecordFields proposal](records/overloaded-record-fields). This was implemented as [ Phab:D761](https://phabricator.haskell.org/D761) and [ Phab:D1391](https://phabricator.haskell.org/D1391) and **will be in GHC 8.0**.
 
 ## Design
 
