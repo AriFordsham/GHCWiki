@@ -3,13 +3,13 @@
 This proposal has been revised based on the feedback gathered from the [#Discussion proposal discussion]. The original revision of this proposal can be found [https://mail.haskell.org/pipermail/libraries/2015-September/026121.html here]. See wiki page [?action=history History] for changes relative to that first revision.
 }}}
 
-= Monad of no `return` Proposal (MRP) ^//2e//^ =
+= Monad of no `return`/`>>` Proposal (MRP) ^//2e//^ =
 
 [[PageOutline]]
 
 == Abstract ==
 
-To complete the AMP, move `Monad(return)` and `Monad((>>))` methods out of the `Monad` class into top-level bindings aliasing `Applicative(pure)` and `Applicative((*>))` respectively.
+To complete the `Monad`-hierarchy refactoring started with AMP (& MFP) and unify `return`/`pure` & `>>`/`*>`, move `Monad(return)` and `Monad((>>))` methods out of the `Monad` class into top-level bindings aliasing `Applicative(pure)` and `Applicative((*>))` respectively.
 
 {{{#!box info
 The original proposal didn't include `(>>)` yet. But in the interest of bundling related changes, taking care of `(>>)` has been added to this proposal.
