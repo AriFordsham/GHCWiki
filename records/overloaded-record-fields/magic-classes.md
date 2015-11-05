@@ -3,6 +3,9 @@
 
 This page describes new built-in magic typeclasses that form part 3 of the [OverloadedRecordFields proposal](records/overloaded-record-fields). These are not a language extension as such, rather they are classes with special-purpose solver behaviour (like `Coercible` and `Typeable`).
 
+
+These are not yet implemented, and **will probably not make GHC 8.0.**
+
 ## Design
 
 
