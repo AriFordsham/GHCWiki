@@ -13,6 +13,8 @@ The `OverloadedRecordFields` extension for GHC allows multiple record datatypes 
 
 Content previously on this page has been moved to the [SORF](records/overloaded-record-fields/sorf) page.
 
+*Lennart*: I've implemented 2&3 in the Mu compiler, and I'll add some comments about it.
+
 ## Code
 
 - [ Phab:D761](https://phabricator.haskell.org/D761) (merged) and [ Phab:D1391](https://phabricator.haskell.org/D1391) (being reviewed): `DuplicateRecordFields` extension
