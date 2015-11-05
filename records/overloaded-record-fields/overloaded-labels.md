@@ -1,7 +1,7 @@
 # `OverloadedLabels`
 
 
-This page describes the `OverloadedLabels` extension, part 2 of the [OverloadedRecordFields proposal](records/overloaded-record-fields). See [ Phab:D1331](https://phabricator.haskell.org/D1331) for the code.
+This page describes the `OverloadedLabels` extension, part 2 of the [OverloadedRecordFields proposal](records/overloaded-record-fields). This is currently being reviewed at [ Phab:D1331](https://phabricator.haskell.org/D1331), and **should be in GHC 8.0.**
 
 ### Digression: implicit parameters
 
