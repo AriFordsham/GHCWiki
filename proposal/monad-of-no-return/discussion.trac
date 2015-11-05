@@ -4,7 +4,7 @@ The original proposal was posted to [https://www.reddit.com/r/haskell/comments/3
 
 == Conclusion & Revised Proposal
 
-Based on the feedback gathered from the discussion, the [MonadOfNoReturn proposal has been revised] to address the raised concerns. First and foremost, a [MonadOfNoReturn#ReducedBreakageVariant new stretched out transition scheme] complying with (and beyond) the recently enacted [https://groups.google.com/forum/#!msg/haskell-core-libraries/qXYMfV8JZ6k/tTuFrBMdDgAJ 3-release policy] has been devised. Moreover, the feasibility of automatic refactoring tooling was investigated and resulted in the working `Hs2010To201x` proof-of-concept.
+Based on the feedback gathered from the discussion, the [MonadOfNoReturn proposal has been revised] to address the raised concerns. First and foremost, a [MonadOfNoReturn#ReducedBreakageVariant new stretched out transition scheme] complying with the recently enacted [https://groups.google.com/forum/#!msg/haskell-core-libraries/qXYMfV8JZ6k/tTuFrBMdDgAJ 3-release policy] (and beyond) has been devised. Moreover, the feasibility of automatic refactoring tooling was investigated and resulted in the working `Hs2010To201x` proof-of-concept.
 
 == Discussion Summary
 
