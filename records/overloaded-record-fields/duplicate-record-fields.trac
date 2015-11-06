@@ -296,6 +296,8 @@ At the moment, Template Haskell has no special support for distinguishing betwee
 
 TODO: should we modify the TH AST to be able to represent fields correctly?
 
+TODO: similarly, GHC.Generics currently shows the selector name in the metadata, whereas it ought to show the label.
+
 
 === GHC API changes ===
 
