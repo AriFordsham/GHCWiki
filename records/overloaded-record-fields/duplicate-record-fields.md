@@ -342,6 +342,8 @@ At the moment, Template Haskell has no special support for distinguishing betwee
 
 TODO should we modify the TH AST to be able to represent fields correctly?
 
+TODO similarly, GHC.Generics currently shows the selector name in the metadata, whereas it ought to show the label.
+
 ### GHC API changes
 
 - The `minf_exports` field of `ModuleInfo` is now of type `[AvailInfo]` rather than `NameSet`, as this provides accurate export information. An extra function `modInfoExportsWithSelectors` gives a list of the exported names including overloaded record selectors (whereas `modInfoExports` includes only non-mangled selectors).
