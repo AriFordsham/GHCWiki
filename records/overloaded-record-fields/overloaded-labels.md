@@ -67,6 +67,8 @@ User code can never (usefully) call `fromLabel` (or `ip`) directly, because with
 
 *Lennart*: I don't like the type of `fromLabel`.  I'd much rather it had type `fromLabel :: Proxy# x -> a`, because then it can be used without the explicit type application extension.
 
+*Adam*: I tend to agree, and I've brought this up on [ Phab:D1331](https://phabricator.haskell.org/D1331).
+
 ### Syntax
 
 
