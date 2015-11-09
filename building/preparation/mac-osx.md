@@ -61,7 +61,10 @@ By default GHC tries to link to a system installed GMP lib, but depending on how
 its worth considering either using one of the non GMP integer libs.
 If you're OK with static linking GMP into the GHC RTS,
 you can add the line 
+
 `libraries/integer-gmp2_CONFIGURE_OPTS += --configure-option=--with-intree-gmp`
+
+
 to you `mk/build.mk` file  (which hosts all your other build system config preferences also.)
 
 ## Supporting Older OS X versions with your build
@@ -94,6 +97,14 @@ Without `docbook2x`, the build fails after attempting network access for a requi
 
 
 DocBook is a fairly large system unto itself and configuring it to build the documentation in its various formats can be a maze. Verifying that your SGML_CATALOG_FILES and XML_CATALOG_FILES environment variables are pointed at the right places will fix most problems. (What should they point to? After `brew install docbook-xsl` they are both empty.)
+
+
+the following environment variables setting (using FISH shell syntax) results in a working ghc build that has working html docs and supports any OSX versions \>= the specified deployment target!
+
+```wiki
+set -xl XML_CATALOG_FILES /usr/local/etc/xml/catalog
+set -xl MACOSX_DEPLOYMENT_TARGET 10.7
+```
 
 ## Docker
 
