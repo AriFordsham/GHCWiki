@@ -20,6 +20,7 @@
  * #9717, #9729, #10420: orphan modules
 
 == Generics and DeriveAnyClass ==
+ * See [wiki:PedrosTickets]
  * #10361: `DeriveAnyClass` and associated types
  * #10598: `DeriveAnyClasss` and GND
  * #10716: strictness annotations and generics
