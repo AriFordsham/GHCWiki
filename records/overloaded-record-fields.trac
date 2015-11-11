@@ -12,6 +12,11 @@ Content previously on this page has been moved to the [wiki:Records/OverloadedRe
 
 ''Lennart'': I've implemented 2&3 in the Mu compiler, and I'll add some comments about it.
 
+''Lennart'': The MagicClasses proposal is fundamentally broken, because it breaks abstraction.
+
+If we have a data type `R` with a field `foo` of type `T`, then we generate `instance HasField "foo" R T`.
+Since instances are silently exported and imported it means that this instance is now available in every module that somehow depends on the defining module.  This means that the `foo` field of `R` is now accessible everywhere.  There is no way to limit the scope of `foo` anymore.  This is really terrible.  Any record proposal that no longer allows abstract data types to be defined is broken.
+
 == Code ==
 
  * Phab:D761 (merged) and Phab:D1391 (being reviewed): `DuplicateRecordFields` extension
