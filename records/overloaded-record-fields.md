@@ -21,7 +21,7 @@ Content previously on this page has been moved to the [SORF](records/overloaded-
 If we have a data type `R` with a field `foo` of type `T`, then we generate `instance HasField "foo" R T`.
 Since instances are silently exported and imported it means that this instance is now available in every module that somehow depends on the defining module.  This means that the `foo` field of `R` is now accessible everywhere.  There is no way to limit the scope of `foo` anymore.  This is really terrible.  Any record proposal that no longer allows abstract data types to be defined is broken.
 
-*Adam*: I don't think so. We will only solve a `HasField` constraint automatically in modules that have the field in scope, and thus we can retain the same abstraction rules as normal Haskell. This is just like `Coercible`. We don't really generate and export instances, rather there is special behaviour in the constraint solver. See [discussion on representation hiding](records/overloaded-record-fields/design#representation-hiding) (which needs to be updated to the latest design).
+*Adam*: I don't think so. We will only solve a `HasField` constraint automatically in modules that have the field in scope, and thus we can retain the same abstraction rules as normal Haskell. This is just like `Coercible`. We don't really generate and export instances, rather there is special behaviour in the constraint solver. See [discussion on representation hiding](records/overloaded-record-fields/magic-classes#representation-hiding) (now updated to the latest design).
 
 ## Code
 
