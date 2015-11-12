@@ -165,6 +165,45 @@ The exact rules for when user-defined instances are legal will require some care
 
 - `x` is a literal string and `t` is a data type that does not have the given field (though it may have other fields).
 
+### Representation hiding
+
+
+At present, a datatype in one module can declare a field, but if the selector function is not exported, then the field is hidden from clients of the module. It is important to support this. Typeclasses in general have no controls over their scope, but we treat the automatically solved `HasField` and `FieldUpdate` constraints differently.  
+ 
+
+- Instances are not exported from the module that defines the datatype, but instead are created implicitly when needed by the typechecker. 
+
+- A constraint involving a field `x` of data type `T` is solved in a module `M` only if the record field selector function `x` is in scope.
+
+- This approach (in which the availability of magical instances depends on what is in scope) is similar to the special treatment of `Coercible` instances (see [ Safe Coercions](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/)).
+
+- For consistency with other typeclasses that have special solver behaviour, we do not require a `LANGUAGE` extension to enable the behaviour. Importing the class is enough.
+
+
+Notice that
+
+- The data type `T` might be defined locally in `M`, or imported.
+- If `T` is imported it does not matter which extensions are enabled in the module where `T` was defined.
+
+
+This design supports representation hiding: just like at present, exporting the field selector permits access to the field. For example, consider the following module:
+
+```wiki
+module M ( R(x), S ) where
+
+data R = R { x :: Int }
+data S = S { x :: Bool }
+```
+
+
+Any module that imports `M` will have access to the `x` field from `R` but not from `S`, because the constraint `HasField R "x"` will be solved but `HasField S "x"` will not be.
+
+
+This means that
+
+- records defined in existing modules (or other packages) without the extension can still be overloaded.
+- no new mechanism for hiding instances is required; and
+
 ### Design extension: sugar for class constraints
 
 
