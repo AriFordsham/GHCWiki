@@ -18,6 +18,21 @@ When compiling the program (see also the [relevant User Manual section](http://w
 
 - The flag `-dppr-debug` makes the `-ddump-x` flags print much more verbose output.  Use this if you are getting desperate! To be able to read the output, you may want to add `-dsuppress-module-prefixes` and `-dsuppress-var-kinds` as well.
 
+- While hacking on GHC, if you need to lookup types, you can do this:
+
+  ```wiki
+  > ghc-stage2 --interactive
+  GHCi, version 7.11.20151104: http://www.haskell.org/ghc/  :? for help
+  Prelude> :set -package ghc         -- THIS IS THE KEY LINE
+  package flags have changed, resetting and loading new packages...
+  Prelude> import TcMType
+  Prelude TcMType> :t newEvVar
+  newEvVar
+   :: forall gbl lcl.
+      TcType.TcPredType -> TcRnTypes.TcRnIf gbl lcl Var.EvVar
+  Prelude TcMType> 
+  ```
+
 ## Adding debugging code to the compiler
 
 - `Outputable.pprTrace` is a nice way to print trace messages from the compiler. The output will only appear when the compiler has `-DDEBUG` turned on.
