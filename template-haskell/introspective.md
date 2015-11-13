@@ -3,6 +3,9 @@
 
 This page is to record the design and reactions to a proposal Richard originally posted to the ghc-devs mailing list [ here](https://mail.haskell.org/pipermail/ghc-devs/2015-November/010402.html) (although much of this is copied below). The bottom line is that this has received some, but not universal, support. However, due to time constraints, Richard will not be implementing this in the near future. Is someone else willing?
 
+
+Ticket: [\#11081](https://gitlab.haskell.org//ghc/ghc/issues/11081)
+
 ## Pre-proposal
 
 
