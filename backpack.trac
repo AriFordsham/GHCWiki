@@ -4,33 +4,15 @@ See also [wiki:CabalDependency]
 
 == Reading ==
 
-* [https://git.haskell.org/ghc.git/blob/HEAD:/docs/backpack/backpack-impl.pdf Design document]: quite technical, but a lot of good information about how the system we are implementing differs from the Backpack paper
-* [https://git.haskell.org/ghc.git/blob/HEAD:/docs/backpack/backpack-manual.pdf Manual]: user facing specification of the system
+* [https://git.haskell.org/ghc.git/blob/HEAD:/docs/backpack/ The Backpack documentation directory]. You'll have to build them (just `make`), but here are the files of interest:
+  * algorithm.tex specifies the abstract core Backpack algorithms for GHC.
+  * backpack-manual.tex is a user-facing manual for using Backpack.
+  * backpack-impl.tex is an old but interesting technical document describing many of the technical tradeoffs in our design.
 * [http://blog.ezyang.com/2014/08/whats-a-module-system-good-for-anyway/ What's a module system good for anyway?] Motivates *why* you might care about Backpack
-* [http://blog.ezyang.com/2014/08/a-taste-of-cabalized-backpack/ A taste of Cabalized Backpack]: Tutorial style introduction to the Cabal-style syntax for writing Backpack modules
 * The [wiki:Commentary/Compiler/Packages commentary pages about packages]
-* Planned: blog post about thinning/renaming
-
-== Implementing "A taste of Cabalized Backpack" ==
-
-Many of the features described in [http://blog.ezyang.com/2014/08/a-taste-of-cabalized-backpack/ A taste of Cabalized Backpack] are not implemented yet. Here's the blow-by-blow:
-
-* GHC signature support is in progress at [https://phabricator.haskell.org/D130 D130]
-  * exposed-signatures in GhcPackage behaves the same as required-signatures (GHC needs to consider these modules exposed for the purpose of module lookup)
-  * We don't support multiple backing implementations for a signature, as SPJ mentions in Phab. The good thing about this is if we implement this we will automatically get signature merging. One difficulty: making sure all of the definitions of the signature have been satisfied! Also need to adjust package key format.
-* Cabal signature support is in progress at [https://github.com/ezyang/cabal/tree/ezyang-dev ezyang/cabal:ezyang-dev]
-  * We don't support the "semicolon" syntax, which allows you to include a package multiple times (usually used to instantiate it differently.) Monoid plus should be replaced with semicolon operation.
-  * If anyone wants it: hiding and bulk rename for thinning/renaming
-  * Figure out if you can rename types, and if not, what to do
-  * implements field is not implemented
-  * reexported-modules may not work with signatures (untested)
-  * Support type families in signatures
-  * Carefully test our hole map algorithm to make sure we're actually canonicalizing things enough (we probably aren't...)
-* Typechecking against signatures (the next frontier)
-* Installing indefinite packages (reusing the installed package database as a place to stash source packages...)
 
 == Backpack-related tickets ==
 
 Backpack-related tickets are marked with keyword 'backpack'. If the ticket is assigned to ezyang, it means he's planning on working on it.
 
-[[TicketQuery(keywords=backpack,format=table,col=type|summary|priority|owner,group=status,order=priority)]]
+[[TicketQuery(keywords=backpack,format=table,col=type|summary|priority|owner,status=new,order=priority)]]
