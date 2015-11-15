@@ -115,8 +115,12 @@ be measured.
 
 It would also be nice to support time- or cycle-based sampling.
 
-- \[IDEA\]   Support basic timer-based sampled
+- \[IDEA\]   Support basic timer-based sampling
 - \[IDEA\]   Support sampling with Linux `perf_events` interface
+
+
+In addition, we may want to support some form of call-graph collection.
+This, however, will be left for future work.
 
 
 In his prototype implementation Peter also had the lovely ability to
