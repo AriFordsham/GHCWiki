@@ -1,7 +1,5 @@
 [http://plv.mpi-sws.org/backpack/ Backpack] is a proposal for retrofitting Haskell with an applicative, mix-in module system. The theory of Backpack is developed in the paper and its accompanying technical appendix. The purpose of this page is to track implementation progress. (Wondering what happened to the old text? Check the history; it will be integrated into the implementation design doc eventually).
 
-See also [wiki:CabalDependency]
-
 == Reading ==
 
 * [https://git.haskell.org/ghc.git/blob/HEAD:/docs/backpack/ The Backpack documentation directory]. You'll have to build them (just `make`), but here are the files of interest:
@@ -9,7 +7,55 @@ See also [wiki:CabalDependency]
   * backpack-manual.tex is a user-facing manual for using Backpack.
   * backpack-impl.tex is an old but interesting technical document describing many of the technical tradeoffs in our design.
 * [http://blog.ezyang.com/2014/08/whats-a-module-system-good-for-anyway/ What's a module system good for anyway?] Motivates *why* you might care about Backpack
-* The [wiki:Commentary/Compiler/Packages commentary pages about packages]
+* The [wiki:Commentary/Compiler/Packages commentary pages about packages], 
+see also [wiki:CabalDependency]
+
+== Implementation notes ==
+
+Backpack is a largely orthogonal extension to GHC; for example, there are no changes to the core type-checking or type-inference algorithm. Rather, the implementation of Backpack consists of:
+
+1. A new language for describing "units" (called packages in the original Backpack paper). This language is written in `bkp` files, and looks like this:
+
+{{{
+unit p where
+  include q (Q) requires (H)
+  module A
+  module B
+}}}
+
+2. A new frontend, `ghc --backpack` for processing `bkp` files, which can make (multiple) calls to `ghc --make` in order to typecheck and compile modules in a `bkp` file.
+
+3. Infrastructure for handling *indefinite units*, i.e. units for which we have signatures but not implementations for some modules.  This includes machinery to do *shaping*.
+
+The most up-to-date description for the frontend and shaping can be found in `docs/backpack/algorithm.tex`, but here are some miscellaneous GHC-specific notes.
+
+=== Lazy interface loading ===
+
+In paper Backpack, unification and substitution is performed eagerly on the type environment as soon as we discover that some type equality holds (e.g. during shaping).  In GHC, the type environment is *lazily* loaded, and thus this substitution must be deferred until we actually load this interface.  This has two consequences for GHC's interface loading code:
+
+1. We may want the types for a module `p(A -> HOLE:B):M`, but we only have an interface file for `p(A -> HOLE:A):M`. In this case, we have to rename the interface file from `A -> HOLE:A` to `A -> HOLE:B` before we typecheck and load it in.  This is handled by `computeInterface`, which calls `rnModIface` to apply the substitution.
+
+2. Inside an interface file, we may refer to a Name `hole:A.T`.  During shaping, we may have discovered that this Name actually is unified with `impl:A.T`; so when we are typechecking the interface file, we must use the real name and not stodgily adhere to the old one.  The `eps_shape` data structure records these unifications, and a few data types (interface file renaming, interface type-checking, and even type-checking a signature) abide by this substitution.
+
+=== Semantic versus identity modules ===
+
+Traditionally, the module identity of an `hs` or `hs-boot` file which is being type-checked is always `thisPackage` plus the module name; this is unique to the module.  With signatures, this is not the case: `H.hsig` file might be traditionally called `p(H -> hole:H):H`, but in fact its declarations should be treated as if they were defined by a module `hole:H`. We say that `p(H -> hole:H):H` is the *identity* module which uniquely identifies the interface, whereas `hole:H` is the *semantic* module which identifies what the signature actually is implementing.
+
+=== Signature merging ===
+
+Unlike regular modules, you cannot simply *hide* a hole: it is a requirement that always must be fulfilled before you can compile the module in question. Instead, if you define an `A.hsig` for an `A` which is already required by another unit we included, the requirements of that unit are *merged* with the requirements of this unit.
+
+Presently, this merging process is carried out by `mergeRequirements`, which successively adds inherited required types/values from included units to the type/environment of the `hsig` file being compiled.  Any requirements for which we don't have a local `hsig` implicitly have a "blank" signature file which collects together the merged requirements.
+
+:TODO: Unclear how to handle dependency cycles here.
+
+=== The database ===
+
+The package database contains both entries for old-fashioned definite units/packages, and also entries for indefinite unit, which contain code but no objects.  Conventionally, the unit ID for an indefinite is simply the unit ID with all of the requirements filled in with `hole`s.
+
+=== Unit IDs ===
+
+(About the hashing)
 
 == Backpack-related tickets ==
 
