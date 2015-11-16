@@ -191,3 +191,23 @@ The current implementation does not have any explicit checks to make sure that p
 *RAE:* I don't really follow. If `TypeError` can be used in the RHS of a type family equation, then it can appear anywhere any type can. Having a syntactic restriction around the literal use of `TypeError` in code seems unhelpful.
 
 ---
+
+### Some design questions (Dominique Devriese):
+
+
+I found this page by accident, but find this a very interesting idea.  Very useful and much additional power for little cost. Some constructive comments/questions below:
+
+1. Most of your examples seem like they would work with `TypeError :: ErrorMessage -> Constraint`? This would be much simpler to implement and address SLPJ's concern mentioned about "detecting TypeErrors in RHSs" above.   Perhaps you have examples that use `TypeError` at a different kind, but I'm wondering if you can't easily encode those with the simpler alternative.
+
+1. Why not also `TypeWarning :: ErrorMessage -> Constraint` which simply produces a compile-time \*warning\*?
+
+1. Why are we calling this \*Type\*Error?  I suspect we can use this for many not strictly type-related features.  For example
+
+```
+     deprecatedFn ::TypeWarning(Text"deprecatedFn is deprecated.  Use someOtherFn instead!")=>SomeType
+
+     removedFn ::TypeError(Text"removedFn has been removed. Use someOtherFn instead!")=>ItsOldType
+```
+
+> >
+> > What about `Error` and `Warning` instead?
