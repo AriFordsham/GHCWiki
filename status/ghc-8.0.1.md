@@ -53,7 +53,7 @@ Below are the major highlights of 8.0.
 
 ### In-flight, and likely to land in time
 
-- Visible type application ([ Phab:D1138](https://phabricator.haskell.org/D1138))
+- Visible type application
 
 - Support for reasoning about kind equalities, which gives promotion of GADTs to kinds, kind families, heterogeneous equality (kind-indexed GADTs), and `* :: *`. There is some discussion in [DependentHaskell/Phase1](dependent-haskell/phase1), but that's very low-level. I (Richard) have no good user-oriented write-up yet, but there shouldn't be much in the way of new syntax -- just fewer type errors. ([ Phab:D808](https://phabricator.haskell.org/D808))
 
