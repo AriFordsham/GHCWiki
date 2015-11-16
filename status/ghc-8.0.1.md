@@ -74,6 +74,7 @@ Below are the major highlights of 8.0.
 - Support for **Type Signature Sections**, allowing you to write `(:: ty)` as a shorthand for `(\x -> x :: ty)`.
 - A `DEPRECATED` pragma for exports ([\#4879](https://gitlab.haskell.org//ghc/ghc/issues/4879))
 - Complete support for [OverloadedRecordFields](records/overloaded-record-fields)
+- Stack traces in GHCi ([\#11047](https://gitlab.haskell.org//ghc/ghc/issues/11047))
 
 ### Won't make it, but being actively worked on
 
