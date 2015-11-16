@@ -71,6 +71,7 @@ Below are the major highlights of 8.0.
   - Support for '''Type Signature Sections''', allowing you to write `(:: ty)` as a shorthand for `(\x -> x :: ty)`.
   - A `DEPRECATED` pragma for exports (#4879)
   - Complete support for [wiki:Records/OverloadedRecordFields OverloadedRecordFields]
+  - Stack traces in GHCi (#11047)
 
 === Won't make it, but being actively worked on
 
