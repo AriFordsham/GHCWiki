@@ -27,7 +27,7 @@ Below are the major highlights of 8.0.
 
 - Support for [implicit parameters providing callstacks/source locations](explicit-call-stack/implicit-locations), allowing you to have a light-weight means of getting a call-stack in a Haskell application. ([ Phab:D861](https://phabricator.haskell.org/D861))
 
-- Improved optimization diagnostics. The compiler is now more liberal about issues warnings of potentially non-firing rewrite rules
+- Improved optimization diagnostics. The compiler is now more liberal about issues warnings of failed specialization attempts
 
 - Support for wildcards in data and type family instances ([ Phab:D1092](https://phabricator.haskell.org/D1092))
 
