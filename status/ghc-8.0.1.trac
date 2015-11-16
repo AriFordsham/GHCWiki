@@ -40,16 +40,19 @@ Below are the major highlights of 8.0.
 
   - A beautiful new users guide, written in reStructured Text, and significantly improved output.
 
+  - Support for [wiki:StrictPragma Strict Haskell] including both the `StrictData` and `Strict` language extensions (Phab:D1142)
+
+  - Support for record pattern synonyms (Phab:D1152)
+
+  - Allow patterns synonyms to be exported in the same way as data constructors (Phab:D1258)
+
+  - [wiki:Proposal/CustomTypeErrors Custom type errors]. (#9637, Phab:D1236).
+
 === In-flight, and likely to land in time
 
   - Visible type application (Phab:D1138)
 
   - Support for reasoning about kind equalities, which gives promotion of GADTs to kinds, kind families, heterogeneous equality (kind-indexed GADTs), and `* :: *`. There is some discussion in [wiki:DependentHaskell/Phase1], but that's very low-level. I (Richard) have no good user-oriented write-up yet, but there shouldn't be much in the way of new syntax -- just fewer type errors. (Phab:D808)
-
-  - Support for [wiki:StrictPragma Strict Haskell] including both the `StrictData` and `Strict` language extensions (Phab:D1142
-
-  - Support for record pattern synonyms (Phab:D1152)
-  - Allow patterns synonyms to be exported in the same way as data constructors (Phab:D1258)
 
   - Implement the `MonadFail` proposal (#10751)
 
@@ -62,8 +65,6 @@ Below are the major highlights of 8.0.
   - Improved [wiki:DWARF DWARF based debugging support] from Peter Wortmann, Arash Rouhani, and Ben Gamari with backtraces from Haskell code.
 
   - An [wiki:ImprovedLLVMBackend Improved LLVM Backend] that ships with every major Tier 1 platform.
-
-  - [wiki:Proposal/CustomTypeErrors Custom type errors]. (#9637, Phab:D1236).
 
 === Possible, if the authors push forward fast enough
 
