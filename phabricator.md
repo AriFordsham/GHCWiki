@@ -94,13 +94,14 @@ $ git commit -asm "compiler: fix trac issue #1234"
 ```
 
 
-Once you're ready to submit it for review, it's easy! Just run:
+Once you're ready to submit it for review, it's pretty easy. Just run:
 
 ```wiki
-$ arc diff
+$ arc diff~
 ```
 
-`arc` will then respond with the revision number and a URL where you can visit your change.
+
+which submits the HEAD commit to Phabricator. `arc` will then respond with the revision number and a URL where you can visit your change.
 
 
 You may also modify the commit more later, by making new commits, and running `arc diff` again. This will just update the existing review:
