@@ -55,7 +55,9 @@ The package database contains both entries for old-fashioned definite units/pack
 
 === Unit IDs ===
 
-(About the hashing)
+A unit ID is a recursive data structure which is defined to be a component ID (specified by Cabal) plus a mapping from module names to modules, where a module is a a unit ID plus a module name.
+
+In some situations, we need serialize a unit ID into a compact, deterministic string, for use in linker symbols and file paths, as a full unit ID could be quite long (it is AT LEAST linear in the number of holes in a unit).  Ideally, the serialization format would be private to GHC (similarly to how z-encoding is GHC private), but the encoding leaks at least to the file path that GHC stores compilation results at... would be nice if there a way to avoid this problem.
 
 == Backpack-related tickets ==
 
