@@ -6,12 +6,14 @@ The `OverloadedRecordFields` extension for GHC allows multiple record datatypes 
 - [Redesigned variant involving three extensions](records/overloaded-record-fields/redesign)
 
   - Part 1: [DuplicateRecordFields](records/overloaded-record-fields/duplicate-record-fields) (in GHC 8.0)
-  - Part 2: [OverloadedLabels](records/overloaded-record-fields/overloaded-labels) (aimed for GHC 8.0)
+  - Part 2: [OverloadedLabels](records/overloaded-record-fields/overloaded-labels) (in GHC 8.0)
   - Part 3: [Magic type classes](records/overloaded-record-fields/magic-classes) (will probably not make GHC 8.0)
 - [ Adam Gundry's blog post](http://www.well-typed.com/blog/2015/03/overloadedrecordfields-revived/)
 
 
 Content previously on this page has been moved to the [SORF](records/overloaded-record-fields/sorf) page.
+
+## Discussion
 
 *Lennart*: I've implemented 2&3 in the Mu compiler, and I'll add some comments about it.
 
@@ -25,8 +27,8 @@ Since instances are silently exported and imported it means that this instance i
 
 ## Code
 
-- [ Phab:D761](https://phabricator.haskell.org/D761) (merged) and [ Phab:D1391](https://phabricator.haskell.org/D1391) (being reviewed): `DuplicateRecordFields` extension
-- [ Phab:D1331](https://phabricator.haskell.org/D1331) (being reviewed): `OverloadedLabels` extension
+- [ Phab:D761](https://phabricator.haskell.org/D761), [ Phab:D1391](https://phabricator.haskell.org/D1391), [ Phab:D1486](https://phabricator.haskell.org/D1486): `DuplicateRecordFields` extension
+- [ Phab:D1331](https://phabricator.haskell.org/D1331): `OverloadedLabels` extension
 - [ Prototype implementation of the magic typeclasses](https://github.com/adamgundry/records-prototype)
 
 ## History
