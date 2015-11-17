@@ -36,11 +36,9 @@ Below are the major highlights of 8.0.
 
   - Support for deriving the `Lift` typeclass (Phab:D1168)
 
-  - Support for [wiki:Records/OverloadedRecordFields/DuplicateRecordFields DuplicateRecordFields], allowing multiple datatypes to declare the same record field names provided they are used unambiguously (Phab:D761)
-
   - A beautiful new users guide, written in reStructured Text, and significantly improved output.
 
-  - Support for [wiki:StrictPragma Strict Haskell] including both the `StrictData` and `Strict` language extensions (Phab:D1142)
+  - Support for [wiki:StrictPragma Strict Haskell] including both the `StrictData` and `Strict` language extensions (Phab:D1033 and Phab:D1142)
 
   - Support for record pattern synonyms (Phab:D1152)
 
@@ -50,7 +48,9 @@ Below are the major highlights of 8.0.
 
   - Implement the `MonadFail` proposal (#10751)
 
-  - Support for [wiki:Records/OverloadedRecordFields/OverloadedLabels OverloadedLabels], allowing a form of type-directed name resolution (Phab:D1033 and Phab:D1331)
+  - Support for [wiki:Records/OverloadedRecordFields/DuplicateRecordFields DuplicateRecordFields], allowing multiple datatypes to declare the same record field names provided they are used unambiguously (Phab:D761)
+
+  - Support for [wiki:Records/OverloadedRecordFields/OverloadedLabels OverloadedLabels], allowing a form of type-directed name resolution (Phab:D1331)
 
 === In-flight, and likely to land in time
 
