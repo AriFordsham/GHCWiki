@@ -340,9 +340,11 @@ Now, do we expect to report the `import B( S(x) )` as unused? Only the typecheck
 
 At the moment, Template Haskell has no special support for distinguishing between field labels and selector functions, so the TH representation of a datatype compiled with `DuplicateRecordFields` includes selector function names like `$sel:x:MkT`.
 
-TODO should we modify the TH AST to be able to represent fields correctly?
 
-TODO similarly, GHC.Generics currently shows the selector name in the metadata, whereas it ought to show the label.
+Should we modify the TH AST to be able to represent fields correctly? This has been raised as [\#11103](https://gitlab.haskell.org//ghc/ghc/issues/11103).
+
+
+Similarly, GHC.Generics currently shows the selector name in the metadata, whereas it ought to show the label. But in this case the fix is easy (see [ Phab:D1486](https://phabricator.haskell.org/D1486)).
 
 ### GHC API changes
 
