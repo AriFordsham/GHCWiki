@@ -53,13 +53,13 @@ Below are the major highlights of 8.0.
 
 - Implement the `MonadFail` proposal ([\#10751](https://gitlab.haskell.org//ghc/ghc/issues/10751))
 
+- Support for [OverloadedLabels](records/overloaded-record-fields/overloaded-labels), allowing a form of type-directed name resolution ([ Phab:D1033](https://phabricator.haskell.org/D1033) and [ Phab:D1331](https://phabricator.haskell.org/D1331))
+
 ### In-flight, and likely to land in time
 
 - Visible type application
 
 - Support for reasoning about kind equalities, which gives promotion of GADTs to kinds, kind families, heterogeneous equality (kind-indexed GADTs), and `* :: *`. There is some discussion in [DependentHaskell/Phase1](dependent-haskell/phase1), but that's very low-level. I (Richard) have no good user-oriented write-up yet, but there shouldn't be much in the way of new syntax -- just fewer type errors. ([ Phab:D808](https://phabricator.haskell.org/D808))
-
-- Support for [OverloadedLabels](records/overloaded-record-fields/overloaded-labels), allowing a form of type-directed name resolution ([ Phab:D1033](https://phabricator.haskell.org/D1033) and [ Phab:D1331](https://phabricator.haskell.org/D1331))
 
 - A huge improvement to pattern matching (including much better coverage of GADTs), based on the work of Simon PJ and Georgios Karachalias. For more details, see [ their paper](http://research.microsoft.com/en-us/um/people/simonpj/papers/pattern-matching/gadtpm.pdf).
 
