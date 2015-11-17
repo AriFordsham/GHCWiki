@@ -1,0 +1,42 @@
+= Remote GHCi
+
+This is a design page for implementing GHCi and Template Haskell by running the interpreted code in a separate process from GHC itself.  
+
+== Motivation
+
+There are several reasons for wanting to do this:
+
+* It '''decouples the compiler from the interpreted code''', meaning that they can run on separate runtimes.  This means that the interpreted code can run profiled while the compiler can be unprofiled, for example.   
+
+* We can have '''stack traces in interpreted code''' (#11047), without the compiler itself having to be profiled.
+
+* It separates the decision about whether to use the dynamic linker for interpreted code from whether GHC itself must be dynamically linked.  We could '''go back to a statically-linked GHC, which should be faster.
+
+* When compiling Template Haskell code with `-prof`, we wouldn't have to build the code the normal way first, or use `-osuf`.  That annoying restriction (and associated code and build-system nonsense) just goes away.
+
+* When compiling Template Haskell code we no longer need to force `-dynamic-too` if GHC is dynamically-linked.
+
+* Various annoying stuff in the base package to ensure that we get one instance of certain pieces of state when there are multiple base packages loaded goes away.  The `Global` stuff in the RTS goes away.
+
+* The interpreted code could be running on an '''entirely separate platform''', architecture, or hardware.  GHCJS does this to run TH code and GHCi, for example.
+
+* We can have '''multiple instances of a GHC Session''' on the GHC API, each running TH and/or interpreted code.  Right now this is not possible because the linker's state is global.
+
+== Disadvantages
+
+* We can't directly share data between interpreted and compiled code, everything must be marshaled via `Binary`.
+* `dynCompileExpr` doesn't work any more.
+
+== Implementation
+
+Main pieces:
+
+* A server binary, implementing a message-passing protocol
+* A library, implementing a message type and some utilities for communication, imported by both GHC and the server
+* GHC must start up the server and shut it down appropriately, and communicate with it via messages to implement GHCi and Template Haskell functionality.
+
+Main functionality areas:
+
+* Running interpreted code
+* Running Template Haskell code (implementing the `Quasi` monad via message-passing)
+* The GHCi debugger: breakpoints and inspecting runtime expressions
