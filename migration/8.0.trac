@@ -14,6 +14,14 @@ TODO
 
 === `base-4.9.0.0`
 
+
+==== Normalise `Applicative`/`Monad` instance definitions 
+
+`base-4.9.0.0` continues to generalise functions from `Monad` to `Applicative`. However, in order to avoid performance regressions due to sub-optimally defined `Applicative`/`Monad` instances, it's highly advised to follow the
+[[Migration/7.10#GHCsaysNoinstanceforApplicative... | AMP+MRP refactoring guidelines ]] that were already provided in the [[Migration/7.10|GHC 7.10.x Migration Guide]].
+
+
+==== ...
 TODO
 
 ...
