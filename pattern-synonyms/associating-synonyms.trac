@@ -126,13 +126,12 @@ how Simon described the implementation.
 > satisfiability makes me shiver.  I suggest this: allow T( P ) in all
 > situations except where `P`'s type is ''visibly incompatible'' with
 > `T`.
-
+>
 > What does "visibly incompatible" mean?  `P` is visibly incompatible
-> with
->     `T` if
+> with `T` if
 >       * `P`'s type is of form `... -> S t1 t2`
 >       * `S` is a data/newtype constructor distinct from `T`
-
+>
 > Nothing harmful happens if we allow `P` to be exported with
 > a type it can't possibly be useful for, but specifying a tighter
 > relationship is very awkward as you have discovered.
