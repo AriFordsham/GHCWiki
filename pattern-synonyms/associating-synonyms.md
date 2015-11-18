@@ -1,11 +1,11 @@
-## Associating pattern synonyms with types
+## Bundlings pattern synonyms with types
 
 
-This section is based upon [\#10653](https://gitlab.haskell.org//ghc/ghc/issues/10653) and D1258.
+This section is based upon [\#10653](https://gitlab.haskell.org//ghc/ghc/issues/10653) and D1258. The feature was implemented in [ 96621b1b4979f449e873513e9de8d806257c9493](https://github.com/ghc/ghc/commit/96621b1b4979f449e873513e9de8d806257c9493).
 
 
 Pattern synonyms allow for constructors to be defined, exported and imported separately from the types which they build.
-However, it is sometimes convenient to associate synonyms with types so that we can more closely model ordinary data constructors.
+However, it is sometimes convenient to bundle synonyms with types so that we can more closely model ordinary data constructors.
 
 
 If we want to refactor to change the internal representation of this maybe-like type to use Maybe.
@@ -41,7 +41,7 @@ module Internal where
 Then local definitions to `Internal` which used `A` would work as before but modules importing `Internal` and `A`
 will no longer work as importing `A(..)` will import the type `A` and the constructor `NewA`. We can explicitly import the
 new patterns but the usage of pattern synonyms should be transparent to the end user. What's needed is to be able to
-associate the new synonyms with a type such that client code is oblivious to this implementation.
+bundle the new synonyms with a type such that client code is oblivious to this implementation.
 
 ### Proposal
 
@@ -87,31 +87,51 @@ In case (2), `..` might in fact be a union of sets if `T` is imported from multi
 
 For any modules `M``N`, if we import `N` from `M`,
 
-- The abbreviated form `T(..)` brings into scope all the constructors, methods or field names exported by `N` as well any patterns associated with `T` relative to `N`. 
-- The explicit form `T(c1,...,cn)` can name any constructors, methods or field names exported by `N` as well as any patterns associated with `T` relative to `N`. 
+- The abbreviated form `T(..)` brings into scope all the constructors, methods or field names exported by `N` as well any patterns bundled with `T` relative to `N`. 
+- The explicit form `T(c1,...,cn)` can name any constructors, methods or field names exported by `N` as well as any patterns bundled with `T` relative to `N`. 
 
 #### Typing
 
 
-WIP
-
-
-If we associate a pattern synonym `P` with a type `T` then we consider three separate cases depending on the type of `P`. **RAE:** To the right of `::` below, I assume you mean to refer only to the "result" part of the type, allowing arguments to the left of arrows. **End RAE**
-
-- If `P :: T t1 t2 .. tn` then `P` is an instance of \`T. We completely ignore constraints in this case.
-- If `P :: f t1 t2 .. tn`, in other words, if `P` is polymorphic in `f`, then `f` must be brought into scope by a constraint. In this case we check that `T u1 ... un` is a subtype of `ReqTheta => f t1 t2 ... tn`. We must involve `ReqTheta` in the case that it contains equality constraints and/or type families. In the case that ReqTheta contains a class constraint, we require that the correct instance for `T` is in scope.
-
-> **RAE:** I'm a little baffled here. What does "`f` must be brought into scope by a constraint" mean? Constraints aren't scoping constructs. You're checking whether `T u1 ... un` is a subtype of `ReqTheta => f t1 ... tn`. Call the first type `τ` and the second one `θ => σ`. In other words, you want `τ` to be more polymorphic than `θ => σ`. But this is still a little unclear. What type variables are allowed to be unified? Those in `τ`? Those in `θ => σ`? And by saying that `τ` is more polymorphic than `θ => σ`, that means that we're *assuming*`θ`. And indeed you mean that for `θ`'s equality constraints. But then you say that we check for the existence of class constraints, which makes it sound like we're not assuming `θ` after all.
+It proved quite a challenge to precisely specify which pattern synonyms
+should be allowed to be bundled with which type constructors.
+In the end it was decided to be quite liberal in what we allow. Below is
+how Simon described the implementation.
 
 >
-> Further down, in the examples, you talk about the possibility of a later module introducing an orphan and claim that class constraints are ignored. But that conflicts with this statement here. **End RAE**
+> Personally I think we should Keep It Simple.  All this talk of
+> satisfiability makes me shiver.  I suggest this: allow T( P ) in all
+> situations except where `P`'s type is *visibly incompatible* with
+> `T`.
 
-- If `P :: F v1 .. vm` where `F` is a type family then unless `F v1 ... vm ~ T t1 t2 ... tn` we do not allow `P` to be associated with `T`.
+>
+> What does "visibly incompatible" mean?  `P` is visibly incompatible
+> with
+>
+> > `T` if
+>
+> - `P`'s type is of form `... -> S t1 t2`
+> - `S` is a data/newtype constructor distinct from `T`
 
-> **RAE:** This might be more restrictive than you mean it to be. What if `F Int ~ T` and `F Bool ~ T` but `F Char ~ Q`? According to your spec, you require that `F` have a "universal" instance... which means that `F` is as expressive as a vanilla type synonym. **End RAE**
+>
+> Nothing harmful happens if we allow `P` to be exported with
+> a type it can't possibly be useful for, but specifying a tighter
+> relationship is very awkward as you have discovered.
 
-**RAE:** Given all of the deep, unending confusion around here, I propose the following, much simpler, scheme: Just use the first bullet above. It's exceedingly
-simple, obviously safe, intuitive to users, and easy to implement. It misses out on some more exotic type system features. But no one is asking to write pattern synonyms with these exotic features and then associate them! When they do ask, we can relax restrictions appropriately, armed with real use cases. I'm also worried that, in many of these exotic cases, type-correct synonyms are in fact impossible to write at all. This is another reason to wait for use cases. It's really easy to relax these restrictions later -- no breakage required. **End RAE**
+
+Note that this allows \*any\* pattern synonym to be bundled with any
+datatype type constructor. For example, the following pattern `P` can be
+bundled with any type.
+
+```wiki
+pattern P :: (A ~ f) => f
+```
+
+
+So we provide basic type checking in order to help the user out, 
+pattern synonyms are defined with definite type constructors, but don't
+actually prevent a library author completely confusing their users if
+they want to.
 
 
 A few examples are included for clarification in the final section.
@@ -195,8 +215,7 @@ patternP=A
 ```
 
 
-Pattern `P` has type `f`, when solving the required constraints we find that
-`A ~ f` so `P :: A` and hence we allow the export.
+Pattern `P` has no visibly obvious type so we allow it to be bundled with any type constructor.
 
 ```
 {-# LANGUAGE PatternSynonyms, ViewPatterns #-}moduleFoo(Identity(P))wheredataIdentity a =Identity a
@@ -214,22 +233,10 @@ patternP x <-(destruct -> x)whereP x = build x
 ```
 
 
-In this example, `P` is once again polymorphic in the constructor `f`. It might
-seem that we should only allow `P` when there is an instance for `C Identity`
-in scope. However, we completely ignore class constraints as a user may
-provide an orphan instance which allows the pattern to be used. Despite this,
-it is more conservative and perhaps less surprising to require that the correct
-instance is in scope.
+In this example, `P` is once again polymorphic in the constructor `f` so it can be bundled with any type constructor.
 
 
-It may seen like we should not allow any synonym which is polymorphic in the
-constructor to be associated with a type but this is too strict. The previous
-example showed a synonym which was polymorphic in `f` but `f` has arity 0. In
-general, we see that equality constraints mean that we have to do at least some
-constraint solving even if it is a very strange way to define a pattern synonym.
-
-
-For example, we certainly do not want to allow the following association.
+We certainly do not want to allow the following association but we do anyway as the type is not visibly different.
 
 ```
 {-# LANGUAGE PatternSynonyms #-}moduleFoo(A(P))wheredataA=AdataB=BpatternP::()=>(B~ f)=> f
@@ -258,7 +265,7 @@ patternP x <-(destruct -> x)whereP x = build x
 
 
 We should only allow `P` to be associated with `A` due to the superclass constraint
-`f ~ A`.
+`f ~ A` but it can be bundled with any type constructor as it is not visibly different.
 
 ##### Type Families
 
@@ -272,11 +279,7 @@ patternP::FBoolpatternP=A
 ```
 
 
-There are no instances for `F` but a client module which imports `A` and `P`
-could provide such an instance which then may or may not type check.
-
-
-Like classes, unless `F Bool` is defined then we should not allow `P` to be associated with `A`.
+We can bundle `P` with any type constructor as the type is not visibly different. 
 
 ### Unnatural Association
 
