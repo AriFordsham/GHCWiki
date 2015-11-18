@@ -193,3 +193,66 @@ I found this page by accident, but find this a very interesting idea.  Very usef
 }}}
 
       What about `Error` and `Warning` instead?
+
+
+== Extended Example
+
+Here is a longer example, which illustrates how one might use this feature in the implementation of a safe API to raw memory using C-like packed structures:
+
+{{{
+
+
+{-# LANGUAGE TypeFamilies, TypeOperators, UndecidableInstances, DataKinds #-}
+{-# LANGUAGE ScopedTypeVariables #-}
+
+import GHC.TypeLits
+import Data.Proxy
+import Data.Word
+import Foreign.Ptr
+
+type OffsetOf l xs = GetOffset 0 l xs
+
+type family ByteSize x where
+  ByteSize Word64   = 8
+  ByteSize Word32   = 4
+  ByteSize Word16   = 2
+  ByteSize Word8    = 1
+  ByteSize a        = TypeError (Text "The type " :<>: ShowType a :<>:
+                                 Text " is not exportable.")
+
+type family GetOffset n (l :: Symbol) xs where
+  GetOffset n l ( '(l,a) ': xs) = '(n,a)
+  GetOffset n l ( '(x,a)  : xs) = GetOffset (n+ByteSize a) l xs
+  GetOffset n l '[]             = TypeError (Text "Missing field: " :<>:
+                                                                    ShowType l)
+
+newtype Struct (a :: [(Symbol,*)]) = Struct (Ptr ())
+
+
+get :: forall l fs n a.
+      (OffsetOf l fs ~ '(n,a), KnownNat n) =>
+      Struct fs ->
+      Proxy l   ->
+      Ptr a
+get (Struct p) _ = plusPtr p (fromInteger (natVal (Proxy :: Proxy n)))
+
+
+type MyStruct = [ '("A",Word8), '("B",Word8), '("C",Int) ]
+
+testOk :: Struct MyStruct -> Ptr Word8
+testOk s = get s (Proxy :: Proxy "B")
+
+
+{-
+testNotOk :: Struct MyStruct -> Ptr Word8
+testNotOk s = get s (Proxy :: Proxy "X")
+--}
+
+{-
+type MyOtherStruct = [ '("A",Int), '("B",Word8) ]
+
+testNotOk :: Struct MyOtherStruct -> Ptr Word8
+testNotOk s = get s (Proxy :: Proxy "B")
+--}
+
+}}}
