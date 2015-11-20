@@ -357,12 +357,12 @@ file. The possible test functions are:
 
 Normally, the sample `stdout` and `stderr` for a test T go in the
 files `T.stdout` and `T.stderr` respectively.  However, sometimes a
-test may generate different output depending on the platform,
-compiler, compiler version, or word-size.  For this reason the test
-driver looks for sample output files using this pattern:
+test may generate different output depending on the platform or
+word-size. For this reason the test driver looks for sample output
+files using this pattern:
 
 {{{
-T.stdout[-<compiler>][-<version>][-ws-<wordsize>][-<platform>]
+T.stdout[-ws-<wordsize>][-<platform>]
 }}}
 
 Any combination of the optional extensions may be given, but they must
@@ -371,9 +371,7 @@ the current configuration will be selected; for example if the
 platform is `i386-unknown-mingw32` then `T.stderr-i386-unknown-mingw32`
 will be picked in preference to `T.stderr`.
 
-Another common example is to give different sample output for an older
-compiler version.  For example, the sample `stderr` for GHC 6.8.x would go in the file
-`T.stderr-ghc-6.8`.
+
 
 == Threaded Considerations ==
 
