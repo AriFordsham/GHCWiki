@@ -45,3 +45,14 @@ Main functionality areas:
 - Running interpreted code
 - Running Template Haskell code (implementing the `Quasi` monad via message-passing)
 - The GHCi debugger: breakpoints and inspecting runtime expressions
+
+## Template Haskell in stage1
+
+
+If the stage1 compiler supported Template Haskell, then we could use it in GHC itself or the libraries that GHC depends on.  
+
+
+However, this is still difficult even running the interpreted code in an external process.  The problem is that the server is compiled with the stage 0 compiler, using the stage0 RTS and linked against the stage0 libraries, meanwhile it would be loading the stage1 libs.  If we, say, added a new primop and used that in the stage1 base package, it would fail to link against the stage0 RTS which doesn't have the primop.  So this isn't necessarily going to just work, unless we have a sufficiently compatible compiler to bootstrap from.
+
+
+So we shouldn't rush to use TH in GHC or the libraries, because it would constrain the stage0 compiler to be a much more recent version than we currently require.
