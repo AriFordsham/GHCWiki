@@ -7,7 +7,7 @@
   - algorithm.tex specifies the abstract core Backpack algorithms for GHC.
   - backpack-manual.tex is a user-facing manual for using Backpack.
   - backpack-impl.tex is an old but interesting technical document describing many of the technical tradeoffs in our design.
-- [ What's a module system good for anyway?](http://blog.ezyang.com/2014/08/whats-a-module-system-good-for-anyway/) Motivates \*why\* you might care about Backpack
+- [ What's a module system good for anyway?](http://blog.ezyang.com/2014/08/whats-a-module-system-good-for-anyway/) Motivates *why* you might care about Backpack
 - The [commentary pages about packages](commentary/compiler/packages), 
 
 
@@ -18,10 +18,10 @@ see also [CabalDependency](cabal-dependency)
 
 Backpack is a largely orthogonal extension to GHC; for example, there are no changes to the core type-checking or type-inference algorithm. Rather, the implementation of Backpack consists of:
 
-1. A new language for describing "units" (called packages in the original Backpack paper). This language is written in `bkp` files, and looks like this:
+1. A new language for describing "components" (called packages in the original Backpack paper). This language is written in `bkp` files, and looks like this:
 
 ```wiki
-unit p where
+component p where
   include q (Q) requires (H)
   module A
   module B
@@ -29,24 +29,147 @@ unit p where
 
 1. A new frontend, `ghc --backpack` for processing `bkp` files, which can make (multiple) calls to `ghc --make` in order to typecheck and compile modules in a `bkp` file.
 
-1. Infrastructure for handling \*indefinite units\*, i.e. units for which we have signatures but not implementations for some modules.  This includes machinery to do \*shaping\*.
+1. Infrastructure for handling *indefinite components*, i.e. components for which we have signatures but not implementations for some modules.  This includes machinery to do *shaping*.
 
 
 The most up-to-date description for the frontend and shaping can be found in `docs/backpack/algorithm.tex`, but here are some miscellaneous GHC-specific notes.
 
-### Lazy interface loading
+### The frontend
 
 
-In paper Backpack, unification and substitution is performed eagerly on the type environment as soon as we discover that some type equality holds (e.g. during shaping).  In GHC, the type environment is \*lazily\* loaded, and thus this substitution must be deferred until we actually load this interface.  This has two consequences for GHC's interface loading code:
+A Backpack file can be thought of in two ways:
 
-1. We may want the types for a module `p(A -> HOLE:B):M`, but we only have an interface file for `p(A -> HOLE:A):M`. In this case, we have to rename the interface file from `A -> HOLE:A` to `A -> HOLE:B` before we typecheck and load it in.  This is handled by `computeInterface`, which calls `rnModIface` to apply the substitution.
+1. It is a "user-friendly" way of passing flags which would otherwise have to be manually specified to `ghc --make`. In particular, Cabal could generate a Backpack file for GHC to compile. This is the "large-scale modularity" perspective.
 
-1. Inside an interface file, we may refer to a Name `hole:A.T`.  During shaping, we may have discovered that this Name actually is unified with `impl:A.T`; so when we are typechecking the interface file, we must use the real name and not stodgily adhere to the old one.  The `eps_shape` data structure records these unifications, and a few data types (interface file renaming, interface type-checking, and even type-checking a signature) abide by this substitution.
-
-### Semantic versus identity modules
+1. It contains source code written in the "Backpack module language" (analogous to ML's module language), and is the mechanism by which users write and compose modular programs. This is the "small-scale modularity" perspective.
 
 
-Traditionally, the module identity of an `hs` or `hs-boot` file which is being type-checked is always `thisPackage` plus the module name; this is unique to the module.  With signatures, this is not the case: `H.hsig` file might be traditionally called `p(H -> hole:H):H`, but in fact its declarations should be treated as if they were defined by a module `hole:H`. We say that `p(H -> hole:H):H` is the \*identity\* module which uniquely identifies the interface, whereas `hole:H` is the \*semantic\* module which identifies what the signature actually is implementing.
+Our goal is to eventually support \*both\* perspectives, but Backpack most natively supports large-scale modularity. We haven't yet started working on a design for small-scale modularity (which would likely involve additions to Haskell's surface syntax), except for a few small affordances (multiple units, inline modules) in Backpack which should make small-scale modular development possible (even if it is still a little unpleasant.)
+
+**Typechecking an indefinite component.** A user wishing to compile a component with component ID `p-0.1-xxx` which depends on `base` and contains a signature `A` and a module `B` can setup their working directory with the files `p-0.1-xxx.bkp`, `A.hsig`, and `B.hs`. The contents of the Backpack file specify the modules, signatures, and includes of the component:
+
+```wiki
+component p-0.1-xxx where
+  include base-4.9.0.0
+  signature A
+  module B
+```
+
+
+We can typecheck this component by invoking GHC with `ghc --backpack p-0.1-xxx.bkp`.  This will build interface files for each module and signature (`A.hi` and `B.hi`), object files if the component has no holes (not the case here), and a **unit file** (`p-0.1-xxx.unit`) describing the result of typechecking:
+
+```wiki
+id: p-0.1-xxx(A=hole:A)
+instantiated-depends: base-4.9.0.0
+exposed-modules: B
+import-dirs: .
+```
+
+
+An external tool like Cabal may use this information to construct an entry in the installed package database for this unit.
+
+TODO Implementation doesn't understand component IDs here yet.
+
+**Instantiating and building a component.** To build an indefinite component, one has to explicitly specify how the holes are to be filled.  This can be done directly using the `-sig-of` flag.  For example, suppose we decide to fill `A` with `base-4.9.0.0:Data.IORef`. We can build this component using the command line `ghc --backpack p-0.1-xxx.bkp -sig-of "A=base-4.9.0.0:Data.IORef"`. This will build interface files (`A.hi`, `B.hi`), object files (`A.o`, `B.o`) and a digest file (`p-0.1-xxx.bkp`):
+
+```wiki
+id: p-0.1-xxx(A=base-4.9.0.0:Data.IORef)
+instantiated-depends: base-4.9.0.0
+exposed-modules: B
+import-dirs: .
+```
+
+TODO Should `-sig-of` default to building interface files to the current directory, or `p-0.1-xxx-YYYYYYYY`?
+
+
+But where do the parameters to `-sig-of` come from anyway? In Backpack, components get instantiated by mix-in linking.  Thus, the general mode of operation is that you typecheck a unit (`ghc --backpack q.bkp -fno-code`) in order to discover what instantiated units it needs. For example, the unit file for this unit:
+
+```wiki
+component q-2.0-yyy where
+  include base-4.9.0.0 (Data.IORef as A)
+  include p-0.1-xxx requires (A)
+```
+
+
+would be:
+
+```wiki
+id: q-2.0-yyy
+instantiated-depends: p-0.1-xxx(A=base-4.9.0.0:Data.IORef)
+```
+
+**Component names.**  For hand-written Backpack files, it is not convenient to specify component IDs in the Backpack file, as they are machine-generated by Cabal and not generally known at source time.  Anywhere a component ID is valid (components and includes), a "component name" may be specified instead. E.g.,
+
+```wiki
+component p where
+  include base
+  signature A
+  module B
+```
+
+
+Component names are resolved into component IDs as follows:
+
+1. The component ID being built is specified with the `-this-component-id` flag
+1. The component IDs of included packages are looked up based on the package names of exposed packages.  To select a specific version of a package, the `-package-id` flag can be used (as before).
+
+TODO Do we need syntax for distinguishing ComponentId from ComponentName?
+
+**Helper units.** Backpack files can also specify internal units which can be used for small-scale modularity. These are useful for several reasons:
+
+1. It decouples the Backpack unit of modularity (component) from the Cabal unit of packaging (a package). This means you don't have to make a new Cabal package to make a instantiatiable Backpack component.
+1. GHC can build all of the units in a single Backpack file at once, without having to go through Cabal (as the source is all available).
+1. The ability for a single invocation of GHC to produce multiple units is a necessary capability for any other "modularity in the small" surface syntax.
+1. It's really convenient for testing (ha ha)
+
+
+Every Backpack file has a primary unit identified by the name of the bkp file; helper units occur before that unit in dependency order. For example, `r.bkp`:
+
+```wiki
+component internal where
+  signature A
+  module B
+component r where
+  include helper
+  module A
+```
+
+
+The source code for a helper unit occurs in a subdirectory with the same component name, e.g. `internal/A.hsig`.  If component names are being used, GHC will automatically derive a component ID for the helper component based off of `-this-component-id`; e.g. if you pass `-component-id r-0.4-aaaa` then `internal` will be assigned `r-0.4-aaaa-internal`.
+
+
+The other important thing to note is that the unit file will record a unit for each unit that is built. In this example, the unit file will be:
+
+```wiki
+id: r-0.4-aaaa-internal(A=hole:A)
+instantiated-depends:
+import-dirs: internal
+----
+id: r-0.4-aaaa-internal(A=r-0.4-aaaa:A)
+instantiated-depends:
+import-dirs: internal/r-0.4-aaaa-XXXXXXX
+----
+id: r-0.4-aaaa
+instantiated-depends: r-0.4-aaaa-internal(A=r-0.4-aaaa:A)
+import-dirs: .
+```
+
+
+The most notable thing is that the unit file records where the interface files for a unit are stored. In particular, the instantiated `r-0.4-aaaa-internal(A=r-0.4-aaaa:A)` has its interface files stored in the subdirectory `internal/r-0.4-aaaa-XXXXXXX`, where `XXXXXXX` is a deterministic, unique hash computed by GHC (which is otherwise private to GHC).
+
+### Holes
+
+
+The big new typechecking feature of Backpack is to allow a user to replace a concrete module (`hs`) with a signature (`hsig`), whose implementation can be filled in later.  Both `hs` and `hsig` files compile to an `hi` file, but interface files generated by `hsig` files are different in the following ways:
+
+- `mi_sig_of` is non-empty, recording the **implementing module** of the interface in question.  For example, when you run `ghc -c A.hsig -sig-of other-pkg:A`, the produced `ModIface` has `main:A` for the `mi_module`, but `other-pkg:A` for `sem_mod`. (Normal interfaces have `Nothing` in `mi_sig_of`.)  When the implementing module is unknown, the recorded module is a fake module abscribed to the fictitious `hole` package; e.g. `hole:A`.
+
+- `mi_hsc_src` is `HsigFile`.
+
+- Like `hi-boot` files compiled from `hs-boot`, these `hi` files contain no unfoldings, can have abstract data types, etc.
+
+
+Internally, we often refer to what is recorded in `mi_sig_of` as the "semantic module"; this is the module that is used for `Name`s that come to the module; `mi_module` is the "identity module" which uniquely identifies an interface file.
 
 ### Signature merging
 
@@ -57,6 +180,37 @@ Unlike regular modules, you cannot simply \*hide\* a hole: it is a requirement t
 Presently, this merging process is carried out by `mergeRequirements`, which successively adds inherited required types/values from included units to the type/environment of the `hsig` file being compiled.  Any requirements for which we don't have a local `hsig` implicitly have a "blank" signature file which collects together the merged requirements.
 
 TODO Unclear how to handle dependency cycles here.
+
+### Lazy interface loading
+
+
+In paper Backpack, unification and substitution is performed eagerly on the type environment as soon as we discover that some type equality holds (e.g. during shaping).  In GHC, the type environment is \*lazily\* loaded, and thus this substitution must be deferred until we actually load this interface.  This has two consequences for GHC's interface loading code:
+
+1. We may want the types for a module `p(A -> HOLE:B):M`, but we only have an interface file for `p(A -> HOLE:A):M`. In this case, we have to rename the interface file from `A -> HOLE:A` to `A -> HOLE:B` before we typecheck and load it in.  This is handled by `computeInterface`, which calls `rnModIface` to apply the substitution.
+
+1. Inside an interface file, we may refer to a Name `hole:A.T`.  During shaping, we may have discovered that this Name actually is unified with `impl:A.T`; so when we are typechecking the interface file, we must use the real name and not stodgily adhere to the old one.  The `eps_shape` data structure records these unifications, and a few data types (interface file renaming, interface type-checking, and even type-checking a signature) abide by this substitution.
+
+### Integration with Cabal
+
+
+A Cabal library can be specified as Backpack enabled by using the `backpack-file` flag:
+
+```wiki
+library
+  backpack-file: foo.bkp
+```
+
+
+This replaces any `exposed-modules`, etc. fields (which are now inferred from the Backpack file).
+
+TODO SPJ points out that Cabal files support a more flexible format, with conditionals based on flags, and it is bad if we remove this capability.  If the Backpack file were generated by Cabal, this would not be a problem. Not quite sure what to do here yet...
+
+
+A Backpack file is thus compiled with several steps:
+
+1. Cabal calls `ghc --backpack foo.bkp -fno-code` and reads out the unit file to determine what instantiated units are necessary.  If any of these instantiated units are missing, it fails (or `cabal-install` will use this to arrange for the instantiated unit to be compiled)
+1. Cabal calls `ghc --backpack foo.bkp` to actually build/typecheck the unit.
+1. Cabal reads out the unit file, and creates an entry in the installed package database for each one.
 
 ### The database
 
