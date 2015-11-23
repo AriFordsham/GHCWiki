@@ -51,15 +51,15 @@ These introduce DWARF parsing and stack unwinding to the RTS by
 introducing an optional dependency on `libdw`. This is the same library
 used by `perf`.
 
-- \[MERGED\]   [ Phab:D1196](https://phabricator.haskell.org/D1196): Libdw: Add libdw-based stack unwinding
-- \[MERGED\]   [ Phab:D1197](https://phabricator.haskell.org/D1197): Signals: Print backtrace on SIGUSR2
-- \[MERGED\]      [ Phab:D1418](https://phabricator.haskell.org/D1418): Produce a stacktrace when the RTS barfs
+- \[MERGED\]  [ Phab:D1196](https://phabricator.haskell.org/D1196): Libdw: Add libdw-based stack unwinding
+- \[MERGED\]  [ Phab:D1197](https://phabricator.haskell.org/D1197): Signals: Print backtrace on SIGUSR2
+- \[MERGED\]  [ Phab:D1418](https://phabricator.haskell.org/D1418): Produce a stacktrace when the RTS barfs
 
 
 With the RTS groundwork in place we can plumb things in for use by user
 programs,
 
-- \[READY\]   [ Phab:D1198](https://phabricator.haskell.org/D1198): Provide DWARF-based backtraces to Haskell-land
+- \[MERGED\]  [ Phab:D1198](https://phabricator.haskell.org/D1198): Provide DWARF-based backtraces to Haskell-land
 
 
 Unfortunately up until this point we have no ability to unwind out of
@@ -87,10 +87,10 @@ The RTS then takes these DIEs during program initialiation and
 emits a representation of them to the eventlog for later use by analysis
 code,
 
-- \[RFC\]    [ Phab:D1279](https://phabricator.haskell.org/D1279): Output source notes in extended DWARF DIEs
+- \[MERGED\] [ Phab:D1279](https://phabricator.haskell.org/D1279): Output source notes in extended DWARF DIEs
 - \[RFC\]    [ Phab:D1280](https://phabricator.haskell.org/D1280): rts: Emit debug information about program to event log
-- \[READY\]  [ Phab:D1281](https://phabricator.haskell.org/D1281): Support multiple debug output levels
-- \[RFC\]    [ Phab:D1387](https://phabricator.haskell.org/D1387): Preserve tick parentage
+- \[MERGED\] [ Phab:D1281](https://phabricator.haskell.org/D1281): Support multiple debug output levels
+- \[MERGED\] [ Phab:D1387](https://phabricator.haskell.org/D1387): Preserve tick parentage
 
 
 Now we have everything necessary to add some basic statistical
@@ -116,7 +116,7 @@ be measured.
 It would also be nice to support time- or cycle-based sampling.
 
 - \[IDEA\]   Support basic timer-based sampling
-- \[IDEA\]   Support sampling with Linux `perf_events` interface
+- \[RFC\]    Support sampling with Linux `perf_events` interface
 
 
 In addition, we may want to support some form of call-graph collection.
