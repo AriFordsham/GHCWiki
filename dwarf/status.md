@@ -116,7 +116,7 @@ be measured.
 It would also be nice to support time- or cycle-based sampling.
 
 - \[IDEA\]   Support basic timer-based sampling
-- \[RFC\]    Support sampling with Linux `perf_events` interface
+- \[RFC\]    [ Phab:D1517](https://phabricator.haskell.org/D1517): Support sampling with Linux `perf_events` interface
 
 
 In addition, we may want to support some form of call-graph collection.
@@ -129,7 +129,6 @@ thing to have but probably won't happen for 8.0. The challenge here is
 recording the Core fragments without introducing enormous amounts of
 redundancy.
 
-- \[EXPLOR\] [ Phab:D1213](https://phabricator.haskell.org/D1213): Core notes
 - \[IDEA\]   Record tree of Core fragments into DWARF DIEs (Core Notes)
 
 ### Documentation
