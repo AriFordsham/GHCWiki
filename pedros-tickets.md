@@ -19,10 +19,7 @@ This is a list of tickets that [ Pedro](http://dreixel.net) wants to keep an eye
 - [\#9821](https://gitlab.haskell.org//ghc/ghc/issues/9821) (DeriveAnyClass support for higher-kinded classes + some more comments)
 - [\#9968](https://gitlab.haskell.org//ghc/ghc/issues/9968) (DeriveAnyClass fails on multi-parameter type classes)
 - [\#10087](https://gitlab.haskell.org//ghc/ghc/issues/10087) (DefaultSignatures: error message mentions internal name)
-- [\#10361](https://gitlab.haskell.org//ghc/ghc/issues/10361) (DeriveAnyClass does not fill in associated type defaults)
-- [\#10487](https://gitlab.haskell.org//ghc/ghc/issues/10487) (DeriveGeneric breaks when the same data name is used in different modules)
 - [\#10512](https://gitlab.haskell.org//ghc/ghc/issues/10512) (Generic instances missing for Int32, Word64 etc.)
-- [\#10513](https://gitlab.haskell.org//ghc/ghc/issues/10513) (ghc 7.6.3 Compiler panic with Generics)
 - [\#10982](https://gitlab.haskell.org//ghc/ghc/issues/10982) (DeriveAnyClass and GND don't work well together)
 
 
@@ -45,6 +42,9 @@ Closed:
 - [\#9999](https://gitlab.haskell.org//ghc/ghc/issues/9999) (Typeable deriving behavior different between data families and associated data types)
 - [\#10000](https://gitlab.haskell.org//ghc/ghc/issues/10000) (Derived DataKinds Typeable instance collision leads to [SafeHaskell](safe-haskell) violation)
 - [\#10030](https://gitlab.haskell.org//ghc/ghc/issues/10030) (packageName for GHC.Generics.Datatype)
+- [\#10361](https://gitlab.haskell.org//ghc/ghc/issues/10361) (DeriveAnyClass does not fill in associated type defaults)
+- [\#10487](https://gitlab.haskell.org//ghc/ghc/issues/10487) (DeriveGeneric breaks when the same data name is used in different modules)
+- [\#10513](https://gitlab.haskell.org//ghc/ghc/issues/10513) (ghc 7.6.3 Compiler panic with Generics)
 
 
 Wiki pages:
