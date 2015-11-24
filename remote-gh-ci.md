@@ -25,6 +25,8 @@ There are several reasons for wanting to do this:
 
 - We can have **multiple instances of a GHC Session** on the GHC API, each running TH and/or interpreted code.  Right now this is not possible because the linker's state is global.
 
+- The virtual CWD in `InteractiveEval` is not necessary, because the GHCi process has its own CWD.
+
 ## Disadvantages
 
 - We can't directly share data between interpreted and compiled code, everything must be marshaled via `Binary`.
