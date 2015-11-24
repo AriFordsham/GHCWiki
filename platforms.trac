@@ -46,6 +46,7 @@ Tier 2 platforms as possible to Tier 1, as soon as they meet the Tier 1 criteria
 || x86          || OpenBSD         || i386-unknown-openbsd    || Yes          || Yes  || Yes    || Yes          || No                || ||
 || x86          || Solaris         || i386-unknown-solaris2   || Yes          || Yes  || Yes    || Yes          || Yes (*S4)         || ||
 || x86-64       || OpenBSD         || amd64-unknown-openbsd   || Yes          || Yes  || Yes    || Yes          || No                || ||
+|| x86-64       || DragonFly       || x86_64-portbld-dragonfly || Yes         || Yes  || Yes    || Yes          || Yes               || ||
 || PowerPC      || Linux           || powerpc-unknown-linux   || Yes          || Yes  || Yes    || Yes          || No                || ||
 || PowerPC      || MacOS X         || powerpc-apple-darwin    || Yes          || Yes  || Yes    || Yes          || Yes               || ||
 || PowerPC64    || Linux           || powerpc64-unknown-linux || No           || No   || No     || Yes          || No                || ||
@@ -63,7 +64,6 @@ Tier 2 platforms as possible to Tier 1, as soon as they meet the Tier 1 criteria
 || ARM          || iOS             || arm-apple-darwin10      || Yes          || No   || Yes    || No           || No                      || [wiki:Building/CrossCompiling/iOS] ||
 || PowerPC      || AIX             || powerpc-ibm-aix         || No           || No   || No          || ?                || No || [wiki:Building/AIX] ||
 
-'''*S1''' Goetz Isenmann [http://www.haskell.org/pipermail/glasgow-haskell-users/2009-November/017961.html reports] that GHCi is currently unable to load compiled code that refers to errno.[[br]]
 '''*S2''' but see #591[[BR]]
 '''*S3''' registerised in the past up to GHC 7.0.4 release, then unregisterised due to removal of registerised -fvia-C way (mangler)[[br]]
 '''*S4''' shared libraries are supported on Solaris 11 version 11/11 and higher
@@ -80,7 +80,6 @@ Tier 3 platforms worked in the past, but probably do not work now.
 || Alpha        || Dec OSF          || alpha-dec-osf3        || No           || No  || No       || Yes          || No               ||
 || ARM          || Maemo (Linux)   || arm-unknown-linux-gnu   || Yes          || No   || No     || No           || No                      || ArmLinuxGhc    ||
 || x86          || NetBSD          || i386-unknown-netbsd     || Yes          || Yes  || Yes    || Yes          || No                || ||
-|| x86          || DragonFlyBSD    || i386-unknown-dflybsd    || Yes          || No(*S1) || Yes    || Yes          || No                || ||
 || x86-64       || NetBSD          || amd64-unknown-netbsd    || Yes          || Yes  || Yes    || Yes          || No                || ||
 
 == Definitions ==
