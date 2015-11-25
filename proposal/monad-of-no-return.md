@@ -305,7 +305,7 @@ See [MonadOfNoReturn/Discussion](proposal/monad-of-no-return/discussion)
 ---
 
 - \[1\]: [ https://wiki.haskell.org/Functor-Applicative-Monad_Proposal](https://wiki.haskell.org/Functor-Applicative-Monad_Proposal)
-- \[2\]: [ https://wiki.haskell.org/MonadFail_Proposal](https://wiki.haskell.org/MonadFail_Proposal)
+- \[2\]: [ https://prime.haskell.org/wiki/Libraries/Proposals/MonadFail](https://prime.haskell.org/wiki/Libraries/Proposals/MonadFail)
 - \[3\]: [ https://ghc.haskell.org/trac/ghc/wiki/ApplicativeDo](https://ghc.haskell.org/trac/ghc/wiki/ApplicativeDo)
 - \[4\]: [ https://gist.github.com/hvr/b0e34463d85b58f169d9](https://gist.github.com/hvr/b0e34463d85b58f169d9)
 - \[5\]: [ https://gist.github.com/hvr/afcd040783d980594883](https://gist.github.com/hvr/afcd040783d980594883)
