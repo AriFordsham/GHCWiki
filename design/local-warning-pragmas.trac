@@ -17,8 +17,10 @@ Having source file delimeted by pragmas is not good idea as for me, because it w
 
 == Use cases ==
 
-For example you have a function in your source file that can perform some unsafe actions(unsafe I/O maybe). You think you are smarter than GHC, and you don't want to read such long warning's texts. So you apply pragma to your function and compiler does not throw warnings and you are happy with that.
+It is not very easy to form a good use case for this but nevertheless. 
 
+1. For example, if you depend on particular library function(if you want to support backward compatability) but in newer version of library this function marked as deprecated and so you get warnings about it. Here it may be useful to suppress them instead of rewriting the whole codebase. 
+2. Recent monad of no return proposal suggests that having `Applicative` context sufficed for `Monad` assumes that `return` is already implemented as `pure`, so we don't need to duplicate code. However, Monad still has minimal complete definition `>>=` and `return`, so we can have warnings about incomplete minimal definition.
 
 == Exempli gratia ==
 
@@ -28,27 +30,24 @@ Dear editors, if you have nice example of annoying warnings coming from imports,
 I don't know conventions about naming pragmas, so let it be something like this.
 
 {{{#!hs
-{-# SUPPRESS #-}
-foo :: IORef Int
-foo = unsafePerformIO (newIORef 10)
-}}}
+module Test where
 
-We are suppressing warnings for one particular function 
+import old_lib (foo) 
 
-Alternatively, we can do this in top-level, i mean in the file header we can write and compiler will suppress warnings, that foo will throw, see [https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/pragmas.html this] about WARNING and DEPRECATED pragmas
+...
 
-{{{#!hs
-{-# SUPPRESS foo  #-}
-
---some code here
-
-foo :: IORef Int
-foo = unsafePerformIO (newIORef 10)
-}}}
-
-Or as seen [https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/pragmas.html here] for INLINE pragma one can write
-{{{#!hs
-foo :: IORef Int
-foo = unsafePerformIO (newIORef 10)
+bar :: a -> b -> c 
 {-# SUPPRESS foo #-}
+bar x y = foo y $ x
 }}}
+
+We are suppressing warnings for one particular function
+
+{{{#!hs
+{-# SUPPRESS return #-}
+instance Applicative m => Monad m where
+    (>>=) = ...
+
+}}}
+And here we are suppressing warnings about incomplete minimal 
+
