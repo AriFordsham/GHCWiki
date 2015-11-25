@@ -110,7 +110,7 @@ Then, you can build the environment needed for compiling HEAD (assuming that the
 
 {{{
    cd ~
-   nix-build '<nixpkgs>' -A haskell-ng.compiler.ghcHEAD --run-env -I /home/user
+   nix-build '<nixpkgs>' -A haskell.compiler.ghcHEAD --run-env -I /home/user
 }}}
 
 Finally, clone, configure, and build GHC (see [wiki:/Newcomers] for details), but replace the usual `configure && make` with the Nix build phases:

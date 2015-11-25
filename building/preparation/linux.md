@@ -126,7 +126,7 @@ Then, you can build the environment needed for compiling HEAD (assuming that the
 
 ```wiki
    cd ~
-   nix-build '<nixpkgs>' -A haskell-ng.compiler.ghcHEAD --run-env -I /home/user
+   nix-build '<nixpkgs>' -A haskell.compiler.ghcHEAD --run-env -I /home/user
 ```
 
 
