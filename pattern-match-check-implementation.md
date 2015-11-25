@@ -1,209 +1,199 @@
-# Exhaustiveness/Redundancy check implementation
+# Exhaustiveness/Redundancy check implementation \[THE PAGE IS CURRENTLY UNDER CONSTRUCTION\]
 
 
 This page describes how the exhaustiveness and redundancy cheker is implemented
-in GHC. If you are looking for a general description of the problem and an overview
-of our approach see [PatternMatchCheck](pattern-match-check).
-
-
-See also
-
-- Peter Sestoft's paper for negative patterns [ ML's pattern matching compilation and partial evaluation](http://lambda.csail.mit.edu/~chet/papers/others/s/sestoft/sestoft96ml.pdf)
+in GHC. If you are looking for a general description of the problem and an
+overview of our approach see [PatternMatchCheck](pattern-match-check).
 
 ## The `PmPat` datatype and friends
 
 
-The `PmPat` data type is defined in `deSugar/Check.lhs` as:
+The `PmPat` data type is defined in `deSugar/Check.hs` as:
 
 ```wiki
-data PmPat id = PmGuardPat PmGuard
-              | PmVarPat { pm_ty :: Type, pm_var :: id }
-              | PmConPat { pm_ty :: Type, pm_pat_con :: DataCon, pm_pat_args :: [PmPat id] }
-              | PmLitPat { pm_ty :: Type, pm_lit :: PmLit id }
-              | PmLitCon { pm_ty :: Type, pm_var :: id, pm_not_lit :: [PmLit id] }
+data PmPat p = PmCon { pm_con_con     :: DataCon
+                     , pm_con_arg_tys :: [Type]  -- The univeral arg types, 1-1 with the universal
+                                                 --   tyvars of the constructor
+                     , pm_con_tvs     :: [TyVar] -- Existentially bound type variables (tyvars only)
+                     , pm_con_dicts   :: [EvVar] -- Ditto *coercion variables* and *dictionaries*
+                     , pm_con_args    :: [p] }
+             | PmVar { pm_var_id      :: Id }
+             | PmLit { pm_lit_lit     :: PmLit } -- See NOTE [Literals in PmPat]
 ```
 
 
-where
+where type `PmLit` (defined in `deSugar/PmExpr.hs`) is:
 
 ```wiki
-type PmGuard  = CanItFail
-
-data PmLit id = PmLit HsLit
-              | PmOLit (HsOverLit id) (Maybe (SyntaxExpr id)) (SyntaxExpr id)
+data PmLit = PmSLit HsLit                -- simple
+           | PmOLit Bool  (HsOverLit Id) -- overloaded
 ```
 
 
-Instead of using the more verbose type `Pat`, type `PmPat` represents only
-Guards, Term variables, Constructor patterns, Literal patterns and Negative literal patterns.
-Yet, note that `PmPat` is more liberal than `Pat`, in the sense that we allow guards
-to be interleaved with normal patterns. See next section for the translation from `Pat` to `PmPat`.
-Also, note that, since we allow arbitrary many guards to appear in the middle of the pattern vectors,
-we lift the restriction that all clauses must have the same length (Nevertheless, the number of actual
-patterns in every clause must be the same).
+Literal patterns (constructed using datacon `PmLit`) are not essential for the
+algorithm to work, but, as we explain below in section `Translation`, it is
+much more efficient to treat them more like constructors by matching against
+them eagerly than generating equality constraints to feed the term oracle with
+(as we do in the paper). `PmCon` contains several fields, effectively copying
+constructor `ConPatOut` of type `Pat` (defined in `hsSyn/HsPat.hs`). Since the
+algorithm runs post-typechecking, this information is crucial for the treatment
+of GADTS.
+
+### Value Abstractions
 
 
-Even though we could represent negative literals using guards, instead we use negative patterns (see
-Peter Sestoft's paper above), represented using `PmLitCon` (Literal Constraint). A `PmLitCon ty x lits`
-represents all literals `x` with type `ty`, except the ones that are in `lits`.
-
-
-Note that for now `PmGuard`s are simply represented by `CanItFail`. Yet, since we (try to) keep this type
-opaque, it can be extended in the future to support better reasoning for guards than we have now.
-
-## Transforming `Pat` to `PmPat`
-
-
-The main function for viewing `Pat Id` into our domain (`PmPat Id`) is
+A value abstraction looks exactly like in the paper (with the exception of
+literal patterns). It is essentially a `PmPat`, we simply tie the recursive
+knot with a newtype declaration:
 
 ```wiki
-mViewPat :: Pat Id -> PmM [PmPat Id]
+newtype ValAbs = VA (PmPat ValAbs) -- Value Abstractions
+```
+
+### Patterns
+
+
+A pattern is either a simple pattern, or a guard pattern. Hence, it lifts the `PmPat` type:
+
+```wiki
+data Pattern = PmGuard PatVec PmExpr      -- Guard Patterns
+             | NonGuard (PmPat Pattern)   -- Other Patterns
 ```
 
 
-It never generates `PmLitCon`s but may introduce guards in the middle of the
-clause in the following cases:
+Note that the `PmGuard` constructor takes a pattern vector and **NOT** a single
+pattern. As we explain in the extended version of the paper (Appendix A, B,
+give a link here), during source pattern translation, a source pattern may give
+rise to a list of core patterns, by the introduction of more constraints (in
+the form of guard patterns).
 
-- view patterns:  `(f -> p) ==> [x , p <- f x]` (a variable and a guard)
-- `n+k` patterns: `(n+k)    ==> [n', n'>=k, let n = n'-k]` (a variable and two guards)
-
-
-Overloaded lists and pattern synonyms must be handled too but for now are just
-introducing a variable and a guard that can fail (`CanFail`).
+### Pattern and Value Vectors
 
 
-Literal patterns are desugared using functions (in `deSugar/MatchLit.lhs`):
+A pattern vector `PatVec` and a value vector abstraction `ValVecAbs` is just a
+type synonym for a list of the respective element type:
 
 ```wiki
-pmTidyLitPat :: HsLit -> Pat Id
-pmTidyNPat   :: HsOverLit Id -> Maybe (SyntaxExpr Id) -> SyntaxExpr Id -> Pat Id
+type PatVec    = [Pattern] -- Pattern Vectors
+type ValVecAbs = [ValAbs]  -- Value Vector Abstractions
+```
+
+## Value Set Abstractions
+
+
+After `PmPat`, the most important data type of the checker is `ValSetAbs`, used to represent value set
+abstractions. In the formalisation we treat a value set abstraction as a list of value vector abstractions
+but since the vectors we generate usually have a common prefix, we save space and time by representing
+them as a prefix tree. This means that we have a choice to either add the constraint set Delta only at the
+leaves or have constraints in internal nodes as well. To make the most out of our representation we chose
+the latter. Notionally, every path from the root to a leaf represents a value vector abstraction, where the
+set Delta is the union of all constraints in the path. This means that we have the following invariant not
+represented in our type:
+
+**INVARIANT VsaArity**: The number of `Cons`s in any path to a leaf is the same. We'll refer to this as the
+arity of the value set abstraction.
+
+```wiki
+data ValSetAbs
+  = Empty                               -- {}
+  | Union ValSetAbs ValSetAbs           -- S1 u S2
+  | Singleton                           -- { |- empty |> empty }
+  | Constraint [PmConstraint] ValSetAbs -- Extend Delta
+  | Cons ValAbs ValSetAbs               -- map (ucon u) vs
 ```
 
 
-The difference between these and the *proper*`tidyLitPat` and `tidyNPat` is
-that we do not wrap the literals in constructors. This way we do not expose their
-internal representation when we issue the warnings. Nevertheless, we unfold strings
-as lists of characters.
-
-
-Instead of calling `mViewPat` on every pattern, we define function
+where `PmConstraint`s and `PmExpr`s (defined in `deSugar/PmExpr.hs`) take the following form:
 
 ```wiki
-preprocess_match :: EquationInfo -> PmM [PmPat Id]
+data PmConstraint = TmConstraint Id PmExpr -- TermEq    : x ~ e
+                  | TyConstraint [EvVar]   -- TypeEq    : ...
+                  | BtConstraint Id        -- StrictVar : x ~ _|_
+
+data PmExpr = PmExprVar   Id
+            | PmExprCon   DataCon [PmExpr]
+            | PmExprLit   PmLit
+            | PmExprEq    PmExpr PmExpr  -- Syntactic equality
+            | PmExprOther (HsExpr Id)    -- NOTE [PmExprOther in PmExpr]
 ```
 
 
-That
-
-- Transforms all patterns using `mViewPat`
-- Extracts the `CaItFail` value out of the `MatchResult`
-- Puts them all together in a list of `PmPat Id`.
-
-## Main algorithm
+Additionally, instead of using constructors `Union`, `Constraint` and `Cons` to
+construct value set abstractions, we use the smart constructors instead
+`mkUnion`, `mkConstraint` and `mkCons` that ensure that an empty value set
+abstraction is represented only by `Empty`. We refer to this as the
+**INVARIANT VsaInvariant**.
 
 
-Instead of keeping the eliminated vectors (as we do in the paper), we use the
-type `Forces` to keep track if a clause forces the evaluation of an argument
-or not:
+Why do we need type `PmExpr`? The term oracle (`tmOracle`, defined in
+`deSugar/TmOracle.hs`) cannot handle all kinds of expressions (e.g. it doesn't
+handle function applications). Hence, there is no need to work on the extremely
+big `HsExpr` type (over 40 data constructors). The forms that are not handled
+by the term oracle are wrapped in a `PmExprOther` and ignored by the oracle
+(and the pretty-printer). Why do we keep them around then? An expression we do
+not inspect can always diverge so keeping them around (or at least and
+indication of failure) is essential for the laziness check.
+
+
+Note that data constructor `PmExprEq` does not represent function `(==)` but is
+generated by our algorithm, when we KNOW that two things are equal. E.g. when a
+simple literal (say `5 :: Int`) is matched, we KNOW that `x` where
+`PmExprEq False (PmExprEq x 5)` remains uncovered. So, `PmExprEq` represents
+structural equality and NOT an `Eq` instance.
+
+## Translation from Pat to Pattern
+
+
+The main functions that are responsible for the translation of the type
+`(Pat Id)` to our core pattern type `Pattern` are the following:
 
 ```wiki
-data Forces = Forces | DoesntForce
+translatePat    :: Pat Id -> UniqSM PatVec
+translatePatVec :: [Pat Id] -> UniqSM [PatVec]
+translateGuards :: [GuardStmt Id] -> UniqSM PatVec
+translateMatch  :: LMatch Id (LHsExpr Id) -> UniqSM (PatVec,[PatVec])
 ```
 
 
-The rest of the types that are heavily used in the main algorithm are the following:
+The worker functions are `translatePat` which translates a single pattern and
+`translateGuards` which translate a list of guards. The implementations are rather
+straightforward with ... exceptions:
+
+>
+> 1.
+
+>
+> 2.
+
+>
+> 3.
+
+**THE REST IS JUST DUMPED TEXT, I AM WORKING ON IT**
+
+
+For the different constructors of `PmExpr` see below (sections Translation and The Term Oracle).
+
+## Translation
 
 ```wiki
-data Delta = Delta { delta_evvars :: Bag EvVar, delta_guards :: PmGuard }
- 
-type InVec = [PmPat Id]
-type CoveredVec   = (Delta, [PmPat Id])
-type UncoveredVec = (Delta, [PmPat Id])
-
-data PmTriple = PmTriple { pmt_covered   :: [CoveredVec]
-                         , pmt_uncovered :: [UncoveredVec]
-                         , pmt_forces    :: Forces }
-```
-
-`Delta` keeps track of the constraints that correspond to each clause, and includes
-both type constraints `EvVar` and term constraints (guards) `PmGuard`.
-`InVec` is simply a list of `PmPat`s where guards may appear anywhere in the
-vector. Both `CoveredVec` and `UncoveredVec` represent intermediate vectors generated
-by the algorithm where the vectors are guard-free and all constraints are accumulated
-in `Delta`.
-Finally, `PmTriple`, as shown in the paper, is the information we get for every clause.
-It contains information about the cases it covers, the cases that leaves uncovered and
-about forcing.
-
-
-The heavy worker is function `one_step` which is function `alg` from the paper:
-
-```wiki
-one_step      :: UncoveredVec   -> InVec -> PmM PmTriple
-one_full_step :: [UncoveredVec] -> InVec -> PmM PmTriple
-```
-
-`one_full_step` simply calls `one_step` on every uncovered vector and combines
-the results.
-
-
-Note that `one_step` also generates type constraints while traversing the pattern
-vectors (that's the reason we have annotated every data constructor of `PmPat` with
-the respective type) and stores them in `Delta` as it goes deeper.
-
-## The `PmM` monad
-
-
-All the algorithm lives inside `PmM` monad which is nothing else than `DsM` with
-a possibility of failure (`Maybe`).
-
-```wiki
-newtype Pm gbl lcl a = PmM { unPmM :: TcRnIf gbl lcl (Maybe a) }
-type PmM a = Pm DsGblEnv DsLclEnv a
+translatePat    :: Pat Id -> UniqSM PatVec
+translatePatVec :: [Pat Id] -> UniqSM [PatVec]
+translateGuards :: [GuardStmt Id] -> UniqSM PatVec -- replace unhandled??
 ```
 
 
-The only reason we had to lift the algorithm in the `TcRnIf` is because we need
-fresh term and type variables but, apart from that, the main part of the algorithm
-is still purely syntactic.
-
-## Changes to `DsLclEnv`
-
-
-In order to handle correctly cases like [\#4139](https://gitlab.haskell.org//ghc/ghc/issues/4139), we have to collect constraints not
-only from the match we are currently checking but also from the context. Hence, we
-extend `DsLclEnv` with the additional field `ds_dicts :: Bag EvVar` where we accumulate
-constraints as we desugar the AST. Also, functions
+and the function that combines them all translate a whole match-clause (including guards):
 
 ```wiki
-getDictsDs :: DsM (Bag EvVar)
-addDictsDs :: Bag EvVar -> DsM a -> DsM a
+translateMatch :: LMatch Id (LHsExpr Id) -> UniqSM (PatVec,[PatVec])
 ```
 
 
-are used for retrieving and adding more constraints in the context.
+Instead of using the (enormous) `HsExpr` type, we drop most syntactic sugar and have only 5 constructors:
 
-## External interface
+- `PmExprVar`: Variables or wildcards
+- `PmExprCon`: Constructor patterns, Records
+- `PmExprLit`: Overloaded and non-overloaded literals
+- `PmExprEq` : Syntactic equality (NOTE: Pattern matching, NOT a call to the equality function `(==)`!!)
 
-
-The main function that is exported is `checkpm`:
-
-```wiki
-checkpm :: [Type] -> [EquationInfo] -> DsM (Maybe PmResult)
-```
-
-
-Takes as arguments the types of the arguments and all matches and returns a
-`Maybe PmResult`. (Note that we expand all type synonyms). The `PmResult` type
-synonym is just:
-
-```wiki
-type PmResult = ([EquationInfo], [EquationInfo], [UncoveredVec])
-```
-
-
-That is
-
-- Redundant clauses
-- Clauses with inaccessible right hand side
-- Uncovered cases
+## Term Oracle
