@@ -73,6 +73,13 @@ In order to see emails below, **you must login**.
   - **Committer since**: Janurary 2013.
   - **Main areas of interest**: ARM support, build system, cross compilation, FFI, optimiser, release management, git management, ghc.haskell.org server maintenance
 
+- [ Bartosz Nitka](https://github.com/niteria)
+
+  - Facebook Inc - London, UK
+  - **Trac**: niteria; **email**: niteria@…
+  - **Committer since**: November, 2015.
+  - **Main areas of interest**: currently making GHC deterministic
+
 - [ Ben Gamari](http://bgamari.github.com/)
 
   - University of Massachusetts - Amherst, MA
