@@ -123,7 +123,7 @@ stack trace information through this entire process. It should be said
 that this stack trace support must remain optional: not only does stack
 trace support pose a tricky engineering challenge for second tier
 platforms, but backtrace collection itself can often represent a
-significant cost which users may seek to avoid.
+significant runtime cost which users may seek to avoid.
 
 === Feeding a stack trace to the handler ===
 
@@ -241,3 +241,7 @@ to be that of thread subject to the exception. While scheme for
 handling synchronous exceptions presented above can be implemented almost
 entirely in library code, asynchronous exceptions will require a bit 
 more support from the RTS for this reason.
+
+Given that many exceptions frequently encountered in the wild
+are asynchronous (e.g. `StackOverflow` and `HeapOverflow`), 
+we'll want to support these somehow.
