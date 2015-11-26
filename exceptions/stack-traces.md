@@ -43,12 +43,10 @@ raiseIO#:: a ->IO b
 
 Note how, like many primops, none of these care in the slightest about the types you give
 them. In fact, it is trivial to realize `unsafePerformIO` equipped with them,
-{{{\#!
-λ\> IO $ catch\# (raiseIO\# 48) (\\a s1 -\> (\# s1, a::Char \#))
-'0'
-λ\> IO $ catch\# (raiseIO\# \[1,2,3::Int\]) (\\a s1 -\> (\# s1, a::Int \#))
-8646911832613230923
-}}}
+
+```
+λ>IO$ catch#(raiseIO#48)(\a s1 ->(# s1, a::Char#))'0'λ>IO$ catch#(raiseIO#[1,2,3::Int])(\a s1 ->(# s1, a::Int#))8646911832613230923
+```
 
 
 For this reason, `base` implements a far safer interface on top of this mechanism.
