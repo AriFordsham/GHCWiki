@@ -80,7 +80,7 @@ lest the handler has no idea how to interpret the closure it is handed.
 For this, we introduce a type allowing us to box the exception value
 itself along with an `Exception` dictionary,
 {{{#!hs
-data SomeException = SomeException (forall e. Exception e => e)
+data SomeException = forall e. Exception e => SomeException e
 }}}
 Since `Exception` implies `Typeable` this gives us the ability to
 identify the type of the exception contained within. We can now safely
@@ -138,8 +138,7 @@ field, using pattern synonyms to preserve the existing interface,
 -- | Some notion of a stack trace
 data StackTrace
 
-data SomeException = SomeExceptionWithStack !(Maybe StackTrace)
-                                            (forall e. Exception e => e)
+data SomeException = forall e. Exception e => SomeExceptionWithStack !(Maybe StackTrace) e
 
 -- | Preserve compatibility for existing users
 pattern SomeException e <- SomeExceptionWithStack _ e where
