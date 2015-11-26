@@ -1,4 +1,4 @@
-= Plan for stack traces on exceptions =
+= Plan for providing exception stack-traces =
 
 Exception handling in modern Haskell programs revolves around the
 `Control.Exception` module provided by `base`. This module provides

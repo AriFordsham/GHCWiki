@@ -1,4 +1,4 @@
-# Plan for stack traces on exceptions
+# Plan for providing exception stack-traces
 
 
 Exception handling in modern Haskell programs revolves around the
