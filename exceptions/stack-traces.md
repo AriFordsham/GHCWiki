@@ -8,13 +8,14 @@ thrown as an exception and potentially caught by a handler.
 
 
 The goal of this work is to augment this mechanism with the ability to
-transparently attach a stack trace to these exceptions. This should be
-done in such a way that backwards compatibility is preserved while
-providing a way for exception handlers who want a backtrace to get one.
+transparently attach to an exception a stack trace locating the point
+where it was thrown. This should be done in such a way that backwards
+compatibility is preserved while providing a way for exception handlers
+who want a backtrace to get one.
 
 
-In order to see how we might accomplish this, let's peer into the
-current mechanism.
+In order to see how we might accomplish this it will be helpful to
+review how exception handling currently works in GHC Haskell.
 
 ## Primitive operations
 
@@ -74,7 +75,8 @@ show the user) and a runtime type representation (i.e. belonging to the
 To make this polymorphic handling scheme work we need to have some way
 to preserve information about the type of the exception that was thrown,
 lest the handler has no idea how to interpret the closure it is handed.
-For this, we introduce a type including an `Exception` dictionary,
+For this, we introduce a type allowing us to box the exception value
+itself along with an `Exception` dictionary,
 
 ```
 dataSomeException=SomeException(forall e.Exception e => e)
@@ -87,12 +89,11 @@ define `throw` without having to worry about being unable to reconstruct
 the type of the thrown exception later,
 
 ```
-class(Typeable e,Show e)=>Exception e where
-    toException   :: e ->SomeException
-    fromException ::SomeException->Maybe e
+class(Typeable e,Show e)=>Exception e
 
 throw::Exception e => e -> a
-throw e =let e' = toException e ::SomeExceptionin raise# e'
+throw e =let e' =SomeException e
+    in raise# e'
 ```
 
 
@@ -106,7 +107,9 @@ using `Typeable`'s `cast` function,
 
 catchException::Exception e =>IO a ->(e ->IO a)->IO a
 catchException(IO io) handler =IO$ catch# io handler'
-    where handler' e =case cast e ofJust e' -> unIO (handler e')Nothing-> raiseIO# e
+  where
+    handler' ::SomeException->IO a
+    handler' se@(SomeException e)=case cast e ofJust e' -> unIO (handler e')Nothing-> raiseIO# se
 ```
 
 
@@ -115,6 +118,21 @@ exception. This will be an important consideration on our treatment of
 stack traces.
 
 ## The plan for stack traces
+
+
+Having seen the current scheme, we can now discuss how to add persist
+stack trace information through this entire process. It should be said
+that this stack trace support must remain optional: not only does stack
+trace support pose a tricky engineering challenge for second tier
+platforms, but backtrace collection itself can often represent a
+significant cost which users may seek to avoid.
+
+### Feeding a stack trace to the handler
+
+
+For the moment ignore the question of \*how\* we actually collect a stack
+trace; instead we'll consider how we can get a backtrace safely to the
+handler once it has been collected.
 
 
 We begin by modifying `SomeException` to add an optional `StackTrace`
@@ -126,4 +144,98 @@ field, using pattern synonyms to preserve the existing interface,
 ```
 
 
-We can now trivially introduce a variant of catch which can provide this 
+We can now easily introduce a variant of catch which can provide this
+optional stack trace to the handler,
+{{{\#!
+catchExceptionWithStack :: Exception e
+
+>
+> =\> IO a
+> -\> (Maybe StackTrace -\> e -\> IO a)
+> -\> IO a
+
+
+catchExceptionWithStack (IO io) handler = IO $ catch\# io handler'
+
+>
+> where
+
+<table><tr><th>handler'</th>
+<td>SomeException -\> IO a
+handler' se@(SomeExceptionWithStack stack e) =
+case cast e of
+Just e' -\> unIO (handler stack e')
+Nothing -\> raiseIO\# se
+</td></tr></table>
+
+
+}}}
+
+
+Note how both `catchException` and `catchExceptionWithStack` both handle
+rethrowing correctly; since they are rethrowing the same
+`SomeException`, the stack trace will be preserved even as the exception
+bubbles up through the handler stack.
+
+### Producing a stack trace
+
+
+Now we come to the question of how one actually produces a stack trace.
+Despite the perceptions of many users, Haskell actually has a wealth of
+potential stack trace sources,
+
+- The cost-center stack may be available if the program was built with
+  profiling enabled
+
+- The (relatively new) implicit-parameter-based stacktrace facility may
+  be able to offer a bit of local context
+
+- DWARF-based stack unwinding may be available depending upon the
+  platform and availability of debugging information
+
+### Minimizing unnecessary stack collection
+
+
+Sadly, all of these mechanisms come at some cost. For instance, 
+GHC's newly-integrated `libdw`-based stack unwinder appears to require
+on the order of one microsecond per unwound frame (although this can probably be
+improved by implementing a fast-path for traversing the STG stack). For
+this reason, we ideally want to minimize unnecessary stack collections:
+if none of the handlers on the stack want a backtrace when an exception
+is thrown, we should avoid collecting one at all.
+
+
+To accomplish this, we introduce a piece of per-Haskell-thread state which
+records the location of the outer-most stack-frame wanting a backtrace
+(if any). This pointer would be set by the RTS on the first call to
+`catchExceptionWithStack` in a thread's lifetime. Conversely it would be
+cleared when this catch frame is popped from the stack.
+
+
+When the thread raises an exception, `throw` would check this state and
+collect a stack trace if a parent frame has reported interest in one.
+
+
+While this reduces the number of unnecessary stack collections, it does not
+eliminate them entirely. If a handler with no interest in a stack frame
+handles the exception before it bubbles up to the stack-trace-desiring
+handler, the effort spent in collecting the trace will have been wasted.
+Unfortunately, this may be a rather common occurrence, as we would
+likely want the top-level exception handler to provide a stack trace if
+possible.
+
+### Alternatives
+
+
+A more sophisticated (and complicated) scheme for reducing the cost of
+stack collection would be to utilize memory management trickery to
+preserve the stack immutably when an exception is thrown. However, given
+the complexity this involves and the cost of setting up memory
+mappings, this is unlikely to be worth exploring.
+
+
+Moreover, given that exceptions are relatively rare in Haskell code,
+it's unclear whether any of the effort described in the above two
+sections is worthwhile. Perhaps we just accept a high exception cost and
+enable/disable stacktrace collection explicitly on a per-thread or
+even per-process basis.
