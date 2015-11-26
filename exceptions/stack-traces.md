@@ -120,7 +120,7 @@ stack traces.
 ## The plan for stack traces
 
 
-Having seen the current scheme, we can now discuss how to add persist
+Having examined the current scheme, we can now discuss how to add persist
 stack trace information through this entire process. It should be said
 that this stack trace support must remain optional: not only does stack
 trace support pose a tricky engineering challenge for second tier
