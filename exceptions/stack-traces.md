@@ -2,7 +2,7 @@
 
 
 Exception handling in modern Haskell programs revolves around the
-`Control.Exception` module provided by `base`. This module provides
+`Control.Exception` module provided by `base`. This module provides a
 mechanism where any type belonging to the `Exception` typeclass can be
 thrown as an exception and potentially caught by a handler.
 
