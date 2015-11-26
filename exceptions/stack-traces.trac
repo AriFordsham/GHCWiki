@@ -149,7 +149,7 @@ pattern SomeException e <- SomeExceptionWithStack _ e where
 
 We can now easily introduce a variant of catch which can provide this
 optional stack trace to the handler,
-{{{#!
+{{{#!hs
 catchExceptionWithStack :: Exception e
                         => IO a
                         -> (Maybe StackTrace -> e -> IO a)

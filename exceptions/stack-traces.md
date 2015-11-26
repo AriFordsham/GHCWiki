@@ -146,30 +146,16 @@ field, using pattern synonyms to preserve the existing interface,
 
 We can now easily introduce a variant of catch which can provide this
 optional stack trace to the handler,
-{{{\#!
-catchExceptionWithStack :: Exception e
 
->
-> =\> IO a
-> -\> (Maybe StackTrace -\> e -\> IO a)
-> -\> IO a
-
-
-catchExceptionWithStack (IO io) handler = IO $ catch\# io handler'
-
->
-> where
-
-<table><tr><th>handler'</th>
-<td>SomeException -\> IO a
-handler' se@(SomeExceptionWithStack stack e) =
-case cast e of
-Just e' -\> unIO (handler stack e')
-Nothing -\> raiseIO\# se
-</td></tr></table>
-
-
-}}}
+```
+catchExceptionWithStack::Exception e
+                        =>IO a
+                        ->(MaybeStackTrace-> e ->IO a)->IO a
+catchExceptionWithStack(IO io) handler =IO$ catch# io handler'
+  where
+    handler' ::SomeException->IO a
+    handler' se@(SomeExceptionWithStack stack e)=case cast e ofJust e' -> unIO (handler stack e')Nothing-> raiseIO# se
+```
 
 
 Note how both `catchException` and `catchExceptionWithStack` both handle
