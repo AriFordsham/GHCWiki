@@ -231,7 +231,8 @@ Up until this point we have been ignoring asychronous exceptions, which
 built upon the `killThread#` primitive operation,
 
 ```
-killThread#::ThreadId#-> a ->State#RealWorld->State#RealWorldthrowTo::Exception e =>ThreadId-> e ->IO()throwTo(ThreadId tid) ex =IO$\ s ->case(killThread# tid (toException ex) s)of s1 ->(# s1,()#)
+killThread#::ThreadId#-> a
+            ->State#RealWorld->State#RealWorldthrowTo::Exception e =>ThreadId-> e ->IO()throwTo(ThreadId tid) ex =IO$\ s ->case(killThread# tid (toException ex) s)of s1 ->(# s1,()#)
 ```
 
 
@@ -242,6 +243,28 @@ entirely in library code, asynchronous exceptions will require a bit
 more support from the RTS for this reason.
 
 
+Unfortunately, this ends up making the RTS's handling of asynchronous
+exceptions a bit messier than it is currently. As it stands, the story
+is quite simple: `killThread#` takes the closure it is passed, packages 
+it up in a message, and sends it to the target thread. The target then
+simply takes the exception and begins the usual unwinding process (TODO check this).
+
+
+The easiest way to fit stack traces into this story would be to introduce a variant
+of `killThread#`,
+
+```
+killThreadWithStack#::ThreadId#->(MaybeStackTrace-> a)->State#RealWorld->State#RealWorld
+```
+
+
+This would be handled in much the same way but the RTS would send the
+function provided in a message indicating that it wants to be applied
+to a stack trace. The RTS would then (possibly) check whether any handlers
+may want a stack trace, collect one if necessary, apply the supplied function
+to the result, and unwind as usual.
+
+
 Given that many exceptions frequently encountered in the wild
 are asynchronous (e.g. `StackOverflow` and `HeapOverflow`), 
-we'll want to support these somehow.
+I believe this added complexity will pull its weight.
