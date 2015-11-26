@@ -14,7 +14,7 @@ Background:
 
 Our solution
 
-- Our (on-going) work on the formalisation of the algorithm [ description.pdf](https://ghc.haskell.org/trac/ghc/raw-attachment/wiki/PatternMatchCheck/description.pdf).
+- Our paper, describing the algorithm we implemented [ GADTs meet their match](http://people.cs.kuleuven.be/~george.karachalias/papers/p424-karachalias.pdf).
 - [PatternMatchCheckImplementation](pattern-match-check-implementation) talks about the implementation in GHC.
 
 

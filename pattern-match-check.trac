@@ -10,7 +10,7 @@ Background:
  * Peter Sestoft's paper for negative patterns [http://lambda.csail.mit.edu/~chet/papers/others/s/sestoft/sestoft96ml.pdf ML's pattern matching compilation and partial evaluation]
 
 Our solution
- * Our (on-going) work on the formalisation of the algorithm [https://ghc.haskell.org/trac/ghc/raw-attachment/wiki/PatternMatchCheck/description.pdf description.pdf].
+ * Our paper, describing the algorithm we implemented [http://people.cs.kuleuven.be/~george.karachalias/papers/p424-karachalias.pdf GADTs meet their match].
  * [wiki:PatternMatchCheckImplementation] talks about the implementation in GHC.
 
 Related tickets (ones that are closed are still useful examples in the wild; they were only closed as duplicates):
