@@ -223,3 +223,21 @@ it's unclear whether any of the effort described in the above two
 sections is worthwhile. Perhaps we just accept a high exception cost and
 enable/disable stacktrace collection explicitly on a per-thread or
 even per-process basis.
+
+== Asynchronous exceptions ==
+
+Up until this point we have been ignoring asychronous exceptions, which
+built upon the `killThread#` primitive operation,
+{{{#!
+killThread# :: ThreadId# -> a -> State# RealWorld -> State# RealWorld
+
+throwTo :: Exception e => ThreadId -> e -> IO ()
+throwTo (ThreadId tid) ex = IO $ \ s ->
+   case (killThread# tid (toException ex) s) of s1 -> (# s1, () #)
+}}}
+
+This is a bit tricky as we (probably) want the stack returned
+to be that of thread subject to the exception. While handling
+the scheme for synchronous exceptions can be implemented almost
+entirely in library code, asynchronous exceptions will require a bit 
+more support from the RTS.
