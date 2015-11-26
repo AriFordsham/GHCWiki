@@ -236,7 +236,7 @@ killThread#::ThreadId#-> a ->State#RealWorld->State#RealWorldthrowTo::Exception 
 
 
 This is a bit tricky as we (probably) want the stack returned
-to be that of thread subject to the exception. While handling
-the scheme for synchronous exceptions can be implemented almost
+to be that of thread subject to the exception. While scheme for
+handling synchronous exceptions presented above can be implemented almost
 entirely in library code, asynchronous exceptions will require a bit 
-more support from the RTS.
+more support from the RTS for this reason.
