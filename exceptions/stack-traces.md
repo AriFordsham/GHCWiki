@@ -228,7 +228,7 @@ even per-process basis.
 
 
 Up until this point we have been ignoring asychronous exceptions, which
-built upon the `killThread#` primitive operation,
+build upon the `killThread#` primitive operation,
 
 ```
 killThread#::ThreadId#-> a

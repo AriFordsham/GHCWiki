@@ -227,7 +227,7 @@ even per-process basis.
 == Asynchronous exceptions ==
 
 Up until this point we have been ignoring asychronous exceptions, which
-built upon the `killThread#` primitive operation,
+build upon the `killThread#` primitive operation,
 {{{#!hs
 killThread# :: ThreadId# -> a
             -> State# RealWorld -> State# RealWorld
