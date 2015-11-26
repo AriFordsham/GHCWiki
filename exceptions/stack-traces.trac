@@ -165,7 +165,7 @@ catchExceptionWithStack (IO io) handler = IO $ catch# io handler'
 
 Note how both `catchException` and `catchExceptionWithStack` both handle
 rethrowing correctly; since they are rethrowing the same
-`SomeException`, the stack trace will be preserved even as the exception
+`SomeException`, the stack trace to the original throw-site will be preserved even as the exception
 bubbles up through the handler stack.
 
 === Producing a stack trace ===
