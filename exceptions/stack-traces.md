@@ -176,7 +176,7 @@ potential stack trace sources,
 - The (relatively new) implicit-parameter-based stacktrace facility may
   be able to offer a bit of local context
 
-- DWARF-based stack? unwinding may be available depending upon the
+- [DWARF-based stack](/trac/ghc/Dwarf/80Status) unwinding may be available depending upon the
   platform and availability of debugging information
 
 ### Minimizing unnecessary stack collection
