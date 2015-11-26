@@ -51,7 +51,7 @@ them. In fact, it is trivial to realize `unsafePerformIO` equipped with them,
 
 For this reason, `base` implements a far safer interface on top of this mechanism.
 
-## `Control.Excecption`
+## `Control.Exception`
 
 `Control.Exception` provides a type-guided mechanism for exception
 handling,
@@ -77,7 +77,7 @@ For this, we introduce a type allowing us to box the exception value
 itself along with an `Exception` dictionary,
 
 ```
-dataSomeException=SomeException(forall e.Exception e => e)
+dataSomeException= forall e.Exception e =>SomeException e
 ```
 
 
@@ -137,7 +137,9 @@ We begin by modifying `SomeException` to add an optional `StackTrace`
 field, using pattern synonyms to preserve the existing interface,
 
 ```
--- | Some notion of a stack tracedataStackTracedataSomeException=SomeExceptionWithStack!(MaybeStackTrace)(forall e.Exception e => e)-- | Preserve compatibility for existing userspatternSomeException e <-SomeExceptionWithStack_ e whereSomeException e =SomeExceptionWithStackNothing e
+-- | Some notion of a stack tracedataStackTracedataSomeException= forall e.Exception e =>SomeExceptionWithStack!(MaybeStackTrace) e
+
+-- | Preserve compatibility for existing userspatternSomeException e <-SomeExceptionWithStack_ e whereSomeException e =SomeExceptionWithStackNothing e
 
 ```
 
