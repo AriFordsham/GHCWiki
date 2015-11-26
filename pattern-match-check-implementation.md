@@ -86,11 +86,82 @@ type TmState     = ([ComplexEq], TmOracleEnv)
 
 `TmState` contains the following components:
 
-1. A list of complex constraints 
+1. A list of complex constraints that cannot be solved until we have more information,
+1. A boolean (`True` iff at least one unhandled constraint has appeared),
+1. A substitution from variables to `PmExpr`s (actual result of solving).
 
-**--FINISH THE TERM ORACLE--**
 
-## The `PmPat` datatype and friends
+By **unhandled** we mean constraints that involve an `PmExprOther`, for which we know that the oracle
+cannot do anything. We could store these constraints instead of keeping just a boolean (would be better
+if we were to print them for more precise warnings). This is not done though, so, for efficiency, we
+just keep a boolean. But why store something in the first place? For the laziness check, we need to know
+if a clause forces any of the arguments. Since we want to play on the safe side, a constraint we cannot
+inspect can fail for all we know, so this boolean is used for the computation of the divergent set.
+
+### Stategy of the Oracle
+
+
+The strategy of the term oracle is quite simplistic and proceeds as follows (for a single `SimpleEq`):
+
+- Apply existing substitution to the equality (which leaves us with a `ComplexEq`)
+- Try to simplify the constraint using `simplifyPmExpr :: PmExpr -> (PmExpr, Bool)`. Note that we return
+  a boolean along with the (possibly) simplified expression, which indicates whether there was any progress
+  or simplification was a no-op.
+- Try to solve the simplified complex equality using `solveComplexEq :: TmState -> ComplexEq -> Maybe TmState`.
+  If the existing substitution is extended during solving, we apply the extended substitution to the
+  constraints that could not progress before and recurse.
+
+
+The essence of the oracle is function `solveSimpleEq` which implements the above:
+
+```wiki
+solveSimpleEq :: TmState -> SimpleEq -> Maybe TmState
+solveSimpleEq solver_env@(_,(_,env)) simple
+  = solveComplexEq solver_env
+  $ simplifyComplexEq
+  $ applySubstSimpleEq env simple
+
+tmOracle :: TmState -> [SimpleEq] -> Maybe TmState
+tmOracle = foldlM solveSimpleEq
+```
+
+**Note:** We have not implemented an OccursCheck, since it is not needed at the moment. If extended though,
+the oracle will need an occurs check to ensure termination (e.g. if function applications are unfolded by
+the oracle).
+
+## The Actual Check
+
+
+The check itself is implemented in module `deSugar/Check.hs`. Exported functions:
+
+```wiki
+-- Issue warnings
+dsPmWarn :: DynFlags -> DsMatchContext -> DsM PmResult -> DsM ()
+
+-- Compute the covered/uncovered/divergent sets
+checkSingle  :: Id -> Pat Id -> DsM PmResult                      -- let
+checkMatches :: [Id] -> [LMatch Id (LHsExpr Id)] -> DsM PmResult  -- case/functions
+
+-- Nested pattern matching
+genCaseTmCs1 :: Maybe (LHsExpr Id) -> [Id] -> Bag SimpleEq
+genCaseTmCs2 :: Maybe (LHsExpr Id) -- Scrutinee
+             -> [Pat Id]           -- LHS       (should have length 1)
+             -> [Id]               -- MatchVars (should have length 1)
+             -> DsM (Bag SimpleEq)
+```
+
+- `dsPmWarn` is responsible for printing the results, given that the respective flags are enabled
+- `checkSingle` performs the check on a single pattern (let bindings)
+- `checkMatches` performs the check on a list of matches (case expressions / function bindings)
+- `genCaseTmCs1` generates term constraints for nested pattern matching (see below)
+- `genCaseTmCs2` generates term constraints for nested pattern matching (see below)
+
+
+Before explaining what each function does, we first discuss the types used.
+
+### Propagating Term Constraints Deeper (Nested Pattern Matching)
+
+### The `PmPat` datatype and friends
 
 
 The `PmPat` data type is defined in `deSugar/Check.hs` as:
@@ -107,67 +178,43 @@ data PmPat p = PmCon { pm_con_con     :: DataCon
 ```
 
 
-where type `PmLit` (defined in `deSugar/PmExpr.hs`) is:
+Literal patterns are not essential for the algorithm to work, but, as we discuss below, it is
+much more efficient to treat them more like constructors by matching against them eagerly than
+generating equality constraints to feed the term oracle with (as we do in the paper). `PmCon`
+contains several fields, effectively copying constructor `ConPatOut` of type `Pat` (defined in
+`hsSyn/HsPat.hs`). Since the algorithm runs post-typechecking, we have a lot of information
+available for the treatment of GADTS.
 
-```wiki
-data PmLit = PmSLit HsLit                -- simple
-           | PmOLit Bool  (HsOverLit Id) -- overloaded
-```
-
-
-Literal patterns (constructed using datacon `PmLit`) are not essential for the
-algorithm to work, but, as we explain below in section `Translation`, it is
-much more efficient to treat them more like constructors by matching against
-them eagerly than generating equality constraints to feed the term oracle with
-(as we do in the paper). `PmCon` contains several fields, effectively copying
-constructor `ConPatOut` of type `Pat` (defined in `hsSyn/HsPat.hs`). Since the
-algorithm runs post-typechecking, this information is crucial for the treatment
-of GADTS.
-
-### Value Abstractions
+### Value Abstractions & Patterns
 
 
-A value abstraction looks exactly like in the paper (with the exception of
-literal patterns). It is essentially a `PmPat`, we simply tie the recursive
-knot with a newtype declaration:
+Apart from the literal patterns, both value abstractions and patterns look exactly like in the
+paper, and are both based on the `PmPat` type:
 
 ```wiki
 newtype ValAbs = VA (PmPat ValAbs) -- Value Abstractions
-```
 
-### Patterns
-
-
-A pattern is either a simple pattern, or a guard pattern. Hence, it lifts the `PmPat` type:
-
-```wiki
 data Pattern = PmGuard PatVec PmExpr      -- Guard Patterns
              | NonGuard (PmPat Pattern)   -- Other Patterns
 ```
 
 
-Note that the `PmGuard` constructor takes a pattern vector and **NOT** a single
-pattern. As we explain in the extended version of the paper (Appendix A, B,
-give a link here), during source pattern translation, a source pattern may give
-rise to a list of core patterns, by the introduction of more constraints (in
-the form of guard patterns).
-
-### Pattern and Value Vectors
+A value abstraction ties the recursive knot with a newtype declaration whilst patterns introduce
+another form: guard patterns.
 
 
-A pattern vector `PatVec` and a value vector abstraction `ValVecAbs` is just a
-type synonym for a list of the respective element type:
+Pattern vectors and value vector abstractions are simply lists of the respective types:
 
 ```wiki
 type PatVec    = [Pattern] -- Pattern Vectors
 type ValVecAbs = [ValAbs]  -- Value Vector Abstractions
 ```
 
-## Value Set Abstractions
+### Value Set Abstractions
 
 
 After `PmPat`, the most important data type of the checker is `ValSetAbs`, used to represent value set
-abstractions. In the formalisation we treat a value set abstraction as a list of value vector abstractions
+abstractions. In the formalization we treat a value set abstraction as a list of value vector abstractions
 but since the vectors we generate usually have a common prefix, we save space and time by representing
 them as a prefix tree. This means that we have a choice to either add the constraint set Delta only at the
 leaves or have constraints in internal nodes as well. To make the most out of our representation we chose
@@ -185,21 +232,10 @@ data ValSetAbs
   | Singleton                           -- { |- empty |> empty }
   | Constraint [PmConstraint] ValSetAbs -- Extend Delta
   | Cons ValAbs ValSetAbs               -- map (ucon u) vs
-```
 
-
-where `PmConstraint`s and `PmExpr`s (defined in `deSugar/PmExpr.hs`) take the following form:
-
-```wiki
 data PmConstraint = TmConstraint Id PmExpr -- TermEq    : x ~ e
                   | TyConstraint [EvVar]   -- TypeEq    : ...
                   | BtConstraint Id        -- StrictVar : x ~ _|_
-
-data PmExpr = PmExprVar   Id
-            | PmExprCon   DataCon [PmExpr]
-            | PmExprLit   PmLit
-            | PmExprEq    PmExpr PmExpr  -- Syntactic equality
-            | PmExprOther (HsExpr Id)    -- NOTE [PmExprOther in PmExpr]
 ```
 
 
@@ -209,76 +245,95 @@ construct value set abstractions, we use the smart constructors instead
 abstraction is represented only by `Empty`. We refer to this as the
 **INVARIANT VsaInvariant**.
 
-
-Why do we need type `PmExpr`? The term oracle (`tmOracle`, defined in
-`deSugar/TmOracle.hs`) cannot handle all kinds of expressions (e.g. it doesn't
-handle function applications). Hence, there is no need to work on the extremely
-big `HsExpr` type (over 40 data constructors). The forms that are not handled
-by the term oracle are wrapped in a `PmExprOther` and ignored by the oracle
-(and the pretty-printer). Why do we keep them around then? An expression we do
-not inspect can always diverge so keeping them around (or at least and
-indication of failure) is essential for the laziness check.
+### General Strategy
 
 
-Note that data constructor `PmExprEq` does not represent function `(==)` but is
-generated by our algorithm, when we KNOW that two things are equal. E.g. when a
-simple literal (say `5 :: Int`) is matched, we KNOW that `x` where
-`PmExprEq False (PmExprEq x 5)` remains uncovered. So, `PmExprEq` represents
-structural equality and NOT an `Eq` instance.
+The algorithm process as follows:
 
-## Translation from Pat to Pattern
+- Translate a clause (which contains `Pat`s, defined in `hsSyn/HsPat.hs`) to `PatVec`s (`translatePat`
+  is the workhorse):
+
+  ```wiki
+  translatePat    :: Pat Id -> UniqSM PatVec
+  translateGuards :: [GuardStmt Id] -> UniqSM PatVec
+  translateMatch  :: LMatch Id (LHsExpr Id) -> UniqSM (PatVec,[PatVec])
+  ```
+- Call function `patVectProc` on the transformed clause:
+
+  ```wiki
+  patVectProc :: (PatVec, [PatVec]) -> ValSetAbs -> PmM (Bool, Bool, ValSetAbs) -- Covers? Forces? U(n+1)?
+  patVectProc (vec,gvs) vsa = do
+    us <- getUniqueSupplyM
+    let (c_def, u_def, d_def) = process_guards us gvs -- default (the continuation)
+    (usC, usU, usD) <- getUniqueSupplyM3
+    mb_c <- anySatVSA (covered   usC c_def vec vsa)
+    mb_d <- anySatVSA (divergent usD d_def vec vsa)
+    let vsa' = uncovered usU u_def vec vsa
+    return (mb_c, mb_d, vsa')
+  ```
 
 
-The main functions that are responsible for the translation of the type
-`(Pat Id)` to our core pattern type `Pattern` are the following:
+Note that a processed clause has type `(PatVec,[PatVec])`. Why? Because each clause may be accompanied by a list
+of guard-vectors. The formalization indicates that `patVectProc` gets a clause but in order to achieve this in
+the presence of more than one guard-vector, we should duplicate the pattern vector (and possibly alpha-rename
+it). That is:
 
 ```wiki
-translatePat    :: Pat Id -> UniqSM PatVec
-translatePatVec :: [Pat Id] -> UniqSM [PatVec]
-translateGuards :: [GuardStmt Id] -> UniqSM PatVec
-translateMatch  :: LMatch Id (LHsExpr Id) -> UniqSM (PatVec,[PatVec])
+(vec, [gv1, gv2, .., gvN]) == [ vec ++ gv1
+                              , vec ++ gv2
+                              ...
+                              , vec ++ gvN
 ```
 
 
-The worker functions are `translatePat` which translates a single pattern and
-`translateGuards` which translate a list of guards. The implementations are rather
-straightforward with ... exceptions:
-
->
-> 1.
-
->
-> 2.
-
->
-> 3.
-
-**THE REST IS JUST DUMPED TEXT, I AM WORKING ON IT**
+Since this is really bad for performance (significantly increases the number of clauses), we took a different
+approach: Process the guards separately using `process_guards` and plug the results at the end of the respective
+clause. Yet, this comes with a price: We are not able to issue warnings per-guard but only per-clause. This was
+the case already in GHC though (see ticket **REMEMBER WHICH ONE**).
 
 
-For the different constructors of `PmExpr` see below (sections Translation and The Term Oracle).
+Furthermore, note that `patVectProc` does not return three sets as in the paper. Instead, we check for the
+satisfiability of the covered and the divergent set and return a boolean (covers anything/does not cover,
+forces any argument/does not force, respectively). Since this is the only information we care about at the
+end, it would be a waste of space to keep the whole covered and divergent set in memory.
 
-## Translation
+### Covered, Divergent, Uncovered
+
+
+Since the three functions have the same structure and the representation of value set abstractions `ValSetAbs`
+adds some boilerplate, the implementation of the functions is split in two parts: `pmTraverse` handles the
+common cases and takes as argument the matcher to use when we have a value abstraction and a pattern to match
+against. The three matchers `cMatcher`, `uMatcher` and `dMatcher` essentially implement functions `covered`,
+`uncovered` and `divergent` as described in the paper.
 
 ```wiki
-translatePat    :: Pat Id -> UniqSM PatVec
-translatePatVec :: [Pat Id] -> UniqSM [PatVec]
-translateGuards :: [GuardStmt Id] -> UniqSM PatVec -- replace unhandled??
+pmTraverse :: UniqSupply
+           -> ValSetAbs -- guard continuation
+           -> PmMatcher -- what to do
+           -> PatVec
+           -> ValSetAbs
+           -> ValSetAbs
+
+type PmMatcher =  UniqSupply
+               -> ValSetAbs
+               -> PmPat Pattern -> PatVec    -- pattern vector head and tail
+               -> PmPat ValAbs  -> ValSetAbs -- value set abstraction head and tail
+               -> ValSetAbs
+
+covered, uncovered, divergent :: UniqSupply -> ValSetAbs -> PatVec -> ValSetAbs -> ValSetAbs
+covered   us gvsa vec vsa = pmTraverse us gvsa cMatcher vec vsa
+uncovered us gvsa vec vsa = pmTraverse us gvsa uMatcher vec vsa
+divergent us gvsa vec vsa = pmTraverse us gvsa dMatcher vec vsa
 ```
 
 
-and the function that combines them all translate a whole match-clause (including guards):
+Note the signatures:
 
 ```wiki
-translateMatch :: LMatch Id (LHsExpr Id) -> UniqSM (PatVec,[PatVec])
+covered, uncovered, divergent :: UniqSupply -> ValSetAbs -> PatVec -> ValSetAbs -> ValSetAbs
 ```
 
 
-Instead of using the (enormous) `HsExpr` type, we drop most syntactic sugar and have only 5 constructors:
-
-- `PmExprVar`: Variables or wildcards
-- `PmExprCon`: Constructor patterns, Records
-- `PmExprLit`: Overloaded and non-overloaded literals
-- `PmExprEq` : Syntactic equality (NOTE: Pattern matching, NOT a call to the equality function `(==)`!!)
-
-## Term Oracle
+Instead of making the three functions monadic, we instead pass the `UniqSupply` around explicitly to make the
+functions lazy. Since the trees that are generated by the algorithm are potentially huge (the algorithm is
+exponential in the general case), we do not evaluate parts of the sets if they are not really needed.
