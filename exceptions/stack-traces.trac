@@ -228,7 +228,7 @@ even per-process basis.
 
 Up until this point we have been ignoring asychronous exceptions, which
 built upon the `killThread#` primitive operation,
-{{{#!
+{{{#!hs
 killThread# :: ThreadId# -> a -> State# RealWorld -> State# RealWorld
 
 throwTo :: Exception e => ThreadId -> e -> IO ()

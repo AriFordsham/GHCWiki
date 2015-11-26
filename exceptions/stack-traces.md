@@ -231,18 +231,10 @@ even per-process basis.
 
 Up until this point we have been ignoring asychronous exceptions, which
 built upon the `killThread#` primitive operation,
-{{{\#!
-killThread\# :: ThreadId\# -\> a -\> State\# RealWorld -\> State\# RealWorld
 
-
-throwTo :: Exception e =\> ThreadId -\> e -\> IO ()
-throwTo (ThreadId tid) ex = IO $ \\ s -\>
-
->
-> case (killThread\# tid (toException ex) s) of s1 -\> (\# s1, () \#)
-
-
-}}}
+```
+killThread#::ThreadId#-> a ->State#RealWorld->State#RealWorldthrowTo::Exception e =>ThreadId-> e ->IO()throwTo(ThreadId tid) ex =IO$\ s ->case(killThread# tid (toException ex) s)of s1 ->(# s1,()#)
+```
 
 
 This is a bit tricky as we (probably) want the stack returned
