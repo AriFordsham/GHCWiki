@@ -159,8 +159,6 @@ genCaseTmCs2 :: Maybe (LHsExpr Id) -- Scrutinee
 
 Before explaining what each function does, we first discuss the types used.
 
-### Propagating Term Constraints Deeper (Nested Pattern Matching)
-
 ### The `PmPat` datatype and friends
 
 
@@ -289,7 +287,7 @@ it). That is:
 Since this is really bad for performance (significantly increases the number of clauses), we took a different
 approach: Process the guards separately using `process_guards` and plug the results at the end of the respective
 clause. Yet, this comes with a price: We are not able to issue warnings per-guard but only per-clause. This was
-the case already in GHC though (see ticket **REMEMBER WHICH ONE**).
+the case already in GHC though (see ticket [\#8494](https://gitlab.haskell.org//ghc/ghc/issues/8494)).
 
 
 Furthermore, note that `patVectProc` does not return three sets as in the paper. Instead, we check for the
