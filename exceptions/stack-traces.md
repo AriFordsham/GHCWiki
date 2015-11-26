@@ -20,7 +20,7 @@ review how exception handling currently works in GHC Haskell.
 ## Primitive operations
 
 
-All exception handling in GHC is built on a few primitive operations,
+All (synchronous) exception handling in GHC is built on a few primitive operations,
 
 ```
 catch#::(State#RealWorld->(#State#RealWorld, a #))->(b ->State#RealWorld->(#State#RealWorld, a #))->State#RealWorld->(#State#RealWorld, a #)raise#:: a -> b
