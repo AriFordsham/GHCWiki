@@ -16,7 +16,7 @@ We explain each one separately below.
 == The `PmExpr` Datatype and Friends ==
 
 The module exports the following data types:
-{{{
+{{{#!hs
 data PmExpr = PmExprVar   Id
             | PmExprCon   DataCon [PmExpr]
             | PmExprLit   PmLit
@@ -33,13 +33,13 @@ type ComplexEq = (PmExpr, PmExpr)
 Type `PmExpr` represents Haskell expressions. Since the term oracle is minimal at the moment, only specific forms are supported
 and the rest are wrapped in a `PmExprOther`. Note that `PmExprEq` is not function `(==)` but represents structural equality and
 is used for non-overloaded literals. E.g. the constraint *x is not equal to 5* is represented as (False ~ (x ~ 5)):
-{{{
+{{{#!hs
 PmExprEq (PmExprCon <False> []) (PmExprEq (PmExprVar <x>) (PmExprLit (PmSLit <5>)))
 }}}
 
 Literals `PmLit` are separately defined because (as we explain below) appear in the pattern language as well. Equality check for
 `PmLit` is exported too, with signature:
-{{{
+{{{#!hs
 eqPmLit :: PmLit -> PmLit -> Maybe Bool
 }}}
 Instead of `Bool` we return `Maybe Bool` because if two overloaded literals look different it does not mean they actually are. Hence
@@ -57,11 +57,11 @@ E.g. { x ~ False, x ~ (y ~ 5) } gets simplified to { False ~ (y ~ 5) } which can
 == The Term Oracle ==
 
 The term oracle lives in `deSugar/TmOracle.hs` and has the following signature:
-{{{
+{{{#!hs
 tmOracle :: TmState -> [SimpleEq] -> Maybe TmState
 }}}
 The state of the oracle `TmState` is represented as follows:
-{{{
+{{{#!hs
 type PmVarEnv    = Map.Map Id PmExpr
 type TmOracleEnv = (Bool, PmVarEnv)
 type TmState     = ([ComplexEq], TmOracleEnv)
@@ -89,7 +89,7 @@ The strategy of the term oracle is quite simplistic and proceeds as follows (for
     constraints that could not progress before and recurse.
 
 The essence of the oracle is function `solveSimpleEq` which implements the above:
-{{{
+{{{#!hs
 solveSimpleEq :: TmState -> SimpleEq -> Maybe TmState
 solveSimpleEq solver_env@(_,(_,env)) simple
   = solveComplexEq solver_env
@@ -106,7 +106,7 @@ the oracle).
 
 == The Actual Check ==
 The check itself is implemented in module `deSugar/Check.hs`. Exported functions:
-{{{
+{{{#!hs
 -- Issue warnings
 dsPmWarn :: DynFlags -> DsMatchContext -> DsM PmResult -> DsM ()
 
@@ -132,7 +132,7 @@ Before explaining what each function does, we first discuss the types used.
 === The `PmPat` datatype and friends ===
 
 The `PmPat` data type is defined in `deSugar/Check.hs` as:
-{{{
+{{{#!hs
 data PmPat p = PmCon { pm_con_con     :: DataCon
                      , pm_con_arg_tys :: [Type]  -- The univeral arg types, 1-1 with the universal
                                                  --   tyvars of the constructor
@@ -153,7 +153,7 @@ available for the treatment of GADTS.
 === Value Abstractions & Patterns ===
 Apart from the literal patterns, both value abstractions and patterns look exactly like in the
 paper, and are both based on the `PmPat` type:
-{{{
+{{{#!hs
 newtype ValAbs = VA (PmPat ValAbs) -- Value Abstractions
 
 data Pattern = PmGuard PatVec PmExpr      -- Guard Patterns
@@ -164,7 +164,7 @@ A value abstraction ties the recursive knot with a newtype declaration whilst pa
 another form: guard patterns.
 
 Pattern vectors and value vector abstractions are simply lists of the respective types:
-{{{
+{{{#!hs
 type PatVec    = [Pattern] -- Pattern Vectors
 type ValVecAbs = [ValAbs]  -- Value Vector Abstractions
 }}}
@@ -181,7 +181,7 @@ represented in our type:
 
 **INVARIANT VsaArity**: The number of `Cons`s in any path to a leaf is the same. We'll refer to this as the
 arity of the value set abstraction.
-{{{
+{{{#!hs
 data ValSetAbs
   = Empty                               -- {}
   | Union ValSetAbs ValSetAbs           -- S1 u S2
@@ -205,13 +205,13 @@ abstraction is represented only by `Empty`. We refer to this as the
 The algorithm process as follows:
   * Translate a clause (which contains `Pat`s, defined in `hsSyn/HsPat.hs`) to `PatVec`s (`translatePat`
     is the workhorse):
-{{{
+{{{#!hs
 translatePat    :: Pat Id -> UniqSM PatVec
 translateGuards :: [GuardStmt Id] -> UniqSM PatVec
 translateMatch  :: LMatch Id (LHsExpr Id) -> UniqSM (PatVec,[PatVec])
 }}}
   * Call function `patVectProc` on the transformed clause:
-{{{
+{{{#!hs
 patVectProc :: (PatVec, [PatVec]) -> ValSetAbs -> PmM (Bool, Bool, ValSetAbs) -- Covers? Forces? U(n+1)?
 patVectProc (vec,gvs) vsa = do
   us <- getUniqueSupplyM
@@ -249,7 +249,7 @@ adds some boilerplate, the implementation of the functions is split in two parts
 common cases and takes as argument the matcher to use when we have a value abstraction and a pattern to match
 against. The three matchers `cMatcher`, `uMatcher` and `dMatcher` essentially implement functions `covered`,
 `uncovered` and `divergent` as described in the paper.
-{{{
+{{{#!hs
 pmTraverse :: UniqSupply
            -> ValSetAbs -- guard continuation
            -> PmMatcher -- what to do
@@ -270,7 +270,7 @@ divergent us gvsa vec vsa = pmTraverse us gvsa dMatcher vec vsa
 }}}
 
 Note the signatures:
-{{{
+{{{#!hs
 covered, uncovered, divergent :: UniqSupply -> ValSetAbs -> PatVec -> ValSetAbs -> ValSetAbs
 }}}
 Instead of making the three functions monadic, we instead pass the `UniqSupply` around explicitly to make the
@@ -280,7 +280,7 @@ exponential in the general case), we do not evaluate parts of the sets if they a
 === Nested Pattern Matching ===
 Since we want to handle nested pattern matching too, two more functions are exported by `deSugar/Check.hs`
 which are used to generate constraints for case expressions:
-{{{
+{{{#!hs
 genCaseTmCs1 :: Maybe (LHsExpr Id) -> [Id] -> Bag SimpleEq
 genCaseTmCs2 :: Maybe (LHsExpr Id) -- Scrutinee
              -> [Pat Id]           -- LHS       (should have length 1)
@@ -293,7 +293,7 @@ genCaseTmCs2 :: Maybe (LHsExpr Id) -- Scrutinee
   * Function `genCaseTmCs2` takes the scrutinee `e`, an LHS `p`, and the initially uncovered variable `x` and
     generates the set of constraints `{ x ~ e, x ~ to_expr(p) }`. How is this useful? Consider the following
     example:
-{{{
+{{{#!hs
 f :: Bool -> ()
 f y = case y of
         x@True ->                 -- genCaseTmCs2 generates: y ~ True, y ~ x
@@ -317,7 +317,7 @@ in GHC required several approximations and simplifications:
      pattern `x` and a guard pattern `x <- translate p`. This has a big disadvantage though: pattern matching
      is transferred to the guard pattern so resolution is postponed until the term oracle. Consider the following
      example:
-{{{
+{{{#!hs
 f :: Bool -> ()
 f x@True  = ()
 f y@False = ()
@@ -331,7 +331,7 @@ f y@False = ()
        * Guard pattern `(x <- coercePmPat p)` is **bidirectional** in the sense that an equality
          `x ~ coercePmPat p` will ultimately be generated, so no information is lost.
      In summary, the following will be generated:
-{{{
+{{{#!hs
 f :: Bool -> ()
 f True  (x <- True)  = () -- uncovered: { False |> { x ~ True } }
 f False (y <- False) = () -- uncovered: {}
