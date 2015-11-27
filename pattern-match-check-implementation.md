@@ -21,18 +21,8 @@ We explain each one separately below.
 
 The module exports the following data types:
 
-```wiki
-data PmExpr = PmExprVar   Id
-            | PmExprCon   DataCon [PmExpr]
-            | PmExprLit   PmLit
-            | PmExprEq    PmExpr PmExpr  -- Syntactic equality
-            | PmExprOther (HsExpr Id)    -- NOTE [PmExprOther in PmExpr]
-
-data PmLit = PmSLit HsLit                                    -- simple
-           | PmOLit Bool {- is it negated? -} (HsOverLit Id) -- overloaded
-
-type SimpleEq  = (Id, PmExpr) -- We always use this orientation
-type ComplexEq = (PmExpr, PmExpr)
+```
+dataPmExpr=PmExprVarId|PmExprConDataCon[PmExpr]|PmExprLitPmLit|PmExprEqPmExprPmExpr-- Syntactic equality|PmExprOther(HsExprId)-- NOTE [PmExprOther in PmExpr]dataPmLit=PmSLitHsLit-- simple|PmOLitBool{- is it negated? -}(HsOverLitId)-- overloadedtypeSimpleEq=(Id,PmExpr)-- We always use this orientationtypeComplexEq=(PmExpr,PmExpr)
 ```
 
 
@@ -40,16 +30,16 @@ Type `PmExpr` represents Haskell expressions. Since the term oracle is minimal a
 and the rest are wrapped in a `PmExprOther`. Note that `PmExprEq` is not function `(==)` but represents structural equality and
 is used for non-overloaded literals. E.g. the constraint \*x is not equal to 5\* is represented as (False \~ (x \~ 5)):
 
-```wiki
-PmExprEq (PmExprCon <False> []) (PmExprEq (PmExprVar <x>) (PmExprLit (PmSLit <5>)))
+```
+PmExprEq(PmExprCon<False>[])(PmExprEq(PmExprVar<x>)(PmExprLit(PmSLit<5>)))
 ```
 
 
 Literals `PmLit` are separately defined because (as we explain below) appear in the pattern language as well. Equality check for
 `PmLit` is exported too, with signature:
 
-```wiki
-eqPmLit :: PmLit -> PmLit -> Maybe Bool
+```
+eqPmLit::PmLit->PmLit->MaybeBool
 ```
 
 
@@ -71,17 +61,15 @@ E.g. { x \~ False, x \~ (y \~ 5) } gets simplified to { False \~ (y \~ 5) } whic
 
 The term oracle lives in `deSugar/TmOracle.hs` and has the following signature:
 
-```wiki
-tmOracle :: TmState -> [SimpleEq] -> Maybe TmState
+```
+tmOracle::TmState->[SimpleEq]->MaybeTmState
 ```
 
 
 The state of the oracle `TmState` is represented as follows:
 
-```wiki
-type PmVarEnv    = Map.Map Id PmExpr
-type TmOracleEnv = (Bool, PmVarEnv)
-type TmState     = ([ComplexEq], TmOracleEnv)
+```
+typePmVarEnv=Map.MapIdPmExprtypeTmOracleEnv=(Bool,PmVarEnv)typeTmState=([ComplexEq],TmOracleEnv)
 ```
 
 `TmState` contains the following components:
@@ -114,15 +102,13 @@ The strategy of the term oracle is quite simplistic and proceeds as follows (for
 
 The essence of the oracle is function `solveSimpleEq` which implements the above:
 
-```wiki
-solveSimpleEq :: TmState -> SimpleEq -> Maybe TmState
-solveSimpleEq solver_env@(_,(_,env)) simple
+```
+solveSimpleEq::TmState->SimpleEq->MaybeTmStatesolveSimpleEq solver_env@(_,(_,env)) simple
   = solveComplexEq solver_env
   $ simplifyComplexEq
   $ applySubstSimpleEq env simple
 
-tmOracle :: TmState -> [SimpleEq] -> Maybe TmState
-tmOracle = foldlM solveSimpleEq
+tmOracle::TmState->[SimpleEq]->MaybeTmStatetmOracle= foldlM solveSimpleEq
 ```
 
 **Note:** We have not implemented an OccursCheck, since it is not needed at the moment. If extended though,
@@ -134,20 +120,8 @@ the oracle).
 
 The check itself is implemented in module `deSugar/Check.hs`. Exported functions:
 
-```wiki
--- Issue warnings
-dsPmWarn :: DynFlags -> DsMatchContext -> DsM PmResult -> DsM ()
-
--- Compute the covered/uncovered/divergent sets
-checkSingle  :: Id -> Pat Id -> DsM PmResult                      -- let
-checkMatches :: [Id] -> [LMatch Id (LHsExpr Id)] -> DsM PmResult  -- case/functions
-
--- Nested pattern matching
-genCaseTmCs1 :: Maybe (LHsExpr Id) -> [Id] -> Bag SimpleEq
-genCaseTmCs2 :: Maybe (LHsExpr Id) -- Scrutinee
-             -> [Pat Id]           -- LHS       (should have length 1)
-             -> [Id]               -- MatchVars (should have length 1)
-             -> DsM (Bag SimpleEq)
+```
+-- Issue warningsdsPmWarn::DynFlags->DsMatchContext->DsMPmResult->DsM()-- Compute the covered/uncovered/divergent setscheckSingle::Id->PatId->DsMPmResult-- letcheckMatches::[Id]->[LMatchId(LHsExprId)]->DsMPmResult-- case/functions-- Nested pattern matchinggenCaseTmCs1::Maybe(LHsExprId)->[Id]->BagSimpleEqgenCaseTmCs2::Maybe(LHsExprId)-- Scrutinee->[PatId]-- LHS       (should have length 1)->[Id]-- MatchVars (should have length 1)->DsM(BagSimpleEq)
 ```
 
 - `dsPmWarn` is responsible for printing the results, given that the respective flags are enabled
@@ -164,15 +138,8 @@ Before explaining what each function does, we first discuss the types used.
 
 The `PmPat` data type is defined in `deSugar/Check.hs` as:
 
-```wiki
-data PmPat p = PmCon { pm_con_con     :: DataCon
-                     , pm_con_arg_tys :: [Type]  -- The univeral arg types, 1-1 with the universal
-                                                 --   tyvars of the constructor
-                     , pm_con_tvs     :: [TyVar] -- Existentially bound type variables (tyvars only)
-                     , pm_con_dicts   :: [EvVar] -- Ditto *coercion variables* and *dictionaries*
-                     , pm_con_args    :: [p] }
-             | PmVar { pm_var_id      :: Id }
-             | PmLit { pm_lit_lit     :: PmLit } -- See NOTE [Literals in PmPat]
+```
+dataPmPat p =PmCon{ pm_con_con     ::DataCon, pm_con_arg_tys ::[Type]-- The univeral arg types, 1-1 with the universal--   tyvars of the constructor, pm_con_tvs     ::[TyVar]-- Existentially bound type variables (tyvars only), pm_con_dicts   ::[EvVar]-- Ditto *coercion variables* and *dictionaries*, pm_con_args    ::[p]}|PmVar{ pm_var_id      ::Id}|PmLit{ pm_lit_lit     ::PmLit}-- See NOTE [Literals in PmPat]
 ```
 
 
@@ -189,11 +156,8 @@ available for the treatment of GADTS.
 Apart from the literal patterns, both value abstractions and patterns look exactly like in the
 paper, and are both based on the `PmPat` type:
 
-```wiki
-newtype ValAbs = VA (PmPat ValAbs) -- Value Abstractions
-
-data Pattern = PmGuard PatVec PmExpr      -- Guard Patterns
-             | NonGuard (PmPat Pattern)   -- Other Patterns
+```
+newtypeValAbs=VA(PmPatValAbs)-- Value AbstractionsdataPattern=PmGuardPatVecPmExpr-- Guard Patterns|NonGuard(PmPatPattern)-- Other Patterns
 ```
 
 
@@ -203,9 +167,8 @@ another form: guard patterns.
 
 Pattern vectors and value vector abstractions are simply lists of the respective types:
 
-```wiki
-type PatVec    = [Pattern] -- Pattern Vectors
-type ValVecAbs = [ValAbs]  -- Value Vector Abstractions
+```
+typePatVec=[Pattern]-- Pattern VectorstypeValVecAbs=[ValAbs]-- Value Vector Abstractions
 ```
 
 ### Value Set Abstractions
@@ -223,17 +186,8 @@ represented in our type:
 **INVARIANT VsaArity**: The number of `Cons`s in any path to a leaf is the same. We'll refer to this as the
 arity of the value set abstraction.
 
-```wiki
-data ValSetAbs
-  = Empty                               -- {}
-  | Union ValSetAbs ValSetAbs           -- S1 u S2
-  | Singleton                           -- { |- empty |> empty }
-  | Constraint [PmConstraint] ValSetAbs -- Extend Delta
-  | Cons ValAbs ValSetAbs               -- map (ucon u) vs
-
-data PmConstraint = TmConstraint Id PmExpr -- TermEq    : x ~ e
-                  | TyConstraint [EvVar]   -- TypeEq    : ...
-                  | BtConstraint Id        -- StrictVar : x ~ _|_
+```
+dataValSetAbs=Empty-- {}|UnionValSetAbsValSetAbs-- S1 u S2|Singleton-- { |- empty |> empty }|Constraint[PmConstraint]ValSetAbs-- Extend Delta|ConsValAbsValSetAbs-- map (ucon u) vsdataPmConstraint=TmConstraintIdPmExpr-- TermEq    : x ~ e|TyConstraint[EvVar]-- TypeEq    : ...|BtConstraintId-- StrictVar : x ~ _|_
 ```
 
 
@@ -251,22 +205,17 @@ The algorithm process as follows:
 - Translate a clause (which contains `Pat`s, defined in `hsSyn/HsPat.hs`) to `PatVec`s (`translatePat`
   is the workhorse):
 
-  ```wiki
-  translatePat    :: Pat Id -> UniqSM PatVec
-  translateGuards :: [GuardStmt Id] -> UniqSM PatVec
-  translateMatch  :: LMatch Id (LHsExpr Id) -> UniqSM (PatVec,[PatVec])
+  ```
+  translatePat::PatId->UniqSMPatVectranslateGuards::[GuardStmtId]->UniqSMPatVectranslateMatch::LMatchId(LHsExprId)->UniqSM(PatVec,[PatVec])
   ```
 - Call function `patVectProc` on the transformed clause:
 
-  ```wiki
-  patVectProc :: (PatVec, [PatVec]) -> ValSetAbs -> PmM (Bool, Bool, ValSetAbs) -- Covers? Forces? U(n+1)?
-  patVectProc (vec,gvs) vsa = do
+  ```
+  patVectProc::(PatVec,[PatVec])->ValSetAbs->PmM(Bool,Bool,ValSetAbs)-- Covers? Forces? U(n+1)?patVectProc(vec,gvs) vsa =do
     us <- getUniqueSupplyM
-    let (c_def, u_def, d_def) = process_guards us gvs -- default (the continuation)
-    (usC, usU, usD) <- getUniqueSupplyM3
+    let(c_def, u_def, d_def)= process_guards us gvs -- default (the continuation)(usC, usU, usD)<- getUniqueSupplyM3
     mb_c <- anySatVSA (covered   usC c_def vec vsa)
-    mb_d <- anySatVSA (divergent usD d_def vec vsa)
-    let vsa' = uncovered usU u_def vec vsa
+    mb_d <- anySatVSA (divergent usD d_def vec vsa)let vsa' = uncovered usU u_def vec vsa
     return (mb_c, mb_d, vsa')
   ```
 
@@ -304,22 +253,8 @@ common cases and takes as argument the matcher to use when we have a value abstr
 against. The three matchers `cMatcher`, `uMatcher` and `dMatcher` essentially implement functions `covered`,
 `uncovered` and `divergent` as described in the paper.
 
-```wiki
-pmTraverse :: UniqSupply
-           -> ValSetAbs -- guard continuation
-           -> PmMatcher -- what to do
-           -> PatVec
-           -> ValSetAbs
-           -> ValSetAbs
-
-type PmMatcher =  UniqSupply
-               -> ValSetAbs
-               -> PmPat Pattern -> PatVec    -- pattern vector head and tail
-               -> PmPat ValAbs  -> ValSetAbs -- value set abstraction head and tail
-               -> ValSetAbs
-
-covered, uncovered, divergent :: UniqSupply -> ValSetAbs -> PatVec -> ValSetAbs -> ValSetAbs
-covered   us gvsa vec vsa = pmTraverse us gvsa cMatcher vec vsa
+```
+pmTraverse::UniqSupply->ValSetAbs-- guard continuation->PmMatcher-- what to do->PatVec->ValSetAbs->ValSetAbstypePmMatcher=UniqSupply->ValSetAbs->PmPatPattern->PatVec-- pattern vector head and tail->PmPatValAbs->ValSetAbs-- value set abstraction head and tail->ValSetAbscovered, uncovered, divergent ::UniqSupply->ValSetAbs->PatVec->ValSetAbs->ValSetAbscovered   us gvsa vec vsa = pmTraverse us gvsa cMatcher vec vsa
 uncovered us gvsa vec vsa = pmTraverse us gvsa uMatcher vec vsa
 divergent us gvsa vec vsa = pmTraverse us gvsa dMatcher vec vsa
 ```
@@ -327,8 +262,8 @@ divergent us gvsa vec vsa = pmTraverse us gvsa dMatcher vec vsa
 
 Note the signatures:
 
-```wiki
-covered, uncovered, divergent :: UniqSupply -> ValSetAbs -> PatVec -> ValSetAbs -> ValSetAbs
+```
+covered, uncovered, divergent ::UniqSupply->ValSetAbs->PatVec->ValSetAbs->ValSetAbs
 ```
 
 
@@ -342,12 +277,8 @@ exponential in the general case), we do not evaluate parts of the sets if they a
 Since we want to handle nested pattern matching too, two more functions are exported by `deSugar/Check.hs`
 which are used to generate constraints for case expressions:
 
-```wiki
-genCaseTmCs1 :: Maybe (LHsExpr Id) -> [Id] -> Bag SimpleEq
-genCaseTmCs2 :: Maybe (LHsExpr Id) -- Scrutinee
-             -> [Pat Id]           -- LHS       (should have length 1)
-             -> [Id]               -- MatchVars (should have length 1)
-             -> DsM (Bag SimpleEq)
+```
+genCaseTmCs1::Maybe(LHsExprId)->[Id]->BagSimpleEqgenCaseTmCs2::Maybe(LHsExprId)-- Scrutinee->[PatId]-- LHS       (should have length 1)->[Id]-- MatchVars (should have length 1)->DsM(BagSimpleEq)
 ```
 
 - Function `genCaseTmCs1` takes a scrutinee of a case expression `e` and a variable `x` and generates the
@@ -357,14 +288,9 @@ genCaseTmCs2 :: Maybe (LHsExpr Id) -- Scrutinee
   generates the set of constraints `{ x ~ e, x ~ to_expr(p) }`. How is this useful? Consider the following
   example:
 
-  ```wiki
-  f :: Bool -> ()
-  f y = case y of
-          x@True ->                 -- genCaseTmCs2 generates: y ~ True, y ~ x
-                    case x of
-                      True  -> ()
-                      False -> ()   -- genCaseTmCs1 generates: x ~ False (*)
-          False  -> ()
+  ```
+  f::Bool->()f y =case y of
+          x@True->-- genCaseTmCs2 generates: y ~ True, y ~ xcase x ofTrue->()False->()-- genCaseTmCs1 generates: x ~ False (*)False->()
   ```
 
 
@@ -387,10 +313,8 @@ in GHC required several approximations and simplifications:
   is transferred to the guard pattern so resolution is postponed until the term oracle. Consider the following
   example:
 
-  ```wiki
-  f :: Bool -> ()
-  f x@True  = ()
-  f y@False = ()
+  ```
+  f::Bool->()f x@True=()f y@False=()
   ```
 
   The uncovered set with the above translation is `{ x |> {x ~ False, x ~ y, y ~ True} }`. Obviously this is
@@ -405,8 +329,6 @@ in GHC required several approximations and simplifications:
 
   In summary, the following will be generated:
 
-  ```wiki
-  f :: Bool -> ()
-  f True  (x <- True)  = () -- uncovered: { False |> { x ~ True } }
-  f False (y <- False) = () -- uncovered: {}
+  ```
+  f::Bool->()fTrue(x <-True)=()-- uncovered: { False |> { x ~ True } }fFalse(y <-False)=()-- uncovered: {}
   ```
