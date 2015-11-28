@@ -10,6 +10,12 @@
 * The [wiki:Commentary/Compiler/Packages commentary pages about packages], 
 see also [wiki:CabalDependency]
 
+== Design philosophy ==
+
+**Backpack files are a better way of writing command line flags.**
+
+**Separation of concerns between GHC and Cabal.**
+
 == Implementation notes ==
 
 Backpack is a largely orthogonal extension to GHC; for example, there are no changes to the core type-checking or type-inference algorithm. Rather, the implementation of Backpack consists of:
@@ -197,6 +203,33 @@ The package database contains both entries for old-fashioned definite units/pack
 A unit ID is a recursive data structure which is defined to be a component ID (specified by Cabal) plus a mapping from module names to modules, where a module is a a unit ID plus a module name.
 
 In some situations, we need serialize a unit ID into a compact, deterministic string, for use in linker symbols and file paths, as a full unit ID could be quite long (it is AT LEAST linear in the number of holes in a unit).  Ideally, the serialization format would be private to GHC (similarly to how z-encoding is GHC private), but the encoding leaks at least to the file path that GHC stores compilation results at... would be nice if there a way to avoid this problem.
+
+== Discarded approaches ==
+
+**Explicit signature visibility.** A requirement is not something you can hide: you must fulfill it at some point. But separately, you might also imagine controlling whether or not an identifier from a signature is importable or not.  However, this complicates the semantics of shaping (you have to keep track, for every identifier, whether or not it is visible or not, and there are a few edge cases which don't have a neat resolution), so it was abandoned. (Thanks Derek!)
+
+**How are interfaces for signatures handled.** We've gone through three iterations of how signatures were implemented:
+
+1. A signature `.hsig` compiled to an `.hi` file containing only the definitions from that `.hsig` file.  When module name `A` which is a requirement is imported, *all* of the signatures are imported as if there were multiple imports for each of them.  In this model, it's easy to hide signatures selectively (just don't import them), but the model for what happens when you import a module name is more complicated (it's a list of `Module` rather than a specific `Module`.)
+2. A signature `.hs-boot` compiled to an `.hi-boot` file, which was subsequently merged (`ghc -merge-requirements`) into an `.hi` file that was to be imported. (This was beneficial because the merging didn't rely on being able to import entities, so it was as if it was done all at once. But this is kind of a hack.)
+3. We got rid of the merge requirements step, so an `.hsig` file is compiled into an `.hi` file, and *immediately* merges all of the requirements in scope.  For signatures which are not in scope, the build system is responsible for creating a "fake" signature file so the correct requirement can be brought into scope. (The downside is that you really need proper recursive support to handle many cases.)
+
+**Dealing with duplicate signatures.** One persistent complaint with signatures is that you have to repeat a type twice: once when you write the signature and then again when you actually implement it. You'd like some mechanism to say, "this type is from the signature."  Derek quote: "I have thought about this problem before, and didn't figure it out, and got tired of it." We don't have any solution for this. Similarly, if you want to define a non-abstract data type, it's tiresome to repeat it in the signature and the implementing module.
+
+**Source-level signature inference.** At some point, I attempted to make a tool that took a library and inferred the signatures of the libraries it depended on, using the "usages" capacity. I found that it was quite difficult to correctly specify what the *types* are supposed to be, because signatures could refer to types which were never explicitly used! This is an instance of what's called the "avoidance" problem. The plan (not implemented) is to instead never syntactically write signatures down, and just infer them directly.
+
+**Straight-line shaping.** In the original Backpack paper, declarations inside a Backpack package were processed line-by-line. This means that it would be an error to import a module before it was declared. At some point, we generalized things so that we computed an import graph, and then process in order. The pro is that order doesn't matter, and we only need to do a complicated shaping pass for cycles. The downside is that the interaction between includes and modules becomes more complicated.
+
+**Fat interface files.** See #10871
+
+**Not packages, components.** A package implies a unit of distribution, but that does not necessarily coincide with the unit of modularity (having to make a Cabal file for each Backpack unit would be terrible!)
+
+**Uniform dependency across all Backpack units.** Not so much a removed feature as a removed restriction: brought about because we had components and units and it didn't make much sense to keep them distinct.
+
+**No code for partially instantiated packages.** You only get interface files for the completely generalized unit, and a completely specialized unit (i.e., with code). It was not obvious to SPJ at the beginning that we could lazily create partially instantiated interface files, but at this point it's well understood.
+
+**An infinite hierarchy of hs-boot files.** The idea here is described in https://wiki.haskell.org/HaskellImplementorsWorkshop/2015#.22Look_Ma.2C_No_Signatures.21.22_Separate_modular_development_without_interfaces
+SPJ pointed out that you should dispense with the infinite hierarchy and just compile all of the hs-boot files in one go, that solves cycles among hs-boot files. (Or even compile hi-boot from all the hs files in one go.)
 
 == Backpack-related tickets ==
 
