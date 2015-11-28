@@ -1,4 +1,4 @@
-# Exhaustiveness/Redundancy Check Implementation \[THE PAGE IS CURRENTLY UNDER CONSTRUCTION\]
+# Exhaustiveness/Redundancy Check Implementation
 
 
 This page describes how the exhaustiveness and redundancy cheker is implemented
