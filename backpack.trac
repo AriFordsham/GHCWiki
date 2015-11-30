@@ -10,12 +10,6 @@
 * The [wiki:Commentary/Compiler/Packages commentary pages about packages], 
 see also [wiki:CabalDependency]
 
-== Design philosophy ==
-
-**Backpack files are a better way of writing command line flags.**
-
-**Separation of concerns between GHC and Cabal.**
-
 == Implementation notes ==
 
 Backpack is a largely orthogonal extension to GHC; for example, there are no changes to the core type-checking or type-inference algorithm. Rather, the implementation of Backpack consists of:
@@ -65,7 +59,11 @@ import-dirs: .
 
 An external tool like Cabal may use this information to construct an entry in the installed package database for this unit.
 
-:TODO: Implementation doesn't understand component IDs here yet.
+:TODO: Why can't GHC just write this information directly to the package database? In the current database design, an entry needs a lot more information, including Cabal-specific information (package name, version, homepage, etc.) which GHC knows nothing about.
+
+:TODO: Why can't the package database be divided into two parts, a Cabal part indexed by ComponentId (which GHC never interacts with), and a GHC part indexed by UnitId (which Cabal doesn't interact with, except maybe because it needs to sometimes read out this data and install it to a global database beyond the inplace one. Unclear what the new `ghc-pkg` interface under this realm looks like.
+
+:TODO: Implementation doesn't understand component IDs in the relevant positions yet.
 
 **Instantiating and building a component.** To build an indefinite component, one has to explicitly specify how the holes are to be filled.  This can be done directly using the `-sig-of` flag.  For example, suppose we decide to fill `A` with `base-4.9.0.0:Data.IORef`. We can build this component using the command line `ghc --backpack p-0.1-xxx.bkp -sig-of "A=base-4.9.0.0:Data.IORef"`. This will build interface files (`A.hi`, `B.hi`), object files (`A.o`, `B.o`) and a digest file (`p-0.1-xxx.bkp`):
 
@@ -77,6 +75,8 @@ import-dirs: .
 }}}
 
 :TODO: Should `-sig-of` default to building interface files to the current directory, or `p-0.1-xxx-YYYYYYYY`?
+
+:TODO: Why can't GHC just directly build things it depends on?  Because we're not supposed to rely on source saved in the package database, so GHC doesn't actually have access to any of this. Also the package might have a custom build system.
 
 But where do the parameters to `-sig-of` come from anyway? In Backpack, components get instantiated by mix-in linking.  Thus, the general mode of operation is that you typecheck a unit (`ghc --backpack q.bkp -fno-code`) in order to discover what instantiated units it needs. For example, the unit file for this unit:
 
