@@ -137,6 +137,7 @@ See also [wiki:TemplateHaskell]
 
 === Arity ===
  * #11029: eta expansion causes slow-down
+ * #11146: manual eta expansion is a big win
  * #7411: state hack changes exception semantics
  * #9388: narrow the state hack
  * #10260, #9020, #10319: not enough eta expansion
