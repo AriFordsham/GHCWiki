@@ -21,6 +21,7 @@
 
 == Generics and DeriveAnyClass ==
  * See [wiki:PedrosTickets]
+ * #11148: failure when Uniques are issued in reverse order
  * #10361: `DeriveAnyClass` and associated types
  * #10598: `DeriveAnyClasss` and GND
  * #10716: strictness annotations and generics
