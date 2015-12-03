@@ -56,7 +56,7 @@ component p-0.1-xxx where
 ```
 
 
-We can typecheck this component by invoking GHC with `ghc --backpack p-0.1-xxx.bkp`.  This will build interface files for each module and signature (`A.hi` and `B.hi`), object files if the component has no holes (not the case here), and a **unit file** (`p-0.1-xxx.unit`) describing the result of typechecking:
+We can typecheck this component by invoking GHC with `ghc --backpack p-0.1-xxx.bkp`.  This will build interface files for each module and signature (`A.hi` and `B.hi`), object files if the component has no holes (not the case here), and a **unit interface file** (`p-0.1-xxx.unit`) describing the result of typechecking:
 
 ```wiki
 id: p-0.1-xxx(A=hole:A)
@@ -66,7 +66,7 @@ import-dirs: .
 ```
 
 
-An external tool like Cabal may use this information to construct an entry in the installed package database for this unit.
+For example, Cabal will read the unit interface file and use this information to construct the final entry that will live in the installed package database. (It will also augment it with some information of its own, e.g. it's responsible for linking a library that contains all the objects, so it needs to put that information in; additionally information about external libraries and header files also are Cabal-sourced.)
 
 TODO Why can't GHC just write this information directly to the package database? In the current database design, an entry needs a lot more information, including Cabal-specific information (package name, version, homepage, etc.) which GHC knows nothing about.
 
