@@ -358,7 +358,7 @@ The first thing you need to know is that *you must use GNU
 `make`*.  On some systems (eg. FreeBSD) this is called
 `gmake`, whereas on others it is the standard `make` command.
 In this document we will always refer to it as `make`; please
-substitute with `gmake` if your system requires it.  If you use a
+substitute with `gmake` if your system requires it.  If you use
 the wrong `make` you will get all sorts of error messages (but no
 damage) because the GHC `Makefiles` use GNU `make`'s
 facilities extensively.
