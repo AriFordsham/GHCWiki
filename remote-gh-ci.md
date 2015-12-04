@@ -1,6 +1,9 @@
 # Remote GHCi
 
 
+A patch to implement most of this is here: [ Phab:D1562](https://phabricator.haskell.org/D1562)
+
+
 This is a design page for implementing GHCi and Template Haskell by running the interpreted code in a separate process from GHC itself.  
 
 ## Motivation
@@ -14,6 +17,8 @@ There are several reasons for wanting to do this:
 
 - It separates the decision about whether to use the dynamic linker for interpreted code from whether GHC itself must be dynamically linked.  We could **go back to a statically-linked GHC, which should be faster.
   **
+
+- We could **use dynamic linking in GHCi on Windows**, which was previously blocked because GHC itself is too big to make into a dynamic library. (whether this is a good idea or not is debatable, but at least it's technically possible now)
 
 - When compiling Template Haskell code with `-prof`, we wouldn't have to build the code the normal way first, or use `-osuf`.  That annoying restriction (and associated code and build-system nonsense) just goes away.
 
