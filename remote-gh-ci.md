@@ -15,6 +15,8 @@ There are several reasons for wanting to do this:
 - It separates the decision about whether to use the dynamic linker for interpreted code from whether GHC itself must be dynamically linked.  We could **go back to a statically-linked GHC, which should be faster.
   **
 
+- We could **use dynamic linking in GHCi on Windows**, which was previously blocked because GHC itself is too big to make into a dynamic library. (whether this is a good idea or not is debatable, but at least it's technically possible now)
+
 - When compiling Template Haskell code with `-prof`, we wouldn't have to build the code the normal way first, or use `-osuf`.  That annoying restriction (and associated code and build-system nonsense) just goes away.
 
 - When compiling Template Haskell code we no longer need to force `-dynamic-too` if GHC is dynamically-linked.
