@@ -1,5 +1,5 @@
 
-= Exhaustiveness/Redundancy check =
+= Exhaustiveness/Redundancy Check [To Be Updated Soon] =
 
 As stated in #595, GHC's overlapping/non-exhaustive pattern checking is old and
 crufty and misbehaves with several GHC's extensions, notably GADTs. In this page
@@ -39,6 +39,12 @@ Related tickets (ones that are closed are still useful examples in the wild; the
  * #10116
  * #10600
  * #10746
+
+Performance related tickets:
+ * #11160
+ * #11161
+ * #11162
+ * #11163
 
 = The main problem we wish to solve =
 
