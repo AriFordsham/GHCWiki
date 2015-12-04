@@ -1,6 +1,9 @@
 # Remote GHCi
 
 
+A patch to implement most of this is here: [ Phab:D1562](https://phabricator.haskell.org/D1562)
+
+
 This is a design page for implementing GHCi and Template Haskell by running the interpreted code in a separate process from GHC itself.  
 
 ## Motivation
