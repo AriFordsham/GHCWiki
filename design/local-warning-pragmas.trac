@@ -19,7 +19,7 @@ Having source file delimeted by pragmas is not good idea as for me, because it w
 
 It is not very easy to form a good use case for this but nevertheless. 
 
-1. For example, if you depend on particular library function(if you want to support backward compatability) but in newer version of library this function marked as deprecated and so you get warnings about it. Here it may be useful to suppress them instead of rewriting the whole codebase. 
+1. For example, if you depend on particular library function(if you want to support backward compatability) but in newer version of library this function marked as deprecated and so you get warnings about it. Here it may be useful to suppress them instead of rewriting the whole codebase. I have asked about use cases on [https://www.reddit.com/r/haskell/comments/3rbpb6/examples_of_warnings_in_haskell/ Haskell's reddit cahnnel]  
 2. Recent monad of no return proposal suggests that having `Applicative` context sufficed for `Monad` assumes that `return` is already implemented as `pure`, so we don't need to duplicate code. However, Monad still has minimal complete definition `>>=` and `return`, so we can have warnings about incomplete minimal definition.
 
 == Exempli gratia ==
@@ -37,17 +37,28 @@ import old_lib (foo)
 ...
 
 bar :: a -> b -> c 
-{-# SUPPRESS foo #-}
+{-# SUPPRESS bar #-}
 bar x y = foo y $ x
 }}}
 
-We are suppressing warnings for one particular function
+We are suppressing warnings for one particular function. By writing `{-# SUPPRESS bar #-}` i mean that all warnings that function `bar` throws will be suppressed. 
+
+Another example:
 
 {{{#!hs
-{-# SUPPRESS return #-}
-instance Applicative m => Monad m where
-    (>>=) = ...
+
+module Test where
+
+{-# SUPPRESS foo #-}
+foo :: Integer -> Integer
+foo n | n >= 0 = fac n
+      | n < 0 = n + 1
+        where
+            fac x | x == 0 = 1
+                  | x /= 0 = x * fac (x - 1)
+foo _ = undefined
 
 }}}
-And here we are suppressing warnings about incomplete minimal 
+
+With -Wall GHC will warn us about incomplete pattern matching for `fac` however, `fac` is used and defined only when `n >= 0`. So we write `{-# SUPPRESS foo #-}` and this warning(and others that `foo` throws) will be suppressed and not printed to user.
 
