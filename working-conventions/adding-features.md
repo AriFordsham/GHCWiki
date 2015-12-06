@@ -11,9 +11,9 @@ We welcome your involvement in making GHC able to do more. Here's how to do it. 
 1. Follow the instructions for **[contributing a patch](working-conventions/fixing-bugs)**.
 1. Include updates to the **user manual** that documents your feature. For features that introduce a new flag, at least two sections need to be updated:
 
-  - The flag reference section in `docs/users-guide/flags.xml` lists all available flags together with a short description.
-  - The flag descriptions in `docs/users_guide/using.xml` provide a detailed explanation of each flags' usage. 
-1. Add a section to the latest **release notes** (`docs/users_guide/7.12.1-notes.xml` or `libraries/base/changelog.md`).
+  - The flag reference section in `docs/users-guide/flags.rst` lists all available flags together with a short description.
+  - The flag descriptions in `docs/users_guide/using.rst` provide a detailed explanation of each flags' usage. 
+1. Add a section to the latest **release notes** (`docs/users_guide/7.12.1-notes.rst` or `libraries/base/changelog.md`).
 
 ## Things to bear in mind
 
