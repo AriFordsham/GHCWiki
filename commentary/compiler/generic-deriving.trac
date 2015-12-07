@@ -368,7 +368,7 @@ Would have generated all of this:
 
 {{{#!hs
 instance Generic Example where
-  type Rep Example = D1 D1Example (C1 C1_0Example (S1 NoSelector U1)
+  type Rep Example = D1 D1Example (C1 C1_0Example (S1 NoSelector U1))
   ...
 
 data D1Example
