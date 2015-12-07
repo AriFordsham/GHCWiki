@@ -358,4 +358,7 @@ Similarly, GHC.Generics currently shows the selector name in the metadata, where
 
 - Haddock compiles, but probably needs updates to document modules with [DuplicateRecordFields](records/overloaded-record-fields/duplicate-record-fields) correctly.
 
-- The user manual documentation needs to be adapted to the new format.
+## Tickets
+
+- [\#11103](https://gitlab.haskell.org//ghc/ghc/issues/11103) - `DuplicateRecordFields` + `TemplateHaskell`
+- [\#11167](https://gitlab.haskell.org//ghc/ghc/issues/11167) - Fixity of field-deconstructors incorrect
