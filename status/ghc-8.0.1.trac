@@ -20,6 +20,17 @@ Release candidate by'' mid-December 2015'''. Release in '''January 2016'''.
 
 Below are the major highlights of 8.0.
 
+
+=== In-flight, and likely to land in time
+
+  - Visible type application
+
+  - Support for reasoning about kind equalities, which gives promotion of GADTs to kinds, kind families, heterogeneous equality (kind-indexed GADTs), and `* :: *`. There is some discussion in [wiki:DependentHaskell/Phase1], but that's very low-level. I (Richard) have no good user-oriented write-up yet, but there shouldn't be much in the way of new syntax -- just fewer type errors. (Phab:D808)
+
+  - An [wiki:ImprovedLLVMBackend Improved LLVM Backend] that ships with every major Tier 1 platform.
+
+  - Fix #10845 with Phab:1422 (Rework the Implicit CallStack solver to handle local lets)
+
 === Landed in HEAD
 
   - Support for [wiki:ExplicitCallStack/ImplicitLocations implicit parameters providing callstacks/source locations], allowing you to have a light-weight means of getting a call-stack in a Haskell application. (Phab:D861)
@@ -59,16 +70,6 @@ Below are the major highlights of 8.0.
   - Backpack is chugging along; we have a new user-facing syntax which allows multiple modules to be defined a single file, and are hoping to release at least the ability to publish multiple "units" in a single Cabal file.
 
   - Improved [wiki:DWARF DWARF based debugging support] from Peter Wortmann, Arash Rouhani, and Ben Gamari with backtraces from Haskell code.
-
-=== In-flight, and likely to land in time
-
-  - Visible type application
-
-  - Support for reasoning about kind equalities, which gives promotion of GADTs to kinds, kind families, heterogeneous equality (kind-indexed GADTs), and `* :: *`. There is some discussion in [wiki:DependentHaskell/Phase1], but that's very low-level. I (Richard) have no good user-oriented write-up yet, but there shouldn't be much in the way of new syntax -- just fewer type errors. (Phab:D808)
-
-
-
-  - An [wiki:ImprovedLLVMBackend Improved LLVM Backend] that ships with every major Tier 1 platform.
 
 === Possible, if the authors push forward fast enough
 
