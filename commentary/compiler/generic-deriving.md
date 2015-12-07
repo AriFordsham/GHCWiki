@@ -326,10 +326,10 @@ be something like:
 
 But I'm not entirely sure about this.
 
-## A more conservative first approach to this problem
+## GHC 8.0 and later
 
 
-Because what we've described so far is rather backwards-incompatible, we could at least try to improve the encoding of metadata, which is currently rather clunky (giving rise to lots of empty, compiler-generated datatypes and respective instances). We can do that by changing `M1` to keep the meta-information *at the type level*:
+Because what we've described so far is rather backwards-incompatible, we wanted to at least try to improve the encoding of metadata, which was currently rather clunky prior to GHC 8.0 (giving rise to lots of empty, compiler-generated datatypes and respective instances). We can accomplished that by changing `M1` to keep the meta-information *at the type level*:
 
 ```wiki
 newtype M1 i (c :: Meta) f p = M1 { unM1 :: f p }
@@ -337,6 +337,7 @@ newtype M1 i (c :: Meta) f p = M1 { unM1 :: f p }
 data Meta = MetaData Symbol Symbol  Bool
           | MetaCons Symbol FixityI Bool
           | MetaSel  Symbol
+          | MetaNoSel
 
 data Fixity  = Prefix  | Infix  Associativity Int
 data FixityI = PrefixI | InfixI Associativity Nat
@@ -347,12 +348,13 @@ data Associativity = LeftAssociative
 ```
 
 
-Why do we need to add `FixityI`? Because `Fixity` does not promote. Yet, we want to expose `Fixity` to the user, not `FixityI`. Note that the meta-data classes remain unchanged:
+Why did we need to add `FixityI`? Because `Fixity` does not promote. Yet, we wanted to expose `Fixity` to the user, not `FixityI`. Note that the meta-data classes remained unchanged:
 
 ```wiki
 class Datatype d where
   datatypeName :: t d (f :: * -> *) a -> [Char]
   moduleName   :: t d (f :: * -> *) a -> [Char]
+  packageName  :: t d (f :: * -> *) a -> [Char]
   isNewtype    :: t d (f :: * -> *) a -> Bool
 
 class Constructor c where
@@ -365,23 +367,27 @@ class Selector s where
 ```
 
 
-But now, using the magic of singletons, we can give *one single instance* for each of these classes, instead of having to instantiate them each time a user derives `Generic`:
+But now, using the magic of singletons, we give *one single instance* for each of these classes, instead of having to instantiate them each time a user derives `Generic`:
 
 ```wiki
-instance (KnownSymbol n, KnownSymbol m, SingI nt)
-    => Datatype (MetaData n m nt) where
+instance (KnownSymbol n, KnownSymbol m, KnownSymbol p, SingI nt)
+    => Datatype ('MetaData n m p nt) where
   datatypeName _ = symbolVal (Proxy :: Proxy n)
   moduleName   _ = symbolVal (Proxy :: Proxy m)
+  packageName  _ = symbolVal (Proxy :: Proxy p)
   isNewtype    _ = fromSing  (sing  :: Sing nt)
 
 instance (KnownSymbol n, SingI f, SingI r)
-    => Constructor (MetaCons n f r) where
+    => Constructor ('MetaCons n f r) where
   conName     _ = symbolVal (Proxy :: Proxy n)
   conFixity   _ = fromSing  (sing  :: Sing f)
   conIsRecord _ = fromSing  (sing  :: Sing r)
 
-instance (KnownSymbol s) => Selector (MetaSel s) where
+instance (KnownSymbol s) => Selector ('MetaSel s) where
   selName _ = symbolVal (Proxy :: Proxy s)
+
+instance Selector 'MetaNoSel where
+  selName _ = ""
 ```
 
 
@@ -392,6 +398,39 @@ I believe this change is almost fully backwards-compatible, and lets us simplify
 
 
 I say "almost fully backwards-compatible" because handwritten `Generic` instances might break with this change. But we've never recommended doing this, and I think users who do this are more than aware that they shouldn't rely on it working across different versions of GHC.
+
+### Example
+
+
+Before GHC 8.0, the following declaration:
+
+```
+dataExample=ExamplederivingGeneric1
+```
+
+
+Would have generated all of this:
+
+```
+instanceGenericExamplewheretypeRepExample=D1D1Example(C1C1_0Example(S1NoSelectorU1)...dataD1ExampledataC1_0ExampleinstanceDatatypeD1Examplewhere
+  datatypeName _="Example"
+  moduleName   _="Module"
+  packageName  _="package"
+  isNewtype    _=FalseinstanceConstructorC1_0Examplewhere
+  conName     _="Example"
+  conFixity   _=Prefix
+  conIsRecord _=False
+```
+
+
+But on GHC 8.0 and later, this is all that is generated:
+
+```
+instanceGenericExamplewheretypeRepExample=D1('MetaData"Example""Module""package"'False)(C1('MetaCons"Example"'PrefixI'False)(S1'MetaNoSelU1))...
+```
+
+
+Not bad!
 
 # Using standard deriving for generic functions
 
