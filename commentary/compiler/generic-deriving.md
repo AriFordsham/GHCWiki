@@ -412,7 +412,7 @@ dataExample=ExamplederivingGeneric1
 Would have generated all of this:
 
 ```
-instanceGenericExamplewheretypeRepExample=D1D1Example(C1C1_0Example(S1NoSelectorU1)...dataD1ExampledataC1_0ExampleinstanceDatatypeD1Examplewhere
+instanceGenericExamplewheretypeRepExample=D1D1Example(C1C1_0Example(S1NoSelectorU1))...dataD1ExampledataC1_0ExampleinstanceDatatypeD1Examplewhere
   datatypeName _="Example"
   moduleName   _="Module"
   packageName  _="package"
