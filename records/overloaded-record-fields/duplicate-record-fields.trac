@@ -317,3 +317,4 @@ Similarly, GHC.Generics currently shows the selector name in the metadata, where
 
  * #11103 - `DuplicateRecordFields` + `TemplateHaskell`
  * #11167 - Fixity of field-deconstructors incorrect
+ * #11173 - Infix declarations for record fields with DuplicateRecordFields are broken
