@@ -49,6 +49,7 @@ Each ticket has a bunch of other fields too:
   - An empty milestone field means the bug has not been triaged yet.  We don't yet know if the
     ticket is a real, unique, issue.  Once this has been established, the ticket will be given
     a milestone.
+  - **Research needed** is for tickets where the issue can be considered a bug but the solution is an open research problem.
   - **_\|_** is for tickets that have been triaged, but we don't plan to fix them for a particular
     release.  This might be because the bug is low priority, or is simply too hard to fix right now.
 
