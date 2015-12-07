@@ -55,19 +55,19 @@ Below are the major highlights of 8.0.
 
 - Support for [OverloadedLabels](records/overloaded-record-fields/overloaded-labels), allowing a form of type-directed name resolution ([ Phab:D1331](https://phabricator.haskell.org/D1331))
 
-### In-flight, and likely to land in time
-
 - Simon PJ's `wip/spj-wildcard-refactor` branch, which refactors the handling of implicit binders and wildcards
-
-- Visible type application
-
-- Support for reasoning about kind equalities, which gives promotion of GADTs to kinds, kind families, heterogeneous equality (kind-indexed GADTs), and `* :: *`. There is some discussion in [DependentHaskell/Phase1](dependent-haskell/phase1), but that's very low-level. I (Richard) have no good user-oriented write-up yet, but there shouldn't be much in the way of new syntax -- just fewer type errors. ([ Phab:D808](https://phabricator.haskell.org/D808))
 
 - A huge improvement to pattern matching (including much better coverage of GADTs), based on the work of Simon PJ and Georgios Karachalias. For more details, see [ their paper](http://people.cs.kuleuven.be/~george.karachalias/papers/p424-karachalias.pdf). ([ Phab:D1535](https://phabricator.haskell.org/D1535))
 
 - Backpack is chugging along; we have a new user-facing syntax which allows multiple modules to be defined a single file, and are hoping to release at least the ability to publish multiple "units" in a single Cabal file.
 
 - Improved [DWARF based debugging support](dwarf) from Peter Wortmann, Arash Rouhani, and Ben Gamari with backtraces from Haskell code.
+
+### In-flight, and likely to land in time
+
+- Visible type application
+
+- Support for reasoning about kind equalities, which gives promotion of GADTs to kinds, kind families, heterogeneous equality (kind-indexed GADTs), and `* :: *`. There is some discussion in [DependentHaskell/Phase1](dependent-haskell/phase1), but that's very low-level. I (Richard) have no good user-oriented write-up yet, but there shouldn't be much in the way of new syntax -- just fewer type errors. ([ Phab:D808](https://phabricator.haskell.org/D808))
 
 - An [Improved LLVM Backend](improved-llvm-backend) that ships with every major Tier 1 platform.
 

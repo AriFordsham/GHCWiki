@@ -52,19 +52,21 @@ Below are the major highlights of 8.0.
 
   - Support for [wiki:Records/OverloadedRecordFields/OverloadedLabels OverloadedLabels], allowing a form of type-directed name resolution (Phab:D1331)
 
-=== In-flight, and likely to land in time
-
   - Simon PJ's `wip/spj-wildcard-refactor` branch, which refactors the handling of implicit binders and wildcards
-
-  - Visible type application
-
-  - Support for reasoning about kind equalities, which gives promotion of GADTs to kinds, kind families, heterogeneous equality (kind-indexed GADTs), and `* :: *`. There is some discussion in [wiki:DependentHaskell/Phase1], but that's very low-level. I (Richard) have no good user-oriented write-up yet, but there shouldn't be much in the way of new syntax -- just fewer type errors. (Phab:D808)
 
   - A huge improvement to pattern matching (including much better coverage of GADTs), based on the work of Simon PJ and Georgios Karachalias. For more details, see [http://people.cs.kuleuven.be/~george.karachalias/papers/p424-karachalias.pdf their paper]. (Phab:D1535)
 
   - Backpack is chugging along; we have a new user-facing syntax which allows multiple modules to be defined a single file, and are hoping to release at least the ability to publish multiple "units" in a single Cabal file.
 
   - Improved [wiki:DWARF DWARF based debugging support] from Peter Wortmann, Arash Rouhani, and Ben Gamari with backtraces from Haskell code.
+
+=== In-flight, and likely to land in time
+
+  - Visible type application
+
+  - Support for reasoning about kind equalities, which gives promotion of GADTs to kinds, kind families, heterogeneous equality (kind-indexed GADTs), and `* :: *`. There is some discussion in [wiki:DependentHaskell/Phase1], but that's very low-level. I (Richard) have no good user-oriented write-up yet, but there shouldn't be much in the way of new syntax -- just fewer type errors. (Phab:D808)
+
+
 
   - An [wiki:ImprovedLLVMBackend Improved LLVM Backend] that ships with every major Tier 1 platform.
 
