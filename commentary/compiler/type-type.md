@@ -69,9 +69,6 @@ Notice the first line, which uses the view, and recurses when the view 'fires'. 
   splitFunTy_maybe other         = Nothing
 ```
 
-
-You will also see a function `tcView` which is defined to be equal to `coreView`.  In the olden days they differed (it was all a bit hacky) but now things are simple and uniform.  We should probably nuke `tcView`.
-
 ## The representation of `Type`
 
 
