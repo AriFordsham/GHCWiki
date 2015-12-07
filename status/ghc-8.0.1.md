@@ -23,6 +23,16 @@ Release candidate by* mid-December 2015**. Release in **January 2016**.
 
 Below are the major highlights of 8.0.
 
+### In-flight, and likely to land in time
+
+- Visible type application
+
+- Support for reasoning about kind equalities, which gives promotion of GADTs to kinds, kind families, heterogeneous equality (kind-indexed GADTs), and `* :: *`. There is some discussion in [DependentHaskell/Phase1](dependent-haskell/phase1), but that's very low-level. I (Richard) have no good user-oriented write-up yet, but there shouldn't be much in the way of new syntax -- just fewer type errors. ([ Phab:D808](https://phabricator.haskell.org/D808))
+
+- An [Improved LLVM Backend](improved-llvm-backend) that ships with every major Tier 1 platform.
+
+- Fix [\#10845](https://gitlab.haskell.org//ghc/ghc/issues/10845) with [ Phab:1422](https://phabricator.haskell.org/1422) (Rework the Implicit CallStack solver to handle local lets)
+
 ### Landed in HEAD
 
 - Support for [implicit parameters providing callstacks/source locations](explicit-call-stack/implicit-locations), allowing you to have a light-weight means of getting a call-stack in a Haskell application. ([ Phab:D861](https://phabricator.haskell.org/D861))
@@ -55,21 +65,13 @@ Below are the major highlights of 8.0.
 
 - Support for [OverloadedLabels](records/overloaded-record-fields/overloaded-labels), allowing a form of type-directed name resolution ([ Phab:D1331](https://phabricator.haskell.org/D1331))
 
-### In-flight, and likely to land in time
-
 - Simon PJ's `wip/spj-wildcard-refactor` branch, which refactors the handling of implicit binders and wildcards
-
-- Visible type application
-
-- Support for reasoning about kind equalities, which gives promotion of GADTs to kinds, kind families, heterogeneous equality (kind-indexed GADTs), and `* :: *`. There is some discussion in [DependentHaskell/Phase1](dependent-haskell/phase1), but that's very low-level. I (Richard) have no good user-oriented write-up yet, but there shouldn't be much in the way of new syntax -- just fewer type errors. ([ Phab:D808](https://phabricator.haskell.org/D808))
 
 - A huge improvement to pattern matching (including much better coverage of GADTs), based on the work of Simon PJ and Georgios Karachalias. For more details, see [ their paper](http://people.cs.kuleuven.be/~george.karachalias/papers/p424-karachalias.pdf). ([ Phab:D1535](https://phabricator.haskell.org/D1535))
 
 - Backpack is chugging along; we have a new user-facing syntax which allows multiple modules to be defined a single file, and are hoping to release at least the ability to publish multiple "units" in a single Cabal file.
 
 - Improved [DWARF based debugging support](dwarf) from Peter Wortmann, Arash Rouhani, and Ben Gamari with backtraces from Haskell code.
-
-- An [Improved LLVM Backend](improved-llvm-backend) that ships with every major Tier 1 platform.
 
 ### Possible, if the authors push forward fast enough
 
