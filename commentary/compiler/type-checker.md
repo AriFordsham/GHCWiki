@@ -95,9 +95,9 @@ All type variables that may be instantiated (those in signatures may not), but h
 
 The representation of types is fixed in the module [TypeRep](/trac/ghc/browser/ghc/compiler/types/TypeRep.lhs) and exported as the data type `Type`. Read the comments in the `TypeRep` module!  A couple of points:
 
-- Type synonym applications are represented as a `TyConApp` with a `TyCon` that contains the expansion.  The expansion is done on-demand by `Type.coreView` and `Type.tcView`.  Unexpanded type synonyms are useful for generating comprehensible error messages.
+- Type synonym applications are represented as a `TyConApp` with a `TyCon` that contains the expansion.  The expansion is done on-demand by `Type.coreView`.  Unexpanded type synonyms are useful for generating comprehensible error messages.
 
-- The `PredTy` constructor wraps a type constraint argument (dictionary, implicit parameter, or equality).  They are expanded on-demand by `coreView`, but not by `tcView`.
+- The `PredTy` constructor wraps a type constraint argument (dictionary, implicit parameter, or equality).  They are expanded on-demand by `coreView`.
 
 
 As explained in [TcType](/trac/ghc/browser/ghc/compiler/typecheck/TcType.lhs), GHC supports rank-N types, but during type inference maintains the restriction that type variables cannot be instantiated to quantified types (i.e., the type system is predicative).  However the type system of Core is fully impredicative.
