@@ -16,152 +16,102 @@ see also [CabalDependency](cabal-dependency)
 ## Implementation notes
 
 
-Backpack is a largely orthogonal extension to GHC; for example, there are no changes to the core type-checking or type-inference algorithm. Rather, the implementation of Backpack consists of:
+Backpack consists of two major parts:
 
-1. A new language for describing "components" (called packages in the original Backpack paper). This language is written in `bkp` files, and looks like this:
+1. A generalization of `hs-boot` files to `hsig` files, which allow you to write modules against an interface which may be instantiated later, and
 
-```wiki
-component p where
-  include q (Q) requires (H)
-  module A
-  module B
-```
-
-1. A new frontend, `ghc --backpack` for processing `bkp` files, which can make (multiple) calls to `ghc --make` in order to typecheck and compile modules in a `bkp` file.
-
-1. Infrastructure for handling *indefinite components*, i.e. components for which we have signatures but not implementations for some modules.  This includes machinery to do *shaping*.
+1. A frontend (implemented a library--more on this shortly) for actually driving GHC to typecheck, compile and install packages with `hsig` files.
 
 
-The most up-to-date description for the frontend and shaping can be found in `docs/backpack/algorithm.tex`, but here are some miscellaneous GHC-specific notes.
+While it is hypothetically possible to use `hsig`s without the Backpack frontend, your user experience will be a lot more pleasant using the frontend.  We provide a few ways to use Backpack:
 
-### The frontend
+1. `ghc-backpack` is a minimal frontend that parses Backpack files, a compact syntax for Backpack use inspired by the Backpack paper, and then invokes GHC to compile them.  This frontend is primarily intended to be used for testing; it essentially is a convenient way to play around with Backpack files without having to write a full Cabal file / go through the Cabal tool.
 
+1. `Cabal` knows how to translate Cabal files into the Backpack IR, and is able to compile any Backpack components for which it has source.  It is roughly analogous to `ghc-backpack`, except that it knows how to do proper, Cabalized builds.
 
-A Backpack file can be thought of in two ways:
-
-1. It is a "user-friendly" way of passing flags which would otherwise have to be manually specified to `ghc --make`. In particular, Cabal could generate a Backpack file for GHC to compile. This is the "large-scale modularity" perspective.
-
-1. It contains source code written in the "Backpack module language" (analogous to ML's module language), and is the mechanism by which users write and compose modular programs. This is the "small-scale modularity" perspective.
+1. `cabal-install`, via its dependency on the Cabal library, can translate Cabal files to the Backpack IR, and subsequently is able to compile Backpack components spread over multiple components.
 
 
-Our goal is to eventually support \*both\* perspectives, but Backpack most natively supports large-scale modularity. We haven't yet started working on a design for small-scale modularity (which would likely involve additions to Haskell's surface syntax), except for a few small affordances (multiple units, inline modules) in Backpack which should make small-scale modular development possible (even if it is still a little unpleasant.)
+The most up-to-date description for how `hsig` files are implemented can be found in `docs/backpack/algorithm.tex`, but here are some miscellaneous GHC-specific notes, including the full-stack description.
 
-**Typechecking an indefinite component.** A user wishing to compile a component with component ID `p-0.1-xxx` which depends on `base` and contains a signature `A` and a module `B` can setup their working directory with the files `p-0.1-xxx.bkp`, `A.hsig`, and `B.hs`. The contents of the Backpack file specify the modules, signatures, and includes of the component:
+### The Backpack library frontend
+
+
+The Backpack IR is a representation of the **pre-shape** of a Backpack component; the IR is sufficient to determine what instantiated components must be built, and how a component is instantiated.  (This is an abstraction of the package shape in the Backpack paper, which incorporates both module identities as well as the identities for entities defined in the modules.  Entity information is not needed for build planning, so the Backpack IR does not include it.)
+
+
+Here is the IR type:
 
 ```wiki
-component p-0.1-xxx where
-  include base-4.9.0.0
-  signature A
-  module B
-```
+-- Basic data types. This is the NON-recursive UnitId formulation.
+data ModuleName  = ModuleName  String
+data ComponentId = ComponentId String
+data Module = Module { moduleUnitId :: UnitId
+                     , moduleName :: ModuleName }
+data UnitId = UnitId { unitIdComponentId :: ComponentId
+                     , unitIdInsts :: [(ModuleName, Module)] }
 
-
-We can typecheck this component by invoking GHC with `ghc --backpack p-0.1-xxx.bkp`.  This will build interface files for each module and signature (`A.hi` and `B.hi`), object files if the component has no holes (not the case here), and a **unit interface file** (`p-0.1-xxx.unit`) describing the result of typechecking:
-
-```wiki
-id: p-0.1-xxx(A=hole:A)
-instantiated-depends: base-4.9.0.0
-exposed-modules: B
-import-dirs: .
-```
-
-
-For example, Cabal will read the unit interface file and use this information to construct the final entry that will live in the installed package database. (It will also augment it with some information of its own, e.g. it's responsible for linking a library that contains all the objects, so it needs to put that information in; additionally information about external libraries and header files also are Cabal-sourced.)
-
-TODO Why can't GHC just write this information directly to the package database? In the current database design, an entry needs a lot more information, including Cabal-specific information (package name, version, homepage, etc.) which GHC knows nothing about.
-
-TODO Why can't the package database be divided into two parts, a Cabal part indexed by ComponentId (which GHC never interacts with), and a GHC part indexed by UnitId (which Cabal doesn't interact with, except maybe because it needs to sometimes read out this data and install it to a global database beyond the inplace one. Unclear what the new `ghc-pkg` interface under this realm looks like.
-
-TODO Implementation doesn't understand component IDs in the relevant positions yet.
-
-**Instantiating and building a component.** To build an indefinite component, one has to explicitly specify how the holes are to be filled.  This can be done directly using the `-sig-of` flag.  For example, suppose we decide to fill `A` with `base-4.9.0.0:Data.IORef`. We can build this component using the command line `ghc --backpack p-0.1-xxx.bkp -sig-of "A=base-4.9.0.0:Data.IORef"`. This will build interface files (`A.hi`, `B.hi`), object files (`A.o`, `B.o`) and a digest file (`p-0.1-xxx.bkp`):
-
-```wiki
-id: p-0.1-xxx(A=base-4.9.0.0:Data.IORef)
-instantiated-depends: base-4.9.0.0
-exposed-modules: B
-import-dirs: .
-```
-
-TODO Should `-sig-of` default to building interface files to the current directory, or `p-0.1-xxx-YYYYYYYY`?
-
-TODO Why can't GHC just directly build things it depends on?  Because we're not supposed to rely on source saved in the package database, so GHC doesn't actually have access to any of this. Also the package might have a custom build system.
-
-
-But where do the parameters to `-sig-of` come from anyway? In Backpack, components get instantiated by mix-in linking.  Thus, the general mode of operation is that you typecheck a unit (`ghc --backpack q.bkp -fno-code`) in order to discover what instantiated units it needs. For example, the unit file for this unit:
-
-```wiki
-component q-2.0-yyy where
-  include base-4.9.0.0 (Data.IORef as A)
-  include p-0.1-xxx requires (A)
+-- The intermediate representation of a component
+data Component = Component {
+  -- The UnitId of the component in question.
+  unitId :: UnitId,
+  -- The direct dependencies of the component; i.e. how the includes
+  -- are resolved.
+  instantiatedDepends :: [UnitId],
+  -- The modules from the includes which are "in scope".  Does not
+  -- include requirements.
+  -- TODO: Argue about whether or not it should be done this way.
+  importedModules :: [(ModuleName, Module)],
+  -- The exported modules of the component.  Local modules will
+  -- have moduleUnitId == unitId, but there may also be reexports.
+  exposedModules :: [(ModuleName, Module)]
+}
 ```
 
 
-would be:
+Intuitively, the algorithm for compiling a `UnitId` goes as follows:
+
+1. Lookup the `Component` corresponding to the `ComponentId` of the `UnitId`.
+1. Substitute according to `unitIdInsts` in all fields of `Component`. E.g., if you are instantiating `A -> base:A`, replace every occurrence of `hole:A` with `base:A`.
+1. Recursively compile every `instantiatedDepends`.
+1. Compile this `Component` with the correct flags derived from this data structure.
+
+### The GHC interface
+
+
+How do you compile a `Component`; that is to say, what flags are passed to GHC to compile an instantiated unit?  There are a few things that need to be passed:
+
+1. The chosen STRING unit ID (which is to be used for linker symbols).  Done in old versions of GHC with `-package-name` (or more recently `-this-package-key` and `-this-unit-id`.
+1. The full unit ID data structure.  My suggestion is that this is given in two parts: `-this-component-id` (a new flag) and `-sig-of` (shipped already in GHC 7.10)
+1. The set of modules that are in scope, from `importModules`.  There are two ways to do this: a series of `-package-id "p (A as B)"` flags (which mimic a source-level include declaration, or manually specifying each of the modules in scope (some new flag).  Besides possibly being quite long, the latter is attractive because the elaboration to the Backpack IR needs to compute the set of modules in scope (so it knows how to instantiate things.)
+1. The set of requirements that are in scope, from `instantiatedDepends`.  These indicate what other signatures need to be merged into the local `hsig`s.
+
+### Cabal syntax
+
+
+I think for now we should resurrect the original Cabal syntax.  So, we add the following fields:
 
 ```wiki
-id: q-2.0-yyy
-instantiated-depends: p-0.1-xxx(A=base-4.9.0.0:Data.IORef)
-```
-
-**Component names.**  For hand-written Backpack files, it is not convenient to specify component IDs in the Backpack file, as they are machine-generated by Cabal and not generally known at source time.  Anywhere a component ID is valid (components and includes), a "component name" may be specified instead. E.g.,
-
-```wiki
-component p where
-  include base
-  signature A
-  module B
-```
-
-
-Component names are resolved into component IDs as follows:
-
-1. The component ID being built is specified with the `-this-component-id` flag
-1. The component IDs of included packages are looked up based on the package names of exposed packages.  To select a specific version of a package, the `-package-id` flag can be used (as before).
-
-TODO Do we need syntax for distinguishing ComponentId from ComponentName?
-
-**Helper units.** Backpack files can also specify internal units which can be used for small-scale modularity. These are useful for several reasons:
-
-1. It decouples the Backpack unit of modularity (component) from the Cabal unit of packaging (a package). This means you don't have to make a new Cabal package to make a instantiatiable Backpack component.
-1. GHC can build all of the units in a single Backpack file at once, without having to go through Cabal (as the source is all available).
-1. The ability for a single invocation of GHC to produce multiple units is a necessary capability for any other "modularity in the small" surface syntax.
-1. It's really convenient for testing (ha ha)
-
-
-Every Backpack file has a primary unit identified by the name of the bkp file; helper units occur before that unit in dependency order. For example, `r.bkp`:
-
-```wiki
-component internal where
-  signature A
-  module B
-component r where
-  include helper
-  module A
+exposed-signatures: H1 H2
+reexported-modules: X as H3 -- NB: Cabal must know what modules are in scope!
 ```
 
 
-The source code for a helper unit occurs in a subdirectory with the same component name, e.g. `internal/A.hsig`.  If component names are being used, GHC will automatically derive a component ID for the helper component based off of `-this-component-id`; e.g. if you pass `-component-id r-0.4-aaaa` then `internal` will be assigned `r-0.4-aaaa-internal`.
-
-
-The other important thing to note is that the unit file will record a unit for each unit that is built. In this example, the unit file will be:
+Primary complication is permitting a build-depends to be included twice, with different dependencies.  We could put this inline into build-depends but I think it's more wise to just add a new field `includes:` which accepts a newline separated list of includes with renamings:
 
 ```wiki
-id: r-0.4-aaaa-internal(A=hole:A)
-instantiated-depends:
-import-dirs: internal
-----
-id: r-0.4-aaaa-internal(A=r-0.4-aaaa:A)
-instantiated-depends:
-import-dirs: internal/r-0.4-aaaa-XXXXXXX
-----
-id: r-0.4-aaaa
-instantiated-depends: r-0.4-aaaa-internal(A=r-0.4-aaaa:A)
-import-dirs: .
+build-depends: foo >= 2.0
+includes:
+  foo requires (H as H1)
+  foo requires (H as H2)
 ```
 
 
-The most notable thing is that the unit file records where the interface files for a unit are stored. In particular, the instantiated `r-0.4-aaaa-internal(A=r-0.4-aaaa:A)` has its interface files stored in the subdirectory `internal/r-0.4-aaaa-XXXXXXX`, where `XXXXXXX` is a deterministic, unique hash computed by GHC (which is otherwise private to GHC).
+If a package `bar` is not explicitly mentioned in `includes`, it is assumed to have had form `bar`.
+
+### Cabal changes
+
+### cabal-install changes
 
 ### Holes
 
