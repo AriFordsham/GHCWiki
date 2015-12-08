@@ -21,6 +21,7 @@
 
 == Generics and DeriveAnyClass ==
  * See [wiki:PedrosTickets]
+ * #7492: replace `Rec1 f` with `f :.: Par1`
  * #11174: traversable for unboxed values
  * #11148: failure when Uniques are issued in reverse order
  * #10361: `DeriveAnyClass` and associated types
