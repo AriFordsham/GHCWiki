@@ -1,26 +1,32 @@
-[ Backpack](http://plv.mpi-sws.org/backpack/) is a proposal for retrofitting Haskell with an applicative, mix-in module system. The theory of Backpack is developed in the paper and its accompanying technical appendix. The purpose of this page is to track implementation progress. (Wondering what happened to the old text? Check the history; it will be integrated into the implementation design doc eventually).
+[ Backpack](http://plv.mpi-sws.org/backpack/) is a proposal for retrofitting Haskell with an applicative, mix-in module system. The theory of Backpack is developed in the paper and its accompanying technical appendix. The purpose of this page is to track implementation progress.
 
-## Reading
+## Motivation
 
-- [ The Backpack documentation directory](https://git.haskell.org/ghc.git/blob/HEAD:/docs/backpack/). You'll have to build them (just `make`), but here are the files of interest:
-
-  - algorithm.tex specifies the abstract core Backpack algorithms for GHC.
-  - backpack-manual.tex is a user-facing manual for using Backpack.
-  - backpack-impl.tex is an old but interesting technical document describing many of the technical tradeoffs in our design.
-- [ What's a module system good for anyway?](http://blog.ezyang.com/2014/08/whats-a-module-system-good-for-anyway/) Motivates *why* you might care about Backpack
-- The [commentary pages about packages](commentary/compiler/packages), 
+### Large-scale modularity
 
 
-see also [CabalDependency](cabal-dependency)
+Large-scale modularity refers to the modularization of software into libraries, which are built upon other libraries.  A package manager offers a limited degree of flexibility by permitting a library to built against varying \*versions\* of its dependencies.  Backpack seeks to solve the following problems related to programming with libraries:
 
-## Implementation notes
+1. Is my library compatible against a given version of a dependency?  To determine this today, you must first install the library, and then build your code against it. With Backpack, you can write down precisely what interface you depend against, at which the compatibility check only involves testing if an implementation correctly implements the interface. Better yet, a library with explicit Backpack dependencies can be installed without installing any of its prerequisites. This information can be collected together in order to give accurate version dependencies. (TODO Interesting problem: Backpack says nothing about what should happen when someone generalizes a type signatures.  Conditional compilation suggests that there may need to be multiple interface sets that a package can compile against; variational programming but only with interfaces.) (TODO Right now, versions and instantiation are completely orthogonal, which sucks.)
+
+1. Does anyone depend on this API?  If you want to make a backwards incompatible change to a library, it can be difficult to tell who will be affected. Explicit interfaces are *transmissible*; clients should be able to submit the slices of the interfaces they depend on to upstream, giving maintainers a view into what APIs are used.  This capability would be especially beneficial for packages with a large and organically grown API (e.g. the ghc package).  (TODO In what sense is an interface transmissible? Interface needs to be able to refer to other types which need to live somewhere. These are "subsidiary" in some sense; when checking for compatibility you don't care about these types.  Need to analyze this situation more carefully. See also [\#10798](https://gitlab.haskell.org//ghc/ghc/issues/10798).)
+
+1. How can I make a package parametric on a dependency?  In the Haskell ecosystem, if I write a package `foo` which uses strings, I may publish to Hackage many versions of the package: `foo-bytestring`, `foo-text`, `foo-string`, each specialized against a specific string representation.  (TODO in this example, do the implementations commonly differ?) A more preferable way to structure the package is to write it once, parametrized on an abstract string type, and allow users to fill in their own string implementation.
+
+### Small-scale modularity
+
+
+Today, functions and types in Haskell can be parametrized over types.  However, there is no direct way to parametrize over an implementation (type classes are an indirect method of parametrization based on type resolution), and parametrization over a type requires a type parameter to be explicitly plumbed through all use sites of the code.
+
+## Implementation
 
 
 Backpack consists of two major parts:
 
-1. A generalization of `hs-boot` files to `hsig` files, which allow you to write modules against an interface which may be instantiated later, and
+1. A way to write *signatures* (`hsig` files), which specify the interface of a module without providing an implementation. (Think of them as a generalization of `hs-boot` files.)
 
-1. A frontend (implemented a library--more on this shortly) for actually driving GHC to typecheck, compile and install packages with `hsig` files.
+
+2.The frontend (implemented in a library) which implements *mix-in linking* to specify implementation of signatures.  Linking produces a build plan 
 
 
 While it is hypothetically possible to use `hsig`s without the Backpack frontend, your user experience will be a lot more pleasant using the frontend.  We provide a few ways to use Backpack:
@@ -168,6 +174,19 @@ A unit ID is a recursive data structure which is defined to be a component ID (s
 
 
 In some situations, we need serialize a unit ID into a compact, deterministic string, for use in linker symbols and file paths, as a full unit ID could be quite long (it is AT LEAST linear in the number of holes in a unit).  Ideally, the serialization format would be private to GHC (similarly to how z-encoding is GHC private), but the encoding leaks at least to the file path that GHC stores compilation results at... would be nice if there a way to avoid this problem.
+
+## Reading
+
+- [ The Backpack documentation directory](https://git.haskell.org/ghc.git/blob/HEAD:/docs/backpack/). You'll have to build them (just `make`), but here are the files of interest:
+
+  - algorithm.tex specifies the abstract core Backpack algorithms for GHC.
+  - backpack-manual.tex is a user-facing manual for using Backpack.
+  - backpack-impl.tex is an old but interesting technical document describing many of the technical tradeoffs in our design.
+- [ What's a module system good for anyway?](http://blog.ezyang.com/2014/08/whats-a-module-system-good-for-anyway/) Motivates *why* you might care about Backpack
+- The [commentary pages about packages](commentary/compiler/packages), 
+
+
+see also [CabalDependency](cabal-dependency)
 
 ## Discarded approaches
 
