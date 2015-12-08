@@ -23,6 +23,7 @@
 ## Generics and DeriveAnyClass
 
 - See [PedrosTickets](pedros-tickets)
+- [\#11174](https://gitlab.haskell.org//ghc/ghc/issues/11174): traversable for unboxed values
 - [\#11148](https://gitlab.haskell.org//ghc/ghc/issues/11148): failure when Uniques are issued in reverse order
 - [\#10361](https://gitlab.haskell.org//ghc/ghc/issues/10361): `DeriveAnyClass` and associated types
 - [\#10598](https://gitlab.haskell.org//ghc/ghc/issues/10598): `DeriveAnyClasss` and GND
