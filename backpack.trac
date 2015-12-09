@@ -79,7 +79,7 @@ How do you compile a `Component`; that is to say, what flags are passed to GHC t
 
 1. The chosen STRING unit ID (which is to be used for linker symbols).  Done in old versions of GHC with `-package-name` (or more recently `-this-package-key` and `-this-unit-id`.
 2. The full unit ID data structure.  My suggestion is that this is given in two parts: `-this-component-id` (a new flag) and `-sig-of` (shipped already in GHC 7.10)
-3. The set of modules that are in scope, from `importModules`.  There are two ways to do this: a series of `-package-id "p (A as B)"` flags (which mimic a source-level include declaration, or manually specifying each of the modules in scope (some new flag).  Besides possibly being quite long, the latter is attractive because the elaboration to the Backpack IR needs to compute the set of modules in scope (so it knows how to instantiate things.)
+3. The set of modules that are in scope, from `importModules`.  :TODO: There are two ways to do this: a series of `-package-id "p (A as B)"` flags (which mimic a source-level include declaration, or manually specifying each of the modules in scope (some new flag).  Besides possibly being quite long, the latter is attractive because the elaboration to the Backpack IR needs to compute the set of modules in scope (so it knows how to instantiate things.) The former is attractive because it works without modification on old versions of GHC.
 4. The set of requirements that are in scope, from `instantiatedDepends`.  These indicate what other signatures need to be merged into the local `hsig`s.
 
 === Cabal syntax ===
