@@ -64,6 +64,7 @@ data Module = Module { moduleUnitId :: UnitId
                      , moduleName :: ModuleName }
 data UnitId = UnitId { unitIdComponentId :: ComponentId
                      , unitIdInsts :: [(ModuleName, Module)] }
+            | Hole
 
 -- The intermediate representation of a component
 data Component = Component {
