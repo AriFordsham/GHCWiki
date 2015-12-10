@@ -9,7 +9,7 @@ choice of markup language used for GHC's users guide motivated by a few issues w
 
  * The format's documentation is ancient and isn't terribly approachable.
 
- * Writing XML by hand is a terrible, terrible experience. For this reason a shocking fraction of the users' guide isn't even valid DocBook (although is still accepted by the tools)
+ * Writing XML by hand is a terrible, terrible experience. For this reason a shocking fraction of the users' guide isn't even valid DocBook (although is largely still accepted by the toolchain)
 
  * The tooling surrounding the format is challenging to bring up on non-Linux platforms
 
