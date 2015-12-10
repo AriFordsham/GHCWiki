@@ -16,6 +16,12 @@ choice of markup language used for GHC's users guide motivated by a few issues w
 
 - Getting even a simple image displayed consistently in the PDF and HTML output is an [ exercise in futility](https://ghc.haskell.org/trac/ghc/ticket/10416)
 
+
+For this reason there have been a few proposals to move away from DocBook in the past,
+
+- October 2014: [ https://mail.haskell.org/pipermail/ghc-devs/2014-October/006599.html](https://mail.haskell.org/pipermail/ghc-devs/2014-October/006599.html)
+- April 2015: [ https://mail.haskell.org/pipermail/ghc-devs/2015-April/008844.html](https://mail.haskell.org/pipermail/ghc-devs/2015-April/008844.html)
+
 ## Alternatives to DocBook
 
 
