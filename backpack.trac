@@ -68,7 +68,8 @@ data UnitId = UnitId { unitIdComponentId :: ComponentId
 
 -- The intermediate representation of a component
 data Component = Component {
-  -- The UnitId of the component in question.
+  -- The UnitId of the component in question.  Invariant: every
+  -- instantiation is H -> hole:H
   unitId :: UnitId,
   -- The direct dependencies of the component; i.e. how the includes
   -- are resolved.
