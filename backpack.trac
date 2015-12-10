@@ -80,9 +80,12 @@ data Component = Component {
   importedModules :: [(ModuleName, Module)],
   -- The exported modules of the component.  Local modules will
   -- have moduleUnitId == unitId, but there may also be reexports.
+  -- Invariant: no HOLEs are in this list.  Holes are recorded in unitId.
   exposedModules :: [(ModuleName, Module)]
 }
 }}}
+
+Invariant: every hole in not unitId is bound by a hole in unitId.
 
 Intuitively, the algorithm for compiling a `UnitId` goes as follows:
 
