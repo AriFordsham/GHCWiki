@@ -31,6 +31,6 @@ which evacuates the object pointed to by the pointer at `p`, and updates `p` to 
 
 <table><tr><th>`void scavenge_block (bdescr *bd)`</th>
 <td>
-which scavenges all the objects in the block `bd` (objects betwee `bd->u.scan` and `bd->free` are assumed to
+which scavenges all the objects in the block `bd` (objects between `bd->u.scan` and `bd->free` are assumed to
 be unscavenged so far).
 </td></tr></table>
