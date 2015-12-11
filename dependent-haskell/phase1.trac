@@ -1,3 +1,9 @@
+'''UPDATE Dec 11, 2015:''' The merge is underway. There are a few outstanding issues:
+  * #11195: `OptCoercion` now takes forever to compile. It seems to be that pattern guards are causing the new completeness-checker to overwork.
+  * #11196: A handful of performance regressions.
+  * #11197: Deferred type errors are more eager.
+  * #11198: A specific error message regression.
+
 = Adding kind equalities to GHC =
 
 This page -- a description of the first phase of integrating full dependent types into GHC -- has two main parts: the first stretch describes user-facing changes to GHC that I (Richard Eisenberg) expect to land for 7.12. The second is notes I put together for discussion with other implementors, chiefly Simon PJ.
