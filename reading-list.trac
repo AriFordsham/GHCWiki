@@ -75,6 +75,10 @@ Please add: System FC, GADTs, kind polymorphism etc
 
  * [http://research.microsoft.com/en-us/um/people/simonpj/papers/demand-anal/demand.ps Demand analysis], Simon Peyton Jones, Peter Sestoft, and John Hughes, draft, 2006.
 
+ * [http://gallium.inria.fr/~naxu/research/arity.ps Arity Analysis], Dana N. Xu and Simon Peyton Jones, Working Notes, 2006
+
+ * [http://www.joachim-breitner.de/publications/CallArity-TFP.pdf Call Arity], Joachim Breitner, TFP, 2014, as well as [http://www.joachim-breitner.de/publications/CallArity-Haskell15.pdf Formally Proving a Compiler Transformation Safe], Joachim Breitner, Haskell 2015
+
 == Data Parallel Haskell and concurrency ==
 
  * [http://www.cse.unsw.edu.au/~chak/papers/data-parallel-haskell.pdf Data Parallel Haskell: a status report], Manuel M. T. Chakravarty, Roman Leshchinskiy, Simon Peyton Jones, Gabriele Keller, and Simon Marlow. , DAMP 2007: Workshop on Declarative Aspects of Multicore Programming, 2007
