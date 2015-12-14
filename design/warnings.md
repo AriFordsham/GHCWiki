@@ -101,7 +101,7 @@ TODO needs more elaboration & motivation
 
 By reusing the GCC CLI convention for warning-flags we can make GHC's CLI a bit more intuitive to people used to GCC (& Clang's) CLI. `-W`/`-Wno-` is shorter than `-fwarn-`/`fno-warn-`. With GHC 8.0 starting a new "epoch", this would be a good opportunity to redesign the CLI a bit.
 
-- Keep the current `-f(no-)warn-$WARNTYPE` flags as hidden flag aliases for...
+- ([\#11218](https://gitlab.haskell.org//ghc/ghc/issues/11218)) Keep the current `-f(no-)warn-$WARNTYPE` flags as hidden flag aliases for...
 - ...newly introduced `-W(no-)$WARNTYPE` flags more in line with GCC's conventions, e.g.
 
   - `-Worphans` instead of `fwarn-orphans`
