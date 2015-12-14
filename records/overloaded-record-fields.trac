@@ -23,8 +23,8 @@ Since instances are silently exported and imported it means that this instance i
 
 == Code ==
 
- * Phab:D761, Phab:D1391, Phab:D1486: `DuplicateRecordFields` extension
- * Phab:D1331: `OverloadedLabels` extension
+ * Phab:D761, Phab:D1391, Phab:D1486, Phab:D1586, Phab:D1600: `DuplicateRecordFields` extension
+ * Phab:D1331, Phab:D1623: `OverloadedLabels` extension
  * [https://github.com/adamgundry/records-prototype Prototype implementation of the magic typeclasses]
 
 == History ==
