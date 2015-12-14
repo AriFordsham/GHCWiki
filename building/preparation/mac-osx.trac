@@ -45,6 +45,7 @@ Make sure you have up to date versions of  `alex` and `happy` installed and visi
 If you are trying out  using GHC head ( currently GHC 7.9 ) for software dev, you will need cabal and cabal install  Head  (current Cabal Head is 1.21, or a release version >= 1.22, currently cabal versions >= 1.21 are only on the github master for cabal and cabal-install).
 
 == Important Considerations ==
+
 By default GHC tries to link to a system installed GMP lib, but depending on how you wish to distribute the resulting applications,
 its worth considering either using one of the non GMP integer libs.
 If you're OK with static linking GMP into the GHC RTS,
@@ -69,6 +70,22 @@ Fourthly, if you like to use GHC's LLVM backend:
  * (Homebrew): `brew tap homebrew/versions ; brew install llvm34`
 
 GHC 7.8 and older does not support LLVM >=3.5, which is the default version of llvm installed by Homebrew. Thus you have to install LLVM 3.4 for those GHC versions
+
+== Documentation ==
+
+To build the documentation you need Sphinx. 
+
+{{{
+sudo pip install sphinx
+}}}
+
+If you are using the Apple provided version of Python you will need to install `pip` before the above command works:
+
+{{{
+sudo easy_install pip
+}}}
+
+=== GHC 7.10 and earlier ===
 
 Finally, if you want to build the documentation you need to install !DocBook, !PsUtils, and a LaTeX distribution such as [https://tug.org/mactex/mactex-download.html MacTeX]. You can install it like so:
 

@@ -87,6 +87,24 @@ Fourthly, if you like to use GHC's LLVM backend:
 
 GHC 7.8 and older does not support LLVM \>=3.5, which is the default version of llvm installed by Homebrew. Thus you have to install LLVM 3.4 for those GHC versions
 
+## Documentation
+
+
+To build the documentation you need Sphinx. 
+
+```wiki
+sudo pip install sphinx
+```
+
+
+If you are using the Apple provided version of Python you will need to install `pip` before the above command works:
+
+```wiki
+sudo easy_install pip
+```
+
+### GHC 7.10 and earlier
+
 
 Finally, if you want to build the documentation you need to install DocBook, PsUtils, and a LaTeX distribution such as [ MacTeX](https://tug.org/mactex/mactex-download.html). You can install it like so:
 
