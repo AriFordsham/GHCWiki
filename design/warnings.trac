@@ -103,14 +103,14 @@ By reusing the GCC CLI convention for warning-flags we can make GHC's CLI a bit 
      - `-Worphans` instead of `fwarn-orphans`
      - `-Wno-missing-methods` instead of `-fno-warn-missing-methods`
 
- - Introduce variant of `-Werror` (c.f. GCC's `-Werror=*`) which allows to specify the individual warnings to be promoted to errors, e.g.
+ - (#11219) Introduce variant of `-Werror` (c.f. GCC's `-Werror=*`) which allows to specify the individual warnings to be promoted to errors, e.g.
      - `-Wall -Werror=orphans` would only promote `-Worphans` warnings into errors
      - `-Wall -Werror -Wno-error=missing-methods` would promote all warnings //except// `-Wmissing-methods` into errors
 
  - Introduce some warning sets, e.g.
-    - `-Wcompat` (#11000) could refer to all warnings about future compatility GHC //currently// knows about (like e.g. `-Wcompat-amp`, `-Wcompat-mfp`, `-Wcompat-mrp`)
+    - (#11000) `-Wcompat` could refer to all warnings about future compatility GHC //currently// knows about (like e.g. `-Wcompat-amp`, `-Wcompat-mfp`, `-Wcompat-mrp`)
 
- - When emitting warnings/errors, show which warning flag was responsible (#10752),
+ - (#10752) When emitting warnings/errors, show which warning flag was responsible,
    e.g.
    {{{
    foo.hs:1:1: Warning:  [-Wmissing-signatures]
