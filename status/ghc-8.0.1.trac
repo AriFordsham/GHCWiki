@@ -25,7 +25,7 @@ Below are the major highlights of 8.0.
 
   - Expose enabled language extensions to TemplateHaskell (Ben, Phab:D1200)
 
-  - An [wiki:ImprovedLLVMBackend Improved LLVM Backend] that ships with every major Tier 1 platform (Austin)
+  - An [wiki:ImprovedLLVMBackend Improved LLVM Backend] that ships with every major Tier 1 platform (Austin, #10074)
 
   - Recursive superclasses (Simon, Phab:D1594, #11067)
 
