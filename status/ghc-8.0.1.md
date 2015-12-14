@@ -31,6 +31,8 @@ Below are the major highlights of 8.0.
 
 - Recursive superclasses (Simon, [ Phab:D1594](https://phabricator.haskell.org/D1594), [\#11067](https://gitlab.haskell.org//ghc/ghc/issues/11067))
 
+- Document for OverloadedLabels (Adam)
+
 ### Landed in HEAD
 
 - Use `Cxt` in Template Haskell's representation of `deriving` clauses ([ Phab:D1202](https://phabricator.haskell.org/D1202))
