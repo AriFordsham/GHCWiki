@@ -23,11 +23,11 @@ Below are the major highlights of 8.0.
 
 === In-flight, and likely to land in time
 
-  - Expose enabled language extensions to TemplateHaskell (Phab:D1200)
+  - Expose enabled language extensions to TemplateHaskell (Ben, Phab:D1200)
 
-  - An [wiki:ImprovedLLVMBackend Improved LLVM Backend] that ships with every major Tier 1 platform.
+  - An [wiki:ImprovedLLVMBackend Improved LLVM Backend] that ships with every major Tier 1 platform (Austin)
 
-  - Recursive superclasses (Phab:D1594, #11067)
+  - Recursive superclasses (Simon, Phab:D1594, #11067)
 
 === Landed in HEAD
 
