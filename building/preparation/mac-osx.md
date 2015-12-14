@@ -7,6 +7,7 @@
 1. Install Homebrew [ http://brew.sh](http://brew.sh)
 1. `brew install autoconf automake`
 1. Install a recent GHC version using your method of choice
+1. `cabal install alex happy haddock`
 1.  Install tools for building the docs:
 
   - `sudo easy_install pip`
