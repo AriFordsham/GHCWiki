@@ -1,3 +1,21 @@
+# Quick setup for GHC 7.11 and later
+
+1. Install Apple's command line tools
+
+  - Install the latest command line tools from [ http://developer.apple.com/downloads](http://developer.apple.com/downloads)**or**
+  - install XCode, launch XCode, open Preferences, select "Downloads" and install the command line tools
+1. Install Homebrew [ http://brew.sh](http://brew.sh)
+1. `brew install autoconf automake`
+1. Install a recent GHC version using your method of choice
+1.  Install tools for building the docs:
+
+  - `sudo easy_install pip`
+  - `sudo pip install sphinx`
+1. Done!
+
+
+If you want to build a PDF of the docs you'll also need a TeX installation: [ https://tug.org/mactex/](https://tug.org/mactex/)
+
 # Setting up a MacOS X system for building  GHC (HEAD)
 
 **If** your host OS X environment indicates that GCC is a wrapper for clang, (easily detected by looking at output of `/usr/bin/gcc --version` in the terminal),
