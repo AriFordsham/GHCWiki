@@ -35,6 +35,10 @@ Below are the major highlights of 8.0.
 
   - Consistent warning options (#11218, Phab:D1613)
 
+  - More expressive Generics metadata (Ryan Scott, Trac #10716, #10697, Phab:D493)
+
+  - Support for strictness and unpacking in Template Haskell (Trac #10697, Phab:D1603)
+
 === Landed in HEAD
 
   - Use `Cxt` in Template Haskell's representation of `deriving` clauses (Phab:D1202)
