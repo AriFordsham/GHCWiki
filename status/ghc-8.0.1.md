@@ -81,13 +81,14 @@ Below are the major highlights of 8.0.
 
 ### Possible, if the authors push forward fast enough
 
-- Support for **Type Signature Sections**, allowing you to write `(:: ty)` as a shorthand for `(\x -> x :: ty)`.
-- A `DEPRECATED` pragma for exports ([\#4879](https://gitlab.haskell.org//ghc/ghc/issues/4879))
-- Complete support for [OverloadedRecordFields](records/overloaded-record-fields)
+- Determinism
 - Stack traces in GHCi ([\#11047](https://gitlab.haskell.org//ghc/ghc/issues/11047))
 
 ### Won't make it, but being actively worked on
 
+- Complete support for [OverloadedRecordFields](records/overloaded-record-fields)
+- Support for **Type Signature Sections**, allowing you to write `(:: ty)` as a shorthand for `(\x -> x :: ty)`.
+- A `DEPRECATED` pragma for exports ([\#4879](https://gitlab.haskell.org//ghc/ghc/issues/4879))
 - Visible type application
 - A new, type-indexed type representation, `data TTypeRep (a :: k)`. See [TypeableT](typeable-t).
 - A (possible) overhaul of GHC's build system to use **Shake** instead of Make.
