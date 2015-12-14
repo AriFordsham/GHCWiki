@@ -299,6 +299,11 @@ Should we modify the TH AST to be able to represent fields correctly? This has b
 Similarly, GHC.Generics currently shows the selector name in the metadata, whereas it ought to show the label. But in this case the fix is easy (see Phab:D1486).
 
 
+=== Fixity and deprecation ===
+
+Fixity declarations, and `WARNING` and `DEPRECATED` pragmas, look for a top-level `OccName`.  Thus they apply to all record fields with that label in a single module. The renamer must resolve fixity, so infix duplicate record fields cannot be disambiguated by the typechecker.
+
+
 === GHC API changes ===
 
 * The `minf_exports` field of `ModuleInfo` is now of type `[AvailInfo]` rather than `NameSet`, as this provides accurate export information. An extra function `modInfoExportsWithSelectors` gives a list of the exported names including overloaded record selectors (whereas `modInfoExports` includes only non-mangled selectors).
@@ -307,8 +312,6 @@ Similarly, GHC.Generics currently shows the selector name in the metadata, where
 
 
 == Outstanding issues ==
-
- * Deprecations and fixity declarations look for a top-level `OccName`, so they cannot be applied to duplicate record fields. Perhaps this should change: we could make `{-# DEPRECATED foo "Don't use foo" #-}` apply to all the `foo` fields in a module.
 
  * Haddock compiles, but probably needs updates to document modules with DuplicateRecordFields correctly.
 
