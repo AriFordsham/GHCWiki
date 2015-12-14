@@ -81,7 +81,7 @@ Below are the major highlights of 8.0.
 
 ### Possible, if the authors push forward fast enough
 
-- Determinism
+- Make compilation results more deterministic ([\#4012](https://gitlab.haskell.org//ghc/ghc/issues/4012))
 - Stack traces in GHCi ([\#11047](https://gitlab.haskell.org//ghc/ghc/issues/11047))
 
 ### Won't make it, but being actively worked on
