@@ -13,8 +13,8 @@ If you think one of these pages linked from here is out-of-date, either update t
 }}}
 
  * [wiki:Building/Preparation/Linux Preparation Linux]
+ * [wiki:Building/Preparation/MacOSX Preparation MacOS X]
  * [wiki:Building/Preparation/Windows Preparation Windows] and [wiki:WindowsGhc Building under Windows]
- * [wiki:Building/Preparation/MacOSX Preparation MacOS X] and [wiki:Building/MacOSX Building under MacOS X]
  * [wiki:Building/Preparation/FreeBSD Preparation FreeBSD] and [wiki:FreeBSDGhc Building under FreeBSD]
  * [wiki:Building/Preparation/Solaris Preparation Solaris] and [wiki:Building/Solaris Building under Solaris]
  * [wiki:Building/Preparation/Illumos Illumos] (SmartOS, OpenIndiana, etc.)
