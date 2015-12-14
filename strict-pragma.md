@@ -3,6 +3,9 @@
 
 This page explains the motivation, semantics, and implementation of the new language extensions `StrictData` and  `Strict`.
 
+
+Related tickets: [8347](https://gitlab.haskell.org//ghc/ghc/issues/8347), [11182](https://gitlab.haskell.org//ghc/ghc/issues/11182), [11193](https://gitlab.haskell.org//ghc/ghc/issues/11193)
+
 ## The Problem
 
 

@@ -2,6 +2,8 @@
 
 This page explains the motivation, semantics, and implementation of the new language extensions `StrictData` and  `Strict`.
 
+Related tickets: [ticket:8347], [ticket:11182], [ticket:11193]
+
 [[PageOutline]]
 
 == The Problem ==
