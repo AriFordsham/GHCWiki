@@ -35,6 +35,8 @@ Below are the major highlights of 8.0.
 
 - Documentation for `-XTypeInType` (Richard)
 
+- Consistent warning options ([\#11218](https://gitlab.haskell.org//ghc/ghc/issues/11218), [ Phab:D1613](https://phabricator.haskell.org/D1613))
+
 ### Landed in HEAD
 
 - Use `Cxt` in Template Haskell's representation of `deriving` clauses ([ Phab:D1202](https://phabricator.haskell.org/D1202))
