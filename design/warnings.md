@@ -1,8 +1,3 @@
-**WORK IN PROGRESS**
-
-
-THIS IS NOT READY FOR PUBLIC BIKESHEDDING YET
-
 # Redesigned GHC Warnings
 
 
