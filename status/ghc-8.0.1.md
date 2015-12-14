@@ -25,15 +25,21 @@ Below are the major highlights of 8.0.
 
 ### In-flight, and likely to land in time
 
-- Visible type application
+- Expose enabled language extensions to [TemplateHaskell](template-haskell) (Ben, [ Phab:D1200](https://phabricator.haskell.org/D1200))
 
-- Support for reasoning about kind equalities, which gives promotion of GADTs to kinds, kind families, heterogeneous equality (kind-indexed GADTs), and `* :: *`. There is some discussion in [DependentHaskell/Phase1](dependent-haskell/phase1), but that's very low-level. I (Richard) have no good user-oriented write-up yet, but there shouldn't be much in the way of new syntax -- just fewer type errors. ([ Phab:D808](https://phabricator.haskell.org/D808))
+- An [Improved LLVM Backend](improved-llvm-backend) that ships with every major Tier 1 platform (Austin)
 
-- An [Improved LLVM Backend](improved-llvm-backend) that ships with every major Tier 1 platform.
+- Recursive superclasses (Simon, [ Phab:D1594](https://phabricator.haskell.org/D1594), [\#11067](https://gitlab.haskell.org//ghc/ghc/issues/11067))
+
+- Document for OverloadedLabels (Adam)
+
+### Landed in HEAD
+
+- Use `Cxt` in Template Haskell's representation of `deriving` clauses ([ Phab:D1202](https://phabricator.haskell.org/D1202))
 
 - Fix [\#10845](https://gitlab.haskell.org//ghc/ghc/issues/10845) with [ Phab:1422](https://phabricator.haskell.org/1422) (Rework the Implicit CallStack solver to handle local lets)
 
-### Landed in HEAD
+- Support for reasoning about kind equalities, which gives promotion of GADTs to kinds, kind families, heterogeneous equality (kind-indexed GADTs), and `* :: *`. There is some discussion in [DependentHaskell/Phase1](dependent-haskell/phase1), but that's very low-level. I (Richard) have no good user-oriented write-up yet, but there shouldn't be much in the way of new syntax -- just fewer type errors. ([ Phab:D808](https://phabricator.haskell.org/D808))
 
 - Support for [implicit parameters providing callstacks/source locations](explicit-call-stack/implicit-locations), allowing you to have a light-weight means of getting a call-stack in a Haskell application. ([ Phab:D861](https://phabricator.haskell.org/D861))
 
@@ -75,13 +81,15 @@ Below are the major highlights of 8.0.
 
 ### Possible, if the authors push forward fast enough
 
-- Support for **Type Signature Sections**, allowing you to write `(:: ty)` as a shorthand for `(\x -> x :: ty)`.
-- A `DEPRECATED` pragma for exports ([\#4879](https://gitlab.haskell.org//ghc/ghc/issues/4879))
-- Complete support for [OverloadedRecordFields](records/overloaded-record-fields)
+- Make compilation results more deterministic ([\#4012](https://gitlab.haskell.org//ghc/ghc/issues/4012))
 - Stack traces in GHCi ([\#11047](https://gitlab.haskell.org//ghc/ghc/issues/11047))
 
 ### Won't make it, but being actively worked on
 
+- Complete support for [OverloadedRecordFields](records/overloaded-record-fields)
+- Support for **Type Signature Sections**, allowing you to write `(:: ty)` as a shorthand for `(\x -> x :: ty)`.
+- A `DEPRECATED` pragma for exports ([\#4879](https://gitlab.haskell.org//ghc/ghc/issues/4879))
+- Visible type application
 - A new, type-indexed type representation, `data TTypeRep (a :: k)`. See [TypeableT](typeable-t).
 - A (possible) overhaul of GHC's build system to use **Shake** instead of Make.
 
