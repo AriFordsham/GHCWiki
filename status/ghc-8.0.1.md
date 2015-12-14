@@ -27,13 +27,15 @@ Below are the major highlights of 8.0.
 
 - Expose enabled language extensions to [TemplateHaskell](template-haskell) ([ Phab:D1200](https://phabricator.haskell.org/D1200))
 
-- Use `Cxt` in Template Haskell's representation of `deriving` clauses
-
 - An [Improved LLVM Backend](improved-llvm-backend) that ships with every major Tier 1 platform.
 
-- Fix [\#10845](https://gitlab.haskell.org//ghc/ghc/issues/10845) with [ Phab:1422](https://phabricator.haskell.org/1422) (Rework the Implicit CallStack solver to handle local lets)
+- Recursive superclasses ([ Phab:D1594](https://phabricator.haskell.org/D1594), [\#11067](https://gitlab.haskell.org//ghc/ghc/issues/11067))
 
 ### Landed in HEAD
+
+- Use `Cxt` in Template Haskell's representation of `deriving` clauses ([ Phab:D1202](https://phabricator.haskell.org/D1202))
+
+- Fix [\#10845](https://gitlab.haskell.org//ghc/ghc/issues/10845) with [ Phab:1422](https://phabricator.haskell.org/1422) (Rework the Implicit CallStack solver to handle local lets)
 
 - Support for reasoning about kind equalities, which gives promotion of GADTs to kinds, kind families, heterogeneous equality (kind-indexed GADTs), and `* :: *`. There is some discussion in [DependentHaskell/Phase1](dependent-haskell/phase1), but that's very low-level. I (Richard) have no good user-oriented write-up yet, but there shouldn't be much in the way of new syntax -- just fewer type errors. ([ Phab:D808](https://phabricator.haskell.org/D808))
 
