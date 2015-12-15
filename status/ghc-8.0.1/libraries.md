@@ -85,7 +85,7 @@ TODO
 
 [](http://hackage.haskell.org/package/pretty)
 
-TODO
+DONE The `1.1.3.2` release should be used.
 
 ### `process`
 
