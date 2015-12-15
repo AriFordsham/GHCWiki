@@ -91,7 +91,7 @@ TODO
 
 [](http://hackage.haskell.org/package/process)
 
-TODO
+DONE The existing v1.4.1.0 release shall be used for GHC 8.0.1 according to Michael
 
 ### `terminfo`
 
