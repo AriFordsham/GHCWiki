@@ -108,15 +108,16 @@ The `Location` type is abstract, but has functions to:
 ## Implementation Details
 
 
-These notes are based on the proposed implementation at [ https://phabricator.haskell.org/D578](https://phabricator.haskell.org/D578).
+These notes are based on the updated implementation at [ https://phabricator.haskell.org/D1422](https://phabricator.haskell.org/D1422). 
+
+- The major difference between the current implementation and the initial proposal is in the handling of bare occurrences of `?location :: Location`. Instead of solving such occurrences for the current source location, we treat them as regular implicit parameters and resolve them to the binding in the context (if there is no binder we default the occurrence to the empty call-stack). Constraints that arise from a function call are solved as above, by pushing the current call-site onto the stack in the context.
 
 - We add a two new datatypes to `base`:
 
-  1. `GHC.SrcLoc.SrcLoc`, a single source location including package/module/file names and a source span, and
-  1. `GHC.Stack.CallStack`, a `[(String, SrcLoc)]`s. The `String` always corresponds to the name of the function that was called, and the list is sorted by most recent call. Furthermore, GHC guarantees that the list will never be empty (we'll always have the location where the `CallStack` IP was used).
+  1. `GHC.Stack.SrcLoc`, a single source location including package/module/file names and a source span, and
+  1. `GHC.Stack.CallStack`, a `[(String, SrcLoc)]`s. The `String` always corresponds to the name of the function that was called, and the list is sorted by most recent call.
 
->
-> Both datatypes are currently kept abstract so only GHC can create new values. I think this is the "right" thing to do as it makes the types more trustworthy, but perhaps there's a good argument for allowing users to update `SrcLoc`s and `CallStack`s.
+> `CallStack` is kept abstract so that we may experiment with extensions to the system, for example the call-stack "grooming" functionality described in the next section.
 
 - GHC ignores the name of an implicit CallStack parameter, e.g.
 
@@ -137,8 +138,138 @@ These notes are based on the proposed implementation at [ https://phabricator.ha
   f = print (?location :: CallStack)
   ```
 
-  the printed call-stack will **not include**`f`s call-site.
+  the printed call-stack will be empty, it will **not include**`f`s call-site.
 
-- Responding to the open question above, GHC will **never** infer an implicit CallStack constraint.
+- Responding to the open question above, GHC will infer implicit CallStack constraints as for any other implicit parameter.
 
-- A potential "gotcha" in the current implementation is that the `:type` command in GHCi will not report `?loc :: CallStack` constraints, as the typechecker will immediately solve them. Using `:info` instead prints the unsolved type.
+## Extension: Grooming the CallStack
+
+
+Joachim Breitner suggests in [ https://ghc.haskell.org/trac/ghc/ticket/11049](https://ghc.haskell.org/trac/ghc/ticket/11049) that it would be nice to allow users to hide portions of the CallStack that correspond to internal library modules, presenting only the portions that the author deems "interesting". Following is Joachim's description of the extension.
+
+---
+
+
+Assume we are given a function
+
+```wiki
+readFile :: ?callstack :: CallStack => FilePath -> IO ()
+```
+
+
+that prints a stack trace with every IO error that happens (bar in the description).
+
+
+Now assume we want to implement a function that uses the above, for example
+
+```wiki
+readConfig :: IO Config
+readConfig = do
+  s <- readFile "config.txt" -- line 42
+  return (parseConfig s)
+```
+
+
+and we deliberately do not want that function have a `?_::CallStack` constraint. What will happen when config.txt will be missing? `readFile` will raise an exception that includes a call stack that tells the user that this was raised due to `readFile` being called in line 42. But as the author of the `readConfig` function, I do not want this information (which is not very helpful to the user) to be omitted. This is the first use case.
+
+
+The second is related. I might now allow `readConfig` to have a `?_::CallStack` constraint, e.g.
+
+```wiki
+readConfig :: ?callstack::CallStack => IO Config
+readConfig = do
+  s <- readFile "config.txt" -- line 42
+  return (parseConfig s)
+```
+
+
+But I do want to provide a polished API, and not leak any information to the users of my API about my internals. So I **do** want the `?callstack` to be passed on to readFile and be included in the exception, but I **don’t** want it to mention line 42; instead it should end with the (for the user relevant) information where `readConfig` was called. This is the second use case.
+
+
+So now to the suggested implementation: In both cases, I want to insert a marker into the callstack that makes the call stack printer ignore anything “below” or “after” it. This is the suggested `rootCallStack` value, and it allows me to write
+
+```wiki
+readConfig :: IO Config
+readConfig = do
+  s <- let ?callstack = rootCallStack in readFile "config.txt" -- line 42
+  return (parseConfig s)
+```
+
+
+resp.
+
+```wiki
+readConfig :: ?callstack::CallStack => IO Config
+readConfig = do
+  s <- let ?callstack = rootCallStack `pushCallStack` ?callstack in readFile "config.txt" -- line 42
+  return (parseConfig s)
+```
+
+
+to implement the above.
+
+---
+
+
+The important thing is the ability to **freeze** a callstack so that future "push" operations are ignored, so I will call this `freezeCallStack` instead of Joachim's `rootCallStack`. `freezeCallStack`s behavior is given by the following equations,
+
+```wiki
+  pushCallStack srcLoc (freezeCallStack callStack) = freezeCallStack callStack
+  getCallStack         (freezeCallStack callStack) = getCallStack callStack
+```
+
+
+and can be implemented with a rather small change to `base` (no changes necessary in the compiler).
+
+1. Instead of `CallStack` being an alias for `[(String, SrcLoc)]` we define it ourselves, with an extra `FreezeCallStack` constructor
+
+```wiki
+data CallStack = EmptyCallStack
+               | PushCallStack CallSite CallStack
+               | FreezeCallStack CallStack
+```
+
+1. We define
+
+```wiki
+emptyCallStack  = EmptyCallStack
+freezeCallStack = FreezeCallStack
+```
+
+>
+> so we can keep `CallStack` abstract
+
+1. We define `pushCallStack` to be a no-op on frozen call-stacks
+
+```wiki
+pushCallStack cs stk = case stk of
+  FreezeCallStack _ -> stk
+  _                 -> PushCallStack cs stk
+```
+
+1. We define `getCallStack` as expected
+
+```wiki
+getCallStack stk = case stk of
+  EmptyCallStack        -> []
+  PushCallStack cs stk' -> cs : getCallStack stk'
+  FreezeCallStack stk'  -> getCallStack stk'
+```
+
+
+Now we can define both of Joachim's sample use-cases
+
+```wiki
+readConfig1 :: IO Config
+readConfig1 = do
+                        -- produces no stack trace as we freeze the empty stack
+  s <- let ?callstack = freezeCallStack emptyCallStack in readFile "config.txt" -- line 42
+  return (parseConfig s)
+
+
+readConfig2 :: ?callstack::CallStack => IO Config
+readConfig2 = do
+                        -- produces a stack trace containing only calls outside of readConfig2
+  s <- let ?callstack = freezeCallStack ?callstack in readFile "config.txt" -- line 42
+  return (parseConfig s)
+```
