@@ -1,5 +1,7 @@
 = The GHC reading list =
 
+[[PageOutline]]
+
 Suppose you want to start contributing to GHC: what should you read by way of background?  Here is an annotated list.  Please add to it as you come across useful material. When you do so, please consider adding a link to a place where you are reasonably confident the resource will be available in 10 or 20 years. [http://doi.org/ doi] purports to enable such links.
 
 You can ask questions on `ghc-devs@haskell.org`. People are friendly.  See also [wiki:WorkingConventions working on GHC] and [wiki:TeamGHC The GHC Team].
