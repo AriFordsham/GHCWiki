@@ -26,6 +26,8 @@
  
 Kind equalities etc: [DependentHaskell](dependent-haskell), esp [DependentHaskell/Phase1](dependent-haskell/phase1)
 
+- [\#11203](https://gitlab.haskell.org//ghc/ghc/issues/11203): Kind inference with `SigTvs` is wrong
+- [\#10524](https://gitlab.haskell.org//ghc/ghc/issues/10524): Deriving and polykinds
 - [\#7102](https://gitlab.haskell.org//ghc/ghc/issues/7102): type instance overlap in GHCi is unsound
 - [\#10493](https://gitlab.haskell.org//ghc/ghc/issues/10493), [\#10494](https://gitlab.haskell.org//ghc/ghc/issues/10494): Bogus inaccessible code from `Coercible`
 - [\#10362](https://gitlab.haskell.org//ghc/ghc/issues/10362), [\#10359](https://gitlab.haskell.org//ghc/ghc/issues/10359): make tuple constraints into a class
@@ -45,6 +47,7 @@ Kind equalities etc: [DependentHaskell](dependent-haskell), esp [DependentHaskel
 ## Generics and DeriveAnyClass
 
 - See [PedrosTickets](pedros-tickets)
+- [\#9821](https://gitlab.haskell.org//ghc/ghc/issues/9821): `DeriveAnyClass` and higher kinded classes
 - [\#7492](https://gitlab.haskell.org//ghc/ghc/issues/7492): replace `Rec1 f` with `f :.: Par1`
 - [\#11174](https://gitlab.haskell.org//ghc/ghc/issues/11174): traversable for unboxed values
 - [\#11148](https://gitlab.haskell.org//ghc/ghc/issues/11148): failure when Uniques are issued in reverse order

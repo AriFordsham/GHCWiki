@@ -23,6 +23,8 @@
  
 Kind equalities etc: [wiki:DependentHaskell], esp [wiki:DependentHaskell/Phase1]
 
+ * #11203: Kind inference with `SigTvs` is wrong
+ * #10524: Deriving and polykinds
  * #7102: type instance overlap in GHCi is unsound
  * #10493, #10494: Bogus inaccessible code from `Coercible`
  * #10362, #10359: make tuple constraints into a class
@@ -42,6 +44,7 @@ Kind equalities etc: [wiki:DependentHaskell], esp [wiki:DependentHaskell/Phase1]
 
 == Generics and DeriveAnyClass ==
  * See [wiki:PedrosTickets]
+ * #9821: `DeriveAnyClass` and higher kinded classes
  * #7492: replace `Rec1 f` with `f :.: Par1`
  * #11174: traversable for unboxed values
  * #11148: failure when Uniques are issued in reverse order
