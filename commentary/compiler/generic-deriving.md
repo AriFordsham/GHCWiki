@@ -581,7 +581,7 @@ The context might end up not being exactly what the user intended. For example, 
 # Handling unlifted types
 
 
-A weakness of generics (prior to GHC 8.0) was that it wasn't expressive enough to represent types of kind `#`. Part of the reason was due to `Rec0` expecting a type of kind `*`, not kind `#`. More importantly, polymorphism over `#` isn't even possible in the first place!
+A weakness of generics (prior to GHC 8.0) was that it wasn't expressive enough to represent types of kind `#`. Part of the reason was due to `Rec0` expecting a type of kind `*`, not kind `#`.
 
 
 Having a generic `#` representation would be desirable to mimic GHC's built-in support for certain unlifted types when deriving `Eq`, `Ord`, and `Show`:
@@ -589,9 +589,6 @@ Having a generic `#` representation would be desirable to mimic GHC's built-in s
 ```
 dataIntHash=IntHashInt#deriving(Eq,Ord,Show)-- Wouldn't have been allowed!derivinginstanceGenericIntHash
 ```
-
-
-Since polymorphism over `#` is a no-go, a more clever way of encoding unlifted types is needed.
 
 ## Attempt 1: re-use `Rec0`
 
@@ -649,7 +646,7 @@ instanceGShowUCharwhere
 ```
 
 
-But then she'd be writing `gshow _ = gshowUnlifted` for every single unlifted data type under consideration. That's more boilerplate than any reasonable programmer should have to deal with!
+But then she'd be writing `gshow _ = gshowUnlifted` for every single unlifted data type under consideration. That's more boilerplate than any reasonable generic programmer should have to deal with!
 
 ## Attempt 4: use a GADT
 
@@ -716,5 +713,5 @@ dataIntHash=IntHashInt#derivingGeneric
 yields:
 
 ```
-instanceGenericIntHashwheretypeRepIntHash=D1D1IntHash(C1C1_0IntHash(S1NoSelectorUInt))
+instanceGenericIntHashwheretypeRepIntHash=D1('MetaData"IntHash""Module""package"'False)(C1('MetaCons"IntHash"'Prefix'False)(S1'MetaNoSelUInt))
 ```
