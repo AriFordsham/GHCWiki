@@ -233,4 +233,4 @@ There are also many works addressing the use of dependent types in Haskell. Here
 
 * [http://www.cis.upenn.edu/~eir/papers/2012/singletons/paper.pdf Dependently typed programming with singletons]. Richard A. Eisenberg and Stephanie Weirich. Haskell Symposium 2012.
 * [https://personal.cis.strath.ac.uk/conor.mcbride/pub/hasochism.pdf Hasochism: The Pleasure and Pain of Dependently Typed Haskell]. [=#hasochism Sam Lindley and Conor !McBride.] Haskell Symposium 2013.
-* [http://www.cis.upenn.edu/~eir/papers/2014/promotion/promotion.pdf Promoting Functions to Type Families in Haskell]. [=#promotion Richard A. Eisenberg and Jan Stolarek.] Draft, 2014.
+* [http://www.cis.upenn.edu/~eir/papers/2014/promotion/promotion.pdf Promoting Functions to Type Families in Haskell]. [=#promotion Richard A. Eisenberg and Jan Stolarek.] Haskell Symposium 2014.
