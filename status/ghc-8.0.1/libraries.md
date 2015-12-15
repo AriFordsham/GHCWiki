@@ -31,7 +31,7 @@ TODO
 
 [](http://hackage.haskell.org/package/binary)
 
-TODO
+TODO`0.8.0.0` is pending to be released. Kolmodin hopes to have it released in time for GHC 8.0.1RC1.
 
 ### `bytestring`
 
