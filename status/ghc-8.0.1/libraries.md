@@ -126,7 +126,7 @@ TODO
 ## What's currently in GHC HEAD
 
 
-As of **7.11.20151214**, `ghc-pkg list` reports:
+As of **7.11.20151214**, `ghc-pkg list` reports (on Linux, i.e. `Win32` is missing):
 
 ```wiki
     Cabal-1.23.0.0
@@ -184,5 +184,8 @@ and `git submodule status` says
  34fba39b1279936a739ca8857e9592cc9a44c34e libraries/transformers (0_4_3_0-33-g34fba39)
  59edb0a0a0d91ecfe938029b3b00a0c99dcb8481 libraries/unix (v2.7.1.0-13-g59edb0a)
  6c17dd6fadc5e7e3e09f7892380ce1339f296efd libraries/vector (0_7-245-g6c17dd6)
- fb9e0bbb69e15873682a9f25d39652099a3ccac1 libraries/xhtml (ghc-7.6.1-release)
+ fb9e0bbb69e15873682a9f25d39652099a3ccac1 libraries/xhtml (3000.2.1)
 ```
+
+
+The `git describe`-version reported in brackets (e.g. `(v0.5.1.0-7-g4b43c95)`) tells us whether a commit points to an annotated Git tag (and thus most likely corresponds to a released package version). Version descriptions with ah `-g[0-9a-f]+` suffix denote commits in between Git tags!
