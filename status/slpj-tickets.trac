@@ -44,6 +44,7 @@ Kind equalities etc: [wiki:DependentHaskell], esp [wiki:DependentHaskell/Phase1]
 
 == Generics and DeriveAnyClass ==
  * See [wiki:PedrosTickets]
+ * #9821: `DeriveAnyClass` and higher kinded classes
  * #7492: replace `Rec1 f` with `f :.: Par1`
  * #11174: traversable for unboxed values
  * #11148: failure when Uniques are issued in reverse order
