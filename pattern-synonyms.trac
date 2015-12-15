@@ -4,22 +4,11 @@ This proposal provides the same power for patterns.
 
 See the [wiki:PatternSynonyms/Implementation implementation] page for implementation details.
 
-Relevant closed tickets:
- * #5144 (Pattern synonyms [https://github.com/ghc/ghc/commit/4f8369bf47d27b11415db251e816ef1a2e1eb3d8 merged into master] on 20 January 2014)
- * #8968 (GADTs)
- * #9417 (Haddock)
- * #9514 (Haddock again)
- * #8584 (pattern type signatures)
+Open Tickets:
+[[TicketQuery(status=infoneeded,status=new,keywords=~PatternSynonyms)]]
 
-Relevant open tickets:
- * #8581 (explicitly bidirectional)
- * #8582 (Record patterns)
- * #8583 (Associated patterns)
- * #8761 (template haskell support)
- * #8779 (exhaustiveness checks)
- * #10783 (partial type signatures in pattern synonym signatures)
- * #10653 (Associated pattern synonyms with types)
- * #9671 (Allow expressions in patterns)
+Closed Tickets:
+[[TicketQuery(status=infoneeded,status=closed,keywords=~PatternSynonyms)]]
 
 == Motivating example ==
 Here is a simple representation of types
