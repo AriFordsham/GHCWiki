@@ -659,3 +659,60 @@ instance Generic IntHash where
       (C1 ('MetaCons "IntHash" 'Prefix 'False)
         (S1 'MetaNoSel UInt))
 }}}
+
+= Proposal: strictness metadata =
+
+[https://ghc.haskell.org/trac/ghc/ticket/10716 Trac #10716] proposes encoding metadata into the `Selector` class. Here is my take at implementing this.
+
+== Add `selBang` to `Selector` ==
+
+The `Selector` class will now look like this:
+
+{{{#!hs
+ class Selector s where
+   -- | The name of the selector
+   selName :: t s (f :: * -> *) a -> [Char]
+   -- | The selector's strictness information
+   selBang :: t s (f :: * -> *) a -> Bang
+
+data Bang = Bang SourceUnpackedness SourceStrictness DecidedStrictness
+
+data SourceUnpackedness = NoSourceUnpackedness
+                        | SourceNoUnpack
+                        | SourceUnpack
+
+data SourceStrictness = NoSourceStrictness
+                      | SourceLazy
+                      | SourceStrict
+
+data DecidedStrictness = DecidedLazy
+                       | DecidedStrict
+                       | DecidedUnpack
+}}}
+
+This design draws much inspiration from the way Template Haskell handles strictness as of GHC 8.0 (see [https://ghc.haskell.org/trac/ghc/ticket/10697 here] for what motivated the change). We make a distinction between the ''source'' strictness annotations and the strictness GHC actually ''decides'' during compilation. To illustrate the difference, consider the following data type:
+
+{{{#!hs
+data T = T {-# UNPACK #-} !Int
+                          !Int
+                           Int
+  deriving Generic
+}}}
+
+If we were to encode the source unpackedness and strictness of each of `T`'s fields, they were be `SourceUnpack`/`SourceStrict`, `NoSourceUnpackedness`/SourceStrict`, and `NoSourceUnpackedness`/`NoSourceStrictness`, no matter what. Source unpackedness/strictness is a purely syntactic property.
+
+The strictness that the user writes, however, may be different from the strictness that GHC decides during compilation. For instance, if we were to compile `T` with no optimizations, the decided strictness of each field would be `DecidedStrict`, `DecidedStrict`, and `DecidedLazy`. If we enabled `-O2`, however, they would be `DecidedUnpack`, `DecidedStrict`, and `DecidedLazy`.
+
+Things become even more interesting when `-XStrict` and `-O2` are enabled. Then the strictness that GHC would decided is `DecidedUnpack`, `DecidedStrict`, and `DecidedStrict`. And if you enable `-XStrict`, `-O2`, ''and'' `-funbox-strict-fields`, then the decided strictness is `DecidedUnpack`, `DecidedUnpack`, and `DecidedUnpack`.
+
+The variety of possible `DecidedStrictness` combinations demonstrates that strictness is more just annotation—it's also a dynamic property of the compiled code. Both facets of strictness can be useful to a generic programmer, so we include both in the above design. That way, you get more `Bang` for your buck.
+
+One key difference between the way Template Haskell handles strictness and the way GHC generics would handle strictness is that in the former, source and decided strictness are decoupled, whereas the latter lumps them all into `Bang`. This is a result of Template Haskell allowing programmers to splice in TH ASTs directly into Haskell source code. Imagine if you wanted to splice in a datatype that had not been declared yet (i.e., one GHC had not compiled). You'd probably write something like this
+
+{{{#!hs
+$([d| ... Bang NoSourceUnpackedness NoSourceStrictness ??? ... |])
+}}}
+
+and become stuck. What do you put in place of `???`? After all, you'd need a ''decided'' strictness, but there's no way to know what GHC had decided yet—the datatype hasn't been compiled!
+
+GHC generics does not suffer from this problem, since you can only reify metadata with generics, not splice metadata back into code. Therefore, we can bundle both source and decided strictness with `Bang` without issue.
