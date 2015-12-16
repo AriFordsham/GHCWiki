@@ -127,7 +127,7 @@ TODO
 
 [](http://hackage.haskell.org/package/transformers)
 
-TODO
+TODO The upcoming `transformers-0.5.0.0` version is intended to be used for GHC 8.0; only blocker so far is a pending decision on [\#11135](https://gitlab.haskell.org//ghc/ghc/issues/11135)
 
 ### `unix`
 
