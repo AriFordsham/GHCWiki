@@ -16,6 +16,24 @@ In the latter case, the unreleased candidate's advertised package version number
 
 All `ghc-pkg`-exposed packages must match their officially released Hackage release.
 
+#### Git tagging the release
+
+
+For tagging the release in Git, **annotated Git tags** shall be used, e.g.
+
+```wiki
+git tag -a -s v1.2.3.4 -m "mypackage 1.2.3.4"
+```
+
+
+Leave off the `-s` flag if you don't have a GPG-key to sign the tag with.
+
+
+If you leave off the `-m`-argument, a text-editor will be started to allow you to compose a "tag message" (it's the equivalent of a commit message for tag objects).
+
+
+Here's [ an example](https://git.haskell.org/packages/deepseq.git/tag/c32a156c8dafaea05e91563afe2f72ad3590f57b) of a signed Git tag object.
+
 ## 3rd Party Packages needing a release (candidate)
 
 
