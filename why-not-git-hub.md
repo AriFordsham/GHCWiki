@@ -41,6 +41,8 @@ A common suggestion that is brought up from time is to host GHC development at [
 
 - No possibility to mark inline comments 'Done'.
 
+- No way to review diffs with more than 1500 lines.
+
 ### Git repository
 
 - GitHub lacks several things we already use. For example, there is **no way to add pre commit hooks** to repositories that ban commits containing whitespace, trailing spaces, and other `lint` errors. [ https://git.haskell.org](https://git.haskell.org) automatically enforces this to help keep new code tab-free. GitHub has no alternative to this.
