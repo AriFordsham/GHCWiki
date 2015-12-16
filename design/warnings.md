@@ -3,89 +3,81 @@
 
 TLDR: Borrow some ideas from GCC/Clang's warning-related CLI for GHC.
 
-## Current Situation (GHC 7.10)
+## Current Situation (GHC 8.0)
 
 
 GHC currently uses a somewhat unsatisfying warning CLI:
 
-
-The following flags resemble more or less GCC's CLI
-
 ```wiki
-   -W     enable normal warnings
-   -w     disable all warnings
-   -Wall  enable almost all warnings (details in )
-   -Werror make warnings fatal
-   -Wwarn make warnings non-fatal
-```
+    -W     enable normal warnings
+    -w     disable all warnings
+    -Wall  enable almost all warnings (details in )
+    -Werror make warnings fatal
+    -Wwarn make warnings non-fatal
 
-
-While the following (ab)use the `-f` flag namespace (rather than the the `-W` namespace like GCC):
-
-```wiki
- -fwarn-deprecated-flags
+    -Wdeprecated-flags
         warn about uses of commandline flags that are deprecated
- -fwarn-duplicate-constraints
+    -Wduplicate-constraints
         warn when a constraint appears duplicated in a type signature
- -fwarn-duplicate-exports
+    -Wduplicate-exports
         warn when an entity is exported multiple times
- -fwarn-hi-shadowing
+    -Whi-shadowing
         warn when a .hi file in the current directory shadows a library
- -fwarn-identities
+    -Widentities
         warn about uses of Prelude numeric conversions that are probably the identity (and hence could be omitted)
- -fwarn-implicit-prelude
+    -Wimplicit-prelude
         warn when the Prelude is implicitly imported
- -fwarn-incomplete-patterns
+    -Wincomplete-patterns
         warn when a pattern match could fail
- -fwarn-incomplete-uni-patterns
+    -Wincomplete-uni-patterns
         warn when a pattern match in a lambda expression or pattern binding could fail
- -fwarn-incomplete-record-updates
+    -Wincomplete-record-updates
         warn when a record update could fail
- -fwarn-lazy-unlifted-bindings
+    -Wlazy-unlifted-bindings
         (deprecated) warn when a pattern binding looks lazy but must be strict
- -fwarn-missing-fields
+    -Wmissing-fields
         warn when fields of a record are uninitialised
- -fwarn-missing-import-lists
+    -Wmissing-import-lists
         warn when an import declaration does not explicitly list all the names brought into scope
- -fwarn-missing-methods
+    -Wmissing-methods
         warn when class methods are undefined
- -fwarn-missing-signatures
+    -Wmissing-signatures
         warn about top-level functions without signatures
- -fwarn-missing-local-sigs
+    -Wmissing-local-sigs
         warn about polymorphic local bindings without signatures
- -fwarn-monomorphism-restriction
+    -Wmonomorphism-restriction
         warn when the Monomorphism Restriction is applied
- -fwarn-name-shadowing
+    -Wname-shadowing
         warn when names are shadowed
- -fwarn-orphans, -fwarn-auto-orphans
+    -Worphans, -Wauto-orphans
         warn when the module contains orphan instance declarations or rewrite rules
- -fwarn-overlapping-patterns
+    -Woverlapping-patterns
         warn about overlapping patterns
- -fwarn-tabs
+    -Wtabs
         warn if there are tabs in the source file
- -fwarn-type-defaults
+    -Wtype-defaults
         warn when defaulting happens
- -fwarn-unrecognised-pragmas
+    -Wunrecognised-pragmas
         warn about uses of pragmas that GHC doesn't recognise
- -fwarn-unused-binds
+    -Wunused-binds
         warn about bindings that are unused
- -fwarn-unused-imports
+    -Wunused-imports
         warn about unnecessary imports
- -fwarn-unused-matches
+    -Wunused-matches
         warn about variables in patterns that aren't used
- -fwarn-unused-do-bind
+    -Wunused-do-bind
         warn about do bindings that appear to throw away values of types other than ()
- -fwarn-wrong-do-bind
+    -Wwrong-do-bind
         warn about do bindings that appear to throw away monadic values that you should have bound instead
- -fwarn-unsafe
+    -Wunsafe
         warn if the module being compiled is regarded to be unsafe. Should be used to check the safety status of modules when using safe inference.
- -fwarn-safe
+    -Wsafe
         warn if the module being compiled is regarded to be safe. Should be used to check the safety status of modules when using safe inference.
- -fwarn-warnings-deprecations
+    -Wwarnings-deprecations
         warn about uses of functions & types that have warnings or deprecated pragmas
- -fwarn-amp
+    -Wamp
         warn on definitions conflicting with the Applicative-Monad Proposal (AMP)
- -fwarn-typed-holes
+    -Wtyped-holes
         Enable holes in expressions.
 ```
 
@@ -94,7 +86,7 @@ While the following (ab)use the `-f` flag namespace (rather than the the `-W` na
 TODO needs more elaboration & motivation
 
 
-By reusing the GCC CLI convention for warning-flags we can make GHC's CLI a bit more intuitive to people used to GCC (& Clang's) CLI. `-W`/`-Wno-` is shorter than `-fwarn-`/`fno-warn-`. With GHC 8.0 starting a new "epoch", this would be a good opportunity to redesign the CLI a bit.
+By reusing the GCC CLI convention for warning-flags we can make GHC's CLI a bit more intuitive to people used to GCC (& Clang's) CLI.
 
 - ([\#11218](https://gitlab.haskell.org//ghc/ghc/issues/11218)) Keep the current `-f(no-)warn-$WARNTYPE` flags as hidden flag aliases for...
 - ...newly introduced `-W(no-)$WARNTYPE` flags more in line with GCC's conventions, e.g.
