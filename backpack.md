@@ -61,7 +61,7 @@ The most up-to-date description for how `hsig` files are implemented can be foun
 ### The Backpack library frontend
 
 
-The Backpack IR is a representation of the **pre-shape** of a Backpack component; the IR is sufficient to determine what instantiated components must be built, and how a component is instantiated.  (This is an abstraction of the package shape in the Backpack paper, which incorporates both module identities as well as the identities for entities defined in the modules.  Entity information is not needed for build planning, so the Backpack IR does not include it.)
+The Backpack IR is a representation of the **pre-shape** of a Backpack component; the IR is sufficient to determine what instantiated components must be built, and how a component is instantiated.  (This is an abstraction of the package shape in the Backpack paper, which incorporates both module identities as well as the identities for entities defined in the modules.  Entity information is not needed for build planning, so the Backpack IR does not include it. You DON'T have to look at import declarations because signatures are per package, not per module.)
 
 
 Here is the IR type:
@@ -81,8 +81,9 @@ data Component = Component {
   -- The UnitId of the component in question.  Invariant: every
   -- instantiation is H -> hole:H
   unitId :: UnitId,
-  -- The direct dependencies of the component; i.e. how the includes
-  -- are resolved.
+  -- The direct dependencies of the component. They are the things
+  -- that I need to build to build this.  These are a "renamed"
+  -- version of includes.
   instantiatedDepends :: [UnitId],
   -- The modules from the includes which are "in scope".  Does not
   -- include requirements.
@@ -90,13 +91,70 @@ data Component = Component {
   importedModules :: [(ModuleName, Module)],
   -- The exported modules of the component.  Local modules will
   -- have moduleUnitId == unitId, but there may also be reexports.
-  -- Invariant: no HOLEs are in this list.  Holes are recorded in unitId.
+  -- Invariant: there are no HOLEs are in this list; you can determine
+  -- what the holes of a package are by looking at unitId
   exposedModules :: [(ModuleName, Module)]
 }
 ```
 
 
-Invariant: every hole in not unitId is bound by a hole in unitId.
+Invariant: every hole the non-unitId fields is *bound* by a hole in `unitId`. (An indefinite unit has the )
+
+**Example.**
+
+
+Consider some old-style Backpack files:
+
+```wiki
+package p where
+  include q
+  signature A
+  module M
+package q where
+  signature B
+  module Q
+```
+
+
+Let's consider `q` first.  Here's what the data structure gets filled as:
+
+```wiki
+Component {
+  unitId = q(B -> hole:B),
+  instantiatedDepends = [], -- no includes
+  importedModules = [], -- nothing external in scope
+  exposedModules = [(Q, q(B -> hole:B):Q)]
+  -- Note this doesn't contain any of the holes. You can look
+  -- at the unitId to get that information.
+}
+```
+
+
+Now consider `p`:
+
+```wiki
+Component {
+  unitId = p(A -> hole:A, B -> hole:B),
+  instantiatedDepends = [q(B -> hole:B)],
+  importedModules = [(Q, q(B -> hole:B):Q)]
+}
+```
+
+
+Note that if instead of `include q`, we had `include q requires B as B2`, then the `instantiatedDepends` is `[q(B -> hole:B2)]`. Note that this is *bound* by the `unitId` field, which is now `p(A -> hole:A, B2 -> hole:B2)`.
+
+
+On `importedModules`: it only shows things that were exposed by the included packages. We need to compute this when we do mix-in linking. (It could include `A`, but maybe not.) Why doesn't it have requirements?  Because you always know where the requirements are: for every requirement of a unit, we have to compile an `hsig` file for it, even if there is no local one: you have to make a blank one.
+
+TODO SPJ, maybe we can pair the module names with where the include comes from. At the moment, there's no way to say, "Where it came form." (EZY: Mix-in linking, you want to glom them together.)
+
+TODO Scott: I'd like to just be able to substitute, and have the form of `Component` stay the same.
+
+TODO exposedModules is a bad name, because it isn't the full set of what things are brought into scope.
+
+TODO Why not stuff the exposes into the `UnitId`? That lets us get rid of `importedModules` and `exposedModules`. Moving the data structure around. (EZY: Equality doesn't have the `exposedModules`). Is `exposedModules` a function of `unitIdComponentId` and `unitIdInsts`? No, you need the source code. It's not a function you want to compute lightly. (`Component` is derived off of `UnitId`.)
+
+**How to compile?**
 
 
 Intuitively, the algorithm for compiling a `UnitId` goes as follows:
