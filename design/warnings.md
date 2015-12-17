@@ -9,76 +9,17 @@ TLDR: Borrow some ideas from GCC/Clang's warning-related CLI for GHC.
 GHC currently uses a somewhat unsatisfying warning CLI:
 
 ```wiki
-    -W     enable normal warnings
-    -w     disable all warnings
-    -Wall  enable almost all warnings (details in )
-    -Werror make warnings fatal
-    -Wwarn make warnings non-fatal
+-W      (enable normal warnings)
+-w      (disable all warnings)
+-Wall   (enable almost all warnings)
+-Werror (make warnings fatal)
+-Wwarn  (make warnings non-fatal)
 
-    -Wdeprecated-flags
-        warn about uses of commandline flags that are deprecated
-    -Wduplicate-constraints
-        warn when a constraint appears duplicated in a type signature
-    -Wduplicate-exports
-        warn when an entity is exported multiple times
-    -Whi-shadowing
-        warn when a .hi file in the current directory shadows a library
-    -Widentities
-        warn about uses of Prelude numeric conversions that are probably the identity (and hence could be omitted)
-    -Wimplicit-prelude
-        warn when the Prelude is implicitly imported
-    -Wincomplete-patterns
-        warn when a pattern match could fail
-    -Wincomplete-uni-patterns
-        warn when a pattern match in a lambda expression or pattern binding could fail
-    -Wincomplete-record-updates
-        warn when a record update could fail
-    -Wlazy-unlifted-bindings
-        (deprecated) warn when a pattern binding looks lazy but must be strict
-    -Wmissing-fields
-        warn when fields of a record are uninitialised
-    -Wmissing-import-lists
-        warn when an import declaration does not explicitly list all the names brought into scope
-    -Wmissing-methods
-        warn when class methods are undefined
-    -Wmissing-signatures
-        warn about top-level functions without signatures
-    -Wmissing-local-sigs
-        warn about polymorphic local bindings without signatures
-    -Wmonomorphism-restriction
-        warn when the Monomorphism Restriction is applied
-    -Wname-shadowing
-        warn when names are shadowed
-    -Worphans, -Wauto-orphans
-        warn when the module contains orphan instance declarations or rewrite rules
-    -Woverlapping-patterns
-        warn about overlapping patterns
-    -Wtabs
-        warn if there are tabs in the source file
-    -Wtype-defaults
-        warn when defaulting happens
-    -Wunrecognised-pragmas
-        warn about uses of pragmas that GHC doesn't recognise
-    -Wunused-binds
-        warn about bindings that are unused
-    -Wunused-imports
-        warn about unnecessary imports
-    -Wunused-matches
-        warn about variables in patterns that aren't used
-    -Wunused-do-bind
-        warn about do bindings that appear to throw away values of types other than ()
-    -Wwrong-do-bind
-        warn about do bindings that appear to throw away monadic values that you should have bound instead
-    -Wunsafe
-        warn if the module being compiled is regarded to be unsafe. Should be used to check the safety status of modules when using safe inference.
-    -Wsafe
-        warn if the module being compiled is regarded to be safe. Should be used to check the safety status of modules when using safe inference.
-    -Wwarnings-deprecations
-        warn about uses of functions & types that have warnings or deprecated pragmas
-    -Wamp
-        warn on definitions conflicting with the Applicative-Monad Proposal (AMP)
-    -Wtyped-holes
-        Enable holes in expressions.
+-Wduplicate-exports
+-Widentities
+-Wmissing-signatures
+-Wunused-binds
+...
 ```
 
 ## Proposed Change
@@ -88,8 +29,7 @@ TODO needs more elaboration & motivation
 
 By reusing the GCC CLI convention for warning-flags we can make GHC's CLI a bit more intuitive to people used to GCC (& Clang's) CLI.
 
-- ([\#11218](https://gitlab.haskell.org//ghc/ghc/issues/11218)) Keep the current `-f(no-)warn-$WARNTYPE` flags as hidden flag aliases for...
-- ...newly introduced `-W(no-)$WARNTYPE` flags more in line with GCC's conventions, e.g.
+- ([\#11218](https://gitlab.haskell.org//ghc/ghc/issues/11218) - implemented in 8.0) Keep the current `-f(no-)warn-$WARNTYPE` flags as hidden flag aliases for newly introduced -W(no-)$WARNTYPE\` flags more in line with GCC's conventions, e.g.
 
   - `-Worphans` instead of `fwarn-orphans`
   - `-Wno-missing-methods` instead of `-fno-warn-missing-methods`
