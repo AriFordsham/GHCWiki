@@ -61,7 +61,7 @@ TODO most likely: RC1 will ship with the odd (unreleased) version `0.10.7.0`, wh
 
 [](http://hackage.haskell.org/package/containers)
 
-TODO Freshly released `0.5.7.0` should be used for GHC 8.
+DONE Freshly released `0.5.7.0` should be used for GHC 8.
 
 ### `deepseq`
 
