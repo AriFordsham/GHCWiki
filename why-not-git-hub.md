@@ -1,5 +1,7 @@
 # Why Not GitHub?
 
+[](http://cdn.meme.am/instances/250x/61128860.jpg)
+
 
 A common suggestion that is brought up from time is to host GHC development at [ GitHub](https://github.com/) instead of maintaining our own infrastructure for Git repository hosting, code-review, developer documentation/wiki, and issue tracking. This page serves as reminder for what's holding back a migration to GitHub currently.
 
