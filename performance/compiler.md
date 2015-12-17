@@ -48,14 +48,186 @@ Another theme often seen is issues characterized by perceived slowness during co
 
 While it's possible to fix (1) and (2), (3) is inherent.
 
-- [\#8731](https://gitlab.haskell.org//ghc/ghc/issues/8731): long compilation time for module with large data type and partial record selectors 
-- [\#9557](https://gitlab.haskell.org//ghc/ghc/issues/9557): Deriving instances is slow
-- [\#10858](https://gitlab.haskell.org//ghc/ghc/issues/10858): Smaller generated `Ord` instances
-- [\#10980](https://gitlab.haskell.org//ghc/ghc/issues/10980): quadratic behaviour of derived `Read`.
-- [\#5642](https://gitlab.haskell.org//ghc/ghc/issues/5642): Deriving Generic of a big type takes a long time and lots of space
-- [\#9583](https://gitlab.haskell.org//ghc/ghc/issues/9583), [\#9630](https://gitlab.haskell.org//ghc/ghc/issues/9630): code blowup in Generics/Binary
-- [\#9669](https://gitlab.haskell.org//ghc/ghc/issues/9669): Long compile time/high memory usage for modules with many deriving clauses
-- [\#7258](https://gitlab.haskell.org//ghc/ghc/issues/7258): (probably) Compiling DynFlags is jolly slow
+<table><tr><th>Ticket (Ticket query: keywords: deriving-perf, status: new, status: fixed, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: id)</th>
+<th>Type (Ticket query: keywords: deriving-perf, status: new, status: fixed, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: type)</th>
+<th>Summary (Ticket query: keywords: deriving-perf, status: new, status: fixed, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: summary)</th>
+<th>Priority (Ticket query: keywords: deriving-perf, status: new, status: fixed, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: priority)</th>
+<th>Owner (Ticket query: keywords: deriving-perf, status: new, status: fixed, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: owner)</th></tr>
+<tr><th>[\#1544](https://gitlab.haskell.org//ghc/ghc/issues/1544)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[Derived Read instances for recursive datatypes with infix constructors are too inefficient](https://gitlab.haskell.org//ghc/ghc/issues/1544)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th></th></tr>
+<tr><th>[\#7258](https://gitlab.haskell.org//ghc/ghc/issues/7258)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[Compiling DynFlags is jolly slow](https://gitlab.haskell.org//ghc/ghc/issues/7258)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th>simonpj</th></tr>
+<tr><th>[\#8731](https://gitlab.haskell.org//ghc/ghc/issues/8731)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[long compilation time for module with large data type and partial record selectors](https://gitlab.haskell.org//ghc/ghc/issues/8731)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th></th></tr>
+<tr><th>[\#9557](https://gitlab.haskell.org//ghc/ghc/issues/9557)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[Deriving instances is slow](https://gitlab.haskell.org//ghc/ghc/issues/9557)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th></th></tr>
+<tr><th>[\#9669](https://gitlab.haskell.org//ghc/ghc/issues/9669)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[Long compile time/high memory usage for modules with many deriving clauses](https://gitlab.haskell.org//ghc/ghc/issues/9669)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th></th></tr>
+<tr><th>[\#10980](https://gitlab.haskell.org//ghc/ghc/issues/10980)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[Deriving Read instance from datatype with N fields leads to N\^2 code size growth](https://gitlab.haskell.org//ghc/ghc/issues/10980)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th></th></tr>
+<tr><th>[\#13280](https://gitlab.haskell.org//ghc/ghc/issues/13280)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      task
+                    </th>
+<th>[Consider deriving more Foldable methods](https://gitlab.haskell.org//ghc/ghc/issues/13280)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th>dfeuer</th></tr></table>
 
 ### Uncategorised compiler performance issues
 
