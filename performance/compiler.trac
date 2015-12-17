@@ -40,14 +40,7 @@ Another theme often seen is issues characterized by perceived slowness during co
 
 While it's possible to fix (1) and (2), (3) is inherent.
 
- * #8731: long compilation time for module with large data type and partial record selectors 
- * #9557: Deriving instances is slow
- * #10858: Smaller generated `Ord` instances
- * #10980: quadratic behaviour of derived `Read`.
- * #5642: Deriving Generic of a big type takes a long time and lots of space
- * #9583, #9630: code blowup in Generics/Binary
- * #9669: Long compile time/high memory usage for modules with many deriving clauses
- * #7258: (probably) Compiling DynFlags is jolly slow
+[[TicketQuery(keywords=deriving-perf,format=table,col=type|summary|priority|owner,status=new|fixed,order=priority)]]
 
 === Uncategorised compiler performance issues ===
 
