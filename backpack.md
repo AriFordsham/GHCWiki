@@ -176,6 +176,8 @@ How do you compile a `Component`; that is to say, what flags are passed to GHC t
 
 ### Cabal syntax
 
+TODO More context
+
 
 I think for now we should resurrect the original Cabal syntax.  So, we add the following fields:
 
@@ -195,7 +197,7 @@ includes:
 ```
 
 
-If a package `bar` is not explicitly mentioned in `includes`, it is assumed to have had form `bar`.
+If a package `bar` is not explicitly mentioned in `includes`, it is assumed to have been included as `include bar`.
 
 ### Cabal changes
 
