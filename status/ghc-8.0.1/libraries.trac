@@ -145,13 +145,17 @@ TODO: The upcoming `transformers-0.5.0.0` version is intended to be used for GHC
 
 TODO: current plan: use unreleased patch-level v2.7.1.1 containing only fixes but no API changes; release 2.7.1.1 with GHC8 RC2
 
+=== `Win32`
+
+[[Image(https://img.shields.io/hackage/v/Win32.svg,link=hackage:Win32)]]
+
+TODO:
 
 === `xhtml`
 
 [[Image(https://img.shields.io/hackage/v/xhtml.svg,link=hackage:xhtml)]]
 
 TODO: (currently points to released version -- no need to act unless maintainer wishes to)
-
 
 == What's currently in GHC HEAD
 

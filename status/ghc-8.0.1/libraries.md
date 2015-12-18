@@ -137,6 +137,12 @@ TODO The upcoming `transformers-0.5.0.0` version is intended to be used for GHC 
 
 TODO current plan: use unreleased patch-level v2.7.1.1 containing only fixes but no API changes; release 2.7.1.1 with GHC8 RC2
 
+### `Win32`
+
+[](http://hackage.haskell.org/package/Win32)
+
+TODO
+
 ### `xhtml`
 
 [](http://hackage.haskell.org/package/xhtml)
