@@ -270,110 +270,116 @@ To be granted access, please contact '''Austin Seipp''' above. As it currently s
 
 This list people who have contributed wonderful things to GHC in the past, but are no longer actively working with us. After 1 year of no commits, '''we revoke peoples access and add them from the list above to this one'''. If you're one of these people, contact Austin and we can give access back to you.
 
+{{{#!comment
+
+Note: remove the employer field, because it will go out of date at some point.
+
+}}}
+
  * [http://www.cse.unsw.edu.au/~benl/ Ben Lippmeier]
-  * University of New South Wales - Sydney, Australia
+  * Sydney, Australia
   * '''Trac''': benl; '''email''': benl@ouroborus.net
   * '''Committer''': 2010 - 2013.
   * '''Main areas of interest''': DPH, vector, code generators
 
  * [http://www.serpentine.com/ Bryan O'Sullivan]
-  * Facebook Inc - San Francisco, CA
+  * San Francisco, CA
   * '''Trac''': bos, '''email''': bos@serpentine.com
   * '''Commiter''': 2013.
   * '''Main areas of interest''': performance
 
  * David Waern
-  * LexiFI - Paris, France
+  * Paris, France
   * '''Trac''': waern; '''email''': david.waern@gmail.com
   * '''Committer''': 2007 - 2011.
   * '''Main areas of interest''': haddock
 
  * [http://research.microsoft.com/en-us/people/dimitris/ Dimitrios Vytiniotis]
-  * Microsoft Research - Cambridge, UK
+  * Cambridge, UK
   * '''Trac''': dimitris; '''email''': dimitris@microsoft.com
   * '''Committer''': 2011 - 2012.
   * '''Main areas of interest''': ...
 
  * Don Stewart
-  * Standard Chartered - London, UK
+  * London, UK
   * '''Trac''': dons; '''email''': dons00@gmail.com
   * '''Committer until''': August, 2013.
   * '''Main areas of interest''': bytestring, code generation, optimisers
 
  * Ian Lynagh
-  * Semmle - Oxford, UK
+  * Oxford, UK
   * '''Trac''': Igloo; '''email''': igloo@earth.li
   * '''Committer since''': 2006 - 2013.
   * '''Main areas of interest''': ...
 
  * [http://ilyasergey.net/ Ilya Sergey]
-  * IMDEA Software Institute - Madrid, Spain
+  * Madrid, Spain
   * '''Trac''': ilya; '''email''': ilya.sergey@imdea.org
   * '''Committer''': 2012.
   * '''Main areas of interest''': optimiser
 
  * [http://www.cs.purdue.edu/homes/chandras/kcs_academic_page/Welcome.html KC Sivaramakrishnan]
-  * Purdue University - West Lafayette, IN
+  * West Lafayette, IN
   * '''Trac''': kc; '''email''': chandras@cs.purdue.edu
   * '''Committer''': 2012.
   * '''Main areas of interest''': lightweight concurrency primitives, rts, etc.
 
  * Lennart Augustsson
-  * Standard Chartered - London, UK
+  * London, UK
   * '''Trac''': Lennart; '''email''': lennart.augustsson@sc.com
   * '''Committer until''': August, 2013.
   * '''Main areas of interest''': ...
 
  * [http://www.cse.unsw.edu.au/~chak/ Manuel Chakravarty]
-  * University of New South Wales - Sydney, Australia
+  * Sydney, Australia
   * '''Trac''': chak; '''email''': chak@cse.unsw.edu.au
   * '''Committer''': 2006 - 2013.
   * '''Main areas of interest''': DPH
 
  * [http://www.cl.cam.ac.uk/~mb566/ Max Bolingbroke]
-  * N/A - Cambridge, UK
+  * Cambridge, UK
   * '''Trac''': batterseapower; '''email''': batterseapower@hotmail.com; '''github''': https://github.com/batterseapower
   * '''Committer''': 2008 - 2013.
   * '''Main areas of interest''': optimiser, type checker
 
  * [http://www.ittc.ku.edu/~nfrisby/ Nicolas Frisby]
-  * University of Kansas - Lawrence, Kansas
+  * Lawrence, Kansas
   * '''Trac''': nfrisby; '''email''': nicolas.frisby@gmail.com
   * '''Committer''': 2013.
   * '''Main areas of interest''': optimiser
 
  * [http://paolocapriotti.com/ Paolo Capriotti]
-  * University of Nottingham - Nottingham, UK
+  * Nottingham, UK
   * '''Trac''': pcapriotti; '''email''': p.capriotti@gmail.com
   * '''Committer''': 2012.
   * '''Main areas of interest''': ...
 
  * Patrick Palka
-  * N/A - Garfield, NJ, USA
+  * Garfield, NJ, USA
   * '''Trac''': parcs; '''email''': patrick@parcs.ath.cx; '''github''': https://github.com/parcs
   * '''Committer''': 2013.
   * '''Main areas of interest''': GHC --make
 
  * Roman Leshchinskiy
-  * Standard Chartered - London, UK
+  * London, UK
   * '''Trac''': rl; '''email''': rl@cse.unsw.edu.au
   * '''Committer''': 2006 - 2012.
   * '''Main areas of interest''': vector library
 
  * [http://www.soi.city.ac.uk/~ross/ Ross Paterson]
-  * City University - London, UK
+  * London, UK
   * '''Trac''': ross; '''email''': ross@soi.city.ac.uk
   * '''Committer''': 2006 - 2013.
   * '''Main areas of interest''': arrow support
 
  * [http://www.cs.indiana.edu/~rrnewton/homepage.html Ryan Newton]
-  * Intel Corporation; Indiana University - Bloomington, IN
+  * Bloomington, IN
   * '''Trac''': rrnewton; '''email''': rrnewton@gmail.com
   * '''Committer''': 2013.
   * '''Main areas of interest''': runtime system, smp support (atomic memory op support)
 
  * [http://nominolo.blogspot.com/ Thomas Schilling]
-  * Erudify AG - Zürich, Switzerland
+  * Zürich, Switzerland
   * '''Trac''': nominolo; '''email''': nominolo@googlemail.com; '''github''': https://github.com/nominolo
   * '''Committer''': 2008 - 2011.
   * '''Main areas of interest''': GHC API
