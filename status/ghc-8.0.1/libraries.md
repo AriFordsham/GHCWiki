@@ -85,7 +85,7 @@ TODO
 
 [](http://hackage.haskell.org/package/haskeline)
 
-TODO most likely: minor version bump to 0.7.2.2
+DONE The release `0.7.2.2` should be used.
 
 ### `hoopl`
 
@@ -115,7 +115,7 @@ DONE The existing v1.4.1.0 release shall be used for GHC 8.0.1 according to Mich
 
 [](http://hackage.haskell.org/package/terminfo)
 
-TODO most likely: minor version bump to 0.4.1.0
+DONE The release `0.4.0.2` should be used.
 
 ### `time`
 
