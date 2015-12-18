@@ -81,7 +81,7 @@ Don't forget the keyboard shortcuts, in particular `z` lets you post a comment w
 #### Landing reviews
 
 
-If you're submitting a patch to GHC and not a committer, Austin or Herbert will land your changes - and we really appreciate it!
+If you're submitting a patch to GHC and not a committer, Austin or Ben will land your changes - and we really appreciate it!
 
 
 If you *are* a committer, you can leave it to Austin or Herbert as well if you'd like, but ideally you'll do it yourself.
@@ -100,6 +100,8 @@ This will:
 
 - Pull the patch down as a single change, and apply it to your branch.
 - Push it upstream - Phabricator will then close the branch for you as it will see the differential revision notifier in the commit.
+
+**Note: don't use `arc land`! It assigns the commit to yourself, even if you didn't write it.**
 
 
 If you dislike the rather verbose commit messages created by Phabricator, you can run `git rebase -i origin/master` before pushing and use the `reword` command on each commit.
