@@ -75,13 +75,19 @@ Kind equalities etc: [DependentHaskell](dependent-haskell), esp [DependentHaskel
 - [\#9979](https://gitlab.haskell.org//ghc/ghc/issues/9979), [\#8814](https://gitlab.haskell.org//ghc/ghc/issues/8814), [\#8835](https://gitlab.haskell.org//ghc/ghc/issues/8835): attoparsec regressed 7.8.4 to HEAD
 - [\#8852](https://gitlab.haskell.org//ghc/ghc/issues/8852), [\#8980](https://gitlab.haskell.org//ghc/ghc/issues/8980), [\#8941](https://gitlab.haskell.org//ghc/ghc/issues/8941) (possibly), [\#9803](https://gitlab.haskell.org//ghc/ghc/issues/9803), [\#8960](https://gitlab.haskell.org//ghc/ghc/issues/8960), [\#7898](https://gitlab.haskell.org//ghc/ghc/issues/7898), [\#7068](https://gitlab.haskell.org//ghc/ghc/issues/7068), [\#7944](https://gitlab.haskell.org//ghc/ghc/issues/7944), [\#5550](https://gitlab.haskell.org//ghc/ghc/issues/5550), [\#8836](https://gitlab.haskell.org//ghc/ghc/issues/8836): `SpecConstr` blowup
 - [\#10289](https://gitlab.haskell.org//ghc/ghc/issues/10289): 2.5k static `HashSet` takes too much memory to compile
-- [\#9669](https://gitlab.haskell.org//ghc/ghc/issues/9669), [\#9557](https://gitlab.haskell.org//ghc/ghc/issues/9557), [\#8731](https://gitlab.haskell.org//ghc/ghc/issues/8731): slow compilation with lots of `deriving` clauses
-- [\#9583](https://gitlab.haskell.org//ghc/ghc/issues/9583), [\#9630](https://gitlab.haskell.org//ghc/ghc/issues/9630): code blowup in Generics/Binary
 - [\#10228](https://gitlab.haskell.org//ghc/ghc/issues/10228): compile-time regression from 7.8.4 to 7.10.1
-- [\#7450](https://gitlab.haskell.org//ghc/ghc/issues/7450), [\#7258](https://gitlab.haskell.org//ghc/ghc/issues/7258): deriving `Read` generates gigantic code. Better now, but still not linear.
 - [\#7428](https://gitlab.haskell.org//ghc/ghc/issues/7428): Non-linear compile time: `addFingerprint`??
 - [\#2346](https://gitlab.haskell.org//ghc/ghc/issues/2346): desugaring let-bindings
 - Use wildcards for dead variables in interface files.
+
+
+Code-size blowup when using `deriving`; see tickets with keyword `deriving-perf`
+
+- [\#7450](https://gitlab.haskell.org//ghc/ghc/issues/7450), [\#7258](https://gitlab.haskell.org//ghc/ghc/issues/7258): deriving `Read` generates gigantic code. Better now, but still not linear.
+- [\#9583](https://gitlab.haskell.org//ghc/ghc/issues/9583), [\#9630](https://gitlab.haskell.org//ghc/ghc/issues/9630): code blowup in Generics/Binary
+- [\#9669](https://gitlab.haskell.org//ghc/ghc/issues/9669), [\#9557](https://gitlab.haskell.org//ghc/ghc/issues/9557), [\#8731](https://gitlab.haskell.org//ghc/ghc/issues/8731): slow compilation with lots of `deriving` clauses
+- [\#10858](https://gitlab.haskell.org//ghc/ghc/issues/10858): `Ord` instances
+- [\#1544](https://gitlab.haskell.org//ghc/ghc/issues/1544): \`Read1 instances
 
 ## Front end
 
