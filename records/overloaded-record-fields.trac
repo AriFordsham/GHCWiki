@@ -1,11 +1,11 @@
 = OverloadedRecordFields =
 
-The `OverloadedRecordFields` extension for GHC allows multiple record datatypes to share the same field names, and uses type information to disambiguate them. For more information, see:
+The `OverloadedRecordFields` extension for GHC will allow multiple record datatypes to share the same field names, and make it possible for type information to disambiguate them. It consists of three separate of components, of which two will be in GHC 8.0. For more information, see:
 
  * [wiki:Records/OverloadedRecordFields/Redesign Redesigned variant involving three extensions]
     * Part 1: [wiki:Records/OverloadedRecordFields/DuplicateRecordFields DuplicateRecordFields] (in GHC 8.0)
     * Part 2: [wiki:Records/OverloadedRecordFields/OverloadedLabels OverloadedLabels] (in GHC 8.0)
-    * Part 3: [wiki:Records/OverloadedRecordFields/MagicClasses Magic type classes] (will probably not make GHC 8.0)
+    * Part 3: [wiki:Records/OverloadedRecordFields/MagicClasses Magic type classes] (will not make GHC 8.0)
  * [http://www.well-typed.com/blog/2015/03/overloadedrecordfields-revived/ Adam Gundry's blog post]
 
 Content previously on this page has been moved to the [wiki:Records/OverloadedRecordFields/SORF SORF] page.
