@@ -82,12 +82,6 @@ In order to see emails below, '''you must login'''.
   * '''Committer since''': June, 2010.
   * '''Main areas of interest''': llvm backend, safe haskell
 
- * [http://research.microsoft.com/en-us/people/dimitris/ Dimitrios Vytiniotis]
-  * Microsoft Research - Cambridge, UK
-  * '''Trac''': dimitris; '''email''': dimitris@microsoft.com
-  * '''Committer since''': May 2011.
-  * '''Main areas of interest''': ...
-
  * [http://www.well-typed.com/people/duncan Duncan Coutts]
   * Well-Typed LLP - Oxford, UK
   * '''Trac''': duncan; '''email''': duncan@well-typed.com
@@ -276,18 +270,6 @@ To be granted access, please contact '''Austin Seipp''' above. As it currently s
 
 This list people who have contributed wonderful things to GHC in the past, but are no longer actively working with us. After 1 year of no commits, '''we revoke peoples access and add them from the list above to this one'''. If you're one of these people, contact Austin and we can give access back to you.
 
- * Don Stewart
-  * Standard Chartered - London, UK
-  * '''Trac''': dons; '''email''': dons00@gmail.com
-  * '''Committer until''': August, 2013.
-  * '''Main areas of interest''': bytestring, code generation, optimisers
-
- * Lennart Augustsson
-  * Standard Chartered - London, UK
-  * '''Trac''': Lennart; '''email''': lennart.augustsson@sc.com
-  * '''Committer until''': August, 2013.
-  * '''Main areas of interest''': ...
-
  * [http://www.cse.unsw.edu.au/~benl/ Ben Lippmeier]
   * University of New South Wales - Sydney, Australia
   * '''Trac''': benl; '''email''': benl@ouroborus.net
@@ -306,6 +288,18 @@ This list people who have contributed wonderful things to GHC in the past, but a
   * '''Committer''': 2007 - 2011.
   * '''Main areas of interest''': haddock
 
+ * [http://research.microsoft.com/en-us/people/dimitris/ Dimitrios Vytiniotis]
+  * Microsoft Research - Cambridge, UK
+  * '''Trac''': dimitris; '''email''': dimitris@microsoft.com
+  * '''Committer''': 2011 - 2012.
+  * '''Main areas of interest''': ...
+
+ * Don Stewart
+  * Standard Chartered - London, UK
+  * '''Trac''': dons; '''email''': dons00@gmail.com
+  * '''Committer until''': August, 2013.
+  * '''Main areas of interest''': bytestring, code generation, optimisers
+
  * Ian Lynagh
   * Semmle - Oxford, UK
   * '''Trac''': Igloo; '''email''': igloo@earth.li
@@ -323,6 +317,12 @@ This list people who have contributed wonderful things to GHC in the past, but a
   * '''Trac''': kc; '''email''': chandras@cs.purdue.edu
   * '''Committer''': 2012.
   * '''Main areas of interest''': lightweight concurrency primitives, rts, etc.
+
+ * Lennart Augustsson
+  * Standard Chartered - London, UK
+  * '''Trac''': Lennart; '''email''': lennart.augustsson@sc.com
+  * '''Committer until''': August, 2013.
+  * '''Main areas of interest''': ...
 
  * [http://www.cse.unsw.edu.au/~chak/ Manuel Chakravarty]
   * University of New South Wales - Sydney, Australia
