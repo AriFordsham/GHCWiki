@@ -59,12 +59,12 @@ In order to see emails below, **you must login**.
   - **Committer since**: November, 2014.
   - **Main areas of interest**: build system, optimiser
 
-- [ Adam Gundry](https://personal.cis.strath.ac.uk/adam.gundry/)
+- Adam Gundry
 
-  - Well-Typed LLP - Glasgow, UK
-  - **Trac**: adamgundry; **email**: adam@…
+  - Well-Typed LLP - Stirling, UK
+  - **Trac**: adamgundry; **email**: adam@…, **github**: [ https://github.com/adamgundry](https://github.com/adamgundry)
   - **Committer since**: May 2014
-  - **Main areas of interest**: frontend, typechecking
+  - **Main areas of interest**: frontend, typechecking, records
 
 - [ Austin Seipp](http://hacks.yi.org)
 
