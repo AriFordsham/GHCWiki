@@ -43,6 +43,7 @@ Kind equalities etc: [wiki:DependentHaskell], esp [wiki:DependentHaskell/Phase1]
 
 == Pattern matching ==
 
+ * #11253: duplicate warnings with new pattern checker
  * #11245: "patterns not matched" list is empty
  * #9793, #8761, #8581, #8779, #8761, #8583, #9911, #7736, #8582, #10339, #10426, #10404: pattern synonyms (Gergo)
  * #8581: bidirectional pattern synonyms (with different constraints)

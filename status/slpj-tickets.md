@@ -46,6 +46,7 @@ Kind equalities etc: [DependentHaskell](dependent-haskell), esp [DependentHaskel
 
 ## Pattern matching
 
+- [\#11253](https://gitlab.haskell.org//ghc/ghc/issues/11253): duplicate warnings with new pattern checker
 - [\#11245](https://gitlab.haskell.org//ghc/ghc/issues/11245): "patterns not matched" list is empty
 - [\#9793](https://gitlab.haskell.org//ghc/ghc/issues/9793), [\#8761](https://gitlab.haskell.org//ghc/ghc/issues/8761), [\#8581](https://gitlab.haskell.org//ghc/ghc/issues/8581), [\#8779](https://gitlab.haskell.org//ghc/ghc/issues/8779), [\#8761](https://gitlab.haskell.org//ghc/ghc/issues/8761), [\#8583](https://gitlab.haskell.org//ghc/ghc/issues/8583), [\#9911](https://gitlab.haskell.org//ghc/ghc/issues/9911), [\#7736](https://gitlab.haskell.org//ghc/ghc/issues/7736), [\#8582](https://gitlab.haskell.org//ghc/ghc/issues/8582), [\#10339](https://gitlab.haskell.org//ghc/ghc/issues/10339), [\#10426](https://gitlab.haskell.org//ghc/ghc/issues/10426), [\#10404](https://gitlab.haskell.org//ghc/ghc/issues/10404): pattern synonyms (Gergo)
 - [\#8581](https://gitlab.haskell.org//ghc/ghc/issues/8581): bidirectional pattern synonyms (with different constraints)
