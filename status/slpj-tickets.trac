@@ -11,7 +11,6 @@
  * #9960, #9805: `TrieMap` stuff
  * #10016: UNPACK support for existentials
  * #10803: type signature sections (Lennart)
- * #9793, #8761, #8581, #8779, #8761, #8583, #9911, #7736, #8582, #10339, #10426, #10404: pattern synonyms (Gergo)
  * #8634, #9267, #9227: relaxing functional dependency rules `-XDysFunctionalDependencies`
  * #9123: higher order roles
  * #9352: allow `State#` in FFI types.
@@ -41,8 +40,17 @@ Kind equalities etc: [wiki:DependentHaskell], esp [wiki:DependentHaskell/Phase1]
  * #8177: role signature for type families
  * #9547: kinding for empty constraint tuples
 
+== Pattern matching ==
+
+ * #11245: "patterns not matched" list is empty
+ * #9793, #8761, #8581, #8779, #8761, #8583, #9911, #7736, #8582, #10339, #10426, #10404: pattern synonyms (Gergo)
+ * #8581: bidirectional pattern synonyms (with different constraints)
+ * #10183: warning for redundant constraints, and pattern-match overlap warnings
+ * #9113: pattern match overlap/exhaustiveness checked in Typed TH
+ * #10393, #10116, #9951, #595, #5728, #3927, #5724, #5762, #4139, #6124, #7669, #322, #8016, #8494, #8853, #8970, #9113, #2204: '''pattern-match overlap checking''', including with GADTs
 
 == Generics and DeriveAnyClass ==
+
  * See [wiki:PedrosTickets]
  * #9821: `DeriveAnyClass` and higher kinded classes
  * #7492: replace `Rec1 f` with `f :.: Par1`
@@ -89,7 +97,6 @@ Code-size blowup when using `deriving`; see tickets with keyword `deriving-perf`
  * #10318, #10592, #11067: recursive superclasses
  * #10179: displaying kinds
  * #10089: better warnings for unused data types (involves instances)
- * #8581: bidirectional pattern synonyms (with different constraints)
  * #10027: export behaviour for data families
  * #9223: error message mentioning untouchables
  * #9198: slow typechecker (big types!)
@@ -106,7 +113,6 @@ Code-size blowup when using `deriving`; see tickets with keyword `deriving-perf`
 == Type inference ==
 
  * #10614: display constraints for typed holes
- * #10183: warning for redundant constraints, and pattern-match overlap warnings
  * #8171: extended default rules
  * #7828, #5267, #5777, #5333, #344: bugs in arrows
  * #7862: overlap beween givens and instances
@@ -124,7 +130,6 @@ See also [wiki:TemplateHaskell]
  * #10330: better TH error locations
  * #6089: nested declaration splices
  * #10271: difficulty resolving overloading in typed TH
- * #9113: pattern match overlap/exhaustiveness checked in Typed TH
  * [wiki:TemplateHaskell/Annotations] Gergely's work on annotations in TH
  * #1475: allow splicing of import declarations (5 in cc list)
  * #1012: mutually recursive modules and TH
@@ -313,7 +318,6 @@ See also [wiki:TemplateHaskell]
  * #4823: strength reduction for array indexing
  * #4479: type directed name resolution (TDNR)
  * #4426: simpler rule for implicit quantification
- * #10393, #10116, #9951, #595, #5728, #3927, #5724, #5762, #4139, #6124, #7669, #322, #8016, #8494, #8853, #8970, #9113, #2204: '''pattern-match overlap checking''', including with GADTs
  * #3701: Implicitly declared existentials: a class as a type
  * #3217: better flag handling for GHCi
  * #2600, #2110: '''Bind type variables and constraints in RULES'''
