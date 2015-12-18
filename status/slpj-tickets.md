@@ -12,7 +12,6 @@
 - [\#9960](https://gitlab.haskell.org//ghc/ghc/issues/9960), [\#9805](https://gitlab.haskell.org//ghc/ghc/issues/9805): `TrieMap` stuff
 - [\#10016](https://gitlab.haskell.org//ghc/ghc/issues/10016): UNPACK support for existentials
 - [\#10803](https://gitlab.haskell.org//ghc/ghc/issues/10803): type signature sections (Lennart)
-- [\#9793](https://gitlab.haskell.org//ghc/ghc/issues/9793), [\#8761](https://gitlab.haskell.org//ghc/ghc/issues/8761), [\#8581](https://gitlab.haskell.org//ghc/ghc/issues/8581), [\#8779](https://gitlab.haskell.org//ghc/ghc/issues/8779), [\#8761](https://gitlab.haskell.org//ghc/ghc/issues/8761), [\#8583](https://gitlab.haskell.org//ghc/ghc/issues/8583), [\#9911](https://gitlab.haskell.org//ghc/ghc/issues/9911), [\#7736](https://gitlab.haskell.org//ghc/ghc/issues/7736), [\#8582](https://gitlab.haskell.org//ghc/ghc/issues/8582), [\#10339](https://gitlab.haskell.org//ghc/ghc/issues/10339), [\#10426](https://gitlab.haskell.org//ghc/ghc/issues/10426), [\#10404](https://gitlab.haskell.org//ghc/ghc/issues/10404): pattern synonyms (Gergo)
 - [\#8634](https://gitlab.haskell.org//ghc/ghc/issues/8634), [\#9267](https://gitlab.haskell.org//ghc/ghc/issues/9267), [\#9227](https://gitlab.haskell.org//ghc/ghc/issues/9227): relaxing functional dependency rules `-XDysFunctionalDependencies`
 - [\#9123](https://gitlab.haskell.org//ghc/ghc/issues/9123): higher order roles
 - [\#9352](https://gitlab.haskell.org//ghc/ghc/issues/9352): allow `State#` in FFI types.
@@ -27,6 +26,7 @@
 Kind equalities etc: [DependentHaskell](dependent-haskell), esp [DependentHaskell/Phase1](dependent-haskell/phase1)
 
 - [\#11203](https://gitlab.haskell.org//ghc/ghc/issues/11203): Kind inference with `SigTvs` is wrong
+- [\#11080](https://gitlab.haskell.org//ghc/ghc/issues/11080): open data kinds
 - [\#10524](https://gitlab.haskell.org//ghc/ghc/issues/10524): Deriving and polykinds
 - [\#7102](https://gitlab.haskell.org//ghc/ghc/issues/7102): type instance overlap in GHCi is unsound
 - [\#10493](https://gitlab.haskell.org//ghc/ghc/issues/10493), [\#10494](https://gitlab.haskell.org//ghc/ghc/issues/10494): Bogus inaccessible code from `Coercible`
@@ -43,6 +43,16 @@ Kind equalities etc: [DependentHaskell](dependent-haskell), esp [DependentHaskel
 - [\#8161](https://gitlab.haskell.org//ghc/ghc/issues/8161): associated type more specific than class decl
 - [\#8177](https://gitlab.haskell.org//ghc/ghc/issues/8177): role signature for type families
 - [\#9547](https://gitlab.haskell.org//ghc/ghc/issues/9547): kinding for empty constraint tuples
+
+## Pattern matching
+
+- [\#11253](https://gitlab.haskell.org//ghc/ghc/issues/11253): duplicate warnings with new pattern checker
+- [\#11245](https://gitlab.haskell.org//ghc/ghc/issues/11245): "patterns not matched" list is empty
+- [\#9793](https://gitlab.haskell.org//ghc/ghc/issues/9793), [\#8761](https://gitlab.haskell.org//ghc/ghc/issues/8761), [\#8581](https://gitlab.haskell.org//ghc/ghc/issues/8581), [\#8779](https://gitlab.haskell.org//ghc/ghc/issues/8779), [\#8761](https://gitlab.haskell.org//ghc/ghc/issues/8761), [\#8583](https://gitlab.haskell.org//ghc/ghc/issues/8583), [\#9911](https://gitlab.haskell.org//ghc/ghc/issues/9911), [\#7736](https://gitlab.haskell.org//ghc/ghc/issues/7736), [\#8582](https://gitlab.haskell.org//ghc/ghc/issues/8582), [\#10339](https://gitlab.haskell.org//ghc/ghc/issues/10339), [\#10426](https://gitlab.haskell.org//ghc/ghc/issues/10426), [\#10404](https://gitlab.haskell.org//ghc/ghc/issues/10404): pattern synonyms (Gergo)
+- [\#8581](https://gitlab.haskell.org//ghc/ghc/issues/8581): bidirectional pattern synonyms (with different constraints)
+- [\#10183](https://gitlab.haskell.org//ghc/ghc/issues/10183): warning for redundant constraints, and pattern-match overlap warnings
+- [\#9113](https://gitlab.haskell.org//ghc/ghc/issues/9113): pattern match overlap/exhaustiveness checked in Typed TH
+- [\#10393](https://gitlab.haskell.org//ghc/ghc/issues/10393), [\#10116](https://gitlab.haskell.org//ghc/ghc/issues/10116), [\#9951](https://gitlab.haskell.org//ghc/ghc/issues/9951), [\#595](https://gitlab.haskell.org//ghc/ghc/issues/595), [\#5728](https://gitlab.haskell.org//ghc/ghc/issues/5728), [\#3927](https://gitlab.haskell.org//ghc/ghc/issues/3927), [\#5724](https://gitlab.haskell.org//ghc/ghc/issues/5724), [\#5762](https://gitlab.haskell.org//ghc/ghc/issues/5762), [\#4139](https://gitlab.haskell.org//ghc/ghc/issues/4139), [\#6124](https://gitlab.haskell.org//ghc/ghc/issues/6124), [\#7669](https://gitlab.haskell.org//ghc/ghc/issues/7669), [\#322](https://gitlab.haskell.org//ghc/ghc/issues/322), [\#8016](https://gitlab.haskell.org//ghc/ghc/issues/8016), [\#8494](https://gitlab.haskell.org//ghc/ghc/issues/8494), [\#8853](https://gitlab.haskell.org//ghc/ghc/issues/8853), [\#8970](https://gitlab.haskell.org//ghc/ghc/issues/8970), [\#9113](https://gitlab.haskell.org//ghc/ghc/issues/9113), [\#2204](https://gitlab.haskell.org//ghc/ghc/issues/2204): **pattern-match overlap checking**, including with GADTs
 
 ## Generics and DeriveAnyClass
 
@@ -75,13 +85,19 @@ Kind equalities etc: [DependentHaskell](dependent-haskell), esp [DependentHaskel
 - [\#9979](https://gitlab.haskell.org//ghc/ghc/issues/9979), [\#8814](https://gitlab.haskell.org//ghc/ghc/issues/8814), [\#8835](https://gitlab.haskell.org//ghc/ghc/issues/8835): attoparsec regressed 7.8.4 to HEAD
 - [\#8852](https://gitlab.haskell.org//ghc/ghc/issues/8852), [\#8980](https://gitlab.haskell.org//ghc/ghc/issues/8980), [\#8941](https://gitlab.haskell.org//ghc/ghc/issues/8941) (possibly), [\#9803](https://gitlab.haskell.org//ghc/ghc/issues/9803), [\#8960](https://gitlab.haskell.org//ghc/ghc/issues/8960), [\#7898](https://gitlab.haskell.org//ghc/ghc/issues/7898), [\#7068](https://gitlab.haskell.org//ghc/ghc/issues/7068), [\#7944](https://gitlab.haskell.org//ghc/ghc/issues/7944), [\#5550](https://gitlab.haskell.org//ghc/ghc/issues/5550), [\#8836](https://gitlab.haskell.org//ghc/ghc/issues/8836): `SpecConstr` blowup
 - [\#10289](https://gitlab.haskell.org//ghc/ghc/issues/10289): 2.5k static `HashSet` takes too much memory to compile
-- [\#9669](https://gitlab.haskell.org//ghc/ghc/issues/9669), [\#9557](https://gitlab.haskell.org//ghc/ghc/issues/9557), [\#8731](https://gitlab.haskell.org//ghc/ghc/issues/8731): slow compilation with lots of `deriving` clauses
-- [\#9583](https://gitlab.haskell.org//ghc/ghc/issues/9583), [\#9630](https://gitlab.haskell.org//ghc/ghc/issues/9630): code blowup in Generics/Binary
 - [\#10228](https://gitlab.haskell.org//ghc/ghc/issues/10228): compile-time regression from 7.8.4 to 7.10.1
-- [\#7450](https://gitlab.haskell.org//ghc/ghc/issues/7450), [\#7258](https://gitlab.haskell.org//ghc/ghc/issues/7258): deriving `Read` generates gigantic code. Better now, but still not linear.
 - [\#7428](https://gitlab.haskell.org//ghc/ghc/issues/7428): Non-linear compile time: `addFingerprint`??
 - [\#2346](https://gitlab.haskell.org//ghc/ghc/issues/2346): desugaring let-bindings
 - Use wildcards for dead variables in interface files.
+
+
+Code-size blowup when using `deriving`; see tickets with keyword `deriving-perf`
+
+- [\#7450](https://gitlab.haskell.org//ghc/ghc/issues/7450), [\#7258](https://gitlab.haskell.org//ghc/ghc/issues/7258): deriving `Read` generates gigantic code. Better now, but still not linear.
+- [\#9583](https://gitlab.haskell.org//ghc/ghc/issues/9583), [\#9630](https://gitlab.haskell.org//ghc/ghc/issues/9630): code blowup in Generics/Binary
+- [\#9669](https://gitlab.haskell.org//ghc/ghc/issues/9669), [\#9557](https://gitlab.haskell.org//ghc/ghc/issues/9557), [\#8731](https://gitlab.haskell.org//ghc/ghc/issues/8731): slow compilation with lots of `deriving` clauses
+- [\#10858](https://gitlab.haskell.org//ghc/ghc/issues/10858): `Ord` instances
+- [\#1544](https://gitlab.haskell.org//ghc/ghc/issues/1544): \`Read1 instances
 
 ## Front end
 
@@ -90,7 +106,6 @@ Kind equalities etc: [DependentHaskell](dependent-haskell), esp [DependentHaskel
 - [\#10318](https://gitlab.haskell.org//ghc/ghc/issues/10318), [\#10592](https://gitlab.haskell.org//ghc/ghc/issues/10592), [\#11067](https://gitlab.haskell.org//ghc/ghc/issues/11067): recursive superclasses
 - [\#10179](https://gitlab.haskell.org//ghc/ghc/issues/10179): displaying kinds
 - [\#10089](https://gitlab.haskell.org//ghc/ghc/issues/10089): better warnings for unused data types (involves instances)
-- [\#8581](https://gitlab.haskell.org//ghc/ghc/issues/8581): bidirectional pattern synonyms (with different constraints)
 - [\#10027](https://gitlab.haskell.org//ghc/ghc/issues/10027): export behaviour for data families
 - [\#9223](https://gitlab.haskell.org//ghc/ghc/issues/9223): error message mentioning untouchables
 - [\#9198](https://gitlab.haskell.org//ghc/ghc/issues/9198): slow typechecker (big types!)
@@ -107,7 +122,6 @@ Kind equalities etc: [DependentHaskell](dependent-haskell), esp [DependentHaskel
 ## Type inference
 
 - [\#10614](https://gitlab.haskell.org//ghc/ghc/issues/10614): display constraints for typed holes
-- [\#10183](https://gitlab.haskell.org//ghc/ghc/issues/10183): warning for redundant constraints, and pattern-match overlap warnings
 - [\#8171](https://gitlab.haskell.org//ghc/ghc/issues/8171): extended default rules
 - [\#7828](https://gitlab.haskell.org//ghc/ghc/issues/7828), [\#5267](https://gitlab.haskell.org//ghc/ghc/issues/5267), [\#5777](https://gitlab.haskell.org//ghc/ghc/issues/5777), [\#5333](https://gitlab.haskell.org//ghc/ghc/issues/5333), [\#344](https://gitlab.haskell.org//ghc/ghc/issues/344): bugs in arrows
 - [\#7862](https://gitlab.haskell.org//ghc/ghc/issues/7862): overlap beween givens and instances
@@ -127,7 +141,6 @@ See also [TemplateHaskell](template-haskell)
 - [\#10330](https://gitlab.haskell.org//ghc/ghc/issues/10330): better TH error locations
 - [\#6089](https://gitlab.haskell.org//ghc/ghc/issues/6089): nested declaration splices
 - [\#10271](https://gitlab.haskell.org//ghc/ghc/issues/10271): difficulty resolving overloading in typed TH
-- [\#9113](https://gitlab.haskell.org//ghc/ghc/issues/9113): pattern match overlap/exhaustiveness checked in Typed TH
 - [TemplateHaskell/Annotations](template-haskell/annotations) Gergely's work on annotations in TH
 - [\#1475](https://gitlab.haskell.org//ghc/ghc/issues/1475): allow splicing of import declarations (5 in cc list)
 - [\#1012](https://gitlab.haskell.org//ghc/ghc/issues/1012): mutually recursive modules and TH
@@ -328,7 +341,6 @@ See also [TemplateHaskell](template-haskell)
 - [\#4823](https://gitlab.haskell.org//ghc/ghc/issues/4823): strength reduction for array indexing
 - [\#4479](https://gitlab.haskell.org//ghc/ghc/issues/4479): type directed name resolution (TDNR)
 - [\#4426](https://gitlab.haskell.org//ghc/ghc/issues/4426): simpler rule for implicit quantification
-- [\#10393](https://gitlab.haskell.org//ghc/ghc/issues/10393), [\#10116](https://gitlab.haskell.org//ghc/ghc/issues/10116), [\#9951](https://gitlab.haskell.org//ghc/ghc/issues/9951), [\#595](https://gitlab.haskell.org//ghc/ghc/issues/595), [\#5728](https://gitlab.haskell.org//ghc/ghc/issues/5728), [\#3927](https://gitlab.haskell.org//ghc/ghc/issues/3927), [\#5724](https://gitlab.haskell.org//ghc/ghc/issues/5724), [\#5762](https://gitlab.haskell.org//ghc/ghc/issues/5762), [\#4139](https://gitlab.haskell.org//ghc/ghc/issues/4139), [\#6124](https://gitlab.haskell.org//ghc/ghc/issues/6124), [\#7669](https://gitlab.haskell.org//ghc/ghc/issues/7669), [\#322](https://gitlab.haskell.org//ghc/ghc/issues/322), [\#8016](https://gitlab.haskell.org//ghc/ghc/issues/8016), [\#8494](https://gitlab.haskell.org//ghc/ghc/issues/8494), [\#8853](https://gitlab.haskell.org//ghc/ghc/issues/8853), [\#8970](https://gitlab.haskell.org//ghc/ghc/issues/8970), [\#9113](https://gitlab.haskell.org//ghc/ghc/issues/9113), [\#2204](https://gitlab.haskell.org//ghc/ghc/issues/2204): **pattern-match overlap checking**, including with GADTs
 - [\#3701](https://gitlab.haskell.org//ghc/ghc/issues/3701): Implicitly declared existentials: a class as a type
 - [\#3217](https://gitlab.haskell.org//ghc/ghc/issues/3217): better flag handling for GHCi
 - [\#2600](https://gitlab.haskell.org//ghc/ghc/issues/2600), [\#2110](https://gitlab.haskell.org//ghc/ghc/issues/2110): **Bind type variables and constraints in RULES**
