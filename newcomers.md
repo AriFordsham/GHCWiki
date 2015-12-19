@@ -47,7 +47,7 @@ There are 4 things to remember:
   [make GHC build more quickly](building/using#how-to-make-ghc-build-quickly).
 
 1. Don't run `make` directly in the ghc root directory. Instead, first
-  change to the directory (usually `compiler`) where you're making your changes.
+  change to the directory (`compiler`, `utils`, `ghc` or `libraries`) where you're making your changes.
   See [Building a single sub-component](building/using#).
 
 1. Set `stage=2` in your `mk/build.mk` file, to
