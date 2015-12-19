@@ -43,14 +43,14 @@ make -j8 # parallelize to at most 8 parallel jobs; adapt to actual number of cpu
 
 There are 4 things to remember:
 
-1. Select `BuildFlavour = devel2` in your `build.mk` file, to
-  [make GHC build quickly](building/using#how-to-make-ghc-build-quickly).
+1. Select `BuildFlavour = devel2` in your `mk/build.mk` file (copy `mk/build.mk.sample` to `mk/build.mk` first), to
+  [make GHC build more quickly](building/using#how-to-make-ghc-build-quickly).
 
 1. Don't run `make` directly in the ghc root directory. Instead, first
   change to the directory (usually `compiler`) where you're making your changes.
   See [Building a single sub-component](building/using#).
 
-1. Set `stage=2` in your `build.mk` file, to
+1. Set `stage=2` in your `mk/build.mk` file, to
   [freeze the stage 1 compiler](building/using#freezing-stage-1).
   This makes sure that only the
   [stage-2](building/architecture/idiom/stages) compiler will be
