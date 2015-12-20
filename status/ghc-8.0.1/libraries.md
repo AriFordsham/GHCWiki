@@ -51,7 +51,7 @@ TODO Cabal HEAD/1.23 (NB: odd/even version scheme) should be used for the RC1. C
 
 [](http://hackage.haskell.org/package/binary)
 
-TODO`0.8.0.0` has just been released, please use that for RC1. GHC 8 final should ship the pending minor version bump release.
+DONE`0.8.0.0` has just been released, please use that for RC1. (TODO GHC 8 final should ship the pending minor version bump release.)
 
 ### `bytestring`
 
@@ -63,7 +63,7 @@ TODO most likely: RC1 will ship with the odd (unreleased) version `0.10.7.0`, wh
 
 [](http://hackage.haskell.org/package/containers)
 
-TODO Freshly released `0.5.7.1` should be used for GHC 8 (instead of previously announced `0.5.7.0`).
+DONE Freshly released `0.5.7.1` should be used for GHC 8 (instead of previously announced `0.5.7.0`).
 
 ### `deepseq`
 
@@ -93,7 +93,7 @@ DONE The release `0.7.2.2` should be used.
 
 [](http://hackage.haskell.org/package/hoopl)
 
-TODO
+TODO waiting on reaction from hoopl maintainers
 
 ### `hpc`
 
@@ -129,7 +129,7 @@ DONE Use `1.6`.
 
 [](http://hackage.haskell.org/package/transformers)
 
-TODO The upcoming `transformers-0.5.0.0` version is intended to be used for GHC 8.0; only blocker so far is a pending decision on [\#11135](https://gitlab.haskell.org//ghc/ghc/issues/11135)
+DONE The tagged `transformers-0.5.0.0` version is intended to be used for GHC 8.0
 
 ### `unix`
 
