@@ -7,7 +7,9 @@ This guide summarises the changes you may need to make to your code to migrate f
 ----------------------------------
 == Compiler changes
 
-TODO
+=== `-fwarn-pointless-pragmas`
+
+This flag has been removed and replaced by two flags `-fwarn-missed-specialisations` and `-fwarn-all-missed-specialisations`.
 
 --------------------------------
 == Library changes
