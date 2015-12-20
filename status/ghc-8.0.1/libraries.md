@@ -123,7 +123,7 @@ DONE The release `0.4.0.2` should be used.
 
 [](http://hackage.haskell.org/package/time)
 
-TODO (currently points to released version -- no need to act unless maintainer wishes to)
+DONE Use `1.6`.
 
 ### `transformers`
 
