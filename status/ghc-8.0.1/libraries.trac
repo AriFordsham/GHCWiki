@@ -129,7 +129,7 @@ DONE: The release `0.4.0.2` should be used.
 
 [[Image(https://img.shields.io/hackage/v/time.svg,link=hackage:time)]]
 
-TODO: (currently points to released version -- no need to act unless maintainer wishes to)
+DONE: Use `1.6`.
 
 
 === `transformers`
