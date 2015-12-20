@@ -51,7 +51,7 @@ TODO Cabal HEAD/1.23 (NB: odd/even version scheme) should be used for the RC1. C
 
 [](http://hackage.haskell.org/package/binary)
 
-TODO`0.8.0.0` has just been released, please use that for RC1. GHC 8 final should use should ship the pending minor version bump release.
+TODO`0.8.0.0` has just been released, please use that for RC1. GHC 8 final should ship the pending minor version bump release.
 
 ### `bytestring`
 
