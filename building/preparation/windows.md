@@ -21,31 +21,46 @@ Download and run the [ 32-bit MSYS2 installer](http://sourceforge.net/projects/m
 
 The result of attempting to create a 32-bit build on a 64-bit machine has not been documented yet. Building on a 32-bit version of Windows works, of course.
 
+
+From the [ MSYS2 installation instructions](http://sourceforge.net/p/msys2/wiki/MSYS2%20installation/):
+
+>
+> After installing or extracting MSYS2 you should start MSYS2 by executing msys2_shell.bat.
+>
+> >
+> > (if you did not use an installer and this is first time running of MSYS2 after unpacking, then at this point it will create the files and settings necessary for it to function properly. After this initial run you MUST restart MSYS2 so that the settings are correct)
+
 ### Configuring MinGW properly
 
-**IMPORTANT:** The MSYS2 installer creates multiple shortcuts, "MSYS2 Shell", "MinGW-w64 Win32 Shell" and "MinGW-w64 Win64 Shell". You do **not** want the "MSYS2 Shell." The MSYS2 shell is set up for building applications with Cygwin which provides an additional POSIX compatibility layer, while MinGW is set up for building native Windows applications which is what we need for GHC. 
+**IMPORTANT:** The MSYS2 installer creates multiple shortcuts, "MSYS2 Shell", "MinGW-w64 Win32 Shell" and "MinGW-w64 Win64 Shell". You do **not** want the "MSYS2 Shell." The MSYS2 shell is set up for building applications with Cygwin which provides an additional POSIX compatibility layer, while MinGW is set up for building native Windows applications which is what we need for GHC.
 
 
 An easy way to check that you are running the right shell is to check the output of `echo $MSYSTEM`. It should show either `MINGW32` or `MINGW64`. You can also tell by examining the `$PATH`.
-
-
-See [ MSYS2 installation instructions](http://sourceforge.net/p/msys2/wiki/MSYS2%20installation/) (section III) for details.
 
 **\*NOTE:**\* if after installing packages like Sphinx ./configure still reports it is missing, make sure `/mingw64/bin` (or `/mingw32/bin` depending on the arch you're building for)  is on the `$PATH`
 
 ## Installing packages & tools
 
 
-The msys2 package uses `pacman` (the venerable ArchLinux package manager) to manage packages. Let's install system dependencies required for building GHC:
+The msys2 package uses `pacman` (the venerable ArchLinux package manager) to manage packages. Before installing system dependencies required for building GHC, first let's update `pacman`. Modern msys2 versions include an `update-core` script and the preferred way of updating msys2 is as follows (from [ MSYS2 installation instructions](http://sourceforge.net/p/msys2/wiki/MSYS2%20installation/) Section III which also includes update instructions for old versions of msys2):
+
+>
+> Run **update-core**. If one of the packages is updated during script run you **MUST** restart MSYS2
+>
+>
+> Run **pacman -Su**
+
+
+Because msys2 programs all share the same address space for DLLs, updating bash, `pacman`, or msys2 itself may cause errors without restarting the shell. Running `update-core` avoids this by first syncing the local package databases with the latest repositories (`pacman -Sy`), then updating the core msys2 packages. Then, you can update the rest of the packages with `pacman -Su`. The `-S` (short for `--sync`) indicates that you wish to install the given packages. `-u` (short for `--sysupgrade`) indicates that you want to upgrade existing packages.
+
+
+Now we can install GHC's system dependencies as followed:
 
 ```wiki
-pacman --sync --sysupgrade --needed --refresh git tar \
-    binutils autoconf make libtool automake python2 \
-    p7zip patch gcc mingw-w64-$(uname -m)-python3-sphinx
+pacman -S git tar binutils autoconf make \
+    libtool automake python2 p7zip patch \
+    gcc mingw-w64-$(uname -m)-python3-sphinx
 ```
-
-
-The `--sync` (abbreviated as `-S`) indicates that you wish to install the given packages. `--sysupgrade` (short form `-u`) indicates that you want to upgrade existing packages. `--refresh` (short form `-y`) indicates that the local package indexes should be updated.
 
 
 If this `pacman` process fails (as it sometimes does) you can simply re-run it as it ought to be idempotent.
