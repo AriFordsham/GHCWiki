@@ -32,6 +32,8 @@ Below are the major highlights of 8.0.
 
   - Support for strictness and unpacking in Template Haskell (Trac #10697, Phab:D1603)
 
+  - Pattern matching flags (re: OptCoercion explositon)
+
 === Landed in HEAD
 
   - Consistent warning options (#11218, Phab:D1613)
