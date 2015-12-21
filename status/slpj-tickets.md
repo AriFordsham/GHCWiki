@@ -186,6 +186,7 @@ See also [TemplateHaskell](template-haskell)
 
 ### Inlining
 
+- [\#11240](https://gitlab.haskell.org//ghc/ghc/issues/11240), [\#8833](https://gitlab.haskell.org//ghc/ghc/issues/8833), [\#3872](https://gitlab.haskell.org//ghc/ghc/issues/3872), [\#5400](https://gitlab.haskell.org//ghc/ghc/issues/5400), [\#5448](https://gitlab.haskell.org//ghc/ghc/issues/5448), [\#5722](https://gitlab.haskell.org//ghc/ghc/issues/5722), [\#7057](https://gitlab.haskell.org//ghc/ghc/issues/7057), [\#7369](https://gitlab.haskell.org//ghc/ghc/issues/7369), [\#9235](https://gitlab.haskell.org//ghc/ghc/issues/9235): Russell's paradox; Y combinator; contravariant data type loop in simplifier inliner
 - [\#4833](https://gitlab.haskell.org//ghc/ghc/issues/4833): finding the right loop breaker
 - [\#3781](https://gitlab.haskell.org//ghc/ghc/issues/3781), [\#3755](https://gitlab.haskell.org//ghc/ghc/issues/3755): inlining for local functions: discount for scrutinising free vars
 - [\#3765](https://gitlab.haskell.org//ghc/ghc/issues/3765): CONLIKE things and case expressions (need two unfoldings)
@@ -217,7 +218,6 @@ See also [TemplateHaskell](template-haskell)
 - [\#7378](https://gitlab.haskell.org//ghc/ghc/issues/7378): (a) identical-alts when the RHSs are bigger; (b) nested comparisions (cf [\#2132](https://gitlab.haskell.org//ghc/ghc/issues/2132))
 - [\#7511](https://gitlab.haskell.org//ghc/ghc/issues/7511): inlining can make programs allocate MORE!!
 - [\#7307](https://gitlab.haskell.org//ghc/ghc/issues/7307): low hanging fruit for shrinking code size for string constants and top-level indirections
-- [\#11240](https://gitlab.haskell.org//ghc/ghc/issues/11240), [\#8833](https://gitlab.haskell.org//ghc/ghc/issues/8833), [\#3872](https://gitlab.haskell.org//ghc/ghc/issues/3872), [\#5400](https://gitlab.haskell.org//ghc/ghc/issues/5400), [\#5448](https://gitlab.haskell.org//ghc/ghc/issues/5448), [\#5722](https://gitlab.haskell.org//ghc/ghc/issues/5722), [\#7057](https://gitlab.haskell.org//ghc/ghc/issues/7057), [\#7369](https://gitlab.haskell.org//ghc/ghc/issues/7369), [\#9235](https://gitlab.haskell.org//ghc/ghc/issues/9235): contravariant data type loop in simplifier inliner
 - [\#5954](https://gitlab.haskell.org//ghc/ghc/issues/5954): performance regression. Duplication of primops?
 - [\#6047](https://gitlab.haskell.org//ghc/ghc/issues/6047): GHC retains unnecessary binding
 - [\#2439](https://gitlab.haskell.org//ghc/ghc/issues/2439): Strict dictionaries; see also map/coerce rule [\#9792](https://gitlab.haskell.org//ghc/ghc/issues/9792)
