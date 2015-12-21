@@ -22,6 +22,7 @@
  
 Kind equalities etc: [wiki:DependentHaskell], esp [wiki:DependentHaskell/Phase1]
 
+ * #1311: newtypes over unboxed types
  * #11203: Kind inference with `SigTvs` is wrong
  * #11080: open data kinds
  * #10524: Deriving and polykinds
