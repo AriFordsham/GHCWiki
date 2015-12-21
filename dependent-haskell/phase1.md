@@ -1,6 +1,7 @@
 **UPDATE Dec 11, 2015:** The merge is underway. There are a few outstanding issues:
 
 - [\#11237](https://gitlab.haskell.org//ghc/ghc/issues/11237)
+- [\#11241](https://gitlab.haskell.org//ghc/ghc/issues/11241): wildcards in kinds
 - [\#11195](https://gitlab.haskell.org//ghc/ghc/issues/11195): `OptCoercion` now takes forever to compile. It seems to be that pattern guards are causing the new completeness-checker to overwork.
 - [\#11196](https://gitlab.haskell.org//ghc/ghc/issues/11196): A handful of performance regressions.
 - [\#11197](https://gitlab.haskell.org//ghc/ghc/issues/11197): Deferred type errors are more eager.
