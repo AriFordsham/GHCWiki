@@ -30,23 +30,23 @@ Below are the major highlights of 8.0.
 
 ### In-flight, and likely to land in time
 
-- Expose enabled language extensions to [TemplateHaskell](template-haskell) (Ben, [ Phab:D1200](https://phabricator.haskell.org/D1200))
-
 - An [Improved LLVM Backend](improved-llvm-backend) that ships with every major Tier 1 platform (Austin, [\#10074](https://gitlab.haskell.org//ghc/ghc/issues/10074))
 
-- Recursive superclasses (Simon, [ Phab:D1594](https://phabricator.haskell.org/D1594), [\#11067](https://gitlab.haskell.org//ghc/ghc/issues/11067))
-
-- Documentation for OverloadedLabels (Adam)
-
 - Documentation for `-XTypeInType` (Richard)
+
+- Support for strictness and unpacking in Template Haskell (Trac [\#10697](https://gitlab.haskell.org//ghc/ghc/issues/10697), [ Phab:D1603](https://phabricator.haskell.org/D1603))
+
+### Landed in HEAD
 
 - Consistent warning options ([\#11218](https://gitlab.haskell.org//ghc/ghc/issues/11218), [ Phab:D1613](https://phabricator.haskell.org/D1613))
 
 - More expressive Generics metadata (Ryan Scott, Trac [\#10716](https://gitlab.haskell.org//ghc/ghc/issues/10716), [\#10697](https://gitlab.haskell.org//ghc/ghc/issues/10697), [ Phab:D493](https://phabricator.haskell.org/D493))
 
-- Support for strictness and unpacking in Template Haskell (Trac [\#10697](https://gitlab.haskell.org//ghc/ghc/issues/10697), [ Phab:D1603](https://phabricator.haskell.org/D1603))
+- Expose enabled language extensions to [TemplateHaskell](template-haskell) (Ben, [ Phab:D1200](https://phabricator.haskell.org/D1200))
 
-### Landed in HEAD
+- Recursive superclasses (Simon, [ Phab:D1594](https://phabricator.haskell.org/D1594), [\#11067](https://gitlab.haskell.org//ghc/ghc/issues/11067))
+
+- Documentation for OverloadedLabels (Adam)
 
 - Use `Cxt` in Template Haskell's representation of `deriving` clauses ([ Phab:D1202](https://phabricator.haskell.org/D1202))
 
