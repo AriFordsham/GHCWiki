@@ -1,4 +1,4 @@
-# Exhaustiveness/Redundancy Check \[To Be Updated Soon\]
+# Exhaustiveness/Redundancy Check
 
 
 As stated in [\#595](https://gitlab.haskell.org//ghc/ghc/issues/595), GHC's overlapping/non-exhaustive pattern checking is old and
