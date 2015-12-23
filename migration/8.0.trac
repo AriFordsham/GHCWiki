@@ -19,7 +19,7 @@ This flag was widely regarded as a misfeature, in prior versions it issued a dep
 
 The old syntax which allowed quotes to be prefixed by `$` has been removed. 
 
-{{{!#hs
+{{{#!hs
 -- Old Syntax
 foo = [$e| ... ] 
 
