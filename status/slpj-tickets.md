@@ -51,7 +51,7 @@ Kind equalities etc: [DependentHaskell](dependent-haskell), esp [DependentHaskel
 See [George's status page on the new pattern-match checker](pattern-match-check)
 
 
-See the pattern-synonym status page?
+See [the pattern-synonym status page](pattern-synonyms)
 
 - [\#11253](https://gitlab.haskell.org//ghc/ghc/issues/11253): duplicate warnings with new pattern checker
 - [\#11245](https://gitlab.haskell.org//ghc/ghc/issues/11245): "patterns not matched" list is empty

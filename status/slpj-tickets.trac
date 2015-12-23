@@ -46,7 +46,7 @@ Kind equalities etc: [wiki:DependentHaskell], esp [wiki:DependentHaskell/Phase1]
 
 See [wiki:PatternMatchCheck George's status page on the new pattern-match checker]
 
-See [wiki:PatternSyonyms the pattern-synonym status page]
+See [wiki:PatternSynonyms the pattern-synonym status page]
 
  * #11253: duplicate warnings with new pattern checker
  * #11245: "patterns not matched" list is empty
