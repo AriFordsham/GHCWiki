@@ -44,6 +44,7 @@ we describe the problem and the algorithm.  It forms part of GHC 8.0.
 - [\#7669](https://gitlab.haskell.org//ghc/ghc/issues/7669)
 - [\#8016](https://gitlab.haskell.org//ghc/ghc/issues/8016)
 - [\#8494](https://gitlab.haskell.org//ghc/ghc/issues/8494)
+- [\#8779](https://gitlab.haskell.org//ghc/ghc/issues/8779)
 - [\#8853](https://gitlab.haskell.org//ghc/ghc/issues/8853)
 - [\#8970](https://gitlab.haskell.org//ghc/ghc/issues/8970)
 - [\#9113](https://gitlab.haskell.org//ghc/ghc/issues/9113)

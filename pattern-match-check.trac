@@ -40,6 +40,7 @@ we describe the problem and the algorithm.  It forms part of GHC 8.0.
  * #7669
  * #8016
  * #8494
+ * #8779
  * #8853
  * #8970
  * #9113
