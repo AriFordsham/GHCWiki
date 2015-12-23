@@ -46,10 +46,10 @@ Kind equalities etc: [wiki:DependentHaskell], esp [wiki:DependentHaskell/Phase1]
 
 See [wiki:PatternMatchCheck George's status page on the new pattern-match checker]
 
+See [wiki:PatternSyonyms the pattern-synonym status page]
+
  * #11253: duplicate warnings with new pattern checker
  * #11245: "patterns not matched" list is empty
- * #9793, #8761, #8581, #8779, #8761, #8583, #9911, #7736, #8582, #10339, #10426, #10404: pattern synonyms (Gergo)
- * #8581: bidirectional pattern synonyms (with different constraints)
  * #10183: warning for redundant constraints, and pattern-match overlap warnings
  * #9113: pattern match overlap/exhaustiveness checked in Typed TH
  * #10393, #10116, #9951, #595, #5728, #3927, #5724, #5762, #4139, #6124, #7669, #322, #8016, #8494, #8853, #8970, #9113, #2204: '''pattern-match overlap checking''', including with GADTs
