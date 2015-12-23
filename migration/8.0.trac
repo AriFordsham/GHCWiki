@@ -11,6 +11,10 @@ This guide summarises the changes you may need to make to your code to migrate f
 
 This flag has been removed and replaced by two flags `-Wmissed-specialisations` and `-Wall-missed-specialisations`.
 
+=== `DatatypeContexts`
+
+This flag was widely regarded as a misfeature, in prior versions it issued a deprecation warning, it it now not supported at all.
+
 --------------------------------
 == Library changes
 
