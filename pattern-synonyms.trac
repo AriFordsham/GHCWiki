@@ -5,7 +5,7 @@ This proposal provides the same power for patterns.
 See the [wiki:PatternSynonyms/Implementation implementation] page for implementation details.
 
 Open Tickets:
-[[TicketQuery(status=infoneeded,status=new,keywords=~PatternSynonyms)]]
+[[TicketQuery(status=infoneeded,status=new|patch,keywords=~PatternSynonyms)]]
 
 Closed Tickets:
 [[TicketQuery(status=infoneeded,status=closed,keywords=~PatternSynonyms)]]
