@@ -2,10 +2,10 @@
 
 
 Most language entities in Haskell can be named so that they can be abbreviated instead of written out in full.
-This proposal provides the same power for patterns.
+This proposal provides the same power for patterns.  See the [implementation](pattern-synonyms/implementation) page for implementation details.
 
 
-See the [implementation](pattern-synonyms/implementation) page for implementation details.
+Tickets should include **PatternSynonym** in their Keywords to appear in these summary lists.
 
 
 Open Tickets:
