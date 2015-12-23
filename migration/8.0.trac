@@ -15,6 +15,18 @@ This flag has been removed and replaced by two flags `-Wmissed-specialisations` 
 
 This flag was widely regarded as a misfeature, in prior versions it issued a deprecation warning, it it now not supported at all.
 
+=== Old QuasiQuote syntax
+
+The old syntax which allowed quotes to be prefixed by `$` has been removed. 
+
+{{{!#hs
+-- Old Syntax
+foo = [$e| ... ] 
+
+-- New Syntax
+foo = [e| ... ]
+
+
 --------------------------------
 == Library changes
 
