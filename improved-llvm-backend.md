@@ -10,7 +10,7 @@ We're planning on shipping **GHC 8.0** with the fundamental improvements outline
 Not in scope for 8.0:
 
 - Fixing split-objs (but also see [ Phab:D1242](https://phabricator.haskell.org/D1242))
-- Tweaking optimization settings
+- Tweaking optimization settings ([\#11295](https://gitlab.haskell.org//ghc/ghc/issues/11295))
 
 # See below for full notes
 
