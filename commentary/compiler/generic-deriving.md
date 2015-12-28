@@ -328,6 +328,8 @@ But I'm not entirely sure about this.
 
 ## GHC 8.0 and later
 
+### Type-level metadata encoding
+
 
 Because what we've described so far is rather backwards-incompatible, we wanted to at least try to improve the encoding of metadata, which was currently rather clunky prior to GHC 8.0 (giving rise to lots of empty, compiler-generated datatypes and respective instances). We can accomplished that by changing `M1` to keep the meta-information *at the type level*:
 
@@ -336,8 +338,7 @@ newtype M1 i (c :: Meta) f p = M1 { unM1 :: f p }
 
 data Meta = MetaData Symbol Symbol  Bool
           | MetaCons Symbol FixityI Bool
-          | MetaSel  Symbol
-          | MetaNoSel
+          | MetaSel  Symbol SourceUnpackedness SourceStrictness DecidedStrictness
 
 data Fixity  = Prefix  | Infix  Associativity Int
 data FixityI = PrefixI | InfixI Associativity Nat
@@ -345,10 +346,22 @@ data FixityI = PrefixI | InfixI Associativity Nat
 data Associativity = LeftAssociative
                    | RightAssociative
                    | NotAssociative
+
+data SourceUnpackedness = NoSourceUnpackedness
+                        | SourceNoUnpack
+                        | SourceUnpack
+
+data SourceStrictness = NoSourceStrictness
+                      | SourceLazy
+                      | SourceStrict
+
+data DecidedStrictness = DecidedLazy
+                       | DecidedStrict
+                       | DecidedUnpack
 ```
 
 
-Why did we need to add `FixityI`? Because `Fixity` does not promote. Yet, we wanted to expose `Fixity` to the user, not `FixityI`. Note that the meta-data classes remained unchanged:
+Why did we need to add `FixityI`? Because `Fixity` does not promote. Yet, we wanted to expose `Fixity` to the user, not `FixityI`. Note that the meta-data classes remained mostly unchanged (aside from some enhancements to [ Datatype](https://ghc.haskell.org/trac/ghc/ticket/10030) and [ Selector](https://ghc.haskell.org/trac/ghc/ticket/10716)):
 
 ```wiki
 class Datatype d where
@@ -358,12 +371,15 @@ class Datatype d where
   isNewtype    :: t d (f :: * -> *) a -> Bool
 
 class Constructor c where
-  conName :: t c (f :: * -> *) a -> [Char]
-  conFixity :: t c (f :: * -> *) a -> Fixity
+  conName     :: t c (f :: * -> *) a -> [Char]
+  conFixity   :: t c (f :: * -> *) a -> Fixity
   conIsRecord :: t c (f :: * -> *) a -> Bool
 
 class Selector s where
-  selName :: t s (f :: * -> *) a -> [Char]
+  selName               :: t s (f :: * -> *) a -> [Char]
+  selSourceUnpackedness :: t s (f :: * -> *) a -> SourceUnpackedness
+  selSourceStrictness   :: t s (f :: * -> *) a -> SourceStrictness
+  selDecidedStrictness  :: t s (f :: * -> *) a -> DecidedStrictness
 ```
 
 
@@ -383,15 +399,16 @@ instance (KnownSymbol n, SingI f, SingI r)
   conFixity   _ = fromSing  (sing  :: Sing f)
   conIsRecord _ = fromSing  (sing  :: Sing r)
 
-instance (KnownSymbol s) => Selector ('MetaSel s) where
-  selName _ = symbolVal (Proxy :: Proxy s)
-
-instance Selector 'MetaNoSel where
-  selName _ = ""
+instance (SingI mn, SingI su, SingI ss, SingI ds)
+    => Selector ('MetaSel mn su ss ds) where
+  selName               _ = fromMaybe "" (fromSing (sing :: Sing mn))
+  selSourceUnpackedness _ = fromSing (sing :: Sing su)
+  selSourceStrictness   _ = fromSing (sing :: Sing ss)
+  selDecidedStrictness  _ = fromSing (sing :: Sing ds)
 ```
 
 
-Naturally, we require singletons for `Bool`, `FixityI`, and `Associativity`, but that is one time boilerplate code, and is not visible for the user. (In particular, this is where we encode that the demotion of (the kind) `FixityI` is (the type) `Fixity`.)
+Naturally, we require singletons for `Bool`, `Maybe`, `FixityI`, `Associativity`, `SourceUnpackedness`, `SourceStrictness`, and `DecidedStrictness`, but that is one time boilerplate code, and is not visible for the user. (In particular, this is where we encode that the demotion of (the kind) `FixityI` is (the type) `Fixity`.)
 
 
 I believe this change is almost fully backwards-compatible, and lets us simplify the code for `deriving Generic` in GHC. Furthermore, I suspect it will be useful to writers of generic functions, who can now match at the type-level on things such as whether a constructor is a record or not.
@@ -399,7 +416,7 @@ I believe this change is almost fully backwards-compatible, and lets us simplify
 
 I say "almost fully backwards-compatible" because handwritten `Generic` instances might break with this change. But we've never recommended doing this, and I think users who do this are more than aware that they shouldn't rely on it working across different versions of GHC.
 
-### Example
+#### Example
 
 
 Before GHC 8.0, the following declaration:
@@ -415,7 +432,6 @@ Would have generated all of this:
 instanceGenericExamplewheretypeRepExample=D1D1Example(C1C1_0Example(S1NoSelectorU1))...dataD1ExampledataC1_0ExampleinstanceDatatypeD1Examplewhere
   datatypeName _="Example"
   moduleName   _="Module"
-  packageName  _="package"
   isNewtype    _=FalseinstanceConstructorC1_0Examplewhere
   conName     _="Example"
   conFixity   _=Prefix
@@ -423,14 +439,59 @@ instanceGenericExamplewheretypeRepExample=D1D1Example(C1C1_0Example(S1NoSelector
 ```
 
 
-But on GHC 8.0 and later, this is all that is generated:
+But on GHC 8.0 and later, this is all that is generated (assuming it was compiled with no strictness optimizations):
 
 ```
-instanceGenericExamplewheretypeRepExample=D1('MetaData"Example""Module""package"'False)(C1('MetaCons"Example"'PrefixI'False)(S1'MetaNoSelU1))...
+instanceGenericExamplewheretypeRepExample=D1('MetaData"Example""Module""package"'False)(C1('MetaCons"Example"'PrefixI'False)(S1'MetaSel'Nothing'NoSourceUnpackedness'NoSourceStrictness'DecidedLazyU1))...
 ```
 
 
 Not bad!
+
+### Strictness
+
+
+The `Selector` class now looks like this:
+
+```
+classSelector s where
+  selName               :: t s (f ::*->*) a ->[Char]
+  selSourceUnpackedness :: t s (f ::*->*) a ->SourceUnpackedness
+  selSourceStrictness   :: t s (f ::*->*) a ->SourceStrictness
+  selDecidedStrictness  :: t s (f ::*->*) a ->DecidedStrictnessdataSourceUnpackedness=NoSourceUnpackedness|SourceNoUnpack|SourceUnpackdataSourceStrictness=NoSourceStrictness|SourceLazy|SourceStrictdataDecidedStrictness=DecidedLazy|DecidedStrict|DecidedUnpack
+```
+
+
+This design draws much inspiration from the way Template Haskell handles strictness as of GHC 8.0 (see [ here](https://ghc.haskell.org/trac/ghc/ticket/10697) for what motivated the change). We make a distinction between the *source* strictness annotations and the strictness GHC actually *decides* during compilation. To illustrate the difference, consider the following data type:
+
+```
+dataT=T{-# UNPACK #-}!Int!IntIntderivingGeneric
+```
+
+
+If we were to encode the source unpackedness and strictness of each of `T`'s fields, they were be `SourceUnpack`/`SourceStrict`, `NoSourceUnpackedness`/`SourceStrict`, and `NoSourceUnpackedness`/`NoSourceStrictness`, no matter what. Source unpackedness/strictness is a purely syntactic property.
+
+
+The strictness that the user writes, however, may be different from the strictness that GHC decides during compilation. For instance, if we were to compile `T` with no optimizations, the decided strictness of each field would be `DecidedStrict`, `DecidedStrict`, and `DecidedLazy`. If we enabled `-O2`, however, they would be `DecidedUnpack`, `DecidedStrict`, and `DecidedLazy`.
+
+
+Things become even more interesting when `-XStrict` and `-O2` are enabled. Then the strictness that GHC would decided is `DecidedUnpack`, `DecidedStrict`, and `DecidedStrict`. And if you enable `-XStrict`, `-O2`, *and*`-funbox-strict-fields`, then the decided strictness is `DecidedUnpack`, `DecidedUnpack`, and `DecidedUnpack`.
+
+
+The variety of possible `DecidedStrictness` combinations demonstrates that strictness is more just annotation—it's also a dynamic property of the compiled code. Both facets of strictness can be useful to a generic programmer, so we include both in the above design. That way, you get more bang for your buck.
+
+
+One key difference between the way Template Haskell handles strictness and the way GHC generics would handle strictness is that in the former, source and decided strictness are decoupled, whereas the latter lumps them all into `MetaSel`. This is a result of Template Haskell allowing programmers to splice in TH ASTs directly into Haskell source code. Imagine if you wanted to splice in a datatype that had not been declared yet (i.e., one GHC had not compiled). You'd probably write something like this
+
+```
+$([d|...BangNoSourceUnpackednessNoSourceStrictness???...|])
+```
+
+
+and become stuck. What do you put in place of `???`? After all, you'd need a *decided* strictness, but there's no way to know what GHC had decided yet—the datatype hasn't been compiled!
+
+
+GHC generics does not suffer from this problem, since you can only reify metadata with generics, not splice metadata back into code. Therefore, we can bundle both source and decided strictness with `MetaSel` without issue.
 
 # Using standard deriving for generic functions
 
@@ -715,50 +776,3 @@ yields:
 ```
 instanceGenericIntHashwheretypeRepIntHash=D1('MetaData"IntHash""Module""package"'False)(C1('MetaCons"IntHash"'Prefix'False)(S1'MetaNoSelUInt))
 ```
-
-# Proposal: strictness metadata
-
-[ Trac \#10716](https://ghc.haskell.org/trac/ghc/ticket/10716) proposes encoding metadata into the `Selector` class. Here is one take at implementing this.
-
-## Add `selBang` to `Selector`
-
-
-The `Selector` class will now look like this:
-
-```
-classSelector s where-- | The name of the selector
-   selName :: t s (f ::*->*) a ->[Char]-- | The selector's strictness information
-   selBang :: t s (f ::*->*) a ->BangdataBang=BangSourceUnpackednessSourceStrictnessDecidedStrictnessdataSourceUnpackedness=NoSourceUnpackedness|SourceNoUnpack|SourceUnpackdataSourceStrictness=NoSourceStrictness|SourceLazy|SourceStrictdataDecidedStrictness=DecidedLazy|DecidedStrict|DecidedUnpack
-```
-
-
-This design draws much inspiration from the way Template Haskell handles strictness as of GHC 8.0 (see [ here](https://ghc.haskell.org/trac/ghc/ticket/10697) for what motivated the change). We make a distinction between the *source* strictness annotations and the strictness GHC actually *decides* during compilation. To illustrate the difference, consider the following data type:
-
-```
-dataT=T{-# UNPACK #-}!Int!IntIntderivingGeneric
-```
-
-
-If we were to encode the source unpackedness and strictness of each of `T`'s fields, they were be `SourceUnpack`/`SourceStrict`, `NoSourceUnpackedness`/`SourceStrict`, and `NoSourceUnpackedness`/`NoSourceStrictness`, no matter what. Source unpackedness/strictness is a purely syntactic property.
-
-
-The strictness that the user writes, however, may be different from the strictness that GHC decides during compilation. For instance, if we were to compile `T` with no optimizations, the decided strictness of each field would be `DecidedStrict`, `DecidedStrict`, and `DecidedLazy`. If we enabled `-O2`, however, they would be `DecidedUnpack`, `DecidedStrict`, and `DecidedLazy`.
-
-
-Things become even more interesting when `-XStrict` and `-O2` are enabled. Then the strictness that GHC would decided is `DecidedUnpack`, `DecidedStrict`, and `DecidedStrict`. And if you enable `-XStrict`, `-O2`, *and*`-funbox-strict-fields`, then the decided strictness is `DecidedUnpack`, `DecidedUnpack`, and `DecidedUnpack`.
-
-
-The variety of possible `DecidedStrictness` combinations demonstrates that strictness is more just annotation—it's also a dynamic property of the compiled code. Both facets of strictness can be useful to a generic programmer, so we include both in the above design. That way, you get more `Bang` for your buck.
-
-
-One key difference between the way Template Haskell handles strictness and the way GHC generics would handle strictness is that in the former, source and decided strictness are decoupled, whereas the latter lumps them all into `Bang`. This is a result of Template Haskell allowing programmers to splice in TH ASTs directly into Haskell source code. Imagine if you wanted to splice in a datatype that had not been declared yet (i.e., one GHC had not compiled). You'd probably write something like this
-
-```
-$([d|...BangNoSourceUnpackednessNoSourceStrictness???...|])
-```
-
-
-and become stuck. What do you put in place of `???`? After all, you'd need a *decided* strictness, but there's no way to know what GHC had decided yet—the datatype hasn't been compiled!
-
-
-GHC generics does not suffer from this problem, since you can only reify metadata with generics, not splice metadata back into code. Therefore, we can bundle both source and decided strictness with `Bang` without issue.
