@@ -11,7 +11,20 @@ This guide summarises the changes you may need to make to your code to migrate f
 
 This flag has been removed and replaced by two flags `-Wmissed-specialisations` and `-Wall-missed-specialisations`.
 
-=== `DatatypeContexts`
+=== Old GADT record syntax
+
+The old syntax for record constructors for a GADT has been removed
+
+{{{#!hs
+-- Old Syntax
+data G2 a :: * where
+  G2A { g2a :: a, g2b :: Int } :: G2 a
+
+-- New Syntax
+data G2 a :: * where
+  G2A :: { g2a :: a, g2b :: Int } -> G2 a
+
+}}}
 
 This flag was widely regarded as a misfeature, in prior versions it issued a deprecation warning, it it now not supported at all.
 
