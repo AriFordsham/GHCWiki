@@ -42,6 +42,65 @@ foo = [e| ... ]
 A new warning that needs to be enabled via `-fwarn-noncanonical-monad-instances` is available to help detect code which may be at risk.
 
 
+==== New `Generic` metadata representation ====
+
+GHC 8.0 changes the way GHC generics encodes metadata. Previously, an empty data type would be generated for every datatype, constructor, and record selector associated with a `Generic` instance. For example:
+
+{{{#!hs
+data Example a = Example a deriving Generic
+}}}
+
+would have generated the following code prior to GHC 8.0:
+
+{{{#!hs
+instance Generic (Example a) where
+  type Rep (Example a) =
+    D1 D1Example
+      (C1 C1_0Example
+        (S1 NoSelector (Rec0 a)))
+  ...
+
+data D1Example
+data C1_0Example
+
+instance Datatype D1Example where ...
+instance Constructor C1_0Example where ...
+}}}
+
+GHC 8.0, on the other hand, does not generate empty data types. The `M1` data type in `GHC.Generics` has been modified so that it is parameterized by a new `Meta` type:
+
+{{{#!hs
+data Meta = MetaData Symbol Symbol Symbol Bool
+          | MetaCons Symbol FixityI Bool
+          | MetaSel  (Maybe Symbol) SourceUnpackedness SourceStrictness DecidedStrictness
+
+newtype M1 (i :: *) (c :: Meta) (f :: * -> *) (p :: *) = M1 { unM1 :: f p }
+type D1 = M1 D
+type C1 = M1 C
+type S1 = M1 S
+}}}
+
+There is now only one instance for `Datatype`, `Constructor`, and `Selector`. (For more information on how this works, see [https://ghc.haskell.org/trac/ghc/wiki/Commentary/Compiler/GenericDeriving#Type-levelmetadataencoding this].)
+
+{{{#!hs
+instance Datatype ('MetaData n m p nt) where ...
+instance Constructor ('MetaCons n f r) where ...
+instance Selector ('MetaSel mn su ss ds) where ...
+}}}
+
+One major consequence of the additions to `MetaSel` is that the `NoSelector` datatype is insufficient to express all of the strictness properties of a record selector, so `NoSelector` was removed. If your generics-related code only mentions the `Datatype`, `Constructor`, and `Selector` typeclasses, it will not need to change. If your code does something more ambitious like checking for the presence of `NoSelector`, it will need to be updated to use `MetaSel` instead. For example, the above `Example` would have the following code generated:
+
+{{{#!hs
+instance Generic (Example a) where
+  type Rep (Example a) =
+    D1 ('MetaData "Example" "Module" "package" 'False)
+      (C1 ('MetaCons "Example" 'PrefixI 'False)
+        (S1 ('MetaSel 'Nothing 'NoSourceUnpackedness 'NoSourceStrictness 'DecidedLazy)
+          (Rec0 a)))
+}}}
+
+Notice that since `Example` has no record selector, it generated `('MetaSel 'Nothing ...)` instead of `('MetaSel ('Just "recordName") ...)`.
+
 ==== ...
 TODO
 
