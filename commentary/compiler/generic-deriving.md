@@ -442,7 +442,7 @@ instanceGenericExamplewheretypeRepExample=D1D1Example(C1C1_0Example(S1NoSelector
 But on GHC 8.0 and later, this is all that is generated (assuming it was compiled with no strictness optimizations):
 
 ```
-instanceGenericExamplewheretypeRepExample=D1('MetaData"Example""Module""package"'False)(C1('MetaCons"Example"'PrefixI'False)(S1'MetaSel'Nothing'NoSourceUnpackedness'NoSourceStrictness'DecidedLazyU1))...
+instanceGenericExamplewheretypeRepExample=D1('MetaData"Example""Module""package"'False)(C1('MetaCons"Example"'PrefixI'False)(S1('MetaSel'Nothing'NoSourceUnpackedness'NoSourceStrictness'DecidedLazy)U1))...
 ```
 
 

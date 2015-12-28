@@ -409,7 +409,8 @@ instance Generic Example where
   type Rep Example =
     D1 ('MetaData "Example" "Module" "package" 'False)
       (C1 ('MetaCons "Example" 'PrefixI 'False)
-        (S1 'MetaSel 'Nothing 'NoSourceUnpackedness 'NoSourceStrictness 'DecidedLazy U1))
+        (S1 ('MetaSel 'Nothing 'NoSourceUnpackedness 'NoSourceStrictness 'DecidedLazy)
+          U1))
   ...
 }}}
 
