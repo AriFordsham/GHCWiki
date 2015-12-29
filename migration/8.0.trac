@@ -48,7 +48,7 @@ foo = [e| ... ]
 
 For example:
 
-{{{
+{{{#!hs
 --before
 
 pattern P1 :: prov => req => ty
