@@ -81,7 +81,7 @@ DONE`directory-1.2.5.0` should be used.
 
 [](http://hackage.haskell.org/package/filepath)
 
-TODO
+DONE released `filepath-1.4.1.0` shall be used until further notice
 
 ### `haskeline`
 
@@ -99,7 +99,7 @@ DONE The 3.10.2.1 release shall be used
 
 [](http://hackage.haskell.org/package/hpc)
 
-TODO
+TODO (hvr) upload `hpc-0.6.0.3` release to Hackage
 
 ### `pretty`
 
@@ -123,7 +123,9 @@ DONE The release `0.4.0.2` should be used.
 
 [](http://hackage.haskell.org/package/time)
 
-DONE Use `1.6`.
+DONE RC1: Use released `1.6`.
+
+TODO RC2/FINAL: Use yet to be released `1.6.0.1` containing minor tweaks
 
 ### `transformers`
 
@@ -146,6 +148,8 @@ TODO
 ### `xhtml`
 
 [](http://hackage.haskell.org/package/xhtml)
+
+DONE use existing `xhtml-3000.2.1` release
 
 TODO (currently points to released version -- no need to act unless maintainer wishes to)
 
