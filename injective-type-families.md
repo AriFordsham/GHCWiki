@@ -14,7 +14,7 @@ Person responsible for this page is Jan Stolarek (just so you now who is meant
 by "I").  I am also responsible for most of the implementation.  Simon Peyton
 Jones and Richard Eisenberg participated in the development of theory behind
 injective type families, so whenever I say "we" I mean the three of us.  For
-full discussion of injective type families see Haskell Symposium 2015 paper
+full discussion of injective type families see Haskell Symposium 2015 [ paper](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/injective-type-families-acm.pdf)
 "Injective type families for Haskell" (henceforth referred to as the
 "injectivity paper").
 
