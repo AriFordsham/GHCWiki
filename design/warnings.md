@@ -44,7 +44,7 @@ By reusing the GCC CLI convention for warning-flags we can make GHC's CLI a bit 
   - ([\#11000](https://gitlab.haskell.org//ghc/ghc/issues/11000)) `-Wcompat` could refer to all warnings about future compatility GHC *currently* knows about (like e.g. `-Wcompat-amp`, `-Wcompat-mfp`, `-Wcompat-mrp`)
   - Have `ghc` provide a way to dump the current warning-sets (in a format that's parseable by humans and machines)
   - Define set `-Wstandard` (modulo bikeshed, maybe `-Wdefault`?) to denote the set of warnings on by default, together with its negation `-Wno-standard`
-  - Define set `-Wuniverse` (module bikeshed) to comprise really \*all\* warnings (together with its negation `-Wno-universe`, which is a synonym for `-w`)
+  - Define set `-Weverything` (c.f. clang's [ -Weverything](http://clang.llvm.org/docs/UsersManual.html#diagnostics-enable-everything) as precedent) to comprise really \*all\* warnings (together with its negation `-Wno-everything` for symmetry, which is a synonym for `-w`)
   - Define set `-Wextra` (modulo bikeshed, maybe `-Wnormal`?) as synonym for `-W`, together with its negation `-Wno-extra`
 
 - ([\#10752](https://gitlab.haskell.org//ghc/ghc/issues/10752)) When emitting warnings/errors, show which warning flag was responsible,
