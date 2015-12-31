@@ -2,7 +2,7 @@
 
 
 The following table describes to what extent GHC currently supports
-various platforms.  To find out who is responsible for each platform, see [GHC Code Owners](code-owners). 
+various platforms.  To find out who is responsible for each platform, see [GHC Code Owners](code-owners).
 
 
 For information about what distributions GHC is part of, see the [ distribution packages](http://haskell.org/ghc/distribution_packages) page.
@@ -26,82 +26,66 @@ Criteria for Tier 1 platforms:
 <table><tr><th>**Architecture**</th>
 <th>**OS**</th>
 <th>**Build name**</th>
-<th>**Reg'd**</th>
 <th>**GHCi**</th>
 <th>**NCG**</th>
-<th>**f.i.**</th>
 <th>**Dyn libs**</th>
 <th>**Sponsor**</th>
 <th>**WikiPage**</th></tr>
-<tr><th> x86          </th>
+<tr><th> x86                </th>
 <th> Windows (MinGW) </th>
-<th> i386-unknown-mingw32    </th>
-<th> Yes          </th>
-<th> Yes  </th>
-<th> Yes                   </th>
-<th> Yes          </th>
-<th> Yes(\*W)            </th>
-<th> GHC HQ </th>
+<th> i386-unknown-mingw32     </th>
+<th> Yes        </th>
+<th> Yes       </th>
+<th> Yes(\*W)        </th>
+<th> GHC HQ        </th>
 <th>[WindowsGhc](windows-ghc)</th></tr>
-<tr><th> x86          </th>
+<tr><th> x86                </th>
 <th> Linux           </th>
-<th> i386-unknown-{linux,gnu} </th>
-<th> Yes          </th>
-<th> Yes  </th>
-<th> Yes                   </th>
-<th> Yes          </th>
-<th> Yes               </th>
-<th> GHC HQ </th>
+<th> i386-unknown-linux       </th>
+<th> Yes        </th>
+<th> Yes       </th>
+<th> Yes            </th>
+<th> GHC HQ        </th>
 <th></th></tr>
-<tr><th> x86-64       </th>
+<tr><th> x86-64             </th>
 <th> Linux           </th>
-<th> x86_64-unknown-linux    </th>
-<th> Yes          </th>
-<th> Yes  </th>
-<th> Yes                   </th>
-<th> Yes          </th>
-<th> Yes               </th>
-<th> GHC HQ </th>
+<th> x86_64-unknown-linux     </th>
+<th> Yes        </th>
+<th> Yes       </th>
+<th> Yes            </th>
+<th> GHC HQ        </th>
 <th></th></tr>
-<tr><th> x86          </th>
+<tr><th> x86                </th>
 <th> MacOS X         </th>
-<th> i386-apple-darwin       </th>
-<th> Yes          </th>
-<th> Yes  </th>
-<th> Yes                   </th>
-<th> Yes          </th>
-<th> No                </th>
-<th> needed </th>
+<th> i386-apple-darwin        </th>
+<th> Yes        </th>
+<th> Yes       </th>
+<th> No             </th>
+<th> needed        </th>
 <th>[Attic/X86OSXGhc](attic/x86-osx-ghc)</th></tr>
-<tr><th> x86-64       </th>
+<tr><th> x86-64             </th>
 <th> MacOS X         </th>
-<th> x86_64-apple-darwin     </th>
-<th> Yes          </th>
-<th> Yes  </th>
-<th> Yes    </th>
-<th> Yes          </th>
-<th> Yes               </th>
-<th> needed </th>
+<th> x86_64-apple-darwin      </th>
+<th> Yes        </th>
+<th> Yes       </th>
+<th> Yes            </th>
+<th> needed        </th>
 <th></th></tr>
-<tr><th> x86          </th>
+<tr><th> x86                </th>
 <th> FreeBSD         </th>
-<th> i386-portbld-freebsd    </th>
-<th> Yes          </th>
-<th> Yes  </th>
-<th> Yes    </th>
-<th> Yes          </th>
-<th> Yes                </th>
-<th> Gabor Pali </th>
+<th> i386-portbld-freebsd     </th>
+<th> Yes        </th>
+<th> Yes       </th>
+<th> Yes            </th>
+<th> Gabor Pali    </th>
 <th>[FreeBSDGhc](free-bsd-ghc)</th></tr>
-<tr><th> x86-64       </th>
+<tr><th> x86-64             </th>
 <th> FreeBSD         </th>
-<th> amd64-portbld-freebsd   </th>
-<th> Yes          </th>
-<th> Yes  </th>
-<th> Yes    </th>
-<th> Yes          </th>
-<th> Yes                </th>
-<th> Gabor Pali </th>
+<th> amd64-portbld-freebsd    </th>
+<th> Yes        </th>
+<th> Yes       </th>
+<th> Yes            </th>
+<th> Gabor Pali    </th>
 <th>[FreeBSDGhc](free-bsd-ghc)</th></tr></table>
 
 **\*W** Win32 DLL support bitrotten
@@ -111,7 +95,7 @@ Criteria for Tier 1 platforms:
 
 Tier 2 platforms work (to varying degrees), but we rely on community support for
 developing, testing, and building distributions.  We may release GHC
-with some Tier 2 platforms not working.  
+with some Tier 2 platforms not working.
 
 
 Platform-specific bugs on Tier 2 platforms are marked "low priority" (unless there's
@@ -125,195 +109,151 @@ Tier 2 platforms as possible to Tier 1, as soon as they meet the Tier 1 criteria
 <table><tr><th>**Architecture**</th>
 <th>**OS**</th>
 <th>**Build name**</th>
-<th>**Reg'd**</th>
 <th>**GHCi**</th>
 <th>**NCG**</th>
-<th>**f.i.**</th>
 <th>**Dyn libs**</th>
 <th>**WikiPage**</th></tr>
-<tr><th> x86          </th>
+<tr><th> x86                </th>
 <th> OpenBSD         </th>
-<th> i386-unknown-openbsd    </th>
-<th> Yes          </th>
-<th> Yes  </th>
-<th> Yes    </th>
-<th> Yes          </th>
-<th> No                </th>
+<th> i386-unknown-openbsd     </th>
+<th> Yes        </th>
+<th> Yes       </th>
+<th> No             </th>
 <th></th></tr>
-<tr><th> x86          </th>
+<tr><th> x86                </th>
 <th> Solaris         </th>
-<th> i386-unknown-solaris2   </th>
-<th> Yes          </th>
-<th> Yes  </th>
-<th> Yes    </th>
-<th> Yes          </th>
-<th> Yes (\*S4)         </th>
+<th> i386-unknown-solaris2    </th>
+<th> Yes        </th>
+<th> Yes       </th>
+<th> Yes (\*S4)      </th>
 <th></th></tr>
-<tr><th> x86-64       </th>
+<tr><th> x86-64             </th>
 <th> OpenBSD         </th>
-<th> amd64-unknown-openbsd   </th>
-<th> Yes          </th>
-<th> Yes  </th>
-<th> Yes    </th>
-<th> Yes          </th>
-<th> No                </th>
+<th> amd64-unknown-openbsd    </th>
+<th> Yes        </th>
+<th> Yes       </th>
+<th> No             </th>
 <th></th></tr>
-<tr><th> x86-64       </th>
+<tr><th> x86-64             </th>
 <th> DragonFly       </th>
 <th> x86_64-portbld-dragonfly </th>
-<th> Yes         </th>
-<th> Yes  </th>
-<th> Yes    </th>
-<th> Yes          </th>
-<th> Yes               </th>
+<th> Yes        </th>
+<th> Yes       </th>
+<th> Yes            </th>
 <th></th></tr>
-<tr><th> PowerPC      </th>
+<tr><th> PowerPC            </th>
 <th> Linux           </th>
-<th> powerpc-unknown-linux   </th>
-<th> Yes          </th>
-<th> Yes  </th>
-<th> Yes    </th>
-<th> Yes          </th>
-<th> No                </th>
+<th> powerpc-unknown-linux    </th>
+<th> Yes        </th>
+<th> Yes       </th>
+<th> No             </th>
 <th></th></tr>
-<tr><th> PowerPC      </th>
+<tr><th> PowerPC            </th>
 <th> MacOS X         </th>
-<th> powerpc-apple-darwin    </th>
-<th> Yes          </th>
-<th> Yes  </th>
-<th> Yes    </th>
-<th> Yes          </th>
-<th> Yes               </th>
+<th> powerpc-apple-darwin     </th>
+<th> Yes        </th>
+<th> Yes       </th>
+<th> Yes            </th>
 <th></th></tr>
-<tr><th> PowerPC64    </th>
+<tr><th> PowerPC64          </th>
 <th> Linux           </th>
-<th> powerpc64-unknown-linux </th>
-<th> No           </th>
-<th> No   </th>
-<th> No     </th>
-<th> Yes          </th>
-<th> No                </th>
+<th> powerpc64-unknown-linux  </th>
+<th> Yes        </th>
+<th> No        </th>
+<th> No             </th>
 <th></th></tr>
-<tr><th> Sparc        </th>
+<tr><th> Sparc              </th>
 <th> Solaris         </th>
-<th> sparc-sun-solaris2      </th>
-<th> No (\*S3)     </th>
-<th> Yes  </th>
-<th> Yes    </th>
-<th> Yes          </th>
-<th> No                </th>
+<th> sparc-sun-solaris2       </th>
+<th> Yes        </th>
+<th> Yes       </th>
+<th> No             </th>
 <th>[Building/Solaris](building/solaris)</th></tr>
-<tr><th> Sparc        </th>
+<tr><th> Sparc              </th>
 <th> Linux           </th>
-<th> sparc-unknown-linux     </th>
-<th> Yes(\*S2)     </th>
-<th> Yes  </th>
-<th> Yes    </th>
-<th> Yes          </th>
-<th> No                </th>
+<th> sparc-unknown-linux      </th>
+<th> Yes        </th>
+<th> Yes       </th>
+<th> No             </th>
 <th></th></tr>
-<tr><th> IA-64        </th>
+<tr><th> IA-64              </th>
 <th> Linux           </th>
-<th> ia64-unknown-linux      </th>
-<th> No           </th>
-<th> No   </th>
-<th> No     </th>
-<th> No           </th>
-<th> No                </th>
+<th> ia64-unknown-linux       </th>
+<th> Yes        </th>
+<th> No        </th>
+<th> No             </th>
 <th>[Building/IA64Linux](building/i-a64-linux)</th></tr>
-<tr><th> Alpha        </th>
+<tr><th> Alpha              </th>
 <th> Linux           </th>
-<th> alpha-unknown-linux     </th>
-<th> No           </th>
-<th> No   </th>
-<th> No     </th>
-<th> Yes          </th>
-<th> No                </th>
+<th> alpha-unknown-linux      </th>
+<th> Yes        </th>
+<th> No        </th>
+<th> No             </th>
 <th></th></tr>
-<tr><th> HPPA         </th>
+<tr><th> HPPA               </th>
 <th> Linux           </th>
-<th> hppa-unknown-linux      </th>
-<th> No           </th>
-<th> No   </th>
-<th> No     </th>
-<th> No           </th>
-<th> No                </th>
+<th> hppa-unknown-linux       </th>
+<th> ?          </th>
+<th> No        </th>
+<th> ?              </th>
 <th></th></tr>
-<tr><th> S/390        </th>
+<tr><th> S/390              </th>
 <th> Linux           </th>
-<th> s390-ibm-linux          </th>
-<th> No           </th>
-<th> No   </th>
-<th> No     </th>
-<th> No           </th>
-<th> No                </th>
+<th> s390-ibm-linux           </th>
+<th> ?          </th>
+<th> No        </th>
+<th> ?              </th>
 <th></th></tr>
-<tr><th> m68k         </th>
+<tr><th> m68k               </th>
 <th> Linux           </th>
-<th> m68k-unknown-linux      </th>
-<th> No           </th>
-<th> No   </th>
-<th> No     </th>
-<th> No           </th>
-<th> No                </th>
+<th> m68k-unknown-linux       </th>
+<th> ?          </th>
+<th> No        </th>
+<th> ?              </th>
 <th></th></tr>
-<tr><th> mips         </th>
+<tr><th> mips               </th>
 <th> Linux           </th>
-<th> mips-unknown-linux      </th>
-<th> No           </th>
-<th> No   </th>
-<th> No     </th>
-<th> No           </th>
-<th> No                </th>
+<th> mips-unknown-linux       </th>
+<th> ?          </th>
+<th> No        </th>
+<th> ?              </th>
 <th></th></tr>
-<tr><th> mipsel       </th>
+<tr><th> mipsel             </th>
 <th> Linux           </th>
-<th> mipsel-unknown-linux    </th>
-<th> No           </th>
-<th> No   </th>
-<th> No     </th>
-<th> No           </th>
-<th> No                </th>
+<th> mipsel-unknown-linux     </th>
+<th> ?          </th>
+<th> No        </th>
+<th> ?              </th>
 <th></th></tr>
-<tr><th> ARM          </th>
+<tr><th> ARM                </th>
 <th> Linux           </th>
-<th> arm-unknown-linux       </th>
-<th> Yes          </th>
-<th> Yes  </th>
-<th> No     </th>
-<th> No           </th>
-<th> Yes               </th>
+<th> arm-unknown-linux        </th>
+<th> Yes        </th>
+<th> No        </th>
+<th> Yes            </th>
 <th></th></tr>
-<tr><th> ARM          </th>
+<tr><th> ARM                </th>
 <th> Debian armel    </th>
-<th> arm-linux-gnueabi       </th>
-<th> Yes          </th>
-<th> No   </th>
-<th> No     </th>
-<th> No           </th>
-<th> No                      </th>
+<th> arm-linux-gnueabi        </th>
+<th> ?          </th>
+<th> No        </th>
+<th> ?              </th>
 <th>[Building/ARMLinuxGnuEABI](building/arm-linux-gnu-eabi)</th></tr>
-<tr><th> ARM          </th>
+<tr><th> ARM                </th>
 <th> iOS             </th>
-<th> arm-apple-darwin10      </th>
-<th> Yes          </th>
-<th> No   </th>
-<th> Yes    </th>
-<th> No           </th>
-<th> No                      </th>
+<th> arm-apple-darwin10       </th>
+<th> No         </th>
+<th> Yes       </th>
+<th> No             </th>
 <th>[Building/CrossCompiling/iOS](building/cross-compiling/i-os)</th></tr>
-<tr><th> PowerPC      </th>
+<tr><th> PowerPC            </th>
 <th> AIX             </th>
-<th> powerpc-ibm-aix         </th>
-<th> No           </th>
-<th> No   </th>
-<th> No          </th>
-<th> ?                </th>
-<th> No </th>
+<th> powerpc-ibm-aix          </th>
+<th> No         </th>
+<th> No        </th>
+<th> No             </th>
 <th>[Building/AIX](building/aix)</th></tr></table>
 
-**\*S2** but see [\#591](https://gitlab.haskell.org//ghc/ghc/issues/591)
-**\*S3** registerised in the past up to GHC 7.0.4 release, then unregisterised due to removal of registerised -fvia-C way (mangler)
 **\*S4** shared libraries are supported on Solaris 11 version 11/11 and higher
 
 
@@ -327,82 +267,54 @@ Tier 3 platforms worked in the past, but probably do not work now.
 <table><tr><th>**Architecture**</th>
 <th>**OS**</th>
 <th>**Build name**</th>
-<th>**Reg'd**</th>
 <th>**GHCi**</th>
 <th>**NCG**</th>
-<th>**f.i.**</th>
 <th>**Dyn libs**</th>
 <th>**WikiPage**</th></tr>
-<tr><th> Mips64       </th>
-<th> Irix            </th>
+<tr><th> Mips64             </th>
+<th> Irix             </th>
 <th> mips-unknown-linux      </th>
-<th> No           </th>
-<th> No   </th>
-<th> No     </th>
-<th> No           </th>
-<th> No                </th>
+<th> ?          </th>
+<th> No        </th>
+<th> ?              </th>
 <th></th></tr>
-<tr><th> x86          </th>
+<tr><th> x86                </th>
 <th> Windows (Cygwin) </th>
-<th> i386-unknown-cygwin32 </th>
-<th> Yes          </th>
-<th> No  </th>
-<th> Yes      </th>
-<th> Yes          </th>
-<th> No(\*2)            
-</th>
+<th> i386-unknown-cygwin32   </th>
+<th> No         </th>
+<th> Yes       </th>
+<th> No(?)          </th>
 <th></th></tr>
-<tr><th> Alpha        </th>
+<tr><th> Alpha              </th>
 <th> Dec OSF          </th>
-<th> alpha-dec-osf3        </th>
-<th> No           </th>
-<th> No  </th>
-<th> No       </th>
-<th> Yes          </th>
-<th> No               
-</th>
+<th> alpha-dec-osf3          </th>
+<th> No         </th>
+<th> No        </th>
+<th> No             </th>
 <th></th></tr>
-<tr><th> ARM          </th>
-<th> Maemo (Linux)   </th>
+<tr><th> ARM                </th>
+<th> Maemo (Linux)    </th>
 <th> arm-unknown-linux-gnu   </th>
-<th> Yes          </th>
-<th> No   </th>
-<th> No     </th>
-<th> No           </th>
-<th> No                      </th>
+<th> No         </th>
+<th> No        </th>
+<th> No             </th>
 <th>[ArmLinuxGhc](arm-linux-ghc)</th></tr>
-<tr><th> x86          </th>
-<th> NetBSD          </th>
+<tr><th> x86                </th>
+<th> NetBSD           </th>
 <th> i386-unknown-netbsd     </th>
-<th> Yes          </th>
-<th> Yes  </th>
-<th> Yes    </th>
-<th> Yes          </th>
-<th> No                </th>
+<th> Yes        </th>
+<th> Yes       </th>
+<th> No             </th>
 <th></th></tr>
-<tr><th> x86-64       </th>
-<th> NetBSD          </th>
+<tr><th> x86-64             </th>
+<th> NetBSD           </th>
 <th> amd64-unknown-netbsd    </th>
-<th> Yes          </th>
-<th> Yes  </th>
-<th> Yes    </th>
-<th> Yes          </th>
-<th> No                </th>
+<th> Yes        </th>
+<th> Yes       </th>
+<th> No             </th>
 <th></th></tr></table>
 
 ## Definitions
-
-**Reg'd (Registerised)**
-
->
-> A catch-all term for a number of optimisations, which collectively
-> require the *mangler* (a Perl script that post-processes the
-> assembly output from gcc).  Unregisterised builds require only a
-> working C compiler and are hence far more portable.  The
-> registerised optimisations include:
-> direct tail calls (as opposed to using the "mini-interpreter"),
-> info-tables adjacent to entry code, and virtual machine registers mapped
-> to real machine registers.
 
 **GHCi**
 
@@ -414,11 +326,6 @@ Tier 3 platforms worked in the past, but probably do not work now.
 
 >
 > Native code generator: GHC can generate assembly code directly for this platform, bypassing gcc.
-
-**f.i. wrapper**
-
->
-> Support for `foreign import "wrapper"` (`ghc/rts/Adjustor.c`).
 
 **Dynamic libraries**
 

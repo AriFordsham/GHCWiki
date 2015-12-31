@@ -1,7 +1,7 @@
 = Platforms =
 
 The following table describes to what extent GHC currently supports
-various platforms.  To find out who is responsible for each platform, see [wiki:CodeOwners GHC Code Owners]. 
+various platforms.  To find out who is responsible for each platform, see [wiki:CodeOwners GHC Code Owners].
 
 For information about what distributions GHC is part of, see the [http://haskell.org/ghc/distribution_packages distribution packages] page.
 
@@ -18,14 +18,14 @@ Criteria for Tier 1 platforms:
   to work with us during the release process
 
 
-|| '''Architecture''' || '''OS''' || '''Build name''' || '''Reg'd''' || '''GHCi''' || '''NCG''' || '''f.i.''' || '''Dyn libs''' || '''Sponsor''' || '''!WikiPage''' ||
-|| x86          || Windows (MinGW) || i386-unknown-mingw32    || Yes          || Yes  || Yes                   || Yes          || Yes(*W)            || GHC HQ || [wiki:WindowsGhc] ||
-|| x86          || Linux           || i386-unknown-{linux,gnu} || Yes          || Yes  || Yes                   || Yes          || Yes               || GHC HQ || ||
-|| x86-64       || Linux           || x86_64-unknown-linux    || Yes          || Yes  || Yes                   || Yes          || Yes               || GHC HQ || ||
-|| x86          || MacOS X         || i386-apple-darwin       || Yes          || Yes  || Yes                   || Yes          || No                || needed || [wiki:Attic/X86OSXGhc] ||
-|| x86-64       || MacOS X         || x86_64-apple-darwin     || Yes          || Yes  || Yes    || Yes          || Yes               || needed || ||
-|| x86          || FreeBSD         || i386-portbld-freebsd    || Yes          || Yes  || Yes    || Yes          || Yes                || Gabor Pali || [wiki:FreeBSDGhc] ||
-|| x86-64       || FreeBSD         || amd64-portbld-freebsd   || Yes          || Yes  || Yes    || Yes          || Yes                || Gabor Pali || [wiki:FreeBSDGhc] ||
+|| '''Architecture''' || '''OS'''        || '''Build name'''         || '''GHCi''' || '''NCG''' || '''Dyn libs''' || '''Sponsor''' || '''!WikiPage''' ||
+|| x86                || Windows (MinGW) || i386-unknown-mingw32     || Yes        || Yes       || Yes(*W)        || GHC HQ        || [wiki:WindowsGhc] ||
+|| x86                || Linux           || i386-unknown-linux       || Yes        || Yes       || Yes            || GHC HQ        || ||
+|| x86-64             || Linux           || x86_64-unknown-linux     || Yes        || Yes       || Yes            || GHC HQ        || ||
+|| x86                || MacOS X         || i386-apple-darwin        || Yes        || Yes       || No             || needed        || [wiki:Attic/X86OSXGhc] ||
+|| x86-64             || MacOS X         || x86_64-apple-darwin      || Yes        || Yes       || Yes            || needed        || ||
+|| x86                || FreeBSD         || i386-portbld-freebsd     || Yes        || Yes       || Yes            || Gabor Pali    || [wiki:FreeBSDGhc] ||
+|| x86-64             || FreeBSD         || amd64-portbld-freebsd    || Yes        || Yes       || Yes            || Gabor Pali    || [wiki:FreeBSDGhc] ||
 
 '''*W''' Win32 DLL support bitrotten[[BR]]
 
@@ -33,7 +33,7 @@ Criteria for Tier 1 platforms:
 
 Tier 2 platforms work (to varying degrees), but we rely on community support for
 developing, testing, and building distributions.  We may release GHC
-with some Tier 2 platforms not working.  
+with some Tier 2 platforms not working.
 
 Platform-specific bugs on Tier 2 platforms are marked "low priority" (unless there's
 a strong reason not to do so), not because they are unimportant to the users of that
@@ -42,31 +42,29 @@ platform, but to express the fact that they aren't going to hold up the release.
 We'd like to promote as many
 Tier 2 platforms as possible to Tier 1, as soon as they meet the Tier 1 criteria.
 
-|| '''Architecture''' || '''OS''' || '''Build name''' || '''Reg'd''' || '''GHCi''' || '''NCG''' || '''f.i.''' || '''Dyn libs''' || '''!WikiPage''' ||
-|| x86          || OpenBSD         || i386-unknown-openbsd    || Yes          || Yes  || Yes    || Yes          || No                || ||
-|| x86          || Solaris         || i386-unknown-solaris2   || Yes          || Yes  || Yes    || Yes          || Yes (*S4)         || ||
-|| x86-64       || OpenBSD         || amd64-unknown-openbsd   || Yes          || Yes  || Yes    || Yes          || No                || ||
-|| x86-64       || DragonFly       || x86_64-portbld-dragonfly || Yes         || Yes  || Yes    || Yes          || Yes               || ||
-|| PowerPC      || Linux           || powerpc-unknown-linux   || Yes          || Yes  || Yes    || Yes          || No                || ||
-|| PowerPC      || MacOS X         || powerpc-apple-darwin    || Yes          || Yes  || Yes    || Yes          || Yes               || ||
-|| PowerPC64    || Linux           || powerpc64-unknown-linux || No           || No   || No     || Yes          || No                || ||
-|| Sparc        || Solaris         || sparc-sun-solaris2      || No (*S3)     || Yes  || Yes    || Yes          || No                || [wiki:Building/Solaris] ||
-|| Sparc        || Linux           || sparc-unknown-linux     || Yes(*S2)     || Yes  || Yes    || Yes          || No                || ||
-|| IA-64        || Linux           || ia64-unknown-linux      || No           || No   || No     || No           || No                || [wiki:Building/IA64Linux] ||
-|| Alpha        || Linux           || alpha-unknown-linux     || No           || No   || No     || Yes          || No                || ||
-|| HPPA         || Linux           || hppa-unknown-linux      || No           || No   || No     || No           || No                || ||
-|| S/390        || Linux           || s390-ibm-linux          || No           || No   || No     || No           || No                || ||
-|| m68k         || Linux           || m68k-unknown-linux      || No           || No   || No     || No           || No                || ||
-|| mips         || Linux           || mips-unknown-linux      || No           || No   || No     || No           || No                || ||
-|| mipsel       || Linux           || mipsel-unknown-linux    || No           || No   || No     || No           || No                || ||
-|| ARM          || Linux           || arm-unknown-linux       || Yes          || Yes  || No     || No           || Yes               || ||
-|| ARM          || Debian armel    || arm-linux-gnueabi       || Yes          || No   || No     || No           || No                      || [wiki:Building/ARMLinuxGnuEABI] ||
-|| ARM          || iOS             || arm-apple-darwin10      || Yes          || No   || Yes    || No           || No                      || [wiki:Building/CrossCompiling/iOS] ||
-|| PowerPC      || AIX             || powerpc-ibm-aix         || No           || No   || No          || ?                || No || [wiki:Building/AIX] ||
+|| '''Architecture''' || '''OS'''        || '''Build name'''         || '''GHCi''' || '''NCG''' || '''Dyn libs''' || '''!WikiPage''' ||
+|| x86                || OpenBSD         || i386-unknown-openbsd     || Yes        || Yes       || No             || ||
+|| x86                || Solaris         || i386-unknown-solaris2    || Yes        || Yes       || Yes (*S4)      || ||
+|| x86-64             || OpenBSD         || amd64-unknown-openbsd    || Yes        || Yes       || No             || ||
+|| x86-64             || DragonFly       || x86_64-portbld-dragonfly || Yes        || Yes       || Yes            || ||
+|| PowerPC            || Linux           || powerpc-unknown-linux    || Yes        || Yes       || No             || ||
+|| PowerPC            || MacOS X         || powerpc-apple-darwin     || Yes        || Yes       || Yes            || ||
+|| PowerPC64          || Linux           || powerpc64-unknown-linux  || Yes        || No        || No             || ||
+|| Sparc              || Solaris         || sparc-sun-solaris2       || Yes        || Yes       || No             || [wiki:Building/Solaris] ||
+|| Sparc              || Linux           || sparc-unknown-linux      || Yes        || Yes       || No             || ||
+|| IA-64              || Linux           || ia64-unknown-linux       || Yes        || No        || No             || [wiki:Building/IA64Linux] ||
+|| Alpha              || Linux           || alpha-unknown-linux      || Yes        || No        || No             || ||
+|| HPPA               || Linux           || hppa-unknown-linux       || ?          || No        || ?              || ||
+|| S/390              || Linux           || s390-ibm-linux           || ?          || No        || ?              || ||
+|| m68k               || Linux           || m68k-unknown-linux       || ?          || No        || ?              || ||
+|| mips               || Linux           || mips-unknown-linux       || ?          || No        || ?              || ||
+|| mipsel             || Linux           || mipsel-unknown-linux     || ?          || No        || ?              || ||
+|| ARM                || Linux           || arm-unknown-linux        || Yes        || No        || Yes            || ||
+|| ARM                || Debian armel    || arm-linux-gnueabi        || ?          || No        || ?              || [wiki:Building/ARMLinuxGnuEABI] ||
+|| ARM                || iOS             || arm-apple-darwin10       || No         || Yes       || No             || [wiki:Building/CrossCompiling/iOS] ||
+|| PowerPC            || AIX             || powerpc-ibm-aix          || No         || No        || No             || [wiki:Building/AIX] ||
 
-'''*S2''' but see #591[[BR]]
-'''*S3''' registerised in the past up to GHC 7.0.4 release, then unregisterised due to removal of registerised -fvia-C way (mangler)[[br]]
-'''*S4''' shared libraries are supported on Solaris 11 version 11/11 and higher
+'''*S4''' shared libraries are supported on Solaris 11 version 11/11 and higher[[BR]]
 
 In most cases, binaries for the tier 2 platforms can be downloaded from the [http://www.haskell.org/ghc/distribution_packages Distribution Packages] page, e.g. you can get binaries for most of the Linux platforms from Debian. In some cases, for example the Solaris platforms, you'll need to go to the [http://www.haskell.org/ghc/download download page] of a particular release to get a bindist.
 
@@ -74,25 +72,15 @@ In most cases, binaries for the tier 2 platforms can be downloaded from the [htt
 
 Tier 3 platforms worked in the past, but probably do not work now.
 
-|| '''Architecture''' || '''OS''' || '''Build name''' || '''Reg'd''' || '''GHCi''' || '''NCG''' || '''f.i.''' || '''Dyn libs''' || '''!WikiPage''' ||
-|| Mips64       || Irix            || mips-unknown-linux      || No           || No   || No     || No           || No                || ||
-|| x86          || Windows (Cygwin) || i386-unknown-cygwin32 || Yes          || No  || Yes      || Yes          || No(*2)            ||
-|| Alpha        || Dec OSF          || alpha-dec-osf3        || No           || No  || No       || Yes          || No               ||
-|| ARM          || Maemo (Linux)   || arm-unknown-linux-gnu   || Yes          || No   || No     || No           || No                      || ArmLinuxGhc    ||
-|| x86          || NetBSD          || i386-unknown-netbsd     || Yes          || Yes  || Yes    || Yes          || No                || ||
-|| x86-64       || NetBSD          || amd64-unknown-netbsd    || Yes          || Yes  || Yes    || Yes          || No                || ||
+|| '''Architecture''' || '''OS'''         || '''Build name'''        || '''GHCi''' || '''NCG''' || '''Dyn libs''' || '''!WikiPage''' ||
+|| Mips64             || Irix             || mips-unknown-linux      || ?          || No        || ?              || ||
+|| x86                || Windows (Cygwin) || i386-unknown-cygwin32   || No         || Yes       || No(?)          || ||
+|| Alpha              || Dec OSF          || alpha-dec-osf3          || No         || No        || No             || ||
+|| ARM                || Maemo (Linux)    || arm-unknown-linux-gnu   || No         || No        || No             || ArmLinuxGhc    ||
+|| x86                || NetBSD           || i386-unknown-netbsd     || Yes        || Yes       || No             || ||
+|| x86-64             || NetBSD           || amd64-unknown-netbsd    || Yes        || Yes       || No             || ||
 
 == Definitions ==
-
-'''Reg'd (Registerised)'''
-  A catch-all term for a number of optimisations, which collectively
-  require the ''mangler'' (a Perl script that post-processes the
-  assembly output from gcc).  Unregisterised builds require only a
-  working C compiler and are hence far more portable.  The
-  registerised optimisations include:
-  direct tail calls (as opposed to using the "mini-interpreter"),
-  info-tables adjacent to entry code, and virtual machine registers mapped
-  to real machine registers.
 
 '''GHCi'''
   The interactive environment, including dynamic linking of object
@@ -100,9 +88,6 @@ Tier 3 platforms worked in the past, but probably do not work now.
 
 '''NCG'''[[BR]]
   Native code generator: GHC can generate assembly code directly for this platform, bypassing gcc.
-
-'''f.i. wrapper'''[[BR]]
-  Support for {{{foreign import "wrapper"}}} ({{{ghc/rts/Adjustor.c}}}).
 
 '''Dynamic libraries'''
   Support for generating dynamically-linked sharable libraries from
