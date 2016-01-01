@@ -11,6 +11,9 @@ With the implementation of [ prime:Libraries/Proposals/SemigroupMonoid](https://
 infixr6<>
 ```
 
+
+The `infixr 6`-fixity for `<>` was already introduced 4 years ago, when we added `Data.Monoid.<>` as alias for `mappend` (which differs from `infixr 5 ++`). See also [\#3339](https://gitlab.haskell.org//ghc/ghc/issues/3339) for some of the discussion that began in 2009 leading up to the final `infixr 6 <>` decision.
+
 ### Conflicting fixities of `<>` in pretty printing APIs
 
 
