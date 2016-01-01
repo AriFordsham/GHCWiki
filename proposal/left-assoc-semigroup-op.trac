@@ -58,6 +58,21 @@ infixl 6 <+>
 infixl 5 $$, $+$
 }}}
 
+
+On the other hand, the popular hackage:ansi-wl-pprint package does use right-associative operators:
+
+{{{#!hs
+module Text.PrettyPrint.ANSI.Leijen where
+
+infixr 6 <>
+infixr 6 <+>
+}}}
+
+Other pretty printers also using a `infixr 6 <>, <+>` definition:
+
+ - hackage:annotated-wl-pprint
+ - hackage:mainland-pretty
+
 === Changing `<>`'s associativity in pretty-printing APIs
 
 Changing the fixity of `pretty`'s `<>` would however results in a semantic change for code which relies on the relative fixity between `<+>` and `<>` as was [https://mail.haskell.org/pipermail/libraries/2011-November/017066.html pointed out by Duncan back in 2011] already:
@@ -85,7 +100,7 @@ Changing the fixity of `pretty`'s `<>` would however results in a semantic chang
 >
 > Currently Text.Pretty declares `infixl 5 <>, <+>`. If we change them to be `infixr` then we get the latter  meaning of `a <> empty <+> b`. Existing code relies on the former meaning and produces different output with the latter (e.g. ghc producing error messages like "instancefor" when it should have been "instance for").
 
-=== Unsatisfying Situation Requiring a Solution
+=== Unsatisfying Situation Seeking a Long-term Solution
 
 Consequently, it's confusing and bad practice to have a soon-to-be-in-Prelude `<>` operator whose meaning depends on which `import`s are currently in scope. Moreover, a module needs to combine pretty-printing monoids and other non-pretty-printing monoids, the conflicting `<>`s operator needs to be disambiguated via module qualification or similiar techniques.
 
@@ -105,6 +120,7 @@ infixl 6 ><
 (><) = (<>)
 
 }}}
+
 
 ==== Bikesheds for `><`
 

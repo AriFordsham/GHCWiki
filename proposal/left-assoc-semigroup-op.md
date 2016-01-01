@@ -28,6 +28,19 @@ However, there are a few popular pretty-printing modules which already define a 
 -- ghcmoduleOutputableinfixl9<>infixl9<+>infixl9$$,$+$-- ghcmodulePrettywhereinfixl6<>infixl6<+>infixl5$$,$+$
 ```
 
+
+On the other hand, the popular [ hackage:ansi-wl-pprint](http://hackage.haskell.org/package/ansi-wl-pprint) package does use right-associative operators:
+
+```
+moduleText.PrettyPrint.ANSI.Leijenwhereinfixr6<>infixr6<+>
+```
+
+
+Other pretty printers also using a `infixr 6 <>, <+>` definition:
+
+- [ hackage:annotated-wl-pprint](http://hackage.haskell.org/package/annotated-wl-pprint)
+- [ hackage:mainland-pretty](http://hackage.haskell.org/package/mainland-pretty)
+
 ### Changing `<>`'s associativity in pretty-printing APIs
 
 
@@ -57,7 +70,7 @@ Changing the fixity of `pretty`'s `<>` would however results in a semantic chang
 >
 > Currently Text.Pretty declares `infixl 5 <>, <+>`. If we change them to be `infixr` then we get the latter  meaning of `a <> empty <+> b`. Existing code relies on the former meaning and produces different output with the latter (e.g. ghc producing error messages like "instancefor" when it should have been "instance for").
 
-### Unsatisfying Situation Requiring a Solution
+### Unsatisfying Situation Seeking a Long-term Solution
 
 
 Consequently, it's confusing and bad practice to have a soon-to-be-in-Prelude `<>` operator whose meaning depends on which `import`s are currently in scope. Moreover, a module needs to combine pretty-printing monoids and other non-pretty-printing monoids, the conflicting `<>`s operator needs to be disambiguated via module qualification or similiar techniques.
