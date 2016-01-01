@@ -89,7 +89,24 @@ Changing the fixity of `pretty`'s `<>` would however results in a semantic chang
 
 Consequently, it's confusing and bad practice to have a soon-to-be-in-Prelude `<>` operator whose meaning depends on which `import`s are currently in scope. Moreover, a module needs to combine pretty-printing monoids and other non-pretty-printing monoids, the conflicting `<>`s operator needs to be disambiguated via module qualification or similiar techniques.
 
-However, there also seems to be a legitimate use-case for a right-associative `<>` operator.
+However, there also seems to be a legitimate use-case for a left-associative `<>` operator.
 
+== Proposed Solution
 
+Add a standardised alias for `<>` to the `Data.Semigroup` vocabulary, e.g.
 
+{{{#!hs
+module Data.Semigroup where
+
+infixl 6 ><
+
+-- | Left-associative alias for (right-associative) 'Semigroup' operation '(<>)'
+(><) :: Semigroup a => a -> a -> a
+(><) = (<>)
+
+}}}
+
+==== Bikesheds for `><`
+
+ - `.<>`
+ - `<~>`
