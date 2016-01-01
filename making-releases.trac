@@ -1,10 +1,24 @@
 = Making Releases =
 
+[[PageOutline]]
+
 == Branching the tree ==
 
+Recommended procedure for a clean Git history:
+
+ 0. Prepare a wip-branch for bumping to the next stable GHC version (NB: You have to update `configure.ac` to a 3-component version, i.e. to `[8.0.0]` rather than `[8.0]`!). Do *not* push this branch to a non-wip branch until 1. has been pushed
+ 1. Prepare GHC HEAD for a version bump to the next GHC HEAD major version (e.g. from GHC 7.11 to 8.1). Try to make this into a minimal commit (example: 947c8a530e2f977f56601289e1b11cde42f95322)
+ 2. After you succeeded with 1., try to rebase your stable wip branch to the commit right before the GHC HEAD version bump.
+ 3. If both worked, and nobody disturbed `master` in the mean-time, push `master`, and then push the new stable `ghc-x.y` branch. If `master` changed, rebase and go back to step 1.
+ 4. create an annotated `ghc-x.yy-start` tag pointing to the commit prepared in step 1.
+
+
+ 
+
+=== Previous obsolete instructions
 Make a `ghc-x.y` branch of all of the repos (including those with a 'dph' and 'extra' tag in `./packages`).
 
-For repos with an upstream maintainer, ask upstream what commit we should be using in the branch.
+For repos with an upstream maintainer, ask upstream what commit we should be using in the branch.  TODO: write updated guide for library release management
 
 Update http://ghc.haskell.org/trac/ghc/wiki/Repositories#Branches
 
