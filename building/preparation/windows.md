@@ -74,18 +74,18 @@ A host GHC binary is required for bootstrapping. In order to keep different arch
 So for 64-bit you'd run
 
 ```wiki
-curl -L http://www.haskell.org/ghc/dist/7.8.4/ghc-7.8.4-x86_64-unknown-mingw32.tar.xz | tar -xJ -C /mingw64 --strip-components=1
+curl -L http://www.haskell.org/ghc/dist/7.10.1/ghc-7.10.1-x86_64-unknown-mingw32.tar.xz | tar -xJ -C /mingw64 --strip-components=1
 ```
 
 
 and for 32-bit you'd run
 
 ```wiki
-curl -L http://www.haskell.org/ghc/dist/7.8.4/ghc-7.8.4-i386-unknown-mingw32.tar.xz | tar -xJ -C /mingw32 --strip-components=1
+curl -L http://www.haskell.org/ghc/dist/7.10.1/ghc-7.10.1-i386-unknown-mingw32.tar.xz | tar -xJ -C /mingw32 --strip-components=1
 ```
 
 
-Note: `--strip-components=1` places everything within the archive's "ghc-7.8.4" folder directly into the target directory.
+Note: `--strip-components=1` places everything within the archive's "ghc-7.10.1" folder directly into the target directory.
 
 ## Cabal setup
 
