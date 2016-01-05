@@ -1,5 +1,18 @@
-'''UPDATE Dec 11, 2015:''' The merge is underway. There are a few outstanding issues:
-  * #11265: pattern synonym in instance head
+= Adding kind equalities to GHC =
+
+This page -- a description of the first phase of integrating full dependent types into GHC -- has two main parts: the first stretch describes user-facing changes to GHC that I (Richard Eisenberg) expect to land for 7.12. The second is notes I put together for discussion with other implementors, chiefly Simon PJ.
+
+= Status =
+
+Open Tickets:
+[[TicketQuery(status=infoneeded,status=new|patch,keywords=~TypeInType)]]
+
+Closed Tickets:
+[[TicketQuery(status=infoneeded,status=closed,keywords=~TypeInType)]]
+
+
+Manual tickets:
+
   * #11266: no match in `tcTyConTyVars`
   * #11241: wildcards in kinds
   * #11195: `OptCoercion` now takes forever to compile. It seems to be that pattern guards are causing the new completeness-checker to overwork.
@@ -7,9 +20,6 @@
   * #11197: Deferred type errors are more eager.
   * #11198: A specific error message regression.
 
-= Adding kind equalities to GHC =
-
-This page -- a description of the first phase of integrating full dependent types into GHC -- has two main parts: the first stretch describes user-facing changes to GHC that I (Richard Eisenberg) expect to land for 7.12. The second is notes I put together for discussion with other implementors, chiefly Simon PJ.
 
 = User-facing changes =
 
