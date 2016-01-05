@@ -23,7 +23,12 @@
 
 
  
-Kind equalities etc: [DependentHaskell](dependent-haskell), esp [DependentHaskell/Phase1](dependent-haskell/phase1)
+Major things
+
+- `TypeInType`, kind equalities etc: [DependentHaskell](dependent-haskell), esp [DependentHaskell/Phase1](dependent-haskell/phase1)
+
+
+Other tickets
 
 - [\#1311](https://gitlab.haskell.org//ghc/ghc/issues/1311): newtypes over unboxed types
 - [\#11203](https://gitlab.haskell.org//ghc/ghc/issues/11203): Kind inference with `SigTvs` is wrong
@@ -45,13 +50,17 @@ Kind equalities etc: [DependentHaskell](dependent-haskell), esp [DependentHaskel
 - [\#8177](https://gitlab.haskell.org//ghc/ghc/issues/8177): role signature for type families
 - [\#9547](https://gitlab.haskell.org//ghc/ghc/issues/9547): kinding for empty constraint tuples
 
-## Pattern matching
+## Data types and pattern matching
 
 
-See [George's status page on the new pattern-match checker](pattern-match-check)
+Some big features
+
+- [new pattern-match overlap/exhaustiveness checker](pattern-match-check)
+- [the pattern-synonym status page](pattern-synonyms)
+- [overloaded record fields](records/overloaded-record-fields)
 
 
-See [the pattern-synonym status page](pattern-synonyms)
+Other tickets
 
 - [\#11253](https://gitlab.haskell.org//ghc/ghc/issues/11253): duplicate warnings with new pattern checker
 - [\#11245](https://gitlab.haskell.org//ghc/ghc/issues/11245): "patterns not matched" list is empty

@@ -20,8 +20,10 @@
 
 == Type families, roles, `Coercible`, `Typeable`, kind polymorphism ==
  
-Kind equalities etc: [wiki:DependentHaskell], esp [wiki:DependentHaskell/Phase1]
+Major things
+ * `TypeInType`, kind equalities etc: [wiki:DependentHaskell], esp [wiki:DependentHaskell/Phase1]
 
+Other tickets
  * #1311: newtypes over unboxed types
  * #11203: Kind inference with `SigTvs` is wrong
  * #11080: open data kinds
@@ -42,12 +44,14 @@ Kind equalities etc: [wiki:DependentHaskell], esp [wiki:DependentHaskell/Phase1]
  * #8177: role signature for type families
  * #9547: kinding for empty constraint tuples
 
-== Pattern matching ==
+== Data types and pattern matching ==
 
-See [wiki:PatternMatchCheck George's status page on the new pattern-match checker]
+Some big features
+ * [wiki:PatternMatchCheck new pattern-match overlap/exhaustiveness checker]
+ * [wiki:PatternSynonyms the pattern-synonym status page]
+ * [wiki:Records/OverloadedRecordFields overloaded record fields]
 
-See [wiki:PatternSynonyms the pattern-synonym status page]
-
+Other tickets
  * #11253: duplicate warnings with new pattern checker
  * #11245: "patterns not matched" list is empty
  * #10183: warning for redundant constraints, and pattern-match overlap warnings
