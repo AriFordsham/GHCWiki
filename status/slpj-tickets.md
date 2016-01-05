@@ -54,6 +54,9 @@ Some big features
 - [the pattern-synonym status page](pattern-synonyms)
 - [overloaded record fields](records/overloaded-record-fields)
 
+
+Other tickets
+
 - [\#11253](https://gitlab.haskell.org//ghc/ghc/issues/11253): duplicate warnings with new pattern checker
 - [\#11245](https://gitlab.haskell.org//ghc/ghc/issues/11245): "patterns not matched" list is empty
 - [\#10183](https://gitlab.haskell.org//ghc/ghc/issues/10183): warning for redundant constraints, and pattern-match overlap warnings

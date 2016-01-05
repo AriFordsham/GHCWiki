@@ -49,6 +49,7 @@ Some big features
  * [wiki:PatternSynonyms the pattern-synonym status page]
  * [wiki:Records/OverloadedRecordFields overloaded record fields]
 
+Other tickets
  * #11253: duplicate warnings with new pattern checker
  * #11245: "patterns not matched" list is empty
  * #10183: warning for redundant constraints, and pattern-match overlap warnings
