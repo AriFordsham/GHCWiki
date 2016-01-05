@@ -70,20 +70,8 @@ Other tickets
 
 ## Generics and DeriveAnyClass
 
-- See [PedrosTickets](pedros-tickets)
-- [\#9821](https://gitlab.haskell.org//ghc/ghc/issues/9821): `DeriveAnyClass` and higher kinded classes
-- [\#7492](https://gitlab.haskell.org//ghc/ghc/issues/7492): replace `Rec1 f` with `f :.: Par1`
-- [\#11174](https://gitlab.haskell.org//ghc/ghc/issues/11174): traversable for unboxed values
-- [\#11148](https://gitlab.haskell.org//ghc/ghc/issues/11148): failure when Uniques are issued in reverse order
-- [\#10361](https://gitlab.haskell.org//ghc/ghc/issues/10361): `DeriveAnyClass` and associated types
-- [\#10598](https://gitlab.haskell.org//ghc/ghc/issues/10598): `DeriveAnyClasss` and GND
-- [\#10716](https://gitlab.haskell.org//ghc/ghc/issues/10716): strictness annotations and generics
-- [\#10604](https://gitlab.haskell.org//ghc/ghc/issues/10604): make `Generic1` kind-polymorphic
-- [\#10087](https://gitlab.haskell.org//ghc/ghc/issues/10087): typechecking generic default methods (Pedro)
-- [\#10487](https://gitlab.haskell.org//ghc/ghc/issues/10487): `Generic` name clash
-- [\#10514](https://gitlab.haskell.org//ghc/ghc/issues/10514): `Generic` for existentials
-- [\#9766](https://gitlab.haskell.org//ghc/ghc/issues/9766): use data type promotion to improve the implementation of generics
-- [\#9968](https://gitlab.haskell.org//ghc/ghc/issues/9968): panic with `DeriveAnyClass`
+
+See [Commentary/Compiler/GenericDeriving](commentary/compiler/generic-deriving) for a list of open tickets
 
 ## Impredicativity and higher rank
 
@@ -210,6 +198,7 @@ See also [TemplateHaskell](template-haskell)
 
 ## Optimisation
 
+- [\#9476](https://gitlab.haskell.org//ghc/ghc/issues/9476): late lambda lifting
 - [\#7374](https://gitlab.haskell.org//ghc/ghc/issues/7374), [\#10417](https://gitlab.haskell.org//ghc/ghc/issues/10417), [\#10418](https://gitlab.haskell.org//ghc/ghc/issues/10418), [\#7287](https://gitlab.haskell.org//ghc/ghc/issues/7287), [\#7398](https://gitlab.haskell.org//ghc/ghc/issues/7398): rules not firing; e.g. class methods, newtype constructors
 - [\#8457](https://gitlab.haskell.org//ghc/ghc/issues/8457) (summarises), [\#917](https://gitlab.haskell.org//ghc/ghc/issues/917), [\#1945](https://gitlab.haskell.org//ghc/ghc/issues/1945), [\#3273](https://gitlab.haskell.org//ghc/ghc/issues/3273), [\#4276](https://gitlab.haskell.org//ghc/ghc/issues/4276), [\#5729](https://gitlab.haskell.org//ghc/ghc/issues/5729) (closed as dups, but not fixed): full laziness sometimes makes things worse.
 - [\#10528](https://gitlab.haskell.org//ghc/ghc/issues/10528), [\#10595](https://gitlab.haskell.org//ghc/ghc/issues/10595): RULES for class methods
