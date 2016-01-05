@@ -20,8 +20,10 @@
 
 == Type families, roles, `Coercible`, `Typeable`, kind polymorphism ==
  
-Kind equalities etc: [wiki:DependentHaskell], esp [wiki:DependentHaskell/Phase1]
+Major things
+ * `TypeInType`, kind equalities etc: [wiki:DependentHaskell], esp [wiki:DependentHaskell/Phase1]
 
+Other tickets
  * #1311: newtypes over unboxed types
  * #11203: Kind inference with `SigTvs` is wrong
  * #11080: open data kinds
