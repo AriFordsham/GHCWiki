@@ -21,6 +21,16 @@ Since instances are silently exported and imported it means that this instance i
 
 ''Adam'': I don't think so. We will only solve a `HasField` constraint automatically in modules that have the field in scope, and thus we can retain the same abstraction rules as normal Haskell. This is just like `Coercible`. We don't really generate and export instances, rather there is special behaviour in the constraint solver. See [wiki:Records/OverloadedRecordFields/MagicClasses#Representationhiding discussion on representation hiding] (now updated to the latest design).
 
+== Issues ==
+
+Open Tickets:
+[[TicketQuery(status=infoneeded,status=new|patch,keywords=~ORF)]]
+
+Closed Tickets:
+[[TicketQuery(status=infoneeded,status=closed,keywords=~ORF)]]
+
+Add '''ORF''' to the ticket's keywords to include it in these lists.
+
 == Code ==
 
  * Phab:D761, Phab:D1391, Phab:D1486, Phab:D1586, Phab:D1600: `DuplicateRecordFields` extension
