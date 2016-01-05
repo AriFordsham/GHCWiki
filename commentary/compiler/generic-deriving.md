@@ -6,6 +6,167 @@ GHC includes a new (in 2010) mechanism to let you write generic functions.  It i
 
 This mechanism replaces the [previous generic classes implementation](http://www.haskell.org/ghc/docs/6.12.2/html/users_guide/generic-classes.html). What we describe until the "Kind polymorphic overhaul" section is implemented and released in GHC 7.2.1.
 
+## Status
+
+
+Use **Keyword** = `Generics` to ensure that a ticket ends up on this auto-generated list
+
+
+Open Tickets:
+
+<table><tr><th>[\#5642](https://gitlab.haskell.org//ghc/ghc/issues/5642)</th>
+<td>Deriving Generic of a big type takes a long time and lots of space</td></tr>
+<tr><th>[\#7492](https://gitlab.haskell.org//ghc/ghc/issues/7492)</th>
+<td>Generic1 deriving: Can we replace Rec1 f with f :.: Par1?</td></tr>
+<tr><th>[\#8516](https://gitlab.haskell.org//ghc/ghc/issues/8516)</th>
+<td>Add (-\>) representation and the Invariant class to GHC.Generics</td></tr>
+<tr><th>[\#8560](https://gitlab.haskell.org//ghc/ghc/issues/8560)</th>
+<td>Derive some generic representation for GADTs</td></tr>
+<tr><th>[\#10068](https://gitlab.haskell.org//ghc/ghc/issues/10068)</th>
+<td>Make the runtime reflection API for names, modules, locations more systematic</td></tr>
+<tr><th>[\#10087](https://gitlab.haskell.org//ghc/ghc/issues/10087)</th>
+<td>DefaultSignatures: error message mentions internal name</td></tr>
+<tr><th>[\#10514](https://gitlab.haskell.org//ghc/ghc/issues/10514)</th>
+<td>Generic for existential types</td></tr>
+<tr><th>[\#11068](https://gitlab.haskell.org//ghc/ghc/issues/11068)</th>
+<td>Make Generic/Generic1 methods inlinable</td></tr>
+<tr><th>[\#12731](https://gitlab.haskell.org//ghc/ghc/issues/12731)</th>
+<td>Generic type class has type family; leads to big dep_finsts</td></tr>
+<tr><th>[\#13065](https://gitlab.haskell.org//ghc/ghc/issues/13065)</th>
+<td>Prohibit user-defined Generic and Generic1 instances</td></tr>
+<tr><th>[\#15969](https://gitlab.haskell.org//ghc/ghc/issues/15969)</th>
+<td>Generic1 deriving should use more coercions</td></tr></table>
+
+
+Closed Tickets:
+
+<table><tr><th>[\#2824](https://gitlab.haskell.org//ghc/ghc/issues/2824)</th>
+<td>Duplicate symbols generated when Generics flag and syb-with-class "derive" used simultaneously</td></tr>
+<tr><th>[\#3391](https://gitlab.haskell.org//ghc/ghc/issues/3391)</th>
+<td>Generics compilation failure in combination with Data.Accessor deriving</td></tr>
+<tr><th>[\#5220](https://gitlab.haskell.org//ghc/ghc/issues/5220)</th>
+<td>GHC internal error when missing -XFlexibleContexts with generics</td></tr>
+<tr><th>[\#5227](https://gitlab.haskell.org//ghc/ghc/issues/5227)</th>
+<td>Large space usage when deriving Generic</td></tr>
+<tr><th>[\#5462](https://gitlab.haskell.org//ghc/ghc/issues/5462)</th>
+<td>Deriving clause for arbitrary classes</td></tr>
+<tr><th>[\#5464](https://gitlab.haskell.org//ghc/ghc/issues/5464)</th>
+<td>Change the way the extra bindings for the generic representation are generated</td></tr>
+<tr><th>[\#5884](https://gitlab.haskell.org//ghc/ghc/issues/5884)</th>
+<td>GHC panics while trying to derive a Generic instance for Complex a</td></tr>
+<tr><th>[\#5936](https://gitlab.haskell.org//ghc/ghc/issues/5936)</th>
+<td>Support for data families in generics</td></tr>
+<tr><th>[\#5939](https://gitlab.haskell.org//ghc/ghc/issues/5939)</th>
+<td>Standalone deriving Generic on type with instantiated arguments</td></tr>
+<tr><th>[\#7035](https://gitlab.haskell.org//ghc/ghc/issues/7035)</th>
+<td>\`deriving instance Generic (HsExpr Id)\` raises panic</td></tr>
+<tr><th>[\#7255](https://gitlab.haskell.org//ghc/ghc/issues/7255)</th>
+<td>Wrong suggestion when deriving Generic on an instantiated type</td></tr>
+<tr><th>[\#7263](https://gitlab.haskell.org//ghc/ghc/issues/7263)</th>
+<td>Add derived Show instances to GHC.Generics</td></tr>
+<tr><th>[\#7346](https://gitlab.haskell.org//ghc/ghc/issues/7346)</th>
+<td>Allow the use of \`deriving\` for GHC generics</td></tr>
+<tr><th>[\#7422](https://gitlab.haskell.org//ghc/ghc/issues/7422)</th>
+<td>GHC panics while trying to derive Generic for GADT with kind-lifted phantom parameter</td></tr>
+<tr><th>[\#7444](https://gitlab.haskell.org//ghc/ghc/issues/7444)</th>
+<td>Update documentation regarding derivability of Generic1</td></tr>
+<tr><th>[\#7459](https://gitlab.haskell.org//ghc/ghc/issues/7459)</th>
+<td>deriving Generic does not work with TypeLits</td></tr>
+<tr><th>[\#7487](https://gitlab.haskell.org//ghc/ghc/issues/7487)</th>
+<td>Deriving Generic1 for a type containing Either</td></tr>
+<tr><th>[\#7631](https://gitlab.haskell.org//ghc/ghc/issues/7631)</th>
+<td>Allow to differentiate between newtypes and datatypes when using Generics</td></tr>
+<tr><th>[\#7878](https://gitlab.haskell.org//ghc/ghc/issues/7878)</th>
+<td>Panic when using DerivingGeneric with hs-boot</td></tr>
+<tr><th>[\#8416](https://gitlab.haskell.org//ghc/ghc/issues/8416)</th>
+<td>GHC.Generics needs more documentation</td></tr>
+<tr><th>[\#8468](https://gitlab.haskell.org//ghc/ghc/issues/8468)</th>
+<td>ghc panic in deriving Generic1 on Array\#</td></tr>
+<tr><th>[\#8479](https://gitlab.haskell.org//ghc/ghc/issues/8479)</th>
+<td>Generic1 crashes with tyConStupidTheta when using associated type families</td></tr>
+<tr><th>[\#8797](https://gitlab.haskell.org//ghc/ghc/issues/8797)</th>
+<td>Generics instances for monoid and applicative newtypes</td></tr>
+<tr><th>[\#8929](https://gitlab.haskell.org//ghc/ghc/issues/8929)</th>
+<td>Deriving Generics broken</td></tr>
+<tr><th>[\#9043](https://gitlab.haskell.org//ghc/ghc/issues/9043)</th>
+<td>Add missing type class instances for data types in GHC.Generics</td></tr>
+<tr><th>[\#9453](https://gitlab.haskell.org//ghc/ghc/issues/9453)</th>
+<td>The example for GHC Generics is kinda broken</td></tr>
+<tr><th>[\#9523](https://gitlab.haskell.org//ghc/ghc/issues/9523)</th>
+<td>Typo in GHC Generics documentation</td></tr>
+<tr><th>[\#9526](https://gitlab.haskell.org//ghc/ghc/issues/9526)</th>
+<td>Add missing Generic instances in base</td></tr>
+<tr><th>[\#9527](https://gitlab.haskell.org//ghc/ghc/issues/9527)</th>
+<td>Add Generic instances for Language.Haskell.TH</td></tr>
+<tr><th>[\#9563](https://gitlab.haskell.org//ghc/ghc/issues/9563)</th>
+<td>Support for deriving Generic1 for data families</td></tr>
+<tr><th>[\#9630](https://gitlab.haskell.org//ghc/ghc/issues/9630)</th>
+<td>compile-time performance regression (probably due to Generics)</td></tr>
+<tr><th>[\#9766](https://gitlab.haskell.org//ghc/ghc/issues/9766)</th>
+<td>Use TypeLits in the meta-data encoding of GHC.Generics</td></tr>
+<tr><th>[\#9821](https://gitlab.haskell.org//ghc/ghc/issues/9821)</th>
+<td>DeriveAnyClass support for higher-kinded classes + some more comments</td></tr>
+<tr><th>[\#9968](https://gitlab.haskell.org//ghc/ghc/issues/9968)</th>
+<td>DeriveAnyClass fails on multi-parameter type classes</td></tr>
+<tr><th>[\#10030](https://gitlab.haskell.org//ghc/ghc/issues/10030)</th>
+<td>packageName for GHC.Generics.Datatype</td></tr>
+<tr><th>[\#10361](https://gitlab.haskell.org//ghc/ghc/issues/10361)</th>
+<td>DeriveAnyClass does not fill in associated type defaults</td></tr>
+<tr><th>[\#10487](https://gitlab.haskell.org//ghc/ghc/issues/10487)</th>
+<td>DeriveGeneric breaks when the same data name is used in different modules</td></tr>
+<tr><th>[\#10512](https://gitlab.haskell.org//ghc/ghc/issues/10512)</th>
+<td>Generic instances missing for Int32, Word64 etc.</td></tr>
+<tr><th>[\#10513](https://gitlab.haskell.org//ghc/ghc/issues/10513)</th>
+<td>ghc 7.6.3 Compiler panic with Generics</td></tr>
+<tr><th>[\#10598](https://gitlab.haskell.org//ghc/ghc/issues/10598)</th>
+<td>DeriveAnyClass and GND don't work well together</td></tr>
+<tr><th>[\#10604](https://gitlab.haskell.org//ghc/ghc/issues/10604)</th>
+<td>Make Generic1 kind polymorphic</td></tr>
+<tr><th>[\#10669](https://gitlab.haskell.org//ghc/ghc/issues/10669)</th>
+<td>Missing Generic instances for base types.</td></tr>
+<tr><th>[\#10716](https://gitlab.haskell.org//ghc/ghc/issues/10716)</th>
+<td>Metadata in GHC.Generic should give access to strictness annotation</td></tr>
+<tr><th>[\#10775](https://gitlab.haskell.org//ghc/ghc/issues/10775)</th>
+<td>Enable PolyKinds in GHC.Generics</td></tr>
+<tr><th>[\#10852](https://gitlab.haskell.org//ghc/ghc/issues/10852)</th>
+<td>ghc 7.8.4 on arm - panic: Simplifier ticks exhausted</td></tr>
+<tr><th>[\#10868](https://gitlab.haskell.org//ghc/ghc/issues/10868)</th>
+<td>Make GHC generics capable of handling unboxed types</td></tr>
+<tr><th>[\#11292](https://gitlab.haskell.org//ghc/ghc/issues/11292)</th>
+<td>Generics unboxed types: TEST=GEq1 WAY=optasm is failing</td></tr>
+<tr><th>[\#11357](https://gitlab.haskell.org//ghc/ghc/issues/11357)</th>
+<td>Regression when deriving Generic1 on poly-kinded data family</td></tr>
+<tr><th>[\#11358](https://gitlab.haskell.org//ghc/ghc/issues/11358)</th>
+<td>GHC generics has differing conFixity behavior between 7.10.3 and 8.1</td></tr>
+<tr><th>[\#11415](https://gitlab.haskell.org//ghc/ghc/issues/11415)</th>
+<td>pandoc-types fails to build on 4 GB machine</td></tr>
+<tr><th>[\#11703](https://gitlab.haskell.org//ghc/ghc/issues/11703)</th>
+<td>Segmentation fault/internal error: evacuate: strange closure type 15 with GHC.Generics</td></tr>
+<tr><th>[\#11732](https://gitlab.haskell.org//ghc/ghc/issues/11732)</th>
+<td>Deriving Generic1 interacts poorly with TypeInType</td></tr>
+<tr><th>[\#11775](https://gitlab.haskell.org//ghc/ghc/issues/11775)</th>
+<td>singleton classes in ghc.generics are defined but not exported</td></tr>
+<tr><th>[\#11991](https://gitlab.haskell.org//ghc/ghc/issues/11991)</th>
+<td>Generics deriving is quadratic</td></tr>
+<tr><th>[\#12144](https://gitlab.haskell.org//ghc/ghc/issues/12144)</th>
+<td>GHC panic when using DeriveAnyClass with functor-like class and datatype with a type variable in a contravariant position</td></tr>
+<tr><th>[\#12367](https://gitlab.haskell.org//ghc/ghc/issues/12367)</th>
+<td>Commit adding instances to GHC.Generics regression compiler performance</td></tr>
+<tr><th>[\#12423](https://gitlab.haskell.org//ghc/ghc/issues/12423)</th>
+<td>Panic with DeriveAnyClass</td></tr>
+<tr><th>[\#12594](https://gitlab.haskell.org//ghc/ghc/issues/12594)</th>
+<td>DeriveAnyClass fails to derive some classes</td></tr>
+<tr><th>[\#13059](https://gitlab.haskell.org//ghc/ghc/issues/13059)</th>
+<td>High memory usage during compilation</td></tr>
+<tr><th>[\#13206](https://gitlab.haskell.org//ghc/ghc/issues/13206)</th>
+<td>Error in GHC.Generics documentation</td></tr>
+<tr><th>[\#13272](https://gitlab.haskell.org//ghc/ghc/issues/13272)</th>
+<td>DeriveAnyClass regression involving a rigid type variable</td></tr>
+<tr><th>[\#13314](https://gitlab.haskell.org//ghc/ghc/issues/13314)</th>
+<td>StandaloneDeriving and DeriveAnyClass don't work together</td></tr>
+<tr><th>[\#13919](https://gitlab.haskell.org//ghc/ghc/issues/13919)</th>
+<td>Incorrect unused top binding warning when interacting with GHC.Generics</td></tr></table>
+
 ## Main components
 
 - `TcDeriv.tcDeriving` now allows deriving `Generic` instances.

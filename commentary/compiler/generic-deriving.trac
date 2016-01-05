@@ -5,6 +5,17 @@ GHC includes a new (in 2010) mechanism to let you write generic functions.  It i
 
 This mechanism replaces the [http://www.haskell.org/ghc/docs/6.12.2/html/users_guide/generic-classes.html previous generic classes implementation]. What we describe until the "Kind polymorphic overhaul" section is implemented and released in GHC 7.2.1.
 
+== Status ==
+
+Use '''Keyword''' = `Generics` to ensure that a ticket ends up on this auto-generated list
+
+Open Tickets:
+[[TicketQuery(status=infoneeded,status=new|patch,keywords=~Generics)]]
+
+Closed Tickets:
+[[TicketQuery(status=infoneeded,status=closed,keywords=~Generics)]]
+
+
 == Main components ==
 
  * `TcDeriv.tcDeriving` now allows deriving `Generic` instances.
