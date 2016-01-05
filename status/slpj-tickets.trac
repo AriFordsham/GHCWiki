@@ -42,11 +42,12 @@ Kind equalities etc: [wiki:DependentHaskell], esp [wiki:DependentHaskell/Phase1]
  * #8177: role signature for type families
  * #9547: kinding for empty constraint tuples
 
-== Pattern matching ==
+== Data types and pattern matching ==
 
-See [wiki:PatternMatchCheck George's status page on the new pattern-match checker]
-
-See [wiki:PatternSynonyms the pattern-synonym status page]
+Some big features
+ * [wiki:PatternMatchCheck new pattern-match overlap/exhaustiveness checker]
+ * [wiki:PatternSynonyms the pattern-synonym status page]
+ * [wiki:Records/OverloadedRecordFields overloaded record fields]
 
  * #11253: duplicate warnings with new pattern checker
  * #11245: "patterns not matched" list is empty

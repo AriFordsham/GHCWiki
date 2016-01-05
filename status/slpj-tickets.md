@@ -45,13 +45,14 @@ Kind equalities etc: [DependentHaskell](dependent-haskell), esp [DependentHaskel
 - [\#8177](https://gitlab.haskell.org//ghc/ghc/issues/8177): role signature for type families
 - [\#9547](https://gitlab.haskell.org//ghc/ghc/issues/9547): kinding for empty constraint tuples
 
-## Pattern matching
+## Data types and pattern matching
 
 
-See [George's status page on the new pattern-match checker](pattern-match-check)
+Some big features
 
-
-See [the pattern-synonym status page](pattern-synonyms)
+- [new pattern-match overlap/exhaustiveness checker](pattern-match-check)
+- [the pattern-synonym status page](pattern-synonyms)
+- [overloaded record fields](records/overloaded-record-fields)
 
 - [\#11253](https://gitlab.haskell.org//ghc/ghc/issues/11253): duplicate warnings with new pattern checker
 - [\#11245](https://gitlab.haskell.org//ghc/ghc/issues/11245): "patterns not matched" list is empty
