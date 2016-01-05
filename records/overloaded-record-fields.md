@@ -29,6 +29,7 @@ Since instances are silently exported and imported it means that this instance i
 
 - [ Phab:D761](https://phabricator.haskell.org/D761), [ Phab:D1391](https://phabricator.haskell.org/D1391), [ Phab:D1486](https://phabricator.haskell.org/D1486), [ Phab:D1586](https://phabricator.haskell.org/D1586), [ Phab:D1600](https://phabricator.haskell.org/D1600): `DuplicateRecordFields` extension
 - [ Phab:D1331](https://phabricator.haskell.org/D1331), [ Phab:D1623](https://phabricator.haskell.org/D1623): `OverloadedLabels` extension
+- [ Phab:D1687](https://phabricator.haskell.org/D1687): magic classes
 - [ Prototype implementation of the magic typeclasses](https://github.com/adamgundry/records-prototype)
 
 ## History
