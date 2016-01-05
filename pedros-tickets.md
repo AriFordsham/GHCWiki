@@ -44,7 +44,7 @@ Closed:
 - [\#10030](https://gitlab.haskell.org//ghc/ghc/issues/10030) (packageName for GHC.Generics.Datatype)
 - [\#10361](https://gitlab.haskell.org//ghc/ghc/issues/10361) (DeriveAnyClass does not fill in associated type defaults)
 - [\#10487](https://gitlab.haskell.org//ghc/ghc/issues/10487) (DeriveGeneric breaks when the same data name is used in different modules)
-- [\#10513](https://gitlab.haskell.org//ghc/ghc/issues/10513) (ghc 7.6.3 Compiler panic with Generics)
+- [\#10598](https://gitlab.haskell.org//ghc/ghc/issues/10598) (ghc 7.6.3 Compiler panic with Generics)
 
 
 Wiki pages:
