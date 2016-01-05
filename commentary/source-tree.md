@@ -28,10 +28,6 @@ Lists the various tarballs (binary packages) that ghc relies on and where to unp
 <table><tr><th>**GNU autoconf machinery**</th>
 <td>`aclocal.m4`, `config.guess`, `config.sub`, `configure.ac`, `install-sh`, `config.mk.in`, `settings.in`</td></tr></table>
 
-<table><tr><th>**`ghc.spec.in`**</th>
-<td>the RPM spec file
-</td></tr></table>
-
 <table><tr><th>**`Makefile`**</th>
 <td>The top-level `Makefile`: see [GHC Build System Architecture](building/architecture). GHC requires
 [ GNU make](http://www.gnu.org/software/make/).
@@ -87,7 +83,6 @@ The `utils` directory contains support utilities that GHC uses.
 
 These utils may be built with the bootstrapping compiler, for use during the build, or with the stage1 or stage2 compiler, for installing. Some of them are built with both; we can't install the utils built with the bootstrapping compiler as they may use different versions of C libraries. The reason we use sometimes stage2 rather than stage1 is that some utils, e.g. haddock, need the GHC API package.
 
-- **`utils/ghc-pwd`** is a little program we use for getting the current directory. We use this, rather than `pwd`, as the latter may give result that we can't use on Windows.
 - **`utils/ghc-cabal`** is a little program we use for building the libraries. It's similar to cabal-install, but without the dependencies on `http` etc.
 - **`utils/count_lines`** is a program that counts the number of source-code lines in GHC's code-base. It distinguishes comments from non-comments.
 
@@ -96,7 +91,7 @@ These utils may be built with the bootstrapping compiler, for use during the bui
 
 This contains some simple wrapper programs and scripts, for example the `ghci` wrapper that invokes the `ghc` binary with the `--interactive` flag.  These wrappers tend to be executable programs on Windows and scripts on Unix systems.
 
-## `ghc-tarballs/`
+## `ghc-tarballs/` (Windows only)
 
 
 This contains some tarball files (binary packages) that GHC relies upon. Used for easier development / deployment on windows.
