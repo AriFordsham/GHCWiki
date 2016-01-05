@@ -4,21 +4,14 @@ This page -- a description of the first phase of integrating full dependent type
 
 = Status =
 
+Use Keyword = `TypeInType` to ensure that a ticket ends up on these lists.
+
 Open Tickets:
 [[TicketQuery(status=infoneeded,status=new|patch,keywords=~TypeInType)]]
 
 Closed Tickets:
 [[TicketQuery(status=infoneeded,status=closed,keywords=~TypeInType)]]
 
-
-Manual tickets:
-
-  * #11266: no match in `tcTyConTyVars`
-  * #11241: wildcards in kinds
-  * #11195: `OptCoercion` now takes forever to compile. It seems to be that pattern guards are causing the new completeness-checker to overwork.
-  * #11196: A handful of performance regressions.
-  * #11197: Deferred type errors are more eager.
-  * #11198: A specific error message regression.
 
 
 = User-facing changes =
