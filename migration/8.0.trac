@@ -40,6 +40,23 @@ foo = [$e| ... ]
 foo = [e| ... ]
 }}}
 
+=== `-fwarn-unused-matches`
+
+If your code uses type families, you might experience new warnings when `-fwarn-unused-matches` is enabled (which is implied by `-Wall`). For example, this code:
+
+{{{#!hs
+type family Const a b where
+  Const a b = a
+}}}
+
+emits the following warning when compiled with GHC 8.0:
+
+{{{
+warning: Defined but not used: type variable ‘b’
+}}}
+
+since `b` is used once on the left-hand side of a type family equation but not used on the right-hand side. A backwards-compatible way to suppress this warning is to add an underscore to the beginning of the type variable, i.e., `Const a _b = a`.
+
 == Pattern Synonym Signatures 
 
 1. The ordering of the constraints has been changed so that required constraints appear before provided constraints. 
@@ -69,24 +86,7 @@ pattern P3 :: req => ty
 
 pattern P4 :: ty
 
-}}} 
-
-== Unused type variable warnings
-
-If your code uses type families, you might experience new warnings. For example, this code:
-
-{{{#!hs
-type family Const a b where
-  Const a b = a
 }}}
-
-emits the following warning when compiled with GHC 8.0:
-
-{{{
-warning: Defined but not used: type variable ‘b’
-}}}
-
-since `b` is used once on the left-hand side of a type family equation but not used on the right-hand side. A backwards-compatible way to suppress this warning is to add an underscore to the beginning of the type variable, i.e., `Const a _b = a`.
 
 --------------------------------
 == Library changes
