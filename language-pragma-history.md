@@ -18,6 +18,12 @@ Added LANGUAGE extensions:
 - `[No]DuplicateRecordFields`
 - `[No]StaticPointers`
 - `[No]StrictData`
+- `[No]OverloadedLabels`
+- `[No]UndecidableSuperClasses`
+- `[No]TemplateHaskellQuotes`
+- `[No]MonadFailDesugaring`
+- `[No]TypeInType`
+- `[No]TypeApplications`
 
 ## Changes in GHC 7.10
 
