@@ -16,28 +16,28 @@ GHC on Windows is supported by the [Windows Task Force](windows-task-force).
 </th></tr>
 <tr><th>  7.8          </th>
 <th></th>
-<th>  Yes    </th>
-<th>  Yes    </th>
-<th>  Yes    </th>
-<th>  Yes   </th>
+<th>  ✔      </th>
+<th>  ✔      </th>
+<th>  ✔      </th>
+<th>  ✔     </th>
 <th></th>
 <th></th></tr>
 <tr><th>  7.10         </th>
 <th></th>
 <th></th>
-<th>  Yes    </th>
-<th>  Yes    </th>
-<th>  Yes   </th>
-<th>  Yes   </th>
+<th>  ✔      </th>
+<th>  ✔      </th>
+<th>  ✔     </th>
+<th>  ✔     </th>
 <th></th></tr>
 <tr><th>  8.0          </th>
 <th></th>
 <th></th>
 <th></th>
-<th>  Yes    </th>
-<th>  Yes   </th>
-<th>  Yes   </th>
-<th>  Yes    
+<th>  ✔      </th>
+<th>  ✔     </th>
+<th>  ✔     </th>
+<th>  ✔      
 </th></tr></table>
 
 ## Building 32-bit Windows programs
