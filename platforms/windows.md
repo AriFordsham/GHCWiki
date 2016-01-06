@@ -14,7 +14,7 @@ GHC on Windows is supported by the [Windows Task Force](windows-task-force).
 <th> Win8 </th>
 <th> Win10 
 </th></tr>
-<tr><th>  7.8          </th>
+<tr><th> 7.8         </th>
 <th></th>
 <th>  ✔      </th>
 <th>  ✔      </th>
@@ -22,7 +22,7 @@ GHC on Windows is supported by the [Windows Task Force](windows-task-force).
 <th>  ✔     </th>
 <th></th>
 <th></th></tr>
-<tr><th>  7.10         </th>
+<tr><th> 7.10        </th>
 <th></th>
 <th></th>
 <th>  ✔      </th>
@@ -30,7 +30,7 @@ GHC on Windows is supported by the [Windows Task Force](windows-task-force).
 <th>  ✔     </th>
 <th>  ✔     </th>
 <th></th></tr>
-<tr><th>  8.0          </th>
+<tr><th> 8.0         </th>
 <th></th>
 <th></th>
 <th></th>

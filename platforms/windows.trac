@@ -5,9 +5,9 @@ GHC on Windows is supported by the [wiki:WindowsTaskForce Windows Task Force].
 == Versions supported ==
 
 ||= GHC Version =||= <= WinNT4 =||= Win2k =||= WinXP =||= Vista =||= Win7 =||= Win8 =||= Win10 =||
-||  7.8          ||             ||  ✔      ||  ✔      ||  ✔      ||  ✔     ||        ||         ||
-||  7.10         ||             ||         ||  ✔      ||  ✔      ||  ✔     ||  ✔     ||         ||
-||  8.0          ||             ||         ||         ||  ✔      ||  ✔     ||  ✔     ||  ✔      ||
+||= 7.8         =||             ||  ✔      ||  ✔      ||  ✔      ||  ✔     ||        ||         ||
+||= 7.10        =||             ||         ||  ✔      ||  ✔      ||  ✔     ||  ✔     ||         ||
+||= 8.0         =||             ||         ||         ||  ✔      ||  ✔     ||  ✔     ||  ✔      ||
 
 
 
