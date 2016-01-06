@@ -15,6 +15,7 @@ See also [ http://damianfral.github.io/ghcaniuse/](http://damianfral.github.io/g
 Added LANGUAGE extensions:
 
 - `[No]ApplicativeDo`
+- `[No]DeriveLift`
 - `[No]DuplicateRecordFields`
 - `[No]StaticPointers`
 - `[No]StrictData`
