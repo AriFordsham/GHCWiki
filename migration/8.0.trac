@@ -153,6 +153,8 @@ TODO
 
  - The constructors of the `Info` type now have one field less (TODO: more details)
 
+- The `DataD`, `NewtypeD`, `DataInstD`, and `NewtypeD` constructors have one more field (TODO: more details)
+
  - The `Strict` datatype has been overhauled. The functional equivalent of `Strict` in `template-haskell-2.11.0.0` is `Bang`:
    
    {{{#!hs
