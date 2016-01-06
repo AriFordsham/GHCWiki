@@ -4,11 +4,15 @@ GHC on Windows is supported by the [wiki:WindowsTaskForce Windows Task Force].
 
 == Versions supported ==
 
-We no longer support Windows 95, 98, ME or NT. We do support 2000, XP and Vista.
+||= GHC Version =||= <= WinNT4 =||= Win2k =||= WinXP =||= Vista ||= Win8 =||= Win10 =||
+||  7.8          ||             ||  Yes    ||  Yes    ||  Yes   ||        ||         ||
+||  7.10         ||             ||         ||  Yes    ||  Yes   ||  Yes   ||         ||
+||  8.0          ||             ||         ||         ||  Yes   ||  Yes   ||  Yes    ||
+
 
 == Building 32-bit Windows programs ==
 
-Current releases of GHC provide a 32bit Windows version for building 32bit programs on Windows. It ships with a small [http://mingw-w64.sourceforge.net/ MinGW-w64] system bundled, which provides tools (such as a C compiler, linker and assembler) that are used by the compiler.
+Current releases of GHC provide a 32-bit Windows version for building 32-bit programs on Windows. It ships with a small [http://mingw-w64.sourceforge.net/ MinGW-w64] system bundled, which provides tools (such as a C compiler, linker and assembler) that are used by the compiler.
 
 == Building 64-bit Windows programs ==
 
