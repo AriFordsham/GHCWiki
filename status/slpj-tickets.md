@@ -83,6 +83,7 @@ See [Commentary/Compiler/GenericDeriving](commentary/compiler/generic-deriving) 
 
 [Compile time perf page](performance/compiler)
 
+- [\#11375](https://gitlab.haskell.org//ghc/ghc/issues/11375): type synonyms slower than type families
 - [\#8095](https://gitlab.haskell.org//ghc/ghc/issues/8095): very slow constraint solving; perhaps discard large constraints using `UnivCo`
 - [\#5642](https://gitlab.haskell.org//ghc/ghc/issues/5642): slow constraint solving
 - [\#9979](https://gitlab.haskell.org//ghc/ghc/issues/9979), [\#8814](https://gitlab.haskell.org//ghc/ghc/issues/8814), [\#8835](https://gitlab.haskell.org//ghc/ghc/issues/8835): attoparsec regressed 7.8.4 to HEAD
