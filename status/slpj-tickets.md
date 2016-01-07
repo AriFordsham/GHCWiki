@@ -108,6 +108,7 @@ Code-size blowup when using `deriving`; see tickets with keyword `deriving-perf`
 - The notorious state hack, and `replicateM` in particular
 
   - [\#1168](https://gitlab.haskell.org//ghc/ghc/issues/1168) has a list of related tickets
+  - [\#11365](https://gitlab.haskell.org//ghc/ghc/issues/11365)
   - [\#9388](https://gitlab.haskell.org//ghc/ghc/issues/9388) has ideas and preliminary work on how to limit the scope of the hack
   - Search for "`replicateM`" to find other tickets
   - [\#7411](https://gitlab.haskell.org//ghc/ghc/issues/7411): state hack changes exception semantics
