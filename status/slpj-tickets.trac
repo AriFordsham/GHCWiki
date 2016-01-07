@@ -244,7 +244,7 @@ See [wiki:Commentary/Compiler/NewCodeGenStupidity Edward's collection of code-ge
  * #8903: dead stores
  * #8887: double assignment
  * #8871: Cmm optimisation opportunity
- * #8585: loopification
+ * #8585: loopification; see also [wiki:Commentary/Compiler/Loopification]
  * Summary ticket: #4258, and [wiki:Commentary/Compiler/NewCodeGen wiki page]
  * #3462: allocate large objects with `allocateLocal()`
  * #2289: cheap check at start of case alternatives
