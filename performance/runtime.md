@@ -5,6 +5,8 @@ Here is where we track various on-going efforts to improve the runtime performan
 
 ## Tickets
 
+- A list of [ all tickets tagged with run-time performance](https://ghc.haskell.org/trac/ghc/query?status=!closed&failure=Runtime+performance+bug&order=id)
+
 - [\#10992](https://gitlab.haskell.org//ghc/ghc/issues/10992): `Data.List.sum` is much slower than the naive recursive definition for it.  Does not happen in 7.8.
 
 ## Nofib results
