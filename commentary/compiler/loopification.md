@@ -1,0 +1,15 @@
+# Loopification
+
+
+Loopification is a C-- optimisation pass that turns tail recursion into proper loops.
+
+
+Here is a summary of relevant links and tickets
+
+- \[Krzysztof Wos's project [ http://research.microsoft.com/en-us/um/people/simonpj/tmp/wos-diss-draft.pdf](http://research.microsoft.com/en-us/um/people/simonpj/tmp/wos-diss-draft.pdf)\] in which he reports great performance improvements by turning tail recursion into loops in C--. 
+
+- Tickets:
+
+  - [\#8285](https://gitlab.haskell.org//ghc/ghc/issues/8285)
+  - [\#8793](https://gitlab.haskell.org//ghc/ghc/issues/8793); see comment 15 etc, where it seems that we are missing loopification for a simple IO function
+  - [\#8585](https://gitlab.haskell.org//ghc/ghc/issues/8585) concerned getting the loop to start *after* the stack check
