@@ -78,9 +78,9 @@ See [Commentary/Compiler/GenericDeriving](commentary/compiler/generic-deriving) 
 - [\#10619](https://gitlab.haskell.org//ghc/ghc/issues/10619): higher rank and order of equations
 - [\#4281](https://gitlab.haskell.org//ghc/ghc/issues/4281), [\#4295](https://gitlab.haskell.org//ghc/ghc/issues/4295), [\#4347](https://gitlab.haskell.org//ghc/ghc/issues/4347), [\#7264](https://gitlab.haskell.org//ghc/ghc/issues/7264), [\#8808](https://gitlab.haskell.org//ghc/ghc/issues/8808), [\#9420](https://gitlab.haskell.org//ghc/ghc/issues/9420), [\#9730](https://gitlab.haskell.org//ghc/ghc/issues/9730), [\#10709](https://gitlab.haskell.org//ghc/ghc/issues/10709): impredicativity
 
-## Performance
+## Compile-time performance
 
-[Compile time](performance/compiler) and [run time](performance/runtime)
+[Compile time perf page](performance/compiler)
 
 - [\#8095](https://gitlab.haskell.org//ghc/ghc/issues/8095): very slow constraint solving; perhaps discard large constraints using `UnivCo`
 - [\#5642](https://gitlab.haskell.org//ghc/ghc/issues/5642): slow constraint solving
@@ -99,7 +99,19 @@ Code-size blowup when using `deriving`; see tickets with keyword `deriving-perf`
 - [\#9583](https://gitlab.haskell.org//ghc/ghc/issues/9583), [\#9630](https://gitlab.haskell.org//ghc/ghc/issues/9630): code blowup in Generics/Binary
 - [\#9669](https://gitlab.haskell.org//ghc/ghc/issues/9669), [\#9557](https://gitlab.haskell.org//ghc/ghc/issues/9557), [\#8731](https://gitlab.haskell.org//ghc/ghc/issues/8731): slow compilation with lots of `deriving` clauses
 - [\#10858](https://gitlab.haskell.org//ghc/ghc/issues/10858): `Ord` instances
-- [\#1544](https://gitlab.haskell.org//ghc/ghc/issues/1544): \`Read1 instances
+- [\#1544](https://gitlab.haskell.org//ghc/ghc/issues/1544): `Read1` instances
+
+## Run-time performance
+
+[Run time perf page](performance/runtime)
+
+- The notorious state hack, and `replicateM` in particular
+
+  - [\#1168](https://gitlab.haskell.org//ghc/ghc/issues/1168) has a list of related tickets
+  - [\#9388](https://gitlab.haskell.org//ghc/ghc/issues/9388) has ideas and preliminary work on how to limit the scope of the hack
+  - Search for "`replicateM`" to find other tickets
+  - [\#7411](https://gitlab.haskell.org//ghc/ghc/issues/7411): state hack changes exception semantics
+  - [\#2284](https://gitlab.haskell.org//ghc/ghc/issues/2284), [\#1168](https://gitlab.haskell.org//ghc/ghc/issues/1168), [\#7561](https://gitlab.haskell.org//ghc/ghc/issues/7561), [\#9349](https://gitlab.haskell.org//ghc/ghc/issues/9349): the state-hack "optimisation" causes much re-computation
 
 ## Front end
 
@@ -171,8 +183,6 @@ See also [TemplateHaskell](template-haskell)
 
 - [\#11029](https://gitlab.haskell.org//ghc/ghc/issues/11029): eta expansion causes slow-down
 - [\#11146](https://gitlab.haskell.org//ghc/ghc/issues/11146): manual eta expansion is a big win
-- [\#7411](https://gitlab.haskell.org//ghc/ghc/issues/7411): state hack changes exception semantics
-- [\#9388](https://gitlab.haskell.org//ghc/ghc/issues/9388): narrow the state hack
 - [\#10260](https://gitlab.haskell.org//ghc/ghc/issues/10260), [\#9020](https://gitlab.haskell.org//ghc/ghc/issues/9020), [\#10319](https://gitlab.haskell.org//ghc/ghc/issues/10319): not enough eta expansion
 - [\#7542](https://gitlab.haskell.org//ghc/ghc/issues/7542): optimisation of eta expansion/reduction
 - [\#5809](https://gitlab.haskell.org//ghc/ghc/issues/5809): arity analysis could be better
@@ -361,6 +371,5 @@ See [Edward's collection of code-generation stupidities](commentary/compiler/new
 ## Not sure what to do about these
 
 - [\#7897](https://gitlab.haskell.org//ghc/ghc/issues/7897): make the fingerprint in a `TypeRep` be a proper fingerprint, including the type definition all the way down (see [ Recompilation avoidance](http://hackage.haskell.org/trac/ghc/wiki/DependencyTracking))
-- [\#2284](https://gitlab.haskell.org//ghc/ghc/issues/2284), [\#1168](https://gitlab.haskell.org//ghc/ghc/issues/1168), [\#7561](https://gitlab.haskell.org//ghc/ghc/issues/7561), [\#9349](https://gitlab.haskell.org//ghc/ghc/issues/9349): the state-hack "optimisation" causes much re-computation
 - [\#4005](https://gitlab.haskell.org//ghc/ghc/issues/4005): generational GC pathalogical case
 - [\#1349](https://gitlab.haskell.org//ghc/ghc/issues/1349): strict function argument types
