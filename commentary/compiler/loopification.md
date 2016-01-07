@@ -6,7 +6,7 @@ Loopification is a C-- optimisation pass that turns tail recursion into proper l
 
 Here is a summary of relevant links and tickets
 
-- \[Krzysztof Wos's project [ http://research.microsoft.com/en-us/um/people/simonpj/tmp/wos-diss-draft.pdf](http://research.microsoft.com/en-us/um/people/simonpj/tmp/wos-diss-draft.pdf)\] in which he reports great performance improvements by turning tail recursion into loops in C--. 
+- [ Krzysztof Wos's project](http://research.microsoft.com/en-us/um/people/simonpj/tmp/wos-diss-draft.pdf) in which he reports great performance improvements by turning tail recursion into loops in C--. 
 
 - Tickets:
 
