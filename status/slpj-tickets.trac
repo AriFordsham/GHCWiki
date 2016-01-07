@@ -233,6 +233,9 @@ See also [wiki:TemplateHaskell]
 
 
 == Cmm and code generation ==
+
+See [wiki:Commentary/Compiler/NewCodeGenStupidity Edward's collection of code-generation stupidities]
+
  * #10012: Cheap-to-compute values aren't pushed into case branches
  * #9718: avoiding `TidyPgm` having to predict arity and CAF-ref-ness
  * #9159: jump tables for dense cases
