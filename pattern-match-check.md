@@ -7,6 +7,7 @@ we describe the problem and the algorithm.  It forms part of GHC 8.0.
 
 **Performance related tickets** (to be solved for 8.0):
 
+- [\#11374](https://gitlab.haskell.org//ghc/ghc/issues/11374)
 - [\#11160](https://gitlab.haskell.org//ghc/ghc/issues/11160)
 - [\#11303](https://gitlab.haskell.org//ghc/ghc/issues/11303)
 - [\#11302](https://gitlab.haskell.org//ghc/ghc/issues/11302)
