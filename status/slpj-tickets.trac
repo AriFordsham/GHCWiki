@@ -72,6 +72,7 @@ See [wiki:Commentary/Compiler/GenericDeriving] for a list of open tickets
 
 [wiki:Performance/Compiler Compile time perf page]
 
+ * #11375: type synonyms slower than type families
  * #8095: very slow constraint solving; perhaps discard large constraints using `UnivCo`
  * #5642: slow constraint solving
  * #9979, #8814, #8835: attoparsec regressed 7.8.4 to HEAD
