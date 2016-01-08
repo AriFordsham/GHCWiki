@@ -17,15 +17,16 @@ Added LANGUAGE extensions:
 - `[No]ApplicativeDo`
 - `[No]DeriveLift`
 - `[No]DuplicateRecordFields`
-- `[No]StaticPointers`
-- `[No]StrictData`
-- `[No]Strict`
-- `[No]OverloadedLabels`
-- `[No]UndecidableSuperClasses`
-- `[No]TemplateHaskellQuotes`
+- `[No]InjectiveTypeFamilies`
 - `[No]MonadFailDesugaring`
-- `[No]TypeInType`
+- `[No]OverloadedLabels`
+- `[No]StaticPointers`
+- `[No]Strict`
+- `[No]StrictData`
+- `[No]TemplateHaskellQuotes`
 - `[No]TypeApplications`
+- `[No]TypeInType`
+- `[No]UndecidableSuperClasses`
 
 ## Changes in GHC 7.10
 
