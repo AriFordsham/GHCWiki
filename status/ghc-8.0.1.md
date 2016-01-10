@@ -38,7 +38,7 @@ Below are the major highlights of 8.0.
 
 - Support for strictness and unpacking in Template Haskell (Trac [\#10697](https://gitlab.haskell.org//ghc/ghc/issues/10697), [ Phab:D1603](https://phabricator.haskell.org/D1603))
 
-- Visible type application ([\#5296](https://gitlab.haskell.org//ghc/ghc/issues/5296), 
+- Visible type application ([\#5296](https://gitlab.haskell.org//ghc/ghc/issues/5296))
 
 - Consistent warning options ([\#11218](https://gitlab.haskell.org//ghc/ghc/issues/11218), [ Phab:D1613](https://phabricator.haskell.org/D1613))
 
