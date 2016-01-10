@@ -96,13 +96,16 @@ Below are the major highlights of 8.0.
 
 - Significantly more stable support on ARM ([\#11206](https://gitlab.haskell.org//ghc/ghc/issues/11206))
 
+- Stack traces in GHCi ([\#11047](https://gitlab.haskell.org//ghc/ghc/issues/11047))
+
 ### Possible, if the authors push forward fast enough
 
-- Make compilation results more deterministic ([\#4012](https://gitlab.haskell.org//ghc/ghc/issues/4012))
-- Stack traces in GHCi ([\#11047](https://gitlab.haskell.org//ghc/ghc/issues/11047))
+
+There's nothing here.
 
 ### Won't make it, but being actively worked on
 
+- Make compilation results more deterministic ([\#4012](https://gitlab.haskell.org//ghc/ghc/issues/4012))
 - Complete support for [OverloadedRecordFields](records/overloaded-record-fields)
 - Support for **Type Signature Sections**, allowing you to write `(:: ty)` as a shorthand for `(\x -> x :: ty)`.
 - A `DEPRECATED` pragma for exports ([\#4879](https://gitlab.haskell.org//ghc/ghc/issues/4879))
