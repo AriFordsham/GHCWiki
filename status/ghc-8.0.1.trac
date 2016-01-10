@@ -34,6 +34,8 @@ Below are the major highlights of 8.0.
 
   - Support for strictness and unpacking in Template Haskell (Trac #10697, Phab:D1603)
 
+  - Visible type application (#5296, 
+
   - Consistent warning options (#11218, Phab:D1613)
 
   - More expressive Generics metadata (Ryan Scott, Trac #10716, #10697, Phab:D493)
@@ -88,6 +90,8 @@ Below are the major highlights of 8.0.
 
   - Improved [wiki:DWARF DWARF based debugging support] from Peter Wortmann, Arash Rouhani, and Ben Gamari with backtraces from Haskell code.
 
+  - Significantly more stable support on ARM (#11206)
+
 === Possible, if the authors push forward fast enough
 
   - Make compilation results more deterministic (#4012)
@@ -98,7 +102,6 @@ Below are the major highlights of 8.0.
   - Complete support for [wiki:Records/OverloadedRecordFields OverloadedRecordFields]
   - Support for '''Type Signature Sections''', allowing you to write `(:: ty)` as a shorthand for `(\x -> x :: ty)`.
   - A `DEPRECATED` pragma for exports (#4879)
-  - Visible type application
   - A new, type-indexed type representation, `data TTypeRep (a :: k)`. See [wiki:TypeableT].
   - A (possible) overhaul of GHC's build system to use '''Shake''' instead of Make.
 

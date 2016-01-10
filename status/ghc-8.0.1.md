@@ -38,6 +38,8 @@ Below are the major highlights of 8.0.
 
 - Support for strictness and unpacking in Template Haskell (Trac [\#10697](https://gitlab.haskell.org//ghc/ghc/issues/10697), [ Phab:D1603](https://phabricator.haskell.org/D1603))
 
+- Visible type application ([\#5296](https://gitlab.haskell.org//ghc/ghc/issues/5296), 
+
 - Consistent warning options ([\#11218](https://gitlab.haskell.org//ghc/ghc/issues/11218), [ Phab:D1613](https://phabricator.haskell.org/D1613))
 
 - More expressive Generics metadata (Ryan Scott, Trac [\#10716](https://gitlab.haskell.org//ghc/ghc/issues/10716), [\#10697](https://gitlab.haskell.org//ghc/ghc/issues/10697), [ Phab:D493](https://phabricator.haskell.org/D493))
@@ -92,6 +94,8 @@ Below are the major highlights of 8.0.
 
 - Improved [DWARF based debugging support](dwarf) from Peter Wortmann, Arash Rouhani, and Ben Gamari with backtraces from Haskell code.
 
+- Significantly more stable support on ARM ([\#11206](https://gitlab.haskell.org//ghc/ghc/issues/11206))
+
 ### Possible, if the authors push forward fast enough
 
 - Make compilation results more deterministic ([\#4012](https://gitlab.haskell.org//ghc/ghc/issues/4012))
@@ -102,7 +106,6 @@ Below are the major highlights of 8.0.
 - Complete support for [OverloadedRecordFields](records/overloaded-record-fields)
 - Support for **Type Signature Sections**, allowing you to write `(:: ty)` as a shorthand for `(\x -> x :: ty)`.
 - A `DEPRECATED` pragma for exports ([\#4879](https://gitlab.haskell.org//ghc/ghc/issues/4879))
-- Visible type application
 - A new, type-indexed type representation, `data TTypeRep (a :: k)`. See [TypeableT](typeable-t).
 - A (possible) overhaul of GHC's build system to use **Shake** instead of Make.
 
