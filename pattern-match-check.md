@@ -10,8 +10,7 @@ we describe the problem and the algorithm.  It forms part of GHC 8.0.
 
 Tickets should include `PatternMatchWarnings` in their Keywords to appear in these summary lists.
 
-
-Open Tickets:
+**Open Tickets:**
 
 <table><tr><th>[\#10116](https://gitlab.haskell.org//ghc/ghc/issues/10116)</th>
 <td>Closed type families: Warn if it doesn't handle all cases</td></tr>
@@ -76,8 +75,7 @@ Open Tickets:
 <tr><th>[\#16289](https://gitlab.haskell.org//ghc/ghc/issues/16289)</th>
 <td>GHC thinks pattern match is exhaustive</td></tr></table>
 
-
-Closed Tickets:
+**Closed Tickets:**
 
 <table><tr><th>[\#322](https://gitlab.haskell.org//ghc/ghc/issues/322)</th>
 <td>fromInteger-related pattern match overlap warnings</td></tr>
@@ -173,19 +171,6 @@ Closed Tickets:
 <td>Incorrect non-exhaustive pattern warning with PatternSynonyms</td></tr>
 <tr><th>[\#16377](https://gitlab.haskell.org//ghc/ghc/issues/16377)</th>
 <td>\`TypeError\` in a pattern should flag inaccessible code</td></tr></table>
-
-**Performance related tickets** (to be solved for 8.0):
-
-- [\#11374](https://gitlab.haskell.org//ghc/ghc/issues/11374)
-- [\#11160](https://gitlab.haskell.org//ghc/ghc/issues/11160)
-- [\#11303](https://gitlab.haskell.org//ghc/ghc/issues/11303)
-- [\#11302](https://gitlab.haskell.org//ghc/ghc/issues/11302)
-- [\#11316](https://gitlab.haskell.org//ghc/ghc/issues/11316)
-- [\#11161](https://gitlab.haskell.org//ghc/ghc/issues/11161)
-- [\#11162](https://gitlab.haskell.org//ghc/ghc/issues/11162)
-- [\#11163](https://gitlab.haskell.org//ghc/ghc/issues/11163)
-- [\#11195](https://gitlab.haskell.org//ghc/ghc/issues/11195)
-- [\#11276](https://gitlab.haskell.org//ghc/ghc/issues/11276)
 
 **Background**:
 
