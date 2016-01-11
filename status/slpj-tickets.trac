@@ -23,6 +23,7 @@
  
 Major things
  * `TypeInType`, kind equalities etc: [wiki:DependentHaskell], esp [wiki:DependentHaskell/Phase1]
+ * `TypeApplications`: [wiki:TypeApplication visible type application]
  * [wiki:Proposal/CustomTypeErrors Custom type errors]
 
 Other tickets
