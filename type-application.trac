@@ -1,9 +1,18 @@
 = Visible Type Application =
 
-Visible Type Application allows you to give explicit type arguments to a polymorphic function; e.g. `map @Int @Bool isEven xs`.
+Visible Type Application, language extension `TypeApplications`, allows you to give explicit type arguments to a polymorphic function; e.g. `map @Int @Bool isEven xs`.  Visible type application was introduced in GHC 8.0.
 
 This the feature page that summarises status, open issues, etc.
 
+== Status
+
+Use Keyword = `TypeApplications` to ensure that a ticket ends up on these lists.
+
+'''Open Tickets:'''
+[[TicketQuery(status=infoneeded,status=new|patch,keywords=~TypeApplications)]]
+
+'''Closed Tickets:'''
+[[TicketQuery(status=infoneeded,status=closed,keywords=~TypeApplications)]]
 
 
 
