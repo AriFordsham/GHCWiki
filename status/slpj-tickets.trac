@@ -23,7 +23,7 @@
  
 Major things
  * `TypeInType`, kind equalities etc: [wiki:DependentHaskell], esp [wiki:DependentHaskell/Phase1]
- * `TypeError`: [wiki:Proposals/CustomTypeErrors Custom type errors]
+ * `TypeError`: [wiki:Proposal/CustomTypeErrors Custom type errors]
 
 Other tickets
  * #1311: newtypes over unboxed types

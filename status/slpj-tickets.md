@@ -27,7 +27,7 @@
 Major things
 
 - `TypeInType`, kind equalities etc: [DependentHaskell](dependent-haskell), esp [DependentHaskell/Phase1](dependent-haskell/phase1)
-- `TypeError`: Custom type errors?
+- `TypeError`: [Custom type errors](proposal/custom-type-errors)
 
 
 Other tickets
