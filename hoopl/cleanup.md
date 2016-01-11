@@ -11,7 +11,7 @@ Me (Jan Stolarek, JS) and Simon PJ recently had some discussion about cleaning u
 
 - Forwards analysis starts with a list of entry labels (typically just one), and it makes sense to have an in-flowing fact for each such label.  Yes, it could default to bottom, but it's probably a user error not to supply such a fact.
 
-- If forwards analysis *does* is given a fact for each entry label, *Hoopl never needs to know the bottom of the lattice*; indeed there doesn't need to *be* a bottom.  Hoopl treats the block in dependency order, so it always has an in-flowing fact before it starts to analyse a block.  It needs still a join for the lattice, of course.
+- If forwards analysis is given a fact for each entry label, *Hoopl never needs to know the bottom of the lattice*; indeed there doesn't need to *be* a bottom.  Hoopl treats the block in dependency order, so it always has an in-flowing fact before it starts to analyse a block.  It needs still a join for the lattice, of course.
 
 - For some analyses, it's quite clumsy to have a bottom element. Consider constant-propagation, where we want to transform
 
@@ -35,7 +35,7 @@ Conclusion: for fwd analysis we don't need a bottom in the lattice, and it's a p
 ### Observations about backward analysis
 
 - Backwards analysis currently takes a list of entry points, so
-  that it find the reachable code and enumerate it in reverse
+  that it finds the reachable code and enumerates it in reverse
   order.  But that's *all* the entry point list does.  It'd be just fine
   to enumerate *all the blocks in the graph* in reverse order, and not supply
   a list of entry points.
