@@ -1,4 +1,16 @@
+= Visible Type Application =
 
+Visible Type Application allows you to give explicit type arguments to a polymorphic function; e.g. `map @Int @Bool isEven xs`.
+
+This the feature page that summarises status, open issues, etc.
+
+
+
+
+-------------------------
+'''Everything below here is the old wiki page.  Much of it is relevant, but it needs curation. Richard will do that in due course.'''
+
+Another relevant out of date page is [wiki:ExplicitTypeApplication]
 == Type Application ==
 
 
