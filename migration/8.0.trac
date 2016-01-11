@@ -170,7 +170,7 @@ TODO
 
  - Three `Info` constructors (`ClassOpI`, `DataConI`, and `VarI`) no longer have a `Fixity` field. Instead, all `Fixity` information for a given `Name` is now determined through the `reifyFixity` function, which returns `Just` the fixity if there is an explicit fixity declaration for that `Name`, and `Nothing` otherwise.
 
-- the `DataD`, `NewtypeD`, `DataInstD`, and `NewtypeInstD` constructors have a new field `Maybe Kind` (#10828), and take a `CxtQ` instead of a `[Name]` for the list of derived classes (#10819). If you don't know what to do, use `Nothing` for the kind signature, and `cxt []` for the derived classes.
+- the `DataD`, `NewtypeD`, `DataInstD`, and `NewtypeInstD` constructors have a new field `Maybe Kind` (#10828), and take a `CxtQ` instead of a `[Name]` for the derived classes (#10819). If you don't know what to do, use `Nothing` for the kind signature, and `cxt []` for the derived classes.
 {{{
     - dataD :: CxtQ -> Name -> [TyVarBndr]               -> [ConQ] -> [Name] -> DecQ
     + dataD :: CxtQ -> Name -> [TyVarBndr] -> Maybe Kind -> [ConQ] -> CxtQ   -> DecQ
