@@ -170,7 +170,21 @@ TODO
 
  - Three `Info` constructors (`ClassOpI`, `DataConI`, and `VarI`) no longer have a `Fixity` field. Instead, all `Fixity` information for a given `Name` is now determined through the `reifyFixity` function, which returns `Just` the fixity if there is an explicit fixity declaration for that `Name`, and `Nothing` otherwise.
 
-- The `DataD`, `NewtypeD`, `DataInstD`, and `NewtypeD` constructors have one more field (TODO: more details)
+- the `DataD`, `NewtypeD`, `DataInstD`, and `NewtypeInstD` constructors have a new field `Maybe Kind` (#10828), and take a `CxtQ` instead of a `[Name]` for the list of derived classes (#10819).
+
+{{{
+    - dataD :: CxtQ -> Name -> [TyVarBndr]               -> [ConQ] -> [Name] -> DecQ
+    + dataD :: CxtQ -> Name -> [TyVarBndr] -> Maybe Kind -> [ConQ] -> CxtQ   -> DecQ
+
+    - newtypeD :: CxtQ -> Name -> [TyVarBndr]               -> ConQ -> [Name] -> DecQ
+    + newtypeD :: CxtQ -> Name -> [TyVarBndr] -> Maybe Kind -> ConQ -> CxtQ   -> DecQ
+
+    - dataInstD :: CxtQ -> Name -> [TypeQ]               -> [ConQ] -> [Name] -> DecQ
+    + dataInstD :: CxtQ -> Name -> [TypeQ] -> Maybe Kind -> [ConQ] -> CxtQ   -> DecQ
+
+    - newtypeInstD :: CxtQ -> Name -> [TypeQ]               -> ConQ -> [Name] -> DecQ
+    + newtypeInstD :: CxtQ -> Name -> [TypeQ] -> Maybe Kind -> ConQ -> CxtQ   -> DecQ
+}}}
 
  - The `Strict` datatype has been overhauled. The functional equivalent of `Strict` in `template-haskell-2.11.0.0` is `Bang`:
    
