@@ -7,6 +7,55 @@ The main idea was [ presented by Lennart Augustsson at the 2015 Haskell Symposiu
 
 The relevant ticket is [\#9637](https://gitlab.haskell.org//ghc/ghc/issues/9637).
 
+## Status
+
+
+Use Keyword = `CustomTypeErrors` to ensure that a ticket ends up on these lists.
+
+
+Open Tickets:
+
+<table><tr><th>[\#11099](https://gitlab.haskell.org//ghc/ghc/issues/11099)</th>
+<td>Incorrect warning about redundant constraints</td></tr>
+<tr><th>[\#11503](https://gitlab.haskell.org//ghc/ghc/issues/11503)</th>
+<td>TypeError woes (incl. pattern match checker)</td></tr>
+<tr><th>[\#11967](https://gitlab.haskell.org//ghc/ghc/issues/11967)</th>
+<td>Custom message when showing functions, comparing functions, ...</td></tr>
+<tr><th>[\#12048](https://gitlab.haskell.org//ghc/ghc/issues/12048)</th>
+<td>Allow CustomTypeErrors in type synonyms (+ evaluate nested type family?)</td></tr>
+<tr><th>[\#12049](https://gitlab.haskell.org//ghc/ghc/issues/12049)</th>
+<td>\`OverloadedStrings\` for types</td></tr>
+<tr><th>[\#13775](https://gitlab.haskell.org//ghc/ghc/issues/13775)</th>
+<td>Type family expansion is too lazy, allows accepting of ill-typed terms</td></tr>
+<tr><th>[\#14141](https://gitlab.haskell.org//ghc/ghc/issues/14141)</th>
+<td>Custom type errors don't trigger when matching on a GADT constructor with an error in the constraint</td></tr>
+<tr><th>[\#14771](https://gitlab.haskell.org//ghc/ghc/issues/14771)</th>
+<td>TypeError reported too eagerly</td></tr>
+<tr><th>[\#14983](https://gitlab.haskell.org//ghc/ghc/issues/14983)</th>
+<td>Have custom type errors imply Void</td></tr></table>
+
+
+Closed Tickets:
+
+<table><tr><th>[\#11391](https://gitlab.haskell.org//ghc/ghc/issues/11391)</th>
+<td>TypeError is fragile</td></tr>
+<tr><th>[\#12104](https://gitlab.haskell.org//ghc/ghc/issues/12104)</th>
+<td>Type families, \`TypeError\`, and \`-fdefer-type-errors\` cause "opt_univ fell into a hole"</td></tr>
+<tr><th>[\#12119](https://gitlab.haskell.org//ghc/ghc/issues/12119)</th>
+<td>Can't create injective type family equation with TypeError as the RHS</td></tr>
+<tr><th>[\#12237](https://gitlab.haskell.org//ghc/ghc/issues/12237)</th>
+<td>Constraint resolution vs. type family resolution vs. TypeErrors</td></tr>
+<tr><th>[\#14339](https://gitlab.haskell.org//ghc/ghc/issues/14339)</th>
+<td>GHC 8.2.1 regression when combining GND with TypeError (solveDerivEqns: probable loop)</td></tr>
+<tr><th>[\#15052](https://gitlab.haskell.org//ghc/ghc/issues/15052)</th>
+<td>DeriveAnyClass instances may skip TypeError constraints</td></tr>
+<tr><th>[\#15232](https://gitlab.haskell.org//ghc/ghc/issues/15232)</th>
+<td>TypeError is reported as "redundant constraint" starting with GHC 8.2</td></tr>
+<tr><th>[\#16362](https://gitlab.haskell.org//ghc/ghc/issues/16362)</th>
+<td>Deriving a class via an instance that has a TypeError constraint using standalone deriving fails during compilation.</td></tr>
+<tr><th>[\#16377](https://gitlab.haskell.org//ghc/ghc/issues/16377)</th>
+<td>\`TypeError\` in a pattern should flag inaccessible code</td></tr></table>
+
 ### The Problem
 
 
