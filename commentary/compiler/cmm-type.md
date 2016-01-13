@@ -166,6 +166,8 @@ Note that if `p (bits32 i) { ... }` were written as a Cmm-parseable procedure, a
 
 ## Basic Cmm
 
+FIXME The links in this section are dead. But the files can be found here: [ http://www.cs.tufts.edu/\~nr/c--/index.html](http://www.cs.tufts.edu/~nr/c--/index.html). Relevant discussion about the documentations of C--: [ https://mail.haskell.org/pipermail/ghc-devs/2014-September/006301.html](https://mail.haskell.org/pipermail/ghc-devs/2014-September/006301.html)
+
 
 Cmm is a high level assembler with a syntax style similar to C.  This section describes Cmm by working up from assembler--the C-- papers and specification work down from C.  At the least, you should know what a "high level" assembler is, see [ What is a High Level Assembler?](http://webster.cs.ucr.edu/AsmTools/HLA/HLADoc/HLARef/HLARef3.html#1035157).  Cmm is different than other high level assembler languages in that it was designed to be a semi-portable intermediate language for compilers; most other high level assemblers are designed to make the tedium of assembly language more convenient and intelligible to humans.  If you are completely new to C--, I highly recommend these papers listed on the [ C-- Papers](http://cminusminus.org/papers.html) page:
 
