@@ -68,7 +68,7 @@ its worth considering either using one of the non GMP integer libs.
 If you're OK with static linking GMP into the GHC RTS,
 you can add the line 
 
-`libraries/integer-gmp2_CONFIGURE_OPTS += --configure-option=--with-intree-gmp`
+`libraries/integer-gmp_CONFIGURE_OPTS += --configure-option=--with-intree-gmp`
 
 to you `mk/build.mk` file  (which hosts all your other build system config preferences also.)
 
