@@ -117,6 +117,31 @@ FIXME Write the migration guide.
 
 [ https://ghc.haskell.org/trac/ghc/wiki/Migration/8.0](https://ghc.haskell.org/trac/ghc/wiki/Migration/8.0)
 
+## Known issues with release candidate 1
+
+
+Release candidate 1 was released on 13 Jan 2016. These significant issues are present in this release,
+
+- The new -XInjectiveTypeFamilies language extension will likely be
+  renamed to -XTypeFamilyDependencies
+
+- [\#11120](https://gitlab.haskell.org//ghc/ghc/issues/11120): Type representations are missing for some types and promoted
+  constructors
+
+- [\#11334](https://gitlab.haskell.org//ghc/ghc/issues/11334): Solving for Typeable (Proxy :: Proxy 'Compose) fails
+
+- [\#11276](https://gitlab.haskell.org//ghc/ghc/issues/11276): Pattern checker performance can degrade significantly in
+  presence of pattern matches with guards
+
+- [\#11405](https://gitlab.haskell.org//ghc/ghc/issues/11405): Type-level skolem-escape check fails incorrectly
+
+- [\#11414](https://gitlab.haskell.org//ghc/ghc/issues/11414): Use of -XStrict results in compiler abort
+
+- [\#11379](https://gitlab.haskell.org//ghc/ghc/issues/11379): Instance solver fails to terminate
+
+- [\#11419](https://gitlab.haskell.org//ghc/ghc/issues/11419): Haddock documentation is currently not included in the binary
+  distributions.
+
 ## Tickets marked merge with no milestone
 
 <table><tr><th>Ticket (Ticket query: status: merge, milestone: , group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: id)</th>
