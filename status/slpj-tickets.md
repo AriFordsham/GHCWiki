@@ -280,7 +280,7 @@ See [Edward's collection of code-generation stupidities](commentary/compiler/new
 - [\#8903](https://gitlab.haskell.org//ghc/ghc/issues/8903): dead stores
 - [\#8887](https://gitlab.haskell.org//ghc/ghc/issues/8887): double assignment
 - [\#8871](https://gitlab.haskell.org//ghc/ghc/issues/8871): Cmm optimisation opportunity
-- [\#8585](https://gitlab.haskell.org//ghc/ghc/issues/8585): loopification; see also [Commentary/Compiler/Loopification](commentary/compiler/loopification)
+- [\#8585](https://gitlab.haskell.org//ghc/ghc/issues/8585), [\#11372](https://gitlab.haskell.org//ghc/ghc/issues/11372): loopification; see also [Commentary/Compiler/Loopification](commentary/compiler/loopification)
 - Summary ticket: [\#4258](https://gitlab.haskell.org//ghc/ghc/issues/4258), and [wiki page](commentary/compiler/new-code-gen)
 - [\#3462](https://gitlab.haskell.org//ghc/ghc/issues/3462): allocate large objects with `allocateLocal()`
 - [\#2289](https://gitlab.haskell.org//ghc/ghc/issues/2289): cheap check at start of case alternatives
