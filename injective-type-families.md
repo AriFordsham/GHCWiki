@@ -7,7 +7,7 @@ Implementation discussion and progress was recorded in
 
 
 As of September 2015 injective type families are merged into HEAD and will be
-available in the next stable GHC release (8.0).
+available in the next stable GHC release (8.0) with the `TypeFamilyDependencies` language extension.
 
 
 Person responsible for this page is Jan Stolarek (just so you now who is meant
