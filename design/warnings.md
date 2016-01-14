@@ -56,3 +56,5 @@ By reusing the GCC CLI convention for warning-flags we can make GHC's CLI a bit 
   ```
 
   making it easier to silence specific warnings via e.g. `-Wno-missing-signatures`
+
+- ([\#11429](https://gitlab.haskell.org//ghc/ghc/issues/11429)) Make unrecognised `-W` flags a warning (`-Wunrecognised-warning-flags`) rather than an error
