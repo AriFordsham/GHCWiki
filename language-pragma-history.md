@@ -17,10 +17,9 @@ Added LANGUAGE extensions:
 - `[No]ApplicativeDo`
 - `[No]DeriveLift`
 - `[No]DuplicateRecordFields`
-- `[No]InjectiveTypeFamilies`
+- `[No]TypeFamilyDependencies`
 - `[No]MonadFailDesugaring`
 - `[No]OverloadedLabels`
-- `[No]StaticPointers`
 - `[No]Strict`
 - `[No]StrictData`
 - `[No]TemplateHaskellQuotes`
