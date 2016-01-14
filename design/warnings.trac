@@ -49,3 +49,6 @@ By reusing the GCC CLI convention for warning-flags we can make GHC's CLI a bit 
      Top-level binding with no type signature: main :: IO ()
    }}}
    making it easier to silence specific warnings via e.g. `-Wno-missing-signatures`
+
+
+ - (#11429) Make unrecognised `-W` flags a warning (`-Wunrecognised-warning-flags`) rather than an error
