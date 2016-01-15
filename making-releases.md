@@ -153,6 +153,17 @@ $ ./configure
 $ make
 ```
 
+## Sign and hash the release artifacts
+
+
+To ensure that users can verify the authenticity of downloaded release artifacts, we offer detached gpg signatures and SHA{1,256} hashes of the tarballs. These are generated with,
+
+```wiki
+$ sha256sum *.tar.xz > SHA256SUMS
+$ sha1sum *.tar.xz > SHA1SUMS
+$ gpg -u 'Ben Gamari <ben@well-typed.com>' --detach-sign *.tar.xz SHA1SUMS SHA256SUMS
+```
+
 ## Create and upload the library documentation
 
 ```wiki
