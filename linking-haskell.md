@@ -44,10 +44,10 @@ Linking the transitive closure as in the static case works for the other cases t
 An object file must be compiled as position independent code (`-fPIC`). Then a temporary dynamic library is produced by `ld` with no other inputs. Undefined symbols are ignored.
 
 
-Link all temporary dynamic libraries and all packages loaded and all command line libraries into one large dummy dynamic library. The order on the link command line must be observed so it is possible to override symbols defined in a library loaded earlier.
+Link all temporary dynamic libraries and all packages loaded and all command line libraries into one large dummy dynamic library. The order on the link command line must be observed so it is possible to override symbols defined in a library loaded earlier. The order is reverse loading order, i.e. most recently loaded first.
 
 
-Should it be possible to override a symbol defined in a Haskell package?
+Should it be possible to override a symbol defined in a Haskell package? In that case the order of packages and temporary dynamic libraries as one list is important. 
 
 
 Do we need to support static libraries in a dynamic GHCi?
