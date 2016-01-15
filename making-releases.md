@@ -57,7 +57,7 @@ In the `AC_INIT` line of `configure.ac`, set the version number. A few lines bel
 Create a signed annotated git tag,
 
 ```wiki
-git tag -asu "Ben Gamari <ben@well-typed.com>" ghc-7.10.2-release HEAD
+$ git tag -asu "Ben Gamari <ben@well-typed.com>" ghc-7.10.2-release HEAD
 ```
 
 
@@ -163,6 +163,9 @@ $ sha256sum *.tar.xz > SHA256SUMS
 $ sha1sum *.tar.xz > SHA1SUMS
 $ gpg -u 'Ben Gamari <ben@well-typed.com>' --detach-sign *.tar.xz SHA1SUMS SHA256SUMS
 ```
+
+
+Be sure that your public key has been uploaded to a few well-known public keyservers.
 
 ## Create and upload the library documentation
 
