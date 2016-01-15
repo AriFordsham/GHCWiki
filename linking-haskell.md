@@ -59,7 +59,7 @@ Do we need to support static libraries in a dynamic GHCi? (SM: not necessarily)
 Theoretically, in ELF there should be no difference between a statically linked and a dynamically linked GHCi.  (SM: you need to elaborate here.  There are big differences between the two: they load different libraries, use different linkers, etc.)
 
 
-SM: We now have RemoteGHCi, which means that it will become irrelevant whether GHCi itself is dynamically linked or not, and we'll be able to choose when we start GHCi whether we use dynamic linking or not.  You can try this out: `ghci -fexternal-interpreter -static` uses static linking, and `ghci -fexternal-interpreter -dynamic` uses dynamic linking.
+SM: We now have [RemoteGHCi](remote-gh-ci), which means that it will become irrelevant whether GHCi itself is dynamically linked or not, and we'll be able to choose when we start GHCi whether we use dynamic linking or not.  You can try this out: `ghci -fexternal-interpreter -static` uses static linking, and `ghci -fexternal-interpreter -dynamic` uses dynamic linking.
 
 ## GHCi with Haskell runtime linker (RTS)
 
