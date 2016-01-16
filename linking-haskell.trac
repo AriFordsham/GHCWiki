@@ -20,23 +20,42 @@ All Haskell libraries and all directly dependent C libraries must be passed to t
 TODO
 Linking the transitive closure as in the static case works for the other cases too. Is it worth the bother to treat those cases differently?
 == GHCi with System Runtime Linker and Loader (RTLD) ==
+=== Current implementation ===
+1. An object file must be compiled as position independent code (`-fPIC`). 
+1. All transitive dependencies of that object file's Haskell module are checked and not yet loaded libraries (Haskell and C) are loaded.
+1. The object file is now linked with all loaded packages (old and new) and all temporary dynamic libraries from previously loaded object files to produce a new temporary dynamic library.
+1. The new temporary dynamic library is loaded.
+=== Proposal ===
+1. An object file must be compiled as position independent code (`-fPIC`).
+1. A temporary dynamic library is produced by `ld` with no other inputs. Undefined symbols are ignored.
+1. Link all temporary dynamic libraries and all packages loaded and all command line libraries into one large dummy dynamic library. The order on the link command line must be observed so it is possible to override symbols defined in a library loaded earlier. The order is reverse loading order, i.e. most recently loaded first.
+1. The previously loaded dummy dynamic library is closed to free up resources (file descriptors).
 
-SM: are you talking about the current implementation or your proposal here?
-
-An object file must be compiled as position independent code (`-fPIC`). Then a temporary dynamic library is produced by `ld` with no other inputs (SM: this is not the case currently). Undefined symbols are ignored.
-
-Link all temporary dynamic libraries and all packages loaded and all command line libraries into one large dummy dynamic library. The order on the link command line must be observed so it is possible to override symbols defined in a library loaded earlier. The order is reverse loading order, i.e. most recently loaded first.
-
+=== Discussion ===
 Should it be possible to override a symbol defined in a Haskell package? In that case the order of packages and temporary dynamic libraries as one list is important. 
 
-Do we need to support static libraries in a dynamic GHCi? (SM: not necessarily)
+Do we need to support static libraries in a dynamic GHCi? (SM: not necessarily) (PT: Good!)
 
-Theoretically, in ELF there should be no difference between a statically linked and a dynamically linked GHCi.  (SM: you need to elaborate here.  There are big differences between the two: they load different libraries, use different linkers, etc.)
+Theoretically, in ELF there should be no difference between a statically linked and a dynamically linked GHCi.  (SM: you need to elaborate here.  There are big differences between the two: they load different libraries, use different linkers, etc.) (PT: The current situation is GHCi dynamically linked the use system linker, GHCi statically linked use RTS linker. I think at least on ELF systems you could have a statically linked GHCi and still use the system linker to load dynamic Haskell libraries. Is there anything in the Haskell runtime that would prevent that?)
 
-SM: We now have [wiki:RemoteGHCi], which means that it will become irrelevant whether GHCi itself is dynamically linked or not, and we'll be able to choose when we start GHCi whether we use dynamic linking or not.  You can try this out: `ghci -fexternal-interpreter -static` uses static linking, and `ghci -fexternal-interpreter -dynamic` uses dynamic linking.
+SM: We now have [wiki:RemoteGHCi], which means that it will become irrelevant whether GHCi itself is dynamically linked or not, and we'll be able to choose when we start GHCi whether we use dynamic linking or not.  You can try this out: `ghci -fexternal-interpreter -static` uses static linking, and `ghci -fexternal-interpreter -dynamic` uses dynamic linking. (PT: I would still like to get dynamic linking to work for platforms where we don't have an RTS linker but still want a statically linked GHCi so we can avoid the overhead of creating a separate process. If it cannot be done at least I would like to understand why.)
 
 == GHCi with Haskell runtime linker (RTS) ==
-TODO
+=== Current implementation ===
+1. Whether the object file contains position independent code or not does not matter. On some platforms code is always PIC.
+1. All transitive dependencies are loaded as in the dynamic case. Static Haskell libraries are loaded. By default dynamic C libraries are loaded.
+1. The object file is loaded by the RTS linker.
+=== Issues ===
+1. To load dynamic C libraries the development files for the C library need to be installed. #9498
+1. On some systems the development library file contains a linker script and the RTS linker implementation of the parser trips over some linker scripts. #9237
+=== Proposal ===
+The development files issue can be solved by improving the user's guide. It should make clear that running GHCi requires the same library files as linking.
 
+The linker script issue could be solved in two ways:
+1. When we find a linker script (check magic number) call out to the system link editor `ld` and produce a dummy dynamic library and load that dummy dynamic library.
+2. Create the dummy dynamic library at package build time and install it with the package.
+The latter could also solve the development files issue if we applied it to dynamic libraries in general.
+=== Discussion ===
+TODO
 == Cabal support? ==
 TODO
