@@ -110,6 +110,7 @@ There's nothing here.
 - A `DEPRECATED` pragma for exports ([\#4879](https://gitlab.haskell.org//ghc/ghc/issues/4879))
 - A new, type-indexed type representation, `data TTypeRep (a :: k)`. See [TypeableT](typeable-t).
 - A (possible) overhaul of GHC's build system to use **Shake** instead of Make.
+- Polish and merge Compact Normal Form support for efficient GC/serialization (ICFP'15)
 
 ## Migration Guide to 8.0
 
