@@ -11,6 +11,9 @@ clearly separating the *problem you are trying to solve* from *how you are solvi
 The content here overlaps with [wiki:Commentary/Packages](commentary/packages) but is looking at the latest iteration of the multi-instances and Backpack work.
 
 
+See also `Note [The identifier lexicon]` in `compiler/basicTypes/Module.hs`.
+
+
 Some relevant tickets: [\#10622](https://gitlab.haskell.org//ghc/ghc/issues/10622)
 
 ## What problems do we need to solve?
