@@ -41,11 +41,3 @@ These settings are made in [[source:ghc/.travis.yml]]. You can conveniently expe
  * '''Error''' (Grey exclamation mark): Travis could not finish the build. Most often, this is due to the build exceeding the time limit of 50 minutes. 
    
  In that case, you can probably ignore the problem. If you are a [https://github.com/orgs/ghc/members|member of the GitHub GHC team], you can restart the build, to keep the build history tidy.
-
-== Mail status ==
-
-Travis is not 100% reliable for us, as we occasionally hit the time limit. Therefore, mails about failing reports are sent to Joachim and the [[MailingListsAndIRC|ghc-builds]] mailing lists. Joachim will report true positives to `ghc-dev` or the commiter directly.
-
-If we can improve this, we could make Travis send mails directly to the commiter.
-
-Again, this is configured in [[source:ghc/.travis.yml]]. This also means that if you have a long-living feature branch you can put your own address in the file.
