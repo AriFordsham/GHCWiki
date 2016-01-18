@@ -8,6 +8,8 @@ clearly separating the //problem you are trying to solve// from //how you are so
 
 The content here overlaps with wiki:Commentary/Packages but is looking at the latest iteration of the multi-instances and Backpack work.
 
+See also `Note [The identifier lexicon]` in `compiler/basicTypes/Module.hs`.
+
 Some relevant tickets: #10622
 
 == What problems do we need to solve? ==
