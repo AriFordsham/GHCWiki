@@ -56,14 +56,3 @@ These settings are made in [ghc/.travis.yml](/trac/ghc/browser/ghc/.travis.yml)[
 
 >
 > In that case, you can probably ignore the problem. If you are a [ of the GitHub GHC team](https://github.com/orgs/ghc/members|member), you can restart the build, to keep the build history tidy.
-
-## Mail status
-
-
-Travis is not 100% reliable for us, as we occasionally hit the time limit. Therefore, mails about failing reports are sent to Joachim and the [ghc-builds](mailing-lists-and-irc) mailing lists. Joachim will report true positives to `ghc-dev` or the commiter directly.
-
-
-If we can improve this, we could make Travis send mails directly to the commiter.
-
-
-Again, this is configured in [ghc/.travis.yml](/trac/ghc/browser/ghc/.travis.yml)[](/trac/ghc/export/HEAD/ghc/.travis.yml). This also means that if you have a long-living feature branch you can put your own address in the file.
