@@ -297,7 +297,7 @@ See [Edward's collection of code-generation stupidities](commentary/compiler/new
 - [\#605](https://gitlab.haskell.org//ghc/ghc/issues/605): strict/unboxed enumerations
 - [\#2607](https://gitlab.haskell.org//ghc/ghc/issues/2607): space leak: inlining defeats selector thunk optimisation
 - [\#4470](https://gitlab.haskell.org//ghc/ghc/issues/4470): merge identical counters
-- [\#2988](https://gitlab.haskell.org//ghc/ghc/issues/2988): better float-in
+- [\#2988](https://gitlab.haskell.org//ghc/ghc/issues/2988), [\#11197](https://gitlab.haskell.org//ghc/ghc/issues/11197): better float-in
 - [\#2374](https://gitlab.haskell.org//ghc/ghc/issues/2374): SAT and `MutableByteArray`        Max?
 - [\#7080](https://gitlab.haskell.org//ghc/ghc/issues/7080): inconsistent treatment of RULES and SPECIALISE
 - [\#876](https://gitlab.haskell.org//ghc/ghc/issues/876): make `length` into a good consumer. Perhaps using `foldl`?
