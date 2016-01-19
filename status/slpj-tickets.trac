@@ -27,6 +27,7 @@ Major things
  * [wiki:Proposal/CustomTypeErrors Custom type errors]
 
 Other tickets
+ * #11453: Weird behaviour when `SigTvs` are used for kinds
  * #1311: newtypes over unboxed types
  * #11203: Kind inference with `SigTvs` is wrong
  * #11080: open data kinds

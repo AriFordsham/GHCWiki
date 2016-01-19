@@ -33,6 +33,7 @@ Major things
 
 Other tickets
 
+- [\#11453](https://gitlab.haskell.org//ghc/ghc/issues/11453): Weird behaviour when `SigTvs` are used for kinds
 - [\#1311](https://gitlab.haskell.org//ghc/ghc/issues/1311): newtypes over unboxed types
 - [\#11203](https://gitlab.haskell.org//ghc/ghc/issues/11203): Kind inference with `SigTvs` is wrong
 - [\#11080](https://gitlab.haskell.org//ghc/ghc/issues/11080): open data kinds
