@@ -33,6 +33,8 @@ By reusing the GCC CLI convention for warning-flags, we can make GHC's CLI a bit
 
 - ([\#11429](https://gitlab.haskell.org//ghc/ghc/issues/11429)) Make unrecognised `-W` flags a warning (`-Wunrecognised-warning-flags`) rather than an error. 
 
+- ([\#11370](https://gitlab.haskell.org//ghc/ghc/issues/11370)) Remove `warn-redundant-constraints` from the default constraint set and the `-Wall` constraint set
+
 **In GHC 8.2:**
 
 - Introduce some new warning sets, e.g.
