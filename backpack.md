@@ -18,6 +18,10 @@ Large-scale modularity refers to the modularization of software into libraries, 
     - [ MuCheck](http://hackage.haskell.org/package/MuCheck) (MuCheck-HUnit, MuCheck-Hspec, MuCheck-QuickCheck, MuCheck-SmallCheck)
     - [ Shellac](http://hackage.haskell.org/package/Shellac) (Shellac-compatline, Shellac-editline, Shellac-haskeline, Shellac-readline)
     - (I stopped after looking at all of the capitalized package names lol)
+  - A close variant: I want to depend on some fancy full featured system, but I want people to be able to compile me against a simpler variant
+
+    - [ Shake](https://hackage.haskell.org/package/shake) provides an interface for writing build systems. I may not want to be coupled to Shake specifically and be able to use whatever build system I want.
+    - Test frameworks? (Though, it's hard to think of a case where you want to swap out components)
   - A common comment is, "Don't type classes work for this case?"  Common problems with using type classes:
 
     - Ambiguity: type class resolution must be done with respect to a type parameter, even when there is no natural one.  In some cases, a proxy type must be used when there is no natural type. This is exacerbated with multiparameter type classes, when some methods may not have enough types in their signature to uniquely identify an instance.
