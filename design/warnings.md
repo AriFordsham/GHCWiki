@@ -1,11 +1,6 @@
 # Redesigned GHC Warnings
 
 
-TLDR: Borrow some ideas from GCC/Clang's warning-related CLI for GHC.
-
-## Current Situation (GHC 8.0)
-
-
 GHC currently uses a somewhat unsatisfying warning CLI:
 
 ```wiki
@@ -22,30 +17,37 @@ GHC currently uses a somewhat unsatisfying warning CLI:
 ...
 ```
 
-## Proposed Change
 
-TODO needs more elaboration & motivation
+By reusing the GCC CLI convention for warning-flags, we can make GHC's CLI a bit more intuitive to people used to GCC (& Clang's) CLI.
 
+## Changes to be implemented, and timing
 
-By reusing the GCC CLI convention for warning-flags we can make GHC's CLI a bit more intuitive to people used to GCC (& Clang's) CLI.
+**In GHC 8.0:**
 
-- ([\#11218](https://gitlab.haskell.org//ghc/ghc/issues/11218) - implemented in 8.0) Keep the current `-f(no-)warn-$WARNTYPE` flags as hidden flag aliases for newly introduced -W(no-)$WARNTYPE\` flags more in line with GCC's conventions, e.g.
+- ([\#11218](https://gitlab.haskell.org//ghc/ghc/issues/11218)) Keep the current `-f(no-)warn-$WARNTYPE` flags as hidden flag aliases for newly introduced -W(no-)$WARNTYPE\` flags more in line with GCC's conventions, e.g.
 
   - `-Worphans` instead of `fwarn-orphans`
   - `-Wno-missing-methods` instead of `-fno-warn-missing-methods`
+
+  This is already done in GHC 8.0.
+
+- ([\#11429](https://gitlab.haskell.org//ghc/ghc/issues/11429)) Make unrecognised `-W` flags a warning (`-Wunrecognised-warning-flags`) rather than an error. 
+
+**In GHC 8.2:**
+
+- Introduce some new warning sets, e.g.
+
+  - Define set `-Wstandard` (modulo bikeshed, maybe `-Wdefault`?) to denote the set of warnings on by default, together with its negation `-Wno-standard`
+  - Define set `-Weverything` (c.f. clang's [ -Weverything](http://clang.llvm.org/docs/UsersManual.html#diagnostics-enable-everything) as precedent) to comprise really \*all\* warnings (together with its negation `-Wno-everything` for symmetry, which is a synonym for `-w`)
+  - Define set `-Wextra` (modulo bikeshed, maybe `-Wnormal`?) as synonym for `-W`, together with its negation `-Wno-extra`
+  - ([\#11000](https://gitlab.haskell.org//ghc/ghc/issues/11000)) Define set `-Wcompat` to denote all warnings about future compatility GHC *currently* knows about (like e.g. `-Wcompat-amp`, `-Wcompat-mfp`, `-Wcompat-mrp`)  In addition, have `ghc` provide a way to dump the current warning-sets (in a format that's parseable by humans and machines)
+
+**Anytime someone is motivated**
 
 - ([\#11219](https://gitlab.haskell.org//ghc/ghc/issues/11219)) Introduce variant of `-Werror` (c.f. GCC's `-Werror=*`) which allows to specify the individual warnings to be promoted to errors, e.g.
 
   - `-Wall -Werror=orphans` would only promote `-Worphans` warnings into errors
   - `-Wall -Werror -Wno-error=missing-methods` would promote all warnings *except*`-Wmissing-methods` into errors
-
-- Introduce some warning sets, e.g.
-
-  - ([\#11000](https://gitlab.haskell.org//ghc/ghc/issues/11000)) `-Wcompat` could refer to all warnings about future compatility GHC *currently* knows about (like e.g. `-Wcompat-amp`, `-Wcompat-mfp`, `-Wcompat-mrp`)
-  - Have `ghc` provide a way to dump the current warning-sets (in a format that's parseable by humans and machines)
-  - Define set `-Wstandard` (modulo bikeshed, maybe `-Wdefault`?) to denote the set of warnings on by default, together with its negation `-Wno-standard`
-  - Define set `-Weverything` (c.f. clang's [ -Weverything](http://clang.llvm.org/docs/UsersManual.html#diagnostics-enable-everything) as precedent) to comprise really \*all\* warnings (together with its negation `-Wno-everything` for symmetry, which is a synonym for `-w`)
-  - Define set `-Wextra` (modulo bikeshed, maybe `-Wnormal`?) as synonym for `-W`, together with its negation `-Wno-extra`
 
 - ([\#10752](https://gitlab.haskell.org//ghc/ghc/issues/10752)) When emitting warnings/errors, show which warning flag was responsible,
   e.g.
@@ -57,4 +59,13 @@ By reusing the GCC CLI convention for warning-flags we can make GHC's CLI a bit 
 
   making it easier to silence specific warnings via e.g. `-Wno-missing-signatures`
 
-- ([\#11429](https://gitlab.haskell.org//ghc/ghc/issues/11429)) Make unrecognised `-W` flags a warning (`-Wunrecognised-warning-flags`) rather than an error
+## Intended usage of warnings
+
+
+Here is the proposed warning framework:
+
+- With no flags, GHC implements the "default warnings". You can get these by saying `-Wdefault` (yet to be implemented).
+
+- When GHC implements a new warning it is put into the `-Weverything` set.  In the next release, that warning may move into the `-Wall` set or the `-Wdefault` set.  So libraray authors may want to future-proof their libraries by compiling with `-Weverything`.
+
+- A flag should only move into `-Wall` or `-Wdefault` if there is a reasonable way for a library author to change their source code to avoid the warning. Experimental, unpredicatable, or compiler-writer-guidance warnings should not be in `-Wall`.
