@@ -11,22 +11,22 @@ See also
 == Goal
 
 Consider `Dynamic`:
-{{{
+{{{#!hs
 data Dynamic where
   Dyn :: TypeRep -> a -> Dynamic
 }}}
 We'd like to write `dynApply`:
-{{{
+{{{#!hs
 dynApply :: Dynamic -> Dynamic -> Maybe Dynamic
 }}}
 which succeeds only when the application is type correct. But how?  Let's try
-{{{
+{{{#!hs
 dynApply (Dyn tf f) (Dyn tx x) = ???
 }}}
 We need some way to decompose `tf` (the type representation for `f`), ask if it is an arrow type, and if so extract the type representation for the argument and result type.  Then we need to compare the argument type with `xt`'s representation. If so, we are good to go. 
 
 But at the moment we don't have any ''type-safe'' way to decompose `TypeRep`.  Indeed `dynApply` is defined like this right now:
-{{{
+{{{#!hs
 dynApply (Dyn tf f) (Dyn tx x)
   = case funResultTy tf tx of
        Just tr -> Just (Dyn tr (unsafeCoerce f x))
@@ -41,14 +41,14 @@ So '''our main goal is to be able to write `dynApply` in a type-safe way''' so t
 == Step 1: Type-indexed type representations ==
 
 The first obvious thing is that we must make a connection between the type-rep arg of `Dyn` and the value itself. Something like this:
-{{{
+{{{#!hs
 data Dynamic where
   Dyn :: TTypeRep a -> a -> Dynamic
 }}}
 Here we are using a ''type-indexed'' type representation, `TTypeRep`.  Now the connection betweeen the two is visible to the type system.
 
 We can re-define the `Typeable` class and `TypeRep` thus:
-{{{
+{{{#!hs
 class Typeable a where
   tTypeRep :: TTypeRep a     -- No need for a proxy argument!
 
@@ -65,13 +65,13 @@ It is helpful to have both `Typeable a` (the class) and `TTypeRep a` (the value)
 
 We can get from `Typeable a` to `TTypeRep` by using the class method `tTypeRep`.  But what about the other way round? 
 We need to add the following primitive: 
-{{{
+{{{#!hs
 withTypeable :: TTypeRep a -> (Typeable a => b) -> b
 }}}
 (This seems both simpler and more useful than making the Typeable class recursive through TypeRep data declaration.) See more on the [wiki:Typeable/WithTypeable sub-page].
 
 We can also compare two `TTypeReps` to give a statically-usable proof of equality:
-{{{
+{{{#!hs
 eqTT :: TTypeRep a -> TTypeRep b -> Maybe (a :~: b)
 eqT  :: (Typeable a, Typeable b) => Maybe (a :~: b)
 
@@ -85,7 +85,7 @@ data a :~: b where  -- Defined in Data.Typeable.Equality
 == Step 2: Decomposing functions ==
 
 If we want to decompose `TTypable`, at least in the function arrow case, we need a function like this:
-{{{
+{{{#!hs
 decomposeFun :: TTypeRep fun
              -> r
              -> (forall arg res. (fun ~ (arg->res)) 
@@ -98,7 +98,7 @@ decomposeFun :: TTypeRep fun
 This function is part of `Typeable`, and replaces `funResultTy`.
 
 Now we can write `dynApply`, in a completely type-safe way, outside the TCB:
-{{{
+{{{#!hs
 dynApply :: Dynamic -> Dynamic -> Maybe Dynamic
 dynApply (Dyn tf f) (Dyn tx x)
   = decomposeFun tf Nothing $ \ ta tr ->
@@ -108,14 +108,14 @@ dynApply (Dyn tf f) (Dyn tx x)
 }}}
 
 '''Pattern synonyms'''.  An alternative, rather nicer interface for `decomoposeFun` would use a [wiki:PatternSynonyms pattern synonym] instead of continuation-passing style.  Here is the signature for the pattern synonym:
-{{{
+{{{#!hs
 pattern TRFun :: fun ~ (arg -> res)
               => TTypeRep arg 
               -> TTypeRep res 
               -> TTypeRep fun
 }}}
 which looks (by design) very like the signature for a GADT data constructor.  Now we can use `TRFun` in a pattern, thus:
-{{{
+{{{#!hs
 dynApply :: Dynamic -> Dynamic -> Maybe Dynamic
 dynApply (Dyn (TRFun ta tr) f) (Dyn tx x)
   = case eqTT ta tx of
@@ -131,7 +131,7 @@ Is that not beautiful?  The second equation for `dynApply` is needed in case the
 Suppose we have a `TTypeRep (a :: k)`. It might be nice to get a `TTypeRep (k :: *)`
 out of it. (Here, we assume `* :: *`, but the idea actually works without that assumption.) An example is an attempt to typecheck the ''expression''
 
-{{{
+{{{#!hs
 typeOf :: Typeable (a :: k) => Proxy a -> TypeRep
 }}}
 
@@ -139,7 +139,7 @@ where `typeOf :: Typeable a => a -> TypeRep` is a long-standing part of the `Typ
 
 So, we now include
 
-{{{
+{{{#!hs
 kindRep :: TTypeRep (a :: k) -> TTypeRep k
 }}}
 
@@ -152,7 +152,7 @@ It is all very well being able to decompose functions, but what about decomposin
 
 To do this it is natural to regard types as built from type constructors and binary application, like this:
 
-{{{ 
+{{{#!hs
 data TTypeRep (a :: k) :: * where
     TRApp :: TTypeRep a -> TTypeRep b -> TTypeRep (a b)
     TRCon :: TTyCon a -> TTypeRep a
@@ -165,12 +165,12 @@ data TTypeRep (a :: k) :: * where
 (We could, and ultimately should, use pattern synonyms again, but it's more concrete to use a GADT for now.  Perhaps surprisingly, it is actually fine to expose `TTypeRep` concretely, with its constructors; we can't construct ill-formed `TTypeRep`s.)
 
 While this GADT is expressible in GHC now (note the existential kind in TRApp), '''it is not very useful without kind equalities'''.   (GHC does not currently support kind equalities, but Richard Eisenberg is working that very question.)  Why?  Here is the type of `TRApp` in its full glory, with normally-invisible kind args in angle brackets:
-{{{
+{{{#!hs
 TRApp :: forall k1 k2. forall (a :: k1 -> k2) (b :: k1).
          TTypeRep <k1->k2> a -> TTypeRep <k1> b -> TTypeRep <k2> (a b)
 }}}
 Or, to be really explicit about the existentials:
-{{{
+{{{#!hs
 TRApp :: forall k2 (c:k2).                      -- Universal
          forall k1 (a :: k1 -> k2) (b :: k1).   -- Existential
          (c ~ a b)
@@ -179,7 +179,7 @@ TRApp :: forall k2 (c:k2).                      -- Universal
       -> TTypeRep <k2>     c
 }}}
 Now suppose we want to implement `decomposeFun`.  We should be able to do this outside the TCB, i.e. without `unsafeCoerce`:
-{{{
+{{{#!hs
 arrowCon :: TTyCon (->)   -- The type rep for (->)
 
 decomposeFun :: TTypeRep fun
@@ -195,25 +195,25 @@ decomposeFun tr def kont
       _ -> default 
 }}}
 But look at the arguments of `eqTyCon`:
-{{{
+{{{#!hs
    arrowCon :: TTyCon <*->*->*>   (->)
    c        :: TTyCon <k1->k2->*> tc
 }}}
 where `k1` and `k2` are existential kinds bound by the two nested `TRApp` constructors, and `tc` the existential bound by the inner `TRApp`.  But `kont` is expecting `arg` and `res` to have kind `*`!  So we need proofs that `k1 ~ *` and `k2 ~ *`.
 
 The real work is done by `eqTyCon`:
-{{{
+{{{#!hs
 eqTyCon :: forall (k1 k2 :: *). 
            forall (a :: k1) (b :: k2). 
            TTyCon <k1> a -> TTyCon <k2> b -> Maybe (a :~~: b)
 }}}
 where `:~~:` is a ''kind-heterogeneous'' version of `:~:`:
-{{{
+{{{#!hs
 data (a::k1) :~~: (b::k2) where
   HRefl :: forall (a::k).  a :~~: a
 }}}
 Or, to write the type of `HRefl` with its constraints explicit:
-{{{
+{{{#!hs
 HRefl :: forall k1 k2. forall (a::k1) (b::k2).
          (k1 ~ k2, a ~ b) 
       => a :~~: b
@@ -234,7 +234,7 @@ Conclusion: make `TypeRep` abstract.  But then how can we pattern-match on it?  
 === Trusted computing base ===
 
 With all of this, what is left in the TCB?  The `TTyCon` type is a new abstract type, and the comparison (based on fingerprints) must be in the TCB.
-{{{
+{{{#!hs
 TTyCon a  --- abstract type
 eqTyCon :: forall k1 k2. forall (a :: k1) (b :: k2). 
            TTyCon a -> TTyCon b -> Maybe (a :~~: b)
@@ -243,7 +243,7 @@ tyConKind :: TTyCon (a :: k) -> TTypeRep (k :: *)
 Note that `TTyCon` represents type constructors already applied to any kind arguments. Even with kind equalities, we have no way of creating a representation for `Proxy :: forall k. k -> *`, as that would require an impredicative kind for the implicit kind argument to `TTyCon`.
 
 `withTypeable` could be written in core (and perhaps could be generalized to other constraints) but not in source Haskell:
-{{{
+{{{#!hs
 withTypeable :: TypeRep a -> (Typeable a => b) -> b
 }}}
 See more [wiki:Typeable/WithTypeable here].
@@ -264,7 +264,7 @@ implementation of `decomposeFun` will use `unsafeCoerce` and will be part of the
 
 This version assumes homoegeneous equality (as GHC is today, July 2, 2015). Below is the version with heterogeneous equality.
 
-{{{
+{{{#!hs
 data TTypeRep (a :: k)        -- abstract
 data TTyCon (a :: k)          -- abstract
 
@@ -291,7 +291,7 @@ eqTT    :: forall k (a :: k) (b :: k).
 
 This assumes heterogeneous equality (that is, with kind equalities).
 
-{{{
+{{{#!hs
 data TTypeRep (a :: k)        -- abstract
 data TTyCon (a :: k)          -- abstract
 
@@ -348,26 +348,26 @@ As painfully demonstrated (painful in the conclusion, not the demonstration!) in
 
 Drawing this out somewhat: we allow only `Typeable` instances for unapplied constructors. That is, we have
 
-{{{
+{{{#!hs
 deriving instance Typeable Maybe
 }}}
 
 never
 
-{{{
+{{{#!hs
 deriving instance Typeable (Maybe Int)
 }}}
 
 However, what if we have
 
-{{{
+{{{#!hs
 data PK (a :: k)
 }}}
 
 ? `PK` properly has ''two'' parameters: the kind `k` and the type `a :: k`. However, whenever we write `PK` in source code, the `k` parameter is implicitly provided. Thus,
 when we write
 
-{{{
+{{{#!hs
 deriving instance Typeable PK
 }}}
 
@@ -383,7 +383,7 @@ The "obvious" answer -- don't supply the `k` here -- doesn't work. The instance 
 
 One (somewhat unpleasant) way forward is to allow kind parameters to be supplied in `Typeable` instances, but still restrict type parameters. So, we would have
 
-{{{
+{{{#!hs
 deriving instance Typeable (PK :: * -> *)
 deriving instance Typeable (PK :: (* -> *) -> *)
 }}}
@@ -412,21 +412,21 @@ Some drawbacks:
 
 We actually don't have a good long-term solution available. We thought that `* :: *` and kind equalities would fix this, but they don't. To see why, let's examine the type of `trApp`:
 
-{{{
+{{{#!hs
 trApp :: forall k k1 (a :: k1 -> k) (b :: k1). 
          TTypeRep a -> TTypeRep b -> TTypeRep (a b)
 }}}
 
 In the `* :: *` world, it would be reasonable to have `TTypeRep`s for kinds, assuming we have `TTypeRep`s always take explicit kind parameters. So, we might imagine having a `TTypeRep` for `PK` (call it `pkRep`) and a `TTypeRep` for `Bool` (call it `boolRep`). Does {{{pkRep `trApp` boolRep`}}} type-check? Unfortunately, no. We have
 
-{{{
+{{{#!hs
 pkRep   :: TTypeRep <forall k. k -> *> PK
 boolRep :: TTypeRep <*> Bool
 }}}
 
 but `trApp` says that `a` must have type `k1 -> k` for some `k1` and `k`. Here `PK` would be the value for `a`, but `PK`'s kind is `forall k. k -> *`, which doesn't fit `k1 -> k` at all! We would need to generalize `trApp` to
 
-{{{
+{{{#!hs
 trApp2 :: forall (k1 :: *) (k :: k1 -> *)
                  (a :: pi (b :: k1). k b) (b :: k1).
           TTypeRep <pi (b :: k1). k b> a -> TTypeRep <k1> b
