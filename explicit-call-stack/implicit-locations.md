@@ -273,3 +273,80 @@ readConfig2 = do
   s <- let ?callstack = freezeCallStack ?callstack in readFile "config.txt" -- line 42
   return (parseConfig s)
 ```
+
+# Alternate Proposal
+
+
+Richard E asks on [ ghc-devs](https://mail.haskell.org/pipermail/ghc-devs/2016-January/011068.html) why we use ImplicitParams instead of a nullary type class. Indeed, the name of the implicit parameter is not strictly necessary, in `base` we use `?callStack` as a convention to ensure the callstacks are propagated correctly. So why use ImplicitParams at all, instead we could write
+
+```wiki
+undefined :: AppendsCallStack => a
+```
+
+
+and not have to enable `ImplicitParams` or remember the `?callStack` convention.
+
+### No ImplicitParams
+
+
+Simon PJ suggests a magic nullary class
+
+```wiki
+class AppendsCallStack where
+  callStack :: CallStack
+```
+
+
+with the same solver as we currently have for the ImplicitParams implementation. Instead of using `?callStack :: CallStack` to observe the current call-stack, the user would use the class method 
+
+```wiki
+callStack :: AppendsCallStack => CallStack
+```
+
+#### Eric S comments
+
+
+If we keep the same solving logic,
+
+```wiki
+callStack :: AppendsCallStack => CallStack
+```
+
+
+would actually append the occurrence of `callStack` to the stack, whereas
+
+```wiki
+?callStack :: CallStack
+```
+
+
+would simply return the current stack unmodified (it's really **just** an implicit parameter here). So the semantics are a bit different. This means a user would have to write `popCallStack callStack`, which is counter-intuitive, or we would have to change the solver logic (may or may not be an issue).
+
+
+Furthermore, how would we handle the "Grooming the CallStack" feature in this scenario? We currently have a function
+
+```wiki
+withFrozenCallStack :: (?callStack :: CallStack)
+                    => ( (?callStack :: CallStack) => a )
+                    -> a
+withFrozenCallStack do_this =
+                   -- we pop the stack before freezing it to remove
+                   -- withFrozenCallStack's call-site
+  let ?callStack = freezeCallStack (popCallStack ?callStack)
+  in do_this
+```
+
+
+that rebinds the current call-stack before passing control to the continuation. How would we implement this without ImplicitParams? It seems like `withFrozenCallStack` would have to be a magic function.
+
+### Constraint Synonym
+
+
+Alternatively, Joachim B suggests simply defining a constraint synonym
+
+```wiki
+type AppendsCallStack = ?callStack :: CallStack
+```
+
+
+This is currently rejected by GHC 8.0 RC1 ([\#11466](https://gitlab.haskell.org//ghc/ghc/issues/11466)), but would achieve the same user-facing goal of hiding the implicit parameter.
