@@ -121,6 +121,7 @@ Code-size blowup when using `deriving`; see tickets with keyword `deriving-perf`
 
 ## Front end
 
+- [\#11451](https://gitlab.haskell.org//ghc/ghc/issues/11451): warnings for unused binders in types
 - [\#10321](https://gitlab.haskell.org//ghc/ghc/issues/10321): normalising a type in `:type` in GHCi
 - [\#10018](https://gitlab.haskell.org//ghc/ghc/issues/10018): fixity for data constructors in GHCi
 - [\#10318](https://gitlab.haskell.org//ghc/ghc/issues/10318), [\#10592](https://gitlab.haskell.org//ghc/ghc/issues/10592), [\#11067](https://gitlab.haskell.org//ghc/ghc/issues/11067): recursive superclasses
