@@ -4,7 +4,6 @@
 
 - [\#11371](https://gitlab.haskell.org//ghc/ghc/issues/11371): bogus in-scope set for substitution
 - [\#9479](https://gitlab.haskell.org//ghc/ghc/issues/9479), [\#10954](https://gitlab.haskell.org//ghc/ghc/issues/10954), [\#9091](https://gitlab.haskell.org//ghc/ghc/issues/9091): more info in "hole" error messages
-- [UnliftedDataTypes](unlifted-data-types) and [UnpackedSumTypes](unpacked-sum-types)
 - [\#10844](https://gitlab.haskell.org//ghc/ghc/issues/10844), [\#10845](https://gitlab.haskell.org//ghc/ghc/issues/10845), [\#10846](https://gitlab.haskell.org//ghc/ghc/issues/10846): implicit call stacks
 - [\#8613](https://gitlab.haskell.org//ghc/ghc/issues/8613), [\#9070](https://gitlab.haskell.org//ghc/ghc/issues/9070), [\#8319](https://gitlab.haskell.org//ghc/ghc/issues/8319), [\#7521](https://gitlab.haskell.org//ghc/ghc/issues/7521), [\#10459](https://gitlab.haskell.org//ghc/ghc/issues/10459), [\#10584](https://gitlab.haskell.org//ghc/ghc/issues/10584), [\#10565](https://gitlab.haskell.org//ghc/ghc/issues/10565): simplifier ticks exhausted (there are others). [\#10459](https://gitlab.haskell.org//ghc/ghc/issues/10459) is clearly a loop; and affects a real package.
 - [\#7262](https://gitlab.haskell.org//ghc/ghc/issues/7262), [\#10333](https://gitlab.haskell.org//ghc/ghc/issues/10333), [\#7672](https://gitlab.haskell.org//ghc/ghc/issues/7672), [\#10083](https://gitlab.haskell.org//ghc/ghc/issues/10083): hs-boot niggles
@@ -29,6 +28,8 @@ Major things
 - `TypeInType`, kind equalities etc: [DependentHaskell](dependent-haskell), esp [DependentHaskell/Phase1](dependent-haskell/phase1)
 - `TypeApplications`: [visible type application](type-application)
 - [Custom type errors](proposal/custom-type-errors)
+- [UnliftedDataTypes](unlifted-data-types)
+- [UnpackedSumTypes](unpacked-sum-types), [\#9214](https://gitlab.haskell.org//ghc/ghc/issues/9214)
 
 
 Other tickets
@@ -121,6 +122,7 @@ Code-size blowup when using `deriving`; see tickets with keyword `deriving-perf`
 
 ## Front end
 
+- [\#11451](https://gitlab.haskell.org//ghc/ghc/issues/11451): warnings for unused binders in types
 - [\#10321](https://gitlab.haskell.org//ghc/ghc/issues/10321): normalising a type in `:type` in GHCi
 - [\#10018](https://gitlab.haskell.org//ghc/ghc/issues/10018): fixity for data constructors in GHCi
 - [\#10318](https://gitlab.haskell.org//ghc/ghc/issues/10318), [\#10592](https://gitlab.haskell.org//ghc/ghc/issues/10592), [\#11067](https://gitlab.haskell.org//ghc/ghc/issues/11067): recursive superclasses
@@ -214,6 +216,7 @@ See also [TemplateHaskell](template-haskell)
 
 ## Optimisation
 
+- [\#11475](https://gitlab.haskell.org//ghc/ghc/issues/11475): Lint should check for inexhaustive cases expressions
 - [\#9476](https://gitlab.haskell.org//ghc/ghc/issues/9476): late lambda lifting
 - [\#7374](https://gitlab.haskell.org//ghc/ghc/issues/7374), [\#10417](https://gitlab.haskell.org//ghc/ghc/issues/10417), [\#10418](https://gitlab.haskell.org//ghc/ghc/issues/10418), [\#7287](https://gitlab.haskell.org//ghc/ghc/issues/7287), [\#7398](https://gitlab.haskell.org//ghc/ghc/issues/7398): rules not firing; e.g. class methods, newtype constructors
 - [\#8457](https://gitlab.haskell.org//ghc/ghc/issues/8457) (summarises), [\#917](https://gitlab.haskell.org//ghc/ghc/issues/917), [\#1945](https://gitlab.haskell.org//ghc/ghc/issues/1945), [\#3273](https://gitlab.haskell.org//ghc/ghc/issues/3273), [\#4276](https://gitlab.haskell.org//ghc/ghc/issues/4276), [\#5729](https://gitlab.haskell.org//ghc/ghc/issues/5729) (closed as dups, but not fixed): full laziness sometimes makes things worse.
