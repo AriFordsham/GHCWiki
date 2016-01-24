@@ -7,7 +7,7 @@
 
 ## Test policy
 
-- Run `./validate --slow` on all \[wiki/Platforms tier 1 platforms\] before release.
+- Run `./validate --slow` on all [tier 1 platforms](platforms) before release.
 
 ## Branching the tree
 
