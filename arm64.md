@@ -66,16 +66,22 @@ Environment variables (for me, on Gentoo, yours will probably be different):
 
 ```wiki
 # Location of Android NDK installation
-NDK=/opt/android-ndk/
+export NDK=/opt/android-ndk
 
 # Project directory
-PROJDIR=~/arm
+export PROJDIR=~/arm
 
 # Standalone toolchain location
-TOOLCHAIN=$PROJDIR/toolchain
+export TOOLCHAIN=$PROJDIR/toolchain
+
+# Standalone toolchain system root
+export SYSROOT=$TOOLCHAIN/sysroot
 
 # libiconv sub-project directory
-ICONVDIR=$PROJDIR/iconv
+export ICONVDIR=$PROJDIR/iconv
+
+# Update path to include the NDK
+export PATH=$NDK:$PATH
 ```
 
 
@@ -101,11 +107,10 @@ tar xvzf /path/to/libiconv-1.14.tar.gz
 The copies of `config.sub` and `config.guess` included in this version of libiconv didn't recognize my target architecture, so we had to fix that. I had `=sys-devel/gnuconfig-20150727` (Gentoo package) already installed on my system, but feel free to grab the latest versions from wherever you like.
 
 ```wiki
-cd $ICONVDIR
-cp /usr/share/gnuconfig/config.sub libiconv-1.14/build-aux/config.sub
-cp /usr/share/gnuconfig/config.guess libiconv-1.14/build-aux/config.guess
-cp /usr/share/gnuconfig/config.sub libiconv-1.14/libcharset/lib/localcharset.c
-cp /usr/share/gnuconfig/config.guess libiconv-1.14/libcharset/build-aux/config.guess
+cp /usr/share/gnuconfig/config.sub $ICONVDIR/libiconv-1.14/build-aux/config.sub
+cp /usr/share/gnuconfig/config.guess $ICONVDIR/libiconv-1.14/build-aux/config.guess
+cp /usr/share/gnuconfig/config.sub $ICONVDIR/libiconv-1.14/libcharset/lib/localcharset.c
+cp /usr/share/gnuconfig/config.guess $ICONVDIR/libiconv-1.14/libcharset/build-aux/config.guess
 ```
 
 
@@ -120,8 +125,56 @@ patch -b -p1 -i ../localcharset.c.patch
 Now we create some files that tell Android's build system what to do. I don't really understand these files, I just made some guesses and modified them until they worked. Download both files and put them into `$ICONVDIR`, for now. The first file is [Android.mk](/trac/ghc/attachment/wiki/Arm64/Android.mk)[](/trac/ghc/raw-attachment/wiki/Arm64/Android.mk), and the second file is [Application.mk](/trac/ghc/attachment/wiki/Arm64/Application.mk)[](/trac/ghc/raw-attachment/wiki/Arm64/Application.mk).
 
 ```wiki
-cd $ICONVDIR
-mkdir jni
-mv ../Android.mk Android.mk
-mv ../Application.mk Application.mk
+mkdir $ICONVDIR/jni
+mv $ICONVDIR/Android.mk $ICONVDIR/jni/Android.mk
+mv $ICONVDIR/Application.mk $ICONVDIR/jni/Application.mk
 ```
+
+
+Finally it's ready to build!
+
+```wiki
+cd $ICONVDIR/jni
+ndk-build
+```
+
+
+Hopefully that worked. I doubt this is the right thing to do, but rather than involving an extra directory in the rest of the build process, I just copied the resulting file over into the sysroot provided by the standalone toolchain:
+
+```wiki
+cp $ICONVDIR/libs/arm64-v8a/libiconv.so $SYSROOT/usr/lib/libiconv.so
+```
+
+
+Now we've got everything we need to build GHC! (or not, because this doesn't actually work)
+
+## Building GHC
+
+
+Start by preparing the environment variables:
+
+```wiki
+# Project directory
+export PROJDIR=~/arm
+
+# Standalone toolchain location
+export TOOLCHAIN=$PROJDIR/toolchain
+
+# Standalone toolchain system root
+export SYSROOT=$TOOLCHAIN/sysroot
+
+# I had to set these to get the gcc cross-compiling toolchain to find the right libraries.
+export CFLAGS=--sysroot=$SYSROOT
+export CPPFLAGS=--sysroot=$SYSROOT
+```
+
+
+First extract the GHC source tarball:
+
+```wiki
+cd $PROJDIR
+tar xvjf ghc-8.0.0.20160111-src.tar.bz2
+```
+
+
+Now we have to apply a bunch of patches to the GHC source.
