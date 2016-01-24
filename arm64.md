@@ -38,8 +38,7 @@ GNU binutils 2.25.1
 GNU Make 4.1
 
 
-GNU libc6 (glibc2) 2.21-r1<sup>s
-</sup>
+GNU libc6 (glibc2) 2.21
 
 
 Perl 5.20.2
