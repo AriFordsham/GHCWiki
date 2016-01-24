@@ -5,6 +5,10 @@
 - Version numbers should always be three components
 - Release candidates should be numbered with the patchlevel preceding their release. For instance, the first release candidate for 8.0.1 should be versioned 8.0.0-rc1
 
+## Test policy
+
+- Run `./validate --slow` on all \[wiki/Platforms tier 1 platforms\] before release.
+
 ## Branching the tree
 
 
