@@ -93,7 +93,7 @@ Used this command to create a standalone toolchain (reminder: I was specifically
 $NDK/build/tools/make-standalone-toolchain.sh \
     --platform=android-21 \
     --install-dir=$TOOLCHAIN \
-    --toolchain=aarch64-linux-android-4.9 \
+    --toolchain=aarch64-linux-android-clang3.6 \
     --system=linux-x86_64
 ```
 
@@ -210,13 +210,28 @@ patch -b -p1 -i ../ghc_android.patch
 ```
 
 
-My configure command got very long because I didn't trust it to find anything.
+In order to get ld and ld.gold to do what I want (link as much with `-pie` as possible), I created some wrapper scripts to eliminate `pie` from the list of arguments whenever `-r` or `-shared` is found. There is probably a better way to do this, perhaps making use of substitution parameters (`-S`), but this worked for now. Download the two wrapper scripts, [aarch64-linux-android-ld](/trac/ghc/attachment/wiki/Arm64/aarch64-linux-android-ld)[](/trac/ghc/raw-attachment/wiki/Arm64/aarch64-linux-android-ld) and [aarch64-linux-android-ld.gold](/trac/ghc/attachment/wiki/Arm64/aarch64-linux-android-ld.gold)[](/trac/ghc/raw-attachment/wiki/Arm64/aarch64-linux-android-ld.gold), and put them in `$PROJDIR`.
+
+
+There's also a problem with android-ndk shipping llvm 3.6, but we need llvm 3.7, so we'll replace the `opt` and `llc` binaries with symlinks to our system versions. `clang` might also need the same treatment, but I forgot, and it seemed to work OK. Maybe it's not used?
 
 ```wiki
+mv $TOOLCHAIN/bin/aarch64-linux-android-ld{,.orig}
+mv $PROJDIR/aarch64-linux-android-ld $TOOLCHAIN/bin/aarch64-linux-android-ld
+mv $TOOLCHAIN/bin/aarch64-linux-android-ld.gold{,.orig}
+mv $PROJDIR/aarch64-linux-android-ld.gold $TOOLCHAIN/bin/aarch64-linux-android-ld.gold
+
+```
+
+
+My configure command got very long because I didn't trust it to find anything. Some of these options may be unnecessary.
+
+```wiki
+cd $PROJDIR/ghc-8.0.0.20160111
 ./configure \
     --target=aarch64-linux-android \
         --with-gcc=$TOOLCHAIN/bin/aarch64-linux-android-gcc \
-      --with-clang=$TOOLCHAIN/bin/clang
+      --with-clang=$TOOLCHAIN/bin/clang \
          --with-ld=$TOOLCHAIN/bin/aarch64-linux-android-ld \
     --with-ld.gold=$TOOLCHAIN/bin/aarch64-linux-android-ld.gold \
          --with-nm=$TOOLCHAIN/bin/aarch64-linux-android-nm \
@@ -225,7 +240,7 @@ My configure command got very long because I didn't trust it to find anything.
      --with-ranlib=$TOOLCHAIN/bin/aarch64-linux-android-ranlib \
         --with-llc=$TOOLCHAIN/bin/llc \
         --with-opt=$TOOLCHAIN/bin/opt \
-    --prefix=$PROJDIR \
+        --prefix=$PROJDIR \
     CONF_CC_OPTS_STAGE1="-fPIC -fPIE -pie" \
     CONF_GCC_LINKER_OPTS_STAGE1="-fPIC -fPIE -pie" \
     CONF_LD_LINKER_OPTS_STAGE1="-fPIC -fPIE -pie" \
@@ -234,5 +249,5 @@ My configure command got very long because I didn't trust it to find anything.
     CONF_LD_LINKER_OPTS_STAGE2="-fPIC -fPIE -pie"
 ```
 
-
-NOTE: There's an issue with `--with-clang` there, which I'll explain in a minute.
+*CLANG
+*
