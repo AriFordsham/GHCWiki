@@ -2,6 +2,18 @@
 
 This page collects information on how to work with type-level literals, as implemented in the Haskell compiler GHC (ticket #4385).
 
+== Status ==
+
+Use Keyword = `TypeLits` to ensure that a ticket ends up on these lists.
+
+Open Tickets:
+[[TicketQuery(status=infoneeded,status=new|patch,keywords=~TypeLits)]]
+
+Closed Tickets:
+[[TicketQuery(status=infoneeded,status=closed,keywords=~TypeLits)]]
+
+
+
 == User's Guide ==
 
   * [wiki:TypeNats/Basics           Type-Level Literal Basics]
