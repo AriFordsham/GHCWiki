@@ -26,6 +26,7 @@ Major things
  * [wiki:Proposal/CustomTypeErrors Custom type errors]
  * [wiki:UnliftedDataTypes]
  * [wiki:UnpackedSumTypes], #9214
+ * [wiki:TypeNats]: type-level literals
 
 Other tickets
  * #11453: Weird behaviour when `SigTvs` are used for kinds
