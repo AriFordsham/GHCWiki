@@ -2,6 +2,12 @@
 
 This page summarises a proposed re-design (again!) of the `Typeable` class, to better support static values.  It should be read in conjunction with the [wiki:DistributedHaskell root page for distributed Haskell], which was a major driving force for the design described here.
 
+See also
+ * [wiki:TypeableT] really a more concrete variant of this page
+ * [wiki:Typeable/WithTypeable] about `withTypeable`.
+ * [wiki:GhcKinds/PolyTypeable] another rather duplicated page.
+
+
 The names of functions and type constructors is totally up for grabs.
 
 See also 
