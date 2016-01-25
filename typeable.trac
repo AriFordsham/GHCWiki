@@ -1,12 +1,16 @@
 = Safer and more expressive type representations  =
 
-This page summarises a proposed re-design (again!) of the `Typeable` class, to better support static values.  It should be read in conjunction with the [wiki:DistributedHaskell root page for distributed Haskell], which was a major driving force for the design described here.
+This page is the main root page for a re-design of the `Typeable` class, to make '''type-indexed''' type representations.
 
-See also
+Relevant links
+
+ * [http://research.microsoft.com/en-us/um/people/simonpj/papers/haskell-dynamic/ A reflection on types], the paper that describes the overall vision.  This is essential reading.
+ * [https://github.com/brprice/typeableT Ben Prices's Git respository], built summer 2015, of a prototype version of the ideas.
  * [wiki:TypeableT] really a more concrete variant of this page
  * [wiki:Typeable/WithTypeable] about `withTypeable`.
  * [wiki:GhcKinds/PolyTypeable] another rather duplicated page.
 
+Also relevant is the [wiki:DistributedHaskell root page for distributed Haskell], which was a major driving force for the design described here.
 
 The names of functions and type constructors is totally up for grabs.
 
