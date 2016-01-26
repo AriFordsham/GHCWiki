@@ -31,9 +31,9 @@ Below are the major highlights of 8.0.
 
 - Documentation for `-XTypeInType` (Richard)
 
-- Option to ignore unrecognised warning flags ([\#10429](https://gitlab.haskell.org//ghc/ghc/issues/10429), Ben, [ Phab:D1830](https://phabricator.haskell.org/D1830))
-
 ### Landed in HEAD
+
+- Option to ignore unrecognised warning flags ([\#10429](https://gitlab.haskell.org//ghc/ghc/issues/10429), Ben, [ Phab:D1830](https://phabricator.haskell.org/D1830))
 
 - Support for strictness and unpacking in Template Haskell (Trac [\#10697](https://gitlab.haskell.org//ghc/ghc/issues/10697), [ Phab:D1603](https://phabricator.haskell.org/D1603))
 
