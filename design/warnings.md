@@ -66,6 +66,13 @@ By reusing the GCC CLI convention for warning-flags, we can make GHC's CLI a bit
 
 Here is the proposed warning framework:
 
+- Intended meanings
+
+  - `-Wdefault`: the ones you get by default. This indicate things that are almost certainly wrong.
+  - `-Wall`: indicate suspicious code
+  - `-Wcompat`: indicate code that in future releases may trigger errors or `-Wdefault` warnings.  Subset of `-Wall`.
+  - 
+
 - With no flags, GHC implements the "default warnings". You can get these by saying `-Wdefault` (yet to be implemented).
 
 - When GHC implements a new warning it is put into the `-Weverything` set.  In the next release, that warning may move into the `-Wall` set or the `-Wdefault` set.  So libraray authors may want to future-proof their libraries by compiling with `-Weverything`.
