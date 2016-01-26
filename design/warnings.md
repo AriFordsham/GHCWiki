@@ -35,6 +35,8 @@ By reusing the GCC CLI convention for warning-flags, we can make GHC's CLI a bit
 
 - ([\#11370](https://gitlab.haskell.org//ghc/ghc/issues/11370)) Remove `warn-redundant-constraints` from the default constraint set and the `-Wall` constraint set
 
+- ([\#11451](https://gitlab.haskell.org//ghc/ghc/issues/11451)) Split off `-Wunused-foralls` and `-Wunused-type-patterns` from `-Wunused-matches`. Make `-Wall` imply `-Wunused-foralls` and `-Wunused-type-patterns`, but *not* imply `-Wunused-type-patterns`
+
 **In GHC 8.2:**
 
 - Introduce some new warning sets, e.g.
@@ -60,6 +62,8 @@ By reusing the GCC CLI convention for warning-flags, we can make GHC's CLI a bit
   ```
 
   making it easier to silence specific warnings via e.g. `-Wno-missing-signatures`
+
+- Introduce `-Wpedantic`, which turns on warnings that `-Wall` doesn't turn on (e.g., `-Wredundant-constraints` and `-Wunused-type-patterns`)
 
 ## Intended usage of warnings
 
