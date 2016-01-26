@@ -29,8 +29,6 @@ Below are the major highlights of 8.0.
 
 ### In-flight, and likely to land in time
 
-- An [Improved LLVM Backend](improved-llvm-backend) that ships with every major Tier 1 platform (Austin, [\#10074](https://gitlab.haskell.org//ghc/ghc/issues/10074))
-
 - Documentation for `-XTypeInType` (Richard)
 
 - Option to ignore unrecognised warning flags ([\#10429](https://gitlab.haskell.org//ghc/ghc/issues/10429), Ben, [ Phab:D1830](https://phabricator.haskell.org/D1830))
@@ -106,6 +104,7 @@ There's nothing here.
 
 ### Won't make it, but being actively worked on
 
+- An [Improved LLVM Backend](improved-llvm-backend) that ships with every major Tier 1 platform (Austin, [\#10074](https://gitlab.haskell.org//ghc/ghc/issues/10074))
 - Make compilation results more deterministic ([\#4012](https://gitlab.haskell.org//ghc/ghc/issues/4012))
 - Complete support for [OverloadedRecordFields](records/overloaded-record-fields)
 - Support for **Type Signature Sections**, allowing you to write `(:: ty)` as a shorthand for `(\x -> x :: ty)`.

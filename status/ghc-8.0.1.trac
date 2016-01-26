@@ -26,8 +26,6 @@ Below are the major highlights of 8.0.
 
 === In-flight, and likely to land in time
 
-  - An [wiki:ImprovedLLVMBackend Improved LLVM Backend] that ships with every major Tier 1 platform (Austin, #10074)
-
   - Documentation for `-XTypeInType` (Richard)
 
   - Option to ignore unrecognised warning flags (#10429, Ben, Phab:D1830)
@@ -102,6 +100,7 @@ There's nothing here.
 
 === Won't make it, but being actively worked on
 
+  - An [wiki:ImprovedLLVMBackend Improved LLVM Backend] that ships with every major Tier 1 platform (Austin, #10074)
   - Make compilation results more deterministic (#4012)
   - Complete support for [wiki:Records/OverloadedRecordFields OverloadedRecordFields]
   - Support for '''Type Signature Sections''', allowing you to write `(:: ty)` as a shorthand for `(\x -> x :: ty)`.
