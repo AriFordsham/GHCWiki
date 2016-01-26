@@ -241,6 +241,13 @@ In order to see emails below, **you must login**.
   - **Committer since**: July, 2010.
   - **Main areas of interest**: FreeBSD support
 
+- [ Ryan Scott](http://ryanglscott.github.io/)
+
+  - Indiana University - Bloomington, IN, USA
+  - **Trac**: RyanGlScott; **email**: ryan.gl.scott@…; **github**: [ https://github.com/RyanGlScott](https://github.com/RyanGlScott); **IRC**: RyanGlScott
+  - **Committer since**: July, 2015.
+  - **Main areas of interest**: generic programming, Template Haskell, deriving, Windows support
+
 - Reid Barton
 
   - N/A - Arlington, MA, USA
