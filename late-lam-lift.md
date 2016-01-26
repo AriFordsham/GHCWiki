@@ -6,6 +6,9 @@
 I (Nick Frisby) started this work in April 2012. Then it went stagnant. In August 2014, I merged master into it so that hopefully someone else can pick it up. My notes for the current code are growing here.
 
 
+There are also some useful notes and background on [Frisby2013Q1](frisby2013-q1).
+
+
 There is a ticket to track progress: [\#9476](https://gitlab.haskell.org//ghc/ghc/issues/9476).
 
 ## Quick Start
