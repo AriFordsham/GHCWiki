@@ -29,7 +29,7 @@ Before installing the Builder, be sure that *[all the tools required for buildin
 ## Install OpenSSL
 
 - On Windows, install OpenSSL from here (not the Light Version): [ http://www.openssl.org/related/binaries.html](http://www.openssl.org/related/binaries.html)
-- On Linux, get OpenSSL from your distro.  E.g. install `openssl-devel` on RedHat-derived distros (e.g. Fedora), or `openssl-dev` on Debian-derived distros (e.g. Ubuntu)
+- On Linux, get OpenSSL from your distro.  E.g. install `openssl-devel` on RedHat-derived distros (e.g. Fedora), or `libssl-dev` (or `openssl-dev`) on Debian-derived distros (e.g. Ubuntu)
 - On FreeBSD, OpenSSL is included in the base system and it is also available as a [ port](http://www.freshports.org/security/openssl).
 - On Mac OS X, install openssl from [ http://www.macports.org/](http://www.macports.org/): `sudo port install openssl`.
 - On Solaris: depending on what Solaris version you run you either need to install pkg:/library/security/openssl package (Solaris 11 Express) or install SUNWopenssl-libraries, SUNWopenssl-include packages (Solaris 10)
@@ -60,7 +60,16 @@ $ git clone https://github.com/haskell/ghc-builder
 ```
 
 
-and then build the Cabal package in the `client/` subdirectory.  If you experience problems feel free to fix them up -- and do not forget to submit a pull request with your patches! :-)
+and then build the Cabal package in the `client/` subdirectory:
+
+```wiki
+$ cd ghc-builder
+$ cabal install common/
+$ cabal install client/
+```
+
+
+If you experience problems feel free to fix them up -- and do not forget to submit a pull request with your patches! :-)
 
 
 Once you have built it, mail Gábor Páli (`pali.gabor(at)gmail.com`) along any extra information (e.g. "GNU make is gmake", or "builds need these lines added to mk/build.mk").  You will then get a username and a password.  The username is used so we know which machine the build log came from, and the password is used to verify that the client is who it claims it is.
