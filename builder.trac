@@ -53,8 +53,7 @@ $ git clone https://github.com/haskell/ghc-builder
 and then build the Cabal package in the `client/` subdirectory:
 {{{
 $ cd ghc-builder
-$ cabal install common/
-$ cabal install client/
+$ cabal install common/ client/
 }}}
 
 If you experience problems feel free to fix them up -- and do not forget to submit a pull request with your patches! :-)
