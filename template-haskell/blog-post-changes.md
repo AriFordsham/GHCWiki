@@ -23,7 +23,7 @@ Here's the [implementation page](template-haskell/typed) the describes how we ar
 
 After parsing, GHC runs two completely separate passes, one after the other:
 
-- The **renamer** resolves scopes, fixing precisely which *binding site* is connected which *occurrence* of every variable.  For example, you write 
+- The **renamer** resolves scopes, fixing precisely which *binding site* is connected to which *occurrence* of every variable.  For example, you write 
 
   ```wiki
   let x = \x -> x+1 in x
@@ -35,7 +35,7 @@ After parsing, GHC runs two completely separate passes, one after the other:
   let x_77 = \x_78 -> x_78 + 1 in x_77
   ```
 
-  The renamer also performs depdenency analysis, which sorts bindings (both value declarations and type declarations) into the smallest possible mutually recursive groups.  This prior sorting is required to maximise polymorphism in mutually recursive value bindings.
+  The renamer also performs dependency analysis, which sorts bindings (both value declarations and type declarations) into the smallest possible mutually recursive groups.  This prior sorting is required to maximise polymorphism in mutually recursive value bindings.
 
 - The **typechecker** works on the renamed program, and typechecks it.
 
@@ -52,7 +52,7 @@ Consider this, which has a quasi-quoted pattern:
 ```
 
 >
-> Is the "x" in "x+1" bound by the outer `\x` or by the 'x' that might be bought into scope by the `[pads| blah |]` quasi-quote?  The only way to know is to run the quasi-quote, so that's what happens.
+> Is the "x" in "x+1" bound by the outer `\x` or by the 'x' that might be brought into scope by the `[pads| blah |]` quasi-quote?  The only way to know is to run the quasi-quote, so that's what happens.
 
 - **All other Template Haskell stuff is run in the typechecker**.  Why?  Because we try to typecheck quotations before feeding them into TH functions.  More on this below.
 
@@ -363,9 +363,9 @@ Here's a standard example:
 power :: Int -> TExp (Int -> Int)
 power n = [|| \x -> $$(go n [|| x ||]) ||]
   where
-    go :: TExp Int -> TExp Int
+    go :: Int -> TExp Int -> TExp Int
     go 0 x = [|| 1 ||]
-    go n x = [|| $x * $$(go (n-1)) ||]
+    go n x = [|| $$x * $$(go (n-1)) ||]
 ```
 
 
