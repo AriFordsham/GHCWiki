@@ -33,7 +33,7 @@ Consider this, which has a quasi-quoted pattern:
 {{{
 \x -> \ [pads| blah |] -> x+1
 }}}
-  Is the "x" in "x+1" bound by the outer `\x` or by the 'x' that might be bought into scope by the `[pads| blah |]` quasi-quote?  The only way to know is to run the quasi-quote, so that's what happens.
+  Is the "x" in "x+1" bound by the outer `\x` or by the 'x' that might be brought into scope by the `[pads| blah |]` quasi-quote?  The only way to know is to run the quasi-quote, so that's what happens.
 
  * '''All other Template Haskell stuff is run in the typechecker'''.  Why?  Because we try to typecheck quotations before feeding them into TH functions.  More on this below.
 
