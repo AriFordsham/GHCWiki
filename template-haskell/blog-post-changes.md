@@ -23,7 +23,7 @@ Here's the [implementation page](template-haskell/typed) the describes how we ar
 
 After parsing, GHC runs two completely separate passes, one after the other:
 
-- The **renamer** resolves scopes, fixing precisely which *binding site* is connected which *occurrence* of every variable.  For example, you write 
+- The **renamer** resolves scopes, fixing precisely which *binding site* is connected to which *occurrence* of every variable.  For example, you write 
 
   ```wiki
   let x = \x -> x+1 in x
