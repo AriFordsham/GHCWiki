@@ -257,9 +257,9 @@ Here's a standard example:
 power :: Int -> TExp (Int -> Int)
 power n = [|| \x -> $$(go n [|| x ||]) ||]
   where
-    go :: TExp Int -> TExp Int
+    go :: Int -> TExp Int -> TExp Int
     go 0 x = [|| 1 ||]
-    go n x = [|| $x * $$(go (n-1)) ||]
+    go n x = [|| $$x * $$(go (n-1)) ||]
 }}}
 You could do this with existing TH but there'd be no guarantee that `power` would
 return a well-typed term. With `TExp` there is.

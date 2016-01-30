@@ -363,9 +363,9 @@ Here's a standard example:
 power :: Int -> TExp (Int -> Int)
 power n = [|| \x -> $$(go n [|| x ||]) ||]
   where
-    go :: TExp Int -> TExp Int
+    go :: Int -> TExp Int -> TExp Int
     go 0 x = [|| 1 ||]
-    go n x = [|| $x * $$(go (n-1)) ||]
+    go n x = [|| $$x * $$(go (n-1)) ||]
 ```
 
 
