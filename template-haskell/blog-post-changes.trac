@@ -23,7 +23,7 @@ let x = \x -> x+1 in x
 {{{
 let x_77 = \x_78 -> x_78 + 1 in x_77
 }}}
-   The renamer also performs depdenency analysis, which sorts bindings (both value declarations and type declarations) into the smallest possible mutually recursive groups.  This prior sorting is required to maximise polymorphism in mutually recursive value bindings.
+   The renamer also performs dependency analysis, which sorts bindings (both value declarations and type declarations) into the smallest possible mutually recursive groups.  This prior sorting is required to maximise polymorphism in mutually recursive value bindings.
 
  * The '''typechecker''' works on the renamed program, and typechecks it.
 
