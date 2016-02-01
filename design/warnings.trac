@@ -31,9 +31,7 @@ By reusing the GCC CLI convention for warning-flags, we can make GHC's CLI a bit
 
  - (#11451) Split off `-Wunused-foralls` and `-Wunused-type-patterns` from `-Wunused-matches`. Make `-Wall` imply `-Wunused-foralls` and `-Wunused-type-patterns`, but ''not'' imply `-Wunused-type-patterns`
 
-**In GHC 8.2:**
-
- - Introduce some new warning sets, e.g.
+ - (phab:D1850) Introduce some new warning sets, e.g.
     - Define set `-Wstandard` (modulo bikeshed, maybe `-Wdefault`?) to denote the set of warnings on by default, together with its negation `-Wno-standard`
     - Define set `-Weverything` (c.f. clang's [[http://clang.llvm.org/docs/UsersManual.html#diagnostics-enable-everything|-Weverything]] as precedent) to comprise really *all* warnings (together with its negation `-Wno-everything` for symmetry, which is a synonym for `-w`)
     - Define set `-Wextra` (modulo bikeshed, maybe `-Wnormal`?) as synonym for `-W`, together with its negation `-Wno-extra`
@@ -53,7 +51,7 @@ By reusing the GCC CLI convention for warning-flags, we can make GHC's CLI a bit
    }}}
    making it easier to silence specific warnings via e.g. `-Wno-missing-signatures`
 
- - Introduce `-Wpedantic`, which turns on warnings that `-Wall` doesn't turn on (e.g., `-Wredundant-constraints` and `-Wunused-type-patterns`)
+ - Introduce `-Wpedantic` (this is subsumed by `-Weverything` already?), which turns on warnings that `-Wall` doesn't turn on (e.g., `-Wredundant-constraints` and `-Wunused-type-patterns`)
 
 
 == Intended usage of warnings ==
@@ -71,3 +69,64 @@ Here is the proposed warning framework:
 * When GHC implements a new warning it is put into the `-Weverything` set.  In the next release, that warning may move into the `-Wall` set or the `-Wdefault` set.  So libraray authors may want to future-proof their libraries by compiling with `-Weverything`.
 
 * A flag should only move into `-Wall` or `-Wdefault` if there is a reasonable way for a library author to change their source code to avoid the warning. Experimental, unpredicatable, or compiler-writer-guidance warnings should not be in `-Wall`.
+
+=== To `-Wcompat` ⊂ `-Wall`, or not? (#11494)
+
+With GHC 8.0 we have implemented a new warning-group `-Wcompat` (see
+#11000) to comprise warnings that will be enabled by default in the
+future, but remain off in normal compilations for the time
+being. This​ allows library authors eager to make their code future
+compatible to adapt​ to new features before they even generate
+warnings, and even later probably turn into actual compile errors.
+
+However, there is one important design choice left regarding the default:
+
+A. Opt-in style  (`-Wall` does **not include** `-Wcompat`):
+  - Users who desire warnings about upcoming changes: `-Wall -Wcompat`
+  - Users who dislike such warnings: `-Wall`
+
+B. Opt-out style (`-Wall` **includes** `-Wcompat`):
+  - Users who desire warnings about upcoming changes: `-Wall`
+  - Users who dislike such warnings: `-Wall -Wno-compat`
+
+Arguments **for B. opt-out**/against opt-in style:
+
+- If we don't enable `-Wcompat` by default, discoverability
+  suffers. Most users know mostly about `-Wall` but not about
+  `-Wcompat`, and even if `-Wcompat` becomes better known, maybe they
+  won't bother (or simply forget) to turn on `-Wcompat`.
+
+  The most effective way to reach everybody is by enabling `-Wcompat`
+  by default and have them opt-out if they don't like it.
+
+- This warnings are just noisy and don't cause actual problems until
+  `-Werror` is enabled (which doesn't cause problems for Hackage since
+  Hackage rejects packages with `-Werror` anyway).
+
+  If somebody enables `-Wall`, they're already asking for some noise.
+  Especially since `-Wall`'s effect changes with each GHC release.
+
+Arguments against opt-out/**for A. opt-in** style:
+
+- Opting out while supporting pre GHC8 needs to actively add boilerplate
+  in cabal files to silence GHC:
+  {{{
+    ghc-options: -Wall
+    if impl(ghc >` 8)
+       ghc-options: -Wno-compat
+  }}}
+
+- Having `-Wcompat` separate from `-Wall` allows us to include
+  more noisy warnings to `-Wcompat` that would be questionable in `-Wall`
+
+- `-Wcompat` warnings aren't necessarily actionable if backwards
+  compatibility is desired; if they were, they'd be in `-Wall`. The
+  point of `-Wcompat` was to give notice to folks who wanted them as soon
+  as possible, even if they were things they couldn't do, yet moving
+  them into `-Wall` means that this whole thing becomes a big mess of
+  active maintenance
+
+- If `-Wcompat` was on by default, less or maybe no users at all would
+  bother about the 3-release policy at all, as it would add another
+  hoop to jump through, i.e.  requires to actively opt out via
+  `-Wno-compat`.
