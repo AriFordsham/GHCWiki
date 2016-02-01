@@ -81,6 +81,7 @@ See [Commentary/Compiler/GenericDeriving](commentary/compiler/generic-deriving) 
 
 ## Impredicativity and higher rank
 
+- [\#11514](https://gitlab.haskell.org//ghc/ghc/issues/11514): Impredicativity sneaking in (should be easy)
 - [\#10619](https://gitlab.haskell.org//ghc/ghc/issues/10619): higher rank and order of equations
 - [\#4281](https://gitlab.haskell.org//ghc/ghc/issues/4281), [\#4295](https://gitlab.haskell.org//ghc/ghc/issues/4295), [\#4347](https://gitlab.haskell.org//ghc/ghc/issues/4347), [\#7264](https://gitlab.haskell.org//ghc/ghc/issues/7264), [\#8808](https://gitlab.haskell.org//ghc/ghc/issues/8808), [\#9420](https://gitlab.haskell.org//ghc/ghc/issues/9420), [\#9730](https://gitlab.haskell.org//ghc/ghc/issues/9730), [\#10709](https://gitlab.haskell.org//ghc/ghc/issues/10709): impredicativity
 

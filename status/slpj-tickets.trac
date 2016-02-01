@@ -70,6 +70,7 @@ See [wiki:Commentary/Compiler/GenericDeriving] for a list of open tickets
 
 
 == Impredicativity and higher rank ==
+ * #11514: Impredicativity sneaking in (should be easy)
  * #10619: higher rank and order of equations
  * #4281, #4295, #4347, #7264, #8808, #9420, #9730, #10709: impredicativity
 
