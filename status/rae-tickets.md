@@ -44,6 +44,7 @@
 
 - [\#8828](https://gitlab.haskell.org//ghc/ghc/issues/8828): Type pattern synonyms
 - [\#10227](https://gitlab.haskell.org//ghc/ghc/issues/10227): Backward reasoning from closed type families
+- [\#11511](https://gitlab.haskell.org//ghc/ghc/issues/11511): Think Hard about non-terminating injective type families
 
 **Rocket Science**
 

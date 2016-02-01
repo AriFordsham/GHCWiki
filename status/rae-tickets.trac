@@ -42,6 +42,7 @@
 
 * #8828: Type pattern synonyms
 * #10227: Backward reasoning from closed type families
+* #11511: Think Hard about non-terminating injective type families
 
 '''Rocket Science'''
 
