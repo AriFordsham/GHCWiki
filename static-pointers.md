@@ -132,7 +132,7 @@ decodeSA bs
 ```
 
 
-and you can immediately see that we are stuck.  Type variable `b` is not in scope.
+and you can immediately see that we are stuck.  Type variable `a` is not in scope.
 More concretely, we need a `Typeable (a->b)` to pass in to `decodeStatic`, 
 but we only have a `Typeable b` to hand.  
 
