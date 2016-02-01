@@ -123,12 +123,10 @@ Code-size blowup when using `deriving`; see tickets with keyword `deriving-perf`
   - [\#7411](https://gitlab.haskell.org//ghc/ghc/issues/7411): state hack changes exception semantics
   - [\#2284](https://gitlab.haskell.org//ghc/ghc/issues/2284), [\#1168](https://gitlab.haskell.org//ghc/ghc/issues/1168), [\#7561](https://gitlab.haskell.org//ghc/ghc/issues/7561), [\#9349](https://gitlab.haskell.org//ghc/ghc/issues/9349): the state-hack "optimisation" causes much re-computation
 
-## Front end
+## Type inference
 
-- [\#11451](https://gitlab.haskell.org//ghc/ghc/issues/11451): warnings for unused binders in types
-- [\#10321](https://gitlab.haskell.org//ghc/ghc/issues/10321): normalising a type in `:type` in GHCi
-- [\#10018](https://gitlab.haskell.org//ghc/ghc/issues/10018): fixity for data constructors in GHCi
-- [\#10318](https://gitlab.haskell.org//ghc/ghc/issues/10318), [\#10592](https://gitlab.haskell.org//ghc/ghc/issues/10592), [\#11067](https://gitlab.haskell.org//ghc/ghc/issues/11067): recursive superclasses
+- [\#11515](https://gitlab.haskell.org//ghc/ghc/issues/11515): better computation for constraint holes
+- [\#10614](https://gitlab.haskell.org//ghc/ghc/issues/10614): display constraints for typed holes
 - [\#10179](https://gitlab.haskell.org//ghc/ghc/issues/10179): displaying kinds
 - [\#10089](https://gitlab.haskell.org//ghc/ghc/issues/10089): better warnings for unused data types (involves instances)
 - [\#10027](https://gitlab.haskell.org//ghc/ghc/issues/10027): export behaviour for data families
@@ -143,10 +141,6 @@ Code-size blowup when using `deriving`; see tickets with keyword `deriving-perf`
 - [\#7259](https://gitlab.haskell.org//ghc/ghc/issues/7259): Eta-expansion of products in System FC
 - [\#7204](https://gitlab.haskell.org//ghc/ghc/issues/7204): a class to controll FFI marshalling; and newtype deriving for classes with ATs
 - [\#7842](https://gitlab.haskell.org//ghc/ghc/issues/7842): polymorphism in recursive do-blocks
-
-## Type inference
-
-- [\#10614](https://gitlab.haskell.org//ghc/ghc/issues/10614): display constraints for typed holes
 - [\#8171](https://gitlab.haskell.org//ghc/ghc/issues/8171): extended default rules
 - [\#7828](https://gitlab.haskell.org//ghc/ghc/issues/7828), [\#5267](https://gitlab.haskell.org//ghc/ghc/issues/5267), [\#5777](https://gitlab.haskell.org//ghc/ghc/issues/5777), [\#5333](https://gitlab.haskell.org//ghc/ghc/issues/5333), [\#344](https://gitlab.haskell.org//ghc/ghc/issues/344): bugs in arrows
 - [\#7862](https://gitlab.haskell.org//ghc/ghc/issues/7862): overlap beween givens and instances
