@@ -9,7 +9,7 @@ GHC on Windows is supported by the [wiki:WindowsTaskForce Windows Task Force].
 ||= 7.10        =||             ||         ||  ✔      ||  ✔      ||  ✔     ||  ✔     ||         ||
 ||= 8.0         =||             ||         ||         ||  ✔      ||  ✔     ||  ✔     ||  ✔      ||
 
-
+Note that Vista must be patched with KB2533623.
 
 == Building 32-bit Windows programs ==
 
