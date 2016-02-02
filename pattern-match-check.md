@@ -8,6 +8,9 @@ we describe the problem and the algorithm.  It forms part of GHC 8.0.
 ## Status
 
 
+The ticket [\#11528](https://gitlab.haskell.org//ghc/ghc/issues/11528) tracks our aspiration to return to a more elegant (but currently less performant) implementation.
+
+
 Tickets should include `PatternMatchWarnings` in their Keywords to appear in these summary lists.
 
 **Open Tickets:**
