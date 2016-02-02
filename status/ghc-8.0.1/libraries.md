@@ -51,7 +51,7 @@ TODO Cabal HEAD/1.23 (NB: odd/even version scheme) should be used for the RC1. C
 
 [](http://hackage.haskell.org/package/binary)
 
-DONE`0.8.0.0` has just been released, please use that for RC1. (TODO GHC 8 final should ship the pending `0.9.x` release. It adds an orphan instance which requires a major version bump)
+DONE`0.8.0.0` has just been released, please use that for RC1. (TODO GHC 8 final should ship the `0.8.1.0` release. Biggest change is that includes a Binary instance for ShortByteString)
 
 ### `bytestring`
 
