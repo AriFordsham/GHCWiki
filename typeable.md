@@ -21,11 +21,108 @@ Also relevant is the [root page for distributed Haskell](distributed-haskell), w
 
 The names of functions and type constructors is totally up for grabs.
 
+# Status
 
-See also 
 
-- [\#10343](https://gitlab.haskell.org//ghc/ghc/issues/10343) is highly relevant
-- [\#10163](https://gitlab.haskell.org//ghc/ghc/issues/10163) also
+Use Keyword = `Typeable` to ensure that a ticket ends up on these lists.
+
+
+Open Tickets:
+
+<table><tr><th>[\#10770](https://gitlab.haskell.org//ghc/ghc/issues/10770)</th>
+<td>Typeable solver has strange effects</td></tr>
+<tr><th>[\#11251](https://gitlab.haskell.org//ghc/ghc/issues/11251)</th>
+<td>isInstance does not work on Typeable with base-4.8 anymore</td></tr>
+<tr><th>[\#11349](https://gitlab.haskell.org//ghc/ghc/issues/11349)</th>
+<td>\[TypeApplications\] Create Proxy-free alternatives of functions in base</td></tr>
+<tr><th>[\#11715](https://gitlab.haskell.org//ghc/ghc/issues/11715)</th>
+<td>Constraint vs \*</td></tr>
+<tr><th>[\#12451](https://gitlab.haskell.org//ghc/ghc/issues/12451)</th>
+<td>TemplateHaskell and Data.Typeable - tcIfaceGlobal (local): not found</td></tr>
+<tr><th>[\#13261](https://gitlab.haskell.org//ghc/ghc/issues/13261)</th>
+<td>Consider moving Typeable evidence generation wholly back to solver</td></tr>
+<tr><th>[\#13276](https://gitlab.haskell.org//ghc/ghc/issues/13276)</th>
+<td>Unboxed sums are not Typeable</td></tr>
+<tr><th>[\#13647](https://gitlab.haskell.org//ghc/ghc/issues/13647)</th>
+<td>Tidy up TcTypeable</td></tr>
+<tr><th>[\#13933](https://gitlab.haskell.org//ghc/ghc/issues/13933)</th>
+<td>Support Typeable instances for types with coercions</td></tr>
+<tr><th>[\#14190](https://gitlab.haskell.org//ghc/ghc/issues/14190)</th>
+<td>Typeable imposes seemingly redundant constraints on polykinded instances</td></tr>
+<tr><th>[\#14255](https://gitlab.haskell.org//ghc/ghc/issues/14255)</th>
+<td>Type-indexed type fingerprints</td></tr>
+<tr><th>[\#14270](https://gitlab.haskell.org//ghc/ghc/issues/14270)</th>
+<td>GHC HEAD's ghc-stage1 panics on Data.Typeable.Internal</td></tr>
+<tr><th>[\#14337](https://gitlab.haskell.org//ghc/ghc/issues/14337)</th>
+<td>typeRepKind can perform substantial amounts of allocation</td></tr>
+<tr><th>[\#14341](https://gitlab.haskell.org//ghc/ghc/issues/14341)</th>
+<td>Show instance for TypeReps is a bit broken</td></tr>
+<tr><th>[\#14401](https://gitlab.haskell.org//ghc/ghc/issues/14401)</th>
+<td>Add a test ensuring that TypeReps can be stored in compact regions</td></tr>
+<tr><th>[\#14480](https://gitlab.haskell.org//ghc/ghc/issues/14480)</th>
+<td>Clean up tyConTYPE</td></tr>
+<tr><th>[\#14582](https://gitlab.haskell.org//ghc/ghc/issues/14582)</th>
+<td>Review and improve the Typeable API</td></tr>
+<tr><th>[\#14663](https://gitlab.haskell.org//ghc/ghc/issues/14663)</th>
+<td>Deriving Typeable for enumerations seems expensive</td></tr>
+<tr><th>[\#15322](https://gitlab.haskell.org//ghc/ghc/issues/15322)</th>
+<td>\`KnownNat\` does not imply \`Typeable\` any more when used with plugin</td></tr>
+<tr><th>[\#15862](https://gitlab.haskell.org//ghc/ghc/issues/15862)</th>
+<td>Panic with promoted types that Typeable doesn't support</td></tr></table>
+
+
+Closed Tickets:
+
+<table><tr><th>[\#3480](https://gitlab.haskell.org//ghc/ghc/issues/3480)</th>
+<td>Easily make Typeable keys pure, so that Typeable can be handled efficiently across communications</td></tr>
+<tr><th>[\#8931](https://gitlab.haskell.org//ghc/ghc/issues/8931)</th>
+<td>The type defaulting in GHCi with Typeable</td></tr>
+<tr><th>[\#9639](https://gitlab.haskell.org//ghc/ghc/issues/9639)</th>
+<td>Remove OldTypeable</td></tr>
+<tr><th>[\#9707](https://gitlab.haskell.org//ghc/ghc/issues/9707)</th>
+<td>(Try to) restructure \`base\` to allow more use of \`AutoDeriveTypeable\`</td></tr>
+<tr><th>[\#10163](https://gitlab.haskell.org//ghc/ghc/issues/10163)</th>
+<td>Export typeRepKinds in Data.Typeable</td></tr>
+<tr><th>[\#10343](https://gitlab.haskell.org//ghc/ghc/issues/10343)</th>
+<td>Make Typeable track kind information better</td></tr>
+<tr><th>[\#11011](https://gitlab.haskell.org//ghc/ghc/issues/11011)</th>
+<td>Add type-indexed type representations (\`TypeRep a\`)</td></tr>
+<tr><th>[\#11120](https://gitlab.haskell.org//ghc/ghc/issues/11120)</th>
+<td>Missing type representations</td></tr>
+<tr><th>[\#11714](https://gitlab.haskell.org//ghc/ghc/issues/11714)</th>
+<td>Kind of (-\>) type constructor is overly constrained</td></tr>
+<tr><th>[\#11722](https://gitlab.haskell.org//ghc/ghc/issues/11722)</th>
+<td>No TypeRep for unboxed tuples</td></tr>
+<tr><th>[\#11736](https://gitlab.haskell.org//ghc/ghc/issues/11736)</th>
+<td>Allow unsaturated uses of unlifted types in Core</td></tr>
+<tr><th>[\#12082](https://gitlab.haskell.org//ghc/ghc/issues/12082)</th>
+<td>Typeable on RealWorld fails</td></tr>
+<tr><th>[\#12123](https://gitlab.haskell.org//ghc/ghc/issues/12123)</th>
+<td>GHC crashes when calling typeRep on a promoted tuple</td></tr>
+<tr><th>[\#12409](https://gitlab.haskell.org//ghc/ghc/issues/12409)</th>
+<td>Unboxed tuples have no type representations</td></tr>
+<tr><th>[\#12670](https://gitlab.haskell.org//ghc/ghc/issues/12670)</th>
+<td>Representation polymorphism validity check is too strict</td></tr>
+<tr><th>[\#12905](https://gitlab.haskell.org//ghc/ghc/issues/12905)</th>
+<td>Core lint failure with pattern synonym and levity polymorphism</td></tr>
+<tr><th>[\#13197](https://gitlab.haskell.org//ghc/ghc/issues/13197)</th>
+<td>Perplexing levity polymorphism issue</td></tr>
+<tr><th>[\#13333](https://gitlab.haskell.org//ghc/ghc/issues/13333)</th>
+<td>Typeable regression in GHC HEAD</td></tr>
+<tr><th>[\#13871](https://gitlab.haskell.org//ghc/ghc/issues/13871)</th>
+<td>GHC panic in 8.2 only: typeIsTypeable(Coercion)</td></tr>
+<tr><th>[\#13872](https://gitlab.haskell.org//ghc/ghc/issues/13872)</th>
+<td>Strange Typeable error message involving TypeInType</td></tr>
+<tr><th>[\#13915](https://gitlab.haskell.org//ghc/ghc/issues/13915)</th>
+<td>GHC 8.2 regression: "Can't find interface-file declaration" for promoted data family instance</td></tr>
+<tr><th>[\#14199](https://gitlab.haskell.org//ghc/ghc/issues/14199)</th>
+<td>Document Type.Reflection better (Fun and Con')</td></tr>
+<tr><th>[\#14254](https://gitlab.haskell.org//ghc/ghc/issues/14254)</th>
+<td>The Binary instance for TypeRep smells a bit expensive</td></tr>
+<tr><th>[\#14925](https://gitlab.haskell.org//ghc/ghc/issues/14925)</th>
+<td>Non-ASCII type names get garbled when their \`TypeRep\` is shown</td></tr>
+<tr><th>[\#15067](https://gitlab.haskell.org//ghc/ghc/issues/15067)</th>
+<td>When Typeable and unboxed sums collide, GHC panics</td></tr></table>
 
 ## Goal
 

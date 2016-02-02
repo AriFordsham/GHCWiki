@@ -16,9 +16,16 @@ Also relevant is the [wiki:DistributedHaskell root page for distributed Haskell]
 
 The names of functions and type constructors is totally up for grabs.
 
-See also 
- * #10343 is highly relevant
- * #10163 also
+= Status =
+
+Use Keyword = `Typeable` to ensure that a ticket ends up on these lists.
+
+Open Tickets:
+[[TicketQuery(status=infoneeded,status=new|patch,keywords=~Typeable)]]
+
+Closed Tickets:
+[[TicketQuery(status=infoneeded,status=closed,keywords=~Typeable)]]
+ 
 
 == Goal
 
