@@ -274,6 +274,51 @@ readConfig2 = do
   return (parseConfig s)
 ```
 
+## Generalizing to `setCallStack`
+
+
+It would be nice to generalize the rebinding trick above to a function
+
+```wiki
+setCallStack :: CallStack -> (HasCallStack => a) -> a
+```
+
+
+that overrides the callstack for the sub-computation.
+
+
+Unfortunately we can't write this function in Haskell (though we could easily write it in Core).. Why? Let's look at the implementation
+
+```wiki
+setCallStack :: CallStack -> (HasCallStack => a) -> a
+setCallStack stk do_this =
+  let ?callStack = stk in do_this
+```
+
+
+Rebinding `?callStack` works just fine, but the occurrence of `do_this`
+causes GHC to push an entry onto the stack, which is less than ideal.
+
+
+What does this look like in practice? If we evaluate
+
+```wiki
+setCallStack foo (error "die")
+```
+
+
+the resulting stack will be
+
+```wiki
+  error
+  *do_this*
+  foo
+```
+
+
+The rebinding trick works with `freezeCallStack` precisely because we
+freeze the CallStack, so the push from `do_this` is ignored.
+
 # Alternate Proposal
 
 
