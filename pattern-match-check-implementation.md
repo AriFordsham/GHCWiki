@@ -21,7 +21,7 @@ We discuss each one separately below.
 The module exports the following data types:
 
 ```
-dataPmExpr=PmExprVarName|PmExprConDataCon[PmExpr]|PmExprLitPmLit|PmExprEqPmExprPmExpr-- Syntactic equality|PmExprOther(HsExprId)-- Note [PmExprOther in PmExpr]dataPmLit=PmSLitHsLit-- simple|PmOLitBool{- is it negated? -}(HsOverLitId)-- overloadedtypeSimpleEq=(Id,PmExpr)-- We always use this orientationtypeComplexEq=(PmExpr,PmExpr)
+dataPmExpr=PmExprVarName|PmExprConDataCon[PmExpr]|PmExprLitPmLit|PmExprEqPmExprPmExpr-- Syntactic equality|PmExprOther(HsExprId)-- Note [PmExprOther in PmExpr]dataPmLit=PmSLitHsLit-- simple|PmOLitBool{- is it negated? -}(HsOverLitId)-- overloadedtypeSimpleEq=(Id,PmExpr)typeComplexEq=(PmExpr,PmExpr)
 ```
 
 
@@ -34,8 +34,8 @@ PmExprEq(PmExprCon<False>[])(PmExprEq(PmExprVar<x>)(PmExprLit(PmSLit<5>)))
 ```
 
 
-Literals `PmLit` are separately defined since (for efficiency reasons) appear in the pattern language as well. Equality check for
-`PmLit` is exported too, with signature:
+Literals `PmLit` represent literals (both overloaded and non-overloaded). Literal
+equality is defined with signature:
 
 ```
 eqPmLit::PmLit->PmLit->Bool
@@ -63,7 +63,18 @@ are still used for nested pattern matching (see below).
 ## The Term Oracle
 
 
-The term oracle lives in `deSugar/TmOracle.hs` and has the following signature(s):
+As explained in the paper, the algorithm depends on external solvers for checking
+the satisfiability of term and type constraints. For checking type constraints we
+simply call GHC's existing inference engine (OutsideIn(X)), using a simple interface:
+
+```
+tyOracle::BagEvVar->PmMBool
+```
+
+
+For the satisfiability of term constraints, we have implemented a simple oracle
+(solver). The term oracle lives in `deSugar/TmOracle.hs` and has the following
+signature(s):
 
 ```
 solveOneEq::TmState->ComplexEq->MaybeTmStatetmOracle::TmState->[ComplexEq]->MaybeTmStateextendSubst::Id->PmExpr->TmState->TmState
@@ -155,8 +166,8 @@ dataPatTy=PAT|VA-- Used only as a kind, to index PmPatdataPmPat::PatTy->*wherePm
 ```
 
 
-Literal patterns are not essential for the algorithm to work, but, as we discuss below, it is
-much more efficient to treat them more like constructors by matching against them eagerly than
+Literal patterns are not essential for the algorithm to work, but it is
+more efficient to treat them more like constructors by matching against them eagerly than
 generating equality constraints to feed the term oracle with (as we do in the paper). Additionally,
 we use negative patterns (constructor `PmNLit`), for efficiency also. `PmCon` contains several
 fields, effectively copying constructor `ConPatOut` of type `Pat` (defined in `hsSyn/HsPat.hs`).
