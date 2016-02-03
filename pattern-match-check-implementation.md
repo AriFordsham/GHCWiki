@@ -34,7 +34,7 @@ PmExprEq(PmExprCon<False>[])(PmExprEq(PmExprVar<x>)(PmExprLit(PmSLit<5>)))
 ```
 
 
-Type`PmLit` represent literals (both overloaded and non-overloaded). Literal
+Type `PmLit` represents literals (both overloaded and non-overloaded). Literal
 equality is defined with signature:
 
 ```
