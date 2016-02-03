@@ -221,14 +221,8 @@ Since GHC's exhaustiveness/redundancy checker is outdated, it does not take into
 account constraints introduced by GADT matches when reporting warnings. This is
 illustrated in the following example ([\#3927](https://gitlab.haskell.org//ghc/ghc/issues/3927)):
 
-```wiki
-data T a where
-  T1 :: T Int
-  T2 :: T Bool
-
-f :: T a -> T a -> Bool
-f T1 T1 = True
-f T2 T2 = False
+```
+dataT a whereT1::TIntT2::TBoolf::T a ->T a ->BoolfT1T1=TruefT2T2=False
 ```
 
 
@@ -248,20 +242,16 @@ Obviously, both pattern vectors issued as not matched, are ill-typed, because
 they both generate the inconsistent constraint `Int ~ Bool`. This becomes more
 clear if we rewrite the definition of `T` in the equivalent form:
 
-```wiki
-data T a where
-  T1 :: forall a. (a ~ Int)  => T a
-  T2 :: forall a. (a ~ Bool) => T a
+```
+dataT a whereT1:: forall a.(a ~Int)=>T a
+  T2:: forall a.(a ~Bool)=>T a
 ```
 
 
 Additionally, if we add one more branch to `f`:
 
-```wiki
-f :: T a -> T a -> Bool
-f T1 T1 = True
-f T2 T2 = False
-f _  _  = undefined -- inaccessible
+```
+f::T a ->T a ->BoolfT1T1=TruefT2T2=Falsef__= undefined -- inaccessible
 ```
 
 
@@ -301,23 +291,23 @@ For example, for function `f` above we have:
 
 - initial_missing = `[[_ _]]`
 
-  ```wiki
-  f T1 T1 = True -- first clause
+  ```
+  fT1T1=True-- first clause
   ```
 - Covers `[[T1 T1]]`
 - Forces the evaluation of the 1st argument
 - If 1st argument is `T1` forces the evaluation of the 2nd argument
 - Remain uncovered `[[T2 _], [T1 T2]]`
 
-  ```wiki
-  f T2 T2 = False -- second clause
+  ```
+  fT2T2=False-- second clause
   ```
 - Covers `[[T2 T2]]`
 - If 1st argument is `T2` forces the evaluation of the 2nd argument
 - Remain uncovered `[[T2 T1], [T1 T2]]`
 
-  ```wiki
-  f _  _  = undefined -- third clause (inaccessible)
+  ```
+  f__= undefined -- third clause (inaccessible)
   ```
 - Covers: `[[T2 T1], [T1 T2]]`
 - Doesn't force anything
@@ -334,11 +324,8 @@ useful.
 Even without GADTs, the previous algorithm was not exactly laziness-aware. For
 example, for function `g` below
 
-```wiki
-g :: Bool -> Bool -> Bool
-g _    True = True
-g True True = True
-g _    _    = False
+```
+g::Bool->Bool->Boolg_True=TruegTrueTrue=Trueg__=False
 ```
 
 
