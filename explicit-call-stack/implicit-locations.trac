@@ -224,6 +224,45 @@ readConfig2 = do
   return (parseConfig s)
 }}}
 
+
+== Generalizing to `setCallStack` ==
+
+It would be nice to generalize the rebinding trick above to a function
+
+{{{
+setCallStack :: CallStack -> (HasCallStack => a) -> a
+}}}
+
+that overrides the callstack for the sub-computation.
+
+Unfortunately we can't write this function in Haskell (though we could easily write it in Core).. Why? Let's look at the implementation
+
+{{{
+setCallStack :: CallStack -> (HasCallStack => a) -> a
+setCallStack stk do_this =
+  let ?callStack = stk in do_this
+}}}
+
+Rebinding `?callStack` works just fine, but the occurrence of `do_this`
+causes GHC to push an entry onto the stack, which is less than ideal.
+
+What does this look like in practice? If we evaluate
+
+{{{
+setCallStack foo (error "die")
+}}}
+
+the resulting stack will be
+
+{{{
+  error
+  *do_this*
+  foo
+}}}
+
+The rebinding trick works with `freezeCallStack` precisely because we
+freeze the CallStack, so the push from `do_this` is ignored.
+
 = Alternate Proposal =
 
 Richard E asks on [https://mail.haskell.org/pipermail/ghc-devs/2016-January/011068.html ghc-devs] why we use ImplicitParams instead of a nullary type class. Indeed, the name of the implicit parameter is not strictly necessary, in `base` we use `?callStack` as a convention to ensure the callstacks are propagated correctly. So why use ImplicitParams at all, instead we could write
