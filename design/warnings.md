@@ -107,8 +107,7 @@ However, there is one important design choice left regarding the default:
   - Users who desire warnings about upcoming changes: `-Wall`
   - Users who dislike such warnings: `-Wall -Wno-compat`
 
-
-Arguments **for B. opt-out**/against opt-in style:
+#### Arguments **for B. opt-out**/against opt-in style
 
 - If we don't enable `-Wcompat` by default, discoverability
   suffers. Most users know mostly about `-Wall` but not about
@@ -127,8 +126,7 @@ Arguments **for B. opt-out**/against opt-in style:
 > If somebody enables `-Wall`, they're already asking for some noise.
 > Especially since `-Wall`'s effect changes with each GHC release.
 
-
-Arguments against opt-out/**for A. opt-in** style:
+#### Arguments against opt-out/**for A. opt-in** style
 
 - Opting out while supporting pre GHC8 needs to actively add boilerplate
   in cabal files to silence GHC:
