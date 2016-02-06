@@ -459,7 +459,7 @@ The easy way to bring the tree up to date after making some changes is
 simply to go to the top of the tree and say `make`.  The build system
 has enough dependencies encoded into it that this should rebuild
 everything that needs to be rebuilt, in the correct order.  The
-downside is that it will build everything right though to the stage2
+downside is that it will build everything right through to the stage2
 compiler and including all the documentation, which might be overkill
 if all you wanted to do was to test a small change to GHC.
 
