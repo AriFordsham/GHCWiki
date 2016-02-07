@@ -80,6 +80,35 @@ pattern P4 :: ty
 
 === `base-4.9.0.0`
 
+==== HasCallStack
+
+GHC's callstack interface (formerly known as "implicit call stacks") is been reworked, hiding the implicit parameter behind a constraint synonym,
+{{{#!hs
+type HasCallStack = (?callStack :: CallStack) :: Constraint
+}}}
+
+Existing users of this functionality taking `callStack` arguments should be refactored to use this synonym if possible. This has the happy consequence that modules using this mechanism needn't enable `ImplicitParams`.
+
+For instance,
+{{{#!hs
+{-# LANGUAGE ImplicitParams #-}
+module AssertOdd where
+import GHC.Stack (CallStack)
+assertOdd :: (?callStack :: CallStack) => Int -> a -> a
+assertOdd n
+  | odd n     = id
+  | otherwise = error "That number isn't odd!"
+}}}
+turns in to,
+{{{#!hs
+module AssertOdd where
+import GHC.Stack (HasCallStack)
+assertOdd :: HasCallStack => Int -> a -> a
+assertOdd n
+  | odd n     = id
+  | otherwise = error "That number isn't odd!"
+}}}
+
 
 ==== Normalise `Applicative`/`Monad` instance definitions 
 
