@@ -119,25 +119,36 @@ FIXME Write the migration guide.
 
 [ https://ghc.haskell.org/trac/ghc/wiki/Migration/8.0](https://ghc.haskell.org/trac/ghc/wiki/Migration/8.0)
 
+## Known issues with release candidate 2
+
+
+Release candidate 2 was [ released](https://mail.haskell.org/pipermail/ghc-devs/2016-February/011309.html) on 7 Feb 2016. These significant issues are known to be present in this release,
+
+- [\#11334](https://gitlab.haskell.org//ghc/ghc/issues/11334): Solving for Typeable (Proxy :: Proxy 'Compose) fails
+
+- [\#11414](https://gitlab.haskell.org//ghc/ghc/issues/11414): Use of -XStrict results in compiler abort
+
+- [\#11471](https://gitlab.haskell.org//ghc/ghc/issues/11471): Typechecker allows unsafe use of runtime-representation-polymorphism
+
 ## Known issues with release candidate 1
 
 
-Release candidate 1 was released on 13 Jan 2016. These significant issues are present in this release,
+Release candidate 1 was [ released](https://mail.haskell.org/pipermail/ghc-devs/2016-January/010966.html) on 13 Jan 2016. These significant issues are present in this release,
 
-- The new -XInjectiveTypeFamilies language extension will likely be
-  renamed to -XTypeFamilyDependencies
+- The new `-XInjectiveTypeFamilies` language extension will likely be
+  renamed to `-XTypeFamilyDependencies`
 
 - [\#11120](https://gitlab.haskell.org//ghc/ghc/issues/11120): Type representations are missing for some types and promoted
   constructors
 
-- [\#11334](https://gitlab.haskell.org//ghc/ghc/issues/11334): Solving for Typeable (Proxy :: Proxy 'Compose) fails
+- [\#11334](https://gitlab.haskell.org//ghc/ghc/issues/11334): Solving for `Typeable (Proxy :: Proxy 'Compose)` fails
 
 - [\#11276](https://gitlab.haskell.org//ghc/ghc/issues/11276): Pattern checker performance can degrade significantly in
   presence of pattern matches with guards
 
 - [\#11405](https://gitlab.haskell.org//ghc/ghc/issues/11405): Type-level skolem-escape check fails incorrectly
 
-- [\#11414](https://gitlab.haskell.org//ghc/ghc/issues/11414): Use of -XStrict results in compiler abort
+- [\#11414](https://gitlab.haskell.org//ghc/ghc/issues/11414): Use of `-XStrict` results in compiler abort
 
 - [\#11379](https://gitlab.haskell.org//ghc/ghc/issues/11379): Instance solver fails to terminate
 
