@@ -427,24 +427,6 @@ You can now run the testsuite, see [Building/RunningTests](building/running-test
  
 You can now install GHC, by typing `make install`.
 
-### What to do if you get a build failure
-
-
-GHC is a complex system, with many platform-dependent components.  We
-try our best to make sure it builds out of the box as often as
-possible, but build failures are not uncommon.  If you get some kind
-of failure, don't panic.
-
-
-The chances are, someone else already encountered the same problem as
-you and has reported it on a mailing list or as a ticket.  Search for
-the error message using your favourite search engine, and if that
-doesn't turn anything up then search directly on this Trac.  Finally,
-if you don't find a solution:
-
-- Ask someone: [MailingListsAndIRC](mailing-lists-and-irc)
-- or just [ReportABug](report-a-bug)
-
 ## Developing in a GHC build tree
 
 
