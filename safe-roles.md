@@ -108,7 +108,7 @@ data MinList a = MinList a [a] deriving Coercible
 
 Which would allow clients to use the default instances of `Coercible` regardless of if the constructors are in scope or not. Syntax beyond this is interesting in its finer grained control over `Coercible`, but gets complicated quickly and conflicts with role annotations. **RAE** I vote for the simple thing until real clients start shouting **End RAE**
 
-#### Syntax for current behaviour =
+#### Syntax for current behaviour
 
 **RAE**
 
@@ -188,6 +188,14 @@ type, it gets nominal roles by default. Otherwise it gets the usual roles.
 One big complication here is that modules can be \*Internal\* or \*External\* when
 exported from a package. This would need to be handled and could complicate the
 implementation quite a lot.
+
+### Questions to Answer
+
+1. How common is exporting just a subset of constructors? I.e., how well will over-approximating which constructors are needed by assuming all constructors for a type work?
+
+1. How common are `Coercible` constraints?
+
+1. How common is it to \*not\* export all constructors for a data-type, \*not\* declare an explicit role, yet desire that the role is \*representational\*?  I.e., how much would break if we changed the above to be nominal by default when you don't export all constructors?
 
 ## Problem Pre-GHC-7.8
 
