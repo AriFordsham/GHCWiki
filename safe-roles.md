@@ -108,7 +108,7 @@ data MinList a = MinList a [a] deriving Coercible
 
 Which would allow clients to use the default instances of `Coercible` regardless of if the constructors are in scope or not. Syntax beyond this is interesting in its finer grained control over `Coercible`, but gets complicated quickly and conflicts with role annotations. **RAE** I vote for the simple thing until real clients start shouting **End RAE**
 
-#### Syntax for current behaviour =
+#### Syntax for current behaviour
 
 **RAE**
 
