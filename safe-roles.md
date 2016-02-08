@@ -189,6 +189,14 @@ One big complication here is that modules can be \*Internal\* or \*External\* wh
 exported from a package. This would need to be handled and could complicate the
 implementation quite a lot.
 
+### Questions to Answer
+
+1. How common is exporting just a subset of constructors? I.e., how well will over-approximating which constructors are needed by assuming all constructors for a type work?
+
+1. How common are `Coercible` constraints?
+
+1. How common is it to \*not\* export all constructors for a data-type, \*not\* declare an explicit role, yet desire that the role is \*representational\*?  I.e., how much would break if we changed the above to be nominal by default when you don't export all constructors?
+
 ## Problem Pre-GHC-7.8
 
 [GND Pre-GHC-7.8](safe-roles/pre78-gnd)
