@@ -108,6 +108,87 @@ data MinList a = MinList a [a] deriving Coercible
 
 Which would allow clients to use the default instances of `Coercible` regardless of if the constructors are in scope or not. Syntax beyond this is interesting in its finer grained control over `Coercible`, but gets complicated quickly and conflicts with role annotations. **RAE** I vote for the simple thing until real clients start shouting **End RAE**
 
+#### Syntax for current behaviour =
+
+**RAE**
+
+
+Despite my earlier comments, there is some annoying engineering here. For good reasons, we simply can't have Coercible instances floating about. So, whether or not you say `deriving Coercible` is something that's properly recorded on the `TyCon`. But the `TyCon` is built and fixed in stone before we see `deriving Coercible`. And, the `deriving` syntax suggests that another module who has access to all of `T`'s constructors would be able to use `StandaloneDeriving` to say `deriving instance Coercible T` (what terrible syntax -- that's utterly ill-kinded; I hate it), and then it's clearly too late to affect `T`.
+
+**End RAE**
+
+#### Recursive Checking Required
+
+
+Consider
+
+>
+> data A a = MkA a    -- inferred to have an R role
+> data B b = MkB (A b)   -- inferred to have an R role
+
+
+Suppose MkA is not in scope, but MkB is. Now, suppose we want to coerce (B Age)
+to (B Int). This will check if all of B's constructors are in scope, and they
+are. Then, we decompose to check if Age coerces to Int. But this is not what
+we want!
+
+
+Option (3) should fail above as we should also require that A is in-scope,
+which gives us a big, painful recursive check and may require users import
+modules just to get their datatype definitions.
+
+#### Optimising Recursive Check (Can-Import-Capability)
+
+
+The recursive check could be optimised by tracking for each module, which data
+constructors it has access to through it's imports recursively. This should
+resolve the recursive check immediately and does so without requiring users
+import random modules (since we determined they could import a module to
+satisfy the check, so the actual import isn't required).
+
+
+There is an interesting question with Safe Haskell though as it creates
+restrictions around imports. Let's imagine the setup: Module A, imports Module
+B, imports Module C. Let's also refer to the list of constructors that a module
+could possibly access as `PA(module)`.
+
+
+A \<- B \<- C
+
+
+Now, we have the following situations:
+
+
+A) B is Safe -- then A should inherit PA(C) since if B is safe, then C must be
+
+>
+> Safe or Trustworthy, so A can defiantly import C.
+
+
+B) B is Unsafe -- then A should inherit PA(C). Since if A can successfully
+
+>
+> import B, A is Unsafe, so it's regular Haskell behavior.
+
+
+C) B is Trustworthy, C is Safe / Trustworthy  -- A should inherit PA(C).
+
+
+D) B is Trustworthy, C is Unsafe -- A \*shouldn't\* inherit PA(C). Since A may
+
+>
+> not be able to import C itself.
+
+
+For the non-[SafeHaskell](safe-haskell) situation, rather than do all this tracking stuff, it
+just reduces to the policy that when you don't export all constructors for a
+type, it gets nominal roles by default. Otherwise it gets the usual roles.
+
+
+One big complication here is that modules can be \*Internal\* or \*External\* when
+exported from a package. This would need to be handled and could complicate the
+implementation quite a lot.
+
 ## Problem Pre-GHC-7.8
 
 [GND Pre-GHC-7.8](safe-roles/pre78-gnd)
@@ -521,9 +602,9 @@ instance C TT where
 ```
 
 
-I get the same behavior as the original code. Note: no `coerce`! **End RAE**
+I get the same behaviour as the original code. Note: no `coerce`! **End RAE**
 
-### Nominal prevents opimizations
+### Nominal prevents optimisations
 
 
 Use roles is a global property of the type. So while it may be reasonable as a library writer of an ADT, `Set`, to want to use the `coerce` function internally, but disallow it externally, you currently can't do this.
