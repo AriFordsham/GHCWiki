@@ -229,9 +229,6 @@ There are many pre-defined functions which can be used in this field:
 - **only_ways(ways)**       do this test certain ways only
 - **extra_ways(ways)**      add some ways which would normally be disabled
 
-- **omit_compiler_types(compilers)**                           skip this test for certain compilers
-- **only_compiler_types(compilers)**       do this test for certain compilers only
-
 - **expect_broken(bug)** this test is a expected not to work due to the indicated trac bug number
 - **expect_broken_for(bug, ways)** as expect_broken, but only for the indicated ways
 
@@ -241,8 +238,6 @@ There are many pre-defined functions which can be used in this field:
 - **exit_code(n)**          expect an exit code of 'n' from the prog
 
 - **extra_run_opts(opts)**  pass some extra opts to the prog
-
-- **no_clean**              don't clean up after this test
 
 - **extra_clean(files)**    extra files to clean after the test has completed
 
@@ -277,7 +272,7 @@ There are many pre-defined functions which can be used in this field:
 There are a number of predicates which can be used:
 
 - **doing_ghci()**          GHCi is available
-- **ghci_dynamic()**        GHCi uses dynamic libraries
+- **ghc_dynamic()**         GHC is compiled with `-dynamic` (usually via `DYNAMIC_GHC_PROGRAMS=YES`)
 
 - **fast()**                the testsuite is running in "fast" mode
 
@@ -405,12 +400,6 @@ file. The possible test functions are:
 > > *\<topmod\>*: The top level source file for your test case. 
 > > *\[(\<extra_mod\>, \<hc_opts\>)\]*: A list of tuples where the first element is a source file for GHC to compile and the second element are arguments GHC should use to compile that particular source file. 
 > > *\<extra_hc_opts\>*: arguments to pass to GHC when it compiles your test case (applied to all source files).
-
-- **compile_and_run_with_prefix**
-  Same as compile_and_run, but with command to use to run the execution of the result binary.
-
-- **multimod_compile_and_run_with_prefix**
-  Same as multimod_compile_and_run, but with command to use to run the execution of the result binary.
 
 - **run_command**
   Just run an arbitrary command.  The output is checked
