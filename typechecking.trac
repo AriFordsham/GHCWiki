@@ -1,6 +1,10 @@
 This page is to track thoughts about the core type-checking (constraint-generation) algorithm.
 
-= Current state (Oct 2015) =
+= Current state (Feb 2016) =
+
+Much of this proposal (without `ExpFun`) is now in HEAD and 8.0.
+
+= Previous state (Oct 2015) =
 
 GHC claims to do bidirectional type-checking, but it doesn't quite do this. In a proper bidirectional type-checking algorithm (as in [http://repository.upenn.edu/cis_papers/315/ the "Practical Type Inference" paper]), the algorithm is either in "infer" mode or "checking" mode, never both. But GHC uses more of a mixed economy.
 
@@ -49,8 +53,6 @@ The exception to the mixed economy bit is for arrows. For example, consider
 That bizarre expression should be able to type-check. But it can only do so by putting a hole under an arrow.
 
 The other place where it comes up is in dealing with rebindable syntax. For example, we want to type-check `negate` against `hole1 -> hole2`. Perhaps by having the arrow in the structure, type inference could make more progress than it could otherwise.
-
-'''Current status''': Richard has started this, but got stuck on the rebindable syntax bit because he was missing `ExpFun`. The work-in-progress is at `github.com/goldfirere/ghc` on the `bidir-refactor` branch. Simon and Richard both seem to think this would be a good idea. Richard may do this in due course.
 
 == A specification ==
 
