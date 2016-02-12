@@ -88,8 +88,8 @@ pattern P4 :: ty
 {{{
   if impl(ghc >= 8.0)
     ghc-options: -Wcompat -Wnoncanonical-monad-instances -Wnoncanonical-monadfail-instances
-
-  if !impl(ghc >= 8.0)
+  else
+    -- provide/emulate `Control.Monad.Fail` and `Data.Semigroups` API for pre-GHC8
     build-depends: fail == 4.9.*, semigroups == 0.18.*
 }}}
 
