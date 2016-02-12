@@ -2,7 +2,7 @@
 
 = GHC 8.0.x Migration Guide =
 
-This guide summarises the changes you may need to make to your code to migrate from GHC 7.10 to GHC 8.0
+This guide summarises the changes you may need to make to your code to migrate from GHC 7.10 to GHC 8.0. This guide complements the GHC 8.0.x release notes which should be consulted as well.
 
 ----------------------------------
 == Compiler changes
