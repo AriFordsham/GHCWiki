@@ -80,7 +80,35 @@ pattern P4 :: ty
 
 === `base-4.9.0.0`
 
-==== HasCallStack
+==== Recommendations for forward-compatibility
+
+The following suggestions are not mandatory but recommended for those who wish to make their code-bases compatible and/or make use of newly added features starting with GHC 8.0 thereby increasing the chance of extending the compatibility window of their code-base early on.
+
+  Normalise `Applicative`/`Monad` instance definitions ::
+
+  `base-4.9.0.0` continues to generalise functions from `Monad` to `Applicative`. However, in order to avoid performance regressions due to sub-optimally defined `Applicative`/`Monad` instances, it's highly advised to follow the
+  [[Migration/7.10#GHCsaysNoinstanceforApplicative... | AMP+MRP refactoring guidelines ]]
+  that were already provided in the [[Migration/7.10|GHC 7.10.x Migration Guide]].
+
+  A new warning that needs to be enabled via `-Wnoncanonical-monad-instances` (not implied by `-Wcompat`) is available to help detect code which may be at risk.
+
+  Provide `Semigroup`/`Monoid` instances definitions ::
+
+  Starting with `base-4.9.0.0`, `Data.Semigroup` has moved into `base`, kicking off the   prime:Libraries/Proposals/SemigroupMonoid roadmap which will eventually lead to have `Semigroup` become a proper superclass of `Monoid`.
+
+  In order to smooth the transition, it's important to have `Semigroup` instances in place as soon as possible, especially in library packages. In order to aid detecting missing instances two warnings have been implemented in GHC 8.0 (both implied by `-Wcompat`): `-Wnoncanonical-monoid-instances` and `-Wsemigroup`. Those warnings also help defining the instances in compliance with the envisioned transition scheme.
+
+  The hackage:semigroup package can be used to avoid `-XCPP` usage by providing the same `Data.Semigroup` module for older GHCs.
+
+  Provide `MonadFail` instances ::
+
+  See prime:Libraries/Proposals/MonadFail for more details.
+
+  Again, in order to extend the compatibility window of your code it's recommended to provide instances early on. To this end, two warnings have been implemented to help with detecting code needing attention: `-Wmissing-monadfail-instances` (implied by `-Wcompat`) and `-Wnoncanonical-monadfail-instances` (not implied by `-Wcompat`).
+
+  The hackage:fail package helps avoiding `-XCPP` usage and emulates the new `Control.Monad.Fail` module.
+
+==== Reworked `HasCallStack` API
 
 GHC's callstack interface (formerly known as "implicit call stacks") is been reworked, hiding the implicit parameter behind a constraint synonym,
 {{{#!hs
@@ -109,13 +137,6 @@ assertOdd n
   | otherwise = error "That number isn't odd!"
 }}}
 
-
-==== Normalise `Applicative`/`Monad` instance definitions 
-
-`base-4.9.0.0` continues to generalise functions from `Monad` to `Applicative`. However, in order to avoid performance regressions due to sub-optimally defined `Applicative`/`Monad` instances, it's highly advised to follow the
-[[Migration/7.10#GHCsaysNoinstanceforApplicative... | AMP+MRP refactoring guidelines ]] that were already provided in the [[Migration/7.10|GHC 7.10.x Migration Guide]].
-
-A new warning that needs to be enabled via `-Wnoncanonical-monad-instances` is available to help detect code which may be at risk.
 
 
 ==== New `Generic` metadata representation ====
