@@ -252,7 +252,7 @@ This parses 3 bits to get the value of `n`, and then parses `n` bits to get the 
 They are used as follows:
 
 ```wiki
-   fib :: Num a -> a -> a
+   fib :: Num a => a -> a
    fib 0 = 1
    fib 1 = 1
    fib (np 2 -> Just n) = fib (n + 1) + fib n
