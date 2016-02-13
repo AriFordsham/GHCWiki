@@ -371,7 +371,7 @@ instanceTraversableWithIntwhere
 
 This is unsatisfying for two reasons:
 
-1. The `Traversable` instance doesn't typecheck! `Int#` is of kind `#`, but `pure` expects an argument whose type is of kind `*`. This effectively prevents `Traversable` from being derived for any datatype with an unlifted argument type ([ Trac \#11174](https://ghc.haskell.org/trac/ghc/ticket/11414)).
+1. The `Traversable` instance doesn't typecheck! `Int#` is of kind `#`, but `pure` expects an argument whose type is of kind `*`. This effectively prevents `Traversable` from being derived for any datatype with an unlifted argument type ([ Trac \#11174](https://ghc.haskell.org/trac/ghc/ticket/11174)).
 
 1. The generated code contains superfluous expressions. By the `Monoid` laws, we can reduce `f a <> mempty` to `f a`, and by the `Applicative` laws, we can reduce `fmap WithInt (f a) <*> pure i` to `fmap (\b -> WithInt b i) (f a)`.
 
