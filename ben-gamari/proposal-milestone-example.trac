@@ -53,14 +53,14 @@ mappend = (<>)
 
 == Migration plan
 
-||= Milestone            =||= GHC Release =||= Date        =||= What changed?                                                 =||= Action required                                                 =||
-|| warnings introduced    || 8.0           || Winter 2016   || `-Wmonoid-semigroup` introduced                                 ||                                                                   ||
-||                        ||               ||               ||                                                                 || //optional// Add Semigroup instances  and `semigroups` dependency ||
-|| warnings actionable    || 8.4           || Winter 2018   || `Data.Semigroup` available in `base` under three-release policy ||                                                                   ||
-||                        ||               ||               ||                                                                 || Add `Semigroup` instances                                         ||
-|| warnings become errors || TDB           || TBD           || `Semigroup` becomes superclass of `Monoid`                      ||                                                                   ||
-||                        ||               ||               ||                                                                 || Remove `mappend` from `Monoid` instances                          ||
-|| warnings become errors || TDB           || TBD           || `mappend` removed from `Monoid`                                 ||                                                                   ||
+||= **Milestone**            =||= **GHC release** =||= **Date**        =||= **What changed?**                                                 =||= **Action required**                                             =||
+|| **warnings introduced**    || 8.0               || Winter 2016       || `-Wmonoid-semigroup` introduced                                     ||                                                                   ||
+||                            ||                   ||                   ||                                                                     || //optional// Add Semigroup instances  and `semigroups` dependency ||
+|| **warnings actionable**    || 8.4               || Winter 2018       || `Data.Semigroup` available in `base` under three-release policy     ||                                                                   ||
+||                            ||                   ||                   ||                                                                     || Add `Semigroup` instances                                         ||
+|| **warnings become errors** || TDB               || TBD               || `Semigroup` becomes superclass of `Monoid`                          ||                                                                   ||
+||                            ||                   ||                   ||                                                                     || Remove `mappend` from `Monoid` instances                          ||
+|| **warnings become errors** || TDB               || TBD               || `mappend` removed from `Monoid`                                     ||                                                                   ||
 
 == Phases
 

@@ -47,16 +47,15 @@ mappend=(<>)
 
 ## Migration plan
 
-<table><tr><th> Milestone            </th>
-<th> GHC Release </th>
-<th> Date        </th>
-<th> What changed?                                                 </th>
-<th> Action required                                                 
-</th></tr>
-<tr><th> warnings introduced    </th>
-<th> 8.0           </th>
-<th> Winter 2016   </th>
-<th>`-Wmonoid-semigroup` introduced                                 </th>
+<table><tr><th>**Milestone**</th>
+<th>**GHC release**</th>
+<th>**Date**</th>
+<th>**What changed?**</th>
+<th>**Action required**</th></tr>
+<tr><th>**warnings introduced**</th>
+<th> 8.0               </th>
+<th> Winter 2016       </th>
+<th>`-Wmonoid-semigroup` introduced                                     </th>
 <th></th></tr>
 <tr><th></th>
 <th></th>
@@ -64,10 +63,10 @@ mappend=(<>)
 <th></th>
 <th>*optional* Add Semigroup instances  and `semigroups` dependency 
 </th></tr>
-<tr><th> warnings actionable    </th>
-<th> 8.4           </th>
-<th> Winter 2018   </th>
-<th>`Data.Semigroup` available in `base` under three-release policy </th>
+<tr><th>**warnings actionable**</th>
+<th> 8.4               </th>
+<th> Winter 2018       </th>
+<th>`Data.Semigroup` available in `base` under three-release policy     </th>
 <th></th></tr>
 <tr><th></th>
 <th></th>
@@ -75,9 +74,9 @@ mappend=(<>)
 <th></th>
 <th> Add `Semigroup` instances                                         
 </th></tr>
-<tr><th> warnings become errors </th>
-<th> TDB           </th>
-<th> TBD           </th>
+<tr><th>**warnings become errors**</th>
+<th> TDB               </th>
+<th> TBD               </th>
 <th>`Semigroup` becomes superclass of `Monoid`</th>
 <th></th></tr>
 <tr><th></th>
@@ -86,9 +85,9 @@ mappend=(<>)
 <th></th>
 <th> Remove `mappend` from `Monoid` instances                          
 </th></tr>
-<tr><th> warnings become errors </th>
-<th> TDB           </th>
-<th> TBD           </th>
+<tr><th>**warnings become errors**</th>
+<th> TDB               </th>
+<th> TBD               </th>
 <th>`mappend` removed from `Monoid`</th>
 <th></th></tr></table>
 
