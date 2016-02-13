@@ -340,6 +340,95 @@ In this example, the last type variable is instantiated with `f a`, which contai
 
 For the original discussion on this proposal, see [ \#10447](https://ghc.haskell.org/trac/ghc/ticket/10447).
 
+## Proposal: alternative strategy for deriving `Foldable` and `Traversable`
+
+
+We adapt the algorithms for `-XDeriveFoldable` and `-XDeriveTraversable` based on that of `-XDeriveFunctor`. However, there an important difference between deriving the former two typeclasses and the latter one, which is best illustrated by the following scenario:
+
+```
+dataWithInt a =WithInt a Int#deriving(Functor,Foldable,Traversable)
+```
+
+
+The generated code for the `Functor` instance is straightforward:
+
+```
+instanceFunctorWithIntwhere
+  fmap f (WithInt a i)=WithInt(f a) i
+```
+
+
+But if we use too similar of a strategy for deriving the `Foldable` and `Traversable` instances, we end up with this code:
+
+```
+instanceFoldableWithIntwhere
+  foldMap f (WithInt a i)= f a <> mempty
+
+instanceTraversableWithIntwhere
+  traverse f (WithInt a i)= fmap WithInt(f a)<*> pure i
+```
+
+
+This is unsatisfying for two reasons:
+
+1. The `Traversable` instance doesn't typecheck! `Int#` is of kind `#`, but `pure` expects an argument whose type is of kind `*`. This effectively prevents `Traversable` from being derived for any datatype with an unlifted argument type ([ Trac \#11174](https://ghc.haskell.org/trac/ghc/ticket/11414)).
+
+1. The generated code contains superfluous expressions. By the `Monoid` laws, we can reduce `f a <> mempty` to `f a`, and by the `Applicative` laws, we can reduce `fmap WithInt (f a) <*> pure i` to `fmap (\b -> WithInt b i) (f a)`.
+
+
+We can fix both of these issues by incorporating a slight twist to the usual algorithm that we use for `-XDeriveFunctor`. The differences can be summarized as follows:
+
+1. In the generated expression, we only fold over arguments whose types mention the last type parameter. Any other argument types will simply produce useless `mempty`s or `pure`s, so they can be safely ignored.
+
+1. In the case of `-XDeriveTraversable`, instead of applying `ConName`, we apply `\b_i ... b_k -> ConName a_1 ... a_n`, where
+
+- `ConName` has `n` arguments
+- `{b_i, ..., b_k}` is a subset of `{a_1, ..., a_n}` whose indices correspond to the arguments whose types mention the last type parameter. As a consequence, taking the difference of `{a_1, ..., a_n}` and `{b_i, ..., b_k}` yields the all the argument values of `ConName` whose types do not mention the last type parameter. Note that `[i, ..., k]` is a strictly increasing—but not necessarily consecutive—integer sequence.
+
+>
+> For example, the datatype
+
+```
+dataFoo a =FooInt a Int a
+```
+
+>
+> would generate the following `Traversable` instance:
+
+```
+instanceTraversableFoowhere
+  traverse f (Foo a1 a2 a3 a4)=
+    fmap (\b2 b4 ->Foo a1 b2 a3 b4)(f a2)<*> f a4
+```
+
+
+Technically, this approach would also work for `-XDeriveFunctor` as well, but we decide not to do so because:
+
+1. There's not much benefit to generating, e.g., `(\b -> WithInt b i) (f a)` instead of `WithInt (f a) i`.
+
+1. There would be certain datatypes for which the above strategy would generate `Functor` code that would fail to typecheck. For example:
+
+```
+dataBar f a =Bar(forall f.Functor f => f a)derivingFunctor
+```
+
+>
+> With the conventional algorithm, it would generate something like:
+
+```
+fmap f (Bar a)=Bar(fmap f a)
+```
+
+>
+> which typechecks. But with the strategy mentioned above, it would generate:
+
+```
+fmap f (Bar a)=(\b ->Bar b)(fmap f a)
+```
+
+>
+> which does not typecheck, since GHC cannot unify the rank-2 type variables in the types of `b` and `fmap f a`.
+
 ## Future work
 
 

@@ -336,6 +336,83 @@ In this example, the last type variable is instantiated with {{{f a}}}, which co
 
 For the original discussion on this proposal, see [https://ghc.haskell.org/trac/ghc/ticket/10447 #10447].
 
+== Proposal: alternative strategy for deriving `Foldable` and `Traversable` ==
+We adapt the algorithms for `-XDeriveFoldable` and `-XDeriveTraversable` based on that of `-XDeriveFunctor`. However, there an important difference between deriving the former two typeclasses and the latter one, which is best illustrated by the following scenario:
+
+{{{#!hs
+data WithInt a = WithInt a Int# deriving (Functor, Foldable, Traversable)
+}}}
+
+The generated code for the `Functor` instance is straightforward:
+
+{{{#!hs
+instance Functor WithInt where
+  fmap f (WithInt a i) = WithInt (f a) i
+}}}
+
+But if we use too similar of a strategy for deriving the `Foldable` and `Traversable` instances, we end up with this code:
+
+{{{#!hs
+instance Foldable WithInt where
+  foldMap f (WithInt a i) = f a <> mempty
+
+instance Traversable WithInt where
+  traverse f (WithInt a i) = fmap WithInt (f a) <*> pure i
+}}}
+
+This is unsatisfying for two reasons:
+
+1. The `Traversable` instance doesn't typecheck! `Int#` is of kind `#`, but `pure` expects an argument whose type is of kind `*`. This effectively prevents `Traversable` from being derived for any datatype with an unlifted argument type ([https://ghc.haskell.org/trac/ghc/ticket/11414 Trac #11174]).
+
+2. The generated code contains superfluous expressions. By the `Monoid` laws, we can reduce `f a <> mempty` to `f a`, and by the `Applicative` laws, we can reduce `fmap WithInt (f a) <*> pure i` to `fmap (\b -> WithInt b i) (f a)`.
+
+We can fix both of these issues by incorporating a slight twist to the usual algorithm that we use for `-XDeriveFunctor`. The differences can be summarized as follows:
+
+1. In the generated expression, we only fold over arguments whose types mention the last type parameter. Any other argument types will simply produce useless `mempty`s or `pure`s, so they can be safely ignored.
+
+2. In the case of `-XDeriveTraversable`, instead of applying `ConName`, we apply `\b_i ... b_k -> ConName a_1 ... a_n`, where
+
+* `ConName` has `n` arguments
+* `{b_i, ..., b_k}` is a subset of `{a_1, ..., a_n}` whose indices correspond to the arguments whose types mention the last type parameter. As a consequence, taking the difference of `{a_1, ..., a_n}` and `{b_i, ..., b_k}` yields the all the argument values of `ConName` whose types do not mention the last type parameter. Note that `[i, ..., k]` is a strictly increasing—but not necessarily consecutive—integer sequence.
+
+   For example, the datatype
+
+   {{{#!hs
+   data Foo a = Foo Int a Int a
+   }}}
+
+   would generate the following `Traversable` instance:
+
+   {{{#!hs
+   instance Traversable Foo where
+     traverse f (Foo a1 a2 a3 a4) =
+       fmap (\b2 b4 -> Foo a1 b2 a3 b4) (f a2) <*> f a4
+   }}}
+
+Technically, this approach would also work for `-XDeriveFunctor` as well, but we decide not to do so because:
+
+1. There's not much benefit to generating, e.g., `(\b -> WithInt b i) (f a)` instead of `WithInt (f a) i`.
+
+2. There would be certain datatypes for which the above strategy would generate `Functor` code that would fail to typecheck. For example:
+
+   {{{#!hs
+   data Bar f a = Bar (forall f. Functor f => f a) deriving Functor
+   }}}
+
+   With the conventional algorithm, it would generate something like:
+
+   {{{#!hs
+   fmap f (Bar a) = Bar (fmap f a)
+   }}}
+
+   which typechecks. But with the strategy mentioned above, it would generate:
+
+   {{{#!hs
+   fmap f (Bar a) = (\b -> Bar b) (fmap f a)
+   }}}
+
+   which does not typecheck, since GHC cannot unify the rank-2 type variables in the types of `b` and `fmap f a`.
+
 == Future work ==
 The `Bifunctor` class (born from the [http://hackage.haskell.org/package/bifunctors bifunctors] library) [https://ghc.haskell.org/trac/ghc/ticket/9682 was added] to `base` in GHC 7.10, and [https://ghc.haskell.org/trac/ghc/ticket/10448 there are plans] to add `Bifoldable` and `Bitraversable` to `base` in the future. All three classes could be derived in much the same way as their cousins `Functor`, `Foldable`, and `Traversable`. The existing algorithms would simply need to be adapted to accommodate two type parameters instead of one.
 
