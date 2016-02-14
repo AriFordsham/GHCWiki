@@ -1,29 +1,32 @@
-# `-Wcompat`
+# `-Wcompat` warnings
 
 
 With GHC 8.0 we have implemented a new warning-group `-Wcompat` (see
-[\#11000](https://gitlab.haskell.org//ghc/ghc/issues/11000)) to comprise warnings that will be enabled by default in the
+[\#11000](https://gitlab.haskell.org//ghc/ghc/issues/11000)) which includes warnings that will be enabled by default in the
 future, but remain off in normal compilations for the time
 being. This allows library authors eager to make their code future
 compatible to adapt to new features before they even generate
-warnings, and even later probably turn into actual compile errors.
+warnings, and even later turn into actual compile errors.
 
 
-However, there is one important design choice left regarding the interaction of this new group with `-Wall`:
+Of course, in order for this new group to be effective in bringing coming changes to light, people must to use it. One way to encourage this would be to add `-Wcompat` to the widely used `-Wall` group.
+
+
+This page describes some arguments for and against including `-Wcompat` in `-Wall`. We refer to these options as,
 
 1. Opt-in style  (`-Wall` does **not include**`-Wcompat`):
 
-  - Users who desire warnings about upcoming changes: `-Wall -Wcompat`
-  - Users who dislike such warnings: `-Wall`
+  - Users who desire warnings about upcoming changes would use `-Wall -Wcompat`
+  - Users who dislike such warnings could use `-Wall`
 
 1. Opt-out style (`-Wall`**includes**`-Wcompat`):
 
-  - Users who desire warnings about upcoming changes: `-Wall`
-  - Users who dislike such warnings: `-Wall -Wno-compat`
+  - Users who desire warnings about upcoming changes could use `-Wall`
+  - Users who dislike such warnings would use `-Wall -Wno-compat`
 
 ## Arguments **for (B) opt-out** / against opt-in style
 
-<table><tr><th>If we don't enable `-Wcompat` by default, discoverability suffers</th>
+<table><tr><th>Improved discoverability of `-Wcompat`</th>
 <td>
 Most users know mostly about `-Wall` but not about
 `-Wcompat`, and even if `-Wcompat` becomes better known, maybe they
