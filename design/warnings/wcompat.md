@@ -9,6 +9,24 @@ compatible to adapt to new features before they even generate
 warnings, and even later turn into actual compile errors.
 
 
+In the case of GHC 8.0.1 there will be three warnings in `-Wcompat`,
+
+- `-Wmissing-monadfail-instances`
+
+> >
+> > Warn when a failable pattern is used in a do-block that does not have a `MonadFail` instance.
+
+- `-Wsemigroup`
+
+> >
+> > Warn when definitions are in conflict with the future inclusion of `Semigroup` into the standard typeclasses.
+
+- `-Wnoncanonical-monoid-instances`
+
+> >
+> > Warn if noncanonical `Semigroup` or `Monoid` instances declarations are detected (e.g. `Monoid(mappend)` not defined in terms of `Semigroup((<>))`)
+
+
 Of course, in order for this new group to be effective in bringing coming changes to light, people must to use it. One way to encourage this would be to add `-Wcompat` to the widely used `-Wall` group (tracked as [\#11494](https://gitlab.haskell.org//ghc/ghc/issues/11494)).
 
 
