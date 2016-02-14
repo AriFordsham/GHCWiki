@@ -7,7 +7,7 @@ being. This​ allows library authors eager to make their code future
 compatible to adapt​ to new features before they even generate
 warnings, and even later probably turn into actual compile errors.
 
-However, there is one important design choice left regarding the default:
+However, there is one important design choice left regarding the interaction of this new group with `-Wall`:
 
 A. Opt-in style  (`-Wall` does **not include** `-Wcompat`):
   - Users who desire warnings about upcoming changes: `-Wall -Wcompat`

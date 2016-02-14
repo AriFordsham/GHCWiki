@@ -9,7 +9,7 @@ compatible to adapt to new features before they even generate
 warnings, and even later probably turn into actual compile errors.
 
 
-However, there is one important design choice left regarding the default:
+However, there is one important design choice left regarding the interaction of this new group with `-Wall`:
 
 1. Opt-in style  (`-Wall` does **not include**`-Wcompat`):
 
