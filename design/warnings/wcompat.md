@@ -21,7 +21,7 @@ However, there is one important design choice left regarding the default:
   - Users who desire warnings about upcoming changes: `-Wall`
   - Users who dislike such warnings: `-Wall -Wno-compat`
 
-#### Arguments **for B. opt-out**/against opt-in style
+#### Arguments **for (B) opt-out**/against opt-in style
 
 - If we don't enable `-Wcompat` by default, discoverability
   suffers. Most users know mostly about `-Wall` but not about
@@ -40,10 +40,13 @@ However, there is one important design choice left regarding the default:
 > If somebody enables `-Wall`, they're already asking for some noise.
 > Especially since `-Wall`'s effect changes with each GHC release.
 
-#### Arguments against opt-out/**for A. opt-in** style
+- The user may expect that `-Wall` enables all warnings; adding more
+  ad-hoc exceptions than already exist further breaks this expectation.
 
-- Opting out while supporting pre GHC8 needs to actively add boilerplate
-  in cabal files to silence GHC:
+#### Arguments against opt-out/**for (A) opt-in** style
+
+- Packages insisting on `-Wall` cleanliness while supporting pre-GHC-8.0 need to add boilerplate
+  in their cabal files to silence compatibility warnings:
 
   ```wiki
     ghc-options: -Wall
@@ -51,8 +54,12 @@ However, there is one important design choice left regarding the default:
        ghc-options: -Wno-compat
   ```
 
+  However, as [ previously](https://mail.haskell.org/pipermail/ghc-devs/2016-January/010955.html|stated),
+  `-Wall` is intended for use during development. Therefore, we discourage the use of `-Wall`
+  in released projects.
+
 - Having `-Wcompat` separate from `-Wall` allows us to include
-  more noisy warnings to `-Wcompat` that would be questionable in `-Wall`
+  more verbose warnings to `-Wcompat` that would be questionable in `-Wall`
 
 - `-Wcompat` warnings aren't necessarily actionable if backwards
   compatibility is desired; if they were, they'd be in `-Wall`. The
