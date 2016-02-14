@@ -54,7 +54,7 @@ B. Opt-out style (`-Wall` **includes** `-Wcompat`):
   Having `-Wcompat` separate from `-Wall` allows us to include
   more verbose warnings to `-Wcompat` that would be questionable in `-Wall`
 
-`-Wcompat` warnings aren't necessarily actionable::
+ `-Wcompat` warnings aren't necessarily actionable::
   `-Wcompat` warnings aren't necessarily actionable if backwards
   compatibility is desired; if they were, they'd be in `-Wall`. The
   point of `-Wcompat` was to give notice to folks who wanted them as soon

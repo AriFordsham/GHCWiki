@@ -71,14 +71,14 @@ in released projects.
 Having `-Wcompat` separate from `-Wall` allows us to include
 more verbose warnings to `-Wcompat` that would be questionable in `-Wall`</td></tr></table>
 
-`-Wcompat` warnings aren't necessarily actionable::
-
-> `-Wcompat` warnings aren't necessarily actionable if backwards
-> compatibility is desired; if they were, they'd be in `-Wall`. The
-> point of `-Wcompat` was to give notice to folks who wanted them as soon
-> as possible, even if they were things they couldn't do, yet moving
-> them into `-Wall` means that this whole thing becomes a big mess of
-> active maintenance
+<table><tr><th>`-Wcompat` warnings aren't necessarily actionable</th>
+<td>`-Wcompat` warnings aren't necessarily actionable if backwards
+compatibility is desired; if they were, they'd be in `-Wall`. The
+point of `-Wcompat` was to give notice to folks who wanted them as soon
+as possible, even if they were things they couldn't do, yet moving
+them into `-Wall` means that this whole thing becomes a big mess of
+active maintenance
+</td></tr></table>
 
 <table><tr><th>May deter three-release policy compliance</th>
 <td>
