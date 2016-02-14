@@ -37,7 +37,7 @@ B. Opt-out style (`-Wall` **includes** `-Wcompat`):
  The user may expect that `-Wall` enables all warnings known to GHC::
   Adding more ad-hoc exceptions than already exist further breaks this expectation.
 
-== Arguments **for opt-in** ==
+== Arguments **for opt-in style** ==
 
  Users of `-Wall` will need Cabal file boilerplate to disable `-Wcompat`::
   Packages that insist on `-Wall` cleanliness while supporting pre-GHC-8.0 need to add boilerplate
