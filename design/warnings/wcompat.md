@@ -9,7 +9,7 @@ compatible to adapt to new features before they even generate
 warnings, and even later turn into actual compile errors.
 
 
-Of course, in order for this new group to be effective in bringing coming changes to light, people must to use it. One way to encourage this would be to add `-Wcompat` to the widely used `-Wall` group.
+Of course, in order for this new group to be effective in bringing coming changes to light, people must to use it. One way to encourage this would be to add `-Wcompat` to the widely used `-Wall` group (tracked as [\#11494](https://gitlab.haskell.org//ghc/ghc/issues/11494)).
 
 
 This page describes some arguments for and against including `-Wcompat` in `-Wall`. We refer to these options as,
