@@ -341,8 +341,7 @@ When do `pi`-types get inferred, if ever? Good question.
 
 # Implementation
 
-
-This feature will be part of GHC 8. Merging commit: [ https://github.com/ghc/ghc/commit/6746549772c5cc0ac66c0fce562f297f4d4b80a2](https://github.com/ghc/ghc/commit/6746549772c5cc0ac66c0fce562f297f4d4b80a2)
+*Kind equalities* will be part of GHC 8. Merging commit: [ 67465497](https://github.com/ghc/ghc/commit/6746549772c5cc0ac66c0fce562f297f4d4b80a2). It was developed in [ Eisenberg's nokinds tree](https://github.com/goldfirere/ghc/tree/nokinds).
 
 # Related work
 
