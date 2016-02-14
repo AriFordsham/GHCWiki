@@ -342,7 +342,7 @@ When do `pi`-types get inferred, if ever? Good question.
 # Implementation
 
 
-The implementation of this is under way, [ here](https://github.com/goldfirere/ghc/tree/nokinds). More notes will be added to this section in due course.
+This feature will be part of GHC 8. Merging commit: [ https://github.com/ghc/ghc/commit/6746549772c5cc0ac66c0fce562f297f4d4b80a2](https://github.com/ghc/ghc/commit/6746549772c5cc0ac66c0fce562f297f4d4b80a2)
 
 # Related work
 
@@ -353,6 +353,7 @@ There are several published works very relevant to the design:
 
 - [ System FC with Explicit Kind Equality](http://www.cis.upenn.edu/~eir/papers/2013/fckinds/fckinds.pdf). Stephanie Weirich, Justin Hsu, and Richard A. Eisenberg. ICFP 2013.
 - [ Type Inference, Haskell, and Dependent Types](https://personal.cis.strath.ac.uk/adam.gundry/thesis/thesis-2013-07-24.pdf). Adam Gundry. PhD Thesis, 2013.
+- Eisenberg's thesis: [ https://github.com/goldfirere/thesis](https://github.com/goldfirere/thesis)
 
 
 There are also many works addressing the use of dependent types in Haskell. Here is a selection:
