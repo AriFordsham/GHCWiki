@@ -23,8 +23,7 @@ However, there is one important design choice left regarding the default:
 
 #### Arguments **for (B) opt-out** / against opt-in style
 
-
-If we don't enable `-Wcompat` by default, discoverability suffers::
+**If we don't enable `-Wcompat` by default, discoverability suffers**::
 
 >
 > Most users know mostly about `-Wall` but not about
@@ -35,8 +34,7 @@ If we don't enable `-Wcompat` by default, discoverability suffers::
 > The most effective way to reach everybody is by enabling `-Wcompat`
 > by default and have them opt-out if they don't like it.
 
-
-This warnings are just noisy and don't cause actual problems until `-Werror` is enabled::
+**This warnings are just noisy and don't cause actual problems until `-Werror` is enabled**::
 
 >
 > This means that the change won't cause problems for Hackage since Hackage rejects packages with `-Werror` anyway).
@@ -45,16 +43,14 @@ This warnings are just noisy and don't cause actual problems until `-Werror` is 
 > If somebody enables `-Wall`, they're already asking for some noise.
 > Especially since `-Wall`'s effect changes with each GHC release.
 
-
-The user may expect that `-Wall` enables all warnings::
+**The user may expect that `-Wall` enables all warnings**::
 
 >
 > Adding more ad-hoc exceptions than already exist further breaks this expectation.
 
 #### Arguments **for (A) opt-in** / against opt-out style
 
-
-Users of `-Wall` will need Cabal file boilerplate to disable `-Wcompat`::
+**Users of `-Wall` will need Cabal file boilerplate to disable `-Wcompat`**::
 
 >
 > Packages insisting on `-Wall` cleanliness while supporting pre-GHC-8.0 need to add boilerplate
@@ -71,8 +67,7 @@ Users of `-Wall` will need Cabal file boilerplate to disable `-Wcompat`::
 > `-Wall` is intended for use during development. Therefore, we discourage the use of `-Wall`
 > in released projects.
 
-
-Inclusion in `-Wall` raises the bar for inclusion in `-Wcompat`::
+**Inclusion in `-Wall` raises the bar for inclusion in `-Wcompat`**::
 
 >
 > Having `-Wcompat` separate from `-Wall` allows us to include
@@ -87,8 +82,7 @@ Inclusion in `-Wall` raises the bar for inclusion in `-Wcompat`::
 > them into `-Wall` means that this whole thing becomes a big mess of
 > active maintenance
 
-
-May deter three-release policy compliance::
+**May deter three-release policy compliance**::
 
 >
 > If `-Wcompat` was on by default, less or maybe no users at all would
