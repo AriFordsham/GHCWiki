@@ -21,7 +21,7 @@ However, there is one important design choice left regarding the default:
   - Users who desire warnings about upcoming changes: `-Wall`
   - Users who dislike such warnings: `-Wall -Wno-compat`
 
-#### Arguments **for (B) opt-out** / against opt-in style
+## Arguments **for (B) opt-out** / against opt-in style
 
 **If we don't enable `-Wcompat` by default, discoverability suffers**::
 
@@ -48,7 +48,7 @@ However, there is one important design choice left regarding the default:
 >
 > Adding more ad-hoc exceptions than already exist further breaks this expectation.
 
-#### Arguments **for (A) opt-in** / against opt-out style
+## Arguments **for (A) opt-in** / against opt-out style
 
 **Users of `-Wall` will need Cabal file boilerplate to disable `-Wcompat`**::
 
