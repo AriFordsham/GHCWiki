@@ -23,12 +23,12 @@ However, there is one important design choice left regarding the default:
 
 ## Arguments **for (B) opt-out** / against opt-in style
 
-**If we don't enable `-Wcompat` by default, discoverability suffers**::
-
->
-> Most users know mostly about `-Wall` but not about
-> `-Wcompat`, and even if `-Wcompat` becomes better known, maybe they
-> won't bother (or simply forget) to turn on `-Wcompat`.
+<table><tr><th>If we don't enable `-Wcompat` by default, discoverability suffers</th>
+<td>
+Most users know mostly about `-Wall` but not about
+`-Wcompat`, and even if `-Wcompat` becomes better known, maybe they
+won't bother (or simply forget) to turn on `-Wcompat`.
+</td></tr></table>
 
 >
 > The most effective way to reach everybody is by enabling `-Wcompat`

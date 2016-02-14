@@ -19,7 +19,7 @@ B. Opt-out style (`-Wall` **includes** `-Wcompat`):
 
 == Arguments **for (B) opt-out** / against opt-in style ==
 
-**If we don't enable `-Wcompat` by default, discoverability suffers**::
+ If we don't enable `-Wcompat` by default, discoverability suffers::
   Most users know mostly about `-Wall` but not about
   `-Wcompat`, and even if `-Wcompat` becomes better known, maybe they
   won't bother (or simply forget) to turn on `-Wcompat`.
