@@ -21,7 +21,7 @@ However, there is one important design choice left regarding the default:
   - Users who desire warnings about upcoming changes: `-Wall`
   - Users who dislike such warnings: `-Wall -Wno-compat`
 
-#### Arguments **for (B) opt-out**/against opt-in style
+#### Arguments **for (B) opt-out** / against opt-in style
 
 - If we don't enable `-Wcompat` by default, discoverability
   suffers. Most users know mostly about `-Wall` but not about
@@ -43,7 +43,7 @@ However, there is one important design choice left regarding the default:
 - The user may expect that `-Wall` enables all warnings; adding more
   ad-hoc exceptions than already exist further breaks this expectation.
 
-#### Arguments against opt-out/**for (A) opt-in** style
+#### Arguments **for (A) opt-in** / against opt-out style
 
 - Packages insisting on `-Wall` cleanliness while supporting pre-GHC-8.0 need to add boilerplate
   in their cabal files to silence compatibility warnings:
