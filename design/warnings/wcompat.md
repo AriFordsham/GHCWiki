@@ -34,16 +34,15 @@ won't bother (or simply forget) to turn on `-Wcompat`.
 > The most effective way to reach everybody is by enabling `-Wcompat`
 > by default and have them opt-out if they don't like it.
 
-<table><tr><th>This warnings are just noisy and don't cause actual problems until `-Werror` is enabled</th>
+<table><tr><th>The additional warnings won't cause build issues unless `-Werror` is enabled</th>
 <td>
 This means that the change won't cause problems for Hackage since Hackage rejects packages with `-Werror` anyway).
 </td></tr></table>
 
 >
-> If somebody enables `-Wall`, they're already asking for some noise.
-> Especially since `-Wall`'s effect changes with each GHC release.
+> In requesting `-Wall` the user is requesting an inclusive set of warnings that may not be stable over compiler version.
 
-<table><tr><th>The user may expect that `-Wall` enables all warnings</th>
+<table><tr><th>The user may expect that `-Wall` enables all warnings known to GHC</th>
 <td>
 Adding more ad-hoc exceptions than already exist further breaks this expectation.
 </td></tr></table>
@@ -52,7 +51,7 @@ Adding more ad-hoc exceptions than already exist further breaks this expectation
 
 <table><tr><th>Users of `-Wall` will need Cabal file boilerplate to disable `-Wcompat`</th>
 <td>
-Packages insisting on `-Wall` cleanliness while supporting pre-GHC-8.0 need to add boilerplate
+Packages that insist on `-Wall` cleanliness while supporting pre-GHC-8.0 need to add boilerplate
 in their cabal files to silence compatibility warnings:
 
 ```wiki
@@ -66,7 +65,7 @@ However, as [ previously](https://mail.haskell.org/pipermail/ghc-devs/2016-Janua
 in released projects.
 </td></tr></table>
 
-<table><tr><th>Inclusion in `-Wall` raises the bar for inclusion in `-Wcompat`</th>
+<table><tr><th>Inclusion in `-Wall` raises the bar for including new warnings in `-Wcompat`</th>
 <td>
 Having `-Wcompat` separate from `-Wall` allows us to include
 more verbose warnings to `-Wcompat` that would be questionable in `-Wall`</td></tr></table>
@@ -78,12 +77,4 @@ point of `-Wcompat` was to give notice to folks who wanted them as soon
 as possible, even if they were things they couldn't do, yet moving
 them into `-Wall` means that this whole thing becomes a big mess of
 active maintenance
-</td></tr></table>
-
-<table><tr><th>May deter three-release policy compliance</th>
-<td>
-If `-Wcompat` was on by default, less or maybe no users at all would
-bother about the three-release policy at all, as it would add another
-hoop to jump through, i.e.  requires to actively opt out via
-`-Wno-compat`.
 </td></tr></table>
