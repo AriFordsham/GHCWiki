@@ -34,44 +34,42 @@ won't bother (or simply forget) to turn on `-Wcompat`.
 > The most effective way to reach everybody is by enabling `-Wcompat`
 > by default and have them opt-out if they don't like it.
 
-**This warnings are just noisy and don't cause actual problems until `-Werror` is enabled**::
-
->
-> This means that the change won't cause problems for Hackage since Hackage rejects packages with `-Werror` anyway).
+<table><tr><th>This warnings are just noisy and don't cause actual problems until `-Werror` is enabled</th>
+<td>
+This means that the change won't cause problems for Hackage since Hackage rejects packages with `-Werror` anyway).
+</td></tr></table>
 
 >
 > If somebody enables `-Wall`, they're already asking for some noise.
 > Especially since `-Wall`'s effect changes with each GHC release.
 
-**The user may expect that `-Wall` enables all warnings**::
-
->
-> Adding more ad-hoc exceptions than already exist further breaks this expectation.
+<table><tr><th>The user may expect that `-Wall` enables all warnings</th>
+<td>
+Adding more ad-hoc exceptions than already exist further breaks this expectation.
+</td></tr></table>
 
 ## Arguments **for (A) opt-in** / against opt-out style
 
-**Users of `-Wall` will need Cabal file boilerplate to disable `-Wcompat`**::
+<table><tr><th>Users of `-Wall` will need Cabal file boilerplate to disable `-Wcompat`</th>
+<td>
+Packages insisting on `-Wall` cleanliness while supporting pre-GHC-8.0 need to add boilerplate
+in their cabal files to silence compatibility warnings:
 
->
-> Packages insisting on `-Wall` cleanliness while supporting pre-GHC-8.0 need to add boilerplate
-> in their cabal files to silence compatibility warnings:
->
-> ```wiki
->   ghc-options: -Wall
->   if impl(ghc >` 8)
->      ghc-options: -Wno-compat
-> ```
->
->
-> However, as [ previously](https://mail.haskell.org/pipermail/ghc-devs/2016-January/010955.html|stated),
-> `-Wall` is intended for use during development. Therefore, we discourage the use of `-Wall`
-> in released projects.
+```wiki
+  ghc-options: -Wall
+  if impl(ghc >` 8)
+     ghc-options: -Wno-compat
+```
 
-**Inclusion in `-Wall` raises the bar for inclusion in `-Wcompat`**::
+However, as [ previously](https://mail.haskell.org/pipermail/ghc-devs/2016-January/010955.html|stated),
+`-Wall` is intended for use during development. Therefore, we discourage the use of `-Wall`
+in released projects.
+</td></tr></table>
 
->
-> Having `-Wcompat` separate from `-Wall` allows us to include
-> more verbose warnings to `-Wcompat` that would be questionable in `-Wall`
+<table><tr><th>Inclusion in `-Wall` raises the bar for inclusion in `-Wcompat`</th>
+<td>
+Having `-Wcompat` separate from `-Wall` allows us to include
+more verbose warnings to `-Wcompat` that would be questionable in `-Wall`</td></tr></table>
 
 `-Wcompat` warnings aren't necessarily actionable::
 
@@ -82,10 +80,10 @@ won't bother (or simply forget) to turn on `-Wcompat`.
 > them into `-Wall` means that this whole thing becomes a big mess of
 > active maintenance
 
-**May deter three-release policy compliance**::
-
->
-> If `-Wcompat` was on by default, less or maybe no users at all would
-> bother about the three-release policy at all, as it would add another
-> hoop to jump through, i.e.  requires to actively opt out via
-> `-Wno-compat`.
+<table><tr><th>May deter three-release policy compliance</th>
+<td>
+If `-Wcompat` was on by default, less or maybe no users at all would
+bother about the three-release policy at all, as it would add another
+hoop to jump through, i.e.  requires to actively opt out via
+`-Wno-compat`.
+</td></tr></table>
