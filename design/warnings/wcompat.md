@@ -68,6 +68,27 @@ This means that the change won't cause problems for Hackage since Hackage reject
 Adding more ad-hoc exceptions than already exist further breaks this expectation.
 </td></tr></table>
 
+<table><tr><th>Avoids stretching out library proposal by an additional major GHC release</th>
+<td></td></tr></table>
+
+>
+> In order to comply with the notion to give developers a release worth of notice, this requires to wait an additional GHC release beyond what the 3-release policy demands. This effectively means that a proposal requires to wait for the completion of a **4 year roadmap** when `-Wcompat` is **not** in `-Wall`:
+
+>
+> Proposal gets accepted and starts getting integrated into GHC HEAD in 2015,
+
+>
+> GHC 8.0 (2016) starts including forward-compatibility warning in `-Wcompat` (but not in `-Wall`),
+
+>
+> GHC 8.4 (2018) starts warning about forward-compatibility without `-Wcompat`, and finally
+
+>
+> GHC 8.6 (2019) turns the warning into an error and thereby completes the proposal implementation.
+
+>
+> However, when `-Wcompat` warnings are on by default, the timeline can be pushed up and be completed one year earlier by GHC 8.4.
+
 ## Arguments **for opt-in style**
 
 <table><tr><th>Users of `-Wall` will need Cabal file boilerplate to disable `-Wcompat`</th>
