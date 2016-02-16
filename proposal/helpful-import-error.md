@@ -56,7 +56,7 @@ Given the two files from the description, here's what happens when you run `ghc 
 - Since neither file exists, an error message is shown \[...\]
 
 
-Let n be the number of files that are recursively referenced and m the number of source directories specified, GHC looks for $2\*m\*n$ files.
+Let n be the number of files that are recursively referenced and m the number of source directories specified, GHC looks for 2\*m\*n files.
 The 2 comes from the `.hs`/`.lhs` options.
 
 ## Proposed solution
@@ -112,7 +112,7 @@ Loss:
 
 Gain:
 
-- Instead of 2mn calls to look for files, ghc now only looks through these directories recursively.
+- Instead of 2\*m\*n calls to look for files, ghc now only looks through these directories recursively.
   In the typical situation, that means it only has to find n files instead.
 - Comprehensive mapping of modules that can be imported. (Can be used for typo-error detection.)
 - No file-system calls to find modules while resolving the imports.
