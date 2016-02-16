@@ -41,6 +41,24 @@ It already does this for misspelled functions and package imports.
 
 Because the compiler will not continue when finding an error like this, it won't be harmful to spend a little extra time looking for possible misspellings.
 
+### Current workings
+
+
+For reference, in this example GHC does the following: (source: thomie) 
+
+
+Given the two files from the description, here's what happens when you run `ghc Aaa.hs`:
+
+- GHC asks the OS to open `./Aaa.hs`, and reads its contents
+- GHC figures out it needs module `BBb`
+- GHC "guesses" that `BBb` is either in `./BBb.hs` or in `./BBb.lhs`
+- GHC asks the OS to open those two files in order
+- Since neither file exists, an error message is shown \[...\]
+
+
+Let n be the number of files that are recursively referenced and m the number of source directories specified, GHC looks for $2\*m\*n$ files.
+The 2 comes from the `.hs`/`.lhs` options.
+
 ## Proposed solution
 
 
@@ -94,6 +112,8 @@ Loss:
 
 Gain:
 
+- Instead of 2mn calls to look for files, ghc now only looks through these directories recursively.
+  In the typical situation, that means it only has to find n files instead.
 - Comprehensive mapping of modules that can be imported. (Can be used for typo-error detection.)
 - No file-system calls to find modules while resolving the imports.
   This means:
