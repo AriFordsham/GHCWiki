@@ -55,11 +55,45 @@ Given the two files from the description, here's what happens when you run `ghc 
 - GHC asks the OS to open those two files in order
 - Since neither file exists, an error message is shown \[...\]
 
+### Proposed solution (thomie)
 
-Let n be the number of files that are recursively referenced and m the number of source directories specified, GHC looks for 2\*m\*n files.
-The 2 comes from the `.hs`/`.lhs` options.
 
-## First Proposed solution
+Cabal already asks you to specify all known modules in either `exposed-modules` or `other-modules`.
+Cabal already passes this list of modules to GHC.
+GHC therefore already knows the names of all modules that could possibly be imported (not quite, see [ https://github.com/haskell/cabal/issues/2982\#issuecomment-169786310](https://github.com/haskell/cabal/issues/2982#issuecomment-169786310))
+This list could be used to detect import typo's.
+
+
+Applied to the example above:
+
+`ghc --make Aaa.hs` first looks through the directory and finds `Aaa` in file `Aaa.hs` and `Bbb` in file `Bbb.hs`. It then gives this information to any subsequent compilation procedures.
+
+
+When `ghc` encounters `import BBb` (the spelling error) it looks in the list and the directory and notices that it cannot find `BBb`.
+This is where `ghc` throws a compile error saying it cannot find the module.
+Instead, `ghc` could now also look through the list for potential spelling mistakes.
+Because `Bbb` is in the list of available modules, it notices that `Bbb` is there and is similar to `BBb`.
+It then outputs the following helpful error message. 
+
+```wiki
+Aaa.hs:3:1:
+    Could not find module BBb.
+    Perhaps you meant Bbb instead of BBb at line 3 of module Aaa (Aaa.hs)
+```
+
+
+Perhaps it could even locate the spelling mistake:
+
+```wiki
+Actual   BBb
+Expected Bbb
+Diff     _b_
+```
+
+
+This feature could be called `-fhelpful-import-errors` and should be turned on by default.
+
+## Old Proposed solution (No longer relevant but maybe historically useful)
 
 
 Before compiling anything, ghc could scan the directory to find all the Haskell modules that are there and build a `Map ModuleName FilePath` (pseudocode).
@@ -159,11 +193,3 @@ Pro:
 Cons:
 
 - Negates the advantage of making the compiler purer.
-
-### Second proposed solution (thomie)
-
-- A lot of people use Cabal for library development
-- Cabal already asks you to specify all known modules in either exposed-modules or other-modules (I guess you could make typos here..)
-- Cabal already passes this list of modules to GHC
-- So GHC already knows the names of all modules that could possibly be imported (not quite, see [ https://github.com/haskell/cabal/issues/2982\#issuecomment-169786310](https://github.com/haskell/cabal/issues/2982#issuecomment-169786310))
-- Use that list of modules to make spelling suggestions on import errors 
