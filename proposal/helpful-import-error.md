@@ -139,7 +139,10 @@ Cons:
 
 - It could go wrong when run in a source directory that contains much more than the modules that need to be compiled. (For example: a home directory.)
 
-#### Caching the map
+#### Caching the map \[Not an option\]
+
+
+Leaving this here for the sake of history, but this is not feasible. Invalidating the cache without re-walking the directory tree would be impossible/very complicated.
 
 
 Whether this map should be cached and re-used between compilations is also debatable:
