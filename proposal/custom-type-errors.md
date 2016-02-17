@@ -323,3 +323,9 @@ testNotOk s = get s (Proxy :: Proxy "B")
 --}
 
 ```
+
+## See also
+
+
+The Helium people have also addressed the problem of customizable error messages.
+See Heeren, Hage, Swierstra on [ Scripting the Type Inference Process](http://www.staff.science.uu.nl/~hage0101/scriptingthetypeinferencer.pdf).
