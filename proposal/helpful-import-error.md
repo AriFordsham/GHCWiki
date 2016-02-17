@@ -59,7 +59,7 @@ Given the two files from the description, here's what happens when you run `ghc 
 Let n be the number of files that are recursively referenced and m the number of source directories specified, GHC looks for 2\*m\*n files.
 The 2 comes from the `.hs`/`.lhs` options.
 
-## Proposed solution
+## First Proposed solution
 
 
 Before compiling anything, ghc could scan the directory to find all the Haskell modules that are there and build a `Map ModuleName FilePath` (pseudocode).
