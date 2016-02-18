@@ -110,20 +110,40 @@ Another comment in [ TcGenDeriv.hs](http://git.haskell.org/ghc.git/blob/9f968e97
 ```wiki
 Deriving Foldable instances works the same way as Functor instances,
 only Foldable instances are not possible for function types at all.
-Here the derived instance for the type T above is:
+Given (data T a = T a a (T a) deriving Foldable), we get:
 
   instance Foldable T where
-      foldr f z (T1 x1 x2 x3) = $(foldr 'a 'b1) x1 ( $(foldr 'a 'a) x2 ( $(foldr 'a 'b2) x3 z ) )
+      foldr f z (T x1 x2 x3) =
+        $(foldr 'a 'a) x1 ( $(foldr 'a 'a) x2 ( $(foldr 'a '(T a)) x3 z ) )
+
+-XDeriveFoldable is different from -XDeriveFunctor in that it filters out
+arguments to the constructor that would produce useless code in a Foldable
+instance. For example, the following datatype:
+
+  data Foo a = Foo Int a Int deriving Foldable
+
+would have the following generated Foldable instance:
+
+  instance Foldable Foo where
+    foldr f z (Foo x1 x2 x3) = $(foldr 'a 'a) x2
+
+since neither of the two Int arguments are folded over.
 
 The cases are:
 
-  $(foldr 'a 'b)         =  \x z -> z     -- when b does not contain a
   $(foldr 'a 'a)         =  f
   $(foldr 'a '(b1,b2))   =  \x z -> case x of (x1,x2) -> $(foldr 'a 'b1) x1 ( $(foldr 'a 'b2) x2 z )
   $(foldr 'a '(T b1 b2)) =  \x z -> foldr $(foldr 'a 'b2) z x  -- when a only occurs in the last parameter, b2
 
 Note that the arguments to the real foldr function are the wrong way around,
 since (f :: a -> b -> b), while (foldr f :: b -> t a -> b).
+
+One can envision a case for types that don't contain the last type variable:
+
+  $(foldr 'a 'b)         =  \x z -> z     -- when b does not contain a
+
+But this case will never materialize, since the aforementioned filtering
+removes all such types from consideration.
 ```
 
 
@@ -146,17 +166,29 @@ Again, Traversable is much like Functor and Foldable.
 
 The cases are:
 
-  $(traverse 'a 'b)          =  pure     -- when b does not contain a
   $(traverse 'a 'a)          =  f
   $(traverse 'a '(b1,b2))    =  \x -> case x of (x1,x2) -> (,) <$> $(traverse 'a 'b1) x1 <*> $(traverse 'a 'b2) x2
   $(traverse 'a '(T b1 b2))  =  traverse $(traverse 'a 'b2)  -- when a only occurs in the last parameter, b2
 
-Note that the generated code is not as efficient as it could be. For instance:
+Like -XDeriveFoldable, -XDeriveTraversable filters out arguments whose types
+do not mention the last type parameter. Therefore, the following datatype:
 
-  data T a = T Int a  deriving Traversable
+  data Foo a = Foo Int a Int
 
-gives the function: traverse f (T x y) = T <$> pure x <*> f y
-instead of:         traverse f (T x y) = T x <$> f y
+would have the following derived Traversable instance:
+
+  instance Traversable Foo where
+    traverse f (Foo x1 x2 x3) =
+      fmap (\b2 -> Foo x1 b2 x3) ( $(traverse 'a 'a) x2 )
+
+since the two Int arguments do not produce any effects in a traversal.
+
+One can envision a case for types that do not mention the last type parameter:
+
+  $(traverse 'a 'b)          =  pure     -- when b does not contain a
+
+But this case will never materialize, since the aforementioned filtering
+removes all such types from consideration.
 ```
 
 ### Covariant and contravariant positions
@@ -340,10 +372,10 @@ In this example, the last type variable is instantiated with `f a`, which contai
 
 For the original discussion on this proposal, see [ \#10447](https://ghc.haskell.org/trac/ghc/ticket/10447).
 
-## Proposal: alternative strategy for deriving `Foldable` and `Traversable`
+## Alternative strategy for deriving `Foldable` and `Traversable`
 
 
-We adapt the algorithms for `-XDeriveFoldable` and `-XDeriveTraversable` based on that of `-XDeriveFunctor`. However, there an important difference between deriving the former two typeclasses and the latter one, which is best illustrated by the following scenario:
+We adapt the algorithms for `-XDeriveFoldable` and `-XDeriveTraversable` based on that of `-XDeriveFunctor`. However, there an important difference between deriving the former two typeclasses and the latter one (as of GHC 8.2, addressing [ Trac \#11174](https://ghc.haskell.org/trac/ghc/ticket/11174)), which is best illustrated by the following scenario:
 
 ```
 dataWithInt a =WithInt a Int#deriving(Functor,Foldable,Traversable)
