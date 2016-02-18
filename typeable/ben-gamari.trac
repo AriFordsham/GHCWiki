@@ -122,7 +122,7 @@ dynApply :: Dynamic -> Dynamic -> Maybe Dynamic
 }}}
 
 Ben Pierce also
-[https://ghc.haskell.org/trac/ghc/wiki/TypeableT#Data.Dynamic|suggested] this
+[[https://ghc.haskell.org/trac/ghc/wiki/TypeableT#Data.Dynamic|suggested]] this
 variant of `Dynamic`, which models a value of dynamic type "inside" of a known
 functor. He p
 {{{#!hs
