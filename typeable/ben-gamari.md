@@ -10,7 +10,7 @@ The user-visible interface of `Data.Typeable` will look like this,
 
 -- This is merely a record of some metadata about a type constructor.-- One of these is produced for every type defined in a module during its-- compilation.---- This should also carry a fingerprint; to address #7897 this fingerprint-- should hash not only the name of the tycon, but also the structure of its-- data constructorsdataTyContyConPackage::TyCon->StringtyConModule::TyCon->StringtyConName::TyCon->String-- A runtime type representation with O(1) access to a fingerprint.dataTypeRep(a :: k)instanceShow(TypeRep a)-- Since TypeRep is indexed by its type and must be a singleton we can trivially-- provide theseinstanceEq(TTypeRep a)where(==)__=TrueinstanceOrd(TTypeRep a)where compare __=EQ-- While TypeRep is abstract, we can pattern match against it:patternTRApp:: forall k2 (fun :: k2).()=> forall k1 (a :: k1 -> k2)(b :: k1).(fun ~ a b)=>TypeRep a ->TypeRep b ->TypeRep fun
 
-patternTRCon:: forall k (a :: k).TyCon->TypeRep a
+-- Open question: Should this pattern include the kind of the constructor?-- It seems you often need it.patternTRCon:: forall k (a :: k).TyCon->TypeRep a
 
 -- decompose functionspatternTRFun:: forall fun.()=> forall arg res.(fun ~(arg -> res))=>TypeRep arg
               ->TypeRep res
@@ -27,10 +27,34 @@ withTypeable= undefined
 ## The representation serialization problem
 
 
-Serialization of type representations is a bit tricky in this new world,
+Serialization of type representations is a bit tricky in this new world. Let's
+say that we want to serialize (say, using the `binary` package), for instance, a
+type-indexed map,
 
 ```
+dataTMap a
+lookup::TypeRepX->TMap a ->Maybe a
+insert::TypeRepX-> a ->TMap a ->TMap a
+
+-- we want to support these operations...getTMap::Binary a =>Get(TMap a)putTMap::Binary a =>TMap a ->Put
 ```
+
+
+Of course in order to provide `getTMap` and `putTMap` we need to be able to both
+serialize and deserialize `TypeRepX`s. While there is no particular trouble with
+serialization, deserialization quickly runs into trouble: how do we instantiate
+the type variable `a`? Concretely,
+
+```
+-- For a moment, assume we have this...getTypeRep::Get(TypeRep a)getTypeRep=...-- We can now implement getTypeRepX... or can we?getTypeRepX::GetTypeRepXgetTypeRepX=TypeRepX<$> getTypeRep
+    -- What is `a`? We don't know as it is totally unconstrained.
+```
+
+
+This is clearly problematic.
+
+
+The solution here may be to use GHC's existing support for static data.
 
 ## `Data.Dynamic`
 
@@ -48,7 +72,7 @@ fromDyn::Typeable a =>Dynamic-> a -> a
 
 
 Ben Pierce also
-[ suggested](https://ghc.haskell.org/trac/ghc/wiki/TypeableT#Data.Dynamic) this
+[ https://ghc.haskell.org/trac/ghc/wiki/TypeableT\#Data.Dynamic\|suggested](https://ghc.haskell.org/trac/ghc/wiki/TypeableT#Data.Dynamic|suggested) this
 variant of `Dynamic`, which models a value of dynamic type "inside" of a known
 functor. He p
 
