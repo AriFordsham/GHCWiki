@@ -375,7 +375,7 @@ For the original discussion on this proposal, see [ \#10447](https://ghc.haskell
 ## Alternative strategy for deriving `Foldable` and `Traversable`
 
 
-We adapt the algorithms for `-XDeriveFoldable` and `-XDeriveTraversable` based on that of `-XDeriveFunctor`. However, there an important difference between deriving the former two typeclasses and the latter one (as of GHC 8.2, addressing [ Trac \#11174](https://ghc.haskell.org/trac/ghc/ticket/11174)), which is best illustrated by the following scenario:
+We adapt the algorithms for `-XDeriveFoldable` and `-XDeriveTraversable` based on that of `-XDeriveFunctor`. However, there is an important difference between deriving the former two typeclasses and the latter one (as of GHC 8.2, addressing [ Trac \#11174](https://ghc.haskell.org/trac/ghc/ticket/11174)), which is best illustrated by the following scenario:
 
 ```
 dataWithInt a =WithInt a Int#deriving(Functor,Foldable,Traversable)
@@ -403,7 +403,7 @@ instanceTraversableWithIntwhere
 
 This is unsatisfying for two reasons:
 
-1. The `Traversable` instance doesn't typecheck! `Int#` is of kind `#`, but `pure` expects an argument whose type is of kind `*`. This effectively prevents `Traversable` from being derived for any datatype with an unlifted argument type ([ Trac \#11174](https://ghc.haskell.org/trac/ghc/ticket/11174)).
+1. The `Traversable` instance doesn't typecheck! `Int#` is of kind `#`, but `pure` expects an argument whose type is of kind `*`. This effectively prevents `Traversable` from being derived for any datatype with an unlifted argument type (see [ Trac \#11174](https://ghc.haskell.org/trac/ghc/ticket/11174)).
 
 1. The generated code contains superfluous expressions. By the `Monoid` laws, we can reduce `f a <> mempty` to `f a`, and by the `Applicative` laws, we can reduce `fmap WithInt (f a) <*> pure i` to `fmap (\b -> WithInt b i) (f a)`.
 
