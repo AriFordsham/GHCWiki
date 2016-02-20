@@ -45,7 +45,7 @@ GHC HQ controlled `base`/`array`/`integer-gmp`/`template-haskell`/etc. are not l
 
 [](http://hackage.haskell.org/package/Cabal)
 
-TODO Cabal HEAD/1.23 (NB: odd/even version scheme) should be used for the RC1. Cabal 1.24 will be released in time for RC2 or final.
+TODO Cabal HEAD/1.23 (NB: odd/even version scheme) should be used for the RC1. Cabal 1.24 will be released in time for RC3 or final.
 
 ### `binary`
 
