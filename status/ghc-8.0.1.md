@@ -124,9 +124,13 @@ FIXME Write the migration guide.
 
 Release candidate 2 was [ released](https://mail.haskell.org/pipermail/ghc-devs/2016-February/011309.html) on 7 Feb 2016. These significant issues are known to be present in this release,
 
-- [\#11334](https://gitlab.haskell.org//ghc/ghc/issues/11334): Solving for Typeable (Proxy :: Proxy 'Compose) fails
+- [\#11334](https://gitlab.haskell.org//ghc/ghc/issues/11334): Solving for `Typeable (Proxy :: Proxy 'Compose)` fails
 
-- [\#11414](https://gitlab.haskell.org//ghc/ghc/issues/11414): Use of -XStrict results in compiler abort
+- [\#11339](https://gitlab.haskell.org//ghc/ghc/issues/11339): `microlens` package doesn't typecheck
+
+- [\#11608](https://gitlab.haskell.org//ghc/ghc/issues/11608): `microlens` and `free` packages both fail to typecheck
+
+- [\#11414](https://gitlab.haskell.org//ghc/ghc/issues/11414): Use of `-XStrict` results in compiler abort
 
 - [\#11471](https://gitlab.haskell.org//ghc/ghc/issues/11471): Typechecker allows unsafe use of runtime-representation-polymorphism
 
