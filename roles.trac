@@ -2,6 +2,8 @@
 
 The idea of ''roles'' comes from the paper [http://www.seas.upenn.edu/~sweirich/papers/popl163af-weirich.pdf Generative Type Abstraction and Type-level Computation], published at POPL 2011. The implementation of roles in GHC, however, is somewhat different than stated in that paper. This page focuses on the user-visible features of roles. 
 
+Role annotations are enabled using `{-# LANGUAGE RoleAnnotations #-}`.
+
 See also
  * Our ICFP 2014 paper [http://www.cis.upenn.edu/~eir/papers/2014/coercible/coercible-ext.pdf Safe Coercions], which gives lots of motivation and details, including the `Coercible` class.
  * The user-level [http://www.haskell.org/haskellwiki/GHC/Coercible wiki page about Coercible]
