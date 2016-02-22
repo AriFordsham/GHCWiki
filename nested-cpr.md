@@ -1,6 +1,14 @@
 
 This is nomeata’s notepad about the nested CPR information:
 
+
+See also sub-pages:
+
+- [NestedCPR/AdvancedConverges](nested-cpr/advanced-converges)
+- [NestedCPR/DmdAnalIdeas](nested-cpr/dmd-anal-ideas)
+- [NestedCPR/better-ho-cardinality](nested-cpr/better-ho-cardinality)
+- [NestedCPR/wave4main](nested-cpr/wave4main)\]
+
 ### Related tickets
 
 - [\#1600](https://gitlab.haskell.org//ghc/ghc/issues/1600) Main tickets where I mention progress.
@@ -11,7 +19,7 @@ Tickets with stuff that would make nested CPR better:
 - [\#8598](https://gitlab.haskell.org//ghc/ghc/issues/8598) CPR after IO (partly done)
 
 
-Tickets with example of code that would benefit from nested CRP:
+Tickets with example of code that would benefit from nested CPR:
 
 - [\#1600](https://gitlab.haskell.org//ghc/ghc/issues/1600), [\#2289](https://gitlab.haskell.org//ghc/ghc/issues/2289), [\#2387](https://gitlab.haskell.org//ghc/ghc/issues/2387) (see [below](nested-cpr#motivating-examples) for an analysis)
 
