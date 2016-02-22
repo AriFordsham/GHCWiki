@@ -1,5 +1,12 @@
 This is nomeata’s notepad about the nested CPR information:
 
+See also sub-pages:
+ * [wiki:NestedCPR/AdvancedConverges]
+ * [wiki:NestedCPR/DmdAnalIdeas]
+ * [wiki:NestedCPR/better-ho-cardinality]
+ * [wiki:NestedCPR/wave4main]]
+
+
 === Related tickets ===
 
  * #1600 Main tickets where I mention progress.
@@ -8,7 +15,7 @@ Tickets with stuff that would make nested CPR better:
 
   * #8598 CPR after IO (partly done)
 
-Tickets with example of code that would benefit from nested CRP:
+Tickets with example of code that would benefit from nested CPR:
 
  * #1600, #2289, #2387 (see [wiki:.#Motivatingexamples below] for an analysis)
 
