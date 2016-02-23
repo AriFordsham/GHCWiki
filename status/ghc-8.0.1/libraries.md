@@ -45,7 +45,7 @@ GHC HQ controlled `base`/`array`/`integer-gmp`/`template-haskell`/etc. are not l
 
 [](http://hackage.haskell.org/package/Cabal)
 
-TODO The 1.24 branch has been created, please use it for GHC 8 RC3. Cabal 1.24.0.0 final will be released at some point between GHC 8 RC3 and GHC 8 final.
+TODO The `1.24` branch has been created, please use it for GHC 8 RC3. Cabal `1.24.0.0` final will be released at some point between GHC 8 RC3 and GHC 8 final.
 
 ### `binary`
 
