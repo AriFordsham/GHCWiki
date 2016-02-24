@@ -1,5 +1,11 @@
 # A plan for type-indexed type representations
 
+
+This is Ben Gamari's plan for moving ahead with the type-indexed `Typeable`
+scheme, described most recently in
+\[\[[ http://research.microsoft.com/en-us/um/people/simonpj/papers/haskell-dynamic/\|A](http://research.microsoft.com/en-us/um/people/simonpj/papers/haskell-dynamic/|A)
+reflection on types\]\].
+
 ## `Data.Typeable`
 
 
@@ -122,29 +128,6 @@ getTypeRepX::GetTypeRepgetTypeRepX ty =do
                 getTypeRepX rep_x
         pure ty
       where rep_k = typeRepKind ty
-```
-
-### Through `TypeRepX`?
-
-
-runs into trouble: how do we instantiate the type variable `a`? Concretely,
-
-```
--- For a moment, assume we have this...getTypeRep::Typeable a =>Get(TypeRep a)getTypeRep=...-- We can now implement getTypeRepX... or can we?getTypeRepX::GetTypeRepXgetTypeRepX=TypeRepX<$> getTypeRep
-    -- What is `a`? We don't know as it is totally unconstrained.
-```
-
-
-This is clearly problematic.
-
-
-The principle realization here is that the exact choice of `a` here doesn't
-actually matter: it is merely something we are telling the typechecker such that
-it is willing to use our `Typeable` dictionary to construct a `TypeRepX`. In
-light of this, we can simply make up a type,
-
-```
-dataDummyF:: k ->*getTypeRepX::GetTypeRepXgetTypeRepX
 ```
 
 ### Through static data?
