@@ -128,7 +128,20 @@ implementation into the trusted codebase. That being said, the consequences for
 a user being able to construct an ill-kinded representation inside of a
 `TypeRepX` are not so significant; this is because most of the
 type-safety-critical operations that we expose require a `TypeRep`, which the
-type system will disallow us from producing from an ill-kinded `TypeRepX`.
+type system will disallow us from producing from an ill-kinded `TypeRepX` (TODO
+This requires more careful reasoning).
+
+
+If this is indeed safe, then this fact should be factored out into something like,
+
+```
+mkTrConX::TyCon->TypeRepX->TypeRepXmkTrConX tc (TypeRepX kind)=TypeRepX$ mkTyCon tc (unsafeCoerce kind)mkTrAppX::TypeRepX->TypeRepX->TypeRepXmkTrAppX(TypeRepX f)(TypeRepX x)=TypeRepX$ mkTRApp (unsafeCoerce f) x
+```
+
+
+Admittedly, exposing these does feel a bit odd as they totally break the
+assumption that a `TypeRepX` wraps a valid type, even in the absence of
+deserialization.
 
 ### Through static data?
 
