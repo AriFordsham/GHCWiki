@@ -3,7 +3,7 @@
 
 This is Ben Gamari's plan for moving ahead with the type-indexed `Typeable`
 scheme, described most recently in
-[ A reflection on types](http://research.microsoft.com/en-us/um/people/simonpj/papers/haskell-dynamic).
+[ A reflection on types](http://research.microsoft.com/en-us/um/people/simonpj/papers/haskell-dynamic/).
 
 ## `Data.Typeable`
 
@@ -110,24 +110,25 @@ help us to deserialize a `TMap`.
 
 Then what of `TypeRepX`? We clearly can't use the `getTypeRep` defined above
 since it requires that we already know which type we expect.
-Furthermore, any attempt
+If we are willing to bypass the typechecker entirely, we can deserialize thusly,
 
 ```
-getTypeRepX::GetTypeRepgetTypeRepX ty =do
-    rep <- getTypeRep'
-    pure $TypeRepX(rep ::TypeRep a)where
-    getTypeRep' ::Get(TypeRep a)
-    getTypeRep' =do
-        tag <- get ::GetWord8case tag of0|TRCon con <- ty  ->do
-                con' <- get
-                rep_k <- getTypeRepX
-                getTypeRep rep_k
-            1|TRApp rep_f rep_x <- ty  ->do
-                getTypeRepX rep_f
-                getTypeRepX rep_x
-        pure ty
-      where rep_k = typeRepKind ty
+getTypeRepX::GetTypeRepXgetTypeRepX=do
+    tag <- get ::GetWord8case tag of0->do
+            con <- get
+            TypeRepX rep_k <- getTypeRepX
+            pure $TypeRepX$ mkTyCon con (unsafeCoerce rep_k)1->doTypeRepX rep_f <- getTypeRepX
+            TypeRepX rep_x <- getTypeRepX
+            pure $TypeRepX$ mkTRApp (unsafeCoerce rep_f) rep_x
 ```
+
+
+The `unsafeCoerce`s here appear as though they draw the deserialization
+implementation into the trusted codebase. That being said, the consequences for
+a user being able to construct an ill-kinded representation inside of a
+`TypeRepX` are not so significant; this is because most of the
+type-safety-critical operations that we expose require a `TypeRep`, which the
+type system will disallow us from producing from an ill-kinded `TypeRepX`.
 
 ### Through static data?
 
@@ -141,16 +142,18 @@ be considered and even if we did, there would be very many of them.
 ### Through an un-indexed representation?
 
 
-The "give up" approach here is to simply project the type-indexed `TypeRep` onto
+The "give up" approach is to simply project the type-indexed `TypeRep` onto
 something that is totally untyped,
 
 ```
-dataTypeRepXX=TypeConXXTyCon|TypeAppXXTypeRepXXTypeRepXXtoTypeRep::TypeRepXX->Maybe(TypeRep a)toTypeRepX::TypeRepXX->TypeRepXfromTypeRep::TypeRep a ->TypeRepXXfromTypeRepX::TypeRepX->TypeRepXX
+-- | A serializable type representationdataTypeRepS=TypeConSTyCon|TypeAppSTypeRepSTypeRepStoTypeRep::TypeRepS->Maybe(TypeRep a)toTypeRepX::TypeRepS->TypeRepXfromTypeRep::TypeRep a ->TypeRepSfromTypeRepX::TypeRepX->TypeRepS
 ```
 
-`TypeRepXX` is now just plain old data, requiring nothing special for
+`TypeRepS` is now just plain old data, requiring nothing special for
 serialization and deserialization. However, this gives us an awkward third
-variety of type representation
+variety of type representation. Moreover, if you may use `TypeRepX` or must
+use `TypeRepS` is solely determined by the rather incidental matter of whether
+you need serialization.
 
 ## `Data.Dynamic`
 
