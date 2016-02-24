@@ -11,6 +11,7 @@ Relevant links
 
 - [ A reflection on types](http://research.microsoft.com/en-us/um/people/simonpj/papers/haskell-dynamic/), the paper that describes the overall vision.  This is essential reading.
 - [ Ben Prices's Git respository](https://github.com/brprice/typeableT), built summer 2015, of a prototype version of the ideas.
+- [Typeable/BenGamari](typeable/ben-gamari) Ben's notes on his on-going implementation effort
 - [TypeableT](typeable-t) really a more concrete variant of this page
 - [Typeable/WithTypeable](typeable/with-typeable) about `withTypeable`.
 - [GhcKinds/PolyTypeable](ghc-kinds/poly-typeable) another rather duplicated page.
