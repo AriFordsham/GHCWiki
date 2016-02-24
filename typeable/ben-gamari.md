@@ -40,13 +40,97 @@ insert::TypeRepX-> a ->TMap a ->TMap a
 ```
 
 
+This is the sort of usage we might see in, for instance, the `Shake` build system.
+
+### Serializing `TypeRep`
+
+
 Of course in order to provide `getTMap` and `putTMap` we need to be able to both
-serialize and deserialize `TypeRepX`s. While there is no particular trouble with
-serialization, deserialization quickly runs into trouble: how do we instantiate
-the type variable `a`? Concretely,
+serialize and deserialize `TypeRepX`s. Serialization poses no particular issue.
+For instance, we might write,
 
 ```
--- For a moment, assume we have this...getTypeRep::Get(TypeRep a)getTypeRep=...-- We can now implement getTypeRepX... or can we?getTypeRepX::GetTypeRepXgetTypeRepX=TypeRepX<$> getTypeRep
+instanceBinaryTyConputTypeRep::TypeRep a ->PutputTypeRep tr@(TRCon tc)=do put 0
+                              put tc
+                              putTypeRep (typeRepKind tr)putTypeRep(TRApp f x)=do put 1
+                              putTypeRep f
+                              putTypeRep x
+
+putTypeRepX::TypeRepX->PutputTypeRepX(TypeRepX rep)= putTypeRep rep
+```
+
+
+That was easy.
+
+
+Now let's try deserialization.
+
+### Deserialization
+
+
+We first need to consider which of these two types, `TypeRep` and `TypeRepX`, we want to imp
+
+
+First, we need to define how deserialization should behave. For instance, defining
+
+```
+getTypeRep::Get(TypeRep a)
+```
+
+
+is a non-starter as we have no way to verify that the representation that we
+read plausibly represents the type `a` that the user requests.
+
+
+For this we need more information: a `Typeable` dictionary,
+
+```
+getTypeRep::TypeRep a ->Get(TypeRep a)getTypeRep ty =do
+    tag <- get ::GetWord8case tag of0|TRCon con <- ty  ->do
+            con' <- get
+            when (con' /= con)$ fail "Binary: Mismatched type constructors"
+            getTypeRep (typeRepKind ty)1|TRApp rep_f rep_x <- ty  ->do
+            getTypeRep rep_f
+            getTypeRep rep_x
+    pure ty
+```
+
+
+Note how here we aren't even constructing a new representation; we are merely
+verifying that what we deserialize matches the representation that we expect.
+Of course, the fact that we must know the type we are trying to deserialize
+means that `getTypeRep` isn't terribly useful on its own; it certainly won't
+help us to deserialize a `TMap`.
+
+
+Then what of `TypeRepX`? We clearly can't use the `getTypeRep` defined above
+since it requires that we already know which type we expect.
+Furthermore, any attempt
+
+```
+getTypeRepX::GetTypeRepgetTypeRepX ty =do
+    rep <- getTypeRep'
+    pure $TypeRepX(rep ::TypeRep a)where
+    getTypeRep' ::Get(TypeRep a)
+    getTypeRep' =do
+        tag <- get ::GetWord8case tag of0|TRCon con <- ty  ->do
+                con' <- get
+                rep_k <- getTypeRepX
+                getTypeRep rep_k
+            1|TRApp rep_f rep_x <- ty  ->do
+                getTypeRepX rep_f
+                getTypeRepX rep_x
+        pure ty
+      where rep_k = typeRepKind ty
+```
+
+### Through `TypeRepX`?
+
+
+runs into trouble: how do we instantiate the type variable `a`? Concretely,
+
+```
+-- For a moment, assume we have this...getTypeRep::Typeable a =>Get(TypeRep a)getTypeRep=...-- We can now implement getTypeRepX... or can we?getTypeRepX::GetTypeRepXgetTypeRepX=TypeRepX<$> getTypeRep
     -- What is `a`? We don't know as it is totally unconstrained.
 ```
 
@@ -54,7 +138,37 @@ the type variable `a`? Concretely,
 This is clearly problematic.
 
 
-The solution here may be to use GHC's existing support for static data.
+The principle realization here is that the exact choice of `a` here doesn't
+actually matter: it is merely something we are telling the typechecker such that
+it is willing to use our `Typeable` dictionary to construct a `TypeRepX`. In
+light of this, we can simply make up a type,
+
+```
+dataDummyF:: k ->*getTypeRepX::GetTypeRepXgetTypeRepX
+```
+
+### Through static data?
+
+
+On might have the idea that the solution here may be to avoid encoding
+representations at all: instead use GHC's existing support for static data, e.g.
+add `TypeRep a` entries to the static pointer table for every known type. But of
+course, this is unrealistic: we have no way of enumerating the types that must
+be considered and even if we did, there would be very many of them.
+
+### Through an un-indexed representation?
+
+
+The "give up" approach here is to simply project the type-indexed `TypeRep` onto
+something that is totally untyped,
+
+```
+dataTypeRepXX=TypeConXXTyCon|TypeAppXXTypeRepXXTypeRepXXtoTypeRep::TypeRepXX->Maybe(TypeRep a)toTypeRepX::TypeRepXX->TypeRepXfromTypeRep::TypeRep a ->TypeRepXXfromTypeRepX::TypeRepX->TypeRepXX
+```
+
+`TypeRepXX` is now just plain old data, requiring nothing special for
+serialization and deserialization. However, this gives us an awkward third
+variety of type representation
 
 ## `Data.Dynamic`
 
