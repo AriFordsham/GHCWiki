@@ -1,5 +1,7 @@
 This page is to track the design of a plan, originally Simon PJ's idea, to get rid of GHC's sub-kinding story. Richard E. has volunteered to implement.
 
+'''NB:''' This is implemented. See toward the bottom of the page for what actually happened.
+
 == The current story ==
 
 Right now, there are several "base" kinds:
@@ -149,3 +151,50 @@ Some conclusions:
 
  * The body of a type forall should have kind `Type l` for some levity `l`, and that is the kind of the forall.  That is, the body cannot have kind `* -> *`, and certainly not `k`.  This makes `forall k (a::k). a` ill-kinded.  (Cf #10114.)
 
+= Implementation =
+
+'''Feb 24, 2016'''
+
+This general idea is implemented for 8.0. But it turned out to be a bit more subtle. The subtlety all started when we realized that something like
+
+{{{
+type family F a where
+  F Int# = Int
+}}}
+
+seemed sensible enough. That is, type families could work with unlifted types.
+
+But then, what about
+
+{{{
+type family G a :: k where
+  G Int = Int#
+  G Bool = Int
+
+foo :: G a -> ...
+}}}
+
+The kind of `G a` there is `TYPE r` for some `r`... but that means that we don't know the width of the argument to `foo`: disaster. Even if we know that `k` is `#`, it's still a disaster, because of the many different width of unboxed things.
+
+So, we do this:
+
+{{{
+data RuntimeRep = PtrRepLifted | PtrRepUnlifted | IntRep | VoidRep | ...
+TYPE :: RuntimeRep -> *
+type * = TYPE 'PtrRepLifted
+}}}
+
+This is just like the idea above, but using `RuntimeRep` instead of levity. Now, from a type's kind, we always know the values' widths. Huzzah! The actual definition is in `GHC.Types`.
+
+We still must ensure that all bound variables have a fixed width. This is most easily done during zonking, because it's possible that constraint-solving will inform `RuntimeRep`s. So, after zonking a binder, we simply check that its width is known, and issue an error otherwise.
+
+=== Alternative `RuntimeRep` choice ===
+
+An alternative to the `RuntimeRep` above is this:
+
+{{{
+data RuntimeRep = PtrRep Levity | VoidRep | IntRep | ...
+data Levity = Lifted | Unlifted
+}}}
+
+Now we can say that a certain type is boxed without giving its levity. This is nice, because polymorphism over boxed unlifted things is a sensible thing to think about. It also allows us to give a more restrictive type to `unsafeCoerce#` that prevents it from going between boxed and unboxed things (which would be a horror). (If we did this, we would introduce `reallyUnsafeCoerce#` or perhaps `unsafeCoerce##` that was truly unrestricted.) However, this many-layered approach had measurable performance implications (several percent in some programs) because of the need to pointer-chase when unrolling `*`. When we have unpacked sums, we can revisit, because this alternative is better from a theory standpoint.
