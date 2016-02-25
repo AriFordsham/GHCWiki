@@ -35,6 +35,7 @@ Major things
 
 Other tickets
 
+- [\#11622](https://gitlab.haskell.org//ghc/ghc/issues/11622): parens around kind signatures in types
 - [\#11453](https://gitlab.haskell.org//ghc/ghc/issues/11453): Weird behaviour when `SigTvs` are used for kinds
 - [\#1311](https://gitlab.haskell.org//ghc/ghc/issues/1311): newtypes over unboxed types
 - [\#11203](https://gitlab.haskell.org//ghc/ghc/issues/11203): Kind inference with `SigTvs` is wrong
