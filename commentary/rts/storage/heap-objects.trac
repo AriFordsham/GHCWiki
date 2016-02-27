@@ -465,7 +465,7 @@ To go the whole hog, you need to add a new closure type. This is considerably mo
  * [[GhcFile(includes/rts/storage/ClosureTypes.h)]]: Add the new closure type
  * [[GhcFile(includes/rts/storage/ClosureMacros.h)]]: Add a case to {{{closure_sizeW}}} for your struct. However, if your structure is really simple (i.e. can be completely described by the info table, an entry here is not necessary.
  * [[GhcFile(includes/rts/storage/Closures.h)]]: Define a struct for the closure, including the ''header'' as well as your payloads. Sometimes, you will have more than one info table per struct, e.g. if you have {{{DIRTY}}} and {{{CLEAN}}} variants. As a general rule, GC'd pointers should go before general fields.
- * [[GhcFile(utils/deriveConstants/DeriveConstants.hs)]]: Tell the deriveConstants script to generate a bunch of accessors so you can manipulate the struct from C-- code.
+ * [[GhcFile(utils/deriveConstants/Main.hs)]]: Tell the deriveConstants script to generate a bunch of accessors so you can manipulate the struct from C-- code.
  * [[GhcFile(rts/ClosureFlags.c)]]: Update the closure flags (see [[GhcFile(includes/rts/storage/InfoTables.h)]] for info on what the flags mean "Closure flags") and the sanity check at the bottom of the file
  * [[GhcFile(rts/Linker.c)]]: Add your info tables so they are linked correctly
  * [[GhcFile(rts/Printer.c)]]: Print out a description of the closure. You need to handle all of the info tables you defined.
