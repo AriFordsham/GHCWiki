@@ -578,10 +578,6 @@ These object types are used by [STM](commentary/rts/stm): `TVAR_WAIT_QUEUE`, `TV
 
 Forwarding pointers appear temporarily during [garbage collection](commentary/rts/storage/gc).  A forwarding pointer points to the new location for an object that has been moved by the garbage collector.  It is represented by replacing the info pointer for the closure with a pointer to the new location, with the least significant bit set to 1 to distinguish a forwarding pointer from an info pointer.
 
-## Objects for PAR, GRAN
-
-`BLOCKED_FETCH`, `FETCH_ME`, `FETCH_ME_BQ`, `RBH`, `REMOTE_REF`
-
 ## How to add new heap objects
 
 
