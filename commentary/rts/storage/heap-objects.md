@@ -450,13 +450,6 @@ There are several variants of indirection:
   It is removed by the garbage collector.  An `IND` only exists in the youngest generation.  
   The update code (`stg_upd_frame_info` and friends) checks whether the updatee is in the youngest
   generation before deciding which kind of indirection to use.
-- `IND_OLDGEN`: an old generation indirection.  Same layout as `IND`.  This used to have
-  different layout when the old-generation mutable list was threaded through the objects, but now
-  `IND_OLDGEN` is exactly the same as `IND` (and there's no good reason to have it at all, I think).
-- `IND_PERM`: sometimes we don't want an indirection to be removed by the GC, so we use `IND_PERM` instead.
-  The profiler is one user of this closure type; cost-center semantics requires that we keep track of the
-  cost center in an indirection, so we can't eliminate the indirection.
-- `IND_OLDGEN_PERM`: same as above, but for the old generation.
 - `IND_STATIC`: a static indirection, arises when we update a `THUNK_STATIC`.  A new `IND_STATIC`
   is placed on the mutable list when it is created (see `newCaf()` in [rts/sm/Storage.c](/trac/ghc/browser/rts/sm/Storage.c)[](/trac/ghc/export/HEAD/ghc/rts/sm/Storage.c)).
 
