@@ -289,8 +289,7 @@ There are several forms of thunk:
 
 - `THUNK`, `THUNK_p_n`: vanilla, dynamically allocated
   thunks.  Dynamic thunks are overwritten with normal indirections
-  `IND`, or old generation indirections `IND_OLDGEN` when
-  evaluated.
+  `IND` when evaluated.
 
 - `THUNK_STATIC`: a static thunk is also known as a *constant
   applicative form*, or *CAF*.  Static thunks are overwritten with
