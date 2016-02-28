@@ -139,12 +139,12 @@ This leaves us with the issue of how to tell it about parts of HT it can't infer
 ```
 
 
-A tricky aspect is that some properities of the tool chain are probed by Autoconf ("is cc gcc?", "does ar need ranlib?"). These probes technically should be performed for each tool-chain.
+A tricky aspect is that some properties of the tool chain are probed by Autoconf ("is cc gcc?", "does ar need ranlib?"). These probes technically should be performed for each tool-chain.
 
 
-Both ./configure, cabal configure, and hsc2hs desire to run things built for T. If the XT contains an emulator, than this is possible. Two approaches need to be supported here:
+Both ./configure, cabal configure, and hsc2hs desire to run things built for T. If the XT contains an emulator, then this is possible. Two approaches need to be supported here:
 
-1. Autoconf can now descern many values without running code and configure.ac / aclocal.m4 scripts can be changed to avoid running in many cases. (For example in libraries/base I rewrote things to use AC_COMPUTE_INT rather than AC_RUN_IFELSE to find the sizes of htypes.)
+1. Autoconf can now discern many values without running code and configure.ac / aclocal.m4 scripts can be changed to avoid running in many cases. (For example in libraries/base I rewrote things to use AC_COMPUTE_INT rather than AC_RUN_IFELSE to find the sizes of htypes.)
 1. Plumb the need to call the emulator to run in the right places. An alternative is to use an alternate linker command that inserts the emulator into those build executables (but this is tricky as you don't want to use that link when building for the real target...)
 
 ## Make Files
