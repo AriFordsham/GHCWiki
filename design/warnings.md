@@ -37,7 +37,7 @@ By reusing the GCC CLI convention for warning-flags, we can make GHC's CLI a bit
 
 - ([\#11451](https://gitlab.haskell.org//ghc/ghc/issues/11451)) Split off `-Wunused-foralls` and `-Wunused-type-patterns` from `-Wunused-matches`. Make `-Wall` imply `-Wunused-foralls` and `-Wunused-type-patterns`, but *not* imply `-Wunused-type-patterns`
 
-**Proposed for GHC 8.0:**
+**~~Proposed~~also implemented for GHC 8.0:**
 
 - ([ phab:D1850](https://phabricator.haskell.org/D1850)) Introduce some new warning sets, e.g.
 
@@ -45,13 +45,6 @@ By reusing the GCC CLI convention for warning-flags, we can make GHC's CLI a bit
   - Define set `-Weverything` (c.f. clang's [ -Weverything](http://clang.llvm.org/docs/UsersManual.html#diagnostics-enable-everything) as precedent) to comprise really \*all\* warnings (together with its negation `-Wno-everything` for symmetry, which is a synonym for `-w`)
   - Define set `-Wextra` (modulo bikeshed, maybe `-Wnormal`?) as synonym for `-W`, together with its negation `-Wno-extra`
   - ([\#11000](https://gitlab.haskell.org//ghc/ghc/issues/11000)) Define set `-Wcompat` to denote all warnings about future compatility GHC *currently* knows about (like e.g. `-Wcompat-amp`, `-Wcompat-mfp`, `-Wcompat-mrp`)  In addition, have `ghc` provide a way to dump the current warning-sets (in a format that's parseable by humans and machines)
-
-**Anytime someone is motivated**
-
-- ([\#11219](https://gitlab.haskell.org//ghc/ghc/issues/11219)) Introduce variant of `-Werror` (c.f. GCC's `-Werror=*`) which allows to specify the individual warnings to be promoted to errors, e.g.
-
-  - `-Wall -Werror=orphans` would only promote `-Worphans` warnings into errors
-  - `-Wall -Werror -Wno-error=missing-methods` would promote all warnings *except*`-Wmissing-methods` into errors
 
 - ([\#10752](https://gitlab.haskell.org//ghc/ghc/issues/10752)) When emitting warnings/errors, show which warning flag was responsible,
   e.g.
@@ -63,7 +56,14 @@ By reusing the GCC CLI convention for warning-flags, we can make GHC's CLI a bit
 
   making it easier to silence specific warnings via e.g. `-Wno-missing-signatures`
 
-- Introduce `-Wpedantic` (this is subsumed by `-Weverything` already?), which turns on warnings that `-Wall` doesn't turn on (e.g., `-Wredundant-constraints` and `-Wunused-type-patterns`)
+**Anytime someone is motivated**
+
+- ([\#11219](https://gitlab.haskell.org//ghc/ghc/issues/11219)) Introduce variant of `-Werror` (c.f. GCC's `-Werror=*`) which allows to specify the individual warnings to be promoted to errors, e.g.
+
+  - `-Wall -Werror=orphans` would only promote `-Worphans` warnings into errors
+  - `-Wall -Werror -Wno-error=missing-methods` would promote all warnings *except*`-Wmissing-methods` into errors
+
+-  (this is subsumed by `-Weverything` now)~~Introduce `-Wpedantic`, which turns on warnings that `-Wall` doesn't turn on (e.g., `-Wredundant-constraints` and `-Wunused-type-patterns`)~~
 
 ## Intended usage of warnings
 
