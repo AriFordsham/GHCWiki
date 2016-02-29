@@ -194,7 +194,9 @@ Let us have a closer look at the stack:
   function. That the stack is so "clean" means that we have no lazy
   evaluation going on, which is a result of compiling
   with optimisations above (`-O`). Perhaps unintuitively, simple
-  optimisations often improve stack trace clarity.
+  optimisations often improve stack trace clarity (the following flags,
+  all part of `-O`, seem particularly helpful:
+  `-fno-ignore-interface-pragmas -fno-omit-interface-pragmas -fenable-rewrite-rules`).
 
 - On the other hand, `main` does not appear in the stack any more. In
   fact, where it should be we only see `show` and `putStrLn`
