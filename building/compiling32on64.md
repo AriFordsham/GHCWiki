@@ -27,6 +27,7 @@ Compiling i386 Haskell programs on a x86_64 system can be accomplished by buildi
   ```wiki
   make install
   ```
+- For GHC 7.10.3, setting `CFLAGS` at configure time is enough to allow the installation to succeed, but doesn't tell the installed compiler to pass `-m32` to `gcc`. Edit the settings file (`your_prefix/lib/ghc-X.Y.Z/settings`) to add `-m32` to `"C compiler flags"`.
 - To avoid linking to the wrong version of zlib, when you compile packages that depend on it, you may need to install the haskell package zlib specially:
 
   ```wiki
