@@ -322,7 +322,7 @@ Here's a proposal to have the compiler deal with it:
 In our running example,
 
 - Step (1) produces a set of closed bindings `["hasZero", "isZero"]` at the point where the `static` form is encountered.
-- Step (2) checks that identifiers in `filter hasZero`, the body of `static`, are bound at the top-level (like `filter` or are closed local bindings like `hasZero`.
+- Step (2) checks that identifiers in `filter hasZero`, the body of `static`, are bound at the top-level (like `filter`) or are closed local bindings (like `hasZero`).
 - Step (3) yields the Core bindings produced by the static form per se `[(genName1, filter hasZero)]`, the program becomes something like:
 
   ```
