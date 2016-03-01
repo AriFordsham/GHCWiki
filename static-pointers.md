@@ -292,3 +292,66 @@ Now, at the call side, when we unwrap the `StaticPtr`, we need to supply an expl
 
 
 For now, I propose to deal with type classes via the Dict Trick, which is entirely end-user programmable, leaving only parametric polymorphism for built-in support.
+
+## Local bindings in the static form
+
+
+The static form so far required expressions whose free variables appear bound at the top level. But this is stricter than necessary. Closed local definitions can be considered static as well.
+
+
+Consider the following example
+
+```
+test::Int->(StaticPtr([[Int]]->[[Int]]),Int)test x =(static (filter hasZero), c)where
+    hasZero = any isZero
+    isZero  =(0==)
+    c = x +1
+```
+
+
+Here's a proposal to have the compiler deal with it:
+
+1. Have the renamer compute whether bindings in scope are closed.
+1. When the renamer finds a static form, allow the free vars to be bound at the top-level or be closed local bindings.
+1. Desugar the static form. This produces a list of floated Core bindings.
+1. For each such Core binding find the free variables corresponding to local bindings.
+1. For each found local definition traverse the enclosing top-level binding to remove it (and so on with its dependencies).
+1. Add each removed local definition at the top level.
+
+
+In our running example,
+
+- Step (1) produces a set of closed bindings `["hasZero", "isZero"]` at the point where the `static` form is encountered.
+- Step (2) checks that identifiers in `filter hasZero`, the body of `static`, are bound at the top-level (like `filter` or are closed local bindings like `hasZero`.
+- Step (3) yields the Core bindings produced by the static form per se `[(genName1, filter hasZero)]`, the program becomes something like:
+
+  ```
+  genName1::[[Int]]->[[Int]]genName1= filter hasZero
+
+  test::Int->(StaticPtr([[Int]]->[[Int]]),Int)test x =(StaticPtr(..."genName1"...), c)where
+      hasZero = any isZero
+      isZero  =(0==)
+      c = x +1
+  ```
+- Step (4) finds that the binding of `genName1` refers to a local binding named `hasZero`.
+- Step (5) removes `hasZero` and its dependency `isZero` from the enclosing top-level binding `test`.
+
+  ```
+  genName1::[[Int]]->[[Int]]genName1= filter hasZero
+
+  test::Int->(StaticPtr([[Int]]->[[Int]]),Int)test x =(StaticPtr(..."genName1"...), c)where
+      c = x +1
+  ```
+- Step (6) adds `hasZero` and its dependency `isZero` to the top level.
+
+  ```
+  genName1::[[Int]]->[[Int]]genName1= filter hasZero
+
+  test::Int->(StaticPtr([[Int]]->[[Int]]),Int)test x =(StaticPtr(..."genName1"...), c)where
+      c = x +1-- hasZero :: Num a => [a] -> Bool ?-- hasZero :: [Int] -> Bool ?hasZero= any isZero
+
+  -- isZero :: Num a => a -> Bool ?-- isZero :: Int -> Bool ?isZero=(0==)
+  ```
+
+
+Whether `hasZero` and `isZero` are given general types or not shouldn't affect the result.
