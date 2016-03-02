@@ -353,5 +353,14 @@ In our running example,
   -- isZero :: Num a => a -> Bool ?-- isZero :: Int -> Bool ?isZero=(0==)
   ```
 
+### Update
 
-Whether `hasZero` and `isZero` are given general types or not shouldn't affect the result.
+
+Whether `hasZero` and `isZero` are given general types or not shouldn't affect the result in this case. However, not generalizing the type can cause troubles:
+
+```
+test2::Binary a => a ->StaticPtrByteStringtest2 x = static (g x)where
+    g = encode
+```
+
+`g` is gonna use the `Binary a` dictionary provided to `test2`, which makes the body of `g` not closed. The renamer, however, cannot detect this. We would need to check *closeness* in the typechecker and have the renamer stop checking *closeness* and *top-levelness* (?).
