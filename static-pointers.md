@@ -315,8 +315,8 @@ Here's a proposal to have the compiler deal with it:
 1. When the renamer finds a static form, allow the free vars to be bound at the top-level or be closed local bindings.
 1. Desugar the static form. This produces a list of floated Core bindings.
 1. For each such Core binding find the free variables corresponding to local bindings.
-1. For each found local definition traverse the enclosing top-level binding to remove it (and so on with its dependencies).
-1. Add each removed local definition at the top level.
+1. Mark all found local definitions and its dependencies to be in level 0.
+1. Use the code in the [FloatOut](float-out) pass to float these bindings to the top-level?
 
 
 In our running example,
@@ -334,15 +334,17 @@ In our running example,
       c = x +1
   ```
 - Step (4) finds that the binding of `genName1` refers to a local binding named `hasZero`.
-- Step (5) removes `hasZero` and its dependency `isZero` from the enclosing top-level binding `test`.
+- Step (5) marks `hasZero` and its dependency `isZero` as being in level 0.
 
   ```
   genName1::[[Int]]->[[Int]]genName1= filter hasZero
 
   test::Int->(StaticPtr([[Int]]->[[Int]]),Int)test x =(StaticPtr(..."genName1"...), c)where
+      hasZero_0 = any isZero
+      isZero_0  =(0==)
       c = x +1
   ```
-- Step (6) adds `hasZero` and its dependency `isZero` to the top level.
+- Step (6) moves `hasZero` and its dependency `isZero` to the top level.
 
   ```
   genName1::[[Int]]->[[Int]]genName1= filter hasZero
@@ -353,7 +355,15 @@ In our running example,
   -- isZero :: Num a => a -> Bool ?-- isZero :: Int -> Bool ?isZero=(0==)
   ```
 
-### Update
+### On renaming floated bindings
+
+
+Moving bindings to the top level seems to require renaming them to avoid potential clashes of names. This means that all the occurrences need to be substituted with the new names.
+
+
+In the [FloatOut](float-out) pass renaming occurs when computing the levels. We may need to reimplement that.
+
+### On testing closedness
 
 
 Whether `hasZero` and `isZero` are given general types or not shouldn't affect the result in this case. However, not generalizing the type can cause troubles:
@@ -363,4 +373,7 @@ test2::Binary a => a ->StaticPtrByteStringtest2 x = static (g x)where
     g = encode
 ```
 
-`g` is gonna use the `Binary a` dictionary provided to `test2`, which makes the body of `g` not closed. The renamer, however, cannot detect this. We would need to check *closeness* in the typechecker and have the renamer stop checking *closeness* and *top-levelness* (?).
+`g` is gonna use the `Binary a` dictionary provided to `test2`, which makes the body of `g` not closed. The renamer, however, cannot detect this. We could either:
+
+- implement the test for *closedness* in the typechecker instead, or
+- check *type-closedness* in the typechecker using the flag `tct_closed`.
