@@ -557,6 +557,8 @@ So, if `id :: forall a. a -> a`, then `id @Int :: Int -> Int`. See also a [ draf
 
 ## Type family equations can be constrained
 
+**Did not make it for 8.0.**
+
 
 Consider the following mess:
 
