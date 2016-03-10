@@ -2,6 +2,7 @@
 
 ## Urgent or in-flight
 
+- [\#11698](https://gitlab.haskell.org//ghc/ghc/issues/11698): `tct_closed` flag is set wrong
 - [\#11371](https://gitlab.haskell.org//ghc/ghc/issues/11371): bogus in-scope set for substitution
 - [\#9479](https://gitlab.haskell.org//ghc/ghc/issues/9479), [\#10954](https://gitlab.haskell.org//ghc/ghc/issues/10954), [\#9091](https://gitlab.haskell.org//ghc/ghc/issues/9091): more info in "hole" error messages
 - [\#10844](https://gitlab.haskell.org//ghc/ghc/issues/10844), [\#10845](https://gitlab.haskell.org//ghc/ghc/issues/10845), [\#10846](https://gitlab.haskell.org//ghc/ghc/issues/10846): implicit call stacks
@@ -117,6 +118,7 @@ Code-size blowup when using `deriving`; see tickets with keyword `deriving-perf`
 - The notorious state hack, and `replicateM` in particular
 
   - [\#1168](https://gitlab.haskell.org//ghc/ghc/issues/1168) has a list of related tickets
+  - [\#11677](https://gitlab.haskell.org//ghc/ghc/issues/11677)
   - [\#11365](https://gitlab.haskell.org//ghc/ghc/issues/11365)
   - [\#6166](https://gitlab.haskell.org//ghc/ghc/issues/6166): apparently something with NOINLINE is getting inlined 
   - [\#9388](https://gitlab.haskell.org//ghc/ghc/issues/9388) has ideas and preliminary work on how to limit the scope of the hack
