@@ -2,7 +2,7 @@ This page documents yet another proposal to make class hierarchies easier to dea
 
 == Example ==
 
-{{{
+{{{#!hs
 class Monad m where
   return :: a -> m a
   (>>=) :: m a -> (a -> m b) -> m b
@@ -89,7 +89,7 @@ In a deep class hierarchy (i.e. with long chains of superclasses), it may be con
 
 For example:
 
-{{{
+{{{#!hs
 class Functor f where
   fmap :: (a -> b) -> f a -> f b
 
@@ -119,14 +119,14 @@ This proposal does not address directly how to split a class into pieces, but th
 
 Here is a class we want to split:
 
-{{{
+{{{#!hs
 class Num a where
   (+) :: a -> a -> a
   (*) :: a -> a -> a
 }}}
 
 And here is how we might split it:
-{{{
+{{{#!hs
 class Additive a where
   add :: a -> a -> a
 class Multiplicative a where
