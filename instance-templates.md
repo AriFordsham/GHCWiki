@@ -3,27 +3,23 @@ This page documents yet another proposal to make class hierarchies easier to dea
 
 ## Example
 
-```wiki
-class Monad m where
+```
+classMonad m where
   return :: a -> m a
-  (>>=) :: m a -> (a -> m b) -> m b
+  (>>=):: m a ->(a -> m b)-> m b
 
-  deriving instance Functor m where
+  derivinginstanceFunctor m where
     fmap = lift1
 
-  deriving instance Applicative m where
+  derivinginstanceApplicative m where
     pure = return
-    (<*>) = ap
+    (<*>)= ap
 
-instance Monad Maybe where
-  return = Just
-  Nothing >>= _  = Nothing
-  (Just x) >>= f = f x
+instanceMonadMaybewhere
+  return =JustNothing>>=_=Nothing(Just x)>>= f = f x
 
-  deriving (Functor, Applicative)   -- these inherit the constraints and params above
-  -- OR
-  deriving instance Functor m
-  deriving instance Applicative m   -- these specify constraints
+  deriving(Functor,Applicative)-- these inherit the constraints and params above-- ORderivinginstanceFunctor m
+  derivinginstanceApplicative m   -- these specify constraints
 ```
 
 ## Proposal
@@ -100,26 +96,24 @@ In a deep class hierarchy (i.e. with long chains of superclasses), it may be con
 
 For example:
 
-```wiki
-class Functor f where
-  fmap :: (a -> b) -> f a -> f b
+```
+classFunctor f where
+  fmap ::(a -> b)-> f a -> f b
 
-class Functor f => Applicative f where
+classFunctor f =>Applicative f where
   pure :: a -> f a
-  (<*>) :: f (a -> b) -> f a -> f b
+  (<*>):: f (a -> b)-> f a -> f b
 
-  deriving default instance Functor f where
-    fmap f = (pure f <*>)
-
-class Applicative m => Monad m where
+  derivingdefaultinstanceFunctor f where
+    fmap f =(pure f <*>)classApplicative m =>Monad m where
   return :: a -> m a
-  (>>=) :: m a -> (a -> m b) -> m b
-  fail :: String -> m a
+  (>>=):: m a ->(a -> m b)-> m b
+  fail ::String-> m a
 
-  deriving default instance Applicative m where
+  derivingdefaultinstanceApplicative m where
     pure = return
-    (<*>) = ap
-  deriving default Functor
+    (<*>)= ap
+  derivingdefaultFunctor
 ```
 
 
@@ -133,34 +127,29 @@ This proposal does not address directly how to split a class into pieces, but th
 
 Here is a class we want to split:
 
-```wiki
-class Num a where
-  (+) :: a -> a -> a
-  (*) :: a -> a -> a
+```
+classNum a where(+):: a -> a -> a
+  (*):: a -> a -> a
 ```
 
 
 And here is how we might split it:
 
-```wiki
-class Additive a where
+```
+classAdditive a where
   add :: a -> a -> a
-class Multiplicative a where
+classMultiplicative a where
   mult :: a -> a -> a
 
-class (Additive a, Multiplicative a) => Num a where
-  (+) :: a -> a -> a
-  (+) = add
+class(Additive a,Multiplicative a)=>Num a where(+):: a -> a -> a
+  (+)= add
 
-  (*) :: a -> a -> a
-  (*) = mult
+  (*):: a -> a -> a
+  (*)= mult
 
-  deriving default instance Additive a where
-    add = (+)
-  deriving default instance Multiplicative a where
-    mult = (*)
-
-  {-# MINIMAL (add | (+)), (mult | (*)) #-}
+  derivingdefaultinstanceAdditive a where
+    add =(+)derivingdefaultinstanceMultiplicative a where
+    mult =(*){-# MINIMAL (add | (+)), (mult | (*)) #-}
 ```
 
 
