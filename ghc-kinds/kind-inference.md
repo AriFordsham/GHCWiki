@@ -84,6 +84,8 @@ The new proposal is this:
 
 - An open type family always has a CUSK -- unannotated type variables (and return type) default to `*`. (This is not a change.)
 
+- **Update for `TypeInType`:** If `-XTypeInType` is in effect, any top-level kind given to a datatype must introduce all of its kind variables explicitly, allowing `data X :: forall k. k -> *` but saying that `data X :: k -> *` does not have a CUSK.
+
 
 This is somewhat simpler, it covers classes. See [comment:19:ticket:9200](https://gitlab.haskell.org//ghc/ghc/issues/9200) for more exposition.
 This change alone is enough to satisfy [\#9200](https://gitlab.haskell.org//ghc/ghc/issues/9200).
