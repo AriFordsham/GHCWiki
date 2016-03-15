@@ -8,10 +8,13 @@ scheme, described most recently in
 ## `GHC.Reflection`
 
 
-The user-visible interface of `GHC.Reflection` will look like this,
+The new type-indexed typeable machinery will be exposed via a new module
+(`GHC.Reflection` is chosen here, although this name is still up in the air;
+`Reflection` in particular has an unfortunate conflict with Edward Kmett's `reflection`
+library). The user-visible interface of `GHC.Reflection` will look like this,
 
 ```
--- The user-facing interfacemoduleGHC.TypeablewhereclassTypeable(a :: k)-- This is how we get the representation for a typetypeRep:: forall (a :: k).Typeable a =>TypeRep a 
+-- The user-facing interfacemoduleGHC.ReflectionwhereclassTypeable(a :: k)-- This is how we get the representation for a typetypeRep:: forall (a :: k).Typeable a =>TypeRep a 
 
 -- This is merely a record of some metadata about a type constructor.-- One of these is produced for every type defined in a module during its-- compilation.---- This should also carry a fingerprint; to address #7897 this fingerprint-- should hash not only the name of the tycon, but also the structure of its-- data constructorsdataTyContyConPackage::TyCon->StringtyConModule::TyCon->StringtyConName::TyCon->String-- A runtime type representation with O(1) access to a fingerprint.dataTypeRep(a :: k)instanceShow(TypeRep a)-- Since TypeRep is indexed by its type and must be a singleton we can trivially-- provide theseinstanceEq(TypeRep a)where(==)__=TrueinstanceOrd(TypeRep a)where compare __=EQ-- While TypeRep is abstract, we can pattern match against it:patternTRApp:: forall k2 (fun :: k2).()=> forall k1 (a :: k1 -> k2)(b :: k1).(fun ~ a b)=>TypeRep a ->TypeRep b ->TypeRep fun
 
@@ -27,6 +30,34 @@ The user-visible interface of `GHC.Reflection` will look like this,
 withTypeable= undefined
 
 -- We can also allow the user to build up his own applicationsmkTrApp:: forall k1 k2 (a :: k1 -> k2)(b :: k1).TypeRep(a :: k1 -> k2)->TypeRep(b :: k1)->TypeRep(a b)-- However, we can't (easily) allow instantiation of TyCons since we have-- no way of producing the kind of the resulting type...--mkTrCon :: forall k (a :: k). TyCon -> [TypeRepX] -> TypeRep a
+```
+
+## Preserving compatibility with `Data.Typeable`
+
+
+Note how above we placed the new type-indexed typeable in an entirely new
+module. The goal of this is to preserve compatibility with the old
+`Data.Typeable`. Notice how the old `Data.Typeable.TypeRep` is essentially
+`TypeRepX` under the new scheme. This gives us a very nice compatibility story,
+as noted by Richard Eisenberg,
+
+```
+moduleData.Typeable(I.Typeable,moduleData.Typeable)whereimportGHC.Reflectionas I
+
+-- | A quantified type representation.typeTypeRep=I.TypeRepXtypeOf:: forall a.Typeable a => a ->TypeReptypeOf_=I.typeRepX (Proxy::Proxy a)typeRep:: forall proxy a.Typeable a => proxy a ->TypeReptypeRep=I.typeRepX
+
+cast:: forall a b.(Typeable a,Typeable b)=> a ->Maybe b
+cast x
+  |JustHRefl<- ta `I.eqTypeRep` tb =Just x
+  | otherwise                         =Nothingwhere
+    ta =I.typeRep ::I.TypeRep a
+    tb =I.typeRep ::I.TypeRep b
+
+eqT:: forall a b.(Typeable a,Typeable b)=>Maybe(a :~: b)eqT|JustHRefl<- ta `I.eqTypeRep` tb =JustRefl| otherwise                         =Nothingwhere
+    ta =I.typeRep ::I.TypeRep a
+    tb =I.typeRep ::I.TypeRep b
+
+typeRepTyCon::TypeRep->TyCon-- the old typeOfN exports from the pre-PolyKinds days can-- also be trivially provided.
 ```
 
 ## The representation serialization problem

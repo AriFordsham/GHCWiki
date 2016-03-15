@@ -8,11 +8,14 @@ scheme, described most recently in
 
 == `GHC.Reflection`
 
-The user-visible interface of `GHC.Reflection` will look like this,
+The new type-indexed typeable machinery will be exposed via a new module
+(`GHC.Reflection` is chosen here, although this name is still up in the air;
+`Reflection` in particular has an unfortunate conflict with Edward Kmett's `reflection`
+library). The user-visible interface of `GHC.Reflection` will look like this,
 
 {{{#!hs
 -- The user-facing interface
-module GHC.Typeable where
+module GHC.Reflection where
 
 class Typeable (a :: k)
 
@@ -91,6 +94,52 @@ mkTrApp :: forall k1 k2 (a :: k1 -> k2) (b :: k1).
 -- However, we can't (easily) allow instantiation of TyCons since we have
 -- no way of producing the kind of the resulting type...
 --mkTrCon :: forall k (a :: k). TyCon -> [TypeRepX] -> TypeRep a
+}}}
+
+== Preserving compatibility with `Data.Typeable`
+
+Note how above we placed the new type-indexed typeable in an entirely new
+module. The goal of this is to preserve compatibility with the old
+`Data.Typeable`. Notice how the old `Data.Typeable.TypeRep` is essentially
+`TypeRepX` under the new scheme. This gives us a very nice compatibility story,
+as noted by Richard Eisenberg,
+{{{#!hs
+module Data.Typeable
+    ( I.Typeable
+    , module Data.Typeable
+    ) where
+
+import GHC.Reflection as I
+
+-- | A quantified type representation.
+type TypeRep = I.TypeRepX
+
+typeOf :: forall a. Typeable a => a -> TypeRep
+typeOf _ = I.typeRepX (Proxy :: Proxy a)
+
+typeRep :: forall proxy a. Typeable a => proxy a -> TypeRep
+typeRep = I.typeRepX
+
+cast :: forall a b. (Typeable a, Typeable b) => a -> Maybe b
+cast x
+  | Just HRefl <- ta `I.eqTypeRep` tb = Just x
+  | otherwise                         = Nothing
+  where
+    ta = I.typeRep :: I.TypeRep a
+    tb = I.typeRep :: I.TypeRep b
+
+eqT :: forall a b. (Typeable a, Typeable b) => Maybe (a :~: b)
+eqT
+  | Just HRefl <- ta `I.eqTypeRep` tb = Just Refl
+  | otherwise                         = Nothing
+  where
+    ta = I.typeRep :: I.TypeRep a
+    tb = I.typeRep :: I.TypeRep b
+
+typeRepTyCon :: TypeRep -> TyCon
+
+-- the old typeOfN exports from the pre-PolyKinds days can
+-- also be trivially provided.
 }}}
 
 == The representation serialization problem
