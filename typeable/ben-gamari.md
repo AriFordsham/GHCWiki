@@ -5,28 +5,28 @@ This is Ben Gamari's plan for moving ahead with the type-indexed `Typeable`
 scheme, described most recently in
 [ A reflection on types](http://research.microsoft.com/en-us/um/people/simonpj/papers/haskell-dynamic/).
 
-## `Data.Typeable`
+## `GHC.Reflection`
 
 
-The user-visible interface of `Data.Typeable` will look like this,
+The user-visible interface of `GHC.Reflection` will look like this,
 
 ```
--- The user-facing interfacemoduleData.TypeablewhereclassTypeable(a :: k)-- This is how we get the representation for a typetypeRep:: forall (a :: k).Typeable a =>TypeRep a 
+-- The user-facing interfacemoduleGHC.TypeablewhereclassTypeable(a :: k)-- This is how we get the representation for a typetypeRep:: forall (a :: k).Typeable a =>TypeRep a 
 
--- This is merely a record of some metadata about a type constructor.-- One of these is produced for every type defined in a module during its-- compilation.---- This should also carry a fingerprint; to address #7897 this fingerprint-- should hash not only the name of the tycon, but also the structure of its-- data constructorsdataTyContyConPackage::TyCon->StringtyConModule::TyCon->StringtyConName::TyCon->String-- A runtime type representation with O(1) access to a fingerprint.dataTypeRep(a :: k)instanceShow(TypeRep a)-- Since TypeRep is indexed by its type and must be a singleton we can trivially-- provide theseinstanceEq(TTypeRep a)where(==)__=TrueinstanceOrd(TTypeRep a)where compare __=EQ-- While TypeRep is abstract, we can pattern match against it:patternTRApp:: forall k2 (fun :: k2).()=> forall k1 (a :: k1 -> k2)(b :: k1).(fun ~ a b)=>TypeRep a ->TypeRep b ->TypeRep fun
+-- This is merely a record of some metadata about a type constructor.-- One of these is produced for every type defined in a module during its-- compilation.---- This should also carry a fingerprint; to address #7897 this fingerprint-- should hash not only the name of the tycon, but also the structure of its-- data constructorsdataTyContyConPackage::TyCon->StringtyConModule::TyCon->StringtyConName::TyCon->String-- A runtime type representation with O(1) access to a fingerprint.dataTypeRep(a :: k)instanceShow(TypeRep a)-- Since TypeRep is indexed by its type and must be a singleton we can trivially-- provide theseinstanceEq(TypeRep a)where(==)__=TrueinstanceOrd(TypeRep a)where compare __=EQ-- While TypeRep is abstract, we can pattern match against it:patternTRApp:: forall k2 (fun :: k2).()=> forall k1 (a :: k1 -> k2)(b :: k1).(fun ~ a b)=>TypeRep a ->TypeRep b ->TypeRep fun
 
--- Open question: Should this pattern include the kind of the constructor?-- It seems you often need it.patternTRCon:: forall k (a :: k).TyCon->TypeRep a
+-- Open question: Should this pattern include the kind of the constructor?-- In practice you often need it when you need the TyConpatternTRCon:: forall k (a :: k).TyCon->TypeRep a
 
 -- decompose functionspatternTRFun:: forall fun.()=> forall arg res.(fun ~(arg -> res))=>TypeRep arg
               ->TypeRep res
               ->TypeRep fun
 
--- We can also request the kind of a typetTypeRepKind::TypeRep(a :: k)->TypeRep k
+-- We can also request the kind of a typetypeRepKind::TypeRep(a :: k)->TypeRep k
 
--- and compare typeseqTypeRep:: forall k (a :: k)(b :: k).TypeRep a ->TypeRep b ->Maybe(a :~: b)eqTypeRep':: forall k1 k2 (a :: k1)(b :: k2).TypeRep a ->TypeRep b ->Maybe(a :~~: b)-- it can also be useful to quantify over the type such that we can, e.g.,-- index a map on a typedataTypeRepXwhereTypeRepX::TypeRep a ->TypeRepX-- these have some useful instancesinstanceEqTypeRepXinstanceOrdTypeRepXinstanceShowTypeRepX-- A `TypeRep a` gives rise to a `Typeable a` instance without loss of-- confluence.withTypeable::TypeRep a ->(Typeable a => b)-> b
+-- and compare typeseqTypeRep:: forall k (a :: k)(b :: k).TypeRep a ->TypeRep b ->Maybe(a :~: b)eqTypeRep':: forall k1 k2 (a :: k1)(b :: k2).TypeRep a ->TypeRep b ->Maybe(a :~~: b)-- it can also be useful to quantify over the type such that we can, e.g.,-- index a map on a typedataTypeRepXwhereTypeRepX:: forall a.TypeRep a ->TypeRepX-- these have some useful instancesinstanceEqTypeRepXinstanceOrdTypeRepXinstanceShowTypeRepX-- A `TypeRep a` gives rise to a `Typeable a` instance without loss of-- confluence.withTypeable::TypeRep a ->(Typeable a => b)-> b
 withTypeable= undefined
 
--- We can also allow the user to build up his own applicationsmkTrApp:: forall k1 k2 (a :: k1 -> k2)(b :: k1).TTypeRep(a :: k1 -> k2)->TTypeRep(b :: k1)->TTypeRep(a b)-- However, we can't (easily) allow instantiation of TyCons since we have-- no way of producing the kind of the resulting type...--mkTrCon :: forall k (a :: k). TyCon -> [TypeRep] -> TTypeRep a
+-- We can also allow the user to build up his own applicationsmkTrApp:: forall k1 k2 (a :: k1 -> k2)(b :: k1).TypeRep(a :: k1 -> k2)->TypeRep(b :: k1)->TypeRep(a b)-- However, we can't (easily) allow instantiation of TyCons since we have-- no way of producing the kind of the resulting type...--mkTrCon :: forall k (a :: k). TyCon -> [TypeRepX] -> TypeRep a
 ```
 
 ## The representation serialization problem
@@ -73,9 +73,6 @@ Now let's try deserialization.
 ### Deserialization
 
 
-We first need to consider which of these two types, `TypeRep` and `TypeRepX`, we want to imp
-
-
 First, we need to define how deserialization should behave. For instance, defining
 
 ```
@@ -84,89 +81,48 @@ getTypeRep::Get(TypeRep a)
 
 
 is a non-starter as we have no way to verify that the representation that we
-read plausibly represents the type `a` that the user requests.
+deserialize plausibly represents the type `a` that the user requests.
 
 
-For this we need more information: a `Typeable` dictionary,
-
-```
-getTypeRep::TypeRep a ->Get(TypeRep a)getTypeRep ty =do
-    tag <- get ::GetWord8case tag of0|TRCon con <- ty  ->do
-            con' <- get
-            when (con' /= con)$ fail "Binary: Mismatched type constructors"
-            getTypeRep (typeRepKind ty)1|TRApp rep_f rep_x <- ty  ->do
-            getTypeRep rep_f
-            getTypeRep rep_x
-    pure ty
-```
-
-
-Note how here we aren't even constructing a new representation; we are merely
-verifying that what we deserialize matches the representation that we expect.
-Of course, the fact that we must know the type we are trying to deserialize
-means that `getTypeRep` isn't terribly useful on its own; it certainly won't
-help us to deserialize a `TMap`.
-
-
-Then what of `TypeRepX`? We clearly can't use the `getTypeRep` defined above
-since it requires that we already know which type we expect.
-If we are willing to bypass the typechecker entirely, we can deserialize thusly,
+Instead, let's first consider `TypeRepX`,
 
 ```
 getTypeRepX::GetTypeRepXgetTypeRepX=do
-    tag <- get ::GetWord8case tag of0->do
-            con <- get
-            TypeRepX rep_k <- getTypeRepX
-            pure $TypeRepX$ mkTyCon con (unsafeCoerce rep_k)1->doTypeRepX rep_f <- getTypeRepX
-            TypeRepX rep_x <- getTypeRepX
-            pure $TypeRepX$ mkTRApp (unsafeCoerce rep_f) rep_x
+    tag <- get ::GetWord8case tag of0->do con <- get ::GetTyConTypeRepX rep_k <- getTypeRepX
+                case rep_k `eqTypeRep`(typeRep ::TypeRepType)ofJustHRefl-> pure $TypeRepX$ mkTrCon con rep_k
+                    Nothing-> fail "getTypeRepX: Kind mismatch"1->doTypeRepX f <- getTypeRepX
+                TypeRepX x <- getTypeRepX
+                case typeRepKind f ofTRFun arg _|JustHRefl<- arg `eqTypeRep` x ->
+                      pure $TypeRepX$ mkTrApp f x
+                    _-> fail "getTypeRepX: Kind mismatch"_-> fail "getTypeRepX: Invalid TypeRepX"
 ```
 
 
-The `unsafeCoerce`s here appear as though they draw the deserialization
-implementation into the trusted codebase. That being said, the consequences for
-a user being able to construct an ill-kinded representation inside of a
-`TypeRepX` are not so significant; this is because most of the
-type-safety-critical operations that we expose require a `TypeRep`, which the
-type system will disallow us from producing from an ill-kinded `TypeRepX` (TODO
-This requires more careful reasoning).
+Note how we need to invoke type equality here to ensure,
+
+- in the case of a tycon: that the tycon's kind is `Type` (as all kinds must be in the `TypeInType` scheme)
+- in the case of applications `f x`:
+
+  - that the type `f` is indeed an arrow
+  - that the type `f` is applied at the type `x` that it expects
 
 
-If this is indeed safe, then this fact should be factored out into something like,
+Given this we can easily implement `TypeRep a` given a representation of the expected `a`,
 
 ```
-mkTrConX::TyCon->TypeRepX->TypeRepXmkTrConX tc (TypeRepX kind)=TypeRepX$ mkTyCon tc (unsafeCoerce kind)mkTrAppX::TypeRepX->TypeRepX->TypeRepXmkTrAppX(TypeRepX f)(TypeRepX x)=TypeRepX$ mkTRApp (unsafeCoerce f) x
+getTypeRep::Typeable a =>Get(TypeRep a)getTypeRep=doTypeRepX rep <- getTypeRepX
+   case rep `eqTypeRep`(typeRep ::TypeRep a)ofJustHRefl-> pure rep
+       Nothing-> fail "Binary: Type mismatch"
 ```
-
-
-Admittedly, exposing these does feel a bit odd as they totally break the
-assumption that a `TypeRepX` wraps a valid type, even in the absence of
-deserialization.
 
 ### Through static data?
 
 
-On might have the idea that the solution here may be to avoid encoding
+One might have the idea that the solution here may be to avoid encoding
 representations at all: instead use GHC's existing support for static data, e.g.
-add `TypeRep a` entries to the static pointer table for every known type. But of
-course, this is unrealistic: we have no way of enumerating the types that must
+add `TypeRep a` entries to the static pointer table for every known type. One will quickly realize, however, that
+this is unrealistic: we have no way of enumerating the types that must
 be considered and even if we did, there would be very many of them.
-
-### Through an un-indexed representation?
-
-
-The "give up" approach is to simply project the type-indexed `TypeRep` onto
-something that is totally untyped,
-
-```
--- | A serializable type representationdataTypeRepS=TypeConSTyCon|TypeAppSTypeRepSTypeRepStoTypeRep::TypeRepS->Maybe(TypeRep a)toTypeRepX::TypeRepS->TypeRepXfromTypeRep::TypeRep a ->TypeRepSfromTypeRepX::TypeRepX->TypeRepS
-```
-
-`TypeRepS` is now just plain old data, requiring nothing special for
-serialization and deserialization. However, this gives us an awkward third
-variety of type representation. Moreover, if you may use `TypeRepX` or must
-use `TypeRepS` is solely determined by the rather incidental matter of whether
-you need serialization.
 
 ## `Data.Dynamic`
 

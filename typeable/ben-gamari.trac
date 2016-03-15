@@ -6,13 +6,13 @@ scheme, described most recently in
 
 [[PageOutline]]
 
-== `Data.Typeable`
+== `GHC.Reflection`
 
-The user-visible interface of `Data.Typeable` will look like this,
+The user-visible interface of `GHC.Reflection` will look like this,
 
 {{{#!hs
 -- The user-facing interface
-module Data.Typeable where
+module GHC.Typeable where
 
 class Typeable (a :: k)
 
@@ -39,8 +39,8 @@ instance Show (TypeRep a)
 
 -- Since TypeRep is indexed by its type and must be a singleton we can trivially
 -- provide these
-instance Eq (TTypeRep a)  where (==) _ _    = True
-instance Ord (TTypeRep a) where compare _ _ = EQ
+instance Eq (TypeRep a)  where (==) _ _    = True
+instance Ord (TypeRep a) where compare _ _ = EQ
 
 -- While TypeRep is abstract, we can pattern match against it:
 pattern TRApp :: forall k2 (fun :: k2). ()
@@ -48,7 +48,7 @@ pattern TRApp :: forall k2 (fun :: k2). ()
               => TypeRep a -> TypeRep b -> TypeRep fun
 
 -- Open question: Should this pattern include the kind of the constructor?
--- It seems you often need it.
+-- In practice you often need it when you need the TyCon
 pattern TRCon :: forall k (a :: k). TyCon -> TypeRep a
 
 -- decompose functions
@@ -59,7 +59,7 @@ pattern TRFun :: forall fun. ()
               -> TypeRep fun
 
 -- We can also request the kind of a type
-tTypeRepKind :: TypeRep (a :: k) -> TypeRep k
+typeRepKind :: TypeRep (a :: k) -> TypeRep k
 
 -- and compare types
 eqTypeRep  :: forall k (a :: k) (b :: k).
@@ -70,7 +70,7 @@ eqTypeRep' :: forall k1 k2 (a :: k1) (b :: k2).
 -- it can also be useful to quantify over the type such that we can, e.g.,
 -- index a map on a type
 data TypeRepX where
-    TypeRepX :: TypeRep a -> TypeRepX
+    TypeRepX :: forall a. TypeRep a -> TypeRepX
 
 -- these have some useful instances
 instance Eq TypeRepX
@@ -84,13 +84,13 @@ withTypeable = undefined
 
 -- We can also allow the user to build up his own applications
 mkTrApp :: forall k1 k2 (a :: k1 -> k2) (b :: k1).
-           TTypeRep (a :: k1 -> k2)
-        -> TTypeRep (b :: k1)
-        -> TTypeRep (a b)
+           TypeRep (a :: k1 -> k2)
+        -> TypeRep (b :: k1)
+        -> TypeRep (a b)
 
 -- However, we can't (easily) allow instantiation of TyCons since we have
 -- no way of producing the kind of the resulting type...
---mkTrCon :: forall k (a :: k). TyCon -> [TypeRep] -> TTypeRep a
+--mkTrCon :: forall k (a :: k). TyCon -> [TypeRepX] -> TypeRep a
 }}}
 
 == The representation serialization problem
@@ -136,99 +136,57 @@ Now let's try deserialization.
 
 === Deserialization
 
-We first need to consider which of these two types, `TypeRep` and `TypeRepX`, we want to imp
-
 First, we need to define how deserialization should behave. For instance, defining
 {{{#!hs
 getTypeRep :: Get (TypeRep a)
 }}}
 is a non-starter as we have no way to verify that the representation that we
-read plausibly represents the type `a` that the user requests.
+deserialize plausibly represents the type `a` that the user requests.
 
-For this we need more information: a `Typeable` dictionary,
-{{{#!hs
-getTypeRep :: TypeRep a -> Get (TypeRep a)
-getTypeRep ty = do
-    tag <- get :: Get Word8
-    case tag of
-        0 | TRCon con <- ty  -> do
-            con' <- get
-            when (con' /= con) $ fail "Binary: Mismatched type constructors"
-            getTypeRep (typeRepKind ty)
-        1 | TRApp rep_f rep_x <- ty  -> do
-            getTypeRep rep_f
-            getTypeRep rep_x
-    pure ty
-}}}
-Note how here we aren't even constructing a new representation; we are merely
-verifying that what we deserialize matches the representation that we expect.
-Of course, the fact that we must know the type we are trying to deserialize
-means that `getTypeRep` isn't terribly useful on its own; it certainly won't
-help us to deserialize a `TMap`.
-
-Then what of `TypeRepX`? We clearly can't use the `getTypeRep` defined above
-since it requires that we already know which type we expect.
-If we are willing to bypass the typechecker entirely, we can deserialize thusly,
+Instead, let's first consider `TypeRepX`,
 {{{#!hs
 getTypeRepX :: Get TypeRepX
 getTypeRepX = do
     tag <- get :: Get Word8
     case tag of
-        0 -> do
-            con <- get
-            TypeRepX rep_k <- getTypeRepX
-            pure $ TypeRepX $ mkTyCon con (unsafeCoerce rep_k)
-        1 -> do
-            TypeRepX rep_f <- getTypeRepX
-            TypeRepX rep_x <- getTypeRepX
-            pure $ TypeRepX $ mkTRApp (unsafeCoerce rep_f) rep_x
-}}}
-The `unsafeCoerce`s here appear as though they draw the deserialization
-implementation into the trusted codebase. That being said, the consequences for
-a user being able to construct an ill-kinded representation inside of a
-`TypeRepX` are not so significant; this is because most of the
-type-safety-critical operations that we expose require a `TypeRep`, which the
-type system will disallow us from producing from an ill-kinded `TypeRepX` (TODO:
-This requires more careful reasoning).
+        0 -> do con <- get :: Get TyCon
+                TypeRepX rep_k <- getTypeRepX
+                case rep_k `eqTypeRep` (typeRep :: TypeRep Type) of
+                    Just HRefl -> pure $ TypeRepX $ mkTrCon con rep_k
+                    Nothing    -> fail "getTypeRepX: Kind mismatch"
 
-If this is indeed safe, then this fact should be factored out into something like,
-{{{#!hs
-mkTrConX :: TyCon -> TypeRepX -> TypeRepX
-mkTrConX tc (TypeRepX kind) = TypeRepX $ mkTyCon tc (unsafeCoerce kind)
-mkTrAppX :: TypeRepX -> TypeRepX -> TypeRepX
-mkTrAppX (TypeRepX f) (TypeRepX x) = TypeRepX $ mkTRApp (unsafeCoerce f) x
+        1 -> do TypeRepX f <- getTypeRepX
+                TypeRepX x <- getTypeRepX
+                case typeRepKind f of
+                    TRFun arg _ | Just HRefl <- arg `eqTypeRep` x ->
+                      pure $ TypeRepX $ mkTrApp f x
+                    _ -> fail "getTypeRepX: Kind mismatch"
+        _ -> fail "getTypeRepX: Invalid TypeRepX"
 }}}
-Admittedly, exposing these does feel a bit odd as they totally break the
-assumption that a `TypeRepX` wraps a valid type, even in the absence of
-deserialization.
+Note how we need to invoke type equality here to ensure,
+
+ * in the case of a tycon: that the tycon's kind is `Type` (as all kinds must be in the `TypeInType` scheme)
+ * in the case of applications `f x`:
+  * that the type `f` is indeed an arrow
+  * that the type `f` is applied at the type `x` that it expects
+
+Given this we can easily implement `TypeRep a` given a representation of the expected `a`,
+{{{#!hs
+getTypeRep :: Typeable a => Get (TypeRep a)
+getTypeRep = do
+   TypeRepX rep <- getTypeRepX
+   case rep `eqTypeRep` (typeRep :: TypeRep a) of
+       Just HRefl -> pure rep
+       Nothing    -> fail "Binary: Type mismatch"
+}}}
 
 === Through static data?
 
-On might have the idea that the solution here may be to avoid encoding
+One might have the idea that the solution here may be to avoid encoding
 representations at all: instead use GHC's existing support for static data, e.g.
-add `TypeRep a` entries to the static pointer table for every known type. But of
-course, this is unrealistic: we have no way of enumerating the types that must
+add `TypeRep a` entries to the static pointer table for every known type. One will quickly realize, however, that
+this is unrealistic: we have no way of enumerating the types that must
 be considered and even if we did, there would be very many of them.
-
-=== Through an un-indexed representation?
-
-The "give up" approach is to simply project the type-indexed `TypeRep` onto
-something that is totally untyped,
-{{{#!hs
--- | A serializable type representation
-data TypeRepS = TypeConS TyCon
-              | TypeAppS TypeRepS TypeRepS
-
-toTypeRep    :: TypeRepS -> Maybe (TypeRep a)
-toTypeRepX   :: TypeRepS -> TypeRepX
-fromTypeRep  :: TypeRep a -> TypeRepS
-fromTypeRepX :: TypeRepX  -> TypeRepS
-}}}
-`TypeRepS` is now just plain old data, requiring nothing special for
-serialization and deserialization. However, this gives us an awkward third
-variety of type representation. Moreover, if you may use `TypeRepX` or must
-use `TypeRepS` is solely determined by the rather incidental matter of whether
-you need serialization.
 
 == `Data.Dynamic`
 
