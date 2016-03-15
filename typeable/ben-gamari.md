@@ -115,7 +115,7 @@ is a non-starter as we have no way to verify that the representation that we
 deserialize plausibly represents the type `a` that the user requests.
 
 
-Instead, let's first consider `TypeRepX`,
+Instead, let's first consider `TypeRepX` (thanks to Adam Gundry for his guidance),
 
 ```
 getTypeRepX::GetTypeRepXgetTypeRepX=do
