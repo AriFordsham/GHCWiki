@@ -16,7 +16,7 @@ library). The user-visible interface of `GHC.Reflection` will look like this,
 ```
 -- The user-facing interfacemoduleGHC.ReflectionwhereclassTypeable(a :: k)-- This is how we get the representation for a typetypeRep:: forall (a :: k).Typeable a =>TypeRep a 
 
--- This is merely a record of some metadata about a type constructor.-- One of these is produced for every type defined in a module during its-- compilation.---- This should also carry a fingerprint; to address #7897 this fingerprint-- should hash not only the name of the tycon, but also the structure of its-- data constructorsdataTyContyConPackage::TyCon->StringtyConModule::TyCon->StringtyConName::TyCon->String-- A runtime type representation with O(1) access to a fingerprint.dataTypeRep(a :: k)instanceShow(TypeRep a)-- Since TypeRep is indexed by its type and must be a singleton we can trivially-- provide theseinstanceEq(TypeRep a)where(==)__=TrueinstanceOrd(TypeRep a)where compare __=EQ-- While TypeRep is abstract, we can pattern match against it:patternTRApp:: forall k2 (fun :: k2).()=> forall k1 (a :: k1 -> k2)(b :: k1).(fun ~ a b)=>TypeRep a ->TypeRep b ->TypeRep fun
+-- This is merely a record of some metadata about a type constructor.-- One of these is produced for every type defined in a module during its-- compilation.---- This should also carry a fingerprint; to address #7897 this fingerprint-- should hash not only the name of the tycon, but also the structure of its-- data constructorsdataTyContyConPackage::TyCon->StringtyConModule::TyCon->StringtyConName::TyCon->String-- A runtime type representation with O(1) access to a fingerprint.dataTypeRep(a :: k)instanceShow(TypeRep a)-- Since TypeRep is indexed by its type and must be a singleton we can trivially-- provide theseinstanceEq(TypeRep a)where(==)__=TrueinstanceOrd(TypeRep a)where compare __=EQ-- While TypeRep is abstract, we can pattern match against it.-- This can be a bi-directional pattern (using mkTrApp for construction).patternTRApp:: forall k2 (fun :: k2).()=> forall k1 (a :: k1 -> k2)(b :: k1).(fun ~ a b)=>TypeRep a ->TypeRep b ->TypeRep fun
 
 -- Open question: Should this pattern include the kind of the constructor?-- In practice you often need it when you need the TyConpatternTRCon:: forall k (a :: k).TyCon->TypeRep a
 
@@ -154,6 +154,25 @@ representations at all: instead use GHC's existing support for static data, e.g.
 add `TypeRep a` entries to the static pointer table for every known type. One will quickly realize, however, that
 this is unrealistic: we have no way of enumerating the types that must
 be considered and even if we did, there would be very many of them.
+
+## Type-indexed `TyCon`s
+
+
+Under the above proposal `TyCon` is merely a record of static metadata; it has no
+type information and consequently the user is quite limited in what they can do with it.
+Another point in the design space would be to add a type index to `TyCon`,
+
+```
+-- metadata describing a tycondataTyConMeta=TyConMeta{ tyConPackage ::String, tyConModule  ::String, tyConName    ::String}newtypeTyCon(a :: k)=TyConTyConMetapatternTRCon::TyCon a ->TypeRep a
+
+-- which allows us to providemkTyCon::TyCon a ->TypeRep a
+```
+
+
+While this is something that we could do, I have yet to see a compelling reason
+why we **should** do it. The only way you can produce a `TyCon` is from a `TypeRep`,
+so ultimately you should be able to accomplish everything you can with type-index
+`TyCon`s by just not destructuring the `TypeRep` from which it arose.
 
 ## `Data.Dynamic`
 
