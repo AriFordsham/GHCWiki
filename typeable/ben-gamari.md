@@ -176,7 +176,7 @@ so ultimately you should be able to accomplish everything you can with type-inde
 
 ## `Data.Dynamic`
 
-`Dynamic` doesn't really change,
+`Dynamic` is largely unchanged although it would be best to drop the re-export of `Data.Typeable`,
 
 ```
 moduleData.Dynamicwhere-- Dynamic itself no longer needs to be abstractdataDynamicwhereDynamic::TypeRep a -> a ->Dynamic-- ConstructiontoDynR::TypeRep a -> a ->DynamictoDyn::Typeable a => a ->Dynamic-- EliminationfromDynamicR::TypeRep a ->Dynamic->Maybe a
