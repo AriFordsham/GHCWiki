@@ -5,16 +5,16 @@ This is Ben Gamari's plan for moving ahead with the type-indexed `Typeable`
 scheme, described most recently in
 [ A reflection on types](http://research.microsoft.com/en-us/um/people/simonpj/papers/haskell-dynamic/).
 
-## `GHC.Reflection`
+## `Type.Reflection`
 
 
 The new type-indexed typeable machinery will be exposed via a new module
-(`GHC.Reflection` is chosen here, although this name is still up in the air;
+(`Type.Reflection` is chosen here, although this name is still up in the air;
 `Reflection` in particular has an unfortunate conflict with Edward Kmett's `reflection`
 library). The user-visible interface of `GHC.Reflection` will look like this,
 
 ```
--- The user-facing interfacemoduleGHC.ReflectionwhereclassTypeable(a :: k)-- This is how we get the representation for a typetypeRep:: forall (a :: k).Typeable a =>TypeRep a 
+-- The user-facing interfacemoduleType.ReflectionwhereclassTypeable(a :: k)-- This is how we get the representation for a typetypeRep:: forall (a :: k).Typeable a =>TypeRep a 
 
 -- This is merely a record of some metadata about a type constructor.-- One of these is produced for every type defined in a module during its-- compilation.---- This should also carry a fingerprint; to address #7897 this fingerprint-- should hash not only the name of the tycon, but also the structure of its-- data constructorsdataTyContyConPackage::TyCon->StringtyConModule::TyCon->StringtyConName::TyCon->String-- A runtime type representation with O(1) access to a fingerprint.dataTypeRep(a :: k)instanceShow(TypeRep a)-- Since TypeRep is indexed by its type and must be a singleton we can trivially-- provide theseinstanceEq(TypeRep a)where(==)__=TrueinstanceOrd(TypeRep a)where compare __=EQ-- While TypeRep is abstract, we can pattern match against it.-- This can be a bi-directional pattern (using mkTrApp for construction).patternTRApp:: forall k2 (fun :: k2).()=> forall k1 (a :: k1 -> k2)(b :: k1).(fun ~ a b)=>TypeRep a ->TypeRep b ->TypeRep fun
 
