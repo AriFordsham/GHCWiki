@@ -11,7 +11,7 @@ scheme, described most recently in
 The new type-indexed typeable machinery will be exposed via a new module
 (`Type.Reflection` is chosen here, although this name is still up in the air;
 `Reflection` in particular has an unfortunate conflict with Edward Kmett's `reflection`
-library). The user-visible interface of `GHC.Reflection` will look like this,
+library). The user-visible interface of `Type.Reflection` will look like this,
 
 ```
 -- The user-facing interfacemoduleType.ReflectionwhereclassTypeable(a :: k)-- This is how we get the representation for a typetypeRep:: forall (a :: k).Typeable a =>TypeRep a 
