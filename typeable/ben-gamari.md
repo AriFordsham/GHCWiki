@@ -42,7 +42,7 @@ module. The goal of this is to preserve compatibility with the old
 as noted by Richard Eisenberg,
 
 ```
-moduleData.Typeable(I.Typeable,moduleData.Typeable)whereimportGHC.Reflectionas I
+moduleData.Typeable(I.Typeable,moduleData.Typeable)whereimportType.Reflectionas I
 
 -- | A quantified type representation.typeTypeRep=I.TypeRepXtypeOf:: forall a.Typeable a => a ->TypeReptypeOf_=I.typeRepX (Proxy::Proxy a)typeRep:: forall proxy a.Typeable a => proxy a ->TypeReptypeRep=I.typeRepX
 

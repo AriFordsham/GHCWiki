@@ -110,7 +110,7 @@ module Data.Typeable
     , module Data.Typeable
     ) where
 
-import GHC.Reflection as I
+import Type.Reflection as I
 
 -- | A quantified type representation.
 type TypeRep = I.TypeRepX
