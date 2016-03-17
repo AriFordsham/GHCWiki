@@ -263,10 +263,13 @@ type itself
 ```
 dataTypeRep(a :: k)whereTrTyCon::!Fingerprint->!TyCon->TypeRep k ->TypeRep(a :: k)TrApp:: forall k1 k2 (a :: k1 -> k2)(b :: k1).!Fingerprint->TypeRep a
             ->TypeRep b
-            ->TypeRep(a b)TrArrow:: forall rep1 rep2 (a ::TYPE rep1)(b ::TYPE rep2).!Fingerprint->TypeRep a
-            ->TypeRep b
-            ->TypeRep(a -> b)TrTYPE::TypeRepTYPETrType::TypeRep(TYPE'PtrRepLifted)TrRuntimeRep::TypeRepRuntimeRepTr'PtrRepLifted::TypeRep'PtrRepLifted
+            ->TypeRep(a b)TrArrow:: forall k1 k2.!Fingerprint->TypeRep k1
+            ->TypeRep k2
+            ->TypeRep((->):: k1 -> k2 ->*)TrTYPE::TypeRepTYPETrType::TypeRep(TYPE'PtrRepLifted)TrRuntimeRep::TypeRepRuntimeRepTr'PtrRepLifted::TypeRep'PtrRepLifted
 ```
+
+
+(although `TrArrow` won't quite work yet due to [\#11714](https://gitlab.haskell.org//ghc/ghc/issues/11714))
 
 
 With this we can easily write `typeRepKind`,
@@ -276,7 +279,8 @@ typeRepKind:: forall k (a :: k).TypeRep a ->TypeRep k
 -- these cases are unchanged...typeRepKind(TrTyCon__ k)= k
 typeRepKind(TrApp_ f _)=case typeRepKind f ofTRFun _arg res -> res
 
--- these are new...typeRepKind(TrArrow__)= mkTrArrow (mkTrArrow TrRuntimeReptypeRepKindTrTYPE= mkTrArrow TrRuntimeRepTrTypetypeRepKindTrType=TrTypetypeRepKindTrRuntimeRep=TrTypetypeRepKindTr'PtrRepLifted=TrRuntimeRep
+-- these are new...typeRepKind(TrArrow x y)= mkTrApp (mkTrApp (TrArrowTrTypeTrType) x) y
+typeRepKindTrTYPE= mkTrApp TrRuntimeRepTrTypetypeRepKindTrType=TrTypetypeRepKindTrRuntimeRep=TrTypetypeRepKindTr'PtrRepLifted=TrRuntimeRep
 ```
 
 
@@ -286,7 +290,7 @@ Although providing pattern synonyms to allow decomposition of, e.g.,
 ```
 -- Just as above, we can decompose applications but we-- now need to define it in terms of the splitApp helper,patternTRApp:: forall k2 (fun :: k2).()=> forall k1 (a :: k1 -> k2)(b :: k1).(fun ~ a b)=>TypeRep a ->TypeRep b ->TypeRep fun
 patternTRApp x y =(splitApp ->Just(App x y))dataAppResult(t :: k)whereApp::TypeRep a ->TypeRep b ->AppResult(a b)splitApp::TypeRep a ->Maybe(AppResult a)splitApp(TrTyCon___)=NothingsplitApp(TrApp_ f x)=Just$App f x
-splitApp(TrArrow_ f x)=Just$App(mkTrApp TrArrow f) x
+splitApp(TrArrow_ x y)=Just$App(mkTrApp (TrArrow(typeRepKind x)(typeRepKind y)) x) y
 splitAppTrTYPE=NothingsplitAppTrType=Just$AppTrTYPETr'PtrRepLiftedsplitAppTrRuntimeRep=NothingsplitAppTr'PtrRepLifted=Nothing
 ```
 
