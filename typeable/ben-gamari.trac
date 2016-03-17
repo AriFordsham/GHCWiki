@@ -334,9 +334,13 @@ The implementation of the above plan shares a great deal with the previous
  2. When solving for a `Typeable` constraint: We produce a dictionary referring
     to `TyCon` binding associated with the type for which `Typeable` is needed.
 
-Step (1) is essentially unchanged from the previous implementation. Step
-(2), however, changes slightly in that it needs to produce evidence for
-the kind of type.
+Step (1) is essentially unchanged from the previous implementation. There's
+nothing particularly interesting here other than some tiresome details regarding
+generating representations for primitive types, which doesn't really change (see
+`Note [The Grand Typeable Story]` in `TcTypeable` for details).
+
+Step (2), however, changes slightly in that it needs to produce evidence for the
+kind of type.
 
 `Typeable` evidence is merely a `TypeRep`,
 {{{#!hs
