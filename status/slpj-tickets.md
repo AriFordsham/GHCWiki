@@ -2,6 +2,7 @@
 
 ## Urgent or in-flight
 
+- [\#11670](https://gitlab.haskell.org//ghc/ghc/issues/11670): how should partial type signatures be generalised?
 - [\#11698](https://gitlab.haskell.org//ghc/ghc/issues/11698): `tct_closed` flag is set wrong
 - [\#11371](https://gitlab.haskell.org//ghc/ghc/issues/11371): bogus in-scope set for substitution
 - [\#9479](https://gitlab.haskell.org//ghc/ghc/issues/9479), [\#10954](https://gitlab.haskell.org//ghc/ghc/issues/10954), [\#9091](https://gitlab.haskell.org//ghc/ghc/issues/9091): more info in "hole" error messages
