@@ -32,7 +32,6 @@
 - [\#9649](https://gitlab.haskell.org//ghc/ghc/issues/9649): Proper type-level strings
 - [\#9667](https://gitlab.haskell.org//ghc/ghc/issues/9667): Don't make tyvars untouchable when a GADT pattern-match isn't informative
 - [\#9883](https://gitlab.haskell.org//ghc/ghc/issues/9883): Heterogeneous `OverloadedLists`
-- [\#10075](https://gitlab.haskell.org//ghc/ghc/issues/10075): `Constraint` vs `*`
 - [\#10114](https://gitlab.haskell.org//ghc/ghc/issues/10114): Non-`*` bodies of foralls
 - [\#10318](https://gitlab.haskell.org//ghc/ghc/issues/10318): Allow superclass cycles
 
@@ -40,6 +39,7 @@
 - [\#10581](https://gitlab.haskell.org//ghc/ghc/issues/10581): Recommend ScopedTypeVariables
 - [\#10836](https://gitlab.haskell.org//ghc/ghc/issues/10836): Continue reporting errors between mut. rec. groups
 - [\#11113](https://gitlab.haskell.org//ghc/ghc/issues/11113): Semantics for type-level reduction
+- [\#11715](https://gitlab.haskell.org//ghc/ghc/issues/11715): `Constraint` vs `*`
 
 **Hard**
 
