@@ -55,7 +55,7 @@ pattern TRApp :: forall k2 (fun :: k2). ()
 -- In practice you often need it when you need the TyCon
 pattern TRCon :: forall k (a :: k). TyCon -> TypeRep a
 
--- decompose functions
+-- Decompose functions, also bidirectional
 pattern TRFun :: forall fun. ()
               => forall arg res. (fun ~ (arg -> res))
               => TypeRep arg
@@ -414,13 +414,13 @@ typeRepKind Tr'PtrRepLifted = TrRuntimeRep
 }}}
 
 Although providing pattern synonyms to allow decomposition of, e.g.,
-`TYPE 'PtrTypeLifted` is a bit trickier,
+`TYPE 'PtrTypeLifted` becomes a bit trickier,
 {{{#!hs
 -- Just as above, we can decompose applications but we
 -- now need to define it in terms of the splitApp helper,
-pattern TRApp :: forall k2 (fun :: k2). ()
-              => forall k1 (a :: k1 -> k2) (b :: k1). (fun ~ a b)
-              => TypeRep a -> TypeRep b -> TypeRep fun
+pattern TRApp :: forall k2 (t :: k2). ()
+              => forall k1 (a :: k1 -> k2) (b :: k1). (t ~ a b)
+              => TypeRep a -> TypeRep b -> TypeRep t
 pattern TRApp x y = (splitApp -> Just (App x y))
 
 data AppResult (t :: k) where
@@ -436,5 +436,20 @@ splitApp TrRuntimeRep    = Nothing
 splitApp Tr'PtrRepLifted = Nothing
 }}}
 
-I'm not yet certain whether this approach would be an improvement over the
-current state of affairs.
+Pretty much everything else follows from this. For instance `TRFun`,
+{{{#!hs
+pattern TRFun :: forall fun. ()
+              => forall arg res. (fun ~ (arg -> res))
+              => TypeRep arg
+              -> TypeRep res
+              -> TypeRep fun
+pattern TRFun arg res <- TRApp _ (TRApp _ (TrArrow _ _) arg) res where
+    TRFun arg res = mkTrApp (mkTrApp trArrow arg) res
+}}}
+
+This approach trades some boilerplate complexity for a more complex
+representation type. I'm not yet certain whether it would be an improvement over
+the current state of affairs. It has the disadvantage that the implementation
+needs to take care to normalize representations that it builds (e.g. prefer
+`TrType` to `TrApp TrTYPE Tr'PtrRepLifted`). That being said, it may be a bit
+more efficient for the compiler to produce dictionaries in this form.

@@ -20,7 +20,7 @@ library). The user-visible interface of `Type.Reflection` will look like this,
 
 -- Open question: Should this pattern include the kind of the constructor?-- In practice you often need it when you need the TyConpatternTRCon:: forall k (a :: k).TyCon->TypeRep a
 
--- decompose functionspatternTRFun:: forall fun.()=> forall arg res.(fun ~(arg -> res))=>TypeRep arg
+-- Decompose functions, also bidirectionalpatternTRFun:: forall fun.()=> forall arg res.(fun ~(arg -> res))=>TypeRep arg
               ->TypeRep res
               ->TypeRep fun
 
@@ -285,15 +285,29 @@ typeRepKindTrTYPE= mkTrApp TrRuntimeRepTrTypetypeRepKindTrType=TrTypetypeRepKind
 
 
 Although providing pattern synonyms to allow decomposition of, e.g.,
-`TYPE 'PtrTypeLifted` is a bit trickier,
+`TYPE 'PtrTypeLifted` becomes a bit trickier,
 
 ```
--- Just as above, we can decompose applications but we-- now need to define it in terms of the splitApp helper,patternTRApp:: forall k2 (fun :: k2).()=> forall k1 (a :: k1 -> k2)(b :: k1).(fun ~ a b)=>TypeRep a ->TypeRep b ->TypeRep fun
+-- Just as above, we can decompose applications but we-- now need to define it in terms of the splitApp helper,patternTRApp:: forall k2 (t :: k2).()=> forall k1 (a :: k1 -> k2)(b :: k1).(t ~ a b)=>TypeRep a ->TypeRep b ->TypeRep t
 patternTRApp x y =(splitApp ->Just(App x y))dataAppResult(t :: k)whereApp::TypeRep a ->TypeRep b ->AppResult(a b)splitApp::TypeRep a ->Maybe(AppResult a)splitApp(TrTyCon___)=NothingsplitApp(TrApp_ f x)=Just$App f x
 splitApp(TrArrow_ x y)=Just$App(mkTrApp (TrArrow(typeRepKind x)(typeRepKind y)) x) y
 splitAppTrTYPE=NothingsplitAppTrType=Just$AppTrTYPETr'PtrRepLiftedsplitAppTrRuntimeRep=NothingsplitAppTr'PtrRepLifted=Nothing
 ```
 
 
-I'm not yet certain whether this approach would be an improvement over the
-current state of affairs.
+Pretty much everything else follows from this. For instance `TRFun`,
+
+```
+patternTRFun:: forall fun.()=> forall arg res.(fun ~(arg -> res))=>TypeRep arg
+              ->TypeRep res
+              ->TypeRep fun
+patternTRFun arg res <-TRApp_(TRApp_(TrArrow__) arg) res whereTRFun arg res = mkTrApp (mkTrApp trArrow arg) res
+```
+
+
+This approach trades some boilerplate complexity for a more complex
+representation type. I'm not yet certain whether it would be an improvement over
+the current state of affairs. It has the disadvantage that the implementation
+needs to take care to normalize representations that it builds (e.g. prefer
+`TrType` to `TrApp TrTYPE Tr'PtrRepLifted`). That being said, it may be a bit
+more efficient for the compiler to produce dictionaries in this form.
