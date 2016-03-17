@@ -149,7 +149,7 @@ getTypeRep::Typeable a =>Get(TypeRep a)getTypeRep=doTypeRepX rep <- getTypeRepX
        Nothing-> fail "Binary: Type mismatch"
 ```
 
-### Through static data?
+### Alternative: Through static data?
 
 
 One might have the idea that the solution here may be to avoid encoding
@@ -158,7 +158,7 @@ add `TypeRep a` entries to the static pointer table for every known type. One wi
 this is unrealistic: we have no way of enumerating the types that must
 be considered and even if we did, there would be very many of them.
 
-## Type-indexed `TyCon`s
+## Alternative: Type-indexed `TyCon`s?
 
 
 Under the above proposal `TyCon` is merely a record of static metadata; it has no
@@ -259,7 +259,7 @@ and it would be wasteful to replicate representations for them.
 Instead, the implementation manually defines representations for these types in
 `Data.Typeable.Internal` and using these definitions instead of generated bindings.
 
-### An alternative
+### Alternative: Richer `TypeRep`
 
 
 Another approach would be to to encode these special cases in the `TypeRep`
