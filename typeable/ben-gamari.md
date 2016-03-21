@@ -5,6 +5,33 @@ This is Ben Gamari's plan for moving ahead with the type-indexed `Typeable`
 scheme, described most recently in
 [ A reflection on types](http://research.microsoft.com/en-us/um/people/simonpj/papers/haskell-dynamic/).
 
+## Status
+
+
+A branch with the current state of things can be found [ here](https://github.com/ghc/ghc/compare/master...bgamari:wip/ttypeable). There is also an intermittently-updated Phabricator differential, [ Phab:D2010](https://phabricator.haskell.org/D2010). It's still rather preliminary however it does give you a working stage2 compiler with functional type-indexed type representations and what I believe is a pretty reasonable set of interfaces, described below.
+
+
+There are a number of tasks outstanding:
+
+- Fix representation pretty-printer to correctly handle tuples, lists, arrows, and precedence
+- Currently I disable the Core Lint check for unsaturated applications of unlifted types; it's not clear whether this is actually a safe thing to do; tracked as [\#11736](https://gitlab.haskell.org//ghc/ghc/issues/11736)
+- Look at the testsuite failures:
+
+  - others seems to involve stack overflows: `T10294, plugins01, T5550, annrun01, ann01, annth_make`
+  - others are Core lint violations:
+
+    - `T11120`, due to the overly-restrictive kind of `(->)`, being tracked as [\#11714](https://gitlab.haskell.org//ghc/ghc/issues/11714)
+  - others apparently incorrect output:
+
+    - `TypeOf`, due to the fact that `Constraint` and `*` are indistinguishable in Core, being tracked as [\#11715](https://gitlab.haskell.org//ghc/ghc/issues/11715)
+  - others appear to be performance changes (even some improvements, perplexingly) that need to be examined
+- Carefully check `Data.Typeable` for deviations from the previous interface and fill in gaps where possible
+- Evaluate serialization/deserization performance; perhaps it would be worth offering unsafe interface without runtime checks?
+- Examine whether the primitive `TypeRep`s (e.g. `trTYPE`, `trArrow`) should be `INLINEABLE`; we perform a number of runtime checks during serialization/deserialization so being able to inline these fingerprints may be helpful.
+- Evaluate whether we want to try harder to preserve the re-exports that have been dropped from `Data.Dynamic`.
+- Some of the new naming choices should be revisited (e.g. `TRFun`)
+- Typeable fingerprints need to be made more robust ([\#7897](https://gitlab.haskell.org//ghc/ghc/issues/7897))
+
 ## `Type.Reflection`
 
 
