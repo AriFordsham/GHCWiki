@@ -4,7 +4,7 @@
 This page is the main root page for a re-design of the `Typeable` class, to make **type-indexed** type representations.  
 
 
-The main ticket for tracking progress is [\#11011](https://gitlab.haskell.org//ghc/ghc/issues/11011).
+The main ticket for tracking progress is [\#11011](https://gitlab.haskell.org//ghc/ghc/issues/11011). There is currently an active implementation effort which is being documented at [Typeable/BenGamari](typeable/ben-gamari)
 
 
 Relevant links
