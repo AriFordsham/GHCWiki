@@ -33,7 +33,7 @@ will put the results in the file `nofib-log`.
 
 
 To compare the results of multiple runs, use the program
-[ nofib/nofib-analyse](http://darcs.haskell.org/nofib/nofib-analyse/).  Something like this:
+[ nofib/nofib-analyse](https://git.haskell.org/nofib.git/tree/HEAD:/nofib-analyse).  Something like this:
 
 ```wiki
   $ nofib-analyse nofib-log-6.4.2 nofib-log-6.6

@@ -28,7 +28,7 @@ CPU frequency scaling can result in distorted measurement! Try temporarily disab
 will put the results in the file `nofib-log`.
 
 To compare the results of multiple runs, use the program
-[http://darcs.haskell.org/nofib/nofib-analyse/ nofib/nofib-analyse].  Something like this:
+[https://git.haskell.org/nofib.git/tree/HEAD:/nofib-analyse nofib/nofib-analyse].  Something like this:
 
 {{{
   $ nofib-analyse nofib-log-6.4.2 nofib-log-6.6
