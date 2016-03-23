@@ -14,7 +14,7 @@ If you believe your favourite thing belongs in this list, but isn't there, pleas
 
 == Dates ==
 
-Release candidate by '''mid-January 2016'''. Release in '''mid-March 2016'''.
+Release candidate by '''mid-January 2016'''. Release in '''late-March 2016'''.
 
 == Libraries Status
 
@@ -94,6 +94,8 @@ Below are the major highlights of 8.0.
   - Significantly more stable support on ARM (#11206)
 
   - Stack traces in GHCi (#11047)
+
+  - Better instrumentation for tracking compiler performance of (#11710)
 
 === Possible, if the authors push forward fast enough
 
