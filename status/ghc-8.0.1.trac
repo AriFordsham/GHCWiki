@@ -95,6 +95,8 @@ Below are the major highlights of 8.0.
 
   - Stack traces in GHCi (#11047)
 
+  - Better instrumentation for tracking compiler performance of (#11710)
+
 === Possible, if the authors push forward fast enough
 
 There's nothing here.

@@ -97,6 +97,8 @@ Below are the major highlights of 8.0.
 
 - Stack traces in GHCi ([\#11047](https://gitlab.haskell.org//ghc/ghc/issues/11047))
 
+- Better instrumentation for tracking compiler performance of ([\#11710](https://gitlab.haskell.org//ghc/ghc/issues/11710))
+
 ### Possible, if the authors push forward fast enough
 
 
