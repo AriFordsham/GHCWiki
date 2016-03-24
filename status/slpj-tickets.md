@@ -27,6 +27,7 @@
  
 Major things
 
+- Type-indexed type representations: [plan and status](typeable/ben-gamari)
 - `TypeInType`, kind equalities etc: [DependentHaskell](dependent-haskell), esp [DependentHaskell/Phase1](dependent-haskell/phase1)
 - `TypeApplications`: [visible type application](type-application)
 - [Custom type errors](proposal/custom-type-errors)
