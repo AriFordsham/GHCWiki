@@ -35,7 +35,7 @@ Major things
 
 Refactoring/optimisation
  * #11739: coercion axioms applied to types, not coercions
- * #11735: `coercionKind`
+ * #11735, #11598: `coercionKind`
  * #11196: resurrect `FunTy`
  * Make `CoVar` a proper `Var`
 
