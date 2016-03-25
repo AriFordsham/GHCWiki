@@ -1,5 +1,23 @@
 # Status of DWARF work slated for GHC 8.0
 
+## Current Status
+
+
+While DWARF support will be much improved in 8.0.1, it is unfortunately still rather unsafe. This is due to prevalence of foreign calls in GHC/Haskell code, which can currently result in incorrect stack unwinding information ([\#11353](https://gitlab.haskell.org//ghc/ghc/issues/11353), [\#11338](https://gitlab.haskell.org//ghc/ghc/issues/11338), [\#11337](https://gitlab.haskell.org//ghc/ghc/issues/11337)). This means that requesting a stack trace may result in a segmentation fault of the program. Unfortunately, fixing this was beyond the scope of my time budget for 8.0, although hopefully can be done for 8.2.
+
+
+If you are prepared to accept the potential for segfaults, GHC 8.0.1 now provides a good amount of new functionality,
+
+- the DWARF output is more correct, meaning that external tools should have less trouble working with GHC's output
+- GHC's runtime system has support for DWARF stack unwinding on Linux, x86_64 and i386 via `libdw`. This is exposed in two ways,
+
+  - A stack trace will be provided on stderr when runtime system panics
+  - A stack trace will be dumped to stderr when the program receives the `SIGUSR2` signal
+  - A stack trace can be requested from Haskell code with the `GHC.ExecutionStack` module
+
+
+All of this requires that the program is compiled with GHC's `-g` flag. To get reliable output, the program's dependencies must also be compiled with `-g`.
+
 ## Notation
 
 
@@ -32,24 +50,6 @@ the expected future direction of the work.
 
 
 I'll list the commits in the order of their logical progression,
-
-## Current Status
-
-
-While DWARF support will be much improved in 8.0.1, it is unfortunately still rather unsafe. This is due to prevalence of foreign calls in GHC/Haskell code, which can currently result in incorrect stack unwinding information ([\#11353](https://gitlab.haskell.org//ghc/ghc/issues/11353), [\#11338](https://gitlab.haskell.org//ghc/ghc/issues/11338), [\#11337](https://gitlab.haskell.org//ghc/ghc/issues/11337)). This means that requesting a stack trace may result in a segmentation fault of the program. Unfortunately, fixing this was beyond the scope of my time budget for 8.0, although hopefully can be done for 8.2.
-
-
-If you are prepared to accept the potential for segfaults, GHC 8.0.1 now provides a good amount of new functionality,
-
-- the DWARF output is more correct, meaning that external tools should have less trouble working with GHC's output
-- GHC's runtime system has support for DWARF stack unwinding on Linux, x86_64 and i386 via `libdw`. This is exposed in two ways,
-
-  - A stack trace will be provided on stderr when runtime system panics
-  - A stack trace will be dumped to stderr when the program receives the `SIGUSR2` signal
-  - A stack trace can be requested from Haskell code with the `GHC.ExecutionStack` module
-
-
-All of this requires that the program is compiled with GHC's `-g` flag. To get reliable output, the program's dependencies must also be compiled with `-g`.
 
 ## The Patches
 
