@@ -31,10 +31,11 @@ Major things
  * [wiki:UnpackedSumTypes], #9214
  * [wiki:TypeNats]: type-level literals
  * `RuntimeRep`; unsaturated use of unlifted type constructors #11736
+ * #11715, #11621: `Constraint` vs `*`
 
 Refactoring/optimisation
  * #11739: coercion axioms applied to types, not coercions
- * #11735: `coercionKind`
+ * #11735, #11598: `coercionKind`
  * #11196: resurrect `FunTy`
  * Make `CoVar` a proper `Var`
 

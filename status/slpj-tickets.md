@@ -35,12 +35,13 @@ Major things
 - [UnpackedSumTypes](unpacked-sum-types), [\#9214](https://gitlab.haskell.org//ghc/ghc/issues/9214)
 - [TypeNats](type-nats): type-level literals
 - `RuntimeRep`; unsaturated use of unlifted type constructors [\#11736](https://gitlab.haskell.org//ghc/ghc/issues/11736)
+- [\#11715](https://gitlab.haskell.org//ghc/ghc/issues/11715), [\#11621](https://gitlab.haskell.org//ghc/ghc/issues/11621): `Constraint` vs `*`
 
 
 Refactoring/optimisation
 
 - [\#11739](https://gitlab.haskell.org//ghc/ghc/issues/11739): coercion axioms applied to types, not coercions
-- [\#11735](https://gitlab.haskell.org//ghc/ghc/issues/11735): `coercionKind`
+- [\#11735](https://gitlab.haskell.org//ghc/ghc/issues/11735), [\#11598](https://gitlab.haskell.org//ghc/ghc/issues/11598): `coercionKind`
 - [\#11196](https://gitlab.haskell.org//ghc/ghc/issues/11196): resurrect `FunTy`
 - Make `CoVar` a proper `Var`
 
