@@ -31,7 +31,7 @@ Major things
  * [wiki:UnpackedSumTypes], #9214
  * [wiki:TypeNats]: type-level literals
  * `RuntimeRep`; unsaturated use of unlifted type constructors #11736
- * #11715: `Constraint` vs `*`
+ * #11715, #11621: `Constraint` vs `*`
 
 Refactoring/optimisation
  * #11739: coercion axioms applied to types, not coercions
