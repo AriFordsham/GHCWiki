@@ -136,6 +136,7 @@ It would also be nice to support time- or cycle-based sampling.
 
 - \[IDEA\]   Support basic timer-based sampling
 - \[RFC\]    [ Phab:D1517](https://phabricator.haskell.org/D1517): Support sampling with Linux `perf_events` interface
+- \[IDEA\]   Support for kernel-mode Haskell stack sampling on Linux via eBPF
 
 
 In addition, we may want to support some form of call-graph collection.
