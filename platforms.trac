@@ -62,7 +62,7 @@ Tier 2 platforms as possible to Tier 1, as soon as they meet the Tier 1 criteria
 || ARM                || Linux           || arm-unknown-linux        || Yes        || No        || Yes            || ||
 || ARM                || Debian armel    || arm-linux-gnueabi        || ?          || No        || ?              || [wiki:Building/ARMLinuxGnuEABI] ||
 || ARM                || iOS             || arm-apple-darwin10       || No         || Yes       || No             || [wiki:Building/CrossCompiling/iOS] ||
-|| PowerPC            || AIX             || powerpc-ibm-aix          || No         || No        || No             || [wiki:Building/AIX] ||
+|| PowerPC            || AIX             || powerpc-ibm-aix          || No         || Yes       || No             || [wiki:Building/AIX] ||
 
 '''*S4''' shared libraries are supported on Solaris 11 version 11/11 and higher[[BR]]
 
@@ -73,7 +73,7 @@ In most cases, binaries for the tier 2 platforms can be downloaded from the [htt
 Tier 3 platforms worked in the past, but probably do not work now.
 
 || '''Architecture''' || '''OS'''         || '''Build name'''        || '''GHCi''' || '''NCG''' || '''Dyn libs''' || '''!WikiPage''' ||
-|| Mips64             || Irix             || mips-unknown-linux      || ?          || No        || ?              || ||
+|| Mips64             || Irix             || mips-sgi-irix           || ?          || No        || ?              || ||
 || x86                || Windows (Cygwin) || i386-unknown-cygwin32   || No         || Yes       || No(?)          || ||
 || Alpha              || Dec OSF          || alpha-dec-osf3          || No         || No        || No             || ||
 || ARM                || Maemo (Linux)    || arm-unknown-linux-gnu   || No         || No        || No             || ArmLinuxGhc    ||
