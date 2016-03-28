@@ -15,7 +15,7 @@ If you believe your favourite thing belongs in this list, but isn't there, pleas
 ## Dates
 
 
-Release candidate by **mid-January 2016**. Release in **late-March 2016**.
+Release candidate by **mid-January 2016**. Release candidate three available in early April 2016, telease in **mid-April 2016**.
 
 ## Libraries Status
 
