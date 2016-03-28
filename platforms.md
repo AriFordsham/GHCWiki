@@ -250,7 +250,7 @@ Tier 2 platforms as possible to Tier 1, as soon as they meet the Tier 1 criteria
 <th> AIX             </th>
 <th> powerpc-ibm-aix          </th>
 <th> No         </th>
-<th> No        </th>
+<th> Yes       </th>
 <th> No             </th>
 <th>[Building/AIX](building/aix)</th></tr></table>
 
@@ -273,7 +273,7 @@ Tier 3 platforms worked in the past, but probably do not work now.
 <th>**WikiPage**</th></tr>
 <tr><th> Mips64             </th>
 <th> Irix             </th>
-<th> mips-unknown-linux      </th>
+<th> mips-sgi-irix           </th>
 <th> ?          </th>
 <th> No        </th>
 <th> ?              </th>
