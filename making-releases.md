@@ -3,7 +3,7 @@
 ## Versioning policies
 
 - Version numbers should always be three components
-- Release candidates should be numbered with the patchlevel preceding their release. For instance, the first release candidate for 8.0.1 should be versioned 8.0.0-rc1
+- Release candidates should be numbered with the patch-level preceding their release. For instance, the first release candidate for 8.0.1 should be versioned 8.0.0-rc1
 
 ## Test policy
 
@@ -91,6 +91,11 @@ You should now have source tarballs `sdistprep/ghc-<VERSION>-src.tar.bz2` and `s
 
 
 N.B. the `lndir` utility required by `make sdist` is provided by `xutils-dev` on Debian.
+
+## Sending it to binary packagers
+
+
+We are lucky to have a dedicated set of contributors who build binary distributions for platforms which GHC HQ does not handle. Since 8.0.1-rc3 our policy has been to provide source distributions to binary packagers seven days before the final release. We do this in order to put these externally-provided distributions on equal footing with the GHC-HQ-provided distributions.
 
 ## Making the binary builds
 
