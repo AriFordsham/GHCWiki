@@ -7,6 +7,15 @@ This guide summarises the changes you may need to make to your code to migrate f
 ----------------------------------
 == Compiler changes
 
+=== Impredicative types brokenness
+Note that the `-XImpredicativeTypes` extension, which has been
+[[Impredicativity|known]] to be broken for many years, is even more
+broken than usual in this release. During pre-release testing we encountered
+a number of projects that broke with confusing type errors due to (often
+unnecessary) use of `-XImpredicativeTypes`. Users of 
+`-XImpredicativeTypes` do so at their own risk!
+
+
 === `-fwarn-pointless-pragmas`
 
 This flag has been removed and replaced by two flags `-Wmissed-specialisations` and `-Wall-missed-specialisations`.
