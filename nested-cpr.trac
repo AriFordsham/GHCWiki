@@ -18,6 +18,7 @@ Tickets with stuff that would make nested CPR better:
 Tickets with example of code that would benefit from nested CPR:
 
  * #1600, #2289, #2387 (see [wiki:.#Motivatingexamples below] for an analysis)
+ * (Maybe) [https://mail.haskell.org/pipermail/ghc-devs/2016-March/011623.html this thread on ghc-devs]
 
 === Related testcases ===
 
