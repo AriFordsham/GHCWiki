@@ -9,7 +9,7 @@ This guide summarises the changes you may need to make to your code to migrate f
 
 === Impredicative types brokenness
 Note that the `-XImpredicativeTypes` extension, which has been
-[[Impredicativity|known]] to be broken for many years, is even more
+[[ImpredicativePolymorphism|known]] to be broken for many years, is even more
 broken than usual in this release. During pre-release testing we encountered
 a number of projects that broke with confusing type errors due to (often
 unnecessary) use of `-XImpredicativeTypes`. Users of 
