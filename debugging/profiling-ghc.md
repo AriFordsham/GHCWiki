@@ -42,7 +42,7 @@ While it is useful to occasionally profile GHC and look for hotspots which need 
 
 Here are some tips and tricks:
 
-- Check out [ http://ghcspeed-nomeata.rhcloud.com/](http://ghcspeed-nomeata.rhcloud.com/), which may have already bisected the problem for you.
+- Check out [ http://perf.haskell.org/ghc](http://perf.haskell.org/ghc), which may have already bisected the problem for you.
 
 - When comparing the profiles of multiple versions of GHC, you may find yourself needing to maintain multiple build trees with different code. An extremely useful utility for this case is `git-new-workdir`, which is not a default Git command but lives in the `contrib` folder of Git. You can `locate git-new-workdir` to find your copy; it is most commonly installed to `/usr/share/doc/git/contrib/workdir` and add it to your path.  Now you can use this command (`git-new-workdir old-working-copy new-working-copy`) to create a new working directory from the old Git repository, that has its own index but shares a repository with the original. Be sure to switch to a different branch, since branch pointers are shared too! What is especially convenient is if you make and commit a temporary change in one working-copy, you can immediately cherry-pick it from the other one, no fetching or patches necessary!
 
