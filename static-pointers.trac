@@ -237,66 +237,40 @@ test x = (static (filter hasZero), c)
 
 Here's a proposal to have the compiler deal with it:
 
-1. Have the typechecker compute whether bindings in scope are closed.
+1. Have the typechecker compute whether bindings are closed with the {{{tct_closed}}} flag.
 2. When the typechecker finds a static form, allow the free vars to be bound at the top-level or be closed local bindings.
-3. Desugar the static form. This produces a list of floated Core bindings.
-4. For each such Core binding find the free variables corresponding to local bindings.
-5. Mark all found local definitions and its dependencies to be in level 0.
-6. Use the code in the FloatOut pass to float these bindings to the top-level?
+3. Desugar the {{{static e}}} to {{{StaticPtr key e}}}, but unlike the current implementation, don't produce a binding for it yet.
+4. Run the FloatOut pass. If -O0 was specified, have it float things to the top level only. This should produce bindings of the form {{{v = StaticPtr _ _}}}.
+5. Collect all such bindings into the static pointer table.
 
 In our running example,
 
-* Step (1) produces a set of closed bindings {{{["hasZero", "isZero"]}}} at the point where the {{{static}}} form is encountered.
+* Step (1) identifies bindings {{{["hasZero", "isZero"]}}} as closed.
 * Step (2) checks that identifiers in {{{filter hasZero}}}, the body of {{{static}}}, are bound at the top-level (like {{{filter}}}) or are closed local bindings (like {{{hasZero}}}).
-* Step (3) yields the Core bindings produced by the static form per se {{{[(genName1, filter hasZero)]}}}, the program becomes something like:
+* Step (3) desugars the static form to produce something like:
 {{{#!hs
-genName1 :: [[Int]] -> [[Int]]
-genName1 = filter hasZero
-
 test :: Int -> (StaticPtr ([[Int]] -> [[Int]]), Int)
-test x = (StaticPtr (... "genName1" ...), c)
+test x = (StaticPtr "key1" (filter hasZero), c)
   where
     hasZero = any isZero
     isZero  = (0 ==)
     c = x + 1
 }}}
-* Step (4) finds that the binding of {{{genName1}}} refers to a local binding named {{{hasZero}}}.
-* Step (5) marks {{{hasZero}}} and its dependency {{{isZero}}} as being in level 0.
+* Step (4) runs the FloatOut pass that should move to the top level all needed bindings and subexpressions.
 {{{#!hs
-genName1 :: [[Int]] -> [[Int]]
-genName1 = filter hasZero
+static1 :: StaticPtr ([[Int]] -> [[Int]])
+static1 = StaticPtr "key1" (filter hasZero)
 
-test :: Int -> (StaticPtr ([[Int]] -> [[Int]]), Int)
-test x = (StaticPtr (... "genName1" ...), c)
-  where
-    hasZero_0 = any isZero
-    isZero_0  = (0 ==)
-    c = x + 1
-}}}
-* Step (6) moves {{{hasZero}}} and its dependency {{{isZero}}} to the top level.
-{{{#!hs
-genName1 :: [[Int]] -> [[Int]]
-genName1 = filter hasZero
-
-test :: Int -> (StaticPtr ([[Int]] -> [[Int]]), Int)
-test x = (StaticPtr (... "genName1" ...), c)
-  where
-    c = x + 1
-
--- hasZero :: Num a => [a] -> Bool ?
--- hasZero :: [Int] -> Bool ?
 hasZero = any isZero
 
--- isZero :: Num a => a -> Bool ?
--- isZero :: Int -> Bool ?
 isZero  = (0 ==)
+
+test :: Int -> (StaticPtr ([[Int]] -> [[Int]]), Int)
+test x = (static1, c)
+  where
+    c = x + 1
 }}}
-
-=== On renaming floated bindings ===
-
-Moving bindings to the top level seems to require renaming them to avoid potential clashes of names. This means that all the occurrences need to be substituted with the new names.
-
-In the FloatOut pass renaming occurs when computing the levels. We may need to reimplement that.
+* Step (5) finds the binding {{{static1}}} and inserts it in the SPT.
 
 === On testing closedness ===
 
