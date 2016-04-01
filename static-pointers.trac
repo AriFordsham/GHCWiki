@@ -272,6 +272,10 @@ test x = (static1, c)
 }}}
 * Step (5) finds the binding {{{static1}}} and inserts it in the SPT.
 
+Ideally, FloatOut would leave bindings of the form `v = Static ...`, but it is not clear if it will add also enclosing expressions `v = ... (Static  ...) ...`. There are two ways to approach this:
+1. Have the FloatOut pass always put `Static ...` in its own binding.
+2. Have another pass do the job after FloatOut.
+
 === On testing closedness ===
 
 Whether {{{hasZero}}} and {{{isZero}}} are given general types or not shouldn't affect the result in this case. However, constraints can be problematic:

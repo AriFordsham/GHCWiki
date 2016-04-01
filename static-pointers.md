@@ -340,6 +340,12 @@ In our running example,
   ```
 - Step (5) finds the binding `static1` and inserts it in the SPT.
 
+
+Ideally, [FloatOut](float-out) would leave bindings of the form `v = Static ...`, but it is not clear if it will add also enclosing expressions `v = ... (Static  ...) ...`. There are two ways to approach this:
+
+1. Have the [FloatOut](float-out) pass always put `Static ...` in its own binding.
+1. Have another pass do the job after [FloatOut](float-out).
+
 ### On testing closedness
 
 
