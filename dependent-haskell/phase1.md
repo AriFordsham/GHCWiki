@@ -579,6 +579,83 @@ Note that there is no way to write the equation for `G` without assuming that `F
 
 This feature will not carry over to data families (which for reasons beyond the scope of this post require full dependent types), though it will work for closed type families.
 
+# Design questions
+
+## Visibility changes in types
+
+
+GHC tracks three different levels of visibility: `Invisible` binders are never user-written, `Specified` ones are available for visible type applications, and `Visible` ones are always user-written. See `Note [TyBinders and VisibilityFlags]` in [ TyCoRep](https://github.com/ghc/ghc/blob/master/compiler/types/TyCoRep.hs).
+
+
+The problem is what to do in higher-rank kind situations. Consider these definitions:
+
+```
+dataP1 k (a :: k)-- P1 :: forall k -> k -> *-- P1 *  Int   is OK-- P1 _  Int   is OK-- P1 @* Int   is NOT OK-- P1    Int   is NOT OKdataP2(a :: k)-- P2 :: forall k. k -> *-- P2 @* Int   is OK-- P2 @_ Int   is OK-- P2    Int   is OK-- P2 *  Int   is NOT OKdataP3 a
+-- P3 :: forall {k}. k -> *-- P3    Int    is OK-- P3 @* Int    is NOT OK-- P3 @_ Int    is NOT OK-- P3 *  Int    is NOT OKdataX(a :: forall k. k ->*)-- X :: (forall k. k -> *) -> *
+```
+
+
+A few notes on these definitions:
+
+- The notation `forall {k}. k -> *` on `P3`'s type says that the `k` is `Invisible` and is not available for visible type application,
+- We say that `P2 @* Int` is OK, but visible type application is not yet implemented in types. This is just an implementation detail, and for the purposes of this discussion, we'll assume that this feature is available.
+- It's quite likely `@*` parses as a single lexeme. Let's ignore that fact.
+- Note that GHC does not currently parse the type `forall k -> k -> *`. But it does pretty-print that type.
+
+
+The question before the house is: which of the following are accepted?
+
+1. `X P1`
+1. `X P2`
+1. `X P3`
+
+
+Before delving into possible answers, we should note that any of these are sound to accept. The types of `P1`, `P2`, and `P3` are all identical, except for the visibility of the binder for `k`. So it's not silly to consider this question. It comes down to how we'd like the language to behave.
+
+
+There seem to be three defensible choices for which of these to accept.
+
+1. 1. YES
+  1. YES
+  1. YES
+
+
+This version simply ignores visibility flags on binders when doing an equality check -- very easy to implement.
+
+- Simon advocated for this design in a call on Apr 1 2016. It is the simplest.
+- Richard was concerned about what an equality between `forall k -> k -> *` and `forall k. k -> *` might mean. But we don't need these to be `tcEqType`, we just need a coercion between them. As long as the types are `eqType`, then `Refl (forall k. k -> *)` does nicely.
+- Richard was also concerned that if we consider these types equal, it means that we can replace one with the other willy-nilly, in thinking about a *declarative* specification of the type system. But with visible type application rules, we have *two* subtyping relations (and hence two type-equivalence relations) one to use when both types to compare are known and one to use otherwise. (See the [ paper](http://www.seas.upenn.edu/~sweirich/papers/esop2016-typeapp.pdf).) So having one of these relations accept a connection between these two types is OK.
+- Conor finds it abhorrent to think about a system that equates (under any equivalence relation) types that have different user-visible arities, as do `forall k -> k -> *` (arity 2) and `forall k. k -> *` (arity 1).
+- Consider now the expression `X (P1 k :: forall k. k -> *)`. Is that accepted? By the kind signature, `X`'s argument has the right kind. Note that the signature brings `k` into scope and then checks `P1 k` against `k -> *`. It indeed has this type, so it certainly seems like `(P1 k :: forall k. k -> *)` should be accepted. (If you're dubious, think about what happens in terms.) Sadly, this desugars into a situation where we need a type-level lambda. We don't have this yet. But we should be future-proof against a language that does have type-level lambda.
+- The bullet above argues that `X (P1 k :: forall k. k -> *)` should be accepted. But plan (A) says that `X P1` should be accepted. It surely can't hurt to add a type signature, so that means that `X (P1 :: forall k. k -> *)` should be accepted. And this is quite bizarre to accept that last one alongside the first one.
+- In the term-level type inference rules for a polytype type annotation, the first thing that happens is skolemization. It would be a bit odd for the type-level type inference rules to be different, yet such a difference is required if we are to accept `P1 :: forall k. k -> *`.
+
+1. 1. NO
+  1. YES
+  1. YES
+
+
+This version is a bit harder to implement, discerning between visible/not visible but not among specified and fully invisible.
+
+- Stephanie and Conor like this one the most.
+- It distinguishes between visible and not. Whether or not a binder is visible is easy to specify, but the user has less obvious control over whether a binder is specified or invisible.
+- This plan (as does plan (A)) fails source level substitution. Specifically, if `a` (the variable of type `forall k. k -> *` bound in the declaration for `X`) is used as `a @* Int` in the definition of `X`, then `X P3` would expand to mention `P3 @* Int`, which is disallowed. Substitution is restored if we substitute along with a type annotation, thus: `(P3 :: forall k. k -> *) @* Int`.
+- This one seems most similar to the term-level treatment. It's hard to fully compare, because case (1) does not exist in terms.
+
+1. 1. NO
+  1. YES
+  1. NO
+
+
+This is what Richard originally implemented, having type equality depend closely on visibility.
+
+- This version leads to obnoxious error messages if `-fprint-explicit-foralls` is off, saying on `X P3` that `forall k. k -> *` does not match `forall k. k -> *`.
+- This version has the advantage of allowing substitution without type annotations. However, we already don't have this property in the term-level language due to the specified/invisible variable distinction.
+- This is really quite limiting.
+
+
+Taking this all into account, Richard advocates for (B), but not all that strongly.
+
 # Implementation notes
 
 ## The new type system
