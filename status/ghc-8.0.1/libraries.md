@@ -51,7 +51,7 @@ TODO The `1.24` branch has been created, please use it for GHC 8 RC3. Cabal `1.2
 
 [](http://hackage.haskell.org/package/binary)
 
-DONE`0.8.0.0` has just been released, please use that for RC1. (TODO GHC 8 final should ship the `0.8.2.0` release. Biggest change is that includes a Binary instance for ShortByteString)
+TODO`0.8.2.1` has just been released, please use that for RC3. GHC 8.0.1 final should ship the `0.8.2.2` release. Biggest change is that includes a Binary instance for `ShortByteString`.
 
 ### `bytestring`
 
@@ -105,7 +105,7 @@ TODO (hvr) upload `hpc-0.6.0.3` release to Hackage
 
 [](http://hackage.haskell.org/package/pretty)
 
-DONE The `1.1.3.2` release should be used.
+DONE The `1.1.3.3` release should be used.
 
 ### `process`
 
