@@ -85,7 +85,7 @@ The current plan is to steam forward to the end of the year, and begin to get re
 - [Records/OverloadedRecordFields](records/overloaded-record-fields)[ https://ghc.haskell.org/trac/ghc/wiki/Records/OverloadedRecordFields](https://ghc.haskell.org/trac/ghc/wiki/Records/OverloadedRecordFields)
 - \[[PartialTypeSignatures](partial-type-signatures)\] [ https://ghc.haskell.org/trac/ghc/wiki/PartialTypeSignatures](https://ghc.haskell.org/trac/ghc/wiki/PartialTypeSignatures)
 - [ \[PPC64-NCG](https://phabricator.haskell.org/D629)\] [ https://phabricator.haskell.org/D629](https://phabricator.haskell.org/D629)
-- [\[Prelude710](prelude710)\] [ https://ghc.haskell.org/trac/ghc/wiki/prelude710](https://ghc.haskell.org/trac/ghc/wiki/prelude710)
+- [\[Prelude710](prelude710)\] [ https://ghc.haskell.org/trac/ghc/wiki/Prelude710](https://ghc.haskell.org/trac/ghc/wiki/Prelude710)
 - [\[Shake](building/shake)\] [ https://ghc.haskell.org/trac/ghc/wiki/Building/Shake](https://ghc.haskell.org/trac/ghc/wiki/Building/Shake)
 - \[[StaticPointers](static-pointers)\] [ https://ghc.haskell.org/trac/ghc/wiki/StaticPointers](https://ghc.haskell.org/trac/ghc/wiki/StaticPointers)
 - [\[TCPlugins](plugins/type-checker)\] [ https://ghc.haskell.org/trac/ghc/wiki/Plugins/TypeChecker](https://ghc.haskell.org/trac/ghc/wiki/Plugins/TypeChecker)
