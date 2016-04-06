@@ -83,7 +83,7 @@ The current plan is to steam forward to the end of the year, and begin to get re
  - [wiki:Records/OverloadedRecordFields] https://ghc.haskell.org/trac/ghc/wiki/Records/OverloadedRecordFields
  - [PartialTypeSignatures] https://ghc.haskell.org/trac/ghc/wiki/PartialTypeSignatures
  - [https://phabricator.haskell.org/D629 [PPC64-NCG]] https://phabricator.haskell.org/D629
- - [wiki:Prelude710 [Prelude710]] https://ghc.haskell.org/trac/ghc/wiki/prelude710
+ - [wiki:Prelude710 [Prelude710]] https://ghc.haskell.org/trac/ghc/wiki/Prelude710
  - [wiki:Building/Shake [Shake]] https://ghc.haskell.org/trac/ghc/wiki/Building/Shake
  - [StaticPointers] https://ghc.haskell.org/trac/ghc/wiki/StaticPointers
  - [wiki:Plugins/TypeChecker [TCPlugins]] https://ghc.haskell.org/trac/ghc/wiki/Plugins/TypeChecker
