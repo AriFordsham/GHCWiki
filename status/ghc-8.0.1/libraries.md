@@ -143,7 +143,7 @@ TODO current plan: use unreleased patch-level v2.7.1.1 containing only fixes but
 
 [](http://hackage.haskell.org/package/Win32)
 
-TODO
+TODO cut a new release
 
 ### `xhtml`
 

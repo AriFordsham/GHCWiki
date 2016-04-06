@@ -149,7 +149,7 @@ TODO: current plan: use unreleased patch-level v2.7.1.1 containing only fixes bu
 
 [[Image(https://img.shields.io/hackage/v/Win32.svg,link=hackage:Win32)]]
 
-TODO:
+TODO: cut a new release
 
 === `xhtml`
 
