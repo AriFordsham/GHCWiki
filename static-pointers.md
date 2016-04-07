@@ -357,19 +357,3 @@ test2::Binary a => a ->StaticPtrByteStringtest2 x = static (g x)where
 ```
 
 `g` is gonna use the `Binary a` dictionary provided to `test2`, which makes the body of `g` not closed. The typechecker needs to report an error in this case. And this is why the renamer cannot check for *closedness*.
-
-
-Another example with `-XScopedTypeVariables` is
-
-```
-test3:: forall a.Typeable a => a ->StaticPtrTypeReptest3_= static h
-  where
-    h ::TypeRep
-    h = g undefined
-      where
-        g :: a ->TypeRep
-        g = typeOf
-```
-
-
-In this example `h` can only be given the type `TypeRep` and it would appear closed to the renamer, but the typechecker should be able to see that it depends on the `Typeable a` instance given to `test3`, and thus it should produce a compilation error.
