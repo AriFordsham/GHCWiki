@@ -97,8 +97,10 @@ $ git commit -asm "compiler: fix trac issue #1234"
 Once you're ready to submit it for review, it's pretty easy. Just run:
 
 ```wiki
-$ arc diff~
+$ arc diff HEAD~
 ```
+
+**NOTE**: The above assumes you only want to send one commit, which is the current tip of your branch. If you want to send multiple commits, read on.
 
 
 which submits the HEAD commit to Phabricator. `arc` will then respond with the revision number and a URL where you can visit your change.
