@@ -96,7 +96,10 @@ Can we do anything to improve these use cases of `reify`?
 1. Allow `reify` to observe out of scope local variables provided that their names are unique within the module.
 
 
-(1) and (2) look the more feasible. They are easy to implement for typed splices, which run in the typechecker. Unfortunately, untyped splices run in the renamer, the local typing environment is not yet populated, and thus it cannot be captured. So we could either compromise to implement `addGroupFinalizer` in typed splices only, or we would need to overcome this obstacle with a more involved implementation.
+(1) and (2) are easy to implement for typed splices, which run in the typechecker. Unfortunately, untyped splices run in the renamer, the local typing environment is not yet populated, and thus it cannot be captured. So we could either compromise to implement `addGroupFinalizer` in typed splices only, or we would need to overcome this obstacle with a more involved implementation.
+
+
+Someone more informed could comment on (3).
 
 ### Implementing `addGroupFinalizer` in untyped splices
 
