@@ -80,7 +80,7 @@ Can we do anything to improve these use cases of {{{reify}}}?
 2. Have a new function {{{addGroupFinalizer}}} like {{{addModFinalizer}}}, which should also capture the local typing environment, and that will run the finalizer on it when typechecking of the current declaration group completes. 
 3. Allow {{{reify}}} to observe out of scope local variables provided that their names are unique within the module.
 
-(1) and (2) are easy to implement for typed splices, which run in the typechecker. Unfortunately, untyped splices run in the renamer, the local typing environment is not yet populated, and thus it cannot be captured. So we could either compromise to implement {{{addGroupFinalizer}}} in typed splices only, or we would need to overcome this obstacle with a more involved implementation.
+(1) and (2) are easy to implement for typed splices, which run in the typechecker. Unfortunately, untyped splices run in the renamer, the local typing environment is not yet populated, and thus it cannot be captured. We could either compromise to implement {{{addGroupFinalizer}}} in typed splices only, or we would need to overcome this obstacle with a more involved implementation.
 
 Someone more informed could comment on (3).
 
