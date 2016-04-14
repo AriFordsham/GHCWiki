@@ -112,7 +112,7 @@ A proposal:
   r <- newIORef (Nothing :: Maybe LocalTypeEnv
   ```
 
-  Perhaps the annotation could be implemented with a new data constructor of the `Tickish` type.
+  Perhaps the annotation could be implemented by extending the `Tickish` datatype with a new data constructor.
 - When the type checker finds the annotation it writes to it the local typing environment:
 
   ```wiki
