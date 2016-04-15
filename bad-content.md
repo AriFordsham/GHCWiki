@@ -126,7 +126,7 @@ horseracing
 (?i)calories
 (?i)Slow PC Repair
 (?i)phone number
-1[ -]800[ -]-[0-9]{4}
+1[ -.^:*]800[ -]-[0-9]{4}
 (?i)ms office
 (?i)customer support number
 (?i)customer service number
