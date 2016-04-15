@@ -126,4 +126,5 @@ horseracing
 (?i)calories
 Slow PC Repair
 phone number
+1[ -]800[ -]-[0-9]{4}
 ```
