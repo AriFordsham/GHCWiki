@@ -109,7 +109,7 @@ A proposal:
 - When the renamer runs `addGroupFinalizer` it annotates the AST with a mutable reference at the location of the splice.
 
   ```wiki
-  r <- newIORef (Nothing :: Maybe LocalTypeEnv
+  r <- newIORef (Nothing :: Maybe LocalTypeEnv)
   ```
 
   Perhaps the annotation could be implemented by extending the `Tickish` datatype with a new data constructor.
