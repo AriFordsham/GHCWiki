@@ -18,7 +18,7 @@ Please help us improve the information on the GHC developer's wiki. You can easi
 
  * The May 2015 Status Report. 
 
- * [[https://phabricator.haskell.org/diffusion/GHC/history/|​Harbormaster]], the [[http://haskell.inf.elte.hu/builders/|​nightly build bots]] and Travis https://travis-ci.org/ghc/ghc.svg are keeping an eye on our code. See the [[Status|Status page]] for more information. 
+ * [[https://phabricator.haskell.org/diffusion/GHC/history/|​Harbormaster]], the [[http://haskell.inf.elte.hu/builders/|​nightly build bots]] and Travis [[Image(https://travis-ci.org/ghc/ghc.svg)]] are keeping an eye on our code. See the [[Status|Status page]] for more information. 
 
 == Notices
 
