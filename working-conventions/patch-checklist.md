@@ -1,7 +1,7 @@
 # Checklist for submitted patches
 
 
-This is a 
+This is the beginning of a checklist to check for patches submitted for merge.
 
 - Includes regression test?
 
