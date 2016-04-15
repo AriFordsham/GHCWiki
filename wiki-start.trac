@@ -12,7 +12,7 @@ Please help us improve the information on the GHC developer's wiki. You can easi
 == Status updates
 
  * Forthcoming planned releases:
-     * 8.0.1 ([[TicketQuery(status=open, priority=high|highest, milestone=8.0.1, format=count)]] open tickets with priority high or highest) 
+     * [[Status/GHC-8.0.1|8.0.1]] ([[TicketQuery(status=open, priority=high|highest, milestone=8.0.1, format=count)]] open tickets with priority high or highest) 
 
  * Total open tickets: [[TicketQuery(status!=closed, format=count)]] ([[TicketQuery(status!=closed, type=bug, format=count)]] bugs, [[TicketQuery(status!=closed, type=feature request, format=count)]] feature requests, [[TicketQuery(status!=closed, type=task, format=count)]] tasks) 
 
