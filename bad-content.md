@@ -128,6 +128,7 @@ horseracing
 (?i)phone number
 1[ -.^:*]800[ -][0-9]{3}[ -][0-9]{4}
 1[ -.^:*]822[ -][0-9]{3}[ -][0-9]{4}
+1[ -.^:*]877[ -][0-9]{3}[ -][0-9]{4}
 (?i)ms office
 (?i)customer support number
 (?i)customer service number
