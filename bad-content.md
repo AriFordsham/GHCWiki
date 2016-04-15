@@ -124,4 +124,6 @@ horseracing
 (?i)dieting
 (?i)thighs
 (?i)calories
+Slow PC Repair
+phone number
 ```
