@@ -14,7 +14,7 @@ Please help us improve the information on the GHC developer's wiki. You can easi
  * Forthcoming planned releases:
      * 8.0.1 ([[TicketQuery(status=open, priority=high|highest, milestone=8.0.1, format=count)]] open tickets with priority high or highest) 
 
- * Total open tickets: [[TicketQuery(status=open, format=count)]] ([[TicketQuery(status=open, type=bug)]] bugs, [[TicketQuery(status=open, type=feature request)]] feature requests, [[TicketQuery(status=open, type=task)]] tasks) 
+ * Total open tickets: [[TicketQuery(status!=closed, format=count)]] ([[TicketQuery(status!=closed, type=bug)]] bugs, [[TicketQuery(status!=closed, type=feature request)]] feature requests, [[TicketQuery(status!=closed, type=task)]] tasks) 
 
  * The May 2015 Status Report. 
 
