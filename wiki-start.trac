@@ -16,8 +16,6 @@ Please help us improve the information on the GHC developer's wiki. You can easi
 
  * Total open tickets: [[TicketQuery(status!=closed, format=count)]] ([[TicketQuery(status!=closed, type=bug, format=count)]] bugs, [[TicketQuery(status!=closed, type=feature request, format=count)]] feature requests, [[TicketQuery(status!=closed, type=task, format=count)]] tasks) 
 
- * The May 2015 Status Report. 
-
  * [[https://phabricator.haskell.org/diffusion/GHC/history/|​Harbormaster]], the [[http://haskell.inf.elte.hu/builders/|​nightly build bots]] and Travis [[Image(https://travis-ci.org/ghc/ghc.svg)]] are keeping an eye on our code. See the [[Status|Status page]] for more information. 
 
 == Notices
