@@ -12,7 +12,7 @@ Please help us improve the information on the GHC developer's wiki. You can easi
 == Status updates
 
  * Forthcoming planned releases:
-     * 8.0.1 (5 open tickets with priority high or highest) 
+     * 8.0.1 ([[TicketQuery(priority=high, or, priority=highest, format=count)]] open tickets with priority high or highest) 
 
  * Total open tickets: 1766 (1028 bugs, 566 feature requests, 172 tasks) 
 
