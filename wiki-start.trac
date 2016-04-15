@@ -1,0 +1,39 @@
+= Welcome to the GHC Developer Wiki
+
+This is the home for GHC developers. If you're only interested in using GHC,
+then you probably want ​the [[http://www.haskell.org/ghc|GHC home page]]. If you are an aspiring GHC developer,
+and just want to get started, read the [[Newcomers|Newcomers page]] (which is always in the
+sidebar under "Joining in").
+
+== Please help improve the GHC developer's wiki
+
+Please help us improve the information on the GHC developer's wiki. You can easily do this by editing the wiki directly. Just [[https://ghc.haskell.org/trac/ghc/register|register]] an account, and then edit away. Alternatively, [[https://ghc.haskell.org/trac/ghc/login|log in]] as user **guest** with password **guest** (but we'd prefer you to create an account, because it enables us to contact you if necessary). The [[https://ghc.haskell.org/trac/ghc/wiki/TracGuide|Help/Guide]] link at the top of every page gives a good description of the markup language and how to use Trac in general.
+
+== Status updates
+
+ * Forthcoming planned releases:
+     * 8.0.1 (5 open tickets with priority high or highest) 
+
+ * Total open tickets: 1766 (1028 bugs, 566 feature requests, 172 tasks) 
+
+ * The May 2015 Status Report. 
+
+ * [[https://phabricator.haskell.org/diffusion/GHC/history/|​Harbormaster]], the [[http://haskell.inf.elte.hu/builders/|​nightly build bots]] and Travis https://travis-ci.org/ghc/ghc.svg are keeping an eye on our code. See the [[Status|Status page]] for more information. 
+
+== Notices
+
+ * Volunteer your machine as a [[Builder|GHC builder]]. This will help us find and fix issues with GHC on your platform. 
+
+ * [[Internships]] at Microsoft Research, Cambridge, working on Haskell and GHC. 
+
+== Developer Documentation
+
+ * [[Building|Building and Porting GHC]]
+
+ * [[WorkingConventions|Working on GHC ]]
+
+ * [[Commentary|The GHC Commentary]]
+   Documentation on the design, architecture, and implementation of GHC itself, with references to the actual source code. 
+
+ * [[Debugging|Debugging GHC]]
+   All aspects of debugging, testing, and benchmarking GHC. 
