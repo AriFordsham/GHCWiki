@@ -124,7 +124,7 @@ horseracing
 (?i)dieting
 (?i)thighs
 (?i)calories
-Slow PC Repair
-phone number
+(?i)Slow PC Repair
+(?i)phone number
 1[ -]800[ -]-[0-9]{4}
 ```
