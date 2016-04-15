@@ -129,4 +129,5 @@ horseracing
 1[ -]800[ -]-[0-9]{4}
 (?i)ms office
 (?i)customer support number
+(?i)customer service number
 }}}
