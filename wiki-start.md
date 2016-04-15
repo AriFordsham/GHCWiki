@@ -19,7 +19,7 @@ Please help us improve the information on the GHC developer's wiki. You can easi
 
 - Total open tickets: 3204 (Ticket query: status: !closed, max: 0, order: id) (1982 (Ticket query: status: !closed, type: bug, max: 0, order: id) bugs, 870 (Ticket query: status: !closed, type: feature+request, max: 0, order: id) feature requests, 351 (Ticket query: status: !closed, type: task, max: 0, order: id) tasks) 
 
-- [ Harbormaster](https://phabricator.haskell.org/diffusion/GHC/history/), the [ nightly build bots](http://haskell.inf.elte.hu/builders/) and Travis [](https://travis-ci.org/ghc/ghc.svg) are keeping an eye on our code. See the [Status page](status) for more information. 
+- [ Harbormaster](https://phabricator.haskell.org/diffusion/GHC/history/), the [ nightly build bots](http://haskell.inf.elte.hu/builders/) and [ Travis](http://travis-ci.org/ghc)[](https://travis-ci.org/ghc/ghc.svg) are keeping an eye on our code. See the [Status page](status) for more information. 
 
 ## Notices
 
