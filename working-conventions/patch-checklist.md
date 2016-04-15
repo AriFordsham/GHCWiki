@@ -9,6 +9,13 @@ This is the beginning of a checklist to check for patches submitted for merge.
 
   - Document in users guide (`doc/user_guide`) and `utils/mkUserGuidePart/Options/`
 
+- Does patch change a core library (e.g. `base`)?
+
+  - Has the Core Libraries Committee approved?
+  - Document change in migration guide on Wiki
+  - Document change in the library's changelog
+  - Document change in the users guide release notes
+
 - Introduces new syntax?
 
   - Document in `doc/user_guide/glasgow_exts.rst`
