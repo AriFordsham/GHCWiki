@@ -22,4 +22,4 @@ This is the beginning of a checklist to check for patches submitted for merge.
   - Document in `doc/user_guide/*-relnotes.rst`
   - Add Template Haskell support
 
-- Can build with last two releases of GHC?
+- Builds with last two releases of GHC?
