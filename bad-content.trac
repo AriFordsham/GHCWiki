@@ -127,4 +127,5 @@ horseracing
 (?i)Slow PC Repair
 (?i)phone number
 1[ -]800[ -]-[0-9]{4}
+(?i)ms office
 }}}
