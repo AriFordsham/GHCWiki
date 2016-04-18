@@ -446,13 +446,15 @@ Technically, this approach would also work for `-XDeriveFunctor` as well, but we
    which does not typecheck, since GHC cannot unify the rank-2 type variables in the types of `b` and `fmap f a`.
 
 == Future work ==
-The `Bifunctor` class (born from the [http://hackage.haskell.org/package/bifunctors bifunctors] library) [https://ghc.haskell.org/trac/ghc/ticket/9682 was added] to `base` in GHC 7.10, and [https://ghc.haskell.org/trac/ghc/ticket/10448 there are plans] to add `Bifoldable` and `Bitraversable` to `base` in the future. All three classes could be derived in much the same way as their cousins `Functor`, `Foldable`, and `Traversable`. The existing algorithms would simply need to be adapted to accommodate two type parameters instead of one.
+There are more classes in `base` that we could derive!
 
-The [https://github.com/ekmett/bifunctors/blob/8e975aead363802610dedccf414b884f9b39b1f4/src/Data/Bifunctor/TH.hs Data.Bifunctor.TH ] module from the `bifunctors` library demonstrates an implementation of the following proposal using Template Haskell.
+In particular, the `Bifunctor` class (born from the [http://hackage.haskell.org/package/bifunctors bifunctors] library) [https://ghc.haskell.org/trac/ghc/ticket/9682 was added] to `base` in GHC 7.10, and [https://ghc.haskell.org/trac/ghc/ticket/10448 there are plans] to add `Bifoldable` and `Bitraversable` to `base` in the future. All three classes could be derived in much the same way as their cousins `Functor`, `Foldable`, and `Traversable`. The existing algorithms would simply need to be adapted to accommodate two type parameters instead of one. The [https://github.com/ekmett/bifunctors/blob/c2e7717e1913dc53ad934b3d0ddd74d077b965c3/src/Data/Bifunctor/TH.hs Data.Bifunctor.TH] module from the `bifunctors` library demonstrates an implementation of the following proposal using Template Haskell.
+
+In GHC 8.0, higher-order versions of the `Eq`, `Ord`, `Read`, and `Show` typeclasses were added to `base` in the `Data.Functor.Classes` module (which originally lived in the `transformers` library). These classes are generalized to work over datatypes indexed by one type parameter (for `Eq1`, `Ord1`, `Read1`, and `Show1`) or by two type parameters (`Eq2`, `Ord2`, `Read2`, and `Show2`). Haskell programmers have been able to derive `Eq`, `Ord`, `Read`, and `Show` for a long time, so it wouldn't be hard at all to envision a deriving mechanism for `Eq1`, `Eq2`, and friends which takes advantage of tricks that `DeriveFunctor` uses.
 
 === Classes ===
 
-The classes are defined as follows:
+The `Bifunctor`, `Bifoldable`, and `Bitraversable` classes are defined as follows:
 
 {{{#!hs
 class Bifunctor p where
@@ -467,6 +469,38 @@ class (Bifunctor t, Bifoldable t) => Bitraversable t where
 }}}
 
 Each class contains further methods, but they can be defined in terms of the above ones. Therefore, we need only derive implementations for them. This also mirrors how the algorithms currently work in the one-parameter cases, as they only implement `fmap`, `foldMap`, `foldr`, and `traverse`.
+
+The typeclasses in `Data.Functor.Classes` are defined as follows:
+
+{{{#!hs
+class Eq1 f where
+    liftEq :: (a -> b -> Bool) -> f a -> f b -> Bool
+
+class (Eq1 f) => Ord1 f where
+    liftCompare :: (a -> b -> Ordering) -> f a -> f b -> Ordering
+
+class Read1 f where
+    liftReadsPrec :: (Int -> ReadS a) -> ReadS [a] -> Int -> ReadS (f a)
+    liftReadList  :: (Int -> ReadS a) -> ReadS [a]        -> ReadS [f a]
+
+class Show1 f where
+    liftShowsPrec :: (Int -> a -> ShowS) -> ([a] -> ShowS) -> Int ->  f a  -> ShowS
+    liftShowList  :: (Int -> a -> ShowS) -> ([a] -> ShowS)        -> [f a] -> ShowS
+
+class Eq2 f where
+    liftEq2 :: (a -> b -> Bool) -> (c -> d -> Bool) -> f a c -> f b d -> Bool
+
+class (Eq2 f) => Ord2 f where
+    liftCompare2 :: (a -> b -> Ordering) -> (c -> d -> Ordering) -> f a c -> f b d -> Ordering
+
+class Read2 f where
+    liftReadsPrec2 :: (Int -> ReadS a) -> ReadS [a] -> (Int -> ReadS b) -> ReadS [b] -> Int -> ReadS (f a b)
+    liftReadList2  :: (Int -> ReadS a) -> ReadS [a] -> (Int -> ReadS b) -> ReadS [b]        -> ReadS [f a b]
+
+class Show2 f where
+    liftShowsPrec2 :: (Int -> a -> ShowS) -> ([a] -> ShowS) -> (Int -> b -> ShowS) -> ([b] -> ShowS) -> Int ->  f a b - > ShowS
+    liftShowList2  :: (Int -> a -> ShowS) -> ([a] -> ShowS) -> (Int -> b -> ShowS) -> ([b] -> ShowS)        -> [f a b] -> ShowS
+}}}
 
 === Algorithms ===
 
