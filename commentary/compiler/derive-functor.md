@@ -499,12 +499,13 @@ We write the derivation of bimap code over the last two type variables
 'a and 'b, for the given type 'c, as ($bimap 'a 'b 'c). We refer bimap's
 first and second map functions as f and g, respectively.
 
-  $(bimap 'a 'b 'c)          =  \x -> x     -- when c does not contain a or b
-  $(bimap 'a 'b 'a)          =  f
-  $(bimap 'a 'b 'b)          =  g
-  $(bimap 'a 'b '(c1,c2))    =  \x -> case x of (x1,x2) -> ($(bimap 'a 'b 'c1) x1, $(bimap 'a 'b 'c2) x2)
-  $(bimap 'a 'b '(T c1 c2))  =  bimap $(bimap 'a 'b 'c1) $(bimap 'a 'b 'c2)   -- when a and b only occur in the last two parameters, c1 and c2
-  $(bimap 'a 'b '(c -> d))   =  \x e -> $(bimap 'a 'b 'd) (x ($(cobimap 'a 'b 'c) e))
+  $(bimap 'a 'b 'c)             =  \x -> x     -- when c does not contain a or b
+  $(bimap 'a 'b 'a)             =  f
+  $(bimap 'a 'b 'b)             =  g
+  $(bimap 'a 'b '(c1,c2))       =  \x -> case x of (x1,x2) -> ($(bimap 'a 'b 'c1) x1, $(bimap 'a 'b 'c2) x2)
+  $(bimap 'a 'b '(T c1 c2 c3))  =  bimap $(bimap 'a 'b 'c2) $(bimap 'a 'b 'c3)   -- when a and b only occur in the last two parameters, c2 and c3
+  $(bimap 'a 'b '(T c1 c2 c3))  =  fmap  $(bimap 'a 'b 'c3)                      -- when a and b only occur in the last parameter, c3
+  $(bimap 'a 'b '(c -> d))      =  \x e -> $(bimap 'a 'b 'd) (x ($(cobimap 'a 'b 'c) e))
 
 For functions, the type parameters, 'a and 'b, can occur in contravariant positions,
 which means we need to derive a function like:
@@ -513,10 +514,11 @@ which means we need to derive a function like:
 
 This is pretty much the same as $bimap, only without the $(cobimap 'a 'b 'a) and $(cobimap 'a 'b 'b) cases:
 
-  $(cobimap 'a 'b 'c)          =  \x -> x     -- when c does not contain a or b
-  $(cobimap 'a 'b 'a)          =  error "type variable in contravariant position"
-  $(cobimap 'a 'b 'b)          =  error "type variable in contravariant position"
-  $(cobimap 'a 'b '(c1,c2))    =  \x -> case x of (x1,x2) -> ($(cobimap 'a 'b 'c1) x1, $(cobimap 'a 'b 'c2) x2)
-  $(cobimap 'a 'b '(T c1 c2))  =  bimap $(cobimap 'a 'b 'c1) $(cobimap 'a 'b 'c2)   -- when a and b only occur in the last two parameters, c1 and c2
-  $(cobimap 'a 'b '(c -> d))   =  \x e -> $(cobimap 'a 'b 'd) (x ($(bimap 'a 'b 'c) e))
+  $(cobimap 'a 'b 'c)             =  \x -> x     -- when c does not contain a or b
+  $(cobimap 'a 'b 'a)             =  error "type variable in contravariant position"
+  $(cobimap 'a 'b 'b)             =  error "type variable in contravariant position"
+  $(cobimap 'a 'b '(c1,c2))       =  \x -> case x of (x1,x2) -> ($(cobimap 'a 'b 'c1) x1, $(cobimap 'a 'b 'c2) x2)
+  $(cobimap 'a 'b '(T c1 c2 c3))  =  bimap $(cobimap 'a 'b 'c2) $(cobimap 'a 'b 'c3)   -- when a and b only occur in the last two parameters, c2 and c3
+  $(cobimap 'a 'b '(T c1 c2 c3))  =  fmap  $(cobimap 'a 'b 'c2)                        -- when a and b only occur in the last two parameter, c3
+  $(cobimap 'a 'b '(c -> d))      =  \x e -> $(cobimap 'a 'b 'd) (x ($(bimap 'a 'b 'c) e))
 ```
