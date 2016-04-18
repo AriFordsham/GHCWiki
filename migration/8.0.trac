@@ -15,6 +15,29 @@ a number of projects that broke with confusing type errors due to (often
 unnecessary) use of `-XImpredicativeTypes`. Users of 
 `-XImpredicativeTypes` do so at their own risk!
 
+=== More conservative use of superclass constraints while solving
+
+The compiler is now a bit more conservative in solving constraints previously
+provided by superclasses (see #11762). For instance, consider this program,
+
+{{{#!hs
+{-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE UndecidableInstances #-}
+
+class Super a
+class (Super a) => Left a
+class (Super a) => Right a
+instance (Left a) => Right a    -- this is now an error
+}}}
+GHC now rejects this instance, claiming it cannot deduce the `Super a`
+superclass constraint of the `Right` typeclass. This stands in contrast to
+previous releases, which would accept this declaration, using the `Super a`
+constraint implied by the `Left a` constraint. To fix this simply add the
+needed superclass constraint explicitly,
+{{{#!hs
+instance (Left a, Super a) => Right a
+}}}
+
 
 === `-fwarn-pointless-pragmas`
 
