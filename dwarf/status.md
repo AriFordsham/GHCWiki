@@ -151,9 +151,15 @@ redundancy.
 
 - \[IDEA\]   Record tree of Core fragments into DWARF DIEs (Core Notes)
 
+
+Finally, it would be great if we could provide stack traces alongside exceptions.
+There are some ideas for how to do this in [Exceptions/StackTraces](exceptions/stack-traces).
+
+- \[IDEA\]   Record stack traces with synchronous and asynchronous exceptions
+
 ### Documentation
 
 
 Now since we have all of these features, we need to make sure the user knows what they do.
 
-- \[RFC\] [ Phab:D1369](https://phabricator.haskell.org/D1369)   Add debugging information chapter to the GHC users guide
+- \[MERGED\] [ Phab:D1369](https://phabricator.haskell.org/D1369)   Add debugging information chapter to the GHC users guide
