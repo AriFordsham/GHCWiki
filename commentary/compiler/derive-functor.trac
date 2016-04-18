@@ -497,6 +497,6 @@ This is pretty much the same as $bimap, only without the $(cobimap 'a 'b 'a) and
   $(cobimap 'a 'b 'b)             =  error "type variable in contravariant position"
   $(cobimap 'a 'b '(c1,c2))       =  \x -> case x of (x1,x2) -> ($(cobimap 'a 'b 'c1) x1, $(cobimap 'a 'b 'c2) x2)
   $(cobimap 'a 'b '(T c1 c2 c3))  =  bimap $(cobimap 'a 'b 'c2) $(cobimap 'a 'b 'c3)   -- when a and b only occur in the last two parameters, c2 and c3
-  $(cobimap 'a 'b '(T c1 c2 c3))  =  fmap  $(cobimap 'a 'b 'c2)                        -- when a and b only occur in the last two parameter, c3
+  $(cobimap 'a 'b '(T c1 c2 c3))  =  fmap  $(cobimap 'a 'b 'c2)                        -- when a and b only occur in the last parameter, c3
   $(cobimap 'a 'b '(c -> d))      =  \x e -> $(cobimap 'a 'b 'd) (x ($(bimap 'a 'b 'c) e))
 }}}
