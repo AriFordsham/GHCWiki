@@ -25,6 +25,8 @@ As usual, GHC development churns onward - and **GHC 8.0 is right around the corn
 
 - **Support for DWARF based stacktraces** \[DWARF\]. from Peter Wortmann, Arash Rouhani, and Ben Gamari with backtraces from Haskell code.
 
+- **Remote GHCi** \[ [RemoteGHCi](remote-gh-ci) \] The `-fexternal-interpreter` flag tells GHC to run interpreted code in a separate process.  This provides various benefits, including allowing the interpreter to run profiled code (for example), thereby gaining access to [ stack traces](http://simonmar.github.io/posts/2016-02-12-Stack-traces-in-GHCi.html) in GHCi.
+
 # Upcoming plans for GHC 8.2
 
 
