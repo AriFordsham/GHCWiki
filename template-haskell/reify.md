@@ -119,7 +119,13 @@ A proposal:
   r <- newIORef (Nothing :: Maybe LocalTypeEnv)
   ```
 
-  Perhaps the annotation could be implemented by extending the `Tickish` datatype with a new data constructor. **RAE:** I think `Tickish` is the wrong way to go here, as that's all about performance measurements. Instead, given that `addGroupFinalizer` is always done from a splice, it seems you can put what you need into `HsSplice`. **End RAE**
+  Perhaps the annotation could be implemented by extending the `Tickish` datatype with a new data constructor.
+
+> **RAE:** I think `Tickish` is the wrong way to go here, as that's all about performance measurements. Instead, given that `addGroupFinalizer` is always done from a splice, it seems you can put what you need into `HsSplice`. **End RAE**
+
+> **FD** Note that `Ticksh` has constructors like `SourceNote` and `Breakpoint` which do not relate to performance measurements. The problem with using `HsSplice` would be that it is removed when the renamer executes the splice. And we need it to reach the typechecker.
+> **End FD**
+
 - When the type checker finds the annotation it writes to it the local typing environment:
 
   ```wiki
