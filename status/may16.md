@@ -1,4 +1,4 @@
-# GHC Status Report, October 2015
+# GHC Status Report, May 2016
 
 
 As usual, GHC development churns onward - and **GHC 8.0 is right around the corner**! The final set of bugs are being fixed, and we hope to have a final release candidate, followed by the final release, in just a few weeks.
