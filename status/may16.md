@@ -19,7 +19,7 @@ As usual, GHC development churns onward - and **GHC 8.0 is right around the corn
 
 - **Record system enhancements** \[[OverloadedRecordFields](overloaded-record-fields)\]. At long last, `OverloadedRecordFields` will finally be available in GHC 8.0, allowing multiple uses of the same field name and a form of type-directed name resolution.
 
-- A huge improvement to pattern matching (including much better coverage of GADTs), based on the work of Simon PJ and Georgios Karachalias. For more details, see [ their paper](http://research.microsoft.com/en-us/um/people/simonpj/papers/pattern-matching/gadtpm.pdf).
+- A huge improvement to **pattern match checking** (including much better coverage of GADTs), based on the work of Simon PJ and Georgios Karachalias. For more details, see [ their paper](http://research.microsoft.com/en-us/um/people/simonpj/papers/pattern-matching/gadtpm.pdf).
 
 - **More Backpack improvements**. There's a new user-facing syntax which allows multiple modules to be defined a single file, and we're hoping to release at least the ability to publish multiple "units" in a single Cabal file. **TODOFIXME**: Edward, is there ANY documentation about this?!
 
@@ -27,18 +27,21 @@ As usual, GHC development churns onward - and **GHC 8.0 is right around the corn
 
 - **Remote GHCi**[RemoteGHCi](remote-gh-ci) The `-fexternal-interpreter` flag tells GHC to run interpreted code in a separate process.  This provides various benefits, including allowing the interpreter to run profiled code (for example), thereby gaining access to [ stack traces](http://simonmar.github.io/posts/2016-02-12-Stack-traces-in-GHCi.html) in GHCi.
 
-- A new **Strict language extension** \[[StrictPragma](strict-pragma)\] implemented by Adam Sandberg Eriksson and Johan Tibell
+- A new **Strict language extension** \[[StrictPragma](strict-pragma)\], allowing modules to be compiled such that local bindings are evaluated eagerly. Implemented by Adam Sandberg Eriksson based on an proposal by Johan Tibell.
 
 - Significant improvements in cross-platform support, including a variety of fixes to **Windows linker support** ([ Phab:D1696](https://phabricator.haskell.org/D1696), [ Phab:D1805](https://phabricator.haskell.org/D1805)), great improvements in reliability on ARM ([\#11206](https://gitlab.haskell.org//ghc/ghc/issues/11206)), revived unregisterised \[[ support](https://trofi.github.io/posts/191-ghc-on-m68k.html|m68k), and new support for AIX targets (Herbert)
 
 # Upcoming plans for GHC 8.2
 
 
-Naturally, there were several things we didn't get around to this cycle, or things which are still in flight and being worked on. (And you can always try to join us if you want something done!)
+With the super-major GHC 8.0 release out the door, plans have begun to form for the next major release, 8.2. Given that 8.0 saw a remarkable amount of churn, we hope to make the focus of 8.2 consolidation, stabilization, and optimization.  For this reason, we hope you'll note there are relatively few *new* features in the lists below; instead we'd like to encourage contributors to polish, optimize, document, refactor, or finish the features we already have.
+
+
+Of course, GHC only evolves because of its contributors. Please let us know if you have a pet project that you'd like to see merged!
 
 ## Libraries, source language, type system
 
-- **Indexed `Typeable` representations**TypeableT/BenGamari? (Ben Gamari, Simon Peyton Jones, etc). While GHC has long supported runtime type reflection through the `Typeable` typeclass, its current incarnation requires care to use, providing little in the way of type-safety. For this reason the implementation of types like `Data.Dynamic` must be implemented in terms of `unsafeCoerce` with no compiler verification.
+- **Indexed `Typeable` representations**[Typeable/BenGamari](typeable/ben-gamari) (Ben Gamari, Simon Peyton Jones, etc). While GHC has long supported runtime type reflection through the `Typeable` typeclass, its current incarnation requires care to use, providing little in the way of type-safety. For this reason the implementation of types like `Data.Dynamic` must be implemented in terms of `unsafeCoerce` with no compiler verification.
 
 > >
 > > GHC 8.2 will address this by introducing indexed type representations, leveraging the type-checker to verify programs using type reflection. This allows facilities like `Data.Dynamic` to be implemented in a fully type-safe manner. See the [ http://research.microsoft.com/en-us/um/people/simonpj/papers/haskell-dynamic/\|paper](http://research.microsoft.com/en-us/um/people/simonpj/papers/haskell-dynamic/|paper) for an description of the proposal and the [ https://ghc.haskell.org/trac/ghc/wiki/Typeable/BenGamari\|Wiki](https://ghc.haskell.org/trac/ghc/wiki/Typeable/BenGamari|Wiki) for the current status of the implementation.
@@ -50,8 +53,17 @@ Naturally, there were several things we didn't get around to this cycle, or thin
 ## Back-end and runtime system
 
 - Compact changes? (Edward Yang)
+
 - Maybe mention -fexternal-interpreter here? (Simon Marlow)
-- More work 
+
+- Refactoring and improvements to the cost-center profiler (Ben Gamari, [ Phab:D1722](https://phabricator.haskell.org/D1722)): Allow
+  heap profiler samples to be directed to the GHC eventlog, allowing
+  correlation with other program events, enabling easier analysis by tooling,
+  and eventual removal of the old, rather crufty profile format.
+
+- Further improvements to DWARF output (Ben Gamari): The 
+
+- TODO What else?
 
 ## Frontend, build system and miscellaneous changes
 
