@@ -43,8 +43,8 @@ Of course, GHC only evolves because of its contributors. Please let us know if y
 
 - **Indexed `Typeable` representations**[Typeable/BenGamari](typeable/ben-gamari) (Ben Gamari, Simon Peyton Jones, etc). While GHC has long supported runtime type reflection through the `Typeable` typeclass, its current incarnation requires care to use, providing little in the way of type-safety. For this reason the implementation of types like `Data.Dynamic` must be implemented in terms of `unsafeCoerce` with no compiler verification.
 
-> >
-> > GHC 8.2 will address this by introducing indexed type representations, leveraging the type-checker to verify programs using type reflection. This allows facilities like `Data.Dynamic` to be implemented in a fully type-safe manner. See the [ http://research.microsoft.com/en-us/um/people/simonpj/papers/haskell-dynamic/\|paper](http://research.microsoft.com/en-us/um/people/simonpj/papers/haskell-dynamic/|paper) for an description of the proposal and the [ https://ghc.haskell.org/trac/ghc/wiki/Typeable/BenGamari\|Wiki](https://ghc.haskell.org/trac/ghc/wiki/Typeable/BenGamari|Wiki) for the current status of the implementation.
+>
+> GHC 8.2 will address this by introducing indexed type representations, leveraging the type-checker to verify programs using type reflection. This allows facilities like `Data.Dynamic` to be implemented in a fully type-safe manner. See the [ http://research.microsoft.com/en-us/um/people/simonpj/papers/haskell-dynamic/\|paper](http://research.microsoft.com/en-us/um/people/simonpj/papers/haskell-dynamic/|paper) for an description of the proposal and the [ https://ghc.haskell.org/trac/ghc/wiki/Typeable/BenGamari\|Wiki](https://ghc.haskell.org/trac/ghc/wiki/Typeable/BenGamari|Wiki) for the current status of the implementation.
 
 - Future source-visible Backpack plans? (Edward should answer)
 - What about `MonadFail`? (Herbert, David L)
@@ -63,8 +63,8 @@ Of course, GHC only evolves because of its contributors. Please let us know if y
 
 - Further improvements to debugging information (Ben Gamari): There are still a number of outstanding issues with GHC's DWARF implementation, some of which even carry the potential to crash the program during stacktrace collection. GHC 8.2 will hopefully have these issues resolved, allowing debugging information to be used by end-user code in production.
 
-> >
-> > With stable stack unwinding support comes a number of opportunities for new serial and parallel performance analysis tools (e.g. statistical profiling) and debugging. As GHC's debugging information improves, we expect to see tooling developed to support these applications. See the [ DWARF status page](https://ghc.haskell.org/trac/ghc/wiki/DWARF/80Status) for futher information.
+>
+> With stable stack unwinding support comes a number of opportunities for new serial and parallel performance analysis tools (e.g. statistical profiling) and debugging. As GHC's debugging information improves, we expect to see tooling developed to support these applications. See the [ DWARF status page](https://ghc.haskell.org/trac/ghc/wiki/DWARF/80Status) for futher information.
 
 - TODO What else?
 
