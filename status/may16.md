@@ -31,7 +31,7 @@ As usual, GHC development churns onward - and **GHC 8.0 is right around the corn
 
 - A new **Strict language extension** \[[StrictPragma](strict-pragma)\], allowing modules to be compiled such that local bindings are evaluated eagerly. Implemented by Adam Sandberg Eriksson based on an proposal by Johan Tibell.
 
-- Significant improvements in cross-platform support, including a variety of fixes to **Windows linker support** ([ Phab:D1696](https://phabricator.haskell.org/D1696), [ Phab:D1805](https://phabricator.haskell.org/D1805)), great improvements in reliability on ARM ([\#11206](https://gitlab.haskell.org//ghc/ghc/issues/11206)), revived unregisterised \[[ support](https://trofi.github.io/posts/191-ghc-on-m68k.html|m68k), and new support for AIX targets (Herbert)
+- Significant **improvements in cross-platform support**, including a variety of fixes to Windows linker support ([ Phab:D1696](https://phabricator.haskell.org/D1696), [ Phab:D1805](https://phabricator.haskell.org/D1805)), great improvements in reliability on ARM ([\#11206](https://gitlab.haskell.org//ghc/ghc/issues/11206)), revived unregisterised \[[ support](https://trofi.github.io/posts/191-ghc-on-m68k.html|m68k), 64-bit PowerPC support, and new support for AIX targets (Herbert)
 
 # Upcoming plans for GHC 8.2
 
