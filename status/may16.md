@@ -21,6 +21,8 @@ As usual, GHC development churns onward - and **GHC 8.0 is right around the corn
 
 - A huge improvement to **pattern match checking** (including much better coverage of GADTs), based on the work of Simon PJ and Georgios Karachalias. For more details, see [ their paper](http://research.microsoft.com/en-us/um/people/simonpj/papers/pattern-matching/gadtpm.pdf).
 
+- **Improved generics representation** leveraging type-level literals. This makes `GHC.Generics` more expressive and uses new type system features to give more natural types to its representations.
+
 - **More Backpack improvements**. There's a new user-facing syntax which allows multiple modules to be defined a single file, and we're hoping to release at least the ability to publish multiple "units" in a single Cabal file. **TODOFIXME**: Edward, is there ANY documentation about this?!
 
 - **Support for DWARF-based stacktraces** \[DWARF\]. Haskell has at long last gained the ability to collect stack-traces of running programs. While still experimental, `base` now includes an interface which user code can use to request a representation of the current execution stack when running on a supported machine (currently Linux x86-64). Furthermore, the runtime system will now provide a backtrace of the currently running thread when thrown a `SIGUSR2` signal. Note that this functionality is highly experimental and there are some known issues which can potentially threaten the stability of the program.
@@ -73,7 +75,7 @@ Of course, GHC only evolves because of its contributors. Please let us know if y
 - New shake build system is Really Finally Going to get merged? (Andrey)
 - The ImprovedLLVMBackend plan didn't make the cut for 8.0, but will for 8.2 (Austin)
 - Donated Mac buildbot, thanks to FutureIce! (Austin)
-- `ghc-pkg` is learning some new tricks, RE: environment files and Cabal changes. (Austin/Duncan?)
+- GHC-pkg is learning some new tricks, RE: environment files and Cabal changes. (Austin/Duncan?)
 - 
 
 # Development updates and "Thank You"s
