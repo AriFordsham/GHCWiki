@@ -1,6 +1,6 @@
 = GHC Status Report, May 2016 =
 
-As usual, GHC development churns onward - and **GHC 8.0 is right around the corner**! The final set of bugs are being fixed, and we hope to have a final release candidate, followed by the final release, in just a few weeks.
+GHC development churns onward - and **GHC 8.0 is right around the corner**! The final set of bugs are being fixed, and we hope to have a final release candidate, followed by the final release, in just a few weeks.
 
 = Major changes in GHC 8.0.1 =
 
@@ -20,6 +20,8 @@ As usual, GHC development churns onward - and **GHC 8.0 is right around the corn
 
   - A huge improvement to '''pattern match checking''' (including much better coverage of GADTs), based on the work of Simon PJ and Georgios Karachalias. For more details, see [http://research.microsoft.com/en-us/um/people/simonpj/papers/pattern-matching/gadtpm.pdf their paper].
 
+  - '''Custom type errors''' [CustomTypeErrors], allowing library authors to offer more descriptive error messages than those offered by GHC.
+
   - '''Improved generics representation''' leveraging type-level literals. This makes `GHC.Generics` more expressive and uses new type system features to give more natural types to its representations.
 
   - '''More Backpack improvements'''. There's a new user-facing syntax which allows multiple modules to be defined a single file, and we're hoping to release at least the ability to publish multiple "units" in a single Cabal file. **TODO FIXME**: Edward, is there ANY documentation about this?!
@@ -30,7 +32,7 @@ As usual, GHC development churns onward - and **GHC 8.0 is right around the corn
 
   - A new '''Strict language extension''' [StrictPragma], allowing modules to be compiled such that local bindings are evaluated eagerly. Implemented by Adam Sandberg Eriksson based on an proposal by Johan Tibell.
 
-  - Significant '''improvements in cross-platform support''', including a variety of fixes to Windows linker support (Phab:D1696, Phab:D1805), great improvements in reliability on ARM (#11206), revived unregisterised [[https://trofi.github.io/posts/191-ghc-on-m68k.html|m68k support], 64-bit PowerPC support, and new support for AIX targets (Herbert)
+  - Significant improvements in cross-platform support, including a variety of fixes to '''Windows linker support''' (Phab:D1696, Phab:D1805), great improvements in reliability on ARM (#11206), revived unregisterised [[https://trofi.github.io/posts/191-ghc-on-m68k.html|m68k support], and new support for AIX targets (Herbert)
 
 = Upcoming plans for GHC 8.2 =
 
@@ -68,14 +70,13 @@ Of course, GHC only evolves because of its contributors. Please let us know if y
 == Frontend, build system and miscellaneous changes ==
 
   - New shake build system is Really Finally Going to get merged? (Andrey)
-  - The ImprovedLLVMBackend plan didn't make the cut for 8.0, but will for 8.2 (Austin)
-  - Donated Mac buildbot, thanks to FutureIce! (Austin)
-  - GHC-pkg is learning some new tricks, RE: environment files and Cabal changes. (Austin/Duncan?)
+  - The [ImprovedLLVMBackend|improved LLVM backend plan] plan didn't make the cut for 8.0, but will for 8.2 (Austin Seipp)
+  - `ghc-pkg` is learning some new tricks, RE: environment files and Cabal changes. (Austin/Duncan?)
   - 
 
 = Development updates and "Thank You"s =
 
-2015 has been a remarkable year for GHC development. 
+2015 has been a remarkable year for GHC development. Over the course of the year the GHC repository gained nearly 2500 commits by over one hundred authors.
 
 Insert incredible levels of praise and adoration for contributors like Thomas, Tamar, Ömer, etc, and
 lots of our newer regular contributors like Ryan, Michael Sloan, etc.
