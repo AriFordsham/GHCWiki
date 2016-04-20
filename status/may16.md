@@ -73,7 +73,7 @@ Of course, GHC only evolves because of its contributors. Please let us know if y
 - New shake build system is Really Finally Going to get merged? (Andrey)
 - The ImprovedLLVMBackend plan didn't make the cut for 8.0, but will for 8.2 (Austin)
 - Donated Mac buildbot, thanks to FutureIce! (Austin)
-- GHC-pkg is learning some new tricks, RE: environment files and Cabal changes. (Austin/Duncan?)
+- `ghc-pkg` is learning some new tricks, RE: environment files and Cabal changes. (Austin/Duncan?)
 - 
 
 # Development updates and "Thank You"s
