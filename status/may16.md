@@ -7,13 +7,13 @@ As usual, GHC development churns onward - and **GHC 8.0 is right around the corn
 
 - **Support for simple, implicit callstacks with source locations** \[ImplicitCallstacks\] implicit parameters providing callstacks/source locations\], allowing you to have a light-weight means of getting a call-stack in a Haskell application. ([ Phab:D861](https://phabricator.haskell.org/D861))
 
-- **Injective type families** \[[InjectiveTypeFamilies](injective-type-families)\]. Injective TFs allow you to specify type families which are injective, i.e. have a one-to-one relationship. ([ Phab:D202](https://phabricator.haskell.org/D202)).
+- **Injective type families** (\[[InjectiveTypeFamilies](injective-type-families)\|Wiki\], [ http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/injective-type-families-acm.pdf\|paper](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/injective-type-families-acm.pdf|paper)). Allows the expression of one-to-one type-level functions .
 
-- **Applicative do notation** \[[ApplicativeDo](applicative-do)\]. With the new `-XApplicativeDo`, GHC tries to desugar do-notation to `Applicative` where possible, giving a more convenient sugar for many common Applicative expressions. ([ Phab:D729](https://phabricator.haskell.org/D729))
+- **Applicative do notation** \[[ApplicativeDo](applicative-do)\]. With the new `-XApplicativeDo`, GHC tries to desugar `do`-notation to `Applicative` where possible, giving a more convenient sugar for many common `Applicative` expressions. ([ Phab:D729](https://phabricator.haskell.org/D729))
 
 - **A beautiful new users guide**. Now rewritten in reStructured Text, and with significantly improved output and documentation.
 
-- **Visible type application** - \[[ExplicitTypeApplication](explicit-type-application)\]. This allows you to say, for example `id @Bool` to specialize `id` to `Bool -> Bool`. With this feature, proxies are never needed.
+- **Visible type application** - \[[ExplicitTypeApplication](explicit-type-application)\]. This allows you to say, for example, `id @Bool` to specialize `id` to `Bool -> Bool`. With this feature, proxies are never needed.
 
 - **Kind Equalities**, which form the first step to building Dependent Haskell. This feature enables promotion of GADTs to kinds, kind families, heterogeneous equality (kind-indexed GADTs), and `* :: *`. ([ Phab:D808](https://phabricator.haskell.org/D808))
 
@@ -47,12 +47,12 @@ Of course, GHC only evolves because of its contributors. Please let us know if y
 > > GHC 8.2 will address this by introducing indexed type representations, leveraging the type-checker to verify programs using type reflection. This allows facilities like `Data.Dynamic` to be implemented in a fully type-safe manner. See the [ http://research.microsoft.com/en-us/um/people/simonpj/papers/haskell-dynamic/\|paper](http://research.microsoft.com/en-us/um/people/simonpj/papers/haskell-dynamic/|paper) for an description of the proposal and the [ https://ghc.haskell.org/trac/ghc/wiki/Typeable/BenGamari\|Wiki](https://ghc.haskell.org/trac/ghc/wiki/Typeable/BenGamari|Wiki) for the current status of the implementation.
 
 - Future source-visible Backpack plans? (Edward should answer)
-- What about MonadFail? (Herbert, David L)
+- What about `MonadFail`? (Herbert, David L)
 - FIXME accumulate some of the scattered changes/plans for `base`. (Edward K, Austin, Herbert?)
 
 ## Back-end and runtime system
 
-- Compact changes? (Edward Yang)
+- Compact regions (Giovanni Campagna, Edward Yang, [ Phab:D1264](https://phabricator.haskell.org/D1264)): [ paper](http://ezyang.com/papers/ezyang15-cnf.pdf)
 
 - Maybe mention -fexternal-interpreter here? (Simon Marlow)
 
@@ -61,7 +61,10 @@ Of course, GHC only evolves because of its contributors. Please let us know if y
   correlation with other program events, enabling easier analysis by tooling,
   and eventual removal of the old, rather crufty profile format.
 
-- Further improvements to DWARF output (Ben Gamari): The 
+- Further improvements to debugging information (Ben Gamari): There are still a number of outstanding issues with GHC's DWARF implementation, some of which even carry the potential to crash the program during stacktrace collection. GHC 8.2 will hopefully have these issues resolved, allowing debugging information to be used by end-user code in production.
+
+> >
+> > With stable stack unwinding support comes a number of opportunities for new serial and parallel performance analysis tools (e.g. statistical profiling) and debugging. As GHC's debugging information improves, we expect to see tooling developed to support these applications. See the [ DWARF status page](https://ghc.haskell.org/trac/ghc/wiki/DWARF/80Status) for futher information.
 
 - TODO What else?
 
