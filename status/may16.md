@@ -94,7 +94,7 @@ Herbert Valerio Riedel has also been as act
 On the Windows front, Tamar Christina has been doing amazing work cleaning up the many nooks that have gone unattended until now. His work on the runtime linker should mean that GHC 8.0 will be considerably more reliable when linking against many Windows libraries.
 
 
-The past year has brought a number of new contributors: Ryan Scott and Michael Sloan have picked up various generics and Template Haskell projects, Andrew Farmer has contributed a number of fixes to the cost-centre profiler, and Bartosz Nikita has made numerous contributions improving compiler determinism. We also also saw the beginnings of some very interesting work from Ömer Sinan Ağacan, who is looking at teaching GHC to unpack sum types.
+The past year has brought a number of new contributors: Ryan Scott and Michael Sloan have picked up various generics and Template Haskell projects, Andrew Farmer has contributed a number of fixes to the cost-centre profiler, and Bartosz Nitka has made numerous contributions improving compiler determinism. We also also saw the beginnings of some very interesting work from Ömer Sinan Ağacan, who is looking at teaching GHC to unpack sum types.
 
 
 Insert incredible levels of praise and adoration for contributors like Thomas, Tamar, Ömer, etc, and lots of our newer regular contributors like Ryan, Michael Sloan, etc.
