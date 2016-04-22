@@ -25,6 +25,8 @@ GHC development churns onward - and **GHC 8.0 is right around the corner**! The 
 
 - **Improved generics representation** leveraging type-level literals. This makes `GHC.Generics` more expressive and uses new type system features to give more natural types to its representations.
 
+- A new **DeriveLift language extension**, allowing the `Lift` type class from `Language.Haskell.TH.Syntax` to be derived automatically. This was introduced in the spirit of `DeriveDataTypeable` and `DeriveGeneric` to allow easier metaprogramming, and to allow users to easily define `Lift` instances without needing to depend on the existence of Template Haskell itself.
+
 - **More Backpack improvements**. There's a new user-facing syntax which allows multiple modules to be defined a single file, and we're hoping to release at least the ability to publish multiple "units" in a single Cabal file. **TODOFIXME**: Edward, is there ANY documentation about this?!
 
 - **Support for DWARF-based stacktraces** \[DWARF\]. Haskell has at long last gained the ability to collect stack-traces of running programs. While still experimental, `base` now includes an interface which user code can use to request a representation of the current execution stack when running on a supported machine (currently Linux x86-64). Furthermore, the runtime system will now provide a backtrace of the currently running thread when thrown a `SIGUSR2` signal. Note that this functionality is highly experimental and there are some known issues which can potentially threaten the stability of the program.
@@ -52,6 +54,7 @@ Of course, GHC only evolves because of its contributors. Please let us know if y
 
 - Future source-visible Backpack plans? (Edward should answer)
 - What about `MonadFail`? (Herbert, David L)
+- 
 - FIXME accumulate some of the scattered changes/plans for `base`. (Edward K, Austin, Herbert?)
 
 ## Back-end and runtime system
