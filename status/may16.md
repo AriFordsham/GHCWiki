@@ -54,7 +54,9 @@ Of course, GHC only evolves because of its contributors. Please let us know if y
 
 - Future source-visible Backpack plans? (Edward should answer)
 - What about `MonadFail`? (Herbert, David L)
-- 
+- Merge `Bifoldable` and `Bitraversable` into `base` (Edward Kmett, Ryan Scott)
+- Generalize the `deriving` algorithms for `Eq`, `Functor`, etc. to be able to derive the data types in `Data.Functor.Classes` (`Eq1`, `Eq2`, etc.), `Bifunctor`, `Bifoldable`, and `Bitraversable` (Ryan Scott)
+- Deriving strategies (Ryan Scott): grant users the ability to choose explicitly how a class should be `derived` (using a built-in algorithm, `GeneralizedNewtypeDeriving`, `DeriveAnyClass`, or otherwise), addressing [\#10598](https://gitlab.haskell.org//ghc/ghc/issues/10598).
 - FIXME accumulate some of the scattered changes/plans for `base`. (Edward K, Austin, Herbert?)
 
 ## Back-end and runtime system
