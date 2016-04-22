@@ -7,7 +7,7 @@ GHC development churns onward - and **GHC 8.0 is right around the corner**! The 
 
 - **Support for simple, implicit callstacks with source locations** \[ImplicitCallstacks\] implicit parameters providing callstacks/source locations\], allowing you to have a light-weight means of getting a call-stack in a Haskell application. ([ Phab:D861](https://phabricator.haskell.org/D861))
 
-- **Injective type families** ([Wiki](injective-type-families), [ http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/injective-type-families-acm.pdf\|paper](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/injective-type-families-acm.pdf|paper)). Allows the expression of one-to-one type-level functions .
+- **Injective type families** ([Wiki](injective-type-families), [ http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/injective-type-families-acm.pdf\|paper](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/injective-type-families-acm.pdf|paper)). Allows to annotate type families with injectivity information. Correctness of injectivity annotation is then verified by the compiler. Once compiler knows the annotation is correct it can us injectivity information during type checking.
 
 - **Applicative do notation** \[[ApplicativeDo](applicative-do)\]. With the new `-XApplicativeDo`, GHC tries to desugar `do`-notation to `Applicative` where possible, giving a more convenient sugar for many common `Applicative` expressions. ([ Phab:D729](https://phabricator.haskell.org/D729))
 
