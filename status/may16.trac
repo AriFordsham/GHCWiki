@@ -36,6 +36,9 @@ GHC development churns onward - and **GHC 8.0 is right around the corner**! The 
 
   - Significant improvements in cross-platform support, including a variety of fixes to '''Windows linker support''' (Phab:D1696, Phab:D1805), great improvements in reliability on ARM (#11206), revived unregisterised [[https://trofi.github.io/posts/191-ghc-on-m68k.html|m68k support]], and new support for AIX targets (Herbert) and Linux PowerPC 64-bit big endian and little endian native code generation (Phab:D629).
 
+  -  GHC now supports "environment files". This is not any fundamental new capability but may proved to be a useful convenience. Build systems like Cabal call GHC with flags that define an (ephemeral) package environment, such as `-hide-all-packages -package-db=... -package this -package that`. An environment file lets the same information be stashed persistently in a file that GHC will pick up and use automatically. In principle this allows tools such as cabal to generate an environment file and then you can use `ghc` or `ghci` directly and get the package environment of your project, rather than the default global environment. In addition to environments that live in a particular directory, it is possible to make a default global environment, or different global environments for different shell sessions. 
+
+
 = Upcoming plans for GHC 8.2 =
 
 With the super-major GHC 8.0 release out the door, plans have begun to form for the next major release, 8.2. Given that 8.0 saw a remarkable amount of churn, we hope to make the focus of 8.2 consolidation, stabilization, and optimization.  For this reason, we hope you'll note there are relatively few ''new'' features in the lists below; instead we'd like to encourage contributors to polish, optimize, document, refactor, or finish the features we already have.

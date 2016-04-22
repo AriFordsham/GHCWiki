@@ -37,6 +37,8 @@ GHC development churns onward - and **GHC 8.0 is right around the corner**! The 
 
 - Significant improvements in cross-platform support, including a variety of fixes to **Windows linker support** ([ Phab:D1696](https://phabricator.haskell.org/D1696), [ Phab:D1805](https://phabricator.haskell.org/D1805)), great improvements in reliability on ARM ([\#11206](https://gitlab.haskell.org//ghc/ghc/issues/11206)), revived unregisterised [ m68k support](https://trofi.github.io/posts/191-ghc-on-m68k.html), and new support for AIX targets (Herbert) and Linux PowerPC 64-bit big endian and little endian native code generation ([ Phab:D629](https://phabricator.haskell.org/D629)).
 
+-  GHC now supports "environment files". This is not any fundamental new capability but may proved to be a useful convenience. Build systems like Cabal call GHC with flags that define an (ephemeral) package environment, such as `-hide-all-packages -package-db=... -package this -package that`. An environment file lets the same information be stashed persistently in a file that GHC will pick up and use automatically. In principle this allows tools such as cabal to generate an environment file and then you can use `ghc` or `ghci` directly and get the package environment of your project, rather than the default global environment. In addition to environments that live in a particular directory, it is possible to make a default global environment, or different global environments for different shell sessions. 
+
 # Upcoming plans for GHC 8.2
 
 
