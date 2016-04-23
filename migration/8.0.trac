@@ -317,7 +317,7 @@ TODO
 
 === `hsc2hs` defines an `#alignment` macro
 
-`hsc2hs` now supports the `#alignment` macro, which can be used to calculate the alignment of a struct in bytes. It is common for `.hsc` files to implement `#alignment` manually via a `#let` directive:
+Starting with version 0.68 hackage:hsc2hs now supports the `#alignment` macro, which can be used to calculate the alignment of a struct in bytes. It is common for `.hsc` files to implement `#alignment` manually via a `#let` directive:
 
 {{{#!hs
 #let alignment t = "%lu", (unsigned long)offsetof(struct {char x__; t (y__); }, y__)
