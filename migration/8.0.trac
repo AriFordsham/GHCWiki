@@ -267,8 +267,7 @@ TODO
     + newtypeInstD :: CxtQ -> Name -> [TypeQ] -> Maybe Kind -> ConQ -> CxtQ   -> DecQ
 }}}
 
- - The `Strict` datatype has been overhauled. The functional equivalent of `Strict` in `template-haskell-2.11.0.0` is `Bang`:
-   
+ - The `Strict` datatype has been overhauled. The functional equivalent of `Strict` in `template-haskell-2.11.0.0` is `Bang`: 
    {{{#!hs
    data Bang = Bang SourceUnpackedness SourceStrictness
    
@@ -284,17 +283,13 @@ TODO
    type BangType    = (Bang, Type)
    type VarBangType = (Name, Bang, Type)
    }}}
-
    Note that the notions of unpackedness and strictness, which were previously combined in `Strict`, have now been decoupled. Also note the emphasis on ''source'', as `Bang` represents what the user writes in source code. A field's ''source'' strictness may be quite different from what GHC actually ''decides'' to use as a field's strictness.
-   
-   For example, if `-XStrict` is enabled, GHC will decided that any field not marked with a laziness annotation (`~`) will become strict. So if you compile the following datatype with `-XStrict` enabled:
-   
+
+ For example, if `-XStrict` is enabled, GHC will decided that any field not marked with a laziness annotation (`~`) will become strict. So if you compile the following datatype with `-XStrict` enabled: 
    {{{#!hs
    data Example a = Example a
-   }}}
-   
-   GHC will decide that `Example`'s field is strict. However, if you reify `Example`, its `Bang` value will be `Bang NoSourceUnpackedness NoSourceStrictness` because the user did not put an explicit strictness annotation (`!`) in the source code. To figure out what GHC decided, use the `reifyConStrictness` function:
-   
+   }}}   
+ GHC will decide that `Example`'s field is strict. However, if you reify `Example`, its `Bang` value will be `Bang NoSourceUnpackedness NoSourceStrictness` because the user did not put an explicit strictness annotation (`!`) in the source code. To figure out what GHC decided, use the `reifyConStrictness` function:   
    {{{#!hs
    reifyConStrictness :: Name -> Q [DecidedStrictness]
    
