@@ -92,7 +92,7 @@ For building the documentation (User's Guide):
 
 ```wiki
    # GHC > 7.10:
-   sudo apt-get install python-sphinx texlive-xetex
+   sudo apt-get install python-sphinx texlive-xetex texlive-fonts-recommended fonts-lmodern
    # GHC <= 7.10:
    sudo apt-get install dblatex docbook-xsl docbook-utils libxml2-utils texlive-font-utils
 ```
