@@ -3,6 +3,9 @@
 
 This page, created on April 25, 2016, is to discuss the need (if any) to improve GHCi's `:type` command to deal with different use cases and desired output.
 
+
+Relevant tickets: [\#10963](https://gitlab.haskell.org//ghc/ghc/issues/10963) (about defaults/specializations), [\#11376](https://gitlab.haskell.org//ghc/ghc/issues/11376) (about default behavior of `:type`), and [\#11975](https://gitlab.haskell.org//ghc/ghc/issues/11975) (about printing specified variables).
+
 ## Problem 1: variables available for visible type application
 
 
@@ -150,4 +153,42 @@ Running example: `foo :: forall a m t. (Show a, Monad m, Foldable t) => t a -> m
 
       - Requires a redesign of `:info`, as `:info` does not print the full type of, e.g., data constructors, class methods, record selectors, etc.
       - Makes `:info` even more verbose.
-      - Unavailable for  
+      - Unavailable for expressions that aren't a single identifier.
+  1. Have `:type` behave one way for single identifiers and a different way for more complex expressions.
+
+    - Pros:
+
+      - No new commands.
+      - Many uses of `:type` are (probably, I don't have data) for single identifiers.
+    - Cons:
+
+      - No way to get the extra information for compound expressions.
+      - The different behaviors might confuse users.
+  1. Have multiple commands, each with different behavior.
+
+    - Pros:
+
+      - Users can always say precisely what they mean.
+    - Cons:
+
+      - New commands to be aware of.
+      - General bloat of GHCi interface.
+
+## The current state of affairs
+
+
+Choice (A) about the behavior of `:type`, and there is no way to default or access the other possibly desirable behaviors.
+
+## Concrete proposed solutions
+
+
+In [ Phab:D2136](https://phabricator.haskell.org/D2136), Richard E has written a patch that implements (1A, 2B, 3D).
+
+
+Simon has suggested ([comment:5:ticket:10963](https://gitlab.haskell.org//ghc/ghc/issues/10963)) that three `:type` commands is two too many, and suggests (1D, 3B), with no particular vote on issue 2. Simon also suggests that Problem 1 is a non-problem.
+
+
+User \@takenobu has suggested, most recently in [comment:7:ticket:10963](https://gitlab.haskell.org//ghc/ghc/issues/10963), that we look into 2C.
+
+
+On [ Phab:2136](https://phabricator.haskell.org/2136), Herbert has reminded us to make sure that any changes do not invalidate common existing workflows, like typing `:ty<TAB> foo` into GHCi.
