@@ -95,6 +95,7 @@ dph-* packages are obsolete and not maintained anymore. TODO: clean up tests tha
  * random
  * regex-compat
  * syb
+ * stm
  * utf8-string
  * vector
 
