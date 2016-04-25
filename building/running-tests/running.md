@@ -134,6 +134,7 @@ The extra packages are:
 - random
 - regex-compat
 - syb
+- stm
 - utf8-string
 - vector
 
