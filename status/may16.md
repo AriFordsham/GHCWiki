@@ -17,7 +17,7 @@ GHC development churns onward - and **GHC 8.0 is right around the corner**! The 
 
 - **Kind Equalities**, which form the first step to building Dependent Haskell. This feature enables promotion of GADTs to kinds, kind families, heterogeneous equality (kind-indexed GADTs), and `* :: *`. ([ Phab:D808](https://phabricator.haskell.org/D808))
 
-- **Record system enhancements** \[[OverloadedRecordFields](overloaded-record-fields)\]. At long last, `OverloadedRecordFields` will finally be available in GHC 8.0, allowing multiple uses of the same field name and a form of type-directed name resolution.
+- **Record system enhancements** \[[OverloadedRecordFields](overloaded-record-fields)\]. A new extension `DuplicateRecordFields` will be available in GHC 8.0, allowing multiple uses of the same field name with a very limited form of type-directed name resolution. Support for polymorphism over record fields is being worked on; another provisional new extension `OverloadedLabels` represents a first step in this process.
 
 - A huge improvement to **pattern match checking** (including much better coverage of GADTs), based on the work of Simon PJ and Georgios Karachalias. For more details, see [ http://research.microsoft.com/en-us/um/people/simonpj/papers/pattern-matching/gadtpm.pdf their paper](http://research.microsoft.com/en-us/um/people/simonpj/papers/pattern-matching/gadtpm.pdf their paper).
 
