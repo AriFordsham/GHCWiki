@@ -19,7 +19,7 @@ GHC development churns onward - and **GHC 8.0 is right around the corner**! The 
 
 - **Record system enhancements** \[[OverloadedRecordFields](overloaded-record-fields)\]. A new extension `DuplicateRecordFields` will be available in GHC 8.0, allowing multiple uses of the same field name with a very limited form of type-directed name resolution. Support for polymorphism over record fields is being worked on; another provisional new extension `OverloadedLabels` represents a first step in this process.
 
-- A huge improvement to **pattern match checking** (including much better coverage of GADTs), based on the work of Simon PJ and Georgios Karachalias. For more details, see [ http://research.microsoft.com/en-us/um/people/simonpj/papers/pattern-matching/gadtpm.pdf their paper](http://research.microsoft.com/en-us/um/people/simonpj/papers/pattern-matching/gadtpm.pdf their paper).
+- A huge improvement to **pattern match checking** (including much better coverage of GADTs), based on the work of Simon PJ and Georgios Karachalias. For more details, see their [ their paper](https://people.cs.kuleuven.be/~george.karachalias/papers/p424-karachalias.pdf) with Tom Schrijvers and Dimitrios Vytiniotis. Also, more information can be found in [PatternMatchCheck](pattern-match-check) and [PatternMatchCheckImplementation](pattern-match-check-implementation). 
 
 - **Custom type errors** \[CustomTypeErrors\], allowing library authors to offer more descriptive error messages than those offered by GHC.
 
@@ -62,6 +62,7 @@ Of course, GHC only evolves because of its contributors. Please let us know if y
 - Generalize the `deriving` algorithms for `Eq`, `Functor`, etc. to be able to derive the data types in `Data.Functor.Classes` (`Eq1`, `Eq2`, etc.), `Bifunctor`, `Bifoldable`, and `Bitraversable` (Ryan Scott)
 - Deriving strategies (Ryan Scott): grant users the ability to choose explicitly how a class should be `derived` (using a built-in algorithm, `GeneralizedNewtypeDeriving`, `DeriveAnyClass`, or otherwise), addressing [\#10598](https://gitlab.haskell.org//ghc/ghc/issues/10598).
 - FIXME accumulate some of the scattered changes/plans for `base`. (Edward K, Austin, Herbert?)
+- Exhaustiveness checking for `EmptyCase`s ([ Phab:D2105](https://phabricator.haskell.org/D2105)), addressing [\#10746](https://gitlab.haskell.org//ghc/ghc/issues/10746). 
 
 ## Back-end and runtime system
 
