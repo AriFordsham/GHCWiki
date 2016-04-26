@@ -210,7 +210,7 @@ instance HasField n2 (Record2 n1 v1 n2 v2) v2 where
   getField _ (Record2 _ x) = x
 }}}
 
-These correspond to the existing `FieldOwner` instances in the `record` library. (Actually this doesn't quite work, because the two instances overlap, but it is possible with a bit more trickery.)
+These correspond to the existing `FieldOwner` instances in the `record` library. ([https://gist.github.com/adamgundry/7292df8cef62fd6750885be3f5f892e7 This works] with the functional dependency version of `HasField`, but becomes a bit trickier with the type family version, because it is harder to resolve the overlap.)
 
 
 == Implementation ==
