@@ -13,9 +13,9 @@ GHC development churns onward - and **GHC 8.0 is right around the corner**! The 
 
 - **A beautiful new users guide**. Now rewritten in reStructured Text, and with significantly improved output and documentation.
 
-- **Visible type application** - \[[ExplicitTypeApplication](explicit-type-application)\]. This allows you to say, for example, `id @Bool` to specialize `id` to `Bool -> Bool`. With this feature, proxies are never needed.
+- **Visible type application** - \[[ExplicitTypeApplication](explicit-type-application)\]. This allows you to say, for example, `id @Bool` to specialize `id` to `Bool -> Bool`. With this feature, proxies are needed only in data constructors for pattern matching. Visible type patterns are due to be included sometime in the indeterminate future.
 
-- **Kind Equalities**, which form the first step to building Dependent Haskell. This feature enables promotion of GADTs to kinds, kind families, heterogeneous equality (kind-indexed GADTs), and `* :: *`. ([ Phab:D808](https://phabricator.haskell.org/D808))
+- **Kind Equalities**, ([DependentHaskell/Phase1](dependent-haskell/phase1)) which form the first step to building Dependent Haskell. This feature enables promotion of GADTs to kinds, kind families, heterogeneous equality (kind-indexed GADTs), and `* :: *`.
 
 - **Record system enhancements** \[[OverloadedRecordFields](overloaded-record-fields)\]. A new extension `DuplicateRecordFields` will be available in GHC 8.0, allowing multiple uses of the same field name with a very limited form of type-directed name resolution. Support for polymorphism over record fields is being worked on; another provisional new extension `OverloadedLabels` represents a first step in this process.
 

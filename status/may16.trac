@@ -12,9 +12,9 @@ GHC development churns onward - and **GHC 8.0 is right around the corner**! The 
 
   - '''A beautiful new users guide'''. Now rewritten in reStructured Text, and with significantly improved output and documentation.
 
-  - '''Visible type application''' - [ExplicitTypeApplication]. This allows you to say, for example, `id @Bool` to specialize `id` to `Bool -> Bool`. With this feature, proxies are never needed.
+  - '''Visible type application''' - [ExplicitTypeApplication]. This allows you to say, for example, `id @Bool` to specialize `id` to `Bool -> Bool`. With this feature, proxies are needed only in data constructors for pattern matching. Visible type patterns are due to be included sometime in the indeterminate future.
 
-  - '''Kind Equalities''', which form the first step to building Dependent Haskell. This feature enables promotion of GADTs to kinds, kind families, heterogeneous equality (kind-indexed GADTs), and `* :: *`. (Phab:D808)
+  - '''Kind Equalities''', ([wiki:DependentHaskell/Phase1]) which form the first step to building Dependent Haskell. This feature enables promotion of GADTs to kinds, kind families, heterogeneous equality (kind-indexed GADTs), and `* :: *`.
 
   - '''Record system enhancements''' [OverloadedRecordFields]. A new extension `DuplicateRecordFields` will be available in GHC 8.0, allowing multiple uses of the same field name with a very limited form of type-directed name resolution. Support for polymorphism over record fields is being worked on; another provisional new extension `OverloadedLabels` represents a first step in this process.
 
@@ -39,7 +39,6 @@ GHC development churns onward - and **GHC 8.0 is right around the corner**! The 
   - Significant improvements in cross-platform support, including a variety of fixes to '''Windows linker support''' (Phab:D1696, Phab:D1805), great improvements in '''reliability on ARM''' (#11206), revived '''unregisterised [[https://trofi.github.io/posts/191-ghc-on-m68k.html|m68k support]]''', and new support for '''AIX targets''' (Herbert) and Linux '''PowerPC 64-bit big- and little-endian native code generation''' (Phab:D629).
 
   - Improved support for '''pattern synonyms''', including record syntax (#8582) and the ability to associate pattern synonyms with type constructors on export, implemented by Matthew Pickering. http://mpickering.github.io/posts/2015-12-12-pattern-synonyms-8.html
-
 
 = Upcoming plans for GHC 8.2 =
 
