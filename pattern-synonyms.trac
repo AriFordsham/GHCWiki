@@ -324,6 +324,8 @@ Because of this, the eagerness of `f` and `g` differ:
 False
 }}}
 
+This is because we generate the matching function at the definition site. 
+
 == Typed pattern synonyms ==
 
 So far patterns only had ''syntactic'' meaning. In comparison [http://code.google.com/p/omega Ωmega] has ''typed'' pattern synonyms, so they become first class values. For bidirectional pattern synonyms this seems to be the case
