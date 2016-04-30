@@ -71,7 +71,7 @@ Of course, GHC only evolves because of its contributors. Please let us know if y
 - Refactoring and improvements to the cost-center profiler (Ben Gamari, [ Phab:D1722](https://phabricator.haskell.org/D1722)): Allow
   heap profiler samples to be directed to the GHC eventlog, allowing
   correlation with other program events, enabling easier analysis by tooling,
-  and eventual removal of the old, rather crufty profile format.
+  and eventual removal of the old, rather crufty `.hp` profile format.
 
 - Further improvements to debugging information (Ben Gamari): There are still a number of outstanding issues with GHC's DWARF implementation, some of which even carry the potential to crash the program during stacktrace collection. GHC 8.2 will hopefully have these issues resolved, allowing debugging information to be used by end-user code in production.
 
