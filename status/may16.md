@@ -9,7 +9,7 @@ GHC development churns onward - and **GHC 8.0 is right around the corner**! The 
 
 - **Injective type families** ([Wiki](injective-type-families), [ http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/injective-type-families-acm.pdf\|paper](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/injective-type-families-acm.pdf|paper)). Allows to annotate type families with injectivity information. Correctness of injectivity annotation is then verified by the compiler. Once compiler knows the annotation is correct it can us injectivity information during type checking.
 
-- **Applicative do notation** \[[ApplicativeDo](applicative-do)\]. With the new `-XApplicativeDo`, GHC tries to desugar `do`-notation to `Applicative` where possible, giving a more convenient sugar for many common `Applicative` expressions. ([ Phab:D729](https://phabricator.haskell.org/D729))
+- **Applicative do notation** \[[ApplicativeDo](applicative-do)\]. With the new `-XApplicativeDo`, GHC tries to desugar `do`-notation to `Applicative` where possible, giving a more convenient sugar for many common `Applicative` expressions. ([ Phab:D729](https://phabricator.haskell.org/D729)) (draft paper: [ http://research.microsoft.com/en-us/um/people/simonpj/papers/list-comp/applicativedo.pdf](http://research.microsoft.com/en-us/um/people/simonpj/papers/list-comp/applicativedo.pdf))
 
 - **A beautiful new users guide**. Now rewritten in reStructured Text, and with significantly improved output and documentation.
 
@@ -67,8 +67,6 @@ Of course, GHC only evolves because of its contributors. Please let us know if y
 ## Back-end and runtime system
 
 - Compact regions (Giovanni Campagna, Edward Yang, [ Phab:D1264](https://phabricator.haskell.org/D1264)): [ paper](http://ezyang.com/papers/ezyang15-cnf.pdf)
-
-- Maybe mention -fexternal-interpreter here? (Simon Marlow)
 
 - Refactoring and improvements to the cost-center profiler (Ben Gamari, [ Phab:D1722](https://phabricator.haskell.org/D1722)): Allow
   heap profiler samples to be directed to the GHC eventlog, allowing
