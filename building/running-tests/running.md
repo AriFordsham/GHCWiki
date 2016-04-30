@@ -104,17 +104,17 @@ $ make EXTRA_HC_OPTS='+RTS -K32M -RTS'
 ```
 
 
-To save disk space you can have temporary files deleted after each test:
+By default tests clean up after themselves. If you want to keep the temporary files that tests generate, you can run:
 
 ```wiki
-$ make CLEANUP=1
+$ make CLEANUP=0
 ```
 
 
 To just clean all the tests, without running any:
 
 ```wiki
-$ make CLEANUP=1 CLEAN_ONLY=YES
+$ make CLEAN_ONLY=YES
 ```
 
 ## Additional Packages

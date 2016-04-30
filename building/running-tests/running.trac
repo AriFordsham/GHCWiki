@@ -63,14 +63,14 @@ To add specific options to the compiler:
 $ make EXTRA_HC_OPTS='+RTS -K32M -RTS' 
 }}}
 
-To save disk space you can have temporary files deleted after each test:
+By default tests clean up after themselves. If you want to keep the temporary files that tests generate, you can run:
 {{{
-$ make CLEANUP=1
+$ make CLEANUP=0
 }}}
 
 To just clean all the tests, without running any:
 {{{
-$ make CLEANUP=1 CLEAN_ONLY=YES
+$ make CLEAN_ONLY=YES
 }}}
 
 == Additional Packages ==
