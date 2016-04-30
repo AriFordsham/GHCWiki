@@ -110,13 +110,6 @@ By default tests clean up after themselves. If you want to keep the temporary fi
 $ make CLEANUP=0
 ```
 
-
-To just clean all the tests, without running any:
-
-```wiki
-$ make CLEAN_ONLY=YES
-```
-
 ## Additional Packages
 
 
