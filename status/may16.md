@@ -39,7 +39,7 @@ GHC development churns onward - and **GHC 8.0 is right around the corner**! The 
 
 - Significant improvements in cross-platform support, including a variety of fixes to **Windows linker support** ([ Phab:D1696](https://phabricator.haskell.org/D1696), [ Phab:D1805](https://phabricator.haskell.org/D1805)), great improvements in **reliability on ARM** ([\#11206](https://gitlab.haskell.org//ghc/ghc/issues/11206)), revived **unregisterised [ m68k support](https://trofi.github.io/posts/191-ghc-on-m68k.html)**, and new support for **AIX targets** (Herbert) and Linux **PowerPC 64-bit big- and little-endian native code generation** ([ Phab:D629](https://phabricator.haskell.org/D629)).
 
-- Improved support for **pattern synonyms**, including record syntax ([\#8582](https://gitlab.haskell.org//ghc/ghc/issues/8582)) and the ability to associate pattern synonyms with type constructors on export, implemented by Matthew Pickering. [ http://mpickering.github.io/posts/2015-12-12-pattern-synonyms-8.html](http://mpickering.github.io/posts/2015-12-12-pattern-synonyms-8.html)
+- Improved support for **pattern synonyms**, including record syntax ([\#8582](https://gitlab.haskell.org//ghc/ghc/issues/8582)) and the ability to associate pattern synonyms with type constructors on export, implemented by Matthew Pickering. See Matthew's [ blog](http://mpickering.github.io/posts/2015-12-12-pattern-synonyms-8.html) for details.
 
 # Upcoming plans for GHC 8.2
 
