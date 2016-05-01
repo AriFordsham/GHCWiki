@@ -21,7 +21,7 @@ GHC development churns onward - and **GHC 8.0 is right around the corner**! The 
 
 - A huge improvement to **pattern match checking** (including much better coverage of GADTs), based on the work of Simon PJ and Georgios Karachalias. For more details, see their [ their paper](https://people.cs.kuleuven.be/~george.karachalias/papers/p424-karachalias.pdf) with Tom Schrijvers and Dimitrios Vytiniotis. Also, more information can be found in [PatternMatchCheck](pattern-match-check) and [PatternMatchCheckImplementation](pattern-match-check-implementation). 
 
-- **Custom type errors** \[CustomTypeErrors\], allowing library authors to offer more descriptive error messages than those offered by GHC.
+- **Custom type errors** \[[Proposal/CustomTypeErrors](proposal/custom-type-errors)\], allowing library authors to offer more descriptive error messages than those offered by GHC.
 
 - **Improved generics representation** leveraging type-level literals. This makes `GHC.Generics` more expressive and uses new type system features to give more natural types to its representations.
 
