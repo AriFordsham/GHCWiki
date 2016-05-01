@@ -32,7 +32,7 @@ GHC development churns onward - and **GHC 8.0 is right around the corner**! The 
 
   - '''Remote GHCi''' [wiki:RemoteGHCi] The `-fexternal-interpreter` flag tells GHC to run interpreted code in a separate process.  This provides various benefits, including allowing the interpreter to run profiled code (for example), thereby gaining access to [[http://simonmar.github.io/posts/2016-02-12-Stack-traces-in-GHCi.html|stack traces]] in GHCi.
 
-  -  GHC now supports '''environment files'''. This is not any fundamental new capability but may proved to be a useful convenience. Build systems like Cabal call GHC with flags that define an (ephemeral) package environment, such as `-hide-all-packages -package-db=... -package this -package that`. An environment file lets the same information be stashed persistently in a file that GHC will pick up and use automatically. In principle this allows tools such as cabal to generate an environment file and then you can use `ghc` or `ghci` directly and get the package environment of your project, rather than the default global environment. In addition to environments that live in a particular directory, it is possible to make a default global environment, or different global environments for different shell sessions. 
+  -  GHC now supports '''environment files'''. This is not any fundamental new capability but may prove to be a useful convenience. Build systems like Cabal call GHC with flags that define an (ephemeral) package environment, such as `-hide-all-packages -package-db=... -package this -package that`. An environment file lets the same information be stashed persistently in a file that GHC will pick up and use automatically. In principle this allows tools such as `Cabal` to generate an environment file and then you can use `ghc` or `ghci` directly and get the package environment of your project, rather than the default global environment. In addition to environments that live in a particular directory, it is possible to make a default global environment, or different global environments for different shell sessions. 
 
   - A new '''Strict language extension''' [StrictPragma], allowing modules to be compiled such that local bindings are evaluated eagerly. Implemented by Adam Sandberg Eriksson based on an proposal by Johan Tibell.
 
@@ -64,10 +64,7 @@ Of course, GHC only evolves because of its contributors. Please let us know if y
 
   - Compact regions (Giovanni Campagna, Edward Yang, Phab:D1264): [[http://ezyang.com/papers/ezyang15-cnf.pdf|paper]]
 
-  - Refactoring and improvements to the cost-center profiler (Ben Gamari, Phab:D1722): Allow
-    heap profiler samples to be directed to the GHC eventlog, allowing
-    correlation with other program events, enabling easier analysis by tooling,
-    and eventual removal of the old, rather crufty `.hp` profile format.
+  - Refactoring and improvements to the cost-center profiler (Ben Gamari, Phab:D1722): Allow heap profiler samples to be directed to the GHC eventlog, allowing correlation with other program events, enabling easier analysis by tooling, and eventual removal of the old, rather crufty `.hp` profile format. 
 
   - Further improvements to debugging information (Ben Gamari): There are still a number of outstanding issues with GHC's DWARF implementation, some of which even carry the potential to crash the program during stacktrace collection. GHC 8.2 will hopefully have these issues resolved, allowing debugging information to be used by end-user code in production.
 
@@ -79,24 +76,22 @@ Of course, GHC only evolves because of its contributors. Please let us know if y
 
 == Frontend, build system and miscellaneous changes ==
 
-  - New shake build system is Really Finally Going to get merged? (Andrey)
+  - New Shake-based build system, `hadrian`, will be merged.  (Andrey Mokhov)
   - The [[ImprovedLLVMBackend|improved LLVM backend plan]] plan didn't make the cut for 8.0, but will for 8.2 (Austin Seipp)
-  - `ghc-pkg` is learning some new tricks, RE: environment files and Cabal changes. (Austin/Duncan?)
-  - 
 
 = Development updates and "Thank You"s =
 
-2015 has been a remarkable year for GHC development. Over the last twelve months the GHC repository gained nearly 2500 commits by over one hundred authors. At the time of writing alone alone there is over a dozen open and actively updated differentials on Phabricator. It seems fair to say that GHC's development community is stronger than ever.
+2015 has been a remarkable year for GHC development. Over the last twelve months the GHC repository gained nearly 2500 commits by over one hundred authors. Of these authors, nearly half are first-time contributors. At the time of writing alone alone there is over one dozen open and actively updated differentials on Phabricator. It seems fair to say that GHC's development community is stronger than ever.
 
-We have been very lucky to have Thomas Miedema, who has devoted countless hours triaging bugs, cleaning up the build system, advising new contributors, and helping out in a multitude of ways which often go un-noticed. We all have benefitted immensely from Thomas' hard work; thanks Thomas!
+We have been very lucky to have Thomas Miedema, who has devoted countless hours triaging bugs, cleaning up the build system, advising new contributors, and generally helping out in a multitude of ways which often go un-noticed. We all have benefitted immensely from Thomas' hard work and generosity; thanks Thomas!
 
-Herbert Valerio Riedel has also been as act
+Another contributor deserving of recognition is Herbert Valerio Riedel, who meticulously handles many of the finer details of GHC development: over the past year Herbert has spent numerous weekends thinking through compatibility considerations for library and warning changes, managing GHC's interaction with its external core libraries, cleaning up GHC's build system, and maintaining his invaluable PPA repository for Ubuntu and Debian-based systems. Our releases wouldn't be nearly as smooth without Herbert's attention to detail.
 
 On the Windows front, Tamar Christina has been doing amazing work cleaning up the many nooks that have gone unattended until now. His work on the runtime linker should mean that GHC 8.0 will be considerably more reliable when linking against many Windows libraries.
 
-The past year has brought a number of new contributors: Ryan Scott and Michael Sloan have picked up various generics and Template Haskell projects, Andrew Farmer has contributed a number of fixes to the cost-centre profiler, and Bartosz Nitka has made numerous contributions improving compiler determinism. We also also saw the beginnings of some very interesting work from Ömer Sinan Ağacan, who is looking at teaching GHC to unpack sum types.
+The past year has brought a number of new contributors: Ryan Scott and Michael Sloan have picked up various generics and Template Haskell projects, Andrew Farmer has contributed a number of fixes to the cost-centre profiler, and Bartosz Nitka has made numerous contributions improving compiler determinism. We also also saw the beginnings of some very interesting work from Ömer Sinan Ağacan, who is looking at teaching GHC to unpack sum types. David Lupochainsky and Herbert Valerio Riedel have also started honing GHC's warnings system by both bringing consistency to the currently rather organic flags and making the messages themselves more informative. George Karachalias merged his full rewrite of the pattern match checker, which is now far more precise than GHC's previous implementation.
 
-Insert incredible levels of praise and adoration for contributors like Thomas, Tamar, Ömer, etc, and lots of our newer regular contributors like Ryan, Michael Sloan, etc.
+Of course, GHC has also benefitted from countless more contributors who we don't have room to acknowledge here. We'd like to thank everyone who has contributed patches, bug reports, code review, and discussion to the GHC community over the last year. GHC only evolves because of you!
 
 = References =
 
