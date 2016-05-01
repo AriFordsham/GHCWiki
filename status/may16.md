@@ -27,7 +27,7 @@ GHC development churns onward - and **GHC 8.0 is right around the corner**! The 
 
 - A new **DeriveLift language extension**, allowing the `Lift` type class from `Language.Haskell.TH.Syntax` to be derived automatically. This was introduced in the spirit of `DeriveDataTypeable` and `DeriveGeneric` to allow easier metaprogramming, and to allow users to easily define `Lift` instances without needing to depend on the existence of Template Haskell itself.
 
-- **More Backpack improvements**. There's a new user-facing syntax which allows multiple modules to be defined a single file, and we're hoping to release at least the ability to publish multiple "units" in a single Cabal file. **TODOFIXME**: Edward, is there ANY documentation about this?!
+- **More Backpack improvements**. There's a new user-facing syntax which allows multiple modules to be defined a single file, and we're hoping to release at least the ability to publish multiple "units" in a single Cabal file.
 
 - **Support for DWARF-based stacktraces** \[DWARF\]. Haskell has at long last gained the ability to collect stack-traces of running programs. While still experimental, `base` now includes an interface which user code can use to request a representation of the current execution stack when running on a supported machine (currently Linux x86-64). Furthermore, the runtime system will now provide a backtrace of the currently running thread when thrown a `SIGUSR2` signal. Note that this functionality is highly experimental and there are some known issues which can potentially threaten the stability of the program.
 
@@ -56,21 +56,20 @@ Of course, GHC only evolves because of its contributors. Please let us know if y
 >
 > GHC 8.2 will address this by introducing indexed type representations, leveraging the type-checker to verify programs using type reflection. This allows facilities like `Data.Dynamic` to be implemented in a fully type-safe manner. See the [ paper](http://research.microsoft.com/en-us/um/people/simonpj/papers/haskell-dynamic/) for an description of the proposal and the [ Wiki](https://ghc.haskell.org/trac/ghc/wiki/Typeable/BenGamari) for the current status of the implementation.
 
-- Future source-visible Backpack plans? (Edward should answer)
-- What about `MonadFail`? (Herbert, David L)
+- Backpack continues its march forward (Edward Z Yang)
+- What about `MonadFail`? (Herbert, David Luposchainsky)
 - Merge `Bifoldable` and `Bitraversable` into `base` (Edward Kmett, Ryan Scott)
 - Generalize the `deriving` algorithms for `Eq`, `Functor`, etc. to be able to derive the data types in `Data.Functor.Classes` (`Eq1`, `Eq2`, etc.), `Bifunctor`, `Bifoldable`, and `Bitraversable` (Ryan Scott)
 - Deriving strategies (Ryan Scott): grant users the ability to choose explicitly how a class should be `derived` (using a built-in algorithm, `GeneralizedNewtypeDeriving`, `DeriveAnyClass`, or otherwise), addressing [\#10598](https://gitlab.haskell.org//ghc/ghc/issues/10598).
-- FIXME accumulate some of the scattered changes/plans for `base`. (Edward K, Austin, Herbert?)
 - Exhaustiveness checking for `EmptyCase`s ([ Phab:D2105](https://phabricator.haskell.org/D2105)), addressing [\#10746](https://gitlab.haskell.org//ghc/ghc/issues/10746). 
 
 ## Back-end and runtime system
 
 - Compact regions (Giovanni Campagna, Edward Yang, [ Phab:D1264](https://phabricator.haskell.org/D1264)): [ paper](http://ezyang.com/papers/ezyang15-cnf.pdf)
 
-- Refactoring and improvements to the cost-center profiler (Ben Gamari, [ Phab:D1722](https://phabricator.haskell.org/D1722)): Allow heap profiler samples to be directed to the GHC eventlog, allowing correlation with other program events, enabling easier analysis by tooling, and eventual removal of the old, rather crufty `.hp` profile format. 
+- Refactoring and improvements to the cost-center profiler (Ben Gamari, [ Phab:D1722](https://phabricator.haskell.org/D1722)): Allow heap profiler samples to be directed to the GHC eventlog, allowing correlation with other program events, enabling easier analysis by tooling and eventual removal of the old, rather crufty `.hp` profile format. 
 
-- Further improvements to debugging information (Ben Gamari): There are still a number of outstanding issues with GHC's DWARF implementation, some of which even carry the potential to crash the program during stacktrace collection. GHC 8.2 will hopefully have these issues resolved, allowing debugging information to be used by end-user code in production.
+- Further improvements to debugging information (Ben Gamari): There are still a number of outstanding issues with GHC's DWARF implementation, some of which even carry the potential to crash the runtime system during stacktrace collection. GHC 8.2 will hopefully have these issues resolved, allowing debugging information to be used by end-user code in production.
 
 >
 > With stable stack unwinding support comes a number of opportunities for new serial and parallel performance analysis tools (e.g. statistical profiling) and debugging. As GHC's debugging information improves, we expect to see tooling developed to support these applications. See the [ DWARF status page](https://ghc.haskell.org/trac/ghc/wiki/DWARF/80Status) for futher information.
