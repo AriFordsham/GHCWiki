@@ -16,11 +16,10 @@ git clone --recursive git://github.com/ghc/ghc
 cd ghc/
 
 # configure build
-cd mk
-cp build.mk.sample build.mk
+cp mk/build.mk.sample mk/build.mk
 
-## edit build.mk to remove the comment marker # on the line "BuildFlavour = devel2"
-cd ..
+## edit mk/build.mk to remove the comment marker # on the line "BuildFlavour = devel2"
+
 ./boot
 ./configure
 # NOTE: On Windows you need to download some binary distributables before being able to build
