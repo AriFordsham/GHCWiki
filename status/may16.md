@@ -1,4 +1,5 @@
-# GHC Status Report, May 2016
+
+tracwiki= GHC Status Report, May 2016 =
 
 
 GHC development churns onward - and **GHC 8.0 is right around the corner**! The final set of bugs are being fixed, and we hope to have a final release candidate, followed by the final release, in just a few weeks.
@@ -25,7 +26,7 @@ GHC development churns onward - and **GHC 8.0 is right around the corner**! The 
 
 - **Improved generics representation** leveraging type-level literals. This makes `GHC.Generics` more expressive and uses new type system features to give more natural types to its representations.
 
-- A new **DeriveLift language extension**, allowing the `Lift` type class from `Language.Haskell.TH.Syntax` to be derived automatically. This was introduced in the spirit of `DeriveDataTypeable` and `DeriveGeneric` to allow easier metaprogramming, and to allow users to easily define `Lift` instances without needing to depend on the existence of Template Haskell itself.
+- A new **DeriveLift language extension**, allowing the `Lift` type class from `Language.Haskell.TH.Syntax` to be derived automatically. This was introduced in the spirit of `DeriveDataTypeable` and `DeriveGeneric` to allow easier metaprogramming, and to allow users to easily define `Lift` instances without needing to depend on the existence of Template Haskell itself (see [\#1830](https://gitlab.haskell.org//ghc/ghc/issues/1830)).
 
 - **More Backpack improvements**. There's a new user-facing syntax which allows multiple modules to be defined a single file, and we're hoping to release at least the ability to publish multiple "units" in a single Cabal file.
 
