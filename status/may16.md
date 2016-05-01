@@ -57,7 +57,6 @@ Of course, GHC only evolves because of its contributors. Please let us know if y
 > GHC 8.2 will address this by introducing indexed type representations, leveraging the type-checker to verify programs using type reflection. This allows facilities like `Data.Dynamic` to be implemented in a fully type-safe manner. See the [ paper](http://research.microsoft.com/en-us/um/people/simonpj/papers/haskell-dynamic/) for an description of the proposal and the [ Wiki](https://ghc.haskell.org/trac/ghc/wiki/Typeable/BenGamari) for the current status of the implementation.
 
 - Backpack continues its march forward (Edward Z Yang)
-- What about `MonadFail`? (Herbert, David Luposchainsky)
 - Merge `Bifoldable` and `Bitraversable` into `base` (Edward Kmett, Ryan Scott)
 - Generalize the `deriving` algorithms for `Eq`, `Functor`, etc. to be able to derive the data types in `Data.Functor.Classes` (`Eq1`, `Eq2`, etc.), `Bifunctor`, `Bifoldable`, and `Bitraversable` (Ryan Scott)
 - Deriving strategies (Ryan Scott): grant users the ability to choose explicitly how a class should be `derived` (using a built-in algorithm, `GeneralizedNewtypeDeriving`, `DeriveAnyClass`, or otherwise), addressing [\#10598](https://gitlab.haskell.org//ghc/ghc/issues/10598).
@@ -99,6 +98,15 @@ On the Windows front, Tamar Christina has been doing amazing work cleaning up th
 
 
 The past year has brought a number of new contributors: Ryan Scott and Michael Sloan have picked up various generics and Template Haskell projects, Andrew Farmer has contributed a number of fixes to the cost-centre profiler, and Bartosz Nitka has made numerous contributions improving compiler determinism. We also also saw the beginnings of some very interesting work from Ömer Sinan Ağacan, who is looking at teaching GHC to unpack sum types. David Lupochainsky and Herbert Valerio Riedel have also started honing GHC's warnings system by both bringing consistency to the currently rather organic flags and making the messages themselves more informative. George Karachalias merged his full rewrite of the pattern match checker, which is now far more precise than GHC's previous implementation.
+
+
+In recent years the growth in the Haskell community has required that better develop our infrastructure for change management. This has lead to the formation of the Core Libraries Committee, which is now in its third year of existence. As such, we are now beginning to see some of the committee's efforts come to fruition. With GHC 8.0 progress was made on all three currently active proposals:
+
+- `Semigroup`-`Monoid` proposal: the `Data.Semigroup` module is now available in `base` and there are now opt-in warnings for missing `Semigroup` instances in preparation for the eventual addition of `Semigroup` as a superclass of `Monoid`
+
+- `MonadFail` proposal: the `Control.Monad.Fail` module is available in `base` and a `-XMonadFailDesugaring` language extension has been added, allowing users to use the new class in `do` desugaring
+
+- `ExpandFloating` proposal: `expm1`, `log1p`, `log1pexp`, `log1mexp` have been added to the `Floating` class with defaults
 
 
 Of course, GHC has also benefitted from countless more contributors who we don't have room to acknowledge here. We'd like to thank everyone who has contributed patches, bug reports, code review, and discussion to the GHC community over the last year. GHC only evolves because of you!
