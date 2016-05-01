@@ -184,8 +184,10 @@ Typically on Unix systems the default for `--prefix` is
 <td>
 On Windows in order to build GHC and to be able to create a binary
 distribution package some extra binaries are needed. These binaries
-only have to be downloaded once. This flag will automatically download
-the dependencies if missing.
+only have to be downloaded once. This flag serves as
+[ consent](https://phabricator.haskell.org/D339#7799) to allow the
+automatic download of dependencies if they are missing.  It is
+fine to leave the flag in even if you already have the tarballs.
 </td></tr></table>
 
 ### Build configuration
