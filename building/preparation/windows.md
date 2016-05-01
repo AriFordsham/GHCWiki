@@ -56,8 +56,8 @@ Because msys2 programs all share the same address space for DLLs, updating bash,
 
 Now we can install GHC's system dependencies as followed:
 
-```wiki
-pacman -S git tar binutils autoconf make \
+```
+pacman -S --needed git tar binutils autoconf make \
     libtool automake python2 p7zip patch \
     gcc mingw-w64-$(uname -m)-python3-sphinx
 ```
@@ -73,28 +73,42 @@ A host GHC binary is required for bootstrapping. In order to keep different arch
 
 So for 64-bit you'd run
 
-```wiki
-curl -L http://www.haskell.org/ghc/dist/7.10.1/ghc-7.10.1-x86_64-unknown-mingw32.tar.xz | tar -xJ -C /mingw64 --strip-components=1
+```
+curl -L https://www.haskell.org/ghc/dist/7.10.1/ghc-7.10.1-x86_64-unknown-mingw32.tar.xz | tar -xJ -C /mingw64 --strip-components=1
 ```
 
 
 and for 32-bit you'd run
 
-```wiki
-curl -L http://www.haskell.org/ghc/dist/7.10.1/ghc-7.10.1-i386-unknown-mingw32.tar.xz | tar -xJ -C /mingw32 --strip-components=1
+```
+curl -L https://www.haskell.org/ghc/dist/7.10.1/ghc-7.10.1-i386-unknown-mingw32.tar.xz | tar -xJ -C /mingw32 --strip-components=1
 ```
 
 
-Note: `--strip-components=1` places everything within the archive's "ghc-7.10.1" folder directly into the target directory.
+Note: `--strip-components=1` places everything within the archive's `ghc-7.10.1` folder directly into the target directory.
 
 ## Cabal setup
 
 
-Building GHC requires [ Alex](http://www.haskell.org/alex/) and [ Happy](http://www.haskell.org/happy/). It is easiest to install them using cabal. We will also put them in `/usr/local` to make sure that they end up on `$PATH`.
+Building GHC requires [ Alex](http://www.haskell.org/alex/) and [ Happy](http://www.haskell.org/happy/). It is easiest to install them using cabal. We will also put them in `/usr/local/bin`, which is by default included in `PATH` in MSYS.
 
-```wiki
+```
 mkdir -p /usr/local/bin &&
-curl -L https://www.haskell.org/cabal/release/cabal-install-1.22.0.0/cabal-1.22.0.0-i386-unknown-mingw32.tar.gz | tar -xz -C /usr/local/bin && # for some version of cabal you may need to rename the exe to cabal.exe
+curl -L https://www.haskell.org/cabal/release/cabal-install-1.22.0.0/cabal-1.22.0.0-i386-unknown-mingw32.tar.gz | tar -xz -C /usr/local/bin &&
+mv /usr/local/bin/cabal-1.22.0.0-i386-unknown-mingw32.exe /usr/local/bin/cabal.exe &&
+cabal update &&
+cabal install -j --prefix=/usr/local alex happy
+```
+
+### Note for Windows Server 2008 R2 users
+
+
+The pre-packaged cabal-1.22.0.0 crashes on Windows Server 2008 R2 during `cabal update` due to [ this bug](https://github.com/haskell/cabal/issues/2331).  If so, try using a different version such as:
+
+```
+mkdir -p /usr/local/bin &&
+curl -LO https://www.haskell.org/cabal/release/cabal-install-1.24.0.0-rc1/cabal-install-1.24.0.0-rc1-x86_64-unknown-mingw32.zip &&
+unzip cabal-install-1.24.0.0-rc1-x86_64-unknown-mingw32.zip -d /usr/local/bin &&
 cabal update &&
 cabal install -j --prefix=/usr/local alex happy
 ```
@@ -104,10 +118,9 @@ cabal install -j --prefix=/usr/local alex happy
 
 You should now be able to build GHC:
 
-```wiki
-cd ~ &&
-git clone --recursive git://git.haskell.org/ghc.git &&
-cd ghc
+```
+# Clone to ./ghc
+git clone --recursive git://git.haskell.org/ghc.git &&cd ghc
 ```
 
 
@@ -116,7 +129,7 @@ Consider setting up `mk/build.mk` here (`cp mk/build.mk.sample mk/build.mk && vi
 
 Finally, to perform the actual build:
 
-```wiki
+```
 ./boot &&
 ./configure --enable-tarballs-autodownload &&
 make
@@ -130,7 +143,7 @@ MSYS2 is known to be glitchy in some situations. If you see errors related to fo
 
 Alternatively, to run a pristine build and tests (takes a while):
 
-```wiki
+```
 ./validate
 ```
 
