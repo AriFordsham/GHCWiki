@@ -5,7 +5,7 @@ GHC development churns onward - and **GHC 8.0 is right around the corner**! The 
 
 # Major changes in GHC 8.0.1
 
-- **Support for simple, implicit callstacks with source locations** \[[ExplicitCallStack/ImplicitLocations](explicit-call-stack/implicit-locations)\|Implicit parameters providing callstacks/source locations\], allowing you to have a light-weight means of getting a call-stack in a Haskell application. ([ Phab:D861](https://phabricator.haskell.org/D861))
+- **Support for simple, implicit callstacks with source locations**parameters providing callstacks/source locations?, allowing you to have a light-weight means of getting a call-stack in a Haskell application. ([ Phab:D861](https://phabricator.haskell.org/D861))
 
 - **Injective type families** ([Wiki](injective-type-families), [ paper](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/injective-type-families-acm.pdf)). Allows to annotate type families with injectivity information. Correctness of injectivity annotation is then verified by the compiler. Once compiler knows the annotation is correct it can us injectivity information during type checking.
 
@@ -13,15 +13,15 @@ GHC development churns onward - and **GHC 8.0 is right around the corner**! The 
 
 - **A beautiful new users guide**. Now rewritten in reStructured Text, and with significantly improved output and documentation.
 
-- **Visible type application** - \[[ExplicitTypeApplication](explicit-type-application)\]. This allows you to say, for example, `id @Bool` to specialize `id` to `Bool -> Bool`. With this feature, proxies are needed only in data constructors for pattern matching. Visible type patterns are due to be included sometime in the indeterminate future.
+- **Visible type application**. ([ExplicitTypeApplication](explicit-type-application)). This allows you to say, for example, `id @Bool` to specialize `id` to `Bool -> Bool`. With this feature, proxies are needed only in data constructors for pattern matching. Visible type patterns are due to be included sometime in the indeterminate future.
 
 - **Kind Equalities**, ([DependentHaskell/Phase1](dependent-haskell/phase1)) which form the first step to building Dependent Haskell. This feature enables promotion of GADTs to kinds, kind families, heterogeneous equality (kind-indexed GADTs), and `* :: *`.
 
-- **Record system enhancements** \[[OverloadedRecordFields](overloaded-record-fields)\]. A new extension `DuplicateRecordFields` will be available in GHC 8.0, allowing multiple uses of the same field name with a very limited form of type-directed name resolution. Support for polymorphism over record fields is being worked on; another provisional new extension `OverloadedLabels` represents a first step in this process.
+- **Record system enhancements** ([OverloadedRecordFields](overloaded-record-fields)). A new extension `DuplicateRecordFields` will be available in GHC 8.0, allowing multiple uses of the same field name with a very limited form of type-directed name resolution. Support for polymorphism over record fields is being worked on; another provisional new extension `OverloadedLabels` represents a first step in this process.
 
 - A huge improvement to **pattern match checking** (including much better coverage of GADTs), based on the work of Simon PJ and Georgios Karachalias. For more details, see their [ their paper](https://people.cs.kuleuven.be/~george.karachalias/papers/p424-karachalias.pdf) with Tom Schrijvers and Dimitrios Vytiniotis. Also, more information can be found in [PatternMatchCheck](pattern-match-check) and [PatternMatchCheckImplementation](pattern-match-check-implementation). 
 
-- **Custom type errors** \[[Proposal/CustomTypeErrors](proposal/custom-type-errors)\], allowing library authors to offer more descriptive error messages than those offered by GHC.
+- **Custom type errors** ([Proposal/CustomTypeErrors](proposal/custom-type-errors)), allowing library authors to offer more descriptive error messages than those offered by GHC.
 
 - **Improved generics representation** leveraging type-level literals. This makes `GHC.Generics` more expressive and uses new type system features to give more natural types to its representations.
 
@@ -29,13 +29,13 @@ GHC development churns onward - and **GHC 8.0 is right around the corner**! The 
 
 - **More Backpack improvements**. There's a new user-facing syntax which allows multiple modules to be defined a single file, and we're hoping to release at least the ability to publish multiple "units" in a single Cabal file.
 
-- **Support for DWARF-based stacktraces**[DWARF](dwarf). Haskell has at long last gained the ability to collect stack-traces of running programs. While still experimental, `base` now includes an interface which user code can use to request a representation of the current execution stack when running on a supported machine (currently Linux x86-64). Furthermore, the runtime system will now provide a backtrace of the currently running thread when thrown a `SIGUSR2` signal. Note that this functionality is highly experimental and there are some known issues which can potentially threaten the stability of the program.
+- **Support for DWARF-based stacktraces** ([DWARF](dwarf)). Haskell has at long last gained the ability to collect stack-traces of running programs. While still experimental, `base` now includes an interface which user code can use to request a representation of the current execution stack when running on a supported machine (currently Linux x86-64). Furthermore, the runtime system will now provide a backtrace of the currently running thread when thrown a `SIGUSR2` signal. Note that this functionality is highly experimental and there are some known issues which can potentially threaten the stability of the program.
 
-- **Remote GHCi**[RemoteGHCi](remote-gh-ci) The `-fexternal-interpreter` flag tells GHC to run interpreted code in a separate process.  This provides various benefits, including allowing the interpreter to run profiled code (for example), thereby gaining access to [ stack traces](http://simonmar.github.io/posts/2016-02-12-Stack-traces-in-GHCi.html) in GHCi.
+- **Remote GHCi** ([RemoteGHCi](remote-gh-ci)). The `-fexternal-interpreter` flag tells GHC to run interpreted code in a separate process.  This provides various benefits, including allowing the interpreter to run profiled code (for example), thereby gaining access to [ stack traces](http://simonmar.github.io/posts/2016-02-12-Stack-traces-in-GHCi.html) in GHCi.
 
 -  GHC now supports **environment files**. This is not any fundamental new capability but may prove to be a useful convenience. Build systems like Cabal call GHC with flags that define an (ephemeral) package environment, such as `-hide-all-packages -package-db=... -package this -package that`. An environment file lets the same information be stashed persistently in a file that GHC will pick up and use automatically. In principle this allows tools such as `Cabal` to generate an environment file and then you can use `ghc` or `ghci` directly and get the package environment of your project, rather than the default global environment. In addition to environments that live in a particular directory, it is possible to make a default global environment, or different global environments for different shell sessions. 
 
-- A new **Strict language extension** \[[StrictPragma](strict-pragma)\], allowing modules to be compiled such that local bindings are evaluated eagerly. Implemented by Adam Sandberg Eriksson based on an proposal by Johan Tibell.
+- A new **Strict language extension** ([StrictPragma](strict-pragma)), allowing modules to be compiled such that local bindings are evaluated eagerly. Implemented by Adam Sandberg Eriksson based on an proposal by Johan Tibell.
 
 - Significant improvements in cross-platform support, including a variety of fixes to **Windows linker support** ([ Phab:D1696](https://phabricator.haskell.org/D1696), [ Phab:D1805](https://phabricator.haskell.org/D1805)), great improvements in **reliability on ARM** ([\#11206](https://gitlab.haskell.org//ghc/ghc/issues/11206)), revived **unregisterised [ m68k support](https://trofi.github.io/posts/191-ghc-on-m68k.html)**, and new support for **AIX targets** (Herbert) and Linux **PowerPC 64-bit big- and little-endian native code generation** ([ Phab:D629](https://phabricator.haskell.org/D629)).
 
