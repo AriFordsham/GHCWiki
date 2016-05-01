@@ -19,10 +19,10 @@ GHC uses Git for revision control (version 1.7.8 or newer recommended).
 ### Cloning HEAD
 
 
-On Unix-like systems (Linux, OS X), a complete GHC source tree can be obtained (located in `ghc`) by saying:
+A complete GHC source tree can be obtained (located in `ghc`) by running the following command:
 
-```wiki
-$ git clone --recursive git://git.haskell.org/ghc.git
+```
+git clone --recursive git://git.haskell.org/ghc.git
 ```
 
 
@@ -51,16 +51,16 @@ To get a branch, you need to get from a repo that contains the branch; in partic
 
 You can clone a specific branch via:
 
-```wiki
-  $ git clone -b <branchname> --recursive git://git.haskell.org/ghc.git ghc-<branchname>
+```
+git clone -b <branchname> --recursive git://git.haskell.org/ghc.git ghc-<branchname>
 ```
 
 
 and switch between branches on an existing clone by
 
-```wiki
-  $ git checkout <other-branchname>
-  $ git submodule update --init
+```
+git checkout <other-branchname>
+git submodule update --init
 ```
 
 **Note:** The instructions above apply to branches that contain the commit [\[db19c665ec5055c2193b2174519866045aeff09a/ghc\]](/trac/ghc/changeset/db19c665ec5055c2193b2174519866045aeff09a/ghc) which converted all sub-repos into submodules. To clone a branch prior to that commit, follow the [legacy](building/getting-the-sources/legacy) instructions instead. It is best not to attempt to cross that commit with `git checkout`; instead make a fresh clone of the desired branch directly.
@@ -70,7 +70,9 @@ and switch between branches on an existing clone by
 
 Starting with GHC 7.10.1, you can simply clone a specific tag via:
 
-`git clone -b ghc-7.10.1-release --recursive git://git.haskell.org/ghc.git ghc-7.10.1`
+```
+git clone -b ghc-7.10.1-release --recursive git://git.haskell.org/ghc.git ghc-7.10.1
+```
 
 
 For 7.8 or earlier, follow the [legacy](building/getting-the-sources/legacy) instructions.
