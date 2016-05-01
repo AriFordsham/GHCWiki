@@ -160,8 +160,10 @@ the ones you might need:
  `--enable-tarballs-autodownload`::
   On Windows in order to build GHC and to be able to create a binary
   distribution package some extra binaries are needed. These binaries
-  only have to be downloaded once. This flag will automatically download
-  the dependencies if missing.
+  only have to be downloaded once. This flag serves as
+  [https://phabricator.haskell.org/D339#7799 consent] to allow the
+  automatic download of dependencies if they are missing.  It is
+  fine to leave the flag in even if you already have the tarballs.
 
 === Build configuration ===
 
