@@ -5,7 +5,7 @@ GHC development churns onward - and **GHC 8.0 is right around the corner**! The 
 
 # Major changes in GHC 8.0.1
 
-- **Support for simple, implicit callstacks with source locations**[Implicit parameters providing callstacks/source locations](explicit-call-stack/implicit-locations), allowing you to have a light-weight means of getting a call-stack in a Haskell application. ([ Phab:D861](https://phabricator.haskell.org/D861))
+- **Lightweight, implicit call-stacks** ([Wiki](explicit-call-stack/implicit-locations), [ Phab:D861](https://phabricator.haskell.org/D861), [ Phab:D1818](https://phabricator.haskell.org/D1818)). Provides a `HasCallStack` constraint that can be added to any function to obtain a partial call-stack, with source locations, at that point in the program. `HasCallStack` and all related API functions are provided by the `GHC.Stack` module in `base`. The functions `error` and `undefined` now have a `HasCallStack` constraint and will print out the partial call-stack alongside the given error message.
 
 - **Injective type families** ([Wiki](injective-type-families), [ paper](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/injective-type-families-acm.pdf)). Allows to annotate type families with injectivity information. Correctness of injectivity annotation is then verified by the compiler. Once compiler knows the annotation is correct it can us injectivity information during type checking.
 
