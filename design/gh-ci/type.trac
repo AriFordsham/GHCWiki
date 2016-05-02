@@ -143,3 +143,29 @@ Simon has suggested (comment:5:ticket:10963) that three `:type` commands is two 
 User @takenobu has suggested, most recently in comment:7:ticket:10963, that we look into 2C.
 
 On Phab:2136, Herbert has reminded us to make sure that any changes do not invalidate common existing workflows, like typing `:ty<TAB> foo` into GHCi.
+
+== Summary of feedback about this issue ==
+
+I (Richard) collected feedback on May 2, 2016, from ghc-devs, haskell-cafe, on the ticket, and via [https://www.reddit.com/r/haskell/comments/4gvim4/design_input_opportunity_specializing_types_in/ reddit]. Here is a summary of the feedback. I have not attached numbers of votes, etc., because the feedback has tended to be unstructured. In my opinion, attaching a number of votes would imply more significant figures than we really have.
+
+* 1A is the most popular option among issue 1.
+* A minority of people suggested adding specializations right to `:type`, alongside the full type. More people seemed to counter this than support it, however.
+* Use flag to control `:type`. This idea was seconded a few times.
+  * Also, specific suggestion for "newbie mode"
+* For 3D, we could use a `+` suffix to indicate that we want more information.
+* On issue 2, the preponderance of respondents want more than one specialization. It was suggested that we specialize w.r.t. all instances that are in scope. No one suggested a concrete algorithm for this, though, especially in the presence of multiple specializable constraints.
+* We should have a `:doc` command, like Idris. This got support both via email and on reddit.
+* Specializations could be included by the library writer, via a new pragma.
+* Change the behavior of `:set +t`.
+* A reddit post suggesting (1A, 2C, 3D) got the most upvotes, suggesting `:examples` as the name of the command to get the specializations. That post also suggests instantiating non-constrained type variables.
+
+My (Richard's) reaction: I think the clearest information I can glean from all of this is that (1A, 2C, 3D) is a good way forward. 1A was a pretty consistent vote-getter (though by no means unanimous). Many also supported seeing multiple specializations, in 2C, suggesting that users can generalize a pattern more easily if they see multiple types. I do wish someone had a good idea of how to specify this. And many voted for 3D in a variety of ways, if we include ideas about `:doc`, or the `+` suffix, etc. as votes for 3D.
+
+Separately, there is a real groundswell of support for `:doc`, but I consider that to be beyond the scope of this proposal. A future `:doc` may subsume what we're seeing here.
+
+Concrete proposal going forward:
+1. Seek a bit more input about the names of the new commands.
+2. Implement 2B using the new command name.
+3. Post 2C as a feature request.
+
+2C, multiple specializations, is actually a generalization of 2B. Given the lack of specification of 2C, 2B does exactly 2C, if we choose to print only 1 specialization. Furthermore, my time budget on this point is more than exhausted, and this is as easy to extend later as it is today. It would be wonderful for someone to come along and implement 2C. In the meantime, I think having 2B is better than nothing (and no comment posted would suggest disagreement on this point).
