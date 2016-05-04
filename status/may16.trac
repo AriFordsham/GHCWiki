@@ -26,8 +26,6 @@ GHC development churns onward - and **GHC 8.0 is right around the corner**! The 
 
   - A new '''DeriveLift language extension''', allowing the `Lift` type class from `Language.Haskell.TH.Syntax` to be derived automatically. This was introduced in the spirit of `DeriveDataTypeable` and `DeriveGeneric` to allow easier metaprogramming, and to allow users to easily define `Lift` instances without needing to depend on the existence of Template Haskell itself (see #1830).
 
-  - '''More Backpack improvements'''. There's a new user-facing syntax which allows multiple modules to be defined a single file, and we're hoping to release at least the ability to publish multiple "units" in a single Cabal file.
-
   - '''Support for DWARF-based stacktraces''' ([wiki:DWARF]). Haskell has at long last gained the ability to collect stack-traces of running programs. While still experimental, `base` now includes an interface which user code can use to request a representation of the current execution stack when running on a supported machine (currently Linux x86-64). Furthermore, the runtime system will now provide a backtrace of the currently running thread when thrown a `SIGUSR2` signal. Note that this functionality is highly experimental and there are some known issues which can potentially threaten the stability of the program.
 
   - '''Remote GHCi''' ([wiki:RemoteGHCi]). The `-fexternal-interpreter` flag tells GHC to run interpreted code in a separate process.  This provides various benefits, including allowing the interpreter to run profiled code (for example), thereby gaining access to [[http://simonmar.github.io/posts/2016-02-12-Stack-traces-in-GHCi.html|stack traces]] in GHCi.
@@ -52,7 +50,7 @@ Of course, GHC only evolves because of its contributors. Please let us know if y
 
   GHC 8.2 will address this by introducing indexed type representations, leveraging the type-checker to verify programs using type reflection. This allows facilities like `Data.Dynamic` to be implemented in a fully type-safe manner. See the [[http://research.microsoft.com/en-us/um/people/simonpj/papers/haskell-dynamic/|paper]] for an description of the proposal and the [[https://ghc.haskell.org/trac/ghc/wiki/Typeable/BenGamari|Wiki]] for the current status of the implementation.
 
-  - Backpack continues its march forward (Edward Z Yang)
+  - Backpack is targeting to be merged in GHC 8.2. More to come here. (Edward Z Yang)
   - Merge `Bifoldable` and `Bitraversable` into `base` (Edward Kmett, Ryan Scott)
   - Generalize the `deriving` algorithms for `Eq`, `Functor`, etc. to be able to derive the data types in `Data.Functor.Classes` (`Eq1`, `Eq2`, etc.), `Bifunctor`, `Bifoldable`, and `Bitraversable` (Ryan Scott)
   - Deriving strategies (Ryan Scott): grant users the ability to choose explicitly how a class should be `derived` (using a built-in algorithm, `GeneralizedNewtypeDeriving`, `DeriveAnyClass`, or otherwise), addressing #10598.
