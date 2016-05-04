@@ -168,6 +168,11 @@ work for any subset of interface files present. When you add parallelism this ma
 Current work is focused on making GHC independent of the order of Uniques. That means either removing the call sites of functions that introduce ordering based on Uniques or 
 when the end result is deterministic, documenting it and making sure it stays local. The main sources of non-determinism are: `Ord Unique`, `foldUFM`, `elemsUFM`, `ufmToList`, `keysUFM`.
 
+
+I've mapped out some of them [ here (warning: 3 MB png file)](https://raw.githubusercontent.com/niteria/notes/master/Deterministic%20builds%20mind%20map.png). 
+Green means done, orange means that it still needs work, red means that the path was abandoned. It's not really meant to be read by anyone else but me, but might give some sense of what still needs to be done.
+  
+
 ## Testing
 
 
