@@ -33,7 +33,6 @@ For example:
  * recompile
 The final step should have identical output to the first.
 
-
 == Scope ==
 
 What do we mean by "the same GHC"? Can we recompile GHC with different optimisation flags, or with profiling?  
@@ -149,6 +148,14 @@ Uniques from UniqSupply and the interface file for the module being currently co
 It gets more complicated if you take into account that the interface files are loaded lazily and that building multiple files at once has to
 work for any subset of interface files present. When you add parallelism this makes Uniques hopelessly random.
 
+== Progress ==
+
+Current work is focused on making GHC independent of the order of Uniques. That means either removing the call sites of functions that introduce ordering based on Uniques or 
+when the end result is deterministic, documenting it and making sure it stays local. The main sources of non-determinism are: `Ord Unique`, `foldUFM`, `elemsUFM`, `ufmToList`, `keysUFM`.
+
+I've mapped out some of them [https://raw.githubusercontent.com/niteria/notes/master/Deterministic%20builds%20mind%20map.png here (warning: 3 MB png file)]. 
+Green means done, orange means that it still needs work, red means that the path was abandoned. It's not really meant to be read by anyone else but me, but might give some sense of what still needs to be done.
+  
 == Testing ==
 
 Two new flags were added to GHC:
