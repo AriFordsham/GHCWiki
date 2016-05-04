@@ -76,6 +76,7 @@ Of course, GHC only evolves because of its contributors. Please let us know if y
 
   - New Shake-based build system, `hadrian`, will be merged.  (Andrey Mokhov)
   - The [[ImprovedLLVMBackend|improved LLVM backend plan]] plan didn't make the cut for 8.0, but will for 8.2 (Austin Seipp)
+  - Deterministic builds [wiki:DeterministicBuilds]. Given the same environment, file and flags produce ABI compatible binaries. (Bartosz Nitka, in-progress)
 
 = Development updates and acknowledgments =
 
