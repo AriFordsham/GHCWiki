@@ -1,4 +1,4 @@
-# GHC plans for 8.2
+# GHC plans for 8.2.1
 
 
 This page is our road-map for what will be in 8.2.
