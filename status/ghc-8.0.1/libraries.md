@@ -126,7 +126,7 @@ TODO current plan: use unreleased patch-level v2.7.1.1 containing only fixes but
 
 [](http://hackage.haskell.org/package/Win32)
 
-TODO cut a new release
+DONE The tagged `2.3.1.1` version is to be used for GHC 8.0.1
 
 ### `xhtml`
 
