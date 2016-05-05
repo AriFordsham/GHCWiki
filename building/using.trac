@@ -227,7 +227,9 @@ take a look in [[GhcFile(mk/config.mk.in)]].
 
  `GhcDebugged`::
   (default: `NO`)[[br]]
-  Set to `YES` to pass `-debug` when building GHC (stage 1,2 and 3).
+  Set to `YES` to pass `-debug` when building GHC (stage 1, 2 and 3).
+  This links GHC (stage 1, 2 and 3) with the [wiki:Debugging/RuntimeSystem debugging RTS].
+  (It does not imply `GhcStage2HcOpts+=-DDEBUG`, see below for that)
 
  `GhcLibWays`::
   (default: `v p`)[[br]]
@@ -422,8 +424,9 @@ Here's the reasoning behind some of the `devel2` settings:
   after each modification.
   [[br]][[br]]
   Also we turn on {{{-DDEBUG}}}, because that enables assertions and
-  debugging code in the compiler itself.  Turning on DEBUG makes
-  the compiler about 30% slower.
+  debugging code in the compiler itself (Haskell source files only,
+  use `GhcDebugged=YES` to link GHC with the debugging RTS, see above).
+  Turning on DEBUG makes the compiler about 30% slower.
 
  {{{GhcLibHcOpts = -O -dcore-lint}}}::
   You almost certainly want optimisation ''on'' when building
