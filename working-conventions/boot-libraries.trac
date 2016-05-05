@@ -3,7 +3,7 @@
 Maintaining a GHC [wiki:Commentary/Libraries boot library] is generally quite similar to any other well-maintained Haskell library. However, we do have a few specific requests,
 
 
-   * Follow the [[https://wiki.haskell.org/Package_versioning_policy|Package Versioning Policy]]
+   * Follow the [[https://wiki.haskell.org/Package_versioning_policy|Package Versioning Policy]] with Commentary/Libraries/EagerVersionBump
 
    * Avoid non-fast-forward changes to tracked branches in the repository followed by GHC
 
