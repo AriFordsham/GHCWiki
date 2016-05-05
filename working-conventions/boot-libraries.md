@@ -7,7 +7,7 @@ Maintaining a GHC [boot library](commentary/libraries) is generally quite simila
 
 - Avoid non-fast-forward changes to tracked branches in the repository followed by GHC
 
-- Use annotated and signed tags for releases (this is explained here \[4\] but a read-through git-tag(1) \[5\] probably wouldn't hurt)
+- Use annotated and signed tags for releases
 
 ## Git tags
 
