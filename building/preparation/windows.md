@@ -59,7 +59,7 @@ Now we can install GHC's system dependencies as followed:
 ```
 pacman -S --needed git tar binutils autoconf make \
     libtool automake python2 p7zip patch \
-    gcc mingw-w64-$(uname -m)-python3-sphinx
+    mingw-w64-$(uname -m)-gcc mingw-w64-$(uname -m)-python3-sphinx
 ```
 
 
@@ -74,14 +74,14 @@ A host GHC binary is required for bootstrapping. In order to keep different arch
 So for 64-bit you'd run
 
 ```
-curl -L https://www.haskell.org/ghc/dist/7.10.1/ghc-7.10.1-x86_64-unknown-mingw32.tar.xz | tar -xJ -C /mingw64 --strip-components=1
+curl -L https://www.haskell.org/ghc/dist/7.10.3/ghc-7.10.3-x86_64-unknown-mingw32.tar.xz | tar -xJ -C /mingw64 --strip-components=1
 ```
 
 
 and for 32-bit you'd run
 
 ```
-curl -L https://www.haskell.org/ghc/dist/7.10.1/ghc-7.10.1-i386-unknown-mingw32.tar.xz | tar -xJ -C /mingw32 --strip-components=1
+curl -L https://www.haskell.org/ghc/dist/7.10.3/ghc-7.10.3-i386-unknown-mingw32.tar.xz | tar -xJ -C /mingw32 --strip-components=1
 ```
 
 
