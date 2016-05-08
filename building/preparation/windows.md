@@ -58,7 +58,7 @@ Now we can install GHC's system dependencies as followed:
 
 ```
 pacman -S --needed git tar binutils autoconf make \
-    libtool automake python2 p7zip patch \
+    libtool automake python python2 p7zip patch \
     mingw-w64-$(uname -m)-gcc mingw-w64-$(uname -m)-python3-sphinx
 ```
 
