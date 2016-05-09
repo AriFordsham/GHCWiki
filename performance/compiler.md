@@ -5,6 +5,12 @@ This is where we track various efforts to characterize and improve the performan
 
 ## Relevant tickets
 
+
+Identify tickets by using "Compile time performance bug" for the "Type of failure field".
+
+
+Here's a list:
+
 [ https://ghc.haskell.org/trac/ghc/query?status=!closed&failure=Compile-time+performance+bug](https://ghc.haskell.org/trac/ghc/query?status=!closed&failure=Compile-time+performance+bug)
 
 ### Type pile-up
