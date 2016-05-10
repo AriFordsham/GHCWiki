@@ -78,16 +78,16 @@ Below are the major highlights of 8.2.
 <th></th>
 <th></th></tr></table>
 
-## Tickets slated for 8.2
+## Tickets slated for 8.2.1
 
 ### merge/patch/upstream
 
-<table><tr><th>Ticket (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.2, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: id)</th>
-<th>Type (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.2, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: type)</th>
-<th>Summary (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.2, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: summary)</th>
-<th>Priority (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.2, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, desc: 1, order: priority)</th>
-<th>Differential Rev(s) (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.2, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: differential)</th>
-<th>Owner (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.2, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: owner)</th></tr>
+<table><tr><th>Ticket (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.2.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: id)</th>
+<th>Type (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.2.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: type)</th>
+<th>Summary (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.2.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: summary)</th>
+<th>Priority (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.2.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, desc: 1, order: priority)</th>
+<th>Differential Rev(s) (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.2.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: differential)</th>
+<th>Owner (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.2.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: owner)</th></tr>
 <tr><th>
             No tickets found
           </th>
