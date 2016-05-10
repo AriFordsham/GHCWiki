@@ -1,7 +1,10 @@
 # GHC plans for 8.2.1
 
 
-This page is our road-map for what will be in 8.2.
+This page is our road-map for what will be in 8.2.  
+
+
+We expect GHC 8.2 to be principally a consolidation release, in which we settle down and flesh out existing features, rather than introduce major new features.  In particular, we would like to work on performance, especially of the compiler itself.
 
 - We hope to incorporate all the "Landed" and "In-flight" stuff under "Release highlights" below.
 
