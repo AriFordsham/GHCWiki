@@ -202,6 +202,7 @@ See also [TemplateHaskell](template-haskell)
 
 ### Arity
 
+- [\#10181](https://gitlab.haskell.org//ghc/ghc/issues/10181): unsound eta-reduction
 - [\#11029](https://gitlab.haskell.org//ghc/ghc/issues/11029): eta expansion causes slow-down
 - [\#11146](https://gitlab.haskell.org//ghc/ghc/issues/11146): manual eta expansion is a big win
 - [\#10260](https://gitlab.haskell.org//ghc/ghc/issues/10260), [\#9020](https://gitlab.haskell.org//ghc/ghc/issues/9020), [\#10319](https://gitlab.haskell.org//ghc/ghc/issues/10319): not enough eta expansion
