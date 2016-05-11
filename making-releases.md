@@ -39,10 +39,10 @@ Update [ http://ghc.haskell.org/trac/ghc/wiki/Repositories\#Branches](http://ghc
 ## Make release notes
 
 
-In `docs/users_guide`, add a `$VERSION-notes.xml` file and write the release notes.
+In `docs/users_guide`, add a `$VERSION-notes.rst` file and write the release notes.
 
 
-Add a corresponding `relnotes$PATCH_LEVEL` entity to `ug-ent.xml.in`, and use the entity at the end of the chapter in `intro.xml`.
+Add a corresponding entry to the table-of-contents in `index.rst`.
 
 
 Ensure that the changelogs in `libraries/*` are up-to-date.
