@@ -33,13 +33,13 @@ Here are the approaches we have under consideration
 >
 > Addressing these challenges is the subject of Peter Wortman's PhD.  He has a paper [ Causality of Optimized Haskell: What is burning our cycles?](http://eprints.whiterose.ac.uk/77401/), and an implementation is well advanced (in GHC 7.10).
 
-- **(NEEDLE) Finding the needle**.  This is a cross between (PROF) and (DYN).  It transforms the program, but in a less invasive way than for full profiling.  Lots more details on [ExplicitCallStack/FindingTheNeedle](explicit-call-stack/finding-the-needle).  We don't currently plan to implement this in HEAD: it is not clear that, given (PROF) and (DYN), it's worth a third path, and one that is non-trivial to implement (as you'll see from the paper).
+- **(IMPLICIT)** Implicit locations.  An extremely simple idea is to use implicit parameters to pass location information: [ExplicitCallStack/ImplicitLocations](explicit-call-stack/implicit-locations).  This capability is available already in GHC using `CallStack` from `GHC.Stack` see [ http://hackage.haskell.org/package/base/docs/GHC-Stack.html](http://hackage.haskell.org/package/base/docs/GHC-Stack.html)
 
-- **(IMPLICIT)** Implicit locations.  Currently (May 2014) I'm just floating this idea: [ExplicitCallStack/ImplicitLocations](explicit-call-stack/implicit-locations).  Its main merit is its extreme simplicity.
+- **(NEEDLE) Finding the needle**.  This is a cross between (PROF) and (DYN).  It transforms the program, but in a less invasive way than for full profiling.  Lots more details on [ExplicitCallStack/FindingTheNeedle](explicit-call-stack/finding-the-needle).  We don't currently plan to implement this in HEAD: it is not clear that, given (PROF) and (DYN), it's worth a third path, and one that is non-trivial to implement (as you'll see from the paper).
 
 ## Other relevant writings
 
-- [ Simon Hengel's "rewrite with location" proposal](https://github.com/sol/rewrite-with-location), see also [ Michael Snoyman's post](http://www.haskell.org/pipermail/haskell-cafe/2013-February/106617.html)
+- [ Simon Hengel's "rewrite with location" proposal](https://github.com/sol/rewrite-with-location), see also [ Michael Snoyman's post](http://www.haskell.org/pipermail/haskell-cafe/2013-February/106617.html). The current `CallStack` support in GHC.Stack is morally similar to this proposal, although instead of a pragma, implicit parameters are used to pass the information through.
 - [ Lennart Augustsson's post](http://augustss.blogspot.se/2014/04/haskell-error-reporting-with-locations_5.html)
 - [ The Haskell cafe thread](http://www.haskell.org/pipermail/haskell-cafe/2006-November/019549.html)
 - [ http://www.cse.unsw.edu.au/\~dons/loch.html](http://www.cse.unsw.edu.au/~dons/loch.html)
