@@ -33,9 +33,9 @@ Here are the approaches we have under consideration
 >
 > Addressing these challenges is the subject of Peter Wortman's PhD.  He has a paper [ Causality of Optimized Haskell: What is burning our cycles?](http://eprints.whiterose.ac.uk/77401/), and an implementation is well advanced (in GHC 7.10).
 
-- **(NEEDLE) Finding the needle**.  This is a cross between (PROF) and (DYN).  It transforms the program, but in a less invasive way than for full profiling.  Lots more details on [ExplicitCallStack/FindingTheNeedle](explicit-call-stack/finding-the-needle).  We don't currently plan to implement this in HEAD: it is not clear that, given (PROF) and (DYN), it's worth a third path, and one that is non-trivial to implement (as you'll see from the paper).
+- **(IMPLICIT)** Implicit locations.  An extremely simple idea is to use implicit parameters to pass location information: [ExplicitCallStack/ImplicitLocations](explicit-call-stack/implicit-locations).  This capability is available already in GHC using `CallStack` from `GHC.Stack` see [ http://hackage.haskell.org/package/base/docs/GHC-Stack.html](http://hackage.haskell.org/package/base/docs/GHC-Stack.html)
 
-- **(IMPLICIT)** Implicit locations.  Currently (May 2014) I'm just floating this idea: [ExplicitCallStack/ImplicitLocations](explicit-call-stack/implicit-locations).  Its main merit is its extreme simplicity. 
+- **(NEEDLE) Finding the needle**.  This is a cross between (PROF) and (DYN).  It transforms the program, but in a less invasive way than for full profiling.  Lots more details on [ExplicitCallStack/FindingTheNeedle](explicit-call-stack/finding-the-needle).  We don't currently plan to implement this in HEAD: it is not clear that, given (PROF) and (DYN), it's worth a third path, and one that is non-trivial to implement (as you'll see from the paper).
 
 ## Other relevant writings
 
