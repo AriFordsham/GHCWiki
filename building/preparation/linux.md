@@ -113,7 +113,7 @@ The package `linux-tools` includes `perf`, see [Debugging/LowLevelProfiling/Perf
 Install the [ required tools](https://ghc.haskell.org/trac/ghc/wiki/Building/Preparation/Tools):
 
 ```wiki
-   sudo pacman -Sy ghc perl gcc make happy alex haddoc autoconf automake python python-sphinx libedit
+   sudo pacman -Sy ghc perl gcc make happy alex haddock autoconf automake python python-sphinx libedit
 ```
 
 ## Nix/NixOS
