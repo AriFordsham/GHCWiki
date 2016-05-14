@@ -110,7 +110,11 @@ The package `linux-tools` includes `perf`, see [Debugging/LowLevelProfiling/Perf
 ## Arch
 
 
-The list of dependencies is the same as for [ ghc-git](https://aur.archlinux.org/packages/ghc-git/) package on AUR.
+Install the [ required tools](https://ghc.haskell.org/trac/ghc/wiki/Building/Preparation/Tools):
+
+```wiki
+   sudo pacman -Sy ghc perl gcc make happy alex haddoc autoconf automake python python-sphinx libedit
+```
 
 ## Nix/NixOS
 
