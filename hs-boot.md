@@ -11,14 +11,26 @@ Use Keyword = `hs-boot` to ensure that a ticket ends up on these lists.
 
 <table><tr><th>[\#1012](https://gitlab.haskell.org//ghc/ghc/issues/1012)</th>
 <td>ghc panic with mutually recursive modules and template haskell</td></tr>
+<tr><th>[\#8441](https://gitlab.haskell.org//ghc/ghc/issues/8441)</th>
+<td>Allow family instances in an hs-boot file</td></tr>
+<tr><th>[\#9450](https://gitlab.haskell.org//ghc/ghc/issues/9450)</th>
+<td>GHC instantiates Data instances before checking hs-boot files</td></tr>
+<tr><th>[\#9562](https://gitlab.haskell.org//ghc/ghc/issues/9562)</th>
+<td>Type families + hs-boot files = unsafeCoerce</td></tr>
 <tr><th>[\#10333](https://gitlab.haskell.org//ghc/ghc/issues/10333)</th>
 <td>hs-boot modification doesn't induce recompilation</td></tr>
+<tr><th>[\#12034](https://gitlab.haskell.org//ghc/ghc/issues/12034)</th>
+<td>Template Haskell + hs-boot = Not in scope during type checking, but it passed the renamer</td></tr>
 <tr><th>[\#12063](https://gitlab.haskell.org//ghc/ghc/issues/12063)</th>
 <td>Knot-tying failure when type-synonym refers to non-existent data</td></tr>
+<tr><th>[\#13069](https://gitlab.haskell.org//ghc/ghc/issues/13069)</th>
+<td>hs-boot files permit default methods in type class (but don't typecheck them)</td></tr>
 <tr><th>[\#13180](https://gitlab.haskell.org//ghc/ghc/issues/13180)</th>
 <td>Confusing error when hs-boot abstract data implemented using synonym</td></tr>
 <tr><th>[\#13299](https://gitlab.haskell.org//ghc/ghc/issues/13299)</th>
 <td>Typecheck multiple modules at the same time</td></tr>
+<tr><th>[\#13322](https://gitlab.haskell.org//ghc/ghc/issues/13322)</th>
+<td>Pattern synonyms in hs-boot files</td></tr>
 <tr><th>[\#13347](https://gitlab.haskell.org//ghc/ghc/issues/13347)</th>
 <td>Abstract classes in hs-boot should not be treated as injective</td></tr>
 <tr><th>[\#13981](https://gitlab.haskell.org//ghc/ghc/issues/13981)</th>
@@ -27,6 +39,8 @@ Use Keyword = `hs-boot` to ensure that a ticket ends up on these lists.
 <td>hs-boot unfolding visibility not consistent between --make and -c</td></tr>
 <tr><th>[\#14103](https://gitlab.haskell.org//ghc/ghc/issues/14103)</th>
 <td>Retypechecking the loop in --make mode is super-linear when there are many .hs-boot modules</td></tr>
+<tr><th>[\#14382](https://gitlab.haskell.org//ghc/ghc/issues/14382)</th>
+<td>The 'impossible' happened whilst installing gi-gtk via cabal</td></tr>
 <tr><th>[\#16127](https://gitlab.haskell.org//ghc/ghc/issues/16127)</th>
 <td>Panic: piResultTys1 in compiler/types/Type.hs:1022:5</td></tr></table>
 
