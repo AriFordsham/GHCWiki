@@ -7,7 +7,7 @@
 Use Keyword = `hs-boot` to ensure that a ticket ends up on these lists.
 
 '''Open Tickets:'''
-[[TicketQuery(status=infoneeded,status=new|patch,keywords=hs-boot)]]
+[[TicketQuery(status=new|patch,keywords=hs-boot)]]
 
 '''Closed Tickets:'''
-[[TicketQuery(status=infoneeded,status=closed,keywords=~hs-boot)]]
+[[TicketQuery(status=closed,keywords=~hs-boot)]]
