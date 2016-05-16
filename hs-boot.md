@@ -1,5 +1,9 @@
 # hs-boot files jiggery pokery
 
+`hs-boot` files are used by GHC to support mutually-recursive modules
+
+## Status
+
 
 Use Keyword = `hs-boot` to ensure that a ticket ends up on these lists.
 
