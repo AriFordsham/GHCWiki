@@ -31,7 +31,9 @@ The compiler itself is written entirely in Haskell, and lives in the many sub-di
   - [RdrNames, Modules, and OccNames](commentary/compiler/rdr-name-type)
   - [ModIface, ModDetails, ModGuts](commentary/compiler/module-types)
   - [Names](commentary/compiler/name-type)
-  - [Entities](commentary/compiler/entity-types): variables, type constructors, data constructors, and classes.
+  - [Entities](commentary/compiler/entity-types): variables (Var), type constructors (TyCon), data constructors (DataCon), and classes (Class).
+
+    - [Tying the knot](commentary/compiler/tying-the-knot): how we build the circular data structure representing entities
   - Types: 
 
     - [Types](commentary/compiler/type-type)
