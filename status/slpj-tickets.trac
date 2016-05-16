@@ -24,6 +24,7 @@
 == Type families, roles, `Coercible`, `Typeable`, kind polymorphism ==
  
 Major things
+ * `hs-boot` files: [wiki:HsBoot]
  * Type-indexed type representations: [wiki:Typeable/BenGamari plan and status]
  * `TypeInType`, kind equalities etc: [wiki:DependentHaskell], esp [wiki:DependentHaskell/Phase1]
  * `TypeApplications`: [wiki:TypeApplication visible type application]
