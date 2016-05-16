@@ -32,7 +32,7 @@ All of these entities have a `Name`, but that's about all they have in common.  
 All these data types are implemented as a big record of information that tells you everything about the entity.  For example, a `TyCon` contains a list of its data constructors; a `DataCon` contains its type (which mentions its `TyCon`); a `Class` contains the `Id`s of all its method selectors; and an `Id` contains its type (which mentions type constructors and classes).  
 
 
-So you can see that the GHC data structures for entities is a *graph* not tree: everything points to everything else.  This makes it very convenient for the consumer, because there are accessor functions with simple types, such as `idType :: Id -> Type`.  But it means that there has to be some tricky almost-circular programming ("knot-tying") in the type checker, which constructs the entities.
+So you can see that the GHC data structures for entities is a *graph* not tree: everything points to everything else.  This makes it very convenient for the consumer, because there are accessor functions with simple types, such as `idType :: Id -> Type`.  But it means that there has to be some tricky almost-circular programming ("knot-tying") in the type checker, which constructs the entities. See [tying the knot](commentary/compiler/tying-the-knot) for more details on this process.
 
 ## Type variables and term variables
 
