@@ -351,7 +351,7 @@ When do `pi`-types get inferred, if ever? Good question.
 There are several published works very relevant to the design:
 
 - [ System FC with Explicit Kind Equality](http://www.cis.upenn.edu/~eir/papers/2013/fckinds/fckinds.pdf). Stephanie Weirich, Justin Hsu, and Richard A. Eisenberg. ICFP 2013.
-- [ Type Inference, Haskell, and Dependent Types](https://personal.cis.strath.ac.uk/adam.gundry/thesis/thesis-2013-07-24.pdf). Adam Gundry. PhD Thesis, 2013.
+- [ Type Inference, Haskell, and Dependent Types](http://adam.gundry.co.uk/pub/thesis/thesis-2013-12-03.pdf). Adam Gundry. PhD Thesis, 2013.
 - Eisenberg's thesis: [ https://github.com/goldfirere/thesis](https://github.com/goldfirere/thesis)
 
 
