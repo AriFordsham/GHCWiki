@@ -98,4 +98,24 @@ As we typecheck Haskell source code, we produce `TyCon`s and another type checki
 
 **A mutually recursive set of source declarations.** GHC simply arranges for every declaration in a mutually recursive set of declarations to be typechecked "all at once." For example, `tcTyClDecls` in `TcTyClsDecls` uses `fixM` to refer to the resulting type declarations, so they can be placed in the environment when we typecheck these very type declarations.
 
-**An hs file which implements an hs-boot file.** This is the trickiest case of knot-tying during type checking.
+**An hs file which implements an hs-boot file.** This is the trickiest case of knot-tying during type checking, so let's look at a particular example:
+
+{{{
+-- A.hs-boot
+module A where
+data T
+-- B.hs
+module B where
+import {-# SOURCE #-} A
+data S = MkS T
+-- A.hs
+module A where
+import B
+data T = MkT S
+}}}
+
+Like before, `T` and `S` form a mutually recursive loop; the difference is this time it is done through an `hs-boot` file.  At the point in time when we typecheck `A.hs`, we would like the `TyCon`s for `T` and `S` to be mutually recursive.
+
+However, this leads to a very intruiging requirement: when we typecheck the interface for `B.hi`, we must tie the knot with the local type environment (while typechecking.) Thus, rather than a mutable variable for the interface, we need to refer to a mutable variable for the current type-checking session.  This variable is `tcg_type_env_var` in `TcGblEnv`. It is updated at various points during the typechecking session, including when we setup the type environment in `tcTyClDecls` (`tcExtendRecEnv` does the dirty work.)
+
+This leads to another complication with `ghc --make`: just how we must retypecheck the interface files after we finish typechecking a module loop, we must also retypecheck the interface files BEFORE we start typechecking, so that the knot-tying can take place. (Actually, hypothetically you could remove the later retypecheck, but we need it so that we can get up-to-date unfoldings, which aren't computed until after we run the optimizer, which is after all the thunks have been forced.)
