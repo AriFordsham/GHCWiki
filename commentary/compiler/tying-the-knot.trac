@@ -6,6 +6,12 @@ Compilers usually have one or more data structures known as ''symbol tables'', w
 
 The downside of these cyclic data structures is that they are difficult to update.  This has two implications: (1) we have to construct this graph in one go using a technique called ''tying the knot'' (since we can't update the graph after the fact--it's immutable!) and (2) if any of the data in the graph ever becomes out-of-date (as can occur when typechecking hs-boot loops), we have to throw out all of the in-memory data structures and rebuild the graph from scratch.  How this knot tying works is a dark corner of GHC, but hopefully this wiki page will shed some light on the matter.
 
+== Practical advice ==
+
+* Add a `pprTrace` to a type environment, and have GHC spin into a loop or panic? This may be because you are forcing a thunk too early. Try printing out the unique keys of the environment instead, or moving the trace later.
+
+* Consider using `mkNaked****` instead of the usual functions if you are within the knot-tying code
+
 == Graph representation versus interface representation ==
 
 Most type-checker entities which form the graph representation have a sister representation which is not cyclic, uses symbol tables, and suitable for serialization into an interface file.  Here are some of the main correspondences:
