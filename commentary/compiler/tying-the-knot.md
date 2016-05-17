@@ -105,3 +105,10 @@ The net effect is that at the point when we `loadDecls` the declarations, we hav
 Something extra is needed in the case of `ghc --make`: when we typecheck against an `hs-boot` file, we may build `TyThing`s which refer to incomplete `TyThing`s provided from typechecking the `hs-boot` file. In this case, it's necessary to \*re-typecheck\* all of the interfaces in the module loop, so that they end up pointing to the most up-to-date `TyThing`s.
 
 ## Tying the knot when typechecking a module
+
+
+As we typecheck Haskell source code, we produce `TyCon`s and another type checking entities for them. If some declarations are mutually recursive, then we need to similarly tie the knot.  There are two primary cases when this can occur:
+
+**A mutually recursive set of source declarations.** GHC simply arranges for every declaration in a mutually recursive set of declarations to be typechecked "all at once." For example, `tcTyClDecls` in `TcTyClsDecls` uses `fixM` to refer to the resulting type declarations, so they can be placed in the environment when we typecheck these very type declarations.
+
+**An hs file which implements an hs-boot file.** This is the trickiest case of knot-tying during type checking.
