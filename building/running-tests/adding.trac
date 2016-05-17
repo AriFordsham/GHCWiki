@@ -35,6 +35,8 @@ For adding any test case, follow these guide lines and then refer to the more sp
         how to handle single Vs multi source test cases are
         explained below.
 
+        **If your test depends on source files that don't start with name of the test, you have to specify them using the `extra_files` setup function (see below).**
+
       T.stdin   (for test cases that run, and optional)
         A file to feed the test case as standard input when it
         runs.
@@ -107,17 +109,14 @@ This example would compile a multiple module test case where the top module is M
 
 For a test case that should compile but you don't want run, we would put this line in all.T:
 {{{
-test('T3286', extra_clean(['T3286b.o','T3286b.hi']), 
-              multimod_compile, ['T3286', '-v0'])
+test('T3286', [], multimod_compile, ['T3286', '-v0'])
 }}}
 This example would compile a multiple module test case where the top module is T3286 and before compiling the test the files T3286b.o and T3286b.hi are removed.
 
 For a test case that should fail during compilation we would put this line in all.T:
 {{{
 test('Over',
-     extra_clean(['OverA.hi', 'OverA.o',
-                  'OverB.hi', 'OverB.o',
-                  'OverC.hi', 'OverC.o']),
+     [],
      multimod_compile_fail,
      ['OverD', '-no-hs-main -c -v0'])
 }}}
@@ -188,7 +187,7 @@ There are many pre-defined functions which can be used in this field:
 
  * '''extra_run_opts(opts)'''  pass some extra opts to the prog
 
- * '''extra_clean(files)'''    extra files to clean after the test has completed
+ * '''extra_files(files)'''    extra files that the test depends on. By default the testsuite driver assumes tests only depend on files that start with the name of the test `i.e. (<testname>*)`.
 
  * '''reqlib(P)'''             requires package P
 
