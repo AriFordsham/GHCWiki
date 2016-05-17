@@ -98,3 +98,7 @@ There are three parts to this:
 
 
 The net effect is that at the point when we `loadDecls` the declarations, we have a list of `Name`s and unevaluated `TyThing` thunks, which we write into the global environment. Later, when we actually force the `TyThing` thunk, the suspended typechecking computation goes ahead and looks up the thunk in the environment, which has since been updated with the thunks we need.
+
+**Variation: tying the knot when typechecking mutually recursive interfaces.** Sometimes, recursive declarations can be spread out across several `hi` files (due to an `hs-boot` loop). In this case, laziness plays a similar role; however, instead of consulting per-interface mutable variable, the typechecking process consults the EPS (in the case of `ghc -c`) or the HPT (in the case of `ghc --make`).  As before, laziness plays a critical role: we first add thunks representing all of the declarations to the EPS without doing any interface typechecking; then when we force the thunk the names can be found by doing the lookup.
+
+## Tying the knot when typechecking
