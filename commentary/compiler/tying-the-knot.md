@@ -57,3 +57,38 @@ In `Type`, the type constructor application contains the full `TyCon` which cont
 **Converting from graph to interface representation.**  The primary functions which turn `ModDetails` into `ModIface` are `mkIface` (when we generated code) and `mkIfaceTc` (when we did not generate code.) There is also `tyThingToIfaceDecl` (which does the obvious thing) and `toIface*****` functions. These functions are all relatively straightforward: since all graph representations record globally unique `Name`s identifying them, all we need to do is drop the extra information and preserve only the `Name`.
 
 **Converting from interface to graph representation.** This process is referred to as *typechecking the interface* (in `TcIface`).  Unlike the conversion to interface format, which is essentially pure, conversion from the interface format involves some global state: the existing graph of type checking entities which we are going to resolve `Name` references to. Generally speaking, there is a \*unique\* such graph, such that every `Name` maps to a unique `TyThing` in the graph, spanning over all of the typechecked entities GHC could possibly know about. In the common case, the only reason we typecheck an interface is to (lazily) load its entities into this global map.
+
+## Tying the knot when loading interfaces
+
+
+Consider the following Haskell file:
+
+```wiki
+data T = MkT S
+data S = MkS T
+```
+
+
+When we serialize this into an interface file, we end up with two `IfaceDecl`s: one for `T` and one for `S`, both of which contain names to refer to one another.  But when it comes time to construct the `TyCon` representing these types, we are in trouble: the `TyCon` for `T` has a `DataCon` whose `Type` needs to refer to the `TyCon` for `S`, which in turn refers to the `TyCon` for `T`: we have a cycle. How can we *tie the knot* in order to let these two `TyCon`s refer to each other? The idea is that we lazily defer typechecking the details about the `TyCon` (in particular, its `DataCon`s) until we have populated the type environment for this interface with all of the `TyThing`s (i.e., the `TyCon`) which we may refer to locally.
+
+
+There are three parts to this:
+
+1. First, `typecheckIface` in `TcIface` typechecks all of the `IfaceDecl`s in the `ModIface`, and then writes them into a mutable variable which makes them available to other typechecking code to tie the knot:
+
+  ```wiki
+                  -- Typecheck the decls.  This is done lazily, so that the knot-tying
+                  -- within this single module work out right.  In the If monad there is
+                  -- no global envt for the current interface; instead, the knot is tied
+                  -- through the if_rec_types field of IfGblEnv
+          ; names_w_things <- loadDecls ignore_prags (mi_decls iface)
+          ; let type_env = mkNameEnv names_w_things
+          ; writeMutVar tc_env_var type_env
+  ```
+
+1. Second, the actual process of typechecking these declarations is done *lazily* using the `forkM` function (which unsafely converts a monadic typechecking operation into a thunk).
+
+1. Finally, in `tcIfaceGlobal` in `TcIface`, whenever we would try to get the `TyThing` for a `Name` that is locally defined in the interface, we look it up instead in the mutable variable. Because this call to `tcIfaceGlobal` is suspended lazily, it won't get called until the mutable variable is populated with all the things we need.
+
+
+The net effect is that at the point when we `loadDecls` the declarations, we have a list of `Name`s and unevaluated `TyThing` thunks, which we write into the global environment. Later, when we actually force the `TyThing` thunk, the suspended typechecking computation goes ahead and looks up the thunk in the environment, which has since been updated with the thunks we need.
