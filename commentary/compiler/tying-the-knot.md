@@ -44,17 +44,8 @@ data IfaceRule      data CoreRule
 
 Taking `IfaceType` and `Type` as an example, we can see the big difference in a constructor for type constructor application:
 
-```wiki
-data Type
-  = ...
-  | TyConApp TyCon [KindOrType]
-
-data IfaceType
-  = ...
-  | IfaceTyConApp IfaceTyCon IfaceTcArgs
-data IfaceTyCon
-  = IfaceTyCon { ifaceTyConName :: IfExtName
-               , ifaceTyConInfo :: IfaceTyConInfo }       
+```
+dataType=...|TyConAppTyCon[KindOrType]dataIfaceType=...|IfaceTyConAppIfaceTyConIfaceTcArgsdataIfaceTyCon=IfaceTyCon{ ifaceTyConName ::IfExtName, ifaceTyConInfo ::IfaceTyConInfo}
 ```
 
 
@@ -69,9 +60,8 @@ In `Type`, the type constructor application contains the full `TyCon` which cont
 
 Consider the following Haskell file:
 
-```wiki
-data T = MkT S
-data S = MkS T
+```
+dataT=MkTSdataS=MkST
 ```
 
 
@@ -82,13 +72,8 @@ There are three parts to this:
 
 1. First, `typecheckIface` in `TcIface` typechecks all of the `IfaceDecl`s in the `ModIface`, and then writes them into a mutable variable which makes them available to other typechecking code to tie the knot:
 
-  ```wiki
-                  -- Typecheck the decls.  This is done lazily, so that the knot-tying
-                  -- within this single module work out right.  In the If monad there is
-                  -- no global envt for the current interface; instead, the knot is tied
-                  -- through the if_rec_types field of IfGblEnv
-          ; names_w_things <- loadDecls ignore_prags (mi_decls iface)
-          ; let type_env = mkNameEnv names_w_things
+  ```
+  -- Typecheck the decls.  This is done lazily, so that the knot-tying-- within this single module work out right.  In the If monad there is-- no global envt for the current interface; instead, the knot is tied-- through the if_rec_types field of IfGblEnv; names_w_things <- loadDecls ignore_prags (mi_decls iface);let type_env = mkNameEnv names_w_things
           ; writeMutVar tc_env_var type_env
   ```
 
@@ -107,24 +92,14 @@ Something extra is needed in the case of `ghc --make`: when we typecheck against
 ## Tying the knot when typechecking a module
 
 
-As we typecheck Haskell source code, we produce `TyCon`s and another type checking entities for them. If some declarations are mutually recursive, then we need to similarly tie the knot.  There are two primary cases when this can occur:
+As we typecheck Haskell source code, we produce `TyCon`s and other type-checking entities for them. If some declarations are mutually recursive, then we need to similarly tie the knot.  There are two primary cases when this can occur:
 
 **A mutually recursive set of source declarations.** GHC simply arranges for every declaration in a mutually recursive set of declarations to be typechecked "all at once." For example, `tcTyClDecls` in `TcTyClsDecls` uses `fixM` to refer to the resulting type declarations, so they can be placed in the environment when we typecheck these very type declarations.
 
 **An hs file which implements an hs-boot file.** This is the trickiest case of knot-tying during type checking, so let's look at a particular example:
 
-```wiki
--- A.hs-boot
-module A where
-data T
--- B.hs
-module B where
-import {-# SOURCE #-} A
-data S = MkS T
--- A.hs
-module A where
-import B
-data T = MkT S
+```
+-- A.hs-bootmoduleAwheredataT-- B.hsmoduleBwhereimport{-#SOURCE#-}AdataS=MkST-- A.hsmoduleAwhereimportBdataT=MkTS
 ```
 
 
