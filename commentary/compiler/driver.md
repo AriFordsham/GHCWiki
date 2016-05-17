@@ -49,7 +49,7 @@ The key data structure which we are filling in as we perform compilation is the 
 We \*clear\* out the home package table in the session (for `--make`, this was empty anyway), but we pass in the old HPT.
 
 
-ToDo: talk about how we fix up loops after we finish the loop
+When we finish compiling a module loop, we need to retypecheck all of the interfaces in the loop. The details for why we need to do this are in [Tying the Knot](commentary/compiler/tying-the-knot).
 
 
 Finally, when the module is completely done being compiled, it is registered in the home package table 
