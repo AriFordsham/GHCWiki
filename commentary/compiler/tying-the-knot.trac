@@ -47,3 +47,7 @@ data IfaceTyCon
 }}}
 
 In `Type`, the type constructor application contains the full `TyCon` which contains everything we could possibly want to know about the type constructor (e.g., if it is a synonym, what its unfolding is). In `IfaceType`, the application points to a stub data structure `IfaceTyCon` which only records the `IfExtName` of the `TyCon` in question (which is just a `Name`); to find out more information, we will have to go out and lookup this `IfExtName` in the symbol table associated with the interface type.
+
+**Converting from graph to interface representation.**  The primary functions which turn `ModDetails` into `ModIface` are `mkIface` (when we generated code) and `mkIfaceTc` (when we did not generate code.) There is also `tyThingToIfaceDecl` (which does the obvious thing) and `toIface*****` functions. These functions are all relatively straightforward: since all graph representations record globally unique `Name`s identifying them, all we need to do is drop the extra information and preserve only the `Name`.
+
+**Converting from interface to graph representation.** 
