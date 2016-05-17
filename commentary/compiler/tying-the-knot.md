@@ -95,7 +95,7 @@ The **home package table** is a mapping containing all of the `ModDetails` of mo
 ## Tying the knot when typechecking a module
 
 
-As we typecheck Haskell source code, we produce `TyCon`s and other type-checking entities for them. If some declarations are mutually recursive, then we need to similarly tie the knot.  There are two primary cases when this can occur:
+As we typecheck Haskell source code, we produce `TyCon`s and other type-checking entities. If some declarations are mutually recursive, then we need to similarly tie the knot.  There are two primary cases when this can occur:
 
 **A mutually recursive set of source declarations.** GHC simply arranges for every declaration in a mutually recursive set of declarations to be typechecked "all at once." For example, `tcTyClDecls` in `TcTyClsDecls` uses `fixM` to refer to the resulting type declarations, so they can be placed in the environment when we typecheck these very type declarations.
 
