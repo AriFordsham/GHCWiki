@@ -36,4 +36,20 @@ data IfaceRule      data CoreRule
 ```
 
 
-Taking `IfaceType` and `Type` as an example, 
+Taking `IfaceType` and `Type` as an example, we can see the big difference in a constructor for type constructor application:
+
+```wiki
+data Type
+  = ...
+  | TyConApp TyCon [KindOrType]
+
+data IfaceType
+  = ...
+  | IfaceTyConApp IfaceTyCon IfaceTcArgs
+data IfaceTyCon
+  = IfaceTyCon { ifaceTyConName :: IfExtName
+               , ifaceTyConInfo :: IfaceTyConInfo }       
+```
+
+
+In `Type`, the type constructor application contains the full `TyCon` which contains everything we could possibly want to know about the type constructor (e.g., if it is a synonym, what its unfolding is). In `IfaceType`, the application points to a stub data structure `IfaceTyCon` which only records the `IfExtName` of the `TyCon` in question (which is just a `Name`); to find out more information, we will have to go out and lookup this `IfExtName` in the symbol table associated with the interface type.
