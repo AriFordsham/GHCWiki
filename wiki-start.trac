@@ -16,7 +16,7 @@ Please help us improve the information on the GHC developer's wiki. You can easi
 
  * Total [https://ghc.haskell.org/trac/ghc/query?status=!closed&order=priority open tickets]: [[TicketQuery(status!=closed&status!=merge, format=count)]] ([[TicketQuery(status!=closed&status!=merge, type=bug, format=count)]] [https://ghc.haskell.org/trac/ghc/query?status=!closed&order=priority&type=bug bugs], [[TicketQuery(status!=closed&status!=merge, type=feature request, format=count)]] [https://ghc.haskell.org/trac/ghc/query?status=!closed&order=priority&type=feature+request feature requests], [[TicketQuery(status!=closed&status!=merge, type=task, format=count)]] [https://ghc.haskell.org/trac/ghc/query?status=!closed&order=priority&type=task tasks]) 
 
- * [[https://phabricator.haskell.org/diffusion/GHC/history/|​Harbormaster]], the [[http://haskell.inf.elte.hu/builders/|​nightly build bots]] and [[http://travis-ci.org/ghc|Travis]] [[Image(https://travis-ci.org/ghc/ghc.svg)]] are keeping an eye on our code. See the [[Status|Status page]] for more information. 
+ * [[https://phabricator.haskell.org/diffusion/GHC/history/|​Harbormaster]], the [[http://haskell.inf.elte.hu/builders/|​nightly build bots]] and Travis [[Image(https://travis-ci.org/ghc/ghc.svg, link=http://travis-ci.org/ghc/ghc/builds)]]  are keeping an eye on our code. See the [[Status|Status page]] for more information. 
 
 == Notices
 
