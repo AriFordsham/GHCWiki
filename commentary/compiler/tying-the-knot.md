@@ -7,7 +7,14 @@ Background reading: [ GHC at The Architecture of Open Source Applications](http:
 Compilers usually have one or more data structures known as *symbol tables*, which are mappings from symbols to information about the symbol in question. GHC avoids symbol tables; instead, a symbol *contains* all information about itself. Thus, the data types for [Haskell entities](commentary/compiler/entity-types) (Id, TyVar, TyCon, DataCon, and Class) form an immutable cyclic data structure, where everything points to everything else. This makes it very convenient for the consumer, because there are accessor functions with simple types, such as `idType :: Id -> Type`.
 
 
-The downside of these cyclic data structures is that they are difficult to update.  This has two implications: (1) we have to construct this graph in one go using a technique called *tying the knot* (since we can't update the graph after the fact--it's immutable!) and (2) if any of the data in the graph ever becomes out-of-date (as can occur when typechecking hs-boot loops), we have to throw out all of the in-memory data structures and rebuild the graph from scratch.  How this knot tying works is a dark corner of GHC, but hopefully this wiki page will shed some light on the matter.
+The downside of these cyclic data structures is that they are difficult to update.  This has two implications: 
+
+1. we have to construct this graph in one go using a technique called *tying the knot* (since we can't update the graph after the fact--it's immutable!) and 
+
+1. if any of the data in the graph ever becomes out-of-date (as can occur when typechecking hs-boot loops), we have to throw out all of the in-memory data structures and rebuild the graph from scratch.  
+
+
+How this knot tying works is a dark corner of GHC, but hopefully this wiki page will shed some light on the matter.
 
 ## Practical advice
 
