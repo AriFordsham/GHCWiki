@@ -15,9 +15,9 @@ Please help us improve the information on the GHC developer's wiki. You can easi
 
 - Forthcoming planned releases:
 
-  - [8.0.1](status/ghc-8.0.1) (0 (Ticket query: status: open, priority: high, priority: highest, milestone: 8.0.1, max: 0, order: id) open tickets with priority high or highest) 
+  - [8.0.1](status/ghc-8.0.1) (0 (Ticket query: status: !closed, status: !merge, priority: high, priority: highest, milestone: 8.0.1, max: 0, order: id)[ open tickets](https://ghc.haskell.org/trac/ghc/query?status=!closed&priority=high&priority=highest&milestone=8.0.1&order=priority) with priority high or highest) 
 
-- Total open tickets: 3204 (Ticket query: status: !closed, max: 0, order: id) (1982 (Ticket query: status: !closed, type: bug, max: 0, order: id) bugs, 870 (Ticket query: status: !closed, type: feature+request, max: 0, order: id) feature requests, 351 (Ticket query: status: !closed, type: task, max: 0, order: id) tasks) 
+- Total [ open tickets](https://ghc.haskell.org/trac/ghc/query?status=!closed&order=priority): 3179 (Ticket query: status: !closed, status: !merge, max: 0, order: id) (1959 (Ticket query: status: !closed, status: !merge, type: bug, max: 0, order: id)[ bugs](https://ghc.haskell.org/trac/ghc/query?status=!closed&order=priority&type=bug), 870 (Ticket query: status: !closed, status: !merge, type: feature+request, max: 0, order: id)[ feature requests](https://ghc.haskell.org/trac/ghc/query?status=!closed&order=priority&type=feature+request), 349 (Ticket query: status: !closed, status: !merge, type: task, max: 0, order: id)[ tasks](https://ghc.haskell.org/trac/ghc/query?status=!closed&order=priority&type=task)) 
 
 - [ Harbormaster](https://phabricator.haskell.org/diffusion/GHC/history/), the [ nightly build bots](http://haskell.inf.elte.hu/builders/) and [ Travis](http://travis-ci.org/ghc)[](https://travis-ci.org/ghc/ghc.svg) are keeping an eye on our code. See the [Status page](status) for more information. 
 

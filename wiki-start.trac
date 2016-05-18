@@ -12,9 +12,9 @@ Please help us improve the information on the GHC developer's wiki. You can easi
 == Status updates
 
  * Forthcoming planned releases:
-     * [[Status/GHC-8.0.1|8.0.1]] ([[TicketQuery(status=open, priority=high|highest, milestone=8.0.1, format=count)]] open tickets with priority high or highest) 
+     * [[Status/GHC-8.0.1|8.0.1]] ([[TicketQuery(status=!closed&status!=merge, priority=high|highest, milestone=8.0.1, format=count)]] [https://ghc.haskell.org/trac/ghc/query?status=!closed&priority=high&priority=highest&milestone=8.0.1&order=priority open tickets] with priority high or highest) 
 
- * Total open tickets: [[TicketQuery(status!=closed, format=count)]] ([[TicketQuery(status!=closed, type=bug, format=count)]] bugs, [[TicketQuery(status!=closed, type=feature request, format=count)]] feature requests, [[TicketQuery(status!=closed, type=task, format=count)]] tasks) 
+ * Total [https://ghc.haskell.org/trac/ghc/query?status=!closed&order=priority open tickets]: [[TicketQuery(status!=closed&status!=merge, format=count)]] ([[TicketQuery(status!=closed&status!=merge, type=bug, format=count)]] [https://ghc.haskell.org/trac/ghc/query?status=!closed&order=priority&type=bug bugs], [[TicketQuery(status!=closed&status!=merge, type=feature request, format=count)]] [https://ghc.haskell.org/trac/ghc/query?status=!closed&order=priority&type=feature+request feature requests], [[TicketQuery(status!=closed&status!=merge, type=task, format=count)]] [https://ghc.haskell.org/trac/ghc/query?status=!closed&order=priority&type=task tasks]) 
 
  * [[https://phabricator.haskell.org/diffusion/GHC/history/|​Harbormaster]], the [[http://haskell.inf.elte.hu/builders/|​nightly build bots]] and [[http://travis-ci.org/ghc|Travis]] [[Image(https://travis-ci.org/ghc/ghc.svg)]] are keeping an eye on our code. See the [[Status|Status page]] for more information. 
 
