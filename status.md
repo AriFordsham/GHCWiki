@@ -50,7 +50,6 @@ Template Haskell has its own status page at [TemplateHaskell/Status](template-ha
 
 ## Tickets and patches
 
-- [ Ticket statistics](https://ghc.haskell.org/trac/ghc/ticketstats): gives a graph of our ticket statistics over time 
 - [Summary of open tickets](/trac/ghc/wiki/Status/Tickets), listed by component.
 - [Status/SLPJ-Tickets](status/slpj-tickets) is a curation of interesting tickets by SPJ
 - The yearly [GHC bug sweep](bug-sweep) attends to lost and forgotten tickets.

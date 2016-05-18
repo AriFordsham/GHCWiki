@@ -39,7 +39,6 @@ Template Haskell has its own status page at TemplateHaskell/Status.
 
 == Tickets and patches ==
 
- * [https://ghc.haskell.org/trac/ghc/ticketstats Ticket statistics]: gives a graph of our ticket statistics over time 
  * 
 {{{
 #!html
