@@ -52,7 +52,7 @@ More precisely:
 
  1.  For every `RdrName` in the program text, find all the import-items that brought it into scope.  The lookup mechanism on `RdrNames` already takes account of whether the `RdrName` was qualified, and which imports have the right qualification etc, so this step is very easy.
 
- 2. Separate these import-items into those which explicitly and implicitly provide the `RdrName`. Mark all import-items which implicitly provide the `RdrName` as used. Choose one explicit import-item and mark it used.
+ 2. **Separate these import-items into those which explicitly and implicitly provide the `RdrName`. Mark all import-items which implicitly provide the `RdrName` as used. Choose one explicit import-item and mark it used.**
 
  3.  Now bleat about any import-items that are unused.  For a decl
  `import Foo(x,y)`, if both the `x` and `y` items are unused, it'd be better
