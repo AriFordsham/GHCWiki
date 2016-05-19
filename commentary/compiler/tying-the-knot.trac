@@ -12,6 +12,18 @@ The downside of these cyclic data structures is that they are difficult to updat
 
 How this knot tying works is a dark corner of GHC, but hopefully this wiki page will shed some light on the matter.
 
+== Status == 
+
+Knot-tying is all intimately tied up with the treatment of `hs-boot` files, so those tickets are listed here.
+
+Use Keyword = `hs-boot` to ensure that a ticket ends up on these lists.
+
+'''Open Tickets:'''
+[[TicketQuery(status=new|patch,keywords=~hs-boot)]]
+
+'''Closed Tickets:'''
+[[TicketQuery(status=closed,keywords=~hs-boot)]]
+
 == Practical advice ==
 
 * Add a `pprTrace` to a type environment, and have GHC spin into a loop or panic? This may be because you are forcing a thunk too early. Try printing out the unique keys of the environment instead, or moving the trace later.
