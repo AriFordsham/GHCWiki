@@ -10,7 +10,7 @@ We suggest the old import warnings be preserved with a flag which is not turned 
 
 == Motivation ==
 
-[http://www.yesodweb.com/blog/2016/05/are-unused-import-warnings-harmful Snoyman reports] a common CPP anti-pattern in cross-GHC code:
+[http://www.yesodweb.com/blog/2016/05/are-unused-import-warnings-harmful Snoyman reports] (with [https://www.reddit.com/r/haskell/comments/4jvtmh/are_unused_import_warnings_harmful/ reddit discussion]) a common CPP anti-pattern in cross-GHC code:
 
 {{{
 #if MIN_VERSION_base(4,8,0)
