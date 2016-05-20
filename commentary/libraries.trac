@@ -140,6 +140,15 @@ f (S# _) (J# _ _) = ...
 f (J# _ _) (J# _ _) = ...
 }}}
 
+= GHC-internal libraries (`ghc-boot-*`) =
+
+GHC ships with two few libraries which exist to share code between components of the compiler: `ghc-boot` and `ghc-boot-th`.
+
+Previously there was one `ghc-boot` library to allow us to share types and functions between the `ghc` library, the `ghci` library, and the `template-haskell` library. This situation was suboptimal (see #12052) since it is important that `template-haskell` has a minimal set of dependencies (as it is depended upon by a large set of user code) yet `ghc-boot` has dependencies on `binary` and `bytestring`.
+
+To reduce the transitive dependency set of `template-haskell` it was decided that `ghc-boot` would be split into two separate libraries. Those definitions required by `template-haskell` live in `ghc-boot-th` and everything else lives in `ghc-boot`. Modules provided by `ghc-boot-th` are re-exported by `ghc-boot.
+
+
 = Repositories =
 
 The list of repository locations has moved to [wiki:Repositories].
