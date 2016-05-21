@@ -5,7 +5,6 @@ various platforms.  To find out who is responsible for each platform, see [wiki:
 
 For information about what distributions GHC is part of, see the [http://haskell.org/ghc/distribution_packages distribution packages] page.
 
-Please be aware that this page is highly unmaintained and may list platforms as tier 2 that didn't see any updates for years.
 
 == Tier 1 platforms ==
 
@@ -20,6 +19,7 @@ Criteria for Tier 1 platforms:
 
 || '''Architecture''' || '''OS'''        || '''Build name'''         || '''GHCi''' || '''NCG''' || '''Dyn libs''' || '''Sponsor''' || '''!WikiPage''' ||
 || x86                || Windows (MinGW) || i386-unknown-mingw32     || Yes        || Yes       || Yes(*W)        || GHC HQ        || [wiki:WindowsGhc] ||
+|| x86-64             || Windows (MinGW) || x86_64-unknown-mingw32   || Yes        || Yes       || Yes(*W)        || GHC HQ        || [wiki:WindowsGhc] ||
 || x86                || Linux           || i386-unknown-linux       || Yes        || Yes       || Yes            || GHC HQ        || ||
 || x86-64             || Linux           || x86_64-unknown-linux     || Yes        || Yes       || Yes            || GHC HQ        || ||
 || x86                || MacOS X         || i386-apple-darwin        || Yes        || Yes       || No             || needed        || [wiki:Attic/X86OSXGhc] ||
@@ -27,7 +27,7 @@ Criteria for Tier 1 platforms:
 || x86                || FreeBSD         || i386-portbld-freebsd     || Yes        || Yes       || Yes            || Gabor Pali    || [wiki:FreeBSDGhc] ||
 || x86-64             || FreeBSD         || amd64-portbld-freebsd    || Yes        || Yes       || Yes            || Gabor Pali    || [wiki:FreeBSDGhc] ||
 
-'''*W''' Win32 DLL support bitrotten[[BR]]
+'''*W''' Windows DLL support currently quite limited due to platform limitations (see #5987)[[BR]]
 
 == Tier 2 platforms ==
 
@@ -66,7 +66,7 @@ Tier 2 platforms as possible to Tier 1, as soon as they meet the Tier 1 criteria
 
 '''*S4''' shared libraries are supported on Solaris 11 version 11/11 and higher[[BR]]
 
-In most cases, binaries for the tier 2 platforms can be downloaded from the [http://www.haskell.org/ghc/distribution_packages Distribution Packages] page, e.g. you can get binaries for most of the Linux platforms from Debian. In some cases, for example the Solaris platforms, you'll need to go to the [http://www.haskell.org/ghc/download download page] of a particular release to get a bindist.
+In most cases, binaries for the Tier 2 platforms can be downloaded from the [http://www.haskell.org/ghc/distribution_packages Distribution Packages] page, e.g. you can get binaries for most of the Linux platforms from Debian. In some cases, for example the Solaris platforms, you'll need to go to the [http://www.haskell.org/ghc/download download page] of a particular release to get a bindist.
 
 == Tier 3 platforms ==
 
