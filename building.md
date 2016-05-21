@@ -47,6 +47,7 @@ can extend it, modify it, and use it to build your code.
 - [Platforms that GHC currently supports](platforms)
 - [Cross-compilation](building/cross-compiling)
 - [Compiling for 32 bits on 64 bits](building/compiling32on64)
+- [Setting up a Debian system to build a GHC cross-compiler](building/cross-compiling-on-debian)
 
 **Troubleshooting**
 
