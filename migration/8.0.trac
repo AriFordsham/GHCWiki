@@ -243,11 +243,6 @@ instance Generic (Example a) where
 
 Notice that since `Example` has no record selector, it generated `('MetaSel 'Nothing ...)` instead of `('MetaSel ('Just "recordName") ...)`.
 
-==== ...
-TODO
-
-...
-
 === `template-haskell-2.11.0.0`
 
  - Three `Info` constructors (`ClassOpI`, `DataConI`, and `VarI`) no longer have a `Fixity` field. Instead, all `Fixity` information for a given `Name` is now determined through the `reifyFixity` function, which returns `Just` the fixity if there is an explicit fixity declaration for that `Name`, and `Nothing` otherwise.
