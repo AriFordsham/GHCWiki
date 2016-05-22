@@ -64,6 +64,10 @@ And thats it! Assuming you already have the GHC source distribution of Git check
 ```wiki
 sed 's/#.* = quick-cross/BuildFlavour = quick-cross/' mk/build.mk.sample > mk/build.mk
 perl boot
-./configure --target=arm-linux-gnueabihf
+./configure --target=arm-linux-gnueabihf --prefix=$HOME/GHC/Cross/
 make -j4
+make install
 ```
+
+
+Assuming everything succeeded, you will now have your cross compiler in `$HOME/GHC/Cross/`.
