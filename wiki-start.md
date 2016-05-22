@@ -15,7 +15,7 @@ Please help us improve the information on the GHC developer's wiki. You can easi
 
 - Forthcoming planned releases:
 
-  - [8.0.1](status/ghc-8.0.1) (0 (Ticket query: status: !closed, status: !merge, priority: high, priority: highest, milestone: 8.0.1, max: 0, order: id)[ open tickets](https://ghc.haskell.org/trac/ghc/query?status=!closed&priority=high&priority=highest&milestone=8.0.1&order=priority) with priority high or highest) 
+  - [8.0.2](status/ghc-8.0.2) (0 (Ticket query: status: !closed, status: !merge, priority: high, priority: highest, milestone: 8.0.2, max: 0, order: id)[ open tickets](https://ghc.haskell.org/trac/ghc/query?status=!closed&priority=high&priority=highest&milestone=8.0.2&order=priority) with priority high or highest) 
 
 - Total [ open tickets](https://ghc.haskell.org/trac/ghc/query?status=!closed&order=priority): 3179 (Ticket query: status: !closed, status: !merge, max: 0, order: id) (1959 (Ticket query: status: !closed, status: !merge, type: bug, max: 0, order: id)[ bugs](https://ghc.haskell.org/trac/ghc/query?status=!closed&order=priority&type=bug), 870 (Ticket query: status: !closed, status: !merge, type: feature+request, max: 0, order: id)[ feature requests](https://ghc.haskell.org/trac/ghc/query?status=!closed&order=priority&type=feature+request), 349 (Ticket query: status: !closed, status: !merge, type: task, max: 0, order: id)[ tasks](https://ghc.haskell.org/trac/ghc/query?status=!closed&order=priority&type=task)) 
 
