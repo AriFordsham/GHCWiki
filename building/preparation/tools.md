@@ -35,6 +35,7 @@ major releases, e.g.:
 - To build 7.8.\* you need GHC \>= 7.4
 - To build 7.10.\* you need GHC \>= 7.6
 - To build 8.0.\* you need GHC \>= 7.8
+- To build 8.2.\* you need GHC \>= 7.10
 
 </td></tr></table>
 
