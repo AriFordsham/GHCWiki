@@ -51,17 +51,29 @@ Unlike a true `newtype`, pattern matching on the constructor *must* force the co
 
 ### Avoiding indirection while maintaining shape invariants
 
+
+You might think that an existential data type with only one field is a bit unusual.  Here is a example:
+
 ```
-dataShape=Empty|NonEmptydataIntMap a = forall (e ::Shape).IntMap!(IMGadt e a)dataIMGadt(e ::Shape) a whereBin::!Prefix->!Mask->!(IMGadtNonEmpty a)->!(IMGadtNonEmpty a)->IMGadtNonEmpty a
-  Tip::!Key-> a ->IMGadtNonEmpty a
+dataShape=Empty|NonEmptydataIntMap a = forall (e ::Shape).IntMap!(IMGadt e a)dataIMGadt(e ::Shape) a whereBin::Prefix->Mask->IMGadtNonEmpty a ->IMGadtNonEmpty a ->IMGadtNonEmpty a
+  Tip::Key-> a ->IMGadtNonEmpty a
   Nil::IMGadtEmpty a
 ```
 
 
-If the `IntMap` type gets the newtype-optimization, then we'd drop the extra indirection on top. *SLPJ: I'm sorry but I do not understand.  Can you show the code you expect to get in the end?  Yes, `IntMap` obeys conditions 1-4, so we should be able to represent an `IntMap` by a pointer to a (boxed) `IMGadt`, but I think you are trying to say something else.*
+Here `IntMap` obeys (1)-(4) and so `IntMap ty` could be represented (without indirection) by the underlying `(IMGadt e ty)` value, thereby saving an indirection at the root of every `IntMap`.
 
 
-No, I think that is exactly what I'm saying. It drops one indirection from the top of the tree.
+A more direct rendering would look like this
+
+```wiki
+data IntMap a = Empty | NonEmpty (NE a)
+data NE a = Bin Prefix Mask (NE a) (NE a)
+          | Tip Key a
+```
+
+
+No GADTs, no existentials.  But we get an indirection at the root of every non-empty `IntMap`.
 
 ### Layering evidence
 
@@ -75,8 +87,10 @@ newtypeQuux f a b c =Quux(Baz(BarFoo) a b c)
 
 With the newtype optimization, I can layer the `Baz` type information on top of the `Bar` type information on top of the `Foo` type without having to pay a penalty. The alternative today is to make an entirely separate GADT for each combination of type information I want to hold evidence of.
 
+# Implementation
+
 
 I know few details about Core, but I would *guess* that the only Core feature we'd need to add is a flag for each data type indicating whether it is eligible for the newtype optimization. If so, then that optimization can be applied in code generation when types are dropped. There might be some future tuning to adjust how the inliner treats the constructor, but that doesn't seem at all urgent for now.
 
 
-That said, it would be nice also to try to avoid "double forcing" when digging through the constructors.
+That said, it would be nice also to try to avoid "double forcing" when digging through the constructors. 
