@@ -44,7 +44,7 @@ dataShape=Empty|NonEmptydataIntMap a = forall (e ::Shape).IntMap!(IMGadt e a)dat
 ```
 
 
-If the `IntMap` type gets the newtype optimization, then we'd drop the extra indirection on top.
+If the `IntMap` type gets the newtype optimization, then we'd drop the extra indirection on top. *SLPJ: I'm sorry but I do not understand.  Can you show the code you expect to get in the end?*
 
 ### Layering evidence
 
