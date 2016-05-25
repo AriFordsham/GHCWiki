@@ -1,5 +1,5 @@
 As discussed in [https://ghc.haskell.org/trac/ghc/ticket/1965 #1965], consider this data type declaration
-{{
+{{{
 data T where
   MkT :: !(Foo a) -> T
 }}}
