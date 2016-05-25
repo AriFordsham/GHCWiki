@@ -7,7 +7,7 @@ As discussed in [https://ghc.haskell.org/trac/ghc/ticket/1965 #1965], it would b
 
 I believe condition 2 can be relaxed very slightly, to allow constraints known to be zero-width. For example, equality constraints should be fine. So should classes that have no methods and no superclasses with methods.
 
-Unlike a true `newtype`, pattern matching on the constructor *must* force the contents to maintain type safety.
+Unlike a true `newtype`, pattern matching on the constructor ''must'' force the contents to maintain type safety.
 
 Sample uses:
 
@@ -36,3 +36,5 @@ newtype Quux f a b c = Quux (Baz (Bar Foo) a b c)
 }}}
 
 With the newtype optimization, I can layer the `Baz` type information on top of the `Bar` type information on top of the `Foo` type without having to pay a penalty. The alternative today is to make an entirely separate GADT for each combination of type information I want to hold evidence of.
+
+I know few details about Core, but I would ''guess'' that the only Core feature we'd need to add is a flag for each data type indicating whether it is eligible for the newtype optimization. If so, then that optimization can be applied in code generation. There might be some future tuning to adjust how the inliner treats the constructor, but that doesn't seem at all urgent for now.
