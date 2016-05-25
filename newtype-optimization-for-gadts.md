@@ -7,7 +7,7 @@ data T where
 ```
 
 
-So `a` is an existentially bound variable, and we cannot use a newtype for `T`.  And yet, since `MkT` is strict in its only argument, we could (at codegen time) *represent* a value of type `T ty` by a value of type `Foo ty`.  
+So `a` is an existentially bound variable, and we cannot use a newtype for `T`.  And yet, since `MkT` is strict in its only argument, we could (at codegen time) *represent* a value of type `T` by a value of type `Foo ty`.  
 
 
 Under what conditions can we do this? 
