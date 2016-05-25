@@ -7,9 +7,6 @@ As discussed in [ \#1965](https://ghc.haskell.org/trac/ghc/ticket/1965), it woul
 1. That field has a boxed (or polymorphic) type
 
 
-I believe condition 2 can be relaxed very slightly, to allow constraints known to be zero-width. For example, equality constraints should be fine. So should classes that have no methods and no superclasses with methods.  *SLPJ: I do not understand this paragraph.  Example please! *
-
-
 Notes
 
 - An equality constraint arising from a GADT has zero width, and thus is covered by (2).  Eg
@@ -29,6 +26,9 @@ Notes
 
 >
 > Mind you, a single constructor GADT is probably not much use.
+
+
+I believe condition 2 can be relaxed very slightly, to allow constraints known to be zero-width. For example, equality constraints should be fine. So should classes that have no methods and no superclasses with methods.  *SLPJ: I do not understand this paragraph.  Example please! *
 
 
 Unlike a true `newtype`, pattern matching on the constructor *must* force the contents to maintain type safety. *SLPJ: I do not understand this paragraph.  Example please! *

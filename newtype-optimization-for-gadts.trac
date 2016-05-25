@@ -5,7 +5,7 @@ As discussed in [https://ghc.haskell.org/trac/ghc/ticket/1965 #1965], it would b
 3. That field is marked strict
 4. That field has a boxed (or polymorphic) type
 
-I believe condition 2 can be relaxed very slightly, to allow constraints known to be zero-width. For example, equality constraints should be fine. So should classes that have no methods and no superclasses with methods.  ''SLPJ: I do not understand this paragraph.  Example please! ''
+
 
 Notes
 
@@ -21,6 +21,8 @@ data T a where
   So we could represent a value of type `(MkT a)` by a plain `Int`, without an indirection, because the evidence for `(a ~# Int)` is zero width.
 
   Mind you, a single constructor GADT is probably not much use.
+
+I believe condition 2 can be relaxed very slightly, to allow constraints known to be zero-width. For example, equality constraints should be fine. So should classes that have no methods and no superclasses with methods.  ''SLPJ: I do not understand this paragraph.  Example please! ''
 
 Unlike a true `newtype`, pattern matching on the constructor ''must'' force the contents to maintain type safety. ''SLPJ: I do not understand this paragraph.  Example please! ''
 
