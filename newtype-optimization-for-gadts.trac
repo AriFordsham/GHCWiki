@@ -37,4 +37,4 @@ newtype Quux f a b c = Quux (Baz (Bar Foo) a b c)
 
 With the newtype optimization, I can layer the `Baz` type information on top of the `Bar` type information on top of the `Foo` type without having to pay a penalty. The alternative today is to make an entirely separate GADT for each combination of type information I want to hold evidence of.
 
-I know few details about Core, but I would ''guess'' that the only Core feature we'd need to add is a flag for each data type indicating whether it is eligible for the newtype optimization. If so, then that optimization can be applied in code generation. There might be some future tuning to adjust how the inliner treats the constructor, but that doesn't seem at all urgent for now.
+I know few details about Core, but I would ''guess'' that the only Core feature we'd need to add is a flag for each data type indicating whether it is eligible for the newtype optimization. If so, then that optimization can be applied in code generation when types are dropped. There might be some future tuning to adjust how the inliner treats the constructor, but that doesn't seem at all urgent for now.
