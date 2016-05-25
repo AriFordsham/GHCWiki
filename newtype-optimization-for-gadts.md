@@ -96,13 +96,13 @@ Here `IntMap` obeys (1)-(4) and so `IntMap ty` could be represented (without ind
 A more direct rendering would look like this
 
 ```wiki
-data IntMap a = Empty | NonEmpty !(NE a)
-data NE a = Bin Prefix Mask !(NE a) !(NE a)
+data IntMap a = Empty | NonEmpty (NE a)
+data NE a = Bin Prefix Mask (NE a) (NE a)
           | Tip Key a
 ```
 
 
-No GADTs, no existentials. But we get an indirection at the root of every non-empty `IntMap`.
+No GADTs, no existentials.  But we get an indirection at the root of every non-empty `IntMap`.
 
 ### Layering evidence
 
