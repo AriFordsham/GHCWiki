@@ -1,7 +1,7 @@
 
 As discussed in [ \#1965](https://ghc.haskell.org/trac/ghc/ticket/1965), it would be useful to use the newtype optimization for GADTs and existentials under the following conditions, as described by SPJ:
 
-1. Only one constructor
+1. Only one constructor in the data type
 1. Only one field with nonzero width in that constructor (counting constraints as fields)
 1. That field is marked strict
 1. That field has a boxed (or polymorphic) type
