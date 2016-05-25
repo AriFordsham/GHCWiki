@@ -9,7 +9,7 @@ I believe condition 2 can be relaxed very slightly, to allow constraints known t
 
 Unlike a true `newtype`, pattern matching on the constructor ''must'' force the contents to maintain type safety.
 
-Sample uses:
+== Sample uses ==
 
 === Avoiding indirection while maintaining shape invariants ===
 
