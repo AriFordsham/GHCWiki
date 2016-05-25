@@ -24,7 +24,7 @@ Notes
 
   ```wiki
   data T a where
-    MkT :: Int -> T Int
+    MkT :: !Int -> T Int
   ```
 
   The constructor actually has type
@@ -38,8 +38,8 @@ Notes
 >
 > Mind you, a single constructor GADT is probably not much use.
 
-
-David Feuer: I assume you meant for that `Int` to be strict? A single-constructor GADT can add a payload to something like `Refl`; it could also be used with a strict type-aligned sequence to "count", latering on length indexing. Admittedly not earth-shattering, but not totally useless.
+>
+> David Feuer: A single-constructor GADT can add a payload to something like `Refl`; it could also be used with a strict type-aligned sequence to "count", latering on length indexing. Admittedly not earth-shattering, but not totally useless. *SLPJ: I still don't get it.  Could you give an example?*
 
 
 I believe condition 2 can be relaxed very slightly, to allow constraints known to be zero-width. For example, equality constraints should be fine. So should classes that have no methods and no superclasses with methods.  *SLPJ: I do not understand this paragraph.  Example please! *
