@@ -1,5 +1,18 @@
 
-As discussed in [ \#1965](https://ghc.haskell.org/trac/ghc/ticket/1965), it would be useful to use the newtype optimization for GADTs and existentials under the following conditions, as described by SPJ:
+As discussed in [ \#1965](https://ghc.haskell.org/trac/ghc/ticket/1965), consider this data type declaration
+{{
+data T where
+
+<table><tr><th>MkT</th>
+<td>!(Foo a) -\> T
+</td></tr></table>
+
+
+}}}
+So `a` is an existentially bound variable, and we cannot use a newtype for `T`.  And yet, since `MkT` is strict in is only argument, we could (at codegen time) *represent* a value of type `T ty` by a value of type `Foo ty`.  
+
+
+Under what conditions can we do this? 
 
 1. Only one constructor in the data type
 1. Only one field with nonzero width in that constructor (counting constraints as fields).
