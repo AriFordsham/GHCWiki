@@ -31,7 +31,7 @@ Notes
 > Mind you, a single constructor GADT is probably not much use.
 
 
-Unlike a true `newtype`, pattern matching on the constructor *must* force the contents to maintain type safety.
+Unlike a true `newtype`, pattern matching on the constructor *must* force the contents to maintain type safety. *SLPJ: I do not understand this paragraph.  Example please! *
 
 ## Sample uses
 
