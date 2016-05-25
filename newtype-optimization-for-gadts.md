@@ -52,7 +52,7 @@ dataNat=Z|SNatdataLengthIncrement c p q whereInc::!(c x y)->LengthIncrement c '(
 ```
 
 
-Now `TList (LengthIncrement c) '(m, x) '(n, y)` represents a type-aligned list taking a path from `x` to `y`, and having a length of `m - n`.
+Now `TList (LengthIncrement c) '(m, x) '(n, y)` represents a type-aligned list taking a path from `x` to `y`, and having a length of `m - n`. So while a single-constructor GADT may not be much use *on its own*, it can do something interesting when combined with another, multi-constructor GADT!
 
 
 I believe condition 2 can be relaxed very slightly, to allow constraints known to be zero-width. For example, equality constraints should be fine. So should classes that have no methods and no superclasses with methods.  *SLPJ: I do not understand this paragraph.  Example please! *
