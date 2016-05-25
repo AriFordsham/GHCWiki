@@ -40,3 +40,6 @@ With the newtype optimization, I can layer the `Baz` type information on top of 
 
 
 I know few details about Core, but I would *guess* that the only Core feature we'd need to add is a flag for each data type indicating whether it is eligible for the newtype optimization. If so, then that optimization can be applied in code generation when types are dropped. There might be some future tuning to adjust how the inliner treats the constructor, but that doesn't seem at all urgent for now.
+
+
+That said, it would be nice also to try to avoid "double forcing" when digging through the constructors.
