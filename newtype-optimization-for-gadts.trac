@@ -31,7 +31,7 @@ data Foo a b c = Foo1 a b | Foo2 a b
 data Bar f a b c where
   Bar :: Family1 a b ~ True => !(f a b c) -> Bar a b c
 data Baz f a b c where
-  Baz :: Family2 b c ~ True => !(f a b b) -> Baz a b b
+  Baz :: Family2 b c ~ True => !(f a b c) -> Baz a b c
 newtype Quux f a b c = Quux (Baz (Bar Foo) a b c)
 }}}
 

@@ -31,7 +31,7 @@ If the `IntMap` type gets the newtype optimization, then we'd drop the extra ind
 ```
 dataFoo a b c =Foo1 a b |Foo2 a b
 dataBar f a b c whereBar::Family1 a b ~True=>!(f a b c)->Bar a b c
-dataBaz f a b c whereBaz::Family2 b c ~True=>!(f a b b)->Baz a b b
+dataBaz f a b c whereBaz::Family2 b c ~True=>!(f a b c)->Baz a b c
 newtypeQuux f a b c =Quux(Baz(BarFoo) a b c)
 ```
 
