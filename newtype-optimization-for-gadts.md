@@ -39,13 +39,42 @@ Notes
 > Mind you, a single constructor GADT is probably not much use.
 
 >
-> David Feuer: A single-constructor GADT can add a payload to something like `Refl`; it could also be used with a strict type-aligned sequence to "count", latering (layering?) on length indexing. Admittedly not earth-shattering, but not totally useless. *SLPJ: I still don't get it.  Could you give an example?*
+> David Feuer: A single-constructor GADT can add a payload to something like `Refl`; it could also be used with a strict type-aligned sequence to "count", layering on length indexing. Admittedly not earth-shattering, but not totally useless. *SLPJ: I still don't get it.  Could you give an example?*
+
+
+For instance,
+
+```
+dataTList c x y whereNil::TList c x x
+  Cons::!(c x y)->TList c y z ->TList c x z
+
+dataNat=Z|SNatdataLengthIncrement c p q whereInc::!(c x y)->LengthIncrement c '(S n, x)'(n, y)
+```
+
+
+Now `TList (LengthIncrement c) '(m, x) '(n, y)` represents a type-aligned list taking a path from `x` to `y`, and having a length of `m - n`.
 
 
 I believe condition 2 can be relaxed very slightly, to allow constraints known to be zero-width. For example, equality constraints should be fine. So should classes that have no methods and no superclasses with methods.  *SLPJ: I do not understand this paragraph.  Example please! *
 
 
+For example, given
+
+```
+classThis a ~Int=>Foo a
+classFoo a =>Bar a wheredataBarType a
+classBar a =>Baz a where
+  prox ::Proxy# a
+```
+
+
+I *imagine* that `Foo a`, `Bar a`, and `Baz a` contexts are zero-width.
+
+
 Unlike a true `newtype`, pattern matching on the constructor *must* force the contents to maintain type safety. *SLPJ: I do not understand this paragraph.  Example please! *
+
+
+In particular, matching on the constructor reveals an existential and/or type information. As Dan Doel found, and pumpkin relayed in [ https://ghc.haskell.org/trac/ghc/ticket/1965\#comment:16](https://ghc.haskell.org/trac/ghc/ticket/1965#comment:16), we have to be careful not to reveal such information without forcing the evidence. Since we're using the newtype optimization, the evidence is in the contained field itself.
 
 ## Sample uses
 
@@ -67,13 +96,13 @@ Here `IntMap` obeys (1)-(4) and so `IntMap ty` could be represented (without ind
 A more direct rendering would look like this
 
 ```wiki
-data IntMap a = Empty | NonEmpty (NE a)
-data NE a = Bin Prefix Mask (NE a) (NE a)
+data IntMap a = Empty | NonEmpty !(NE a)
+data NE a = Bin Prefix Mask !(NE a) !(NE a)
           | Tip Key a
 ```
 
 
-No GADTs, no existentials.  But we get an indirection at the root of every non-empty `IntMap`.
+No GADTs, no existentials. But we get an indirection at the root of every non-empty `IntMap`.
 
 ### Layering evidence
 
