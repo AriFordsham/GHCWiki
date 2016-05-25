@@ -1,16 +1,48 @@
 
-As discussed in [ \#1965](https://ghc.haskell.org/trac/ghc/ticket/1965), it would be useful to use the newtype optimization for GADTs and existentials under the following conditions, as described by SPJ:
+As discussed in [ \#1965](https://ghc.haskell.org/trac/ghc/ticket/1965), consider this data type declaration
 
-1. Only one constructor
-1. Only one field with nonzero width in that constructor (counting constraints as fields)
+```wiki
+data T where
+  MkT :: !(Foo a) -> T
+```
+
+
+So `a` is an existentially bound variable, and we cannot use a newtype for `T`.  And yet, since `MkT` is strict in is only argument, we could (at codegen time) *represent* a value of type `T ty` by a value of type `Foo ty`.  
+
+
+Under what conditions can we do this? 
+
+1. Only one constructor in the data type
+1. Only one field with nonzero width in that constructor (counting constraints as fields).
 1. That field is marked strict
 1. That field has a boxed (or polymorphic) type
 
 
-I believe condition 2 can be relaxed very slightly, to allow constraints known to be zero-width. For example, equality constraints should be fine. So should classes that have no methods and no superclasses with methods.
+Notes
+
+- An equality constraint arising from a GADT has zero width, and thus is covered by (2).  Eg
+
+  ```wiki
+  data T a where
+    MkT :: Int -> T Int
+  ```
+
+  The constructor actually has type
+
+  ```wiki
+    MkT :: forall a. (a ~# Int) => Int -> T a
+  ```
+
+  So we could represent a value of type `(MkT a)` by a plain `Int`, without an indirection, because the evidence for `(a ~# Int)` is zero width.
+
+>
+> Mind you, a single constructor GADT is probably not much use.
 
 
-Unlike a true `newtype`, pattern matching on the constructor *must* force the contents to maintain type safety.
+I believe condition 2 can be relaxed very slightly, to allow constraints known to be zero-width. For example, equality constraints should be fine. So should classes that have no methods and no superclasses with methods.  *SLPJ: I do not understand this paragraph.  Example please! *
+
+
+Unlike a true `newtype`, pattern matching on the constructor *must* force the contents to maintain type safety. *SLPJ: I do not understand this paragraph.  Example please! *
 
 ## Sample uses
 
@@ -23,7 +55,7 @@ dataShape=Empty|NonEmptydataIntMap a = forall (e ::Shape).IntMap!(IMGadt e a)dat
 ```
 
 
-If the `IntMap` type gets the newtype optimization, then we'd drop the extra indirection on top.
+If the `IntMap` type gets the newtype optimization, then we'd drop the extra indirection on top. *SLPJ: I'm sorry but I do not understand.  Can you show the code you expect to get in the end?  Yes, `IntMap` obeys conditions 1-4, so we should be able to represent an `IntMap` by a pointer to a (boxed) `IMGadt`, but I think you are trying to say something else.*
 
 ### Layering evidence
 
