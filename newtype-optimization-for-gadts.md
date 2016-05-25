@@ -63,7 +63,8 @@ For example, given
 ```
 classThis a ~Int=>Foo a
 classFoo a =>Bar a wheredataBarType a
-classBar a =>Baz a
+classBar a =>Baz a where
+  prox ::Proxy# a
 ```
 
 
