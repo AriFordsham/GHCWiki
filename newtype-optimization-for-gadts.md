@@ -39,6 +39,9 @@ Notes
 > Mind you, a single constructor GADT is probably not much use.
 
 
+David Feuer: I assume you meant for that `Int` to be strict? A single-constructor GADT can add a payload to something like `Refl`; it could also be used with a strict type-aligned sequence to "count", latering on length indexing. Admittedly not earth-shattering, but not totally useless.
+
+
 I believe condition 2 can be relaxed very slightly, to allow constraints known to be zero-width. For example, equality constraints should be fine. So should classes that have no methods and no superclasses with methods.  *SLPJ: I do not understand this paragraph.  Example please! *
 
 
@@ -56,6 +59,9 @@ dataShape=Empty|NonEmptydataIntMap a = forall (e ::Shape).IntMap!(IMGadt e a)dat
 
 
 If the `IntMap` type gets the newtype optimization, then we'd drop the extra indirection on top. *SLPJ: I'm sorry but I do not understand.  Can you show the code you expect to get in the end?  Yes, `IntMap` obeys conditions 1-4, so we should be able to represent an `IntMap` by a pointer to a (boxed) `IMGadt`, but I think you are trying to say something else.*
+
+
+No, I think that is exactly what I'm saying. It drops one indirection from the top of the tree.
 
 ### Layering evidence
 
