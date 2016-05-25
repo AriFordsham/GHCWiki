@@ -2,12 +2,34 @@
 As discussed in [ \#1965](https://ghc.haskell.org/trac/ghc/ticket/1965), it would be useful to use the newtype optimization for GADTs and existentials under the following conditions, as described by SPJ:
 
 1. Only one constructor in the data type
-1. Only one field with nonzero width in that constructor (counting constraints as fields)
+1. Only one field with nonzero width in that constructor (counting constraints as fields).
 1. That field is marked strict
 1. That field has a boxed (or polymorphic) type
 
 
-I believe condition 2 can be relaxed very slightly, to allow constraints known to be zero-width. For example, equality constraints should be fine. So should classes that have no methods and no superclasses with methods.
+I believe condition 2 can be relaxed very slightly, to allow constraints known to be zero-width. For example, equality constraints should be fine. So should classes that have no methods and no superclasses with methods.  **SLPJ: I do not understand this paragraph.  Example please'''
+**
+
+
+Notes
+
+- An equality constraint arising from a GADT has zero width, and thus is covered by (2).  Eg
+
+  ```wiki
+  data T a where
+    MkT :: Int -> T Int
+  ```
+
+  The constructor actually has type
+
+  ```wiki
+    MkT :: forall a. (a ~# Int) => Int -> T a
+  ```
+
+  So we could represent a value of type `(MkT a)` by a plain `Int`, without an indirection, because the evidence for `(a ~# Int)` is zero width.
+
+>
+> Mind you, a single constructor GADT is probably not much use.
 
 
 Unlike a true `newtype`, pattern matching on the constructor *must* force the contents to maintain type safety.
