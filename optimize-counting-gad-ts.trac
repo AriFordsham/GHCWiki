@@ -1,0 +1,13 @@
+Occasionally there will be a type, usually a GADT, shaped exactly like this:
+
+{{{#!hs
+data Counter t1 ... where
+  Base :: f1 -> ... -> Counter ...
+  Step :: !(Counter ...) -> Counter ...
+}}}
+
+In code generation, any such type can be represented by a datatype with an unboxed `Word64` field and all the "base" fields.
+
+In the simplest case where there are no base fields, this would turn a strict natural singleton into a `Word64`.
+
+The actual reason I was thinking about this, however, is that Andres Löh had an interesting idea for defunctionalizing functions on finger trees that use such a counting GADT with a non-trivial base case. 
