@@ -291,3 +291,4 @@ Random note: GHC 7.10's build system actually disabled DPH (half a dozen more pa
 ## Interesting third-party library numbers
 
 - `megaparsec`'s compilation time on [ Travis](https://travis-ci.org/mrkkrp/megaparsec/builds/129353838) has gone from 6 minutes to 40 minutes from 7.6 to 8.0
+- Compile time of some example program of `fltkhs` library increased from about 15 seconds to more than a minute ([ original message](https://mail.haskell.org/pipermail/haskell-cafe/2016-May/123995.html)).
