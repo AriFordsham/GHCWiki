@@ -17,7 +17,7 @@ The ticket to track this idea is #1965.
 
 == Main design ==
 
-Under what conditions can we represent remove the box for a data type entirely?
+Under what conditions can we guarantee to remove the box for a data type entirely?
 
 1. Only one constructor in the data type
 2. Only one field with nonzero width in that constructor (counting constraints as fields).
@@ -25,18 +25,16 @@ Under what conditions can we represent remove the box for a data type entirely?
 4. That field has a boxed (or polymorphic) type
 
 
-== Zero-with fields ==
-
 Note that an equality constraint arising from a GADT has zero width, and thus is covered by (2).  E.g.
 {{{
 data T a where
   MkT :: !Int -> T Int
 }}}
-  The constructor actually has type
+The constructor actually has type
 {{{
   MkT :: forall a. (a ~# Int) => Int -> T a
 }}}
-  So we could represent a value of type `(MkT a)` by a plain `Int`, without an indirection, because the evidence for `(a ~# Int)` is zero width.
+So we could represent a value of type `(MkT a)` by a plain `Int`, without an indirection, because the evidence for `(a ~# Int)` is zero width.
 
 You might think that a single constructor GADT is probably not much use, but see Example 2 below.
 
