@@ -15,7 +15,7 @@ You need to use `-ddump-prep` or `-ddump-stg` when compiling the source files to
 
 It's very low level stuff, but in exchange:
 
-- It's guaranteed that adding `-ticky` doesn't affect optimisation or transformation.  It just adds the overhead of performance counters to the final code. (Any change these affect the CMM optimisations?)
+- It's guaranteed that adding `-ticky` doesn't affect optimisation or transformation.  It just adds the overhead of performance counters to the final code. (Any chance these affect the Cmm optimisations?)
 
 - You can mix modules compiled with `-ticky` and modules compiled without.
 
