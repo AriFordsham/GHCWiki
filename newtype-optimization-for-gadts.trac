@@ -128,7 +128,7 @@ data PersonId a where
 instance GetLabel (PersonId a) a where getLabel (PersonId x) = x
 
 -- using tuples as anon records:
-instance (a ~ a', GetLabel a a') => HasField l (l a, lb, lc) a' where
+instance (a ~ a', GetLabel (l a) a') => HasField l (l a, lb, lc) a' where
     getField _ (x, _, _) =  getLabel x
 }}}
 
