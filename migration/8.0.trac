@@ -58,7 +58,7 @@ data G2 a :: * where
 
 }}}
 
-This flag was widely regarded as a misfeature, in prior versions it issued a deprecation warning, it it now not supported at all.
+This flag was widely regarded as a misfeature, in prior versions it issued a deprecation warning, it is now not supported at all.
 
 === Old QuasiQuote syntax
 
