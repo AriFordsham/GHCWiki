@@ -126,6 +126,47 @@ dataNat=Z|SNatdataLengthIncrement c p q whereInc::!(c x y)->LengthIncrement c '(
 
 Now `TList (LengthIncrement c) '(m, x) '(n, y)` represents a type-aligned list taking a path from `x` to `y`, and having a length of `m - n`. So while a single-constructor GADT may not be much use *on its own*, it can do something interesting when combined with another, multi-constructor GADT!
 
+### Example 3
+
+>
+> AntC: For anonymous records, you can wrap a payload in a newtype to label it. But if you want to restrict (say) PersonId to being an Int, and yet have it look the same, you have to make that an existential GADT. So now you're paying for the box.
+
+
+For instance,
+
+
+{{{\#lhs
+data Lab1 a = Lab1 a deriving (Eq, Read, Show)
+
+
+{\* can't do either of these:
+data PersonId = PersonId Int
+data PersonId a = PersonId Int
+\*}
+
+
+data PersonId a where
+
+<table><tr><th>PersonId</th>
+<td>(a \~ Int) =\> !a -\> PersonId a
+</td></tr></table>
+
+
+instance GetLabel (PersonId a) a where getLabel (PersonId x) = x
+
+
+-- using tuples as anon records:
+instance (a \~ a') =\> HasField PersonId (PersonId a, lb, lc) a' where
+
+>
+> getField _ x =  getLabel x
+
+
+}}}
+
+
+Of course there are many design choices for anon records and how to label their fields. But they'll all need that sort of type-indexed lookup.
+
 ### Layering evidence
 
 ```
