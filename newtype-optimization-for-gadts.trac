@@ -134,6 +134,13 @@ instance (a ~ a', GetLabel a a') => HasField l (l a, lb, lc) a' where
 
 Of course there are many design choices for anon records and how to label their fields. (I'm trying not to pre-judge that.) But they'll all need that sort of type-indexed lookup -- including I think if the label is a type-level string.
 
+  Those GetLabel instances are tedious. When we have full-bore ORF, we can declare every data type using record syntax, all with field name unLabel.
+
+{{{
+data PersonId a where
+    PersonId :: { unLabel :: !Int } -> PersonId Int
+}}}
+
 
 === Layering evidence ===
 
