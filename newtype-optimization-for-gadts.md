@@ -134,35 +134,22 @@ Now `TList (LengthIncrement c) '(m, x) '(n, y)` represents a type-aligned list t
 
 For instance,
 
+```wiki
+data Label1 a = Label1 a deriving (Eq, Read, Show)
 
-{{{\#lhs
-data Lab1 a = Lab1 a deriving (Eq, Read, Show)
-
-
-{\* can't do either of these:
+{* can't do either of these:
 data PersonId = PersonId Int
 data PersonId a = PersonId Int
-\*}
-
+*}
 
 data PersonId a where
-
-<table><tr><th>PersonId</th>
-<td>(a \~ Int) =\> !a -\> PersonId a
-</td></tr></table>
-
-
+    PersonId :: (a ~ Int) => !a -> PersonId a
 instance GetLabel (PersonId a) a where getLabel (PersonId x) = x
 
-
 -- using tuples as anon records:
-instance (a \~ a') =\> HasField PersonId (PersonId a, lb, lc) a' where
-
->
-> getField _ x =  getLabel x
-
-
-}}}
+instance (a ~ a') => HasField PersonId (PersonId a, lb, lc) a' where
+    getField _ x =  getLabel x
+```
 
 
 Of course there are many design choices for anon records and how to label their fields. But they'll all need that sort of type-indexed lookup.
