@@ -119,7 +119,7 @@ newtype Label1 a = Label1 a deriving (Eq, Read, Show)
 
 {* can't do either of these:
 newtype PersonId = PersonId Int.  -- no type param
-newtype PersonId a = PersonId Int.  -- type param not used
+newtype PersonId a = PersonId Int    -- type param not used
 *}
 
 data PersonId a where
@@ -127,11 +127,11 @@ data PersonId a where
 instance GetLabel (PersonId a) a where getLabel (PersonId x) = x
 
 -- using tuples as anon records:
-instance (a ~ a') => HasField PersonId (PersonId a, lb, lc) a' where
+instance (a ~ a', GetLabel a a') => HasField l (l a, lb, lc) a' where
     getField _ x =  getLabel x
 }}}
 
-Of course there are many design choices for anon records and how to label their fields. But they'll all need that sort of type-indexed lookup.
+Of course there are many design choices for anon records and how to label their fields. (I'm trying not to pre-judge that.) But they'll all need that sort of type-indexed lookup.
 
 === Layering evidence ===
 
