@@ -129,7 +129,7 @@ Now `TList (LengthIncrement c) '(m, x) '(n, y)` represents a type-aligned list t
 ### Example 3
 
 >
-> AntC: For anonymous records, you can wrap a payload in a newtype to label it. But if you want to restrict (say) PersonId to being an Int, and yet have it look the same, you have to make that a GADT. So now you're paying for the box.
+> AntC: For anonymous records, you can wrap a payload in a newtype to label it within the record. But if you want to restrict (say) PersonId to being an Int, and yet have it look polymorphic, you have to make that a GADT. So now you're paying for the box.
 
 
 For instance,
@@ -149,7 +149,7 @@ instance GetLabel (PersonId a) a where getLabel (PersonId x) = x
 
 -- using tuples as anon records:
 instance (a ~ a', GetLabel a a') => HasField l (l a, lb, lc) a' where
-    getField _ x =  getLabel x
+    getField _ (x, _, _) =  getLabel x
 ```
 
 
@@ -161,6 +161,8 @@ Of course there are many design choices for anon records and how to label their 
 ```wiki
 data PersonId a where
     PersonId :: { unLabel :: !Int } -> PersonId Int
+
+... getField _ (x, _, _) = unLabel x
 ```
 
 ### Layering evidence
