@@ -136,7 +136,7 @@ For instance,
 
 ```wiki
 newtype Label1 a = Label1 a deriving (Eq, Read, Show)
-instance GetLabel (Label1 a) a where getLabel (L1 x) = x
+instance GetLabel (Label1 a) a where getLabel (Label1 x) = x
 
 {* can't do either of these:
 newtype PersonId = PersonId Int    -- no type param
