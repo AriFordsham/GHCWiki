@@ -115,11 +115,11 @@ Now `TList (LengthIncrement c) '(m, x) '(n, y)` represents a type-aligned list t
 For instance,
 
 {{{
-data Label1 a = Label1 a deriving (Eq, Read, Show)
+newtype Label1 a = Label1 a deriving (Eq, Read, Show)
 
 {* can't do either of these:
-data PersonId = PersonId Int
-data PersonId a = PersonId Int
+newtype PersonId = PersonId Int.  -- no type param
+newtype PersonId a = PersonId Int.  -- type param not used
 *}
 
 data PersonId a where
