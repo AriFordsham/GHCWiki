@@ -129,43 +129,41 @@ Now `TList (LengthIncrement c) '(m, x) '(n, y)` represents a type-aligned list t
 ### Example 3
 
 >
-> AntC: For anonymous records, you can wrap a payload in a newtype to label it. But if you want to restrict (say) PersonId to being an Int, and yet have it look the same, you have to make that an existential GADT. So now you're paying for the box.
+> AntC: For anonymous records, you can wrap a payload in a newtype to label it within the record. But if you want to restrict (say) PersonId to being an Int, and yet have it look polymorphic, you have to make that a GADT. So now you're paying for the box.
 
 
 For instance,
 
+```wiki
+newtype Label1 a = Label1 a deriving (Eq, Read, Show)
+instance GetLabel (Label1 a) a where getLabel (Label1 x) = x
 
-{{{\#lhs
-data Lab1 a = Lab1 a deriving (Eq, Read, Show)
-
-
-{\* can't do either of these:
-data PersonId = PersonId Int
-data PersonId a = PersonId Int
-\*}
-
+{* can't do either of these:
+newtype PersonId = PersonId Int    -- no type param
+newtype PersonId a = PersonId Int    -- type param not used
+*}
 
 data PersonId a where
-
-<table><tr><th>PersonId</th>
-<td>(a \~ Int) =\> !a -\> PersonId a
-</td></tr></table>
-
-
+    PersonId :: !Int -> PersonId Int
 instance GetLabel (PersonId a) a where getLabel (PersonId x) = x
 
-
 -- using tuples as anon records:
-instance (a \~ a') =\> HasField PersonId (PersonId a, lb, lc) a' where
+instance (a ~ a', GetLabel (l a) a') => HasField l (l a, lb, lc) a' where
+    getField _ (x, _, _) =  getLabel x
+```
+
+
+Of course there are many design choices for anon records and how to label their fields. (I'm trying not to pre-judge that.) But they'll all need that sort of type-indexed lookup -- including I think if the label is a type-level string.
 
 >
-> getField _ x =  getLabel x
+> Those GetLabel instances are tedious. When we have full-bore ORF, we can declare every data type using record syntax, all with field name unLabel.
 
+```wiki
+data PersonId a where
+    PersonId :: { unLabel :: !Int } -> PersonId Int
 
-}}}
-
-
-Of course there are many design choices for anon records and how to label their fields. But they'll all need that sort of type-indexed lookup.
+... getField _ (x, _, _) = unLabel x
+```
 
 ### Layering evidence
 
