@@ -9,6 +9,20 @@ Essentially, they are objects that are not allocated dynamically at run-time but
 are part of the static data of the program.  Sometimes, a CAF may refer to many values in the heap.  To avoid memory leaks in such situations, we need to know when a CAF is never going to be used
 again, and so we can deallocate the values that it refers to.
 
+---
+
+
+(03 Jun 2016) SPJ's explanation of CAFs:
+
+1. A top-level thunk is a CAF and CAFFY.
+1. A top-level definition that has a reference to a CAFFY is a CAFFY.
+1. All CAFFY things are roots for GC.
+
+
+(The term "CAFFY" does not appear in code, just used to describe the property)
+
+---
+
 
 See Note \[CAF management\] in [rts/sm/Storage.c](/trac/ghc/browser/ghc/rts/sm/Storage.c) for more information.
 
