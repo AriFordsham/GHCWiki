@@ -70,9 +70,11 @@ Absence/usage demands
 
 Additional information (demand signature suffix)
 
-- `m`  -- a function returns a [ constructed product result](http://research.microsoft.com/en-us/um/people/simonpj/Papers/cpr/index.htm)
+- `m` -- the function returns a [ constructed product result](http://research.microsoft.com/en-us/um/people/simonpj/Papers/cpr/index.htm).
 
-- `b` -- the function is a *bottoming* one, i.e., some decoration of `error` and friends.
+- `b` -- the function definitely diverges.
+
+- `x` -- the function definitely throws an exception or diverges.
 
 ## Worker-Wrapper split
 
