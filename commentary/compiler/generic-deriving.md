@@ -209,6 +209,8 @@ GHC generics was originally based off of the paper [ A Generic Deriving Mechanis
 - What GDMH called `Representable0` and `Representable1` are now called `Generic` and `Generic1`
 - GDMH has a type `Par0` for denoting occurrences of the last type parameter of a datatype in a `Generic` instance. GHC generics, however, does not use `Par0` anymore in derived instances (after all, you can have `Generic` instances for datatypes without type parameters!), and the `Par0` type has been marked as deprecated.
 - GDMH uses auxiliary datatypes to encode metadata about datatypes, constructors, and selectors. In GHC 8.0, these auxiliary datatypes were scrapped in favor of a [type-level encoding of metadata](commentary/compiler/generic-deriving#).
+- GHC generics has much more metadata than what was originally presented in GDMH (for example, `Selector` now encodes [strictness information](commentary/compiler/generic-deriving#strictness))
+- GHC generics has an extra representation type (`URec`) for [certain unlifted types](commentary/compiler/generic-deriving#handling-unlifted-types)
 
 # Kind polymorphic overhaul
 
