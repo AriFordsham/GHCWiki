@@ -748,3 +748,11 @@ instance Generic IntHash where
       (C1 ('MetaCons "IntHash" 'Prefix 'False)
         (S1 'MetaNoSel UInt))
 }}}
+
+= Compilation performance tricks =
+
+Unfortunately, deriving `Generic` has been known to incur large compilation times. It is suspected that deriving `Generic` has both nonlinear behavior as well as a large constant overhead (see #5642 for further discussion). This section discusses some of the tricks GHC developers have used to make deriving `Generic` faster.
+
+== Factoring out `M1` ==
+
+TODO

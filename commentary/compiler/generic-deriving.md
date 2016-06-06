@@ -948,3 +948,12 @@ yields:
 ```
 instanceGenericIntHashwheretypeRepIntHash=D1('MetaData"IntHash""Module""package"'False)(C1('MetaCons"IntHash"'Prefix'False)(S1'MetaNoSelUInt))
 ```
+
+# Compilation performance tricks
+
+
+Unfortunately, deriving `Generic` has been known to incur large compilation times. It is suspected that deriving `Generic` has both nonlinear behavior as well as a large constant overhead (see [\#5642](https://gitlab.haskell.org//ghc/ghc/issues/5642) for further discussion). This section discusses some of the tricks GHC developers have used to make deriving `Generic` faster.
+
+## Factoring out `M1`
+
+TODO
