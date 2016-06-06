@@ -2,6 +2,12 @@
 
 [[PageOutline]]
 
+{{{#!box info
+
+Mailing list discussion in progress on [http://thread.gmane.org/gmane.comp.lang.haskell.ghc.devel/12030 on {libraries,ghc-devs}@haskell.org]
+
+}}}
+
 == Problem ==
 
 With the implementation of prime:Libraries/Proposals/SemigroupMonoid, `Semigroup` will become a superclass of `Monoid`, and consequently `Semigroup((<>))` will be re-exported alongside `Monoid` from the `Prelude` module.
