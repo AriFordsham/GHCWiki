@@ -251,7 +251,11 @@ While it's possible to fix (1) and (2), (3) is inherent.
 
   - Regression in `vector` testsuite perhaps due to change in inlinings
 
-## tests/perf/compiler\` results
+## nofib results
+
+- See [ this run](https://gist.github.com/bgamari/ff4592ae89c5b7d7751180b967e55590) comparing GHC 7.4.2 through 8.0.1
+
+## `tests/perf/compiler` results
 
 ### 7.6 vs 7.8
 
@@ -290,5 +294,7 @@ Random note: GHC 7.10's build system actually disabled DPH (half a dozen more pa
 
 ## Interesting third-party library numbers
 
-- `megaparsec`'s compilation time on [ Travis](https://travis-ci.org/mrkkrp/megaparsec/builds/129353838) has gone from 6 minutes to 40 minutes from 7.6 to 8.0
-- Compile time of some example program of `fltkhs` library increased from about 15 seconds to more than a minute ([ original message](https://mail.haskell.org/pipermail/haskell-cafe/2016-May/123995.html)).
+- Compile time of some example program (`fluid-tree`) of `fltkhs` library increased from about 15 seconds to more than a minute ([ original message](https://mail.haskell.org/pipermail/haskell-cafe/2016-May/123995.html)).
+- GHC takes significantly more memory compiling the `xmlhtml` library with `-j4` than `-j1` (1GB vs 150MB). See [\#9370](https://gitlab.haskell.org//ghc/ghc/issues/9370). 
+- The `Language.Haskell.Exts.Annotated.Syntax` of `haskell-src-exts` takes many tens of seconds to compile. Howeever, this may not be surprising: Consists of roughly 70 data definitions, some with many constructors, `deriving (Eq,Ord,Show,Typeable,Data,Foldable,Traversable)` on most of them as well as defining `Functor`.
+- `vector-algorithms` may be a nice test and reportedly got slower to compile and run in recent GHC releases.
