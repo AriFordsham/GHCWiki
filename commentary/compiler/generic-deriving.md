@@ -204,10 +204,14 @@ Closed Tickets:
 # Differences from original paper
 
 
-GHC generics was originally based off of the paper [ A Generic Deriving Mechanism for Haskell](http://www.dreixel.net/research/pdf/gdmh_nocolor.pdf) (referred to henchforth as GDMH), but GHC generics has diverged from the original presentation in the paper since then. Here are some of the differences:
+GHC generics was originally based off of the paper [ A Generic Deriving Mechanism for Haskell](http://www.dreixel.net/research/pdf/gdmh_nocolor.pdf) (referred to henceforth as GDMH), but GHC generics has diverged from the original presentation in the paper since then. Here are some of the differences:
 
 - What GDMH called `Representable0` and `Representable1` are now called `Generic` and `Generic1`
 - GDMH has a type `Par0` for denoting occurrences of the last type parameter of a datatype in a `Generic` instance. GHC generics, however, does not use `Par0` anymore in derived instances (after all, you can have `Generic` instances for datatypes without type parameters!), and the `Par0` type has been marked as deprecated.
+- GDMH uses auxiliary datatypes to encode metadata about datatypes, constructors, and selectors. In GHC 8.0, these auxiliary datatypes were scrapped in favor of a [type-level encoding of metadata](commentary/compiler/generic-deriving#).
+- GHC generics has much more metadata than what was originally presented in GDMH (for example, `Selector` now encodes [strictness information](commentary/compiler/generic-deriving#strictness))
+- GHC generics has an extra representation type (`URec`) for [certain unlifted types](commentary/compiler/generic-deriving#handling-unlifted-types)
+- GHC generics alters the algorithm proposed in GDMH for implementing `to(1)`/`from(1)` for [performance reasons](commentary/compiler/generic-deriving#compilation-performance-tricks)
 
 # Kind polymorphic overhaul
 
@@ -945,3 +949,51 @@ yields:
 ```
 instanceGenericIntHashwheretypeRepIntHash=D1('MetaData"IntHash""Module""package"'False)(C1('MetaCons"IntHash"'Prefix'False)(S1'MetaNoSelUInt))
 ```
+
+# Compilation performance tricks
+
+
+Unfortunately, deriving `Generic` has been known to incur large compilation times. It is suspected that deriving `Generic` has both nonlinear behavior as well as a large constant overhead (see [\#5642](https://gitlab.haskell.org//ghc/ghc/issues/5642) for further discussion). This section discusses some of the tricks GHC developers have used to make deriving `Generic` faster.
+
+## Factoring out `M1`
+
+
+If you have a datatype like:
+
+```
+dataLetter=A|B|C|D
+```
+
+
+then a naïve `Generic` instance for `Letter` would be:
+
+```
+instanceGenericLetterwheretypeRepLetter=D1(MetaData...)...
+
+  to (M1(L1(L1(M1U1))))=A
+  to (M1(L1(R1(M1U1))))=B
+  to (M1(R1(L1(M1U1))))=C
+  to (M1(R1(R1(M1U1))))=D
+
+  from A=M1(L1(L1(M1U1)))
+  from B=M1(L1(R1(M1U1)))
+  from C=M1(R1(L1(M1U1)))
+  from D=M1(R1(R1(M1U1)))
+```
+
+
+Notice that in every LHS pattern-match of the `to` definition, and in every RHS expression in the `from` definition, the topmost constructor is `M1`. This corresponds to the datatype-specific metadata (the `D1` in the `Rep Letter` instance). But this is wasteful from a typechecking perspective, since this definition requires GHC to typecheck an application of `M1` in every single case, leading to an O(n) increase in the number of coercions the typechecker has to solve, which in turn increases allocations and degrades compilation speed.
+
+
+Luckily, since the topmost `M1` has the exact same type across every case, we can factor it out reduce the typechecker's burden:
+
+```
+instanceGenericLetterwheretypeRepLetter=D1(MetaData...)...
+
+  to (M1 x)=case x ofL1(L1(M1U1))->AL1(R1(M1U1))->BR1(L1(M1U1))->CR1(R1(M1U1))->D
+
+  from x =M1(case x ofA->L1(L1(M1U1))B->L1(R1(M1U1))C->R1(L1(M1U1))D->R1(R1(M1U1)))
+```
+
+
+A simple change, but one that pays off, since it turns an O(n) amount of coercions to an O(1) amount.
