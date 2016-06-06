@@ -98,7 +98,7 @@ infixr7<>infixr6<+>infixr5$$,$+$
 ## Proposed Solution
 
 
-Leave `Semigroup((<>))` as `infixr 6`, and add a standardised left-associative alias for `<>` to the `Data.Semigroup` vocabulary, e.g.
+Leave `Semigroup((<>))` as `infixr 6`, and add a standardised left-associative alias for `<>` to the `Data.Semigroup` vocabulary, i.e.
 
 ```
 moduleData.Semigroupwhereinfixl6><-- | Left-associative alias for (right-associative) 'Semigroup' operation '(<>)'(><)::Semigroup a => a -> a -> a
