@@ -124,7 +124,7 @@ infixr 5 $$, $+$
 
 == Proposed Solution
 
-Leave `Monoid((<>))` as `infixr 6`, and add a standardised left-associative alias for `<>` to the `Data.Semigroup` vocabulary, e.g.
+Leave `Semigroup((<>))` as `infixr 6`, and add a standardised left-associative alias for `<>` to the `Data.Semigroup` vocabulary, e.g.
 
 {{{#!hs
 module Data.Semigroup where
