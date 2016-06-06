@@ -968,7 +968,7 @@ dataLetter=A|B|C|D
 then a naïve `Generic` instance for `Letter` would be:
 
 ```
-instanceGenericLetterwheretypeRepLetter=D1('MetaData...)...
+instanceGenericLetterwheretypeRepLetter=D1(MetaData...)...
 
   to (M1(L1(L1(M1U1))))=A
   to (M1(L1(R1(M1U1))))=B
@@ -988,7 +988,7 @@ Notice that in every LHS pattern-match of the `to` definition, and in every RHS 
 Luckily, since the topmost `M1` has the exact same type across every case, we can factor it out reduce the typechecker's burden:
 
 ```
-instanceGenericLetterwheretypeRepLetter=D1('MetaData...)...
+instanceGenericLetterwheretypeRepLetter=D1(MetaData...)...
 
   to (M1 x)=case x ofL1(L1(M1U1))->AL1(R1(M1U1))->BR1(L1(M1U1))->CR1(R1(M1U1))->D
 
