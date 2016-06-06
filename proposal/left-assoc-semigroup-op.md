@@ -81,10 +81,24 @@ Consequently, it's confusing and bad practice to have a soon-to-be-in-Prelude `<
 
 However, there also seems to be a legitimate use-case for a left-associative `<>` operator.
 
+## Alternative Suggestions
+
+[ David Terei suggests among other things](https://github.com/haskell/pretty/issues/30#issuecomment-161146748) to
+
+>
+> Switch `<>` to infixr ~~6~~7 and `<+>` to infixr ~~5~~6, some code can still break, but arguably code relying on unintuitive semantics (since somewhat odd `<>` and `<+>` have same precedence when both treat empty as identity).
+
+
+resulting in
+
+```
+infixr7<>infixr6<+>infixr5$$,$+$
+```
+
 ## Proposed Solution
 
 
-Add a standardised alias for `<>` to the `Data.Semigroup` vocabulary, e.g.
+Leave `Semigroup((<>))` as `infixr 6`, and add a standardised left-associative alias for `<>` to the `Data.Semigroup` vocabulary, i.e.
 
 ```
 moduleData.Semigroupwhereinfixl6><-- | Left-associative alias for (right-associative) 'Semigroup' operation '(<>)'(><)::Semigroup a => a -> a -> a
@@ -95,3 +109,4 @@ moduleData.Semigroupwhereinfixl6><-- | Left-associative alias for (right-associa
 
 - `.<>`
 - `<~>`
+- `<#>`
