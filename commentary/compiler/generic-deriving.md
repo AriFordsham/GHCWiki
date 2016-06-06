@@ -201,6 +201,14 @@ Closed Tickets:
 
 - Tests are available under the `generics` directory of the testsuite.
 
+# Differences from original paper
+
+
+GHC generics was originally based off of the paper [ A Generic Deriving Mechanism for Haskell](http://www.dreixel.net/research/pdf/gdmh_nocolor.pdf) (referred to henchforth as GDMH), but GHC generics has diverged from the original presentation in the paper since then. Here are some of the differences:
+
+- What GDMH called `Representable0` and `Representable1` are now called `Generic` and `Generic1`
+- GDMH has a type `Par0` for denoting occurrences of the last type parameter of a datatype in a `Generic` instance. GHC generics, however, does not use `Par0` anymore in derived instances (after all, you can have `Generic` instances for datatypes without type parameters!), and the `Par0` type has been marked as deprecated.
+
 # Kind polymorphic overhaul
 
 
