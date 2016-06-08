@@ -22,6 +22,9 @@ that we guarantee an efficient unboxed representation for certain data types.
 
 The ticket to track this idea is [\#1965](https://gitlab.haskell.org//ghc/ghc/issues/1965). 
 
+
+See also [ this OCaml pull request](https://github.com/ocaml/ocaml/pull/606), which does exactly the same kind of thing for OCaml.
+
 ## Main design
 
 
