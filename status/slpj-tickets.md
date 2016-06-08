@@ -46,6 +46,7 @@ Refactoring/optimisation
 - [\#11735](https://gitlab.haskell.org//ghc/ghc/issues/11735), [\#11598](https://gitlab.haskell.org//ghc/ghc/issues/11598): `coercionKind`
 - [\#11196](https://gitlab.haskell.org//ghc/ghc/issues/11196): resurrect `FunTy`
 - Make `CoVar` a proper `Var`
+- [\#1965](https://gitlab.haskell.org//ghc/ghc/issues/1965): make existentials have a really cheap implementation
 
 
 Other tickets
@@ -349,7 +350,6 @@ See [Edward's collection of code-generation stupidities](commentary/compiler/new
 - [\#8109](https://gitlab.haskell.org//ghc/ghc/issues/8109): as-patterns in type-family declarations
 - [\#6065](https://gitlab.haskell.org//ghc/ghc/issues/6065): GHC suggests a type signature that it then rejects
 - [\#5320](https://gitlab.haskell.org//ghc/ghc/issues/5320), [\#7296](https://gitlab.haskell.org//ghc/ghc/issues/7296): overlap delicacy
-- [\#1965](https://gitlab.haskell.org//ghc/ghc/issues/1965): make existentials have a really cheap implementation
 - [\#5224](https://gitlab.haskell.org//ghc/ghc/issues/5224): make it cheaper to check for inconsistent type family instances
 - [\#4466](https://gitlab.haskell.org//ghc/ghc/issues/4466), [\#5296](https://gitlab.haskell.org//ghc/ghc/issues/5296), [\#8631](https://gitlab.haskell.org//ghc/ghc/issues/8631): explicit type application
 - [\#4259](https://gitlab.haskell.org//ghc/ghc/issues/4259): overlapping type family instances
