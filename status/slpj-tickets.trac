@@ -3,7 +3,6 @@
 == Urgent or in-flight ==
  * #11670: how should partial type signatures be generalised?
  * #11760: `runST` and lazy blackholing
- * #11698: `tct_closed` flag is set wrong
  * #11371: bogus in-scope set for substitution
  * #9479, #10954, #9091: more info in "hole" error messages
  * #10844, #10845, #10846: implicit call stacks
@@ -17,7 +16,6 @@
  * #8634, #9267, #9227: relaxing functional dependency rules `-XDysFunctionalDependencies`
  * #9123: higher order roles
  * #9352: allow `State#` in FFI types.
- * #9637: type-level "error" function
  * #9725: kind equalities (Richard)
  * #9717, #9729, #10420: orphan modules
 
@@ -40,6 +38,7 @@ Refactoring/optimisation
  * #11735, #11598: `coercionKind`
  * #11196: resurrect `FunTy`
  * Make `CoVar` a proper `Var`
+ * #1965: make existentials have a really cheap implementation
 
 Other tickets
  * #11622: parens around kind signatures in types
@@ -323,7 +322,6 @@ See [wiki:Commentary/Compiler/NewCodeGenStupidity Edward's collection of code-ge
  * #8109: as-patterns in type-family declarations
  * #6065: GHC suggests a type signature that it then rejects
  * #5320, #7296: overlap delicacy
- * #1965: make existentials have a really cheap implementation
  * #5224: make it cheaper to check for inconsistent type family instances
  * #4466, #5296, #8631: explicit type application
  * #4259: overlapping type family instances

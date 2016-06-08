@@ -4,7 +4,6 @@
 
 - [\#11670](https://gitlab.haskell.org//ghc/ghc/issues/11670): how should partial type signatures be generalised?
 - [\#11760](https://gitlab.haskell.org//ghc/ghc/issues/11760): `runST` and lazy blackholing
-- [\#11698](https://gitlab.haskell.org//ghc/ghc/issues/11698): `tct_closed` flag is set wrong
 - [\#11371](https://gitlab.haskell.org//ghc/ghc/issues/11371): bogus in-scope set for substitution
 - [\#9479](https://gitlab.haskell.org//ghc/ghc/issues/9479), [\#10954](https://gitlab.haskell.org//ghc/ghc/issues/10954), [\#9091](https://gitlab.haskell.org//ghc/ghc/issues/9091): more info in "hole" error messages
 - [\#10844](https://gitlab.haskell.org//ghc/ghc/issues/10844), [\#10845](https://gitlab.haskell.org//ghc/ghc/issues/10845), [\#10846](https://gitlab.haskell.org//ghc/ghc/issues/10846): implicit call stacks
@@ -18,7 +17,6 @@
 - [\#8634](https://gitlab.haskell.org//ghc/ghc/issues/8634), [\#9267](https://gitlab.haskell.org//ghc/ghc/issues/9267), [\#9227](https://gitlab.haskell.org//ghc/ghc/issues/9227): relaxing functional dependency rules `-XDysFunctionalDependencies`
 - [\#9123](https://gitlab.haskell.org//ghc/ghc/issues/9123): higher order roles
 - [\#9352](https://gitlab.haskell.org//ghc/ghc/issues/9352): allow `State#` in FFI types.
-- [\#9637](https://gitlab.haskell.org//ghc/ghc/issues/9637): type-level "error" function
 - [\#9725](https://gitlab.haskell.org//ghc/ghc/issues/9725): kind equalities (Richard)
 - [\#9717](https://gitlab.haskell.org//ghc/ghc/issues/9717), [\#9729](https://gitlab.haskell.org//ghc/ghc/issues/9729), [\#10420](https://gitlab.haskell.org//ghc/ghc/issues/10420): orphan modules
 
@@ -46,6 +44,7 @@ Refactoring/optimisation
 - [\#11735](https://gitlab.haskell.org//ghc/ghc/issues/11735), [\#11598](https://gitlab.haskell.org//ghc/ghc/issues/11598): `coercionKind`
 - [\#11196](https://gitlab.haskell.org//ghc/ghc/issues/11196): resurrect `FunTy`
 - Make `CoVar` a proper `Var`
+- [\#1965](https://gitlab.haskell.org//ghc/ghc/issues/1965): make existentials have a really cheap implementation
 
 
 Other tickets
@@ -349,7 +348,6 @@ See [Edward's collection of code-generation stupidities](commentary/compiler/new
 - [\#8109](https://gitlab.haskell.org//ghc/ghc/issues/8109): as-patterns in type-family declarations
 - [\#6065](https://gitlab.haskell.org//ghc/ghc/issues/6065): GHC suggests a type signature that it then rejects
 - [\#5320](https://gitlab.haskell.org//ghc/ghc/issues/5320), [\#7296](https://gitlab.haskell.org//ghc/ghc/issues/7296): overlap delicacy
-- [\#1965](https://gitlab.haskell.org//ghc/ghc/issues/1965): make existentials have a really cheap implementation
 - [\#5224](https://gitlab.haskell.org//ghc/ghc/issues/5224): make it cheaper to check for inconsistent type family instances
 - [\#4466](https://gitlab.haskell.org//ghc/ghc/issues/4466), [\#5296](https://gitlab.haskell.org//ghc/ghc/issues/5296), [\#8631](https://gitlab.haskell.org//ghc/ghc/issues/8631): explicit type application
 - [\#4259](https://gitlab.haskell.org//ghc/ghc/issues/4259): overlapping type family instances
