@@ -10,8 +10,28 @@ For instructions on building GHC go [ here](http://hackage.haskell.org/trac/ghc/
 
 ## LLVM Support
 
+<table><tr><th></th>
+<th>**HEAD**</th>
+<th>**8.0**</th>
+<th>**7.10**</th>
+<th>**7.8**</th>
+<th>**7.6**</th>
+<th>**7.4**</th>
+<th>**7.2**</th>
+<th>**7.0**</th></tr>
+<tr><th> LLVM version </th>
+<th> 3.7 </th>
+<th> 3.5 </th>
+<th> ?? </th>
+<th> ?? </th>
+<th> ?? </th>
+<th> 2.9 </th>
+<th> 2.7 
+</th>
+<th></th></tr></table>
 
-The LLVM backend only supports LLVM version **2.7** or later. Problems with LLVM \>= 2.9 and GHC 7.0.3 currently exist (see bug [\#5103](https://gitlab.haskell.org//ghc/ghc/issues/5103)). GHC 7.2 and later works fine with LLVM \>= 2.9.
+
+The above table lists the versions of the LLVM tools that are known to work with various GHC versions. These are not hard requirements in the sense that GHC will not immediately error if you use a different LLVM version than what is listed, but it is highly likely that using a different LLVM version can cause problems.
 
 
 Simply install GHC and make sure the various llvm tools (opt, llc) are available on your path.
