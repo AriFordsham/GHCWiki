@@ -3,6 +3,9 @@
 
 Mailing list discussion in progress on [ on {libraries,ghc-devs}\@haskell.org](http://thread.gmane.org/gmane.comp.lang.haskell.ghc.devel/12030)
 
+
+related reddit discussion on [ /r/haskell](https://www.reddit.com/r/haskell/comments/4mtf5t/proposal_leftassociative_semigroup_operator_alias/)
+
 ## Problem
 
 
