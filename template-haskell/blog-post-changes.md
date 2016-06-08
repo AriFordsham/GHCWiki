@@ -1,5 +1,7 @@
 # Major proposed revision of Template Haskell
 
+**Nota bene:** These changes have largely all been implemented in GHC 7.8 (although there are a few dangling tickets which are left.) When in doubt, look at the linked tickets.
+
 
 This page explores a set of design proposals for Template Haskell.  They are inspired by discussion with Tim Sheard, Kathleen Fisher, and Jacques Carette.  It was originally triggered by several Template Haskell tickets: including [\#4230](https://gitlab.haskell.org//ghc/ghc/issues/4230), [\#4135](https://gitlab.haskell.org//ghc/ghc/issues/4135), [\#4128](https://gitlab.haskell.org//ghc/ghc/issues/4128), [\#4170](https://gitlab.haskell.org//ghc/ghc/issues/4170), [\#4125](https://gitlab.haskell.org//ghc/ghc/issues/4125), [\#4124](https://gitlab.haskell.org//ghc/ghc/issues/4124), [\#4364](https://gitlab.haskell.org//ghc/ghc/issues/4364), [\#6062](https://gitlab.haskell.org//ghc/ghc/issues/6062), [\#6089](https://gitlab.haskell.org//ghc/ghc/issues/6089). (See also [\#7016](https://gitlab.haskell.org//ghc/ghc/issues/7016), which work better with the suggestions below.) Taken together, these proposals would make quite a big change to TH, I think for the better.  Happily, I'm pretty sure they are relatively easy to implement.  
 
