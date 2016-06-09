@@ -59,10 +59,28 @@ David F: I ''imagine'' that `Foo a`, `Bar a`, and `Baz a` contexts are zero-widt
 
 SLPJ: no, class constraints are always boxed because they can be bottom (with recursive classes).  I don't know how to avoid this.
 
+David F: Does this mean even `~` constraints are boxed? If so, that monkeys with GADT constructors that have equality constraints involving type families.
+
+{{{#!hs
+data Foo a b where
+  Foo :: TF1 a ~ TF2 b => Foo a b
+}}}
+
+seems rather nicer than the alternative
+
+{{{#!hs
+data Foo a b where
+  Foo :: !(TF1 a :~: TF2 b) -> Foo a b
+}}}
+
+Do such constraints just pile on extra junk?
+
 === Strictness === 
 Unlike a true `newtype`, pattern matching on the constructor ''must'' force the contents to maintain type safety.  In particular, matching on the constructor reveals an existential and/or type information. As Dan Doel found, and pumpkin relayed in https://ghc.haskell.org/trac/ghc/ticket/1965#comment:16, we have to be careful not to reveal such information without forcing the evidence. Since we're using the newtype optimization, the evidence is in the contained field itself.
 
 ''SLPJ: I do not understand this paragraph.  Remember, we propose no change to the source language semantics''.
+
+David F: I was simply clarifying that while this is the "newtype optimization", it is *not* about an actual `newtype`. In both Haskell and Core it is `data`, although Core could flag it as unusual if that's helpful.
 
 == Sample uses ==
 
