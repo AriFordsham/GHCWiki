@@ -2,6 +2,7 @@
 
 ## Urgent or in-flight
 
+- [\#12170](https://gitlab.haskell.org//ghc/ghc/issues/12170): add a flag to control how out-of-scope variables are deferred
 - [\#11670](https://gitlab.haskell.org//ghc/ghc/issues/11670): how should partial type signatures be generalised?
 - [\#11760](https://gitlab.haskell.org//ghc/ghc/issues/11760): `runST` and lazy blackholing
 - [\#11371](https://gitlab.haskell.org//ghc/ghc/issues/11371): bogus in-scope set for substitution

@@ -1,6 +1,7 @@
 = This page collects tickets that Simon PJ is interested in, so that he remembers them =
 
 == Urgent or in-flight ==
+ * #12170: add a flag to control how out-of-scope variables are deferred
  * #11670: how should partial type signatures be generalised?
  * #11760: `runST` and lazy blackholing
  * #11371: bogus in-scope set for substitution
