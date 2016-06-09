@@ -76,6 +76,23 @@ David F: I *imagine* that `Foo a`, `Bar a`, and `Baz a` contexts are zero-width.
 
 SLPJ: no, class constraints are always boxed because they can be bottom (with recursive classes).  I don't know how to avoid this.
 
+
+David F: Does this mean even `~` constraints are boxed? If so, that monkeys with GADT constructors that have equality constraints involving type families.
+
+```
+dataFoo a b whereFoo::TF1 a ~TF2 b =>Foo a b
+```
+
+
+is much nicer to write than
+
+```
+dataFoo a b whereFoo::TF1 a ~#TF2 b =>Foo a b
+```
+
+
+If the former adds extra junk that seems sad.
+
 ### Strictness
 
 
