@@ -21,7 +21,7 @@ For instructions on building GHC go [ here](http://hackage.haskell.org/trac/ghc/
 <th>**7.0**</th></tr>
 <tr><th> LLVM version </th>
 <th> 3.7 </th>
-<th> 3.5 </th>
+<th> 3.5 (3.5.2 on ARM ([\#9920](https://gitlab.haskell.org//ghc/ghc/issues/9920)) </th>
 <th> ?? </th>
 <th> ?? </th>
 <th> ?? </th>
