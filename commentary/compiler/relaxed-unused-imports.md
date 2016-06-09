@@ -1,13 +1,12 @@
 # Relaxed unused imports
 
-[Unused imports](commentary/compiler/unused-imports) describes how the current unused imports behavior works. The idea behind previous proposals for unused imports is GHC, at a 90% effort, should report all imports which can be deleted while your code still compiles.  This proposal adopts two new ideas:
-
-1. Some import statements explicitly bring an identifier into scope, e.g., `import A(x)`; while some import statements implicitly bring an identifier into scope, e.g., `import A` or `import A(C(..))`. When we use an identifier in the body of a Haskell program, we consider ALL import items which \*implicitly\* provide that identifier used, plus ONE import item which explicitly provides the identifier.
-
-1. Idea (1) causes us to fail to report warnings for some obviously redundant imports, but for which redundancy is textually obvious. We define a very simple subsumption relation between imports to find these cases.
+[Unused imports](commentary/compiler/unused-imports) describes how the current unused imports warning works.  An import is unused if it can be deleted without changing the meaning of the program; currently, GHC strives to report all such imports (although it doesn't guarantee that it will do so).
 
 
-We suggest the old import warnings be preserved with a flag which is not turned on automatically by `-Wall`
+In this proposal, we identify some unused imports for which we should NOT report a warning.  The underlying motivation is that, assuming a module M compiles without unused import warnings, if one of the modules it imports adds an extra export, then M should continue to compile without warnings.  (This is equivalent to stating that a minor version upgrade under the Haskell PVP should not trigger new warnings.)
+
+
+This is achieved is as follows: an import is unused if it can be deleted without changing the meaning of the program, EXCEPT if the import explicitly brings `x` into scope (e.g., `import A (x)`), and the only other ways `x` was brought into scope are implicit (e.g., `import B`), AND each such implicit import is of a different module (e.g., `import A (x)` is still redundant if we `import A`).
 
 ## Motivation
 
@@ -22,20 +21,13 @@ import Control.Applicative ((<*), pure)
 ```
 
 
-The reason the CPP is necessary is because in recent version of GHC, `pure` is exported by `Prelude` and thus `Control.Applicative`'s import of it is redundant. Is it really redundant? Snoyman suggests he would be happy to accept just `import Control.Applicative ((<*), pure)` even though the `pure` declaration is redundant.
-
-[\#10117](https://gitlab.haskell.org//ghc/ghc/issues/10117) reports another problem with a common workaround:
-
-```wiki
-  module Foo (Int, Word, Monoid(..)) where
-
-  import Data.Monoid (Monoid(..))
-  import Data.Word (Word)
-  import Prelude
-```
+The reason the CPP is necessary is because in base-4.8, an export of `pure` was added to `Prelude`; this means that `Control.Applicative`'s import of `pure` is redundant.
 
 
-Here, `Word` and `Monoid` are considered redundant because they are also exported by `Prelude`. Once again, arguably the "redundant" import here is not a big deal, and we shouldn't complain too much about it.
+Although the import is technically redundant, it is extremely inconvenient, because a minor, backwards-compatible change to a package caused a redundant import warning to surface. In order for this code to be warning-free on the newer version of base, we must omit `pure` from `Control.Applicative`; however, the older version of base will not compile without this error! Instead, we would like `import Control.Applicative ((<*), pure)` to NOT report any warnings, even if `Prelude` starts exporting `pure`.
+
+
+See also [\#10117](https://gitlab.haskell.org//ghc/ghc/issues/10117) for a problem with a common workaround for this problem.
 
 ## Specification
 
@@ -57,54 +49,68 @@ More precisely:
 
 1.  For every `RdrName` in the program text, find all the import-items that brought it into scope.  The lookup mechanism on `RdrNames` already takes account of whether the `RdrName` was qualified, and which imports have the right qualification etc, so this step is very easy.
 
-1. **Separate these import-items into those which explicitly and implicitly provide the `RdrName`. Mark all import-items which implicitly provide the `RdrName` as used. Choose one explicit import-item and mark it used.**
+1. **Partition the import-items for a `RdrName` by their `Module` (e.g. `A` of `import A`) and whether or not the explicitly and implicitly provide the `RdrName` (`import Prelude` implicitly provides `Just`; `import Prelude (Just)` and `import Prelude (Maybe(..))` explicitly provides `Just`.).  For each `Module`, mark one implicit import-item (if it exists) as used. Among the explicit imports of a `RdrName` whose `Module`s had no implicit import-items associated with them, pick one and mark it as used.**
 
 1.  Now bleat about any import-items that are unused.  For a decl
   `import Foo(x,y)`, if both the `x` and `y` items are unused, it'd be better
   to bleat about the entire decl rather than the individual items.
 
 
-The import-item choosing step 2 implies that there is a total order on import-items. We say import-item A dominates import-item B if we choose A over B. We always choose the textually first one.
-
-## Textual redundancy
+Step (2) is nondeterministic in two ways: the selection of the implicit import-item (per `Module`), and the selection of the explicit import item (across all `Module`s.)  We need some total order over import-items to let us decide which to pick: we just prefer the textually first.
 
 
-The problem with this specification is that it does not report errors for completely duplicate imports when implicit imports are involved:
+The addition is a bit involved, but essentially we want to compute some set of import-items to mark as used.  Here are some important motivating examples:
 
-```wiki
-import A
-import A
-```
-
-
-or
+**For each module, mark one implicit import-item as used.**
 
 ```wiki
-import A (x,y)
-import A
+-- Prelude and Control.Applicative export pure
+
+-- We want no errors here; thus, we need to mark both Prelude
+-- and Control.Applicative as used. These are different modules,
+-- so we mark each of their implicit imports as used.
+import Prelude
+import Control.Applicative
+bar = pure
+
+-- We want to report a warning here; for any module (in this case
+-- Control.Applicative) we only mark one import-item as used.
+import Control.Applicative
+import Control.Applicative
+bar = pure
 ```
 
+**Among the explicit imports whose `Module`s had no implicit import-items associated with them, pick one and mark it as used.**
 
-We observe that in these cases it is *textually* obvious that there is redundancy. So we can just define a new algorithm to warn in this case.
+```wiki
+-- We want to report the second import as redundant.  Thus, because
+-- M has an implicit "import M", we do not mark the second import as
+-- used.
+import M
+import M (x)
 
-## Textual redundancy specification
+-- We don't want to report any warning here. We mark Control.Applicative
+-- as used because there is no "import Control.Applicative"
+import Prelude
+import Control.Applicative (pure)
 
+-- We want to report one import as redundant.  Thus, among the eligible
+-- explicit import-items (across module names), we only mark one as used.
+import M (x)
+import N (x)
+```
 
-For every import statement, we have the following subsumption relation (read brackets as, the relation holds with and without the bracketed contents):
+**`import Prelude (Maybe(..))` is an explicit import of `Just`.**
 
-- `import [ qualified ] A [ (...) | hiding (...) ]` is subsumed by `import A`
-- `import [ qualified ] A as B [ (...) | hiding (...) ]` is subsumed by `import A as B`
-- `import qualified A [ (...) | hiding (...) ]` is subsumed by `import qualified A`
-- `import qualified A as B [ (...) | hiding (...) ]` is subsumed by `import qualified A as B`
+```wiki
+-- Prelude and Data.Maybe export Maybe(Just, Nothing)
 
-
-For every pair of distinct import declarations such that one subsumes the other, report that the subsumed import is redundant (preferring textually later in the reflexive case.) Algorithmically, imports should be partitioned by `ModuleName` before doing pairwise checks.
-
-
-(We could possibly also handle `C(..)` and `C(X)` but this seems not worth it for now.)
-
-
-(Also maybe there is a more elegant way to handle `hiding` clauses)
+-- We want to report a warning here; since Maybe(..) is an explicit
+-- import we only pick one import item to mark as used.
+import Prelude (Maybe(..))
+import Data.Maybe (Just)
+bar = Just
+```
 
 ## Examples
 
@@ -137,17 +143,19 @@ Consider these examples, where Foo exports x and y, and FooPlus re-exports all o
     import Control.Monad
     import Control.Monad.State
     import Control.Monad.Reader
+    -- using 'when' (exported by Control.Monad and .State),
+    -- 'State' and 'Reader'
 ```
 
 
 Under this proposal, we get the following behavior:
 
-- X0: `import Foo ( x )` redundant by subsumption
-- X1: `import Foo ( x )` redundant by subsumption
-- X2: `import Foo ( x )` redundant as second `x` was not marked used
-- X3: `import Foo ( x )` redundant as second `x` was not marked used
-- X4: `import Foo ( x, y )` redundant as second `x` and `y` not marked used
-- X5: `import Foo ( x, y )` redundant as second `x` and `y` not marked used
+- X0: `import Foo ( x )` redundant (there is an implicit import of Foo).
+- X1: `import Foo ( x )` redundant (there is an implicit import of Foo).
+- X2: `y of import Foo ( x, y )` redundant, and `import Foo ( x )` redundant (in both cases, we only picked one explicit import to mark as used).
+- X3: `import Foo ( x )` redundant (ditto).
+- X4: Second `import Foo ( x, y )` redundant (ditto).
+- X5: `import Foo ( x, y )` redundant (only first import's y can be marked as used by `Bar.y` name).
 - X6: `x` in `import Foo( x, y ) as Bar` and `y` in `import Foo( x, y )` redundant as they were not marked used
 - X7: `import FooPlus(z,x)` and `y` in second import redundant
-- X8: NOTHING marked redundant!
+- X8: NOTHING marked redundant! (Use of `when` marks both `Control.Monad` and `Control.Monad.State` as used)
