@@ -2,6 +2,7 @@
 
 ## Urgent or in-flight
 
+- [\#12170](https://gitlab.haskell.org//ghc/ghc/issues/12170): add a flag to control how out-of-scope variables are deferred
 - [\#11670](https://gitlab.haskell.org//ghc/ghc/issues/11670): how should partial type signatures be generalised?
 - [\#11760](https://gitlab.haskell.org//ghc/ghc/issues/11760): `runST` and lazy blackholing
 - [\#11371](https://gitlab.haskell.org//ghc/ghc/issues/11371): bogus in-scope set for substitution
@@ -56,13 +57,10 @@ Other tickets
 - [\#11080](https://gitlab.haskell.org//ghc/ghc/issues/11080): open data kinds
 - [\#10524](https://gitlab.haskell.org//ghc/ghc/issues/10524): Deriving and polykinds
 - [\#7102](https://gitlab.haskell.org//ghc/ghc/issues/7102): type instance overlap in GHCi is unsound
-- [\#10493](https://gitlab.haskell.org//ghc/ghc/issues/10493), [\#10494](https://gitlab.haskell.org//ghc/ghc/issues/10494): Bogus inaccessible code from `Coercible`
-- [\#10362](https://gitlab.haskell.org//ghc/ghc/issues/10362), [\#10359](https://gitlab.haskell.org//ghc/ghc/issues/10359): make tuple constraints into a class
 - [\#9858](https://gitlab.haskell.org//ghc/ghc/issues/9858), [\#10343](https://gitlab.haskell.org//ghc/ghc/issues/10343): `Typeable` and kind polymorphism
 - [\#10347](https://gitlab.haskell.org//ghc/ghc/issues/10347): wrong "unused data constructor" warning for a newtype (using `Coercible`)
 - [\#10184](https://gitlab.haskell.org//ghc/ghc/issues/10184),[\#10185](https://gitlab.haskell.org//ghc/ghc/issues/10185): incompleteness in `Coercible` solver
 - [\#8165](https://gitlab.haskell.org//ghc/ghc/issues/8165): GND for classes with associated types
-- [\#10075](https://gitlab.haskell.org//ghc/ghc/issues/10075): `Constraint` vs `*`
 - [\#10056](https://gitlab.haskell.org//ghc/ghc/issues/10056): more systematic treatment of `(~)` in parser and renamer 
 - [\#9918](https://gitlab.haskell.org//ghc/ghc/issues/9918): closed type families, apartness, and overlapping instances (inconsistency)
 - [\#9118](https://gitlab.haskell.org//ghc/ghc/issues/9118): Eta reduction for `Coercible` (not expressible in Core, yet)
@@ -83,8 +81,8 @@ Some big features
 
 Other tickets
 
+- [\#12159](https://gitlab.haskell.org//ghc/ghc/issues/12159) naughty record selectors
 - [\#11253](https://gitlab.haskell.org//ghc/ghc/issues/11253): duplicate warnings with new pattern checker
-- [\#11245](https://gitlab.haskell.org//ghc/ghc/issues/11245): "patterns not matched" list is empty
 - [\#10183](https://gitlab.haskell.org//ghc/ghc/issues/10183): warning for redundant constraints, and pattern-match overlap warnings
 - [\#9113](https://gitlab.haskell.org//ghc/ghc/issues/9113): pattern match overlap/exhaustiveness checked in Typed TH
 - [\#10393](https://gitlab.haskell.org//ghc/ghc/issues/10393), [\#10116](https://gitlab.haskell.org//ghc/ghc/issues/10116), [\#9951](https://gitlab.haskell.org//ghc/ghc/issues/9951), [\#595](https://gitlab.haskell.org//ghc/ghc/issues/595), [\#5728](https://gitlab.haskell.org//ghc/ghc/issues/5728), [\#3927](https://gitlab.haskell.org//ghc/ghc/issues/3927), [\#5724](https://gitlab.haskell.org//ghc/ghc/issues/5724), [\#5762](https://gitlab.haskell.org//ghc/ghc/issues/5762), [\#4139](https://gitlab.haskell.org//ghc/ghc/issues/4139), [\#6124](https://gitlab.haskell.org//ghc/ghc/issues/6124), [\#7669](https://gitlab.haskell.org//ghc/ghc/issues/7669), [\#322](https://gitlab.haskell.org//ghc/ghc/issues/322), [\#8016](https://gitlab.haskell.org//ghc/ghc/issues/8016), [\#8494](https://gitlab.haskell.org//ghc/ghc/issues/8494), [\#8853](https://gitlab.haskell.org//ghc/ghc/issues/8853), [\#8970](https://gitlab.haskell.org//ghc/ghc/issues/8970), [\#9113](https://gitlab.haskell.org//ghc/ghc/issues/9113), [\#2204](https://gitlab.haskell.org//ghc/ghc/issues/2204): **pattern-match overlap checking**, including with GADTs
