@@ -100,6 +100,9 @@ Unlike a true `newtype`, pattern matching on the constructor *must* force the co
 
 *SLPJ: I do not understand this paragraph.  Remember, we propose no change to the source language semantics*.
 
+
+I was simply clarifying that while this is the "newtype optimization", it is \*not\* about an actual `newtype`. In both Haskell and Core it is `data`, although Core could flag it as unusual if that's helpful.
+
 ## Sample uses
 
 ### Example 1
