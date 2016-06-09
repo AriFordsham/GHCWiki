@@ -66,14 +66,14 @@ data Foo a b where
   Foo :: TF1 a ~ TF2 b => Foo a b
 }}}
 
-is much nicer to write than
+seems rather nicer than the alternative
 
 {{{#!hs
 data Foo a b where
-  Foo :: TF1 a ~# TF2 b => Foo a b
+  Foo :: !(TF1 a :~: TF2 b) -> Foo a b
 }}}
 
-If the former adds extra junk that seems sad.
+Do such constraints just pile on extra junk?
 
 === Strictness === 
 Unlike a true `newtype`, pattern matching on the constructor ''must'' force the contents to maintain type safety.  In particular, matching on the constructor reveals an existential and/or type information. As Dan Doel found, and pumpkin relayed in https://ghc.haskell.org/trac/ghc/ticket/1965#comment:16, we have to be careful not to reveal such information without forcing the evidence. Since we're using the newtype optimization, the evidence is in the contained field itself.
