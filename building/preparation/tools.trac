@@ -140,6 +140,9 @@ In most cases the `configure` script will tell you if you are missing something.
  Sphinx::
   Required for building the [wiki:Building/Docs documentation].
 
+ LLVM::
+  Required for compiling code with the `-fllvm` flag enabled (e.g., if you want to build GHC with the `perf-llvm` build flavour). Version 3.7 or later is required. See also [wiki:Commentary/Compiler/Backends/LLVM/Installing the LLVM installation page].
+
  [http://www.thrysoee.dk/editline/ libedit]::
   If libedit is installed, ghci will be built with a nice interactive line-editing interface.  
   Version 2.6.9 and later are known to work; note that the libeditline package listed on some distros is too old.
