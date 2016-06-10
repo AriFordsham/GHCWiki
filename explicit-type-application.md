@@ -230,6 +230,9 @@ the application of the list constructor `(:) @(forall a. a -> a)` means
 the constructor of type
 `(forall a. a -> a) -> [forall a. a -> a] -> [forall a. a -> a]`.
 
+
+NB: As of GHC 8.0 this is not actually supported without `-XImpredicativeTypes`.
+
 ### Type/kind instantiation in classes
 
 
