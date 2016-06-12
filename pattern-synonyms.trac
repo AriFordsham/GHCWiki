@@ -7,8 +7,7 @@ Tickets should include `PatternSynonyms` in their Keywords to appear in these su
 Open Tickets:
 [[TicketQuery(status=infoneeded,status=new|patch,keywords=~PatternSynonyms)]]
 
-Closed Tickets:
-[[TicketQuery(status=infoneeded,status=closed,keywords=~PatternSynonyms)]]
+There is a list of closed tickets at the bottom of the page.
 
 == Motivating example ==
 Here is a simple representation of types
@@ -375,4 +374,9 @@ See PatternSynonyms/RecordPatternSynonyms
 == Associating synonyms with types ==
 
 See PatternSynonyms/AssociatingSynonyms
+
+== Closed Tickets ==
+
+Closed Tickets:
+[[TicketQuery(status=infoneeded,status=closed,keywords=~PatternSynonyms)]]
 
