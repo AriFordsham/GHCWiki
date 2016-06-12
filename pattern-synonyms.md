@@ -106,242 +106,7 @@ Open Tickets:
 <td>Pattern Synonym for Ratio</td></tr></table>
 
 
-Closed Tickets:
-
-<table><tr><th>[\#5144](https://gitlab.haskell.org//ghc/ghc/issues/5144)</th>
-<td>Pattern synonyms</td></tr>
-<tr><th>[\#8582](https://gitlab.haskell.org//ghc/ghc/issues/8582)</th>
-<td>Record syntax for pattern synonyms</td></tr>
-<tr><th>[\#8584](https://gitlab.haskell.org//ghc/ghc/issues/8584)</th>
-<td>Pattern synonym type signatures</td></tr>
-<tr><th>[\#8749](https://gitlab.haskell.org//ghc/ghc/issues/8749)</th>
-<td>Pattern synonyms crash GHCi</td></tr>
-<tr><th>[\#8761](https://gitlab.haskell.org//ghc/ghc/issues/8761)</th>
-<td>Make pattern synonyms work with Template Haskell</td></tr>
-<tr><th>[\#8779](https://gitlab.haskell.org//ghc/ghc/issues/8779)</th>
-<td>Exhaustiveness checks for pattern synonyms</td></tr>
-<tr><th>[\#8841](https://gitlab.haskell.org//ghc/ghc/issues/8841)</th>
-<td>PatternSynonyms error gives wrong source locations</td></tr>
-<tr><th>[\#8968](https://gitlab.haskell.org//ghc/ghc/issues/8968)</th>
-<td>Pattern synonyms and GADTs</td></tr>
-<tr><th>[\#9161](https://gitlab.haskell.org//ghc/ghc/issues/9161)</th>
-<td>Pattern synonyms interact badly with data kinds</td></tr>
-<tr><th>[\#9226](https://gitlab.haskell.org//ghc/ghc/issues/9226)</th>
-<td>Internal error when using equality constraint in pattern synonyms</td></tr>
-<tr><th>[\#9417](https://gitlab.haskell.org//ghc/ghc/issues/9417)</th>
-<td>Pattern synonyms across modules broken in Haddock</td></tr>
-<tr><th>[\#9514](https://gitlab.haskell.org//ghc/ghc/issues/9514)</th>
-<td>Haddock panics when exporting a module with pattern synonyms</td></tr>
-<tr><th>[\#9705](https://gitlab.haskell.org//ghc/ghc/issues/9705)</th>
-<td>Panic on a pattern synonym in a class</td></tr>
-<tr><th>[\#9732](https://gitlab.haskell.org//ghc/ghc/issues/9732)</th>
-<td>Pattern synonyms and unboxed values</td></tr>
-<tr><th>[\#9783](https://gitlab.haskell.org//ghc/ghc/issues/9783)</th>
-<td>Pattern synonym matcher is unnecessarily strict on unboxed continuations</td></tr>
-<tr><th>[\#9793](https://gitlab.haskell.org//ghc/ghc/issues/9793)</th>
-<td>Some as-patterns could be accepted in pattern synonyms</td></tr>
-<tr><th>[\#9803](https://gitlab.haskell.org//ghc/ghc/issues/9803)</th>
-<td>Poor error message for unbound variable in pattern synonym</td></tr>
-<tr><th>[\#9867](https://gitlab.haskell.org//ghc/ghc/issues/9867)</th>
-<td>PatternSynonyms + ScopedTypeVariables triggers an internal error</td></tr>
-<tr><th>[\#9889](https://gitlab.haskell.org//ghc/ghc/issues/9889)</th>
-<td>Pattern synonym does not work in top-level pattern bind</td></tr>
-<tr><th>[\#9891](https://gitlab.haskell.org//ghc/ghc/issues/9891)</th>
-<td>Fixity declarations for pattern synonyms not persisted</td></tr>
-<tr><th>[\#9900](https://gitlab.haskell.org//ghc/ghc/issues/9900)</th>
-<td>Support pattern synonyms in GHCi</td></tr>
-<tr><th>[\#9911](https://gitlab.haskell.org//ghc/ghc/issues/9911)</th>
-<td>Pattern synonyms with no signatures should yield warnings</td></tr>
-<tr><th>[\#9953](https://gitlab.haskell.org//ghc/ghc/issues/9953)</th>
-<td>Pattern synonyms don't work with GADTs</td></tr>
-<tr><th>[\#9954](https://gitlab.haskell.org//ghc/ghc/issues/9954)</th>
-<td>Required constraints are not inferred for pattern synonyms involving GADTs</td></tr>
-<tr><th>[\#9967](https://gitlab.haskell.org//ghc/ghc/issues/9967)</th>
-<td>Pattern synonym type signature documentation out of date</td></tr>
-<tr><th>[\#9975](https://gitlab.haskell.org//ghc/ghc/issues/9975)</th>
-<td>RecordWildcards and PatternSynonyms cause impossible bug</td></tr>
-<tr><th>[\#10339](https://gitlab.haskell.org//ghc/ghc/issues/10339)</th>
-<td>PatternSynonyms confuse exhaustiveness check</td></tr>
-<tr><th>[\#10404](https://gitlab.haskell.org//ghc/ghc/issues/10404)</th>
-<td>GHC panic when creating a monomorphised pattern synonym for GADT</td></tr>
-<tr><th>[\#10426](https://gitlab.haskell.org//ghc/ghc/issues/10426)</th>
-<td>matchGroupArity panic with PatternSynonyms</td></tr>
-<tr><th>[\#10653](https://gitlab.haskell.org//ghc/ghc/issues/10653)</th>
-<td>PatternSynonyms should be imported/exported as part of the wildcard notation</td></tr>
-<tr><th>[\#10747](https://gitlab.haskell.org//ghc/ghc/issues/10747)</th>
-<td>Infix pattern synonyms fail to parse (regression)</td></tr>
-<tr><th>[\#10873](https://gitlab.haskell.org//ghc/ghc/issues/10873)</th>
-<td>Bad error message for incorrect pattern synonym signature</td></tr>
-<tr><th>[\#10897](https://gitlab.haskell.org//ghc/ghc/issues/10897)</th>
-<td>Incorrect ASSERT for buildPatSyn</td></tr>
-<tr><th>[\#10997](https://gitlab.haskell.org//ghc/ghc/issues/10997)</th>
-<td>Pattern synonym causes Iface error.</td></tr>
-<tr><th>[\#11039](https://gitlab.haskell.org//ghc/ghc/issues/11039)</th>
-<td>Panic with incorrect pattern synonym signature</td></tr>
-<tr><th>[\#11213](https://gitlab.haskell.org//ghc/ghc/issues/11213)</th>
-<td>Incorrect reported pattern synonym signature</td></tr>
-<tr><th>[\#11224](https://gitlab.haskell.org//ghc/ghc/issues/11224)</th>
-<td>Program doesn't preserve semantics after pattern synonym inlining.</td></tr>
-<tr><th>[\#11225](https://gitlab.haskell.org//ghc/ghc/issues/11225)</th>
-<td>Unable to provide type signature for pattern synonym</td></tr>
-<tr><th>[\#11227](https://gitlab.haskell.org//ghc/ghc/issues/11227)</th>
-<td>Interaction between ORF and record pattern synonyms needs to be resolved.</td></tr>
-<tr><th>[\#11233](https://gitlab.haskell.org//ghc/ghc/issues/11233)</th>
-<td>Improve optimisation of pattern synonym matching</td></tr>
-<tr><th>[\#11283](https://gitlab.haskell.org//ghc/ghc/issues/11283)</th>
-<td>PatternSynonms and DisambiguateRecordFields causes panic</td></tr>
-<tr><th>[\#11336](https://gitlab.haskell.org//ghc/ghc/issues/11336)</th>
-<td>GHC craches on this combination of ViewPatterns and PatternSynonyms</td></tr>
-<tr><th>[\#11351](https://gitlab.haskell.org//ghc/ghc/issues/11351)</th>
-<td>Scoped type variables in pattern synonyms</td></tr>
-<tr><th>[\#11367](https://gitlab.haskell.org//ghc/ghc/issues/11367)</th>
-<td>\[Regression\] Only one clause allowed in (explicitly bidirectional) pattern synonyms</td></tr>
-<tr><th>[\#11524](https://gitlab.haskell.org//ghc/ghc/issues/11524)</th>
-<td>Something is amiss with quantification in pattern synonym type signatures</td></tr>
-<tr><th>[\#11633](https://gitlab.haskell.org//ghc/ghc/issues/11633)</th>
-<td>Record field order in a bidirectional pattern synonym match is order dependent</td></tr>
-<tr><th>[\#11667](https://gitlab.haskell.org//ghc/ghc/issues/11667)</th>
-<td>Incorrect pattern synonym types in error messages</td></tr>
-<tr><th>[\#11727](https://gitlab.haskell.org//ghc/ghc/issues/11727)</th>
-<td>Allow one type signature for multiple pattern synonyms</td></tr>
-<tr><th>[\#11728](https://gitlab.haskell.org//ghc/ghc/issues/11728)</th>
-<td>Core lint errors</td></tr>
-<tr><th>[\#11977](https://gitlab.haskell.org//ghc/ghc/issues/11977)</th>
-<td>ghc doesn't agree with its own inferred pattern type</td></tr>
-<tr><th>[\#11985](https://gitlab.haskell.org//ghc/ghc/issues/11985)</th>
-<td>Core lint error on record syntax update/pattern synonym</td></tr>
-<tr><th>[\#11986](https://gitlab.haskell.org//ghc/ghc/issues/11986)</th>
-<td>Record fields not defined with pattern synonym in ghci</td></tr>
-<tr><th>[\#11987](https://gitlab.haskell.org//ghc/ghc/issues/11987)</th>
-<td>Allow record wildcards with pattern synonyms which are defined in GHCi</td></tr>
-<tr><th>[\#12007](https://gitlab.haskell.org//ghc/ghc/issues/12007)</th>
-<td>Panic when loading file with nested pattern synonyms into ghci</td></tr>
-<tr><th>[\#12017](https://gitlab.haskell.org//ghc/ghc/issues/12017)</th>
-<td>GHC panics on pattern synonym ‘kindPrimRep’</td></tr>
-<tr><th>[\#12024](https://gitlab.haskell.org//ghc/ghc/issues/12024)</th>
-<td>GHC leaks GHC.Prim.\~\# into type</td></tr>
-<tr><th>[\#12025](https://gitlab.haskell.org//ghc/ghc/issues/12025)</th>
-<td>Order of constraints forced (in pattern synonyms, type classes in comments)</td></tr>
-<tr><th>[\#12061](https://gitlab.haskell.org//ghc/ghc/issues/12061)</th>
-<td>Allow duplicate record fields in pattern synonyms</td></tr>
-<tr><th>[\#12094](https://gitlab.haskell.org//ghc/ghc/issues/12094)</th>
-<td>Unlifted types and pattern synonym signatures</td></tr>
-<tr><th>[\#12101](https://gitlab.haskell.org//ghc/ghc/issues/12101)</th>
-<td>Regression: Pattern synonyms make GHCi 8.0.1 crash</td></tr>
-<tr><th>[\#12108](https://gitlab.haskell.org//ghc/ghc/issues/12108)</th>
-<td>Function type synonym fails in pattern synonym</td></tr>
-<tr><th>[\#12109](https://gitlab.haskell.org//ghc/ghc/issues/12109)</th>
-<td>Matching on pattern synonym succeeds compiled with ghc, fails with ghci</td></tr>
-<tr><th>[\#12153](https://gitlab.haskell.org//ghc/ghc/issues/12153)</th>
-<td>Bug in pattern synonyms with template haskell</td></tr>
-<tr><th>[\#12165](https://gitlab.haskell.org//ghc/ghc/issues/12165)</th>
-<td>Multiple pattern type signatures accepted</td></tr>
-<tr><th>[\#12166](https://gitlab.haskell.org//ghc/ghc/issues/12166)</th>
-<td>Pattern synonym existential variable confusion</td></tr>
-<tr><th>[\#12366](https://gitlab.haskell.org//ghc/ghc/issues/12366)</th>
-<td>Use TypeOperators for pattern synonyms?</td></tr>
-<tr><th>[\#12426](https://gitlab.haskell.org//ghc/ghc/issues/12426)</th>
-<td>Allow smart constructors their own types</td></tr>
-<tr><th>[\#12429](https://gitlab.haskell.org//ghc/ghc/issues/12429)</th>
-<td>Pattern synonym parse error should recommend enabling extension</td></tr>
-<tr><th>[\#12456](https://gitlab.haskell.org//ghc/ghc/issues/12456)</th>
-<td>Panics when making a quotation as pattern synonym</td></tr>
-<tr><th>[\#12489](https://gitlab.haskell.org//ghc/ghc/issues/12489)</th>
-<td>undefined in view pattern inside pattern synonym causes GHC to panic</td></tr>
-<tr><th>[\#12548](https://gitlab.haskell.org//ghc/ghc/issues/12548)</th>
-<td>Exported pattern synonyms does not mark top-level bindings in RHS as used</td></tr>
-<tr><th>[\#12615](https://gitlab.haskell.org//ghc/ghc/issues/12615)</th>
-<td>Record pattern synonyms cause spurious name shadowing warnings</td></tr>
-<tr><th>[\#12697](https://gitlab.haskell.org//ghc/ghc/issues/12697)</th>
-<td>Improve output of pattern synonym info</td></tr>
-<tr><th>[\#12698](https://gitlab.haskell.org//ghc/ghc/issues/12698)</th>
-<td>GHC panic on pattern synonym</td></tr>
-<tr><th>[\#12746](https://gitlab.haskell.org//ghc/ghc/issues/12746)</th>
-<td>Assertion failed with  BuildFlavour = devel2 (one more)</td></tr>
-<tr><th>[\#12767](https://gitlab.haskell.org//ghc/ghc/issues/12767)</th>
-<td>Pattern synonyms for Cont, Writer, Reader, State, ...</td></tr>
-<tr><th>[\#12872](https://gitlab.haskell.org//ghc/ghc/issues/12872)</th>
-<td>Pattern synonyms allow multiple type signatures but only use the first</td></tr>
-<tr><th>[\#13018](https://gitlab.haskell.org//ghc/ghc/issues/13018)</th>
-<td>TH-spliced pattern synonym declaration fails to typecheck</td></tr>
-<tr><th>[\#13022](https://gitlab.haskell.org//ghc/ghc/issues/13022)</th>
-<td>Pattern Synonyms using other synonyms causes ghc panic</td></tr>
-<tr><th>[\#13071](https://gitlab.haskell.org//ghc/ghc/issues/13071)</th>
-<td>GHCi 8.0.1 panic with PatternSynonyms</td></tr>
-<tr><th>[\#13158](https://gitlab.haskell.org//ghc/ghc/issues/13158)</th>
-<td>Pattern synonyms should use type annotation information when typechecking</td></tr>
-<tr><th>[\#13188](https://gitlab.haskell.org//ghc/ghc/issues/13188)</th>
-<td>COMPLETE pragma causes compilation to hang forever under certain scenarios</td></tr>
-<tr><th>[\#13349](https://gitlab.haskell.org//ghc/ghc/issues/13349)</th>
-<td>Make GHC handle orphan COMPLETE sets of conlikes better</td></tr>
-<tr><th>[\#13350](https://gitlab.haskell.org//ghc/ghc/issues/13350)</th>
-<td>COMPLETE sets aren't read from external packages</td></tr>
-<tr><th>[\#13394](https://gitlab.haskell.org//ghc/ghc/issues/13394)</th>
-<td>PatternSynonyms/OverloadedStrings regression in GHC HEAD</td></tr>
-<tr><th>[\#13441](https://gitlab.haskell.org//ghc/ghc/issues/13441)</th>
-<td>Type inference failure in bidirectional pattern synonym and GADT pattern match</td></tr>
-<tr><th>[\#13449](https://gitlab.haskell.org//ghc/ghc/issues/13449)</th>
-<td>Multiple pattern synonym declarations for one signature</td></tr>
-<tr><th>[\#13454](https://gitlab.haskell.org//ghc/ghc/issues/13454)</th>
-<td>Operators not allowed as fields in Record Pattern Synonyms</td></tr>
-<tr><th>[\#13470](https://gitlab.haskell.org//ghc/ghc/issues/13470)</th>
-<td>Pattern synonyms bind variables out of scope</td></tr>
-<tr><th>[\#13671](https://gitlab.haskell.org//ghc/ghc/issues/13671)</th>
-<td>Core lint error with PatternSynonyms and undefined</td></tr>
-<tr><th>[\#13672](https://gitlab.haskell.org//ghc/ghc/issues/13672)</th>
-<td>Pattern match on LHS of pattern synonym declaration</td></tr>
-<tr><th>[\#13688](https://gitlab.haskell.org//ghc/ghc/issues/13688)</th>
-<td>Allow splices in definition of pattern synonym</td></tr>
-<tr><th>[\#13735](https://gitlab.haskell.org//ghc/ghc/issues/13735)</th>
-<td>RankNTypes don't work with PatternSynonyms</td></tr>
-<tr><th>[\#13752](https://gitlab.haskell.org//ghc/ghc/issues/13752)</th>
-<td>Odd pattern synonym type errors</td></tr>
-<tr><th>[\#13768](https://gitlab.haskell.org//ghc/ghc/issues/13768)</th>
-<td>Incorrect warnings generated by exhaustiveness checker with pattern synonyms / GADT combination</td></tr>
-<tr><th>[\#13969](https://gitlab.haskell.org//ghc/ghc/issues/13969)</th>
-<td>Record pattern synonym incorrectly claims it's recursive, given unbound variable</td></tr>
-<tr><th>[\#14058](https://gitlab.haskell.org//ghc/ghc/issues/14058)</th>
-<td>Cannot bundle pattern synonym with exported data family</td></tr>
-<tr><th>[\#14112](https://gitlab.haskell.org//ghc/ghc/issues/14112)</th>
-<td>bang patterns on pattern synonyms? (left vs right hand sides)</td></tr>
-<tr><th>[\#14114](https://gitlab.haskell.org//ghc/ghc/issues/14114)</th>
-<td>Strange behavior when pattern variables are duplicated on pattern synonym RHS</td></tr>
-<tr><th>[\#14135](https://gitlab.haskell.org//ghc/ghc/issues/14135)</th>
-<td>PatternSynonyms regression in GHC HEAD (expectJust mkOneConFull)</td></tr>
-<tr><th>[\#14228](https://gitlab.haskell.org//ghc/ghc/issues/14228)</th>
-<td>PatternSynonyms Non-exhaustive with UnboxedSums</td></tr>
-<tr><th>[\#14241](https://gitlab.haskell.org//ghc/ghc/issues/14241)</th>
-<td>Pattern synonyms defined through other pattern synonyms produce \`impossible happened\` in ghci/runhaskell</td></tr>
-<tr><th>[\#14326](https://gitlab.haskell.org//ghc/ghc/issues/14326)</th>
-<td>Panic on COMPLETE pragma with mismatched type variable order</td></tr>
-<tr><th>[\#14394](https://gitlab.haskell.org//ghc/ghc/issues/14394)</th>
-<td>Inferred type for pattern synonym has redundant equality constraint</td></tr>
-<tr><th>[\#14395](https://gitlab.haskell.org//ghc/ghc/issues/14395)</th>
-<td>Redefining pattern synonym in GHCi triggers "‘p’ is untouchable" error</td></tr>
-<tr><th>[\#14463](https://gitlab.haskell.org//ghc/ghc/issues/14463)</th>
-<td>Pattern synonym for appliation</td></tr>
-<tr><th>[\#14498](https://gitlab.haskell.org//ghc/ghc/issues/14498)</th>
-<td>GHC internal error: "not in scope during TC but it passed the renamer"</td></tr>
-<tr><th>[\#14507](https://gitlab.haskell.org//ghc/ghc/issues/14507)</th>
-<td>Core Lint error with Type.Reflection and pattern synonyms</td></tr>
-<tr><th>[\#14552](https://gitlab.haskell.org//ghc/ghc/issues/14552)</th>
-<td>GHC panic on pattern synonym</td></tr>
-<tr><th>[\#14747](https://gitlab.haskell.org//ghc/ghc/issues/14747)</th>
-<td>DisambiguateRecordFields fails for PatternSynonyms</td></tr>
-<tr><th>[\#14803](https://gitlab.haskell.org//ghc/ghc/issues/14803)</th>
-<td>Panic during desugaring I think</td></tr>
-<tr><th>[\#15289](https://gitlab.haskell.org//ghc/ghc/issues/15289)</th>
-<td>isUnliftedType GHC panic on pattern with True :: Maybe</td></tr>
-<tr><th>[\#15685](https://gitlab.haskell.org//ghc/ghc/issues/15685)</th>
-<td>Pattern signature not inferred</td></tr>
-<tr><th>[\#15692](https://gitlab.haskell.org//ghc/ghc/issues/15692)</th>
-<td>GHC panic from pattern synonyms + deferred type errors</td></tr>
-<tr><th>[\#15886](https://gitlab.haskell.org//ghc/ghc/issues/15886)</th>
-<td>Spurious warning about incomplete pattern with PatternSynonyms</td></tr>
-<tr><th>[\#16129](https://gitlab.haskell.org//ghc/ghc/issues/16129)</th>
-<td>Incorrect non-exhaustive pattern warning with PatternSynonyms</td></tr>
-<tr><th>[\#16281](https://gitlab.haskell.org//ghc/ghc/issues/16281)</th>
-<td>PatternSynonyms doesn't accept non-prenex quantified functions, doesn't float foralls</td></tr></table>
+There is a list of closed tickets at the bottom of the page.
 
 ## Motivating example
 
@@ -786,3 +551,243 @@ See [PatternSynonyms/RecordPatternSynonyms](pattern-synonyms/record-pattern-syno
 
 
 See [PatternSynonyms/AssociatingSynonyms](pattern-synonyms/associating-synonyms)
+
+## Closed Tickets
+
+
+Closed Tickets:
+
+<table><tr><th>[\#5144](https://gitlab.haskell.org//ghc/ghc/issues/5144)</th>
+<td>Pattern synonyms</td></tr>
+<tr><th>[\#8582](https://gitlab.haskell.org//ghc/ghc/issues/8582)</th>
+<td>Record syntax for pattern synonyms</td></tr>
+<tr><th>[\#8584](https://gitlab.haskell.org//ghc/ghc/issues/8584)</th>
+<td>Pattern synonym type signatures</td></tr>
+<tr><th>[\#8749](https://gitlab.haskell.org//ghc/ghc/issues/8749)</th>
+<td>Pattern synonyms crash GHCi</td></tr>
+<tr><th>[\#8761](https://gitlab.haskell.org//ghc/ghc/issues/8761)</th>
+<td>Make pattern synonyms work with Template Haskell</td></tr>
+<tr><th>[\#8779](https://gitlab.haskell.org//ghc/ghc/issues/8779)</th>
+<td>Exhaustiveness checks for pattern synonyms</td></tr>
+<tr><th>[\#8841](https://gitlab.haskell.org//ghc/ghc/issues/8841)</th>
+<td>PatternSynonyms error gives wrong source locations</td></tr>
+<tr><th>[\#8968](https://gitlab.haskell.org//ghc/ghc/issues/8968)</th>
+<td>Pattern synonyms and GADTs</td></tr>
+<tr><th>[\#9161](https://gitlab.haskell.org//ghc/ghc/issues/9161)</th>
+<td>Pattern synonyms interact badly with data kinds</td></tr>
+<tr><th>[\#9226](https://gitlab.haskell.org//ghc/ghc/issues/9226)</th>
+<td>Internal error when using equality constraint in pattern synonyms</td></tr>
+<tr><th>[\#9417](https://gitlab.haskell.org//ghc/ghc/issues/9417)</th>
+<td>Pattern synonyms across modules broken in Haddock</td></tr>
+<tr><th>[\#9514](https://gitlab.haskell.org//ghc/ghc/issues/9514)</th>
+<td>Haddock panics when exporting a module with pattern synonyms</td></tr>
+<tr><th>[\#9705](https://gitlab.haskell.org//ghc/ghc/issues/9705)</th>
+<td>Panic on a pattern synonym in a class</td></tr>
+<tr><th>[\#9732](https://gitlab.haskell.org//ghc/ghc/issues/9732)</th>
+<td>Pattern synonyms and unboxed values</td></tr>
+<tr><th>[\#9783](https://gitlab.haskell.org//ghc/ghc/issues/9783)</th>
+<td>Pattern synonym matcher is unnecessarily strict on unboxed continuations</td></tr>
+<tr><th>[\#9793](https://gitlab.haskell.org//ghc/ghc/issues/9793)</th>
+<td>Some as-patterns could be accepted in pattern synonyms</td></tr>
+<tr><th>[\#9803](https://gitlab.haskell.org//ghc/ghc/issues/9803)</th>
+<td>Poor error message for unbound variable in pattern synonym</td></tr>
+<tr><th>[\#9867](https://gitlab.haskell.org//ghc/ghc/issues/9867)</th>
+<td>PatternSynonyms + ScopedTypeVariables triggers an internal error</td></tr>
+<tr><th>[\#9889](https://gitlab.haskell.org//ghc/ghc/issues/9889)</th>
+<td>Pattern synonym does not work in top-level pattern bind</td></tr>
+<tr><th>[\#9891](https://gitlab.haskell.org//ghc/ghc/issues/9891)</th>
+<td>Fixity declarations for pattern synonyms not persisted</td></tr>
+<tr><th>[\#9900](https://gitlab.haskell.org//ghc/ghc/issues/9900)</th>
+<td>Support pattern synonyms in GHCi</td></tr>
+<tr><th>[\#9911](https://gitlab.haskell.org//ghc/ghc/issues/9911)</th>
+<td>Pattern synonyms with no signatures should yield warnings</td></tr>
+<tr><th>[\#9953](https://gitlab.haskell.org//ghc/ghc/issues/9953)</th>
+<td>Pattern synonyms don't work with GADTs</td></tr>
+<tr><th>[\#9954](https://gitlab.haskell.org//ghc/ghc/issues/9954)</th>
+<td>Required constraints are not inferred for pattern synonyms involving GADTs</td></tr>
+<tr><th>[\#9967](https://gitlab.haskell.org//ghc/ghc/issues/9967)</th>
+<td>Pattern synonym type signature documentation out of date</td></tr>
+<tr><th>[\#9975](https://gitlab.haskell.org//ghc/ghc/issues/9975)</th>
+<td>RecordWildcards and PatternSynonyms cause impossible bug</td></tr>
+<tr><th>[\#10339](https://gitlab.haskell.org//ghc/ghc/issues/10339)</th>
+<td>PatternSynonyms confuse exhaustiveness check</td></tr>
+<tr><th>[\#10404](https://gitlab.haskell.org//ghc/ghc/issues/10404)</th>
+<td>GHC panic when creating a monomorphised pattern synonym for GADT</td></tr>
+<tr><th>[\#10426](https://gitlab.haskell.org//ghc/ghc/issues/10426)</th>
+<td>matchGroupArity panic with PatternSynonyms</td></tr>
+<tr><th>[\#10653](https://gitlab.haskell.org//ghc/ghc/issues/10653)</th>
+<td>PatternSynonyms should be imported/exported as part of the wildcard notation</td></tr>
+<tr><th>[\#10747](https://gitlab.haskell.org//ghc/ghc/issues/10747)</th>
+<td>Infix pattern synonyms fail to parse (regression)</td></tr>
+<tr><th>[\#10873](https://gitlab.haskell.org//ghc/ghc/issues/10873)</th>
+<td>Bad error message for incorrect pattern synonym signature</td></tr>
+<tr><th>[\#10897](https://gitlab.haskell.org//ghc/ghc/issues/10897)</th>
+<td>Incorrect ASSERT for buildPatSyn</td></tr>
+<tr><th>[\#10997](https://gitlab.haskell.org//ghc/ghc/issues/10997)</th>
+<td>Pattern synonym causes Iface error.</td></tr>
+<tr><th>[\#11039](https://gitlab.haskell.org//ghc/ghc/issues/11039)</th>
+<td>Panic with incorrect pattern synonym signature</td></tr>
+<tr><th>[\#11213](https://gitlab.haskell.org//ghc/ghc/issues/11213)</th>
+<td>Incorrect reported pattern synonym signature</td></tr>
+<tr><th>[\#11224](https://gitlab.haskell.org//ghc/ghc/issues/11224)</th>
+<td>Program doesn't preserve semantics after pattern synonym inlining.</td></tr>
+<tr><th>[\#11225](https://gitlab.haskell.org//ghc/ghc/issues/11225)</th>
+<td>Unable to provide type signature for pattern synonym</td></tr>
+<tr><th>[\#11227](https://gitlab.haskell.org//ghc/ghc/issues/11227)</th>
+<td>Interaction between ORF and record pattern synonyms needs to be resolved.</td></tr>
+<tr><th>[\#11233](https://gitlab.haskell.org//ghc/ghc/issues/11233)</th>
+<td>Improve optimisation of pattern synonym matching</td></tr>
+<tr><th>[\#11283](https://gitlab.haskell.org//ghc/ghc/issues/11283)</th>
+<td>PatternSynonms and DisambiguateRecordFields causes panic</td></tr>
+<tr><th>[\#11336](https://gitlab.haskell.org//ghc/ghc/issues/11336)</th>
+<td>GHC craches on this combination of ViewPatterns and PatternSynonyms</td></tr>
+<tr><th>[\#11351](https://gitlab.haskell.org//ghc/ghc/issues/11351)</th>
+<td>Scoped type variables in pattern synonyms</td></tr>
+<tr><th>[\#11367](https://gitlab.haskell.org//ghc/ghc/issues/11367)</th>
+<td>\[Regression\] Only one clause allowed in (explicitly bidirectional) pattern synonyms</td></tr>
+<tr><th>[\#11524](https://gitlab.haskell.org//ghc/ghc/issues/11524)</th>
+<td>Something is amiss with quantification in pattern synonym type signatures</td></tr>
+<tr><th>[\#11633](https://gitlab.haskell.org//ghc/ghc/issues/11633)</th>
+<td>Record field order in a bidirectional pattern synonym match is order dependent</td></tr>
+<tr><th>[\#11667](https://gitlab.haskell.org//ghc/ghc/issues/11667)</th>
+<td>Incorrect pattern synonym types in error messages</td></tr>
+<tr><th>[\#11727](https://gitlab.haskell.org//ghc/ghc/issues/11727)</th>
+<td>Allow one type signature for multiple pattern synonyms</td></tr>
+<tr><th>[\#11728](https://gitlab.haskell.org//ghc/ghc/issues/11728)</th>
+<td>Core lint errors</td></tr>
+<tr><th>[\#11977](https://gitlab.haskell.org//ghc/ghc/issues/11977)</th>
+<td>ghc doesn't agree with its own inferred pattern type</td></tr>
+<tr><th>[\#11985](https://gitlab.haskell.org//ghc/ghc/issues/11985)</th>
+<td>Core lint error on record syntax update/pattern synonym</td></tr>
+<tr><th>[\#11986](https://gitlab.haskell.org//ghc/ghc/issues/11986)</th>
+<td>Record fields not defined with pattern synonym in ghci</td></tr>
+<tr><th>[\#11987](https://gitlab.haskell.org//ghc/ghc/issues/11987)</th>
+<td>Allow record wildcards with pattern synonyms which are defined in GHCi</td></tr>
+<tr><th>[\#12007](https://gitlab.haskell.org//ghc/ghc/issues/12007)</th>
+<td>Panic when loading file with nested pattern synonyms into ghci</td></tr>
+<tr><th>[\#12017](https://gitlab.haskell.org//ghc/ghc/issues/12017)</th>
+<td>GHC panics on pattern synonym ‘kindPrimRep’</td></tr>
+<tr><th>[\#12024](https://gitlab.haskell.org//ghc/ghc/issues/12024)</th>
+<td>GHC leaks GHC.Prim.\~\# into type</td></tr>
+<tr><th>[\#12025](https://gitlab.haskell.org//ghc/ghc/issues/12025)</th>
+<td>Order of constraints forced (in pattern synonyms, type classes in comments)</td></tr>
+<tr><th>[\#12061](https://gitlab.haskell.org//ghc/ghc/issues/12061)</th>
+<td>Allow duplicate record fields in pattern synonyms</td></tr>
+<tr><th>[\#12094](https://gitlab.haskell.org//ghc/ghc/issues/12094)</th>
+<td>Unlifted types and pattern synonym signatures</td></tr>
+<tr><th>[\#12101](https://gitlab.haskell.org//ghc/ghc/issues/12101)</th>
+<td>Regression: Pattern synonyms make GHCi 8.0.1 crash</td></tr>
+<tr><th>[\#12108](https://gitlab.haskell.org//ghc/ghc/issues/12108)</th>
+<td>Function type synonym fails in pattern synonym</td></tr>
+<tr><th>[\#12109](https://gitlab.haskell.org//ghc/ghc/issues/12109)</th>
+<td>Matching on pattern synonym succeeds compiled with ghc, fails with ghci</td></tr>
+<tr><th>[\#12153](https://gitlab.haskell.org//ghc/ghc/issues/12153)</th>
+<td>Bug in pattern synonyms with template haskell</td></tr>
+<tr><th>[\#12165](https://gitlab.haskell.org//ghc/ghc/issues/12165)</th>
+<td>Multiple pattern type signatures accepted</td></tr>
+<tr><th>[\#12166](https://gitlab.haskell.org//ghc/ghc/issues/12166)</th>
+<td>Pattern synonym existential variable confusion</td></tr>
+<tr><th>[\#12366](https://gitlab.haskell.org//ghc/ghc/issues/12366)</th>
+<td>Use TypeOperators for pattern synonyms?</td></tr>
+<tr><th>[\#12426](https://gitlab.haskell.org//ghc/ghc/issues/12426)</th>
+<td>Allow smart constructors their own types</td></tr>
+<tr><th>[\#12429](https://gitlab.haskell.org//ghc/ghc/issues/12429)</th>
+<td>Pattern synonym parse error should recommend enabling extension</td></tr>
+<tr><th>[\#12456](https://gitlab.haskell.org//ghc/ghc/issues/12456)</th>
+<td>Panics when making a quotation as pattern synonym</td></tr>
+<tr><th>[\#12489](https://gitlab.haskell.org//ghc/ghc/issues/12489)</th>
+<td>undefined in view pattern inside pattern synonym causes GHC to panic</td></tr>
+<tr><th>[\#12548](https://gitlab.haskell.org//ghc/ghc/issues/12548)</th>
+<td>Exported pattern synonyms does not mark top-level bindings in RHS as used</td></tr>
+<tr><th>[\#12615](https://gitlab.haskell.org//ghc/ghc/issues/12615)</th>
+<td>Record pattern synonyms cause spurious name shadowing warnings</td></tr>
+<tr><th>[\#12697](https://gitlab.haskell.org//ghc/ghc/issues/12697)</th>
+<td>Improve output of pattern synonym info</td></tr>
+<tr><th>[\#12698](https://gitlab.haskell.org//ghc/ghc/issues/12698)</th>
+<td>GHC panic on pattern synonym</td></tr>
+<tr><th>[\#12746](https://gitlab.haskell.org//ghc/ghc/issues/12746)</th>
+<td>Assertion failed with  BuildFlavour = devel2 (one more)</td></tr>
+<tr><th>[\#12767](https://gitlab.haskell.org//ghc/ghc/issues/12767)</th>
+<td>Pattern synonyms for Cont, Writer, Reader, State, ...</td></tr>
+<tr><th>[\#12872](https://gitlab.haskell.org//ghc/ghc/issues/12872)</th>
+<td>Pattern synonyms allow multiple type signatures but only use the first</td></tr>
+<tr><th>[\#13018](https://gitlab.haskell.org//ghc/ghc/issues/13018)</th>
+<td>TH-spliced pattern synonym declaration fails to typecheck</td></tr>
+<tr><th>[\#13022](https://gitlab.haskell.org//ghc/ghc/issues/13022)</th>
+<td>Pattern Synonyms using other synonyms causes ghc panic</td></tr>
+<tr><th>[\#13071](https://gitlab.haskell.org//ghc/ghc/issues/13071)</th>
+<td>GHCi 8.0.1 panic with PatternSynonyms</td></tr>
+<tr><th>[\#13158](https://gitlab.haskell.org//ghc/ghc/issues/13158)</th>
+<td>Pattern synonyms should use type annotation information when typechecking</td></tr>
+<tr><th>[\#13188](https://gitlab.haskell.org//ghc/ghc/issues/13188)</th>
+<td>COMPLETE pragma causes compilation to hang forever under certain scenarios</td></tr>
+<tr><th>[\#13349](https://gitlab.haskell.org//ghc/ghc/issues/13349)</th>
+<td>Make GHC handle orphan COMPLETE sets of conlikes better</td></tr>
+<tr><th>[\#13350](https://gitlab.haskell.org//ghc/ghc/issues/13350)</th>
+<td>COMPLETE sets aren't read from external packages</td></tr>
+<tr><th>[\#13394](https://gitlab.haskell.org//ghc/ghc/issues/13394)</th>
+<td>PatternSynonyms/OverloadedStrings regression in GHC HEAD</td></tr>
+<tr><th>[\#13441](https://gitlab.haskell.org//ghc/ghc/issues/13441)</th>
+<td>Type inference failure in bidirectional pattern synonym and GADT pattern match</td></tr>
+<tr><th>[\#13449](https://gitlab.haskell.org//ghc/ghc/issues/13449)</th>
+<td>Multiple pattern synonym declarations for one signature</td></tr>
+<tr><th>[\#13454](https://gitlab.haskell.org//ghc/ghc/issues/13454)</th>
+<td>Operators not allowed as fields in Record Pattern Synonyms</td></tr>
+<tr><th>[\#13470](https://gitlab.haskell.org//ghc/ghc/issues/13470)</th>
+<td>Pattern synonyms bind variables out of scope</td></tr>
+<tr><th>[\#13671](https://gitlab.haskell.org//ghc/ghc/issues/13671)</th>
+<td>Core lint error with PatternSynonyms and undefined</td></tr>
+<tr><th>[\#13672](https://gitlab.haskell.org//ghc/ghc/issues/13672)</th>
+<td>Pattern match on LHS of pattern synonym declaration</td></tr>
+<tr><th>[\#13688](https://gitlab.haskell.org//ghc/ghc/issues/13688)</th>
+<td>Allow splices in definition of pattern synonym</td></tr>
+<tr><th>[\#13735](https://gitlab.haskell.org//ghc/ghc/issues/13735)</th>
+<td>RankNTypes don't work with PatternSynonyms</td></tr>
+<tr><th>[\#13752](https://gitlab.haskell.org//ghc/ghc/issues/13752)</th>
+<td>Odd pattern synonym type errors</td></tr>
+<tr><th>[\#13768](https://gitlab.haskell.org//ghc/ghc/issues/13768)</th>
+<td>Incorrect warnings generated by exhaustiveness checker with pattern synonyms / GADT combination</td></tr>
+<tr><th>[\#13969](https://gitlab.haskell.org//ghc/ghc/issues/13969)</th>
+<td>Record pattern synonym incorrectly claims it's recursive, given unbound variable</td></tr>
+<tr><th>[\#14058](https://gitlab.haskell.org//ghc/ghc/issues/14058)</th>
+<td>Cannot bundle pattern synonym with exported data family</td></tr>
+<tr><th>[\#14112](https://gitlab.haskell.org//ghc/ghc/issues/14112)</th>
+<td>bang patterns on pattern synonyms? (left vs right hand sides)</td></tr>
+<tr><th>[\#14114](https://gitlab.haskell.org//ghc/ghc/issues/14114)</th>
+<td>Strange behavior when pattern variables are duplicated on pattern synonym RHS</td></tr>
+<tr><th>[\#14135](https://gitlab.haskell.org//ghc/ghc/issues/14135)</th>
+<td>PatternSynonyms regression in GHC HEAD (expectJust mkOneConFull)</td></tr>
+<tr><th>[\#14228](https://gitlab.haskell.org//ghc/ghc/issues/14228)</th>
+<td>PatternSynonyms Non-exhaustive with UnboxedSums</td></tr>
+<tr><th>[\#14241](https://gitlab.haskell.org//ghc/ghc/issues/14241)</th>
+<td>Pattern synonyms defined through other pattern synonyms produce \`impossible happened\` in ghci/runhaskell</td></tr>
+<tr><th>[\#14326](https://gitlab.haskell.org//ghc/ghc/issues/14326)</th>
+<td>Panic on COMPLETE pragma with mismatched type variable order</td></tr>
+<tr><th>[\#14394](https://gitlab.haskell.org//ghc/ghc/issues/14394)</th>
+<td>Inferred type for pattern synonym has redundant equality constraint</td></tr>
+<tr><th>[\#14395](https://gitlab.haskell.org//ghc/ghc/issues/14395)</th>
+<td>Redefining pattern synonym in GHCi triggers "‘p’ is untouchable" error</td></tr>
+<tr><th>[\#14463](https://gitlab.haskell.org//ghc/ghc/issues/14463)</th>
+<td>Pattern synonym for appliation</td></tr>
+<tr><th>[\#14498](https://gitlab.haskell.org//ghc/ghc/issues/14498)</th>
+<td>GHC internal error: "not in scope during TC but it passed the renamer"</td></tr>
+<tr><th>[\#14507](https://gitlab.haskell.org//ghc/ghc/issues/14507)</th>
+<td>Core Lint error with Type.Reflection and pattern synonyms</td></tr>
+<tr><th>[\#14552](https://gitlab.haskell.org//ghc/ghc/issues/14552)</th>
+<td>GHC panic on pattern synonym</td></tr>
+<tr><th>[\#14747](https://gitlab.haskell.org//ghc/ghc/issues/14747)</th>
+<td>DisambiguateRecordFields fails for PatternSynonyms</td></tr>
+<tr><th>[\#14803](https://gitlab.haskell.org//ghc/ghc/issues/14803)</th>
+<td>Panic during desugaring I think</td></tr>
+<tr><th>[\#15289](https://gitlab.haskell.org//ghc/ghc/issues/15289)</th>
+<td>isUnliftedType GHC panic on pattern with True :: Maybe</td></tr>
+<tr><th>[\#15685](https://gitlab.haskell.org//ghc/ghc/issues/15685)</th>
+<td>Pattern signature not inferred</td></tr>
+<tr><th>[\#15692](https://gitlab.haskell.org//ghc/ghc/issues/15692)</th>
+<td>GHC panic from pattern synonyms + deferred type errors</td></tr>
+<tr><th>[\#15886](https://gitlab.haskell.org//ghc/ghc/issues/15886)</th>
+<td>Spurious warning about incomplete pattern with PatternSynonyms</td></tr>
+<tr><th>[\#16129](https://gitlab.haskell.org//ghc/ghc/issues/16129)</th>
+<td>Incorrect non-exhaustive pattern warning with PatternSynonyms</td></tr>
+<tr><th>[\#16281](https://gitlab.haskell.org//ghc/ghc/issues/16281)</th>
+<td>PatternSynonyms doesn't accept non-prenex quantified functions, doesn't float foralls</td></tr></table>
