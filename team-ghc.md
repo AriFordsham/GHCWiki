@@ -292,7 +292,7 @@ In order to see emails below, **you must login**.
 
 - [ Tamar Christina](http://blog.zhox.com)
 
-  - N/A - Leiden, The Netherlands
+  - N/A - Cambridge, UK
   - **Trac**: Phyx-; **email**: tamar@…; **github**: [ https://github.com/Mistuke](https://github.com/Mistuke)
   - **Committer since**: October, 2015.
   - **Main areas of interest**: Windows maintenance
