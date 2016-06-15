@@ -72,7 +72,7 @@ that keeps `squares_closure` alive, and hence keeps alive the list that `squares
 
 Some implementation details
 
-- A CAFFY closure has a `CafInfo` of `MayHaveCafRefs`; definitely non-CAFFY closure has a `CafInfo` of `NoCafRefs`.
+- A CAFFY closure has a `CafInfo` of `MayHaveCafRefs`; a definitely non-CAFFY closure has a `CafInfo` of `NoCafRefs`.
 - See Note \[CAF management\] in [rts/sm/Storage.c](/trac/ghc/browser/ghc/rts/sm/Storage.c) for more information.
 
 ## Static Reference Tables
