@@ -38,7 +38,7 @@ We'll see why that is if we consider which platforms the various parts of the bu
  * '''Stage 2''': the final GHC built, compiled by the Stage 1 GHC, and linked with libs-install
 
 ||               ||'''Stage 0''' || '''libs boot''' || '''Stage 1''' || '''libs install''' || '''Stage 2''' ||
-||'''built on''' || ---          || ''build''       || ''build''     || ''build''          || ''build''     ||
+||'''built on''' || ---          || ''build''       || ''build''     || ''host''           || ''host''      ||
 ||'''runs on'''  ||''build''     || ''build''       || ''host''      || ''target''         || ''target''    ||
 ||'''targets'''  ||''build''     || ---             || ''target''    || ---                || ''target''    ||
 
