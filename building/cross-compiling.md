@@ -54,8 +54,8 @@ We'll see why that is if we consider which platforms the various parts of the bu
 <th> ---          </th>
 <th>*build*</th>
 <th>*build*</th>
-<th>*build*</th>
-<th>*build*</th></tr>
+<th>*host*</th>
+<th>*host*</th></tr>
 <tr><th>**runs on**</th>
 <th>*build*</th>
 <th>*build*</th>
