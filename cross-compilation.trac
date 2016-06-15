@@ -42,7 +42,7 @@ But that isn't terribly useful, because if ''host'' /= ''target'', then libs-ins
 An alternative way to set it up is:
 
 ||               ||'''Stage 0''' || '''libs boot''' || '''Stage 1''' || '''libs install''' || '''Stage 2''' ||
-||'''built on''' || ---          || ''build''       || ''build''     || ''build''          || ''build''     ||
+||'''built on''' || ---          || ''build''       || ''build''     || ''host''           || ''host''      ||
 ||'''runs on'''  ||''build''     || ''build''       || ''host''      || ''target''         || ''target''    ||
 ||'''targets'''  ||''build''     || ---             || ''target''    || ---                || ''target''    ||
 
