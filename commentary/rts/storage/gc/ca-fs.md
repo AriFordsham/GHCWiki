@@ -4,27 +4,76 @@
 Files: [rts/sm/GC.c](/trac/ghc/browser/ghc/rts/sm/GC.c), function scavange_srt in [rts/sm/Scav.h](/trac/ghc/browser/ghc/rts/sm/Scav.h)
 
 
-Constant Applicative Forms, or CAFs for short, are top-level values defined in a program.
-Essentially, they are objects that are not allocated dynamically at run-time but, instead,
-are part of the static data of the program.  Sometimes, a CAF may refer to many values in the heap.  To avoid memory leaks in such situations, we need to know when a CAF is never going to be used
-again, and so we can deallocate the values that it refers to.
-
----
+A **static closure** is a heap object that is allocated statically, once and for all, at compile time. It lives at a fixed address.
 
 
-(03 Jun 2016) SPJ's explanation of CAFs:
-
-1. A top-level thunk is a CAF and CAFFY.
-1. A top-level definition that has a reference to a CAFFY is a CAFFY.
-1. All CAFFY things are roots for GC.
+Example: `reverse_closure`, the static, top level closure object for the function `reverse`.  If you evaluate `map reverse xs`, then it's `reverse_closure` that is passed as the first argument to `map`.
 
 
-(The term "CAFFY" does not appear in code, just used to describe the property)
+Some static closures are thunks; we call these **CAFs**, or Constant Applicative Forms. Example
 
----
+```wiki
+squares :: [Int]
+squares = map square [1..]
+```
+
+## Why CAFs are awkward
 
 
-See Note \[CAF management\] in [rts/sm/Storage.c](/trac/ghc/browser/ghc/rts/sm/Storage.c) for more information.
+CAFs are awkward because:
+
+- A thunk must be updated so that, after its first use, all subsequent uses get the benefit.
+- The value to which the thunk is updated will be in the dynamic heap.  For example, when `map square [1..]` is evaluated, it'll allocate cons cells in the dynamic heap.
+- So the CAF constitutes a "root", pointing into the dynamic heap, *which the garbage collector must know about*.
+
+## What we do about it
+
+
+We could just say that *all* CAFs are roots; but then people complain about space leaks, when a big CAF (i.e. one pointing to a large data structure) is retained even when it can no longer be referred to.  So GHC goes to strenuous efforts to track when a CAF "can no longer be referred to".
+
+
+So here's what we do:
+
+- A static closure is **CAFFY** if a CAF can be reached from it
+- Every info-table has a **Static Reference Table** (SRT), which lists all the CAFFY closures that are directly mentioned by the code for the closure
+- When following the reachable pointers in a closure, the garbage collector includes the pointers in the closure's SRT
+
+
+We say that a static closure (whether a thunk or not) is CAFFY if
+
+- It is a CAF, or
+- One or more of its free variables is CAFFY
+
+
+For example
+
+```wiki
+foo = 1 : []
+bar = 2 : squares
+wob = 3 : bar
+```
+
+
+Here `foo` is not CAFFY, but `bar` is CAFFY because it has `squares` (a CAF) as a free variable. And likewise `wob` is CAFFY because it has `bar` as a free variable.
+
+
+Now, say that we have a nested let-binding
+
+```wiki
+f x = let g = \y -> x + y + head squares
+      in ...
+```
+
+
+The heap-allocated closure for `g` has a pointer to its free variable `x`.  But its info table also has an SRT,
+and that SRT points to `squares_closure`, becuase the latter is CAFFY.  So if the `g`-closure is alive,
+that keeps `squares_closure` alive, and hence keeps alive the list that `squares` has evaluated to.
+
+
+Some implementation details
+
+- A CAFFY closure has a `CafInfo` of `MayHaveCafRefs`; a definitely non-CAFFY closure has a `CafInfo` of `NoCafRefs`.
+- See Note \[CAF management\] in [rts/sm/Storage.c](/trac/ghc/browser/ghc/rts/sm/Storage.c) for more information.
 
 ## Static Reference Tables
 
