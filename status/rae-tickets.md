@@ -41,6 +41,7 @@
 - [\#10836](https://gitlab.haskell.org//ghc/ghc/issues/10836): Continue reporting errors between mut. rec. groups
 - [\#11113](https://gitlab.haskell.org//ghc/ghc/issues/11113): Semantics for type-level reduction
 - [\#11339](https://gitlab.haskell.org//ghc/ghc/issues/11339): Why do pattern bindings always infer types?
+- [\#11342](https://gitlab.haskell.org//ghc/ghc/issues/11342): The `Char` kind
 - [\#11715](https://gitlab.haskell.org//ghc/ghc/issues/11715): `Constraint` vs `*`
 
 **Hard**
