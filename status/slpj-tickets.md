@@ -139,6 +139,7 @@ Code-size blowup when using `deriving`; see tickets with keyword `deriving-perf`
 
 ## Type inference
 
+- [\#12201](https://gitlab.haskell.org//ghc/ghc/issues/12201): overlapping instances and instance declarations
 - [\#11515](https://gitlab.haskell.org//ghc/ghc/issues/11515): better computation for constraint holes
 - [\#10614](https://gitlab.haskell.org//ghc/ghc/issues/10614): display constraints for typed holes
 - [\#10179](https://gitlab.haskell.org//ghc/ghc/issues/10179): displaying kinds
