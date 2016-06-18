@@ -157,6 +157,12 @@ There are some ideas for how to do this in [Exceptions/StackTraces](exceptions/s
 
 - \[IDEA\]   Record stack traces with synchronous and asynchronous exceptions
 
+
+Also, currently we only provide debug information with the native code generator.
+Doing the same in the LLVM code generator shouldn't be so hard,
+
+- \[RFC\]    [ Phab:D2343](https://phabricator.haskell.org/D2343): Add debug information output to LLVM code generator
+
 ### Documentation
 
 
