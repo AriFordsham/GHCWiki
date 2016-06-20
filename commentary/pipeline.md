@@ -52,6 +52,17 @@ Here's an overview of the module structure of the top levels of GHC library.   (
             Parse Rename Typecheck Optimise CodeGen
 ```
 
+
+There are some important functions if you are tracing how things get from GHC to HscMain.
+
+- `compileOne` is the compilation entry point for `--make` mode (it's invoked by `upsweep_mod` in GhcMake).  It calls `hscIncrementalCompile`, and then fires up the `DriverPipeline` to finish up code generation.
+
+- `runPhase` is the compilation entry point for `-c` mode. It successfully processes files until we have an `Hsc` input file, at which point it calls `hscIncrementalCompile`. The rest of the pipeline is handled automatically by the driver.
+
+- `hscIncrementalCompile` is the primary entrypoint for `HscMain`.  It calls `hscIncrementalFrontend`, and if typechecking was necessary, it also runs the simplifier and desugarer, and writes out the interface file.
+
+- `hscIncrementalFrontend` is the recompilation checker: it checks if we actually need to compile the file in question; if so it calls `genericHscFrontend` to actually parse and typecheck. (Note that this does NOT do any backend stuff: that will be handled by `hscIncrementalCompile`.)
+
 # The driver pipeline
 
 
