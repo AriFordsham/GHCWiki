@@ -196,7 +196,23 @@ As we typecheck Haskell source code, we produce `TyCon`s and other type-checking
 Like before, `T` and `S` form a mutually recursive loop; the difference is this time it is done through an `hs-boot` file.  At the point in time when we typecheck `A.hs`, we would like the `TyCon`s for `T` and `S` to be mutually recursive.
 
 
-However, this leads to a very intruiging requirement: when we typecheck the interface for `B.hi`, we must tie the knot with the local type environment (while typechecking.) Thus, rather than a mutable variable for the interface, we need to refer to a mutable variable for the current type-checking session.  This variable is `tcg_type_env_var` in `TcGblEnv`. It is updated at various points during the typechecking session, including when we setup the type environment in `tcTyClDecls` (`tcExtendRecEnv` does the dirty work.)
+However, this leads to a very intriguing requirement: when we typecheck the interface for `B.hi`, we must tie the knot with the local type environment (while typechecking.) Thus, rather than a mutable variable for the interface, we need to refer to a mutable variable for the current type-checking session.  This variable is `tcg_type_env_var` in `TcGblEnv`. It is updated at various points during the typechecking session, including when we setup the type environment in `tcTyClDecls` (`tcExtendRecEnv` does the dirty work.)
 
 
 This leads to another complication with `ghc --make`: just how we must retypecheck the interface files after we finish typechecking a module loop, we must also retypecheck the interface files BEFORE we start typechecking, so that the knot-tying can take place. (Actually, hypothetically you could remove the later retypecheck, but we need it so that we can get up-to-date unfoldings, which aren't computed until after we run the optimizer, which is after all the thunks have been forced.)
+
+## All of the bits and bobs
+
+
+GHC's present knot-tying story is a bit hard to understand.  It consists of at least the folowing components (if this seems like a random jumble, it's because it is!):
+
+- `if_rec_types :: Maybe (Module, IfG TypeEnv)` in `IfGblEnv`.  This field affects how typechecking interfaces works. Operationally, when this variable is `Just (mod, get_tyenv)`,  any `Name` from `mod` is typechecked by looking it up in a mutable variable that is accessible via `get_tyenv`.  The source of this mutable variable depends on how the interface monad is run (`initIfaceCheck`, `initIfaceTcRn`, `initIfaceTc`).
+- `initIfaceCheck :: HscEnv -> IfG a -> IO a`.  This initializes the interface monad with "no useful info at all."  According to its name, this is only supposed to be used when we are checking if an old interface is up-to-date.  It fills `if_rec_types` depending on if `hsc_type_env_var` is set.  In practice, there are a few uses:
+
+  - `checkOldIface`: We are in the recompilation manager and are trying to decide if an interface is up-to-date.  Lives in `IfG` because we invoke `loadInterface` to get the hashes which we are going to compare against.
+  - `genModDetails`: We got an up-to-date interface (from `checkOldIface!`) and now we want to typecheck it into a `ModDetails` so it can be put in the HPT in make mode.  (The HomeModInfo is ignored in one-shot mode.)
+  - `typecheckLoop`: In make mode, we finished typechecking an `hs` file which completes a loop: now we need to retypecheck the loop of interfaces so that the HPT properly points to the  right place
+  - A few miscellaneous calls `getLinkDeps` and `abiHash` which just want to get the `ModIface` via `loadInterface`.
+- `initIfaceTcRn :: IfG a -> TcRn a`.  This initializes the interface monad while typechecking.  In this case, `if_rec_types` is filled using `tcg_type_env_var`, which is updated in the course of typechecking.  This is the preferred way to load things into the EPS because it will knot-tie correctly with the ongoing typechecking computation.
+- `tcg_type_env_var` in `TcGblEnv`, which is used to initialize `if_rec_types` when you call `initIfaceTcRn`.  It is updated as we typecheck declarations.  It itself is initialized by `hsc_type_env_var` (in the case of one-shot mode; in make mode any recursive references must be in the HPT already), or just a fresh variable otherwise.
+- `hsc_type_env_var` in `HscEnv`, which is used to initialize `tcg_type_env_var` in `initTcRn` and `if_rec_types` in `initIfaceCheck`.  It is set in exactly one place, `hscIncrementalCompile`.  We need to setup the type variable here because `checkOldIface` can load up home modules (this is not the case for make mode; those interfaces are already in the HPT), and we need the "right" type variable to already be fed in when we construct the thunks.
