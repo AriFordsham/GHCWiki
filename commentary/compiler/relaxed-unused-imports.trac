@@ -1,5 +1,7 @@
 = Relaxed unused imports =
 
+See also #10117.
+
 [wiki:Commentary/Compiler/UnusedImports Unused imports] describes how the current unused imports warning works.  An import is unused if it can be deleted without changing the meaning of the program; currently, GHC strives to report all such imports (although it doesn't guarantee that it will do so).
 
 In this proposal, we identify some unused imports for which we should NOT report a warning.  The underlying motivation is that, assuming a module M compiles without unused import warnings, if one of the modules it imports adds an extra export, then M should continue to compile without warnings.  (This is equivalent to stating that a minor version upgrade under the Haskell PVP should not trigger new warnings.)

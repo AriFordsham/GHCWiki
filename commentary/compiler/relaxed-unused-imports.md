@@ -1,5 +1,8 @@
 # Relaxed unused imports
 
+
+See also [\#10117](https://gitlab.haskell.org//ghc/ghc/issues/10117).
+
 [Unused imports](commentary/compiler/unused-imports) describes how the current unused imports warning works.  An import is unused if it can be deleted without changing the meaning of the program; currently, GHC strives to report all such imports (although it doesn't guarantee that it will do so).
 
 
