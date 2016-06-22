@@ -32,6 +32,8 @@ There are several reasons for wanting to do this:
 
 - The virtual CWD in `InteractiveEval` is not necessary, because the GHCi process has its own CWD.
 
+- We could use TH and limited GHCi without any dynamic linker support at all. ([\#12218](https://gitlab.haskell.org//ghc/ghc/issues/12218))
+
 ## Disadvantages
 
 - We can't directly share data between interpreted and compiled code, everything must be marshaled via `Binary`.
