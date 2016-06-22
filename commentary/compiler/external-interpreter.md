@@ -45,6 +45,20 @@ All communication is done using messages serialized using the `binary` package. 
 
 There are multiple versions of `iserv`: plain `iserv`, `iserv_p`, and `iserv_dyn`.  The latter two are compiled with `-prof` and `-dynamic` respectively.  One big advantage of `-fexternal-interpreter` is that we can run interpreted code in `-prof` mode without GHC itself being compiled with `-prof`; in order to do that, we invoke `iserv_p` rather than `iserv`.
 
+### What runs where?
+
+
+In the GHC process:
+
+- The compiler: everything from `.hs` to byte code and object code.
+- When we're running TH code, the methods of the `Quasi` class, like `qReify`, run in the GHC process.  The results are sent back to the TH computation running in the `iserv` process.
+
+
+In the `iserv` process:
+
+- Byte code is executed here, including compiled TH code (the contents of splices)
+- External packages and object code are linked into this process, so that the compiled byte code can call functions from packages and other modules.
+
 ### How does byte code execution work?
 
 
