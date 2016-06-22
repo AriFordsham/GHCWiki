@@ -1,7 +1,10 @@
 # The External Interpreter
 
 
-When the flag `-fexternal-interpreter` is used, GHC runs interpreted code in a separate process.  For the rationale, see [RemoteGHCi](remote-gh-ci).
+When the flag `-fexternal-interpreter` is used, GHC runs interpreted code in a separate process.  
+
+
+For the background and rationale, see [RemoteGHCi](remote-gh-ci).
 
 ## Where the code for `-fexternal-interpreter` lives
 
