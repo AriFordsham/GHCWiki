@@ -74,3 +74,6 @@ This is a bit more tricky, because the communication is two way: we send the TH 
 
 
 The set of operations that TH code can perform is defined by the `Quasi` class in [ Language.Haskell.TH.Syntax](https://phabricator.haskell.org/diffusion/GHC/browse/master/libraries/template-haskell/Language/Haskell/TH/Syntax.hs).  Under `-fexternal-interpreter`, each of these operations results in a message sent back from `iserv` to GHC, and a response to the message sent from GHC back to `iserv`.  The `iserv` side of this communication is in [ GHCi.TH](https://phabricator.haskell.org/diffusion/GHC/browse/master/libraries/ghci/GHCi/TH.hs), and the GHC side is in `runRemoteTH` in [ TcSplice.hs](https://phabricator.haskell.org/diffusion/GHC/browse/master/compiler%2Ftypecheck%2FTcSplice.hs).
+
+
+For more details, see `Note [Remote Template Haskell]` in [ \| libraries/ghci/GHCi/TH.hs](https://phabricator.haskell.org/diffusion/GHC/browse/master/libraries%2Fghci%2FGHCi%2FTH.hs)
