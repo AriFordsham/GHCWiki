@@ -252,12 +252,15 @@ take a look in [[GhcFile(mk/config.mk.in)]].
   done while you are making changes to ghc's sources, but for certain types
   of changes it means the build will fail. 
 
- `BUILD_DOCBOOK_HTML`::
- `BUILD_DOCBOOK_PS`::
- `BUILD_DOCBOOK_PDF`::
+ `HADDOCK_DOCS`::
+  (default: `YES`)[[br]]
+  Build `haddock` and run it on the compiler and libraries source?
+
+ `BUILD_SPHINX_HTML`::
+ `BUILD_SPHINX_PDF`::
   (default: `YES` if supported, `NO` otherwise)[[br]]
-  When set to `YES`, these build the docbook documentation (e.g. the
-  users guide) as HTML, PS and PDF respectively.
+  When set to `YES`, these build the sphinx documentation (e.g. the
+  users guide) as HTML and PDF respectively.
 
  `INTEGER_LIBRARY`::
   By default this is set to `integer-gmp`, which means Integer is implemented
