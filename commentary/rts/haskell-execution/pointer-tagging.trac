@@ -2,7 +2,7 @@
 
 = Pointer Tagging =
 
-Paper: [http://research.microsoft.com/pubs/67969/ptr-tagging.pdf Faster laziness using dynamic pointer tagging]
+Paper: [http://research.microsoft.com/en-us/um/people/simonpj/papers/ptr-tag/ptr-tagging.pdf Faster laziness using dynamic pointer tagging]
 
 In GHC we "tag" pointers to heap objects with information about the object they point to.  The tag goes in the low 2 bits (3 bits on a 64-bit platform) of the pointer, which would normally be zero since heap objects are always [wiki:Commentary/Rts/Word word]-aligned.
 
