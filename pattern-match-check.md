@@ -202,7 +202,6 @@ Tickets should include `PatternMatchWarnings` in their Keywords to appear in the
 - [\#5728](https://gitlab.haskell.org//ghc/ghc/issues/5728)
 - [\#5762](https://gitlab.haskell.org//ghc/ghc/issues/5762)
 - [\#6124](https://gitlab.haskell.org//ghc/ghc/issues/6124)
-- [\#7669](https://gitlab.haskell.org//ghc/ghc/issues/7669)
 - [\#8016](https://gitlab.haskell.org//ghc/ghc/issues/8016)
 - [\#8494](https://gitlab.haskell.org//ghc/ghc/issues/8494)
 - [\#8779](https://gitlab.haskell.org//ghc/ghc/issues/8779)
@@ -212,7 +211,6 @@ Tickets should include `PatternMatchWarnings` in their Keywords to appear in the
 - [\#9951](https://gitlab.haskell.org//ghc/ghc/issues/9951)
 - [\#10116](https://gitlab.haskell.org//ghc/ghc/issues/10116)
 - [\#10600](https://gitlab.haskell.org//ghc/ghc/issues/10600)
-- [\#10746](https://gitlab.haskell.org//ghc/ghc/issues/10746)
 
 # The main problem we wish to solve
 
