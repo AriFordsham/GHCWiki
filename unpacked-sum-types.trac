@@ -4,6 +4,9 @@ This page explains the motivation and implementation of unpacking for sum types.
 
 See also [wiki:UnliftedDataTypes]
 
+== Current status ==
+
+We're actively working on this. See https://phabricator.haskell.org/D2259.
 == Motivation ==
 
 GHC does a good job of unpacking product types. Given a declaration like
