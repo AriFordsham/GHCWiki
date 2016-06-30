@@ -132,6 +132,7 @@ horseracing
 (?i)ms office
 (?i)customer support number
 (?i)customer service number
+(?i)customer care number
 (?i)tollfree
 (?i)toll-free
 (?i)toll free
