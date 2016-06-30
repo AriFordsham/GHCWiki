@@ -139,4 +139,5 @@ horseracing
 (?i)tech support
 Technical support
 (?i)s\.u\.p\.p\.o\.r\.t
+(?i)p.h.o.n.e
 ```
