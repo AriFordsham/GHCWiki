@@ -186,3 +186,5 @@ At this moment we don't need it, but judging by the comments on #4012 some peopl
 https://mail.haskell.org/pipermail/ghc-devs/2015-September/009964.html
 
 #4012
+
+#12262 - for bit-for-bit determinism
