@@ -13,11 +13,12 @@ can extend it, modify it, and use it to build your code.
 
 - [Setting up your system for building GHC (including platform specific instructions)](building/preparation)
 - [Getting the sources](building/getting-the-sources)
-- [Newcomers page, for aspiring GHC developers](newcomers)
+- [Quick Start: just build GHC](building/quick-start)
+- Newcomers should also go to [Newcomers](newcomers).
 
 **More detailed information about using the build system**
 
-- [Comprehensive overview of using the build system](building/using)
+- [Using the build system](building/using)
 - [Standard targets](building/standard-targets)
 - [Making GHC's source code searchable with Hoogle](building/hoogle)
 - [Building the documentation](building/docs)
