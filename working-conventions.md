@@ -15,6 +15,8 @@ GHC is a BSD-licensed open-source project, and we welcome your help in making it
 
 - **Releases and branches**: Our conventions for making releases and how the branches are managed: [Releases](working-conventions/releases)
 
+- **Useful tools**: [Various tools](working-conventions/useful-tools) which exist to make working on GHC more pleasant.
+
 - **Using the Bug Tracker**: see [Using the Bug Tracker](working-conventions/bug-tracker)
 
 - **Coding style**: When you are editing GHC's source code, please follow our coding guidelines:
