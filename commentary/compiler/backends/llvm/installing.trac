@@ -9,7 +9,7 @@ For instructions on building GHC go [http://hackage.haskell.org/trac/ghc/wiki/Bu
 == LLVM Support ==
 
 || ||= '''HEAD''' =||= '''8.0''' =||= '''7.10''' =||= '''7.8''' =||= '''7.6''' =||= '''7.4''' =||= '''7.2''' =||= '''7.0''' =||
-||= LLVM version =||||= 3.7 =||= 3.5 (3.5.2 on ARM (#9920) =||= ?? =||= ?? =||= ?? =||= 2.9 =||= 2.7 =||
+||= LLVM version =||= 3.8 =||= 3.7 =||= 3.5 (3.5.2 on ARM (#9920) =||= ?? =||= ?? =||= ?? =||= 2.9 =||= 2.7 =||
 
 The above table lists the versions of the LLVM tools that are known to work with various GHC versions. These are not hard requirements in the sense that GHC will not immediately error if you use a different LLVM version than what is listed, but it is highly likely that using a different LLVM version can cause problems.
 
