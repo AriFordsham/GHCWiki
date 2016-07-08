@@ -159,6 +159,7 @@ On the mailing list I see roughly 13 people in favor of the proposal and 12 peop
 * This would make do blocks consistent with record creation, where parentheses are skipped, allowing things such as return R { x = y}
 * This does not change the meaning of any old programs, only allows new ones that were previously forbidden.
 * This gets rid of the need for a specially-typed $ allowing runSt $ do ... 
+* It allows unparenthesized non-trivial application arguments not only as the last argument (using `$`), but for all arguments, in separate lines, when headed by `do` or another group A construct.
 
 == Cons ==
 
