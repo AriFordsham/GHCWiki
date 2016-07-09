@@ -78,7 +78,7 @@ But this might install some packages you do not use in your system (e.g. java, d
 (`ncurses-dev` is needed by the `terminfo` package, and `g++` is needed by a couple of tests, `ghcilink003` and `ghcilink006`).
 
 
-To install llvm-3.7, as required by GHC \> 7.10, see [ http://llvm.org/apt](http://llvm.org/apt).
+Optional: install llvm from [ http://apt.llvm.org](http://apt.llvm.org) (only necessary to make the `-fllvm` flag work). [Commentary/Compiler/Backends/LLVM/Installing](commentary/compiler/backends/llvm/installing#llvm-support) will tell you which version to install.
 
 
 Due to the nature of Debian, you may have difficulty building GHC \>7.6 due to version incompatibilities with the Happy and Alex packages.  To alleviate this issue simply install both packages using the haskell-platform provided cabal.
