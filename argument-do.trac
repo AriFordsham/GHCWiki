@@ -135,9 +135,6 @@ would just mean
 Possible modifications to the proposal include:
 
 * Only allow `do` in argument positions, but no other constructs. This has an advantage of making a minimal change to the grammar, while addressing the most common case.
-* Only allow **group A** constructs in argument positions. This has an advantage of not making the grammar more complex.
-* Add `{-# SCC #-}` and `{-# CORE #-}` constructs to **group B**. This is arguably a more uniform treatment, but it has a problem that an insertion of a pragma can change the parse tree. For example, `f a {-# SCC "foo" #-} b c` would parse as `f a ({-# SCC "foo #-} (b c))`
-= Discussion =
 
 This proposal has been extensively discussed on [https://mail.haskell.org/pipermail/haskell-cafe/2015-September/121217.html haskell-cafe] and on [https://www.reddit.com/r/haskell/comments/447bnw/does_argument_do_have_a_future/ reddit].
 
