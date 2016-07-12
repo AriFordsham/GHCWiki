@@ -50,10 +50,12 @@ lexp 	→ 	\ apat1 … apatn -> exp 	    (lambda abstraction, n ≥ 1)
 
 fexp 	→ 	[fexp] aexp 	    (function application)
  
-aexp 	→ 	qvar 	    (variable)
-	| 	gcon 	    (general constructor)
+aexp 	→ 	qvar 	                    (variable)
+	| 	gcon 	                    (general constructor)
 	| 	literal
-	| 	( exp ) 	    (parenthesized expression) 
+	| 	( exp ) 	            (parenthesized expression) 
+        |       qcon { fbind1 .. fbindn }   (labeled construction)
+        |       aexp { fbind1 .. fbindn }   (labelled update)
         ...
 ```
 
@@ -68,16 +70,19 @@ lexp 	→	fexp
 
 fexp 	→ 	[fexp] aexp 	    (function application)
  
-aexp 	→ 	qvar 	    (variable)
-	| 	gcon 	    (general constructor)
+aexp 	→ 	qvar 	                    (variable)
+	| 	gcon 	                    (general constructor)
 	| 	literal
-	| 	( exp ) 	    (parenthesized expression)
+	| 	( exp ) 	            (parenthesized expression) 
+        |       qcon { fbind1 .. fbindn }   (labeled construction)
+        |       aexp { fbind1 .. fbindn }   (labelled update)
         -- Here are the moved rules
         | 	\ apat1 … apatn -> exp 	    (lambda abstraction, n ≥ 1)
 	| 	let decls in exp 	    (let expression)
-	| 	if exp [;] then exp [;] else exp 	    (conditional)
+	| 	if exp [;] then exp [;]
+                           else exp 	    (conditional)
 	| 	case exp of { alts } 	    (case expression)
-	| 	do { stmts } 	    (do expression)
+	| 	do { stmts } 	            (do expression)
         ...
 ```
 
