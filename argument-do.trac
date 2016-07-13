@@ -78,7 +78,7 @@ aexp  →  qvar                              (variable)
 
 Now the `lexp` nonterminal is redundant and can be dropped from the grammar.
 
-Note that this change introduces some new ambiguities to the grammar, which will be resolved using an existing meta-rule: 
+Note that this change relies on an existing meta-rule to resolve ambiguities:
 
 > The grammar is ambiguous regarding the extent of lambda abstractions, let expressions, and conditionals. The ambiguity is resolved by the meta-rule that each of these constructs extends as far to the right as possible.
 
