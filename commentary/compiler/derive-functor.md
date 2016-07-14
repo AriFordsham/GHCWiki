@@ -18,8 +18,8 @@ instanceFunctorExamplewhere
 
 instanceFoldableExamplewhere
     foldr f z (Ex a1 a2 a3 a4)= f a1 (foldr f z a3)
-    foldMap f (Ex a1 a2 a3 a4)= mappend (f a1)(mappend mempty (mappend (foldMap f a3) mempty))instanceTraversableExamplewhere
-    traverse f (Ex a1 a2 a3 a4)=Ex<$>(f a)<*> pure a2 <*> traverse f a3 <*> pure a4
+    foldMap f (Ex a1 a2 a3 a4)= mappend (f a1)(foldMap f a3)instanceTraversableExamplewhere
+    traverse f (Ex a1 a2 a3 a4)= fmap (\b1 b3 ->Ex b1 a2 b3 a4)(f a1)<*> traverse f a3
 ```
 
 ## Algorithm description
