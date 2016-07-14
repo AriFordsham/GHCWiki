@@ -141,7 +141,7 @@ The important components of a Capability are:
 
  * A queue of runnable Haskell threads (the ''run queue'').
 
- * A list of Haskell thrads currently making safe foreign calls.
+ * A list of Haskell threads currently making safe foreign calls.
 
  * A list of worker OS threads.
 
