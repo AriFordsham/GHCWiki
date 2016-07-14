@@ -563,15 +563,10 @@ This algorithm isn't terribly different from the one above for generating an `fm
 
 There's one part of the `bifoldMap` algorithm that deserves futher discussion: the overlapping cases for `T c1 c1 c3`. Whenever an argument to a constructor has a type  where each of the last two type variables mention `a` or `b`, we opt to generate `bifoldMap` instead of `foldMap`. We *could* go the other way, though. For instance, the following is a valid implementation of `Bifoldable` for `newtype T a b = T (Either a b)`:
 
-
-{{{!\#hs
-instance Bifoldable T where
-
->
-> bifoldMap _ g (T e) = foldMap g e
-
-
-}}}
+```
+instanceBifoldableTwhere
+  bifoldMap _ g (T e)= foldMap g e
+```
 
 
 But this is unsatisfying for a couple of reasons, though. One obvious issue is that this definition blatantly ignores the first argument to `bifoldMap`, preventing users from folding over the `a` type parameter. Another problem is that doing this would be inconsistent with how `bimap` and `bitraverse` are generated. Unlike with `bifoldMap`, parametricity forces there to be one definition for `bimap` and `bitraverse` (see [ https://ghc.haskell.org/trac/ghc/wiki/Commentary/Compiler/DeriveFunctor\#RelaxeduniversalitycheckforDeriveFoldable](https://ghc.haskell.org/trac/ghc/wiki/Commentary/Compiler/DeriveFunctor#RelaxeduniversalitycheckforDeriveFoldable) for more info):
