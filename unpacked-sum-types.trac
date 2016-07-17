@@ -54,7 +54,7 @@ data (||) a b c = (_||) a
                 | (|_|) b
                 | (||_) c
 }}}
-  and similarly for unboxed sums.  The `_` indicates with disjunct of the sum we mean.
+  and similarly for unboxed sums.  The `_` indicates which disjunct of the sum we mean.
 
 * You use the type constructor in a distfix way, not just prefix, like so:
 {{{
@@ -71,7 +71,7 @@ data (||) a b c = (_||) a
 * You can use the data constructors both in terms (to construct) and in patterns (to decompose).  For patterns, illustrating both prefix and distfix forms:
 {{{
 case x of
-    (#| x ||#) -> ...   -- Distrix
+    (#| x ||#) -> ...   -- Distfix
     (#_|||#) y -> ...   -- Prefix
     ...two more disjuncts needed to be exhaustive
 }}}
@@ -84,7 +84,7 @@ case x of
     * `(# (# Int,Bool #) | Char# #)`
     * `(# (# Int# | Char # #) | Int #)`
 
-`All` of these rules follow the same pattern as the rules for boxed/unboxed tuples.
+All of these rules follow the same pattern as the rules for boxed/unboxed tuples.
 
 
 === Design questions ===

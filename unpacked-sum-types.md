@@ -72,7 +72,7 @@ We add new built-in types for anonymous sums, and for anonymous unboxed sums.  T
                   | (||_) c
   ```
 
-  and similarly for unboxed sums.  The `_` indicates with disjunct of the sum we mean.
+  and similarly for unboxed sums.  The `_` indicates which disjunct of the sum we mean.
 
 - You use the type constructor in a distfix way, not just prefix, like so:
 
@@ -93,7 +93,7 @@ We add new built-in types for anonymous sums, and for anonymous unboxed sums.  T
 
   ```wiki
   case x of
-      (#| x ||#) -> ...   -- Distrix
+      (#| x ||#) -> ...   -- Distfix
       (#_|||#) y -> ...   -- Prefix
       ...two more disjuncts needed to be exhaustive
   ```
@@ -108,7 +108,8 @@ We add new built-in types for anonymous sums, and for anonymous unboxed sums.  T
     - `(# (# Int,Bool #) | Char# #)`
     - `(# (# Int# | Char # #) | Int #)`
 
-`All` of these rules follow the same pattern as the rules for boxed/unboxed tuples.
+
+All of these rules follow the same pattern as the rules for boxed/unboxed tuples.
 
 ### Design questions
 
