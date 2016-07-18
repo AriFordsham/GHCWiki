@@ -4,6 +4,20 @@ The !NoFib benchmark suite is a collection of (mostly old) Haskell programs that
 
 Trac #5793 is about improving !NoFib.
 
+== Prerequisites ==
+
+Running NoFib requires the `time` utility to be present on the system path. On Ubuntu:
+
+{{{
+  $ apt-get install time
+}}}
+
+To get a local copy of NoFib:
+
+{{{
+  $ git clone http://git.haskell.org/nofib.git
+}}}
+
 == Benchmarking ==
 
 Firstly, the `nofib-analyse` program requires the `html` and `regex-compat` cabal packages be installed:

@@ -6,6 +6,22 @@ The NoFib benchmark suite is a collection of (mostly old) Haskell programs that 
 
 Trac [\#5793](https://gitlab.haskell.org//ghc/ghc/issues/5793) is about improving NoFib.
 
+## Prerequisites
+
+
+Running NoFib requires the `time` utility to be present on the system path. On Ubuntu:
+
+```wiki
+  $ apt-get install time
+```
+
+
+To get a local copy of NoFib:
+
+```wiki
+  $ git clone http://git.haskell.org/nofib.git
+```
+
 ## Benchmarking
 
 
