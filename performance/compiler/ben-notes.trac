@@ -1,0 +1,7 @@
+= Ben's notes on compiler performance =
+
+== Callstack solver and local lets ==
+
+3ec8288a18d57fb856e257905897daae237a1d5d (Rework the Implicit CallStack solver to handle local lets) decreased compiler allocations on a good fraction of tests.
+Later 7407a66d5bd29aa011f5a4228c6e2b2f7f8ad3f8 (Don't infer CallStacks) undid many of these gains. Why?
+See, for instance, `anna/Dependency`, where the former decreases allocations by 38%, and the latter increases them by 25%, with a corresponding ~5% increase in compile time.
