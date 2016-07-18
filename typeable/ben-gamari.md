@@ -19,6 +19,11 @@ There are a number of tasks outstanding. These involve only Ben,
 - Evaluate whether we want to try harder to preserve the re-exports that have been dropped from `Data.Dynamic`.
 - Some of the new naming choices should be revisited (e.g. `TRFun`)
 - Typeable fingerprints need to be made more robust ([\#7897](https://gitlab.haskell.org//ghc/ghc/issues/7897))
+- When, if at all, should the `Show` instance produce kind signatures?
+
+  - Should `show (typeRep @Int)` produce `Int` or `Int :: *`?
+  - Should `show (typeRep @(Proxy Int#)` produce `Proxy` or `Proxy :: *`?
+  - Should `show (typeRep @(Proxy :: # -> *)` produce `Proxy` or `Proxy :: # -> *`?
 - Performance:
 
   - Carefully check `Data.Typeable` for deviations from the previous interface and fill in gaps where possible
