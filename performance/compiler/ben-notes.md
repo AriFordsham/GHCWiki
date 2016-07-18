@@ -25,4 +25,4 @@ There are a few examples where adding instances to `base` modules increases comp
 ## Tuple constraint size
 
 
-Rather significant regression due to [dd3080fe0263082f65bf2570f49189c277b12e28](/trac/ghc/changeset/dd3080fe0263082f65bf2570f49189c277b12e28/ghc). See [\#12357](https://gitlab.haskell.org//ghc/ghc/issues/12357).
+Rather significant regression due to [dd3080fe0263082f65bf2570f49189c277b12e28](/trac/ghc/changeset/dd3080fe0263082f65bf2570f49189c277b12e28/ghc). Ended up being due to a redundant lookup in the original name cache. See [\#12357](https://gitlab.haskell.org//ghc/ghc/issues/12357).
