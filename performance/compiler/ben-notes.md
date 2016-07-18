@@ -9,7 +9,7 @@ See, for instance, `anna/Dependency`, where the former decreases allocations by 
 ## nokinds
 
 
-See [\#11196](https://gitlab.haskell.org//ghc/ghc/issues/11196). Unfortunately, the commit of nokinds merge (67465497/ghc) had a few issues rendering it untestable. This means that the regressions are attributed to an unrelated commit ([b5d5d83122c93c2a25839127edfd6b2df7ed6928](/trac/ghc/changeset/b5d5d83122c93c2a25839127edfd6b2df7ed6928/ghc),         Revert .gitmodules changes from 6746549772c5).
+See [\#11196](https://gitlab.haskell.org//ghc/ghc/issues/11196). Unfortunately, the commit of nokinds merge (67465497/ghc) had a few issues rendering it untestable. This means that the regressions are attributed to an unrelated commit ([b5d5d83122c93c2a25839127edfd6b2df7ed6928](/trac/ghc/changeset/b5d5d83122c93c2a25839127edfd6b2df7ed6928/ghc), Revert .gitmodules changes from 6746549772c5).
 
 
 Along with introducing runtime-rep polymorphism, the `nokinds` merge  eliminated the `FunTy` constructor in favor of a (likely) larger representation. This was undone by SPJ in [77bb09270c70455bbd547470c4e995707d19f37d](/trac/ghc/changeset/77bb09270c70455bbd547470c4e995707d19f37d/ghc). This commit was sadly untestable but allocations didn't change terribly much between the two surrounding commits ([e368f3265b80aeb337fbac3f6a70ee54ab14edfd](/trac/ghc/changeset/e368f3265b80aeb337fbac3f6a70ee54ab14edfd/ghc) and [e33ca0e54f3c20a8b233a3f7b38e4968a4955300](/trac/ghc/changeset/e33ca0e54f3c20a8b233a3f7b38e4968a4955300/ghc)).
