@@ -22,6 +22,9 @@ There are a few examples where adding instances to `base` modules increases comp
 - [673efccb3b348e9daf23d9e65460691bbea8586e](/trac/ghc/changeset/673efccb3b348e9daf23d9e65460691bbea8586e/ghc) (Add more type class instances for GHC.Generics): See [\#12367](https://gitlab.haskell.org//ghc/ghc/issues/12367)
 - [4e6bcc2c8134f9c1ba7d715b3206130f23c529fb](/trac/ghc/changeset/4e6bcc2c8134f9c1ba7d715b3206130f23c529fb/ghc) (Add various instances to newtypes in Data.Monoid)
 
+
+I suspect these will both be addressed by ed480981/ghc, which fixes a bug in instance resolution which makes interface loading significantly more eager than necessary.
+
 ## Tuple constraint size
 
 
