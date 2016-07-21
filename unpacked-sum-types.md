@@ -134,8 +134,6 @@ where `(# 0 of 3 | x #)` means `(# x | | #)` and `(# 2 of 6 | y #)` means \`(\# 
 \| y \| \| \| \#)\`? I (Richard) saw this syntax in an email and thought it might be
 an improvement.
 
----
-
 ## Implementation
 
 ## Wired-in types
