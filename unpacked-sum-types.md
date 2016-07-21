@@ -1,15 +1,15 @@
-# Unpacked sum types
+# Unboxed sum types
 
 
-This page explains the motivation and implementation of unpacking for sum types.
+This page explains the motivation and implementation of unpacking for sum
+types.
 
 
 See also [UnliftedDataTypes](unlifted-data-types)
 
 ## Current status
 
-
-We're actively working on this. See [ https://phabricator.haskell.org/D2259](https://phabricator.haskell.org/D2259).
+`-XUnboxedSums` will be available with GHC 8.2.
 
 ## Motivation
 
@@ -21,7 +21,10 @@ data T1 a b = C1 a b
 data T2 a b = C2 {-# UNPACK #-} !(T1 a b)
 ```
 
-`C2` will have a representation where all the overhead of the `C1` constructor, both the pointer to it in the `C2` constructor and the info table pointer in the `C1` constructor, has been removed. This saves two words and one indirection  compared to a packed representation, which uses five words.
+`C2` will have a representation where all the overhead of the `C1` constructor,
+both the pointer to it in the `C2` constructor and the info table pointer in
+the `C1` constructor, has been removed. This saves two words and one
+indirection  compared to a packed representation, which uses five words.
 
 
 Unfortunately, a similar example using sum types cannot be unpacked today:
@@ -32,10 +35,16 @@ data T2 a = C !(T1 a)  -- Cannot UNPACK here
 ```
 
 
-Here the representation of the `C` constructor will contain a pointer to e.g. the `Some` constructor. The `Some` constructor will be a separate heap object and thus needs one word to store its info table pointer.
+Here the representation of the `C` constructor will contain a pointer to e.g.
+the `Some` constructor. The `Some` constructor will be a separate heap object
+and thus needs one word to store its info table pointer.
 
 
-In this example there is an alternative, unpacked representation that is more memory efficient and has fewer indirections. We could store a constructor tag together with the union of the fields of `T1` inside `C`. Conceptually the memory layout would look like this (in practice we might group pointer and non-pointer fields together):
+In this example there is an alternative, unpacked representation that is more
+memory efficient and has fewer indirections. We could store a constructor tag
+together with the union of the fields of `T1` inside `C`. Conceptually the
+memory layout would look like this (in practice we group pointer and
+non-pointer fields together):
 
 <table><tr><th> T2 info table pointer </th>
 <th> T1 constructor tag </th>
@@ -46,104 +55,103 @@ In this example there is an alternative, unpacked representation that is more me
 (In this case `None` has no fields.)
 
 
-This representation saves one word and one indirection compared to the packed representation, which uses four words.
+This representation saves one word and one indirection compared to the packed
+representation, which uses four words.
 
 ## Source language design
 
 
-We add new built-in types for anonymous sums, and for anonymous unboxed sums.  These are directly analogous to the existing anonymous tuples (in Haskell) and anonymous unboxed tuples (a GHC extension).  Specifically:
+We add new built-in types for anonymous unboxed sums. These are directly
+analogous to the existing anonymous unboxed tuples. Specifically:
 
-- A new language extension `AnonymousSums`.
+- A new language extension `UnboxedSums`.
 
-- We add a family of new built-in **type constructors** for sums and unboxed sums:
+- We add a family of new built-in **type constructors** for unboxed sums:
 
   ```wiki
-  (|),   (||),   (|||),   (||||), etc
   (#|#), (#||#), (#|||#), (#||||#), etc
   ```
 
   A sum of n "\|"s is a n+1 ary sum.  (Just like tuples `(,)`, `(,,)`, etc.)
 
-- Each n-ary-sum type constructor comes with n **data constructors**, with systematically-derived names, thus:
+- Each n-ary-sum type constructor comes with n **data constructors**, with
+  systematically-derived names, thus:
 
   ```wiki
-  data (||) a b c = (_||) a
-                  | (|_|) b
-                  | (||_) c
+  data (#||#) a b c = (# _ | | #) a
+                    | (# | _ | #) b
+                    | (# | | _ #) c
   ```
 
-  and similarly for unboxed sums.  The `_` indicates which disjunct of the sum we mean.
+  The `_` indicates which disjunct of the sum we mean.
 
-- You use the type constructor in a distfix way, not just prefix, like so:
+- You use the type constructor in a distfix way, like so:
 
   ```wiki
-  (Int | Bool)          means   (|) Int Bool
-  (Int | Bool | Int)    means   (||) Int Bool Int
-  (# Int | Bool #)      means   (#|#) Int Bool
+  (# Int | Bool #)        means   (#|#) Int Bool
+  (# Int | Bool | Int #)  means   (#||#) Int Bool Int
+  (# Int | Bool #)        means   (#|#) Int Bool
   ```
 
   And similarly the data constructors:
 
   ```wiki
-  (| True)     means   (|_) True
-  (#| 'c' |#)  means   (#|_|#) 'c'
+  (# | True #)     means   (# | _ #) True
+  (# | 'c' | #)    means   (# | _ | #) 'c'
   ```
 
-- You can use the data constructors both in terms (to construct) and in patterns (to decompose).  For patterns, illustrating both prefix and distfix forms:
+- You can use the data constructors both in terms (to construct) and in
+  patterns (to decompose).
 
   ```wiki
   case x of
-      (#| x ||#) -> ...   -- Distfix
-      (#_|||#) y -> ...   -- Prefix
+      (# x | | | #) -> ...
+      (# | y | | #) -> ...
       ...two more disjuncts needed to be exhaustive
   ```
 
-- Anonymous sums, both boxed and unboxed, are first class values. They can be passed as an argument to a function, returned as its result, be the type of a data constructor field, and so on.  Of course, unboxed sums are unlifted (cannot be bottom), and should be represented efficiently (more on that below).
+- Unboxed sums are first class values. They can be passed as an argument to a
+  function, returned as its result, be the type of a data constructor field,
+  and so on.  Of course, unboxed sums are unlifted (cannot be bottom), and
+  should be represented efficiently (more on that below).
 
-- Just as for tuples:
+- Just as for unboxed tuples: The components of an unboxed sum type may be of
+  kind `*` or `#`.  So `(# Int# | Bool #)` is fine.  And you can nest unboxed
+  sums and tuple arbitrarily, e.g.
 
-  - The components of a boxed sum type must be of kind `*`.  For example `(Int|Bool)` is fine, but `(Int#|Bool)` is not.
-  - The components of an unboxed sum type may be of kind `*` or `#`.  So `(# Int# | Bool #)` is fine.  And you can nest unboxed sums and tuple arbitrarily, e.g.
-
-    - `(# (# Int,Bool #) | Char# #)`
-    - `(# (# Int# | Char # #) | Int #)`
+  - `(# (# Int,Bool #) | Char# #)`
+  - `(# (# Int# | Char # #) | Int #)`
 
 
 All of these rules follow the same pattern as the rules for boxed/unboxed tuples.
 
 ### Design questions
 
-1. The expression `(x ||)` could mean:
 
-  - The same as `(_||)`, namely injecting `x` into the first disjunct of a 3-way sum.
-  - An operator section meaning `( (||) x )`.
-
->
-> Similarly `(|| x)`.
-
->
-> Which should we choose?  Simon PJ thinks the first (i.e steal the existing syntax). (Note that there's also stolen syntax around any operators `(|#)` and `(#|)`, as well as type operators such as `(|||)` and `(#|#)`.)
-
-1. For large-arity anonymous sums, the data constructor syntax requires counting vertical bars. This is annoying. Might we consider switching to a new syntax where `(0 of 3 | x)` means `(x | | )` and `(2 of 6 | y)` means `( | | y | | | )`? I (Richard) saw this syntax in an email and thought it might be an improvement.
-
----
+For large-arity anonymous sums, the data constructor syntax requires counting
+vertical bars. This is annoying. Might we consider switching to a new syntax
+where `(# 0 of 3 | x #)` means `(# x | | #)` and `(# 2 of 6 | y #)` means \`(\# \|
+\| y \| \| \| \#)\`? I (Richard) saw this syntax in an email and thought it might be
+an improvement.
 
 ## Implementation
 
 ## Wired-in types
 
 
-Boxed and unboxed sums get implemented very like boxed and unboxed tuples; see [compiler/prelude/TysWiredIn.hs](/trac/ghc/browser/ghc/compiler/prelude/TysWiredIn.hs).
+Unboxed sums get implemented very like boxed and unboxed tuples; see
+[compiler/prelude/TysWiredIn.hs](/trac/ghc/browser/ghc/compiler/prelude/TysWiredIn.hs).
 
 ## The Core language
 
 
-There are no changes to Core!  (Apart from the above new built-in type constructors.)
+No changes in Core.
 
 ### Core to STG
 
 
-When going to STG we need to eliminate the unboxed sums. This can be done in [compiler/simplStg/UnariseStg.hs](/trac/ghc/browser/ghc/compiler/simplStg/UnariseStg.hs), just like for tuples.
+When going to STG we need to eliminate the unboxed sums. This can be done in
+[compiler/simplStg/UnariseStg.hs](/trac/ghc/browser/ghc/compiler/simplStg/UnariseStg.hs), just like for tuples.
 
 
 Given the Core function
@@ -153,7 +161,8 @@ f :: (# t_1 | ... | t_n #) -> ...
 ```
 
 
-we convert it to a call to STG which includes the tag and the maximum number of pointer and non-pointer arguments we might need. Example:
+we convert it to a call to STG which includes the tag and the maximum number of
+pointer and non-pointer arguments we might need. Example:
 
 <table><tr><th> Core </th>
 <th> STG 
@@ -163,15 +172,21 @@ we convert it to a call to STG which includes the tag and the maximum number of 
 <tr><th>` f :: (# Int# | Word# #) -> ... `</th>
 <th>` f :: Word -> Word -> ... `</th></tr></table>
 
+
+See notes in [compiler/simplStg/UnariseStg.hs](/trac/ghc/browser/ghc/compiler/simplStg/UnariseStg.hs) for more details.
+
 ### Code generation
 
 
-We need to make sure we generate closure types for the constructors we unpack into. This is done in [compiler/codeGen/StgCmmCon.hs](/trac/ghc/browser/ghc/compiler/codeGen/StgCmmCon.hs).
-
-
-We use the same algorithm as is used in the Core to STG step to compute the maximum number of pointer and non-pointer fields we might need.
+New `StgArg` constructor `StgRubbishArg` and new `CmmArg` are added for
+efficient compilation of sums. See `StgRubbishArg` in
+[compiler/stgSyn/StgSyn.hs](/trac/ghc/browser/ghc/compiler/stgSyn/StgSyn.hs).
 
 ### Unpacking
+
+
+(NOTE (osa): This part is not yet implemented, the patch is trivial and I'm
+going to submit it soon)
 
 
 Given
@@ -222,14 +237,15 @@ case e of
 ```
 
 
-This above reboxing will go away, using case-of-case and case-of-known-constructor, if we scrutinize `x` again.
+This above reboxing will go away, using case-of-case and
+case-of-known-constructor, if we scrutinize `x` again.
 
 ---
 
 # Exploiting nullary constructors
 
 
-Joachim [ writes](https://mail.haskell.org/pipermail/ghc-devs/2015-September/009831.html): The current proposed layout for a 
+Joachim [ writes](https://mail.haskell.org/pipermail/ghc-devs/2015-September/009831.html): The current proposed layout for a
 
 ```wiki
     data D a = D a {-# UNPACK #-} !(Maybe a) would be
@@ -248,7 +264,7 @@ and of   D foo Nothing        is     [D_info] [&foo] [0] [&dummy]
 where `dummy` is something that makes the GC happy.
 
 
-But assuming this dummy object is something that is never a valid heap objects of its own, then this should be sufficient to distinguish the two cases, and we could actually have that the representation of 
+But assuming this dummy object is something that is never a valid heap objects of its own, then this should be sufficient to distinguish the two cases, and we could actually have that the representation of
 
 ```wiki
          D foo (Just bar)     is     [D_info] [&foo] [&bar]
