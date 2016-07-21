@@ -81,3 +81,5 @@ A common suggestion that is brought up from time is to host GHC development at [
 - [ "Phabricator for patches and code review" (Jun 2014 @ ghc-devs)](http://thread.gmane.org/gmane.comp.lang.haskell.ghc.devel/4829/focus=4861)
 - [ "I think the amout of contributions would increase significantly if GHC migrated to GitHub and started accepting pull requests." (Sep 2014 @ reddit)](https://www.reddit.com/r/haskell/comments/2hes8m/the_ghc_source_code_contains_1088_todos_please/ckrzyec)
 - [ GitHub pull requests](https://mail.haskell.org/pipermail/ghc-devs/2014-October/006523.html)
+- [ Proposal: accept pull requests on GitHub](https://mail.haskell.org/pipermail/ghc-devs/2015-September/009773.html)
+- [ GHC Development: OutsideIn](https://www.reddit.com/r/haskell/comments/4isua9/ghc_development_outsidein/d32979t)
