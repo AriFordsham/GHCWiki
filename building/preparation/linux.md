@@ -140,6 +140,7 @@ Finally, clone, configure, and build GHC (see [Newcomers](newcomers) for details
    git clone --recursive https://github.com/ghc/ghc
    cd ghc/
    patchShebangs .
+   patchPhase
    ./boot
    configurePhase
    # configurePhase of the Nix recipe overwrites build.mk, so we change it afterwards.
@@ -149,4 +150,11 @@ Finally, clone, configure, and build GHC (see [Newcomers](newcomers) for details
    cd ..
    buildPhase
    # edit build.mk to remove the comment marker # on the line stage=2
+```
+
+
+Enable parallel builds in the nix build environment:
+
+```wiki
+   export NIX_BUILD_CORES=4
 ```
