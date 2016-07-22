@@ -23,7 +23,7 @@ There are a few examples where adding instances to `base` modules increases comp
 - [4e6bcc2c8134f9c1ba7d715b3206130f23c529fb](/trac/ghc/changeset/4e6bcc2c8134f9c1ba7d715b3206130f23c529fb/ghc) (Add various instances to newtypes in Data.Monoid)
 
 
-I suspect these will both be addressed by ed480981/ghc, which fixes a bug in instance resolution which makes interface loading significantly more eager than necessary.
+I suspect these will both be addressed by ed480981/ghc, which fixes a bug (introduced by [4c834fdddf4d44d12039da4d6a2c63a660975b95](/trac/ghc/changeset/4c834fdddf4d44d12039da4d6a2c63a660975b95/ghc) and perhaps worsened by later commits) in instance resolution which makes interface loading significantly more eager than necessary.
 
 ## Tuple constraint size
 
