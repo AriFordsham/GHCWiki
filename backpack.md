@@ -1,4 +1,4 @@
-[ Backpack](http://plv.mpi-sws.org/backpack/) is a proposal for retrofitting Haskell with an applicative, mix-in module system. The theory of Backpack is developed in the paper and its accompanying technical appendix. The purpose of this page is to track implementation progress.
+[ Backpack](http://plv.mpi-sws.org/backpack/) is a proposal for retrofitting Haskell with an applicative, mix-in module system. The theory of Backpack is developed in the paper and its accompanying technical appendix. The purpose of this page is to give an overview of the design in GHC.
 
 ## Motivation
 
@@ -17,7 +17,7 @@ Large-scale modularity refers to the modularization of software into libraries, 
     - [ HDBC](http://hackage.haskell.org/package/HDBC) (HDBC-mysql, HDBC-odbc, HDBC-postgresql, HDBC-session, HDBC-sqlite3)
     - [ MuCheck](http://hackage.haskell.org/package/MuCheck) (MuCheck-HUnit, MuCheck-Hspec, MuCheck-QuickCheck, MuCheck-SmallCheck)
     - [ Shellac](http://hackage.haskell.org/package/Shellac) (Shellac-compatline, Shellac-editline, Shellac-haskeline, Shellac-readline)
-    - (I stopped after looking at all of the capitalized package names lol)
+    - (and more)
   - A close variant: I want to depend on some fancy full featured system, but I want people to be able to compile me against a simpler variant
 
     - [ Shake](https://hackage.haskell.org/package/shake) provides an interface for writing build systems. I may not want to be coupled to Shake specifically and be able to use whatever build system I want.
@@ -30,10 +30,6 @@ Large-scale modularity refers to the modularization of software into libraries, 
     - Type classes infect call sites: if you have a data type from an type class associated type, and want to refer to it from another data type `T`, any function using T must also remember to add the type class constraint to their site.
     - Lack of specialization: type classes mostly must always be done in dictionary passing style (with inlining, sometimes the dictionary can be inlined, but don't count on it)
   - Why only at the package level? Bringing it down to the module level (and even finer) is the subject of small-scale modularity.
-
-1. Is my library compatible against a given version of a dependency?  To determine this today, you must first install the library, and then build your code against it. With Backpack, you can write down precisely what interface you depend against, at which the compatibility check only involves testing if an implementation correctly implements the interface. Better yet, a library with explicit Backpack dependencies can be installed without installing any of its prerequisites. This information can be collected together in order to give accurate version dependencies. (TODO Interesting problem: Backpack says nothing about what should happen when someone generalizes a type signatures.  Conditional compilation suggests that there may need to be multiple interface sets that a package can compile against; variational programming but only with interfaces.) (TODO Right now, versions and instantiation are completely orthogonal, which sucks.)
-
-1. Does anyone depend on this API?  If you want to make a backwards incompatible change to a library, it can be difficult to tell who will be affected. Explicit interfaces are *transmissible*; clients should be able to submit the slices of the interfaces they depend on to upstream, giving maintainers a view into what APIs are used.  This capability would be especially beneficial for packages with a large and organically grown API (e.g. the ghc package).  (TODO In what sense is an interface transmissible? Interface needs to be able to refer to other types which need to live somewhere. These are "subsidiary" in some sense; when checking for compatibility you don't care about these types.  Need to analyze this situation more carefully. See also [\#10798](https://gitlab.haskell.org//ghc/ghc/issues/10798).)
 
 ### Small-scale modularity
 
@@ -890,3 +886,12 @@ Backpack-related tickets are marked with keyword 'backpack'. If the ticket is as
                       lowest
                     </th>
 <th></th></tr></table>
+
+## Future things to think about
+
+
+The language of signature files sets the stage for other possible features. Here are two fo them:
+
+1. Is my library compatible against a given version of a dependency?  To determine this today, you must first install the library, and then build your code against it. With Backpack, you can write down precisely what interface you depend against, at which the compatibility check only involves testing if an implementation correctly implements the interface. Better yet, a library with explicit Backpack dependencies can be installed without installing any of its prerequisites. This information could be collected together in order to give accurate version dependencies. (TODO Interesting problem: Backpack says nothing about what should happen when someone generalizes a type signatures.  Conditional compilation suggests that there may need to be multiple interface sets that a package can compile against; variational programming but only with interfaces.) (TODO Right now, versions and instantiation are completely orthogonal, which sucks.)
+
+1. Does anyone depend on this API?  If you want to make a backwards incompatible change to a library, it can be difficult to tell who will be affected. Explicit interfaces are *transmissible*; clients should be able to submit the slices of the interfaces they depend on to upstream, giving maintainers a view into what APIs are used.  This capability would be especially beneficial for packages with a large and organically grown API (e.g. the ghc package).  (TODO In what sense is an interface transmissible? Interface needs to be able to refer to other types which need to live somewhere. These are "subsidiary" in some sense; when checking for compatibility you don't care about these types.  Need to analyze this situation more carefully. See also [\#10798](https://gitlab.haskell.org//ghc/ghc/issues/10798).)
