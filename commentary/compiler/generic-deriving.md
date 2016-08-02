@@ -747,18 +747,12 @@ Maybe we don't even need to make this user-controllable; a handful of built-in c
 
 We could even let users specify which of the two types of deriving they want:
 
-```wiki
-newtype MyInt = MyInt Int deriving (newtype GBinary, default GShow)
+```
+newtypeMyInt=MyIntIntderivingnewtypeGBinaryderiving anyclass GShow
 ```
 
 
-Here, we re-use the keywords `newtype` and `default` to specify that the `GBinary` instance should be created using GND (so that we do not have the unnecessary extra tag in the binary encoding), but `GShow` should use the "generic" instance (so that we still print "MyInt").
-
-
-Of course, then we'd need to:
-
-1. Agree on the syntax;
-1. Decide what to do when users ask for e.g. `... deriving (newtype Typeable)`.
+Here, we use the keywords `newtype` and `anyclass` to specify that the `GBinary` instance should be created using GND (so that we do not have the unnecessary extra tag in the binary encoding), but `GShow` should use the "generic" instance (so that we still print `"MyInt"`). See the [deriving strategies page](commentary/compiler/deriving-strategies) for information.
 
 ## Standard vs. Standalone deriving
 
