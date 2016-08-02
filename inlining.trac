@@ -1,7 +1,6 @@
 = Inlining =
 
-Inlining refers to the unfolding of definitions, ie replacing uses of identifiers with the definitions bound to them. Doing this at compile time can expose potential for other optimizations. As described in the [https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html?highlight=inline#inline-and-noinline-pragmas User Guide], this is currently limited to non-recursive definitions, to avoid non-terminating recursion in the inliner. 
-
+Inlining refers to the unfolding of definitions, ie replacing uses of identifiers with the definitions bound to them. Doing this at compile time can expose potential for other optimizations. 
 == Unfolding Recursions ==
 
 Since many definitions in non-trivial programs are recursive, leaving them out alltogether is a serious limitation, especially in view of the encoding of loops via tail recursion. In conventional languages, loop transformations such as loop unrolling are at the heart of optimizing high performance code (for a useful overview, see [http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.41.4885 Compiler Transformations for High-Performance Computing, ACM Computing Surveys, 1994]). As a consequence, many performance-critical Haskell programs contain hand-unrolled recursions, which is error-prone and obscures declarative contents.

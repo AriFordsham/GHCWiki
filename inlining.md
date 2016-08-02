@@ -1,7 +1,7 @@
 # Inlining
 
 
-Inlining refers to the unfolding of definitions, ie replacing uses of identifiers with the definitions bound to them. Doing this at compile time can expose potential for other optimizations. As described in the [ User Guide](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html?highlight=inline#inline-and-noinline-pragmas), this is currently limited to non-recursive definitions, to avoid non-terminating recursion in the inliner. 
+Inlining refers to the unfolding of definitions, ie replacing uses of identifiers with the definitions bound to them. Doing this at compile time can expose potential for other optimizations. 
 
 ## Unfolding Recursions
 
