@@ -77,13 +77,25 @@ This demonstrates why part 3 is important: with multiple `deriving` clauses, one
 With `-XDerivingStrategies` in the picture, we can now state how GHC figures out which deriving strategy to use for a particular derived instance:
 
 1. Look for a deriving strategy. If one is present, use that.
+
 1. (a) If deriving an `Eq`, `Ord`, `Ix`, or `Bounded` instance for a newtype, use the `GeneralizedNewtypeDeriving` strategy (even if the language extension isn't enabled).
-  (b) If deriving a `Read`, `Show`, `Data`, `Generic`, `Generic1`, `Typeable`, `Traversable`, or `Lift` instance for a newtype, go to step 3.
-  (c) Otherwise, if deriving an instance for a newtype and both `-XGeneralizedNewtypeDeriving` and `-XDeriveAnyClass` are enabled, default to `DeriveAnyClass`, but emit a warning stating the ambiguity.
-  (d) Otherwise, if deriving an instance for a newtype, the datatype and typeclass can be successfully used with `GeneralizedNewtypeDeriving`, and `-XGeneralizedNewtypeDeriving` is enabled, do so.
+
+>
+> (b) If deriving a `Read`, `Show`, `Data`, `Generic`, `Generic1`, `Typeable`, `Traversable`, or `Lift` instance for a newtype, go to step 3.
+
+>
+> (c) Otherwise, if deriving an instance for a newtype and both `-XGeneralizedNewtypeDeriving` and `-XDeriveAnyClass` are enabled, default to `DeriveAnyClass`, but emit a warning stating the ambiguity.
+
+>
+> (d) Otherwise, if deriving an instance for a newtype, the datatype and typeclass can be successfully used with `GeneralizedNewtypeDeriving`, and `-XGeneralizedNewtypeDeriving` is enabled, do so.
+
 1. (a) If deriving a "standard derivable class" (e.g., `Eq`, `Ord`, `Generic`, etc.) and the corresponding language extension is enabled (if necessary), do so. If the language extension is not enabled, throw an error.
-  (b) Otherwise, if `-XDeriveAnyClass` is enabled, use that.
-  (c) Otherwise, throw an error.
+
+>
+> (b) Otherwise, if `-XDeriveAnyClass` is enabled, use that.
+
+>
+> (c) Otherwise, throw an error.
 
 
 Step 2 is massively complicated since GHC tries to use `GeneralizedNewtypeDeriving` in certain special cases whenever it can to optimize the generated instances. In addition, the phrase "can be successfully used with `GeneralizedNewtypeDeriving`" must be invoked since it is possible for `GeneralizedNewtypeDeriving` on certain datatypes. For example, you cannot have a newtype-derived `Functor` instance for `newtype Compose f g a = Compose (f (g a))`, since the last type variable `a` cannot be eta-reduced.
