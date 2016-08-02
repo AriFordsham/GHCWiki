@@ -702,11 +702,11 @@ How do we figure out which classes will now be allowed as part of a deriving cla
 
 ## Interaction with `GeneralizedNewtypeDeriving`
 
-[\`GeneralizedNewtypeDeriving\`](http://www.haskell.org/ghc/docs/latest/html/users_guide/deriving.html#newtype-deriving) (GND) already allows many non-standard classes to be derived, but:
+[GeneralizedNewtypeDeriving](http://www.haskell.org/ghc/docs/latest/html/users_guide/deriving.html#newtype-deriving) (GND) already allows many non-standard classes to be derived, but:
 
 1. It means something different from ordinary deriving. Instead of generating new code for the instance, GHC simply uses the instance for the type inside the newtype.
 1. As such, this only works when deriving newtypes, and
-1. The classes `Read`, `Show`, `Typeable`, `Data`, and `Generic` even with \`GND on, give rise to standard instances. That is, in the following deriving clause
+1. The classes `Read`, `Show`, `Typeable`, `Data`, and `Generic` even with GND on, give rise to standard instances. That is, in the following deriving clause
 
   ```wiki
   newtype MyInt = MyInt Int deriving (Eq, Num, Show)
