@@ -12,3 +12,7 @@ Inlining is the most important compiler optimisation pass as it enables most oth
 There are lots of old relevant tickets related to inlining. Perfect for a keen newcomer!
 
 [[TicketQuery(status=infoneeded,status=new|patch,keywords=~Inlining)]]
+
+== Relevant Wiki Pages ==
+
+* Commentary/Compiler/DesugaringInstances -- About how default methods can lead to poor inliner performance due to recursion

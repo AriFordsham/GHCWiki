@@ -89,3 +89,7 @@ There are lots of old relevant tickets related to inlining. Perfect for a keen n
 <td>Compiler is unable to INLINE as well as the programmer can manually</td></tr>
 <tr><th>[\#14275](https://gitlab.haskell.org//ghc/ghc/issues/14275)</th>
 <td>Large Haskell value unexpectedly gets an unfolding</td></tr></table>
+
+## Relevant Wiki Pages
+
+- [Commentary/Compiler/DesugaringInstances](commentary/compiler/desugaring-instances) -- About how default methods can lead to poor inliner performance due to recursion
