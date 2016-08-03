@@ -8,6 +8,14 @@ Inlining is the most important compiler optimisation pass as it enables most oth
 - [ Secrets of the GHC inliner](http://research.microsoft.com/en-us/um/people/simonpj/Papers/inlining/) -- quite an old paper but a great description of the main ideas
 - [ GHC User Guide](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html?highlight=inline#inline-and-noinline-pragmas) -- Provides a description of `INLINE`, `INLINABLE` and `NOINLINE` pragmas. 
 
+## Generics and Inlining
+
+
+Inlining is essential to remove intermediate representations from generic programs. There are a number of papers about the topic.
+
+- [ Optimizing Generics Is Easy! (2010)](http://dreixel.net/research/pdf/ogie.pdf)
+- [ Optimizing SYB Is Easy! (2014)](http://michaeldadams.org/papers/syb-opt/syb-opt-2014-pepm-authors-copy.pdf)
+
 ## Relevant Tickets
 
 
@@ -93,3 +101,4 @@ There are lots of old relevant tickets related to inlining. Perfect for a keen n
 ## Relevant Wiki Pages
 
 - [Commentary/Compiler/DesugaringInstances](commentary/compiler/desugaring-instances) -- About how default methods can lead to poor inliner performance due to recursion
+- [Proposal/SelfExplinatoryInlinePragmas](proposal/self-explinatory-inline-pragmas)
