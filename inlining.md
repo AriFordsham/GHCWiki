@@ -1,162 +1,95 @@
 # Inlining
 
 
-Inlining refers to the unfolding of definitions, ie replacing uses of identifiers with the definitions bound to them. Doing this at compile time can expose potential for other optimizations. 
+Inlining is the most important compiler optimisation pass as it enables most other optimisation opportunities. The pass is simple, saturated names are replaced with their definitions, the details are complicated. The compiler must make judgements as to whether inlining a function will lead to further optimisations, if not then it is easy to increase the code size needlessly.
 
-## Unfolding Recursions
+## Getting Started
 
+- [ Secrets of the GHC inliner](http://research.microsoft.com/en-us/um/people/simonpj/Papers/inlining/) -- quite an old paper but a great description of the main ideas
+- [ GHC User Guide](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html?highlight=inline#inline-and-noinline-pragmas) -- Provides a description of `INLINE`, `INLINABLE` and `NOINLINE` pragmas. 
 
-Since many definitions in non-trivial programs are recursive, leaving them out alltogether is a serious limitation, especially in view of the encoding of loops via tail recursion. In conventional languages, loop transformations such as loop unrolling are at the heart of optimizing high performance code (for a useful overview, see [ Compiler Transformations for High-Performance Computing, ACM Computing Surveys, 1994](http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.41.4885)). As a consequence, many performance-critical Haskell programs contain hand-unrolled recursions, which is error-prone and obscures declarative contents.
-
-
-There is a tension wrt to the stage in the compilation pipeline that should handle loop unrolling: if we are looking only at removing loop administration overhead and code size, then the applicability of unrolling depends on information that is only available in the backend (such as register and cache sizes); if we are looking at enabling other optimizations, then the applicability of unrolling depends on interactions with code that is located in the Core to Core simplifier (such as rewrite rules for array fusion and recycling). We assume that loop transformations should be considered at both stages, for their respective benefits and drawbacks. This page is concerned with Core-level unfolding of recursive definitions, closing the gap in GHC's inliner.
-
-## An Informal Specification
+## Relevant Tickets
 
 
-For the purpose of unfolding/inlining definitions, look at groups of mutually recursive definitions as a whole, rather than trying to think about individual definitions. Compare the existing documentation for [\`INLINE/NOINLINE\`](http://www.haskell.org/ghc/docs/latest/html/users_guide/pragmas.html#inline-noinline-pragma) pragmas.
+There are lots of old relevant tickets related to inlining. Perfect for a keen newcomer!
 
+<table><tr><th>[\#3073](https://gitlab.haskell.org//ghc/ghc/issues/3073)</th>
+<td>Avoid reconstructing dictionaries in recursive instance methods</td></tr>
+<tr><th>[\#3755](https://gitlab.haskell.org//ghc/ghc/issues/3755)</th>
+<td>Improve join point inlining</td></tr>
+<tr><th>[\#3781](https://gitlab.haskell.org//ghc/ghc/issues/3781)</th>
+<td>Improve inlining for local functions</td></tr>
+<tr><th>[\#4960](https://gitlab.haskell.org//ghc/ghc/issues/4960)</th>
+<td>Better inlining test in CoreUnfold</td></tr>
+<tr><th>[\#5834](https://gitlab.haskell.org//ghc/ghc/issues/5834)</th>
+<td>Allow both INLINE and INLINABLE for the same function</td></tr>
+<tr><th>[\#5928](https://gitlab.haskell.org//ghc/ghc/issues/5928)</th>
+<td>INLINABLE fails to specialize in presence of simple wrapper</td></tr>
+<tr><th>[\#7109](https://gitlab.haskell.org//ghc/ghc/issues/7109)</th>
+<td>Inlining depends on datatype size, even with INLINE pragmas</td></tr>
+<tr><th>[\#7114](https://gitlab.haskell.org//ghc/ghc/issues/7114)</th>
+<td>Cannot recover (good) inlining behaviour from 7.0.2 in 7.4.1</td></tr>
+<tr><th>[\#7283](https://gitlab.haskell.org//ghc/ghc/issues/7283)</th>
+<td>Specialise INLINE functions</td></tr>
+<tr><th>[\#7511](https://gitlab.haskell.org//ghc/ghc/issues/7511)</th>
+<td>Room for GHC runtime improvement \>\~5%, inlining related</td></tr>
+<tr><th>[\#7803](https://gitlab.haskell.org//ghc/ghc/issues/7803)</th>
+<td>Superclass methods are left unspecialized</td></tr>
+<tr><th>[\#7829](https://gitlab.haskell.org//ghc/ghc/issues/7829)</th>
+<td>make better/more robust loopbreaker choices</td></tr>
+<tr><th>[\#8099](https://gitlab.haskell.org//ghc/ghc/issues/8099)</th>
+<td>Alternate syntax for indicating when a function is "fully applied" for purposes of inlining</td></tr>
+<tr><th>[\#8589](https://gitlab.haskell.org//ghc/ghc/issues/8589)</th>
+<td>Bad choice of loop breaker with INLINABLE/INLINE</td></tr>
+<tr><th>[\#8662](https://gitlab.haskell.org//ghc/ghc/issues/8662)</th>
+<td>GHC does not inline cheap inner loop when used in two places</td></tr>
+<tr><th>[\#8668](https://gitlab.haskell.org//ghc/ghc/issues/8668)</th>
+<td>SPECIALIZE silently fails to apply</td></tr>
+<tr><th>[\#8774](https://gitlab.haskell.org//ghc/ghc/issues/8774)</th>
+<td>Transitivity of Auto-Specialization</td></tr>
+<tr><th>[\#8814](https://gitlab.haskell.org//ghc/ghc/issues/8814)</th>
+<td>7.8 optimizes attoparsec improperly</td></tr>
+<tr><th>[\#9020](https://gitlab.haskell.org//ghc/ghc/issues/9020)</th>
+<td>Massive blowup of code size on trivial program</td></tr>
+<tr><th>[\#9320](https://gitlab.haskell.org//ghc/ghc/issues/9320)</th>
+<td>Inlining regression/strangeness in 7.8</td></tr>
+<tr><th>[\#9370](https://gitlab.haskell.org//ghc/ghc/issues/9370)</th>
+<td>unfolding info as seen when building a module depends on flags in a previously-compiled module</td></tr>
+<tr><th>[\#9418](https://gitlab.haskell.org//ghc/ghc/issues/9418)</th>
+<td>Warnings about "INLINE binder is (non-rule) loop breaker"</td></tr>
+<tr><th>[\#9701](https://gitlab.haskell.org//ghc/ghc/issues/9701)</th>
+<td>GADTs not specialized properly</td></tr>
+<tr><th>[\#9798](https://gitlab.haskell.org//ghc/ghc/issues/9798)</th>
+<td>Frustrating behaviour of the INLINE pragma</td></tr>
+<tr><th>[\#10371](https://gitlab.haskell.org//ghc/ghc/issues/10371)</th>
+<td>GHC fails to inline and specialize a function</td></tr>
+<tr><th>[\#10421](https://gitlab.haskell.org//ghc/ghc/issues/10421)</th>
+<td>exponential blowup in inlining (without INLINE pragmas)</td></tr>
+<tr><th>[\#10710](https://gitlab.haskell.org//ghc/ghc/issues/10710)</th>
+<td>More self-explanatory pragmas for inlining phase control</td></tr>
+<tr><th>[\#10766](https://gitlab.haskell.org//ghc/ghc/issues/10766)</th>
+<td>user manual: INLINE's interaction with optimization levels is not clear</td></tr>
+<tr><th>[\#11068](https://gitlab.haskell.org//ghc/ghc/issues/11068)</th>
+<td>Make Generic/Generic1 methods inlinable</td></tr>
+<tr><th>[\#11263](https://gitlab.haskell.org//ghc/ghc/issues/11263)</th>
+<td>"Simplifier ticks exhausted" that resolves with fsimpl-tick-factor=200</td></tr>
+<tr><th>[\#12274](https://gitlab.haskell.org//ghc/ghc/issues/12274)</th>
+<td>GHC panic: simplifier ticks exhausted</td></tr>
+<tr><th>[\#12454](https://gitlab.haskell.org//ghc/ghc/issues/12454)</th>
+<td>Cross-module specialisation of recursive functions</td></tr>
+<tr><th>[\#12463](https://gitlab.haskell.org//ghc/ghc/issues/12463)</th>
+<td>SPECIALIZABLE pragma?</td></tr>
+<tr><th>[\#12747](https://gitlab.haskell.org//ghc/ghc/issues/12747)</th>
+<td>INLINE vs NOINLINE vs \<nothing\> give three different results; two would be better</td></tr>
+<tr><th>[\#13016](https://gitlab.haskell.org//ghc/ghc/issues/13016)</th>
+<td>SPECIALIZE INLINE doesn't necessarily inline specializations of a recursive function</td></tr>
+<tr><th>[\#13851](https://gitlab.haskell.org//ghc/ghc/issues/13851)</th>
+<td>Change in specialisation(?) behaviour since 8.0.2 causes 6x slowdown</td></tr>
+<tr><th>[\#14211](https://gitlab.haskell.org//ghc/ghc/issues/14211)</th>
+<td>Compiler is unable to INLINE as well as the programmer can manually</td></tr>
+<tr><th>[\#14275](https://gitlab.haskell.org//ghc/ghc/issues/14275)</th>
+<td>Large Haskell value unexpectedly gets an unfolding</td></tr></table>
 
-In the following, let `REC({f g ..})` denote the set of all identifiers belonging to the recursion involving `f`, `g`, .. (`f`, `g`, .. in `REC({f g ..})` or in `{-# INLINE f g .. #-}` are required to belong to the same recursion).
+## Relevant Wiki Pages
 
-`{-# NOINLINE f #-}`
-
->
-> as now: no unfolding of `f`
-
-`{-# INLINE f #-}`
-
->
-> as now: for non-recursive `f` only, unfold definition of `f` at call sites of `f` (might in future be taken as go-ahead for analysis-based recursion unfolding)
-
-`{-# INLINE f g .. PEEL n #-}`
-
-> new: unfold definitions of the named identifiers at their call sites **outside** their recursion group `REC({f g ..})`. In other words, **entries into**`REC({f g ..})` via `f`, `g`, .. are unfolded.
-
->
-> (for the special case of loops this corresponds to loop peeling)
-
-`{-# INLINE f g .. UNROLL m #-}`
-
-> new: unfold definitions of the named identifiers at their call sites **inside** their recursion group `REC({f g ..})`. In other words, **cross-references inside**`REC({f g ..})` via `f`, `g`, .. are unfolded.
-
->
-> (for the special case of loops this corresponds to loop unrolling)
-
-`{-# INLINE f g .. PEEL n UNROLL m #-}`
-
->
-> combine the previous two
-
->
-> The numeric parameters are to be interpreted as if each call to `f`, `g`, .. was annotated with both `PEEL` and `UNROLL` limits for the whole recursion group `REC({f g ..})`, starting with the limits from the pragmas (write `f_n_m` for a call to `f` with `PEEL` limit `n` and `UNROLL` limit `m`), to be decreased for every `PEEL` or `UNROLL` action, as follows (`REC({f g})` = {`f``g``h`}, in these examples):
-
-1. ```wiki
-     let {-# INLINE f g PEEL n UNROLL m #-}
-         f .. = .. f_?_? .. g_?_? .. h_0_0 ..
-         g .. = .. f_?_? .. g_?_? .. h_0_0 .. 
-         h .. = .. f_?_? .. g_?_? .. h_0_0 .. 
-     in ..|f_n_m|..
-
-     --PEEL-->
-
-     let {-# INLINE f g PEEL n UNROLL m #-}
-         f .. = .. f_?_? .. g_?_? .. h_0_0 ..
-         g .. = .. f_?_? .. g_?_? .. h_0_0 .. 
-         h .. = .. f_?_? .. g_?_? .. h_0_0 .. 
-     in ..|.. f_(n-1)_0 .. g_(n-1)_0 .. h_0_0 ..|..
-  ```
-
->
-> Notes: 
-
-- unfolding produces copies of definition bodies
-- the `PEEL` limit at the call site decides the `PEEL` limit for all calls to `REC({f g})` in the inlined copy; this limit decreases with each `PEEL` step
-- since peeling unfolds code into call sites from outside the recursion, the `UNROLL` limits of calls to `REC({f g})` are effectively `0` in the inlined copy
-- only calls to identifiers named in the `INLINE` pragma can be peeled (`f` and `g` here), calls to other members of the same recursion remain unaffected (`h` here), having effective limits of `0`
-
-1. ```wiki
-     let {-# INLINE f g PEEL n UNROLL m #-}
-         f .. = .. f_0_m .. g_?_? .. h_0_0 ..
-         g .. = .. f_?_? .. g_?_? .. h_0_0 .. 
-         h .. = .. f_?_? .. g_?_? .. h_0_0 .. 
-     in ..
-
-     --UNROLL-->
-
-     let {-# INLINE f g PEEL n UNROLL m #-}
-         f .. = .. .. f_0_(m-1) .. g_0_(m-1) .. h_0_0 .. .. g_?_? .. h_0_0 ..
-         g .. = .. f_?_? .. g_?_? .. h_0_0 .. 
-         h .. = .. f_?_? .. g_?_? .. h_0_0 .. 
-     in ..
-  ```
-
-  Notes: 
-
-  - unfolding produces copies of definition bodies
-  - the `UNROLL` limit at the call site decides the `UNROLL` limit for all calls to `REC({f g})` in the inlined copy; this limit decreases with each `UNROLL` step
-  - peeling conceptually precedes unrolling (`PEEL` limit needs to reach `0` before unrolling commences), to avoid peeling unrolled definitions (this corresponds to an existing restriction of no inlining into definitions to be inlined) 
-  - unrolling unfolds copies of the original definitions, not the already unrolled ones, again corresponding to the existing inlining restriction (TODO how to specify this avoidance of unrolling unrolled defs in this form of local rule spec?)
-  - only calls to identifiers named in the `INLINE` pragma can be unrolled (`f` and `g` here), calls to other members of the same recursion remain unaffected (`h` here), having effective limits of `0`
-
->
-> Peeling and unrolling stop when the respective count annotation has reached `0`. Peeling precedes unrolling, to avoid ambiguities in the size of the peeled definitions. Note that calls into mutual recursion groups is the domain of `PEEL`, while `UNROLL` only applies to calls within mutual recursion groups.
-
-> `{-# INLINE f PEEL n #-}`, for `n>0`, corresponds to worker/ wrapper transforms (previously done manually) + inline wrapper, and should therefore also be taken as a hint for the compiler to try the static argument transformation for `f` (the "worker").
-
->
-> Non-supporting implementations should treat these as `INLINE` pragmas (same warning/ignore or automatic unfold behaviour).  This might be easier to accomplish if `INLINE PEEL/UNROLL` were implemented as separate pragmas, even though they are refinements of `INLINE` conceptually.
-
->
-> About the current side-conditions for `INLINE` pragmas:
-
-- no functions inlined into `f`: 
-
-> > >
-> > > still makes sense for `PEEL`, needs to be adapted with an exception for `UNROLL`, in that we want to be able to unroll into the function being unrolled, but we want to use the original body for the unrolling, not an already unrolled one (else unrolling would be exponential rather than linear); this appears to be in line with existing work on `INLINE`
-
-- no float-in/float-out/cse: 
-
-> > >
-> > > similar to existing `INLINE`
-
-- no worker/wrapper transform in strictness analyser: 
-
-> > >
-> > > similar to existing `INLINE`
-
-- loop breakers: 
-
-> > > `PEEL/UNROLL` have their own limits, applicable to the whole recursion group, creating intrinsic loop breakers when the counters run out. Every `PEEL` or `UNROLL` action creates calls with smaller counters in the inlined copies, if the calls go into the same recursion.
-
-## Examples
-
-
-Examples of hand-unrolled/-peeled loops abound in optimized code. `unroll2.hs` demonstrates the usual worker/wrapper split (+static argument transform), which is part of the standard recommendations for writing code with good performance, and is used all through the standard libraries (here, `PEEL` is more important than `UNROLL`. `unroll0.hs` shows an extreme example with a near trivial loop body, so that the loop administration overhead is relatively expensive (`PEEL` makes the loop body available to the loop combinator worker, `UNROLL` reduces loop administration overhead, and reassociation rules enact constant folding). `unroll1.hs` is an example of loop unrolling activating existing optimization `RULES` (array fusion in this case; note that a [ fixpoint fusion](http://www.haskell.org/pipermail/haskell-cafe/2009-March/057295.html) could be even more beneficial than the finite unrolling fusion here).
-
-## Open Issues
-
-- there is quite a bit of performance to be gained from simple `PEEL/UNROLL`, followed by existing optimizations, but rewrite `RULES` appear insufficiently expressive to handle many of the optimizing transformations involving loops (starting from reassociating the nested expressions arising from unfolding, as indicated in the examples and the `optimization and rewrite rules questions` thread referenced below; but that extends further, eg, one might prefer to express fixpoint fusion of two composed fixpoints (needs `RULES` matching over `case`) without having to write the fixpoints in stream form, or one might want to fuse operations from the end of a loop body with complementary operations from the beginning of the next iteration (TODO could that be hacked around?))
-
-- how to handle programs using implicit recursions (via combinators)? One could `PEEL/UNROLL` the definitions of said combinators, but that would give no control at the call sites (like a single setting for all loops). One possibility is to allow `INLINE PEEL/UNROLL` at the call sites, interpreted as making and unfolding copies of the combinator definitions?
-
-- while, eg, `Hugs` just ignores `INLINE` pragmas, recent `GHC` versions have taken to reporting parse errors instead of warnings when encountering unknown forms of `INLINE`
-
-- how does Core-level recursion unfolding interact with backend-level loop transformations (once those come into existence)?
-
-## Further References
-
-\[0\] GHC mailing list threads, with examples and discussion
-
-- [ optimization and rewrite rules questions](http://www.haskell.org/pipermail/glasgow-haskell-users/2009-February/016695.html)
-- [ Loop unrolling + fusion ?](http://www.haskell.org/pipermail/glasgow-haskell-users/2009-February/016729.html)[ continued in March](http://www.haskell.org/pipermail/glasgow-haskell-users/2009-March/016732.html)
-
-\[1\][ An Aggressive Approach to Loop Unrolling](http://citeseer.ist.psu.edu/old/620489.html), 1995
-
-\[2\][ Compiler Transformations for High-Performance Computing](http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.41.4885), ACM Computing Surveys, 1994
-
-\[3\][ http://en.wikipedia.org/wiki/Loop_transformation](http://en.wikipedia.org/wiki/Loop_transformation)
-
-\[4\][ loop unrolling vs hardware](http://www.intel.com/software/products/compilers/flin/docs/main_for/mergedprojects/optaps_for/common/optaps_hlo_unrl.htm)
-
-\[5\][ Unrolling and simplifying expressions with Template Haskell](http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.5.9813), Ian Lynagh, 2003
+- [Commentary/Compiler/DesugaringInstances](commentary/compiler/desugaring-instances) -- About how default methods can lead to poor inliner performance due to recursion
