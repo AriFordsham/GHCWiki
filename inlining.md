@@ -101,3 +101,4 @@ There are lots of old relevant tickets related to inlining. Perfect for a keen n
 ## Relevant Wiki Pages
 
 - [Commentary/Compiler/DesugaringInstances](commentary/compiler/desugaring-instances) -- About how default methods can lead to poor inliner performance due to recursion
+- [Proposal/SelfExplinatoryInlinePragmas](proposal/self-explinatory-inline-pragmas)
