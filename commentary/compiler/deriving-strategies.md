@@ -84,7 +84,7 @@ With `-XDerivingStrategies` in the picture, we can now state how GHC figures out
 > (b) If deriving a `Read`, `Show`, `Data`, `Generic`, `Generic1`, `Typeable`, `Traversable`, or `Lift` instance for a newtype, go to step 3.
 
 >
-> (c) Otherwise, if deriving a "standard derivable class" (e.g., `Eq`, `Ord`, `Generic`, etc.) instance for a newtype, and `-XGeneralizedNewtypeDeriving` is enabled, derive the class using the `GeneralizedNewtypeDeriving` strategy.
+> (c) Otherwise, if deriving a `Functor`, `Foldable`, or `Enum` instance for a newtype, the datatype and typeclass can be successfully used with `GeneralizedNewtypeDeriving`, and `-XGeneralizedNewtypeDeriving` is enabled, derive the class using the `GeneralizedNewtypeDeriving` strategy.
 
 >
 > (d) Otherwise, if deriving an instance for a newtype and both `-XGeneralizedNewtypeDeriving` and `-XDeriveAnyClass` are enabled, default to `DeriveAnyClass`, but emit a warning stating the ambiguity.
