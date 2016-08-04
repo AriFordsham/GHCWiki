@@ -111,6 +111,14 @@ Step 2.(c) deserves some explanation. As a rule, in the absence of an explicit `
 
 The phrase "standard derivable class" is a bit sloppy since not all such classes are in a Haskell standard—in fact, many require turning on language extensions to be "standard" derived! Due to a lack of a better phrase, and since the phrase itself appears in GHC error messages, it's used here.
 
+To help visualize things, here's a table summarizing which typeclasses GHC decides it can use the `newtype` strategy for (thanks to Ørjan Johansen):
+
+||= GND equivalence    =||||= No extension                         =||||= Requires `-XGeneralizedNewtypeDeriving`                =||
+||= Always             =|| 2(a) || `Eq`, `Ord`, `Ix`, `Bounded` ||||                            ||
+||= Requires check     =||||                                        || 2(c) || `Functor`, `Foldable`, `Enum` ||
+||= Never              =|| 2(b) || `Read`, `Show`                    || 2(b) || `Data`, `Generic`, `Generic1`, `Typeable`, `Traversable`, `Lift` ||
+
+
 This provides another reason to use `-XDerivingStrategies`: trying to memorize this algorithm is almost impossible!
 
 === Interaction with Safe Haskell ===
