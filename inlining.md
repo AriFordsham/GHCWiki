@@ -16,6 +16,39 @@ Inlining is essential to remove intermediate representations from generic progra
 - [ Optimizing Generics Is Easy! (2010)](http://dreixel.net/research/pdf/ogie.pdf)
 - [ Optimizing SYB Is Easy! (2014)](http://michaeldadams.org/papers/syb-opt/syb-opt-2014-pepm-authors-copy.pdf)
 
+## Debugging the inliner
+
+
+Firstly, remember that the inliner only fires with optimisations turns on (at least `-O1`). This will save you a lot of time wondering why nothing is happening!
+
+
+There are several flags which are useful when working with the inliner. 
+
+<table><tr><th> Flag </th>
+<th> Usage 
+</th></tr>
+<tr><th>[ \`--show-iface\`](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/using.html?highlight=show-iface#ghc-flag---show-iface)</th>
+<th> Shows the contents of an interface file. Can be useful to check which unfoldings are being included. 
+</th></tr>
+<tr><th>[ \`-dshow-passes\`](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/debugging.html?highlight=show-passes#ghc-flag--dshow-passes)</th>
+<th> Shows the size of the program after each optimisation pass. 
+</th></tr>
+<tr><th>[ \`-ddump-inlinings\`](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/debugging.html?highlight=show-passes#ghc-flag--ddump-inlinings)</th>
+<th> Shows inlinings which take place 
+</th></tr>
+<tr><th>[ \`-ddump-simpl\`](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/debugging.html?highlight=show-passes#ghc-flag--ddump-simpl)</th>
+<th> Dump the (core) output of the simplifer 
+</th></tr></table>
+
+## Newcomer Tickets
+
+<table><tr><th>[\#4960](https://gitlab.haskell.org//ghc/ghc/issues/4960)</th>
+<td>Better inlining test in CoreUnfold</td></tr>
+<tr><th>[\#9370](https://gitlab.haskell.org//ghc/ghc/issues/9370)</th>
+<td>unfolding info as seen when building a module depends on flags in a previously-compiled module</td></tr>
+<tr><th>[\#11068](https://gitlab.haskell.org//ghc/ghc/issues/11068)</th>
+<td>Make Generic/Generic1 methods inlinable</td></tr></table>
+
 ## Relevant Tickets
 
 
