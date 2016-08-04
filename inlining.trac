@@ -14,6 +14,10 @@ Inlining is essential to remove intermediate representations from generic progra
 * [http://dreixel.net/research/pdf/ogie.pdf Optimizing Generics Is Easy! (2010)]
 * [http://michaeldadams.org/papers/syb-opt/syb-opt-2014-pepm-authors-copy.pdf Optimizing SYB Is Easy! (2014)]
 
+== Newcomer Tickets ==
+
+[[TicketQuery(status=infoneeded,status=new|patch,keywords=~Inlining newcomer)]]
+
 == Relevant Tickets ==
 
 There are lots of old relevant tickets related to inlining. Perfect for a keen newcomer!
