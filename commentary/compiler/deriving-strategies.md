@@ -128,13 +128,13 @@ To help visualize things, here's a table summarizing which typeclasses GHC decid
 <th></th></tr>
 <tr><th> Requires check     </th>
 <th></th>
-<th> 2(c) </th>
+<th> 2(b) </th>
 <th>`Functor`, `Foldable`, `Enum`</th>
 <th></th></tr>
 <tr><th> Never              </th>
-<th> 2(b) </th>
+<th> 2(c) </th>
 <th>`Read`, `Show`</th>
-<th> 2(b) </th>
+<th> 2(c) </th>
 <th>`Data`, `Generic`, `Generic1`, `Typeable`, `Traversable`, `Lift`</th></tr></table>
 
 
