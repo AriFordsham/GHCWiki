@@ -84,7 +84,7 @@ With `-XDerivingStrategies` in the picture, we can now state how GHC figures out
 > (a) If deriving `Eq`, `Ord`, `Ix`, or `Bounded` for a newtype, use the `GeneralizedNewtypeDeriving` strategy (even if the language extension isn't enabled).
 
 >
-> (b) If deriving `Functor`, `Foldable`, or `Enum`(?) for a newtype, the datatype can be successfully used with `GeneralizedNewtypeDeriving`, and `-XGeneralizedNewtypeDeriving` has been enabled, use the `GeneralizedNewtypeDeriving` strategy.
+> (b) If deriving `Functor`, `Foldable`, or `Enum` for a newtype, the datatype can be successfully used with `GeneralizedNewtypeDeriving`, and `-XGeneralizedNewtypeDeriving` has been enabled, use the `GeneralizedNewtypeDeriving` strategy.
 
 >
 > (c) Otherwise, if deriving a bespoke typeclass instance, and the corresponding language extension is enabled (if necessary), use the bespoke strategy. If the language extension is not enabled, throw an error. 
