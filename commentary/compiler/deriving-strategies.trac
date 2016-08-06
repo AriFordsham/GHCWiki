@@ -87,7 +87,7 @@ This demonstrates why part 3 is important: with multiple `deriving` clauses, one
 
 With `-XDerivingStrategies` in the picture, we can now state how GHC figures out which deriving strategy to use for a particular derived instance:
 
-1. Look for a deriving strategy. If one is present, use that. This will throw an error if you try to do something silly, like using the `newtype` strategy on a non-newtype or the `bespoke` keyword with a typeclass that doesn't support `bespoke` instances.
+1. Look for a deriving strategy. If one is present, use that. This will throw an error if you try to do something impossible, like using the `newtype` strategy on a non-newtype or the `bespoke` keyword with a typeclass that doesn't support `bespoke` instances.
 
 2. If deriving a bespoke typeclass instance:
 
@@ -115,10 +115,10 @@ Step 2 is fairly intricate since GHC tries to use `GeneralizedNewtypeDeriving` i
 
 To help visualize things, here's a table summarizing which typeclasses GHC decides it can use the `newtype` strategy for (thanks to Ørjan Johansen):
 
-||= GND equivalence    =||||= No extension required                         =||||= Requires language extension to use                =||
-||= Always             =|| 2(a) || `Eq`, `Ord`, `Ix`, `Bounded` ||||                            ||
-||= Requires check     =||||                                        || 2(b) || `Functor`, `Foldable`, `Enum` ||
-||= Never              =|| 2(c) || `Read`, `Show`                    || 2(c) || `Data`, `Generic`, `Generic1`, `Typeable`, `Traversable`, `Lift` ||
+||||                    ||= No extension required              =||||= Requires language extension to use =||
+||= GND when possible  =|| 2(a) || `Eq`, `Ord`, `Ix`, `Bounded` ||||                             ||
+||= GND with extension =|| 2(b) || `Enum`                       || 2(b) || `Functor`, `Foldable` ||
+||= Never select GND   =|| 2(c) || `Read`, `Show`               || 2(c) || `Data`, `Generic`, `Generic1`, `Typeable`, `Traversable`, `Lift` ||
 
 
 This provides another reason to use `-XDerivingStrategies`: trying to memorize this algorithm is almost impossible!

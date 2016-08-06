@@ -76,7 +76,7 @@ This demonstrates why part 3 is important: with multiple `deriving` clauses, one
 
 With `-XDerivingStrategies` in the picture, we can now state how GHC figures out which deriving strategy to use for a particular derived instance:
 
-1. Look for a deriving strategy. If one is present, use that. This will throw an error if you try to do something silly, like using the `newtype` strategy on a non-newtype or the `bespoke` keyword with a typeclass that doesn't support `bespoke` instances.
+1. Look for a deriving strategy. If one is present, use that. This will throw an error if you try to do something impossible, like using the `newtype` strategy on a non-newtype or the `bespoke` keyword with a typeclass that doesn't support `bespoke` instances.
 
 1. If deriving a bespoke typeclass instance:
 
@@ -115,23 +115,23 @@ Step 2 is fairly intricate since GHC tries to use `GeneralizedNewtypeDeriving` i
 
 To help visualize things, here's a table summarizing which typeclasses GHC decides it can use the `newtype` strategy for (thanks to Ørjan Johansen):
 
-<table><tr><th> GND equivalence    </th>
-<th> No extension required                         </th>
-<th> Requires language extension to use                
+<table><tr><th></th>
+<th> No extension required              </th>
+<th> Requires language extension to use 
 </th>
 <th></th>
 <th></th></tr>
-<tr><th> Always             </th>
+<tr><th> GND when possible  </th>
 <th> 2(a) </th>
 <th>`Eq`, `Ord`, `Ix`, `Bounded`</th>
 <th></th>
 <th></th></tr>
-<tr><th> Requires check     </th>
-<th></th>
+<tr><th> GND with extension </th>
 <th> 2(b) </th>
-<th>`Functor`, `Foldable`, `Enum`</th>
-<th></th></tr>
-<tr><th> Never              </th>
+<th>`Enum`</th>
+<th> 2(b) </th>
+<th>`Functor`, `Foldable`</th></tr>
+<tr><th> Never select GND   </th>
 <th> 2(c) </th>
 <th>`Read`, `Show`</th>
 <th> 2(c) </th>
