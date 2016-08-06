@@ -78,7 +78,7 @@ With `-XDerivingStrategies` in the picture, we can now state how GHC figures out
 
 1. Look for a deriving strategy. If one is present, use that. This will throw an error if you try to do something impossible, like using the `newtype` strategy on a non-newtype or the `bespoke` keyword with a typeclass that doesn't support `bespoke` instances.
 
-1. If deriving a bespoke typeclass instance:
+1. If deriving a class which supports bespoke instances:
 
 >
 > (a) If deriving `Eq`, `Ord`, `Ix`, or `Bounded` for a newtype, use the `GeneralizedNewtypeDeriving` strategy (even if the language extension isn't enabled).
@@ -87,9 +87,9 @@ With `-XDerivingStrategies` in the picture, we can now state how GHC figures out
 > (b) If deriving `Functor`, `Foldable`, or `Enum` for a newtype, the datatype can be successfully used with `GeneralizedNewtypeDeriving`, and `-XGeneralizedNewtypeDeriving` has been enabled, use the `GeneralizedNewtypeDeriving` strategy.
 
 >
-> (c) Otherwise, if deriving a bespoke typeclass instance, and the corresponding language extension is enabled (if necessary), use the bespoke strategy. If the language extension is not enabled, throw an error. 
+> (c) Otherwise, if deriving a class which supports bespoke instances, and the corresponding language extension is enabled (if necessary), use the bespoke strategy. If the language extension is not enabled, throw an error. 
 
-1. If not deriving a bespoke typeclass instance:
+1. If not deriving a class which supports bespoke instances:
 
 >
 > (a) If deriving an instance for a newtype and both `-XGeneralizedNewtypeDeriving` and `-XDeriveAnyClass` are enabled, default to `DeriveAnyClass`, but emit a warning stating the ambiguity.
@@ -104,10 +104,10 @@ With `-XDerivingStrategies` in the picture, we can now state how GHC figures out
 > (d) Otherwise, throw an error.
 
 
-The phrase "bespoke typeclass" refers to the classes listed [ here](http://git.haskell.org/ghc.git/blob/8fe1672a9c4229b884b8dcebb9be57efa4c1fdb8:/compiler/typecheck/TcGenDeriv.hs#l123), plus `Generic` and `Generic1`.
+The phrase "class which supports bespoke instances" refers to the classes listed [ here](http://git.haskell.org/ghc.git/blob/8fe1672a9c4229b884b8dcebb9be57efa4c1fdb8:/compiler/typecheck/TcGenDeriv.hs#l123), plus `Generic` and `Generic1`.
 
 
-The relationship between bespoke instances and `DeriveAnyClass` can be be summarized as follows: In the absence of an explicit `anyclass` keyword, GHC will never attempt to derive a class using the `DeriveAnyClass` strategy when it would otherwise derive a `bespoke` instance, since it is guaranteed that doing so would not produce the instance you'd want.
+The relationship between bespoke instances and `DeriveAnyClass` can be be summarized as follows: In the absence of an explicit `anyclass` keyword, GHC will never attempt to derive a class using the `DeriveAnyClass` strategy when it supports `bespoke` instances, since it is guaranteed that doing so would not produce the instance you'd want.
 
 
 Step 2 is fairly intricate since GHC tries to use `GeneralizedNewtypeDeriving` in certain special cases whenever it can to optimize the generated instances. In addition, the phrase "can be successfully used with `GeneralizedNewtypeDeriving`" must be invoked since it is possible for `GeneralizedNewtypeDeriving` to fail for certain datatypes. For example, you cannot have a newtype-derived `Functor` instance for `newtype Compose f g a = Compose (f (g a))`, since the last type variable `a` cannot be eta-reduced.
