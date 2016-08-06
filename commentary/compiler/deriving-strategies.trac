@@ -115,7 +115,7 @@ Step 2 is fairly intricate since GHC tries to use `GeneralizedNewtypeDeriving` i
 
 To help visualize things, here's a table summarizing which typeclasses GHC decides it can use the `newtype` strategy for (thanks to Ørjan Johansen):
 
-||||                    ||= No extension required              =||||= Requires language extension to use =||
+||                      ||||= No extension required            =||||= Requires language extension to use =||
 ||= GND when possible  =|| 2(a) || `Eq`, `Ord`, `Ix`, `Bounded` ||||                             ||
 ||= GND with extension =|| 2(b) || `Enum`                       || 2(b) || `Functor`, `Foldable` ||
 ||= Never select GND   =|| 2(c) || `Read`, `Show`               || 2(c) || `Data`, `Generic`, `Generic1`, `Typeable`, `Traversable`, `Lift` ||
