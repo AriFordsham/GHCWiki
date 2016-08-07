@@ -43,8 +43,9 @@ Definition:
 1. A type class method `foo` can be exported with `T` just when `T` is a type class which defines `foo`.
 1. A type constructor `S` can be exported with `T` just when `S` is an associated type defined in the type class `T`.
 1. A pattern synonym `P` can be exported with `T` in the case that either
-1. The head of the type of the scrutinee is a definite type constructor (not a type variable) `S` and `T = S`.
-1. The head of the type of the scrutinee is a type variable
+
+  1. The head of the type of the scrutinee is a definite type constructor (not a type variable) `S` and `T = S`.
+  1. The head of the type of the scrutinee is a type variable
 1. A pattern synonym selector `p` belonging to a pattern synonym `P` can be exported with `T` in the case that `P` can be exported with `T`.
 1. A wildcard can always appear in the export list. 
 
