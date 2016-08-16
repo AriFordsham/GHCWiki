@@ -261,6 +261,7 @@ In some situations, we need serialize a unit ID into a compact, deterministic st
 
 ## Reading
 
+- [ GHC Proposal](https://github.com/ezyang/ghc-proposals/blob/backpack/proposals/0000-backpack.rst) (like a specification)
 - [ The Backpack documentation directory](https://git.haskell.org/ghc.git/blob/HEAD:/docs/backpack/). You'll have to build them (just `make`), but here are the files of interest:
 
   - algorithm.tex specifies the abstract core Backpack algorithms for GHC.
