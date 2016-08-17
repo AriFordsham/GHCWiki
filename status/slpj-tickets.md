@@ -219,6 +219,8 @@ See also [TemplateHaskell](template-haskell)
 
 ### Inlining
 
+[Inlining wiki page](inlining)
+
 - [\#11240](https://gitlab.haskell.org//ghc/ghc/issues/11240), [\#8833](https://gitlab.haskell.org//ghc/ghc/issues/8833), [\#3872](https://gitlab.haskell.org//ghc/ghc/issues/3872), [\#5400](https://gitlab.haskell.org//ghc/ghc/issues/5400), [\#5448](https://gitlab.haskell.org//ghc/ghc/issues/5448), [\#5722](https://gitlab.haskell.org//ghc/ghc/issues/5722), [\#7057](https://gitlab.haskell.org//ghc/ghc/issues/7057), [\#7369](https://gitlab.haskell.org//ghc/ghc/issues/7369), [\#9235](https://gitlab.haskell.org//ghc/ghc/issues/9235): Russell's paradox; Y combinator; contravariant data type loop in simplifier inliner
 - [\#4833](https://gitlab.haskell.org//ghc/ghc/issues/4833): finding the right loop breaker
 - [\#3781](https://gitlab.haskell.org//ghc/ghc/issues/3781), [\#3755](https://gitlab.haskell.org//ghc/ghc/issues/3755): inlining for local functions: discount for scrutinising free vars
