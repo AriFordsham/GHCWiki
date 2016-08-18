@@ -373,6 +373,9 @@ damage) because the GHC `Makefiles` use GNU `make`'s
 facilities extensively.
 
 
+Type `make help` to display help on available build targets.
+
+
 To just build the whole thing, `cd` to the top of your build tree and
 type `make`.  This will prepare the tree and build the various parts
 in the correct order, resulting in a complete build of GHC that can
