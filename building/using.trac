@@ -337,6 +337,11 @@ There's an optional final stage, using the stage 2 compiler to build a
 stage 3 compiler, but this isn't strictly necessary, and is only used
 to check that the stage 2 compiler is working properly.
 
+=== Building Documentation ===
+
+To build the users guide type `make html` from the top level directory. You can find the output html in `docs/users_guide/build-html` directory. Similarly`pdf` or `ps` targets can also be used to build a pdf or ps output.
+
+Note that documentation targets will not be enabled by default unless you have `sphinx-build` (for html) or `xelatex` (for pdf) installed. If you install them later then do not forget to run `configure` again. The `build.mk` variables to enable or disable documentation targets are `BUILD_SPHINX_HTML` and `BUILD_SPHINX_PDF`.
 
 === What to do after `make` has finished ===
 
