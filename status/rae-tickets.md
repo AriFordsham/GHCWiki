@@ -103,6 +103,7 @@
 - [\#9394](https://gitlab.haskell.org//ghc/ghc/issues/9394): `:info` should show instances of data and type families.
 - [\#9784](https://gitlab.haskell.org//ghc/ghc/issues/9784): Report better error for `Foo.'Z`
 - [\#10056](https://gitlab.haskell.org//ghc/ghc/issues/10056): Remove the magic from parsing `~`. Some open design questions.
+- [\#12477](https://gitlab.haskell.org//ghc/ghc/issues/12477): Left-sections in types
 
 **Medium**
 
