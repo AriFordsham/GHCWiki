@@ -60,7 +60,7 @@ For a `type instance` declaration for a type family `T`, the free variables of t
 For example, considering
 
 
-{{{!#
+{{{
 data Fin :: N -> Type where                                                     
    FZ :: Fin (S n)                                                               
    FS :: Fin n -> Fin (S n)  

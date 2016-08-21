@@ -70,23 +70,15 @@ For a `type instance` declaration for a type family `T`, the free variables of t
 
 For example, considering
 
-
-{{{!\#
-data Fin :: N -\> Type where                                                     
-
-<table><tr><th>FZ</th>
-<td>Fin (S n)                                                               
-</td></tr>
-<tr><th>FS</th>
-<td>Fin n -\> Fin (S n)  
-</td></tr></table>
-
+```wiki
+data Fin :: N -> Type where                                                     
+   FZ :: Fin (S n)                                                               
+   FS :: Fin n -> Fin (S n)  
 
 data T
 
-
 type instance F T FZ = Int
-}}}
+```
 
 
 We compute the free variables to be `{ F, T, Fin }`. Then, Alex's algorithm ensures that as soon as `F``T` and `Fin` are declared, the instance declaration is added to environment. This ensures that if later declarations depend on `F`, they can make use of this instance.
