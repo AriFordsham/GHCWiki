@@ -2,9 +2,44 @@ This page is to track the discussions on #11348 and #12088.
 
 The essential problem is that type-checking declarations can depend on `type instances` so we must be careful to process `type instance`s in the correct order. 
 
+The motivating example is
+
+{{{
+{-# LANGUAGE PolyKinds #-}
+{-# LANGUAGE TypeFamilies #-}
+{-# LANGUAGE GADTs #-}
+{-# LANGUAGE DataKinds #-}
+{-# LANGUAGE TypeInType #-}
+
+import Data.Kind
+import Data.Proxy
+
+type family TrivialFamily t :: Type
+type instance TrivialFamily (t :: Type) = Bool
+
+data R where
+    R :: Proxy Bool -> R
+
+type ProblemType t = 'R ('Proxy :: Proxy (TrivialFamily t))
+}}}
+
+Which was rejected with
+
+{{{
+error:
+    • Expected kind ‘Proxy Bool’,
+        but ‘'Proxy’ has kind ‘Proxy (TrivialFamily t)’
+    • In the first argument of ‘R’, namely
+        ‘(Proxy :: Proxy (TrivialFamily t))’
+      In the type ‘R (Proxy :: Proxy (TrivialFamily t))’
+      In the type declaration for ‘ProblemType’
+}}}
+
+GHC was typechecking `ProblemType` before the instance for `TrivialFamily` was processed.
+
 = Original Solution
 
-Alex Vieth partially solved the solution for simple cases where `data` instances depend on `type instances` for example. The solution was
+Alex Vieth partially solved the solution for simple cases where `type` declaractions depend on `type instances` as in the example. The solution was
 to *eagerly* process type family instances as soon as it was possible to do so. The solution is inadequate due to the method used to compute dependencies for type instances. 
 
 The algorithm is:
@@ -24,7 +59,8 @@ For a `type instance` declaration for a type family `T`, the free variables of t
 
 For example, considering
 
-```
+
+{{{!#
 data Fin :: N -> Type where                                                     
    FZ :: Fin (S n)                                                               
    FS :: Fin n -> Fin (S n)  
@@ -32,7 +68,7 @@ data Fin :: N -> Type where
 data T
 
 type instance F T FZ = Int
-```
+}}}
 
 We compute the free variables to be `{ F, T, Fin }`. Then, Alex's algorithm ensures that as soon as `F` `T` and `Fin` are declared, the instance declaration is added to environment. This ensures that if later declarations depend on `F`, they can make use of this instance.
 
