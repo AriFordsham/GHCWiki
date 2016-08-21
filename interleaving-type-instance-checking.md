@@ -2,28 +2,13 @@
 This page is to track the discussions on [\#11348](https://gitlab.haskell.org//ghc/ghc/issues/11348) and [\#12088](https://gitlab.haskell.org//ghc/ghc/issues/12088).
 
 
-The essential problem is that type-checking declarations can depend on `type instances` so we must be careful to process `type instance`s in the correct order. 
+The essential problem is that type-checking declarations can depend on `type instance`s so we must be careful to process `type instance`s in the correct order. When necessary interleaving the instances with other declarations.
 
 
 The motivating example is
 
-```wiki
-{-# LANGUAGE PolyKinds #-}
-{-# LANGUAGE TypeFamilies #-}
-{-# LANGUAGE GADTs #-}
-{-# LANGUAGE DataKinds #-}
-{-# LANGUAGE TypeInType #-}
-
-import Data.Kind
-import Data.Proxy
-
-type family TrivialFamily t :: Type
-type instance TrivialFamily (t :: Type) = Bool
-
-data R where
-    R :: Proxy Bool -> R
-
-type ProblemType t = 'R ('Proxy :: Proxy (TrivialFamily t))
+```
+{-# LANGUAGE PolyKinds #-}{-# LANGUAGE TypeFamilies #-}{-# LANGUAGE GADTs #-}{-# LANGUAGE DataKinds #-}{-# LANGUAGE TypeInType #-}importData.KindimportData.ProxytypefamilyTrivialFamily t ::TypetypeinstanceTrivialFamily(t ::Type)=BooldataRwhereR::ProxyBool->RtypeProblemType t ='R('Proxy::Proxy(TrivialFamily t))
 ```
 
 
@@ -70,14 +55,8 @@ For a `type instance` declaration for a type family `T`, the free variables of t
 
 For example, considering
 
-```wiki
-data Fin :: N -> Type where                                                     
-   FZ :: Fin (S n)                                                               
-   FS :: Fin n -> Fin (S n)  
-
-data T
-
-type instance F T FZ = Int
+```
+dataFin::N->TypewhereFZ::Fin(S n)FS::Fin n ->Fin(S n)dataTtypeinstanceFTFZ=Int
 ```
 
 
@@ -86,17 +65,9 @@ We compute the free variables to be `{ F, T, Fin }`. Then, Alex's algorithm ensu
 
 Here is one example which this algorithm fixes.
 
-```wiki
-{-# LANGUAGE TypeInType, TypeFamilies #-}
-module Kinds where
-
-import GHC.Types
-
-type family G (a :: Type) :: Type
-type instance G Int = Bool
-
-type family F (a :: Type) :: G a
-type instance F Int = True
+```
+{-# LANGUAGE TypeInType, TypeFamilies #-}moduleKindswhereimportGHC.TypestypefamilyG(a ::Type)::TypetypeinstanceGInt=BooltypefamilyF(a ::Type)::G a
+typeinstanceFInt=True
 ```
 
 
@@ -118,26 +89,8 @@ type instance F ... ===\> type family F .... =\> type family F1
 
 Here is a simple example to demonstrate the problem:
 
-```wiki
-{-# LANGUAGE TypeInType, GADTs, TypeFamilies #-}
-
-import Data.Kind (Type)
-
-data N = Z | S N
-
-data Fin :: N -> Type where
-  FZ :: Fin (S n)
-  FS :: Fin n -> Fin (S n)
-
-type family FieldCount (t :: Type) :: N
-
-type family FieldType (t :: Type) (i :: Fin (FieldCount t)) :: Type
-
-data T
-
-type instance FieldCount T = S (S (S Z))
-
-type instance FieldType T FZ = Int
+```
+{-# LANGUAGE TypeInType, GADTs, TypeFamilies #-}importData.Kind(Type)dataN=Z|SNdataFin::N->TypewhereFZ::Fin(S n)FS::Fin n ->Fin(S n)typefamilyFieldCount(t ::Type)::NtypefamilyFieldType(t ::Type)(i ::Fin(FieldCount t))::TypedataTtypeinstanceFieldCountT=S(S(SZ))typeinstanceFieldTypeTFZ=Int
 ```
 
 
@@ -146,13 +99,6 @@ The kind of the second argument of `FieldType` depends on `FieldCount`. However,
 # The Solution
 
 [\#12088](https://gitlab.haskell.org//ghc/ghc/issues/12088) is a lengthy discussion about possible solutions to solve this problem.
-
-## Alex V: 1
-
-
-Alex's first proposal was to augment the dependency graph with extra edges to ensure the order resolved correctly. Simon articulates which edges are added:
-
-- We need an edge that makes a `TyClDecl``D` depend on every `InstDecl` that does not depend (transitively) on D.
 
 
 This is incomplete and I don't understand. Please help me fill in the details..!
@@ -165,6 +111,6 @@ is just that `data instance`s are one place where we can use the extra nominal e
 
 >
 > The only instances we must have in hand to do kind-checking are type instances, because they give rise to implicit nominal type/kind equalities (e.g. F Int \~ Bool) that the kind checker must solve.
-
+>
 >
 > But data instances are different: they do not give rise to implicit nominal type/kind equalities. So in that way they behave more like data type declarations. Indeed, I think that the only way that type/class declaration T can depend on a data instance declaration D is if T mentions one of D's promoted data constructors. This will be sorted out by the ordinary SCC analysis.

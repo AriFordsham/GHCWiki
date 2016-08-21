@@ -1,10 +1,10 @@
 This page is to track the discussions on #11348 and #12088.
 
-The essential problem is that type-checking declarations can depend on `type instances` so we must be careful to process `type instance`s in the correct order. 
+The essential problem is that type-checking declarations can depend on `type instance`s so we must be careful to process `type instance`s in the correct order. When necessary interleaving the instances with other declarations.
 
 The motivating example is
 
-{{{
+{{{#!hs
 {-# LANGUAGE PolyKinds #-}
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE GADTs #-}
@@ -60,7 +60,7 @@ For a `type instance` declaration for a type family `T`, the free variables of t
 For example, considering
 
 
-{{{
+{{{#!hs
 data Fin :: N -> Type where                                                     
    FZ :: Fin (S n)                                                               
    FS :: Fin n -> Fin (S n)  
@@ -74,7 +74,7 @@ We compute the free variables to be `{ F, T, Fin }`. Then, Alex's algorithm ensu
 
 Here is one example which this algorithm fixes.
 
-{{{
+{{{#!hs
 {-# LANGUAGE TypeInType, TypeFamilies #-}
 module Kinds where
 
@@ -102,7 +102,7 @@ type instance F ... ===> type family F .... => type family F1
 
 Here is a simple example to demonstrate the problem:
 
-{{{
+{{{#!hs
 {-# LANGUAGE TypeInType, GADTs, TypeFamilies #-}
 
 import Data.Kind (Type)
@@ -130,12 +130,6 @@ The kind of the second argument of `FieldType` depends on `FieldCount`. However,
 
 #12088 is a lengthy discussion about possible solutions to solve this problem.
 
-== Alex V: 1 
-
-Alex's first proposal was to augment the dependency graph with extra edges to ensure the order resolved correctly. Simon articulates which edges are added:
-
-* We need an edge that makes a `TyClDecl` `D` depend on every `InstDecl` that does not depend (transitively) on D.
-
 {{{#!box note
 This is incomplete and I don't understand. Please help me fill in the details..!
 }}}
@@ -146,5 +140,5 @@ The original problem was elucidated by Alex's attempt to allow the promotion of 
 is just that `data instance`s are one place where we can use the extra nominal equalities. They can also be used in other `type instance`s, `type` declarations etc. 
 
 > The only instances we must have in hand to do kind-checking are type instances, because they give rise to implicit nominal type/kind equalities (e.g. F Int ~ Bool) that the kind checker must solve.
-
+>
 > But data instances are different: they do not give rise to implicit nominal type/kind equalities. So in that way they behave more like data type declarations. Indeed, I think that the only way that type/class declaration T can depend on a data instance declaration D is if T mentions one of D's promoted data constructors. This will be sorted out by the ordinary SCC analysis.
