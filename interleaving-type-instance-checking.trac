@@ -94,12 +94,6 @@ The algorithm ensures that `F` depends on `G` so that `G` is processed first. As
 However, this is insufficient as there are other (hidden) dependencies for type instance declarations. We also perform *kind checking* of 
 each argument to the instance declaration, as a result, we should also declare these dependencies to ensure that all instances which could affect this kind checking are processed first.
 
-The problem is not that the type family declaration will not have been processed by the time we get to the instance declaration as the current dependency analysis ensures that `F1` is declared before `F` is declared (as `F1` appears lexically in `F`). It is instead that we should also process all instances for `F1` before any instances for `F` as whether the arguments are well-kinded can depend on the instances for `F1`. 
-
-```
-type instance F ... ===> type family F .... => type family F1
-```
-
 Here is a simple example to demonstrate the problem:
 
 {{{#!hs
