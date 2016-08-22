@@ -28,7 +28,11 @@ $ ./configure --enable-tarballs-autodownload
 $ make
 }}}
 
-This will do a 2-stage bootstrap build of the compiler, with profiling libraries, and install the results in the default location (under {{{/usr/local}}} on Unix, for example).
+This will do a 2-stage bootstrap build of the compiler, with profiling libraries.
+
+== Run without installing ==
+
+You can find the binaries built by make in `inplace` directory under the root of the ghc source tree. The binaries can be run from here without installing.
 
 == Installing ==
 
