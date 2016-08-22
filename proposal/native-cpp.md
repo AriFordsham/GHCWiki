@@ -53,6 +53,7 @@ Currently, GHC relies on the system-installed [ C-preprocessor](http://en.wikipe
   Fragile semantics, as the "traditional mode" in `cpp` GHC relies on is not well-specified, and therefore implementations disagree in subtle but annoying ways
   Consider all the Clang-issues GHC experienced when Apple switched from the GCC toolchain to the Clang toolchain
   Packages using `-XCPP` only tested with one system-`cpp` variant may not work with another system-`cpp` which either means more testing-cost and/or support-costs
+  Clang cpp does not support stringize and string concatenation in traditional mode (see ticket [\#12516](https://gitlab.haskell.org//ghc/ghc/issues/12516))
   As system-`cpp` is designed to handle mostly C-code, it conflicts with Haskell's tokenization/syntax, specifically:
   Haskell-multi-line string literals can't be used anymore with `-XCPP` (c.f. [ SO Question](http://stackoverflow.com/questions/2549167/cpp-extension-and-multiline-literals-in-haskell) and/or [\#10230](https://gitlab.haskell.org//ghc/ghc/issues/10230))
   Haddock comments get mangled as system-`cpp` isn't aware of Haskell comments
@@ -93,7 +94,7 @@ Currently, GHC relies on the system-installed [ C-preprocessor](http://en.wikipe
   The `ghc` package which can be linked into programs currently depends on the packages
   `array`, `base`, `binary`, `bin-package-db`, `bytestring`, `containers`, `deepseq`, `directory`, `filepath`, `ghc-prim`, `hoopl`, `hpc`, `integer-gmp`, `pretty`, `process`, `rts`, `template-haskell`, `time`, `transformers`, and `unix` whose collated `LICENSE` have been pasted as [ http://lpaste.net/131294](http://lpaste.net/131294)
           jQuery.loadStyleSheet("/trac/ghc/pygments/trac.css", "text/css");
-      Download in other formats:[Plain Text](/trac/ghc/wiki/Proposal/NativeCpp?version=17&format=txt)[](http://trac.edgewall.org/)Powered by [Trac 1.2.2](/trac/ghc/about)
+      Download in other formats:[Plain Text](/trac/ghc/wiki/Proposal/NativeCpp?version=18&format=txt)[](http://trac.edgewall.org/)Powered by [Trac 1.2.2](/trac/ghc/about)
 
           By [Edgewall Software](http://www.edgewall.org/).Visit the Trac open source project at
   [http://trac.edgewall.org/](http://trac.edgewall.org/)
