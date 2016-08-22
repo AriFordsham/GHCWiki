@@ -36,10 +36,6 @@ Projects aimed at making GHC into a user-extensible plug-in platform, and less o
 
  * '''Extensible constraint domains'''.  Andrew Kennedy shows how to incorporate [http://research.microsoft.com/~akenn/units/index.html dimensional analysis] into an ML-like type system.  Maybe we could do an extensible version of this, so that it wasn't restricted to dimensions.  Integer arithmetic is another obvious domain.  
 
- * [[TicketQuery(id=788|0)]]
-
- * [[TicketQuery(id=1872|0)]]
-
 === Runtime system ===
 
   * Incremental or concurrent GC, for reducing pause-times.  Perhaps via implementing mark-region GC in the old generation.
@@ -62,20 +58,10 @@ Projects for people who want a decent-sized hacking project, with less research 
  * Whole-program dead-code detection (with {{{--make}}}).
  * Whole-program overloading elimination (with {{{--make}}}).
  * Evolve a better ordering for the optimisation passes using [http://www.coyotegulch.com/products/acovea/ Acovea].
- * [[TicketQuery(id=1341|0)]]
- * [[TicketQuery(id=2979|0)]]
- * [[TicketQuery(id=1884|0)]]
- * [[TicketQuery(id=910|0)]]
- * [[TicketQuery(id=4929|0)]]
 
 == Build system ==
 
  * [[TicketQuery(id=989|0)]]
-
-== Runtime system ==
-
- * [[TicketQuery(id=599|0)]]
- * [[TicketQuery(id=603|0)]]
 
 == Tools ==
 
