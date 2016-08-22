@@ -43,21 +43,35 @@ Projects aimed at making GHC into a user-extensible plug-in platform, and less o
 
 - **Extensible constraint domains**.  Andrew Kennedy shows how to incorporate [ dimensional analysis](http://research.microsoft.com/~akenn/units/index.html) into an ML-like type system.  Maybe we could do an extensible version of this, so that it wasn't restricted to dimensions.  Integer arithmetic is another obvious domain.  
 
+### Runtime system
+
+- Incremental or concurrent GC, for reducing pause-times.  Perhaps via implementing mark-region GC in the old generation.
+
+### Packages
+
+- A package API tool.
+
+- fixed package ABIs for binary-upgradable packages.
+
+---
+
+# Just Hacking
+
+
+Projects for people who want a decent-sized hacking project, with less research content.
+
+## Compiler
+
 - 
 
-  <table><tr><th>[\#788](https://gitlab.haskell.org//ghc/ghc/issues/788)</th>
-  <td>Implement class aliases and/or constraint synonyms</td></tr></table>
+  <table><tr><th>[\#602](https://gitlab.haskell.org//ghc/ghc/issues/602)</th>
+  <td>Warning Suppression</td></tr></table>
 
-  [\#1872](https://gitlab.haskell.org//ghc/ghc/issues/1872)Extensible RecordsRuntime systemIncremental or concurrent GC, for reducing pause-times.  Perhaps via implementing mark-region GC in the old generation.
-  PackagesA package API tool.
-  fixed package ABIs for binary-upgradable packages.
-  Just Hacking
-  Projects for people who want a decent-sized hacking project, with less research content.
-  Compiler[\#602](https://gitlab.haskell.org//ghc/ghc/issues/602)Warning SuppressionWhole-program dead-code detection (with `--make`).
+  Whole-program dead-code detection (with `--make`).
   Whole-program overloading elimination (with `--make`).
   Evolve a better ordering for the optimisation passes using [ Acovea](http://www.coyotegulch.com/products/acovea/).
-  [\#1341](https://gitlab.haskell.org//ghc/ghc/issues/1341)allow loading partially correct modules[\#2979](https://gitlab.haskell.org//ghc/ghc/issues/2979)better support for FFI C wrappers for macros in system headers[\#1884](https://gitlab.haskell.org//ghc/ghc/issues/1884)Win64 Port[\#910](https://gitlab.haskell.org//ghc/ghc/issues/910)--make should have a -j flag for parallel building[\#4929](https://gitlab.haskell.org//ghc/ghc/issues/4929)Support all top-level declarations in GHCiBuild system[\#989](https://gitlab.haskell.org//ghc/ghc/issues/989)Build GHC on Windows using Microsoft toolchainRuntime system[\#599](https://gitlab.haskell.org//ghc/ghc/issues/599)The Front Panel[\#603](https://gitlab.haskell.org//ghc/ghc/issues/603)GC-spy connectionToolsUpdate/improve [ Visual Haskell](http://www.haskell.org/visualhaskell) to use the (free) [ Visual Studio Shell](http://msdn2.microsoft.com/en-us/vsx2008/products/bb933751.aspx).
-  Download in other formats:[Plain Text](/trac/ghc/wiki/ProjectSuggestions?version=21&format=txt)[](http://trac.edgewall.org/)Powered by [Trac 1.2.2](/trac/ghc/about)
+  Build system[\#989](https://gitlab.haskell.org//ghc/ghc/issues/989)Build GHC on Windows using Microsoft toolchainToolsUpdate/improve [ Visual Haskell](http://www.haskell.org/visualhaskell) to use the (free) [ Visual Studio Shell](http://msdn2.microsoft.com/en-us/vsx2008/products/bb933751.aspx).
+  Download in other formats:[Plain Text](/trac/ghc/wiki/ProjectSuggestions?version=22&format=txt)[](http://trac.edgewall.org/)Powered by [Trac 1.2.2](/trac/ghc/about)
 
           By [Edgewall Software](http://www.edgewall.org/).Visit the Trac open source project at
   [http://trac.edgewall.org/](http://trac.edgewall.org/)
