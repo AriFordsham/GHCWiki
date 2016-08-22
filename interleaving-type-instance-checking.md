@@ -1,5 +1,9 @@
 
-This page is to track the discussions on [\#11348](https://gitlab.haskell.org//ghc/ghc/issues/11348) and [\#12088](https://gitlab.haskell.org//ghc/ghc/issues/12088).
+This page is to track the discussions on
+
+- [\#11348](https://gitlab.haskell.org//ghc/ghc/issues/11348)
+- [\#12088](https://gitlab.haskell.org//ghc/ghc/issues/12088)
+- [\#12239](https://gitlab.haskell.org//ghc/ghc/issues/12239)
 
 
 The essential problem is that type-checking declarations can depend on `type instance`s so we must be careful to process `type instance`s in the correct order. When necessary interleaving the instances with other declarations.
