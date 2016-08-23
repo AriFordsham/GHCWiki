@@ -54,6 +54,16 @@ make html
 substitute 'html' for 'pdf' or 'ps' to build other types of documentation. Note that this will still build the whole compiler if you have not already built it as some pages
 of the documentation are automatically generated. 
 
+After building you can find the html users' guide in `docs/users_guide/build-html`.
+
 == Installing documentation ==
 
 Documentation is installed by default by 'make install'.
+
+== Diagnostics ==
+
+* Most custom build flavors disable documentation targets (see `mk/flavours/*.mk`)
+* Check for the values of appropriate build variables described above in `config.mk`
+* If `sphinx-build` tool is not installed on your machine the HTML docs will be disabled in `config.mk`
+* If `xelatex` is not installed on your machine PDF docs will be disabled in `config.mk`
+* If you install these tools later do not forget to run `configure` again
