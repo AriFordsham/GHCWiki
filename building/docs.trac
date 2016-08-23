@@ -54,6 +54,8 @@ make html
 substitute 'html' for 'pdf' or 'ps' to build other types of documentation. Note that this will still build the whole compiler if you have not already built it as some pages
 of the documentation are automatically generated. 
 
+After building you can find the html users' guide in `docs/users_guide/build-html`.
+
 == Installing documentation ==
 
 Documentation is installed by default by 'make install'.
