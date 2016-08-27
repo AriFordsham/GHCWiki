@@ -13,7 +13,7 @@ We welcome your involvement in making GHC able to do more. Here's how to do it. 
 
   - The [ flag reference](https://downloads.haskell.org/~ghc/master/users-guide/flags.html) section generated from the modules in `utils/mkUserGuidePart/Options/`.
   - The flag descriptions in `docs/users_guide/using.rst` provide a detailed explanation of each flags' usage. 
-1. Add a section to the latest **release notes** (`docs/users_guide/7.12.1-notes.rst` or `libraries/base/changelog.md`).
+1. Add a section to the latest **release notes** (`docs/users_guide/<version>-notes.rst` or `libraries/base/changelog.md`).
 
 ## Things to bear in mind
 
