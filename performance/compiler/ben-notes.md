@@ -29,3 +29,8 @@ I suspect these will both be addressed by ed480981/ghc, which fixes a bug (intro
 
 
 Rather significant regression due to [dd3080fe0263082f65bf2570f49189c277b12e28](/trac/ghc/changeset/dd3080fe0263082f65bf2570f49189c277b12e28/ghc). Ended up being due to a redundant lookup in the original name cache. See [\#12357](https://gitlab.haskell.org//ghc/ghc/issues/12357).
+
+## fltk
+
+
+See [\#12506](https://gitlab.haskell.org//ghc/ghc/issues/12506).

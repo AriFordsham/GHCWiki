@@ -24,3 +24,6 @@ I suspect these will both be addressed by ed480981/ghc, which fixes a bug (intro
 == Tuple constraint size ==
 
 Rather significant regression due to dd3080fe0263082f65bf2570f49189c277b12e28. Ended up being due to a redundant lookup in the original name cache. See #12357.
+
+== fltk ==
+See #12506.
