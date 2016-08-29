@@ -5,7 +5,7 @@
 - side-by-side diffs, inline comments, blocking states, command line access
 - Better notifications: use "Herald" to control emails very closely, or commits or reviews you are interested in.
 - Increased visibility for code review and feedback.
-- Automatic `./validate` builds when using Arcanist! (see "Harbormaster" below)
+- Automatic `./validate` builds when using Arcanist! (see [Phabricator/Harbormaster](phabricator/harbormaster))
 - [ Meme support](https://phabricator.haskell.org/macro/) (optional)
 - Other features you might like, such as an IRC bot, and [ Terminator jokes](https://github.com/phacility/phabricator/blob/8756d82cf6c13d86019efeb9df8bcdaad1b17ec8/src/infrastructure/daemon/bot/handler/PhabricatorBotObjectNameHandler.php#L66).
 
