@@ -62,6 +62,8 @@ $ arc install-certificate
 
 Follow the directions it specifies - afterwards, your arcanist tool will be properly authenticated! Now you can submit reviews, paste things, etc etc.
 
+**Remember:** In order to use our continuous integration service (Harbourmaster) you need to [ upload your SSH key](https://phabricator.haskell.org/settings/).
+
 *Note*: once the certificate is installed, it will be written to `$HOME/.arcrc`, so it doesn't need to be installed again.
 
 **Question**: How does `arc install-certificate` know what URL to use?
