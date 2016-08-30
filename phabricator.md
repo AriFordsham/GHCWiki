@@ -1,6 +1,6 @@
 # Using Phabricator for GHC development
 
-[ Phabricator](http://phabricator.org) (AKA "Phab") is a suite of tools for software development, initially developed by Facebook. The functionality is similar to using github and TravisCI: it is primarily used for code review and automated builds. Uses include:
+[ Phabricator](http://phabricator.org) (a.k.a."Phab") is a suite of tools for software development, initially developed by Facebook. The functionality is similar to using github and TravisCI: it is primarily used for code review and automated builds. Uses include:
 
 - side-by-side diffs, inline comments, blocking states, command line access
 - Better notifications: use "Herald" to control emails very closely, or commits or reviews you are interested in.
@@ -19,6 +19,11 @@ Next, click the power button in the top right corner. You'll be taken to a login
 
 
 Afterwords Phab will send you a verification email, which you'll need to open and read - so use a correct email address!
+
+## Adding an SSH public key
+
+
+Much like GitHub, you will need to add an SSH public key to your account to push Differentials. To add a key, go to your Phabricator [ settings page](https://phabricator.haskell.org/settings/), select the *Personal Account Settings* item, and then select the *SSH Public Keys* option from the list on the left. This will bring you to your SSH key list, to which you can add a new key by selecting the *Upload Public Key* option from the *SSH Key Actions* menu button in the top-right corner of the page. Here you can specify a name of your choice for the key, as well as the key contents (e.g. the contents of `$HOME/.ssh/id_rsa.pub`). By sure to paste your *public* key (ending in `.pub`), not your private key.
 
 ## Understanding the interface
 
@@ -103,7 +108,10 @@ $ arc diff HEAD~
 ```
 
 
-which submits the HEAD commit to Phabricator. `arc` will then respond with the revision number and a URL where you can visit your change.
+which submits the `HEAD` commit to Phabricator and use your SSH public key to push a branch to the GHC Differentials [ repository](https://phabricator.haskell.org/diffusion/GHCDIFF/). If you have not added an SSH key you can skip pushing the branch with the `--skip-staging` flag.
+
+
+After pushing your new Differential `arc` will respond with the revision number and a URL where you can view and discuss your change.
 
 **NOTE**:  The above assumes you only want to send one commit to start with, which is the current tip of your branch. By default, when you say `arc diff XXX`, arcanist generates a diff starting from commit `XXX`, against your current `HEAD`. If you want to send multiple commits at once when you create a revision, simply specify the 'base' commit instead of `HEAD~`. `HEAD~` means "the commit before HEAD", so arcanist generates a diff between "HEAD" and "the commit before HEAD". Those commits can be seen with `git log` by running `git log <base>..HEAD` where `<base>` is the chosen commit. Simply make sure `git log <base>..HEAD` has all the commits you want, and run `arc diff <base>`.
 
@@ -115,6 +123,9 @@ $ emacs ...
 $ git commit -asm "fix bug in new feature"
 $ arc diff # update existing review
 ```
+
+
+If you have not added an SSH public key to your account and don't feel like 
 
 ## Everything else
 
