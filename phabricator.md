@@ -1,6 +1,6 @@
 # Using Phabricator for GHC development
 
-[ Phabricator](http://phabricator.org) (AKA "Phab") is a suite of tools for software development, initially developed by Facebook. The functionality is similar to using github and TravisCI: it is primarily used for code review and automated builds. Uses include:
+[ Phabricator](http://phabricator.org) (a.k.a."Phab") is a suite of tools for software development, initially developed by Facebook. The functionality is similar to using github and TravisCI: it is primarily used for code review and automated builds. Uses include:
 
 - side-by-side diffs, inline comments, blocking states, command line access
 - Better notifications: use "Herald" to control emails very closely, or commits or reviews you are interested in.
