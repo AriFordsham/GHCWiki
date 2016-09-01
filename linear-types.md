@@ -184,6 +184,18 @@ Given `p ::1 TensorPair a b`, we cannot have `first p ::1 a`, because then we wo
 
 We remark that having `x ::ω TensorPair a b` is semantically equivalent to having `x :: (a,b)`; thus it would make sense to let linearity be the default for weights in data types.
 
+## Lazy pattern matching
+
+
+Lazy pattern matching on a linear fields is disallowed. For example if we write
+
+```
+letTensorPair x y = t in...
+```
+
+
+Then we must have `(t ::ω TensorPair A B`, and not `(t ::1 TensorPair A B`. The reason for this limitation is that, essentially, accessing `x` and `y` correspond to using projection functions.
+
 ## Runtime semantics
 
 
