@@ -199,7 +199,7 @@ Then we must have `(t ::ω TensorPair A B`, and not `(t ::1 TensorPair A B`. The
 ## Runtime semantics
 
 
-In this proposal, we tackle only the type-checking aspects of linear types. Taking advantage of linearity in order to improve the performance of programs is left to future work, either as changes in the compiler on in libraries.
+In this proposal, we tackle only the type-checking aspects of linear types. Taking advantage of linearity in order to improve the performance of programs is left to future work, either as changes in the compiler or in libraries.
 
 # Evaluating alternatives
 
@@ -226,7 +226,7 @@ do
   h1 <- newSHandle file1 ReadMode
   h3 <- newRgn $do
     h2 <- liftSIO (newSHandle file2 ReadMode)
-    file3 <- shGetLine h2
+    fname <- shGetLine h2
     h3 <- liftSIO (newSHandle fname WriteMode)
     till (liftM2 (||)(shIsEOF h2)(shIsEOF h1))(shGetLine h2 >>= shPutStrLn h3 >>
        shGetLine h1 >>= shPutStrLn h3)
