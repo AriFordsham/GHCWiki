@@ -7,8 +7,8 @@ Examples of programs benefiting from linear types fall into three categories.
 Linear types can be used to encode protocols, in a way very similar to 'session types'. Linearity checks ensure that the protocol is respected (so one does not backtrack or drops out).
 
 ```
-pr::Double->Effect-- "prints" a numbertypeN a = a ⊸EffectdataClient=MulDoubleDouble(N(Double⊗Server))-- Client sends two 'Double' and-- expects a double and a new server-- session.|TerminatetypeServer=NClientexampleClient::N(NClient)exampleClient server = server $Mul1234$\(product,server')->-- do something with the product
-  pr product <> server' TerminateexampleServer::ServerexampleServer client =case client ofMul x y k -> k (x*y,exampleServer)Terminate-> return ()
+type a ⊗ b =...{- see proposal -}type a ⊸ b =...{- see proposal -}typeEffect=IO()-- for examplepr::Double->Effect-- "prints" a numbertypeN a = a ⊸EffectdataClient=MulDoubleDouble(N(Double⊗Server))-- Client sends two 'Double' and-- expects a double and a new server-- session.|TerminatetypeServer=NClientexampleClient::N(NClient)exampleClient server = server $Mul1234$\(product,server')->-- do something with the product
+  pr product >> server' TerminateexampleServer::ServerexampleServer client =case client ofMul x y k -> k (x*y,exampleServer)Terminate-> return ()
 ```
 
 # Correctness of optimized code
@@ -49,7 +49,18 @@ copySetP::[FilePath]->[FilePath]->IO()copySetP srcs dsts =do
 One then faces two classes of new problems.
 
 
-First, any non-linear (precisely non-affine) use of such a representation will **duplicate work**. If one is not careful, one may end up with a program which does not use any intermediate memory, but duplicates a lot of intermediate computations. Linear types solve the problem by preventing such duplications. (Combinators may be still provided to duplicate computation explicitly or store intermediate results explicitly.)
+First, any non-linear (precisely non-affine) use of such a representation will **duplicate work**. For example:
+
+```
+example srcs dsts =do
+  ss <- expensiveComputation <$> sourceFs srcs
+  sk <- sinkFs  dsts
+  drainP ss sk
+  drainP ss sk -- expensiveComputation is run a second time here.
+```
+
+
+If one is not careful, one may end up with a program which does not use any intermediate memory, but duplicates a lot of intermediate computations. Linear types solve the problem by preventing such duplications. (Combinators may be still provided to duplicate computation explicitly or store intermediate results explicitly.)
 
 
 Second, such representations may contain effects. In this situation, non-linear uses may produce an **incorrect program**. If one takes the example of a non-recursive representation of files, one may have two processes writing simultaneously in the same file (potentially corrupting data), or one may forget to close the file.
