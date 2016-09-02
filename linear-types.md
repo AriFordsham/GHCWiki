@@ -84,7 +84,7 @@ The idea is to track, in the context, the number of times that a variable is pro
 When performing a function call, the context used to check the argument is scaled by the weight of the function type. This concept can be expressed by the following rules:
 
 ```wiki
- Γ ⊢ f :ρ S ­> T     Δ ⊢ s :ω S
+ Γ ⊢ f :ρ S -­> T     Δ ⊢ s :ω S
 –––––––––––––––––––––––––––––––––– unrestricted application
           Γ+Δ ⊢ f s  :ρ  T
 
@@ -143,7 +143,7 @@ dataD=C(y ::ρ B)case x ofC y ->_
 ```
 
 
-In _ we have `x ::(π×ρ) B`
+In _ we have `y ::(π×ρ) B`
 
 
 Let us see how this plays out for lists. Say we define
