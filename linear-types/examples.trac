@@ -42,9 +42,14 @@ The problem with this scheme is that it involves two phases of heuristics (rules
 A partial remedy to this solution is to stop relying on rewrite rules, and use directly non-recursive representations. For example the following representation from Lippmeier et al.:
 
 {{{#!hs
-data Sources i m e = Sources
+data Sources i m e = Sources -- 'i' is the array's index type, 'e' the type of elements and 'm' the effects
   { arity :: i
-  , pull  :: i -> (e -> m ()) -> m () -> m () }
+  , pull  :: i -> (e -> m ()) -> m () -> m () } -- 'pull' is an iterator to apply to every elements of the array (like 'traverse')
+
+data Sinks i m e = Sinks
+  { arity :: i
+  , push  :: i -> e -> m ()
+  , eject :: i -> m () }
 }}}
 Such representations are typically functionals, and thus do not consume memory. One eventually gets code which is guaranteed to be 'fused'. For instance, in the following example from Lippmeier et al. [http://benl.ouroborus.net/papers/2016-polarized/dpdf-FHPC2016-preprint.pdf], neither the source nor the sink represent data in memory.
 
@@ -63,8 +68,8 @@ Second, such representations may contain effects. In this situation, non-linear 
 
 Quoting Lippmeier et al.:
 
-<blockquote>In general an object of type Sources is an abstract producer of data, and it may not even be possible to rewind it to a previous state — suppose it was connected to a stream of sensor readings. Alas the Haskell type system does not check linearity so we rely on the programmer to enforce it manually.
-</blockquote>
+  In general an object of type Sources is an abstract producer of data, and it may not even be possible to rewind it to a previous state — suppose it was connected to a stream of sensor readings. Alas the Haskell type system does not check linearity so we rely on the programmer to enforce it manually.
+
 Literature on this style of non-recursive representations includes additionally:
 
 * Push and Pull arrays in Feldspar https://scholar.google.com/scholar?oi=bibs&hl=en&cites=5417443716167196803
