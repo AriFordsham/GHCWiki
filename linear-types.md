@@ -208,7 +208,7 @@ In this proposal, we tackle only the type-checking aspects of linear types. Taki
 ### Scoped resource allocation
 
 
-The standard solution for managing resources in Haskell is to use monads. In this subsection we compare the lightweight regions monad with linear types. This example is inspired by [Kiselyov and Chan](linear-types#regions).
+The standard solution for managing resources in Haskell is to use monads. In this subsection we compare the lightweight regions monad with linear types. This example is inspired by [Kiselyov and Shan](linear-types#regions).
 
 
 Our representative example below concerns three files: `file1` and `file2` are known files; the first line of `file2` is the name of `file3`. The remaining lines of `file2` and the lines of `file1` are interleaved into `file3` (until one of the files runs out of lines, in the fashion of `zip`). Finally "Done" is printed in `file3`. We'll compare two implementations of this example: one with monadic regions and one with first-class linear types.
@@ -219,7 +219,7 @@ Note that one application of managing resource lifespans is doing away with a ga
 #### Monadic regions
 
 
-The following code is adapted from [Kiselyov and Chan](linear-types#regions). It uses the library developed in the paper. It uses a system of monadic regions to be able to close `file2` as soon as possible (*i.e.* when the sub-region introduced by `newRgn` ends).
+The following code is adapted from [Kiselyov and Shan](linear-types#regions). It uses the library developed in the paper. It uses a system of monadic regions to be able to close `file2` as soon as possible (*i.e.* when the sub-region introduced by `newRgn` ends).
 
 ```
 do
