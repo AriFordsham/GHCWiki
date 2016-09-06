@@ -1,0 +1,120 @@
+== Done so far ==
+
+* Original paper: [https://www.microsoft.com/en-us/research/publication/sequent-calculus-as-a-compiler-intermediate-language/ Sequent calculus as an intermediate language]
+
+* Repo:  `git://github.com/lukemaurer/ghc`, branch `wip/join-points`
+
+* New variant of Core.
+  * IdDetails has a constructor for JoinPointId, with its arity.
+  * Join points can be recursive
+  * Lint checks many invariants about join points
+  * All transformations are "join-point aware"; that is, they maintain join-point-hood.
+  * Nullary join points do not take a void argument (as they did before).
+  * Join-point Ids survive in Iface unfoldings
+
+== Join Point Analysis (JFP) ==
+
+Join Point Analysis (JPA), implemented in `CoreJoins.findJoinsInPgm`, is a new analysis that identifies join points, and marks them as such.
+
+Currently we run JPA fairly frequently in the pipeline.  In due course this could become part of the occurrence analyser, because (a) we'd discover join points quickly, (b) it's doing much the same kind of thing (analysing occurrences).
+
+Currently JPA has two passes, so that it can propagate the binding sites to occurrences.  Not necessary to do this if the simplifier runs immediately afterwards (it propagates).
+
+
+== Transformations ==
+
+These places need to be made join-point aware
+
+* Worker/wrapper for strictness: we do want w/w for arguments, but not for the return side (CPR).
+
+* Float-in: floated in a bit too far.  Elaborate!
+
+* Float-out.
+  * First approximation: don't float join points at all.
+  * Nullary join points, if floated, cease to be join points but instead become shared thunks.  On balance this is a win.
+  * Floating to top level.  Doesn't make much difference either way.  BUT we lose the ability to move case context into the join point. eg
+{{{
+f x = let j y = blah in
+      case x of
+        True  -> j 1
+        False -> j 2
+}}}
+  Now if we inline `f` into a case scrutinee, the case will move into `blah`.  BUT if we float `j` to top level.  So you might think that floating to top level was harmful. But consider (non-recursive case):
+    * If `blah` is big, `f` will not inline, so we will never wrap its RHS in a case.
+    * If `blah` is small enough for `f` to inline, then a fortiori `j` will inline too.
+    Moreover, floating to top level makes f more likely to inline.  Example:
+{{{
+f x y = let j v = blah(strict in v) in
+        case x of
+          A -> j y
+          B -> j y
+          C -> x
+}}}
+    Here `f` is strict in `x` but not `y`.  If we float the joint point to top level, `f` can inline, which exposes the strictness in `y`.
+
+    If `j` is recursive, the above argument doesn't apply; not floating a small join point would be good, so that f can inline with it intact.
+
+* Simplifier, obviously.  Moving the context into the RHS of join points.  Never float a joint-point at all.
+
+* NB: Float-in is a transformation that often creates join points:
+{{{
+     let f x = ...f x'... in
+     case f t of alts
+==>
+     case (let f x = ...f x'... in f t) of alts
+          -- Now f is a join point!
+}}}
+  NB: the very next run of the simplifier will float that `let`-binding for `f` out of the `case` scrutinee.  So it's important to look for join points before running the simplifier again.  Thus: (float-in; then find-join-points; then simplify)
+
+* Added Late Lambda Lift.  But still work to do here.
+
+== Cases where we win ==
+
+Add `testsuite/test/perf/join-points/`
+
+* For each place where you had to work to retain join points, make an example in which GHC currently destroys one, and behaves badly as a result.  Plus some examples like Section 4.3 in the paper.
+
+* Great fusion examples!  NB: that `go` functions do not start life as join points;
+{{{
+sfilter p (Stream s step)
+  = Stream s fstep
+  where
+    fstep []                 = Done
+    fstep (x:xs) | p x       = Yield (f xs) xs
+                 | otherwise = fstep xs
+}}}
+   Here `fstep` is not a join point, because it is not called in a saturated way.   But when we inline it, it becomes one.  We must spot this pronto before we destroy it.  (A reason for doing JPA in the occurrence analyser.)
+
+
+== Still to do ==
+
+* Rule matcher does some let-floating of its own.
+{{{
+RULE   f (g x) = x+1
+
+     ...(f (let v = e in g (v-2)))....
+==> (rule fires)
+     ...(let v = e in
+         let x = v-2 in
+         x+1)...
+}}}
+  Be careful not to do this for join points
+
+* Try not propagating join points to occurrences in `findJoinsInPgm`; instead rely on simplifier.
+
+* Desguarer should not add Void args to nullary join points.
+
+* Dump the CoreToStg join point analysis in favour of the known join-points.
+  * Check: does the CoreToStg analysis miss any JoinPointIds
+  * Question: since STG is untyped, could it find more joint points that JPA does?)
+
+* Currently CorePrep adds a void arg for a nullary join point.  Check: why?  What goes wrong if we don't do this?
+
+* Idea: heap check for join point done at call site, not in join point itself. (Does not work for recursive join oints.)
+
+* `CoreUnfold.sizeExpr`: SPJ claims: we should charge nothing for a join point binding or for its lambdas, or for its call.  (Reason: a join-point binding generates no allocation.)  Luke thinks that this was catastrophic in at least one case.  Investigate.
+
+* Do Late Lambda Lifting (followed by simplify) ''after'' `CoreTidy`.
+  * Then post LLL unfoldings won't affect downstream modules
+  * But newly-small functions can still be inlined
+  * Absolutely requires Arity/CAF info to be fed back from `CoreToStg`
