@@ -35,7 +35,7 @@ These places need to be made join-point aware
 
 - Float-out.
 
-- First approximation: don't float join points at all.
+  - First approximation: don't float join points at all.
 
 - Nullary join points, if floated, cease to be join points but instead become shared thunks.  On balance this is a win.
 
