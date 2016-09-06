@@ -39,10 +39,15 @@ These are issues that need to be addressed elsewhere in the compiler,
 - [\#11722](https://gitlab.haskell.org//ghc/ghc/issues/11722): need a representation for unboxed types; closely related to [\#11736](https://gitlab.haskell.org//ghc/ghc/issues/11736)
 - [\#11715](https://gitlab.haskell.org//ghc/ghc/issues/11715): `TypeOf` fails due to the fact that `Constraint` and `*` are indistinguishable in Core
 
+## Immediate next steps
+
+- Fix [\#11714](https://gitlab.haskell.org//ghc/ghc/issues/11714)
+- Move things to a richer `TypeRep` representation to make user serialization implementations safer.
+
 ## Tickets
 
 
-Use Keyword = `Typable` to ensure that a ticket ends up on these lists.
+Use Keyword = `Typeable` to ensure that a ticket ends up on these lists.
 
 **Open Tickets:**
 
@@ -445,9 +450,13 @@ patternTRFun arg res <-TRApp_(TRApp_(TrArrow__) arg) res whereTRFun arg res = mk
 ```
 
 
-This approach trades some boilerplate complexity for a more complex
+This approach trades some user-code complexity for a more complex
 representation type. I'm not yet certain whether it would be an improvement over
 the current state of affairs. It has the disadvantage that the implementation
 needs to take care to normalize representations that it builds (e.g. prefer
 `TrType` to `TrApp TrTYPE Tr'PtrRepLifted`). That being said, it may be a bit
 more efficient for the compiler to produce dictionaries in this form.
+
+```
+mkApp::TypeRep a ->TypeRep b ->TypeRep(a b)mkAppTrTYPETr'PtrRepLifted=TrTypemkAppTrTYPE
+```
