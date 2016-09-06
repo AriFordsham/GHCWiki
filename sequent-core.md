@@ -36,33 +36,31 @@ These places need to be made join-point aware
 - Float-out.
 
   - First approximation: don't float join points at all.
-
-- Nullary join points, if floated, cease to be join points but instead become shared thunks.  On balance this is a win.
-
-- Floating to top level.  Doesn't make much difference either way.  BUT we lose the ability to move case context into the join point. eg
-
-  ```wiki
-  f x = let j y = blah in
-        case x of
-          True  -> j 1
-          False -> j 2
-  ```
-
-  Now if we inline `f` into a case scrutinee, the case will move into `blah`.  BUT if we float `j` to top level.  So you might think that floating to top level was harmful. But consider (non-recursive case):
-
-  - If `blah` is big, `f` will not inline, so we will never wrap its RHS in a case.
-  - If `blah` is small enough for `f` to inline, then a fortiori `j` will inline too.
-    Moreover, floating to top level makes f more likely to inline.  Example:
+  - Nullary join points, if floated, cease to be join points but instead become shared thunks.  On balance this is a win.
+  - Floating to top level.  Doesn't make much difference either way.  BUT we lose the ability to move case context into the join point. eg
 
     ```wiki
-    f x y = let j v = blah(strict in v) in
-            case x of
-              A -> j y
-              B -> j y
-              C -> x
+    f x = let j y = blah in
+          case x of
+            True  -> j 1
+            False -> j 2
     ```
 
-    Here `f` is strict in `x` but not `y`.  If we float the joint point to top level, `f` can inline, which exposes the strictness in `y`.
+    Now if we inline `f` into a case scrutinee, the case will move into `blah`.  BUT if we float `j` to top level.  So you might think that floating to top level was harmful. But consider (non-recursive case):
+
+    - If `blah` is big, `f` will not inline, so we will never wrap its RHS in a case.
+    - If `blah` is small enough for `f` to inline, then a fortiori `j` will inline too.
+      Moreover, floating to top level makes f more likely to inline.  Example:
+
+      ```wiki
+      f x y = let j v = blah(strict in v) in
+              case x of
+                A -> j y
+                B -> j y
+                C -> x
+      ```
+
+      Here `f` is strict in `x` but not `y`.  If we float the joint point to top level, `f` can inline, which exposes the strictness in `y`.
 
 > >
 > > If `j` is recursive, the above argument doesn't apply; not floating a small join point would be good, so that f can inline with it intact.
