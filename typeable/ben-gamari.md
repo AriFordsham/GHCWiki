@@ -39,10 +39,15 @@ These are issues that need to be addressed elsewhere in the compiler,
 - [\#11722](https://gitlab.haskell.org//ghc/ghc/issues/11722): need a representation for unboxed types; closely related to [\#11736](https://gitlab.haskell.org//ghc/ghc/issues/11736)
 - [\#11715](https://gitlab.haskell.org//ghc/ghc/issues/11715): `TypeOf` fails due to the fact that `Constraint` and `*` are indistinguishable in Core
 
+## Immediate next steps
+
+- Fix [\#11714](https://gitlab.haskell.org//ghc/ghc/issues/11714)
+- Move things to a richer `TypeRep` representation to make user serialization implementations safer.
+
 ## Tickets
 
 
-Use Keyword = `Typable` to ensure that a ticket ends up on these lists.
+Use Keyword = `Typeable` to ensure that a ticket ends up on these lists.
 
 **Open Tickets:**
 
