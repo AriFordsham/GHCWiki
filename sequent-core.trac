@@ -31,9 +31,9 @@ These places need to be made join-point aware
 
 * Float-out.
 
-  * First approximation: don't float join points at all.
+    * First approximation: don't float join points at all.
 
-  * Nullary join points, if floated, cease to be join points but instead become shared thunks.  On balance this is a win.
+    * Nullary join points, if floated, cease to be join points but instead become shared thunks.  On balance this is a win.
 
   * Floating to top level.  Doesn't make much difference either way.  BUT we lose the ability to move case context into the join point. eg
 {{{
