@@ -27,6 +27,8 @@ These places need to be made join-point aware
 
 * Worker/wrapper for strictness: we do want w/w for arguments, but not for the return side (CPR).
 
+* Float-in: floated in a bit too far.  Elaborate!
+
 * Float-out.
 
   * First approximation: don't float join points at all.
