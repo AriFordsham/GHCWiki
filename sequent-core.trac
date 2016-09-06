@@ -1,5 +1,7 @@
 == Done so far ==
 
+* Original paper: [https://www.microsoft.com/en-us/research/publication/sequent-calculus-as-a-compiler-intermediate-language/ Sequent calculus as an intermediate language]
+
 * Repo:  `git://github.com/lukemaurer/ghc`, branch `wip/join-points`
 
 * New variant of Core.
