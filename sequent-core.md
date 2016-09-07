@@ -135,9 +135,9 @@ Add `testsuite/test/perf/join-points/`
   sfilter p (Stream s step)
     = Stream s fstep
     where
-      fstep []                 = Done
-      fstep (x:xs) | p x       = Yield (f xs) xs
-                   | otherwise = fstep xs
+      fstep s = case step s of Done                   -> Done
+                               Yield x s' | p x       -> Yield x s'
+                                          | otherwise -> fstep s'
   ```
 
 >
