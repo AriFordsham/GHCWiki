@@ -31,6 +31,38 @@ These places need to be made join-point aware
 
 - Worker/wrapper for strictness: we do want w/w for arguments, but not for the return side (CPR).
 
+>
+> We can't do CPR because (in the recursive case) the worker calls the wrapper, so it needs to be a join point, but a CPR wrapper always invokes the worker from a `case` expression, so it can't be a join point. Fortunately, CPR is rarely necessary for join points because they benefit from the CPR on their context:
+>
+> ```wiki
+>   f z = let join j x y = (x+1, y+1)
+>         in case z of A -> j 1 2
+>                      B -> j 2 3
+> ```
+>
+>
+> Performing CPR on `f` gives us
+>
+> ```wiki
+>     f z = case $wf z of (# a, b #) -> (a, b)
+>   $wf z = case (let join j x y = (x+1, y+1)
+>                 in case z of A -> j 1 2
+>                              B -> j 2 3) of (a, b) -> (# a, b #)
+> ```
+>
+>
+> and now the simplifier will push the outer `case` into the join point:
+>
+> ```wiki
+>   f z = case $wf z of (# a, b #) -> (a, b)
+>   $wf z = let join j x y = (# x+1, y+1 #)
+>           in case z of A -> j 1 2
+>                        B -> j 2 3
+> ```
+>
+>
+> (But what if the join point has the CPR property but the outer function doesn't? Seems like we're still ahead because original GHC would've ruined the join point.)
+
 - Float In is crucial for finding join points, especially recursive ones. Consider:
 
   ```wiki
