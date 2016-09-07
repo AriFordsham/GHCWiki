@@ -153,6 +153,9 @@ suspend a = a
 
 `Force` and `suspend` can be written purely as library code, however there is a cost of an indirection of `Force`. We might notice, however, that the value of type `Force a` only admits the value `Force a`: `undefined` is excluded by the `Unlifted` kind, and `Force undefined` is excluded by the strict field.  Thus, it would be great if we could represent `Force` on the heap simply as an unlifted pointer to `a`, which is never undefined.
 
+>
+> Note from David Feuer: the indirection problem could be resolved via [ https://ghc.haskell.org/trac/ghc/wiki/NewtypeOptimizationForGADTS](https://ghc.haskell.org/trac/ghc/wiki/NewtypeOptimizationForGADTS), which would be a good thing for other reasons too.
+
 
 Ideally, we would like to define the coercion `Coercible (Force a) a`, to witness the fact that `Force a` is representationally the same as `a`. However, there are two problems:
 
