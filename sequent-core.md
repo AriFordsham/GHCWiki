@@ -161,6 +161,152 @@ Add `testsuite/test/perf/join-points/`
 
 - For each place where you had to work to retain join points, make an example in which GHC currently destroys one, and behaves badly as a result.  Plus some examples like Section 4.3 in the paper.
 
+- The new simplifier opens new possibilities for fusion, especially in the `unfold`/`destroy` tradition (which we can think of as stream fusion without the `Skip` constructor).
+
+  ```wiki
+  data Stream a = forall s. Stream (s -> Step a s) s
+  data Step a s = Done | Yield a s
+
+  {-# INLINE stream #-}
+  stream :: [a] -> Stream a
+  stream xs = Stream snext xs where
+    snext []     = Done
+    snext (x:xs) = Yield x xs
+
+  {-# INLINE unstream #-}
+  unstream :: Stream a -> [a]
+  unstream (Stream next s) = go s where
+    go s = case next s of
+             Done       -> []
+             Yield x s' -> x : go s'
+
+  {-# INLINE sfilter #-}
+  sfilter :: (a -> Bool) -> Stream a -> Stream a
+  sfilter p (Stream next s) = Stream fnext s
+    where
+      fnext s = 
+        let fgo s = case next s of
+              Done -> Done
+              Yield x s' | p x       -> Yield x s'
+                         | otherwise -> fgo s'
+         in fgo s
+
+  filter :: (a -> Bool) -> [a] -> [a]
+  filter = unstream . sfilter . stream
+  ```
+
+  Getting good performance out of fusion depends on getting rid of the `Done` and `Yield` constructors, which are never intended to create long-lived data, only to direct control flow. Hence any allocation is a waste.
+  So how does `filter` get compiled? Inlining the three constituents `unstream`, `sfilter`, and `stream` gets us here (after a bit of floating):
+
+  ```wiki
+  filter xs =
+    let snext []     = Done
+        snext (x:xs) = Yield x xs
+
+        fnext s = 
+          let <join> fgo s = case snext s of
+                Done -> Done
+                Yield x s' | p x       -> Yield x s'
+                           | otherwise -> fgo s'
+           in fgo s
+
+        go s = case fnext s of
+                 Done       -> []
+                 Yield x s' -> x : go s'
+    in go xs
+  ```
+
+  Note that `fgo` is flagged as a join point; this will be crucial! Now, `snext` is non-recursive, so it inlines happily enough into fnext:
+
+  ```wiki
+    ...
+    let fnext s = 
+          let <join> fgo s = case (case s of []     -> Done
+                                             x : xs -> Yield x xs) of
+                Done -> Done
+                Yield x s' | p x       -> Yield x s'
+                           | otherwise -> fgo s'
+           in fgo s
+    ...
+  ```
+
+  And the usual case-of-case transform does its magic:
+
+  ```wiki
+    ...
+    let fnext s = 
+          let <join> fgo s = case s of
+                [] -> Done
+                x : s' | p x       -> Yield x s'
+                       | otherwise -> fgo s'
+           in fgo s
+    ...
+  ```
+
+  But can we do the same when we inline `fnext` into `go`?
+
+  ```wiki
+  filter p xs =
+    let go s = case (let <join> fgo s = case s of
+                           [] -> Done
+                           x : s' | p x       -> Yield x s'
+                                  | otherwise -> fgo s'
+                     in fgo s) of
+                 Done       -> []
+                 Yield x s' -> x : go s'
+    in go xs
+  ```
+
+  The original simplifier gets stuck here; `fgo` will get floated out, but the `Done` and `Yield` constructors will remain. Since `fgo` is a join point, however, the new simplifier will instead pull its context *in*:
+
+  ```wiki
+  filter p xs =
+    let go s = let <join> fgo s =
+                     case (case s of
+                             [] -> Done
+                             x : s' | p x       -> Yield x s'
+                                    | otherwise -> fgo s') of -- (*)
+                       Done       -> []
+                       Yield x s' -> x : go s'
+               in fgo s
+    in go xs
+  ```
+
+  And now case-of-case does the rest:
+
+  ```wiki
+  filter p xs =
+    let go s = let <join> fgo s =
+                     case s of
+                       [] -> []
+                       x : s' | p x       -> x : go s'
+                              | otherwise -> fgo s'
+               in fgo s
+    in go xs
+  ```
+
+  We are left with the `filter` function as it would be hand-written.
+
+>
+> The alert reader may have an objection: On the starred line above, there is a jump (a call to a join point) that is not in tail position (with respect to the join point). Indeed, that example would not pass Core Lint! However, that snippet is a bit of a fiction; the Core AST never takes that form. Rather, the Core code shown here represents the state of the simplifier as it carries the `case` continuation inward. Whenever the simplifier comes to a jump, it throws away the continuation, thus maintaining the invariant that the jump is a tail call.
+
+>
+> (For the reader familiar with continuation-passing style or the sequent calculus: The case-of-case transform is simply an administrative reduction, substituting a continuation for free occurrences of a continuation variable. A join point (itself actually just a continuation) usually contains free occurrences of a continuation variable, whereas a jump does not. Hence the above behavior, pushing the context into a join point but leaving it off of a jump.)
+
+- NB: that sometimes `go` functions do not start life as join points; we could also write `sfilter` above simply as
+
+  ```wiki
+  sfilter p (Stream next s)
+    = Stream fnext s
+    where
+      fnext s = case next s of Done                   -> Done
+                               Yield x s' | p x       -> Yield x s'
+                                          | otherwise -> fnext s'
+  ```
+
+>
+> Here `fnext` is not a join point, because it is not called in a saturated way.   But when we inline `sfilter`, it becomes one.  We must spot this pronto before we destroy it.  (A reason for doing JPA in the occurrence analyser.)
+
 - The original Float Out is quite hazardous to join points. Since a join point is never allocated as a closure, floating it out doesn't improve sharing, and in most cases it can't be a join point anymore, so floating only *increases* allocations. (As always, there may be second-order effects, however; for instance, floating outward may leave behind a function that's small enough to inline.)
 
   ```wiki
@@ -222,19 +368,15 @@ Add `testsuite/test/perf/join-points/`
 >
 > And now `go1` can be inlined, completing the flattening process.
 
-- Great fusion examples!  NB: that `go` functions do not start life as join points;
+## Alternatives
+
+- Rather than enforce a new invariant, we could give a semantics to non-tail calls to join points by seeing them as *abortive continuations*, as seen in Scheme. This would wreak havoc on Core, however! Calling a continuation would constitute a side effect; in fact, one could write `call/cc` quite easily:
 
   ```wiki
-  sfilter p (Stream s step)
-    = Stream s fstep
-    where
-      fstep s = case step s of Done                   -> Done
-                               Yield x s' | p x       -> Yield x s'
-                                          | otherwise -> fstep s'
+  callcc f = let<join> k x = x in f (\y -> k y)
   ```
 
->
-> Here `fstep` is not a join point, because it is not called in a saturated way.   But when we inline it, it becomes one.  We must spot this pronto before we destroy it.  (A reason for doing JPA in the occurrence analyser.)
+  Keeping the join point invariant effectively restricts us to those programs for which jumps and function calls act in precisely the same way, thus making most of the Core-to-Core (and Core-to-STG) machinery blissfully unaware of the new construct.
 
 ## Still to do
 
