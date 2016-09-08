@@ -1,19 +1,19 @@
 = Optimising newtype-like data types with existentials =
 
-== Motivation == 
+== Motivation ==
 Consider this data type declaration
 {{{
 data T where
   MkT :: !(Foo a) -> T
 }}}
-So `a` is an existentially bound variable, and we cannot use a newtype for `T`.  So, as things stand, a value of type `T` will be represented by a heap-allocated box containing a single pointer to a value of type `(Foo ty)` for some `ty`.  
+So `a` is an existentially bound variable, and we cannot use a newtype for `T`.  So, as things stand, a value of type `T` will be represented by a heap-allocated box containing a single pointer to a value of type `(Foo ty)` for some `ty`.
 
 This is tantalising.  The extra indirection and allocation gains nothing.  Since `MkT` is strict in its only argument, we could (at codegen time) ''represent'' a value of type `T` by a value of type `Foo ty`.
 
 ''This page does not propose any change whatsoever to the language''. Rather, it proposes
 that we guarantee an efficient unboxed representation for certain data types.
 
-The ticket to track this idea is #1965. 
+The ticket to track this idea is #1965.
 
 See also [https://github.com/ocaml/ocaml/pull/606 this OCaml pull request], which does exactly the same kind of thing for OCaml.
 
@@ -75,7 +75,7 @@ data Foo a b where
 
 Do such constraints just pile on extra junk?
 
-=== Strictness === 
+=== Strictness ===
 Unlike a true `newtype`, pattern matching on the constructor ''must'' force the contents to maintain type safety.  In particular, matching on the constructor reveals an existential and/or type information. As Dan Doel found, and pumpkin relayed in https://ghc.haskell.org/trac/ghc/ticket/1965#comment:16, we have to be careful not to reveal such information without forcing the evidence. Since we're using the newtype optimization, the evidence is in the contained field itself.
 
 ''SLPJ: I do not understand this paragraph.  Remember, we propose no change to the source language semantics''.
@@ -138,10 +138,10 @@ For instance,
 newtype Label1 a = Label1 a deriving (Eq, Read, Show)
 instance GetLabel (Label1 a) a where getLabel (Label1 x) = x
 
-{* can't do either of these:
-newtype PersonId = PersonId Int    -- no type param
+{- can't do either of these:
+newtype PersonId = PersonId Int      -- no type param
 newtype PersonId a = PersonId Int    -- type param not used
-*}
+-}
 
 data PersonId a where
     PersonId :: !Int -> PersonId Int
@@ -179,6 +179,85 @@ With the newtype optimization, I can layer the `Baz` type information on top of 
 
 == Implementation ==
 
-I know few details about Core, but I would ''guess'' that the only Core feature we'd need to add is a flag for each data type indicating whether it is eligible for the newtype optimization. If so, then that optimization can be applied in code generation when types are dropped. There might be some future tuning to adjust how the inliner treats the constructor, but that doesn't seem at all urgent for now.
+Implementation is unfortunately tricky. Simply eliminating the boxing in Stg is
+easy, and this by itself saves us two words per value + pointer dereferencing.
+However, the generated code will be ugly, and if we could do this in Core
+instead of Stg, the simplifier would be able to do some follow-up optimizations
+and generate good code.
 
-That said, it would be nice also to try to avoid "double forcing" when digging through the constructors. 
+To be more specific, we want to do these transformations:
+
+First:
+{{{
+D arg1 arg2 ... argN
+==>
+nv_arg (where nv_arg is the only non-void argument)
+}}}
+
+(but we somehow need to bind other args or do substitution. If we do this Stg
+though we don't need to bind those args as unarise doesn't care about what a
+void argument is as long as it's void it gets rid of it and it can check
+void-ness by looking at Id's type)
+
+Second:
+
+{{{
+case <exp1> of
+  D arg1 arg2 ... argN -> <exp2>
+==>
+let arg1 = ...
+    arg2 = ...
+    arg3 = ...
+ in <exp2>
+}}}
+(we know only one of these args will be non-void, but all of them should be
+bound as they can be referred in <exp2>)
+
+If we do this in Stg we lose some optimization opportunities and generate ugly
+code. For example, if the first transformation happens in a let-binding RHS
+maybe simplifier decides to inline it as it can't duplicate work after the
+transformation. Similarly it can decide to inline the non-void argument after
+second transformation which may lead to further optimizations etc.
+
+For an example of an ugly code, suppose we had this:
+
+{{{
+case <exp1> of
+  D (T x) -> <exp2>
+}}}
+
+in Stg this looks like
+
+{{{
+case <exp1> of
+  D v -> case v of
+           T x -> <exp2>
+}}}
+
+So now if we do the second transformation we get
+
+{{{
+let v = <exp1> in
+case v of
+  T x -> <exp2>
+}}}
+
+but ideally we'd get
+
+{{{
+case <exp1> of
+  T x -> <exp2>
+}}}
+
+Simplifier would be able to do this after the second transformation.
+
+So the problem is
+
+- If we implement this in Stg we generate ugly code, and miss some optimization
+  opportunities (and arguably it doesn't buy us much, it saves 2 words per
+  allocation + pointer dereferencing)
+
+- Implementing this in Core is very hard, if not impossible, without losing
+  type safety.
+
+(copied from [https://mail.haskell.org/pipermail/ghc-devs/2016-September/012741.html the mailing list discussion])
