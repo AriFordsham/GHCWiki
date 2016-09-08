@@ -90,7 +90,7 @@ These places need to be made join-point aware
   This is *equivalent* to the second version, but it doesn't follow the join point invariant.
 
 >
-> This is a funny habit of the Float In implementation: it often floats a `let`-bound function inward so far that the body of the `let` becomes just the identifier itself. Normally the simplifier fixes this right up, so it hasn't ever mattered, but the simplifier will just move the `let` all the way out again, turning the third version in this example back into the first. We need Float In to get it exactly right, since handling `case`-of-recursive-join is exactly what lets us do fusion with recursion.
+> This is a funny habit of the Float In implementation: it often floats a `let`-bound function inward so far that the body of the `let` becomes just the identifier itself. Normally the simplifier fixes this right up, so it hasn't ever mattered, but the simplifier will just move the `let` all the way out again, turning `f3` back into `f1`. We need Float In to get it exactly right, since handling `case`-of-recursive-join is exactly what lets us do fusion with recursion.
 
 - Float-out.
 
@@ -161,6 +161,67 @@ Add `testsuite/test/perf/join-points/`
 
 - For each place where you had to work to retain join points, make an example in which GHC currently destroys one, and behaves badly as a result.  Plus some examples like Section 4.3 in the paper.
 
+- The original Float Out is quite hazardous to join points. Since a join point is never allocated as a closure, floating it out doesn't improve sharing, and in most cases it can't be a join point anymore, so floating only *increases* allocations. (As always, there may be second-order effects, however; for instance, floating outward may leave behind a function that's small enough to inline.)
+
+  ```wiki
+  f x =
+    let g y =
+      let <join> j z = ... x ...
+      in case p y of A -> j 1
+                     B -> j 2
+    
+    in ...
+    
+    =>
+
+  f x =
+    let j z = ... x ... -- ruined!
+        g y = case p y of A -> j 1
+                          B -> j 2
+    in ...
+  ```
+
+>
+> We do still want to float out join points, however, just not too far. A good example occurs during unfold/destroy fusion, where a chain of filters becomes a series of trivially nested "loops":
+>
+> ```wiki
+> filter odd . filter (> 4)
+>
+>   =>
+>
+> \xs ->
+>   let next xs0 =
+>     let <join> go1 xs1 =
+>       let <join> go2 xs2 =
+>         case xs2 of []    -> []
+>                     x:xs' -> case x > 4 of False -> go2 xs'
+>                                            True  -> case odd x of False -> go1 xs'
+>                                                                   True  -> x : next xs'
+>       in go2 xs1
+>     in go1 xs0
+>   in next xs
+> ```
+>
+>
+> Here we consider two filters, but this works to arbitrary depth. Since `go1` does nothing but invoke `go2`, it is just a needless bit of indirection. Float Out de-nests the loops:
+>
+> ```wiki
+> \xs ->
+>   let next xs0 =
+>     let <join>
+>       go1 xs1 = go2 xs2
+>       go2 xs2 =
+>         case xs2 of []    -> []
+>                     x:xs' -> case x > 4 of False -> go2 xs'
+>                                            True  -> case odd x of False -> go1 xs'
+>                                                                   True  -> x : next xs'
+>     in go1 xs0
+>   in next xs
+> ```
+>
+>
+> And now `go1` can be inlined, completing the flattening process.
+
 - Great fusion examples!  NB: that `go` functions do not start life as join points;
 
   ```wiki
@@ -197,3 +258,5 @@ Add `testsuite/test/perf/join-points/`
   - Then post LLL unfoldings won't affect downstream modules
   - But newly-small functions can still be inlined
   - Absolutely requires Arity/CAF info to be fed back from `CoreToStg`
+
+- Join points are always fully eta-expanded, even when they would be trivial otherwise. This greatly simplifies many traversals, since typically the first step in processing a join point of arity N is to grab exactly N lambdas. The problem is that `exprIsTrivial` then returns `False`. This is particularly bad in `preInlineUnconditionally`, so there we check if a join point is eta-reducible to a trivial expression. But it's an ugly workaround, and there are other issues as well (sometimes trivial join points become loop breakers, for instance). Better would be to relax the invariant to allow trivial join points to elide lambdas, then provide a convenience function to eta-expand when needed (not hard to do for a trivial expression!).
