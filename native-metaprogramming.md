@@ -267,3 +267,17 @@ I have implemented an extensible variant of HsSyn AST in GHC, which can be found
 I have also extracted an stand-alone parser for Haskell from GHC, and from that
 I have extracted an stand-alone implementation of Haskell AST.  They can both be
 found [ here](https://github.com/shayan-najd/HsParser).
+
+#### Next Steps
+
+
+We, GHC developers, have to discuss the details of the work in details, as changes to the `HsSyn` AST affect the entire code base.
+I will present the work at Haskell Implementors Workshop at Nara, Japan, and from then, I hope we can start further serious discussions about this.
+Specifically, we have to find a simple way to do all this massive refactoring required for extracting the `HsSyn` AST and the parser as separate packages, 
+
+1. without risking introducing bugs,
+1. while keeping git history clean and relevant, and
+1. keeping the changes minimal (small commits at the time), to avoid conflicts at the repository.
+
+
+Having extracted the `HsSyn` AST, and the parser as separate packages and changed GHC to depend on them. I am planing to focus on refactoring Template Haskell based on this. Backwards compatibility there is a big debate awaiting us.
