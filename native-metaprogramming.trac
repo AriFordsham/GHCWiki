@@ -264,7 +264,7 @@ a. without risking introducing bugs,
 b. while keeping git history clean and relevant, and
 c. keeping the changes minimal (small commits at the time), to avoid conflicts at the repository.
 
-Having extracted the `HsSyn` AST, and the parser as separate packages and changed GHC to depend on them. I am planing to focus on refactoring Template Haskell based on this. Backwards compatibility there is a big debate awaiting us.
+Having extracted the `HsSyn` AST and the parser as separate packages, and changed GHC to depend on them; I am planing to focus on refactoring Template Haskell based on this. Backwards compatibility is a big debate awaiting us!
 
 
 
