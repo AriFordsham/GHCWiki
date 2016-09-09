@@ -150,8 +150,7 @@ In addition to above, we identified that
 
 with no polymorphic recursion, and nodes of function type (see, for example,
 McBride's
-\[[ http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.22.8611&rep=rep1&type=pdf](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.22.8611&rep=rep1&type=pdf)
-definition\])
+[ definition](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.22.8611&rep=rep1&type=pdf))
 
 1. Annotated ASTs should be at least as large as their non-annotated variants:
   An AST after adding annotations should be able to carry at least the same
