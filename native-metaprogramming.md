@@ -146,11 +146,9 @@ In addition to above, we identified that
 1. Annotations are always stored inside the AST in GHC
 
 1. ASTs are regular (mutually recursive) datatypes, e.g., Haskell98 ADTs
-
-
-with no polymorphic recursion, and nodes of function type (see, for example,
-McBride's
-[ definition](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.22.8611&rep=rep1&type=pdf))
+  with no polymorphic recursion, and nodes of function type (see, for example,
+  McBride's
+  [ definition](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.22.8611&rep=rep1&type=pdf))
 
 1. Annotated ASTs should be at least as large as their non-annotated variants:
   An AST after adding annotations should be able to carry at least the same
