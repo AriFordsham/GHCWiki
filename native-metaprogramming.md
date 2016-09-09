@@ -8,7 +8,7 @@ generate and manipulate programs (in an object language).
 Native metaprogramming is a form of metaprogramming where the meta languages's
 own infrastructure is directly employed to generate and manipulate object
 programs.
-Native metaprogramming naturally arise in homogeneous metaprogramming (where
+Native metaprogramming naturally arises in homogeneous metaprogramming (where
 meta language and object language are nearly identical).
 
 ### Goal
