@@ -271,7 +271,7 @@ found [ here](https://github.com/shayan-najd/HsParser).
 #### Next Steps
 
 
-We, GHC developers, have to discuss the details of the work in details, as changes to the `HsSyn` AST affect the entire code base.
+We, the GHC developers, have to discuss the details of the work in details, as changes to the `HsSyn` AST affect the entire code base.
 I will present the work at Haskell Implementors Workshop at Nara, Japan, and from then, I hope we can start further serious discussions about this.
 Specifically, we have to find a simple way to do all this massive refactoring required for extracting the `HsSyn` AST and the parser as separate packages, 
 
