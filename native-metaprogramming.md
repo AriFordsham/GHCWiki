@@ -151,14 +151,14 @@ In addition to above, we identified that
   [ definition](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.22.8611&rep=rep1&type=pdf))
 
 1. Annotated ASTs should be at least as large as their non-annotated variants:
-  An AST after adding annotations should be able to carry at least the same
+  an AST after adding annotations should be able to carry at least the same
   amount of information as the original AST.
   In above example, the annotated version of `Exp` is able to carry at least
   the same amount of information as the original datatype.
 
 1. Annotated AST should not be too large (which will cause problems with the
   totality checker):
-  An AST after adding annotations should not allow storing more information,
+  an AST after adding annotations should not allow storing more information,
   compared to the original AST, other than the exact extra information carried
   by the relevant annotations.
 
@@ -261,8 +261,8 @@ I have implemented an extensible variant of HsSyn AST in GHC, which can be found
 [ here](https://github.com/shayan-najd/NativeMetaprogramming/blob/master/HsSyn/SyntaxExtensibleAutoSplitted.hs).
 
 
-I have also extracted an stand-alone parser for Haskell from GHC, and from that
-I have extracted an stand-alone implementation of Haskell AST.  They can both be
+I have also extracted a stand-alone parser for Haskell from GHC, and from that
+I have extracted a stand-alone implementation of Haskell AST.  They can both be
 found [ here](https://github.com/shayan-najd/HsParser).
 
 #### Next Steps
