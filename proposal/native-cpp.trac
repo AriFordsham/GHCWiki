@@ -26,6 +26,7 @@ type instance IntBaseType Word   = 'FixedWordTag WORD_SIZE_IN_BITS
       GNU `cpp` fails to macro-expand `WORD_SIZE_IN_BITS` due to the unterminated `'`-quote
     - Valid Haskell operators such as `/*`, `*/` or `//` are misinterpreted by system-`cpp` as comment-starters
     - Unix She-bang (`#!/usr/bin/env runghc`) Haskell scripts can't be used with `-XCPP` (c.f. [http://stackoverflow.com/questions/8177950/how-can-i-load-a-runhaskell-script-without-a-hs-extension-with-ghci SO Q])
+    - One case involving a comment containing `C:\\...` had an unexpected side-effect: https://github.com/haskell/cabal/pull/3810/commits/7a8062b9219c6353c18e31188cdbd38249578ab0
 
  - Lack of ability to extend/evolve `-XCPP` as we have no control over system-`cpp`
 
