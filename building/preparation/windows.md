@@ -92,7 +92,7 @@ curl <version-number> (x86_64-w64-mingw32)
 
 If it doesn't (e.g., `curl <version-number> (x86_64-pc-msys)` corresponds to the MSYS2 `curl`), you have nothing to worry about. If it does, you have two options:
 
-1. You temporarily install the 64-bit MinGW-w64 version of `curl` with `pacman -R mingw-w64-x86_64-curl` before building GHC.
+1. You can temporarily uninstall the 64-bit MinGW-w64 version of `curl` with `pacman -R mingw-w64-x86_64-curl` before building GHC. (You can then reinstall it later with `pacman -S mingw-w64-x86_64-curl`.)
 1. As a workaround, you can run:
 
 ```wiki
