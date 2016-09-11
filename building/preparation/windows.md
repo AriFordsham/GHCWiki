@@ -110,7 +110,7 @@ mkdir -p ghc-tarballs/perl
 ```
 
 >
-> Before running `mk/get-win32-tarballs.sh download x86_64`.
+> before running `mk/get-win32-tarballs.sh download x86_64`.
 
 ## Host GHC setup
 
