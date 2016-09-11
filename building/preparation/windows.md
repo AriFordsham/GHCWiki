@@ -68,7 +68,7 @@ If this `pacman` process fails (as it sometimes does) you can simply re-run it a
 ### `curl`
 
 
-The 64-bit MinGW-w64 version of `curl` is known to fail when used with the `mk/get-win32-tarballs.sh` script:
+The 64-bit MinGW-w64 version of `curl` is known to fail (see [ this issue](https://github.com/curl/curl/issues/1007)) when used with the `mk/get-win32-tarballs.sh` script:
 
 ```wiki
 $ mk/get-win32-tarballs.sh download x86_64
@@ -99,7 +99,7 @@ alias curl='/usr/bin/curl'
 ```
 
 >
-> To your `~/.bashrc` file.
+> to your `~/.bashrc` file.
 
 1. You can temporarily uninstall the 64-bit MinGW-w64 version of `curl` with `pacman -R mingw-w64-x86_64-curl` before building GHC. (You can then reinstall it later with `pacman -S mingw-w64-x86_64-curl`.)
 1. If you really want to use the 64-bit MinGW-w64 version of `curl` to install GHC, you can with a little extra effort. As a workaround, you can run:
@@ -110,7 +110,7 @@ mkdir -p ghc-tarballs/perl
 ```
 
 >
-> Before running `mk/get-win32-tarballs.sh download x86_64`.
+> before running `mk/get-win32-tarballs.sh download x86_64`.
 
 ## Host GHC setup
 
