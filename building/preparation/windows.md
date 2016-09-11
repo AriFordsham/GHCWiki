@@ -83,7 +83,7 @@ ERROR: Download failed.
 ```
 
 
-to see if you are have the 64-bit MinGW-w64 version of `curl` installed, check if the beginning of the output of `curl --version` is
+To see if you are have the 64-bit MinGW-w64 version of `curl` installed, check if the beginning of the output of `curl --version` is
 
 ```wiki
 curl <version-number> (x86_64-w64-mingw32)
@@ -99,7 +99,7 @@ alias curl='/usr/bin/curl'
 ```
 
 >
-> To your `~/.bashrc` file.
+> to your `~/.bashrc` file.
 
 1. You can temporarily uninstall the 64-bit MinGW-w64 version of `curl` with `pacman -R mingw-w64-x86_64-curl` before building GHC. (You can then reinstall it later with `pacman -S mingw-w64-x86_64-curl`.)
 1. If you really want to use the 64-bit MinGW-w64 version of `curl` to install GHC, you can with a little extra effort. As a workaround, you can run:
