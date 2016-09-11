@@ -74,10 +74,17 @@ To see if you are have the 64-bit MinGW-w64 version of `curl` installed, check i
 curl <version-number> (x86_64-w64-mingw32)
 }}}
 
-If it doesn't (e.g., `curl <version-number> (x86_64-pc-msys)` corresponds to the MSYS2 `curl`), you have nothing to worry about. If it does, you have two options:
+If it doesn't (e.g., `curl <version-number> (x86_64-pc-msys)` corresponds to the MSYS2 `curl`), you have nothing to worry about. If it does, you have some options:
 
-1. You can temporarily uninstall the 64-bit MinGW-w64 version of `curl` with `pacman -R mingw-w64-x86_64-curl` before building GHC. (You can then reinstall it later with `pacman -S mingw-w64-x86_64-curl`.)
-2. As a workaround, you can run:
+1. You can alias the MSYS2 version of `curl` by adding the line:
+
+   {{{
+   alias curl='/usr/bin/curl'
+   }}}
+
+   To your `~/.bashrc` file.
+2. You can temporarily uninstall the 64-bit MinGW-w64 version of `curl` with `pacman -R mingw-w64-x86_64-curl` before building GHC. (You can then reinstall it later with `pacman -S mingw-w64-x86_64-curl`.)
+3. If you really want to use the 64-bit MinGW-w64 version of `curl` to install GHC, you can with a little extra effort. As a workaround, you can run:
 
    {{{
    mkdir -p ghc-tarballs/mingw-w64/x86_64
