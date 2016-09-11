@@ -54,7 +54,7 @@ If this `pacman` process fails (as it sometimes does) you can simply re-run it a
 
 === `curl` ===
 
-The 64-bit MinGW-w64 version of `curl` is known to fail when used with the `mk/get-win32-tarballs.sh` script:
+The 64-bit MinGW-w64 version of `curl` is known to fail (see [https://github.com/Alexpux/MINGW-packages/issues/1707 this issue]) when used with the `mk/get-win32-tarballs.sh` script:
 
 {{{
 $ mk/get-win32-tarballs.sh download x86_64
