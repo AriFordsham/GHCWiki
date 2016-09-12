@@ -1,13 +1,12 @@
 # Magic classes for overloaded record fields
 
+**See [ the OverloadedRecordFields GHC proposal](https://github.com/ghc-proposals/ghc-proposals/pull/6) for the latest design.**
+
 
 This page describes new built-in magic typeclasses that form part 3 of the [OverloadedRecordFields proposal](records/overloaded-record-fields). These are not a language extension as such, rather they are classes with special-purpose solver behaviour (like `Coercible` and `Typeable`).
 
 
-These are not yet implemented, and **will probably not make GHC 8.0.**
-
-
-See [ Phab:D1687](https://phabricator.haskell.org/D1687) for the implementation of this part.
+These are not yet in GHC HEAD. See [ Phab:D1687](https://phabricator.haskell.org/D1687) for an implementation of the first draft.
 
 ## Design
 
