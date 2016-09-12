@@ -1,14 +1,16 @@
 # [OverloadedRecordFields](records/overloaded-record-fields)
 
 
-The `OverloadedRecordFields` extension for GHC will allow multiple record datatypes to share the same field names, and make it possible for type information to disambiguate them. It consists of three separate of components, of which two will be in GHC 8.0. For more information, see:
+The `OverloadedRecordFields` extension for GHC will allow multiple record datatypes to share the same field names, and make it possible for type information to disambiguate them. For more information, see:
 
-- [Redesigned variant involving three extensions](records/overloaded-record-fields/redesign)
+- [ GHC proposal for OverloadedRecordFields](https://github.com/ghc-proposals/ghc-proposals/pull/6) (2016 - most up to date)
+- [Redesigned variant involving three extensions](records/overloaded-record-fields/redesign) (2015)
 
   - Part 1: [DuplicateRecordFields](records/overloaded-record-fields/duplicate-record-fields) (in GHC 8.0)
   - Part 2: [OverloadedLabels](records/overloaded-record-fields/overloaded-labels) (in GHC 8.0)
-  - Part 3: [Magic type classes](records/overloaded-record-fields/magic-classes) (will not make GHC 8.0)
-- [ Adam Gundry's blog post](http://www.well-typed.com/blog/2015/03/overloadedrecordfields-revived/)
+  - Part 3: [Magic type classes](records/overloaded-record-fields/magic-classes) (not yet in GHC HEAD)
+  - [ Adam Gundry's blog post](http://www.well-typed.com/blog/2015/03/overloadedrecordfields-revived/)
+- [ Original design](https://ghc.haskell.org/trac/ghc/wiki/Records/OverloadedRecordFields/Design) (2013)
 
 
 Content previously on this page has been moved to the [SORF](records/overloaded-record-fields/sorf) page.
