@@ -312,7 +312,7 @@ See for instance the following example given by [Polakow](linear-types#encoding
 
 ```
 defn$
- llam $\f -> llam $\x -> llam $\y ->(f ^ x ^ y)&amp;(f ^ x)-- <interactive>:3:16: Could not deduce (MrgL ('Box : 'Box : 'Box : i1) 'False-- ('Elm ('S ('S v1)) : 'Box : 'Box : i1) 'False ('Box : 'Box : 'Box : i1))
+ llam $\f -> llam $\x -> llam $\y ->(f ^ x ^ y)&(f ^ x)-- <interactive>:3:16: Could not deduce (MrgL ('Box : 'Box : 'Box : i1) 'False-- ('Elm ('S ('S v1)) : 'Box : 'Box : i1) 'False ('Box : 'Box : 'Box : i1))
 ```
 
 
