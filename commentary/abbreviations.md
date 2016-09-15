@@ -5,6 +5,8 @@ Certain abbreviations are used pervasively throughout the GHC source code. This 
 
 - **ANF**: A-normal form
 
+- **BCO**: Byte-code object
+
 - **CAF**: Constant Applicative Form
 
 - **Class**: Type Class
