@@ -55,6 +55,19 @@ Some ways can be used together (most prominently, debugging can be used together
 The allowed combinations are defined inside the compiler, in [[GhcFile(compiler/main/DynFlags.hs)]].
 Which brings us to discussing some of the internals.
 
+When compiling ghc, the available combinations are listed in `mk/config.mk.in`; as of 7.10.3:
+
+{{{
+thr         : threaded
+thr_p       : threaded profiled
+debug       : debugging (compile with -g for the C compiler, and -DDEBUG)
+debug_p     : debugging profiled
+thr_debug   : debugging threaded
+thr_debug_p : debugging threaded profiled
+l           : event logging
+thr_l       : threaded and event logging
+}}}
+
 = Internals =
 
 Ways are defined in [[GhcFile(compiler/main/DynFlags.hs)]] as a Haskell data structure `Way`.
