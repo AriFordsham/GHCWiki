@@ -143,6 +143,16 @@ l           : event logging
 thr_l       : threaded and event logging
 ```
 
+
+For example, to build both the profiling and the debug version of the profiling RTS (`libHSrts_debug_p`/`lHSrts_debug_p`), you can add 
+
+```wiki
+GhcLibWays        += p debug_p
+```
+
+
+to your `build.mk`.
+
 # Internals
 
 
