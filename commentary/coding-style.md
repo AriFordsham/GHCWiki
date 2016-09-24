@@ -296,7 +296,7 @@ Please refer to [Platforms and Conventions](commentary/platform-naming) wiki pag
 GHCs source code is indented with a mixture of tabs and spaces, and is standardised on a tabstop of 8.
 
 
-Most of the Haskell source code in GHC is free of tabs. We'd like to move away from tabs in the long term, and so a git hook on darcs.haskell.org will reject series of commits that add tabs to a file that is currently tab-free. (Note that there are no restrictions on adding tabs to a file already containing them.)
+The Haskell source code in GHC is free of tabs now. Keep it this way. This is actually enforced by a git hook. Other, non-Haskell-code is indented with a mixture of tabs and spaces, and is standardised on a tabstop of 8. The git commit will prevent you from adding tabs to files that currently do not contain tabs.
 
 
 In order to avoid angering this git hook, you should set your editor to indent using spaces rather than tabs:
