@@ -3,6 +3,9 @@
 
 This page is intended to serve as the first stop for those people who say, "I want to contribute to GHC, but I don't know quite where to begin." Begin here. While the [building guide](building), [working conventions](working-conventions), [commentary](commentary) and [debugging](debugging) pages (always linked from the left sidebar) have great information that can come in handy while you're working on your first, or first several patches, this page is intended to have the details you will need to get rolling.
 
+
+If you have any questions along the way don't hesitate to reach out to the community. There are people on the [mailing lists and IRC](mailing-lists-and-irc) who will gladly help you (although you may need to be patient). Don't forget that all GHC developers are still learning; your question is never too silly to ask.
+
 ## First steps
 
 [Prepare](building/preparation) your machine, [clone](building/getting-the-sources) the git repo, and [Building/QuickStart](building/quick-start) GHC. For the short, short version, which may or may not work for your machine, you can try this:
@@ -64,10 +67,12 @@ A good first sanity check is to twiddle some error message in the code, just to 
 ## Finding a ticket
 
 
-Below is a list of tickets that appear to be "low-hanging fruit" -- things that might be reasonable for a newcomer to GHC hacking. Of course, we can't ever be sure of how hard a task is before doing it, so apologies if one of these is too hard.
+Now that you can build GHC, let's get hacking. But first, you'll need to identify a goal. GHC's Trac tickets are a great place to find starting points. You are encouraged to ask for a starting point on IRC or the `ghc-devs`[mailing list](mailing-lists-and-irc). There someone familiar with the process can help you find a ticket that matches your expertise and help you when you get stuck.
 
 
-Bugs:
+If you want to get a taste for possible starting tasks, below is a list of tickets that appear to be "low-hanging fruit" -- things that might be reasonable for a newcomer to GHC hacking. Of course, we can't ever be sure of how hard a task is before doing it, so apologies if one of these is too hard.
+
+**Bugs:**
 
 <table><tr><th>[\#8316](https://gitlab.haskell.org//ghc/ghc/issues/8316)</th>
 <td>GHCi debugger panics when trying force a certain variable</td></tr>
@@ -132,8 +137,7 @@ Bugs:
 <tr><th>[\#16360](https://gitlab.haskell.org//ghc/ghc/issues/16360)</th>
 <td>GHC fails when GHC_PACKAGE_PATH contains trailing slash</td></tr></table>
 
-
-Feature requests:
+**Feature requests:**
 
 <table><tr><th>[\#7275](https://gitlab.haskell.org//ghc/ghc/issues/7275)</th>
 <td>Give more detailed information about PINNED data in a heap profile</td></tr>
@@ -152,8 +156,7 @@ Feature requests:
 <tr><th>[\#16164](https://gitlab.haskell.org//ghc/ghc/issues/16164)</th>
 <td>Provide bitreverse primop</td></tr></table>
 
-
-Tasks:
+**Tasks:**
 
 <table><tr><th>[\#4960](https://gitlab.haskell.org//ghc/ghc/issues/4960)</th>
 <td>Better inlining test in CoreUnfold</td></tr>
@@ -200,7 +203,9 @@ Tasks:
 
 - Don't get scared. GHC is a big codebase, but it makes sense when you stare at it long enough!
 
-- Be forewarned that many pages on the GHC wiki are somewhat out-of-date. Always check the last modification date. Email if you're not sure.
+- Don't hesitate to ask questions. We have all been beginners at some point and understand that diving in to GHC can be a challenge. Asking questions will help you make better use of your hacking time.
+
+- Be forewarned that many pages on the GHC Wiki are somewhat out-of-date. Always check the last modification date. Email `ghc-devs` if you're not sure.
 
 - You may want to look at these "how it went for me" blog posts.
 
@@ -209,7 +214,7 @@ Tasks:
 ## Need help?
 
 
-You can email the [ ghc-devs](http://www.haskell.org/mailman/listinfo/ghc-devs) list, or ask on irc in \#ghc.
+You can email the [ ghc-devs](http://www.haskell.org/mailman/listinfo/ghc-devs) list, or ask on IRC in `#ghc`.
 
 
 Happy hacking!
