@@ -67,10 +67,12 @@ A good first sanity check is to twiddle some error message in the code, just to 
 ## Finding a ticket
 
 
-Below is a list of tickets that appear to be "low-hanging fruit" -- things that might be reasonable for a newcomer to GHC hacking. Of course, we can't ever be sure of how hard a task is before doing it, so apologies if one of these is too hard.
+Now that you can build GHC, let's get hacking. But first, you'll need to identify a goal. GHC's Trac tickets are a great place to find starting points. You are encouraged to ask for a starting point on IRC or the `ghc-devs`[mailing list](mailing-lists-and-irc). There someone familiar with the process can help you find a ticket that matches your expertise and help you when troubles arise.
 
 
-Bugs:
+If you want to get a taste for possible starting tasks, below is a list of tickets that appear to be "low-hanging fruit" -- things that might be reasonable for a newcomer to GHC hacking. Of course, we can't ever be sure of how hard a task is before doing it, so apologies if one of these is too hard.
+
+**Bugs:**
 
 <table><tr><th>[\#8316](https://gitlab.haskell.org//ghc/ghc/issues/8316)</th>
 <td>GHCi debugger panics when trying force a certain variable</td></tr>
@@ -135,8 +137,7 @@ Bugs:
 <tr><th>[\#16360](https://gitlab.haskell.org//ghc/ghc/issues/16360)</th>
 <td>GHC fails when GHC_PACKAGE_PATH contains trailing slash</td></tr></table>
 
-
-Feature requests:
+**Feature requests:**
 
 <table><tr><th>[\#7275](https://gitlab.haskell.org//ghc/ghc/issues/7275)</th>
 <td>Give more detailed information about PINNED data in a heap profile</td></tr>
@@ -155,8 +156,7 @@ Feature requests:
 <tr><th>[\#16164](https://gitlab.haskell.org//ghc/ghc/issues/16164)</th>
 <td>Provide bitreverse primop</td></tr></table>
 
-
-Tasks:
+**Tasks:**
 
 <table><tr><th>[\#4960](https://gitlab.haskell.org//ghc/ghc/issues/4960)</th>
 <td>Better inlining test in CoreUnfold</td></tr>
