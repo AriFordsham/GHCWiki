@@ -2,7 +2,7 @@
 
 This page is intended to serve as the first stop for those people who say, "I want to contribute to GHC, but I don't know quite where to begin." Begin here. While the [wiki:Building building guide], [wiki:WorkingConventions working conventions], [wiki:Commentary commentary] and [wiki:Debugging debugging] pages (always linked from the left sidebar) have great information that can come in handy while you're working on your first, or first several patches, this page is intended to have the details you will need to get rolling.
 
-If you have any questions along the way, no matter how silly they may seem, don't hesitate to reach out to the community. There are people on the [[MailingListsAndIRC|mailing lists and IRC]] who will gladly help you although (although you may need to be patient).
+If you have any questions along the way don't hesitate to reach out to the community. There are people on the [[MailingListsAndIRC|mailing lists and IRC]] who will gladly help you (although you may need to be patient). Don't forget that all GHC developers are still learning; your question is never too silly to ask.
 
 
 == First steps ==
