@@ -3,6 +3,9 @@
 
 This page is intended to serve as the first stop for those people who say, "I want to contribute to GHC, but I don't know quite where to begin." Begin here. While the [building guide](building), [working conventions](working-conventions), [commentary](commentary) and [debugging](debugging) pages (always linked from the left sidebar) have great information that can come in handy while you're working on your first, or first several patches, this page is intended to have the details you will need to get rolling.
 
+
+If you have any questions along the way, no matter how silly they may seem, don't hesitate to reach out to the community. There are people on the [mailing lists and IRC](mailing-lists-and-irc) who will gladly help you although (although you may need to be patient).
+
 ## First steps
 
 [Prepare](building/preparation) your machine, [clone](building/getting-the-sources) the git repo, and [Building/QuickStart](building/quick-start) GHC. For the short, short version, which may or may not work for your machine, you can try this:
