@@ -121,7 +121,7 @@ The stock classes are:
 - `Lift` (with `-XDeriveLift`)
 
 
-The relationship between stock classes and `DeriveAnyClass` can be be summarized as follows: In the absence of an explicit `anyclass` keyword, GHC will never attempt to derive a stock class instance using the `DeriveAnyClass`, since it is guaranteed that doing so would not produce the instance you'd want.
+The relationship between stock classes and `DeriveAnyClass` can be be summarized as follows: In the absence of an explicit `anyclass` keyword, GHC will never attempt to derive a stock class instance using `DeriveAnyClass`, since it is guaranteed that doing so would not produce the instance you'd want.
 
 
 Step 2 is fairly intricate since GHC tries to use `GeneralizedNewtypeDeriving` in certain special cases whenever it can to optimize the generated instances. In addition, the phrase "can be successfully used with `GeneralizedNewtypeDeriving`" must be invoked since it is possible for `GeneralizedNewtypeDeriving` to fail for certain datatypes. For example, you cannot have a newtype-derived `Functor` instance for `newtype Compose f g a = Compose (f (g a))`, since the last type variable `a` cannot be eta-reduced.
