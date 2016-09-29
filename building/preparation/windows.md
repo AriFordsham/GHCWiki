@@ -65,53 +65,6 @@ pacman -S --needed git tar binutils autoconf make \
 
 If this `pacman` process fails (as it sometimes does) you can simply re-run it as it ought to be idempotent.
 
-### `curl`
-
-
-The 64-bit MinGW-w64 version of `curl` is known to fail (see [ this issue](https://github.com/curl/curl/issues/1007)) when used with the `mk/get-win32-tarballs.sh` script:
-
-```wiki
-$ mk/get-win32-tarballs.sh download x86_64
-Downloading mingw-w64-x86_64-crt-git-5.0.0.4531.49c7046-1-any.pkg.tar.xz to ghc-tarballs/mingw-w64/x86_64...
-Warning: Failed to create the file
-Warning: ghc-tarballs/mingw-w64/x86_64/mingw-w64-x86_64-crt-git-5.0.0.4531.49c7
-Warning: 046-1-any.pkg.tar.xz: No such file or directory
-
-curl: (23) Failed writing body (0 != 2759)
-
-ERROR: Download failed.
-```
-
-
-To see if you are have the 64-bit MinGW-w64 version of `curl` installed, check if the beginning of the output of `curl --version` is
-
-```wiki
-curl <version-number> (x86_64-w64-mingw32)
-```
-
-
-If it doesn't (e.g., `curl <version-number> (x86_64-pc-msys)` corresponds to the MSYS2 `curl`), you have nothing to worry about. If it does, you have some options:
-
-1. You can alias the MSYS2 version of `curl` by adding the line:
-
-```wiki
-alias curl='/usr/bin/curl'
-```
-
->
-> to your `~/.bashrc` file.
-
-1. You can temporarily uninstall the 64-bit MinGW-w64 version of `curl` with `pacman -R mingw-w64-x86_64-curl` before building GHC. (You can then reinstall it later with `pacman -S mingw-w64-x86_64-curl`.)
-1. If you really want to use the 64-bit MinGW-w64 version of `curl` to install GHC, you can with a little extra effort. As a workaround, you can run:
-
-```wiki
-mkdir -p ghc-tarballs/mingw-w64/x86_64
-mkdir -p ghc-tarballs/perl
-```
-
->
-> before running `mk/get-win32-tarballs.sh download x86_64`.
-
 ## Host GHC setup
 
 
