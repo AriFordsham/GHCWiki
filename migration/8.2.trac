@@ -1,0 +1,15 @@
+[[PageOutline]]
+
+= GHC 8.2.x Migration Guide =
+
+This guide summarises the changes you may need to make to your code to migrate from GHC 8.0 to GHC 8.2. This guide complements the GHC 8.2.x release notes which should be consulted as well.
+
+----------------------------------
+== Compiler changes
+
+=== Impredicative types removed
+Note that the `-XImpredicativeTypes` extension, which has been
+[[ImpredicativePolymorphism|known]] to be broken for many years. It has now at long last been removed.
+
+=== Template Haskell
+
