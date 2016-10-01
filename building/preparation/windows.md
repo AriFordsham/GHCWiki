@@ -39,10 +39,16 @@ An easy way to check that you are running the right shell is to check the output
 
 **\*NOTE:**\* if after installing packages like Sphinx ./configure still reports it is missing, make sure `/mingw64/bin` (or `/mingw32/bin` depending on the arch you're building for)  is on the `$PATH`
 
-## Installing packages & tools
+## Upgrading MSYS2
 
 
-The msys2 package uses `pacman` (the venerable ArchLinux package manager) to manage packages. Before installing system dependencies required for building GHC, first let's update `pacman`. Modern msys2 versions include an `update-core` script and the preferred way of updating msys2 is as follows (from [ MSYS2 installation instructions](http://sourceforge.net/p/msys2/wiki/MSYS2%20installation/) Section III which also includes update instructions for old versions of msys2):
+The msys2 package uses `pacman` (the venerable ArchLinux package manager) to manage packages. Before installing system dependencies required for building GHC, you need to update packages according to [ MSYS2 installation instructions](http://sourceforge.net/p/msys2/wiki/MSYS2%20installation/) section III
+
+
+With modern pacman (since version 5.0.1.6403) it's just `pacman -Syuu`. 
+
+
+If your pacman is somewhere between 4.2.1.6187 and 5.1.0.6403:
 
 >
 > Run **update-core**. If one of the packages is updated during script run you **MUST** restart MSYS2
@@ -51,7 +57,9 @@ The msys2 package uses `pacman` (the venerable ArchLinux package manager) to man
 > Run **pacman -Su**
 
 
-Because msys2 programs all share the same address space for DLLs, updating bash, `pacman`, or msys2 itself may cause errors without restarting the shell. Running `update-core` avoids this by first syncing the local package databases with the latest repositories (`pacman -Sy`), then updating the core msys2 packages. Then, you can update the rest of the packages with `pacman -Su`. The `-S` (short for `--sync`) indicates that you wish to install the given packages. `-u` (short for `--sysupgrade`) indicates that you want to upgrade existing packages.
+For older versions refer to [ MSYS2 installation instructions](http://sourceforge.net/p/msys2/wiki/MSYS2%20installation/)
+
+## Installing packages & tools
 
 
 Now we can install GHC's system dependencies as followed:
@@ -63,7 +71,15 @@ pacman -S --needed git tar binutils autoconf make \
 ```
 
 
-If this `pacman` process fails (as it sometimes does) you can simply re-run it as it ought to be idempotent.
+If `pacman` fails with error message like this:
+
+```wiki
+error: failed to commit transaction (conflicting files)
+mingw-w64-x86_64-libiconv: /mingw64 exists in filesystem
+```
+
+
+then run the previous command with `--force` option. There is a bug witin MSYS2 installer ([ https://github.com/msys2/msys2.github.io/issues/31](https://github.com/msys2/msys2.github.io/issues/31))
 
 ## Host GHC setup
 
