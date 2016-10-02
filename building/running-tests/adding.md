@@ -248,7 +248,8 @@ test('prog013', extra_files(['Bad.hs', 'Good.hs']), ghci_script, ['prog013.scrip
 
 - **req_profiling**         requires profiling
 
-- **ignore_output**         don't try to compare output
+- **ignore_stdout**         don't try to compare stdout output
+- **ignore_stderr**         don't try to compare stderr output
 
 - **compile_timeout_multiplier(n)** and **run_timeout_multiplier(n)**
   modify the default timeout (usually 300s, displayed at the beginning of the testsuite) by a given factor for either the compile or the run part of your test. Note that the timeout program returns with exit code 99 when it kills your test. So if you want a timeout to mean success instead of failure, add exit_code(99) as a setup function.
@@ -293,7 +294,7 @@ There are a number of predicates which can be used:
 
 - **compiler_type(ct)**     a compiler of type `ct` (which could be `'ghc'`, `'hug'`, etc) is being tested
 - **compiler_lt(ct, v)**    compiler type is `ct`, and the version is less than `v`
-- **compiler_le(ct, v)**    compiler type is `ct`, and the version is less than or equal to `v`
+- **compilignoreer_le(ct, v)**    compiler type is `ct`, and the version is less than or equal to `v`
 - **compiler_gt(ct, v)**    compiler type is `ct`, and the version is greater than `v`
 - **compiler_ge(ct, v)**    compiler type is `ct`, and the version is greater than or equal to `v`
 - **unregisterised()**      the compiler is unregisterised
