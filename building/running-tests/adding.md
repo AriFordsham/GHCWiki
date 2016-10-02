@@ -248,7 +248,8 @@ test('prog013', extra_files(['Bad.hs', 'Good.hs']), ghci_script, ['prog013.scrip
 
 - **req_profiling**         requires profiling
 
-- **ignore_output**         don't try to compare output
+- **ignore_stdout**         don't try to compare stdout output
+- **ignore_stderr**         don't try to compare stderr output
 
 - **compile_timeout_multiplier(n)** and **run_timeout_multiplier(n)**
   modify the default timeout (usually 300s, displayed at the beginning of the testsuite) by a given factor for either the compile or the run part of your test. Note that the timeout program returns with exit code 99 when it kills your test. So if you want a timeout to mean success instead of failure, add exit_code(99) as a setup function.
@@ -279,7 +280,7 @@ There are a number of predicates which can be used:
 - **fast()**                the testsuite is running in "fast" mode
 
 - **platform(plat)**        the testsuite is running on platform `plat` (which could be `'x86_64-unknown-mingw32'` etc)
-- **opsys(os)**             the testsuite is running on operating system `os` (which could be `'mingw32'` etc)
+- **opsys(os)**             the testsuite is running on operating system `os` (which could be `'mingw32'`, `'darwin'`, `'linux'`, etc.)
 - **arch(a)**               the testsuite is running on architecture `a` (which could be `'x86_64'` etc)
 - **wordsize(w)**           the testsuite is running on a platform with word size `w` bits (which could be `32` or `64`)
 - **msys()**                the testsuite is running on msys
@@ -293,7 +294,7 @@ There are a number of predicates which can be used:
 
 - **compiler_type(ct)**     a compiler of type `ct` (which could be `'ghc'`, `'hug'`, etc) is being tested
 - **compiler_lt(ct, v)**    compiler type is `ct`, and the version is less than `v`
-- **compiler_le(ct, v)**    compiler type is `ct`, and the version is less than or equal to `v`
+- **compilignoreer_le(ct, v)**    compiler type is `ct`, and the version is less than or equal to `v`
 - **compiler_gt(ct, v)**    compiler type is `ct`, and the version is greater than `v`
 - **compiler_ge(ct, v)**    compiler type is `ct`, and the version is greater than or equal to `v`
 - **unregisterised()**      the compiler is unregisterised
