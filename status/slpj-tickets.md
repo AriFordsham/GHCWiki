@@ -64,7 +64,7 @@ Other tickets
 - [\#10056](https://gitlab.haskell.org//ghc/ghc/issues/10056): more systematic treatment of `(~)` in parser and renamer 
 - [\#9918](https://gitlab.haskell.org//ghc/ghc/issues/9918): closed type families, apartness, and overlapping instances (inconsistency)
 - [\#9118](https://gitlab.haskell.org//ghc/ghc/issues/9118): Eta reduction for `Coercible` (not expressible in Core, yet)
-- [\#6018](https://gitlab.haskell.org//ghc/ghc/issues/6018), [\#10227](https://gitlab.haskell.org//ghc/ghc/issues/10227): injective type families
+- [\#6018](https://gitlab.haskell.org//ghc/ghc/issues/6018), [\#10227](https://gitlab.haskell.org//ghc/ghc/issues/10227), [\#10832](https://gitlab.haskell.org//ghc/ghc/issues/10832), [\#4259](https://gitlab.haskell.org//ghc/ghc/issues/4259): injective type families
 - [\#8161](https://gitlab.haskell.org//ghc/ghc/issues/8161): associated type more specific than class decl
 - [\#8177](https://gitlab.haskell.org//ghc/ghc/issues/8177): role signature for type families
 - [\#9547](https://gitlab.haskell.org//ghc/ghc/issues/9547): kinding for empty constraint tuples
@@ -343,7 +343,6 @@ See [Edward's collection of code-generation stupidities](commentary/compiler/new
 - [\#9427](https://gitlab.haskell.org//ghc/ghc/issues/9427): SCC analysis for type and class decls
 - [\#9422](https://gitlab.haskell.org//ghc/ghc/issues/9422): Glomming all instances in EPT is too crude for `--make`
 - [\#7503](https://gitlab.haskell.org//ghc/ghc/issues/7503): Kind polymorphism and mutual recursion
-- [\#6018](https://gitlab.haskell.org//ghc/ghc/issues/6018), [\#4259](https://gitlab.haskell.org//ghc/ghc/issues/4259): Injective type families and type family overlap
 - [\#4296](https://gitlab.haskell.org//ghc/ghc/issues/4296): SkolemOccurs
 - [\#816](https://gitlab.haskell.org//ghc/ghc/issues/816). [\#3108](https://gitlab.haskell.org//ghc/ghc/issues/3108): extreme delicacy in solve order, involving fundeps
 - [\#8109](https://gitlab.haskell.org//ghc/ghc/issues/8109): as-patterns in type-family declarations
