@@ -1,6 +1,6 @@
 = Eager Version Bumping Strategy =
 
-Versioning of GHC core/boot libraries adheres to Haskell's [https://wiki.haskell.org/Package_versioning_policy Package Versioning Policy] whose scope is considered to apply to **released artifacts** (and therefore doesn't prescribe when to //actually// perform version increments during development)
+Versioning of GHC core/boot libraries adheres to Haskell's [http://pvp.haskell.org Package Versioning Policy] whose scope is considered to apply to **released artifacts** (and therefore doesn't prescribe when to //actually// perform version increments during development)
 
 However, in the spirit of continuous integration, GHC releases snapshot artifacts, and therefore it becomes important for early testers/evaluators/package-authors to be presented with accurate PVP-adhering versioning, especially for those who want adapt to upcoming API changes in new major GHC releases early (rather than being hit suddenly by a disruptive version-bump-wave occurring at GHC release time). 
 
