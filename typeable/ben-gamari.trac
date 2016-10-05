@@ -32,11 +32,34 @@ These are issues that need to be addressed elsewhere in the compiler,
   * #11714: kind of  `(->)` is overly-restrictive consequently `T11120` testcase fails
   * #11722: need a representation for unboxed types; closely related to #11736
   * #11715: `TypeOf` fails due to the fact that `Constraint` and `*` are indistinguishable in Core
+  * #12670: RuntimeRep polymorphism check is too strict (needed to implement `TrFun` described below)
 
 == Immediate next steps ==
  
  * Fix #11714
  * Move things to a richer `TypeRep` representation to make user serialization implementations safer.
+
+== Notes from meeting with Simon (5 Oct. 2016)
+
+Next step,
+1. Introduce special case in `TypeRep` for functions (`TrFun`)
+2. Encode instantiated kind variables in `TrTyCon` instead of full kind
+2. GHC: Try failing in `splitTyConApp` when splitting `(->)` application that has unlifted kind
+3. Introduce `FunCo` coercion
+4. Generalize (->) kind
+
+=== Encoding instantiated kind variables ===
+
+Instead of encoding the kind of a constructor in `TrTyCon` let's encode its instantiated kind variables. This has two advantages,
+1. It's more concise: most tycons are not kind polymorphic
+2. It's easier: we avoid having to represent kind loops
+
+This slightly complicates the implementation of `typeRepKind`, however. We will need some way of moving from the list of kind variable instantiations to the resulting kind of a tycon. This will need to be encoded with the `TyCon` in a manner than can serialized. For instance,
+{{{#!hs
+data TyCon = Tc String [String] TyConKindRep
+data TyConKindRep = Var String | TyConApp TyCon [TyConKindRep]
+}}}
+This unfortunately bloats the `TyCon` bindings produced by the compiler with every datatype.
 
 == Tickets ==
 
