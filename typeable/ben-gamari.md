@@ -63,6 +63,16 @@ Instead of encoding the kind of a constructor in `TrTyCon` let's encode its inst
 1. It's more concise: most tycons are not kind polymorphic
 1. It's easier: we avoid having to represent kind loops
 
+
+This slightly complicates the implementation of `typeRepKind`, however. We will need some way of moving from the list of kind variable instantiations to the resulting kind of a tycon. This will need to be encoded with the `TyCon` in a manner than can serialized. For instance,
+
+```
+dataTyCon=TcString[String]TyConKindRepdataTyConKindRep=VarString|TyConAppTyCon[TyConKindRep]
+```
+
+
+This unfortunately bloats the `TyCon` bindings produced by the compiler with every datatype.
+
 ## Tickets
 
 
