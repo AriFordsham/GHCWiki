@@ -44,6 +44,25 @@ These are issues that need to be addressed elsewhere in the compiler,
 - Fix [\#11714](https://gitlab.haskell.org//ghc/ghc/issues/11714)
 - Move things to a richer `TypeRep` representation to make user serialization implementations safer.
 
+## Notes from meeting with Simon (5 Oct. 2016)
+
+
+Next step,
+
+1. Introduce special case in `TypeRep` for functions (`TrFun`)
+1. Encode instantiated kind variables in `TrTyCon` instead of full kind
+1. GHC: Try failing in `splitTyConApp` when splitting `(->)` application that has unlifted kind
+1. Introduce `FunCo` coercion
+1. Generalize (-\>) kind
+
+### Encoding instantiated kind variables
+
+
+Instead of encoding the kind of a constructor in `TrTyCon` let's encode its instantiated kind variables. This has two advantages,
+
+1. It's more concise: most tycons are not kind polymorphic
+1. It's easier: we avoid having to represent kind loops
+
 ## Tickets
 
 
