@@ -116,7 +116,7 @@ which submits the `HEAD` commit to Phabricator and use your SSH public key to pu
 
 After pushing your new Differential `arc` will respond with the revision number and a URL where you can view and discuss your change.
 
-**NOTE**:  The above assumes you only want to send one commit to start with, which is the current tip of your branch. By default, when you say `arc diff XXX`, arcanist generates a diff starting from commit `XXX`, against your current `HEAD`. If you want to send multiple commits at once when you create a revision, simply specify the 'base' commit instead of `HEAD~`. `HEAD~` means "the commit before HEAD", so arcanist generates a diff between "HEAD" and "the commit before HEAD". Those commits can be seen with `git log` by running `git log <base>..HEAD` where `<base>` is the chosen commit. Simply make sure `git log <base>..HEAD` has all the commits you want, and run `arc diff <base>`.
+**NOTE**:  The above assumes you only want to send one commit to start with, which is the current tip of your branch.  In general you can send multiple commits by saying `arc diff XXX` where `XXX` is the the commit \*before\* the commits you want to send.  When you do this, `arc` will squash all the commits between `XXX` and `HEAD` into a single commit with the commit message you enter during `arc diff`.  You can see which commits would be squashed with `git log XXX..HEAD`.  Typically this is used when you have a series of modifications to the original commit in your repo, but you want them to be reviewed as a single diff.  If you want separate diffs, then used the "stacked diffs" workflow described below.
 
 
 You may also modify the commit more later, by making new commits, and running `arc diff` again. This will just update the existing review:
@@ -126,6 +126,43 @@ $ emacs ...
 $ git commit -asm "fix bug in new feature"
 $ arc diff # update existing review
 ```
+
+## Working with multiple dependent diffs
+
+
+When you have multiple commits with dependencies between them, we call them "stacked".  This section will describe how to work with stacked diffs in Phabricator.  (If the commits do not depend on each other, typically you want to create a branch of your repo for each one and do a separate `arc diff` for each one)
+
+
+First, use a single git branch for your work.  Let's assume you have multiple commits on this branch, call them `A`, `B`, and `C`, and you want to get each of them reviewed separately on Phabricator.
+
+```wiki
+$ git rebase -i HEAD~3
+```
+
+
+(change the "3" to the number of commits in your stack).  In the editor that pops up, change each commit to "edit" instead of "pick", and exit the editor.  Then repeatedly:
+
+```wiki
+$ arc diff HEAD^
+$ git rebase --continue
+```
+
+
+Until you have uploaded all your commits to Phab.  Now you have multiple diffs on Phab.  
+
+
+Later you'll probably want to modify one or more of these diffs in response to reviews.  I do it like this:
+
+- Commit the changes onto your branch as a new commit
+- `git rebase -i HEAD~4`
+- move your new commit after the one it should modify, change it to "fixup", and add `x arc diff` after it
+- exit the editor, and enter a description into the editor when `arc diff` runs
+
+
+Basically the idea is to use `git rebase -i` to repeatedly edit and `arc diff` commits in the stack.  You may also need to `arc diff` the commits further up the stack when they are rebased against changes lower in the stack.
+
+
+When it's time to push, I normally `git push` the whole stack together.  If you don't have commit access, one of the maintainers will do it for you.
 
 ## Everything else
 
