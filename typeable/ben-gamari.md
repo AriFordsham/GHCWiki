@@ -38,6 +38,7 @@ These are issues that need to be addressed elsewhere in the compiler,
 - [\#11714](https://gitlab.haskell.org//ghc/ghc/issues/11714): kind of  `(->)` is overly-restrictive consequently `T11120` testcase fails
 - [\#11722](https://gitlab.haskell.org//ghc/ghc/issues/11722): need a representation for unboxed types; closely related to [\#11736](https://gitlab.haskell.org//ghc/ghc/issues/11736)
 - [\#11715](https://gitlab.haskell.org//ghc/ghc/issues/11715): `TypeOf` fails due to the fact that `Constraint` and `*` are indistinguishable in Core
+- [\#12670](https://gitlab.haskell.org//ghc/ghc/issues/12670): RuntimeRep polymorphism check is too strict (needed to implement `TrFun` described below)
 
 ## Immediate next steps
 
