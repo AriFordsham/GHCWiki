@@ -37,7 +37,11 @@ From the [ MSYS2 installation instructions](http://sourceforge.net/p/msys2/wiki/
 
 An easy way to check that you are running the right shell is to check the output of `echo $MSYSTEM`. It should show either `MINGW32` or `MINGW64`. You can also tell by examining the `$PATH`.
 
-**\*NOTE:**\* if after installing packages like Sphinx ./configure still reports it is missing, make sure `/mingw64/bin` (or `/mingw32/bin` depending on the arch you're building for)  is on the `$PATH`
+**\*NOTE:**\* **make sure `/mingw64/bin` (or `/mingw32/bin` depending on the arch you're building for) is the first thing on `$PATH`.**
+
+>
+> This is **REQUIRED** to ensure that the mingw-w64 variant of tools get priority over the msys versions. If using Bash then
+> `echo "export PATH=/mingw<bitness>/bin:\$PATH" >>~/.bash_profile` can be run to append your profile. Replace `<bitness>` with either `64` or `32` depending on platform.
 
 ## Upgrading MSYS2
 
