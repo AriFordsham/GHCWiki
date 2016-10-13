@@ -157,6 +157,50 @@ To fix this, I use `--retain-symbols-file` to indicate to `LD` the list of symbo
 This brings the largest dll (GHC dll) down to about \~44k symbols. Way below the limit. So the automatic partitioning will not kick in yet as
 it is not needed.
 
+### Misc
+
+
+The following are some important pieces of the puzzle.
+
+#### *build-dll-win32.sh*
+
+
+The DLL compiling logic Is implemented in this shell script. This script should be used to compile libraries on Windows (The Makefiles have
+been updated to point to this shell script on Windows.). This script will automatically split a DLL is needed without any extra user action needed.
+
+
+The resulting libraries can also be used as if they were not split without any special treatment.
+
+#### *compiler/main/Manifest.hs*
+
+
+Contains the new logic for manifest files. Coincidentally, SxS manifest do allow for an RPATH like functionality.
+By using config files (which cannot be embedded in the exe) you can specify probing paths for SxS searches.
+
+```wiki
+<!-- <appname>.exe.config -->
+<configuration>   
+  <windows>
+    <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
+      <probing privatePath="bin;..\bin" />
+    </assemblyBinding>
+  </windows>
+</configuration>
+```
+
+
+Unfortunately according to MSDN you are limited to a laughable 9 entries..
+
+#### *driver\\utils\\dynwrapper.c*
+
+
+As with Linux, a dynamic GHC on Windows is a wrapper. However unlike Linux it's not a shell script
+but a driver exe. The main application is compiled into a dll named \*application.exe.dll\* and the
+wrapper loads this dll and sets the search path for libraries.
+
+
+This process is driven by *rules\\build-prog.mk*.
+
 #### Runtime selection
 
 
@@ -188,6 +232,14 @@ rts
 
 etc. We can then delay load the rts dll only. (This can be done by making the import library for the RTSs a lazy import library as described above).
 All the RTS versions should have the same ABI so that shouldn't be an issue.
+
+
+Delay loading will require some changes to GHC, specifically static const data can no longer be just referenced from the DLL. To get the data you have to
+go through a function. The overhead can be minimized somewhat by always inlining these accessor functions. This is a limitation of the delay load mechanism.
+
+
+When delay loading there are no more entries in the '.idata' section and everything goes through a trampoline which loads the DLL on demand. Obviously referencing
+data would end up referencing the address of the trampoline instead of the actual data behind it.
 
 
 During compilation of a `.exe` we can then set the search path using `AddDllDirectory` to allow the loader to pick the correct `RTS` variants for the `.exe`
