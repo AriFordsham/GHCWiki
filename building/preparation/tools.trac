@@ -155,6 +155,4 @@ In most cases the `configure` script will tell you if you are missing something.
 
 == Nofib ==
 
-To build the nofib suite, you will also need to have installed:
-   1. The Haskell html and regex-compat packages
-   2. The dos2unix tool (sometimes provided by the "tofrodos" package)
+See the [wiki:Building/RunningNoFib running NoFib] page.
