@@ -188,7 +188,4 @@ GHC does not use libedit on Windows; instead, it uses the console's default line
 ## Nofib
 
 
-To build the nofib suite, you will also need to have installed:
-
-1. The Haskell html and regex-compat packages
-1. The dos2unix tool (sometimes provided by the "tofrodos" package)
+See the [running NoFib](building/running-no-fib) page.
