@@ -112,7 +112,7 @@ but in Core the `=>` is represented by an ordinary `FunTy`. So f's type looks li
    ForAllTy a (TyConApp num [TyVarTy a] `FunTy` TyVarTy a `FunTy` TyVarTy a)
 where
    a   :: TyVar
-   num :: TyCOn
+   num :: TyCon
 ```
 
 
