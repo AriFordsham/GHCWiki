@@ -128,6 +128,7 @@ The pre-packaged cabal-1.22.0.0 crashes on Windows Server 2008 R2 during `cabal 
 
 ```
 mkdir -p /usr/local/bin &&
+pacman -S unzip &&
 curl -LO https://www.haskell.org/cabal/release/cabal-install-1.24.0.0-rc1/cabal-install-1.24.0.0-rc1-x86_64-unknown-mingw32.zip &&
 unzip cabal-install-1.24.0.0-rc1-x86_64-unknown-mingw32.zip -d /usr/local/bin &&
 cabal update &&
