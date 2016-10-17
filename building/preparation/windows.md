@@ -71,8 +71,7 @@ Now we can install GHC's system dependencies as followed:
 ```
 pacman -S --needed git tar binutils autoconf make \
     curl libtool automake python python2 p7zip patch \
-    mingw-w64-$(uname -m)-gcc mingw-w64-$(uname -m)-python3-sphinx \
-    mingw-w64-$(uname -m)-python2
+    mingw-w64-$(uname -m)-gcc mingw-w64-$(uname -m)-python3-sphinx
 ```
 
 
@@ -85,6 +84,51 @@ mingw-w64-x86_64-libiconv: /mingw64 exists in filesystem
 
 
 then run the previous command with `--force` option. There is a bug witin MSYS2 installer ([ https://github.com/msys2/msys2.github.io/issues/31](https://github.com/msys2/msys2.github.io/issues/31))
+
+### Python and the test suite
+
+
+There are two known issues when using `python` to run the GHC test suite:
+
+- The MinGW-w64 version of `python` (under the name `mingw-w64-$(uname -m)-python`) completely breaks on the GHC test suite (see [\#12554](https://gitlab.haskell.org//ghc/ghc/issues/12554)).
+
+- The MSYS2 version of `python` (which we recommended installing above using `pacman -S python`) is broken, but only with recent versions of the MSYS2 runtime (`msys2-runtime` \>= 2.5.1). See [\#12661](https://gitlab.haskell.org//ghc/ghc/issues/12661), as well as `MSYS2-packages`[ issue 707](https://github.com/Alexpux/MSYS2-packages/issues/707) for more info.
+
+>
+> This issue manifests as a failure to remove  directories; unfortunately this error is hidden by the driver and you will likely instead see an error of the form:
+
+```wiki
+[Error 183] Cannot create a file when that file already exists: ...
+```
+
+>
+> from `os.makedirs`. This issue appears to happen more often when threading is enabled in the testsuite driver (e.g. `make test THREADS=4` after disable the check disabling it in `runtests.py`), but can also happen in single-threaded mode.
+
+
+If you experience issues running the test suite on Windows, you can try the following:
+
+- Run `pacman -Q msys2-runtime` and verify that you are running a 2.5-series runtime.
+
+- If you are running a 2.5-series runtime, you can simply downgrade to the last-known-good version, 2.5.0, by running,
+
+```wiki
+$ wget http://repo.msys2.org/msys/x86_64/msys2-runtime-2.5.0.17080.65c939c-1-x86_64.pkg.tar.xz
+$ pacman -U msys2-runtime-2.5.0.17080.65c939c-1-x86_64.pkg.tar.xz
+```
+
+- If you are running any other runtime version then sadly you will need to reinstall MSYS2. This base tarball, [ http://repo.msys2.org/distrib/x86_64/msys2-base-x86_64-20160719.tar.xz](http://repo.msys2.org/distrib/x86_64/msys2-base-x86_64-20160719.tar.xz), is known to work.
+
+- After you have an MSYS2 installation with function runtime, you'll need to ensure that the testsuite driver runs with the MSYS2 `python` interpreter (located in `/usr/bin/python`), not the MinGW-w64 interpreter (located in `/mingw*/bin/python`). This can be accomplished with `make test PYTHON=/usr/bin/python`.
+
+>
+> Unfortunately there's no easy way of doing this with `./validate`. The easiest (but terrible) hack is adding this line:
+
+```wiki
+$ alias python='/usr/bin/python'
+```
+
+>
+> to your `~/.bashrc` file.
 
 ## Host GHC setup
 
