@@ -1,4 +1,5 @@
 = Building GHC on Windows =
+[[PageOutline]]
 
 This page documents the instructions for setting up a Windows build using [http://sourceforge.net/projects/msys2/ MSYS2], which is a fairly complete build of [http://mingw-w64.org/ MinGW-w64] + the MSYS2 tools.
 
