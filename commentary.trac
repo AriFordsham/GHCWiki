@@ -152,8 +152,8 @@ The above commentary covers the source code of GHC. For material that doesn't co
     * [wiki:SplitBase Splitting up the base package]
 
  * GHCi Debugger
-   * [wiki:GhciDebugger GHCi Debugger]: Some notes about the implementation of the GHCi debugger. Probably uninteresting unless you want to work on the debugger.
-   * [wiki:NewGhciDebugger New GHCi Debugger]: The new GHCi debugger.
+   * [wiki:Commentary/GHCi]: Notes on the implementation details for the support of breakpoints in GHCi.
+   * [wiki:GhciDebugger GHCi Debugger]: Notes on the implementation details of the GHCi debugger's feature for inspecting values.
 
  * The Runtime System
    * [wiki:LightweightConcurrency A new lightweight concurrency substrate for GHC]
