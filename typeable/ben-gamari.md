@@ -13,6 +13,7 @@ A branch with the current state of things can be found [ here](https://github.co
 
 There are a number of tasks outstanding. These involve only Ben,
 
+- The representation of tycon kinds needs work
 - Fix representation pretty-printer to correctly handle tuples, lists, arrows, and precedence
 - Examine performance changes (even some improvements, perplexingly)
 - Look at testsuite failures involving stack overflows: `T10294, plugins01, T5550, annrun01, ann01, annth_make`
@@ -44,6 +45,63 @@ These are issues that need to be addressed elsewhere in the compiler,
 
 - Fix [\#11714](https://gitlab.haskell.org//ghc/ghc/issues/11714)
 - Move things to a richer `TypeRep` representation to make user serialization implementations safer.
+
+## Representing tycon kinds
+
+
+In order to provide `typeRepKind` we must have some way of getting a kind from a `TrTyCon``TypeRep` node. There are two ways of doing this,
+
+1. Making the `TrTyCon` carry its kind
+1. Making the `TrTyCon` carry the instantiations of its kind variables and ensuring that we have a way of conjuring the final kind from these variables (e.g. encoding a representation of the type's uninstantiated kind in its `TyCon`)
+
+
+In many ways (1) is easier but has a few unfortunate disadvantages,
+
+- several types has recursive kind relationships (e.g. `Type :: Type`)
+- it increases the size of all `TypeRep`s to allow for the rather uncommon case of kind polymorphism
+
+
+On the other hand, (2) lacks these disadvantages but presents a few challenges,
+
+- `TyCon`s become much larger, potentially blowing up compilation time for modules not using `Typeable`
+- `TyCon`s need to refer to `TypeRep` dictionaries, potentially complicating evidence generation
+
+### Encoding kind instantiations
+
+
+One approach would be,
+
+```
+typeKindBndr=IntdataKindRep=KindTyConTyCon|KindVar!KindBndrdataTyCon=TyCon{ tyConName ::String,..., tyConKindRep ::KindRep}dataTypeRep(a :: k)whereTrCon::TyCon->[SomeTypeRep]->TypeRep a
+  TrApp::TypeRep a ->TypeRep b ->TypeRep(a b)
+```
+
+
+However this has the unfortunate side-effect of making the production of `TyCon`s (and hence all data types) significantly more expensive due to the need to produce `KindRep`.
+
+
+An alternative to this would be to push the `KindRep` out of `TyCon` and into evidence generation,
+
+```
+typeKindBndr=IntdataKindRep=KindTyConTyCon|KindVar!KindBndrdataTyCon=TyCon{ tyConName ::String,...}dataTypeRep(a :: k)whereTrCon::TyCon->KindRep->[SomeTypeRep]->TypeRep a
+  TrApp::TypeRep a ->TypeRep b ->TypeRep(a b)
+```
+
+
+This has the advantage of only inflicting the cost of `KindRep` generation on users of `Typeable`. However, this means we lose sharing of `KindRep`s.
+
+
+Another alternative would be to drop `KindRep` entirely and instead capture kinds through constraints,
+
+```
+dataTyCon=TyCon{ tyConName ::String,...}dataTypeRep(a :: k)whereTrCon::TyCon->[SomeTypeRep]->TypeRep a
+  TrApp::TypeRep a ->TypeRep b ->TypeRep(a b)classTypeable k =>Typeable(a :: k)where
+  typeRep ::TypeRep a
+
+-- Which has slight consequences on withTypeable,withTypeable::Typeable k =>TypeRep(a :: k)->(Typeable a => r)-> r
+
+-- and SomeTypeRepdataSomeTypeRepwhereSomeTypeRep:: forall k (a :: k).Typeable k =>TypeRep a ->SomeTypeRep
+```
 
 ## Notes from meeting with Simon (5 Oct. 2016)
 
