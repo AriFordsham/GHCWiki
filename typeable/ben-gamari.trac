@@ -104,6 +104,10 @@ class Typeable k => Typeable (a :: k) where
 
 -- Which has slight consequences on withTypeable,
 withTypeable :: Typeable k => TypeRep (a :: k) -> (Typeable a => r) -> r
+
+-- and SomeTypeRep
+data SomeTypeRep where
+    SomeTypeRep :: forall k (a :: k). Typeable k => TypeRep a -> SomeTypeRep
 }}}
 
 == Notes from meeting with Simon (5 Oct. 2016)

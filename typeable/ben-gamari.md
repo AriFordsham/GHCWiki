@@ -99,6 +99,8 @@ dataTyCon=TyCon{ tyConName ::String,...}dataTypeRep(a :: k)whereTrCon::TyCon->[S
   typeRep ::TypeRep a
 
 -- Which has slight consequences on withTypeable,withTypeable::Typeable k =>TypeRep(a :: k)->(Typeable a => r)-> r
+
+-- and SomeTypeRepdataSomeTypeRepwhereSomeTypeRep:: forall k (a :: k).Typeable k =>TypeRep a ->SomeTypeRep
 ```
 
 ## Notes from meeting with Simon (5 Oct. 2016)
