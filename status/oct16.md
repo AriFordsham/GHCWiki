@@ -33,7 +33,7 @@ there are a few new features which will likely appear,
 
 - **`deriving` strategies**: TODO Ryan
 
-- **New `base` classes**: The `Eq<N>`, `Ord<n>`, `Bifoldable`, and `Bitraversable` typeclasses are now included in the `base` library, along with built-in GHC support for instance derivation.
+- **New `base` classes**: The `Eq<n>`, `Ord<n>`, `Bifoldable`, and `Bitraversable` typeclasses are now included in the `base` library, along with built-in GHC support for instance derivation.
 
 ## Runtime system
 
@@ -51,6 +51,8 @@ there are a few new features which will likely appear,
 - **Experimental changes to the scheduler** that enable the number of threads used for garbage collection to be lower than the `-N` setting.
 
 - **Support for `StaticPointers` in GHCi**. At long last programs making use of the `StaticPointers` language extension will have first-class interpreter support.
+
+- **Improved idle CPU usage**: A long-standing regression resulting in unnecessary wake-ups in an otherwise idle program was fixed. This should lower CPU utilization and improve power consumption for some programs.
 
 ## Miscellaneous
 
