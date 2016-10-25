@@ -25,12 +25,12 @@ there are a few new features which will likely appear,
 * '''Indexed `Typeable` representations''' [wiki:Typeable/BenGamari] (Ben Gamari, Simon Peyton Jones, et al). While GHC has long supported runtime type reflection through the `Typeable` typeclass, its current incarnation requires care to use, providing little in the way of type-safety. For this reason the implementation of types like `Data.Dynamic` must be implemented in terms of `unsafeCoerce` with no compiler verification.
 
   GHC 8.2 will address this by introducing indexed type representations, leveraging the type-checker to verify programs using type reflection. This allows facilities like `Data.Dynamic` to be implemented in a fully type-safe manner. See the [[http://research.microsoft.com/en-us/um/people/simonpj/papers/haskell-dynamic/|paper]] for an description of the proposal and the [[https://ghc.haskell.org/trac/ghc/wiki/Typeable/BenGamari|Wiki]] for the current status of the implementation.
-* **Backpack**: ***Edward here***
-* **`deriving` strategies**: ***Ryan here***
-* A slightly larger `base` library: 
+* **Backpack**: TODO Edward
+* **`deriving` strategies**: TODO Ryan
+* New `base` classes library: The `Bifoldable` and `Bitraversable` typeclasses are now included in the `base` library, along with built-in GHC support for instance derivation.
 
 == Runtime system ==
-* **Compact regions**: Edward here
+* **Compact regions**: TODO Edward
 * **Better profiling support**: The cost-center profiler now better integrates with the GHC event-log. Heap profile samples can now be dumped to the event log, allowing heap behavior to be more easily correlated with other program events.
 * **More robust DWARF output**: GHC's support for DWARF debugging information has been gradually stabilizing over the last few releases. While GHC 8.0 was a significant improvement over 7.10, a number of infelicities in the implementation rendered it unsafe for production use. GHC 8.2 will hopefully be the first release where DWARF debugging can be considered stable.
 * **Better support for NUMA machines**: Machines with non-uniform memory access costs are becoming more and more common as core counts continue to increase. The runtime system is now better equipped to efficiently run on such systems.
