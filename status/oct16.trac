@@ -44,6 +44,8 @@ there are a few new features which will likely appear,
 
 * **Better support for NUMA machines**: Machines with non-uniform memory access costs are becoming more and more common as core counts continue to increase. The runtime system is now better equipped to efficiently run on such systems.
 
+* **Experimental changes to the scheduler** that enable the number of threads used for garbage collection to be lower than the `-N` setting.
+
 * Support for `StaticPointers` in GHCi
 
 == Miscellaneous ==
