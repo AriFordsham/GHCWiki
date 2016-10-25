@@ -34,7 +34,7 @@ there are a few new features which will likely appear,
 
 == Runtime system ==
 
-* Compact regions (Giovanni Campagna, Edward Yang, Phab:D1264, [[http://ezyang.com/papers/ezyang15-cnf.pdf|paper]]). This runtime system feature allows a referentially "closed" set of heap objects to be collected into a "compact region", allowing cheaper garbage collection, heap-object sharing between processes, and the possibility of inexpensive serialization.
+* **Compact regions** (Giovanni Campagna, Edward Yang, Phab:D1264, [[http://ezyang.com/papers/ezyang15-cnf.pdf|paper]]). This runtime system feature allows a referentially "closed" set of heap objects to be collected into a "compact region", allowing cheaper garbage collection, heap-object sharing between processes, and the possibility of inexpensive serialization.
 
 * **Better profiling support**: The cost-center profiler now better integrates with the GHC event-log. Heap profile samples can now be dumped to the event log, allowing heap behavior to be more easily correlated with other program events.
 
