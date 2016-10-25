@@ -50,7 +50,7 @@ there are a few new features which will likely appear,
 
 - **Experimental changes to the scheduler** that enable the number of threads used for garbage collection to be lower than the `-N` setting.
 
-- Support for `StaticPointers` in GHCi
+- **Support for `StaticPointers` in GHCi**. At long last programs making use of the `StaticPointers` language extension will have first-class interpreter support.
 
 ## Miscellaneous
 
