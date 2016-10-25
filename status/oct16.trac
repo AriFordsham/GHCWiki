@@ -1,0 +1,30 @@
+GHC development continues to push forward with a new super-major release.
+GHC 8.0.1 was released in May 2016 and has been surprisingly stable for a
+release with so much churn. Nevertheless, there were issues, many of which will
+soon be fixed with the 8.0.2 patchlevel release which is due to be released in
+mid-November 2016.
+
+Following 8.0.2 focus will turn to the quickly-approaching 8.2 release.
+GHC 8.2.1, the first release in the 8.2 series, will likely be released in
+February 2016. This release is largely intended to be a consolidation and bugfix
+release, with significantly fewer new features than the last 8.0 release.
+In particular, we have focused efforts on improving compilation speed.
+Over the course of the release we have developed tools for
+better tracking GHC's performance and used these tools to identify and resolve a
+number of performance issues. The result is significant improvement in
+compilation time and allocations on a large fraction of \texttt{nofib} tests.
+
+
+= Major changes in GHC 8.2 =
+
+While the emphasis of 8.2 is on performance, stability, and consolidation,
+there are a few new features which will likely appear,
+
+* **Type-indexed `Typeable`**:
+* **Backpack**: ***Edward here***
+* **`deriving` strategies**: ***Ryan here***
+* A slightly larger `base` library: 
+* **Compact regions**: Edward here
+* **Better profiling support**: The cost-center profiler now better integrates with the GHC event-log. Heap profile samples can now be dumped to the event log, allowing heap behavior to be more easily correlated with other program events.
+* **More robust DWARF output**: GHC's support for DWARF debugging information has been gradually stabilizing over the last few releases. While GHC 8.0 was a significant improvement over 7.10, a number of infelicities in the implementation rendered it unsafe for production use. GHC 8.2 will hopefully be the first release where DWARF debugging can be considered stable.
+* **Better support for NUMA machines**: Machines with non-uniform memory access costs are becoming more and more common as core counts continue to increase. The runtime system is now better equipped to efficiently run on such systems.
