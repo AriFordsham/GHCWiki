@@ -31,7 +31,7 @@ there are a few new features which will likely appear,
 
 - **Backpack**: TODO Edward
 
-- **`deriving` strategies**: TODO Ryan
+- **`deriving` strategies**: GHC now provides the programmer with a precise mechanism to distinguish between the three ways to derive type class instances: the usual way, the `GeneralizedNewtypeDeriving` way, and the `DeriveAnyClass` way. See the [ wiki page](https://ghc.haskell.org/trac/ghc/wiki/Commentary/Compiler/DerivingStrategies) for more details.
 
 - **New `base` classes**: The `Bifoldable`, and `Bitraversable` typeclasses are now included in the `base` library.
 
