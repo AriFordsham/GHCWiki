@@ -27,7 +27,7 @@ there are a few new features which will likely appear,
   GHC 8.2 will address this by introducing indexed type representations, leveraging the type-checker to verify programs using type reflection. This allows facilities like `Data.Dynamic` to be implemented in a fully type-safe manner. See the [[http://research.microsoft.com/en-us/um/people/simonpj/papers/haskell-dynamic/|paper]] for an description of the proposal and the [[https://ghc.haskell.org/trac/ghc/wiki/Typeable/BenGamari|Wiki]] for the current status of the implementation.
 * **Backpack**: TODO Edward
 * **`deriving` strategies**: TODO Ryan
-* New `base` classes library: The `Eq''n''`, ``Ord''n''`, `Bifoldable`, and `Bitraversable` typeclasses are now included in the `base` library, along with built-in GHC support for instance derivation.
+* New `base` classes library: The `Eq`''n'', ``Ord`''n'', `Bifoldable`, and `Bitraversable` typeclasses are now included in the `base` library, along with built-in GHC support for instance derivation.
 
 == Runtime system ==
 * **Compact regions**: TODO Edward

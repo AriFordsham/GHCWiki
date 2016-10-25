@@ -31,7 +31,7 @@ there are a few new features which will likely appear,
 
 - **Backpack**: TODO Edward
 - **`deriving` strategies**: TODO Ryan
-- New `base` classes library: The `Eq''n''`, ``Ord*n*`, `Bifoldable`, and `Bitraversable` typeclasses are now included in the `base\` library, along with built-in GHC support for instance derivation.
+- New `base` classes library: The `Eq`*n*, ``Ord`''n'', `Bifoldable`, and `Bitraversable` typeclasses are now included in the `base\` library, along with built-in GHC support for instance derivation.
 
 ## Runtime system
 
