@@ -56,6 +56,6 @@ there are a few new features which will likely appear,
 
 ## Miscellaneous
 
-- **Compiler Determinism**: GHC 8.2 is the first release of GHC which produces deterministic interface files. This helps consumers like `nix` and caching build systems, and presents new opportunities for compile-time improvements.
+- **Compiler Determinism**: GHC 8.0.2 is the first release of GHC which produces deterministic interface files. This helps consumers like `nix` and caching build systems, and presents new opportunities for compile-time improvements.
 
 - **Hadrian**: 8.2 will hopefully be the first release to ship with Hadrian, our new Shake-based build system developed by Andrey Mokhov and his collaborators. This new build system is significantly more maintainable than our aging `make`-based system, will lead to improved compilation times on some platforms, and is better equipped to incorporate features like build artifact caching.
