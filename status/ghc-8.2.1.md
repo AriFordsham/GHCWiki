@@ -56,6 +56,8 @@ Below are the major highlights of 8.2.
 
 - Experimental changes to the scheduler (Simon Marlow, [ in progress](https://github.com/simonmar/ghc/commit/7e05ec18b4eda8d97e37015d415e627353de6b50)) that enable the number of threads used for GC to be lower than the `-N` setting.
 
+- **Improved idle CPU usage**: A long-standing regression ([\#11965](https://gitlab.haskell.org//ghc/ghc/issues/11965)) resulting in unnecessary wake-ups in an otherwise idle program was fixed. This should lower CPU utilization and improve power consumption for some programs.
+
 ### Frontend, build system and miscellaneous changes
 
 - New Shake-based build system, `hadrian`, will be merged.  (Andrey Mokhov)
