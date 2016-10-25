@@ -30,7 +30,7 @@ there are a few new features which will likely appear,
 
 * **`deriving` strategies**: TODO Ryan
 
-* **New `base` classes**: The `Eq<n>`, `Ord<n>`, `Bifoldable`, and `Bitraversable` typeclasses are now included in the `base` library, along with built-in GHC support for instance derivation.
+* **New `base` classes**: The `Eq<n>`, `Ord<n>`, `Read<n>`, `Show<n>`, `Bifoldable`, and `Bitraversable` typeclasses are now included in the `base` library.
 
 == Runtime system ==
 
