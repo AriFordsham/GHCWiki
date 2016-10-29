@@ -35,6 +35,8 @@ there are a few new features which will likely appear,
 
 - **New `base` classes**: The `Bifoldable`, and `Bitraversable` typeclasses are now included in the `base` library.
 
+- **Unboxed sums**: GHC 8.2 has a new language extension, `UnboxedSums`, that enables unboxed representation for non-recursive sum types. GHC 8.2 doesn't use unboxed sums automatically, but the extension comes with new syntax, so users can manually unpack sums. More details can be found in [ the wiki page](https://ghc.haskell.org/trac/ghc/wiki/UnpackedSumTypes).
+
 ## Runtime system
 
 - **Compact regions** ([ paper](http://ezyang.com/papers/ezyang15-cnf.pdf)). This runtime system feature allows a referentially "closed" set of heap objects to be collected into a "compact region", allowing cheaper garbage collection, heap-object sharing between processes, and the possibility of inexpensive serialization.
