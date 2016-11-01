@@ -14,7 +14,7 @@ In particular, we have focused efforts on improving compilation speed.
 Over the course of the release we have developed tools for
 better tracking GHC's performance and used these tools to identify and resolve a
 number of performance issues. The result is significant improvement in
-compilation time and allocations on a large fraction of \\texttt{nofib} tests.
+compilation time and allocations on a large fraction of `nofib` tests.
 
 # Major changes in GHC 8.2
 
@@ -29,9 +29,9 @@ there are a few new features which will likely appear,
 >
 > GHC 8.2 will address this by introducing [indexed type representations](typeable), leveraging the type-checker to verify programs using type reflection. This allows facilities like `Data.Dynamic` to be implemented in a fully type-safe manner. See the [ paper](http://research.microsoft.com/en-us/um/people/simonpj/papers/haskell-dynamic/) for an description of the proposal and the [ Wiki](https://ghc.haskell.org/trac/ghc/wiki/Typeable/BenGamari) for the current status of the implementation.
 
-- **Backpack**: Backpack has merged with GHC, Cabal and cabal-install, allowing you to write libraries which are parametrized by signatures, letting users decide how to instantiate them at a later point in time. If you want to just play around with the signature language, there is a new major mode `ghc --backpack`; at the Cabal syntax level, there are two new fields `signatures` and `mixins` which permit you to define parametrized packages, and instantiate them in a flexible way. More details are at [ https://ghc.haskell.org/trac/ghc/wiki/Backpack](https://ghc.haskell.org/trac/ghc/wiki/Backpack)
+- **Backpack**: Backpack has merged with GHC, Cabal and cabal-install, allowing you to write libraries which are parametrized by signatures, letting users decide how to instantiate them at a later point in time. If you want to just play around with the signature language, there is a new major mode `ghc --backpack`; at the Cabal syntax level, there are two new fields `signatures` and `mixins` which permit you to define parametrized packages, and instantiate them in a flexible way. More details are on the [Backpack wiki page](backpack).
 
-- **`deriving` strategies**: GHC now provides the programmer with a precise mechanism to distinguish between the three ways to derive type class instances: the usual way, the `GeneralizedNewtypeDeriving` way, and the `DeriveAnyClass` way. See the [ wiki page](https://ghc.haskell.org/trac/ghc/wiki/Commentary/Compiler/DerivingStrategies) for more details.
+- **`deriving` strategies**: GHC now provides the programmer with a precise mechanism to distinguish between the three ways to derive type class instances: the usual way, the `GeneralizedNewtypeDeriving` way, and the `DeriveAnyClass` way. See the [DerivingStrategies wiki page](commentary/compiler/deriving-strategies) for more details.
 
 - **New `base` classes**: The `Bifoldable`, and `Bitraversable` typeclasses are now included in the `base` library.
 
