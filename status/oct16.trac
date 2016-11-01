@@ -12,7 +12,7 @@ In particular, we have focused efforts on improving compilation speed.
 Over the course of the release we have developed tools for
 better tracking GHC's performance and used these tools to identify and resolve a
 number of performance issues. The result is significant improvement in
-compilation time and allocations on a large fraction of \texttt{nofib} tests.
+compilation time and allocations on a large fraction of `nofib` tests.
 
 
 = Major changes in GHC 8.2 =
