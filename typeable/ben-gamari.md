@@ -72,8 +72,8 @@ On the other hand, (2) lacks these disadvantages but presents a few challenges,
 One approach would be,
 
 ```
-typeKindBndr=IntdataKindRep=KindTyConTyCon|KindVar!KindBndrdataTyCon=TyCon{ tyConName ::String,..., tyConKindRep ::KindRep}dataTypeRep(a :: k)whereTrCon::TyCon->[SomeTypeRep]->TypeRep a
-  TrApp::TypeRep a ->TypeRep b ->TypeRep(a b)
+typeKindBndr=IntdataKindRep=KindTyConTyCon|KindVar!KindBndr|KindAppKindRepKindRepdataTyCon=TyCon{ tyConName ::String,..., tyConKindRep ::KindRep}dataTypeRep(a :: k)whereTrCon::TyCon->[SomeTypeRep]->TypeRep a
+  TrApp::TypeRep a ->TypeRep b ->TypeRep(a b)dataSomeTypeRepwhereSomeTypeRep:: forall k (a :: k).TypeRep a ->SomeTypeRep
 ```
 
 
@@ -83,8 +83,8 @@ However this has the unfortunate side-effect of making the production of `TyCon`
 An alternative to this would be to push the `KindRep` out of `TyCon` and into evidence generation,
 
 ```
-typeKindBndr=IntdataKindRep=KindTyConTyCon|KindVar!KindBndrdataTyCon=TyCon{ tyConName ::String,...}dataTypeRep(a :: k)whereTrCon::TyCon->KindRep->[SomeTypeRep]->TypeRep a
-  TrApp::TypeRep a ->TypeRep b ->TypeRep(a b)
+typeKindBndr=IntdataKindRep=KindTyConTyCon|KindVar!KindBndr|KindAppKindRepKindRepdataTyCon=TyCon{ tyConName ::String,...}dataTypeRep(a :: k)whereTrCon::TyCon->KindRep->[SomeTypeRep]->TypeRep a
+  TrApp::TypeRep a ->TypeRep b ->TypeRep(a b)dataSomeTypeRepwhereSomeTypeRep:: forall k (a :: k).TypeRep a ->SomeTypeRep
 ```
 
 
