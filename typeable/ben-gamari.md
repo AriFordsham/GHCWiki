@@ -73,7 +73,7 @@ One approach would be,
 
 ```
 typeKindBndr=IntdataKindRep=KindTyConTyCon|KindVar!KindBndrdataTyCon=TyCon{ tyConName ::String,..., tyConKindRep ::KindRep}dataTypeRep(a :: k)whereTrCon::TyCon->[SomeTypeRep]->TypeRep a
-  TrApp::TypeRep a ->TypeRep b ->TypeRep(a b)
+  TrApp::TypeRep a ->TypeRep b ->TypeRep(a b)dataSomeTypeRepwhereSomeTypeRep:: forall k (a :: k).TypeRep a ->SomeTypeRep
 ```
 
 
@@ -84,7 +84,7 @@ An alternative to this would be to push the `KindRep` out of `TyCon` and into ev
 
 ```
 typeKindBndr=IntdataKindRep=KindTyConTyCon|KindVar!KindBndrdataTyCon=TyCon{ tyConName ::String,...}dataTypeRep(a :: k)whereTrCon::TyCon->KindRep->[SomeTypeRep]->TypeRep a
-  TrApp::TypeRep a ->TypeRep b ->TypeRep(a b)
+  TrApp::TypeRep a ->TypeRep b ->TypeRep(a b)dataSomeTypeRepwhereSomeTypeRep:: forall k (a :: k).TypeRep a ->SomeTypeRep
 ```
 
 
