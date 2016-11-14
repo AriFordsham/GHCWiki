@@ -2,7 +2,7 @@
 
 = `OverloadedLabels` =
 
-This page describes the `OverloadedLabels` extension, part 2 of the [wiki:Records/OverloadedRecordFields OverloadedRecordFields proposal]. This was implemented as Phab:D1331, and **will be in GHC 8.0.**
+This page describes the `OverloadedLabels` extension, as implemented in Phab:D1331 and included in GHC 8.0. Note that the [https://github.com/ghc-proposals/ghc-proposals/pull/6 latest proposal for OverloadedRecordFields] proposes changes to `OverloadedLabels` from what is described here.
 
 === Digression: implicit parameters ===
 
