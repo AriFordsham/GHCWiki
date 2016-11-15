@@ -20,10 +20,10 @@ Inspecting the definition of `P` we can see that the matches for `foo` are indee
 
 
 And neither should it! Pattern synonyms are a means of \*abstraction\*, if the exhaustiveness checker could look through a definition then the implementation of `P` would leak into error messages. 
-We want users to be able to replace bona-fide data constructors with pattern synonyms without consumers noticing.
+We want users to be able to replace bona-fide data constructors with pattern synonyms without consumers noticing. 
+To that end, we allow users to specify a complete set of pattern synonyms in order to sate the pattern match checker. If a complete pragma is not provided then we keep the same behaviour as in previous releases.
 
-
-\# Definitions
+# Definitions
 
 
 We introduce a new top-level pragma which we use to declare a complete set of conlikes.
@@ -34,8 +34,7 @@ A **conlike** is either a data constructor or a pattern synonym.
 
 We say that a set of conlikes is a **complete** match when a function which is defined by matching on all of the conlikes is total.
 
-
-\# Syntax
+# Syntax
 
 
 A user declares a complete match using a `COMPLETE` pragma. The definition consists of a list of conlikes. 
@@ -46,8 +45,7 @@ A user declares a complete match using a `COMPLETE` pragma. The definition consi
 
 `COMPLETE` pragmas can appear in any module in which `con_1,..., con_n` are in scope. Specifically, they need not be in the defining module.
 
-
-\# Semantics
+# Semantics
 
 `COMPLETE` pragmas are only used in the pattern match checker. 
 
