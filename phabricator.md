@@ -60,7 +60,7 @@ $ export PATH="$(pwd)/arcanist/bin:$PATH"
 That's it! **This will even work on Windows, as long as you have PHP available in your shell**.
 
 
-Next, make sure the `.arc-linters/arcanist-external-json-linter` submodule is initialized properly via `git submodule update --init`.  Otherwise, you will get this scary error:
+Next, make sure the `.arc-linters/arcanist-external-json-linter` submodule is initialized properly via `git submodule update --init`.  Otherwise, you will get this [ scary error](https://mail.haskell.org/pipermail/ghc-devs/2016-May/012050.html):
 
 >
 > Usage Exception: Failed to load phutil library at location '\~/mycode/ghc/.arc-linters/arcanist-external-json-linter'. This library is specified by the "load" setting in ".arcconfig". Check that the setting is correct and the library is located in the right place.
