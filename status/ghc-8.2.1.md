@@ -40,6 +40,7 @@ Below are the major highlights of 8.2.
 - Generalize the `deriving` algorithms for `Eq`, `Functor`, etc. to be able to derive the data types in `Data.Functor.Classes` (`Eq1`, `Eq2`, etc.), `Bifunctor`, `Bifoldable`, and `Bitraversable` (Ryan Scott)
 - Deriving strategies (Ryan Scott): grant users the ability to choose explicitly how a class should be `derived` (using a built-in algorithm, `GeneralizedNewtypeDeriving`, `DeriveAnyClass`, or otherwise), addressing [\#10598](https://gitlab.haskell.org//ghc/ghc/issues/10598).
 - Exhaustiveness checking for `EmptyCase`s ([ Phab:D2105](https://phabricator.haskell.org/D2105)), addressing [\#10746](https://gitlab.haskell.org//ghc/ghc/issues/10746). 
+- Exhaustiveness checking for pattern synonyms, including the ability to define sets of synonyms that constitute a complete match, addressing [\#8779](https://gitlab.haskell.org//ghc/ghc/issues/8779) (Matthew Pickering),
 
 ### Back-end and runtime system
 
