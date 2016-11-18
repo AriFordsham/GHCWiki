@@ -55,4 +55,12 @@ movq%rbx,%rdxmovq%rax,%rbxmovq%rdx,-16(%rbp)movq%rcx,-8(%rbp)addq$-24,%rbpjmp*-2
 (yes, that works!)
 
 
-Then I timed the resulting binaries (`python -m timeit -n 10 -r 3 'import os; os.system("./test-fast")';` and found that the change improves runtime by …(waiting)…
+Then I timed the resulting binaries with
+
+```
+$ python -m timeit -n 10 -r 3'import os; os.system("./test-fast")';
+$ python -m timeit -n 10 -r 3'import os; os.system("./test-slow")';
+```
+
+
+and found that the change improves runtime by …(waiting)…
