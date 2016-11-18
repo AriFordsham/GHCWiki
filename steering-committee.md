@@ -14,7 +14,7 @@ The goal of the committee is to facilitate the process of proposing changes to G
 - Simon Marlow (co-chair)
 
 - Christopher Allen
-- Joachim Breitner
+- [ Joachim Breitner](http://www.joachim-breitner.de/), a.k.a. nomeata (currently [ UPenn](http://cis.upenn.edu/~joachim))
 - Manuel Chakravarty
 - Iavor Diatchki
 - Atze Dijkstra
