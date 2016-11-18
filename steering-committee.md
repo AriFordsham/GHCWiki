@@ -20,3 +20,4 @@ The goal of the committee is to facilitate the process of proposing changes to G
 - Atze Dijkstra
 - Richard Eisenberg
 - Ben Gamari
+- Ryan Newton
