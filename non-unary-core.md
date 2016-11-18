@@ -64,3 +64,6 @@ $ python -m timeit -n 10 -r 3'import os; os.system("./test-slow")';10 loops, bes
 
 
 and found that the change improves runtime, in this exteme micro-benchmark, in this iteation, by 10%. Which is not great given the form of the benchmark, but at least a number.
+
+
+Also, the real code would still have to check `%rax` for whether it is an evaluated function there, or a thunk that first needs entering.
