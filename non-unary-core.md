@@ -58,9 +58,9 @@ movq%rbx,%rdxmovq%rax,%rbxmovq%rdx,-16(%rbp)movq%rcx,-8(%rbp)addq$-24,%rbpjmp*-2
 Then I timed the resulting binaries with
 
 ```
-$ python -m timeit -n 10 -r 3'import os; os.system("./test-fast")';
-$ python -m timeit -n 10 -r 3'import os; os.system("./test-slow")';
+$ python -m timeit -n 10 -r 3'import os; os.system("./test-fast")';10 loops, best of 3: 4.94 sec per loop
+$ python -m timeit -n 10 -r 3'import os; os.system("./test-slow")';10 loops, best of 3: 5.49 sec per loop
 ```
 
 
-and found that the change improves runtime by …(waiting)…
+and found that the change improves runtime, in this exteme micro-benchmark, in this iteation, by 10%. Which is not great given the form of the benchmark, but at least a number.
