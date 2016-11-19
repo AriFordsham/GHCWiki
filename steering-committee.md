@@ -15,7 +15,7 @@ The goal of the committee is to facilitate the process of proposing changes to G
 
 - Christopher Allen
 - [ Joachim Breitner](http://www.joachim-breitner.de/), a.k.a. nomeata (currently [ UPenn](http://cis.upenn.edu/~joachim))
-- Manuel Chakravarty
+- [ Manuel Chakravarty](http://justtesting.org)
 - [ Iavor Diatchki](http://galois.com/team/iavor-diatchki) (Galois Inc.)
 - Atze Dijkstra
 - [ Richard Eisenberg](http://cs.brynmawr.edu/~rae), a.k.a. goldfire(re) (Bryn Mawr College)
