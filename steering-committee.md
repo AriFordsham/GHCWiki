@@ -20,4 +20,4 @@ The goal of the committee is to facilitate the process of proposing changes to G
 - Atze Dijkstra
 - [ Richard Eisenberg](http://cs.brynmawr.edu/~rae), a.k.a. goldfire(re) (Bryn Mawr College)
 - Ben Gamari
-- Ryan Newton
+- [ Ryan Newton](http://cs.indiana.edu/~rrnewton), user rrnewton
