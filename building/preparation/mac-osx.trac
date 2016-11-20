@@ -74,7 +74,13 @@ to you `mk/build.mk` file  (which hosts all your other build system config prefe
 
 == Supporting Older OS X versions with your build ==
 
-running a command like  `export MACOSX_DEPLOYMENT_TARGET=version` before building will  imply setting `-mmacosx-version-min=version` for clang and friends, and will result in a GHC build that can run on any OS X `>= version` (where version can be older than the host machine's OS X version).  Of course, test that this actually works for you.  Theres a lot of decent resources online about how these flags work for OS X 
+Running a command like  `export MACOSX_DEPLOYMENT_TARGET=10.7` before building will imply setting `-mmacosx-version-min=version` for clang and friends, and will result in a GHC build that can run on any OS X `>= version` (where version can be older than the host machine's OS X version). 
+
+Note that this the deployment target does not affect library availability. This means that builds performed on Sierra (macOS 10.12) systems (which have `clock_gettime`), will be incompatible with previous OS X releases (see #12858). If you need to build a binary distribution on Sierra which is compatible with previous releases, it's best to simply disable `clock_gettime` support at configuration time,
+{{{
+./configure ac_cv_func_clock_gettime=no
+}}}
+
 
 == Other tools ==
 
