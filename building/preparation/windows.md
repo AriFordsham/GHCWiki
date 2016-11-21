@@ -1,72 +1,82 @@
 # Building GHC on Windows
 
 
-This page documents the instructions for setting up a Windows build using [ MSYS2](http://sourceforge.net/projects/msys2/), which is a fairly complete build of [ MinGW-w64](http://mingw-w64.org/) + the MSYS2 tools.
+This page documents the instructions for setting up a Windows build using [ MSYS2](http://sourceforge.net/projects/msys2/), which contains [ MinGW-w64 compilers](http://mingw-w64.org/) and the MSYS2 shell utilities.  This guide should get you running in \~5 minutes, modulo download speeds.
+
+## Setting up MSYS2
+
+### Method 1: Directly
+
+#### Installation
 
 
-This guide should get you running in \~5 minutes, modulo download speeds.
-
-## MSYS2 setup
-
-### 64-bit
-
-
-Download and run the [ 64-bit MSYS2 installer](http://sourceforge.net/projects/msys2/files/latest/download). Be sure to open a mingw64 shell (see below).
-
-### 32-bit
-
-
-Download and run the [ 32-bit MSYS2 installer](http://sourceforge.net/projects/msys2/files/Base/i686/). Be sure to open a mingw32 shell (see below).
-
-
-The result of attempting to create a 32-bit build on a 64-bit machine has not been documented yet. Building on a 32-bit version of Windows works, of course.
+Download and run the latest [ 64-bit (x86-64) MSYS2 installer](https://sourceforge.net/projects/msys2/files/Base/x86_64/) or [ 32-bit (i686) MSYS2 installer](http://sourceforge.net/projects/msys2/files/Base/i686/). Be sure to open a mingw64 or mingw32 shell (see below).
 
 
 From the [ MSYS2 installation instructions](http://sourceforge.net/p/msys2/wiki/MSYS2%20installation/):
 
 >
-> After installing or extracting MSYS2 you should start MSYS2 by executing msys2_shell.bat.
->
-> >
-> > (if you did not use an installer and this is first time running of MSYS2 after unpacking, then at this point it will create the files and settings necessary for it to function properly. After this initial run you MUST restart MSYS2 so that the settings are correct)
+> After installing or extracting MSYS2 you should start MSYS2 by executing **msys2_shell.bat**. (if you did not use an installer and this is first time running of MSYS2 after unpacking, then at this point it will create the files and settings necessary for it to function properly. After this initial run you **MUST** restart MSYS2 so that the settings are correct)
 
-### Configuring MinGW properly
 
-**IMPORTANT:** The MSYS2 installer creates multiple shortcuts, "MSYS2 Shell", "MinGW-w64 Win32 Shell" and "MinGW-w64 Win64 Shell". You do **not** want the "MSYS2 Shell." The MSYS2 shell is set up for building applications with Cygwin which provides an additional POSIX compatibility layer, while MinGW is set up for building native Windows applications which is what we need for GHC.
+(The result of attempting to create a 32-bit build of GHC on a 64-bit machine has not been documented yet. Building 32-bit GHC on a 32-bit version of Windows works, of course.)
+
+#### Launching the MinGW shell
+
+
+The MSYS2 installer creates multiple shortcuts.  The one you want to use is *MinGW-w64 Win32 Shell* or *MinGW-w64 Win64 Shell*.
+
+# Note
+
+
+Do *not* use *MSYS2 Shell*.  *MSYS2 Shell* is for building applications that utilize an additional POSIX compatibility layer akin to Cygwin, while the *MinGW-w64* shells are for building native Windows applications.  The latter is the correct environment for building GHC.  For details on the distinction between the two, read the [ introduction to MSYS2](https://sourceforge.net/p/msys2/wiki/MSYS2%20introduction/).
 
 
 An easy way to check that you are running the right shell is to check the output of `echo $MSYSTEM`. It should show either `MINGW32` or `MINGW64`. You can also tell by examining the `$PATH`.
 
-**\*NOTE:**\* **make sure `/mingw64/bin` (or `/mingw32/bin` depending on the arch you're building for) is the first thing on `$PATH`.**
-
->
-> This is **REQUIRED** to ensure that the mingw-w64 variant of tools get priority over the msys versions. If using Bash then
-> `echo "export PATH=/mingw<bitness>/bin:\$PATH" >>~/.bash_profile` can be run to append your profile. Replace `<bitness>` with either `64` or `32` depending on platform.
-
-## Upgrading MSYS2
+#### Configuration
 
 
-The msys2 package uses `pacman` (the venerable ArchLinux package manager) to manage packages. Before installing system dependencies required for building GHC, you need to update packages according to [ MSYS2 installation instructions](http://sourceforge.net/p/msys2/wiki/MSYS2%20installation/) section III
+Make sure `/mingw64/bin` (or `/mingw32/bin` depending on the arch you're building for) is the first thing on `$PATH`. If using Bash then `echo "export PATH=/mingw<bitness>/bin:\$PATH" >>~/.bash_profile` can be run to append your profile. Replace `<bitness>` with either `64` or `32` depending on platform.
+
+# Note
 
 
-With modern pacman (since version 5.0.1.6403) it's just `pacman -Syuu`. 
+This is **REQUIRED** to ensure that the mingw-w64 variant of tools get priority over the msys versions.
+
+### Method 2: Via Stack
 
 
-If your pacman is somewhere between 4.2.1.6187 and 5.1.0.6403:
-
->
-> Run **update-core**. If one of the packages is updated during script run you **MUST** restart MSYS2
->
->
-> Run **pacman -Su**
+It is possible to set up MSYS indirectly through Stack.
 
 
-For older versions refer to [ MSYS2 installation instructions](http://sourceforge.net/p/msys2/wiki/MSYS2%20installation/)
+First, [ download and install Stack](https://docs.haskellstack.org/en/stable/install_and_upgrade/#windows).
+
+
+Then, run `stack setup` to get GHC and MSYS2, as well as `stack install cabal-install` to get Cabal.
+
+
+Afterwards, run `stack exec mintty` to start a shell.
+
+## Upgrading packages in MSYS2
+
+
+To manage packages, MSYS2 uses pacman, the venerable ArchLinux package manager.
+
+
+Before installing system dependencies required for building GHC, the packages should be upgraded.  If pacman is 5.0.1.6403 or newer, one simply needs to run
+
+```
+pacman -Syuu
+```
+
+
+You may need to retry a few times if SourceForge times out.  On the other hand, if your pacman is older, refer to the [ MSYS2 installation instructions, section III](https://sourceforge.net/p/msys2/wiki/MSYS2%20installation/#iii-updating-packages).
 
 ## Installing packages & tools
 
 
-Now we can install GHC's system dependencies as followed:
+Now we can install GHC's dependencies as follows:
 
 ```
 pacman -S --needed git tar binutils autoconf make \
@@ -83,7 +93,7 @@ mingw-w64-x86_64-libiconv: /mingw64 exists in filesystem
 ```
 
 
-then run the previous command with `--force` option. There is a bug witin MSYS2 installer ([ https://github.com/msys2/msys2.github.io/issues/31](https://github.com/msys2/msys2.github.io/issues/31))
+then try running the previous command with the `--force` option (see [ MSYS2 bug \#31](https://github.com/msys2/msys2.github.io/issues/31)).
 
 ### Python and the test suite
 
