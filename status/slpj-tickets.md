@@ -1,5 +1,16 @@
 # This page collects tickets that Simon PJ is interested in, so that he remembers them
 
+## INLINE problems / ticks exhausted
+
+- [\#12776](https://gitlab.haskell.org//ghc/ghc/issues/12776): definitely a loop; has diagnosis
+- [\#12781](https://gitlab.haskell.org//ghc/ghc/issues/12781)
+- [\#12603](https://gitlab.haskell.org//ghc/ghc/issues/12603)
+- [\#12425](https://gitlab.haskell.org//ghc/ghc/issues/12425) "OOM killer"
+- [\#12747](https://gitlab.haskell.org//ghc/ghc/issues/12747)
+- [\#12789](https://gitlab.haskell.org//ghc/ghc/issues/12789)
+
+- [\#8613](https://gitlab.haskell.org//ghc/ghc/issues/8613), [\#9070](https://gitlab.haskell.org//ghc/ghc/issues/9070), [\#8319](https://gitlab.haskell.org//ghc/ghc/issues/8319), [\#7521](https://gitlab.haskell.org//ghc/ghc/issues/7521), [\#10459](https://gitlab.haskell.org//ghc/ghc/issues/10459), [\#10584](https://gitlab.haskell.org//ghc/ghc/issues/10584), [\#10565](https://gitlab.haskell.org//ghc/ghc/issues/10565), [\#12274](https://gitlab.haskell.org//ghc/ghc/issues/12274): simplifier ticks exhausted (there are others). 
+
 ## Urgent or in-flight
 
 - [\#12170](https://gitlab.haskell.org//ghc/ghc/issues/12170): add a flag to control how out-of-scope variables are deferred
@@ -8,7 +19,7 @@
 - [\#11371](https://gitlab.haskell.org//ghc/ghc/issues/11371): bogus in-scope set for substitution
 - [\#9479](https://gitlab.haskell.org//ghc/ghc/issues/9479), [\#10954](https://gitlab.haskell.org//ghc/ghc/issues/10954), [\#9091](https://gitlab.haskell.org//ghc/ghc/issues/9091): more info in "hole" error messages
 - [\#10844](https://gitlab.haskell.org//ghc/ghc/issues/10844), [\#10845](https://gitlab.haskell.org//ghc/ghc/issues/10845), [\#10846](https://gitlab.haskell.org//ghc/ghc/issues/10846): implicit call stacks
-- [\#8613](https://gitlab.haskell.org//ghc/ghc/issues/8613), [\#9070](https://gitlab.haskell.org//ghc/ghc/issues/9070), [\#8319](https://gitlab.haskell.org//ghc/ghc/issues/8319), [\#7521](https://gitlab.haskell.org//ghc/ghc/issues/7521), [\#10459](https://gitlab.haskell.org//ghc/ghc/issues/10459), [\#10584](https://gitlab.haskell.org//ghc/ghc/issues/10584), [\#10565](https://gitlab.haskell.org//ghc/ghc/issues/10565), [\#12274](https://gitlab.haskell.org//ghc/ghc/issues/12274): simplifier ticks exhausted (there are others). [\#10459](https://gitlab.haskell.org//ghc/ghc/issues/10459) is clearly a loop; and affects a real package.
+  \*
 - [\#7262](https://gitlab.haskell.org//ghc/ghc/issues/7262), [\#10333](https://gitlab.haskell.org//ghc/ghc/issues/10333), [\#7672](https://gitlab.haskell.org//ghc/ghc/issues/7672), [\#10083](https://gitlab.haskell.org//ghc/ghc/issues/10083): hs-boot niggles
 - [\#10114](https://gitlab.haskell.org//ghc/ghc/issues/10114): `AnyK` and kind generalisation in type synonyms
 - [\#10068](https://gitlab.haskell.org//ghc/ghc/issues/10068): runtime reflection API for packages, modules, names; `SrcLoc` etc.
