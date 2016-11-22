@@ -2,42 +2,39 @@
 
 Below are quick instructions for '''just building and installing GHC'''. If you are an aspiring GHC developer, read the [wiki:Newcomers Newcomers] page instead.
 
-The following instructions assume that you have [wiki:Building/GettingTheSources got the sources] and [wiki:Building/Preparation installed the necessary tools].
+The following instructions assume that you have [wiki:Building/GettingTheSources got the sources] and [wiki:Building/Preparation installed the necessary tools].  In particular for Windows users, all the commands below must be executed in the MinGW shell, not Command Prompt or PowerShell.
 
-If you are starting from a `git` checkout then:
+Optionally, you customize your build by creating the file `mk/build.mk` using `mk/build.mk.sample` as a template.
 
-{{{
+If you obtained the repository via `git clone --recursive`, you will need to first run:
+
+{{{#!sh
 $ ./boot
 }}}
 
-(this step isn't necessary if you have a source distribution).
+,,This step isn't necessary if you obtained the source from a tar archive.,,
 
-Next on non-Windows:
+Next, run the `./configure` script followed by `make` to start the build:
 
-{{{
-$ ./configure
+{{{#!sh
+$ ./configure # Windows users must append "--enable-tarballs-autodownload"
 $ make
 }}}
 
-On Windows:
+,,On Windows you need to download some binary distributables before being able to build.  This only has to be done once and can be done by adding the `--enable-tarballs-autodownload` flag to the call to `./configure`.,,
 
-NOTE: On Windows you need to download some binary distributables before being able to build.
-This only has to be done once and can be done by adding a flag to the call to configure
-{{{
-$ ./configure --enable-tarballs-autodownload
-$ make
-}}}
-
-This will do a 2-stage bootstrap build of the compiler, with profiling libraries.
+By default (without any `mk/build.mk` customization), this will do a 2-stage bootstrap build of the compiler, with profiling libraries.
 
 == Run without installing ==
 
-You can find the binaries built by make in `inplace` directory under the root of the ghc source tree. The binaries can be run from here without installing.
+You can find the binaries built by make in the `inplace/bin` directory under the root of the ghc source tree. The binaries can be run from here without installing.
 
 == Installing ==
 
 After building, to install GHC (by default in `/usr/local`):
 
-{{{
+{{{#!sh
 $ make install
 }}}
+
+You may need to use `sudo`.
