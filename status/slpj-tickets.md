@@ -8,6 +8,7 @@
 - [\#12425](https://gitlab.haskell.org//ghc/ghc/issues/12425) "OOM killer"
 - [\#12747](https://gitlab.haskell.org//ghc/ghc/issues/12747)
 - [\#12789](https://gitlab.haskell.org//ghc/ghc/issues/12789)
+- [\#12843](https://gitlab.haskell.org//ghc/ghc/issues/12843)
 
 - [\#8613](https://gitlab.haskell.org//ghc/ghc/issues/8613), [\#9070](https://gitlab.haskell.org//ghc/ghc/issues/9070), [\#8319](https://gitlab.haskell.org//ghc/ghc/issues/8319), [\#7521](https://gitlab.haskell.org//ghc/ghc/issues/7521), [\#10459](https://gitlab.haskell.org//ghc/ghc/issues/10459), [\#10584](https://gitlab.haskell.org//ghc/ghc/issues/10584), [\#10565](https://gitlab.haskell.org//ghc/ghc/issues/10565), [\#12274](https://gitlab.haskell.org//ghc/ghc/issues/12274): simplifier ticks exhausted (there are others). 
 
@@ -245,7 +246,7 @@ See also [TemplateHaskell](template-haskell)
 
 - [\#11475](https://gitlab.haskell.org//ghc/ghc/issues/11475): Lint should check for inexhaustive cases expressions
 - [\#9476](https://gitlab.haskell.org//ghc/ghc/issues/9476): late lambda lifting
-- [\#7374](https://gitlab.haskell.org//ghc/ghc/issues/7374), [\#10417](https://gitlab.haskell.org//ghc/ghc/issues/10417), [\#10418](https://gitlab.haskell.org//ghc/ghc/issues/10418), [\#7287](https://gitlab.haskell.org//ghc/ghc/issues/7287), [\#7398](https://gitlab.haskell.org//ghc/ghc/issues/7398): rules not firing; e.g. class methods, newtype constructors
+- [\#7374](https://gitlab.haskell.org//ghc/ghc/issues/7374), [\#10417](https://gitlab.haskell.org//ghc/ghc/issues/10417), [\#10418](https://gitlab.haskell.org//ghc/ghc/issues/10418), [\#7287](https://gitlab.haskell.org//ghc/ghc/issues/7287), [\#7398](https://gitlab.haskell.org//ghc/ghc/issues/7398), [\#10528](https://gitlab.haskell.org//ghc/ghc/issues/10528), [\#11688](https://gitlab.haskell.org//ghc/ghc/issues/11688), [\#10595](https://gitlab.haskell.org//ghc/ghc/issues/10595), [\#7141](https://gitlab.haskell.org//ghc/ghc/issues/7141), [\#5973](https://gitlab.haskell.org//ghc/ghc/issues/5973), [\#2271](https://gitlab.haskell.org//ghc/ghc/issues/2271), [\#1434](https://gitlab.haskell.org//ghc/ghc/issues/1434): rules not firing; e.g. class methods, newtype constructors
 - [\#8457](https://gitlab.haskell.org//ghc/ghc/issues/8457) (summarises), [\#917](https://gitlab.haskell.org//ghc/ghc/issues/917), [\#1945](https://gitlab.haskell.org//ghc/ghc/issues/1945), [\#3273](https://gitlab.haskell.org//ghc/ghc/issues/3273), [\#4276](https://gitlab.haskell.org//ghc/ghc/issues/4276), [\#5729](https://gitlab.haskell.org//ghc/ghc/issues/5729) (closed as dups, but not fixed): full laziness sometimes makes things worse.
 - [\#10528](https://gitlab.haskell.org//ghc/ghc/issues/10528), [\#10595](https://gitlab.haskell.org//ghc/ghc/issues/10595): RULES for class methods
 - [\#10535](https://gitlab.haskell.org//ghc/ghc/issues/10535), [\#7367](https://gitlab.haskell.org//ghc/ghc/issues/7367), [\#7206](https://gitlab.haskell.org//ghc/ghc/issues/7206), [\#7309](https://gitlab.haskell.org//ghc/ghc/issues/7309): float-out and excessive sharing 
