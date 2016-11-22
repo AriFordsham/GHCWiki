@@ -3,14 +3,14 @@
 
 This page documents the instructions for setting up a Windows build using [ MSYS2](http://sourceforge.net/projects/msys2/), which contains [ MinGW-w64 compilers](http://mingw-w64.org/) and the MSYS2 shell utilities.  This guide should get you running in \~5 minutes, modulo download speeds.
 
-## Setting up MSYS2
+## I. Setting up MSYS2
 
-### Method 1: Directly
+### Method A: Directly
 
 #### Installation
 
 
-Download and run the latest [ 64-bit (x86-64) MSYS2 installer](https://sourceforge.net/projects/msys2/files/Base/x86_64/) or [ 32-bit (i686) MSYS2 installer](http://sourceforge.net/projects/msys2/files/Base/i686/). Be sure to open a mingw64 or mingw32 shell (see below).
+Download and run the latest MSYS2 installer: either [ 64-bit (x86-64)](https://sourceforge.net/projects/msys2/files/Base/x86_64/) or [ 32-bit (i686)](http://sourceforge.net/projects/msys2/files/Base/i686/).
 
 
 From the [ MSYS2 installation instructions](http://sourceforge.net/p/msys2/wiki/MSYS2%20installation/):
@@ -18,47 +18,39 @@ From the [ MSYS2 installation instructions](http://sourceforge.net/p/msys2/wiki/
 >
 > After installing or extracting MSYS2 you should start MSYS2 by executing **msys2_shell.bat**. (if you did not use an installer and this is first time running of MSYS2 after unpacking, then at this point it will create the files and settings necessary for it to function properly. After this initial run you **MUST** restart MSYS2 so that the settings are correct)
 
-
-(The result of attempting to create a 32-bit build of GHC on a 64-bit machine has not been documented yet. Building 32-bit GHC on a 32-bit version of Windows works, of course.)
-
-#### Launching the MinGW shell
+<sub>The result of attempting to create a 32-bit build of GHC on a 64-bit machine has not been documented yet. Building 32-bit GHC on a 32-bit version of Windows works, of course.</sub>
 
 
-The MSYS2 installer creates multiple shortcuts.  The one you want to use is *MinGW-w64 Win32 Shell* or *MinGW-w64 Win64 Shell*.
+Launch the MinGW shell using the shortcuts added to Start Menu: *MinGW-w64 Win32 Shell* or *MinGW-w64 Win64 Shell*.
 
 # Note
 
 
-Do *not* use *MSYS2 Shell*.  *MSYS2 Shell* is for building applications that utilize an additional POSIX compatibility layer akin to Cygwin, while the *MinGW-w64* shells are for building native Windows applications.  The latter is the correct environment for building GHC.  For details on the distinction between the two, read the [ introduction to MSYS2](https://sourceforge.net/p/msys2/wiki/MSYS2%20introduction/).
+Do **not** use the *MSYS2 Shell* shortcut.  *MSYS2 Shell* is for building applications that utilize an additional POSIX compatibility layer akin to Cygwin, while the *MinGW-w64* shells are for building native Windows applications.  The latter is the correct environment for building GHC.  For details on the distinction between the two, read the [ introduction to MSYS2](https://sourceforge.net/p/msys2/wiki/MSYS2%20introduction/).  An easy way to check that you are running the right shell is to check the output of `echo $MSYSTEM`: it should show either `MINGW32` or `MINGW64`.  You can also tell by examining the `$PATH`.
 
 
-An easy way to check that you are running the right shell is to check the output of `echo $MSYSTEM`. It should show either `MINGW32` or `MINGW64`. You can also tell by examining the `$PATH`.
-
-#### Configuration
-
-
-Make sure `/mingw64/bin` (or `/mingw32/bin` depending on the arch you're building for) is the first thing on `$PATH`. If using Bash then `echo "export PATH=/mingw<bitness>/bin:\$PATH" >>~/.bash_profile` can be run to append your profile. Replace `<bitness>` with either `64` or `32` depending on platform.
+After starting the shell, make sure `/mingw64/bin` (or `/mingw32/bin` depending on the arch you're building for) is the first thing on `$PATH`. If using Bash, `echo "export PATH=/mingw<bitness>/bin:\$PATH" >>~/.bash_profile` can be run to append your profile. Replace `<bitness>` with either `64` or `32` depending on platform.
 
 # Note
 
 
-This is **REQUIRED** to ensure that the mingw-w64 variant of tools get priority over the msys versions.
+This is **required** to ensure that the mingw-w64 variant of tools get priority over the msys versions.
 
-### Method 2: Via Stack
-
-
-It is possible to set up MSYS indirectly through Stack.
+### Method B: Via Stack
 
 
-First, [ download and install Stack](https://docs.haskellstack.org/en/stable/install_and_upgrade/#windows).
+It is possible to set up MSYS indirectly through Stack:
+
+1. [ download and install Stack](https://docs.haskellstack.org/en/stable/install_and_upgrade/#windows).
+
+1. Run `stack setup` to get GHC and MSYS2, then `stack install alex happy` to get the tools.  (This means step IV can be skipped.)
 
 
-Then, run `stack setup` to get GHC and MSYS2, as well as `stack install cabal-install` to get Cabal.
+To start a MinGW shell, run `stack exec mintty` from Command Prompt.  Immediately afterwards, run `unset GHC_PACKAGE_PATH` in the MinGW shell to avoid complaints from Cabal.
 
+`stack install alex happy`
 
-Afterwards, run `stack exec mintty` to start a shell.
-
-## Upgrading packages in MSYS2
+## II. Upgrading packages in MSYS2
 
 
 To manage packages, MSYS2 uses pacman, the venerable ArchLinux package manager.
@@ -73,7 +65,7 @@ pacman -Syuu
 
 You may need to retry a few times if SourceForge times out.  On the other hand, if your pacman is older, refer to the [ MSYS2 installation instructions, section III](https://sourceforge.net/p/msys2/wiki/MSYS2%20installation/#iii-updating-packages).
 
-## Installing packages & tools
+## III. Installing packages & tools
 
 
 Now we can install GHC's dependencies as follows:
@@ -84,6 +76,45 @@ pacman -S --needed git tar binutils autoconf make \
     mingw-w64-$(uname -m)-gcc mingw-w64-$(uname -m)-python3-sphinx
 ```
 
+## IV. Installing the host GHC and tools (Alex and Happy)
+
+<sub>This step is not necessary if you used Method B of Step I.</sub>
+
+
+A host GHC binary is required for bootstrapping. In order to keep different architectures separate, download and install a prebuilt GHC into `/mingw64` or `/mingw32`:
+
+
+Run
+
+```
+arch=x86-64 # or i386
+bitness=64# or 32
+curl -L https://www.haskell.org/ghc/dist/7.10.3/ghc-7.10.3-${arch}-unknown-mingw32.tar.xz | tar -xJ -C /mingw${bitness} --strip-components=1
+```
+
+
+Note: `--strip-components=1` places everything within the archive's `ghc-7.10.1` folder directly into the target directory.
+
+
+Building GHC requires [ Alex](http://www.haskell.org/alex/) and [ Happy](http://www.haskell.org/happy/).  They can be installed using cabal-install. We will also put them in `/usr/local/bin`, which is by default included in `PATH` in MSYS.
+
+```
+mkdir -p /usr/local/bin &&
+curl -L https://www.haskell.org/cabal/release/cabal-install-1.22.0.0/cabal-1.22.0.0-i386-unknown-mingw32.tar.gz | tar -xz -C /usr/local/bin &&
+mv /usr/local/bin/cabal-1.22.0.0-i386-unknown-mingw32.exe /usr/local/bin/cabal.exe &&
+cabal update &&
+cabal install -j --prefix=/usr/local alex happy
+```
+
+## V. Build!
+
+
+You should now be able to build GHC using the instructions in [QuickStart](building/quick-start)!
+
+## Troubleshooting
+
+### pacman failed to commit transaction
+
 
 If `pacman` fails with error message like this:
 
@@ -93,7 +124,42 @@ mingw-w64-x86_64-libiconv: /mingw64 exists in filesystem
 ```
 
 
-then try running the previous command with the `--force` option (see [ MSYS2 bug \#31](https://github.com/msys2/msys2.github.io/issues/31)).
+then try re-running the `pacman` command with the `--force` option (see [ MSYS2 bug \#31](https://github.com/msys2/msys2.github.io/issues/31)).
+
+### Cabal-1.22.0.0 crashes on Windows Server 2008 R2
+
+
+The pre-packaged cabal-1.22.0.0 crashes on Windows Server 2008 R2 during `cabal update` due to [ this bug](https://github.com/haskell/cabal/issues/2331).  If so, try using a different version such as:
+
+```
+mkdir -p /usr/local/bin &&
+pacman -S unzip &&
+curl -LO https://www.haskell.org/cabal/release/cabal-install-1.24.0.0-rc1/cabal-install-1.24.0.0-rc1-x86_64-unknown-mingw32.zip &&
+unzip cabal-install-1.24.0.0-rc1-x86_64-unknown-mingw32.zip -d /usr/local/bin &&
+cabal update &&
+cabal install -j --prefix=/usr/local alex happy
+```
+
+### Build problems
+
+
+MSYS2 is known to be glitchy in some situations. If you see errors related to fork(), try closing and reopening the shell; see also [ msys2 issue \#74](http://sourceforge.net/p/msys2/tickets/74/). Also there have been issues with the build process segfaulting. The reason is not known (we're looking into it). If that happens, simply rerunning `make` will continue the build process.
+
+
+Alternatively, to run a pristine build and tests (takes a while):
+
+```
+./validate
+```
+
+**NOTE**: You may see an error like `make 7628 child_info_fork::abort: ... make: fork: Resource temporarily unavailable` when running `make`. To fix this, go to the root of your MSYS dir and run `autorebase.bat`; see [ http://sourceforge.net/projects/mingw/files/MSYS/Extension/rebase/rebase-4.0.1_1-1/](http://sourceforge.net/projects/mingw/files/MSYS/Extension/rebase/rebase-4.0.1_1-1/) and again [ http://sourceforge.net/p/msys2/tickets/74/](http://sourceforge.net/p/msys2/tickets/74/). Alternatively, run `shutdown //r`.
+
+**NOTE**: If the build seems super slow (takes more than 1 hour to complete), check your virus scanner and whitelist C:/msys64.
+
+### Segmentation fault when using parallel make
+
+
+Running parallel make (e.g., `make -j5`) is faster, but appears to cause segfaults during the build sometimes. The reasons are not clear yet.
 
 ### Python and the test suite
 
@@ -139,93 +205,6 @@ $ alias python='/usr/bin/python'
 
 >
 > to your `~/.bashrc` file.
-
-## Host GHC setup
-
-
-A host GHC binary is required for bootstrapping. In order to keep different architectures separate, download and install a prebuilt GHC into `/mingw64` or `/mingw32`:
-
-
-So for 64-bit you'd run
-
-```
-curl -L https://www.haskell.org/ghc/dist/7.10.3/ghc-7.10.3-x86_64-unknown-mingw32.tar.xz | tar -xJ -C /mingw64 --strip-components=1
-```
-
-
-and for 32-bit you'd run
-
-```
-curl -L https://www.haskell.org/ghc/dist/7.10.3/ghc-7.10.3-i386-unknown-mingw32.tar.xz | tar -xJ -C /mingw32 --strip-components=1
-```
-
-
-Note: `--strip-components=1` places everything within the archive's `ghc-7.10.1` folder directly into the target directory.
-
-## Cabal setup
-
-
-Building GHC requires [ Alex](http://www.haskell.org/alex/) and [ Happy](http://www.haskell.org/happy/). It is easiest to install them using cabal. We will also put them in `/usr/local/bin`, which is by default included in `PATH` in MSYS.
-
-```
-mkdir -p /usr/local/bin &&
-curl -L https://www.haskell.org/cabal/release/cabal-install-1.22.0.0/cabal-1.22.0.0-i386-unknown-mingw32.tar.gz | tar -xz -C /usr/local/bin &&
-mv /usr/local/bin/cabal-1.22.0.0-i386-unknown-mingw32.exe /usr/local/bin/cabal.exe &&
-cabal update &&
-cabal install -j --prefix=/usr/local alex happy
-```
-
-### Note for Windows Server 2008 R2 users
-
-
-The pre-packaged cabal-1.22.0.0 crashes on Windows Server 2008 R2 during `cabal update` due to [ this bug](https://github.com/haskell/cabal/issues/2331).  If so, try using a different version such as:
-
-```
-mkdir -p /usr/local/bin &&
-pacman -S unzip &&
-curl -LO https://www.haskell.org/cabal/release/cabal-install-1.24.0.0-rc1/cabal-install-1.24.0.0-rc1-x86_64-unknown-mingw32.zip &&
-unzip cabal-install-1.24.0.0-rc1-x86_64-unknown-mingw32.zip -d /usr/local/bin &&
-cabal update &&
-cabal install -j --prefix=/usr/local alex happy
-```
-
-## A Quick Build
-
-
-You should now be able to build GHC:
-
-```
-# Clone to ./ghc
-git clone --recursive git://git.haskell.org/ghc.git &&cd ghc
-```
-
-
-Consider setting up `mk/build.mk` here (`cp mk/build.mk.sample mk/build.mk && vim mk/build.mk`).
-
-
-Finally, to perform the actual build:
-
-```
-./boot &&
-./configure --enable-tarballs-autodownload &&
-make
-```
-
-<sub>Running parallel make (e.g., make -j5) is faster, but appears to cause segfaults during the build sometimes. The reasons are not clear yet.</sub>
-
-
-MSYS2 is known to be glitchy in some situations. If you see errors related to fork(), try closing and reopening the shell; see also [ msys2 issue \#74](http://sourceforge.net/p/msys2/tickets/74/). Also there have been issues with the build process segfaulting. The reason is not known (we're looking into it). If that happens, simply rerunning `make` will continue the build process.
-
-
-Alternatively, to run a pristine build and tests (takes a while):
-
-```
-./validate
-```
-
-**NOTE**: You may see an error like `make 7628 child_info_fork::abort: ... make: fork: Resource temporarily unavailable` when running `make`. To fix this, go to the root of your MSYS dir and run `autorebase.bat`; see [ http://sourceforge.net/projects/mingw/files/MSYS/Extension/rebase/rebase-4.0.1_1-1/](http://sourceforge.net/projects/mingw/files/MSYS/Extension/rebase/rebase-4.0.1_1-1/) and again [ http://sourceforge.net/p/msys2/tickets/74/](http://sourceforge.net/p/msys2/tickets/74/). Alternatively, run `shutdown //r`.
-
-**NOTE**: If the build seems super slow (takes more than 1 hour to complete), check your virus scanner and whitelist C:/msys64.
 
 ## Other documentation
 
