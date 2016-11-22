@@ -93,6 +93,16 @@ unwind all the way back to `_start`,
 This should be enough to get reasonable backtraces for error-handling
 and reporting.
 
+### Further stabilization
+
+
+While the DWARF annotations produced by GHC 8.0.1 were a significant improvement over
+previous releases, they still broke in a number of important cases (largely
+due to foreign calls; see [\#11137](https://gitlab.haskell.org//ghc/ghc/issues/11137), [\#11138](https://gitlab.haskell.org//ghc/ghc/issues/11138)). GHC 8.2 will hopefully fix up these remaining cases,
+
+- \[RFC\]     [ Phab:D1732](https://phabricator.haskell.org/D1732): Improve accuracy of unwinding in presence of foreign calls
+- \[RFC\]     [ Phab:D2738](https://phabricator.haskell.org/D2738): Cmm: Add support for undefined unwinding statements
+
 ### Statistical Profiling
 
 
