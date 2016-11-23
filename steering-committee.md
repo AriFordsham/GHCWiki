@@ -17,7 +17,7 @@ The goal of the committee is to facilitate the process of proposing changes to G
 - [ Joachim Breitner](http://www.joachim-breitner.de/), a.k.a. nomeata (currently [ UPenn](http://cis.upenn.edu/~joachim))
 - [ Manuel Chakravarty](http://justtesting.org)
 - [ Iavor Diatchki](http://galois.com/team/iavor-diatchki) (Galois Inc.)
-- Atze Dijkstra
+- Atze Dijkstra ([ Standard Chartered Bank](http://www.sc.com))
 - [ Richard Eisenberg](http://cs.brynmawr.edu/~rae), a.k.a. goldfire(re) (Bryn Mawr College)
 - Ben Gamari
 - [ Ryan Newton](http://cs.indiana.edu/~rrnewton), user rrnewton
