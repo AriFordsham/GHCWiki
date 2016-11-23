@@ -46,7 +46,7 @@ It is possible to set up MSYS indirectly through Stack:
 1. Run `stack setup` to get GHC and MSYS2, then `stack install alex happy` to get the tools.  (This means step IV can be skipped.)
 
 
-To start a MinGW shell, run `stack exec mintty` from Command Prompt.  Immediately afterwards, run `unset GHC_PACKAGE_PATH` in the MinGW shell to avoid complaints from Cabal.
+To start a MinGW shell, run `stack exec --no-ghc-package-path mintty` from Command Prompt.  The `--no-ghc-package-path` flag is necessary to avoid complaints from Cabal.
 
 ## II. Upgrading packages in MSYS2
 
@@ -124,6 +124,20 @@ mingw-w64-x86_64-libiconv: /mingw64 exists in filesystem
 
 then try re-running the `pacman` command with the `--force` option (see [ MSYS2 bug \#31](https://github.com/msys2/msys2.github.io/issues/31)).
 
+### Error setting certificate verify locations
+
+
+If you encounter this error while running `git clone`:
+
+```wiki
+error: error setting certificate verify locations:
+  CAfile: /usr/ssl/certs/ca-bundle.crt
+  CApath: none
+```
+
+
+then try reinstalling `ca-certificates` via `pacman -S ca-certificates`.
+
 ### Cabal-1.22.0.0 crashes on Windows Server 2008 R2
 
 
@@ -141,7 +155,7 @@ cabal install -j --prefix=/usr/local alex happy
 ### Build problems
 
 
-MSYS2 is known to be glitchy in some situations. If you see errors related to fork(), try closing and reopening the shell; see also [ msys2 issue \#74](http://sourceforge.net/p/msys2/tickets/74/). Also there have been issues with the build process segfaulting. The reason is not known (we're looking into it). If that happens, simply rerunning `make` will continue the build process.
+MSYS2 is known to be glitchy in some situations. If you see errors related to `fork()`, try closing and reopening the shell; see also [ msys2 issue \#74](http://sourceforge.net/p/msys2/tickets/74/). Also there have been issues with the build process segfaulting. The reason is not known (we're looking into it). If that happens, simply rerunning `make` will continue the build process.
 
 
 Alternatively, to run a pristine build and tests (takes a while):
