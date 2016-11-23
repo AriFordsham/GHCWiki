@@ -48,8 +48,6 @@ It is possible to set up MSYS indirectly through Stack:
 
 To start a MinGW shell, run `stack exec mintty` from Command Prompt.  Immediately afterwards, run `unset GHC_PACKAGE_PATH` in the MinGW shell to avoid complaints from Cabal.
 
-`stack install alex happy`
-
 ## II. Upgrading packages in MSYS2
 
 
