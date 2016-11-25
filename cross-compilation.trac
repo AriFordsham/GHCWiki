@@ -69,7 +69,7 @@ Autoconf offers only limited support for cross compiling. While it professes to 
 
 Autoconf's concept and variable $cross_compiling only gets set if B ≠ H. This is correct from the standpoint of compiling a simple program (for which T is irrelevant). In our normalized version of B/H/T, B = H, so the logic of autoconf needs to be amended.
 
-This leaves us with the issue of how to tell it about parts of HT it can't infer from the stage0 compiler. We need a new set of variables that are how to compile, link and run things on the host, which if cross compiling need to be different. There needs to be some way to pass those on the configure line. Perhaps something like:
+This leaves us with the issue of how to tell it about parts of HT it can't infer from the stage0 compiler. We need a new set of variables that know how to compile, link and run things on the host, which if cross compiling need to be different. There needs to be some way to pass those on the configure line. Perhaps something like:
 
 {{{
 --with-host-cc=...
