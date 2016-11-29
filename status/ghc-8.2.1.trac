@@ -26,6 +26,11 @@ See [wiki:./Libraries]
 
 Below are the major highlights of 8.2.
 
+=== Compile time improvements ===
+
+* Discard coercions #8095
+
+
 === Front end changes ===
 
   - '''Indexed `Typeable` representations''' [wiki:Typeable/BenGamari] (Ben Gamari, Simon Peyton Jones, et al). While GHC has long supported runtime type reflection through the `Typeable` typeclass, its current incarnation requires care to use, providing little in the way of type-safety. For this reason the implementation of types like `Data.Dynamic` must be implemented in terms of `unsafeCoerce` with no compiler verification.
