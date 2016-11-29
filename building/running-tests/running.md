@@ -1,7 +1,7 @@
 # Running the Testsuite
 
 
-This section gives information on how to use the testsuite.
+This section gives information on how to use the testsuite. Note that the testsuite driver requires Python 3.
 
 
 The commands on this page can all be executed from the `testsuite` directory.
