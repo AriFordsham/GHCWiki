@@ -103,7 +103,7 @@ Note that this the deployment target does not affect library availability. This 
 
 Thirdly, if you want to build the development version of GHC from the Git repositories, you also need to install the GNU auto tools. You can build them yourself or use any of brew, fink, or macports:
 
-- (Homebrew): `brew install autoconf automake`
+- (Homebrew): `brew install autoconf automake python3`
 
 
 Fourthly, if you like to use GHC's LLVM backend:
