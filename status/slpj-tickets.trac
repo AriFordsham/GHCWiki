@@ -1,5 +1,18 @@
 = This page collects tickets that Simon PJ is interested in, so that he remembers them =
 
+== Status pages ==
+ * `hs-boot` files: [wiki:Commentary/Compiler/TyingTheKnot]
+ * Type-indexed type representations: [wiki:Typeable/BenGamari plan and status]
+ * `TypeInType`, kind equalities etc: [wiki:DependentHaskell], esp [wiki:DependentHaskell/Phase1]
+ * `TypeApplications`: [wiki:TypeApplication visible type application]
+ * [wiki:Proposal/CustomTypeErrors Custom type errors]
+ * [wiki:UnliftedDataTypes]
+ * [wiki:UnpackedSumTypes], #9214
+ * [wiki:TypeNats]: type-level literals
+ * [wiki:LevityPolymorphism]
+ * #11715, #11621: `Constraint` vs `*`
+ * [wiki:Commentary/Compiler/GenericDeriving Generic deriving]
+
 == INLINE problems / ticks exhausted  ==
  * #12776: definitely a loop; has diagnosis
  * #12781
@@ -33,18 +46,6 @@
 
 == Type families, roles, `Coercible`, `Typeable`, kind polymorphism ==
  
-Major things
- * `hs-boot` files: [wiki:Commentary/Compiler/TyingTheKnot]
- * Type-indexed type representations: [wiki:Typeable/BenGamari plan and status]
- * `TypeInType`, kind equalities etc: [wiki:DependentHaskell], esp [wiki:DependentHaskell/Phase1]
- * `TypeApplications`: [wiki:TypeApplication visible type application]
- * [wiki:Proposal/CustomTypeErrors Custom type errors]
- * [wiki:UnliftedDataTypes]
- * [wiki:UnpackedSumTypes], #9214
- * [wiki:TypeNats]: type-level literals
- * `RuntimeRep`; unsaturated use of unlifted type constructors #11736
- * #11715, #11621: `Constraint` vs `*`
-
 Refactoring/optimisation
  * #11739: coercion axioms applied to types, not coercions
  * #11735, #11598: `coercionKind`
@@ -86,10 +87,6 @@ Other tickets
  * #10183: warning for redundant constraints, and pattern-match overlap warnings
  * #9113: pattern match overlap/exhaustiveness checked in Typed TH
  * #10393, #10116, #9951, #595, #5728, #3927, #5724, #5762, #4139, #6124, #7669, #322, #8016, #8494, #8853, #8970, #9113, #2204: '''pattern-match overlap checking''', including with GADTs
-
-== Generics and DeriveAnyClass ==
-
-See [wiki:Commentary/Compiler/GenericDeriving] for a list of open tickets
 
 
 == Impredicativity and higher rank ==
