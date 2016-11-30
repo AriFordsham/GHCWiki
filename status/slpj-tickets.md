@@ -12,6 +12,7 @@
 - [TypeNats](type-nats): type-level literals
 - [LevityPolymorphism](levity-polymorphism)
 - [\#11715](https://gitlab.haskell.org//ghc/ghc/issues/11715), [\#11621](https://gitlab.haskell.org//ghc/ghc/issues/11621): `Constraint` vs `*`
+- [Generic deriving](commentary/compiler/generic-deriving)
 
 ## INLINE problems / ticks exhausted
 
@@ -98,11 +99,6 @@ Other tickets
 - [\#10183](https://gitlab.haskell.org//ghc/ghc/issues/10183): warning for redundant constraints, and pattern-match overlap warnings
 - [\#9113](https://gitlab.haskell.org//ghc/ghc/issues/9113): pattern match overlap/exhaustiveness checked in Typed TH
 - [\#10393](https://gitlab.haskell.org//ghc/ghc/issues/10393), [\#10116](https://gitlab.haskell.org//ghc/ghc/issues/10116), [\#9951](https://gitlab.haskell.org//ghc/ghc/issues/9951), [\#595](https://gitlab.haskell.org//ghc/ghc/issues/595), [\#5728](https://gitlab.haskell.org//ghc/ghc/issues/5728), [\#3927](https://gitlab.haskell.org//ghc/ghc/issues/3927), [\#5724](https://gitlab.haskell.org//ghc/ghc/issues/5724), [\#5762](https://gitlab.haskell.org//ghc/ghc/issues/5762), [\#4139](https://gitlab.haskell.org//ghc/ghc/issues/4139), [\#6124](https://gitlab.haskell.org//ghc/ghc/issues/6124), [\#7669](https://gitlab.haskell.org//ghc/ghc/issues/7669), [\#322](https://gitlab.haskell.org//ghc/ghc/issues/322), [\#8016](https://gitlab.haskell.org//ghc/ghc/issues/8016), [\#8494](https://gitlab.haskell.org//ghc/ghc/issues/8494), [\#8853](https://gitlab.haskell.org//ghc/ghc/issues/8853), [\#8970](https://gitlab.haskell.org//ghc/ghc/issues/8970), [\#9113](https://gitlab.haskell.org//ghc/ghc/issues/9113), [\#2204](https://gitlab.haskell.org//ghc/ghc/issues/2204): **pattern-match overlap checking**, including with GADTs
-
-## Generics and DeriveAnyClass
-
-
-See [Commentary/Compiler/GenericDeriving](commentary/compiler/generic-deriving) for a list of open tickets
 
 ## Impredicativity and higher rank
 
