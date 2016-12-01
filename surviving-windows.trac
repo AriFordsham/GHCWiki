@@ -1,6 +1,6 @@
 = Surviving Windows as a Unix user: A glossary =
 
-There is a veritable zoo of software which is 
+Here's a summary of words you will see while working on GHC on Windows. Good luck.
 
 
 == msys2 (the distribution) ==
@@ -24,9 +24,13 @@ The msys2 distribution includes a compiler toolchain which can be used to compil
 
 Executables compiled with this toolchain will link against the **`msys2` runtime**. Consequently this is not the toolchain to use to build GHC. Instead use the **`mingw-w64` toolchain** (see below).
 
-== Cygwin ==
+== Cygwin (the runtime) ==
 
 Cygwin is a runtime library providing a POSIX-like environment, allowing software written for POSIX systems to run on Windows unchanged. The `msys2` distribution that we use in GHC doesn't use Cygwin, but instead the `msys2` fork (see above). Cygwin differs from `msys` in that it seeks to provide complete Linux emulation in user-mode; in contrast, `msys2` merely seeks to provide enough POSIX support to be able to use toolchains such as `mingw-w64` to make native binaries.
+
+== Cygwin (the distribution) ==
+
+Cygwin is also a distribution built upon the `Cygwin` runtime providing a Linux-like environment on Windows. We don't use it; instead we use the msys2  distribution.
 
 == `Mingw-w64` ==
 
@@ -39,3 +43,7 @@ Cygwin is a runtime library providing a POSIX-like environment, allowing softwar
 == `msvcrt` ==
 
 The Microsoft Visual C runtime. This is the `libc` of the Windows world.
+
+== `mintty` ==
+
+`mintty` is a terminal emulator shipped with the `msys2` distribution (and Cygwin). It's not so great; you probably want to use something else (e.g. [[https://conemu.github.io/|ConEmu]].
