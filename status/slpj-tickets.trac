@@ -47,6 +47,7 @@
 == Type families, roles, `Coercible`, `Typeable`, kind polymorphism ==
  
 Refactoring/optimisation
+ * #11598, #8095: drop coercions 
  * #11739: coercion axioms applied to types, not coercions
  * #11735, #11598: `coercionKind`
  * #11196: resurrect `FunTy`
