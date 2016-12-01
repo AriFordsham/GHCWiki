@@ -108,7 +108,8 @@ Random note: GHC 7.10's build system actually disabled DPH (half a dozen more pa
 
 === GHC 7.10 to GHC 8.0 ===
 
-The performance effect of the `TypeInType` merge shows up in b5d5d83122c93c2a25839127edfd6b2df7ed6928 ("Revert .gitmodules changes from 6746549772c5") due to various broken intermediate commits.
+* The performance effect of the `TypeInType` merge shows up in b5d5d83122c93c2a25839127edfd6b2df7ed6928 ("Revert .gitmodules changes from 6746549772c5") due to various broken intermediate commits.
+* 91c6b1f54aea658b0056caec45655475897f1972 is a refactoring of the `Typeable` implementation which moves `Typeable` dictionary generation from evidence generation time to the point where the represented type is defined. This tends to regress compile allocations by a few percent for programs defining lots of types (although programs which make large use of `Typeable` may see improvement).
 
 === GHC 8.0 to GHC 8.2 ===
 
