@@ -33,3 +33,8 @@ Cygwin is a runtime library providing a POSIX-like environment, allowing softwar
 ## `mingw`
 
 `mingw` is a compiler toolchain based upon `gcc` targeting Windows systems. The project is now unmaintained. `mingw` is not used by `msys2` distribution used by GHC; instead it packages the `mingw-w64` toolchain.
+
+## `msvcrt`
+
+
+The Microsoft Visual C runtime. This is essentially the `libc` of the Windows world.
