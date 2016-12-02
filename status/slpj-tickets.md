@@ -17,7 +17,7 @@
 ## INLINE problems / ticks exhausted
 
 - [\#12776](https://gitlab.haskell.org//ghc/ghc/issues/12776): definitely a loop; has diagnosis
-- [\#12781](https://gitlab.haskell.org//ghc/ghc/issues/12781)
+- [\#12781](https://gitlab.haskell.org//ghc/ghc/issues/12781): join points
 - [\#12603](https://gitlab.haskell.org//ghc/ghc/issues/12603)
 - [\#12425](https://gitlab.haskell.org//ghc/ghc/issues/12425) "OOM killer"
 - [\#12747](https://gitlab.haskell.org//ghc/ghc/issues/12747)
