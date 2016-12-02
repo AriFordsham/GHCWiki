@@ -1,6 +1,6 @@
-== Done so far ==
+= Join points =
 
-* Original paper: [https://www.microsoft.com/en-us/research/publication/sequent-calculus-as-a-compiler-intermediate-language/ Sequent calculus as an intermediate language]
+* [https://www.microsoft.com/en-us/research/publication/compiling-without-continuations Compiling without continuations] describes the design.  It grew out of an earlier paper: [https://www.microsoft.com/en-us/research/publication/sequent-calculus-as-a-compiler-intermediate-language/ Sequent calculus as an intermediate language]
 
 * Repo:  `git://github.com/lukemaurer/ghc`, branch `wip/join-points`
 
@@ -11,6 +11,16 @@
   * All transformations are "join-point aware"; that is, they maintain join-point-hood.
   * Nullary join points do not take a void argument (as they did before).
   * Join-point Ids survive in Iface unfoldings
+
+== Tickets ==
+
+Use Keyword = `JoinPoints` to ensure that a ticket ends up on these lists.
+
+'''Open Tickets:'''
+[[TicketQuery(status=new|patch,keywords=~JoinPoints)]]
+
+'''Closed Tickets:'''
+[[TicketQuery(status=closed,keywords=~JoinPoints)]]
 
 == Join Point Analysis (JPA) ==
 
