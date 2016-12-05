@@ -328,9 +328,23 @@ callcc f = let<join> k x = x in f (\y -> k y)
 }}}
   Keeping the join point invariant effectively restricts us to those programs for which jumps and function calls act in precisely the same way, thus making most of the Core-to-Core (and Core-to-STG) machinery blissfully unaware of the new construct.
 
+* However! As described in [https://www.microsoft.com/en-us/research/publication/compiling-without-continuations the paper], the abortive semantics ''does'' work if we only allow a jump inside an evaluation context:
+{{{
+let<join> j x = x + 1 in (j 1) True
+}}}
+  We can, of course, throw away the evaluation context at compile time, rewriting the body as simply `j 1`, since the jump aborts the function call. In fact, the simplifier already effectively does this, since it's often necessary after doing the case-of-join-point transform. Relaxing the type system in this way might allow other passes to be more loose so that the simplifier could clean them up. (Running the simplifier with case-of-case enabled would then be absolutely necessary before Core Prep, unless we want to mess with code gen as well.)
+
+  It's not immediately clear what concrete advantage there would be, though, and a tighter type system finds more mistakes.
+
+* The paper gives join points types like `Int -> Int -> forall a. a`, for a join point taking two `Int`s. Core Lint would still check that the body of the join point has the same type as its context, but this way we wouldn't have to fiddle with the types of join points after case-of-join-point. It would also work well with abortive semantics, as the extra type argument serves to give the jump a type that couldn't be inferred otherwise:
+{{{
+let<join> j x = x + 1 in (j 1 @(Bool -> Int)) True
+}}}
+(In fact, this typing scheme is required for the abortive semantics so that we can have `exprType` still give a unique type to any expression.)
+
 == Still to do ==
 
-* Try not propagating join points to occurrences in `findJoinsInPgm`; instead rely on simplifier.
+* ~~Try not propagating join points to occurrences in `findJoinsInPgm`; instead rely on simplifier.~~
 
 * Desguarer should not add Void args to nullary join points.
 
@@ -349,4 +363,4 @@ callcc f = let<join> k x = x in f (\y -> k y)
   * But newly-small functions can still be inlined
   * Absolutely requires Arity/CAF info to be fed back from `CoreToStg`
 
-* Join points are always fully eta-expanded, even when they would be trivial otherwise. This greatly simplifies many traversals, since typically the first step in processing a join point of arity N is to grab exactly N lambdas. The problem is that `exprIsTrivial` then returns `False`. This is particularly bad in `preInlineUnconditionally`, so there we check if a join point is eta-reducible to a trivial expression. But it's an ugly workaround, and there are other issues as well (sometimes trivial join points become loop breakers, for instance). Better would be to relax the invariant to allow trivial join points to elide lambdas, then provide a convenience function to eta-expand when needed (not hard to do for a trivial expression!).
+* ~~Join points are always fully eta-expanded, even when they would be trivial otherwise. This greatly simplifies many traversals, since typically the first step in processing a join point of arity N is to grab exactly N lambdas. The problem is that `exprIsTrivial` then returns `False`. This is particularly bad in `preInlineUnconditionally`, so there we check if a join point is eta-reducible to a trivial expression. But it's an ugly workaround, and there are other issues as well (sometimes trivial join points become loop breakers, for instance). Better would be to relax the invariant to allow trivial join points to elide lambdas, then provide a convenience function to eta-expand when needed (not hard to do for a trivial expression!).~~
