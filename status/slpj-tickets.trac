@@ -12,6 +12,7 @@
  * [wiki:LevityPolymorphism]
  * #11715, #11621: `Constraint` vs `*`
  * [wiki:Commentary/Compiler/GenericDeriving Generic deriving]
+ * [wiki:SequentCore Join points]
 
 == INLINE problems / ticks exhausted  ==
  * #12776: definitely a loop; has diagnosis

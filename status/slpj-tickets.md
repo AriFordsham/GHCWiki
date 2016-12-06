@@ -13,6 +13,7 @@
 - [LevityPolymorphism](levity-polymorphism)
 - [\#11715](https://gitlab.haskell.org//ghc/ghc/issues/11715), [\#11621](https://gitlab.haskell.org//ghc/ghc/issues/11621): `Constraint` vs `*`
 - [Generic deriving](commentary/compiler/generic-deriving)
+- [Join points](sequent-core)
 
 ## INLINE problems / ticks exhausted
 
