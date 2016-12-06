@@ -53,9 +53,9 @@ Below are the major highlights of 8.2.
   - Exhaustiveness checking for `EmptyCase`s ([ Phab:D2105](https://phabricator.haskell.org/D2105)), addressing [\#10746](https://gitlab.haskell.org//ghc/ghc/issues/10746). 
   - Exhaustiveness checking for pattern synonyms, including the ability to define sets of synonyms that constitute a complete match, addressing [\#8779](https://gitlab.haskell.org//ghc/ghc/issues/8779) (Matthew Pickering),
 
-### Library changes
+### Optimiser and intermediate language
 
-- Merge `Bifoldable` and `Bitraversable` into `base`, addressing [\#10448](https://gitlab.haskell.org//ghc/ghc/issues/10448) (Edward Kmett, Ryan Scott)
+- [Implement join points](sequent-core) (Luke Maurer)
 
 ### Back-end and runtime system
 
@@ -74,10 +74,16 @@ Below are the major highlights of 8.2.
 
 - **Improved idle CPU usage**: A long-standing regression ([\#11965](https://gitlab.haskell.org//ghc/ghc/issues/11965)) resulting in unnecessary wake-ups in an otherwise idle program was fixed. This should lower CPU utilization and improve power consumption for some programs.
 
-### Frontend, build system and miscellaneous changes
+-  The [improved LLVM backend plan](improved-llvm-backend) plan didn't make the cut for 8.0, but will for 8.2 (Austin Seipp)
+
+### Library changes
+
+- Merge `Bifoldable` and `Bitraversable` into `base`, addressing [\#10448](https://gitlab.haskell.org//ghc/ghc/issues/10448) (Edward Kmett, Ryan Scott)
+
+### Build system and miscellaneous changes
 
 - New Shake-based build system, `hadrian`, will be merged.  (Andrey Mokhov)
-- The [improved LLVM backend plan](improved-llvm-backend) plan didn't make the cut for 8.0, but will for 8.2 (Austin Seipp)
+
 - Deterministic builds [DeterministicBuilds](deterministic-builds). Given the same environment, file and flags produce ABI compatible binaries. (Bartosz Nitka, in-progress)
 
 ### Landed in `master` branch
