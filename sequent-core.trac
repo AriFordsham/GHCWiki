@@ -350,15 +350,17 @@ let<join> j x = x + 1 in (j 1 @(Bool -> Int)) True
 
 == Still to do ==
 
-* ~~Try not propagating join points to occurrences in `findJoinsInPgm`; instead rely on simplifier.~~
+* ~~Try not propagating join points to occurrences in `findJoinsInPgm`; instead rely on simplifier.~~ (done)
 
 * Desugarer should not add Void args to nullary join points.
   * Still needs to do this for unboxed types. The desugarer can't make genuine join points because the "join points" it creates sometimes get passed around as arguments rather than tail-called directly (happens particularly with pattern synonyms).
+  * Also needs to do this for types with levity-polymorphic kinds, since a let binding with a levity-polymorphic kind isn't allowed, but `Void# -> r` has kind `*` even if `r` is levity-polymorphic.
+  * Also needs to do this in more cases yet to be determined precisely. Rewriting `mkFailurePair` in the obvious way to add the `Void#` only for unlifted or levity-polymorphic types breaks test T12698.
 
 * Dump the CoreToStg join point analysis in favour of the known join points.
   * ~~Check: does the CoreToStg analysis miss any JoinPointIds~~ (warning now in place)
-  * Question: since STG is untyped, could it find more joint points that JPA does?)
-    * Yes, at least in one case, where a putative join point is polymorphic in its return type.
+  * Question: since STG is untyped, could it find more join points than JPA does?)
+    * Yes, at least in one case: when the putative join point is polymorphic in its return type.
 
 * Currently CorePrep adds a void arg for a nullary join point.  Check: why?  What goes wrong if we don't do this?
 
@@ -371,4 +373,4 @@ let<join> j x = x + 1 in (j 1 @(Bool -> Int)) True
   * But newly-small functions can still be inlined
   * Absolutely requires Arity/CAF info to be fed back from `CoreToStg`
 
-* ~~Join points are always fully eta-expanded, even when they would be trivial otherwise. This greatly simplifies many traversals, since typically the first step in processing a join point of arity N is to grab exactly N lambdas. The problem is that `exprIsTrivial` then returns `False`. This is particularly bad in `preInlineUnconditionally`, so there we check if a join point is eta-reducible to a trivial expression. But it's an ugly workaround, and there are other issues as well (sometimes trivial join points become loop breakers, for instance). Better would be to relax the invariant to allow trivial join points to elide lambdas, then provide a convenience function to eta-expand when needed (not hard to do for a trivial expression!).~~
+* ~~Join points are always fully eta-expanded, even when they would be trivial otherwise. This greatly simplifies many traversals, since typically the first step in processing a join point of arity N is to grab exactly N lambdas. The problem is that `exprIsTrivial` then returns `False`. This is particularly bad in `preInlineUnconditionally`, so there we check if a join point is eta-reducible to a trivial expression. But it's an ugly workaround, and there are other issues as well (sometimes trivial join points become loop breakers, for instance). Better would be to relax the invariant to allow trivial join points to elide lambdas, then provide a convenience function to eta-expand when needed (not hard to do for a trivial expression!).~~ (done)
