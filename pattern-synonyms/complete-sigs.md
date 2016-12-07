@@ -67,3 +67,32 @@ patternP::ApatternP=A{-# COMPLETE P #-}foo::A->AfooP=A
 patternN::Maybe a
 patternN=Nothing{-# COMPLETE N, Just #-}qux::Maybe a ->BoolquxN=Falsequx(Just x)=True
 ```
+
+# Discussion
+
+
+Obviously this feature allows nefarious users to define any set of patterns as complete. This is a consequence of the flexibility of the design.
+
+## Error Messages
+
+
+The pattern match checker checks each set of patterns individually and combines the results together at the end. The current naive algorithm tries to choose the result where the set of redundant and uncovered matches are both empty. If there is no such set then it prefers results with few uncovered cases, ties being broken by the number of redundant clauses. 
+
+
+We write `C: R<n> U<m>` for the result of matching `C` with `n` redundant matches and `m` uncovered cases. 
+
+
+For example, for two complete matchings `C1` and `C2`, then 
+
+<table><tr><th>`C1: R<0> U<0>`</th>
+<th>`C2: R<n> U<m> || `C1\` 
+</th></tr>
+<tr><th>`C1: R<2> U<0>`</th>
+<th>`C2: R<1> U<0>  || `C2\` 
+</th></tr>
+<tr><th>`C1: R<1> U<1>`</th>
+<th>`C2: R<0> U<2>  || `C1\` 
+</th></tr></table>
+
+
+It may be desirable to produce a summary of the results in a more intelligent way. Exploration of this is left open for further discussion.
