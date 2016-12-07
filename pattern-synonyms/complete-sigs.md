@@ -85,14 +85,14 @@ We write `C: R<n> U<m>` for the result of matching `C` with `n` redundant matche
 For example, for two complete matchings `C1` and `C2`, then 
 
 <table><tr><th>`C1: R<0> U<0>`</th>
-<th>`C2: R<n> U<m> || `C1\` 
-</th></tr>
+<th>`C2: R<n> U<m>`</th>
+<th>`C1`</th></tr>
 <tr><th>`C1: R<2> U<0>`</th>
-<th>`C2: R<1> U<0>  || `C2\` 
-</th></tr>
+<th>`C2: R<1> U<0>`</th>
+<th>`C2`</th></tr>
 <tr><th>`C1: R<1> U<1>`</th>
-<th>`C2: R<0> U<2>  || `C1\` 
-</th></tr></table>
+<th>`C2: R<0> U<2>`</th>
+<th>`C1`</th></tr></table>
 
 
 It may be desirable to produce a summary of the results in a more intelligent way. Exploration of this is left open for further discussion.
