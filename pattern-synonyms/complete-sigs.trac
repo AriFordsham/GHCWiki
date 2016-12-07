@@ -52,6 +52,10 @@ For a given `COMPLETE` pragma, for a complete matching `c`, if a user writes a f
 
 `COMPLETE` pragmas are always imported and exported from modules. 
 
+== Typing
+
+We verify that the result types of each constructor in a complete match agrees with each other. This is a sanity check as users would never be able to match on all constructors if the set of patterns is inconsistent in this manner.
+
 = Examples
 
 The following examples should emit no warnings.
