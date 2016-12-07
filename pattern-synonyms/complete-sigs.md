@@ -65,5 +65,5 @@ patternP::ApatternP=A{-# COMPLETE P #-}foo::A->AfooP=A
 
 ```
 patternN::Maybe a
-patternN=Nothing{-# COMPLETE N, Just #-}qux::Maybe a ->BoolquxN=Falsequx(Just5)=True
+patternN=Nothing{-# COMPLETE N, Just #-}qux::Maybe a ->BoolquxN=Falsequx(Just x)=True
 ```
