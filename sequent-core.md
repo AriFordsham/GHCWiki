@@ -497,13 +497,24 @@ Add `testsuite/test/perf/join-points/`
 
 (In fact, this typing scheme is required for the abortive semantics so that we can have `exprType` still give a unique type to any expression.)
 
+- Conceivably, we could allow passing join points as arguments. This is especially pressing because pattern synonyms desugar essentially as CPS functions that take the desugarer's "join points" as arguments (and without primitive existential types, it's hard to see how else to do it), so as things stand, the desugarer can't always create join points. I (Luke) see two problems with allowing labels as parameters:
+
+1. If any labels-as-parameters are around after Core Prep, we need codegen and RTS support. Off the top of my head, one could use a pointer into the stack to represent the label; the pointer would point at the return address and so jumping would mean setting the stack pointer and then jumping where it now points. But I'm sure the back-end guys would tell me where this is crazy.
+
+1. It becomes necessary to know a function's exact arity (its "join arity," counting type arguments) so that we know what constitutes a tail call. This turns arity from a squishy property to a hard invariant. At this point, we might
+
+
+as well be implementing Strict Core, or at least the "Types Are Calling Conventions" paper with its polyadic functions of fixed arity.
+
 ## Still to do
 
 - ~~Try not propagating join points to occurrences in `findJoinsInPgm`; instead rely on simplifier.~~
 
-- Desguarer should not add Void args to nullary join points.
+- Desugarer should not add Void args to nullary join points.
 
-- Dump the CoreToStg join point analysis in favour of the known join-points.
+  - Sadly, this conflicts directly with pattern synonyms, which desugar to functions that take "join points" as arguments.
+
+- Dump the CoreToStg join point analysis in favour of the known join points.
 
   - Check: does the CoreToStg analysis miss any JoinPointIds
   - Question: since STG is untyped, could it find more joint points that JPA does?)
