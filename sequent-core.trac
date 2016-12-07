@@ -353,11 +353,12 @@ let<join> j x = x + 1 in (j 1 @(Bool -> Int)) True
 * ~~Try not propagating join points to occurrences in `findJoinsInPgm`; instead rely on simplifier.~~
 
 * Desugarer should not add Void args to nullary join points.
-  * Sadly, this conflicts directly with pattern synonyms, which desugar to functions that take "join points" as arguments.
+  * Still needs to do this for unboxed types. The desugarer can't make genuine join points because the "join points" it creates sometimes get passed around as arguments rather than tail-called directly (happens particularly with pattern synonyms).
 
 * Dump the CoreToStg join point analysis in favour of the known join points.
-  * Check: does the CoreToStg analysis miss any JoinPointIds
+  * ~~Check: does the CoreToStg analysis miss any JoinPointIds~~ (warning now in place)
   * Question: since STG is untyped, could it find more joint points that JPA does?)
+    * Yes, at least in one case, where a putative join point is polymorphic in its return type.
 
 * Currently CorePrep adds a void arg for a nullary join point.  Check: why?  What goes wrong if we don't do this?
 
