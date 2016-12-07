@@ -54,6 +54,11 @@ For a given `COMPLETE` pragma, for a complete matching `c`, if a user writes a f
 
 `COMPLETE` pragmas are always imported and exported from modules. 
 
+## Typing
+
+
+We verify that the result types of each constructor in a complete match agrees with each other. This is a sanity check as users would never be able to match on all constructors if the set of patterns is inconsistent in this manner.
+
 # Examples
 
 
@@ -67,3 +72,43 @@ patternP::ApatternP=A{-# COMPLETE P #-}foo::A->AfooP=A
 patternN::Maybe a
 patternN=Nothing{-# COMPLETE N, Just #-}qux::Maybe a ->BoolquxN=Falsequx(Just x)=True
 ```
+
+# Discussion
+
+
+Obviously this feature allows nefarious users to define any set of patterns as complete. This is a consequence of the flexibility of the design.
+
+## Error Messages
+
+
+The pattern match checker checks each set of patterns individually and combines the results together at the end. The current naive algorithm tries to choose the result where the set of redundant and uncovered matches are both empty. If there is no such set then it prefers results with few uncovered cases, ties being broken by the number of redundant clauses. 
+
+
+We write `C: R<n> U<m>` for the result of matching `C` which has `n` redundant matches and `m` uncovered cases. 
+
+
+For example, for two complete matchings `C1` and `C2`, then 
+
+<table><tr><th> Match Result 1       </th>
+<th> Match Result 2       </th>
+<th> Chosen Result </th>
+<th> Reason 
+</th></tr>
+<tr><th>`C1: R<0> U<0>`</th>
+<th>`C2: R<n> U<m>`</th>
+<th>`C1`</th>
+<th>`C1` is a perfect matching so the function is total. 
+</th></tr>
+<tr><th>`C1: R<1> U<1>`</th>
+<th>`C2: R<0> U<2>`</th>
+<th>`C1`</th>
+<th>`C1` has fewer uncovered clauses. 
+</th></tr>
+<tr><th>`C1: R<2> U<0>`</th>
+<th>`C2: R<1> U<0>`</th>
+<th>`C2`</th>
+<th>`C1` and `C2` have the same number of uncovered clauses but `C2` has fewer redundant clauses 
+</th></tr></table>
+
+
+It may be desirable to produce a summary of the results in a more intelligent way. Exploration of this is left open for further discussion.
