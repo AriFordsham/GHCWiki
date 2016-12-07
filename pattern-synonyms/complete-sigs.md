@@ -84,7 +84,12 @@ We write `C: R<n> U<m>` for the result of matching `C` which has `n` redundant m
 
 For example, for two complete matchings `C1` and `C2`, then 
 
-<table><tr><th>`C1: R<0> U<0>`</th>
+<table><tr><th> Match Result 1       </th>
+<th> Match Result 2       </th>
+<th> Chosen Result </th>
+<th> Reason 
+</th></tr>
+<tr><th>`C1: R<0> U<0>`</th>
 <th>`C2: R<n> U<m>`</th>
 <th>`C1`</th>
 <th>`C1` is a perfect matching so the function is total. 
