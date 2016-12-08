@@ -363,6 +363,8 @@ let<join> j x = x + 1 in (j 1 @(Bool -> Int)) True
     * Function is polymorphic in its return type
     * Function is mentioned in RULES, which Core Prep strips
       * Could solve this by running OccurAnal one last time ''after'' Core Prep (would need to turn off binder swap); this might also eliminate dead code kept alive by RULES only
+        * Harder than it sounds: after Tidy, top-level vars are marked as global, so need to modify OccurAnal so it works either before or after Tidy
+        * Also need to change occurrences of newly discovered join points; normally we lean on the simplifier to do this, but ''that'' would be ''much'' harder after Tidy
 
   * Question: since STG is untyped, could it find more join points than JPA does?)
     * Yes, at least in one case: when the putative join point is polymorphic in its return type.
