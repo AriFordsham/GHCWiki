@@ -515,13 +515,20 @@ Add `testsuite/test/perf/join-points/`
 - Dump the CoreToStg join point analysis in favour of the known join points.
 
   - ~~Check: does the CoreToStg analysis miss any JoinPointIds~~ (warning now in place)
-  - Question: since STG is untyped, could it find more join points than JPA does?)
+  - Known cases where CoreToStg finds a join point where OccurAnal doesn't:
 
-    - Yes, at least in one case: when the putative join point is polymorphic in its return type.
+    - Function is polymorphic in its return type
+    - Function is mentioned in RULES, which Core Prep strips
 
-- Currently CorePrep adds a void arg for a nullary join point.  Check: why?  What goes wrong if we don't do this?
+      - Could solve this by running OccurAnal one last time *after* Core Prep (would need to turn off binder swap); this might also eliminate dead code kept alive by RULES only
 
-- Idea: heap check for join point done at call site, not in join point itself. (Does not work for recursive join oints.)
+- Question: since STG is untyped, could it find more join points than JPA does?)
+
+  - Yes, at least in one case: when the putative join point is polymorphic in its return type.
+
+- ~~Currently CorePrep adds a void arg for a nullary join point.  Check: why?  What goes wrong if we don't do this?~~ (done; `CoreToStg` relied on the old let/app invariant)
+
+- Idea: heap check for join point done at call site, not in join point itself. (Does not work for recursive join points.)
 
 - `CoreUnfold.sizeExpr`: SPJ claims: we should charge nothing for a join point binding or for its lambdas, or for its call.  (Reason: a join-point binding generates no allocation.)  Luke thinks that this was catastrophic in at least one case.  Investigate.
 
