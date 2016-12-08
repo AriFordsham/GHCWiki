@@ -1,14 +1,16 @@
-= Current status: GHC 8.0 =
+= Current status
 
 We're planning on shipping '''GHC 8.0''' with the fundamental improvements outlined here, namely:
 
-  - '''Done''': GHC HEAD now requires LLVM 3.6.x, thanks to Ben Gamari (already in HEAD for months now)
+The implementation effort for this plan is currently stalled and in need of an implementor. If you are interested in picking this up please take ownership of #10074.
+
+To do: 
+
   - '''In flight''': Prebuilt binaries for Tier 1 platforms, to be shipped.
-
-Not in scope for 8.0:
-
   - Fixing split-objs (but also see Phab:D1242)
   - Tweaking optimization settings (#11295)
+
+The implementation effort is being tracked in #10074.
 
 = See below for full notes =
 
