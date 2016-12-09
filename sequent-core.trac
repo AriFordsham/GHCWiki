@@ -374,6 +374,9 @@ let<join> j x = x + 1 in (j 1 @(Bool -> Int)) True
 * Idea: heap check for join point done at call site, not in join point itself. (Does not work for recursive join points.)
 
 * `CoreUnfold.sizeExpr`: SPJ claims: we should charge nothing for a join point binding or for its lambdas, or for its call.  (Reason: a join-point binding generates no allocation.)  Luke thinks that this was catastrophic in at least one case.  Investigate.
+  * If we charge nothing for a join point binding and its lambdas, and 10*n for a jump with n args (where a function call is 10*(n+1)), nothing changes except that `boyer2` gets +7.5% allocations (due to a cascade from an unfortunate inlining) and `parser` gets -1.2%.
+  * If instead we charge nothing ''at all'' for a jump, `boyer2` still gets +7.5% but `puzzle` gets -21.1% (!). (Also `cryptarithm` gets -1.6%.)
+  * The latter behavior is presently enabled by the `-fcheap-join-points` flag for further investigation.
 
 * Do Late Lambda Lifting (followed by simplify) ''after'' `CoreTidy`.
   * Then post LLL unfoldings won't affect downstream modules
