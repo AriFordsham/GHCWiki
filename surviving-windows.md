@@ -1,7 +1,7 @@
 # Surviving Windows as a Unix user: A glossary
 
 
-Here's a summary of words you will see while working on GHC on Windows. Good luck.
+Here's a summary of words you will see while working on GHC on Windows. Another helpful page is the [ How does msys2 differ from Cygwin](https://sourceforge.net/p/msys2/wiki/How%20does%20MSYS2%20differ%20from%20Cygwin/) article on the msys2 wiki. Good luck.
 
 ## msys2 (the distribution)
 
