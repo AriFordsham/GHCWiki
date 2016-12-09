@@ -41,7 +41,7 @@ Cygwin is also a distribution built upon the `Cygwin` runtime providing a Linux-
 
 ## `Mingw-w64`
 
-`Mingw-w64` is a compiler toolchain based upon `gcc` targeting Windows systems which is packaged with the `msys2` distribution. It started as a fork of the `mingw` toolchain.
+`Mingw-w64` is a compiler toolchain based upon `gcc` targeting Windows systems which is packaged with the `msys2` distribution. It started as a fork of the `mingw` toolchain. A fair amount of useful information about `mingw-w64` can be found on the project's [ wiki](https://sourceforge.net/p/mingw-w64/wiki2/Home/).
 
 
 Executables produced with the `mingw-w64` toolchain will link only against `msvcrt` and a few native Windows libraries (e.g. `ntdll` and `kernel32`).
@@ -49,6 +49,13 @@ Executables produced with the `mingw-w64` toolchain will link only against `msvc
 ## `mingw`
 
 `mingw` is a compiler toolchain based upon `gcc` targeting Windows systems. The project is now unmaintained. `mingw` is not used by `msys2` distribution used by GHC; instead it packages the `mingw-w64` toolchain.
+
+## `msys`
+
+`msys` (short for "minimal system) is a component of the `mingw` project which provides Windows ports of a lightweight Unix-like shell environment. It does not provide a compiler toolchain; this is provided by `mingw`.
+
+
+Note that GHC uses neither `mingw` nor `msys`; rather we use `mingw-w64` and `msys2`.
 
 ## `msvcrt`
 
