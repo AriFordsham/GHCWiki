@@ -4,7 +4,7 @@
 Here's a summary of words you will see while working on GHC on Windows. Some other helpful background can be found on
 
 - the [ How does msys2 differ from Cygwin](https://sourceforge.net/p/msys2/wiki/How%20does%20MSYS2%20differ%20from%20Cygwin/) article on the msys2 wiki.
-- This http://stackoverflow.com/questions/25019057/how-are-msys-msys2-and-msysgit-related-to-each-other? discussing the relationship between msys and msys2
+- This [ Stack Overflow question](http://stackoverflow.com/questions/25019057/how-are-msys-msys2-and-msysgit-related-to-each-other) discussing the relationship between msys and msys2
 
 
 Good luck.
