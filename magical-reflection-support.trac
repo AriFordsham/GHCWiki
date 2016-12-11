@@ -145,3 +145,21 @@ sreify' k = unsafeCoerce (Magic2 (k :: Reifies Skolem a => Tagged Skolem r))
 }}}
 
 My concern with this approach is that in sufficiently complex circumstances, the specializer might be able to conflate two different reified values of the same type, as each of them will, at a certain point, look like `Reifies Skolem A`. I haven't actually found a way to make this happen yet, but it smells fishy nonetheless. I would hope GHC would be able to guarantee that the argument to `reify#` will never be specialized to a particular instance of `c` (i.e., `Reifies`).
+
+For comparison, this produces the following (much prettier) Core for the corresponding test:
+
+{{{
+test2 :: Int# -> Int# -> Int# -> Int#
+test2 =
+  \ (m_a4rI :: Int#) (x_a4rJ :: Int#) (y_a4rK :: Int#) ->
+    case m_a4rI of wild_a4G4 {
+      __DEFAULT ->
+        case modInt# x_a4rJ wild_a4G4 of ww2_a5Bo { __DEFAULT ->
+        case modInt# y_a4rK wild_a4G4 of ww1_X5Cs { __DEFAULT ->
+        modInt# (+# ww2_a5Bo ww1_X5Cs) wild_a4G4
+        }
+        };
+      -1# -> 0#;
+      0# -> case divZeroError of wild1_00 { }
+    }
+}}}
