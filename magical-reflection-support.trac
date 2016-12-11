@@ -134,10 +134,10 @@ is, of course, far more polymorphic than it has any right to be. In principle, w
 
 === Specialization concerns ===
 
-I've found an approach that seems to get the inlining I want in userspace, by changing `Magic`, but I'm not confident it's safe. Also, it works in GHC 7.8, but is rejected by the type checker in 8.0.1.
+I've found an approach that seems to get the inlining I want in userspace, by changing `Magic`, but I'm not confident it's safe.
 
 {{{#!hs
-type family Skolem :: * where
+data Skolem
 newtype Magic a r = Magic (Reifies Skolem a => Tagged Skolem r)
 }}}
 
