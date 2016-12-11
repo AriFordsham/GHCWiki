@@ -121,7 +121,7 @@ is, of course, far more polymorphic than it has any right to be. In principle, w
 ### Specialization concerns
 
 
-I've found an approach that seems to get the inlining I want in userspace, by changing `Magic`, but I'm not confident it's safe:
+I've found an approach that seems to get the inlining I want in userspace, by changing `Magic`, but I'm not confident it's safe. Also, it works in GHC 7.8, but is rejected by the type checker in 8.0.1.
 
 ```
 typefamilySkolem::*wherenewtypeMagic a r =Magic(ReifiesSkolem a =>TaggedSkolem r)
