@@ -124,8 +124,9 @@ is, of course, far more polymorphic than it has any right to be. In principle, w
 I've found an approach that seems to get the inlining I want in userspace, by changing `Magic`, but I'm not confident it's safe.
 
 ```
-dataSkolemnewtypeMagic a r =Magic(ReifiesSkolem a =>TaggedSkolem r)
+typefamilySkolem::*wherenewtypeMagic s a r =Magic(Reifies s a =>Tagged s r)sreify':: forall a r .(forall (s ::*).Reifies s a =>Tagged s r)-> a -> r
+sreify' k = unsafeCoerce (Magic2(k ::ReifiesSkolem a =>TaggedSkolem r))
 ```
 
 
-My concern with this approach is that in sufficiently complex circumstances, the specializer could conflate two different reified values of the same type, as each of them will, at a certain point, look like `Reifies Skolem A`. I haven't actually found a way to make this happen yet, but it smells fishy nonetheless. I would hope GHC would be able to guarantee that the argument to `reify#` will never be specialized to a particular instance of `c` (i.e., `Reifies`).
+My concern with this approach is that in sufficiently complex circumstances, the specializer might be able to conflate two different reified values of the same type, as each of them will, at a certain point, look like `Reifies Skolem A`. I haven't actually found a way to make this happen yet, but it smells fishy nonetheless. I would hope GHC would be able to guarantee that the argument to `reify#` will never be specialized to a particular instance of `c` (i.e., `Reifies`).
