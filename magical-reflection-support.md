@@ -10,7 +10,7 @@ I propose the following magical function:
 reify#::(forall s . c s a => t s r)-> a -> r
 ```
 
-`c` is assumed to be a single-method class with no superclasses whose dictionary representation is exactly the same as the representation of `a`, and `t s r` is assumed to be a newtype wrapper around `r`. In desugaring, `reify# f` would be compiled to `f @S`, where `S` is a fresh type. I believe it's necessary to use a fresh type to prevent specialization from mixing up different reified values.
+`c` is assumed to be a single-method class with no superclasses whose dictionary representation is exactly the same as the representation of `a`, and `t s r` is assumed to be a newtype wrapper around `r`. In desugaring, `reify# f` would be turned into some coercion of `f`. See below regarding specialization concerns.
 
 ### Why I want it
 
@@ -48,7 +48,7 @@ reify' f = unsafeCoerce (Magic f)
 ```
 
 
-This certainly works. The trouble is that any knowledge about what is reflected is totally lost. For instance, if I write
+This certainly works. The trouble is that any knowledge about what is reflected goes unused. For instance, if I write
 
 ```
 reify12$\p -> reflect p +3
@@ -62,7 +62,7 @@ reify(+1)$\p -> reflect p x
 ```
 
 
-then GHC will never inline the application of `(+1)`. Etc.
+then GHC will never inline the application of `(+1)`. Etc. It appears that the `forall s` in `Magic` gums up the inliner somehow.
 
 
 I'd like to replace `reify'` with `reify#` to allow such optimizations.
@@ -76,15 +76,14 @@ reify#::(forall s . c s a => t s r)-> a -> r
 
 is, of course, far more polymorphic than it has any right to be. In principle, we should only need one `c`, namely `Data.Reflection.Reifies`, and one `t`, namely `Data.Tagged.Tagged`. But making it polymorphic prevents us from having to use a class and type available in `ghc-prim`.
 
-### Why that class argument order
+### Specialization concerns
 
 
-It would theoretically make slightly more sense to use
+I've found an approach that seems to get the inlining I want in userspace, by changing `Magic`, but I'm not confident it's safe:
 
 ```
-classReifies a s | s -> a where
-  reflect' ::Tagged s a
+typefamilySkolem::*wherenewtypeMagic a r =Magic(ReifiesSkolem a =>TaggedSkolem r)
 ```
 
 
-to allow GND for `Reifies`. But that would break all code currently using `reflection` with very little actual benefit.
+My concern with this approach is that in sufficiently complex circumstances, the specializer could conflate two different reified values of the same type, as each of them will, at a certain point, look like `Reifies Skolem A`. I haven't actually found a way to make this happen yet, but it smells fishy nonetheless. I would hope GHC would be able to guarantee that the argument to `reify#` will never be specialized to a particular instance of `c` (i.e., `Reifies`).
