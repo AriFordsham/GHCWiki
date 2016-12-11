@@ -1,0 +1,68 @@
+Using `Data.Reflection` has some runtime costs. Notably, there can be no inlining or unboxing of reified values. I think it would be nice to add a GHC special to support it. I'll get right to the point of what I want, and then give a bit of background about why.
+
+=== What I want ===
+
+I propose the following absurdly over-general lie:
+
+{{{#!hs
+reify# :: (forall s . c s a => t s r) -> a -> r
+}}}
+
+`c` is assumed to be a single-method class with no superclasses whose dictionary representation is exactly the same as the representation of `a`, and `t s r` is assumed to be a newtype wrapper around `r`. In desugaring, `reify# f` would be compiled to `f @S`, where `S` is a fresh type. I believe it's necessary to use a fresh type to prevent specialization from mixing up different reified values.
+
+=== Background ===
+
+The following is a somewhat modified version of the main idea in `Data.Reflection`, with some relatively minor changes to clean up the very core of it.
+
+{{{#!hs
+newtype Tagged s a = Tagged { unTagged :: a }
+
+unproxy :: (Proxy s -> a) -> Tagged s a
+unproxy f = Tagged (f Proxy)
+
+class Reifies s a | s -> a where
+  reflect' :: Tagged s a
+
+-- For convenience
+reflect :: forall s a proxy . Reifies s a => proxy s -> a
+reflect _ = unTagged (reflect' :: Tagged s a)
+
+-- The key function--see below regarding implementation
+reify' :: (forall s . Reifies s a => Tagged s r) -> a -> r
+
+-- For convenience
+reify :: a -> (forall s . Reifies s a => Proxy s -> r) -> r
+reify a f = reify' (unproxy f) a
+}}}
+
+The key idea of `reify'` is that something of type
+
+{{{#!hs
+forall s . Reifies s a => Tagged s r
+}}}
+
+is represented in memory exactly the same as a function of type `a -> r`.
+
+So we can currently use `unsafeCoerce` to interpret one as the other. Following the general approach of the library, we can do this as such:
+
+{{{#!hs
+newtype Magic a r = Magic (forall s . Reifies s a => Tagged s r)
+reify' :: (forall s . Reifies s a => Tagged s r) -> a -> r
+reify' f = unsafeCoerce (Magic f)
+}}}
+
+This certainly works. The trouble is that any knowledge about what is reflected is totally lost. For instance, if I write
+
+{{{#!hs
+reify 12 $ \p -> reflect p + 3
+}}}
+
+then GHC will not see, at compile time, that the result is 15. If I write
+
+{{{#!hs
+reify (+1) $ \p -> reflect p x
+}}}
+
+then GHC will never inline the application of `(+1)`. Etc.
+
+I'd like to replace `reify'` with `reify#` to allow such optimizations.
