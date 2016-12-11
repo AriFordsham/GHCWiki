@@ -65,7 +65,64 @@ reify (+1) $ \p -> reflect p x
 
 then GHC will never inline the application of `(+1)`. Etc. It appears that the `forall s` in `Magic` gums up the inliner somehow.
 
-I'd like to replace `reify'` with `reify#` to allow such optimizations.
+I'd like to replace `reify'` with `reify#` to allow such optimizations. mpickering asked for a more substantial example, so here's one:
+
+{{{#!hs
+newtype M s = M {getM :: Int}
+
+mkM :: Reifies s Int => Int -> M s
+mkM = normalize . M
+{-# INLINE mkM #-}
+
+instance Reifies s Int => Num (M s) where
+  M x + M y = normalize (M (x + y))
+  M x - M y = normalize (M (x - y))
+  M x * M y = normalize (M (x * y))
+  abs x = x
+  signum x = 1
+  fromInteger = mkM . fromIntegral
+  {-# INLINE (+) #-}
+
+normalize :: Reifies s Int => M s -> M s
+normalize m@(M x) = M $ x `mod` reflect m
+{-# INLINE normalize #-}
+
+unInt :: Int -> Int#
+unInt (I# x) = x
+{-# INLINE unInt #-}
+
+test1 :: Int# -> Int# -> Int# -> Int#
+test1 m x y = unInt $ reify (I# m) $ \(_ :: Proxy s) -> getM $ (mkM (I# x) + mkM (I# y) :: M s)
+}}}
+
+Ideally, `test1` should never have to box anything, but because nothing inlines, we get this rather unsatisfactory result:
+
+{{{
+test1 :: Int# -> Int# -> Int# -> Int#
+test1 =
+  \ (m_a15J :: Int#) (x_a15K :: Int#) (y_a15L :: Int#) ->
+    case ((\ (@ s_i1kJ) ($dReifies_i1kK :: Reifies s_i1kJ Int) ->
+             case $dReifies_i1kK `cast` ... of _ { I# ww1_a1sH ->
+             case ww1_a1sH of wild_a1sJ {
+               __DEFAULT ->
+                 case modInt# x_a15K wild_a1sJ of ww2_a2ov { __DEFAULT ->
+                 case modInt# y_a15L wild_a1sJ of ww4_X2pz { __DEFAULT ->
+                 case modInt# (+# ww2_a2ov ww4_X2pz) wild_a1sJ
+                 of ww5_X2pH { __DEFAULT ->
+                 I# ww5_X2pH
+                 }
+                 }
+                 };
+               -1# -> test2;
+               0# -> case divZeroError of wild1_00 { }
+             }
+             })
+          `cast` ...)
+           (I# m_a15J)
+    of _ { I# x1_a15I ->
+    x1_a15I
+    }
+}}}
 
 === Why so general ===
 
