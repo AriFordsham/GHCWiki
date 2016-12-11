@@ -2,7 +2,7 @@ Using `Data.Reflection` has some runtime costs. Notably, there can be no inlinin
 
 === What I want ===
 
-I propose the following absurdly over-general lie:
+I propose the following magical function:
 
 {{{#!hs
 reify# :: (forall s . c s a => t s r) -> a -> r
@@ -10,7 +10,7 @@ reify# :: (forall s . c s a => t s r) -> a -> r
 
 `c` is assumed to be a single-method class with no superclasses whose dictionary representation is exactly the same as the representation of `a`, and `t s r` is assumed to be a newtype wrapper around `r`. In desugaring, `reify# f` would be compiled to `f @S`, where `S` is a fresh type. I believe it's necessary to use a fresh type to prevent specialization from mixing up different reified values.
 
-=== Background ===
+=== Why I want it ===
 
 The following is a somewhat modified version of the main idea in `Data.Reflection`, with some relatively minor changes to clean up the very core of it.
 
@@ -66,3 +66,22 @@ reify (+1) $ \p -> reflect p x
 then GHC will never inline the application of `(+1)`. Etc.
 
 I'd like to replace `reify'` with `reify#` to allow such optimizations.
+
+=== Why so general ===
+
+{{{#!hs
+reify# :: (forall s . c s a => t s r) -> a -> r
+}}}
+
+is, of course, far more polymorphic than it has any right to be. In principle, we should only need one `c`, namely `Data.Reflection.Reifies`, and one `t`, namely `Data.Tagged.Tagged`. But making it polymorphic prevents us from having to use a class and type available in `ghc-prim`.
+
+=== Why that class argument order ===
+
+It would theoretically make slightly more sense to use
+
+{{{#!hs
+class Reifies a s | s -> a where
+  reflect' :: Tagged s a
+}}}
+
+to allow GND for `Reifies`. But that would break all code currently using `reflection` with very little actual benefit.
