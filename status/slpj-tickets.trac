@@ -13,6 +13,10 @@
  * #11715, #11621: `Constraint` vs `*`
  * [wiki:Commentary/Compiler/GenericDeriving Generic deriving]
  * [wiki:SequentCore Join points]
+ * [wiki:PatternMatchCheck The new pattern-match overlap/exhaustiveness checker]
+ * [wiki:PatternSynonyms Pattern-synonym status page]
+ * [wiki:Records/OverloadedRecordFields Overloaded record fields]
+
 
 == INLINE problems / ticks exhausted  ==
  * #12776: definitely a loop; has diagnosis
@@ -78,12 +82,6 @@ Other tickets
 
 == Data types and pattern matching ==
 
-Some big features
- * [wiki:PatternMatchCheck new pattern-match overlap/exhaustiveness checker]
- * [wiki:PatternSynonyms the pattern-synonym status page]
- * [wiki:Records/OverloadedRecordFields overloaded record fields]
-
-Other tickets
  * #12159 naughty record selectors
  * #11253: duplicate warnings with new pattern checker
  * #10183: warning for redundant constraints, and pattern-match overlap warnings
