@@ -18,7 +18,7 @@ reify#::(forall s . c s a => t s r)-> a -> r
 The following is a somewhat modified version of the main idea in `Data.Reflection`, with some relatively minor changes to clean up the very core of it.
 
 ```
-newtypeTagged s a =Tagged{ unTagged :: a }unproxy::(Proxy s -> a)->Tagged s a
+-- Edward Kmett found these were necessary for his library, so they're likely necessary here too, for now.{-# OPTIONS_GHC -fno-cse #-}{-# OPTIONS_GHC -fno-full-laziness #-}{-# OPTIONS_GHC -fno-float-in #-}newtypeTagged s a =Tagged{ unTagged :: a }unproxy::(Proxy s -> a)->Tagged s a
 unproxy f =Tagged(f Proxy)classReifies s a | s -> a where
   reflect' ::Tagged s a
 
