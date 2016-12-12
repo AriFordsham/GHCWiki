@@ -14,6 +14,9 @@
 - [\#11715](https://gitlab.haskell.org//ghc/ghc/issues/11715), [\#11621](https://gitlab.haskell.org//ghc/ghc/issues/11621): `Constraint` vs `*`
 - [Generic deriving](commentary/compiler/generic-deriving)
 - [Join points](sequent-core)
+- [The new pattern-match overlap/exhaustiveness checker](pattern-match-check)
+- [Pattern-synonym status page](pattern-synonyms)
+- [Overloaded record fields](records/overloaded-record-fields)
 
 ## INLINE problems / ticks exhausted
 
@@ -85,16 +88,6 @@ Other tickets
 - [\#9547](https://gitlab.haskell.org//ghc/ghc/issues/9547): kinding for empty constraint tuples
 
 ## Data types and pattern matching
-
-
-Some big features
-
-- [new pattern-match overlap/exhaustiveness checker](pattern-match-check)
-- [the pattern-synonym status page](pattern-synonyms)
-- [overloaded record fields](records/overloaded-record-fields)
-
-
-Other tickets
 
 - [\#12159](https://gitlab.haskell.org//ghc/ghc/issues/12159) naughty record selectors
 - [\#11253](https://gitlab.haskell.org//ghc/ghc/issues/11253): duplicate warnings with new pattern checker
