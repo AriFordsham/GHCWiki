@@ -88,6 +88,8 @@ Below are the major highlights of 8.2.
 
 - Deterministic builds [DeterministicBuilds](deterministic-builds). Given the same environment, file and flags produce ABI compatible binaries. (Bartosz Nitka, in-progress)
 
+- Consolidate non-determinism changes (Bartosz).
+
 ### Landed in `master` branch
 
 - TODO
