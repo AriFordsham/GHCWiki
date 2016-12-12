@@ -41,6 +41,8 @@ Below are the major highlights of 8.2.
 >
 > GHC 8.2 will address this by introducing indexed type representations, leveraging the type-checker to verify programs using type reflection. This allows facilities like `Data.Dynamic` to be implemented in a fully type-safe manner. See the [ paper](http://research.microsoft.com/en-us/um/people/simonpj/papers/haskell-dynamic/) for an description of the proposal and the [ Wiki](https://ghc.haskell.org/trac/ghc/wiki/Typeable/BenGamari) for the current status of the implementation.
 
+- **Levity polymorphism**.  Richard E is actively involved in consolidating the implementation of levity polymorphism; see [LevityPolymorphism](levity-polymorphism).  This should include resolving the `Constraint` vs `*` debate [\#11715](https://gitlab.haskell.org//ghc/ghc/issues/11715).
+
 - **Backpack** is targeting to be merged in GHC 8.2. More to come here. (Edward Z Yang)
 
 - **Deriving**:
@@ -85,6 +87,8 @@ Below are the major highlights of 8.2.
 - New Shake-based build system, `hadrian`, will be merged.  (Andrey Mokhov)
 
 - Deterministic builds [DeterministicBuilds](deterministic-builds). Given the same environment, file and flags produce ABI compatible binaries. (Bartosz Nitka, in-progress)
+
+- Consolidate non-determinism changes (Bartosz).
 
 ### Landed in `master` branch
 
