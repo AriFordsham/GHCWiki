@@ -54,6 +54,7 @@ can extend it, modify it, and use it to build your code.
  * [wiki:Building/CrossCompiling Cross-compilation]
  * [wiki:Building/Compiling32on64 Compiling for 32 bits on 64 bits]
  * [wiki:Building/CrossCompilingOnDebian Setting up a Debian system to build a GHC cross-compiler]
+ * [wiki:SurvivingWindows Some notes on the various moving parts involved in the Windows toolchain]
 
 '''Troubleshooting'''
 
