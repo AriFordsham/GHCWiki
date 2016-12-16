@@ -37,7 +37,7 @@ mkdir -p $logsrev=$(git rev-parse HEAD)function skip_commit(){exit125}function l
     ret=$?
     log "Commit $rev: $step = $ret"return$ret}
 
-do_it submodules git submodule update || bad_commit
+do_it submodules git submodule update || skip_commit
 # We run `make` twice as sometimes it will spuriously fail with -j
 if["x$ALWAYS_CLEAN"=="x0"];then# First try building without cleaning, if that fails then clean and try again
     do_it ghc1 make $make_opts||\

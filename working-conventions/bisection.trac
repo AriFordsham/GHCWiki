@@ -48,7 +48,7 @@ function do_it() {
     return $ret
 }
 
-do_it submodules git submodule update || bad_commit
+do_it submodules git submodule update || skip_commit
 # We run `make` twice as sometimes it will spuriously fail with -j
 if [ "x$ALWAYS_CLEAN" == "x0" ]; then
     # First try building without cleaning, if that fails then clean and try again
