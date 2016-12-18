@@ -97,7 +97,7 @@ So, in order to make change to a submodule you can either:
 > 1) Work directly on the detached HEAD in the submodule directory.
 
 >
-> 2) Checkout the respective branch the commit is supposed to be pointed at from (normally `master`. See the table on [Repositories](working-conventions/repositories) for the full branch/repo summary). 
+> 2) Checkout the respective branch the commit is supposed to be pointed at from (normally `master`. See the table on [Repositories](repositories) for the full branch/repo summary). 
 
 
 If you merely need to update a submodule to point to the latest upstream commit of that submodule, which also takes care to lookup the proper upstream Git branch (in case it's not `master`) as specified in the `.gitmodules` file.
@@ -186,7 +186,7 @@ There are server-side validation hooks in place on `git.haskell.org` to make sur
 ## Upstream repositories
 
 
-Check out the [Repositories](working-conventions/repositories) page for a full breakdown of all the repositories GHC uses.
+Check out the [Repositories](repositories) page for a full breakdown of all the repositories GHC uses.
 
 ## TODO
 
