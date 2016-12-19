@@ -1,7 +1,14 @@
 # Adding kind equalities to GHC
 
 
-This page -- a description of the first phase of integrating full dependent types into GHC -- has two main parts: the first stretch describes user-facing changes to GHC that I (Richard Eisenberg) expect to land for 7.12 \[Note, February 2016: Will appear in GHC 8\]. The second is notes I put together for discussion with other implementors, chiefly Simon PJ.
+This page -- a description of the first phase of integrating full dependent types into GHC -- has two main parts: 
+
+- The first stretch describes user-facing changes in GHC 8.
+
+- The second is notes I put together for discussion with other implementors, chiefly Simon PJ.
+
+
+See also the parent page [DependentHaskell](dependent-haskell).
 
 # Status
 
