@@ -8,7 +8,7 @@ This page -- a description of the first phase of integrating full dependent type
 - The second is notes I put together for discussion with other implementors, chiefly Simon PJ.
 
 
-See also the parent page [DependentHaskell](dependent-haskell)/
+See also the parent page [DependentHaskell](dependent-haskell).
 
 # Status
 
