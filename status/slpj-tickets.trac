@@ -3,7 +3,7 @@
 == Status pages ==
  * `hs-boot` files: [wiki:Commentary/Compiler/TyingTheKnot]
  * Type-indexed type representations: [wiki:Typeable/BenGamari plan and status]
- * `TypeInType`, kind equalities etc: [wiki:DependentHaskell], esp [wiki:DependentHaskell/Phase1]
+ * [wiki:DependentHaskell/Phase1 TypeInType]: [wiki:DependentHaskell], esp #12919 (outright bug)
  * `TypeApplications`: [wiki:TypeApplication visible type application]
  * [wiki:Proposal/CustomTypeErrors Custom type errors]
  * [wiki:UnliftedDataTypes]
