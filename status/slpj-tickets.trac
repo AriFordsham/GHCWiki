@@ -210,7 +210,7 @@ See also [wiki:TemplateHaskell]
 
 [wiki:Inlining Inlining wiki page]
 
- * #11240, #8833, #3872, #5400, #5448, #5722, #7057, #7369, #9235: Russell's paradox; Y combinator; contravariant data type loop in simplifier inliner
+ * #13011, #11240, #8833, #3872, #5400, #5448, #5722, #7057, #7369, #9235: Russell's paradox; Y combinator; contravariant data type loop in simplifier inliner
  * #4833: finding the right loop breaker
  * #3781, #3755: inlining for local functions: discount for scrutinising free vars
  * #3765: CONLIKE things and case expressions (need two unfoldings)
