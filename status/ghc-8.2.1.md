@@ -78,6 +78,8 @@ Below are the major highlights of 8.2.
 
 -  The [improved LLVM backend plan](improved-llvm-backend) plan didn't make the cut for 8.0, but will for 8.2 (Austin Seipp)
 
+- **Live streaming of event-log data** ([ Phab:D2522](https://phabricator.haskell.org/D2522))
+
 ### Library changes
 
 - Merge `Bifoldable` and `Bitraversable` into `base`, addressing [\#10448](https://gitlab.haskell.org//ghc/ghc/issues/10448) (Edward Kmett, Ryan Scott)
