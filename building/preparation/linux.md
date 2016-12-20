@@ -146,6 +146,9 @@ Finally, clone, configure, and build GHC (see [Newcomers](newcomers) for details
 ```
 
 
+If you have come this way it is assumed you know what you are doing! The `ghcHEAD` derivation does not include the dependencies needed for the test suite. I (mpickering, Dec 2016) don't know exactly what these dependencies are but you should add them to your environment by defining a suitable `shell.nix`.  
+
+
 Enable parallel builds in the nix build environment:
 
 ```wiki
