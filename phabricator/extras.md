@@ -320,4 +320,4 @@ If you're paranoid, enable [ multi-factor authentication](https://secure.phabric
 ### Play Arkanoid
 
 
-If you're waiting to validate or compile, run `arc anoid` to play a game of Arkanoid.
+If you're waiting to validate or compile, run `arc anoid` to play a game of Arkanoid. (requires `python2` in `PATH`)
