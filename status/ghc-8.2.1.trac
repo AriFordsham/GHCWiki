@@ -71,6 +71,8 @@ Below are the major highlights of 8.2.
 
    -  The [[ImprovedLLVMBackend|improved LLVM backend plan]] plan didn't make the cut for 8.0, but will for 8.2 (Austin Seipp)
 
+   - '''Live streaming of event-log data''' (Phab:D2522)
+
 === Library changes ===
 
   - Merge `Bifoldable` and `Bitraversable` into `base`, addressing #10448 (Edward Kmett, Ryan Scott)
