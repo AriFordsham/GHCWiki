@@ -538,6 +538,7 @@ Add `testsuite/test/perf/join-points/`
   - If we charge nothing for a join point binding and its lambdas, and 10\*n for a jump with n args (where a function call is 10\*(n+1)), nothing changes except that `boyer2` gets +7.5% allocations (due to a cascade from an unfortunate inlining) and `parser` gets -1.2%.
   - If instead we charge nothing *at all* for a jump, `boyer2` still gets +7.5% but `puzzle` gets -21.1% (!). (Also `cryptarithm` gets -1.6%.)
   - Charging nothing for a jump, nothing for a join binding, *and* nothing for the lambdas makes `boyer2` break even again. Now it's an improvement nearly across the board; implemented.
+  - **BUT:** Charging *nothing* reopens bug [\#6048](https://gitlab.haskell.org//ghc/ghc/issues/6048) by allowing certain join points to keep getting inlined, leading to exponential behavior. Currently solved by charging for join points, but only 20% as much as for a function call. This number was arrived at because it is small enough that `puzzle` still gets its big improvement, but big enough to prevent [\#6048](https://gitlab.haskell.org//ghc/ghc/issues/6048). TODO Worry about overfitting. Possibly tune this some more. Maybe it should be a command-line option?
 
 - Do Late Lambda Lifting (followed by simplify) *after*`CoreTidy`.
 
