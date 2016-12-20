@@ -621,7 +621,16 @@ is also out of date, and hence all the libraries are
 also potentially out of date. If you ran `make` without
 setting `stage=2`, all of these dependencies would be
 taken into account, and a lot of rebuilding would
-probably ensue. 
+probably ensue.
+
+
+Should you then want to rebuild from scratch (say, to
+switch build flavours), you can still do so by saying:
+
+```wiki
+$ make clean
+$ make stage=
+```
 
 ### Skip dependency building
 
