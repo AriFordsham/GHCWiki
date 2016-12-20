@@ -130,7 +130,7 @@ Then, you can build the environment needed for compiling HEAD (assuming that the
 
 ```wiki
    cd ~
-   nix-build '<nixpkgs>' -A haskell.compiler.ghcHEAD --run-env -I /home/user
+   nix-shell '<nixpkgs>' -A haskell.compiler.ghcHEAD
 ```
 
 
@@ -139,15 +139,8 @@ Finally, clone, configure, and build GHC (see [Newcomers](newcomers) for details
 ```wiki
    git clone --recursive https://github.com/ghc/ghc
    cd ghc/
-   patchShebangs .
-   patchPhase
-   ./boot
+   #edit mk/build.mk.sample as normal
    configurePhase
-   # configurePhase of the Nix recipe overwrites build.mk, so we change it afterwards.
-   cd mk
-   cp build.mk.sample build.mk
-   # edit build.mk to remove the comment marker # on the line "BuildFlavour = quick"
-   cd ..
    buildPhase
    # edit build.mk to remove the comment marker # on the line stage=2
 ```
