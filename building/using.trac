@@ -560,9 +560,9 @@ They can be handy shorthands though.
 The `re1`, `re2`, and `re3` targets are sometimes used for
 relinking the compiler after a change like `GhcDebugged=YES`.
 
- * `make re2` means `rm $PATH_TO_STAGE1_EXECUTABLE; make 1`
+ * `make re1` means `rm $PATH_TO_STAGE1_EXECUTABLE; make 1`
  * `make re2` means `rm $PATH_TO_STAGE2_EXECUTABLE; make 2`
- * `make re2` means `rm $PATH_TO_STAGE3_EXECUTABLE; make 3`
+ * `make re3` means `rm $PATH_TO_STAGE3_EXECUTABLE; make 3`
 
 Note that if you’ve never built stage3 before, you will need
 to create dependencies for it using `make stage=3`. This is
