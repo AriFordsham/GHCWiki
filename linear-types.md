@@ -85,24 +85,24 @@ When performing a function call, the context used to check the argument is scale
 
 ```wiki
 ––––––––––––––––––––––– variable
-  ωΓ, x :ρ A ⊢ x :ρ A
+  ωΓ + x :1 A ⊢ x : A
   
 
- Γ ⊢ f :ρ S -­> T     Δ ⊢ s :ω S
+ Γ ⊢ f : S -­> T     Δ ⊢ s : S
 –––––––––––––––––––––––––––––––– unrestricted application
-          Γ+Δ ⊢ f s  :ρ  T
+          Γ+ωΔ ⊢ f s  :  T
 
- Γ ⊢ f :ρ S ⊸ T     Δ ⊢ s :ρ S
+ Γ ⊢ f : S ⊸ T     Δ ⊢ s : S
 ––––––––––––––––––––––––––––––– linear application
-          Γ+Δ ⊢ f s  :ρ  T
+          Γ+Δ ⊢ f s  :  T
 
-       Γ, x :ω S  ⊢   t :ρ T
+       Γ, x :ω S  ⊢   t : T
 –––––––––––––––––––––––––––––––––– unrestricted abstraction
-     Γ ⊢ λx. t  :ρ S → T
+     Γ ⊢ λx. t  : S → T
 
-       Γ, x :1 S  ⊢   t :ρ T
+       Γ, x :1 S  ⊢   t : T
 –––––––––––––––––––––––––––––––––– linear abstraction
-     Γ ⊢ λx. t  :ρ  S ⊸ T
+     Γ ⊢ λx. t  :  S ⊸ T
 ```
 
 
