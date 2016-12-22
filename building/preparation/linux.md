@@ -139,8 +139,11 @@ Finally, clone, configure, and build GHC (see [Newcomers](newcomers) for details
 ```wiki
    git clone --recursive https://github.com/ghc/ghc
    cd ghc/
+   # patchPhase (sometimes this is necessary if there are patches which need to be applied as of Dec 2016 with the unstable channel it is unnecessary)
+
    #edit mk/build.mk.sample as normal
-   configurePhase
+   # This command needs to be used so that the right paths to libraries are passed to ./configure
+   configurePhase 
    buildPhase
    # edit build.mk to remove the comment marker # on the line stage=2
 ```
