@@ -139,8 +139,8 @@ Finally, clone, configure, and build GHC (see [Newcomers](newcomers) for details
 ```wiki
    git clone --recursive https://github.com/ghc/ghc
    cd ghc/
+   patchPhase
    #edit mk/build.mk.sample as normal
-   patchShebangs
    configurePhase
    buildPhase
    # edit build.mk to remove the comment marker # on the line stage=2
