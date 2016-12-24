@@ -35,6 +35,32 @@ What about `test2`?  After all, it's just an eta-abstracted version of `test1`. 
 
 To make this work in `test2` we must instantiate `q := forall a. a->a`, to make the type of `(.)`'s first argument match `foo`'s type.  **So we have to instantiate a polymorphic type variable `q` with a polymorphic type**.  This is called *impredicative polymorphism*, and GHC's type inference engine simply does not support it.
 
+### Constraints also trigger impredicative polymorhism
+
+
+Although it does not appear to involve instantiating any polymorphic type variables with polymorphic types, instantiating a polymorphic type variable with qualified type will also trigger the "GHC doesn't yet support impredicative polymorphism" error.
+
+
+For example
+
+```wiki
+type Monadic m a = Monad m => m a
+monadics :: [Monadic m a]
+monadics = undefined
+```
+
+
+is not allowed.
+
+
+A workaround for cases like this remove the constraint from the type synonym and add it at the use sites. I.e., the above example works if we change it to
+
+```wiki
+type Monadic m a = m a
+monadics :: Monad m => [Monadic m a]
+monadics = undefined
+```
+
 ### Special case for `($)`
 
 
