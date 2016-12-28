@@ -11,9 +11,23 @@ This guide summarises the changes you may need to make to your code to migrate f
 Note that the `-XImpredicativeTypes` extension, which has been
 [[ImpredicativePolymorphism|known]] to be broken for many years. It has now at long last been removed.
 
-=== Template Haskell
+
+--------------------------------
+== Library changes
+
+=== `base-4.10.0.0`
+
+=== `template-haskell-2.12.0.0`
 
  * The `DataD`, `NewtypeD`, `DataInstD`, and `NewtypeInstD` constructors now take a `[DerivCxtQ]` instead of a `CxtQ` to represent `deriving` clauses (#10598). This change was necessary because:
   * Due to the introduction of [https://ghc.haskell.org/trac/ghc/wiki/Commentary/Compiler/DerivingStrategies deriving strategies], data types can now accept multiple deriving clauses (hence the need for `[DerivCxtQ]` instead of `DerivCxtQ`).
   * Each deriving clause now allows an optional strategy keyword, so a new `DerivClause` data type was introduced that contains a `Maybe DerivStrategy` in addition to the usual `Cxt`.
  Similarly, the `StandaloneDerivD` constructor now also takes an additional `Maybe DerivStrategy` argument, since deriving strategy keywords can also be used with standalone `deriving` declarations. The `standaloneDerivD` function's type signature remains unchanged, as it will produce a standalone deriving declaration with no strategy keyword. If you want to use an explicit keyword, use `standaloneDerivWithStrategyD`.
+
+
+----------------------------------
+== Tool changes
+
+----------------------------------
+== GHC API changes
+
