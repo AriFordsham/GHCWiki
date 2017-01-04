@@ -32,7 +32,7 @@ Below are the major highlights of 8.2.
 
 ### Compile time improvements
 
-- Discard coercions [\#8095](https://gitlab.haskell.org//ghc/ghc/issues/8095)
+- Discard coercions ([\#8095](https://gitlab.haskell.org//ghc/ghc/issues/8095))
 
 ### Front-end changes
 
@@ -56,7 +56,7 @@ Below are the major highlights of 8.2.
 
 ### Back-end and runtime system
 
-- **Further improvements to debugging information** (Ben Gamari): There are still a number of outstanding issues with GHC's DWARF implementation, some of which even carry the potential to crash the runtime system during stacktrace collection. GHC 8.2 will hopefully have these issues resolved, allowing debugging information to be used by end-user code in production.
+- **Further improvements to debugging information** (Ben Gamari): There are still a number of outstanding issues with GHC's DWARF implementation, some of which even carry the potential to crash the runtime system during stacktrace collection. GHC 8.2 will hopefully have these issues resolved, allowing debugging   - TODOinformation to be used by end-user code in production.
 
 >
 > With stable stack unwinding support comes a number of opportunities for new serial and parallel performance analysis tools (e.g. statistical profiling) and debugging. As GHC's debugging information improves, we expect to see tooling developed to support these applications. See the [ DWARF status page](https://ghc.haskell.org/trac/ghc/wiki/DWARF/80Status) for futher information.
@@ -73,7 +73,6 @@ Below are the major highlights of 8.2.
 
 #### Front-end changes
 
-- TODO
 - **Deriving**:
 
   - Generalize the `deriving` algorithms for `Eq`, `Functor`, etc. to be able to derive the data types in `Data.Functor.Classes` (`Eq1`, `Eq2`, etc.), `Bifunctor`, `Bifoldable`, and `Bitraversable` (Ryan Scott)
