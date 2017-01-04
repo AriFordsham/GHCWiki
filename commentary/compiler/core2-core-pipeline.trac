@@ -105,7 +105,7 @@ The so-called "gentle" run disables the case-of-case transformation and inlining
 
  * [http://research.microsoft.com/en-us/um/people/simonpj/papers/cpr/cpr.ps.gz Constructed Product Result Analysis for Haskell], Clem Baker-Finch, Kevin Glynn, and Simon Peyton Jones, Journal of Functional Programming 14(2), 211–245, March 2004. Describes optimisation that allows to return tuple components in registers (for functions that return tuples).
 
- * [http://www.joachim-breitner.de/publications/CallArity-TFP.pdf Call arity], by Joachim Breitner. Describes the call arity optimisation.
+ * [http://www.joachim-breitner.de/publications/CallArity-TFP.pdf Call arity], by Joachim Breitner. Describes the call arity optimisation. Also see [http://www.joachim-breitner.de/thesis his thesis] for even more details.
 
 == TODO
 
