@@ -145,3 +145,14 @@ do the rest, transformations the compiler does anyway.
 
 
 Multiple parts of GHC are sensitive to changes in the nature of demand signatures and results of the demand analysis, which might cause unexpected errors when hacking into demands. [This list](commentary/compiler/demand/relevant-parts) enumerates the parts of the compiler that are sensitive to demand, with brief summaries of how so.
+
+## Instrumentation
+
+
+For the [ Journal version of the demand analysis paper](https://www.microsoft.com/en-us/research/wp-content/uploads/2016/12/cardinality-jfp-1.pdf) we created some instrumentation
+
+- to measure how often a thunk is entered (to see if the update code was useful), and also
+- to find out why a thunk is expected to be entered multiple times.
+
+
+The code adds significant complexity to the demand analyser and the code generator, so we decided not to merge it into master (not even hidden behind flags), but should it ever have to be resurrected, it can be found in the branch `wip/T10613`. View the [ full diff](http://git.haskell.org/ghc.git/commitdiff/refs/heads/wip/T10613?hp=930a525a5906fdd65ab0c3e804085d5875517a20) (at least as long as the link is valid, as it hard-codes the base commit).
