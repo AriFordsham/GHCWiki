@@ -49,6 +49,13 @@ The actual status of these branches, including whether they have been merged and
 
 - `wip/exprArity`: Contains one patch left over when Joachim merged SPJ’s `better-ho-cardinality` branch.
 
+# Archived branches
+
+
+This is a list of branches that are not developed and are not suitable for `master` for some reason, but might prove useful at some other time
+
+- `wip/T10613`: [Demand Analysis Instrumentation](commentary/compiler/demand#instrumentation)
+
 # Dead/merged branches
 
 
