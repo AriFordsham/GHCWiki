@@ -110,7 +110,7 @@ The so-called "gentle" run disables the case-of-case transformation and inlining
 
 - [ Call-pattern Specialisation for Haskell Programs](https://research.microsoft.com/en-us/um/people/simonpj/papers/spec-constr/spec-constr.pdf), Simon Peyton Jones, ICFP 2007. Describes the specialisation optimiser.
 
-- [ Modular, Higher-Order Cardinality Analysis in Theory and Practice](http://research.microsoft.com/en-us/um/people/simonpj/papers/usage-types/cardinality-popl14.pdf), Ilya Sergey, Dimitrios Vytiniotis, Simon Peyton Jones, POPL 2014. Describes cardinality analysis (a part of demand analysis) and optimisations that it enables or improves (eg. let-floating).
+- [ Modular, Higher-Order Cardinality Analysis in Theory and Practice](http://research.microsoft.com/en-us/um/people/simonpj/papers/usage-types/cardinality-popl14.pdf), Ilya Sergey, Dimitrios Vytiniotis, Simon Peyton Jones, POPL 2014. Describes cardinality analysis (a part of demand analysis) and optimisations that it enables or improves (eg. let-floating). Also available as a more detailed [ JFP journal version](https://www.microsoft.com/en-us/research/wp-content/uploads/2016/12/cardinality-jfp-1.pdf).
 
 - [ Constructed Product Result Analysis for Haskell](http://research.microsoft.com/en-us/um/people/simonpj/papers/cpr/cpr.ps.gz), Clem Baker-Finch, Kevin Glynn, and Simon Peyton Jones, Journal of Functional Programming 14(2), 211–245, March 2004. Describes optimisation that allows to return tuple components in registers (for functions that return tuples).
 
