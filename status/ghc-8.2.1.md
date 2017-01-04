@@ -86,7 +86,7 @@ Below are the major highlights of 8.2.
 
 ### Build system and miscellaneous changes
 
-- New Shake-based build system, `hadrian`, will be merged.  (Andrey Mokhov)
+- ~~New Shake-based build system, `hadrian`, will be merged.  (Andrey Mokhov)~~ (I, JMCT, spoke with Andrey and we’re now aiming for shortly after 8.2)
 
 - Deterministic builds [DeterministicBuilds](deterministic-builds). Given the same environment, file and flags produce ABI compatible binaries. (Bartosz Nitka, in-progress)
 
