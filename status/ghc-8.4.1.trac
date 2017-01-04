@@ -1,0 +1,48 @@
+= GHC plans for 8.4.1 =
+
+[[PageOutline]]
+
+This page is our road-map for what will be in 8.4.  
+
+If you believe your favourite thing belongs in this list, but isn't there, please yell.  If it's not in the road map, it probably won't get done.  Without a lot of support, many things in the road map won't get done either, so we need your help!
+
+== Dates ==
+
+TBD.
+
+== Libraries Status
+
+See [wiki:./Libraries]
+
+== Release highlights (planned)
+
+Below are the major highlights of 8.4.
+
+  - TODO
+
+=== Build system and miscellaneous changes ===
+
+  - '''New Shake-based build system, `hadrian`, will be merged.'''  (Andrey Mokhov)
+
+
+=== Landed in `master` branch
+
+  - TODO
+
+== Tickets marked merge with no milestone
+
+[[TicketQuery(status=merge,milestone=,format=table,col=type|summary|priority|owner,group=status)]]
+
+== Tickets slated for 8.4.1
+
+=== merge/patch/upstream
+
+[[TicketQuery(milestone=8.4.1,status=merge|patch|upstream,format=table,col=type|summary|priority|differential|owner,group=status,order=priority)]]
+
+=== new
+
+[[TicketQuery(milestone=8.4.1,status=new,format=table,col=type|summary|priority|owner,group=status,order=priority)]]
+
+=== infoneeded
+
+[[TicketQuery(milestone=8.4.1,status=infoneeded,format=table,col=type|summary|priority|owner,group=status,order=priority)]]
