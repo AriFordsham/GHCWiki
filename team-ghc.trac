@@ -71,10 +71,10 @@ In order to see emails below, '''you must login'''.
   * '''Main areas of interest''': currently making GHC deterministic
 
  * [http://bgamari.github.com/ Ben Gamari]
-  * University of Massachusetts - Amherst, MA
-  * '''Trac''': bgamari; '''email''': bgamari.foss@gmail.com; '''github''': https://github.com/bgamari
+  * Well Typed LLP - Portsmouth, NH, United States
+  * '''Trac''': bgamari; '''email''': ben@smart-cactus.org; '''github''': https://github.com/bgamari
   * '''Committer since''': September, 2014.
-  * '''Main areas of interest''': ARM support, LLVM backend
+  * '''Main areas of interest''': Typeable, simplifier, ARM support, LLVM backend
 
  * [https://davidterei.com/ David Terei]
   * !MemCachier; Stanford University - San Francisco, CA
