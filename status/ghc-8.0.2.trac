@@ -14,7 +14,7 @@ If you believe your favourite thing belongs in this list, but isn't there, pleas
 
 == Dates ==
 
-Release candidate by '''mid-October 2016'''.
+Release candidate by '''mid-November 2016'''.
 
 == Libraries Status
 
@@ -24,11 +24,29 @@ See [wiki:./Libraries]
 
 Below are the major highlights of 8.0.2.
 
-- TODO
+  * Interface file build determinism (#4012).
 
-=== Landed in `ghc-8.0` branch
+  * Compatibility with macOS Sierra and GCC compilers which compile 
+    position-independent executables by default
 
-  - TODO
+  * Runtime linker fixes on Windows (see #12797)
+
+  * A compiler bug which resulted in undefined reference errors while
+    compiling some packages (see #12076)
+
+  * Compatibility with systems which use the gold linker
+
+  * A number of memory consistency bugs in the runtime system
+
+  * A number of efficiency issues in the threaded runtime which manifest
+    on larger core counts and large numbers of bound threads.
+
+  * A typechecker bug which caused some programs using
+    -XDefaultSignatures to be incorrectly accepted.
+
+  * More than two-hundred other bugs. See Trac [1] for a complete
+    listing.
+
 
 == Tickets marked merge with no milestone
 
