@@ -428,6 +428,9 @@ To build the users guide type `make html` from the top level directory. You can 
 
 Note that documentation targets will not be enabled by default unless you have `sphinx-build` (for html) or `xelatex` (for pdf) installed. If you install them later then do not forget to run `configure` again. The `build.mk` variables to enable or disable documentation targets are `BUILD_SPHINX_HTML` and `BUILD_SPHINX_PDF`.
 
+
+For more details see [Building/Docs](building/docs).
+
 ### What to do after `make` has finished
 
 
