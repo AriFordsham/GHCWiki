@@ -67,3 +67,4 @@ Documentation is installed by default by 'make install'.
 * If `sphinx-build` tool is not installed on your machine the HTML docs will be disabled in `config.mk`
 * If `xelatex` is not installed on your machine PDF docs will be disabled in `config.mk`
 * If you install these tools later do not forget to run `configure` again
+* If you see an error like this `make[1]: *** No rule to make target 'html'.  Stop.` then you can use `make show VALUE=BUILD_SPHINX_HTML` to check if the target is enabled.
