@@ -65,3 +65,16 @@ The following targets are accepted only by the top-level `Makefile`:
 
   `TAGS`, `tags`::
   Makes files `TAGS` (for emacs) and `tags` (for vim) in the top-level directory. To make Vim happy, use this command to sort them: `LC_COLLATE=C sort tags`.
+
+== Documentation Targets ==
+
+The following targets build the users guide:
+
+  `html`::
+    Builds the users guide in HTML format.
+
+  `pdf`::
+   Builds the users guide in PDF format.
+
+  `ps`::
+   Builds the users guide in PS format.
