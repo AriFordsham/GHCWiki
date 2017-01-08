@@ -62,8 +62,18 @@ Documentation is installed by default by 'make install'.
 
 == Diagnostics ==
 
-* Most custom build flavors disable documentation targets (see `mk/flavours/*.mk`)
-* Check for the values of appropriate build variables described above in `config.mk`
+If you see an error like this `make[1]: *** No rule to make target 'html'.  Stop.`:
+* Documentation targets are most likely disabled in one of the build config files
+* Use `make show VALUE=BUILD_SPHINX_HTML` to check if the target is enabled.
+
+=== Target disabled by configuration ===
+
+Check for the values of documentation build variables (e.g. BUILD_SPHINX_HTML) in:
+* `mk/flavours/<flavour>.mk`. Most custom build flavors disable documentation targets.
+* `mk/config.mk` (`configure` may have disabled the doc build in `config.mk` because required tools were not detected)
+
+=== Target disabled because tools not available ===
+
 * If `sphinx-build` tool is not installed on your machine the HTML docs will be disabled in `config.mk`
 * If `xelatex` is not installed on your machine PDF docs will be disabled in `config.mk`
 * If you install these tools later do not forget to run `configure` again
