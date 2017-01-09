@@ -5,7 +5,8 @@ This page lists the active repositories relating to GHC. These are Git repositor
 
 ## `git.haskell.org`
 
-`git.haskell.org` can be accessed via,
+
+Many GHC repositories and its core packages can be found at `git.haskell.org`, which can be accessed via,
 
 - `https://git.haskell.org`
 - `git://git.haskell.org`
