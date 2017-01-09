@@ -23,4 +23,4 @@ Reading material for learning Cmm is somewhat scattered, so I (Arash) have creat
 
 It can take time to learn Cmm. One unintuitive thing to watch out for is that there are no function calls in low-level cmm code. The new syntax from 2012 allows function calls but you should know that they are kind of magical.
 
-We say that '''Cmm''' is GHC's implementation of '''C--'''. This naming scheme is not done consistently everywhere, unfortunately. If you are interested in C-- (which have diverged from Cmm), you can check out the [http://www.cminusminus.org/ website] and the [http://www.cs.tufts.edu/~nr/c--/extern/man2.pdf specification].
+We say that '''Cmm''' is GHC's implementation of '''C--'''. This naming scheme is not done consistently everywhere, unfortunately. If you are interested in C-- (which have diverged from Cmm), you can check out its [http://www.cs.tufts.edu/~nr/c--/extern/man2.pdf specification].
