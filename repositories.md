@@ -3,6 +3,21 @@
 
 This page lists the active repositories relating to GHC. These are Git repositories, so you should learn [about Git](working-conventions/git) first. For instructions on actually getting a GHC source tree, see [Getting The Sources](building/getting-the-sources). For information on using these repositories (via submodules), see [the Submodules page](working-conventions/git/submodules).
 
+## `git.haskell.org`
+
+
+Many GHC repositories and its core packages can be found at `git.haskell.org`, which can be accessed via,
+
+- `https://git.haskell.org`
+- `git://git.haskell.org`
+- `git@git.haskell.org` (for those with commit access)
+
+
+The SSH host keys of `git.haskell.org` are,
+
+- `ecdsa`: `91:4e:95:fa:2e:34:6c:ba:68:af:71:29:ba:66:12:b0`
+- `rsa`: `08:63:b5:86:3e:ae:e2:3c:b1:ea:c6:05:2d:71:db:5a`
+
 ## Repository listing
 
 
