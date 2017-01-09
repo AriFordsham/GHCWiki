@@ -210,6 +210,7 @@ If you want to get a taste for possible starting tasks, below is a list of ticke
 - You may want to look at these "how it went for me" blog posts.
 
   - [ Hacking on GHC (is not that hard)](http://rawgit.com/gibiansky/4c54f767bf21a6954b23/raw/67c62c5555f40c6fb67b124307725df168201361/exp.html) by Andrew Gibiansky
+  - [ Contributing to GHC](http://anniecherkaev.com/projects/contributing-to-ghc) by Annie Cherkaev
 
 ## Need help?
 
