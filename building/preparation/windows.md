@@ -69,7 +69,7 @@ You may need to retry a few times if SourceForge times out.  On the other hand, 
 Now we can install GHC's dependencies as follows:
 
 ```
-pacman -S --needed git tar binutils autoconf make \
+pacman -S --needed git tar bsdtar binutils autoconf make \
     curl libtool automake python python2 p7zip patch \
     mingw-w64-$(uname -m)-gcc mingw-w64-$(uname -m)-python3-sphinx
 ```
@@ -85,21 +85,20 @@ A host GHC binary is required for bootstrapping. In order to keep different arch
 Run
 
 ```
-arch=x86-64 # or i386
+arch=x86_64 # or i386
 bitness=64# or 32
-curl -L https://www.haskell.org/ghc/dist/7.10.3/ghc-7.10.3-${arch}-unknown-mingw32.tar.xz | tar -xJ -C /mingw${bitness} --strip-components=1
+curl -L https://downloads.haskell.org/~ghc/8.0.1/ghc-8.0.1-${arch}-unknown-mingw32.tar.xz | tar -xJ -C /mingw${bitness} --strip-components=1
 ```
 
 
-Note: `--strip-components=1` places everything within the archive's `ghc-7.10.1` folder directly into the target directory.
+Note: `--strip-components=1` places everything within the archive's `ghc-8.0.1` folder directly into the target directory.
 
 
-Building GHC requires [ Alex](http://www.haskell.org/alex/) and [ Happy](http://www.haskell.org/happy/).  They can be installed using cabal-install. We will also put them in `/usr/local/bin`, which is by default included in `PATH` in MSYS.
+Building GHC requires [ Alex](http://www.haskell.org/alex/) and [ Happy](http://www.haskell.org/happy/).  They can be installed using `cabal-install`. We will also put them in `/usr/local/bin`, which is by default included in `PATH` in MSYS.
 
 ```
 mkdir -p /usr/local/bin &&
-curl -L https://www.haskell.org/cabal/release/cabal-install-1.22.0.0/cabal-1.22.0.0-i386-unknown-mingw32.tar.gz | tar -xz -C /usr/local/bin &&
-mv /usr/local/bin/cabal-1.22.0.0-i386-unknown-mingw32.exe /usr/local/bin/cabal.exe &&
+curl -L https://www.haskell.org/cabal/release/cabal-install-1.24.0.0/cabal-install-1.24.0.0-${arch}-unknown-mingw32.zip | bsdtar -xzf- -C /usr/local/bin &&
 cabal update &&
 cabal install -j --prefix=/usr/local alex happy
 ```
