@@ -9,7 +9,7 @@ The commands on this page can all be executed from the `testsuite` directory.
 ## Speed settings
 
 
-You can run `make fast`, `make test` (which uses the default speed settings, and is the same as just `make`) or `make slow`.
+You can run `make fasttest`, `make test` (which uses the default speed settings, and is the same as just `make`) or `make slowtest`.
 
 
 This table shows the differences between these three speed settings.
@@ -19,7 +19,7 @@ This table shows the differences between these three speed settings.
 <th> how many ways </th>
 <th> used by whom 
 </th></tr>
-<tr><th> fast   </th>
+<tr><th> fasttest   </th>
 <th> some </th>
 <th> 1   </th>
 <th> Travis (to stay within time limit) 
@@ -29,7 +29,7 @@ This table shows the differences between these three speed settings.
 <th> 1   </th>
 <th> Phabricator (slow takes too long?) 
 </th></tr>
-<tr><th> slow   </th>
+<tr><th> slowtest   </th>
 <th> all  </th>
 <th> all </th>
 <th> Nightly (slow is ok) 

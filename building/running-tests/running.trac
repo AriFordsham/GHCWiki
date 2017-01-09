@@ -5,14 +5,14 @@ This section gives information on how to use the testsuite. Note that the testsu
 The commands on this page can all be executed from the `testsuite` directory.
 
 == Speed settings ==
-You can run `make fast`, `make test` (which uses the default speed settings, and is the same as just `make`) or `make slow`.
+You can run `make fasttest`, `make test` (which uses the default speed settings, and is the same as just `make`) or `make slowtest`.
 
 This table shows the differences between these three speed settings.
 
 ||= make =||= how many tests =||= how many ways =||= used by whom ||
-|| fast   || some || 1   || Travis (to stay within time limit) ||
+|| fasttest   || some || 1   || Travis (to stay within time limit) ||
 || test   || all  || 1   || Phabricator (slow takes too long?) ||
-|| slow   || all  || all || Nightly (slow is ok) ||
+|| slowtest   || all  || all || Nightly (slow is ok) ||
 
 Note: `make slow` is GHC >= 7.11 only.
 
