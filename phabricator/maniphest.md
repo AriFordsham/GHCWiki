@@ -93,3 +93,7 @@ If you want to try it yourself then there is a prototype [ http://ec2-52-214-147
 - Keywords are hard to discover and apply
 
 - Fine-grained notification support is nearly non-existent
+
+- Notification emails break links if they word wrap and doesn't apply other markup
+
+- Fields are not validated at all, once you start looking there are many cases where input is malformed (Two recent examples: [\#12623](https://gitlab.haskell.org//ghc/ghc/issues/12623) (Owner) [\#13100](https://gitlab.haskell.org//ghc/ghc/issues/13100) (CC field)).
