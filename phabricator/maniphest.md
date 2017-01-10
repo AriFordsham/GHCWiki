@@ -3,6 +3,9 @@
 
 This page discusses the various pros and cons for moving from Trac to Phabricator for ticket management, as proposed on [ ghc-devs](https://mail.haskell.org/pipermail/ghc-devs/2016-December/013442.html).
 
+
+If you want to try it yourself then there is a prototype [ http://ec2-52-214-147-146.eu-west-1.compute.amazonaws.com/](http://ec2-52-214-147-146.eu-west-1.compute.amazonaws.com/)
+
 ## What does Maniphest do well?
 
 - Actively developed: Phabricator will continue to improve in the
