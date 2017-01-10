@@ -63,7 +63,7 @@ Below are the major highlights of 8.2.
 
 -  The [improved LLVM backend plan](improved-llvm-backend) plan didn't make the cut for 8.0, but will for 8.2 (Austin Seipp)
 
-- **Live streaming of event-log data** ([ Phab:D2522](https://phabricator.haskell.org/D2522))
+- **Live streaming of event-log data** ([ Phab:2934](https://phabricator.haskell.org/2934))
 
 ### Build system and miscellaneous changes
 
