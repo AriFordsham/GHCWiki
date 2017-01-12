@@ -27,6 +27,7 @@
  *  #8613, #9070, #8319, #7521, #10459, #10584, #10565, #12274: simplifier ticks exhausted (there are others). 
 
 == Urgent or in-flight ==
+ * #12918: default method types simplification
  * #12791: specialisation via top level instances (nearly done!)
  * #11760: `runST` and lazy blackholing
  * #11371: bogus in-scope set for substitution
