@@ -66,11 +66,9 @@ Other tickets
 
 - [\#12369](https://gitlab.haskell.org//ghc/ghc/issues/12369): data families with non-\* kind (Kmett)
 - [\#11622](https://gitlab.haskell.org//ghc/ghc/issues/11622): parens around kind signatures in types
-- [\#11453](https://gitlab.haskell.org//ghc/ghc/issues/11453): Weird behaviour when `SigTvs` are used for kinds
 - [\#1311](https://gitlab.haskell.org//ghc/ghc/issues/1311): newtypes over unboxed types
-- [\#11203](https://gitlab.haskell.org//ghc/ghc/issues/11203): Kind inference with `SigTvs` is wrong
+- [\#11203](https://gitlab.haskell.org//ghc/ghc/issues/11203), [\#11453](https://gitlab.haskell.org//ghc/ghc/issues/11453): Kind inference with `SigTvs` is wrong
 - [\#11080](https://gitlab.haskell.org//ghc/ghc/issues/11080): open data kinds
-- [\#10524](https://gitlab.haskell.org//ghc/ghc/issues/10524): Deriving and polykinds
 - [\#7102](https://gitlab.haskell.org//ghc/ghc/issues/7102): type instance overlap in GHCi is unsound
 - [\#9858](https://gitlab.haskell.org//ghc/ghc/issues/9858), [\#10343](https://gitlab.haskell.org//ghc/ghc/issues/10343): `Typeable` and kind polymorphism
 - [\#10347](https://gitlab.haskell.org//ghc/ghc/issues/10347): wrong "unused data constructor" warning for a newtype (using `Coercible`)
