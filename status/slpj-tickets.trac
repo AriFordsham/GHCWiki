@@ -19,17 +19,15 @@
 
 
 == INLINE problems / ticks exhausted  ==
- * #12776: definitely a loop; has diagnosis
- * #12781: join points
+ * #13027: let/app invariant
  * #12603
- * #12425 "OOM killer"
  * #12747
- * #12789
- * #12843
+ * #12790: too much inlining 
 
  *  #8613, #9070, #8319, #7521, #10459, #10584, #10565, #12274: simplifier ticks exhausted (there are others). 
 
 == Urgent or in-flight ==
+ * #12918: default method types simplification
  * #12791: specialisation via top level instances (nearly done!)
  * #11760: `runST` and lazy blackholing
  * #11371: bogus in-scope set for substitution
@@ -61,11 +59,9 @@ Refactoring/optimisation
 Other tickets
  * #12369: data families with non-* kind (Kmett)
  * #11622: parens around kind signatures in types
- * #11453: Weird behaviour when `SigTvs` are used for kinds
  * #1311: newtypes over unboxed types
- * #11203: Kind inference with `SigTvs` is wrong
+ * #11203, #11453: Kind inference with `SigTvs` is wrong
  * #11080: open data kinds
- * #10524: Deriving and polykinds
  * #7102: type instance overlap in GHCi is unsound
  * #9858, #10343: `Typeable` and kind polymorphism
  * #10347: wrong "unused data constructor" warning for a newtype (using `Coercible`)
