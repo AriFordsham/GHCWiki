@@ -21,7 +21,6 @@
 ## INLINE problems / ticks exhausted
 
 - [\#13027](https://gitlab.haskell.org//ghc/ghc/issues/13027): let/app invariant
-- [\#12776](https://gitlab.haskell.org//ghc/ghc/issues/12776): definitely a loop; has diagnosis
 - [\#12603](https://gitlab.haskell.org//ghc/ghc/issues/12603)
 - [\#12425](https://gitlab.haskell.org//ghc/ghc/issues/12425) "OOM killer"
 - [\#12747](https://gitlab.haskell.org//ghc/ghc/issues/12747)
