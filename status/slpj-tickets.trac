@@ -19,13 +19,12 @@
 
 
 == INLINE problems / ticks exhausted  ==
+ * #13027: let/app invariant
  * #12776: definitely a loop; has diagnosis
- * #12781: join points
  * #12603
  * #12425 "OOM killer"
  * #12747
  * #12789
- * #12843
 
  *  #8613, #9070, #8319, #7521, #10459, #10584, #10565, #12274: simplifier ticks exhausted (there are others). 
 

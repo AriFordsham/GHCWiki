@@ -20,13 +20,12 @@
 
 ## INLINE problems / ticks exhausted
 
+- [\#13027](https://gitlab.haskell.org//ghc/ghc/issues/13027): let/app invariant
 - [\#12776](https://gitlab.haskell.org//ghc/ghc/issues/12776): definitely a loop; has diagnosis
-- [\#12781](https://gitlab.haskell.org//ghc/ghc/issues/12781): join points
 - [\#12603](https://gitlab.haskell.org//ghc/ghc/issues/12603)
 - [\#12425](https://gitlab.haskell.org//ghc/ghc/issues/12425) "OOM killer"
 - [\#12747](https://gitlab.haskell.org//ghc/ghc/issues/12747)
 - [\#12789](https://gitlab.haskell.org//ghc/ghc/issues/12789)
-- [\#12843](https://gitlab.haskell.org//ghc/ghc/issues/12843)
 
 - [\#8613](https://gitlab.haskell.org//ghc/ghc/issues/8613), [\#9070](https://gitlab.haskell.org//ghc/ghc/issues/9070), [\#8319](https://gitlab.haskell.org//ghc/ghc/issues/8319), [\#7521](https://gitlab.haskell.org//ghc/ghc/issues/7521), [\#10459](https://gitlab.haskell.org//ghc/ghc/issues/10459), [\#10584](https://gitlab.haskell.org//ghc/ghc/issues/10584), [\#10565](https://gitlab.haskell.org//ghc/ghc/issues/10565), [\#12274](https://gitlab.haskell.org//ghc/ghc/issues/12274): simplifier ticks exhausted (there are others). 
 
