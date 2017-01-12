@@ -22,7 +22,6 @@
  * #13027: let/app invariant
  * #12603
  * #12747
- * #12789
 
  *  #8613, #9070, #8319, #7521, #10459, #10584, #10565, #12274: simplifier ticks exhausted (there are others). 
 
