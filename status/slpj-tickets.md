@@ -22,7 +22,6 @@
 
 - [\#13027](https://gitlab.haskell.org//ghc/ghc/issues/13027): let/app invariant
 - [\#12603](https://gitlab.haskell.org//ghc/ghc/issues/12603)
-- [\#12425](https://gitlab.haskell.org//ghc/ghc/issues/12425) "OOM killer"
 - [\#12747](https://gitlab.haskell.org//ghc/ghc/issues/12747)
 - [\#12789](https://gitlab.haskell.org//ghc/ghc/issues/12789)
 
