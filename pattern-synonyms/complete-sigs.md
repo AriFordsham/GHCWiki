@@ -189,34 +189,18 @@ Specifically, there are no checks to ensure that the set of patterns is actually
 ## Error Messages
 
 
-The pattern match checker checks each set of patterns individually and combines the results together at the end. The current naive algorithm tries to choose the result where the set of redundant and uncovered matches are both empty. If there is no such set then it prefers results with few uncovered cases, ties being broken by the number of redundant clauses. 
+The pattern match checker checks each set of patterns individually and combines the results together at the end. 
 
 
-We write `C: R<n> U<m>` for the result of matching `C` which has `n` redundant matches and `m` uncovered cases. 
+The results are prioritised in this order.
+
+1. Fewest uncovered clauses
+1. Fewest redundant clauses
+1. Fewest inaccessible clauses
+1. Whether the match comes from a `COMPLETE` pragma or the build in set
 
 
-For example, for two complete matchings `C1` and `C2`, then 
-
-<table><tr><th> Match Result 1       </th>
-<th> Match Result 2       </th>
-<th> Chosen Result </th>
-<th> Reason 
-</th></tr>
-<tr><th>`C1: R<0> U<0>`</th>
-<th>`C2: R<n> U<m>`</th>
-<th>`C1`</th>
-<th>`C1` is a perfect matching so the function is total. 
-</th></tr>
-<tr><th>`C1: R<1> U<1>`</th>
-<th>`C2: R<0> U<2>`</th>
-<th>`C1`</th>
-<th>`C1` has fewer uncovered clauses. 
-</th></tr>
-<tr><th>`C1: R<2> U<0>`</th>
-<th>`C2: R<1> U<0>`</th>
-<th>`C2`</th>
-<th>`C1` and `C2` have the same number of uncovered clauses but `C2` has fewer redundant clauses 
-</th></tr></table>
+of data constructors for a type constructor.
 
 
 It may be desirable to produce a summary of the results in a more intelligent way. Exploration of this is left open for further discussion.
