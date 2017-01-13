@@ -2,11 +2,21 @@
 
 
 This page summarizes the design of injective type families ([\#6018](https://gitlab.haskell.org//ghc/ghc/issues/6018)).
-Implementation discussion and progress was recorded in
-[ Phab D202](https://phabricator.haskell.org/D202).
 
 
 Injective type families have been merged into HEAD in September 2015 and became available in GHC 8.0 with the `TypeFamilyDependencies` language extension.
+
+
+There are plans to further extend implementation of injective type families to
+match the expressive power of functional dependencies.  The work was started in
+September 2015 but later stalled and was left unfinished.  Partial
+implementation is available as  [ Phab:D1287](https://phabricator.haskell.org/D1287) and on the
+wip/T10832-generalised-injectivity branch. The relevant Trac ticket is
+[\#10832](https://gitlab.haskell.org//ghc/ghc/issues/10832). See
+[ this section below](https://ghc.haskell.org/trac/ghc/wiki/InjectiveTypeFamilies#TypeCinjectivityaka.generalizedinjectivity) for full details.
+
+
+Other tickets related to further development of injective type families: [\#10833](https://gitlab.haskell.org//ghc/ghc/issues/10833), [\#11511](https://gitlab.haskell.org//ghc/ghc/issues/11511).
 
 
 Person responsible for this page is Jan Stolarek (just so you now who is meant
@@ -280,6 +290,10 @@ Relevant source code notes are:
 - `Note [Renaming injectivity annotation]` in [compiler/rename/RnSource.hs](/trac/ghc/browser/ghc/compiler/rename/RnSource.hs)
 - `Note [Verifying injectivity annotation]` in [compiler/types/FamInstEnv.hs](/trac/ghc/browser/ghc/compiler/types/FamInstEnv.hs)
 - `Note [Type inference for type families with injectivity]` in [compiler/typecheck/TcInteract.hs](/trac/ghc/browser/ghc/compiler/typecheck/TcInteract.hs)
+
+
+Implementation discussion and progress was recorded in
+[ Phab D202](https://phabricator.haskell.org/D202). That patch is now fully merged and given here only for historical purposes.
 
 ## Injectivity for poly-kinded type families
 
