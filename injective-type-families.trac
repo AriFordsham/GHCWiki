@@ -10,8 +10,7 @@ September 2015 but later stalled and was left unfinished.  Partial
 implementation is available as  Phab:D1287 and on the
 wip/T10832-generalised-injectivity branch. The relevant Trac ticket is
 #10832. See
-[[https://ghc.haskell.org/trac/ghc/wiki/InjectiveTypeFamilies#TypeCinjectivityaka.generalizedinjectivity|this
-section below]] for more details.
+[[https://ghc.haskell.org/trac/ghc/wiki/InjectiveTypeFamilies#TypeCinjectivityaka.generalizedinjectivity|this section below]] for full details.
 
 Other tickets related to further development of injective type families: #10833, #11511.
 
