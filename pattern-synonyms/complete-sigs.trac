@@ -63,7 +63,8 @@ we assume that the match is covering. This means that the pattern match checker 
 `COMPLETE` pragmas only specify that a certain match is covering, because of this, we do not warn about redundant or inaccessible matches when the pattern match checking result arises
 from checking against a `COMPLETE` pragma.
 
-Different `COMPLETE` pragmas can mention overlapping sets of conlikes. 
+Different `COMPLETE` pragmas can mention overlapping sets of conlikes. If there is more than one relevant `COMPLETE` pragma then each is tried, if none of them result in a covering match then an error is reported
+as described in the "Error Reporting" section.
 
 
 There are no checks to ensure that the set of patterns is actually complete or covering in any way. It is up to the user to get it right.
@@ -238,7 +239,8 @@ qux (Just x) = True
 
 == Error Messages
 
-The pattern match checker checks each set of patterns individually and combines the results together at the end. 
+When the pattern match checker requests a set of constructors for a type constructor `T`, we now return a list of sets which include the normal data constructor set and also any `COMPLETE` pragmas of type `T`.
+We then try each of these sets, not warning if any of them are a perfect match. In the case the match isn't perfect, we select one of the branches of the search depending on how good the result is.
 
 The results are prioritised in this order.
 
