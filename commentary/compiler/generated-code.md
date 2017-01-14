@@ -86,7 +86,7 @@ It presents the STG machine without reference to an explicit stack
 or registers, but instead as a transition system. This transition
 system has also been implemented as a Haskell program called
 [ ministg](http://hackage.haskell.org/package/ministg) by
-[ Bernie Pope](http://ww2.cs.mu.oz.au/~bjpop/), for those who wish to
+[ Bernie Pope](https://github.com/bjpop/ministg), for those who wish to
 see it in action on some simple examples.
 
 ## An overview of the STG machine
