@@ -11,7 +11,7 @@ At the end of desugaring we run the `simpleOptPgm` function that performs some s
 ## The pipeline
 
 
-The structure of the Core-to-Core pipeline is determined in the `getCoreToDo` function in the [compiler/simplCore/SimplCore.lhs](/trac/ghc/browser/ghc/compiler/simplCore/SimplCore.lhs) module. Below is an ordered list of performed optimisations. These are enabled by default with `-O1` and `-O2` unless the description says a specific flag is required. The simplifier, which the pipeline description below often refers to, is described in detail in [the next section](commentary/compiler/core2-core-pipeline#simplifier).
+The structure of the Core-to-Core pipeline is determined in the `getCoreToDo` function in the [compiler/simplCore/SimplCore.hs](/trac/ghc/browser/ghc/compiler/simplCore/SimplCore.hs) module. Below is an ordered list of performed optimisations. These are enabled by default with `-O1` and `-O2` unless the description says a specific flag is required. The simplifier, which the pipeline description below often refers to, is described in detail in [the next section](commentary/compiler/core2-core-pipeline#simplifier).
 
 - **Static Argument Transformation**: tries to remove redundant arguments to recursive calls, turning them into free variables in those calls.  Only enabled with `-fstatic-argument-transformation`.  If run this pass is preceded with a "gentle" run of the simplifier.
 
@@ -19,7 +19,7 @@ The structure of the Core-to-Core pipeline is determined in the `getCoreToDo` fu
 
 - **Simplifier, gentle run**
 
-- **Specialisation**: specialisation attempts to eliminate overloading. More details can be found in the comments in [compiler/specialise/Specialise.lhs](/trac/ghc/browser/ghc/compiler/specialise/Specialise.lhs).
+- **Specialisation**: specialisation attempts to eliminate overloading. More details can be found in the comments in [compiler/specialise/Specialise.hs](/trac/ghc/browser/ghc/compiler/specialise/Specialise.hs).
 
 - **Full laziness, 1st pass**: floats let-bindings outside of lambdas. This pass includes annotating bindings with level information and then running the float-out pass. In this first pass of the full laziness we don't float partial applications and bindings that contain free variables - this will be done by the second pass later in the pipeline. See "Further Reading" section below for pointers where to find the description of the full laziness algorithm.
 
@@ -71,7 +71,7 @@ Simplifier is the workhorse of the Core-to-Core optimisation pipeline. It perfor
 ### Simplifier phases
 
 
-Each run of the simplifier is assigned with a phase number: 2, 1 or 0. Phase numbers are used for control of interaction between the rules and `INLINE`/`NOINLINE` pragmas - see sections [7.20.6.5](http://www.haskell.org/ghc/docs/latest/html/users_guide/pragmas.html#phase-control) and [7.21.3](http://www.haskell.org/ghc/docs/latest/html/users_guide/rewrite-rules.html#conlike) of the user guide. There are many 0 phases because we use the simplifier to propagate the effects of other passes and once we've gone through the main runs of the simplifier we no longer have to worry about rules and inlinings - these have been already dealt with. There is also a special initial phase, which is used at the beginning of the pipeline by the "gentle" simplifier runs.
+Each run of the simplifier is assigned with a phase number: 2, 1 or 0. Phase numbers are used for control of interaction between the rules and `INLINE`/`NOINLINE` pragmas - see sections [ 9.31.6.5](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html#phase-control) and [ 9.32.3](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html#how-rules-interact-with-inline-noinline-pragmas) of the user guide. There are many 0 phases because we use the simplifier to propagate the effects of other passes and once we've gone through the main runs of the simplifier we no longer have to worry about rules and inlinings - these have been already dealt with. There is also a special initial phase, which is used at the beginning of the pipeline by the "gentle" simplifier runs.
 
 ### Simplifier iterations
 
@@ -98,7 +98,7 @@ The so-called "gentle" run disables the case-of-case transformation and inlining
 
 ## Further reading
 
-- [ Compilation by Transformation in Non-Strict Functional Languages](http://research.microsoft.com/en-us/um/people/simonpj/paper/santos-thesis.ps.gz) (a.k.a. the Santos' thesis): basic source of information about core-to-core transformations. Describes local transformations, full laziness, static argument transformation and many others. Note: Santos' description of inlining is superseeded by "Secrets of the GHC inliner" (see below).
+- [ Compilation by Transformation in Non-Strict Functional Languages](https://research.microsoft.com/en-us/um/people/simonpj/papers/santos-thesis.ps.gz) (a.k.a. the Santos' thesis): basic source of information about core-to-core transformations. Describes local transformations, full laziness, static argument transformation and many others. Note: Santos' description of inlining is superseeded by "Secrets of the GHC inliner" (see below).
 
 - [ Let-floating: moving bindings to give faster programs](http://research.microsoft.com/pubs/67060/float.ps.gz), Simon Peyton Jones, Will Partain, and Andre Santos, ICFP 1996. Describes the let floating and full laziness optimisation passes. It mostly repeats Santos' thesis.
 
