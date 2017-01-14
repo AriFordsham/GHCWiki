@@ -276,4 +276,4 @@ When making changes to the scheduler, be sure to run the `smp` nofib benchmarks,
 
  * `threads006` tests how quickly threads can be created and destroyed, as well as `throwTo` blocking performance.  It is very sensitive to the number of major GCs that occur (which can be influenced if TSO size changes).
 
- * `threads007` generates a lot of threads waiting on MVars, and then sees how shutdown behavior is affected. It was due to bad behavior in the MVar queue and fixed in [changset:f4692220c7/repo].
+ * `threads007` generates a lot of threads waiting on MVars, and then sees how shutdown behavior is affected. It was due to bad behavior in the MVar queue and fixed in [changeset:f4692220c7/repo].
