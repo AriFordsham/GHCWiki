@@ -14,9 +14,10 @@ Kinds classify types.  So for example:
 
 The base kinds are these:
 
-- "`*`" is the kind of boxed values. Things like `Int` and `Maybe Float` have kind `*`.
-- "`#`" is the kind of unboxed values. Things like `Int#` have kind `#`.
+- "`*`" is the kind of lifted, boxed values. Things like `Int` and `Maybe Float` have kind `*`.
+- "`#`" is the kind of unlifted values. Things like `Int#` have kind `#`.
 - With the advent of [data type promotion and kind polymorphism](ghc-kinds) we can have a lot more kinds.
+- Kinds are in flux with levity polymorphism. See [LevityPolymorphism](levity-polymorphism). See also [TypeType](commentary/compiler/type-type).
 
 
 (Unboxed tuples used to have a distinct kind, but in 2012 we combined unboxed tuples with other unboxed values in a single kind "`#`".)
