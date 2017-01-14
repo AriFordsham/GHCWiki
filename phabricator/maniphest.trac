@@ -23,6 +23,8 @@ If you want to try it yourself then there is a prototype [[http://ec2-52-214-147
 
  * Notifications: Herald's rule-based notifications are quite handy.
 
+ * Works well on mobile as well as in the browser. 
+
 == What does Maniphest do poorly? ==
 
  * Flexibility of search: The search options feel a bit more limiting
