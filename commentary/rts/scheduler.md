@@ -282,7 +282,7 @@ Threads are put in **back** (`appendToRunQueue`) in the case of pre-emption, or 
 Source files: [rts/Sparks.c](/trac/ghc/browser/ghc/rts/Sparks.c), [rts/Sparks.h](/trac/ghc/browser/ghc/rts/Sparks.h).
 
 
-The [par](http://www.haskell.org/ghc/docs/latest/html/libraries/base/Control-Parallel.html#v%3Apar) operator is used for annotating computations that could be evaluated in parallel.  See also [Parallel Haskell](http://www.haskell.org/ghc/docs/latest/html/users_guide/lang-parallel.html) in the GHC User's Guide.
+The [par](http://www.haskell.org/ghc/docs/latest/html/libraries/base/Control-Parallel.html#v%3Apar) operator is used for annotating computations that could be evaluated in parallel.  See also [ Parallel Haskell](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/parallel.html#parallel-haskell) in the GHC User's Guide.
 
 
 Par itself is implemented in terms of the `par#` primop, which the code generator compiles into a call to `newSpark` in [rts/Sparks.c](/trac/ghc/browser/ghc/rts/Sparks.c).
