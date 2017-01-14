@@ -23,7 +23,7 @@ The top-most entry point to the codegen is located in [compiler/main/HscMain.hs]
 1. Optimise the Cmm, and CPS-convert it to have an explicit stack, and no native calls. This lives in [compiler/cmm](/trac/ghc/browser/ghc/compiler/cmm) directory with the `cmmPipeline` function from [compiler/cmm/CmmPipeline.hs](/trac/ghc/browser/ghc/compiler/cmm/CmmPipeline.hs) module being the entry point.
 
 
-The CPS-converted Cmm is fed to one of the backends. This is done by `codeOutput` function ([compiler/main/CodeOutput.hs](/trac/ghc/browser/ghc/compiler/main/CodeOutput.hs) called from `hscGenHardCode` after returning from `tryNewCodegen`.
+The CPS-converted Cmm is fed to one of the backends. This is done by `codeOutput` function ([compiler/main/CodeOutput.hs](/trac/ghc/browser/ghc/compiler/main/CodeOutput.hs)) called from `hscGenHardCode` after returning from `tryNewCodegen`.
 
 ## First stage: STG to Cmm conversion
 
