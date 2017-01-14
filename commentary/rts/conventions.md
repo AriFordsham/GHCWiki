@@ -19,17 +19,17 @@ informative) or mail someone
 If you haven't read them already, you might like to check the following.
 Where they conflict with our suggestions, they're probably right.
 
-- The C99 standard.  One reasonable reference is [ here](http://home.tiscalinet.ch/t_wolf/tw/c/c9x_changes.html).
+- The C99 standard.  One reasonable reference is ~~here~~ (this link is out-of-date).
 
 - Writing Solid Code, Microsoft Press. (Highly recommended.)
 
 - Autoconf documentation. See also
-  [ The autoconf macro archive](http://peti.gmd.de/autoconf-archive/)
+  The autoconf macro archive (this link is out-of-date)
   and [ Cyclic Software's description](http://www.cyclic.com/cyclic-pages/autoconf.html).
 
 - [ Indian Hill C Style and Coding Standards](http://www.cs.arizona.edu/~mccann/cstyle.html)
 
-- [ A list of C programming style links](http://www.cs.umd.edu/users/cml/cstyle/)
+- A list of C programming style links (this link is out-of-date)
 
 - [ A very large list of C programming links](http://www.lysator.liu.se/c/c-www.html)
 
