@@ -17,7 +17,7 @@ Here are some of the things stored in an interface file {{{M.hi}}}
  * Version information, used to drive the [wiki:Commentary/Compiler/RecompilationAvoidance recompilation checker].
  * The strictness, arity, and unfolding of exported functions.  This is crucial for cross-module optimisation; but it is only included when you compile with {{{-O}}}.
 
-The contents of an interface file is the result of serialising the '''{{{IfaceSyn}}}''' family of data types.  The data types are in [[GhcFile(compiler/iface/IfaceSyn.lhs)]] and [[GhcFile(compiler/iface/IfaceType.lhs)]]; the binary serialisation code is in [[GhcFile(compiler/iface/BinIface.hs)]]. The definition of a module interface is the '''{{{ModIface}}}''' data type in [[GhcFile(compiler/main/HscTypes.lhs)]].
+The contents of an interface file is the result of serialising the '''{{{IfaceSyn}}}''' family of data types.  The data types are in [[GhcFile(compiler/iface/IfaceSyn.hs)]] and [[GhcFile(compiler/iface/IfaceType.hs)]]; the binary serialisation code is in [[GhcFile(compiler/iface/BinIface.hs)]]. The definition of a module interface is the '''{{{ModIface}}}''' data type in [[GhcFile(compiler/main/HscTypes.hs)]].
 
 Details of some of the types involved in GHC's representation of Modules and Interface files can be found [wiki:Commentary/Compiler/ModuleTypes here].
 
