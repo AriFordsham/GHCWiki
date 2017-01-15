@@ -4,7 +4,7 @@
 GHC's user manual contains documentation intended for users of GHC.  They are not interested in how GHC works; they just want to use it.
 
 
-The user manual is held in [docs/user_guide](/trac/ghc/browser/ghc/docs/user_guide), and is written in ReStructuredText format (`.rst` files).  This allows us to typeset it as HTML pages, or as LaTeX.
+The user manual is held in [docs/users_guide](/trac/ghc/browser/ghc/docs/users_guide), and is written in ReStructuredText format (`.rst` files).  This allows us to typeset it as HTML pages, or as LaTeX.
 
 
 See also the [notes on building the documentation](building/docs).
