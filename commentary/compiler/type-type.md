@@ -72,7 +72,7 @@ Notice the first line, which uses the view, and recurses when the view 'fires'. 
 ## The representation of `Type`
 
 
-Here, then is the representation of types (see [compiler/types/TypeRep.hs](/trac/ghc/browser/ghc/compiler/types/TypeRep.hs) for more details):
+Here, then is the representation of types (see [compiler/types/TyCoRep.hs](/trac/ghc/browser/ghc/compiler/types/TyCoRep.hs) for more details):
 
 ```wiki
 type TyVar = Var
