@@ -42,7 +42,7 @@ Source files:
   - [rts/Ticker.h](/trac/ghc/browser/ghc/rts/Ticker.h)
 - Posix implementation of ticker:
 
-  - [rts/posix/Itimer.h](/trac/ghc/browser/ghc/rts/posix/Itimer.h), [rts/posix/Itimer.h](/trac/ghc/browser/ghc/rts/posix/Itimer.h)
+  - [rts/posix/Itimer.c](/trac/ghc/browser/ghc/rts/posix/Itimer.c)
 - Windows implementation of ticker:
 
   - [rts/win32/Ticker.c](/trac/ghc/browser/ghc/rts/win32/Ticker.c)

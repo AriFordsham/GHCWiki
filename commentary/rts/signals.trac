@@ -32,7 +32,7 @@ Source files:
  * Platform-independent ticker interface, used by the timer:
    * [[GhcFile(rts/Ticker.h)]]
  * Posix implementation of ticker:
-   * [[GhcFile(rts/posix/Itimer.h)]], [[GhcFile(rts/posix/Itimer.h)]]
+   * [[GhcFile(rts/posix/Itimer.c)]]
  * Windows implementation of ticker:
    * [[GhcFile(rts/win32/Ticker.c)]]
 
