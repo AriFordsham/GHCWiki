@@ -44,7 +44,7 @@ The {{{hscTarget}}} field of {{{DynFlags}}} tells the compiler what kind of outp
 
 The targets specify the source files or modules at the top of the dependency tree.  For a Haskell program there is often just a single target {{{Main.hs}}}, but for a library the targets would consist of every visible module in the library.
 
-The {{{Target}}} type is defined in [[GhcFile(compiler/main/HscTypes.lhs)]].  Note that a {{{Target}}} includes not just the file or module name, but also optionally the complete source text of the module as a {{{StringBuffer}}}: this is to support an interactive development environment where the source file is being edited, and the in-memory copy of the source file is to be used in preference to the version on disk.
+The {{{Target}}} type is defined in [[GhcFile(compiler/main/HscTypes.hs)]].  Note that a {{{Target}}} includes not just the file or module name, but also optionally the complete source text of the module as a {{{StringBuffer}}}: this is to support an interactive development environment where the source file is being edited, and the in-memory copy of the source file is to be used in preference to the version on disk.
 
 == Dependency Analysis ==
 
@@ -54,7 +54,7 @@ The {{{downsweep}}} function takes the targets and returns a list of {{{ModSumma
 
 == The !ModSummary type ==
 
-A {{{ModSummary}}} (defined in [[GhcFile(compiler/main/HscTypes.lhs)]]) contains various information about a module:
+A {{{ModSummary}}} (defined in [[GhcFile(compiler/main/HscTypes.hs)]]) contains various information about a module:
 
  * Its {{{Module}}}, which includes the package that it belongs to
  * Its {{{ModLocation}}}, which lists the pathnames of all the files associated with the module
