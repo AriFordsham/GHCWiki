@@ -93,7 +93,7 @@ All type variables that may be instantiated (those in signatures may not), but h
 ### Type Representation
 
 
-The representation of types is fixed in the module [TypeRep](/trac/ghc/browser/ghc/compiler/types/TypeRep.lhs) and exported as the data type `Type`. Read the comments in the `TypeRep` module!  A couple of points:
+The representation of types is fixed in the module [TypeRep](/trac/ghc/browser/ghc/compiler/types/TypeRep.lhs) (TODO Update to the latest information) and exported as the data type `Type`. Read the comments in the `TypeRep` module!  A couple of points:
 
 - Type synonym applications are represented as a `TyConApp` with a `TyCon` that contains the expansion.  The expansion is done on-demand by `Type.coreView`.  Unexpanded type synonyms are useful for generating comprehensible error messages.
 
