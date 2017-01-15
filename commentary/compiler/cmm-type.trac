@@ -411,7 +411,7 @@ is used in:
 {{{
 #define Sp(n)  W_[Sp + WDS(n)]
 }}}
-The function `cmmMachOpFold` in [[GhcFile(compiler/cmm/CmmOpt.hs)]] will reduce the resulting expression `Sp + (n * SIZEOF_W)` to `Sp + N`, where `N` is a constant.  A very large number of macros for accessing STG struct fields and the like are produced by [[GhcFile(includes/mkDerivedConstants.c)]] and output into the file `includes/DerivedConstants.h` when GHC is compiled.
+The function `cmmMachOpFold` in [[GhcFile(compiler/cmm/CmmOpt.hs)]] will reduce the resulting expression `Sp + (n * SIZEOF_W)` to `Sp + N`, where `N` is a constant.  A very large number of macros for accessing STG struct fields and the like are produced by [[GhcFile(utils/deriveConstants)]] and output into the file `includes/DerivedConstants.h` when GHC is compiled.
 
 Of course, all this also holds true for the reverse (when an assignment is made to a memory address):
 {{{
@@ -627,7 +627,7 @@ target
 }}}
 This is essentially a custom-coded version of the GNU Assembler (`as`) `.machine` directive, which is essentially the same as passing the `-arch [cpu_type]` option to `as`.
 
-Cmm does not support the `target` directive.  This is partly due GHC generally lacking cross-compiler capabilities.  Should GHC move toward adding cross-compilation capabilities, the `target` might not be a bad thing to add.  Target architecture parameters are currently handled through the [wiki:Attic/Building/BuildSystem Build System], which partly sets such architectural parameters through [[GhcFile(includes/mkDerivedConstants.c)]] and [[GhcFile(includes/ghcconfig.h)]].
+Cmm does not support the `target` directive.  This is partly due GHC generally lacking cross-compiler capabilities.  Should GHC move toward adding cross-compilation capabilities, the `target` might not be a bad thing to add.  Target architecture parameters are currently handled through the [wiki:Attic/Building/BuildSystem Build System], which partly sets such architectural parameters through [[GhcFile(utils/deriveConstants)]] and [[GhcFile(includes/ghcconfig.h)]].
 
 === Expressions ===
 Expressions in Cmm follow the C-- specification.  They have:

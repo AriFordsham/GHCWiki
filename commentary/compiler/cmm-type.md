@@ -443,7 +443,7 @@ is used in:
 ```
 
 
-The function `cmmMachOpFold` in [compiler/cmm/CmmOpt.hs](/trac/ghc/browser/ghc/compiler/cmm/CmmOpt.hs) will reduce the resulting expression `Sp + (n * SIZEOF_W)` to `Sp + N`, where `N` is a constant.  A very large number of macros for accessing STG struct fields and the like are produced by [includes/mkDerivedConstants.c](/trac/ghc/browser/ghc/includes/mkDerivedConstants.c) and output into the file `includes/DerivedConstants.h` when GHC is compiled.
+The function `cmmMachOpFold` in [compiler/cmm/CmmOpt.hs](/trac/ghc/browser/ghc/compiler/cmm/CmmOpt.hs) will reduce the resulting expression `Sp + (n * SIZEOF_W)` to `Sp + N`, where `N` is a constant.  A very large number of macros for accessing STG struct fields and the like are produced by [utils/deriveConstants](/trac/ghc/browser/ghc/utils/deriveConstants) and output into the file `includes/DerivedConstants.h` when GHC is compiled.
 
 
 Of course, all this also holds true for the reverse (when an assignment is made to a memory address):
@@ -614,7 +614,7 @@ target
 This is essentially a custom-coded version of the GNU Assembler (`as`) `.machine` directive, which is essentially the same as passing the `-arch [cpu_type]` option to `as`.
 
 
-Cmm does not support the `target` directive.  This is partly due GHC generally lacking cross-compiler capabilities.  Should GHC move toward adding cross-compilation capabilities, the `target` might not be a bad thing to add.  Target architecture parameters are currently handled through the [Build System](attic/building/build-system), which partly sets such architectural parameters through [includes/mkDerivedConstants.c](/trac/ghc/browser/ghc/includes/mkDerivedConstants.c) and [includes/ghcconfig.h](/trac/ghc/browser/ghc/includes/ghcconfig.h).
+Cmm does not support the `target` directive.  This is partly due GHC generally lacking cross-compiler capabilities.  Should GHC move toward adding cross-compilation capabilities, the `target` might not be a bad thing to add.  Target architecture parameters are currently handled through the [Build System](attic/building/build-system), which partly sets such architectural parameters through [utils/deriveConstants](/trac/ghc/browser/ghc/utils/deriveConstants) and [includes/ghcconfig.h](/trac/ghc/browser/ghc/includes/ghcconfig.h).
 
 ### Expressions
 
