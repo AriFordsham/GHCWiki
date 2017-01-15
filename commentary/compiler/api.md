@@ -7,7 +7,7 @@ This section of the commentary describes everything between [HscMain](commentary
 The GHC API is rather stateful; the state of an interaction with GHC is stored in an abstract value of type `GHC.Session`.  The only fundamental reason for this choice is that the `Session` models the state of the RTS's linker, which must be single-threaded.
 
 
-Although the GHC API apparently supports multiple clients, because each can be interacting with a different `Session`, in fact it only supports one client that is actually executing code, because the [RTS linker](commentary/rts/interpreter#) has a single global symbol table.
+Although the GHC API apparently supports multiple clients, because each can be interacting with a different `Session`, in fact it only supports one client that is actually executing code, because the [RTS linker](commentary/rts/interpreter#linker) has a single global symbol table.
 
 
 This part of the commentary is not a tutorial on *using* the GHC API: for that, see [ Using GHC as a Library](http://haskell.org/haskellwiki/GHC/As_a_library).  Here we are going to talk about the implementation.
@@ -52,7 +52,7 @@ The `hscTarget` field of `DynFlags` tells the compiler what kind of output to ge
 The targets specify the source files or modules at the top of the dependency tree.  For a Haskell program there is often just a single target `Main.hs`, but for a library the targets would consist of every visible module in the library.
 
 
-The `Target` type is defined in [compiler/main/HscTypes.lhs](/trac/ghc/browser/ghc/compiler/main/HscTypes.lhs).  Note that a `Target` includes not just the file or module name, but also optionally the complete source text of the module as a `StringBuffer`: this is to support an interactive development environment where the source file is being edited, and the in-memory copy of the source file is to be used in preference to the version on disk.
+The `Target` type is defined in [compiler/main/HscTypes.hs](/trac/ghc/browser/ghc/compiler/main/HscTypes.hs).  Note that a `Target` includes not just the file or module name, but also optionally the complete source text of the module as a `StringBuffer`: this is to support an interactive development environment where the source file is being edited, and the in-memory copy of the source file is to be used in preference to the version on disk.
 
 ## Dependency Analysis
 
@@ -65,7 +65,7 @@ The `downsweep` function takes the targets and returns a list of `ModSummary` co
 ## The ModSummary type
 
 
-A `ModSummary` (defined in [compiler/main/HscTypes.lhs](/trac/ghc/browser/ghc/compiler/main/HscTypes.lhs)) contains various information about a module:
+A `ModSummary` (defined in [compiler/main/HscTypes.hs](/trac/ghc/browser/ghc/compiler/main/HscTypes.hs)) contains various information about a module:
 
 - Its `Module`, which includes the package that it belongs to
 - Its `ModLocation`, which lists the pathnames of all the files associated with the module
@@ -90,7 +90,7 @@ The process in principle is fairly simple:
 - Visit each module in the dependency tree from the bottom up, invoking [HscMain](commentary/compiler/hsc-main)
   to compile it (the *upsweep*).
 - Finally, link all the code together.  In GHCi this involves loading all the object code into memory and linking it
-  with the [RTS linker](commentary/rts/interpreter#), and then linking all the byte-code together.  In
+  with the [RTS linker](commentary/rts/interpreter#linker), and then linking all the byte-code together.  In
   `--make` mode this involves invoking the external linker to link the object code into a binary.
 
 
