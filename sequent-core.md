@@ -114,16 +114,45 @@ Use Keyword = `JoinPoints` to ensure that a ticket ends up on these lists.
 <tr><th>[\#15110](https://gitlab.haskell.org//ghc/ghc/issues/15110)</th>
 <td>Exitification abstracts over shadowed variables</td></tr></table>
 
+## Tour of the patch
+
+- Core changes
+
+  - `compiler/coreSyn/CoreSyn.hs`:
+    Mostly of interest for the new Notes giving an overview and the invariants on join points.
+  - `compiler/basicTypes/IdInfo.hs`:
+    The all-important change to `IdDetails`. Also changes to `OccInfo` for use by the occurrence analyser.
+  - `compiler/basicTypes/Id.hs`:
+    Basic functionality for checking and assigning the join-point-hood of an identifier.
+  - `compiler/coreSyn/CoreLint.hs`:
+    Checks for all the new invariants.
+- Occurrence analysis
+
+  - `compiler/simplCore/OccurAnal.hs`:
+    Retrofitted occurrence analyser now looks for join points, marking each local binder that can become one.
+  - `compiler/simplCore/CoreSubst.hs`:
+    After the occurrence analyser marks binders to become join points, either `simpleOptPgm` or the simplifier
+    actually changes the `IdDetails` (and makes other adjustments like eta-expansion).
+  - `compiler/simplCore/CoreArity.hs`:
+    Has a hand in converting bindings to join points; also used by Specialise to produce rules that comply with the invariants. Eta-expansion is a nice example of something that had to change to meet the new invariants—when we push arguments and casts inward, they have to be pushed into join points and disappear from jumps.
+- The simplifier
+
+  - `compiler/simplCore/SimplEnv.hs`
+    Join points float separately from values, since they're severely restricted in how far they can float.
+  - `compiler/simplCore/SimplUtils.hs`
+    Just a few technicalities.
+  - `compiler/simplCore/Simplify.hs`
+    The "case-of-join-point" functionality goes through `simplJoinRhs` (which copies the continuation into the join point) and `simplIdF` (which now throws away the continuation from a jump). Most of the rest of the changes are more mundane. `matchOrConvertToJoinPoint` is where we convert what the occurrence analyser says we can.
+  - `compiler/coreSyn/CoreUnfold.hs`
+    Changes to `sizeExpr` have made a pretty big impact by letting more things get inlined, particularly things with tail-recursive loops, since those are often turned into join points and hence get counted as cheaper (since they're not allocated).
+
+
+The rest of the changes are rather more isolated—places where we needed to change something to preserve the invariants on join points. There are also new tests in `testsuite/tests/perf/join_points` and a few updated tests.
+
 ## Join Point Analysis (JPA)
 
 
-Join Point Analysis (JPA), implemented in `CoreJoins.findJoinsInPgm`, is a new analysis that identifies join points, and marks them as such.
-
-
-Currently we run JPA fairly frequently in the pipeline.  In due course this could become part of the occurrence analyser, because (a) we'd discover join points quickly, (b) it's doing much the same kind of thing (analysing occurrences).
-
-
-Currently JPA has two passes, so that it can propagate the binding sites to occurrences.  Not necessary to do this if the simplifier runs immediately afterwards (it propagates).
+Join Point Analysis (JPA), implemented as part of the occurrence analyser, is a new analysis that identifies potential join points, and marks them to be converted. The simplifier (or `simpleOptPgm`) will then perform the conversion and propagate the change to the occurrence sites.
 
 ## Transformations
 
