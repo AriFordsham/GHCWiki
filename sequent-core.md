@@ -6,6 +6,8 @@
 
 - Ticket to track progress: [\#12988](https://gitlab.haskell.org//ghc/ghc/issues/12988)
 
+- Phab patch: [ https://phabricator.haskell.org/D2853](https://phabricator.haskell.org/D2853)
+
 - New variant of Core.
 
   - IdDetails has a constructor for JoinPointId, with its arity.
