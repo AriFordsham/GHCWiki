@@ -32,7 +32,7 @@ Below are the major highlights of 8.2.
 
 ### Compile time improvements
 
-- Discard coercions ([\#8095](https://gitlab.haskell.org//ghc/ghc/issues/8095))
+TODO
 
 ### Front-end changes
 
