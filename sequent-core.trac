@@ -51,9 +51,22 @@ Use Keyword = `JoinPoints` to ensure that a ticket ends up on these lists.
   * `compiler/simplCore/Simplify.hs`
     The "case-of-join-point" functionality goes through `simplJoinRhs` (which copies the continuation into the join point) and `simplIdF` (which now throws away the continuation from a jump). Most of the rest of the changes are more mundane. `matchOrConvertToJoinPoint` is where we convert what the occurrence analyser says we can.
   * `compiler/coreSyn/CoreUnfold.hs`
-    Changes to `sizeExpr` have made a pretty big impact by letting more things get inlined, particularly things with tail-recursive loops, since those are often turned into join points and hence get counted as cheaper (since they're not allocated).
+    Changes to `sizeExpr` have made a pretty big impact by letting more things get inlined, particularly things with tail-recursive loops, since those loops are often turned into join points and hence get counted as cheaper (since they're not allocated).
 
 The rest of the changes are rather more isolated—places where we needed to change something to preserve the invariants on join points. There are also new tests in `testsuite/tests/perf/join_points` and a few updated tests.
+
+== Benchmarks ==
+
+* [attachment:imaginary.nofib]
+* [attachment:spectral.nofib]
+* [attachment:real.nofib]
+* [attachment:shootout.nofib]
+
+The `shootout` tests are non-standard, but it's hard to ignore "-100.0%" in allocations (for both `fannkuch-redux` and `n-body`). Join points (and the "case-of-join-point transform" in particular) are apparently quite good at wringing out the last few allocations from an already heavily optimized loop by making sure the inner loops actually compile as mere loops rather than closures.
+
+Among the standard tests, the biggest winner is `spectral/puzzle` at -21.1% allocations. Partly this is due to the updated inlining heuristics that give join points a discount compared to functions. Sadly, the new heuristics are also responsible for the biggest loser by far, which is `spectral/boyer2` at +7.5% allocs. In `RewriteFns`, the new heuristics cause `$wonewayrewrite1` to be inlined into `$wonewayrewrite1lst`, causing an explosion of code but few gains. (Rewriting `$wonewayrewrite1lst Nil _ u` as `(# True, u #)` would help, but tragically `$wonewayrewrite1lst` is now far too big to inline or to specialize.)
+
+= Overview =
 
 == Join Point Analysis (JPA) ==
 
