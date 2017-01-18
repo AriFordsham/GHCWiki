@@ -36,7 +36,7 @@ git clone --recursive git://git.haskell.org/ghc.git
 
 A source tree consists of more than one repository: at the top level there is the main GHC repository, and certain subdirectories contain separate git repositories (for a list see [wiki:Repositories]).
 
-Then read [wiki:WorkingConventions/Git how to use git with GHC] and [wiki:WorkingConventions/FixingBugs how to contribute a patch to GHC] (including Git specific guidelines).
+**PLEASE READ THIS:** There are some specific Git workflows which will make GHC development a lot more pleasant; read [wiki:WorkingConventions/Git how to use git with GHC] and [wiki:WorkingConventions/FixingBugs how to contribute a patch to GHC] for suggestions about this.
 
 Notes:
 
