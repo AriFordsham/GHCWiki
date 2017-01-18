@@ -47,7 +47,7 @@ Usually you want to do something along these lines:
  * Don't compile with {{{-threaded}}} (assuming the bug still happens
    with the non-threaded runtime).
 
- * Use runtime debugging options to help narrow down the fault (see also the [http://www.haskell.org/ghc/docs/latest/html/users_guide/runtime-control.html#rts-options-debugging relevant User Manual section]).
+ * Use runtime debugging options to help narrow down the fault (see also the [http://www.haskell.org/ghc/docs/latest/html/users_guide/runtime_control.html#rts-options-debugging relevant User Manual section]).
 
  * Grab our [attachment:".gdbinit" gdb macros].
 
