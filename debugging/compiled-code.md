@@ -48,7 +48,7 @@ Usually you want to do something along these lines:
 - Don't compile with `-threaded` (assuming the bug still happens
   with the non-threaded runtime).
 
-- Use runtime debugging options to help narrow down the fault (see also the [relevant User Manual section](http://www.haskell.org/ghc/docs/latest/html/users_guide/runtime-control.html#rts-options-debugging)).
+- Use runtime debugging options to help narrow down the fault (see also the [relevant User Manual section](http://www.haskell.org/ghc/docs/latest/html/users_guide/runtime_control.html#rts-options-debugging)).
 
 - Grab our [gdb macros](/trac/ghc/attachment/wiki/Debugging/CompiledCode/.gdbinit)[](/trac/ghc/raw-attachment/wiki/Debugging/CompiledCode/.gdbinit).
 
