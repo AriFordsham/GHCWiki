@@ -1,18 +1,7 @@
 
-Using `Data.Reflection` has some runtime costs. Notably, there can be no inlining or unboxing of reified values. I think it would be nice to add a GHC special to support it. I'll get right to the point of what I want, and then give a bit of background about why.
+Using `Data.Reflection` has some runtime costs. Notably, there can be no inlining or unboxing of reified values. I think it would be nice to add a GHC special to support it.
 
-### What I want
-
-
-I propose the following magical function:
-
-```
-reify#::(forall s . c s a => t s r)-> a -> r
-```
-
-`c` is assumed to be a single-method class with no superclasses whose dictionary representation is exactly the same as the representation of `a`, and `t s r` is assumed to be a newtype wrapper around `r`. In desugaring, `reify# f` would be turned into some coercion of `f`. See below regarding specialization concerns.
-
-### Why I want it
+## The problem
 
 
 The following is a somewhat modified version of the main idea in `Data.Reflection`, with some relatively minor changes to clean up the very core of it.
@@ -40,7 +29,7 @@ forall s .Reifies s a =>Tagged s r
 is represented in memory exactly the same as a function of type `a -> r`.
 
 
-So we can currently use `unsafeCoerce` to interpret one as the other. Following the general approach of the library, we can do this as such:
+We currently use `unsafeCoerce` to interpret one as the other. Following the general approach of the library, we can do this as such:
 
 ```
 newtypeMagic a r =Magic(forall s .Reifies s a =>Tagged s r)reify'::(forall s .Reifies s a =>Tagged s r)-> a -> r
@@ -64,8 +53,10 @@ reify(+1)$\p -> reflect p x
 
 then GHC will never inline the application of `(+1)`. Etc. It appears that the `forall s` in `Magic` gums up the inliner somehow.
 
+### A larger example of the problem
 
-I'd like to replace `reify'` with `reify#` to allow such optimizations. mpickering asked for a more substantial example, so here's one:
+
+mpickering asked for a more substantial example, so here's one:
 
 ```
 newtypeM s =M{getM ::Int}mkM::Reifies s Int=>Int->M s
@@ -109,43 +100,55 @@ test1 =
     }
 ```
 
-### Why so general
+## Solutions
+
+
+We basically want something that looks a fair bit like `reify'`, but that translates to safe coercions in Core.
+
+### Class/deriving-based
+
+
+Simon Peyton Jones suggests making `reify#` a class method and using the class deriving mechanism to ensure safety. His first choice thus far seems to be
 
 ```
-reify#::(forall s . c s a => t s r)-> a -> r
-```
-
-
-is, of course, far more polymorphic than it has any right to be. In principle, we should only need one `c`, namely `Data.Reflection.Reifies`, and one `t`, namely `Data.Tagged.Tagged`. But making it polymorphic prevents us from having to use a class and type available in `ghc-prim`.
-
-### Specialization concerns
-
-
-I've found an approach that seems to get the inlining I want in userspace, by changing `Magic`, but I'm not confident it's safe.
-
-```
-typefamilySkolem::*wherenewtypeMagic s a r =Magic(Reifies s a =>Tagged s r)sreify':: forall a r .(forall (s ::*).Reifies s a =>Tagged s r)-> a -> r
-sreify' k = unsafeCoerce (Magic2(k ::ReifiesSkolem a =>TaggedSkolem r))
+classReifiable(a ::*)wheretypeRC a ::Constraint
+  reify#::(RC a => r)-> a -> r
 ```
 
 
-My concern with this approach is that in sufficiently complex circumstances, the specializer might be able to conflate two different reified values of the same type, as each of them will, at a certain point, look like `Reifies Skolem A`. I haven't actually found a way to make this happen yet, but it smells fishy nonetheless. I would hope GHC would be able to guarantee that the argument to `reify#` will never be specialized to a particular instance of `c` (i.e., `Reifies`).
+but he also mentions an alternative class design, which I'll rename for clarity:
 
-
-For comparison, this produces the following (much prettier) Core for the corresponding test:
-
-```wiki
-test2 :: Int# -> Int# -> Int# -> Int#
-test2 =
-  \ (m_a4rI :: Int#) (x_a4rJ :: Int#) (y_a4rK :: Int#) ->
-    case m_a4rI of wild_a4G4 {
-      __DEFAULT ->
-        case modInt# x_a4rJ wild_a4G4 of ww2_a5Bo { __DEFAULT ->
-        case modInt# y_a4rK wild_a4G4 of ww1_X5Cs { __DEFAULT ->
-        modInt# (+# ww2_a5Bo ww1_X5Cs) wild_a4G4
-        }
-        };
-      -1# -> 0#;
-      0# -> case divZeroError of wild1_00 { }
-    }
 ```
+classReflectableTF(c ::Constraint)wheretypeRL c ::*
+  reify#::(c => r)->RL c -> r
+```
+
+`Reifiable` seems to have reasonably good ergonomics, but it seems a bit odd to me for the payload type to determine the class. Furthermore, it's not at all clear to me how the class could be *named* in the `deriving` clause. `ReflectableTF` strikes me as rather better behaved, but it has fairly bad ergonomics (it requires explicit type application to pin down `c` when calling `reify#`).
+
+
+One last class-based option I think might be worthy of consideration is to use `Reflectable` with a data family:
+
+```
+classReflectableDF(c ::Constraint)wheredataRL c ::*
+  reify#::(c => r)->RL c -> r
+```
+
+
+This offers much better inference than `ReflectableTF`, because the instance is selected by the second argument to `reify#`. The constructor name could be chosen by the deriving mechanism to match the class name, so we'd get, e.g.,
+
+```
+instanceReflectableDF(Typeable a)wherenewtypeRL(Typeable a)=Typeable(TypeRep a)
+  reify# f =...
+```
+
+### Non-class-based
+
+
+I'm personally reluctant to commit to any particular class-based solution before it's been tried out in user-space. None of them are perfect, and we don't know for sure which will work out best in practice. My current thinking is that perhaps the best way to *start* is to add a `reify#` function
+
+```
+reify#::(c => r)-> a -> r
+```
+
+
+with a special typing rule: `reify# @ c r a` will only be accepted by the type checker if `c` is a single-method class whose method has the same representation as `a`.
