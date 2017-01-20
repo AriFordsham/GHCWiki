@@ -173,6 +173,8 @@ instance ReflectableDF (Typeable a) where
 }}}
 '''SLPJ''' Oh, I like this!
 
+'''Iceland_jack''' This could be levity-polymorphic (`RC :: TYPE rep -> Constraint`, `RL :: Constraint -> TYPE rep`)
+
 === Non-class-based ===
 
 I'm personally reluctant to commit to any particular class-based solution before it's been tried out in user-space. None of them are perfect, and we don't know for sure which will work out best in practice. My current thinking is that perhaps the best way to ''start'' is to add a `reify#` function
