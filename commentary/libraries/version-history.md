@@ -937,7 +937,7 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <th></th></tr>
 <tr><th></th>
 <th>**HEAD**</th>
-<th>**8.0.1.20161213**</th>
+<th>**8.0.2**</th>
 <th>**8.0.1**</th>
 <th>**7.10.3**</th>
 <th>**7.10.2**</th>
