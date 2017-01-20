@@ -14,6 +14,7 @@ See also [ http://damianfral.github.io/ghcaniuse/](http://damianfral.github.io/g
 
 Added LANGUAGE extensions:
 
+- `[No]DerivingStrategies`
 - `[No]UnboxedSums`
 
 ## Changes in GHC 8.0
