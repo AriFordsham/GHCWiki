@@ -156,6 +156,8 @@ instanceReflectableDF(Typeable a)wherenewtypeRL(Typeable a)=Typeable(TypeRep a)
 
 **SLPJ** Oh, I like this!
 
+**Iceland_jack** This could be levity-polymorphic (`RC :: TYPE rep -> Constraint`, `RL :: Constraint -> TYPE rep`)
+
 ### Non-class-based
 
 
