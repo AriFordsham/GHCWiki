@@ -1,5 +1,6 @@
 
 Video: [ GHC Core language](http://www.youtube.com/watch?v=EQA69dvkQIk&list=PLBkRCigjPwyeCSD_DFxpd246YIF7_RDDI) (14'04")
+ Video: [ Into the Core - Squeezing Haskell into Nine Constructors](https://www.youtube.com/watch?v=uR_VzYxvbxg) (1hr07'48")
 
 # The `Core` type
 
