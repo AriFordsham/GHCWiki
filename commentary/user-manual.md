@@ -5,6 +5,7 @@ GHC's user manual contains documentation intended for users of GHC.  They are no
 
 
 The user manual is held in [docs/users_guide](/trac/ghc/browser/ghc/docs/users_guide), and is written in ReStructuredText format (`.rst` files).  This allows us to typeset it as HTML pages, or as LaTeX.
+The user manual is rendered like [ this page](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/).
 
 
 See also the [notes on building the documentation](building/docs).
