@@ -7,7 +7,7 @@ This is the beginning of a checklist to check for patches submitted for merge.
 
 - Does patch add a user-visible command-line flag?
 
-  - Document in users guide (`doc/user_guide`) and `utils/mkUserGuidePart/Options/`
+  - Document in users guide (`docs/users_guide`) and `utils/mkUserGuidePart/Options/`
 
 - Does patch change a core library (e.g. `base`)?
 
@@ -18,8 +18,8 @@ This is the beginning of a checklist to check for patches submitted for merge.
 
 - Introduces new syntax?
 
-  - Document in `doc/user_guide/glasgow_exts.rst`
-  - Document in `doc/user_guide/*-relnotes.rst`
+  - Document in `docs/users_guide/glasgow_exts.rst`
+  - Document in `docs/users_guide/*-relnotes.rst`
   - Add Template Haskell support
 
 - Builds with last two releases of GHC?
