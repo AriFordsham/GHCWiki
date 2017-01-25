@@ -45,7 +45,8 @@ Here's how to submit a bug fix to GHC. For [wiki:WorkingConventions/AddingFeatur
      }}}
      [[BR]]
  0. '''Test your commits''' using the [wiki:TestingPatches validation script or Travis]. Alternatively, you can let [wiki:Phabricator/Harbormaster Harbormaster] build and validate your commits, see next step. (If you have write permission to the repository, then you '''must''' validate before pushing.)[[BR]][[BR]]
- 0. '''Submit one or several code reviews''' to [wiki:Phabricator]. Wait for [wiki:Phabricator/Harbormaster] to build and validate your commits (~35 minutes each, September 2014).[[BR]][[BR]]
+ 0. '''Submit one or several code reviews''' to [wiki:Phabricator]. Wait for [wiki:Phabricator/Harbormaster] to build and validate your commits (~35 minutes each, September 2014).[[BR]]
+    ''Alternatively'': '''Create a Pull Request''' on [https://github.com/ghc/ghc/ GitHub]. This variant should only be chosen for simple changes that are likely accepted without much review.[[BR]][[BR]]
  0. '''Update the Trac ticket.''' Fill out the field called "[wiki:Phabricator#LinkingreviewstoTracticketsandviceversa Differential Revisions]". Syntax: `Phab:D123`. [[BR]][[BR]]
  0. '''Wait''' for the reviewers to look at your patches. If this takes more than a week, complain! [[BR]][[BR]]
  0. '''Wait''' for the release manager to land your patches. If this takes more than a week, complain!
