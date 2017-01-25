@@ -44,6 +44,7 @@ Here's how to submit a bug fix to GHC. For [adding features](working-conventions
 
 1. **Test your commits** using the [validation script or Travis](testing-patches). Alternatively, you can let [Harbormaster](phabricator/harbormaster) build and validate your commits, see next step. (If you have write permission to the repository, then you **must** validate before pushing.)
 1. **Submit one or several code reviews** to [Phabricator](phabricator). Wait for [Phabricator/Harbormaster](phabricator/harbormaster) to build and validate your commits (\~35 minutes each, September 2014).
+  *Alternatively*: **Create a Pull Request** on [ GitHub](https://github.com/ghc/ghc/). This variant should only be chosen for simple changes that are likely accepted without much review.
 1. **Update the Trac ticket.** Fill out the field called "[Differential Revisions](phabricator#linking-reviews-to-trac-tickets-and-vice-versa)". Syntax: `Phab:D123`. 
 1. **Wait** for the reviewers to look at your patches. If this takes more than a week, complain! 
 1. **Wait** for the release manager to land your patches. If this takes more than a week, complain!
