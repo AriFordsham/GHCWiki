@@ -45,6 +45,13 @@ In order to see emails below, **you must login**.
   - **Committer since**: June, 2015.
   - **Main areas of interest**: impredicativity
 
+- [ Alexander Biehl](https://github.com/alexbiehl)
+
+  - Independent - Hamburg, Germany
+  - **Trac**: alexbiehl; **email**: alexbiehl@…
+  - **Committer since**: Jan, 2017.
+  - **Main areas of interest**: Code generation, runtime system, everything which makes GHC faster
+
 - [ Andreas Voellmy](http://haskell.cs.yale.edu/people/andreas-voellmy/)
 
   - Yale University - New Haven, CT
