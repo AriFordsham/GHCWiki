@@ -229,10 +229,10 @@ In order to see emails below, **you must login**.
 
 - [ Matthew Pickering](http://mpickering.github.io)
 
-  - University of Oxford, United Kingdom
+  - University of Bristol, United Kingdom
   - **Trac**: mpickering; **email**: matthewtpickering@…; **github**: [ https://github.com/mpickering](https://github.com/mpickering); **IRC**: mpickering
   - **Committer since**: October 2015.
-  - **Main areas of interest**: pattern synonyms, parser
+  - **Main areas of interest**: pattern synonyms, infrastructure
 
 - [ Ömer Sinan Ağacan](http://osa1.net)
 
