@@ -70,6 +70,9 @@ of the documentation are automatically generated.
 
 After building you can find the html users' guide in `docs/users_guide/build-html`.
 
+
+See also [Commentary/UserManual](commentary/user-manual).
+
 ## Installing documentation
 
 
