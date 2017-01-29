@@ -81,7 +81,7 @@ Let's take a look at the overall structure of the driver pipeline. When we compi
   - Assembly code: flag `-S`, file `Foo.s` (supported by all three backends)
   - C code: flags `-C`, file `Foo.hc` (only supported by C backend)
 
-- In the `-fvia-C` case:
+- In the `-fvia-C` case: (This case is **outdated**.)
 
   - Run the **C compiler** on `Foo.hc`, to generate `Foo.s`.
 
