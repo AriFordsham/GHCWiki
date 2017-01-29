@@ -68,7 +68,7 @@ Here is a block diagram of its top-level structure:
 
 The part called [HscMain](commentary/compiler/hsc-main) deals with compiling a single module.  On top of this is built the **compilation manager** (in blue) that manages the compilation of multiple modules.  It exports an interface called the **GHC API**.  On top of this API are four small front ends:
 
-- GHCi, the interactive environment, is implemented in [ghc/InteractiveUI.hs](/trac/ghc/browser/ghc/ghc/InteractiveUI.hs) and [compiler/main/InteractiveEval.hs](/trac/ghc/browser/ghc/compiler/main/InteractiveEval.hs). It sits squarely on top of the GHC API.
+- GHCi, the interactive environment, is implemented in [ghc/GHCi/UI.hs](/trac/ghc/browser/ghc/ghc/GHCi/UI.hs) and [compiler/main/InteractiveEval.hs](/trac/ghc/browser/ghc/compiler/main/InteractiveEval.hs). It sits squarely on top of the GHC API.
 
 - `--make` is almost a trivial client of the GHC API, and is implemented in [compiler/main/GhcMake.hs](/trac/ghc/browser/ghc/compiler/main/GhcMake.hs). 
 
