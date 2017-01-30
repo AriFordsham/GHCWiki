@@ -94,6 +94,12 @@ In order to see emails below, **you must login**.
   - **Committer since**: September, 2014.
   - **Main areas of interest**: Typeable, simplifier, ARM support, LLVM backend
 
+- [ David Feuer](http://treeowl.github.com/)
+
+  - Well Typed LLP - Bethesda, MD, United States
+  - **Trac**: dfeuer; **email**: David.Feuer@…; **github**: [ https://github.com/treeowl](https://github.com/treeowl)
+  - **Committer since**: January, 2017.
+
 - [ David Terei](https://davidterei.com/)
 
   - MemCachier; Stanford University - San Francisco, CA
@@ -105,7 +111,7 @@ In order to see emails below, **you must login**.
 
   - Well-Typed LLP - Oxford, UK
   - **Trac**: duncan; **email**: duncan@…
-  - **Committer since**: Janurary, 2006.
+  - **Committer since**: January, 2006.
   - **Main areas of interest**: bytestring support, cabal integration, etc
 
 - [ Edsko de Vries](http://www.well-typed.com/people/edsko)
@@ -162,7 +168,7 @@ In order to see emails below, **you must login**.
   - Standard Chartered - London, UK
   - **Trac**: cactus; **email**: gergo@…; **github**: [ https://github.com/gergoerdi](https://github.com/gergoerdi)
   - **Committer since**: January, 2014.
-  - **Main areasa of interest**: frontend, type systems
+  - **Main areas of interest**: frontend, type systems
 
 - Herbert Valerio Riedel
 
