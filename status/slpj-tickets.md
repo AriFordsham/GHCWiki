@@ -229,6 +229,7 @@ See also [TemplateHaskell](template-haskell)
 
 ## Optimisation
 
+- [\#13227](https://gitlab.haskell.org//ghc/ghc/issues/13227): loss of full laziness in `mapFB`
 - [\#11475](https://gitlab.haskell.org//ghc/ghc/issues/11475): Lint should check for inexhaustive cases expressions
 - [\#9476](https://gitlab.haskell.org//ghc/ghc/issues/9476): late lambda lifting
 - [\#7374](https://gitlab.haskell.org//ghc/ghc/issues/7374), [\#10417](https://gitlab.haskell.org//ghc/ghc/issues/10417), [\#10418](https://gitlab.haskell.org//ghc/ghc/issues/10418), [\#7287](https://gitlab.haskell.org//ghc/ghc/issues/7287), [\#7398](https://gitlab.haskell.org//ghc/ghc/issues/7398), [\#10528](https://gitlab.haskell.org//ghc/ghc/issues/10528), [\#11688](https://gitlab.haskell.org//ghc/ghc/issues/11688), [\#10595](https://gitlab.haskell.org//ghc/ghc/issues/10595), [\#7141](https://gitlab.haskell.org//ghc/ghc/issues/7141), [\#5973](https://gitlab.haskell.org//ghc/ghc/issues/5973), [\#2271](https://gitlab.haskell.org//ghc/ghc/issues/2271), [\#1434](https://gitlab.haskell.org//ghc/ghc/issues/1434): rules not firing; e.g. class methods, newtype constructors

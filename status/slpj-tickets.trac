@@ -215,6 +215,7 @@ See also [wiki:TemplateHaskell]
  * #4960: better inlining tests
 
 == Optimisation ==
+ * #13227: loss of full laziness in `mapFB`
  * #11475: Lint should check for inexhaustive cases expressions
  * #9476: late lambda lifting
  * #7374, #10417, #10418, #7287, #7398, #10528, #11688, #10595, #7141, #5973, #2271, #1434: rules not firing; e.g. class methods, newtype constructors
