@@ -40,4 +40,4 @@ These settings are made in [[source:ghc/.travis.yml]]. You can conveniently expe
  There was a validation error, such as a build failure or a failing test case. Go and fix it!
  * '''Error''' (Grey exclamation mark): Travis could not finish the build. Most often, this is due to the build exceeding the time limit of 50 minutes. 
    
- In that case, you can probably ignore the problem. If you are a [https://github.com/orgs/ghc/members|member of the GitHub GHC team], you can restart the build, to keep the build history tidy.
+ In that case, you can probably ignore the problem. If you are a [https://github.com/orgs/ghc/people member of the GitHub GHC team], you can restart the build, to keep the build history tidy.
