@@ -34,7 +34,7 @@ make -j8 # parallelize to at most 8 parallel jobs; adapt to actual number of cpu
 ```
 
 >
-> If your machine has all the prerequisites, this might just work. Expect it all to take roughly an hour.
+> If your machine has all the prerequisites, this might just work. Expect it all to take roughly 30 minutes.
 
 - While you are waiting for your build to finish, orient yourself to the general architecture of GHC. This [ article](http://www.aosabook.org/en/ghc.html) is written by two of the chief architects of GHC, Simon Marlow and Simon Peyton-Jones, is excellent and current (2012).
 
