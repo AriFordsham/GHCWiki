@@ -1,5 +1,8 @@
 TODO This page is possibly outdated. Update to the latest information.
 
+>
+> See also [Code Generator](commentary/compiler/code-gen) and [compiler/cmm/cmm-notes](/trac/ghc/browser/ghc/compiler/cmm/cmm-notes).
+
 ### Note To Reader
 
 
