@@ -113,9 +113,10 @@ pkg_resources.DistributionNotFound: The 'requests' distribution was not found an
 }}}
 
 Try installing the package manually. For example by using pip:
-
-$ pacman -S mingw-w64-x86_64-python3-pip
+{{{
+pacman -S mingw-w64-x86_64-python3-pip
 pip3 install requests
+}}}
 
 === Error setting certificate verify locations ===
 
