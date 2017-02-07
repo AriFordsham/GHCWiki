@@ -29,9 +29,7 @@
 
 ## Urgent or in-flight
 
-- [\#12918](https://gitlab.haskell.org//ghc/ghc/issues/12918): default method types simplification
-- [\#12791](https://gitlab.haskell.org//ghc/ghc/issues/12791): specialisation via top level instances (nearly done!)
-- [\#11760](https://gitlab.haskell.org//ghc/ghc/issues/11760): `runST` and lazy blackholing
+- [\#12088](https://gitlab.haskell.org//ghc/ghc/issues/12088): phase ordering for type-in-type
 - [\#11371](https://gitlab.haskell.org//ghc/ghc/issues/11371): bogus in-scope set for substitution
 - [\#9479](https://gitlab.haskell.org//ghc/ghc/issues/9479), [\#10954](https://gitlab.haskell.org//ghc/ghc/issues/10954), [\#9091](https://gitlab.haskell.org//ghc/ghc/issues/9091): more info in "hole" error messages
 - [\#10844](https://gitlab.haskell.org//ghc/ghc/issues/10844), [\#10845](https://gitlab.haskell.org//ghc/ghc/issues/10845), [\#10846](https://gitlab.haskell.org//ghc/ghc/issues/10846): implicit call stacks
