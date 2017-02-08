@@ -98,6 +98,6 @@ If you want to try it yourself then there is a prototype [ http://104.130.13.28/
 
 - Notification emails break links if they word wrap and doesn't apply other markup
 
-- Fields are not validated at all, once you start looking there are many cases where input is malformed (Three recent examples: [\#12623](https://gitlab.haskell.org//ghc/ghc/issues/12623) (Owner) [\#13100](https://gitlab.haskell.org//ghc/ghc/issues/13100) (CC field) [\#13194](https://gitlab.haskell.org//ghc/ghc/issues/13194) (Differential field) ).
+- Fields are not validated at all, once you start looking there are many cases where input is malformed (Three recent examples: [\#12623](https://gitlab.haskell.org//ghc/ghc/issues/12623) (Owner) [\#13100](https://gitlab.haskell.org//ghc/ghc/issues/13100) (CC field) [\#13194](https://gitlab.haskell.org//ghc/ghc/issues/13194) (Differential field) [\#11525](https://gitlab.haskell.org//ghc/ghc/issues/11525) (Differential field, 2x)).
 
 - It is not possible to set the status of a ticket to patch and simultaneously assign an owner to the ticket.
