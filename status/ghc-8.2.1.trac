@@ -36,27 +36,12 @@ TODO
 
   GHC 8.2 will address this by introducing indexed type representations, leveraging the type-checker to verify programs using type reflection. This allows facilities like `Data.Dynamic` to be implemented in a fully type-safe manner. See the [[http://research.microsoft.com/en-us/um/people/simonpj/papers/haskell-dynamic/|paper]] for an description of the proposal and the [[https://ghc.haskell.org/trac/ghc/wiki/Typeable/BenGamari|Wiki]] for the current status of the implementation.
 
-  - '''Levity polymorphism'''.  Richard E is actively involved in consolidating the implementation of levity polymorphism; see [wiki:LevityPolymorphism].  This should include resolving the `Constraint` vs `*` debate #11715.
-
-  - '''Backpack''' (Edward Z Yang) is targeting to be merged in GHC 8.2. More to come here. See the tickets with the [[https://ghc.haskell.org/trac/ghc/query?status=!closed&keywords=~backpack|backpack]] keyword for current status.
-
-  - '''Exhaustiveness checking'''
-    * Exhaustiveness checking for `EmptyCase`s (Phab:D2105), addressing #10746. 
-    * Exhaustiveness checking for pattern synonyms, including the ability to define sets of synonyms that constitute a complete match, addressing #8779 (Matthew Pickering),
-
-=== Optimiser and intermediate language ===
-
-* [wiki:SequentCore Implement join points] (Luke Maurer)
-
 === Back-end and runtime system ===
 
   - '''Further improvements to debugging information''' (Ben Gamari): There are still a number of outstanding issues with GHC's DWARF implementation, some of which even carry the potential to crash the runtime system during stacktrace collection. GHC 8.2 will hopefully have these issues resolved, allowing debugging   - TODOinformation to be used by end-user code in production.
 
   With stable stack unwinding support comes a number of opportunities for new serial and parallel performance analysis tools (e.g. statistical profiling) and debugging. As GHC's debugging information improves, we expect to see tooling developed to support these applications. See the [[https://ghc.haskell.org/trac/ghc/wiki/DWARF/80Status|DWARF status page]] for futher information.
 
-   -  The [[ImprovedLLVMBackend|improved LLVM backend plan]] plan didn't make the cut for 8.0, but will for 8.2 (Austin Seipp)
-
-   - '''Live streaming of event-log data''' (Phab:2934)
 
 === Build system and miscellaneous changes ===
 
@@ -70,6 +55,13 @@ TODO
   - '''Deriving''':
     * Deriving strategies (Ryan Scott): grant users the ability to choose explicitly how a class should be `derived` (using a built-in algorithm, `GeneralizedNewtypeDeriving`, `DeriveAnyClass`, or otherwise), addressing #10598.
 
+  - '''Levity polymorphism'''.  Richard E is actively involved in consolidating the implementation of levity polymorphism; see [wiki:LevityPolymorphism].  This will not include resolving the `Constraint` vs `*` debate #11715.
+
+  - '''Backpack''' (Edward Z Yang) is targeting to be merged in GHC 8.2. More to come here. See the tickets with the [[https://ghc.haskell.org/trac/ghc/query?status=!closed&keywords=~backpack|backpack]] keyword for current status.
+
+  - '''Exhaustiveness checking'''
+    * Exhaustiveness checking for `EmptyCase`s (Phab:D2105), addressing #10746. 
+    * Exhaustiveness checking for pattern synonyms, including the ability to define sets of synonyms that constitute a complete match, addressing #8779 (Matthew Pickering),
 
 ==== Back-end and runtime system
 
@@ -83,6 +75,11 @@ TODO
 
   - '''Improved idle CPU usage''': A long-standing regression (#11965) resulting in unnecessary wake-ups in an otherwise idle program was fixed. This should lower CPU utilization and improve power consumption for some programs.
 
+   - '''Live streaming of event-log data''' (Phab:2934)
+
+=== Optimiser and intermediate language ===
+
+* [wiki:SequentCore Implement join points] (Luke Maurer)
 
 ==== Library changes
 

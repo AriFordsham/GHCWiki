@@ -41,29 +41,12 @@ TODO
 >
 > GHC 8.2 will address this by introducing indexed type representations, leveraging the type-checker to verify programs using type reflection. This allows facilities like `Data.Dynamic` to be implemented in a fully type-safe manner. See the [ paper](http://research.microsoft.com/en-us/um/people/simonpj/papers/haskell-dynamic/) for an description of the proposal and the [ Wiki](https://ghc.haskell.org/trac/ghc/wiki/Typeable/BenGamari) for the current status of the implementation.
 
-- **Levity polymorphism**.  Richard E is actively involved in consolidating the implementation of levity polymorphism; see [LevityPolymorphism](levity-polymorphism).  This should include resolving the `Constraint` vs `*` debate [\#11715](https://gitlab.haskell.org//ghc/ghc/issues/11715).
-
-- **Backpack** (Edward Z Yang) is targeting to be merged in GHC 8.2. More to come here. See the tickets with the [ backpack](https://ghc.haskell.org/trac/ghc/query?status=!closed&keywords=~backpack) keyword for current status.
-
-- **Exhaustiveness checking**
-
-  - Exhaustiveness checking for `EmptyCase`s ([ Phab:D2105](https://phabricator.haskell.org/D2105)), addressing [\#10746](https://gitlab.haskell.org//ghc/ghc/issues/10746). 
-  - Exhaustiveness checking for pattern synonyms, including the ability to define sets of synonyms that constitute a complete match, addressing [\#8779](https://gitlab.haskell.org//ghc/ghc/issues/8779) (Matthew Pickering),
-
-### Optimiser and intermediate language
-
-- [Implement join points](sequent-core) (Luke Maurer)
-
 ### Back-end and runtime system
 
 - **Further improvements to debugging information** (Ben Gamari): There are still a number of outstanding issues with GHC's DWARF implementation, some of which even carry the potential to crash the runtime system during stacktrace collection. GHC 8.2 will hopefully have these issues resolved, allowing debugging   - TODOinformation to be used by end-user code in production.
 
 >
 > With stable stack unwinding support comes a number of opportunities for new serial and parallel performance analysis tools (e.g. statistical profiling) and debugging. As GHC's debugging information improves, we expect to see tooling developed to support these applications. See the [ DWARF status page](https://ghc.haskell.org/trac/ghc/wiki/DWARF/80Status) for futher information.
-
--  The [improved LLVM backend plan](improved-llvm-backend) plan didn't make the cut for 8.0, but will for 8.2 (Austin Seipp)
-
-- **Live streaming of event-log data** ([ Phab:2934](https://phabricator.haskell.org/2934))
 
 ### Build system and miscellaneous changes
 
@@ -77,6 +60,15 @@ TODO
 
   - Deriving strategies (Ryan Scott): grant users the ability to choose explicitly how a class should be `derived` (using a built-in algorithm, `GeneralizedNewtypeDeriving`, `DeriveAnyClass`, or otherwise), addressing [\#10598](https://gitlab.haskell.org//ghc/ghc/issues/10598).
 
+- **Levity polymorphism**.  Richard E is actively involved in consolidating the implementation of levity polymorphism; see [LevityPolymorphism](levity-polymorphism).  This will not include resolving the `Constraint` vs `*` debate [\#11715](https://gitlab.haskell.org//ghc/ghc/issues/11715).
+
+- **Backpack** (Edward Z Yang) is targeting to be merged in GHC 8.2. More to come here. See the tickets with the [ backpack](https://ghc.haskell.org/trac/ghc/query?status=!closed&keywords=~backpack) keyword for current status.
+
+- **Exhaustiveness checking**
+
+  - Exhaustiveness checking for `EmptyCase`s ([ Phab:D2105](https://phabricator.haskell.org/D2105)), addressing [\#10746](https://gitlab.haskell.org//ghc/ghc/issues/10746). 
+  - Exhaustiveness checking for pattern synonyms, including the ability to define sets of synonyms that constitute a complete match, addressing [\#8779](https://gitlab.haskell.org//ghc/ghc/issues/8779) (Matthew Pickering),
+
 #### Back-end and runtime system
 
 - **Compact regions** (Giovanni Campagna, Edward Yang, [ Phab:D1264](https://phabricator.haskell.org/D1264), [ paper](http://ezyang.com/papers/ezyang15-cnf.pdf)). This runtime system feature allows a referentially "closed" set of heap objects to be collected into a "compact region", allowing cheaper garbage collection, heap-object sharing between processes, and the possibility of inexpensive serialization. There is also a follow up patch by Simon Marlow, [ Phab:D2751](https://phabricator.haskell.org/D2751), which substantially improves over our original implementation.
@@ -88,6 +80,12 @@ TODO
 - **Experimental changes to the scheduler** (Simon Marlow, [ in progress](https://github.com/simonmar/ghc/commit/7e05ec18b4eda8d97e37015d415e627353de6b50)) that enable the number of threads used for GC to be lower than the `-N` setting.
 
 - **Improved idle CPU usage**: A long-standing regression ([\#11965](https://gitlab.haskell.org//ghc/ghc/issues/11965)) resulting in unnecessary wake-ups in an otherwise idle program was fixed. This should lower CPU utilization and improve power consumption for some programs.
+
+- **Live streaming of event-log data** ([ Phab:2934](https://phabricator.haskell.org/2934))
+
+### Optimiser and intermediate language
+
+- [Implement join points](sequent-core) (Luke Maurer)
 
 #### Library changes
 
