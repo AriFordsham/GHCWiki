@@ -586,6 +586,8 @@ HC [stage 0] compiler/stage1/build/Constants.o
 
 You can also put the "`V=0`" in your `build.mk` or `validate.mk` file.
 
+'''If your builds fail because of -Werror''' make sure there is no mk/are-validating.mk file in your tree. It's created by/for validate and adds some options which are not required for regular builds.
+
 == Installing extra packages ==
 
 The [wiki:Commentary/Libraries boot libraries] are built as part of building GHC; they are built with the stage1 compiler, and imported when the stage2 compiler is compiled with stage1.
