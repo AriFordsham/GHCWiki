@@ -689,6 +689,8 @@ to create dependencies for it using `make stage=3`. This is
 because a normal build will skip building the stage3 compiler.
 You will then be able to run `make 3`.
 
+**If your builds fail because of -Werror** make sure there is no mk/are-validating.mk file in your tree. It's created by/for validate and adds some options which are not required for regular builds.
+
 ## Verbose build
 
 
