@@ -107,6 +107,14 @@ other packages that are useful for development:
 
 The package `linux-tools` includes `perf`, see [Debugging/LowLevelProfiling/Perf](debugging/low-level-profiling/perf). The package `xutils-dev` provides the `lndir` program, need for running `make sdist` and useful for maintaining a separate build tree, see [Building/Using](building/using).
 
+
+For [validating patches](testing-patches) :
+
+```wiki
+   # GHC >= 8.2:
+   sudo apt-get install python3
+```
+
 ## Arch
 
 
