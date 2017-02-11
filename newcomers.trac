@@ -83,6 +83,8 @@ If you want to get a taste for possible starting tasks, below is a list of ticke
 
 * Read up on the steps you are expected to take for [wiki:WorkingConventions/FixingBugs contributing a patch to GHC].
 
+* See also code reviews in [https://phabricator.haskell.org/differential/ Phabricator]. You can refer to how they have been fixed.
+
 == Less practical advice ==
 
 * Don't get scared. GHC is a big codebase, but it makes sense when you stare at it long enough!
