@@ -1,24 +1,21 @@
 # The Trac Timeline
 
 
-The timeline provides a historic view of the project in a single report.
+Trac's timeline feature provides a historic view of the project in a single report.
 
 
-It lists all Trac events that have occurred in chronological order, a
-brief description of each event and if applicable, the person responsible for
-the change.
+It lists all Trac events that have occurred in chronological order, a brief description of each event and if applicable, the person responsible for the change.
 
 
 The timeline lists these kinds of events:
 
 - **Wiki page events** — Creation and changes
-- **Ticket events** — Creation and resolution/closing (and optionally other changes)
+- **Ticket events** — Creation and resolution/closing and optionally other changes
 - **Source code changes ** — Repository check-ins
 - **Milestone ** — Milestone completed
 
 
-Each event entry provides a hyperlink to the specific event in question, who authored the change as well as
-a brief excerpt of the actual comment or text, if available.
+Each event entry provides a hyperlink to the specific event in question, who authored the change as well as a brief excerpt of the actual comment or text, if available.
 
 
 It is possible to filter the displayed events with the various filters in the option panel:
