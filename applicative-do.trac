@@ -18,7 +18,7 @@ When `ApplicativeDo` is turned on, GHC will use a different method for desugarin
 
 `ApplicativeDo` makes it possible to use `do`-notation for types that are `Applicative` but not `Monad`.  (See examples below).
 
-For a type that is a`Monad`, `ApplicativeDo` implements the same semantics as the standard `do`-notation desugaring, provided `<*>` = `ap` for this type.
+For a type that is a `Monad`, `ApplicativeDo` implements the same semantics as the standard `do`-notation desugaring, provided `<*>` = `ap` for this type.
 
 `ApplicativeDo` respects `RebindableSyntax`: it will pick up whatever `<*>`, `fmap`, and `join` are in scope when `RebindableSyntax` is on.
 
