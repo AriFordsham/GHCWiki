@@ -1,15 +1,22 @@
 # Trac Macros
 
+**Trac macros** extend the Trac engine with custom functionality. Macros are a special type of plugin and are written in Python. A macro inserts dynamic HTML data in any context supporting [WikiFormatting](wiki-formatting).
 
-Trac macros are plugins to extend the Trac engine with custom 'functions' written in Python. A macro inserts dynamic HTML data in any context supporting [WikiFormatting](wiki-formatting). Its syntax is `[[macro-name(optional-arguments)]]`.
 
+The macro syntax is `[[macro-name(optional-arguments)]]`.
 
-The [WikiProcessors](wiki-processors) are another kind of macros. They typically deal with alternate markup formats and transformation of larger "blocks" of information (like source code highlighting). They are used for processing the multiline `{{{#!wiki-processor-name ... }}}` blocks.
+**[WikiProcessors](wiki-processors)** are another kind of macros. They are typically used for source code highlighting, such as `!#python` or `!#apache` and when the source code spans multiple lines, such as:
+
+```wiki
+{{{#!wiki-processor-name
+... 
+}}}
+```
 
 ## Using Macros
 
 
-Macro calls are enclosed in two *square brackets*. Like Python functions, macros can also have arguments, a comma separated list within parentheses.
+Macro calls are enclosed in double-square brackets `[[..]]`. Like Python functions, macros can have arguments, which is then a comma separated list within parentheses `[[..(,)]]`.
 
 ### Getting Detailed Help
 
@@ -25,7 +32,7 @@ Detailed help on a specific macro can be obtained by passing it as an argument t
 ### Example
 
 
-A list of 3 most recently changed wiki pages starting with 'Trac':
+A list of the 3 most recently changed wiki pages starting with 'Trac':
 
 <table><tr><th> Wiki Markup </th>
 <th> Display 
@@ -98,7 +105,7 @@ e.g. `[[RecentChanges(,10,group=none)]]`.
 <th>### `[[Image]]`
 
 Embed an image in wiki-formatted text.
-The first argument is the file …
+The first argument is the file, as in `[[Image(filename.png)]]`
 
 ### `[[InterTrac]]`
 
@@ -111,7 +118,6 @@ Provide a description list for the known [InterWiki](/wiki/InterWiki) prefixes.
 ### `[[KnownMimeTypes]]`
 
 List all known mime-types which can be used as [WikiProcessors](/wiki/WikiProcessors).
-Can be …
 
 
 etc.
@@ -1315,7 +1321,7 @@ Reference section headers in the current page. To refer to the section
 ## Macros from around the world
 
 
-The [ Trac Hacks](http://trac-hacks.org/) site provides a wide collection of macros and other Trac [plugins](trac-plugins) contributed by the Trac community. If you're looking for new macros, or have written one that you'd like to share with the world, please don't hesitate to visit that site.
+The [ Trac Hacks](http://trac-hacks.org/) site provides a wide collection of macros and other Trac [plugins](trac-plugins) contributed by the Trac community. If you are looking for new macros, or have written one that you would like to share, please visit that site.
 
 ## Developing Custom Macros
 
@@ -1326,15 +1332,12 @@ Macros, like Trac itself, are written in the [ Python programming language](http
 For more information about developing macros, see the [ development resources](http://trac.edgewall.org/intertrac/TracDev) on the main project site.
 
 
-Here are 2 simple examples showing how to create a Macro with Trac 0.11. 
-
-
-Also, have a look at [ Timestamp.py](http://trac.edgewall.org/intertrac/source%3Atags/trac-0.11/sample-plugins/Timestamp.py) for an example that shows the difference between old style and new style macros and at the [ macros/README](http://trac.edgewall.org/intertrac/source%3Atags/trac-0.11/wiki-macros/README) which provides a little more insight about the transition.
+Here are 2 simple examples showing how to create a Macro. Also, have a look at [ Timestamp.py](http://trac.edgewall.org/intertrac/source%3Atags/trac-1.0.2/sample-plugins/Timestamp.py) for an example that shows the difference between old style and new style macros and at the [ macros/README](http://trac.edgewall.org/intertrac/source%3Atags/trac-0.11/wiki-macros/README) which provides more insight about the transition.
 
 ### Macro without arguments
 
 
-To test the following code, you should saved it in a `timestamp_sample.py` file located in the [TracEnvironment](trac-environment)'s `plugins/` directory.
+To test the following code, save it in a `timestamp_sample.py` file located in the [TracEnvironment](trac-environment)'s `plugins/` directory.
 
 ```
 fromdatetimeimport datetime
@@ -1347,13 +1350,13 @@ classTimeStampMacro(WikiMacroBase):"""Inserts the current time (in seconds) into
 
     revision ="$Rev$"
     url ="$URL$"defexpand_macro(self, formatter, name, text):
-        t = datetime.now(utc)return tag.b(format_datetime(t,'%c'))
+        t = datetime.now(utc)return tag.strong(format_datetime(t,'%c'))
 ```
 
 ### Macro with arguments
 
 
-To test the following code, you should saved it in a `helloworld_sample.py` file located in the [TracEnvironment](trac-environment)'s `plugins/` directory.
+To test the following code, save it in a `helloworld_sample.py` file located in the [TracEnvironment](trac-environment)'s `plugins/` directory.
 
 ```
 fromgenshi.coreimport Markup
@@ -1386,7 +1389,7 @@ classHelloWorldMacro(WikiMacroBase):"""Simple HelloWorld macro.
 ```
 
 
-Note that `expand_macro` optionally takes a 4<sup>th</sup> parameter *`args`*. When the macro is called as a [WikiProcessor](wiki-processors), it's also possible to pass `key=value`[processor parameters](wiki-processors#). If given, those are stored in a dictionary and passed in this extra `args` parameter. On the contrary, when called as a macro, `args` is  `None`. (*since 0.12*).
+Note that `expand_macro` optionally takes a 4<sup>th</sup> parameter *`args`*. When the macro is called as a [WikiProcessor](wiki-processors), it is also possible to pass `key=value`[processor parameters](wiki-processors#). If given, those are stored in a dictionary and passed in this extra `args` parameter. In the other case, when called as a macro, `args` is `None`. (*since 0.12*).
 
 
 For example, when writing:
@@ -1407,23 +1410,23 @@ For example, when writing:
 One should get:
 
 ```wiki
-Hello World, text = <Hello World!> , args = {'style': u'polite', 'silent': False, 'verbose': True}
-Hello World, text = <Hello World!> , args = {}
-Hello World, text = <Hello World!> , args = None
+Hello World, text = <Hello World!>, args = {'style': u'polite', 'silent': False, 'verbose': True}
+Hello World, text = <Hello World!>, args = {}
+Hello World, text = <Hello World!>, args = None
 ```
 
 
-Note that the return value of `expand_macro` is **not** HTML escaped. Depending on the expected result, you should escape it by yourself (using `return Markup.escape(result)`) or, if this is indeed HTML, wrap it in a Markup object (`return Markup(result)`) with `Markup` coming from Genshi, (`from genshi.core import Markup`).  
+Note that the return value of `expand_macro` is **not** HTML escaped. Depending on the expected result, you should escape it yourself (using `return Markup.escape(result)`) or, if this is indeed HTML, wrap it in a Markup object (`return Markup(result)`) with `Markup` coming from Genshi (`from genshi.core import Markup`).
 
 
-You can also recursively use a wiki Formatter (`from trac.wiki import Formatter`) to process the `text` as wiki markup, for example by doing:
+You can also recursively use a wiki Formatter (`from trac.wiki import Formatter`) to process the `text` as wiki markup:
 
 ```
 fromgenshi.coreimport Markup
 fromtrac.wiki.macrosimport WikiMacroBase
 fromtrac.wikiimport Formatter
 importStringIOclassHelloWorldMacro(WikiMacroBase):defexpand_macro(self, formatter, name, text, args):
-                text ="whatever '''wiki''' markup you want, even containing other macros"# Convert Wiki markup to HTML, new style
-                out = StringIO.StringIO()
-                Formatter(self.env, formatter.context).format(text, out)return Markup(out.getvalue())
+        text ="whatever '''wiki''' markup you want, even containing other macros"# Convert Wiki markup to HTML, new style
+        out = StringIO.StringIO()
+        Formatter(self.env, formatter.context).format(text, out)return Markup(out.getvalue())
 ```
