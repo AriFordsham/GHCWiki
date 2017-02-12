@@ -1,42 +1,39 @@
 # The Trac Configuration File
 
-> *\[Note To Editors\] Please discuss documentation changes in the [\#Discussion](trac-ini#discussion) section. Even better, send us \[TracDev/SubmittingPatches documentation patches\] against the *code* (i.e. where the configuration entries are documented), either on Trac-dev or on new tickets. *
+
+Trac is configured through the **`trac.ini`** file, located in the `<projectenv>/conf` directory. The `trac.ini` configuration file and its parent directory should be writable by the web server.
 
 
-Trac configuration is done by editing the **`trac.ini`** config file, located in `<projectenv>/conf/trac.ini`.  Changes to the configuration are usually reflected immediately, though changes to the `[components]` or `[logging]` sections will require restarting the web server. You may also need to restart the web server after creating a global configuration file when none was previously present.
-
-
-The `trac.ini` configuration file and its parent directory should be writable by the web server, as Trac currently relies on the possibility to trigger a complete environment reload to flush its caches.
+Trac monitors the timestamp of the file to trigger a complete environment reload and flush its caches when the timestamp changes. Most changes to the configuration will be reflected immediately, though changes to the `[components]` or `[logging]` sections will require restarting the web server. You may also need to restart the web server after creating a [global configuration](trac-ini#global-configuration) file when none was previously present.
 
 ## Global Configuration
 
 
-In versions prior to 0.11, the global configuration was by default located in `$prefix/share/trac/conf/trac.ini` or /etc/trac/trac.ini, depending on the distribution. If you're upgrading, you may want to specify that file to inherit from.  Literally, when you're upgrading to 0.11, you have to add an `[inherit]` section to your project's `trac.ini` file. Additionally, you have to move your customized templates and common images from `$prefix/share/trac/...` to the new location.
+Configuration can be shared among environments using one or more global configuration files. Options in the global configuration will be merged with the environment-specific options, with local options overriding global options. The global configuration file is specified as follows:
 
-
-Global options will be merged with the environment-specific options, where local options override global options. The options file is specified as follows:
-
-```wiki
-[inherit]
-file = /path/to/global/trac.ini
+```
+[inherit]file=/path/to/global/trac.ini
 ```
 
 
 Multiple files can be specified using a comma-separated list.
 
 
-Note that you can also specify a global option file when creating a new project,  by adding the option `--inherit=/path/to/global/trac.ini` to [trac-admin](trac-admin#)'s `initenv` command.  If you do not do this but nevertheless intend to use a global option file with your new environment, you will have to go through the newly generated `conf/trac.ini` file and delete the entries that will otherwise override those set in the global file.
+Note that you can also specify a global option file when creating a new project, by adding the option `--inherit=/path/to/global/trac.ini` to [trac-admin](trac-admin#)'s `initenv` command. If you do not do this but nevertheless intend to use a global option file with your new environment, you will have to go through the newly generated `conf/trac.ini` file and delete the entries that will otherwise override those set in the global file.
 
 
 There are two more entries in the [ \[inherit\] ](trac-ini#) section, `templates_dir` for sharing global templates and `plugins_dir`, for sharing plugins. Those entries can themselves be specified in the shared configuration file, and in fact, configuration files can even be chained if you specify another `[inherit] file` there.
 
 
-Note that the templates found in the `templates/` directory of the [TracEnvironment](trac-environment) have precedence over those found in `[inherit] templates_dir`. In turn, the latter have precedence over the installed templates, so be careful about what you put there, notably if you override a default template be sure to refresh your modifications when you upgrade to a new version of Trac (the preferred way to perform [TracInterfaceCustomization](trac-interface-customization) being still to write a custom plugin doing an appropriate `ITemplateStreamFilter` transformation).
+Note that the templates found in the `templates/` directory of the [TracEnvironment](trac-environment) have precedence over those found in `[inherit] templates_dir`. In turn, the latter have precedence over the installed templates, so be careful about what you put there. Notably, if you override a default template, refresh your modifications when you upgrade to a new version of Trac. The preferred way to perform [TracInterfaceCustomization](trac-interface-customization) is still to write a custom plugin doing an appropriate `ITemplateStreamFilter` transformation.
 
 ## Reference for settings
 
 
 This is a brief reference of available configuration options, and their default settings.
+
+
+Documentation improvements should be discussed on the [ trac-dev mailing list](http://trac.edgewall.org/intertrac/MailingList%23Trac-dev) or described in a [ ticket](http://trac.edgewall.org/intertrac/NewTicket). Even better, [ submit a patch](http://trac.edgewall.org/intertrac/TracDev/SubmittingPatches) against the docstrings in the code.
 
 ### `[account-manager]`
 
