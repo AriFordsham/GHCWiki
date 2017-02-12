@@ -85,7 +85,7 @@ An alternative way to set it up is:
 <th>*host*</th></tr>
 <tr><th>**runs on**</th>
 <th>*build*</th>
-<th>*build*</th>
+<th>*host*</th>
 <th>*host*</th>
 <th>*target*</th>
 <th>*target*</th></tr>
