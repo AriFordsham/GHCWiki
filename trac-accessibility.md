@@ -1,17 +1,17 @@
 # Accessibility Support in Trac
 
 
-Not every user has a graphic environment with a mouse or other pointing device. Some users rely on keyboard, alternative keyboard or voice input to navigate links, activate form controls, etc. In Trac, we work to assure users may interact with devices other than a pointing device.
+Not every user has a graphic environment with a mouse or other pointing device. Some users rely on keyboard, alternative keyboard or voice input to navigate links and activate form controls. In a Trac session, users can use devices other than a pointing device by enabling keyboard shortcuts through the [Keyboard Shortcuts](/trac/ghc/prefs/keybindings) preferences panel.
 
 
-The keyboard shortcuts must be enabled for a session through the [Keyboard Shortcuts](/trac/ghc/prefs/keybindings) preferences panel.
+Trac supports accessibility keys for the most common operations. The access keys differ by browser and the following work for several browsers:
+
+- on Linux platforms, press any of the keys listed below in combination with the `<Alt>` key
+- on a Mac, use the `<Ctrl>` + `<Opt>` key instead
+- on Windows, you need to hit `<Shift> + <Alt> + <Key>`. This works for the most common browsers, such as Firefox, Chrome, Safari and Internet Explorer
 
 
-Trac supports accessibility keys for the most common operations.
-
-- on Linux platforms, press any of the keys listed below in combination with the `<Alt>` key 
-- on a Mac, use the `<ctrl>` key instead
-- on Windows, you need to hit `<Shift> + <Alt> + <Key>`. This works for most browsers (Firefox, Chrome, Safari and Internet Explorer)
+Also see [ access in different browsers](http://en.wikipedia.org/wiki/Access_key#Access_in_different_browsers) for more details.
 
 ## Global Access Keys
 
@@ -22,9 +22,16 @@ Trac supports accessibility keys for the most common operations.
 - `6` - [Trac Guide / Documentation](trac-guide)
 - `7` - [New Ticket](trac-tickets)
 - `9` - [About Trac](/trac/ghc/about)
-- `0` - This page
-- `e` - Edit this page
+- `e` - Edit (wiki or report)
+- `r` - Preview (wiki or ticket)
 - `f` - Search
+
+## [TracBrowser](trac-browser) Access Keys
+
+- `j` - Select next entry
+- `k` - Select previous entry
+- `o` - Expand folder/view file
+- `<Enter>` - Expand folder/view file
 
 ---
 
