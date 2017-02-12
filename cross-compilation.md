@@ -90,7 +90,7 @@ An alternative way to set it up is:
 <th>*target*</th>
 <th>*target*</th></tr>
 <tr><th>**targets**</th>
-<th>*build*</th>
+<th>*host*</th>
 <th> ---             </th>
 <th>*target*</th>
 <th> ---                </th>
