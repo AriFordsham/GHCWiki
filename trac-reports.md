@@ -39,7 +39,7 @@ If a column header is a hyperlink (red), click the column you would like to sort
 ## Changing Report Numbering
 
 
-There may be instances where you need to change the ID of the report, perhaps to organize the reports better. At present this requires changes to the trac database. The *report* table has the following schema *(since 0.10)*:
+There may be instances where you need to change the ID of the report, perhaps to organize the reports better. At present this requires changes to the trac database. The *report* table has the following schema:
 
 - id integer PRIMARY KEY
 - author text
@@ -66,7 +66,7 @@ You may also need to update or remove the report number stored in the report or 
 Clicking on one of the report results will take you to that ticket. You can navigate through the results by clicking the *Next Ticket* or *Previous Ticket* links just below the main menu bar, or click the *Back to Report* link to return to the report page.
 
 
-You can safely edit any of the tickets and continue to navigate through the results using the *Next/Previous/Back to Report* links after saving your results, but when you return to the report, there will be no hint about what has changed, as would happen if you were navigating a list of tickets obtained from a query (see [TracQuery\#NavigatingTickets](trac-query#navigating-tickets)). *(since 0.11)*
+You can safely edit any of the tickets and continue to navigate through the results using the *Next/Previous/Back to Report* links after saving your results, but when you return to the report, there will be no hint about what has changed, as would happen if you were navigating a list of tickets obtained from a query (see [TracQuery\#NavigatingTickets](trac-query#navigating-tickets)).
 
 ## Alternative Download Formats
 
@@ -144,6 +144,9 @@ SELECT id AS ticket, status, severity, priority, owner,
   ORDER BY priority, time
 ```
 
+
+Dynamic variables can also be used in the report title and description (since 1.1.1).
+
 ## Advanced Reports: Dynamic Variables
 
 
@@ -182,9 +185,6 @@ Example:
  http://trac.edgewall.org/reports/14?PRIORITY=high&SEVERITY=critical
 ```
 
-
-Dynamic variables can also be used in the report title and description (since 1.1.1).
-
 ### Special/Constant Variables
 
 
@@ -218,6 +218,8 @@ final report.
 - **ticket** — Ticket ID number. Becomes a hyperlink to that ticket. 
 - **id** — same as **ticket** above when **realm** is not set
 - **realm** — together with **id**, can be used to create links to other resources than tickets (e.g. a realm of *wiki* and an *id* to a page name will create a link to that wiki page)
+
+  - for some kind of resources, it may be necessary to specify their *parent* resources (e.g. for *changeset*, which *repos*) and this can be achieved using the **parent_realm** and **parent_id** columns
 - **created, modified, date, time** — Format cell as a date and/or time.
 - **description** — Ticket description field, parsed through the wiki engine.
 
@@ -302,7 +304,7 @@ SELECT p.value AS __color__,
 ### Reporting on custom fields
 
 
-If you have added custom fields to your tickets (a feature since v0.8, see [TracTicketsCustomFields](trac-tickets-custom-fields)), you can write a SQL query to cover them. You'll need to make a join on the ticket_custom table, but this isn't especially easy.
+If you have added custom fields to your tickets (see [TracTicketsCustomFields](trac-tickets-custom-fields)), you can write a SQL query to cover them. You'll need to make a join on the ticket_custom table, but this isn't especially easy.
 
 
 If you have tickets in the database *before* you declare the extra fields in trac.ini, there will be no associated data in the ticket_custom table. To get around this, use SQL's "LEFT OUTER JOIN" clauses. See [ TracIniReportCustomFieldSample](http://trac.edgewall.org/intertrac/TracIniReportCustomFieldSample) for some examples.
