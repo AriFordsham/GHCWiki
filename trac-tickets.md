@@ -1,46 +1,45 @@
 # The Trac Ticket System
 
 
-The Trac ticket database provides simple but effective tracking of issues and bugs within a project.
+The Trac ticket system provides a simple but effective way to track issues and software bugs within a project.
 
 
 As the central project management element of Trac, tickets can be used for **project tasks**, **feature requests**, **bug reports**, **software support issues** among others. 
 
 
-As with the [TracWiki](trac-wiki), this subsystem has been designed with the goal of making user contribution and participation as simple as possible. It should be as easy as possible to report bugs, ask questions, suggest improvements and discuss resolutions.
+As with the [TracWiki](trac-wiki), this subsystem has been designed to make user contribution and participation as simple as possible.
 
 
-An issue is assigned to a person who must resolve it or reassign the ticket to someone else.
-All tickets can be edited, annotated, assigned, prioritized and discussed at any time.
+An issue is assigned to a person who must resolve it or reassign the ticket to someone else. All tickets can be edited, annotated, assigned, prioritized and discussed at any time.
 
 
-However, some Trac installations may put restrictions in place about who can change what. For example, the default installation doesn't permit to non-authenticated users ("anonymous" users) to change anything, even to comment on an issue, for obvious spam prevention reasons. Check the local contributing policy, which you can usually find on the front page [WikiStart](wiki-start), or contact your local Trac administrator.
+However, a Trac installation may place restrictions on who can change what. For example, the default installation doesn't permit to non-authenticated users ("anonymous" users) to change anything, even to comment on an issue, for obvious spam prevention reasons. Check the local contributing policy, which you can usually find on the front page of [WikiStart](wiki-start), or contact your local Trac administrator.
 
 ## Ticket Fields
 
 
-A  ticket contains the following information attributes:
+A ticket contains the following information:
  
 
 - **Reporter** — The author of the ticket.
-- **Type** — The nature of the ticket (for example, defect or enhancement request). See TicketTypes for more details.
-- **Component** — The project module or subsystem this ticket concerns.
+- **Type** — The category of the ticket. The default types are `defect`, `enhancement` and `task`. 
+- **Component** — The project module or subsystem that this ticket concerns.
 - **Version** — Version of the project that this ticket pertains to.
-- **Keywords** — Keywords that a ticket is marked with. Useful for searching and report generation.
-- **Priority** — The importance of this issue, ranging from *trivial* to *blocker*. A pull-down if different priorities where defined.
-- **Milestone** — When this issue should be resolved at the latest. A pull-down menu containing a list of milestones.
+- **Keywords** — Keywords that a ticket is tagged with. Useful for searching and report generation.
+- **Priority** — The importance of this issue, ranging from *trivial* to *blocker*. A dropdown list when multiple priorities are defined.
+- **Milestone** — Due date of when this issue should be resolved. A dropdown list containing the milestones.
 - **Assigned to/Owner** — Principal person responsible for handling the issue.
-- **Cc** — A comma-separated list of other users or E-Mail addresses to notify. *Note that this does not imply responsiblity or any other policy.*
+- **Cc** — A comma-separated list of other users or email addresses to notify. Note that this does not imply responsibility or any other policy.
 - **Resolution** — Reason for why a ticket was closed. One of `fixed`, `invalid`, `wontfix`, `duplicate`, `worksforme`.
-- **Status** — What is the current status? One of `new`, `assigned`, `closed`, `reopened`.
-- **Summary** — A brief description summarizing the problem or issue. Simple text without [WikiFormatting](wiki-formatting).
+- **Status** — What is the current status? The statuses are defined in the [ticket workflow](trac-workflow#basic-ticket-workflow-customization). For the default workflow the statuses are `new`, `assigned`, `accepted`, `closed` and `reopened`.
+- **Summary** — A description summarizing the issue. Simple text without [WikiFormatting](wiki-formatting).
 - **Description** — The body of the ticket. A good description should be specific, descriptive and to the point. Accepts [WikiFormatting](wiki-formatting).
 
 **Notes:**
 
 - Versions of Trac prior to 0.9 did not have the *type* field, but instead provided a *severity* field and different default values for the *priority* field. This change was done to simplify the ticket model by removing the somewhat blurry distinction between *priority* and *severity*. However, the old model is still available if you prefer it: just add/modify the default values of the *priority* and *severity*, and optionally hide the *type* field by removing all the possible values through [trac-admin](trac-admin).
 
-- the [ type](http://trac.edgewall.org/intertrac/TicketTypes), [ component](http://trac.edgewall.org/intertrac/TicketComponent), version, priority and severity fields can be managed with [trac-admin](trac-admin) or with the [ WebAdmin](http://trac.edgewall.org/intertrac/WebAdmin) plugin.
+- The [ type](http://trac.edgewall.org/intertrac/TicketTypes), [ component](http://trac.edgewall.org/intertrac/TicketComponent), version, priority and severity fields can be managed with [trac-admin](trac-admin) or with the [ WebAdmin](http://trac.edgewall.org/intertrac/WebAdmin) plugin.
 
 - Description of the builtin *priority* values is available at [ TicketTypes](http://trac.edgewall.org/intertrac/TicketTypes%23Whyistheseverityfieldgone)
 
@@ -53,7 +52,7 @@ With appropriate permissions, as already mentioned [above](trac-tickets#), a tic
 Then, annotations like changes and comments to the ticket are logged as a part of the ticket itself. When viewing a ticket, the history of changes will appear below the main ticket area.
 
 
-Comment editing (available since 0.12) is meant to be used to make small corrections to comments, like fixing formatting, forgotten [WikiFormatting](wiki-formatting) or spelling errors, not major edits. For longer edits, you should be adding a new comment instead. Editing a comment will not produce a new entry on [timeline](/trac/ghc/timeline) while entering a new comment or other changes will do.
+Comment editing (available since 0.12) is meant to be used to make small corrections to comments, like fixing formatting, forgotten [WikiFormatting](wiki-formatting) or spelling errors, not major edits. For longer edits, you should be adding a new comment instead. Editing a comment will not produce a new entry on [timeline](/trac/ghc/timeline), while entering a new comment or other changes will do.
 
 
 All edits (field changes, new comments, comment edits) update the "last changed" time of the ticket.
@@ -71,16 +70,16 @@ All edits (field changes, new comments, comment edits) update the "last changed"
 
 The option selected by default for the various drop-down fields can be set in [trac.ini](trac-ini), in the `[ticket]` section:
 
-- `default_component`: Name of the component selected by default
-- `default_milestone`: Name of the default milestone
-- `default_priority`: Default priority value
-- `default_severity`: Default severity value
-- `default_type`: Default ticket type
-- `default_version`: Name of the default version
-- `default_owner`: Name of the default owner. If set to the text "\< default \>" (the default value), the component owner is used.
+- `default_component`: Name of the component selected by default.
+- `default_milestone`: Name of the default milestone.
+- `default_priority`: Default priority value.
+- `default_severity`: Default severity value.
+- `default_type`: Default ticket type.
+- `default_version`: Name of the default version.
+- `default_owner`: Name of the default owner. If set to the text `< default >` (the default value), the component owner is used.
 
 
-If any of these options are omitted, the default value will either be the first in the list, or an empty value, depending on whether the field in question is required to be set.  Some of these can be chosen through the [ WebAdmin](http://trac.edgewall.org/intertrac/WebAdmin) plugin in the "Ticket System" section (others in the [\[ticket\]](trac-ini#) section in `trac.ini`).
+If any of these options are omitted, the default value will either be the first in the list, or an empty value, depending on whether the field in question is required to be set. Some of these can be chosen through the [ WebAdmin](http://trac.edgewall.org/intertrac/WebAdmin) plugin in the "Ticket System" section, others can be set in the [\[ticket\]](trac-ini#) section in `trac.ini`.
 
 ## Hiding Fields and Adding Custom Fields
 
@@ -93,44 +92,60 @@ Trac also lets you add your own custom ticket fields. See [TracTicketsCustomFiel
 ## Assign-to as Drop-Down List
 
 
-If the list of possible ticket owners is finite, you can change the *assign-to* ticket field from a text input to a drop-down list. This is done by setting the `restrict_owner` option of the `[ticket]` section in [trac.ini](trac-ini) to “true”. In that case, Trac will use the list of all users who have accessed the project to populate the drop-down field.
+If the list of possible ticket owners is finite, you can change the *assign-to* ticket field from a text input to a drop-down list. This is done by setting the `restrict_owner` option of the `[ticket]` section in [trac.ini](trac-ini) to `true`. In that case, Trac will populate the list with all users who **have an authenticated session** and possess the `TICKET_MODIFY`[permissions](trac-permissions).
 
 
-To appear in the dropdown list, a user needs be registered with the project, *i.e.* a user session should exist in the database. Such an entry is automatically created in the database the first time the user submits a change in the project, for example when editing the user's details in the *Settings* page, or simply by authenticating if the user has a login. Also, the user must have `TICKET_MODIFY`[permissions](trac-permissions).
+An authenticated session will be created the first time a user authenticates with the project. You can manually add an authenticated session using the [trac-admin](trac-admin#)`session add` command. The `:1` suffix on the session id (i.e. username) is the key to creating an authenticated session:
+
+```
+trac-admin /path/to/projenv session add <sid>:1 [name][email]
+```
+
+
+You may find the dropdown list is *overpopulated* with users that are no longer active in the project. Revoking authentication privileges will not remove the session data that is used to populate the dropdown list. The [trac-admin](trac-admin) command can be used to list and remove sessions:
+
+- List all sessions:
+
+  ```
+  trac-admin /path/to/projenv session list
+  ```
+- Remove a session:
+
+  ```
+  trac-admin /path/to/projenv session delete SID
+  ```
+
+
+Alternatively, you can just revoke `TICKET_MODIFY` from users that you don't want to be included in the list. However, that will not be possible if you've granted `TICKET_MODIFY` to all *anonymous* or *authenticated* users.
 
 **Notes:**
 
-- See [ Populating Assign To Drop Down](http://pacopablo.com/wiki/pacopablo/blog/set-assign-to-drop-down) on how to add user entries at database level
+- If you need more flexibility and aren't afraid of a little plugin coding of your own, see the [ FlexibleAssignTo plugin](https://trac-hacks.org/wiki/FlexibleAssignToPlugin).
 
-- If you need serious flexibility and aren't afraid of a little plugin coding of your own, see [ FlexibleAssignTo](http://trac-hacks.org/wiki/FlexibleAssignToPlugin) (disclosure: I'm the author)
-
--  Activating this option may cause some performance degradation, read more about this in the [ Trac performance](http://trac.edgewall.org/intertrac/TracPerformance%23Configuration) page.
+- Activating this option may cause some performance degradation. Read more about this in the [ Trac performance](http://trac.edgewall.org/intertrac/TracPerformance%23Configuration) page.
 
 ## Preset Values for New Tickets
 
 
-To create a link to the new-ticket form filled with preset values, you need to call the `/newticket?` URL with `variable=value` separated by `&`. 
+To create a link to the new-ticket form filled with preset values, you need to call the `/newticket?` URL with `variable=value` separated by `&`. Possible variables are:
+
+- **type** — The type droplist.
+- **reporter** — Name or email of the reporter.
+- **summary** — Summary line for the ticket.
+- **description** — Long description of the ticket.
+- **component** — The component dropdown list.
+- **version** — The version dropdown list.
+- **severity** — The severity dropdown list.
+- **keywords** — The keywords or tags.
+- **priority** — The priority dropdown list.
+- **milestone** — The milestone dropdown list.
+- **owner** — The person responsible for the ticket.
+- **cc** — The list of emails for notifying about the ticket change.
 
 
-Possible variables are :
-
-- **type** — The type droplist
-- **reporter** — Name or email of the reporter
-- **summary** — Summary line for the ticket
-- **description** — Long description of the ticket
-- **component** — The component droplist
-- **version** — The version droplist
-- **severity** — The severity droplist
-- **keywords** — The keywords 
-- **priority** — The priority droplist
-- **milestone** — The milestone droplist
-- **owner** — The person responsible for the ticket
-- **cc** — The list of emails for notifying about the ticket change
-
-
-Example: *`[/newticket?summary=Compile%20Error&version=1.0&component=gui]`*
+Example: `[/newticket?summary=Compile%20Error&version=1.0&component=gui]`
 
 ---
 
 
-See also:  [TracGuide](trac-guide), [TracWiki](trac-wiki), [TracTicketsCustomFields](trac-tickets-custom-fields), [TracNotification](trac-notification), [TracReports](trac-reports), [TracQuery](trac-query)
+See also: [TracGuide](trac-guide), [TracWiki](trac-wiki), [TracTicketsCustomFields](trac-tickets-custom-fields), [TracNotification](trac-notification), [TracReports](trac-reports), [TracQuery](trac-query)
