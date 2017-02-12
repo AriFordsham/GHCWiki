@@ -1,26 +1,26 @@
 # [TracAdmin](trac-admin)
 
 
-Trac is distributed with a powerful command-line configuration tool. This tool can be used  to configure and customize your Trac-installation to better fit your needs.
+Trac is distributed with a powerful command-line configuration tool. This tool can be used to configure and customize your Trac-installation to better fit your needs.
 
 
-Some of those operations can also be performed via the *Admin* web interface, an updated version of the [ WebAdmin](http://trac.edgewall.org/intertrac/WebAdmin) plugin now integrated within Trac (since version 0.11).
+Some of those configurations can also be performed via the web administration module.
 
 ## Usage
 
 
-For nearly every `trac-admin` command, you'll need to specify the path to the [TracEnvironment](trac-environment) that you want to administer as the first argument, for example:
+For nearly every `trac-admin` command, you will need to specify the path to the [TracEnvironment](trac-environment) that you want to administer as the first argument:
 
 ```wiki
 trac-admin /path/to/projenv wiki list
 ```
 
 
-The only exception is for the `help` command, but even in this case if you omit the environment, you'll only get a very succinct list of commands (`help` and `initenv`), the same list you'd get when invoking `trac-admin` alone.
+The only exception is for the `help` command, but even in this case if you omit the environment, you will only get a very succinct list of commands (`help` and `initenv`), the same list you would get when invoking `trac-admin` alone.
 Also, `trac-admin --version` will tell you about the Trac version (e.g. 0.12) corresponding to the program.
 
 
-If you want to get a comprehensive list of the available commands and sub-commands, you need to specify an existing environment:
+To get a comprehensive list of the available commands and sub-commands, specify an existing environment:
 
 ```wiki
 trac-admin /path/to/projenv help
@@ -36,7 +36,7 @@ trac-admin /path/to/projenv help <command>
 ### `trac-admin <targetdir> initenv`
 
 
-This subcommand is very important as it's the one used to create a [TracEnvironment](trac-environment) in the specified `<targetdir>`. That directory must not exist prior to the call.
+This subcommand is very important as is the one used to create a [TracEnvironment](trac-environment) in the specified `<targetdir>`. That directory must not exist prior to the call.
 
 initenv \[\<projectname\> \<db\> \[\<repostype\> \<repospath\>\]\]
 
@@ -58,11 +58,11 @@ initenv \[\<projectname\> \<db\> \[\<repostype\> \<repospath\>\]\]
     optional, but if specified will override values in the configuration file.
 
 
-It supports an extra `--inherit` option, which can be used to specify a global configuration file which can be used share settings between several environments. You can also inherit from a shared configuration afterwards, by setting the `[inherit] file` option in the `conf/trac.ini` file in your newly created environment, but the advantage of specifying the inherited configuration file at environment creation time is that only the options *not* already specified in the global configuration file will be written in the created environment's `conf/trac.ini` file.
+It supports an extra `--inherit` option, which can be used to specify a global configuration file which can be used to share settings between several environments. You can also inherit from a shared configuration afterwards, by setting the `[inherit] file` option in the `conf/trac.ini` file in your newly created environment, but the advantage of specifying the inherited configuration file at environment creation time is that only the options *not* already specified in the global configuration file will be written in the created environment's `conf/trac.ini` file.
 See [TracIni\#GlobalConfiguration](trac-ini#global-configuration).
 
 
-Note that in version 0.11 of Trac, `initenv` lost an extra last argument `<templatepath>`, which was used in previous versions to point to the `templates` folder. If you are using the one-liner '`trac-admin /path/to/trac/ initenv <projectname> <db> <repostype> <repospath>`' in the above and getting an error that reads **'`Wrong number of arguments to initenv: 4`**', then this is because you're using a `trac-admin` script from an **older** version of Trac.
+Note that in version 0.11 of Trac, `initenv` lost an extra last argument `<templatepath>`, which was used in previous versions to point to the `templates` folder. If you are using the one-liner `trac-admin /path/to/trac/ initenv <projectname> <db> <repostype> <repospath>` in the above and get an error that reads `Wrong number of arguments to initenv: 4`, then this is because you are using a `trac-admin` script from an **older** version of Trac.
 
 ## Interactive Mode
 
@@ -72,26 +72,26 @@ Commands can then be executed on the selected environment using the prompt, whic
 (on non-Windows environments, and when the Python `readline` module is available) and automatic repetition of the last command issued.
 
 
-Once you're in interactive mode, you can also get help on specific commands or subsets of commands:
+Once you are in interactive mode, you can also get help on specific commands or subsets of commands:
 
 
 For example, to get an explanation of the `resync` command, run:
 
 ```wiki
-> help resync
+$ help resync
 ```
 
 
 To get help on all the Wiki-related commands, run:
 
 ```wiki
-> help wiki
+$ help wiki
 ```
 
 ## Full Command Reference
 
 
-You'll find below the detailed help for all the commands available by default in `trac-admin`. Note that this may not match the list given by `trac-admin <yourenv> help`, as the commands  pertaining to components disabled in that environment won't be available and conversely some plugins activated in the environment can add their own commands.
+You will find below the detailed help for all the commands available by default in `trac-admin`. Note that this may not match the list given by `trac-admin <yourenv> help`, as the commands pertaining to components disabled in that environment won't be available and conversely some plugins activated in the environment can add their own commands.
 
 help 
 
