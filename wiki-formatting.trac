@@ -1,24 +1,23 @@
-= WikiFormatting =
+= WikiFormatting
+
 [[TracGuideToc]]
 
 Wiki markup is a core feature in Trac, tightly integrating all the other parts of Trac into a flexible and powerful whole.
 
-Trac has a built in small and powerful wiki rendering engine. This wiki engine implements an ever growing subset of the commands from other popular Wikis,
-especially [http://moinmo.in/ MoinMoin] and [trac:WikiCreole].
-
+Trac has a built-in small and powerful wiki rendering engine. This wiki engine implements a growing subset of the commands from other popular Wikis, especially [http://moinmo.in/ MoinMoin] and [trac:WikiCreole].
 
 This page will give you an in-depth explanation of the wiki markup available anywhere WikiFormatting is allowed.
 
-The ''Cheat sheet'' below gives you a quick overview for the most common syntax, each link in the ''Category'' column will lead you to the more detailed explanation later in this page.
+The sections below provide an overview for the most common syntax, each link in the ''Category'' column will lead you to the more detailed explanation later in this page.
 
 A few other wiki pages present the advanced features of the Trac wiki markup in more depth: 
- - TracLinks covers all the possible ways to refer precisely to any Trac resource or parts thereof,
- - WikiPageNames talks about the various names a wiki page can take, CamelCase or not
- - WikiMacros lists the macros available for generating dynamic content,
- - WikiProcessors and WikiHtml details how parts of the wiki text can be processed in special ways
+ - TracLinks covers all the possible ways to refer precisely to any Trac resource or parts thereof.
+ - WikiPageNames covers the various names a wiki page can take, whether in CamelCase or not.
+ - WikiMacros lists the macros available for generating dynamic content.
+ - WikiProcessors and WikiHtml details how parts of the wiki text can be processed in special ways.
+ - [trac:wiki:TracDev/Proposals/AdvancedWikiOperations AdvancedWikiOperations] provides some operations in uncommon or administrative scenarios.
 
-
-== Cheat sheet ==
+== Common wiki markup
 
 ||= '''Category''' =||= '''Wiki Markup''' =||= '''Display''' =||
 |-----------------------------------------------------------
@@ -35,12 +34,12 @@ A few other wiki pages present the advanced features of the Trac wiki markup in 
 ||= [#Headings Headings] =||\
 {{{#!td 
  {{{
- == Level 2 ==
+ == Level 2
  === Level 3 ^([#hn note])^
  }}}
 }}}
 {{{#!td style="padding-left: 2em"
-== Level 2 ==
+== Level 2
 === Level 3 ^([#hn note])^
 }}}
 |-----------------------------------------------------------
@@ -63,7 +62,7 @@ Second paragraph.
 ||= [#Lists Lists] =||\
 {{{#!td
  {{{
- * bullets list
+ * bullet list
    on multiple lines
    1. nested list
      a. different numbering 
@@ -71,7 +70,7 @@ Second paragraph.
  }}}
 }}}
 {{{#!td
-* bullets list
+* bullet list
   on multiple lines
   1. nested list
     a. different numbering
@@ -92,11 +91,7 @@ Second paragraph.
         multiple lines
 }}}
 |-----------------------------------------------------------
-{{{#!th rowspan=3
-[#PreformattedText Preformatted Text]\\
-[#Processors Processors]\\
-[#Comments Comments]
-}}}
+||= [#PreformattedText Preformatted Text] =||\
 {{{#!td
  {{{
  {{{
@@ -109,34 +104,6 @@ Second paragraph.
  {{{
  multiple lines, ''no wiki''
        white space respected
- }}}
-}}}
-||
-{{{#!td
- {{{
- {{{#!hs
- main :: IO ()
- main = putStrLn "Hello, World"
- }}}
- }}}
-}}}
-{{{#!td
- {{{#!hs
- main :: IO ()
- main = putStrLn "Hello, World"
- }}}
-}}}
-||
-{{{#!td
- {{{
- {{{#!comment
- Note to Editors: ...
- }}}
- }}}
-}}}
-{{{#!td style="padding-left: 2em"
- {{{#!comment
- Note to Editors: ...
  }}}
 }}}
 |-----------------------------------------------------------
@@ -193,10 +160,10 @@ Second paragraph.
 || #1 (ticket), [1] (changeset), {1} (report) ||
 || `ticket:1, ticket:1#comment:1` ||\
 || ticket:1, ticket:1#comment:1 ||
-|| `Ticket [ticket:1]`, `[ticket:1 ticket one]` ||\
-|| Ticket [ticket:1], [ticket:1 ticket one] ||
-|| `Ticket [[ticket:1]]`, `[[ticket:1|ticket one]]` ||\
-|| Ticket [[ticket:1]], [[ticket:1|ticket one]] ||
+|| `Ticket [ticket:1]`, `[ticket:1 ticket one]` ||\
+|| Ticket [ticket:1], [ticket:1 ticket one] ||
+|| `Ticket [[ticket:1]]`, `[[ticket:1|ticket one]]` ||\
+|| Ticket [[ticket:1]], [[ticket:1|ticket one]] ||
 |-----------------------------------------------------------
 {{{#!th rowspan=2 
 [#SettingAnchors Setting Anchors]
@@ -213,7 +180,7 @@ Second paragraph.
 || !'' doubled quotes ||
 || `!wiki:WikiFormatting`, `!WikiFormatting` ||\
 || !wiki:WikiFormatting, !WikiFormatting ||
-|| {{{`}}}`{{{-}}}`{{{`}}}` triple curly brackets` ||\
+|| [[html(<code>`{{{-}}}` triple curly brackets</code>)]] ||\
 || `{{{-}}}` triple curly brackets ||
 |-----------------------------------------------------------
 ||= [#Images Images] =|| `[[Image(`''link''`)]]` || [[Image(htdocs:../common/trac_logo_mini.png)]] ||
@@ -223,6 +190,42 @@ Second paragraph.
 }}}
 || `[[MacroList(*)]]` ||  ''(short list of all available macros)''  ||
 || `[[Image?]]` ||  ''(help for the Image macro)''  ||
+|-----------------------------------------------------------
+||= [#Processors Processors] =||\
+{{{#!td
+ {{{
+ {{{
+ #!div style="font-size: 80%"
+ Code highlighting:
+   {{{#!python
+   hello = lambda: "world"
+   }}}
+ }}}
+ }}}
+}}}
+{{{#!td style="padding-left: 2em"
+ {{{
+ #!div style="font-size: 80%"
+ Code highlighting:
+   {{{#!python 
+   hello = lambda: "world"
+   }}}
+ }}}
+}}}
+|-----------------------------------------------------------
+||= [#Comments Comments] =||\
+{{{#!td
+ {{{
+ {{{#!comment
+ Note to Editors: ...
+ }}}
+ }}}
+}}}
+{{{#!td style="padding-left: 2em"
+ {{{#!comment
+ Note to Editors: ...
+ }}}
+}}}
 |-----------------------------------------------------------
 ||= [#Miscellaneous Miscellaneous] =||\
 {{{#!td
@@ -238,8 +241,7 @@ Line \\ break
 ----
 }}}
 
-
-== Font Styles ==
+== Font Styles
 
 The Trac wiki supports the following font styles:
 ||= Wiki Markup =||= Display =||
@@ -259,6 +261,7 @@ The Trac wiki supports the following font styles:
    * ,,subscript,,
    * **also bold**, //italic as well//, 
      and **'' bold italic **'' //(since 0.12)//
+   * [[span(style=color: #FF0000, a red text )]]
   }}}
 }}}
 {{{#!td
@@ -276,23 +279,22 @@ The Trac wiki supports the following font styles:
  * ,,subscript,,
  * **also bold**, //italic as well//, 
    and **'' bold italic **'' //(since 0.12)//
+ * [[span(style=color: #FF0000, a red text )]]
 }}}
 
 Notes:
  * `{{{...}}}` and {{{`...`}}} commands not only select a monospace font, but also treat their content as verbatim text, meaning that no further wiki processing is done on this text.
  * {{{ ! }}} tells wiki parser to not take the following characters as wiki format, so pay attention to put a space after !, e.g. when ending bold.
  * all the font styles marks have to be used in opening/closing pairs, 
-   and they must nest properly (in particular, an `''` italic can't be paired 
-   with a `//` one, and `'''` can't be paired with `**`)
+   and they must nest properly; in particular, an `''` italic can't be paired 
+   with a `//` one, and `'''` can't be paired with `**`.
 
+== Headings
 
-== Headings ==
-
-You can create heading by starting a line with one up to six ''equal'' characters ("=")
-followed by a single space and the headline text. 
+You can create heading by starting a line with one up to six ''equal'' characters ("=") followed by a single space and the headline text. 
 
 [=#hn]
-The headline text can be followed by the same number of "=" characters, but this is no longer mandatory.
+The headline text can be followed by the same number of "=" characters, but this is not mandatory. That is, `=== Section3 ===` is identical to `=== Section3`.
 
 Finally, the heading might optionally be followed by an explicit id. If not, an implicit but nevertheless readable id will be generated.
 
@@ -317,7 +319,7 @@ Finally, the heading might optionally be followed by an explicit id. If not, an 
   }}}
 }}}
 
-== Paragraphs ==
+== Paragraphs
 
 A new text paragraph is created whenever two blocks of text are separated by one or more empty lines.
 
@@ -345,7 +347,7 @@ A forced line break can also be inserted, using:
   two
 }}}
 
-== Lists ==
+== Lists
 
 The wiki supports both ordered/numbered and unordered lists.
 
@@ -401,8 +403,7 @@ And numbered lists can also be restarted with an explicit number:
  3. Item 3
 }}}
 
-
-== Definition Lists ==
+== Definition Lists
 
 The wiki also supports definition lists.
 
@@ -426,8 +427,7 @@ The wiki also supports definition lists.
 
 Note that you need a space in front of the defined term.
 
-
-== Preformatted Text ==
+== Preformatted Text
 
 Block containing preformatted text are suitable for source code snippets, notes and examples. Use three ''curly braces'' wrapped around the text to define a block quote. The curly braces need to be on a separate line.
   
@@ -447,37 +447,9 @@ Block containing preformatted text are suitable for source code snippets, notes 
   }}}
 }}}
 
-See [#Processors Processors] for syntax highlighting.
-
 Note that this kind of block is also used for selecting lines that should be processed through WikiProcessors.
 
-
-== Comments ==
-
-Comments can be added to the plain text. These will not be rendered and will not display in any other format than plain text.
-
-||= Wiki Markup =||= Display =||
-{{{#!td
-  {{{
-  Nothing to
-  {{{
-  #!comment
-  Your comment for editors here
-  }}}
-  see ;-)
-  }}}
-}}}
-{{{#!td
-  Nothing to
-  {{{
-  #!comment
-  Your comment for editors here
-  }}}
-  see ;-)
-}}}
-
-
-== Blockquotes ==
+== Blockquotes
 
 In order to mark a paragraph as blockquote, indent that paragraph with two spaces.
 
@@ -493,9 +465,9 @@ Paragraph
   This text is a quote from someone else.
 }}}
 
-== Discussion Citations ==
+== Discussion Citations
 
-To delineate a citation in an ongoing discussion thread, such as the ticket comment area, e-mail-like citation marks (">", ">>", etc.) may be used.  
+To delineate a citation in an ongoing discussion thread, such as the ticket comment area, email-like citation marks (">", ">>", etc.) may be used.  
 
 ||= Wiki Markup =||= Display =||
 {{{#!td
@@ -513,9 +485,9 @@ To delineate a citation in an ongoing discussion thread, such as the ticket comm
 My reply text
 }}}
 
+== Tables
+=== Simple Tables
 
-== Tables ==
-=== Simple Tables ===
 Simple tables can be created like this:
 ||= Wiki Markup =||= Display =||
 {{{#!td
@@ -605,14 +577,13 @@ If contrary to the example above, the cells in your table contain more text, it 
 || that's column 3 and last one ||
 }}}
 
-=== Complex Tables ===
+=== Complex Tables
 
-If the possibilities offered by the simple "pipe"-based markup for tables described above are not enough for your needs, you can create more elaborated tables by using [#Processors-example-tables WikiProcessor based tables].
+If the possibilities offered by the simple pipe-based markup ('||') for tables described above are not enough for your needs, you can create more elaborate tables by using [#Processors-example-tables WikiProcessor based tables].
 
+== Links
 
-== Links ==
-
-Hyperlinks are automatically created for WikiPageNames and URLs. !WikiPageLinks can be disabled by prepending an exclamation mark "!" character, such as {{{!WikiPageLink}}}.
+Hyperlinks are automatically created for WikiPageNames and URLs. !WikiPageLinks can be disabled by prepending an exclamation mark ('!'), such as {{{!WikiPageLink}}}.
 
 ||= Wiki Markup =||= Display =||
 {{{#!td
@@ -664,15 +635,10 @@ Following the [trac:WikiCreole] trend, the descriptive title can also be specifi
    * [[ISO9000]]
 }}}
 
-'''Note''': the [trac:WikiCreole] style for links is quick to type and
-certainly looks familiar as it's the one used on Wikipedia and in many
-other wikis. Unfortunately it conflicts with the syntax for [#Macros macros].
-So in the rare case when you need to refer to a page which is named after
-a macro (typical examples being TitleIndex, InterTrac and InterWiki), 
-by writing `[[TitleIndex]]` you will actually call the macro instead of linking
-to the page.
+'''Note''': the [trac:WikiCreole] style for links is quick to type and certainly looks familiar as it is the one used on Wikipedia and in many other wikis. Unfortunately it conflicts with the syntax for [#Macros macros].
+So in the rare case when you need to refer to a page which is named after a macro (typical examples being TitleIndex, InterTrac and InterWiki), by writing `[[TitleIndex]]` you will actually call the macro instead of linking to the page.
 
-== Trac Links ==
+== Trac Links
 
 Wiki pages can link directly to other parts of the Trac system. Pages can refer to tickets, reports, changesets, milestones, source files and other Wiki pages using the following notations:
 
@@ -702,8 +668,7 @@ Wiki pages can link directly to other parts of the Trac system. Pages can refer 
 
 There are many more flavors of Trac links, see TracLinks for more in-depth information and a reference for all the default link resolvers.
 
-
-== Setting Anchors ==
+== Setting Anchors
 
 An anchor, or more correctly speaking, an [http://www.w3.org/TR/REC-html40/struct/links.html#h-12.2.1 anchor name] can be added explicitly at any place in the Wiki page, in order to uniquely identify a position in the document:
 
@@ -716,7 +681,7 @@ This syntax was chosen to match the format for explicitly naming the header id [
 == Long title == #title
 }}}
 
-It's also very close to the syntax for the corresponding link to that anchor:
+It is also very close to the syntax for the corresponding link to that anchor:
 {{{
 [#point1]
 }}}
@@ -745,12 +710,11 @@ Optionally, a label can be given to the anchor:
   Point2:  [=#point2] Jump here
 }}}
 
-For more complex anchors (e.g. when a custom title is wanted), one can use the Span macro, e.g. `[[span(id=point2, class=wikianchor, title=Point 2, ^(2)^)]]`.
-
+For more complex anchors (eg when a custom title is wanted), you can use the Span macro: `[[span(id=point2, class=wikianchor, title=Point 2, ^(2)^)]]`.
 
 == Escaping Links, WikiPageNames and other Markup == #Escaping
 
-You may avoid making hyperlinks out of TracLinks by preceding an expression with a single "!" (exclamation mark).
+You may avoid making hyperlinks out of TracLinks by preceding an expression with a single exclamation mark ('!').
 
 ||= Wiki Markup =||= Display =||
 {{{#!td
@@ -760,9 +724,9 @@ You may avoid making hyperlinks out of TracLinks by preceding an expression with
   }}}
   {{{
 Various forms of escaping for list markup:
- `-` escaped minus sign \\
- ``1. escaped number  \\
- {{{*}}} escaped asterisk sign
+ ^^- escaped minus sign \\
+ ^^1. escaped number  \\
+ ^^* escaped asterisk sign
   }}}
 }}}
 {{{#!td
@@ -770,12 +734,12 @@ Various forms of escaping for list markup:
  !#42 is not a link
 
 Various forms of escaping for list markup:
- `-` escaped minus sign \\
- ``1. escaped number  \\
- {{{*}}} escaped asterisk sign
+ ^^- escaped minus sign \\
+ ^^1. escaped number  \\
+ ^^* escaped asterisk sign
 }}}
 
-== Images ==
+== Images
 
 Urls ending with `.png`, `.gif` or `.jpg` are no longer automatically interpreted as image links, and converted to `<img>` tags.
 
@@ -799,8 +763,7 @@ In addition to the current page, it is possible to refer to other resources:
 
 See WikiMacros for further documentation on the `[[Image()]]` macro, which has several useful options (`title=`, `link=`, etc.)
 
-
-== Macros ==
+== Macros
 
 Macros are ''custom functions'' to insert dynamic content in a page.
 
@@ -828,8 +791,7 @@ The detailed help for a specific macro can also be obtained more directly by app
 [[MacroList?]]
 }}}
 
-
-== Processors ==
+== Processors
 
 Trac supports alternative markup formats using WikiProcessors. For example, processors are used to write pages in 
 [wiki:WikiRestructuredText reStructuredText] or [wiki:WikiHtml HTML]. 
@@ -966,42 +928,62 @@ if __name__ == '__main__':
 
 See WikiProcessors for more information.
 
+== Comments
 
-== Miscellaneous ==
-
-An horizontal line can be used to separated different parts of your page:
+Comments can be added to the plain text. These will not be rendered and will not display in any other format than plain text.
 
 ||= Wiki Markup =||= Display =||
 {{{#!td
   {{{
+  Nothing to
+  {{{
+  #!comment
+  Your comment for editors here
+  }}}
+  see.
+  }}}
+}}}
+{{{#!td
+  Nothing to
+  {{{
+  #!comment
+  Your comment for editors here
+  }}}
+  see.
+}}}
+
+== Miscellaneous
+
+||= Wiki Markup =||= Display =||
+{{{#!td
+  Horizontal line:
+  {{{
   Four or more dashes will be replaced 
-  by an horizontal line (<HR>)
+  by a horizontal line (<HR>)
   ----
   See?
   }}}
 }}}
 {{{#!td
 Four or more dashes will be replaced
-by an horizontal line (<HR>)
+by a horizontal line (<HR>)
 ----
 See?
 }}}
 |----------------------------------
 {{{#!td
+  Two examples of line breaks:
   {{{
-  "macro" style [[br]] line break
+  "macro" style [[BR]] line break
   }}}
-}}}
-{{{#!td
-"macro" style [[br]] line break
-}}}
-|----------------------------------
-{{{#!td
+  or:
   {{{
   !WikiCreole style \\ line\\break
   }}}
 }}}
 {{{#!td
+"macro" style [[BR]] line break
+
 !WikiCreole style \\ line\\break
 }}}
-
+|----------------------------------
