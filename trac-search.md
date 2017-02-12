@@ -1,46 +1,40 @@
 # Using Search
 
 
-Trac has a built-in search engine to allow finding occurrences of keywords and substrings in wiki pages, tickets and changeset properties (author, revision and log message).
-
-
-Using the Trac search facility is straightforward and its interface should be familiar to most users.
+Trac has built-in search functionality to search for occurrences of keywords and substrings in wiki pages, tickets and changeset properties, such as author, revision and log messages.
 
 
 Apart from the [Search module](/trac/ghc/search), you will also find a small search field above the navigation bar at all time. It provides convenient access to the search module from all pages.
 
 
-The search results show the most recent modifications ranked first in the results rather than the most relevant result.
+The search results show the most recent modifications ranked first rather than the most relevant result.
 
-## "Quickjump" searches
-
-
-For quick access to various project resources, the quick-search field at the top of every page can be used to enter a [wiki link](trac-links), which will take you directly to the resource identified by that link.
+## Quick searches
 
 
-For example:
+For quick access to project resources, the quick-search field at the top of every page can be used to enter a [wiki link](trac-links), which will take you directly to the resource identified by that link:
 
 - \[42\] -- Opens change set 42
 - \#42 -- Opens ticket number 42
 - {1} -- Opens report 1
-- /trunk -- Opens the browser for the `trunk` directory
-
-## Advanced
-
-### Disabling Quickjumps
+- /trunk -- Opens the browser for the `trunk` directory in the default repository
+- /repos1/trunk -- Opens the browser for the `trunk` directory in the `repos1` repository
 
 
-To disable the quickjump feature for a search keyword - for example when searching for occurences of the literal word TracGuide - begin the query with an exclamation mark (`!`).
+To disable the Quickjump feature for a keyword start the query with an exclamation mark (`!`): use `!TracGuide` to search for occurrences of the literal word TracGuide.
 
-### Search Links
+## Search [TracLinks](trac-links)
 
 
-From the Wiki, it is possible to link to a specific search, using
-`search:` links:
+From the Wiki, it is possible to link to a specific search, using `search:` links:
 
 - `search:?q=crash` will search for the string "crash" 
-- `search:?q=trac+link&wiki=on` will search for "trac" and "link" 
-  in wiki pages only
+- `search:?q=trac+link&wiki=on` will search for "trac" and "link" in wiki pages only
+
+## Search Filters
+
+
+On the search page, pressing the modifier key while selecting a search filter will unselect all other search filters.
 
 ---
 
