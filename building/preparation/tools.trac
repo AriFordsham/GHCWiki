@@ -136,6 +136,7 @@ In most cases the `configure` script will tell you if you are missing something.
  Python::
   Required for [wiki:Building/RunningTests running the testsuite].
   Version 2.6 or later is needed. Python3 should also work.
+  Python3 is needed for GHC 8.2.1 or later.
 
  Sphinx::
   Required for building the [wiki:Building/Docs documentation].
