@@ -1,25 +1,20 @@
 # Unicode Support in Trac
 
 
-Trac stores all text using UTF-8 encoding, including text in tickets and wiki pages. Internal processing of text uses true Unicode representations.
+Trac encodes all text using [ UTF-8](http://en.wikipedia.org/wiki/UTF-8), including text in tickets and wiki pages. Internal processing of text uses true [ Unicode](http://en.wikipedia.org/wiki/Unicode) representations. As such, it supports most commonly used character encodings.
 
 
-As such, it supports most (all?) commonly used character encodings.
+If the default encoding in your source code repository is not UTF-8, you can specify it in your [trac.ini](trac-ini#) file:
 
-
-If the default encoding in your source code repository is not UTF-8, you can specify it in the [trac.ini](trac-ini#), for example:
-
-```wiki
-default_charset = gbk
+```
+default_charset=gbk
 ```
 
 
-You also must make sure that your [ database backend](http://trac.edgewall.org/intertrac/DatabaseBackend) stores its data in UTF-8; otherwise strange things will happen.
+Also ensure that your [ database](http://trac.edgewall.org/intertrac/DatabaseBackend) stores its data in UTF-8, otherwise results may be unpredictable.
 
 
-To convert your database to UTF-8, the easiest way is to dump the database, convert the dump into UTF-8 and then import the converted dump back into the database.
-
-You can use [ iconv](http://www.gnu.org/software/libiconv/documentation/libiconv/iconv.1.html) to convert the dump.
+To convert your database to UTF-8, the easiest way is to create a dump of the database, convert it into UTF-8, for example using [ iconv](http://www.gnu.org/software/libiconv/documentation/libiconv/iconv.1.html), and then import it back into the database.
 
 ## Examples
 
@@ -41,12 +36,15 @@ You can use [ iconv](http://www.gnu.org/software/libiconv/documentation/libiconv
 ### Chinese
 
 
-Traditional: 繁體中文, 漢字測試; Simplified: 简体中文，汉字测试
+Traditional: 繁體中文, 漢字測試
+
+
+Simplified: 简体中文，汉字测试
 
 ### Croatian
 
 
-Ako podržava srpski i slovenski mora podržavati i Hrvatski - čćžšđ ČĆŽŠĐ 
+Ako podržava srpski i slovenski mora podržavati i Hrvatski - čćžšđ ČĆŽŠĐ.
 
 ### English
 
@@ -56,12 +54,12 @@ Yes indeed, Trac supports English. Fully.
 ### Français
 
 
-Il est possible d'écrire en Français : à, ç, û, ...
+Il est possible d'écrire en Français : à, ç, û.
 
 ### German
 
 
-Trac-Wiki muß auch deutsche Umlaute richtig anzeigen: ö, ä, ü, Ä, Ö, Ü; und das scharfe ß
+Trac-Wiki muß auch deutsche Umlaute richtig anzeigen: ö, ä, ü, Ä, Ö, Ü; und das scharfe ß.
 
 ### Greek
 
@@ -81,7 +79,7 @@ Trac-Wiki muß auch deutsche Umlaute richtig anzeigen: ö, ä, ü, Ä, Ö, Ü; u
 ### Hungarian
 
 
-Árvíztűrő tükörfúrógép
+Árvíztűrő tükörfúrógép.
 
 ### Icelandic
 
@@ -96,7 +94,7 @@ Trac-Wiki muß auch deutsche Umlaute richtig anzeigen: ö, ä, ü, Ä, Ö, Ü; u
 ### Korean
 
 
-이번에는 한글로 써보겠습니다. 잘 보이나요? 한글
+이번에는 한글로 써보겠습니다. 잘 보이나요? 한글.
 
 ### Latvian
 
@@ -106,8 +104,7 @@ Latviešu valoda arī strādā!
 ### Lithuanian
 
 
-Sudalyvaukime ir mes. Ar veikia lietuviškos raidės? ąčęėįšųūž ĄČĘĖĮŠŲŪŽ Žinoma, kad veikia :)
-Kas tie mes?
+Sudalyvaukime ir mes. Ar veikia lietuviškos raidės? ąčęėįšųūž ĄČĘĖĮŠŲŪŽ Žinoma, kad veikia. Kas tie mes?
 
 ### Persian (Farsi)
 
@@ -120,7 +117,7 @@ Kas tie mes?
 ### Polish
 
 
-Pchnąć w tę łódź jeża lub osiem skrzyń fig; Nocna gżegżółka zawsze dzienną przekuka.
+Pchnąć w tę łódź jeża lub osiem skrzyń fig. Nocna gżegżółka zawsze dzienną przekuka.
 
 ### Portuguese
 
@@ -130,7 +127,7 @@ Pchnąć w tę łódź jeża lub osiem skrzyń fig; Nocna gżegżółka zawsze d
 ### Russian
 
 
-Проверка русского языка: кажется работает... И буква "ё" есть...
+Проверка русского языка: кажется работает. И буква "ё" есть.
 
 ### Serbian
 
@@ -145,7 +142,7 @@ Ta suhi škafec pušča vodo že od nekdaj!
 ### Spanish
 
 
-Esto es un pequeño texto en Español, donde el veloz murciélago hindú comía cardlllo y kiwi
+Esto es un pequeño texto en Español, donde el veloz murciélago hindú comía cardillo y kiwi.
 
 ### Swedish
 
@@ -160,7 +157,7 @@ Trac แสดงภาษาไทยได้อย่างถูกต้อ
 ### Ukrainian
 
 
-Перевірка української мови...
+Перевірка української мови.
 
 ### Urdu
 
