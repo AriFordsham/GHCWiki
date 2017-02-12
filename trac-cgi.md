@@ -3,13 +3,7 @@
 > *Please note that using Trac via CGI is the slowest deployment method available. It is slower than [mod_python](trac-mod-python), [FastCGI](trac-fast-cgi) and even [ IIS/AJP](http://trac.edgewall.org/intertrac/TracOnWindowsIisAjp) on Windows.*
 
 
-CGI script is the entrypoint that web-server calls when a web-request to an application is made. To generate the `trac.cgi` script run:
-
-```wiki
-trac-admin /path/to/env deploy /path/to/www/trac
-```
-
-`trac.cgi` will be in the `cgi-bin` folder inside the given path. *Make sure it is executable by your web server*. This command also copies `static resource` files to a `htdocs` directory of a given destination.
+CGI script is the entrypoint that web-server calls when a web-request to an application is made. The `trac.cgi` script can be created using the `trac-admin <env> deploy <dir>` command which automatically substitutes the required paths, see [TracInstall\#cgi-bin](trac-install#). Make sure the script is executable by your web server.
 
 ## Apache web-server configuration
 
@@ -22,8 +16,8 @@ In [ Apache](http://httpd.apache.org/) there are two ways to run Trac as CGI:
 
 To make Trac available at `http://yourhost.example.org/trac` add `ScriptAlias` directive to Apache configuration file, changing `trac.cgi` path to match your installation:
 
-```wiki
-ScriptAlias /trac /path/to/www/trac/cgi-bin/trac.cgi
+```
+ScriptAlias/trac/path/to/www/trac/cgi-bin/trac.cgi
 ```
 
 > *Note that this directive requires enabled `mod_alias` module.*
@@ -31,37 +25,33 @@ ScriptAlias /trac /path/to/www/trac/cgi-bin/trac.cgi
 
 If you're using Trac with a single project you need to set its location using the `TRAC_ENV` environment variable:
 
-```wiki
-<Location "/trac">
-  SetEnv TRAC_ENV "/path/to/projectenv"
-</Location>
+```
+<Location"/trac">SetEnv TRAC_ENV "/path/to/projectenv"</Location>
 ```
 
 
 Or to use multiple projects you can specify their common parent directory using the `TRAC_ENV_PARENT_DIR` variable:
 
-```wiki
-<Location "/trac">
-  SetEnv TRAC_ENV_PARENT_DIR "/path/to/project/parent/dir"
-</Location>
+```
+<Location"/trac">SetEnv TRAC_ENV_PARENT_DIR "/path/to/project/parent/dir"</Location>
 ```
 
 > *Note that the `SetEnv` directive requires enabled `mod_env` module. It is also possible to set TRAC_ENV in trac.cgi. Just add the following code between "try:" and "from trac.web ...":*
 
-```wiki
-    import os
-    os.environ['TRAC_ENV'] = "/path/to/projectenv"
+```
+importos
+    os.environ['TRAC_ENV']="/path/to/projectenv"
 ```
 
 > * Or for TRAC_ENV_PARENT_DIR: *
 
-```wiki
-    import os
-    os.environ['TRAC_ENV_PARENT_DIR'] = "/path/to/project/parent/dir"
+```
+importos
+    os.environ['TRAC_ENV_PARENT_DIR']="/path/to/project/parent/dir"
 ```
 
 
-If you are using the [ Apache suEXEC](http://httpd.apache.org/docs/suexec.html) feature please see [ http://trac.edgewall.org/wiki/ApacheSuexec](http://trac.edgewall.org/wiki/ApacheSuexec).
+If you are using the [ Apache suEXEC](http://httpd.apache.org/docs/suexec.html) feature please see [ ApacheSuexec](http://trac.edgewall.org/intertrac/ApacheSuexec).
 
 
 On some systems, you *may* need to edit the shebang line in the `trac.cgi` file to point to your real Python installation path. On a Windows system you may need to configure Windows to know how to execute a .cgi file (Explorer -\> Tools -\> Folder Options -\> File Types -\> CGI).
