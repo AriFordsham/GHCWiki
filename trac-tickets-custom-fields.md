@@ -1,7 +1,7 @@
 # Custom Ticket Fields
 
 
-Trac supports adding custom, user-defined fields to the ticket module. Using custom fields, you can add typed, site-specific properties to tickets.
+Trac supports adding custom, user-defined fields to the ticket module. With custom fields you can add typed, site-specific properties to tickets.
 
 ## Configuration
 
@@ -26,17 +26,17 @@ The example below should help to explain the syntax.
 
   - label: Descriptive label.
   - value: Default value.
-  - order: Sort order placement. (Determines relative placement in forms with respect to other custom fields.)
+  - order: Sort order placement; this determines relative placement in forms with respect to other custom fields.
   - format: One of: 
 
     - `plain` for plain text 
-    - `wiki` to interpret the content as [WikiFormatting](wiki-formatting) (*since 0.11.3*) 
+    - `wiki` to interpret the content as [WikiFormatting](wiki-formatting)
     - `reference` to treat the content as a queryable value (*since 1.0*) 
     - `list` to interpret the content as a list of queryable values, separated by whitespace (*since 1.0*)
 - **checkbox**: A boolean value check box.
 
   - label: Descriptive label.
-  - value: Default value (0 or 1).
+  - value: Default value, 0 or 1.
   - order: Sort order placement.
 - **select**: Drop-down select box. Uses a list of values.
 
@@ -48,16 +48,32 @@ The example below should help to explain the syntax.
 
   - label: Descriptive label.
   - options: List of values, separated by **\|** (vertical pipe).
-  - value: Default value (one of the values from options).
+  - value: Default value, one of the values from options.
   - order: Sort order placement.
 - **textarea**: Multi-line text area.
 
   - label: Descriptive label.
   - value: Default text.
-  - cols: Width in columns.
+  - cols: Width in columns. *(Removed in 1.1.2)*
   - rows: Height in lines.
   - order: Sort order placement.
-  - format: Either `plain` for plain text or `wiki` to interpret the content as [WikiFormatting](wiki-formatting). (*since 0.11.3*)
+  - format: Either `plain` for plain text or `wiki` to interpret the content as [WikiFormatting](wiki-formatting).
+- **time**: Date and time picker. (*Since 1.1.1.*)
+
+  - label: Descriptive label.
+  - value: Default date.
+  - order: Sort order placement.
+  - format: One of:
+
+    - `relative` for relative dates.
+    - `date` for absolute dates.
+    - `datetime` for absolute date and time values.
+
+
+If the `label` is not specified, it will be created by capitalizing the custom field name and replacing underscores with whitespaces.
+
+
+Macros will be expanded when rendering `textarea` fields with format `wiki`, but not when rendering `text` fields with format `wiki`.
 
 ### Sample Config
 
@@ -91,9 +107,24 @@ test_six.label = This is a large textarea
 test_six.value = Default text
 test_six.cols = 60
 test_six.rows = 30
+
+test_seven = time
+test_seven.label = A relative date
+test_seven.format = relative
+test_seven.value = now
+
+test_eight = time
+test_eight.label = An absolute date
+test_eight.format = date
+test_eight.value = yesterday
+
+test_nine = time
+test_nine.label = A date and time
+test_nine.format = datetime
+test_nine.value = in 2 hours
 ```
 
-*Note: To make entering an option for a `select` type field optional, specify a leading `|` in the `fieldname.options` option.*
+**Note**: To make a `select` type field optional, specify a leading `|` in the `fieldname.options` option.
 
 ### Reports Involving Custom Fields
 
@@ -106,10 +137,10 @@ SELECT p.value AS __color__,
   FROM ticket t, enum p, ticket_custom cWHERE status IN('assigned')AND t.id =c.ticket ANDc.name ='progress'AND p.name = t.priority AND p.type='priority'ORDERBY p.value
 ```
 
-**Note** that this will only show tickets that have progress set in them, which is **not the same as showing all tickets**. If you created this custom ticket field *after* you have already created some tickets, they will not have that field defined, and thus they will never show up on this ticket query. If you go back and modify those tickets, the field will be defined, and they will appear in the query. If that's all you want, you're set.
+**Note**: This will only show tickets that have progress set in them. This is **not the same as showing all tickets**. If you created this custom ticket field *after* you have already created some tickets, they will not have that field defined, and thus they will never show up on this ticket query. If you go back and modify those tickets, the field will be defined, and they will appear in the query.
 
 
-However, if you want to show all ticket entries (with progress defined and without), you need to use a `JOIN` for every custom field that is in the query.
+However, if you want to show all ticket entries (with progress defined and without), you need to use a `JOIN` for every custom field that is in the query:
 
 ```
 SELECT p.value AS __color__,
@@ -123,6 +154,18 @@ SELECT p.value AS __color__,
 
 
 Note in particular the `LEFT OUTER JOIN` statement here.
+
+
+Note that if your config file uses an uppercase name, e.g.,
+
+```wiki
+[ticket-custom]
+
+Progress_Type = text
+```
+
+
+you would use lowercase in the SQL: `AND c.name = 'progress_type'`
 
 ### Updating the database
 
