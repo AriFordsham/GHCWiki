@@ -49,12 +49,12 @@ The verbosity level of logged messages can be set using the `log_level` option i
 </td></tr></table>
 
 
-Note that starting with Trac 0.11.5 you can in addition enable logging of SQL statements, at debug level. This is turned off by default, as it's very verbose (set `[trac] debug_sql = yes` in [TracIni](trac-ini) to activate).
+Additionally, you can  enable logging of SQL statements at debug level. This is turned off by default, as it's very verbose. Set `[trac] debug_sql = yes` in [TracIni](trac-ini) to activate.
 
 ## Log Format
 
 
-Starting with Trac 0.10.4 (see [ \#2844](http://trac.edgewall.org/intertrac/%232844)), it is possible to set the output format for log entries. This can be done through the `log_format` option in [trac.ini](trac-ini#). The format is a string which can contain any of the [ Python logging Formatter variables](http://docs.python.org/library/logging.html#logrecord-attributes). Additonally, the following Trac-specific variables can be used:
+The output format for log entries can be specified through the `log_format` option in [trac.ini](trac-ini#). The format is a string which can contain any of the [ Python logging Formatter variables](http://docs.python.org/library/logging.html#logrecord-attributes). Additonally, the following Trac-specific variables can be used:
 
 <table><tr><th>**$(basename)s**</th>
 <td>The last path component of the current environment.
@@ -72,15 +72,15 @@ Note that variables are identified using a dollar sign (`$(...)s`) instead of pe
 
 The default format is:
 
-```wiki
-log_format = Trac[$(module)s] $(levelname)s: $(message)s
+```
+log_format=Trac[$(module)s] $(levelname)s: $(message)s
 ```
 
 
 In a multi-project environment where all logs are sent to the same place (e.g. `syslog`), it makes sense to add the project name. In this example we use `basename` since that can generally be used to identify a project:
 
-```wiki
-log_format = Trac[$(basename)s:$(module)s] $(levelname)s: $(message)s
+```
+log_format=Trac[$(basename)s:$(module)s] $(levelname)s: $(message)s
 ```
 
 ---
