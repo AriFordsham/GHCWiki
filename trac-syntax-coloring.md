@@ -1,36 +1,42 @@
 # Syntax Coloring of Source Code
 
 
-Trac supports language-specific syntax highlighting of source code within wiki formatted text in [wiki processors](wiki-processors#) blocks and in the [repository browser](trac-browser).
-
-
-To do this, Trac uses external libraries with support for a great number of programming languages.
-
-
-Currently Trac supports syntax coloring using one or more of the following packages:
-
-- [ Pygments](http://pygments.pocoo.org/), by far the preferred system, as it covers a wide range of programming languages and other structured texts and is actively supported
-- [ GNU Enscript](http://www.codento.com/people/mtr/genscript/), commonly available on Unix but somewhat unsupported on Windows
-- [ SilverCity](http://silvercity.sourceforge.net/), legacy system, some versions can be [ problematic](http://trac.edgewall.org/wiki/TracFaq#why-is-my-css-code-not-being-highlighted-even-though-i-have-silvercity-installed)
-
-
-To activate syntax coloring, simply install either one (or more) of these packages (see [\#ExtraSoftware](trac-syntax-coloring#extra-software) section below).
-If none of these packages is available, Trac will display the data as plain text. 
+Trac supports language-specific syntax highlighting of source code within wiki formatted text in [wiki processors](wiki-processors#) blocks and in the [repository browser](trac-browser). Syntax coloring is provided using [ Pygments](http://pygments.org/), which covers a wide range of programming languages and other structured texts, and is actively supported. If Pygments is not available, Trac will display the content as plain text. 
 
 ### About Pygments
 
-
-Starting with trac 0.11 [ pygments](http://pygments.org/) will be the new default highlighter. It's a highlighting library implemented in pure python, very fast, easy to extend and [ well documented](http://pygments.org/docs/).
-
-
-The Pygments default style can specified in the [mime-viewer](trac-ini#) section of trac.ini. The default style can be overridden by setting a Style preference on the [preferences page](/trac/ghc/prefs/pygments). 
+[ Pygments](http://pygments.org/) is a highlighting library implemented in pure python, very fast, easy to extend and [ well documented](http://pygments.org/docs/).
 
 
-It's very likely that the list below is outdated because the list of supported pygments lexers is growing weekly. Just have a look at the page of [ supported lexers](http://pygments.org/docs/lexers/) on the pygments webpage.
+The Pygments default style can specified in the [mime-viewer](trac-ini#) section of trac.ini. The default style can be overridden by setting a *Style* preference on the [preferences page](/trac/ghc/prefs/pygments). 
+
+[ Pygments lexer](http://pygments.org/docs/lexers/) options can be specified as [WikiProcessor](wiki-processors) arguments and defaults can be set in the [environment configuration](trac-ini#).
 
 ## Syntax Coloring Support
 
-### Known MIME Types
+### Supported languages
+
+
+The list of currently supported languages can be found on the [ supported languages](http://pygments.org/languages/) page. The list represents the languages supported in the most recent version of Pygments, so the languages actually supported in your installation could differ if you have an older version installed. The listing of [ supported lexers](http://pygments.org/docs/lexers/) provides additional information about the default mime type to keyword mappings.
+
+
+Explicit control of the mime type associated with a [WikiProcessor](wiki-processors) and file extension is available through the `mime_map` setting. For example, by default `.m` files are considered Objective-C files. In order to treat `.m` files as MATLAB files, add `text/matlab:m` to the `mime_map` setting in the [\[mimeviewer\] section of trac.ini](trac-ini#).
+
+
+If a mimetype property such as `svn:mime-type` is set to `text/plain`, there is no coloring even if file is known type like `java`.
+
+### Direct Rendering
+
+
+Rich content may be directly *rendered* instead of syntax highlighted. This usually depends on which auxiliary packages are installed and on which components are activated in your setup. For example a `text/x-rst` document will be rendered via `docutils` if it is installed and the `trac.mimeview.rst.ReStructuredTextRenderer` is not disabled, and will be syntax highlighted otherwise.
+
+
+In a similar way, a document with the mimetype `text/x-trac-wiki` is rendered using the Trac wiki formatter, unless the `trac.mimeview.api.WikiTextRenderer` component is disabled.
+
+
+HTML documents are directly rendered only if the `render_unsafe_html` settings are enabled in the [TracIni](trac-ini) (those settings are present in multiple sections, as there are different security concerns depending where the document comes from). If you want to ensure that an HTML document gets syntax highlighted and not rendered, use the `text/xml` mimetype.
+
+### Known MIME types
 
 <table><tr><th>MIME Types</th>
 <th>[WikiProcessors](/trac/ghc/wiki/WikiProcessors)</th></tr>
@@ -724,283 +730,6 @@ It's very likely that the list below is outdated because the list of supported p
 <th>`xtend`</th></tr>
 <tr><th>`text/x-yaml`</th>
 <th>`yaml`</th></tr></table>
-
-
-Note that the rich content may be directly *rendered* instead of syntax highlighted. This usually depends on which auxiliary packages are installed and on which components are activated in your setup. For example a `text/x-rst` document will be rendered via `docutils` if it is installed and the `trac.mimeview.rst.ReStructuredTextRenderer` is not disabled, and will be syntax highlighted otherwise.
-
-
-In a similar way, a document with the mimetype `text/x-trac-wiki` is rendered using the Trac wiki formatter, unless the `trac.mimeview.api.WikiTextRenderer` component is disabled.
-
-
-HTML documents are directly rendered only if the `render_unsafe_html` settings are enabled in the [TracIni](trac-ini) (those settings are present in multiple sections, as there are different security concerns depending where the document comes from). If you want to ensure that an HTML document gets syntax highlighted and not rendered, use the `text/xml` mimetype.
-
-
-If mimetype such as 'svn:mime-type' is set to 'text/plain', there is no coloring even if file is known type like 'java'.
-
-### List of Languages Supported, by Highlighter
-
-
-This list is only indicative.
-
-<table><tr><th></th>
-<th> SilverCity   </th>
-<th> Enscript      </th>
-<th> Pygments 
-</th></tr>
-<tr><th> Ada             </th>
-<th></th>
-<th>  ✓              </th>
-<th></th></tr>
-<tr><th> Asm             </th>
-<th></th>
-<th>  ✓              </th>
-<th></th></tr>
-<tr><th> Apache Conf     </th>
-<th></th>
-<th></th>
-<th>  ✓  
-</th></tr>
-<tr><th> ASP             </th>
-<th>  ✓              </th>
-<th>  ✓              </th>
-<th></th></tr>
-<tr><th> C               </th>
-<th>  ✓              </th>
-<th>  ✓              </th>
-<th>  ✓  
-</th></tr>
-<tr><th> C\#              </th>
-<th></th>
-<th>  ✓ <sup>[(1)](trac-syntax-coloring#)</sup></th>
-<th>  ✓  
-</th></tr>
-<tr><th> C++             </th>
-<th>  ✓              </th>
-<th>  ✓              </th>
-<th>  ✓  
-</th></tr>
-<tr><th> CMake           </th>
-<th>  ?              </th>
-<th>  ?              </th>
-<th>  ✓  
-</th></tr>
-<tr><th> Java            </th>
-<th>  ✓ <sup>[(2)](trac-syntax-coloring#)</sup></th>
-<th>  ✓              </th>
-<th>  ✓  
-</th></tr>
-<tr><th> Awk             </th>
-<th></th>
-<th>  ✓              </th>
-<th></th></tr>
-<tr><th> Boo             </th>
-<th></th>
-<th></th>
-<th>  ✓  
-</th></tr>
-<tr><th> CSS             </th>
-<th>  ✓              </th>
-<th></th>
-<th>  ✓  
-</th></tr>
-<tr><th> Python Doctests </th>
-<th></th>
-<th></th>
-<th>  ✓  
-</th></tr>
-<tr><th> Diff            </th>
-<th></th>
-<th>  ✓              </th>
-<th>  ✓  
-</th></tr>
-<tr><th> Eiffel          </th>
-<th></th>
-<th>  ✓              </th>
-<th></th></tr>
-<tr><th> Elisp           </th>
-<th></th>
-<th>  ✓              </th>
-<th></th></tr>
-<tr><th> Fortran         </th>
-<th></th>
-<th>  ✓ <sup>[(1)](trac-syntax-coloring#)</sup></th>
-<th>  ✓  
-</th></tr>
-<tr><th> Haskell         </th>
-<th></th>
-<th>  ✓              </th>
-<th>  ✓  
-</th></tr>
-<tr><th> Genshi          </th>
-<th></th>
-<th></th>
-<th>  ✓  
-</th></tr>
-<tr><th> HTML            </th>
-<th>  ✓              </th>
-<th>  ✓              </th>
-<th>  ✓  
-</th></tr>
-<tr><th> IDL             </th>
-<th></th>
-<th>  ✓              </th>
-<th></th></tr>
-<tr><th> INI             </th>
-<th></th>
-<th></th>
-<th>  ✓  
-</th></tr>
-<tr><th> Javascript      </th>
-<th>  ✓              </th>
-<th>  ✓              </th>
-<th>  ✓  
-</th></tr>
-<tr><th> Lua             </th>
-<th></th>
-<th></th>
-<th>  ✓  
-</th></tr>
-<tr><th> m4              </th>
-<th></th>
-<th>  ✓              </th>
-<th></th></tr>
-<tr><th> Makefile        </th>
-<th></th>
-<th>  ✓              </th>
-<th>  ✓  
-</th></tr>
-<tr><th> Mako            </th>
-<th></th>
-<th></th>
-<th>  ✓  
-</th></tr>
-<tr><th> Matlab <sup>[(3)](trac-syntax-coloring#)</sup></th>
-<th></th>
-<th>  ✓              </th>
-<th>  ✓  
-</th></tr>
-<tr><th> Mygthy          </th>
-<th></th>
-<th></th>
-<th>  ✓  
-</th></tr>
-<tr><th> Objective-C     </th>
-<th></th>
-<th>  ✓              </th>
-<th>  ✓  
-</th></tr>
-<tr><th> OCaml           </th>
-<th></th>
-<th></th>
-<th>  ✓  
-</th></tr>
-<tr><th> Pascal          </th>
-<th></th>
-<th>  ✓              </th>
-<th>  ✓  
-</th></tr>
-<tr><th> Perl            </th>
-<th>  ✓              </th>
-<th>  ✓              </th>
-<th>  ✓  
-</th></tr>
-<tr><th> PHP             </th>
-<th>  ✓              </th>
-<th></th>
-<th>  ✓  
-</th></tr>
-<tr><th> PSP             </th>
-<th>  ✓              </th>
-<th></th>
-<th></th></tr>
-<tr><th> Pyrex           </th>
-<th></th>
-<th>  ✓              </th>
-<th></th></tr>
-<tr><th> Python          </th>
-<th>  ✓              </th>
-<th>  ✓              </th>
-<th>  ✓  
-</th></tr>
-<tr><th> Ruby            </th>
-<th>  ✓              </th>
-<th>  ✓ <sup>[(1)](trac-syntax-coloring#)</sup></th>
-<th>  ✓  
-</th></tr>
-<tr><th> Scheme          </th>
-<th></th>
-<th>  ✓              </th>
-<th>  ✓  
-</th></tr>
-<tr><th> Shell           </th>
-<th></th>
-<th>  ✓              </th>
-<th>  ✓  
-</th></tr>
-<tr><th> Smarty          </th>
-<th></th>
-<th></th>
-<th>  ✓  
-</th></tr>
-<tr><th> SQL             </th>
-<th>  ✓              </th>
-<th>  ✓              </th>
-<th>  ✓  
-</th></tr>
-<tr><th> Troff           </th>
-<th></th>
-<th>  ✓              </th>
-<th>  ✓  
-</th></tr>
-<tr><th> TCL             </th>
-<th></th>
-<th>  ✓              </th>
-<th></th></tr>
-<tr><th> Tex             </th>
-<th></th>
-<th>  ✓              </th>
-<th>  ✓  
-</th></tr>
-<tr><th> Verilog         </th>
-<th>  ✓ <sup>[(2)](trac-syntax-coloring#)</sup></th>
-<th>  ✓              </th>
-<th></th></tr>
-<tr><th> VHDL            </th>
-<th></th>
-<th>  ✓              </th>
-<th></th></tr>
-<tr><th> Visual Basic    </th>
-<th></th>
-<th>  ✓              </th>
-<th>  ✓  
-</th></tr>
-<tr><th> VRML            </th>
-<th></th>
-<th>  ✓              </th>
-<th></th></tr>
-<tr><th> XML             </th>
-<th>  ✓              </th>
-<th></th>
-<th>  ✓  
-</th></tr></table>
-
-*(1) Not included in the Enscript distribution.  Additional highlighting rules can be obtained for
-[ Ruby](http://neugierig.org/software/ruby/),
-[ C\#](http://wiki.hasno.info/index.php/Csharp.st),
-[ Fortran 90x/2003](http://wiki.hasno.info/index.php/F90.st)*
-
-*(2) since Silvercity 0.9.7 released on 2006-11-23
-*
-
-*(3) By default `.m` files are considered Objective-C files. In order to treat `.m` files as MATLAB files, add "text/matlab:m" to the "mime_map" setting in the [\[mimeviewer\] section of trac.ini](trac-ini#).
-*
-
-## Extra Software
-
-- GNU Enscript — [ http://directory.fsf.org/GNU/enscript.html](http://directory.fsf.org/GNU/enscript.html)
-- GNU Enscript for Windows — [ http://gnuwin32.sourceforge.net/packages/enscript.htm](http://gnuwin32.sourceforge.net/packages/enscript.htm)
-- SilverCity — [ http://silvercity.sf.net/](http://silvercity.sf.net/)
-- **Pygments — [ http://pygments.org/](http://pygments.org/)**
 
 ---
 
