@@ -1,10 +1,8 @@
 # Trac Links
 
-[TracLinks](trac-links) are a fundamental feature of Trac, because they allow easy hyperlinking between the various entities in the system—such as tickets, reports, changesets, Wiki pages, milestones, and source files—from anywhere [WikiFormatting](wiki-formatting) is used.
+[TracLinks](trac-links) are a fundamental feature of Trac, because they allow easy hyperlinking between the various entities in the system — such as tickets, reports, changesets, Wiki pages, milestones, and source files — from anywhere where [WikiFormatting](wiki-formatting) is used.
 
-[TracLinks](trac-links) are generally of the form **type:id** (where *id* represents the
-number, name or path of the item) though some frequently used kinds of items
-also have short-hand notations.
+[TracLinks](trac-links) are generally of the form **type:id** (where *id* represents the number, name or path of the item) though some frequently used kinds of items also have short-hand notations.
 
 ## Where to use [TracLinks](trac-links)
 
@@ -39,7 +37,7 @@ and any other text fields explicitly marked as supporting [WikiFormatting](wiki-
 <td>`attachment:example.tgz` (for current page attachment), `attachment:attachment.1073.diff:ticket:944` (absolute path)
 </td></tr>
 <tr><th>Changesets</th>
-<td>`r1`, `[1]`, `changeset:1` or (restricted) `[1/trunk]`, `changeset:1/trunk`</td></tr>
+<td>`r1`, `[1]`, `changeset:1` or (restricted) `[1/trunk]`, `changeset:1/trunk`, `[1/repository]`</td></tr>
 <tr><th>Revision log</th>
 <td>`r1:3`, `[1:3]` or `log:@1:3`, `log:trunk@1:3`, `[2:5/trunk]`</td></tr>
 <tr><th>Diffs</th>
@@ -67,7 +65,7 @@ or `diff:trunk/trac@3538//sandbox/vc-refactoring@3539`</td></tr>
 <td>attachment:example.tgz (for current page attachment), attachment:attachment.1073.diff:ticket:944 (absolute path)
 </td></tr>
 <tr><th>Changesets</th>
-<td>r1, \[1\], changeset:1 or (restricted) \[1/trunk\], changeset:1/trunk</td></tr>
+<td>r1, \[1\], changeset:1 or (restricted) \[1/trunk\], changeset:1/trunk, \[1/repository\]</td></tr>
 <tr><th>Revision log</th>
 <td>[r1:3](/trac/ghc/log/ghc/?revs=1%3A3), [\[1:3\]](/trac/ghc/log/ghc/?revs=1%3A3) or [log:\@1:3](/trac/ghc/log/ghc/?revs=1%3A3), [log:trunk\@1:3](/trac/ghc/log/ghc/trunk?revs=1%3A3), [\[2:5/trunk\]](/trac/ghc/log/ghc/trunk?revs=2%3A5)</td></tr>
 <tr><th>Diffs</th>
@@ -80,10 +78,7 @@ or [diff:trunk/trac\@3538//sandbox/vc-refactoring\@3539](/trac/ghc/changeset?new
 
 </th></tr></table>
 
-**Note:** The [wiki:CamelCase](camel-case) form is rarely used, but it can be convenient to refer to
-pages whose names do not follow [WikiPageNames](wiki-page-names) rules, i.e., single words,
-non-alphabetic characters, etc. See [WikiPageNames](wiki-page-names) for more about features specific
-to links to Wiki page names.
+**Note:** The [wiki:CamelCase](camel-case) form is rarely used, but it can be convenient to refer to pages whose names do not follow [WikiPageNames](wiki-page-names) rules, ie single words, non-alphabetic characters, etc. See [WikiPageNames](wiki-page-names) for more about features specific to links to Wiki page names.
 
 <table><tr><th> Trac links using the full (non-shorthand) notation can also be given a custom link title like this: 
 </th>
@@ -169,20 +164,11 @@ To link from a [ SubWiki](http://trac.edgewall.org/intertrac/SubWiki) page to a 
 
 
 But in practice you often won't need to add the `../` prefix to link to a sibling page.
-For resolving the location of a wiki link, it's the target page closest in the hierarchy
-to the page where the link is written which will be selected. So for example, within 
-a sub-hierarchy, a sibling page will be targeted in preference to a toplevel page.
+For resolving the location of a wiki link, it's the target page closest in the hierarchy to the page where the link is written which will be selected. So for example, within a sub-hierarchy, a sibling page will be targeted in preference to a toplevel page.
 This makes it easy to copy or move pages to a sub-hierarchy by [renaming](wiki-new-page#) without having to adapt the links.
 
 
-In order to link explicitly to a toplevel Wiki page,
-use the `wiki:/` prefix.
-Be careful **not** to use the `/` prefix alone, as this corresponds to the
-[\#Server-relativelinks](trac-links#) syntax and with such a link you will lack the `/wiki/` 
-part in the resulting URL.
-
-*(Changed in 0.11)* Note that in Trac 0.10, using e.g. `[../newticket]`  may have worked for linking to the `/newticket` top-level URL, but since 0.11, such a link will stay in the wiki namespace and therefore link to a sibling page. 
-See [\#Server-relativelinks](trac-links#) for the new syntax.
+To link explicitly to a toplevel Wiki page, use the `wiki:/` prefix. Be careful **not** to use the `/` prefix alone, as this corresponds to the [\#Server-relativelinks](trac-links#) syntax and with such a link you will lack the `/wiki/` part in the resulting URL. A link such as `[../newticket]` will stay in the wiki namespace and therefore link to a sibling page.
 
 ### Link anchors
 
@@ -250,7 +236,7 @@ Since such links become outdated when the file changes, it can be useful to link
 ### [InterWiki](inter-wiki) links
 
 
-Other prefixes can be defined freely and made to point to resources in other Web applications. The definition of those prefixes as well as the URLs of the corresponding Web applications is defined in a special Wiki page, the [InterMapTxt](inter-map-txt) page. Note that while this could be used to create links to other Trac environments, there's a more specialized way to register other Trac environments which offers greater flexibility.
+Other prefixes can be defined freely and made to point to resources in other Web applications. The definition of those prefixes as well as the URLs of the corresponding Web applications is defined in a special Wiki page, the [InterMapTxt](inter-map-txt) page. Note that while this could be used to create links to other Trac environments, there is a more specialized way to register other Trac environments which offers greater flexibility.
 
 ### [InterTrac](inter-trac) links
 
@@ -267,13 +253,10 @@ See [InterTrac](inter-trac) for the complete details.
 ### Server-relative links
 
 
-It is often useful to be able to link to objects in your project that
-have no built-in Trac linking mechanism, such as static resources, `newticket`,
-a shared `/register` page on the server, etc.
+It is often useful to be able to link to objects in your project that have no built-in Trac linking mechanism, such as static resources, `newticket`, a shared `/register` page on the server, etc.
 
 
-To link to resources inside the project, use either an absolute path from the project root, 
-or a relative link from the URL of the current page (*Changed in 0.11*):
+To link to resources inside the project, use either an absolute path from the project root, or a relative link from the URL of the current page (*Changed in 0.11*):
 
 ```wiki
 [/newticket Create a new ticket] or [[//newticket|Create a new ticket]]
@@ -296,8 +279,7 @@ Display: [Register Here](/register) or [Register Here](/register)
 ### Quoting space in [TracLinks](trac-links)
 
 
-Immediately after a [TracLinks](trac-links) prefix, targets containing space characters should
-be enclosed in a pair of quotes or double quotes.
+Immediately after a [TracLinks](trac-links) prefix, targets containing space characters should be enclosed in a pair of quotes or double quotes.
 Examples:
 
 - wiki:"The whitespace convention"
@@ -400,7 +382,7 @@ See [TracSearch\#SearchLinks](trac-search#search-links)
 
 ### ticket: links
 
-> *alias:*`bug:`
+> *aliases:*`bug:`, `issue:`
 
 
 Besides the obvious `ticket:id` form, it is also possible to specify a list of tickets or even a range of tickets instead of the `id`. This generates a link to a custom query view containing this fixed set of tickets.
@@ -411,12 +393,10 @@ Example:
 - `ticket:5000-6000`
 - `ticket:1,150`
 
-*(since Trac 0.11)*
-
 ### timeline: links
 
 
-Links to the timeline can be created by specifying a date in the [ ISO:8601](http://en.wikipedia.org/wiki/ISO_8601) format. The date can be optionally followed by a time specification. The time is interpreted as being UTC time, but alternatively you can specify your local time, followed by your timezone if you don't want to compute the UTC time.
+Links to the timeline can be created by specifying a date in the [ ISO:8601](http://en.wikipedia.org/wiki/ISO_8601) format. The date can be optionally followed by a time specification. The time is interpreted as being UTC time, but if you don't want to compute the UTC time, you can specify a local time followed by your timezone offset relative to UTC.
 
 
 Examples:
@@ -425,8 +405,8 @@ Examples:
 - `timeline:2008-01-29T15:48`
 - `timeline:2008-01-29T15:48Z`
 - `timeline:2008-01-29T16:48+01`
-
-*(since Trac 0.11)*
+- `timeline:2008-01-29T16:48+0100`
+- `timeline:2008-01-29T16:48+01:00`
 
 ### wiki: links
 
@@ -436,7 +416,7 @@ See [WikiPageNames](wiki-page-names) and [quoting space in TracLinks](trac-links
 ### Version Control related links
 
 
-It should be noted that multiple repository support works by creating a kind of virtual namespace for versioned files in which the toplevel folders correspond to the repository names. Therefore, in presence of multiple repositories, a */path* specification in the syntax of links detailed below should start with the name of the repository. If omitted, the default repository is used. In case a toplevel folder of the default repository has the same name as a repository, the latter "wins". One can always access such folder by fully qualifying it (the default repository can be an alias of a named repository, or conversely, it is always possible to create an alias for the default repository, ask your Trac administrator).
+It should be noted that multiple repository support works by creating a kind of virtual namespace for versioned files in which the toplevel folders correspond to the repository names. Therefore, in presence of multiple repositories, a */path* specification in the syntax of links detailed below should start with the name of the repository. If omitted, the default repository is used. In case a toplevel folder of the default repository has the same name as a repository, the latter "wins". One can always access such folder by fully qualifying it. The default repository can be an alias of a named repository, or conversely, it is always possible to create an alias for the default repository, ask your Trac administrator.
 
 
 For example, `source:/trunk/COPYING` targets the path `/trunk/COPYING` in the default repository, whereas `source:/projectA/trunk/COPYING` targets the path `/trunk/COPYING` in the repository named `projectA`. This can be the same file if `'projectA'` is an alias to the default repository or if `''` (the default repository) is an alias to `'projectA'`.
@@ -446,26 +426,27 @@ For example, `source:/trunk/COPYING` targets the path `/trunk/COPYING` in the de
 > *aliases:*`browser:`, `repos:`
 
 
-The default behavior for a source:/some/path link is to open the browser in that directory directory 
-if the path points to a directory or to show the latest content of the file.
+The default behavior for a `source:/some/path link` is to open the browser in that directory directory if the path points to a directory or to show the latest content of the file.
 
 
 It's also possible to link directly to a specific revision of a file like this:
 
 - `source:/some/file@123` - link to the file's revision 123
 - `source:/some/file@head` - link explicitly to the latest revision of the file
+- `source:/some/file@named-branch` - link to latest revision of the specified file in `named-branch` (DVCS such as Git or Mercurial)
 
 
 If the revision is specified, one can even link to a specific line number:
 
 - `source:/some/file@123#L10`
 - `source:/tag/0.10@head#L10`
+- `source:/some/file@named-branch#L10`
 
 
 Finally, one can also highlight an arbitrary set of lines:
 
-- `source:/some/file@123:10-20,100,103#L99` - highlight lines 10 to 20, and lines 100 and 103.
-  *(since 0.11)*
+- `source:/some/file@123:10-20,100,103#L99` - highlight lines 10 to 20, and lines 100 and 103, and target line 99
+- or without version number (the `@` is still needed): `source:/some/file@:10-20,100,103#L99`. Version can be omitted when the path is pointing to a source file that will no longer change (like `source:/tags/...`), otherwise it's better to specify which lines of *which version* of the file you're talking about.
 
 
 Note that in presence of multiple repositories, the name of the repository is simply integrated in the path you specify for `source:` (e.g. `source:reponame/trunk/README`). *(since 0.12)*
@@ -478,6 +459,7 @@ To force the download of a file in the repository, as opposed to displaying it i
 - `export:/some/file` - get the HEAD revision of the specified file
 - `export:123:/some/file` - get revision 123 of the specified file
 - `export:/some/file@123` - get revision 123 of the specified file
+- `export:/some/file@named-branch` - get latest revision of the specified file in `named-branch` (DVCS such as Git or Mercurial).
 
 
 This can be very useful for displaying XML or HTML documentation with correct stylesheets and images, in case that has been checked in into the repository. Note that for this use case, you'd have to allow the web browser to render the content by setting `[browser] render_unsafe_content = yes` (see [TracIni\#browser-section](trac-ini#)), otherwise Trac will force the files to be downloaded as attachments for security concerns. 
@@ -495,6 +477,7 @@ The `log:` links are used to display revision ranges. In its simplest form, it c
 - `log:/trunk/tools@10000` - the revisions in `trunk/tools` starting from  revision 10000
 - `log:@20788,20791:20795` - list revision 20788 and the revisions from 20791 to 20795 
 - `log:/trunk/tools@20788,20791:20795` - list revision 20788 and the revisions from 20791 to 20795 which affect the given path
+- `log:/tools@named-branch` - the revisions in `tools` starting from the latest revision in `named-branch` (DVCS such as Git or Mercurial)
 
 
 There are short forms for revision ranges as well:
