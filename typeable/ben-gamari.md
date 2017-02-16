@@ -66,6 +66,20 @@ On the other hand, (2) lacks these disadvantages but presents a few challenges,
 - `TyCon`s become much larger, potentially blowing up compilation time for modules not using `Typeable`
 - `TyCon`s need to refer to `TypeRep` dictionaries, potentially complicating evidence generation
 
+### The need for kind representations
+
+
+While `typeRepKind` may seem like a non-essential feature, it ends up being quite important in the presence of representationally polymorphic arrow lest we may produce ill-kinded type representations. Consider, for a moment, that we have a function, `mkApp`, which attempts to construct an application type from two `SomeTypeRep`s. It might look like,
+
+```
+mkApp::SomeTypeRep->SomeTypeRep->MaybeSomeTypeRepmkApp(SomeTypeRep f)(SomeTypeRep x)=doFunTy a b <- pure f
+    Refl<- a `eqTypeReq` typeRepKind x
+    return (App f x)
+```
+
+
+Note that before we can apply `x` to `f` we must prove to GHC that the kind of `x` is compatible with that expected by `f`. I haven't proven to myself that omitting this check will result in unsafety, but I'm fairly confident that someone with enough time to read through [\#9858](https://gitlab.haskell.org//ghc/ghc/issues/9858) would be able to find a way.
+
 ### Encoding kind instantiations
 
 
