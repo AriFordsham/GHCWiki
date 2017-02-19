@@ -3,12 +3,12 @@
 ## Basic strategies
 
 
-When compiling GHC:
+When compiling GHC (see also [Building Using](building/using)):
 
 - add `-DDEBUG` to your `GhcStage1HcOpts` and/or `GhcStage2HcOpts` in `mk/build.mk`.  This enables assertions and extra debug code. This is done for you if you choose the `devel1` or `devel2` mode of building.
 
 
-When compiling the program (see also the [relevant User Manual section](http://www.haskell.org/ghc/docs/latest/html/users_guide/debugging.html#options-debugging)):
+When compiling the program (see also the [relevant User Manual section](http://www.haskell.org/ghc/docs/latest/html/users_guide/debugging.html#options-debugging) and [ here](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/using.html#ghc-flag--v)):
 
 - Use `-v3` or `-v4` to get an idea about what GHC is doing when the problem occurs.
 
