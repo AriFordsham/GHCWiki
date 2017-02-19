@@ -39,6 +39,8 @@ For a decription of how to deal with overlapping register sets, which aren't ful
 ''Matz, 2003''[[BR]]
 For an overview of techniques for inserting spill code.
 
+The following tickets are related to register allocation: #8048 #10012 #12232
+
 == Register pressure in Haskell code ==
 
 Present GHC compiled code places very little pressure on the register set. Even on x86 with only 3 allocable registers, most modules do not need spill/reloads. This is a mixed blessing - on one hand the conflict graphs are small so we can avoid performance problems related to how the graph is represented, on the other hand it can be hard to find code to test against. Register pressure is expected to increase as the Stg->Cmm transform improves.
