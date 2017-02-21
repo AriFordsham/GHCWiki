@@ -36,17 +36,7 @@ TODO
 
 ### Front-end changes
 
-- **Indexed `Typeable` representations**[Typeable/BenGamari](typeable/ben-gamari) (Ben Gamari, Simon Peyton Jones, et al). While GHC has long supported runtime type reflection through the `Typeable` typeclass, its current incarnation requires care to use, providing little in the way of type-safety. For this reason the implementation of types like `Data.Dynamic` must be implemented in terms of `unsafeCoerce` with no compiler verification.
-
->
-> GHC 8.2 will address this by introducing indexed type representations, leveraging the type-checker to verify programs using type reflection. This allows facilities like `Data.Dynamic` to be implemented in a fully type-safe manner. See the [ paper](http://research.microsoft.com/en-us/um/people/simonpj/papers/haskell-dynamic/) for an description of the proposal and the [ Wiki](https://ghc.haskell.org/trac/ghc/wiki/Typeable/BenGamari) for the current status of the implementation.
-
 ### Back-end and runtime system
-
-- **Further improvements to debugging information** (Ben Gamari): There are still a number of outstanding issues with GHC's DWARF implementation, some of which even carry the potential to crash the runtime system during stacktrace collection. GHC 8.2 will hopefully have these issues resolved, allowing debugging   - TODO information to be used by end-user code in production.
-
->
-> With stable stack unwinding support comes a number of opportunities for new serial and parallel performance analysis tools (e.g. statistical profiling) and debugging. As GHC's debugging information improves, we expect to see tooling developed to support these applications. See the [ DWARF status page](https://ghc.haskell.org/trac/ghc/wiki/DWARF/80Status) for further information.
 
 ### Build system and miscellaneous changes
 
@@ -55,6 +45,11 @@ TODO
 ### Landed in `master` branch
 
 #### Front-end changes
+
+- **Indexed `Typeable` representations**[Typeable/BenGamari](typeable/ben-gamari) (Ben Gamari, Simon Peyton Jones, et al). While GHC has long supported runtime type reflection through the `Typeable` typeclass, its current incarnation requires care to use, providing little in the way of type-safety. For this reason the implementation of types like `Data.Dynamic` must be implemented in terms of `unsafeCoerce` with no compiler verification.
+
+>
+> GHC 8.2 will address this by introducing indexed type representations, leveraging the type-checker to verify programs using type reflection. This allows facilities like `Data.Dynamic` to be implemented in a fully type-safe manner. See the [ paper](http://research.microsoft.com/en-us/um/people/simonpj/papers/haskell-dynamic/) for an description of the proposal and the [ Wiki](https://ghc.haskell.org/trac/ghc/wiki/Typeable/BenGamari) for the current status of the implementation.
 
 - **Deriving**:
 
@@ -84,6 +79,11 @@ TODO
 - **Improved idle CPU usage**: A long-standing regression ([\#11965](https://gitlab.haskell.org//ghc/ghc/issues/11965)) resulting in unnecessary wake-ups in an otherwise idle program was fixed. This should lower CPU utilization and improve power consumption for some programs.
 
 - **Live streaming of event-log data** ([ Phab:2934](https://phabricator.haskell.org/2934))
+
+- **Further improvements to debugging information** (Ben Gamari): There are still a number of outstanding issues with GHC's DWARF implementation, some of which even carry the potential to crash the runtime system during stacktrace collection. GHC 8.2 will hopefully have these issues resolved, allowing debugging   - TODO information to be used by end-user code in production.
+
+>
+> With stable stack unwinding support comes a number of opportunities for new serial and parallel performance analysis tools (e.g. statistical profiling) and debugging. As GHC's debugging information improves, we expect to see tooling developed to support these applications. See the [ DWARF status page](https://ghc.haskell.org/trac/ghc/wiki/DWARF/80Status) for further information.
 
 ### Optimiser and intermediate language
 
