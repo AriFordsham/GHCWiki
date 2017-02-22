@@ -82,7 +82,7 @@ On Github, but it says "WORK-IN-PROGRESS / DO NOT USE YET":
 <tr><td>libraries/old-time</td>     <td>https://git.haskell.org/packages/old-time.git</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
 <tr><td>libraries/process</td>      <td>https://github.com/haskell/process</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
 <tr><td>libraries/terminfo</td>     <td>https://github.com/judah/terminfo</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
-<tr><td>libraries/time</td>         <td>https://github.com/haskell/time</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
+<tr><td>libraries/time</td>         <td>https://github.com/haskell/time</td> <td>ghc</td> <td>Yes</td> <td>Yes</td></tr>
 <tr><td>libraries/unix</td>         <td>https://github.com/haskell/unix</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
 <tr><td>libraries/Win32</td>        <td>https://github.com/haskell/win32</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
 <tr><td>libraries/xhtml</td>        <td>https://github.com/haskell/xhtml</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>

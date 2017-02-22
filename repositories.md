@@ -171,7 +171,7 @@ Here are the submodules we use, and where their upstreams point:
 <th>Yes</th></tr>
 <tr><th>libraries/time</th>
 <th>https://github.com/haskell/time</th>
-<th>master</th>
+<th>ghc</th>
 <th>Yes</th>
 <th>Yes</th></tr>
 <tr><th>libraries/unix</th>
