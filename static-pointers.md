@@ -9,6 +9,47 @@ The basic idea is laid out in the original [ Cloud Haskell paper](http://researc
 
 See also [the root page for distributed Haskell](distributed-haskell).
 
+## Tickets
+
+
+Use Keyword = `StaticPointers` to ensure that a ticket ends up on these lists.
+
+**Open Tickets:**
+
+<table><tr><th>[\#12875](https://gitlab.haskell.org//ghc/ghc/issues/12875)</th>
+<td>GHC fails to link all StaticPointers-defining modules of a library in an executable</td></tr>
+<tr><th>[\#13306](https://gitlab.haskell.org//ghc/ghc/issues/13306)</th>
+<td>Problems with type inference for static expressions</td></tr>
+<tr><th>[\#13499](https://gitlab.haskell.org//ghc/ghc/issues/13499)</th>
+<td>"Panic: no skolem info" with StaticPointers and typed hole</td></tr>
+<tr><th>[\#14770](https://gitlab.haskell.org//ghc/ghc/issues/14770)</th>
+<td>Allow static pointer expressions to have static pointer free variables</td></tr>
+<tr><th>[\#14939](https://gitlab.haskell.org//ghc/ghc/issues/14939)</th>
+<td>Lint error in forall type</td></tr>
+<tr><th>[\#15395](https://gitlab.haskell.org//ghc/ghc/issues/15395)</th>
+<td>Make StaticPtr (more) robust to code changes and recompilation</td></tr>
+<tr><th>[\#15603](https://gitlab.haskell.org//ghc/ghc/issues/15603)</th>
+<td>ref6 example from StaticPointers documentation doesn't type check</td></tr></table>
+
+**Closed Tickets:**
+
+<table><tr><th>[\#10446](https://gitlab.haskell.org//ghc/ghc/issues/10446)</th>
+<td>Fix error message when variables in a static form are not in scope</td></tr>
+<tr><th>[\#12000](https://gitlab.haskell.org//ghc/ghc/issues/12000)</th>
+<td>static pointer in ghci</td></tr>
+<tr><th>[\#12003](https://gitlab.haskell.org//ghc/ghc/issues/12003)</th>
+<td>Improve error message about closed variables</td></tr>
+<tr><th>[\#12207](https://gitlab.haskell.org//ghc/ghc/issues/12207)</th>
+<td>CgStaticPointers fails with -O</td></tr>
+<tr><th>[\#13305](https://gitlab.haskell.org//ghc/ghc/issues/13305)</th>
+<td>static: check for identifiers should only consider term level variables</td></tr>
+<tr><th>[\#13481](https://gitlab.haskell.org//ghc/ghc/issues/13481)</th>
+<td>T12622 fails in ghci way</td></tr>
+<tr><th>[\#14204](https://gitlab.haskell.org//ghc/ghc/issues/14204)</th>
+<td>GHC bug - makeStatic: Unresolved static form at line 13, column 14.</td></tr>
+<tr><th>[\#15035](https://gitlab.haskell.org//ghc/ghc/issues/15035)</th>
+<td>Panic when using StaticPointers with typed holes</td></tr></table>
+
 ## Background
 
 
