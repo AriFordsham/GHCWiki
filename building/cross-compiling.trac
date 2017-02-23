@@ -81,7 +81,7 @@ The C cross-compiler and tools are usually installed with the platform name as a
 ./configure --target=<target>
 }}}
 
-and `configure` will find all the tools, using `<target>` as the prefix.
+and `configure` will find all the tools, using `<target>` as the prefix. Note that it's best to double-check that `configure` finds the correct compiler for your target platform. For instance, if your target's `gcc` has a version suffix (e.g. as would happen if you install `gcc-6-aarch64-linux-gnu` but not `gcc-aarch64-linux-gnu` on Debian) `configure` will likely fail to find it and instead use your host's `gcc`. Hilarity will ensue.
 
 {{{#!box info
 In GHC 7.8 a bug in the configure macros prevents it from finding the cross-compiling gcc, so you will always need to use `--with-gcc`.
