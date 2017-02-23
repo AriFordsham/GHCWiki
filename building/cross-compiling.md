@@ -119,7 +119,7 @@ The C cross-compiler and tools are usually installed with the platform name as a
 ```
 
 
-and `configure` will find all the tools, using `<target>` as the prefix.
+and `configure` will find all the tools, using `<target>` as the prefix. Note that it's best to double-check that `configure` finds the correct compiler for your target platform. For instance, if your target's `gcc` has a version suffix (e.g. as would happen if you install `gcc-6-aarch64-linux-gnu` but not `gcc-aarch64-linux-gnu` on Debian) `configure` will likely fail to find it and instead use your host's `gcc`. Hilarity will ensue.
 
 
 In GHC 7.8 a bug in the configure macros prevents it from finding the cross-compiling gcc, so you will always need to use `--with-gcc`.
@@ -169,13 +169,21 @@ INTEGER_LIBRARY = integer-simple
 
 since even though we have a copy of GMP in the GHC source tree, it cannot be cross-compiled (ToDo: why not?).  You must put this in `mk/build.mk` before building anything, because `INTEGER_LIBRARY` cannot be changed without doing a full `make distclean`.
 
+
+If you don't have an `ncurses` for your target available in your build environment, you can add `WITH_TERMINFO=NO` to `mk/build.mk` to build GHC and its utilities without `terminfo` support (since [ Phab:D3177](https://phabricator.haskell.org/D3177)).
+
+### Producing binary distributions
+
+
+It is possible to produce a mostly functional binary distribution of the built stage2 compiler using `make binary-dist`. Note, however, that the distribution will not include utilities typically built by the stage2 compiler (since they would need to be built on the target). At the moment the build system can't quite handle this ([\#13325](https://gitlab.haskell.org//ghc/ghc/issues/13325)) so the resulting bindist tarball will be slightly broken, failing during `make install`. See [\#13325](https://gitlab.haskell.org//ghc/ghc/issues/13325) for an easy workaround.
+
 ## Using `cabal`
 
 
 Extra packages can be installed using `cabal` with your cross-compiler.  The recipe is:
 
 ```wiki
-  $ cabal --with-ghc=<cross-ghc> --with-ld=<ld> ...
+$ cabal --with-ghc=<cross-ghc> --with-ld=<ld> ...
 ```
 
 
@@ -197,7 +205,7 @@ install-dirs user
 ### ARM
 
 
-Only llvm versions == 3.0 and \>= 3.2 support GHC for ARM targets. There was a regression in llvm version 3.1, the result of which is bad generated code that crashes.
+Only LLVM versions == 3.0 and \>= 3.2 support GHC for ARM targets. There was a regression in LLVM version 3.1, the result of which is bad generated code that crashes.
 
 ### iOS
 
