@@ -58,7 +58,7 @@ You may need to retry a few times if !SourceForge times out.  On the other hand,
 Now we can install GHC's dependencies as follows:
 
 {{{#!sh
-pacman -S --needed git tar bsdtar binutils autoconf make \
+pacman -S --needed git tar bsdtar binutils autoconf make xz \
     curl libtool automake python python2 p7zip patch \
     mingw-w64-$(uname -m)-gcc mingw-w64-$(uname -m)-python3-sphinx
 }}}
