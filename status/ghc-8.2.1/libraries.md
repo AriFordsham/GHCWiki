@@ -34,7 +34,8 @@ TODO
 
 [](http://hackage.haskell.org/package/binary)
 
-TODO
+
+Should bundle version 0.9.0.0.
 
 ### `bytestring`
 
