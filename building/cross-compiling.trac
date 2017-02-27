@@ -127,7 +127,7 @@ If you don't have an `ncurses` for your target available in your build environme
 
 === Producing binary distributions ===
 
-It is possible to produce a mostly functional binary distribution of the built stage2 compiler using `make binary-dist`. Note, however, that the distribution will not include utilities typically built by the stage2 compiler (since they would need to be built on the target). At the moment the build system can't quite handle this (#13325) so the resulting bindist tarball will be slightly broken, failing during `make install`. See #13325 for an easy workaround.
+It is possible to produce a mostly functional binary distribution of the built stage2 compiler using `make binary-dist`. Note, however, that the distribution will not include utilities typically built by the stage2 compiler (as this must run on the target).
 
 == Using `cabal` ==
 
