@@ -9,13 +9,71 @@ Role annotations are enabled using `{-# LANGUAGE RoleAnnotations #-}`.
 
 See also
 
-- Our ICFP 2014 paper [ Safe Coercions](http://www.cis.upenn.edu/~eir/papers/2014/coercible/coercible-ext.pdf), which gives lots of motivation and details, including the `Coercible` class.
+- Our ICFP 2014 paper [ Safe Coercions](http://www.cis.upenn.edu/~eir/papers/2014/coercible/coercible-ext.pdf), which gives lots of motivation and details, including the `Coercible` class.\]
+- Richard's unpublished paper [ An overabundance of equality](http://cs.brynmawr.edu/~rae/pubs.html)
 - The user-level [ wiki page about Coercible](http://www.haskell.org/haskellwiki/GHC/Coercible)
 - [Roles2](roles2) which identifies a difficulty with the design in the paper, and some possibilities for solving it.
 - [RolesImplementation](roles-implementation) talks about the implementation in GHC. 
 - [ Richard's blog post about roles](http://typesandkinds.wordpress.com/2013/08/15/roles-a-new-feature-of-ghc/). (Note: some aspects of that blog post are out of date, as of December 17, 2013.)
 - This email thread: [ More GND + role inference woes](http://www.haskell.org/pipermail/ghc-devs/2013-October/003003.html).
 - [Safe Roles](safe-roles) discusses safety issues (from abstraction, not memory-safety point-of-view) around Roles and how they might be addressed. The specific focus is on Safe Haskell.
+
+## Tickets
+
+
+Use Keyword = `Roles` to ensure that a ticket ends up on these lists.
+
+**Open Tickets:**
+
+<table><tr><th>[\#9112](https://gitlab.haskell.org//ghc/ghc/issues/9112)</th>
+<td>support for deriving Vector/MVector instances</td></tr>
+<tr><th>[\#9118](https://gitlab.haskell.org//ghc/ghc/issues/9118)</th>
+<td>Can't eta-reduce representational coercions</td></tr>
+<tr><th>[\#11715](https://gitlab.haskell.org//ghc/ghc/issues/11715)</th>
+<td>Constraint vs \*</td></tr>
+<tr><th>[\#13358](https://gitlab.haskell.org//ghc/ghc/issues/13358)</th>
+<td>Role ranges (allow decomposition on newtypes)</td></tr>
+<tr><th>[\#14292](https://gitlab.haskell.org//ghc/ghc/issues/14292)</th>
+<td>Coercing between constraints of newtypes</td></tr>
+<tr><th>[\#14317](https://gitlab.haskell.org//ghc/ghc/issues/14317)</th>
+<td>Solve Coercible constraints over type constructors</td></tr>
+<tr><th>[\#14362](https://gitlab.haskell.org//ghc/ghc/issues/14362)</th>
+<td>Allow: Coercing (a:\~:b) to (b:\~:a)</td></tr>
+<tr><th>[\#14386](https://gitlab.haskell.org//ghc/ghc/issues/14386)</th>
+<td>GHC doesn't allow Coercion between partly-saturated type constructors</td></tr>
+<tr><th>[\#14694](https://gitlab.haskell.org//ghc/ghc/issues/14694)</th>
+<td>Incompleteness in the Coercible constraint solver</td></tr>
+<tr><th>[\#15441](https://gitlab.haskell.org//ghc/ghc/issues/15441)</th>
+<td>Data type with phantoms using TypeInType isn't coercible</td></tr>
+<tr><th>[\#15707](https://gitlab.haskell.org//ghc/ghc/issues/15707)</th>
+<td>More liberally kinded coercions for newtypes</td></tr></table>
+
+**Closed Tickets:**
+
+<table><tr><th>[\#8246](https://gitlab.haskell.org//ghc/ghc/issues/8246)</th>
+<td>Role annotations does not allow the use of parenthesis</td></tr>
+<tr><th>[\#9117](https://gitlab.haskell.org//ghc/ghc/issues/9117)</th>
+<td>Coercible constraint solver misses one</td></tr>
+<tr><th>[\#9123](https://gitlab.haskell.org//ghc/ghc/issues/9123)</th>
+<td>Emit quantified Coercible constraints in GeneralizedNewtypeDeriving</td></tr>
+<tr><th>[\#9131](https://gitlab.haskell.org//ghc/ghc/issues/9131)</th>
+<td>Experiment with a dedicated solver for Coercible</td></tr>
+<tr><th>[\#10905](https://gitlab.haskell.org//ghc/ghc/issues/10905)</th>
+<td>Incorrect number of parameters in "role" errors</td></tr>
+<tr><th>[\#11230](https://gitlab.haskell.org//ghc/ghc/issues/11230)</th>
+<td>No run-time exception for deferred type errors when error is in a phantom role position</td></tr>
+<tr><th>[\#12616](https://gitlab.haskell.org//ghc/ghc/issues/12616)</th>
+<td>type synonyms confuse generalized newtype deriving role checking</td></tr>
+<tr><th>[\#14101](https://gitlab.haskell.org//ghc/ghc/issues/14101)</th>
+<td>Type synonyms can make roles too conservative</td></tr>
+<tr><th>[\#14333](https://gitlab.haskell.org//ghc/ghc/issues/14333)</th>
+<td>GHC doesn't use the fact that Coercible is symmetric</td></tr>
+<tr><th>[\#14363](https://gitlab.haskell.org//ghc/ghc/issues/14363)</th>
+<td>:type hangs on coerce</td></tr>
+<tr><th>[\#15294](https://gitlab.haskell.org//ghc/ghc/issues/15294)</th>
+<td>Unused "foralls" prevent types from being Coercible</td></tr>
+<tr><th>[\#15431](https://gitlab.haskell.org//ghc/ghc/issues/15431)</th>
+<td>Coercible and Existential types don't play nicely</td></tr></table>
 
 ## The problem we wish to solve
 
