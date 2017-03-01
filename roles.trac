@@ -13,6 +13,15 @@ See also
  * This email thread: [http://www.haskell.org/pipermail/ghc-devs/2013-October/003003.html More GND + role inference woes].
  * [wiki:SafeRoles Safe Roles] discusses safety issues (from abstraction, not memory-safety point-of-view) around Roles and how they might be addressed. The specific focus is on Safe Haskell.
 
+== Tickets ==
+
+Use Keyword = `Roles` to ensure that a ticket ends up on these lists.
+
+'''Open Tickets:'''
+[[TicketQuery(status=new|patch,keywords=~Roles)]]
+
+'''Closed Tickets:'''
+[[TicketQuery(status=closed,keywords=~Roles)]]
 
 == The problem we wish to solve ==
 
