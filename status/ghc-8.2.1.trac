@@ -14,9 +14,13 @@ We expect GHC 8.2 to be principally a consolidation release, in which we settle 
 
 If you believe your favourite thing belongs in this list, but isn't there, please yell.  If it's not in the road map, it probably won't get done.  Without a lot of support, many things in the road map won't get done either, so we need your help!
 
+== Current status ==
+
+As of March 1 all of the major changes have landed in the tree. However, there are a variety of smaller tasks, including some late-breaking regression fixes, which need to be resolved. We expect that the tree should be stable again by the end of the week.
+
 == Dates ==
 
-Very tentative: Release candidate by '''mid-February 2017'''. Release in '''mid-April 2017'''.
+Very tentative: Release candidate by '''early March 2017'''. Release in '''mid-April 2017'''.
 
 == Libraries Status
 
