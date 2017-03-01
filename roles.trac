@@ -5,7 +5,8 @@ The idea of ''roles'' comes from the paper [http://www.seas.upenn.edu/~sweirich/
 Role annotations are enabled using `{-# LANGUAGE RoleAnnotations #-}`.
 
 See also
- * Our ICFP 2014 paper [http://www.cis.upenn.edu/~eir/papers/2014/coercible/coercible-ext.pdf Safe Coercions], which gives lots of motivation and details, including the `Coercible` class.
+ * Our ICFP 2014 paper [http://www.cis.upenn.edu/~eir/papers/2014/coercible/coercible-ext.pdf Safe Coercions], which gives lots of motivation and details, including the `Coercible` class.]
+ * Richard's unpublished paper [http://cs.brynmawr.edu/~rae/pubs.html An overabundance of equality]
  * The user-level [http://www.haskell.org/haskellwiki/GHC/Coercible wiki page about Coercible]
  * [wiki:Roles2] which identifies a difficulty with the design in the paper, and some possibilities for solving it.
  * [wiki:RolesImplementation] talks about the implementation in GHC. 

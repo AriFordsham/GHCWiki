@@ -9,7 +9,8 @@ Role annotations are enabled using `{-# LANGUAGE RoleAnnotations #-}`.
 
 See also
 
-- Our ICFP 2014 paper [ Safe Coercions](http://www.cis.upenn.edu/~eir/papers/2014/coercible/coercible-ext.pdf), which gives lots of motivation and details, including the `Coercible` class.
+- Our ICFP 2014 paper [ Safe Coercions](http://www.cis.upenn.edu/~eir/papers/2014/coercible/coercible-ext.pdf), which gives lots of motivation and details, including the `Coercible` class.\]
+- Richard's unpublished paper [ An overabundance of equality](http://cs.brynmawr.edu/~rae/pubs.html)
 - The user-level [ wiki page about Coercible](http://www.haskell.org/haskellwiki/GHC/Coercible)
 - [Roles2](roles2) which identifies a difficulty with the design in the paper, and some possibilities for solving it.
 - [RolesImplementation](roles-implementation) talks about the implementation in GHC. 
