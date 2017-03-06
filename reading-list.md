@@ -25,6 +25,8 @@ See also [ Stephen Deihl's Haskell implementation reading list](http://www.steph
 
 ## Types and type inference
 
+- [ Dependent Types in Haskell: Theory and Practice](https://arxiv.org/abs/1610.07978) (2016), Richard Eisenberg. Eisenber's PhD thesis describes many aspects of GHC's type system, although the "bake" inference algorithm is not yet implemented in GHC.
+
 - [ System FC, as implemented in GHC](http://git.haskell.org/ghc.git/blob/refs/heads/master:/docs/core-spec/core-spec.pdf) (2013), Richard Eisenberg.
 
 - [ Modular type inference with local assumptions](http://haskell.org/haskellwiki/Simonpj/Talk:OutsideIn)[ doi link](http://dx.doi.org/10.1017/S0956796811000098), Simon Peyton Jones, Dimitrios Vytiniotis, Tom Schrijvers, Martin Sulzmann, Journal of Functional Programming, 2011.  This epic 83-page JFP paper brings together, in a single uniform framework, a series of our earlier papers on type inference for type systems involving local constraints, including GADTs and indexed type families.  
