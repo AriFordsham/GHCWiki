@@ -1,3 +1,5 @@
+See the [wiki:Exceptions root page for exceptions]
+
 == Fixing demand analysis for exceptions ==
 
 There are a couple different problems we have to deal with.
@@ -70,14 +72,3 @@ How strict can `catch# m f s` be? We know several things:
 
 `catchRetry#` is used to implement `orElse` for `STM`. I ''believe'' that it functions (from the perspective of demand analysis) very much like the hypothetical `catchThrowIO`, and that we can probably treat them similarly.
 
-=== Open tickets relating to exceptions ===
-[[TicketQuery(status=new|patch,keywords=~Exceptions|exception)]]
-
-=== Closed tickets relating to exceptions ===
-[[TicketQuery(status=closed|merge,keywords=~Exceptions|exception)]]
-
-=== GHC Commentary relating to exceptions ===
-
-* Commentary/CmmExceptions
-* Commentary/Rts/AsyncExceptions
-* Exceptions/StackTraces
