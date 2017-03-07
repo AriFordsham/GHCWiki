@@ -11,6 +11,7 @@
  * [wiki:TypeNats]: type-level literals
  * [wiki:Exceptions]: exceptions
  * [wiki:LevityPolymorphism]
+ * [wiki:TypeFunctions Type families]
  * #11715, #11621: `Constraint` vs `*`
  * [wiki:Commentary/Compiler/GenericDeriving Generic deriving]
  * [wiki:SequentCore Join points]
