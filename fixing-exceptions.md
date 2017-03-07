@@ -63,7 +63,7 @@ To achieve something like this, we need to fix [\#13380](https://gitlab.haskell.
 ### `catch#` strictness
 
 
-How strict can `catch# m f s` be? See `Note [Exceptions and strictness]` in `Demand`.
+How strict can `catch# m f s` be? See `Note [Exceptions and strictness]` in `Demand`.  The `ExnStr` business is pretty horrible.
 
 
 We know several things:
