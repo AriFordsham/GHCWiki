@@ -21,6 +21,8 @@ Use Keyword = `Exceptions` to ensure that a ticket ends up on these lists.
 <td>C++ does not catch exceptions when used with Haskell-main and linked by ghc</td></tr>
 <tr><th>[\#12096](https://gitlab.haskell.org//ghc/ghc/issues/12096)</th>
 <td>Attach stacktrace information to SomeException</td></tr>
+<tr><th>[\#12696](https://gitlab.haskell.org//ghc/ghc/issues/12696)</th>
+<td>Exception gives not enough information to be useful</td></tr>
 <tr><th>[\#13357](https://gitlab.haskell.org//ghc/ghc/issues/13357)</th>
 <td>Check demand signatures for catchRetry\# and catchSTM\#</td></tr>
 <tr><th>[\#13370](https://gitlab.haskell.org//ghc/ghc/issues/13370)</th>
@@ -32,10 +34,22 @@ Use Keyword = `Exceptions` to ensure that a ticket ends up on these lists.
 
 **Closed Tickets:**
 
-<table><tr><th>[\#4021](https://gitlab.haskell.org//ghc/ghc/issues/4021)</th>
+<table><tr><th>[\#942](https://gitlab.haskell.org//ghc/ghc/issues/942)</th>
+<td>Windows programs throw uncaught Invalid HANDLE exception on exit</td></tr>
+<tr><th>[\#1905](https://gitlab.haskell.org//ghc/ghc/issues/1905)</th>
+<td>runProcess: misbehaving exception on nonexistent working directory</td></tr>
+<tr><th>[\#2211](https://gitlab.haskell.org//ghc/ghc/issues/2211)</th>
+<td>Installing latest GHC-6.8.2 stable: pwd with floating point exception</td></tr>
+<tr><th>[\#3983](https://gitlab.haskell.org//ghc/ghc/issues/3983)</th>
+<td>-O2 makes exception disappear</td></tr>
+<tr><th>[\#4021](https://gitlab.haskell.org//ghc/ghc/issues/4021)</th>
 <td>Problem of Interaction Between the FreeBSD Kernel and the GHC RTS</td></tr>
+<tr><th>[\#4343](https://gitlab.haskell.org//ghc/ghc/issues/4343)</th>
+<td>Add throwSTM and generalize catchSTM</td></tr>
 <tr><th>[\#5611](https://gitlab.haskell.org//ghc/ghc/issues/5611)</th>
 <td>Asynchronous exception discarded after safe FFI call</td></tr>
+<tr><th>[\#5626](https://gitlab.haskell.org//ghc/ghc/issues/5626)</th>
+<td>Miscompilation, exception omitted with -O</td></tr>
 <tr><th>[\#10435](https://gitlab.haskell.org//ghc/ghc/issues/10435)</th>
 <td>catastrophic exception-handling disablement on Windows Server 2008 R2</td></tr>
 <tr><th>[\#10712](https://gitlab.haskell.org//ghc/ghc/issues/10712)</th>
