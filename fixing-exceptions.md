@@ -51,15 +51,33 @@ catchThrowIO m f =IO$\s ->case unIO m s of(# s',Left e #)-> unIO (f e) s'
 ```
 
 
-Side note: I believe we likely should expose an actual *catchThrowIO* function. Since it doesn't catch imprecise exceptions, it can be treated much more aggressively. For example, `catchThrowIO (putStrLn x) (\_ -> print 2)` can safely be analyzed as strict in `x`, whereas the equivalent expression using `catch` cannot.
+Notes
 
+- I believe we likely should expose an actual *catchThrowIO* function. Since it doesn't catch imprecise exceptions, it can be treated much more aggressively. For example, `catchThrowIO (putStrLn x) (\_ -> print 2)` can safely be analyzed as strict in `x`, whereas the equivalent expression using `catch` cannot.
 
-To achieve something like this, we need to fix [\#13380](https://gitlab.haskell.org//ghc/ghc/issues/13380).
+- With the above semantics it is clear that this function ([\#13380](https://gitlab.haskell.org//ghc/ghc/issues/13380) comment:4) whoudl be lazy in `y`:
+
+  ```wiki
+  f :: Int -> Int -> IO Int
+  f x y | x>0       = throwIO (userError "What")
+        | y>0       = return 1
+        | otherwise = return 2
+  ```
+
+- See `Note [IO hack in the demand analyser]` in `DmdAnal`.  This note would make much more sense with the above semantics for the IO monad.
+
+- Consider`throwIO exn >>= BIG`.  Just inlining shows us that we can discard `BIG`.  Currently (GHC 8) inlining turns this into `case throwIO# exn sn of (# s#, r #) -> BIG r`, which allows us to dicard `BIG` because `throwIO#` is treated as diverging.  But [\#13380](https://gitlab.haskell.org//ghc/ghc/issues/13380), comment:4 suggests that it should not.
 
 ### `catch#` strictness
 
 
-How strict can `catch# m f s` be? We know several things:
+How strict can `catch# m f s` be? See `Note [Exceptions and strictness]` in `Demand`.  The `ExnStr` business is pretty horrible.
+
+
+Making `catch#` strict made a significant perf difference in libraries: see comment:4 of [\#10712](https://gitlab.haskell.org//ghc/ghc/issues/10712).   Maybe indeed adding `catchThrowIO` as David suggests above, making it strict, and using it in the libraries in place of `catch` , would be the way to go.
+
+
+We know several things:
 
 1. If `m s` diverges (without throwing an exception), then `catch# m f s` diverges.
 
