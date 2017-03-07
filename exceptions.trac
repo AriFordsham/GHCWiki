@@ -12,7 +12,7 @@ Relevant pages:
 Use Keyword = `Exceptions` to ensure that a ticket ends up on these lists.
 
 '''Open Tickets:'''
-[[TicketQuery(status=new|patch,keywords=~Exceptions)]]
+[[TicketQuery(status=new|patch,keywords=~Exceptions|exception)]]
 
 '''Closed Tickets:'''
-[[TicketQuery(status=closed,keywords=~Exceptions)]]
+[[TicketQuery(status=closed,keywords=~Exceptions|exception)]]
