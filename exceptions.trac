@@ -1,0 +1,18 @@
+= Exceptions in GHC =
+
+Relevant pages:
+
+* [wiki:Exceptions/StackTraces]
+* [wiki:FixingExceptions]
+* [wiki:Commentary/CmmExceptions]
+* [wiki:Commentary/Rts/AsyncExceptions]
+
+== Tickets ==
+
+Use Keyword = `Exceptions` to ensure that a ticket ends up on these lists.
+
+'''Open Tickets:'''
+[[TicketQuery(status=new|patch,keywords=~Exceptions)]]
+
+'''Closed Tickets:'''
+[[TicketQuery(status=closed,keywords=~Exceptions)]]
