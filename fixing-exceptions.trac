@@ -53,9 +53,17 @@ Notes
 
 * I believe we likely should expose an actual ''catchThrowIO'' function. Since it doesn't catch imprecise exceptions, it can be treated much more aggressively. For example, `catchThrowIO (putStrLn x) (\_ -> print 2)` can safely be analyzed as strict in `x`, whereas the equivalent expression using `catch` cannot.
 
+* With the above semantics it is clear that this function (#13380 comment:4) whoudl be lazy in `y`:
+{{{
+f :: Int -> Int -> IO Int
+f x y | x>0       = throwIO (userError "What")
+      | y>0       = return 1
+      | otherwise = return 2
+}}}
+
 * See `Note [IO hack in the demand analyser]` in `DmdAnal`.  This note would make much more sense with the above semantics for the IO monad.
 
-To achieve something like this, we need to fix #13380.
+* Consider`throwIO exn >>= BIG`.  Just inlining shows us that we can discard `BIG`.  Currently (GHC 8) inlining turns this into `case throwIO# exn sn of (# s#, r #) -> BIG r`, which allows us to dicard `BIG` because `throwIO#` is treated as diverging.  But #13380, comment:4 suggests that it should not.
 
 
 
