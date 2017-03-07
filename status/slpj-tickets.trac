@@ -9,6 +9,7 @@
  * [wiki:UnliftedDataTypes]
  * [wiki:UnpackedSumTypes], #9214
  * [wiki:TypeNats]: type-level literals
+ * [wiki:Exceptions]: exceptions
  * [wiki:LevityPolymorphism]
  * #11715, #11621: `Constraint` vs `*`
  * [wiki:Commentary/Compiler/GenericDeriving Generic deriving]
