@@ -24,6 +24,15 @@ Speculative ideas:
  * [wiki:TypeFunctions/ClassFamilies Class families.]
  * Our type-indexed data types are open.  However, we currently don't allow case expressions mixing constructors from different indexes.  We could do that if we had a story for open function definitions outside of classes.  Class instances of entire data families (including `deriving` clauses at family declarations to derive for all instances) requires the same sort of capabilities as case expressions mixing data constructors from different indexes.  This is, as they require to build a dictionary that applies to all family instances (as opposed to a distinct dictionary per instance, which is what we have now).
 
+== Tickets ==
+
+Use Keyword = `TypeFamilies` to ensure that a ticket ends up on these lists.
+
+'''Open Tickets:'''
+[[TicketQuery(status=new|patch,keywords=~TypeFamilies)]]
+
+'''Closed Tickets:'''
+[[TicketQuery(status=closed,keywords=~TypeFamilies)]]
 
 == Terminology ==
 
