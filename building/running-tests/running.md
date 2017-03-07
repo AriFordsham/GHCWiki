@@ -139,7 +139,7 @@ cabal install --with-compiler=`pwd`/inplace/bin/ghc-stage2 --package-db=`pwd`/in
 ```
 
 
-You may need to add `--disable-library-profiling` if your GHC tree is built without the profiling way.
+You may need to add `--disable-library-profiling` if your GHC tree is built without the profiling way. If version bounds are problematic you may also need to add `--allow-newer`.
 
 ## Problems running the testsuite
 
