@@ -74,6 +74,9 @@ Notes
 How strict can `catch# m f s` be? See `Note [Exceptions and strictness]` in `Demand`.  The `ExnStr` business is pretty horrible.
 
 
+Making `catch#` strict made a significant perf difference in libraries: see comment:4 of [\#10712](https://gitlab.haskell.org//ghc/ghc/issues/10712).   Maybe indeed adding `catchThrowIO` as David suggests above, making it strict, and using it in the libraries in place of `catch` , would be the way to go.
+
+
 We know several things:
 
 1. If `m s` diverges (without throwing an exception), then `catch# m f s` diverges.
