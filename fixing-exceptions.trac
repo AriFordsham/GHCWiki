@@ -1,0 +1,83 @@
+== Fixing demand analysis for exceptions ==
+
+There are a couple different problems we have to deal with.
+
+1. #13330 was caused by an ugly and somewhat broken hack trying to analyze `catch#` as stricter than it really is. It would be very nice if the ''good ideas'' that went into that ugly hack could be extracted and repaired to produce a more aggressive analysis that's still correct.
+
+2. #13380 reveals something of a disagreement about how we should view the result of `raiseIO#` (used to implement `throwIO`). Simon Marlow and David Feuer feel pretty strongly that `throwIO` should be viewed as producing an entirely deterministic, well-behaved `IO` action, and that the exception resulting from it should never be mixed up with an imprecise exception. Reid Barton and Simon Peyton Jones seem to wonder if that precision is worth the potential performance cost.
+
+Assuming that I (David F.) and Simon M. win this debate, the key problem here is that we analyze `raiseIO# e s` as `ThrowsExn`, the same way we analyze something that either diverges or throws an imprecise exception. Assuming we change this, we want to take some care to recover dead code elimination that the current analysis allows. In particular, given
+
+{{{#!hs
+case raiseIO# e s of
+  (# s', a #) -> EXPR
+}}}
+
+we surely want to consider `EXPR` to be dead code, even though we don't want to consider `raiseIO# e s` to be precisely bottom.
+
+=== Important conventions below ===
+
+In the rest of this page, I will squash all `Exception` types down to `SomeException`, to avoid all the conversion mess. So instead of `Exception e => ...`, I will simply assume that `e` is `SomeException`.
+
+Furthermore, for the sake of readability, I uniformly substitute `Either a b` in place of `(# a | b #)`.
+
+By a '''precise''' exception, I mean an exception produced by `raiseIO#` (the primop version of `throwIO`).
+
+By an '''imprecise''' exception, I basically mean an exception produced by `throw` (as described in [https://www.microsoft.com/en-us/research/publication/a-semantics-for-imprecise-exceptions/ A Semantics for Imprecise Exceptions]).
+
+=== Semantics of precise exceptions ===
+
+I (David Feuer) believe that precise exceptions should implement the following model.
+
+{{{#!hs
+newtype IO a = IO {unIO :: State# RealWorld -> (# State# RealWorld, Either SomeException a #)
+instance Monad IO where
+  return a = IO $ \s -> (# s, Right a #)
+  m >>= f = IO $ \s -> case unIO m s of
+    (# s', Left e #) -> (# s', Left e #)
+    (# s', Right a #) -> unIO (f a) s'
+
+throwIO :: SomeException -> IO a
+throwIO e = IO $ \s -> (# s, Left e #)
+
+-- The name 'catchIO' is, sadly, taken by a less interesting function already
+catchThrowIO :: IO a -> (SomeException -> IO a) -> IO a
+catchThrowIO m f = IO $ \s ->
+  case unIO m s of
+    (# s', Left e #) -> unIO (f e) s'
+    good -> good
+}}}
+
+Side note: I believe we likely should expose an actual ''catchThrowIO'' function. Since it doesn't catch imprecise exceptions, it can be treated much more aggressively. For example, `catchThrowIO (putStrLn x) (\_ -> print 2)` can safely be analyzed as strict in `x`, whereas the equivalent expression using `catch` cannot.
+
+To achieve something like this, we need to fix #13380.
+
+=== `catch#` strictness ===
+
+How strict can `catch# m f s` be? We know several things:
+
+0. If `m s` diverges (without throwing an exception), then `catch# m f s` diverges.
+
+1. If `m s` certainly executes successfully, then `catch# m f s = m s`.
+
+2. If `m s` is strict in some value `x`, and `x` certainly does not throw an exception (i.e., it either evaluates successfully to WHNF or diverges), then it is safe to consider `catch# m f s` strict in `x`.
+
+3. If `m s` and `f e s` are both strict in some value `x`, then it is safe to consider `catch# m f s` strict in `x`.
+
+4. If `m s` certainly throws an exception (either imprecise or precise) that it does not itself catch, then `f` is certainly called.
+
+=== `catchRetry#` ===
+
+`catchRetry#` is used to implement `orElse` for `STM`. I ''believe'' that it functions (from the perspective of demand analysis) very much like the hypothetical `catchThrowIO`, and that we can probably treat them similarly.
+
+=== Open tickets relating to exceptions ===
+[[TicketQuery(status=new|patch,keywords=~Exceptions|exception)]]
+
+=== Closed tickets relating to exceptions ===
+[[TicketQuery(status=closed|merge,keywords=~Exceptions|exception)]]
+
+=== GHC Commentary relating to exceptions ===
+
+* Commentary/CmmExceptions
+* Commentary/Rts/AsyncExceptions
+* Exceptions/StackTraces
