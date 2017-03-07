@@ -52,11 +52,9 @@ To achieve something like this, we need to fix [\#13380](https://gitlab.haskell.
 
 How strict can `catch# m f s` be? We know several things:
 
+1. If `m s` diverges (without throwing an exception), then `catch# m f s` diverges.
 
-0a. If `m s` diverges (without throwing an exception), then `catch# m f s` diverges.
-
-
-0b. If `m s` certainly executes successfully, then `catch# m f s = m s`.
+1. If `m s` certainly executes successfully, then `catch# m f s = m s`.
 
 1. If `m s` is strict in some value `x`, and `x` certainly does not throw an exception (i.e., it either evaluates successfully to WHNF or diverges), then it is safe to consider `catch# m f s` strict in `x`.
 
