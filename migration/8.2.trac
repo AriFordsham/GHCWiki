@@ -51,6 +51,50 @@ These will also be rejected:
 
 As shown in the `TF` example, you might have to create new type variables (e.g., `c`) to make the type equalities work out.
 
+=== Associated type family instances are pickier ===
+There is also a new validity check for associated type family instances. That is, if you have a class with an associated type family:
+
+{{{#!hs
+class C a b where
+  type T a x b
+}}}
+
+And you create and instance of `C`:
+
+{{{#!hs
+instance C ty1 ty2 where ...
+}}}
+
+Then the associated `T` instance must look //exactly// like:
+
+{{{#!hs
+  type T ty1 v ty2 = ...
+  -- 'ty1' for 'a'
+  -- 'ty2' for 'b', and
+  -- a variable for 'x'
+}}}
+
+Before this change, GHC allowed multiple equations for instances of `T`. That is, this used to be allowed before 8.2:
+
+{{{#!hs
+instance C Int Char where
+  type T Int Bool Char = Bool
+  type T Int ()   Char = ()
+  type T Int v    Char = v
+}}}
+
+This is now disallowed. If you want multiple cases like this, the solution is to use an auxiliary type family:
+
+{{{#!hs
+instance C Int Char where
+  type T Int v Char = CIntChar v
+
+type family CIntChar v where
+  CIntChar Bool = Bool
+  CIntChar ()   = ()
+  CIntChar v    = v
+}}}
+
 --------------------------------
 == Library changes
 
