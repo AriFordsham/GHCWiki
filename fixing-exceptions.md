@@ -124,7 +124,10 @@ I think, first, that we should draw a clear line between imprecise exceptions, g
 Operationally, we need `raise#` and `raiseIO#` to set some flag to allow `catchRaiseIO#` to see which exceptions it should handle.
 
 
-I believe we want `unsafePerformIO` and `unsafeInterleaveIO` to convert precise exceptions into imprecise ones. That is, they should effectively catch any precise exceptions and rethrow them as imprecise ones.
+I believe we want `unsafePerformIO` and `unsafeInterleaveIO` to convert precise exceptions into imprecise ones. That is, they should effectively catch any precise exceptions and rethrow them as imprecise ones. Perhaps we can do this in `runRW#`. Currently, `unsafeInterleaveIO` doesn't *use*`runRW#`, but I think we can and probably should change that.
 
 
 I strongly suspect there is something to be gained by treating expressions using `catch#` or `catchRaiseIO#` specially in the demand analyzer, but I don't know enough to say just how. I suspect the "result domain" does need to be expanded from the classical one, but in a slightly different direction than what we have now; we want to be able to express that certain things certainly will or certainly won't throw imprecise or precise exceptions.
+
+
+We seem to take some advantage of `has_side_effects` to avoid applying the I/O demand analysis hack too broadly, but perhaps we could do a better job by propagating side effect information as we do demand information. I don't know.
