@@ -1,4 +1,4 @@
-''For type applications within function application expressions (e.g. f @Int x), see TypeApplication''
+'''For type applications within function application expressions (e.g. f @Int x), see TypeApplication'''
 
 = Syntax for explicit kinds, new story =
 
