@@ -117,3 +117,5 @@ Operationally, we need `raise#` and `raiseIO#` to set some flag to allow `catchR
 I believe we want `unsafePerformIO` and `unsafeInterleaveIO` to convert precise exceptions into imprecise ones. That is, they should effectively catch any precise exceptions and rethrow them as imprecise ones.
 
 I strongly suspect there is something to be gained by treating expressions using `catch#` or `catchRaiseIO#` specially in the demand analyzer, but I don't know enough to say just how. I suspect the "result domain" does need to be expanded from the classical one, but in a slightly different direction than what we have now; we want to be able to express that certain things certainly will or certainly won't throw imprecise or precise exceptions.
+
+It seems to me that a lot of this should interact with things like `has_side_effects`. For example, we don't need to apply the demand analysis I/O case hack to `case readMutVar# v s of`; if we fail to perform that because we forced a bottom, no one will ever know.
