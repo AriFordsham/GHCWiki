@@ -66,7 +66,29 @@ Notes
 
 - See `Note [IO hack in the demand analyser]` in `DmdAnal`.  This note would make much more sense with the above semantics for the IO monad.
 
-- Consider`throwIO exn >>= BIG`.  Just inlining shows us that we can discard `BIG`.  Currently (GHC 8) inlining turns this into `case throwIO# exn sn of (# s#, r #) -> BIG r`, which allows us to dicard `BIG` because `throwIO#` is treated as diverging.  But [\#13380](https://gitlab.haskell.org//ghc/ghc/issues/13380), comment:4 suggests that it should not.
+
+The "I/O hack" in the demand analyzer actually does something very important that the note doesn't mention. The note begins
+
+>
+> There's a hack here for I/O operations.  Consider
+>
+> > `case foo x s of { (# s, r #) -> y }`
+>
+>
+> Is this strict in `y`?  Normally yes, but what if `foo` is an I/O
+> operation that simply terminates the program (not in an erroneous way)?
+
+
+In fact, we have to worry about this under *all interesting* conditions. For example, consider
+
+```
+case unIO (putStrLn "About to run y") s of(# s', r #)-> y
+```
+
+
+Is this strict in `y`? No! `y` could turn out to be undefined; if we force it early then we'll never see the message. So I think we can really only consider this strict in `y` in the very special case where the `IO` action is `pure x`.
+
+- Consider`throwIO exn >>= BIG`.  Just inlining shows us that we can discard `BIG`.  Currently (GHC 8) inlining turns this into `case throwIO# exn sn of (# s#, r #) -> BIG r`, which allows us to discard `BIG` because `throwIO#` is treated as diverging.  But [\#13380](https://gitlab.haskell.org//ghc/ghc/issues/13380), comment:4 suggests that it should not.
 
 ### `catch#` strictness
 
@@ -92,3 +114,17 @@ We know several things:
 ### `catchRetry#`
 
 `catchRetry#` is used to implement `orElse` for `STM`. I *believe* that it functions (from the perspective of demand analysis) very much like the hypothetical `catchThrowIO`, and that we can probably treat them similarly.
+
+## Concrete ideas
+
+
+I think, first, that we should draw a clear line between imprecise exceptions, generally produced by `raise#`, and precise exceptions, produced by `raiseIO`.
+
+
+Operationally, we need `raise#` and `raiseIO#` to set some flag to allow `catchRaiseIO#` to see which exceptions it should handle.
+
+
+I believe we want `unsafePerformIO` and `unsafeInterleaveIO` to convert precise exceptions into imprecise ones. That is, they should effectively catch any precise exceptions and rethrow them as imprecise ones.
+
+
+I strongly suspect there is something to be gained by treating expressions using `catch#` or `catchRaiseIO#` specially in the demand analyzer, but I don't know enough to say just how. I suspect the "result domain" does need to be expanded from the classical one, but in a slightly different direction than what we have now; we want to be able to express that certain things certainly will or certainly won't throw imprecise or precise exceptions.
