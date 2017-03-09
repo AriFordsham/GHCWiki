@@ -71,28 +71,25 @@ Then the associated `T` instance must look //exactly// like:
   type T ty1 v ty2 = ...
   -- 'ty1' for 'a'
   -- 'ty2' for 'b', and
-  -- a variable for 'x'
+  -- some type `v` for 'x'
 }}}
 
-Before this change, GHC allowed multiple equations for instances of `T`. That is, this used to be allowed before 8.2:
+As a concrete example, this code, which would have been allowed before GHC 8.2, is now disallowed:
 
 {{{#!hs
-instance C Int Char where
-  type T Int Bool Char = Bool
-  type T Int ()   Char = ()
-  type T Int v    Char = v
+class Foo a where
+  type Bar a
+
+instance Foo (Either a b) where
+  type Bar (Either c d) = d -> c
 }}}
 
-This is now disallowed. If you want multiple cases like this, the solution is to use an auxiliary type family:
+To fix this instance, simply use the same type variables in the `Bar` instance as in the instance head:
 
 {{{#!hs
-instance C Int Char where
-  type T Int v Char = CIntChar v
 
-type family CIntChar v where
-  CIntChar Bool = Bool
-  CIntChar ()   = ()
-  CIntChar v    = v
+instance Foo (Either a b) where
+  type Bar (Either a b) = b -> a
 }}}
 
 --------------------------------
