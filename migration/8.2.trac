@@ -100,6 +100,7 @@ instance Foo (Either a b) where
 * TODO: Type-indexed `Typeable` changes
   * The `Data.Typeable.Internal` module has been removed
   * `Data.Typeable.TypeRep` is now a type synonym (so you may need `FlexibleInstances` to create an instance for it, unless you switch it to use `Type.Reflection.SomeTypeRep`)
+  * `mkFunTy`, `mkAppTy`, `mkTyConApp`, and `mkTyCon3` have been removed
 
 === `template-haskell-2.12.0.0`
 
