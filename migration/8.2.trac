@@ -97,10 +97,12 @@ instance Foo (Either a b) where
 
 === `base-4.10.0.0`
 
-* TODO: Type-indexed `Typeable` changes
+* Type-indexed `Typeable` changes
   * The `Data.Typeable.Internal` module has been removed
-  * `Data.Typeable.TypeRep` is now a type synonym (so you may need `FlexibleInstances` to create an instance for it, unless you switch it to use `Type.Reflection.SomeTypeRep`)
-  * `mkFunTy`, `mkAppTy`, `mkTyConApp`, and `mkTyCon3` have been removed
+  * `Data.Typeable.TypeRep` is now a type synonym (so you may need `TypeSynonymInstances` to create an instance for it, unless you switch it to use `Type.Reflection.SomeTypeRep`)
+  * `mkFunTy`, `mkAppTy`, `mkTyConApp`, and `` have been removed. If you use these then you might instead consider looking at the new type-indexed interfaces found in `Type.Reflection`.
+  * `mkTyCon3` and `mkTyConApp` are no longer exported by `Data.Typeable`. They are instead exported by `Data.Reflection.Unsafe`.
+
 
 === `template-haskell-2.12.0.0`
 
