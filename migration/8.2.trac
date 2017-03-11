@@ -121,10 +121,10 @@ The workaround is to define the instance using `Show` instead of `MyShow`.
 === `base-4.10.0.0`
 
 * Type-indexed `Typeable` changes
-  * The `Data.Typeable.Internal` module has been removed
+  * The `Data.Typeable.Internal` module has been removed entirely. Much of the `Typeable` internals now live in the new `Type.Reflection` module.
   * `Data.Typeable.TypeRep` is now a type synonym (so you may need `TypeSynonymInstances` to create an instance for it, unless you switch it to use `Type.Reflection.SomeTypeRep`)
   * `mkFunTy`, `mkAppTy`, `mkTyConApp`, and `` have been removed. If you use these then you might instead consider looking at the new type-indexed interfaces found in `Type.Reflection`.
-  * `mkTyCon3` and `mkTyConApp` are no longer exported by `Data.Typeable`. They are instead exported by `Data.Reflection.Unsafe`.
+  * `mkTyCon3` and `mkTyConApp` are no longer exported by `Data.Typeable`. They are instead exported by `Type.Reflection.Unsafe`.
 
 
 === `template-haskell-2.12.0.0`
@@ -141,3 +141,4 @@ The workaround is to define the instance using `Show` instead of `MyShow`.
 ----------------------------------
 == GHC API changes
 
+* TODO The `StaticFlags` module has been removed
