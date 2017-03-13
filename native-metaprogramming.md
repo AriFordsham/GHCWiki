@@ -251,8 +251,8 @@ Basically, what the extensible encoding does is to add a new parameter to the
 datatype to stand for extensions, and each extension is projected out of it by a unique label.
 
 
-We will explain details of the extensible datatypes, the tool, and the
-possible encodings separately.
+We explain details of the extensible datatypes, the tool, and the
+possible encoding separately [ here](http://www.jucs.org/jucs_23_1/trees_that_grow/jucs_23_01_0042_0062_najd.pdf) and [ here](https://arxiv.org/abs/1610.04799).
 
 #### Current Status
 
@@ -269,7 +269,7 @@ found [ here](https://github.com/shayan-najd/HsParser).
 
 
 We, the GHC developers, have to discuss the details of the work in details, as changes to the `HsSyn` AST affect the entire code base.
-I will present the work at Haskell Implementors Workshop at Nara, Japan, and from then, I hope we can start further serious discussions about this.
+I present the work at Haskell Implementors Workshop at Nara, Japan (recorded [ here](https://www.youtube.com/watch?v=DSWoGdfYt68)), and from then, I hope we can start further serious discussions about this.
 Specifically, we have to find a simple way to do all this massive refactoring required for extracting the `HsSyn` AST and the parser as separate packages, 
 
 1. without risking introducing bugs,
