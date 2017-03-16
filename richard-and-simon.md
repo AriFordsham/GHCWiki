@@ -1,0 +1,1 @@
+# Log of conversations between Richard and Simon
