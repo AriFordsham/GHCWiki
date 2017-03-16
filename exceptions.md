@@ -3,7 +3,7 @@
 
 Relevant pages:
 
-- [Exceptions/StackTraces](exceptions/stack-traces)
+- [Exceptions/PreciseExceptions](exceptions/precise-exceptions)
 - [FixingExceptions](fixing-exceptions)
 - [Commentary/CmmExceptions](commentary/cmm-exceptions)
 - [Commentary/Rts/AsyncExceptions](commentary/rts/async-exceptions)
