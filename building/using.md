@@ -712,6 +712,30 @@ HC [stage 0] compiler/stage1/build/Constants.o
 
 You can also put the "`V=0`" in your `build.mk` or `validate.mk` file.
 
+## Profiling the compiler
+
+
+It is possible to build a profiled compiler by setting `BuildFlavour=prof` in `mk/build.mk`. However, by default the build will have very few cost-centres defined. There are a few ways to add cost-centres,
+
+- Add `SCC` pragmas in the source
+- Add `{-# OPTIONS_GHC -fprof-auto #-}` pragmas to the modules of interest
+- Add an appropriate `-fprof-*` flag to the build system's flag set for modules of interest, for instance, by adding the following to `mk/build.mk`, 
+
+  ```wiki
+  compiler/typecheck/TcBinds_HC_OPTS += -fprof-auto
+  ```
+
+
+You can also add flags to an entire subdirectory of the compiler by adding something like the following to `mk/build.mk`,
+
+```wiki
+define add_mods_flag =
+  $(foreach mod,$(2),$(eval $(basename $(mod))_HC_OPTS += $(1)))
+endef
+
+$(call add_mods_flag,-fprof-auto,$(wildcard compiler/typecheck/*.hs))
+```
+
 ## Installing extra packages
 
 
