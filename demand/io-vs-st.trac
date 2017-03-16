@@ -23,6 +23,8 @@ This desugars to (essentially)
 
 Is this strict in `n`? It depends!
 
+== `IO` ==
+
 If we're working in `IO`, then I think we don't want to
 consider it strict in `n`. It follows directly from the `Monad` laws that
 `forever m >> n   >=   forever m`. If we force `n` early, then we consider
@@ -44,14 +46,33 @@ f r n `catch` \e -> ... readIORef r ...
 
 and observe whether we wrote to the `IORef` before throwing an imprecise exception.
 
-What if we're working in `ST`? Then things are completely different. If we
-hit bottom, ''that's it''. The entire `runST` computation will be bottom. We've
+== `ST` ==
+
+What if we're working in `ST`? Then things are completely different. `forever m >> n`
+is not only strict in `n`, but even hyperstrict in `n`. If we
+hit bottom (failing to calculate the final result pair), ''that's it''. The entire `runST`
+computation will be bottom. We've
 been mutating all sorts of references and arrays, but the moment we hit bottom, all of those references and arrays
 vanish in a puff of smoke; there are no lasting side effects. Although GHC
 runs `ST` computations with `State# RealWorld`, this seems a bit wrong;
 we really want to run them with `State# AlternateUniverse`! The whole I/O demand hack
 is unnecessary in the context of `ST`, and we can be as aggressive as we like (ignoring
 such horrors as `unsafeSTtoIO` and `unsafeIOtoST`).
+
+== `IO` transactions? ==
+
+Sometimes, we may not care about the distinctions above. Suppose we have an
+action that performs several database operations in a transaction. If we hit
+bottom performing any of the operations, then the whole sequence goes down
+the drain (as long as we're careful to bracket appropriately to initiate and
+terminate the transaction). In this case, it might be nice to allow the user
+to state that these actions, despite being `IO`-like, are actually occurring
+in an alternate universe. The trouble is that we could end up needing to compile
+each action twice: once for when it is being performed as part of a transaction
+and once for when it is being performed independently. I have no good story
+for that as yet.
+
+== Dreams ==
 
 In my usual "let's break the entire world!" approach, I'd love to change the actual definition of `IO`
 to something entirely different (one operational monad variant or another). I imagine the complaints
