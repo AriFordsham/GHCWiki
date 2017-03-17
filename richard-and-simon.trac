@@ -16,3 +16,15 @@
   * ...
 * #11739 (simplify axioms)
 * Fix all the `TypeInType` bugs
+
+**Iceland_jack**: By `[]` as a data family do you mean:
+
+{{{#!hs
+data family [] (a :: TYPE (rep :: RuntimeRep)) :: Type
+
+data instance [] (a :: Type)        = []   | a : [a]
+data instance [] (a :: TYPE IntRep) = INil | ICons a [a]
+...
+}}}
+
+I invite you to look at [https://gist.github.com/Icelandjack/1824f4544c86b4ab497282783f94c360 this gist] posted on #12369 and #13341.
