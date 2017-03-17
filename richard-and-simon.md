@@ -22,7 +22,7 @@
 **Iceland_jack**: By `[]` as a data family do you mean:
 
 ```
-datafamily[](a ::TYPE(rep ::RuntimeRep))::Typedatainstance[a ::Type]=[]| a :[a]datainstance[a ::TYPEIntRep]=INil|ICons a [a]...
+datafamily[](a ::TYPE(rep ::RuntimeRep))::Typedatainstance[](a ::Type)=[]| a :[a]datainstance[](a ::TYPEIntRep)=INil|ICons a [a]...
 ```
 
 
