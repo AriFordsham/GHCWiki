@@ -268,6 +268,7 @@ Main_knownzuapp_entry() {
 
 
 {{{
+#!asm
 _Main_knownzuapp_entry:
 Lcl3:
     movl L_stg_INTLIKE_closure$non_lazy_ptr,%eax
@@ -325,6 +326,7 @@ Main_knownzuappzu2_entry() {
 
 
 {{{
+#!asm
 _Main_knownzuappzu2_entry:
 LclE:
     leal -4(%ebp),%eax
@@ -433,6 +435,7 @@ Main_knownzuundersaturatedzuapp_entry() {
 
 
 {{{
+#!asm
 _Main_knownzuundersaturatedzuapp_entry:
 Lcmd:
     movl L_stg_INTLIKE_closure$non_lazy_ptr,%eax
@@ -476,6 +479,7 @@ Main_unknownzuapp_entry() {
 
 
 {{{
+#!asm
 _Main_unknownzuapp_entry:
 Lcn0:
     movl (%ebp),%esi
@@ -592,6 +596,7 @@ Main_knownzuoversatzuapp_entry() {
 
 
 {{{
+#!asm
 _Main_knownzuoversatzuapp_entry:
 Lcmj:
     leal -12(%ebp),%eax
@@ -725,6 +730,7 @@ Main_buildzudata_entry() {
 
 
 {{{
+#asm
 _Main_buildzudata_entry:
 LclE:
     addl $20,%edi
@@ -957,6 +963,7 @@ scj_ret() {
 
 
 {{{
+#!asm
 _Main_casezuscrut_entry:
 Lccx:
     movl (%ebp),%esi
@@ -1224,6 +1231,7 @@ soN_ret() {
 
 
 {{{
+#!asm
 _sst_entry:
 Lcph:
     leal -12(%ebp),%eax
@@ -1269,6 +1277,7 @@ something like:
 
 
 {{{
+#!hs
 plusInt (I# a) (I# b) = I# (a + b)
 }}}
 
