@@ -288,13 +288,8 @@ Main_knownzuapp_entry(){cl3:
         jump Main_knownzufun_entry();}
 ```
 
-```wiki
-_Main_knownzuapp_entry:
-Lcl3:
-    movl L_stg_INTLIKE_closure$non_lazy_ptr,%eax
-    addl $209,%eax
-    movl %eax,(%ebp)
-    jmp _Main_knownzufun_entry
+```
+_Main_knownzuapp_entry:Lcl3:movlL_stg_INTLIKE_closure$non_lazy_ptr,%eaxaddl$209,%eaxmovl%eax,(%ebp)jmp_Main_knownzufun_entry
 ```
 
 
@@ -338,23 +333,8 @@ Main_knownzuappzu2_entry(){clE:if(Sp -4< SpLim)goto clH;
         jump stg_gc_fun();}
 ```
 
-```wiki
-_Main_knownzuappzu2_entry:
-LclE:
-    leal -4(%ebp),%eax
-    cmpl 84(%ebx),%eax
-    jb LclH
-    movl L_stg_INTLIKE_closure$non_lazy_ptr,%eax
-    addl $209,%eax
-    movl %eax,(%ebp)
-    movl L_stg_INTLIKE_closure$non_lazy_ptr,%eax
-    addl $209,%eax
-    movl %eax,-4(%ebp)
-    addl $-4,%ebp
-    jmp _Main_knownzufunzu2_entry
-LclH:
-    movl $_Main_knownzuappzu2_closure,%esi
-    jmp *-4(%ebx)
+```
+_Main_knownzuappzu2_entry:LclE:leal-4(%ebp),%eaxcmpl84(%ebx),%eaxjbLclHmovlL_stg_INTLIKE_closure$non_lazy_ptr,%eaxaddl$209,%eaxmovl%eax,(%ebp)movlL_stg_INTLIKE_closure$non_lazy_ptr,%eaxaddl$209,%eaxmovl%eax,-4(%ebp)addl$-4,%ebpjmp_Main_knownzufunzu2_entryLclH:movl$_Main_knownzuappzu2_closure,%esijmp*-4(%ebx)
 ```
 
 
@@ -437,13 +417,8 @@ Main_knownzuundersaturatedzuapp_entry(){cmd:
         jump Main_knownzufunzu2_entry();}
 ```
 
-```wiki
-_Main_knownzuundersaturatedzuapp_entry:
-Lcmd:
-    movl L_stg_INTLIKE_closure$non_lazy_ptr,%eax
-    addl $209,%eax
-    movl %eax,(%ebp)
-    jmp _Main_knownzufunzu2_entry
+```
+_Main_knownzuundersaturatedzuapp_entry:Lcmd:movlL_stg_INTLIKE_closure$non_lazy_ptr,%eaxaddl$209,%eaxmovl%eax,(%ebp)jmp_Main_knownzufunzu2_entry
 ```
 
 
@@ -475,12 +450,8 @@ Main_unknownzuapp_entry(){cnO:
         jump stg_ap_p_fast();}
 ```
 
-```wiki
-_Main_unknownzuapp_entry:
-Lcn0:
-    movl (%ebp),%esi
-    addl $4,%ebp
-    jmp _stg_ap_p_fast
+```
+_Main_unknownzuapp_entry:Lcn0:movl(%ebp),%esiaddl$4,%ebpjmp_stg_ap_p_fast
 ```
 
 
@@ -582,24 +553,8 @@ Main_knownzuoversatzuapp_entry(){cmj:if(Sp -12< SpLim)goto cmm;
         jump stg_gc_fun();}
 ```
 
-```wiki
-_Main_knownzuoversatzuapp_entry:
-Lcmj:
-    leal -12(%ebp),%eax
-    cmpl 84(%ebx),%eax
-    jb Lcmm
-    movl L_stg_INTLIKE_closure$non_lazy_ptr,%eax
-    addl $209,%eax
-    movl %eax,(%ebp)
-    movl L_stg_ap_p_info$non_lazy_ptr,%eax
-    movl %eax,-4(%ebp)
-    movl $_base_GHCziBase_id_closure,-8(%ebp)
-    movl $_base_GHCziBase_id_closure,-12(%ebp)
-    addl $-12,%ebp
-    jmp _Main_knownzufunzu2_entry
-Lcmm:
-    movl $_Main_knownzuoversatzuapp_closure,%esi
-    jmp *-4(%ebx)
+```
+_Main_knownzuoversatzuapp_entry:Lcmj:leal-12(%ebp),%eaxcmpl84(%ebx),%eaxjbLcmmmovlL_stg_INTLIKE_closure$non_lazy_ptr,%eaxaddl$209,%eaxmovl%eax,(%ebp)movlL_stg_ap_p_info$non_lazy_ptr,%eaxmovl%eax,-4(%ebp)movl$_base_GHCziBase_id_closure,-8(%ebp)movl$_base_GHCziBase_id_closure,-12(%ebp)addl$-12,%ebpjmp_Main_knownzufunzu2_entryLcmm:movl$_Main_knownzuoversatzuapp_closure,%esijmp*-4(%ebx)
 ```
 
 
@@ -712,6 +667,7 @@ Main_buildzudata_entry(){clE:
 ```
 
 ```wiki
+#asm
 _Main_buildzudata_entry:
 LclE:
     addl $20,%edi
@@ -940,35 +896,8 @@ scj_ret(){cct:
         jump (I32[I32[R1]])();}
 ```
 
-```wiki
-_Main_casezuscrut_entry:
-Lccx:
-    movl (%ebp),%esi
-    movl $_scj_info,(%ebp)
-    testl $3,%esi
-    jne LccA
-    movl (%esi),%eax
-    jmp *(%eax)
-LccA:
-    jmp *_scj_info
-
-_scj_ret:
-Lcct:
-    movl %esi,%eax
-    andl $3,%eax
-    cmpl $2,%eax
-    jae Lccv
-    movl L_stg_INTLIKE_closure$non_lazy_ptr,%eax
-    leal 209(%eax),%esi
-    addl $4,%ebp
-    movl (%ebp),%eax
-    jmp *(%eax)
-Lccv:
-    movl 2(%esi),%esi
-    addl $4,%ebp
-    andl $-4,%esi
-    movl (%esi),%eax
-    jmp *(%eax)
+```
+_Main_casezuscrut_entry:Lccx:movl(%ebp),%esimovl$_scj_info,(%ebp)testl$3,%esijneLccAmovl(%esi),%eaxjmp*(%eax)LccA:jmp*_scj_info_scj_ret:Lcct:movl%esi,%eaxandl$3,%eaxcmpl$2,%eaxjaeLccvmovlL_stg_INTLIKE_closure$non_lazy_ptr,%eaxleal209(%eax),%esiaddl$4,%ebpmovl(%ebp),%eaxjmp*(%eax)Lccv:movl2(%esi),%esiaddl$4,%ebpandl$-4,%esimovl(%esi),%eaxjmp*(%eax)
 ```
 
 
@@ -1190,44 +1119,8 @@ soN_ret(){cp7:
         HpAlloc =8;goto cpd;}
 ```
 
-```wiki
-_sst_entry:
-Lcph:
-    leal -12(%ebp),%eax
-    cmpl 84(%ebx),%eax
-    jb Lcpj
-    movl L_stg_upd_frame_info$non_lazy_ptr,%eax
-    movl %eax,-8(%ebp)
-    movl %esi,-4(%ebp)
-    movl 8(%esi),%esi
-    movl $_soN_info,-12(%ebp)
-    addl $-12,%ebp
-    testl $3,%esi
-    jne Lcpk
-    movl (%esi),%eax
-    jmp *(%eax)
-Lcpj:
-    jmp *-8(%ebx)
-Lcpk:
-    jmp *_soN_info
-
-_soN_ret:
-Lcp7:
-    addl $8,%edi
-    cmpl 92(%ebx),%edi
-    ja Lcpc
-    movl 3(%esi),%eax
-    incl %eax
-    movl $_ghczmprim_GHCziTypes_Izh_con_info,-4(%edi)
-    movl %eax,(%edi)
-    leal -3(%edi),%esi
-    addl $4,%ebp
-    movl L_stg_upd_frame_info$non_lazy_ptr,%eax
-    jmp *(%eax)
-Lcpc:
-    movl $8,112(%ebx)
-Lcpd:
-    jmp *-8(%ebx)
+```
+_sst_entry:Lcph:leal-12(%ebp),%eaxcmpl84(%ebx),%eaxjbLcpjmovlL_stg_upd_frame_info$non_lazy_ptr,%eaxmovl%eax,-8(%ebp)movl%esi,-4(%ebp)movl8(%esi),%esimovl$_soN_info,-12(%ebp)addl$-12,%ebptestl$3,%esijneLcpkmovl(%esi),%eaxjmp*(%eax)Lcpj:jmp*-8(%ebx)Lcpk:jmp*_soN_info_soN_ret:Lcp7:addl$8,%edicmpl92(%ebx),%edijaLcpcmovl3(%esi),%eaxincl%eaxmovl$_ghczmprim_GHCziTypes_Izh_con_info,-4(%edi)movl%eax,(%edi)leal-3(%edi),%esiaddl$4,%ebpmovlL_stg_upd_frame_info$non_lazy_ptr,%eaxjmp*(%eax)Lcpc:movl$8,112(%ebx)Lcpd:jmp*-8(%ebx)
 ```
 
 
@@ -1235,8 +1128,8 @@ The original Haskell code read `x + 1`, but GHC has inlined the
 actual code for the addition operation on `Int`s, which looks
 something like:
 
-```wiki
-plusInt (I# a) (I# b) = I# (a + b)
+```
+plusInt(I# a)(I# b)=I#(a + b)
 ```
 
 
