@@ -20,12 +20,15 @@ David helpfully divides exceptions into
 > As discussed in the paper, an imprecise exception is a disaster scenario, not an alternative return.  We can catch them (in the IO monad) and try some alternative action.
 
 >
-> Imprecise exceptions can be further divided into synchronous and asynchronous; see the paper.
+> Imprecise exceptions should be considered to be a bug in the program.  They should not be used for control flow or for conditions that happen when things are working correctly.  Still, we might want to recover from an imprecise exception.
 
-- **Precise**:  raised in the IO monad, by `raiseIO# :: Exception -> IO a`, or perhaps by an exception thrown by a foreign function call.
+- **Precise**:  raised in the IO monad, by `throwIO :: Exception -> IO a`, or perhaps by an exception thrown by a foreign function call.
 
 >
-> Precise exceptions are a bit less of a disaster; e.g. they are used to report "file does not exist" on file-open.  (Is this a good thing?)
+> Precise exceptions are a bit less of a disaster; e.g. they are used to report "file does not exist" on file-open.  (Is this a good thing? SimonM: one can debate whether I/O errors should be represented as explicit values, e.g. `Either DoesNotExist FileContents`, but in practice there are many different error conditions that can occur when doing I/O, many of which are rare, so it's convenient to not have to deal with them explicitly.)
+
+
+Asynchronous exceptions are an orthogonal concept: the notion of precision doesn't apply to asynchronous exceptions which may occur at any time regardless of the expression being evaluated.
 
 ## The semantics of precise exceptions
 
@@ -76,7 +79,7 @@ which is obviously non-strict in `x`.
 On the other hand
 
 ```wiki
-f2 x = error "foo"
+f2 x = error "foo" >> x
 ```
 
 
