@@ -55,7 +55,7 @@ f1 x s = case raiseIO# exn s of
 which is obviously non-strict in `x`.
 On the other hand
 {{{
-f2 x = error "foo"
+f2 x = error "foo" >> x
 }}}
 would turn into
 {{{

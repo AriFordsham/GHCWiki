@@ -79,7 +79,7 @@ which is obviously non-strict in `x`.
 On the other hand
 
 ```wiki
-f2 x = error "foo"
+f2 x = error "foo" >> x
 ```
 
 
