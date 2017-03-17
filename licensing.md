@@ -52,7 +52,9 @@ Exceptions to this are:
 If you make a contribution to GHC or to the libraries, we will assume that you are supplying your contribution under the same license as the existing code.
 
 
-Most source files have a copyright notice at the top.  If you contribute significantly to an existing file, or create a new file, please add your own copyright to the top of the file.  If you copy code from one file to another, please try to maintain the copyright attributions correctly (this may involve digging through the revision history).  
-
-
 If you want to copy code from another project, please check that the licenses in question allow this, and make it clear which code has been copied and from where, both in the source file itself and in the patch description.
+
+## Copyright
+
+
+Most source files have a copyright notice at the top.  If you contribute significantly to an existing file, or create a new file, please add your own copyright to the top of the file.  If you copy code from one file to another, please try to maintain the copyright attributions correctly (this may involve digging through the revision history).  
