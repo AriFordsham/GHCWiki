@@ -730,7 +730,7 @@ Main_buildzudata_entry() {
 
 
 {{{
-#asm
+#!asm
 _Main_buildzudata_entry:
 LclE:
     addl $20,%edi
@@ -1188,6 +1188,7 @@ code:
 
 
 {{{
+#!hs
 build_data :: Int -> Maybe Int
 build_data x = Just (x + 1)
 }}}

@@ -666,28 +666,8 @@ Main_buildzudata_entry(){clE:
         HpAlloc =20;goto clI;}
 ```
 
-```wiki
-#asm
-_Main_buildzudata_entry:
-LclE:
-    addl $20,%edi
-    cmpl 92(%ebx),%edi
-    ja LclH
-    movl $_slk_info,-16(%edi)
-    movl (%ebp),%eax
-    movl %eax,-8(%edi)
-    movl $_base_DataziMaybe_Just_con_info,-4(%edi)
-    leal -16(%edi),%eax
-    movl %eax,(%edi)
-    leal -2(%edi),%esi
-    addl $4,%ebp
-    movl (%ebp),%eax
-    jmp *(%eax)
-LclH:
-    movl $20,112(%ebx)
-LclI:
-    movl $_Main_buildzudata_closure,%esi
-    jmp *-4(%ebx)
+```
+_Main_buildzudata_entry:LclE:addl$20,%edicmpl92(%ebx),%edijaLclHmovl$_slk_info,-16(%edi)movl(%ebp),%eaxmovl%eax,-8(%edi)movl$_base_DataziMaybe_Just_con_info,-4(%edi)leal-16(%edi),%eaxmovl%eax,(%edi)leal-2(%edi),%esiaddl$4,%ebpmovl(%ebp),%eaxjmp*(%eax)LclH:movl$20,112(%ebx)LclI:movl$_Main_buildzudata_closure,%esijmp*-4(%ebx)
 ```
 
 
@@ -1090,9 +1070,8 @@ previous section will behave when it is actually forced. To remind
 you, the thunk we saw was constructed by the following Haskell
 code:
 
-```wiki
-build_data :: Int -> Maybe Int
-build_data x = Just (x + 1)
+```
+build_data::Int->MaybeIntbuild_data x =Just(x +1)
 ```
 
 
