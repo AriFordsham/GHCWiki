@@ -197,7 +197,7 @@ code, and a pointer to its info table (i.e. its info pointer).
 For an example of how these parts work together, consider the
 following code
 
-```wiki
+```
 my_fun x zs = map (\y -> y + x) zs
 ```
 
@@ -272,13 +272,11 @@ pointer and arity for.
 Application of functions is the bread and butter of the STG
 machine. Correspondingly, this first Haskell program
 
-```wiki
-{-# NOINLINE known_fun #-}
-known_fun :: a -> a
+```
+{-# NOINLINE known_fun #-}known_fun:: a -> a
 known_fun x = x
 
-known_app :: () -> Int
-known_app _ = known_fun 10
+known_app::()->Intknown_app_= known_fun 10
 ```
 
 
@@ -320,13 +318,11 @@ tail-call into the entry code of `known_fun`.
 This Haskell code is apparently little more complicated than the
 previous example
 
-```wiki
-{-# NOINLINE known_fun_2 #-}
-known_fun_2 :: a -> a -> a
-known_fun_2 x _ = x
+```
+{-# NOINLINE known_fun_2 #-}known_fun_2:: a -> a -> a
+known_fun_2 x _= x
 
-known_app_2 :: () -> Int
-known_app_2 _ = known_fun_2 10 10
+known_app_2::()->Intknown_app_2_= known_fun_2 1010
 ```
 
 
@@ -425,13 +421,11 @@ A simple tail call to the new function finishes us off:
 
 Despite describing an undersaturated call, this Haskell code
 
-```wiki
-{-# NOINLINE known_fun_2 #-}
-known_fun_2 :: a -> a -> a
-known_fun_2 x _ = x
+```
+{-# NOINLINE known_fun_2 #-}known_fun_2:: a -> a -> a
+known_fun_2 x _= x
 
-known_undersaturated_app :: () -> Int -> Int
-known_undersaturated_app _ = known_fun_2 10
+known_undersaturated_app::()->Int->Intknown_undersaturated_app_= known_fun_2 10
 ```
 
 
@@ -467,9 +461,8 @@ until we've considered happens to calls to statically-unknown
 functions. To see what these look like, we are going to use the
 following Haskell code
 
-```wiki
-unknown_app :: (Int -> Int) -> Int -> Int
-unknown_app f x = f x
+```
+unknown_app::(Int->Int)->Int->Intunknown_app f x = f x
 ```
 
 
@@ -567,13 +560,11 @@ deals with all the cases for `f` described above.
 
 This Haskell code
 
-```wiki
-{-# NOINLINE known_fun_2 #-}
-known_fun_2 :: a -> a -> a
-known_fun_2 x _ = x
+```
+{-# NOINLINE known_fun_2 #-}known_fun_2:: a -> a -> a
+known_fun_2 x _= x
 
-known_oversat_app :: () -> Int
-known_oversat_app _ = known_fun_2 id id 10
+known_oversat_app::()->Intknown_oversat_app_= known_fun_2 id id 10
 ```
 
 
@@ -698,9 +689,8 @@ common characteristics:
 Let us look at how a thunk and a data constructor get allocated in
 a simple setting:
 
-```wiki
-build_data :: Int -> Maybe Int
-build_data x = Just (x + 1)
+```
+build_data::Int->MaybeIntbuild_data x =Just(x +1)
 ```
 
 
