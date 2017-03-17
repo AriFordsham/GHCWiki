@@ -201,3 +201,20 @@ The real culprit is this:
 
 
 So I propose that we deal with this duplication issue by think about free state tokens, and treat that as a completely orthogonal issue to the question of primops and their properties.  Indeed I think that might mean we could get rid of `has_side_effects` on primops altogether.
+
+
+Actually, `has_side_effects`, with its original, documented sense, is useful anyway. Notably, it lets us distinguish things like `readMutVar#` that have "read-only" effects from others. Such primops should behave quite differently for strictness analysis as discussed. They can also be discarded under certain circumstances. If we have
+
+```
+case readMutVar# v s of(# s', x #)-> e -- where x is unused in e
+```
+
+
+then we can simplify this to
+
+```
+e[s' -> s][x ->error"absent"]
+```
+
+
+I don't know how much the latter matters.
