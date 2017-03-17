@@ -178,6 +178,7 @@ following code
 
 
 {{{
+#!hs
 my_fun x zs = map (\y -> y + x) zs
 }}}
 
@@ -244,6 +245,7 @@ machine. Correspondingly, this first Haskell program
 
 
 {{{
+#!hs
 {-# NOINLINE known_fun #-}
 known_fun :: a -> a
 known_fun x = x
@@ -294,6 +296,7 @@ previous example
 
 
 {{{
+#!hs
 {-# NOINLINE known_fun_2 #-}
 known_fun_2 :: a -> a -> a
 known_fun_2 x _ = x
@@ -407,6 +410,7 @@ Despite describing an undersaturated call, this Haskell code
 
 
 {{{
+#!hs
 {-# NOINLINE known_fun_2 #-}
 known_fun_2 :: a -> a -> a
 known_fun_2 x _ = x
@@ -452,6 +456,7 @@ following Haskell code
 
 
 {{{
+#!hs
 unknown_app :: (Int -> Int) -> Int -> Int
 unknown_app f x = f x
 }}}
@@ -556,6 +561,7 @@ This Haskell code
 
 
 {{{
+#!hs
 {-# NOINLINE known_fun_2 #-}
 known_fun_2 :: a -> a -> a
 known_fun_2 x _ = x
@@ -687,6 +693,7 @@ a simple setting:
 
 
 {{{
+#!hs
 build_data :: Int -> Maybe Int
 build_data x = Just (x + 1)
 }}}
