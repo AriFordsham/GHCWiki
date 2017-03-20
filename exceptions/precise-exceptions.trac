@@ -65,6 +65,33 @@ f2 x = case raise# exn of
 }}}
 and that ''is'' strict in `x` because `raise#` ''does'' return bottom, just as described in the imprecise-exceptions paper.
 
+=== Catching exceptions ===
+
+David argues that we should have a new primop `catchIO#`, which catches only precise exceptions.  It behaves as if it was defined like this (with the same type as `catch#`:
+{{{
+catchIO# :: (State# RealWorld -> (# State# RealWorld, Either Exception a #) )
+         -> (b -> State# RealWorld -> (# State# RealWorld, Either Exception a #) )
+         -> State# RealWorld
+         -> (# State# RealWorld, Either Exception a #)
+catchIO# m f s = case m s of
+                    (# s', Left e #) -> f e s'
+                    good             -> good
+}}}
+Its behaviour if `m s` throws an imprecise exception is defined by the
+original imprecise-exceptions paper: the exception propagates without
+being caught.
+
+So, looking at #11555, `catchIO# undefined` throws an exception that is not caught;
+and `catchIO# (putStr x) h s` is strict in `x`.
+
+We still have the original `catch#` primop, which catches both sorts
+of exceptions.  It catches the imprecise sort exactly as described in the paper,
+and the precise sort by matching on `Left`.
+
+So `catch# undefined h s` calls the handler `h`.  And, for the
+resaons discussed in #11555, `catch#` should be lazy so that `catch# (f x)` does not
+look strict in `x` and hence perhaps evaluate `x` prematurely.
+
 === Primops that cannot fail ===
 
 Is this function strict in `x`?
