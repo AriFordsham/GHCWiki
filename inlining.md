@@ -7,6 +7,7 @@ Inlining is the most important compiler optimisation pass as it enables most oth
 
 - [ Secrets of the GHC inliner](http://research.microsoft.com/en-us/um/people/simonpj/Papers/inlining/) -- quite an old paper but a great description of the main ideas
 - [ GHC User Guide](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html?highlight=inline#inline-and-noinline-pragmas) -- Provides a description of `INLINE`, `INLINABLE` and `NOINLINE` pragmas. 
+- [ Inlining and Specialisation](http://mpickering.github.io/posts/2017-03-20-inlining-and-specialisation.html) -- A blog post explaining the basic operation of the inliner and specialiser and the interaction of different pragmas and options.
 
 ## Generics and Inlining
 
