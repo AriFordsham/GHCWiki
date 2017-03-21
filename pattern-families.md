@@ -7,30 +7,15 @@ The ticket associated with this design is [\#9671](https://gitlab.haskell.org//g
 
 The simplest use case is checking whether a set contains a value:
 
-```wiki
-    -- Normal Haskell
-    answer :: Set Int -> String
-    answer set = case member 42 set of
-      True  -> "We know the answer"
-      False -> "Never mind."
-
-    -- Using view patterns
-    answer :: Set Int -> String
-    answer (member 42 -> True)  = "We know the answer"
-    answer (member 42 -> False) = "Never mind."
+```
+-- Normal Haskellanswer::SetInt->Stringanswer set =case member 42 set ofTrue->"We know the answer"False->"Never mind."-- Using view patternsanswer::SetInt->Stringanswer(member 42->True)="We know the answer"answer(member 42->False)="Never mind."
 ```
 
 
 With this extension we could define patterns that check for containment:
 
-```wiki
-    pattern IsMember  val <- (member val -> True)
-    pattern NotMember val <- (member val -> False)
-
-    -- With extension
-    answer :: Set Int -> String
-    answer (IsMember  42) = "We know the answer"
-    answer (NotMember 42) = "Never mind."
+```
+patternIsMember  val <-(member val ->True)patternNotMember val <-(member val ->False)-- With extensionanswer::SetInt->Stringanswer(IsMember42)="We know the answer"answer(NotMember42)="Never mind."
 ```
 
 
@@ -41,25 +26,17 @@ This allows us to avoid pattern matching on the Boolean result of `member`. In t
 
 Let's consider a similar example with a `Map` where we want to look up a value based on some key:
 
-```wiki
-    -- Normal Haskell
-    addressAlice :: Map Name Address -> Either String Address
-    addressAlice people = case lookup "Alice" people of
-      Just address -> Right address
-      Nothing      -> Left "Alice's address not found."
+```
+-- Normal HaskelladdressAlice::MapNameAddress->EitherStringAddressaddressAlice people =case lookup "Alice" people ofJust address ->Right address
+  Nothing->Left"Alice's address not found."
 ```
 
 
 With the extension we define a pattern that only succeeds if `lookup` returns a value wrapped in `Just` which feeds that value back into the pattern:
 
-```wiki
-    pattern Lookup     key val <- (lookup key -> Just val)
-    pattern LookupFail key     <- (lookup key -> Nothing)
-
-    -- With extension
-    addressAlice :: Map Name Address -> Either String Address
-    addressAlice (Lookup "Alice" address) = Right address
-    addressAlice _                        = Left "Alice's address not found."
+```
+patternLookup     key val <-(lookup key ->Just val)patternLookupFail key     <-(lookup key ->Nothing)-- With extensionaddressAlice::MapNameAddress->EitherStringAddressaddressAlice(Lookup"Alice" address)=Right address
+addressAlice_=Left"Alice's address not found."
 ```
 
 
@@ -70,48 +47,28 @@ where the key `"Alice"` is used in the view pattern expression and the resulting
 
 Now we don't have to unnecessarily give a name to an argument (like `people`) like with view patterns but unlike view patterns we don't need to mention to `Bool` and `Maybe` success result values of member and lookup. These kinds of patterns also nest arbitrarily without too much noise:
 
-```wiki
-    foo :: Map Person (Map Receptacle (Set Items)) -> Status
-    foo = \case
-      Lookup "Bob" (Lookup Pocket (IsMember  Keys)) -> HasKeys
-      Lookup "Bob" (Lookup Pocket (NotMember Keys)) -> NoKeys
-      Lookup "Bob" (LookupFail Pocket)              -> NoPocket
-      LookupFail "Bob"                              -> Failure "No Bob"
+```
+foo::MapPerson(MapReceptacle(SetItems))->Statusfoo=\caseLookup"Bob"(LookupPocket(IsMemberKeys))->HasKeysLookup"Bob"(LookupPocket(NotMemberKeys))->NoKeysLookup"Bob"(LookupFailPocket)->NoPocketLookupFail"Bob"->Failure"No Bob"
 ```
 
 
 Another simple example is the `Between` pattern that matches a particular range (a feature built into [ Rust](http://doc.rust-lang.org/master/tutorial.html#pattern-matching)):
 
-```wiki
-    import Data.Ix
-
-    pattern Between from to <- (inRange (from, to) -> True)
-
-    -- A teenager is between thirteen and nineteen.
-    -- `Between 13 19` would be `13..19` in Rust.
-    isTeen :: Age -> Bool
-    isTeen (Between 13 19) = True
-    isTeen _               = False
+```
+importData.IxpatternBetween from to <-(inRange (from, to)->True)-- A teenager is between thirteen and nineteen.-- `Between 13 19` would be `13..19` in Rust.isTeen::Age->BoolisTeen(Between1319)=TrueisTeen_=False
 ```
 
 
 that gets transformed into:
 
-```wiki
-    isTeen :: Age -> Bool
-    isTeen (inRange (13, 19) -> True) = True
-    isTeen _                          = False
+```
+isTeen::Age->BoolisTeen(inRange (13,19)->True)=TrueisTeen_=False
 ```
 
 `Between` will work on any indexable type (`Ix a => a`):
 
-```wiki
-    generalCategory' :: Char -> GeneralCategory 
-    generalCategory' = \case
-      Between '\x00' '\x16' -> Control
-      Between 'a'    'z'    -> LowercaseLetter
-      Between 'A'    'Z'    -> UppercaseLetter
-      Between '0'    '9'    -> DecimalNumber
+```
+generalCategory'::Char->GeneralCategorygeneralCategory'=\caseBetween'\x00''\x16'->ControlBetween'a''z'->LowercaseLetterBetween'A''Z'->UppercaseLetterBetween'0''9'->DecimalNumber
 ```
 
 ## Syntax
@@ -119,8 +76,8 @@ that gets transformed into:
 
 The syntax from [PatternSynonyms](pattern-synonyms) can be reused for simplicity:
 
-```wiki
-    pattern Lookup key value <- (lookup key -> Just value)
+```
+patternLookup key value <-(lookup key ->Just value)
 ```
 
 
@@ -129,12 +86,13 @@ here `value` is a normal variable as in [PatternSynonyms](pattern-synonyms) but 
 
 The function `fn`:
 
-```wiki
-    fn :: Map String Int -> Int
-    fn (Lookup "five" n) = n
+```
+fn::MapStringInt->Intfn(Lookup"five" n)= n
+```
 
-    ghci> fn (Map.fromList [("four", 4), ("five", 5)]
-    5
+```wiki
+ghci> fn (Map.fromList [("four", 4), ("five", 5)]
+5
 ```
 
 
@@ -170,23 +128,22 @@ where *pvarid<sub>j</sub>* may appear in `result` as in usual patterns. This the
 
 For the simple example of the pattern family `Take` this (where 3 is *expr<sub>1</sub>* and `xs` is *pval<sub>1</sub>*):
 
-```wiki
-    foo (Lookup "five" n) = n + n
+```
+foo(Lookup"five" n)= n + n
 ```
 
 
 would get translated to:
 
-```wiki
-.    foo (lookup "five" -> Just n) = n + n
+```
+foo(lookup "five"->Just n)= n + n
 ```
 
 
 which is the same as:
 
-```wiki
-    foo ys = case lookup "five" n of
-      Just n -> n + n
+```
+foo ys =case lookup "five" n ofJust n -> n + n
 ```
 
 ## Static semantics (Typing)
@@ -201,48 +158,40 @@ If *expr* in the view pattern is an expression of type *t* with free variables *
 
 Example from [ViewPatternsAlternative](view-patterns-alternative):
 
-```wiki
-module Set(Set, empty, insert, delete, has) where
-
-    newtype Set a = S [a]
-  
-    has :: Eq a => a -> Set a -> Maybe (Set a)
-    has x (S xs) | x `elem` xs = Just (S (xs \\ [x]))
-                 | otherwise   = Nothing
+```
+moduleSet(Set, empty, insert, delete, has)wherenewtypeSet a =S[a]has::Eq a => a ->Set a ->Maybe(Set a)has x (S xs)| x `elem` xs =Just(S(xs \\[x]))| otherwise   =Nothing
 ```
 
 
 Using patterns indexed by an element of `Set a`:
 
-```wiki
-    pattern Has    x set <- (has x        -> Just set)
-    pattern HasNot x set <- (has x &&& id -> (Nothing, set))
+```
+patternHas    x set <-(has x        ->Just set)patternHasNot x set <-(has x &&& id ->(Nothing, set))
 ```
 
 
 One can write:
 
-```wiki
-    delete :: Eq a => a -> Set a -> Set a
-    delete x (Has x set) = set
-    delete x set         = set
+```
+delete::Eq a => a ->Set a ->Set a
+delete x (Has x set)= set
+delete x set         = set
 
-    insert :: Eq a => a -> Set a -> Set a
-    insert x (HasNot x (S xs)) = S (x:xs)
-    insert x set               = set
+insert::Eq a => a ->Set a ->Set a
+insert x (HasNot x (S xs))=S(x:xs)insert x set               = set
 ```
 
 
 Compare that to the the [ViewPatternsAlternative](view-patterns-alternative) proposal:
 
-```wiki
-    delete :: Eq a => a -> Set a -> Set a
-    delete x (r | Just s <- has r) = set
-    delete x set                   = set
+```
+delete::Eq a => a ->Set a ->Set a
+delete x (r |Just s <- has r)= set
+delete x set                   = set
   
-    insert :: Eq a => a -> Set a -> Set a
-    insert x (s | Just _ <- has x s) = set
-    insert x (S xs)                  = S (x:xs)
+insert::Eq a => a ->Set a ->Set a
+insert x (s |Just_<- has x s)= set
+insert x (S xs)=S(x:xs)
 ```
 
 
@@ -253,33 +202,29 @@ Where the user has to worry about matching on `Just`s.
 
 Another example stolen from [ViewPatternsAlternative](view-patterns-alternative) where the benefits are more apparent. Given a parsing function:
 
-```wiki
-    bits :: Int -> ByteString -> Maybe (Word, ByteString)
-    -- (bits n bs) parses n bits from the front of bs, returning
-    -- the n-bit Word, and the remainder of bs
+```
+-- (bits n bs) parses n bits from the front of bs, returning-- the n-bit Word, and the remainder of bsbits::Int->ByteString->Maybe(Word,ByteString)
 ```
 
 
 and using the following pattern family:
 
-```wiki
-    pattern Bits n val bs <- (bits n -> Just (val, bs))
+```
+patternBits n val bs <-(bits n ->Just(val, bs))
 ```
 
 
 one can write a pattern like this:
 
-```wiki
-    parsePacket :: ByteString -> _
-    parsePacket (Bits 3 n (Bits n val bs)) = _
+```
+parsePacket::ByteString->_parsePacket(Bits3 n (Bits n val bs))=_
 ```
 
 
 Where we can nest pattern families, more examples of nesting follow in the more advanced examples below. Compare that to the more verbose [ViewPatternsAlternative](view-patterns-alternative) version:
 
-```wiki
-    parsePacket :: ByteString -> _
-    parsePacket (p1 |  Just (n, (p2 | Just (val, bs) <- bits n p2)) <- bits 3 p1) = _
+```
+parsePacket::ByteString->_parsePacket(p1 |Just(n,(p2 |Just(val, bs)<- bits n p2))<- bits 3 p1)=_
 ```
 
 ### N+k patterns
@@ -287,32 +232,25 @@ Where we can nest pattern families, more examples of nesting follow in the more 
 
 Another one from [ViewPatternsAlternative](view-patterns-alternative) using the following view and pattern family:
 
-```wiki
-    np :: Num a => a -> a -> Maybe a
-    np k n | k <= n    = Just (n-k)
-           | otherwise = Nothing
-
-    pattern NP k n <- (np k -> Just n)
+```
+np::Num a => a -> a ->Maybe a
+np k n | k <= n    =Just(n-k)| otherwise =NothingpatternNP k n <-(np k ->Just n)
 ```
 
 
 Used as follows:
 
-```wiki
-    fib :: Num a -> a -> a
-    fib 0        = 1
-    fib 1        = 1
-    fib (NP 2 n) = fib (n + 1) + fib n
+```
+fib::Num a -> a -> a
+fib0=1fib1=1fib(NP2 n)= fib (n +1)+ fib n
 ```
 
 
 Compare [ViewPatternsAlternative](view-patterns-alternative) version:
 
-```wiki
-    fib :: Num a -> a -> a
-    fib 0 = 1
-    fib 1 = 1
-    fib (n2 | let n = n2-2, n >= 0) = fib (n + 1) + fib n
+```
+fib::Num a -> a -> a
+fib0=1fib1=1fib(n2 |let n = n2-2, n >=0)= fib (n +1)+ fib n
 ```
 
 ### Type checking
@@ -320,34 +258,26 @@ Compare [ViewPatternsAlternative](view-patterns-alternative) version:
 
 From [ Bidirectional Typing Rules: A Tutorial](http://itu.dk/people/drc/tutorials/bidirectional.pdf):
 
-```wiki
-    inferType ctx (If t1 t2 t3) = case (inferType ctx t1, inferType ctx t2, inferType ctx t3) of
-      (Just BoolT, Just ty2, Just ty3) -> 
-        if ty2 = ty3 
-        then Just ty2
-        else Nothing
-      _ -> Nothing
+```
+inferType ctx (If t1 t2 t3)=case(inferType ctx t1, inferType ctx t2, inferType ctx t3)of(JustBoolT,Just ty2,Just ty3)->if ty2 = ty3 
+    thenJust ty2
+    elseNothing_->Nothing
 ```
 
 
 could be rewritten using pattern families as:
 
-```wiki
-    -- Here ‘Inf’ is a family indexed by ‘ctx’
-    pattern Inf ctx ty <- (inferType ctx -> Just ty)
-
-    inferType ctx (If (Inf ctx BoolT) (Inf ctx ty1) (Inf ctx ty2))
-       | ty1 == ty2 = Just ty1
-    inferType ctx If{} = Nothing
+```
+-- Here ‘Inf’ is a family indexed by ‘ctx’patternInf ctx ty <-(inferType ctx ->Just ty)inferType ctx (If(Inf ctx BoolT)(Inf ctx ty1)(Inf ctx ty2))| ty1 == ty2 =Just ty1
+inferType ctx If{}=Nothing
 ```
 
 
 allowing the user to pattern match *directly* on the inferable types without manually checking for `Just`s — note the use of the previous argument `ctx` to index later. This could currently be written somewhat awkwardly using view patterns:
 
-```wiki
-    inferType ctx (If (inferType ctx -> Just BoolT) (inferType ctx -> Just ty1) (inferType ctx -> Just ty2))
-       | ty1 == ty2 = Just ty1
-    inferType ctx If{} = Nothing
+```
+inferType ctx (If(inferType ctx ->JustBoolT)(inferType ctx ->Just ty1)(inferType ctx ->Just ty2))| ty1 == ty2 =Just ty1
+inferType ctx If{}=Nothing
 ```
 
 
@@ -356,8 +286,8 @@ which is longer and clunkier, especially since the user is forced to deal with `
 
 Again one could use operators (`:⇒ = Inf`) in which case it the examples follow notation in type theory more closely:
 
-```wiki
-    inferType γ (If (γ :⇒ BoolT) (γ :⇒ τ₁) (γ :⇒ τ₂)) = ...
+```
+inferType γ (If(γ :⇒BoolT)(γ :⇒ τ₁)(γ :⇒ τ₂))=...
 ```
 
 ### More advanced examples: Regular expressions
@@ -365,30 +295,30 @@ Again one could use operators (`:⇒ = Inf`) in which case it the examples follo
 
 Given a regular expression operator `(~=) :: String -> String -> Maybe [String]` we can define a pattern:
 
-```wiki
-    pattern Match x regexp <- ((~= regexp) -> Just x)
+```
+patternMatch x regexp <-((~= regexp)->Just x)
 ```
 
 
 where `regexp` is indexes the `Match` pattern family:
 
-```wiki
-    firstWord (Match words "[a-zA-Z]+") = words
-    firstWord _                         = error "No words found"
+```
+firstWord(Match words "[a-zA-Z]+")= words
+firstWord_=error"No words found"
 ```
 
 
 or
 
-```wiki
-    vowels (Match vwls "[aeiou]") = length vwls
+```
+vowels(Match vwls "[aeiou]")= length vwls
 ```
 
 
 As an operator:
 
-```wiki
-    pattern x :~= regexp <- ((~= regexp) -> Just x)
+```
+pattern x :~= regexp <-((~= regexp)->Just x)
 ```
 
 ### More advanced examples: Prism patterns
@@ -398,19 +328,17 @@ As an operator:
 
 Indexing patterns with prisms from [ Control.Lens.Prism](http://hackage.haskell.org/package/lens-4.2/docs/Control-Lens-Prism.html):
 
-```wiki
-    import Control.Lens.Prism
-
-    pattern Match prism a <- (preview prism -> Just a)
+```
+importControl.Lens.PrismpatternMatch prism a <-(preview prism ->Just a)
 ```
 
 
 one can write
 
-```wiki
-    bar :: Either c (Either a b) -> a
-    bar (Match (_Right._Left) a) = a
-    bar _                        = error "..."
+```
+bar::Either c (Either a b)-> a
+bar(Match(_Right._Left) a)= a
+bar_=error"..."
 ```
 
 #### More complicated prisms
@@ -418,40 +346,34 @@ one can write
 
 Pattern families can be used to match nested data like JSON, ASTs or XML, here is an example of using it to match on [ Data.Aeson.Lens](http://hackage.haskell.org/package/lens-4.2/docs/Data-Aeson-Lens.html):
 
-```wiki
-    jsonBlob = "[{\"someObject\": {\"version\": [1,0,3]}}]"
-    
-    -- val = Number 0.0
-    val = jsonBlob ^?! nth 0 . key "someObject" . key "version" . nth 1
+```
+jsonBlob="[{\"someObject\": {\"version\": [1,0,3]}}]"-- val = Number 0.0val= jsonBlob ^?! nth 0. key "someObject". key "version". nth 1
 ```
 
 
 Pattern families allow us to say we want to fetch the same value as `val` using patterns:
 
-```wiki
-    foo (Match (nth 0) (Match (key "someObject") (Match (key "version") (Match (nth 1) a)))) = a
+```
+foo(Match(nth 0)(Match(key "someObject")(Match(key "version")(Match(nth 1) a))))= a
 ```
 
 
 Which is terribly verbose, but can be improved by introducing:
 
-```wiki
-    pattern Get i   a <- (preview (nth i)   -> Just a)
-    pattern Key str a <- (preview (key str) -> Just a)
-
-    baz (Get 0 (Key "someObject" (Key "version" (Get 1 a)))) = a
+```
+patternGet i   a <-(preview (nth i)->Just a)patternKey str a <-(preview (key str)->Just a)baz(Get0(Key"someObject"(Key"version"(Get1 a))))= a
 ```
 
 
 or  by writing it infix:
 
-```wiki
-    baz (0 `Get` "someObject" `Key` "version" `Key` 1 `Get` a) = a
+```
+baz(0`Get`"someObject"`Key`"version"`Key`1`Get` a)= a
 ```
 
 
 or by defining operators `:→ = Get i a` and `:⇒ = Key`:
 
-```wiki
-    baz (a :→ "someObject" :⇒ "version" :⇒ 1 :→ a) = a
+```
+baz(a :→"someObject":⇒"version":⇒1:→ a)= a
 ```
