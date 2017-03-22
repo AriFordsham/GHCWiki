@@ -125,8 +125,16 @@ and the precise sort by matching on `Left`.
 
 
 So `catch# undefined h s` calls the handler `h`.  And, for the
-resaons discussed in [\#11555](https://gitlab.haskell.org//ghc/ghc/issues/11555), `catch#` should be lazy so that `catch# (f x)` does not
+reasons discussed in [\#11555](https://gitlab.haskell.org//ghc/ghc/issues/11555), `catch#` should be lazy so that `catch# (f x)` does not
 look strict in `x` and hence perhaps evaluate `x` prematurely.
+
+
+It wouldn't hurt to offer a `catchVerbosely#` that catches all exceptions and passes
+the handler an indication (`0#` or `1#`) of whether the exception was precise or imprecise, or perhaps
+even `0#`, `1#`, or `2#` for precise, imprecise synchronous, or asynchronous.
+We could actually implement both `catch#` and `catchIO#` (as well as the
+less-obviously-useful `catchImprecise#`) using `catchVerbosely#`, although
+we'd still need to give `catchIO#` a custom demand signature.
 
 ### Primops that cannot fail
 
@@ -165,6 +173,19 @@ so that the primop looks as if it can fail; now `fRead` will be lazy.
 
 
 Simon PJ strongly prefers the former, but it's a free choice.
+
+### `evaluate`
+
+
+How do we want to deal with `evaluate`? I (David) believe that `evaluate` should convert imprecise exceptions into precise ones. That is, we should have something like
+
+```
+evaluate v =IO$\s ->
+  catch#(seq# v)(\e -> s' -> raiseIO# e s') s
+```
+
+
+Or do we want to do this within the `seq#` primitive?
 
 ### Implementing precise exceptions
 
@@ -273,6 +294,11 @@ then we can simplify this to
 ```
 e[s' -> s][x ->error"absent"]
 ```
+
+
+What about something like `noDuplicate#`? That's a bit weird. It doesn't produce any result,
+it doesn't have any visible effect, but we're not allowed to discard it. However, we *are*
+allowed to be strict in case branches beyond it.
 
 
 See [Demand/IO-vs-ST](demand/io-vs-st) for some discussion of why we don't want to use the `IO` hack or allow `has_side_effects` to affect
