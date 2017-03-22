@@ -296,5 +296,10 @@ e[s' -> s][x ->error"absent"]
 ```
 
 
+What about something like `noDuplicate#`? That's a bit weird. It doesn't produce any result,
+it doesn't have any visible effect, but we're not allowed to discard it. However, we *are*
+allowed to be strict in case branches beyond it.
+
+
 See [Demand/IO-vs-ST](demand/io-vs-st) for some discussion of why we don't want to use the `IO` hack or allow `has_side_effects` to affect
 demand analysis when we're working with strict `ST`.
