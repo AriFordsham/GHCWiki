@@ -93,7 +93,8 @@ reasons discussed in #11555, `catch#` should be lazy so that `catch# (f x)` does
 look strict in `x` and hence perhaps evaluate `x` prematurely.
 
 It wouldn't hurt to offer a `catchVerbosely#` that catches all exceptions and passes
-the handler an indication (`0#` or `1#`) of whether the exception was precise or imprecise.
+the handler an indication (`0#` or `1#`) of whether the exception was precise or imprecise, or perhaps
+even `0#`, `1#`, or `2#` for precise, imprecise synchronous, or asynchronous.
 We could actually implement both `catch#` and `catchIO#` (as well as the
 less-obviously-useful `catchImprecise#`) using `catchVerbosely#`, although
 we'd still need to give `catchIO#` a custom demand signature.
