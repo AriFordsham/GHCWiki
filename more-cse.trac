@@ -1,13 +1,17 @@
 = Notes on common sub-expression elimination (CSE) =
 
-The CSE pass is pretty simple at the moment.  Here are tickets that identify currently-missed opportunities:
- * #7596
- * #149
- * #2940 
- * #947 
- * #701
- * #5344
- * #9441
+== Tickets ==
+
+The CSE pass is pretty simple at the moment.  Here are tickets that identify currently-missed opportunities.
+
+Use Keyword = `CSE` to ensure that a ticket ends up on these lists.
+
+'''Open Tickets:'''
+[[TicketQuery(status=new|patch,keywords=~CSE|cse)]]
+
+'''Closed Tickets:'''
+[[TicketQuery(status=closed,keywords=~CSE|cse)]]
+
 
 == More aggressive CSE ==
 
