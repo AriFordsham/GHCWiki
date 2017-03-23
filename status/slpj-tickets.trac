@@ -6,6 +6,7 @@
  * [wiki:DependentHaskell/Phase1 TypeInType]: [wiki:DependentHaskell], esp #12919 (outright bug)
  * `TypeApplications`: [wiki:TypeApplication visible type application]
  * [wiki:Proposal/CustomTypeErrors Custom type errors]
+ * [wiki:MoreCSE Common subexpression (CSE)]
  * [wiki:UnliftedDataTypes]
  * [wiki:UnpackedSumTypes], #9214
  * [wiki:TypeNats]: type-level literals
