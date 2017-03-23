@@ -3,16 +3,7 @@
 ## Tickets
 
 
-The CSE pass is pretty simple at the moment.  Here are tickets that identify currently-missed opportunities:
-
-- [\#7596](https://gitlab.haskell.org//ghc/ghc/issues/7596)
-
-  - [\#149](https://gitlab.haskell.org//ghc/ghc/issues/149)
-  - [\#2940](https://gitlab.haskell.org//ghc/ghc/issues/2940)
-  - [\#947](https://gitlab.haskell.org//ghc/ghc/issues/947)
-  - [\#701](https://gitlab.haskell.org//ghc/ghc/issues/701)
-  - [\#5344](https://gitlab.haskell.org//ghc/ghc/issues/5344)
-  - [\#9441](https://gitlab.haskell.org//ghc/ghc/issues/9441)
+The CSE pass is pretty simple at the moment.  Here are tickets that identify currently-missed opportunities.
 
 
 Use Keyword = `CSE` to ensure that a ticket ends up on these lists.
