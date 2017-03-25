@@ -133,7 +133,7 @@ fromLabel :: Proxy# x -> a -- old type signature
 fromLabel ::             a -- new type signature
 }}}
 
-The new `fromLabel` can be accommodated using `TypeApplications`:
+  The new `fromLabel` can be accommodated using `TypeApplications`:
 
 {{{#!hs
 fromLabel (proxy# :: Proxy# "foo") :: alpha -- old style
