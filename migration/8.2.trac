@@ -126,7 +126,19 @@ The workaround is to define the instance using `Show` instead of `MyShow`.
   * `mkFunTy`, `mkAppTy`, `mkTyConApp`, and `` have been removed. If you use these then you might instead consider looking at the new type-indexed interfaces found in `Type.Reflection`.
   * `mkTyCon3` and `mkTyConApp` are no longer exported by `Data.Typeable`. They are instead exported by `Type.Reflection.Unsafe`.
   * `Data.Dynamic` no longer re-exports all of `Data.Typeable` (only the `Typeable` class).
+* The type signature of `fromLabel` has changed:
 
+{{{#!hs
+fromLabel :: Proxy# x -> a -- old type signature
+fromLabel ::             a -- new type signature
+}}}
+
+The new `fromLabel` can be accommodated using `TypeApplications`:
+
+{{{#!hs
+fromLabel (proxy# :: Proxy# "foo") :: alpha -- old style
+fromLabel @"foo"                   :: alpha -- new style
+}}}
 
 === `template-haskell-2.12.0.0`
 
