@@ -9,6 +9,8 @@ See also sub-pages:
 - [NestedCPR/better-ho-cardinality](nested-cpr/better-ho-cardinality)
 - [NestedCPR/wave4main](nested-cpr/wave4main)\]
 
+[NestedCPR/Akio2017](nested-cpr/akio2017) tracks \@akio's attempt at rebasing and finishing this work after [SequentCore](sequent-core) is in HEAD.
+
 ### Related tickets
 
 - [\#1600](https://gitlab.haskell.org//ghc/ghc/issues/1600) Main tickets where I mention progress.
