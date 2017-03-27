@@ -17,6 +17,7 @@
  * #11715, #11621: `Constraint` vs `*`
  * [wiki:Commentary/Compiler/GenericDeriving Generic deriving]
  * [wiki:SequentCore Join points]
+ * [wiki:StaticPointers]
  * [wiki:PatternMatchCheck The new pattern-match overlap/exhaustiveness checker]
  * [wiki:PatternSynonyms Pattern-synonym status page]
  * [wiki:Records/OverloadedRecordFields Overloaded record fields]
