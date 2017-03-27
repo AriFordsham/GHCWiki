@@ -7,9 +7,8 @@ See also sub-pages:
 - [NestedCPR/AdvancedConverges](nested-cpr/advanced-converges)
 - [NestedCPR/DmdAnalIdeas](nested-cpr/dmd-anal-ideas)
 - [NestedCPR/better-ho-cardinality](nested-cpr/better-ho-cardinality)
-- [NestedCPR/wave4main](nested-cpr/wave4main)\]
-
-[NestedCPR/Akio2017](nested-cpr/akio2017) tracks \@akio's attempt at rebasing and finishing this work after [SequentCore](sequent-core) is in HEAD.
+- [NestedCPR/wave4main](nested-cpr/wave4main)
+- [NestedCPR/Akio2017](nested-cpr/akio2017) tracks \@akio's attempt at rebasing and finishing this work after [SequentCore](sequent-core) is in HEAD.
 
 ### Related tickets
 
