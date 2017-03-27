@@ -7,6 +7,7 @@
 - [TypeInType](dependent-haskell/phase1): [DependentHaskell](dependent-haskell), esp [\#12919](https://gitlab.haskell.org//ghc/ghc/issues/12919) (outright bug)
 - `TypeApplications`: [visible type application](type-application)
 - [Custom type errors](proposal/custom-type-errors)
+- [Inlining](inlining)
 - [Common subexpression (CSE)](more-cse)
 - [UnliftedDataTypes](unlifted-data-types)
 - [UnpackedSumTypes](unpacked-sum-types), [\#9214](https://gitlab.haskell.org//ghc/ghc/issues/9214)
