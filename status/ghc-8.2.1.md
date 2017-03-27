@@ -18,36 +18,26 @@ If you believe your favourite thing belongs in this list, but isn't there, pleas
 ## Current status
 
 
-As of March 1 all of the major changes have landed in the tree. However, there are a variety of smaller tasks, including some late-breaking regression fixes, which need to be resolved. We expect that the tree should be stable again by the end of the week.
+As of March 27 all of the major changes have landed in the tree. However, there are a variety of smaller tasks, including some late-breaking regression fixes, which need to be resolved.
 
 ## Dates
 
 
-Very tentative: Release candidate by **early March 2017**. Release in **mid-April 2017**.
+Very tentative: Release candidate by **late March 2017**. Release in **mid-April 2017**.
 
 ## Libraries Status
 
 
 See [Libraries](status/ghc-8.2.1/libraries)
 
-## Release highlights (planned)
+## Release highlights
 
 
 Below are the major highlights of 8.2.
 
 ### Compile time improvements
 
-TODO
-
-### Front-end changes
-
-### Back-end and runtime system
-
-### Build system and miscellaneous changes
-
-- Consolidate non-determinism changes (Bartosz).
-
-### Landed in `master` branch
+- A variety of compile-time improvements.
 
 #### Front-end changes
 
@@ -92,7 +82,7 @@ TODO
 
 ### Optimiser and intermediate language
 
-- [Implement join points](sequent-core) (Luke Maurer)
+- [Implement join points](sequent-core) (Luke Maurer). This makes the compiler's join points optimization more robust, resulting in significantly better code generation in some cases.
 
 #### Library changes
 

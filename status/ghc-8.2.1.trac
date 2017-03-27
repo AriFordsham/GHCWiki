@@ -16,33 +16,23 @@ If you believe your favourite thing belongs in this list, but isn't there, pleas
 
 == Current status ==
 
-As of March 1 all of the major changes have landed in the tree. However, there are a variety of smaller tasks, including some late-breaking regression fixes, which need to be resolved. We expect that the tree should be stable again by the end of the week.
+As of March 27 all of the major changes have landed in the tree. However, there are a variety of smaller tasks, including some late-breaking regression fixes, which need to be resolved.
 
 == Dates ==
 
-Very tentative: Release candidate by '''early March 2017'''. Release in '''mid-April 2017'''.
+Very tentative: Release candidate by '''late March 2017'''. Release in '''mid-April 2017'''.
 
 == Libraries Status
 
 See [wiki:./Libraries]
 
-== Release highlights (planned)
+== Release highlights
 
 Below are the major highlights of 8.2.
 
 === Compile time improvements ===
 
-TODO
-
-=== Front-end changes ===
-=== Back-end and runtime system ===
-
-=== Build system and miscellaneous changes ===
-
-   - Consolidate non-determinism changes (Bartosz).
-
-
-=== Landed in `master` branch
+ * A variety of compile-time improvements.
 
 ==== Front-end changes
 
@@ -77,7 +67,6 @@ TODO
 
    - '''Live streaming of event-log data''' (Phab:2934)
 
-
   - '''Further improvements to debugging information''' (Ben Gamari): There are still a number of outstanding issues with GHC's DWARF implementation, some of which even carry the potential to crash the runtime system during stacktrace collection. GHC 8.2 will hopefully have these issues resolved, allowing debugging   - TODO information to be used by end-user code in production.
 
   With stable stack unwinding support comes a number of opportunities for new serial and parallel performance analysis tools (e.g. statistical profiling) and debugging. As GHC's debugging information improves, we expect to see tooling developed to support these applications. See the [[https://ghc.haskell.org/trac/ghc/wiki/DWARF/80Status|DWARF status page]] for further information.
@@ -85,7 +74,7 @@ TODO
 
 === Optimiser and intermediate language ===
 
-* [wiki:SequentCore Implement join points] (Luke Maurer)
+* [wiki:SequentCore Implement join points] (Luke Maurer). This makes the compiler's join points optimization more robust, resulting in significantly better code generation in some cases.
 
 ==== Library changes
 
