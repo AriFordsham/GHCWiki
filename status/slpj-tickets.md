@@ -18,6 +18,7 @@
 - [\#11715](https://gitlab.haskell.org//ghc/ghc/issues/11715), [\#11621](https://gitlab.haskell.org//ghc/ghc/issues/11621): `Constraint` vs `*`
 - [Generic deriving](commentary/compiler/generic-deriving)
 - [Join points](sequent-core)
+- [StaticPointers](static-pointers)
 - [The new pattern-match overlap/exhaustiveness checker](pattern-match-check)
 - [Pattern-synonym status page](pattern-synonyms)
 - [Overloaded record fields](records/overloaded-record-fields)
