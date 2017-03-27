@@ -25,7 +25,21 @@ than an `IO` one (''unless'' the floating problem with inlining `runRW#`
 has been resolved by our avoiding floating operations that have side
 effects. Has anyone checked?). One option would be to actually add a `FakeWorld`
 type and a `fakeWorld#` primitive to use it. This option is explored
-in phab:D3375. One surprising point: the `case` on 
+in phab:D3375. One surprising point: the `case` on the result needs to be moved
+inside the `runFW#` argument. That is, unlike
+
+{{{#!hs
+unsafePerformIO (IO m) = case runRW# m of (# _, a #) -> a
+}}}
+
+we need
+
+{{{#!hs
+runST (ST m) = runFW# (\s -> case m s of (# _, a #) -> a)
+}}}
+
+This allows demand analysis to see that we actually use the second component.
+It seems that the demand signature we give to `runRW#` is insufficient for that.
 
 Another possible option Simon hinted at would be to give `runFW#` a
 rank-2 type like `runST`. This would delay instantiation of the state
