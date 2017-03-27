@@ -1,0 +1,36 @@
+This page tracks @akio's attempt at reviving @nomeata's work on NestedCPR.
+
+== Examples
+
+=== simple.hs
+
+This is a simple recursive function with an easy-to-spot nested CPR property.
+
+Status: ok
+
+{{{#!hs
+module Foo where
+f :: Int -> (Int, Int)
+f 0 = (1, 2)
+f n
+  | even n = f (div n 2)
+  | otherwise = case f (n - 1) of
+    (a, b) -> (a - 1, b)
+}}}
+
+=== strictness.hs
+
+This one is trickier in that the analysis has to use the nested strictness of `foo` on `p` to give `p` a nested CPR property. Inspired by `nofib/imaginary/x2n1`.
+
+Status: ok
+
+{{{#!hs
+{-# LANGUAGE BangPatterns #-}
+module Foo where
+
+foo :: Int -> (Int, Int) -> (Int, Int)
+foo n p
+  | even (n + uncurry (+) p), n /= 0 = foo (n - 1) p
+  | n == 0 = (1, 2)
+  | otherwise = p
+}}}
