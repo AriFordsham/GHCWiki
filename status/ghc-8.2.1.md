@@ -52,7 +52,7 @@ Below are the major highlights of 8.2.
 
 - **Levity polymorphism**.  Richard E is actively involved in consolidating the implementation of levity polymorphism; see [LevityPolymorphism](levity-polymorphism).  This will not include resolving the `Constraint` vs `*` debate [\#11715](https://gitlab.haskell.org//ghc/ghc/issues/11715).
 
-- **Backpack** (Edward Z Yang) is targeting to be merged in GHC 8.2. More to come here. See the tickets with the [ backpack](https://ghc.haskell.org/trac/ghc/query?status=!closed&keywords=~backpack) keyword for current status.
+- **Backpack** (Edward Z Yang) has been merged into GHC 8.2. However, at this point, it has only really been seriously used by Edward, and so it really needs testing! Known issues are tracked with the [ backpack](https://ghc.haskell.org/trac/ghc/query?status=!closed&keywords=~backpack) keyword, one major known issue is [ https://phabricator.haskell.org/D3381](https://phabricator.haskell.org/D3381)
 
 - **Exhaustiveness checking**
 
