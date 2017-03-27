@@ -37,7 +37,7 @@ Below are the major highlights of 8.2.
 
 ### Compile time improvements
 
-TODO
+- A variety of compile-time improvements.
 
 ### Front-end changes
 
@@ -92,7 +92,7 @@ TODO
 
 ### Optimiser and intermediate language
 
-- [Implement join points](sequent-core) (Luke Maurer)
+- [Implement join points](sequent-core) (Luke Maurer). This makes the compiler's join points optimization more robust, resulting in significantly better code generation in some cases.
 
 #### Library changes
 
