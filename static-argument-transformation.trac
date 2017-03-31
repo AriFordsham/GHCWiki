@@ -8,6 +8,8 @@ See:
 
 In comment:10 of #5059, Max notes that SAT provides 20-30% wins in nofib, wow! 
 
+I think we really want to be able to perform value specialization of recursive functions without SAT. The performance trade-off of SAT when it comes to code generation doesn't look so hot in many cases. BTW, I noticed that the lack of SAT or argument specialization can prevent good optimization of derived code. For example, `data Tree a = Branch (Tree a) (Tree a) | Leaf a deriving Foldable` yields a very mediocre-looking `foldl'` that would be fixed by a `foldr` that could inline. It also produces a very boxing `length`, but that smells like a trickier higher-order demand issue. --dfeuer
+
 == Tickets ==
 
 Use Keyword = `StaticArgumentTransformation` to ensure that a ticket ends up on these lists.
