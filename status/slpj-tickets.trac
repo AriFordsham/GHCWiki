@@ -7,6 +7,8 @@
  * `TypeApplications`: [wiki:TypeApplication visible type application]
  * [wiki:Proposal/CustomTypeErrors Custom type errors]
  * [wiki:Inlining]
+ * [wiki:SpecConstr]
+ * [wiki:StaticArgumentTransformation]
  * [wiki:MoreCSE Common subexpression (CSE)]
  * [wiki:UnliftedDataTypes]
  * [wiki:UnpackedSumTypes], #9214

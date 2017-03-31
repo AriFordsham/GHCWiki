@@ -8,6 +8,8 @@
 - `TypeApplications`: [visible type application](type-application)
 - [Custom type errors](proposal/custom-type-errors)
 - [Inlining](inlining)
+- [SpecConstr](spec-constr)
+- [StaticArgumentTransformation](static-argument-transformation)
 - [Common subexpression (CSE)](more-cse)
 - [UnliftedDataTypes](unlifted-data-types)
 - [UnpackedSumTypes](unpacked-sum-types), [\#9214](https://gitlab.haskell.org//ghc/ghc/issues/9214)
