@@ -139,6 +139,81 @@ fromLabel ::             a -- new type signature
 fromLabel (proxy# :: Proxy# "foo") :: alpha -- old style
 fromLabel @"foo"                   :: alpha -- new style
 }}}
+* The `Generic1` class, as well related classes and data types from `GHC.Generics`, are now poly-kinded. Here are the kind signatures of these types before `base-4.10.0.0`:
+
+{{{#!hs
+class Generic1 (f :: * -> *) where
+  type Rep1 f :: * -> *
+  from1  :: f a -> Rep1 f a
+  to1    :: Rep1 f a -> f a
+
+class Datatype (d :: k) where
+  datatypeName :: t d (f :: * -> *) (a :: k1) -> [Char]
+  moduleName   :: t d (f :: * -> *) (a :: k1) -> [Char]
+  packageName  :: t d (f :: * -> *) (a :: k1) -> [Char]
+  isNewtype    :: t d (f :: * -> *) (a :: k1) -> Bool
+
+class Constructor (c :: k) where
+  conName     :: t c (f :: * -> *) (a :: k1) -> [Char]
+  conFixity   :: t c (f :: * -> *) (a :: k1) -> Fixity
+  conIsRecord :: t c (f :: * -> *) (a :: k1) -> Bool
+
+class Selector (s :: k) where
+  selName               :: t s (f :: * -> *) (a :: k1) -> [Char]
+  selSourceUnpackedness :: t s (f :: * -> *) (a :: k1) -> SourceUnpackedness
+  selSourceStrictness   :: t s (f :: * -> *) (a :: k1) -> SourceStrictness
+  selDecidedStrictness  :: t s (f :: * -> *) (a :: k1) -> DecidedStrictness
+
+data V1 (p :: *)
+data U1 (p :: *) = U1
+newtype Par1 p = Par1 p
+newtype Rec1 (f :: * -> *) (p :: *) = Rec1 (f p)
+newtype K1 i c (p :: *) = K1 c
+newtype M1 i c (f :: * -> *) (p :: *) = M1 (f p)
+data (:+:) (f :: * -> *) (g :: * -> *) (p :: *) = L1 (f p) | R1 (g p)
+data (:*:) (f :: * -> *) (g :: * -> *) (p :: *) = f p :*: g p
+newtype (:.:) (f :: * -> *) (g :: * -> *) (p :: *) = Comp1 (f (g p))
+data family URec a (p :: *)
+}}}
+
+And here are their kind signatures now:
+
+{{{#!hs
+class Generic1 (f :: k -> *) where
+  type Rep1 f :: k -> *
+  from1  :: f a -> Rep1 f a
+  to1    :: Rep1 f a -> f a
+
+class Datatype (d :: k) where
+  datatypeName :: t d (f :: k1 -> *) (a :: k1) -> [Char]
+  moduleName   :: t d (f :: k1 -> *) (a :: k1) -> [Char]
+  packageName  :: t d (f :: k1 -> *) (a :: k1) -> [Char]
+  isNewtype    :: t d (f :: k1 -> *) (a :: k1) -> Bool
+
+class Constructor (c :: k) where
+  conName     :: t c (f :: k1 -> *) (a :: k1) -> [Char]
+  conFixity   :: t c (f :: k1 -> *) (a :: k1) -> Fixity
+  conIsRecord :: t c (f :: k1 -> *) (a :: k1) -> Bool
+
+class Selector (s :: k) where
+  selName               :: t s (f :: k1 -> *) (a :: k1) -> [Char]
+  selSourceUnpackedness :: t s (f :: k1 -> *) (a :: k1) -> SourceUnpackedness
+  selSourceStrictness   :: t s (f :: k1 -> *) (a :: k1) -> SourceStrictness
+  selDecidedStrictness  :: t s (f :: k1 -> *) (a :: k1) -> DecidedStrictness
+
+data V1 (p :: k)
+data U1 (p :: k) = U1
+newtype Par1 p = Par1 p
+newtype Rec1 (f :: k -> *) (p :: k) = Rec1 (f p)
+newtype K1 i c (p :: k) = K1 c
+newtype M1 i c (f :: k -> *) (p :: k) = M1 (f p)
+data (:+:) (f :: k -> *) (g :: k -> *) (p :: k) = L1 (f p) | R1 (g p)
+data (:*:) (f :: k -> *) (g :: k -> *) (p :: k) = f p :*: g p
+newtype (:.:) (f :: k2 -> *) (g :: k1 -> k2) (p :: k1) = Comp1 (f (g p))
+data family URec a (p :: k)
+}}}
+
+It's possible that you might experience some typechecker errors due to this change. If so, a probable fix is to add explicit kind signatures in the right places.
 
 === `template-haskell-2.12.0.0`
 
