@@ -52,7 +52,7 @@ Below are the major highlights of 8.2.
 
 - **Levity polymorphism**.  Richard E is actively involved in consolidating the implementation of levity polymorphism; see [LevityPolymorphism](levity-polymorphism).  This will not include resolving the `Constraint` vs `*` debate [\#11715](https://gitlab.haskell.org//ghc/ghc/issues/11715).
 
-- **Backpack** (Edward Z Yang) has been merged into GHC 8.2. However, at this point, it has only really been seriously used by Edward, and so it really needs testing! Known issues are tracked with the [ backpack](https://ghc.haskell.org/trac/ghc/query?status=!closed&keywords=~backpack) keyword, one major known issue is [ https://phabricator.haskell.org/D3381](https://phabricator.haskell.org/D3381)
+- **Backpack** (Edward Z Yang) has been merged into GHC 8.2. However, at this point, it has only really been seriously used by Edward, and so it really needs testing! For up-to-date links to documentation and reference material, see [Backpack](backpack)
 
 - **Exhaustiveness checking**
 
@@ -63,7 +63,7 @@ Below are the major highlights of 8.2.
 
 #### Back-end and runtime system
 
-- **Compact regions** (Giovanni Campagna, Edward Yang, [ Phab:D1264](https://phabricator.haskell.org/D1264), [ paper](http://ezyang.com/papers/ezyang15-cnf.pdf)). This runtime system feature allows a referentially "closed" set of heap objects to be collected into a "compact region", allowing cheaper garbage collection, heap-object sharing between processes, and the possibility of inexpensive serialization. There is also a follow up patch by Simon Marlow, [ Phab:D2751](https://phabricator.haskell.org/D2751), which substantially improves over our original implementation.
+- **Compact regions** (Giovanni Campagna, Edward Yang, [ Phab:D1264](https://phabricator.haskell.org/D1264), [ paper](http://ezyang.com/papers/ezyang15-cnf.pdf)). This runtime system feature allows a referentially "closed" set of heap objects to be collected into a "compact region", allowing cheaper garbage collection, heap-object sharing between processes, and the possibility of inexpensive serialization. Use the [ compact](https://hackage.haskell.org/package/compact) library to get access to this feature!
 
 - **Refactoring and improvements to the cost-center profiler** (Ben Gamari, [ Phab:D1722](https://phabricator.haskell.org/D1722)): Allow heap profiler samples to be directed to the GHC eventlog, allowing correlation with other program events, enabling easier analysis by tooling and eventual removal of the old, rather crufty `.hp` profile format. 
 
