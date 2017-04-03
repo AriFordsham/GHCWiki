@@ -14,6 +14,7 @@
 - [UnliftedDataTypes](unlifted-data-types)
 - [UnpackedSumTypes](unpacked-sum-types), [\#9214](https://gitlab.haskell.org//ghc/ghc/issues/9214)
 - [TypeNats](type-nats): type-level literals
+- [ApplicativeDo](applicative-do)
 - [Exceptions](exceptions): exceptions
 - [LevityPolymorphism](levity-polymorphism)
 - [Type families](type-functions)

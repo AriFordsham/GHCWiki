@@ -13,6 +13,7 @@
  * [wiki:UnliftedDataTypes]
  * [wiki:UnpackedSumTypes], #9214
  * [wiki:TypeNats]: type-level literals
+ * [wiki:ApplicativeDo]
  * [wiki:Exceptions]: exceptions
  * [wiki:LevityPolymorphism]
  * [wiki:TypeFunctions Type families]
