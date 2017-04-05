@@ -36,3 +36,48 @@ foo n p
   | n == 0 = (1, 2)
   | otherwise = p
 }}}
+
+=== strict_field.hs
+
+This one needs a correct handling of strict constructor fields. Inspired by `nofib/imaginary/x2n1`.
+
+Status: ok
+
+{{{#!hs
+{-# LANGUAGE BangPatterns #-}
+module Foo where
+data C a = C !a !a
+
+pow :: C Double -> Int -> C Double
+pow !_ 0 = C 0 1
+pow !c 1 = c
+pow c n
+  | even n = let d = pow c (div n 2) in mul d d
+  | otherwise = mul c (pow c (n - 1))
+
+mul :: C Double -> C Double -> C Double
+mul (C a b) (C d e) = C (a*d-b*e) (a*e+b*d)
+}}}
+
+=== strict_field1.hs
+
+This is similar to `strict_field.hs`, but needs a more aggressive worker-wrapper.
+
+Status: not ok. Currently the worker has the type `Double -> Double -> Int# -> (# Double, Double #)`, rather than the desired `Double# -> Double# -> Int# -> (# Double#, Double# #)`.
+
+Changing CPR analysis alone wouldn't help here. We need to give the function a better strictness as well.
+
+{{{#!hs
+module Foo (pow) where
+
+data C a = C !a !a
+
+pow :: C Double -> Int -> C Double
+pow x y
+  | even y    = pow (x `mul` x) (y `quot` 2)
+  | y == 1    = x
+  | otherwise = pow (x `mul` x) ((y - 1) `quot` 2) `mul` x
+
+mul :: C Double -> C Double -> C Double
+mul (C a b) (C d e) = C (a*d-b*e) (a*e+b*d)
+}}}
