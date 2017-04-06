@@ -20,6 +20,22 @@
 * Fix all the `TypeInType` bugs
 * Clean up pure unifier to make the fact that kind coercions ''only'' affect type variables by using, e.g., `getCastedTyVar_maybe`.
 * Is it possible to remove all the pushing in `mkCastTy`? I think so. The pushing doesn't help `splitTyConApp` at all, because pushing a coercion into a `TyConApp` doesn't make it become another `TyConApp`. The pushing ''does'' help `splitAppTy`, but perhaps all usages of `splitAppTy` already account for casts. ''Dangling problem:'' what on earth to do about `LRCo`, given that it's not always possible to push? It seems that it may be impossible to make `LRCo` work in a way that respects `eqType` equality, with `eqType`'s ability to move casts about willy-nilly.
+* It seems that `quantifyTyVars` is duplicating some logic from `simplifyInfer`, in that it removes covars. This should really be done in `kindGeneralize`, because `simplifyInfer` ''uses'' `quantifyTyVars`. This should be just about possible, but with some twists and turns:
+   * H98 constructors are strange in that they have tyvars that aren't mentioned in the type. So be careful here and make sure the type is closed (w.r.t. user-written tyvars) before calling `kindGeneralize`.
+   * `tcFamTyPats` needs a hard look
+   * So does `tcRule`.
+   * Could also separate out `kindGeneralizeKind` and `kindGeneralizeType`. The latter works only over closed types.
+   * If we remove the "remove covars" call from `quantifyTyVars`, we should really put it in `decideQuantifiedTyVars`. Perhaps we ''don't'' need to remove covars in `kindGeneralize` because `solveEqualities` will fail if any covars are around. It is '''OK''' to remove a covar without removing its kind, because the covar will be solved in the residual implication constraint from `simplifyInfer`.
+   * Example of why we need to exclude coercions during generalization:
+
+{{{
+data X where
+  MkX :: Proxy a -> Proxy b -> (Refl :: a :~: b) -> X
+}}}
+
+* Take a look at `tidyToIfaceType`: I don't think it needs to tidy the env.
+* Simplify `mkCastTy`, keeping the `isReflexiveCo` check. Document the reflexivity invariant. (Do we need to differentiate between `tcView`-reflexivity and `coreView`-reflexivity?)
+   * Bah. This is wrong. I had thought that the reflexivity invariant would mean that `splitTyConApp` could never be thrown off the scent by a coercion. But this is wrong. Consider `T a b c` and `(T a b |> (co -> <Type>)) (c |> sym co)`. These types have the same kind (`Type`) and are `eqType`. (That is, they are the same if we ignore coercions.) Yet the first is a `TyConApp` and the second is an `AppTy`. No reflexive coercions here! The current elaborate `mkCastTy` doesn't even handle this situation. But it makes me realize that the reflexivity invariant isn't enough. We need to teach `splitTyConApp` how to deal with this scenario. Ugh.
 
 **Iceland_jack**: By `[]` as a data family do you mean:
 
