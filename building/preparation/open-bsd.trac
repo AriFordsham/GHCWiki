@@ -15,12 +15,9 @@ Install the [https://ghc.haskell.org/trac/ghc/wiki/Building/Preparation/Tools re
 doas pkg_add ghc gmake 'autoconf-2.69p2' 'automake-1.15p0' gmp alex happy git
 }}}
 
-ensure python is available
+to also (optionally) build the docs
 {{{
-doas ln -sf /usr/local/bin/python2.7 $HOME/bin/python
-doas ln -sf /usr/local/bin/python2.7-2to3 $HOME/bin/2to3
-doas ln -sf /usr/local/bin/python2.7-config $HOME/bin/python-config
-doas ln -sf /usr/local/bin/pydoc2.7 $HOME/bin/pydoc
+doas pkg_add py-sphinx
 }}}
 
 == Some required environment variables ==
