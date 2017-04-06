@@ -24,6 +24,8 @@
    * H98 constructors are strange in that they have tyvars that aren't mentioned in the type. So be careful here and make sure the type is closed (w.r.t. user-written tyvars) before calling `kindGeneralize`.
    * `tcFamTyPats` needs a hard look
    * So does `tcRule`.
+   * Could also separate out `kindGeneralizeKind` and `kindGeneralizeType`. The latter works only over closed types.
+   * If we remove the "remove covars" call from `quantifyTyVars`, we should really put it in `decideQuantifiedTyVars`. Perhaps we ''don't'' need to remove covars in `kindGeneralize` because `solveEqualities` will fail if any covars are around. It is '''OK''' to remove a covar without removing its kind, because the covar will be solved in the residual implication constraint from `simplifyInfer`.
    * Example of why we need to exclude coercions during generalization:
 
 {{{
@@ -31,8 +33,8 @@ data X where
   MkX :: Proxy a -> Proxy b -> (Refl :: a :~: b) -> X
 }}}
 
-   * Could also separate out `kindGeneralizeKind` and `kindGeneralizeType`. The latter works only over closed types.
-   * If we remove the "remove covars" call from `quantifyTyVars`, we should really put it in `decideQuantifiedTyVars`. Perhaps we ''don't'' need to remove covars in `kindGeneralize` because `solveEqualities` will fail if any covars are around. It is '''OK''' to remove a covar without removing its kind, because the covar will be solved in the residual implication constraint from `simplifyInfer`.
+* Take a look at `tidyToIfaceType`: I don't think it needs to tidy the env.
+* Simplify `mkCastTy`, keeping the `isReflexiveCo` check. Document the reflexivity invariant. (Do we need to differentiate between `tcView`-reflexivity and `coreView`-reflexivity?)
 
 **Iceland_jack**: By `[]` as a data family do you mean:
 
