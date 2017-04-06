@@ -20,6 +20,10 @@
 * Fix all the `TypeInType` bugs
 * Clean up pure unifier to make the fact that kind coercions ''only'' affect type variables by using, e.g., `getCastedTyVar_maybe`.
 * Is it possible to remove all the pushing in `mkCastTy`? I think so. The pushing doesn't help `splitTyConApp` at all, because pushing a coercion into a `TyConApp` doesn't make it become another `TyConApp`. The pushing ''does'' help `splitAppTy`, but perhaps all usages of `splitAppTy` already account for casts. ''Dangling problem:'' what on earth to do about `LRCo`, given that it's not always possible to push? It seems that it may be impossible to make `LRCo` work in a way that respects `eqType` equality, with `eqType`'s ability to move casts about willy-nilly.
+* It seems that `quantifyTyVars` is duplicating some logic from `simplifyInfer`, in that it removes covars. This should really be done in `kindGeneralize`, because `simplifyInfer` ''uses'' `quantifyTyVars`. This should be just about possible, but with some twists and turns:
+   * H98 constructors are strange in that they have tyvars that aren't mentioned in the type. So be careful here and make sure the type is closed (w.r.t. user-written tyvars) before calling `kindGeneralize`.
+   * `tcFamTyPats` needs a hard look
+   * So does `tcRule`.
 
 **Iceland_jack**: By `[]` as a data family do you mean:
 
