@@ -31,6 +31,9 @@ data X where
   MkX :: Proxy a -> Proxy b -> (Refl :: a :~: b) -> X
 }}}
 
+   * Could also separate out `kindGeneralizeKind` and `kindGeneralizeType`. The latter works only over closed types.
+   * If we remove the "remove covars" call from `quantifyTyVars`, we should really put it in `decideQuantifiedTyVars`. Perhaps we ''don't'' need to remove covars in `kindGeneralize` because `solveEqualities` will fail if any covars are around. It is '''OK''' to remove a covar without removing its kind, because the covar will be solved in the residual implication constraint from `simplifyInfer`.
+
 **Iceland_jack**: By `[]` as a data family do you mean:
 
 {{{#!hs
