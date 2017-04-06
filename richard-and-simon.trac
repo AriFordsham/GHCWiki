@@ -24,6 +24,12 @@
    * H98 constructors are strange in that they have tyvars that aren't mentioned in the type. So be careful here and make sure the type is closed (w.r.t. user-written tyvars) before calling `kindGeneralize`.
    * `tcFamTyPats` needs a hard look
    * So does `tcRule`.
+   * Example of why we need to exclude coercions during generalization:
+
+{{{
+data X where
+  MkX :: Proxy a -> Proxy b -> (Refl :: a :~: b) -> X
+}}}
 
 **Iceland_jack**: By `[]` as a data family do you mean:
 
