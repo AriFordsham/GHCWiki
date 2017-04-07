@@ -60,22 +60,14 @@ Criteria for Tier 1 platforms:
 <th> Yes            </th>
 <th> GHC HQ        </th>
 <th></th></tr>
-<tr><th> x86                </th>
-<th> MacOS X         </th>
-<th> i386-apple-darwin        </th>
-<th> Yes        </th>
-<th> Yes       </th>
-<th> No             </th>
-<th> needed        </th>
-<th>[Attic/X86OSXGhc](attic/x86-osx-ghc)</th></tr>
 <tr><th> x86-64             </th>
 <th> MacOS X         </th>
 <th> x86_64-apple-darwin      </th>
 <th> Yes        </th>
 <th> Yes       </th>
 <th> Yes            </th>
-<th> needed        </th>
-<th></th></tr>
+<th> GHC HQ        </th>
+<th>[Building/Preparation/MacOSX](building/preparation/mac-osx)</th></tr>
 <tr><th> x86                </th>
 <th> FreeBSD         </th>
 <th> i386-portbld-freebsd     </th>
@@ -117,13 +109,15 @@ Tier 2 platforms as possible to Tier 1, as soon as they meet the Tier 1 criteria
 <th>**GHCi**</th>
 <th>**NCG**</th>
 <th>**Dyn libs**</th>
-<th>**WikiPage**</th></tr>
+<th>**WikiPage**</th>
+<th></th></tr>
 <tr><th> x86                </th>
 <th> OpenBSD         </th>
 <th> i386-unknown-openbsd     </th>
 <th> Yes        </th>
 <th> Yes       </th>
 <th> No             </th>
+<th></th>
 <th></th></tr>
 <tr><th> x86                </th>
 <th> Solaris         </th>
@@ -131,6 +125,7 @@ Tier 2 platforms as possible to Tier 1, as soon as they meet the Tier 1 criteria
 <th> Yes        </th>
 <th> Yes       </th>
 <th> Yes (\*S4)      </th>
+<th></th>
 <th></th></tr>
 <tr><th> x86-64             </th>
 <th> OpenBSD         </th>
@@ -138,6 +133,7 @@ Tier 2 platforms as possible to Tier 1, as soon as they meet the Tier 1 criteria
 <th> Yes        </th>
 <th> Yes       </th>
 <th> No             </th>
+<th></th>
 <th></th></tr>
 <tr><th> x86-64             </th>
 <th> DragonFly       </th>
@@ -145,6 +141,7 @@ Tier 2 platforms as possible to Tier 1, as soon as they meet the Tier 1 criteria
 <th> Yes        </th>
 <th> Yes       </th>
 <th> Yes            </th>
+<th></th>
 <th></th></tr>
 <tr><th> PowerPC            </th>
 <th> Linux           </th>
@@ -152,6 +149,7 @@ Tier 2 platforms as possible to Tier 1, as soon as they meet the Tier 1 criteria
 <th> Yes        </th>
 <th> Yes       </th>
 <th> No             </th>
+<th></th>
 <th></th></tr>
 <tr><th> PowerPC            </th>
 <th> MacOS X         </th>
@@ -159,6 +157,7 @@ Tier 2 platforms as possible to Tier 1, as soon as they meet the Tier 1 criteria
 <th> Yes        </th>
 <th> Yes       </th>
 <th> Yes            </th>
+<th></th>
 <th></th></tr>
 <tr><th> PowerPC64          </th>
 <th> Linux           </th>
@@ -166,20 +165,15 @@ Tier 2 platforms as possible to Tier 1, as soon as they meet the Tier 1 criteria
 <th> Yes        </th>
 <th> No        </th>
 <th> No             </th>
+<th></th>
 <th></th></tr>
-<tr><th> Sparc              </th>
-<th> Solaris         </th>
-<th> sparc-sun-solaris2       </th>
-<th> Yes        </th>
-<th> Yes       </th>
-<th> No             </th>
-<th>[Building/Solaris](building/solaris)</th></tr>
 <tr><th> Sparc              </th>
 <th> Linux           </th>
 <th> sparc-unknown-linux      </th>
 <th> Yes        </th>
 <th> Yes       </th>
 <th> No             </th>
+<th></th>
 <th></th></tr>
 <tr><th> IA-64              </th>
 <th> Linux           </th>
@@ -187,13 +181,15 @@ Tier 2 platforms as possible to Tier 1, as soon as they meet the Tier 1 criteria
 <th> Yes        </th>
 <th> No        </th>
 <th> No             </th>
-<th>[Building/IA64Linux](building/i-a64-linux)</th></tr>
+<th>[Building/IA64Linux](building/i-a64-linux)</th>
+<th></th></tr>
 <tr><th> Alpha              </th>
 <th> Linux           </th>
 <th> alpha-unknown-linux      </th>
 <th> Yes        </th>
 <th> No        </th>
 <th> No             </th>
+<th></th>
 <th></th></tr>
 <tr><th> HPPA               </th>
 <th> Linux           </th>
@@ -201,6 +197,7 @@ Tier 2 platforms as possible to Tier 1, as soon as they meet the Tier 1 criteria
 <th> ?          </th>
 <th> No        </th>
 <th> ?              </th>
+<th></th>
 <th></th></tr>
 <tr><th> S/390              </th>
 <th> Linux           </th>
@@ -208,6 +205,7 @@ Tier 2 platforms as possible to Tier 1, as soon as they meet the Tier 1 criteria
 <th> ?          </th>
 <th> No        </th>
 <th> ?              </th>
+<th></th>
 <th></th></tr>
 <tr><th> m68k               </th>
 <th> Linux           </th>
@@ -215,6 +213,7 @@ Tier 2 platforms as possible to Tier 1, as soon as they meet the Tier 1 criteria
 <th> ?          </th>
 <th> No        </th>
 <th> ?              </th>
+<th></th>
 <th></th></tr>
 <tr><th> mips               </th>
 <th> Linux           </th>
@@ -222,6 +221,7 @@ Tier 2 platforms as possible to Tier 1, as soon as they meet the Tier 1 criteria
 <th> ?          </th>
 <th> No        </th>
 <th> ?              </th>
+<th></th>
 <th></th></tr>
 <tr><th> mipsel             </th>
 <th> Linux           </th>
@@ -229,6 +229,7 @@ Tier 2 platforms as possible to Tier 1, as soon as they meet the Tier 1 criteria
 <th> ?          </th>
 <th> No        </th>
 <th> ?              </th>
+<th></th>
 <th></th></tr>
 <tr><th> ARM                </th>
 <th> Linux           </th>
@@ -236,6 +237,7 @@ Tier 2 platforms as possible to Tier 1, as soon as they meet the Tier 1 criteria
 <th> Yes        </th>
 <th> No        </th>
 <th> Yes            </th>
+<th></th>
 <th></th></tr>
 <tr><th> ARM                </th>
 <th> Debian armel    </th>
@@ -243,21 +245,32 @@ Tier 2 platforms as possible to Tier 1, as soon as they meet the Tier 1 criteria
 <th> ?          </th>
 <th> No        </th>
 <th> ?              </th>
-<th>[Building/ARMLinuxGnuEABI](building/arm-linux-gnu-eabi)</th></tr>
+<th>[Building/ARMLinuxGnuEABI](building/arm-linux-gnu-eabi)</th>
+<th></th></tr>
 <tr><th> ARM                </th>
 <th> iOS             </th>
 <th> arm-apple-darwin10       </th>
 <th> No         </th>
 <th> Yes       </th>
 <th> No             </th>
-<th>[Building/CrossCompiling/iOS](building/cross-compiling/i-os)</th></tr>
+<th>[Building/CrossCompiling/iOS](building/cross-compiling/i-os)</th>
+<th></th></tr>
 <tr><th> PowerPC            </th>
 <th> AIX             </th>
 <th> powerpc-ibm-aix          </th>
 <th> No         </th>
 <th> Yes       </th>
 <th> No             </th>
-<th>[Building/AIX](building/aix)</th></tr></table>
+<th>[Building/AIX](building/aix)</th>
+<th></th></tr>
+<tr><th> x86                </th>
+<th> MacOS X         </th>
+<th> i386-apple-darwin        </th>
+<th> Yes        </th>
+<th> Yes       </th>
+<th> No             </th>
+<th> needed        </th>
+<th>[Attic/X86OSXGhc](attic/x86-osx-ghc)</th></tr></table>
 
 **\*S4** shared libraries are supported on Solaris 11 version 11/11 and higher
 
@@ -317,7 +330,14 @@ Tier 3 platforms worked in the past, but probably do not work now.
 <th> Yes        </th>
 <th> Yes       </th>
 <th> No             </th>
-<th></th></tr></table>
+<th></th></tr>
+<tr><th> Sparc              </th>
+<th> Solaris          </th>
+<th> sparc-sun-solaris2      </th>
+<th> Yes        </th>
+<th> Yes       </th>
+<th> No             </th>
+<th>[Building/Solaris](building/solaris)</th></tr></table>
 
 ## Definitions
 
