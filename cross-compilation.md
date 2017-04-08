@@ -203,6 +203,21 @@ I've done some cleanup of the build system, fixed some problems, and created the
 
 Cross-compiling is working smoothly in at least one setup (Linux/x86_64 to Linux/armv6 unregisterised (Raspberry Pi))
 
+### Apr 2017: Sergei Trofimovich
+
+
+I've cleaned up a few more places to make cross-compiling and cross-building work smoother.
+
+
+More targets work in various directions. Some notable ones:
+
+- x86_64-linux -\> aarch64-linux (64-bit LE -\> 64-bit LE)
+- x86_64-linux -\> armv7a-linux (64-bit LE -\> 32-bit LE)
+- x86_64-linux -\> m68k-linux (64-bit LE -\> 32-bit BE)
+- i386-linux -\> powerpc64-linux (32-bit LE -\> 64-bit BE)
+
+**make install** for a cross-build and cross-compiler more robust.
+
 ---
 
 ## Questions
