@@ -12,7 +12,7 @@ note: The wxallow setting will reduce your security (From OpenBSD's point of vie
 Install the [https://ghc.haskell.org/trac/ghc/wiki/Building/Preparation/Tools required tools]:
 
 {{{
-doas pkg_add ghc gmake 'autoconf-2.69p2' 'automake-1.15p0' gmp alex happy git
+doas pkg_add ghc gmake autoconf%2.69 automake%1.15 gmp libiconv alex happy git
 }}}
 
 to also (optionally) build the docs
