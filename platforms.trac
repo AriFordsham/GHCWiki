@@ -44,7 +44,7 @@ Tier 2 platforms as possible to Tier 1, as soon as they meet the Tier 1 criteria
 || '''Architecture''' || '''OS'''        || '''Build name'''         || '''GHCi''' || '''NCG''' || '''Dyn libs''' || '''!WikiPage''' ||
 || x86                || OpenBSD         || i386-unknown-openbsd     || Yes        || Yes       || No             || ||
 || x86                || Solaris         || i386-unknown-solaris2    || Yes        || Yes       || Yes (*S4)      || ||
-|| x86-64             || OpenBSD         || amd64-unknown-openbsd    || Yes        || Yes       || No             || ||
+|| x86-64             || OpenBSD         || amd64-unknown-openbsd    || Yes        || Yes       || No             || [wiki:Building/Preparation/OpenBSD Preparing and Building OpenBSD] ||
 || x86-64             || DragonFly       || x86_64-portbld-dragonfly || Yes        || Yes       || Yes            || ||
 || PowerPC            || Linux           || powerpc-unknown-linux    || Yes        || Yes       || No             || ||
 || PowerPC            || MacOS X         || powerpc-apple-darwin     || Yes        || Yes       || Yes            || ||
