@@ -19,6 +19,7 @@ If you think one of these pages linked from here is out-of-date, either update t
  * [wiki:Building/Preparation/Solaris Preparation Solaris] and [wiki:Building/Solaris Building under Solaris]
  * [wiki:Building/Preparation/Illumos Illumos] (SmartOS, OpenIndiana, etc.)
  * [wiki:Building/Preparation/RaspberryPi Raspberry Pi] (cross-compiling from Linux)
+ * [wiki:Building/Preparation/OpenBSD Preparing and Building OpenBSD]
 
  
 Alternatively:
