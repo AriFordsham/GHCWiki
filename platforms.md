@@ -133,7 +133,7 @@ Tier 2 platforms as possible to Tier 1, as soon as they meet the Tier 1 criteria
 <th> Yes        </th>
 <th> Yes       </th>
 <th> No             </th>
-<th></th>
+<th>[Preparing and Building OpenBSD](building/preparation/open-bsd)</th>
 <th></th></tr>
 <tr><th> x86-64             </th>
 <th> DragonFly       </th>
