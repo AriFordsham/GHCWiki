@@ -3,6 +3,17 @@
 This page describes a couple of proposed changes to the notation enabled with -XArrows.
 ([http://www.haskell.org/ghc/docs/latest/html/users_guide/arrow-notation.html current documentation])
 
+== Tickets ==
+
+Use Keyword = `Arrows` to ensure that a ticket ends up on these lists.
+
+'''Open Tickets:'''
+[[TicketQuery(status=new|patch,keywords=~Arrows)]]
+
+'''Closed Tickets:'''
+[[TicketQuery(status=closed,keywords=~Arrows)]]
+
+
 == Changing the types of arrow operators (implemented in March 2013, for GHC 7.8) ==
 
 Currently, the type of each argument of an operator (and its result) is required to have the form
