@@ -6,6 +6,12 @@ note: The wxallow setting will reduce your security (From OpenBSD's point of vie
 
 == Prerequisite ==
 * The wxallowed mount option must be specified for the filesystem where the build will take place, and optionally /tmp \\
+You can either set it by editing the {{{/etc/fstab}}} like so: 
+{{{
+01020304050607.h /usr/local ffs rw,nodev,wxallowed 1 2 
+}}}
+and rebooting, or you can temporary set a mount as wxallowed by running this command: {{{mount -uo wxallowed /usr/local}}}. (where /usr/local is the partition you'd like to affected, run {{{mount}}} to see them all)
+See [https://www.openbsd.org/faq/upgrade60.html] for a more detailed explanation.
 * The login class for the user you will be performed the build as needs to have a sufficiently large 'datasize' (datasize-cur: 4096M has been known to work)\\
 
 == Required Tools ==
