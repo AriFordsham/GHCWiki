@@ -11,60 +11,19 @@ Stuff about Template Haskell
 - [A Proposal for restricted subsets of TH](template-haskell/restricted)
 - [Cross Compilation](template-haskell/cross-compilation)
 
-## Patched TH tickets:
+## Tickets
 
 
-These are presumably waiting for review.
-
-<table><tr><th>Ticket (Ticket query: status: patch, component: Template+Haskell, max: 0, col: id, col: differential, col: milestone, col: summary, col: priority, col: owner, order: id)</th>
-<th>Differential Rev(s) (Ticket query: status: patch, component: Template+Haskell, max: 0, col: id, col: differential, col: milestone, col: summary, col: priority, col: owner, order: differential)</th>
-<th>Milestone (Ticket query: status: patch, component: Template+Haskell, max: 0, col: id, col: differential, col: milestone, col: summary, col: priority, col: owner, order: milestone)</th>
-<th>Summary (Ticket query: status: patch, component: Template+Haskell, max: 0, col: id, col: differential, col: milestone, col: summary, col: priority, col: owner, order: summary)</th>
-<th>Priority (Ticket query: status: patch, component: Template+Haskell, max: 0, col: id, col: differential, col: milestone, col: summary, col: priority, col: owner, desc: 1, order: priority)</th>
-<th>Owner (Ticket query: status: patch, component: Template+Haskell, max: 0, col: id, col: differential, col: milestone, col: summary, col: priority, col: owner, order: owner)</th></tr>
-<tr><th>[\#12778](https://gitlab.haskell.org//ghc/ghc/issues/12778)</th>
-<th>[ Phab:D3003](https://phabricator.haskell.org/D3003)</th>
-<th></th>
-<th>[Expose variables bound in quotations to reify](https://gitlab.haskell.org//ghc/ghc/issues/12778)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      normal
-                    </th>
-<th></th></tr>
-<tr><th>[\#10391](https://gitlab.haskell.org//ghc/ghc/issues/10391)</th>
-<th>[ Phab:D4925](https://phabricator.haskell.org/D4925)</th>
-<th></th>
-<th>[Ability to get export list of TH reified module](https://gitlab.haskell.org//ghc/ghc/issues/10391)</th>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      low
-                    </th>
-<th>mgsloan</th></tr></table>
-
-## Open TH tickets:
+Use Component = `Template Haskell` to ensure that a ticket ends up on these lists.  
 
 
-If you know of a ticket not listed here, please set its "Category" to be "Template Haskell" and it should show up.
+(Sadly this is different to other groupings for which we use the Keywords field.  We could switch to Keyword if we went back and added `TemplateHaskell` as a keyword to all the existing tickets.)
 
-<table><tr><th>Ticket (Ticket query: status: new, component: Template+Haskell, max: 0, col: id, col: milestone, col: summary, col: priority, col: owner, order: id)</th>
-<th>Milestone (Ticket query: status: new, component: Template+Haskell, max: 0, col: id, col: milestone, col: summary, col: priority, col: owner, order: milestone)</th>
-<th>Summary (Ticket query: status: new, component: Template+Haskell, max: 0, col: id, col: milestone, col: summary, col: priority, col: owner, order: summary)</th>
-<th>Priority (Ticket query: status: new, component: Template+Haskell, max: 0, col: id, col: milestone, col: summary, col: priority, col: owner, desc: 1, order: priority)</th>
-<th>Owner (Ticket query: status: new, component: Template+Haskell, max: 0, col: id, col: milestone, col: summary, col: priority, col: owner, order: owner)</th></tr>
+<table><tr><th>Ticket (Ticket query: status: new, status: patch, component: Template+Haskell, max: 0, col: id, col: milestone, col: summary, col: priority, col: owner, order: id)</th>
+<th>Milestone (Ticket query: status: new, status: patch, component: Template+Haskell, max: 0, col: id, col: milestone, col: summary, col: priority, col: owner, order: milestone)</th>
+<th>Summary (Ticket query: status: new, status: patch, component: Template+Haskell, max: 0, col: id, col: milestone, col: summary, col: priority, col: owner, order: summary)</th>
+<th>Priority (Ticket query: status: new, status: patch, component: Template+Haskell, max: 0, col: id, col: milestone, col: summary, col: priority, col: owner, desc: 1, order: priority)</th>
+<th>Owner (Ticket query: status: new, status: patch, component: Template+Haskell, max: 0, col: id, col: milestone, col: summary, col: priority, col: owner, order: owner)</th></tr>
 <tr><th>[\#10946](https://gitlab.haskell.org//ghc/ghc/issues/10946)</th>
 <th>[8.10.1](/trac/ghc/milestone/8.10.1)</th>
 <th>[Typed hole inside typed Template Haskell bracket causes panic](https://gitlab.haskell.org//ghc/ghc/issues/10946)</th>
@@ -725,6 +684,21 @@ If you know of a ticket not listed here, please set its "Category" to be "Templa
                       normal
                     </th>
 <th></th></tr>
+<tr><th>[\#12778](https://gitlab.haskell.org//ghc/ghc/issues/12778)</th>
+<th></th>
+<th>[Expose variables bound in quotations to reify](https://gitlab.haskell.org//ghc/ghc/issues/12778)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th></th></tr>
 <tr><th>[\#12818](https://gitlab.haskell.org//ghc/ghc/issues/12818)</th>
 <th></th>
 <th>[Allow reify to find top-level bindings in later declaration groups](https://gitlab.haskell.org//ghc/ghc/issues/12818)</th>
@@ -1235,6 +1209,21 @@ If you know of a ticket not listed here, please set its "Category" to be "Templa
                       low
                     </th>
 <th></th></tr>
+<tr><th>[\#10391](https://gitlab.haskell.org//ghc/ghc/issues/10391)</th>
+<th></th>
+<th>[Ability to get export list of TH reified module](https://gitlab.haskell.org//ghc/ghc/issues/10391)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      low
+                    </th>
+<th>mgsloan</th></tr>
 <tr><th>[\#11377](https://gitlab.haskell.org//ghc/ghc/issues/11377)</th>
 <th></th>
 <th>[Template Haskell only imports](https://gitlab.haskell.org//ghc/ghc/issues/11377)</th>
