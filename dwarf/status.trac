@@ -25,6 +25,9 @@ Sidenote: On recent Linux versions it may even be possible to realize sampling o
 
 Weighing all of these considerations is tricky. Moreover, while the RTS bits of the prototype profiler are functional, it will take a rather significant amount of work to get the required tooling into shape (currently there only exists a rather primitive set of analysis tools). Consequently, this work is currently on hold. If you are interested in furthering this work yourself or would like to support work in this direction please be in touch.
 
+=== DWARF and Exceptions ===
+
+In many languages exceptions are automatically tagged with a stack-trace of the source of the exception. This is currently not possible with DWARF stacktraces. While there is a proposal which would enable this use-case ([[Exceptions/StackTraces]]), there are a number of details that still need to be worked out..
 
 == Status as of 8.0 ==
 
