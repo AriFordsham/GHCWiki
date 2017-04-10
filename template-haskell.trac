@@ -9,14 +9,10 @@ Stuff about Template Haskell
  * [wiki:TemplateHaskell/Restricted A Proposal for restricted subsets of TH]
  * [wiki:TemplateHaskell/CrossCompilation Cross Compilation]
 
-== Patched TH tickets: ==
+== Tickets ==
 
-These are presumably waiting for review.
+Use Component = `Template Haskell` to ensure that a ticket ends up on these lists.  
 
-[[TicketQuery(status=patch,component=Template Haskell,format=table,col=differential|milestone|summary|priority|owner,order=priority)]]
+(Sadly this is different to other groupings for which we use the Keywords field.  We could switch to Keyword if we went back and added `TemplateHaskell` as a keyword to all the existing tickets.)
 
-== Open TH tickets: ==
-
-If you know of a ticket not listed here, please set its "Category" to be "Template Haskell" and it should show up.
-
-[[TicketQuery(status=new,component=Template Haskell,format=table,col=milestone|summary|priority|owner,order=priority)]]
+[[TicketQuery(status=new|patch,component=Template Haskell,format=table,col=milestone|summary|priority|owner,order=priority)]]
