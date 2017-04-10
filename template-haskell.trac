@@ -8,3 +8,15 @@ Stuff about Template Haskell
  * [wiki:TemplateHaskell/Conversions Conversions between different data types in TH]
  * [wiki:TemplateHaskell/Restricted A Proposal for restricted subsets of TH]
  * [wiki:TemplateHaskell/CrossCompilation Cross Compilation]
+
+== Patched TH tickets: ==
+
+These are presumably waiting for review.
+
+[[TicketQuery(status=patch,component=Template Haskell,format=table,col=differential|milestone|summary|priority|owner,order=priority)]]
+
+== Open TH tickets: ==
+
+If you know of a ticket not listed here, please set its "Category" to be "Template Haskell" and it should show up.
+
+[[TicketQuery(status=new,component=Template Haskell,format=table,col=milestone|summary|priority|owner,order=priority)]]
