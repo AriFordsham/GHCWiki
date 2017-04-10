@@ -8,6 +8,7 @@
 - `TypeApplications`: [visible type application](type-application)
 - [Custom type errors](proposal/custom-type-errors)
 - [ArrowNotation](arrow-notation)
+- [TemplateHaskell](template-haskell)
 - [Inlining](inlining)
 - [SpecConstr](spec-constr)
 - [StaticArgumentTransformation](static-argument-transformation)
