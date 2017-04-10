@@ -6,6 +6,7 @@
  * [wiki:DependentHaskell/Phase1 TypeInType]: [wiki:DependentHaskell], esp #12919 (outright bug)
  * `TypeApplications`: [wiki:TypeApplication visible type application]
  * [wiki:Proposal/CustomTypeErrors Custom type errors]
+ * [wiki:ArrowNotation]
  * [wiki:Inlining]
  * [wiki:SpecConstr]
  * [wiki:StaticArgumentTransformation]
