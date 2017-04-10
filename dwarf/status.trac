@@ -1,6 +1,26 @@
 = Status of DWARF work slated for GHC 8.0 =
 
-== Current Status ==
+== Current Status as of 8.2 ==
+
+Happily, DWARF support should finally be stable in GHC 8.2.1. This means that it should now be possible to use the `GHC.ExecutionStack` interface to request stacktraces from within a Haskell program without fear of causing a program crash.
+
+Enabling DWARF support in 8.2 requires building a compiler with the following in `mk/build.mk`,
+{{{#!make
+GhcLibHcOpts += -g3
+GhcRtsHcOpts += -g3
+}}}
+This enables debug information for GHC's boot libraries (e.g. `base`, `bytestring`, etc.) as well as the runtime system. This will allow `gdb` to make sense of your program.
+
+If you would also like to enable the runtime's unwind support (e.g. allowing use of `GHC.ExecutionStack`), you will need to install `libdw` and its development headers, and pass `--enable-dwarf-unwind` to GHC's `configure` script. Note that this is currently only on x86_64 Linux (although i386 may also work; other platforms will need more implementation).
+
+=== The state of statistical profiling ===
+
+One of the goals Ben had in mind while pursuing this line of work was bringing low-cost statistical profiling support to GHC. In fact, the "Statistical Profiling" section below refers to a number of patches which collectively implement most of the infrastructure for a statistical profiler embedded in the runtime system with samples dumped to GHC's eventlog. While ideally we would be able to piggy-back on something like `perf`, currently GHC's calling convention intentionally avoids using the platform's stack register (e.g. `$rsp` on x86-64); this precludes use of `perf`'s kernel-based callstack sampling mechanism. Not only is this unfortunate from a code-reuse perspective, but it also means that sampling on PMU counters requires an additional user-/kernel-mode switch, increasing sampling overhead.
+
+On the other hand, the approach offers a number of advantages: 
+
+
+== Current Status as of 8.0 ==
 
 While DWARF support will be much improved in 8.0.1, it is unfortunately still rather unsafe. This is due to prevalence of foreign calls in GHC/Haskell code, which can currently result in incorrect stack unwinding information (#11353, #11338, #11337). This means that requesting a stack trace may result in a segmentation fault of the program. Unfortunately, fixing this was beyond the scope of my time budget for 8.0, although hopefully can be done for 8.2.
 
@@ -36,7 +56,9 @@ following designations,
 
 I'll list the commits in the order of their logical progression,
 
-== The Patches ==
+== The Patches for 8.0 ==
+
+Below is a listing of relevant patches which were merged for GHC 8.0.1.
 
 === Basic DWARF support ===
 
