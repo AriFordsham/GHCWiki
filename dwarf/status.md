@@ -19,6 +19,9 @@ This enables debug information for GHC's boot libraries (e.g. `base`, `bytestrin
 
 If you would also like to enable the runtime's unwind support (e.g. allowing use of `GHC.ExecutionStack`), you will need to install `libdw` and its development headers, and pass `--enable-dwarf-unwind` to GHC's `configure` script. Note that this is currently only on x86_64 Linux (although i386 may also work; other platforms will need more implementation).
 
+
+Note that there may be some stack frame types that aren't quite reported correctly. Ben suspects that stack overflow frames may be among these but hasn't been able to confirm this; if you see a stack trace strangely truncated do let him know.
+
 ### The state of statistical profiling
 
 
@@ -33,7 +36,7 @@ Sidenote: On recent Linux versions it may even be possible to realize sampling o
 
 Weighing all of these considerations is tricky. Moreover, while the RTS bits of the prototype profiler are functional, it will take a rather significant amount of work to get the required tooling into shape (currently there only exists a rather primitive set of analysis tools). Consequently, this work is currently on hold. If you are interested in furthering this work yourself or would like to support work in this direction please be in touch.
 
-## Current Status as of 8.0
+## Status as of 8.0
 
 
 While DWARF support will be much improved in 8.0.1, it is unfortunately still rather unsafe. This is due to prevalence of foreign calls in GHC/Haskell code, which can currently result in incorrect stack unwinding information ([\#11353](https://gitlab.haskell.org//ghc/ghc/issues/11353), [\#11338](https://gitlab.haskell.org//ghc/ghc/issues/11338), [\#11337](https://gitlab.haskell.org//ghc/ghc/issues/11337)). This means that requesting a stack trace may result in a segmentation fault of the program. Unfortunately, fixing this was beyond the scope of my time budget for 8.0, although hopefully can be done for 8.2.
