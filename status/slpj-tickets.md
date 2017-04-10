@@ -7,6 +7,7 @@
 - [TypeInType](dependent-haskell/phase1): [DependentHaskell](dependent-haskell), esp [\#12919](https://gitlab.haskell.org//ghc/ghc/issues/12919) (outright bug)
 - `TypeApplications`: [visible type application](type-application)
 - [Custom type errors](proposal/custom-type-errors)
+- [ArrowNotation](arrow-notation)
 - [Inlining](inlining)
 - [SpecConstr](spec-constr)
 - [StaticArgumentTransformation](static-argument-transformation)
