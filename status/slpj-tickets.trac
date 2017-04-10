@@ -7,6 +7,7 @@
  * `TypeApplications`: [wiki:TypeApplication visible type application]
  * [wiki:Proposal/CustomTypeErrors Custom type errors]
  * [wiki:ArrowNotation]
+ * [wiki:TemplateHaskell]
  * [wiki:Inlining]
  * [wiki:SpecConstr]
  * [wiki:StaticArgumentTransformation]
