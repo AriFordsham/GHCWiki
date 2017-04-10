@@ -1,6 +1,9 @@
 # Plan for providing exception stack-traces
 
 
+See also: [\#12096](https://gitlab.haskell.org//ghc/ghc/issues/12096)
+
+
 Exception handling in modern Haskell programs revolves around the
 `Control.Exception` module provided by `base`. This module provides a
 mechanism where any type belonging to the `Exception` typeclass can be
