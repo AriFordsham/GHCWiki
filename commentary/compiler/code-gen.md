@@ -11,6 +11,7 @@ This page describes code generator ("codegen") in GHC. It is meant to reflect cu
 - [Loopification](commentary/compiler/loopification) i.e. turn tail calls into loops
 - [LLVM back end](commentary/compiler/backends/llvm)
 - [Hoopl/Cleanup](hoopl/cleanup)
+- [Planned Backend Optimizations](commentary/compiler/backend-opt)
 
 ## A brief history of code generator
 
