@@ -3,8 +3,9 @@
 This page describes code generator ("codegen") in GHC. It is meant to reflect current state of the implementation. If you notice any inaccuracies please update the page (if you know how) or complain on ghc-devs.
 
 * [wiki:Commentary/Compiler/CodeGen/Overview Overview of the code generator]
+* [wiki:Commentary/Compiler/NewCodeGenModules Data types and modules for the code generator]
 * [wiki:Commentary/Compiler/GeneratedCode The STG language and how to execute it]
-* [wiki: Commentary/Compiler/NewCodeGenStupidity List of code-gen stupidities] (some, but not all, fixed).
+* [wiki:Commentary/Compiler/NewCodeGenStupidity List of code-gen stupidities] (some, but not all, fixed).
 * [wiki:Commentary/Compiler/NewCodeGen/Cleanup Clean-up ideas once the new codegen is in place (i.e. now)]; not all done.
 
 == A brief history of code generator ==
