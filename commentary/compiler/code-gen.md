@@ -4,8 +4,9 @@
 This page describes code generator ("codegen") in GHC. It is meant to reflect current state of the implementation. If you notice any inaccuracies please update the page (if you know how) or complain on ghc-devs.
 
 - [Overview of the code generator](commentary/compiler/code-gen/overview)
-
 - [The STG language and how to execute it](commentary/compiler/generated-code)
+- [Commentary/Compiler/NewCodeGenStupidity List of code-gen stupidities](wiki-start) (some, but not all, fixed).
+- [Clean-up ideas once the new codegen is in place (i.e. now)](commentary/compiler/new-code-gen/cleanup); not all done.
 
 ## A brief history of code generator
 
@@ -15,11 +16,9 @@ You might occasionally hear about "old" and "new" code generator. GHC 7.6 and ea
 
 Various historical pages, with still-useful info:
 
-- The commentary on the old code generator can be found [here](commentary/compiler/old-code-gen). 
+- The commentary on the old code generator can be found [here](commentary/compiler/old-code-gen).
 
 - [Status page on the "new code generator"](commentary/compiler/new-code-gen) (now the current one)
-
-- [Clean-up ideas once the new codegen is in place (i.e. now)](commentary/compiler/new-code-gen/cleanup); not all done.
 
 - [Replace native code generator with LLVM](commentary/compiler/backends/llvm/replacing-ncg)
 
