@@ -8,6 +8,7 @@ This page describes code generator ("codegen") in GHC. It is meant to reflect cu
 * [wiki:Commentary/Compiler/NewCodeGenStupidity List of code-gen stupidities] (some, but not all, fixed).
 * [wiki:Commentary/Compiler/NewCodeGen/Cleanup Clean-up ideas once the new codegen is in place (i.e. now)]; not all done.
 * [wiki:Commentary/Compiler/Loopification Loopification] i.e. turn tail calls into loops
+* [wiki:Commentary/Compiler/Backends/LLVM LLVM back end]
 
 == A brief history of code generator ==
 
