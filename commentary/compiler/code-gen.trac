@@ -18,3 +18,13 @@ Various historical pages, with still-useful info:
 * [wiki:Commentary/Compiler/NewCodeGen Status page on the "new code generator"] (now the current one)
 * [wiki:Commentary/Compiler/Backends/LLVM/ReplacingNCG Replace native code generator with LLVM]
 * [wiki:Commentary/Compiler/IntegratedCodeGen IntegratedCodeGen] One plan is to expand the capability of the pipeline so that it does native code generation too so that existing backends can be discarded.
+
+== Tickets ==
+
+Use Keyword = `CodeGen` to ensure that a ticket ends up on these lists.
+
+'''Open Tickets:'''
+[[TicketQuery(status=new|patch,keywords=~CodeGen)]]
+
+'''Closed Tickets:'''
+[[TicketQuery(status=closed,keywords=~CodeGen)]]
