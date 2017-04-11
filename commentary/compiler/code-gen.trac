@@ -17,8 +17,8 @@ Various historical pages, with still-useful info:
 
 * [wiki:Commentary/Compiler/NewCodeGen Status page on the "new code generator"] (now the current one)
 
-* [wiki:Commentary/Compiler/NewCodeGen/Cleanup Clean-up ides once the new codegen is in place (i.e. now)]; not all done.
+* [wiki:Commentary/Compiler/NewCodeGen/Cleanup Clean-up ideas once the new codegen is in place (i.e. now)]; not all done.
 
-* [wiki:Commentary/Compiler/Backends/LLVM/ReplacingNCG replace native code generator with LLVM]
+* [wiki:Commentary/Compiler/Backends/LLVM/ReplacingNCG Replace native code generator with LLVM]
 
 * [wiki:Commentary/Compiler/IntegratedCodeGen IntegratedCodeGen] One plan is to expand the capability of the pipeline so that it does native code generation too so that existing backends can be discarded.
