@@ -26,6 +26,7 @@
  * [wiki:PatternMatchCheck The new pattern-match overlap/exhaustiveness checker]
  * [wiki:PatternSynonyms Pattern-synonym status page]
  * [wiki:Records/OverloadedRecordFields Overloaded record fields]
+ * [wiki:Commentary/Compiler/CodeGen Code generation]
 
 
 == INLINE problems / ticks exhausted  ==
