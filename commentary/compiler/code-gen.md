@@ -3,178 +3,146 @@
 
 This page describes code generator ("codegen") in GHC. It is meant to reflect current state of the implementation. If you notice any inaccuracies please update the page (if you know how) or complain on ghc-devs.
 
+- [Overview of the code generator](commentary/compiler/code-gen/overview)
+- [Data types and modules for the code generator](commentary/compiler/new-code-gen-modules)
+- [The STG language and how to execute it](commentary/compiler/generated-code)
+- [List of code-gen stupidities](commentary/compiler/new-code-gen-stupidity) (some, but not all, fixed).
+- [Clean-up ideas once the new codegen is in place (i.e. now)](commentary/compiler/new-code-gen/cleanup); not all done.
+- [Loopification](commentary/compiler/loopification) i.e. turn tail calls into loops
+- [LLVM back end](commentary/compiler/backends/llvm)
+- [Hoopl/Cleanup](hoopl/cleanup)
+
 ## A brief history of code generator
 
 
-You might occasionally hear about "old" and "new" code generator. GHC 7.6 and earlier used the old code generator. New code generator was being developed since 2007 and it was [enabled by default on 31 August 2012](/trac/ghc/changeset/832077ca5393d298324cb6b0a2cb501e27209768/ghc) after the release of GHC 7.6.1. The first stable GHC to use the new code generator is 7.8.1 released in early 2014. The commentary on the old code generator can be found [here](commentary/compiler/old-code-gen). Notes from the development process of the new code generator are located in a couple of pages on the wiki - to find them go to [Index](title-index) and look for pages starting with "NewCodeGen".
+You might occasionally hear about "old" and "new" code generator. GHC 7.6 and earlier used the old code generator. New code generator was being developed since 2007 and it was [enabled by default on 31 August 2012](/trac/ghc/changeset/832077ca5393d298324cb6b0a2cb501e27209768/ghc) after the release of GHC 7.6.1. The first stable GHC to use the new code generator is 7.8.1 released in early 2014. 
 
 
-There are some plans for the future development of code generator. One plan is to expand the capability of the pipeline so that it does native code generation too so that existing backends can be discarded - see [IntegratedCodeGen](commentary/compiler/integrated-code-gen) for discussion of the design. It is hard to say if this will ever happen as currently there is no work being done on that subject and in the meanwhile there was an alternative proposal to [replace native code generator with LLVM](commentary/compiler/backends/llvm/replacing-ncg).
+Various historical pages, with still-useful info:
 
-## Overview
+- [Commentary on the old code generator](commentary/compiler/old-code-gen)
 
+- [Status page on the "new code generator"](commentary/compiler/new-code-gen) (now the current one)
+- [Replace native code generator with LLVM](commentary/compiler/backends/llvm/replacing-ncg)
+- [IntegratedCodeGen](commentary/compiler/integrated-code-gen) One plan is to expand the capability of the pipeline so that it does native code generation too so that existing backends can be discarded.
 
-The goal of the code generator is to convert program from [STG](commentary/compiler/generated-code) representation to [Cmm](commentary/compiler/cmm-type) representation. STG is a functional language with explicit stack. Cmm is a low-level imperative language - something between C and assembly - that is suitable for machine code generation. Note that terminology might be a bit confusing here: the term "code generator" can refer both to STG-\>Cmm pass and the whole STG-\>Cmm-\>assembly pass. The Cmm-\>assembly conversion is performed by one the backends, eg. NCG (Native Code Generator or LLVM.
-
-
-The top-most entry point to the codegen is located in [compiler/main/HscMain.hs](/trac/ghc/browser/ghc/compiler/main/HscMain.hs) in the `tryNewCodegen` function. Code generation is done in two stages:
-
-1. Convert STG to Cmm with implicit stack, and native Cmm calls. This whole stage lives in [compiler/codeGen](/trac/ghc/browser/ghc/compiler/codeGen) directory with the entry point being `codeGen` function in [compiler/codeGen/StgCmm.hs](/trac/ghc/browser/ghc/compiler/codeGen/StgCmm.hs) module.
-1. Optimise the Cmm, and CPS-convert it to have an explicit stack, and no native calls. This lives in [compiler/cmm](/trac/ghc/browser/ghc/compiler/cmm) directory with the `cmmPipeline` function from [compiler/cmm/CmmPipeline.hs](/trac/ghc/browser/ghc/compiler/cmm/CmmPipeline.hs) module being the entry point.
+## Tickets
 
 
-The CPS-converted Cmm is fed to one of the backends. This is done by `codeOutput` function ([compiler/main/CodeOutput.hs](/trac/ghc/browser/ghc/compiler/main/CodeOutput.hs)) called from `hscGenHardCode` after returning from `tryNewCodegen`.
+Use Keyword = `CodeGen` to ensure that a ticket ends up on these lists.
 
-## First stage: STG to Cmm conversion
+**Open Tickets:**
 
-- **Code generator** converts STG to `CmmGraph`.  Implemented in `StgCmm*` modules (in directory `codeGen`). 
+<table><tr><th>[\#1498](https://gitlab.haskell.org//ghc/ghc/issues/1498)</th>
+<td>Optimisation: eliminate unnecessary heap check in recursive function</td></tr>
+<tr><th>[\#2725](https://gitlab.haskell.org//ghc/ghc/issues/2725)</th>
+<td>Remove Hack in compiler/nativeGen/X86/CodeGen.hs</td></tr>
+<tr><th>[\#2731](https://gitlab.haskell.org//ghc/ghc/issues/2731)</th>
+<td>Avoid unnecessary evaluation when unpacking constructors</td></tr>
+<tr><th>[\#8326](https://gitlab.haskell.org//ghc/ghc/issues/8326)</th>
+<td>Place heap checks common in case alternatives before the case</td></tr>
+<tr><th>[\#8871](https://gitlab.haskell.org//ghc/ghc/issues/8871)</th>
+<td>No-op assignment I64\[BaseReg + 784\] = I64\[BaseReg + 784\]; is generated into optimized Cmm</td></tr>
+<tr><th>[\#8887](https://gitlab.haskell.org//ghc/ghc/issues/8887)</th>
+<td>Double double assignment in optimized Cmm on SPARC</td></tr>
+<tr><th>[\#8903](https://gitlab.haskell.org//ghc/ghc/issues/8903)</th>
+<td>Add dead store elimination</td></tr>
+<tr><th>[\#8905](https://gitlab.haskell.org//ghc/ghc/issues/8905)</th>
+<td>Function arguments are always spilled/reloaded if scrutinee is already in WHNF</td></tr>
+<tr><th>[\#9718](https://gitlab.haskell.org//ghc/ghc/issues/9718)</th>
+<td>Avoid TidyPgm predicting what CorePrep will do</td></tr>
+<tr><th>[\#10012](https://gitlab.haskell.org//ghc/ghc/issues/10012)</th>
+<td>Cheap-to-compute values aren't pushed into case branches inducing unnecessary register pressure</td></tr>
+<tr><th>[\#10074](https://gitlab.haskell.org//ghc/ghc/issues/10074)</th>
+<td>Implement the 'Improved LLVM Backend' proposal</td></tr>
+<tr><th>[\#12232](https://gitlab.haskell.org//ghc/ghc/issues/12232)</th>
+<td>Opportunity to do better in register allocations</td></tr>
+<tr><th>[\#13861](https://gitlab.haskell.org//ghc/ghc/issues/13861)</th>
+<td>Take more advantage of STG representation invariance (follows up \#9291)</td></tr>
+<tr><th>[\#13904](https://gitlab.haskell.org//ghc/ghc/issues/13904)</th>
+<td>LLVM does not need to trash caller-saved registers.</td></tr>
+<tr><th>[\#14226](https://gitlab.haskell.org//ghc/ghc/issues/14226)</th>
+<td>Common Block Elimination pass doesn't eliminate common blocks</td></tr>
+<tr><th>[\#14372](https://gitlab.haskell.org//ghc/ghc/issues/14372)</th>
+<td>CMM contains a bunch of tail-merging opportunities</td></tr>
+<tr><th>[\#14373](https://gitlab.haskell.org//ghc/ghc/issues/14373)</th>
+<td>Introduce PTR-tagging for big constructor families</td></tr>
+<tr><th>[\#14461](https://gitlab.haskell.org//ghc/ghc/issues/14461)</th>
+<td>Reuse free variable lists through nested closures</td></tr>
+<tr><th>[\#14626](https://gitlab.haskell.org//ghc/ghc/issues/14626)</th>
+<td>No need to enter a scrutinised value</td></tr>
+<tr><th>[\#14672](https://gitlab.haskell.org//ghc/ghc/issues/14672)</th>
+<td>Make likelyhood of branches/conditions available throughout the compiler.</td></tr>
+<tr><th>[\#14677](https://gitlab.haskell.org//ghc/ghc/issues/14677)</th>
+<td>Code generator does not correctly tag a pointer</td></tr>
+<tr><th>[\#14791](https://gitlab.haskell.org//ghc/ghc/issues/14791)</th>
+<td>Move stack checks out of code paths that don't use the stack.</td></tr>
+<tr><th>[\#14830](https://gitlab.haskell.org//ghc/ghc/issues/14830)</th>
+<td>Use test instead of cmp for comparison against zero.</td></tr>
+<tr><th>[\#14914](https://gitlab.haskell.org//ghc/ghc/issues/14914)</th>
+<td>Only turn suitable targets into a fallthrough in CmmContFlowOpt.</td></tr>
+<tr><th>[\#14971](https://gitlab.haskell.org//ghc/ghc/issues/14971)</th>
+<td>Use appropriatly sized comparison instruction for small values.</td></tr>
+<tr><th>[\#15113](https://gitlab.haskell.org//ghc/ghc/issues/15113)</th>
+<td>Do not make CAFs from literal strings</td></tr>
+<tr><th>[\#15124](https://gitlab.haskell.org//ghc/ghc/issues/15124)</th>
+<td>Improve block layout for the NCG</td></tr>
+<tr><th>[\#15126](https://gitlab.haskell.org//ghc/ghc/issues/15126)</th>
+<td>Opportunity to compress common info table representation.</td></tr>
+<tr><th>[\#15148](https://gitlab.haskell.org//ghc/ghc/issues/15148)</th>
+<td>Allow setting of custom alignments</td></tr>
+<tr><th>[\#15155](https://gitlab.haskell.org//ghc/ghc/issues/15155)</th>
+<td>How untagged pointers sneak into banged fields</td></tr>
+<tr><th>[\#15258](https://gitlab.haskell.org//ghc/ghc/issues/15258)</th>
+<td>Implement CMOV support.</td></tr>
+<tr><th>[\#15580](https://gitlab.haskell.org//ghc/ghc/issues/15580)</th>
+<td>Specialize min/max functions for GHC provided instances.</td></tr>
+<tr><th>[\#15770](https://gitlab.haskell.org//ghc/ghc/issues/15770)</th>
+<td>Missing optimisation opportunity in code gen for always-saturated applications?</td></tr>
+<tr><th>[\#15901](https://gitlab.haskell.org//ghc/ghc/issues/15901)</th>
+<td>Assert and record that code generation requires distinct uiques for let-binders</td></tr>
+<tr><th>[\#16064](https://gitlab.haskell.org//ghc/ghc/issues/16064)</th>
+<td>Improving Placement of Heap Checks - Avoiding Slowdowns in Hot Code</td></tr>
+<tr><th>[\#16243](https://gitlab.haskell.org//ghc/ghc/issues/16243)</th>
+<td>Improve fregs-graph.</td></tr>
+<tr><th>[\#16333](https://gitlab.haskell.org//ghc/ghc/issues/16333)</th>
+<td>Implement Loop-invariant code motion / Hoisting for Cmm</td></tr>
+<tr><th>[\#16354](https://gitlab.haskell.org//ghc/ghc/issues/16354)</th>
+<td>LLVM Backend generates invalid assembly.</td></tr></table>
 
-  - `Cmm.CmmGraph` is pretty much a Hoopl graph of `CmmNode.CmmNode` nodes. Control transfer instructions are always the last node of a basic block.
-  - Parameter passing is made explicit; the calling convention depends on the target architecture.  The key function is `CmmCallConv.assignArgumentsPos`. 
+**Closed Tickets:**
 
-    - Parameters are passed in virtual registers R1, R2 etc. \[These map 1-1 to real registers.\] 
-    - Overflow parameters are passed on the stack using explicit memory stores, to locations described abstractly using the [''Stack Area'' abstraction](commentary/compiler/stack-areas).   
-    - Making the calling convention explicit includes an explicit store instruction of the return address, which is stored explicitly on the stack in the same way as overflow parameters. This is done (obscurely) in `StgCmmMonad.mkCall`.
-
-## Second stage: the Cmm pipeline
-
-
-The core of the Cmm pipeline is implemented by the `cpsTop` function in [compiler/cmm/CmmPipeline.hs](/trac/ghc/browser/ghc/compiler/cmm/CmmPipeline.hs) module. Below is a high-level overview of the pipeline. See source code comments in respective modules for a more in-depth explanation of each pass.
-
-- **Control Flow Optimisations**, implemented in `CmmContFlowOpt`, simplifies the control flow graph by:
-
-  - Eliminating blocks that have only one predecessor by concatenating them with that predecessor
-  - Shortcuting targets of branches and calls (see Note \[What is shortcutting\])
-
->
-> If a block becomes unreachable because of shortcutting it is eliminated from the graph. However, **it is theoretically possible that this pass will produce unreachable blocks**. The reason is the label renaming pass performed after block concatenation has been completed.
-
->
-> This pass might be optionally called for the second time at the end of the pipeline.
-
-- **Common Block Elimination**, implemented in `CmmCommonBlockElim`, eliminates blocks that are identical (except for the label on their first node). Since this pass traverses blocks in depth-first order any unreachable blocks introduced by Control Flow Optimisations are eliminated. **This pass is optional.**
-
-- **Determine proc-points**, implemented in `CmmProcPoint`. The idea behind the "proc-point splitting" is that we first determine proc-points, ie. blocks in the graph that can be turned into entry points of procedures, and then split a larger function into many smaller ones, each having a proc-point as its entry point. This is required for the LLVM backend. The proc-point splitting itself is done later in the pipeline, but here we only determine the set of proc-points. We first call `callProcPoints`, which assumes that entry point to a Cmm graph and every continuation of a call is a procpoint. If we are splitting proc-points we update the list of proc-points by calling `minimalProcPointSet`, which adds all blocks reachable from more than one block in the graph. The set of proc-points is required by the stack layout pass.
-
-- **Figure out the stack layout**, implemented in `CmmStackLayout`. The job of this pass is to:
-
-  - replace references to abstract stack Areas with fixed offsets from Sp.
-  - replace the CmmHighStackMark constant used in the stack check with
-    the maximum stack usage of the proc.
-  - save any variables that are live across a call, and reload them as
-    necessary.
-
-> **Important**: It may happen that stack layout will invalidate the computed set of proc-points by making a proc-point unreachable. This unreachable block is eliminated by one of subsequent passes that performs depth-first traversal of a graph: sinking pass (if optimisations are enabled), proc-point analysis (if optimisations are disabled and we're doing proc-point splitting) or at the very end of the pipeline (if optimisations are disabled and we're not doing proc-point splitting). This means that starting from this point in the pipeline we have inconsistent data and subsequent steps must be prepared for it.
-
-- **Sinking assignments**, implemented in `CmmSink`, performs these optimizations:
-
-  - moves assignments closer to their uses, to reduce register pressure
-  - pushes assignments into a single branch of a conditional if possible
-  - inlines assignments to registers that are mentioned only once
-  - discards dead assignments
-
-> **This pass is optional.** It currently does not eliminate dead code in loops ([\#8327](https://gitlab.haskell.org//ghc/ghc/issues/8327)) and has some other minor deficiencies (eg. [\#8336](https://gitlab.haskell.org//ghc/ghc/issues/8336)).
-
-- **CAF analysis**, implemented in `CmmBuildInfoTables`. Computed CAF information is returned from `cmmPipeline` and used to create Static Reference Tables (SRT). See [here](commentary/rts/storage/gc/ca-fs) for some more detail on CAFs and SRTs. This pass is implemented using Hoopl (see below).
-
-- **Proc-point analysis and splitting** (only when splitting proc-points), implemented by `procPointAnalysis` in `CmmProcPoint`, takes a list of proc-points and for each block and determines from which proc-point the block is reachable. This is implemented using Hoopl.
-  Then the call to `splitAtProcPoints` splits the Cmm graph into multiple Cmm graphs (each represents a single function) and build info tables to each of them.
-  When doing this we must be prepared for the fact that a proc-point does not actually exist in the graph since it was removed by stack layout pass (see [\#8205](https://gitlab.haskell.org//ghc/ghc/issues/8205)).
-
-- **Attach continuations' info tables** (only when NOT splitting proc-points), implemented by `attachContInfoTables` in `CmmProcPoint` attaches info tables for the continuations of calls in the graph. *\[PLEASE WRITE MORE IF YOU KNOW WHY THIS IS DONE\]*
-
-- **Update info tables to include stack liveness**, implemented by `setInfoTableStackMap` in `CmmLayoutStack`. Populates info tables of each Cmm function with stack usage information. Uses stack maps created by the stack layout pass.
-
-- **Control Flow Optimisations**, same as the beginning of the pipeline, but this pass runs only with `-O1` and `-O2`. Since this pass might produce unreachable blocks it is followed by a call to `removeUnreachableBlocksProc` (also in `CmmContFlowOpt.hs`)
-
-## Dumping and debugging Cmm
-
-
-You can dump all stages of Cmm processing. This is helpful for debugging Cmm problems.
-
-
-Currently we have two ways to run the Cmm pipeline:
-
-- The `.cmm` file passed as input
-
->
-> Here we get into `hscCompileFile` and run the parser first. Ouput
-> from the parser can be dumped via the `-ddump-cmm-verbose` flag:
-
-```wiki
-  hscCompileFile
-    |-> parseCmmFile
-    |
-    (dump) [-ddump-cmm-verbose]  "== Parsed Cmm =="
-    |
-    |-> cmmPipeline (..)
-```
-
-- The Haskell source passed as input
-
->
-> The compiler reached the `HscRecomp` phase and started to produce
-> hard code through the native codegen:
-
-```wiki
-  hscGenHardCode
-    ....
-    |-> doCodegen
-    .     |-> StgCmm.codeGen
-    .     |
-    .     (dump) [-ddump-cmm-from-stg]  "== Cmm produced by codegen =="
-    .     |
-    .     |-> cmmPipeline (..)
-    |
-    (dump) [-ddump-cmm]         "== Output Cmm =="
-    |->cmmToRawCmm
-    |
-    (dump) [-ddump-cmm-raw]     "== Raw Cmm =="
-```
-
-> *"Cmm produced by codegen"* is emited in `HscMain` module after converting STG to Cmm. This Cmm has not been processed in any way by the Cmm pipeline. If you see that something is incorrect in that dump it means that the problem is located in the STG-\>Cmm pass. The last section, *"Output Cmm"*, is also dumped in `HscMain` but this is done after the Cmm has been processed by the whole Cmm pipeline.
-
-
-All stages of the Cmm pipeline can be dumped separately (with set of the cmm subflags) or together (when `-ddump-cmm-verbose` specified). Note, that there is still problem with output into file (see ToDo in `CmmPipeline.hs:dumpWith`).
-This dump is divided into several sections:
-
-```wiki
-==================== Post control-flow optimisations ====================
-...
-
-==================== Post common block elimination ====================
-...
-
-==================== Post switch plan ====================
-...
-
-==================== Proc points ====================
-...
-
-==================== Layout Stack ====================
-...
-
-==================== Sink assignments ====================
-...
-
-==================== CAFEnv ====================
-...
-
-==================== procpoint map ====================
-...
-
-==================== Post splitting ====================
-...
-
-==================== after setInfoTableStackMap ====================
-...
-
-==================== Post control-flow optimisations ====================
-...
-
-==================== Post CPS Cmm ====================
-...
-```
-
-
-As was mentioned you can dump only selected passes with more specific flags. For example, if you know (or suspect) that the sinking pass is performing some incorrect transformations you can make the dump shorter by adding `-ddump-cmm-sp -ddump-cmm-sink` flags. This will produce only the "Layout Stack" dump (just before sinking pass) and "Sink assignments" dump (just after the sinking pass) allowing you to focus on the changes introduced by the sinking pass.
+<table><tr><th>[\#4121](https://gitlab.haskell.org//ghc/ghc/issues/4121)</th>
+<td>Refactor the plumbing of CafInfo to make it more robust</td></tr>
+<tr><th>[\#7571](https://gitlab.haskell.org//ghc/ghc/issues/7571)</th>
+<td>LLVM codegen does not handle integer literals in branch conditionals.</td></tr>
+<tr><th>[\#7574](https://gitlab.haskell.org//ghc/ghc/issues/7574)</th>
+<td>Register allocator chokes on certain branches with literals</td></tr>
+<tr><th>[\#7575](https://gitlab.haskell.org//ghc/ghc/issues/7575)</th>
+<td>LLVM backend does not properly widen certain literal types in call expressions</td></tr>
+<tr><th>[\#8585](https://gitlab.haskell.org//ghc/ghc/issues/8585)</th>
+<td>Loopification should omit stack check</td></tr>
+<tr><th>[\#9157](https://gitlab.haskell.org//ghc/ghc/issues/9157)</th>
+<td>cmm common block not eliminated</td></tr>
+<tr><th>[\#9159](https://gitlab.haskell.org//ghc/ghc/issues/9159)</th>
+<td>cmm case, binary search instead of jump table</td></tr>
+<tr><th>[\#11372](https://gitlab.haskell.org//ghc/ghc/issues/11372)</th>
+<td>Loopification does not trigger for IO even if it could</td></tr>
+<tr><th>[\#12095](https://gitlab.haskell.org//ghc/ghc/issues/12095)</th>
+<td>GHC and LLVM don't agree on what to do with byteSwap16\#</td></tr>
+<tr><th>[\#14644](https://gitlab.haskell.org//ghc/ghc/issues/14644)</th>
+<td>Improve cmm/assembly for pattern matches with two constants.</td></tr>
+<tr><th>[\#14666](https://gitlab.haskell.org//ghc/ghc/issues/14666)</th>
+<td>Improve assembly for dense jump tables.</td></tr>
+<tr><th>[\#14989](https://gitlab.haskell.org//ghc/ghc/issues/14989)</th>
+<td>CBE pass 2 invalidates proc points</td></tr>
+<tr><th>[\#15103](https://gitlab.haskell.org//ghc/ghc/issues/15103)</th>
+<td>Speed optimizations for elimCommonBlocks</td></tr>
+<tr><th>[\#15104](https://gitlab.haskell.org//ghc/ghc/issues/15104)</th>
+<td>Update JMP_TBL targets during shortcutting for x86 codegen.</td></tr>
+<tr><th>[\#15188](https://gitlab.haskell.org//ghc/ghc/issues/15188)</th>
+<td>Catch cases where both branches of an if jump to the same block.</td></tr>
+<tr><th>[\#15196](https://gitlab.haskell.org//ghc/ghc/issues/15196)</th>
+<td>Invert floating point comparisons such that no extra parity check is required.</td></tr>
+<tr><th>[\#15867](https://gitlab.haskell.org//ghc/ghc/issues/15867)</th>
+<td>STG scope error</td></tr></table>
