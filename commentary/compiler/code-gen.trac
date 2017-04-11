@@ -14,14 +14,7 @@ You might occasionally hear about "old" and "new" code generator. GHC 7.6 and ea
 
 Various historical pages, with still-useful info:
 
-* The commentary on the old code generator can be found [wiki:Commentary/Compiler/OldCodeGen here].
-
-
-
+* [wiki:Commentary/Compiler/OldCodeGen Commentary on the old code generator]
 * [wiki:Commentary/Compiler/NewCodeGen Status page on the "new code generator"] (now the current one)
-
-
-
 * [wiki:Commentary/Compiler/Backends/LLVM/ReplacingNCG Replace native code generator with LLVM]
-
 * [wiki:Commentary/Compiler/IntegratedCodeGen IntegratedCodeGen] One plan is to expand the capability of the pipeline so that it does native code generation too so that existing backends can be discarded.
