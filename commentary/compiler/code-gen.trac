@@ -7,6 +7,7 @@ This page describes code generator ("codegen") in GHC. It is meant to reflect cu
 * [wiki:Commentary/Compiler/GeneratedCode The STG language and how to execute it]
 * [wiki:Commentary/Compiler/NewCodeGenStupidity List of code-gen stupidities] (some, but not all, fixed).
 * [wiki:Commentary/Compiler/NewCodeGen/Cleanup Clean-up ideas once the new codegen is in place (i.e. now)]; not all done.
+* [wiki:Commentary/Compiler/Loopification Loopification] i.e. turn tail calls into loops
 
 == A brief history of code generator ==
 
@@ -15,6 +16,7 @@ You might occasionally hear about "old" and "new" code generator. GHC 7.6 and ea
 Various historical pages, with still-useful info:
 
 * [wiki:Commentary/Compiler/OldCodeGen Commentary on the old code generator]
+
 * [wiki:Commentary/Compiler/NewCodeGen Status page on the "new code generator"] (now the current one)
 * [wiki:Commentary/Compiler/Backends/LLVM/ReplacingNCG Replace native code generator with LLVM]
 * [wiki:Commentary/Compiler/IntegratedCodeGen IntegratedCodeGen] One plan is to expand the capability of the pipeline so that it does native code generation too so that existing backends can be discarded.
