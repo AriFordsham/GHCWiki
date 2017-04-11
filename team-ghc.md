@@ -244,7 +244,7 @@ In order to see emails below, **you must login**.
 
   - Independent - Singapore
   - **Trac**: angerman; **email**: moritz.angermann@…; **github**: [ https://github.com/angerman](https://github.com/angerman); **IRC**: angerman
-  - **Committer since**: October 2014.
+  - **Committer since**: April 2017.
   - **Main areas of interest**: cross-compilation, runtime system, llvm, codegen
 
 - [ Ömer Sinan Ağacan](http://osa1.net)
