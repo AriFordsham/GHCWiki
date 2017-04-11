@@ -1,1 +1,6 @@
-TODO -- kavon
+## Planned Backend Optimizations
+
+
+This page gathers together a list of ideas for improving the backend of the compiler. Any progress made will also be noted here.
+
+### Removal of Proc Point Analysis
