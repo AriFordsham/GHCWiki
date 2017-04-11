@@ -1,7 +1,7 @@
 # Arrow notation
 
 
-Arrow notation has been in GHC for many years, but it lacks a maintainer.  Even Simon PJ is very hazy about how it all works, and even toys with the idea of taking it out altogether.
+Arrow notation ([current documentation](http://www.haskell.org/ghc/docs/latest/html/users_guide/arrow-notation.html)) has been in GHC for many years, but it lacks a maintainer.  Even Simon PJ is very hazy about how it all works, and even toys with the idea of taking it out altogether.
 
 
 Apart from the tickets below, there are a number of things that need doing
@@ -12,10 +12,7 @@ Apart from the tickets below, there are a number of things that need doing
 
 - See the discussion on this [ Dec 16 ghc-devs thread](https://mail.haskell.org/pipermail/ghc-devs/2016-December/013317.html).  It started with a desire to support rebindable syntax.
 
-- Lower down this page are a couple of proposed changes to the notation enabled with `-XArrows`
-
-
-([current documentation](http://www.haskell.org/ghc/docs/latest/html/users_guide/arrow-notation.html)). I'm not sure of their status.
+- Lower down this page are a couple of proposed changes to the notation enabled with `-XArrows`.  I'm not sure of their status.
 
 ## Tickets
 
