@@ -1,8 +1,18 @@
-# Proposed changes to arrow notation
+# Arrow notation
 
 
-This page describes a couple of proposed changes to the notation enabled with -XArrows.
-([current documentation](http://www.haskell.org/ghc/docs/latest/html/users_guide/arrow-notation.html))
+Arrow notation ([current documentation](http://www.haskell.org/ghc/docs/latest/html/users_guide/arrow-notation.html)) has been in GHC for many years, but it lacks a maintainer.  Even Simon PJ is very hazy about how it all works, and even toys with the idea of taking it out altogether.
+
+
+Apart from the tickets below, there are a number of things that need doing
+
+- There no single place that describes all the moving parts of the arrow implementation, including both the typechecking and desugaring rules -- and it's very hard to work it out from the code.  Simply writing out the typechecking and desugaring rules, with some commentary, would be really helpful.  There is a tiny start in `Note [Arrow overview]` in `TcArrows`.
+
+- [\#13547](https://gitlab.haskell.org//ghc/ghc/issues/13547): work out if existential and GADT pattern matches are allowed. If so, fix the desugarer; if not, reject them with a decent error message, not a Core Lint crash.
+
+- See the discussion on this [ Dec 16 ghc-devs thread](https://mail.haskell.org/pipermail/ghc-devs/2016-December/013317.html).  It started with a desire to support rebindable syntax.
+
+- Lower down this page are a couple of proposed changes to the notation enabled with `-XArrows`.  I'm not sure of their status.
 
 ## Tickets
 
