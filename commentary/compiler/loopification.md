@@ -218,6 +218,8 @@ in
 
 ===>
 
+data FG a b = DoF a | DoG b
+
 letrec
    combined z = 
      joinrec fj x = ...gj e1...
@@ -235,3 +237,6 @@ in
     else
       ... g ...
 ```
+
+
+This requires a new data type, which is annnoying (and not easy in GHC). But perhaps we can use an unboxed sum type.  (And an unboxed tuple for the arguments.)
