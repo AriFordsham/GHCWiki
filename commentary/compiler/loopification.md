@@ -239,4 +239,4 @@ in
 ```
 
 
-This requires a new data type, which is annnoying (and not easy in GHC). 
+This requires a new data type, which is annnoying (and not easy in GHC). But perhaps we can use an unboxed sum type.  (And an unboxed tuple for the arguments.)
