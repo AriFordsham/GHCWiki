@@ -40,12 +40,27 @@ CPU frequency scaling can result in distorted measurement! Try temporarily disab
 ```wiki
   $ cd nofib
   $ make clean
-  $ make boot
-  $ make 2>&1 | tee nofib-log
+  $ make boot                  # Generates Makefile dependencies
+  $ make 2>&1 | tee nofib-log  # Compiles and runs benchmarks one by one
 ```
 
 
-will put the results in the file `nofib-log`.
+will put the results in the file `nofib-log`. 
+
+
+If you encounter build errors ("Could not find module QSort") although `make` seems to work for many benchmarks, make sure that you did `make boot`. This will generate the necessary \[Makefile dependencies\]([ http://ghc.readthedocs.io/en/latest/separate_compilation.html\#dependency-generation](http://ghc.readthedocs.io/en/latest/separate_compilation.html#dependency-generation)), otherwise almost anything of the `spectral` and later suites won't build.
+
+
+You can run single benchmarks by running `make` within their folder, or equivalently, by using `make`s `-C` option for changing the path.
+
+
+Should you want to debug or enhance the benchmark harness, look into `mk/boilerplate.mk` which in turn calls `runstdtest/runstdtest.prl`, which generates the benchmark harness. Note that you have to at least clean and rebuild the harness if you change it (`make -C runstdtest/ clean all`), otherwise the old harness will continue to be used.
+
+```wiki
+  $ make -C shootout/fasta NoFibRuns=30  # runs the fasta benchmarks 30 times
+  $ cd shootout/fasta
+  $ make NoFibRuns=30                    # dito
+```
 
 
 To compare the results of multiple runs, use the program
