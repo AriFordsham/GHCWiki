@@ -198,7 +198,40 @@ are all saturated tail calls).
 The body of the letrec must use only *one* of the functions
 in the recursive group (although it does not need to use
 it in a join-pointy way).  I can't see how to make this work
-if both `f` and `g` are used.
+if both `f` and `g` are used. ** see below for an idea **
 
 
 At top level, a "use" includes exports.
+
+
+Here's an idea for handling multiple entry points into a mutually recursive loop without copying the body of one of the functions. There is a slight penalty when initially entering the loop due to the case, but it may pay off if since the looping would be more efficient:
+
+```wiki
+letrec
+   f x = ....g e1....
+   g y = ....f e2...
+in
+   if ...
+      ... f ...
+    else
+      ... g ...
+
+===>
+
+letrec
+   combined z = 
+     joinrec fj x = ...gj e1...
+             gj y = ...fj e2...
+     in
+       case z
+         of DoF x => fj x
+          | DoG y => gj y
+
+   f x = combined (DoF x)
+   g y = combined (DoG y)
+in
+   if ...
+      ... f ...
+    else
+      ... g ...
+```
