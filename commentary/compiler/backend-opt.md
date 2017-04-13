@@ -46,7 +46,7 @@ TODO Float the proposal on the LLVM developers list to get feedback.
 ## Improving Heap Checks
 
 
-See [\#8905](https://gitlab.haskell.org//ghc/ghc/issues/8905) and [\#12231](https://gitlab.haskell.org//ghc/ghc/issues/12231)
+See [\#8905](https://gitlab.haskell.org//ghc/ghc/issues/8905) and [\#12231](https://gitlab.haskell.org//ghc/ghc/issues/12231) and \[Compiling case expressions\] in StgCmmExpr
 
 ### Other Performance Bugs To Consider
 
