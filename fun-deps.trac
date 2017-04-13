@@ -7,10 +7,10 @@ This is the root page for material about functional dependencies in GHC.
 Use Keyword = `FunDeps` to ensure that a ticket ends up on these lists.
 
 '''Open Tickets:'''
-[[TicketQuery(status=new|patch,keywords=~FunDeps)]]
+[[TicketQuery(status=new|patch,keywords=~FunDeps|FunctionalDependencies)]]
 
 '''Closed Tickets:'''
-[[TicketQuery(status=closed,keywords=~FunDeps)]]
+[[TicketQuery(status=closed,keywords=~FunDeps|FunctionalDependencies)]]
 
 == Consistency of Functional Dependencies ==
 
