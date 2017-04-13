@@ -1,4 +1,61 @@
-# Consistency of Functional Dependencies
+# Functional Dependencies
+
+
+This is the root page for material about functional dependencies in GHC.
+
+## Tickets
+
+
+Use Keyword = `FunDeps` to ensure that a ticket ends up on these lists.
+
+**Open Tickets:**
+
+<table><tr><th>[\#816](https://gitlab.haskell.org//ghc/ghc/issues/816)</th>
+<td>Weird fundep behavior (with -fallow-undecidable-instances)</td></tr>
+<tr><th>[\#9210](https://gitlab.haskell.org//ghc/ghc/issues/9210)</th>
+<td>"overlapping instances" through FunctionalDependencies</td></tr>
+<tr><th>[\#10675](https://gitlab.haskell.org//ghc/ghc/issues/10675)</th>
+<td>GHC does not check the functional dependency consistency condition correctly</td></tr>
+<tr><th>[\#12647](https://gitlab.haskell.org//ghc/ghc/issues/12647)</th>
+<td>Can't capture improvement of functional dependencies</td></tr>
+<tr><th>[\#12704](https://gitlab.haskell.org//ghc/ghc/issues/12704)</th>
+<td>Check if constraint synonym satisfies functional dependencies</td></tr>
+<tr><th>[\#12860](https://gitlab.haskell.org//ghc/ghc/issues/12860)</th>
+<td>GeneralizedNewtypeDeriving + MultiParamTypeClasses sends typechecker into an infinite loop</td></tr>
+<tr><th>[\#14745](https://gitlab.haskell.org//ghc/ghc/issues/14745)</th>
+<td>Functional dependency conflicts in givens</td></tr>
+<tr><th>[\#14778](https://gitlab.haskell.org//ghc/ghc/issues/14778)</th>
+<td>FunDep origin not correctly attributed</td></tr></table>
+
+**Closed Tickets:**
+
+<table><tr><th>[\#3108](https://gitlab.haskell.org//ghc/ghc/issues/3108)</th>
+<td>Do a better job of solving recursive type-class constraints with functional dependencies</td></tr>
+<tr><th>[\#7171](https://gitlab.haskell.org//ghc/ghc/issues/7171)</th>
+<td>erroneous overlapping instances reported with FunDeps</td></tr>
+<tr><th>[\#10109](https://gitlab.haskell.org//ghc/ghc/issues/10109)</th>
+<td>Kinds aren't checked in the coverage condition</td></tr>
+<tr><th>[\#10564](https://gitlab.haskell.org//ghc/ghc/issues/10564)</th>
+<td>GHC 7.10.2 RC cannot build HList-0.4.0.0</td></tr>
+<tr><th>[\#10570](https://gitlab.haskell.org//ghc/ghc/issues/10570)</th>
+<td>Terrible error message with fundeps and PolyKinds</td></tr>
+<tr><th>[\#10797](https://gitlab.haskell.org//ghc/ghc/issues/10797)</th>
+<td>Kind-level functional dependencies are not resolved properly</td></tr>
+<tr><th>[\#12763](https://gitlab.haskell.org//ghc/ghc/issues/12763)</th>
+<td>Incorrect behavior with empty functional dependencies</td></tr>
+<tr><th>[\#13506](https://gitlab.haskell.org//ghc/ghc/issues/13506)</th>
+<td>Spurious extra error message due to functional dependencies</td></tr>
+<tr><th>[\#13774](https://gitlab.haskell.org//ghc/ghc/issues/13774)</th>
+<td>Singletons code fails to typecheck when type signature involving type family is added</td></tr>
+<tr><th>[\#14327](https://gitlab.haskell.org//ghc/ghc/issues/14327)</th>
+<td>Type error in program caused by unrelated definition</td></tr>
+<tr><th>[\#14763](https://gitlab.haskell.org//ghc/ghc/issues/14763)</th>
+<td>GHC 8.4.1-alpha regression with FunctionalDependencies</td></tr></table>
+
+## Consistency of Functional Dependencies
+
+
+(This section was written by Iavor; I am unsure of its current status. SLPJ Apr 17.)
 
 
 The functional dependencies on a class restrict the instances that may
@@ -42,7 +99,7 @@ FD-invariant to prove that `a` must be `Char`:
     byFD(C,1) (C,I) :: a ~ Char
 ```
 
-## Checking FD-Consistency
+### Checking FD-Consistency
 
 
 To ensure FD-consistency, before accepting an instance we need to check
@@ -96,7 +153,7 @@ if we find that we have assumed a contradiction:  this simply means
 that the two instances can never be used at the same time, so
 the FD-consistency follows trivially.
 
-## Examples
+### Examples
 
 - FD-consistency is orthogonal to instance coherence.
 
