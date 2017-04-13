@@ -48,7 +48,7 @@ TODO Float the proposal on the LLVM developers list to get feedback.
 
 See [\#8905](https://gitlab.haskell.org//ghc/ghc/issues/8905) and [\#12231](https://gitlab.haskell.org//ghc/ghc/issues/12231)
 
-# Performance Bugs To Consider
+### Other Performance Bugs To Consider
 
 - [\#12798](https://gitlab.haskell.org//ghc/ghc/issues/12798)
 - [\#12808](https://gitlab.haskell.org//ghc/ghc/issues/12808)

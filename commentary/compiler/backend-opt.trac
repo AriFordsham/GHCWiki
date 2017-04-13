@@ -38,7 +38,7 @@ TODO Float the proposal on the LLVM developers list to get feedback.
 See #8905 and #12231
 
 
-= Performance Bugs To Consider
+=== Other Performance Bugs To Consider
 
 - #12798
 - #12808
