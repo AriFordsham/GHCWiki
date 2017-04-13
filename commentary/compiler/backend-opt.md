@@ -42,4 +42,8 @@ Other ideas include playing with [ deoptimization bundles](http://llvm.org/docs/
 TODO Do further investigation to find the path of least resistance to extend LLVM, compiling a proposal write-up.
 
 TODO Float the proposal on the LLVM developers list to get feedback.
- 
+
+# Performance Bugs To Look At
+
+- [\#12798](https://gitlab.haskell.org//ghc/ghc/issues/12798)
+- [\#12808](https://gitlab.haskell.org//ghc/ghc/issues/12808)
