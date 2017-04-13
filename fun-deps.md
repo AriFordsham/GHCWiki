@@ -16,6 +16,12 @@ Use Keyword = `FunDeps` to ensure that a ticket ends up on these lists.
 <td>"overlapping instances" through FunctionalDependencies</td></tr>
 <tr><th>[\#10675](https://gitlab.haskell.org//ghc/ghc/issues/10675)</th>
 <td>GHC does not check the functional dependency consistency condition correctly</td></tr>
+<tr><th>[\#11534](https://gitlab.haskell.org//ghc/ghc/issues/11534)</th>
+<td>Allow class associated types to reference functional dependencies</td></tr>
+<tr><th>[\#11641](https://gitlab.haskell.org//ghc/ghc/issues/11641)</th>
+<td>Allow wildcards for parameters functionally determined (also type synonyms)</td></tr>
+<tr><th>[\#11655](https://gitlab.haskell.org//ghc/ghc/issues/11655)</th>
+<td>Ambiguous types in pattern synonym not determined by functional dependencies</td></tr>
 <tr><th>[\#12647](https://gitlab.haskell.org//ghc/ghc/issues/12647)</th>
 <td>Can't capture improvement of functional dependencies</td></tr>
 <tr><th>[\#12704](https://gitlab.haskell.org//ghc/ghc/issues/12704)</th>
@@ -25,14 +31,24 @@ Use Keyword = `FunDeps` to ensure that a ticket ends up on these lists.
 <tr><th>[\#14745](https://gitlab.haskell.org//ghc/ghc/issues/14745)</th>
 <td>Functional dependency conflicts in givens</td></tr>
 <tr><th>[\#14778](https://gitlab.haskell.org//ghc/ghc/issues/14778)</th>
-<td>FunDep origin not correctly attributed</td></tr></table>
+<td>FunDep origin not correctly attributed</td></tr>
+<tr><th>[\#15632](https://gitlab.haskell.org//ghc/ghc/issues/15632)</th>
+<td>Undependable Dependencies</td></tr>
+<tr><th>[\#15927](https://gitlab.haskell.org//ghc/ghc/issues/15927)</th>
+<td>Weird interaction between fundeps and overlappable instances</td></tr></table>
 
 **Closed Tickets:**
 
 <table><tr><th>[\#3108](https://gitlab.haskell.org//ghc/ghc/issues/3108)</th>
 <td>Do a better job of solving recursive type-class constraints with functional dependencies</td></tr>
+<tr><th>[\#7128](https://gitlab.haskell.org//ghc/ghc/issues/7128)</th>
+<td>Panic "lookupVarEnv_NF" when using a functional dependency with a kind variable</td></tr>
 <tr><th>[\#7171](https://gitlab.haskell.org//ghc/ghc/issues/7171)</th>
 <td>erroneous overlapping instances reported with FunDeps</td></tr>
+<tr><th>[\#7384](https://gitlab.haskell.org//ghc/ghc/issues/7384)</th>
+<td>Panic "ctEvTerm" when using functional dependencies and PolyKinds</td></tr>
+<tr><th>[\#7777](https://gitlab.haskell.org//ghc/ghc/issues/7777)</th>
+<td>ghc panic: varargs + sets</td></tr>
 <tr><th>[\#10109](https://gitlab.haskell.org//ghc/ghc/issues/10109)</th>
 <td>Kinds aren't checked in the coverage condition</td></tr>
 <tr><th>[\#10564](https://gitlab.haskell.org//ghc/ghc/issues/10564)</th>
@@ -50,7 +66,9 @@ Use Keyword = `FunDeps` to ensure that a ticket ends up on these lists.
 <tr><th>[\#14327](https://gitlab.haskell.org//ghc/ghc/issues/14327)</th>
 <td>Type error in program caused by unrelated definition</td></tr>
 <tr><th>[\#14763](https://gitlab.haskell.org//ghc/ghc/issues/14763)</th>
-<td>GHC 8.4.1-alpha regression with FunctionalDependencies</td></tr></table>
+<td>GHC 8.4.1-alpha regression with FunctionalDependencies</td></tr>
+<tr><th>[\#15355](https://gitlab.haskell.org//ghc/ghc/issues/15355)</th>
+<td>Functional dependencies can get GHC to print "UnkSkol"</td></tr></table>
 
 ## Consistency of Functional Dependencies
 
