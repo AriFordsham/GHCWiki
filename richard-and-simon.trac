@@ -39,6 +39,8 @@ data X where
    * Some invariants to make sure of: No nested `CastTy`s. No `AppTy (TyConApp ... |> co) ty`. No reflexive coercions.
    * Implement KPush in `splitTyConApp`.
 * Remove `quantifyTyVars` call from `simplifyInfer`. Instead call `skolemiseUnboundMetaTyVars` from `simplifyInfer` directly.
+* Stable topological sort may not be well specified. But we can always write a deterministic algorithm. Perhaps that should be in the manual.
+* Can remove `closeOverKinds` in most places. Otherwise, just gather the kinds of user-written tyvars (e.g. fundep RHS)
 
 **Iceland_jack**: By `[]` as a data family do you mean:
 
