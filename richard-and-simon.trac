@@ -38,6 +38,7 @@ data X where
    * Bah. This is wrong. I had thought that the reflexivity invariant would mean that `splitTyConApp` could never be thrown off the scent by a coercion. But this is wrong. Consider `T a b c` and `(T a b |> (co -> <Type>)) (c |> sym co)`. These types have the same kind (`Type`) and are `eqType`. (That is, they are the same if we ignore coercions.) Yet the first is a `TyConApp` and the second is an `AppTy`. No reflexive coercions here! The current elaborate `mkCastTy` doesn't even handle this situation. But it makes me realize that the reflexivity invariant isn't enough. We need to teach `splitTyConApp` how to deal with this scenario. Ugh.
    * Some invariants to make sure of: No nested `CastTy`s. No `AppTy (TyConApp ... |> co) ty`. No reflexive coercions.
    * Implement KPush in `splitTyConApp`.
+* Remove `quantifyTyVars` call from `simplifyInfer`. Instead call `skolemiseUnboundMetaTyVars` from `simplifyInfer` directly.
 
 **Iceland_jack**: By `[]` as a data family do you mean:
 
