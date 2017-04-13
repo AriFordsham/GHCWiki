@@ -1,4 +1,20 @@
-= Consistency of Functional Dependencies =
+= Functional Dependencies =
+
+This is the root page for material about functional dependencies in GHC.
+
+== Tickets ==
+
+Use Keyword = `FunDeps` to ensure that a ticket ends up on these lists.
+
+'''Open Tickets:'''
+[[TicketQuery(status=new|patch,keywords=~FunDeps)]]
+
+'''Closed Tickets:'''
+[[TicketQuery(status=closed,keywords=~FunDeps)]]
+
+== Consistency of Functional Dependencies ==
+
+(This section was written by Iavor; I am unsure of its current status. SLPJ Apr 17.)
 
 The functional dependencies on a class restrict the instances that may
 be declared for a given class.  The instances of a class:
@@ -29,7 +45,7 @@ FD-invariant to prove that `a` must be `Char`:
     byFD(C,1) (C,I) :: a ~ Char
 }}}
 
-== Checking FD-Consistency ==
+=== Checking FD-Consistency ===
 
 To ensure FD-consistency, before accepting an instance we need to check
 that it is compatible with all other instances that are already in
@@ -71,7 +87,7 @@ if we find that we have assumed a contradiction:  this simply means
 that the two instances can never be used at the same time, so
 the FD-consistency follows trivially.
 
-== Examples ==
+=== Examples ===
 
 
   * FD-consistency is orthogonal to instance coherence.
