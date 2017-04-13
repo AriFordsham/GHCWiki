@@ -33,7 +33,12 @@ TODO Do further investigation to find the path of least resistance to extend LLV
 
 TODO Float the proposal on the LLVM developers list to get feedback.
 
-= Performance Bugs To Look At
+== Improving Heap Checks
+
+See #8905 and #12231 and [Compiling case expressions] in StgCmmExpr
+
+
+=== Other Performance Bugs To Consider
 
 - #12798
 - #12808
