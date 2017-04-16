@@ -18,6 +18,55 @@ Some more out-of-date documents:
 
 - [ Backpack specification](https://github.com/ezyang/ghc-proposals/blob/backpack/proposals/0000-backpack.rst). This was subsumed by my thesis but once Backpack stabilizes it will be worth distilling the thesis PDF back into a more web-friendly format.
 
+## Known gotchas
+
+**Make sure cabal-version is recent enough.** ([ \#4448](https://github.com/haskell/cabal/issues/4448)) If you set the `cabal-version` of your package too low, you may get this error:
+
+```wiki
+Error:
+    Mix-in refers to non-existent package 'pkg'
+    (did you forget to add the package to build-depends?)
+    In the stanza 'executable myexe'
+    In the inplace package 'pkg'
+```
+
+
+This is because internal libraries are feature-gated by the `cabal-version` of your package. Setting it to `cabal-version: >= 2.0` is enough to resolve the problem.
+
+**You can't instantiate a dependency with a locally defined module.** Consider the following package:
+
+```wiki
+library
+  other-modules: StrImpl
+  build-depends: foo-indef
+  mixins: foo-indef requires (Str as StrImpl)
+```
+
+
+This looks like it should work, but actually it will fail:
+
+```wiki
+Error:
+    Non-library component has unfilled requirements: StrImpl
+    In the stanza 'library'
+    In the inplace package 'mypkg-1.2'
+```
+
+
+The reason for this is Backpack does not (currently) support instantiating a package with a locally defined module: since the module can turn around and \*import\* the mixed in `foo-indef`, which would result in mutual recursion (not presently supported.)
+
+
+To solve this problem, just create a new library to define the implementing module. This library can be in the same package using the convenience library mechanism:
+
+```wiki
+library str-impl
+  exposed-modules: StrImpl
+
+library
+  build-depends: str-impl, foo-indef
+  mixins: foo-indef requires (Str as StrImpl)
+```
+
 ## Backpack-related tickets
 
 
