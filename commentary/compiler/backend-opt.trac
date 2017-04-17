@@ -17,21 +17,7 @@ This is why an indirect branch instruction must conservatively list [http://llvm
 
 ==== Proposal
 
-All values that are live at a return point are explicitly passed as arguments in register; we make no use of the built-in stack.
-Thus, our core problem of jumping to a block label in LLVM is that we do not know which registers should hold live values, because we cannot pin registers within a function, and cannot assign a register convention to values incoming to a block.
-  
-Adding the ability to specify which registers to use when passing each value to a block should remove the need for splitting.
-
-The current proposal direction is:
-
-* Add annotations to phi nodes to specify which register to use for that value when it is passed to the block.
-* Ensure that whenever a block address escapes a function, optimization & analysis in LLVM makes conservative decisions about that block (e.g., do not destroy it).
-
-Other ideas include playing with [http://llvm.org/docs/LangRef.html#deoptimization-operand-bundles deoptimization bundles] or [http://llvm.org/docs/LangRef.html#i-landingpad landing pads]
-
-TODO Do further investigation to find the path of least resistance to extend LLVM, compiling a proposal write-up.
-
-TODO Float the proposal on the LLVM developers list to get feedback.
+The current proposal can be found [http://lists.llvm.org/pipermail/llvm-dev/2017-April/112144.html here.]
 
 == Improving Heap Checks
 
