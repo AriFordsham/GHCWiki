@@ -1,0 +1,14 @@
+= Type error messages
+
+Ideas and suggestions for improving type error messages
+
+== Tickets ==
+
+Use Keyword = `TypeErrorMessages` to ensure that a ticket ends up on these lists.
+
+'''Open Tickets:'''
+[[TicketQuery(status=new|patch,keywords=~TypeErrorMessages)]]
+
+'''Closed Tickets:'''
+[[TicketQuery(status=closed,keywords=~TypeErrorMessages)]]
+
