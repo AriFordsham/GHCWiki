@@ -8,6 +8,7 @@
  * [wiki:Proposal/CustomTypeErrors Custom type errors]
  * [wiki:ArrowNotation]
  * [wiki:FunDeps Functional dependencies]
+ * [wiki:InjectiveTypeFamilies Injective type families]
  * [wiki:TemplateHaskell]
  * [wiki:Inlining]
  * [wiki:SpecConstr]
