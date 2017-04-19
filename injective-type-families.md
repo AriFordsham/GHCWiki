@@ -27,6 +27,91 @@ full discussion of injective type families see Haskell Symposium 2015 [ paper](h
 "Injective type families for Haskell" (henceforth referred to as the
 "injectivity paper").
 
+## Tickets
+
+
+Use Keyword = `InjectiveFamilies` to ensure that a ticket ends up on these lists.
+
+**Open Tickets:**
+
+<table><tr><th>[\#816](https://gitlab.haskell.org//ghc/ghc/issues/816)</th>
+<td>Weird fundep behavior (with -fallow-undecidable-instances)</td></tr>
+<tr><th>[\#4259](https://gitlab.haskell.org//ghc/ghc/issues/4259)</th>
+<td>Relax restrictions on type family instance overlap</td></tr>
+<tr><th>[\#9210](https://gitlab.haskell.org//ghc/ghc/issues/9210)</th>
+<td>"overlapping instances" through FunctionalDependencies</td></tr>
+<tr><th>[\#10227](https://gitlab.haskell.org//ghc/ghc/issues/10227)</th>
+<td>Type checker cannot deduce type</td></tr>
+<tr><th>[\#10675](https://gitlab.haskell.org//ghc/ghc/issues/10675)</th>
+<td>GHC does not check the functional dependency consistency condition correctly</td></tr>
+<tr><th>[\#10832](https://gitlab.haskell.org//ghc/ghc/issues/10832)</th>
+<td>Generalize injective type families</td></tr>
+<tr><th>[\#10833](https://gitlab.haskell.org//ghc/ghc/issues/10833)</th>
+<td>Use injective type families (decomposition) when dealing with givens</td></tr>
+<tr><th>[\#11511](https://gitlab.haskell.org//ghc/ghc/issues/11511)</th>
+<td>Type family producing infinite type accepted as injective</td></tr>
+<tr><th>[\#12647](https://gitlab.haskell.org//ghc/ghc/issues/12647)</th>
+<td>Can't capture improvement of functional dependencies</td></tr>
+<tr><th>[\#12704](https://gitlab.haskell.org//ghc/ghc/issues/12704)</th>
+<td>Check if constraint synonym satisfies functional dependencies</td></tr>
+<tr><th>[\#12860](https://gitlab.haskell.org//ghc/ghc/issues/12860)</th>
+<td>GeneralizedNewtypeDeriving + MultiParamTypeClasses sends typechecker into an infinite loop</td></tr>
+<tr><th>[\#13571](https://gitlab.haskell.org//ghc/ghc/issues/13571)</th>
+<td>Injective type family syntax accepted without TypeFamilyDependencies</td></tr>
+<tr><th>[\#13621](https://gitlab.haskell.org//ghc/ghc/issues/13621)</th>
+<td>Problems with injective type families</td></tr>
+<tr><th>[\#13797](https://gitlab.haskell.org//ghc/ghc/issues/13797)</th>
+<td>Mark negation injective</td></tr>
+<tr><th>[\#14164](https://gitlab.haskell.org//ghc/ghc/issues/14164)</th>
+<td>GHC hangs on type family dependency</td></tr>
+<tr><th>[\#14745](https://gitlab.haskell.org//ghc/ghc/issues/14745)</th>
+<td>Functional dependency conflicts in givens</td></tr>
+<tr><th>[\#14778](https://gitlab.haskell.org//ghc/ghc/issues/14778)</th>
+<td>FunDep origin not correctly attributed</td></tr></table>
+
+**Closed Tickets:**
+
+<table><tr><th>[\#3108](https://gitlab.haskell.org//ghc/ghc/issues/3108)</th>
+<td>Do a better job of solving recursive type-class constraints with functional dependencies</td></tr>
+<tr><th>[\#6018](https://gitlab.haskell.org//ghc/ghc/issues/6018)</th>
+<td>Injective type families</td></tr>
+<tr><th>[\#7171](https://gitlab.haskell.org//ghc/ghc/issues/7171)</th>
+<td>erroneous overlapping instances reported with FunDeps</td></tr>
+<tr><th>[\#10109](https://gitlab.haskell.org//ghc/ghc/issues/10109)</th>
+<td>Kinds aren't checked in the coverage condition</td></tr>
+<tr><th>[\#10564](https://gitlab.haskell.org//ghc/ghc/issues/10564)</th>
+<td>GHC 7.10.2 RC cannot build HList-0.4.0.0</td></tr>
+<tr><th>[\#10570](https://gitlab.haskell.org//ghc/ghc/issues/10570)</th>
+<td>Terrible error message with fundeps and PolyKinds</td></tr>
+<tr><th>[\#10797](https://gitlab.haskell.org//ghc/ghc/issues/10797)</th>
+<td>Kind-level functional dependencies are not resolved properly</td></tr>
+<tr><th>[\#12119](https://gitlab.haskell.org//ghc/ghc/issues/12119)</th>
+<td>Can't create injective type family equation with TypeError as the RHS</td></tr>
+<tr><th>[\#12199](https://gitlab.haskell.org//ghc/ghc/issues/12199)</th>
+<td>GHC is oblivious to injectivity when solving an equality constraint</td></tr>
+<tr><th>[\#12430](https://gitlab.haskell.org//ghc/ghc/issues/12430)</th>
+<td>TypeFamilyDependencies accepts invalid injectivity annotation</td></tr>
+<tr><th>[\#12763](https://gitlab.haskell.org//ghc/ghc/issues/12763)</th>
+<td>Incorrect behavior with empty functional dependencies</td></tr>
+<tr><th>[\#13506](https://gitlab.haskell.org//ghc/ghc/issues/13506)</th>
+<td>Spurious extra error message due to functional dependencies</td></tr>
+<tr><th>[\#13643](https://gitlab.haskell.org//ghc/ghc/issues/13643)</th>
+<td>Core lint error with TypeInType and TypeFamilyDependencies</td></tr>
+<tr><th>[\#13651](https://gitlab.haskell.org//ghc/ghc/issues/13651)</th>
+<td>Invalid redundant pattern matches with -XTypeFamilyDependencies</td></tr>
+<tr><th>[\#13774](https://gitlab.haskell.org//ghc/ghc/issues/13774)</th>
+<td>Singletons code fails to typecheck when type signature involving type family is added</td></tr>
+<tr><th>[\#13822](https://gitlab.haskell.org//ghc/ghc/issues/13822)</th>
+<td>GHC not using injectivity?</td></tr>
+<tr><th>[\#14327](https://gitlab.haskell.org//ghc/ghc/issues/14327)</th>
+<td>Type error in program caused by unrelated definition</td></tr>
+<tr><th>[\#14369](https://gitlab.haskell.org//ghc/ghc/issues/14369)</th>
+<td>GHC warns an injective type family "may not be injective"</td></tr>
+<tr><th>[\#14763](https://gitlab.haskell.org//ghc/ghc/issues/14763)</th>
+<td>GHC 8.4.1-alpha regression with FunctionalDependencies</td></tr>
+<tr><th>[\#15691](https://gitlab.haskell.org//ghc/ghc/issues/15691)</th>
+<td>Marking Pred(S n) = n as injective</td></tr></table>
+
 ## Forms of injectivity
 
 
