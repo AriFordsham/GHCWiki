@@ -6,8 +6,10 @@
  * [wiki:DependentHaskell/Phase1 TypeInType]: [wiki:DependentHaskell], esp #12919 (outright bug)
  * `TypeApplications`: [wiki:TypeApplication visible type application]
  * [wiki:Proposal/CustomTypeErrors Custom type errors]
+ * [wiki:TypeErrorMessages]
  * [wiki:ArrowNotation]
  * [wiki:FunDeps Functional dependencies]
+ * [wiki:InjectiveTypeFamilies Injective type families]
  * [wiki:TemplateHaskell]
  * [wiki:Inlining]
  * [wiki:SpecConstr]
