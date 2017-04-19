@@ -27,6 +27,53 @@ full discussion of injective type families see Haskell Symposium 2015 [ paper](h
 "Injective type families for Haskell" (henceforth referred to as the
 "injectivity paper").
 
+## Tickets
+
+
+Use Keyword = `InjectiveFamilies` to ensure that a ticket ends up on these lists.
+
+**Open Tickets:**
+
+<table><tr><th>[\#4259](https://gitlab.haskell.org//ghc/ghc/issues/4259)</th>
+<td>Relax restrictions on type family instance overlap</td></tr>
+<tr><th>[\#10227](https://gitlab.haskell.org//ghc/ghc/issues/10227)</th>
+<td>Type checker cannot deduce type</td></tr>
+<tr><th>[\#10832](https://gitlab.haskell.org//ghc/ghc/issues/10832)</th>
+<td>Generalize injective type families</td></tr>
+<tr><th>[\#10833](https://gitlab.haskell.org//ghc/ghc/issues/10833)</th>
+<td>Use injective type families (decomposition) when dealing with givens</td></tr>
+<tr><th>[\#11511](https://gitlab.haskell.org//ghc/ghc/issues/11511)</th>
+<td>Type family producing infinite type accepted as injective</td></tr>
+<tr><th>[\#13571](https://gitlab.haskell.org//ghc/ghc/issues/13571)</th>
+<td>Injective type family syntax accepted without TypeFamilyDependencies</td></tr>
+<tr><th>[\#13621](https://gitlab.haskell.org//ghc/ghc/issues/13621)</th>
+<td>Problems with injective type families</td></tr>
+<tr><th>[\#13797](https://gitlab.haskell.org//ghc/ghc/issues/13797)</th>
+<td>Mark negation injective</td></tr>
+<tr><th>[\#14164](https://gitlab.haskell.org//ghc/ghc/issues/14164)</th>
+<td>GHC hangs on type family dependency</td></tr></table>
+
+**Closed Tickets:**
+
+<table><tr><th>[\#6018](https://gitlab.haskell.org//ghc/ghc/issues/6018)</th>
+<td>Injective type families</td></tr>
+<tr><th>[\#12119](https://gitlab.haskell.org//ghc/ghc/issues/12119)</th>
+<td>Can't create injective type family equation with TypeError as the RHS</td></tr>
+<tr><th>[\#12199](https://gitlab.haskell.org//ghc/ghc/issues/12199)</th>
+<td>GHC is oblivious to injectivity when solving an equality constraint</td></tr>
+<tr><th>[\#12430](https://gitlab.haskell.org//ghc/ghc/issues/12430)</th>
+<td>TypeFamilyDependencies accepts invalid injectivity annotation</td></tr>
+<tr><th>[\#13643](https://gitlab.haskell.org//ghc/ghc/issues/13643)</th>
+<td>Core lint error with TypeInType and TypeFamilyDependencies</td></tr>
+<tr><th>[\#13651](https://gitlab.haskell.org//ghc/ghc/issues/13651)</th>
+<td>Invalid redundant pattern matches with -XTypeFamilyDependencies</td></tr>
+<tr><th>[\#13822](https://gitlab.haskell.org//ghc/ghc/issues/13822)</th>
+<td>GHC not using injectivity?</td></tr>
+<tr><th>[\#14369](https://gitlab.haskell.org//ghc/ghc/issues/14369)</th>
+<td>GHC warns an injective type family "may not be injective"</td></tr>
+<tr><th>[\#15691](https://gitlab.haskell.org//ghc/ghc/issues/15691)</th>
+<td>Marking Pred(S n) = n as injective</td></tr></table>
+
 ## Forms of injectivity
 
 

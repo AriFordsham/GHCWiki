@@ -22,6 +22,16 @@ full discussion of injective type families see Haskell Symposium 2015 [[http://r
 "Injective type families for Haskell" (henceforth referred to as the
 "injectivity paper").
 
+== Tickets ==
+
+Use Keyword = `InjectiveFamilies` to ensure that a ticket ends up on these lists.
+
+'''Open Tickets:'''
+[[TicketQuery(status=new|patch,keywords=~InjectiveFamilies)]]
+
+'''Closed Tickets:'''
+[[TicketQuery(status=closed,keywords=~InjectiveFamilies)]]
+
 == Forms of injectivity
 
 The idea behind #6018 is to allow users to declare that a type family is
