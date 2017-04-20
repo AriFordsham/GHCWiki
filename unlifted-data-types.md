@@ -172,8 +172,8 @@ patternThunk a <- x |let a =Force x
 > **Iceland_jack**: This syntax is invalid, is this what was intended?
 >
 > ```
-> pattern:: a ->Force a
-> patternThunk a <-(\(Force a)-> a)whereThunk(Force a)= a
+> pattern::Force a -> a
+> patternThunk a        <-(Force-> a)whereThunk(Force a)= a
 > ```
 
 

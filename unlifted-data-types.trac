@@ -165,8 +165,8 @@ pattern Thunk a <- x | let a = Force x
 > '''Iceland_jack''': This syntax is invalid, is this what was intended?
 > 
 > {{{#!hs
-> pattern :: a -> Force a
-> pattern Thunk a <- (\(Force a) -> a)
+> pattern :: Force a -> a
+> pattern Thunk a        <- (Force -> a)
 >   where Thunk (Force a) = a
 > }}}
 
