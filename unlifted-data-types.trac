@@ -32,6 +32,15 @@ data unlifted UBool = UTrue | UFalse
 
 Such data types are always boxed, but the type does not include bottom and is operationally represented as a pointer to the value. Intuitively, if you have `x :: UBool` in scope, you are guaranteed to have `UTrue` or `UFalse`, and not bottom.
 
+> '''Iceland_jack''': Yakshaving, to avoid new syntax we can use `GADTSyntax` and write
+> 
+> {{{#!hs
+> data UBool :: TYPE UnliftedRep where
+>   UFalse :: UBool
+>   UTrue  :: UBool
+> }}}
+
+
 The evaluation rules for unlifted data types are identical to the existing rules we have for types kinded `#`: lets are strict, cannot be recursive, and function arguments are evaluated before calls. For example:
 
 {{{
