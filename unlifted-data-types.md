@@ -32,24 +32,24 @@ The fact that a pointer never points to a thunk is especially helpful in the imp
 
 A data type can be declared as unlifted by writing `data unlifted`, e.g.:
 
-```wiki
-data unlifted UBool = UTrue | UFalse
+```
+data unlifted UBool=UTrue|UFalse
 ```
 
 
 Such data types are always boxed, but the type does not include bottom and is operationally represented as a pointer to the value. Intuitively, if you have `x :: UBool` in scope, you are guaranteed to have `UTrue` or `UFalse`, and not bottom.
 
+> **Iceland_jack**: Yakshaving, to avoid new syntax we can use `GADTSyntax` and write
+>
+> ```
+> dataUBool::TYPEUnliftedRepwhereUFalse::UBoolUTrue::UBool
+> ```
+
 
 The evaluation rules for unlifted data types are identical to the existing rules we have for types kinded `#`: lets are strict, cannot be recursive, and function arguments are evaluated before calls. For example:
 
-```wiki
-unot :: UBool -> UBool
-unot UTrue = UFalse
-unot UFalse = UTrue
-
-main :: IO ()
-main = let y = unot (error "foo")
-       in return ()
+```
+unot::UBool->UBoolunotUTrue=UFalseunotUFalse=UTruemain::IO()main=let y = unot (error"foo")in return ()
 ```
 
 
@@ -58,27 +58,24 @@ In this example, we get the error "foo", rather than returning `()`, because the
 
 Just like other unlifted types, you cannot bind values of an unlifted data type at top level, or in a recursive group.  So this is illegal
 
-```wiki
-module M where
-  data unlifted UBool = UTrue | UFalse
+```
+moduleMwheredata unlifted UBool=UTrue|UFalse
 
-  utrue :: UBool
-  uTrue = UTrue   -- Illegal!
+  utrue ::UBool
+  uTrue =UTrue-- Illegal!
 ```
 
 **Non-polymorphic unlifted types can directly be unpacked.** The following declaration is valid:
 
-```wiki
-data unlifted StrictInt = StrictInt Int#
-data MyInt = MyInt {-# UNPACK #-} StrictInt
+```
+data unlifted StrictInt=StrictIntInt#dataMyInt=MyInt{-# UNPACK #-}StrictInt
 ```
 
 
 and is representationally equivalent to `MyInt'` here:
 
-```wiki
-data Int = Int Int#
-data MyInt' = MyInt' {-# UNPACK #-} !Int
+```
+dataInt=IntInt#dataMyInt'=MyInt'{-# UNPACK #-}!Int
 ```
 
 
@@ -94,11 +91,8 @@ This subproposal is to distinguish between these two kinds, calling boxed, unlif
 
 **Polymorphism over unlifted types in types and functions.** In data types and functions, we may want to be polymorphic over a type variable in kind `Unlifted`:
 
-```wiki
-data unlifted UList (a :: Unlifted)
-  = UNil | UCons a UList
-umap :: forall (a :: Unlifted) (b :: Unlifted).
-        UList a -> (a -> b) -> UList b
+```
+data unlifted UList(a ::Unlifted)=UNil|UCons a UListumap:: forall (a ::Unlifted)(b ::Unlifted).UList a ->(a -> b)->UList b
 ```
 
 
@@ -106,9 +100,8 @@ We cannot be polymorphic in `#` in general, because this includes unboxed types 
 
 **Boxed levity polymorphism in types (and functions with extra code generation).** In data types, we may want to have a type parameter which is polymorphic over all boxed types:
 
-```wiki
-data BList (a :: Boxed)
-  = BNil | BCons a BList
+```
+dataBList(a ::Boxed)=BNil|BCons a BList
 ```
 
 `BList` is representationally the same whether or not it is instantiated with a boxed lifted type, or a boxed unlifted type.
@@ -116,9 +109,9 @@ data BList (a :: Boxed)
 
 However, for levity polymorphism over functions we must generate code twice. Consider::
 
-```wiki
-map :: forall a (b :: Boxed). (a -> b) -> BList a -> BList b
-map f (BCons x xs) = BCons (f x) (map f xs)
+```
+map:: forall a (b ::Boxed).(a -> b)->BList a ->BList b
+map f (BCons x xs)=BCons(f x)(map f xs)
 ```
 
 
@@ -129,23 +122,31 @@ We do not know if `f x` should be evaluated strictly or lazily; it depends on wh
 
 To allow cost-free abstraction over unlifted types, we should allow newtypes to be written over types of kind `#`, with the resulting newtype being in kind `#`. For example:
 
-```wiki
-newtype MyInt# = MkInt# Int#
+```
+newtypeMyInt#=MkInt#Int#
 ```
 
 
 with `MyInt# :: #`. GHC already supports coercions over kind `#`, so this should be very simple to implement.
+
+> **Iceland_jack**: Use this to wrap `Int#` when used in boolean context in `GHC.Exts`, `GHC.Prim`
+>
+> ```
+> newtypeBool#=Bool#Int#patternFalse#::Bool#patternFalse#=Bool0#patternTrue#::Bool#patternTrue#=Bool1#(==#)::Int#->Int#->Bool#(==##)::Double#->Double#->Bool#
+> ```
+>
+>
+> and other similar cases.
 
 ## Proposal 4: Allow unlifting existing data types with no overhead
 
 
 Proposal 1 requires a user to define a new data type for every unlifted type they want to define. However, for every lifted data type a user can define, there is an obvious unlifted type one might be interested in: the one without bottom. Fortunately, we can define a data type to unlift an arbitrary lifted type:
 
-```wiki
-data Force :: * -> Unlifted where
-  Force :: !a -> Force a
+```
+dataForce::*->UnliftedwhereForce::!a ->Force a
 
-suspend :: Force a -> a
+suspend::Force a -> a
 suspend a = a
 ```
 
@@ -172,25 +173,30 @@ My suggested implementation strategy is to bake in `Force` as a special data typ
 
 **(OPTIONAL) Introduce a pattern synonym `Thunk`.**`suspend` can be generalized into the bidirectional pattern synonym `Thunk`:
 
-```wiki
-pattern Thunk a <- x | let a = Force x
-  where Thunk (Force a) = a
 ```
+patternThunk a <- x |let a =Force x
+  whereThunk(Force a)= a
+```
+
+> **Iceland_jack**: This syntax is invalid, is this what was intended?
+>
+> ```
+> pattern::Force a -> a
+> patternThunk a        <-(Force-> a)whereThunk(Force a)= a
+> ```
 
 
 For example:
 
-```wiki
-let x = Thunk (error "foo" :: Force Int) :: Int
-in True
+```
+let x =Thunk(error"foo"::ForceInt)::IntinTrue
 ```
 
 
 does not error. Pattern matching over `Thunk` forces the argument (similar to bang patterns) and returns the unlifted value (unlike bang patterns):
 
-```wiki
-let Thunk x = 3 + 5 :: Int
-in x :: Force Int
+```
+letThunk x =3+5::Intin x ::ForceInt
 ```
 
 ## Dynamic semantics of unlifted types
@@ -219,18 +225,16 @@ Intuitively, if you have an unlifted type, anywhere you let bind it or pass it t
 
 **How does this affect inlining?** In any CBV language, inlining doesn't always preserve semantics; unlifted types are no different. For example, this errors:
 
-```wiki
-  let x = error "foo" :: Force Int
-      y = suspend x :: Int
-  in True
+```
+let x =error"foo"::ForceInt
+      y = suspend x ::IntinTrue
 ```
 
 
 but this example does not:
 
-```wiki
-  let y = suspend (error "foo" :: Force Int) :: Int
-  in True
+```
+let y = suspend (error"foo"::ForceInt)::IntinTrue
 ```
 
 **What's the difference between `Force Int` and `Int#`?**`Force Int` is an unlifted, boxed integer; `Int#` is an unlifted, unboxed integer.
@@ -255,28 +259,15 @@ Identical to Proposal 3 above.
 
 [NoSubKinds](no-sub-kinds) proposes the following arrangement:
 
-```wiki
-data Levity = Lifted | Unlifted
-TYPE :: Levity -> *
-type * = TYPE 'Lifted
-type # = TYPE 'Unlifted
+```
+dataLevity=Lifted|UnliftedTYPE::Levity->*type*=TYPE'Liftedtype#=TYPE'Unlifted
 ```
 
 
 Instead, Proposal B2 suggests the following generalization:
 
-```wiki
-data Boxity = Boxed | Unboxed
-data Levity = Lifted | Unlifted
-TYPE :: Boxity -> Levity -> *
-type * = TYPE 'Boxed 'Lifted
--- TYPE 'Boxed 'Unlifted is the kind of boxed, unlifted types
--- TYPE 'Unboxed 'Unlifted is the kind of unboxed, unlifted types
--- TYPE 'Unboxed 'Lifted is utterly wrong, and prohibited from ever appearing in a desugared program
-
-type B_L   = TYPE 'Boxed   'Lifted    -- just for this wiki page
-type B_UL  = TYPE 'Boxed   'Unlifted  -- just for this wiki page
-type UB_UL = TYPE 'Unboxed 'Unlifted  -- just for this wiki page
+```
+dataBoxity=Boxed|UnboxeddataLevity=Lifted|UnliftedTYPE::Boxity->Levity->*type*=TYPE'Boxed'Lifted-- TYPE 'Boxed 'Unlifted is the kind of boxed, unlifted types-- TYPE 'Unboxed 'Unlifted is the kind of unboxed, unlifted types-- TYPE 'Unboxed 'Lifted is utterly wrong, and prohibited from ever appearing in a desugared programtypeB_L=TYPE'Boxed'Lifted-- just for this wiki pagetypeB_UL=TYPE'Boxed'Unlifted-- just for this wiki pagetypeUB_UL=TYPE'Unboxed'Unlifted-- just for this wiki page
 ```
 
 
@@ -290,9 +281,8 @@ This treatment is a simple extension of levity polymorphism, and it serves the s
 
 (**Extension:** Edward Kmett would recommend
 
-```wiki
-data Constraintiness = Constraint | NotConstraint
-TYPE :: Boxity -> Levity -> Constraintiness -> *
+```
+dataConstraintiness=Constraint|NotConstraintTYPE::Boxity->Levity->Constraintiness->*
 ```
 
 
@@ -306,18 +296,16 @@ Proposal 1, above, allows users to make unlifted data types, separately from lif
 
 The proposal will explain by way of example. (The use of GADT syntax here is incidental, but it makes the text in this proposal work out better. The normal traditional-syntax declaration would have identical behavior.)
 
-```wiki
-data Maybe a where
-  Just    :: a -> Maybe a
-  Nothing :: Maybe a
+```
+dataMaybe a whereJust:: a ->Maybe a
+  Nothing::Maybe a
 ```
 
 
 All we know about the type variable `a` is that it is used as an argument to `->`. Functions can naturally have any valued kind as an argument. But it would be silly to allow `a :: TYPE 'Unboxed 'Unlifted`, as we'll have trouble generating code for that. Furthermore, we wish to treat **all** datatypes as levity polymorphic in their return kind (the heart of Proposal B3). So, we infer this kind for `Maybe`:
 
-```wiki
-Maybe :: forall (v1 :: Levity) (v2 :: Levity).
-         TYPE 'Boxed v1 -> TYPE 'Boxed v2
+```
+Maybe:: forall (v1 ::Levity)(v2 ::Levity).TYPE'Boxed v1 ->TYPE'Boxed v2
 ```
 
 
@@ -331,22 +319,18 @@ To reiterate: the levity polymorphism here is just to simplify the life of the p
 
 Let's look at a recursive datatype to see how this works out:
 
-```wiki
-data List a where
-  Nil :: List a
-  Cons :: a -> List a -> List a
+```
+dataList a whereNil::List a
+  Cons:: a ->List a ->List a
 ```
 
 
 After inference and with everything explicit, we would get
 
-```wiki
-data List :: forall (v1 :: Levity) (v2 :: Levity).
-             TYPE 'Boxed v1 -> TYPE 'Boxed v2 where
-  Nil :: forall (v1 :: Levity) (v2 :: Levity) (a :: TYPE 'Boxed v1).
-         List v1 v2 a
-  Cons :: forall (v1 :: Levity) (v2 :: Levity) (a :: TYPE 'Boxed v1).
-          a -> List v1 v2 a -> List v1 v2 a
+```
+dataList:: forall (v1 ::Levity)(v2 ::Levity).TYPE'Boxed v1 ->TYPE'Boxed v2 whereNil:: forall (v1 ::Levity)(v2 ::Levity)(a ::TYPE'Boxed v1).List v1 v2 a
+  Cons:: forall (v1 ::Levity)(v2 ::Levity)(a ::TYPE'Boxed v1).
+          a ->List v1 v2 a ->List v1 v2 a
 ```
 
 
@@ -370,10 +354,8 @@ Of course, users are free to use levity polymorphic recursion to achieve other c
 
 Carrying forward from Proposal B3, we could extend levity polymorphism to work on functions. For example, `map` could be inferred to have this type
 
-```wiki
-map :: forall (v1 :: Levity) (v2 :: Levity) (v3 :: Levity) (v4 :: Levity)
-              (a :: TYPE 'Boxed v1) (b :: TYPE 'Boxed v2).
-       (a -> b) -> [] @v1 @v3 a -> [] @v2 @v4 b
+```
+map:: forall (v1 ::Levity)(v2 ::Levity)(v3 ::Levity)(v4 ::Levity)(a ::TYPE'Boxed v1)(b ::TYPE'Boxed v2).(a -> b)->[]@v1 @v3 a ->[]@v2 @v4 b
 ```
 
 
@@ -456,8 +438,8 @@ In fact, this minimal addition bears a strong resemblance to the original
 version of this proposal. However, it was noted that there is a problem with
 the current meanting of `!a` in constructors. Given the declaration:
 
-```wiki
-data T = C !Nat !Nat
+```
+dataT=C!Nat!Nat
 ```
 
 
@@ -477,9 +459,8 @@ witness of this is simply an identity function that has an effect of forgetting
 that its argument must already be evaluated, because the values of type `!a` are
 also valid values of type `a`. Then, if the match:
 
-```wiki
-case t of
-  C x y -> ...
+```
+case t ofC x y ->...
 ```
 
 
