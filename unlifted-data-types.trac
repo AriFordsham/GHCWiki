@@ -125,7 +125,7 @@ newtype MyInt# = MkInt# Int#
 
 with `MyInt# :: #`. GHC already supports coercions over kind `#`, so this should be very simple to implement.
 
-> '''Iceland_jack''': Use this to wrap `Int#` when used in boolean context in `GHC.Exts`
+> '''Iceland_jack''': Use this to wrap `Int#` when used in boolean context in `GHC.Exts`, `GHC.Prim`
 > 
 > {{{#!hs
 > newtype Bool# = Bool# Int#
