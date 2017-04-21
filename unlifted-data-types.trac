@@ -125,6 +125,23 @@ newtype MyInt# = MkInt# Int#
 
 with `MyInt# :: #`. GHC already supports coercions over kind `#`, so this should be very simple to implement.
 
+> '''Iceland_jack''': Use this to wrap `Int#` when used in boolean context in `GHC.Exts`
+> 
+> {{{#!hs
+> newtype Bool# = Bool# Int#
+> 
+> pattern False# :: Bool#
+> pattern False# = Bool 0#
+> 
+> pattern True# :: Bool#
+> pattern True# = Bool 1#
+>
+> (==#)  :: Int#    -> Int#    -> Bool#
+> (==##) :: Double# -> Double# -> Bool#
+> }}}
+> 
+> and other similar cases.
+
 == Proposal 4: Allow unlifting existing data types with no overhead ==
 
 Proposal 1 requires a user to define a new data type for every unlifted type they want to define. However, for every lifted data type a user can define, there is an obvious unlifted type one might be interested in: the one without bottom. Fortunately, we can define a data type to unlift an arbitrary lifted type:
