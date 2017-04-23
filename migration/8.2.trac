@@ -111,6 +111,55 @@ instance MyShow Foo
 
 The workaround is to define the instance using `Show` instead of `MyShow`.
 
+=== Kind generalization and `MonoLocalBinds` ===
+
+The `MonoLocalBinds` extension, which places limitations on when the type of a term is generalized, also affects when the kind of a type signature of generalized. Prior to GHC 8.2, there were certain scenarios when kinds signatures were incorrectly generalized in the presence of `MonoLocalBinds`. This bug has now been fixed, but as a consequence, there are a handful of programs which will fail to typecheck without explicit kind signatures. Here is a known example:
+
+{{{#!hs
+{-# LANGUAGE InstanceSigs #-}
+{-# LANGUAGE MonoLocalBinds #-}
+{-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE TypeInType #-}
+
+data Proxy a = Proxy
+newtype Tagged s b = Tagged b
+
+class C b where
+  c :: forall (s :: k). Tagged s b
+
+instance C (Proxy a) where
+  c :: forall s. Tagged s (Proxy a)
+  c = Tagged Proxy
+}}}
+
+This compiles in GHC 8.0, but in GHC 8.2, it gives this error:
+
+{{{
+    • Couldn't match type ‘k0’ with ‘k1’
+        because type variable ‘k1’ would escape its scope
+      This (rigid, skolem) type variable is bound by
+        the type signature for:
+          c :: forall k1 (s :: k1). Tagged s (Proxy a)
+        at Bug.hs:13:8-35
+      Expected type: Tagged s (Proxy a)
+        Actual type: Tagged s (Proxy a)
+    • When checking that instance signature for ‘c’
+        is more general than its signature in the class
+        Instance sig: forall (s :: k0). Tagged s (Proxy a)
+           Class sig: forall k1 (s :: k1). Tagged s (Proxy a)
+      In the instance declaration for ‘C (Proxy a)’
+}}}
+
+The reason for this error is that the type signature for `c` captures `a`, an outer-scoped type variable, which means the type signature is not closed. Therefore, with `MonoLocalBinds` enabled, the inferred kind for `s` will //not// be generalized, and as a result, it will fail to unify with the kind variable `k` which is specified in the declaration of `c`.
+
+This can be worked around by specifying an explicit kind variable for `s`, e.g.,
+
+{{{#!hs
+instance C (Proxy a) where
+  c :: forall (s :: k). Tagged s (Proxy a)
+  c = Tagged Proxy
+}}}
+
 --------------------------------
 == Library changes
 
