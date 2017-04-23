@@ -7,10 +7,6 @@ This guide summarises the changes you may need to make to your code to migrate f
 ----------------------------------
 == Compiler changes
 
-=== Impredicative types removed
-Note that the `-XImpredicativeTypes` extension, which has been
-[[ImpredicativePolymorphism|known]] to be broken for many years. It has now at long last been removed. TODO '''RGS''': is this really true?
-
 === `DefaultSignatures` is pickier
 There a new validity check for default class method implementations using `-XDefaultSignatures`. In particular, if you have a class `Foo`:
 
@@ -233,4 +229,4 @@ It's possible that you might experience some typechecker errors due to this chan
 ----------------------------------
 == GHC API changes
 
-* TODO The `StaticFlags` module has been removed
+* The `StaticFlags` module has been removed, as all static flags have been converted to dynamic ones in GHC 8.2.
