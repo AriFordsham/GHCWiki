@@ -8,7 +8,7 @@
 - `TypeApplications`: [visible type application](type-application)
 - [Custom type errors](proposal/custom-type-errors)
 - [TypeErrorMessages](status/type-error-messages)
-- ImpredicativeTypes?
+- [Impredicative types](impredicative-polymorphism)
 - [ArrowNotation](arrow-notation)
 - [Functional dependencies](fun-deps)
 - [Injective type families](injective-type-families)
