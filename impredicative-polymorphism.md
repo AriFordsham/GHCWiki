@@ -162,14 +162,6 @@ Here are some useful papers about type inference for impredicative polymorphism;
 - [ QML: Explicit first-class polymorphism for ML (2009)](http://research.microsoft.com/en-us/um/people/crusso/qml/) A much simpler, and less ambitious, approach.
 - [ MLF: Raising ML to the power of System F (2003)](http://gallium.inria.fr/~remy/publications.html) The other end of the spectrum from QML: a very sophisticated approach.
 
-### Tickets
-
-
-There are lots of tickets in GHC's Trac that boil down to impredicativity.  Here is a non-exhaustive list (please add to it):
-
-- [\#4295](https://gitlab.haskell.org//ghc/ghc/issues/4295)
-- [\#8808](https://gitlab.haskell.org//ghc/ghc/issues/8808)
-
 ### The way forward
 
 
