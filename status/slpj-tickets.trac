@@ -97,11 +97,6 @@ Other tickets
  * #10393, #10116, #9951, #595, #5728, #3927, #5724, #5762, #4139, #6124, #7669, #322, #8016, #8494, #8853, #8970, #9113, #2204: '''pattern-match overlap checking''', including with GADTs
 
 
-== Impredicativity and higher rank ==
- * #11514: Impredicativity sneaking in (should be easy)
- * #10619: higher rank and order of equations
- * #4281, #4295, #4347, #7264, #8808, #9420, #9730, #10709: impredicativity
-
 == Compile-time performance ==
 
 [wiki:Performance/Compiler Compile time perf page]
