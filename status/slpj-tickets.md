@@ -8,6 +8,7 @@
 - `TypeApplications`: [visible type application](type-application)
 - [Custom type errors](proposal/custom-type-errors)
 - [TypeErrorMessages](status/type-error-messages)
+- [Impredicative types](impredicative-polymorphism)
 - [ArrowNotation](arrow-notation)
 - [Functional dependencies](fun-deps)
 - [Injective type families](injective-type-families)
@@ -101,12 +102,6 @@ Other tickets
 - [\#10183](https://gitlab.haskell.org//ghc/ghc/issues/10183): warning for redundant constraints, and pattern-match overlap warnings
 - [\#9113](https://gitlab.haskell.org//ghc/ghc/issues/9113): pattern match overlap/exhaustiveness checked in Typed TH
 - [\#10393](https://gitlab.haskell.org//ghc/ghc/issues/10393), [\#10116](https://gitlab.haskell.org//ghc/ghc/issues/10116), [\#9951](https://gitlab.haskell.org//ghc/ghc/issues/9951), [\#595](https://gitlab.haskell.org//ghc/ghc/issues/595), [\#5728](https://gitlab.haskell.org//ghc/ghc/issues/5728), [\#3927](https://gitlab.haskell.org//ghc/ghc/issues/3927), [\#5724](https://gitlab.haskell.org//ghc/ghc/issues/5724), [\#5762](https://gitlab.haskell.org//ghc/ghc/issues/5762), [\#4139](https://gitlab.haskell.org//ghc/ghc/issues/4139), [\#6124](https://gitlab.haskell.org//ghc/ghc/issues/6124), [\#7669](https://gitlab.haskell.org//ghc/ghc/issues/7669), [\#322](https://gitlab.haskell.org//ghc/ghc/issues/322), [\#8016](https://gitlab.haskell.org//ghc/ghc/issues/8016), [\#8494](https://gitlab.haskell.org//ghc/ghc/issues/8494), [\#8853](https://gitlab.haskell.org//ghc/ghc/issues/8853), [\#8970](https://gitlab.haskell.org//ghc/ghc/issues/8970), [\#9113](https://gitlab.haskell.org//ghc/ghc/issues/9113), [\#2204](https://gitlab.haskell.org//ghc/ghc/issues/2204): **pattern-match overlap checking**, including with GADTs
-
-## Impredicativity and higher rank
-
-- [\#11514](https://gitlab.haskell.org//ghc/ghc/issues/11514): Impredicativity sneaking in (should be easy)
-- [\#10619](https://gitlab.haskell.org//ghc/ghc/issues/10619): higher rank and order of equations
-- [\#4281](https://gitlab.haskell.org//ghc/ghc/issues/4281), [\#4295](https://gitlab.haskell.org//ghc/ghc/issues/4295), [\#4347](https://gitlab.haskell.org//ghc/ghc/issues/4347), [\#7264](https://gitlab.haskell.org//ghc/ghc/issues/7264), [\#8808](https://gitlab.haskell.org//ghc/ghc/issues/8808), [\#9420](https://gitlab.haskell.org//ghc/ghc/issues/9420), [\#9730](https://gitlab.haskell.org//ghc/ghc/issues/9730), [\#10709](https://gitlab.haskell.org//ghc/ghc/issues/10709): impredicativity
 
 ## Compile-time performance
 
