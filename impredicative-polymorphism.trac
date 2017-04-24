@@ -4,6 +4,16 @@ GHC does not (yet) support impredicative polymorphism, but it's a topic that com
 
 See the new plan at [wiki:ImpredicativePolymorphism/Impredicative-2015]
 
+== Tickets ==
+
+Use Keyword = `ImpredicativeTypes` to ensure that a ticket ends up on these lists.
+
+'''Open Tickets:'''
+[[TicketQuery(status=new|patch,keywords=~ImpredicativeTypes)]]
+
+'''Closed Tickets:'''
+[[TicketQuery(status=closed,keywords=~ImpredicativeTypes)]]
+
 === What is impredicative polymorphism? ===
 
 Consider this

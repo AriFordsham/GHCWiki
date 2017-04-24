@@ -6,6 +6,57 @@ GHC does not (yet) support impredicative polymorphism, but it's a topic that com
 
 See the new plan at [ImpredicativePolymorphism/Impredicative-2015](impredicative-polymorphism/impredicative-2015)
 
+## Tickets
+
+
+Use Keyword = `ImpredicativeTypes` to ensure that a ticket ends up on these lists.
+
+**Open Tickets:**
+
+<table><tr><th>[\#1330](https://gitlab.haskell.org//ghc/ghc/issues/1330)</th>
+<td>Impredicativity bug: Church2 test gives a rather confusing error with the HEAD</td></tr>
+<tr><th>[\#4281](https://gitlab.haskell.org//ghc/ghc/issues/4281)</th>
+<td>Make impredicativity work properly</td></tr>
+<tr><th>[\#4295](https://gitlab.haskell.org//ghc/ghc/issues/4295)</th>
+<td>Review higher-rank and impredicative types</td></tr>
+<tr><th>[\#7026](https://gitlab.haskell.org//ghc/ghc/issues/7026)</th>
+<td>Impredicative implicit parameters</td></tr>
+<tr><th>[\#8808](https://gitlab.haskell.org//ghc/ghc/issues/8808)</th>
+<td>ImpredicativeTypes type checking fails depending on syntax of arguments</td></tr>
+<tr><th>[\#9730](https://gitlab.haskell.org//ghc/ghc/issues/9730)</th>
+<td>Polymorphism and type classes</td></tr>
+<tr><th>[\#10709](https://gitlab.haskell.org//ghc/ghc/issues/10709)</th>
+<td>Using ($) allows sneaky impredicativity on its left</td></tr>
+<tr><th>[\#11514](https://gitlab.haskell.org//ghc/ghc/issues/11514)</th>
+<td>Impredicativity is still sneaking in</td></tr>
+<tr><th>[\#14859](https://gitlab.haskell.org//ghc/ghc/issues/14859)</th>
+<td>Allow explicit impredicativity</td></tr>
+<tr><th>[\#16140](https://gitlab.haskell.org//ghc/ghc/issues/16140)</th>
+<td>Cannot create type synonym for quantified constraint without ImpredicativeTypes</td></tr></table>
+
+**Closed Tickets:**
+
+<table><tr><th>[\#4347](https://gitlab.haskell.org//ghc/ghc/issues/4347)</th>
+<td>Bug in unification of polymorphic and not-yet-polymorphic type</td></tr>
+<tr><th>[\#7264](https://gitlab.haskell.org//ghc/ghc/issues/7264)</th>
+<td>Adding GHC's inferred type signatures to a working program can make it fail with Rank2Types</td></tr>
+<tr><th>[\#9420](https://gitlab.haskell.org//ghc/ghc/issues/9420)</th>
+<td>Impredicative type instantiation without -XImpredicativeTypes</td></tr>
+<tr><th>[\#10619](https://gitlab.haskell.org//ghc/ghc/issues/10619)</th>
+<td>Order matters when type-checking</td></tr>
+<tr><th>[\#11319](https://gitlab.haskell.org//ghc/ghc/issues/11319)</th>
+<td>ImpredicativeTypes even more broken than usual</td></tr>
+<tr><th>[\#11428](https://gitlab.haskell.org//ghc/ghc/issues/11428)</th>
+<td>ImpredicativeTypes causes GHC panic with 8.0.1-rc1</td></tr>
+<tr><th>[\#12557](https://gitlab.haskell.org//ghc/ghc/issues/12557)</th>
+<td>Regression in type inference with RankNTypes</td></tr>
+<tr><th>[\#13895](https://gitlab.haskell.org//ghc/ghc/issues/13895)</th>
+<td>"Illegal constraint in a type" error - is it fixable?</td></tr>
+<tr><th>[\#14160](https://gitlab.haskell.org//ghc/ghc/issues/14160)</th>
+<td>Type inference breaking change in GHC 8.0.2</td></tr>
+<tr><th>[\#15628](https://gitlab.haskell.org//ghc/ghc/issues/15628)</th>
+<td>Higher-rank kinds</td></tr></table>
+
 ### What is impredicative polymorphism?
 
 
