@@ -7,6 +7,7 @@
  * `TypeApplications`: [wiki:TypeApplication visible type application]
  * [wiki:Proposal/CustomTypeErrors Custom type errors]
  * [wiki:TypeErrorMessages]
+ * [wiki:ImpredicativeTypes]
  * [wiki:ArrowNotation]
  * [wiki:FunDeps Functional dependencies]
  * [wiki:InjectiveTypeFamilies Injective type families]
