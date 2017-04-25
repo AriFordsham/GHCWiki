@@ -66,10 +66,10 @@ continue:
   _s2lE::P64 = P64[Sp + 24];   // CmmAssign
   if (R1 & 7 != 1) goto leftSide; else goto rightSide;
 leftSide:
-  Hp = Hp + 40;
+  Hp = Hp + 40;  // could be merged into c2n3 if it has one pred.
   goto c2n3;
 rightSide:
-  Hp = Hp + 24;
+  Hp = Hp + 24;  // could be merged into c2mZ if it has one pred.
   goto c2mZ;
 }}}
 
