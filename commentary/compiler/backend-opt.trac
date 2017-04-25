@@ -57,7 +57,7 @@ Since both branches of the first conditional test lead to a heap check, it's bet
 mergedHeapTest:
   _localTemp = Hp + 40; // max(40, 24)
   if (_localTemp > HpLim) (likely: False) goto needGC; else goto continue;
-doGC:
+needGC:
   HpAlloc = 40; // max(40, 24)
   R1 = R1;
   call stg_gc_unpt_r1(R1) returns to mergedHeapTest
