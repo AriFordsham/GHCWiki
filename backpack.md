@@ -14,7 +14,7 @@ The documentation for how to use Backpack is a bit scattered about at this point
 
 - There is not yet a manual entry in Cabal for how Cabal works. This section is under development.
 
-- Edward Z. Yang's [ thesis](https://github.com/ezyang/thesis/releases) contains detailed information about the specification and implementation of Backpack.
+- Edward Z. Yang's [ thesis](https://github.com/ezyang/thesis/releases) contains detailed information about the specification and implementation of Backpack. We also have an older [ paper draft](https://www.microsoft.com/en-us/research/wp-content/uploads/2016/07/backpack-2016.pdf) which was submitted to ICFP'16.
 
 - Hackage does not yet support uploads of Backpack-using packages. [ next.hackage](http://next.hackage.haskell.org:8080/) is a Hackage instances running a development branch of Hackage that can handle Backpack; for now, Backpack-enabled packages should be uploaded here.
 
