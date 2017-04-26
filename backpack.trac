@@ -1,3 +1,7 @@
+= Backpack =
+
+This is the launch page for Backpack, actively maintained by Edward (as of Apr 2017). 
+
 [http://plv.mpi-sws.org/backpack/ Backpack] is a proposal for retrofitting Haskell with an applicative, mix-in module system. It has been implemented in GHC 8.2.
 
 The documentation for how to use Backpack is a bit scattered about at this point, but here are useful, up-to-date (as of 2017-04-02, prior to GHC 8.2's release) references:
