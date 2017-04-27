@@ -64,3 +64,18 @@ if ! grep "Rule fired: TEXT literal"$logs/$rev-build.log ;then
     log "Commit $rev: failed"exit1;else
     log "Commit $rev: passed"exit0;fi
 ```
+
+## Gotchas
+
+### Pre-8.2
+
+
+If you are on Linux and see errors of the form,
+
+```wiki
+/usr/bin/ld: -r and -pie may not be used together
+collect2: error: ld returned 1 exit status
+```
+
+
+You are seeing [\#12759](https://gitlab.haskell.org//ghc/ghc/issues/12759) and need to cherry-pick d421a7e2.
