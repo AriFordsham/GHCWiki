@@ -27,6 +27,111 @@ This is why an indirect branch instruction must conservatively list [ all possib
 
 The current proposal can be found [ here.](http://lists.llvm.org/pipermail/llvm-dev/2017-April/112144.html)
 
+#### Implementation Progress
+
+
+After recieving a helpful [ suggestion](http://lists.llvm.org/pipermail/llvm-dev/2017-April/112214.html) from Ried on the LLVM mailing list, I've extended LLVM with an experimental CPS call. To help understand how it works, let's consider the following Cmm code:
+
+```wiki
+H:
+  ...
+  if ... goto G; else goto J
+
+G:
+  if ... goto needGC; else goto H
+
+needGC:
+  call doGC returns to G  // a non-tail CPS call
+
+J:
+  call X  // a tail CPS call
+```
+
+`G` is a return point (aka, proc-point) that is also branched to locally by `H`. First, we will run a simple Cmm pass that introduces a new stand-in block for each block that is returned to by a call. Thus, the above will look like this:
+
+```wiki
+H:
+  ...
+  if ... goto G; else goto J
+
+G:
+  if ... goto needGC; else goto H
+
+needGC:
+  call doGC returns to G_standin
+
+G_standin:
+  goto G
+
+J:
+  call X
+```
+
+
+Stand-ins are currently required for the CPS call functionality in LLVM to work properly.
+They are needed in this example because `G` is is a loop header, and LLVM will introduce loop preheader.
+A preheader merges incoming edges to `G` that are not back-edges, and in particular, it will place a block between the call in `needGC` and its return point, `G`, unless if there is a stand-in.
+
+
+There's no harm in just generating stand-ins for all return points, since LLVM will merge them later.
+Also note that H still branches directly to G.
+
+
+Now, with the stand-ins in place, we generate LLVM IR corresponding to the last example that looks like this:
+
+```wiki
+type %structTy = {i64, i64, i64, i64, ....}
+
+H:
+  ...
+  if ... goto G; else goto J
+
+G:
+  if ... goto needGC; else goto H
+
+needGC:
+  %retAddr = blockaddress(@thisFunc, %G_standin)
+  store %retAddr, %SP
+  %retVals = call ghccc %structTy @doGC (... args ...)
+  %rv0 = extractvalue %retVals, 0
+  %rv1 = extractvalue %retVals, 1
+  ...
+  %rvN = extractvalue %retVals, N
+  goto G_standin
+
+G_standin:
+  goto G
+
+J:
+  %dummy = tail call ghccc %structTy @X (... args ...)
+  ret %structTy %dummy
+```
+
+
+Notice that the non-tail CPS call is emitted as a non-tail call in LLVM, with a special register convention added to the GHC calling convention to match up the registers used to return the struct fields in `%retVals`.
+This non-tail ghccc call is now interpreted by LLVM's code generator as a CPSCALL pseudo-instruction during isel.
+
+
+Another important property of this LLVM IR is that the address of `G_standin` was taken, so LLVM cannot merge or otherwise delete that block. The name of `G_standin` is important later when we place GC information above that block using the LLVM mangler.
+
+
+Later, when LLVM's `expand-isel-pseudos` pass is run after isel is complete, we expand the CPSCALL at the MachineBasicBlock level in the following way:
+
+1. The instructions following `needGC` are analyzed to determine which virtual registers correspond to physical registers used by the `ghccc` convention to return those struct fields.
+
+1. The instructions analyzed are then deleted, leaving the CPSCALL pseudo-op at the end of the `needGC` block.
+
+1. The CPSCALL is converted into a TCRETURN, which is the pseudo-instruction used in the x86 backend of LLVM to later emit an LLVM tail-call.
+
+1. The `G_standin` block has physical registers added to it as live-in values and `vReg = COPY pReg` copies are emitted in that block.
+
+1. The phi-nodes of `G` are updated so that the virtual registers taken from `needGC` now come from `G_standin` instead.
+
+
+This leaves us with the following MachineBasicBlock representation:
+
+TODO stick the output here.
+
 ## Improving Heap Checks
 
 
