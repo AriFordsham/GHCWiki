@@ -1,4 +1,4 @@
-# Status of DWARF work slated for GHC 8.0
+# Status of DWARF debugging support
 
 ## Current Status as of 8.2
 
