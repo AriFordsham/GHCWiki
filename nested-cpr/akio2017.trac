@@ -81,3 +81,31 @@ pow x y
 mul :: C Double -> C Double -> C Double
 mul (C a b) (C d e) = C (a*d-b*e) (a*e+b*d)
 }}}
+
+=== peek.hs
+
+This example involves reading a tuple of Ints from memory.
+
+Status: needs -fcpr-depth=4 or higher.
+
+{{{#!hs
+{-# LANGUAGE BangPatterns #-}
+module Foo (peek4) where
+
+import Foreign.Storable
+import Foreign.Ptr
+
+peek4 :: Ptr Int -> Ptr Int -> (Ptr Int -> IO (Ptr Int, Ptr Int)) -> IO (Ptr Int, Ptr Int, (Int, Int, Int, Int))
+peek4 ptr end req
+  | end `minusPtr` ptr >= 32 = do
+      val <- (,,,)
+          <$> peekByteOff ptr 0
+          <*> peekByteOff ptr 8
+          <*> peekByteOff ptr 16
+          <*> peekByteOff ptr 24
+      let !ptr' = ptr `plusPtr` 32
+      return (ptr', end, val)
+  | otherwise = do
+      (ptr', end') <- req ptr
+      peek4 ptr' end' req
+}}}
