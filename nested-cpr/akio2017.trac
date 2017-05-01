@@ -84,7 +84,7 @@ mul (C a b) (C d e) = C (a*d-b*e) (a*e+b*d)
 
 === peek.hs
 
-This example involves reading a tuple if Ints from memory.
+This example involves reading a tuple of Ints from memory.
 
 Status: needs -fcpr-depth=4 or higher.
 
