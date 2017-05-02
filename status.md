@@ -69,6 +69,7 @@ GHC's Trac is also used by the [ Haskell Core Libraries Committee](http://www.ha
 
 Here are biannual GHC status reports, published in the [ Haskell Communities and Activities Report](http://haskell.org/communities/)
 
+- [GHC status April 2017](status/apr17)
 - [GHC status October 2016](status/oct16)
 - [GHC status May 2016](status/may16)
 - [GHC status October 2015](status/oct15)
