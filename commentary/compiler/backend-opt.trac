@@ -59,7 +59,7 @@ J:
 }}}
 
 Stand-ins are currently required for the CPS call functionality in LLVM to work properly.
-They are needed in this example because `G` is is a loop header, and LLVM will introduce loop preheader.
+They are needed in this example because `G` is a loop header, and LLVM will introduce loop preheader.
 A preheader merges incoming edges to `G` that are not back-edges, and in particular, it will place a block between the call in `needGC` and its return point, `G`, unless if there is a stand-in.
 
 There's no harm in just generating stand-ins for all return points, since LLVM will merge them later.
