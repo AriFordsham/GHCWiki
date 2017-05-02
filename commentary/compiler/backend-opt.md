@@ -69,12 +69,12 @@ J:
 
 
 Stand-ins are currently required for the CPS call functionality in LLVM to work properly.
-They are needed in this example because `G` is is a loop header, and LLVM will introduce loop preheader.
+They are needed in this example because `G` is a loop header, and LLVM will introduce loop preheader.
 A preheader merges incoming edges to `G` that are not back-edges, and in particular, it will place a block between the call in `needGC` and its return point, `G`, unless if there is a stand-in.
 
 
 There's no harm in just generating stand-ins for all return points, since LLVM will merge them later.
-Also note that H still branches directly to G.
+Also note that `H` still branches directly to `G`.
 
 
 Now, with the stand-ins in place, we generate LLVM IR corresponding to the last example that looks like this:
@@ -112,25 +112,95 @@ Notice that the non-tail CPS call is emitted as a non-tail call in LLVM, with a 
 This non-tail ghccc call is now interpreted by LLVM's code generator as a CPSCALL pseudo-instruction during isel.
 
 
-Another important property of this LLVM IR is that the address of `G_standin` was taken, so LLVM cannot merge or otherwise delete that block. The name of `G_standin` is important later when we place GC information above that block using the LLVM mangler.
+Another important property of this LLVM IR is that the address of `G_standin` was taken, so LLVM cannot merge that block with its predecessor. The name of `G_standin` is important later when we place GC information above that block using the LLVM mangler.
+
+TODO It seems jump-chain elimination can end up changing the block following the CPS call to be the actual target (it safely updates the `blockaddress`, though). Either we need to actually split apart the block, and somehow pass the desired block name to llc... or have the mangler look for the block whose address was taken, whose prefix is G?
 
 
-Later, when LLVM's `expand-isel-pseudos` pass is run after isel is complete, we expand the CPSCALL at the MachineBasicBlock level in the following way:
+Here is what the `needGC` block looks like by the time we're ready to expand the CPSCALL pseudo-instruction:
 
-1. The instructions following `needGC` are analyzed to determine which virtual registers correspond to physical registers used by the `ghccc` convention to return those struct fields.
+```wiki
+  BB#4: derived from LLVM BB %needGC
+    Predecessors according to CFG: BB#3
+  %vreg10<def> = LEA64r %RIP, 1, %noreg, <blockaddress(@foo, %G)>, %noreg; GR64:%vreg10
+  MOV64mr %vreg3, 1, %noreg, 0, %noreg, %vreg10<kill>; mem:ST8[%G_phi_sp] GR64:%vreg3,%vreg10
+  ADJCALLSTACKDOWN64 0, 0, %RSP<imp-def,dead>, %EFLAGS<imp-def,dead>, %RSP<imp-use>
+  %R13<def> = COPY %vreg3; GR64:%vreg3
+  %RBP<def> = COPY %vreg4; GR64:%vreg4
+  CPSCALLdi64 <ga:@doGC>, <regmask>, %RSP<imp-use>, %R13<imp-use>, %RBP<imp-use>, %RSP<imp-def>, %R13<imp-def>, %RBP<imp-def>
+  ADJCALLSTACKUP64 0, 0, %RSP<imp-def,dead>, %EFLAGS<imp-def,dead>, %RSP<imp-use>
+  %vreg11<def> = COPY %R13; GR64:%vreg11
+  %vreg12<def> = COPY %RBP; GR64:%vreg12
+  %vreg5<def> = COPY %vreg11; GR64:%vreg5,%vreg11
+  %vreg6<def> = COPY %vreg12; GR64:%vreg6,%vreg12
+  JMP_1 <BB#3>
+    Successors according to CFG: BB#3(?%)
+```
 
-1. The instructions analyzed are then deleted, leaving the CPSCALL pseudo-op at the end of the `needGC` block.
+
+When LLVM's `expand-isel-pseudos` pass is run after isel is complete, we expand the CPSCALL at the MachineBasicBlock level in the following way:
+
+1. The instructions following the CPSCALL are analyzed to determine which virtual registers correspond to physical registers used by the `ghccc` convention to return those struct fields.
+
+1. The stack adjustment following the CPSCALL is moved before the CPSCALL.
+
+1. The remaining instructions after the CPSCALL are then deleted, leaving the CPSCALL pseudo-op at the end of the `needGC` block.
 
 1. The CPSCALL is converted into a TCRETURN, which is the pseudo-instruction used in the x86 backend of LLVM to later emit an LLVM tail-call.
 
-1. The `G_standin` block has physical registers added to it as live-in values and `vReg = COPY pReg` copies are emitted in that block.
+1. The `G_standin` block has physical registers added to it as live-in values, it is marked as an EH landing pad, and `vReg = COPY pReg` copies are emitted in that block.
 
 1. The phi-nodes of `G` are updated so that the virtual registers taken from `needGC` now come from `G_standin` instead.
 
 
 This leaves us with the following MachineBasicBlock representation:
 
-TODO stick the output here.
+```wiki
+  BB#4: derived from LLVM BB %needGC
+    Predecessors according to CFG: BB#6
+  %vreg10<def> = LEA64r %RIP, 1, %noreg, <blockaddress(@foo, %G)>, %noreg; GR64:%vreg10
+  MOV64mr %vreg3, 1, %noreg, 0, %noreg, %vreg10<kill>; mem:ST8[%G_phi_sp] GR64:%vreg3,%vreg10
+  ADJCALLSTACKDOWN64 0, 0, %RSP<imp-def,dead>, %EFLAGS<imp-def,dead>, %RSP<imp-use>
+  %R13<def> = COPY %vreg3; GR64:%vreg3
+  %RBP<def> = COPY %vreg4; GR64:%vreg4
+  ADJCALLSTACKUP64 0, 0, %RSP<imp-def>, %EFLAGS<imp-def,dead>, %RSP<imp-use>
+  TCRETURNdi64 <ga:@doGC>, 0, %RSP<imp-use>, %R13<imp-use>, %RBP<imp-use>
+    Successors according to CFG: BB#3(?%)
+
+BB#3: derived from LLVM BB %G, EH LANDING PAD, ADDRESS TAKEN
+    Live Ins: %R13 %RBP
+    Predecessors according to CFG: BB#4
+  %vreg6<def> = COPY %RBP<kill>; GR64:%vreg6
+  %vreg5<def> = COPY %R13<kill>; GR64:%vreg5
+  JMP_1 <BB#6>
+    Successors according to CFG: BB#6(?%)
+
+BB#6: 
+    Predecessors according to CFG: BB#2 BB#3
+  %vreg2<def> = PHI %vreg0, <BB#2>, %vreg6, <BB#3>; GR64:%vreg2,%vreg0,%vreg6
+  %vreg3<def> = PHI %vreg1, <BB#2>, %vreg5, <BB#3>; GR64:%vreg3,%vreg1,%vreg5
+  %vreg4<def,tied1> = DEC64r %vreg2<tied0>, %EFLAGS<imp-def,dead>; GR64:%vreg4,%vreg2
+  %vreg9<def,tied1> = SUB64ri32 %vreg3<tied0>, 1000, %EFLAGS<imp-def>; GR64:%vreg9,%vreg3
+  JL_1 <BB#1>, %EFLAGS<imp-use>
+  JMP_1 <BB#4>
+    Successors according to CFG: BB#4(0x7c000000 / 0x80000000 = 96.88%) BB#1(0x04000000 / 0x80000000 = 3.12%)
+```
+
+
+The machine code for the loops in this example end up looking quite nice:
+
+```
+LBB0_5:## %needGC
+leaqLtmp0(%rip),%rdxmovq%rdx,(%rax)movq%rax,%r13movq%rcx,%rbppopq%rax# modify PEI & RTS to omit this.
+jmp_doGC## TAILCALL
+Ltmp0:## Block address taken
+LBB0_3:## %G
+movq%rbp,%rcxmovq%r13,%raxLBB0_4:## BB#6
+decq%rcxcmpq$1000,%raxjgeLBB0_5LBB0_1:## %H
+testq%rcx,%rcxjneLBB0_4
+```
+
+---
 
 ## Improving Heap Checks
 
