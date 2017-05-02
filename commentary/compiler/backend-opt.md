@@ -191,7 +191,8 @@ The machine code for the loops in this example end up looking quite nice:
 
 ```
 LBB0_5:## %needGC
-leaqLtmp0(%rip),%rdxmovq%rdx,(%rax)movq%rax,%r13movq%rcx,%rbppopq%raxjmp_doGC## TAILCALL
+leaqLtmp0(%rip),%rdxmovq%rdx,(%rax)movq%rax,%r13movq%rcx,%rbppopq%rax# modify PEI & RTS to omit this.
+jmp_doGC## TAILCALL
 Ltmp0:## Block address taken
 LBB0_3:## %G
 movq%rbp,%rcxmovq%r13,%raxLBB0_4:## BB#6

@@ -178,7 +178,7 @@ LBB0_5:                       ## %needGC
   movq  %rdx, (%rax)
   movq  %rax, %r13
   movq  %rcx, %rbp
-  popq  %rax
+  popq  %rax                    # modify PEI & RTS to omit this.
   jmp _doGC     ## TAILCALL
 Ltmp0:                        ## Block address taken
 LBB0_3:                       ## %G
