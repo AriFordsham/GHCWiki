@@ -73,8 +73,8 @@ The name of the bug-reporting game is: facts, facts, facts. Don't omit them beca
 
 **The absolutely key thing is that we must be able to reproduce the bug**.  Without this, we are virtually helpless; we know there's a problem but we usually can make no progress with fixing it.  The easiest way to help us reproduce the bug is to provide us with a program that elicits it:
 
-- **As small as possible**.  It costs you real work to "boil down" the bug from a big program to a small one, but the plain truth is that the easier the bug is to reproduce, and the smaller the test program (= smaller debug output), the less time it costs us to fix it. Also, as you are familiar with the code, it is generally easier for you to boil it down than for us to.
-- **Zero dependencies**.  If we have to run `cabal install`, we can't put it in the testsuite *as is*.  
+- **As small as possible**.  It costs you real work to "boil down" the bug from a big program to a small one, but the plain truth is that the easier the bug is to reproduce, and the smaller the test program (= smaller debug output), the less time it costs us to fix it. Also, as you are familiar with the code, it is generally easier for you to boil it down than for us to. Please note that instances of certain classes, whether hand-written or derived, can produce a substantial amount of code. In particular, if you can demonstrate the bug without writing or deriving instances of `Show`, `Read`, `Generic`, or `Data`, that is generally preferable. To demonstrate evaluation, prefer `deepseq` to `show`, and write any necessary `NFData` instances by hand.
+- **Zero dependencies**.  If we have to run `cabal install`, we can't put it in the testsuite *as is*. Dependencies also make it substantially harder to determine exactly where a bug was introduced, as it may be difficult or impossible to compile those dependencies at an arbitrary GHC commit.
 
 
 One way to cut down programs is to replace library functions with definitions like
@@ -85,7 +85,7 @@ One way to cut down programs is to replace library functions with definitions li
 ```
 
 
-and thereby avoid the necessity for the supporting library.  
+and thereby avoid the necessity for the supporting library.
 
 
 Here is a check-list of things to cover in your description:
