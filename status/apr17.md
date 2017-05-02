@@ -1,5 +1,5 @@
 ```
-By the time of publication GHC will be nearing release of its 8.2.1 release.
+By the time of publication GHC will be nearing its 8.2.1 release.
 While GHC 8.0 was a feature-oriented release, the past year of GHC development
 has been focused on stabilization and consolidation of existing features.
 This has included an effort to reduce compilation times, improve code
