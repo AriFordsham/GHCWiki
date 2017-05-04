@@ -22,13 +22,13 @@ consolidation, it also includes a number of new features.
 
     GHC 8.2 will address this by introducing indexed type representations, leveraging the type-checker to verify many programs using type reflection. This allows facilities like `Data.Dynamic` to be implemented in a fully type-safe manner. See the [[https://research.microsoft.com/en-us/um/people/simonpj/papers/haskell-dynamic/|paper]]] for a description of the proposed interface and the [[https://ghc.haskell.org/trac/ghc/wiki/Typeable/BenGamari|Wiki]] for current implementation status.
 
--   **Backpack.** Backpack has merged with GHC, Cabal and `cabal-install`, allowing you to write libraries which are parametrized by signatures, letting users decide how to instantiate them at a later point in time. If you want to just play around with the signature language, there is a new major mode `ghc –backpack`; at the Cabal syntax level, there are two new fields `signatures` and `mixins` which permit you to define parametrized packages, and instantiate them in a flexible way. More details are on the Backpack [[https://ghc.haskell.org/trac/wiki/Backpack|wiki page]].
+-   **Backpack.** Backpack has merged with GHC, Cabal and `cabal-install`, allowing you to write libraries which are parametrized by signatures, letting users decide how to instantiate them at a later point in time. If you want to just play around with the signature language, there is a new major mode `ghc –backpack`; at the Cabal syntax level, there are two new fields `signatures` and `mixins` which permit you to define parametrized packages, and instantiate them in a flexible way. More details are on the Backpack [[wiki:Backpack|Wiki page]].
 
 -   **Levity polymorphism.** GHC 8.0 reworked GHC’s kind system introducing the notion of levity to describe a type’s runtime representation. However, the ability to write functions which were polymorphic over levity was purposefully withheld.
 
     While GHC’s current compilation model doesn’t allow arbitrary levity polymorphism, GHC 8.2 enables certain classes of polymorphism which were either disallowed or broken in 8.0. See the [[https://www.microsoft.com/en-us/research/publication/levity-polymorphism/|paper]] for details.
 
--   **`deriving` strategies.** GHC now provides the programmer with a precise mechanism to distinguish between the three ways to derive typeclass instances: the usual way, the `GeneralizedNewtypeDeriving` way, and the `DeriveAnyClass` way. See the `DerivingStrategies` [[https://ghc.haskell.org/trac/wiki/DerivingStrategies|Wiki page]] for more details.
+-   **`deriving` strategies.** GHC now provides the programmer with a precise mechanism to distinguish between the three ways to derive typeclass instances: the usual way, the `GeneralizedNewtypeDeriving` way, and the `DeriveAnyClass` way. See the `DerivingStrategies` [[https://ghc.haskell.org/trac/ghc/wiki/Commentary/Compiler/DerivingStrategies|Wiki page]] for more details.
 
 -   **New classes in `base`.** The `Bifoldable`, and `Bitraversable` typeclasses are now included in the `base` library.
 
