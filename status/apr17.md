@@ -33,7 +33,7 @@ consolidation, it also includes a number of new features.
 >
 > While GHC’s current compilation model doesn’t allow arbitrary levity polymorphism, GHC 8.2 enables certain classes of polymorphism which were either disallowed or broken in 8.0. See the [ paper](https://www.microsoft.com/en-us/research/publication/levity-polymorphism/) for details.
 
-- **`deriving` strategies.** GHC now provides the programmer with a precise mechanism to distinguish between the three ways to derive typeclass instances: the usual way, the `GeneralizedNewtypeDeriving` way, and the `DeriveAnyClass` way. See the `DerivingStrategies`[ Wiki page](https://ghc.haskell.org/trac/wiki/DerivingStrategies) for more details.
+- **`deriving` strategies.** GHC now provides the programmer with a precise mechanism to distinguish between the three ways to derive typeclass instances: the usual way, the `GeneralizedNewtypeDeriving` way, and the `DeriveAnyClass` way. See the `DerivingStrategies`[ Wiki page](https://ghc.haskell.org/trac/ghc/wiki/Commentary/Compiler/DerivingStrategies) for more details.
 
 - **New classes in `base`.** The `Bifoldable`, and `Bitraversable` typeclasses are now included in the `base` library.
 
