@@ -342,7 +342,7 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <tr><th>`ghc`</th>
 <th>  8.3  </th>
 <th>  8.2.0.20170503\*  </th>
-<th>  8.0.1.20161213\*  </th>
+<th>  8.0.2  </th>
 <th>  8.0.1\*  </th>
 <th>  7.10.3\*  </th>
 <th>  7.10.2\*  </th>
@@ -390,7 +390,7 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <tr><th>`ghc-boot`</th>
 <th>  8.3  </th>
 <th>  8.2.0.20170503  </th>
-<th>  8.0.1.20161213  </th>
+<th>  8.0.2  </th>
 <th>  8.0.1  </th>
 <th>*none*</th>
 <th></th>
@@ -413,7 +413,7 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <tr><th>`ghc-boot-th`</th>
 <th>  8.3  </th>
 <th>  8.2.0.20170503  </th>
-<th>  8.0.1.20161213\*  </th>
+<th>  8.0.2  </th>
 <th>  8.0.1  </th>
 <th>*none*</th>
 <th></th>
@@ -483,7 +483,7 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <tr><th>`ghci`</th>
 <th>  8.3  </th>
 <th>  8.2.0.20170503  </th>
-<th>  8.0.1.20161213  </th>
+<th>  8.0.2  </th>
 <th>  8.0.1  </th>
 <th>*none*</th>
 <th></th>
