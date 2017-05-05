@@ -156,7 +156,7 @@ in between, please come speak to us either on IRC (`#ghc` on
 -   GHC users guide:
 
 >
-> \<[ https://downloads.haskell.org/\~ghc/master/users_guide/](https://downloads.haskell.org/~ghc/master/users_guide/)\>
+> \<[ https://downloads.haskell.org/\~ghc/master/users-guide/](https://downloads.haskell.org/~ghc/master/users-guide/)\>
 
 - `ghc-devs` mailing list:
 
