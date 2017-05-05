@@ -25,7 +25,7 @@ This is why an indirect branch instruction must conservatively list [ all possib
 #### Proposal
 
 
-The current proposal can be found [ here.](http://lists.llvm.org/pipermail/llvm-dev/2017-April/112144.html)
+We propose to extend LLVM, slightly, to support "CPS calls".  The initial proposal, to the LLVM community, can be found [ here.](http://lists.llvm.org/pipermail/llvm-dev/2017-April/112144.html)  What follows is a somewhat revised version of that proposal.
 
 #### Implementation Progress
 
