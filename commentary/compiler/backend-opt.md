@@ -39,49 +39,69 @@ f x = if x!=0#
 ```
 
 
-This would generate roughly the following Cmm code:
+This would generate roughly the following Post CPS Cmm code:
 
 ```wiki
 fEntry:
   if x != 0 goto G; else goto J
 
 G:
-  x' = x - 1
   if Hp+10 >= HpLim goto needGC; else goto R
 
 needGC:
-  call doGC returns to G  // a non-tail call, x is live
+  I64[SP + 8] = x
+  I64[SP] = afterGC
+  call doGC returns to afterGC  // a non-tail call, x is live
+
+afterGC:
+  x = I64[SP + 8]
+  goto G
 
 J:
   call foo( x )  // a tail call
 
-R: ...allocate (I# x') and return...
+R: 
+  x' = x - 1
+  ...allocate (I# x') and return...
 ```
 
-`G` is a return point (aka, proc-point) that is also branched to locally by `fEntry`. First, we will run a simple Cmm pass that introduces a new stand-in block for each block that is returned to by a call. Thus, the above will look like this:
+`afterGC` is a return point (aka, proc-point). In this example, it is important that a local block does not branch directly to `afterGC`. Otherwise, `afterGC` would appear to LLVM to be the loop header instead of `G`, and LLVM will introduce loop preheader block.
+A preheader merges incoming edges to a loop header that are not back-edges, and in particular, this will place a block between the call in `needGC` and its return point, `afterGC`. 
+
+
+Here's an example of Cmm code where this problem may crop up. 
+Suppose x was loaded from the stack at `SP+8` in `fEntry`. 
+After some optimizations, it would be valid, though unlikely, to end up with the following:
 
 ```wiki
-H:
-  ...
-  if ... goto G; else goto J
+fEntry:
+  x1 = I64[SP + 8]
+  if x1 != 0 goto G; else goto J
 
 G:
-  if ... goto needGC; else goto H
+  if Hp+10 >= HpLim goto needGC; else goto R
 
 needGC:
-  call doGC returns to G_standin
-
-G_standin:
-  goto G
+  I64[SP] = G
+  call doGC returns to G  // a non-tail call, x is live
 
 J:
-  call X
+  call foo( x1 )  // a tail call
+
+R:
+  x2 = I64[SP + 8] 
+  x' = x2 - 1
+  ...allocate (I# x') and return...
 ```
 
 
-Stand-ins are currently required for the CPS call functionality in LLVM to work properly.
-They are needed in this example because `G` is a loop header, and LLVM will introduce loop preheader.
-A preheader merges incoming edges to `G` that are not back-edges, and in particular, it will place a block between the call in `needGC` and its return point, `G`, unless if there is a stand-in.
+In this case, we need to introduce a new block that `needGC` returns to, instead of `G`. just before emitting LLVM IR, we require that return points are not branched to locally and will introduce a stand-in block if needed.
+
+---
+
+TODO add an updated version of the LLVM example below.
+
+---
 
 
 There's no harm in just generating stand-ins for all return points, since LLVM will merge them later.
