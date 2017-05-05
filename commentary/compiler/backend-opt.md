@@ -25,29 +25,40 @@ This is why an indirect branch instruction must conservatively list [ all possib
 #### Proposal
 
 
-The current proposal can be found [ here.](http://lists.llvm.org/pipermail/llvm-dev/2017-April/112144.html)
+We propose to extend LLVM, slightly, to support "CPS calls".  The initial proposal, to the LLVM community, can be found [ here.](http://lists.llvm.org/pipermail/llvm-dev/2017-April/112144.html)  What follows is a somewhat revised version of that proposal.
 
 #### Implementation Progress
 
 
-After recieving a helpful [ suggestion](http://lists.llvm.org/pipermail/llvm-dev/2017-April/112214.html) from Ried on the LLVM mailing list, I've extended LLVM with an experimental CPS call. To help understand how it works, let's consider the following Cmm code:
+After recieving a helpful [ suggestion](http://lists.llvm.org/pipermail/llvm-dev/2017-April/112214.html) from Ried on the LLVM mailing list, I've extended LLVM with an experimental CPS call. To help understand how it works, let's consider this Core program:
 
 ```wiki
-H:
+f x = if x!=0#
+      then I# (x-1)   -- This branch allocates
+      else foo x
+```
+
+
+This would generate roughly the following Cmm code:
+
+```wiki
+fEntry:
   if x != 0 goto G; else goto J
 
 G:
-  x = x - 1
-  if SP >= 1000 goto needGC; else goto H
+  x' = x - 1
+  if Hp+10 >= HpLim goto needGC; else goto R
 
 needGC:
-  call doGC returns to G  // a non-tail CPS call
+  call doGC returns to G  // a non-tail call, x is live
 
 J:
-  call X  // a tail CPS call
+  call foo( x )  // a tail call
+
+R: ...allocate (I# x') and return...
 ```
 
-`G` is a return point (aka, proc-point) that is also branched to locally by `H`. First, we will run a simple Cmm pass that introduces a new stand-in block for each block that is returned to by a call. Thus, the above will look like this:
+`G` is a return point (aka, proc-point) that is also branched to locally by `fEntry`. First, we will run a simple Cmm pass that introduces a new stand-in block for each block that is returned to by a call. Thus, the above will look like this:
 
 ```wiki
 H:
