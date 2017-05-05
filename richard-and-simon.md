@@ -3,9 +3,10 @@
 
 ... as discussed by Richard and Simon. This page is mostly for our own notes, but others are welcome to read it.
 
+- Change flattener to be homogeneous ([\#12919](https://gitlab.haskell.org//ghc/ghc/issues/12919), [\#13643](https://gitlab.haskell.org//ghc/ghc/issues/13643))
+- Implement [\#13650](https://gitlab.haskell.org//ghc/ghc/issues/13650) (subsumes `mkCastTy` stuff below)
 - Implement homogeneous as per Stephanie's paper (but what about Refl2?  Does Refl2 mean that our new equality will need to be indexed by a coercion??)
 - Fix [\#11715](https://gitlab.haskell.org//ghc/ghc/issues/11715) according to Richard's plan
-- Change flattener to be homogeneous ([\#12919](https://gitlab.haskell.org//ghc/ghc/issues/12919))
 - Remove `solveSomeEqualities`
 - Generalized injectivity [\#10832](https://gitlab.haskell.org//ghc/ghc/issues/10832), vis-a-vis Constrained Type Families paper
 - Taking better advantage of levity polymorphism:
