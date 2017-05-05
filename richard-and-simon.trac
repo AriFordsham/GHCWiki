@@ -2,14 +2,11 @@
 
 ... as discussed by Richard and Simon. This page is mostly for our own notes, but others are welcome to read it.
 
-* Sort out `matchTypeable` (see email) #13333
-* Sort out `mkCastTy` (see email)
-* Implement homogeneous as per Stephanie's paper
+* Implement homogeneous as per Stephanie's paper (but what about Refl2?  Does Refl2 mean that our new equality will need to be indexed by a coercion??)
 * Fix #11715 according to Richard's plan
 * Change flattener to be homogeneous (#12919)
 * Remove `solveSomeEqualities`
 * Generalized injectivity #10832, vis-a-vis Constrained Type Families paper
-* #13333 (Typeable regression)
 * Taking better advantage of levity polymorphism:
   * Could `[]` be a data family?
   * Unlifted newtypes
@@ -34,7 +31,7 @@ data X where
 }}}
 
 * Take a look at `tidyToIfaceType`: I don't think it needs to tidy the env.
-* Simplify `mkCastTy`, keeping the `isReflexiveCo` check. Document the reflexivity invariant. (Do we need to differentiate between `tcView`-reflexivity and `coreView`-reflexivity?)
+* Simplify `mkCastTy`, keeping the `isReflexiveCo` check. Document the reflexivity invariant. (Do we need to differentiate between `tcView`-reflexivity and `coreView`-reflexivity?) (#13650)
    * Bah. This is wrong. I had thought that the reflexivity invariant would mean that `splitTyConApp` could never be thrown off the scent by a coercion. But this is wrong. Consider `T a b c` and `(T a b |> (co -> <Type>)) (c |> sym co)`. These types have the same kind (`Type`) and are `eqType`. (That is, they are the same if we ignore coercions.) Yet the first is a `TyConApp` and the second is an `AppTy`. No reflexive coercions here! The current elaborate `mkCastTy` doesn't even handle this situation. But it makes me realize that the reflexivity invariant isn't enough. We need to teach `splitTyConApp` how to deal with this scenario. Ugh.
    * Some invariants to make sure of: No nested `CastTy`s. No `AppTy (TyConApp ... |> co) ty`. No reflexive coercions.
    * Implement KPush in `splitTyConApp`.
@@ -46,6 +43,13 @@ data X where
     2. How to make sure that saturated primops stay that way in Core. This would be a new check in Lint as well as new checks on any code that does eta-contraction. It has been suggested that levity-polymorphic primops desugar to a family of levity-monomorphic primops. This surely would work, but there doesn't seem to be benefit over a plan simply to keep primops eta-expanded always. Then, there's no worry about eta-contracting levity-polymorphic arguments.
 * Make better use of the `uo_thing` field, including refactoring `noThing` away and improving term-level error messages.
 * Take full advantage of `TcTyCon`, getting rid of the dreaded type-checking knot.
+* Document why we're not worried about casts in class wanteds. (Short story: any cast should be available for rewriting, and so it will rewrite the kinds.)
+* Sort out `matchTypeable` (see email) #13333
+
+
+== Completed tasks
+
+* Sort out `mkCastTy` (see email)
 
 **Iceland_jack**: By `[]` as a data family do you mean:
 
