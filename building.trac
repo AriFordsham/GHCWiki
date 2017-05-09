@@ -17,8 +17,8 @@ can extend it, modify it, and use it to build your code.
 
 '''Getting started'''
 
- * [wiki:Building/Preparation Setting up your system for building GHC (including platform specific instructions)]
- * [wiki:Building/GettingTheSources Getting the sources]
+ * [wiki:Building/Preparation Setting up your system for building GHC] (including platform specific instructions)
+ * [wiki:Building/GettingTheSources Getting the sources] (here's the [wiki:Repositories list of Git repositories] that we use)
  * [wiki:Building/QuickStart Quick Start: just build GHC]
  * Newcomers should also go to [wiki:Newcomers Newcomers].
 
