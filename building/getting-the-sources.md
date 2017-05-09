@@ -16,6 +16,8 @@ Source distributions are easier to build, because we also include the output fro
 
 GHC uses Git for revision control (version 1.7.8 or newer recommended).
 
+[Repositories](repositories) gives a list of all the git repositories used by GHC.   A source tree consists of more than one repository: at the top level there is the main GHC repository, and certain subdirectories contain separate git repositories.
+
 ### Cloning HEAD
 
 
@@ -24,9 +26,6 @@ A complete GHC source tree can be obtained (located in `ghc`) by running the fol
 ```
 git clone --recursive git://git.haskell.org/ghc.git
 ```
-
-
-A source tree consists of more than one repository: at the top level there is the main GHC repository, and certain subdirectories contain separate git repositories (for a list see [Repositories](repositories)).
 
 **PLEASE READ THIS:** There are some specific Git workflows which will make GHC development a lot more pleasant; read [how to use git with GHC](working-conventions/git) and [how to contribute a patch to GHC](working-conventions/fixing-bugs) for suggestions about this.
 
