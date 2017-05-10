@@ -233,6 +233,6 @@ The table above is maintained manually and can sometimes get out of sync. If in 
 There are a also a variety of repositories which contain infrastructure-related bits. These include,
 
 - [ https://github.com/haskell-infra/phabricator](https://github.com/haskell-infra/phabricator): This is the current state of the tree running our [ Phabricator](https://phabricator.haskell.org/) instance.
-- [ https://github.com/haskell-infra/ghc-website](https://github.com/haskell-infra/ghc-website): This contains the sources for [ https://ghc.haskell.org/](https://ghc.haskell.org/)
+- [ https://github.com/haskell-infra/ghc-homepage](https://github.com/haskell-infra/ghc-homepage): This contains the sources for [ https://www.haskell.org/ghc/](https://www.haskell.org/ghc/)
 - [ https://github.com/haskell-infra/libphutil-haskell](https://github.com/haskell-infra/libphutil-haskell): This is a small `libphutil` extension providing GHC-specific functionality to Phabricator
 - [ https://github.com/haskell-infra/trac](https://github.com/haskell-infra/trac): This is the slightly patched Trac version which drives GHC's Trac.
