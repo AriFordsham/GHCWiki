@@ -46,7 +46,11 @@ data X where
 * Take full advantage of `TcTyCon`, getting rid of the dreaded type-checking knot.
 * Document why we're not worried about casts in class wanteds. (Short story: any cast should be available for rewriting, and so it will rewrite the kinds.)
 * Sort out `matchTypeable` (see email) #13333
-
+* Fix equality printing: 
+    * Remove IfaceEqualityTyCon in favor of a new IfaceEquality constructor of IfaceType, which would be the conversion of a TyConApp
+    * Make explicit-kinds print the kinds (duh) and equality-rels control the equality relation (duh)
+    * Print ~ for homo in practice; print `~~` for hetero in practice (unless equality-rels)
+* Merge fsk and fmv treatment, by returning the list of created fsks from `solveSimpleGivens` (which would now be fmvs) and fill them in after solving the wanteds. This eliminates problems around the fact that zonking in the flattener might zonk fsks back to type family applications and that fsks might lurk in residual constraints.
 
 == Completed tasks
 
