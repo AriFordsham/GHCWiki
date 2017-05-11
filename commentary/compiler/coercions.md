@@ -27,7 +27,7 @@ Ther are two problems with the current approach
 The last problem is the one that triggered this note, and needs a bit more explanation.  Consider
 
 ```wiki
-class (F a ~ b, Eq a) => C a b where
+class (F a ~ b, Num a) => C a b where
   op :: a -> b
 ```
 
@@ -51,7 +51,7 @@ f x = x + 1
 The Core program we generate looks something like this:
 
 ```wiki
-f = /\a b. \(d:C a b).
+f = /\a b. \(d:C a b) (x:a).
     let (nd : Num a) = case d of { MkC _ d _ -> d }
     in (+) nd x (fromInteger nd 1)
 ```
