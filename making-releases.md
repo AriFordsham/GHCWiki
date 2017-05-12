@@ -56,7 +56,7 @@ Update the `ANNOUNCE` file in the root of the tree.
 In the `AC_INIT` line of `configure.ac`, set the version number. A few lines below, set `RELEASE=YES`.
 
 
-It's also good practice to update the `config.guess` and `config.sub` files scattered about the tree (currently in the root, `libraries/base`, and `libraries/integer-gmp`) from upstream ([ config.guess](https://git.savannah.gnu.org/cgit/autoconf.git/plain/build-aux/config.guess), [ config.sub](https://git.savannah.gnu.org/cgit/autoconf.git/plain/build-aux/config.sub)).
+It's also good practice to update the `config.guess` and `config.sub` files scattered about the tree (currently in the root, `libraries/base`, and `libraries/integer-gmp`) from upstream ([ config.guess](https://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD), [ config.sub](https://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD)).
 
 ## Tagging the release
 
