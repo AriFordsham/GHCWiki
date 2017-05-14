@@ -149,6 +149,8 @@ Please add: System FC, GADTs, kind polymorphism etc
 
 - [ Parallel Generational-Copying Garbage Collection with a Block-Structured Heap](http://community.haskell.org/~simonmar/papers/parallel-gc.pdf) (Simon Marlow, Tim Harris, Roshan P. James, Simon Peyton Jones) In ISMM '08: Proceedings of the 7th international symposium on Memory management, Tucson, Arizona, ACM, June 2008
 
+- [ Efficient communication and collection with compact normal forms](http://ezyang.com/papers/ezyang15-cnf.pdf) (Edward Z. Yang, Giovanni Campagna, Ömer S. Ağacan, Ahmed El-Hassany, Abhishek Kulkarni, Ryan R. Newton), ICFP 2015.
+
 - [ Haskell on a Shared-Memory Multiprocessor](http://community.haskell.org/~simonmar/papers/multiproc.pdf) (Tim Harris, Simon Marlow, Simon Peyton Jones) In Haskell '05: Proceedings of the 2005 ACM SIGPLAN workshop on Haskell, pages 49--61, Tallinn, Estonia, ACM Press, September 2005
 
 - [Time and space profiling for non-strict, higher-order functional languages](http://www.haskell.org/ghc/docs/papers/profiling.ps.gz), Patrick M. Sansom and Simon Peyton Jones, POPL 1995.
