@@ -16,7 +16,7 @@ There are two ways to get sources to GHC: download a source distribution, or clo
 
 == Source distributions ==
 
-A source distribution is a file like {{{ghc-7.8.3-src.tar.xz}}}, which contains a complete snapshot of the source tree for a particular version of GHC. Source distributions for all versions of GHC are available from the [http://www.haskell.org/ghc/download download page].
+A source distribution is a file like {{{ghc-7.8.3-src.tar.xz}}}, which contains a complete snapshot of the source tree for a particular version of GHC. Source distributions for all versions of GHC are available from the [http://www.haskell.org/ghc/ download page].
 
 Source distributions are easier to build, because we also include the output from running certain external tools like [http://haskell.org/happy Happy], so you don't need to install these tools.
 
