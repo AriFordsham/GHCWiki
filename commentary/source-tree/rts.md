@@ -43,7 +43,7 @@ however not all of the RTS follows this convention right now.
 <table><tr><th>`hooks/`</th>
 <td>
 Hooks for changing the RTS behaviour from client code, eg. changing the default heap size.
-(see [ User's Guide for more about hooks](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/runtime-control.html#rts-hooks)).
+(see [ User's Guide for more about hooks](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/runtime_control.html#rts-hooks)).
 </td></tr></table>
 
 <table><tr><th>`sm/`</th>
