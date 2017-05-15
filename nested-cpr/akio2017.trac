@@ -109,3 +109,38 @@ peek4 ptr end req
       (ptr', end') <- req ptr
       peek4 ptr' end' req
 }}}
+
+== beam-word-poke.hs
+
+This is a real-world example taken from https://github.com/tsurucapital/beamable/blob/master/src/Data/Beamable/Internal.hs#L159.
+It serializes a `Word` using a variable-length encoding.
+
+Status: ok
+
+{{{#!hs
+module Foo(beamWordPoke) where
+
+import Data.Bits
+import Data.Monoid
+import Data.Word
+import Foreign.Ptr
+import Foreign.Storable
+
+newtype Poke = Poke (Ptr Word8 -> IO (Ptr Word8))
+
+instance Monoid Poke where
+  mempty = Poke return
+  mappend (Poke a) (Poke b) = Poke $ \ptr -> a ptr >>= b
+
+beamWordPoke :: Word -> Poke
+beamWordPoke n
+    | next == 0 = pokeWord8 firstSeptet
+    | otherwise = pokeWord8 (firstSeptet .|. 0x80) <> beamWordPoke next
+    where
+        firstSeptet :: Word8
+        firstSeptet = fromIntegral $ n .&. 0x7F
+        next = n `shiftR` 7
+
+pokeWord8 :: Word8 -> Poke
+pokeWord8 w = Poke $ \p -> do poke p w; return $! p `plusPtr` 1
+}}}
