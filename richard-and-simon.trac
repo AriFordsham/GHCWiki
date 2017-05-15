@@ -16,6 +16,7 @@
   * generalized classes in base
   * ...
 * #11739 (simplify axioms)
+    * Also: consider making a closed-type-family axiom into a bunch of top-level axioms using some proof of apartness. It might simplify the step in coercion optimization where we optimize a c.t.f. coercion only to abandon the changes because they break apartness constraints. It would also allow us to delete gobs of code dealing with "branched axioms" vs regular ones.
 * Fix all the `TypeInType` bugs
 * Clean up pure unifier to make the fact that kind coercions ''only'' affect type variables by using, e.g., `getCastedTyVar_maybe`.
 * Is it possible to remove all the pushing in `mkCastTy`? I think so. The pushing doesn't help `splitTyConApp` at all, because pushing a coercion into a `TyConApp` doesn't make it become another `TyConApp`. The pushing ''does'' help `splitAppTy`, but perhaps all usages of `splitAppTy` already account for casts. ''Dangling problem:'' what on earth to do about `LRCo`, given that it's not always possible to push? It seems that it may be impossible to make `LRCo` work in a way that respects `eqType` equality, with `eqType`'s ability to move casts about willy-nilly.
