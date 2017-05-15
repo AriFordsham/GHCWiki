@@ -9,7 +9,6 @@
 
   - An-Refl2 makes me think that the output of `coercionKind` would be hetero. Indeed it would. But we could still have `(~#) :: forall k. k -> k -> Type` because we don't have to abstract over hetero equalities. Note that Wanteds are CoercionHoles, and that we can always homogenize givens. This would also require storing `PredTree`s in `CtEvidence` instead of `PredType`s (because we can't write the type of a hetero coercion.
 - Fix [\#11715](https://gitlab.haskell.org//ghc/ghc/issues/11715) according to Richard's plan
-- Remove `solveSomeEqualities`
 - Generalized injectivity [\#10832](https://gitlab.haskell.org//ghc/ghc/issues/10832), vis-a-vis Constrained Type Families paper
 - Taking better advantage of levity polymorphism:
 
@@ -65,6 +64,7 @@ data X where
 ## Completed tasks
 
 - Sort out `mkCastTy` (see email)
+- Remove `solveSomeEqualities`
 
 **Iceland_jack**: By `[]` as a data family do you mean:
 
