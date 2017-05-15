@@ -183,7 +183,7 @@ See directly below for usage examples. More detailed design decisions follow the
 ## **Usage:**
 
 
-This extension can be enabled with “[ExplicitTypeApplication](explicit-type-application)” within the LANGUAGE pragma, or use the flag “-XExplicitTypeApplication”. The usage of this flag does not turn on any other flag implicitly. Using this flag will make a whitespace-sensitive distinction preceding each ‘@’ character: No whitespace before ‘@’ will result in an as-pattern, while having whitespace before the ‘@’ will parse as a type-application. (When this flag is turned off, the behavior is the same as it is now - no whitespace sensitivity). See **Design** with more information on the syntax.
+This extension can be enabled with “TypeApplications” within the LANGUAGE pragma, or use the flag “-XTypeApplications”. The usage of this flag does not turn on any other flag implicitly. Using this flag will make a whitespace-sensitive distinction preceding each ‘@’ character: No whitespace before ‘@’ will result in an as-pattern, while having whitespace before the ‘@’ will parse as a type-application. (When this flag is turned off, the behavior is the same as it is now - no whitespace sensitivity). See **Design** with more information on the syntax.
 
 
 Here are some examples where type application is useful:
