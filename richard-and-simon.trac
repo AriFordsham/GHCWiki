@@ -4,7 +4,8 @@
 
 * Change flattener to be homogeneous (#12919, #13643)
 * Implement #13650 (subsumes `mkCastTy` stuff below)
-* Implement homogeneous as per Stephanie's paper (but what about Refl2?  Does Refl2 mean that our new equality will need to be indexed by a coercion??)
+* Implement homogeneous as per Stephanie's paper
+    * An-Refl2 makes me think that the output of `coercionKind` would be hetero. Indeed it would. But we could still have `(~#) :: forall k. k -> k -> Type` because we don't have to abstract over hetero equalities. Note that Wanteds are !CoercionHoles, and that we can always homogenize givens. This would also require storing `PredTree`s in `CtEvidence` instead of `PredType`s (because we can't write the type of a hetero coercion.
 * Fix #11715 according to Richard's plan
 * Remove `solveSomeEqualities`
 * Generalized injectivity #10832, vis-a-vis Constrained Type Families paper
