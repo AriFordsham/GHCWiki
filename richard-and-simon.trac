@@ -4,9 +4,9 @@
 
 * Change flattener to be homogeneous (#12919, #13643)
 * Implement #13650 (subsumes `mkCastTy` stuff below)
-* Implement homogeneous as per Stephanie's paper (but what about Refl2?  Does Refl2 mean that our new equality will need to be indexed by a coercion??)
+* Implement homogeneous as per Stephanie's paper
+    * An-Refl2 makes me think that the output of `coercionKind` would be hetero. Indeed it would. But we could still have `(~#) :: forall k. k -> k -> Type` because we don't have to abstract over hetero equalities. Note that Wanteds are !CoercionHoles, and that we can always homogenize givens. This would also require storing `PredTree`s in `CtEvidence` instead of `PredType`s (because we can't write the type of a hetero coercion.
 * Fix #11715 according to Richard's plan
-* Remove `solveSomeEqualities`
 * Generalized injectivity #10832, vis-a-vis Constrained Type Families paper
 * Taking better advantage of levity polymorphism:
   * Could `[]` be a data family?
@@ -15,6 +15,7 @@
   * generalized classes in base
   * ...
 * #11739 (simplify axioms)
+    * Also: consider making a closed-type-family axiom into a bunch of top-level axioms using some proof of apartness. It might simplify the step in coercion optimization where we optimize a c.t.f. coercion only to abandon the changes because they break apartness constraints. It would also allow us to delete gobs of code dealing with "branched axioms" vs regular ones.
 * Fix all the `TypeInType` bugs
 * Clean up pure unifier to make the fact that kind coercions ''only'' affect type variables by using, e.g., `getCastedTyVar_maybe`.
 * Is it possible to remove all the pushing in `mkCastTy`? I think so. The pushing doesn't help `splitTyConApp` at all, because pushing a coercion into a `TyConApp` doesn't make it become another `TyConApp`. The pushing ''does'' help `splitAppTy`, but perhaps all usages of `splitAppTy` already account for casts. ''Dangling problem:'' what on earth to do about `LRCo`, given that it's not always possible to push? It seems that it may be impossible to make `LRCo` work in a way that respects `eqType` equality, with `eqType`'s ability to move casts about willy-nilly.
@@ -55,6 +56,7 @@ data X where
 == Completed tasks
 
 * Sort out `mkCastTy` (see email)
+* Remove `solveSomeEqualities`
 
 **Iceland_jack**: By `[]` as a data family do you mean:
 
