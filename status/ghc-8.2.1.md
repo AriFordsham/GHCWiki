@@ -61,6 +61,8 @@ Below are the major highlights of 8.2.
 
 - **Overloaded record fields** (Adam Gundry, [ Phab:D2708](https://phabricator.haskell.org/D2708), [ Phab:D3144](https://phabricator.haskell.org/D3144)): Changes to `IsLabel` class used by `OverloadedLabels` extension, plus the addition of a `HasField` class supporting polymorphism over record field selectors, but no `OverloadedRecordFields` extension or `IsLabel x (r -> a)` instance. See [ the proposal and discussion](https://github.com/ghc-proposals/ghc-proposals/pull/6) for more details.
 
+- **Unpacked sum types** (Ömer Sinan Ağacan, [wiki](unpacked-sum-types)): Allowing for efficient, unpacked representation of sum data types.
+
 #### Back-end and runtime system
 
 - **Compact regions** (Giovanni Campagna, Edward Yang, [ Phab:D1264](https://phabricator.haskell.org/D1264), [ paper](http://ezyang.com/papers/ezyang15-cnf.pdf)). This runtime system feature allows a referentially "closed" set of heap objects to be collected into a "compact region", allowing cheaper garbage collection, heap-object sharing between processes, and the possibility of inexpensive serialization. Use the [ compact](https://hackage.haskell.org/package/compact) library to get access to this feature!
