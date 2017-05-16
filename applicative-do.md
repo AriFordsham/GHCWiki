@@ -4,6 +4,9 @@
 This is a proposal to add support to GHC for desugaring do-notation into Applicative expressions where possible.
 
 
+It's described in some detail in the paper: [ Desugaring Haskell’s do-notation Into Applicative Operations](https://www.microsoft.com/en-us/research/publication/desugaring-haskells-do-notation-into-applicative-operations/) (ICFP'16).
+
+
 To jump to the code, see [ https://phabricator.haskell.org/D729](https://phabricator.haskell.org/D729).
 
 
