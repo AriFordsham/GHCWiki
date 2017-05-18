@@ -1,0 +1,38 @@
+== Implementation of Trees that Grow ==
+
+In this page, we discuss the overall plan and details of implementing [http://www.jucs.org/jucs_23_1/trees_that_grow/jucs_23_01_0042_0062_najd.pdf Tress that Grow] in GHC. 
+The motivation and some background information can be found at the [https://ghc.haskell.org/trac/ghc/wiki/NativeMetaprogramming report] of a related Summer of Haskell project.
+I (Shayan), with Simon Peyton Jones and Alan Zimmerman on board, plan to do as described below. 
+This work partly overlaps and subsumes Alan's work on [https://ghc.haskell.org/trac/ghc/wiki/ApiAnnotations Api Annotations].  
+
+=== General Plan ===
+
+I have the following practical plan, which makes it possible to change the AST and the related code gradually, without touching the entire code base with a few git commits.
+(I expect to fill in and update the details, as we go.)
+It is done in four steps.
+
+==== Step 1 ====
+We replace the current `HsSyn` with 
+a. a growable base AST (following our latest design described in our JUCS paper); 
+b. a set of extensions exactly as they are right now in GHC; and
+c. a set of pattern synonyms as a (temporary) shim to avoid the need for changing the rest of the code base.
+  
+It will hopefully allow us to reuse the AST for Template Haskell (TH), or even refactoring the parser (to replace Haskell-Src-Exts, etc)   
+At this stage, we WILL have some slow downs in GHC's own compile time (and possibly run time) due to the decomposition (and then recomposition), but we hopefully regain some speed by the next steps.
+(Arguably the benefit of extensibility, by far, outweighs the *tolerable* slow downs)
+
+==== Step 2 ====
+
+We reorganise the the way source locations are stored, by moving from the current alternating design to a direct style (as discussed in the Summer of Haskell project).
+
+It will give us a cleaner parser (design/code wise), and speed ups.
+
+==== Step 3 ====
+
+Possibly, we remove the pattern synonyms to avoid a layer of indirection and get some speed up. 
+
+==== Step 4 ====
+We work on refactoring, by then redundant, bits and pieces of TH by either just removing them (like the HsSyn-TH translator) or reusing the ones in the compiler.
+
+
+
