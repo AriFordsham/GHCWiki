@@ -67,7 +67,7 @@ Currently, GHC relies on the system-installed [ C-preprocessor](http://en.wikipe
   Plan 1: Use custom fixed `cpp` implementation bundled with GHCOne candidate would be the C-implemented `tradcpp` (see [ http://www.freshports.org/devel/tradcpp/](http://www.freshports.org/devel/tradcpp/))
   Clang's `cpp` could be another candidate (as suggested [ here](http://permalink.gmane.org/gmane.comp.lang.haskell.cafe/116403)). Needs more investigation
   Probably not as easy to extend/evolve to be more Haskell-syntax-aware
-  Plan 2: Embed Malcom's `cpphs` into GHC**Advantages**`cpphs` has been widely used, hence it's proven code
+  Plan 2: Embed Malcom's [ hackage:cpphs](http://hackage.haskell.org/package/cpphs) into GHC**Advantages**`cpphs` has been widely used, hence it's proven code
   It's already more Haskell-aware than system-`cpp``cpphs` is actively maintained
   no more `fork(2)/exec(2)` ([ avoids substantial overhead on Windows](http://permalink.gmane.org/gmane.comp.lang.haskell.ghc.devel/8869))
   **Disadvantages**`cpphs` is licensed as "LGPLv2 w/ static linking exception" (see below)
@@ -75,8 +75,10 @@ Currently, GHC relies on the system-installed [ C-preprocessor](http://en.wikipe
   The `ghc` package would be tainted by this license augmentation. (But no more tainted than it is already, by the LGPL'd GMP library (Gnu multi-precision arithmetic).)
   Plan 3: Write native BSD-licenced Haskell implementation from scratch**Advantages**no more `fork(2)/exec(2)` ([ avoids substantial overhead on Windows](http://permalink.gmane.org/gmane.comp.lang.haskell.ghc.devel/8869))
   Tailored to GHC's needs
-  **Disadvantages**Requires menpower and time
+  **Disadvantages**Requires manpower and time
   Additional long-term maintenance effort for GHC-HQ
+  Plan 3a: Embed [ hackage:hpp](http://hackage.haskell.org/package/hpp) into GHC
+  Since this wiki page was first written, [ hackage:hpp](http://hackage.haskell.org/package/hpp) has been written, which is BSD3 licensed.
   Plan 4: Bundle `cpphs`-based executable with GHC
   This is a variant of plan 2 where `cpphs` code remains in a separate executable.
   **Advantages**`cpphs` has been widely used, hence it's proven code
@@ -94,7 +96,7 @@ Currently, GHC relies on the system-installed [ C-preprocessor](http://en.wikipe
   The `ghc` package which can be linked into programs currently depends on the packages
   `array`, `base`, `binary`, `bin-package-db`, `bytestring`, `containers`, `deepseq`, `directory`, `filepath`, `ghc-prim`, `hoopl`, `hpc`, `integer-gmp`, `pretty`, `process`, `rts`, `template-haskell`, `time`, `transformers`, and `unix` whose collated `LICENSE` have been pasted as [ http://lpaste.net/131294](http://lpaste.net/131294)
           jQuery.loadStyleSheet("/trac/ghc/pygments/trac.css", "text/css");
-      Download in other formats:[Plain Text](/trac/ghc/wiki/Proposal/NativeCpp?version=19&format=txt)[](http://trac.edgewall.org/)Powered by [Trac 1.2.2](/trac/ghc/about)
+      Download in other formats:[Plain Text](/trac/ghc/wiki/Proposal/NativeCpp?version=20&format=txt)[](http://trac.edgewall.org/)Powered by [Trac 1.2.2](/trac/ghc/about)
 
           By [Edgewall Software](http://www.edgewall.org/).Visit the Trac open source project at
   [http://trac.edgewall.org/](http://trac.edgewall.org/)
