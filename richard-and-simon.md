@@ -4,7 +4,22 @@
 ... as discussed by Richard and Simon. This page is mostly for our own notes, but others are welcome to read it.
 
 - Change flattener to be homogeneous ([\#12919](https://gitlab.haskell.org//ghc/ghc/issues/12919), [\#13643](https://gitlab.haskell.org//ghc/ghc/issues/13643))
-- Implement [\#13650](https://gitlab.haskell.org//ghc/ghc/issues/13650) (subsumes `mkCastTy` stuff below)
+- Sort out `mkCastTy`
+
+  - Implement KPush in `splitTyConApp`. ([\#13650](https://gitlab.haskell.org//ghc/ghc/issues/13650))
+  - Change the premises to `LRCo` so that there may be an outer coercion. That is:
+
+    ```wiki
+    g : (t1 t2 |> co1) ~ (s1 s2 |> co2)
+    -----------------------------------
+    Left g : t1 ~ s1
+    ```
+
+> >
+> > There is more work to do to make this homogeneous.
+
+- Some invariants to make sure of: No nested `CastTy`s. No `AppTy (TyConApp ... |> co) ty`. No reflexive coercions.
+
 - Implement homogeneous as per Stephanie's paper
 
   - An-Refl2 makes me think that the output of `coercionKind` would be hetero. Indeed it would. But we could still have `(~#) :: forall k. k -> k -> Type` because we don't have to abstract over hetero equalities. Note that Wanteds are CoercionHoles, and that we can always homogenize givens. This would also require storing `PredTree`s in `CtEvidence` instead of `PredType`s (because we can't write the type of a hetero coercion.
@@ -22,7 +37,6 @@
   - Also: consider making a closed-type-family axiom into a bunch of top-level axioms using some proof of apartness. It might simplify the step in coercion optimization where we optimize a c.t.f. coercion only to abandon the changes because they break apartness constraints. It would also allow us to delete gobs of code dealing with "branched axioms" vs regular ones.
 - Fix all the `TypeInType` bugs
 - Clean up pure unifier to make the fact that kind coercions *only* affect type variables by using, e.g., `getCastedTyVar_maybe`.
-- Is it possible to remove all the pushing in `mkCastTy`? I think so. The pushing doesn't help `splitTyConApp` at all, because pushing a coercion into a `TyConApp` doesn't make it become another `TyConApp`. The pushing *does* help `splitAppTy`, but perhaps all usages of `splitAppTy` already account for casts. *Dangling problem:* what on earth to do about `LRCo`, given that it's not always possible to push? It seems that it may be impossible to make `LRCo` work in a way that respects `eqType` equality, with `eqType`'s ability to move casts about willy-nilly.
 - It seems that `quantifyTyVars` is duplicating some logic from `simplifyInfer`, in that it removes covars. This should really be done in `kindGeneralize`, because `simplifyInfer`*uses*`quantifyTyVars`. This should be just about possible, but with some twists and turns:
 
   - H98 constructors are strange in that they have tyvars that aren't mentioned in the type. So be careful here and make sure the type is closed (w.r.t. user-written tyvars) before calling `kindGeneralize`.
@@ -38,11 +52,6 @@ data X where
 ```
 
 - Take a look at `tidyToIfaceType`: I don't think it needs to tidy the env.
-- Simplify `mkCastTy`, keeping the `isReflexiveCo` check. Document the reflexivity invariant. (Do we need to differentiate between `tcView`-reflexivity and `coreView`-reflexivity?) ([\#13650](https://gitlab.haskell.org//ghc/ghc/issues/13650))
-
-  - Bah. This is wrong. I had thought that the reflexivity invariant would mean that `splitTyConApp` could never be thrown off the scent by a coercion. But this is wrong. Consider `T a b c` and `(T a b |> (co -> <Type>)) (c |> sym co)`. These types have the same kind (`Type`) and are `eqType`. (That is, they are the same if we ignore coercions.) Yet the first is a `TyConApp` and the second is an `AppTy`. No reflexive coercions here! The current elaborate `mkCastTy` doesn't even handle this situation. But it makes me realize that the reflexivity invariant isn't enough. We need to teach `splitTyConApp` how to deal with this scenario. Ugh.
-  - Some invariants to make sure of: No nested `CastTy`s. No `AppTy (TyConApp ... |> co) ty`. No reflexive coercions.
-  - Implement KPush in `splitTyConApp`.
 - Remove `quantifyTyVars` call from `simplifyInfer`. Instead call `skolemiseUnboundMetaTyVars` from `simplifyInfer` directly.
 - Stable topological sort may not be well specified. But we can always write a deterministic algorithm. Perhaps that should be in the manual.
 - Can remove `closeOverKinds` in most places. Otherwise, just gather the kinds of user-written tyvars (e.g. fundep RHS)
@@ -51,6 +60,8 @@ data X where
   1. How to ascertain whether or not a primop is saturated during desugaring (or, possibly, earlier). On a call, we thought that we could do this in the desugarer by decomposing nested `HsApp`s, using a little stack data type to denote all the different ways a function could be applied (`HsApp`, `HsWrap` with the right wrapper, sections, tuple-sections, `HsTypeApp`, maybe more) uncovering what the function was underneath, and then checking how many parameters are supplied. But now, I think it's much better to do this in the type-checker, especially because the type-checker already decomposes nested `HsApp`s. (See `TcExpr.tcApp`.) When it discovers what the function is, it can check whether the function is a `hasNoBinding` primop. If so, it can eta-expand as necessary (but only if necessary) and use a new piece of `HsSyn` to denote a saturated primop. (It will be a new invariant that no unsaturated primop passes the type-checker.) This seems better than redoing the stack type in the desugarer. The original problem in [\#13233](https://gitlab.haskell.org//ghc/ghc/issues/13233) was around levity polymorphism. If we make this change in the type checker, then the existing levity polymorphism checks should just work. We'll have to be careful to make the `HsSyn` structure printable in the way a user expects, so that the levity-polymorphism error message doesn't talk about an argument the user didn't write.
   1. How to make sure that saturated primops stay that way in Core. This would be a new check in Lint as well as new checks on any code that does eta-contraction. It has been suggested that levity-polymorphic primops desugar to a family of levity-monomorphic primops. This surely would work, but there doesn't seem to be benefit over a plan simply to keep primops eta-expanded always. Then, there's no worry about eta-contracting levity-polymorphic arguments.
 - Make better use of the `uo_thing` field, including refactoring `noThing` away and improving term-level error messages.
+
+  - Simon also asks that the contents of `uo_thing` should only be `HsSyn`. This would obviate the current zonking/tidying stuff. A quick pass suggests that this will be easy to do.
 - Take full advantage of `TcTyCon`, getting rid of the dreaded type-checking knot.
 - Document why we're not worried about casts in class wanteds. (Short story: any cast should be available for rewriting, and so it will rewrite the kinds.)
 - Sort out `matchTypeable` (see email) [\#13333](https://gitlab.haskell.org//ghc/ghc/issues/13333)
@@ -63,7 +74,7 @@ data X where
 
 ## Completed tasks
 
-- Sort out `mkCastTy` (see email)
+- Remove pushing from `mkCastTy`. But see bullet above about remaining tasks.
 - Remove `solveSomeEqualities`
 
 **Iceland_jack**: By `[]` as a data family do you mean:
