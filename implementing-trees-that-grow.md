@@ -45,3 +45,188 @@ Possibly, we remove the pattern synonyms to avoid a layer of indirection and get
 
 
 We work on refactoring, by then redundant, bits and pieces of TH by either just removing them (like the HsSyn-TH translator) or reusing the ones in the compiler.
+
+### Experiment
+
+
+There is an experimental implementation at [ https://github.com/alanz/ghc/tree/wip/new-tree-one-param](https://github.com/alanz/ghc/tree/wip/new-tree-one-param).
+
+
+The intention is to
+
+1. replace the current `hsSyn` parameter which is one of `RdrName`, `Name` or `Id` for the output of the *parser*, *renamer* or *typechecker* respectively with an explicit parameter for the pass; and
+
+1. add extension points to `HsLit.hs` to get a feel for how it will impact things.
+
+
+ 
+It does this by adding a `HsExtension` module to `hsSyn`, defining as
+
+```
+dataGHCPdataGHCRdataGHCTdataGHCTH
+```
+
+
+This is a deviation from the *Trees that Grow* paper ([ http://www.jucs.org/jucs_23_1/trees_that_grow/jucs_23_01_0042_0062_najd.pdf](http://www.jucs.org/jucs_23_1/trees_that_grow/jucs_23_01_0042_0062_najd.pdf)) section 4.2 which suggests
+
+```
+dataGHC(c ::Component)dataComponent=CompilerPass|TemplateHaskelldataPass=Parsed|Renamed|Typechecked
+```
+
+
+The deviation is due to a current problem in the implementation which requires the tag type to appear in the `hsSyn` AST types, and the requirement for `Data` instances for it.  See below for details.
+
+
+This is not important for the experiment however, as in practice we would define type synonyms of the form
+
+```
+typeGHCP=GHC'(Compiler Parsed)typeGHCR=GHC'(Compiler Renamed)...
+```
+
+
+The `HsLit` module is amended as
+
+```
+dataHsLit x
+  =HsChar(XHsChar x){- SourceText -}Char-- ^ Character|HsCharPrim(XHsCharPrim x){- SourceText -}Char-- ^ Unboxed character...|HsDoublePrim(XHsDoublePrim x)FractionalLit-- ^ Unboxed Double
+```
+
+
+Each constructor gets its own tag type, derived mechanically from the constructor name for ease of reference when being used.  The extension point is used for the `SourceText` where this is needed. But note that it is also added to constructors without `SourceText`, such as `HsDoublePrim`.
+
+
+We then define the type families in `HsExtension.hs` for each extension point, as
+
+```
+typefamilyXHsChar x
+typefamilyXHsCharPrim x
+...typefamilyXHsDoublePrim x
+```
+
+
+For each compiler pass we define the specific mappings
+
+```
+-- GHCPtypeinstanceXHsCharGHCP=SourceTexttypeinstanceXHsCharPrimGHCP=SourceText...typeinstanceXHsDoublePrimGHCP=()-- GHCRtypeinstanceXHsCharGHCR=SourceTexttypeinstanceXHsCharPrimGHCR=SourceText...typeinstanceXHsDoublePrimGHCR=()...
+```
+
+
+These are all the same at the moment, and `()` is used for points not requiring anything for any of the passes.
+
+
+One of the eventual goals (for \@alanz anyway) is to be able to pass an AST using different annotations on it to later passes of the compiler.
+
+
+To facilitate this, some type classes are defined for the `SourceText` and providing initial/default values.
+
+```
+classHasSourceText a where-- Provide setters to mimic existing constructors
+  noSourceText  :: a
+  sourceText    ::String-> a
+
+  setSourceText ::SourceText-> a
+  getSourceText :: a ->SourceText-- Named constraint to simplify usagetypeSourceTextX x =(HasSourceText(XHsChar x),HasSourceText(XHsCharPrim x)...)
+```
+
+```
+classHasDefault a where
+  def :: a
+
+-- Named constraint to simplify usagetypeHasDefaultX x =(HasDefault(XHsChar x),HasDefault(XHsCharPrim x)...,HasDefault(XHsDoublePrim x))
+```
+
+
+These have the expected instances for the two types used in GHC
+
+```
+instanceHasSourceTextSourceTextwhere
+  noSourceText    =NoSourceText
+  sourceText s    =SourceText s
+
+  setSourceText s = s
+  getSourceText a = a
+
+```
+
+```
+instanceHasDefault()where
+  def =()instanceHasDefaultSourceTextwhere
+  def =NoSourceText
+```
+
+#### PostXXX types
+
+
+The paper also proposes explicitly using extension points for the `PostRn` and `PostTc` usages. This has not been done in the current experiment, which has the limited goals set out above. The types have been replaced with updated ones parameterised by the pass variable though
+
+```
+typefamilyPostTC x ty -- Note [Pass sensitive types]typeinstancePostTCGHCP ty =PlaceHoldertypeinstancePostTCGHCR ty =PlaceHoldertypeinstancePostTCGHCT ty = ty
+
+-- | Types that are not defined until after renamingtypefamilyPostRN x ty  -- Note [Pass sensitive types]typeinstancePostRNGHCP ty =PlaceHoldertypeinstancePostRNGHCR ty = ty
+typeinstancePostRNGHCT ty = ty
+```
+
+#### When we actually *need* a specific id type ===
+
+
+Many functions and data types need to refer to variables that used to be simply the AST type parameter.  This ability is provided through the `IdP` type family
+
+```
+-- Maps the "normal" id type for a given passtypefamilyIdP p
+typeinstanceIdPGHCP=RdrNametypeinstanceIdPGHCR=NametypeinstanceIdPGHCT=Id
+```
+
+
+So we end up with
+
+```
+dataSig pass
+    TypeSig[Located(IdP pass)]-- LHS of the signature; e.g.  f,g,h :: blah(LHsSigWcType pass)-- RHS of the signature; can have wildcards...
+```
+
+#### Experiences
+
+
+Once the `hsSyn` AST was converted, the conversion process for other modules is straightforward, as it is basically mapping
+
+- `RdrName` to `GHCP`
+- `Name` to `GHCR`
+- `Id`  to `GHCT`
+
+
+in type signatures, and making sure that where the original was used "as is" to now wrap it in `IdP`.
+
+
+In some cases adding `SourceTextX` or `HasDefaultX` constraints is also required. 
+
+#### Problems
+
+
+The `Data` instance for the index type is required due to the following kind of construct
+
+```
+|ValBindsOut[(RecFlag,LHsBinds idL)][LSigGHCR]-- AZ: how to do this?
+```
+
+
+This has `GHCR` as the hard coded index type for `LSig`.
+
+
+I presume this can be dealt with by either
+
+1. Somehow adding a constraint that `IdP idL ~ Name` (where `idL` is the AST index type; or
+
+1. Making `ValBindsOut` only appear as a constructor when the pass type is `GHCR`, or has the `IdP idL ~ Name` constraint.
+
+
+Can this be done? How?
+
+#### Further steps
+
+1. Implement the `PostRn` and `PostTc` mechanism as per *Trees that Grow*.
+
+1. Sort out the `Data` problem for the parameter type.
+
+1. Add further extension points to the AST.
+
+1. Use of type synonyms, if required.
