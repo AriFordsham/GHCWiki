@@ -5,6 +5,7 @@
 * Change flattener to be homogeneous (#12919, #13643)
 * Sort out `mkCastTy`
     * Implement KPush in `splitTyConApp`. (#13650)
+    * Some invariants to make sure of: No nested `CastTy`s. No `AppTy (TyConApp ... |> co) ty`. No reflexive coercions.
     * Change the premises to `LRCo` so that there may be an outer coercion. That is:
 {{{
 g : (t1 t2 |> co1) ~ (s1 s2 |> co2)
@@ -12,7 +13,6 @@ g : (t1 t2 |> co1) ~ (s1 s2 |> co2)
 Left g : t1 ~ s1
 }}}
         There is more work to do to make this homogeneous.
-    * Some invariants to make sure of: No nested `CastTy`s. No `AppTy (TyConApp ... |> co) ty`. No reflexive coercions.
 * Implement homogeneous as per Stephanie's paper
     * An-Refl2 makes me think that the output of `coercionKind` would be hetero. Indeed it would. But we could still have `(~#) :: forall k. k -> k -> Type` because we don't have to abstract over hetero equalities. Note that Wanteds are !CoercionHoles, and that we can always homogenize givens. This would also require storing `PredTree`s in `CtEvidence` instead of `PredType`s (because we can't write the type of a hetero coercion.
 * Fix #11715 according to Richard's plan

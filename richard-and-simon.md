@@ -7,6 +7,7 @@
 - Sort out `mkCastTy`
 
   - Implement KPush in `splitTyConApp`. ([\#13650](https://gitlab.haskell.org//ghc/ghc/issues/13650))
+  - Some invariants to make sure of: No nested `CastTy`s. No `AppTy (TyConApp ... |> co) ty`. No reflexive coercions.
   - Change the premises to `LRCo` so that there may be an outer coercion. That is:
 
     ```wiki
@@ -17,8 +18,6 @@
 
 > >
 > > There is more work to do to make this homogeneous.
-
-- Some invariants to make sure of: No nested `CastTy`s. No `AppTy (TyConApp ... |> co) ty`. No reflexive coercions.
 
 - Implement homogeneous as per Stephanie's paper
 
