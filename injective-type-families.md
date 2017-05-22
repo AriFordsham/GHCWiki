@@ -696,3 +696,5 @@ There are several concerns to consider before implementing this:
 
 In the injectivity paper we presented two practical use cases for injectivity.
 If you have more uses cases to demonstrate please add them here.
+
+[ GLambda issue tracker (“Make Val injective”)](https://github.com/goldfirere/glambda/issues/6).
