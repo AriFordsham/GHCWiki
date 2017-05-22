@@ -7,6 +7,7 @@
 - Sort out `mkCastTy`
 
   - Implement KPush in `splitTyConApp`. ([\#13650](https://gitlab.haskell.org//ghc/ghc/issues/13650))
+  - Some invariants to make sure of: No nested `CastTy`s. No `AppTy (TyConApp ... |> co) ty`. No reflexive coercions.
   - Change the premises to `LRCo` so that there may be an outer coercion. That is:
 
     ```wiki
@@ -17,8 +18,6 @@
 
 > >
 > > There is more work to do to make this homogeneous.
-
-- Some invariants to make sure of: No nested `CastTy`s. No `AppTy (TyConApp ... |> co) ty`. No reflexive coercions.
 
 - Implement homogeneous as per Stephanie's paper
 
@@ -51,7 +50,6 @@ data X where
   MkX :: Proxy a -> Proxy b -> (Refl :: a :~: b) -> X
 ```
 
-- Take a look at `tidyToIfaceType`: I don't think it needs to tidy the env.
 - Remove `quantifyTyVars` call from `simplifyInfer`. Instead call `skolemiseUnboundMetaTyVars` from `simplifyInfer` directly.
 - Stable topological sort may not be well specified. But we can always write a deterministic algorithm. Perhaps that should be in the manual.
 - Can remove `closeOverKinds` in most places. Otherwise, just gather the kinds of user-written tyvars (e.g. fundep RHS)
@@ -62,7 +60,7 @@ data X where
 - Make better use of the `uo_thing` field, including refactoring `noThing` away and improving term-level error messages.
 
   - Simon also asks that the contents of `uo_thing` should only be `HsSyn`. This would obviate the current zonking/tidying stuff. A quick pass suggests that this will be easy to do.
-- Take full advantage of `TcTyCon`, getting rid of the dreaded type-checking knot.
+- Take full advantage of `TcTyCon`, getting rid of the dreaded type-checking knot. ([\#13737](https://gitlab.haskell.org//ghc/ghc/issues/13737))
 - Document why we're not worried about casts in class wanteds. (Short story: any cast should be available for rewriting, and so it will rewrite the kinds.)
 - Sort out `matchTypeable` (see email) [\#13333](https://gitlab.haskell.org//ghc/ghc/issues/13333)
 - Fix equality printing: 
@@ -76,6 +74,7 @@ data X where
 
 - Remove pushing from `mkCastTy`. But see bullet above about remaining tasks.
 - Remove `solveSomeEqualities`
+- Take a look at `tidyToIfaceType`: I don't think it needs to tidy the env.
 
 **Iceland_jack**: By `[]` as a data family do you mean:
 

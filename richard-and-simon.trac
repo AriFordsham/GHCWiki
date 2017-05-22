@@ -5,6 +5,7 @@
 * Change flattener to be homogeneous (#12919, #13643)
 * Sort out `mkCastTy`
     * Implement KPush in `splitTyConApp`. (#13650)
+    * Some invariants to make sure of: No nested `CastTy`s. No `AppTy (TyConApp ... |> co) ty`. No reflexive coercions.
     * Change the premises to `LRCo` so that there may be an outer coercion. That is:
 {{{
 g : (t1 t2 |> co1) ~ (s1 s2 |> co2)
@@ -12,7 +13,6 @@ g : (t1 t2 |> co1) ~ (s1 s2 |> co2)
 Left g : t1 ~ s1
 }}}
         There is more work to do to make this homogeneous.
-    * Some invariants to make sure of: No nested `CastTy`s. No `AppTy (TyConApp ... |> co) ty`. No reflexive coercions.
 * Implement homogeneous as per Stephanie's paper
     * An-Refl2 makes me think that the output of `coercionKind` would be hetero. Indeed it would. But we could still have `(~#) :: forall k. k -> k -> Type` because we don't have to abstract over hetero equalities. Note that Wanteds are !CoercionHoles, and that we can always homogenize givens. This would also require storing `PredTree`s in `CtEvidence` instead of `PredType`s (because we can't write the type of a hetero coercion.
 * Fix #11715 according to Richard's plan
@@ -40,7 +40,6 @@ data X where
   MkX :: Proxy a -> Proxy b -> (Refl :: a :~: b) -> X
 }}}
 
-* Take a look at `tidyToIfaceType`: I don't think it needs to tidy the env.
 * Remove `quantifyTyVars` call from `simplifyInfer`. Instead call `skolemiseUnboundMetaTyVars` from `simplifyInfer` directly.
 * Stable topological sort may not be well specified. But we can always write a deterministic algorithm. Perhaps that should be in the manual.
 * Can remove `closeOverKinds` in most places. Otherwise, just gather the kinds of user-written tyvars (e.g. fundep RHS)
@@ -49,7 +48,7 @@ data X where
     2. How to make sure that saturated primops stay that way in Core. This would be a new check in Lint as well as new checks on any code that does eta-contraction. It has been suggested that levity-polymorphic primops desugar to a family of levity-monomorphic primops. This surely would work, but there doesn't seem to be benefit over a plan simply to keep primops eta-expanded always. Then, there's no worry about eta-contracting levity-polymorphic arguments.
 * Make better use of the `uo_thing` field, including refactoring `noThing` away and improving term-level error messages.
     * Simon also asks that the contents of `uo_thing` should only be `HsSyn`. This would obviate the current zonking/tidying stuff. A quick pass suggests that this will be easy to do.
-* Take full advantage of `TcTyCon`, getting rid of the dreaded type-checking knot.
+* Take full advantage of `TcTyCon`, getting rid of the dreaded type-checking knot. (#13737)
 * Document why we're not worried about casts in class wanteds. (Short story: any cast should be available for rewriting, and so it will rewrite the kinds.)
 * Sort out `matchTypeable` (see email) #13333
 * Fix equality printing: 
@@ -62,6 +61,8 @@ data X where
 
 * Remove pushing from `mkCastTy`. But see bullet above about remaining tasks.
 * Remove `solveSomeEqualities`
+* Take a look at `tidyToIfaceType`: I don't think it needs to tidy the env.
+
 
 **Iceland_jack**: By `[]` as a data family do you mean:
 
