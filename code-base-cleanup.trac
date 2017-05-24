@@ -8,7 +8,8 @@ It consists in renaming/moving modules.
 
 Issues:
 * some modules in `base` already use useful names (e.g., GHC.Desugar) to export a few builtin utility functions
-  * rename them? merge them?
+  * for now, I'll try to avoid conflicts (e.g., what would be GHC.Desugar in GHC is GHC.Desugar.Main)
+  * maybe we should put all GHC extensions in base under GHC.Exts.*
 
 == Step 2: clearly separate GHC-the-program and GHC's API
 
