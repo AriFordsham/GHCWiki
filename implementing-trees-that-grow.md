@@ -63,7 +63,7 @@ The intention is to
 It does this by adding a `HsExtension` module to `hsSyn`, defining as
 
 ```
-dataGHCPdataGHCRdataGHCTdataGHCTH
+dataGhsPs-- Parser phasedataGhcRn-- RenamerdataGhcTc-- TypecheckerdataGhcTh-- Template Haskell. Currently unused
 ```
 
 
@@ -80,7 +80,7 @@ The deviation is due to a current problem in the implementation which requires t
 This is not important for the experiment however, as in practice we would define type synonyms of the form
 
 ```
-typeGHCP=GHC'(Compiler Parsed)typeGHCR=GHC'(Compiler Renamed)...
+typeGhcPs=GHC'(Compiler Parsed)typeGhcRn=GHC'(Compiler Renamed)...
 ```
 
 
@@ -107,7 +107,7 @@ typefamilyXHsCharPrim x
 For each compiler pass we define the specific mappings
 
 ```
--- GHCPtypeinstanceXHsCharGHCP=SourceTexttypeinstanceXHsCharPrimGHCP=SourceText...typeinstanceXHsDoublePrimGHCP=()-- GHCRtypeinstanceXHsCharGHCR=SourceTexttypeinstanceXHsCharPrimGHCR=SourceText...typeinstanceXHsDoublePrimGHCR=()...
+-- GHCPtypeinstanceXHsCharGhcPs=SourceTexttypeinstanceXHsCharPrimGhcPs=SourceText...typeinstanceXHsDoublePrimGhsPc=()-- GHCRtypeinstanceXHsCharGhcRn=SourceTexttypeinstanceXHsCharPrimGhcRn=SourceText...typeinstanceXHsDoublePrimGhcRn=()...
 ```
 
 
@@ -160,10 +160,10 @@ instanceHasDefault()where
 The paper also proposes explicitly using extension points for the `PostRn` and `PostTc` usages. This has not been done in the current experiment, which has the limited goals set out above. The types have been replaced with updated ones parameterised by the pass variable though
 
 ```
-typefamilyPostTC x ty -- Note [Pass sensitive types]typeinstancePostTCGHCP ty =PlaceHoldertypeinstancePostTCGHCR ty =PlaceHoldertypeinstancePostTCGHCT ty = ty
+typefamilyPostTC x ty -- Note [Pass sensitive types]typeinstancePostTcGhcPs ty =PlaceHoldertypeinstancePostTcGhcRn ty =PlaceHoldertypeinstancePostTcGhcTc ty = ty
 
--- | Types that are not defined until after renamingtypefamilyPostRN x ty  -- Note [Pass sensitive types]typeinstancePostRNGHCP ty =PlaceHoldertypeinstancePostRNGHCR ty = ty
-typeinstancePostRNGHCT ty = ty
+-- | Types that are not defined until after renamingtypefamilyPostRN x ty  -- Note [Pass sensitive types]typeinstancePostRnGhcPs ty =PlaceHoldertypeinstancePostRnGhcRn ty = ty
+typeinstancePostRnGhcTc ty = ty
 ```
 
 #### When we actually *need* a specific id type ===
@@ -173,7 +173,7 @@ Many functions and data types need to refer to variables that used to be simply 
 
 ```
 -- Maps the "normal" id type for a given passtypefamilyIdP p
-typeinstanceIdPGHCP=RdrNametypeinstanceIdPGHCR=NametypeinstanceIdPGHCT=Id
+typeinstanceIdPGhcPs=RdrNametypeinstanceIdPGhcRn=NametypeinstanceIdPGhcTc=Id
 ```
 
 
@@ -189,9 +189,9 @@ dataSig pass
 
 Once the `hsSyn` AST was converted, the conversion process for other modules is straightforward, as it is basically mapping
 
-- `RdrName` to `GHCP`
-- `Name` to `GHCR`
-- `Id`  to `GHCT`
+- `RdrName` to `GhcPs`
+- `Name` to `GhcRn`
+- `Id`  to `GhcTc`
 
 
 in type signatures, and making sure that where the original was used "as is" to now wrap it in `IdP`.
