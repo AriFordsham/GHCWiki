@@ -9,6 +9,13 @@ Implement the [proposal for hierarchical module structure in GHC](module-depende
 
 It consists in renaming/moving modules.
 
+
+Issues:
+
+- some modules in `base` already use useful names (e.g., GHC.Desugar) to export a few builtin utility functions
+
+  - rename them? merge them?
+
 ## Step 2: clearly separate GHC-the-program and GHC's API
 
 - Make the GHC API purer
