@@ -40,7 +40,7 @@ G:
 
 needGC:
   I64[SP + 8] = x
-  I64[SP] = afterGC
+  I64[SP] = afterGC                    // write block address to memory
   call doGC returns to afterGC  // a non-tail call, x is live
 
 afterGC:
@@ -55,81 +55,38 @@ R:
   ...allocate (I# x') and return...
 }}}
 
-`afterGC` is a return point (aka, proc-point). In this example, it is important that a local block does not branch directly to `afterGC`. Otherwise, `afterGC` would appear to LLVM to be the loop header instead of `G`, and LLVM will introduce loop preheader block.
-A preheader merges incoming edges to a loop header that are not back-edges, and in particular, this will place a block between the call in `needGC` and its return point, `afterGC`. 
-
-Here's an example of Cmm code where this problem may crop up. 
-Suppose x was loaded from the stack at `SP+8` in `fEntry`. 
-After some optimizations, it would be valid, though unlikely, to end up with the following:
+`afterGC` is a return point (aka, proc-point). Previously, we would need to split this block out into its own function, but we no longer need to if we use the `llvm.experimental.cpscall` intrinsic. In order to use this intrinsic, we first must omit any uses of a block address in a Cmm assignment. So, the line `I64[Sp] = afterGC` is not generated. Instead, the LLVM cpscall intrinsic will write the return address to the SP for us. The Cmm call to `doGC` would translate to the following LLVM code:
 
 {{{
-fEntry:
-  x1 = I64[SP + 8]
-  if x1 != 0 goto G; else goto J
-
-G:
-  if Hp+10 >= HpLim goto needGC; else goto R
-
-needGC:
-  I64[SP] = G
-  call doGC returns to G  // a non-tail call, x is live
-
-J:
-  call foo( x1 )  // a tail call
-
-R:
-  x2 = I64[SP + 8] 
-  x' = x2 - 1
-  ...allocate (I# x') and return...
+; where R1 = x
+%retVals = call ghccc @llvm.experimental.cpscall( @doGC, ID, RA_OFFSET, SP_ARGNUM, Base, Sp, ..., R1)
+br label %afterGC
 }}}
 
-In this case, we need to introduce a new block that `needGC` returns to, instead of `G`. just before emitting LLVM IR, we require that return points are not branched to locally and will introduce a stand-in block if needed.
+A few notes:
+
+- `SP_ARGNUM` is a constant integer that describes the offset of the argument, starting from `Base` in this example, where
+the explicit stack pointer is passed as an argument to the call. In this case, it would be 1.
+- `RA_OFFSET` is the constant integer representing a byte offset from the explicit stack pointer where the return address should be written. It is typically 0 but not always (over-saturated calls).
+- `ID` is an arbitrary constant-integer value that is used for the purposes of identifying the return point for garbage collector support in the emitted assembly code.
+
+Let `RA_OFFSET = 7` and `SP_ARGNUM = 1` To understand the final assembly code output of the cpscall intrinsic, the last piece we must consider is the calling convention used. In this the above example, the calling convention is `ghccc`, so the 2nd integer register (the one used for `Sp`, which is "argument number" 1) on`x86-64` is `%rbp`. Thus, we will output the following x86-64 assembly code for the cpscall:
+
+{{{
+    leaq   returnPt_ID(%rip),  SCRATCH_REG
+    movq  SCRATCH_REG,   7(%rbp)       // I64[Sp + RA_OFFSET] = returnPt_ID
+    jmp     _doGC
+
+returnPt_ID:
+    // code to execute afterGC is here
+
+}}}
 
 ----
 
-TODO: add an updated version of the LLVM example below.
+NOTE: out-of-date implementation details for this intrinsic within LLVM follow:
 
 ----
-
-There's no harm in just generating stand-ins for all return points, since LLVM will merge them later.
-Also note that `H` still branches directly to `G`.
-
-Now, with the stand-ins in place, we generate LLVM IR corresponding to the last example that looks like this:
-
-{{{
-type %structTy = {i64, i64, i64, i64, ....}
-
-H:
-  ...
-  if ... goto G; else goto J
-
-G:
-  if ... goto needGC; else goto H
-
-needGC:
-  %retAddr = blockaddress(@thisFunc, %G_standin)
-  store %retAddr, %SP
-  %retVals = call ghccc %structTy @doGC (... args ...)
-  %rv0 = extractvalue %retVals, 0
-  %rv1 = extractvalue %retVals, 1
-  ...
-  %rvN = extractvalue %retVals, N
-  goto G_standin
-
-G_standin:
-  goto G
-
-J:
-  %dummy = tail call ghccc %structTy @X (... args ...)
-  ret %structTy %dummy
-}}}
-
-Notice that the non-tail CPS call is emitted as a non-tail call in LLVM, with a special register convention added to the GHC calling convention to match up the registers used to return the struct fields in `%retVals`.
-This non-tail ghccc call is now interpreted by LLVM's code generator as a CPSCALL pseudo-instruction during isel.
-
-Another important property of this LLVM IR is that the address of `G_standin` was taken, so LLVM cannot merge that block with its predecessor. The name of `G_standin` is important later when we place GC information above that block using the LLVM mangler.
-
-TODO: It seems jump-chain elimination can end up changing the block following the CPS call to be the actual target (it safely updates the `blockaddress`, though). Either we need to actually split apart the block, and somehow pass the desired block name to llc... or have the mangler look for the block whose address was taken, whose prefix is G?
 
 Here is what the `needGC` block looks like by the time we're ready to expand the CPSCALL pseudo-instruction:
 
