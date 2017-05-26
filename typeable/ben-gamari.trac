@@ -64,7 +64,7 @@ While `typeRepKind` may seem like a non-essential feature, it ends up being quit
 mkApp :: SomeTypeRep -> SomeTypeRep -> Maybe SomeTypeRep
 mkApp (SomeTypeRep f) (SomeTypeRep x) = do
     FunTy a b <- pure f
-    Refl <- a `eqTypeReq` typeRepKind x
+    Refl <- a `eqTypeRep` typeRepKind x
     return (App f x)
 }}}
 Note that before we can apply `x` to `f` we must prove to GHC that the kind of `x` is compatible with that expected by `f`. I haven't proven to myself that omitting this check will result in unsafety, but I'm fairly confident that someone with enough time to read through #9858 would be able to find a way.
