@@ -73,7 +73,7 @@ While `typeRepKind` may seem like a non-essential feature, it ends up being quit
 
 ```
 mkApp::SomeTypeRep->SomeTypeRep->MaybeSomeTypeRepmkApp(SomeTypeRep f)(SomeTypeRep x)=doFunTy a b <- pure f
-    Refl<- a `eqTypeReq` typeRepKind x
+    Refl<- a `eqTypeRep` typeRepKind x
     return (App f x)
 ```
 
