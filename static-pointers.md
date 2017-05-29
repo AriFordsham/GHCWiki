@@ -238,6 +238,9 @@ Notice that *`decodeSA` is not part of the TCB*.  Clients can freely write code 
 # Polymorphism and serialisation
 
 
+Some motivation for polymorphic static pointers can be found at [ https://ghc.haskell.org/trac/ghc/wiki/StaticPointers/NeedForPolymorphism](https://ghc.haskell.org/trac/ghc/wiki/StaticPointers/NeedForPolymorphism) .
+
+
 For this section I'll revert to the un-generalised single-parameter `StaticPtr`.
 
 ## Parametric polymorphism
