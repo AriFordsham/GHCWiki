@@ -16,7 +16,7 @@ TODO:
   * Compiler configuration (ghciSupported, etc.): GHC.Config
   * List operations: GHC.Data.List{.Sort,.Fold}
   * Transitive closure: GHC.Data.Graph?
-  * Edit distance an fuzzy match: GHC.Utils.FuzzyMatch?
+  * Edit distance and fuzzy match: GHC.Utils.FuzzyMatch?
   * Shared globals between GHC package instances: GHC.Utils.SharedGlobals?
   * Command-line parser: GHC.Utils.CmdLine
   * exactLog2 (Integer): GHC.Data.Integer (why isn't it in base?)
@@ -24,7 +24,8 @@ TODO:
   * doesDirNameExist, getModificationUTCTime: GHC.Utils.FilePath
   * hSetTranslit: GHC.Utils.Handle.Encoding
   * etc.
-
+* GHC.Data.OccName: split
+  * Split OccEnv (to harmonize with GHC.Data.Name.Env)?
 
 == Step 2: clearly separate GHC-the-program and GHC's API
 
