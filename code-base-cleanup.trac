@@ -1,17 +1,86 @@
 This page documents some cleanups that I (Sylvain Henry) would like to perform on GHC's code base.
 
+== Why?
+
+* Make the code more beginner friendly
+  * Avoid acronyms
+  * Hierarchical modules help in understanding the compiler structure
+  * Try to correctly name things:
+    * e.g. the "type checker" doesn't only check types, hence maybe we should call it "type system"
+    * Avoid meaningless codename (e.g. backpack, hoopl)
+* Make the compiler more modular
+  * Allow easier reuse (with the GHC API)
+  * Make the compiler easier to debug
+  * Make adding new passes/optimisations easier
+  * Allow easier and faster testing (testing per component instead of testing the whole pipeline)
+  * Allow new more interactive frontends (step-run each compiler pass and show IR, stats, etc.)
+  * Allow profile guided optimizations (passes count and order, etc.)
+
 == Step 1: introduce basic module hierarchy
 
 Implement the [wiki:ModuleDependencies/Hierarchical proposal for hierarchical module structure in GHC] (#13009).
 
-It consists in renaming/moving modules.
+It consists only in renaming/moving modules.
+
+Compared to the original proposal, I have:
+* changed GHC.Types into GHC.Data as the former is misleading (from a GHC API user point of view)
+* changed GHC.Typecheck into GHC.TypeSystem as it contains deriving mechanisms, etc.
+* split GHC.Utils into GHC.Utils and GHC.Data (e.g., Bag is in Data, not Utils)
+* etc.
 
 Issues:
 * some modules in `base` already use useful names (e.g., GHC.Desugar) to export a few builtin utility functions
   * for now, I'll try to avoid conflicts (e.g., what would be GHC.Desugar in GHC is GHC.Desugar.Main)
-  * maybe we should put all GHC extensions in base under GHC.Exts.*
+  * maybe we should put all GHC extensions in base under GHC.Exts.* or GHC.Base.*
 
-== Step 2: clearly separate GHC-the-program and GHC's API
+TODO:
+* Fix comments:
+  * header in OccName/RdrName/Name/Id/Var
+  * header in GHC.Data.Types
+  * header in GHC.Syntax.Utils
+  * Fix notes referring to old file/module names
+* Maybe rename OccName/RdrName/Name/Id to make them more explicit
+  * OccName: NSName (NameSpacedName)
+  * RdrName: ParsedName
+  * Name: UniqueName
+  * Id: TypedName
+* Fix core-spec (links to module files)
+* Split GHC.Data.*?
+  * Maybe we could have GHC.Entity.* for code entities (Module, Class, Type, Coercion, etc.) and keep GHC.Data.* for utility data (Maybe, FastString, Bag, etc.)
+* Rename CAF into "static thunk"
+* CorePrep (prepare Core for codegen) could use a more explicit name
+* GHC.Core.Monad should be GHC.Core.Pipeline
+* Maybe rename GHC.Data.RepType
+
+Questions:
+  * Why don't we use the mangled selector name ($sel:foo:MkT) in every cases (not only when we have -XDuplicateRecordFields) instead of using the ambiguous one (foo)?
+
+== Step 2: split some modules
+
+* GHC.Utils (previously compiler/utils/Util.hs) contains a lot of stuff that should be split
+  * Compiler configuration (ghciSupported, etc.): GHC.Config
+  * List operations: GHC.Data.List{.Sort,.Fold}
+  * Transitive closure: GHC.Data.Graph?
+  * Edit distance and fuzzy match: GHC.Utils.FuzzyMatch?
+  * Shared globals between GHC package instances: GHC.Utils.SharedGlobals?
+  * Command-line parser: GHC.Utils.CmdLine
+  * exactLog2 (Integer): GHC.Data.Integer (why isn't it in base?)
+  * Read helpers (rational, maybe, etc.): GHC.Utils.Read?
+  * doesDirNameExist, getModificationUTCTime: GHC.Utils.FilePath
+  * hSetTranslit: GHC.Utils.Handle.Encoding
+  * etc.
+* Split GHC.Types (was HscTypes) as it contains a lot of unrelated things
+  * ModGuts/ModDetails/ModIface: move to GHC.Data.Module.*
+  * Usage/Dependencies: move to GHC.Data.Module.Usage/Dependencies
+* GHC.Data.*: split
+  * Split OccEnv from OccName (to harmonize with GHC.Data.Name.Env)?
+  * Split ModuleEnv/ModuleSet from Module?
+* Split GHC.Data.Types (was TyCoRep)?
+  * Contains many data types (TyThing, Coercion, Type, Kind, etc.)
+* Split PrettyPrint from GHC.Syntax.{Type,Expr,etc.}
+* Split GHC.Core.Optimise.{Simplify,SimplUtils,etc.}
+
+== Step 3: clearly separate GHC-the-program and GHC's API
 
 * Make the GHC API purer
 
@@ -31,7 +100,7 @@ Allow new frontends (using GHC API) to use HTML reporting, etc.
 * Use data types instead of raw SDoc reports
 
 
-=== Step 3: clearly separate phases
+=== Step 4: clearly separate phases
 
 * split DynFlags to only pass the required info to each pass
     * e.g. only the required hooks
