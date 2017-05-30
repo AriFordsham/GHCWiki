@@ -26,6 +26,13 @@ TODO:
   * etc.
 * GHC.Data.OccName: split
   * Split OccEnv (to harmonize with GHC.Data.Name.Env)?
+* Fix comments:
+  * header in OccName/RdrName/Name/Id/Var
+* Maybe rename OccName/RdrName/Name/Id to make them more explicit
+  * OccName: NSName (NameSpacedName)
+  * RdrName: ParsedName
+  * Name: UniqueName
+  * Id: TypedName
 
 == Step 2: clearly separate GHC-the-program and GHC's API
 
