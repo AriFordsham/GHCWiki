@@ -9,7 +9,22 @@ It consists in renaming/moving modules.
 Issues:
 * some modules in `base` already use useful names (e.g., GHC.Desugar) to export a few builtin utility functions
   * for now, I'll try to avoid conflicts (e.g., what would be GHC.Desugar in GHC is GHC.Desugar.Main)
-  * maybe we should put all GHC extensions in base under GHC.Exts.*
+  * maybe we should put all GHC extensions in base under GHC.Exts.* or GHC.Base.*
+
+TODO:
+* GHC.Utils (previously compiler/utils/Util.hs) contains a lot of stuff that should be split
+  * Compiler configuration (ghciSupported, etc.): GHC.Config
+  * List operations: GHC.Data.List{.Sort,.Fold}
+  * Transitive closure: GHC.Data.Graph?
+  * Edit distance an fuzzy match: GHC.Utils.FuzzyMatch?
+  * Shared globals between GHC package instances: GHC.Utils.SharedGlobals?
+  * Command-line parser: GHC.Utils.CmdLine
+  * exactLog2 (Integer): GHC.Data.Integer (why isn't it in base?)
+  * Read helpers (rational, maybe, etc.): GHC.Utils.Read?
+  * doesDirNameExist, getModificationUTCTime: GHC.Utils.FilePath
+  * hSetTranslit: GHC.Utils.Handle.Encoding
+  * etc.
+
 
 == Step 2: clearly separate GHC-the-program and GHC's API
 
