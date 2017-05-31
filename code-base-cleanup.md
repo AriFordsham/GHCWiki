@@ -52,6 +52,7 @@ TODO
 - Fix comments:
 
   - header in OccName/RdrName/Name/Id/Var
+  - header in GHC.Data.Types
 - Maybe rename OccName/RdrName/Name/Id to make them more explicit
 
   - OccName: NSName (NameSpacedName)
@@ -61,6 +62,9 @@ TODO
 - Split GHC.Data.\*?
 
   - Maybe we could have GHC.Entity.\* for code entities (Module, Class, Type, Coercion, etc.) and keep GHC.Data.\* for utility data (Maybe, FastString, Bag, etc.)
+- Split GHC.Data.Types (was TyCoRep)?
+
+  - Contains many data types (TyThing, Coercion, Type, Kind, etc.)
 
 
 Questions:
