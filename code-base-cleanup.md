@@ -32,9 +32,10 @@ TODO
   - doesDirNameExist, getModificationUTCTime: GHC.Utils.FilePath
   - hSetTranslit: GHC.Utils.Handle.Encoding
   - etc.
-- GHC.Data.OccName: split
+- GHC.Data.\*: split
 
-  - Split OccEnv (to harmonize with GHC.Data.Name.Env)?
+  - Split OccEnv from OccName (to harmonize with GHC.Data.Name.Env)?
+  - Split ModuleEnv/ModuleSet from Module?
 - Fix comments:
 
   - header in OccName/RdrName/Name/Id/Var
