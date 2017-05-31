@@ -48,6 +48,9 @@ TODO
   - doesDirNameExist, getModificationUTCTime: GHC.Utils.FilePath
   - hSetTranslit: GHC.Utils.Handle.Encoding
   - etc.
+- Split GHC.Types (was HscTypes)
+
+  - It contains a lot of unrelated things
 - GHC.Data.\*: split
 
   - Split OccEnv from OccName (to harmonize with GHC.Data.Name.Env)?
