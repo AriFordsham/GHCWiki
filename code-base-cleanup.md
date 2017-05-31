@@ -58,6 +58,9 @@ TODO
   - RdrName: ParsedName
   - Name: UniqueName
   - Id: TypedName
+- Split GHC.Data.\*?
+
+  - Maybe we could have GHC.Entity.\* for code entities (Module, Class, Type, Coercion, etc.) and keep GHC.Data.\* for utility data (Maybe, FastString, Bag, etc.)
 
 
 Questions:
