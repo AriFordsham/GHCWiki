@@ -7,6 +7,9 @@ This page documents some cleanups that I (Sylvain Henry) would like to perform o
 
   - Avoid acronyms
   - Hierarchical modules help in understanding the compiler structure
+  - Try to correctly name things:
+
+    - e.g. the "type checker" doesn't only check types, hence maybe we should call it "type system"
 - Make the compiler more modular
 
   - Allow easier reuse (with the GHC API)
