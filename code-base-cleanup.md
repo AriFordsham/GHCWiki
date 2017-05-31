@@ -10,6 +10,7 @@ This page documents some cleanups that I (Sylvain Henry) would like to perform o
   - Try to correctly name things:
 
     - e.g. the "type checker" doesn't only check types, hence maybe we should call it "type system"
+    - Avoid meaningless codename (e.g. backpack, hoopl)
 - Make the compiler more modular
 
   - Allow easier reuse (with the GHC API)
