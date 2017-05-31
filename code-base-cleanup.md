@@ -48,9 +48,10 @@ TODO
   - doesDirNameExist, getModificationUTCTime: GHC.Utils.FilePath
   - hSetTranslit: GHC.Utils.Handle.Encoding
   - etc.
-- Split GHC.Types (was HscTypes)
+- Split GHC.Types (was HscTypes) as it contains a lot of unrelated things
 
-  - It contains a lot of unrelated things
+  - ModGuts/ModDetails/ModIface: move to GHC.Data.Module.\*
+  - Usage/Dependencies: move to GHC.Data.Module.Usage/Dependencies
 - GHC.Data.\*: split
 
   - Split OccEnv from OccName (to harmonize with GHC.Data.Name.Env)?
