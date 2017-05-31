@@ -1,5 +1,15 @@
 This page documents some cleanups that I (Sylvain Henry) would like to perform on GHC's code base.
 
+== Why?
+
+* Make the code more beginner friendly
+  * Avoid acronyms
+  * Hierarchical modules help in understanding the compiler structure
+* Make the compiler more modular
+  * Allow easier reuse (with the GHC API)
+  * Allow easier and faster testing (testing per component instead of testing the whole pipeline)
+  * Allow new more interactive frontends (step-run each compiler pass and show IR, stats, etc.)
+
 == Step 1: introduce basic module hierarchy
 
 Implement the [wiki:ModuleDependencies/Hierarchical proposal for hierarchical module structure in GHC] (#13009).
