@@ -37,6 +37,7 @@ TODO:
 * Fix comments:
   * header in OccName/RdrName/Name/Id/Var
   * header in GHC.Data.Types
+  * header in GHC.Syntax.Utils
   * Fix notes referring to old file/module names
 * Maybe rename OccName/RdrName/Name/Id to make them more explicit
   * OccName: NSName (NameSpacedName)
