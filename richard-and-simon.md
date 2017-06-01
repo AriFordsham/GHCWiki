@@ -1,3 +1,7 @@
+# To discuss
+
+- How to fix [\#11719](https://gitlab.haskell.org//ghc/ghc/issues/11719). We can't ever infer a type variable to have a higher-rank kind (as would seem necessary in this example). But perhaps we should type-check type patterns in a different manner than ordinary types, just like `tcPat` is distinct from `tcExpr`. Then, we could use bidirectional type-checking to get things to work out. This is a pretty significant refactor, though. Is it worth it? Or do we just wait until we have dependent types?
+
 # Summary of tasks to be completed
 
 
