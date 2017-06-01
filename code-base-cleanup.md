@@ -26,7 +26,7 @@ This page documents some cleanups that I (Sylvain Henry) would like to perform o
 Implement the [proposal for hierarchical module structure in GHC](module-dependencies/hierarchical) ([\#13009](https://gitlab.haskell.org//ghc/ghc/issues/13009)).
 
 
-It consists in renaming/moving modules.
+It consists only in renaming/moving modules.
 
 
 Compared to the original proposal, I have:
@@ -45,6 +45,28 @@ Issues:
   - maybe we should put all GHC extensions in base under GHC.Exts.\* or GHC.Base.\*
 
 TODO
+
+- Fix comments:
+
+  - header in OccName/RdrName/Name/Id/Var
+  - header in GHC.Data.Types
+- Maybe rename OccName/RdrName/Name/Id to make them more explicit
+
+  - OccName: NSName (NameSpacedName)
+  - RdrName: ParsedName
+  - Name: UniqueName
+  - Id: TypedName
+- Split GHC.Data.\*?
+
+  - Maybe we could have GHC.Entity.\* for code entities (Module, Class, Type, Coercion, etc.) and keep GHC.Data.\* for utility data (Maybe, FastString, Bag, etc.)
+- Rename CAF into "static thunk"
+
+
+Questions:
+
+- Why don't we use the mangled selector name ($sel:foo:MkT) in every cases (not only when we have -XDuplicateRecordFields) instead of using the ambiguous one (foo)?
+
+## Step 2: split some modules
 
 - GHC.Utils (previously compiler/utils/Util.hs) contains a lot of stuff that should be split
 
@@ -67,30 +89,11 @@ TODO
 
   - Split OccEnv from OccName (to harmonize with GHC.Data.Name.Env)?
   - Split ModuleEnv/ModuleSet from Module?
-- Fix comments:
-
-  - header in OccName/RdrName/Name/Id/Var
-  - header in GHC.Data.Types
-- Maybe rename OccName/RdrName/Name/Id to make them more explicit
-
-  - OccName: NSName (NameSpacedName)
-  - RdrName: ParsedName
-  - Name: UniqueName
-  - Id: TypedName
-- Split GHC.Data.\*?
-
-  - Maybe we could have GHC.Entity.\* for code entities (Module, Class, Type, Coercion, etc.) and keep GHC.Data.\* for utility data (Maybe, FastString, Bag, etc.)
 - Split GHC.Data.Types (was TyCoRep)?
 
   - Contains many data types (TyThing, Coercion, Type, Kind, etc.)
-- Rename CAF into "static thunk"
 
-
-Questions:
-
-- Why don't we use the mangled selector name ($sel:foo:MkT) in every cases (not only when we have -XDuplicateRecordFields) instead of using the ambiguous one (foo)?
-
-## Step 2: clearly separate GHC-the-program and GHC's API
+## Step 3: clearly separate GHC-the-program and GHC's API
 
 - Make the GHC API purer
 
@@ -113,7 +116,7 @@ Allow new frontends (using GHC API) to use HTML reporting, etc.
 - Avoid dumping to the filesystem and/or stdout/stderr
 - Use data types instead of raw SDoc reports
 
-### Step 3: clearly separate phases
+### Step 4: clearly separate phases
 
 - split DynFlags to only pass the required info to each pass
 
