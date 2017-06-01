@@ -93,6 +93,7 @@ Questions:
 - Split GHC.Data.Types (was TyCoRep)?
 
   - Contains many data types (TyThing, Coercion, Type, Kind, etc.)
+- Split PrettyPrint from GHC.Syntax.{Type,Expr,etc.}
 
 ## Step 3: clearly separate GHC-the-program and GHC's API
 
