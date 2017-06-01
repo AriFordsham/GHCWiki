@@ -64,6 +64,7 @@ TODO
   - Maybe we could have GHC.Entity.\* for code entities (Module, Class, Type, Coercion, etc.) and keep GHC.Data.\* for utility data (Maybe, FastString, Bag, etc.)
 - Rename CAF into "static thunk"
 - CorePrep (prepare Core for codegen) could use a more explicit name
+- GHC.Core.Monad should be GHC.Core.Pipeline
 
 
 Questions:
