@@ -29,6 +29,14 @@ Implement the [proposal for hierarchical module structure in GHC](module-depende
 It consists in renaming/moving modules.
 
 
+Compared to the original proposal, I have:
+
+- changed GHC.Types into GHC.Data as the former is misleading (from a GHC API user point of view)
+- changed GHC.Typecheck into GHC.TypeSystem as it contains deriving mechanisms, etc.
+- split GHC.Utils into GHC.Utils and GHC.Data (e.g., Bag is in Data, not Utils)
+- etc.
+
+
 Issues:
 
 - some modules in `base` already use useful names (e.g., GHC.Desugar) to export a few builtin utility functions
