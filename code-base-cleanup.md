@@ -99,7 +99,8 @@ Questions:
 
   - Contains many data types (TyThing, Coercion, Type, Kind, etc.)
 - Split PrettyPrint from GHC.Syntax.{Type,Expr,etc.}
-- Split GHC.Core.Optimise.{Simplify,SimplUtils,etc.}
+- Split GHC.Core.Transform.{Simplify,SimplUtils,etc.}
+- Split GHC.Rename.ImportExport (e.g., contains "warnMissingSignature")
 
 ## Step 3: clearly separate GHC-the-program and GHC's API
 
