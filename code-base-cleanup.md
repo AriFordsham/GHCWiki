@@ -39,10 +39,9 @@ Compared to the original proposal, I have:
 
 Issues:
 
-- some modules in `base` already use useful names (e.g., GHC.Desugar) to export a few builtin utility functions
+- some modules in `base` use the same prefix (e.g., GHC.Desugar).
 
-  - for now, I'll try to avoid conflicts (e.g., what would be GHC.Desugar in GHC is GHC.Desugar.Main)
-  - maybe we should put all GHC extensions in base under GHC.Exts.\* or GHC.Base.\*
+  - maybe we should put all GHC extensions to base under GHC.Exts.\* or GHC.Base.\*
 
 TODO
 
