@@ -34,15 +34,15 @@ Compared to the original proposal, I have:
 - changed GHC.Types into GHC.Data as the former is misleading (from a GHC API user point of view)
 - changed GHC.Typecheck into GHC.TypeSystem as it contains deriving mechanisms, etc.
 - split GHC.Utils into GHC.Utils and GHC.Data (e.g., Bag is in Data, not Utils)
+- Put IR into GHC.IR and compilers into GHC.Compilers
 - etc.
 
 
 Issues:
 
-- some modules in `base` already use useful names (e.g., GHC.Desugar) to export a few builtin utility functions
+- some modules in `base` use the same prefix (e.g., GHC.Desugar).
 
-  - for now, I'll try to avoid conflicts (e.g., what would be GHC.Desugar in GHC is GHC.Desugar.Main)
-  - maybe we should put all GHC extensions in base under GHC.Exts.\* or GHC.Base.\*
+  - maybe we should put all GHC extensions to base under GHC.Exts.\* or GHC.Base.\*
 
 TODO
 
@@ -66,6 +66,7 @@ TODO
 - CorePrep (prepare Core for codegen) could use a more explicit name
 - GHC.Core.Monad should be GHC.Core.Pipeline
 - Maybe rename GHC.Data.RepType
+- Module name GHC.Compilers.StgToCmm.Layout seems dubious
 
 
 Questions:
@@ -99,7 +100,8 @@ Questions:
 
   - Contains many data types (TyThing, Coercion, Type, Kind, etc.)
 - Split PrettyPrint from GHC.Syntax.{Type,Expr,etc.}
-- Split GHC.Core.Optimise.{Simplify,SimplUtils,etc.}
+- Split GHC.Core.Transform.{Simplify,SimplUtils,etc.}
+- Split GHC.Rename.ImportExport (e.g., contains "warnMissingSignature")
 
 ## Step 3: clearly separate GHC-the-program and GHC's API
 
