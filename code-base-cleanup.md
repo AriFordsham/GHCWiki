@@ -67,6 +67,10 @@ TODO
 - GHC.Core.Monad should be GHC.Core.Pipeline
 - Maybe rename GHC.Data.RepType
 - Module name GHC.Compilers.StgToCmm.Layout seems dubious
+- Rename codeGen function into stgToCmm
+- Rename nativeCodeGen into cmmToAsm
+- Rename ORdList (in GHC.Data.Tree.OrdList) into TreeSomething? (misleading)
+- Replace file names (especially for "Note \[XXX\] in path/to/something.hs") with module names
 
 
 Questions:
@@ -100,8 +104,9 @@ Questions:
 
   - Contains many data types (TyThing, Coercion, Type, Kind, etc.)
 - Split PrettyPrint from GHC.Syntax.{Type,Expr,etc.}
-- Split GHC.Core.Transform.{Simplify,SimplUtils,etc.}
+- Split GHC.IR.Core.Transform.{Simplify,SimplUtils,etc.}
 - Split GHC.Rename.ImportExport (e.g., contains "warnMissingSignature")
+- Put cmmToCmm optimisations from GHC.Compilers.CmmToAsm into GHC.IR.Cmm.Transform
 
 ## Step 3: clearly separate GHC-the-program and GHC's API
 
