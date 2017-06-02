@@ -26,6 +26,7 @@ Compared to the original proposal, I have:
 * changed GHC.Types into GHC.Data as the former is misleading (from a GHC API user point of view)
 * changed GHC.Typecheck into GHC.TypeSystem as it contains deriving mechanisms, etc.
 * split GHC.Utils into GHC.Utils and GHC.Data (e.g., Bag is in Data, not Utils)
+* Put IR into GHC.IR and compilers into GHC.Compilers
 * etc.
 
 Issues:
