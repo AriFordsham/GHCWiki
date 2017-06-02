@@ -1,4 +1,4 @@
-## Implementation of Trees that Grow
+## Implementation of Tees that Grow
 
 
 In this page, we discuss the overall plan and details of implementing [ Tress that Grow](http://www.jucs.org/jucs_23_1/trees_that_grow/jucs_23_01_0042_0062_najd.pdf) in GHC. 
