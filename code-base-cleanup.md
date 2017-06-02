@@ -65,6 +65,7 @@ TODO
 - CorePrep (prepare Core for codegen) could use a more explicit name
 - GHC.Core.Monad should be GHC.Core.Pipeline
 - Maybe rename GHC.Data.RepType
+- Module name GHC.Compilers.StgToCmm.Layout seems dubious
 
 
 Questions:

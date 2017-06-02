@@ -50,6 +50,7 @@ TODO:
 * CorePrep (prepare Core for codegen) could use a more explicit name
 * GHC.Core.Monad should be GHC.Core.Pipeline
 * Maybe rename GHC.Data.RepType
+* Module name GHC.Compilers.StgToCmm.Layout seems dubious
 
 Questions:
   * Why don't we use the mangled selector name ($sel:foo:MkT) in every cases (not only when we have -XDuplicateRecordFields) instead of using the ambiguous one (foo)?
