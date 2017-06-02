@@ -1,7 +1,7 @@
-## Implementation of Tees that Grow
+## Implementation of Trees that Grow
 
 
-In this page, we discuss the overall plan and details of implementing [ Tress that Grow](http://www.jucs.org/jucs_23_1/trees_that_grow/jucs_23_01_0042_0062_najd.pdf) in GHC. 
+In this page, we discuss the overall plan and details of implementing [ Trees that Grow](http://www.jucs.org/jucs_23_1/trees_that_grow/jucs_23_01_0042_0062_najd.pdf) in GHC. 
 The motivation and some background information can be found at the [ report](https://ghc.haskell.org/trac/ghc/wiki/NativeMetaprogramming) of a related Summer of Haskell project.
 
 
