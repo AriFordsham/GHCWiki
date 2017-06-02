@@ -69,6 +69,7 @@ TODO
 - Module name GHC.Compilers.StgToCmm.Layout seems dubious
 - Rename codeGen function into stgToCmm
 - Rename nativeCodeGen into cmmToAsm
+- Rename ORdList (in GHC.Data.Tree.OrdList) into TreeSomething? (misleading)
 
 
 Questions:
