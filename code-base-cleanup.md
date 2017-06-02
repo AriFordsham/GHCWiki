@@ -68,6 +68,7 @@ TODO
 - Maybe rename GHC.Data.RepType
 - Module name GHC.Compilers.StgToCmm.Layout seems dubious
 - Rename codeGen function into stgToCmm
+- Rename nativeCodeGen into cmmToAsm
 
 
 Questions:
