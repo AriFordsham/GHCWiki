@@ -27,8 +27,7 @@ errors for quite some time. However, given how many hands we have in
 this area, we should be careful not to step on each toes. Below I'll
 describe the various facets of the task as I see them.
 
-
-\# Choice of pretty printer
+## Choice of pretty printer
 
 
 It seems like we first need to resolve the question of whether switching
@@ -69,8 +68,7 @@ If we decide against moving to `prettyprinter`, then we will need to
 finish up something like Alfredo's `pretty` patches to rid GHC of its
 fork.
 
-
-\# Representing rich error messages in GHC
+## Representing rich error messages in GHC
 
 
 In my opinion we should avoid baking more stylistic decisions (e.g. printing
@@ -93,12 +91,11 @@ surrounding whether the values carried by the error message should be
 statically or dynamically typed. In particular, Richard Eisenberg
 advocated that error message documents look like,
 
->
-> -- A dynamically typed value embedded in an error message
-> data ErrItem = forall a. (Outputable a, Typeable a). ErrItem a
+```
+-- A dynamically typed value embedded in an error messagedataErrItem= forall a.(Outputable a,Typeable a).ErrItem a
 
->
-> type ErrDoc = Doc ErrItem
+typeErrDoc=DocErrItem
+```
 
 
 Whereas I argue that this would quickly become unmaintainable,
@@ -106,15 +103,9 @@ especially when one considers GHC API users. Rather, I say that we
 should encode the "vocabulary" of things that may appear in an error
 message explicitly,
 
->
-> data ErrItem = ErrType Type
->
-> >
-> > \| ErrSpan Span
-> > \| ErrTerm HsExpr
-> > \| ErrInstance ClsInst
-> > \| ErrVar  Var
-> > \| ...
+```
+dataErrItem=ErrTypeType|ErrSpanSpan|ErrTermHsExpr|ErrInstanceClsInst|ErrVarVar|...
+```
 
 
 While there are good arguments for both options, although I think that
@@ -126,8 +117,7 @@ Once there is consensus I think it shouldn't be too difficult to move
 things forward. The change can be made incrementally and for the most
 part should only touch a few modules (with the bulk in TcErrors).
 
-
-\#\# What do we represent?
+### What do we represent?
 
 
 There is also the question of what the vocabulary of embeddable items
@@ -135,32 +125,9 @@ should consist of. I think the above are pretty non-controversial but I
 can think of a variety of items which would more precisely capture
 some common patterns,
 
->
-> data ErrItem = ...
->
-> >
-> > \| ErrExpectedActual Type Type
-> >
-> > >
-> > > -- <sup> e.g. "Expected type: ty1, Actual type: ty2"
-> > > </sup>
-> >
-> >
-> > \| ErrContext Type
-> >
-> > >
-> > > -- <sup> Like ErrType but specifically captures a context
-> > > </sup>
-> >
-> >
-> > \| ErrPotentialInstances \[ClsInst\]
-> >
-> > >
-> > > -- <sup> A list of potentially matching instances
-> > > </sup>
-> >
-> >
-> > \| ...
+```
+dataErrItem=...|ErrExpectedActualTypeType-- ^ e.g. "Expected type: ty1, Actual type: ty2"|ErrContextType-- ^ Like ErrType but specifically captures a context|ErrPotentialInstances[ClsInst]-- ^ A list of potentially matching instances|...
+```
 
 
 Exactly how far we want to go is something that would need to be
@@ -168,8 +135,7 @@ decided. I think we would want to start with the minimal set initially
 proposed and then introduce additional items as we gain experience with
 the scheme.
 
-
-\# Using rich error messages
+## Using rich error messages
 
 
 Once we have GHC producing rich error documents we can teach GHC's
@@ -183,8 +149,7 @@ question; this is prime territory for bike-shedding and people tend to
 have rather strong aesthetic beliefs; keeping things simple while
 satisfying all tastes may be a challenge.
 
-
-\# Summary
+## Summary
 
 
 Above I discussed several tasks and a few questions,
