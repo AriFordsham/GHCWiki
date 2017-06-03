@@ -1,6 +1,6 @@
 = Pretty Error messages in GHC =
 
-The following was extracted from Ben's response to Siddharth Bhat on [[https://mail.haskell.org/pipermail/ghc-devs/2017-June/014280.html|ghc-devs]],
+The following was extracted from Ben's response to Siddharth Bhat on [[https://mail.haskell.org/pipermail/ghc-devs/2017-June/014280.html|ghc-devs]] in June 2017,
 
 > I saw this ticket on trac: #8809.
 > I would like to take this up, but I'd like help / pointers and stuff. I
