@@ -16,9 +16,9 @@ class IP (x :: Symbol) a | x -> a where
 -- Hence ip's signature is
 --    ip :: forall x a. IP x a => a
 }}}
- * When you write `?x` in an expression, what GHC does today is to replace it with `(ip @ "x" @ alpha)`, where `alpha` is a unification variable and `@` is type application.  (This isn't valid source Haskell, which doesnt have type application, but GHC certainly does have type application internally, so we don't need proxy arguments here.
+ * When you write `?x` in an expression, what GHC does today is to replace it with `(ip @"x" @alpha)`, where `alpha` is a unification variable and `@` is type application.
 
- * Of course, that call `(ip @ "x" @ alpha)` gives rise to a constraint `IP "x" alpha`, which must be satisfied by the context.
+ * Of course, that call `(ip @"x" @alpha)` gives rise to a constraint `IP "x" alpha`, which must be satisfied by the context.
 
  * The form `?x` in an expression is only valid with `{-# LANGUAGE ImplicitParameters #-}`
 
@@ -54,15 +54,13 @@ It behaves like this:
 
 Notice that overloaded labels might be useful for all sorts of things that are nothing to do with records; that is why they don't mention "record" in their name.
 
-User code can call `fromLabel` directly (unlike `ip`), thanks to the proxy argument.  When we have explicit type application we could consider dropping the argument again.
+User code can call `fromLabel` directly (unlike `ip`), thanks to the proxy argument.
 
 === Syntax ===
 
 It's not absolutely necessary to use `#x` for a field.  Here are some alternatives:
 
-* We could use `@x`, though that would prevent it being used for explicit type application (which is common practice in writing, even if the extension to permit it in Haskell syntax hasn't made much progress). This is the syntax used by [http://hackage.haskell.org/package/record-preprocessor record-preprocessor].
-
-* We could say "if there is at least one data type in scope with a field `x`, then `x` is treated like `(fromLabel @ "x" @ alpha)`".  But I hate it.  And it doesn't work for virtual fields like `#area` above.
+* We could say "if there is at least one data type in scope with a field `x`, then `x` is treated like `(fromLabel @"x" @alpha)`".  But I hate it.  And it doesn't work for virtual fields like `#area` above.
 
 * (Suggested by Edward K.)  We could define a magic module `GHC.ImplicitValues`, and say that if you say
 {{{
