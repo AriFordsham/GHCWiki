@@ -38,9 +38,67 @@ Compared to the original proposal, I have:
 - etc.
 
 
+Tree logic:
+
+- IR: intermediate representations. Each one contains its syntax and stuff manipulating it
+
+  - Haskell
+
+    - Parser
+    - PrettyPrint
+    - Analyse
+    - Renamer
+    - TypeSystem
+    - Template
+  - Core
+
+    - Analyse
+    - Transform.{Simplify,Specialise,Vectorise,WorkerWrapper,FloatIn,[FloatOut](float-out),CommonSubExpr, etc.}
+  - Cmm
+
+    - Analyse
+    - Parser
+    - PrettyPrint
+    - Transform.{CommonBlockElim,ConstantFolding,Dataflow,ShortCutting,Sinking}
+  - Stg
+
+    - Analyse
+    - Transform.{CommonSubExpr,CostCentreCollect,Unarise}
+  - ByteCode
+  - Interface
+  - Llvm
+- Compiler: converters between representations
+
+  - HaskellToCore
+  - CoreToStg
+  - StgToCmm
+  - CmmToAsm
+  - CmmToLlvm
+  - CoreToByteCode
+  - CoreToInterface
+  - CmmToC
+- Program: GHC-the-program (command-line parser, etc.)
+- Interactive: interactive stuff (debugger, closure inspection, interpreter, etc.)
+- Data: data structures (Bag, etc.) and entities (Class, etc.)
+- Config: GHC configuration
+
+  - Platform: host platform info
+  - Flags: dynamic configuration (DynFlags)
+- Packages: package management stuff
+- Builtin: primitives
+- RTS: interaction with the runtime system
+- Utils: utility code or code that doesn't easily belong to another directory
+- Plugin: modules to import to write compiler plugins
+
+
+Actual renaming:
+
+- TODO insert result of `git diff origin/master --summary -M20`
+
+
 Issues:
 
-- some modules in `base` use the same prefix (e.g., GHC.Desugar).
+- name clashes: some modules in `base` and `ghc-prim` use the same GHC prefix (e.g., GHC.Desugar, GHC.Types).
 
   - maybe we should put all GHC extensions to base under GHC.Exts.\* or GHC.Base.\*
 
@@ -52,32 +110,25 @@ TODO
   - header in GHC.Data.Types
   - header in GHC.Syntax.Utils
   - Fix notes referring to old file/module names
-- Maybe rename OccName/RdrName/Name/Id to make them more explicit
-
-  - OccName: NSName (NameSpacedName)
-  - RdrName: ParsedName
-  - Name: UniqueName
-  - Id: TypedName
+  - LaTeX doc (e.g., subsection's names)
 - Fix core-spec (links to module files)
 - Split GHC.Data.\*?
 
   - Maybe we could have GHC.Entity.\* for code entities (Module, Class, Type, Coercion, etc.) and keep GHC.Data.\* for utility data (Maybe, FastString, Bag, etc.)
 - Rename CAF into "static thunk"
-- CorePrep (prepare Core for codegen) could use a more explicit name
-- GHC.Core.Monad should be GHC.Core.Pipeline
-- Maybe rename GHC.Data.RepType
-- Module name GHC.Compilers.StgToCmm.Layout seems dubious
-- Rename codeGen function into stgToCmm
-- Rename nativeCodeGen into cmmToAsm
-- Rename ORdList (in GHC.Data.Tree.OrdList) into TreeSomething? (misleading)
 - Replace file names (especially for "Note \[XXX\] in path/to/something.hs") with module names
+- put notes files (e.g. profiling-notes, \*.tex files) into actual notes or in the wiki
+- there are some traces of RnHsSyn that doesn't exist anymore
 
 
 Questions:
 
 - Why don't we use the mangled selector name ($sel:foo:MkT) in every cases (not only when we have -XDuplicateRecordFields) instead of using the ambiguous one (foo)?
 
-## Step 2: split some modules
+## Step 2: split and edit some modules
+
+
+Some modules contain a lot of (unrelated) stuff. We should split them.
 
 - GHC.Utils (previously compiler/utils/Util.hs) contains a lot of stuff that should be split
 
@@ -107,6 +158,23 @@ Questions:
 - Split GHC.IR.Core.Transform.{Simplify,SimplUtils,etc.}
 - Split GHC.Rename.ImportExport (e.g., contains "warnMissingSignature")
 - Put cmmToCmm optimisations from GHC.Compilers.CmmToAsm into GHC.IR.Cmm.Transform
+- Split type-checker solvers (class lookup, givens, wanted, etc.) (was TcSimplify, TcInteract, etc.)
+- Module name GHC.Compilers.StgToCmm.Layout seems dubious: split and rename?
+
+
+Some function/type names should be modified:
+
+- Rename codeGen function into stgToCmm
+- Rename nativeCodeGen into cmmToAsm
+- Rename ORdList (in GHC.Data.Tree.OrdList) into TreeSomething? (misleading)
+- CorePrep (prepare Core for codegen) could use a more explicit name
+- Maybe rename GHC.Data.RepType
+- Maybe rename OccName/RdrName/Name/Id to make them more explicit (may become obsolete with "trees that grow" patch)
+
+  - OccName: NSName (NameSpacedName)
+  - RdrName: ParsedName
+  - Name: UniqueName
+  - Id: TypedName
 
 ## Step 3: clearly separate GHC-the-program and GHC's API
 
