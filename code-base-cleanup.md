@@ -71,6 +71,7 @@ TODO
 - Rename nativeCodeGen into cmmToAsm
 - Rename ORdList (in GHC.Data.Tree.OrdList) into TreeSomething? (misleading)
 - Replace file names (especially for "Note \[XXX\] in path/to/something.hs") with module names
+- Put LLVM IR into GHC.IR.LLVM
 
 
 Questions:

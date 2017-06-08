@@ -56,6 +56,7 @@ TODO:
 * Rename nativeCodeGen into cmmToAsm
 * Rename ORdList (in GHC.Data.Tree.OrdList) into TreeSomething? (misleading)
 * Replace file names (especially for "Note [XXX] in path/to/something.hs") with module names
+* Put LLVM IR into GHC.IR.LLVM
 
 Questions:
   * Why don't we use the mangled selector name ($sel:foo:MkT) in every cases (not only when we have -XDuplicateRecordFields) instead of using the ambiguous one (foo)?
