@@ -38,11 +38,62 @@ Compared to the original proposal, I have:
 - etc.
 
 
-Issues:
+Tree logic:
 
-- some modules in `base` use the same prefix (e.g., GHC.Desugar).
+- IR: intermediate representations. Each one contains its syntax and stuff using it
 
-  - maybe we should put all GHC extensions to base under GHC.Exts.\* or GHC.Base.\*
+  - Haskell
+
+    - Parser
+    - PrettyPrint
+    - Analyse
+    - Renamer
+    - TypeSystem
+  - Core
+
+    - Analyse
+    - Transform.{Simplify,Specialise,Vectorise,WorkerWrapper,FloatIn,[FloatOut](float-out),CommonSubExpr, etc.}
+  - Cmm
+
+    - Analyse
+    - Parser
+    - PrettyPrint
+    - Transform.{CommonBlockElim,ConstantFolding,Dataflow,ShortCutting,Sinking}
+  - Stg
+
+    - Analyse
+    - Transform.{CommonSubExpr,CostCentreCollect,Unarise}
+  - ByteCode
+  - Interface
+  - Llvm
+- Compilers: converters between representations
+
+  - HaskellToCore
+  - CoreToStg
+  - StgToCmm
+  - CmmToAsm
+  - CmmToLlvm
+  - CoreToByteCode
+  - CoreToInterface
+  - CmmToC
+- Program: GHC-the-program (command-line parser, etc.)
+- Interactive: interactive stuff (debugger, closure inspection, interpreter, etc.)
+- Data: data structures (Bag, etc.) and entities (Class, etc.)
+- Config: GHC configuration
+
+  - Platform: host platform info
+  - Flags: dynamic configuration (DynFlags)
+- Packages: package management stuff
+- Builtin: primitives
+- RTS: interaction with the runtime system
+- TypeSystem
+- Utils: utility code or code that doesn't easily belong to another directory
+- Plugins: plugins stuff
+
+
+Actual renaming:
+
+- TODO insert result of `git diff origin/master --summary -M20`
 
 TODO
 
@@ -72,6 +123,10 @@ TODO
 - Rename ORdList (in GHC.Data.Tree.OrdList) into TreeSomething? (misleading)
 - Replace file names (especially for "Note \[XXX\] in path/to/something.hs") with module names
 - Put LLVM IR into GHC.IR.LLVM
+- some modules in `base` use the same prefix (e.g., GHC.Desugar).
+
+  - maybe we should put all GHC extensions to base under GHC.Exts.\* or GHC.Base.\*
+- put notes files (e.g. profiling-notes) into actual notes or in the wiki
 
 
 Questions:
