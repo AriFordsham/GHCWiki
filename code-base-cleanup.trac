@@ -99,7 +99,6 @@ TODO:
 * Rename nativeCodeGen into cmmToAsm
 * Rename ORdList (in GHC.Data.Tree.OrdList) into TreeSomething? (misleading)
 * Replace file names (especially for "Note [XXX] in path/to/something.hs") with module names
-* Put LLVM IR into GHC.IR.LLVM
 * some modules in `base` use the same prefix (e.g., GHC.Desugar).
   * maybe we should put all GHC extensions to base under GHC.Exts.* or GHC.Base.*
 * put notes files (e.g. profiling-notes) into actual notes or in the wiki
