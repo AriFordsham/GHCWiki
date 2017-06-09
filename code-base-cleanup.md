@@ -103,6 +103,7 @@ TODO
   - header in GHC.Data.Types
   - header in GHC.Syntax.Utils
   - Fix notes referring to old file/module names
+  - LaTeX doc (e.g., subsection's names)
 - Fix core-spec (links to module files)
 - Split GHC.Data.\*?
 
