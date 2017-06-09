@@ -86,7 +86,6 @@ Tree logic:
 - Packages: package management stuff
 - Builtin: primitives
 - RTS: interaction with the runtime system
-- TypeSystem
 - Utils: utility code or code that doesn't easily belong to another directory
 - Plugins: plugins stuff
 
