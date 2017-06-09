@@ -37,7 +37,7 @@ Tree logic:
         * Analyse
         * Renamer
         * TypeSystem
-        * TemplateHaskell
+        * Template
     * Core
         * Analyse
         * Transform.{Simplify,Specialise,Vectorise,WorkerWrapper,FloatIn,FloatOut,CommonSubExpr, etc.}
