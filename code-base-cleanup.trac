@@ -71,7 +71,7 @@ Tree logic:
 * Builtin: primitives
 * RTS: interaction with the runtime system
 * Utils: utility code or code that doesn't easily belong to another directory
-* Plugins: plugins stuff
+* Plugin: modules to import to write compiler plugins
 
 Actual renaming:
 * TODO: insert result of `git diff origin/master --summary -M20`
@@ -82,32 +82,22 @@ TODO:
   * header in GHC.Data.Types
   * header in GHC.Syntax.Utils
   * Fix notes referring to old file/module names
-* Maybe rename OccName/RdrName/Name/Id to make them more explicit
-  * OccName: NSName (NameSpacedName)
-  * RdrName: ParsedName
-  * Name: UniqueName
-  * Id: TypedName
 * Fix core-spec (links to module files)
 * Split GHC.Data.*?
   * Maybe we could have GHC.Entity.* for code entities (Module, Class, Type, Coercion, etc.) and keep GHC.Data.* for utility data (Maybe, FastString, Bag, etc.)
 * Rename CAF into "static thunk"
-* CorePrep (prepare Core for codegen) could use a more explicit name
-* GHC.Core.Monad should be GHC.Core.Pipeline
-* Maybe rename GHC.Data.RepType
-* Module name GHC.Compilers.StgToCmm.Layout seems dubious
-* Rename codeGen function into stgToCmm
-* Rename nativeCodeGen into cmmToAsm
-* Rename ORdList (in GHC.Data.Tree.OrdList) into TreeSomething? (misleading)
 * Replace file names (especially for "Note [XXX] in path/to/something.hs") with module names
 * some modules in `base` use the same prefix (e.g., GHC.Desugar).
   * maybe we should put all GHC extensions to base under GHC.Exts.* or GHC.Base.*
-* put notes files (e.g. profiling-notes) into actual notes or in the wiki
+* put notes files (e.g. profiling-notes, *.tex files) into actual notes or in the wiki
 
 
 Questions:
   * Why don't we use the mangled selector name ($sel:foo:MkT) in every cases (not only when we have -XDuplicateRecordFields) instead of using the ambiguous one (foo)?
 
-== Step 2: split some modules
+== Step 2: split and edit some modules
+
+Some modules contain a lot of (unrelated) stuff. We should split them.
 
 * GHC.Utils (previously compiler/utils/Util.hs) contains a lot of stuff that should be split
   * Compiler configuration (ghciSupported, etc.): GHC.Config
@@ -134,6 +124,23 @@ Questions:
 * Split GHC.Rename.ImportExport (e.g., contains "warnMissingSignature")
 * Put cmmToCmm optimisations from GHC.Compilers.CmmToAsm into GHC.IR.Cmm.Transform
 * Split type-checker solvers (class lookup, givens, wanted, etc.) (was TcSimplify, TcInteract, etc.)
+* Module name GHC.Compilers.StgToCmm.Layout seems dubious: split and rename?
+
+Some function/type names should be modified:
+
+* Rename codeGen function into stgToCmm
+* Rename nativeCodeGen into cmmToAsm
+* Rename ORdList (in GHC.Data.Tree.OrdList) into TreeSomething? (misleading)
+* CorePrep (prepare Core for codegen) could use a more explicit name
+* Maybe rename GHC.Data.RepType
+* Maybe rename OccName/RdrName/Name/Id to make them more explicit (may become obsolete with "trees that grow" patch)
+  * OccName: NSName (NameSpacedName)
+  * RdrName: ParsedName
+  * Name: UniqueName
+  * Id: TypedName
+
+
+
 
 == Step 3: clearly separate GHC-the-program and GHC's API
 
