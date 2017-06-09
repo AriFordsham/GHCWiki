@@ -40,7 +40,7 @@ Compared to the original proposal, I have:
 
 Tree logic:
 
-- IR: intermediate representations. Each one contains its syntax and stuff using it
+- IR: intermediate representations. Each one contains its syntax and stuff manipulating it
 
   - Haskell
 
