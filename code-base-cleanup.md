@@ -114,6 +114,7 @@ TODO
 
   - maybe we should put all GHC extensions to base under GHC.Exts.\* or GHC.Base.\*
 - put notes files (e.g. profiling-notes, \*.tex files) into actual notes or in the wiki
+- there are some traces of RnHsSyn that doesn't exist anymore
 
 
 Questions:
