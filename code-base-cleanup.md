@@ -67,7 +67,7 @@ Tree logic:
   - ByteCode
   - Interface
   - Llvm
-- Compilers: converters between representations
+- Compiler: converters between representations
 
   - HaskellToCore
   - CoreToStg
