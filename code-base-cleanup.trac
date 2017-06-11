@@ -76,6 +76,11 @@ Tree logic:
 Actual renaming:
 * TODO: insert result of `git diff origin/master --summary -M20`
 
+Issues:
+* name clashes: some modules in `base` and `ghc-prim` use the same GHC prefix (e.g., GHC.Desugar, GHC.Types).
+  * maybe we should put all GHC extensions to base under GHC.Exts.* or GHC.Base.*
+
+
 TODO:
 * Fix comments:
   * header in OccName/RdrName/Name/Id/Var
@@ -88,8 +93,6 @@ TODO:
   * Maybe we could have GHC.Entity.* for code entities (Module, Class, Type, Coercion, etc.) and keep GHC.Data.* for utility data (Maybe, FastString, Bag, etc.)
 * Rename CAF into "static thunk"
 * Replace file names (especially for "Note [XXX] in path/to/something.hs") with module names
-* some modules in `base` use the same prefix (e.g., GHC.Desugar).
-  * maybe we should put all GHC extensions to base under GHC.Exts.* or GHC.Base.*
 * put notes files (e.g. profiling-notes, *.tex files) into actual notes or in the wiki
 * there are some traces of RnHsSyn that doesn't exist anymore
 
