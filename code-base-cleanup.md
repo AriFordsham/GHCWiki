@@ -9,7 +9,7 @@ This page documents some cleanups that I (Sylvain Henry) would like to perform o
   - Hierarchical modules help in understanding the compiler structure
   - Try to correctly name things:
 
-    - e.g. the "type checker" doesn't only check types, hence maybe we should call it "type system"
+    - e.g. the "type checker" doesn't only check types, hence maybe we should call it "type system" or split it (e.g. Deriver, [TypeChecker](type-checker), etc.)
     - Avoid meaningless codename (e.g. backpack, hoopl)
 - Make the compiler more modular
 
@@ -31,10 +31,10 @@ It consists only in renaming/moving modules.
 
 Compared to the original proposal, I have:
 
-- changed GHC.Types into GHC.Data as the former is misleading (from a GHC API user point of view)
-- changed GHC.Typecheck into GHC.TypeSystem as it contains deriving mechanisms, etc.
-- split GHC.Utils into GHC.Utils and GHC.Data (e.g., Bag is in Data, not Utils)
 - Put IR into GHC.IR and compilers into GHC.Compilers
+- changed GHC.Types into GHC.Data as the former is misleading (from a GHC API user point of view)
+- split GHC.Typecheck into GHC.IR.Haskell.{[TypeChecker](type-checker),Deriver}
+- split GHC.Utils into GHC.Utils and GHC.Data (e.g., Bag is in Data, not Utils)
 - etc.
 
 
@@ -44,29 +44,29 @@ Tree logic:
 
   - Haskell
 
-    - Parser
-    - PrettyPrint
-    - Analyse
-    - Renamer
-    - TypeSystem
-    - Template
+    - Syntax
+    - Parser, Lexer, Printer
+    - Analyser
+    - [TypeChecker](type-checker), Renamer, Deriver
   - Core
 
-    - Analyse
-    - Transform.{Simplify,Specialise,Vectorise,WorkerWrapper,FloatIn,[FloatOut](float-out),CommonSubExpr, etc.}
+    - Syntax
+    - Analyser
+    - Transformer.{Simplifier,Specialiser,Vectoriser,WorkerWrapper,FloatIn,[FloatOut](float-out),CommonSubExpr, etc.}
   - Cmm
 
-    - Analyse
-    - Parser
-    - PrettyPrint
-    - Transform.{CommonBlockElim,ConstantFolding,Dataflow,ShortCutting,Sinking}
+    - Syntax
+    - Analyser
+    - Parser, Lexer, Printer
+    - Transformer.{CommonBlockElim,ConstantFolder,Dataflow,ShortCutter,Sinker}
   - Stg
 
-    - Analyse
-    - Transform.{CommonSubExpr,CostCentreCollect,Unarise}
-  - ByteCode
-  - Interface
-  - Llvm
+    - Syntax
+    - Analyser
+    - Transformer.{CommonSubExpr,CostCentreCollecter,Unariser}
+  - ByteCode.{Assembler,Linker...}
+  - Interface.{Loader,Renamer,[TypeChecker](type-checker), Transformer.Tidier}
+  - Llvm.{Syntax, Printer}
 - Compiler: converters between representations
 
   - HaskellToCore
@@ -77,17 +77,27 @@ Tree logic:
   - CoreToByteCode
   - CoreToInterface
   - CmmToC
-- Program: GHC-the-program (command-line parser, etc.)
+  - TemplateToHaskell
+- Entity: entities shared by different phases of the compiler (Class, Id, Name, Unique, etc.)
+- Program: GHC-the-program (command-line parser, etc.) and its modes
+
+  - Driver.{Phases,Pipeline}
+  - Backpack
+  - Make, MakeDepend
 - Interactive: interactive stuff (debugger, closure inspection, interpreter, etc.)
-- Data: data structures (Bag, etc.) and entities (Class, etc.)
+- Data: data structures (Bag, Tree, etc.)
 - Config: GHC configuration
 
   - Platform: host platform info
   - Flags: dynamic configuration (DynFlags)
+  - Build: generated at build time
 - Packages: package management stuff
-- Builtin: primitives
-- RTS: interaction with the runtime system
-- Utils: utility code or code that doesn't easily belong to another directory
+- Builtin: builtin stuff
+
+  - Primitive.{Types,Operations}: primitives
+  - Names, Types, Uniques: other wired-in stuff
+- RTS: interaction with the runtime system (closure and table representation)
+- Utils: utility code or code that doesn't easily belong to another directory (e.g., Outputable, SysTools, Elf, Finder, etc.)
 - Plugin: modules to import to write compiler plugins
 
 
@@ -98,19 +108,18 @@ Actual renaming:
 
 Issues:
 
-- name clashes: some modules in `base` and `ghc-prim` use the same GHC prefix (e.g., GHC.Desugar, GHC.Types).
+- name clashes: some modules in `base` (e.g. GHC.Desugar) and `ghc-prim` (e.g. GHC.Types) use the same GHC prefix
 
   - maybe we should put all GHC extensions to base under GHC.Exts.\* or GHC.Base.\*
+  - use GHC.Builtin.Primitive.\* prefix in ghc-prim?
 
 TODO
 
 - Fix comments:
 
-  - header in OccName/RdrName/Name/Id/Var
-  - header in GHC.Data.Types
-  - header in GHC.Syntax.Utils
   - Fix notes referring to old file/module names
   - LaTeX doc (e.g., subsection's names)
+  - Reference to Note "Remote Template Haskell" in libraries/ghci/GHCi/TH.hs but it doesn't exist. Maybe replaced by "Remote GHCi"? 
 - Fix core-spec (links to module files)
 - Split GHC.Data.\*?
 
