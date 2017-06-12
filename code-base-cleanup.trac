@@ -100,6 +100,8 @@ TODO:
   * Undefined reference to Renaming.hs from GHC.IR.Core.Transformer.Substitution
   * Undefined reference to simplStg/SRT.hs from GHC.IR.Cmm.Transformer.InfoTableBuilder
   * Undefined reference to codeGen/CodeGen.hs from GHC.Compiler.HaskellToCore.Foreign.Declaration
+  * Undefined reference to RegArchBase.hs from GHC.Compiler.CmmToAsm.Register.Allocator.Graph.ArchX86
+  * Undefined reference to MachRegs*.hs and MachRegs.hs from GHC.Compiler.CmmToAsm.Register.Allocator.Graph.ArchBase
 * Binutils 2.17 is from 2011. Maybe we could remove the Hack in GHC.Compiler.CmmToAsm.X86.CodeGen
 * Fix core-spec (links to module files)
 * Rename CAF into "static thunk"?
