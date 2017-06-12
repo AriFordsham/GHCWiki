@@ -92,7 +92,7 @@ Tree logic:
 - Data: data structures (Bag, Tree, etc.)
 - Config: GHC configuration
 
-  - Platform: host platform info
+  - HostPlatform: host platform info
   - Flags: dynamic configuration (DynFlags)
   - Build: generated at build time
 - Packages: package management stuff
