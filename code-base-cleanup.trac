@@ -98,10 +98,11 @@ TODO:
   * Undefined reference to CgConTbls.hs from GHC.Compiler.StgToCmm.Binding
   * Undefined reference to PprMach.hs from GHC.Compiler.CmmToAsm.PIC
   * Undefined reference to Renaming.hs from GHC.IR.Core.Transformer.Substitution
+  * Undefined reference to simplStg/SRT.hs from GHC.IR.Cmm.Transformer.InfoTableBuilder
+  * Undefined reference to codeGen/CodeGen.hs from GHC.Compiler.HaskellToCore.Foreign.Declaration
+* Binutils 2.17 is from 2011. Maybe we could remove the Hack in GHC.Compiler.CmmToAsm.X86.CodeGen
 * Fix core-spec (links to module files)
-* Split GHC.Data.*?
-  * Maybe we could have GHC.Entity.* for code entities (Module, Class, Type, Coercion, etc.) and keep GHC.Data.* for utility data (Maybe, FastString, Bag, etc.)
-* Rename CAF into "static thunk"
+* Rename CAF into "static thunk"?
 * Replace file names (especially for "Note [XXX] in path/to/something.hs") with module names
 * put notes files (e.g. profiling-notes, *.tex files) into actual notes or in the wiki
 * there are some traces of RnHsSyn that doesn't exist anymore
