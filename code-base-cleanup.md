@@ -119,7 +119,11 @@ TODO
 
   - Fix notes referring to old file/module names
   - LaTeX doc (e.g., subsection's names)
-  - Reference to Note "Remote Template Haskell" in libraries/ghci/GHCi/TH.hs but it doesn't exist. Maybe replaced by "Remote GHCi"? 
+  - Several references to Note "Remote Template Haskell" (supposedly in libraries/ghci/GHCi/TH.hs) but it doesn't exist. Maybe replaced by Note "Remote GHCi"? 
+  - Undefined reference to "fill_in in PrelPack.hs" from GHC.Entity.Id
+  - Undefined reference to CgConTbls.hs from GHC.Compiler.StgToCmm.Binding
+  - Undefined reference to PprMach.hs from GHC.Compiler.CmmToAsm.PIC
+  - Undefined reference to Renaming.hs from GHC.IR.Core.Transformer.Substitution
 - Fix core-spec (links to module files)
 - Split GHC.Data.\*?
 
