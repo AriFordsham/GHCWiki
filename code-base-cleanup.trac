@@ -88,11 +88,6 @@ Issues:
   * maybe we should put all GHC extensions to base under GHC.Exts.* or GHC.Base.*
   * use GHC.Builtin.Primitive.* prefix in ghc-prim?
 
-TODO:
-* Fix comments:
-  * LaTeX doc (e.g., subsection's names)
-* Fix core-spec (links to module files)
-
 TODO in the future:
 * Fix comments:
   * Several references to Note "Remote Template Haskell" (supposedly in libraries/ghci/GHCi/TH.hs) but it doesn't exist. Maybe replaced by Note "Remote GHCi"? 
