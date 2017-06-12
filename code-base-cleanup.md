@@ -111,13 +111,6 @@ Issues:
   - maybe we should put all GHC extensions to base under GHC.Exts.\* or GHC.Base.\*
   - use GHC.Builtin.Primitive.\* prefix in ghc-prim?
 
-TODO
-
-- Fix comments:
-
-  - LaTeX doc (e.g., subsection's names)
-- Fix core-spec (links to module files)
-
 TODO in the future:
 
 - Fix comments:
@@ -135,6 +128,9 @@ TODO in the future:
 - Rename CAF into "static thunk"?
 - put notes files (e.g. profiling-notes, \*.tex files) into actual notes or in the wiki
 - Fix traces of RnHsSyn that doesn't exist anymore
+- References to "NCG" should be replaced with reference to "CmmToAsm compiler"
+- Foreign export stubs are generated in GHC.Compiler.HaskellToCore.Foreign.Declaration...
+- Tests still reflect the old hierarchy (e.g., simplCore/should_compile) but renaming them could break other tools
 
 
 Questions:
