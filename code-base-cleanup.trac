@@ -23,8 +23,8 @@ Implement the [wiki:ModuleDependencies/Hierarchical proposal for hierarchical mo
 It consists only in renaming/moving modules.
 
 Compared to the original proposal, I have:
-* Put IR into GHC.IR and compilers into GHC.Compilers
-* changed GHC.Types into GHC.Data as the former is misleading (from a GHC API user point of view)
+* Put IRs into GHC.IR and compilers into GHC.Compiler
+* changed GHC.Types into GHC.Data and GHC.Entity as the former is misleading (from a GHC API user point of view)
 * split GHC.Typecheck into GHC.IR.Haskell.{TypeChecker,Deriver}
 * split GHC.Utils into GHC.Utils and GHC.Data (e.g., Bag is in Data, not Utils)
 * etc.
@@ -63,6 +63,9 @@ Tree logic:
     * CmmToC
     * TemplateToHaskell
 * Entity: entities shared by different phases of the compiler (Class, Id, Name, Unique, etc.)
+* Builtin: builtin stuff
+    * Primitive.{Types,Operations}: primitives
+    * Names, Types, Uniques: other wired-in stuff
 * Program: GHC-the-program (command-line parser, etc.) and its modes
     * Driver.{Phases,Pipeline}
     * Backpack
@@ -74,9 +77,6 @@ Tree logic:
     * Flags: dynamic configuration (DynFlags)
     * Build: generated at build time
 * Packages: package management stuff
-* Builtin: builtin stuff
-    * Primitive.{Types,Operations}: primitives
-    * Names, Types, Uniques: other wired-in stuff
 * RTS: interaction with the runtime system (closure and table representation)
 * Utils: utility code or code that doesn't easily belong to another directory (e.g., Outputable, SysTools, Elf, Finder, etc.)
 * Plugin: modules to import to write compiler plugins
@@ -91,7 +91,6 @@ Issues:
 
 TODO:
 * Fix comments:
-  * Fix notes referring to old file/module names
   * LaTeX doc (e.g., subsection's names)
   * Several references to Note "Remote Template Haskell" (supposedly in libraries/ghci/GHCi/TH.hs) but it doesn't exist. Maybe replaced by Note "Remote GHCi"? 
   * Undefined reference to "fill_in in PrelPack.hs" from GHC.Entity.Id
@@ -105,13 +104,13 @@ TODO:
 * Binutils 2.17 is from 2011. Maybe we could remove the Hack in GHC.Compiler.CmmToAsm.X86.CodeGen
 * Fix core-spec (links to module files)
 * Rename CAF into "static thunk"?
-* Replace file names (especially for "Note [XXX] in path/to/something.hs") with module names
 * put notes files (e.g. profiling-notes, *.tex files) into actual notes or in the wiki
 * there are some traces of RnHsSyn that doesn't exist anymore
 
-
 Questions:
-  * Why don't we use the mangled selector name ($sel:foo:MkT) in every cases (not only when we have -XDuplicateRecordFields) instead of using the ambiguous one (foo)?
+* Why don't we use the mangled selector name ($sel:foo:MkT) in every cases (not only when we have -XDuplicateRecordFields) instead of using the ambiguous one (foo)?
+  * Incidentally, partially answered yesterday (2017-06-12) on ticket #13352
+  
 
 == Step 2: split and edit some modules
 
