@@ -104,6 +104,7 @@ TODO in the future:
 * put notes files (e.g. profiling-notes, *.tex files) into actual notes or in the wiki
 * Fix traces of RnHsSyn that doesn't exist anymore
 * References to "NCG" should be replaced with reference to "CmmToAsm compiler"
+* Foreign export stubs are generated in GHC.Compiler.HaskellToCore.Foreign.Declaration...
 
 
 
