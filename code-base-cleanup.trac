@@ -103,6 +103,9 @@ TODO in the future:
 * Rename CAF into "static thunk"?
 * put notes files (e.g. profiling-notes, *.tex files) into actual notes or in the wiki
 * Fix traces of RnHsSyn that doesn't exist anymore
+* References to "NCG" should be replaced with reference to "CmmToAsm compiler"
+
+
 
 
 Questions:
