@@ -165,6 +165,24 @@ instance C (Proxy a) where
 
 === `base-4.10.0.0`
 
+==== Recommendations for forward-compatibility
+
+{{{#!box tip
+
+In order to future-proof your packages for upcoming changes, add the following snippet to your `.cabal` file, and address the warnings emitted by GHC when compiling your package:
+
+{{{
+  if impl(ghc >= 8.0)
+    ghc-options: -Wcompat -Wnoncanonical-monad-instances -Wnoncanonical-monadfail-instances
+  else
+    -- provide/emulate `Control.Monad.Fail` and `Data.Semigroups` API for pre-GHC8
+    build-depends: fail == 4.9.*, semigroups == 0.18.*
+}}}
+
+
+See wiki:Migration/8.0#base-4.9.0.0 for more details
+}}}
+
 ==== Type-indexed `Typeable` changes ====
   * The `Data.Typeable.Internal` module has been removed entirely. Much of the `Typeable` internals now live in the new `Type.Reflection` module.
   * `Data.Typeable.TypeRep` is now a type synonym (so you may need `TypeSynonymInstances` to create an instance for it, unless you switch it to use `Type.Reflection.SomeTypeRep`)
