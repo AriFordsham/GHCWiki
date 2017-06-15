@@ -1,5 +1,9 @@
 == Module reexports ==
 
+{{{#!box note
+This is has been implemented and is supported starting with Cabal 1.22 & GHC 7.10, see also the [http://cabal.readthedocs.io/en/latest/developing-packages.html#pkg-field-library-reexported-modules Cabal documentation about `reexported-modules`]
+}}}
+
 (Trac’ed as #8407).
 
 === Goal ===
