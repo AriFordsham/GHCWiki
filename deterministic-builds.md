@@ -169,6 +169,12 @@ This is not a problem with GHC, but comes up when compiling some packages that h
 `Cabal` will sometimes run `alex Lexer.x` to regenerate `Lexer.hs` file. If the versions of `alex` are different you can get different sources.
 See [ \#2311](https://github.com/haskell/cabal/issues/2311), [ \#2940](https://github.com/haskell/cabal/issues/2940).
 
+### cabal sometimes finding cpphs or c2hs from the sandbox
+
+
+When building multiple packages in a sandbox in parallel including `cpphs`, depending on the order the packages get compiled `cabal` sometimes
+finds `cpphs` and runs it, leading to a slightly different results.
+
 ## Progress
 
 
@@ -201,6 +207,7 @@ By varying these you can get interesting effects:
 
 
 At this moment we don't need it, but judging by the comments on [\#4012](https://gitlab.haskell.org//ghc/ghc/issues/4012) some people would and we might in the future.
+To the best of my knowledge it just works.
 
 ## Previous discussions
 
