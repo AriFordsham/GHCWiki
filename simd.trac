@@ -9,7 +9,7 @@ The goal of the SIMD project is to allow GHC and Haskell libraries to take advan
 
 SIMD support currently requires a version of ghc built from the simd branch. Vectors primops only work when compiling with `-fllvm`. You will also need patched versions of the `dph` and `vector` libraries. Here are the steps to get the SIMD branch up and running.
 
- 1. Set up a ghc tree as you normally would. See [wiki:Building/GettingTheSources]. Be sure to checkout out the `simd` branch, e.g.,
+ 1. Set up a ghc tree as you normally would. See [wiki:Building/GettingTheSources]. Be sure to checkout out the `wip/simd` branch, e.g.,
 
 {{{
 $ git clone -b wip/simd http://git.haskell.org/ghc.git
