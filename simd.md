@@ -14,7 +14,7 @@ SIMD support currently requires a version of ghc built from the simd branch. Vec
 1. Set up a ghc tree as you normally would. See [Building/GettingTheSources](building/getting-the-sources). Be sure to checkout out the `simd` branch, e.g.,
 
 ```wiki
-$ git clone -b simd http://git.haskell.org/ghc.git
+$ git clone -b wip/simd http://git.haskell.org/ghc.git
 ```
 
 1. Replace `libraries/dph` with the simd branch checked out from `git@github.com:mainland/dph.git`.
