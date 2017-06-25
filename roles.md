@@ -308,7 +308,7 @@ coerceOp= coerce
 ```
 
 
-Since the role signature for `Op` is `type role Op nominal nominal nominal`. But in an ideal world, the role signature for `Op` would be inferred as `type role Op nominal representational representational`. After all, neither `a` nor `b` is "scrutinized" in any sense, so it feels perfectly safe to coerce them freely.
+Since the role signature for `Op` is `type role Op nominal nominal nominal`. But in an ideal world, the role signature for `Op` would be inferred as `type role Op nominal representational representational`. After all, neither `a` nor `b` is "scrutinized" in any sense, so it feels perfectly safe to coerce them freely. **RAE:** "feels"? Let's prove it! **End RAE**
 
 
 Another example ([ courtesy of int-index](https://ghc.haskell.org/trac/ghc/ticket/8177#comment:33)) is:
@@ -351,19 +351,46 @@ typefamilyF a
 
 But this is a restriction that is easily overcome. In addition, the parser does not currently recognize role annotations for associated type families:
 
-
-{{\#!hs
-class C a where
-
->
-> type role Assoc nominal nominal
-> type Assoc a b
-
-
-}}}
+```
+classC a wheretype role Assoc nominal nominal
+  typeAssoc a b
+```
 
 
 But this could be added without much difficulty.
+
+**RAE:** There is a difference between roles for
+data families and data instances. And both might usefully
+have role annotations. For example:
+
+```
+datafamilyDF a b
+type role DF nominal representational
+
+datainstanceDFInt b =MkDFInt b
+ -- NB: No scrutinizing the second parameter.-- Also, b is not used in a nominal contextdatainstanceDF[c] b =MkDFList c b
+type role DF[nominal] representational
+
+datainstanceDF(Maybe d) b =MkDFMaybe d b
+type role DF(Maybe representational) representational
+```
+
+
+With this, we have `Coercible (DF (Maybe Age) Int) (DF (Maybe Int) Age)` but not `Coercible (DF [Age] Int) (DF [Int] Age)`.
+
+
+I *think* (but have not ever tried to prove) that these instance roles would work out, with the following restrictions:
+
+- If a data family parameter is not scrutinized (that is, it's just a bare variable), then the instance role must match the family role exactly.
+
+- Corollary: all representational/phantom roles from the family must be repeated exactly in the instances.
+
+- Other variables may be given new roles according to the usual rules, including the usage of the variable in the instance head as a usage site. (That is, if the variable is used in a nominal context in the instance head, then it must be marked nominal.)
+
+
+I'm a bit worried about problems with what happens if a type constructor that appears as part of a type pattern for an instance is actually a newtype with a role annotation -- could we be breaking soundness with this? Need to think harder.
+
+**End RAE**
 
 ## Role inference for type families
 
@@ -387,7 +414,7 @@ There are five type parameters for `F`: `k`, `e`, `f`, `g`, and `h`. What should
 ### The type family kind
 
 
-First, we gather all of the free variables in the type family's kind and mark each as `nominal`. This is under the observation that only type variables can be at role `phantom` or `nominal`, never kind variables. Therefore, `k` would be marked as nominal.
+First, we gather all of the free variables in the type family's kind and mark each as `nominal`. This is under the observation that only type variables can be at role `phantom` or `representational`, never kind variables. Therefore, `k` would be marked as nominal.
 
 ### The type family equations
 
@@ -428,6 +455,8 @@ typefamilyEq w x y z whereEq a b (Either b a) c = a
 
 
 Returning to the earlier `F` example, we would learn that `e` and `g` should be marked nominal, as they are both scrutinized. Therefore, the final inferred roles for `k`, `e`, `f`, `g`, and `h` are `nominal`, `nominal`, `representational`, `nominal`, and `phantom`.
+
+**RAE:** This works well for *closed* type families, but is ineffective with open type/data families (associated or not). I propose that open families default to nominal roles. This is quite like how open families' type variables default to kind `Type`. Edit: I see this addressed below, but the opening paragraph for this section mentions inference for open families. **End RAE**
 
 ## Role checking for type families
 
