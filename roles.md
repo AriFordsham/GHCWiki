@@ -288,3 +288,179 @@ deprecated not-quite-as-safe GND extension for helping out users of
 libraries that have not yet added role annotations. I would fancy that
 this not-quite-as-safe GND could use unsafeCoerce wherever the safe
 one would give an error about annotated roles.
+
+# Proposal: roles for type families
+
+
+Currently, the type constructors for all type families and data families all conservatively assign role `nominal` to all their parameters. This is a safe choice, but a restrictive one, as it rules out some useful, coercion-safe programs. In this section, I propose a way to allow type families to have parameters with phantom and representational roles.
+
+## Examples we cannot write today
+
+
+This example ([ courtesy of glguy](https://ghc.haskell.org/trac/ghc/ticket/8177#comment:32)) will not typecheck:
+
+```
+-- | Family of N-ary operator types.typefamilyOp n a b whereOp'Z     a b = b
+  Op('S n) a b = a ->Op n a b
+
+coerceOp::Coercible a b =>Op n a c ->Op n b c
+coerceOp= coerce
+```
+
+
+Since the role signature for `Op` is `type role Op nominal nominal nominal`. But in an ideal world, the role signature for `Op` would be inferred as `type role Op nominal representational representational`. After all, neither `a` nor `b` is "scrutinized" in any sense, so it feels perfectly safe to coerce them freely.
+
+
+Another example ([ courtesy of int-index](https://ghc.haskell.org/trac/ghc/ticket/8177#comment:33)) is:
+
+```
+-- represents effect methods for some monad `m`datafamilyEffDict(eff :: k)(m ::Type->Type)-- Note this matches on `eff`, not `m`dataStateEff s
+datainstanceEffDict(StateEff s) m =StateDict{ _state :: forall a .(s ->(a,s))-> m a,
+      _get :: m s,
+      _put :: s -> m ()}-- composition of monad transformersnewtypeTComp t1 t2 m a =TComp(t1 (t2 m) a)coerceDict::EffDict eff (t1 (t2 m))->EffDict eff (TComp t1 t2 m)coerceDict= coerce
+```
+
+
+Again, `coerceDict` will not typecheck due to the role of `m` in `EffDict` being `nominal`. But there's no good reason why this *must* be the case—we ought to be able to tell GHC to allow `m` to have `representational role`. (Of course, this would prevent any `EffDict` instance from using `m` at a `nominal` role, but them's the breaks.)
+
+
+Additionally, we might like to have roles for *associated* type families. For instance, consider this example ([ courtesy of dmcclean](https://ghc.haskell.org/trac/ghc/ticket/8177#comment:20)):
+
+```
+dataVariant=DQuantity|DUnitPrefixabilitydataDimensionclassKnownVariant(var ::Variant)wheredataDimensional var ::Dimension->*->*instanceKnownVariantDQuantitywherenewtypeDimensionalDQuantity d v =Quantity' v
+
+instanceKnownVariant(DUnit p)wheredataDimensional(DUnit p) d v =Unit'UnitName v
+
+typeQuantity=DimensionalDQuantitycoerceQuantity::Coercible v w =>Quantity d v ->Quantity d w
+coerceQuantity= coerce
+```
+
+
+Once again, `coerceQuantity` is ill typed, simply because of the conservative `nominal` role that the last type parameter of `Dimensional` has. Associated type families are an interesting case, since they can have extra type parameters (and thus extra roles) that the parent class does not have.
+
+## Syntax
+
+
+Implementing roles for type families would not require too many changes to the syntax of the language, as most of the required pieces are already there. The biggest current restriction is the fact that one cannot declare role annotations for type families, e.g.,
+
+```
+type role F nominal
+typefamilyF a
+```
+
+
+But this is a restriction that is easily overcome. In addition, the parser does not currently recognize role annotations for associated type families:
+
+
+{{\#!hs
+class C a where
+
+>
+> type role Assoc nominal nominal
+> type Assoc a b
+
+
+}}}
+
+
+But this could be added without much difficulty.
+
+## Role inference for type families
+
+
+Regardless of whether we're dealing with a closed, open, or associated type family, GHC will need to infer the most permissive roles possible for every type family, and possibly check these roles against a user-provided role signature. This section describes how role inference will operate.
+
+### Example
+
+
+Consider this type family:
+
+```
+typefamilyF(e ::*)(f ::*)(g ::*)(h ::*):: k whereFInt       b c d = c
+  F(Maybe a) b a d =Maybe b
+  F a         b c d = a
+```
+
+
+There are five type parameters for `F`: `k`, `e`, `f`, `g`, and `h`. What should be the roles for each one? We will start off by assuming each parameter has role `phantom`, and then walk the structure of the type family, progressively marking parameters with more restrictive roles.
+
+### The type family kind
+
+
+First, we gather all of the free variables in the type family's kind and mark each as `nominal`. This is under the observation that only type variables can be at role `phantom` or `nominal`, never kind variables. Therefore, `k` would be marked as nominal.
+
+### The type family equations
+
+
+Next, we descend into each defining equation of the type family and inspect the left-hand and right-hand sides. The right-hand sides are analyzed just like the fields of a data constructor; see the [ Role inference](https://ghc.haskell.org/trac/ghc/wiki/Roles#Roleinference) section above for more details. From the right-hand sides, we learn that the roles of `e`, `f`, and `g` should be (at least) `representational`.
+
+
+The more interesting analysis comes when inspecting the left-hand sides. We want to mark any type variable that is *scrutinized* as `nominal`. By "scrutinized", we mean a variable that is being used in a non-parametric fashion. For instance, we want to rule out scenarios like this one:
+
+```
+typefamilyInspect x whereInspectBool=IntInspectInt=BoolcoerceInspect::Coercible a b =>Inspect a ->Inspect b
+coerceInspect= coerce
+
+unsafeBoolToInt::Bool->IntunsafeBoolToInt=(coerceInspect ::InspectInt->InspectAge)
+```
+
+
+To accomplish this, we check for any occurences of the either of the following sorts of scrutinization:
+
+1. A type pattern that is not a single type variable. For instance, all of these equations provde examples of type patterns which do scrutinize a particular type variable:
+
+```
+typefamilyInspect x whereInspectInt=BoolInspect(Either a b)= a
+  Inspect(f a)= a
+```
+
+>
+> Any type variable that is scrutinized in this fashion (`x` in the above example) is marked as `nominal`.
+
+1. Type patterns that are syntactically equal are all marked as nominal. For instance:
+
+```
+typefamilyEq w x y z whereEq a b (Either b a) c = a
+```
+
+>
+> Here, we have two variable names that are used in multiple places: `a` and `b`. As a result, the type variables which they inhabit (`w`, `x`, and `y`) are all marked as `nominal`.
+
+
+Returning to the earlier `F` example, we would learn that `e` and `g` should be marked nominal, as they are both scrutinized. Therefore, the final inferred roles for `k`, `e`, `f`, `g`, and `h` are `nominal`, `nominal`, `representational`, `nominal`, and `phantom`.
+
+## Role checking for type families
+
+
+Users can also specify role annotations for type families that should be checked against the inferred roles. For instance:
+
+```
+type role G nominal nominal
+typefamilyG a b whereG a b =Either a b
+```
+
+
+If the user hadn't written the role annotation for `G`, its role signature would have been inferred to be `type role G representational representational`. However, role checking overrides the inferred roles and assigns the more conservative roles of `type role G nominal nominal`.
+
+
+Note that while writing role annotations for *closed* type families is purely optional, it is somewhat more important for open type families. For instance, what should be the roles for this type family?
+
+```
+typefamilyOpen a b
+```
+
+
+Here, we have a choice to make. We could decide to make the roles for open type families default to, say, `representational`. While this would give us the freedom to `coerce` values of type `Open a b` more freely, it simultaneously restricts the instances we can give for `Open`, since every type instance must be checked to ensure that neither `a` nor `b` is used at a `nominal` role.
+
+
+For the sake of backwards compatibility and the principle of least surprise, roles for open type families default to `nominal`. This allows more instances to be written, but makes it harder to `coerce` them. If a user wishes to `coerce` open type families, the onus is on her to write a role annotation, e.g.,
+
+```
+type role Open representational representational
+typefamilyOpen a b
+```
+
+## Type family roles and hs-boot files
+
+
+Just like we default roles for open type families to `nominal`, we do the same for type families declared in `hs-boot` files.
