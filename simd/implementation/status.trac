@@ -2,21 +2,13 @@
 
 **As of 26 June 2017**
 
-GHC has basic support for a variety of integer and floating-point vector types. These types and their associated primops can be found in [[https://downloads.haskell.org/~ghc/8.0.2/docs/html/libraries/ghc-prim-0.5.0.0/GHC-Prim.html#g:28|`GHC.Prim`]]. However, there are a few caveats,
-
- * Code using this feature must be compiled using the LLVM backend (e.g. `-fllvm`) as the native code generator has no SIMD support on any platform
- * The calling convention i
-
 === Tickets ===
 
-[[TicketQuery(keyword=SIMD,format=table,col=type|summary|priority|owner,group=status,order=priority)]]
-
-
-== General plan ==
+[[TicketQuery(keywords=SIMD,format=table,col=type|summary|priority|owner,group=status,order=priority)]]
 
 === Vector types ===
 
-Vectors of the following types are implemented: `Int32`, `Int64`, `Float`, and `Double`.
+Vectors of the following types are implemented: `Int32`, `Int64`, `Float`, and `Double`. These types and their associated primops can be found in [[https://downloads.haskell.org/~ghc/8.0.2/docs/html/libraries/ghc-prim-0.5.0.0/GHC-Prim.html#g:28|`GHC.Prim`]].
 
 === Fixed and variable sized vectors ===
 
@@ -24,7 +16,7 @@ For each type, currently only one vector width is implemented, namely the width 
 
 == Code generators ==
 
-Only the LLVM code generator is supported.
+Only the LLVM code generator (i.e. `-fllvm`) is supported.
 
 == Cmm layer ==
 
