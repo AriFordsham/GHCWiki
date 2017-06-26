@@ -1,5 +1,8 @@
 **We no longer plan to take this approach. See [DynamicGhcPrograms](dynamic-ghc-programs) instead.**
 
+
+In particular, [ DYNAMIC_BY_DEFAULT has likely bitrotted](https://mail.haskell.org/pipermail/glasgow-haskell-users/2014-October/025339.html): it does not seem possible to build with that flag on anymore (tested on Linux on [a48464a7d2858bad28cfd1f393e82589825e62db](/trac/ghc/changeset/a48464a7d2858bad28cfd1f393e82589825e62db/ghc)).  It still seems possible to manually toggle `DYNAMIC_BY_DEFAULT` in `lib/ghc-*/platformConstants`, but this is probably considered an unsupported feature.
+
 # Dynamic by default
 
 
