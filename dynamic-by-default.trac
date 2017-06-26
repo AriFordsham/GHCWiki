@@ -1,6 +1,8 @@
 
 '''We no longer plan to take this approach. See DynamicGhcPrograms instead.'''
 
+In particular, [https://mail.haskell.org/pipermail/glasgow-haskell-users/2014-October/025339.html DYNAMIC_BY_DEFAULT has likely bitrotted]: it does not seem possible to build with that flag on anymore (tested on Linux on a48464a7d2858bad28cfd1f393e82589825e62db).  It still seems possible to manually toggle `DYNAMIC_BY_DEFAULT` in `lib/ghc-*/platformConstants`, but this is probably considered an unsupported feature.
+
 = Dynamic by default =
 
 Currently, GHCi doesn't use the system linker to load libraries, but instead uses our own "GHCi linker". Unfortunately, this is a large blob of unpleasant code that we need to maintain, it already contains a number of known bugs, and new problem have a tendency to arise as new versions of OSes are released. We are therefore keen to get rid of it!
