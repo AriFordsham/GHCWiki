@@ -244,3 +244,7 @@ Integrating variable-sized vectors with GHC's calling convention is a challenge.
 
 
 The implementation does not attempt to align memory containing SIMD vectors. SIMD vector loads and stores do not assume alignment.
+
+### Other resources of interest
+
+- This `ghc-devs` discussion: [ https://mail.haskell.org/pipermail/ghc-devs/2017-March/013899.html](https://mail.haskell.org/pipermail/ghc-devs/2017-March/013899.html)
