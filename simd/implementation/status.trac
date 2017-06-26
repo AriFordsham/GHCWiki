@@ -1,10 +1,14 @@
-The prototype implementation of the above specification is vailable as the `simd` branch of GHC.
+== Current Status ==
 
-== General plan ==
+**As of 26 June 2017**
+
+=== Tickets ===
+
+[[TicketQuery(keywords=SIMD,format=table,col=type|summary|priority|owner,group=status,order=priority)]]
 
 === Vector types ===
 
-Vectors of the following types are implemented: `Int32`, `Int64`, `Float`, and `Double`.
+Vectors of the following types are implemented: `Int32`, `Int64`, `Float`, and `Double`. These types and their associated primops can be found in [[https://downloads.haskell.org/~ghc/8.0.2/docs/html/libraries/ghc-prim-0.5.0.0/GHC-Prim.html#g:28|`GHC.Prim`]].
 
 === Fixed and variable sized vectors ===
 
@@ -12,7 +16,7 @@ For each type, currently only one vector width is implemented, namely the width 
 
 == Code generators ==
 
-Only the LLVM code generator is supported.
+Only the LLVM code generator (i.e. `-fllvm`) is supported.
 
 == Cmm layer ==
 
@@ -37,3 +41,7 @@ Integrating variable-sized vectors with GHC's calling convention is a challenge.
 === Memory alignment for vectors ===
 
 The implementation does not attempt to align memory containing SIMD vectors. SIMD vector loads and stores do not assume alignment.
+
+=== Other resources of interest ===
+
+ * This `ghc-devs` discussion: https://mail.haskell.org/pipermail/ghc-devs/2017-March/013899.html
