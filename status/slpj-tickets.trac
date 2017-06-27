@@ -14,6 +14,7 @@
  * [wiki:TemplateHaskell]
  * [wiki:Inlining]
  * [wiki:SpecConstr]
+ * [wiki:Specialise]
  * [wiki:StaticArgumentTransformation]
  * [wiki:MoreCSE Common subexpression (CSE)]
  * [wiki:UnliftedDataTypes]

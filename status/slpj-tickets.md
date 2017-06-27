@@ -15,6 +15,7 @@
 - [TemplateHaskell](template-haskell)
 - [Inlining](inlining)
 - [SpecConstr](spec-constr)
+- [Specialise](specialise)
 - [StaticArgumentTransformation](static-argument-transformation)
 - [Common subexpression (CSE)](more-cse)
 - [UnliftedDataTypes](unlifted-data-types)
