@@ -219,6 +219,13 @@ In order to see emails below, **you must login**.
   - **Committer since**: August 2014.
   - **Main areas of interest**: Solaris platform support.
 
+- [ Kavon Farvardin](http://kavon.farvard.in/)
+
+  - University of Chicago - Chicago, IL, USA
+  - **Trac**: kavon; **email**: kavon@…
+  - **Committer since**: May, 2017.
+  - **Main areas of interest**: llvm, cmm, codegen
+
 - Krzysztof Gogolewski
 
   - University of Warsaw - Poland
