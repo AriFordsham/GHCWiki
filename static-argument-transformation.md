@@ -157,3 +157,30 @@ crunState (CS f) = f
 test2 :: Int -> ((), Int)
 test2 n = crunState (times n (cmodify (+1))) 0
 ```
+
+
+\# Interaction with Join Points
+
+
+In section 5 of "compiling without continuations" it is noted that join points enable fusion but in order to do so you have to write your programs in a particular style.
+
+```wiki
+module Join where
+
+find :: (a -> Bool) -> [a] -> Maybe a
+find p xs = go xs
+  where
+    go [] = Nothing
+    go (x:xs) = if p x then Just x else go xs
+
+any :: (a -> Bool) -> [a] -> Bool
+any p xs  = case find p xs of
+              Just _ -> True
+              Nothing -> False
+```
+
+
+The core for `any` is then nicely fused as `go` is identified as a join point which means that it can be inlined even though `find` is recursive. 
+
+
+This particular style is exactly the kind of code which the static argument transformation produces. Currently it is not enough to turn on `-fstatic-argument-transformation` as the order the transformations are run seems wrong.
