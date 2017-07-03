@@ -8,7 +8,7 @@
 >
 >
 > See also:
-> [ http://haskell.org/ghc/docs/latest/html/users_guide/syntax-extns.html\#package-imports](http://haskell.org/ghc/docs/latest/html/users_guide/syntax-extns.html#package-imports)
+> [ https://downloads.haskell.org/\~ghc/latest/docs/html/users_guide/glasgow_exts.html\#ghc-flag--XPackageImports](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html#ghc-flag--XPackageImports)
 
 # Explicit package imports
 
