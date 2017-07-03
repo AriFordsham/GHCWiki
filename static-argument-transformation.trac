@@ -131,7 +131,7 @@ test2 :: Int -> ((), Int)
 test2 n = crunState (times n (cmodify (+1))) 0
 }}}
 
-# Interaction with Join Points
+= Interaction with Join Points =
 
 In section 5 of "compiling without continuations" it is noted that join points enable fusion but in order to do so you have to write your programs in a particular style.
 
