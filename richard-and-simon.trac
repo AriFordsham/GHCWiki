@@ -52,6 +52,7 @@ data X where
     2. How to make sure that saturated primops stay that way in Core. This would be a new check in Lint as well as new checks on any code that does eta-contraction. It has been suggested that levity-polymorphic primops desugar to a family of levity-monomorphic primops. This surely would work, but there doesn't seem to be benefit over a plan simply to keep primops eta-expanded always. Then, there's no worry about eta-contracting levity-polymorphic arguments.
 * Make better use of the `uo_thing` field, including refactoring `noThing` away and improving term-level error messages.
     * Simon also asks that the contents of `uo_thing` should only be `HsSyn`. This would obviate the current zonking/tidying stuff. A quick pass suggests that this will be easy to do.
+    * Also see #13819, where the current treatment of `uo_thing` leads to an outright bug.
 * Take full advantage of `TcTyCon`, getting rid of the dreaded type-checking knot. (#13737)
 * Document why we're not worried about casts in class wanteds. (Short story: any cast should be available for rewriting, and so it will rewrite the kinds.)
 * Sort out `matchTypeable` (see email) #13333
