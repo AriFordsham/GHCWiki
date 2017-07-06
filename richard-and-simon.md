@@ -7,15 +7,13 @@
 
 ... as discussed by Richard and Simon. This page is mostly for our own notes, but others are welcome to read it.
 
-
-Big things
+**Big things**
 
 - [\#11715](https://gitlab.haskell.org//ghc/ghc/issues/11715): constraint vis \*
-- [\#12088](https://gitlab.haskell.org//ghc/ghc/issues/12088): scc for kind inference
 - Homogeneous flattener ([\#12919](https://gitlab.haskell.org//ghc/ghc/issues/12919), [\#13643](https://gitlab.haskell.org//ghc/ghc/issues/13643))
+- [\#12088](https://gitlab.haskell.org//ghc/ghc/issues/12088): scc for kind inference (lower priority)
 
-
-Little things
+**Little things**
 
 - BUGS
 - `uo_thing`
