@@ -22,47 +22,53 @@ $ git bisect run ghc-bisect.sh
 This will run the script for each point in the bisection, skipping commits which are unbuildable. Hopefully this will end with a message informing you of the first bad commit. A log of this procedure will be place in `$logs`: `$logs/all` gives a nice high-level overview and the remaining files record each step of the bisection.
 
 
-By default the script will clean the tree for every commit. While this is likely to give correct results, it performs a number of potentially redundant rebuilds. The process can be made faster by setting \`ALWAYS_CLEAN=0", which will only clean the tree when a commit fails to build.
+By default the script will clean the tree for every commit. While this is likely to give correct results, it performs a number of potentially redundant rebuilds. The process can be made faster by setting `ALWAYS_CLEAN=0`, which will only clean the tree when a commit fails to build.
 
 ## ghc-bisect.sh
 
 ```
 #!/bin/bash
-logs=/mnt/work/ghc/tickets/T10528/logs
-make_opts="-j9"
+logs=/mnt/work/ghc/tickets/T13930/logs
+make_opts="-j9"ghc=`pwd`/inplace/bin/ghc-stage2
 
-mkdir -p $logsrev=$(git rev-parse HEAD)function skip_commit(){exit125}function log(){echo"$@"| tee -a $logs/all
+mkdir -p $logsrev=$(git rev-parse HEAD)# Bisection step return codes
+function skip_commit(){exit125;}function commit_good(){exit0;}function commit_bad(){exit1;}function stop_bisection(){exit255;}function log(){echo"$@"| tee -a $logs/all
 }function do_it(){step=$1shift
     log "Commit $rev: $step = $@"$@2>&1| tee  $logs/$rev-$step.log
-    ret=$?
-    log "Commit $rev: $step = $ret"return$ret}
+    ret="${PIPESTATUS[0]}"
+    log "Commit $rev: $step = $ret"return$ret}function build_ghc(){
+    do_it submodules git submodule update || skip_commit
+    # We run `make` twice as sometimes it will spuriously fail with -j
+if[ -z "$ALWAYS_CLEAN" -o "x$ALWAYS_CLEAN"=="x0"];then# First try building without cleaning, if that fails then clean and try again
+        do_it ghc1 make $make_opts||\
+          do_it ghc2 make $make_opts||\
+          do_it clean make clean &&\
+          do_it ghc3 make $make_opts||\
+          do_it ghc4 make $make_opts||\
+          skip_commit
+    else
+        do_it clean make clean || log "clean failed"
+        do_it ghc1 make $make_opts|| do_it ghc2 make $make_opts|| skip_commit
+    fi}# This is the actual testcase
+# Note that this particular case depended upon the `cabal`
+# library, which is checked out in $tree
+function run_test(){tree=$HOME/trees/cabal
+    cd$tree#do_it "clean-test" rm -R dist-newstyle
+    do_it "build-test" cabal new-build cabal-install --disable-library-profiling --allow-newer=time --with-compiler=$ghc
+    do_it "make-links" /home/ben/.env/bin/mk-cabal-bin.sh
+    do_it "run-test" timeout 10 bin/cabal configure
 
-do_it submodules git submodule update || skip_commit
-# We run `make` twice as sometimes it will spuriously fail with -j
-if["x$ALWAYS_CLEAN"=="x0"];then# First try building without cleaning, if that fails then clean and try again
-    do_it ghc1 make $make_opts||\
-      do_it ghc2 make $make_opts||\
-      do_it clean make clean &&\
-      do_it ghc3 make $make_opts||\
-      do_it ghc4 make $make_opts||\
-      skip_commit
-else
-    do_it clean make clean || log "clean failed"
-    do_it ghc1 make $make_opts|| do_it ghc2 make $make_opts|| skip_commit
-fi# This is the actual testcase
-# Note that this particular case depended upon the `text`
-# library, which is checked out in $text
-text=/mnt/work/ghc/text
-testcase=/mnt/work/ghc/tickets/T10528/hi.hs
-build="inplace/bin/ghc-stage2 $testcase -O -i$text -DMIN_VERSION_bytestring(x,y,z)=1 -I$text/include/"
-do_it prebuild $build -fforce-recomp || skip_commit
-touch $testcase
-do_it build $build -ddump-rule-firings || skip_commit
-
-# The test has succeeded if the rule fired 
-if ! grep "Rule fired: TEXT literal"$logs/$rev-build.log ;then
-    log "Commit $rev: failed"exit1;else
-    log "Commit $rev: passed"exit0;fi
+    # The test has succeeded if the rule fired 
+if["x$?"="x124"];then
+        log "Commit $rev: failed"
+        commit_bad
+    else
+        log "Commit $rev: passed"
+        commit_good
+    fi}if[ -z "$@"];then
+    build_ghc
+    run_test
+else$@fi
 ```
 
 ## Gotchas
