@@ -22,7 +22,7 @@ $ git bisect run ghc-bisect.sh
 This will run the script for each point in the bisection, skipping commits which are unbuildable. Hopefully this will end with a message informing you of the first bad commit. A log of this procedure will be place in `$logs`: `$logs/all` gives a nice high-level overview and the remaining files record each step of the bisection.
 
 
-By default the script will clean the tree for every commit. While this is likely to give correct results, it performs a number of potentially redundant rebuilds. The process can be made faster by setting \`ALWAYS_CLEAN=0", which will only clean the tree when a commit fails to build.
+By default the script will clean the tree for every commit. While this is likely to give correct results, it performs a number of potentially redundant rebuilds. The process can be made faster by setting `ALWAYS_CLEAN=0`, which will only clean the tree when a commit fails to build.
 
 ## ghc-bisect.sh
 
@@ -38,7 +38,7 @@ mkdir -p $logsrev=$(git rev-parse HEAD)function skip_commit(){exit125}function l
     log "Commit $rev: $step = $ret"return$ret}function build_ghc(){
     do_it submodules git submodule update || skip_commit
     # We run `make` twice as sometimes it will spuriously fail with -j
-if[ -z "$ALWAYS_CLEAN" -o "x$ALWAYS_CLEAN"=="x0"];then# First try building without cleaning, if that fails then clean and try again
+if["x$ALWAYS_CLEAN"=="x0"];then# First try building without cleaning, if that fails then clean and try again
         do_it ghc1 make $make_opts||\
           do_it ghc2 make $make_opts||\
           do_it clean make clean &&\
