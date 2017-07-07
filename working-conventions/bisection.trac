@@ -31,9 +31,11 @@ ghc=`pwd`/inplace/bin/ghc-stage2
 mkdir -p $logs
 rev=$(git rev-parse HEAD)
 
-function skip_commit() {
-    exit 125
-}
+# Bisection step return codes
+function skip_commit() { exit 125; }
+function commit_good() { exit 0; }
+function commit_bad() { exit 1; }
+function stop_bisection() { exit 255; }
 
 function log() {
     echo "$@" | tee -a $logs/all
@@ -44,7 +46,7 @@ function do_it() {
     shift
     log "Commit $rev: $step = $@"
     $@ 2>&1 | tee  $logs/$rev-$step.log
-    ret=$?
+    ret="${PIPESTATUS[0]}"
     log "Commit $rev: $step = $ret"
     return $ret
 }
@@ -52,7 +54,7 @@ function do_it() {
 function build_ghc() {
     do_it submodules git submodule update || skip_commit
     # We run `make` twice as sometimes it will spuriously fail with -j
-    if [ "x$ALWAYS_CLEAN" == "x0" ]; then
+    if [ -z "$ALWAYS_CLEAN" -o "x$ALWAYS_CLEAN" == "x0" ]; then
         # First try building without cleaning, if that fails then clean and try again
         do_it ghc1 make $make_opts || \
           do_it ghc2 make $make_opts || \
@@ -72,7 +74,7 @@ function build_ghc() {
 function run_test() {
     tree=$HOME/trees/cabal
     cd $tree
-    do_it "clean-test" rm -R dist-newstyle
+    #do_it "clean-test" rm -R dist-newstyle
     do_it "build-test" cabal new-build cabal-install --disable-library-profiling --allow-newer=time --with-compiler=$ghc
     do_it "make-links" /home/ben/.env/bin/mk-cabal-bin.sh
     do_it "run-test" timeout 10 bin/cabal configure
@@ -80,10 +82,10 @@ function run_test() {
     # The test has succeeded if the rule fired 
     if [ "x$?" = "x124" ]; then
         log "Commit $rev: failed"
-        exit 1;
+        commit_bad
     else
         log "Commit $rev: passed"
-        exit 0;
+        commit_good
     fi
 }
 
