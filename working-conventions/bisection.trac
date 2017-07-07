@@ -24,8 +24,9 @@ By default the script will clean the tree for every commit. While this is likely
 {{{#!bash
 #!/bin/bash
 
-logs=/mnt/work/ghc/tickets/T10528/logs
+logs=/mnt/work/ghc/tickets/T13930/logs
 make_opts="-j9"
+ghc=`pwd`/inplace/bin/ghc-stage2
 
 mkdir -p $logs
 rev=$(git rev-parse HEAD)
@@ -48,38 +49,49 @@ function do_it() {
     return $ret
 }
 
-do_it submodules git submodule update || skip_commit
-# We run `make` twice as sometimes it will spuriously fail with -j
-if [ "x$ALWAYS_CLEAN" == "x0" ]; then
-    # First try building without cleaning, if that fails then clean and try again
-    do_it ghc1 make $make_opts || \
-      do_it ghc2 make $make_opts || \
-      do_it clean make clean && \
-      do_it ghc3 make $make_opts || \
-      do_it ghc4 make $make_opts || \
-      skip_commit
-else
-    do_it clean make clean || log "clean failed"
-    do_it ghc1 make $make_opts || do_it ghc2 make $make_opts || skip_commit
-fi
+function build_ghc() {
+    do_it submodules git submodule update || skip_commit
+    # We run `make` twice as sometimes it will spuriously fail with -j
+    if [ "x$ALWAYS_CLEAN" == "x0" ]; then
+        # First try building without cleaning, if that fails then clean and try again
+        do_it ghc1 make $make_opts || \
+          do_it ghc2 make $make_opts || \
+          do_it clean make clean && \
+          do_it ghc3 make $make_opts || \
+          do_it ghc4 make $make_opts || \
+          skip_commit
+    else
+        do_it clean make clean || log "clean failed"
+        do_it ghc1 make $make_opts || do_it ghc2 make $make_opts || skip_commit
+    fi
+}
 
 # This is the actual testcase
-# Note that this particular case depended upon the `text`
-# library, which is checked out in $text
-text=/mnt/work/ghc/text
-testcase=/mnt/work/ghc/tickets/T10528/hi.hs
-build="inplace/bin/ghc-stage2 $testcase -O -i$text -DMIN_VERSION_bytestring(x,y,z)=1 -I$text/include/"
-do_it prebuild $build -fforce-recomp || skip_commit
-touch $testcase
-do_it build $build -ddump-rule-firings || skip_commit
+# Note that this particular case depended upon the `cabal`
+# library, which is checked out in $tree
+function run_test() {
+    tree=$HOME/trees/cabal
+    cd $tree
+    do_it "clean-test" rm -R dist-newstyle
+    do_it "build-test" cabal new-build cabal-install --disable-library-profiling --allow-newer=time --with-compiler=$ghc
+    do_it "make-links" /home/ben/.env/bin/mk-cabal-bin.sh
+    do_it "run-test" timeout 10 bin/cabal configure
 
-# The test has succeeded if the rule fired 
-if ! grep "Rule fired: TEXT literal" $logs/$rev-build.log ; then
-    log "Commit $rev: failed"
-    exit 1;
+    # The test has succeeded if the rule fired 
+    if [ "x$?" = "x124" ]; then
+        log "Commit $rev: failed"
+        exit 1;
+    else
+        log "Commit $rev: passed"
+        exit 0;
+    fi
+}
+
+if [ -z "$@" ]; then
+    build_ghc
+    run_test
 else
-    log "Commit $rev: passed"
-    exit 0;
+    $@
 fi
 }}}
 
