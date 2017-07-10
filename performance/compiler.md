@@ -16,7 +16,7 @@ Here's a list:
 ### Type pile-up
 
 
-Some programs can produce very deeply nested types of non-linear size. See Scrap your type applications? for a way to improve these bad cases
+Some programs can produce very deeply nested types of non-linear size. See [ Scrap your type applications](http://research.microsoft.com/en-us/um/people/simonpj/papers/variant-f/index.htm) for a way to improve these bad cases
 
 - [\#9198](https://gitlab.haskell.org//ghc/ghc/issues/9198): large performance regression in type checker speed in 7.8 
 
@@ -250,6 +250,7 @@ While it's possible to fix (1) and (2), (3) is inherent.
 - [\#10800](https://gitlab.haskell.org//ghc/ghc/issues/10800): vector-0.11 compile time increased substantially with 7.10.1
 
   - Regression in `vector` testsuite perhaps due to change in inlinings
+- [\#13639](https://gitlab.haskell.org//ghc/ghc/issues/13639): Skylighting package compilation is glacial 
 
 ## nofib results
 
@@ -282,7 +283,7 @@ While it's possible to fix (1) and (2), (3) is inherent.
 
 (NB: Sporadically updated)
 
-**As of April 22nd**:
+**As of April 22nd, 2016**:
 
 - GHC HEAD: 14m9s  (via 7.8.3) (because of Joachim's call-arity improvements)
 - GHC 7.10: 15m43s (via 7.8.3)
