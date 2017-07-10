@@ -250,6 +250,7 @@ While it's possible to fix (1) and (2), (3) is inherent.
 - [\#10800](https://gitlab.haskell.org//ghc/ghc/issues/10800): vector-0.11 compile time increased substantially with 7.10.1
 
   - Regression in `vector` testsuite perhaps due to change in inlinings
+- [\#13639](https://gitlab.haskell.org//ghc/ghc/issues/13639): Skylighting package compilation is glacial 
 
 ## nofib results
 
