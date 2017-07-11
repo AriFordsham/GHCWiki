@@ -16,7 +16,7 @@ Here's a list:
 ### Type pile-up
 
 
-Some programs can produce very deeply nested types of non-linear size. See Scrap your type applications? for a way to improve these bad cases
+Some programs can produce very deeply nested types of non-linear size. See [ Scrap your type applications](http://research.microsoft.com/en-us/um/people/simonpj/papers/variant-f/index.htm) for a way to improve these bad cases
 
 - [\#9198](https://gitlab.haskell.org//ghc/ghc/issues/9198): large performance regression in type checker speed in 7.8 
 
