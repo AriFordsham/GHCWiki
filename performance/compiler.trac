@@ -88,7 +88,7 @@ While it's possible to fix (1) and (2), (3) is inherent.
 
 (NB: Sporadically updated)
 
-'''As of April 22nd''':
+'''As of April 22nd, 2016''':
 
   - GHC HEAD: 14m9s  (via 7.8.3) (because of Joachim's call-arity improvements)
   - GHC 7.10: 15m43s (via 7.8.3)
