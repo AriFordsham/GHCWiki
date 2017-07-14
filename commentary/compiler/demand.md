@@ -74,7 +74,7 @@ Additional information (demand signature suffix)
 
 - `b` -- the function definitely diverges.
 
-- `x` -- the function definitely throws an exception or diverges.
+- `x` -- the function catches exceptions. For instance, consider `catch undefined g`: naturally, `catch` is strict in its first argument and therefore one would usually think that this expression would bottom. However, `catch` has special semantics: it catches exceptions. Consequently we give the first argument a demand of `C(L)x` to indicate that an application of `catch` to bottom can't be assumed to be itself bottom.
 
 ## Worker-Wrapper split
 
