@@ -26,6 +26,7 @@ Below are the major highlights of 8.4.
 ### Build system and miscellaneous changes
 
 - **New Shake-based build system, `hadrian`, will be merged.**  (Andrey Mokhov)
+- **Remove dependency on Hoopl package.**  (Michal Terepeta, [ Phab:D3616](https://phabricator.haskell.org/D3616))
 
 ### Landed in `master` branch
 
