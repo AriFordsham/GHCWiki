@@ -87,6 +87,7 @@ data X where
   - Make explicit-kinds print the kinds (duh) and equality-rels control the equality relation (duh)
   - Print \~ for homo in practice; print `~~` for hetero in practice (unless equality-rels)
 - Merge fsk and fmv treatment, by returning the list of created fsks from `solveSimpleGivens` (which would now be fmvs) and fill them in after solving the wanteds. This eliminates problems around the fact that zonking in the flattener might zonk fsks back to type family applications and that fsks might lurk in residual constraints.
+- Remove `wc_insols`. The distinction isn't paying its way.
 
 ## Completed tasks
 
