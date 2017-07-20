@@ -20,6 +20,7 @@
 
 # Fuller list
 
+- Deliver on [\#13959](https://gitlab.haskell.org//ghc/ghc/issues/13959) (`substTyVar` etc)
 - Change flattener to be homogeneous ([\#12919](https://gitlab.haskell.org//ghc/ghc/issues/12919), [\#13643](https://gitlab.haskell.org//ghc/ghc/issues/13643))
 - Sort out `mkCastTy`
 
