@@ -12,7 +12,7 @@ But that is inadequate to describe GADTs and associated types.  So in 2006 we ex
 - equality constraints and coercions
 
 
-You can find a full description of FC in the paper [ http://research.microsoft.com/\~simonpj/papers/ext-f](http://research.microsoft.com/~simonpj/papers/ext-f); note that GHC uses the system described in post-publication Appendix C, not the system in the main body of the paper.  The notes that follow sketch the implementation of FC in GHC, but without duplicating the contents of the paper.
+You can find a full description of FC in the paper [ https://ghc.haskell.org/trac/ghc/wiki/ReadingList\#TypeEqualities](https://ghc.haskell.org/trac/ghc/wiki/ReadingList#TypeEqualities); note that GHC uses the system described in post-publication Appendix C, not the system in the main body of the paper.  The notes that follow sketch the implementation of FC in GHC, but without duplicating the contents of the paper.
 
 
 A coercion `c`, is a type-level term, with a kind of the

@@ -23,7 +23,7 @@ libraries like `distributed-closure` to be written in an entirely type-safe way.
 See also this ticket about rationalising the runtime reflection naming structures: #10068.
 
 Much of what is suggested here is implemented, in some form, in two existing projects
- * '''Cloud Haskell libraries''' [https://hackage.haskell.org/package/distributed-static distributed-static] and [https://hackage.haskell.org/package/rank1dynamic rank1dynamic].  Background in the paper [http://research.microsoft.com/en-us/um/people/simonpj/papers/parallel/ Towards Haskell in the Cloud].
+ * '''Cloud Haskell libraries''' [https://hackage.haskell.org/package/distributed-static distributed-static] and [https://hackage.haskell.org/package/rank1dynamic rank1dynamic].  Background in the paper [https://www.microsoft.com/en-us/research/wp-content/uploads/2016/07/remote.pdf Towards Haskell in the Cloud].
 
  * '''HdpH libraries''' [https://hackage.haskell.org/package/hdph hdph] and [https://hackage.haskell.org/package/hdph-closure hdph-closure]. Background in the paper [http://www.dcs.gla.ac.uk/~pmaier/papers/Maier_Trinder_IFL2011_XT.pdf Implementing a high-level distributed-memory parallel Haskell in Haskell]
 

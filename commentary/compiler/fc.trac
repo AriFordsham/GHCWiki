@@ -7,7 +7,7 @@ For many years, GHC's intermediate language was essentially:
  * algebraic data types (including existentials)
 But that is inadequate to describe GADTs and associated types.  So in 2006 we extended GHC to support System FC, which adds
  * equality constraints and coercions
-You can find a full description of FC in the paper [http://research.microsoft.com/~simonpj/papers/ext-f]; note that GHC uses the system described in post-publication Appendix C, not the system in the main body of the paper.  The notes that follow sketch the implementation of FC in GHC, but without duplicating the contents of the paper.
+You can find a full description of FC in the paper [https://ghc.haskell.org/trac/ghc/wiki/ReadingList#TypeEqualities]; note that GHC uses the system described in post-publication Appendix C, not the system in the main body of the paper.  The notes that follow sketch the implementation of FC in GHC, but without duplicating the contents of the paper.
 
 A coercion `c`, is a type-level term, with a kind of the
 form `T1 :=: T2`. (`c :: T1 :=: T2`) is a proof that a term of type `T1`

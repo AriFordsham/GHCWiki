@@ -52,7 +52,7 @@ See also [ Stephen Deihl's Haskell implementation reading list](http://www.steph
 
 - [ Partial Type Signatures for Haskell](https://lirias.kuleuven.be/bitstream/123456789/423475/3/paper.pdf). Thomas Winant, Dominique Devriese, Frank Piessens, Tom Schrijvers.  PADL 2014 [ TR](https://lirias.kuleuven.be/bitstream/123456789/424883/1/CW649.pdf)[ doi](http://dx.doi.org/10.1007/978-3-319-04132-2_2) Introduces partial type signatures.
 
-- [ Understanding Functional Dependencies via Constraint Handling Rules](http://research-srv.microsoft.com/en-us/um/people/simonpj/papers/fd-chr/jfp06.pdf). Martin Sulzmann, Gregory J. Duck, Simon Peyton Jones, Peter J. Stuckey. JFP '07. [ doi](http://dx.doi.org/10.1017/S0956796806006137)
+- [ Understanding Functional Dependencies via Constraint Handling Rules](https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/jfp06.pdf). Martin Sulzmann, Gregory J. Duck, Simon Peyton Jones, Peter J. Stuckey. JFP '07. [ doi](http://dx.doi.org/10.1017/S0956796806006137)
 
 - [ Type Classes in Haskell](http://research.microsoft.com/~simonpj/Papers/classhask.ps.gz), Cordelia Hall, Kevin Hammond, Simon Peyton Jones, and Philip Wadler, European Symposium On Programming 1994. Type inference for type classes.
 

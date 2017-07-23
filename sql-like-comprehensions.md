@@ -1,7 +1,7 @@
 # Comprehensive comprehensions
 
 
-As part of his final year work at Cambridge, Max Bolingbroke worked on implementing the "Comprehensive Comprehensions" described in a paper [ available here](http://research.microsoft.com/~simonpj/papers/list-comp/index.htm) in GHC. A patch with the complete functionality described here was integrated into GHCs HEAD branch on the 20th December 2007.
+As part of his final year work at Cambridge, Max Bolingbroke worked on implementing the "Comprehensive Comprehensions" described in a paper [ available here](https://www.microsoft.com/en-us/research/wp-content/uploads/2007/09/list-comp.pdf) in GHC. A patch with the complete functionality described here was integrated into GHCs HEAD branch on the 20th December 2007.
 
 ## Ordering Syntax
 
