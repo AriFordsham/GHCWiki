@@ -3,7 +3,8 @@
 
 This is the launch page for Backpack, actively maintained by Edward (as of Apr 2017). 
 
-[ Backpack](http://plv.mpi-sws.org/backpack/) is a proposal for retrofitting Haskell with an applicative, mix-in module system. It has been implemented in GHC 8.2.
+
+Backpack is a proposal for retrofitting Haskell with an applicative, mix-in module system. It has been implemented in GHC 8.2.
 
 
 The documentation for how to use Backpack is a bit scattered about at this point, but here are useful, up-to-date (as of 2017-04-02, prior to GHC 8.2's release) references:
@@ -14,7 +15,7 @@ The documentation for how to use Backpack is a bit scattered about at this point
 
 - There is not yet a manual entry in Cabal for how Cabal works. This section is under development.
 
-- Edward Z. Yang's [ thesis](https://github.com/ezyang/thesis/releases) contains detailed information about the specification and implementation of Backpack. We also have an older [ paper draft](https://www.microsoft.com/en-us/research/wp-content/uploads/2016/07/backpack-2016.pdf) which was submitted to ICFP'16.
+- Edward Z. Yang's [ thesis](https://github.com/ezyang/thesis/releases) contains detailed information about the specification and implementation of Backpack. We also have an older [ paper draft](https://www.microsoft.com/en-us/research/wp-content/uploads/2016/07/backpack-2016.pdf) which was submitted to ICFP'16. History nuts can also read the original [ POPL paper](http://plv.mpi-sws.org/backpack/) but note that Backpack has changed dramatically since then.
 
 - Hackage does not yet support uploads of Backpack-using packages. [ next.hackage](http://next.hackage.haskell.org:8080/) is a Hackage instances running a development branch of Hackage that can handle Backpack; for now, Backpack-enabled packages should be uploaded here.
 
@@ -24,6 +25,8 @@ Some more out-of-date documents:
 - [ Backpack specification](https://github.com/ezyang/ghc-proposals/blob/backpack/proposals/0000-backpack.rst). This was subsumed by my thesis but once Backpack stabilizes it will be worth distilling the thesis PDF back into a more web-friendly format.
 
 ## Known gotchas
+
+**Can I use this with Stack?** No, Backpack requires support from the package manager, and Stack integration has not been implemented yet.
 
 **Make sure cabal-version is recent enough.** ([ \#4448](https://github.com/haskell/cabal/issues/4448)) If you set the `cabal-version` of your package too low, you may get this error:
 
