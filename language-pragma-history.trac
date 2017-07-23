@@ -6,7 +6,7 @@ See also [[wiki:Commentary/Libraries/VersionHistory|GHC Boot Library Version His
 
 See also http://damianfral.github.io/ghcaniuse/.
 
-== Changes in GHC HEAD
+== Changes in GHC 8.2
 
 Added LANGUAGE extensions:
 
