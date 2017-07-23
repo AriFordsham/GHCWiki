@@ -38,7 +38,7 @@ See also [http://www.stephendiehl.com/posts/essential_compilers.html Stephen Dei
    * ''Evidence Normalization in System FC''. Dimitrios Vytiniotis, Simon Peyton Jones. RTA '13. [http://dx.doi.org/10.4230/LIPIcs.RTA.2013.20 doi] [http://drops.dagstuhl.de/opus/volltexte/2013/4050/pdf/3.pdf pdf] Explains the coercion optimizer.
    * ''System F with Type Equality Coercions'', Martin Sulzmann, Manuel Chakravarty, and Simon Peyton Jones (TLDI 2007).  The first paper about System FC. [http://dx.doi.org/10.1145/1190315.1190324 doi] [http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/tldi22-sulzmann-with-appendix.pdf extended pdf]
 
-* Type families:
+* [[span(id=TypeFamilies, class=wikianchor, Type families:)]]
     * [http://research.microsoft.com/en-us/um/people/simonpj/Papers/assoc-types/assoc.pdf Associated Types with Class]. Manuel M. T. Chakravarty, Gabriele Keller, Simon Peyton Jones, Simon Marlow. POPL '05. [http://dx.doi.org/10.1145/1040305.1040306 doi] Introduces associated data families.
     * [http://research.microsoft.com/en-us/um/people/simonpj/papers/assoc-types/at-syns.pdf Associated Type Synonyms]. Manuel M. T. Chakravarty, Gabriele Keller, Simon Peyton Jones. ICFP '05. [http://dx.doi.org/10.1145/1086365.1086397 doi] Introduces associated type families.
     * [http://www.seas.upenn.edu/~sweirich/papers/popl14-axioms.pdf Closed Type Families with Overlapping Equations]. Richard A. Eisenberg, Dimitrios Vytiniotis, Simon Peyton Jones, Stephanie Weirich. POPL '14. [http://dx.doi.org/10.1145/2535838.2535856 doi] [http://repository.upenn.edu/cis_reports/990/ extended version] Introduces closed type families.
