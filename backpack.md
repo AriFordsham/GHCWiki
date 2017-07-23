@@ -25,6 +25,8 @@ Some more out-of-date documents:
 
 ## Known gotchas
 
+**Can I use this with Stack?** No, Backpack requires support from the package manager, and Stack integration has not been implemented yet.
+
 **Make sure cabal-version is recent enough.** ([ \#4448](https://github.com/haskell/cabal/issues/4448)) If you set the `cabal-version` of your package too low, you may get this error:
 
 ```wiki
