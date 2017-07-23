@@ -224,6 +224,17 @@ Please test as much as possible; bugs are much cheaper if we find them
 before the release!
 }}}
 
+== Book-keeping ==
+
+There are a variety of things that should also be done,
+
+ * Post the announcement on the [[https://ghc.haskell.org/trac/ghc/blog|GHC blog]]
+ * Ensure that the [[https://ghc.haskell.org/trac/ghc/admin/ticket/milestones|milestone]] is marked as closed
+ * Create a new Trac [[https://ghc.haskell.org/trac/ghc/admin/ticket/versions|version]]
+ * Reset `RELEASE=NO` in the stable branch
+ * Update Commentary/Libraries/VersionHistory
+ * Ensure that the submodules in the `master` branch are no older than the submodules in the release
+
 == Uploading libraries ==
 
 TODO FIXME: Normally Herbert and upstream maintainers take care of this - we always attempt to have full releases for all package by the time the final release happens (although not necessarily so for an RC - they may ship slight interim states).
