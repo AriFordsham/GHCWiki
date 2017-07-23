@@ -33,7 +33,7 @@ See also [ Stephen Deihl's Haskell implementation reading list](http://www.steph
 
 - [ Practical Type Inference for Arbitrary-Rank Types](http://repository.upenn.edu/cis_papers/315/). Simon Peyton Jones, Dimitrios Vytiniotis, Stephanie Weirich, Mark Shields. JFP '07. [ doi](http://dx.doi.org/10.1017/S0956796806006034)[ technical appendix](http://repository.upenn.edu/cis_reports/58/) Describes type inference for higher-rank types.
 
-- [ Papers about type equalities in GHC's intermediate language](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/)
+- Type equalities in GHC's intermediate language:
 
   - [ System FC with Explicit Kind Equality](http://www.seas.upenn.edu/~sweirich/papers/fckinds.pdf). Stephanie Weirich, Justin Hsu, Richard A. Eisenberg. ICFP '13. [ doi](http://dx.doi.org/10.1145/2500365.2500599) Merges types with kinds, allowing promotion of GADTs and type families. Implementation not yet merged (July 2015).
   - *Equality proofs and deferred type errors*, Simon Peyton Jones, Dimitrios Vytiniotis and Pedro Magalhaes (ICFP 2012).  An exploration of what happens when you take equality proofs seriously in a compiler. [ doi](http://dx.doi.org/10.1145/2364527.2364554)[ pdf](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/icfp12.pdf)
