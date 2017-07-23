@@ -177,7 +177,7 @@ At present, a datatype in one module can declare a field, but if the selector fu
 
 - A constraint involving a field `x` of data type `T` is solved in a module `M` only if the record field selector function `x` is in scope.
 
-- This approach (in which the availability of magical instances depends on what is in scope) is similar to the special treatment of `Coercible` instances (see [ Safe Coercions](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/)).
+- This approach (in which the availability of magical instances depends on what is in scope) is similar to the special treatment of `Coercible` instances (see [ Safe Coercions](https://ghc.haskell.org/trac/ghc/wiki/ReadingList#TypeEqualities)).
 
 - For consistency with other typeclasses that have special solver behaviour, we do not require a `LANGUAGE` extension to enable the behaviour. Importing the class is enough.
 
