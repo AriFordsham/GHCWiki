@@ -31,7 +31,7 @@ See also [http://www.stephendiehl.com/posts/essential_compilers.html Stephen Dei
 
 * [http://repository.upenn.edu/cis_papers/315/ Practical Type Inference for Arbitrary-Rank Types]. Simon Peyton Jones, Dimitrios Vytiniotis, Stephanie Weirich, Mark Shields. JFP '07. [http://dx.doi.org/10.1017/S0956796806006034 doi] [http://repository.upenn.edu/cis_reports/58/ technical appendix] Describes type inference for higher-rank types.
 
- * Type equalities in GHC's intermediate language:
+ * Type equalities in GHC's intermediate language:[=#TypeEqualities]
    * [http://www.seas.upenn.edu/~sweirich/papers/fckinds.pdf System FC with Explicit Kind Equality]. Stephanie Weirich, Justin Hsu, Richard A. Eisenberg. ICFP '13. [http://dx.doi.org/10.1145/2500365.2500599 doi] Merges types with kinds, allowing promotion of GADTs and type families. Implementation not yet merged (July 2015).
    * ''Equality proofs and deferred type errors'', Simon Peyton Jones, Dimitrios Vytiniotis and Pedro Magalhaes (ICFP 2012).  An exploration of what happens when you take equality proofs seriously in a compiler. [http://dx.doi.org/10.1145/2364527.2364554 doi] [http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/icfp12.pdf pdf]
    * ''Giving Haskell a promotion'', Brent Yorgey, Stepanie Weirich, Julien Cretin, Simon Peyton Jones, and Dimitrios Vytiniotis (TLDI 2012).  How to (a) add kind polymorphism and (b) promote data types to become data kinds. [http://dx.doi.org/10.1145/2103786.2103795 doi] [http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/promotion.pdf pdf]
