@@ -3,3 +3,5 @@
 This is just a page to practice and learn WikiFormatting. 
 
 Go ahead, edit it freely.
+
+[[span(id=TypeEqualities, class=wikianchor, Type equalities in GHC's intermediate language:)]]
