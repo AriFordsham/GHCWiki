@@ -255,17 +255,18 @@ typeStreamread::Stream⊸Maybe(Text⊗Stream)open::Filename->Context⊸IO(Stream
 do
   s1 <- open file1
   s2 <- open file2
-  letJust(s2,file3)= read s2
-  lift $ withFile file3 WriteMode$\h3 ->do(s1,s2)<- interleave s2 s1 h3
+  letJust(s2',file3)= read s2
+  lift $ withFile file3 WriteMode$\h3 ->do(s1,s2)<- interleave s2' s1 h3
     close s2
     close s1
-    hPutStrLn h3 "Done"where interleave ::Stream⊸Stream⊸IO(Stream⊗Stream)
-      interleave (read ->Just(s1,l1))(read ->Just(s2,l2))=do
-        hPutStrLn h3 l1
-        hPutStrLn h3 l2
-        interleave s1 s2
-      interleave s1@(read ->Nothing) s2 = return (s1,s2)
-      interleave s1 s2@(read ->Nothing)= return (s1,s2)
+    hPutStrLn h3 "Done"where 
+  interleave ::Stream⊸Stream⊸IO(Stream⊗Stream)
+  interleave (read ->Just(s1,l1))(read ->Just(s2,l2))=do
+    hPutStrLn h3 l1
+    hPutStrLn h3 l2
+    interleave s1 s2
+  interleave s1@(read ->Nothing) s2 = return (s1,s2)
+  interleave s1 s2@(read ->Nothing)= return (s1,s2)
 ```
 
 #### Linear types, take 2
