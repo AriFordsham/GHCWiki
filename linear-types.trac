@@ -202,7 +202,7 @@ do
 
 With linear types we can give a functional interface to streams. (Note that in the example below we keep the output as an old-style file, only the input streams are changed). In essence, linear types allow writing in the style of lazy effects, but without resource leaks due to late garbage collection.
 
-Some of the types in this example API include {{{IO}}} in order to mix well with the IO-monad-based outputing. The type family {{{ \a :: * -> Context ⊸ IO (a ⊗ Context)}}} is, implicitly, the application of a linear state monad transformer with the {{{IO}}} monad (strictly speaking, linear state is not a monad transformer because it requires a stronger types for the underlying monad ''e.g.'': {{{return :: a ⊸ m a}}}). It is important that while {{{open}}} and {{{close}}} are bound to {{{IO}}}, {{{read}}} is not and gives a pure interface to file traversal.
+Some of the types in this example API include {{{IO}}} in order to mix well with the IO-monad-based outputing. The type family {{{ \a :: * -> Context ⊸ IO (a ⊗ Context)}}} is, implicitly, the application of a linear state monad transformer with the {{{IO}}} monad (strictly speaking, linear state is not a monad transformer because it requires stronger types for the underlying monad, for instance, {{{return :: a ⊸ m a}}}). It is important that while {{{open}}} and {{{close}}} are bound to {{{IO}}}, function {{{read}}} is not and gives a pure interface to file traversal.
 
 {{{#!hs
 type Stream
