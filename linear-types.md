@@ -229,11 +229,12 @@ The following code is adapted from [Kiselyov and Shan](linear-types#regions). I
 do
   h1 <- newSHandle file1 ReadMode
   h3 <- newRgn $do
-    h2 <- liftSIO (newSHandle file2 ReadMode)
+    h2 <- liftSIO $ newSHandle file2 ReadMode
     fname <- shGetLine h2
-    h3 <- liftSIO (newSHandle fname WriteMode)
-    till (liftM2 (||)(shIsEOF h2)(shIsEOF h1))(shGetLine h2 >>= shPutStrLn h3 >>
-       shGetLine h1 >>= shPutStrLn h3)
+    h3 <- liftSIO $ newSHandle fname WriteMode
+    till (liftM2 (||)(shIsEOF h2)(shIsEOF h1))$do
+      shGetLine h2 >>= shPutStrLn h3
+      shGetLine h1 >>= shPutStrLn h3
     return h3
   shPutStrLn h3 "Done"
 ```
