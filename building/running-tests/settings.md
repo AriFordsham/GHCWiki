@@ -20,7 +20,7 @@ SKIP_PERF_TESTS=YES  -- skip tests which check the performance of ghc or the res
 For example, to run the `tc053` test for only the `optasm` way we would use:
 
 ```wiki
-$ make WAY=optasm TEST=tc053
+$ make test WAY=optasm TEST=tc053
 ```
 
 
