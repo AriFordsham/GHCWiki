@@ -63,16 +63,11 @@ Some further details on this step:
   1. constraint synonyms `ForallX`
 - each ADT definition in hsSyn files which is going to be an extension to the growable AST in AST.hs is replaced with its extension description:
 
-  1. type synonyms relating the datatype to their corresponding base growable datatype in AST.hs, via `GHC` index
-
-> >
-> > (e.g., `HsLit pass` is an `GHC` specific instance of `AST.HsLit` hence `AST.HsLit (GHC pass)`)
-
-1. pattern synonym type signatures for each constructor, which are exactly (even with documentations) as before but in GADT-style.
-1. COMPLETE pragma to suppress totality check error messages
-1. pattern synonym bodies, for each constructor, which basically define which fields / constructors are considered as extensions
-1. extension type family instances (and a datatype for `New` constructors), declaring type of extensions
-
+  1. type synonyms relating the datatype to their corresponding base growable datatype in AST.hs, via `GHC` index (e.g., `HsLit pass` is an `GHC` specific instance of `AST.HsLit` hence `AST.HsLit (GHC pass)`)
+  1. pattern synonym type signatures for each constructor, which are exactly (even with documentations) as before but in GADT-style.
+  1. COMPLETE pragma to suppress totality check error messages
+  1. pattern synonym bodies, for each constructor, which basically define which fields / constructors are considered as extensions
+  1. extension type family instances (and a datatype for `New` constructors), declaring type of extensions
 - to ease inlining in the next steps, "Hs" suffix in all names are removed
 - besides importing AST module as qualified, we add the following pragmas (if needed):
 
