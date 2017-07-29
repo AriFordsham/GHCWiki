@@ -53,6 +53,31 @@ It will hopefully allow us to reuse the AST for Template Haskell (TH), or even r
 At this stage, we WILL have some slow downs in GHC's own compile time (and possibly run time) due to the decomposition (and then recomposition), but we hopefully regain some speed by the next steps.
 (Arguably the benefit of extensibility, by far, outweighs the \*tolerable\* slow downs)
 
+
+Some further details on this step:
+
+- a module AST.hs is added to compile/hsSyn where it holds all the declarations for growable AST:
+
+  1. ADTs,
+  1. extension type families, and
+  1. constraint synonyms `ForallX`
+- each ADT definition in hsSyn files which is going to be an extension to the growable AST in AST.hs is replaced with its extension description:
+
+  1. type synonyms relating the datatype to their corresponding base growable datatype in AST.hs, via `GHC` index (e.g., `HsLit pass` is an `GHC` specific instance of `AST.HsLit` hence `AST.HsLit (GHC pass)`)
+  1. pattern synonym type signatures for each constructor, which are exactly (even with documentations) as before but in GADT-style.
+  1. COMPLETE pragma to suppress totality check error messages
+  1. pattern synonym bodies, for each constructor, which basically define which fields / constructors are considered as extensions
+  1. extension type family instances (and a datatype for `New` constructors), declaring type of extensions
+- to ease inlining in the next steps, "Hs" suffix in all names are removed
+- besides importing AST module as qualified, we add the following pragmas (if needed):
+
+  1. `{-# LANGUAGE PatternSynonyms, TypeFamilies, SynonymInstances, FelxibleInstances #-}`
+  1. `{-# OPTIONS_GHC -fno-warn-orphans #-}`
+- when two constructors of /the same/ datatype, have /the same/ field name, we have to rename one of them, as record pattern synonyms cannot mimic this behaviour     
+
+
+All these are pretty mechanical, and I use a set of primitive macros to do parts of the job for me.
+
 #### Step 2
 
 
