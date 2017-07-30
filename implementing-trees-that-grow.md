@@ -73,7 +73,8 @@ Some further details on this step:
 
   1. `{-# LANGUAGE PatternSynonyms, TypeFamilies, SynonymInstances, FelxibleInstances #-}`
   1. `{-# OPTIONS_GHC -fno-warn-orphans #-}`
-- when two constructors of /the same/ datatype, have /the same/ field name, we have to rename one of them, as record pattern synonyms cannot mimic this behaviour     
+- when two constructors of /the same/ datatype, have /the same/ field name, we have to rename one of them, as record pattern synonyms cannot mimic this behaviour   
+- in a couple of files there are functions with type annotations including types like `Located (body GhcTc)` which should be changed to a type like `Located (body (GHC GhcTc))`
 
 
 All these are pretty mechanical, and I use a set of primitive macros to do parts of the job for me.
