@@ -144,7 +144,7 @@ In order to see emails below, **you must login**.
 
 - [ Gabor Greif](http://heisenbug.blogspot.com/)
 
-  - Alcatel-Lucent - Nuremberg, Germany
+  - Nokia - Nuremberg, Germany
   - **Trac**: heisenbug; **email**: ggreif@…; **github**: [ https://github.com/ggreif](https://github.com/ggreif)
   - **Committer since**: January, 2012.
   - **Main areas of interest**: cross-compilation, type systems
