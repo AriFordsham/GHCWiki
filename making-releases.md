@@ -280,6 +280,7 @@ There are a variety of things that should also be done,
 - Update [Commentary/Libraries/VersionHistory](commentary/libraries/version-history)
 - Ensure that the submodules in the `master` branch are no older than the submodules in the release
 - Update the "Status Updates" section on [WikiStart](wiki-start)
+- If major release: Update the `FP_COMPARE_VERSIONS([$GhcVersion], ...)` check in `configure.ac`
 
 ## Uploading libraries
 
