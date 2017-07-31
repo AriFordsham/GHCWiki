@@ -21,12 +21,16 @@ See [Libraries](status/ghc-8.4.1/libraries)
 
 Below are the major highlights of 8.4.
 
-- TODO
+- Further work on **compiler performance**
+- Improved support for **cross-compilation** (Moritz Angermann)
+- A *more expressive Haskell AST** based on [Trees That Grow](implementing-trees-that-grow) (Shayan Najd)
+  ***
 
 ### Build system and miscellaneous changes
 
 - **New Shake-based build system, `hadrian`, will be merged.**  (Andrey Mokhov)
 - **Remove dependency on Hoopl package.**  (Michal Terepeta, [ Phab:D3616](https://phabricator.haskell.org/D3616))
+- Improved Windows support, including support for split sections and long file paths (Tamar Christina)
 
 ### Landed in `master` branch
 
