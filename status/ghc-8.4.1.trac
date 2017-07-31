@@ -18,7 +18,9 @@ See [wiki:./Libraries]
 
 Below are the major highlights of 8.4.
 
-  - TODO
+  - Further work on compiler performance
+  - Improved support for cross-compilation (Moritz Angermann)
+  - A more flexible Haskell AST based on [[ImplementingTreesThatGrow|Trees That Grow]].
 
 === Build system and miscellaneous changes ===
 

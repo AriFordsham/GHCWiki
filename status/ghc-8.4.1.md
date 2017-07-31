@@ -21,7 +21,9 @@ See [Libraries](status/ghc-8.4.1/libraries)
 
 Below are the major highlights of 8.4.
 
-- TODO
+- Further work on compiler performance
+- Improved support for cross-compilation (Moritz Angermann)
+- A more flexible Haskell AST based on [Trees That Grow](implementing-trees-that-grow).
 
 ### Build system and miscellaneous changes
 
