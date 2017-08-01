@@ -24,3 +24,16 @@ Here are some resources
 - [ Quantified class constraints](http://i.cs.hku.hk/~bruno//papers/hs2017.pdf), a Haskell 2017 paper that works out the idea in some detail.
 
 - [ An old haskell.org Wiki page about it](http://haskell.org/haskellwiki/Quantified_contexts)
+
+## Status
+
+
+Use Keyword = `QuantifiedContexts` to ensure that a ticket ends up on these lists.
+
+
+Open Tickets:
+No results
+
+
+Closed Tickets:
+No results
