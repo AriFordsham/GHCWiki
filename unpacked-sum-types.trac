@@ -1,13 +1,22 @@
 = Unboxed sum types =
+[[PageOutline]]
 
 This page explains the motivation and implementation of unpacking for sum
 types.
+
+`-XUnboxedSums` have been available since GHC 8.2.1.
 
 See also [wiki:UnliftedDataTypes]
 
 == Current status ==
 
-`-XUnboxedSums` will be available with GHC 8.2.
+Use '''Keyword''' = `UnboxedSums` to ensure that a ticket ends up on these lists.
+
+Open Tickets:
+[[TicketQuery(status=infoneeded,status=new|patch|infoneeded,keywords=~UnboxedSums)]]
+
+Closed Tickets:
+[[TicketQuery(status=infoneeded,status=closed,keywords=~UnboxedSums)]]
 
 == Motivation ==
 

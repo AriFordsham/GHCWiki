@@ -4,12 +4,53 @@
 This page explains the motivation and implementation of unpacking for sum
 types.
 
+`-XUnboxedSums` have been available since GHC 8.2.1.
+
 
 See also [UnliftedDataTypes](unlifted-data-types)
 
 ## Current status
 
-`-XUnboxedSums` will be available with GHC 8.2.
+
+Use **Keyword** = `UnboxedSums` to ensure that a ticket ends up on these lists.
+
+
+Open Tickets:
+
+<table><tr><th>[\#13276](https://gitlab.haskell.org//ghc/ghc/issues/13276)</th>
+<td>Unboxed sums are not Typeable</td></tr>
+<tr><th>[\#14259](https://gitlab.haskell.org//ghc/ghc/issues/14259)</th>
+<td>Worker/Wrapper for sum return</td></tr>
+<tr><th>[\#14727](https://gitlab.haskell.org//ghc/ghc/issues/14727)</th>
+<td>Unboxed sum performance surprisingly poor</td></tr>
+<tr><th>[\#14865](https://gitlab.haskell.org//ghc/ghc/issues/14865)</th>
+<td>GHC Defeats Manual Worker Wrapper with Unboxed Sum</td></tr>
+<tr><th>[\#15358](https://gitlab.haskell.org//ghc/ghc/issues/15358)</th>
+<td>no way to talk about unpacking sum types / unpacking tuples</td></tr></table>
+
+
+Closed Tickets:
+
+<table><tr><th>[\#12417](https://gitlab.haskell.org//ghc/ghc/issues/12417)</th>
+<td>API annotations for unboxed sums needs reworking</td></tr>
+<tr><th>[\#12478](https://gitlab.haskell.org//ghc/ghc/issues/12478)</th>
+<td>Template Haskell support for unboxed sums</td></tr>
+<tr><th>[\#12514](https://gitlab.haskell.org//ghc/ghc/issues/12514)</th>
+<td>Can't write unboxed sum type constructors in prefix form</td></tr>
+<tr><th>[\#12711](https://gitlab.haskell.org//ghc/ghc/issues/12711)</th>
+<td>GHC Internal error, unboxed sums</td></tr>
+<tr><th>[\#14051](https://gitlab.haskell.org//ghc/ghc/issues/14051)</th>
+<td>Unboxed sums-related panic: getUnboxedSumName 513</td></tr>
+<tr><th>[\#14228](https://gitlab.haskell.org//ghc/ghc/issues/14228)</th>
+<td>PatternSynonyms Non-exhaustive with UnboxedSums</td></tr>
+<tr><th>[\#14742](https://gitlab.haskell.org//ghc/ghc/issues/14742)</th>
+<td>Unboxed sums can treat Word\#s as Int\#s</td></tr>
+<tr><th>[\#14752](https://gitlab.haskell.org//ghc/ghc/issues/14752)</th>
+<td>Unboxed sums documentation looks wrong</td></tr>
+<tr><th>[\#15067](https://gitlab.haskell.org//ghc/ghc/issues/15067)</th>
+<td>When Typeable and unboxed sums collide, GHC panics</td></tr>
+<tr><th>[\#15300](https://gitlab.haskell.org//ghc/ghc/issues/15300)</th>
+<td>Unboxed Sums Crash</td></tr></table>
 
 ## Motivation
 
