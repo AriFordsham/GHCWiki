@@ -1,1 +1,13 @@
-This does not exist. Please create!
+= Deriving instances =
+
+All about the `deriving` keyword.
+
+= Status =
+
+Use '''Keyword''' = `Deriving` to ensure that a ticket ends up on these lists.
+
+Open Tickets:
+[[TicketQuery(status=infoneeded,status=new|patch|infoneeded,keywords=~Deriving)]]
+
+Closed Tickets:
+[[TicketQuery(status=infoneeded,status=closed,keywords=~Deriving)]]
