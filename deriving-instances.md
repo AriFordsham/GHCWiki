@@ -6,7 +6,7 @@ All about the `deriving` keyword.
 # Status
 
 
-Use **Keyword** = `Deriving` to ensure that a ticket ends up on these lists.
+Use **Keyword** = `deriving` (or `deriving-perf` for performance-related tickets) to ensure that a ticket ends up on these lists.
 
 
 Open Tickets:
