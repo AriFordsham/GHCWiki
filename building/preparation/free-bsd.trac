@@ -49,9 +49,11 @@ FreeBSD stores locally installed third-party software (i.e. the ports mentioned 
 
 {{{
 $ ./configure \
-  --with-gmp-includes=$LOCALBASE/include   --with-gmp-libraries=$LOCALBASE/lib
+  --with-gmp-includes=$LOCALBASE/include   --with-gmp-libraries=$LOCALBASE/lib \
+  --disable-large-address-space
 }}}
 
+The `--disable-large-address-space` disables the runtime's two-step allocator, which isn't currently supported on FreeBSD (see #12695).
 On systems earlier than {{{10.0-RELEASE}}}, one has to configure {{{iconv(3)}}} as well.  For {{{10.0-RELEASE}}} and later, {{{iconv(3)}}} functions are part of the base system libraries, so these flags is not needed any more.
 
 {{{
