@@ -26,6 +26,7 @@
  * [wiki:TypeFunctions Type families]
  * #11715, #11621: `Constraint` vs `*`
  * [wiki:Commentary/Compiler/GenericDeriving Generic deriving]
+ * [wiki:DerivingInstances Deriving generally]
  * [wiki:SequentCore Join points]
  * [wiki:StaticPointers]
  * [wiki:PatternMatchCheck The new pattern-match overlap/exhaustiveness checker]
