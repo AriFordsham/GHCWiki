@@ -306,6 +306,7 @@ Random note: GHC 7.10's build system actually disabled DPH (half a dozen more pa
 
 - The performance effect of the `TypeInType` merge shows up in [b5d5d83122c93c2a25839127edfd6b2df7ed6928](/trac/ghc/changeset/b5d5d83122c93c2a25839127edfd6b2df7ed6928/ghc) ("Revert .gitmodules changes from 6746549772c5") due to various broken intermediate commits.
 - [91c6b1f54aea658b0056caec45655475897f1972](/trac/ghc/changeset/91c6b1f54aea658b0056caec45655475897f1972/ghc) is a refactoring of the `Typeable` implementation which moves `Typeable` dictionary generation from evidence generation time to the point where the represented type is defined. This tends to regress compile allocations by a few percent for programs defining lots of types (although programs which make large use of `Typeable` may see improvement).
+- Improvements in code generation ([\#7450](https://gitlab.haskell.org//ghc/ghc/issues/7450), [b29633f5cf310824f3e34716e9261162ced779d3](/trac/ghc/changeset/b29633f5cf310824f3e34716e9261162ced779d3/ghc)) and simplification ([4681f55970cabc6e33591d7e698621580818f9a2](/trac/ghc/changeset/4681f55970cabc6e33591d7e698621580818f9a2/ghc))
 
 ### GHC 8.0 to GHC 8.2
 
