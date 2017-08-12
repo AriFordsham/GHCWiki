@@ -16,6 +16,7 @@ Lots of people contribute to GHC without yet having commit rights.  This list no
 
 - Eric Seidel (UCSD).  Trac: gridaphobe
 - Ryan Yates (Rochester).  Trac: fryguybob
+- Sven Tennie (DreamIT).  Trac: supersven
 
 ## Committers
 
