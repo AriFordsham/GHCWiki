@@ -14,7 +14,7 @@ You can't use cost-centre profiling and ticky-ticky profiling at the same time; 
 
 Cost-center profiling in GHC, e.g. of SCCs, consists of the following components:
 
-- Data-structures for representing cost-centres in [compiler/profiling/CostCentre.lhs](/trac/ghc/browser/ghc/compiler/profiling/CostCentre.lhs).
+- Data-structures for representing cost-centres in [compiler/profiling/CostCentre.hs](/trac/ghc/browser/ghc/compiler/profiling/CostCentre.hs).
 - Front-end support in [compiler/deSugar/DsExpr.lhs](/trac/ghc/browser/ghc/compiler/deSugar/DsExpr.lhs), for converting `SCC` pragma into the `Tick` constructor in Core.
 - Modifications to optimization behavior in [compiler/coreSyn/CoreUtils.lhs](/trac/ghc/browser/ghc/compiler/coreSyn/CoreUtils.lhs) and [compiler/coreSyn/CorePrep.lhs](/trac/ghc/browser/ghc/compiler/coreSyn/CorePrep.lhs) to prevent optimizations which would result in misleading profile information. Most of this is to handle the fact that SCCs also count entries (tickishCounts, also applies to [Commentary/Hpc](commentary/hpc)); otherwise the only relevant optimization is avoiding floating expressions out of SCCs. Note that the simplifier also has "ticks" (so it can decide when to stop optimizing); these are not the same thing at all.
 - The `StgSCC` constructor in STG, and code generation for it [compiler/codeGen/StgCmmProf.hs](/trac/ghc/browser/ghc/compiler/codeGen/StgCmmProf.hs)
