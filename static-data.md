@@ -40,6 +40,14 @@ classStringQuote a where
 
 It makes string literals quasiquoters in disguise. It's only for syntactic convenience (the type can be inferred, hence the quasiquoter can be inferred).
 
+### Builtin StringQuote
+
+
+Not all GHC support Template Haskell. Hence some StringQuote instances could be builtin or provided by compiler plugins. E.g.,
+
+- String (current string storage)
+- Text (UTF-16 encoding)
+
 ## Storing raw bytes
 
 
