@@ -8,39 +8,33 @@ WIP proposal allowing to store static data/objects into programs (see [\#5218](h
 
 With OverloadedStrings, when we have:
 
-```wiki
-   "My text" :: String
-   "My text" :: Text
-   "123456"  :: ByteString
+```
+"My text"::String"My text"::Text"123456"::ByteString
 ```
 
 
 it is desugared to:
 
-```wiki
-   fromString "My text" :: String
-   fromString "My text" :: Text
-   fromString "123456"  :: ByteString
+```
+   fromString "My text"::String
+   fromString "My text"::Text
+   fromString "123456"::ByteString
 ```
 
 
 Let's add a StaticStrings extension that desugars to this instead:
 
-```wiki
-   [string|My text] :: String
-   [text|My text]   :: Text
-   [byte|123456]    :: ByteString
+```
+[string|My text]::String[text|My text]::Text[byte|123456]::ByteString
 ```
 
 
 The quasiquoter is selected from the type. I.e.,
 
-```wiki
-   class IsStaticString a where
-      fromStaticString :: QuasiQuoter
-
-      -- or directly
-      fromStaticString :: String -> Q Exp
+```
+classIsStaticString a where
+      fromStaticString ::QuasiQuoter-- or directly
+      fromStaticString ::String->QExp
 ```
 
 
@@ -53,7 +47,7 @@ We want to be able to store raw bytes ("static data") into programs (e.g., to
 embed resources like images, arrays, etc.).
 
 
-Let's add a [StaticData](static-data)\# primitive type. [StaticData](static-data)\# have a size in bytes, an
+Let's add a `StaticData#` primitive type. `StaticData#` have a size in bytes, an
 alignment constraint and can be:
 
 - initialized (we know their contents) and immutable
@@ -64,11 +58,11 @@ alignment constraint and can be:
 They support at least the following primops which are compiled as constants or
 symbols:
 
-```wiki
-   staticDataAddr#      :: StaticData# -> Addr#
-   staticDataSize#      :: StaticData# -> Word#
-   staticDataAlignment# :: StaticData# -> Word#
-   staticDataIsMutable# :: StaticData# -> Int#
+```
+   staticDataAddr#::StaticData#->Addr#
+   staticDataSize#::StaticData#->Word#
+   staticDataAlignment#::StaticData#->Word#
+   staticDataIsMutable#::StaticData#->Int#
 ```
 
 
@@ -78,13 +72,8 @@ quasiquoter can use it.
 
 Internal representation in GHC:
 
-```wiki
-   data StaticData = StaticData
-      { staticDataSize      :: Word
-      , staticDataAlignment :: Word    -- ^ Alignment constraint (1 if none)
-      , staticDataMutable   :: Bool    -- ^ Is the data mutable?
-      , staticDataContents  :: Maybe ByteString
-      }
+```
+dataStaticData=StaticData{ staticDataSize      ::Word, staticDataAlignment ::Word-- ^ Alignment constraint (1 if none), staticDataMutable   ::Bool-- ^ Is the data mutable?, staticDataContents  ::MaybeByteString}
 ```
 
 
@@ -99,19 +88,18 @@ isn't stored! (no overhead)
 ## Storing Haskell objects
 
 
-Some packages would like to store static Haskell object (ByteArray\#) and not raw
-Addr\#.
+Some packages would like to store static Haskell object (e.g., `ByteArray#`) and not raw bytes (which are retrieved from an
+`Addr#`).
 
 
 We could use a static compact region embedded in the program. Let's add a
-StaticObject\# primitive type which is a reference to an object in the static
+`StaticObject#` primitive type which is a reference to an object in the static
 compact region.
 
+`StaticObject#` supports the following primop:
 
-StaticObject\# supports the following primop:
-
-```wiki
-   fromStaticObject# :: StaticObject# -> a
+```
+   fromStaticObject#::StaticObject#-> a
 ```
 
 
@@ -120,13 +108,10 @@ The linter should ensure that the type of the static object is `a`.
 
 We provide the following GHC/Template Haskell API:
 
-```wiki
-   -- | Add an object in compact normal form in the static compact region
-   addStaticObject :: a -> Q StaticObject#
-
-   -- | Helper: use addStaticObject and produce "fromStaticObject# obj :: a"
-   -- expression
-   asStaticObject :: a -> Q Expr
+```
+-- | Add an object in compact normal form in the static compact region
+   addStaticObject :: a ->QStaticObject#-- | Helper: use addStaticObject and produce "fromStaticObject# obj :: a" expression
+   asStaticObject :: a ->QExpr
 ```
 
 
@@ -135,7 +120,7 @@ these data.
 
 
 AFAIK static compact regions only support immutable data. Perhaps we could relax this
-to support storage of MutableByteArray which don't have references to other data
+to support storage of `MutableByteArray#` which don't have references to other data
 (in order to support mutable unboxed vectors for instance).
 
 ## Desugaring usual strings
@@ -146,8 +131,8 @@ Instead of using a specific string-literal, we can use generic static data.
 
 Desugaring becomes:
 
-```wiki
-   unpackCString# (staticDataAddr# d)
+```
+   unpackCString#(staticDataAddr# d)
 ```
 
 
