@@ -7,6 +7,16 @@ This guide summarises the changes you may need to make to your code to migrate f
 ----------------------------------
 == Compiler changes
 
+=== `TypeInType` is pickier
+
+Some code which previously typechecked in earlier versions of GHC without the use of the `TypeInType` extension will now require it in 8.4. For example:
+
+{{{#!hs
+myError :: forall (r :: RuntimeRep) . forall (a :: TYPE r) . String -> a
+myError = error
+}}}
+
+In spirit, this function has always required the `TypeInType` extension, since the type variable `r` is also used as a kind variable in `forall (a :: TYPE r)`. However, GHC mistakenly didn't require the explicit use of `TypeInType` here in earlier versions. This has been rectified in 8.4, so now `myError` will not typecheck without `TypeInType` being explicitly enabled.
 
 --------------------------------
 == Library changes
