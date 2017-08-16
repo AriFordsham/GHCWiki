@@ -1,0 +1,24 @@
+[[PageOutline]]
+
+= GHC 8.4.x Migration Guide =
+
+This guide summarises the changes you may need to make to your code to migrate from GHC 8.4 to GHC 8.4. This guide complements the GHC 8.4.x release notes which should be consulted as well.
+
+----------------------------------
+== Compiler changes
+
+
+--------------------------------
+== Library changes
+
+=== `base-4.11.0.0`
+
+
+=== `template-haskell-2.12.0.0`
+
+----------------------------------
+== Tool changes
+
+----------------------------------
+== GHC API changes
+
