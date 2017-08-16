@@ -2,7 +2,7 @@
 
 = GHC 8.4.x Migration Guide =
 
-This guide summarises the changes you may need to make to your code to migrate from GHC 8.4 to GHC 8.4. This guide complements the GHC 8.4.x release notes which should be consulted as well.
+This guide summarises the changes you may need to make to your code to migrate from GHC 8.2 to GHC 8.4. This guide complements the GHC 8.4.x release notes which should be consulted as well.
 
 ----------------------------------
 == Compiler changes
@@ -14,7 +14,7 @@ This guide summarises the changes you may need to make to your code to migrate f
 === `base-4.11.0.0`
 
 
-=== `template-haskell-2.12.0.0`
+=== `template-haskell-2.13.0.0`
 
 ----------------------------------
 == Tool changes
