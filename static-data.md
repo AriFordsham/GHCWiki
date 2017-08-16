@@ -32,9 +32,9 @@ Let's add a StaticStrings extension that desugars to this instead:
 The quasiquoter is selected from the type. I.e.,
 
 ```
-classIsStaticString a where
-      fromStaticString ::QuasiQuoter-- or directly
-      fromStaticString ::String->QExp
+classStringQuote a where
+      fromStringQuote ::QuasiQuoter-- or directly
+      fromStringQuote ::String->QExp
 ```
 
 

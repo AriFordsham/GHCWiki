@@ -31,11 +31,11 @@ Let's add a StaticStrings extension that desugars to this instead:
 The quasiquoter is selected from the type. I.e.,
 
 {{{#!hs
-   class IsStaticString a where
-      fromStaticString :: QuasiQuoter
+   class StringQuote a where
+      fromStringQuote :: QuasiQuoter
 
       -- or directly
-      fromStaticString :: String -> Q Exp
+      fromStringQuote :: String -> Q Exp
 }}}
 
 It makes string literals quasiquoters in disguise. It's only for syntactic convenience (the type can be inferred, hence the quasiquoter can be inferred).
