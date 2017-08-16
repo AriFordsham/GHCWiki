@@ -210,6 +210,41 @@ Let us have a closer look at the stack:
   from the DWARF information and complains with the "corrupt stack?"
   error message.
 
+## Debugging while GHC bootstrap
+
+
+Imagine you have a crashing GHC \*stage2\* compiler, but \*stage1\* works.
+It is a rather frustrating experience to identify where the crash is coming
+from. With DWARF backtraces the situation improves a bit, as you get
+source locations for the backtrace, which can give valuable input.
+
+
+To do this you can compile the second stage with `-g`, like
+
+```wiki
+make V=1 GhcStage2HcOpts="-O1 -g"
+```
+
+
+(or equivalent).
+
+
+Then modify the ghc wrapper `inplace/bin/ghc-stage2` to end with:
+
+```wiki
+rm -f /tmp/${USER}-gdb
+echo run -B"$topdir" ${1+"$@"} > /tmp/${USER}-gdb
+exec gdbtui "$executablename" -x /tmp/${USER}-gdb
+```
+
+
+This teaches the wrapper to run GHC under GDB's supervision
+with the passed command-line arguments.
+
+
+Then simply invoke `make` again, and you should find yourself at the
+crash site.
+
 ## Profiling
 
 
