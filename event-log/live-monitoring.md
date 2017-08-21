@@ -9,6 +9,9 @@ In short, the goal of the project is to improve the GHC RTS and [ ghc-events](ht
 
 This wiki page documents my current understanding of the system, the new API, the changes that I've made, and plans for future work. In case you find some flaws in my understanding, something that you disagree with or statements that are outright wrong, please do contact me. Any other contributions/advice/edits are very welcome!
 
+
+See also: [ https://hackage.haskell.org/package/ghc-events-0.6.0/docs/GHC-RTS-Events-Incremental.html](https://hackage.haskell.org/package/ghc-events-0.6.0/docs/GHC-RTS-Events-Incremental.html)
+
 ## Goals
 
 ### RTS
