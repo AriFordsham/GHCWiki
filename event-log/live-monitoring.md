@@ -9,6 +9,38 @@ In short, the goal of the project is to improve the GHC RTS and [ ghc-events](ht
 
 This wiki page documents my current understanding of the system, the new API, the changes that I've made, and plans for future work. In case you find some flaws in my understanding, something that you disagree with or statements that are outright wrong, please do contact me. Any other contributions/advice/edits are very welcome!
 
+
+See also: [ https://hackage.haskell.org/package/ghc-events-0.6.0/docs/GHC-RTS-Events-Incremental.html](https://hackage.haskell.org/package/ghc-events-0.6.0/docs/GHC-RTS-Events-Incremental.html)
+
+
+and commit
+
+```wiki
+commit 4dfc6d1c40b298d4b8f136e46420227eda60a03d
+Author: alexbiehl <alex.biehl@gmail.com>
+Date:   Tue Jan 31 16:06:33 2017 -0500
+
+    Abstract over the way eventlogs are flushed
+    
+    Currently eventlog data is always written to a file `progname.eventlog`.
+    This patch introduces the `flushEventLog` field in `RtsConfig` which
+    allows to customize the writing of eventlog data.
+    
+    One possible scenario is the ongoing live-profile-monitor effort by
+    @NCrashed which slurps all eventlog data through `fluchEventLog`.
+    
+    `flushEventLog` takes a buffer with eventlog data and its size and
+    returns `false` (0) in case eventlog data could not be procesed.
+    
+    Reviewers: simonmar, austin, erikd, bgamari
+    
+    Reviewed By: simonmar, bgamari
+    
+    Subscribers: qnikst, thomie, NCrashed
+    
+    Differential Revision: https://phabricator.haskell.org/D2934
+```
+
 ## Goals
 
 ### RTS
