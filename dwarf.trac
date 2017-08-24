@@ -329,7 +329,7 @@ a bit:
 
 - Windows situation completely unclear.
 
-## Design decisions
+== Design decisions ==
 
 Currently we use `libdw` (part of `elf-utils`) for stack unwinding and DWARF reading. While `libdw` has the advantage of being comprehensive () and widely used (used by `perf`, among others), it only targets ELF platforms. There are a few alternatives that were considered,
 
