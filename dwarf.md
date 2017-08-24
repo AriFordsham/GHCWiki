@@ -370,10 +370,14 @@ a bit:
 > also be possible, Nathan Howell has done some experiments on this if
 > I remember correctly.)
 
-- Implementing our own tools depends on our ability to read binaries
-  and the contained DWARF information. So far we have used `libdwarf`,
-  but this looks like it could become a portability disaster (no Mac
-  support, most Linux distros ship it in a state we can't
-  use). Possibly use `libbfd` with a custom-built DWARF reader?
-
 - Windows situation completely unclear.
+
+## Design decisions
+
+
+Currently we use `libdw` (part of `elf-utils`) for stack unwinding and DWARF reading. While `libdw` has the advantage of being comprehensive () and widely used (used by `perf`, among others), it only targets ELF platforms. There are a few alternatives that were considered,
+
+- `libdwarf` ([ https://www.prevanders.net/dwarf.html](https://www.prevanders.net/dwarf.html)): not widely available; questionable upstream maintenance practices
+- `libdw` ([ https://sourceware.org/elfutils/](https://sourceware.org/elfutils/)): widely available and used, offering both unwinding and ELF/DWARF parsing, reasonably active upstream, only supports ELF, poor documentation
+- `libbacktrace` ([ https://github.com/gcc-mirror/gcc/tree/master/libbacktrace](https://github.com/gcc-mirror/gcc/tree/master/libbacktrace)): Supports ELF and XCOFF, not widely available
+- `libunwind` ([ http://www.nongnu.org/libunwind/](http://www.nongnu.org/libunwind/)): well documented, also no MachO support
