@@ -10,13 +10,13 @@
 Add a new bookmark/entry, with
 
 ```wiki
-Name: [#] GHC ticket
+Name: GHC ticket
 Location: http://ghc.haskell.org/trac/ghc/ticket/%s
-Keyword: #
+Keyword: ghc
 ```
 
 
-Then typing `# 5129` in the title bar goes to that ticket (note the
+Then typing `ghc 5129` in the title bar goes to that ticket (note the
 space).
 
 ## Searching for tickets
