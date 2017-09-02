@@ -14,6 +14,7 @@ WAY                  -- just this way
 THREADS              -- number of threads to use when running the testsuite
 VERBOSE              -- verbosity
 SKIP_PERF_TESTS=YES  -- skip tests which check the performance of ghc or the resulting binaries
+ONLY_PERF_TESTS=YES  -- run only the tests which check the performance of ghc or the resulting binaries
 ```
 
 
