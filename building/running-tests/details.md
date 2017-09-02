@@ -22,14 +22,32 @@ which ones succeeded and failed.
 The script runtests.py takes several options:
 
 >
-> --config \<file\>
+> -e \<stmt\>
+
+> >
+> > executes the Python statement \<stmt\> before running any tests.
+> > The main purpose of this option is to allow certain
+> > configuration options to be tweaked from the command line; for
+> > example, the build system adds '-e config.accept=1' to the
+> > command line when 'make accept' is invoked.
+
+>
+> --config-file \<file\>
 
 > >
 > > \<file\> is just a file containing Python code which is 
 > > executed.   The purpose of this option is so that a file
 > > containing settings for the configuration options can
-> > be specified on the command line.  Multiple --config options
-> > may be given.
+> > be specified on the command line.  Multiple --config-file 
+> > options may be given. (There is a depreciated --configfile
+> > flag that exists so the testsuite runs on older commits) 
+
+>
+> --config \<field\>
+
+> >
+> > This command is the single-field variant of --config-file.
+> > Multiple --config options may be given.
 
 >
 > --rootdir \<dir\>
@@ -39,7 +57,7 @@ The script runtests.py takes several options:
 > > to run.
 
 >
-> --output-summary \<file\>
+> --summary-file \<file\>
 
 > >
 > > In addition to dumping the test summary to stdout, also
@@ -48,22 +66,79 @@ The script runtests.py takes several options:
 > > always the right thing).
 
 >
+> --no-print-summary
+
+> >
+> > If this flag is given on the commandline, the summary will 
+> > not be printed.
+
+>
 > --only \<test\>
 
 > >
-> > Only run tests named \<test\> (multiple --only options can
-> > be given).  Useful for running a single test from a .T file
+> > Only run tests named \<test\> will be run; multiple --only options 
+> > can be given.  Useful for running a single test from a .T file
 > > containing multiple tests.
 
 >
-> -e \<stmt\>
-
+> --way \<way\>
+>
 > >
-> > executes the Python statement \<stmt\> before running any tests.
-> > The main purpose of this option is to allow certain
-> > configuration options to be tweaked from the command line; for
-> > example, the build system adds '-e config.accept=1' to the
-> > command line when 'make accept' is invoked.
+> > Only ways named \<way\> will be run; multiple --way options can
+> > be given.
+
+>
+> --skipway \<way\>
+>
+> >
+> > The inverse of --way. \<way\> will be skipped if it would
+> > otherwise be ran.
+
+>
+> --threads \<number\>
+>
+> >
+> > Execute the testsuite in parallel.
+
+>
+> --verbose \<number\>
+>
+> >
+> > A verbosity value between 0 and 5. 0 is silent, 4 and higher
+> > activates extra output.
+
+>
+> --skip-perf-tests
+>
+> >
+> > All performance tests will be skipped.
+
+>
+> --only-perf-tests
+>
+> >
+> > Skips all tests except for performance tests. Useful for
+> > quickly determining if any changes have introduced a
+> > performance regression.
+
+>
+> --junit \<file\>
+>
+> >
+> > Writes the testsuite summary to \<file\> in JUnit format.
+
+>
+> --test-env \<string\>
+>
+> >
+> > Test-env defaults to 'local' if this flag is not given.
+> > If given, the performance test output (which is saved to
+> > git notes automatically) will contain the test-env you
+> > set. This is useful for copying over git notes to different
+> > computers without having to worry about different performance
+> > numbers due to hardware differences; it can also be used
+> > as an ad-hoc "tag" with the comparison tool to separate
+> > out different test-runs without committing.
 
 
 Most of the code for running tests is located in driver/testlib.py.
@@ -112,11 +187,18 @@ This indicates to the test driver that the current test is expected to
 fail.
 
 
-Some of these functions, such as the one above, are common, so rather
-than forcing every .T file to redefine them, we provide canned
-versions.  For example, the provided function expect_fail does the
-same as fn in the example above.  See testlib.py for all the canned
-functions we provide for \<opt-fn\>.
+One somewhat special \<opt-fn\> that is provided in the test driver is the
+function collect_stats(). It marks the test as a performance test at which
+point the test driver will automatically collect performance metrics and 
+detect performance regressions. More information about collect_stats is 
+provided in perf_notes.py
+
+
+Some of these \<opt-fn\> functions, such as the 'expect failure' one above, 
+are common, so rather than forcing every .T file to redefine them, we provide 
+canned versions.  For example, the provided function expect_fail does the
+same as fn in the example above. See testlib.py for all the canned functions
+we provide for \<opt-fn\>.
 
 
 The argument \<test-fn\> is a function which performs the test.  It
