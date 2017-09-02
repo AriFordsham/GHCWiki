@@ -18,6 +18,24 @@ myError = error
 
 In spirit, this function has always required the `TypeInType` extension, since the type variable `r` is also used as a kind variable in `forall (a :: TYPE r)`. However, GHC mistakenly didn't require the explicit use of `TypeInType` here in earlier versions. This has been rectified in 8.4, so now `myError` will not typecheck without `TypeInType` being explicitly enabled.
 
+=== `TemplateHaskell` reification changes for GADTs
+
+Before GHC 8.4, whether or not Template Haskell would reify a data type as a `GadtC` (or `RecGadtC`) was somewhat unpredictable, as it used heuristics to determine whether a data type was declared using GADT syntax or not. While this worked for most use cases, there were nevertheless some corner cases where a GADT would not be reified as a `GadtC`, and conversely, a non-GADT would be reified as a `GadtC`. For example:
+
+{{{
+GHCi, version 8.2.1: http://www.haskell.org/ghc/  :? for help
+λ> :set -XTemplateHaskell -XExistentialQuantification -XGADTs
+λ> import Language.Haskell.TH
+λ> data Foo a where MkFoo :: Show a => Foo a
+λ> $(reify ''Foo >>= stringE . show)
+"TyConI (DataD [] Ghci4.Foo [KindedTV a_6989586621679027473 StarT] Nothing [ForallC [] [AppT (ConT GHC.Show.Show) (VarT a_6989586621679027473)] (NormalC Ghci4.MkFoo [])] [])"
+λ> data Bar a = (a ~ Int) => MkBar
+λ> $(reify ''Bar >>= stringE . show)
+"TyConI (DataD [] Ghci6.Bar [KindedTV a_6989586621679027637 StarT] Nothing [ForallC [KindedTV a_6989586621679027637 StarT] [AppT (AppT (ConT Data.Type.Equality.~) (VarT a_6989586621679027637)) (ConT GHC.Types.Int)] (GadtC [Ghci6.MkBar] [] (AppT (ConT Ghci6.Bar) (VarT a_6989586621679027637)))] [])"
+}}}
+
+Note that `Foo`, a GADT, is //not// reified as a `GadtC`, whereas `Bar`, which is not a GADT, //is// reified as a `GadtC`. In GHC 8.4, this bug has been fixed, so as a result, `Foo` will be reified as a `GadtC`, but `Bar` will not be, as one would expect.
+
 --------------------------------
 == Library changes
 
