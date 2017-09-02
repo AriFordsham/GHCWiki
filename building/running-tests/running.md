@@ -72,6 +72,20 @@ $ make TEST=tc054
 ```
 
 
+To run only performance tests:
+
+```wiki
+$ make ONLY_PERF_TESTS=YES
+```
+
+
+To run everything but the performance tests:
+
+```wiki
+$ make SKIP_PERF_TESTS=YES
+```
+
+
 To make this even faster, you can also go straight to the subdirectory containing the test (e.g ./tests/typecheck/should_compile/) and say 'make TEST=tc054' from there, which will save some time as the testsuite framework won't need to search as long to find the test you are referring to.
 
 
