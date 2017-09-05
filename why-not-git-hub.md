@@ -27,7 +27,7 @@ A common suggestion that is brought up from time is to host GHC development at [
 
 ### Code review
 
-- Every inline comment results in a separate email.
+- ~~Every inline comment results in a separate email~~ (GitHub added support for multi-part code reviews)
 
 - On Github, [\#1234](https://gitlab.haskell.org//ghc/ghc/issues/1234) doesn't link to Trac ticket 1234. You'd have to say: [ https://ghc.haskell.org/ticket/1234](https://ghc.haskell.org/ticket/1234).
 
