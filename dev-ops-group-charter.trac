@@ -2,14 +2,19 @@
 
 == Mission ==
 As GHC becomes more mission-critical to more organisations, it is becoming clear that
-GHC is historically over-reliant on particular individuals and organisations (notably the Simons and their employers), and GHC is under-resourced for the boring-but-essential work of producing regular, reliable, and well-tested releases as well as encouraging community contributions; in short, devops.
- 
-The mission of the GHC DevOps Group is to take leadership of the devops aspects of GHC, to resource it better, and to broaden the sense of community ownership and control of GHC. As no single entity owns GHC or is responsible for its ongoing development, we require a collection of organisations who are willing to commit to the ongoing supply of these resources. By spreading the load over multiple organisations, we reduce the burden on each and avoid a single point of failure.
+GHC is historically over-reliant on particular individuals and organisations (notably the Simons and their employers), and GHC is under-resourced for the boring-but-essential work of producing regular, reliable, and well-tested releases, as well as encouraging community contributions; in short, devops.
 
-Overall, the GHC DevOps Group comprises individuals and representatives of organisations who are concerned with and work towards ensuring that GHC and its ecosystem is a tool that developers can rely on and can easily contribute to. Collectively, they raise the required funding and oversee the development and release process of GHC; this includes tooling, processes, and documentation to ensure that (1) it is easy to contribute to GHC and (2) that releases are delivered on a regular basis and are of high quality.
+The mission of the GHC DevOps Group is to 
+* take leadership of the devops aspects of GHC, 
+* to resource it better, and 
+* to broaden the sense of community ownership and control of GHC.
+Since no single entity owns GHC or is responsible for its ongoing development, we need a partnership between organisations that are willing to play this leadership role, and commit to the ongoing supply of these resources. By spreading the load over multiple organisations, we reduce the burden on each and avoid a single point of failure.
+
+
 
 == Initial goals ==
-To get started, we have identified the following initial short term goals, but we expect that these evolve in response to ongoing development and in dependence on the requirements of developers and users of GHC.
+
+Overall, the GHC DevOps Group comprises individuals and representatives of organisations who are concerned with and work towards ensuring that GHC and its ecosystem is a tool that developers can rely on and can easily contribute to. To get started, we have identified the following initial short term goals, but we expect that these evolve in response to ongoing development and in dependence on the requirements of developers and users of GHC.
 
 1. Timely release of high-quality GHC distributions: in particular, establish a release cycle consisting of two calendar-based releases per year.
 2. Minimise the barrier to entry for contributions to GHC, especially to encourage new and casual contributors.
@@ -20,6 +25,7 @@ This is in line with best practices at other modern open-source compiler project
 The group is complementary to, not competitive with:
 
 * The GHC proposals process, which is about **what** features are agreed for incorporation into GHC. In contrast, the focus of the GHC DevOps group is about **how** and **when** these features are incorporated and released.
+
 * The Cabal, Hackage, and Stack ecosystems.  The focus of the GHC DevOps group is on GHC.
 
 == Resources ==
@@ -28,10 +34,19 @@ The GHC DevOps Group identifies the ongoing and one-off devops requirements of G
 To ensure accountability and transparency, we propose that each contribution goes towards a concrete task; for example, towards the costs of a release manager or server costs for CI. However, the exact details will need to be worked out with the sponsoring organisations.
 
 == Membership ==
-The founding members of the GHC DevOps Group are (alphabetically) Mathieu Boespflug (Tweag I/O), Manuel Chakravarty (Tweag I/O), Simon Marlow (Facebook), Neil Mitchell (Barclays Bank), Simon Peyton Jones (Microsoft Research) **WHO ELSE??**. Any individual or organisation interested in contributing in any form is most welcome to contact any of the aforementioned persons or send email to manuel.chakravarty@tweag.io.
+The founding members of the GHC DevOps Group are (alphabetically) 
+* Mathieu Boespflug (Tweag I/O), 
+* Manuel Chakravarty (Tweag I/O), 
+* Simon Marlow (Facebook), 
+* Neil Mitchell (Barclays Bank), 
+* Simon Peyton Jones (Microsoft Research)
+ **WHO ELSE??**. 
+
+We seek other individuals or organisation interested in contributing in any form.  Contact any of the aforementioned persons or send email to manuel.chakravarty@tweag.io.
 
 For the moment, we explicitly refrain from specifying a more detailed long-term membership policy, but organisations that commit significant resources in kind or in cash can reasonably expect to be represented on the group.
 
+---------------------------------
 == Appendix ==
 In the following, we will elaborate on the two initial goals.
 
@@ -40,8 +55,12 @@ GHC’s release cycle has been unpredictable and drawn out in the past, includin
 
 This is how we propose to reach this goal:
 
-* Release manager whose sole job it is to get a high-quality releases out of the door by the next release date. The release manager doesn’t decide which features go into GHC (that is the GHC Steering Committee’s job), but only into which release a new feature is admitted.
+* Appoint a release manager whose sole job it is to get a high-quality releases out of the door by the next release date. The release manager doesn’t decide which features go into GHC (that is the GHC Steering Committee’s job), but only into which release a new feature is admitted.   (He or she may refer to the GHC Devops Group for guidance in controversial cases.)
+
+  Details are yet to be agreed, but we expect more frequent releases (e.g. every six months), as well as more predictable ones.
+
 * Fully automatic and continuous regression testing against not only the test suite, but also a wider range of diverse and well-maintained packages (such as the Stackage package set). Ideally, commits only go into master and very definitely only onto a release branch after such testing. This minimises the risk of noticing blocking issues late in the release cycle (i.e., when a release candidate is cut).
+
 * Automation of the release process to minimise repetitive tasks for the release manager.
 
 This requires continuous funding of a release manager and of the server infrastructure to perform CI, regression testing, and other automation tasks.
