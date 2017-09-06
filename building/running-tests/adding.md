@@ -370,6 +370,8 @@ For its first parameter, the collect_stats function will take either
 For its second parameter, it takes a non-negative integer as its % of maximum deviation allowed.
 A deviation of 5 means that the difference between the expected value and the actual value measured by the test driver can differ by no more than +/- 5%.
 This value defaults to 20% as correctness is prioritized over speed and a test should not "fail" when it's "correct" even if it introduces a semi-severe regression.
+
+
 For its third parameter, collect_stats takes a boolean. If the boolean is True, the test is considered one that measures the performance of the compiler itself, if it's false, it's a test measuring the performance of the 'program' itself;
 this defaults to False as the vast majority of tests in the testsuite are "regular" performance tests.
 
