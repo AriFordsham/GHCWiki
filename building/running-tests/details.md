@@ -9,6 +9,9 @@ The testsuite is designed largely as follows, where we take the root of the test
 - `tests`: Contains the actual test cases to run.
 - `timeout`: Contains a Haskell program that kills a running test case after a certain amount of time. Used by the testsuite framework.
 
+
+More documentation can also be found in the driver, particularly in its README.md file.
+
 ## Testsuite Implementation details
 
 
@@ -142,7 +145,14 @@ The script runtests.py takes several options:
 
 
 Most of the code for running tests is located in driver/testlib.py.
-Take a look.
+Most of the code for dealing with performance tests is inside of 
+driver/perf_notes.py; it is well commented with implementation
+details. Take a look.
+
+
+Of special mention is the driver/README.md file; it covers quite a bit
+of detail from a different perspective and should also be helpful,
+epecially regarding performance test implementation and design.
 
 
 There is a single Python class (TestConfig) containing the global
