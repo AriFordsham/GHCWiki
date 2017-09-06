@@ -49,7 +49,17 @@ To ensure accountability and transparency, we propose that each contribution goe
 ## Membership
 
 
-The founding members of the GHC DevOps Group are (alphabetically) Mathieu Boespflug (Tweag I/O), Manuel Chakravarty (Tweag I/O), Simon Marlow (Facebook), Neil Mitchell (Barclays Bank), Simon Peyton Jones (Microsoft Research) **WHO ELSE??**. Any individual or organisation interested in contributing in any form is most welcome to contact any of the aforementioned persons or send email to manuel.chakravarty@….
+The founding members of the GHC DevOps Group are (alphabetically) 
+
+- Mathieu Boespflug (Tweag I/O), 
+- Manuel Chakravarty (Tweag I/O), 
+- Simon Marlow (Facebook), 
+- Neil Mitchell (Barclays Bank), 
+- Simon Peyton Jones (Microsoft Research)
+  **WHO ELSE??**. 
+
+
+We seek other individuals or organisation interested in contributing in any form.  Contact any of the aforementioned persons or send email to manuel.chakravarty@….
 
 
 For the moment, we explicitly refrain from specifying a more detailed long-term membership policy, but organisations that commit significant resources in kind or in cash can reasonably expect to be represented on the group.
@@ -67,8 +77,10 @@ GHC’s release cycle has been unpredictable and drawn out in the past, includin
 
 This is how we propose to reach this goal:
 
-- Release manager whose sole job it is to get a high-quality releases out of the door by the next release date. The release manager doesn’t decide which features go into GHC (that is the GHC Steering Committee’s job), but only into which release a new feature is admitted.
+- Appoint a release manager whose sole job it is to get a high-quality releases out of the door by the next release date. The release manager doesn’t decide which features go into GHC (that is the GHC Steering Committee’s job), but only into which release a new feature is admitted.   (He or she may refer to the GHC Devops Group for guidance in controversial cases.)
+
 - Fully automatic and continuous regression testing against not only the test suite, but also a wider range of diverse and well-maintained packages (such as the Stackage package set). Ideally, commits only go into master and very definitely only onto a release branch after such testing. This minimises the risk of noticing blocking issues late in the release cycle (i.e., when a release candidate is cut).
+
 - Automation of the release process to minimise repetitive tasks for the release manager.
 
 
