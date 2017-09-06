@@ -331,23 +331,58 @@ as the `<setup>` argument.
 ### Performance tests
 
 
-Performance tests can specify ranges for certain statistics in the `<setup>` field.  Here's an example test:
+Performance tests have recently been revamped significantly and are now much easier to use.
+In order to dignify a test as a performance test, it is sufficient to use the `collect_stats()` function.
+More documentation can be found in the `driver/README.md` file, or the comments in `driver/perf_notes.py`.
+
+
+Here's an example test:
 
 ```wiki
 test('perf001',
-     [ compiler_stats_num_field('bytes allocated', [(wordsize(32), 40000000, 10), (wordsize(64), 79110184, 10)]) ],
+     [ collect_stats('bytes allocated',10,True) ],
      compile, [''])
 ```
 
 
-This is testing the performance of GHC itself, and requiring that the statistic 'bytes allocated' for the compiler when compiling the module `perf001.hs` is +/- 10% of 40000000 bytes (on a 32-bit machine; there is a different baseline for 64-bit machines).
+This is testing the performance of GHC itself, and requiring that the statistic 'bytes allocated' for the compiler when compiling the module `perf001.hs` is +/- 10% of the value recorded in the previous commit.
+The third parameter, True, denotes this as a test which measures the performance of GHC itself. If it is omitted, the test is a test which measures the performance of the 'program' itself.
 
 
-The kinds of constraint that can be used are:
+The collect_stats function takes 3 arguments:
 
-- **compiler_stats_num_field(stat, expecteds)**  tests the performance of GHC, and should be used with **compile** or **compile_fail** tests.  **stat** is one of the following: `'bytes allocated'`, `'peak_megabytes_allocated'`, or `'max_bytes_used'`; **expecteds** is a list of triples. Each triple has the form: `(predicate, baseline, deviation)`. **predicate** is a boolean value indicating which triple to use. In the above example, if the machine word size is 32 bits, the first triple's **baseline** and **deviation** values will be used. If the word size is 64 bits, the second triple's values will be used. **baseline** is the baseline value obtained by running the benchmark, and **deviation** is the percentage deviation from the baseline that the framework will allow for the test to pass. Setting this constraint will skip the test if `-DDEBUG` is one (i.e. **complier_debugged()** is true), as the numbers are worthless then.
+```wiki
+               v- defaults to 'all'  v- defaults to 20%      v- defaults to False
+collect_stats( metrics_to_measure,   max_deviation_allowed, is_compiler_performance_test)
+```
 
-- **stats_num_field(stat, expecteds)**  is the same, but tests the performance of the *program*, not the compiler.  It should be used in conjunction with a **compile_and_run** test.
+
+The possible metrics that can be measured are `'bytes allocated'`, `'peak_megabytes_allocated'`, or `'max_bytes_used'`.
+
+
+For its first parameter, the collect_stats function will take either
+
+- One of those strings.  eg: `collect_stats('bytes allocated')`
+- A list of those strings. eg: `collect_stats(['bytes allocated', 'max_bytes_used'])`
+- A string 'all' which is a shorthand for the list containing all 3 possible measurements.
+
+
+For its second parameter, it takes a non-negative integer as its % of maximum deviation allowed.
+A deviation of 5 means that the difference between the expected value and the actual value measured by the test driver can differ by no more than +/- 5%.
+This value defaults to 20% as correctness is prioritized over speed and a test should not "fail" when it's "correct" even if it introduces a semi-severe regression.
+For its third parameter, collect_stats takes a boolean. If the boolean is True, the test is considered one that measures the performance of the compiler itself, if it's false, it's a test measuring the performance of the 'program' itself;
+this defaults to False as the vast majority of tests in the testsuite are "regular" performance tests.
+
+
+Since all of the parameters have defaults, the function can be called with either no arguments, just the metric to measure, just the metric to measure and the allowed deviation, or all 3 arguments.
+(That is, if you need to specify an argument, all arguments to the left of that argument must be specified as well but all arguments to the right are optional)
+
+
+In summary: 
+
+- Tests which measure the performance of the compiler should be used with **compile** or **compile_fail** tests. These tests will be skipped if `-DDEBUG` is one (i.e. **complier_debugged()** is true), as the numbers are worthless then.
+
+- Tests which measure the performance of the *program*, not the compiler, should be used in conjunction with a **compile_and_run** test.
 
 ### The \<test-fn\> field
 
