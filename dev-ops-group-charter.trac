@@ -10,10 +10,11 @@ The mission of the GHC DevOps Group is to
 * to broaden the sense of community ownership and control of GHC.
 Since no single entity owns GHC or is responsible for its ongoing development, we need a partnership between organisations that are willing to play this leadership role, and commit to the ongoing supply of these resources. By spreading the load over multiple organisations, we reduce the burden on each and avoid a single point of failure.
 
-Overall, the GHC DevOps Group comprises individuals and representatives of organisations who are concerned with and work towards ensuring that GHC and its ecosystem is a tool that developers can rely on and can easily contribute to. Collectively, they raise the required funding and oversee the development and release process of GHC; this includes tooling, processes, and documentation to ensure that (1) it is easy to contribute to GHC and (2) that releases are delivered on a regular basis and are of high quality.
+
 
 == Initial goals ==
-To get started, we have identified the following initial short term goals, but we expect that these evolve in response to ongoing development and in dependence on the requirements of developers and users of GHC.
+
+Overall, the GHC DevOps Group comprises individuals and representatives of organisations who are concerned with and work towards ensuring that GHC and its ecosystem is a tool that developers can rely on and can easily contribute to. To get started, we have identified the following initial short term goals, but we expect that these evolve in response to ongoing development and in dependence on the requirements of developers and users of GHC.
 
 1. Timely release of high-quality GHC distributions: in particular, establish a release cycle consisting of two calendar-based releases per year.
 2. Minimise the barrier to entry for contributions to GHC, especially to encourage new and casual contributors.
