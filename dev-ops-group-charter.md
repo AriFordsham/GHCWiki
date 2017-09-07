@@ -41,9 +41,6 @@ The group is complementary to, not competitive with:
 
 The GHC DevOps Group identifies the ongoing and one-off devops requirements of GHC. It develops and manages the strategies and projects to implement the needed tools, processes, and documentation to meet those requirements. To that end and on the basis of actionable project plans, it seeks to obtain the necessary resources from organisations that rely on GHC as a production-ready tool. By doing this, we aim to unlock more resources than are currently available. At the same time, we seek broad community ownership to minimise the load on any single contributor and to avoid a single point of failure.
 
-
-To ensure accountability and transparency, we propose that each contribution goes towards a concrete task; for example, towards the costs of a release manager or server costs for CI. However, the exact details will need to be worked out with the sponsoring organisations.
-
 ## Membership
 
 
@@ -51,6 +48,9 @@ The founding members of the GHC DevOps Group are (alphabetically)
 
 - Mathieu Boespflug (Tweag I/O), 
 - Manuel Chakravarty (Tweag I/O), 
+- Duncan Coutts (Well Typed),
+- Ben Gamari (Well Typed),
+- Andres Löh (Well Typed),
 - Simon Marlow (Facebook), 
 - Neil Mitchell (Barclays Bank), 
 - Simon Peyton Jones (Microsoft Research)
@@ -64,7 +64,7 @@ For the moment, we explicitly refrain from specifying a more detailed long-term 
 
 ---
 
-## Appendix
+## Appendix (tentative)
 
 
 In the following, we will elaborate on the two initial goals.
