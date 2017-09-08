@@ -35,6 +35,9 @@ The GHC DevOps Group identifies the ongoing and one-off devops requirements of G
 The founding members of the GHC DevOps Group are (alphabetically) 
 * Mathieu Boespflug (Tweag I/O), 
 * Manuel Chakravarty (Tweag I/O), 
+* Duncan Coutts (Well Typed),
+* Ben Gamari (Well Typed),
+* Andres Löh (Well Typed),
 * Simon Marlow (Facebook), 
 * Neil Mitchell (Barclays Bank), 
 * Simon Peyton Jones (Microsoft Research)
@@ -45,7 +48,7 @@ We seek other individuals or organisation interested in contributing in any form
 For the moment, we explicitly refrain from specifying a more detailed long-term membership policy, but organisations that commit significant resources in kind or in cash can reasonably expect to be represented on the group.
 
 ---------------------------------
-== Appendix ==
+== Appendix (tentative) ==
 In the following, we will elaborate on the two initial goals.
 
 === Timely releases ===
