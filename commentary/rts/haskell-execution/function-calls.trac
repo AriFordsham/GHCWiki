@@ -4,7 +4,7 @@
 
 Source files: [[GhcFile(rts/Apply.h)]], [[GhcFile(rts/Apply.cmm)]]
 
-Dealing with calls is by far the most complicated bit of the execution model, and hence of the code generator.  GHC uses an ''eval/apply'' strategy for compiling function calls; all the details of the design are in the paper [http://community.haskell.org/~simonmar/papers/evalapplyjfp06.pdf Making a fast curry: push/enter vs. eval/apply for higher-order languages].
+Dealing with calls is by far the most complicated bit of the execution model, and hence of the code generator.  GHC uses an ''eval/apply'' strategy for compiling function calls; all the details of the design are in the paper [http://simonmar.github.io/bib/papers/evalapplyjfp06.pdf Making a fast curry: push/enter vs. eval/apply for higher-order languages].
 
 First, we need some terminology:
 

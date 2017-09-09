@@ -30,7 +30,7 @@ These branches are not merged, but they are also not totally dead ended, and the
 
  * `supercompiler`: '''Max's Supercompiler'''. Max Bolingbroke. This implements the ideas present in Max's PhD thesis, seen here: http://www.cl.cam.ac.uk/techreports/UCAM-CL-TR-835.html
 
- * `local-gc`: '''Capability-local garbage collection'''. Simon Marlow & Simon PJ. As described in "Multicore Garbage Collection with Local Heaps": http://community.haskell.org/~simonmar/papers/local-gc.pdf
+ * `local-gc`: '''Capability-local garbage collection'''. Simon Marlow & Simon PJ. As described in "Multicore Garbage Collection with Local Heaps": http://simonmar.github.io/bib/papers/local-gc.pdf
 
 * `wip/nested-cpr`: '''Nested CPR'''. Works, but results where underwhelming. See [wiki:NestedCPR]. Joachim Breitner.
 
