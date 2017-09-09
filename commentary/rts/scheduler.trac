@@ -53,7 +53,7 @@ two kinds of Haskell thread:
    OS thread that made the call; all further foreign calls made by
    this Haskell thread are made in the same OS thread.  (this is part
    of the design of the FFI, described in the paper 
-   [http://community.haskell.org/~simonmar/papers/conc-ffi.pdf Extending the Haskell Foreign Function Inteface with Concurrency]).
+   [http://simonmar.github.io/bib/papers/conc-ffi.pdf Extending the Haskell Foreign Function Inteface with Concurrency]).
 
  * An ''unbound'' thread is created by
    {{{Control.Concurrent.forkIO}}}.  Foreign calls made by an unbound

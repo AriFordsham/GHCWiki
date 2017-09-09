@@ -1,7 +1,7 @@
 # Lightweight Concurrency in GHC
 
 
-This page documents the effort to move GHC's concurrency support from its current location in the C part of the runtime system (RTS) to Haskell. This works builds on Peng Li's earlier work ([ http://community.haskell.org/\~simonmar/papers/conc-substrate.pdf](http://community.haskell.org/~simonmar/papers/conc-substrate.pdf)). This page contains information about the design, implementation, problems and potential solutions for building user-level concurrency primitives in GHC. Currently, the focus is on user-level implementation of non-deterministic parallelism in GHC ([Control.Concurrent](http://www.haskell.org/ghc/docs/latest/html/libraries/base/Control-Concurrent.html)).
+This page documents the effort to move GHC's concurrency support from its current location in the C part of the runtime system (RTS) to Haskell. This works builds on Peng Li's earlier work ([ http://simonmar.github.io/bib/papers/conc-substrate.pdf](http://simonmar.github.io/bib/papers/conc-substrate.pdf)). This page contains information about the design, implementation, problems and potential solutions for building user-level concurrency primitives in GHC. Currently, the focus is on user-level implementation of non-deterministic parallelism in GHC ([Control.Concurrent](http://www.haskell.org/ghc/docs/latest/html/libraries/base/Control-Concurrent.html)).
 
 
 Lightweight concurrency implementation resides in the [ ghc-lwc2](https://github.com/ghc/ghc/commits/ghc-lwc2) branch in the git repo.
@@ -420,7 +420,7 @@ GHC's concurrency library supports preemptive scheduling of threads. In the LWC 
 ### Safe Foreign Calls
 
 
-A [ safe foreign call](http://community.haskell.org/~simonmar/papers/conc-ffi.pdf) does not impede the execution of other Haskell threads on the same scheduler, if the foreign call blocks. Before performing the foreign call, the task, say `T1`, releases the capability that it currently owns. This might wake up other tasks which are waiting to acquire a free capability. After the foreign call has completed, `T1` tries to reacquire the last owned capability. In the fast path, the foreign call quickly completes and `T1` reacquires the capability. In the slow path, some other task, say `T2`, acquires the capability.
+A [ safe foreign call](http://simonmar.github.io/bib/papers/conc-ffi.pdf) does not impede the execution of other Haskell threads on the same scheduler, if the foreign call blocks. Before performing the foreign call, the task, say `T1`, releases the capability that it currently owns. This might wake up other tasks which are waiting to acquire a free capability. After the foreign call has completed, `T1` tries to reacquire the last owned capability. In the fast path, the foreign call quickly completes and `T1` reacquires the capability. In the slow path, some other task, say `T2`, acquires the capability.
 
 #### Slow-path in Vanilla RTS
 
@@ -547,7 +547,7 @@ Thus, except for resume tokens, asynchronous exceptions are transparently handle
 ## Related Work
 
 - [Concurrent Programming in GHC](ghc-concurrency)
-- [ Lightweight Concurrent Primitives for GHC](http://community.haskell.org/~simonmar/papers/conc-substrate.pdf)
+- [ Lightweight Concurrent Primitives for GHC](http://simonmar.github.io/bib/papers/conc-substrate.pdf)
 - [ Tackling the awkward squad](http://research.microsoft.com/en-us/um/people/simonpj/papers/marktoberdorf/)
-- [ Runtime Support for Multicore Haskell](http://community.haskell.org/~simonmar/papers/multicore-ghc.pdf)
+- [ Runtime Support for Multicore Haskell](http://simonmar.github.io/bib/papers/multicore-ghc.pdf)
 - [ Composable Scheduler Activations for Haskell](http://kcsrk.info/papers/schedact_jfp15.pdf)
