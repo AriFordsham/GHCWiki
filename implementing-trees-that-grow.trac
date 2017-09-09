@@ -18,6 +18,8 @@ Re-engineering `HsSyn` is a major exercise that touches a lot of code, so we nee
 
 Main protagonists: Shayan Najd and Alan Zimmerman. 
 
+Main GHC branch: `wip/GrowableAST`
+
 === General Plan ===
 
 I have the following practical plan, which makes it possible to change the AST and the related code gradually, without touching the entire code base with a few git commits.
