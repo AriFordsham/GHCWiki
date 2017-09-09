@@ -97,7 +97,7 @@ Please add: System FC, GADTs, kind polymorphism etc
 
 - [ Work Efficient Higher-Order Vectorisation](http://www.cse.unsw.edu.au/~chak/papers/replicate.pdf), Ben Lippmeier, Manuel M. T. Chakravarty, Gabriele Keller, Roman Leshchinskiy, and Simon Peyton Jones, The 17th ACM SIGPLAN International Conference on Functional Programming, ACM Press, 2012
 
-- [ Runtime Support for Multicore Haskell](http://community.haskell.org/~simonmar/papers/multicore-ghc.pdf) (Simon Marlow, Simon Peyton Jones, Satnam Singh) In ICFP '09: Proceeding of the 14th ACM SIGPLAN International Conference on Functional Programming, Edinburgh, Scotland, August 2009
+- [ Runtime Support for Multicore Haskell](http://simonmar.github.io/bib/papers/multicore-ghc.pdf) (Simon Marlow, Simon Peyton Jones, Satnam Singh) In ICFP '09: Proceeding of the 14th ACM SIGPLAN International Conference on Functional Programming, Edinburgh, Scotland, August 2009
 
 - [Concurrent Haskell](http://www.haskell.org/ghc/docs/papers/concurrent-haskell.ps.gz), Simon Peyton Jones, Andrew Gordon, Sigbjorn Finne. Deals with the various concurrency constructs in GHC and the Haskell language. E.g., MVars.
 
@@ -115,11 +115,11 @@ Please add: System FC, GADTs, kind polymorphism etc
 
 - [ How to make a fast curry: push/enter vs eval/apply](http://research.microsoft.com/en-us/um/people/simonpj/papers/eval-apply/index.htm), Simon Marlow and Simon Peyton Jones, International Conference on Functional Programming, Snowbird, Sept 2004, pp4-15.
 
-- [ Faster laziness using dynamic pointer tagging](http://community.haskell.org/~simonmar/papers/ptr-tagging.pdf) (Simon Marlow, Alexey Rodriguez Yakushev, Simon Peyton Jones) In ICFP '07: Proceedings of the ACM SIGPLAN international conference on Functional programming, Freiburg, Germany, ACM Press, October 2007
+- [ Faster laziness using dynamic pointer tagging](http://simonmar.github.io/bib/papers/ptr-tagging.pdf) (Simon Marlow, Alexey Rodriguez Yakushev, Simon Peyton Jones) In ICFP '07: Proceedings of the ACM SIGPLAN international conference on Functional programming, Freiburg, Germany, ACM Press, October 2007
 
 - [ Implementing lazy functional languages on stock hardware: the Spineless Tagless G-machine](http://research.microsoft.com/~simonpj/papers/spineless-tagless-gmachine.ps.gz), SL Peyton Jones, Journal of Functional Programming 2(2), Apr 1992, pp127-202.  The original STG paper but still highly relevant.
 
-- [The STG runtime system (revised)](http://www.haskell.org/ghc/docs/papers/run-time-system.ps.gz), Simon Peyton Jones and Simon Marlow. A highly-detailed description of STG. It is probably the most up-to-date description, aside for later additions from [ dynamic pointer tagging paper](http://community.haskell.org/~simonmar/papers/ptr-tagging.pdf) and [ fast curry paper](http://research.microsoft.com/en-us/um/people/simonpj/papers/eval-apply/index.htm).
+- [The STG runtime system (revised)](http://www.haskell.org/ghc/docs/papers/run-time-system.ps.gz), Simon Peyton Jones and Simon Marlow. A highly-detailed description of STG. It is probably the most up-to-date description, aside for later additions from [ dynamic pointer tagging paper](http://simonmar.github.io/bib/papers/ptr-tagging.pdf) and [ fast curry paper](http://research.microsoft.com/en-us/um/people/simonpj/papers/eval-apply/index.htm).
 
 - [ Hoopl: A Modular, Reusable Library for Dataflow Analysis and Transformation](http://research.microsoft.com/en-us/um/people/simonpj/papers/c--/hoopl-haskell10.pdf), Norman Ramsey, John Dias, and Simon Peyton Jones. Haskell Symposium 2010
 
@@ -137,7 +137,7 @@ Please add: System FC, GADTs, kind polymorphism etc
 
 - [Lazy Functional State Threads](http://www.haskell.org/ghc/docs/papers/lazy-functional-state-threads.ps.gz), John Launchbury and Simon Peyton Jones. PLDI 1993. A follow-up on "Imperative Functional Programming" paper.
 
-- [ Asynchronous Exceptions in Haskell](http://community.haskell.org/~simonmar/papers/async.pdf), Simon Marlow, Simon Peyton Jones, Andrew Moran and John Reppy, 2006.
+- [ Asynchronous Exceptions in Haskell](http://simonmar.github.io/bib/papers/async.pdf), Simon Marlow, Simon Peyton Jones, Andrew Moran and John Reppy, 2006.
 
 - [A semantics for imprecise exceptions](http://www.haskell.org/ghc/docs/papers/except_ps.gz), Simon Peyton Jones, Alastair Reid, Tony Hoare and Simon Marlow, PLDI '99.
 
@@ -147,17 +147,17 @@ Please add: System FC, GADTs, kind polymorphism etc
 
 ## The run-time system, garbage collector, profiling, FFI
 
-- [ Parallel Generational-Copying Garbage Collection with a Block-Structured Heap](http://community.haskell.org/~simonmar/papers/parallel-gc.pdf) (Simon Marlow, Tim Harris, Roshan P. James, Simon Peyton Jones) In ISMM '08: Proceedings of the 7th international symposium on Memory management, Tucson, Arizona, ACM, June 2008
+- [ Parallel Generational-Copying Garbage Collection with a Block-Structured Heap](http://simonmar.github.io/bib/papers/parallel-gc.pdf) (Simon Marlow, Tim Harris, Roshan P. James, Simon Peyton Jones) In ISMM '08: Proceedings of the 7th international symposium on Memory management, Tucson, Arizona, ACM, June 2008
 
 - [ Efficient communication and collection with compact normal forms](http://ezyang.com/papers/ezyang15-cnf.pdf) (Edward Z. Yang, Giovanni Campagna, Ömer S. Ağacan, Ahmed El-Hassany, Abhishek Kulkarni, Ryan R. Newton), ICFP 2015.
 
-- [ Haskell on a Shared-Memory Multiprocessor](http://community.haskell.org/~simonmar/papers/multiproc.pdf) (Tim Harris, Simon Marlow, Simon Peyton Jones) In Haskell '05: Proceedings of the 2005 ACM SIGPLAN workshop on Haskell, pages 49--61, Tallinn, Estonia, ACM Press, September 2005
+- [ Haskell on a Shared-Memory Multiprocessor](http://simonmar.github.io/bib/papers/multiproc.pdf) (Tim Harris, Simon Marlow, Simon Peyton Jones) In Haskell '05: Proceedings of the 2005 ACM SIGPLAN workshop on Haskell, pages 49--61, Tallinn, Estonia, ACM Press, September 2005
 
 - [Time and space profiling for non-strict, higher-order functional languages](http://www.haskell.org/ghc/docs/papers/profiling.ps.gz), Patrick M. Sansom and Simon Peyton Jones, POPL 1995.
 
 - [The Concurrent Haskell Foreign Function Interface](http://www.haskell.org/ghc/docs/papers/threads.ps.gz), Wolfgang Thaller. An Addendum to Haskell 98 FFI Report.
 
-- [ Extending the Haskell Foreign Function Interface with Concurrency](http://community.haskell.org/~simonmar/papers/conc-ffi.pdf), Simon Marlow, Simon Peyton Jones and Wolfgang Thaller. Haskell Workshop 2004.
+- [ Extending the Haskell Foreign Function Interface with Concurrency](http://simonmar.github.io/bib/papers/conc-ffi.pdf), Simon Marlow, Simon Peyton Jones and Wolfgang Thaller. Haskell Workshop 2004.
 
 ## Modules & Packages
 
