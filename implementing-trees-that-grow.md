@@ -26,6 +26,9 @@ Re-engineering `HsSyn` is a major exercise that touches a lot of code, so we nee
 
 Main protagonists: Shayan Najd and Alan Zimmerman. 
 
+
+Main GHC branch: `wip/GrowableAST`
+
 ### General Plan
 
 
