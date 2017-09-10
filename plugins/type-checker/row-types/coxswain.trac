@@ -405,6 +405,77 @@ partitionVariants = foldr cons (rpure (F []))
 * The `C` field structure just holds a constant, irrespective of the column label and type.
 * `rlens` is a lens into a field of a record; the expression above with the `Identity` `Applicative` achieves `over` from the `lens` library.
 
+== Performance?
+
+[Thank you, Ara Adkins. I forgot my section about performance until your email.]
+
+As usual, the objective is for the library to have minimal run-time overhead. With hundreds of `Lacks` constraints floating around, that means -- again, as usual -- that inlining and specialization are key. Things look promising at this stage.
+
+For example, the `partitionVariants` example from above (repeating here)
+
+{{{
+#!haskell
+
+vars :: [V I (Row0 .& "x" .= Int .& "y" .= Char .& "z" .= Bool)]
+vars = [inj #z True,inj #x 7,inj #y 'h',inj #z False,inj #y 'i',inj #x 3]
+
+pvars :: R (F []) (Row0 .& "x" .= Int .& "y" .= Char .& "z" .= Bool)
+pvars = partitionVariants vars
+}}}
+
+essentially compiles down to the following Core at `-O1`, which is pretty good.
+
+{{{
+#!haskell
+
+Rec {
+-- RHS size: {terms: 48, types: 197, coercions: 7,299, joins: 0/0}
+main_go
+main_go
+  = \ ds_a9PI eta_B1 ->
+      case ds_a9PI of {
+        [] -> eta_B1;
+        : y_a9PN ys_a9PO ->
+          case y_a9PN of { MkV flt_a9Lz dt3_a9LA ->
+          case dt3_a9LA of {
+            __DEFAULT ->
+              case eta_B1 `cast` <Co:797> of { V3 a0_a9N8 a1_a9N9 a2_a9Na ->
+              main_go
+                ys_a9PO
+                ((V3
+                    a0_a9N8
+                    a1_a9N9
+                    ((: flt_a9Lz (a2_a9Na `cast` <Co:65>)) `cast` <Co:59>))
+                 `cast` <Co:1512>)
+              };
+            0## ->
+              case eta_B1 `cast` <Co:797> of { V3 a0_a9N8 a1_a9N9 a2_a9Na ->
+              main_go
+                ys_a9PO
+                ((V3
+                    ((: flt_a9Lz (a0_a9N8 `cast` <Co:65>)) `cast` <Co:59>)
+                    a1_a9N9
+                    a2_a9Na)
+                 `cast` <Co:1512>)
+              };
+            1## ->
+              case eta_B1 `cast` <Co:797> of { V3 a0_a9N8 a1_a9N9 a2_a9Na ->
+              main_go
+                ys_a9PO
+                ((V3
+                    a0_a9N8
+                    ((: flt_a9Lz (a1_a9N9 `cast` <Co:65>)) `cast` <Co:59>)
+                    a2_a9Na)
+                 `cast` <Co:1512>)
+              }
+          }
+          }
+      }
+end Rec }
+}}}
+
+The `V3` constructor is part of something I haven't talked about on this page yet: my representation strategy for the `R` type. That representation is a "short vector", which is a tuple of strict `Any`s that I coerce into and out of according to the column type. It's a data family indexed by `NumCols p`, and the `Short (NumCols p)` dictionaries provide operations on it. There are plenty of other options, and which one is right will depend on the situation. But, in my experience, short vectors (up to ~16 or so?) seem to optimize better as algebraic data types than as serialized byte arrays. That's definitely something to revisit eventually, with some hard measurements.
+
 == And steak knives!
 
 There are several more primitives. Most notably, records have both `Applicative`-like and `Traversable`-like properties, since they're products.
