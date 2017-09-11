@@ -406,6 +406,23 @@ Once a function has even three arguments, it gets pretty confusing to
 identify each of the arguments at a call site (especially a few months
 later!). `f x y z` would become `f (mkR .* #foo .= x .* #bar .= y .* #baz .= z)`.
 
+
+For example, from O'Sullivan's `math-functions` package, the [ \`newtonRaphson\` function](http://hackage.haskell.org/package/math-functions-0.2.1.0/docs/Numeric-RootFinding.html#v:newtonRaphson) has the following signature.
+
+```
+-- | Solve equation using Newton-Raphson iterations.---- This method require both initial guess and bounds for root. If-- Newton step takes us out of bounds on root function reverts to-- bisection.newtonRaphson::Double-- ^ Required precision->(Double,Double,Double)-- ^ (lower bound, initial guess, upper bound). Iterations will no-- go outside of the interval->(Double->(Double,Double))-- ^ Function to finds roots. It returns pair of function value and-- its derivative->RootDouble
+```
+
+
+Using a record for the parameters might result in the following signature.
+
+```
+newtonRaphson::RI(Row0.&"precision".=Double.&"lowerbound".=Double.&"guess0".=Double.&"upperbound".=Double)-- ^ Required precision. Iterations will no go outside of the interval.->(Double->(Double,Double))-- ^ Function to finds roots. It returns pair of function value and-- its derivative->RootDouble
+```
+
+
+Someday, maybe Haddock would allow per-column comments.
+
 ## VoR Generics
 
 
