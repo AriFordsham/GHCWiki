@@ -7,7 +7,7 @@ This wiki page is by Nicolas Frisby (nfrisby).
 I've been recently developing a `coxswain` library that defines row types and implements row unification.
 
 
-My motivation are as follows.
+My motivations are as follows.
 
 - I think the Haskell community is hungry for row types, especially records and variants.
 - I'm pretty familiar with the Core simplifier, but not the GHC type checker. The OutsideIn JFP is a wonder (!), but it's just too much for me to internalize without getting my hands dirty. So this plugin seemed like a wonderful way to learn.
@@ -157,7 +157,7 @@ Row unification determines what is in a row, but we usually also need to know wh
 ```
 
 
-There's an inductive specification: `Lacks Row0 l` is 0, `Lacks (p .& l1 .= t) l2` is `Lacks p l2` if `l2 < l1` and it's `Lacks p l2` plus one if `l1 > l2`' -- it's a contradiction if `l1 ~ l2`. This is the logic the plugin implements.
+There's an inductive specification: `Lacks Row0 l` is 0, `Lacks (p .& l1 .= t) l2` is `Lacks p l2` if `l2 < l1` and it's `Lacks p l2` plus one if `l1 > l2` -- it's a contradiction if `l1 ~ l2`. This is the logic the plugin implements.
 
 
 That's all of what's covered in most presentations of row types and row unification. But we need more in order to be a full participant in Haskell! For example, you can't use the row types syntax in type class instances, since they're type families! Row types are structural, not nominal, and type families and type classes can only scrutinize nominal types. My solution to that is to have the plugin provide a couple useful interpretations of a row type.
@@ -514,7 +514,7 @@ This also makes it possible to interact with other plugins (notably the GHCs typ
 Now the interesting question was: How to correctly compel GHC into doing that? Gundry's paper was the most helpful, but the presentation of the interactions between GHC and the plugins was still too far removed from the actual implementation, specifically the split between simplification of given constraints and solving of wanted constraints and the explicit `\theta` substitution versus the implicit substitution in GHC.
 
 
-I seem to have successfully compelled GHC to create my substitution for me, but I'm sadly still not sure that I'm not violating any crucial invariants. Primarily because I don't know what they all are! They're hard to find, and sometimes the listed invariants are perfectly fine to violate (e.g. flatness of `Xi` types in "new" `Ct`s in `TcPluginOk`). Also, they're often out-of-date, either wrong or mysteriously referring to source Notes that no longer exist.
+I seem to have successfully compelled GHC to create my substitution for me, but I'm sadly still not sure that I'm not violating any crucial invariants. Primarily because I don't know what they all are! They're hard to find, and sometimes the listed invariants are perfectly fine to violate (e.g. flatness of `Xi` types in "new" `Ct`s in `TcPluginOk`; this is referenced as "Only canonical constraints that are actually in the inert set carry all the guarantees" in the source `Note [zonkCt behaviour]`). Also, they're often out-of-date, either wrong or mysteriously referring to source Notes that no longer exist.
 
 
 Obviously, the plugin needs to simplify `Ct`s according to the row unification, `Lacks`, `Normalize`, and `NumCols` semantic rules. (The two type families are interesting because they don't "float to the top" like other constraints --- I have to seek them out within all `Cts` and rewrite the whole `Ct`. I essentially use SYB for that in my current implementation.)
@@ -556,8 +556,11 @@ These are things I lost hours learning, because I couldn't find any *obviously u
 ## Do not zonk givens
 
 `zonkCt` is not expected to work on givens. (Note: Gundry's `uom` plugin does apply `zonkCt` to givens.) In particular, zonking does
-not see the latest RHS for the flatten skolems. It seems I have to do
+not see the latest expansion for the flatten skolems. It seems I have to do
 the unflattening manually.
+
+
+(I'm currently wondering if the "out-of-date cached expansion" I'm seeing is because I'm creating ill-formed variables in the Givens. However, there is this quote "NB: we do not expect to see any CFunEqCans, because zonkCt is only called on unflattened constraints." in the source `Note [zonkCt behaviour]`.)
 
 ## Preserve `CFunEqCan`
 
