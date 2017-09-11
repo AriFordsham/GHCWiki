@@ -544,9 +544,9 @@ subtyping) of `q`: i.e. `p` has every column that `q` has.
 For these two examples at least, the relevant unification could be
 realized via actual equalities between adjustments of `p` and `q`. For
 `SameLabels`, the adjustment is to replace all column types in at least
-one of `p` and `q` with fresh touchable vars. For `WiderThan`, it's to
+one of `p` and `q` with fresh unification vars. For `WiderThan`, it's to
 replace the occurrence of `Row0` in the narrower row (`p`) with a fresh
-touchable var. Note however that this approach does not provide
+unification var. Note however that this approach does not provide
 actionable evidence! For example, `WiderThan p q` should support a
 function `upcast :: WiderThan p q => R f p -> R f q`. The necessary
 evidence for that seems to be an offset into `p` for each column of `q`.
@@ -724,15 +724,15 @@ Obviously, the plugin needs to simplify `Ct`s according to the row unification, 
 
 But, in addition to the obvious simplifications (actually, sort of before and after doing those), my plugin uses the following approach in order to achieve row unification.
 
-1. Immediately upon receiving Givens, thaw untouchable `Row` vars, i.e. replace them by touchables. This enables certain Given-Given interactions, specifically "unification" via the GHC type equality solver rules EQSAME, EQDIFF, etc. especially involving flatten skolems.
+1. Immediately upon receiving Givens, thaw `Row` skolem vars, i.e. replace them by unification vars with the same kind and level. This enables certain Given-Given interactions, specifically "unification" via the GHC type equality solver rules EQSAME, EQDIFF, etc. especially involving flatten skolems.
 
-This allows GHC's type equality solver to "learn" the equivalences between (untouchable) `Row` vars for me.
+This allows GHC's type equality solver to "learn" the equivalences between `Row` "skolem" vars for me.
 
-2. Importantly, when renaming the untouchables, I also create some fake Given constraints `Ren p_sk p_tau` where `p_tau` is the temporary touchable replacement of the untouchable `p_sk`. This is a robust way for me to later recover the `Row` var equalities that GHC's solver learned for me.
+2. Importantly, when renaming the skolems, I also create some fake Given constraints `Ren p_sk p_tau` where `p_tau` is the temporary replacement of `p_sk`. This is a robust way for me to later recover the `Row` var equalities that GHC's solver learned for me.
 
-3. When finished simplifying givens (i.e. if I would be returning `TcPluginOk _ []`), replace any remaining touchable variables (We created all touchable variables, right? ... Do touchables otherwise arise in Givens?) by signature skolems if possible or fresh skolems if not. Such fresh skolems correspond to row restrictions (i.e. removing one or more columns) of one or more signature skolems.
+3. When finished simplifying givens (i.e. if I would be returning `TcPluginOk _ []`), replace any remaining thawed variables (I dissatisfyingly filter based on a `fsLit "$coxswain"`) by original skolems if possible or fresh skolems if not. Such fresh skolems correspond to row restrictions (i.e. removing one or more columns) of one or more original skolems.
 
-The motivation here is that having touchables in the Givens while simplifying Wanteds is A Bad Thing (e.g. loss of "confluence"). Also note that you cannot solve/create Givens when simplifying Wanteds, so this step has to happen when simplifying Givens.
+The motivation here is that having unification variables in the Givens while simplifying Wanteds is A Bad Thing (e.g. loss of confluence). Also note that you cannot solve/create Givens when simplifying Wanteds, so this step has to happen when simplifying Givens.
 
 I was worried that creating fresh skolems and leaving them in the Givens would be problematic, but it hasn't caused any trouble so far.
 
@@ -781,10 +781,6 @@ these.
 These are questions I still don't know the answer to. They keep me up at night.
 
 * When/where exactly do Derived constraints arise? I'm not recognizing them in the OutsideIn paper.
-
-* When do touchables "naturally" arise in Given constraints? (My plugin relies on the fact that GHC's type equality solver seems to expect touchables in Given constraints, but I've never seen them there except when I create them. So I'm worried they're not supposed to be there.)
-
-* When do untouchables arise in Wanted constraints without having first arisen in Given constraints? I've seen this happen for ambiguity checks, I think, but that's it. Is that the only time it happens?
 
 * Is there a robust way to maintain solver state across '''related''' invocations? I'm currently essentially serializing my state (phase and substitution) as spurious constraints. It's seemingly robust but seems wrong. If GHC maintained some kind of "thread of solving" state tokens I could use those to robustly store and recover my custom solver state in response to GHC's invocations of `tcPluginSolve ` separately without having to pollute the constraints.
 
