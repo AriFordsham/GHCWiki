@@ -117,7 +117,7 @@ For [validating patches](testing-patches) :
 Install the [ required tools](https://ghc.haskell.org/trac/ghc/wiki/Building/Preparation/Tools):
 
 ```wiki
-   sudo pacman -Sy ghc perl gcc make happy alex cabal-install autoconf automake python python-sphinx libedit
+   sudo pacman -S ghc perl gcc make happy alex cabal-install autoconf automake python python-sphinx libedit
 ```
 
 ## Nix/NixOS
