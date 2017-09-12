@@ -7,17 +7,17 @@ If you're on a recent Linux system, then you should be able to get a working bui
 
 
 If you are familiar with docker, this is a 1 step install for a development image (ghc build requirements plus a few development related tools).
-First cd into your ghc directory that you checkout according to [Building/GettingTheSources](building/getting-the-sources)
+First cd into your ghc directory that you should check out according to [Building/GettingTheSources](building/getting-the-sources), then
 
 ```wiki
-   docker run --rm -i -t -v `pwd`:/home/ghc gregweber/ghc-haskell-dev /bin/bash
+   sudo docker run --rm -i -t -v `pwd`:/home/ghc gregweber/ghc-haskell-dev /bin/bash
 ```
 
 
-Thats it!
+That's it!
 This mounts your ghc source code into the docker container.
-This way you can still hack on GHC with Emacs, etc, but you are just building from the docker container.
-Note that `arc` (the ghc patch submission tool) is installed in the image (although you can also use it from your docker host) along with vim-tiny for editing commit messages.
+This way you can still hack on ghc with Emacs, etc, but you are just building from the docker container.
+Note that `arc` (the GHC patch submission tool) is installed in the image (although you can also use it from your docker host) along with vim-tiny for editing commit messages.
 
 
 Send pull requests to [ https://github.com/gregwebs/ghc-docker-dev](https://github.com/gregwebs/ghc-docker-dev) if something is out-of-date.
