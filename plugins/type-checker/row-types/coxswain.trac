@@ -946,3 +946,5 @@ These are questions I still don't know the answer to. They keep me up at night.
 * Is there a robust way to maintain solver state across '''related''' invocations? I'm currently essentially serializing my state (phase and substitution) as spurious constraints. It's seemingly robust but seems wrong. If GHC maintained some kind of "thread of solving" state tokens I could use those to robustly store and recover my custom solver state in response to GHC's invocations of `tcPluginSolve ` separately without having to pollute the constraints.
 
 * GHC has various kinds of variable and skolem (e.g. signature skolem) that I'm not recognizing in the OutsideIn paper. Is there a comprehensive discussion of them all?
+
+* What would Core need (I'm hoping just `EvTerm`, actually) to remain statically typed instead of all these coercions the plugin and the `sculls` library (i.e. records and variants on top of rows) assert?
