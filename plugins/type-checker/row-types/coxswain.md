@@ -255,7 +255,7 @@ vars::[VI(Row0.&"x".=Int.&"y".=Char.&"z".=Bool)]vars=[inj #z True,inj #x 7,inj #
 ```
 
 
-essentially compiles down to the following Core at `-O1`, which is pretty good.
+-- **at a concrete row type** -- essentially compiles down to the following Core at `-O1`, which is pretty good.
 
 ```
 Rec{-- RHS size: {terms: 48, types: 197, coercions: 7,299, joins: 0/0}main_gomain_go=\ ds_a9PI eta_B1 ->case ds_a9PI of{[]-> eta_B1;: y_a9PN ys_a9PO ->case y_a9PN of{MkV flt_a9Lz dt3_a9LA ->case dt3_a9LA of{
@@ -322,6 +322,70 @@ Together, records and variants have a few useful interactions.
 
 -- | Partition a list of variants into in list-shaped record of the same row.partitionVariants::Short(NumCols p)=>[VI p]->R(F[]) p
 ```
+
+## Some Light Core Snorkeling
+
+
+Simon Peyton Jones gave the following snippet and asks "What does Core look like?  I think your answer is “No change to Core, but there are lots of unsafe coerces littered around”.  But even then I’m not sure.  Somehow in the ??? \[below\] I have to update field n of a tuple x.  How do I do that?".
+
+```
+f::Lacks r "f"=>V(Row(r .&("f".=Int)))->V(Row(r .&("f".=Int)))f n x =???
+```
+
+
+If I understand the question correctly, the source would look be as follows.
+
+```
+upd::I"f"Int->I"f"Intupd(I x)=I(x +1)f::(Lacks r "f",Short(NumCols r +1))=>RI(r .&"f".=Int)->RI(r .&"f".=Int)f= over rlens upd
+
+-- Or (f r = r ./ #f .* #f .= (1 + r `dot` #f)), but that Core is worse.
+```
+
+
+I suspect the `Short` constraint is what Simon was smelling. This class was mentioned a bit in the previous section about performance. Here is what the `Short` class looks like, to offer some more insights:
+
+```
+-- | A short, homogenous, and strict tuple.datafamilySV(n ::Nat)::*->*typeFin(n ::Nat)=Word16-- | Predicate for supported record sizes.class(Applicative(SV n),Traversable(SV n))=>Short(n ::Nat)where
+  select ::SV n a ->Fin n -> a
+  lensSV ::Functor f =>(a -> f a)->SV n a ->Fin n -> f (SV n a)
+  extend ::SV n a -> a ->Fin(n +1)->SV(n +1) a
+  restrict ::SV(n +1) a ->Fin(n +1)->(a,SV n a)
+  indices ::SV n (Fin n)
+```
+
+
+The `SV` data family provides the tuples of `Any` that I currently use to represent records. For example, the `rlens` record primitive is defined by simply coercing the `lensSV` method. I generate `SV` and `Short` instances via Template Haskell. The `SV` instance for `3` and its `lensSV` method definition are as follows.
+
+```
+datainstanceSV3 a =V3!a !a !a
+  deriving(Foldable,Functor,Show,Traversable)instanceShort3where...{-# INLINE lensSV #-}
+  lensSV f (V3 a b c)=\case0->(\x ->V3 x b c)<$> f a
+    1->(\x ->V3 a x c)<$> f b
+    _->(\x ->V3 a b x)<$> f c
+```
+
+
+Thus, the `-O1 -dsuppress-all` core for `f` is as follows.
+
+```
+-- RHS size: {terms: 8, types: 6, coercions: 4, joins: 0/0}f2f2=\ x_a5UG ->case x_a5UG `cast`<Co:4>of{I# x1_a6ax ->I#(+# x1_a6ax 1#)}-- RHS size: {terms: 10, types: 53, coercions: 175, joins: 0/0}f1f1=\@ r_a5QC $dLacks_a5QE $dShort_a5QF eta_B1 ->
+      lensSV
+        ($dShort_a5QF `cast`<Co:25>)$fFunctorIdentity
+        (f2 `cast`<Co:41>)(eta_B1 `cast`<Co:96>)($dLacks_a5QE `cast`<Co:13>)-- RHS size: {terms: 1, types: 0, coercions: 115, joins: 0/0}ff= f1 `cast`<Co:115>
+```
+
+
+That reveals the necessary dictionary passing for row polymorphic functions. If we specialize the row variable `r`, we get something much closer to the ideal Core.
+
+```
+fmono::RI(Row0.&"a".= a .&"b".= b .&"c".= c .&"f".=Int)->RI(Row0.&"a".= a .&"b".= b .&"c".= c .&"f".=Int)fmono= f
+
+--- That optimizes to:-- RHS size: {terms: 13, types: 9, coercions: 98, joins: 0/0}fmono2fmono2=\@ c_a5Rb @ b_a5Ra @ a_a5R9 ->case(\@ kt_X6bA ->W16#0##)`cast`<Co:98>of{W16# x#_a6b2 ->W16#(narrow16Word#(plusWord# x#_a6b2 3##))}-- RHS size: {terms: 60, types: 89, coercions: 1,925, joins: 0/0}fmono1fmono1=\@ c_a5Rb @ b_a5Ra @ a_a5R9 eta_B1 ->case eta_B1 `cast`<Co:405>of{V4 a0_a6ch a1_a6ci a2_a6cj a3_a6ck ->case a3_a6ck `cast`<Co:45>of wild1_s6fH {I# x_s6fI ->case a2_a6cj `cast`<Co:45>of wild2_s6fK {I# x1_s6fL ->case a1_a6ci `cast`<Co:45>of wild3_s6fN {I# x2_s6fO ->case a0_a6ch `cast`<Co:45>of wild4_s6fQ {I# x3_s6fR ->case fmono2 of{W16# x4_a6cK ->case x4_a6cK of{
+        __DEFAULT ->(V4(wild4_s6fQ `cast`<Co:48>)(wild3_s6fN `cast`<Co:48>)(wild2_s6fK `cast`<Co:48>)((I#(+# x_s6fI 1#))`cast`<Co:46>))`cast`<Co:145>;0##->(V4((I#(+# x3_s6fR 1#))`cast`<Co:46>)(wild3_s6fN `cast`<Co:48>)(wild2_s6fK `cast`<Co:48>)(wild1_s6fH `cast`<Co:48>))`cast`<Co:145>;1##->(V4(wild4_s6fQ `cast`<Co:48>)((I#(+# x2_s6fO 1#))`cast`<Co:46>)(wild2_s6fK `cast`<Co:48>)(wild1_s6fH `cast`<Co:48>))`cast`<Co:145>;2##->(V4(wild4_s6fQ `cast`<Co:48>)(wild3_s6fN `cast`<Co:48>)((I#(+# x1_s6fL 1#))`cast`<Co:46>)(wild1_s6fH `cast`<Co:48>))`cast`<Co:145>}}}}}}}-- RHS size: {terms: 4, types: 9, coercions: 268, joins: 0/0}fmonofmono=(\@ a_a5R9 @ b_a5Ra @ c_a5Rb -> fmono1)`cast`<Co:268>
+```
+
+
+I wasn't expecting that worrying number of coercions or that `fmono2` declaration. Adding those to the list. Thanks, Simon!
 
 # Future Directions
 
