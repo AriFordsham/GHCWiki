@@ -937,6 +937,270 @@ parameter doesn't matter since these classes exist solely so that the
 `DFunId` can be invoked -- there's no actual instance resolution for
 these.
 
+== What are the ways GHC invokes my plugin?
+
+I wrote a plugin that merely pretty-prints its inputs and is a no-op
+otherwise. I use this to inspect the ways in which GHC invokes
+plugins.
+
+=== "Backwards" Invocations during Inference
+
+For example, with GHC 8.2.1, the following module
+
+{{{
+#!haskell
+{-# OPTIONS_GHC -fplugin=Dumper #-}
+
+module Test (f) where
+
+f x = [x] == [x] && null (show x)
+}}}
+
+results in the following output, which shows that for this module the
+plugin first "solves Wanteds" (without any Givens, because there's no
+signature, GADT patterns, etc) and then "simplifies givens" --- but
+the "Givens" are just the unsolved Wanteds! This is somewhat backwards
+compared to what we usually consider: here we're simplifying "Givens"
+''after'' solving Wanteds.
+
+{{{
+#!haskell
+========== 0 ==========
+given
+derived
+wanted
+  [WD] $dEq_a2nz {1}:: Eq a0_a2nr[tau:2] (CDictCan)
+  [WD] $dShow_a2ns {0}:: Show a0_a2nr[tau:2] (CDictCan)
+========== 1 ==========
+given
+  [G] $dShow_a2DE {0}:: Show a_a2DD[sk:2] (CDictCan)
+  [G] $dEq_a2DF {0}:: Eq a_a2DD[sk:2] (CDictCan)
+derived
+wanted
+========== 2 ==========
+given
+  [G] $dShow_a2Dx {0}:: Show a_a2nr[sk:2] (CDictCan)
+  [G] $dEq_a2Dy {0}:: Eq a_a2nr[sk:2] (CDictCan)
+derived
+wanted
+}}}
+
+I don't know why it appears to simplify those Givens twice.
+
+If we add the signature {{{f :: (Eq a,Show a) => a -> Bool}}} and
+recompile, then we only see the two Givens simplification invocations.
+
+=== Nested Declarations
+
+For the following, we see lots of invocations.
+
+{{{
+#!haskell
+
+f x = bar () where
+  bar () = [x] == [x] && null (show x)
+
+----- Dumps:
+
+========== 0 ==========
+given
+derived
+wanted
+  [WD] $dEq_a2nL {1}:: Eq (p1_a1Tm[tau:2] |> (TYPE {a2n3})_N) (CDictCan)
+  [WD] $dShow_a2q3 {0}:: Show (p1_a1Tm[tau:2] |> (TYPE {a2n3})_N) (CDictCan)
+  [WD] hole{a2n3} {0}:: (p0_a1Tl[tau:2] :: RuntimeRep) ~# ('LiftedRep :: RuntimeRep) (CNonCanonical)
+========== 1 ==========
+given
+derived
+wanted
+  [WD] $dEq_a2DQ {1}:: Eq (p1_a1Tm[tau:2] |> (TYPE {a2n3})_N) (CDictCan(psc))
+  [WD] $dShow_a2DU {0}:: Show (p1_a1Tm[tau:2] |> (TYPE {a2n3})_N) (CDictCan(psc))
+  [WD] hole{a2n3} {0}:: (p0_a1Tl[tau:2] :: RuntimeRep) ~# ('LiftedRep :: RuntimeRep) (CNonCanonical)
+========== 2 ==========
+given
+derived
+wanted
+  [WD] $dEq_a2DV {1}:: Eq (p1_a1Tm[tau:2] |> (TYPE {a2n3})_N) (CDictCan)
+  [WD] $dShow_a2DW {0}:: Show (p1_a1Tm[tau:2] |> (TYPE {a2n3})_N) (CDictCan)
+  [WD] hole{a2n3} {0}:: (p0_a1Tl[tau:2] :: RuntimeRep) ~# ('LiftedRep :: RuntimeRep) (CNonCanonical)
+========== 3 ==========
+given
+derived
+wanted
+  [WD] $dEq_a2DX {1}:: Eq p0_a1Tm[tau:2] (CDictCan(psc))
+  [WD] $dShow_a2DY {0}:: Show p0_a1Tm[tau:2] (CDictCan(psc))
+========== 4 ==========
+given
+derived
+wanted
+  [WD] $dEq_a2DX {1}:: Eq p0_a1Tm[tau:2] (CDictCan)
+  [WD] $dShow_a2DY {0}:: Show p0_a1Tm[tau:2] (CDictCan)
+========== 5 ==========
+given
+  [G] $dShow_a2E3 {0}:: Show p_a2E2[sk:2] (CDictCan)
+  [G] $dEq_a2E4 {0}:: Eq p_a2E2[sk:2] (CDictCan)
+  [G] $dShow_a2E3 {0}:: Show p_a2E2[sk:2] (CDictCan)
+  [G] $dEq_a2E4 {0}:: Eq p_a2E2[sk:2] (CDictCan)
+derived
+wanted
+========== 6 ==========
+given
+  [G] $dShow_a2DZ {0}:: Show p_a1Tm[sk:2] (CDictCan)
+  [G] $dEq_a2E0 {0}:: Eq p_a1Tm[sk:2] (CDictCan)
+  [G] $dShow_a2DZ {0}:: Show p_a1Tm[sk:2] (CDictCan)
+  [G] $dEq_a2E0 {0}:: Eq p_a1Tm[sk:2] (CDictCan)
+derived
+wanted
+}}}
+
+I was expecting invocations 3 and one for simplifying its unsolved
+Wanteds as Givens. I don't know levity polymorphism well enough to
+grok invocations 0-2. I don't know why 4 duplicates 3. And I don't
+know what's going on with 5 and 6: why they have redundant givens and
+why 5 has different variable uniques. (I'm assuming they're the
+"backwards inference" invocations.)
+
+Adding a signature here makes a huge difference.
+
+{{{
+#!haskell
+
+f :: (Eq a,Show a,Enum a) => a -> Bool
+f x = bar () where
+  bar () = [x] == [x] && null (show x)
+
+----- Dumps:
+
+========== 0 ==========
+given
+  [G] $dEq_a2Ml {0}:: Eq a_a2Mk[sk:2] (CDictCan)
+  [G] $dShow_a2Mm {0}:: Show a_a2Mk[sk:2] (CDictCan)
+  [G] $dEnum_a2Mn {0}:: Enum a_a2Mk[sk:2] (CDictCan)
+derived
+wanted
+========== 1 ==========
+given
+derived
+wanted
+  [WD] $dEq_a2Nd {1}:: Eq a_a2Mv[sk:2] (CDictCan)
+  [WD] $dShow_a2N7 {0}:: Show a_a2Mv[sk:2] (CDictCan)
+========== 2 ==========
+given
+  [G] $dEq_a2Mx {0}:: Eq a_a2Mv[sk:2] (CDictCan)
+  [G] $dShow_a2My {0}:: Show a_a2Mv[sk:2] (CDictCan)
+  [G] $dEnum_a2Mz {0}:: Enum a_a2Mv[sk:2] (CDictCan)
+derived
+wanted
+}}}
+
+We see that only invocation 1 solves Wanteds. What if we split up the
+method invocations?
+
+{{{
+#!haskell
+f :: (Eq a,Show a,Enum a) => a -> Bool
+f x = bar () && baz () where
+  bar () = [x] == [x]
+  baz () = null (show x)
+
+----- Dumps:
+
+========== 0 ==========
+given
+  [G] $dEq_a2Mm {0}:: Eq a_a2Ml[sk:2] (CDictCan)
+  [G] $dShow_a2Mn {0}:: Show a_a2Ml[sk:2] (CDictCan)
+  [G] $dEnum_a2Mo {0}:: Enum a_a2Ml[sk:2] (CDictCan)
+derived
+wanted
+========== 1 ==========
+given
+derived
+wanted
+  [WD] $dShow_a2N5 {0}:: Show a_a2Mw[sk:2] (CDictCan)
+========== 2 ==========
+given
+derived
+wanted
+  [WD] $dEq_a2Np {1}:: Eq a_a2Mw[sk:2] (CDictCan)
+========== 3 ==========
+given
+  [G] $dEq_a2My {0}:: Eq a_a2Mw[sk:2] (CDictCan)
+  [G] $dShow_a2Mz {0}:: Show a_a2Mw[sk:2] (CDictCan)
+  [G] $dEnum_a2MA {0}:: Enum a_a2Mw[sk:2] (CDictCan)
+derived
+wanted
+}}}
+
+We see two separate solve-Wanteds invocations.
+
+I think that the fact that we see one solve-Wanteds invocation per
+nested declaration (both here and in the previous example) reflects
+the fact that GHC (as discussed in the OutsideIn JFP paper) does not
+generalize the nested declarations (i.e. making them polymorphic
+functions that accept dictionary arguments, which the RHS of `f` would
+then need to fabricate and supply; instead, those dictionaries'
+bindings are floating all the way up to `f`, which its signature
+happens to provide directly).
+
+=== Ambiguity Checks
+
+When we're using type families, it becomes possible to write
+signatures that are ambiguous, because the type variables are only
+arguments to type families.
+
+I'm struggling to come up with a good example here, so this one is
+indeed ambiguous.
+
+{{{
+#!haskell
+type family F a
+
+f :: Eq (F a) => F a -> Bool
+f x = [x] == [x]
+
+--- Dumps:
+
+========== 0 ==========
+given
+  [G] $dEq_a1Ui {0}:: Eq fsk0_a1Uo[fsk] (CDictCan)
+  [G] cobox_a1Up {0}:: (F a_a1Uh[sk:2] :: *) ~# (fsk0_a1Uo[fsk] :: *) (CFunEqCan)
+zonk given
+  [G] $dEq_a1Ui {0}:: Eq (F a_a1Uh[sk:2]) (CDictCan)
+derived
+wanted
+========== 1 ==========
+given
+  [G] $dEq_a1Ui {0}:: Eq fsk0_a1Uo[fsk] (CDictCan)
+  [G] cobox_a1Up {0}:: (F a_a1Uh[sk:2] :: *) ~# (fsk0_a1Uo[fsk] :: *) (CFunEqCan)
+derived
+wanted
+  [W] $dEq_a1Uu {0}:: Eq (F a0_a1Uj[tau:2]) (CDictCan)
+  [WD] hole{a1Ut} {2}:: (F a0_a1Uj[tau:2] :: *) ~# (F a_a1Uh[sk:2] :: *) (CNonCanonical)
+
+Test.hs:10:6: error:
+    * Couldn't match type `F a0' with `F a'
+      Expected type: F a -> Bool
+        Actual type: F a0 -> Bool
+      NB: `F' is a type function, and may not be injective
+      The type variable `a0' is ambiguous
+    * In the ambiguity check for `f'
+      To defer the ambiguity check to use sites, enable AllowAmbiguousTypes
+      In the type signature: f :: Eq (F a) => F a -> Bool
+   |
+10 | f :: Eq (F a) => F a -> Bool
+   |      ^^^^^^^^^^^^^^^^^^^^^^^
+}}}
+
+The `[WD] hole` Wanted in invocation 1 is GHC' ways of determining whether the signature is ambiguous or not.
+
+With the `coxswain` plugin, for example, ambiguity constraints like these arise and must be solved via the plugin's extra knowledge about equivalencies involving the `.&` and `.=` families.
+
+=== Conclusions
+
+I unfortunately feel too adrift to draw any conclusions beyond "look
+at these interesting invocations; be wary of assuming how exactly your
+solver is invoked and in what order"!
+
 = Outstanding Questions
 
 These are questions I still don't know the answer to. They keep me up at night.
