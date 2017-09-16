@@ -271,7 +271,7 @@ Unpacking that definition is a helpful overview of the internals of the `sculls`
 
 == The Row Type Basics
 
-(I've since generalized `Row` to be polykinded in the column type as well as the column name. But I didn't update yet this section.)
+(I've since generalized `Row` to be polykinded in the column type as well as the column name. But I haven't yet updated this section.)
 
 We'll start with the core row type declarations from the `coxswain` library.
 
@@ -300,7 +300,7 @@ Those declarations are closed empty type families; the type checker plugin is wh
 
 The whole point of rows is that column order doesn't matter. So `Row0 .& "a" .= Int .& "b" .= Bool` should be equal (really actually equal, as in `~`) to `Row0 .& "b" .= Bool .& "a" .= Int`. That's what the type checker plugin achieves, by implementing a well-established approach called ''row unification'', which is pretty simple. The engineering effort was to realize it as a plugin to GHC's OutsideIn formalism.
 
-Row unification determines what is in a row, but we usually also need to know what is '''not''' in the row. This is the role of the `Lacks` constraint. `Lacks p l` means that `l` is not the name of a column in `p`. The cleverest bit about `Lacks` constraints is how to evidence them: it's the position in the '''sorted''' columns of the concrete row at which `l` ''would be'' inserted to preserve the sorting. So, presuming intuitive order, `Lacks (Row0 .& "b" .= Int) "a"` would be 0, since `b` would be inserted at the front. And `Lacks (Row0 .& "a" .= Int) "b"` would be 1, since `b` would be the second column.
+Row unification determines what is in a row, but we usually also need to know what is '''not''' in the row. This is the role of the `Lacks` constraint. `Lacks p l` means that `l` is not the name of a column in `p`. The cleverest bit about `Lacks` constraints is how to evidence them: it's the position in the '''sorted''' columns of the concrete row at which `l` ''would be'' inserted to preserve the sorting. So, presuming intuitive order, `Lacks (Row0 .& "b" .= Int) "a"` would be 0, since `a` would be inserted at the front. And `Lacks (Row0 .& "a" .= Int) "b"` would be 1, since `b` would be the second column.
 
 {{{
 #!haskell
@@ -340,7 +340,7 @@ type family NumCols (p :: Row k) :: Nat where
 
 The plugin makes `Normalize` and `NumCols` do what you'd expect. The key is that we can index type classes and such by `Normalize p` and `NumCols p` in order to overload based on the ''observable'' structure of the row.
 
-There's one last piece to mention. In Haskell, we're unaccustomed to "negative information" like the `Lacks` constraint. What we typically see is positive information, like a "Has" constraint. With this classic approach, positive information is equality information, which row unification let's us use without concern for ordering. (If order does matter, then we don't need rows, we can just use type-level lists of columns (like `NRow`) and GHC's normal unification will suffice. This would be like Python's "named tuples".)
+There's one last piece to mention. In Haskell, we're unaccustomed to "negative information" like the `Lacks` constraint. What we typically see is positive information, like a "Has" constraint. With this classic approach, positive information is equality information, which row unification lets us use without concern for ordering. (If order does matter, then we don't need rows, we can just use type-level lists of columns (like `NRow`) and GHC's normal unification will suffice. This would be like Python's "named tuples".)
 
 Clearly our rows do ''have'' columns, so we should be able to write "Has" constraints, right? Yes, and there are two definitions of "Has" in terms of `Lacks` and `~` (at kind `Row`).
 
@@ -372,7 +372,7 @@ data V (f :: k -> * -> *) (p :: Row k) = MkV !Any !Word16   -- Yes, I use unsafe
 
 There are several useful ways to structure the fields.
 
-  * `I l t` is `t` -- it's the "identify" field structure.
+  * `I l t` is `t` -- it's the "identity" field structure.
   * `F f l t` is `f t` -- it wraps the column type in a functor.
   * `(f :->: g) l t` is `f l t -> g l t` -- it's a function between field structures.
   * `C a l t` is `a` -- a constant field structure.
@@ -1196,7 +1196,7 @@ Test.hs:10:6: error:
    |      ^^^^^^^^^^^^^^^^^^^^^^^
 }}}
 
-The `[WD] hole` Wanted in invocation 1 is GHC' ways of determining whether the signature is ambiguous or not.
+The `[WD] hole` Wanted in invocation 1 is GHC's way of determining whether the signature is ambiguous or not.
 
 With the `coxswain` plugin, for example, ambiguity constraints like these arise and must be solved via the plugin's extra knowledge about equivalencies involving the `.&` and `.=` families.
 
