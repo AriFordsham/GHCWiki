@@ -17,10 +17,10 @@ My motivations are as follows.
 This wiki page outlines the basic design and intended use of the library, use cases I envision, a rough bibliography, my plugin architecture, my notes about the type checker plugin API, and my open questions.
 
 
-I'll add a link to my github repo once I "publish" --- the code/repo is not in a suitable state yet for sharing.
-
-
 (**DISCLAIMER** In the following text, I make lots of claims about what the plugin does and doesn't do. But it's very much a work in progress (remember, I'm using it to learn). I don't have anything that's anywhere close to approaching a proof of its correctness.)
+
+
+The plugin code is on GitHub, BSD3. [ https://github.com/nfrisby/coxswain](https://github.com/nfrisby/coxswain)
 
 # Demonstration
 
@@ -133,6 +133,9 @@ partitionVariants= foldr cons (rpure (F[]))where
 Unpacking that definition is a helpful overview of the internals of the `sculls` library. We'll return to do that after a tour of the basic structures of `coxswain` and `sculls`.
 
 ## The Row Type Basics
+
+
+(I've since generalized `Row` to be polykinded in the column type as well as the column name. But I didn't update yet this section.)
 
 
 We'll start with the core row type declarations from the `coxswain` library.
@@ -388,12 +391,6 @@ fmono::RI(Row0.&"a".= a .&"b".= b .&"c".= c .&"f".=Int)->RI(Row0.&"a".= a .&"b".
 I wasn't expecting that worrying number of coercions or that `fmono2` declaration. Adding those to the list. Thanks, Simon!
 
 # Future Directions
-
-## Polykind columns types
-
-
-Our labels are polykinded, but our column types are currently
-restricted to `*`. That would be pretty straight-forward to generalize.
 
 ## Other Row Relations
 
