@@ -340,7 +340,7 @@ type family NumCols (p :: Row k) :: Nat where
 
 The plugin makes `Normalize` and `NumCols` do what you'd expect. The key is that we can index type classes and such by `Normalize p` and `NumCols p` in order to overload based on the ''observable'' structure of the row.
 
-There's one last piece to mention. In Haskell, we're unaccustomed to "negative information" like the `Lacks` constraint. What we typically see is positive information, like a "Has" constraint. With this classic approach, positive information is equality information, which row unification let's us use without concern for ordering. (If order does matter, then we don't need rows, we can just use type-level lists of columns (like `NRow`) and GHC's normal unification will suffice. This would be like Python's "named tuples".)
+There's one last piece to mention. In Haskell, we're unaccustomed to "negative information" like the `Lacks` constraint. What we typically see is positive information, like a "Has" constraint. With this classic approach, positive information is equality information, which row unification lets us use without concern for ordering. (If order does matter, then we don't need rows, we can just use type-level lists of columns (like `NRow`) and GHC's normal unification will suffice. This would be like Python's "named tuples".)
 
 Clearly our rows do ''have'' columns, so we should be able to write "Has" constraints, right? Yes, and there are two definitions of "Has" in terms of `Lacks` and `~` (at kind `Row`).
 
@@ -372,7 +372,7 @@ data V (f :: k -> * -> *) (p :: Row k) = MkV !Any !Word16   -- Yes, I use unsafe
 
 There are several useful ways to structure the fields.
 
-  * `I l t` is `t` -- it's the "identify" field structure.
+  * `I l t` is `t` -- it's the "identity" field structure.
   * `F f l t` is `f t` -- it wraps the column type in a functor.
   * `(f :->: g) l t` is `f l t -> g l t` -- it's a function between field structures.
   * `C a l t` is `a` -- a constant field structure.
