@@ -89,6 +89,13 @@ Due to the nature of Debian, you may have difficulty building GHC \>7.6 due to v
 ```
 
 
+If you install alex and happy using cabal as shown above, you will need to add the cabal installation directory to PATH before running the `configure` script.
+
+```wiki
+   export PATH=$HOME/.cabal/bin:$PATH
+```
+
+
 For building the documentation (User's Guide):
 
 ```wiki

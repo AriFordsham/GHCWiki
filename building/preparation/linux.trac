@@ -75,7 +75,11 @@ Due to the nature of Debian, you may have difficulty building GHC >7.6 due to ve
    cabal install alex happy
 }}}
 
+If you install alex and happy using cabal as shown above, you will need to add the cabal installation directory to PATH before running the `configure` script.
 
+{{{
+   export PATH=$HOME/.cabal/bin:$PATH
+}}}
 
 For building the documentation (User's Guide):
 
