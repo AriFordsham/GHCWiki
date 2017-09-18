@@ -41,77 +41,199 @@ To get a basic sense of what the library feels like, the following code block im
 
 (Please forgive my punny names. Naming is one of the most fun parts for me. If this were to gain enough momentum and "official" adoption, I would suggest renaming it to something plain, like `row-types` and the `RowTypes` module and `record-types` and the `Data.Record` e.g. module.)
 
-```
-{-# LANGUAGE BangPatterns #-}{-# LANGUAGE DataKinds #-}{-# LANGUAGE FlexibleContexts #-}{-# LANGUAGE OverloadedLabels #-}{-# LANGUAGE TypeFamilies #-}{-# LANGUAGE TypeOperators #-}{-# OPTIONS_GHC -fplugin=Coxswain #-}{-# OPTIONS_GHC -fconstraint-solver-iterations=100 #-}moduleElmwhereimportData.Sculls.SymbolimportGHC.TypeLits(type(+))importText.Read(readMaybe)----- What is a Record?frag1= mkR .*#x .=3.*#y .=4frag2= mkR .*#title .="Steppenwolf".*#author .="Hesse".*#pages .=237----- Accesspoint2D= mkR
-  .*#x .=0.*#y .=0point3D= mkR
-  .*#x .=3.*#y .=4.*#z .=12-- PEOPLEbill= mkR
-  .*#name .="Gates".*#age .=57steve= mkR
-  .*#name .="Jobs".*#age .=56larry= mkR
-  .*#name .="Page".*#age .=39people=[ bill
+```wiki
+{-# LANGUAGE BangPatterns #-}
+{-# LANGUAGE DataKinds #-}
+{-# LANGUAGE FlexibleContexts #-}
+{-# LANGUAGE OverloadedLabels #-}
+{-# LANGUAGE TypeFamilies #-}
+{-# LANGUAGE TypeOperators #-}
+
+{-# OPTIONS_GHC -fplugin=Coxswain #-}
+
+{-# OPTIONS_GHC -fconstraint-solver-iterations=100 #-}
+
+module Elm where
+
+import Data.Sculls.Symbol
+import GHC.TypeLits (type (+))
+import Text.Read (readMaybe)
+
+----- What is a Record?
+
+frag1 = mkR .* #x .= 3 .* #y .= 4
+
+frag2 = mkR .* #title .= "Steppenwolf" .* #author .= "Hesse" .* #pages .= 237
+
+----- Access
+
+point2D = mkR
+  .* #x .= 0
+  .* #y .= 0
+
+point3D = mkR
+  .* #x .= 3
+  .* #y .= 4
+  .* #z .= 12
+
+-- PEOPLE
+
+bill = mkR
+  .* #name .= "Gates"
+  .* #age .= 57
+
+steve = mkR
+  .* #name .= "Jobs"
+  .* #age .= 56
+
+larry = mkR
+  .* #name .= "Page"
+  .* #age .= 39
+
+people =
+  [ bill
   , steve
   , larry
-  ]----- Accessfrag3=(
-    point3D `dot`#z
-  ,
-    bill `dot`#name
-  ,(`dot`#name) bill
-  ,
-    map (`dot`#age) people
-  )frag4=(
-    point2D `dot`#x
-  ,
-    point3D `dot`#x
-  ,(mkR .*#x .=4)`dot`#x
-  )----- Pattern Matchingfrag5!r =
-  sqrt (x^2+ y^2)where
-  x = r `dot`#x
-  y = r `dot`#y
+  ]
 
-frag6!r =
-  age <50where
-  age = r `dot`#age
+----- Access
 
------  Updating Recordsfrag7=(
-    point2D ./*#y .=1,
-    point3D ./*#x .=0./*#y .=0,
-    steve ./*#name .="Wozniak")rawInput= mkR
-  .*#name .="Tom".*#country .="Finland".*#age .="34".*#height .="1.9"prettify person = person
-  ./*#age .= toInt (person `dot`#age)./*#height .= toFloat (person `dot`#height)where
-  toInt ::String->MaybeInt
+frag3 = (
+    point3D `dot` #z
+  ,
+    bill `dot` #name
+  ,
+    (`dot` #name) bill
+  ,
+    map (`dot` #age) people
+  )
+
+frag4 = (
+    point2D `dot` #x
+  ,
+    point3D `dot` #x
+  ,
+    (mkR .* #x .= 4) `dot` #x
+  )
+
+----- Pattern Matching   -- TODO: record patterns
+
+frag5 !r =
+  sqrt (x^2 + y^2)
+  where
+  x = r `dot` #x
+  y = r `dot` #y
+
+frag6 !r =
+  age < 50
+  where
+  age = r `dot` #age
+
+-----  Updating R Iecords
+
+frag7 = (
+    point2D ./* #y .= 1
+  ,
+    point3D ./* #x .= 0 ./* #y .= 0
+  ,
+    steve ./* #name .= "Wozniak"
+  )
+
+rawInput = mkR
+  .* #name .= "Tom"
+  .* #country .= "Finland"
+  .* #age .= "34"
+  .* #height .= "1.9"
+
+prettify person = person
+  ./* #age .= toInt (person `dot` #age)
+  ./* #height .= toFloat (person `dot` #height)
+  where
+  toInt :: String -> Maybe Int
   toInt = readMaybe
-  toFloat ::String->MaybeFloat
+  toFloat :: String -> Maybe Float
   toFloat = readMaybe
 
-input=
+input =
   prettify rawInput
 
------ Record Typesorigin::RI(Row0.&"x".=Float.&"y".=Float)origin= mkR
-  .*#x .=0.*#y .=0typePoint=Row0.&"x".=Float.&"y".=Floathypotenuse::RIPoint->Floathypotenuse!p =
-  sqrt (x^2+ y^2)where
-  x = p `dot`#x
-  y = p `dot`#y
+----- R Iecord Types
 
-typePositioned a = a
-  .&"x".=Float.&"y".=FloattypeNamed a = a
-  .&"name".=StringtypeMoving a = a
-  .&"velocity".=Float.&"angle".=Floatlady::RI(Named(Row0.&"age".=Int))lady= mkR
-  .*#name .="Lois Lane".*#age .=31dude::RI(Named(Moving(PositionedRow0)))dude= mkR
- .*#x .=0.*#y .=0.*#name .="Clark Kent".*#velocity .=42.*#angle .=30-- degreesgetName::(Lacks a "name"-- Necessary difference compared to Elm. Comparable to KnownNat/KnownSymbol/etc.,Short(NumCols a +1)-- Merely consequence of particular record implementation.)=>RI(Named a)->StringgetName!r = r `dot`#name
+origin :: R I (Row0 .& "x" .= Float .& "y" .= Float)
+origin = mkR
+  .* #x .= 0
+  .* #y .= 0
 
-names::[String]names=[ getName dude, getName lady ]getPos::(Lacks a "y",Lacks a "x"-- Necessary difference compared to Elm. Comparable to KnownNat/KnownSymbol/etc.,Short(NumCols a +1+1)-- Merely consequence of particular record implementation.)=>RI(Positioned a)->(Float,Float)getPos!r =(x,y)where
-  x = r `dot`#x
-  y = r `dot`#y
+type Point = Row0
+  .& "x" .= Float
+  .& "y" .= Float
 
-positions::[(Float,Float)]positions=[ getPos origin, getPos dude ]
-```
+hypotenuse :: R I Point -> Float
+hypotenuse !p =
+  sqrt (x^2 + y^2)
+  where
+  x = p `dot` #x
+  y = p `dot` #y
 
-## Beyond Elm
+type Positioned a = a
+  .& "x" .= Float
+  .& "y" .= Float
 
+type Named a = a
+  .& "name" .= String
 
-The current `coxswain` and `sculls` library are capable of more than what's shown in the gentle Elm introduction. This is my current favorite example, a generalization of `partitionEithers`.
+type Moving a = a
+  .& "velocity" .= Float
+  .& "angle" .= Float
 
-```
-vars::[VI(Row0.&"x".=Int.&"y".=Char.&"z".=Bool)]vars=[inj #z True,inj #x 7,inj #y 'h',inj #z False,inj #y 'i',inj #x 3]pvars::R(F[])(Row0.&"x".=Int.&"y".=Char.&"z".=Bool)pvars= partitionVariants vars
+lady :: R I (Named (Row0 .& "age" .= Int))
+lady = mkR
+  .* #name .= "Lois Lane"
+  .* #age .= 31
+
+dude :: R I (Named (Moving (Positioned Row0)))
+dude = mkR
+ .* #x .= 0
+ .* #y .= 0
+ .* #name .= "Clark Kent"
+ .* #velocity .= 42
+ .* #angle .= 30  -- degrees
+
+getName ::
+     (
+       Lacks a "name"   -- Necessary difference compared to Elm. Comparable to KnownNat/KnownSymbol/etc.
+     ,
+       Short (NumCols a)   -- Merely consequence of particular record implemention.
+     )
+  => R I (Named a) -> String
+getName !r = r `dot` #name
+
+names :: [String]
+names =
+  [ getName dude, getName lady ]
+
+getPos ::
+     (
+       Lacks a "y" , Lacks a "x"   -- Necessary difference compared to Elm. Comparable to KnownNat/KnownSymbol/etc.
+     ,
+       Short (NumCols a + 1)   -- Merely consequence of particular record implemention.
+     )
+  => R I (Positioned a) -> (Float,Float)
+getPos !r = (x,y)
+  where
+  x = r `dot` #x
+  y = r `dot` #y
+
+positions :: [(Float,Float)]
+positions =
+  [ getPos origin, getPos dude ]
+
+----- BEYOND THE ELM TUTORIAL
+
+vars :: [V I (Row0 .& "x" .= Int .& "y" .= Char .& "z" .= Bool)]
+vars = [inj #z True,inj #x 7,inj #y 'h',inj #z False,inj #y 'i',inj #x 3]
+
+pvars = vpartition vars
 ```
 
 
@@ -124,17 +246,17 @@ At the GHCi prompt, those definitions result in the following.
 ```
 
 
-The `partitionVariants` function is not a primitive! The following is its definition inside `sculls`.
+The `vpartition` function is not a primitive! The following is its definition inside `sculls`.
 
 ```
--- | Partition a list of variants into in list-shaped record of the-- same row.partitionVariants:: forall (p ::Row k).Short(NumCols p)=>[VI p]->R(F[]) p
-partitionVariants= foldr cons (rpure (F[]))where
-  cons v !acc = elimV (rmap f rHasCol) v
+-- | Partition a list of variants into in list-shaped record of the-- same row.vpartition:: forall (p ::Row kl *) f.(Foldable f,Short(NumCols p),Short(NumCols p -1))=> f (VI p)->R(F[]) p
+vpartition= foldr cons (rpure (F[]))where
+  cons v !acc = velim (f /$\ rhas) v
     where
-    f :: forall (l :: k) t.(HasCol p :->:I:->:C(R(F[]) p)) l t
+    f :: forall (l :: kl) t.(HasCol p :->:I:->:C(R(F[]) p)) l t
     f =A$\HasCol->A$\x ->C$ runIdentity $ rlens (Identity. g x) acc
 
-  g :: forall (l :: k) t.I l t ->F[] l t ->F[] l t
+  g :: forall (l :: kl) t.I l t ->F[] l t ->F[] l t
   g (I x)(F xs)=F(x:xs)
 ```
 
@@ -222,20 +344,20 @@ You can write your own, of course; it's just a type of kind `k -> * -> *`. (We c
 
 In fact, `HasCol p` has that kind, and we'll see below that it can be very useful as a field.
 
-## Back to `partitionVariants`
+## Back to `vpartition`
 
 
-Now let's revisit `partitionVariants` to see those pieces in action with some primitive functions on records and variants.
+Now let's revisit `vpartition` to see those pieces in action with some primitive functions on records and variants.
 
 ```
--- | Partition a list of variants into in list-shaped record of the-- same row.partitionVariants:: forall (p ::Row k).Short(NumCols p)=>[VI p]->R(F[]) p
-partitionVariants= foldr cons (rpure (F[]))where
-  cons v !acc = elimV (rmap f rHasCol) v
+-- | Partition a list of variants into in list-shaped record of the-- same row.vpartition:: forall (p ::Row kl *) f.(Foldable f,Short(NumCols p),Short(NumCols p -1))=> f (VI p)->R(F[]) p
+vpartition= foldr cons (rpure (F[]))where
+  cons v !acc = velim (f /$\ rhas) v
     where
-    f :: forall (l :: k) t.(HasCol p :->:I:->:C(R(F[]) p)) l t
+    f :: forall (l :: kl) t.(HasCol p :->:I:->:C(R(F[]) p)) l t
     f =A$\HasCol->A$\x ->C$ runIdentity $ rlens (Identity. g x) acc
 
-  g :: forall (l :: k) t.I l t ->F[] l t ->F[] l t
+  g :: forall (l :: kl) t.I l t ->F[] l t ->F[] l t
   g (I x)(F xs)=F(x:xs)
 ```
 
@@ -260,10 +382,10 @@ partitionVariants= foldr cons (rpure (F[]))where
 As usual, the objective is for the library to have minimal run-time overhead. With hundreds of `Lacks` constraints floating around, that means -- again, as usual -- that inlining and specialization are key. Things look promising at this stage.
 
 
-For example, the `partitionVariants` example from above (repeating here)
+For example, the `vpartition` example from above (repeating here)
 
 ```
-vars::[VI(Row0.&"x".=Int.&"y".=Char.&"z".=Bool)]vars=[inj #z True,inj #x 7,inj #y 'h',inj #z False,inj #y 'i',inj #x 3]pvars::R(F[])(Row0.&"x".=Int.&"y".=Char.&"z".=Bool)pvars= partitionVariants vars
+vars::[VI(Row0.&"x".=Int.&"y".=Char.&"z".=Bool)]vars=[inj #z True,inj #x 7,inj #y 'h',inj #z False,inj #y 'i',inj #x 3]pvars::R(F[])(Row0.&"x".=Int.&"y".=Char.&"z".=Bool)pvars= vpartition vars
 ```
 
 
@@ -326,13 +448,13 @@ Variants exhibit the dual properties, for the most part.
 Together, records and variants have a few useful interactions.
 
 ```
--- | Eliminate a variant with a functional record. (Gaster and Jones 1996)elimV::Short(NumCols p)=>R(f :->:C a) p ->V f p -> a
+-- | Eliminate a variant with a functional record. (Gaster and Jones 1996)velim::Short(NumCols p)=>R(f :->:C a) p ->V f p -> a
 
--- | Eliminate a record with a functional variant. (Gaster and Jones 1996)elimR::Short(NumCols p)=>V(f :->:C a) p ->R f p -> a
+-- | Eliminate a record with a functional variant. (Gaster and Jones 1996)relimr::Short(NumCols p)=>V(f :->:C a) p ->R f p -> a
 
--- | Convert each field to a variant of the same row.variants::Short(NumCols p)=>R f p ->R(C(V f p)) p
+-- | Convert each field to a variant of the same row.rvariants::Short(NumCols p)=>R f p ->R(C(V f p)) p
 
--- | Partition a list of variants into in list-shaped record of the same row.partitionVariants::Short(NumCols p)=>[VI p]->R(F[]) p
+-- | Partition a list of variants into in list-shaped record of the same row.vpartition::Short(NumCols p)=>[VI p]->R(F[]) p
 ```
 
 ## Some Light Core Snorkeling
@@ -348,7 +470,7 @@ f::Lacks r "f"=>V(Row(r .&("f".=Int)))->V(Row(r .&("f".=Int)))f n x =???
 If I understand the question correctly, the source would look be as follows.
 
 ```
-upd::I"f"Int->I"f"Intupd(I x)=I(x +1)f::(Lacks r "f",Short(NumCols r +1))=>RI(r .&"f".=Int)->RI(r .&"f".=Int)f= over rlens upd
+upd::I"f"Int->I"f"Intupd(I x)=I(x +1)f::(Lacks r "f",Short(NumCols r))=>RI(r .&"f".=Int)->RI(r .&"f".=Int)f= over rlens upd
 
 -- Or (f r = r ./ #f .* #f .= (1 + r `dot` #f)), but that Core is worse.
 ```
@@ -358,19 +480,19 @@ I suspect the `Short` constraint is what Simon was smelling. This class was ment
 
 ```
 -- | A short, homogenous, and strict tuple.datafamilySV(n ::Nat)::*->*typeFin(n ::Nat)=Word16-- | Predicate for supported record sizes.class(Applicative(SV n),Traversable(SV n))=>Short(n ::Nat)where
-  select ::SV n a ->Fin n -> a
-  lensSV ::Functor f =>(a -> f a)->SV n a ->Fin n -> f (SV n a)
+  select ::SV(n +1) a ->Fin(n +1)-> a
+  lensSV ::Functor f =>(a -> f a)->SV(n +1) a ->Fin(n +1)-> f (SV(n +1) a)
   extend ::SV n a -> a ->Fin(n +1)->SV(n +1) a
   restrict ::SV(n +1) a ->Fin(n +1)->(a,SV n a)
   indices ::SV n (Fin n)
 ```
 
 
-The `SV` data family provides the tuples of `Any` that I currently use to represent records. For example, the `rlens` record primitive is defined by simply coercing the `lensSV` method. I generate `SV` and `Short` instances via Template Haskell. The `SV` instance for `3` and its `lensSV` method definition are as follows.
+The `SV` data family provides the tuples of `Any` that I currently use to represent records. For example, the `rlens` record primitive is defined by simply coercing the `lensSV` method. I generate `SV` and `Short` instances via Template Haskell. The `SV` instance for `2` and its `lensSV` method definition are as follows.
 
 ```
 datainstanceSV3 a =V3!a !a !a
-  deriving(Foldable,Functor,Show,Traversable)instanceShort3where...{-# INLINE lensSV #-}
+  deriving(Foldable,Functor,Show,Traversable)instanceShort2where...{-# INLINE lensSV #-}
   lensSV f (V3 a b c)=\case0->(\x ->V3 x b c)<$> f a
     1->(\x ->V3 a x c)<$> f b
     _->(\x ->V3 a b x)<$> f c
