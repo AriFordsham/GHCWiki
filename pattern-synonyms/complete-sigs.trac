@@ -247,8 +247,7 @@ The results are prioritised in this order.
 1. Fewest uncovered clauses
 2. Fewest redundant clauses
 3. Fewest inaccessible clauses
-4. Whether the match comes from a `COMPLETE` pragma or the build in set
-of data constructors for a type constructor.
+4. Whether the match comes from a `COMPLETE` pragma or the built-in set of data constructors for a type constructor.
 
 It may be desirable to produce a summary of the results in a more intelligent way. Exploration of this is left open for further discussion.
 
