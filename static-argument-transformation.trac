@@ -8,7 +8,6 @@ See:
 
 In comment:10 of #5059, Max notes that SAT provides 20-30% wins in nofib, wow! 
 
-I think we really want to be able to perform value specialization of recursive functions without SAT. The performance trade-off of SAT when it comes to code generation doesn't look so hot in many cases. BTW, I noticed that the lack of SAT or argument specialization can prevent good optimization of derived code. For example, `data Tree a = Branch (Tree a) (Tree a) | Leaf a deriving Foldable` yields a very mediocre-looking `foldl'` that would be fixed by a `foldr` that could inline. It also produces a very boxing `length`, but that smells like a trickier higher-order demand issue. --dfeuer
 
 == Tickets ==
 
@@ -162,4 +161,11 @@ This particular style is exactly the kind of code which the static argument tran
 * cichelli - Three functions in `Auxil.hs` are satted, `member`, `assoc`, `assocm`. The gain comes from allocations saved from `assocm` which is called twice in `findHash'`.
 * event - `f_foldr` is unproductively satted, a static value which is not applied or consumed by a static argument.
 * fibheaps - `ins` is satted because `a` and `Ord a` are static arguments. It is plausible that this could be a big win *if* when `ins` is applied to a specific `a` then `readArray` and `writeArray` could be simplified further. It turns out this  never happens so `ins` just ends up allocating more. I don't know how to avoid this. 
+
+= David's Comments
+
+> I think we really want to be able to perform value specialization of recursive functions without SAT. The performance trade-off of SAT when it comes to code generation doesn't look so hot in many cases. BTW, I noticed that the lack of SAT or argument specialization can prevent good optimization of derived code. For example, `data Tree a = Branch (Tree a) (Tree a) | Leaf a deriving Foldable` yields a very mediocre-looking `foldl'` that would be fixed by a `foldr` that could inline. It also produces a very boxing `length`, but that smells like a trickier higher-order demand issue. --dfeuer
+
+Indeed, more inlining does happen if you turn on `-fstatic-argument-transformation` when deriving Foldable as it will allow the `foldMap` to be inlined and `f` to be specialised.
+
 
