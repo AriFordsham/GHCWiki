@@ -165,7 +165,9 @@ This particular style is exactly the kind of code which the static argument tran
 * gg - `group`, `insert` `replace`, `remove` and `collect` are satted. Main effect is from `insert` which inserts an ordered value into a list and allows specialisation to an ord dictionary. I wonder whether the same would be achieved by -fspecialise-aggressively without also having to SAT the pointless value.
 * last-piece - `fit` is satted and then allocates more. If it is not satted then it is spec-constred (which then fire 17 times). OTOH, fit is never even inlined as it is too big.
 * mate - `pieceAtWith` increases allocations as no additional specialisation can occur but `sift` being inlined means `moveDetailsFor` becomes a very big function as alot is inlined.
-
+* parstof - Hard to here here as the code is so strange but 4 plausible functions get satted.
+* solid - Code similarly hard to read and understand looks like one of the satted functions gets inlined which makes it specialise better.
+* insertT - Has two static value arguments `k` and `e`. Inlining to specialise `e` will not win anything. Inlining `k` has the potential to specialise the comparision but likely not to do a lot of simplification for `Int`. Could be better for a more complex type. None of these are statically known anyway so it will never be a win.
 
 = David's Comments
 
