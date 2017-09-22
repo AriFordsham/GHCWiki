@@ -161,6 +161,11 @@ This particular style is exactly the kind of code which the static argument tran
 * cichelli - Three functions in `Auxil.hs` are satted, `member`, `assoc`, `assocm`. The gain comes from allocations saved from `assocm` which is called twice in `findHash'`.
 * event - `f_foldr` is unproductively satted, a static value which is not applied or consumed by a static argument.
 * fibheaps - `ins` is satted because `a` and `Ord a` are static arguments. It is plausible that this could be a big win *if* when `ins` is applied to a specific `a` then `readArray` and `writeArray` could be simplified further. It turns out this  never happens so `ins` just ends up allocating more. I don't know how to avoid this. 
+* genftt - `f_foldr` is satted but this time allocations go down..? In f_rvar and other functions which call `f_foldr` the arguments are nicely specialised away. If SAT is not run then f_foldr gets sced.
+* gg - `group`, `insert` `replace`, `remove` and `collect` are satted. Main effect is from `insert` which inserts an ordered value into a list and allows specialisation to an ord dictionary. I wonder whether the same would be achieved by -fspecialise-aggressively without also having to SAT the pointless value.
+* last-piece - `fit` is satted and then allocates more. If it is not satted then it is spec-constred (which then fire 17 times). OTOH, fit is never even inlined as it is too big.
+* mate - `pieceAtWith` increases allocations as no additional specialisation can occur but `sift` being inlined means `moveDetailsFor` becomes a very big function as alot is inlined.
+
 
 = David's Comments
 
