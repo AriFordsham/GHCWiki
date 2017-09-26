@@ -129,7 +129,7 @@ Then for a test case that should compile and run fine we would put this line in 
 
 ```
 test(multimod001, normal, multimod_compile_and_run, \
-              ['Main','-fglasgow-exts',''])
+                  ['Main','-fglasgow-exts',''])
 ```
 
 

@@ -103,7 +103,7 @@ A multiple module test case is slightly more complex then a single module one. F
 Then for a test case that should compile and run fine we would put this line in all.T:
 {{{#!python
 test(multimod001, normal, multimod_compile_and_run, \
-              [ 'Main', '-fglasgow-exts', ''])
+                  ['Main', '-fglasgow-exts', ''])
 }}}
 This example would compile a multiple module test case where the top module is Main.hs and `-fglasgow-exts` is passed to GHC when compiling.
 
