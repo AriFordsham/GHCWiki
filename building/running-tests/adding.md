@@ -33,8 +33,7 @@ For adding any test case, follow these guide lines and then refer to the more sp
   test cases are named tc001, tc002, and so on.  Suppose you name your test
   case T, then you'll have the following files:
 
-> >
-> > \*.hs
+> > `T.hs`
 > >
 > > >
 > > > The source file(s) containing the test case. Details on
@@ -43,15 +42,13 @@ For adding any test case, follow these guide lines and then refer to the more sp
 
 > > > **If your test depends on source files that don't start with name of the test, you have to specify them using the `extra_files` setup function (see below).**
 
-> >
-> > T.stdin   (for test cases that run, and optional)
+> > `T.stdin`   (for test cases that run, and optional)
 > >
 > > >
 > > > A file to feed the test case as standard input when it
 > > > runs.
 
-> >
-> > T.stdout  (for test cases that run, and optional)
+> > `T.stdout`  (for test cases that run, and optional)
 > >
 > > >
 > > > For test cases that run, this file is compared against
@@ -59,8 +56,7 @@ For adding any test case, follow these guide lines and then refer to the more sp
 > > > T.stdout does not exist, then the program must not
 > > > generate anything on stdout.
 
-> >
-> > T.stderr  (optional)
+> > `T.stderr`  (optional)
 > >
 > > >
 > > > For test cases that run, this file is compared
@@ -70,13 +66,13 @@ For adding any test case, follow these guide lines and then refer to the more sp
 > > > For test cases that compile only, this file is compared
 > > > against the standard error output of the compiler,
 > > > which is normalised to eliminate bogus differences
-> > > (eg. absolute pathnames are removed, whitespace
+> > > (e.g. absolute pathnames are removed, whitespace
 > > > differences are ignored, etc.)
 
 1. Edit all.T in the relevant directory and add a line for the test case.  The line is always of the form
 
-  ```wiki
-  test(<name>, <setup>, <test-fn>, <args...>)
+  ```
+  test(<name>,<setup>,<test-fn>,<args...>)
   ```
 
   The format of this line is explained in more detail below as it differs for test case types.
@@ -102,22 +98,22 @@ name (so T.hs in our running example).
 
 Then for a test case that should compile and run fine we would put this line in all.T:
 
-```wiki
-test('cgrun001', normal, compile_and_run, [''])
+```
+test('cgrun001', normal, compile_and_run,[''])
 ```
 
 
 For a test case that should compile but you don't want run, we would put this line in all.T:
 
-```wiki
-test('cg002', normal, compile, [''])
+```
+test('cg002', normal,compile,[''])
 ```
 
 
 For a test case that should fail during compilation we would put this line in all.T:
 
-```wiki
-test('drvfail001', normal, compile_fail, [''])
+```
+test('drvfail001', normal, compile_fail,[''])
 ```
 
 
@@ -131,9 +127,9 @@ A multiple module test case is slightly more complex then a single module one. F
 
 Then for a test case that should compile and run fine we would put this line in all.T:
 
-```wiki
+```
 test(multimod001, normal, multimod_compile_and_run, \
-              [ 'Main', '-fglasgow-exts', ''])
+                  ['Main','-fglasgow-exts',''])
 ```
 
 
@@ -142,8 +138,8 @@ This example would compile a multiple module test case where the top module is M
 
 For a test case that should compile but you don't want run, we would put this line in all.T:
 
-```wiki
-test('T3286', [], multimod_compile, ['T3286', '-v0'])
+```
+test('T3286',[], multimod_compile,['T3286','-v0'])
 ```
 
 
@@ -152,11 +148,9 @@ This example would compile a multiple module test case where the top module is T
 
 For a test case that should fail during compilation we would put this line in all.T:
 
-```wiki
-test('Over',
-     [],
-     multimod_compile_fail,
-     ['OverD', '-no-hs-main -c -v0'])
+```
+test('Over',[],
+     multimod_compile_fail,['OverD','-no-hs-main -c -v0'])
 ```
 
 ## Advanced multiple module test case
@@ -167,10 +161,8 @@ If you have a test case that can't be built with the simpler two methods describ
 
 Then for a test case that should compile and run fine we would put this line in all.T:
 
-```wiki
-test('cgrun069', omit_ways(['ghci']), multi_compile_and_run,
-                 ['cgrun069', [('cgrun069_cmm.cmm', '')], ''])
-
+```
+test('cgrun069', omit_ways(['ghci']), multi_compile_and_run,['cgrun069',[('cgrun069_cmm.cmm','')],''])
 ```
 
 
@@ -179,21 +171,15 @@ This test case relies on a .cmm file, hence it can't use the simpler `multimod_c
 
 For a test case that should compile but you don't want run, we would put this line in all.T:
 
-```wiki
-test('Check02', normal, multi_compile, ['Check02', [
-                                       ('Check02_A.hs', ''),
-                                       ('Check02_B.hs', '')
-                                       ], '-trust base'])
+```
+test('Check02', normal, multi_compile,['Check02',[('Check02_A.hs',''),('Check02_B.hs','')],'-trust base'])
 ```
 
 
 For a test case that should fail during compilation we would put this line in all.T:
 
-```wiki
-test('Check01', normal, multi_compile_fail, ['Check01', [
-                                            ('Check01_A.hs', ''),
-                                            ('Check01_B.hs', '-trust base')
-                                            ], ''])
+```
+test('Check01', normal, multi_compile_fail,['Check01',[('Check01_A.hs',''),('Check01_B.hs','-trust base')],''])
 ```
 
 
@@ -204,8 +190,8 @@ This test case must use the `multi_compile_fail` method as it relies on being ab
 
 Each test in a `test.T` file is specified by a line the form
 
-```wiki
-test(<name>, <setup>, <test-fn>, <args...>)
+```
+test(<name>,<setup>,<test-fn>,<args...>)
 ```
 
 
@@ -240,8 +226,8 @@ There are many pre-defined functions which can be used in this field:
 
 - **extra_files(files)**    extra files that the test depends on. By default the testsuite driver assumes tests only depend on files that start with the name of the test `i.e. (<testname>*)`. For the time being, `extra_files` can also be specified in the file `testsuite/driver/extra_files.py`.
 
-```wiki
-test('prog013', extra_files(['Bad.hs', 'Good.hs']), ghci_script, ['prog013.script'])`
+```
+test('prog013', extra_files(['Bad.hs','Good.hs']), ghci_script,['prog013.script'])`
 ```
 
 - **reqlib(P)**             requires package P
@@ -344,13 +330,10 @@ More documentation can be found in the `driver/README.md` file, or the comments 
 
 Here's an example test:
 
-```wiki
-test('perf001',
-     [ collect_compiler_stats('bytes allocated',10) ],
-     compile, [''])
-test('ticketNumber',
-     [ collect_stats() ],
-     compile_and_run, [''])
+```
+test('perf001',[ collect_compiler_stats('bytes allocated',10)],compile,[''])
+test('ticketNumber',[ collect_stats()],
+     compile_and_run,[''])
 ```
 
 
