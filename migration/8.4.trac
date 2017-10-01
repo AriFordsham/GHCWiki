@@ -18,6 +18,15 @@ myError = error
 
 In spirit, this function has always required the `TypeInType` extension, since the type variable `r` is also used as a kind variable in `forall (a :: TYPE r)`. However, GHC mistakenly didn't require the explicit use of `TypeInType` here in earlier versions. This has been rectified in 8.4, so now `myError` will not typecheck without `TypeInType` being explicitly enabled.
 
+In addition, prior GHCs would permit this sort of GADT, where the GADT return type constrains a //kind// parameter, without the use of `TypeInType`:
+
+{{{#!hs
+data G (a :: k) where
+  GInt :: G Int
+}}}
+
+Similarly, this now requires `TypeInType` in GHC 8.4.
+
 === `TemplateHaskell` reification changes for GADTs
 
 Before GHC 8.4, whether or not Template Haskell would reify a data type as a `GadtC` (or `RecGadtC`) was somewhat unpredictable, as it used heuristics to determine whether a data type was declared using GADT syntax or not. While this worked for most use cases, there were nevertheless some corner cases where a GADT would not be reified as a `GadtC`, and conversely, a non-GADT would be reified as a `GadtC`. For example:
