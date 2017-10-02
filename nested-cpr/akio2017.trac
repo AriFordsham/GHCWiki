@@ -2,6 +2,82 @@ This page tracks @akio's attempt at reviving @nomeata's work on [wiki:NestedCPR]
 
 Latest code can be found at https://github.com/takano-akio/ghc/compare/master...nested-cpr .
 
+== Design
+
+=== Changes to `CPRResult`
+
+* In the product case (`RedProd`), keep one `DmdResult` for each component. This is
+  the main change in the branch.
+
+* Add `NeverReturns` contructor. It means that no value is returned from this
+  expression. It's different from `ThrowsExn` in that it might perform some
+  side effect. Indeed it might be an IO-performing infinite loop. The addition
+  of this constructor is necessary to infer a nested CPR property for a tail-
+  recursive function that does some I/O.
+
+In summary, `CPRResult` is changed from:
+
+{{{
+                   NoCPR
+                   /    \
+              RetProd   RetSum ConTag
+}}}
+
+to:
+
+{{{
+                   NoCPR
+                   /    \
+  RetProd [DmdResult]    RetSum ConTag
+                  \     /
+                NeverReturns
+}}}
+
+=== Changes to `DmdResult`
+
+* The new `Converges` contructor is added to track definite convergence.
+
+{{{
+               Dunno CPRResult
+               /         \
+           ThrowsExn      Converges CPRResult (new)
+               /
+        Diverges
+}}}
+
+  This information is used to tell when it is safe to perform a nested CPR
+  worker-wrapper transformation. Unpacking a nested component in the return
+  value is safe only when that component definitely converges.
+
+=== Changes to the demand analyzer
+
+* Infer nested CPR property when possible.
+
+* Slightly strenghten the strictness analysis so that in the following code,
+  both `foo` and `bar` get the strictness `S(SS)` on their first argument.
+  Previously only `foo` got `S(SS)`, where `bar` got `S`.
+
+{{{
+{-# LANGUAGE BangPatterns #-}
+data Complex a = !a :+ !a
+
+foo :: Complex Double -> Int -> Complex Double
+foo !x 0 = x
+foo (a :+ b) _ = b :+ a
+
+bar :: Complex Double -> Int -> Complex Double
+bar x 1 = x
+bar (a :+ b) _ = b :+ a
+}}}
+
+=== Changes to the worker-wrapper transformer
+
+* Apply nested CPR transformation. For example, if a function that returns
+  `(# State# RealWorld, (Int, Int, Int) #)` has the CPR information
+  `m(t, tm(tm(t), m(t), t))`, then the worker function would return the type
+  `(# State# RealWorld, Int#, Int, Int #)`, unboxing the triple and one of the
+  `Int`s.
+
 == Examples
 
 === simple.hs
