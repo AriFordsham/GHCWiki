@@ -54,15 +54,17 @@ The founding members of the GHC DevOps Group are (alphabetically)
 - Andres Löh (Well Typed),
 - Simon Marlow (Facebook), 
 - Neil Mitchell (Barclays Bank), 
-- Simon Peyton Jones (Microsoft Research)<sub> and
-  </sub>
+- Simon Peyton Jones (Microsoft Research), and
 - Ryan Trinkle (Obsidian Systems).
 
 
-We seek other individuals or organisation interested in contributing in any form.  Contact any of the aforementioned persons or send email to manuel.chakravarty@….
+We seek other individuals or organisation interested in contributing in any form.  Contact any of the aforementioned persons or send email to `manuel.chakravarty @ tweag.io`.
 
 
 For the moment, we explicitly refrain from specifying a more detailed long-term membership policy, but organisations that commit significant resources in kind or in cash can reasonably expect to be represented on the group.
+
+
+The group uses `ghc-devops-group @ haskell.org` for discussions and coordination.
 
 ---
 
