@@ -54,7 +54,8 @@ The founding members of the GHC DevOps Group are (alphabetically)
 - Andres Löh (Well Typed),
 - Simon Marlow (Facebook), 
 - Neil Mitchell (Barclays Bank), 
-- Simon Peyton Jones (Microsoft Research), and
+- Simon Peyton Jones (Microsoft Research),
+- Greg Steuck (Google X), and
 - Ryan Trinkle (Obsidian Systems).
 
 
