@@ -25,6 +25,7 @@ Below are the major highlights of 8.4.
 - Improved support for **cross-compilation** (Moritz Angermann)
 - A *more expressive Haskell AST** based on [Trees That Grow](implementing-trees-that-grow) (Shayan Najd)
   ***
+- Phase 2 of the Semigroup-Monoid Proposal (Herbert Riedel)
 
 ### Build system and miscellaneous changes
 
