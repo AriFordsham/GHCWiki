@@ -24,7 +24,11 @@ You might find it useful to find some code using Backpack.  Here are the biggest
 
 - [ backpack-str](https://github.com/haskell-backpack/backpack-str) defines a signature and implementations for strings. It is quite comprehensive, and the packages are available on next.hackage.
 
-- [ streamy](https://github.com/danidiaz/streamy) defines a signature and implementations for "streaming" libraries (e.g., conduit, pipes and streaming). It is experimental but it is a good example of a Backpack package that was not written by ezyang.
+- [ streamy](https://github.com/danidiaz/streamy) defines a signature and implementations for "streaming" libraries (e.g., conduit, pipes and streaming).
+
+- [ haskell-opentracing](https://github.com/ocharles/haskell-opentracing) defines a signature for the OpenTracing standard, a middleware built on top of this signature, and (at the moment) a single backend to Jaeger.
+
+- [ slay](https://github.com/int-index/slay/) is a layouting engine parametrized over `Double` and `Int` coordinate types.
 
 - [ reflex-backpack](https://github.com/ezyang/reflex-backpack) is a kind of crazy experiment at Backpack'ing Reflex.  Reflex uses a lot of advanced GHC features and it took some coaxing to get Backpack to handle it all, but handle it all it did!
 
