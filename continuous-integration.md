@@ -54,6 +54,6 @@ Pros
 
 Cons
 
-- Direct support only for Linux, Windows, macOS, iOS & Android, everything else needs to rely in cross-compiling and QEMU, or similar.
+- Direct support only for Linux, Windows, macOS, iOS & Android, everything else needs to rely on cross-compiling and QEMU, or similar.
 
 ## Todo list
