@@ -4,6 +4,22 @@ This page is to support the discussion of GHC DevOps Group on the CI solution fo
 
 == Requirements ==
 
+**Primary** 
+
+* Build GHC for Tier 1 platforms (Windows, Linux & macOS), run `./validate`, and produce release artefacts (distributions and documentation).
+* Build PRs (differentials) and run `./validate` on Linux/x86-64.
+* Security: PRs builds run arbitrary user code; this must not be able to compromise release artefacts.
+* Infrastructure reproducibility (infrastructure can be spun up and configured automatically)
+* Infrastructure forkability (devs forking the GHC repo can run their own CI without additional work)
+* Low maintenance overhead
+* Low set up costs
+
+**Secondary**
+
+* Build PRs (differentials) and run `./validate` on non-Linux/x86-64 Tier 1 platforms.
+* Build GHC for non-Tier 1 platforms & run `./validate`
+
+
 == Possible solutions ==
 
 == Todo list ==
