@@ -32,7 +32,7 @@ Pros
 
 Cons
 
-- Security is low on PR builds unless we spend further effort to sandbox builds properly.
+- Security is low on PR builds unless we spend further effort to sandbox builds properly. Moreover, even with sandboxing, Jenkins security record is troublesome.
 - Jenkins is well known to be time consuming to set up.
 - Additional time spent setting up servers.
 - Additional time spent maintaining servers.
