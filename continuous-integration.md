@@ -56,6 +56,7 @@ Cons
 
 - Direct support only for Linux, Windows, macOS, iOS & Android, everything else needs to rely on cross-compiling and QEMU, or building on remote drones.
 - We are limited to CircleCI's & Appveyor's current feature set and have to rely on them for feature development.
+- We need to deal with two different CI providers.
 
 ### Usage estimate
 
