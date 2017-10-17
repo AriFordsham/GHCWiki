@@ -31,6 +31,9 @@ Below are the major highlights of 8.4.
 
 - **New Shake-based build system, `hadrian`, will be merged.**  (Andrey Mokhov)
 - Improved Windows support, including support for split sections and long file paths (Tamar Christina)
+- Support for building stating libraries for elf and mach-o (`-staticlib`)
+- iserv can be used over the network via iserv-proxy
+- llvm backend uses LLVM5
 
 ### Landed in `master` branch
 
