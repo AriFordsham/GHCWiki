@@ -27,13 +27,9 @@ Below are the major highlights of 8.4.
 
   - '''New Shake-based build system, `hadrian`, will be merged.'''  (Andrey Mokhov)
   - Improved Windows support, including support for split sections and long file paths (Tamar Christina)
-  - New arm/aarch64 linker for elf and mach-o.
   - Support for building stating libraries for elf and mach-o (`-staticlib`)
   - iserv can be used over the network via iserv-proxy
-  - Improved Cross Compilation Support for iOS, Android and Raspberry Pi
   - llvm backend uses LLVM5
-  - Better support for cross compiling Template Haskell (planned; Phab:D3608)
-  - Improved build system support for cross compiler binary distributions.
 
 === Landed in `master` branch
 
