@@ -9,7 +9,7 @@ GHC is historically over-reliant on particular individuals and organisations (no
 
 The mission of the GHC DevOps Group is to 
 
-- take leadership of the devops aspects of GHC, 
+- to take leadership of the devops aspects of GHC, 
 - to resource it better, and 
 - to broaden the sense of community ownership and control of GHC.
 
@@ -32,7 +32,7 @@ This is in line with best practices at other modern open-source compiler project
 
 The group is complementary to, not competitive with:
 
-- The GHC proposals process, which is about **what** features are agreed for incorporation into GHC. In contrast, the focus of the GHC DevOps group is about **how** and **when** these features are incorporated and released.
+- The GHC Steering Committee (GHC proposals process) and the Core Libraries Committee, which are about **what** features are agreed for incorporation into GHC and its libraries. In contrast, the focus of the GHC DevOps group is about **how** and **when** these features are incorporated and released.
 
 - The Cabal, Hackage, and Stack ecosystems.  The focus of the GHC DevOps group is on GHC.
 
@@ -60,7 +60,7 @@ The founding members of the GHC DevOps Group are (alphabetically)
 - Ryan Trinkle (Obsidian Systems).
 
 
-We seek other individuals or organisation interested in contributing. Contact any of the aforementioned persons or send email to `manuel.chakravarty @ tweag.io`.
+If you or your organisation depends on GHC and you want to help with its continued development and maintenance, please contact any of the aforementioned persons or send email to `manuel.chakravarty @ tweag.io`.
 
 
 For the moment, we explicitly refrain from specifying a more detailed long-term membership policy, but organisations that commit significant resources in kind or in cash can reasonably expect to be represented on the group.
