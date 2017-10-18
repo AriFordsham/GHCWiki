@@ -9,7 +9,7 @@ GHC is historically over-reliant on particular individuals and organisations (no
 
 The mission of the GHC DevOps Group is to 
 
-- take leadership of the devops aspects of GHC, 
+- to take leadership of the devops aspects of GHC, 
 - to resource it better, and 
 - to broaden the sense of community ownership and control of GHC.
 
