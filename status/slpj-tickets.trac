@@ -10,6 +10,7 @@
  * [wiki:ImpredicativePolymorphism Impredicative types]
  * [wiki:ArrowNotation]
  * [wiki:FunDeps Functional dependencies]
+ * [wiki:Roles Roles, Coercible and coerce]
  * [wiki:InjectiveTypeFamilies Injective type families]
  * [wiki:TemplateHaskell]
  * [wiki:Inlining]
