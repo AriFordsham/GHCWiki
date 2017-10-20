@@ -35,7 +35,7 @@ Cons
 * It is unclear how easy it is to make the set up reproducible.
 * The set up is not forkable (a forker would need to set up their own servers).
 
-=== CircleCI & Appveyor ===
+=== CircleCI & AppVeyor ===
 
 Pros
 * Easy to set up
@@ -50,7 +50,47 @@ Cons
 * We are limited to CircleCI's & Appveyor's current feature set and have to rely on them for feature development.
 * We need to deal with two different CI providers.
 
-=== Usage estimate ===
+== Discussion summary ==
+
+After a detailed discussion on the GHC DevOps Group mailing list https://mail.haskell.org/pipermail/ghc-devops-group/, the group reached the conclusion that all factors considered, CircleCI & AppVeyor provides the best trade offs for the following reasons.
+
+**Costs**
+
+* Both solutions incur hardware or subscription costs. In the case of Jenkins, we need servers (and we just learnt that RackSpace terminated its OSS program at the end of the year) and, in the case of CircleCI & AppVeyor, we will likely need more resource than they provide for free to open source projects. However, Google X and Tweag I/O have indicated that they would be happy to help cover such costs.
+* Both solutions incur some developer costs. However, by all accounts and our own experience, this is substantially lower for the CircleCI & AppVeyor solution. In particular, it completely eliminates server maintenance costs. Integration with GitHub is straight forward and Phabricator also seems to have some support.
+
+Overall, CircleCI & AppVeyor are more cost-effective.
+
+**Flexibility**
+
+* Jenkins is fully customisable and provides complete flexibility wrt to the architectures and operations systems used in build machines.
+* With CircleCI & AppVeyor, we are dependent on the features provided by the hosting services and limited in the architectures and OSes that are directly supported. In particular, we will have to fall back to cross-compiling and using QEMU for less commonly used platforms. Our base line, the Tier 1 platforms, as well as Android and iOS on ARM are supported by CircleCI & AppVeyor.
+
+Overall, Jenkins is more flexible.
+
+**Security**
+
+* Security is crucial as we are planning to run untrusted and unreviewed code in PRs/differentials in the CI environment.
+* To provide adequate security, we need to add sandboxing to Jenkins (which is possible, but more work). However, even with that, the security track record of Jenkins is not very good. 
+* In the case of CircleCI & AppVeyor, security is taken care of by the provider.
+
+Overall, CircleCI & AppVeyor are more secure.
+
+**Scalability**
+
+* With forkability, we refer to a user's ability to fork GHC, modify it, and run their own CI instance (not using GHC HQ's infrastructure) without any significant extra work. This significantly improves scaling and takes load of the GHC HQ's infrastructure. CircleCI & AppVeyor is forkable, but Jenkins is not (as a user needs to set up their own infrastructure).
+* While Jenkins can be combined with other Docker/Kubernets to improve scaling, this is difficult (e.g., Tweag I/O had some rather bad experiences with this). In contrast, this is handled by the provider in the CircleCI & AppVeyor case.
+
+Overall, CircleCI & AppVeyor are more scalable.
+
+**Reliability**
+
+* With our own infrastructure, reliability is in our own hands, but we will not be able (as it would be too expensive) to provide any real reliability guarantees or support with guaranteed turn around times.
+* In the case of CircleCI & AppVeyor we depend on the providers for a reliable service. Ben talked to the Rust team who were very positive about CircleCI in this respect, but at the end of the day, it will be hard to know without trying (given we want to rely mostly on free open-source plans).
+
+Overall, let's call this a tie.
+
+== Usage estimate ==
 
 A quick back-of-the-envelope calculation suggests that to simply keep up
 with our current average commit rate (around 200 commits/month) for the
