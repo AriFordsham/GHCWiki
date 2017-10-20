@@ -299,7 +299,7 @@ In order to see emails below, **you must login**.
 
 - [ Simon Hengel](http://typeful.net)
 
-  - Zalora South East Asia Pte. Lte - Singapore, Republic of Singapore
+  - Typeful Consulting - Singapore, Republic of Singapore
   - **Trac**: SimonHengel; **email**: sol@…; **github**: [ https://github.com/sol](https://github.com/sol)
   - **Committer since**: Feburary, 2013.
   - **Main areas of interest**: Haddock
