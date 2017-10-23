@@ -143,3 +143,41 @@ one cross-compilation target) and a periodic slow validation and we may
 be at over a dozen machines.
 
 ## Todo list
+
+
+Below, we track all work that needs to be done until we have achieved the following specific goals:
+
+- automatic per-commit builds of master for Linux/x86_64 on CircleCI (per each block of commits from one PR/Differential would be sufficient),
+- automatic builds of Linux/i386, macOS/x86_64 & Windows/x86_64 on CircleCI and AppVeyor at least once per day,
+- automatic Linux/x86_64 build for each PR/Differential on CircleCl, and
+- automatic generation of all release artefacts on Linux/i386, Linux/x86_64, macOS/x86_64 & Windows/x86_64 on CircleCI and AppVeyor at least once per day.
+
+**Most of the below should be turned into Trac tickets.**
+
+### General
+
+- Talk to CircleCI about increased limits for the free plan for GHC. Determine how much on top of that we need.
+- AppVeyor is also free for OSS projects, but I couldn't find anything specific about the limits. Determine how much on top of the OSS plan we need and whether they are willing to relax the limits for a visible OSS project.
+
+### Per-commit build on Linux/x86_64
+
+- What is missing from Mathieu's CircleCI build?
+
+  - We want to run `./validate --slow` at some point — see [\#13205](https://gitlab.haskell.org//ghc/ghc/issues/13205).
+- Probably easiest to just trigger those builds from GitHub (as all commits are mirrored there anyway).
+
+### Daily builds on Linux/i386, macOS/x86_64 & Windows/x86_64
+
+- Implement AppVeyor build config.
+- Jonas has started on macOS CircleCI build. What is the status?
+- Linux/i386 ought to be a small change on Linux/x86_64, or is there more to it?
+
+### Per-PR/Differential build on Linux/x86_64
+
+- This is the CircleCI 1.0 documentation on Phabricator integration: [ https://circleci.com/docs/1.0/phabricator/](https://circleci.com/docs/1.0/phabricator/) Does this work with CircleCI 2.0 as well? (The CircleCI API 1.1 supposedly can drive both.)
+- Implement CircleCI/GitHub integration for PRs.
+
+### Daily release artefacts for all Tier 1 platforms
+
+- What is missing in Ben's existing scripts?
+- Integrate release artefact building and uploading into all daily builds.
