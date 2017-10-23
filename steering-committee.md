@@ -1,23 +1,7 @@
 # The GHC Steering Committee
 
 
-See the GHC Steering Committee document in the [ GHC Proposals repository](https://github.com/ghc-proposals/ghc-proposals/blob/master/steering-committee.rst) for details.
-
-## Remit
-
-
 The goal of the committee is to facilitate the process of proposing changes to GHC by contributors, and to decide on which proposals are adopted.  The committee will ensure that decisions are taken in a timely manner, and after considering the diverse needs of all GHC users.
 
-## Current Members
 
-- Simon Peyton Jones (co-chair)
-- Simon Marlow (co-chair)
-
-- Christopher Allen
-- [ Joachim Breitner](http://www.joachim-breitner.de/), a.k.a. nomeata (currently [ UPenn](http://cis.upenn.edu/~joachim))
-- [ Manuel Chakravarty](http://justtesting.org)
-- [ Iavor Diatchki](http://galois.com/team/iavor-diatchki) (Galois Inc.)
-- Atze Dijkstra ([ Standard Chartered Bank](http://www.sc.com))
-- [ Richard Eisenberg](http://cs.brynmawr.edu/~rae), a.k.a. goldfire(re) (Bryn Mawr College)
-- Ben Gamari
-- [ Ryan Newton](http://cs.indiana.edu/~rrnewton), user rrnewton
+For current and accepted proposals, processes, list of members and more details, please see the [ Committee’s GitHub presence](https://github.com/ghc-proposals/ghc-proposals/).
