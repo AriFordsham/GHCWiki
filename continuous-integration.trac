@@ -136,6 +136,11 @@ Below, we track all work that needs to be done until we have achieved the follow
 
 **Most of the below should be turned into Trac tickets.**
 
+=== General ===
+
+* Talk to CircleCI about increased limits for the free plan for GHC. Determine how much on top of that we need.
+* AppVeyor is also free for OSS projects, but I couldn't find anything specific about the limits. Determine how much on top of the OSS plan we need and whether they are willing to relax the limits for a visible OSS project.
+
 === Per-commit build on Linux/x86_64 ===
 
 * What is missing from Mathieu's CircleCI build? Does it run `./validate`?
