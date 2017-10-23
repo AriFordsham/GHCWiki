@@ -126,3 +126,19 @@ one cross-compilation target) and a periodic slow validation and we may
 be at over a dozen machines.
 
 == Todo list ==
+
+Below, we track all work that needs to be done until we have achieved the following specific goals:
+
+* automatic per-commit builds of master for Linux/x86_64 on CircleCI (per each block of commits from one PR/Differential would be sufficient),
+* automatic builds of Linux/i386, macOS/x86_64 & Windows/x86_64 on CircleCI and AppVeyor at least once per day,
+* automatic Linux/x86_64 build for each PR/Differential on CircleCl, and
+* automatic generation of all release artefacts on Linux/i386, Linux/x86_64, macOS/x86_64 & Windows/x86_64 on CircleCI and AppVeyor at least once per day.
+
+=== Per-commit build on Linux/x86_64 ===
+
+=== Daily builds on Linux/i386, macOS/x86_64 & Windows/x86_64 ===
+
+=== Per-PR/Differential build on Linux/x86_64 ===
+
+=== Daily release artefacts for all Tier 1 platforms ===
+
