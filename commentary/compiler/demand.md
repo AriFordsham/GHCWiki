@@ -146,7 +146,7 @@ do the rest, transformations the compiler does anyway.
 
 There's ongoing discussion about improvements to the demand analyser.
 
-- Inspired by Call Arity's Co-Call graphs, [Commentary/Compiler/Demand/LetUp](commentary/compiler/demand/let-up) discusses how to make the LetUp rule more flow sensitive
+- Inspired by Call Arity's Co-Call graphs, [this page](commentary/compiler/demand/let-up) discusses how to make the LetUp rule more flow sensitive
 
 ## Relevant compiler parts
 
