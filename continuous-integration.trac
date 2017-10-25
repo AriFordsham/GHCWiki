@@ -143,7 +143,8 @@ Below, we track all work that needs to be done until we have achieved the follow
 
 === Per-commit build on Linux/x86_64 ===
 
-* What is missing from Mathieu's CircleCI build? Does it run `./validate`?
+* What is missing from Mathieu's CircleCI build?
+  - We want to run `./validate --slow` at some point — see #13205.
 * Probably easiest to just trigger those builds from GitHub (as all commits are mirrored there anyway).
 
 === Daily builds on Linux/i386, macOS/x86_64 & Windows/x86_64 ===
