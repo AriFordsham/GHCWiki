@@ -141,6 +141,13 @@ of the compiler simply by performing a local transformation on the
 function definition.  Then ordinary inlining and case elimination will
 do the rest, transformations the compiler does anyway.
 
+## Discussion
+
+
+There's ongoing discussion about improvements to the demand analyser.
+
+- Inspired by Call Arity's Co-Call graphs, [Commentary/Compiler/Demand/LetUp](commentary/compiler/demand/let-up) discusses how to make the LetUp rule more flow sensitive
+
 ## Relevant compiler parts
 
 
