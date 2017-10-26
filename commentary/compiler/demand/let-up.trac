@@ -154,3 +154,37 @@ For the case when `x` occured in both children (can only be `Both` or `Or`):
 
 So, by additionally pushing down graft points along both branches of an `Or` node, if needed, we can handle cases like the above. 
 We buy increased precision by possibly super-linear space complexity.
+
+== Distributing `Both` over `Or` ==
+
+There's one additional trick we can apply for ... a simpler model of the `DmdEnv'`?
+
+In order to arrive at a disjunctive normal form-like model for `DmdEnv'`, we can apply the distributive law `(Both env1 (Or env2 env3) = (Or (Both env1 env2) (Both env1 env3))`.
+This allows for the following `DmdEnv'`:
+
+{{{
+newtype DmdEnv'' = DNF [DmdEnv]
+
+flattenDmdEnv'' :: DmdEnv'' -> DmdEnv
+flattenDmdEnv'' (DNF envs) =
+  lubDmdEnvs envs
+
+dnf :: DmdEnv' -> DmdEnv''
+dnf = DNF . go
+  where
+    go env =
+      case env of
+      Empty -> [emptyDmdEnv]
+      Var id dmd -> [unitDmdEnv id dmd]
+      Or env1 env2 -> go env1 ++ go env2
+      Both env1 env2 -> concatMap (\env1 -> map (bothDmdEnv env1) (go env2)) (go env1) -- ugh
+}}}
+
+`dnf` shows the biggest drawback of this: This is pretty much **exponential** in the number `Both` nodes.
+
+'Substitution' is pretty easy here: Because there are no `Both` nodes (or rather that the top-level is `Or` only), we can just substitute into each 
+
+''sgraf: Actually, I'm not sure what this buys us, other than simplicity of implementation. 
+And performance-wise, I have a strong feeling that this blows up pretty fast. 
+Effectively, we model **every possible path of execution** separately.
+It's the same as in logic, I guess: DNF is always possible, and easily handled, but conversion blows up exponentially in general.''
