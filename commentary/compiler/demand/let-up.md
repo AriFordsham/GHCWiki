@@ -69,7 +69,7 @@ For the above example, we get `(Both (...) (Or (Var x <S,1*U>) (Var y <S,1*U>)))
 We can now *substitute* the `DmdEnv'` of `x`s RHS into all occurences of `x` within the `DmdEnv'` of the let-body:
 
 ```wiki
-  (Both (...) (Or env (Var y <S,1*U>)))[env := (Var y <L,1*U>)]
+  (Both (...) (Or env             (Var y <S,1*U>)))[env := (Var y <L,1*U>)]
 = (Both (...) (Or (Var y <L,1*U>) (Var y <S,1*U>)))
 ```
 
@@ -80,3 +80,61 @@ If we look up the demand on `y` in the resulting `DmdEnv'`, we find that `y` is 
 Note however that it is still not detected as being used strictly! 
 For this, we would need to analyse `x`s RHS under the demand of the use site we substitute the `DmdEnv'` into, much like **LetDown** would.
 Let's revisit this later.
+
+## Thunk Sharing
+
+
+There's an(other) issue with the substitution model.
+
+
+Substitution appeals because it approximates **LetDown** in terms of precision, but it also suffers from the same imprecision when it comes to modeling thunk sharing:
+
+```wiki
+let y = ..
+in let x = 2*y
+   in x + x
+```
+
+
+Note that although `x` is evaluated twice, the evaluation of its RHS is shared, so that `y` is evaluated at most once.
+This is also what the current demand analysis finds out.
+
+
+Let's look at the `DmdEnv'` for the inner let-body:
+
+```wiki
+(Both
+  (Var x <S,1*U>) 
+  (Var x <S,1*U>))
+```
+
+
+Substituting the `DmdEnv'` of `x`s RHS:
+
+```wiki
+(Both
+  (Var y <L,1*U>) 
+  (Var y <L,1*U>))
+```
+
+
+Ouch! Substitution forgets about sharing and let's us see an imprecise upper bound of `w*U`.
+What we are lacking is some kind of model for the runtime heap.
+
+
+How does **LetUp** solve this? 
+Well, it operates under the simple assumption that the binding is evaluated exactly once in the entire body, if it's evaluated at all.
+So, it's OK to `both` the `DmdEnv'` of the RHS to that of the let body at the root. This won't destroy sharing!
+
+
+Now, for the first example (`if ... then x else y`), it is quite obvious that the bound id `x` doesn't even occur in the first `Or` branch of the `DmdEnv'` of the let body (after deleting `x` from it).
+Only the second branch evaluates `x` at all, so it should be safe to 'push' the *graft point*, where we graft the `DmdEnv'` of the RHS of `x` onto the `DmdEnv'` of the let body, down to the [ ''most recent common ancestor'' (MCRA)](https://de.wikipedia.org/wiki/Most_recent_common_ancestor) of all occurences of `x` in the body.
+
+
+For the first example:
+
+```wiki
+-- [] marks the MCRA of all previous occurences of `x`, which were already deleted
+  graft (\t -> (Both t (Var y <L,1*U>))) onto (Both (...) (Or [Empty] (Var y <S,1*U>))))
+= (Both (...) (Or (Both Empty (Var y <L,1*U>)) (Var y <S,1*U>))))
+```
