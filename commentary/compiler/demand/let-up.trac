@@ -114,3 +114,43 @@ For the first example:
   graft (\t -> (Both t (Var y <L,1*U>))) onto (Both (...) (Or [Empty] (Var y <S,1*U>))))
 = (Both (...) (Or (Both Empty (Var y <L,1*U>)) (Var y <S,1*U>))))
 }}}
+
+== Multiple graft points ==
+
+Grafting the `DmdEnv'` of the RHS of `x` at the MCRA of all occurences of `x` in the `DmdEnv'` of the body is AFAICT the only solution that doesn't duplicate the `DmdEnv'` of the RHS into the tree, so should be quite predictable from a performance perspective.
+
+However, there are shortcomings, exposed by examples like this:
+
+{{{
+let y = ... in
+let x = 2*y in
+if ... then
+  x
+else if ... then
+  y 
+else if ... then
+  x
+
+(Both 
+  (...)
+  (Or
+    (Var x <S,1*U>)
+    (Both
+      (...)
+      (Or
+        (Var y <S,1*U>)
+        (Var x <S,1*U>)))))
+}}}
+
+The MCRA of all occurences of `x` is the root of the `DmdEnv'`. That's unfortunate, as this means we aren't more precise than **!LetUp** here, which is insufficient to realise that `y` is only evaluated at most once.
+
+This tension can only be resolved by having multiple graft points, one at each occurence of `x`.
+
+When is this safe to do? 
+It's always safe to push down a graft point when there's only one child node in which `x` occured (that's why it's safe to choose the MCRA).
+For the case when `x` occured in both children (can only be `Both` or `Or`):
+1. It's safe to push graft points down both branches of an `Or`, as this can't destroy sharing. The only gripe is that the tree grows linear in the number of `Or` nodes with this property compared to the MCRA or plain **!LetUp** approach.
+2. It's not generally safe push graft points down both branches of a `Both`: `(Both (Var x <S,1*U>) (Var x <S,1*U>))` was an earlier example that proofs that.
+
+So, by additionally pushing down graft points along both branches of an `Or` node, if needed, we can handle cases like the above. 
+We buy increased precision by possibly super-linear space complexity.
