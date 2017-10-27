@@ -26,9 +26,6 @@ GHC 8.4 will continue focusing on stability and will include a number of interna
 
 -   Significantly improved Windows support, with improvements in exception handling, linking, and crash diagnostics.
 
-=== Miscellaneous ===
-
--   **Compiler Determinism.** GHC 8.0.2 is the first release of GHC which produces deterministic interface files. This helps consumers like Nix and caching build systems, and presents new opportunities for compile-time improvements. See the [[https://ghc.haskell.org/trac/ghc/wiki/DeterministicBuilds|Wiki]] for details.
 
 == Development updates and acknowledgments ==
 
