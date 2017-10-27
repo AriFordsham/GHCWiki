@@ -5,7 +5,7 @@
 
 == Major changes in GHC 8.4 ==
 
-GHC 8.4 will continue focusing on stability and will include a number of internal refactorings.
+GHC 8.4 will continue the focus on stability and performance started in 8.2 and will include a number of internal refactorings.
 
 === Libraries, source language, and type system ===
 
