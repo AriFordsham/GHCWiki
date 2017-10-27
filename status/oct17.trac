@@ -35,9 +35,10 @@ GHC 8.4 will continue focusing on stability and will include a number of interna
 The past six months have seen a great deal of activity in GHC's infrastructure. This began in the summer on the heels of the 8.2.1 release, with a small group of developers reflecting on the various shortcomings of GHC's current Phabricator-based continuous integration scheme. With the help of Davean this effort grew from a hypothetical reimagining of GHC's continuous integration into a functional Jenkins configuration. This effort revealed and addressed numerous inadequacies in GHC's current test infrastructure. As a result of this work we can now test GHC end-to-end: starting from repository clone, to source distribution tarball, to binary distribution tarball, to completed testsuite run. This allows us to find regressions not just in the compiler itself but also in the sizeable mass of infrastructure dedicated to packaging and deploying it.
 
 
+
 While Jenkins served as a good testing ground for improving GHC's test infrastructure continued work with it revealed a number of issues:
  * It lacked support for testing within `msys2` on Windows 
- * It offered little support in ensuring build purity
+ * It offered little support in ensuring build purity and reproducibly configuring build environments
  * It required a significant investment of effort to setup, followed by an on-going administrative overhead
 Seeing these 
 
@@ -48,7 +49,9 @@ GHC's performance testing infrastructure also saw some attention this summer tha
 
 In his Summer of Code project, Jared refactored the testsuite to instead simply record the performance metrics resulting from a testsuite run. This new visibility into GHC's testsuite history will allow GHC developers to precisely identify regressing changes, meanwhile freeing maintainers from the need to periodically bump testsuite windows.
 
-As always, if you are interested in contributing to any facet of GHC, be
+In the compiler itself, Shayan Najd and Alan Zimmerman have been working hard on porting the compiler's frontend AST to use the extensibility mechanism proposed in Shayan's "Trees That Grow" paper. This is a significant refactoring that will allow GHC API users to extend the AST for their own purposes, significantly improving the reusability of the structure. Eventually this will allow us to split the AST types out of the `ghc` package, allowing tooling authors and compiler to use the same AST representation.
+
+As always, if you are interested in contributing to any facet of GHC, be it
 the runtime system, type-checker, documentation, simplifier, or anything
 in between, please come speak to us either on IRC (`#ghc` on
 `irc.freeenode.net`) or `ghc-devs@haskell.org`. Happy Haskelling!
