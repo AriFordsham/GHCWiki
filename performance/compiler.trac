@@ -31,6 +31,9 @@ One theme that seems to pop up rather often is the production of Core with long 
 
  * #5642: Deriving Generic of a big type takes a long time and lots of space
 
+ * #14338: Simplifier fails with "Simplifier ticks exhausted"
+    * Specialised dictionaries parametrized on a type-level list produce very large coercions.
+
 One possible solution (proposed in #8095) is to eliminate coercions from the Core AST during usual compilation, instead only including them when we want to lint the Core.
 
 === Deriving instances ===
