@@ -1,16 +1,18 @@
 = Release management and branches =
 
-Releases are made by the release manager, currently either Austin Seipp or Ben Gamari. The release manager is also the maintainer of the stable branch, see [#Branches].
+Releases are made by the release manager, currently Ben Gamari. The release manager is also the maintainer of the stable branch, see [#Branches].
 
 == Release Schedule ==
 
- * Major releases are made once per year, typically around October-November.  We don't work to a fixed deadline, the release will be made when it is ready.
+ * Major releases are made twice per year, typically around January-February and June-July. We try to stick to this schedule
 
  * Minor releases are made throughout the year, with no fixed schedule.  Generally there will be 2-3 minor releases for every major release.
 
  * For each release we make a release candidate first, possibly followed by further release candidates as necessary.  Release candidates are announced on the [http://www.haskell.org/mailman/listinfo/glasgow-haskell-users glasgow-haskell-users mailing list].
 
  * As a policy we provide source distributions to our external binary distribution contributors a week before the binary release is announced to put these contributed distributions on equal footing as the GHC-HQ-provided distributions
+
+ * Every release must be bootstrappable with the most recent minor release of each of the two most-recent major releases.
 
 == Release policies ==
 
