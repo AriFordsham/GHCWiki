@@ -172,7 +172,7 @@ Below, we track all work that needs to be done until we have achieved the follow
 
 Probably easiest to just trigger those builds from GitHub (as all commits are mirrored there anyway).
 
-- **Next:** Merge [ https://github.com/tweag/ghc/tree/tweag/ci](https://github.com/tweag/ghc/tree/tweag/ci) into HEAD
+- **Next:**[\#14416](https://gitlab.haskell.org//ghc/ghc/issues/14416): merge [ https://github.com/ghc/ghc/pull/83](https://github.com/ghc/ghc/pull/83)
 - *Low priority:* We want to run `./validate --slow` at some point — see [\#13205](https://gitlab.haskell.org//ghc/ghc/issues/13205).
 
 ### Daily builds on Linux/i386, macOS/x86_64 & Windows/x86_64
