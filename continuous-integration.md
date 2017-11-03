@@ -147,8 +147,8 @@ be at over a dozen machines.
 
 Circle CI & AppVeyor integration on the Tweag GHC fork: [ https://github.com/tweag/ghc/tree/tweag/ci](https://github.com/tweag/ghc/tree/tweag/ci)
 
-- Linux/x86_64 (CircleCI): build & store artefacts.
-- macOS/x86_64 (CircleCI): build & store artefacts.
+- Linux/x86_64 (CircleCI): build & store artefacts works
+- macOS/x86_64 (CircleCI): build & store artefacts works
 - Windows/x86_64 (AppVeyor): asked for increased limits
 
 ## Todo
@@ -158,28 +158,29 @@ Below, we track all work that needs to be done until we have achieved the follow
 
 - automatic per-commit builds of master for Linux/x86_64 on CircleCI (per each block of commits from one PR/Differential would be sufficient),
 - automatic builds of Linux/i386, macOS/x86_64 & Windows/x86_64 on CircleCI and AppVeyor at least once per day,
-- automatic Linux/x86_64 build for each PR/Differential on CircleCl, and
-- automatic generation of all release artefacts on Linux/i386, Linux/x86_64, macOS/x86_64 & Windows/x86_64 on CircleCI and AppVeyor at least once per day.
-
-**Most of the below should be turned into Trac tickets.**
+- automatic Linux/x86_64 build for each PR/Differential on CircleCl,
+- automatic generation of all release artefacts on Linux/i386, Linux/x86_64, macOS/x86_64 & Windows/x86_64 on CircleCI and AppVeyor at least once per day,
+- end-to-end testing by creating a source distribution, from that a binary distribution, and use that for regression testing. (This has the advantage of also testing the distribution creation process.)
 
 ### General
 
 - Talk to CircleCI about increased limits for the free plan for GHC. Determine how much on top of that we need.
-- AppVeyor has a 1h limit for OSS projects by default. Determine how much on top of the OSS plan we need and whether they are willing to relax the limits for a visible OSS project.
+- AppVeyor has a 1h limit for OSS projects by default. Determine how much on top of the OSS plan we need and whether they are willing to relax the limits for a visible OSS project. **Status:** wrote email, but no response yet.
 
 ### Per-commit build on Linux/x86_64
 
-- CircleCI build needs to run testing
 
-  - We want to run `./validate --slow` at some point — see [\#13205](https://gitlab.haskell.org//ghc/ghc/issues/13205).
-- Probably easiest to just trigger those builds from GitHub (as all commits are mirrored there anyway).
+Probably easiest to just trigger those builds from GitHub (as all commits are mirrored there anyway).
+
+- **Next:**[\#14416](https://gitlab.haskell.org//ghc/ghc/issues/14416): merge [ https://github.com/ghc/ghc/pull/83](https://github.com/ghc/ghc/pull/83)
+- *Low priority:* We want to run `./validate --slow` at some point — see [\#13205](https://gitlab.haskell.org//ghc/ghc/issues/13205).
 
 ### Daily builds on Linux/i386, macOS/x86_64 & Windows/x86_64
 
-- Implement AppVeyor build config.
+- Implement AppVeyor build config. **Blocked:** waiting for AppVeyor to increase time limit.
 - macOS CircleCI build: there are some failures (which do not happen in Harbormaster)
 - Linux/i386 ought to be a small change on Linux/x86_64, or is there more to it?
+- *Low priority:* Implement end-to-end testing. **Blocked:** on [\#14392](https://gitlab.haskell.org//ghc/ghc/issues/14392), [\#14411](https://gitlab.haskell.org//ghc/ghc/issues/14411) & [\#14412](https://gitlab.haskell.org//ghc/ghc/issues/14412).
 
 ### Per-PR/Differential build on Linux/x86_64
 
@@ -188,7 +189,6 @@ Below, we track all work that needs to be done until we have achieved the follow
 
 ### Daily release artefacts for all Tier 1 platforms
 
-- What is missing in Ben's existing scripts?
 - Tar balls are currently being put into CircleCI artefacts store (where they will be kept for one month).
-- Implement S3 upload for longer term storage.
+- *Low priority:* Implement S3 upload for longer term storage.
 - Documentation bundle for the website needs to be generated and uploaded. Might be easier with Hadrian: [ https://github.com/snowleopard/hadrian/pull/413](https://github.com/snowleopard/hadrian/pull/413)
