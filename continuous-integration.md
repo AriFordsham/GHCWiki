@@ -173,7 +173,6 @@ Below, we track all work that needs to be done until we have achieved the follow
 Probably easiest to just trigger those builds from GitHub (as all commits are mirrored there anyway).
 
 - **Next:**[\#14416](https://gitlab.haskell.org//ghc/ghc/issues/14416): merge [ https://github.com/ghc/ghc/pull/83](https://github.com/ghc/ghc/pull/83)
-- *Low priority:* We want to run `./validate --slow` at some point — see [\#13205](https://gitlab.haskell.org//ghc/ghc/issues/13205).
 
 ### Daily builds on Linux/i386, macOS/x86_64 & Windows/x86_64
 
@@ -181,13 +180,15 @@ Probably easiest to just trigger those builds from GitHub (as all commits are mi
 - macOS CircleCI build: there are some failures (which do not happen in Harbormaster)
 - Linux/i386 ought to be a small change on Linux/x86_64, or is there more to it?
 - *Low priority:* Implement end-to-end testing. **Blocked:** on [\#14392](https://gitlab.haskell.org//ghc/ghc/issues/14392), [\#14411](https://gitlab.haskell.org//ghc/ghc/issues/14411) & [\#14412](https://gitlab.haskell.org//ghc/ghc/issues/14412).
+- *Low priority:* We want to run `./validate --slow` at some point — see [\#13205](https://gitlab.haskell.org//ghc/ghc/issues/13205).
+- *Low priority:* We also want to run LLVM and unregisterised builds
 
 ### Per-PR/Differential build on Linux/x86_64
 
 - This is the CircleCI 1.0 documentation on Phabricator integration: [ https://circleci.com/docs/1.0/phabricator/](https://circleci.com/docs/1.0/phabricator/) Does this work with CircleCI 2.0 as well? (The CircleCI API 1.1 supposedly can drive both.)
 - Implement CircleCI/GitHub integration for PRs.
 
-### Daily release artefacts for all Tier 1 platforms
+### Daily release artifacts for all Tier 1 platforms
 
 - Tar balls are currently being put into CircleCI artefacts store (where they will be kept for one month).
 - *Low priority:* Implement S3 upload for longer term storage.
