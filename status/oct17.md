@@ -14,7 +14,7 @@ GHC 8.4 will continue the focus on stability and performance started in 8.2 and 
 
 ### Compiler
 
--   A new syntax tree representation based on [ Trees That Grow](http://www.jucs.org/jucs_23_1/trees_that_grow/jucs_23_01_0042_0062_najd.pdf). This will make it easier for external users to l
+-   A new syntax tree representation based on [ Trees That Grow](http://www.jucs.org/jucs_23_1/trees_that_grow/jucs_23_01_0042_0062_najd.pdf). This will make it easier for external users to add their own annotations to the HsSyn AST.  In future this should allow Shayan Najd to harmonise the GHC and Template Haskell ASTs, and for the ghc-exactprint annotations to move into the GHC parsed AST.
 
 -   Improved support for cross-compilation
 
