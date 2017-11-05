@@ -24,7 +24,7 @@ GHC 8.4 will continue the focus on stability and performance started in 8.2 and 
 
 ### Runtime system
 
--   Significantly improved Windows support, with improvements in exception handling, linking, crash diagnostics and GHCi responsiveness.
+-   Significantly improved Windows support, with improvements in exception handling, linking, crash diagnostics, GHCi responsiveness and memory allocation and protection.
 
 ## Development updates and acknowledgments
 
