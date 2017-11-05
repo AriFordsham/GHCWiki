@@ -24,6 +24,8 @@ You might find it useful to find some code using Backpack.  Here are the biggest
 
 - [ backpack-str](https://github.com/haskell-backpack/backpack-str) defines a signature and implementations for strings. It is quite comprehensive, and the packages are available on next.hackage.
 
+- [ coda](https://github.com/ekmett/coda) parametrizes over a few core data types including notions of "delta". It takes advantage of zero-cost abstraction, which lets it split into multiple data types, while still ensuring they are UNPACKed in the end.
+
 - [ streamy](https://github.com/danidiaz/streamy) defines a signature and implementations for "streaming" libraries (e.g., conduit, pipes and streaming).
 
 - [ haskell-opentracing](https://github.com/ocharles/haskell-opentracing) defines a signature for the OpenTracing standard, a middleware built on top of this signature, and (at the moment) a single backend to Jaeger.
