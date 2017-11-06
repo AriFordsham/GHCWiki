@@ -9,7 +9,7 @@ GHC 8.4 will continue the focus on stability and performance started in 8.2 and 
 
 === Libraries, source language, and type system ===
 
--  Phase 2 of the Semigroup-Monoid Proposal
+-  Phase 2 of the [[https://prime.haskell.org/wiki/Libraries/Proposals/SemigroupMonoid|Semigroup-Monoid Proposal]]
 
 
 === Compiler ===
