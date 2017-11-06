@@ -1,4 +1,4 @@
-## Implementation of Trees that Grow
+# Implementation of Trees that Grow
 
 
 In this page, we discuss the overall plan and details of implementing [ Trees that Grow](http://www.jucs.org/jucs_23_1/trees_that_grow/jucs_23_01_0042_0062_najd.pdf) in GHC. 
@@ -29,19 +29,50 @@ Main protagonists: Shayan Najd and Alan Zimmerman.
 
 Main GHC branch: `wip/GrowableAST`
 
-### General Plan
+## Status
 
 
-I have the following practical plan, which makes it possible to change the AST and the related code gradually, without touching the entire code base with a few git commits.
+We are following the General Plan (below), but we merge Step 1 and Step 3.
+We also split the overall work into multiple smaller patches, by working on a set of datatypes at a time.
+   
+
+### Step 0 (Done, Accepted, and Landed)
+
+[ Patch D3609](https://phabricator.haskell.org/D3609|)
+
+### Step 1 & 3
+
+#### Patch 1 (Done)
+
+[ Patch D4147](https://phabricator.haskell.org/D4147|) implements TtG for
+
+- `ValBinds`
+- `HsPat`
+- `HsLit`
+- `HsOverLit`
+- `HsType`
+- `HsTyVarBndr`
+- `HsAppType`
+- `FieldOcc`
+- `AmbiguousFieldOcc`
+
+
+Overall, the implementation follows TtG paper with some details captured below.
+Further details can be found in the patch description, and also there is a related [ https://ghc.haskell.org/trac/ghc/ticket/14429\|ticket](https://ghc.haskell.org/trac/ghc/ticket/14429|ticket).
+
+## General Plan
+
+
+We have the following practical plan, which makes it possible to change the AST and the related code gradually, without touching the entire code base with a few git commits.
 (I expect to fill in and update the details, as we go.)
 It is done in four steps.
 
-#### Step 0
+### Step 0
 
 
 We replace the current `HsSyn` with one using a type parameter that can enable the growable base AST, as proposed in [ https://phabricator.haskell.org/D3609](https://phabricator.haskell.org/D3609)
 
-#### Step 1
+### Step 1
 
 
 We replace the current `HsSyn` with 
@@ -82,7 +113,7 @@ Some further details on this step:
 
 All these are pretty mechanical, and I use a set of primitive macros to do parts of the job for me.
 
-#### Step 2
+### Step 2
 
 
 We reorganise the the way source locations are stored, by moving from the current alternating design to a direct style (as discussed in the Summer of Haskell project).
@@ -90,148 +121,17 @@ We reorganise the the way source locations are stored, by moving from the curren
 
 It will give us a cleaner parser (design/code wise), and speed ups.
 
-#### Step 3
+### Step 3
 
 
 Possibly, we remove the pattern synonyms to avoid a layer of indirection and get some speed up. 
 
-#### Step 4
+### Step 4
 
 
 We work on refactoring, by then redundant, bits and pieces of TH by either just removing them (like the HsSyn-TH translator) or reusing the ones in the compiler.
 
-## Experiment 2
-
-
-\@simonpj wrote
-
->
-> I was talking to Ben, Simon et al about your big patch [ https://phabricator.haskell.org/D3935](https://phabricator.haskell.org/D3935), which \> is Step 1 of [ https://ghc.haskell.org/trac/ghc/wiki/ImplementingTreesThatGrow](https://ghc.haskell.org/trac/ghc/wiki/ImplementingTreesThatGrow).
->
->
-> To us it seems that separating out Step 3 is a pretty big detour:
->
-> - It involves defining a massive collection of pattern synonyms that we will then discard.
->
-> - It defines a massive file AST.hs that defines all the HsSyn data types, all moved from HsPat, HsType etc – but those declarations will all move back again in Step 3.
-> - Each synonym has the comments from the original data constructor carefully transferred to it; then in Step 3 we will transfer them back to the data constructor.
->
-> - There is some faff associated with record-field-name clashes that we can revert in step 3.
->
->
-> So could we just do Step 1 and Step 3 at once?
->
->
-> Of course, that means that all pattern matches must be dealt with.   But many of them use field names anyway, and so will be minimally changed.  And it’s totally straightforward what to do.
->
->
-> If you prefer, you could do it one data type at a time.  We already have the right type parameters.
-
-
-This experiment is taking place at [ https://github.com/ghc/ghc/tree/wip/ttg-2017-10-13](https://github.com/ghc/ghc/tree/wip/ttg-2017-10-13)
-
-#### Rough notes based on starting the work (AZ)
-
-1. The design is inherently layered, so information has to appear in at least two places.
-
-
-Pieces
-
-- The actual data structure containing the extension points
-
-```
-dataPat x
-          =WildPat(XWildPat x)...
-```
-
-- The type family definition per extension point
-
-```
-typefamilyXWildPat   x
-```
-
-- A convenience constraint naming all extension points for a given data type
-
-```
-typeForallXPat c x =...
-```
-
-- The type instance definition, giving a concrete type for a given type tag
-
-```
-typeinstanceXWildPat(GHC pass)=PostTc pass Type
-```
-
-1. In current implementation
-
-```
-typePat pass =AST.Pat(GHC pass)
-```
-
-
-effectively forces all extension points to be in the GHC "namespace"
-
-1. Argument for patterns
-
-```
-dataHsValBindsLR idL idR
-      =-- | Value Bindings In---- Before renaming RHS; idR is always RdrName-- Not dependency analysed-- Recursive by defaultValBindsIn(XValBinds idL idR)(LHsBindsLR idL idR)[LSig idR]-- | Value Bindings Out---- After renaming RHS; idR can be Name or Id Dependency analysed,-- later bindings in the list may depend on earlier ones.|NewValBindsLR(XNewValBindsLR idL idR)-- | ValBindsOut--       [(RecFlag, LHsBinds idL)]--       [LSig GhcRn] -- AZ: how to do this?
-```
-
-1. We need to define a way of combining extensions
-
-```
-    plusHsValBinds ::HsValBinds a ->HsValBinds a ->HsValBinds a
-    plusHsValBinds (ValBindsIn x1 ds1 sigs1)(ValBindsIn x2 ds2 sigs2)=ValBindsIn(x1 `mappend` x2)(ds1 `unionBags` ds2)(sigs1 ++ sigs2)
-```
-
->
-> Is `mappend` the right thing to use?
-
-1. Current implementation defines
-
-```
-    pattern
-      ValBindsIn a b
-        =AST.ValBindsNoFieldExt a b
-```
-
->
-> which means that any tag using the extension will break in GHC code.
-
-1. what are we trying to achieve with TTG?
-
-  - Pass arbitrary AST through GHC and have it processed?
-    What minimal constraints?
-  - GHC processes AST, but other tools can then post-process?
-  - What about alternate GhcPs representation, one for IDE usage?
-  - Who owns the extensions?
-
-    - alternate representations for e.g. GhcPs IDE vs non-IDE
-    - phase specific changes e.g. ValBindsOut
-    - Other uses, non-GHC
-
-    Basic question is when should a GHC dev make a modifcation to
-    the core data type, and when use an extension point?
-
-1. A pattern locks in a particular use of an extension point.
-
-```
-    pattern
-      ValBindsOut a b
-        =NewValBindsLR(NValBindsOut a b)
-```
-
->
-> it is not possible to pattern match on the type params on the LHS
-> so the following does not parse
-
-```
-    pattern
-      ValBindsOut(GhcPass a)(GhcPass b)=NewValBindsLR(NValBindsOut(GhcPass a)(GhcPass b))
-```
-
-### Experiment 1
+## Experiment 1
 
 
 There is an experimental implementation at [ https://github.com/alanz/ghc/tree/wip/new-tree-one-param](https://github.com/alanz/ghc/tree/wip/new-tree-one-param).
@@ -339,7 +239,7 @@ instanceHasDefault()where
   def =NoSourceText
 ```
 
-#### PostXXX types
+### PostXXX types
 
 
 The paper also proposes explicitly using extension points for the `PostRn` and `PostTc` usages. This has not been done in the current experiment, which has the limited goals set out above. The types have been replaced with updated ones parameterised by the pass variable though
@@ -351,7 +251,7 @@ typefamilyPostTC x ty -- Note [Pass sensitive types]typeinstancePostTcGhcPs ty =
 typeinstancePostRnGhcTc ty = ty
 ```
 
-#### When we actually *need* a specific id type ===
+### When we actually *need* a specific id type
 
 
 Many functions and data types need to refer to variables that used to be simply the AST type parameter.  This ability is provided through the `IdP` type family
@@ -369,7 +269,7 @@ dataSig pass
     TypeSig[Located(IdP pass)]-- LHS of the signature; e.g.  f,g,h :: blah(LHsSigWcType pass)-- RHS of the signature; can have wildcards...
 ```
 
-#### Experiences
+### Experiences
 
 
 Once the `hsSyn` AST was converted, the conversion process for other modules is straightforward, as it is basically mapping
@@ -384,7 +284,7 @@ in type signatures, and making sure that where the original was used "as is" to 
 
 In some cases adding `SourceTextX` or `HasDefaultX` constraints is also required. 
 
-#### Problems
+### Problems
 
 
 The `Data` instance for the index type is required due to the following kind of construct
@@ -406,7 +306,7 @@ I presume this can be dealt with by either
 
 Can this be done? How?
 
-#### Further steps
+### Further steps
 
 1. Implement the `PostRn` and `PostTc` mechanism as per *Trees that Grow*.
 
@@ -415,3 +315,134 @@ Can this be done? How?
 1. Add further extension points to the AST.
 
 1. Use of type synonyms, if required.
+
+## Experiment 2
+
+
+\@simonpj wrote
+
+>
+> I was talking to Ben, Simon et al about your big patch [ https://phabricator.haskell.org/D3935](https://phabricator.haskell.org/D3935), which \> is Step 1 of [ https://ghc.haskell.org/trac/ghc/wiki/ImplementingTreesThatGrow](https://ghc.haskell.org/trac/ghc/wiki/ImplementingTreesThatGrow).
+>
+>
+> To us it seems that separating out Step 3 is a pretty big detour:
+>
+> - It involves defining a massive collection of pattern synonyms that we will then discard.
+>
+> - It defines a massive file AST.hs that defines all the HsSyn data types, all moved from HsPat, HsType etc – but those declarations will all move back again in Step 3.
+> - Each synonym has the comments from the original data constructor carefully transferred to it; then in Step 3 we will transfer them back to the data constructor.
+>
+> - There is some faff associated with record-field-name clashes that we can revert in step 3.
+>
+>
+> So could we just do Step 1 and Step 3 at once?
+>
+>
+> Of course, that means that all pattern matches must be dealt with.   But many of them use field names anyway, and so will be minimally changed.  And it’s totally straightforward what to do.
+>
+>
+> If you prefer, you could do it one data type at a time.  We already have the right type parameters.
+
+
+This experiment is taking place at [ https://github.com/ghc/ghc/tree/wip/ttg-2017-10-13](https://github.com/ghc/ghc/tree/wip/ttg-2017-10-13)
+
+### Rough notes based on starting the work (AZ)
+
+1. The design is inherently layered, so information has to appear in at least two places.
+
+
+Pieces
+
+- The actual data structure containing the extension points
+
+```
+dataPat x
+          =WildPat(XWildPat x)...
+```
+
+- The type family definition per extension point
+
+```
+typefamilyXWildPat   x
+```
+
+- A convenience constraint naming all extension points for a given data type
+
+```
+typeForallXPat c x =...
+```
+
+- The type instance definition, giving a concrete type for a given type tag
+
+```
+typeinstanceXWildPat(GHC pass)=PostTc pass Type
+```
+
+1. In current implementation
+
+```
+typePat pass =AST.Pat(GHC pass)
+```
+
+
+effectively forces all extension points to be in the GHC "namespace"
+
+1. Argument for patterns
+
+```
+dataHsValBindsLR idL idR
+      =-- | Value Bindings In---- Before renaming RHS; idR is always RdrName-- Not dependency analysed-- Recursive by defaultValBindsIn(XValBinds idL idR)(LHsBindsLR idL idR)[LSig idR]-- | Value Bindings Out---- After renaming RHS; idR can be Name or Id Dependency analysed,-- later bindings in the list may depend on earlier ones.|NewValBindsLR(XNewValBindsLR idL idR)-- | ValBindsOut--       [(RecFlag, LHsBinds idL)]--       [LSig GhcRn] -- AZ: how to do this?
+```
+
+1. We need to define a way of combining extensions
+
+```
+    plusHsValBinds ::HsValBinds a ->HsValBinds a ->HsValBinds a
+    plusHsValBinds (ValBindsIn x1 ds1 sigs1)(ValBindsIn x2 ds2 sigs2)=ValBindsIn(x1 `mappend` x2)(ds1 `unionBags` ds2)(sigs1 ++ sigs2)
+```
+
+>
+> Is `mappend` the right thing to use?
+
+1. Current implementation defines
+
+```
+    pattern
+      ValBindsIn a b
+        =AST.ValBindsNoFieldExt a b
+```
+
+>
+> which means that any tag using the extension will break in GHC code.
+
+1. what are we trying to achieve with TTG?
+
+  - Pass arbitrary AST through GHC and have it processed?
+    What minimal constraints?
+  - GHC processes AST, but other tools can then post-process?
+  - What about alternate GhcPs representation, one for IDE usage?
+  - Who owns the extensions?
+
+    - alternate representations for e.g. GhcPs IDE vs non-IDE
+    - phase specific changes e.g. ValBindsOut
+    - Other uses, non-GHC
+
+    Basic question is when should a GHC dev make a modifcation to
+    the core data type, and when use an extension point?
+
+1. A pattern locks in a particular use of an extension point.
+
+```
+    pattern
+      ValBindsOut a b
+        =NewValBindsLR(NValBindsOut a b)
+```
+
+>
+> it is not possible to pattern match on the type params on the LHS
+> so the following does not parse
+
+```
+    pattern
+      ValBindsOut(GhcPass a)(GhcPass b)=NewValBindsLR(NValBindsOut(GhcPass a)(GhcPass b))
+```
