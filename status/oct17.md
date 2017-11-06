@@ -20,7 +20,7 @@ GHC 8.4 will continue the focus on stability and performance started in 8.2 and 
 
 -   A new build system based on the `shake` library. This is the culmination of nearly two years of effort, replacing GHC's old Make-based build system.
 
--   Improved leverage of join-points: By floating out the “exit path” as a join point of a recursive function, we expose more opportunities for inlining to the simplifier. In the case of nested loops, this can make inner loops allocation-free! (see [\#15152](https://gitlab.haskell.org//ghc/ghc/issues/15152))
+-   Improved leverage of join-points: By floating out the “exit path” as a join point of a recursive function, we expose more opportunities for inlining to the simplifier. In the case of nested loops, this can make inner loops allocation-free! (see [\#14152](https://gitlab.haskell.org//ghc/ghc/issues/14152))
 
 ### Runtime system
 
