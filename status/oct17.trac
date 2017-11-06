@@ -9,22 +9,24 @@ GHC 8.4 will continue the focus on stability and performance started in 8.2 and 
 
 === Libraries, source language, and type system ===
 
--  Phase 2 of the Semigroup-Monoid Proposal
+-  Phase 2 of the [[https://prime.haskell.org/wiki/Libraries/Proposals/SemigroupMonoid|Semigroup-Monoid Proposal]] (Herbert Valerio Riedel)
 
 
 === Compiler ===
 
--   A new syntax tree representation based on [[http://www.jucs.org/jucs_23_1/trees_that_grow/jucs_23_01_0042_0062_najd.pdf|Trees That Grow]]. This will make it easier for external users to add their own annotations to the HsSyn AST.  In future this should allow Shayan Najd to harmonise the GHC and Template Haskell ASTs, and for the ghc-exactprint annotations to move into the GHC parsed AST.
+-   A new syntax tree representation based on [[http://www.jucs.org/jucs_23_1/trees_that_grow/jucs_23_01_0042_0062_najd.pdf|Trees That Grow]]. This will make it easier for external users to add their own annotations to the HsSyn AST.  In future this should allow Shayan Najd to harmonise the GHC and Template Haskell ASTs, and for the ghc-exactprint annotations to move into the GHC parsed AST (Shayan Najd and Alan Zimmerman).
 
 -   Improved support for cross-compilation
 
--   A new build system based on the `shake` library. This is the culmination of nearly two years of effort, replacing GHC's old Make-based build system.
+-   A new build system based on the `shake` library. This is the culmination of nearly two years of effort, replacing GHC's old Make-based build system (Andrey Mokhov)
 
--   Improved leverage of join-points: By floating out the “exit path” as a join point of a recursive function, we expose more opportunities for inlining to the simplifier. In the case of nested loops, this can make inner loops allocation-free! (see #14152)
+-   Improved leverage of join-points: By floating out the “exit path” as a join point of a recursive function, we expose more opportunities for inlining to the simplifier. In the case of nested loops, this can make inner loops allocation-free! (see #14152, Joachim Brietner)
+
+-   Serialisation performance of `Typeable` has improved in (#14254, David Feuer)
 
 === Runtime system ===
 
--   Significantly improved Windows support, with improvements in exception handling, linking, crash diagnostics, GHCi responsiveness and memory allocation and protection.
+-   Significantly improved Windows support, with improvements in exception handling, linking, crash diagnostics, GHCi responsiveness and memory allocation and protection (Tamar Christina).
 
 
 == Development updates and acknowledgments ==
