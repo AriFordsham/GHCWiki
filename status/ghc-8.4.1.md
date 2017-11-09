@@ -9,7 +9,7 @@ If you believe your favourite thing belongs in this list, but isn't there, pleas
 ## Dates
 
 
-TBD.
+Release in February 2018. Cut release branch in November 2017.
 
 ## Libraries Status
 
@@ -25,18 +25,23 @@ Below are the major highlights of 8.4.
 - Improved support for **cross-compilation** (Moritz Angermann)
 - A *more expressive Haskell AST** based on [Trees That Grow](implementing-trees-that-grow) (Shayan Najd)
   ***
+
+### Build system and miscellaneous changes
+
+- Improved Windows support, including support for split sections and long file paths (Tamar Christina)
+- Support for building stating libraries for elf and mach-o (`-staticlib`)
+
+## Landed in `master` branch
+
+### Library changes
+
 - Phase 2 of the Semigroup-Monoid Proposal (Herbert Riedel)
 
 ### Build system and miscellaneous changes
 
-- **New Shake-based build system, `hadrian`, will be merged.**  (Andrey Mokhov)
-- Improved Windows support, including support for split sections and long file paths (Tamar Christina)
-- Support for building stating libraries for elf and mach-o (`-staticlib`)
 - iserv can be used over the network via iserv-proxy
 - llvm backend uses LLVM5
-
-### Landed in `master` branch
-
+- **New Shake-based build system, `hadrian`, will be merged.**  (Andrey Mokhov)
 - **Remove dependency on Hoopl package.**  (Michal Terepeta, [ Phab:D3616](https://phabricator.haskell.org/D3616))
 
 ## Tickets marked merge with no milestone
