@@ -216,9 +216,153 @@ dnf = DNF . go
 `dnf` shows the biggest drawback of this: This is pretty much **exponential** in the number `Both` nodes.
 
 
-'Substitution' is pretty easy here: Because there are no `Both` nodes (or rather that the top-level is `Or` only), we can just substitute into each 
+'Substitution' is pretty easy here: Because there are no `Both` nodes (or rather that the top-level is `Or` only), we can just substitute into each other.
 
 *sgraf: Actually, I'm not sure what this buys us, other than simplicity of implementation. 
 And performance-wise, I have a strong feeling that this blows up pretty fast. 
 Effectively, we model **every possible path of execution** separately.
 It's the same as in logic, I guess: DNF is always possible, and easily handled, but conversion blows up exponentially in general.*
+
+## `Termination`
+
+
+The previous ideas greatly simplify by ignoring `Termation`/`DmdResult`s. 
+In fact, the bugs encountered while implementing the first proposal were all due to complex interplay with `Termination`.
+
+
+Consider the two `DmdType`s `{}` (e.g. empty, terminating) and `{y-><S,1*U>}x` (uses `y` exactly once and throws, like in `error y`).
+When these are `lub`ed, we want the `DmdType``{y-><L,1*U>}` (uses `y` at most once, possibly terminating) as a result.
+
+
+The status quo is to compute the new `DmdEnv` by `plusVarEnv_CD lubDmd env1 (defaultDmd res1) env2 (defaultDmd res2)`.
+
+- Where \*either\* the left or right `env*` is defined, we compute a new entry by `lub`ing, using `defaultDmd res*` (where `res*` is the `DmdResult` of the corresponding `DmdType`) when there is no entry in one of the `env*`s. 
+- When there is no entry in either `env*`, then there won't be in the result!
+
+
+Since this approach gets its precision from delaying `lub`s as long as possible, we have to store `Termination` information in the `DmdEnv'`/`DmdEnv''` data structure. 
+At the least, we have to tag the children of `Or` nodes, for the first two approaches (`DmdEnv'`) we also have to tag `Both` nodes, e.g.
+
+```wiki
+data DmdEnv'
+  = Empty
+  | Var Id Demand
+  | Or DmdEnv' (Termination ()) DmdEnv' (Termination ())
+  | Both DmdEnv' (Termination ()) DmdEnv' (Termination ())
+
+newtype DmdEnv''
+  = DNF [(DmdEnv, Termination ())] -- Not quite, see below
+```
+
+
+Variables not mentioned in either `lub` operand are assumed to be used according to `defaultDmd res`, where `res` is the `DmdResult` currently part of the containing `DmdType`.
+Note that due to `ExnStr`/`catch#`, the `defaultDmd res` can change after computing the actual `lub` above, so in general `defaultDmd res*` and `defaultDmd res` can vary independently!
+
+
+That's also why \[`findIdDemand`\]([ https://github.com/sgraf812/ghc/blob/922db3dac896b8cf364c9ebaebf1a27c2468c709/compiler/basicTypes/Demand.hs\#L1577](https://github.com/sgraf812/ghc/blob/922db3dac896b8cf364c9ebaebf1a27c2468c709/compiler/basicTypes/Demand.hs#L1577)) in `Demand.hs` takes a `DmdResult` as argument.
+
+
+And that's also why the above definition for `DmdEnv''` is incorrect!
+It assumes that a single `Termination` result per `lub` operand is enough, which isn't the case, as the following continued example shows:
+
+
+We started with `lubDmdType {} {y-><S,1*U>}x = {y-><L,1*U>}` (in terms of the status quo). 
+Now, `lub` that again with `{z-><S,1*U>}` to get `{y-><L,1*U>,z-><L,1*U>}`.
+
+
+So far so good. 
+The DNF would look something like `[({},Dunno ()), ({y-><S,1*U>},ThrowsExn), ({z-><S,1*U>},Dunno ())]`, which `flattenDmdEnv''`s to pretty much the same `DmdEnv` as in the `DmdType` above.
+
+
+Now consider what happens when `Termination` changed in-between the two `lub`s, e.g. because the first result of `lubDmdType` was an argument to `error`:
+
+```wiki
+  lubDmdType (markThrowsExn (lubDmdType {} {y-><S,1*U>}x)) {z-><S,1*U>}
+= lubDmdType (markThrowsExn {y-><L,1*U>}                 ) {z-><S,1*U>}
+= lubDmdType  {y-><L,1*U>}x                                {z-><S,1*U>}
+= {y-><L,1*U>,z-><S,1*U>}
+```
+
+
+Note that, different to before, `z` is now evaluated strictly!
+In our current DNF formulation, we wouldn't be able to express the difference.
+
+
+The problem here is that `lub` is no longer associative, because it depends on the `Termination` at the time of the call.
+So, we can't actually model `DmdEnv''` as a DNF, but have to resort to
+
+```wiki
+data DmdEnv''
+  = Lit DmdEnv
+  | Or DmdEnv'' (Termination ()) DmdEnv'' (Termination ())
+```
+
+
+Which is only marginally less complex than a version of `DmdEnv'` where we subsume the `Empty` and `Var` cases with an equivalent `Lit` case:
+
+```wiki
+data DmdEnv'
+  = Lit DmdEnv
+  | Or DmdEnv' (Termination ()) DmdEnv' (Termination ())
+  | Both DmdEnv' (Termination ()) DmdEnv' (Termination ())
+
+dnf :: DmdEnv' -> DmdEnv''
+dnf (DmdEnv'.Lit env) = DmdEnv''.Lit env                               -- hypothetical disambiguating syntax
+dnf (DmdEnv'.Or fv1 t1 fv2 t2) = DmdEnv''.Or (dnf fv1) t1 (dnf fv2) t2
+dnf (DmdEnv'.Both fv1 t1 fv2 t2) = distr (dnf fv1) t1 (dnf fv2) t2 -- case in point
+  where
+    -- both env1 with defaultDmd t1 into every Lit of fv2
+    distr (DmdEnv''.Lit env1) t1 fv2 t2 = undefined
+    -- both env2 with defaultDmd t2 into every Lit of fv1
+    distr fv1 t1 (DmdEnv''.Lit env2) t2 = undefined
+    -- Not exactly sure how to compute this. 
+    -- This case leads to the exponential explosion, 
+    -- as we have to combine every Lit in fv1 with every Lit in fv2.
+    -- This gets insane as we have to keep in mind which `Termination` to use for each point
+    -- in each `Lit` separately.
+    distr DmdEnv''.Or{} t1 DmdEnv''.Or{} t2 = undefined
+```
+
+`dnf` mirrors how `bothDmdEnv'` would have to change in the current implementation to get to the DNF-like version.
+
+
+In fact, the currently working prototype of the first proposal had a complicated bug in the [ \`lookupDmdTree\`](https://github.com/sgraf812/ghc/blob/43c045249402319170fa421438a1f05887269a26/compiler/basicTypes/Demand.hs#L1287) implementation, which forced me to think about how the lookup of a single point can potentially access \*all\* `Termination ()` tags on the path to a `Lit` it is contained in.
+This also applies to the implementation of `dnf`: I'm pretty sure the step that distributes `Both` over both sub trees needs to model all points separately to know with which `Termination` to `both`.
+Sorry if this is a little incomprehensible without an example, but this is already pretty deep down the rabbit hole.
+
+
+The bottom-line is that there still is some DNF-like structure possible, but in addition to the incurred exponential space complexity, there's also the issue of how to distribute `Both` nodes into leafs of the Or-tree without losing sanity to the implementation.
+
+## Evaluation
+
+### Both/Or trees, grafted at MCRAs
+
+
+The current [ working prototype of the first proposal](https://github.com/sgraf812/ghc/blob/43c045249402319170fa421438a1f05887269a26/compiler/basicTypes/Demand.hs) (progress tracked at [ \`and-or\` branch](https://github.com/sgraf812/ghc/blob/and-or/compiler/basicTypes/Demand.hs)) passes `./validate` and nofib.
+
+
+GHC is built with 0.1% more allocations and 7.1% (!) more executed instructions (cachegrind). 
+There may still be potential in optimizing the `DmdTree` (called `DmdEnv'` on this page) representation in its smart constructors (`bothDmdTree`, `lubDmdTree`) to avoid big trees.
+
+
+Running nofib revealed two benchmarks where allocation changed, `fft2` with -0.1% and `transform` with -0.0%.
+Changes in counted instructions where all around +-0.0%, with the exception of `fft2` (-0.2%).
+Seems like a net gain, but pretty much insignificant, especially compared to the significant increase in compilation time.
+
+### Both/Or trees, pushed into Or
+
+
+The implementation of the second proposal can be found [ here](https://github.com/sgraf812/ghc/blob/6bd6ab3c521de5dfa4042642c767b7906315ca28/compiler/basicTypes/Demand.hs) (progress tracked at [ \`and-or-distr\` branch](https://github.com/sgraf812/ghc/blob/and-or-distr/compiler/basicTypes/Demand.hs).
+This was a [ minimal change](https://github.com/sgraf812/ghc/commit/6bd6ab3c521de5dfa4042642c767b7906315ca28) compared to the single graft point solution, with great repercussions:
+
+
+Compilation of modules with big records (looking at you, [ \`Distribution.Types.BuildInfo\`](https://github.com/haskell/cabal/blob/4726b2ada46a4f0757ec4fcaf5508c40faa98307/Cabal/Distribution/Types/BuildInfo.hs) eats up all resources on my machine without coming to an end.
+Given the minimal invasive change, this can only be due to combinatorial explosion.
+Some debugging pinned this down to derived `Eq` and `Show` instances, where the generated `DmdTree`s grow bigger than e.g. 10000 nodes.
+I'm not entirely sure what causes the duplication that leads to the slowdown, so I tried falling back to the status quo for dictionary Ids (like we do for unlifted lets anyway) to no avail.
+
+### DNF
+
+
+When trying to implement this, I stumbled on the problems wrt. `Termination` outlined above.
+Also considering that the space complexity of this approach will be even less predictable, I've put the implementation of this is on ice for now.
