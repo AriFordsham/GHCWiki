@@ -172,7 +172,7 @@ Below, we track all work that needs to be done until we have achieved the follow
 
 Probably easiest to just trigger those builds from GitHub (as all commits are mirrored there anyway).
 
-- **Next:**[\#14416](https://gitlab.haskell.org//ghc/ghc/issues/14416): merge [ https://github.com/ghc/ghc/pull/83](https://github.com/ghc/ghc/pull/83)
+- **Next:** (a) Make sure all CircleCI builds are running as expected and (b) ensure that builds happen for PRs.
 
 ### Daily builds on Linux/i386, macOS/x86_64 & Windows/x86_64
 
