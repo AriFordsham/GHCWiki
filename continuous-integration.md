@@ -162,6 +162,8 @@ Below, we track all work that needs to be done until we have achieved the follow
 - automatic generation of all release artefacts on Linux/i386, Linux/x86_64, macOS/x86_64 & Windows/x86_64 on CircleCI and AppVeyor at least once per day,
 - end-to-end testing by creating a source distribution, from that a binary distribution, and use that for regression testing. (This has the advantage of also testing the distribution creation process.)
 
+### Relevant Trac tickets
+
 ## Status: new (18 matches)
 
 <table><tr><th>Ticket (Ticket query: status: new, component: Continuous+Integration, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: id)</th>
