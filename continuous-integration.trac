@@ -143,6 +143,9 @@ Below, we track all work that needs to be done until we have achieved the follow
 * automatic generation of all release artefacts on Linux/i386, Linux/x86_64, macOS/x86_64 & Windows/x86_64 on CircleCI and AppVeyor at least once per day,
 * end-to-end testing by creating a source distribution, from that a binary distribution, and use that for regression testing. (This has the advantage of also testing the distribution creation process.)
 
+=== Relevant Trac tickets ===
+[[TicketQuery(status=new,component=Continuous Integration,format=table,col=type|summary|priority|owner,group=status)]]
+
 === General ===
 
 * Talk to CircleCI about increased limits for the free plan for GHC. Determine how much on top of that we need.

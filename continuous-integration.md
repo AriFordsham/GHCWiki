@@ -162,6 +162,466 @@ Below, we track all work that needs to be done until we have achieved the follow
 - automatic generation of all release artefacts on Linux/i386, Linux/x86_64, macOS/x86_64 & Windows/x86_64 on CircleCI and AppVeyor at least once per day,
 - end-to-end testing by creating a source distribution, from that a binary distribution, and use that for regression testing. (This has the advantage of also testing the distribution creation process.)
 
+### Relevant Trac tickets
+
+## Status: new (18 matches)
+
+<table><tr><th>Ticket (Ticket query: status: new, component: Continuous+Integration, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: id)</th>
+<th>Type (Ticket query: status: new, component: Continuous+Integration, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: type)</th>
+<th>Summary (Ticket query: status: new, component: Continuous+Integration, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: summary)</th>
+<th>Priority (Ticket query: status: new, component: Continuous+Integration, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: priority)</th>
+<th>Owner (Ticket query: status: new, component: Continuous+Integration, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: owner)</th></tr>
+<tr><th>[\#11958](https://gitlab.haskell.org//ghc/ghc/issues/11958)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      task
+                    </th>
+<th>[Improved testing of cross-compiler](https://gitlab.haskell.org//ghc/ghc/issues/11958)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      low
+                    </th>
+<th>bgamari</th></tr>
+<tr><th>[\#13122](https://gitlab.haskell.org//ghc/ghc/issues/13122)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      task
+                    </th>
+<th>[Investigate reporting build errors with harbormaster.sendmessage](https://gitlab.haskell.org//ghc/ghc/issues/13122)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th>bgamari</th></tr>
+<tr><th>[\#14416](https://gitlab.haskell.org//ghc/ghc/issues/14416)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      task
+                    </th>
+<th>[CI with CircleCI](https://gitlab.haskell.org//ghc/ghc/issues/14416)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      highest
+                    </th>
+<th>bgamari</th></tr>
+<tr><th>[\#14475](https://gitlab.haskell.org//ghc/ghc/issues/14475)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      task
+                    </th>
+<th>[Upload documentation dumps](https://gitlab.haskell.org//ghc/ghc/issues/14475)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th></th></tr>
+<tr><th>[\#14502](https://gitlab.haskell.org//ghc/ghc/issues/14502)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      task
+                    </th>
+<th>[Build Alpine Linux binary distributions](https://gitlab.haskell.org//ghc/ghc/issues/14502)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th>bgamari</th></tr>
+<tr><th>[\#14505](https://gitlab.haskell.org//ghc/ghc/issues/14505)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[CircleCI only builds pushed heads](https://gitlab.haskell.org//ghc/ghc/issues/14505)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th>bgamari</th></tr>
+<tr><th>[\#14508](https://gitlab.haskell.org//ghc/ghc/issues/14508)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      task
+                    </th>
+<th>[Bring up Appveyor for Windows CI](https://gitlab.haskell.org//ghc/ghc/issues/14508)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th>mrkkrp</th></tr>
+<tr><th>[\#14599](https://gitlab.haskell.org//ghc/ghc/issues/14599)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[32-bit Windows test environment](https://gitlab.haskell.org//ghc/ghc/issues/14599)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th>bgamari</th></tr>
+<tr><th>[\#14949](https://gitlab.haskell.org//ghc/ghc/issues/14949)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[Perform builds on non-Debian-based systems on Circle CI](https://gitlab.haskell.org//ghc/ghc/issues/14949)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th>mrkkrp</th></tr>
+<tr><th>[\#15011](https://gitlab.haskell.org//ghc/ghc/issues/15011)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      task
+                    </th>
+<th>[Automate update of VersionHistory table](https://gitlab.haskell.org//ghc/ghc/issues/15011)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th>bgamari</th></tr>
+<tr><th>[\#15582](https://gitlab.haskell.org//ghc/ghc/issues/15582)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[Phabricator shows "drafts" by default](https://gitlab.haskell.org//ghc/ghc/issues/15582)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th>bgamari</th></tr>
+<tr><th>[\#15699](https://gitlab.haskell.org//ghc/ghc/issues/15699)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[Run sanity checker in more testsuite runs](https://gitlab.haskell.org//ghc/ghc/issues/15699)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th>bgamari</th></tr>
+<tr><th>[\#15749](https://gitlab.haskell.org//ghc/ghc/issues/15749)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[Long Harbormaster builds](https://gitlab.haskell.org//ghc/ghc/issues/15749)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th>bgamari</th></tr>
+<tr><th>[\#15972](https://gitlab.haskell.org//ghc/ghc/issues/15972)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[Test nofib tests for correctness in CI](https://gitlab.haskell.org//ghc/ghc/issues/15972)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      high
+                    </th>
+<th>bgamari</th></tr>
+<tr><th>[\#16134](https://gitlab.haskell.org//ghc/ghc/issues/16134)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[Continuous integration on FreeBSD](https://gitlab.haskell.org//ghc/ghc/issues/16134)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th>bgamari</th></tr>
+<tr><th>[\#16200](https://gitlab.haskell.org//ghc/ghc/issues/16200)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[Mechanical checking of submodule versions for releases](https://gitlab.haskell.org//ghc/ghc/issues/16200)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th>bgamari</th></tr>
+<tr><th>[\#16264](https://gitlab.haskell.org//ghc/ghc/issues/16264)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[Install reqlib'd libraries during CI](https://gitlab.haskell.org//ghc/ghc/issues/16264)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th>bgamari</th></tr>
+<tr><th>[\#16355](https://gitlab.haskell.org//ghc/ghc/issues/16355)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      task
+                    </th>
+<th>[Save CI performance metrics on windows jobs](https://gitlab.haskell.org//ghc/ghc/issues/16355)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th>davide</th></tr></table>
+
 ### General
 
 - Talk to CircleCI about increased limits for the free plan for GHC. Determine how much on top of that we need.
