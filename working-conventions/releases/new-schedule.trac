@@ -18,7 +18,7 @@ Pre-release stability
 
 == Challenges and points for discussion ==
 
-=== Impact on libraries ==
+=== Impact on libraries ===
 
 Currently, many libraries have a three GHC versions support policy: https://prime.haskell.org/wiki/Libraries/3-Release-Policy. If there are more frequent GHC versions, this may lead to shorter support times of these libraries.
 
@@ -31,6 +31,13 @@ Currently, many libraries have a three GHC versions support policy: https://prim
 The speed with which new features are added to GHC is mostly limited by people willing and able to perform the required implementation work and also by the GHC Steering Committee's willingness to accept languages proposals. Hence, more frequent releases at a predictable schedule won't, by itself, increase the rate of new features getting into GHC, but it will lead to a more gentle feature introduction (fewer features per release), and hence, hopefully also smoother adoption of new GHC versions.
 
 Equally importantly, it will make the feature release schedule more predictable for features authors who, due to the more frequent releases, will hopefully see less need to get insufficiently tested code into a release at the last minute — with all the potential destabilising effects that that can have. In fact, the release manager should use the accelerated release schedule as an argument to actively discourage last minute additions.
+
+Moreover, with more frequent major release, we should have a complete ban on backwards incompatible changes in point releases.
+
+=== General ecosystem impact ===
+
+While changing the GHC release frequency, we must have a close eye on how long it takes the ecosystem to catch up to GHC releases. With the current 2-4 months of catching up, six-monthly release may well create too much overhead. We expect that the more gentle feature introduction and better testing with the new CI infrastructure reduces the time for the ecosystem to catch up to a new GHC version; if this is not the case, we may have to reconsider our approach.
+
 
 == First instance: GHC 8.4 ==
 
