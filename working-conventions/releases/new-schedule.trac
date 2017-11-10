@@ -34,6 +34,8 @@ Equally importantly, it will make the feature release schedule more predictable 
 
 Moreover, with more frequent major release, we should have a complete ban on backwards incompatible changes in point releases.
 
+NB: Only during the RC phase, there is a complete ban on new functionality. Hence, a feature that doesn't make it into a release before that time will have to wait 7 months before it can possibly be released. This is the worst case scenario, which compares very favourably to the previous 12 to 14 month worst case.
+
 === General ecosystem impact ===
 
 While changing the GHC release frequency, we must have a close eye on how long it takes the ecosystem to catch up to GHC releases. With the current 2-4 months of catching up, six-monthly release may well create too much overhead. We expect that the more gentle feature introduction and better testing with the new CI infrastructure reduces the time for the ecosystem to catch up to a new GHC version; if this is not the case, we may have to reconsider our approach.

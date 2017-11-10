@@ -40,6 +40,9 @@ Equally importantly, it will make the feature release schedule more predictable 
 
 Moreover, with more frequent major release, we should have a complete ban on backwards incompatible changes in point releases.
 
+
+NB: Only during the RC phase, there is a complete ban on new functionality. Hence, a feature that doesn't make it into a release before that time will have to wait 7 months before it can possibly be released. This is the worst case scenario, which compares very favourably to the previous 12 to 14 month worst case.
+
 ### General ecosystem impact
 
 
