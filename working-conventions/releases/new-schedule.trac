@@ -16,6 +16,22 @@ Pre-release stability
 * ''Beta'' release: The release has seen some testing beyond `./validate`. Only previously agreed on, stable and tested new functionality is allowed in. The focus is on bug fixing.
 * ''Release candidate (RC)'' release: Strictly no new functionality. Only bug fixes are allowed.
 
+== Challenges and points for discussion ==
+
+=== Impact on libraries ==
+
+Currently, many libraries have a three GHC versions support policy: https://prime.haskell.org/wiki/Libraries/3-Release-Policy. If there are more frequent GHC versions, this may lead to shorter support times of these libraries.
+
+* This is seen by some as an argument against six-monthly GHC releases.
+* We could ask the Core Libraries Committee to consider a change to supporting more than three GHC versions.
+* Alternatively, we could ask the Core Libraries Committee to add a clause to the effect that stability will be maintained for at least a fixed absolute time frame (e.g., two or three years). This would make this policy less fragile with respect to changes in GHC release times.
+
+=== Impact on feature turn around ===
+
+The speed with which new features are added to GHC is mostly limited by people willing and able to perform the required implementation work and also by the GHC Steering Committee's willingness to accept languages proposals. Hence, more frequent releases at a predictable schedule won't, by itself, increase the rate of new features getting into GHC, but it will lead to a more gentle feature introduction (fewer features per release), and hence, hopefully also smoother adoption of new GHC versions.
+
+Equally importantly, it will make the feature release schedule more predictable for features authors who, due to the more frequent releases, will hopefully see less need to get insufficiently tested code into a release at the last minute — with all the potential destabilising effects that that can have. In fact, the release manager should use the accelerated release schedule as an argument to actively discourage last minute additions.
+
 == First instance: GHC 8.4 ==
 
 The first release under the new scheme will be GHC 8.4.
