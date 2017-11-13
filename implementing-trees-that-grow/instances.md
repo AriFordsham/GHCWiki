@@ -4,13 +4,9 @@ This page discusses the interaction of Trees That Grow with derived for `Data`. 
 
 Here's our example:
 
-```wiki
-  type family XOverLit p
-  data HsOverLit p = OverLit (XOverLit p) (HsExpr p)
-
-  data GhcPass (c :: Pass)
-  data Pass = Parsed | Renamed | Typechecked
-
+```
+typefamilyXOverLit p
+  dataHsOverLit p =OverLit(XOverLit p)(HsExpr p)dataGhcPass(c ::Pass)derivinginstanceTypeable c =>Data(GhcPass c)dataPass=Parsed|Renamed|TypecheckedtypeinstanceXOverLit(GhcPass'Parsed)=PlaceHoldertypeinstanceXOverLit(GhcPass'Renamed)=NametypeinstanceXOverLit(GhcPass'Typechecked)=Type
 ```
 
 
@@ -21,77 +17,47 @@ We want a `Data` instance for this type.
 
 I propose
 
-```wiki
-  deriving instance (Data (XOverLit (GhcPass p)))
-                 => Data (OverLit (GhcPass p)) where…
+```
+derivinginstance(Data(XOverLit(GhcPass p)))=>Data(OverLit(GhcPass p))where…
 ```
 
 
 But that gives rise to big constraint sets; for each data constructor
 we get another `X` field, and another constraint in the `Data` instance.
 
+
+This is what is currently implemented in GHC master. It works, but every time the constraint set is enlarged as the next step of Trees that Grow goes in, the time taken to compile GHC increases.
+
 ### PLAN B
 
 
-Alan proposes propose three instances:
+Alan would like to see
 
-```wiki
-  deriving instance Data (OverLit (GhcPass Parsed)) where…
-  deriving instance Data (OverLit (GhcPass Renamed)) where…
-  deriving instance Data (OverLit (GhcPass Typechecked)) where…
 ```
+derivinginstanceData(OverLit(GhcPass p))
+```
+
+
+which should have all the information available to the derivation process, since `p` can only have one of three values and each of them has a type family instance for `XOverLit`.
+
+
+This "does not compile".
+
+
+Alan has discovered that the three instances:
+
+```
+derivinginstanceData(OverLit(GhcPass'Parsed))derivinginstanceData(OverLit(GhcPass'Renamed))derivinginstanceData(OverLit(GhcPass'Typechecked))
+```
+
+**will** compile, but only with GHC 8.2.1, not with 8.0.2, due to a flaw in the standalone deriving process.
 
 
 That is: instead of one `Data` instance for the `HsSyn` traversals,
 make three.
 
 
-But Alan discovered that you need a totally weird (constant!) constraint to “make it compile”
-
-```wiki
-   deriving instance Data (GhcPass Parsed)
-                  => Data (Experiment (GhcPass Parsed))
-```
-
-
-That's bizarre. The argument `p` to `HsOverLit` is a type index: there are no *values* of that type. So why should you need `Data (GhcPass Parsed)`?
-
-
-(Moreover, you should never need a *constant* constraint in an instance context! Instead of adding it to thei nstance declartion, just add `deriving( Data )` to the definition of `GhcPass`.)
-
-
-The error message actually comes from (the derived code for) the method for `dataCast1`
-
-```wiki
- instance Data (Experiment (GhcPass Parsed)) where
-     ...
-     dataCast1 f = gcast1 f
-
--- Reminder:
---   gcast1 :: forall c t t' a. (Typeable t, Typeable t')
---       => c (t a) -> Maybe (c (t' a))
---
---   class Data a where
---       dataCast1 :: Typeable t
---            => (forall d. Data d => c (t d))
---            -> Maybe (c a)
-```
-
-
-The `Data (GhcPass Parsed)` constraint arises from the call of `f` in the method for
-`dataCast1`.
-
-
-Now I have totally forgotten how `dataCast1` is supposed to work (see Section 7.3 of [ the paper](https://www.microsoft.com/en-us/research/publication/scrap-more-boilerplate-reflection-zips-and-generalised-casts)).  But it does seem to be to do with polymoprhic function extension, and we would not expect to do that on a type-indexed data type (rather than a container).  So we should really have
-
-```wiki
- instance Data (Experiment (GhcPass Parsed)) where
-     ...
-     dataCast1 f = Nothing
-```
-
-
-and then I think all will be well.  Sadly `deriving` doesn't generate that.
+\[ The spurious constraint problem was resolved by including `deriving instance Typeable c => Data (GhcPass c)`, as recommended by \@RyanGlScott \]
 
 ### PLAN C
 
@@ -99,17 +65,16 @@ and then I think all will be well.  Sadly `deriving` doesn't generate that.
 It is still painful generating three virtually identical chunks of traversal code.
 So suppose we went back to
 
-```wiki
-  deriving instance (...)
-                 => Data (OverLit (GhcPass p)) where…
+```
+derivinginstance(...)=>Data(OverLit(GhcPass p))where…
 ```
 
 
 We'd get unresolved constraints like `Data (XOverLit (GhcPass p))`.  Perhaps we
 could resolve them like this
 
-```wiki
-  instance Data (XOverLIt (GhcPass p)) where
+```
+instanceData(XOverLIt(GhcPass p))where
      gmapM f x = x
      ...etc...
 ```
@@ -124,30 +89,23 @@ That might not be so bad, for now!
 If there were cases when we really did want to look at those extension fields,
 we still could, by doing a runtime test, like this:
 
-```wiki
-  instance IsGhcPass p => Data (XOverLIt (GhcPass p)) where
-     gmapM = case ghcPass @p of
-                IsParsed -> gmapM
-                IsRenamed -> gmapM
-                IsTypechecked -> gmapM
+```
+instanceIsGhcPass p =>Data(XOverLIt(GhcPass p))where
+     gmapM =case ghcPass @p ofIsParsed-> gmapM
+                IsRenamed-> gmapM
+                IsTypechecked-> gmapM
      ...etc...
 ```
 
 
 Here I'm positing a new class and GADT:
 
-```wiki
-class IsGhcPass p where
-  ghcPass :: IsGhcPassT p
+```
+classIsGhcPass p where
+  ghcPass ::IsGhcPassT p
 
-data IsGhcPassT p where
-  IsParsed      :: IsGhcPass Parsed
-  IsRenamed     :: IsGhcPass Renamed
-  IsTypechecked :: IsGhcPass Typechecked
-
-instance IsGhcPass Parsed where
-  ghcPass = IsParsed
-...etc...
+dataIsGhcPassT p whereIsParsed::IsGhcPassParsedIsRenamed::IsGhcPassRenamedIsTypechecked::IsGhcPassTypecheckedinstanceIsGhcPassParsedwhere
+  ghcPass =IsParsed...etc...
 ```
 
 
@@ -156,3 +114,27 @@ which we can dispatch on.
 
 
 We can mix Plan C and D.
+
+
+Alan:
+
+
+Note:
+
+-  We are solving a compilation time problem for GHC stage1/stage2. The produced compiler has the same performance regardless of which derivation mechanism.
+
+- Ideally we would like to end up with `data` instances for an arbitrary `OverLit p`, which is an outcome for Plan A. i.e. Plan A will play nice with external index types,for GHC API users.
+
+### PLAN E
+
+
+Proceed as per Plan A, but move all the standalone deriving code to a new file, which will produce orphan instances.
+
+
+Inside this, use CPP to detect a modern enough compiler (GHC 8.2.1) to generate via Plan B, otherwise fall back to Plan A.
+
+
+Eventually improve the standalone deriving sufficiently that it is able to generate a single traversal, instead of the three.
+
+
+So for day-to-day work ghc devs can use GHC 8.2.1, and we confirm is still works with GHC 8.0.2 less frequently.
