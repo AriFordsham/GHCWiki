@@ -1,5 +1,7 @@
 = Nested closure representation in STG =
 
+Progess on this is tracked by Trac #14461.
+
 == The problem ==
 
 Consider this function (taken from comment:87 of #7258):
