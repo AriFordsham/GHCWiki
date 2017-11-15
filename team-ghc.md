@@ -60,10 +60,10 @@ In order to see emails below, **you must login**.
   - **Committer since**: March, 2013.
   - **Main areas of interest**: IO manager
 
-- Andrey Mokhov
+- [ Andrey Mokhov](https://blogs.ncl.ac.uk/andreymokhov/about)
 
   - Newcastle University, UK
-  - **Trac**: snowleopard; **email**: andrey.mokhov@…
+  - **Trac**: snowleopard, **email**: andrey.mokhov@…, **github**: [ https://github.com/snowleopard](https://github.com/snowleopard)
   - **Committer since**: November, 2014.
   - **Main areas of interest**: build system, optimiser
 
