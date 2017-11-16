@@ -2,7 +2,11 @@
 
 = How to change GHC's documentation =
 
-Updating GHC's documentation is easy, and can benefit new comers greatly !
+Updating [https://downloads.haskell.org/~ghc/latest/docs/html/libraries/ GHC's documentation] is easy, and can benefit new comers greatly !
+
+GHC's documentation is included within in its source code, using [http://haskell-haddock.readthedocs.io/en/latest/markup.html Haddocks's markup].
+
+Here are the steps to modify it:
 
 0. '''Create a [https://github.com/ghc/ghc/pulls?utf8=%E2%9C%93&q=is%3Apr Pull Request]''' on [https://github.com/ghc/ghc/ GitHub]. 
 
