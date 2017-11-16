@@ -1,5 +1,3 @@
-(this is a draft)
-
 = How to change GHC's documentation =
 
 Updating [https://downloads.haskell.org/~ghc/latest/docs/html/libraries/ GHC's documentation] is easy, and can benefit new comers greatly !
