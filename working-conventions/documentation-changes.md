@@ -1,6 +1,3 @@
-
-(this is a draft)
-
 # How to change GHC's documentation
 
 
