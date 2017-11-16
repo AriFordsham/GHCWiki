@@ -6,8 +6,7 @@ GHC's documentation is included within in its source code, using [http://haskell
 
 Here are the steps to modify it:
 
-0. '''Create a [https://github.com/ghc/ghc/pulls?utf8=%E2%9C%93&q=is%3Apr Pull Request]''' on [https://github.com/ghc/ghc/ GitHub]. 
-
+0. '''Create a [https://github.com/ghc/ghc/pulls?utf8=%E2%9C%93&q=is%3Apr Pull Request]''' on [https://github.com/ghc/ghc/ GitHub]. [[BR]][[BR]]
 0. '''Wait''' for the reviewers to look at your patches. If this takes more than a week, complain! [[BR]][[BR]]
 0. '''Wait''' for the release manager to land your patches. If this takes more than a week, complain!
 
