@@ -18,7 +18,7 @@ We want a `Data` instance for this type.
 I propose
 
 ```
-derivinginstance(Data(XOverLit(GhcPass p)))=>Data(OverLit(GhcPass p))where…
+derivinginstance(Typeable p,Data(XOverLit(GhcPass p)))=>Data(HsOverLit(GhcPass p))
 ```
 
 

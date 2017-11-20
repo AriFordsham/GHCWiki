@@ -21,8 +21,9 @@ We want a `Data` instance for this type.
 
 I propose
 {{{#!hs
-  deriving instance (Data (XOverLit (GhcPass p)))
-                 => Data (OverLit (GhcPass p)) where…
+ deriving instance (Typeable p, Data (XOverLit (GhcPass p))) =>
+    Data (HsOverLit (GhcPass p))
+
 }}}
 But that gives rise to big constraint sets; for each data constructor
 we get another `X` field, and another constraint in the `Data` instance.
