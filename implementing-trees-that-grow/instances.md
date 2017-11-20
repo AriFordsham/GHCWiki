@@ -47,7 +47,7 @@ This "does not compile".
 Alan has discovered that the three instances:
 
 ```
-derivinginstanceData(OverLit(GhcPass'Parsed))derivinginstanceData(OverLit(GhcPass'Renamed))derivinginstanceData(OverLit(GhcPass'Typechecked))
+derivinginstanceData(HsOverLit(GhcPass'Parsed))derivinginstanceData(HsOverLit(GhcPass'Renamed))derivinginstanceData(HsOverLit(GhcPass'Typechecked))
 ```
 
 **will** compile, but only with GHC 8.2.1, not with 8.0.2, due to a flaw in the standalone deriving process.

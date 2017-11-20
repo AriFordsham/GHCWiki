@@ -43,12 +43,11 @@ which should have all the information available to the derivation process, since
 
 This "does not compile".
 
-
 Alan has discovered that the three instances:
 {{{#!hs
-  deriving instance Data (OverLit (GhcPass 'Parsed))
-  deriving instance Data (OverLit (GhcPass 'Renamed))
-  deriving instance Data (OverLit (GhcPass 'Typechecked))
+  deriving instance Data (HsOverLit (GhcPass 'Parsed ))
+  deriving instance Data (HsOverLit (GhcPass 'Renamed))
+  deriving instance Data (HsOverLit (GhcPass 'Typechecked))
 }}}
 '''will''' compile, but only with GHC 8.2.1, not with 8.0.2, due to a flaw in the standalone deriving process.
 
