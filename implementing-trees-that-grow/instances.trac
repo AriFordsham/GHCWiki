@@ -21,8 +21,9 @@ We want a `Data` instance for this type.
 
 I propose
 {{{#!hs
-  deriving instance (Data (XOverLit (GhcPass p)))
-                 => Data (OverLit (GhcPass p)) where…
+ deriving instance (Typeable p, Data (XOverLit (GhcPass p))) =>
+    Data (HsOverLit (GhcPass p))
+
 }}}
 But that gives rise to big constraint sets; for each data constructor
 we get another `X` field, and another constraint in the `Data` instance.
@@ -35,19 +36,18 @@ This is what is currently implemented in GHC master. It works, but every time th
 Alan would like to see
 
 {{{#!hs
-deriving instance Data (OverLit (GhcPass p))
+deriving instance Data (HsOverLit (GhcPass p))
 }}}
 
 which should have all the information available to the derivation process, since `p` can only have one of three values and each of them has a type family instance for `XOverLit`.
 
 This "does not compile".
 
-
 Alan has discovered that the three instances:
 {{{#!hs
-  deriving instance Data (OverLit (GhcPass 'Parsed))
-  deriving instance Data (OverLit (GhcPass 'Renamed))
-  deriving instance Data (OverLit (GhcPass 'Typechecked))
+  deriving instance Data (HsOverLit (GhcPass 'Parsed ))
+  deriving instance Data (HsOverLit (GhcPass 'Renamed))
+  deriving instance Data (HsOverLit (GhcPass 'Typechecked))
 }}}
 '''will''' compile, but only with GHC 8.2.1, not with 8.0.2, due to a flaw in the standalone deriving process.
 
@@ -56,7 +56,19 @@ make three.
 
 [ The spurious constraint problem was resolved by including `deriving instance Typeable c => Data (GhcPass c)`, as recommended by @RyanGlScott ]
 
-=== PLAN C ===
+=== PLAN E ===
+
+Proceed as per Plan A, but move all the standalone deriving code to a new file, which will produce orphan instances.
+
+Inside this, use CPP to detect a modern enough compiler (GHC 8.2.1) to generate via Plan B, otherwise fall back to Plan A.
+
+Eventually improve the standalone deriving sufficiently that it is able to generate a single traversal, instead of the three.
+
+So for day-to-day work ghc devs can use GHC 8.2.1, and we confirm is still works with GHC 8.0.2 less frequently.
+
+== Outdated/Infeasible Plans ==
+
+=== PLAN C (Infeasible)  ===
 
 It is still painful generating three virtually identical chunks of traversal code.
 So suppose we went back to
@@ -74,7 +86,7 @@ could resolve them like this
 That is: a no-op `Data` instances.  Traversals would not traverse extension fields.
 That might not be so bad, for now!
 
-=== PLAN D ===
+=== PLAN D (Infeasible) ===
 
 If there were cases when we really did want to look at those extension fields,
 we still could, by doing a runtime test, like this:
@@ -113,13 +125,3 @@ Note:
 
 - Ideally we would like to end up with `data` instances for an arbitrary `OverLit p`, which is an outcome for Plan A. i.e. Plan A will play nice with external index types,for GHC API users.
 
-
-=== PLAN E ===
-
-Proceed as per Plan A, but move all the standalone deriving code to a new file, which will produce orphan instances.
-
-Inside this, use CPP to detect a modern enough compiler (GHC 8.2.1) to generate via Plan B, otherwise fall back to Plan A.
-
-Eventually improve the standalone deriving sufficiently that it is able to generate a single traversal, instead of the three.
-
-So for day-to-day work ghc devs can use GHC 8.2.1, and we confirm is still works with GHC 8.0.2 less frequently.
