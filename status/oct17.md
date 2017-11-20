@@ -161,9 +161,9 @@ have memory models which reveal latent bugs more readily than amd64.
 
 Moritz Angerman has been hard at work on a number of areas of the compiler, with
 a general focus on portability and cross-compilation. Not only has he
-single-handedly rewritten much of GHC's ARM and AArch64 linker, but he is also
+single-handedly rewritten much of GHC's ARM and AArch64 linker for ELF and Mach-O, but he is also
 adding cross-compilation support to Template Haskell, improving
-cross-compilation support in the build system, and rewriting the LLVM backend.
+cross-compilation support in the build system, and written an alternative the LLVM backend.
 Thanks Moritz!
 
 
