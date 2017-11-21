@@ -12,6 +12,7 @@ GHC on Windows is supported by the [Windows Task Force](windows-task-force).
 <th> Vista </th>
 <th> Win7 </th>
 <th> Win8 </th>
+<th> Win10 Creators </th>
 <th> Win10 
 </th></tr>
 <tr><th> 7.8         </th>
@@ -21,6 +22,7 @@ GHC on Windows is supported by the [Windows Task Force](windows-task-force).
 <th>  ✔      </th>
 <th>  ✔     </th>
 <th></th>
+<th></th>
 <th></th></tr>
 <tr><th> 7.10        </th>
 <th></th>
@@ -29,6 +31,7 @@ GHC on Windows is supported by the [Windows Task Force](windows-task-force).
 <th>  ✔      </th>
 <th>  ✔     </th>
 <th>  ✔     </th>
+<th></th>
 <th></th></tr>
 <tr><th> 8.0         </th>
 <th></th>
@@ -37,8 +40,32 @@ GHC on Windows is supported by the [Windows Task Force](windows-task-force).
 <th>  ✔      </th>
 <th>  ✔     </th>
 <th>  ✔     </th>
+<th>  ✔ (Note 1)      </th>
+<th>  ✔      
+</th></tr>
+<tr><th> 8.2         </th>
+<th></th>
+<th></th>
+<th></th>
+<th>  ✔      </th>
+<th>  ✔     </th>
+<th>  ✔     </th>
+<th>  ✔               </th>
+<th>  ✔      
+</th></tr>
+<tr><th> 8.4         </th>
+<th></th>
+<th></th>
+<th></th>
+<th>  ✔      </th>
+<th>  ✔     </th>
+<th>  ✔     </th>
+<th>  ✔               </th>
 <th>  ✔      
 </th></tr></table>
+
+
+Note 1: Only distributions specifically advertising support the Creator's Update will work with Windows 10 Creator's Update and later. 
 
 
 Note that Vista must be patched with KB2533623.
