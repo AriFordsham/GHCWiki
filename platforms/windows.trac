@@ -4,10 +4,14 @@ GHC on Windows is supported by the [wiki:WindowsTaskForce Windows Task Force].
 
 == Versions supported ==
 
-||= GHC Version =||= <= WinNT4 =||= Win2k =||= WinXP =||= Vista =||= Win7 =||= Win8 =||= Win10 =||
-||= 7.8         =||             ||  ✔      ||  ✔      ||  ✔      ||  ✔     ||        ||         ||
-||= 7.10        =||             ||         ||  ✔      ||  ✔      ||  ✔     ||  ✔     ||         ||
-||= 8.0         =||             ||         ||         ||  ✔      ||  ✔     ||  ✔     ||  ✔      ||
+||= GHC Version =||= <= WinNT4 =||= Win2k =||= WinXP =||= Vista =||= Win7 =||= Win8 =||= Win10 Creators =||= Win10 =||
+||= 7.8         =||             ||  ✔      ||  ✔      ||  ✔      ||  ✔     ||        ||                  ||         ||
+||= 7.10        =||             ||         ||  ✔      ||  ✔      ||  ✔     ||  ✔     ||                  ||         ||
+||= 8.0         =||             ||         ||         ||  ✔      ||  ✔     ||  ✔     ||  ✔ (Note 1)      ||  ✔      ||
+||= 8.2         =||             ||         ||         ||  ✔      ||  ✔     ||  ✔     ||  ✔               ||  ✔      ||
+||= 8.4         =||             ||         ||         ||  ✔      ||  ✔     ||  ✔     ||  ✔               ||  ✔      ||
+
+Note 1: Only distributions specifically advertising support the Creator's Update will work with Windows 10 Creator's Update and later. 
 
 Note that Vista must be patched with KB2533623.
 
@@ -22,3 +26,4 @@ Releases of GHC since 7.6.1 also provide a 64bit Windows version for building 64
 == Building on Windows ==
 
 Build instructions for Windows are incorporated in the [wiki:Building Building Guide].  In particular, here is how to [wiki:Building/Preparation/Windows set up your Windows system for building GHC].
+
