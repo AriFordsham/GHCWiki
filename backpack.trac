@@ -83,6 +83,27 @@ library
   mixins: foo-indef requires (Str as StrImpl)
 }}}
 
+**How can I declare that a module implements a signature?**  In traditional Haskell style, you can write `x :: Type` to specify that a value `x` should have some type.  In Backpack, specifying that a module implements a signature is done out-of-line; you must create a third component to link them together (e.g., a test suite):
+
+{{{
+test-suite implements
+  type:                exitcode-stdio-1.0
+  main-is:             Main.hs
+  build-depends:
+    base,
+    foo-implementation,
+    foo-sig
+  default-language:    Haskell2010
+}}}
+
+A few notes about this encoding:
+
+* If you need to specify that a module implements multiple signatures, you include all of those signatures in the same implements test or create separate implements tests.
+
+* Being a test suite, this requires you to create a dummy `Main.hs` file (`main = return ()` is sufficient) and add a `base` dependency.  So why do we pick a test suite?  A test suite will ensure that you have in fact filled all of the holes of a `foo-sig`, whereas a regular library will happily pass through any unfilled holes, making it easy for you to think that a check has occurred when it has not.
+
+* You might wonder if you can skip defining an extra test-suite by mixing in the signature package from the implementation package. Unfortunately, this runs afoul the "you can't instantiate a dependency with a local module" restriction. Additionally, this adds an extra spurious dependency to your package which is not actually needed.
+
 == Backpack-related tickets ==
 
 Backpack-related tickets are marked with keyword 'backpack'. If the ticket is assigned to ezyang, it means he's planning on working on it.
