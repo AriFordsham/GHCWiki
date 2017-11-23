@@ -42,7 +42,7 @@ You will also *really* want the command line tool, **Arcanist**. It's not strict
 The most important tool you're going to use with Phab is called **arcanist**, which is the command line interface to Phabricator. Arcanist is a tool written in PHP, and comes from a git repository - so you'll need PHP installed on your machine.
 
 
-To install PHP on Debian or Ubuntu, run `apt-get install php5-cli php5-curl` (or `apt-get install php7-cli php7-curl` on a more recent Ubuntu).
+To install PHP on Debian or Ubuntu, run `apt-get install php5-cli php5-curl` (or `apt-get install php7.0-cli php7.0-curl` on a more recent Ubuntu).
 On OS X PHP is already installed and you can skip directly to grabbing the arcanist sources.
 
 **WARNING**: Don't install `arc` using the package manager from your Linux distribution (e.g. Debian, even unstable). It might work when you first install it from Debian, but sooner or later the packaged version will fall behind the version used on the server. You need the source checked out.
