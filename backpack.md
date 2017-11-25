@@ -1,7 +1,7 @@
 # Backpack
 
 
-This is the launch page for Backpack, actively maintained by Edward (as of Aug 2017). 
+This is the launch page for Backpack, actively maintained by Edward (as of Nov 2017). 
 
 
 Backpack is a system for retrofitting Haskell with an applicative, mix-in module system. It has been implemented in GHC 8.2 and cabal-install 2.0, but it is [ not supported by Stack](https://github.com/commercialhaskell/stack/issues/2540).
@@ -44,6 +44,8 @@ Some more out-of-date documents:
 **Can I use this with Stack?** No, Backpack requires support from the package manager, and Stack integration has not been implemented yet.
 
 **Can I use this with Template Haskell?** Yes, but you need GHC 8.2.2; GHC 8.2.1 has a critical bug which means that most real-world uses of TH will not work. See [ this issue](https://github.com/haskell/cabal/issues/4755) and [ this issue](https://github.com/haskell/cabal/issues/4865) for two examples of this occurring in the wild.
+
+**Can I use this with the C preprocessor?** No, this is buggy (you'll get an error `<command line>: unknown package: hole`). See [\#14525](https://gitlab.haskell.org//ghc/ghc/issues/14525) for the issue and a patch.
 
 **Make sure cabal-version is recent enough.** ([ \#4448](https://github.com/haskell/cabal/issues/4448)) If you set the `cabal-version` of your package too low, you may get this error:
 
