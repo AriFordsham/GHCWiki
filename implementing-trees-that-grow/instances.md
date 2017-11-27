@@ -3,6 +3,10 @@ This page discusses the interaction of Trees That Grow with derived for `Data`. 
 
 
 This page is part of [ImplementingTreesThatGrow](implementing-trees-that-grow).
+
+## Example
+
+
 Here's our example:
 
 ```
@@ -74,7 +78,7 @@ Eventually improve the standalone deriving sufficiently that it is able to gener
 
 So for day-to-day work ghc devs can use GHC 8.2.1, and we confirm is still works with GHC 8.0.2 less frequently.
 
-## PLAN F
+### PLAN F
 
 
 (This is a bit like Plan C/D, but without the stupid error.)
