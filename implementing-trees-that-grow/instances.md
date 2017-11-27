@@ -81,6 +81,34 @@ So for day-to-day work ghc devs can use GHC 8.2.1, and we confirm is still works
 
 Suppose we declared out extension fields like this
 
+```wiki
+data HsOverLit p = OverLit (GhcExt (XOverLit p)) (HsExpr p)
+
+newtype GhcExt x = Ext x
+```
+
+
+Now we could execute on Plan C by saying
+
+```wiki
+instance Data (GhcExt x) where
+  gmapM f x = x
+  ...
+```
+
+
+The downside is that every pattern match and construction would need to wrap and unwrap with `Ext`.
+
+
+But actually we are going to need to do that anyway!  We are planning to abolish the alternation of `Located t` and `t` by putting the SrcSpan for the construct in its extension field. Like this
+
+```wiki
+data GhcExt x = Ext SrcSpan x
+```
+
+
+So we have to do this wrapping business anyway!
+
 ## Outdated/Infeasible Plans
 
 ### PLAN C (Infeasible)
