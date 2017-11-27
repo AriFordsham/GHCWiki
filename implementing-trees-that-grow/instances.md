@@ -2,9 +2,7 @@
 This page discusses the interaction of Trees That Grow with derived for `Data`.  (But it might apply to manual instances for, say, `Outputable` too.)
 
 
-This page is part of [ImplementingTreesThatGrow/Instances](implementing-trees-that-grow/instances).
-
-
+This page is part of [ImplementingTreesThatGrow](implementing-trees-that-grow).
 Here's our example:
 
 ```

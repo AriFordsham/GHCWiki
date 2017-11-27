@@ -1,7 +1,6 @@
 This page discusses the interaction of Trees That Grow with derived for `Data`.  (But it might apply to manual instances for, say, `Outputable` too.)
 
-This page is part of [wiki:ImplementingTreesThatGrow/Instances].
-
+This page is part of [wiki:ImplementingTreesThatGrow].
 Here's our example:
 {{{#!hs
   type family XOverLit p
