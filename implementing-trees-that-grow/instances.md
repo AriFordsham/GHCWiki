@@ -2,6 +2,11 @@
 This page discusses the interaction of Trees That Grow with derived for `Data`.  (But it might apply to manual instances for, say, `Outputable` too.)
 
 
+This page is part of [ImplementingTreesThatGrow](implementing-trees-that-grow).
+
+## Example
+
+
 Here's our example:
 
 ```
@@ -72,6 +77,60 @@ Eventually improve the standalone deriving sufficiently that it is able to gener
 
 
 So for day-to-day work ghc devs can use GHC 8.2.1, and we confirm is still works with GHC 8.0.2 less frequently.
+
+### PLAN F
+
+
+(This is a bit like Plan C/D, but without the stupid error.)
+
+
+Suppose we declared out extension fields like this
+
+```wiki
+data HsOverLit p = OverLit (GhcExt (XOverLit p)) (HsExpr p)
+
+newtype GhcExt x = Ext x
+```
+
+
+Now we could execute on Plan C by saying
+
+```wiki
+instance Data (GhcExt x) where
+  gmapM f x = x
+  ...
+```
+
+
+The downside is that every pattern match and construction would need to wrap and unwrap with `Ext`.
+
+
+But actually we are going to need to do that anyway!  We are planning to abolish the alternation of `Located t` and `t` by putting the SrcSpan for the construct in its extension field. Like this
+
+```wiki
+data GhcExt x = Ext SrcSpan x
+```
+
+
+So we have to do this wrapping business anyway!
+
+
+This approach would mean that every client of `HsSyn` would have to have a `GhcExt` in every node, with a `SrcSpan`. If that's not OK (and it probably isn't ok) we could do this:
+
+```wiki
+data HsOverLit p = OverLit (XOverLit p) (HsExpr p)
+type instance XOverLit (GhcPass p) = GhcExt (GhcXOverlit p)
+```
+
+
+The price is that there are two type-level functions for each constructor.  The benefit is that we can do Plan C.
+
+
+Actually, in the common case where GHC does not use any extension fields for a constructor `K` we could dispense with the second function thus
+
+```wiki
+type instance XK (GhcPass p) = GhcExt PlaceHolder
+```
 
 ## Outdated/Infeasible Plans
 
