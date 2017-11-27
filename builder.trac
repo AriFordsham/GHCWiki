@@ -1,6 +1,11 @@
 
 = The GHC Builder =
 
+{{{#!box type=warn
+This infrastructure is currently unmaintained and can be assumed to be bit-rotted. Currently GHC is tested via external wiki:ContinuousIntegration services.
+}}}
+
+
 The '''GHC builder''' is a client/server system that allows us to build and test GHC on lots of different computers scattered around the world (the ''clients'', or ''build slaves''), and aggregate the test results centrally (the ''server'').
 
 Each night we build GHC on each slave, in various different ways, run the test suite and performance benchmarks, and mail the results to the `ghc-builds@haskell.org` mailing list.  

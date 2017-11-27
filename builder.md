@@ -1,6 +1,9 @@
 # The GHC Builder
 
 
+This infrastructure is currently unmaintained and can be assumed to be bit-rotted. Currently GHC is tested via external [wiki:ContinuousIntegration](continuous-integration) services.
+
+
 The **GHC builder** is a client/server system that allows us to build and test GHC on lots of different computers scattered around the world (the *clients*, or *build slaves*), and aggregate the test results centrally (the *server*).
 
 
