@@ -247,7 +247,7 @@ Update the `ANNOUNCE` file.
 Mail `ANNOUNCE` with the subject `[ANNOUNCE] GHC version $version` to,
 
 ```wiki
-glasgow-haskell-users@haskell.org, haskell@haskell.org, ghc-devs@haskell.org, haskell-cafe@googlegroups.com
+glasgow-haskell-users@haskell.org, haskell@haskell.org, ghc-devs@haskell.org, haskell-cafe@haskell.org
 ```
 
 
