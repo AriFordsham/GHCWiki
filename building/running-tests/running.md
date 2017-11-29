@@ -111,6 +111,9 @@ $ make WAY=ghci
 ```
 
 
+The testsuite ways are defined in `testsuite/config/ghc`.
+
+
 To add specific options to the compiler:
 
 ```wiki

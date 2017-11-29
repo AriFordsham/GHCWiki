@@ -67,6 +67,7 @@ To run the tests one particular way only (eg. GHCi):
 {{{
 $ make WAY=ghci
 }}}
+The testsuite ways are defined in `testsuite/config/ghc`.
 
 To add specific options to the compiler:
 {{{
@@ -77,6 +78,7 @@ By default tests clean up after themselves. If you want to keep the temporary fi
 {{{
 $ make CLEANUP=0
 }}}
+
 
 == Additional Packages ==
 
