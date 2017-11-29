@@ -95,6 +95,11 @@ If we did this all the way down we'd get a linear amount of code, we'd execute
 a linear number of loads and stores.  Function closures would no longer be "flat", but
 that's ok.
 
+# Problem: Updatable thunks
+
+
+While this solution is quite simple it poses some problems with respect to updatable thunks: If an `inner` closure refers to its `outer` closure, which happens to be an updatable thunk, we can't guarantee safe access to `outer`s free variables for `inner`! When `outer` is forced its value will be written back to `outer`s closure and `outer`s info table is updated to be an indirection instead of a thunk. `outer`s free variables are now considered garbage and we might segfault when trying to access these in `inner`.
+
 ## When exactly can we do this?
 
 
