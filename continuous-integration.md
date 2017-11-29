@@ -91,7 +91,7 @@ Overall, CircleCI & AppVeyor are more secure.
 **Scalability**
 
 - With forkability, we refer to a user's ability to fork GHC, modify it, and run their own CI instance (not using GHC HQ's infrastructure) without any significant extra work. This significantly improves scaling and takes load of the GHC HQ's infrastructure. CircleCI & AppVeyor is forkable, but Jenkins is not (as a user needs to set up their own infrastructure).
-- While Jenkins can be combined with other Docker/Kubernets to improve scaling, this is difficult (e.g., Tweag I/O had some rather bad experiences with this). In contrast, this is handled by the provider in the CircleCI & AppVeyor case.
+- While Jenkins can be combined with other Docker/Kubernetes to improve scaling, this is difficult (e.g., Tweag I/O had some rather bad experiences with this). In contrast, this is handled by the provider in the CircleCI & AppVeyor case.
 
 
 Overall, CircleCI & AppVeyor are more scalable.
