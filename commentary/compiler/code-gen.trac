@@ -28,8 +28,8 @@ Various historical pages, with still-useful info:
 
 Use Keyword = `CodeGen` to ensure that a ticket ends up on these lists.
 
-'''Open Tickets:'''
+**Open Tickets:**
 [[TicketQuery(status=new|patch,keywords=~CodeGen)]]
 
-'''Closed Tickets:'''
+**Closed Tickets:**
 [[TicketQuery(status=closed,keywords=~CodeGen)]]
