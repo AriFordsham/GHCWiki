@@ -21,9 +21,9 @@ NOTE! The native code generator was largely rewritten as part of the C-- backend
 
 After GHC has produced [Cmm](commentary/compiler/cmm-type) (use -ddump-cmm or -ddump-opt-cmm to view), the Native Code Generator (NCG) transforms Cmm into architecture-specific assembly code.  The NCG is located in [compiler/nativeGen](/trac/ghc/browser/ghc/compiler/nativeGen) and is separated into eight modules:
 
-- [compiler/nativeGen/AsmCodeGen.lhs](/trac/ghc/browser/ghc/compiler/nativeGen/AsmCodeGen.lhs)
+- [compiler/nativeGen/AsmCodeGen.hs](/trac/ghc/browser/ghc/compiler/nativeGen/AsmCodeGen.hs)
 
-  top-level module for the NCG, imported by [compiler/main/CodeOutput.lhs](/trac/ghc/browser/ghc/compiler/main/CodeOutput.lhs); also defines the Monad for optimising generic Cmm code, `CmmOptM`
+  top-level module for the NCG, imported by [compiler/main/CodeOutput.hs](/trac/ghc/browser/ghc/compiler/main/CodeOutput.hs); also defines the Monad for optimising generic Cmm code, `CmmOptM`
 - [compiler/nativeGen/MachCodeGen.hs](/trac/ghc/browser/ghc/compiler/nativeGen/MachCodeGen.hs)
 
   generates architecture-specific instructions (a Haskell-representation of assembler) from Cmm code
