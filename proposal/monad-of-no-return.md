@@ -264,10 +264,14 @@ warning implemented in **Phase 1** from GHC again.
 triggered when `Monad` instances explicitly override the
 default `return` and `(>>)` method implementations with non-lawful 
 definitions (see compatible instance definition example in previous section).
+
+
+The warning was implemented in GHC 8.0 and is called **`-Wnoncanonical-monad-instances`** (there are variants of this warning flag for `Monoid` and `Fail`) but it is *not* included in either `-Wall` or `-Wcompat`.
+
 </td></tr></table>
 
 >
-> This warning can be controlled via the new flag `-fwarn-mrp-compat`, and becomes part of the `-Wall` and `-Wcompat` ([\#11000](https://gitlab.haskell.org//ghc/ghc/issues/11000)) warning-sets, but *not* part of the default warning-set.
+> This warning can be controlled via the new flag ~~`-fwarn-mrp-compat`~~`-Wnoncanonical-monad-instances`, and becomes part of the `-Wall` and `-Wcompat` ([\#11000](https://gitlab.haskell.org//ghc/ghc/issues/11000)) warning-sets, but *not* part of the default warning-set. 
 
 <table><tr><th>Phase 2 *(GHC 8.4 or even later)*</th>
 <td>When we're confident that the
