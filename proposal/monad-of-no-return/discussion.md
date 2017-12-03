@@ -8,6 +8,9 @@ The original proposal was posted to [ reddit](https://www.reddit.com/r/haskell/c
 
 Based on the feedback gathered from the discussion, the [proposal has been revised](proposal/monad-of-no-return) to address the raised concerns. First and foremost, a [new stretched out transition scheme](proposal/monad-of-no-return#reduced-breakage-variant) complying with the recently enacted [ 3-release policy](https://groups.google.com/forum/#!msg/haskell-core-libraries/qXYMfV8JZ6k/tTuFrBMdDgAJ) (and beyond) has been devised. Moreover, the feasibility of automatic refactoring tooling was investigated and resulted in the working `Hs2010To201x` proof-of-concept.
 
+
+On 2017-11-29 the revised proposal was posted on `/r/haskell` and had a favorable reception ([ reddit thread](https://www.reddit.com/r/haskell/comments/7ghoy6/proposalmonadofnoreturn/)).
+
 ## Discussion Summary
 
 
