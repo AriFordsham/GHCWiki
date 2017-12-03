@@ -1,5 +1,7 @@
 = Native `{-# LANGUAGE CPP #-}`
 
+The status of this proposal is tracked by #14553.
+
 == Problem Statement ==
 
 Currently, GHC relies on the system-installed [http://en.wikipedia.org/wiki/C_preprocessor C-preprocessor] (lateron referred to as system-`cpp`) accompanying the C compiler for implementing `{-# LANGUAGE CPP #-}`. However, this has several drawbacks:
