@@ -142,9 +142,9 @@ To tweak things, add settings to your `mk/build.mk` (see [Commentary/SourceTree]
 - Many nofib programs have up to three test data sets. The `mode` variable tells the system which to use, thus:
 
   ```wiki
-  make -k mode=slow
-  make -k mode=norm
-  make -k mode=fast
+  make boot mode=slow && make -k mode=slow
+  make boot mode=norm && make -k mode=norm
+  make boot mode=fast && make -k mode=fast
   ```
 
   See `mk/opts.mk`. The default is `mode=norm`.
