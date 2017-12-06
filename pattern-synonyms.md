@@ -331,7 +331,7 @@ Example:
 ```wiki
    class ListLike l where
       pattern Nil :: l a
-      pattern Cons :: a -> l a -> a
+      pattern Cons :: a -> l a -> l a
       isNil :: l a -> Bool
       isNil Nil = True
       isNil (Cons _ _) = False
