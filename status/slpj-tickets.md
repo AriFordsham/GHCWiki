@@ -21,19 +21,18 @@
   - [Custom type errors](proposal/custom-type-errors)
   - [TypeErrorMessages](status/type-error-messages)
   - [Impredicative types](impredicative-polymorphism)
-
-- [Functional dependencies](fun-deps)
-- [Roles, Coercible and coerce](roles)
-- [Injective type families](injective-type-families)
-- [UnliftedDataTypes](unlifted-data-types)
-- [UnpackedSumTypes](unpacked-sum-types), [\#9214](https://gitlab.haskell.org//ghc/ghc/issues/9214)
-- [TypeNats](type-nats): type-level literals
-- [TemplateHaskell](template-haskell)
-- [LevityPolymorphism](levity-polymorphism)
-- [Type families](type-functions)
-- [\#11715](https://gitlab.haskell.org//ghc/ghc/issues/11715), [\#11621](https://gitlab.haskell.org//ghc/ghc/issues/11621): `Constraint` vs `*`
-- [Generic deriving](commentary/compiler/generic-deriving)
-- [Deriving generally](deriving-instances)
+  - [Functional dependencies](fun-deps)
+  - [Roles, Coercible and coerce](roles)
+  - [Injective type families](injective-type-families)
+  - [UnliftedDataTypes](unlifted-data-types)
+  - [UnpackedSumTypes](unpacked-sum-types), [\#9214](https://gitlab.haskell.org//ghc/ghc/issues/9214)
+  - [TypeNats](type-nats): type-level literals
+  - [TemplateHaskell](template-haskell)
+  - [LevityPolymorphism](levity-polymorphism)
+  - [Type families](type-functions)
+  - [\#11715](https://gitlab.haskell.org//ghc/ghc/issues/11715), [\#11621](https://gitlab.haskell.org//ghc/ghc/issues/11621): `Constraint` vs `*`
+  - [Generic deriving](commentary/compiler/generic-deriving)
+  - [Deriving generally](deriving-instances)
 
 - **Optimisation**
 
