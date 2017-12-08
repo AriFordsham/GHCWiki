@@ -1,38 +1,48 @@
 = This page collects tickets that Simon PJ is interested in, so that he remembers them =
 
 == Status pages ==
- * `hs-boot` files: [wiki:Commentary/Compiler/TyingTheKnot]
- * Type-indexed type representations: [wiki:Typeable/BenGamari plan and status]
- * [wiki:DependentHaskell/Phase1 TypeInType]: [wiki:DependentHaskell], esp #12919 (outright bug)
- * `TypeApplications`: [wiki:TypeApplication visible type application]
- * [wiki:Proposal/CustomTypeErrors Custom type errors]
- * [wiki:TypeErrorMessages]
- * [wiki:ImpredicativePolymorphism Impredicative types]
- * [wiki:ArrowNotation]
- * [wiki:FunDeps Functional dependencies]
- * [wiki:Roles Roles, Coercible and coerce]
- * [wiki:InjectiveTypeFamilies Injective type families]
- * [wiki:TemplateHaskell]
- * [wiki:Inlining]
- * [wiki:SpecConstr]
- * [wiki:Specialise]
- * [wiki:StaticArgumentTransformation]
- * [wiki:MoreCSE Common subexpression (CSE)]
- * [wiki:UnliftedDataTypes]
- * [wiki:UnpackedSumTypes], #9214
- * [wiki:TypeNats]: type-level literals
- * [wiki:ApplicativeDo]
- * [wiki:Exceptions]: exceptions
- * [wiki:LevityPolymorphism]
- * [wiki:TypeFunctions Type families]
- * #11715, #11621: `Constraint` vs `*`
- * [wiki:Commentary/Compiler/GenericDeriving Generic deriving]
- * [wiki:DerivingInstances Deriving generally]
- * [wiki:SequentCore Join points]
- * [wiki:StaticPointers]
+
+* `hs-boot` files: [wiki:Commentary/Compiler/TyingTheKnot]
+
+* '''Language features'''
+  * [wiki:ArrowNotation]
+  * [wiki:ApplicativeDo]
+  * [wiki:Exceptions]: exceptions
+  * [wiki:PatternSynonyms Pattern-synonym status page]
+  * [wiki:Records/OverloadedRecordFields Overloaded record fields]
+  * [wiki:StaticPointers]
+
+ * '''Types''':
+   * Type-indexed type representations: [wiki:Typeable/BenGamari plan and status]
+   * [wiki:DependentHaskell/Phase1 TypeInType]: [wiki:DependentHaskell], esp #12919 (outright bug)
+   * `TypeApplications`: [wiki:TypeApplication visible type application]
+   * [wiki:Proposal/CustomTypeErrors Custom type errors]
+   * [wiki:TypeErrorMessages]
+   * [wiki:ImpredicativePolymorphism Impredicative types]
+   * [wiki:FunDeps Functional dependencies]
+   * [wiki:Roles Roles, Coercible and coerce]
+   * [wiki:InjectiveTypeFamilies Injective type families]
+   * [wiki:UnliftedDataTypes]
+   * [wiki:UnpackedSumTypes], #9214
+   * [wiki:TypeNats]: type-level literals
+   * [wiki:TemplateHaskell]
+   * [wiki:LevityPolymorphism]
+   * [wiki:TypeFunctions Type families]
+   * #11715, #11621: `Constraint` vs `*`
+   * [wiki:Commentary/Compiler/GenericDeriving Generic deriving]
+   * [wiki:DerivingInstances Deriving generally]
+
+ * '''Optimisation'''
+   * [wiki:Inlining]
+   * [wiki:FloatOut]
+   * [wiki:SpecConstr]
+   * [wiki:Specialise]
+   * [wiki:StaticArgumentTransformation]
+   * [wiki:MoreCSE Common subexpression (CSE)]
+   * [wiki:SequentCore Join points]
+
  * [wiki:PatternMatchCheck The new pattern-match overlap/exhaustiveness checker]
- * [wiki:PatternSynonyms Pattern-synonym status page]
- * [wiki:Records/OverloadedRecordFields Overloaded record fields]
+
  * [wiki:Commentary/Compiler/CodeGen Code generation]
 
 
@@ -226,7 +236,6 @@ See also [wiki:TemplateHaskell]
  * #4960: better inlining tests
 
 == Optimisation ==
- * #13227: loss of full laziness in `mapFB`
  * #11475: Lint should check for inexhaustive cases expressions
  * #9476: late lambda lifting
  * #7374, #10417, #10418, #7287, #7398, #10528, #11688, #10595, #7141, #5973, #2271, #1434: rules not firing; e.g. class methods, newtype constructors

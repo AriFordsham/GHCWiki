@@ -3,37 +3,49 @@
 ## Status pages
 
 - `hs-boot` files: [Commentary/Compiler/TyingTheKnot](commentary/compiler/tying-the-knot)
-- Type-indexed type representations: [plan and status](typeable/ben-gamari)
-- [TypeInType](dependent-haskell/phase1): [DependentHaskell](dependent-haskell), esp [\#12919](https://gitlab.haskell.org//ghc/ghc/issues/12919) (outright bug)
-- `TypeApplications`: [visible type application](type-application)
-- [Custom type errors](proposal/custom-type-errors)
-- [TypeErrorMessages](status/type-error-messages)
-- [Impredicative types](impredicative-polymorphism)
-- [ArrowNotation](arrow-notation)
-- [Functional dependencies](fun-deps)
-- [Roles, Coercible and coerce](roles)
-- [Injective type families](injective-type-families)
-- [TemplateHaskell](template-haskell)
-- [Inlining](inlining)
-- [SpecConstr](spec-constr)
-- [Specialise](specialise)
-- [StaticArgumentTransformation](static-argument-transformation)
-- [Common subexpression (CSE)](more-cse)
-- [UnliftedDataTypes](unlifted-data-types)
-- [UnpackedSumTypes](unpacked-sum-types), [\#9214](https://gitlab.haskell.org//ghc/ghc/issues/9214)
-- [TypeNats](type-nats): type-level literals
-- [ApplicativeDo](applicative-do)
-- [Exceptions](exceptions): exceptions
-- [LevityPolymorphism](levity-polymorphism)
-- [Type families](type-functions)
-- [\#11715](https://gitlab.haskell.org//ghc/ghc/issues/11715), [\#11621](https://gitlab.haskell.org//ghc/ghc/issues/11621): `Constraint` vs `*`
-- [Generic deriving](commentary/compiler/generic-deriving)
-- [Deriving generally](deriving-instances)
-- [Join points](sequent-core)
-- [StaticPointers](static-pointers)
+
+- **Language features**
+
+  - [ArrowNotation](arrow-notation)
+  - [ApplicativeDo](applicative-do)
+  - [Exceptions](exceptions): exceptions
+  - [Pattern-synonym status page](pattern-synonyms)
+  - [Overloaded record fields](records/overloaded-record-fields)
+  - [StaticPointers](static-pointers)
+
+- **Types**:
+
+  - Type-indexed type representations: [plan and status](typeable/ben-gamari)
+  - [TypeInType](dependent-haskell/phase1): [DependentHaskell](dependent-haskell), esp [\#12919](https://gitlab.haskell.org//ghc/ghc/issues/12919) (outright bug)
+  - `TypeApplications`: [visible type application](type-application)
+  - [Custom type errors](proposal/custom-type-errors)
+  - [TypeErrorMessages](status/type-error-messages)
+  - [Impredicative types](impredicative-polymorphism)
+  - [Functional dependencies](fun-deps)
+  - [Roles, Coercible and coerce](roles)
+  - [Injective type families](injective-type-families)
+  - [UnliftedDataTypes](unlifted-data-types)
+  - [UnpackedSumTypes](unpacked-sum-types), [\#9214](https://gitlab.haskell.org//ghc/ghc/issues/9214)
+  - [TypeNats](type-nats): type-level literals
+  - [TemplateHaskell](template-haskell)
+  - [LevityPolymorphism](levity-polymorphism)
+  - [Type families](type-functions)
+  - [\#11715](https://gitlab.haskell.org//ghc/ghc/issues/11715), [\#11621](https://gitlab.haskell.org//ghc/ghc/issues/11621): `Constraint` vs `*`
+  - [Generic deriving](commentary/compiler/generic-deriving)
+  - [Deriving generally](deriving-instances)
+
+- **Optimisation**
+
+  - [Inlining](inlining)
+  - [FloatOut](float-out)
+  - [SpecConstr](spec-constr)
+  - [Specialise](specialise)
+  - [StaticArgumentTransformation](static-argument-transformation)
+  - [Common subexpression (CSE)](more-cse)
+  - [Join points](sequent-core)
+
 - [The new pattern-match overlap/exhaustiveness checker](pattern-match-check)
-- [Pattern-synonym status page](pattern-synonyms)
-- [Overloaded record fields](records/overloaded-record-fields)
+
 - [Code generation](commentary/compiler/code-gen)
 
 ## INLINE problems / ticks exhausted
@@ -239,7 +251,6 @@ See also [TemplateHaskell](template-haskell)
 
 ## Optimisation
 
-- [\#13227](https://gitlab.haskell.org//ghc/ghc/issues/13227): loss of full laziness in `mapFB`
 - [\#11475](https://gitlab.haskell.org//ghc/ghc/issues/11475): Lint should check for inexhaustive cases expressions
 - [\#9476](https://gitlab.haskell.org//ghc/ghc/issues/9476): late lambda lifting
 - [\#7374](https://gitlab.haskell.org//ghc/ghc/issues/7374), [\#10417](https://gitlab.haskell.org//ghc/ghc/issues/10417), [\#10418](https://gitlab.haskell.org//ghc/ghc/issues/10418), [\#7287](https://gitlab.haskell.org//ghc/ghc/issues/7287), [\#7398](https://gitlab.haskell.org//ghc/ghc/issues/7398), [\#10528](https://gitlab.haskell.org//ghc/ghc/issues/10528), [\#11688](https://gitlab.haskell.org//ghc/ghc/issues/11688), [\#10595](https://gitlab.haskell.org//ghc/ghc/issues/10595), [\#7141](https://gitlab.haskell.org//ghc/ghc/issues/7141), [\#5973](https://gitlab.haskell.org//ghc/ghc/issues/5973), [\#2271](https://gitlab.haskell.org//ghc/ghc/issues/2271), [\#1434](https://gitlab.haskell.org//ghc/ghc/issues/1434): rules not firing; e.g. class methods, newtype constructors
