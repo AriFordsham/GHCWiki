@@ -14,7 +14,7 @@ The other implementation currently available is `integer-simple`, which uses a s
 
 == The Integer interface  ==
 
-All Integer implementations should export the same set of types and functions from `GHC.Integer` (within whatever `integer` package you are using). These exports are used by the `base` package However, all of these types and functions must actually be defined in `GHC.Integer.Type`, so that GHC knows where to find them.
+All Integer implementations should export the same set of types and functions from `GHC.Integer` (within whatever `integer` package you are using). These exports are used by the `base` package. However, all of these types and functions must actually be defined in `GHC.Integer.Type`, so that GHC knows where to find them.
 Specifically, the interface is this:
 
 {{{#!hs
