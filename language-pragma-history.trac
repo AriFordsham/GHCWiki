@@ -6,6 +6,12 @@ See also [[wiki:Commentary/Libraries/VersionHistory|GHC Boot Library Version His
 
 See also http://damianfral.github.io/ghcaniuse/.
 
+== Changes in GHC 8.4
+
+Added LANGUAGE extensions:
+
+ - `[No]EmptyDataDeriving`
+
 == Changes in GHC 8.2
 
 Added LANGUAGE extensions:
