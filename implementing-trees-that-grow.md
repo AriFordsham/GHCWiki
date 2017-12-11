@@ -39,13 +39,13 @@ We also split the overall work into multiple smaller patches, by working on a se
 
 ### Step 0 (Done, Accepted, and Landed)
 
-[ Patch D3609](https://phabricator.haskell.org/D3609|)
+[ Patch D3609](https://phabricator.haskell.org/D3609)
 
 ### Step 1 & 3
 
 #### Patch 1 (Done)
 
-[ Patch D4147](https://phabricator.haskell.org/D4147|) implements TtG for
+[ Patch D4147](https://phabricator.haskell.org/D4147) implements TtG for
 
 - `ValBinds`
 - `HsPat`
@@ -59,7 +59,7 @@ We also split the overall work into multiple smaller patches, by working on a se
 
 
 Overall, the implementation follows TtG paper with some details captured below.
-Further details can be found in the patch description, and also there is a related [ https://ghc.haskell.org/trac/ghc/ticket/14429\|ticket](https://ghc.haskell.org/trac/ghc/ticket/14429|ticket).
+Further details can be found in the patch description, and also there is a related [ ticket](https://ghc.haskell.org/trac/ghc/ticket/14429).
 
 ## General Plan
 
@@ -71,7 +71,7 @@ It is done in four steps.
 ### Step 0
 
 
-We replace the current `HsSyn` with one using a type parameter that can enable the growable base AST, as proposed in [ https://phabricator.haskell.org/D3609](https://phabricator.haskell.org/D3609)
+We replace the current `HsSyn` with one using a type parameter that can enable the growable base AST, as proposed in [ D3609](https://phabricator.haskell.org/D3609).
 
 ### Step 1
 
