@@ -10,13 +10,18 @@ Releases are made by the release manager, currently Ben Gamari. The release mana
 
  * For each release we make a release candidate first, possibly followed by further release candidates as necessary.  Release candidates are announced on the [http://www.haskell.org/mailman/listinfo/glasgow-haskell-users glasgow-haskell-users mailing list].
 
- * As a policy we provide source distributions to our external binary distribution contributors a week before the binary release is announced to put these contributed distributions on equal footing as the GHC-HQ-provided distributions
-
- * Every release must be bootstrappable with the most recent minor release of each of the two most-recent major releases.
 
 == Release policies ==
 
+GHC's release policies are designed to make life easier for our users. As such, we generally try to avoid breaking downstream users without strong reason. In we use the following principles when making release decisions:
+
+ * Minor releases generally will not introduce new interfaces or compiler features
+
  * Tier 1 [wiki:Platforms platforms] must all be in a working state before the release is made.  We make every effort to fix bugs in other platforms too, but bugs on Tier 2/3 platforms are not treated as release-blockers.
+
+ * As a policy we provide source distributions to our external binary distribution contributors a week before the binary release is announced to put these contributed distributions on equal footing as the GHC-HQ-provided distributions
+
+ * Every release must be bootstrappable with the most recent minor release of each of the two most-recent major releases.
 
 === Major releases ===
 
