@@ -3,6 +3,22 @@
 
 Releases are made by the release manager, currently Ben Gamari. The release manager is also the maintainer of the stable branch, see [\#Branches](working-conventions/releases#branches).
 
+## Release policies
+
+
+GHC's release policies are designed to make life easier for our users, including tool builders and Haskell package ecosystems. We try hard to avoid breaking downstream tool-chains without strong reason. 
+
+
+To that end, we follow these release policies:
+
+- **Minor releases** generally will not introduce new interfaces or compiler features
+
+- **Platforms**.  Tier 1 [platforms](platforms) must all be in a working state before the release is made.  We make every effort to fix bugs in other platforms too, but bugs on Tier 2/3 platforms are not treated as release-blockers.
+
+- **Source distributions**.  As a policy we provide source distributions to our external binary distribution contributors a week before the binary release is announced to put these contributed distributions on equal footing as the GHC-HQ-provided distributions
+
+- **Two-release policy**.  Every release of GHC must be bootstrappable with the most recent minor release of the two most-recent major releases of GHC.
+
 ## Release Schedule
 
 - Major releases are made twice per year, typically around January-February and June-July. We try to stick to this schedule
@@ -10,19 +26,6 @@ Releases are made by the release manager, currently Ben Gamari. The release mana
 - Minor releases are made throughout the year, with no fixed schedule.  Generally there will be 2-3 minor releases for every major release.
 
 - For each release we make a release candidate first, possibly followed by further release candidates as necessary.  Release candidates are announced on the [ glasgow-haskell-users mailing list](http://www.haskell.org/mailman/listinfo/glasgow-haskell-users).
-
-## Release policies
-
-
-GHC's release policies are designed to make life easier for our users. As such, we generally try to avoid breaking downstream users without strong reason. In we use the following principles when making release decisions:
-
-- Minor releases generally will not introduce new interfaces or compiler features
-
-- Tier 1 [platforms](platforms) must all be in a working state before the release is made.  We make every effort to fix bugs in other platforms too, but bugs on Tier 2/3 platforms are not treated as release-blockers.
-
-- As a policy we provide source distributions to our external binary distribution contributors a week before the binary release is announced to put these contributed distributions on equal footing as the GHC-HQ-provided distributions
-
-- Every release must be bootstrappable with the most recent minor release of each of the two most-recent major releases.
 
 ### Major releases
 
