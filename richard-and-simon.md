@@ -7,6 +7,16 @@
 
 ... as discussed by Richard and Simon. This page is mostly for our own notes, but others are welcome to read it.
 
+**Type declarations and signatures** (Dec 17)
+
+- [ Proposal 83: collapse PolyKinds and TypeInType](https://github.com/ghc-proposals/ghc-proposals/pull/83)
+- [ Proposal 81: Visible dependent quantification](https://github.com/ghc-proposals/ghc-proposals/pull/81)
+- [ Proposal 54: CUSKs (depends on Proposal 81)](https://github.com/ghc-proposals/ghc-proposals/pull/54)
+- Add curly-braces for scoping but no type application (nothing depends on this)
+- Scoping only with explicit foralls (perhaps best after Proposal 83, because explicit kind-forall needs TypeInType).  Subsumes [\#14548](https://gitlab.haskell.org//ghc/ghc/issues/14548).
+- Fix [\#14451](https://gitlab.haskell.org//ghc/ghc/issues/14451) (SCC analysis of type declarations)
+- All or nothing rule applies to kind variables too (edited)
+
 **Big things**
 
 - [\#11715](https://gitlab.haskell.org//ghc/ghc/issues/11715): constraint vis \*
