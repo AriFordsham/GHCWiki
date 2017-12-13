@@ -160,7 +160,6 @@ Probably easiest to just trigger those builds from GitHub (as all commits are mi
 === Daily builds on Linux/i386, macOS/x86_64 & Windows/x86_64 ===
 
 * Implement AppVeyor build config. **Blocked:** waiting for AppVeyor to increase time limit. (Apparently, Rust are on a payed plan, so maybe we have to do that, too.)
-* macOS CircleCI build: there are some failures (which do not happen in Harbormaster)
 * Linux/i386 ought to be a small change on Linux/x86_64, or is there more to it?
 * ''Low priority:'' Implement end-to-end testing. **Blocked:** on #14392, #14411 & #14412.
 * ''Low priority:'' We want to run `./validate --slow` at some point — see #13205.
