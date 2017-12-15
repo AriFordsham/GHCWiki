@@ -2,6 +2,7 @@
 
 ## Versioning policies
 
+- See also: [wiki:WorkingConventions/Releases](working-conventions/releases)
 - Version numbers should always be three components
 - Release candidates should be numbered with the patch-level preceding their release. For instance, the first release candidate for 8.0.1 should be versioned 8.0.0-rc1
 
