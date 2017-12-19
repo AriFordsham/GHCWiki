@@ -98,7 +98,7 @@ nofib-analyse/nofib-analyse log1 log2
 ```
 
 
-The output of the nofib-analyse tool is quite readable, with two provisios:
+The output of the nofib-analyse tool is quite readable, with two provisos:
 
 - Missing values in the output typically mean that the benchmark crashed and may indicate a problem with your optimisation
 - If a difference between the two modes is displayed as an absolute quantity instead of a percentage, it means that the difference was below the threshold at which the analyser considers it significant
