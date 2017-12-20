@@ -211,9 +211,13 @@ In order to future-proof your packages for upcoming changes, add the following s
 See wiki:Migration/8.0#base-4.9.0.0 for more details
 }}}
 
+==== `Semigroup`/`Monoid` superclasses ====
+
+`Semigroup` becomes a superclass of `Monoid` with this release, please consult prime:wiki:Libraries/Proposals/SemigroupMonoid#Writingcompatiblecode for more information on recommendations for writing backward & forward compatible code.
+
 ==== `Typeable` ====
 
-* The kind-monomorphic `Typeable[1-7]` classes, which were deprecated in GHC 7.8, have been removed from `Data.Typeable`. They can be replaced with the usual (kind-polymorphic) `Typeable` class.
+The kind-monomorphic `Typeable[1-7]` classes, which were deprecated in GHC 7.8, have been removed from `Data.Typeable`. They can be replaced with the usual (kind-polymorphic) `Typeable` class.
 
 === `template-haskell-2.13.0.0`
 
