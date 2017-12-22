@@ -14,7 +14,7 @@ Release in February 2018. Cut release branch in November 2017.
 ## Libraries Status
 
 
-See [Libraries](status/ghc-8.4.1/libraries)
+See [Libraries](status/ghc-8.4.1/libraries) and [Migration/8.4](migration/8.4).
 
 ## Release highlights (planned)
 
@@ -35,7 +35,7 @@ Below are the major highlights of 8.4.
 
 ### Library changes
 
-- Phase 2 of the Semigroup-Monoid Proposal (Herbert Riedel)
+- Phase 2 of the [ Semigroup-Monoid Proposal](https://prime.haskell.org/wiki/Libraries/Proposals/SemigroupMonoid) (Herbert Riedel)
 
 ### Build system and miscellaneous changes
 
