@@ -35,7 +35,7 @@ Below are the major highlights of 8.4.
 
 ### Library changes
 
-- Phase 2 of the Semigroup-Monoid Proposal? (Herbert Riedel)
+- Phase 2 of the [ Semigroup-Monoid Proposal](https://prime.haskell.org/wiki/Libraries/Proposals/SemigroupMonoid) (Herbert Riedel)
 
 ### Build system and miscellaneous changes
 
