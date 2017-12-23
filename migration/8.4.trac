@@ -227,3 +227,41 @@ The kind-monomorphic `Typeable[1-7]` classes, which were deprecated in GHC 7.8, 
 ----------------------------------
 == GHC API changes
 
+=== Index types for the hsSyn AST ===
+
+As part of ImplementingTreesThatGrow the index type for the hsSyn AST has been changed.
+
+We now have
+
+{{{#!hs
+data GhcPass (c :: Pass)
+
+data Pass = Parsed | Renamed | Typechecked
+         deriving (Data)
+
+}}}
+
+and synonyms
+
+{{{#!hs
+type GhcPs   = GhcPass 'Parsed      -- Old 'RdrName' type param
+type GhcRn   = GhcPass 'Renamed     -- Old 'Name' type param
+type GhcTc   = GhcPass 'Typechecked -- Old 'Id' type para,
+type GhcTcId = GhcTc                -- Old 'TcId' type param
+}}}
+
+So in practical terms, code will have to change as
+
+{{{#!hs
+fooParsed      :: HsDecl RdrName
+fooRenamed     :: HsDecl Name
+fooTypechecked :: HsDecl Id
+}}}
+
+becomes
+
+{{{#!hs
+fooParsed      :: HsDecl GhcPs
+fooRenamed     :: HsDecl GhcRn
+fooTypechecked :: HsDecl GhcTc
+}}}
