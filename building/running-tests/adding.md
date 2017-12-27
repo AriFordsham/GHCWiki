@@ -464,3 +464,6 @@ will be picked in preference to `T.stderr`.
 
 
 The testsuite has fairly good support for running tests in parallel using a thread pool of size specified by the `THREADS=<value>`. This does mean you need to be careful when writing test cases to keep them independent of each other. You are usually not able to share files between test cases as they can run in arbitrary order and will easily conflict with each other. If you must write test cases that are dependent on each other, be sure to use the `high_memory_usage` setup function that insures a test case runs by itself in the main testsuite thread. All dependent test cases should use the `high_memory_usage` setup function. Try not to do this extensively though as it means we can't easily speed up the testsuite by throwing cores at it.
+
+
+For tests that are severely CPU bound, we should mark them as such using `multi_cpu_race` as this insures they are ran in isolation. On a resource constraint system this will give the test a fair chance of passing.
