@@ -137,5 +137,4 @@ Enable parallel builds in the nix build environment:
 }}}
 
 === shell.nix ===
-If you need more control over your GHC build environment there is a `shell.nix` file that defines (hopefully) all dependencies: https://github.com/supersven/ghc-shell.nix
-You can use it as is or a base for your own.
+There is a shell.nix file in the hadrian subdirectory which can provision hadrian and arcanist as well as other necessary build dependencies. 
