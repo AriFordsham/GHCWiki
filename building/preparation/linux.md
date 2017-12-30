@@ -130,30 +130,19 @@ Install the [ required tools](https://ghc.haskell.org/trac/ghc/wiki/Building/Pre
 ## Nix/NixOS
 
 
-First, you need to clone Nixpkgs, so you could use recent Nix recipes:
+nixpkgs contains a derivation for ghcHEAD which can be used to create a build environment in a nix shell.
 
 ```wiki
-   git clone https://github.com/NixOS/nixpkgs  
-```
+   nix-shell '<nixpkgs>' -A haskell.compiler.ghcHEAD --pure
 
+   # unpackPhase # If you want the sources at the version in nixpkgs, otherwise clone ghc as usual
+   git clone --recursive git://git.haskell.org/ghc.git
 
-Then, you can build the environment needed for compiling HEAD (assuming that the `nixpkgs` directory is in `/home/user`):
+   cd ghc*/ # If you used unpackPhase, it will have a version suffix
 
-```wiki
-   cd ~
-   nix-shell '<nixpkgs>' -A haskell.compiler.ghcHEAD
-```
+   patchPhase
 
-
-Finally, clone, configure, and build GHC (see [Newcomers](newcomers) for details), but replace the usual `configure && make` with the Nix build phases:
-
-```wiki
-   git clone --recursive https://github.com/ghc/ghc
-   cd ghc/
-   # patchPhase (sometimes this is necessary if there are patches which need to be applied as of Dec 2016 with the unstable channel it is unnecessary)
-
-   #edit mk/build.mk.sample as normal
-   # This command needs to be used so that the right paths to libraries are passed to ./configure
+   # create mk/build.mk from mk/build.mk as usual
    configurePhase 
    buildPhase
    # edit build.mk to remove the comment marker # on the line stage=2
