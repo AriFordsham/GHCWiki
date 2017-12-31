@@ -265,3 +265,12 @@ fooParsed      :: HsDecl GhcPs
 fooRenamed     :: HsDecl GhcRn
 fooTypechecked :: HsDecl GhcTc
 }}}
+
+The following code provides backward-compatible versions of the new synonyms
+{{{#!hs
+#if __GLASGOW_HASKELL__ <= 802
+type GhcPs = RdrName
+type GhcRn = Name
+type GhcTc = Id
+#endif
+}}}
