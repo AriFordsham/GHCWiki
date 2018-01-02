@@ -16,9 +16,10 @@ Here are some resources
 
 * #2893, a ticket about the idea
 
-* [http://i.cs.hku.hk/~bruno//papers/hs2017.pdf Quantified class constraints], a Haskell 2017 paper that works out the idea in some detail.
+* [http://i.cs.hku.hk/~bruno//papers/hs2017.pdf Quantified class constraints], a Haskell 2017 paper that works out the idea in some detail, and a [https://www.reddit.com/r/haskell/comments/6me3sv/quantified_class_constraints_pdf/ Reddit thread] about it.
 
 * [http://haskell.org/haskellwiki/Quantified_contexts An old haskell.org Wiki page about it]
+* [https://mail.haskell.org/pipermail/libraries/2017-December/028377.html A Libraries thread (Dec 18)].
 
 == Status
 
