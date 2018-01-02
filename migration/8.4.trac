@@ -274,3 +274,12 @@ type GhcRn = Name
 type GhcTc = Id
 #endif
 }}}
+
+There is also a type family to define the underlying identifier type for a given index.
+
+{{{#!hs
+type family IdP p
+type instance IdP GhcPs = RdrName
+type instance IdP GhcRn = Name
+type instance IdP GhcTc = Id
+}}}
