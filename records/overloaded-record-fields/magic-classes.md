@@ -6,7 +6,7 @@
 This page describes new built-in magic typeclasses that form part 3 of the [OverloadedRecordFields proposal](records/overloaded-record-fields). These are not a language extension as such, rather they are classes with special-purpose solver behaviour (like `Coercible` and `Typeable`).
 
 
-These is merged into GHC, see [ Phab:D2708](https://phabricator.haskell.org/D2708).
+The `HasField`-part or the proposal is merged into GHC, see [ Phab:D2708](https://phabricator.haskell.org/D2708).
 
 ## Design
 
