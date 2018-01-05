@@ -234,7 +234,7 @@ Then modify the GHC wrapper `inplace/bin/ghc-stage2` to end with:
 ```
 rm -f /tmp/${USER}-gdb
 echo run -B"$topdir"${1+"$@"} > /tmp/${USER}-gdb
-exec gdbtui "$executablename" -x /tmp/${USER}-gdb
+exec gdb --tui "$executablename" -x /tmp/${USER}-gdb
 ```
 
 
