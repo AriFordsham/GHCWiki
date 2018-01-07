@@ -168,5 +168,5 @@ If you see,
 libraries/integer-gmp/cbits/wrappers.c:41:3: error: #error WORD_SIZE_IN_BITS != GMP_LIMB_BITS not supported
 }}}
 you are likely trying to compile GHC against a `libgmp` compiled for the wrong platform. This may be caused by a number of things, but the following may be helpful in tracking down the issue:
-* `WORD_SIZE_IN_BITS` is defined as `SIZEOF_HSWORD` in `includes/ghcautoconf.h` (which is produced by `./configure`)
+* `WORD_SIZE_IN_BITS` is defined as `SIZEOF_VOID_P` in `includes/ghcautoconf.h` (which is produced by `./configure`)
 * `GMP_LIMB_BITS` is defined by `libraries/integer-gmp/gmp/include/gmp/gmp-impl.h` (if you are compiling with an in-tree GMP).
