@@ -211,3 +211,20 @@ Only LLVM versions == 3.0 and \>= 3.2 support GHC for ARM targets. There was a r
 
 
 See the [Building a GHC cross-compiler for Apple iOS targets](building/cross-compiling/i-os) page, but also take note of the ARM-specific notes above.
+
+## Troubleshooting
+
+### `#error WORD_SIZE_IN_BITS != GMP_LIMB_BITS not supported`
+
+
+If you see,
+
+```wiki
+libraries/integer-gmp/cbits/wrappers.c:41:3: error: #error WORD_SIZE_IN_BITS != GMP_LIMB_BITS not supported
+```
+
+
+you are likely trying to compile GHC against a `libgmp` compiled for the wrong platform. This may be caused by a number of things, but the following may be helpful in tracking down the issue:
+
+- `WORD_SIZE_IN_BITS` is defined as `SIZEOF_VOID_P` in `includes/ghcautoconf.h` (which is produced by `./configure`)
+- `GMP_LIMB_BITS` is defined by `libraries/integer-gmp/gmp/include/gmp/gmp-impl.h` (if you are compiling with an in-tree GMP).
