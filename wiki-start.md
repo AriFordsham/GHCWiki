@@ -23,8 +23,6 @@ Please help us improve the information on the GHC developer's wiki. You can easi
 
 ## Notices
 
-- Volunteer your machine as a [GHC builder](builder). This will help us find and fix issues with GHC on your platform. 
-
 - [Internships](internships) at Microsoft Research, Cambridge, working on Haskell and GHC. 
 
 ## Developer Documentation
