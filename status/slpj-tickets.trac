@@ -31,6 +31,7 @@
    * #11715, #11621: `Constraint` vs `*`
    * [wiki:Commentary/Compiler/GenericDeriving Generic deriving]
    * [wiki:DerivingInstances Deriving generally]
+   * [wiki:Typeable]
 
  * '''Optimisation'''
    * [wiki:Inlining]
