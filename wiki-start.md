@@ -21,10 +21,6 @@ Please help us improve the information on the GHC developer's wiki. You can easi
 
 - [ Harbormaster](https://phabricator.haskell.org/diffusion/GHC/history/), the [ nightly build bots](http://haskell.inf.elte.hu/builders/) and Travis [](http://travis-ci.org/ghc/ghc/builds)  are keeping an eye on our code. See the [Status page](status) for more information. 
 
-## Notices
-
-- [Internships](internships) at Microsoft Research, Cambridge, working on Haskell and GHC. 
-
 ## Developer Documentation
 
 - [Building and Porting GHC](building)
