@@ -28,7 +28,7 @@ Send pull requests to [ https://github.com/gregwebs/ghc-docker-dev](https://gith
 Install the [ required tools](https://ghc.haskell.org/trac/ghc/wiki/Building/Preparation/Tools) using the following command for Fedora 22 and later (for earlier versions of Fedora, use `yum` instead of `dnf`):
 
 ```wiki
-   sudo dnf install glibc-devel ncurses-devel gmp-devel autoconf automake libtool gcc make perl python ghc happy alex git
+   sudo dnf install glibc-devel ncurses-devel gmp-devel autoconf automake libtool gcc gcc-c++ make perl python ghc happy alex git
 ```
 
 
@@ -36,7 +36,7 @@ For building the documentation: (User's Guide and Cabal guide):
 (optional)
 
 ```wiki
-   # GHC > 7.10 (untested)
+   # GHC > 7.10
    sudo dnf install python-sphinx
    # GHC <= 7.10
    sudo dnf install docbook-utils docbook-utils-pdf docbook-style-xsl
