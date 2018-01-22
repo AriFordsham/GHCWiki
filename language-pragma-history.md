@@ -9,6 +9,13 @@ See also [GHC Boot Library Version History](commentary/libraries/version-history
 
 See also [ http://damianfral.github.io/ghcaniuse/](http://damianfral.github.io/ghcaniuse/).
 
+## Changes in GHC 8.6
+
+
+Added LANGUAGE extensions:
+
+- `[No]NumericUnderscores`
+
 ## Changes in GHC 8.4
 
 
