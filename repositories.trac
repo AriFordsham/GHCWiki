@@ -85,6 +85,7 @@ On Github, but it says "WORK-IN-PROGRESS / DO NOT USE YET":
 <tr><td>libraries/process</td>      <td>https://github.com/haskell/process</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
 <tr><td>libraries/terminfo</td>     <td>https://github.com/judah/terminfo</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
 <tr><td>libraries/time</td>         <td>https://github.com/haskell/time</td> <td>ghc</td> <td>Yes</td> <td>Yes</td></tr>
+<tr><td>libraries/transformers</td> <td>See below</td> <td></td> <td>Yes</td> <td>Yes</td></tr>
 <tr><td>libraries/unix</td>         <td>https://github.com/haskell/unix</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
 <tr><td>libraries/Win32</td>        <td>https://github.com/haskell/win32</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
 <tr><td>libraries/xhtml</td>        <td>https://github.com/haskell/xhtml</td> <td>master</td> <td>Yes</td> <td>Yes</td></tr>
@@ -104,6 +105,11 @@ On Github, but it says "WORK-IN-PROGRESS / DO NOT USE YET":
 {{{#!box info
 The table above is maintained manually and can sometimes get out of sync. If in doubt, the primary data source is  the [http://git.haskell.org/ghc.git/blob_plain/HEAD:/packages packages] file in the top-level `ghc.git` repo folder.
 }}}
+
+== `transformers` ==
+
+The `transformers` library's upstream uses `darcs`. In order to track this library, we maintain a git mirror (http://git.haskell.org/darcs-mirrors/transformers.git) generated using `darcs export` mirror which is periodically updated by `git.haskell.org`. However, due to the tendency for the import mechanism to produce non-fast-forward branches, the commits in this mirror need to be manually pulled into the submodule used by GHC, `git@git.haskell.org:packages/transformers`.
+
 
 == Infrastructure ==
 
