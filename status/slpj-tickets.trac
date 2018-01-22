@@ -36,6 +36,7 @@
  * '''Optimisation'''
    * [wiki:Inlining]
    * [wiki:FloatOut]
+   * [wiki:FloatInwards]
    * [wiki:SpecConstr]
    * [wiki:Specialise]
    * [wiki:StaticArgumentTransformation]
