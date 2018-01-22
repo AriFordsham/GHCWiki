@@ -7,10 +7,10 @@ The relevant module in GHC is `FloatIn`.
 
 == Tickets ==
 
-Use Keyword = `FloatIn` to ensure that a ticket ends up on these lists.
+Use Keyword = `FloatInwards` to ensure that a ticket ends up on these lists.
 
 '''Open Tickets:'''
-[[TicketQuery(status=new|patch,keywords=~FloatIn)]]
+[[TicketQuery(status=new|patch,keywords=~FloatInwards)]]
 
 '''Closed Tickets:'''
-[[TicketQuery(status=closed,keywords=~FloatIn)]]
+[[TicketQuery(status=closed,keywords=~FloatInwards)]]
