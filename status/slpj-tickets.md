@@ -39,6 +39,7 @@
 
   - [Inlining](inlining)
   - [FloatOut](float-out)
+  - [FloatInwards](float-inwards)
   - [SpecConstr](spec-constr)
   - [Specialise](specialise)
   - [StaticArgumentTransformation](static-argument-transformation)
