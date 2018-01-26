@@ -22,6 +22,7 @@ Added LANGUAGE extensions:
 Added LANGUAGE extensions:
 
 - `[No]EmptyDataDeriving`
+- `[No]HexFloatLiterals`
 
 ## Changes in GHC 8.2
 
