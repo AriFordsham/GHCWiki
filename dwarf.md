@@ -321,9 +321,7 @@ Process 1901610 stopped
 ```
 
 
-Note that:
-a) we can get DWARF info for arbitrary addresses (gdb's `info line` only works on symbols)
-b) we get line number + column number, AFAICT there's no way to do that in gdb
+Note that we get line number + column number, AFAICT there's no way to do that in gdb.
 
 ## Open Issues
 
