@@ -1,4 +1,4 @@
-# Quantified contexts
+# Quantified constraints
 
 
 This wiki page summarises the state of play on the idea of allowing quantification in class contexts.  For example
