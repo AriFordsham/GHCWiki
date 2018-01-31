@@ -12,6 +12,7 @@
   - [Pattern-synonym status page](pattern-synonyms)
   - [Overloaded record fields](records/overloaded-record-fields)
   - [StaticPointers](static-pointers)
+  - [Backpack](backpack)
 
 - **Types**:
 
