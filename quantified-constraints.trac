@@ -1,6 +1,6 @@
 = Quantified constraints =
 
-This wiki page summarises the state of play on the idea of allowing quantification in class contexts.  For example
+This wiki page summarises the state of play on the idea of allowing quantification in class constraints.  For example
 {{{
 data Rose f a = Branch a (f (Rose f a))
 
@@ -23,11 +23,11 @@ Here are some resources
 
 == Status
 
-Use Keyword = `QuantifiedContexts` to ensure that a ticket ends up on these lists.
+Use Keyword = `QuantifiedConstraints` to ensure that a ticket ends up on these lists.
 
 Open Tickets:
-[[TicketQuery(status=infoneeded,status=new|patch,keywords=~QuantifiedContexts)]]
+[[TicketQuery(status=infoneeded,status=new|patch,keywords=~QuantifiedConstraints)]]
 
 Closed Tickets:
-[[TicketQuery(status=infoneeded,status=closed,keywords=~QuantifiedContexts)]]
+[[TicketQuery(status=infoneeded,status=closed,keywords=~QuantifiedConstraints)]]
 
