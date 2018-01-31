@@ -26,8 +26,8 @@ Here are some resources
 Use Keyword = `QuantifiedConstraints` to ensure that a ticket ends up on these lists.
 
 Open Tickets:
-[[TicketQuery(status=infoneeded,status=new|patch,keywords=~QuantifiedContexts)]]
+[[TicketQuery(status=infoneeded,status=new|patch,keywords=~QuantifiedConstraints)]]
 
 Closed Tickets:
-[[TicketQuery(status=infoneeded,status=closed,keywords=~QuantifiedContexts)]]
+[[TicketQuery(status=infoneeded,status=closed,keywords=~QuantifiedConstraints)]]
 
