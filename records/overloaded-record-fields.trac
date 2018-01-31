@@ -14,13 +14,13 @@ Content previously on this page has been moved to the [wiki:Records/OverloadedRe
 
 == Issues ==
 
+Add '''ORF''' to the ticket's keywords to include it in these lists.
+
 Open Tickets:
 [[TicketQuery(status=infoneeded,status=new|patch,keywords=~ORF)]]
 
 Closed Tickets:
 [[TicketQuery(status=infoneeded,status=closed,keywords=~ORF)]]
-
-Add '''ORF''' to the ticket's keywords to include it in these lists.
 
 == Code ==
 
