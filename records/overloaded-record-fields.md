@@ -18,6 +18,9 @@ Content previously on this page has been moved to the [SORF](records/overloaded-
 ## Issues
 
 
+Add **ORF** to the ticket's keywords to include it in these lists.
+
+
 Open Tickets:
 
 <table><tr><th>[\#4479](https://gitlab.haskell.org//ghc/ghc/issues/4479)</th>
@@ -80,9 +83,6 @@ Closed Tickets:
 <td>Panic when exporting duplicate record fields from separate modules</td></tr>
 <tr><th>[\#15149](https://gitlab.haskell.org//ghc/ghc/issues/15149)</th>
 <td>Identical distinct type family fields miscompiled</td></tr></table>
-
-
-Add **ORF** to the ticket's keywords to include it in these lists.
 
 ## Code
 
