@@ -3,6 +3,11 @@
 
 This page is to support the discussion of GHC DevOps Group on the CI solution for GHC to provide continuous testing and release artefact generation. See also [\#13716](https://gitlab.haskell.org//ghc/ghc/issues/13716).
 
+## Status
+
+- CircleCI: [ https://circleci.com/gh/ghc/ghc](https://circleci.com/gh/ghc/ghc)
+- Appveyor: [ https://ci.appveyor.com/project/GHCAppveyor/ghc](https://ci.appveyor.com/project/GHCAppveyor/ghc)
+
 ## Requirements
 
 **Primary**
