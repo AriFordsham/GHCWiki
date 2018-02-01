@@ -7,6 +7,7 @@ This page is to support the discussion of GHC DevOps Group on the CI solution fo
 
 - CircleCI: [ https://circleci.com/gh/ghc/ghc](https://circleci.com/gh/ghc/ghc)
 - Appveyor: [ https://ci.appveyor.com/project/GHCAppveyor/ghc](https://ci.appveyor.com/project/GHCAppveyor/ghc)
+- Docker images for CircleCI deployment: [ https://hub.docker.com/r/ghcci/](https://hub.docker.com/r/ghcci/)
 
 ## Requirements
 
