@@ -4,7 +4,7 @@
 This page is our road-map for what will be in 8.4.  
 
 
-If you believe your favourite thing belongs in this list, but isn't there, please yell.  If it's not in the road map, it probably won't get done.  Without a lot of support, many things in the road map won't get done either, so we need your help!
+If you believe your favorite thing belongs in this list, but isn't there, please yell.  If it's not in the road map, it probably won't get done.  Without a lot of support, many things in the road map won't get done either, so we need your help!
 
 ## Dates
 
@@ -21,10 +21,7 @@ See [Libraries](status/ghc-8.4.1/libraries) and [Migration/8.4](migration/8.4).
 
 Below are the major highlights of 8.4.
 
-- Further work on **compiler performance**
 - Improved support for **cross-compilation** (Moritz Angermann)
-- A *more expressive Haskell AST** based on [Trees That Grow](implementing-trees-that-grow) (Shayan Najd)
-  ***
 
 ### Build system and miscellaneous changes
 
@@ -32,6 +29,9 @@ Below are the major highlights of 8.4.
 - Support for building stating libraries for elf and mach-o (`-staticlib`)
 
 ## Landed in `master` branch
+
+- Improved code generation for join points
+- Many, many bug-fixes
 
 ### Library changes
 
