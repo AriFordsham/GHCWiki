@@ -1,12 +1,12 @@
 = OverloadedRecordFields =
 
-The `OverloadedRecordFields` extension for GHC will allow multiple record datatypes to share the same field names, and make it possible for type information to disambiguate them. For more information, see:
+The `OverloadedRecordFields` family of extensions for GHC allow multiple record datatypes to share the same field names, and make it possible for type information to disambiguate selectors. For more information, see:
 
  * [https://github.com/ghc-proposals/ghc-proposals/pull/6 GHC proposal for OverloadedRecordFields] (2016 - most up to date)
  * [wiki:Records/OverloadedRecordFields/Redesign Redesigned variant involving three extensions] (2015)
     * Part 1: [wiki:Records/OverloadedRecordFields/DuplicateRecordFields DuplicateRecordFields] (in GHC 8.0)
     * Part 2: [wiki:Records/OverloadedRecordFields/OverloadedLabels OverloadedLabels] (in GHC 8.0)
-    * Part 3: [wiki:Records/OverloadedRecordFields/MagicClasses Magic type classes] (not yet in GHC HEAD)
+    * Part 3: [wiki:Records/OverloadedRecordFields/MagicClasses Magic type classes] (partly in GHC 8.2)
     * [http://www.well-typed.com/blog/2015/03/overloadedrecordfields-revived/ Adam Gundry's blog post]
  * [https://ghc.haskell.org/trac/ghc/wiki/Records/OverloadedRecordFields/Design Original design] (2013)
 
@@ -26,7 +26,7 @@ Closed Tickets:
 
  * Phab:D761, Phab:D1391, Phab:D1486, Phab:D1586, Phab:D1600: `DuplicateRecordFields` extension
  * Phab:D1331, Phab:D1623: `OverloadedLabels` extension
- * Phab:D1687: magic classes
+ * Phab:D1687, Phab:D2708: magic classes
  * [https://github.com/adamgundry/records-prototype Prototype implementation of the magic typeclasses]
 
 == History ==
