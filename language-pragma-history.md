@@ -15,6 +15,7 @@ See also [ http://damianfral.github.io/ghcaniuse/](http://damianfral.github.io/g
 Added LANGUAGE extensions:
 
 - `[No]NumericUnderscores`
+- `[No]BlockArguments`
 
 ## Changes in GHC 8.4
 
