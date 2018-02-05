@@ -20,10 +20,10 @@ data Plugin = Plugin {
                             -> Hsc HsParsedModule
     -- ^ Modify the module when it is parsed. This is called by
     -- HscMain when the parsing is successful.
-  , needsRenamedSyntax :: [CommandLineOption] -> ModSummary -> Hsc Bool
-    -- ^ Tell the compilation pipeline if this plugin needs to the
-    -- renamed version of the syntax tree. If True is returned, the
-    -- TcGblEnv is guaranteed to contain the renamed sources.
+  , renamedResultAction :: Maybe ([CommandLineOption] -> ModSummary 
+                                    -> RenamedSource -> Hsc ())
+    -- ^ Installs a read-only pass that receives the renamed syntax tree as an
+    -- argument when type checking is successful.
   , typeCheckResultAction :: [CommandLineOption] -> ModSummary -> TcGblEnv 
                                -> Hsc TcGblEnv
     -- ^ Modify the module when it is type checked. This is called by
