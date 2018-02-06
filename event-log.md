@@ -14,7 +14,7 @@ $ ./A +RTS -l
 
 .. produces A.eventlog ...
 
-$ $ show-ghc-events A.eventlog 
+$ ghc-events show A.eventlog 
 Event Types:
    0: Create thread (size 4)
    1: Run thread (size 4)
@@ -28,7 +28,7 @@ Event Types:
 Log events in binary format to the file program.eventlog, where flags is a sequence of zero or more characters indicating which kinds of events to log. Currently there is only one type supported: -ls, for scheduler events.
 
 
-The format of the log file is described by the header EventLogFormat.h that comes with GHC, and it can be parsed in Haskell using the [ ghc-events](http://hackage.haskell.org/package/ghc-events) library. To dump the contents of a .eventlog file as text, use the tool show-ghc-events that comes with the ghc-events package.
+The format of the log file is described by the header EventLogFormat.h that comes with GHC, and it can be parsed in Haskell using the [ ghc-events](http://hackage.haskell.org/package/ghc-events) library. To dump the contents of a .eventlog file as text, use the tool `ghc-events` that comes with the ghc-events package.
 
 ## Limitations
 
