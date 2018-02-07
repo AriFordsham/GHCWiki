@@ -215,4 +215,4 @@ To the best of my knowledge it just works.
 
 [\#4012](https://gitlab.haskell.org//ghc/ghc/issues/4012)
 
-[\#12262](https://gitlab.haskell.org//ghc/ghc/issues/12262) - for bit-for-bit determinism
+[\#12262](https://gitlab.haskell.org//ghc/ghc/issues/12262), [\#12935](https://gitlab.haskell.org//ghc/ghc/issues/12935) - for bit-for-bit determinism
