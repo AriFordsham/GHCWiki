@@ -1,62 +1,36 @@
 # Static Data
 
 
-WIP proposal allowing to store static data/objects into programs (see [\#5218](https://gitlab.haskell.org//ghc/ghc/issues/5218)).
+WIP proposal allowing to store static data/objects into programs (see [\#5218](https://gitlab.haskell.org//ghc/ghc/issues/5218)). It would allow large resources data (images, sounds, etc.) to be embedded (see [\#14741](https://gitlab.haskell.org//ghc/ghc/issues/14741)).
 
-## Desugaring static strings
+## Step 1: support dependent object files
 
-
-With OverloadedStrings, when we have:
-
-```
-"My text"::String"My text"::Text"123456"::ByteString
-```
+[ https://phabricator.haskell.org/D4217](https://phabricator.haskell.org/D4217)
 
 
-it is desugared to:
+We need to be able to link with arbitrary object files. Object files can contain arbitrary data in their data sections (data, rodata, bss, etc.).
 
-```
-   fromString "My text"::String
-   fromString "My text"::Text
-   fromString "123456"::ByteString
-```
+## Step 2: provide helpers to generate object files
 
 
-Let's add a StaticStrings extension that desugars to this instead:
+Provide helpers (in GHC and in TH) to generate object files (ELF, etc.) containing a data section with specified properties: read-only or mutable, section alignment, allow section merging, etc.
+
+
+Provide helper to generate unique data symbols and to add symbols referring to the data in the symbol table of the object file.
+
+
+At this step, we can already use TH to embed data. We can retrieve the data address from the symbol with:
 
 ```
-[string|My text|]::String[text|My text|]::Text[byte|123456|]::ByteString
+foreignimportccall"&" myDataSymbol ::Ptr()
 ```
 
-
-The quasiquoter is selected from the type. I.e.,
-
-```
-classStringQuote a where
-      fromStringQuote ::QuasiQuoter-- or directly
-      fromStringQuote ::String->QExp
-```
+## Step 3: add GHC primitive
 
 
-It makes string literals quasiquoters in disguise. It's only for syntactic convenience (the type can be inferred, hence the quasiquoter can be inferred).
+To make the interface easier to use even when TH is not supported, let's add a `StaticData#` primitive type.
 
-### Builtin StringQuote
-
-
-Not all GHC support Template Haskell. Hence some StringQuote instances could be builtin or provided by compiler plugins. E.g.,
-
-- String (current string storage)
-- Text (UTF-16 encoding)
-
-## Storing raw bytes
-
-
-We want to be able to store raw bytes ("static data") into programs (e.g., to
-embed resources like images, arrays, etc.).
-
-
-Let's add a `StaticData#` primitive type. `StaticData#` have a size in bytes, an
-alignment constraint and can be:
+`StaticData#` have a size in bytes, an alignment constraint and can be:
 
 - initialized (we know their contents) and immutable
 - initialized and mutable
@@ -81,26 +55,27 @@ quasiquoter can use it.
 Internal representation in GHC:
 
 ```
-dataStaticData=StaticData{ staticDataSize      ::Word, staticDataAlignment ::Word-- ^ Alignment constraint (1 if none), staticDataMutable   ::Bool-- ^ Is the data mutable?, staticDataContents  ::MaybeByteString}
+dataStaticData=StaticData{ staticDataSize      ::Word, staticDataAlignment ::Word-- ^ Alignment constraint (1 if none), staticDataMutable   ::Bool-- ^ Is the data mutable?, staticDataContents  ::MaybeByteString-- ^ Initialized or not? (maybe support 0-initialized data too?), staticDataSymbol    ::String}
 ```
 
 
-Static data end up in appropriate sections of the program (.bss, .data, .rodata, etc.).
-Immutable data should be shared (with least common multiple alignment) to reduce
-binary size.
+Static data end up in appropriate sections (.bss, .data, .rodata, etc.) in dependent object files.
+
+
+Identical immutable data should be shared (with least common multiple alignment) to reduce binary size.
 
 
 Note that only the contents of the static data is stored in programs: data size
 isn't stored! (no overhead)
 
-## Storing Haskell objects
+## Step 4: Storing Haskell objects
 
 
 Some packages would like to store static Haskell object (e.g., `ByteArray#`) and not raw bytes (which are retrieved from an
 `Addr#`).
 
 
-We could use a static compact region embedded in the program. Let's add a
+We could use a static compact region embedded in object files (reusing the `StaticData#` machinery). Let's add a
 `StaticObject#` primitive type which is a reference to an object in the static
 compact region.
 
@@ -131,18 +106,61 @@ AFAIK compact regions only support immutable data. Perhaps we could relax this
 to support storage of `MutableByteArray#` which don't have references to other data
 (in order to support mutable unboxed vectors for instance).
 
-## Desugaring usual strings
+## Step 5: revamp string literals
 
 
-Instead of using a specific string-literal, we can use generic static data.
+We would like string literals to be `StaticData#` like other data.
 
 
-Desugaring becomes:
+Currently with OverloadedStrings, the following:
+
+```
+"My text"::String"My text"::Text"123456"::ByteString
+```
+
+
+is desugared into:
+
+```
+   fromString "My text"::String
+   fromString "My text"::Text
+   fromString "123456"::ByteString
+```
+
+
+Let's add a `StaticStrings` extension that desugars to this instead:
+
+```
+[string|My text|]::String[text|My text|]::Text[byte|123456|]::ByteString
+```
+
+
+Note that the \*quasiquoter is selected from the type\*. I.e., we have:
+
+```
+classStringQuote a where
+      fromStringQuote ::QuasiQuoterinstanceStringQuoteByteStringwhere...instanceStringQuoteStringwhere...instanceStringQuoteTextwhere...instanceStringQuote(Ptr a)where...
+```
+
+
+It makes string literals quasiquoters in disguise. It's only for syntactic convenience: the type can be inferred, hence the quasiquoter can be inferred.
+
+### Builtin StringQuote
+
+
+Not all GHC support Template Haskell. Hence some StringQuote instances could be builtin or provided by compiler plugins. E.g.,
+
+- String (current string storage)
+- Text (UTF-16 encoding)
+
+### Desugaring usual strings
+
+
+When the StaticStrings extension is not in use, instead of desugaring into a specific string-literal, we can desugar into the following:
 
 ```
    unpackCString#(staticDataAddr# d)
 ```
 
 
-Most rules should still match. Some would need a minor refactoring (e.g.,
-builtin rules).
+Most rules should still match. Some would need a minor refactoring (e.g., builtin rules).
