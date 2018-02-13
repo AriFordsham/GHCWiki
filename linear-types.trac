@@ -4,7 +4,7 @@ This page contains information on the Linear Type Proposal.
 
 == Discussion ==
 
-The Linear Type Proposal has received a round of review [https://github.com/ghc-proposals/ghc-proposals/pull/91 on the ghc proposal repository].
+The Linear Type Proposal is being discussed [https://github.com/ghc-proposals/ghc-proposals/pull/111 on the ghc proposal repository]. It had previously received [https://github.com/ghc-proposals/ghc-proposals/pull/91 a first round of review].
 
 == Source material ==
 
