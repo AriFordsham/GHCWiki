@@ -57,6 +57,8 @@ This last point means that if you want to use libraries from Hackage with the sn
 
 == Release Checklist ==
 
+Before a release can be made, the release manager needs to work with the core library upstream maintainers to agree on which library versions will ship with the new GHC release. See WorkingConventions/BootLibraries for details.
+
 See MakingReleases and TodoAfterReleases.
 
 
