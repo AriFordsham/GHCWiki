@@ -12,6 +12,14 @@ Maintaining a GHC [boot library](commentary/libraries) is generally quite simila
 
 Beyond this the interactions with GHC should be fairly minimal: we'll ask you before a release what version of your library you'd like for us to include (or request that you push a new release if necessary). It's of course appreciated if these requests are handled promptly as library issues can stall the release process.
 
+## Proposed release policy
+
+
+The following is a proposed revision of our previous policy for synchronizing core libraries prior to GHC releases.
+
+1. When GHC cuts a feature-freeze branch, the release manager will ask the core library maintainers to cut a feature freeze branch of their libraries. Upon cutting the branch the maintainer should notify the release manager so the GHC submodule can be updated. It is expected that this take no longer than two weeks; if a library maintainer hasn't responded within two weeks GHC will ship with the library version shipped with the most recent GHC release.
+1. When GHC cuts a release candidate, the release manager will ask the core library maintainers to make a properly-tagged release of their branches.
+
 ## Git tags
 
 `git push` doesn't push tags by default, you have to push the tag explicitly via `git push origin v1.2.3.4` or `git push --tags` (be careful though, the later command pushes \*all\* local tags)
