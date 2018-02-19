@@ -13,7 +13,7 @@ Beyond this the interactions with GHC should be fairly minimal: we'll ask you be
 
 == Proposed release policy
 
-{{{#!discussion
+{{{#!box discussion
 The following is a proposed revision of our previous policy for synchronizing core libraries prior to GHC releases.
 }}}
 

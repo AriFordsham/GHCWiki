@@ -14,11 +14,8 @@ Beyond this the interactions with GHC should be fairly minimal: we'll ask you be
 
 ## Proposed release policy
 
-**Error: Failed to load processor `discussion`**
 
-```
-No macro or processor named 'discussion' found
-```
+The following is a proposed revision of our previous policy for synchronizing core libraries prior to GHC releases.
 
 
 To ensure that GHC releases ship with up-to-date releases of core libraries, we follow this protocol for updating core libraries during the release process:
