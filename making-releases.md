@@ -6,6 +6,11 @@
 - Version numbers should always be three components
 - Release candidates should be numbered with the patch-level preceding their release. For instance, the first release candidate for 8.0.1 should be versioned 8.0.0-rc1
 
+## Core libraries
+
+
+A few weeks before the first alpha release the release manager should contact the core library upstream maintainers to determine which core library versions will ship with the new GHC release. See [WorkingConventions/BootLibraries](working-conventions/boot-libraries) for details. 
+
 ## Test policy
 
 - Run `./validate --slow` on all [tier 1 platforms](platforms) before release.
@@ -25,17 +30,6 @@ Recommended procedure for a clean Git history:
 
 
 Example for result of branching procedure described above
-
-### Previous obsolete instructions
-
-
-Make a `ghc-x.y` branch of all of the repos (including those with a 'dph' and 'extra' tag in `./packages`).
-
-
-For repos with an upstream maintainer, ask upstream what commit we should be using in the branch.  TODO write updated guide for library release management
-
-
-Update [ http://ghc.haskell.org/trac/ghc/wiki/Repositories\#Branches](http://ghc.haskell.org/trac/ghc/wiki/Repositories#Branches)
 
 ## Make release notes
 
