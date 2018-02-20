@@ -1,7 +1,7 @@
 # Adding new test cases
 
 
-For adding any test case, follow these guide lines and then refer to the more specific examples below for a single module test case and a multiple module test case. All test cases should reside under the \`testsuite/tests/' directory. From now on we assume that directory as our root.
+For adding any test case, follow these guide lines and then refer to the more specific examples below for a single module test case and a multiple module test case. All test cases should reside under the `testsuite/tests/` directory. From now on we assume that directory as our root.
 
 1. Find the appropriate place for the test case. The GHC regression suite
   is generally organised in a "white-box" manner: a regression which
