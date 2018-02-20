@@ -23,13 +23,13 @@ The structure of the Core-to-Core pipeline is determined in the `getCoreToDo` fu
 
 - **Full laziness, 1st pass**: floats let-bindings outside of lambdas. This pass includes annotating bindings with level information and then running the float-out pass. In this first pass of the full laziness we don't float partial applications and bindings that contain free variables - this will be done by the second pass later in the pipeline. See "Further Reading" section below for pointers where to find the description of the full laziness algorithm.
 
-- **Float in, 1st pass**: the opposite of full laziness, this pass floats let-bindings as close to their use sites as possible. It will not undo the full laziness by sinking bindings inside a lambda, unless the lambda is one-shot. At this stage we have not yet run the demand analysis, so we only have demand information for things that we imported.
-
 - **Simplifier, main run**: run the main passes of the simplifier (phases 2, 1 and 0). Phase 0 is run with at least 3 iterations.
+
+- **Float in, 1st pass**: the opposite of full laziness, this pass floats let-bindings as close to their use sites as possible. It will not undo the full laziness by sinking bindings inside a lambda, unless the lambda is one-shot. At this stage we have not yet run the demand analysis, so we only have demand information for things that we imported.
 
 - **Call arity**: attempts to eta-expand local functions based on how they are used. If run, this pass is followed by a 0 phase of the simplifier. See Notes in [compiler/simplCore/CallArity.hs](/trac/ghc/browser/ghc/compiler/simplCore/CallArity.hs) and the relevant paper.
 
-- **Demand analysis, 1st pass** (a.k.a. strictness analysis): runs the [demand analyser](commentary/compiler/demand) followed by worker-wrapper transformation and 0 phase of the simplifier. This pass tries to determine if some expressions are certain to be used and whether they will be used once or many times (cardinality analysis). We currently don't have means of saying that a binding is certain to be used many times. We can only determine that it is certain to be one-shot (ie. used only once) or probable to be one shot. Demand analysis pass only annotates Core with strictness information. This information is later used by worker/wrapper pass to perform transformations. CPR analysis is also done during demand analysis.
+- **Demand analysis, 1st pass** (a.k.a. strictness analysis): runs the [demand analyser](commentary/compiler/demand) followed by worker-wrapper transformation ([ JFP paper](http://ittc.ku.edu/~andygill/papers/wrapper.pdf)) and 0 phase of the simplifier. This pass tries to determine if some expressions are certain to be used and whether they will be used once or many times (cardinality analysis). We currently don't have means of saying that a binding is certain to be used many times. We can only determine that it is certain to be one-shot (ie. used only once) or probable to be one shot. Demand analysis pass only annotates Core with strictness information. This information is later used by worker/wrapper pass to perform transformations. CPR analysis is also done during demand analysis.
 
 - **Full laziness, 2nd pass**: another full-laziness pass. This time partial applications and functions with free variables are floated out.
 
@@ -47,7 +47,7 @@ The structure of the Core-to-Core pipeline is determined in the `getCoreToDo` fu
 
 - **Simplifier, final**: final 0 phase of the simplifier.
 
-- **Damand analysis, 2nd pass** (a.k.a. late demand analysis): this pass consists of demand analysis followed by worker-wrapper transformation and phase 0 of the simplifier. The reason for this pass is that some opportunities for discovering strictness were not visible earlier; and optimisations like call-pattern specialisation can create functions with unused arguments which are eliminated by late demand analysis. Only run with `-flate-dmd-anal`. FIXME but the cardinality paper says something else, namely that the late pass is meant to detect single entry thunks. Is it still the case in the current implementation?
+- **Demand analysis, 2nd pass** (a.k.a. late demand analysis): this pass consists of demand analysis ~~followed by the worker-wrapper transformation and phase 0 of the simplifier. The reason for this pass is that some opportunities for discovering strictness were not visible earlier; and optimisations like call-pattern specialisation can create functions with unused arguments which are eliminated by late demand analysis.~~ Only run with `-flate-dmd-anal`. The Core dumps, which don't mention a second WW pass, and the cardinality paper says something else, namely that the late pass is meant to detect single entry thunks. Another round of WW would invalidate that information.
 
 - **Check rules, 3rd pass**
 
@@ -118,5 +118,4 @@ The so-called "gentle" run disables the case-of-case transformation and inlining
 
 ## TODO
 
-- Is there any paper that focuses on worker-wrapper transformation?
 - Does handling of unboxed values described in "Unboxed values as first class citizens in a non-strict functional language" fit in the scope of this page?
