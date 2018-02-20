@@ -41,7 +41,7 @@ The structure of the Core-to-Core pipeline is determined in the `getCoreToDo` fu
 
 - **Liberate case**: unrolls recursive functions once in their own RHS, to avoid repeated case analysis of free variables. It's a bit like the call-pattern specialisation but for free variables rather than arguments. Followed by a phase 0 simplifier run. Only enabled with `-fliberate-case` flag.
 
-- **Call-pattern specialisation**: Only enabled with `-fspec-constr` flag. TODO explain what it does. Details are in the paper [ Call-pattern Specialisation for Haskell Programs](https://www.microsoft.com/en-us/research/wp-content/uploads/2016/07/spec-constr.pdf)
+- **Call-pattern specialisation**: Only enabled with `-fspec-constr` flag. 'Inlining for recursive functions': Specialises recursive functions for call patterns involving arguments in WHNF, so that the simplifier can weed out emerging redexes in the body. Details are in the paper [ Call-pattern Specialisation for Haskell Programs](https://www.microsoft.com/en-us/research/wp-content/uploads/2016/07/spec-constr.pdf)
 
 - **Check rules, 2nd pass**
 
