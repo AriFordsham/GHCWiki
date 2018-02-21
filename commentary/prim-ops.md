@@ -121,6 +121,15 @@ To add a new primop, you currently need to update the following files:
   - `yourpackage/cbits/primops.cmm`: implement your primops here. You have to arrange for the .cmm file to be compiled and linked into the package. The GHC build system has support for this. Cabal does not yet.
   - `yourpackage/TheCode.hs`: use `foreign import prim` to import the primops.
 
+**Note:** In case of compile errors like
+
+```wiki
+Not in scope: ‘GHC.Prim.<newPrimOp>’
+```
+
+
+run `make clean` so the build system will pick up changes to the generated `GHC.Prim` module.
+
 
 In addition, if new primtypes are being added, the following files need to be updated:
 
