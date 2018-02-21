@@ -24,7 +24,7 @@
    * [wiki:Roles Roles, Coercible and coerce]
    * [wiki:InjectiveTypeFamilies Injective type families]
    * [wiki:UnliftedDataTypes]
-   * [wiki:UnpackedSumTypes], #9214
+   * [wiki:UnpackedSumTypes], #9214, #14826
    * [wiki:TypeNats]: type-level literals
    * [wiki:TemplateHaskell]
    * [wiki:LevityPolymorphism]
@@ -40,6 +40,7 @@
    * [wiki:FloatInwards]
    * [wiki:SpecConstr]
    * [wiki:Specialise]
+   * [wiki:LateLamLift Late lambda lifting]
    * [wiki:StaticArgumentTransformation]
    * [wiki:MoreCSE Common subexpression (CSE)]
    * [wiki:SequentCore Join points]

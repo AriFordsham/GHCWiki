@@ -26,7 +26,7 @@
   - [Roles, Coercible and coerce](roles)
   - [Injective type families](injective-type-families)
   - [UnliftedDataTypes](unlifted-data-types)
-  - [UnpackedSumTypes](unpacked-sum-types), [\#9214](https://gitlab.haskell.org//ghc/ghc/issues/9214)
+  - [UnpackedSumTypes](unpacked-sum-types), [\#9214](https://gitlab.haskell.org//ghc/ghc/issues/9214), [\#14826](https://gitlab.haskell.org//ghc/ghc/issues/14826)
   - [TypeNats](type-nats): type-level literals
   - [TemplateHaskell](template-haskell)
   - [LevityPolymorphism](levity-polymorphism)
@@ -43,6 +43,7 @@
   - [FloatInwards](float-inwards)
   - [SpecConstr](spec-constr)
   - [Specialise](specialise)
+  - [Late lambda lifting](late-lam-lift)
   - [StaticArgumentTransformation](static-argument-transformation)
   - [Common subexpression (CSE)](more-cse)
   - [Join points](sequent-core)
