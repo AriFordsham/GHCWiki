@@ -17,7 +17,7 @@ Commits
 The -flate-dmd-anal flag runs the demand analysis a second time just before CorePrep, with a subsequent run of the Simplifier.  Cf [\#7782](https://gitlab.haskell.org//ghc/ghc/issues/7782).
 
 
-It's not on by default yet, but we hope -O2 will eventually imply it, perhaps even for the GHC 7.8 release.
+It's not on by default yet, but we hope -O2 will eventually imply it, perhaps even for the GHC 7.8 release. UPDATE (2017-02-21): nofib results with `-flate-dmd-anal` were not conclusive, see [\#6087](https://gitlab.haskell.org//ghc/ghc/issues/6087) for results.
 
 
 The bulk of this patch merely simplifies the treatment of wrappers in interface files; see "Removing the clever .hi files scheme" below.
