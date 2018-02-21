@@ -43,6 +43,7 @@
   - [FloatInwards](float-inwards)
   - [SpecConstr](spec-constr)
   - [Specialise](specialise)
+  - [Late lambda lifting](late-lam-lift)
   - [StaticArgumentTransformation](static-argument-transformation)
   - [Common subexpression (CSE)](more-cse)
   - [Join points](sequent-core)

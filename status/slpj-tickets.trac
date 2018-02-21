@@ -40,6 +40,7 @@
    * [wiki:FloatInwards]
    * [wiki:SpecConstr]
    * [wiki:Specialise]
+   * [wiki:LateLamLift Late lambda lifting]
    * [wiki:StaticArgumentTransformation]
    * [wiki:MoreCSE Common subexpression (CSE)]
    * [wiki:SequentCore Join points]
