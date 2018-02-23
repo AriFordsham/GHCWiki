@@ -12,6 +12,7 @@
 - [ Proposal 83: collapse PolyKinds and TypeInType](https://github.com/ghc-proposals/ghc-proposals/pull/83)
 - [ Proposal 81: Visible dependent quantification](https://github.com/ghc-proposals/ghc-proposals/pull/81)
 - [ Proposal 54: CUSKs (depends on Proposal 81)](https://github.com/ghc-proposals/ghc-proposals/pull/54)
+- [ Proposal 103: treat kind and type variables identically in forall](https://github.com/ghc-proposals/ghc-proposals/pull/103) (depends on Proposal 83)
 - Add curly-braces for scoping but no type application (nothing depends on this)
 - Scoping only with explicit foralls (perhaps best after Proposal 83, because explicit kind-forall needs TypeInType).  Subsumes [\#14548](https://gitlab.haskell.org//ghc/ghc/issues/14548).
 - Fix [\#14451](https://gitlab.haskell.org//ghc/ghc/issues/14451) (SCC analysis of type declarations)
