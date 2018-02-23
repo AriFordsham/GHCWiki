@@ -2,7 +2,103 @@
 
 
 This page summarises several alternative designs for doing kind inference for
-types and classes, under `-XPolyKinds`.  See the extensive discussion on [\#9200](https://gitlab.haskell.org//ghc/ghc/issues/9200).  (See also [\#9201](https://gitlab.haskell.org//ghc/ghc/issues/9201).)
+types and classes, under `-XPolyKinds`.
+Though originally written with respect to [\#9200](https://gitlab.haskell.org//ghc/ghc/issues/9200), there are more issues at play here. Relevant other tickets: [\#9201](https://gitlab.haskell.org//ghc/ghc/issues/9201), [\#9427](https://gitlab.haskell.org//ghc/ghc/issues/9427), [\#14451](https://gitlab.haskell.org//ghc/ghc/issues/14451), [\#14847](https://gitlab.haskell.org//ghc/ghc/issues/14847), and (to a lesser extent) [\#12088](https://gitlab.haskell.org//ghc/ghc/issues/12088), which is all about instances.
+
+## Trouble when fixing [\#14066](https://gitlab.haskell.org//ghc/ghc/issues/14066)
+
+
+Ticket [\#14066](https://gitlab.haskell.org//ghc/ghc/issues/14066) requests a more robust way of tracking the scope of type
+variables. A full discussion is out of scope here, but it required hard
+thought about kind inference. Here are some notes I (Richard) have 
+drawn up around it:
+
+### Introduction
+
+
+The central challenge is this:
+
+```
+dataProxy1 a whereMk::Proxy1(a :: k)
+```
+
+
+To infer the right kind for `Proxy1`, GHC has to guess a kind for `a` -- call it kappa -- and then process the type of `Mk`. What's very bizarre is that the occurrence of `Proxy1` in the type of `Mk` leads GHC to unify kappa with `k`, even though `k` has a local scope. In other words, kappa unifies with an out-of-scope skolem. GHC's current (8.4) kind-generalization process ends up quantifying over the `k` in the kind of `Proxy1`, and so disaster is averted. But it really works only by accident.
+
+
+And it doesn't always work.
+
+```
+dataProxy2 a whereMk1::Proxy2(a :: k)Mk2::Proxy2(b :: j)
+```
+
+
+GHC does the same thing here, but it rejects the definition because `k` doesn't unify with `j`. This is absurd, because these two variables are skolems that share no scope whatsoever. Interestingly, GHC 7.10 accepts this last definition, so the rejection is a hitherto-unknown regression.
+
+### Simon's Proposed Solution
+
+
+Datatype declarations are kind-checked in two passes. The first pass looks through all the constructors, accumulating constraints on the type's kind. Then, once the kind is known, all the constructors are checked *again* with respect to the known kind. Note that we need to look at constructors to determine the kind of the datatype; otherwise, GHC would choke on declarations like
+
+```
+dataApp a b =MkApp(a b)
+```
+
+
+The kinds for `a` and `b` can be known only by looking at `MkApp`.
+
+
+Simon suggested that, in the first pass, we instantiate all the user-written type variables in a constructor's declaration with unification variables and then proceed to infer the kind. This would mean that the `j` and `k` in `Proxy2`'s constructors would both be instantiated with unification variables. These would all unify but would remain unconstrained. GHC would then quantify over this kind, as it should. Note that it's possible for GHC to infer something silly here, but it would then be caught on the second pass.
+
+### Aside: Polymorphic Recursion and Type Inference
+
+
+GHC claims that it infers most general types. But this claim is simply not true in the presence of polymorphic recursion. For example, consider this equation defining `f`:
+
+```
+f x y = f y x
+```
+
+
+The most general type for `f` is `forall a b c. a -> b -> c`. GHC indeed accepts this type signature for `f`. However, if `f` is written without a type signature, GHC infers `forall a b. a -> a -> b`.
+
+
+What has happened to GHC's claim of inferring most general types? It is true, but it is true only with respect to the fragment of Haskell that prohibits polymorphic recursion. Note that GHC's inferred type leads to no polymorphic recursion. The lesson here is that a claim of most general types makes sense only with respect to some restriction on the features in the language. (For example, we all know that GHC won't infer a higher-rank type, even if one is more general than another type.)
+
+### Simon's Algorithm Breaks Principal Types
+
+
+Under Simon's algorithms, some forms of polymorphic recursion are indeed accepted. For example:
+
+```
+dataT a whereMk:: forall k1 k2 (a :: k1)(b :: k2).T b ->T a
+```
+
+
+Simon's algorithm instantiates `k1`, `k2`, `a`, and `b` with fresh unification variables. Suppose `T` is guessed to have kind `kappa -> Type`. Then, `kappa`, `k1`, and `k2` all get unified together, with no constraints. GHC will quantify, giving `T` the kind `forall k. k -> Type`. During the second pass, this kind works fine, instantiated to `k1` and `k2`. Thus, GHC accept the polymorphic-recursive `T`.
+
+
+So: what forms of polymorphic recursion are accepted? Not all of them. Take this example:
+
+```
+dataT2 a whereMk:: forall (a :: k).T2Maybe->T2 a
+```
+
+
+Under Simon's algorithm, the `T2` is guessed to have kind `kappa -> Type`, and then `kappa` will unify with `Type -> Type`. `T2` is assigned the kind `(Type -> Type) -> Type`. On the second pass, `Mk` is rejected, applying `T2` to something of kind `k`. We can see, though, that `T2` could be assigned the kind `forall k. k -> Type` quite profitably. Nevertheless, I agree with Simon's algorithm that rejecting is the correct behavior -- we don't want to infer polymorphic recursion.
+
+
+After some thinking, Adam, Csongor and I came up with this rule: Simon's algorithm accepts polymorphic recursive definitions when the recursive occurrences are at types that instantiate kind variables with kind variables, but never concrete kinds. Note that in `T`, the recursive occurrence replaces `k1` with `k2`, but `T2` replaces `k` with `Type -> Type`. Let's call a polymorphic recursive definition where recursive occurrences replace variables with variables "pseudopolymorphic recursive".
+
+
+However, Simon's algorithm does not always infer the most general type with respect to the fragment of the language containing pseudopolymorphic recursion (but not general polymorphic recursion). For example:
+
+```
+dataT3 a b whereMk::T3 b a ->T3 a b
+```
+
+
+Simon's algorithm infers the kind `forall k. k -> k -> Type` for `T3`, even though it could have the kind `forall k1 k2. k1 -> k2 -> Type` and remain pseudopolymorphic recursive. Thus, I claim that Simon's algorithm does not infer most general types.
 
 ## Current strategy (GHC 7.8)
 
