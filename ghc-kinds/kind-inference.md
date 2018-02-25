@@ -100,6 +100,69 @@ dataT3 a b whereMk::T3 b a ->T3 a b
 
 Simon's algorithm infers the kind `forall k. k -> k -> Type` for `T3`, even though it could have the kind `forall k1 k2. k1 -> k2 -> Type` and remain pseudopolymorphic recursive. Thus, I claim that Simon's algorithm does not infer most general types.
 
+## Inferring dependency
+
+
+A related problem to the above is inferring dependency between binders, some notes follow.
+
+
+In GHC 8.4, the following declaration for `Proxy2` is rejected:
+
+```
+dataProxy k (a :: k)dataProxy2 k a =MkP(Proxy k a)
+```
+
+`Proxy`'s kind is `forall k -> k -> Type`. According to the rule that dependent variables must be manifestly so (implemented by `getInitialKind`), the declaration for `Proxy2` is rejected, because only after checking the RHS do we find out about the dependency. (This rule is documented in [ Section 10.11.13](https://downloads.haskell.org/~ghc/8.2.2/docs/html/users_guide/glasgow_exts.html#inferring-dependency-in-datatype-declarations) of the user manual).
+
+
+However, arguably inference should be able to determine that `Proxy2 :: forall k -> k -> Type`. A possible way would be to skip `getInitialKind` and look at the RHS immediately (according to Richard, implementing this is not that simple).
+
+### GADTs
+
+
+Consider the following, GADT-style definition of `Proxy2`:
+
+```
+dataProxy2 k a whereMkP::Proxy k a ->Proxy2 k a
+```
+
+
+This definition is accepted today (GHC 8.4), but why?
+
+
+With `-fprint-explicit-foralls`, `Proxy2`'s signature is actually the following:
+
+```
+dataProxy2 k k1 (a :: k)whereMkP:: forall k (a :: k).(Proxy k a)->Proxy2 k k a
+```
+
+
+It is a kind-indexed GADT, with the `MkP` constructor holding `k ~ k1`, and its kind
+`forall {k}. Type -> k -> Type` is not manifestly dependent. This is not *wong*, but there are certainly cases where (short of having a CUSK) it is desired that the inferred signature of a GADT is not kind-indexed.
+
+
+Consider the singleton type for `Bool`:
+
+```
+dataSingBool b whereSingTrue::SingBool'TrueSingFalse::SingBool'False
+```
+
+
+The inferred kind is `Bool -> Type`, but `forall {k}. k -> Type` would not be invalid either.
+
+
+A related problem, where it's much more apparent that the more specialised kind is better is type families:
+
+```
+typefamilyF a whereFInt=Bool
+```
+
+
+Here, `F` is inferred to be `Type -> Type`. Indeed, if instead it was generalised to `k -> j`, then `F Int` could only be reduced to `Bool` if its return kind was specified.
+
+
+So the question is: if the non-GADT `Proxy2` will be inferred to have the dependent kind, should the GADT `Proxy2` be too?
+
 ## Current strategy (GHC 7.8)
 
 
