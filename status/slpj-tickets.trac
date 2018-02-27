@@ -33,6 +33,7 @@
    * [wiki:Commentary/Compiler/GenericDeriving Generic deriving]
    * [wiki:DerivingInstances Deriving generally]
    * [wiki:Typeable]
+   * [wiki:QuantifiedConstraints]
 
  * '''Optimisation'''
    * [wiki:Inlining]
