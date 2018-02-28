@@ -70,7 +70,7 @@ Now we can install GHC's dependencies as follows:
 
 ```
 pacman -S --needed git tar bsdtar binutils autoconf make xz \
-    curl libtool automake python python2 p7zip patch \
+    curl libtool automake python python2 p7zip patch ca-certificates \
     mingw-w64-$(uname -m)-gcc mingw-w64-$(uname -m)-python3-sphinx \
     mingw-w64-$(uname -m)-tools-git
 ```
