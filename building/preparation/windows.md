@@ -39,6 +39,9 @@ This is **required** to ensure that the mingw-w64 variant of tools get priority 
 ### Method B: Via Stack
 
 
+This method has been reported to be unreliable, so use this at your own risk. The recommended method we use ourselves is "Method A" described above.
+
+
 It is possible to set up MSYS indirectly through Stack:
 
 1. [ download and install Stack](https://docs.haskellstack.org/en/stable/install_and_upgrade/#windows).
