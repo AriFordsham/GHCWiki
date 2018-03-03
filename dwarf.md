@@ -343,7 +343,7 @@ debugging tools or replacing them with our own:
   probably will have to patch these programs to do something sensible
   for Haskell code.
 
-- Furthermore, the symbol names in `gbd`'s backtrace are
+- Furthermore, the symbol names in `gdb`'s backtrace are
   wrong -- notice the `??` entries. On the other hand, note that \`info
   symbol\` still gives us the right answer. What is happening
   here is that `gdb` looks up the symbol with an offset of 1, as that
