@@ -11,4 +11,4 @@ The traffic levels vary quite a bit depending on how much activity there is.
 
 GHC developers also hang out on {{{#ghc}}} channel on [http://freenode.net/ FreeNode]. This is a good place to ask questions related to working on GHC itself; if you have more general questions then {{{#haskell}}} is probably more appropriate.
 
-Signup for [wiki:Phabricator] to read the [https://phabricator.haskell.org/chatlog/ chatlogs].
+Chatlogs can be found at http://ircbrowse.net/browse/ghc.
