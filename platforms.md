@@ -35,7 +35,7 @@ Criteria for Tier 1 platforms:
 <th> Yes       </th>
 <th> Yes(\*W)        </th>
 <th> GHC HQ        </th>
-<th>[WindowsGhc](windows-ghc)</th></tr>
+<th>[Platforms/Windows](platforms/windows)</th></tr>
 <tr><th> x86-64             </th>
 <th> Windows (MinGW) </th>
 <th> x86_64-unknown-mingw32   </th>
@@ -43,7 +43,7 @@ Criteria for Tier 1 platforms:
 <th> Yes       </th>
 <th> Yes(\*W)        </th>
 <th> GHC HQ        </th>
-<th>[WindowsGhc](windows-ghc)</th></tr>
+<th>[Platforms/Windows](platforms/windows)</th></tr>
 <tr><th> x86                </th>
 <th> Linux           </th>
 <th> i386-unknown-linux       </th>
@@ -99,14 +99,14 @@ Tier 2 platforms as possible to Tier 1, as soon as they meet the Tier 1 criteria
 <th> i386-portbld-freebsd     </th>
 <th> Yes        </th>
 <th> Yes       </th>
-<th> Yes           </th>
+<th> Yes            </th>
 <th>[FreeBSDGhc](free-bsd-ghc)</th></tr>
 <tr><th> x86-64             </th>
 <th> FreeBSD         </th>
 <th> amd64-portbld-freebsd    </th>
 <th> Yes        </th>
 <th> Yes       </th>
-<th> Yes     </th>
+<th> Yes            </th>
 <th>[FreeBSDGhc](free-bsd-ghc)</th></tr>
 <tr><th> x86                </th>
 <th> OpenBSD         </th>
@@ -246,7 +246,7 @@ Tier 2 platforms as possible to Tier 1, as soon as they meet the Tier 1 criteria
 <th> i386-apple-darwin        </th>
 <th> Yes        </th>
 <th> Yes       </th>
-<th> No            </th>
+<th> No             </th>
 <th>[Attic/X86OSXGhc](attic/x86-osx-ghc)</th></tr></table>
 
 **\*S4** shared libraries are supported on Solaris 11 version 11/11 and higher
