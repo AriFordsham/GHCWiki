@@ -10,6 +10,7 @@ GHC on Windows is supported by the [wiki:WindowsTaskForce Windows Task Force].
 ||= 8.0         =||             ||         ||         ||  ✔      ||  ✔     ||  ✔     ||  ✔ (Note 1)      ||  ✔      ||
 ||= 8.2         =||             ||         ||         ||  ✔      ||  ✔     ||  ✔     ||  ✔               ||  ✔      ||
 ||= 8.4         =||             ||         ||         ||  ✔      ||  ✔     ||  ✔     ||  ✔               ||  ✔      ||
+||= 8.6         =||             ||         ||         ||         ||  ✔     ||  ✔     ||  ✔               ||  ✔      ||
 
 Note 1: Only distributions specifically advertising support the Creator's Update will work with Windows 10 Creator's Update and later. 
 
