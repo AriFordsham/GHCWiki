@@ -62,6 +62,16 @@ GHC on Windows is supported by the [Windows Task Force](windows-task-force).
 <th>  ✔     </th>
 <th>  ✔               </th>
 <th>  ✔      
+</th></tr>
+<tr><th> 8.6         </th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th>  ✔     </th>
+<th>  ✔     </th>
+<th>  ✔               </th>
+<th>  ✔      
 </th></tr></table>
 
 
