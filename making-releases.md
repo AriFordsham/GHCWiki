@@ -98,6 +98,17 @@ We are lucky to have a dedicated set of contributors who build binary distributi
 ## Making the binary builds
 
 
+We currently produce binary distributions for the following environments,
+
+- amd64/Windows
+- i386/Windows
+- i386/Linux (Debian 8)
+- amd64/Linux (Debian 8)
+- amd64/Linux (Debian 8 with DWARF)
+- amd64/Linux (Fedora 27)
+- amd64/Darwin
+
+
 First, you should make sure your environment has all of the tools necessary to make a proper release build.  This can include more tools than an "ordinary" build of GHC requires, since documentation requires extra tools.  You will need:
 
 - [ Sphinx](http://www.sphinx-doc.org/)
