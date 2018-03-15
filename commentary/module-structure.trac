@@ -94,3 +94,5 @@ This section of the commentary documents the subtlest part of the module depende
 Dark red edges indicate that only one module in one group depends on a module in the other group. Dark green means 11 or more dependencies. Arrows point from the importing module to the imported module.
 
 [[Image(dep5.png)]]
+
+See also attachment [[Image(deps.pdf)]] showing module dependencies without the most common groups (basicTypes, utils, coreSyn, main, types, prelude) as of March 2018.
