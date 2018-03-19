@@ -41,7 +41,7 @@ The `primops.txt.pp` file is processed first by CPP, and then by the `genprimopc
   so that the [byte-code interpreter](commentary/rts/interpreter) doesn't need to implement any PrimOps at all: it
   just invokes the compiled ones from `GHC.PrimopWrappers`.
 
-- `libraries/base/GHC/Prim.hs`, a source file containing dummy declarations for
+- `libraries/ghc-prim/dist-install/build/autogen/GHC/Prim.hs`, a generated source file containing dummy declarations for
   all the PrimOps, solely so that Haddock can include documentation for `GHC.Prim`
   in its documentation for the `base` package.  The file `GHC/Prim.hs` is never
   actually compiled, only processed by Haddock.
