@@ -3,6 +3,11 @@
 
 Ideas and suggestions for improving type error messages
 
+
+Here's the wiki page for it.  (Alas with a different Trac tag; todo: combine.)
+
+- [Proposal/CustomTypeErrors](proposal/custom-type-errors)
+
 ## Tickets
 
 
