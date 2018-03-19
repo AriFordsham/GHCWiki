@@ -91,7 +91,7 @@ Run
 ```
 arch=x86_64 # or i386
 bitness=64# or 32
-curl -L https://downloads.haskell.org/~ghc/8.0.2/ghc-8.0.2-${arch}-unknown-mingw32-win10.tar.xz | tar -xJ -C /mingw${bitness} --strip-components=1
+curl -L https://downloads.haskell.org/~ghc/8.2.2/ghc-8.2.2-${arch}-unknown-mingw32.tar.xz | tar -xJ -C /mingw${bitness} --strip-components=1
 ```
 
 
