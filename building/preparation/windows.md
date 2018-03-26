@@ -114,6 +114,18 @@ You should now be able to build GHC using the instructions in [QuickStart](build
 
 ## Troubleshooting
 
+### Configure says "Unknown OS msys"
+
+
+Check that you have
+
+```wiki
+export MSYSTEM=MINGW64
+```
+
+
+in your bash profile
+
 ### pacman failed to commit transaction
 
 
