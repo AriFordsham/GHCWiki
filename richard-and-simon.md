@@ -20,8 +20,10 @@
 
 **Big things**
 
-- [\#11715](https://gitlab.haskell.org//ghc/ghc/issues/11715): constraint vis \*
-- Homogeneous flattener ([\#12919](https://gitlab.haskell.org//ghc/ghc/issues/12919), [\#13643](https://gitlab.haskell.org//ghc/ghc/issues/13643))
+- Homogeneous flattener ([\#12919](https://gitlab.haskell.org//ghc/ghc/issues/12919), [\#13643](https://gitlab.haskell.org//ghc/ghc/issues/13643)).  [ Phab:D3848](https://phabricator.haskell.org/D3848).   [ Phab:D4451](https://phabricator.haskell.org/D4451) is a patch to D3848 that fixes performance
+- [ Phab:4049](https://phabricator.haskell.org/4049) is the bump-TcLevel-in-type-sigs patch (Trac [\#14066](https://gitlab.haskell.org//ghc/ghc/issues/14066)), which is based on D3848.
+- [\#11715](https://gitlab.haskell.org//ghc/ghc/issues/11715): constraint vs \*
+
 - [\#12088](https://gitlab.haskell.org//ghc/ghc/issues/12088): scc for kind inference (lower priority)
 
 **Little things**

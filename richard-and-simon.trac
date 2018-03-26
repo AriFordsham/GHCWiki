@@ -19,8 +19,10 @@
 
 
 '''Big things'''
- * #11715: constraint vis *
- * Homogeneous flattener (#12919, #13643)
+ * Homogeneous flattener (#12919, #13643).  Phab:D3848.   Phab:D4451 is a patch to D3848 that fixes performance
+ * Phab:4049 is the bump-TcLevel-in-type-sigs patch (Trac #14066), which is based on D3848.
+ * #11715: constraint vs *
+
  * #12088: scc for kind inference (lower priority)
 
 
