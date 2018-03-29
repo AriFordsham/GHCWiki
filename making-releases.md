@@ -290,6 +290,7 @@ There are a variety of things that should also be done,
 - Ensure that the submodules in the `master` branch are no older than the submodules in the release
 - Update the "Status Updates" section on [WikiStart](wiki-start) and [Status](status)
 - If major release: Update the `FP_COMPARE_VERSIONS([$GhcVersion], ...)` check in `configure.ac`
+- Update the `latest` symlinks on `downloads.haskell.org`.
 
 ## Uploading libraries
 
