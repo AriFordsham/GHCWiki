@@ -44,7 +44,9 @@ The structure of the Core-to-Core pipeline is determined in the `getCoreToDo` fu
 
   * '''Simplifier, final''': final 0 phase of the simplifier.
 
-  * '''Demand analysis, 2nd pass''' (a.k.a. late demand analysis): this pass consists of demand analysis ~~followed by the worker-wrapper transformation and phase 0 of the simplifier. The reason for this pass is that some opportunities for discovering strictness were not visible earlier; and optimisations like call-pattern specialisation can create functions with unused arguments which are eliminated by late demand analysis.~~ Only run with `-flate-dmd-anal`. The Core dumps, which don't mention a second WW pass, and the cardinality paper says something else, namely that the late pass is meant to detect single entry thunks. Another round of WW would invalidate that information.
+  * '''Demand analysis, 2nd pass''' (a.k.a. late demand analysis): this pass consists of demand analysis followed by the worker-wrapper transformation and phase 0 of the simplifier. The reason for this pass is that some opportunities for discovering strictness were not visible earlier; and optimisations like call-pattern specialisation can create functions with unused arguments which are eliminated by late demand analysis. Only run with `-flate-dmd-anal`.
+
+  * '''Demand analysis, final pass''' A final pass of the demand analyser, not followed by worker-wrapper. This one is always run if there was any previous run of the demand analyser: As mentioned in the cardinality paper this is meant to detect single entry thunks. Another round of WW would invalidate that information.
 
   * '''Check rules, 3rd pass'''
 
