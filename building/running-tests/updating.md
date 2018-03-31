@@ -24,6 +24,17 @@ $ make accept
 `make accept` does not change the expected output of tests that are
 marked as `expect_broken` or `expect_broken_for`. 
 
+
+It is also possible to accept test changes only for a specific `platform` or `os`.
+
+```wiki
+$ make accept TEST=<test-name> [OS=YES | PLATFORM=YES]
+```
+
+
+However please avoid this as much as possible and if applicable use a custom formatter
+to format the output in a platform neutral way. See e.g. [ normalise_errmsg_fun](https://ghc.haskell.org/trac/ghc/wiki/Building/RunningTests/Adding)
+
 ## Performance tests
 
 
