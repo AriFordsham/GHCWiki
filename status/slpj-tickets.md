@@ -21,6 +21,7 @@
   - `TypeApplications`: [visible type application](type-application)
   - [Custom type errors](proposal/custom-type-errors)
   - [TypeErrorMessages](status/type-error-messages)
+  - [Typed holes](holes)
   - [Impredicative types](impredicative-polymorphism)
   - [Functional dependencies](fun-deps)
   - [Roles, Coercible and coerce](roles)
@@ -66,9 +67,7 @@
 
 - [\#12088](https://gitlab.haskell.org//ghc/ghc/issues/12088): phase ordering for type-in-type
 - [\#11371](https://gitlab.haskell.org//ghc/ghc/issues/11371): bogus in-scope set for substitution
-- [\#9479](https://gitlab.haskell.org//ghc/ghc/issues/9479), [\#10954](https://gitlab.haskell.org//ghc/ghc/issues/10954), [\#9091](https://gitlab.haskell.org//ghc/ghc/issues/9091): more info in "hole" error messages
 - [\#10844](https://gitlab.haskell.org//ghc/ghc/issues/10844), [\#10845](https://gitlab.haskell.org//ghc/ghc/issues/10845), [\#10846](https://gitlab.haskell.org//ghc/ghc/issues/10846): implicit call stacks
-  \*
 - [\#7262](https://gitlab.haskell.org//ghc/ghc/issues/7262), [\#10333](https://gitlab.haskell.org//ghc/ghc/issues/10333), [\#7672](https://gitlab.haskell.org//ghc/ghc/issues/7672), [\#10083](https://gitlab.haskell.org//ghc/ghc/issues/10083): hs-boot niggles
 - [\#10114](https://gitlab.haskell.org//ghc/ghc/issues/10114): `AnyK` and kind generalisation in type synonyms
 - [\#10068](https://gitlab.haskell.org//ghc/ghc/issues/10068): runtime reflection API for packages, modules, names; `SrcLoc` etc.
@@ -165,8 +164,6 @@ Code-size blowup when using `deriving`; see tickets with keyword `deriving-perf`
 ## Type inference
 
 - [\#12201](https://gitlab.haskell.org//ghc/ghc/issues/12201): overlapping instances and instance declarations
-- [\#11515](https://gitlab.haskell.org//ghc/ghc/issues/11515): better computation for constraint holes
-- [\#10614](https://gitlab.haskell.org//ghc/ghc/issues/10614): display constraints for typed holes
 - [\#10179](https://gitlab.haskell.org//ghc/ghc/issues/10179): displaying kinds
 - [\#10089](https://gitlab.haskell.org//ghc/ghc/issues/10089): better warnings for unused data types (involves instances)
 - [\#10027](https://gitlab.haskell.org//ghc/ghc/issues/10027): export behaviour for data families
@@ -190,7 +187,6 @@ Code-size blowup when using `deriving`; see tickets with keyword `deriving-perf`
 
 See also [TemplateHaskell](template-haskell)
 
-- [\#10267](https://gitlab.haskell.org//ghc/ghc/issues/10267): typed holes and TH
 - [\#10548](https://gitlab.haskell.org//ghc/ghc/issues/10548): partial type sigs and TH
 - [\#10047](https://gitlab.haskell.org//ghc/ghc/issues/10047): inconsistency in name binding between splice and quasiquotation
 - [\#10486](https://gitlab.haskell.org//ghc/ghc/issues/10486): allow `addTopDecls` to create annotations
