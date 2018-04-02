@@ -62,6 +62,15 @@ Here's how to set up a global (across all your projets) `.gitignore` file.
   git config --global core.excludesfile $(HOME)/.gitignore
   ```
 
+### Authentication
+
+
+If you are having trouble with authentication, this environment-variable setting will help you see what ssh is doing
+
+```wiki
+export GIT_SSH_COMMAND="ssh -v -v" 
+```
+
 ---
 
 ## Looking at the current state of affairs
