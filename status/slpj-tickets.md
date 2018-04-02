@@ -21,6 +21,7 @@
   - `TypeApplications`: [visible type application](type-application)
   - [Custom type errors](proposal/custom-type-errors)
   - [TypeErrorMessages](status/type-error-messages)
+  - [Typed holes](holes)
   - [Impredicative types](impredicative-polymorphism)
   - [Functional dependencies](fun-deps)
   - [Roles, Coercible and coerce](roles)

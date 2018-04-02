@@ -19,6 +19,7 @@
    * `TypeApplications`: [wiki:TypeApplication visible type application]
    * [wiki:Proposal/CustomTypeErrors Custom type errors]
    * [wiki:TypeErrorMessages]
+   * [wiki:Holes Typed holes]
    * [wiki:ImpredicativePolymorphism Impredicative types]
    * [wiki:FunDeps Functional dependencies]
    * [wiki:Roles Roles, Coercible and coerce]
