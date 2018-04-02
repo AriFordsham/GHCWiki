@@ -1,4 +1,26 @@
-''This page discusses the design and potential implementation of "holes" in GHC. Discussion on this feature in GHC is in #5910. The development repository is [https://github.com/xnyhps/ghc here], and implementation issues are [https://github.com/xnyhps/ghc/issues here].''
+= Typed holes =
+
+This page discusses the design and implementation of "typed holes" in GHC. 
+
+See also
+* The original ticket on this feature: #5910. 
+
+Historical note: the [https://github.com/xnyhps/ghc development repository] and its [https://github.com/xnyhps/ghc/issues issue tracker].
+
+
+== Tickets ==
+
+Use Keyword = `TypedHoles` to ensure that a ticket ends up on these lists.
+
+'''Open Tickets:'''
+[[TicketQuery(status=new|patch,keywords=~TypedHoles)]]
+
+'''Closed Tickets:'''
+[[TicketQuery(status=closed,keywords=~TypedHoles)]]
+
+
+----------------------------------
+Below here is the original wiki page now probably partly outdated by the implementation in GHC.
 
 = Introduction =
 
