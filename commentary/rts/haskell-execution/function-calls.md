@@ -25,7 +25,7 @@ First, we need some terminology:
 - A **known call** is a call of a function whose binding site is statically visible:
 
   - The function is bound at top level in this module; or,
-  - The function is bound at top level in another module, and optimistion is on, so we can see the details (notably arity) of the function in the module's interface file; or,
+  - The function is bound at top level in another module, and optimisation is on, so we can see the details (notably arity) of the function in the module's interface file; or,
   - The function is bound by an `let` binding that encloses the call.
 
 
