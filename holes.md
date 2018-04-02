@@ -1,4 +1,79 @@
-*This page discusses the design and potential implementation of "holes" in GHC. Discussion on this feature in GHC is in [\#5910](https://gitlab.haskell.org//ghc/ghc/issues/5910). The development repository is [ here](https://github.com/xnyhps/ghc), and implementation issues are [ here](https://github.com/xnyhps/ghc/issues).*
+# Typed holes
+
+
+This page discusses the design and implementation of "typed holes" in GHC. 
+
+
+See also
+
+- The original ticket on this feature: [\#5910](https://gitlab.haskell.org//ghc/ghc/issues/5910). 
+
+
+Historical note: the [ development repository](https://github.com/xnyhps/ghc) and its [ issue tracker](https://github.com/xnyhps/ghc/issues).
+
+## Tickets
+
+
+Use Keyword = `TypedHoles` to ensure that a ticket ends up on these lists.
+
+**Open Tickets:**
+
+<table><tr><th>[\#5910](https://gitlab.haskell.org//ghc/ghc/issues/5910)</th>
+<td>Holes with other constraints</td></tr>
+<tr><th>[\#10875](https://gitlab.haskell.org//ghc/ghc/issues/10875)</th>
+<td>Unexpected defaulting of partial type signatures and inconsistent behaviour when -fdefer-typed-holes is set.</td></tr>
+<tr><th>[\#11186](https://gitlab.haskell.org//ghc/ghc/issues/11186)</th>
+<td>Give strong preference to type variable names in scope when reporting hole contexts</td></tr>
+<tr><th>[\#13499](https://gitlab.haskell.org//ghc/ghc/issues/13499)</th>
+<td>"Panic: no skolem info" with StaticPointers and typed hole</td></tr>
+<tr><th>[\#14040](https://gitlab.haskell.org//ghc/ghc/issues/14040)</th>
+<td>Typed holes regression in GHC 8.0.2: No skolem info: z_a1sY\[sk:2\]</td></tr>
+<tr><th>[\#14858](https://gitlab.haskell.org//ghc/ghc/issues/14858)</th>
+<td>Typed hole subtitution search fails in the REPL</td></tr>
+<tr><th>[\#15677](https://gitlab.haskell.org//ghc/ghc/issues/15677)</th>
+<td>Valid hole fits and GADT type variable names</td></tr>
+<tr><th>[\#15697](https://gitlab.haskell.org//ghc/ghc/issues/15697)</th>
+<td>Typed holes inferring a more polymorphic type</td></tr></table>
+
+**Closed Tickets:**
+
+<table><tr><th>[\#9479](https://gitlab.haskell.org//ghc/ghc/issues/9479)</th>
+<td>Report required constraints when reporting the type of a hole</td></tr>
+<tr><th>[\#10267](https://gitlab.haskell.org//ghc/ghc/issues/10267)</th>
+<td>Add support for typed holes in Template Haskell</td></tr>
+<tr><th>[\#10954](https://gitlab.haskell.org//ghc/ghc/issues/10954)</th>
+<td>Add class/context information to typed hole relevant bindings</td></tr>
+<tr><th>[\#11515](https://gitlab.haskell.org//ghc/ghc/issues/11515)</th>
+<td>PartialTypeSignatures suggests a redundant constraint with constraint families</td></tr>
+<tr><th>[\#14884](https://gitlab.haskell.org//ghc/ghc/issues/14884)</th>
+<td>Type holes cause assertion failure in ghc-stage2 compiler during type checking</td></tr>
+<tr><th>[\#14969](https://gitlab.haskell.org//ghc/ghc/issues/14969)</th>
+<td>Underconstrained typed holes are non-performant</td></tr>
+<tr><th>[\#14996](https://gitlab.haskell.org//ghc/ghc/issues/14996)</th>
+<td>Typed holes are very slow</td></tr>
+<tr><th>[\#15007](https://gitlab.haskell.org//ghc/ghc/issues/15007)</th>
+<td>Don't keep shadowed variables in ghci, both renamer and type checker</td></tr>
+<tr><th>[\#15035](https://gitlab.haskell.org//ghc/ghc/issues/15035)</th>
+<td>Panic when using StaticPointers with typed holes</td></tr>
+<tr><th>[\#15037](https://gitlab.haskell.org//ghc/ghc/issues/15037)</th>
+<td>Running 1 twice, followed by a typed hole, in GHCi causes internal error</td></tr>
+<tr><th>[\#15076](https://gitlab.haskell.org//ghc/ghc/issues/15076)</th>
+<td>Typed hole with higher-rank kind causes GHC to panic (No skolem info)</td></tr>
+<tr><th>[\#15202](https://gitlab.haskell.org//ghc/ghc/issues/15202)</th>
+<td>Internal error showing typed hole in GHCi</td></tr>
+<tr><th>[\#15321](https://gitlab.haskell.org//ghc/ghc/issues/15321)</th>
+<td>Typed holes in Template Haskell splices produce bewildering error messages</td></tr>
+<tr><th>[\#15370](https://gitlab.haskell.org//ghc/ghc/issues/15370)</th>
+<td>Typed hole panic on GHC 8.6 (tcTyVarDetails)</td></tr>
+<tr><th>[\#15401](https://gitlab.haskell.org//ghc/ghc/issues/15401)</th>
+<td>Weird GHCi bug</td></tr>
+<tr><th>[\#15962](https://gitlab.haskell.org//ghc/ghc/issues/15962)</th>
+<td>Type family & typeclass interaction suppresses errors</td></tr></table>
+
+---
+
+
+Below here is the original wiki page now probably partly outdated by the implementation in GHC.
 
 # Introduction
 
