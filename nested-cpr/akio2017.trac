@@ -1,6 +1,7 @@
 This page tracks @akio's attempt at reviving @nomeata's work on [wiki:NestedCPR].
 
-Latest code can be found at https://github.com/takano-akio/ghc/compare/master...nested-cpr .
+~~Latest code can be found at https://github.com/takano-akio/ghc/compare/master...nested-cpr .~~
+Was last rebased by @mpickering here: https://github.com/ghc/ghc/compare/master...mpickering:nested-cpr. [https://phabricator.haskell.org/D4244 D4244] is probably more up to date.
 
 == Design
 
