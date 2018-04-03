@@ -10,6 +10,8 @@ Here is where we track various on-going efforts to improve the runtime performan
 - [\#10992](https://gitlab.haskell.org//ghc/ghc/issues/10992): `Data.List.sum` is much slower than the naive recursive definition for it.  Does not happen in 7.8.
 - [\#6166](https://gitlab.haskell.org//ghc/ghc/issues/6166): An alleged runtime performance regression in `mwc-random`.
 
+- [\#14980](https://gitlab.haskell.org//ghc/ghc/issues/14980) (regressed in 8.4): Runtime performance regression with binary operations on vectors 
+
 ## Nofib results
 
 ### Austin, 5 May 2015
