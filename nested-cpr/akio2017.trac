@@ -83,7 +83,7 @@ bar (a :+ b) _ = b :+ a
 
 === simple.hs
 
-This is a simple recursive function with an easy-to-spot nested CPR property.
+This is a simple recursive function with an easy-to-spot nested CPR property. Note that `a - 1` is always convering in an obvious way.
 
 Status: ok
 
