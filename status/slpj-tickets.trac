@@ -20,6 +20,7 @@
    * [wiki:Proposal/CustomTypeErrors Custom type errors]
    * [wiki:TypeErrorMessages]
    * [wiki:Holes Typed holes]
+   * [wiki:PartialTypeSignatures]
    * [wiki:ImpredicativePolymorphism Impredicative types]
    * [wiki:FunDeps Functional dependencies]
    * [wiki:Roles Roles, Coercible and coerce]
