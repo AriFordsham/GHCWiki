@@ -320,4 +320,4 @@ Random note: GHC 7.10's build system actually disabled DPH (half a dozen more pa
 
 ### GHC 8.2 to GHC 8.4
 
-- Regressions: [\#14944](https://gitlab.haskell.org//ghc/ghc/issues/14944), [\#14928](https://gitlab.haskell.org//ghc/ghc/issues/14928)
+- Regressions: [\#14944](https://gitlab.haskell.org//ghc/ghc/issues/14944), [\#14928](https://gitlab.haskell.org//ghc/ghc/issues/14928), [\#14974](https://gitlab.haskell.org//ghc/ghc/issues/14974)
