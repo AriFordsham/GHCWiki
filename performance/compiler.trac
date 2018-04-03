@@ -120,3 +120,8 @@ Random note: GHC 7.10's build system actually disabled DPH (half a dozen more pa
 * f53d761df9762232b54ec57a950d301011cd21f8 ("TysWiredIn: Use UniqFM lookup for built-in OccNames") improves the efficiency of built-in `OccName` lookup, resulting in a 2-5% improvement in compiler allocations on nofib. This was noticed due to unexpectedly large allocations regressions in dd3080fe0263082f65bf2570f49189c277b12e28 (#12357).
 * ed4809813fa51524ae73a4475afe33018a67f87d ("InstEnv: Ensure that instance visibility check is lazy") fixes a bug introduced earlier change (4c834fdddf4d44d12039da4d6a2c63a660975b95) in the instance visibility check which broke laziness of instance resolution. This reduces compiler allocations by roughly 5-10% on nofib. The underlying bug was noticed by unexpectedly large allocation regressions due to 673efccb3b348e9daf23d9e65460691bbea8586e and 4e6bcc2c8134f9c1ba7d715b3206130f23c529fb, which added instances to various `base` modules (#12367).
 * eb3d6595735671605c5d6294a796dc0f16f784a4 ("OccName: Avoid re-encoding derived OccNames") is a refactoring which reduces allocations in the computation of derived `OccName`s by eliminating `String` intermediates.
+
+=== GHC 8.2 to GHC 8.4 ===
+
+* Regressions: #14944, #14928
+ 
