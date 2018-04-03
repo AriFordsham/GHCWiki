@@ -32,6 +32,17 @@ This document attempts to describe our design and our
 point of view in the hope to get some feedback from the GHC developers
 community.
 
+== Tickets ==
+
+Use Keyword = `PartialTypeSignatures` to ensure that a ticket ends up on these lists.
+
+'''Open Tickets:'''
+[[TicketQuery(status=new|patch,keywords=~PartialTypeSignatures)]]
+
+'''Closed Tickets:'''
+[[TicketQuery(status=closed,keywords=~PartialTypeSignatures)]]
+
+
 ---------------------------
 == Background and motivation ==
 

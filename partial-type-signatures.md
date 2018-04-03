@@ -40,6 +40,47 @@ This document attempts to describe our design and our
 point of view in the hope to get some feedback from the GHC developers
 community.
 
+## Tickets
+
+
+Use Keyword = `PartialTypeSignatures` to ensure that a ticket ends up on these lists.
+
+**Open Tickets:**
+
+<table><tr><th>[\#10875](https://gitlab.haskell.org//ghc/ghc/issues/10875)</th>
+<td>Unexpected defaulting of partial type signatures and inconsistent behaviour when -fdefer-typed-holes is set.</td></tr>
+<tr><th>[\#11641](https://gitlab.haskell.org//ghc/ghc/issues/11641)</th>
+<td>Allow wildcards for parameters functionally determined (also type synonyms)</td></tr>
+<tr><th>[\#14040](https://gitlab.haskell.org//ghc/ghc/issues/14040)</th>
+<td>Typed holes regression in GHC 8.0.2: No skolem info: z_a1sY\[sk:2\]</td></tr>
+<tr><th>[\#14662](https://gitlab.haskell.org//ghc/ghc/issues/14662)</th>
+<td>Partial type signatures + mutual recursion = confusion</td></tr>
+<tr><th>[\#14766](https://gitlab.haskell.org//ghc/ghc/issues/14766)</th>
+<td>Hole-y partial type signatures greatly slow down compile times</td></tr>
+<tr><th>[\#15433](https://gitlab.haskell.org//ghc/ghc/issues/15433)</th>
+<td>Internal error with PartialTypeSignatures and TH</td></tr>
+<tr><th>[\#16152](https://gitlab.haskell.org//ghc/ghc/issues/16152)</th>
+<td>Core lint error from PartialTypeSignatures</td></tr>
+<tr><th>[\#16203](https://gitlab.haskell.org//ghc/ghc/issues/16203)</th>
+<td>Unhelpful names for wildcard type variables</td></tr></table>
+
+**Closed Tickets:**
+
+<table><tr><th>[\#10242](https://gitlab.haskell.org//ghc/ghc/issues/10242)</th>
+<td>Multiple constraint wildcards allowed with PartialTypeSignatures</td></tr>
+<tr><th>[\#14265](https://gitlab.haskell.org//ghc/ghc/issues/14265)</th>
+<td>kinded holes</td></tr>
+<tr><th>[\#14643](https://gitlab.haskell.org//ghc/ghc/issues/14643)</th>
+<td>Partial type signatures in class constraints behave unexpectedly</td></tr>
+<tr><th>[\#14658](https://gitlab.haskell.org//ghc/ghc/issues/14658)</th>
+<td>'Fix two more bugs in partial signatures' broke T10846</td></tr>
+<tr><th>[\#14715](https://gitlab.haskell.org//ghc/ghc/issues/14715)</th>
+<td>GHC 8.4.1-alpha regression with PartialTypeSignatures</td></tr>
+<tr><th>[\#15039](https://gitlab.haskell.org//ghc/ghc/issues/15039)</th>
+<td>Bizarre pretty-printing of inferred Coercible constraint in partial type signature</td></tr>
+<tr><th>[\#16334](https://gitlab.haskell.org//ghc/ghc/issues/16334)</th>
+<td>Named wildcards in kinds</td></tr></table>
+
 ---
 
 ## Background and motivation
