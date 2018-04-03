@@ -83,7 +83,7 @@ bar (a :+ b) _ = b :+ a
 
 === simple.hs
 
-This is a simple recursive function with an easy-to-spot nested CPR property.
+This is a simple recursive function with an easy-to-spot nested CPR property. Note that `a - 1` is always convering in an obvious way.
 
 Status: ok
 
@@ -100,6 +100,8 @@ f n
 === strictness.hs
 
 This one is trickier in that the analysis has to use the nested strictness of `foo` on `p` to give `p` a nested CPR property. Inspired by `nofib/imaginary/x2n1`.
+
+Indeed, it's not obvious how the last branch has the nested CPR property. Consider the condition for the first branch, which will evaluate `p` and its two `Int`s completely. So, we have the components of `p` available deconstructed. According to `Note [CPR in a product case alternative]` this is enough to give `p` the nested CPR property, in the sense that we could supply a constructed product of that depth if we wanted to (because we can immediately deconstruct it when the wrapper is inlined, for example).
 
 Status: ok
 
