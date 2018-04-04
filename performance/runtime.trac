@@ -2,14 +2,21 @@
 
 Here is where we track various on-going efforts to improve the runtime performance of code produced by GHC. If you are interested in the performance of the compiler itself, see [[Performance/Compiler]].
 
-== Tickets ==
-
- * A list of [https://ghc.haskell.org/trac/ghc/query?status=!closed&failure=Runtime+performance+bug&order=id all tickets tagged with run-time performance]
+== Relevant tickets ==
 
  * #10992: `Data.List.sum` is much slower than the naive recursive definition for it.  Does not happen in 7.8.
  * #6166: An alleged runtime performance regression in `mwc-random`.
 
  * #14980 (regressed in 8.4): Runtime performance regression with binary operations on vectors 
+
+Identify tickets by using "Runtime performance bug" for the "Type of failure field".
+
+'''Open Tickets:'''
+[[TicketQuery(status=new|patch,failure=Runtime performance bug,desc=1,order=id)]]
+
+'''Closed Tickets:'''
+[[TicketQuery(status=closed,failure=Runtime performance bug,desc=1,order=id)]]
+
 
 [[PageOutline]]
 
