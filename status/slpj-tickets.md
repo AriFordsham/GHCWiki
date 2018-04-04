@@ -55,6 +55,45 @@
 
 - [Code generation](commentary/compiler/code-gen)
 
+## Compile-time performance
+
+[Compile time perf page](performance/compiler)
+
+- [\#11375](https://gitlab.haskell.org//ghc/ghc/issues/11375): type synonyms slower than type families
+- [\#8095](https://gitlab.haskell.org//ghc/ghc/issues/8095): very slow constraint solving; perhaps discard large constraints using `UnivCo`
+- [\#5642](https://gitlab.haskell.org//ghc/ghc/issues/5642): slow constraint solving
+- [\#9979](https://gitlab.haskell.org//ghc/ghc/issues/9979), [\#8814](https://gitlab.haskell.org//ghc/ghc/issues/8814), [\#8835](https://gitlab.haskell.org//ghc/ghc/issues/8835): attoparsec regressed 7.8.4 to HEAD
+- [\#8852](https://gitlab.haskell.org//ghc/ghc/issues/8852), [\#8980](https://gitlab.haskell.org//ghc/ghc/issues/8980), [\#8941](https://gitlab.haskell.org//ghc/ghc/issues/8941) (possibly), [\#9803](https://gitlab.haskell.org//ghc/ghc/issues/9803), [\#8960](https://gitlab.haskell.org//ghc/ghc/issues/8960), [\#7898](https://gitlab.haskell.org//ghc/ghc/issues/7898), [\#7068](https://gitlab.haskell.org//ghc/ghc/issues/7068), [\#7944](https://gitlab.haskell.org//ghc/ghc/issues/7944), [\#5550](https://gitlab.haskell.org//ghc/ghc/issues/5550), [\#8836](https://gitlab.haskell.org//ghc/ghc/issues/8836): `SpecConstr` blowup
+- [\#10289](https://gitlab.haskell.org//ghc/ghc/issues/10289): 2.5k static `HashSet` takes too much memory to compile
+- [\#10228](https://gitlab.haskell.org//ghc/ghc/issues/10228): compile-time regression from 7.8.4 to 7.10.1
+- [\#7428](https://gitlab.haskell.org//ghc/ghc/issues/7428): Non-linear compile time: `addFingerprint`??
+- [\#2346](https://gitlab.haskell.org//ghc/ghc/issues/2346): desugaring let-bindings
+- Use wildcards for dead variables in interface files.
+
+
+Code-size blowup when using `deriving`; see tickets with keyword `deriving-perf`
+
+- [\#7450](https://gitlab.haskell.org//ghc/ghc/issues/7450), [\#7258](https://gitlab.haskell.org//ghc/ghc/issues/7258): deriving `Read` generates gigantic code. Better now, but still not linear.
+- [\#9583](https://gitlab.haskell.org//ghc/ghc/issues/9583), [\#9630](https://gitlab.haskell.org//ghc/ghc/issues/9630): code blowup in Generics/Binary
+- [\#9669](https://gitlab.haskell.org//ghc/ghc/issues/9669), [\#9557](https://gitlab.haskell.org//ghc/ghc/issues/9557), [\#8731](https://gitlab.haskell.org//ghc/ghc/issues/8731): slow compilation with lots of `deriving` clauses
+- [\#10858](https://gitlab.haskell.org//ghc/ghc/issues/10858): `Ord` instances
+- [\#1544](https://gitlab.haskell.org//ghc/ghc/issues/1544): `Read1` instances
+
+## Run-time performance
+
+[Run time perf page](performance/runtime)
+
+- The notorious state hack, and `replicateM` in particular
+
+  - [\#1168](https://gitlab.haskell.org//ghc/ghc/issues/1168) has a list of related tickets
+  - [\#11677](https://gitlab.haskell.org//ghc/ghc/issues/11677)
+  - [\#11365](https://gitlab.haskell.org//ghc/ghc/issues/11365)
+  - [\#6166](https://gitlab.haskell.org//ghc/ghc/issues/6166): apparently something with NOINLINE is getting inlined 
+  - [\#9388](https://gitlab.haskell.org//ghc/ghc/issues/9388) has ideas and preliminary work on how to limit the scope of the hack
+  - Search for "`replicateM`" to find other tickets
+  - [\#7411](https://gitlab.haskell.org//ghc/ghc/issues/7411): state hack changes exception semantics
+  - [\#2284](https://gitlab.haskell.org//ghc/ghc/issues/2284), [\#1168](https://gitlab.haskell.org//ghc/ghc/issues/1168), [\#7561](https://gitlab.haskell.org//ghc/ghc/issues/7561), [\#9349](https://gitlab.haskell.org//ghc/ghc/issues/9349): the state-hack "optimisation" causes much re-computation
+
 ## INLINE problems / ticks exhausted
 
 - [\#13027](https://gitlab.haskell.org//ghc/ghc/issues/13027): let/app invariant
@@ -122,45 +161,6 @@ Other tickets
 - [\#10183](https://gitlab.haskell.org//ghc/ghc/issues/10183): warning for redundant constraints, and pattern-match overlap warnings
 - [\#9113](https://gitlab.haskell.org//ghc/ghc/issues/9113): pattern match overlap/exhaustiveness checked in Typed TH
 - [\#10393](https://gitlab.haskell.org//ghc/ghc/issues/10393), [\#10116](https://gitlab.haskell.org//ghc/ghc/issues/10116), [\#9951](https://gitlab.haskell.org//ghc/ghc/issues/9951), [\#595](https://gitlab.haskell.org//ghc/ghc/issues/595), [\#5728](https://gitlab.haskell.org//ghc/ghc/issues/5728), [\#3927](https://gitlab.haskell.org//ghc/ghc/issues/3927), [\#5724](https://gitlab.haskell.org//ghc/ghc/issues/5724), [\#5762](https://gitlab.haskell.org//ghc/ghc/issues/5762), [\#4139](https://gitlab.haskell.org//ghc/ghc/issues/4139), [\#6124](https://gitlab.haskell.org//ghc/ghc/issues/6124), [\#7669](https://gitlab.haskell.org//ghc/ghc/issues/7669), [\#322](https://gitlab.haskell.org//ghc/ghc/issues/322), [\#8016](https://gitlab.haskell.org//ghc/ghc/issues/8016), [\#8494](https://gitlab.haskell.org//ghc/ghc/issues/8494), [\#8853](https://gitlab.haskell.org//ghc/ghc/issues/8853), [\#8970](https://gitlab.haskell.org//ghc/ghc/issues/8970), [\#9113](https://gitlab.haskell.org//ghc/ghc/issues/9113), [\#2204](https://gitlab.haskell.org//ghc/ghc/issues/2204): **pattern-match overlap checking**, including with GADTs
-
-## Compile-time performance
-
-[Compile time perf page](performance/compiler)
-
-- [\#11375](https://gitlab.haskell.org//ghc/ghc/issues/11375): type synonyms slower than type families
-- [\#8095](https://gitlab.haskell.org//ghc/ghc/issues/8095): very slow constraint solving; perhaps discard large constraints using `UnivCo`
-- [\#5642](https://gitlab.haskell.org//ghc/ghc/issues/5642): slow constraint solving
-- [\#9979](https://gitlab.haskell.org//ghc/ghc/issues/9979), [\#8814](https://gitlab.haskell.org//ghc/ghc/issues/8814), [\#8835](https://gitlab.haskell.org//ghc/ghc/issues/8835): attoparsec regressed 7.8.4 to HEAD
-- [\#8852](https://gitlab.haskell.org//ghc/ghc/issues/8852), [\#8980](https://gitlab.haskell.org//ghc/ghc/issues/8980), [\#8941](https://gitlab.haskell.org//ghc/ghc/issues/8941) (possibly), [\#9803](https://gitlab.haskell.org//ghc/ghc/issues/9803), [\#8960](https://gitlab.haskell.org//ghc/ghc/issues/8960), [\#7898](https://gitlab.haskell.org//ghc/ghc/issues/7898), [\#7068](https://gitlab.haskell.org//ghc/ghc/issues/7068), [\#7944](https://gitlab.haskell.org//ghc/ghc/issues/7944), [\#5550](https://gitlab.haskell.org//ghc/ghc/issues/5550), [\#8836](https://gitlab.haskell.org//ghc/ghc/issues/8836): `SpecConstr` blowup
-- [\#10289](https://gitlab.haskell.org//ghc/ghc/issues/10289): 2.5k static `HashSet` takes too much memory to compile
-- [\#10228](https://gitlab.haskell.org//ghc/ghc/issues/10228): compile-time regression from 7.8.4 to 7.10.1
-- [\#7428](https://gitlab.haskell.org//ghc/ghc/issues/7428): Non-linear compile time: `addFingerprint`??
-- [\#2346](https://gitlab.haskell.org//ghc/ghc/issues/2346): desugaring let-bindings
-- Use wildcards for dead variables in interface files.
-
-
-Code-size blowup when using `deriving`; see tickets with keyword `deriving-perf`
-
-- [\#7450](https://gitlab.haskell.org//ghc/ghc/issues/7450), [\#7258](https://gitlab.haskell.org//ghc/ghc/issues/7258): deriving `Read` generates gigantic code. Better now, but still not linear.
-- [\#9583](https://gitlab.haskell.org//ghc/ghc/issues/9583), [\#9630](https://gitlab.haskell.org//ghc/ghc/issues/9630): code blowup in Generics/Binary
-- [\#9669](https://gitlab.haskell.org//ghc/ghc/issues/9669), [\#9557](https://gitlab.haskell.org//ghc/ghc/issues/9557), [\#8731](https://gitlab.haskell.org//ghc/ghc/issues/8731): slow compilation with lots of `deriving` clauses
-- [\#10858](https://gitlab.haskell.org//ghc/ghc/issues/10858): `Ord` instances
-- [\#1544](https://gitlab.haskell.org//ghc/ghc/issues/1544): `Read1` instances
-
-## Run-time performance
-
-[Run time perf page](performance/runtime)
-
-- The notorious state hack, and `replicateM` in particular
-
-  - [\#1168](https://gitlab.haskell.org//ghc/ghc/issues/1168) has a list of related tickets
-  - [\#11677](https://gitlab.haskell.org//ghc/ghc/issues/11677)
-  - [\#11365](https://gitlab.haskell.org//ghc/ghc/issues/11365)
-  - [\#6166](https://gitlab.haskell.org//ghc/ghc/issues/6166): apparently something with NOINLINE is getting inlined 
-  - [\#9388](https://gitlab.haskell.org//ghc/ghc/issues/9388) has ideas and preliminary work on how to limit the scope of the hack
-  - Search for "`replicateM`" to find other tickets
-  - [\#7411](https://gitlab.haskell.org//ghc/ghc/issues/7411): state hack changes exception semantics
-  - [\#2284](https://gitlab.haskell.org//ghc/ghc/issues/2284), [\#1168](https://gitlab.haskell.org//ghc/ghc/issues/1168), [\#7561](https://gitlab.haskell.org//ghc/ghc/issues/7561), [\#9349](https://gitlab.haskell.org//ghc/ghc/issues/9349): the state-hack "optimisation" causes much re-computation
 
 ## Type inference
 
