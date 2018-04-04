@@ -10,7 +10,7 @@ Identify tickets by using "Compile time performance bug" for the "Type of failur
 [[TicketQuery(status=new|patch,failure=Compile-time performance bug)]]
 
 '''Closed Tickets:'''
-[[TicketQuery(status=closed,failure=Compile-time+performance+bug)]]
+[[TicketQuery(status=closed,failure=Compile-time performance bug)]]
 
 Here's a list:
 
