@@ -8,6 +8,10 @@ This is where we track various efforts to characterize and improve the performan
 
 Identify tickets by using "Compile time performance bug" for the "Type of failure field".
 
+**Open Tickets:**No results
+
+**Closed Tickets:**No results
+
 
 Here's a list:
 
