@@ -10,13 +10,9 @@ Identify tickets by using "Compile time performance bug" for the "Type of failur
 [[TicketQuery(status=new|patch,failure=Compile-time performance bug,desc=1,order=id)]]
 
 '''Closed Tickets:'''
-[[TicketQuery(status=closed,failure=Compile-time performance bug)]]
+[[TicketQuery(status=closed,failure=Compile-time performance bug,desc=1,order=id)]]
 
-Here's a list:
-
-https://ghc.haskell.org/trac/ghc/query?status=!closed&failure=Compile-time+performance+bug
-
-
+------------------------------------------
 === Type pile-up ===
 
 Some programs can produce very deeply nested types of non-linear size. See [[http://research.microsoft.com/en-us/um/people/simonpj/papers/variant-f/index.htm|Scrap your type applications]] for a way to improve these bad cases
