@@ -52,7 +52,42 @@
 
  * [wiki:Commentary/Compiler/CodeGen Code generation]
 
+== Compile-time performance ==
 
+[wiki:Performance/Compiler Compile time perf page]
+
+ * #11375: type synonyms slower than type families
+ * #8095: very slow constraint solving; perhaps discard large constraints using `UnivCo`
+ * #5642: slow constraint solving
+ * #9979, #8814, #8835: attoparsec regressed 7.8.4 to HEAD
+ * #8852, #8980, #8941 (possibly), #9803, #8960, #7898, #7068, #7944, #5550, #8836: `SpecConstr` blowup
+ * #10289: 2.5k static `HashSet` takes too much memory to compile
+ * #10228: compile-time regression from 7.8.4 to 7.10.1
+ * #7428: Non-linear compile time: `addFingerprint`??
+ * #2346: desugaring let-bindings
+ * Use wildcards for dead variables in interface files.
+
+Code-size blowup when using `deriving`; see tickets with keyword `deriving-perf`
+ * #7450, #7258: deriving `Read` generates gigantic code. Better now, but still not linear.
+ * #9583, #9630: code blowup in Generics/Binary
+ * #9669, #9557, #8731: slow compilation with lots of `deriving` clauses
+ * #10858: `Ord` instances
+ * #1544: `Read1` instances
+
+== Run-time performance ==
+
+[wiki:Performance/Runtime Run time perf page]
+
+* The notorious state hack, and `replicateM` in particular
+  * #1168 has a list of related tickets
+  * #11677
+  * #11365
+  * #6166: apparently something with NOINLINE is getting inlined 
+  * #9388 has ideas and preliminary work on how to limit the scope of the hack
+  * Search for "`replicateM`" to find other tickets
+  * #7411: state hack changes exception semantics
+  * #2284, #1168, #7561, #9349: the state-hack "optimisation" causes much re-computation
+  
 == INLINE problems / ticks exhausted  ==
  * #13027: let/app invariant
  * #12603
@@ -115,42 +150,7 @@ Other tickets
  * #10393, #10116, #9951, #595, #5728, #3927, #5724, #5762, #4139, #6124, #7669, #322, #8016, #8494, #8853, #8970, #9113, #2204: '''pattern-match overlap checking''', including with GADTs
 
 
-== Compile-time performance ==
 
-[wiki:Performance/Compiler Compile time perf page]
-
- * #11375: type synonyms slower than type families
- * #8095: very slow constraint solving; perhaps discard large constraints using `UnivCo`
- * #5642: slow constraint solving
- * #9979, #8814, #8835: attoparsec regressed 7.8.4 to HEAD
- * #8852, #8980, #8941 (possibly), #9803, #8960, #7898, #7068, #7944, #5550, #8836: `SpecConstr` blowup
- * #10289: 2.5k static `HashSet` takes too much memory to compile
- * #10228: compile-time regression from 7.8.4 to 7.10.1
- * #7428: Non-linear compile time: `addFingerprint`??
- * #2346: desugaring let-bindings
- * Use wildcards for dead variables in interface files.
-
-Code-size blowup when using `deriving`; see tickets with keyword `deriving-perf`
- * #7450, #7258: deriving `Read` generates gigantic code. Better now, but still not linear.
- * #9583, #9630: code blowup in Generics/Binary
- * #9669, #9557, #8731: slow compilation with lots of `deriving` clauses
- * #10858: `Ord` instances
- * #1544: `Read1` instances
-
-== Run-time performance ==
-
-[wiki:Performance/Runtime Run time perf page]
-
-* The notorious state hack, and `replicateM` in particular
-  * #1168 has a list of related tickets
-  * #11677
-  * #11365
-  * #6166: apparently something with NOINLINE is getting inlined 
-  * #9388 has ideas and preliminary work on how to limit the scope of the hack
-  * Search for "`replicateM`" to find other tickets
-  * #7411: state hack changes exception semantics
-  * #2284, #1168, #7561, #9349: the state-hack "optimisation" causes much re-computation
-  
 
 == Type inference ==
 
