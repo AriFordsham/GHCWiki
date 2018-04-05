@@ -11,8 +11,11 @@ The main principle behind the implementation is to modify `FunTyCon` with an ext
 in `compilerbasicTypes/Weight.hs` and is called `Rig`. There are two multiplicities, `One` which indicates that the function is linear and `Omega` which indicates that it is not.
 
 
+Binders also have a weight attached to them. 
+
+
 The rest of the implementation is essentially correctly propagating and calculating linearity information whenever a `FunTy` is created.
 
 ## Core Lint
 
-TODO
+TODO - this is described somewhat in the minicore document but it is not finished. 
