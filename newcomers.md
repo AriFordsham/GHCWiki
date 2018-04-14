@@ -214,6 +214,7 @@ If you want to get a taste for possible starting tasks, below is a list of ticke
 
   - [ Hacking on GHC (is not that hard)](http://rawgit.com/gibiansky/4c54f767bf21a6954b23/raw/67c62c5555f40c6fb67b124307725df168201361/exp.html) by Andrew Gibiansky
   - [ Contributing to GHC](http://anniecherkaev.com/projects/contributing-to-ghc) by Annie Cherkaev
+  - [ Contributing to GHC via Phabricator](https://medium.com/@zw3rk/contributing-to-ghc-290653b63147) by Moritz Angermann
 
 - There is a blog post series by Stephen Diehl that provides an overview of many important data structures and contains links to other sources of information: [ Dive into GHC](http://www.stephendiehl.com/posts/ghc_01.html)
 
