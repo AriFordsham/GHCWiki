@@ -548,6 +548,16 @@ When building the libraries, also turn on heavyweight intra-pass
 sanity-checking within GHC, at the Core level.
 </td></tr></table>
 
+### Working on an optimized stage 2 compiler.
+
+>
+> If you are going to rebuild an optimized stage 2 compiler more often
+> you should use -O2 to speed up the build.
+
+>
+> A full build with `GhcStage1HcOpts = -O2` and `GhcStage2HcOpts = -O` will be slower by \~3% than the default.
+> But each rebuild off stage2 afterwards will be faster.
+
 ### Building a single sub-component
 
 
@@ -735,6 +745,9 @@ endef
 
 $(call add_mods_flag,-fprof-auto,$(wildcard compiler/typecheck/*.hs))
 ```
+
+
+Also make sure the change isn't a regression when going from `-O1` to `-O2` as not all changes behave the same for both.
 
 ## Installing extra packages
 
