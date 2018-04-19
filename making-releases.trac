@@ -91,7 +91,7 @@ We currently produce binary distributions for the following environments,
  * i386/Linux (Debian 8)
  * amd64/Linux (Debian 8)
  * amd64/Linux (Debian 8 with DWARF)
- * amd64/Linux (Fedora 27)
+ * amd64/Linux (Debian 9)
  * amd64/Darwin
  * amd64/FreeBSD 11
  * amd64/OpenBSD 6.2
