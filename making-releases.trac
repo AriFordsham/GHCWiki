@@ -91,7 +91,7 @@ We currently produce binary distributions for the following environments,
  * i386/Linux (Debian 8)
  * amd64/Linux (Debian 8)
  * amd64/Linux (Debian 8 with DWARF)
- * amd64/Linux (Fedora 27)
+ * amd64/Linux (Debian 9)
  * amd64/Darwin
  * amd64/FreeBSD 11
  * amd64/OpenBSD 6.2
@@ -156,7 +156,7 @@ To ensure that users can verify the authenticity of downloaded release artifacts
 {{{
 $ sha256sum *.tar.xz > SHA256SUMS
 $ sha1sum *.tar.xz > SHA1SUMS
-$ gpg -u 'Ben Gamari <ben@well-typed.com>' --detach-sign *.tar.xz SHA1SUMS SHA256SUMS
+$ gpg -u 'Benjamin Gamari <ben@well-typed.com>' --detach-sign *.tar.xz SHA1SUMS SHA256SUMS
 }}}
 
 Be sure that your public key has been uploaded to a few well-known public keyservers.
