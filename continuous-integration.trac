@@ -150,7 +150,14 @@ Below, we track all work that needs to be done until we have achieved the follow
 * end-to-end testing by creating a source distribution, from that a binary distribution, and use that for regression testing. (This has the advantage of also testing the distribution creation process.)
 
 === Relevant Trac tickets ===
+
+The following are issues about the CI system itself,
+
 [[TicketQuery(status=new,component=Continuous Integration,format=table,col=type|summary|priority|owner,group=status)]]
+
+The following are GHC issues which are currently breaking CI builds,
+
+[[TicketQuery(status=new,keywords=~ci-breakage,format=table,col=type|summary|priority|owner,group=status)]]
 
 === General ===
 
