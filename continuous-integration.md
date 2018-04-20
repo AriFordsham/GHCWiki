@@ -170,6 +170,9 @@ Below, we track all work that needs to be done until we have achieved the follow
 
 ### Relevant Trac tickets
 
+
+The following are issues about the CI system itself,
+
 ## Status: new (18 matches)
 
 <table><tr><th>Ticket (Ticket query: status: new, component: Continuous+Integration, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: id)</th>
@@ -627,6 +630,292 @@ Below, we track all work that needs to be done until we have achieved the follow
                       normal
                     </th>
 <th>davide</th></tr></table>
+
+
+The following are GHC issues which are currently breaking CI builds,
+
+## Status: new (11 matches)
+
+<table><tr><th>Ticket (Ticket query: status: new, keywords: \~ci-breakage, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: id)</th>
+<th>Type (Ticket query: status: new, keywords: \~ci-breakage, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: type)</th>
+<th>Summary (Ticket query: status: new, keywords: \~ci-breakage, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: summary)</th>
+<th>Priority (Ticket query: status: new, keywords: \~ci-breakage, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: priority)</th>
+<th>Owner (Ticket query: status: new, keywords: \~ci-breakage, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: owner)</th></tr>
+<tr><th>[\#14823](https://gitlab.haskell.org//ghc/ghc/issues/14823)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[Test profiling/should_run/scc001 fails on Circle CI](https://gitlab.haskell.org//ghc/ghc/issues/14823)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th>bgamari</th></tr>
+<tr><th>[\#15059](https://gitlab.haskell.org//ghc/ghc/issues/15059)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[ghcpkg05 fails](https://gitlab.haskell.org//ghc/ghc/issues/15059)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      high
+                    </th>
+<th></th></tr>
+<tr><th>[\#15064](https://gitlab.haskell.org//ghc/ghc/issues/15064)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[T8089 mysteriously fails when GHC is built with LLVM](https://gitlab.haskell.org//ghc/ghc/issues/15064)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      highest
+                    </th>
+<th>osa1</th></tr>
+<tr><th>[\#15072](https://gitlab.haskell.org//ghc/ghc/issues/15072)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      task
+                    </th>
+<th>[Teach the testsuite driver about response files](https://gitlab.haskell.org//ghc/ghc/issues/15072)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th>ckoparkar</th></tr>
+<tr><th>[\#15382](https://gitlab.haskell.org//ghc/ghc/issues/15382)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[heapprof001 segfaults in prof_hc_hb way on i386](https://gitlab.haskell.org//ghc/ghc/issues/15382)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th></th></tr>
+<tr><th>[\#16085](https://gitlab.haskell.org//ghc/ghc/issues/16085)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[ffi018_ghci fails when unregisterised](https://gitlab.haskell.org//ghc/ghc/issues/16085)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      high
+                    </th>
+<th></th></tr>
+<tr><th>[\#16100](https://gitlab.haskell.org//ghc/ghc/issues/16100)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[T11627a fails sometimes on CI](https://gitlab.haskell.org//ghc/ghc/issues/16100)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th></th></tr>
+<tr><th>[\#16193](https://gitlab.haskell.org//ghc/ghc/issues/16193)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[Nondeterministic T15897 timeout failures](https://gitlab.haskell.org//ghc/ghc/issues/16193)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th></th></tr>
+<tr><th>[\#16349](https://gitlab.haskell.org//ghc/ghc/issues/16349)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[Nondeterministic T3424 timeouts on CI](https://gitlab.haskell.org//ghc/ghc/issues/16349)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th></th></tr>
+<tr><th>[\#16350](https://gitlab.haskell.org//ghc/ghc/issues/16350)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[Nondeterministic T5559 failures on CI](https://gitlab.haskell.org//ghc/ghc/issues/16350)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th></th></tr>
+<tr><th>[\#16361](https://gitlab.haskell.org//ghc/ghc/issues/16361)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<th>[Non-deterministic hs_try_putmvar00 failure on CI](https://gitlab.haskell.org//ghc/ghc/issues/16361)</th>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<th></th></tr></table>
 
 ### General
 
