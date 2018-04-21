@@ -15,6 +15,8 @@ Possibly useful information can also be found in the following places:
 
 ## Version-specific Migration Guides
 
+- **[Migrating from GHC 8.4.x to GHC 8.6.x](migration/8.6)**
+
 - **[Migrating from GHC 8.2.x to GHC 8.4.x](migration/8.4)**
 
 - **[Migrating from GHC 8.0.x to GHC 8.2.x](migration/8.2)**
