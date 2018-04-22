@@ -23,6 +23,8 @@ Below are the major highlights of 8.6.
 
 - Improved support for **cross-compilation** (Moritz Angermann)
 
+- Deriving via? (Ryan GL Scott)
+
 ### Build system and miscellaneous changes
 
 - Improved Windows support, including support for split sections, a new IOCP-based I/O manager, and long file paths (Tamar Christina)
