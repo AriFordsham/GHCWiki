@@ -7,36 +7,19 @@
 
 ### Libraries, source language, and type system
 
--  The new `-XNumericUnderscores` extension allows underscores to be
+-  The new `-XNumericUnderscores` extension allows underscores to be used in numeric literals, improving legibility of longer literals.
 
->
-> used in numeric literals, improving legibility of longer literals.
+- The long-awaited `-XBlockArguments` extensions allows `do` and lambda expressions to be used directly as a function argument, eliminating the need for parentheses or an application operator.
 
-- The long-awaited `-XBlockArguments` extensions allows `do`
+- Possibly: The `-XDerivingVia` extension, a proposed relative of `-XGeneralizedNewtypeDeriving` which allows users to derive 
 
->
-> and lambda expressions to be used directly as a function argument,
-> eliminating the need for parentheses or an application operator.
-
-- Possibly: The `-XDerivingVia` extension, a proposed relative of
-
-> `-XGeneralizedNewtypeDeriving` which allows users to derive 
-
-- The `Data.Functor.Contravariant` module from the
-
-> `contravariant` package has been moved into `base`.
+- The `Data.Functor.Contravariant` module from the `contravariant` package has been moved into `base`.
 
 ### Compiler
 
-- The compiler's core simplifier now performs significantly more varieties
+- The compiler's core simplifier now performs significantly more varieties of numeric constant folding.
 
->
-> of numeric constant folding.
-
-- Incomplete pattern match warnings are now offered for guards in pattern
-
->
-> bindings and `MultiWayIf` alternatives.
+- Incomplete pattern match warnings are now offered for guards in pattern bindings and `MultiWayIf` alternatives.
 
 - A new syntax tree representation based on [ Trees That Grow](http://www.jucs.org/jucs_23_1/trees_that_grow/jucs_23_01_0042_0062_najd.pdf).
   This will make it easier for external users to add their own annotations to the
