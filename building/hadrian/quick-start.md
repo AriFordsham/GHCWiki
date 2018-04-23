@@ -39,8 +39,7 @@ If the default build script doesn't work on your system for some reason, you mig
 
 Windows users might want to read through [ building GHC on Windows using Stack](https://github.com/snowleopard/hadrian/blob/master/doc/windows.md).
 
-
-From now on, this page assumes you have found a build script that works for you and will refer to it as just `build`.
+**From now on, this page assumes you have found a build script that works for you and will refer to it as just `build`.**
 
 ## Command line options
 
