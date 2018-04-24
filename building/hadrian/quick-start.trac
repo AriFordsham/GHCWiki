@@ -14,6 +14,7 @@ For GHC hackers already used to the Make build system, here is what you need to 
 - Hadrian can also run `boot` and `configure` for you, with the `-c` flag.
 - Build products are not in `inplace` anymore, but `_build` by default. Your stage 2 GHC would then be at `_build/stage1/bin/ghc` (because it's built by stage1).
 - The build root is configurable with `--build-root` or `-o`.
+- You can pick the build flavour with `--flavour=X` where X is `perf`, `prof`, etc.
 - GHCs built by Hadrian are now relocatable. This means you can move the `<build root>/stage1/{lib, bin}` directories around and GHC will still happily work, as long as both directories stay next to each other.
 
 == Your first build ==
