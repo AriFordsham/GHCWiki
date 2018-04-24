@@ -103,9 +103,9 @@ package a first-class citizen. This package allows Haskell programs to
 introspect the heap
 
 
-Andrey Mokhov, Zhen Zhang, Moritz Angermann, and Alp Mestanogullari have all been
-working on the finishing the last mile of the switch to GHC's new Shake-based
-build system, Hadrian.
+Andrey Mokhov, Zhen Zhang, Moritz Angermann, Alp Mestanogullari, Tamar Christina,
+Patrick Dougherty and Tao He have all been working on the finishing the last mile
+of the switch to GHC's new Shake-based build system, Hadrian.
 
 
 One of the larger projects in the pipeline for 8.6 is Alan Zimmerman and Shayan Najd's
