@@ -103,7 +103,7 @@ package a first-class citizen. This package allows Haskell programs to
 introspect the heap
 
 
-Andrey Mohkov, Zhen Zhang, Moritz Angerman, and Alp Mestanogullari have all been
+Andrey Mokhov, Zhen Zhang, Moritz Angermann, and Alp Mestanogullari have all been
 working on the finishing the last mile of the switch to GHC's new Shake-based
 build system, Hadrian.
 
