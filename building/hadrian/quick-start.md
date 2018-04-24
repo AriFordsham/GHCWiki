@@ -104,6 +104,9 @@ $ build docs
 #       system produces yet.
 $ build binary-dist
 
+# phony target for producing a source distribution
+$ build source-dist
+
 # phony targets for running tests or validate
 # note: those are quite incomplete and buggy at the moment,
 #       see https://github.com/snowleopard/hadrian/issues/187 
