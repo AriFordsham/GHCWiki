@@ -69,7 +69,7 @@ Since the launch of the [ GHC proposals process](https://github.com/ghc-proposal
 - Quantified constraints [ (PR \#109)](https://github.com/ghc-proposals/ghc-proposals/pull/109)
 
 
-At the time of writing, [ 15 proposals are under active discussion by the committee](https://github.com/ghc-proposals/ghc-proposals/pulls?q=is%3Aopen+is%3Apr+no%3Alabel) and [ 13 proposals are under review by the committee](https://github.com/ghc-proposals/ghc-proposals/pulls?q=is%3Aopen+is%3Apr+label%3A%22Pending+committee+review%22).
+At the time of writing, [ 15 proposals are under active discussion by the community](https://github.com/ghc-proposals/ghc-proposals/pulls?q=is%3Aopen+is%3Apr+no%3Alabel) and [ 13 proposals are under review by the committee](https://github.com/ghc-proposals/ghc-proposals/pulls?q=is%3Aopen+is%3Apr+label%3A%22Pending+committee+review%22).
 
 ## Looking forward: what's hot
 

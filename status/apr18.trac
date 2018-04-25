@@ -68,7 +68,7 @@ Since the launch of the [https://github.com/ghc-proposals/ghc-proposals GHC prop
  * Proposal for Source Plugins [https://github.com/ghc-proposals/ghc-proposals/pull/107 (PR #107)]
  * Quantified constraints [https://github.com/ghc-proposals/ghc-proposals/pull/109 (PR #109)]
 
-At the time of writing, [https://github.com/ghc-proposals/ghc-proposals/pulls?q=is%3Aopen+is%3Apr+no%3Alabel 15 proposals are under active discussion by the committee] and [https://github.com/ghc-proposals/ghc-proposals/pulls?q=is%3Aopen+is%3Apr+label%3A%22Pending+committee+review%22 13 proposals are under review by the committee].
+At the time of writing, [https://github.com/ghc-proposals/ghc-proposals/pulls?q=is%3Aopen+is%3Apr+no%3Alabel 15 proposals are under active discussion by the community] and [https://github.com/ghc-proposals/ghc-proposals/pulls?q=is%3Aopen+is%3Apr+label%3A%22Pending+committee+review%22 13 proposals are under review by the committee].
 
 == Looking forward: what's hot
 
