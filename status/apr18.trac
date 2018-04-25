@@ -44,60 +44,50 @@
   path compatibility and dynamic linking support (Tamar Christina).
 
 
+== GHC proposals
 
-== Development updates and acknowledgements
+Since the launch of the [https://github.com/ghc-proposals/ghc-proposals GHC proposals process], over 128 proposals have been submitted.
+
+TODO: Joachim, would you like to summarise, esp
+
+* List (with links) to proposals accepted since the last status report (6 months ago).
+* Number of proposals (a) in discussion, (b) submitted but no decision yet, (c) rejected.
+
+etc.  Whatever seems good to you as a summary.
+
+== Looking forward: what's hot
 
 GHC is lucky to have a large number of volunteer contributors.
+
+* Matthías Páll Gissurarson has been adding support for significantly improved diagnostics messages for typed holes. His 
+
+* Ryan Scott has been TODO
+
+* Mark Karpov of Tweag I/O has been pushing forward GHC's continuous integration reboot. Using computational resources generously provided by Google X, GHC will be moving its continuous integration infrastructure to CircleCI and Appveyor.  This will allow us to more easily produce binary distributions
+
+* Boldizsár Németh has been working on improving GHC's plugin story. GHC currently disables to its recompilation checking when compiling with plugin, dramatically increasing build times in common situations.
+
+* Joachim Breitner has been continuing his work on improving GHC's treatment of ''join points''. TODO
+
+* Andreas Klebinger has been working on improving various facets of GHC's backend code generator. In the past few weeks alone he has contributed performance optimisations for GHC's C-- pass, improved common subexpression  elimination, and added infrastructure for taking advantage of branch likelihoods.
+
+* Michal Terepeta has been performing a variety of refactoring in the backend, moving
+
+* Tamar Christina has continued his work on making GHC run great on Windows. Recently he has been working to finish up a patchset enabling dynamic linking support on Windows. Tamar is also working on a rework of GHC's Windows IO manager implementation. The new implementation will take full advantage of Windows' asynchronous I/O interfaces and should solve dozens of long-standing tickets.
+
+* In addition to contributing valuable code review and bug triaging, Sebastian Graf has contributed fixes to a variety of issues throughout the compiler, including fixes to demand analysis, 
+
+* Recently Patrick Dougherty dusted off a long-dormant patch making the `ghc-heapview` package a first-class citizen. This package allows Haskell programs to introspect the heap
+
+* Andrey Mokhov, Zhen Zhang, Moritz Angermann, Alp Mestanogullari, Tamar Christina, Patrick Dougherty and Tao He have all been working on the finishing the last mile of the switch to GHC's new Shake-based build system, Hadrian.
+
+* One of the larger projects in the pipeline for 8.6 is Alan Zimmerman and Shayan Najd's refactoring of GHC to use the extensible Trees That Grow AST structure. 
+
+* Simon Peyton Jones implemented so-called '''[wiki:QuantifiedConstraints quantified constraints]''', which have been on the to-do list for over a decade, and were described in a 2017 Haskell Symposium paper [http://i.cs.hku.hk/~bruno//papers/hs2017.pdf Quantified class constraints].  A [https://github.com/Gertjan423/ghc-proposals/blob/quantified-constraints/proposals/0000-quantified-constraints.rst GHC proposal to adopt quantified constraints] was agreed, so they will appear in GHC 8.6.
 
 Last year GHC
 began accepting GitHub pull requests for small changes, particularly to
 documentation. 
-
-Matthías Páll Gissurarson has been adding support for significantly improved
-diagnostics messages for typed holes. His 
-
-Ryan Scott has been TODO
-
-Mark Karpov of Tweag I/O has been pushing forward GHC's continuous integration
-reboot. Using computational resources generously provided by Google X, GHC will
-be moving its continuous integration infrastructure to CircleCI and Appveyor.
-This will allow us to more easily produce binary distributions
-
-Boldizsár Németh has been working on improving GHC's plugin story. GHC currently
-disables to its recompilation checking when compiling with plugin, dramatically
-increasing build times in common situations.
-
-Joachim Breitner has been continuing his work on improving GHC's treatment of
-exit join points. TODO
-
-Andreas Klebinger has been working on improving various facets of GHC's backend
-code generator. In the past few weeks alone he has contributed performance
-optimisations for GHC's C-- pass, improved common subexpression elimination, and
-added infrastructure for taking advantage of branch likelihoods.
-
-Michal Terepeta has been performing a variety of refactoring in the backend, moving
-
-Tamar Christina has continued his work on making GHC run great on Windows.
-Recently he has been working to finish up a patchset enabling dynamic linking
-support on Windows. Tamar is also working on a rework of GHC's Windows IO
-manager implementation. The new implementation will take full advantage of
-Windows' asynchronous I/O interfaces and should solve dozens of long-standing
-tickets.
-
-In addition to contributing valuable code review and bug triaging, Sebastian
-Graf has contributed fixes to a variety of issues throughout the compiler,
-including fixes to demand analysis, 
-
-Recently Patrick Dougherty dusted off a long-dormant patch making the `ghc-heapview`
-package a first-class citizen. This package allows Haskell programs to
-introspect the heap
-
-Andrey Mokhov, Zhen Zhang, Moritz Angermann, Alp Mestanogullari, Tamar Christina,
-Patrick Dougherty and Tao He have all been working on the finishing the last mile
-of the switch to GHC's new Shake-based build system, Hadrian.
-
-One of the larger projects in the pipeline for 8.6 is Alan Zimmerman and Shayan Najd's
-refactoring of GHC to use the extensible Trees That Grow AST structure. While 
 
 As always, if you are interested in contributing to any facet of GHC,
 be it the runtime system, type-checker, documentation, simplifier, or anything in
