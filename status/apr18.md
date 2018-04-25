@@ -72,6 +72,8 @@ GHC is lucky to have a large number of volunteer contributors.
 
 - One of the larger projects in the pipeline for 8.6 is Alan Zimmerman and Shayan Najd's refactoring of GHC to use the extensible Trees That Grow AST structure. 
 
+- Simon Peyton Jones implemented so-called **[quantified constraints](quantified-constraints)**, which have been on the to-do list for over a decade, and were described in a 2017 Haskell Symposium paper [ Quantified class constraints](http://i.cs.hku.hk/~bruno//papers/hs2017.pdf).  A [ GHC proposal to adopt quantified constraints](https://github.com/Gertjan423/ghc-proposals/blob/quantified-constraints/proposals/0000-quantified-constraints.rst) was agreed, so they will appear in GHC 8.6.
+
 
 Last year GHC
 began accepting GitHub pull requests for small changes, particularly to
