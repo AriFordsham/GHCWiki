@@ -43,7 +43,20 @@
 - Significantly improved Windows support with a new I/O manager, long file
   path compatibility and dynamic linking support (Tamar Christina).
 
-## Development updates and acknowledgements
+## GHC proposals
+
+
+Since the launch of the [ GHC proposals process](https://github.com/ghc-proposals/ghc-proposals), over 128 proposals have been submitted.
+
+TODO Joachim, would you like to summarise, esp
+
+- List (with links) to proposals accepted since the last status report (6 months ago).
+- Number of proposals (a) in discussion, (b) submitted but no decision yet, (c) rejected.
+
+
+etc.  Whatever seems good to you as a summary.
+
+## Looking forward: what's hot
 
 
 GHC is lucky to have a large number of volunteer contributors.
