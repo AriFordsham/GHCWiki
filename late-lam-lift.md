@@ -15,6 +15,7 @@ There is a ticket to track progress: [\#9476](https://gitlab.haskell.org//ghc/gh
 
 
 The most current code is on the `wip/llf` branch. Usually, you can merge master into that with easy-to-resolve conflicts (eg in `DynFlags`).
+Sebastian Graf has rebased this branch in mid April 2018. You can't find further progress here: [ https://github.com/sgraf812/ghc/tree/llf](https://github.com/sgraf812/ghc/tree/llf)
 
 
 By default, the LLF is not enabled. To enable it, use the flags found below in the llf-nr10-r6 section. If the LLF pass lifts out a function, it prepends the `llf_` prefix, so look for that in the Core. Also: there's `-ddump-llf` if you're desperate. The LLF happens after `SpecConstr` and before the late demand analysis (which is also off by default, cf `-flate-dmd-anal`).
