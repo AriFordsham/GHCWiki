@@ -46,14 +46,29 @@
 
 == GHC proposals
 
-Since the launch of the [https://github.com/ghc-proposals/ghc-proposals GHC proposals process], over 128 proposals have been submitted.
+Since the launch of the [https://github.com/ghc-proposals/ghc-proposals GHC proposals process], over 128 proposals have been created, 41 have been submitted to the committee and 19 have been accepted. These are:
 
-TODO: Joachim, would you like to summarise, esp
+ * OverloadedRecordFields [https://github.com/ghc-proposals/ghc-proposals/pull/6 (PR #6)]
+ * Update levity polymorphism [https://github.com/ghc-proposals/ghc-proposals/pull/29 (PR #29)]
+ * Make Constraint not apart from Type [https://github.com/ghc-proposals/ghc-proposals/pull/32 (PR #32)]
+ * Hex floats [https://github.com/ghc-proposals/ghc-proposals/pull/37 (PR #37)]
+ * Allow signatures on pattern synonym constructors [https://github.com/ghc-proposals/ghc-proposals/pull/42 (PR #42)]
+ * Explicit foralls proposal [https://github.com/ghc-proposals/ghc-proposals/pull/55 (PR #55)]
+ * Overhaul deriving instances for empty data types proposal [https://github.com/ghc-proposals/ghc-proposals/pull/63 (PR #63)]
+ * Require namespacing fixity declarations for type names [https://github.com/ghc-proposals/ghc-proposals/pull/65 (PR #65)]
+ * Extend -Wall with incomplete-uni-patterns and incomplete-record-updates [https://github.com/ghc-proposals/ghc-proposals/pull/71 (PR #71)]
+ * Add small primitive types, like `Int8#`/`Word8#` [https://github.com/ghc-proposals/ghc-proposals/pull/74 (PR #74)]
+ * Propose underscores in numeric literals [https://github.com/ghc-proposals/ghc-proposals/pull/76 (PR #76)]
+ * Deprecate STM invariant mechanism [https://github.com/ghc-proposals/ghc-proposals/pull/77 (PR #77)]
+ * Type-level type applications [https://github.com/ghc-proposals/ghc-proposals/pull/80 (PR #80)]
+ * Embrace (Type :: Type) [https://github.com/ghc-proposals/ghc-proposals/pull/83 (PR #83)]
+ * Allow `do` etc. to be used as function arguments without a $ [https://github.com/ghc-proposals/ghc-proposals/pull/90 (PR #90)]
+ * As-pattern synonyms [https://github.com/ghc-proposals/ghc-proposals/pull/94 (PR #94)]
+ * Unlifted Newtypes [https://github.com/ghc-proposals/ghc-proposals/pull/98 (PR #98)]
+ * Proposal for Source Plugins [https://github.com/ghc-proposals/ghc-proposals/pull/107 (PR #107)]
+ * Quantified constraints [https://github.com/ghc-proposals/ghc-proposals/pull/109 (PR #109)]
 
-* List (with links) to proposals accepted since the last status report (6 months ago).
-* Number of proposals (a) in discussion, (b) submitted but no decision yet, (c) rejected.
-
-etc.  Whatever seems good to you as a summary.
+At the time of writing, [https://github.com/ghc-proposals/ghc-proposals/pulls?q=is%3Aopen+is%3Apr+no%3Alabel 15 proposals are under active discussion by the committee] and [https://github.com/ghc-proposals/ghc-proposals/pulls?q=is%3Aopen+is%3Apr+label%3A%22Pending+committee+review%22 13 proposals are under review by the committee].
 
 == Looking forward: what's hot
 
