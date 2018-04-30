@@ -31,7 +31,7 @@
 **Little things**
 
 - BUGS
-- `uo_thing`
+- `uo_thing`, [\#13601](https://gitlab.haskell.org//ghc/ghc/issues/13601)
 
 # Fuller list
 
