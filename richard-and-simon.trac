@@ -9,6 +9,7 @@
 '''Type declarations and signatures''' (Dec 17)
 
 * Let's fix #14880!
+ * `uo_thing`, #9173, #13601
 
 * [https://github.com/ghc-proposals/ghc-proposals/pull/83 Proposal 83: collapse PolyKinds and TypeInType]
 * [https://github.com/ghc-proposals/ghc-proposals/pull/81 Proposal 81: Visible dependent quantification]
@@ -30,7 +31,7 @@
 
 '''Little things'''
  * BUGS
- * `uo_thing`, #13601
+
 
 
 
