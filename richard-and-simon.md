@@ -9,6 +9,8 @@
 
 **Type declarations and signatures** (Dec 17)
 
+- Let's fix [\#14880](https://gitlab.haskell.org//ghc/ghc/issues/14880)!
+
 - [ Proposal 83: collapse PolyKinds and TypeInType](https://github.com/ghc-proposals/ghc-proposals/pull/83)
 - [ Proposal 81: Visible dependent quantification](https://github.com/ghc-proposals/ghc-proposals/pull/81)
 - [ Proposal 54: CUSKs (depends on Proposal 81)](https://github.com/ghc-proposals/ghc-proposals/pull/54)
