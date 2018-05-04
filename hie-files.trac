@@ -24,3 +24,9 @@ The RichToken type used in haddock: https://github.com/haskell/haddock/blob/mast
 * The file will be generated as soon as GHC is done typechecking a file(maybe in [https://www.stackage.org/haddock/nightly-2018-05-04/ghc-8.4.2/src/HscMain.html#hscIncrementalCompile hscIncrementalCompile]?)
 * Need to coordinate with the Hi Haddock project(Including docstrings in .hi files) as that may push the burden of resolving Names/Symbols in haddock comments onto GHC.
 * Other than this, little interaction with the rest of GHC should be needed.
+
+== Links to additional discussion
+
+[https://gist.github.com/wz1000/46bb4b2121f0911bbbf4d4743fafaba8 Initial discussion on #ghc]
+https://github.com/haskell/haddock/issues/715
+[https://docs.google.com/document/d/1QP4tV-oSJd3X90JKVY4D__Dfr-ypVB57p1yDqyk2aQ8/edit?usp=sharing Original GSOC Proposal]
