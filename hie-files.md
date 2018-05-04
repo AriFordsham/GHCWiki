@@ -32,4 +32,8 @@ The RichToken type used in haddock: [ https://github.com/haskell/haddock/blob/ma
 
 ## Links to additional discussion
 
-[ Initial discussion on \#ghc](https://gist.github.com/wz1000/46bb4b2121f0911bbbf4d4743fafaba8)[ https://github.com/haskell/haddock/issues/715](https://github.com/haskell/haddock/issues/715)[ Original GSOC Proposal](https://docs.google.com/document/d/1QP4tV-oSJd3X90JKVY4D__Dfr-ypVB57p1yDqyk2aQ8/edit?usp=sharing)
+[ Initial discussion on \#ghc](https://gist.github.com/wz1000/46bb4b2121f0911bbbf4d4743fafaba8)
+
+[ https://github.com/haskell/haddock/issues/715](https://github.com/haskell/haddock/issues/715)
+
+[ Original GSOC Proposal](https://docs.google.com/document/d/1QP4tV-oSJd3X90JKVY4D__Dfr-ypVB57p1yDqyk2aQ8/edit?usp=sharing)
