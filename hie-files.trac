@@ -11,7 +11,12 @@ As a proof of concept, haddocks --hyperlinked-source feature will be rewritten t
 
 == File Contents
 * The data structure should be a simplified, source aware, annotated AST derived from the Renamed/Typechecked Source
-* The type(specialised to occurrence) of every binder/name in the source should be included
+* The type of every Name/symbol in the source should be included. Furthermore, the type should be specialised to the occurrence, so in the following snippet, `return` should be assigned the type `() -> IO ()` instead of `Monad m => a -> m a`
+{{{
+main :: IO ()
+main = return ()
+}}}
+
 * It will be similar to [RichToken] format consumed by haddocks hyperlinker, but structured like a tree to accurately represent the Haskell AST as tooling like haskell-ide-engine might require more detailed information about source structure, like parent/sibling/child nodes in the AST
 * It should be possible to exactly recover the source from the .hie file 
 * The actual representation on disk as well as serialisation/de-serialisation could be done through CBOR, using the package [https://hackage.haskell.org/package/serialise-0.2.0.0 serialise].
