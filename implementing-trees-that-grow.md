@@ -8,6 +8,7 @@ In this page, we discuss the overall plan and details of implementing Trees that
 - [Notes about instances](implementing-trees-that-grow/instances)
 - Main GHC branch: `wip/GrowableAST`
 - [\#14490](https://gitlab.haskell.org//ghc/ghc/issues/14490): TTG snags
+- [Potential use for adding IDE support](implementing-trees-that-grow/ide-support)
 
 
 Main protagonists: Shayan Najd and Alan Zimmerman. 
