@@ -163,7 +163,7 @@ Please add: System FC, GADTs, kind polymorphism etc
 
 - [ A Formal Specification of the Haskell 98 Module System](http://programatica.cs.pdx.edu/P/diatchi.pdf) (Iavor S. Diatchki, Mark P. Jones, Thomas Hallgren) In Haskell '02.
 
-- [ Backpack: Retrofitting Haskell with Interfaces](http://plv.mpi-sws.org/backpack/backpack-paper.pdf) (Scott Scott Kilpatrick, Derek Dreyer, Simon Peyton Jones, Simon Marlow), POPL 2014.
+- [ Backpack: Retrofitting Haskell with Interfaces](http://plv.mpi-sws.org/backpack/backpack-paper.pdf) (Scott Kilpatrick, Derek Dreyer, Simon Peyton Jones, Simon Marlow), POPL 2014.
 
 ## Other GHC features
 
