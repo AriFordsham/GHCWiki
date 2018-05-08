@@ -7,6 +7,7 @@ In this page, we discuss the overall plan and details of implementing Trees that
 * [wiki:ImplementingTreesThatGrow/Instances Notes about instances]
 * Main GHC branch: `wip/GrowableAST`
 * #14490: TTG snags
+* [wiki:ImplementingTreesThatGrow/IdeSupport Potential use for adding IDE support]
 
 Main protagonists: Shayan Najd and Alan Zimmerman. 
 
