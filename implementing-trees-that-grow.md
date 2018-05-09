@@ -133,6 +133,35 @@ Possibly, we remove the pattern synonyms to avoid a layer of indirection and get
 
 We work on refactoring, by then redundant, bits and pieces of TH by either just removing them (like the HsSyn-TH translator) or reusing the ones in the compiler.
 
+## Naming conventions
+
+
+This is a quick capture of a discussion on \#ghc, about the naming conventions for TTG extension constructors
+
+```
+dataFoo p =FInt p
+
+-- becomesdataFoo p =F(XF p)Int(Idp p)|XFoo(XXFoo p)
+```
+
+
+The extension point name is the constructor name (`F`) preceded by an X (`XF`), and it comes first in the fields of the constructor.
+
+
+The additional constructor is the data type name preceded by X (`XFoo`), and it's extension payload has `XX`, so the `XXFoo` above.
+
+
+Where a constructor has the same name as the data type, e.g.
+
+```
+dataFoo p =FooInt p
+
+-- becomesdataFoo p =Foo(XXFoo p)Int(Idp p)|XFoo(XXFoo p)
+```
+
+
+the constructor extension point is prefixed with `XC`, so `XCFoo` above.
+
 ## Experiment 1
 
 
