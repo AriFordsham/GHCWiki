@@ -23,8 +23,11 @@ As a proof of concept, haddocks --hyperlinked-source feature will be rewritten t
   ```
 
 - It will be similar to \[RichToken\] format consumed by haddocks hyperlinker, but structured like a tree to accurately represent the Haskell AST as tooling like haskell-ide-engine might require more detailed information about source structure, like parent/sibling/child nodes in the AST
-- It should be possible to exactly recover the source from the .hie file 
+- It should be possible to exactly recover the source from the .hie file. This will probably be achieved by including the source verbatim in the .hie file, as recovering the source exactly from the AST might be tricky and duplicate the work on ghc-exactprint.
+- In the AST, instead of storing copies of the original Token source string, we can simply point to the relevant portions of the source
+- There will be a table consisting of all unique types that occur in the source. Elements of the AST with types will point to entries in the table, so that type duplication doesn't blow up the size of the file too much. Even type subtrees might need to be deduplicated.
 - The actual representation on disk as well as serialisation/de-serialisation could be done through CBOR, using the package [ serialise](https://hackage.haskell.org/package/serialise-0.2.0.0).
+- The format should be fairly stable across ghc versions, so we need to avoid capturing too much information.
 
 
 The RichToken type used in haddock: [ https://github.com/haskell/haddock/blob/master/haddock-api/src/Haddock/Backends/Hyperlinker/Types.hs\#L35](https://github.com/haskell/haddock/blob/master/haddock-api/src/Haddock/Backends/Hyperlinker/Types.hs#L35)
