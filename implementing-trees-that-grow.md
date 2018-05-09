@@ -156,11 +156,20 @@ Where a constructor has the same name as the data type, e.g.
 ```
 dataFoo p =FooInt p
 
--- becomesdataFoo p =Foo(XXFoo p)Int(Idp p)|XFoo(XXFoo p)
+-- becomesdataFoo p =Foo(XCFoo p)Int(Idp p)|XFoo(XXFoo p)
 ```
 
 
 the constructor extension point is prefixed with `XC`, so `XCFoo` above.
+
+
+In terms of usage, the extension points should only be used to capture changes of use for the data type or constructor between phases of compilation.
+
+
+Any changes due to producing a new version of GHC should proceed as normal, adding or changing constructors as required.
+
+
+In the above example the `XFoo` variant could be produced by the renamer or typechecker capturing additional information that is completely different from the input type.
 
 ## Experiment 1
 
