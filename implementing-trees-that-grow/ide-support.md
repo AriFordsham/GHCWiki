@@ -74,3 +74,10 @@ This will probably be based on the approach currently taken in `Coda`[(4)](imple
 
 (3)[ https://github.com/haskell/haskell-ide-engine](https://github.com/haskell/haskell-ide-engine)
 (4)[ https://github.com/ekmett/coda](https://github.com/ekmett/coda)
+
+## Even Longer Term
+
+
+Incremental renaming and type checking.  See related work at [(1)](implementing-trees-that-grow/ide-support#)
+
+(1)[ https://arxiv.org/pdf/1805.00155.pdf](https://arxiv.org/pdf/1805.00155.pdf)

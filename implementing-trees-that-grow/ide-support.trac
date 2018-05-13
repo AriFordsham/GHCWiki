@@ -66,4 +66,8 @@ This will probably be based on the approach currently taken in `Coda` [#coda (4)
 [=#hie (3)] https://github.com/haskell/haskell-ide-engine \\
 [=#coda (4)] https://github.com/ekmett/coda
 
+== Even Longer Term ==
 
+Incremental renaming and type checking.  See related work at [#typedholes (1)]
+
+[=#typedholes (1)] https://arxiv.org/pdf/1805.00155.pdf
