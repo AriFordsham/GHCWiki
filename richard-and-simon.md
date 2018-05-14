@@ -9,6 +9,8 @@
 
 **Type declarations and signatures** (Dec 17)
 
+- (May 18).  Simon is very suspicious about `zonkPromote` and friends.  Revisit this once we get rid of `decideKindGeneralisationPlan`.
+
 - Let's fix [\#14880](https://gitlab.haskell.org//ghc/ghc/issues/14880)!
 
   - `uo_thing`, [\#9173](https://gitlab.haskell.org//ghc/ghc/issues/9173), [\#13601](https://gitlab.haskell.org//ghc/ghc/issues/13601)
