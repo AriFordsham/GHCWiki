@@ -21,6 +21,8 @@ See Libraries? and [Migration/8.6](migration/8.6).
 
 Below are the major highlights of 8.6.
 
+- The `ghc-heap-view` package has been merged into GHC, allowing introspection into the structure of GHC's heap. (Michal Terepeta, [ Phab:D3055](https://phabricator.haskell.org/D3055))
+
 - Improved support for **cross-compilation** (Moritz Angermann)
 
 - Deriving via? (Ryan GL Scott)
