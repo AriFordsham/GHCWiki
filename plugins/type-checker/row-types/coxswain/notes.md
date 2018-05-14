@@ -87,7 +87,7 @@ f _ _ = Proxy
 ```
 
 
-When simplifying the givens for `f`, the orientation similarly blocks `EQSAME` for `co_a4qk` and `co_a4qt`.
+When simplifying the givens for `f`, the orientation similarly blocks the `EQSAME` interaction rule from Fig.22 for `co_a4qk` and `co_a4qt`.
 
 ```wiki
   [G] co_a4qq {0}:: (B .= ()) ~# (fsk_a4qp[fsk:0]) (CFunEqCan)
