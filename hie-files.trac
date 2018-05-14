@@ -22,7 +22,8 @@ main = return ()
 * In the AST, instead of storing copies of the original Token source string, we can simply point to the relevant portions of the source
 * There will be a table consisting of all unique types that occur in the source. Elements of the AST with types will point to entries in the table, so that type duplication doesn't blow up the size of the file too much. Even type subtrees might need to be deduplicated.
 * The actual representation on disk as well as serialisation/de-serialisation could be done through CBOR, using the package [https://hackage.haskell.org/package/serialise-0.2.0.0 serialise].
-* The format should be fairly stable across ghc versions, so we need to avoid capturing too much information. For this reason the Tree should only capture scoping information, and nothing more.
+* The first line of the .hie file should be a human readable string containing information about the version of the format, the filename of the original file, and the version of GHC the file was compiled with. Example: (v1.0,GHC8.4.6,Foo.hs)
+* The format should be fairly stable across ghc versions, so we need to avoid capturing too much information. For this reason the tree should only capture scoping information, and nothing more. More detailed information about the exact haskell syntactic structure a part of the tree represents could be obtained by inspecting the tokens/keywords in that part.
 
 The RichToken type used in haddock: https://github.com/haskell/haddock/blob/master/haddock-api/src/Haddock/Backends/Hyperlinker/Types.hs#L35
 
