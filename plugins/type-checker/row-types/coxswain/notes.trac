@@ -21,7 +21,7 @@ type family (p :: Row kl kt) .& (col :: Col kl kt) = (q :: Row kl kt) where {}
 
 I don't really see an alternative to this.
 
-=== Blocking SEQSAME (et al?)
+=== Blocking SEQSAME et al
 
 Unfortunately, type families as syntax interferes with the GHC constraint simplifier. For example, the ambiguity check for the `DLacks` dctor fails.
 
@@ -67,4 +67,22 @@ either is a flatten-meta-variables, it goes on the left" and also "If
 one is a flatten-skolem, put it on the left so that it is substituted
 out"; so that explains the orientation we see.
 
-Because we're using "type families as syntax", this impedance of `SEQSAME` (et al?) will be common.
+Because we're using "type families as syntax", this impedance of `SEQSAME` will be common.
+
+And it affects other rules too.
+
+{{{
+f :: (p ~ (u .& A .= ()),p ~ (v .& B .= ())) => Proxy p -> Proxy u -> Proxy v
+f _ _ = Proxy
+}}}
+
+When simplifying the givens for `f`, the orientation similarly blocks `EQSAME` for `co_a4qk` and `co_a4qt`.
+
+{{{
+  [G] co_a4qq {0}:: (B .= ()) ~# (fsk_a4qp[fsk:0]) (CFunEqCan)
+  [G] co_a4qh {0}:: (A .= ()) ~# (fsk_a4qg[fsk:0]) (CFunEqCan)
+  [G] co_a4qs {0}:: (v_a4p4[sk:2] .& fsk_a4qp[fsk:0]) ~# (fsk_a4qr[fsk:0]) (CFunEqCan)
+  [G] co_a4qj {0}:: (u_a4p3[sk:2] .& fsk_a4qg[fsk:0]) ~# (fsk_a4qi[fsk:0]) (CFunEqCan)
+  [G] co_a4qk {1}:: (fsk_a4qi[fsk:0]) ~# (p_a4p2[sk:2]) (CTyEqCan)
+  [G] co_a4qt {1}:: (fsk_a4qr[fsk:0]) ~# (p_a4p2[sk:2]) (CTyEqCan)
+}}}
