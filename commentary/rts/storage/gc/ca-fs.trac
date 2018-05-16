@@ -28,7 +28,7 @@ So here's what we do:
  * Every info-table points to a '''Static Reference Table''' (SRT) object, which is a static constructor that points to all the CAFFY closures that are directly mentioned by the code corresponding to this info table
  * When following the reachable pointers in a closure, the garbage collector also follows the pointer to the SRT
 
-For all the details on how SRTs work, see `Note [SRTs]` in `compiler/cmm/CmmBuildInfoTables.hs`.
+For all the details on how SRTs work, see `Note [SRTs]` in [[GhcFile(compiler/cmm/CmmBuildInfoTables.hs)]].
 
 We say that a static closure (whether a thunk or not) is CAFFY if
  * It is a CAF, or
@@ -56,7 +56,7 @@ Some implementation details
 
 == Static Reference Tables ==
 
-For all the details on how SRTs work, see `Note [SRTs]` in `compiler/cmm/CmmBuildInfoTables.hs`.
+For all the details on how SRTs work, see `Note [SRTs]` in [[GhcFile(compiler/cmm/CmmBuildInfoTables.hs)]].
 
 == Evacuating Static Objects ==
 Files: [[GhcFile(rts/sm/GCThread.h)]], [[GhcFile(rts/sm/Evac.c)]], [[GhcFile(rts/sm/GC.c)]]

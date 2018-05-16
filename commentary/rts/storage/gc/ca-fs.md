@@ -39,7 +39,7 @@ So here's what we do:
 - When following the reachable pointers in a closure, the garbage collector also follows the pointer to the SRT
 
 
-For all the details on how SRTs work, see `Note [SRTs]` in `compiler/cmm/CmmBuildInfoTables.hs`.
+For all the details on how SRTs work, see `Note [SRTs]` in [compiler/cmm/CmmBuildInfoTables.hs](/trac/ghc/browser/ghc/compiler/cmm/CmmBuildInfoTables.hs).
 
 
 We say that a static closure (whether a thunk or not) is CAFFY if
@@ -81,7 +81,7 @@ Some implementation details
 ## Static Reference Tables
 
 
-For all the details on how SRTs work, see `Note [SRTs]` in `compiler/cmm/CmmBuildInfoTables.hs`.
+For all the details on how SRTs work, see `Note [SRTs]` in [compiler/cmm/CmmBuildInfoTables.hs](/trac/ghc/browser/ghc/compiler/cmm/CmmBuildInfoTables.hs).
 
 ## Evacuating Static Objects
 
