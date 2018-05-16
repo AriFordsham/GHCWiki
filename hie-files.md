@@ -33,6 +33,24 @@ As a proof of concept, haddocks --hyperlinked-source feature will be rewritten t
 
 The RichToken type used in haddock: [ https://github.com/haskell/haddock/blob/master/haddock-api/src/Haddock/Backends/Hyperlinker/Types.hs\#L35](https://github.com/haskell/haddock/blob/master/haddock-api/src/Haddock/Backends/Hyperlinker/Types.hs#L35)
 
+## Use cases
+
+- Haddocks hyperlinked source and haskell-ide-engine
+
+  - Type information on hover
+  - Local(in file) usage sites for symbols
+  - Supporting global go to/view definition for every symbol in the Package Db
+  - Viewing info about arbitrary nodes in the AST - does it have a type? What language construct does it correspond to?
+- Along with an indexer that scans .hie files
+
+  - Viewing the usage sites of symbols across the entirety of hackage or a local Package Db
+  - Dependency analysis of symbols - what other symbols does something depend on
+  - Searching for symbols, and restricting search by type. Example: search for usages of `read` with type `String -> Int` to find out where the instance for `Read Int` is being used.
+- More sophisticated analysis of the AST
+
+  - Diffing changes to the AST
+  - Viewing typical invocations/example usages of functions
+
 ## Modifications to GHC
 
 - HIE file generation will be controlled by a GHC flag(--enable-ide-info?)
