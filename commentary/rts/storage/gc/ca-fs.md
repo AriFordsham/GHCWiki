@@ -35,8 +35,11 @@ We could just say that *all* CAFs are roots; but then people complain about spac
 So here's what we do:
 
 - A static closure is **CAFFY** if a CAF can be reached from it
-- Every info-table has a **Static Reference Table** (SRT), which lists all the CAFFY closures that are directly mentioned by the code for the closure
-- When following the reachable pointers in a closure, the garbage collector includes the pointers in the closure's SRT
+- Every info-table points to a **Static Reference Table** (SRT) object, which is a static constructor that points to all the CAFFY closures that are directly mentioned by the code corresponding to this info table
+- When following the reachable pointers in a closure, the garbage collector also follows the pointer to the SRT
+
+
+For all the details on how SRTs work, see `Note [SRTs]` in [compiler/cmm/CmmBuildInfoTables.hs](/trac/ghc/browser/ghc/compiler/cmm/CmmBuildInfoTables.hs).
 
 
 We say that a static closure (whether a thunk or not) is CAFFY if
@@ -78,20 +81,7 @@ Some implementation details
 ## Static Reference Tables
 
 
-File: [includes/rts/storage/InfoTables.h](/trac/ghc/browser/ghc/includes/rts/storage/InfoTables.h)
-
-
-The info table of various closures may contain information about what static objects are
-referenced by the closure.  This information is stored in two parts:
-
-1. a static reference table (SRT), which is an array of references to static objects
-1. a bitmask which specifies which of the objects are actually used by the closure.
-
-
-There are two different ways to access this information depending on the size of the SRT:
-
-- "small": if `srt_bitmap` is a small bitmap, not all 1s, then GET_FUN?_SRT contains the SRT.
-- "large": if `srt_bitmap` is all 1s, then GET_FUN?_SRT contains a large bitmap, and the actual SRT.
+For all the details on how SRTs work, see `Note [SRTs]` in [compiler/cmm/CmmBuildInfoTables.hs](/trac/ghc/browser/ghc/compiler/cmm/CmmBuildInfoTables.hs).
 
 ## Evacuating Static Objects
 
