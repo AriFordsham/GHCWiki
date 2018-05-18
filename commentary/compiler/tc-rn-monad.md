@@ -6,9 +6,9 @@
 
 The renamer, typechecker, interface-file typechecker, and desugarer all share a certain amount in common: they must report errors, handle environments, do I/O, etc.  Furthermore, because of Template Haskell we have to interleave renaming and typechecking.  So all four share a common monad, called `TcRnIf`.  This infrastructure is defined by the following modules:
 
-- [compiler/utils/IOEnv.lhs](/trac/ghc/browser/ghc/compiler/utils/IOEnv.lhs): extends the IO monad with an environment (just a simple reader monad).
-- [compiler/typecheck/TcRnTypes](/trac/ghc/browser/ghc/compiler/typecheck/TcRnTypes): builds the `TcRnIf` monad on top of `IOEnv`:
-- [compiler/typecheck/TcRnMonad](/trac/ghc/browser/ghc/compiler/typecheck/TcRnMonad): defines lots of access functions for the renamer, typechecker, and interface typechecker.
+- [compiler/utils/IOEnv.hs](/trac/ghc/browser/ghc/compiler/utils/IOEnv.hs): extends the IO monad with an environment (just a simple reader monad).
+- [compiler/typecheck/TcRnTypes.hs](/trac/ghc/browser/ghc/compiler/typecheck/TcRnTypes.hs): builds the `TcRnIf` monad on top of `IOEnv`:
+- [compiler/typecheck/TcRnMonad.hs](/trac/ghc/browser/ghc/compiler/typecheck/TcRnMonad.hs): defines lots of access functions for the renamer, typechecker, and interface typechecker.
 - [compiler/typecheck/DsMonad](/trac/ghc/browser/ghc/compiler/typecheck/DsMonad): specialises the `TcRnIf` monad for the desugarer.
 
 
