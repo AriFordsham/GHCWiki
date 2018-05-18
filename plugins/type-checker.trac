@@ -8,6 +8,16 @@
 
  * See [#Post-7.10changestoTcPluginMAPI discussion of most recent proposed changes below].
 
+== Issues ==
+
+Add '''TypeCheckerPlugins''' to the ticket's keywords to include it in these lists.
+
+Open Tickets:
+[[TicketQuery(status=infoneeded,status=new|patch,keywords=~TypeCheckerPlugins)]]
+
+Closed Tickets:
+[[TicketQuery(status=infoneeded,status=closed,keywords=~TypeCheckerPlugins)]]
+
 == Motivation ==
 
 There is much interest at present in various extensions to GHC Haskell
