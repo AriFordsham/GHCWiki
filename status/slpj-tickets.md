@@ -38,6 +38,7 @@
   - [Deriving generally](deriving-instances)
   - [Typeable](typeable)
   - [QuantifiedConstraints](quantified-constraints)
+  - [Type-checker plugins](plugins/type-checker)
 
 - **Optimisation**
 

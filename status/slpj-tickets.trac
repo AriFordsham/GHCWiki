@@ -36,6 +36,7 @@
    * [wiki:DerivingInstances Deriving generally]
    * [wiki:Typeable]
    * [wiki:QuantifiedConstraints]
+   * [wiki:Plugins/TypeChecker Type-checker plugins]
 
  * '''Optimisation'''
    * [wiki:Inlining]
