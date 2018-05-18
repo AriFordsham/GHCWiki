@@ -6,7 +6,7 @@ The renamer, typechecker, interface-file typechecker, and desugarer all share a 
   * [[GhcFile(compiler/utils/IOEnv.hs)]]: extends the IO monad with an environment (just a simple reader monad).
   * [[GhcFile(compiler/typecheck/TcRnTypes.hs)]]: builds the {{{TcRnIf}}} monad on top of {{{IOEnv}}}:
   * [[GhcFile(compiler/typecheck/TcRnMonad.hs)]]: defines lots of access functions for the renamer, typechecker, and interface typechecker.
-  * [[GhcFile(compiler/typecheck/DsMonad)]]: specialises the {{{TcRnIf}}} monad for the desugarer.
+  * [[GhcFile(compiler/deSugar/DsMonad.hs)]]: specialises the {{{TcRnIf}}} monad for the desugarer.
 
 The typechecker and renamer use ''exactly'' the same monad, {{{TcRn}}}; the desugarer and interface-file checker use different instantiations of {{{TcRnIf}}}.  To give you the idea, here is how the {{{TcRn}}} monad looks:
 {{{
