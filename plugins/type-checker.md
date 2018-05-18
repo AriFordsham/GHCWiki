@@ -8,6 +8,49 @@
 
 - See [discussion of most recent proposed changes below](plugins/type-checker#).
 
+## Issues
+
+
+Add **TypeCheckerPlugins** to the ticket's keywords to include it in these lists.
+
+
+Open Tickets:
+
+<table><tr><th>[\#9980](https://gitlab.haskell.org//ghc/ghc/issues/9980)</th>
+<td>TcS monad is too heavy</td></tr>
+<tr><th>[\#10077](https://gitlab.haskell.org//ghc/ghc/issues/10077)</th>
+<td>Providing type checker plugin on command line results in false cyclic import error</td></tr>
+<tr><th>[\#11435](https://gitlab.haskell.org//ghc/ghc/issues/11435)</th>
+<td>Evidence from TC Plugin triggers core-lint warning</td></tr>
+<tr><th>[\#11457](https://gitlab.haskell.org//ghc/ghc/issues/11457)</th>
+<td>Run type-checker plugins before GHC's solver</td></tr>
+<tr><th>[\#12780](https://gitlab.haskell.org//ghc/ghc/issues/12780)</th>
+<td>Calling "do nothing" type checker plugin affects type checking when it shouldn't</td></tr>
+<tr><th>[\#15147](https://gitlab.haskell.org//ghc/ghc/issues/15147)</th>
+<td>Type checker plugin receives Wanteds that are not completely unflattened</td></tr>
+<tr><th>[\#15248](https://gitlab.haskell.org//ghc/ghc/issues/15248)</th>
+<td>Coercions from plugins cannot be stopped from floating out</td></tr>
+<tr><th>[\#15322](https://gitlab.haskell.org//ghc/ghc/issues/15322)</th>
+<td>\`KnownNat\` does not imply \`Typeable\` any more when used with plugin</td></tr>
+<tr><th>[\#15745](https://gitlab.haskell.org//ghc/ghc/issues/15745)</th>
+<td>Panicking typechecker plugins</td></tr></table>
+
+
+Closed Tickets:
+
+<table><tr><th>[\#9840](https://gitlab.haskell.org//ghc/ghc/issues/9840)</th>
+<td>Permit empty closed type families</td></tr>
+<tr><th>[\#10078](https://gitlab.haskell.org//ghc/ghc/issues/10078)</th>
+<td>tcPluginStop of a type checker plugin is not called if an error occurs</td></tr>
+<tr><th>[\#11462](https://gitlab.haskell.org//ghc/ghc/issues/11462)</th>
+<td>Use of typechecker plugin erroneously triggers "unbound implicit parameter" error</td></tr>
+<tr><th>[\#11525](https://gitlab.haskell.org//ghc/ghc/issues/11525)</th>
+<td>Using a dummy typechecker plugin causes an ambiguity check error</td></tr>
+<tr><th>[\#14691](https://gitlab.haskell.org//ghc/ghc/issues/14691)</th>
+<td>Replace EvTerm with CoreExpr</td></tr>
+<tr><th>[\#15633](https://gitlab.haskell.org//ghc/ghc/issues/15633)</th>
+<td>Type-checker plugins aren't loaded in GHCi 8.6.1</td></tr></table>
+
 ## Motivation
 
 
