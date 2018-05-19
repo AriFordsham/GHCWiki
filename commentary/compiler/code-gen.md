@@ -12,6 +12,7 @@ This page describes code generator ("codegen") in GHC. It is meant to reflect cu
 - [LLVM back end](commentary/compiler/backends/llvm)
 - [Hoopl/Cleanup](hoopl/cleanup)
 - [Planned Backend Optimizations](commentary/compiler/backend-opt)
+- [Details about how we place basic blocks](commentary/compiler/code-layout)
 
 ## A brief history of code generator
 
