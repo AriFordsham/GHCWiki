@@ -12,7 +12,7 @@ GHC's current way of doing so is very basic.
 
 - Build a graph where basic blocks are nodes.
 - Add a edge for each jump at the end of a basic block.
-- Find sets of \[strongly connected components\]([ https://en.wikipedia.org/wiki/Strongly_connected_component](https://en.wikipedia.org/wiki/Strongly_connected_component)).
+- Find sets of [ strongly connected components](https://en.wikipedia.org/wiki/Strongly_connected_component).
 - For each set flatten it resulting in a list of basic blocks.
 - Finally place all of these lists after each other.
 
@@ -144,18 +144,18 @@ But further we also weigh them by the type of jump.
 Example Heuristic:
 
 <table><tr><th> Construct    </th>
-<th> Weight(s) \|
+<th> Weight(s)     
 </th></tr>
-<tr><th> goto          </th>
-<th> 100 
+<tr><th> goto           </th>
+<th> 100             
 </th></tr>
-<tr><th> If/Else       </th>
-<th> 49/51     
+<tr><th> If/Else        </th>
+<th> 49/51           
 </th></tr>
 <tr><th> If/Else with likelyhood </th>
 <th> 10/90  
 </th></tr>
-<tr><td>\|v Call with return label  </td>
+<tr><th> Call with return label  </th>
 <th> 10     
 </th></tr></table>
 
@@ -177,12 +177,10 @@ Here we add blocks when we join two control flow paths. I solved this by trackin
 
 
 Initially surprisingly when we have code like below operating on floats.
-``\`
 
->
-> if (a \< b) then { goto L1; } else { goto L2; }
-
-``\`
+```wiki
+  if (a < b) then { goto L1; } else { goto L2; }
+```
 
 
 We insert a new block `L3: goto L2` and the generated code jumps to L3 if either (a \< b) or if the floats are unordered. Floating point is truely a headache.
@@ -203,11 +201,14 @@ Long story short. It's a mess.
 
 Shortcutting is removing blocks which only transfer controlflow to another block.
 So we reduce:
-``\`
+
+```wiki
 A: ... ; goto B;
 B: goto C;
 C: ...
-``\`
+```
+
+
 to `A: goto C; C: ...`
 
 
@@ -236,29 +237,19 @@ involved. But it doesn't change the fundamental approach.
 ### Preliminary results:
 
 
-Which is disappointing. I've combined a earlier version of my layout branch with my patch to \[detect error branches as unlikely and recursion as likely\]([ https://phabricator.haskell.org/D4327](https://phabricator.haskell.org/D4327)) which gave a improvment of -0.8% which is nice.
+Which is disappointing. I've combined a earlier version of my layout branch with my patch to [ detect error branches as unlikely and recursion as likely](https://phabricator.haskell.org/D4327) which gave a improvment of -0.8% which is nice.
 
 
 However as a standalone patch it currently makes performance worse:
 
-``\`
-
->
-> lambda           0.0%      0.0%    +22.4%    +20.8%      0.0%
->
-> >
-> > FS           0.0%      0.0%     +9.8%     +9.7%      0.0%
-
-``\`
-
----
-
->
-> Min          -0.1%      0.0%     -1.7%     -3.2%      0.0%
-> Max          +0.0%      0.0%    +22.4%    +20.8%      0.0%
-
->
-> Geometric Mean          -0.0%     -0.0%     +1.1%     +0.8%     -0.0%
+```wiki
+         lambda           0.0%      0.0%    +22.4%    +20.8%      0.0%
+             FS           0.0%      0.0%     +9.8%     +9.7%      0.0%
+--------------------------------------------------------------------------------
+            Min          -0.1%      0.0%     -1.7%     -3.2%      0.0%
+            Max          +0.0%      0.0%    +22.4%    +20.8%      0.0%
+ Geometric Mean          -0.0%     -0.0%     +1.1%     +0.8%     -0.0%
+```
 
 
 FS seems like it is just a edge case for the new layout algorithm.
@@ -272,7 +263,7 @@ Removing either one the new layout code is faster. Using -XStrict\[Data\] the ne
 However when padding the whole executable to change alignment the difference stays about the same. So it doesn't seem to be an alignment issue.
 
 
-Performance counters indicate the DSB buffer being the culprint. But I haven't yet been able to find out how so.
+Performance counters indicate the DSB buffer being the culprit. But I haven't yet been able to find out how so.
 
 ### Things left to do:
 
@@ -306,4 +297,4 @@ likelyhood information again.
 
 
 I will put the patch up on phabricator once I have cleaned it up a bit. If you have ideas or feedback hit me on IRC
-or comment on \[trac [\#15124](https://gitlab.haskell.org//ghc/ghc/issues/15124)\]([ https://ghc.haskell.org/trac/ghc/ticket/15124](https://ghc.haskell.org/trac/ghc/ticket/15124)).
+or comment on trac [\#15124](https://gitlab.haskell.org//ghc/ghc/issues/15124).
