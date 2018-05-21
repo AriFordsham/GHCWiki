@@ -9,7 +9,11 @@
 
 **Type declarations and signatures** (Dec 17)
 
-- (May 18).  Simon is very suspicious about `zonkPromote` and friends.  Revisit this once we get rid of `decideKindGeneralisationPlan`.
+- (May 18).  Simon is very suspicious about `zonkPromote` and friends.  Revisit this once we get rid of `decideKindGeneralisationPlan`.  [\#15141](https://gitlab.haskell.org//ghc/ghc/issues/15141) is a good starting point.
+
+- (May 18) [\#14040](https://gitlab.haskell.org//ghc/ghc/issues/14040), which I think is not fixed.  But it’s somehow linked to [\#15076](https://gitlab.haskell.org//ghc/ghc/issues/15076).  And that in turn is caused by [\#14880](https://gitlab.haskell.org//ghc/ghc/issues/14880).  Which Richard has a patch for that doesn’t quite work yet.  And the fix might cure [\#14887](https://gitlab.haskell.org//ghc/ghc/issues/14887)
+
+- (May 18): [\#15122](https://gitlab.haskell.org//ghc/ghc/issues/15122)
 
 - Let's fix [\#14880](https://gitlab.haskell.org//ghc/ghc/issues/14880)!
 
