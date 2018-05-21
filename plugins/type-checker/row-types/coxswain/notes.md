@@ -97,3 +97,40 @@ When simplifying the givens for `f`, the orientation similarly blocks the `EQSAM
   [G] co_a4qk {1}:: (fsk_a4qi[fsk:0]) ~# (p_a4p2[sk:2]) (CTyEqCan)
   [G] co_a4qt {1}:: (fsk_a4qr[fsk:0]) ~# (p_a4p2[sk:2]) (CTyEqCan)
 ```
+
+### Equal Untouchable Variables
+
+
+The plugin is only responsible for *non-trivial* row/set equalities. The example here demonstrates that a var-var equality is still trivial (i.e. GHC will completely handle it) even if both variables are untouchable.
+
+
+If the givens contain an equality for two untouchable variables, the other givens will only contain one of those variables; GHC (8.4.1) will have replaced the rest. (GHC does this "the hard way" via the `EQSAME` interaction rule instead of via unification because two variables, as untouchables, cannot be unified.) For example,
+
+```wiki
+f :: C (a,b) => a :~: b -> ()
+f Refl = ()
+```
+
+
+for some class `C` with no instances gives
+
+```wiki
+========== 3 ==========
+given
+  [G] $dC_a1uk {0}:: C (a_a1ub[sk:2], a_a1ub[sk:2]) (CDictCan)
+  [G] co_a1uf {0}:: (b_a1uc[sk:2] :: *)
+                    ~# (a_a1ub[sk:2] :: *) (CTyEqCan)
+given_uf_tyeqs
+  ([G] co_a1uf {0}:: (b_a1uc[sk:2] :: *)
+                     ~# (a_a1ub[sk:2] :: *) (CTyEqCan),
+   b_a1uc[sk:2],
+   a_a1ub[sk:2])
+derived
+wanted
+```
+
+
+Note that `_a1uk` is now `C (a,a)` instead of the `C (a,b)` from the original source.
+
+
+GHC will also have applied the renaming to any wanteds via `SEQSAME`.
