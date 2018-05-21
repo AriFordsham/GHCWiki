@@ -21,6 +21,7 @@
   - `TypeApplications`: [visible type application](type-application)
   - [Custom type errors](proposal/custom-type-errors)
   - [TypeErrorMessages](status/type-error-messages)
+  - [Deferred type and scope errors](defer-errors-to-runtime)
   - [Typed holes](holes)
   - [PartialTypeSignatures](partial-type-signatures)
   - [Impredicative types](impredicative-polymorphism)

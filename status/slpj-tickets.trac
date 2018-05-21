@@ -19,6 +19,7 @@
    * `TypeApplications`: [wiki:TypeApplication visible type application]
    * [wiki:Proposal/CustomTypeErrors Custom type errors]
    * [wiki:TypeErrorMessages]
+   * [wiki:DeferErrorsToRuntime Deferred type and scope errors]
    * [wiki:Holes Typed holes]
    * [wiki:PartialTypeSignatures]
    * [wiki:ImpredicativePolymorphism Impredicative types]
