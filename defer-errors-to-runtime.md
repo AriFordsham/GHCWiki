@@ -2,7 +2,28 @@
 
 
 This page describes the `-fdefer-type-errors` flag that was added in GHC 7.6.1. Ticket [\#5624](https://gitlab.haskell.org//ghc/ghc/issues/5624) tracks this feature request.
-For more information, see the associated [ paper](http://dreixel.net/research/pdf/epdtecp.pdf).
+
+
+For more information, see the associated [ Equality Proofs and Deferred Type Errors](https://www.microsoft.com/en-us/research/publication/equality-proofs-and-deferred-type-errors-a-compiler-pearl/) (ICFP'12).
+
+## Tickets
+
+
+Use Keyword = `DeferredErrors` to ensure that a ticket ends up on these lists.
+
+**Open Tickets:**
+
+<table><tr><th>[\#11197](https://gitlab.haskell.org//ghc/ghc/issues/11197)</th>
+<td>Overeager deferred type errors</td></tr>
+<tr><th>[\#14370](https://gitlab.haskell.org//ghc/ghc/issues/14370)</th>
+<td>improve documentation of -fdefer-typed-holes for naked expressions in ghci</td></tr>
+<tr><th>[\#14722](https://gitlab.haskell.org//ghc/ghc/issues/14722)</th>
+<td>Error message points to wrong location</td></tr></table>
+
+**Closed Tickets:**
+
+<table><tr><th>[\#14325](https://gitlab.haskell.org//ghc/ghc/issues/14325)</th>
+<td>Erroneous program emits no errors</td></tr></table>
 
 ## Overview
 
