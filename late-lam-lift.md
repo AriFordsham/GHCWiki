@@ -3,13 +3,33 @@
 ## Overview
 
 
-I (Nick Frisby) started this work in April 2012. Then it went stagnant. In August 2014, I merged master into it so that hopefully someone else can pick it up. My notes for the current code are growing here.
+Late Lambda Lifting is a not-very-well-explored optimisation for GHC. The basic idea is to transform
+
+```wiki
+f x = let g y = ...y...x...
+      in ...(g v1)...(g v2)...
+===>
+g' x y = ...y...x...
+g x = ...(g' x v1)...(g' x v2)...
+```
+
+
+That is, pretty standard lambda-lifting.  The idea is that instead of *allocating a closure* for `g`, we pass extra parameter(s) to it.  More below, under "Background".
+
+
+Since heap allocation is expensive, this has the possibility of making programs run faster.
+
+
+There is a ticket to track progress: [\#9476](https://gitlab.haskell.org//ghc/ghc/issues/9476).
 
 
 There are also some useful notes and background on [Frisby2013Q1](frisby2013-q1).
 
 
-There is a ticket to track progress: [\#9476](https://gitlab.haskell.org//ghc/ghc/issues/9476).
+One thing that used to hamper us was that there is no point in lambda-lifting join point; but spotting that wasn't very easy.  Nowadays, though, join points are a syntactic form, so are easily spotted, so that problem at least has gone away.
+
+
+The challenge is all about getting consistent speedups.
 
 ## Quick Start
 
@@ -33,7 +53,10 @@ in `mk/validate-settings.mk`.
 
 ## As of mid-2014
 
-### Introduction
+
+I (Nick Frisby) started this work in April 2012. Then it went stagnant. In August 2014, I merged master into it so that hopefully someone else can pick it up. My notes for the current code are growing here.
+
+### Background
 
 
 The primary objective of the late lambda float (LLF) is to replace
@@ -484,10 +507,10 @@ My measurements don't reveal a very strong correlation for those on the libHSbas
 
 Here's a couple snippets from my notes about some drastic slowdowns on my Sandy Bridge.
 
-#### shootout/n-body slows down 50% elapsed
+#### shootout/n-body
 
 
-Slows down 50% at O2!
+shootout/n-body slows down 50% elapsed at O2!
 
 
 In one particular example, a loop involves a call to sqrt. It's out-of-line, so we must stash the live variables on the stack. Before the lambda lift, however, the variables were already on the stack to begin with. After the lift, they are passed in registers, so we have to add code to the loop that pushes and pops the variables around the sqrt call. Unfortunately there's several Double\#s, so this puts a lot of pressure on my Sandy Bridge's load-store units.
@@ -519,7 +542,10 @@ This one motivates the "llf6" variant in which we don't lift recursive functions
 
 There's also slowdowns I'm struggling to explain.
 
-#### shootout/reverse-complement mode=slow slows down 7% elapsed, 27% runtime
+#### shootout/reverse-complement
+
+
+shootout/reverse-complement mode=slow slows down 7% elapsed, 27% runtime
 
 
 At O2, adding LLF (the llf6 variant) gives 7% elapsed slowdown, 27% runtime slowdown. This test reads a big file)
