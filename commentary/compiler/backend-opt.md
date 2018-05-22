@@ -161,19 +161,28 @@ afterGC:
 ```
 
 
-In the example above, the `cpscall` opens a point within the function that
+In the example above, the `cpscall` will invoke the given function, `@doGC` and pass
+the given arguments `%Base, %Sp ...` as specified by the `ghccc` convention.
+The `cpscall` also opens a point within the function that
 allows all of the live values needed by `afterGC` to be returned in the correct
 registers, by using a struct and updated `ghccc` calling convention.
 The `extractvalue` instructions are standard struct accessors.
 
 
+The importance of the "all live values are passed" property comes into play here,
+because we know that there are no SSA-values that are live across the `cpscall`,
+by construction.
+Thus, we know that LLVM does not need to save any values to its internal stack,
+i.e., the call stack that is implicit in LLVM where `allocas` and other values
+are automatically stored.
+If LLVM \*were\* to save values to its internal stack, we would not have a complete
+continuation in the explicit `Sp` argument, and would not be able to find the
+value at runtime.
+
+
 A few notes about the other arguments to the intrinsic:
 
-- `SP_ARGNUM` is a constant integer that describes the offset within the argument
-
-
-list to the `cpscall` where the explicit stack pointer is passed as an argument to the call. In this example, it would be 1, since we start counting from `Base`.
-
+- `SP_ARGNUM` is a constant integer that describes the offset within the argument list to the `cpscall` where the explicit stack pointer is passed as an argument to the call. In this example, it would be 1, since we start counting from `Base`.
 - `RA_OFFSET` is the constant integer representing a byte offset from the explicit stack pointer where the return address should be written. It is typically 0 but not always (e.g., over-saturated calls and update frames).
 - `ID` is an arbitrary constant-integer value that is used for the purposes of identifying the return point to help the garbage collector understand the stack frame that was captured at that point.
 
