@@ -15,6 +15,8 @@
 
 - (May 18): [\#15122](https://gitlab.haskell.org//ghc/ghc/issues/15122)
 
+- (May 18): [\#15142](https://gitlab.haskell.org//ghc/ghc/issues/15142): `getInitialKinds` simplification
+
 - Let's fix [\#14880](https://gitlab.haskell.org//ghc/ghc/issues/14880)!
 
   - `uo_thing`, [\#9173](https://gitlab.haskell.org//ghc/ghc/issues/9173), [\#13601](https://gitlab.haskell.org//ghc/ghc/issues/13601)

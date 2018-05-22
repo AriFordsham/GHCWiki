@@ -14,6 +14,8 @@
 
 * (May 18): #15122
 
+* (May 18): #15142: `getInitialKinds` simplification
+
 * Let's fix #14880!
  * `uo_thing`, #9173, #13601
 
