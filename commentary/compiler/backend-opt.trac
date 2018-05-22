@@ -145,7 +145,9 @@ afterGC:
   ... more uses of %Sp1, %Base1, %x1, etc ...
 }}}
 
-In the example above, the `cpscall` opens a point within the function that
+In the example above, the `cpscall` will invoke the given function, `@doGC` and pass
+the given arguments `%Base, %Sp ...` as specified by the `ghccc` convention.
+The `cpscall` also opens a point within the function that
 allows all of the live values needed by `afterGC` to be returned in the correct
 registers, by using a struct and updated `ghccc` calling convention.
 The `extractvalue` instructions are standard struct accessors.
