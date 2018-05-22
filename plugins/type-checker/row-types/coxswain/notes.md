@@ -142,3 +142,51 @@ If I recall correctly, new givens cannot be generated while simplifying wanteds 
 
 
 It might also enable the plugin to cache state specific to the givens, based on an otherwise unused constraint like `MyStateCacheIdentifier 42`. (This is probably only wise for memoization.) And if that cached state contains type variable uniques, then another otherwise unused constraint `Rename '[v1,v2,...]`, would let the plugin track how the uniques on the type variables `v1,v2,...` during GHC's turn. Uniques on evidence variables could not be similarly tracked, which is problematic. That deficiency of this workaround suggests that reporting updated uniques to a plugin deserves genuine support in the API.
+
+### Set Types
+
+
+I'm pursuing "set types" instead of "row types". There's ways to embed `Set k` into `Row k Void` or some such, but it seems more delicate (eta-contraction issues with lifted types?) than I'd like to try at first. And one of my prime interests is a view of algebraic data types as named summands, which I think will be less redundant via type-indexed-sums than via row-based variants.
+
+
+This is my current sketch for the "syntax" types.
+
+```wiki
+data Set (n :: Nat) (k :: *)
+type family Set0 :: Set 0 k
+type family (s :: Set n k) .& (e :: k) :: Set (1+n) k where {}
+```
+
+
+I need a better word than "set" --- it's way to overloaded. But it's so temptingly short...
+
+
+The kind for future row types might have a set index, as in `Row (Set n kl) kt`.
+
+### Simplifying `Lacks` constraints
+
+
+There are two fundamental simplifications to `Lacks` constraints, based on the operationally-useful semantics of a `Lacks x b` dictionary being the number of elements in `x` that are "less than" `b`.
+
+```wiki
+[Lacks0] Lacks Set0 b = 0
+[LacksE] Lacks (x .& a) b = Lacks x b + Lacks (Set0 .& a) b
+```
+
+
+And here is slightly less obvious rule, which emphasizes that singleton `Lacks` constraints are declarations of inequality where the type promises that `a` and `b` are unequal while only the evidence indicates the concrete relative ordering.
+
+```wiki
+[Lacks1] Lacks (Set0 .& a) b = 1 - Lacks (Set0 .& b) a
+```
+
+
+By the orderless semantics of set forms, the `[LacksE]` rule generalizes to decompositions like the following.
+
+```wiki
+Lacks (x .& u .& v) b = Lacks (x .& u) b + Lacks (Set0 .& v) b
+Lacks (x .& u .& v) b = Lacks (x .& v) b + Lacks (Set0 .& u) b
+```
+
+
+But such decompositions must be driven by what evidence is already available/needed. For example, if `Lacks (x .& u) b` is wanted (or given), and both `Lacks (x .& u .& v) b` and also `Lacks (Set0 .& v) b` are given, then we can solve (or discard) via subtraction of the evidence. If we were to choose one decomposition arbitrarily, it may turn out that only the other decomposition would ultimately be solvable.
