@@ -172,15 +172,10 @@ A few notes about the other arguments to the intrinsic:
 - `SP_ARGNUM` is a constant integer that describes the offset within the argument
 
 
-list to the `cpscall` where
-the explicit stack pointer is passed as an argument to the call.
-In this example, it would be 1, since we start counting from `Base`.
+list to the `cpscall` where the explicit stack pointer is passed as an argument to the call. In this example, it would be 1, since we start counting from `Base`.
 
 - `RA_OFFSET` is the constant integer representing a byte offset from the explicit stack pointer where the return address should be written. It is typically 0 but not always (e.g., over-saturated calls and update frames).
-- `ID` is an arbitrary constant-integer value that is used for the purposes of identifying the return point to help the garbage collector understand the stack frame that was captured at
-
-
-that point.
+- `ID` is an arbitrary constant-integer value that is used for the purposes of identifying the return point to help the garbage collector understand the stack frame that was captured at that point.
 
 
 Suppose `RA_OFFSET = 28` and `SP_ARGNUM = 1`
