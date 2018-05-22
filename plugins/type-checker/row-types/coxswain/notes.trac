@@ -118,3 +118,9 @@ wanted
 Note that `_a1uk` is now `C (a,a)` instead of the `C (a,b)` from the original source.
 
 GHC will also have applied the renaming to any wanteds via `SEQSAME`.
+
+=== Generating Givens While Solving Wanteds
+
+If I recall correctly, new givens cannot be generated while simplifying wanteds (the comment on [https://github.com/ghc/ghc/blob/57858fc8b519078ae89a4859ce7588adb39f6e96/compiler/typecheck/TcInteract.hs#L269 `TcInteract.runTcPluginsWanted`] sounds like I'm recalling correctly). I think this should be allowed, if only as a convenience to plugin authors. They could at least use it to memoize any forwarding chaining/reasoning done by their plugin as it solves wanteds.
+
+It might also enable the plugin to cache state specific to the givens, based on an otherwise unused constraint like `MyStateCacheIdentifier 42`. (This is probably only wise for memoization.) And if that cached state contains type variable uniques, then another otherwise unused constraint `Rename '[v1,v2,...]`, would let the plugin track how the uniques on the type variables `v1,v2,...` during GHC's turn. Uniques on evidence variables could not be similarly tracked, which is problematic. That deficiency of this workaround suggests that reporting updated uniques to a plugin deserves genuine support in the API.
