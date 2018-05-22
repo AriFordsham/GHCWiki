@@ -3,7 +3,7 @@
 
 This page gathers together a list of ideas and plans for improving the backend of the compiler. Any progress made will also be noted here.
 
-## Removal of Proc Point Splitting
+## Removal of Proc Point Splitting for LLVM
 
 
 The reason we needed proc-point splitting for the LLVM backend is detailed [here](commentary/compiler/backends/llvm/wip#get-rid-of-proc-point-splitting).
@@ -33,7 +33,7 @@ We propose to extend LLVM, slightly, to support "CPS calls".  The initial propos
 After recieving a helpful [ suggestion](http://lists.llvm.org/pipermail/llvm-dev/2017-April/112214.html) from Ried on the LLVM mailing list, I've extended LLVM with an experimental CPS call. To help understand how it works, let's consider this Core program:
 
 ```wiki
-f x = if x!=0#
+f x = if x != 0#
       then I# (x-1)   -- This branch allocates
       else foo x
 ```
@@ -50,7 +50,7 @@ G:
 
 needGC:
   I64[SP + 8] = x
-  I64[SP] = afterGC                    // write block address to memory
+  I64[SP] = afterGC             // write block address to memory
   call doGC returns to afterGC  // a non-tail call, x is live
 
 afterGC:
@@ -60,12 +60,67 @@ afterGC:
 J:
   call foo( x )  // a tail call
 
-R: 
+R:
   x' = x - 1
   ...allocate (I# x') and return...
 ```
 
-`afterGC` is a return point (aka, proc-point). Previously, we would need to split this block out into its own function, but we no longer need to if we use the `llvm.experimental.cpscall` intrinsic. In order to use this intrinsic, we first must omit any uses of a block address in a Cmm assignment. So, the line `I64[Sp] = afterGC` is not generated. Instead, the LLVM cpscall intrinsic will write the return address to the SP for us. The Cmm call to `doGC` would translate to the following LLVM code:
+`afterGC` is a return point (aka, proc-point) from a non-tail call.
+Previously, we would need to split this block out into its own function, and the call would look like the following in LLVM:
+
+```wiki
+define @fEntry (...) {
+  entry:
+    if x != 0 goto callG; else goto J
+
+  callG:
+    tail call G(...)
+
+  J:
+    tail call foo ( x )
+}
+define @G (...) {
+  G_blk:
+    if Hp+10 >= HpLim goto needGC; else goto R
+
+  needGC:
+    SP[0] = @afterGC   // the call returns to afterGC
+    tail call @doGC(... SP ...)
+
+  R:
+     ...
+}
+
+define @afterGC (...) {
+  ...
+  tail call @G (...)
+}  
+```
+
+
+This is some rather ugly-looking and hard-to-optimize LLVM code, and it is all
+because we must take the address of `@afterGC` and store it on the stack `SP`
+to facilitate a return, which is also performed with a tail call:
+
+```wiki
+define @doGC(... SP ...) {
+  returnBlk:
+    %returnAddr = SP[0]
+    tail call %returnAddr (...)
+}
+```
+
+
+We can avoid the messy LLVM code if we use the proposed `llvm.experimental.cpscall` intrinsic.
+
+##### The CPS Call Intrinsic
+
+
+In order to use this intrinsic, we first omit any uses of a block address in a Cmm assignment, since our usage is undefined.
+Thus, the line `I64[Sp] = afterGC` is not generated.
+
+
+Instead, the cpscall intrinsic will take care of writing the return address to our explicit stack pointer, `SP` for us. The Cmm call to `doGC` would translate to the following LLVM code:
 
 ```wiki
 ; where R1 = x
@@ -163,7 +218,7 @@ BB#3: derived from LLVM BB %G, EH LANDING PAD, ADDRESS TAKEN
   JMP_1 <BB#6>
     Successors according to CFG: BB#6(?%)
 
-BB#6: 
+BB#6:
     Predecessors according to CFG: BB#2 BB#3
   %vreg2<def> = PHI %vreg0, <BB#2>, %vreg6, <BB#3>; GR64:%vreg2,%vreg0,%vreg6
   %vreg3<def> = PHI %vreg1, <BB#2>, %vreg5, <BB#3>; GR64:%vreg3,%vreg1,%vreg5
