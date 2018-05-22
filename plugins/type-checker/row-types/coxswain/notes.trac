@@ -163,4 +163,6 @@ Lacks (x .& u .& v) b = Lacks (x .& u) b + Lacks (Set0 .& v) b
 Lacks (x .& u .& v) b = Lacks (x .& v) b + Lacks (Set0 .& u) b
 }}}
 
-But such decompositions must be driven by what evidence is already available/needed. For example, if `Lacks (x .& u) b` is wanted (or given), and both `Lacks (x .& u .& v) b` and also `Lacks (Set0 .& v) b` are given, then we can solve (or discard) via subtraction of the evidence. If we were to choose one decomposition arbitrarily, it may turn out that only the other decomposition would ultimately be solvable.
+But such decompositions must be driven by what evidence is already available/needed. For example, if `Lacks (x .& u) b` is wanted (or given), and both `Lacks (x .& u .& v) b` and also `Lacks (Set0 .& v) b` are given, then we can solve (or discard) via subtraction of the evidence. If we were to choose one decomposition arbitrarily, it may turn out that only the other decomposition would ultimately be solvable. The algorithm would not be complete.
+
+That example shows that "simplifying/canonicalizing `Lacks` constraints until wanteds match givens" is an incomplete approach. The simplification of wanteds is insufficient, so the plugin will have to try some search (forward/backward chaining) in order to solve (simplified) `Lacks` wanteds from the (simplified) givens.
