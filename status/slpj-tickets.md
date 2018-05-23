@@ -361,19 +361,16 @@ See [Edward's collection of code-generation stupidities](commentary/compiler/new
 
 - [TypeFunctionsStatus](type-functions-status)
 - [\#10338](https://gitlab.haskell.org//ghc/ghc/issues/10338): delicacy in generalisation: `MonoLocalBinds` isn't enough
-- [\#9637](https://gitlab.haskell.org//ghc/ghc/issues/9637): type level error messages
 - [\#9587](https://gitlab.haskell.org//ghc/ghc/issues/9587), [\#9607](https://gitlab.haskell.org//ghc/ghc/issues/9607): `-XAllowAmbiguousTypes` debate
 - [\#9334](https://gitlab.haskell.org//ghc/ghc/issues/9334): instance chains
 - [\#9427](https://gitlab.haskell.org//ghc/ghc/issues/9427): SCC analysis for type and class decls
-- [\#9422](https://gitlab.haskell.org//ghc/ghc/issues/9422): Glomming all instances in EPT is too crude for `--make`
 - [\#7503](https://gitlab.haskell.org//ghc/ghc/issues/7503): Kind polymorphism and mutual recursion
 - [\#4296](https://gitlab.haskell.org//ghc/ghc/issues/4296): SkolemOccurs
-- [\#816](https://gitlab.haskell.org//ghc/ghc/issues/816). [\#3108](https://gitlab.haskell.org//ghc/ghc/issues/3108): extreme delicacy in solve order, involving fundeps
+- [\#816](https://gitlab.haskell.org//ghc/ghc/issues/816): extreme delicacy in solve order, involving fundeps
 - [\#8109](https://gitlab.haskell.org//ghc/ghc/issues/8109): as-patterns in type-family declarations
 - [\#6065](https://gitlab.haskell.org//ghc/ghc/issues/6065): GHC suggests a type signature that it then rejects
 - [\#5320](https://gitlab.haskell.org//ghc/ghc/issues/5320), [\#7296](https://gitlab.haskell.org//ghc/ghc/issues/7296): overlap delicacy
 - [\#5224](https://gitlab.haskell.org//ghc/ghc/issues/5224): make it cheaper to check for inconsistent type family instances
-- [\#4466](https://gitlab.haskell.org//ghc/ghc/issues/4466), [\#5296](https://gitlab.haskell.org//ghc/ghc/issues/5296), [\#8631](https://gitlab.haskell.org//ghc/ghc/issues/8631): explicit type application
 - [\#4259](https://gitlab.haskell.org//ghc/ghc/issues/4259): overlapping type family instances
 - [\#3490](https://gitlab.haskell.org//ghc/ghc/issues/3490): superclasses and ambiguity
 - [\#3632](https://gitlab.haskell.org//ghc/ghc/issues/3632): better update for records with existentials
