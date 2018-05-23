@@ -170,4 +170,4 @@ Note the multi-modality of the numbers in (both sides of) those equations: knowi
 
 Also note that, in an otherwise empty context, `(Lacks (Set0 .& u) b,Lacks (Set0 .& v) b)` is a stronger constraint than `Lacks (Set0 .& u .& v) b`: the evidence of the second says 0-2 of `u` and `v` are less than `b`, while the evidence of the first tells us the exact relationship of `u` to `b` and of `v` to `b`.
 
-Because we can't solve eg `Lacks (Set0 .& u) b` from `Lacks (Set0 .& u .& v) b`, we must decompose wanteds prematurely; the decomposition must be driven by what evidence is already available and/or already needed.
+Because we can't solve eg `Lacks (Set0 .& u) b` from `Lacks (Set0 .& u .& v) b`, we must not decompose wanteds prematurely; the decomposition must be driven by what evidence is already available and/or already needed.
