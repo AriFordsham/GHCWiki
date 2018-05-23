@@ -146,23 +146,28 @@ The kind for future row types might have a set index, as in `Row (Set n kl) kt`.
 There are two fundamental simplifications to `Lacks` constraints, based on the operationally-useful semantics of a `Lacks x b` dictionary being the number of elements in `x` that are "less than" `b`.
 
 {{{
-[Lacks0] Lacks Set0 b = 0
-[LacksE] Lacks (x .& a) b = Lacks x b + Lacks (Set0 .& a) b
+[Lacks0] (d : Lacks Set0 b) = 0
+[LacksE] (d : Lacks (x .& a) b) = (d1 : Lacks x b) + (d2 : Lacks (Set0 .& a) b)
 }}}
 
-And here is slightly less obvious rule, which emphasizes that singleton `Lacks` constraints are declarations of inequality where the type promises that `a` and `b` are unequal while only the evidence indicates the concrete relative ordering.
+And here is a slightly less obvious rule, which emphasizes that singleton `Lacks` constraints are declarations of inequality where the type promises that `a` and `b` are unequal while only the evidence indicates the concrete relative ordering.
 
 {{{
-[Lacks1] Lacks (Set0 .& a) b = 1 - Lacks (Set0 .& b) a
+[Lacks1] (d : Lacks (Set0 .& a) b) = 1 - (d1 : Lacks (Set0 .& b) a)
 }}}
 
 By the orderless semantics of set forms, the `[LacksE]` rule generalizes to decompositions like the following.
 
 {{{
-Lacks (x .& u .& v) b = Lacks (x .& u) b + Lacks (Set0 .& v) b
-Lacks (x .& u .& v) b = Lacks (x .& v) b + Lacks (Set0 .& u) b
+(d : Lacks (x .& u .& v .& w) b) = (d1 : Lacks (x .& u .& w) b) + (d2 : Lacks (Set0 .& v) b)
+(d : Lacks (x .& u .& v .& w) b) = (d1 : Lacks (x .& v .& w) b) + (d2 : Lacks (Set0 .& u) b)
+(d : Lacks (x .& u .& v .& w) b) = (d1 : Lacks (x .& v) b)      + (d2 : Lacks (Set0 .& u .& w) b)
+(d : Lacks (x .& u .& v .& w) b) = (d1 : Lacks (x .& v) b)      + (d2 : Lacks (Set0 .& u) b       + (d3 : Lacks (Set0 .& w) b)
+...
 }}}
 
-But such decompositions must be driven by what evidence is already available/needed. For example, if `Lacks (x .& u) b` is wanted (or given), and both `Lacks (x .& u .& v) b` and also `Lacks (Set0 .& v) b` are given, then we can solve (or discard) via subtraction of the evidence. If we were to choose one decomposition arbitrarily, it may turn out that only the other decomposition would ultimately be solvable. The algorithm would not be complete.
+Note the multi-modality of the numbers in (both sides of) those equations: knowing all but one number determines the other, using addition and/or subtraction.
 
-That example shows that "simplifying/canonicalizing `Lacks` constraints until wanteds match givens" is an incomplete approach. The simplification of wanteds is insufficient, so the plugin will have to try some search (forward/backward chaining) in order to solve (simplified) `Lacks` wanteds from the (simplified) givens.
+Also note that, in an otherwise empty context, `(Lacks (Set0 .& u) b,Lacks (Set0 .& v) b)` is a stronger constraint than `Lacks (Set0 .& u .& v) b`: the evidence of the second says 0-2 of `u` and `v` are less than `b`, while the evidence of the first tells us the exact relationship of `u` to `b` and of `v` to `b`.
+
+Because we can't solve eg `Lacks (Set0 .& u) b` from `Lacks (Set0 .& u .& v) b`, we must decompose wanteds prematurely; the decomposition must be driven by what evidence is already available and/or already needed.
