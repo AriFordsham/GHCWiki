@@ -338,19 +338,16 @@ See [wiki:Commentary/Compiler/NewCodeGenStupidity Edward's collection of code-ge
 
  * [wiki:TypeFunctionsStatus]
  * #10338: delicacy in generalisation: `MonoLocalBinds` isn't enough
- * #9637: type level error messages
  * #9587, #9607: `-XAllowAmbiguousTypes` debate
  * #9334: instance chains
  * #9427: SCC analysis for type and class decls
- * #9422: Glomming all instances in EPT is too crude for `--make`
  * #7503: Kind polymorphism and mutual recursion
  * #4296: !SkolemOccurs
- * #816. #3108: extreme delicacy in solve order, involving fundeps
+ * #816: extreme delicacy in solve order, involving fundeps
  * #8109: as-patterns in type-family declarations
  * #6065: GHC suggests a type signature that it then rejects
  * #5320, #7296: overlap delicacy
  * #5224: make it cheaper to check for inconsistent type family instances
- * #4466, #5296, #8631: explicit type application
  * #4259: overlapping type family instances
  * #3490: superclasses and ambiguity
  * #3632: better update for records with existentials
