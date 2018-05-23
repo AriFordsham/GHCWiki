@@ -163,6 +163,7 @@ By the orderless semantics of set forms, the `[LacksE]` rule generalizes to deco
 (d : Lacks (x .& u .& v .& w) b) = (d1 : Lacks (x .& v .& w) b) + (d2 : Lacks (Set0 .& u) b)
 (d : Lacks (x .& u .& v .& w) b) = (d1 : Lacks (x .& v) b)      + (d2 : Lacks (Set0 .& u .& w) b)
 (d : Lacks (x .& u .& v .& w) b) = (d1 : Lacks (x .& v) b)      + (d2 : Lacks (Set0 .& u) b       + (d3 : Lacks (Set0 .& w) b)
+(d : Lacks (x .& u .& v .& w) b) = (d1 : Lacks x b) + (d2 : Lacks (Set0 .& u .& v .& w) b)
 ...
 }}}
 
