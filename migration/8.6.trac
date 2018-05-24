@@ -7,6 +7,28 @@ This guide summarises the changes you may need to make to your code to migrate f
 ----------------------------------
 == Compiler changes
 
+=== Constructor-less GADTs now require `GADTSyntax` ===
+
+Data types with empty `where` clauses (such as `data T where`) are no longer valid without the `GADTSyntax` extension. (Due to an oversight, previous versions of GHC would accept them without the extension enabled.)
+
+=== `-Wincomplete-patterns` now applies to patterns in guards and `MultiWayIf`
+
+Due to a bug, previous versions of GHC would not emit any `-Wincomplete-patterns` warnings at all for incomplete patterns inside of guards or `MultiWayIf` expressions. This bug has been fixed, which means that code like:
+
+{{{#!hs
+foo :: Bool -> Int
+foo b = if | b -> 1
+}}}
+
+Will now raise a warning in GHC 8.6:
+
+{{{
+warning: [-Wincomplete-patterns]
+    Pattern match(es) are non-exhaustive
+    In a multi-way if alternative:
+        Guards do not cover entire pattern space
+}}}
+
 === `PolyKinds` and `TypeInType` are pickier
 
 GHC is now more diligent about catching illegal uses of kind polymorphism that snuck into recent GHC releases. For instance, this used to be accepted without `PolyKinds`:
