@@ -145,18 +145,23 @@ The kind for future row types might have a set index, as in `Row (Set n kl) kt`.
 
 == Simplifying `Lacks` constraints
 
+'''This section can be read as background for The Monotonic Knowledge Store section below, but that section supercedes this one.'''
+
 There are two fundamental simplifications to `Lacks` constraints, based on the operationally-useful semantics of a `Lacks x b` dictionary being the number of elements in `x` that are "less than" `b`.
 
 {{{
 [Lacks0] (d : Lacks Set0 b) = 0
+[Lacks1] (d : Lacks (Set0 .& a) b) = 1    if a < b
 [LacksE] (d : Lacks (x .& a) b) = (d1 : Lacks x b) + (d2 : Lacks (Set0 .& a) b)
 }}}
 
 And here is a slightly less obvious rule, which emphasizes that singleton `Lacks` constraints are declarations of inequality where the type promises that `a` and `b` are unequal while only the evidence indicates the concrete relative ordering.
 
 {{{
-[Lacks1] (d : Lacks (Set0 .& a) b) = 1 - (d1 : Lacks (Set0 .& b) a)
+[Lacks-] (d : Lacks (Set0 .& a) b) = 1 - (d1 : Lacks (Set0 .& b) a)
 }}}
+
+([Lacks-] + [Lacks1] handles the `a > b` case that you may have been expecting.)
 
 By the orderless semantics of set forms, the `[LacksE]` rule generalizes to decompositions like the following.
 
@@ -195,7 +200,7 @@ The basic task is to add a given equality `lr .& le0 .& le1 .& ... .& leN ~ rr .
   Note that querying the `Lacks` knowledge store might evidence that `a` and `b` cannot be equivalent.
   1. If only one of the sides is now just a root variable with no extension, then we can use that to extend the substitution (if the root is a explicit variable) or update the substitution (if the root is an implicit variable).
   1. If both roots are the empty set, then it's either a contradiction (e.g. `Set0 .& A ~ Set0`), a derived equivalence (`Set0 .& a ~ Set0 .& b` becomes `a ~ b`), or an equality we cannot process (`Set0 .& x .& y ~ Set0 .& a .& b`).
-  1. If both roots are variables, then we "articulate": we create a new implicit variable and extend the substitution with correspondings mappings for the two root variables (`x .& B ~ y .& A` becomes `x := alpha .& A` and `y := alpha .& B` for a fresh `alpha`).
+  1. If both roots are variables, then we "articulate" `x` and `y`: we create a new implicit variable and extend the substitution with corresponding mappings for the two root variables (`x .& B ~ y .& A` becomes `x := alpha .& A` and `y := alpha .& B` for a fresh `alpha`).
 
 === `Lacks` Phase
 
