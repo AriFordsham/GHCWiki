@@ -237,6 +237,8 @@ To insert a fully simplified new constraint into the store:
 
 It may be possible to process an equality constraint only by appealing to a `Lacks` constraint that differentiates two elements on either side of an equality (`(x .& a ~ y .& b,Lacks (Set0 .& a) b)`). And the substitution of the equality store is the first step when simplifying a given `Lacks` constraints. We therefore should alternate: extend the equality store as much as possible, then extend the `Lacks` constraints as much as possible, then back to equality store, and so on as long as the stores are gaining information.
 
+I have not considered how to update the `Lacks` store for updates to the equality store's substitution, but it will require some care. Maybe just remove all affected mappings, expand their root, and reprocess them "from scratch"?
+
 === Implementation Note: There are two different orderings on types!
 
 There are two relevant orderings on types.
@@ -250,3 +252,16 @@ I mentioned O1 rather explicitly in the `Lacks` Phase section above. My implemen
 === Querying the Store to Simplify/Solve Wanteds
 
 Wanted constraints are handled in much the same way as givens, excluding the steps that involve updating the store.
+
+=== Converting the Store Back to Constraints
+
+When simplifying givens, for example, the idea is to process the constraints to create a store and if processing performed any simplifications, replace the processed constraints with the new constraints that represent the content of the store. This is somewhat complicated for two reasons.
+
+1. The implicit variables occur in both stores, because both store builders apply the substitution. So these will have to be removed.
+1. The "simplified" constraints will be much larger than necessary: again because both apply the substitution, a constraints would include `(x ~ y .& v,Lacks (x .& u .& v) b)` instead of the more compact `(x ~ y .& v,Lacks (y .& u) b)`.
+
+The implicit variables must be removed. The "inflation" issue is just a quality of life concern and there's no clear right answer: should inferred contexts and error messages put as much information as possible into each constraint (thereby risking redundancies) or as little (compact but less transparent)?
+
+For the equality store, my rough plan is to handle both issues (preferring compactness over transparency) in one step: before writing out the equalities in the store, for each root (i.e. variable not in the domain of the substitution), I'll compact that root's equality constraints by finding a minimum spanning tree of the weighted fully connected graph in which each node is a variable in the substitution domain whose mapping extends that root and each weight is the total `typeSize` of the union of their extension minus the intersection of their extension and emit the MST's edges as the simplified equality constraints.
+
+I haven't considered the `Lacks` store yet.
