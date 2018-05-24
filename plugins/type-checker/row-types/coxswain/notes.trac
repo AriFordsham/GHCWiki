@@ -243,7 +243,7 @@ There are two relevant orderings on types.
 
 1. O1 `x < y` is deterministic. It is therefore partial when there are free variables in `x` and/or and `y`, because free variables have no invariant information that could determine their order. But note that "partial" does not mean "undefined for all arguments": for example, `[a]` and `Int` are related (I don't know which --- and it ultimately doesn't matter -- but we have either `[a] < Int` or `Int < [a]` by O1.).
 
-1. O2 `x < y` is "non-deterministic" and total. Because it's total, it can relate free variables. This makes it non-deterministic because free variables have no invariant information that could determine their order. In particular, GHC compares free variables by their `Unique`, which is unpredictable. In particular, the unique for the "same" variable changes unpredictably between each invocation of a typechecker plugin to the next.
+1. O2 `x < y` is "non-deterministic" and total. Because it's total, it can relate free variables. This makes it non-deterministic because free variables have no invariant information that could determine their order. In particular, GHC compares free variables by their `Unique`, which is unpredictable. In particular, the unique for the "same" variable changes unpredictably between each invocation of a typechecker plugin to the next but should be consistent ("effectively deterministic") during a single invocation.
 
 I mentioned O1 rather explicitly in the `Lacks` Phase section above. My implementation also relies on O2 to implement the "set notation" (e.g. `{u,v}`) that I used without explanation also in the `Lacks` Phase section above via `Data.Set`.
 
