@@ -215,7 +215,7 @@ Instead of a substitution like the equality store, `Lacks` constraints are repre
 [LacksE] (d : Lacks (x .& e) b) = (d1 : Lacks x b) + (d2 : Lacks (Set0 .& e) b)
 }}}
 
-Note that the orderless semantics of set forms means that `[LacksE]` generalizes to set inclusion of the extension elements, as demonstrated in the `{u,v}` and `{u,v,w}` example in the previous paragraph.
+Note that the orderless semantics of set forms means that `[LacksE]` generalizes to a sum of any set partition of the extension elements with the additional restriction that either the root `x` is the empty set or it occurs in exactly one of the partition's equivalence classes (possibly that of the empty extension), as demonstrated in the `{u,v}` and `{u,v,w}` example in the previous paragraph.
 
 We thus process a `Lacks` constraint `b , x , es , d` via the following steps:
 
