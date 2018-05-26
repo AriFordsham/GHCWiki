@@ -298,3 +298,13 @@ likelyhood information again.
 
 I will put the patch up on phabricator once I have cleaned it up a bit. If you have ideas or feedback hit me on IRC
 or comment on trac [\#15124](https://gitlab.haskell.org//ghc/ghc/issues/15124).
+
+### Update
+
+
+After some tweaking this patch [ https://phabricator.haskell.org/D4726](https://phabricator.haskell.org/D4726) lowered runtime by 0.5% on Haswell and Skylake.
+
+
+The primary change made compared to the above was to ignore edges based on call returns for code layout.
+It also special cases the typical "check tag and evaluate if required" control flow by putting the evaluation
+code right after the check.
