@@ -51,7 +51,7 @@ It's also good practice to update the `config.guess` and `config.sub` files scat
 
 Create a signed annotated git tag,
 {{{
-$ git tag -asu "Ben Gamari <ben@well-typed.com>" ghc-7.10.2-release HEAD
+$ git tag -asu "Benjamin Gamari <ben@well-typed.com>" ghc-8.4.3-release HEAD
 }}}
 
 In the case of release candidates an unannotated tag is sufficient (e.g. `git tag ghc-7.10.2-rc1 HEAD`).
