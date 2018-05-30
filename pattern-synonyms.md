@@ -552,6 +552,11 @@ See [PatternSynonyms/RecordPatternSynonyms](pattern-synonyms/record-pattern-syno
 
 See [PatternSynonyms/AssociatingSynonyms](pattern-synonyms/associating-synonyms)
 
+## `COMPLETE` pragmas
+
+
+See [PatternSynonyms/CompleteSigs](pattern-synonyms/complete-sigs)
+
 ## Closed Tickets
 
 
