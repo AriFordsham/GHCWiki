@@ -1,0 +1,25 @@
+# Trees that Grow Guidance
+
+[ The Trees that Grow (TTG) idiom](http://www.jucs.org/jucs_23_1/trees_that_grow/jucs_23_01_0042_0062_najd.pdf) can be used to provide different forms of extensions and variations on an AST. Since April 2018, the [HsSyn](implementing-trees-that-grow/hs-syn) AST inside GHC supports the TTG idiom. This page provides a set of guiding principles for GHC developers on how to understand and use the TTG idiom in [HsSyn](implementing-trees-that-grow/hs-syn).
+
+## Context and Scope
+
+
+The new [HsSyn](implementing-trees-that-grow/hs-syn) AST supporting the TTG idiom (from now on referred to as TTG [HsSyn](implementing-trees-that-grow/hs-syn)) is engineered to subsume five different representations of Haskell syntax: 
+
+- the AST used in GHC's parsing phase
+- the AST used in GHC's renaming phase
+- the AST used in GHC's typechecking phase
+- the AST used in Template Haskell
+- the AST used in an external tool such as Haskell-Src-Exts
+
+
+The subsumption of above five ASTs is done by providing instances for the extension type families.
+For instance, the AST for GHC's parsing, renaming, and typechecking are defined by providing instances of the extension type families using accordingly the indices `GhcPs`, `GhcRn`, and `GhcTc`.
+[ Here](https://github.com/ghc/ghc/blob/master/compiler/hsSyn/HsPat.hs#L287-L336) is the actual providing such instances for the `Pat` datatype of patterns in the TTG [HsSyn](implementing-trees-that-grow/hs-syn).
+ 
+Subsuming above five trees fixes the scope of the design space. For example, TTG [HsSyn](implementing-trees-that-grow/hs-syn) is not intended to subsume the AST in the GHC's backend (i.e., GHC Core), but it can indeed be used for other purposes like pretty-printing.
+
+## Guiding Principles
+
+1. todo
