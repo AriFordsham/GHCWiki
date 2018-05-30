@@ -12,7 +12,7 @@ The new HsSyn AST supporting the TTG idiom (from now on referred to as TTG HsSyn
 
 The subsumption of above five ASTs is done by providing instances for the extension type families.
 For instance, the AST for GHC's parsing, renaming, and typechecking are defined by providing instances of the extension type families using accordingly the indices `GhcPs`, `GhcRn`, and `GhcTc`.
-[https://github.com/ghc/ghc/blob/master/compiler/hsSyn/HsPat.hs#L287-L336 Here] is the actual providing such instances for the `Pat` datatype of patterns in the TTG HsSyn.
+[https://github.com/ghc/ghc/blob/master/compiler/hsSyn/HsExpr.hs#L737-L835 Here] is the actual code providing such instances for the `HsExpr` datatype of expressions in the TTG HsSyn.
  
 
 Subsuming above five trees fixes the scope of the design space. For example, TTG HsSyn is not intended to subsume the AST in the GHC's backend (i.e., GHC Core), but it can indeed be used for other purposes like prettyprinting and IDEs.
@@ -22,7 +22,7 @@ Subsuming above five trees fixes the scope of the design space. For example, TTG
 
 a. The instantiation of TTG HsSyn should result in a tree that does not have extra fields and constructors. 
    
-   For example, the `HsExpr GhsPs` expressions of AST Ps should not have the constructor `HsUnboundVar` of the post-renaming phases, or its `MultiIf` constructor should also not have an unused field (of the type `Type`) to store the related type produced in the typechecking phase.
+   For example, the `HsExpr GhsPs` expressions of AST Ps should not have the constructor `HsUnboundVar` of the post-renaming phases, or its `HsMultiIf` constructor should also not have an unused field (of the type `Type`) to store the related type produced in the typechecking phase.
 
    As a result, the instantiated TTG HsSyn should not depend on the code from the other phases. Hence, the base (uninstantiated) TTG HsSyn should not depend on any GHC/TH/HSE-specific code.
 
