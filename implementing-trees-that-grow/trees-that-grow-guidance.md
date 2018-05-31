@@ -82,9 +82,6 @@ data ExpRn
 ```wiki
 module Typechecking where
 
-data Id
-data UnboundVar
-data Type
 -- the definition of `Id`, `UnboundVar`, and `Type`
 -- ...
 
