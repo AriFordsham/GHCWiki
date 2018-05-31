@@ -48,3 +48,127 @@ Subsuming above five trees fixes the scope of the design space. For example, TTG
 
 >
 > For example, the type of the common (payload) field of the common constructor `HsVar`of `HsExpr x` is `IdP x` where `IdP` is a type family and `x` the phase descriptor. 
+
+## Example
+
+
+Consider the following three simple datatypes `ExpPs`, `ExpRn`, and `ExpTc` representing correspondingly expressions in a parsing, renaming and typechecking phase:
+
+```wiki
+module Parsing where
+
+-- the definition of RdrName
+-- ...
+
+data ExpPs 
+  = Var RdrName
+  | Abs RdrName ExpPs
+  | App ExpPs   ExpPs
+```
+
+```wiki
+module Renaming where
+
+-- the definition of `Name` and `UnboundVar`
+-- ...
+
+data ExpRn
+  = Var Name
+  | Abs Name  ExpRn
+  | App ExpRn ExpRn
+  | UVar UnboundVar
+```
+
+```wiki
+module Typechecking where
+
+data Id
+data UnboundVar
+data Type
+-- the definition of `Id`, `UnboundVar`, and `Type`
+-- ...
+
+data ExpTc
+  = Var  Id
+  | Abs  Id   ExpTc
+  | App  Type ExpTc ExpTc
+  | UVar UnboundVar
+```
+
+
+Based on the TTG idiom, we will have a base declaration such as the following.
+
+```wiki
+module AST where
+
+data Exp x 
+  = Var (XVar x) (XId x)
+  | Abs (XAbs x) (XId x) (Exp x)
+  | App (XApp x) (Exp x) (Exp x)
+  | New (XNew x)
+
+type family XVar x
+type family XAbs x
+type family XApp x
+type family XNew x
+
+type family XId  x
+```
+
+
+and the following three instantiations:
+
+```wiki
+module Parsing where
+
+import AST
+-- the definition of RdrName
+-- ...
+
+data Ps
+
+type ExpPs = Exp Ps
+
+type instance XVar Ps = ()
+type instance XAbs Ps = ()
+type instance XApp Ps = ()
+type instance XNew Ps = Void
+
+type instance XId  Ps = RdrName
+```
+
+```wiki
+module Renaming where
+
+import AST
+-- the definition of `Name` and `UnboundVar`
+-- ...
+data Rn
+
+type ExpRn = Exp Rn
+
+type instance XVar Rn = ()
+type instance XAbs Rn = ()
+type instance XApp Rn = ()
+type instance XNew Rn = UnboundVar
+
+type instance XId  Rn = Name
+```
+
+```wiki
+module Typechecking where
+
+import AST
+-- the definition of `Id`, `UnboundVar`, and `Type`
+-- ...
+data Tc
+
+type ExpTc = Exp Tc
+
+type instance XVar Tc = ()
+type instance XAbs Tc = ()
+type instance XApp Tc = Type
+type instance XNew Tc = UnboundVar
+
+type instance XId  Tc = Id
+```
