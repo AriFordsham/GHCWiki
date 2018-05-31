@@ -27,13 +27,13 @@ Subsuming above five trees fixes the scope of the design space. For example, TTG
 1. The instantiation of TTG [HsSyn](implementing-trees-that-grow/hs-syn) should result in a tree that does not have extra fields and constructors. 
 
 >
-> For example, the `HsExpr GhsPs` expressions of AST Ps should not have the constructor `HsUnboundVar` of the post-renaming phases, or its `HsMultiIf` constructor should also not have an unused field (of the type `Type`) to store the related type produced in the typechecking phase.
+> For example, the `HsExpr GhsPs` expressions of AST GhcPs should not have the constructor `HsUnboundVar` of the post-renaming phases, or its `HsMultiIf` constructor should also not have an unused field (of the type `Type`) to store the related type produced in the typechecking phase.
 
 >
 > As a result, the instantiated TTG [HsSyn](implementing-trees-that-grow/hs-syn) should not depend on the code from the other phases. Hence, the base (uninstantiated) TTG [HsSyn](implementing-trees-that-grow/hs-syn) should not depend on any GHC/TH/HSE-specific code.
 
 >
-> For example, if `HsExpr GhsPs` expressions of AST Ps had the constructor `HsUnboundVar` then it had to depend on the code defining `UnboundVar` (a field of `HsUnboundVar`) in the renaming phase, or if its constructor `MultiIf` had a field of type `Type` then it had to depend on the code defining `Type` in the typechecking phase.
+> For example, if `HsExpr GhsPs` expressions of AST GhcPs had the constructor `HsUnboundVar` then it had to depend on the code defining `UnboundVar` (a field of `HsUnboundVar`) in the renaming phase, or if its constructor `MultiIf` had a field of type `Type` then it had to depend on the code defining `Type` in the typechecking phase.
 
 1. The base TTG [HsSyn](implementing-trees-that-grow/hs-syn) should have all the constructors common across all five ASTs, and these constructors should have all the fields common across all five ASTs (even if the type of some fields vary from an AST to another).
 
@@ -48,3 +48,124 @@ Subsuming above five trees fixes the scope of the design space. For example, TTG
 
 >
 > For example, the type of the common (payload) field of the common constructor `HsVar`of `HsExpr x` is `IdP x` where `IdP` is a type family and `x` the phase descriptor. 
+
+## Example
+
+
+Consider the following three simple datatypes `ExpPs`, `ExpRn`, and `ExpTc` representing correspondingly expressions in a parsing, renaming and typechecking phase:
+
+```wiki
+module Parsing where
+
+-- the definition of RdrName
+-- ...
+
+data ExpPs 
+  = Var RdrName
+  | Abs RdrName ExpPs
+  | App ExpPs   ExpPs
+```
+
+```wiki
+module Renaming where
+
+-- the definition of `Name` and `UnboundVar`
+-- ...
+
+data ExpRn
+  = Var Name
+  | Abs Name  ExpRn
+  | App ExpRn ExpRn
+  | UVar UnboundVar
+```
+
+```wiki
+module Typechecking where
+
+-- the definition of `Id`, `UnboundVar`, and `Type`
+-- ...
+
+data ExpTc
+  = Var  Id
+  | Abs  Id   ExpTc
+  | App  Type ExpTc ExpTc
+  | UVar UnboundVar
+```
+
+
+Based on the TTG idiom, we will have a base declaration such as the following.
+
+```wiki
+module AST where
+
+data Exp x 
+  = Var (XVar x) (XId x)
+  | Abs (XAbs x) (XId x) (Exp x)
+  | App (XApp x) (Exp x) (Exp x)
+  | New (XNew x)
+
+type family XVar x
+type family XAbs x
+type family XApp x
+type family XNew x
+
+type family XId  x
+```
+
+
+and the following three instantiations:
+
+```wiki
+module Parsing where
+
+import AST
+-- the definition of RdrName
+-- ...
+
+data Ps
+
+type ExpPs = Exp Ps
+
+type instance XVar Ps = ()
+type instance XAbs Ps = ()
+type instance XApp Ps = ()
+type instance XNew Ps = Void
+
+type instance XId  Ps = RdrName
+```
+
+```wiki
+module Renaming where
+
+import AST
+-- the definition of `Name` and `UnboundVar`
+-- ...
+data Rn
+
+type ExpRn = Exp Rn
+
+type instance XVar Rn = ()
+type instance XAbs Rn = ()
+type instance XApp Rn = ()
+type instance XNew Rn = UnboundVar
+
+type instance XId  Rn = Name
+```
+
+```wiki
+module Typechecking where
+
+import AST
+-- the definition of `Id`, `UnboundVar`, and `Type`
+-- ...
+data Tc
+
+type ExpTc = Exp Tc
+
+type instance XVar Tc = ()
+type instance XAbs Tc = ()
+type instance XApp Tc = Type
+type instance XNew Tc = UnboundVar
+
+type instance XId  Tc = Id
+```
