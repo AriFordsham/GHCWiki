@@ -7,7 +7,7 @@ As GHC becomes more mission-critical to more organisations, it is becoming clear
 GHC is historically over-reliant on particular individuals and organisations (notably the Simons and their employers), and GHC is under-resourced for the boring-but-essential work of producing regular, reliable, and well-tested releases, as well as encouraging community contributions; in short, devops.
 
 
-The mission of the GHC DevOps Group is to 
+The mission of the GHC DevOps Group is 
 
 - to take leadership of the devops aspects of GHC, 
 - to resource it better, and 
