@@ -2,7 +2,6 @@
 
 ## The People
 
-- **Tamar Christina** \<tamar@…\> Phyx
 - **Roman Kuznetsov** \<kuznero@…\>
 - **Kyrill Briantsev** \<kyrab@…\> awson
 - **Darren Grant** \<dedgrant@…\>
