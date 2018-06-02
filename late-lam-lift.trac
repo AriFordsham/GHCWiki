@@ -27,17 +27,17 @@ The challenge is all about getting consistent speedups.
 == Quick Start
 
 The most current code is on the `wip/llf` branch. Usually, you can merge master into that with easy-to-resolve conflicts (eg in `DynFlags`).
-Sebastian Graf has rebased (sadly with not so easy-to-resolve conflicts) this branch in mid April 2018. It currently fails to bootstrap in `./validate` due to some core lint errors, even without activating actual LLF passes. You can find further progress here: https://github.com/sgraf812/ghc/tree/llf
+Sebastian Graf has rebased (sadly with not so easy-to-resolve conflicts) this branch in mid April 2018. After some debugging and fixups, it passes `./validate` with the llf-nr10-r6 flags set (see below) in [7bf030a https://github.com/sgraf812/ghc/tree/7bf030a165a8aec51297add5a4261131db603e62]. You can find further progress here: https://github.com/sgraf812/ghc/tree/llf
 
 By default, the LLF is not enabled. To enable it, use the flags found below in the llf-nr10-r6 section. If the LLF pass lifts out a function, it prepends the `llf_` prefix, so look for that in the Core. Also: there's `-ddump-llf` if you're desperate. The LLF happens after `SpecConstr` and before the late demand analysis (which is also off by default, cf `-flate-dmd-anal`).
 
-Commit 9c2904c passed `./validate` with
+Commit 9c2904c (and 7bf030a for a rebase in 2018)  passed `./validate` with
 
 {{{
 GhcLibHcOpts    += -O -dcore-lint  -fllf -fllf-abstract-undersat -fno-llf-abstract-sat -fno-llf-abstract-oversat -fno-llf-create-PAPs -fno-llf-LNE0 -fllf-simpl -fllf-stabilize -fllf-use-strictness -fllf-oneshot -fllf-nonrec-lam-limit=10 -fllf-rec-lam-limit=6
 }}}
 
-in `mk/validate-settings.mk`.
+in `mk/custom-settings.mk` or `mk/validate.mk`.
  
 
 == As of mid-2014
