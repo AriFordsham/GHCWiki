@@ -57,6 +57,11 @@ See also [http://www.stephendiehl.com/posts/essential_compilers.html Stephen Dei
 
  * [http://research.microsoft.com/en-us/um/people/simonpj/papers/usage-types/popl99-usage.ps.gz Once Upon a Polymorphic Type], Keith Wansbrough and Simon Peyton Jones, POPL 1999.
 
+ * from ghc-proposals (please organize them into the correct paragraph)
+   * [https://cs.brynmawr.edu/~rae/papers/2017/levity/levity.pdf Levity Polymorphism (extended version)], Richard A. Eisenberg, Simon Peyton Jones, PLDI 2017. (ghc-proposals [https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0003-levity-polymorphism.rst #3])
+   * [https://www.microsoft.com/en-us/research/publication/pattern-synonyms/ Pattern Synonyms], Matthew Pickering, Gergő Érdi, Simon Peyton Jones, and Richard A. Eisenberg, Haskell Symposium 2016. (ghc-proposals [https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0016-as-patterns-synonyms.rst #16])
+   * [https://www.kosmikus.org/DerivingVia/deriving-via-paper.pdf Deriving Via or, How to Turn Hand-Written Instances into an Anti-Pattern], Baldur Blöndal, Andres Löh, Ryan Scott, Haskell Symposium 2018. (ghc-proposals [https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0023-deriving-via.rst #23])
+
 Please add: System FC, GADTs, kind polymorphism etc
 
 == Optimisations ==
