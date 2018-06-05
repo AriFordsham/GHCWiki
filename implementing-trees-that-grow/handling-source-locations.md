@@ -103,6 +103,28 @@ There are a couple of ways to implement such a solution:
 
 1. We can extend (using TTG) each datatype to add a wrapper constructor like the current `Located`.
 
+1. The API Annotations are similar to the `SrcSpan`, in that they are additional decorations, and also currently appear wherever there is a `SrcSpan`.
+
+1. We also currently have sections of AST without source locations, such as those generated when converting TH AST to hsSyn AST, or for GHC derived code.
+
+
+We can perhaps deal with these by either defining an additional pass, so
+
+```
+dataPass=Parsed|Renamed|Typechecked|Generatedderiving(Data)
+```
+
+
+or by making the extra information status dependent on an additional parameter, so
+
+```
+dataGhcPass(l ::Location)(c ::Pass)derivinginstanceEq(GhcPass c)derivinginstance(Typeable l,Typeable c)=>Data(GhcPass l c)dataPass=Parsed|Renamed|Typecheckedderiving(Data)dataLocation=Located|UnLocated
+```
+
+
+Thanks to Zubin Duggal for bringing the unlocated problem up on IRC.
+ 
+
 1. TODO (add your suggestions)
 
 ### Example (Solution A)
@@ -115,7 +137,7 @@ In the code below, as compared to the one above, we have the following key chang
 - a setter/getter typeclass `HasSpan` (and instances) is introduced
 - a pattern synonym for `L` is introduced using the typeclass
 
-```wiki
+```
 {-# LANGUAGE TypeFamilies
            , ConstraintKinds
            , FlexibleInstances
@@ -123,104 +145,54 @@ In the code below, as compared to the one above, we have the following key chang
            , UndecidableInstances
            , PatternSynonyms
            , ViewPatterns
-#-}
-module New where
+#-}moduleNewwhereimportGHC.Exts(Constraint)importData.Void-- ...dataRdrName-- = the definition of RdrNamedataSrcSpan-- = the definition of SrcSpan-- ------------------------------------------------ TTG Base AST-- ----------------------------------------------dataExp x
+  =Var(XVar x)(XId x)|Lam(XLam x)(XId x)(Exp x)|App(XApp x)(Exp x)(Exp x)|Par(XPar x)(Exp x)|New(XNew x)typefamilyXVar x
+typefamilyXLam x
+typefamilyXApp x
+typefamilyXPar x
+typefamilyXNew x
 
-import GHC.Exts(Constraint)
-import Data.Void
+typefamilyXId  x
 
--- ...
+typeForallX(p ::*->Constraint) x
+  =( p (XVar x), p (XLam x), p (XApp x), p (XPar x), p (XNew x))-- ------------------------------------------------ AST Ps-- ----------------------------------------------dataPstypeExpPs=ExpPstypeinstanceXVarPs=SrcSpantypeinstanceXLamPs=SrcSpantypeinstanceXAppPs=SrcSpantypeinstanceXParPs=SrcSpantypeinstanceXNewPs=VoidtypeinstanceXIdPs=RdrName-- ------------------------------------------------ HasSpan Typeclass-- ----------------------------------------------classHasSpan a where
+  getSpan :: a ->SrcSpan
+  setSpan :: a ->SrcSpan-> a
 
-data RdrName
--- = the definition of RdrName
-
-data SrcSpan
--- = the definition of SrcSpan
-
--- ----------------------------------------------
--- TTG Base AST
--- ----------------------------------------------
-
-data Exp x
-  = Var (XVar x) (XId x)
-  | Lam (XLam x) (XId x) (Exp x)
-  | App (XApp x) (Exp x) (Exp x)
-  | Par (XPar x) (Exp x)
-  | New (XNew x)
-
-type family XVar x
-type family XLam x
-type family XApp x
-type family XPar x
-type family XNew x
-
-type family XId  x
-
-type ForallX (p :: * -> Constraint) x
-  = ( p (XVar x)
-    , p (XLam x)
-    , p (XApp x)
-    , p (XPar x)
-    , p (XNew x)
-    )
-
--- ----------------------------------------------
--- AST Ps
--- ----------------------------------------------
-
-data Ps
-
-type ExpPs  = Exp Ps
-
-type instance XVar Ps = SrcSpan
-type instance XLam Ps = SrcSpan
-type instance XApp Ps = SrcSpan
-type instance XPar Ps = SrcSpan
-type instance XNew Ps = Void
-
-type instance XId  Ps = RdrName
-
--- ----------------------------------------------
--- HasSpan Typeclass
--- ----------------------------------------------
-
-class HasSpan a where
-  getSpan :: a -> SrcSpan
-  setSpan :: a -> SrcSpan -> a
-
-instance HasSpan SrcSpan where
+instanceHasSpanSrcSpanwhere
   getSpan   = id
-  setSpan _ = id
+  setSpan _= id
 
-instance HasSpan Void where
+instanceHasSpanVoidwhere
   getSpan x   = absurd x
-  setSpan x _ = absurd x
+  setSpan x _= absurd x
 
-instance ForallX HasSpan x => HasSpan (Exp x) where
-  getSpan (Var ex _)      = getSpan ex
-  getSpan (Lam ex _ _)    = getSpan ex
-  getSpan (App ex _ _)    = getSpan ex
-  getSpan (New ex)        = getSpan ex
+instanceForallXHasSpan x =>HasSpan(Exp x)where
+  getSpan (Var ex _)= getSpan ex
+  getSpan (Lam ex __)= getSpan ex
+  getSpan (App ex __)= getSpan ex
+  getSpan (New ex)= getSpan ex
 
-  setSpan (Var ex x)   sp = Var (setSpan ex sp) x
-  setSpan (Lam ex x n) sp = Lam (setSpan ex sp) x n
-  setSpan (App ex l m) sp = App (setSpan ex sp) l m
-  setSpan (New ex)     sp = New (setSpan ex sp)
+  setSpan (Var ex x)   sp =Var(setSpan ex sp) x
+  setSpan (Lam ex x n) sp =Lam(setSpan ex sp) x n
+  setSpan (App ex l m) sp =App(setSpan ex sp) l m
+  setSpan (New ex)     sp =New(setSpan ex sp)getSpan'::HasSpan a => a ->(SrcSpan, a)getSpan' m =(getSpan m , m)patternL::HasSpan a =>SrcSpan-> a -> a
+patternL s m <-(getSpan' ->(s , m))whereL s m =  setSpan m s
 
-getSpan' :: HasSpan a => a -> (SrcSpan , a)
-getSpan' m = (getSpan m , m)
+-- ------------------------------------------------ Example Function-- ----------------------------------------------par::ExpPs->ExpPspar l@(L sp m)=Par sp l
+  -- or,--           = L sp (Par noLoc l)
+```
 
-pattern L :: HasSpan a => SrcSpan -> a -> a
-pattern L s m <- (getSpan' -> (s , m))
-  where
-        L s m =  setSpan m s
+### Include API Annotations, Solution D
 
--- ----------------------------------------------
--- Example Function
--- ----------------------------------------------
 
-par :: Exp Ps -> Exp Ps
-par l@(L sp m) = Par sp l
-  -- or,
-  --           = L sp (Par noLoc l)
+The API Annotations can be accommodated via a straightforward extension of the type class approach, by defining
+
+```
+dataExtra=ExtraSrcSpan[(SrcSpan,AnnKeywordId)]classHasExtra a where
+  getSpan :: a ->SrcSpan
+  setSpan :: a ->SrcSpan-> a
+
+  getApiAnns :: a ->[(SrcSpan,AnnKeywordId)]
+  setApiAnns :: a ->[(SrcSpan,AnnKeywordId)]-> a
 ```
