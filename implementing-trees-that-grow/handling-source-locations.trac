@@ -137,13 +137,13 @@ data SrcSpan
 
 data Exp x
   = Var (XVar x) (XId x)
-  | Abs (XAbs x) (XId x) (Exp x)
+  | Lam (XLam x) (XId x) (Exp x)
   | App (XApp x) (Exp x) (Exp x)
   | Par (XPar x) (Exp x)
   | New (XNew x)
 
 type family XVar x
-type family XAbs x
+type family XLam x
 type family XApp x
 type family XPar x
 type family XNew x
@@ -152,7 +152,7 @@ type family XId  x
 
 type ForallX (p :: * -> Constraint) x
   = ( p (XVar x)
-    , p (XAbs x)
+    , p (XLam x)
     , p (XApp x)
     , p (XPar x)
     , p (XNew x)
@@ -167,7 +167,7 @@ data Ps
 type ExpPs  = Exp Ps
 
 type instance XVar Ps = SrcSpan
-type instance XAbs Ps = SrcSpan
+type instance XLam Ps = SrcSpan
 type instance XApp Ps = SrcSpan
 type instance XPar Ps = SrcSpan
 type instance XNew Ps = Void
@@ -192,12 +192,12 @@ instance HasSpan Void where
 
 instance ForallX HasSpan x => HasSpan (Exp x) where
   getSpan (Var ex _)      = getSpan ex
-  getSpan (Abs ex _ _)    = getSpan ex
+  getSpan (Lam ex _ _)    = getSpan ex
   getSpan (App ex _ _)    = getSpan ex
   getSpan (New ex)        = getSpan ex
 
   setSpan (Var ex x)   sp = Var (setSpan ex sp) x
-  setSpan (Abs ex x n) sp = Abs (setSpan ex sp) x n
+  setSpan (Lam ex x n) sp = Lam (setSpan ex sp) x n
   setSpan (App ex l m) sp = App (setSpan ex sp) l m
   setSpan (New ex)     sp = New (setSpan ex sp)
 
