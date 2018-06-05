@@ -103,6 +103,29 @@ There are a couple of ways to implement such a solution:
 
 1. We can nest extension typefamilies to be able to say that all constructors have the same uniform decorations (e.g., `SrcSpan`) beside their specific ones. This is just for convenience as `ForallX*` constraint quantifications can simulate the same (see the code for solution A).
 
+> **SLPJ** It's more than just convenience; it's much more elegant than passing these huge dictionaries.  Show the code; something like
+>
+> ```wiki
+> type instance XVar (Ghc p) = Located (XVarGhc p)
+> type family XVarGhc p where
+>   XVarGhc Ps = ()
+>   XVarGhc Rn = ...
+>   XVarGhc Tc = ..
+> ```
+>
+>
+> It's quite nice that we get a *closed* type family for the GHC extensions. Now a typical function might look like
+>
+> ```wiki
+>   getLoc :: Located x -> SrcSpan   -- As now
+>
+>   rnExpr (Var exts id) = setSrcSpan (getLoc exts) $
+>                          do { ... }
+> ```
+
+
+...etc...
+
 1. We can extend (using TTG) each datatype to add a wrapper constructor like the current `Located`.
 
 1. The API Annotations are similar to the `SrcSpan`, in that they are additional decorations, and also currently appear wherever there is a `SrcSpan`.
