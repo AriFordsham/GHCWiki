@@ -96,7 +96,7 @@ Thanks to Zubin Duggal for bringing the unlocated problem up on IRC.
 ### Solution A - Example Code
 
 
-In the code below, as compared to the one above, we have the following key changes:
+In the code below, as compared to the original one above, we have the following key changes:
 
 - `LExp` is replaced with `Exp`
 - field extensions are set to have a `SrcSpan` (instead of `()`)
@@ -151,14 +151,17 @@ patternL s m <-(getSpan' ->(s , m))whereL s m =  setSpan m s
 
 ### Solution C - Example Code
 
+
+In the code below, as compared to the original one above, we have the following key changes:
+
+- `LExp` is replaced with `Exp`
+- a new constructor extension is introduced to wrap `ExpPs` with a `SrcSpan`
+- a pattern synonym for `L` is introduced
+
 ```
 {-# LANGUAGE TypeFamilies
            , ConstraintKinds
-           , FlexibleInstances
-           , FlexibleContexts
-           , UndecidableInstances
            , PatternSynonyms
-           , ViewPatterns
 #-}moduleSolutionCwhereimportGHC.Exts(Constraint)importData.Void-- ...dataRdrName-- = the definition of RdrNamedataSrcSpan-- = the definition of SrcSpan-- ------------------------------------------------ AST Base-- ----------------------------------------------dataExp x
   =Var(XVar x)(XId x)|Abs(XAbs x)(XId x)(Exp x)|App(XApp x)(Exp x)(Exp x)|Par(XPar x)(Exp x)|New(XNew x)typefamilyXVar x
 typefamilyXAbs x
