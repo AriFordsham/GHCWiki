@@ -3,12 +3,12 @@
 ## Problem
 
 
-The current design of TTG [HsSyn](implementing-trees-that-grow/hs-syn) AST in GHC stores source locations for terms of a datatype `Exp` in a separate wrapper datatype `LExp` which is mutually recursive with `Exp` such that every recursive reference to `Exp` is done **indirectly**, via a reference to the wrapper datatype `LExp`. We refer to this style of storing source locations as the ping-pong style.
+The current design of [ TTG HsSyn AST](https://ghc.haskell.org/trac/ghc/wiki/ImplementingTreesThatGrow/TreesThatGrowGuidance) in GHC stores source locations for terms of a datatype `Exp` in a separate wrapper datatype `LExp` which is mutually recursive with `Exp` such that every recursive reference to `Exp` is done **indirectly**, via a reference to the wrapper datatype `LExp` (see the example code below). We refer to this style of storing source locations as the ping-pong style.
 
 
-Besides the indirection and the complications the ping-pong style causes, there are two key problems with it: 
+Besides the indirection and the resulting complications of the ping-pong style, there are two key problems with it: 
 
-1. It bakes-in the source locations in the base AST, forcing all instances to store source locations, even if they don't need them.
+1. It bakes-in the source locations in the base TTG AST, forcing all instances to store source locations, even if they don't need them.
   For example, TH AST does not carry source locations. 
 
 1. It results in a form of conceptual redundancy: source locations are tree decorations and they belong in the extension points.
@@ -39,7 +39,7 @@ data SrcSpan
 data Located a = L SrcSpan a
 
 -- ----------------------------------------------
--- AST Base
+-- TTG Base AST
 -- ----------------------------------------------
 type LExp x = Located (Exp x)
 
@@ -84,7 +84,7 @@ type instance XNew Ps = Void
 type instance XId  Ps = RdrName
 
 -- ----------------------------------------------
--- Example Function
+-- Example Function (e.g., in pretty printing)
 -- ----------------------------------------------
 
 par :: LExp Ps -> LExp Ps
@@ -97,11 +97,23 @@ par l@(L sp m) = L sp (Par () l)
 The key solution is to move source locations to the extension points, remove the indirection (e.g., the wrapper datatype `LExp`) altogether, and update the related code (e.g., functions over `Exp`) accordingly. 
 There are a couple of ways to implement such a solution:
 
-1. TODO Using a typeclass
-1. TODO Nesting extension typefamilies
-1. TODO inlining the typeclass methods of (a) by hand
+1. Using a typeclass to set/get source locations
 
-### Example
+1. We can nest extension typefamilies to be able to say that all constructors have the same uniform decorations (e.g., `SrcSpan`) beside their specific ones. This is just for convenience as `ForallX*` constraint quantifications can simulate the same (see the code for solution A).
+
+1. We can extend (using TTG) each datatype to add a wrapper constructor like the current `Located`.
+
+1. TODO (add your suggestions)
+
+### Example (Solution A)
+
+
+In the code below, as compared to the one above, we have the following key changes:
+
+- `LExp` is replaced with `Exp`
+- field extensions are set to have a `SrcSpan` (instead of `()`)
+- a setter/getter typeclass `HasSpan` (and instances) is introduced
+- a pattern synonym for `L` is introduced using the typeclass
 
 ```wiki
 {-# LANGUAGE TypeFamilies
@@ -126,18 +138,18 @@ data SrcSpan
 -- = the definition of SrcSpan
 
 -- ----------------------------------------------
--- AST Base
+-- TTG Base AST
 -- ----------------------------------------------
 
 data Exp x
   = Var (XVar x) (XId x)
-  | Abs (XAbs x) (XId x) (Exp x)
+  | Lam (XLam x) (XId x) (Exp x)
   | App (XApp x) (Exp x) (Exp x)
   | Par (XPar x) (Exp x)
   | New (XNew x)
 
 type family XVar x
-type family XAbs x
+type family XLam x
 type family XApp x
 type family XPar x
 type family XNew x
@@ -146,7 +158,7 @@ type family XId  x
 
 type ForallX (p :: * -> Constraint) x
   = ( p (XVar x)
-    , p (XAbs x)
+    , p (XLam x)
     , p (XApp x)
     , p (XPar x)
     , p (XNew x)
@@ -161,7 +173,7 @@ data Ps
 type ExpPs  = Exp Ps
 
 type instance XVar Ps = SrcSpan
-type instance XAbs Ps = SrcSpan
+type instance XLam Ps = SrcSpan
 type instance XApp Ps = SrcSpan
 type instance XPar Ps = SrcSpan
 type instance XNew Ps = Void
@@ -186,12 +198,12 @@ instance HasSpan Void where
 
 instance ForallX HasSpan x => HasSpan (Exp x) where
   getSpan (Var ex _)      = getSpan ex
-  getSpan (Abs ex _ _)    = getSpan ex
+  getSpan (Lam ex _ _)    = getSpan ex
   getSpan (App ex _ _)    = getSpan ex
   getSpan (New ex)        = getSpan ex
 
   setSpan (Var ex x)   sp = Var (setSpan ex sp) x
-  setSpan (Abs ex x n) sp = Abs (setSpan ex sp) x n
+  setSpan (Lam ex x n) sp = Lam (setSpan ex sp) x n
   setSpan (App ex l m) sp = App (setSpan ex sp) l m
   setSpan (New ex)     sp = New (setSpan ex sp)
 
@@ -209,4 +221,6 @@ pattern L s m <- (getSpan' -> (s , m))
 
 par :: Exp Ps -> Exp Ps
 par l@(L sp m) = Par sp l
+  -- or,
+  --           = L sp (Par noLoc l)
 ```
