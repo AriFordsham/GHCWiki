@@ -19,76 +19,22 @@ Besides the indirection and the resulting complications of the ping-pong style, 
 
 For example, here is a simple [ TTG](https://ghc.haskell.org/trac/ghc/wiki/ImplementingTreesThatGrow/TreesThatGrowGuidance) representation of lambda expressions in the ping-pong style.
 
-```wiki
+```
 {-# LANGUAGE TypeFamilies
            , ConstraintKinds
-#-}
-module Original where
+#-}moduleOriginalwhereimportGHC.Exts(Constraint)importData.Void-- ...dataRdrName-- = the definition of RdrNamedataSrcSpan-- = the definition of SrcSpandataLocated a =LSrcSpan a
 
-import GHC.Exts(Constraint)
-import Data.Void
+-- ------------------------------------------------ TTG Base AST-- ----------------------------------------------typeLExp x =Located(Exp x)dataExp x
+  =Var(XVar x)(XId x)|Lam(XLam x)(XId x)(LExp x)|App(XApp x)(LExp x)(LExp x)|Par(XPar x)(LExp x)|New(XNew x)typefamilyXVar x
+typefamilyXLam x
+typefamilyXApp x
+typefamilyXPar x
+typefamilyXNew x
 
--- ...
+typefamilyXId  x
 
-data RdrName
--- = the definition of RdrName
-
-data SrcSpan
--- = the definition of SrcSpan
-
-data Located a = L SrcSpan a
-
--- ----------------------------------------------
--- TTG Base AST
--- ----------------------------------------------
-type LExp x = Located (Exp x)
-
-data Exp x
-  = Var (XVar x) (XId x)
-  | Lam (XLam x) (XId x)  (LExp x)
-  | App (XApp x) (LExp x) (LExp x)
-  | Par (XPar x) (LExp x)
-  | New (XNew x)
-
-type family XVar x
-type family XLam x
-type family XApp x
-type family XPar x
-type family XNew x
-
-type family XId  x
-
-type ForallX (p :: * -> Constraint) x
-  = ( p (XVar x)
-    , p (XLam x)
-    , p (XApp x)
-    , p (XPar x)
-    , p (XNew x)
-    )
-
--- ----------------------------------------------
--- AST Ps (parsing phase)
--- ----------------------------------------------
-
-data Ps
-
-type ExpPs  = Exp  Ps
-type LExpPs = LExp Ps
-
-type instance XVar Ps = ()
-type instance XLam Ps = ()
-type instance XApp Ps = ()
-type instance XPar Ps = ()
-type instance XNew Ps = Void
-
-type instance XId  Ps = RdrName
-
--- ----------------------------------------------
--- Example Function (e.g., in pretty printing)
--- ----------------------------------------------
-
-par :: LExp Ps -> LExp Ps
-par l@(L sp m) = L sp (Par () l)
+typeForallX(p ::*->Constraint) x
+  =( p (XVar x), p (XLam x), p (XApp x), p (XPar x), p (XNew x))-- ------------------------------------------------ AST Ps (parsing phase)-- ----------------------------------------------dataPstypeExpPs=ExpPstypeLExpPs=LExpPstypeinstanceXVarPs=()typeinstanceXLamPs=()typeinstanceXAppPs=()typeinstanceXParPs=()typeinstanceXNewPs=VoidtypeinstanceXIdPs=RdrName-- ------------------------------------------------ Example Function (e.g., in pretty printing)-- ----------------------------------------------par::LExpPs->LExpPspar l@(L sp m)=L sp (Par() l)
 ```
 
 **SLPJ**: Explain `ForallX`.  I hate it because it implies that we'll pass massive dictionaries around; and what happens if we have lots of different data types, not just one?
@@ -105,28 +51,23 @@ There are a couple of ways to implement such a solution:
 
 > **SLPJ** It's more than just convenience; it's much more elegant than passing these huge dictionaries.  Show the code; something like
 >
-> ```wiki
-> type instance XVar (Ghc p) = Located (XVarGhc p)
-> type family XVarGhc p where
->   XVarGhc Ps = ()
->   XVarGhc Rn = ...
->   XVarGhc Tc = ..
+> ```
+> typeinstanceXVar(Ghc p)=Located(XVarGhc p)typefamilyXVarGhc p whereXVarGhcPs=()XVarGhcRn=...XVarGhcTc=..
 > ```
 >
 >
 > It's quite nice that we get a *closed* type family for the GHC extensions. Now a typical function might look like
 >
-> ```wiki
->   getLoc :: Located x -> SrcSpan   -- As now
+> ```
+>   getLoc ::Located x ->SrcSpan-- As now
 >
->   rnExpr (Var exts id) = setSrcSpan (getLoc exts) $
->                          do { ... }
+>   rnExpr (Var exts id)= setSrcSpan (getLoc exts)$do{...}
 > ```
 
 
 ...etc...
 
-1. We can extend (using TTG) each datatype to add a wrapper constructor like the current `Located`.
+1. We can extend (using TTG) each datatype to add a wrapper \*constructor\*, similar in spirit to the current `Located`.
 
 1. The API Annotations are similar to the `SrcSpan`, in that they are additional decorations, and also currently appear wherever there is a `SrcSpan`.
 
@@ -152,7 +93,7 @@ Thanks to Zubin Duggal for bringing the unlocated problem up on IRC.
 
 1. TODO (add your suggestions)
 
-### Example (Solution A)
+### Solution A - Example Code
 
 
 In the code below, as compared to the one above, we have the following key changes:
@@ -170,7 +111,7 @@ In the code below, as compared to the one above, we have the following key chang
            , UndecidableInstances
            , PatternSynonyms
            , ViewPatterns
-#-}moduleNewwhereimportGHC.Exts(Constraint)importData.Void-- ...dataRdrName-- = the definition of RdrNamedataSrcSpan-- = the definition of SrcSpan-- ------------------------------------------------ TTG Base AST-- ----------------------------------------------dataExp x
+#-}moduleSolutionAwhereimportGHC.Exts(Constraint)importData.Void-- ...dataRdrName-- = the definition of RdrNamedataSrcSpan-- = the definition of SrcSpan-- ------------------------------------------------ TTG Base AST-- ----------------------------------------------dataExp x
   =Var(XVar x)(XId x)|Lam(XLam x)(XId x)(Exp x)|App(XApp x)(Exp x)(Exp x)|Par(XPar x)(Exp x)|New(XNew x)typefamilyXVar x
 typefamilyXLam x
 typefamilyXApp x
@@ -206,6 +147,29 @@ patternL s m <-(getSpan' ->(s , m))whereL s m =  setSpan m s
 
 -- ------------------------------------------------ Example Function-- ----------------------------------------------par::ExpPs->ExpPspar l@(L sp m)=Par sp l
   -- or,--           = L sp (Par noLoc l)
+```
+
+### Solution C - Example Code
+
+```
+{-# LANGUAGE TypeFamilies
+           , ConstraintKinds
+           , FlexibleInstances
+           , FlexibleContexts
+           , UndecidableInstances
+           , PatternSynonyms
+           , ViewPatterns
+#-}moduleSolutionCwhereimportGHC.Exts(Constraint)importData.Void-- ...dataRdrName-- = the definition of RdrNamedataSrcSpan-- = the definition of SrcSpan-- ------------------------------------------------ AST Base-- ----------------------------------------------dataExp x
+  =Var(XVar x)(XId x)|Abs(XAbs x)(XId x)(Exp x)|App(XApp x)(Exp x)(Exp x)|Par(XPar x)(Exp x)|New(XNew x)typefamilyXVar x
+typefamilyXAbs x
+typefamilyXApp x
+typefamilyXPar x
+typefamilyXNew x
+
+typefamilyXId  x
+
+typeForallX(p ::*->Constraint) x
+  =( p (XVar x), p (XAbs x), p (XApp x), p (XPar x), p (XNew x))-- ------------------------------------------------ AST Ps-- ----------------------------------------------dataPstypeExpPs=ExpPstypeinstanceXVarPs=()typeinstanceXAbsPs=()typeinstanceXAppPs=()typeinstanceXParPs=()typeinstanceXNewPs=(SrcSpan,ExpPs)typeinstanceXIdPs=RdrNamepatternL::SrcSpan->ExpPs->ExpPspatternL sp m =New(sp , m)-- ------------------------------------------------ Example Function-- ----------------------------------------------par::ExpPs->ExpPspar l@(L sp m)=L sp (Par() l)par m          = m
 ```
 
 ### Include API Annotations, Solution D
