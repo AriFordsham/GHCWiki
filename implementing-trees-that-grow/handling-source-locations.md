@@ -221,4 +221,6 @@ pattern L s m <- (getSpan' -> (s , m))
 
 par :: Exp Ps -> Exp Ps
 par l@(L sp m) = Par sp l
+  -- or,
+  --           = L sp (Par noLoc l)
 ```
