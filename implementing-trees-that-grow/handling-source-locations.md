@@ -91,6 +91,8 @@ par :: LExp Ps -> LExp Ps
 par l@(L sp m) = L sp (Par () l)
 ```
 
+**SLPJ**: Explain `ForallX`.  I hate it because it implies that we'll pass massive dictionaries around; and what happens if we have lots of different data types, not just one?
+
 ## Solutions
 
 
