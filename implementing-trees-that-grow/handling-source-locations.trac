@@ -85,7 +85,7 @@ type instance XId  Ps = RdrName
 par :: LExp Ps -> LExp Ps
 par l@(L sp m) = L sp (Par () l)
 }}}
-
+'''SLPJ''': Explain `ForallX`.  I hate it because it implies that we'll pass massive dictionaries around; and what happens if we have lots of different data types, not just one?
 
 == Solutions ==
 
@@ -95,6 +95,23 @@ There are a couple of ways to implement such a solution:
 a. Using a typeclass to set/get source locations
 
 b. We can nest extension typefamilies to be able to say that all constructors have the same uniform decorations (e.g., `SrcSpan`) beside their specific ones. This is just for convenience as `ForallX*` constraint quantifications can simulate the same (see the code for solution A).
+
+  '''SLPJ''' It's more than just convenience; it's much more elegant than passing these huge dictionaries.  Show the code; something like
+{{{
+type instance XVar (Ghc p) = Located (XVarGhc p)
+type family XVarGhc p where
+  XVarGhc Ps = ()
+  XVarGhc Rn = ...
+  XVarGhc Tc = ..
+}}}
+  It's quite nice that we get a ''closed'' type family for the GHC extensions. Now a typical function might look like
+{{{
+  getLoc :: Located x -> SrcSpan   -- As now
+
+  rnExpr (Var exts id) = setSrcSpan (getLoc exts) $
+                         do { ... }
+}}}
+...etc...
 
 c. We can extend (using TTG) each datatype to add a wrapper constructor like the current `Located`.
 
