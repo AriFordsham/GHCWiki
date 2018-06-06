@@ -270,7 +270,7 @@ In the code below, as compared to the original one above, we have the following 
 * a pattern synonym for `L` is introduced using the setter/getter function
 
 
-{{{!#hs
+{{{#!hs
 {-# OPTIONS_GHC -Wall
                 -fno-warn-unticked-promoted-constructors
 #-}
