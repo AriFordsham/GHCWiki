@@ -97,21 +97,21 @@ a. Using a typeclass to set/get source locations
 b. We can nest extension typefamilies to be able to say that all constructors have the same uniform decorations (e.g., `SrcSpan`) beside their specific ones. This is just for convenience as `ForallX*` constraint quantifications can simulate the same (see the code for solution A).
 
   '''SLPJ''' It's more than just convenience; it's much more elegant than passing these huge dictionaries.  Show the code; something like
-{{{#!hs
-type instance XVar (Ghc p) = Located (XVarGhc p)
-type family XVarGhc p where
-  XVarGhc Ps = ()
-  XVarGhc Rn = ...
-  XVarGhc Tc = ..
-}}}
+  {{{#!hs
+  type instance XVar (Ghc p) = Located (XVarGhc p)
+  type family XVarGhc p where
+    XVarGhc Ps = ()
+    XVarGhc Rn = ...
+    XVarGhc Tc = ..
+  }}}
   It's quite nice that we get a ''closed'' type family for the GHC extensions. Now a typical function might look like
-{{{#!hs
+  {{{#!hs
   getLoc :: Located x -> SrcSpan   -- As now
 
   rnExpr (Var exts id) = setSrcSpan (getLoc exts) $
                          do { ... }
-}}}
-...etc...
+  }}}
+  ...etc...
 
 c. We can extend (using TTG) each datatype to add a wrapper *constructor*, similar in spirit to the current `Located`.
 
@@ -119,32 +119,29 @@ d. The API Annotations are similar to the `SrcSpan`, in that they are additional
 
 e. We also currently have sections of AST without source locations, such as those generated when converting TH AST to hsSyn AST, or for GHC derived code.
 
-We can perhaps deal with these by either defining an additional pass, so
+   We can perhaps deal with these by either defining an additional pass, so
 
-{{{#!hs
-data Pass = Parsed | Renamed | Typechecked | Generated
-         deriving (Data)
-}}}
+   {{{#!hs
+   data Pass = Parsed | Renamed | Typechecked | Generated
+      deriving (Data)
+   }}}
 
-or by making the extra information status dependent on an additional parameter, so
+   or by making the extra information status dependent on an additional parameter, so
 
-{{{#!hs
-data GhcPass (l :: Location) (c :: Pass)
-deriving instance Eq (GhcPass c)
-deriving instance (Typeable l,Typeable c) => Data (GhcPass l c)
+   {{{#!hs
+   data GhcPass (l :: Location) (c :: Pass)
+   deriving instance Eq (GhcPass c)
+   deriving instance (Typeable l,Typeable c) => Data (GhcPass l c)
 
-data Pass = Parsed | Renamed | Typechecked
-         deriving (Data)
+   data Pass = Parsed | Renamed | Typechecked
+     deriving (Data)
 
-data Location = Located | UnLocated
-}}}
+   data Location = Located | UnLocated
+   }}}
 
-Thanks to Zubin Duggal for bringing the unlocated problem up on IRC.
- 
+   Thanks to Zubin Duggal for bringing the unlocated problem up on IRC.
 
 f. TODO (add your suggestions)
-
-
 
 === Solution A - Example Code ===
 In the code below, as compared to the original one above, we have the following key changes:
