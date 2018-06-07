@@ -31,6 +31,16 @@ There are a couple of ways to implement such a solution:
 Notes:
 
 - The API Annotations are similar to the `SrcSpan`, in that they are additional decorations, and also currently appear wherever there is a `SrcSpan`.
+  The API Annotations can be accommodated via a straightforward extension of the type class approach, by defining
+
+  ```
+  dataExtra=ExtraSrcSpan[(SrcSpan,AnnKeywordId)]classHasExtra a where
+                    getSpan :: a ->SrcSpan
+                    setSpan :: a ->SrcSpan-> a
+                  
+                    getApiAnns :: a ->[(SrcSpan,AnnKeywordId)]
+                    setApiAnns :: a ->[(SrcSpan,AnnKeywordId)]-> a
+  ```
 
 - We also currently have sections of AST without source locations, such as those generated when converting TH AST to hsSyn AST, or for GHC derived code.
 
@@ -50,6 +60,14 @@ dataGhcPass(l ::Location)(c ::Pass)derivinginstanceEq(GhcPass c)derivinginstance
 
 >
 > Thanks to Zubin Duggal for bringing the unlocated problem up on IRC.
+
+- The setter/getter functions can be generalised to set/get anything:
+
+  ```
+  classHas b a where
+    get :: a -> b
+    set :: a -> b -> a
+  ```
 
 ## An example to illustrate
 
