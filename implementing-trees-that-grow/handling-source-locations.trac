@@ -337,8 +337,8 @@ Pros:
 Cons:
 * An instance of `HasSpan` should be defined per datatype
 * Handling of the source locations should be done once per constructor
-* When constructing/generating terms the first field of the constructors should have explicitly mention the source location
-  (see the `par` function in the Solution A's code, where the first field of `Par` should have a `SrcSpan`, eventhough a dummy one.)
+* When constructing/generating terms the first field of the constructors should explicitly mention the source location
+  (see the `par` function in the Solution A's code, where the first field of `Par` should have a `SrcSpan`, even though a dummy one.)
 
 === Solution B ===
 Pros:
