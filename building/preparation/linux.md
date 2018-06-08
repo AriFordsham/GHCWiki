@@ -130,26 +130,18 @@ Install the [ required tools](https://ghc.haskell.org/trac/ghc/wiki/Building/Pre
 ## Nix/NixOS
 
 
-nixpkgs contains a derivation for ghcHEAD which can be used to create a build environment in a nix shell.
+The recommended way to create an environment in which to build GHC is to use Alp's `ghc.nix` repository. 
+
+1. Clone `https://github.com/alpmestan/ghc.nix` into your `ghc` folder.
+1. `nix-shell ghc.nix/`
+
+
+You can then perform a build by running
 
 ```wiki
-   nix-shell '<nixpkgs>' -A haskell.compiler.ghcHEAD --pure
-
-   # unpackPhase # If you want the sources at the version in nixpkgs, otherwise clone ghc as usual
-   git clone --recursive git://git.haskell.org/ghc.git
-
-   cd ghc*/ # If you used unpackPhase, it will have a version suffix
-
-   patchPhase
-
-   # create mk/build.mk from mk/build.mk as usual
-   configurePhase 
-   buildPhase
-   # edit build.mk to remove the comment marker # on the line stage=2
+configurePhase
+buildPhase
 ```
-
-
-If you have come this way it is assumed you know what you are doing! The `ghcHEAD` derivation does not include the dependencies needed for the test suite. I (mpickering, Dec 2016) don't know exactly what these dependencies are but you should add them to your environment by defining a suitable `shell.nix`.  
 
 
 Enable parallel builds in the nix build environment:
@@ -157,8 +149,3 @@ Enable parallel builds in the nix build environment:
 ```wiki
    export NIX_BUILD_CORES=4
 ```
-
-### shell.nix
-
-
-There is a shell.nix file in the hadrian subdirectory which can provision hadrian and arcanist as well as other necessary build dependencies. 
