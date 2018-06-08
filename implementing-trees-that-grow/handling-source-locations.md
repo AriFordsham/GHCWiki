@@ -198,3 +198,42 @@ typeinstanceXPar(GHC_)=()typeinstanceXNew(GHC p)=Either(Located(Exp(GHC p)))(XNe
 
 -- NB: if GHC later wants to add extension fields to (say)-- XAbs, we can just redefine XAbs (GHC p) to be more like-- the XApp case-- ------------------------------------------------ LL Pattern Synonym-- ----------------------------------------------patternLL::SrcSpan->Exp(GHC p)->Exp(GHC p)patternLL sp m =New(Left(L sp m))-- ------------------------------------------------ Example Function-- ----------------------------------------------par::Exp(GHC p)->Exp(GHC p)par l@(LL sp (App{}))=LL sp (Par() l)par l                 = l
 ```
+
+## Pros & Cons
+
+### Solution A
+
+
+Pros:
+
+- TODO
+
+
+Cons:
+
+- An instance of `HasSpan` should be defined per datatype
+- Handling of the source locations should be done once per constructor
+- When constructing/generating terms the first field of the constructors should explicitly mention the source location
+  (see the `par` function in the Solution A's code, where the first field of `Par` should have a `SrcSpan`, even though a dummy one.)
+
+### Solution B
+
+
+Pros:
+
+- It makes it easy to omit locations altogether (see the notes about "Generated" code).
+  This is a Good Thing.
+- It makes it easy to store fewer locations (e.g. one location for `(f x y z)`, 
+  rather than one for `(f x y z)`, one for `(f x y)`, and one for `(f x)`).
+- It's easy to add the current location to the monad
+
+> `f (XNew loc e) = setLoc loc $ f e`
+
+>
+> Simple, elegant!
+
+
+Cons:
+
+- At the binding site of a variable we know that we \*always\* have a location, and we can put that in its Name.  
+  If locations were more optional, that would not be so true.
