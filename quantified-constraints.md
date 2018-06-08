@@ -12,7 +12,7 @@ instance (Eq a, forall b. (Eq b) => Eq (f b))
 ```
 
 
-The new bit is the `forall` in the context of the instance declaration.
+The new bit is the `forall` in the context of the instance declaration. This is allowed in GHC 8.6 and later using the `QuantifiedConstraints` extension.
 
 
 Here are some resources
