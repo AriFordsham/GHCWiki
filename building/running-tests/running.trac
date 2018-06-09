@@ -115,3 +115,11 @@ You may need to add `--disable-library-profiling` if your GHC tree is built with
 == Problems running the testsuite ==
 
 If the testsuite fails mysteriously, make sure that the timeout utility is working properly. This Haskell utility is compiled with the stage 1 compiler and invoked by the python driver, which does not print a nice error report if the utility fails. This can happen if, for example, the compiler produces bogus binaries. A workaround is to compile timeout with a stable ghc.
+
+=== Why are my tests being skipped? ===
+
+There are a few possible explanations for a test being skipped run:
+
+ * You are missing libraries required by the test (see the "Additional Packages" section above)
+ * The test is a performance test yet the compiler was built with `-DDEBUG` (perhaps the tree was built with `./validate --slow` or with `BuildFlavour = devel2` in `mk/build.mk`?)
+ * There was an error evaluating a `.T` file; see the output from the testsuite driver's initialization phase for hints.
