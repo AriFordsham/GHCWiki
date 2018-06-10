@@ -21,11 +21,7 @@ See Libraries? and [Migration/8.6](migration/8.6).
 
 Below are the major highlights of 8.6.
 
-- An early version of the GHCi `:doc` command
-
 - Improved support for **cross-compilation** (Moritz Angermann)
-
-- Deriving via ([ proposal](https://github.com/Icelandjack/ghc-proposals/blob/239cfc8ef532db95f15ea392e073061f04273d8e/proposals/0000-deriving-via.rst), Ryan GL Scott)
 
 ### Build system and miscellaneous changes
 
@@ -34,6 +30,12 @@ Below are the major highlights of 8.6.
 - Support for building stating libraries for elf and mach-o (`-staticlib`)
 
 ## Landed in `master` branch
+
+- Deriving via ([ proposal](https://github.com/Icelandjack/ghc-proposals/blob/239cfc8ef532db95f15ea392e073061f04273d8e/proposals/0000-deriving-via.rst), Ryan GL Scott)
+
+- An early version of the GHCi `:doc` command
+
+- [QuantifiedConstraints](quantified-constraints)
 
 - The core functionality of the `ghc-heap-view` package has been merged into GHC, allowing introspection into the structure of GHC's heap. (Patrick Dougherty, [ Phab:D3055](https://phabricator.haskell.org/D3055))
 
