@@ -24,7 +24,7 @@ For instance, the AST for GHC's parsing, renaming, and typechecking are defined 
 ## General pattern for TTG
 
 
-In general a TTG-idiom data type has
+In general, a TTG-idiom data type has
 
 - A type parameter, called the *phase descriptor*, that indexes which particular instantiation is required
 - One *extension field* in each data constructor, whose type is given by a type family.  By giving phase-specific instances to this type family, we can add phase-specific information to the constructor.
@@ -33,22 +33,16 @@ In general a TTG-idiom data type has
 
 For example:
 
-```wiki
-data Exp x
-  = Var (XVar x) (IdP x)
-  | Lam (XLam x) (IdP x)  (Exp x)
-  | App (XApp x) (Exp x) (Exp x)
-  | New (XNew x)
-
-type family XVar x
-type family XLam x
-type family XApp x
-type family XNew x
-
+```
+dataExp x
+  =Var(XVar x)(IdP x)|Lam(XLam x)(IdP x)(Exp x)|App(XApp x)(Exp x)(Exp x)|New(XNew x)typefamilyXVar x
+typefamilyXLam x
+typefamilyXApp x
+typefamilyXNew x
 ```
 
 
-Here the phase descriptor is `x`.  The first field of each constructor (of type `XVar x` etc) are the extension fields.  The data construcotr `XNew` is the extension constructor.
+Here the phase descriptor is `x`.  The first field of each constructor (of type `XVar x` etc) are the extension fields.  The data constructor `XNew` is the extension constructor.
 
 
 All fields of the data constructors except the first (extension) field are called *payload fields*.  They are present in every instantiation of the data type.
@@ -62,11 +56,9 @@ The design of TTG [HsSyn](implementing-trees-that-grow/hs-syn) follows these pri
 
 1. Note, however, that the type of a payload field of a constructor may vary with phase.  For example, in `Lam` above, the first payload field has type `Id x`, and that may vary with phase:
 
-  ```wiki
-  type family IdP x
-  type instance IdP GhcPs = RdrName
-  type instance IdP GhcRn = Name
-  type instance IdP GhcTc = Id
+  ```
+  typefamilyIdP x
+  typeinstanceIdPGhcPs=RdrNametypeinstanceIdPGhcRn=NametypeinstanceIdPGhcTc=Id
   ```
 
   But it is still a payload field, because every instantiation of `Exp` has a lambda with a binder; albeit the type of that binder field varies.  This happens in [HsSyn](implementing-trees-that-grow/hs-syn): for example, the type of the common (payload) field of the common constructor `HsVar`of `HsExpr x` is `IdP x` where `IdP` is a type family and `x` the phase descriptor.
@@ -89,118 +81,48 @@ The design of TTG [HsSyn](implementing-trees-that-grow/hs-syn) follows these pri
 
 Consider the following three simple datatypes `ExpPs`, `ExpRn`, and `ExpTc` representing correspondingly expressions in a parsing, renaming and typechecking phase:
 
-```wiki
-module Parsing where
-
--- the definition of RdrName
--- ...
-
-data ExpPs
-  = Var RdrName
-  | Lam RdrName ExpPs
-  | App ExpPs   ExpPs
+```
+moduleParsingwhere-- the definition of RdrName-- ...dataExpPs=VarRdrName|LamRdrNameExpPs|AppExpPsExpPs
 ```
 
-```wiki
-module Renaming where
-
--- the definition of `Name` and `UnboundVar`
--- ...
-
-data ExpRn
-  = Var Name
-  | Lam Name  ExpRn
-  | App ExpRn ExpRn
-  | UVar UnboundVar
+```
+moduleRenamingwhere-- the definition of `Name` and `UnboundVar`-- ...dataExpRn=VarName|LamNameExpRn|AppExpRnExpRn|UVarUnboundVar
 ```
 
-```wiki
-module Typechecking where
-
--- the definition of `Id`, `UnboundVar`, and `Type`
--- ...
-
-data ExpTc
-  = Var  Id
-  | Lam  Id   ExpTc
-  | App  Type ExpTc ExpTc
-  | UVar UnboundVar
+```
+moduleTypecheckingwhere-- the definition of `Id`, `UnboundVar`, and `Type`-- ...dataExpTc=VarId|LamIdExpTc|AppTypeExpTcExpTc|UVarUnboundVar
 ```
 
 
 Based on the TTG idiom, we will have a base declaration such as the following.
 
-```wiki
-module AST where
+```
+{-# LANGUAGE TypeFamilies , EmptyCase #-}moduleASTwheredataExp x
+  =Var(XVar x)(XId x)|Abs(XAbs x)(XId x)(Exp x)|App(XApp x)(Exp x)(Exp x)|New(XNew x)typefamilyXVar x
+typefamilyXAbs x
+typefamilyXApp x
+typefamilyXNew x
 
-data Exp x
-  = Var (XVar x) (IdP x)
-  | Lam (XLam x) (IdP x) (Exp x)
-  | App (XApp x) (Exp x) (Exp x)
-  | New (XNew x)
+typefamilyXId  x
 
-type family XVar x
-type family XLam x
-type family XApp x
-type family XNew x
-
-type family IdP  x
+dataNoExt=NoExt-- no field extensiondataNoNewCon-- no constructor extensionnoNewCon::NoNewCon-> a
+noNewCon x =case x of{}
 ```
 
 
 and the following three instantiations:
 
-```wiki
-module Parsing where
-
-import AST
--- the definition of RdrName
--- ...
-
-data Ps
-
-type ExpPs = Exp Ps
-
-type instance XVar Ps = ()
-type instance XLam Ps = ()
-type instance XApp Ps = ()
-type instance XNew Ps = Void
-
-type instance IdP  Ps = RdrName
+```
+{-# LANGUAGE TypeFamilies #-}moduleParsingwhereimportASTdataRdrName-- = ...dataPstypeExpPs=ExpPstypeinstanceXVarPs=NoExttypeinstanceXAbsPs=NoExttypeinstanceXAppPs=NoExttypeinstanceXNewPs=NoNewContypeinstanceXIdPs=RdrName
 ```
 
-```wiki
-module Renaming where
-
-import AST
--- the definition of `Name` and `UnboundVar`
--- ...
-data Rn
-
-type ExpRn = Exp Rn
-
-type instance XVar Rn = ()
-type instance XLam Rn = ()
-type instance XApp Rn = ()
-type instance XNew Rn = UnboundVar
-
-type instance IdP  Rn = Name
+```
+{-# LANGUAGE TypeFamilies #-}moduleRenamingwhereimportASTdataName-- = ...dataUnboundVar-- = ...dataRntypeExpRn=ExpRntypeinstanceXVarRn=NoExttypeinstanceXAbsRn=NoExttypeinstanceXAppRn=NoExttypeinstanceXNewRn=UnboundVartypeinstanceXIdRn=Name
 ```
 
-```wiki
-module Typechecking where
-
-import AST
--- the definition of `Id`, `UnboundVar`, and `Type`
--- ...
-data Tc
-
-type ExpTc = Exp Tc
-
-type instance XVar Tc = ()
-type instance XLam Tc = ()
-type instance XApp Tc = Type
-type instance XNew Tc = UnboundVar
-
-type instance IdP  Tc = Id
 ```
+{-# LANGUAGE TypeFamilies #-}moduleTypecheckingwhereimportASTdataId-- = ...dataUnboundVar-- = ...dataType-- = ...dataTctypeExpTc=ExpTctypeinstanceXVarTc=NoExttypeinstanceXAbsTc=NoExttypeinstanceXAppTc=TypetypeinstanceXNewTc=UnboundVartypeinstanceXIdTc=Id
+```
+
+
+Note that we define a specific pair of datatypes to mark and handle empty extension fields and constructors.
