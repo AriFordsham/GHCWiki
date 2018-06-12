@@ -120,10 +120,10 @@ However the current algorithm also can't be easily expanded even if we had this 
 
 
 Ideally we would also want to place `call factorial` next to `ret (x*call_result)`. After all there is clearly an edge between these blocks.
+However if we return from a large function by the time we return the cache is likely invalidated already.
 
 
-It's not an big issue for factorial in particular. But if we call a small function from
-within a loop this would be advantageous.
+In general it seems advantageous to NOT treat call returns as viable edges.
 
 ## What I looked into:
 
@@ -156,7 +156,7 @@ Example Heuristic:
 <th> 10/90  
 </th></tr>
 <tr><th> Call with return label  </th>
-<th> 10     
+<th> 0     
 </th></tr></table>
 
 
@@ -234,21 +234,46 @@ just this block.
 Since this is a very greedy algorithm it misses some cases. So there is some more edge case handling
 involved. But it doesn't change the fundamental approach.
 
-### Preliminary results:
+
+To improve on this a bit more we first chain blocks together where it's clear that there is no better edge.
 
 
-Which is disappointing. I've combined a earlier version of my layout branch with my patch to [ detect error branches as unlikely and recursion as likely](https://phabricator.haskell.org/D4327) which gave a improvment of -0.8% which is nice.
+We then go through all edges by weight and check if we find two chains connected by the current edge.
+If so we combine them.
 
 
-However as a standalone patch it currently makes performance worse:
+And at last we do the same thing but we don't limit ourselves to chains which are connected at the ends by the given
+edge. It's good enough if the edge connects one of the first few blocks in one chain with one of the last few blocks
+in another chains.
+
+
+If we have the end of one chain:
 
 ```wiki
-         lambda           0.0%      0.0%    +22.4%    +20.8%      0.0%
-             FS           0.0%      0.0%     +9.8%     +9.7%      0.0%
---------------------------------------------------------------------------------
-            Min          -0.1%      0.0%     -1.7%     -3.2%      0.0%
-            Max          +0.0%      0.0%    +22.4%    +20.8%      0.0%
- Geometric Mean          -0.0%     -0.0%     +1.1%     +0.8%     -0.0%
+L1: cmp 1,reg
+    jne L2
+L3: jmp (*rbx)
+```
+
+
+It's clear that we would like a chain of blocks starting with `L2` to be placed right after `L3`.
+The last pass catches these cases.
+
+### Results:
+
+
+I've combined a version of my layout branch with my patch to [ detect error branches as unlikely and recursion as likely](https://phabricator.haskell.org/D4327) which gave a bigger improvement which is nice.
+IgnoreCal is the new codelayout.
+Likely04 is new codelayout combined with the likelyhood patch.
+
+```wiki
+---------------------------------------------------------------------------------------------------------------------------
+        Program           Size      Size    Allocs    Allocs   Runtime   Runtime   Elapsed   Elapsed  TotalMem  TotalMem
+                     IgnoreCal  Likely04 IgnoreCal  Likely04 IgnoreCal  Likely04 IgnoreCal  Likely04 IgnoreCal  Likely04
+---------------------------------------------------------------------------------------------------------------------------
+            Min          -0.1%     -0.1%     -0.0%      0.0%     -3.1%     -5.3%     -3.0%     -6.2%     -1.7%     -0.7%
+            Max          +0.0%     +0.0%      0.0%     +0.0%     +1.6%     +7.3%     +1.6%     +7.0%     +0.5%     +0.8%
+ Geometric Mean          -0.0%     +0.0%     -0.0%     -0.0%     -0.3%     -1.1%     -0.5%     -1.2%     -0.0%     +0.0%
 ```
 
 
@@ -291,20 +316,12 @@ right after B is gone. (Cache lines have been evicted, buffers invalidated, ...)
 ### Conclusion
 
 
-I've dug pretty deep into this. But with the results as they are this does not seem ready for production.
-Given the time constraints of GSOC I will for now shelf my patch and probably revisit it when I work on
-likelyhood information again.
-
-
-I will put the patch up on phabricator once I have cleaned it up a bit. If you have ideas or feedback hit me on IRC
-or comment on trac [\#15124](https://gitlab.haskell.org//ghc/ghc/issues/15124).
-
-### Update
-
-
 After some tweaking this patch [ https://phabricator.haskell.org/D4726](https://phabricator.haskell.org/D4726) lowered runtime by 0.5% on Haswell and Skylake.
 
 
 The primary change made compared to the above was to ignore edges based on call returns for code layout.
 It also special cases the typical "check tag and evaluate if required" control flow by putting the evaluation
 code right after the check.
+
+
+This isn't much but it allows us to take advantage of things like likelihood information so it opens GHC op to new optimizations.
