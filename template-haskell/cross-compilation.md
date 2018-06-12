@@ -42,7 +42,7 @@ packages that can not be used without TH support.
 # Possible Solutions
 
 
-There are a few solutions, which mostly consist of duming the splices and running them through a separate pass, (e.g. evil Splicer).
+There are a few solutions, which mostly consist of dumping the splices and running them through a separate pass, (e.g. evil Splicer).
 
 
 And there is also the solution which is uses in ghcjs, which is that there is a runner (think slave compiler) running on the target architecture,
