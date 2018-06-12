@@ -276,27 +276,10 @@ Likely04 is new codelayout combined with the likelyhood patch.
  Geometric Mean          -0.0%     +0.0%     -0.0%     -0.0%     -0.3%     -1.1%     -0.5%     -1.2%     -0.0%     +0.0%
 ```
 
-
-FS seems like it is just a edge case for the new layout algorithm.
-With lambda I have no idea what is up. The benchmark basically runs two functions: `main = do { mainSimple ; mainMonad }`.
-
-
-It seems like some edge case I didn't consider. But so far I haven't really been able to pinpoint why it get's faster by so much.
-
-
-Removing either one the new layout code is faster. Using -XStrict\[Data\] the new one is faster.
-However when padding the whole executable to change alignment the difference stays about the same. So it doesn't seem to be an alignment issue.
-
-
-Performance counters indicate the DSB buffer being the culprit. But I haven't yet been able to find out how so.
-
 ### Things left to do:
 
 
-It's not clear why the lambda case is so slow.
-
-
-Besides that another question is how calls would be best handled.
+A question is how calls would be best handled.
 If we have a small function f we really want to keep a sequence like 
 
 ```wiki
@@ -313,10 +296,13 @@ a sequence when laying out the code since there is a good chance blocks B and C 
 On the other hand if f is a large function then by the time we return any benefit we can gain by putting C
 right after B is gone. (Cache lines have been evicted, buffers invalidated, ...).
 
+
+For now it's seems ignoring call edges leads to better performance.
+
 ### Conclusion
 
 
-After some tweaking this patch [ https://phabricator.haskell.org/D4726](https://phabricator.haskell.org/D4726) lowered runtime by 0.5% on Haswell and Skylake.
+After some tweaking this patch [ https://phabricator.haskell.org/D4726](https://phabricator.haskell.org/D4726) lowered runtime on Haswell and Skylake.
 
 
 The primary change made compared to the above was to ignore edges based on call returns for code layout.
@@ -324,4 +310,4 @@ It also special cases the typical "check tag and evaluate if required" control f
 code right after the check.
 
 
-This isn't much but it allows us to take advantage of things like likelihood information so it opens GHC op to new optimizations.
+This isn't much but it allows us to take advantage of things like likelihood information so it opens GHC up to new optimizations.
