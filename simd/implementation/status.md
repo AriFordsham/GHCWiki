@@ -212,7 +212,7 @@ For each type, currently only one vector width is implemented, namely the width 
 ## Code generators
 
 
-Only the LLVM code generator (i.e. `-fllvm`) is supported.
+Only the LLVM code generator (i.e. `-fllvm`) is supported. However, work is [ afoot](https://github.com/Abhiroop/ghc-1/tree/wip/simd-ncg-support) to add support to the NCG as well.
 
 ## Cmm layer
 
