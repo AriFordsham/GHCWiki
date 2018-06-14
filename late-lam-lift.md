@@ -455,7 +455,9 @@ DirectMap1G:     4194304 kB
 
 - and a +60% slowdown in n-body (IIRC, b/c it saves (the newly
   large) set live variables on stack when calling unsafe sqrt
-  C-Call.
+  C-Call. Edit: This seems to have vanished, probably due to
+  [\#13629](https://gitlab.haskell.org//ghc/ghc/issues/13629). It's +3% time and -19% allocs (of 134kB) now. See the
+  section below.
 
 ### Notes
 
@@ -511,6 +513,8 @@ Here's a couple snippets from my notes about some drastic slowdowns on my Sandy 
 
 
 shootout/n-body slows down 50% elapsed at O2!
+
+**Edit**: As of [ June 14 2018](https://github.com/sgraf812/ghc/tree/dd3e3630405a0e44a8267eb10e0b30757111c997), the 50% slowdown in sqrt is rectified, probably as a result of [\#13629](https://gitlab.haskell.org//ghc/ghc/issues/13629), but I (Sebastian Graf) am not too sure. There is still a slowdown of 2-3%, even in counted instructions. Allocations go down by 19%, but that's hardly of any relevance at a total of 134kB allocations prior to LLF.
 
 
 In one particular example, a loop involves a call to sqrt. It's out-of-line, so we must stash the live variables on the stack. Before the lambda lift, however, the variables were already on the stack to begin with. After the lift, they are passed in registers, so we have to add code to the loop that pushes and pops the variables around the sqrt call. Unfortunately there's several Double\#s, so this puts a lot of pressure on my Sandy Bridge's load-store units.
