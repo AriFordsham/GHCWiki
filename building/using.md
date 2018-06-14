@@ -341,7 +341,7 @@ simple, BSD-licensed Haskell implementation will be used instead.
 <table><tr><th>`BUILD_DPH`</th>
 <td>
 (default: `NO`)
-Enable building of DPH libraries
+Enable building of DPH libraries (no longer supported since GHC 8.6)
 </td></tr></table>
 
 <table><tr><th>`BUILD_EXTRA_PKGS`</th>
