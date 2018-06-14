@@ -17,7 +17,12 @@ Most of the material describing our approach is partitioned into a set of subpag
 See also
  * [http://repa.ouroborus.net The Repa home page]
 
-== Status and work plan ==
+== Status ==
+
+Work on the DPH project stopped around 2010 at which point the implementation began to bit-rot. In June 2018 the implementation was removed from the GHC source tree.
+
+
+== Old status and work plan ==
 
 Detailed information on how to use the current implementation is at the [http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell user-level wiki page].  Here is information on the implementation status and outstanding work items:
 
