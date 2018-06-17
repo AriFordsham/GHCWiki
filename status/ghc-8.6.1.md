@@ -47,6 +47,8 @@ Below are the major highlights of 8.6.
 
 - Further improvements to DWARF unwinding support
 
+- More sophisticated constant folding ([\#9136](https://gitlab.haskell.org//ghc/ghc/issues/9136))
+
 ### Library changes
 
 ### Build system and miscellaneous changes
