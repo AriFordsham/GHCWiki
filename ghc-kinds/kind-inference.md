@@ -3,7 +3,114 @@
 
 This page summarises several alternative designs for doing kind inference for
 types and classes, under `-XPolyKinds`.
-Though originally written with respect to [\#9200](https://gitlab.haskell.org//ghc/ghc/issues/9200), there are more issues at play here. Relevant other tickets: [\#9201](https://gitlab.haskell.org//ghc/ghc/issues/9201), [\#9427](https://gitlab.haskell.org//ghc/ghc/issues/9427), [\#14451](https://gitlab.haskell.org//ghc/ghc/issues/14451), [\#14847](https://gitlab.haskell.org//ghc/ghc/issues/14847), and (to a lesser extent) [\#12088](https://gitlab.haskell.org//ghc/ghc/issues/12088), which is all about instances.
+Though originally written with respect to [\#9200](https://gitlab.haskell.org//ghc/ghc/issues/9200), there are more issues at play here. Relevant other tickets: [\#9201](https://gitlab.haskell.org//ghc/ghc/issues/9201), [\#9427](https://gitlab.haskell.org//ghc/ghc/issues/9427), [\#14451](https://gitlab.haskell.org//ghc/ghc/issues/14451), [\#14847](https://gitlab.haskell.org//ghc/ghc/issues/14847), [\#15142](https://gitlab.haskell.org//ghc/ghc/issues/15142), and (to a lesser extent) [\#12088](https://gitlab.haskell.org//ghc/ghc/issues/12088), which is all about instances.
+
+## Simplifying `getInitialKinds` ([\#15142](https://gitlab.haskell.org//ghc/ghc/issues/15142))
+
+
+In terms, we make a drastic distinction between how we check a term
+with a type signature and how we check a term without. When a term
+has a type signature, that signature is used for the term, and (for
+example) polymorphic recursion is possible. Without a type signature,
+the term is assigned type `alpha`. During type checking, `alpha` will
+unify only with a monotype, and thus polymorphic recursion is impossible.
+(Of course, after constraint generation and solving, we then generalize
+any unconstrained variables.)
+
+
+The goal here is to do the same in type declarations. When a type
+declaration has a kind signature (in other words, a CUSK, which is
+a sloppy encoding of a kind signature), we check it with that kind
+signature. Otherwise, we assign it kind `kappa` and gather constraints
+on `kappa`, allowing `kappa` only to be a monokind, generalizing later.
+
+
+For CUSKs, this is pretty close to accurate. But it's nothing like what
+we do in the non-CUSK case. Currently, non-CUSKs get an "initial kind",
+formed from whatever we can divine from the type head. (For example, `data T a` gets `kappa -> Type`, using `T`'s arity and the fact that it's a `data` type.) Then we do constraint solving. Simon wonders if we can simplify by just guessing `kappa`.
+
+
+The problem is that we will lose some currently-accepted definitions. For example, consider
+
+```
+dataProx k (a :: k)
+```
+
+
+The kind of `Prox` is `forall k -> k -> Type`. Note that this type contains `forall k ->`, not `forall k .`. If we had assigned `Prox :: kappa`, we would be unable to infer the correct kind for `Prox`. This kind is currently produced right in `getInitialKind`, with no extra quantification necessary. The `k` is lexically dependent, and so GHC uses `forall k ->` for it.
+
+
+Another interesting case is
+
+```
+dataProx2 k a =MkP2(Prox k a)
+```
+
+
+Here, it's "obvious" that `Prox2` should have the same kind as `Prox`, even though `k` isn't obviously a dependent variable. This is actually rejected today, because GHC requires that all dependent variables be manifestly so, in the LHS.
+
+
+Here is a good place to note that the term-level scheme has an exception: if the definition is non-recursive and top-level, then we don't guess a type `alpha`; instead, we just infer the type of the term from the RHS. This allows the term to be assigned a polytype or higher-rank type. If we did the same in types (noting that `Prox2` isn't recursive), then perhaps we could accept `Prox2`.
+
+
+Note that we want to have a good understanding of what will be accepted and what will not be. And we do not want to accept polymorphic recursion without a signature.
+
+### Simon's suggestion
+
+
+Here was one idea: assign every tyvar in the LHS a fresh kind variable `kappa_n`. Then use those to check any kind signatures on the LHS and the definition on the RHS. So, given
+
+```
+dataS2 k (a :: k) b =MkS(S2 k b a)
+```
+
+
+we would start with `k :: kappa1`, `a :: kappa2`, and `b :: kappa3`. We would soon get the following wanteds:
+
+```wiki
+kappa1 ~ Type    -- from the ":: k"
+kappa2 ~ k       -- from the ":: k"
+kappa3 ~ kappa2  -- because b is used as the second arg to S2 in the RHS
+```
+
+
+and all will work out.
+
+
+The problem with this approach is that is *also* accepts the polymorphic recursive `S3`:
+
+```
+dataS3 k (a :: k) b =MkS(S3Type b a)
+```
+
+
+So we think this isn't the right answer.
+
+### Adam's suggestion
+
+
+One other possibility in trying to wrangle this is to not let the `kappa_n` to unify with other tyvars introduced in the datatype definition. Part of this plan would require checking any LHS kind annotations *before* assigning the `kappa_n`. In this scenario, both `S2` and `S3` would be rejected, because we could never get `kappa3` to unify with `k`.
+
+
+One big drawback of Adam's idea is that it is very different from what happens in terms. Annotating some tyvar kinds is just like having a partial type signature. Yet, if I say `f :: forall a. a -> _`, GHC allows the wildcard to be replaced with `a`. Simon pointed out that partial type signatures are themselves a mess, and that we're not sure we want to duplicate it all "one level up". But we all agreed that they are useful and that uniformity is a Good Thing.
+
+### Comparison to Agda
+
+
+Incredibly, all the following are accepted in Agda:
+
+```
+dataQ(k :Set)(a : k):Set1wheredataQ2 k a :Set1whereMkQ2:Q k a ->Q2 k a
+
+dataQ3 k a :Set1whereMkQ3:Q3 k a ->Q k a ->Q3 k a
+
+dataQ4 k a :Set1whereMkQ4:Q4ℕ5->Q k a ->Q4 k a
+
+dataQ5 k a :Set1whereMkQ5:Q5ℕ3->Q5Bool true ->Q k a ->Q5 k a
+```
+
+
+I have no clue how they pull that off!
 
 ## Trouble when fixing [\#14066](https://gitlab.haskell.org//ghc/ghc/issues/14066)
 
