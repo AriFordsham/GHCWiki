@@ -49,6 +49,10 @@ Below are the major highlights of 8.6.
 
 - More sophisticated constant folding ([\#9136](https://gitlab.haskell.org//ghc/ghc/issues/9136))
 
+- BlockArguments extension ([\#10843](https://gitlab.haskell.org//ghc/ghc/issues/10843), [ proposal](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0010-block-arguments.rst))
+
+- NumericUnderscores extension ([\#14473](https://gitlab.haskell.org//ghc/ghc/issues/14473), [ proposal](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0009-numeric-underscores.rst))
+
 ### Library changes
 
 ### Build system and miscellaneous changes

@@ -47,6 +47,10 @@ Below are the major highlights of 8.6.
 
   - More sophisticated constant folding (#9136)
 
+  - BlockArguments extension (#10843, [[https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0010-block-arguments.rst|proposal]])
+
+  - NumericUnderscores extension (#14473, [[https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0009-numeric-underscores.rst|proposal]])
+
 === Library changes ===
 
 
