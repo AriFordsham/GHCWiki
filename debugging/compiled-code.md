@@ -7,36 +7,17 @@ with how to use [ gdb](http://www.gnu.org/software/gdb/) for debugging
 crashes in GHC-compiled programs.
 
 
-This is quite scary, for a few reasons:
+Debugging of Haskell code in gdb got better recently, as you can ask GHC to generate DWARF annotations in the compiled Haskell code, which gdb can use to provide useful backtraces in Haskell code and to map symbol names to Haskell source code location.  To get this, compile with the `-g` option. (for the best results, use GHC 8.4.1 or later).
 
-- We can't do source-level debugging of Haskell code.  gdb doesn't
-  know anything about Haskell.  We're stuck with assembly-level
-  debugging of Haskell code.
 
-- Most of the time you can't even get a backtrace inside GHC-compiled
-  code.  The GHC calling conventions are entirely different from C's,
-  and GHC-compiled code doesn't use the C stack.    There are a
-  couple of exceptions:
-
-  - when the crash happens inside the runtime, you can use the usual
-    C debugging facilities of gdb with full backtrace and
-    source-level debugging.  (make sure you use a `-debug`
-    version of the runtime to get the debug info, though, and if
-    the bug happens with the non-threaded runtime then that will also
-    simplify things).
-  - when the crash happens inside a foreign call invoked by Haskell
-    code.  In this case you'll be able to see which Haskell fragment
-    invoked the foreign call (it'll be something like
-    `MyModule_zdwccall13_info`, more about symbol names later).
-
-- In fact, there *are* no useful backtraces in Haskell code,
-  because of lazy evaluation and tail-calls.  Finding out "how we got
-  here" is often a challenge.
+The DWARF annotations can be a bit flaky still, and then we might be left with having to debug the compiled Haskell code at the assembly level.  This can seem quite scary, but there are lots of resources on this wiki to help you understand what's going on.
 
 ## The recipe
 
 
 Usually you want to do something along these lines:
+
+- Compile all the Haskell code (including libraries) `-g` to get DWARF annotations.
 
 - Compile with `-dcore-lint` to make sure the crash isn't caused by the compiler
   generating incorrect code in a way that can be detected statically.
@@ -53,10 +34,10 @@ Usually you want to do something along these lines:
 - Grab our [gdb macros](/trac/ghc/attachment/wiki/Debugging/CompiledCode/.gdbinit)[](/trac/ghc/raw-attachment/wiki/Debugging/CompiledCode/.gdbinit).
 
 - Run the program in gdb until it crashes, type `where` to find
-  out whether the crash is in the RTS or in Haskell code.  If you see
-  an uninformative backtrace with a symbol like `s32y_info` at
-  the top, then you're in Haskell.  If you're in the runtime, then
-  we don't have anything more to tell you here, you can use gdb's
+  out whether the crash is in the RTS or in Haskell code.  Hopefully
+  you'll get a useful backtrace through both Haskell and C code, and
+  if you compiled with `-g` you should see Haskell source code
+  locations.  If the crash was in the runtime, then you can use gdb's
   full C debugging facilities to track down the problem.
 
 - Make the crash happen as early as possible.  `-debug` already
@@ -102,6 +83,9 @@ Usually you want to do something along these lines:
   what's at the top of the stack.
 
 ## Going back in time
+
+
+There's a great tool called `rr` for reverse debugging. Try it out - if you're lucky it will work and you'll be able to single-step backwards and set breakpoints and watchpoints in the past.  If `rr` doesn't work for you for whatever reason, try the following tricks.
 
 - Set a breakpoint on a code fragment that is regularly executed.
   Some good examples are `stg_upd_frame_info` (the standard
@@ -149,6 +133,18 @@ Usually you want to do something along these lines:
   `GarbageCollect`, which stops at each GC), do the ignore thing
   on this, and then switch to a more frequently accessed breakpoint
   when you are closer to the crash.
+
+## Mapping symbol names to source code
+
+
+Gdb's `info line` command is useful for this, if the code was compiled with `-g`:
+
+```wiki
+(gdb) info line spxU_info
+Line 168 of "compiler/iface/BinIface.hs"
+   starts at address 0x7ffff5eb3520 <spxU_info>
+   and ends at 0x7ffff5eb3550 <spyc_info>.
+```
 
 ## Decoding symbol names
 
@@ -362,7 +358,7 @@ in the object code.
 
 
 For example, if you're stopped in a code fragment `s28a_info`,
-then you should be able to search for `s28a` in the STG output and
+then hopefully you can use `info line` to see what `s28a_info` is. You should also be able to search for `s28a` in the STG output and
 find it - but you first have to find which module it comes from, and
 the best way to do that is to grep for `s28a` in all the modules
 of your program.
