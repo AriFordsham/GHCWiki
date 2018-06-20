@@ -151,7 +151,7 @@ Gdb's `list` command is useful for this, if the code was compiled with {{{-g}}}:
 99	  = extendModuleEnvWith combine nc mod (unitOccEnv occ name)
 }}}
 
-The `list` command can also be used with a raw address, like `list *0x7ffff5762138`.
+The `list` command can also be used with a raw address, like `list *0x7ffff5762138`.  This is often better, because a symbol name can be ambiguous, whereas an address is unique.
 
 To go in the opposite direction, use `info line`:
 
