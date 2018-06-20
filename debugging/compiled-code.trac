@@ -134,13 +134,32 @@ There's a great tool called `rr` for reverse debugging. Try it out - if you're l
 
 == Mapping symbol names to source code ==
 
-Gdb's `info line` command is useful for this, if the code was compiled with {{{-g}}}:
+Gdb's `list` command is useful for this, if the code was compiled with {{{-g}}}:
 
 {{{
-(gdb) info line spxU_info
-Line 168 of "compiler/iface/BinIface.hs"
-   starts at address 0x7ffff5eb3520 <spxU_info>
-   and ends at 0x7ffff5eb3550 <spyc_info>.
+(gdb) list *s5aO_info
+0x7ffff5762138 is in s5aO_info (compiler/basicTypes/NameCache.hs:95).
+90	        Just occ_env -> lookupOccEnv occ_env occ
+91	
+92	extendOrigNameCache :: OrigNameCache -> Name -> OrigNameCache
+93	extendOrigNameCache nc name
+94	  = ASSERT2( isExternalName name, ppr name )
+95	    extendNameCache nc (nameModule name) (nameOccName name) name
+96	
+97	extendNameCache :: OrigNameCache -> Module -> OccName -> Name -> OrigNameCache
+98	extendNameCache nc mod occ name
+99	  = extendModuleEnvWith combine nc mod (unitOccEnv occ name)
+}}}
+
+The `list` command can also be used with a raw address, like `list *0x7ffff5762138`.  This is often better, because a symbol name can be ambiguous, whereas an address is unique.
+
+To go in the opposite direction, use `info line`:
+
+{{{
+(gdb) info line compiler/basicTypes/NameCache.hs:95
+Line 95 of "compiler/basicTypes/NameCache.hs"
+   starts at address 0x7ffff5762138 <s5aO_info>
+   and ends at 0x7ffff5762141 <s5aO_info+9>.
 }}}
 
 == Decoding symbol names ==
