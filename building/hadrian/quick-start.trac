@@ -10,12 +10,16 @@ Hadrian is much younger than GHC's Make-based build system. If you need a featur
 
 For GHC hackers already used to the Make build system, here is what you need to know:
 
+- You can still boot and configure yourself.
 - Use `hadrian/build.{sh, bat}` instead of `make`. It supports `-j`.
-- Hadrian can also run `boot` and `configure` for you, with the `-c` flag.
+- Add the `-c` flag if you want hadrian to boot and configure the source tree for you.
 - Build products are not in `inplace` anymore, but `_build` by default. Your stage 2 GHC would then be at `_build/stage1/bin/ghc` (because it's built by stage1).
 - The build root is configurable with `--build-root` or `-o`.
 - You can pick the build flavour with `--flavour=X` where X is `perf`, `prof`, etc.
+- You can run tests with `build test`, and specific ones by adding `--only="T12345 T11223"` for example.
 - GHCs built by Hadrian are now relocatable. This means you can move the `<build root>/stage1/{lib, bin}` directories around and GHC will still happily work, as long as both directories stay next to each other.
+
+You can now directly jump [#table here] to see the table listing usual make commands and their hadrian equivalents.
 
 == Your first build ==
 
@@ -43,10 +47,28 @@ Windows users might want to read through [https://github.com/snowleopard/hadrian
 
 **From now on, this page assumes you have found a build script that works for you and will refer to it as just `build`.**
 
+== Migrating from the Make build system == #table
+
+Below is an equivalence table between make and hadrian commands, with a short description of what the commands do.
+
+||= make command =||= hadrian command =||= description =||
+|| `make`         || `build`           || Build a complete stage2 compiler with libraries and with the default flavour (`perf`) ||
+|| `make inplace/bin/ghc-stage1` || `build _build/stage0/bin/ghc` || Build a stage1 GHC executable ||
+|| `make inplace/bin/ghc-stage2` || `build _build/stage1/bin/ghc` || Build a stage2 GHC executable ||
+|| `make inplace/lib/package.conf.d/text-1.2.3.0.conf` || `build _build/stage1/lib/package.conf.d/text-1.2.3.0.conf` || Build and register text-1.2.3.0.conf with the stage2 haskell compiler ||
+|| `make inplace/lib/platformConstants` || `build _build/stage{0,1}/lib/platformConstants` || Generate the `platformConstants` file to be used for stage 1 or stage 2 GHC ||
+|| `make libraries/base/dist-install/build/libHSbase-4.12.0.0.a` || `build _build/stage1/libraries/base/build/libHSbase-4.12.0.0.a` || Build static library for `base` with the stage 1 compiler ||
+|| `make docs` || `build docs` || Generate haddocks, user guide and more ||
+|| `make clean ; make boot ; make 2>&1 | tee nofib-log` || `build nofib` || Run the nofib suite (building a compiler if necessary) ||
+|| ''Setting `BuildFlavour=quickest` in build.mk'' || `build --flavour=quickest` || Build a `quickest`-flavoured stage 2 compiler ||
+|| `make test` || `build test` || Run the testsuite ||
+|| `make test TEST=abcd` || `build test --only=abcd` || Run only the test named `abcd` ||
+|| N/A || `build --build-root=ghc-T9999` || Build a complete stage2 compiler under a user specified build root (`./ghc-T9999/` here). Hadrian places all build artifacts under that directory ||
+
 == Command line options ==
 
 In addition to standard Shake flags (try `--help`), the build system
-currently supports several others:
+currently supports several many others, among which the important ones described below. Please refer to `build --help` for a complete listing of the command line arguments supported by hadrian.
 
 - `--build-root=PATH` or `-oPATH`: specify the directory in which you want to store all the build artifacts. If none is specified by the user, hadrian will store everything under `_build/` at the top of ghc's source tree. Unlike GHC's make build system, hadrian doesn't have any "inplace" logic left anymore. This option is therefore useful for GHC developers who want to build GHC in different ways or at different commits, from the same directory, and have the build products sit in different, isolated folders.
 
@@ -69,48 +91,19 @@ currently supports several others:
 
 - `--split-objects`: generate split objects, which are switched off by default. Due to a GHC [https://ghc.haskell.org/trac/ghc/ticket/11315 bug], you need a full clean rebuild when using this flag.
 
-- `--verbose`: run Hadrian in verbose mode. In particular this prints diagnostic messages by Shake oracles.
+- `--verbose`: run Hadrian in verbose mode. In particular this prints diagnostic messages by Shake oracles, useful when debugging hadrian.
 
-== Build targets ==
+- `--test-compiler[=TEST_COMPILER]`: use the given compiler (default is stage2) for running the testsuite, when executing the `test` target. `TEST_COMPILER` can be `stage1, stage2` or even the path to some arbitrary ghc executable.
 
-If no target is specified on the command line, like in the commands at the beginning of this page, Hadrian builds a complete stage 2 GHC with the `perf` build flavour. You can however specify specific targets, by simply giving the path to one or more files you want to generate or "build" in a general sense, or by specifying phony targets. When given specific targets, Hadrian will only build what it needs to produce the targets you ask for, just like the Make build system.
+- `--only[=TESTS]`: only run the given test cases, e.g `--only="T123 T456"`.
 
-Some examples:
+- `--skip-perf`: skip performance tests.
 
-{{{#!sh
-# build a stage 1 ghc binary
-$ build _build/stage0/bin/ghc
-# or, with a custom build root:
-$ build --build-root=_feature _feature/stage0/bin/ghc
+- `--test-speed[=SPEED]`: `fast`, `slow` or `normal` (Normal by default). They respectively correspond to `make fasttest`, `make slowtest` and `make test`.
 
-# build and register stage 2 text, version 1.2.3.0
-$ build _build/stage1/lib/package.conf.d/text-1.2.3.0.conf
+- `--summary[=TEST_SUMMARY]`: where to output the test summary file.
 
-# generate the 'platformConstants' file for stage 1 ghc
-$ build _build/stage0/lib/platformConstants
-
-# build the static library for stage 2 base
-$ build _build/stage1/libraries/base/build/libHSbase-4.11.1.0.a
-
-# phony target for building haddocks, user guide and more
-$ build docs
-
-# phony target for producing a binary distribution
-# note: they are not as complete as the ones the make build
-#       system produces yet.
-$ build binary-dist
-
-# phony target for producing a source distribution
-$ build source-dist
-
-# phony targets for running tests or validate
-# note: those are quite incomplete and buggy at the moment,
-#       see https://github.com/snowleopard/hadrian/issues/187 
-$ build test
-$ build validate
-}}}
-
-Once you have a full build of GHC, you can take a look at the files produced under the build root to see where all the build artifacts you might care about reside.
+- `--test-way[=TEST_WAY]`: only run these test ways, e.g `--test-way=threaded2`. 
 
 == User settings ==
 
@@ -127,4 +120,21 @@ Hadrian is a submodule of the main GHC git repository, located at the root of th
 $ cd hadrian
 $ git remote add snowleopard https://github.com/snowleopard/hadrian.git
 $ git fetch snowleopard && git checkout snowleopard/master
+}}}
+
+== Build targets to be documented ==
+
+{{{#!sh
+# phony target for producing a binary distribution
+# note: they are not as complete as the ones the make build
+#       system produces yet.
+$ build binary-dist
+
+# phony target for producing a source distribution
+$ build source-dist
+
+# phony target for running validate
+# note: those are quite incomplete and buggy at the moment,
+#       see https://github.com/snowleopard/hadrian/issues/187 
+$ build validate
 }}}
