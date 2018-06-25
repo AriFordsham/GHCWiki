@@ -43,7 +43,7 @@ Below are the major highlights of 8.6.
 
 - Valid hole fits ([\#14969](https://gitlab.haskell.org//ghc/ghc/issues/14969), [\#14990](https://gitlab.haskell.org//ghc/ghc/issues/14990), [\#10946](https://gitlab.haskell.org//ghc/ghc/issues/10946))
 
-- Improvements in code generation, include a (often more efficient) new SRT representation
+- Improvements in code generation, include a new SRT representation that results in more compact generated code ([ blog post](http://simonmar.github.io/posts/2018-06-22-New-SRTs.html))
 
 - Further improvements to DWARF unwinding support
 

@@ -41,7 +41,7 @@ Below are the major highlights of 8.6.
 
   - Valid hole fits (#14969, #14990, #10946)
 
-  - Improvements in code generation, include a (often more efficient) new SRT representation
+  - Improvements in code generation, include a new SRT representation that results in more compact generated code ([[http://simonmar.github.io/posts/2018-06-22-New-SRTs.html|blog post]])
 
   - Further improvements to DWARF unwinding support
 
