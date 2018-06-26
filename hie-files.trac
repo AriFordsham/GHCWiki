@@ -11,21 +11,79 @@ As a proof of concept, haddocks --hyperlinked-source feature will be rewritten t
 
 == File Contents
 * The data structure should be a simplified, source aware, annotated AST derived from the Renamed/Typechecked Source
-* The type of every Name/symbol in the source should be included. Furthermore, the type should be specialised to the occurrence, so in the following snippet, `return` should be assigned the type `() -> IO ()` instead of `Monad m => a -> m a`
-{{{
-main :: IO ()
-main = return ()
-}}}
+* We traverse the Renamed and Typechecked AST to collect the following info about each SrcSpan
+  * Its type, if it corresponds to a binding, pattern or expression
+  * Details about any tokens in the original source corresponding to this span(keywords, symbols, etc.)  
+  * The set of Constructor/Type pairs that correspond to this span in the GHC AST 
+  * Details about all the identifiers that occur at this SrcSpan
 
-* It will be similar to [RichToken] format consumed by haddocks hyperlinker, but structured like a tree to accurately represent the Haskell AST as tooling like haskell-ide-engine might require more detailed information about source structure, like parent/sibling/child nodes in the AST
+* For each occurrence of an identifier(Name or ModuleName), we store its type(if it has one), and classify it as one of the following based on how it occurs:
+  1. Use
+  2. Import/Export
+  3. Pattern Binding, along with the scope of the binding, and the span of the entire binding location(including the RHS) if it occurs as part of a top level declaration, do binding or let/where binding
+  4. Value Binding, along with whether it is an instance binding or not, its scope, and the span of its entire binding site, including the RHS
+  5. Type Declaration (Class or Regular) (foo :: ...)
+  6. Declaration(class, type, instance, data, type family etc.)
+  7. Type variable binding, along with its scope(which takes into account ScopedTypeVariables)
 * It should be possible to exactly recover the source from the .hie file. This will probably be achieved by including the source verbatim in the .hie file, as recovering the source exactly from the AST might be tricky and duplicate the work on ghc-exactprint.
-* In the AST, instead of storing copies of the original Token source string, we can simply point to the relevant portions of the source
-* There will be a table consisting of all unique types that occur in the source. Elements of the AST with types will point to entries in the table, so that type duplication doesn't blow up the size of the file too much. Even type subtrees might need to be deduplicated.
 * The actual representation on disk as well as serialisation/de-serialisation could be done through CBOR, using the package [https://hackage.haskell.org/package/serialise-0.2.0.0 serialise].
 * The first line of the .hie file should be a human readable string containing information about the version of the format, the filename of the original file, and the version of GHC the file was compiled with. Example: (v1.0,GHC8.4.6,Foo.hs)
-* The format should be fairly stable across ghc versions, so we need to avoid capturing too much information. For this reason the tree should only capture scoping information, and nothing more. More detailed information about the exact haskell syntactic structure a part of the tree represents could be obtained by inspecting the tokens/keywords in that part.
+* The format should be fairly stable across ghc versions, so we need to avoid capturing too much information. More detailed information about the exact haskell syntactic structure a part of the tree represents could be obtained by inspecting the tokens/keywords in that part.
 
 The RichToken type used in haddock: https://github.com/haskell/haddock/blob/master/haddock-api/src/Haddock/Backends/Hyperlinker/Types.hs#L35
+
+== Scope information about symbols
+
+A simple scope is defined as
+
+{{{
+data Scope =
+    NoScope
+  | LocalScope Span
+  | ModuleScope
+}}}
+
+Value bindings are assigned a single `Scope`.
+
+For pattern bindings, things get a bit more complicated, with bindings in do notation and -XViewPatterns
+
+{{{
+do (b, a, (a -> True)) <- bar
+--  ^     ^^^^^^^^^^^^    ^^^ a is not in scope here or in the span of the first `b`
+--        ^ but a is in scope here
+   foo a
+-- ^^^^^ a is in scope here
+}}}
+
+So pattern bindings are assigned two `Scope`s, one for the span of the pattern binding itself, and another for the rest.
+
+The story is most complicated for type variables, in the presence of -XScopedTypeVariables and -XInstanceSigs
+
+{{{
+foo, bar, baz :: forall a. a -> a
+}}}
+
+`a` is in scope in all the definitions of `foo`, `bar` and `baz`, so we need a list of scopes to keep track of this. Furthermore, this list cannot be computed on the first go, and thus type variable scopes are defined as
+
+{{{
+data TyVarScope =
+    ResolvedScopes [Scope]
+  | UnresolvedScope [Name.Name] (Maybe Span)
+}}}
+
+UnresolvedScopes are resolved in a separate pass, by looking up the identifier binding sites.
+
+Consider the following case
+
+{{{
+instance Foo Int where
+  foo :: forall a. ...
+  foo = ... -- a is in scope here
+instance Foo Bar where
+  foo = ... -- a is not in scope here
+}}}
+
+To handle this case, we must store the Span of the instance/class definition along with the names.
 
 == Use cases
 
@@ -34,6 +92,7 @@ The RichToken type used in haddock: https://github.com/haskell/haddock/blob/mast
   * Local(in file) usage sites for symbols
   * Supporting global go to/view definition for every symbol in the Package Db
   * Viewing info about arbitrary nodes in the AST - does it have a type? What language construct does it correspond to?
+  * Recovering the scopes of symbols, for use in completion etc.
 * Along with an indexer that scans .hie files
   * Viewing the usage sites of symbols across the entirety of hackage or a local Package Db
   * Dependency analysis of symbols - what other symbols does something depend on
