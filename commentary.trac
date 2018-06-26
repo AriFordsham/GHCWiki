@@ -46,6 +46,7 @@ Try to link to source files as much as possible by using this macro: {{{[[GhcFil
 The above commentary covers the source code of GHC. For material that doesn't concern this topic (such as proposals, work-in-progress and status reports) or that don't fit into the existing structure, you will find them below. Feel free to add new material here but please categorise it correctly.
 
  * General Notes on the GHC compiler
+   * Ningning Xie's [literature review|https://github.com/xnning/GHC-Core-Literature-Review/blob/master/doc/doc.pdf] of various contributions to GHC's type system 
    * Edward Yang's blog post about [http://blog.ezyang.com/2011/04/tracing-the-compilation-of-hello-factorial/ the entire complilation pipeline for `factorial`]
    * [wiki:AddingNewPrimitiveOperations New Prim Ops]: How to add new primitive operations to GHC Haskell.
    * [wiki:ReplacingGMPNotes Replacing GMP]: Notes from an effort to replace GMP with another Bignum library.
