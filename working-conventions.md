@@ -30,6 +30,8 @@ GHC is a BSD-licensed open-source project, and we welcome your help in making it
 
 ## Tips and Tricks
 
+- [Loading GHC into GHCi](building/in-ghci) can provide a more iterative development experience. 
+
 - To have an easier time looking up tickets and searching trac, use [the browser tips page](browser-tips) to make your search and lookups for Trac tickets substantially easier.
 
 - If you use Emacs, see [Emacs](emacs) for some useful stuff to put in your `.emacs` file.
