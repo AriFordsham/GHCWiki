@@ -30,6 +30,7 @@ can extend it, modify it, and use it to build your code.
  * [wiki:Building/Docs Building the documentation]
  * [wiki:Building/Installing Installing GHC from a build]
  * [wiki:Building/Unregisterised Unregisterised builds]
+ * [wiki:Building/InGhci Loading GHC into GHCi]
 
 '''How to test and benchmark GHC'''
 

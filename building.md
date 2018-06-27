@@ -24,6 +24,7 @@ can extend it, modify it, and use it to build your code.
 - [Building the documentation](building/docs)
 - [Installing GHC from a build](building/installing)
 - [Unregisterised builds](building/unregisterised)
+- [Loading GHC into GHCi](building/in-ghci)
 
 **How to test and benchmark GHC**
 
