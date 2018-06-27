@@ -1,5 +1,4 @@
-
-\# Loading GHC into GHCi
+# Loading GHC into GHCi
 
 
 This page says how you can load GHC into GHCi for more iterative development. Csongor Kiss was the first person to record this feat. 
