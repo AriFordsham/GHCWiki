@@ -50,8 +50,7 @@ A key part of the original proposal was the type of data constructors was linear
 
 However, this was quickly found not to work properly. Below are two examples as described by Arnaud
 
-
-\#\#\# Example 1
+### Example 1
 
 ```wiki
 foo :: Identity (a -> b) -> a -> b
@@ -69,8 +68,7 @@ Just x) :: Identity (a -\> b), but at the time where the application
 Identity Just was type-checked, it was not known that Just should
 be cast to an unrestricted arrow type.
 
-
-\#\#\# Example 2
+### Example 2
 
 
 The second problem is much more obvious in retrospect: there are
@@ -98,8 +96,7 @@ import Control.Category
 Just . (Just :: _ -> _)
 ```
 
-
-\#\# Polymorphic Constructors 
+## Polymorphic Constructors
 
 
 Simon quickly suggested a solution to these problems. To make the type of data constructors polymorphic.
@@ -111,3 +108,66 @@ Simon quickly suggested a solution to these problems. To make the type of data c
 
 We never infer multiplicity polymorphic arrows (like levity polymorphism). Any type variables which get to the top level are default to `Omega`. Thus, in most cases the multiplicity argument is
 defaulted to `Omega` or forced to be `Omega` by unification. 
+
+### Implementation
+
+
+The way this is implemented is that every data constructor is given a wrapper with NO exceptions. Even internally used data types have wrappers for the moment which makes the treatment quite uniform. The most significant challenge of this endeavour was giving build in data types wrappers as previously none of them had wrappers. This led to the refactoring of `mkDataConRep` and the
+introduction of `mkDataConRepSimple` which is a pure, simpler version of `mkDataConRep`. 
+
+
+Once everything has a wrapper, you have to be quite careful with the difference between `dataConWrapId` and `dataConWorkId`. There were a few places where this used to work
+by accident as they were the same thing for builtin types.  
+
+
+In particular, functions like `exprConApp_maybe` are fragile and I spent a while looking there. 
+
+
+Other uses can be found by grepping for `omegaDataConTy`. There are probably places where they can be removed by using `dataConWorkId` rather than `dataConWrapId`. The desugaring of `ConLikeOut` uses `dataConWrapId` though so anything in source syntax should apply the extra argument.
+
+
+As another note, be warned that the serialisation for inbuilt tuples is different from normal data constructors. I didn't know this until I printed out the uniques - ad397aa99be3aa1f46520953cb195b97e4cfaabf
+
+
+Otherwise, the implementation followed much the same path as levity polymorphism. 
+
+### Typechecking
+
+
+The internal representation of a multiplicity is called `Rig`. 
+
+```wiki
+data Rig = Zero                                                                    
+         | One                                                                     
+         | Omega                                                                   
+         | RigAdd Rig Rig                                                          
+         | RigMul Rig Rig                                                          
+         | RigTy Type                                                              
+  deriving (Data) 
+```
+
+
+Each constructor represents how many times a variable is allowed to be used. There are precisely two places where we check how often variables are used.
+
+1. In `TcEnv.tc_extend_local_env`, which is the function which brings local variables into scope. We call `tcSubWeight` in `check_binder`.
+1. In `tc_sub_type_ds`, In the `FunTy` case, we unify the arrow multiplicity which can lead to the unification of multiplicity variables. 
+
+
+There are two useful functions in this dance. In order to use the normal unification machinery, we 
+
+#### The 1 \<= p rule
+
+
+Given the current domain, it is true that `1` is the smallest element. As such, we assume `1` is smaller than everything which allows more functions to type check. 
+
+
+This is implemented by making sure to call `subweight` on the weights before passing them to the normal unifier which knows nothing special about multiplicities. This can be seen at both
+`tc_extend_local_env` and `tc_sub_type_ds`. At the moment we also get much better error messages by doing this short circuiting.
+
+#### Complex constraints
+
+
+Multiplication and addition are approximated.
+
+- A constraint of the form `p1 * p2 <= q` is solved as `p1 <= q` and `p2 <= q`. 
+- A constraint of the form `p1 + p2 <= q` is solved as `Omega <= q`
