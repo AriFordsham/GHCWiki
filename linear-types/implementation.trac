@@ -12,6 +12,86 @@ Binders also have a weight attached to them.
 
 The rest of the implementation is essentially correctly propagating and calculating linearity information whenever a `FunTy` is created.
 
+== DataCon
+
+== Rebuilding expressions in the optimiser
+
+== FunTyCon
+
 == Core Lint
 
 TODO - this is described somewhat in the minicore document but it is not finished. 
+
+== Polymorphism
+
+The principle of the polymorphism implementation is simple. We modified the function type constructor to take an extra type argument. So it's kind is now.
+
+{{{
+ (->) :: forall (m :: Multiplicity) (rep1 :: RuntimeRep) (rep2 :: RuntimeRep). TYPE rep1 -> TYPE rep2 -> *
+}}}
+
+Then all arrows can be polymorphic in their multiplicity. 
+
+== Data Constructors are polymorphic
+
+A key part of the original proposal was the type of data constructors was linear. 
+
+{{{
+(,) :: a ->. b ->. (a, b)
+}}}
+
+However, this was quickly found not to work properly. Below are two examples as described by Arnaud
+
+### Example 1
+
+{{{
+foo :: Identity (a -> b) -> a -> b
+foo = unIndentity
+
+foo (Identity Just)
+}}}
+
+The last line doesn’t type check because foo expects an Identity (a
+-> b) but Identity Just is inferred to have type Identity (a ⊸
+b). The limited subtyping doesn’t handle this case. In a perfect
+world, Identity Just would have been elaborated to Identity (\x ->
+Just x) :: Identity (a -> b), but at the time where the application
+Identity Just was type-checked, it was not known that Just should
+be cast to an unrestricted arrow type.
+
+### Example 2
+
+The second problem is much more obvious in retrospect: there are
+typeclasses defined on (->), and they can fail to apply when using
+linear function.
+
+{{{
+import Control.Category
+
+Just . Just -- fails
+}}}
+
+The latter fails because there are no Category instance of (⊸). In
+the case of Category, we can write an instance, but it’s not
+necessarily the case that an instance for (->) will have a
+corresponding instance for (⊸). Anyway, even if we have a Category
+instance for (⊸), it is not clear what expression will
+typecheck: probably of the following will fail
+
+{{{
+import Control.Category
+
+(Just :: _ -> _) . Just
+Just . (Just :: _ -> _)
+}}}
+
+## Polymorphic Constructors 
+
+Simon quickly suggested a solution to these problems. To make the type of data constructors polymorphic.
+
+{{{
+(,) :: forall (m :: Multiplicity). a ->@{m} b  ->@{m} -> (a, b)
+}}}
+
+We never infer multiplicity polymorphic arrows (like levity polymorphism). Any type variables which get to the top level are default to `Omega`. Thus, in most cases the multiplicity argument is
+defaulted to `Omega` or forced to be `Omega` by unification. 
