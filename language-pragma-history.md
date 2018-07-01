@@ -14,8 +14,9 @@ See also [ http://damianfral.github.io/ghcaniuse/](http://damianfral.github.io/g
 
 Added LANGUAGE extensions:
 
-- `[No]NumericUnderscores`
 - `[No]BlockArguments`
+- `[No]NumericUnderscores`
+- `[No]StarIsType`
 
 ## Changes in GHC 8.4
 
