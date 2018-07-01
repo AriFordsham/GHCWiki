@@ -14,6 +14,8 @@ See also [ http://damianfral.github.io/ghcaniuse/](http://damianfral.github.io/g
 
 Added LANGUAGE extensions:
 
+- `[No]DerivingVia`
+- `[No]QuantifiedConstraints`
 - `[No]BlockArguments`
 - `[No]NumericUnderscores`
 - `[No]StarIsType`
