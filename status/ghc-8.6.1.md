@@ -25,7 +25,7 @@ Below are the major highlights of 8.6.
 
 ### Build system and miscellaneous changes
 
-- Improved Windows support, including support for split sections, a new IOCP-based I/O manager, and long file paths (Tamar Christina)
+- Improved Windows support, including support for split sections, and long file paths support (no MAX_PATH restriction) (Tamar Christina)
 
 - Support for building stating libraries for elf and mach-o (`-staticlib`)
 
