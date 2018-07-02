@@ -1,5 +1,5 @@
 
-On this page we describe the principles behind the implementation of the linear types extension as described at \[[LinearTypes](linear-types)\].
+On this page we describe the principles behind the implementation of the linear types extension as described at [LinearTypes](linear-types).
 
 
 The current implementation progress can be seen on [ here](https://github.com/tweag/ghc/tree/linear-types)
@@ -8,7 +8,7 @@ The current implementation progress can be seen on [ here](https://github.com/tw
 
 
 The main principle behind the implementation is to modify `FunTyCon` with an extra argument which indicates the *multiplicity* of an arrow. The data type for multiplicities is defined
-in `compilerbasicTypes/Weight.hs` and is called `Rig` (both the name of the file and the name of the type are temporary). There are two multiplicities, `One` which indicates that the function is linear and `Omega` which indicates that it is not.
+in `compiler/basicTypes/Weight.hs` and is called `Rig` (both the name of the file and the name of the type are temporary). There are two multiplicities, `One` which indicates that the function is linear and `Omega` which indicates that it is not.
 
 
 Core binders also have a multiplicity attached to them. 
@@ -16,15 +16,135 @@ Core binders also have a multiplicity attached to them.
 
 The rest of the implementation is essentially correctly propagating and calculating linearity information whenever a `FunTy` is created.
 
+### Fontend
+
+
+The source representation of a weight is `HsRig`, it is parametrised by the current pass like all over front-end types. 
+
+```wiki
+data HsRig pass = HsZero | HsOne | HsOmega | HsRigTy (LHsType pass)
+```
+
+
+We also define `HsWeighted pass a` which is a `HsRig` associated with a thing.
+
+#### Parsing
+
+
+There is currently a rule in the lexer to parse `-->.` as `ITlolly2`. This syntax is chosen to be easy to parse currently.
+The linear arrow can be written as `->.` or with `UnicodeSyntax` as `⊸`.
+
+
+The syntax for polymorphism is currently.
+
+```wiki
+a -->. (m) b
+```
+
+
+where `m` is a multiplicity variable.
+
+```wiki
+id :: a -->. (One) a
+id x = x
+```
+
+
+This is the linear identity function, for example.
+
 ## DataCon
 
 ## Rebuilding expressions in the optimiser
 
+
+There are situations in the optimiser where lets more through cases when case of case is applied. 
+
+
+                                                      
+The simplifier creates let bindings under certain circumstances which              
+are then inserted later. These are returned in `SimplFloats`.                      
+                                                                                   
+However, we have to be somewhat careful here when it comes to linearity            
+as if we create a floating binding x in the scrutinee position.                    
+                 
+
+```wiki
+case_w (let x[1] = "Foo" in Qux x) of                                              
+  Qux _ -> "Bar"                                                                   
+```
+
+
+                                                                                
+then the let will end up outside the `case` if we perform KnownBranch or           
+the case of case optimisation.                                                     
+   
+
+```wiki
+let x[1] = "Foo"                                                                   
+in "Bar"                                                                           
+```
+
+
+                                                                                
+So we get a linearity failure as the one usage of x is eliminated.                 
+However, because the ambient context is an Omega context, we know that             
+we will use the scrutinee Omega times and hence all bindings inside it             
+Omega times as well. The failure was that we created a \[1\] binding                 
+whilst inside this context and it then escaped without being scaled.               
+                                                                                   
+We also have to be careful as if we have a \[1\] case                                
+   
+
+```wiki
+case_1 (let x[1] = "Foo" in Qux x) of                                              
+  Qux x -> x                                                                       
+```
+
+
+                                                                                
+then the binding maintains the correct linearity once it is floated rom            
+the case and KnownBranch is performed.                                             
+   
+
+```wiki
+let x[1] = "Foo"                                                                   
+in x                                                                               
+```
+
+
+                                                                                
+The difficulty mainly comes from that we only discover this context                
+at a later point once we have rebuilt the continuation. So, whilst rebuilding   
+a continuation we keep track of how many case-of-case like opportunities           
+take place and hence how much we have to scale lets floated from the scrutinee. 
+This is achieved by adding a Writer like effect to the SimplM data type.           
+It seems to work in practice, at least for T12944 which originally highlighted  
+this problem.                                                                      
+                                                                                   
+Why do we do this scaling afterwards rather than when the binding is               
+created? It is possible the binding comes from a point deep inside the             
+expression. It wasn't clear to me that we know enough about the context            
+at the point we make the binding due to the SimplCont type. It might               
+be thread this information through to get it right at definition site.             
+For now, I leave warnings and this message to my future self.  
+
+
+For an in-depth discussion see: [ https://github.com/tweag/ghc/issues/78](https://github.com/tweag/ghc/issues/78) and [ https://github.com/tweag/ghc/pull/87](https://github.com/tweag/ghc/pull/87)
+
 ## FunTyCon
+
+`FunTy` is a special case of a `Type`. It is a fully applied function type constructor, so now a function type constructor with five arguments. 
+This special case is constructed in `mkTyConApp`. The problems come when a `FunTy` is deconstructed, for example `repSplitTyConApp_maybe`, if this
+list is not the right length then you get some very confusing errors. The place which was hardest to track down was in `Coercion` where `decomposeFunCo`
+had some magic numbers corresponding to the the position of the types of the function arguments.
+
+
+Look for `Note [Function coercions]` and grep for lists of exactly length 5 if you modify this for whatever reason.
 
 ## Core Lint
 
-TODO - this is described somewhat in the minicore document but it is not finished. 
+TODO - this is described somewhat in the minicore document but it is not finished. In particular, join points are not implemented at all. This hasn't been a problem as the only linearity has been from data constructors
+which are never made into join points.
 
 ## Polymorphism
 
@@ -138,6 +258,28 @@ As another note, be warned that the serialisation for inbuilt tuples is differen
 
 Otherwise, the implementation followed much the same path as levity polymorphism. 
 
+#### Rules and Wrappers
+
+
+Giving data constructors wrappers makes RULES mentioning data constructors not work as well. Mentioning a data constructor in a RULE currently means the wrapper, which is often inlined without hesitation and hence means that rule will
+not fire at a later point. How to solve this is currently unresolved.
+
+#### `magicDict`
+
+
+A specific point of pain was `magicDict` which is a special identifier which does not exist at runtime. It relies on an inbuilt RULE in order to eliminate it. 
+The rule is defined at `match_magicDict`. There are t
+
+
+If you don't eliminate it then you will get a linker error like 
+
+```wiki
+/root/ghc-leap/libraries/base/dist-install/build/libHSbase-4.12.0.0-ghc8.5.so: undefined reference to `ghczmprim_GHCziPrim_magicDict_closure
+```
+
+[ I made the matching more robust](https://github.com/tweag/ghc/pull/92/commits/c18ab3d533dbc871f5afe8fe4d2a9d8f8213f8b4) in the two places in base by using a function as the argument to `magicDict` rather than a data constructor 
+as the builtin rule only uses that information for the type of the function.
+
 ## Typechecking
 
 
@@ -166,6 +308,9 @@ Each constructor represents how many times a variable is allowed to be used. The
 
 There are two useful functions in this dance. In order to use the normal unification machinery, we eventually call `tc_sub_type_ds` but before that we check for domain specific rules we want to implement such as `1 <= p` which is
 achieved by calls to `subweight` or `subweightMaybe`. The `flattenRig` function removes redundancy from the representation (by replacing `RigTy omegaDataConTy` with `Omega` and likewise for One).
+
+
+It is also important that `subweight` is checked before `rigToType` is called  as there is no representation for Zero as it is not allowed to be written in user programs.
 
 ## Solving constraints
 
@@ -199,3 +344,23 @@ Calls to `isMultiplicityVar` are used in places where we do defaulting.
 
 1. `TcSimplify.defaultTyVarTcS`
 1. `TcMType.defaultTyVar`
+
+## Debugging
+
+
+If you are debugging then it is very useful to turn on the explicit printing of weights in two places.
+
+1. The outputable instance for `Weighted` in `Weight`.
+1. The weight of variables in `Var`, line 309.
+
+
+There are disabled by default as they affect test output.
+
+## Module Cycles
+
+
+You have to be very careful about where you define functions which operator on `Rig`. A `Rig` contains a `Type` and types contains `Var`s which contain a `Rig`. 
+
+
+This means that `Weight`, `UsageEnv` and `Type` all have things added to their `hs-boot` files. I managed to play this game well enough but it was quite precarious 
+adding new definitions into this cycle. This is why \`
