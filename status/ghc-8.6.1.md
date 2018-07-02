@@ -53,6 +53,8 @@ Below are the major highlights of 8.6.
 
 - NumericUnderscores extension ([\#14473](https://gitlab.haskell.org//ghc/ghc/issues/14473), [ proposal](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0009-numeric-underscores.rst))
 
+- StarIsType extension ([ proposal](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0020-no-type-in-type.rst), Vladislav Zavialov)
+
 ### Library changes
 
 ### Build system and miscellaneous changes

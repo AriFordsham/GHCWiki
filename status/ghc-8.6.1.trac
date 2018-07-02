@@ -51,6 +51,8 @@ Below are the major highlights of 8.6.
 
   - NumericUnderscores extension (#14473, [[https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0009-numeric-underscores.rst|proposal]])
 
+  - StarIsType extension ([[https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0020-no-type-in-type.rst|proposal]], Vladislav Zavialov)
+
 === Library changes ===
 
 
