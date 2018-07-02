@@ -99,10 +99,17 @@ Just . (Just :: _ -> _)
 ## Polymorphic Constructors
 
 
-Simon quickly suggested a solution to these problems. To make the type of data constructors polymorphic.
+Simon quickly suggested a solution to these problems. To make the type of linear data constructors polymorphic, when they are used as terms (their type stays linear when they are used in patterns).
 
 ```wiki
-(,) :: forall (m :: Multiplicity). a ->@{m} b  ->@{m} -> (a, b)
+(,) :: forall (p :: Multiplicity) (q :: Multiplicity). a ->@{p} b  ->@{q} -> (a, b)
+```
+
+
+Currently simplified as having a single multiplicity variable for the sake of a simpler implementation
+
+```wiki
+(,) :: forall (p :: Multiplicity). a ->@{p} b  ->@{p} -> (a, b)
 ```
 
 
