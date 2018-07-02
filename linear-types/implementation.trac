@@ -134,6 +134,9 @@ If you don't eliminate it then you will get a linker error like
 /root/ghc-leap/libraries/base/dist-install/build/libHSbase-4.12.0.0-ghc8.5.so: undefined reference to `ghczmprim_GHCziPrim_magicDict_closure
 }}}
 
+[https://github.com/tweag/ghc/pull/92/commits/c18ab3d533dbc871f5afe8fe4d2a9d8f8213f8b4 I made the matching more robust] in the two places in base by using a function as the argument to `magicDict` rather than a data constructor 
+as the builtin rule only uses that information for the type of the function.
+
 
 == Typechecking
 
