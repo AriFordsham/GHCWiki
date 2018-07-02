@@ -12,7 +12,7 @@ The motivations, technical details and examples on the proposal are described in
 
 == Implementation ==
 
-A prototype implementation can be found at https://github.com/tweag/ghc/tree/linear-types .
+The implementation in progress can be found at https://github.com/tweag/ghc/tree/linear-types .
 
 A library to serve as a central library for linearly typed program can be found at https://github.com/tweag/linear-base/
 
