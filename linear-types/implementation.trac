@@ -133,13 +133,17 @@ Each constructor represents how many times a variable is allowed to be used. The
 
 There are two useful functions in this dance. In order to use the normal unification machinery, we 
 
+
+== Solving constraints
+
+Constraint solving is not completely designed yet. The current implementation follows very simple rules, to get the implementation off the ground.
+
 === The 1 <= p rule
+
 Given the current domain, it is true that `1` is the smallest element. As such, we assume `1` is smaller than everything which allows more functions to type check. 
 
 This is implemented by making sure to call `subweight` on the weights before passing them to the normal unifier which knows nothing special about multiplicities. This can be seen at both
 `tc_extend_local_env` and `tc_sub_type_ds`. At the moment we also get much better error messages by doing this short circuiting.
-
-== Inference
 
 === Complex constraints
 
