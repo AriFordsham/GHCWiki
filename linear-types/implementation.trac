@@ -6,11 +6,41 @@ The current implementation progress can be seen on [https://github.com/tweag/ghc
 == Principles
 
 The main principle behind the implementation is to modify `FunTyCon` with an extra argument which indicates the ''multiplicity'' of an arrow. The data type for multiplicities is defined
-in `compilerbasicTypes/Weight.hs` and is called `Rig` (both the name of the file and the name of the type are temporary). There are two multiplicities, `One` which indicates that the function is linear and `Omega` which indicates that it is not.
+in `compiler/basicTypes/Weight.hs` and is called `Rig` (both the name of the file and the name of the type are temporary). There are two multiplicities, `One` which indicates that the function is linear and `Omega` which indicates that it is not.
 
 Core binders also have a multiplicity attached to them. 
 
 The rest of the implementation is essentially correctly propagating and calculating linearity information whenever a `FunTy` is created.
+
+=== Fontend
+
+The source representation of a weight is `HsRig`, it is parametrised by the current pass like all over front-end types. 
+
+{{{
+data HsRig pass = HsZero | HsOne | HsOmega | HsRigTy (LHsType pass)
+}}}
+
+We also define `HsWeighted pass a` which is a `HsRig` associated with a thing.
+
+==== Parsing
+
+There is currently a rule in the lexer to parse `-->.` as `ITlolly2`. This syntax is chosen to be easy to parse currently.
+The linear arrow can be written as `->.` or with `UnicodeSyntax` as `⊸`.
+
+The syntax for polymorphism is currently.
+
+{{{
+a -->. (m) b
+}}}
+
+where `m` is a multiplicity variable.
+
+{{{
+id :: a -->. (One) a
+id x = x
+}}}
+
+This is the linear identity function, for example.
 
 == DataCon
 
@@ -20,7 +50,8 @@ The rest of the implementation is essentially correctly propagating and calculat
 
 == Core Lint
 
-TODO - this is described somewhat in the minicore document but it is not finished. 
+TODO - this is described somewhat in the minicore document but it is not finished. In particular, join points are not implemented at all. This hasn't been a problem as the only linearity has been from data constructors
+which are never made into join points.
 
 == Polymorphism
 
@@ -191,3 +222,12 @@ Calls to `isMultiplicityVar` are used in places where we do defaulting.
 
 1. `TcSimplify.defaultTyVarTcS`
 2. `TcMType.defaultTyVar`
+
+== Debugging
+
+If you are debugging then it is very useful to turn on the explicit printing of weights in two places.
+
+1. The outputable instance for `Weighted` in `Weight`.
+2. The weight of variables in `Var`, line 309.
+
+There are disabled by default as they affect test output.
