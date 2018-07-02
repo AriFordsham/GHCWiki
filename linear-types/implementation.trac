@@ -118,6 +118,23 @@ As another note, be warned that the serialisation for inbuilt tuples is differen
 
 Otherwise, the implementation followed much the same path as levity polymorphism. 
 
+==== Rules and Wrappers
+
+Giving data constructors wrappers makes RULES mentioning data constructors not work as well. Mentioning a data constructor in a RULE currently means the wrapper, which is often inlined without hesitation and hence means that rule will
+not fire at a later point. How to solve this is currently unresolved.
+
+==== `magicDict`
+
+A specific point of pain was `magicDict` which is a special identifier which does not exist at runtime. It relies on an inbuilt RULE in order to eliminate it. 
+The rule is defined at `match_magicDict`. There are t
+
+If you don't eliminate it then you will get a linker error like 
+
+{{{
+/root/ghc-leap/libraries/base/dist-install/build/libHSbase-4.12.0.0-ghc8.5.so: undefined reference to `ghczmprim_GHCziPrim_magicDict_closure
+}}}
+
+
 == Typechecking
 
 The internal representation of a multiplicity is called `Rig`. 
