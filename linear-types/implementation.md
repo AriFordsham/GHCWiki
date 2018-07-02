@@ -2,7 +2,7 @@
 On this page we describe the principles behind the implementation of the linear types extension as described at \[[LinearTypes](linear-types)\].
 
 
-The current implementation progress can be seen on [ here](https://github.com/tweag/ghc/tree/wip/linear-types)
+The current implementation progress can be seen on [ here](https://github.com/tweag/ghc/tree/linear-types)
 
 ## Principles
 
@@ -131,7 +131,7 @@ As another note, be warned that the serialisation for inbuilt tuples is differen
 
 Otherwise, the implementation followed much the same path as levity polymorphism. 
 
-### Typechecking
+## Typechecking
 
 
 The internal representation of a multiplicity is called `Rig`. 
@@ -149,13 +149,22 @@ data Rig = Zero
 
 Each constructor represents how many times a variable is allowed to be used. There are precisely two places where we check how often variables are used.
 
-1. In `TcEnv.tc_extend_local_env`, which is the function which brings local variables into scope. We call `tcSubWeight` in `check_binder`.
-1. In `tc_sub_type_ds`, In the `FunTy` case, we unify the arrow multiplicity which can lead to the unification of multiplicity variables. 
+1. In `TcEnv.tc_extend_local_env`, which is the function which brings local variables into scope. Upon exiting a binder, we call `tcSubWeight` (via `check_binder`) to ensure that the variable usage is compatible with the declared multiplicity (if no multiplicity was declared, a fresh existential multiplicity variable is created instead).
+
+  - `tcSubWeight` emits constraints of the form `π ⩽ ρ`, represented as `<TODO: GHC representation here>`.
+1. In `tc_sub_type_ds`, In the `FunTy` case, we unify the arrow multiplicity which can lead to the unification of multiplicity variables.
+
+  - `tc_sub_type_ds` emits constraints of the form `π = ρ`, represented as `<TODO: GHC representation here>`.
 
 
 There are two useful functions in this dance. In order to use the normal unification machinery, we 
 
-#### The 1 \<= p rule
+## Solving constraints
+
+
+Constraint solving is not completely designed yet. The current implementation follows very simple rules, to get the implementation off the ground. Basically both equality and inequality constraints are treated as syntactic equality unification (as opposed, in particular, to unification up to laws of multiplicities as in the proposal). There are few other rules (described below) which are necessary to type even simple linear programs:
+
+### The 1 \<= p rule
 
 
 Given the current domain, it is true that `1` is the smallest element. As such, we assume `1` is smaller than everything which allows more functions to type check. 
@@ -164,10 +173,15 @@ Given the current domain, it is true that `1` is the smallest element. As such, 
 This is implemented by making sure to call `subweight` on the weights before passing them to the normal unifier which knows nothing special about multiplicities. This can be seen at both
 `tc_extend_local_env` and `tc_sub_type_ds`. At the moment we also get much better error messages by doing this short circuiting.
 
-#### Complex constraints
+### Complex constraints
 
 
 Multiplication and addition are approximated.
 
 - A constraint of the form `p1 * p2 <= q` is solved as `p1 <= q` and `p2 <= q`. 
 - A constraint of the form `p1 + p2 <= q` is solved as `Omega <= q`
+
+### Specialisation
+
+
+Unsolved multiplicity variables are specialised to ω by the function `<TODO: function name here, and possibly mechanism>`.
