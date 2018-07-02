@@ -56,16 +56,21 @@ are then inserted later. These are returned in `SimplFloats`.
                                                                                    
 However, we have to be somewhat careful here when it comes to linearity            
 as if we create a floating binding x in the scrutinee position.                    
-                                                                                   
+                 
+{{{                                                                  
 case_w (let x[1] = "Foo" in Qux x) of                                              
   Qux _ -> "Bar"                                                                   
-                                                                                   
+}}}   
+                                                                                
 then the let will end up outside the `case` if we perform KnownBranch or           
 the case of case optimisation.                                                     
-                                                                                   
+   
+{{{                                                                                
 let x[1] = "Foo"                                                                   
 in "Bar"                                                                           
-                                                                                   
+}}}   
+
+                                                                                
 So we get a linearity failure as the one usage of x is eliminated.                 
 However, because the ambient context is an Omega context, we know that             
 we will use the scrutinee Omega times and hence all bindings inside it             
@@ -73,18 +78,23 @@ Omega times as well. The failure was that we created a [1] binding
 whilst inside this context and it then escaped without being scaled.               
                                                                                    
 We also have to be careful as if we have a [1] case                                
-                                                                                   
+   
+{{{                                                                                
 case_1 (let x[1] = "Foo" in Qux x) of                                              
   Qux x -> x                                                                       
-                                                                                   
+}}}   
+                                                                                
 then the binding maintains the correct linearity once it is floated rom            
 the case and KnownBranch is performed.                                             
-                                                                                   
+   
+{{{                                                                                
 let x[1] = "Foo"                                                                   
 in x                                                                               
-                                                                                   
+}}}   
+
+                                                                                
 The difficulty mainly comes from that we only discover this context                
-at a later point once we have rebuilt the contituation. So, whilst rebuilding   
+at a later point once we have rebuilt the continuation. So, whilst rebuilding   
 a continuation we keep track of how many case-of-case like opportunities           
 take place and hence how much we have to scale lets floated from the scrutinee. 
 This is achieved by adding a Writer like effect to the SimplM data type.           
