@@ -46,7 +46,70 @@ This is the linear identity function, for example.
 
 == Rebuilding expressions in the optimiser
 
+There are situations in the optimiser where lets more through cases when case of case is applied. 
+
+
+
+                                                      
+The simplifier creates let bindings under certain circumstances which              
+are then inserted later. These are returned in `SimplFloats`.                      
+                                                                                   
+However, we have to be somewhat careful here when it comes to linearity            
+as if we create a floating binding x in the scrutinee position.                    
+                                                                                   
+case_w (let x[1] = "Foo" in Qux x) of                                              
+  Qux _ -> "Bar"                                                                   
+                                                                                   
+then the let will end up outside the `case` if we perform KnownBranch or           
+the case of case optimisation.                                                     
+                                                                                   
+let x[1] = "Foo"                                                                   
+in "Bar"                                                                           
+                                                                                   
+So we get a linearity failure as the one usage of x is eliminated.                 
+However, because the ambient context is an Omega context, we know that             
+we will use the scrutinee Omega times and hence all bindings inside it             
+Omega times as well. The failure was that we created a [1] binding                 
+whilst inside this context and it then escaped without being scaled.               
+                                                                                   
+We also have to be careful as if we have a [1] case                                
+                                                                                   
+case_1 (let x[1] = "Foo" in Qux x) of                                              
+  Qux x -> x                                                                       
+                                                                                   
+then the binding maintains the correct linearity once it is floated rom            
+the case and KnownBranch is performed.                                             
+                                                                                   
+let x[1] = "Foo"                                                                   
+in x                                                                               
+                                                                                   
+The difficulty mainly comes from that we only discover this context                
+at a later point once we have rebuilt the contituation. So, whilst rebuilding   
+a continuation we keep track of how many case-of-case like opportunities           
+take place and hence how much we have to scale lets floated from the scrutinee. 
+This is achieved by adding a Writer like effect to the SimplM data type.           
+It seems to work in practice, at least for T12944 which originally highlighted  
+this problem.                                                                      
+                                                                                   
+Why do we do this scaling afterwards rather than when the binding is               
+created? It is possible the binding comes from a point deep inside the             
+expression. It wasn't clear to me that we know enough about the context            
+at the point we make the binding due to the SimplCont type. It might               
+be thread this information through to get it right at definition site.             
+For now, I leave warnings and this message to my future self.  
+
+For an in-depth discussion see: https://github.com/tweag/ghc/issues/78 and https://github.com/tweag/ghc/pull/87
+
+
 == FunTyCon
+
+`FunTy` is a special case of a `Type`. It is a fully applied function type constructor, so now a function type constructor with five arguments. 
+This special case is constructed in `mkTyConApp`. The problems come when a `FunTy` is deconstructed, for example `repSplitTyConApp_maybe`, if this
+list is not the right length then you get some very confusing errors. The place which was hardest to track down was in `Coercion` where `decomposeFunCo`
+had some magic numbers corresponding to the the position of the types of the function arguments.
+
+Look for `Note [Function coercions]` and grep for lists of exactly length 5 if you modify this for whatever reason.
+
 
 == Core Lint
 
@@ -231,3 +294,10 @@ If you are debugging then it is very useful to turn on the explicit printing of 
 2. The weight of variables in `Var`, line 309.
 
 There are disabled by default as they affect test output.
+
+== Module Cycles
+
+You have to be very careful about where you define functions which operator on `Rig`. A `Rig` contains a `Type` and types contains `Var`s which contain a `Rig`. 
+
+This means that `Weight`, `UsageEnv` and `Type` all have things added to their `hs-boot` files. I managed to play this game well enough but it was quite precarious 
+adding new definitions into this cycle. This is why `
