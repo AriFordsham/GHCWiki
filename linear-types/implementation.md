@@ -7,11 +7,11 @@ The current implementation progress can be seen on [ here](https://github.com/tw
 ## Principles
 
 
-The main principle behind the implementation is to modify `FunTyCon` with an extra argument which indicates the \*multiplicity\* of an arrow. The data type for multiplicities is defined
-in `compilerbasicTypes/Weight.hs` and is called `Rig`. There are two multiplicities, `One` which indicates that the function is linear and `Omega` which indicates that it is not.
+The main principle behind the implementation is to modify `FunTyCon` with an extra argument which indicates the *multiplicity* of an arrow. The data type for multiplicities is defined
+in `compilerbasicTypes/Weight.hs` and is called `Rig` (both the name of the file and the name of the type are temporary). There are two multiplicities, `One` which indicates that the function is linear and `Omega` which indicates that it is not.
 
 
-Binders also have a weight attached to them. 
+Core binders also have a multiplicity attached to them. 
 
 
 The rest of the implementation is essentially correctly propagating and calculating linearity information whenever a `FunTy` is created.
