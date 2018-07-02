@@ -128,15 +128,17 @@ data Rig = Zero
 
 Each constructor represents how many times a variable is allowed to be used. There are precisely two places where we check how often variables are used.
 
-1. In `TcEnv.tc_extend_local_env`, which is the function which brings local variables into scope. We call `tcSubWeight` in `check_binder`.
-2. In `tc_sub_type_ds`, In the `FunTy` case, we unify the arrow multiplicity which can lead to the unification of multiplicity variables. 
+1. In `TcEnv.tc_extend_local_env`, which is the function which brings local variables into scope. Upon exiting a binder, we call `tcSubWeight` (via `check_binder`) to ensure that the variable usage is compatible with the declared multiplicity (if no multiplicity was declared, a fresh existential multiplicity variable is created instead).
+    - `tcSubWeight` emits constraints of the form `π ⩽ ρ`, represented as `<TODO: GHC representation here>`.
+2. In `tc_sub_type_ds`, In the `FunTy` case, we unify the arrow multiplicity which can lead to the unification of multiplicity variables.
+    - `tc_sub_type_ds` emits constraints of the form `π = ρ`, represented as `<TODO: GHC representation here>`.
 
 There are two useful functions in this dance. In order to use the normal unification machinery, we 
 
 
 == Solving constraints
 
-Constraint solving is not completely designed yet. The current implementation follows very simple rules, to get the implementation off the ground.
+Constraint solving is not completely designed yet. The current implementation follows very simple rules, to get the implementation off the ground. Basically both equality and inequality constraints are treated as syntactic equality unification (as opposed, in particular, to unification up to laws of multiplicities as in the proposal). There are few other rules (described below) which are necessary to type even simple linear programs:
 
 === The 1 <= p rule
 
@@ -152,3 +154,6 @@ Multiplication and addition are approximated.
 * A constraint of the form `p1 * p2 <= q` is solved as `p1 <= q` and `p2 <= q`. 
 * A constraint of the form `p1 + p2 <= q` is solved as `Omega <= q` 
 
+=== Specialisation
+
+Unsolved multiplicity variables are specialised to ω by the function `<TODO: function name here, and possibly mechanism>`.
