@@ -164,7 +164,8 @@ Each constructor represents how many times a variable is allowed to be used. The
   - `tc_sub_type_ds` emits constraints of the form `π = ρ`, represented as `<TODO: GHC representation here>`.
 
 
-There are two useful functions in this dance. In order to use the normal unification machinery, we 
+There are two useful functions in this dance. In order to use the normal unification machinery, we eventually call `tc_sub_type_ds` but before that we check for domain specific rules we want to implement such as `1 <= p` which is
+achieved by calls to `subweight` or `subweightMaybe`. The `flattenRig` function removes redundancy from the representation (by replacing `RigTy omegaDataConTy` with `Omega` and likewise for One).
 
 ## Solving constraints
 
@@ -191,4 +192,10 @@ Multiplication and addition are approximated.
 ### Specialisation
 
 
-Unsolved multiplicity variables are specialised to ω by the function `<TODO: function name here, and possibly mechanism>`.
+Unsolved multiplicity variables are specialised to ω by the following functions:
+
+
+Calls to `isMultiplicityVar` are used in places where we do defaulting.
+
+1. `TcSimplify.defaultTyVarTcS`
+1. `TcMType.defaultTyVar`
