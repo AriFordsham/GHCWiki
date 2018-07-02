@@ -48,6 +48,16 @@ Problematically, we need to be able to compare types for equality. **SLPJ**: whe
 
 This plan will require changing zonking to work over `HsType GhcTc` and will require adding rules in the desugarer to desugar `HsType`s. Of course, desugaring is dead simple: just retrieve the core type from the extension field.
 
+**SLPJ:** I think there is a much less ambitious version that goes like this:
+ 
+
+1. `tc_hs_type` returns a `HsType GhcTc`, which may contain kind-unification variables.
+1. Then solve constraints and zonk
+1. Then desugar to produce a `Type`.
+
+**RAE:** This means that we're not adding `HsType`s to the env't. I suppose this would be an intermediate step toward the overall goal of using `HsType`s throughout the typechecker. It would enable the following "removing the second pass" step with less up-front work.
+**End RAE**
+
 ## Removing the second pass in TcTyClsDecls
 
 

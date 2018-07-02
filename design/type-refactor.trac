@@ -39,6 +39,15 @@ Problematically, we need to be able to compare types for equality. '''SLPJ''': w
 
 This plan will require changing zonking to work over `HsType GhcTc` and will require adding rules in the desugarer to desugar `HsType`s. Of course, desugaring is dead simple: just retrieve the core type from the extension field.
 
+'''SLPJ:''' I think there is a much less ambitious version that goes like this:
+ 
+1. `tc_hs_type` returns a `HsType GhcTc`, which may contain kind-unification variables.
+2. Then solve constraints and zonk
+3. Then desugar to produce a `Type`.
+
+'''RAE:''' This means that we're not adding `HsType`s to the env't. I suppose this would be an intermediate step toward the overall goal of using `HsType`s throughout the typechecker. It would enable the following "removing the second pass" step with less up-front work.
+'''End RAE'''
+
 == Removing the second pass in !TcTyClsDecls
 
 All type-level declarations (`data`, `class`, etc) are handled in the !TcTyClsDecls module. This module takes two full passes over type declarations: the first accumulates kind constraints (so that, say, a datatype constructor type can inform the kind of a datatype parameter), and then the second effectively desugars. Regrettably, the second pass repeats much of the work of the first pass, as the first pass only gathers constraints -- it doesn't store any information in the AST. So, after all the kind constraints are gathered (and solved), we throw away the result and start again.
