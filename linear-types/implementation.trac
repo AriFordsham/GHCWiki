@@ -259,9 +259,12 @@ data Rig = Zero
 Each constructor represents how many times a variable is allowed to be used. There are precisely two places where we check how often variables are used.
 
 1. In `TcEnv.tc_extend_local_env`, which is the function which brings local variables into scope. Upon exiting a binder, we call `tcSubWeight` (via `check_binder`) to ensure that the variable usage is compatible with the declared multiplicity (if no multiplicity was declared, a fresh existential multiplicity variable is created instead).
-    - `tcSubWeight` emits constraints of the form `π ⩽ ρ`, represented as `<TODO: GHC representation here>`.
+    - `tcSubWeight` emits constraints of the form `π ⩽ ρ`. In `check_binder` there is a call to `subWeightMaybe` which checks for obvious cases before we delegate to `tcSubWeight` which decomposes multiplication and addition constraints 
+       before calling `tc_sub_weight_ds` in order to check for precise equality of types. This function will also do unification of variables.
 2. In `tc_sub_type_ds`, In the `FunTy` case, we unify the arrow multiplicity which can lead to the unification of multiplicity variables.
-    - `tc_sub_type_ds` emits constraints of the form `π = ρ`, represented as `<TODO: GHC representation here>`.
+    - `tc_sub_type_ds` emits constraints of the form `π = ρ`, this is achieved by a call to `tc_sub_weight_ds` which just calls `rigToType` on the `Rig`s before checking for equality using `tc_sub_type_ds` recursively.
+
+A better implementation would probably emit a real constraint `pi <= rho` and then add logic for solving it to the constraint solver. The current ad-hoc approach reduces the task of checking the relation to checking certain equality constraints. 
 
 There are two useful functions in this dance. In order to use the normal unification machinery, we eventually call `tc_sub_type_ds` but before that we check for domain specific rules we want to implement such as `1 <= p` which is
 achieved by calls to `subweight` or `subweightMaybe`. The `flattenRig` function removes redundancy from the representation (by replacing `RigTy omegaDataConTy` with `Omega` and likewise for One).
@@ -286,6 +289,12 @@ Multiplication and addition are approximated.
 
 * A constraint of the form `p1 * p2 <= q` is solved as `p1 <= q` and `p2 <= q`. 
 * A constraint of the form `p1 + p2 <= q` is solved as `Omega <= q` 
+
+=== FunCo
+
+FunCo is modified to take an extra coercion argument which corresponds to coercions between multiplicities. This was added because there was a point to where `mkTyConAppCo` took a coercion as an argument and needed
+to produce a `Rig`. It was defaulted to `Omega` for a long time but eventually I changed it to `Coercion`. This seemed to work but there were some problems in CoreLint which mean the check for the role of the coercion 
+has been commented out for now. 
 
 === Specialisation
 
