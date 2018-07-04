@@ -264,6 +264,8 @@ Each constructor represents how many times a variable is allowed to be used. The
 2. In `tc_sub_type_ds`, In the `FunTy` case, we unify the arrow multiplicity which can lead to the unification of multiplicity variables.
     - `tc_sub_type_ds` emits constraints of the form `π = ρ`, this is achieved by a call to `tc_sub_weight_ds` which just calls `rigToType` on the `Rig`s before checking for equality using `tc_sub_type_ds` recursively.
 
+A better implementation would probably emit a real constraint `pi <= rho` and then add logic for solving it to the constraint solver. The current ad-hoc approach reduces the task of checking the relation to checking certain equality constraints. 
+
 There are two useful functions in this dance. In order to use the normal unification machinery, we eventually call `tc_sub_type_ds` but before that we check for domain specific rules we want to implement such as `1 <= p` which is
 achieved by calls to `subweight` or `subweightMaybe`. The `flattenRig` function removes redundancy from the representation (by replacing `RigTy omegaDataConTy` with `Omega` and likewise for One).
 
