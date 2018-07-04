@@ -35,7 +35,7 @@ The challenge is all about getting consistent speedups.
 
 
 The most current code is on the `wip/llf` branch. Usually, you can merge master into that with easy-to-resolve conflicts (eg in `DynFlags`).
-Sebastian Graf has rebased (sadly with not so easy-to-resolve conflicts) this branch in mid April 2018. After some debugging and fixups, it passes `./validate` \*without\* any of the llf-nr10-r6 flags set (see below) in [ 7bf030a](https://github.com/sgraf812/ghc/tree/7bf030a165a8aec51297add5a4261131db603e62). You can find further progress here: [ https://github.com/sgraf812/ghc/tree/llf](https://github.com/sgraf812/ghc/tree/llf)
+Sebastian Graf has rebased (sadly with not so easy-to-resolve conflicts) this branch in mid April 2018. After some debugging and fixups, it passes `./validate` (modulo some compiler perf tests) in [ c1f16ac](https://github.com/sgraf812/ghc/tree/c1f16ac245ca8f8c8452a5b3c1f116237adcb577). You can find further progress here: [ https://github.com/sgraf812/ghc/tree/llf](https://github.com/sgraf812/ghc/tree/llf)
 
 
 In Sebastian's rebase, LLF is enabled at optimization levels 1 and higher in the below llf-nr10-r6 configuration. Anything contradictory below only applies to the dated `wip/llf` branch.
@@ -51,7 +51,7 @@ GhcLibHcOpts    += -O -dcore-lint  -fllf -fllf-abstract-undersat -fno-llf-abstra
 ```
 
 
-in `mk/custom-settings.mk` or `mk/validate.mk`. After rebasing in 2018 (7bf030a), this still throws core-lint errors.
+in `mk/custom-settings.mk` or `mk/validate.mk`. After rebasing in 2018 (c1f16ac), these are set by default.
 
 ## As of mid-2018
 
