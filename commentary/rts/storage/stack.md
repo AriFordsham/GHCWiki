@@ -1,7 +1,7 @@
 # Layout of the stack
 
 
-Every [TSO object](commentary/rts/heap-objects#thread-state-objects) contains a stack.  The stack of a TSO grows downwards, with the topmost (most recently pushed) word pointed to by `tso->sp`, and the bottom of the stack given by `tso->stack + tso->stack_size`.
+Every [TSO object](commentary/rts/heap-objects#thread-state-objects) contains a stack (`tso->stackobj`).  The stack of a TSO grows downwards, with the topmost (most recently pushed) word pointed to by `tso->stackobj->sp`, and the bottom of the stack given by `tso->stackobj->stack + tso->stackobj->stack_size`.
 
 
 The stack consists of a sequence of *stack frames* (also sometimes called *activation records*) where each frame has the same layout as a heap object:
