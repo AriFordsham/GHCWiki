@@ -378,3 +378,7 @@ You have to be very careful about where you define functions which operator on `
 
 This means that `Weight`, `UsageEnv` and `Type` all have things added to their `hs-boot` files. I managed to play this game well enough but it was quite precarious 
 adding new definitions into this cycle. This is why \`
+
+## Misc
+
+- Patterns are type checked in a *context multiplicity* which scales the constructor fields, extending the `case_p` from the paper.
