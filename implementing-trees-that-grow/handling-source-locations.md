@@ -24,8 +24,11 @@ We assume that open extension typefamily instances for GHC-specific decorations 
  
 There are a couple of ways to implement such a solution:
 
-1. We put the source locations in the new field extensions and use a typeclass to set/get the locations.
 1. We put the source locations in the new constructor extension, similar in spirit to the current `Located`.
+1. We put the source locations in the new field extensions and use a typeclass to set/get the locations.
+
+
+In the implementation, we have settled on the solution A, as it avoids the clutter. 
 
 
 Notes:
@@ -133,6 +136,22 @@ typeinstanceXId(GHC p)=XIdGHC  p
 In the code below, as compared to the ping-pong style above, we have the following key changes:
 
 - `LExp` is replaced with `Exp`
+- a new constructor extension is introduced to wrap `Exp` with a `SrcSpan`
+- a pattern synonym `LL` is introduced using the new constructor
+
+```
+{-# OPTIONS_GHC -Wall #-}{-# LANGUAGE TypeFamilies, PatternSynonyms #-}moduleSolutionBwhereimportBasicGHCTypesimportTTG-- ------------------------------------------------ GHC-Specific Decorations-- ----------------------------------------------typeinstanceXVar(GHC_)=()typeinstanceXAbs(GHC_)=()typeinstanceXApp(GHC p)=XAppGHC p
+typeinstanceXPar(GHC_)=()typeinstanceXNew(GHC p)=Either(Located(Exp(GHC p)))(XNewGHC p)typeinstanceXId(GHC p)=XIdGHC  p
+
+-- NB: if GHC later wants to add extension fields to (say)-- XAbs, we can just redefine XAbs (GHC p) to be more like-- the XApp case-- ------------------------------------------------ LL Pattern Synonym-- ----------------------------------------------patternLL::SrcSpan->Exp(GHC p)->Exp(GHC p)patternLL sp m =New(Left(L sp m))-- ------------------------------------------------ Example Function-- ----------------------------------------------par::Exp(GHC p)->Exp(GHC p)par l@(LL sp (App{}))=LL sp (Par() l)par l                 = l
+```
+
+### Solution B - Example Code
+
+
+In the code below, as compared to the ping-pong style above, we have the following key changes:
+
+- `LExp` is replaced with `Exp`
 - field extensions are set to have a `SrcSpan` paired (via `Located`)
   with a closed type family specialised for GHC phases
 - a setter/getter function pair is introduced by a typeclass
@@ -183,40 +202,9 @@ patternLL s m <-(getSpan' ->L s m)whereLL s m =  setSpan m s
 -- ------------------------------------------------ Example Function-- ----------------------------------------------par::Exp(GHC p)->Exp(GHC p)par l@(LL sp (App{}))=LL sp (Par(L noLoc ()) l)par l                 = l
 ```
 
-### Solution B - Example Code
-
-
-In the code below, as compared to the ping-pong style above, we have the following key changes:
-
-- `LExp` is replaced with `Exp`
-- a new constructor extension is introduced to wrap `Exp` with a `SrcSpan`
-- a pattern synonym `LL` is introduced using the new constructor
-
-```
-{-# OPTIONS_GHC -Wall #-}{-# LANGUAGE TypeFamilies, PatternSynonyms #-}moduleSolutionBwhereimportBasicGHCTypesimportTTG-- ------------------------------------------------ GHC-Specific Decorations-- ----------------------------------------------typeinstanceXVar(GHC_)=()typeinstanceXAbs(GHC_)=()typeinstanceXApp(GHC p)=XAppGHC p
-typeinstanceXPar(GHC_)=()typeinstanceXNew(GHC p)=Either(Located(Exp(GHC p)))(XNewGHC p)typeinstanceXId(GHC p)=XIdGHC  p
-
--- NB: if GHC later wants to add extension fields to (say)-- XAbs, we can just redefine XAbs (GHC p) to be more like-- the XApp case-- ------------------------------------------------ LL Pattern Synonym-- ----------------------------------------------patternLL::SrcSpan->Exp(GHC p)->Exp(GHC p)patternLL sp m =New(Left(L sp m))-- ------------------------------------------------ Example Function-- ----------------------------------------------par::Exp(GHC p)->Exp(GHC p)par l@(LL sp (App{}))=LL sp (Par() l)par l                 = l
-```
-
 ## Pros & Cons
 
 ### Solution A
-
-
-Pros:
-
-- TODO
-
-
-Cons:
-
-- An instance of `HasSpan` should be defined per datatype
-- Handling of the source locations should be done once per constructor
-- When constructing/generating terms the first field of the constructors should explicitly mention the source location
-  (see the `par` function in the Solution A's code, where the first field of `Par` should have a `SrcSpan`, even though a dummy one.)
-
-### Solution B
 
 
 Pros:
@@ -237,3 +225,18 @@ Cons:
 
 - At the binding site of a variable we know that we \*always\* have a location, and we can put that in its Name.  
   If locations were more optional, that would not be so true.
+
+### Solution B
+
+
+Pros:
+
+- TODO
+
+
+Cons:
+
+- An instance of `HasSpan` should be defined per datatype
+- Handling of the source locations should be done once per constructor
+- When constructing/generating terms the first field of the constructors should explicitly mention the source location
+  (see the `par` function in the Solution A's code, where the first field of `Par` should have a `SrcSpan`, even though a dummy one.)
