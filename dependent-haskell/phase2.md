@@ -212,7 +212,9 @@ Currently we decide which constraints we can float by
 We are considering using level numbers (which all type variables now have) to simplify this.  Thus:
 
 1. Find the level number of the implication.  That's easy: the implication records it directly `ic_tclvl`!  In the above it's denoted `forall[lvl] skols. body`.
-1. Find the maximum level number mentioned in the constraint.  Here we have to be a bit more careful.   As you can see from the example, we want to consider the level numbers of the *skolems* but totally ignore the *unification variables*.
+
+1. Find the maximum level number mentioned in the constraint.  Here we have to be a bit more careful.   As you can see from the example, we want to consider the level numbers of the *skolems* but ignore the *unification variables*.   But we must hunt for skolems in the *kinds* of the unification variables; e.g. if `gamma[3] :: a[3]` in the example above, we should not float.
+
 1. See if (2) \< (1).
 
 
@@ -236,7 +238,7 @@ Gah!  Looking at the bindings, transitive closure... horrible.  If every coercio
 
 **End of answer from Simon**
 
-**RAE:** To summarize, you propose to ignore unification variables when doing the floating-out level-check. (Presumably, we won't ignore unification variables' kinds.) I'm still bothered though: we're worried about having coercion holes prevent floating. Coercion holes are very much like unification variables. If we ignore unification variables (and, by consequence, coercion holes), then do we have [\#14584](https://gitlab.haskell.org//ghc/ghc/issues/14584) again? If we don't ignore coercion holes, then when will coercion holes ever get floated? I'm still very unconvinced here. **End RAE**
+**RAE:** To summarize, you propose to ignore unification variables when doing the floating-out level-check. (Presumably, we won't ignore unification variables' kinds. **SLPJ: good point; I have edited**) I'm still bothered though: we're worried about having coercion holes prevent floating. Coercion holes are very much like unification variables. If we ignore unification variables (and, by consequence, coercion holes), then do we have [\#14584](https://gitlab.haskell.org//ghc/ghc/issues/14584) again? If we don't ignore coercion holes, then when will coercion holes ever get floated? I'm still very unconvinced here. **End RAE**
 
 ### Heterogeneity in the solver
 
