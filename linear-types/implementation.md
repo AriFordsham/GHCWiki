@@ -141,6 +141,14 @@ had some magic numbers corresponding to the the position of the types of the fun
 
 Look for `Note [Function coercions]` and grep for lists of exactly length 5 if you modify this for whatever reason.
 
+### `splitFunTy` and `mkFunTy`.
+
+
+The core of the implementation is a change to `splitFunTy`. As the arrow now has an associated weight, `splitFunTy` must also return the weight of the arrow. Many changes to the compiler arise from situations where
+either `splitFunTy` is called and then we must keep track of the additional information it returns. Further, when there is a call to `mkFunTy`, we must also supply a multiplicity which is often
+not obvious what it should be. These are often marked as `TODO` in the code base and it is hoped that as more linearity information is propagated it will become more obvious at more of these call sites how
+we need to construct these arrows.  
+
 ## Core Lint
 
 TODO - this is described somewhat in the minicore document but it is not finished. In particular, join points are not implemented at all. This hasn't been a problem as the only linearity has been from data constructors
