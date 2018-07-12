@@ -147,6 +147,64 @@ We already have the maximum-level checker: `TcType.tcTypeLevel`. All we need to 
 
 '''RAE Question:''' Currently, `floatEqualities` does a free-variable check and then ''promotes'' levels (reducing level numbers) of some variables. If we use the level numbers to decide what to float, when will we ever promote? This seems like it might not work. '''End RAE'''
 
+'''Answer from Simon'''
+Consider this implication constraint
+{{{
+forall[2] b[2].
+   forall a[3].
+      ([W] alpha[2] ~ a[3],
+       [W] beta[2] ~ (b[2], gamma[3]))
+}}}
+It is nested somewhere inside a constraint tree; hence this implication
+has level 3.  I have put level numbers on every variable.  The greek
+ones are unification variables.
+
+This implication has two nested equalities:
+* We ''cannot'' float `alpha[2] ~ a[3]` because it mentions the skolem `a`, which is bound by the implication.
+* We ''can'' float `beta[2] ~ (b, gamma[2])` because it does not mention a skolem bound by this implication.
+
+So we float out the second equality (but not the first), thus:
+{{{
+forall[2] b[2].
+   [W] beta[2] ~ (b[2], gamma[3]),
+   forall[3] a[3]. ([W] alpha[2] ~ a[3])
+}}}
+But now that `gamma[3]` has too large a level number.  It doesn't follow the `(WantedInv)`
+in `Note [TcLevel and untouchable type variables]` in `TcType`.
+
+So we promote, creating a fresh unification variable `gamma2[2]` and setting `gamma := gamma2`.
+Now we have
+{{{
+forall[2] b[2].
+   [W] beta[2] ~ (b[2], gamma2[2]),
+   forall[3] a[3]. ([W] alpha[2] ~ a[3])
+}}}
+
+Currently we decide which constraints we can float by
+1. Finding which variables are ''bound'' by the implication (see `Note [What prevents a constraint from floating]` in `TcSimplify`).
+2. Finding which variables are ''mentioned'' by the constraint.  
+3. Seeing if the two sets have an empty intersection.  If so, float.
+
+We are considering using level numbers (which all type variables now have) to simplify this.  Thus:
+1. Find the level number of the implication.  That's easy: the implication records it directly `ic_tclvl`!  In the above it's denoted `forall[lvl] skols. body`.
+2. Find the maximum level number mentioned in the constraint.  Here we have to be a bit more careful.   As you can see from the example, we want to consider the level numbers of the ''skolems'' but totally ignore the ''unification variables''.
+3. See if (2) < (1).
+No sets, no intersection, so easy.
+
+Incidentally, this level-number business would dramatically simplify this code in `TcSimplify.floatEqualities
+{{{
+       ; let seed_skols = mkVarSet skols     `unionVarSet`
+                          mkVarSet given_ids `unionVarSet`
+                          foldEvBindMap add_one emptyVarSet binds
+             add_one bind acc = extendVarSet acc (evBindVar bind)
+             -- seed_skols: See Note [What prevents a constraint from floating] (1,2,3)
+
+             extended_skols        = transCloVarSet (extra_skols eqs) seed_skols
+}}}
+Gah!  Looking at the bindings, transitive closure... horrible.  If every coercion variable had a level number indicating which level it is bound at, we could throw all this away.
+
+'''End of answer from Simon'''
+
 === Heterogeneity in the solver
 
 While we'd like to remove heterogeneous coercion variables from Core, they are useful in the solver.
@@ -162,6 +220,8 @@ Equality constraints in the solver are witnessed by coercions and therefore may 
 The types in the solver are useful because we make evidence bindings with those types. However, all equality Wanted constraints use coercion holes for their evidence (more on Givens later), so no binding is needed. We can thus store a heterogeneous equality constraint simply by storing a pair of types.
 
 Note that the `TcEvDest` type stores either an evidence binding or a coercion hole. The new form of constraint (the pair of types) will always go hand-in-hand with the `HoleDest` constructor of `TcEvDest`.
+
+
 
 === Heterogeneous given equalities
 
