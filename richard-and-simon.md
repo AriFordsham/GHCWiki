@@ -7,6 +7,12 @@
 
 ... as discussed by Richard and Simon. This page is mostly for our own notes, but others are welcome to read it.
 
+
+July 18:
+
+- [\#14164](https://gitlab.haskell.org//ghc/ghc/issues/14164): comments, invariant, asserts (Richard)
+- [\#14873](https://gitlab.haskell.org//ghc/ghc/issues/14873): make `typeKind` monadic in the type checker
+
 **Type declarations and signatures** (Dec 17)
 
 - (May 18).  Simon is very suspicious about `zonkPromote` and friends.  Revisit this once we get rid of `decideKindGeneralisationPlan`.  [\#15141](https://gitlab.haskell.org//ghc/ghc/issues/15141) is a good starting point.
