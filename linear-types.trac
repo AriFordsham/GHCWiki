@@ -10,6 +10,11 @@ The Linear Type Proposal is being discussed [https://github.com/ghc-proposals/gh
 
 The motivations, technical details and examples on the proposal are described in the article [https://arxiv.org/abs/1710.09756 Linear Haskell: practical linearity in a higher-order polymorphic language] published at POPL 2018.
 
+Implementation status as of July 2018: [[LinearTypes/Implementation]]
+
+Some motivating examples in the wiki: [[LinearTypes/Examples]]
+
+
 == Implementation ==
 
 The implementation in progress can be found at https://github.com/tweag/ghc/tree/linear-types .
