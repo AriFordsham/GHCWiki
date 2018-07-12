@@ -55,12 +55,12 @@ How should this homogeneous equality take form? It's simple: make `~#`, the type
 coercionKind::Coercion->PairType-- the two types might have different kinds-- if Pair t1 t2 = coercionKind co, k1 = typeKind t1, and k2 = typeKind t2, then-- Pair k1 k2 = corcionKind (promoteCoercion co)promoteCoercion::Coercion->Coercion
 ```
 
-**Note that**`pomoteCoercion` becomes a function that transforms one coercion (tree) into another; it is no longer a coercion constructor (i.e. the existing `KindCo` vanishes).  **SLPJ: is this true?**?
+`promoteCoercion` is a function that transforms one coercion (tree) into another; it is no longer a coercion constructor (i.e. the existing `KindCo` vanishes).
 
 ### A small wrinkle: we need coercion quantification back
 
 
-If `~#` is homogeneous in Core, then how do we support heterogeneous equality in Haskell? **SPJP: please motivate why we need it at all**.   Easy: just use an equality between the kinds and then one between the types. But it's not so easy in practice. Examine the definition of `~~`, written as a Core datatype, even though it's really a class:
+If `~#` is homogeneous in Core, then how do we support heterogeneous equality in Haskell? Heterogeneous equality is important in Haskell to support, for example, the new `TypeRep` (see [ the paper](https://repository.brynmawr.edu/cgi/viewcontent.cgi?article=1002&context=compsci_pubs)).   Easy: just use an equality between the kinds and then one between the types. But it's not so easy in practice. Examine the definition of `~~`, written as a Core datatype, even though it's really a class:
 
 ```
 -- this version is wrong!data(~~):: forall k1 k2. k1 -> k2 ->ConstraintwhereMkHEq:: forall k1 k2 (a :: k1)(b :: k2).(k1 ~# k2)->(a ~# b)-> a ~~ b
@@ -99,7 +99,7 @@ typeKind(\(x ::Nat)....)=FunTyNat...typeKind(\(a ::Type)....)=ForAllTy(a::Type).
 ```
 
 
-Here is the design Simon and Richard (with Ningning's input) have come up with:
+This choice is important, because we will need to check the type of an expression by comparing it to some other type with `eqType`. We cannot make arbitrary decisions between `ForAllTy` and `FunTy` here. Here is the design Simon and Richard (with Ningning's input) have come up with:
 
 - The type of a coercion-lambda shall be a `ForAllTy` iff the coercion variable is mentioned in the result type. It shall be a `FunTy` iff the coercion variable is not mentioned in the result type.
 
@@ -109,7 +109,7 @@ Equivalently:
 - INVARIANT: If a `ForAllTy` quantifies over a coercion variable, that variable *must* be mentioned later in the type.
 
 
-With these choices, we never have to equate `ForAllTy`s with `FunTy`s in, say, `eqType`. **SLPJ: non sequitur.   The intro was a about `typeKind` but here you switch to `eqType`.**  The downside to this design is that it is non-performant: we must do a free-variable check when building `ForAllTy`s to maintain the invariant. However, the key observation here is that we need to do this check only when building a `ForAllTy` with a coercion variable -- *something we never do today*. So it will be rare in the near future. And, we should be able to easily distinguish when we're about to quantify over a coercion, so the normal `mkForAllTy` can just `ASSERT` that its variable is a tyvar. We'll have a new `mkCoVarForAllTy` that quantifies over coercions and does the free-variable check.
+With these choices, we never have to equate `ForAllTy`s with `FunTy`s in, say, `eqType`. The downside to this design is that it is non-performant: we must do a free-variable check when building `ForAllTy`s to maintain the invariant. However, the key observation here is that we need to do this check only when building a `ForAllTy` with a coercion variable -- *something we never do today*. So it will be rare in the near future. And, we should be able to easily distinguish when we're about to quantify over a coercion, so the normal `mkForAllTy` can just `ASSERT` that its variable is a tyvar. We'll have a new `mkCoVarForAllTy` that quantifies over coercions and does the free-variable check.
 
 
 We believe that, in the future, `FunTy` and `ForAllTy` may merge into `PiTy`. That future is not yet here, and there's no need to rush it. 
@@ -236,6 +236,8 @@ Gah!  Looking at the bindings, transitive closure... horrible.  If every coercio
 
 **End of answer from Simon**
 
+**RAE:** To summarize, you propose to ignore unification variables when doing the floating-out level-check. (Presumably, we won't ignore unification variables' kinds.) I'm still bothered though: we're worried about having coercion holes prevent floating. Coercion holes are very much like unification variables. If we ignore unification variables (and, by consequence, coercion holes), then do we have [\#14584](https://gitlab.haskell.org//ghc/ghc/issues/14584) again? If we don't ignore coercion holes, then when will coercion holes ever get floated? I'm still very unconvinced here. **End RAE**
+
 ### Heterogeneity in the solver
 
 
@@ -285,8 +287,7 @@ f = /\a \(d :: C a b). \(x::b).
 ```
 
 
-So at least some bindings for Given equalities must generate a real binding; we cannot use coercion holes for them.
-To have heterogeneous givens but homogeneous `~#`, this will have to change. **SLPJ: I did not understand that last sentence**.  We thus need a dual of `TcEvDest`:
+So at least some bindings for Given equalities must generate a real binding; we cannot use coercion holes for them. We thus need a dual of `TcEvDest`:
 
 ```
 dataCtEvidence=CtGiven-- Truly given, not depending on subgoals{ ctev_pred ::TcPredType, ctev_evar ::TcEvSource<------NEW!WasEvVar!, ctev_loc  ::CtLoc}|CtWanted-- Wanted goal{ ctev_pred ::TcPredType, ctev_dest ::TcEvDest, ctev_nosh ::ShadowInfo, ctev_loc  ::CtLoc}dataTcEvSource=EvVarSourceEvVar|CoercionSourceCoercion
