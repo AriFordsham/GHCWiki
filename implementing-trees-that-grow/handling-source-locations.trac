@@ -14,61 +14,148 @@ b. It results in a form of conceptual redundancy: source locations are tree deco
 
 == Solutions ==
 
-The key solution is to move source locations to the extension points, remove the indirection (e.g., the wrapper datatype `LExp`) altogether, and update the related code (e.g., functions over `Exp`) accordingly. 
-
-We assume that open extension typefamily instances for GHC-specific decorations are nested, such that they call a closed typefamily to choose the extension based on the index (e.g., see `XApp` calling `XAppGHC` in the code below).
+The key solution is to move source locations to the extension points, remove the indirection (e.g., the wrapper datatype `LExp`) altogether, and update the related code (e.g., functions over `Exp`) accordingly. There are a couple of ways to implement such a solution:
  
-There are a couple of ways to implement such a solution:
-
 A. We put the source locations in the new constructor extension, similar in spirit to the current `Located`.
 B. We put the source locations in the new field extensions and use a typeclass to set/get the locations.
 
-In the implementation, we have settled on the solution A, as it avoids the clutter. 
+In the implementation, we have settled on the solution A, mainly as it avoids the clutter: handling of source locations is done once per data type rather than once in every constructor.
+A list of the pros and cons, a sample code demonstrating the problem and the two solutions follows.
 
-Notes:
-* The API Annotations are similar to the `SrcSpan`, in that they are additional decorations, and also currently appear wherever there is a `SrcSpan`.
-  The API Annotations can be accommodated via a straightforward extension of the type class approach, by defining
+There are also two related design choices (rather orthogonal design to the problem of where to store the locations):
+
+* The old wrapper `Located a` with the constructor `L :: SrcSpan -> a -> Located a` can no longer be used to wrap syntactic entities (expressions, patterns, etc) with locations, what should be done instead?
+  For example, before, in the ping-pong style,  for some expression `e :: HsExpr p` and `span1, span2 :: SrcSpan` we had 
+  {{{#!hs 
+  L span1 (HsPar noExt (L span2 e)) :: Located (HsExpr p)
+  }}}
+  or at the same time, for some `p :: Pat p` and `span1 , span2 :: SrcSpan` we had 
+  {{{#!hs  
+  L span1 (ParPat noExt (L span2 p)) :: Located (Pat p)
+  }}}
+  and we could have a function like
+  {{{#!hs  
+  sL1 :: Located a -> b -> Located b
+  sL1 x = L (getLoc x)
+  }}}
+  Notice how `L` in the ping-pong style above is used to generically wrap both expressions and patterns with source locations. 
+  Such a generic use of `L` in the ping-pong style is possible as we hard-coded `Located` into the definition of the trees, that we specifically want to avoid such hardcodings in the trees.
+  For example, before, in the ping-pong style, we had
   {{{#!hs
- 		data Extra = Extra SrcSpan [(SrcSpan,AnnKeywordId)]
- 		
- 		class HasExtra a where
- 		  getSpan :: a -> SrcSpan
- 		  setSpan :: a -> SrcSpan -> a
- 		
- 		  getApiAnns :: a -> [(SrcSpan,AnnKeywordId)]
- 		  setApiAnns :: a -> [(SrcSpan,AnnKeywordId)] -> a
+  data HsExpr p = ... | HsPar (XPar p) (Located (HsExpr p)) | ...
+  }}}     
+  and 
+  {{{#!hs
+  data Pat p = ... | ParPat (XParPat p) (Located (Pat p)) | ...
+  }}}     
+  In the TTG style (both solutions A and B), we won't have such a generic data constructor `L`, as`Located` won't be baked into the definition of trees.
+  For example, we will have
+  {{{#!hs
+  data HsExpr p = ... | HsPar (XPar p) (HsExpr p) | ...
+  }}}     
+  and 
+  {{{#!hs
+  data Pat p = ... | ParPat (XParPat p) (Pat p) | ...
+  }}}     
+  and to retain the genericity offered by baking-in `Located` (e.g., to be able to write generic functions like `sL1`, that are many), we need to resort to overloading either by directly
+  using methods of a setter/getter typeclass, that we refer to as `HasSrcSpan`, or a pattern synonym to simulate `L` using the setter/getter methods.
+  For example, we will have a typeclass
+  {{{#!hs
+  type family SrcSpanLess a
+  class HasSrcSpan a where
+    composeSrcSpan   :: (SrcSpanLess a , SrcSpan) -> a
+    decomposeSrcSpan :: a -> (SrcSpanLess a , SrcSpan)
+    {- laws:
+       composeSrcSpan . decomposeSrcSpan = id
+       decomposeSrcSpan . composeSrcSpan = id
+    -}  
+  }}} 
+  (or, 
+  {{{#!hs
+  type family SrcSpaned a
+  class HasSrcSpan a where
+    composeSrcSpan   :: (a , SrcSpan) -> SrcSpaned a
+    decomposeSrcSpan :: SrcSpaned a -> (a , SrcSpan)
+    {- laws:
+       composeSrcSpan . decomposeSrcSpan = id
+       decomposeSrcSpan . composeSrcSpan = id
+    -}  
+  }}} 
+  )
+  and possibly a pattern synonym
+  {{{#!hs
+  pattern LL :: HasSrcSpan a => SrcSpan -> SrcSpanLess a -> a
+  pattern LL s m <- (decomposeSrcSpan -> (m , s))
+    where
+          LL s m =  composeSrcSpan (m , s)
   }}}
 
-* We also currently have sections of AST without source locations, such as those generated when converting TH AST to hsSyn AST, or for GHC derived code.
+  so by providing instances for `HasSrcSpan` (by either Solution A or Solution B),
+ 
+  for some expression `e :: HsExpr (GhcPass p)` and `span1, span2 :: SrcSpan`, we will have
 
-   We can perhaps deal with these by either defining an additional pass, so
+  {{{#!hs 
+  LL span1 (HsPar noExt (LL span2 e)) :: HsExpr (GhcPass p)
+  }}}
 
-   {{{#!hs
-   data Pass = Parsed | Renamed | Typechecked | Generated
-      deriving (Data)
-   }}}
+  or at the same time, for some `p :: Pat (GhcPass p)` and `span1 , span2 :: SrcSpan` we had 
 
-   or by making the extra information status dependent on an additional parameter, so
+  {{{#!hs  
+  LL span1 (ParPat noExt (LL span2 p)) :: Pat (GhcPass p)
+  }}}
 
-   {{{#!hs
-   data GhcPass (l :: Location) (c :: Pass)
-   deriving instance Eq (GhcPass c)
-   deriving instance (Typeable l,Typeable c) => Data (GhcPass l c)
+  and we could have a function like
 
-   data Pass = Parsed | Renamed | Typechecked
-     deriving (Data)
+  {{{#!hs  
+  sL1 :: (HasSrcSpan a , HasSrcSpan b) => a -> SrcSpanLess b -> b
+  sL1 (LL sp _) = LL sp
+  }}}
+ 
+* We may, or may not, assume that open extension typefamily instances for GHC-specific decorations are nested, such that they call a closed typefamily to choose the extension based on the index.
 
-   data Location = Located | UnLocated
-   }}}
+  For example, instead of a list of open type family instances
 
-   Thanks to Zubin Duggal for bringing the unlocated problem up on IRC.
-
-* The setter/getter functions can be generalised to set/get anything:
   {{{#!hs
-  class Has b a where
-    get :: a -> b
-    set :: a -> b -> a
-   }}}
+  type instance XApp (GHC Ps) = ()
+  type instance XApp (GHC Rn) = ()
+  type instance XApp (GHC Tc) = Type
+  }}}
+
+  we can have
+
+  {{{#!hs
+  type instance XApp (GHC p) = XAppGHC p
+  type family XAppGHC (p :: Phase) where
+    XAppGHC Ps = ()
+    XAppGHC Rn = ()
+    XAppGHC Tc = Type
+  }}}
+
+  The closed type family solution is elegant and solves some of the constraint solving problems in place (see the commented section in type class instance of solution B). However, the closed typed family solution couples together the code from different stages of the compiler, e.g., the definition of a parser with the type `parseExp :: String -> M (HsExpr (Ghc Ps))` (for some parsing monad `M`) refers to the closed type family `XAppGHC` which refers to the definition `Type` that is not relevant to the parsing phase. We want the parser and other machineries within GHC front-end (e.g., the pretty-printer) to not to be GHC-specific (e.g., depending on `Type`, or even core via `Tickish`!).
+
+== Pros & Cons ==
+
+=== Solution A: the source locations in the new constructor extension ===
+Pros:
+* It makes it easy to omit locations altogether (see the notes about "Generated" code).
+  This is a Good Thing.
+* It makes it easy to store fewer locations (e.g. one location for `(f x y z)`, 
+  rather than one for `(f x y z)`, one for `(f x y)`, and one for `(f x)`).
+* It's easy to add the current location to the monad
+     `f (XNew loc e) = setLoc loc $ f e`
+  Simple, elegant!
+Cons:
+* At the binding site of a variable we know that we *always* have a location, and we can put that in its Name.  
+  If locations were more optional, that would not be so true.
+
+=== Solution B: the source locations in the new field extensions ===
+Pros:
+* TODO 
+Cons:
+* An instance of `HasSpan` should be defined per datatype which requires a large pattern matching over datatype
+* Handling of the source locations should be done once per constructor
+* When constructing/generating terms the first field of the constructors should explicitly mention the source location
+  (see the `par` function in the Solution A's code, where the first field of `Par` should have a `SrcSpan`, even though a dummy one.)
 
 == An example to illustrate ==
 
@@ -331,26 +418,51 @@ par l@(LL sp (App{})) = LL sp (Par (L noLoc ()) l)
 par l                 = l
 }}}
 
-== Pros & Cons ==
 
-=== Solution A ===
-Pros:
-* It makes it easy to omit locations altogether (see the notes about "Generated" code).
-  This is a Good Thing.
-* It makes it easy to store fewer locations (e.g. one location for `(f x y z)`, 
-  rather than one for `(f x y z)`, one for `(f x y)`, and one for `(f x)`).
-* It's easy to add the current location to the monad
-     `f (XNew loc e) = setLoc loc $ f e`
-  Simple, elegant!
-Cons:
-* At the binding site of a variable we know that we *always* have a location, and we can put that in its Name.  
-  If locations were more optional, that would not be so true.
+== Extra Notes ==
+Here are some extra notes:
 
-=== Solution B ===
-Pros:
-* TODO 
-Cons:
-* An instance of `HasSpan` should be defined per datatype
-* Handling of the source locations should be done once per constructor
-* When constructing/generating terms the first field of the constructors should explicitly mention the source location
-  (see the `par` function in the Solution A's code, where the first field of `Par` should have a `SrcSpan`, even though a dummy one.)
+* The API Annotations are similar to the `SrcSpan`, in that they are additional decorations, and also currently appear wherever there is a `SrcSpan`.
+  The API Annotations can be accommodated via a straightforward extension of the type class approach, by defining
+  {{{#!hs
+ 		data Extra = Extra SrcSpan [(SrcSpan,AnnKeywordId)]
+ 		
+ 		class HasExtra a where
+ 		  getSpan :: a -> SrcSpan
+ 		  setSpan :: a -> SrcSpan -> a
+ 		
+ 		  getApiAnns :: a -> [(SrcSpan,AnnKeywordId)]
+ 		  setApiAnns :: a -> [(SrcSpan,AnnKeywordId)] -> a
+  }}}
+
+* We also currently have sections of AST without source locations, such as those generated when converting TH AST to hsSyn AST, or for GHC derived code.
+
+   We can perhaps deal with these by either defining an additional pass, so
+
+   {{{#!hs
+   data Pass = Parsed | Renamed | Typechecked | Generated
+      deriving (Data)
+   }}}
+
+   or by making the extra information status dependent on an additional parameter, so
+
+   {{{#!hs
+   data GhcPass (l :: Location) (c :: Pass)
+   deriving instance Eq (GhcPass c)
+   deriving instance (Typeable l,Typeable c) => Data (GhcPass l c)
+
+   data Pass = Parsed | Renamed | Typechecked
+     deriving (Data)
+
+   data Location = Located | UnLocated
+   }}}
+
+   Thanks to Zubin Duggal for bringing the unlocated problem up on IRC.
+
+* The setter/getter functions can be generalised to set/get anything:
+  {{{#!hs
+  class Has b a where
+    get :: a -> b
+    set :: a -> b -> a
+   }}}
+
