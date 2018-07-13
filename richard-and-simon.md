@@ -12,7 +12,7 @@ July 18:
 
 - [\#14164](https://gitlab.haskell.org//ghc/ghc/issues/14164): comments, invariant, asserts (Richard)
 - [\#14873](https://gitlab.haskell.org//ghc/ghc/issues/14873): make `typeKind` monadic in the type checker
-- [\#15136](https://gitlab.haskell.org//ghc/ghc/issues/15136): `pushCoDataCon` is wrong somehow
+- [\#15346](https://gitlab.haskell.org//ghc/ghc/issues/15346): `pushCoDataCon` is wrong somehow
 
 **Type declarations and signatures** (Dec 17)
 
