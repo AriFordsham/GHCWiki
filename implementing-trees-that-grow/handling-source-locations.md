@@ -47,7 +47,7 @@ There are also two related design choices (rather orthogonal design to the probl
 
   ```
   sL1::Located a -> b ->Located b
-  sL1 x =L(getLoc x)
+  sL1(L sp _)=L sp
   ```
 
   Notice how `L` in the ping-pong style above is used to generically wrap both expressions and patterns with source locations. 
