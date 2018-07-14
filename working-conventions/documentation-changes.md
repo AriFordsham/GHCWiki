@@ -14,4 +14,7 @@ Here are the steps to modify it:
 1. **Wait** for bgamari to publish the documentation. (As of Nov 2017, he runs the publish script manually, about once a month.)  If this takes more than a month, complain on the `#ghc` channel on [ FreeNode](http://freenode.net/) !  
 
 
+Loathe github? You can update documentation using [Phabricator](phabricator) too!
+
+
 Then have a beer on us.  We are truly grateful.
