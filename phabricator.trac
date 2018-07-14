@@ -23,6 +23,8 @@ Afterwords Phab will send you a verification email, which you'll need to open an
 
 Much like GitHub, you will need to add an SSH public key to your account to push Differentials. To add a key, go to your Phabricator [[https://phabricator.haskell.org/settings/|settings page]], select the ''Personal Account Settings'' item, and then select the ''SSH Public Keys'' option from the list on the left. This will bring you to your SSH key list, to which you can add a new key by selecting the ''Upload Public Key'' option from the ''SSH Key Actions'' menu button in the top-right corner of the page. Here you can specify a name of your choice for the key, as well as the key contents (e.g. the contents of `$HOME/.ssh/id_rsa.pub`). Be sure to paste your ''public'' key (ending in `.pub`), not your private key.
 
+Don't have an SSH key? Generate one with `ssh-keygen`.
+
 If you use a specific SSH key for GHC or Haskell related work, you should specify that key for `*.haskell.org` because the phabricator `arc` tool doesn't push to the actual GHC repo, but to a staging repo on a different machine in the `haskell.org` domain.
 
 == Understanding the interface ==
