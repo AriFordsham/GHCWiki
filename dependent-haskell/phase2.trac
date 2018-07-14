@@ -132,7 +132,6 @@ data CoercionHole
   = CoercionHole { ch_types :: Pair Type
                  , ch_role  :: Role
                  , ch_name  :: Name      -- for debugging only
-                 , ch_level :: TcLevel   -- more on this below
                  , ch_ref   :: IORef (Maybe Coercion)
                  }
 }}}
@@ -141,75 +140,11 @@ These new coercion holes are ''not'' returned as free variables.
 
 === Preventing floating
 
-If coercion holes are no longer returned as free variables, how do we prevent bad floating? (Here, "floating" refers to the process by which a constraint inside an implication is floated out of that implication -- that is, the constraint is attempted absent any of the assumptions of the implication. This can be done only when the constraint mentions no variables bound by the implication.)  By tracking levels. The type checker manages a `TcLevel`, a natural number that starts at 0 and is incremented as the type checker enters scopes. Essentially, the `TcLevel` is the count of how many local scopes the type checker has entered. All type variables are assigned a `TcLevel` saying what scope they belong to. Note that there are no global type variables, so these levels start at 1. To prevent floating, all we have to do is to make sure that the maximum level of any variable in a type is not equal to (or greater than) the level of the implication. (All implications have levels, too, because implication constraints correspond to local scopes. The level in the implication is the level of the variables in the implication.) If the maximum level of any variable in a type is less than the level of the implication, floating is fine.
+If coercion holes are no longer returned as free variables, how do we prevent bad floating? (Here, "floating" refers to the process by which a constraint inside an implication is floated out of that implication -- that is, the constraint is attempted absent any of the assumptions of the implication. This can be done only when the constraint mentions no variables bound by the implication.) Simple: don't float any constraint that mentions a coercion hole. Detecting this will require a new, simple traversal that looks for a coercion hole.
 
-We already have the maximum-level checker: `TcType.tcTypeLevel`. All we need to do is add levels to coercion holes (we can use the level from `getTcLevel :: TcM TcLevel`) in the `ch_level` field and then incorporate that into `tcTypeLevel`. Then, we modify the floating-out mechanism to do a level-check instead of a free-variable check. This is done in `TcSimplify.floatEqualities`.
+Why does this work? The hole will either be solved or it won't. If it is solved, then the constraint that was held up by the hole will no longer be, and GHC will make progress. (There is already the structure in place to make sure that such a constraint will be revisited.) If it isn't solved, then we have an unsolved constraint and will error anyway. One might worry that we need to float out a constraint to make more progress on it, which will then give us the key that unlocks solving the hole itself. I (Richard) don't think this is possible, because the constraints are already canonicalized -- there's not much progress that can be made other than outright solving.
 
-'''RAE Question:''' Currently, `floatEqualities` does a free-variable check and then ''promotes'' levels (reducing level numbers) of some variables. If we use the level numbers to decide what to float, when will we ever promote? This seems like it might not work. '''End RAE'''
-
-'''Answer from Simon'''
-Consider this implication constraint
-{{{
-forall[2] b[2].
-   forall a[3].
-      ([W] alpha[2] ~ a[3],
-       [W] beta[2] ~ (b[2], gamma[3]))
-}}}
-It is nested somewhere inside a constraint tree; hence this implication
-has level 3.  I have put level numbers on every variable.  The greek
-ones are unification variables.
-
-This implication has two nested equalities:
-* We ''cannot'' float `alpha[2] ~ a[3]` because it mentions the skolem `a`, which is bound by the implication.
-* We ''can'' float `beta[2] ~ (b, gamma[2])` because it does not mention a skolem bound by this implication.
-
-So we float out the second equality (but not the first), thus:
-{{{
-forall[2] b[2].
-   [W] beta[2] ~ (b[2], gamma[3]),
-   forall[3] a[3]. ([W] alpha[2] ~ a[3])
-}}}
-But now that `gamma[3]` has too large a level number.  It doesn't follow the `(WantedInv)`
-in `Note [TcLevel and untouchable type variables]` in `TcType`.
-
-So we promote, creating a fresh unification variable `gamma2[2]` and setting `gamma := gamma2`.
-Now we have
-{{{
-forall[2] b[2].
-   [W] beta[2] ~ (b[2], gamma2[2]),
-   forall[3] a[3]. ([W] alpha[2] ~ a[3])
-}}}
-
-Currently we decide which constraints we can float by
-1. Finding which variables are ''bound'' by the implication (see `Note [What prevents a constraint from floating]` in `TcSimplify`).
-2. Finding which variables are ''mentioned'' by the constraint.  
-3. Seeing if the two sets have an empty intersection.  If so, float.
-
-We are considering using level numbers (which all type variables now have) to simplify this.  Thus:
-
-1. Find the level number of the implication.  That's easy: the implication records it directly `ic_tclvl`!  In the above it's denoted `forall[lvl] skols. body`.
-
-2. Find the maximum level number mentioned in the constraint.  Here we have to be a bit more careful.   As you can see from the example, we want to consider the level numbers of the ''skolems'' but ignore the ''unification variables''.   But we must hunt for skolems in the ''kinds'' of the unification variables; e.g. if `gamma[3] :: a[3]` in the example above, we should not float.
-
-3. See if (2) < (1).
-No sets, no intersection, so easy.
-
-Incidentally, this level-number business would dramatically simplify this code in `TcSimplify.floatEqualities
-{{{
-       ; let seed_skols = mkVarSet skols     `unionVarSet`
-                          mkVarSet given_ids `unionVarSet`
-                          foldEvBindMap add_one emptyVarSet binds
-             add_one bind acc = extendVarSet acc (evBindVar bind)
-             -- seed_skols: See Note [What prevents a constraint from floating] (1,2,3)
-
-             extended_skols        = transCloVarSet (extra_skols eqs) seed_skols
-}}}
-Gah!  Looking at the bindings, transitive closure... horrible.  If every coercion variable had a level number indicating which level it is bound at, we could throw all this away.
-
-'''End of answer from Simon'''
-
-'''RAE:''' To summarize, you propose to ignore unification variables when doing the floating-out level-check. (Presumably, we won't ignore unification variables' kinds. '''SLPJ: good point; I have edited''') I'm still bothered though: we're worried about having coercion holes prevent floating. Coercion holes are very much like unification variables. If we ignore unification variables (and, by consequence, coercion holes), then do we have #14584 again? If we don't ignore coercion holes, then when will coercion holes ever get floated? I'm still very unconvinced here. '''End RAE'''
-
+Previously, there was a long section here about a different approach, involving levels. This has been moved to the end of this page.
 
 === Heterogeneity in the solver
 
@@ -291,3 +226,77 @@ Just as a wanted constraint carries with it a `TcEvDest`, a given constraint wil
 * What is the concrete design (type definitions) for the types in the solver to deal with heterogeneous equality constraints without using `~#`?
 
 * At some point, GHC must assume that `ForAllTy`s are irrelevant. Now, however, a `ForAllTy` over a coercion variable is relevant, and must make a proper runtime function. Where is the code that has to change?
+
+=== Old conversation about using levels in the solver
+
+This is kept here only for posterity. Don't take anything you see here as established fact.
+
+  By tracking levels. The type checker manages a `TcLevel`, a natural number that starts at 0 and is incremented as the type checker enters scopes. Essentially, the `TcLevel` is the count of how many local scopes the type checker has entered. All type variables are assigned a `TcLevel` saying what scope they belong to. Note that there are no global type variables, so these levels start at 1. To prevent floating, all we have to do is to make sure that the maximum level of any variable in a type is not equal to (or greater than) the level of the implication. (All implications have levels, too, because implication constraints correspond to local scopes. The level in the implication is the level of the variables in the implication.) If the maximum level of any variable in a type is less than the level of the implication, floating is fine.
+
+We already have the maximum-level checker: `TcType.tcTypeLevel`. All we need to do is add levels to coercion holes (we can use the level from `getTcLevel :: TcM TcLevel`) in the `ch_level` field and then incorporate that into `tcTypeLevel`. Then, we modify the floating-out mechanism to do a level-check instead of a free-variable check. This is done in `TcSimplify.floatEqualities`.
+
+'''RAE Question:''' Currently, `floatEqualities` does a free-variable check and then ''promotes'' levels (reducing level numbers) of some variables. If we use the level numbers to decide what to float, when will we ever promote? This seems like it might not work. '''End RAE'''
+
+'''Answer from Simon'''
+Consider this implication constraint
+{{{
+forall[2] b[2].
+   forall a[3].
+      ([W] alpha[2] ~ a[3],
+       [W] beta[2] ~ (b[2], gamma[3]))
+}}}
+It is nested somewhere inside a constraint tree; hence this implication
+has level 3.  I have put level numbers on every variable.  The greek
+ones are unification variables.
+
+This implication has two nested equalities:
+* We ''cannot'' float `alpha[2] ~ a[3]` because it mentions the skolem `a`, which is bound by the implication.
+* We ''can'' float `beta[2] ~ (b, gamma[2])` because it does not mention a skolem bound by this implication.
+
+So we float out the second equality (but not the first), thus:
+{{{
+forall[2] b[2].
+   [W] beta[2] ~ (b[2], gamma[3]),
+   forall[3] a[3]. ([W] alpha[2] ~ a[3])
+}}}
+But now that `gamma[3]` has too large a level number.  It doesn't follow the `(WantedInv)`
+in `Note [TcLevel and untouchable type variables]` in `TcType`.
+
+So we promote, creating a fresh unification variable `gamma2[2]` and setting `gamma := gamma2`.
+Now we have
+{{{
+forall[2] b[2].
+   [W] beta[2] ~ (b[2], gamma2[2]),
+   forall[3] a[3]. ([W] alpha[2] ~ a[3])
+}}}
+
+Currently we decide which constraints we can float by
+1. Finding which variables are ''bound'' by the implication (see `Note [What prevents a constraint from floating]` in `TcSimplify`).
+2. Finding which variables are ''mentioned'' by the constraint.  
+3. Seeing if the two sets have an empty intersection.  If so, float.
+
+We are considering using level numbers (which all type variables now have) to simplify this.  Thus:
+
+1. Find the level number of the implication.  That's easy: the implication records it directly `ic_tclvl`!  In the above it's denoted `forall[lvl] skols. body`.
+
+2. Find the maximum level number mentioned in the constraint.  Here we have to be a bit more careful.   As you can see from the example, we want to consider the level numbers of the ''skolems'' but ignore the ''unification variables''.   But we must hunt for skolems in the ''kinds'' of the unification variables; e.g. if `gamma[3] :: a[3]` in the example above, we should not float.
+
+3. See if (2) < (1).
+No sets, no intersection, so easy.
+
+Incidentally, this level-number business would dramatically simplify this code in `TcSimplify.floatEqualities
+{{{
+       ; let seed_skols = mkVarSet skols     `unionVarSet`
+                          mkVarSet given_ids `unionVarSet`
+                          foldEvBindMap add_one emptyVarSet binds
+             add_one bind acc = extendVarSet acc (evBindVar bind)
+             -- seed_skols: See Note [What prevents a constraint from floating] (1,2,3)
+
+             extended_skols        = transCloVarSet (extra_skols eqs) seed_skols
+}}}
+Gah!  Looking at the bindings, transitive closure... horrible.  If every coercion variable had a level number indicating which level it is bound at, we could throw all this away.
+
+'''End of answer from Simon'''
+
+'''RAE:''' To summarize, you propose to ignore unification variables when doing the floating-out level-check. (Presumably, we won't ignore unification variables' kinds. '''SLPJ: good point; I have edited''') I'm still bothered though: we're worried about having coercion holes prevent floating. Coercion holes are very much like unification variables. If we ignore unification variables (and, by consequence, coercion holes), then do we have #14584 again? If we don't ignore coercion holes, then when will coercion holes ever get floated? I'm still very unconvinced here. '''End RAE'''
+

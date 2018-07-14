@@ -141,7 +141,7 @@ By pairing the mutable cell with a `CoVar`, we get several benefits:
 In our new world with homogeneous equality, we have a problem, though: a `CoVar` must be homogeneous. Yet, the solver will sometimes have to work with heterogeneous equality (more on that later). We thus have to remove the `CoVar`. Thus, `CoercionHole` becomes
 
 ```
-dataCoercionHole=CoercionHole{ ch_types ::PairType, ch_role  ::Role, ch_name  ::Name-- for debugging only, ch_level ::TcLevel-- more on this below, ch_ref   ::IORef(MaybeCoercion)}
+dataCoercionHole=CoercionHole{ ch_types ::PairType, ch_role  ::Role, ch_name  ::Name-- for debugging only, ch_ref   ::IORef(MaybeCoercion)}
 ```
 
 
@@ -150,7 +150,101 @@ These new coercion holes are *not* returned as free variables.
 ### Preventing floating
 
 
-If coercion holes are no longer returned as free variables, how do we prevent bad floating? (Here, "floating" refers to the process by which a constraint inside an implication is floated out of that implication -- that is, the constraint is attempted absent any of the assumptions of the implication. This can be done only when the constraint mentions no variables bound by the implication.)  By tracking levels. The type checker manages a `TcLevel`, a natural number that starts at 0 and is incremented as the type checker enters scopes. Essentially, the `TcLevel` is the count of how many local scopes the type checker has entered. All type variables are assigned a `TcLevel` saying what scope they belong to. Note that there are no global type variables, so these levels start at 1. To prevent floating, all we have to do is to make sure that the maximum level of any variable in a type is not equal to (or greater than) the level of the implication. (All implications have levels, too, because implication constraints correspond to local scopes. The level in the implication is the level of the variables in the implication.) If the maximum level of any variable in a type is less than the level of the implication, floating is fine.
+If coercion holes are no longer returned as free variables, how do we prevent bad floating? (Here, "floating" refers to the process by which a constraint inside an implication is floated out of that implication -- that is, the constraint is attempted absent any of the assumptions of the implication. This can be done only when the constraint mentions no variables bound by the implication.) Simple: don't float any constraint that mentions a coercion hole. Detecting this will require a new, simple traversal that looks for a coercion hole.
+
+
+Why does this work? The hole will either be solved or it won't. If it is solved, then the constraint that was held up by the hole will no longer be, and GHC will make progress. (There is already the structure in place to make sure that such a constraint will be revisited.) If it isn't solved, then we have an unsolved constraint and will error anyway. One might worry that we need to float out a constraint to make more progress on it, which will then give us the key that unlocks solving the hole itself. I (Richard) don't think this is possible, because the constraints are already canonicalized -- there's not much progress that can be made other than outright solving.
+
+
+Previously, there was a long section here about a different approach, involving levels. This has been moved to the end of this page.
+
+### Heterogeneity in the solver
+
+
+While we'd like to remove heterogeneous coercion variables from Core, they are useful in the solver.
+Specifically, when we're analyzing an equality like `ty1 ~ (ty2 |> co)`, it's helpful to strip off the `co` and look at `ty1 ~ ty2`. This might discover similarities between `ty1` and `ty2` that can move solving forward. One of `ty1 ~ (ty2 |> co)` or `ty1 ~ ty2` is heterogeneous.
+
+
+Currently, all constraints in the solver have types. For example, a constraint might have a type of `Eq [a]`. Equality constraints have types, too. Currently, these types use `~#`. But if we have a homogeneous `~#`, then we won't be able to express a heterogeneous equality constraint using `~#`.  In fact, a heterogeneous equality constraint won't have a type at all.   Remember the "mixed economy" of "A specification of dependent types for Haskell":
+
+- A coercion *variable* (which has a type `t1 ~# t2`) must be homogeneous
+- A *coercion* can be heterogeneous.  It does not have a type.
+
+
+Equality constraints in the solver are witnessed by coercions and therefore may not have a type.
+
+
+The types in the solver are useful because we make evidence bindings with those types. However, all equality Wanted constraints use coercion holes for their evidence (more on Givens later), so no binding is needed. We can thus store a heterogeneous equality constraint simply by storing a pair of types.
+
+
+Note that the `TcEvDest` type stores either an evidence binding or a coercion hole. The new form of constraint (the pair of types) will always go hand-in-hand with the `HoleDest` constructor of `TcEvDest`.
+
+### Heterogeneous given equalities
+
+
+Even though we do not use evidence bindings for equality Wanteds, we still do use bindings for equality Givens. For example:
+
+```wiki
+class a ~# b => C a b where ...
+f :: C a b => b -> a
+```
+
+
+We'll typecheck this to get
+
+```wiki
+f = /\a \(d :: C a b). \(x::b).
+   let co :: a ~# b = sc_sel_1 d
+   in x |> sym co
+```
+
+
+The superclass selection can only be done in term-land.  We cannot inline it to get
+
+```wiki
+f = /\a \(d :: C a b). \(x::b).
+   x |> sym (sc_sel_1 d)
+```
+
+
+So at least some bindings for Given equalities must generate a real binding; we cannot use coercion holes for them. We thus need a dual of `TcEvDest`:
+
+```
+dataCtEvidence=CtGiven-- Truly given, not depending on subgoals{ ctev_pred ::TcPredType, ctev_evar ::TcEvSource<------NEW!WasEvVar!, ctev_loc  ::CtLoc}|CtWanted-- Wanted goal{ ctev_pred ::TcPredType, ctev_dest ::TcEvDest, ctev_nosh ::ShadowInfo, ctev_loc  ::CtLoc}dataTcEvSource=EvVarSourceEvVar|CoercionSourceCoercion
+```
+
+
+Just as a wanted constraint carries with it a `TcEvDest`, a given constraint will have to carry a `TcEvSource`. Unlike wanteds, though, *sometimes* an equality given will be an `EvVarSource`, if that equality given arises from, say, a superclass selector or GADT pattern match or some such. When a `CoercionSource` given is used, we just substitute the given into the coercion we are building (in a `CoercionHole` value). This will happen in `TcRnTypes.ctEvCoercion`, and possibly elsewhere.
+
+### Some other details
+
+- The three primitive equality tycons (`eqPrimTyCon`, `eqReprPrimTyCon`, and `eqPhantPrimTyCon`) all get a homogeneous kind.
+
+- `coercionKind` does not need to change.
+
+- Remove the now-redundant `KindCo` constructor for coercions.
+
+- `coercionType` now works only over homogeneous coercions. We will have to audit usages of this function to make sure it doesn't get called on something heterogeneous.
+
+- The core-spec will have to be updated.
+
+- `~~` will have to be updated to use two `~#`s, as demonstrated above.
+
+- Simon suggests that it is easier to have `~` refer directly to `~#`, instead of the current setup where it is defined in terms of `~~`. This is an unnecessary refactoring, but it might lead to a small performance win as there is one fewer indirection.
+
+### Open questions
+
+- What is the concrete design (type definitions) for the types in the solver to deal with heterogeneous equality constraints without using `~#`?
+
+- At some point, GHC must assume that `ForAllTy`s are irrelevant. Now, however, a `ForAllTy` over a coercion variable is relevant, and must make a proper runtime function. Where is the code that has to change?
+
+### Old conversation about using levels in the solver
+
+
+This is kept here only for posterity. Don't take anything you see here as established fact.
+
+>
+> By tracking levels. The type checker manages a `TcLevel`, a natural number that starts at 0 and is incremented as the type checker enters scopes. Essentially, the `TcLevel` is the count of how many local scopes the type checker has entered. All type variables are assigned a `TcLevel` saying what scope they belong to. Note that there are no global type variables, so these levels start at 1. To prevent floating, all we have to do is to make sure that the maximum level of any variable in a type is not equal to (or greater than) the level of the implication. (All implications have levels, too, because implication constraints correspond to local scopes. The level in the implication is the level of the variables in the implication.) If the maximum level of any variable in a type is less than the level of the implication, floating is fine.
 
 
 We already have the maximum-level checker: `TcType.tcTypeLevel`. All we need to do is add levels to coercion holes (we can use the level from `getTcLevel :: TcM TcLevel`) in the `ch_level` field and then incorporate that into `tcTypeLevel`. Then, we modify the floating-out mechanism to do a level-check instead of a free-variable check. This is done in `TcSimplify.floatEqualities`.
@@ -239,83 +333,3 @@ Gah!  Looking at the bindings, transitive closure... horrible.  If every coercio
 **End of answer from Simon**
 
 **RAE:** To summarize, you propose to ignore unification variables when doing the floating-out level-check. (Presumably, we won't ignore unification variables' kinds. **SLPJ: good point; I have edited**) I'm still bothered though: we're worried about having coercion holes prevent floating. Coercion holes are very much like unification variables. If we ignore unification variables (and, by consequence, coercion holes), then do we have [\#14584](https://gitlab.haskell.org//ghc/ghc/issues/14584) again? If we don't ignore coercion holes, then when will coercion holes ever get floated? I'm still very unconvinced here. **End RAE**
-
-### Heterogeneity in the solver
-
-
-While we'd like to remove heterogeneous coercion variables from Core, they are useful in the solver.
-Specifically, when we're analyzing an equality like `ty1 ~ (ty2 |> co)`, it's helpful to strip off the `co` and look at `ty1 ~ ty2`. This might discover similarities between `ty1` and `ty2` that can move solving forward. One of `ty1 ~ (ty2 |> co)` or `ty1 ~ ty2` is heterogeneous.
-
-
-Currently, all constraints in the solver have types. For example, a constraint might have a type of `Eq [a]`. Equality constraints have types, too. Currently, these types use `~#`. But if we have a homogeneous `~#`, then we won't be able to express a heterogeneous equality constraint using `~#`.  In fact, a heterogeneous equality constraint won't have a type at all.   Remember the "mixed economy" of "A specification of dependent types for Haskell":
-
-- A coercion *variable* (which has a type `t1 ~# t2`) must be homogeneous
-- A *coercion* can be heterogeneous.  It does not have a type.
-
-
-Equality constraints in the solver are witnessed by coercions and therefore may not have a type.
-
-
-The types in the solver are useful because we make evidence bindings with those types. However, all equality Wanted constraints use coercion holes for their evidence (more on Givens later), so no binding is needed. We can thus store a heterogeneous equality constraint simply by storing a pair of types.
-
-
-Note that the `TcEvDest` type stores either an evidence binding or a coercion hole. The new form of constraint (the pair of types) will always go hand-in-hand with the `HoleDest` constructor of `TcEvDest`.
-
-### Heterogeneous given equalities
-
-
-Even though we do not use evidence bindings for equality Wanteds, we still do use bindings for equality Givens. For example:
-
-```wiki
-class a ~# b => C a b where ...
-f :: C a b => b -> a
-```
-
-
-We'll typecheck this to get
-
-```wiki
-f = /\a \(d :: C a b). \(x::b).
-   let co :: a ~# b = sc_sel_1 d
-   in x |> sym co
-```
-
-
-The superclass selection can only be done in term-land.  We cannot inline it to get
-
-```wiki
-f = /\a \(d :: C a b). \(x::b).
-   x |> sym (sc_sel_1 d)
-```
-
-
-So at least some bindings for Given equalities must generate a real binding; we cannot use coercion holes for them. We thus need a dual of `TcEvDest`:
-
-```
-dataCtEvidence=CtGiven-- Truly given, not depending on subgoals{ ctev_pred ::TcPredType, ctev_evar ::TcEvSource<------NEW!WasEvVar!, ctev_loc  ::CtLoc}|CtWanted-- Wanted goal{ ctev_pred ::TcPredType, ctev_dest ::TcEvDest, ctev_nosh ::ShadowInfo, ctev_loc  ::CtLoc}dataTcEvSource=EvVarSourceEvVar|CoercionSourceCoercion
-```
-
-
-Just as a wanted constraint carries with it a `TcEvDest`, a given constraint will have to carry a `TcEvSource`. Unlike wanteds, though, *sometimes* an equality given will be an `EvVarSource`, if that equality given arises from, say, a superclass selector or GADT pattern match or some such. When a `CoercionSource` given is used, we just substitute the given into the coercion we are building (in a `CoercionHole` value). This will happen in `TcRnTypes.ctEvCoercion`, and possibly elsewhere.
-
-### Some other details
-
-- The three primitive equality tycons (`eqPrimTyCon`, `eqReprPrimTyCon`, and `eqPhantPrimTyCon`) all get a homogeneous kind.
-
-- `coercionKind` does not need to change.
-
-- Remove the now-redundant `KindCo` constructor for coercions.
-
-- `coercionType` now works only over homogeneous coercions. We will have to audit usages of this function to make sure it doesn't get called on something heterogeneous.
-
-- The core-spec will have to be updated.
-
-- `~~` will have to be updated to use two `~#`s, as demonstrated above.
-
-- Simon suggests that it is easier to have `~` refer directly to `~#`, instead of the current setup where it is defined in terms of `~~`. This is an unnecessary refactoring, but it might lead to a small performance win as there is one fewer indirection.
-
-### Open questions
-
-- What is the concrete design (type definitions) for the types in the solver to deal with heterogeneous equality constraints without using `~#`?
-
-- At some point, GHC must assume that `ForAllTy`s are irrelevant. Now, however, a `ForAllTy` over a coercion variable is relevant, and must make a proper runtime function. Where is the code that has to change?
