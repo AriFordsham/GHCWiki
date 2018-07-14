@@ -188,10 +188,8 @@ with some basic GHC-specific types defined as
 
 {{{#!hs
 {-# OPTIONS_GHC -Wall -fno-warn-unticked-promoted-constructors #-}
-{-# LANGUAGE TypeFamilies , DataKinds #-}
+{-# LANGUAGE TypeFamilies , DataKinds, EmptyDataDeriving, EmptyCase #-}
 module BasicGHCTypes where
-
-import Data.Void
 
 -- ----------------------------------------------
 -- GHC-Specific Declarations
@@ -199,12 +197,19 @@ import Data.Void
 data Phase = Ps | Rn | Tc
 data GHC (p :: Phase)
 
+data NoExt = NoExt
+data NoNewCon
+
+noNewCon :: NoNewCon -> a
+noNewCon x = case x of {}
+
 data RdrName    -- = the definition of RdrName
 data Name       -- = the definition of Name
 data Id         -- = the definition of Id
-data SrcSpan    -- = the definition of SrcSpan
 data Type       -- = the definition of SrcSpan
 data UnboundVar -- = the definition of UnboundVar
+data SrcSpan    -- = the definition of SrcSpan
+  deriving Eq
 
 data Located a = L SrcSpan a
 
@@ -214,22 +219,27 @@ getLoc (L sp _)    = sp
 setLoc :: Located a -> SrcSpan -> Located a
 setLoc (L _ x) sp' = L sp' x
 
-noLoc :: SrcSpan
-noLoc = undefined -- or be an empty SrcSpan
+noSrcSpan :: SrcSpan
+noSrcSpan = undefined -- or be an empty SrcSpan
 
-type family XAppGHC (p :: Phase) where
-  XAppGHC Ps = ()
-  XAppGHC Rn = ()
-  XAppGHC Tc = Type
+type family   XAppGHC (p :: Phase)
+type instance XAppGHC Ps = NoExt
+type instance XAppGHC Rn = NoExt
+type instance XAppGHC Tc = Type
 
-type family XNewGHC (p :: Phase) where
-  XNewGHC Ps = Void
-  XNewGHC _  = UnboundVar
+type family   XNewGHC (p :: Phase)
+type instance XNewGHC Ps = NoNewCon
+type instance XNewGHC Rn = UnboundVar
+type instance XNewGHC Tc = UnboundVar
 
-type family XIdGHC (p :: Phase) where
-  XIdGHC Ps = RdrName
-  XIdGHC Rn = Name
-  XIdGHC Tc = Id
+type family   XIdGHC  (p :: Phase)
+type instance XIdGHC  Ps = RdrName
+type instance XIdGHC  Rn = Name
+type instance XIdGHC  Tc = Id
+
+-- NB: if GHC later wants to add extension fields to (say)
+-- XAbs, we can just redefine XAbs (GHC p) to be more like
+-- the XApp case
 }}}
 
 Notice that the payload of the `Var` constructor is of type `XId x`. For
@@ -244,8 +254,9 @@ Unfortunately, this forces us to redefine the base TTG data type,
 forcing it into ping-pong style, which is why we don't like it for the reasons mentioned above.
 
 {{{#!hs
-{-# OPTIONS_GHC -Wall #-}
-{-# LANGUAGE TypeFamilies #-}
+{-# OPTIONS_GHC -Wall -fno-warn-unticked-promoted-constructors #-}
+{-# LANGUAGE TypeFamilies, DataKinds #-}
+
 module Original where
 
 import BasicGHCTypes
@@ -272,20 +283,71 @@ type family XId  x
 -- ----------------------------------------------
 -- GHC-Specific Decorations
 -- ----------------------------------------------
-type instance XVar (GHC _) = ()
-type instance XAbs (GHC _) = ()
-type instance XApp (GHC p) = XAppGHC p
-type instance XPar (GHC _) = ()
-type instance XNew (GHC p) = XNewGHC p
-type instance XId  (GHC p) = XIdGHC  p
+type instance XVar (GHC _)  = NoExt
+type instance XAbs (GHC _)  = NoExt
+type instance XApp (GHC p)  = XAppGHC p
+type instance XPar (GHC _)  = NoExt
+type instance XNew (GHC p)  = XNewGHC p
+type instance XId  (GHC p)  = XIdGHC  p
 
 -- ----------------------------------------------
 -- Example Function
 -- ----------------------------------------------
 par :: LExp (GHC x) -> LExp (GHC x)
-par l@(L sp (App{})) = L sp (Par () l)
+par l@(L sp (App{})) = L sp (Par NoExt l)
 par l                = l
 }}}
+
+=== The SrcSpan Accessor Typeclass ===
+Here is a complete definition of the `HasSrcSpan` typeclass mentioned earlier:
+{{{#!hs
+{-# OPTIONS_GHC -Wall #-}
+{-# LANGUAGE TypeFamilies, PatternSynonyms, ViewPatterns #-}
+module HasSrcSpan where
+
+import BasicGHCTypes
+
+type family SrcSpanLess a
+class HasSrcSpan a where
+  composeSrcSpan   :: (SrcSpanLess a , SrcSpan) -> a
+  decomposeSrcSpan :: a -> (SrcSpanLess a , SrcSpan)
+  {- laws:
+     composeSrcSpan . decomposeSrcSpan = id
+     decomposeSrcSpan . composeSrcSpan = id
+  -}
+
+
+unSrcSpan :: HasSrcSpan a => a -> SrcSpanLess a
+unSrcSpan = fst . decomposeSrcSpan
+
+getSrcSpan :: HasSrcSpan a => a -> SrcSpan
+getSrcSpan = snd . decomposeSrcSpan
+
+setSrcSpan :: HasSrcSpan a => a -> SrcSpan -> a
+setSrcSpan e sp = composeSrcSpan (unSrcSpan e , sp)
+
+type instance SrcSpanLess (Located a) = a
+instance HasSrcSpan (Located a) where
+  composeSrcSpan   (e , sp) = L sp e
+  decomposeSrcSpan (L sp e) = (e , sp)
+
+type instance SrcSpanLess SrcSpan = SrcSpan
+instance HasSrcSpan SrcSpan where
+  composeSrcSpan   (_ , sp) = sp
+  decomposeSrcSpan sp       = (sp , sp)
+
+type instance SrcSpanLess NoNewCon = NoNewCon
+instance HasSrcSpan NoNewCon where
+  composeSrcSpan   (n , _) = noNewCon n
+  decomposeSrcSpan n       = noNewCon n
+
+
+pattern LL :: HasSrcSpan a => SrcSpan -> SrcSpanLess a -> a
+pattern LL s m <- (decomposeSrcSpan -> (m , s))
+  where
+        LL s m =  composeSrcSpan (m , s)
+}}}
+
 
 === Solution A - Example Code ===
 In the code below, as compared to the ping-pong style above, we have the following key changes:
@@ -295,38 +357,44 @@ In the code below, as compared to the ping-pong style above, we have the followi
 * a pattern synonym `LL` is introduced using the new constructor
 
 {{{#!hs
-{-# OPTIONS_GHC -Wall #-}
-{-# LANGUAGE TypeFamilies, PatternSynonyms #-}
-module SolutionB where
+{-# OPTIONS_GHC -Wall -fno-warn-unticked-promoted-constructors
+                -fno-warn-orphans #-}
+{-# LANGUAGE TypeFamilies, PatternSynonyms, DataKinds, FlexibleInstances #-}
+module SolutionA where
 
 import BasicGHCTypes
+
 import TTG
+import HasSrcSpan
 
 -- ----------------------------------------------
 -- GHC-Specific Decorations
 -- ----------------------------------------------
-type instance XVar (GHC _) = ()
-type instance XAbs (GHC _) = ()
-type instance XApp (GHC p) = XAppGHC p
-type instance XPar (GHC _) = ()
-type instance XNew (GHC p) = Either (Located (Exp (GHC p))) (XNewGHC p)
-type instance XId  (GHC p) = XIdGHC  p
-
--- NB: if GHC later wants to add extension fields to (say)
--- XAbs, we can just redefine XAbs (GHC p) to be more like
--- the XApp case
+type instance XVar (GHC _)  = NoExt
+type instance XAbs (GHC _)  = NoExt
+type instance XApp (GHC p)  = XAppGHC p
+type instance XPar (GHC _)  = NoExt
+type instance XNew (GHC p)  = Either (Located (Exp (GHC p)))
+                                     (XNewGHC p)
+type instance XId  (GHC p)  = XIdGHC  p
 
 -- ----------------------------------------------
--- LL Pattern Synonym
+-- HasSrcSpan Instance
 -- ----------------------------------------------
-pattern LL :: SrcSpan -> Exp (GHC p) -> Exp (GHC p)
-pattern LL sp m = New (Left (L sp m))
+
+type instance SrcSpanLess (Exp (GHC p)) = Exp (GHC p)
+instance HasSrcSpan (Exp (GHC p)) where
+  composeSrcSpan (m , sp) = if noSrcSpan == sp
+                            then m
+                            else New (Left (L sp m))
+  decomposeSrcSpan (New (Left (L sp m))) = (m , sp)
+  decomposeSrcSpan m                     = (m , noSrcSpan)
 
 -- ----------------------------------------------
 -- Example Function
 -- ----------------------------------------------
 par :: Exp (GHC p) -> Exp (GHC p)
-par l@(LL sp (App{})) = LL sp (Par () l)
+par l@(LL sp (App{})) = LL sp (Par NoExt l)
 par l                 = l
 }}}
 
@@ -341,80 +409,58 @@ In the code below, as compared to the ping-pong style above, we have the followi
 * a pattern synonym `LL` is introduced using the setter/getter function pair
 
 {{{#!hs
-{-# OPTIONS_GHC -Wall #-}
-{-# LANGUAGE TypeFamilies, PatternSynonyms, ViewPatterns, FlexibleInstances #-}
-module SolutionA where
+{-# OPTIONS_GHC -Wall -fno-warn-unticked-promoted-constructors
+                -fno-warn-orphans #-}
+{-# LANGUAGE TypeFamilies, PatternSynonyms, DataKinds, FlexibleInstances #-}
+module SolutionB where
 
-import Data.Void
 import BasicGHCTypes
 import TTG
+import HasSrcSpan
 
 -- ----------------------------------------------
 -- GHC-Specific Decorations
 -- ----------------------------------------------
-type instance XVar (GHC p) = Located ()
-type instance XAbs (GHC p) = Located ()
-type instance XApp (GHC p) = Located (XAppGHC p)
-type instance XPar (GHC p) = Located ()
-type instance XNew (GHC p) = Located (XNewGHC p)
-type instance XId  (GHC p) = XIdGHC  p
-
--- NB: if GHC later wants to add extension fields to (say)
--- XAbs, we can just redefine XAbs (GHC p) to be more like
--- the XApp case
+type instance XVar (GHC _)  = Located NoExt
+type instance XAbs (GHC _)  = Located NoExt
+type instance XApp (GHC p)  = Located (XAppGHC p)
+type instance XPar (GHC _)  = Located NoExt
+type instance XNew (GHC p)  = Located (XNewGHC p)
+type instance XId  (GHC p)  = XIdGHC p
 
 -- ----------------------------------------------
--- HasSpan Typeclass and LL Pattern Synonym
+-- HasSrcSpan Instance
 -- ----------------------------------------------
-class HasSpan a where
-  getSpan :: a -> SrcSpan
-  setSpan :: a -> SrcSpan -> a
 
-instance HasSpan SrcSpan where
-  getSpan   = id
-  setSpan _ = id
-
-instance HasSpan Void where
-  getSpan x   = absurd x
-  setSpan x _ = absurd x
-
-instance HasSpan (Located a) where
-  getSpan = getLoc
-  setSpan = setLoc
-
-instance HasSpan (Exp (GHC p)) where
+type instance SrcSpanLess (Exp (GHC p)) = Exp (GHC p)
+instance HasSrcSpan (Exp (GHC p)) where
 {- or,
 type ForallX (p :: * -> Constraint) x
   = ( p (XVar x) , p (XAbs x) , p (XApp x) , p (XPar x)
     , p (XNew x) )
 
-instance ForallX HasSpan x => HasSpan (Exp x) where
+instance ForallX HasSrcSpan x => HasSrcSpan (Exp x) where
 -}
-  getSpan (Var ex _)      = getSpan ex
-  getSpan (Abs ex _ _)    = getSpan ex
-  getSpan (App ex _ _)    = getSpan ex
-  getSpan (Par ex _)      = getSpan ex
-  getSpan (New ex)        = getSpan ex
+  composeSrcSpan (Var ex x   , sp) = Var (setSrcSpan ex sp) x
+  composeSrcSpan (Abs ex x n , sp) = Abs (setSrcSpan ex sp) x n
+  composeSrcSpan (App ex l m , sp) = App (setSrcSpan ex sp) l m
+  composeSrcSpan (Par ex m   , sp) = Par (setSrcSpan ex sp) m
+  composeSrcSpan (New ex     , sp) = New (setSrcSpan ex sp)
 
-  setSpan (Var ex x)   sp = Var (setSpan ex sp) x
-  setSpan (Abs ex x n) sp = Abs (setSpan ex sp) x n
-  setSpan (App ex l m) sp = App (setSpan ex sp) l m
-  setSpan (Par ex m)   sp = Par (setSpan ex sp) m
-  setSpan (New ex)     sp = New (setSpan ex sp)
-
-getSpan' :: HasSpan a => a -> Located a
-getSpan' m = L (getSpan m) m
-
-pattern LL :: HasSpan a => SrcSpan -> a -> a
-pattern LL s m <- (getSpan' -> L s m)
-  where
-        LL s m =  setSpan m s
+  decomposeSrcSpan m@(Var ex _)    = (m , getSrcSpan ex)
+  decomposeSrcSpan m@(Abs ex _ _)  = (m , getSrcSpan ex)
+  decomposeSrcSpan m@(App ex _ _)  = (m , getSrcSpan ex)
+  decomposeSrcSpan m@(Par ex _)    = (m , getSrcSpan ex)
+  decomposeSrcSpan m@(New ex)      = (m , getSrcSpan ex)
 
 -- ----------------------------------------------
 -- Example Function
 -- ----------------------------------------------
 par :: Exp (GHC p) -> Exp (GHC p)
-par l@(LL sp (App{})) = LL sp (Par (L noLoc ()) l)
+par l@(LL sp (App{})) = Par (L sp NoExt) l
+{- or,
+                      = LL sp (Par (L noSrcSpan NoExt) l)
+-}
 par l                 = l
 }}}
 
