@@ -136,13 +136,14 @@ sL1::(HasSrcSpan a ,HasSrcSpan b)=> a ->SrcSpanLess b -> b
 sL1(LL sp _)=LL sp
 ```
 
-- We may, or may not, assume that open extension typefamily instances for GHC-specific decorations are nested, such that they call a closed typefamily to choose the extension based on the index.
+- Although we assume typefamily instances are nested (to help with resolving constraint solving), we may, or may not, assume that these extension typefamily instances for GHC-specific decorations are closed.
 
 >
 > For example, instead of a list of open type family instances
 
 ```
-typeinstanceXApp(GHCPs)=()typeinstanceXApp(GHCRn)=()typeinstanceXApp(GHCTc)=Type
+typeinstanceXApp(GHC p)=XAppGHC p
+typefamilyXAppGHC(p ::Phase)typeinstanceXAppGHCPs=()typeinstanceXAppGHCRn=()typeinstanceXAppGHCTc=Type
 ```
 
 >
@@ -154,7 +155,7 @@ typefamilyXAppGHC(p ::Phase)whereXAppGHCPs=()XAppGHCRn=()XAppGHCTc=Type
 ```
 
 >
-> The closed type family solution is elegant and solves some of the constraint solving problems in place (see the commented section in type class instance of solution B). However, the closed typed family solution couples together the code from different stages of the compiler, e.g., the definition of a parser with the type `parseExp :: String -> M (HsExpr (Ghc Ps))` (for some parsing monad `M`) refers to the closed type family `XAppGHC` which refers to the definition `Type` that is not relevant to the parsing phase. We want the parser and other machineries within GHC front-end (e.g., the pretty-printer) to not to be GHC-specific (e.g., depending on `Type`, or even core via `Tickish`!).
+> The closed type family solution is elegant and solves some of the constraint solving problems in place (see the commented section in type class instance of solution B). However, the closed typed family solution couples together the code from different passes of the compiler, e.g., the definition of a parser with the type `parseExp :: String -> M (HsExpr (Ghc Ps))` (for some parsing monad `M`) refers to the closed type family `XAppGHC` which refers to the definition `Type` that is not relevant to the parsing phase. We want the parser and other machineries within GHC front-end (e.g., the pretty-printer) to not to be GHC-specific (e.g., depending on `Type`, or even core via `Tickish`!).
 
 ## Pros & Cons
 
@@ -169,7 +170,7 @@ Pros:
   rather than one for `(f x y z)`, one for `(f x y)`, and one for `(f x)`).
 - It's easy to add the current location to the monad
 
-> `f (XNew loc e) = setLoc loc $ f e`
+> `f (XNew loc e) = setSrcSpan loc $ f e`
 
 >
 > Simple, elegant!
@@ -218,12 +219,7 @@ with some basic GHC-specific types defined as
 {-# OPTIONS_GHC -Wall -fno-warn-unticked-promoted-constructors #-}{-# LANGUAGE TypeFamilies , DataKinds, EmptyDataDeriving, EmptyCase #-}moduleBasicGHCTypeswhere-- ------------------------------------------------ GHC-Specific Declarations-- ----------------------------------------------dataPhase=Ps|Rn|TcdataGHC(p ::Phase)dataNoExt=NoExtdataNoNewConnoNewCon::NoNewCon-> a
 noNewCon x =case x of{}dataRdrName-- = the definition of RdrNamedataName-- = the definition of NamedataId-- = the definition of IddataType-- = the definition of SrcSpandataUnboundVar-- = the definition of UnboundVardataSrcSpan-- = the definition of SrcSpanderivingEqdataLocated a =LSrcSpan a
 
-getLoc::Located a ->SrcSpangetLoc(L sp _)= sp
-
-setLoc::Located a ->SrcSpan->Located a
-setLoc(L_ x) sp' =L sp' x
-
-noSrcSpan::SrcSpannoSrcSpan= undefined -- or be an empty SrcSpantypefamilyXAppGHC(p ::Phase)typeinstanceXAppGHCPs=NoExttypeinstanceXAppGHCRn=NoExttypeinstanceXAppGHCTc=TypetypefamilyXNewGHC(p ::Phase)typeinstanceXNewGHCPs=NoNewContypeinstanceXNewGHCRn=UnboundVartypeinstanceXNewGHCTc=UnboundVartypefamilyXIdGHC(p ::Phase)typeinstanceXIdGHCPs=RdrNametypeinstanceXIdGHCRn=NametypeinstanceXIdGHCTc=Id-- NB: if GHC later wants to add extension fields to (say)-- XAbs, we can just redefine XAbs (GHC p) to be more like-- the XApp case
+noSrcSpan::SrcSpannoSrcSpan=...-- an empty SrcSpantypefamilyXAppGHC(p ::Phase)typeinstanceXAppGHCPs=NoExttypeinstanceXAppGHCRn=NoExttypeinstanceXAppGHCTc=TypetypefamilyXNewGHC(p ::Phase)typeinstanceXNewGHCPs=NoNewContypeinstanceXNewGHCRn=UnboundVartypeinstanceXNewGHCTc=UnboundVartypefamilyXIdGHC(p ::Phase)typeinstanceXIdGHCPs=RdrNametypeinstanceXIdGHCRn=NametypeinstanceXIdGHCTc=Id-- NB: if GHC later wants to add extension fields to (say)-- XAbs, we can just redefine XAbs (GHC p) to be more like-- the XApp case
 ```
 
 
@@ -356,11 +352,11 @@ Here are some extra notes:
 
   ```
   dataExtra=ExtraSrcSpan[(SrcSpan,AnnKeywordId)]classHasExtra a where
-                    getSpan :: a ->SrcSpan
-                    setSpan :: a ->SrcSpan-> a
-                  
-                    getApiAnns :: a ->[(SrcSpan,AnnKeywordId)]
-                    setApiAnns :: a ->[(SrcSpan,AnnKeywordId)]-> a
+      getSpan :: a ->SrcSpan
+      setSpan :: a ->SrcSpan-> a
+          
+      getApiAnns :: a ->[(SrcSpan,AnnKeywordId)]
+      setApiAnns :: a ->[(SrcSpan,AnnKeywordId)]-> a
   ```
 
 - We also currently have sections of AST without source locations, such as those generated when converting TH AST to hsSyn AST, or for GHC derived code.
