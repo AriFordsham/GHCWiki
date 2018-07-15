@@ -213,11 +213,8 @@ data SrcSpan    -- = the definition of SrcSpan
 
 data Located a = L SrcSpan a
 
-getLoc :: Located a -> SrcSpan
-getLoc (L sp _)    = sp
-
 noSrcSpan :: SrcSpan
-noSrcSpan = undefined -- or be an empty SrcSpan
+noSrcSpan = ... -- an empty SrcSpan
 
 type family   XAppGHC (p :: Phase)
 type instance XAppGHC Ps = NoExt
