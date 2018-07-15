@@ -133,7 +133,7 @@ There are also two related design choices (rather orthogonal design to the probl
                 XAppGHC Tc = Type
   }}}
 
-  The closed type family solution is elegant and solves some of the constraint solving problems in place (see the commented section in type class instance of solution B). However, the closed typed family solution couples together the code from different stages of the compiler, e.g., the definition of a parser with the type `parseExp :: String -> M (HsExpr (Ghc Ps))` (for some parsing monad `M`) refers to the closed type family `XAppGHC` which refers to the definition `Type` that is not relevant to the parsing phase. We want the parser and other machineries within GHC front-end (e.g., the pretty-printer) to not to be GHC-specific (e.g., depending on `Type`, or even core via `Tickish`!).
+  The closed type family solution is elegant and solves some of the constraint solving problems in place (see the commented section in type class instance of solution B). However, the closed typed family solution couples together the code from different passes of the compiler, e.g., the definition of a parser with the type `parseExp :: String -> M (HsExpr (Ghc Ps))` (for some parsing monad `M`) refers to the closed type family `XAppGHC` which refers to the definition `Type` that is not relevant to the parsing phase. We want the parser and other machineries within GHC front-end (e.g., the pretty-printer) to not to be GHC-specific (e.g., depending on `Type`, or even core via `Tickish`!).
 
 == Pros & Cons ==
 
