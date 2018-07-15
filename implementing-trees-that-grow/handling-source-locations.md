@@ -136,13 +136,14 @@ sL1::(HasSrcSpan a ,HasSrcSpan b)=> a ->SrcSpanLess b -> b
 sL1(LL sp _)=LL sp
 ```
 
-- We may, or may not, assume that open extension typefamily instances for GHC-specific decorations are nested, such that they call a closed typefamily to choose the extension based on the index.
+- Although we assume typefamily instances are nested (to help with resolving constraint solving), we may, or may not, assume that these extension typefamily instances for GHC-specific decorations are closed.
 
 >
 > For example, instead of a list of open type family instances
 
 ```
-typeinstanceXApp(GHCPs)=()typeinstanceXApp(GHCRn)=()typeinstanceXApp(GHCTc)=Type
+typeinstanceXApp(GHC p)=XAppGHC p
+typefamilyXAppGHC(p ::Phase)typeinstanceXAppGHCPs=()typeinstanceXAppGHCRn=()typeinstanceXAppGHCTc=Type
 ```
 
 >
