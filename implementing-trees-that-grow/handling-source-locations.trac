@@ -142,7 +142,7 @@ Pros:
 * It makes it easy to store fewer locations (e.g. one location for `(f x y z)`, 
   rather than one for `(f x y z)`, one for `(f x y)`, and one for `(f x)`).
 * It's easy to add the current location to the monad
-     `f (XNew loc e) = setLoc loc $ f e`
+     `f (XNew loc e) = setSrcSpan loc $ f e`
   Simple, elegant!
 Cons:
 * At the binding site of a variable we know that we *always* have a location, and we can put that in its Name.  
@@ -215,9 +215,6 @@ data Located a = L SrcSpan a
 
 getLoc :: Located a -> SrcSpan
 getLoc (L sp _)    = sp
-
-setLoc :: Located a -> SrcSpan -> Located a
-setLoc (L _ x) sp' = L sp' x
 
 noSrcSpan :: SrcSpan
 noSrcSpan = undefined -- or be an empty SrcSpan
