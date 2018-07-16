@@ -412,8 +412,9 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <tr><th>`ghc`</th>
 <th>  8.7\*  </th>
 <th>  8.6.0.20180714\*  </th>
+<th>  8.4.3\*  </th>
 <th>  8.4.2\*  </th>
-<th>  8.4.0.20180304  </th>
+<th>  8.4.1\*  </th>
 <th>  8.2.2\*  </th>
 <th>  8.2.1\*  </th>
 <th>  8.0.2  </th>
@@ -436,8 +437,7 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <th>  7.0.3\*  </th>
 <th>  7.0.2\*  </th>
 <th>  7.0.1\*  
-</th>
-<th></th></tr>
+</th></tr>
 <tr><th>`ghc-binary`</th>
 <th>*none*</th>
 <th>  0.5.0.2\*  
@@ -470,14 +470,14 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <tr><th>`ghc-boot`</th>
 <th>  8.7  </th>
 <th>  8.6.0.20180714  </th>
+<th>  8.4.3  </th>
 <th>  8.4.2  </th>
-<th>  8.4.0.20180304  </th>
+<th>  8.4.1  </th>
 <th>  8.2.2  </th>
 <th>  8.2.1  </th>
 <th>  8.0.2  </th>
 <th>  8.0.1  </th>
 <th>*none*</th>
-<th></th>
 <th></th>
 <th></th>
 <th></th>
@@ -498,14 +498,14 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <tr><th>`ghc-boot-th`</th>
 <th>  8.7  </th>
 <th>  8.6.0.20180714  </th>
+<th>  8.4.3  </th>
 <th>  8.4.2  </th>
-<th>  8.4.0.20180304  </th>
+<th>  8.4.1  </th>
 <th>  8.2.2  </th>
 <th>  8.2.1  </th>
 <th>  8.0.2  </th>
 <th>  8.0.1  </th>
 <th>*none*</th>
-<th></th>
 <th></th>
 <th></th>
 <th></th>
@@ -611,14 +611,14 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <tr><th>`ghci`</th>
 <th>  8.7  </th>
 <th>  8.6.0.20180714  </th>
+<th>  8.4.3  </th>
 <th>  8.4.2  </th>
-<th>  8.4.0.20180304  </th>
+<th>  8.4.1  </th>
 <th>  8.2.2  </th>
 <th>  8.2.1  </th>
 <th>  8.0.2  </th>
 <th>  8.0.1  </th>
 <th>*none*</th>
-<th></th>
 <th></th>
 <th></th>
 <th></th>
@@ -1013,10 +1013,10 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <th>*none*</th>
 <th>  1.1  </th>
 <th>*none*</th>
+<th>  1.1  </th>
+<th>*none*</th>
 <th>  1.0.0.3  
 </th>
-<th></th>
-<th></th>
 <th></th>
 <th></th>
 <th></th>
