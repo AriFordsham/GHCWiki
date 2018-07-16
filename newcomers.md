@@ -73,6 +73,9 @@ Now that you can build GHC, let's get hacking. But first, you'll need to identif
 
 If you want to get a taste for possible starting tasks, below is a list of tickets that appear to be "low-hanging fruit" -- things that might be reasonable for a newcomer to GHC hacking. Of course, we can't ever be sure of how hard a task is before doing it, so apologies if one of these is too hard.
 
+
+You can add tickets to this list by giving them the `newcomer` Trac keyword.
+
 **Bugs:**
 
 <table><tr><th>[\#8316](https://gitlab.haskell.org//ghc/ghc/issues/8316)</th>
