@@ -380,10 +380,17 @@ dataGhcPass(l ::Location)(c ::Pass)derivinginstanceEq(GhcPass c)derivinginstance
   The API Annotations can be accommodated via a straightforward extension of the type class approach, by defining
 
   ```
-  dataExtra=ExtraSrcSpan[(SrcSpan,AnnKeywordId)]classHasExtra a where
-      getSpan :: a ->SrcSpan
-      setSpan :: a ->SrcSpan-> a
-          
-      getApiAnns :: a ->[(SrcSpan,AnnKeywordId)]
-      setApiAnns :: a ->[(SrcSpan,AnnKeywordId)]-> a
+  dataExtra=ExtraSrcSpan[(SrcSpan,AnnKeywordId)]typeHasExtra a =HasExtra a
+
+    getSpan ::HasExtra a => a ->SrcSpan
+    getSpan =...
+
+    setSpan ::HasExtra a => a ->SrcSpan-> a
+    setSpan =...
+   
+    getApiAnns ::HasExtra a => a ->[(SrcSpan,AnnKeywordId)]
+    getApiAnns =...
+    
+    setApiAnns ::HasExtra a => a ->[(SrcSpan,AnnKeywordId)]-> a
+    setApiAnns =...
   ```
