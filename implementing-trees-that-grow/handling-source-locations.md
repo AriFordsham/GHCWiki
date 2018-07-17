@@ -259,7 +259,7 @@ Here is a complete definition of the `HasSrcSpan` typeclass mentioned earlier:
 {-# OPTIONS_GHC -Wall #-}{-# LANGUAGE TypeFamilies, PatternSynonyms, ViewPatterns #-}moduleHasSrcSpanwhereimportBasicGHCTypestypefamilySrcSpanLess a
 classHasSrcSpan a where
   composeSrcSpan   ::(SrcSpanLess a ,SrcSpan)-> a
-  decomposeSrcSpan :: a ->(SrcSpanLess a ,SrcSpan){- laws:
+  decomposeSrcSpan :: a ->(SrcSpanLess a ,SrcSpan){- laws (isomorphic relation):
      composeSrcSpan . decomposeSrcSpan = id
      decomposeSrcSpan . composeSrcSpan = id
   -}unSrcSpan::HasSrcSpan a => a ->SrcSpanLess a
@@ -360,9 +360,7 @@ Here are some extra notes:
   ```
 
 - We also currently have sections of AST without source locations, such as those generated when converting TH AST to hsSyn AST, or for GHC derived code.
-
->
-> We can perhaps deal with these by either defining an additional pass, so
+  We can perhaps deal with these by either defining an additional pass, so
 
 ```
 dataPass=Parsed|Renamed|Typechecked|Generatedderiving(Data)
@@ -381,7 +379,11 @@ dataGhcPass(l ::Location)(c ::Pass)derivinginstanceEq(GhcPass c)derivinginstance
 - The setter/getter functions can be generalised to set/get anything:
 
   ```
+  typefamilyWithout b a
   classHas b a where
-    get :: a -> b
-    set :: a -> b -> a
+    compose   ::(Without b a , b)-> a
+    decompose :: a ->(Without b a , b){- laws (isomorphic relation):
+       compose . decompose = id
+       decompose . compose = id
+    -}
   ```
