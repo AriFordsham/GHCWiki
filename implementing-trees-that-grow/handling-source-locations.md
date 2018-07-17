@@ -259,7 +259,7 @@ Here is a complete definition of the `HasSrcSpan` typeclass mentioned earlier:
 {-# OPTIONS_GHC -Wall #-}{-# LANGUAGE TypeFamilies, PatternSynonyms, ViewPatterns #-}moduleHasSrcSpanwhereimportBasicGHCTypestypefamilySrcSpanLess a
 classHasSrcSpan a where
   composeSrcSpan   ::(SrcSpanLess a ,SrcSpan)-> a
-  decomposeSrcSpan :: a ->(SrcSpanLess a ,SrcSpan){- laws:
+  decomposeSrcSpan :: a ->(SrcSpanLess a ,SrcSpan){- laws (isomorphic relation):
      composeSrcSpan . decomposeSrcSpan = id
      decomposeSrcSpan . composeSrcSpan = id
   -}unSrcSpan::HasSrcSpan a => a ->SrcSpanLess a
@@ -347,22 +347,8 @@ instance ForallX HasSrcSpan x => HasSrcSpan (Exp x) where
 
 Here are some extra notes:
 
-- The API Annotations are similar to the `SrcSpan`, in that they are additional decorations, and also currently appear wherever there is a `SrcSpan`.
-  The API Annotations can be accommodated via a straightforward extension of the type class approach, by defining
-
-  ```
-  dataExtra=ExtraSrcSpan[(SrcSpan,AnnKeywordId)]classHasExtra a where
-      getSpan :: a ->SrcSpan
-      setSpan :: a ->SrcSpan-> a
-          
-      getApiAnns :: a ->[(SrcSpan,AnnKeywordId)]
-      setApiAnns :: a ->[(SrcSpan,AnnKeywordId)]-> a
-  ```
-
 - We also currently have sections of AST without source locations, such as those generated when converting TH AST to hsSyn AST, or for GHC derived code.
-
->
-> We can perhaps deal with these by either defining an additional pass, so
+  We can perhaps deal with these by either defining an additional pass, so
 
 ```
 dataPass=Parsed|Renamed|Typechecked|Generatedderiving(Data)
@@ -381,7 +367,30 @@ dataGhcPass(l ::Location)(c ::Pass)derivinginstanceEq(GhcPass c)derivinginstance
 - The setter/getter functions can be generalised to set/get anything:
 
   ```
+  typefamilyWithout b a
   classHas b a where
-    get :: a -> b
-    set :: a -> b -> a
+    compose   ::(Without b a , b)-> a
+    decompose :: a ->(Without b a , b){- laws (isomorphic relation):
+       compose . decompose = id
+       decompose . compose = id
+    -}
+  ```
+
+- The API Annotations are similar to the `SrcSpan`, in that they are additional decorations, and also currently appear wherever there is a `SrcSpan`.
+  The API Annotations can be accommodated via a straightforward extension of the type class approach, by defining
+
+  ```
+  dataExtra=ExtraSrcSpan[(SrcSpan,AnnKeywordId)]typeHasExtra a =HasExtra a
+
+    getSpan ::HasExtra a => a ->SrcSpan
+    getSpan =...
+
+    setSpan ::HasExtra a => a ->SrcSpan-> a
+    setSpan =...
+   
+    getApiAnns ::HasExtra a => a ->[(SrcSpan,AnnKeywordId)]
+    getApiAnns =...
+    
+    setApiAnns ::HasExtra a => a ->[(SrcSpan,AnnKeywordId)]-> a
+    setApiAnns =...
   ```

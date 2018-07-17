@@ -307,7 +307,7 @@ type family SrcSpanLess a
 class HasSrcSpan a where
   composeSrcSpan   :: (SrcSpanLess a , SrcSpan) -> a
   decomposeSrcSpan :: a -> (SrcSpanLess a , SrcSpan)
-  {- laws:
+  {- laws (isomorphic relation):
      composeSrcSpan . decomposeSrcSpan = id
      decomposeSrcSpan . composeSrcSpan = id
   -}
@@ -463,48 +463,60 @@ par l                 = l
 
 == Extra Notes ==
 Here are some extra notes:
+* We also currently have sections of AST without source locations, such as those generated when converting TH AST to hsSyn AST, or for GHC derived code.
+  We can perhaps deal with these by either defining an additional pass, so
+
+  {{{#!hs
+  data Pass = Parsed | Renamed | Typechecked | Generated
+    deriving (Data)
+  }}}
+
+  or by making the extra information status dependent on an additional parameter, so
+
+  {{{#!hs
+  data GhcPass (l :: Location) (c :: Pass)
+  deriving instance Eq (GhcPass c)
+  deriving instance (Typeable l,Typeable c) => Data (GhcPass l c)
+
+  data Pass = Parsed | Renamed | Typechecked
+    deriving (Data)
+
+  data Location = Located | UnLocated
+  }}}
+
+  Thanks to Zubin Duggal for bringing the unlocated problem up on IRC.
+
+* The setter/getter functions can be generalised to set/get anything:
+  {{{#!hs
+  type family Without b a
+  class Has b a where
+    compose   :: (Without b a , b) -> a
+    decompose :: a -> (Without b a , b)
+    {- laws (isomorphic relation):
+       compose . decompose = id
+       decompose . compose = id
+    -}
+  }}}
 
 * The API Annotations are similar to the `SrcSpan`, in that they are additional decorations, and also currently appear wherever there is a `SrcSpan`.
   The API Annotations can be accommodated via a straightforward extension of the type class approach, by defining
   {{{#!hs
   data Extra = Extra SrcSpan [(SrcSpan,AnnKeywordId)]
- 		
-  class HasExtra a where
-    getSpan :: a -> SrcSpan
-    setSpan :: a -> SrcSpan -> a
- 	
-    getApiAnns :: a -> [(SrcSpan,AnnKeywordId)]
-    setApiAnns :: a -> [(SrcSpan,AnnKeywordId)] -> a
+
+  type HasExtra a = Has Extra a
+
+  getSpan :: HasExtra a => a -> SrcSpan
+  getSpan = ...
+
+  setSpan :: HasExtra a => a -> SrcSpan -> a
+  setSpan = ...
+ 
+  getApiAnns :: HasExtra a => a -> [(SrcSpan,AnnKeywordId)]
+  getApiAnns = ...
+  
+  setApiAnns :: HasExtra a => a -> [(SrcSpan,AnnKeywordId)] -> a
+  setApiAnns = ...
   }}}
 
-* We also currently have sections of AST without source locations, such as those generated when converting TH AST to hsSyn AST, or for GHC derived code.
-
-   We can perhaps deal with these by either defining an additional pass, so
-
-   {{{#!hs
-   data Pass = Parsed | Renamed | Typechecked | Generated
-      deriving (Data)
-   }}}
-
-   or by making the extra information status dependent on an additional parameter, so
-
-   {{{#!hs
-   data GhcPass (l :: Location) (c :: Pass)
-   deriving instance Eq (GhcPass c)
-   deriving instance (Typeable l,Typeable c) => Data (GhcPass l c)
-
-   data Pass = Parsed | Renamed | Typechecked
-     deriving (Data)
-
-   data Location = Located | UnLocated
-   }}}
-
-   Thanks to Zubin Duggal for bringing the unlocated problem up on IRC.
-
-* The setter/getter functions can be generalised to set/get anything:
-  {{{#!hs
-  class Has b a where
-    get :: a -> b
-    set :: a -> b -> a
-   }}}
+   
 
