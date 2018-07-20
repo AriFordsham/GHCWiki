@@ -13,6 +13,8 @@ July 18:
 - [\#14164](https://gitlab.haskell.org//ghc/ghc/issues/14164): comments, invariant, asserts (Richard)
 - [\#14873](https://gitlab.haskell.org//ghc/ghc/issues/14873): make `typeKind` monadic in the type checker
 - [\#15346](https://gitlab.haskell.org//ghc/ghc/issues/15346): `pushCoDataCon` is wrong somehow
+- [\#15192](https://gitlab.haskell.org//ghc/ghc/issues/15192): `GRefl`: still looking into perf changes
+- Better floatEqualites based on level numbers
 
 **Type declarations and signatures** (Dec 17)
 
