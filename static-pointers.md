@@ -7,7 +7,10 @@ This page lays out thinking about the design of the `StaticPtr` language extensi
 The basic idea is laid out in the original [ Cloud Haskell paper](https://www.microsoft.com/en-us/research/wp-content/uploads/2016/07/remote.pdf).
 
 
-See also [the root page for distributed Haskell](distributed-haskell).
+See also
+
+- [the root page for distributed Haskell](distributed-haskell).
+- [ Neil Mitchell's blog post](http://neilmitchell.blogspot.com/2017/09/existential-serialisation.html) on static pointers for existentials.
 
 ## Tickets
 
