@@ -10,6 +10,7 @@
 
 July 18:
 
+- [\#14887](https://gitlab.haskell.org//ghc/ghc/issues/14887): telescopes???
 - [\#14164](https://gitlab.haskell.org//ghc/ghc/issues/14164): comments, invariant, asserts (Richard)
 - [\#14873](https://gitlab.haskell.org//ghc/ghc/issues/14873): make `typeKind` monadic in the type checker
 - [\#15346](https://gitlab.haskell.org//ghc/ghc/issues/15346): `pushCoDataCon` is wrong somehow
