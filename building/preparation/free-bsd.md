@@ -56,7 +56,7 @@ $ ./configure \
 ```
 
 
-The `--disable-large-address-space` disables the runtime's two-step allocator, which isn't currently supported on FreeBSD (see [\#12695](https://gitlab.haskell.org//ghc/ghc/issues/12695)).
+The `--disable-large-address-space` disables the runtime's two-step allocator, which isn't currently supported on FreeBSD prior to 11.1 and GHC earlier than 8.6 (see [\#12695](https://gitlab.haskell.org//ghc/ghc/issues/12695)).
 On systems earlier than `10.0-RELEASE`, one has to configure `iconv(3)` as well.  For `10.0-RELEASE` and later, `iconv(3)` functions are part of the base system libraries, so these flags is not needed any more.
 
 ```wiki
