@@ -1,6 +1,32 @@
 = Loading GHC into GHCi
 
-This page says how you can load GHC into GHCi for more iterative development. Csongor Kiss was the first person to record this feat. 
+This page says how you can load GHC into GHCi for more iterative development. Csongor Kiss was the first person to record this feat. The scaffolding has been added to `master` since Aug 2018, and if you have to use an older working copy, refer to the guide at the bottom ([https://ghc.haskell.org/trac/ghc/wiki/Building/InGhci#OldGHC Old GHC]).
+
+After building GHC, just do the following in the repository root:
+{{{
+./utils/ghc-in-ghci/run.sh -fobject-code
+}}}
+
+Notes:
+
+* adding `-j4` might speed up the process,
+* `-fobject-code` will not be needed once [https://phabricator.haskell.org/D5015 D5015] is merged.
+
+=== ghcid
+
+{{{
+ghcid -c "./inplace/bin/ghc-stage2 \
+    --interactive     \
+    -ghci-script ./utils/ghc-in-ghci/settings.ghci  \
+    -ghci-script ./utils/ghc-in-ghci/load-main.ghci \
+    -odir ./ghci-tmp  \
+    -hidir ./ghci-tmp \
+    +RTS -A128m -RTS  \
+    -fobject-code"
+}}}
+
+
+== Old GHC
 
 1. Put this .ghci file in compiler/
 
