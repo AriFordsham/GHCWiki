@@ -9,6 +9,8 @@ After building GHC, just do the following in the repository root:
 
 Notes:
 
+* This works best on systems with a decent amount of RAM.  The GHCi process uses about 3.5GB initially, and the usage sometimes increases during development.  So, if you have less than 8GB of RAM, loading GHC into GHCi probably will not aid development efficiency.
+
 * Adding `-j4` might speed up the process. Increasing the number will utilize more cores.
 
 * The script will also run `:load Main`, to load GHC's main module. After that, running `main` will run an inner GHCi, because there is a default `:set args --interactive ...`. To override this, use `:set args ...` or `:main ...`.
