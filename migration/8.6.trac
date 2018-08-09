@@ -25,6 +25,30 @@ Will not typecheck if `StarIsType` is enabled, since `m * n` is treated as if on
 1. Use `*` qualified (e.g., `Proxy (m GHC.TypeLits.* n`). This approach is compliant with the GHC three-release policy, as it does not require CPP to support older GHCs.
 2. Enable the `NoStarIsType` extension. Since `(No)StarIsType` did not exist on older GHCs, this approach will require CPP in order to support older compilers.
 
+=== `MonadFailDesugaring` by default ===
+
+GHC now enables the `MonadFailDesugaring` extension by default, as discussed in https://prime.haskell.org/wiki/Libraries/Proposals/MonadFail#Transitionalstrategy. This means that code that uses partial pattern matches in `do`-notation, such as this:
+
+{{{#!hs
+f :: [[a]] -> [a]
+f l = do
+  (_:xs) <- l
+  xs
+}}}
+
+Will now desugar to use the `fail` method from the `MonadFail` class instead of from `Monad`. That is, this code will now desugar to something resembling:
+
+{{{#!hs
+import Control.Monad.Fail as Fail
+
+f :: [[a]] -> [a]
+f l = case l of
+        (_:xs) -> xs
+        _      -> Fail.fail "Pattern-match failure"
+}}}
+
+Depending on the code, it is possible that this change will result in breakage. See https://prime.haskell.org/wiki/Libraries/Proposals/MonadFail#Adaptingoldcode for ways to adapt to breakage.
+
 === Constructor-less GADTs now require `GADTSyntax` ===
 
 Data types with empty `where` clauses (such as `data T where`) are no longer valid without the `GADTSyntax` extension. (Due to an oversight, previous versions of GHC would accept them without the extension enabled.)
