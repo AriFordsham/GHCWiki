@@ -53,6 +53,8 @@ Below are the major highlights of 8.6.
 
 - StarIsType extension ([ proposal](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0020-no-type-in-type.rst), Vladislav Zavialov)
 
+- The next phase of the `MonadFail` proposal, enabling the `MonadFailDesugaring` extension by default
+
 ### Library changes
 
 ### Build system and miscellaneous changes
