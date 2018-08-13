@@ -14,11 +14,12 @@ As a proof of concept, haddocks --hyperlinked-source feature will be rewritten t
 
 ## File Contents
 
-- The data structure should be a simplified, source aware, annotated AST derived from the Renamed/Typechecked Source
+- The data structure is a simplified, source aware, annotated AST derived from the Renamed/Typechecked Source
 - We traverse the Renamed and Typechecked AST to collect the following info about each SrcSpan
 
-  - Its type, if it corresponds to a binding, pattern or expression
-  - Details about any tokens in the original source corresponding to this span(keywords, symbols, etc.)  
+  - Its assigned type(s)(In increasing order of generality), if it corresponds to a binding, pattern or expression
+
+    - The `id` in `id 'a'` is assigned types \[Char -\> Char, forall a. a -\> a\]
   - The set of Constructor/Type pairs that correspond to this span in the GHC AST 
   - Details about all the identifiers that occur at this SrcSpan
 
@@ -32,12 +33,42 @@ As a proof of concept, haddocks --hyperlinked-source feature will be rewritten t
   1. Declaration(class, type, instance, data, type family etc.)
   1. Type variable binding, along with its scope(which takes into account ScopedTypeVariables)
 - It should be possible to exactly recover the source from the .hie file. This will probably be achieved by including the source verbatim in the .hie file, as recovering the source exactly from the AST might be tricky and duplicate the work on ghc-exactprint.
-- The actual representation on disk as well as serialisation/de-serialisation could be done through CBOR, using the package [ serialise](https://hackage.haskell.org/package/serialise-0.2.0.0).
 - The first line of the .hie file should be a human readable string containing information about the version of the format, the filename of the original file, and the version of GHC the file was compiled with. Example: (v1.0,GHC8.4.6,Foo.hs)
 - The format should be fairly stable across ghc versions, so we need to avoid capturing too much information. More detailed information about the exact haskell syntactic structure a part of the tree represents could be obtained by inspecting the tokens/keywords in that part.
 
 
 The RichToken type used in haddock: [ https://github.com/haskell/haddock/blob/master/haddock-api/src/Haddock/Backends/Hyperlinker/Types.hs\#L35](https://github.com/haskell/haddock/blob/master/haddock-api/src/Haddock/Backends/Hyperlinker/Types.hs#L35)
+
+## Efficient serialization of highly redundant type info
+
+
+The type information in .hie files is highly repetitive and redundant. For example, consider the expression
+
+```wiki
+const True 'a'
+```
+
+
+The type of the overall expression is `Boolean`, the type of `const True` is `Char -> Boolean` and the type of `const` is `Boolean -> Char -> Boolean`
+
+
+All 3 of these types will be stored in the .hie file
+
+
+To solve the problem of duplication, we introduce a new data type that is a flattened version of `Type`
+
+```wiki
+data HieType a = HAppTy a a  -- data Type = AppTy Type Type
+               | HFunTy a a  --           | FunTy Type Type
+               | ...
+```
+
+`HieType` represents one layer of `Type`.
+
+
+All the types in the final AST are stored in a `Array Int (HieType Int)`, where the `Int`s in the `HieType` are references to other elements of the array. Types recovered from GHC are deduplicated and stored in this compressed form with sharing of subtrees.
+
+`Fix HieType` is roughly isomorphic to the original GHC `Type`
 
 ## Scope information about symbols
 
@@ -100,6 +131,15 @@ instance Foo Bar where
 
 To handle this case, we must store the Span of the instance/class definition along with the names.
 
+## Validation of AST
+
+
+There are a few simple validation tests enabled by `-fvalidate-hie`
+
+- The shape invariants of the AST are checked(parent node spans completely contain children node spans which are arranged in left to right order without any overlaps)
+- Scope information collected is validated(by checking all symbol occurrences are in the calculated scope)
+- The AST is round-tripped through the binary serialization and checked for consistency
+
 ## Use cases
 
 - Haddocks hyperlinked source and haskell-ide-engine
@@ -121,7 +161,7 @@ To handle this case, we must store the Span of the instance/class definition alo
 
 ## Modifications to GHC
 
-- HIE file generation will be controlled by a GHC flag(--enable-ide-info?)
+- HIE file generation will be controlled by a GHC flag(-fenable-ide-info)
 - The file will be generated as soon as GHC is done typechecking a file(maybe in [ hscIncrementalCompile](https://www.stackage.org/haddock/nightly-2018-05-04/ghc-8.4.2/src/HscMain.html#hscIncrementalCompile)?)
 - Need to coordinate with the Hi Haddock project(Including docstrings in .hi files) as that may push the burden of resolving Names/Symbols in haddock comments onto GHC.
 - Other than this, little interaction with the rest of GHC should be needed.
@@ -140,6 +180,3 @@ portions of the file that haven't been edited(Indeed, this is how haskell-ide-en
 [ https://github.com/haskell/haddock/issues/715](https://github.com/haskell/haddock/issues/715)
 
 [ Original GSOC Proposal](https://docs.google.com/document/d/1QP4tV-oSJd3X90JKVY4D__Dfr-ypVB57p1yDqyk2aQ8/edit?usp=sharing)
-
-
-Why CBOR over binary/cereal? [ http://code.haskell.org/\~duncan/binary-experiment/binary.pdf](http://code.haskell.org/~duncan/binary-experiment/binary.pdf)
