@@ -110,6 +110,14 @@ instance Foo Bar where
 
 To handle this case, we must store the Span of the instance/class definition along with the names.
 
+== Validation of AST
+
+There are a few simple validation tests enabled by `-fvalidate-hie`
+
+* The shape invariants of the AST are checked(parent node spans completely contain children node spans which are arranged in left to right order without any overlaps)
+* Scope information collected is validated(by checking all symbol occurrences are in the calculated scope)
+* The AST is round-tripped through the binary serialization and checked for consistency
+
 == Use cases
 
 * Haddocks hyperlinked source and haskell-ide-engine
@@ -128,7 +136,7 @@ To handle this case, we must store the Span of the instance/class definition alo
 
 == Modifications to GHC
 
-* HIE file generation will be controlled by a GHC flag(--enable-ide-info?)
+* HIE file generation will be controlled by a GHC flag(-fenable-ide-info)
 * The file will be generated as soon as GHC is done typechecking a file(maybe in [https://www.stackage.org/haddock/nightly-2018-05-04/ghc-8.4.2/src/HscMain.html#hscIncrementalCompile hscIncrementalCompile]?)
 * Need to coordinate with the Hi Haddock project(Including docstrings in .hi files) as that may push the burden of resolving Names/Symbols in haddock comments onto GHC.
 * Other than this, little interaction with the rest of GHC should be needed.
