@@ -21,6 +21,7 @@ Below are the major highlights of 8.8.
 
 === Build system and miscellaneous changes ===
 
+- [https://mail.haskell.org/pipermail/ghc-devs/2017-July/014424.html Reinstallable lib:ghc]
 
 == Landed in `master` branch
 
