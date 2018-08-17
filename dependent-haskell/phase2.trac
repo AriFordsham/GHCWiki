@@ -220,7 +220,9 @@ data TcEvSource
   | CoercionSource Coercion
 }}}
 
-Just as a wanted constraint carries with it a `TcEvDest`, a given constraint will have to carry a `TcEvSource`. Unlike wanteds, though, ''sometimes'' an equality given will be an `EvVarSource`, if that equality given arises from, say, a superclass selector or GADT pattern match or some such. When a `CoercionSource` given is used, we just substitute the given into the coercion we are building (in a `CoercionHole` value). This will happen in `TcRnTypes.ctEvCoercion`, and possibly elsewhere.
+Just as a Wanted constraint carries with it a `TcEvDest`, a Given constraint will have to carry a `TcEvSource`. Unlike Wanteds, though, ''sometimes'' an Given equality will be an `EvVarSource`, if that Given equality arises from, say, a superclass selector or GADT pattern match or some such. When a `CoercionSource` given is used, we just substitute the Given into the coercion we are building (in a `CoercionHole` value). This will happen in `TcRnTypes.ctEvCoercion`, and possibly elsewhere.
+
+'''SLPJ''': can you give an example of why we need ''heterogeneous'' given equalities?  And also when/why we need `CoercionSource`?
 
 === Some other details
 
