@@ -39,17 +39,26 @@ How should this homogeneous equality take form? It's simple: make `~#`, the type
 (~#) :: forall k. k -> k -> TYPE (TupleRep '[])
 }}}
 
-(The return kind says that equality proofs take up 0 bits at runtime.) All coercion variables must have a kind headed by `~#`. With the new kind of `~#`, then we effectively make all assumptions homogeneous. (Axioms were already, and have always been, homogeneous.) Coercions themselves can remain heterogeneous, but we can write definitions like this:
+(The return kind says that equality proofs take up 0 bits at runtime.) All coercion variables must have a kind headed by `~#`. With the new kind of `~#`, then we effectively make all assumptions homogeneous. (Axioms were already, and have always been, homogeneous.) 
 
+However, ''coercions themselves can remain heterogeneous'', that is, a coercion can witness equality between two types of different kinds.
+Some things follow from this:
+
+* It does not make sense to ask for the "type of a coercion", `coercionType :: Coercion -> Type`.  For a heterogeneous coercion, we can't give it type `t1 ~# t2` because `(~#)` is no homogeneous.
+
+* Instead we have only
 {{{#!hs
 coercionKind :: Coercion -> Pair Type   -- the two types might have different kinds
+}}}
+    which explicitly returns two types separately.   We may informally write `co :: t1 = t2` to say that `co` witnesses the equality between `t1` and `t2`, so that `coercionKind co = Pair t1 t2`.
 
+* From a coercion `co :: (t1::k2) = (t2::k2)` we can get a coercion `kco :: k1 = k2`:
+{{{
 -- if Pair t1 t2 = coercionKind co, k1 = typeKind t1, and k2 = typeKind t2, then
 -- Pair k1 k2 = corcionKind (promoteCoercion co)
 promoteCoercion :: Coercion -> Coercion 
 }}}
-
-`promoteCoercion` is a function that transforms one coercion (tree) into another; it is no longer a coercion constructor (i.e. the existing `KindCo` vanishes).
+    `promoteCoercion` is a function that transforms one coercion (tree) into another; it is no longer a coercion constructor (i.e. the existing `KindCo` vanishes).
 
 === A small wrinkle: we need coercion quantification back
 
