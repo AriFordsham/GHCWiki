@@ -53,7 +53,7 @@ coercionKind :: Coercion -> Pair Type   -- the two types might have different ki
     which explicitly returns two types separately.   We may informally write `co :: t1 = t2` to say that `co` witnesses the equality between `t1` and `t2`, so that `coercionKind co = Pair t1 t2`.
 
 * From a coercion `co :: (t1::k2) = (t2::k2)` we can get a coercion `kco :: k1 = k2`:
-{{{
+{{{#!hs
 -- if Pair t1 t2 = coercionKind co, k1 = typeKind t1, and k2 = typeKind t2, then
 -- Pair k1 k2 = corcionKind (promoteCoercion co)
 promoteCoercion :: Coercion -> Coercion 

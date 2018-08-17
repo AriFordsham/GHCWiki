@@ -68,10 +68,8 @@ Some things follow from this:
 
 - From a coercion `co :: (t1::k2) = (t2::k2)` we can get a coercion `kco :: k1 = k2`:
 
-  ```wiki
-  -- if Pair t1 t2 = coercionKind co, k1 = typeKind t1, and k2 = typeKind t2, then
-  -- Pair k1 k2 = corcionKind (promoteCoercion co)
-  promoteCoercion :: Coercion -> Coercion 
+  ```
+  -- if Pair t1 t2 = coercionKind co, k1 = typeKind t1, and k2 = typeKind t2, then-- Pair k1 k2 = corcionKind (promoteCoercion co)promoteCoercion::Coercion->Coercion
   ```
 
 > `promoteCoercion` is a function that transforms one coercion (tree) into another; it is no longer a coercion constructor (i.e. the existing `KindCo` vanishes).
