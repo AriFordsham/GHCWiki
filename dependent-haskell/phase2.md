@@ -87,7 +87,8 @@ If `~#` is homogeneous in Core, then how do we support heterogeneous equality in
 Sadly, this is ill-kinded: we're using `a ~# b` even though `a` and `b` have different kinds. Of course, we know that `k1` and `k2` are the same, but that doesn't quite help us here. Instead, we need to *name* the coercion between `k1` and `k2`, thus:
 
 ```
-data(~~):: forall k1 k2. k1 -> k2 ->ConstraintwhereMkHEq:: forall k1 k2 (a :: k1)(b :: k2). forall (co :: k1 ~# k2)->((a |> co)~# b)-> a ~~ b
+data(~~):: forall k1 k2. k1 -> k2 ->ConstraintwhereMkHEq:: forall k1 k2 (a :: k1)(b :: k2). 
+           forall (co :: k1 ~# k2)->((a |> co)~# b)-> a ~~ b
 ```
 
 

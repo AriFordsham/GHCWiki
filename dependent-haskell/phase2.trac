@@ -67,14 +67,17 @@ If `~#` is homogeneous in Core, then how do we support heterogeneous equality in
 {{{#!hs
 -- this version is wrong!
 data (~~) :: forall k1 k2. k1 -> k2 -> Constraint where
-  MkHEq :: forall k1 k2 (a :: k1) (b :: k2). (k1 ~# k2) -> (a ~# b) -> a ~~ b
+  MkHEq :: forall k1 k2 (a :: k1) (b :: k2). 
+           (k1 ~# k2) -> (a ~# b) -> a ~~ b
 }}}
 
 Sadly, this is ill-kinded: we're using `a ~# b` even though `a` and `b` have different kinds. Of course, we know that `k1` and `k2` are the same, but that doesn't quite help us here. Instead, we need to ''name'' the coercion between `k1` and `k2`, thus:
 
 {{{#!hs
 data (~~) :: forall k1 k2. k1 -> k2 -> Constraint where
-  MkHEq :: forall k1 k2 (a :: k1) (b :: k2). forall (co :: k1 ~# k2) -> ((a |> co) ~# b) -> a ~~ b
+  MkHEq :: forall k1 k2 (a :: k1) (b :: k2). 
+           forall (co :: k1 ~# k2) -> 
+           ((a |> co) ~# b) -> a ~~ b
 }}}
 
 This version names the kind coercion `co` so it can be used in the type proposition. All is well again. Sadly, the implementation does not support coercion quantification in types like this. 
