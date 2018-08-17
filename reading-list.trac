@@ -62,6 +62,7 @@ See also [http://www.stephendiehl.com/posts/essential_compilers.html Stephen Dei
    * [https://www.microsoft.com/en-us/research/publication/pattern-synonyms/ Pattern Synonyms], Matthew Pickering, Gergő Érdi, Simon Peyton Jones, and Richard A. Eisenberg, Haskell Symposium 2016. (ghc-proposals [https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0016-as-patterns-synonyms.rst 0016])
    * [https://i.cs.hku.hk/~bruno//papers/hs2017.pdf Quantified class constraints], Gert-Jan Bottu,  Georgios Karachalias, Tom Schrijvers, Bruno C. d. S. Oliveira, Philip Wadler, Haskell Symposium 2017. (ghc-proposals [https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0018-quantified-constraints.rst 0018])
    * [https://www.kosmikus.org/DerivingVia/deriving-via-paper.pdf Deriving Via or, How to Turn Hand-Written Instances into an Anti-Pattern], Baldur Blöndal, Andres Löh, Ryan Scott, Haskell Symposium 2018. (ghc-proposals [https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0023-deriving-via.rst 0023])
+   * [https://arxiv.org/abs/1806.03476 Type variables in patterns], Richard Eisenberg, Joachim Breitner and Simon Peyton Jones, Haskell Symposium 2018. (ghc-proposals [https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0031-type-applications-in-patterns.rst 0031])
 
 Please add: System FC, GADTs, kind polymorphism etc
 
