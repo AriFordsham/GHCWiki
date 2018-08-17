@@ -238,7 +238,7 @@ Just as a Wanted constraint carries with it a `TcEvDest`, a Given constraint wil
 
 * `~~` will have to be updated to use two `~#`s, as demonstrated above.
 
-* Simon suggests that it is easier to have `~` refer directly to `~#`, instead of the current setup where it is defined in terms of `~~`. This is an unnecessary refactoring, but it might lead to a small performance win as there is one fewer indirection.
+* Simon suggests that it is easier to have `~` refer directly to `~#`, instead of the current setup where it is defined in terms of `~~`. This is an unnecessary refactoring, but it might lead to a small performance win as there is one fewer indirection.  '''SLPJ''': I did this a few weeks ago.
 
 === Open questions
 
