@@ -26,7 +26,7 @@ G |- forall a:g1.g2 : (forall a:t1.t2) ~ (forall b:t3.t4[b |> sym g1/a])
 1. The ICFP'13 paper allows the binding of coercion variables in types. That is, we can have `forall c:phi.t` as a type. However, the need for this in practice was slight, and so it was removed from the implementation.
 
 
-With the simpler (asymmetrical) forall-coercion rule above, one of the primary motivations for heterogeneous equality was removed. And so, in "A Specification for Dependent Types in Haskell" (ICFP'17), we use more of a mixed economy of heterogeneity: a coercion can still related two types of different kinds, but coercion *variables* must be homogeneous. That is, if `c :: t1 ~# t2`, then `t1` and `t2` have equal (that is, alpha-equivalent) kinds. But if a coercion `g` relates `t1` and `t2`, then `t1` and `t2` might have different kinds `k1` and `k2`. However, we can always extract a proof that `k1 ~# k2` from `g`.
+With the simpler (asymmetrical) forall-coercion rule above, one of the primary motivations for heterogeneous equality was removed. And so, in [ A Specification for Dependent Types in Haskell](https://cs.brynmawr.edu/~rae/papers/2017/dep-haskell-spec/dep-haskell-spec.pdf) (ICFP'17), we use more of a mixed economy of heterogeneity: a coercion can still related two types of different kinds, but coercion *variables* must be homogeneous. That is, if `c :: t1 ~# t2`, then `t1` and `t2` have equal (that is, alpha-equivalent) kinds. But if a coercion `g` relates `t1` and `t2`, then `t1` and `t2` might have different kinds `k1` and `k2`. However, we can always extract a proof that `k1 ~# k2` from `g`.
 
 
 We propose to make this change to GHC too.
@@ -49,13 +49,36 @@ How should this homogeneous equality take form? It's simple: make `~#`, the type
 ```
 
 
-(The return kind says that equality proofs take up 0 bits at runtime.) All coercion variables must have a kind headed by `~#`. With the new kind of `~#`, then we effectively make all assumptions homogeneous. (Axioms were already, and have always been, homogeneous.) Coercions themselves can remain heterogeneous, but we can write definitions like this:
+(The return kind says that equality proofs take up 0 bits at runtime.) All coercion variables must have a kind headed by `~#`. With the new kind of `~#`, then we effectively make all assumptions homogeneous. (Axioms were already, and have always been, homogeneous.) 
 
-```
-coercionKind::Coercion->PairType-- the two types might have different kinds-- if Pair t1 t2 = coercionKind co, k1 = typeKind t1, and k2 = typeKind t2, then-- Pair k1 k2 = corcionKind (promoteCoercion co)promoteCoercion::Coercion->Coercion
-```
 
-`promoteCoercion` is a function that transforms one coercion (tree) into another; it is no longer a coercion constructor (i.e. the existing `KindCo` vanishes).
+However, *coercions themselves can remain heterogeneous*, that is, a coercion can witness equality between two types of different kinds.  
+Some things follow from this:
+
+- It does not make sense to ask for the "type of a coercion", `coercionType :: Coercion -> Type`.  For a heterogeneous coercion, we can't give it type `t1 ~# t2` because `(~#)` is no homogeneous.
+
+- Instead we have only
+
+  ```
+  coercionKind::Coercion->PairType-- the two types might have different kinds
+  ```
+
+>
+> which explicitly returns two types separately.   We may informally write `co :: t1 = t2` to say that `co` witnesses the equality between `t1` and `t2`, so that `coercionKind co = Pair t1 t2`.
+
+- From a coercion `co :: (t1::k2) = (t2::k2)` we can get a coercion `kco :: k1 = k2`:
+
+  ```
+  -- if Pair t1 t2 = coercionKind co, k1 = typeKind t1, and k2 = typeKind t2, then-- Pair k1 k2 = corcionKind (promoteCoercion co)promoteCoercion::Coercion->Coercion
+  ```
+
+> `promoteCoercion` is a function that transforms one coercion (tree) into another; it is no longer a coercion constructor (i.e. the existing `KindCo` vanishes).
+
+
+Summarising (details in  [ A specification of dependent types for Haskell](https://cs.brynmawr.edu/~rae/papers/2017/dep-haskell-spec/dep-haskell-spec.pdf)):
+
+- A coercion *variable* (which has a type `t1 ~# t2`) must be homogeneous
+- A *coercion* can be heterogeneous.  It does not have a type.
 
 ### A small wrinkle: we need coercion quantification back
 
@@ -70,7 +93,8 @@ If `~#` is homogeneous in Core, then how do we support heterogeneous equality in
 Sadly, this is ill-kinded: we're using `a ~# b` even though `a` and `b` have different kinds. Of course, we know that `k1` and `k2` are the same, but that doesn't quite help us here. Instead, we need to *name* the coercion between `k1` and `k2`, thus:
 
 ```
-data(~~):: forall k1 k2. k1 -> k2 ->ConstraintwhereMkHEq:: forall k1 k2 (a :: k1)(b :: k2). forall (co :: k1 ~# k2)->((a |> co)~# b)-> a ~~ b
+data(~~):: forall k1 k2. k1 -> k2 ->ConstraintwhereMkHEq:: forall k1 k2 (a :: k1)(b :: k2). 
+           forall (co :: k1 ~# k2)->((a |> co)~# b)-> a ~~ b
 ```
 
 
@@ -214,7 +238,9 @@ dataCtEvidence=CtGiven-- Truly given, not depending on subgoals{ ctev_pred ::TcP
 ```
 
 
-Just as a wanted constraint carries with it a `TcEvDest`, a given constraint will have to carry a `TcEvSource`. Unlike wanteds, though, *sometimes* an equality given will be an `EvVarSource`, if that equality given arises from, say, a superclass selector or GADT pattern match or some such. When a `CoercionSource` given is used, we just substitute the given into the coercion we are building (in a `CoercionHole` value). This will happen in `TcRnTypes.ctEvCoercion`, and possibly elsewhere.
+Just as a Wanted constraint carries with it a `TcEvDest`, a Given constraint will have to carry a `TcEvSource`. Unlike Wanteds, though, *sometimes* an Given equality will be an `EvVarSource`, if that Given equality arises from, say, a superclass selector or GADT pattern match or some such. When a `CoercionSource` given is used, we just substitute the Given into the coercion we are building (in a `CoercionHole` value). This will happen in `TcRnTypes.ctEvCoercion`, and possibly elsewhere.
+
+**SLPJ**: can you give an example of why we need *heterogeneous* given equalities?  And also when/why we need `CoercionSource`?
 
 ### Some other details
 
@@ -230,7 +256,7 @@ Just as a wanted constraint carries with it a `TcEvDest`, a given constraint wil
 
 - `~~` will have to be updated to use two `~#`s, as demonstrated above.
 
-- Simon suggests that it is easier to have `~` refer directly to `~#`, instead of the current setup where it is defined in terms of `~~`. This is an unnecessary refactoring, but it might lead to a small performance win as there is one fewer indirection.
+- Simon suggests that it is easier to have `~` refer directly to `~#`, instead of the current setup where it is defined in terms of `~~`. This is an unnecessary refactoring, but it might lead to a small performance win as there is one fewer indirection.  **SLPJ**: I did this a few weeks ago.
 
 ### Open questions
 
