@@ -116,8 +116,8 @@ Rationale for (a).  Consider
 ```
 
 
-The unqualified `x` can only come from import [\#2](https://gitlab.haskell.org//ghc/ghc/issues/2).  The qualified `M.x`
-could come from either, but bestImport picks import [\#2](https://gitlab.haskell.org//ghc/ghc/issues/2), because it is
+The unqualified `x` can only come from `import #2`.  The qualified `M.x`
+could come from either, but `bestImport` picks `import #2`, because it is
 more likely to be useful in other imports, as indeed it is in this
 case (see Trac [\#5211](https://gitlab.haskell.org//ghc/ghc/issues/5211) for a concrete example).
 
