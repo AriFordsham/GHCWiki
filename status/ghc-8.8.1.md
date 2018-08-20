@@ -9,7 +9,7 @@ If you believe your favorite thing belongs in this list, but isn't there, please
 ## Dates
 
 
-Cut release branch in November 2018. Release in April 2019.
+Cut release branch in November 2018. Release in March 2019.
 
 ## Libraries Status
 
@@ -21,9 +21,22 @@ See Libraries? and [Migration/8.8](migration/8.8).
 
 Below are the major highlights of 8.8.
 
+### Compiler
+
+- A safer and more efficient `with#` combinator to control object lifetime ([\#14375](https://gitlab.haskell.org//ghc/ghc/issues/14375))
+- Improved compilation time for type-family-heavy programs ([\#8095](https://gitlab.haskell.org//ghc/ghc/issues/8095), [ Phab:D4766](https://phabricator.haskell.org/D4766))
+- [ Proposal 83: Collapse \`PolyKinds\` and \`TypeInType\`](https://github.com/ghc-proposals/ghc-proposals/pull/83)
+- [ Proposal 81: Visible dependent quantification](https://github.com/ghc-proposals/ghc-proposals/pull/81)
+- [ Proposal 54: Top-level kind signatures: CUSKs](https://github.com/ghc-proposals/ghc-proposals/pull/54)
+- Next iteration of [Trees That Grow](implementing-trees-that-grow)
+- Continued focus on performance:
+
+  - Some possible tickets: [\#15418](https://gitlab.haskell.org//ghc/ghc/issues/15418), [\#15455](https://gitlab.haskell.org//ghc/ghc/issues/15455), [\#14980](https://gitlab.haskell.org//ghc/ghc/issues/14980), [\#14013](https://gitlab.haskell.org//ghc/ghc/issues/14013), [\#15488](https://gitlab.haskell.org//ghc/ghc/issues/15488), [\#15519](https://gitlab.haskell.org//ghc/ghc/issues/15519), [\#14062](https://gitlab.haskell.org//ghc/ghc/issues/14062), [\#14035](https://gitlab.haskell.org//ghc/ghc/issues/14035), [\#15176](https://gitlab.haskell.org//ghc/ghc/issues/15176), [\#15304](https://gitlab.haskell.org//ghc/ghc/issues/15304)
+
 ### Build system and miscellaneous changes
 
 - [ Reinstallable lib:ghc](https://mail.haskell.org/pipermail/ghc-devs/2017-July/014424.html)
+- The Hadrian build system will hopefully become the default
 
 ## Landed in `master` branch
 

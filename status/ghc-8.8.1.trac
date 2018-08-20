@@ -8,7 +8,7 @@ If you believe your favorite thing belongs in this list, but isn't there, please
 
 == Dates ==
 
-Cut release branch in November 2018. Release in April 2019.
+Cut release branch in November 2018. Release in March 2019.
 
 == Libraries Status
 
@@ -19,9 +19,23 @@ See [wiki:./Libraries] and [wiki:Migration/8.8].
 Below are the major highlights of 8.8.
 
 
+=== Compiler ===
+
+ * A safer and more efficient `with#` combinator to control object lifetime (#14375)
+ * Improved compilation time for type-family-heavy programs (#8095, Phab:D4766)
+ * [[https://github.com/ghc-proposals/ghc-proposals/pull/83|Proposal 83: Collapse `PolyKinds` and `TypeInType`]]
+ * [[https://github.com/ghc-proposals/ghc-proposals/pull/81|Proposal 81: Visible dependent quantification]]
+ * [[https://github.com/ghc-proposals/ghc-proposals/pull/54|Proposal 54: Top-level kind signatures: CUSKs]]
+ * Next iteration of [[wiki:ImplementingTreesThatGrow|Trees That Grow]]
+ * Continued focus on performance:
+    * Some possible tickets: #15418, #15455, #14980, #14013, #15488, #15519, #14062, #14035, #15176, #15304
+
+
 === Build system and miscellaneous changes ===
 
 - [https://mail.haskell.org/pipermail/ghc-devs/2017-July/014424.html Reinstallable lib:ghc]
+- The Hadrian build system will hopefully become the default
+
 
 == Landed in `master` branch
 
