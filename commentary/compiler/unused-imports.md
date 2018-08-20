@@ -101,9 +101,25 @@ The import-item choosing step 2 implies that there is a total order on
 import-items.  We say import-item A *dominates* import-item B if we choose
 A over B.  Here is one possible dominance relationship:
 
-- `import Foo` dominates `import Foo(x)`.  (You could also argue that the 
-  reverse should hold.)
-- Otherwise choose the textually first one.
+>
+> (a) `import Foo` dominates `import qualified Foo`, regardless of all-or-none.
+> (b) `import Foo` dominates `import Foo(x)`.
+> (c) Otherwise choose the textually first one.
+
+
+Rationale for (a).  Consider
+
+```wiki
+   import qualified M  -- Import #1
+   import M( x )       -- Import #2
+   foo = M.x + x
+```
+
+
+The unqualified `x` can only come from `import #2`.  The qualified `M.x`
+could come from either, but `bestImport` picks `import #2`, because it is
+more likely to be useful in other imports, as indeed it is in this
+case (see Trac [\#5211](https://gitlab.haskell.org//ghc/ghc/issues/5211) for a concrete example).
 
 
 Other notes:
