@@ -3,7 +3,13 @@
 GHC has a series of bugs related to the "report unused imports"
 flags, including #1148, #2267, #1074, #2436, #10117, #12067.
 
-This page describes a new design.
+This page describes the current design (GHC 8.4 onwards, or thereabouts).
+
+NB: GHC 8.4 and 8.6 had a bug (Trac #13064) which meant that GHC did not implement the design advertised below.
+
+See also 
+
+* [wiki:Commentary/Compiler/RelaxedUnusedImports] for a proposed, more sophisticated, design.
 
 == The current story == 
 
