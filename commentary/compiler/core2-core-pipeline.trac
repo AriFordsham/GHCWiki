@@ -82,7 +82,9 @@ Simplifier settings can be further tweaked by modifying the fields of `Simplifie
   - case-of-case transformation
   - eta-expansion
 
-The so-called "gentle" run disables the case-of-case transformation and inlining but enables the rules and eta-expansion. The reason it disables case-of-case is that it makes full laziness work better. FIXME: that's what the comment says, and yet we run the full-laziness after the main run of the simplifier.
+The so-called "gentle" run disables the case-of-case transformation but does inlining, applies rules and does and eta-expansion. The reason it disables case-of-case is that it makes full laziness work better. FIXME: that's what the comment says, and yet we run the full-laziness after the main run of the simplifier.
+
+Even when we disable inlining bindings which only occur once in the body can still be inlined.
 
 == Other documentation
 
