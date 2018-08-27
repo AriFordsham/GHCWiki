@@ -59,8 +59,7 @@ There are 4 things to remember:
   [stage-2](building/architecture/idiom/stages) compiler will be
   rebuilt after this.
 
-1. Use `make fast` to
-  [skip dependency building](building/using#skip-dependency-building) (except after pulling in changes from others).
+1. While in the sub-component directory, use `make fast`[skip dependency building](building/using#skip-dependency-building) (except after pulling in changes from others).
 
 
 A good first sanity check is to twiddle some error message in the code, just to see that changed error message pop up when you compile a file. Write some Haskell code with an error in it, and look at the error message. Search through the code for that error message. Change the message, rebuild ghc (run `make fast` in the `ghc` directory), and recompile your file again with `./inplace/bin/ghc-stage2`. If you see the changed message, you're good to go.
