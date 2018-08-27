@@ -32,6 +32,26 @@ To avoid this, one can use an explicit kind signature on `LetGo`, like so:
   sGo _ = foo
 }}}
 
+=== Template Haskell reification change for classes
+
+If you have a type class like this:
+
+{{{#!hs
+class C a where
+  method :: a
+}}}
+
+Then in previous versions of GHC, reifying `C` would give you something like this:
+
+{{{#!hs
+class C a where
+  method :: forall a. C a => a
+}}}
+
+Notice that that `forall a. C a =>` in the type signature for `method` is completely redundant, since that's implied by the fact that it's a class method of `C`. This oversight has been fixed, so reifying `C` will now give you simply `a` as the type signature for `method`.
+
+There may be code in the wild that previously depended on the assumption that reifying a class would put these redundant tyvars/class contexts at the front of each method's type signature, so it's possible that there may be breakage because of this.
+
 --------------------------------
 == Library changes
 
