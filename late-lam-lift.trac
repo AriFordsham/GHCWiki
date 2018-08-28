@@ -2,6 +2,7 @@
 
 [[PageOutline]]
 
+
 == Overview
 
 Late Lambda Lifting is a not-very-well-explored optimisation for GHC. The basic idea is to transform
@@ -23,6 +24,16 @@ There are also some useful notes and background on [[Frisby2013Q1]].
 One thing that used to hamper us was that lifting a function that closes over a join point would spoil it; but spotting that wasn't very easy.  Nowadays, though, join points are a syntactic form, so are easily spotted, so that problem at least has gone away.
 
 The challenge is all about getting consistent speedups.
+
+== Tickets ==
+
+Use Keyword = `LateLamLift` to ensure that a ticket ends up on these lists.
+
+'''Open Tickets:'''
+[[TicketQuery(status=new|patch,keywords=~LateLamLift)]]
+
+'''Closed Tickets:'''  NB: closed tickets may be closed as duplicates; but may still have very illuminating test cases.
+[[TicketQuery(status=closed,keywords=~LateLamLift)]]
 
 == Quick Start
 

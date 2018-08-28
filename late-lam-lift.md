@@ -31,6 +31,25 @@ One thing that used to hamper us was that lifting a function that closes over a 
 
 The challenge is all about getting consistent speedups.
 
+## Tickets
+
+
+Use Keyword = `LateLamLift` to ensure that a ticket ends up on these lists.
+
+**Open Tickets:**
+
+<table><tr><th>[\#9279](https://gitlab.haskell.org//ghc/ghc/issues/9279)</th>
+<td>Local wrapper function remains in final program; result = extra closure allocation</td></tr>
+<tr><th>[\#9374](https://gitlab.haskell.org//ghc/ghc/issues/9374)</th>
+<td>Investigate Static Argument Transformation</td></tr></table>
+
+**Closed Tickets:**  NB: closed tickets may be closed as duplicates; but may still have very illuminating test cases.
+
+<table><tr><th>[\#5945](https://gitlab.haskell.org//ghc/ghc/issues/5945)</th>
+<td>Lambda lifting</td></tr>
+<tr><th>[\#9476](https://gitlab.haskell.org//ghc/ghc/issues/9476)</th>
+<td>Implement late lambda-lifting</td></tr></table>
+
 ## Quick Start
 
 
