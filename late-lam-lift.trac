@@ -32,7 +32,7 @@ Use Keyword = `LateLamLift` to ensure that a ticket ends up on these lists.
 '''Open Tickets:'''
 [[TicketQuery(status=new|patch,keywords=~LateLamLift)]]
 
-'''Closed Tickets:'''
+'''Closed Tickets:'''  NB: closed tickets may be closed as duplicates; but may still have very illuminating test cases.
 [[TicketQuery(status=closed,keywords=~LateLamLift)]]
 
 == Quick Start

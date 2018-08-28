@@ -43,7 +43,7 @@ Use Keyword = `LateLamLift` to ensure that a ticket ends up on these lists.
 <tr><th>[\#9374](https://gitlab.haskell.org//ghc/ghc/issues/9374)</th>
 <td>Investigate Static Argument Transformation</td></tr></table>
 
-**Closed Tickets:**
+**Closed Tickets:**  NB: closed tickets may be closed as duplicates; but may still have very illuminating test cases.
 
 <table><tr><th>[\#5945](https://gitlab.haskell.org//ghc/ghc/issues/5945)</th>
 <td>Lambda lifting</td></tr>
