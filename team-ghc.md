@@ -18,6 +18,7 @@ Lots of people contribute to GHC without yet having commit rights.  This list no
 - Ryan Yates (Rochester).  Trac: fryguybob
 - Sven Tennie (DreamIT).  Trac: supersven
 - Vladislav Zavialov (Serokell).  Trac: int-index
+- David Eichmann (Well Typed). Trac: davide
 
 ## Committers
 
