@@ -29,6 +29,9 @@ Below are the major highlights of 8.8.
  * Next iteration of [[wiki:ImplementingTreesThatGrow|Trees That Grow]]
  * Continued focus on performance:
     * Some possible tickets: #15418, #15455, #14980, #14013, #15488, #15519, #14062, #14035, #15176, #15304
+    * New codelayout algorithm for the NCG: #15124
+      - Work is 99% done, only needs some more eyes and documentation.
+    * Optimize based on limited static analysis: #14672
 
 
 === Build system and miscellaneous changes ===

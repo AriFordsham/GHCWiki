@@ -32,6 +32,10 @@ Below are the major highlights of 8.8.
 - Continued focus on performance:
 
   - Some possible tickets: [\#15418](https://gitlab.haskell.org//ghc/ghc/issues/15418), [\#15455](https://gitlab.haskell.org//ghc/ghc/issues/15455), [\#14980](https://gitlab.haskell.org//ghc/ghc/issues/14980), [\#14013](https://gitlab.haskell.org//ghc/ghc/issues/14013), [\#15488](https://gitlab.haskell.org//ghc/ghc/issues/15488), [\#15519](https://gitlab.haskell.org//ghc/ghc/issues/15519), [\#14062](https://gitlab.haskell.org//ghc/ghc/issues/14062), [\#14035](https://gitlab.haskell.org//ghc/ghc/issues/14035), [\#15176](https://gitlab.haskell.org//ghc/ghc/issues/15176), [\#15304](https://gitlab.haskell.org//ghc/ghc/issues/15304)
+  - New codelayout algorithm for the NCG: [\#15124](https://gitlab.haskell.org//ghc/ghc/issues/15124)
+
+    - Work is 99% done, only needs some more eyes and documentation.
+  - Optimize based on limited static analysis: [\#14672](https://gitlab.haskell.org//ghc/ghc/issues/14672)
 
 ### Build system and miscellaneous changes
 
