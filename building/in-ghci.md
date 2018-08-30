@@ -79,7 +79,7 @@ It may take a while and require a little bit of memory but in the end
 all 500 or so modules will be loaded.
 
 
-It can also be used with ghcid.
+It can also be used with `ghcid`.
 
 ```wiki
 ghcid -c "../inplace/bin/ghc-stage2 --interactive -odir tmp -hidir tmp -j4 +RTS-A128m"
