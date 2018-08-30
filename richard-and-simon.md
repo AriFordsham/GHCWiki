@@ -8,6 +8,16 @@
 ... as discussed by Richard and Simon. This page is mostly for our own notes, but others are welcome to read it.
 
 
+Aug 18:
+
+- [\#15579](https://gitlab.haskell.org//ghc/ghc/issues/15579): `topNormaliseType`
+- `zonkPromote`: the remaining ones are there for a reason; but Simon still unhappy
+- [\#15552](https://gitlab.haskell.org//ghc/ghc/issues/15552): optimising zonking
+- [\#15479](https://gitlab.haskell.org//ghc/ghc/issues/15479): refactoring `tcHsType`
+- [\#14887](https://gitlab.haskell.org//ghc/ghc/issues/14887): telescopes
+- [\#15474](https://gitlab.haskell.org//ghc/ghc/issues/15474): (small) `Any` etc.
+
+
 July 18:
 
 - [\#14887](https://gitlab.haskell.org//ghc/ghc/issues/14887): telescopes???
