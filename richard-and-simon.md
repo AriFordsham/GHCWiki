@@ -11,7 +11,7 @@
 Aug 18:
 
 - [\#15579](https://gitlab.haskell.org//ghc/ghc/issues/15579): `topNormaliseType`
-- `zonkPromote`: the remaining ones are there for a reason; but Simon still unhappy
+- `zonkPromote`: the remaining ones are there for a reason; but Simon still unhappy; see RAE/SLPJ Slack channel 31 Aug; and [\#15588](https://gitlab.haskell.org//ghc/ghc/issues/15588)
 - [\#15552](https://gitlab.haskell.org//ghc/ghc/issues/15552): optimising zonking
 - [\#15479](https://gitlab.haskell.org//ghc/ghc/issues/15479): refactoring `tcHsType`
 - [\#14887](https://gitlab.haskell.org//ghc/ghc/issues/14887): telescopes
@@ -20,7 +20,6 @@ Aug 18:
 
 July 18:
 
-- [\#14887](https://gitlab.haskell.org//ghc/ghc/issues/14887): telescopes???
 - [\#14164](https://gitlab.haskell.org//ghc/ghc/issues/14164): comments, invariant, asserts (Richard)
 - [\#14873](https://gitlab.haskell.org//ghc/ghc/issues/14873): make `typeKind` monadic in the type checker
 - [\#15346](https://gitlab.haskell.org//ghc/ghc/issues/15346): `pushCoDataCon` is wrong somehow
