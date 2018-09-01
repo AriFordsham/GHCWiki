@@ -1,3 +1,19 @@
+TODO: This page is somewhat old. It needs to be updated with recent information. The followings are the latest related information.
+
+GHC User's Guide:
+ * [https://downloads.haskell.org/%7Eghc/latest/docs/html/users_guide/glasgow_exts.html#levity-polymorphism Levity polymorphism]
+ * [https://downloads.haskell.org/%7Eghc/latest/docs/html/users_guide/glasgow_exts.html#the-kind The kind *]
+
+GHC Proposals:
+ * [https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0003-levity-polymorphism.rst Revise Levity Polymorphism]
+ * [https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0020-no-type-in-type.rst Embrace Type :: Type]
+ * [https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0030-remove-star-kind.rst Remove the * kind syntax]
+
+Papers:
+ * [https://www.seas.upenn.edu/~sweirich/papers/fckinds.pdf System FC with Explicit Kind Equality]
+ * [https://cs.brynmawr.edu/~rae/papers/2017/levity/levity.pdf Levity Polymorphism (extended version)]
+
+
 = Kinds =
 
 Kinds classify types.  So for example:

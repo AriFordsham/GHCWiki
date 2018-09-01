@@ -1,3 +1,24 @@
+TODO This page is somewhat old. It needs to be updated with recent information. The followings are the latest related information.
+
+
+GHC User's Guide:
+
+- [ Levity polymorphism](https://downloads.haskell.org/%7Eghc/latest/docs/html/users_guide/glasgow_exts.html#levity-polymorphism)
+- [ The kind \*](https://downloads.haskell.org/%7Eghc/latest/docs/html/users_guide/glasgow_exts.html#the-kind)
+
+
+GHC Proposals:
+
+- [ Revise Levity Polymorphism](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0003-levity-polymorphism.rst)
+- [ Embrace Type :: Type](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0020-no-type-in-type.rst)
+- [ Remove the \* kind syntax](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0030-remove-star-kind.rst)
+
+
+Papers:
+
+- [ System FC with Explicit Kind Equality](https://www.seas.upenn.edu/~sweirich/papers/fckinds.pdf)
+- [ Levity Polymorphism (extended version)](https://cs.brynmawr.edu/~rae/papers/2017/levity/levity.pdf)
+
 # Kinds
 
 
