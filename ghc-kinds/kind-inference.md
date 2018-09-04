@@ -77,7 +77,7 @@ kappa3 ~ kappa2  -- because b is used as the second arg to S2 in the RHS
 and all will work out.
 
 
-The problem with this approach is that is *also* accepts the polymorphic recursive `S3`:
+The problem with this approach is that it *also* accepts the polymorphic recursive `S3`:
 
 ```
 dataS3 k (a :: k) b =MkS(S3Type b a)
@@ -245,7 +245,7 @@ dataProxy2 k k1 (a :: k)whereMkP:: forall k (a :: k).(Proxy k a)->Proxy2 k k a
 
 
 It is a kind-indexed GADT, with the `MkP` constructor holding `k ~ k1`, and its kind
-`forall {k}. Type -> k -> Type` is not manifestly dependent. This is not *wong*, but there are certainly cases where (short of having a CUSK) it is desired that the inferred signature of a GADT is not kind-indexed.
+`forall {k}. Type -> k -> Type` is not manifestly dependent. This is not *wrong*, but there are certainly cases where (short of having a CUSK) it is desired that the inferred signature of a GADT is not kind-indexed.
 
 
 Consider the singleton type for `Bool`:
