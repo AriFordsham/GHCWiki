@@ -133,6 +133,28 @@ we need to construct these arrows.
 TODO - this is described somewhat in the minicore document but it is not finished. In particular, join points are not implemented at all. This hasn't been a problem as the only linearity has been from data constructors
 which are never made into join points.
 
+== Core to core passes
+
+=== Pushing function-type coercions
+
+Coercions of kind `a -> b ~ c -> d` are routinely pushed through lambdas or application as follows
+
+{{{
+(f |> co) u  ~~>  (f (u |> co_arg)) |> co_res
+
+(\x -> u) |> co  ~~>  \x' -> u[x\(x |> co_arg)] |> co_res
+}}}
+
+However, this can't always be done when multiplicities are involved: the multiplicity could be coerced (in particular, by `unsafeCoerce`). So, it's possible that the left hand side of these rules is well-typed, while the right hand side isn't. Here is an example of this phenomenon.
+
+{{{
+-- Assuming co :: (Int -> ()) ~ (Int ->. ())
+
+fun x ::(1) Int -> (fun _ -> () |> co) x  ~~>  fun x ::(1) Int -> (fun _ ::(ω) Int -> ()) x
+}}}
+
+To prevent this, we guard this reduction with the condition that the multiplicity component of the coercion is a reflexivity coercion.
+
 == Polymorphism
 
 The principle of the polymorphism implementation is simple. We modified the function type constructor to take an extra type argument. So it's kind is now.
