@@ -155,6 +155,70 @@ fun x ::(1) Int -> (fun _ -> () |> co) x  ~~>  fun x ::(1) Int -> (fun _ ::(ω) 
 
 To prevent this, we guard this reduction with the condition that the multiplicity component of the coercion is a reflexivity coercion.
 
+=== CPR worker/wrapper split
+
+==== Case multiplicity
+
+The CPR split transforms a function
+
+{{{
+f :: A -> B
+}}}
+
+Into a pair
+
+{{{
+$wf :: A -> (# C, D #) -- supposing f's B is built with a constructor with two arguments
+
+f x = case $wf x of
+  (# y, z #) -> B y z
+}}}
+
+With linear types, we still need to choose a multiplicity for the case. The correct multiplicity is `1`. It works whether `f` has linear arguments or not. So, the linear transformation is:
+
+{{{
+$wf :: A -> (# C, D #) -- supposing f's B is built with a constructor with two arguments
+
+f x = case_1 $wf x of
+  (# y, z #) -> B y z
+}}}
+
+The worker is defined similarly, and also uses a `case_1`.
+
+==== Unrestricted fields
+
+Consider a function
+
+{{{
+f :: Int -> Unrestricted A
+}}}
+
+The argument type doesn't matter, the result type does.
+
+The CPR split yields:
+
+{{{
+$wf :: Int -> (# A #)
+
+f x = case_1 $wf x of
+  (# y #) -> Unrestricted y
+}}}
+
+This is ill-typed unless `(# #)` has an unrestricted field (currently, all fields of an unboxed tuple are linear).
+
+The principled solution is to have unboxed tuple be parametrised by the multiplicity of their field, that is
+
+{{{
+type (#,#) :: forall r s. Multiplicity -> Multiplicity -> TYPE r -> TYPE s -> TYPE …
+
+data (#,#) p q a b where
+  (#,#) :: a :p-> b :q-> (#,#) p q a b
+}}}
+
+At least the unboxed tuples used by core should have such a type. It can also be a user-facing feature.
+
+At the moment, however, CPR is simply restricted to the case where the constructor only has linear field, precluding some optimisation, but being less intrusive.
+
 == Polymorphism
 
 The principle of the polymorphism implementation is simple. We modified the function type constructor to take an extra type argument. So it's kind is now.
