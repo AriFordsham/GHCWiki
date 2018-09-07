@@ -478,8 +478,8 @@ When eager blackholing is enabled, the black hole that is written is not a true 
 
 ### Arrays
 
-`ARR_WORDS`, `MUT_ARR_PTRS_CLEAN`, `MUT_ARR_PTRS_DIRTY`, `MUT_ARR_PTRS_FROZEN0`,
-`MUT_ARR_PTRS_FROZEN`
+`ARR_WORDS`, `MUT_ARR_PTRS_CLEAN`, `MUT_ARR_PTRS_DIRTY`, `MUT_ARR_PTRS_FROZEN_DIRTY`,
+`MUT_ARR_PTRS_FROZEN_CLEAN`
 
 
 Non-pointer arrays are straightforward:
