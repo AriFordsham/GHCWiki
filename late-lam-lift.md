@@ -53,8 +53,11 @@ Use Keyword = `LateLamLift` to ensure that a ticket ends up on these lists.
 ## Quick Start
 
 
-The most current code is on the `wip/llf` branch. Usually, you can merge master into that with easy-to-resolve conflicts (eg in `DynFlags`).
-Sebastian Graf has rebased (sadly with not so easy-to-resolve conflicts) this branch in mid April 2018. After some debugging and fixups, it passes `./validate` (modulo some compiler perf tests) in [ c1f16ac](https://github.com/sgraf812/ghc/tree/c1f16ac245ca8f8c8452a5b3c1f116237adcb577). You can find further progress here: [ https://github.com/sgraf812/ghc/tree/llf](https://github.com/sgraf812/ghc/tree/llf)
+The original work on this started out on the`wip/llf` branch.
+Sebastian Graf has rebased this branch in mid April 2018. After some debugging and fixups, it passes `./validate` (modulo some compiler perf tests) in [ c1f16ac](https://github.com/sgraf812/ghc/tree/c1f16ac245ca8f8c8452a5b3c1f116237adcb577). The most recent variant of Nicolas' original Core transformation can be found here: [ https://github.com/sgraf812/ghc/tree/llf](https://github.com/sgraf812/ghc/tree/llf)
+
+
+The remainder of this Wiki page (except for the Background section and the general consequences of lambda lifting) applies to the state of said rebased branch. In July 2018, [ Sebastian argued](https://ghc.haskell.org/trac/ghc/ticket/9476#comment:15) that it's probably a good idea to reimplement the transformation on STG instead of Core, the promising implementation of which is available [ here](https://github.com/sgraf812/ghc/tree/9b9260c1d45d127edf9ebdfe04a3daaff24a9dea/compiler/simplStg/StgLiftLams). This wiki page should at some point be updated to reflect the state of that work.
 
 
 In Sebastian's rebase, LLF is enabled at optimization levels 1 and higher in the below llf-nr10-r6 configuration. Anything contradictory below only applies to the dated `wip/llf` branch.
