@@ -13,6 +13,7 @@ Aug 18:
 - [\#15579](https://gitlab.haskell.org//ghc/ghc/issues/15579): `topNormaliseType`; also [\#14729](https://gitlab.haskell.org//ghc/ghc/issues/14729)
 - `zonkPromote`: the remaining ones are there for a reason; but Simon still unhappy; see RAE/SLPJ Slack channel 31 Aug; and [\#15588](https://gitlab.haskell.org//ghc/ghc/issues/15588) and [\#15589](https://gitlab.haskell.org//ghc/ghc/issues/15589)
 - [\#15479](https://gitlab.haskell.org//ghc/ghc/issues/15479): refactoring `tcHsType`
+- [\#15577](https://gitlab.haskell.org//ghc/ghc/issues/15577): surprising coercions
 - [\#14887](https://gitlab.haskell.org//ghc/ghc/issues/14887): telescopes
 - [\#15474](https://gitlab.haskell.org//ghc/ghc/issues/15474): (small) `Any` etc.
 
