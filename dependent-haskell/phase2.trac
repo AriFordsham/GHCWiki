@@ -113,9 +113,101 @@ Equivalently:
 
 * INVARIANT: If a `ForAllTy` quantifies over a coercion variable, that variable ''must'' be mentioned later in the type.
 
-With these choices, we never have to equate `ForAllTy`s with `FunTy`s in, say, `eqType`. The downside to this design is that it is non-performant: we must do a free-variable check when building `ForAllTy`s to maintain the invariant. However, the key observation here is that we need to do this check only when building a `ForAllTy` with a coercion variable -- ''something we never do today''. So it will be rare in the near future. And, we should be able to easily distinguish when we're about to quantify over a coercion, so the normal `mkForAllTy` can just `ASSERT` that its variable is a tyvar. We'll have a new `mkCoVarForAllTy` that quantifies over coercions and does the free-variable check.
+With these choices, we never have to equate `ForAllTy`s with `FunTy`s in, say, `eqType`. The downside to this design is that it is non-performant: we must do a free-variable check when building `ForAllTy`s to maintain the invariant. However, the key observation here is that we need to do this check only when building a `ForAllTy` with a coercion variable -- ''something we never do today''. So it will be rare in the near future. And, we should be able to easily distinguish when we're about to quantify over a coercion, so the normal `mkForAllTy` can just `ASSERT` that its variable is a tyvar. We'll have a new `mkTyCoForAllTy` that quantifies over coercions and does the free-variable check.
 
 We believe that, in the future, `FunTy` and `ForAllTy` may merge into `PiTy`. That future is not yet here, and there's no need to rush it. 
+
+=== Problem of defining heterogeneous equality based on homogeneous equality
+
+Previously morally we have
+
+{{{#!hs
+class (a ~# b) => a ~~ b
+}}}
+
+Under the new definition with coercion quantification, it becomes something like
+
+{{{#!hs
+class (co :: k1 ~# k2, (a |> co) ~# b) => a ~~ b
+}}}
+
+where the superclass `(a |> co) ~# b` refers to `co`, so we add `co :: k1 ~# k2` into the superclass, otherwise we get `co` out of scope.
+
+This definition is, however, wrong, as we cannot have existential variables in superclass. 
+
+**Problem with existential variables in superclass.** Let's consider the example
+
+{{{#!hs
+class (C a, D a b) => E a where 
+  mkE = ...
+}}}
+
+For every instance of any class, we should be able to extract the instance of its superclass from it. Thus we define
+
+{{{#!hs
+selD :: E a -> D a b
+selD (mkE x y) = y
+}}}
+
+Once we use `mkE`, the type variable `b` is instantiated to some type (e.g. `Int`), but we have no way to recover it. Instead, now the return value is of type `forall b. D a b`, which does not make sense!
+
+**Brainstorm.** Adam suggests
+
+{{{#!hs
+class (a :: k1 ~~ b :: k2) where 
+  MkHEq :: forall (c :: k1 ~# k2) . a |> c ~# b => a ~~ b
+}}}
+
+However we have no way to extract `(k1 ~#k2)` from this definition.
+
+Stephanie suggests a CPS-style definition
+
+{{{#!hs
+class (a :: k1 ~~ b :: k2) where 
+  MkHEq :: (forall (c :: k1 ~# k2) (a |> c ~# b) => d) -> d
+}}}
+
+This will change how `~~` behaves.
+
+Another suggestion from Stephanie:
+
+{{{#!hs
+class (a :: k1 ~~ b :: k2) where  
+  kind :: (k1 ~~ k2) 
+  theProof :: forall (c :: k1 ~~ k2) . a |> c ~# b => a ~~ b
+}}}
+
+with inlining. However, this means constraints need to be strict so we know the definition terminates, which is important for the consistency of the coercion language. In other words, we need to change the representation of constraint. Right now, we have`Constraint` be like `TYPE LiftedRep` (i.e. `Type`). This suggestion would make it be like `TYPE UnliftedRep`. However, strict constraints clash with deferred type errors, as deferred type errors make use of the laziness. Richard argues that deferred type errors are already in conflict with `TypeInType`. See [https://ghc.haskell.org/trac/ghc/ticket/11197/ this ticket].
+
+Another option is to drop heterogeneous equality. It turns out we can still define hetero-datatype. In source, we write
+
+{{{#!hs
+data Rep a where
+    RepBool :: Rep Bool
+
+-- or
+data Rep :: forall k. (a :: k) -> Type where
+    RepBool :: forall k a.  (k ~ Type) (a ~ Bool) => Rep k a
+}}}
+
+If the compiler is smart enough, with coercion quantification it can translate the definition to
+
+{{{#!hs
+data Rep :: forall k. (a :: k) -> Type where
+    RepBool :: forall k a.  (c :: k ~ Type) (a |> c ~ Bool) => Rep k a
+}}}
+
+However it raises a problem about telescope. For example, if we swap two constrains, will it still work?
+
+{{{#!hs
+data Rep :: forall k. (a :: k) -> Type where
+    RepBool :: forall k a.  (a ~ Bool) (k ~ Type) => Rep k a 
+                   -- two constrains are swapped!
+}}}
+
+**Questions remain to answer.** If we give up on heterogeneous equality, do we still want coercion quantification?
+
+Stephanie suggests the definition of `Rep` without heterogeneous equality might be a good example of uses of coercion quantification.
 
 === Coercion holes
 
