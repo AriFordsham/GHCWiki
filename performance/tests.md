@@ -118,7 +118,7 @@ Often the programmer wants to run performance tests on their local machine. To m
 ## Status
 
 
-Most of the work on this was already done by Jared Weekly for the 2017 Haskell Summer of Code ([ HSOC proposal](https://github.com/jared-w/HSOC2017/blob/master/Proposal.pdf), [ blog](https://jaredweakly.com/blog/haskell-summer-of-code/)). A [ work in progress patch](https://phabricator.haskell.org/D3758) was submitted to Phabricator that summer. Unfortunately HSOC ended without a merge, and development on this proposal stalled. Since then David Eichmann has continued the work and created a [ new patch](https://phabricator.haskell.org/D5059), an adapted (and rebased) version of the old patch. 
+Most of the work on this was already done by Jared Weakly for the 2017 Haskell Summer of Code ([ HSOC proposal](https://github.com/jared-w/HSOC2017/blob/master/Proposal.pdf), [ blog](https://jaredweakly.com/blog/haskell-summer-of-code/)). A [ work in progress patch](https://phabricator.haskell.org/D3758) was submitted to Phabricator that summer. Unfortunately HSOC ended without a merge, and development on this proposal stalled. Since then David Eichmann has continued the work and created a [ new patch](https://phabricator.haskell.org/D5059), an adapted (and rebased) version of the old patch. 
 
 ### Finished Work
 
