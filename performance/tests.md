@@ -113,7 +113,11 @@ The commit message will be parsed by the test driver and will allow the indicate
 ### Testing Locally
 
 
-Often the programmer wants to run performance tests on their local machine. To make a valid comparison of performance, we require results obtained on the same machine (i.e. the same platform). To do this, simply check out the previous commit and run the tests. This will record the results in a git note for the 'local' platform (this git note is stored in your local git repo). Then checkout the original commit and run the tests again. Now the test runner will test against the locally obtained results of the previous commit. If you don't run the tests on the previous commit, then they will trivially pass with a warning.
+Often a contributor will want to run performance tests on their local machine to characterise the effect of their patch on performance. For this they will want to first run the testsuite on their branch's base commit to establish a baseline, then again on the head of their branch. This will record the results in a git note for the 'local' platform (this git note is stored in your local git repo). The contributor can then compare the two sets of results via the CLI tool (where `$BASE_COMMIT` is their branch's base commit):
+
+```wiki
+> python3 ./testsuite/driver/perf_notes.py HEAD $BASE_COMMIT
+```
 
 ## Status
 
@@ -122,7 +126,7 @@ Most of the work on this was already done by Jared Weakly for the 2017 Haskell S
 
 ### Finished Work
 
-- Nolonger specify expected performance results in `*.T` files.
+- No longer specify expected performance results in `*.T` files.
 - Performance tests run against the previous commit's results.
 - Log performance results in a git note for all test runs.
 - A simple CLI tool is provided to analyse previous results.
@@ -130,7 +134,7 @@ Most of the work on this was already done by Jared Weakly for the 2017 Haskell S
 
 ### Remaining Work
 
-- CircleCI must push test restults (git notes) to the git.haskell.com repo.
+- CircleCI must push test results (git notes) to the git.haskell.com repo.
 - Hear the concerns of the Haskell community.
 
 ## Future work
