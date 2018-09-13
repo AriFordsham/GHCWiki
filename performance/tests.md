@@ -37,12 +37,16 @@ GHC has a test suite that can be run via `make test` (see [ Running the Testsuit
 
 ### Issues with the current system
 
+- **Performance creep**.  Successive commits might reduce performance by (say) 0.5%, but only the 20'th such change will trip the 10% threshold.  That particular commit isn't really to blame (or only 1/20 to blame); and this in turn leads authors to take regressions as annoyances rather than as actual errors.
+
 - **The programmer must specify expected values and tolerances.** This seems like a reasonable expectation but is a source of frustration in practice. The CI server will run tests on various platforms which may all give varying results, making it hard for the programmer to pick an appropriate value. This leads to a time consuming workflow of pushing code to the CI server and manually observing its output to derive expected values. This also leads to other issues:
 
   - **The programmer must update expected values.** When performance significantly changes, such that performance tests fail, the programmer must pick new expected values and/or adjust the tolerance values. Picking these values again is more effort than we'd like.
   - **Expected values are usually NOT per platform.** While it is currently possible to give expected values per platform, doing so takes extra effort for the programmer and is often not done. Instead the programmer often picks some middle value with a tolerance that works for all platforms.
   - **Tolerance intervals are too large.** As the expected values are usually not platform specific, the tolerance values must be larger to make the tests pass in all cases (avoiding false positives). This leads to more false negatives (tests pass even though performance has changed unexpectedly).
+
 - **Performance test results are not logged.** Currently there is no quick way to observe past performance other than to checkout, build, and run the performance tests for the commits in question.
+
 - **Testing locally is not optimal.** Again, the expected values are likely not targeted for the programmer's local platform leading to false positives and/or negatives when testing locally.
 
 ## Proposed System
