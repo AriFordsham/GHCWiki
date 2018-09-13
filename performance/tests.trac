@@ -8,8 +8,7 @@ GHC has a test suite that can be run via `make test` (see [https://ghc.haskell.o
   * A simple CLI tool is provided along side the test driver to analyse previous results.
 * Recording and comparing performance results is always done with respect to a [#Platform platform].
 
-[=#CurrentSystem]
-== Current System
+== [=#CurrentSystem Current System]
 
 * Tests are listed in `.T` files along with manually chosen expected value and tolerance percentage. Expected values may be, but often aren't, platform specific. e.g.  testing 'bytes allocated' with a tolerance of 10%:
 {{{
@@ -78,16 +77,13 @@ With the proposed change, we hope to achieve the following benefits:
   * Expected performance changes only requires an [#ExpectedPerformanceChanges indication] that the change exists, rather than having to re-adjust the expected values and/or tolerance.
 * More accurate [#TestingLocally local testing].
 
-[=#Platform]
-=== Test results are per platform
+=== [=#Platform Test results are per platform]
 
 Performance results can vary between platforms. For example a 64 bit ghc may use more memory than a 32 bit ghc. Different OSes may also affect performance differently. Hence results are always recorded and compared with respect to a given platform. This is a key advantage over the current system. Performance results within a platform have less variance which allows for smaller tolerance values.
 
 In the implementation of this proposal the platform is a string set by the TEST_ENV environment variable. This is set by all relevant CircleCI jobs (to e.g. 'x86_64-linux' or 'x86_64-freebsd') but defaults to 'local' (appropriate for running tests on your local machine).
 
-[=#ExpectedPerformanceChanges]
-
-=== Indicating expected performance changes
+=== [=#ExpectedPerformanceChanges Indicating expected performance changes]
 
 In some cases, performance tests will fail due to an expected change in performance. In this case, the programmer should double check that the change truly is expected. If the change truly is expected, they must append the git commit message to indicate this. For example, this indicates that the 'bytes allocated' metric increases for tests T123 and T456 and decreases for T789.
 {{{
@@ -99,13 +95,26 @@ Metric Decrease 'bytes allocated':
 }}}
 The commit message will be parsed by the test driver and will allow the indicated changes. The exact text required to pass all failing tests will conveniently be output by the test driver if any performance tests fail.
 
-[=#TestingLocally]
-=== Testing Locally
+=== [=#TestingLocally Testing Locally]
 
 Often a contributor will want to run performance tests on their local machine to characterise the effect of their patch on performance. For this they will want to first run the testsuite on their branch's base commit to establish a baseline, then again on the head of their branch. This will record the results in a git note for the 'local' platform (this git note is stored in your local git repo). The contributor can then compare the two sets of results via the CLI tool (where `$BASE_COMMIT` is their branch's base commit):
 {{{
 > python3 ./testsuite/driver/perf_notes.py HEAD $BASE_COMMIT
 }}}
+
+=== Git Notes Format
+
+The results of performance test are store in git notes as tab separated values with columns:
+
+ [#Platform platform], test name, [Commentary/Rts/CompilerWays build way], performance metric, result
+
+In order to isolate the git notes, the 'ref/notes/perf' ref is used (see the gite notes [https://git-scm.com/docs/git-notes#git-notes---refltrefgt --ref] option). This allows users to make their own git notes without interfering with the performance result git notes. E.g. to see the git notes in the format above for commit `$COMMIT` simply do:
+{{{
+> git notes --ref 'perf' show $COMMIT
+x86_32-linux	T123	normal	max_bytes_used	1110101
+x86_64-freebsd	T123	normal	max_bytes_used	2222323
+}}}
+This shows that test T123 was run on 2 different platforms with the normal way. On the 'x86_32-linux' platform, max_bytes_used was 1110101. On the 'x86_64-freebsd' platform, max_bytes_used was 2222323.
 
 == Status
 
@@ -121,13 +130,17 @@ Most of the work on this was already done by Jared Weakly for the 2017 Haskell S
 === Remaining Work
 
 * CircleCI must push test results (git notes) to the git.haskell.com repo.
+* Make clear what that plan is regarding the [#Drift drift issue].
 * Hear the concerns of the Haskell community.
+
+==== [=#Drift Drift Issue]
+
+The change to comparing with the previous commit vs an expected value means that performance results may drift in one direction without tests ever failing. e.g. With a tolerance value of 10% and an initial performance result of 100, the test will pass even if the next few commits drift well past 10% of the original results: 110, 121, 121, 133, 146. Tests pass because the commit-to-commit change is never more than 10%. We need some means of detecting such drift.
 
 == Future work
 
 * With performance results saved as git notes, we are open to creating better tool support for analysing that data.
 * Though a large part of the benefit of this change would be to lower tolerance percentages for tests, that will only be done later, after results have been collected.
-* The change to comparing with the previous commit means that performance results may drift in one direction without tests ever failing. We could benefit from some automatic means of detecting such drift.
 
 == See also
 

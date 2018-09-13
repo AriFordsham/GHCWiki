@@ -123,6 +123,25 @@ Often a contributor will want to run performance tests on their local machine to
 > python3 ./testsuite/driver/perf_notes.py HEAD $BASE_COMMIT
 ```
 
+### Git Notes Format
+
+
+The results of performance test are store in git notes as tab separated values with columns:
+
+> [platform](performance/tests#), test name, [build way](commentary/rts/compiler-ways), performance metric, result
+
+
+In order to isolate the git notes, the 'ref/notes/perf' ref is used (see the gite notes [ --ref](https://git-scm.com/docs/git-notes#git-notes---refltrefgt) option). This allows users to make their own git notes without interfering with the performance result git notes. E.g. to see the git notes in the format above for commit `$COMMIT` simply do:
+
+```wiki
+> git notes --ref 'perf' show $COMMIT
+x86_32-linux	T123	normal	max_bytes_used	1110101
+x86_64-freebsd	T123	normal	max_bytes_used	2222323
+```
+
+
+This shows that test T123 was run on 2 different platforms with the normal way. On the 'x86_32-linux' platform, max_bytes_used was 1110101. On the 'x86_64-freebsd' platform, max_bytes_used was 2222323.
+
 ## Status
 
 
@@ -139,13 +158,18 @@ Most of the work on this was already done by Jared Weakly for the 2017 Haskell S
 ### Remaining Work
 
 - CircleCI must push test results (git notes) to the git.haskell.com repo.
+- Make clear what that plan is regarding the [drift issue](performance/tests#).
 - Hear the concerns of the Haskell community.
+
+#### Drift Issue
+
+
+The change to comparing with the previous commit vs an expected value means that performance results may drift in one direction without tests ever failing. e.g. With a tolerance value of 10% and an initial performance result of 100, the test will pass even if the next few commits drift well past 10% of the original results: 110, 121, 121, 133, 146. Tests pass because the commit-to-commit change is never more than 10%. We need some means of detecting such drift.
 
 ## Future work
 
 - With performance results saved as git notes, we are open to creating better tool support for analysing that data.
 - Though a large part of the benefit of this change would be to lower tolerance percentages for tests, that will only be done later, after results have been collected.
-- The change to comparing with the previous commit means that performance results may drift in one direction without tests ever failing. We could benefit from some automatic means of detecting such drift.
 
 ## See also
 
