@@ -6,7 +6,7 @@ If you're on a recent Linux system, then you should be able to get a working bui
 ## Docker
 
 
-If you are familiar with docker, this is a 1 step install for a development image (ghc build requirements plus a few development related tools).
+If you are familiar with docker and comfortable doing all your work in the docker container with a default bash shell. This is a 1 step install for a development image (ghc build requirements plus a few development related tools). The runghc binary can not be run outside of the docker container because GHC will be compiled with paths only available in the container.
 First cd into your ghc directory that you should check out according to [Building/GettingTheSources](building/getting-the-sources), then
 
 ```wiki
