@@ -10,6 +10,7 @@
 
 Aug 18:
 
+- [\#15621](https://gitlab.haskell.org//ghc/ghc/issues/15621), [\#14185](https://gitlab.haskell.org//ghc/ghc/issues/14185): using implication constraints to improve error messages
 - [\#15579](https://gitlab.haskell.org//ghc/ghc/issues/15579): `topNormaliseType`; also [\#14729](https://gitlab.haskell.org//ghc/ghc/issues/14729)
 - `zonkPromote`: the remaining ones are there for a reason; but Simon still unhappy; see RAE/SLPJ Slack channel 31 Aug; and [\#15588](https://gitlab.haskell.org//ghc/ghc/issues/15588) and [\#15589](https://gitlab.haskell.org//ghc/ghc/issues/15589)
 - [\#15479](https://gitlab.haskell.org//ghc/ghc/issues/15479): refactoring `tcHsType`
