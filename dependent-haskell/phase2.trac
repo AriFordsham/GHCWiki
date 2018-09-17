@@ -87,6 +87,24 @@ data (~~) :: forall k1 k2. k1 -> k2 -> Constraint where
 
 This version names the kind coercion `co` so it can be used in the type proposition. All is well again. Sadly, the implementation does not support coercion quantification in types like this. 
 
+Note that, while heterogeneous equality `(~~)` is, in a sense, the canonical motivation for coercion quantification (in that, if we can implement `(~~)`, we can implement anything else), it's not the only place coercion quantification would appear. ''Any'' kind-indexed GADT will need it. For example:
+
+{{{#!hs
+data Rep :: forall k. k -> Type where
+  RepBool :: Rep Bool
+  RepMaybe :: Rep Maybe
+}}}
+
+becomes the following in Core:
+
+{{{
+Rep :: forall k. k -> Type
+RepBool :: forall k (a :: k). forall (cv :: k ~# Type). ((a |> cv) ~# Bool) -> Rep k a
+RepMaybe :: forall k (a :: k). forall (cv :: k ~# (Type -> Type)). ((a |> cv) ~# Maybe) -> Rep k a
+}}}
+
+Note the coercion quantification.
+
 Bottom line: a consequence of switching to homogeneous equality is that we need coercion quantification in types.  So it's time to implement it.
 
 === Coercions are quantified both relevantly and dependently
@@ -207,7 +225,34 @@ data Rep :: forall k. (a :: k) -> Type where
 
 **Questions remain to answer.** If we give up on heterogeneous equality, do we still want coercion quantification?
 
-Stephanie suggests the definition of `Rep` without heterogeneous equality might be a good example of uses of coercion quantification.
+Stephanie suggests the definition of `Rep` without heterogeneous equality might be a good example of uses of coercion quantification. (This is now included in the motivation for coercion quantification, above.)
+
+**Another approach.** The above discussion rests on the idea that we treat `(~~)` uniformly with other classes. But perhaps (at least in the short term), we don't have to. Specifically, when we access the superclasses of a class constraint in the solver, we can treat `(~~)` specially.
+
+If we have a Given `(~~)`, we can unpack both a kind equality and a type equality from it. Because doing so requires a case-match instead of a `let`, we need a new form of `EvBind`:
+
+{{{#!hs
+data EvBind
+     -- this first one is old
+  = EvBind { eb_lhs      :: EvVar
+           , eb_rhs      :: EvTerm
+           , eb_is_given :: Bool  -- True <=> given
+    }
+
+     -- this one is new (always given)
+  | HeteroEqEvBind { eb_kind_eq :: EvVar
+                   , eb_type_eq :: EvVar
+                   , eb_rhs     :: EvTerm  -- scrutinee of the case
+                   }
+}}}
+
+The desugarer would produce a case expression for `HeteroEqEvBind`.
+
+One challenge here is that `HeteroEqEvBind` binds ''two'' variables, and yet an `EvBindsMap` maps the variables to the bindings that bind them. This is OK: the new `HeteroEqEvBind` could simply be listed twice in the map. When iterating through an `EvBindsMap`, we'll just be careful not to, say, desugar it twice. We can do this easily by, say, ignoring the mapping from the kind var to the `HeteroEqEvBind` (because we know we'll see the `HeteroEqEvBind` when we look at the mapping from the type var).
+
+For wanteds, the story is much easier: we just make a hetero equality constraint, which we'll have for wanteds anyway. (Recall that a homogeneous equality means that coercion ''variables'' will be homogeneous, but coercions may still be hetero.)
+
+So this will take a little custom coding and a Note or two, but it seems easier than other approaches. This still requires that equality evidence be strict (causing #11197), but the situation is no worse than today, and the approach outlined in #11197, of fixing it in !FloatIn, still works.
 
 === Coercion holes
 
