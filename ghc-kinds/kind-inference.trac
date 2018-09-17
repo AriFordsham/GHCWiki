@@ -239,6 +239,69 @@ Here, `F` is inferred to be `Type -> Type`. Indeed, if instead it was generalise
 
 So the question is: if the non-GADT `Proxy2` will be inferred to have the dependent kind, should the GADT `Proxy2` be too?
 
+== New Proposal ==
+
+=== Preprocessing: Translation from GADT syntax to H98 syntax ===
+
+Translation from GADT syntax to H98 syntax has several advantages:
+  1. The scope of the type/kind variables are explicit;
+  2. Avoid the appearance of recursion in return types;
+  3. Make sure the different representations of the same data type behave the same.
+
+Example:
+{{{#!hs
+data Proxy2 a where
+  Mk1 :: Proxy2 (a :: k)
+  Mk2 :: Proxy2 (b :: j)
+
+-- is translated to
+
+data Proxy2 c
+  = forall k a. ((a :: k) ~ c) => Mk1
+  | forall j b. ((b :: j) ~ c) => Mk2
+}}}
+
+After the translation step, we can focus on the kind inference algorithm for only H98 syntax.
+
+=== Kind Inference Strategy for H98 syntax ===
+
+**CUSK**. If the data type has CUSK, we use the provided kind to do type-checking.
+
+**Non-CUSK**. If there is no CUSK:
+
+  1. Depending on whether the datatype is defined recursively, we use different strategies.
+    a. If the definition is recursive, we guess a **monokind** `kappa` as the initial kind of the data type. Reject any dependency. E.g.
+ {{{#!hs
+  -- P :: kappa
+  data P a b = ...
+  }}}
+    b. If the definition is non-recursive, for all variables, we guess `kappa` kind for them. Allow dependency. There is no need to get an initial kind, as the data type is not used in RHS. E.g.
+  {{{#!hs
+   --  a::kappa1, b::kappa2, and kappa2 might be unified with a
+    data P a b = ...
+  }}}
+  2. Collect constraints on `kappa` from LHS and RHS
+  3. Solve constraints
+  4. Do generalization
+
+=== Examples of non-CUSKs under the new strategy ===
+
+{{{#!hs
+
+-- Accept. Proxy :: forall k -> k -> Type
+data Proxy k (a::k)
+
+-- Reject. As it is recursive, it cannot have dependency
+data T1 k (a::k) = MkT1 (T1 k a)
+
+-- Accept. Proxy2 :: forall k -> k -> Type
+data Proxy2 k a = MkP2 (Proxy k a)
+
+-- Reject. As it is recursive, it cannot have dependency
+data T2 k a = MkT2 (Proxy k a) | MkT2' (T2 * Int)
+}}}
+
+
 == Current strategy (GHC 7.8) ==
 
 Running example:
