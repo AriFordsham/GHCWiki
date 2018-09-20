@@ -4,7 +4,7 @@
 GHCi currently has two modes of operation
 
 1. Normal mode
-1. Remote mode - Using the option -fexternal-interpreter. This was introduced in GHC 8.0.1 by Simon Marlow. See [RemoteGHCi](wiki-start) for more details.
+1. Remote mode - Using the option -fexternal-interpreter. This was introduced in GHC 8.0.1 by Simon Marlow. See [RemoteGHCi](remote-gh-ci) for more details.
 
 
 This document provides details of working of GHCi primarily for the normal mode of working, though the details are more or less similar for both. **The main goal here is to answer the question '*How does GHCi support breakpoints?*' **, but it will present more details of the basic working along with this.
