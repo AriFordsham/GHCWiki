@@ -4,6 +4,9 @@ On this page we describe the principles behind the implementation of the linear 
 
 The current implementation progress can be seen on [ here](https://github.com/tweag/ghc/tree/linear-types)
 
+
+The implementation is supported by a [ document formalising (a simplified version) of linear core](https://ghc.haskell.org/trac/ghc/attachment/wiki/LinearTypes/Implementation/minicore.pdf). This is more complete than the paper. It is work in progress.
+
 ## Principles
 
 
