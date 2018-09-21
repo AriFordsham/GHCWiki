@@ -19,6 +19,12 @@ Description of the implementation strategy: [LinearTypes/Implementation](linear-
 
 Some motivating examples in the wiki: [LinearTypes/Examples](linear-types/examples)
 
+
+Talks:
+
+- [ Arnaud Spiwack at Popl 2018](https://www.youtube.com/watch?v=o0z-qlb5xbI)
+- [ Simon Peyton Jones at Curry On 2018](https://www.youtube.com/watch?v=t0mhvd3-60Y), longer but covers more ground.
+
 ## Implementation
 
 
