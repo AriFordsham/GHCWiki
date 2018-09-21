@@ -14,7 +14,7 @@ The Linear Type Proposal is being discussed [ on the ghc proposal repository](ht
 The motivations, technical details and examples on the proposal are described in the article [ Linear Haskell: practical linearity in a higher-order polymorphic language](https://arxiv.org/abs/1710.09756) published at POPL 2018.
 
 
-Implementation status as of July 2018: [LinearTypes/Implementation](linear-types/implementation)
+Description of the implementation strategy: [LinearTypes/Implementation](linear-types/implementation)
 
 
 Some motivating examples in the wiki: [LinearTypes/Examples](linear-types/examples)
@@ -82,7 +82,7 @@ But there is no cause for panic: `strange` only promises to consume `x` if its r
 # In the motivations of the proposal, there is a linear IO monad. Isn't linear IO unsound in presence of exception?
 
 
-It is not, but as always, we need to careful about how we type primitives of the `IO` monad. For example, [ {{{catch}}}](https://github.com/tweag/linear-base/blob/007b884ebb0e3182ea73e450683f9660b7a92f40/src/System/IO/Linear.hs#L144-L146) should not have a linear type. It should be typed as follows:
+It is not, but as always, we need to careful about how we type primitives of the `IO` monad. For example, [ catch](https://github.com/tweag/linear-base/blob/007b884ebb0e3182ea73e450683f9660b7a92f40/src/System/IO/Linear.hs#L144-L146) should not have a linear type. It should be typed as follows:
 
 ```
 catch::Exception e
@@ -163,7 +163,7 @@ Before we are ready to make a proposal, users should put linear types to work an
 # Will adding linear types fragment the libraries ecosystem?
 
 
-The centrepiece of our design is to avoid code duplication. Crucially, the same types can be used in linear and non-linear contexts. For example, the [ {{{linear-base}}}](https://github.com/tweag/linear-base/) library uses the same types as `base`. So libraries developed with `linear-base` will be compatible with libraries developed with `base`.
+The centrepiece of our design is to avoid code duplication. Crucially, the same types can be used in linear and non-linear contexts. For example, the [ linear-base](https://github.com/tweag/linear-base/) library uses the same types as `base`. So libraries developed with `linear-base` will be compatible with libraries developed with `base`.
 
 # Is this type for monads in the paper correct?
 
