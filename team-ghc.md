@@ -28,6 +28,13 @@ The following page lists the current people who are allowed to commit to GHC, al
 
 In order to see emails below, **you must login**.
 
+- [ Andreas Klebinger](https://github.com/AndreasPK/)
+
+  - Vienna University of Technology - Vienna, Austria
+  - **Trac**: AndreasK; **email**: klebinger.andreas at gmx.at
+  - **Committer since**: September, 2018.
+  - **Main areas of interest**: cmm, codegen
+
 - Andres Loh
 
   - Haskell consultant at [ Well Typed](http://well-typed.com)
