@@ -23,6 +23,7 @@ Below are the major highlights of 8.8.
 
  * A safer and more efficient `with#` combinator to control object lifetime (#14375)
  * Improved compilation time for type-family-heavy programs (#8095, Phab:D4766)
+ * More efficient code generation for nested closures (#14461)
  * [[https://github.com/ghc-proposals/ghc-proposals/pull/83|Proposal 83: Collapse `PolyKinds` and `TypeInType`]]
  * [[https://github.com/ghc-proposals/ghc-proposals/pull/81|Proposal 81: Visible dependent quantification]]
  * [[https://github.com/ghc-proposals/ghc-proposals/pull/54|Proposal 54: Top-level kind signatures: CUSKs]]
