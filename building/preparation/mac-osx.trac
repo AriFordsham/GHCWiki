@@ -4,7 +4,7 @@
   - Install the latest command line tools from http://developer.apple.com/downloads '''or'''
   - install XCode, launch XCode, open Preferences, select "Downloads" and install the command line tools
 2. Install Homebrew http://brew.sh
-3. `brew install autoconf automake`
+3. `brew install autoconf automake python3`
 4. Install a recent GHC version using your method of choice
 5. `cabal install alex happy haddock`
 5.  Install tools for building the docs:
