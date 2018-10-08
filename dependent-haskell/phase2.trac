@@ -31,6 +31,8 @@ Homogeneous equality is simpler than heterogeneous equality so, all else being e
 
 Congruence means that if a type `t` has a free variable `a`, and we have a coercion `co` proving `s1` equals `s2` (and `s1` and `s2` have the same kind), then we can always find a proof that `t[s1/a]` equals `t[s2/a]`. The lack of congruence has no effect in the current (GHC 8.6) implementation because it bites only in the presence of coercion quantification in types. See Section 5.8.5.4 of Richard's thesis. Given that we will need coercion quantification in types in order to have full dependent types [example needed], we will want congruence, too.
 
+More practically, congruence is what allows `liftCoSubst` to function. The details aren't germane here, but `liftCoSubst` produces a coercion, which is assumedly well-typed. However, we cannot prove that it is indeed well-typed with heterogeneous equality: this is precisely what the congruence theorem claims. So, currently, the use of this function might induce a Core Lint error. (Ningning: the error would be from the coercion variable restriction in the ForAllCo rule. Could you add a pointer to where this is checked?) With homogeneous equality, we can prove that this won't be the case.
+
 === What would homogeneous equality look like in GHC? ===
 
 How should this homogeneous equality take form? It's simple: make `~#`, the type of primitive equality, homogeneous. That is, we want
@@ -67,27 +69,27 @@ Summarising (details in  [https://cs.brynmawr.edu/~rae/papers/2017/dep-haskell-s
 
 === A small wrinkle: we need coercion quantification back
 
-If `~#` is homogeneous in Core, then how do we support heterogeneous equality in Haskell? Heterogeneous equality is important in Haskell to support, for example, the new `TypeRep` (see [https://repository.brynmawr.edu/cgi/viewcontent.cgi?article=1002&context=compsci_pubs the paper]).   Easy: just use an equality between the kinds and then one between the types. But it's not so easy in practice. Examine the definition of `~~`, written as a Core datatype, even though it's really a class:
+If `~#` is homogeneous in Core, then how do we support heterogeneous equality in Haskell? Heterogeneous equality is important in Haskell to support, for example, the new `TypeRep` (see [https://repository.brynmawr.edu/cgi/viewcontent.cgi?article=1002&context=compsci_pubs the paper]).   Easy: just use an equality between the kinds and then one between the types. But it's not so easy in practice. Examine the definition of `:~~:`:
 
 {{{#!hs
 -- this version is wrong!
-data (~~) :: forall k1 k2. k1 -> k2 -> Constraint where
+data (:~~:) :: forall k1 k2. k1 -> k2 -> Type where
   MkHEq :: forall k1 k2 (a :: k1) (b :: k2). 
-           (k1 ~# k2) -> (a ~# b) -> a ~~ b
+           (k1 ~# k2) -> (a ~# b) -> a :~~: b
 }}}
 
 Sadly, this is ill-kinded: we're using `a ~# b` even though `a` and `b` have different kinds. Of course, we know that `k1` and `k2` are the same, but that doesn't quite help us here. Instead, we need to ''name'' the coercion between `k1` and `k2`, thus:
 
 {{{#!hs
-data (~~) :: forall k1 k2. k1 -> k2 -> Constraint where
+data (:~~:) :: forall k1 k2. k1 -> k2 -> Type where
   MkHEq :: forall k1 k2 (a :: k1) (b :: k2). 
            forall (co :: k1 ~# k2) -> 
-           ((a |> co) ~# b) -> a ~~ b
+           ((a |> co) ~# b) -> a :~~: b
 }}}
 
 This version names the kind coercion `co` so it can be used in the type proposition. All is well again. Sadly, the implementation does not support coercion quantification in types like this. 
 
-Note that, while heterogeneous equality `(~~)` is, in a sense, the canonical motivation for coercion quantification (in that, if we can implement `(~~)`, we can implement anything else), it's not the only place coercion quantification would appear. ''Any'' kind-indexed GADT will need it. For example:
+Note that, while heterogeneous equality `(:~~:)` is, in a sense, the canonical motivation for coercion quantification (in that, if we can implement `(:~~:)`, we can implement anything else), it's not the only place coercion quantification would appear. ''Any'' kind-indexed GADT will need it. For example:
 
 {{{#!hs
 data Rep :: forall k. k -> Type where
@@ -106,6 +108,8 @@ RepMaybe :: forall k (a :: k). forall (cv :: k ~# (Type -> Type)). ((a |> cv) ~#
 Note the coercion quantification.
 
 Bottom line: a consequence of switching to homogeneous equality is that we need coercion quantification in types.  So it's time to implement it.
+
+Note that this currently proposes to use coercion quantification only in GADT types -- never elsewhere. In particular, the user will not be able to write a coercion-quantified type. Addressing this idea is ticket #15710, but it's not on the critical path toward homogeneous equality.
 
 === Coercions are quantified both relevantly and dependently
 
@@ -151,7 +155,7 @@ class (co :: k1 ~# k2, (a |> co) ~# b) => a ~~ b
 
 where the superclass `(a |> co) ~# b` refers to `co`, so we add `co :: k1 ~# k2` into the superclass, otherwise we get `co` out of scope.
 
-This definition is, however, wrong, as we cannot have existential variables in superclass. 
+This definition is, however, wrong, as we cannot have existential variables in superclass. (Skip to the solution to these problems by searching for "Plan of record".)
 
 **Problem with existential variables in superclass.** Let's consider the example
 
@@ -227,7 +231,7 @@ data Rep :: forall k. (a :: k) -> Type where
 
 Stephanie suggests the definition of `Rep` without heterogeneous equality might be a good example of uses of coercion quantification. (This is now included in the motivation for coercion quantification, above.)
 
-**Another approach.** The above discussion rests on the idea that we treat `(~~)` uniformly with other classes. But perhaps (at least in the short term), we don't have to. Specifically, when we access the superclasses of a class constraint in the solver, we can treat `(~~)` specially.
+**Plan of record regarding `~~`:** The above discussion rests on the idea that we treat `(~~)` uniformly with other classes. But perhaps (at least in the short term), we don't have to. Specifically, when we access the superclasses of a class constraint in the solver, we can treat `(~~)` specially.
 
 If we have a Given `(~~)`, we can unpack both a kind equality and a type equality from it. Because doing so requires a case-match instead of a `let`, we need a new form of `EvBind`:
 
