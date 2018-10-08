@@ -109,6 +109,8 @@ Note the coercion quantification.
 
 Bottom line: a consequence of switching to homogeneous equality is that we need coercion quantification in types.  So it's time to implement it.
 
+Note that this currently proposes to use coercion quantification only in GADT types -- never elsewhere. In particular, the user will not be able to write a coercion-quantified type. Addressing this idea is ticket #15710, but it's not on the critical path toward homogeneous equality.
+
 === Coercions are quantified both relevantly and dependently
 
 Up until now, GHC has kept two ideas separate: relevance and dependence. 
