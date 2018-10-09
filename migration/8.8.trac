@@ -82,6 +82,26 @@ Notice that that `forall a. C a =>` in the type signature for `method` is comple
 
 There may be code in the wild that previously depended on the assumption that reifying a class would put these redundant tyvars/class contexts at the front of each method's type signature, so it's possible that there may be breakage because of this.
 
+=== Additions to the `-Wcompat` warning group
+
+As part of [https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0030-remove-star-kind.rst this GHC proposal], the uses of `*` that rely on the `StarIsType` extension now produce a warning:
+
+{{{
+Prelude> type M = (Maybe :: * -> *)
+
+<interactive>:1:20: warning: [-Wstar-is-type (in -Wcompat)]
+    Using ‘*’ (or its Unicode variant) to mean ‘Data.Kind.Type’
+    relies on the StarIsType extension, which will become
+    deprecated in the future.
+    Suggested fix: use ‘Type’ from ‘Data.Kind’ instead.
+}}}
+
+The recommended migration strategy is to follow the suggestion in the warning: import `Type` from the `Data.Kind` module and use it in place of `*`:
+
+{{{
+Prelude Data.Kind> type M = (Maybe :: Type -> Type)
+}}}
+
 --------------------------------
 == Library changes
 
