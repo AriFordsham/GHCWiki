@@ -1,0 +1,265 @@
+
+I've created this wiki page to track my learning/research as I try to improve my feature request that I made in the comments of [\#15009](https://gitlab.haskell.org//ghc/ghc/issues/15009).
+
+## 20181008
+
+
+I've found a useful perspective on this. Consider this implication tree.
+
+```wiki
+forall[3] y. () =>
+  ( (u : <U>)
+  , forall[4]. (g : y ~ <Y>)   =>   (w1 : <W1>)
+  )
+```
+
+
+The naive intuition is
+
+>
+> We can float `w1` out from under `g` if `y` doesn't occur in `<W1>`.
+
+
+In fact, according to the jfp-outsidein.pdf "Simplification Rules", `g` will eventually simplify `w1` into some `w2 : <W2>` such that `y` does not occur in `<W2>`.
+
+
+The subtlety, however, is that `y` might occur in `<U>` and therefore the solving of `u` may assign a u(nification)var(iable) `alpha[tau:i]` where `i >= 3` to some type in which `y` occurs; if `alpha` occurs in `<W2>`, then now `<W2>` suddenly has an occurrence of `y` again!
+
+
+This example demonstrates:
+
+```wiki
+forall[3] y. () =>
+  ( (u : alpha[3] ~ y)
+  , forall[4]. (g : y ~ Int)   =>   (w1 : alpha[3] ~ y)
+  )
+
+-- use g to simplify w1 -->
+
+forall[3] y. () =>
+  ( (u : alpha[3] ~ y)
+  , forall[4]. (g : y ~ Int)   =>   (w2 : alpha[3] ~ Int)
+  )
+
+-- float w2, since y does not occur in its type -->
+
+forall[3] y. () =>
+  ( (w3 : alpha[3] ~ Int)
+  , (u : alpha[3] ~ y)
+  , forall[4]. (g : y ~ Int)   =>   ()
+  )
+
+-- solve u, by alpha[3] := y -->
+
+forall[3] y. () =>
+  ( (w3 : y ~ Int)
+  , forall[4]. (g : y ~ Int)   =>   ()
+  )
+
+-- Stuck because we floated!
+```
+
+### Comparison to status quo
+
+
+Compare this to the case where `Note [Let-bound skolems]` applies.
+
+```wiki
+forall[3] y. (g : y ~ <Y>)   =>   (w1 : <W1>)
+```
+
+
+There is no `u : <U>` that might assign to a uvar `alpha` shared with `<W1>` here, so the failure mode describe above can't happen. If we add a `u` alongside `w1`,
+
+```wiki
+forall[3] y. (g : y ~ <Y>)   =>   ( (w1 : <W1>) , (u : <U>) )
+```
+
+
+then now it's possible solving `u` could assign `alpha[tau:3] := ...y...`. However, as part of floating `w1`, we immediately promote any uvars that occur in it, so the problematic `alpha[tau:3]` would be assigned `alpha[tau:3] := alpha[tau:2]`, which cannot be assigned `alpha[tau:2] := ...y...` since `y` is `[sk:3]` (and also `alpha[tau:2]` is untouchable in `u[3]`).
+
+
+This silly example demonstrates:
+
+```wiki
+forall[3] y. (g : y ~ Int)   =>   (w1 : alpha[3] ~ y,u : alpha[3] ~ y)
+
+-- use g to simplify w1 -->
+
+forall[3] y. (g : y ~ Int)   =>   (w2 : alpha[3] ~ Int,u : alpha[3] ~ y)
+
+-- float w2, since y does not occur in its type (NB the promotion of alpha 3 to 2) -->
+
+(w3 : alpha[2] ~ Int)
+forall[3] y. (g : y ~ Int)   =>   (u : alpha[2] ~ y)
+
+-- Cannot solve u as in previous example, because alpha is now untouchable in u.
+-- solve w3, by alpha[2] := Int -->
+
+forall[3] y. (g : y ~ Int)   =>   (u : Int ~ y)
+
+-- re-orient, reflexivity -->
+
+-- Solved!
+```
+
+### First Refinement
+
+
+So we can refine the rule for
+
+```wiki
+forall[3] y. () =>
+  ( (u : <U>)
+  , forall[4]. (g : y ~ <Y>)   =>   (w1 : <W1>)
+  )
+```
+
+
+from
+
+>
+> We can float `w1` out from under `g` if `y` does not occur in `<W1>`.
+
+
+to
+
+>
+> We can float `w1` out from under `g` if `y` does not **and can never again** occur in `<W1>`.
+
+
+How do we decide that much stronger predicate? There are a few options (e.g. there is no sibling `u` wanted), but I currently favor checking that no uvar in `<W1>` has a level `>= 3` (this check should inspect the RHS of any flattening vars that occur in `<W1>`). That prohibits the problematic reintroduction of `y` via uvar assignment after floating.
+
+
+Thus:
+
+>
+> We can float `w1` out from under `g` if `y` does not occur in `<W1>`**and all unification variables in `<W1>` have level `< 3`**.
+
+
+After I thought about this for a bit, I realized there might be another way for `y` to be reintroduced into `<W1>` in the more general case where that outer implication has givens.
+
+```wiki
+forall[3] y. (o : <O>) =>
+  forall[4]. (g : y ~ <Y>)   =>   (w1 : <W1>)
+```
+
+
+If it's something like `o : x[sk:2] ~ Maybe y`, and `x` occurs in `<W1>`, then simplifying via `g` and floating `w1` and then simplifying it via `o` might reintroduce `y`.
+
+### Second Refinement
+
+
+So we can generalize the rule for
+
+```wiki
+forall[3] y. (o : <O>) =>
+  ( (u : <U>)
+  , forall[4]. (g : y ~ <Y>)   =>   (w1 : <W1>)
+  )
+```
+
+
+by refining from
+
+>
+> We can float `w1` out from under `g` if `y` does not occur in `<W1>` and all unification variables in `<W1>` have level `< 3`.
+
+
+to
+
+>
+> We can float `w1` out from under `g` if **all givens are inert** and `y` does not occur in `<W1>` and all unification variables in `<W1>` have level `< 3`.
+
+
+If I understand the jfp-outsidein.pdf "Interaction Rules", `o : x[sk:2] ~ Maybe y` and `g` ought to interact to yield something like
+
+```wiki
+forall[3] y. (o : x[sk:2] ~ Maybe y) =>
+  ( (u : <U>)
+  , forall[4]. ( (g : y ~ <Y>) , g2 : x[sk:2] ~ Maybe <Y>) )  =>   (w1 : <W1>)
+  )
+```
+
+
+Now that givens are inert, our rule will force `g` and `g2` to eliminate the skolems and assess uvars (level `< 2` now) in `w1` before floating it.
+
+NOPE, the above is not how `g` and `o` "interact". I searched `TcInteract` for something like `EQSAME`, but I ended up at 
+
+[ line 1630](https://github.com/ghc/ghc/blob/8bed140099f8ab78e3e728fd2e50dd73d7210e84/compiler/typecheck/TcInteract.hs#L1630)
+
+```wiki
+  | isGiven ev         -- See Note [Touchables and givens]
+  = continueWith workItem
+```
+
+
+That Note hasn't existed since
+
+```wiki
+commit 27310213397bb89555bb03585e057ba1b017e895
+Author: simonpj@microsoft.com <unknown>
+Date:   Wed Jan 12 14:56:04 2011 +0000
+
+    Major refactoring of the type inference engine
+```
+
+
+I don't see what touchables has to do with line 1630. /shrug
+
+
+So I whipped up a test
+
+```wiki
+f :: (x :~: [y]) -> (y :~: Int) -> x -> c
+f Refl Refl = id
+```
+
+
+which never gets further than
+
+```wiki
+  Implic {
+    TcLevel = 2
+    Skolems =
+    No-eqs = False
+    Status = Unsolved
+    Given = co_a1bQ :: [y_a1bM[sk:1]] GHC.Prim.~# x_a1bL[sk:1]
+    Wanted =
+      WC {wc_impl =
+            Implic {
+              TcLevel = 3
+              Skolems =
+              No-eqs = False
+              Status = Unsolved
+              Given = co_a1bR :: Int GHC.Prim.~# y_a1bM[sk:1]
+              Wanted =
+                WC {wc_simple =
+                      [WD] hole{co_a1c2} {2}:: c_a1bN[sk:1]
+                                               GHC.Prim.~# [Int] (CNonCanonical)}
+              Binds = EvBindsVar<a1bV>
+              a pattern with constructor: Refl :: forall k (a :: k). a :~: a,
+              in an equation for `f_a1bO' }}
+    Binds = EvBindsVar<a1bW>
+    a pattern with constructor: Refl :: forall k (a :: k). a :~: a,
+    in an equation for `f_a1bO' }
+```
+
+
+and even explicitly says
+
+```wiki
+  Inerts: {Equalities: [G] co_a1bZ {1}:: x_a1bL[sk:1]
+                                         GHC.Prim.~# [y_a1bM[sk:1]] (CTyEqCan)
+                       [G] co_a1c0 {1}:: y_a1bM[sk:1] GHC.Prim.~# Int (CTyEqCan)
+           Unsolved goals = 0}
+```
+
+
+Note that `co_a1bZ` and `co_a1c0` never "interacted" as `EQSAME` suggests they should. However, they both rewrote the wanted. (In fact, it's unflattening that seems to do this, even though there are no type families involved! See [ the definition of](https://github.com/ghc/ghc/blob/8bed140099f8ab78e3e728fd2e50dd73d7210e84/compiler/typecheck/TcFlatten.hs#L1846)`flatten_tyvar2`.)
+
+TODO So we'll need yet another refinement to ensure that `y` cannot be reintroduced by an outer given.
+
+### Comparison to status quo
+
+`Note [Let-bound skolems]` need not worry about outer givens because `y` is not in scope outside of this implication.
