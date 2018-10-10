@@ -158,18 +158,19 @@ Most of the work on this was already done by Jared Weakly for the 2017 Haskell S
 ### Remaining Work
 
 - CircleCI must push test results (git notes) to the git.haskell.com repo.
-- Make clear what that plan is regarding the [drift issue](performance/tests#).
-- Hear the concerns of the Haskell community.
+
+## Future work
+
+- With performance results saved as git notes, we are open to creating better tool support for analysing that data (see [drift issue](performance/tests#)).
+- Though a large part of the benefit of this change would be to lower tolerance percentages for tests, that will only be done later, after results have been collected.
 
 #### Drift Issue
 
 
 The change to comparing with the previous commit vs an expected value means that performance results may drift in one direction without tests ever failing. e.g. With a tolerance value of 10% and an initial performance result of 100, the test will pass even if the next few commits drift well past 10% of the original results: 110, 121, 121, 133, 146. Tests pass because the commit-to-commit change is never more than 10%. We need some means of detecting such drift.
 
-## Future work
 
-- With performance results saved as git notes, we are open to creating better tool support for analysing that data.
-- Though a large part of the benefit of this change would be to lower tolerance percentages for tests, that will only be done later, after results have been collected.
+It appears that automatically detecting drift is a hard problem. So we leave it up to the developers to check for drift manually. At the moment via a CLI tool, though in the future it should be possible to create better tools that e.g. plot the data.
 
 ## See also
 
