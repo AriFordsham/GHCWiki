@@ -17,7 +17,7 @@ forall[3] y. () =>
 The naive intuition is
 
 >
-> We can float `w1` out from under `g` if `y` doesn't occur in `<W1>`.
+> We can float `w1` out from under `g` if `y` doesn't occur (free) in `<W1>`.
 
 
 In fact, according to the jfp-outsidein.pdf "Simplification Rules", `g` will eventually simplify `w1` into some `w2 : <W2>` such that `y` does not occur in `<W2>`.
@@ -103,7 +103,7 @@ forall[3] y. (g : y ~ Int)   =>   (u : Int ~ y)
 -- Solved!
 ```
 
-### First Refinement
+### Refinement for Assignment
 
 
 So we can refine the rule for
@@ -147,7 +147,7 @@ forall[3] y. (o : <O>) =>
 
 If it's something like `o : x[sk:2] ~ Maybe y`, and `x` occurs in `<W1>`, then simplifying via `g` and floating `w1` and then simplifying it via `o` might reintroduce `y`.
 
-### Second Refinement
+### Refinement for Outer Givens (a wrong turn)
 
 
 So we can generalize the rule for
@@ -177,14 +177,14 @@ If I understand the jfp-outsidein.pdf "Interaction Rules", `o : x[sk:2] ~ Maybe 
 ```wiki
 forall[3] y. (o : x[sk:2] ~ Maybe y) =>
   ( (u : <U>)
-  , forall[4]. ( (g : y ~ <Y>) , g2 : x[sk:2] ~ Maybe <Y>) )  =>   (w1 : <W1>)
+  , forall[4]. ( (g : y ~ <Y>) , (g2 : x[sk:2] ~ Maybe <Y>) )  =>   (w1 : <W1>)
   )
 ```
 
 
 Now that givens are inert, our rule will force `g` and `g2` to eliminate the skolems and assess uvars (level `< 2` now) in `w1` before floating it.
 
-NOPE, the above is not how `g` and `o` "interact". I searched `TcInteract` for something like `EQSAME`, but I ended up at 
+NOPE, the above is not how `g` and `o` "interact". I searched `TcInteract` for something like `EQDIFF`, but I ended up at 
 
 [ line 1630](https://github.com/ghc/ghc/blob/8bed140099f8ab78e3e728fd2e50dd73d7210e84/compiler/typecheck/TcInteract.hs#L1630)
 
@@ -256,10 +256,115 @@ and even explicitly says
 ```
 
 
-Note that `co_a1bZ` and `co_a1c0` never "interacted" as `EQSAME` suggests they should. However, they both rewrote the wanted. (In fact, it's unflattening that seems to do this, even though there are no type families involved! See [ the definition of](https://github.com/ghc/ghc/blob/8bed140099f8ab78e3e728fd2e50dd73d7210e84/compiler/typecheck/TcFlatten.hs#L1846)`flatten_tyvar2`.)
-
-TODO So we'll need yet another refinement to ensure that `y` cannot be reintroduced by an outer given.
+Note that `co_a1bZ` and `co_a1c0` never "interacted" as `EQDIFF` suggests they should. However, they both rewrote the wanted. (In fact, it's unflattening that seems to do this, even though there are no type families involved! See [ the definition of](https://github.com/ghc/ghc/blob/8bed140099f8ab78e3e728fd2e50dd73d7210e84/compiler/typecheck/TcFlatten.hs#L1846)`flatten_tyvar2`.)
 
 ### Comparison to status quo
 
 `Note [Let-bound skolems]` need not worry about outer givens because `y` is not in scope outside of this implication.
+
+### Refinement for Outer Givens with Interactions (a turn too far)
+
+
+So we'll need a different refinement to ensure that `y` cannot be reintroduced by an outer given.
+
+
+In our `o : x[sk:2] ~ Maybe y` example, `x` has a significant relationship with `y`: any occurrence of `x` in the scope of `o` will be rewritten to have an occurrence of `y` instead. Loosely, "`x` can become `y`".
+
+
+Similarly, any uvar `alpha[tau:i]` where i `>= 3` "can become `y`" due to solving other parts of the implication tree. So the "can become" relation is a nice commonality between the two failure modes I've considered.
+
+
+How might we determine if "`x` can become `y`" in general? Here's another failure, also based on the "`x` can become `y`" idea, but with more moving parts.
+
+```wiki
+forall[3] y. ( (o1 : z[sk:2] ~ T x[sk:2] ) , (o2 : alpha[tau:2] ~ T (Maybe y)) ) =>
+  ( (u : <U>)
+  , forall[4]. ( (g : y ~ <Y>) , (g2 : x[sk:2] ~ Maybe <Y>) )  =>   (w1 : <W1>)
+  )
+```
+
+
+Note that the equalities `o1` and `o2` contain `x` and `y` respectively, but do not have any shared variables. However, solving another part of the implication tree might assign `alpha := z`, in which case `o1` and `o2` will interact, yielding a constraint that then canonicalizes to the familiar `o : x ~ Maybe y`. This is actually the same lesson as in the first failure mode "`alpha[tau:i]` can become any variable at level `<= i`", but in the givens this time and one step removed from affecting our float.
+
+
+Our second refinement makes
+
+>
+> We can float `w1` out from under `g` if `y` does not and can never again occur in `<W1>`.
+
+
+more formal as
+
+>
+> We can float `w1` out from under `g` if the transitive closure of the "can step to" relation does not relate any free variable of `<W1>` to `y`.
+
+
+which we can shorten to
+
+>
+> We can float `w1` out from under `g` if no free variable of `<W1>` "can become" `y`.
+
+
+by defining the following (over-estimating) properties.
+
+- CB1 "can become" includes the transitive closure of "can step to"
+- CS1 `x` (any flavor and level) can step to itself
+- CS2 `alpha[tau:i]` can step to any variable at level `<= i`
+- CS3 `x` (any flavor and level) can step to any free variable of `<X>`, given CTyEqCan `x ~ <X>`
+- CS4 Any free variable of `<A>` can step to any free variable of `<B>` or vice versa, given a non-CTyEqCan equality `<A> ~ <B>`
+
+
+That's enough to catch the `o : x[sk:2] ~ Maybe y` failure. But it's not enough for the `o1` and `o2` failure that involved the interaction after assignment. So we must further extend "can become".
+
+- CB2 Any free variable of `<A>` can become any free variable of `D` or vice versa if a free variable of `<B>` can become a free variable of `<C>` or vice versa, given `<A> ~ <B>` and `<C> ~ <D>` (or either/both of their symmetries)
+
+
+(Could there be less symmetric special cases of `CB2` for CTyEqCans-like things?)
+
+
+Let "can become" be the smallest relation satisfying all the CB\* properties.
+
+
+... That seems simultaneously too complicated and also too conservative. So maybe we should start with relatively simple and therefore acceptably too conservative.
+
+### Another Refinement for Outer Givens with Interactions (a turn too far in the other direction?)
+
+
+This seems reasonably balanced for starters.
+
+```wiki
+forall[3] y. theta =>
+  ( (u : <U>)
+  , forall[4]. (g : y ~ <Y>)   =>   (w1 : <W1>)
+  )
+```
+
+>
+> We can float `w1` out from under `g` if no free variable of `<W1>` "can become" `y`.
+
+- CB1 "can become" includes the transitive closure of "can step to"
+- CS1 `x` (any flavor and level) can step to itself
+- CS2 `alpha[tau:i]` can step to any variable at level `<= i`
+- CS3 `x` (any flavor and level) can step to any free variable of `<X>`, given CTyEqCan `x ~ <X>`
+- CS4 Any free variable of `<A>` can step to any free variable of `<B>` or vice versa, given a non-CTyEqCan equality `<A> ~ <B>`
+- CS5 Any free variable of the possible equalities in `theta` can step to any other and to any variable of level `<= i`, if there is a uvar of level `i` in `theta`
+
+
+Let "can become" be the smallest relation satisfying CB1.
+
+### Yet Another Refinement for Outer Givens with Interactions (are we going in circles?)
+
+TODO I'm currently thinking about about what to do if `g` has siblings. I suspect CS5 should consider those too. Should it also consider `g`?
+
+
+My current goal is for `w : alpha[tau:1] ~ Int` to float out from under `g : x[sk:2] ~ alpha[tau:1]`. Thus CS5 is likely disappointingly conservative if it includes siblings:
+
+```wiki
+forall[3] x y. () =>
+  ( (u : <U>)
+  , forall[4]. ( (g1 : x ~ alpha[tau:1]) , (g1 : y ~ beta[tau:1]) )   =>   ( (w1 : alpha[tau:1] ~ Int) , (w2 : beta[tau:1] ~ Int) )
+  )
+```
+
+
+Maybe CS5 should ignore uvars on the RHS of a skolem's CTyEqCan?
