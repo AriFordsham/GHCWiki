@@ -18,18 +18,10 @@ That is, pretty standard lambda-lifting.  The idea is that instead of *allocatin
 
 
 Since heap allocation is expensive, this has the possibility of making programs run faster.
-
-
-There is a ticket to track progress: [\#9476](https://gitlab.haskell.org//ghc/ghc/issues/9476).
-
-
-There are also some useful notes and background on [Frisby2013Q1](frisby2013-q1).
-
-
-One thing that used to hamper us was that lifting a function that closes over a join point would spoil it; but spotting that wasn't very easy.  Nowadays, though, join points are a syntactic form, so are easily spotted, so that problem at least has gone away.
-
-
 The challenge is all about getting consistent speedups.
+
+
+There is a ticket to track progress: [\#9476](https://gitlab.haskell.org//ghc/ghc/issues/9476). There's a paper in the making at [ https://github.com/sgraf812/late-lam-lift/blob/master/paper.pdf](https://github.com/sgraf812/late-lam-lift/blob/master/paper.pdf).
 
 ## Tickets
 
@@ -50,55 +42,24 @@ Use Keyword = `LateLamLift` to ensure that a ticket ends up on these lists.
 <tr><th>[\#9476](https://gitlab.haskell.org//ghc/ghc/issues/9476)</th>
 <td>Implement late lambda-lifting</td></tr></table>
 
-## Quick Start
+## Short wrapup on history
 
 
-The original work on this started out on the`wip/llf` branch.
-Sebastian Graf has rebased this branch in mid April 2018. After some debugging and fixups, it passes `./validate` (modulo some compiler perf tests) in [ c1f16ac](https://github.com/sgraf812/ghc/tree/c1f16ac245ca8f8c8452a5b3c1f116237adcb577). The most recent variant of Nicolas' original Core transformation can be found here: [ https://github.com/sgraf812/ghc/tree/llf](https://github.com/sgraf812/ghc/tree/llf)
+The original work by Nicolas Frisby started out on the `wip/llf` branch.
+Sebastian Graf has rebased this branch in mid April 2018. After some debugging and fixups, it passed `./validate` (modulo some compiler perf tests) in [ c1f16ac](https://github.com/sgraf812/ghc/tree/c1f16ac245ca8f8c8452a5b3c1f116237adcb577). The most recent variant of Nicolas' original Core transformation can be found here: [ https://github.com/sgraf812/ghc/tree/llf](https://github.com/sgraf812/ghc/tree/llf).
 
 
-The remainder of this Wiki page (except for the Background section and the general consequences of lambda lifting) applies to the state of said rebased branch. In July 2018, [ Sebastian argued](https://ghc.haskell.org/trac/ghc/ticket/9476#comment:15) that it's probably a good idea to reimplement the transformation on STG instead of Core, the promising implementation of which is available [ here](https://github.com/sgraf812/ghc/tree/9b9260c1d45d127edf9ebdfe04a3daaff24a9dea/compiler/simplStg/StgLiftLams). This wiki page should at some point be updated to reflect the state of that work.
+In July 2018, [ Sebastian argued](https://ghc.haskell.org/trac/ghc/ticket/9476#comment:15) that it's probably a good idea to reimplement the transformation on STG instead of Core, the promising implementation of which is available [ here](https://github.com/sgraf812/ghc/tree/9b9260c1d45d127edf9ebdfe04a3daaff24a9dea/compiler/simplStg/StgLiftLams).
 
 
-In Sebastian's rebase, LLF is enabled at optimization levels 1 and higher in the below llf-nr10-r6 configuration. Anything contradictory below only applies to the dated `wip/llf` branch.
+If you want to know more about the original work on Core, look into the history of this Wiki page (before October 2018).
+
+## Background
 
 
-By default, the LLF is not enabled. To enable it, use the flags found below in the llf-nr10-r6 section. If the LLF pass lifts out a function, it prepends the `llf_` prefix, so look for that in the Core. Also: there's `-ddump-llf` if you're desperate. The LLF happens after `SpecConstr` and before the late demand analysis (which is also off by default, cf `-flate-dmd-anal`).
-
-
-Commit 9c2904c (2014) passed `./validate` with
-
-```wiki
-GhcLibHcOpts    += -O -dcore-lint  -fllf -fllf-abstract-undersat -fno-llf-abstract-sat -fno-llf-abstract-oversat -fno-llf-create-PAPs -fno-llf-LNE0 -fllf-simpl -fllf-stabilize -fllf-use-strictness -fllf-oneshot -fllf-nonrec-lam-limit=10 -fllf-rec-lam-limit=6
-```
-
-
-in `mk/custom-settings.mk` or `mk/validate.mk`. After rebasing in 2018 (c1f16ac), these are set by default.
-
-## As of mid-2018
-
-
-Sebastian Graf rebased Nick's branch and made the following changes (check the exact commit messages for more info):
-
-- A hopefully faithful rebase, removing previous LNE (= join point) detection logic
-- Activate all LLF flags (see the above llf-nr10-r6 configuration) by default
-- Actually use the `-fllf-nonrec-lam-limit` setting
-- Don't stabilise Unfoldings mentioning `makeStatic`
-- Respect RULEs and Unfoldings in the identifier we abstract over (previously, when [SpecConstr](spec-constr) added a RULE mentioning an otherwise absent specialised join point, we would ignore it, which is not in line with how CoreFVs works)
-- Stabilise Unfoldings only when we lifted something out of a function (Not doing so led to a huge regression in veritas' Edlib.lhs)
-
-## As of mid-2014
-
-
-I (Nick Frisby) started this work in April 2012. Then it went stagnant. In August 2014, I merged master into it so that hopefully someone else can pick it up. My notes for the current code are growing here.
-
-### Background
-
-
-The primary objective of the late lambda float (LLF) is to replace
+The primary objective of the late lambda lift is to replace
 heap allocation of closures by an increase in the number of arguments
-passed. We discovered additional possible benefits, but our design
-choices are for the most part driven by this primary objective.
+passed.
 
 
 When I say "lift", I mean all the way to the top-level.
