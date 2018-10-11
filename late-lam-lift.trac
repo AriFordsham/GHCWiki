@@ -2,7 +2,6 @@
 
 [[PageOutline]]
 
-
 == Overview
 
 Late Lambda Lifting is a not-very-well-explored optimisation for GHC. The basic idea is to transform
@@ -30,53 +29,97 @@ Use Keyword = `LateLamLift` to ensure that a ticket ends up on these lists.
 '''Closed Tickets:'''  NB: closed tickets may be closed as duplicates; but may still have very illuminating test cases.
 [[TicketQuery(status=closed,keywords=~LateLamLift)]]
 
+== Implementation
+
+The implementation is spread over three modules:
+
+{{{
+StgLiftLams
+├── Analysis
+├── LiftM
+└── Transformation
+}}}
+
+`Transformation` contains the actual lambda-lifting implementation on STG 
+programs. For the decision of whether or not to lift a binding, it calls out
+into `Analysis.goodToLift`. The transformation produces and ultimately runs
+effects in `LiftM`, which nicely encapsulates nitty gritty details such as
+dealing with substitution, conjuring fresh binders, cost centre stacks and
+caffyness.
+
+=== Flags
+
+Late lambda lifting is configurable via these flags:
+
+{{{
+data GeneralFlag =
+   ...
+   | Opt_StgLiftLam -- ^ Enable late lambda lifting. 
+                    --   -fstg-lift-lams -- Enabled by default in -O*.
+   ...
+
+data DynFlags = DynFlags {
+  ...
+  liftLamsRecArgs       :: Maybe Int,   -- ^ Maximum number of arguments after lambda lifting a
+                                        --   recursive function.
+                                        --   -fstg-lift-lams-rec-args
+  liftLamsNonRecArgs    :: Maybe Int,   -- ^ Maximum number of arguments after lambda lifting a
+                                        --   non-recursive function.
+                                        --   -fstg-lift-lams-nonrec-args
+  liftLamsKnown         :: Bool,        -- ^ Lambda lift even when this turns a known call
+                                        --   into an unknown call.
+                                        --   -fstg-lift-lams-known
+  ...
+}
+}}}
+
 == Short wrapup on history
 
 The original work by Nicolas Frisby started out on the `wip/llf` branch.
-Sebastian Graf has rebased this branch in mid April 2018. After some debugging and fixups, it passed `./validate` (modulo some compiler perf tests) in [https://github.com/sgraf812/ghc/tree/c1f16ac245ca8f8c8452a5b3c1f116237adcb577 c1f16ac]. The most recent variant of Nicolas' original Core transformation can be found here: https://github.com/sgraf812/ghc/tree/llf.
+Sebastian Graf has rebased this branch in mid April 2018. After some debugging
+and fixups, it passed `./validate` (modulo some compiler perf tests) in
+[https://github.com/sgraf812/ghc/tree/c1f16ac245ca8f8c8452a5b3c1f116237adcb577 c1f16ac].
+The most recent variant of Nicolas' original Core transformation can be found
+here: https://github.com/sgraf812/ghc/tree/llf.
 
-In July 2018, [https://ghc.haskell.org/trac/ghc/ticket/9476#comment:15 Sebastian argued] that it's probably a good idea to reimplement the transformation on STG instead of Core, the promising implementation of which is available [https://github.com/sgraf812/ghc/tree/9b9260c1d45d127edf9ebdfe04a3daaff24a9dea/compiler/simplStg/StgLiftLams here].
+In July 2018, [https://ghc.haskell.org/trac/ghc/ticket/9476#comment:15 Sebastian argued]
+that it's probably a good idea to reimplement the transformation on STG instead
+of Core, the promising implementation of which is available
+[https://github.com/sgraf812/ghc/tree/9b9260c1d45d127edf9ebdfe04a3daaff24a9dea/compiler/simplStg/StgLiftLams here].
 
-If you want to know more about the original work on Core, look into the history of this Wiki page (before October 2018).
+If you want to know more about the original work on Core, look into the history
+of this Wiki page (before October 2018).
 
 == Background
 
-The primary objective of the late lambda lift is to replace
+The primary objective of late lambda lifting is to replace
 heap allocation of closures by an increase in the number of arguments
-passed.
+passed, by floating local functions to top-level.
 
-When I say "lift", I mean all the way to the top-level.
+The following examples aren't strictly in STG, so assume that all
+non-trivial arguments are given a name and all closures are properly
+annotated with their free variables.
 
-Though I omit types, the following examples are presented as
-Core. Functions named the* should be considered as meta-variables. The term named by a meta-variable may include occurrences only of top-level variables in-scope or of
-the non-top-level variables that the meta-variable is applied to. I use suggestive TH
-syntax for that.
-
-Consider lambda-lifting 'f' out of 'before'.
+Consider lambda-lifting `f` out of `before`.
 
 {{{
-before a b c =
-  let f x y = $(theRHS 'f 'b 'c 'x 'y)
-  in $(theBODY 'f 'a 'b 'c)
+before a b =
+  let f x = RHS[f, b, x]
+  in BODY[f, a, b]
 }}}
 
-To clarify the conventions regarding meta-variables: theRHS is a
-metavariable that can refer to the variables f, b, c, x, and y as well as
-any top-level definitions.
-
-Lifting 'f' out of 'before' would yield:
+Lifting `f` out of `before` would yield:
 
 {{{
-llf_f b c x y = $(theRHS [e|llf_f b c|] 'b 'c 'x 'y)
+$lf b x = RHS[$lf b, b, x]
 
-after a b c = $(theBODY [e|llf_f b c|] 'a 'b 'c)
+after a b = BODY[$lf b, a, b]
 }}}
 
-Note that all occurrences of 'f' in theRHS and theBODY have been
-replaced by the entire expression (llf_f b c). I again am using
-suggestive TH syntax.
+Note that all occurrences of `f` in `RHS` and `BODY` have been
+replaced by the entire expression.
 
-'before1' (an instance of 'before') is the basic motivating case for
+`before1` (an instance of `before`) is the basic motivating case for
 the LLF.
 
 {{{
@@ -86,544 +129,112 @@ before1 a b c =
 }}}
 
 {{{
-llf_f1 b c x y = (b + x) + (c + y)
+$lf1 b c x y = (b + x) + (c + y)
 
 after1 a b c =
-  llf_f1 b c a b * llf_f1 b c c a
+  $lf1 b c a b * $lf1 b c c a
 }}}
 
-In this case, after1 allocates less on the heap than does
-before1. before1 allocates a closure for f1 and then enters it
-twice. after1 does no such allocation, but it does pass more arguments
-when entering the statically allocated llf_f1. If before1 is called
+In this case, `after1` allocates less on the heap than does
+`before1`. `before1` allocates a closure for `f1` and then enters it
+twice. `after1` does no such allocation, but it does pass more arguments
+when entering the statically allocated `$f1`. If `before1` is called
 numerous times, then this transformation could drastically reduce the
 overall program allocation. The run-time effect of the additional
 arguments may be negligible.
 
+== When to lift
+
+The considerations of this section can be found in `StgLiftLams.Analysis`.
+
 === Why lambda-lift late?
 
-We lift late in the pipeline for two reasons. Primarily, it is because
-lambda-lifting is known to drasticalyn interfere with many of the
-other optimizations in the pipeline. Additionally, some of the LLF
-analysis needs to anticipate downstream passes, so limiting them as
-much as possible is beneficial.
+We lift late in the pipeline primarily because lambda-lifting is known
+to drastically interfere with many of the other optimizations in the pipeline.
 
-Ultimately, we LLF is immediately prior to CorePrep. Optionally, we
-invoke the Simplifier between LLF and CorePrep, because LLF
-potentially enables significant simplifications.
+Ultimately, we lambda-lift at the end of the STG pipeline, just before
+code gen. In fact, we like to think about LLF as a ''code gen strategy''
+that turns closures into extra arguments ''when doing so is viable''.
 
-=== Immediate Consequences of Lifting
+=== Syntactic Consequences of Lifting
 
 Lifting a dynamic function closure has four immediate consequences.
 
-  C1) It eliminates the let.
+  '''C1''' It eliminates the let.
 
-  C2) It creates a new top-level definition.
+  '''C2''' It creates a new top-level definition.
 
-  C3) It replaces all occurrences of the lifted function in the let's
-  body with an expression. EG All occurences of f1 were replaced by
-  (llf_f1 b c).
+  '''C3''' It replaces all occurrences of the lifted function in the let's
+  body with a (partial) application. E.g., all occurences of `f1` were
+  replaced by `$lf1 b`.
 
-  C4) All non-top-level variables that occured in the let's RHS become
+  '''C4''' All non-top-level variables that occured in the let's RHS become
   occurrences of parameters.
 
-=== Extended Consequences of Lifting
+=== Operational Consequences of Lifting
 
-The extended consequences can be good or bad, both statically and
-dynamically.
+The resulting operational consequences can be good or bad, both statically and
+dynamically. These consequences finally lead to a number of heuristics,
+implemented in `StgLiftLams.Analysis.goodToLift`.
 
-  * C1 reduces heap allocation, unless the function is let-no-escape
-    (LNE). See "Lifting LNE" below.
+  * C1 reduces heap allocation, unless the function is let-no-escape (LNE),
+    which don't allocate to begin with. Consequently, we don't lift LNEs.
 
   * C3 might increase heap allocation and run-time by creating PAPs if
-    the lifted function was previously a function argument.
+    the lifted function was previously a function argument. While this won't
+    ''always'' increase allocation, it certainly will only improve allocations
+    if this pushes allocation away from the hot path into some cold leaf.
+    We don't allow this, because it also significantly complicates the
+    transformation for arguably very questionable gain.
 
-  * C3 might increase or decrease heap allocation. If f occurs in
-    closures in the let body, then
+  * C3 might increase or decrease heap allocation. If `f` occurs in
+    a closure in the let body, then
 
     A) it can increase heap allocation, if the additional arguments to
-       f did not previously occur in those same, or
+    `f` did not previously occur in that closure
 
-    B) it can decrease heap allocation, if theose additional arguments
-       did already occur in the same closures.
+    B) it can decrease heap allocation, if those additional arguments
+    did already occur in the closure.
 
-    I call the sum result of A and B "closure growth". See "Closure
-    Growth" below.
+  We call the sum result of A and B ''closure growth''. Estimating closure
+  growth is paramount to achieving unambiguously good results.
+  See "Closure Growth" below.
 
   * C4 might increase stack allocation and/or increase register
-    pressure, depending on how the lifted function's new arguments
-    compare to the old arguments. Increased stack has a possible
-    further detriment (likely to both allocation and run-time) because
-    the stack must be pushed and popped when performing "unsafe C
-    calls" (at one point, this included, eg, Double's sqrt).
+    pressure, depending on how many arguments the new top-level function
+    function would take. We determined 5 extra arguments (the number of
+    available free argument registers on x86_64) to be a sweet spot for cut off.
 
   * C4 might cause a slowdown because it can convert known calls into
-    unknown calls.
+    unknown calls when the lifted function previously closed over a
+    function.
+    We don't perform the lift in this case.
 
-  * C4 might cause a slowdown because it can convert fast unknown
-    calls into slow unknown calls.
-
-  * C4 might cause the function to be inlined because the inliner
-    currently only gives discounts for arguments and not for captured
-    variables.
-
-  * C1 reduces the expression size of the let's parent expression.
-
-  * C3 increases the expression size of the let's parent expression.
-
-    If the let's parent expression size is ultimately reduced, it
-    might increase the interface file size by introducing an unfolding
-    for the let's enclosing lets if any where too big for an unfolding
-    before and are now small enough.
-
-  * C2 might increase the interface file size by introducing a new
-    unfolding if the new top-level definition is small enough.
-
-  * C1 and C3 changes the RHS of the let's enclosing definitions,
-    which could interfere with optimization in downstream modules. See
-    "Stabilize Unfoldings" below.
-
-=== Lifting LNE
-
-LNE is briefly characterized at Commentary/Compiler/StgSynType. See `Note [What is a non-escaping let]` in `compiler/stgSyn/CoreToStg.lhs` for more info.
-
-
-If the lifted function was let-no-escape (LNE), then heap allocation
-will not change. There are two reasons: LNE functions are not closures
-(ie they are not allocated on the heap), and LNE functions do not
-occur in closures. So LNEs would only be lifted in order to possibly
-reducing expression sizes.
-
-If an LNE function f occurs in another LNE function g and we only lift
-g, then it will spoil f: and it will no longer be an LNE, because it
-will now be an argument to llf_g.
-
-Thunks can be LNE, but lifting them can still destroy sharing. EG in
-simplrun005, LLF floats out `fz' if it is allowed to float LNE thunks,
-and that destroys crucial sharing.
+Finally, we obviously only lift functions, no closures or constructor
+applications.
 
 === Closure Growth
 
-Both A and B could hold within the same let body. Moreover, A or B
+Both A and B above could hold within the same let body. Moreover, A or B
 could hold wrt a closure that is under a (multi-shot) lambda; so that
 the changes in heap allocation could happen 0 or billions of
 times. The conservative choice, then, is that A under a lambda
 infinitely increases the heap allocation and B under a lambda is
 ignored.
 
-Correctly identifying closures and their potential growth requires
-that the LLF pass anticipate the relevant consequences of CorePrep and
-CoreToStg. CorePrep converts of strict lets and non-variable arguments
-to cases, flattens nested lets, and converts non-strict non-variable
-arguments to lets. CoreToStg identifies LNE lets.
-
-=== Stabilize Unfoldings
-
-If the LLF is used to compile an upstream module, it might
-significanly interfere with optimizations in downstream modules.
-
-For example, consider compiling the cryptarithm2 program in the nofib
-suite. In case A, the cryparithm2 and the standard libraries that it
-includes were compiled with -O2. In case B, both were compiled with
--O2 and the recommended LLF flags (see llf-nr10-r6 below). In case B,
-cryptarithm2 allocated 54.2% more than in case A. If the cases are
-adjusted to compile the program (but not the libraries) with or
-without LLF, then the change is closer to 30%, which is still
-unacceptable.
-
-I don't remember why this increases allocation, but it clearly has to
-do with LLF changing the unfoldings. We added the -fllf-stabilize flag
-to mitigate it: we stabilize an unstable top-level unfolding that
-might end up in the .hi file before lambda-lifting anything out of it.
-
-Unfortunately, stabilizing unfoldings sometimes prevents some
-improvements, but nothing that would compensate for the %50 penalty of
-not stabilizing.
-
-=== Flags
-
-There are several new flags in DynFlags.
-
-{{{
-   | Opt_LLF        -- ^ Enable the late lambda lift pass
-   | Opt_LLF_AbsLNE        -- ^ allowed to abstract LNE variables?
-   | Opt_LLF_AbsUnsat        -- ^ allowed to abstract undersaturated applied let-bound variables?
-   | Opt_LLF_AbsSat        -- ^ allowed to abstract      saturated applied let-bound variables?
-   | Opt_LLF_AbsOversat       -- ^ allowed to abstract  oversaturated applied let-bound variables?
-   | Opt_LLF_CreatePAPs        -- ^ allowed to float function bindings that occur unapplied
-   | Opt_LLF_Simpl        -- ^ follow the late lambda lift with a simplification pass?
-   | Opt_LLF_Stabilize
-   | Opt_LLF_UseStr        -- ^ use strictness in the late-float
-   | Opt_LLF_IgnoreLNEClo        -- ^ predict LNEs in the late-float
-   | Opt_LLF_FloatLNE0        -- ^ float zero-arity LNEs
-   | Opt_LLF_OneShot
-   | Opt_LLF_LeaveLNE
-}}}
-
-Many of these are for experimentation only; ie, in general usage, only
-a small set of values make sense (except maybe for power-users).
-
-For example, Opt_LLF_UseStr allows the LLF pass to better predict what
-CorePrep will float. There is not reason to disable that, except to
-measure its effect. Similarly with IgnoreLNEClo -- this flag allows
-the LLF pass to identify likely let-no-escapes.
-
-=== llf-nr10-r6
-
-In short, the recommended flags are:
-
--fllf
--fllf-abstract-undersat
--fno-llf-abstract-sat
--fno-llf-abstract-oversat
--fno-llf-create-PAPs
--fno-llf-LNE0
--fllf-use-strictness
--fllf-oneshot
--fllf-simpl
--fllf-stabilize
--fllf-nonrec-lam-limit=10
--fllf-rec-lam-limit=6
-
-Advanced users might consider changing the last four flags to squeeze
-the best performance out of particular compilation of a module or
-modules.
-
-The 10 and 6 limits were determined empirically against nofib.
-
-I call this set of flags llf-nr10-r6.
-
-=== Numbers
-
-All of the numbers in this section (ie the 2014 work) are from commit 4d3f37e on my desktop
-machine. 4d3f37e is a couple commits after b1c7047, which merges
-1a11e9b (from master) with 8d979a1 (where I stopped in 2013).
-
-{{{
-$ uname -a
-Linux werner 3.11.0-26-generic #45-Ubuntu SMP Tue Jul 15 04:02:06 UTC 2014 x86_64 x86_64 x86_64 GNU/Linux
-
-$ cat /proc/cpuinfo
-# the following block is essentially repeated four times
-processor       : 3
-vendor_id       : GenuineIntel
-cpu family      : 6
-model           : 60
-model name      : Intel(R) Core(TM) i5-4670K CPU @ 3.40GHz
-stepping        : 3
-microcode       : 0x9
-cpu MHz         : 800.000
-cache size      : 6144 KB
-physical id     : 0
-siblings        : 4
-core id         : 3
-cpu cores       : 4
-apicid          : 6
-initial apicid  : 6
-fpu             : yes
-fpu_exception   : yes
-cpuid level     : 13
-wp              : yes
-flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc aperfmperf eagerfpu pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 fma cx16 xtpr pdcm pcid sse4_1 sse4_2 movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm ida arat xsaveopt pln pts dtherm tpr_shadow vnmi flexpriority ept vpid fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid
-bogomips        : 6784.87
-clflush size    : 64
-cache_alignment : 64
-address sizes   : 39 bits physical, 48 bits virtual
-power management:
-
-$ cat /proc/meminfo
-MemTotal:        8062700 kB
-MemFree:         5057316 kB
-Buffers:          148608 kB
-Cached:          1974488 kB
-SwapCached:            0 kB
-Active:          2096012 kB
-Inactive:         647576 kB
-Active(anon):     621652 kB
-Inactive(anon):    10644 kB
-Active(file):    1474360 kB
-Inactive(file):   636932 kB
-Unevictable:          32 kB
-Mlocked:              32 kB
-SwapTotal:       8000508 kB
-SwapFree:        8000508 kB
-Dirty:                64 kB
-Writeback:             0 kB
-AnonPages:        620576 kB
-Mapped:           101636 kB
-Shmem:             11808 kB
-Slab:             163424 kB
-SReclaimable:     136620 kB
-SUnreclaim:        26804 kB
-KernelStack:        2960 kB
-PageTables:        24024 kB
-NFS_Unstable:          0 kB
-Bounce:                0 kB
-WritebackTmp:          0 kB
-CommitLimit:    12031856 kB
-Committed_AS:    2815184 kB
-VmallocTotal:   34359738367 kB
-VmallocUsed:      496252 kB
-VmallocChunk:   34359235580 kB
-HardwareCorrupted:     0 kB
-AnonHugePages:         0 kB
-HugePages_Total:       0
-HugePages_Free:        0
-HugePages_Rsvd:        0
-HugePages_Surp:        0
-Hugepagesize:       2048 kB
-DirectMap4k:       78828 kB
-DirectMap2M:     4087808 kB
-DirectMap1G:     4194304 kB
-}}}
-
-=== Remaining Tasks
-
-  * Compiling the libraries with llf-nr10-r6 and -O2 leads to a ~25%
-    increase in binary size throughout all nofib programs compared
-    against just -O2.
-
-  * llf-nr10-r6 on the libraries causes
-
-     * a +15% slowdown in binary-trees; it's merely +5% if we disable
-       stablization.
-
-  * llf-nr10-r6 on the programs causes
-
-     * a +10% slowdown in fasta
-
-     * and a +60% slowdown in n-body (IIRC, b/c it saves (the newly
-       large) set live variables on stack when calling unsafe sqrt
-       C-Call. Edit: This seems to have vanished, probably due to
-       #13629. It's +3% time and -19% allocs (of 134kB) now. See the
-       section below.
-
-=== Notes
-
-The effect of LLF seems independent of -O1 vs -O2. Libraries at O1 and
-programs at O1 with and without LLF show similar differences as does
-libraries at O2 and programs at O2 with and without LLF:
-
-{{{
-        Program           Size    Allocs   Runtime   Elapsed  TotalMem
-
-O1/O1 versus O1-llf-nr10-r6/O1-llf-nr10-r6
---------------------------------------------------------------------------------
-            Min         +13.0%    -95.0%     -6.6%     -6.6%    -14.3%
-            Max         +27.2%     +0.2%    +62.4%    +62.4%    +11.1%
- Geometric Mean         +23.6%     -4.6%     +1.9%     +1.9%     +0.0%
-
-O2/O2 versus O2-llf-nr10-r6/O2-llf-nr10-r6
---------------------------------------------------------------------------------
-            Min         +13.3%    -95.0%    -10.9%    -10.9%    -50.0%
-            Max         +27.6%     +0.9%    +61.0%    +61.0%    +10.3%
- Geometric Mean         +24.1%     -4.8%     +3.0%     +3.0%     -0.5%
-}}}
-
-== As of mid-2013
-
-There's three issues with the late lambda lift.
-
-  * there's a troubling increase in nofib binary sizes due to lambda-lifting the libraries. With !SplitObjs=YES, it's ~7%. With !SplitObjs=NO it's ~3.5%.
-
-  * there's some significant slowdowns
-
-  * (blocked by the first two items) the implementation still needs a lot of refactoring/simplification/optimization/clean-up etc
-
-=== Increase in Binary Size ===
-
-There's a troubling increase in nofib binary sizes due to lambda-lifting the libraries. With !SplitObjs=YES, it's ~7%. With !SplitObjs=NO it's ~3.5%.
-
-I have some hypotheses. Lambda lifting a function 'f` might swell the .o file if (N * M) is "too big", where N is number of free variables in 'f` and M is the number of applications of 'f`. The transform results in N more arguments to be loaded into registers on each of M calls; previously those arguments were only stored once into the closure when it was allocated. For LNEs, I think the info table may be larger than the proc-point it would otherwise be.
-
-My measurements don't reveal a very strong correlation for those on the libHSbase modules, so I think something else more significant is going on. I'm still trying to determine it. In particular, I need to see how much new inlining is caused by the lambda lift. From the opposite direction, I'm also trying to narrow my search using !SplitObjs and objtools to better pin down the individual functions that dominant the increase in executables. x2n1 in particular is a tiny program that gets a very large increase (with !SplitObjs=YES), so I'm chasing from there.
-
-=== Slow downs ===
-
-Here's a couple snippets from my notes about some drastic slowdowns on my Sandy Bridge.
-
-====  shootout/n-body ==== 
-
-shootout/n-body slows down 50% elapsed at O2!
-
-**Edit**: As of [https://github.com/sgraf812/ghc/tree/dd3e3630405a0e44a8267eb10e0b30757111c997 June 14 2018], the 50% slowdown in sqrt is rectified, probably as a result of #13629, but I (Sebastian Graf) am not too sure. There is still a slowdown of 2-3%, even in counted instructions. Allocations go down by 19%, but that's hardly of any relevance at a total of 134kB allocations prior to LLF.
-
-In one particular example, a loop involves a call to sqrt. It's out-of-line, so we must stash the live variables on the stack. Before the lambda lift, however, the variables were already on the stack to begin with. After the lift, they are passed in registers, so we have to add code to the loop that pushes and pops the variables around the sqrt call. Unfortunately there's several Double#s, so this puts a lot of pressure on my Sandy Bridge's load-store units.
-
-Quote from includes/stg/MachRegs.h
-
-{{{
-    /* ----------------------------------------------------------------------------
-       Caller saves and callee-saves regs.
-
-       Caller-saves regs have to be saved around C-calls made from STG
-       land, so this file defines CALLER_SAVES_<reg> for each <reg> that
-       is designated caller-saves in that machine's C calling convention.
-
-       As it stands, the only registers that are ever marked caller saves
-       are the RX, FX, DX and USER registers; as a result, if you
-       decide to caller save a system register (e.g. SP, HP, etc), note that
-       this code path is completely untested! -- EZY
-       -------------------------------------------------------------------------- */
-}}}
-
-In n-body, the problematic lifts adds 3 RX registers and 4 DX registers to the loop, which all get saved across a C-call to sqrt.  Without lifting, those values are each only used once per iteration and directly from the closure environment, so they never make it to a register.
-
-This one motivates the "llf6" variant in which we don't lift recursive functions if there's more than 6 free variables.
-
-There's also slowdowns I'm struggling to explain.
-
-==== shootout/reverse-complement
-
-shootout/reverse-complement mode=slow slows down 7% elapsed, 27% runtime
-
-At O2, adding LLF (the llf6 variant) gives 7% elapsed slowdown, 27% runtime slowdown. This test reads a big file)
-
-I used Intel's performance hardawre counters to determine that the IPC is detrimentally afffected by the LLF, even those the resulting assembly has fewer instructions.  The LLF'd version executes fewer instructions, but takes more time.
-
-I suspect it's a caching effect --- just because nothing looks like a big change! I don't have a better reason than that yet…
-
-I isolated a couple problematic floats.
-
-{{{
-Run Time
-
-log-slow-llf6 is the baseline.
-log-slow-O2 is no lift.
-log-slow-Main-1 changes it to *not* lift one particular function.
-log-slow-Main-4 changes it to *not* lift a separate particular function.
-
----------------------------------------------------------------
-        Program        log-slow-llf6     log-slow-O2 log-slow-Main-1 log-slow-Main-4 
----------------------------------------------------------------
-reverse-complem                 1.20          -26.7%          -15.4%          -27.7% 
-
-Elapsed Time
-
----------------------------------------------------------------
-        Program        log-slow-llf6     log-slow-O2 log-slow-Main-1 log-slow-Main-4 
----------------------------------------------------------------
-reverse-complem                 4.83           -7.1%           -4.9%           -6.6% 
-
-The Main-1 float is in Main.ca
-
-      letrec {
-        a_s3dY [Occ=LoopBreaker]
-          :: [(GHC.Types.Int, GHC.Word.Word8)]
-             -> GHC.Prim.State# GHC.Prim.RealWorld
-             -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
-        [LclId, Arity=2, Str=DmdType <S,1*U><L,U>, Unf=OtherCon []]
-        a_s3dY =
-          \ (ds3_s3dD [Occ=Once!] :: [(GHC.Types.Int, GHC.Word.Word8)])
-            (eta_s3dF [Occ=Once*] :: GHC.Prim.State# GHC.Prim.RealWorld) ->
-            case ds3_s3dD of _ {
-              [] -> (# eta_s3dF, GHC.Tuple.() #);
-              : y_s3dI [Occ=Once!] ys_s3dW [Occ=Once] ->
-                case y_s3dI of _ { (x_s3dM [Occ=Once!], ds4_s3dP [Occ=Once!]) ->
-                case x_s3dM of _ { GHC.Types.I# d_s3dS [Occ=Once] ->
-		case ds4_s3dP of _ { GHC.Word.W8# x1_s3dU [Occ=Once] ->
-                case GHC.Prim.plusAddr# ds1_s3du d_s3dS of sat_s3sB { __DEFAULT ->
-                case GHC.Prim.writeWord8OffAddr#
-                       @ GHC.Prim.RealWorld sat_s3sB 0 x1_s3dU eta_s3dF
-                of s2_s3dX { __DEFAULT ->
-                a_s3dY ys_s3dW s2_s3dX
-                }
-                }
-                }
-                }
-                }
-            }; } in
-
-        llf_a1_r3ce
-          :: GHC.Prim.Addr#
-             -> [(GHC.Types.Int, GHC.Word.Word8)]
-             -> GHC.Prim.State# GHC.Prim.RealWorld
-             -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
-
-  It's only entered 27 times, regardless of mode=slow.
-
-  The Main-4 float is in Main.$wa
-
-            let-no-escape {
-              $w$j_s3eI [Occ=Once*!]
-                :: GHC.Prim.State# GHC.Prim.RealWorld
-                   -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
-              [LclId, Arity=1, Str=DmdType <L,U>, Unf=OtherCon []]
-              $w$j_s3eI =
-                \ (w1_s3eD [Occ=Once] :: GHC.Prim.State# GHC.Prim.RealWorld) ->
-                  case GHC.Prim.-# ww_s3e6 a_s3el of sat_s3po { __DEFAULT ->
-                  case GHC.Prim.-# sat_s3po 1 of sat_s3pq { __DEFAULT ->
-                  let {
-                    sat_s3pp [Occ=Once] :: GHC.Ptr.Ptr GHC.Word.Word8
-                    [LclId, Str=DmdType]
-                    sat_s3pp = GHC.Ptr.Ptr @ GHC.Word.Word8 ipv3_s3eu } in
-                  case GHC.IO.Handle.Text.$wa4
-                         @ GHC.Word.Word8
-                         GHC.IO.Handle.FD.stdout
-                         sat_s3pp
-                         sat_s3pq
-                         GHC.Types.True
-                         w1_s3eD
-                  of _ { (# ipv5_s3eH [Occ=Once], _ #) ->
-                  (# ipv5_s3eH, GHC.Tuple.() #)
-                  }
-                  }
-                  } } in
-
-        llf_$w$j_r3cj
-          :: GHC.Prim.Addr#
-             -> GHC.Prim.Int#
-             -> GHC.Prim.Int#
-             -> GHC.Prim.State# GHC.Prim.RealWorld
-             -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
-
-  s3eI occurs 18 times, but it's only entered three times, regardless of mode=slow.
-
-  It's lifted counterpart is inlined 9 times, but it's also entered three times, regardless of mode=slow.
-}}}
-
-=== (old) TODOs ===
-
-  * LNE catch 22: good to lift (enables simplifications) but also bad to lift (causes a slight slow down)
-    * apparently LNE calls are slightly faster than function calls --- investigate if this is totally intentional
-    * some of those simplifications are because lifting simulates FV-scrutinization discounts
-    * SPJ says it's reasonable to implement FV-scrut directly in the simplifier --- have a brave go at implementing this
-    * another benefit from lifting an LNE comes from reducing the size of the enclosing expression --- I don't see how to recover this benefit outside of the late lambda lift
-    * on the other hand, some programs get slower if we leave the LNEs in --- investigate: is this solely due to inhibited simplification?
-    * so maybe lift an LNE if it's huge?
-  * related easy win? Reformulating a recursive function as an LNE (if that's possible for its RHS) may give a slight speed boost
-  * also, CPR sum for "nested" things was disrupting LNEs... we'd like to enable it
-  * do not use the delayed lift-cost estimation
-    * currently, we delay the cost estimation so that we can take into account free variables ("freebies") added by lifting enclosing functions
-    * '''refinement 1''' (experiment with this as a simplification that might still be effective): be very conservative
-      * assume all RHS function ids are also lifted (unless obviously not, eg PAP): gather their abs_ids transitively
-      * don't take freebies into account
-    * '''refinement 2''' (future work): be more precise
-      * guess about "cadres" of functions that co-occur in closures and share free variables
-      * separately estimate their lift-cost as a pair
-      * this may choose to inline both when individually either (or both) of them would not be lifted
-    * '''refinement 3''' (future work): spread the rewards
-      * if lifting `g` actually reduces the size of a closure (since, `g`'s abs_ids are freebies), then should lifting other functions (say `f`) be allowed to grow that closure accordingly?
-      * this could be good: it might unpin other functions that fast-call `f`
-      * it could be bad: if `f` wasn't pinning anything important, then we just wasted `g`'s improvement
-    * '''refinement 4''' (experiment): ignore !CorePrep floats
-      * measure how much it matters that we approximate !CorePrep's floats
-    * '''refinement 5''' (not sure): integrate PAP-avoidance into the closure-growth estimates
-  * formulate the specification as `e ~> (ups,e')`
-    * where (`f` maps to `n` in `ups`) if lifting `f` would incur the `n` more allocated words during arbitrary evaluation of `e'`. `n` can be `infinity` if there's a increase in allocation under a lambda.
-    * we use the `ups` map in order to decide if we should float `f`.
-  * statistics
-    * static: lambdas lifted, lambdas left
-      * count, size, arguments, free variables (related to size but different because of `ArgRep`), number of uses, number of capturing closures
-      * pinning relationships
-    * dynamic: total allocation change wrt to each lambda (via ticky, I guess), etc
-    * '''refinement 6''' (experiment): is the closure growth `n` correlated to other more easily-computed characteristics of `f`
-  * consider more possibilities for stabilisation
-  * try running it before `SpecConstr` again (I think I missed an -O2 last time)
-  * '''refinement 7''': re-consider the partial float, if pinnings are a major issue
-    * the residual PAPs though probably have a runtime cost
-    * but is it any different than the PAP created by !CorePrep?
-    * '''refinement 7.5''': partial float PAP
-      * ie just wrt PAP creation avoidance, can we leave a residual PAP instead of not floating at all?
-  * run it at the beginning of the Core2Core pipeline to demonstrate how/why that's bad
-  * measure how much cardinality=1 helps us
+We look at demand information for a more precise, yet still conservative
+estimate: Usage information can be harnessed to identify one-shot bodies
+for A under lambdas, while strictness information can be used to propagate
+the benefits of B under lambdas.
+
+`StgLiftLams.Analysis.closureGrowth` estimates closure growth, operating
+on a ''skeleton'' of the actual STG tree. Skeletons are an abstraction, only
+capturing the relevant syntactic constructs. E.g., closures with their fvs,
+RHSs with relative cardinality, sequential composition, choice and a neutral
+element.
+This is so that not every lifting decision has to traverse the entire syntax
+tree, while also keeping `closureGrowth` plain and simple. To this purpose, each
+let binder of the STG syntax tree is tagged with the Skeleton of its RHS.
+
+From the resulting closure growth, the effects of C1 are subtracted to determine
+whether the lift would be beneficial.
