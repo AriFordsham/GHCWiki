@@ -362,6 +362,9 @@ My current goal is for `w : alpha[tau:1] ~ Int` to float out from under `g : x[s
 ```wiki
 forall[3] x y. () =>
   ( (u : <U>)
-  , forall[4]. ( (g1 : x ~ alpha[tau:1]) , (g1 : y ~ beta[tau:1]) )   =>   ( (w1 : alpha[tau:1] ~ Int) , (w2 : beta[tau:1} ~ Int) }
+  , forall[4]. ( (g1 : x ~ alpha[tau:1]) , (g1 : y ~ beta[tau:1]) )   =>   ( (w1 : alpha[tau:1] ~ Int) , (w2 : beta[tau:1] ~ Int) )
   )
 ```
+
+
+Maybe CS5 should ignore uvars on the RHS of a skolem's CTyEqCan?
