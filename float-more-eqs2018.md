@@ -391,3 +391,6 @@ Within one subtree of a binding group's entire forest of implication trees, we m
 
 
 The reduction of a type family application `F <X>` cannot introduce new free type variables beyond those already free in `<X>` -- except for variables that arise from flattening the type family applications possibly introduced by the reduction. But it might remove some free variables.
+
+
+An assignment to a uvar `alpha[tau:j]` that occurs in the givens could directly or indirectly (via enabled given-given interactions) yield the given `g` of WAY2.
