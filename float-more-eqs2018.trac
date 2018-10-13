@@ -1,5 +1,24 @@
 I've created this wiki page to track my learning/research as I try to improve my feature request that I made in the comments of #15009.
 
+== 20181013
+
+This section distills the narrative of the 20181008 section into narrower observations and questions.
+
+My current goal is a "simple enough", algorithm that could conservatively decide whether it is safe to float {{{w : alpha[tau:k] ~ <R>}}} out from under {{{g : x[sk:i] ~ <X>}}} where {{{k < i}}} and {{{alpha}}} might occur free in {{{<X>}}}. Informally, it's only safe to do so if the eventual right-hand side of {{{w}}} will definitely not (transitively) depend on {{{g}}}.
+
+A wanted {{{w : <W>}}} can gain {{{x[_:i]}}} as a free variable in two ways.
+
+  * WAY1 A uvar {{{alpha[tau:j]}}} that occurs in {{{<W>}}} could be assigned a type {{{alpha := <T>}}} where {{{x}}} occurs free in {{{<T>}}}, which would require {{{j >= i}}}.
+  * WAY2 {{{w}}} could be simplified by a given CTyEqCan {{{g : y ~ <T>}}} where {{{x}}} occurs free in {{{<T>}}}.
+
+WAY1 cannot increase the maximum level of the free variables in {{{<W>}}}. In contrast, WAY2 can: consider {{{g : y[_:2] ~ Maybe x[sk:3]}}}.
+
+Within one subtree of a binding group's entire forest of implication trees, we must assume that a uvar {{{alpha[tau:j]}}} could be assigned a type {{{<T>}}} in which any variable of level {{{<= j}}} other than {{{alpha}}} itself could occur free.
+
+The reduction of a type family application {{{F <X>}}} cannot introduce new free type variables beyond those already free in {{{<X>}}} -- except for variables that arise from flattening the type family applications possibly introduced by the reduction. But it might remove some free variables.
+
+An assignment to a uvar {{{alpha[tau:j]}}} that occurs in the givens could directly or indirectly (via enabled given-given interactions) yield the given {{{g}}} of WAY2.
+
 == 20181008
 
 I've found a useful perspective on this. Consider this implication tree.
@@ -313,3 +332,76 @@ forall[3] x y. () =>
 }}}
 
 Maybe CS5 should ignore uvars on the RHS of a skolem's CTyEqCan?
+
+== Experiments ==
+
+=== How do given-given interactions manifest?
+
+{{{
+f :: (x :~: [y]) -> (x :~: z) -> x -> c
+f Refl Refl = id
+}}}
+
+gives a trace that includes
+
+{{{
+addTcEvBind
+  a1c0
+  [G] co_a1c5 = CO: co_a1bW ; co_a1c4
+}}}
+
+and
+
+{{{
+getNoGivenEqs
+  May have given equalities
+  Skols: []
+  Inerts: {Equalities: [G] co_a1c4 {1}:: x_a1bP[sk:1]
+                                         GHC.Prim.~# [y_a1bQ[sk:1]] (CTyEqCan)
+                       [G] co_a1c5 {1}:: z_a1bR[sk:1]
+                                         GHC.Prim.~# [y_a1bQ[sk:1]] (CTyEqCan)
+           Unsolved goals = 0}
+}}}
+
+(The number is braces is the SubGoalDepth -- see TcRnTypes.Note [SubGoalDepth].)
+
+and
+
+{{{
+reportImplic
+  Implic {
+    TcLevel = 1
+    Skolems = x_a1bP[sk:1] y_a1bQ[sk:1] z_a1bR[sk:1] c_a1bS[sk:1]
+    No-eqs = True
+    Status = Unsolved
+    Given =
+    Wanted =
+      WC {wc_impl =
+            Implic {
+              TcLevel = 2
+              Skolems =
+              No-eqs = False
+              Status = Unsolved
+              Given = co_a1bV :: [y_a1bQ[sk:1]] GHC.Prim.~# x_a1bP[sk:1]
+              Wanted =
+                WC {wc_impl =
+                      Implic {
+                        TcLevel = 3
+                        Skolems =
+                        No-eqs = False
+                        Status = Unsolved
+                        Given = co_a1bW :: z_a1bR[sk:1] GHC.Prim.~# x_a1bP[sk:1]
+                        Wanted =
+                          WC {wc_simple =
+                                [WD] hole{co_a1c7} {2}:: c_a1bS[sk:1]
+                                                         GHC.Prim.~# [y_a1bQ[sk:1]] (CNonCanonical)}
+                        Binds = EvBindsVar<a1c0>
+                        a pattern with constructor: Refl :: forall k (a :: k). a :~: a,
+                        in an equation for `f_a1bT' }}
+              Binds = EvBindsVar<a1c1>
+              a pattern with constructor: Refl :: forall k (a :: k). a :~: a,
+              in an equation for `f_a1bT' }}
+    Binds = EvBindsVar<a1c2>
+    the type signature for:
+      f :: forall x y z c. (x :~: [y]) -> (x :~: z) -> x -> c }
+}}}
