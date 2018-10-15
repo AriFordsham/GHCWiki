@@ -1,0 +1,133 @@
+= Kind inference examples
+
+This page is intended to collect examples of tricky cases for kind inference. Any proposed algorithm should be applied to each of these cases to see how it would behave.
+
+More discussion is at GhcKinds/KindInference.
+
+== Associated types
+
+{{{#!hs
+class C1 (a :: k) where
+  type F a
+}}}
+
+Question: What should the visibilities on `F` be?
+
+Ryan and Richard think `F :: forall k. k -> Type`. That is, `k` is Specified, because we can always order implicit kind variables using the same ordering that appears in the class header (after kind inference).
+
+{{{#!hs
+class C2 (a :: k) (b :: k2) where
+  type T a
+}}}
+
+Proposed: `T :: forall k. k -> Type`, with no mention of `b` or `k2`.
+
+{{{#!hs
+class C3 (a :: k) (b :: k2) hwere
+  type T (z :: k3) a
+}}}
+
+Proposed: `T :: forall k k3. k3 -> k -> Type`. This puts `k` ''before'' `k3`, because class variables come before other ones (unless the user explicitly puts them later, as has been done with `a`). This rule always works because class variables cannot depend on local ones.
+
+{{{#!hs
+class C4 a (b :: a) where
+  type T b a
+}}}
+
+This must be rejected, as `b` depends on `a`.
+
+{{{#!hs
+class C5 (a :: k) where
+  type T (a :: k2)
+}}}
+
+Reject: `k` and `k2` are distinct skolems.
+
+{{{#!hs
+class C6 a (b :: a) (c :: Proxy b) where
+  type T (x :: Proxy '(a, c))
+}}}
+
+Proposed: `T :: forall (a :: Type) (b :: a) (c :: Proxy b). Proxy '(a, c) -> Type`. Note that `b` is included here as a Specified variable. It could also be an Inferred, if we prefer.
+
+{{{#!hs
+class C7 a (b :: a) (c :: Proxy b) where
+  type T a c
+}}}
+
+Proposed: `T :: forall (a :: Type) -> forall (b :: a). Proxy b -> Type`. We've inserted `b` between `a` and `c`, but `b` is Specified, not Required. Other possibilities: make `b` Inferred, or reject altogether.
+
+== Datatypes, dependency, and polymorphic recursion
+
+Assume
+
+{{{#!hs
+data Prox k (a :: k)
+}}}
+
+{{{#!hs
+data Prox2 k a = MkP2 (Prox k a)
+}}}
+
+Question: Do we allow `k` to be dependently quantified, even if this is not lexically apparent from the declaration? This is rejected today.
+
+{{{#!hs
+data S2 k (a :: k) b = MkS (S2 k b a)
+}}}
+
+Proposed: `S2 :: forall k -> k -> k -> Type`. Note that `a` and `b` are inferred to have the same kind, as that avoid polymorphic recursion.
+
+{{{#!hs
+data S3 k (a :: k) b = MkS (S3 Type b a)
+}}}
+
+Proposed: reject as polymorphically recursive. Yet the idea in GhcKinds/KindInference#Simonssuggestion accepts this.
+
+{{{#!hs
+data Q2 k a where
+  MkQ2 :: Prox k a -> Q2 k a
+
+data Q3 k a where
+  MkQ3 :: Q3 k a -> Prox k a -> Q3 k a
+
+data Q4 k a where
+  MkQ4 :: Q4 Bool False -> Prox k a -> Q4 k a
+
+data Q5 k a where
+  MkQ5 :: Q5 Bool False -> Q5 Nat 3 -> Prox k a -> Q5 k a
+}}}
+
+Agda accepts all of the above. It puts us to shame!
+
+{{{#!hs
+data Proxy2 a where
+  Mk1 :: Proxy2 (a :: k)
+  Mk2 :: Proxy2 (b :: j)
+}}}
+
+This should really be accepted. But it's challenging to arrange this, because `a`, `k`, `b`, and `j` all scope locally within their constructors. How can the kind of `Proxy2` unify with any of them?
+
+{{{#!hs
+data T a where
+  Mk :: forall k1 k2 (a :: k1) (b :: k2). T b -> T a
+}}}
+
+This is polymorphically recursive. Yet hGhcKinds/KindInference#SimonsProposedSolution accepts it. (That's what's implemented in GHC 8.6.) Richard thinks we should reject.
+
+{{{#!hs
+data T2 a where
+  Mk :: forall (a :: k). T2 Maybe -> T2 a
+}}}
+
+This one is rejected, as it should be. So we don't accept ''all'' polymorphic recursion (how could we?). But we don't have a good specification for what we do accept and what we don't.
+
+{{{#!hs
+data T3 a b where
+  Mk :: T3 b a -> T3 a b
+}}}
+
+This should be accepted with `T3 :: forall k. k -> k -> Type`; it's not polymorphically recursive. Yet, it would seem any specification which accepted `T` would also give `T3` the polymorphically recursive kind `forall k1 k2. k1 -> k2 -> Type`.
+
+== And more
+
+There are many more examples in the testsuite, of course. In particular, see the T14066 tests and the BadTelescope tests.
