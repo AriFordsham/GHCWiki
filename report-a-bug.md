@@ -16,16 +16,16 @@ To report a bug, either:
 
 ## How do I tell if I should report my bug?
 
-- Take a look at the [ FAQ](http://haskell.org/haskellwiki/GHC/FAQ) and [What to do when something goes wrong](http://www.haskell.org/ghc/docs/latest/html/users_guide/gone_wrong.html) from the GHC User's Guide, which will give you some guidance as to whether the behaviour you're seeing is really a bug or not.
+- **Is it a bug at all?**.  Take a look at the [ FAQ](http://haskell.org/haskellwiki/GHC/FAQ) and [What to do when something goes wrong](http://www.haskell.org/ghc/docs/latest/html/users_guide/gone_wrong.html) from the GHC User's Guide, which will give you some guidance as to whether the behaviour you're seeing is really a bug or not.
 
-- Please search for existing tickets on the [ bug tracker](http://hackage.haskell.org/trac/ghc) or [ Google](http://www.google.com/?q=site:ghc.haskell.org/trac/ghc/ticket%20).  It saves time to have all the manifestations of the same bug gathered together.  If you get an error message from GHC, a good search key is usually the non-program-specific part of the error message.  
+- **Duplicate bug reports**.  Please search for existing tickets on the [ bug tracker](http://hackage.haskell.org/trac/ghc) (search box in top right hand corner) or [ Google](http://www.google.com/?q=site:ghc.haskell.org/trac/ghc/ticket%20).  If your problem has already been reported, it saves time to have all the manifestations of the same bug gathered together.  If you get an error message from GHC, a good search key is usually the non-program-specific part of the error message.
 
-- If you do find an existing ticket that seems to describe the same problem, then
+  If you do find an existing ticket that seems to describe the same problem, then
 
   - Add a comment that explains how it manifests for you, and add your description of how to reproduce it (see below)
   - Add yourself to the CC list for the bug. We will try to prioritise bugs that affect a lot of people, and the length of the CC list is how we are currently determining this.  Use a comma or space (but not semicolon) to separate your email address from the next one.
 
-- However, if you encounter a crash from the runtime system, then don't bother searching for existing tickets - **just create a new ticket**.  These indicate a general RTS failure of some kind, and can arise due to a wide range of causes, so it is easier for us to track each failure in a separate ticket.  
+- **RTS bugs**.  However, if you encounter a crash from the runtime system, then don't bother searching for existing tickets - just create a new ticket.  These indicate a general RTS failure of some kind, and can arise due to a wide range of causes, so it is easier for us to track each failure in a separate ticket.  
 
 >
 > Runtime system errors usually manifest as one of the following error messages:
