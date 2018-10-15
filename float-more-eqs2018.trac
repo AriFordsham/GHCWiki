@@ -1,5 +1,231 @@
 I've created this wiki page to track my learning/research as I try to improve my feature request that I made in the comments of #15009.
 
+== 20181014
+
+Just using small examples today, no reference to earlier days -- kind of a fresh start.
+
+=== Example 1
+
+{{{
+forall[2] x. (gx : x ~ Int) =>
+  (w : alpha[tau:1] ~ Int)
+}}}
+
+{{{Note [Let-bound skolems]}}} applies here: it is safe to float {{{w}}} past {{{gx}}}, regardless of skolems and givens outside the scope of {{{x}}}.
+
+Note that a more general {{{w : <W>}}} can only float after being simplified by {{{gx}}}, otherwise the skolem {{{x}}} would escape!
+
+=== Example 2
+
+{{{
+forall[2] x. () =>
+forall[3]. (gx : x ~ Int) =>
+  (w : alpha[tau:1] ~ Int)
+}}}
+
+In this case, I think it is also safe to float {{{w}}} past {{{gx}}}, even though {{{Note [Let-bound skolems]}}} doesn't apply. This kind of example motivates my investigation here.
+
+=== Example 3
+
+{{{
+forall[2] x. () => (
+    (u : <U>)
+  ,
+    forall[3]. (gx : x ~ Int) =>
+      (w : alpha[tau:2] ~ Int)
+  )
+}}}
+
+In this case, it *NOT* safe to float {{{w}}} past {{{gx}}}. Simplification of {{{u}}} might assign {{{alpha := x}}}, in which case {{{gx}}} may be required in order to solve {{{w}}}. If that assignment happened after the float, we'd be stuck.
+
+=== Example 4
+
+{{{
+forall[2] x. (gx : x ~ Int) => (
+    (u : <U>)
+  ,
+    (w : alpha[tau:2] ~ Int)
+  )
+}}}
+
+{{{Note [Let-bound skolems]}}} still applies, and it's safe to float {{{w}}}! (GHC 8.6 does.) This is because *all* occurrences of {{{x}}}, even those in {{{<U>}}}, will have been eliminated by {{{gx}}}, and so no problematic assignment can take place after the float. {{{x}}} is a dead-binder once {{{gx}}} has been applied within the scope that it shares with {{{x}}}.
+
+I will no longer explicitly write the "elsewhere" constraint {{{u}}}; I will instead simply assume that any unification variable {{{alpha[tau:i]}}} where {{{i > 0}}} can rewrite to any type whose free variables' levels are all {{{<= i}}}. (Level {{{0}}} is reserved for flattening variables, and I anticipate I'll have to treat those somewhat differently.)
+
+Note that Examples 3-4 with {{{u}}} left implicit are the same as Examples 1-2 with {{{alpha}}}'s level increased from 1 to 2.
+
+=== Example 5
+
+{{{
+forall[1] x. () =>
+forall[2] y. (gx : x ~ T y) =>
+forall[3]. (gy : y ~ Int) =>
+  (w : alpha[tau:1] ~ T Int)
+}}}
+
+{{{w}}} should not float past {{{gy}}}. If we decide elsewhere that {{{alpha := x}}}, then {{{w}}} can only be solved via a combination of {{{gx}}} and {{{gy}}}.
+
+The line of reasoning is:
+
+  1. The type of {{{w}}} has {{{alpha}}} free, by observation.
+  1. {{{alpha}}} can rewrite to something with {{{x}}} free, by our heuristic regarding unification variable levels.
+  1. {{{x}}} can rewrite to something with {{{y}}} free, by {{{gx}}}.
+  1. The type of {{{w}}} can rewrite to something with {{{y}}} free, by transitivity.
+  1. Thus, floating {{{w}}} out from under {{{gy}}} could ultimately cause an avoidable type error.
+
+Note that contrary to the given-given interaction rules in {{{jpf-outsidein.pdf}}}, GHC does not interact {{{gx}}} and {{{gy}}} to create a new given {{{x ~ T Int}}} (presumably at level 3). So we have to explicitly guard against this transitive scenario. (For example, inspect the {{{-ddump-tc-trace}}} for {{{f :: (x :~: [y]) -> (y :~: Int) -> x -> c; f Refl Refl = id}}}; it seems like the transitivity is actually "handled" during flattening.)
+
+I found intermediate conclusion within that line of reasoning that {{{alpha[tau:1]}}} can rewrite to something with {{{y[sk:2]}}} free to be counter-intuitive because that rewriting _increases_ the maximum level of the source term's free type variables. This increase originates in the otherwise completely typical {{{gx : x[sk:1] ~ T y[sk:2]}}} CTyEqCan.
+
+=== Refinement of Example 5
+
+I see a much simpler argument against floating here.
+
+  1. {{{w}}} would have to float past both {{{gy}}} *and also* {{{gx}}} for its {{{alpha}}} to become touchable.
+  1. {{{w}}} manifestly cannot pass {{{gx}}}.
+  1. Thus, do not float {{{w}}} at all.
+
+If we consider an example with {{{alpha}}}'s level increased to {{{2}}} so that it would not need to pass {{{gx}}}, then it manifestly cannot pass {{{gy}}}.
+
+So maybe an inherited attributed along the lines of "the lowest level tyvar with a CTyEqCan in the outer givens between level 1 and here is 1" would be enough to know that {{{w}}} cannot float all the way to its target level ({{{1}}}, the level of its LHS {{{alpha}}}) and so should not float at all.
+
+=== Example 6
+
+This case is simpler than it looks at first.
+
+{{{
+forall[1] x. () =>
+forall[2] y. () =>
+forall[3]. (gy1 : y ~ T x) =>
+forall[4]. (gy2 : y ~ T Int) =>
+  (w : alpha[tau:1] ~ T Int)
+}}}
+
+The subtlety is that those givens are actually not inert; GHC will interact {{{gy1}}} and {{{gy2}}} to create a constraint at level 4 {{{x ~ T Int}}}, according to the {{{EQSAME}}} rule from {{{jfp-outsidein.pdf}}} (somewhat in contrast to Example 5, where {{{EQDIFF}}} is apparently not directly implemented in GHC).
+
+{{{
+forall[1] x. () =>
+forall[2] y. () =>
+forall[3]. (gy1 : y ~ T x) =>
+forall[4]. (gx : x ~ Int) =>   -- evidence binding gx from gy1 and gy2 interacting
+  (w : alpha[tau:1] ~ T Int)
+}}}
+
+Now it's clear {{{w}}} should not float, because of the new {{{gx}}} --- it's quite similar to Example 5 now.
+
+=== Example 7
+
+Similar to the previous example, this set is not yet inert.
+
+{{{
+forall[1] x. () =>
+forall[2]. (gx : x ~ Int) =>
+  (w : alpha[tau:1] ~ x)
+}}}
+
+{{{gx}}} can simplify {{{w}}}, which yields Example 3, essentially.
+
+=== Example 8
+
+Unification variables can occur in givens.
+
+{{{
+forall[1]. () =>
+forall[2]. (gbeta : beta[tau:1] ~ Int) =>   -- beta must be < level 2, according to (GivenInv) of TcType.Note [TcLevel and untouchable type variables]
+  (w : alpha[tau:1] ~ Int)
+}}}
+
+{{{w}}} should not float past {{{gbeta}}}, since we might elsewhere decide that {{{beta := alpha}}} or {{{alpha := beta}}}.
+
+Even if {{{alpha}}} were of a higher level
+
+{{{
+forall[2]. () =>
+forall[3]. (gbeta : beta[tau:1] ~ Int) =>
+  (w : alpha[tau:2] ~ Int)
+}}}
+
+the assignment {{{alpha := beta}} is still possible.
+
+=== Example 9
+
+This is my actual original motivation.
+
+{{{
+forall[2] x y. () =>
+forall[3]. ( (g1 : x ~ alpha[tau:1]) , (g2 : y ~ beta[tau:1]) ) => (
+    (w1 : alpha[tau:1] ~ Int)
+  ,
+    (w2 : beta[tau:1] ~ Int)
+  )
+}}}
+
+I think they should both float.
+
+The remaining examples will explore variations of this. I'll leave out {{{g2}}} and {{{w2}}} when possible.
+
+{{{
+forall[2] x. () =>
+forall[3]. (g : x ~ alpha[tau:1]) =>
+  (w : alpha[tau:1] ~ Int)
+}}}
+
+=== Example 10
+
+{{{TcUnify.Note [TyVar/TyVar orientation]}}} specifies that {{{x[sk:i] ~ alpha[sk:i]}}} should be swapped to {{{alpha[sk:i] ~ x[sk:i]}}}.
+
+{{{
+forall[2] x. () =>
+forall[3]. (g : alpha[tau:2] ~ x) =>
+  (w : x ~ Int)
+}}}
+
+GHC won't consider floating that, because {{{w}}} is not of the form {{{alpha[tau:_] ~ <T>}}}.
+
+I definitely don't have enough context to seriously challenge the current swap decision procedure. But, if we didn't reorient, then I don't see why {{{w}}} shouldn't float...
+
+{{{
+forall[2] x. () =>
+forall[3]. (g : x ~ alpha[tau:2]) =>   -- hypothetically ignoring current swap decision procedure
+  (w : alpha[tau:2] ~ Int)
+}}}
+
+=== Example 11
+
+Of course, occurrences of skolems on the righthand-side of {{{w}}} should prevent floating past their binder.
+
+{{{
+forall[2] x. () =>
+forall[3] y. (g : x ~ alpha[tau:1]) =>
+  (w : alpha[tau:1] ~ Maybe y)                 -- Decide no float, since 1 < maximum (map level (fvs (Maybe y)))
+}}}
+
+=== Example 12
+
+I don't understand irreducible constraints terribly well, so I'll just treat them all conservatively for now by refining the inherited attribute.
+
+{{{
+forall[2] x. () =>
+forall[3]. beta[tau:1] =>
+forall[4] y. (g : x ~ alpha[tau:1]) =>
+  (w : alpha[tau:1] ~ y)
+}}}
+
+The inherited attribute is a vector, one for each parent implication, in which each vector component is the level of the lowest level tyvar on the LHS of a CTyEqCan or that occurs free in an irreducible constraint.
+
+Maybe insoluble constraints just set the vector component to {{{0}}}, thereby preventing floating past them?
+
+{{{
+forall[2] x. () =>                       -- vec [Inf,Inf,Inf]   (i.e. levels 2,1,0)
+forall[3]. beta[tau:1] =>                -- vec [1,1,1,1]
+forall[4] y. (g : x ~ alpha[tau:1]) =>   -- vec [2,1,1,1,1]     (i.e. levels 4,3,2,1,0)
+  (w : alpha[tau:1] ~ y)                 -- Decide no float, since 1 >= vec !! (4-1).
+}}}
+
+=== Conclusion
+
+TODO ... I haven't yet thought of anything clever that isn't caught by the inherited attribute test I proposed in the discussion of Example 5, even with type family applications and/or constraint kinds.
+
 == 20181013
 
 This section distills the narrative of the 20181008 section into narrower observations and questions.
