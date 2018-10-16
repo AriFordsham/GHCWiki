@@ -128,6 +128,34 @@ data T3 a b where
 
 This should be accepted with `T3 :: forall k. k -> k -> Type`; it's not polymorphically recursive. Yet, it would seem any specification which accepted `T` would also give `T3` the polymorphically recursive kind `forall k1 k2. k1 -> k2 -> Type`.
 
+== Dependency ordering
+
+What if we do something simple? Like just use lexical ordering.
+
+{{{#!hs
+data Proxy (a :: k)
+}}}
+
+Then this example fails, with `k` after `a`.
+
+Refinement: consider the RHS of `::` before the LHS.
+
+Then this one fails:
+
+{{{#!hs
+data T4 a (b :: k) (x :: SameKind a b)
+}}}
+
+The `k` would end up between the `a` and the `b`, even though `a` depends on `k`.
+
+Also, consider
+
+{{{#!hs
+data T5 a (c :: Proxy b) (d :: Proxy a) (x :: SameKind b d)
+}}}
+
+Here, `b` needs to be between `a` and `x` somewhere. But where? Currently (GHC 8.6), this is rejected because implicitly declared variables come before explicit ones.
+
 == And more
 
 There are many more examples in the testsuite, of course. In particular, see the T14066 tests and the BadTelescope tests.

@@ -132,6 +132,41 @@ dataT3 a b whereMk::T3 b a ->T3 a b
 
 This should be accepted with `T3 :: forall k. k -> k -> Type`; it's not polymorphically recursive. Yet, it would seem any specification which accepted `T` would also give `T3` the polymorphically recursive kind `forall k1 k2. k1 -> k2 -> Type`.
 
+## Dependency ordering
+
+
+What if we do something simple? Like just use lexical ordering.
+
+```
+dataProxy(a :: k)
+```
+
+
+Then this example fails, with `k` after `a`.
+
+
+Refinement: consider the RHS of `::` before the LHS.
+
+
+Then this one fails:
+
+```
+dataT4 a (b :: k)(x ::SameKind a b)
+```
+
+
+The `k` would end up between the `a` and the `b`, even though `a` depends on `k`.
+
+
+Also, consider
+
+```
+dataT5 a (c ::Proxy b)(d ::Proxy a)(x ::SameKind b d)
+```
+
+
+Here, `b` needs to be between `a` and `x` somewhere. But where? Currently (GHC 8.6), this is rejected because implicitly declared variables come before explicit ones.
+
 ## And more
 
 
