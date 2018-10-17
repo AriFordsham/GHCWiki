@@ -159,3 +159,27 @@ Here, `b` needs to be between `a` and `x` somewhere. But where? Currently (GHC 8
 == And more
 
 There are many more examples in the testsuite, of course. In particular, see the T14066 tests and the BadTelescope tests.
+
+== Comparison to Idris
+
+Idris accepts `T4` and `T5`, so we think Idris use some kind of ScopedSort.
+
+However, Idris also accepts
+
+{{{#!hs
+data T6 :  (a:k) -> (k:Type) -> Type
+}}}
+
+with type `{k : Type} -> (a : k) -> (k2 : Type) -> Type`. We think both this acceptance and the inferred type are odd, as we would expect these two `k`s to be the same `k`. Then `T6` should be rejected because `a` cannot refer to a variable `k` that appears after.
+
+Idris would reject
+
+{{{#!hs
+data T7 : (a : k) -> (k:Type) -> (b : k) -> SameKind a b -> Type
+}}}
+
+with a kind mismatch error between `a:k2` and `b:k`. We agree this should be rejected but it should be rejected with another error: `a` cannot refer to `k`.
+
+== Difference between Specified and Inferred
+
+The reason we want to accept `T4` but reject `T6` is because there is a difference between Specified type variable and Inferred type variable. In `T4`, `k` is Inferred; thus when we generalize its type, we can put `k` before `a`. In contrast, in `T6`, `k` is specified, and its order is indicated explicitly by the user, so `a` is not allowed to refer to it.
