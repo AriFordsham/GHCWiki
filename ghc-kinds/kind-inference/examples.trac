@@ -178,8 +178,8 @@ Idris would reject
 data T7 : (a : k) -> (k:Type) -> (b : k) -> SameKind a b -> Type
 }}}
 
-with the a kind mismatch error between `a:k2` and `b:k`. We agree this should be rejected but it should be rejected with another error: `a` cannot refer to `k`.
+with a kind mismatch error between `a:k2` and `b:k`. We agree this should be rejected but it should be rejected with another error: `a` cannot refer to `k`.
 
 == Difference between Specified and Inferred
 
-The reason we want to accept `T4` but reject `T6` is because there is a difference between Specified type variable and Inferred type variable. In `T4`, `k` is Inferred; thus when we generalize its type, we can put `k` before `a`. In contrast, in `T6`, `k` is specified, and its order is indicated explicitly by the user, so we don't want `a` to refer to it.
+The reason we want to accept `T4` but reject `T6` is because there is a difference between Specified type variable and Inferred type variable. In `T4`, `k` is Inferred; thus when we generalize its type, we can put `k` before `a`. In contrast, in `T6`, `k` is specified, and its order is indicated explicitly by the user, so `a` is not allowed to refer to it.
