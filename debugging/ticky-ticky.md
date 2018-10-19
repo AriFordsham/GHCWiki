@@ -481,10 +481,12 @@ You will sometimes see sets of counters with names of the form `$NAME_$suffix`. 
 <th></th></tr>
 <tr><th>`ENT_STATIC_FUN_DIRECT_ctr`</th>
 <th> ?             </th>
-<th></th></tr>
+<th> Static (e.g. top-level) function entered 
+</th></tr>
 <tr><th>`ENT_DYN_FUN_DIRECT_ctr`</th>
 <th> ?             </th>
-<th></th></tr>
+<th> Dynamic function entered 
+</th></tr>
 <tr><th>`ENT_LNE_ctr`</th>
 <th> ?             </th>
 <th></th></tr>
