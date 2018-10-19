@@ -315,8 +315,8 @@ You will sometimes see sets of counters with names of the form `$NAME_$suffix`. 
 || `UPD_BH_UPDATABLE_ctr`          || ?             || ||
 || `UPD_CAF_BH_UPDATABLE_ctr`      || ?             || ||
 || `UPD_CAF_BH_SINGLE_ENTRY_ctr`   || ?             || ||
-|| `ENT_STATIC_FUN_DIRECT_ctr`     || ?             || ||
-|| `ENT_DYN_FUN_DIRECT_ctr`        || ?             || ||
+|| `ENT_STATIC_FUN_DIRECT_ctr`     || ?             || Static (e.g. top-level) function entered ||
+|| `ENT_DYN_FUN_DIRECT_ctr`        || ?             || Dynamic function entered ||
 || `ENT_LNE_ctr`                   || ?             || ||
 || **Return statistics** ||
 || `RET_OLD_ctr`                   || ?             || ||
