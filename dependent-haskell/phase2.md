@@ -203,7 +203,43 @@ selD(mkE x y)= y
 
 Once we use `mkE`, the type variable `b` is instantiated to some type (e.g. `Int`), but we have no way to recover it. Instead, now the return value is of type `forall b. D a b`, which does not make sense!
 
-**Brainstorm.** Adam suggests
+**Proposed solution.**
+The above discussion rests on the idea that we treat `(~~)` uniformly with other classes. But perhaps (at least in the short term), we don't have to. Specifically, when we access the superclasses of a class constraint in the solver, we can treat `(~~)` specially.
+
+
+If we have a Given `(~~)`, we can unpack both a kind equality and a type equality from it. Because doing so requires a case-match instead of a `let`, we need a new form of `EvBind`:
+
+```
+dataEvBind-- this first one is old=EvBind{ eb_lhs      ::EvVar, eb_rhs      ::EvTerm, eb_is_given ::Bool-- True <=> given}-- this one is new (always given)|HeteroEqEvBind{ eb_kind_eq ::EvVar, eb_type_eq ::EvVar, eb_rhs     ::EvTerm-- scrutinee of the case}
+```
+
+
+The desugarer would produce a case expression for `HeteroEqEvBind`.
+
+
+One challenge here is that `HeteroEqEvBind` binds *two* variables, and yet an `EvBindsMap` maps the variables to the bindings that bind them. This is OK: the new `HeteroEqEvBind` could simply be listed twice in the map. When iterating through an `EvBindsMap`, we'll just be careful not to, say, desugar it twice. We can do this easily by, say, ignoring the mapping from the kind var to the `HeteroEqEvBind` (because we know we'll see the `HeteroEqEvBind` when we look at the mapping from the type var).
+
+
+For wanteds, the story is much easier: we just make a hetero equality constraint, which we'll have for wanteds anyway. (Recall that a homogeneous equality means that coercion *variables* will be homogeneous, but coercions may still be hetero.)
+
+
+So this will take a little custom coding and a Note or two, but it seems easier than other approaches. This still requires that equality evidence be strict (causing [\#11197](https://gitlab.haskell.org//ghc/ghc/issues/11197)), but the situation is no worse than today, and the approach outlined in [\#11197](https://gitlab.haskell.org//ghc/ghc/issues/11197), of fixing it in FloatIn, still works.
+
+*Small implementation wrinkle*: Desugaring a `HeteroEqEvBind` is harder than desugaring an `EvBind`. Currently, `EvBind`s are desugared into `CoreBind`s, which can be thought of as a `(Id, CoreExpr)`, that is, something that you can use to build a Core `let`. However, a `HeteroEqEvBind` is really a `case`, not a `let`. So how will we desugar it?
+
+
+More concretely: `dsEvBinds :: Bag EvBind -> DsM [CoreBind]`. These `[CoreBind]` are then often passed into `mkCoreLets :: [CoreBind] -> CoreExpr -> CoreExpr`. In order to accommodate both `let`s and `case`s, we could just return `DsM (CoreExpr -> CoreExpr)` from `dsEvBinds`.
+
+
+The problem with this approach is that it fails in `dsAbsBinds`, which includes a special case where the `[CoreBind]` are returned (search for the call to `flattenBinds` in `dsAbsBinds`. The special case happens when there are no local tyvars and no local dictionaries. This means that we don't need to make an abstraction to desugar `AbsBinds`. Any evidence bindings are floated out of the `AbsBinds`. This would be impossible at top-level if we have a `HeteroEqEvBind`, of course, because we can't use `case` to bind top-level evidence.
+
+
+The solution is actually to ignore the problem. I conjecture that this invariant will hold: In an `AbsBinds`, if the `abs_tvs` and the `abs_ev_vars` are both empty, then there will be no `HeteroEqEvBind`s in the `abs_ev_binds`. Why? Because `HeteroEqEvBind` happens only for *givens*, never wanteds. And, with `abs_ev_vars` empty, there are no givens. This invariant should be checked and documented, but it smells right to me.
+
+
+On a practical level, this means that `dsEvBinds` will have to, say, return both a `CoreExpr -> CoreExpr` for the common case and also a `[CoreBind]` for this special case in `dsAbsBinds`. The `[CoreBind]` would be bogus if there is a `HeteroEqEvBind`, but that won't happen in the `dsAbsBinds` special case because of the invariant. Perhaps a better design is available to avoid these strange return type; I'll leave it to Ningning to see if there is.
+
+**Alternative approaches, now abandoned.** Adam suggests
 
 ```
 class(a :: k1 ~~ b :: k2)whereMkHEq:: forall (c :: k1 ~# k2). a |> c ~# b => a ~~ b
@@ -255,32 +291,6 @@ However it raises a problem about telescope. For example, if we swap two constra
 dataRep:: forall k.(a :: k)->TypewhereRepBool:: forall k a.(a ~Bool)(k ~Type)=>Rep k a 
                    -- two constrains are swapped!
 ```
-
-**Questions remain to answer.** If we give up on heterogeneous equality, do we still want coercion quantification?
-
-
-Stephanie suggests the definition of `Rep` without heterogeneous equality might be a good example of uses of coercion quantification. (This is now included in the motivation for coercion quantification, above.)
-
-**Plan of record regarding `~~`:** The above discussion rests on the idea that we treat `(~~)` uniformly with other classes. But perhaps (at least in the short term), we don't have to. Specifically, when we access the superclasses of a class constraint in the solver, we can treat `(~~)` specially.
-
-
-If we have a Given `(~~)`, we can unpack both a kind equality and a type equality from it. Because doing so requires a case-match instead of a `let`, we need a new form of `EvBind`:
-
-```
-dataEvBind-- this first one is old=EvBind{ eb_lhs      ::EvVar, eb_rhs      ::EvTerm, eb_is_given ::Bool-- True <=> given}-- this one is new (always given)|HeteroEqEvBind{ eb_kind_eq ::EvVar, eb_type_eq ::EvVar, eb_rhs     ::EvTerm-- scrutinee of the case}
-```
-
-
-The desugarer would produce a case expression for `HeteroEqEvBind`.
-
-
-One challenge here is that `HeteroEqEvBind` binds *two* variables, and yet an `EvBindsMap` maps the variables to the bindings that bind them. This is OK: the new `HeteroEqEvBind` could simply be listed twice in the map. When iterating through an `EvBindsMap`, we'll just be careful not to, say, desugar it twice. We can do this easily by, say, ignoring the mapping from the kind var to the `HeteroEqEvBind` (because we know we'll see the `HeteroEqEvBind` when we look at the mapping from the type var).
-
-
-For wanteds, the story is much easier: we just make a hetero equality constraint, which we'll have for wanteds anyway. (Recall that a homogeneous equality means that coercion *variables* will be homogeneous, but coercions may still be hetero.)
-
-
-So this will take a little custom coding and a Note or two, but it seems easier than other approaches. This still requires that equality evidence be strict (causing [\#11197](https://gitlab.haskell.org//ghc/ghc/issues/11197)), but the situation is no worse than today, and the approach outlined in [\#11197](https://gitlab.haskell.org//ghc/ghc/issues/11197), of fixing it in FloatIn, still works.
 
 ### Coercion holes
 
@@ -404,9 +414,32 @@ Just as a Wanted constraint carries with it a `TcEvDest`, a Given constraint wil
 
 ### Open questions
 
-- What is the concrete design (type definitions) for the types in the solver to deal with heterogeneous equality constraints without using `~#`?
-
 - At some point, GHC must assume that `ForAllTy`s are irrelevant. Now, however, a `ForAllTy` over a coercion variable is relevant, and must make a proper runtime function. Where is the code that has to change?
+
+### Implementation thoughts
+
+
+The following is taken from an email from Richard to Ningning about a path toward implementating homogeneous equality:
+
+- `Note [The equality types story]` in TysPrim is a helpful primer.
+- `eqPrimTyCon` defines `~#`. That's what has to change.
+- `eqReprPrimTyCon` and `eqPhantPrimTyCon` should change, too, as it's best to keep these all in sync. These two tycons are equality tycons at different roles. The "Safe Zero-Cost Coercions" paper (JFP '16) documents roles carefully.
+- `coercionKind` will continue to return a `Pair Type`. It doesn't have to change.
+- `coercionType` currently returns the `(t1 ~# t2)``TyConApp`. If the coercion is heterogeneous, it will have trouble in the new version. But I think it should just panic if the coercion is heterogeneous. It's not used much.
+
+  - `eqCoercion` and `eqCoercionX` use `coercionType`. These might encounter hetero coercions. But just use `coercionKind` and compare types respectively instead of using `coercionType` here. I think that might be more efficient, anyway.
+  - Any coercion stored in a `CoercionTy` is homogeneous. This is because `CoercionTy`s are arguments to promoted GADT constructors. Therefore, these coercions are used to instantiate a coercion variable. Once those are homo, then `CoercionTy`s will be, too.
+  - Any coercion stored in a `CastTy` is also homogeneous, because both the source and result types have kind `Type`.
+  - The use of `coercionType` in `opt_trans_rule` might see hetero coercions. Just change the check to compare the respective results of `coercionKind`.
+  - The use of `coercionType` in `eqHsBang` looks like it should just use `eqCoercion` instead.
+  - Use `coercionKind` instead of `coercionType` in `pprOptCo`.
+  - Similarly to why `CoercionTy`s are homo, so are coercions stored in the `Coercion` constructor of `Expr`.
+  - Any coercion used in a cast will be homo.
+  - The instance `Eq (DeBruijn Coercion)` (in TrieMap) should also probably work via `coercionKind` instead of `coercionType`.
+  - The `lkC` function will be more annoying. You'll have to refactor the `CoercionMapX` type to store a `(TypeMapG (TypeMapG (TypeMapG (TypeMapG a))))`, where you look up `k1`, `t1`, `k2`, `t2` (in that order). Basically, you have to recreate the current behavior, but without the convenience of `coercionType`.
+  - You'll have to refactor `xtC` similarly.
+- The change in the constraint solver starts by changing the `ctev_pred` field of the `CtEvidence` type to store something that's isomorphic to `(Either TcPredType (Pair Type))`. That will allow you to store the shape of hetero equality constraints without a hetero `~#`. Note that the `TcEvDest` field of `CtWanted` is always `HoleDest` for equality constraints, so you won't have an `EvVar` to worry about. (The `EvVar` would be trouble for a hetero constraint because we wouldn't be able to write down its type.) `CtGiven` stores an `EvVar` directly. I think this will have to become something isomorphic to `(Either EvVar Coercion)` so that we never have to make a hetero-typed `EvVar`. There'd be something nicely symmetric about that between `CtGiven` and `CtWanted`.
+- Remove the `KindCo` constructor, making `mkKindCo` something like `promoteCoercion`. (I think, in fact, you'll be left with only one of those two.)
 
 ### Old conversation about using levels in the solver
 
