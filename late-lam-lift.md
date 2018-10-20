@@ -91,7 +91,7 @@ data DynFlags = DynFlags {
 ## Short wrapup on history
 
 
-The original work by Nicolas Frisby started out on the `wip/llf` branch.
+The original work by Nicolas Frisby started out in 2013 as part of his internship on the `wip/llf` branch.
 Sebastian Graf has rebased this branch in mid April 2018. After some debugging
 and fixups, it passed `./validate` (modulo some compiler perf tests) in
 [ c1f16ac](https://github.com/sgraf812/ghc/tree/c1f16ac245ca8f8c8452a5b3c1f116237adcb577).
