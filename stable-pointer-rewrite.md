@@ -27,8 +27,18 @@ I will assume the stable pointer table is broken into "blocks" (which may be sma
 Each segment contains:
 
 1. No more than `WORDSIZE` entries (probably a few less than that for alignment reasons).
-1. A "free list" bitmap indicating which entries in the segment are currently free.
+1. A "free list" bitmap indicating which entries in the segment are currently free. This bitmap is a fundamental source of truth and is always considered up to date.
 1. A "next-free-enough" pointer (see below).
+1. For each generation, a bitmap of entries in that generation. To align segments nicely, I believe we need to limit the number of per-generation bitmaps to somewhere between 3 and 8 (depending on the number of segments per block and other trade-offs). Assuming there are N per-generation bitmaps, all stable pointer table entries in generations N-1 and older will be inspected when collecting generation N-1. A generation bitmap *may* be out of date:
+
+  1. An entry may be allocated (removed from the free list bitmap) but not yet added to its generation bitmap.
+  1. An entry may be deleted but still present in a generation bitmap.
+
+>
+> However,
+
+1. All allocations will be complete (added to their generation bitmaps) before the garbage collector runs.
+1. No entry will ever be in more than one generation bitmap at a time.
 
 ### The block
 
@@ -43,4 +53,8 @@ A block is considered to be in a generation if at least one of its segments cont
 
 ### Per-capability pieces
 
-1. The active segment. Each capability allocates stable pointers into one segment (its active segment) at a time. Any given segment can be the active segment for at most one capability at a time.
+1. The active segment. Each capability allocates stable pointers into one segment (its active segment) at a time. Any given segment can be the active segment for at most one capability at a time. When a capability's active segment is sufficiently full, the capability "relinquishes" the segment by setting its next-free-enough pointer to null (this will make more sense later).
+
+1. A private copy of the free list bitmap for its active segment that lags behind the true free list. The capability steps through this private copy when allocating entries. When it runs out of entries in the private copy, it makes a fresh private copy and uses that to update the generation lists; this maintains the invariant that an entry is never in more than one generation.
+
+1. A list of blocks in each generation. 
