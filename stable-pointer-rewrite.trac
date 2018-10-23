@@ -24,7 +24,7 @@ Each segment contains:
 
 1. No more than `WORDSIZE` entries (probably a few less than that for alignment reasons).
 2. A "free list" bitmap indicating which entries in the segment are currently free. This bitmap is a fundamental source of truth and is always considered up to date.
-3. A "next-free-enough" pointer (see below).
+3. A "next-free-enough" pointer (see much more below).
 4. For each generation, a bitmap of entries in that generation. To align segments nicely, I believe we need to limit the number of per-generation bitmaps to somewhere between 3 and 8 (depending on the number of segments per block and other trade-offs). Assuming there are N per-generation bitmaps, all stable pointer table entries in generations N-1 and older will be inspected when collecting generation N-1. A generation bitmap ''may'' be out of date:
     a. An entry may be allocated (removed from the free list bitmap) but not yet added to its generation bitmap.
     b. An entry may be deleted but still present in a generation bitmap.
@@ -44,12 +44,31 @@ A block is considered to be in a generation if at least one of its segments cont
 
 === Per-capability pieces
 
-1. The active segment. Each capability allocates stable pointers into one segment (its active segment) at a time. Any given segment can be the active segment for at most one capability at a time. When a capability's active segment is sufficiently full, the capability "relinquishes" the segment by doing some cleanup and then setting its next-free-enough pointer to null (this will make more sense later).
+1. The active segment. Each capability allocates stable pointers into one segment (its active segment) at a time. Any given segment can be the active segment for at most one capability at a time. When a capability's active segment is sufficiently full, the capability "relinquishes" the segment.
 
 2. A private copy of the free list bitmap for its active segment that lags behind the true free list. The capability steps through this private copy when allocating entries. When it runs out of entries in the private copy, it makes a fresh private copy and uses that to update the generation lists; this maintains the invariant that an entry is never in more than one generation.
 
 3. A list of blocks in each generation. When GC runs, every block in each generation is in the list for that generation of ''exactly one'' capability (we don't care which). Once listed as being in a generation, a block is not removed from the generation list until that generation is collected. So a block may be traced unnecessarily, but all necessary blocks will be traced and no block will be traced twice.
 
-4. (Optional, but likely desirable) A private list of segments that are "free enough". See below.
+4. (Optional) A private list of segments that are "free enough". See below.
 
 === The free-enough list(s)
+
+Once a segment has been filled (or nearly filled), we want to be able to reuse it once enough of its entries have been deleted to justify the administrative and synchronization cost of doing so. To avoid wasting too much space to thread migration and such, we need a ''global'' free-enough list that all capabilities can use. I imagine this as a classic lock-free many-writers-one-reader list. We have an in-stack and an out-stack. The in-stack is lock-free; the out-stack is controlled by a lock.
+
+=== Allocation
+
+A capability allocates an entry in its active segment by choosing an entry from its private copy of the free list bitmap, clearing (fetch-and-add) the relevant bit in the true free list bitmap, clearing the relevant bit in its private copy, setting the relevant bit in the relevant generation bitmap, and populating the entry.
+
+If the active segment is full, the capability relinquishes it (see below). It gets another one from the free-enough list (if that's non-empty) and otherwise allocates a fresh block, taking the first segment for itself and adding the rest to the free-enough list. It loads its private free-list copy and updates the generation bitmaps accordingly.
+
+=== Freeing
+
+We free an entry in a segment by setting (fetch-and-add) the relevant bit in the free list bitmap for that segment. We then take the `popCount` of the free list bitmap. If it is precisely at the free-enough threshold, we check the next-free-enough pointer. If that's null (meaning that the segment is not currently the active segment for a capability), we use a CAS loop to add the segment to the free-enough list. Why ''precisely'' at the free-enough threshold? Just to save a bit of time. One might ask what happens if the thread that deletes at the threshold dies before adding the segment to the free-enough list. In that case, the segment will never be added to the free-enough list, and that space will be lost forever. But that's exactly the same thing that will happen if it dies ''while'' adding the segment to the free-enough list, so there's nothing to be gained by being conservative.
+
+If we like, we can reduce contention on the free-enough list by letting each capability maintain a private free-enough list. When that list exceeds a certain length, we use a CAS loop to transfer multiple segments to the global free-enough list at once. We can let non-Haskell threads maintain private free-enough lists as well, flushing them completely when they reach a certain size and when destroyed.
+
+=== Relinquishing a segment
+
+1. Set its next-free-enough pointer to null. As described above, this enables it to be added to the free-enough list once enough of its entries have been freed.
+2. Reload its free-list bitmap and follow the procedure described in the freeing section to check whether the segment is now free enough to add to the free-enough list. This is necessary because it's possible (albeit unlikely) that a segment will become full, but then become free-enough (thanks to deletions by another thread) before it is relinquished.
