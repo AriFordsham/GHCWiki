@@ -12,5 +12,29 @@
    a. Non-Haskell threads can delete stable pointers during garbage collection.
    b. If a non-Haskell thread is killed while it is deleting a stable pointer, the Haskell runtime will survive.
 
+== Overview of proposed system
 
+There are several different areas and levels of organization we need to handle. The stable pointer table needs to be broken into pieces, and there are things that have to be handled per-capability and per-generation. I'll try to explain things in a comprehensible order, but some things may not make sense in any one linear reading.
 
+I will assume the stable pointer table is broken into "blocks" (which may be smaller than those provided by the block allocator) consisting of one or more "segments". The segment is the most important unit; blocks let us reduce the amount of extra space we need for GC.
+
+=== The segment
+
+Each segment contains:
+
+1. No more than `WORDSIZE` entries (probably a few less than that for alignment reasons).
+2. A "free list" bitmap indicating which entries in the segment are currently free.
+3. A "next-free-enough" pointer (see below).
+
+=== The block
+
+Each block contains:
+
+1. One or (most likely) more segments.
+2. For each GC generation, a pointer to the next block in that generation (or null if this block is not in the generation).
+
+A block is considered to be in a generation if at least one of its segments contains at least one (non-free) entry pointing to an object in that generation.
+
+=== Per-capability pieces
+
+1. The active segment. Each capability allocates stable pointers into one segment (its active segment) at a time. Any given segment can be the active segment for at most one capability at a time.
