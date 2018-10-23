@@ -44,8 +44,12 @@ A block is considered to be in a generation if at least one of its segments cont
 
 === Per-capability pieces
 
-1. The active segment. Each capability allocates stable pointers into one segment (its active segment) at a time. Any given segment can be the active segment for at most one capability at a time. When a capability's active segment is sufficiently full, the capability "relinquishes" the segment by setting its next-free-enough pointer to null (this will make more sense later).
+1. The active segment. Each capability allocates stable pointers into one segment (its active segment) at a time. Any given segment can be the active segment for at most one capability at a time. When a capability's active segment is sufficiently full, the capability "relinquishes" the segment by doing some cleanup and then setting its next-free-enough pointer to null (this will make more sense later).
 
 2. A private copy of the free list bitmap for its active segment that lags behind the true free list. The capability steps through this private copy when allocating entries. When it runs out of entries in the private copy, it makes a fresh private copy and uses that to update the generation lists; this maintains the invariant that an entry is never in more than one generation.
 
-3. A list of blocks in each generation. 
+3. A list of blocks in each generation. When GC runs, every block in each generation is in the list for that generation of ''exactly one'' capability (we don't care which). Once listed as being in a generation, a block is not removed from the generation list until that generation is collected. So a block may be traced unnecessarily, but all necessary blocks will be traced and no block will be traced twice.
+
+4. (Optional, but likely desirable) A private list of segments that are "free enough". See below.
+
+=== The free-enough list(s)
