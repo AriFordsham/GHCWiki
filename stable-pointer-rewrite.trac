@@ -27,11 +27,10 @@ Each segment contains:
 3. A "next-free-enough" pointer (see much more below).
 4. For each generation, a bitmap of entries in that generation. To align segments nicely, I believe we need to limit the number of per-generation bitmaps to somewhere between 3 and 8 (depending on the number of segments per block and other trade-offs). Assuming there are N per-generation bitmaps, all stable pointer table entries in generations N-1 and older will be inspected when collecting generation N-1. A generation bitmap ''may'' be out of date:
     a. An entry may be allocated (removed from the free list bitmap) but not yet added to its generation bitmap.
-    b. An entry may be deleted but still present in a generation bitmap.
-    
+    b. An entry may be deleted but still present in a generation bitmap.  
     However,
-    a. All allocations will be complete (added to their generation bitmaps) before the garbage collector runs.
-    b. No entry will ever be in more than one generation bitmap at a time.
+    c. All allocations will be complete (added to their generation bitmaps) before the garbage collector runs.
+    d. No entry will ever be in more than one generation bitmap at a time.
 
 === The block
 
