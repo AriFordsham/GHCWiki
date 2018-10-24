@@ -1,3 +1,5 @@
+= Replacing the stable pointer mechanism
+
 == Goals
 
 1. Collect the stable pointer table by generation (resolving #7670). At present, every minor collection needs to inspect every cell in the stable pointer table. Adding insult to injury, that even includes cells that haven't been occupied since the last major collection or ever.
