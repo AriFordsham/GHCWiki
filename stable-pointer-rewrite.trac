@@ -69,6 +69,8 @@ We free an entry in a segment by setting (fetch-and-add) the relevant bit in the
 
 If we like, we can reduce contention on the free-enough list in-stack by letting each capability maintain a private free-enough list. When that list exceeds a certain length, we use a CAS loop to transfer multiple segments to the global free-enough list at once. We can let non-Haskell threads maintain private free-enough lists as well, flushing them completely when they reach a certain size and when destroyed.
 
+Memory ordering: my understanding of the C memory model is not great, but I'm guessing we ''may'' want the deletion operation to null out the entry. As I understand it, that (along with release-acquire ordering) should be sufficient to establish a single total ordering of allocation, dereferencing, and deletion of an entry. OTOH, it may not actually be necessary.
+
 === Relinquishing a segment
 
 1. For each generation represented in the segment, ensure that the block is on a list for that generation.
