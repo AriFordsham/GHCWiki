@@ -86,4 +86,4 @@ Memory ordering: my understanding of the C memory model is not great, but I'm gu
 
 === Multiple allocation
 
-We can support efficient allocation of many stable pointers from an array or small array, putting the new stable pointers in a user-provided `UnliftedMutableArray` or `SmallUnliftedMutableArray`. The idea is that we can allocate (up to) all the remaining space in an active block in one go, rather than performing a bunch of separately synchronized allocations. We can then let the user know what array slice bounds to give to continue the process with the next segment.
+We can support efficient allocation of many stable pointers from an array or small array, putting the new stable pointers in a user-provided `ByteArray`. The idea is that we can allocate (up to) all the remaining space in an active block in one go, rather than performing a bunch of separately synchronized allocations. We can then let the user know what array slice bounds to give to continue the process with the next segment.
