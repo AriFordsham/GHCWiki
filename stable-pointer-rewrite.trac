@@ -58,7 +58,7 @@ Once a segment has been filled (or nearly filled), we want to be able to reuse i
 
 === Allocation
 
-A capability allocates an entry in its active segment by choosing an entry from its private copy of the free list bitmap, clearing (fetch-and-add) the relevant bit in the true free list bitmap, clearing the relevant bit in its private copy, setting the relevant bit in the relevant generation bitmap, and populating the entry.
+A capability allocates an entry in its active segment by choosing an entry from its private copy of the free list bitmap, clearing (fetch-and-add) the relevant bit in the true free list bitmap, clearing the relevant bit in its private copy, setting the relevant bit in the relevant generation bitmap, and populating the entry. Note: we do ''not'' deal with the list of blocks per generation here; that's delayed until segment relinquishment or GC.
 
 If the active segment is full, the capability relinquishes it (see below). It gets another one from the free-enough list (if that's non-empty) and otherwise allocates a fresh block, taking the first segment for itself and adding the rest to the free-enough list. It loads its private free-list copy and updates the generation bitmaps accordingly.
 
@@ -70,5 +70,13 @@ If we like, we can reduce contention on the free-enough list by letting each cap
 
 === Relinquishing a segment
 
-1. Set its next-free-enough pointer to null. As described above, this enables it to be added to the free-enough list once enough of its entries have been freed.
-2. Reload its free-list bitmap and follow the procedure described in the freeing section to check whether the segment is now free enough to add to the free-enough list. This is necessary because it's possible (albeit unlikely) that a segment will become full, but then become free-enough (thanks to deletions by another thread) before it is relinquished.
+1. For each generation represented in the segment, ensure that the block is on a list for that generation.
+2. Set the next-free-enough pointer to null. As described above, this enables it to be added to the free-enough list once enough of its entries have been freed.
+3. Reload the free-list bitmap and follow the procedure described in the freeing section to check whether the segment is now free enough to add to the free-enough list. This is necessary because it's possible (albeit unlikely) that a segment will become full, but then become free-enough (thanks to deletions by another thread) before it is relinquished.
+
+=== Garbage collection
+
+0. Before garbage collection, make sure that all active segments with entries in this generation have been added to the appropriate generation list. (I imagine each capability will do this independently as the world stops.)
+1. Traverse each of the lists of blocks in this generation. For each of them:
+   a. Clear the generation pointer for this generation.
+   b. For each segment in the block, combine the (approximate) generation bitmap with the (exact) free list bitmap to get a bitmap of all live entries in this generation. Evacuate each entry. Modify the generation bitmaps as appropriate when an entry moves from this generation to another. In the end, make sure that all represented generations are linked as required. If the current generation is (still) represented, add it to a new list.
