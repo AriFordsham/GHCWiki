@@ -7,6 +7,7 @@
 ... as discussed by Richard and Simon. This page is mostly for our own notes, but others are welcome to read it.
 
 Aug 18:
+* #15742: nail down inferred/specified/required
 * #15497: coercion quantification and Phab:D5054
 * #15621, #14185: using implication constraints to improve error messages
 * #15579: `topNormaliseType`; also #14729

@@ -10,6 +10,7 @@
 
 Aug 18:
 
+- [\#15742](https://gitlab.haskell.org//ghc/ghc/issues/15742): nail down inferred/specified/required
 - [\#15497](https://gitlab.haskell.org//ghc/ghc/issues/15497): coercion quantification and [ Phab:D5054](https://phabricator.haskell.org/D5054)
 - [\#15621](https://gitlab.haskell.org//ghc/ghc/issues/15621), [\#14185](https://gitlab.haskell.org//ghc/ghc/issues/14185): using implication constraints to improve error messages
 - [\#15579](https://gitlab.haskell.org//ghc/ghc/issues/15579): `topNormaliseType`; also [\#14729](https://gitlab.haskell.org//ghc/ghc/issues/14729)
