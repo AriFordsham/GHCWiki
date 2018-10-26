@@ -132,6 +132,33 @@ dataT3 a b whereMk::T3 b a ->T3 a b
 
 This should be accepted with `T3 :: forall k. k -> k -> Type`; it's not polymorphically recursive. Yet, it would seem any specification which accepted `T` would also give `T3` the polymorphically recursive kind `forall k1 k2. k1 -> k2 -> Type`.
 
+```
+dataT4 k (a :: k) b =MkT4(T4 k b a)
+```
+
+
+Here, we have a dependent kind for `T4`. Richard thinks this should be accepted. Proposed rule: dependent variables must be fixed an unchanging at all occurrences within a mutually recursive group (otherwise, we have polymorphic recursion). That is, it would be an error to mention, say, `T4 k2` anywhere in the body of `T4`: it must be `T4 k`.
+
+## Generalization
+
+
+Contrast
+
+```
+classC8 a where
+  meth ::Proxy(a :: k)
+```
+
+
+with
+
+```
+dataV1 a whereMkV1::Proxy(a :: k)->V1 a
+```
+
+
+Currently (GHC 8.6) we reject `C8` while accepting `V1`. This may be just a bug, but it has to do with the fact that the type of `meth` isn't quantified over `a`, but it is over `k` (lexically).
+
 ## Dependency ordering
 
 
