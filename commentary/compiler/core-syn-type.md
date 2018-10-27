@@ -177,4 +177,4 @@ explanations about this approach see
 ## Human readable Core generation
 
 
-If you are interested in the way Core is translated into human readable form, you should check the sources for [compiler/coreSyn/PprCore.hs](/trac/ghc/browser/ghc/compiler/coreSyn/PprCore.hs). It is especially usefull if you want to see how the Core data types are being build, especially when there is no Show instance defined for them.
+If you are interested in the way Core is translated into human readable form, you should check the sources for [compiler/coreSyn/PprCore.hs](/trac/ghc/browser/ghc/compiler/coreSyn/PprCore.hs). It is especially usefull if you want to see how the Core data types are being built, especially when there is no Show instance defined for them.
