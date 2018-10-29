@@ -8,8 +8,13 @@ If you believe your favorite thing belongs in this list, but isn't there, please
 
 ## Dates
 
-
-Cut release branch in November 2018. Release in March 2019.
+- 18 November 2018: Cut release branch
+- 25 November 2018: Release alpha1
+- 16 December 2018: Release alpha2
+- 6 January 2019: Release alpha3
+- 27 January 2019: Release alpha4
+- 17 February 2019: Release beta1
+- 15 March 2019: Final release
 
 ## Libraries Status
 
