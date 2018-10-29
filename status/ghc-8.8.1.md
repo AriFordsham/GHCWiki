@@ -37,6 +37,7 @@ Below are the major highlights of 8.8.
     - Work is 99% done, only needs some more eyes and documentation.
   - Optimize based on limited static analysis: [\#14672](https://gitlab.haskell.org//ghc/ghc/issues/14672)
 - A late lambda lifting optimisation on STG ([\#9476](https://gitlab.haskell.org//ghc/ghc/issues/9476))
+- More locations where users can write `forall`: [ https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0007-instance-foralls.rst](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0007-instance-foralls.rst)
 
 ### Build system and miscellaneous changes
 
