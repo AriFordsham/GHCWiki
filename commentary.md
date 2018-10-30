@@ -12,6 +12,13 @@ For the dedicated, there are [videos of Simon and Simon giving an overview of GH
 
 Also check out the [GHC Reading List](reading-list), which gives lots of background reading that will help you understand the actual implementation.  Here's [ another reading list](http://www.stephendiehl.com/posts/essential_compilers.html) from Stephen Diehl.
 
+
+Stephen also has a helpful series of blog posts about GHC internals
+
+- [ Dive into GHC: pipeline](http://www.stephendiehl.com/posts/ghc_01.html)
+- [ Dive into GHC: intermediate forms](http://www.stephendiehl.com/posts/ghc_02.html)
+- [ Dive into GHC: targeting Core](http://www.stephendiehl.com/posts/ghc_03.html)
+
 ## Editing the Commentary
 
 

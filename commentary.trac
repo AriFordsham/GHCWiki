@@ -8,6 +8,11 @@ For the dedicated, there are [wiki:AboutVideos videos of Simon and Simon giving 
 
 Also check out the [wiki:ReadingList GHC Reading List], which gives lots of background reading that will help you understand the actual implementation.  Here's [http://www.stephendiehl.com/posts/essential_compilers.html another reading list] from Stephen Diehl.
 
+Stephen also has a helpful series of blog posts about GHC internals
+ * [http://www.stephendiehl.com/posts/ghc_01.html Dive into GHC: pipeline]
+ * [http://www.stephendiehl.com/posts/ghc_02.html Dive into GHC: intermediate forms]
+ * [http://www.stephendiehl.com/posts/ghc_03.html Dive into GHC: targeting Core]
+
 == Editing the Commentary ==
 
 Please feel free to add material to the rest of the wiki: don't worry too much about accuracy (in due course someone will edit your contribution). When unsure though please indicate this and its best to ask on the GHC mailing list so you can correct the commentary. Please give some thought to where in the commentary your contribution belongs. GHC has an older commentary (non wiki based) that read like a single coherent narrative, made sure to define terms before using them, and introduced concepts in the order which made them easiest to understand.  Please do try to preserve those properties in this wiki commentary. If you're unsure or in a hurry, consider creating a wiki page outside the commentary and linking to it from the commentary (or the "contributed documentation" section below).
