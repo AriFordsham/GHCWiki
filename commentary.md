@@ -17,7 +17,7 @@ Stephen also has a helpful series of blog posts about GHC internals
 
 - [ Dive into GHC: pipeline](http://www.stephendiehl.com/posts/ghc_01.html)
 - [ Dive into GHC: intermediate forms](http://www.stephendiehl.com/posts/ghc_02.html)
-- \[[ http://www.stephendiehl.com/posts/ghc_03.html](http://www.stephendiehl.com/posts/ghc_03.html) Dive into GHC: targeting Core}
+- [ Dive into GHC: targeting Core](http://www.stephendiehl.com/posts/ghc_03.html)
 
 ## Editing the Commentary
 
