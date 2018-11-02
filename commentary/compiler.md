@@ -52,6 +52,7 @@ The compiler itself is written entirely in Haskell, and lives in the many sub-di
 - [Wired-in and known-key things](commentary/compiler/wired-in)
 - [Packages](commentary/compiler/packages)
 - [Recompilation Avoidance](commentary/compiler/recompilation-avoidance)
+- [Incomplete information about FFI exports.](commentary/compiler/ffi-exports)
 
 
 Case studies:
