@@ -31,8 +31,6 @@ Below are the major highlights of 8.8.
 - A safer and more efficient `with#` combinator to control object lifetime ([\#14375](https://gitlab.haskell.org//ghc/ghc/issues/14375))
 - Improved compilation time for type-family-heavy programs ([\#8095](https://gitlab.haskell.org//ghc/ghc/issues/8095), [ Phab:D4766](https://phabricator.haskell.org/D4766))
 - More efficient code generation for nested closures ([\#14461](https://gitlab.haskell.org//ghc/ghc/issues/14461))
-- [ Proposal 81: Visible dependent quantification](https://github.com/ghc-proposals/ghc-proposals/pull/81)
-- [ Proposal 54: Top-level kind signatures: CUSKs](https://github.com/ghc-proposals/ghc-proposals/pull/54)
 - Next iteration of [Trees That Grow](implementing-trees-that-grow)
 - Continued focus on performance:
 
