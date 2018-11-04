@@ -109,20 +109,23 @@ The lesson is that we should not float a constraint at all unless we can float i
 
 After working through the above examples, I'm considering the following rule.
 
-> Rule 20181104. Float a (canonical) wanted {{{w : alpha[L] ~ _}}} from level K > L to level L if all the constraints given by the levels from L+1 to K are inert and each satifies P[L], where
+> Rule 20181104. Float a (canonical) wanted {{{w : alpha[L] ~ <t>}}} from level K > L to level L if all the constraints given by the levels from L+1 to K are inert and each satifies P[L], where
 > {{{
 > nonflat_fvs t = the free variables of the type t, recurring on fsks instead of including them
 >
-> -- P[L] g <=> g is not relevant to any wanted CTyEqCan if its LHS is a metavar of level L
+> -- P[L] g iff g is not relevant to any wanted CTyEqCan if its LHS is a metavar whose level is <= L
 > P[-] : TcLevel -> GivenConstraint -> Bool
 > P[L] CDictCan g = forall sc in superclass-constraints(g). P[L] sc
 > P[L] CFunEqCan _ ~ fsk = True
 > P[L] CTyEqCan alpha ~ _ = False   -- example 3
 > P[L] CTyEqCan fsk ~ _ = False   -- example 4
-> P[L] CTyEqCan x ~ fsk = L < M && forall v[N] in nonflat_fvs(fsk). isSkolem(v) || N < M   -- example 5
+> P[L] CTyEqCan x[M] ~ fsk = L < M && forall v[N] in nonflat_fvs(fsk). isSkolem(v) || N < M   -- example 5
 > P[L] CTyEqCan x[M] ~ _ = L < M
 > P[L] g = forall v[M] in fvs(g). isSkolem(v) && L < M   -- extrapolating from other examples
 > }}}
+> and {{{nonflat_fvs(<t>)}}} doesn't have any skolems with level > L.
+
+TODO Any other restrictions on {{{<t>}}}?
 
 == 20181014
 
