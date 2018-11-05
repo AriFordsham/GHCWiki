@@ -80,13 +80,7 @@ forall[3] (g1 : G x ~ fsk) =>
   (w : alpha[1] ~ Int)
 }}}
 
-=== Example 5 - ignore CTyEqCan RHS unless it's a fsk
-
-The righthand-side of a CTyEqCan is irrelevant, unless it's a fsk: then the CTyEqCan could flip.
-
-TODO
-
-=== Example 6 - "level inversion"
+=== Example 5 - "level inversion"
 
 Some givens make me question my reliance on levels.
 
@@ -103,7 +97,7 @@ I think I have a simple answer to a tricky question: Is it safe to float {{{w}}}
 
 The simplifying observation is that floating {{{w}}} is ultimately only helpful if we can float it all that way to {{{alpha}}}'s level, level 1. And to do so, we'd have to float {{{w}}} past {{{gx}}} itself. That'd clearly be unsound by our usual reasoning: {{{x}}} is the same level as {{{alpha}}}.
 
-But what if {{{w}}} isn't trying to float past {{{gx}}}, only past {{{gy}}}? That would mean either {{{alpha}}} has a higher-level or {{{gx}}} has a lesser level than in the example we just considered. In general:
+But what if {{{w}}} isn't trying to float past {{{gx}}}, only past {{{gy}}}? That would mean either {{{alpha}}} has a higher-level or {{{gx}}} has a lesser level than in the example we just considered. In general, we have the following.
 
 {{{
 forall[A] x. () =>
@@ -118,11 +112,54 @@ If L < B then {{{gx}}} itself will stop {{{w}}}. If B <= L, then {{{y}}} is of a
 
 The lesson is that we need not work out how a level inverting constraint like {{{gx}}} affects other givens in its scope, we can judge all givens individually. We might judge some incorrectly ({{{gy}}}), but only if those farther out ({{{gx}}}) will render that judgement irrelevant.  Thus we should not float a constraint at all unless we can float it all the way to its final destination. (Maybe we should just perform the unification instead of floating it? Otherwise, what if we learn something "risky" after having floated only half way to our destination? This might just be a matter of error message quality.)
 
-(The way {{{gx}}} and {{{gy}}} interact here corresponds to the {{{EQDIFF}}} given-given interaction rule in {{{jfp-outsidein.pdf}}}. GHC doesn't implement that rule as written; it does not add a third constraint {{{gx_gy : x ~ Maybe Int}}} alongside {{{gy}}}. If it did, then {{{gx_gy}}} would be enough to prevent floating {{{w}}}. Givens can also interact via {{{EQSAME}}}. GHC does implement that as written, so it will modify the inner given. I plan to rely on that, and thus I need to withhold judgements unless the givens are ''inert'', so GHC has already resolved {{{EQSAME}}} interactions etc.)
+The way {{{gx}}} and {{{gy}}} interact here corresponds to the {{{EQDIFF}}} given-given interaction rule in {{{jfp-outsidein.pdf}}}. GHC doesn't implement that rule as written; it does not add a third constraint {{{gx_gy : x ~ Maybe Int}}} alongside {{{gy}}}. If it did, then {{{gx_gy}}} would be enough to prevent floating {{{w}}}.
+
+=== Example 6 - ignore CTyEqCan RHS unless it's a fsk
+
+We assume the variable on the LHS is a skolem, otherwise previous examples apply.
+
+Does the RHS of the given equality matter?
+
+{{{
+forall[M] x. ... =>
+...
+forall ... . (g : x ~ <RHS>) =>
+  (w : alpha[L] ~ Int)
+}}}
+
+GHC uses CTyEqCan constraints as left-to-right rewrite rules, so the RHS {{{<RHS>}}} does not affect {{{w}}} unless {{{x}}} first becomes free in {{{w}}}'s type. If M < L, that can't happen and we float {{{w}}} -- that's the basic reasoning from Example 1. Note that {{{<RHS>}}} wasn't a concern. If M >= L, then {{{g}}} prevents floating {{{w}}} as-is, so {{{<RHS>}}} again didn't matter.
+
+That line of reasoning overlooks two important possibilities.
+
+1. The {{{EQSAME}}} given-given interaction from {{{jfp-outsidein.pdf}}}: two CTyEqCans with the same LHS will induce a new equality between their RHSs.
+
+2. If {{{<RHS>}}} is a flattening skolem (i.e. a type family application), then it might reduce in such a way that causes the CTyEqCan to flip over, giving it a new LHS.
+
+TODO Demonstrate that flipping is the only possibility (i.e. {{{x}}} is atomic and immutable, so it will remain one side of the equality).
+
+TODO I'm currently under the impression that fmvs cannot occur in a given CTyEqCan, so I'm not considering them.
+
+If it weren't for the mutability issue, we could address the {{{EQSAME}}} issue by withholding our judgement until all the givens are inert. Unlike {{{EQDIFF}}}, GHC implements {{{EQSAME}}} as written, by creating a new constraint. We'll wait until the givens are inert so we can simply judge any induced equalities instead of trying to anticipate the {{{EQSAME}}} interactions and their possible cascades.
+
+However, an inert set of CTyEqCans might not be inert after one of their LHSs changes, so the mutability issue subverts our planned reliance on inertness.
+
+  * * *
+
+I'm getting dizzy. Let's zoom back out. Our basic rule is: float {{{w}}} past {{{g}}} if {{{M < L}}} and do not otherwise. So if we float, and then the LHS of {{{g}}} somehow becomes a tyvar with a level >= L, we might have thus lost a possible solution to {{{w}}}.
+
+It seems too complicated to try to determine if {{{EQSAME}}} interactions can or cannot lead to that happening, so I'm going to opt for a conservative heuristic and refuse to judge a float if there's a risk of losing inertness. Specifically, I will withhold judgment until we're certain that no new {{{EQSAME}}} interactions can arise.
+
+So I'm going to focus on the case where the RHS is a flattening skolem, because that's only way that the LHS might change, thereby invalidating a premature float judgment and/or enabling further {{{EQSAME}}} interactions.
+
+TODO Demonstrate that no other RHS threatens the LHS. DRAFT "A metavar of level N can only become a tyvar of level <= N, which wouldn't change the orientation of {{{g}}}. (Even a level inverting given like {{{gx}}} from the above example would only allow a metavar to become a type headed by a constructor -- the easy first case of this example.) So we can ignore the RHS if it's a metavar."
+
+So how does {{{g : x[M] ~ fsk0}}} with {{{x}}} an inert skolem become {{{g' : tv[N] ~ x}}}? In general, a type family application {{{F <t1> <t2> ...}}} can reduce to a tyvar {{{tv}}} only if that tyvar is a free variable of one of its arguments. If {{{fsk0}}} reduces to a flattening skolem {{{fsk1}}}, we'll end up back in this same analysis case, and so recur. If it reduces to a metavar or skolem, then GHC will flip the equality only if N >= M (skolems of the same level are resolved by their syntactic names; seems fragile to rely on that, so let's not.) -- see {{{TcUnify.Note [TyVar/TyVar orientation]}}}.
+
+Thus, the RHS should prevent floating only if it is a flattening skolem whose definition's free non-flattening variables (recurring on free flattening skolems) include a variable with a level N >= M. If such a free var exists, then the equality might flip, which might enable more {{{EQSAME}}} interactions, which we do not wish to anticipate. Even if that didn't happen, the level of the LHS has increased, and so a former decision float might now be revealed as premature. (If we some how knew {{{EQSAME}}} interactions were not a risk, we could strengthen the predicate to {{{N >= L}}}: let it flip as long as it still can't prevent {{{w}}} from floating.)
 
 === Rule for Consideration
 
-After working through the above examples, I'm considering the following rule.
+After working through the above examples, I'm considering the following rule. The basic shape is informed by Example 5.
 
 > Rule 20181104. Float a (canonical) wanted {{{w : alpha[L] ~ <t>}}} from level K > L to level L if all the constraints given by the levels from L+1 to K (inclusive) are inert and each satifies P[L], where
 > {{{
@@ -132,9 +169,9 @@ After working through the above examples, I'm considering the following rule.
 > P[-] : TcLevel -> GivenConstraint -> Bool
 > P[L] CDictCan g = forall sc in superclass-constraints(g). P[L] sc
 > P[L] CFunEqCan _ ~ fsk = True
-> P[L] CTyEqCan alpha ~ _ = False   -- example 3
-> P[L] CTyEqCan fsk ~ _ = False   -- example 4
-> P[L] CTyEqCan x[M] ~ fsk = L < M && forall v[N] in nonflat_fvs(fsk). isSkolem(v) || N < M   -- example 5
+> P[L] CTyEqCan alpha ~ _ = False   -- see Example 3
+> P[L] CTyEqCan fsk ~ _ = False   -- see Example 4
+> P[L] CTyEqCan x[M] ~ fsk = L < M && forall v[N] in nonflat_fvs(fsk). M < N   -- see Example 6
 > P[L] CTyEqCan x[M] ~ _ = L < M
 > P[L] g = forall v[M] in fvs(g). isSkolem(v) && L < M   -- assume any fv could become the LHS
 > }}}
