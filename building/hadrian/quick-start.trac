@@ -111,17 +111,6 @@ The equivalent of `mk/build.mk` in the make build system is the `hadrian/src/Use
 
 Hadrian has an entire document dedicated to this topic, with various examples. You can find it [https://github.com/snowleopard/hadrian/blob/master/doc/user-settings.md here].
 
-== Updating Hadrian ==
-
-Hadrian is a submodule of the main GHC git repository, located at the root of the source tree, at path `hadrian/`. This submodule tracks `https://git.haskell.org/hadrian.git`, but the repository where Hadrian development actually takes place is on github, at `https://github.com/snowleopard/hadrian.git`. The former is manually updated with new commits from the latter every now and then, which means you occasionally might need to point `hadrian/` to the github repository's `master` branch to get some fixes or new features. This can be done as follows:
-
-{{{#!sh
-# move to the root of your ghc source tree, then:
-$ cd hadrian
-$ git remote add snowleopard https://github.com/snowleopard/hadrian.git
-$ git fetch snowleopard && git checkout snowleopard/master
-}}}
-
 == Build targets to be documented ==
 
 {{{#!sh
