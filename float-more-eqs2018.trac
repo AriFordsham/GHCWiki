@@ -171,7 +171,7 @@ After working through the above examples, I'm considering the following rule. Th
 > P[L] CFunEqCan _ ~ fsk = True
 > P[L] CTyEqCan alpha ~ _ = False   -- see Example 3
 > P[L] CTyEqCan fsk ~ _ = False   -- see Example 4
-> P[L] CTyEqCan x[M] ~ fsk = L < M && forall v[N] in nonflat_fvs(fsk). M < N   -- see Example 6
+> P[L] CTyEqCan x[M] ~ fsk = L < M && forall v[N] in nonflat_fvs(fsk). N < M   -- see Example 6
 > P[L] CTyEqCan x[M] ~ _ = L < M
 > P[L] g = forall v[M] in fvs(g). isSkolem(v) && L < M   -- assume any fv could become the LHS
 > }}}
