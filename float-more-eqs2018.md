@@ -1,7 +1,16 @@
 
 I've created this wiki page to track my learning/research as I try to improve my feature request that I made in the comments of [\#15009](https://gitlab.haskell.org//ghc/ghc/issues/15009).
 
-## 20181104
+# 20181105 -- revises 20181104
+
+
+Two things occurred after I slept on it. Both relate to Example 6 from the 20181104 entry below about CTyEqCans possibly flipping to reveal a new LHS.
+
+1. Rule 20181104 also needs to inspect the givens at level L and shallower. It's a slightly weaker predicate (implied by P\[L\] but not vice versa): we need to make sure none of them will flip.
+
+1. If I correctly understand what the "inert substitution" is, then I think I can summarize the (corrected) Rule 20181104 as follows. Let dis\[i\] be the domain of the inert substitution active in the wanteds of TcLevel i. We can safely float a wanted CTyEqCan `w : alpha[L] ~ <t>` from level K to level L if dis\[K\] can never change (which implies dis\[L\] can never change -- ie no CTyEqCan might flip) and if dis\[K\] - dis\[L\] does not include any metavars, any flattening skolems, or any skolems of level \<= L.
+
+# 20181104 -- first draft proposal
 
 
 (I think this day's entry is self-contained.)
@@ -213,7 +222,7 @@ After working through the above examples, I'm considering the following rule. Th
 > P[L] CTyEqCan fsk ~ _ = False   -- see Example 4
 > P[L] CTyEqCan x[M] ~ fsk = L < M && forall v[N] in nonflat_fvs(fsk). N < M   -- see Example 6
 > P[L] CTyEqCan x[M] ~ _ = L < M
-> P[L] g = False   -- it could reduce to a CTEqCan fsk ~ _ or any fv could become the LHS, thereby unlocked EQSAME interactions
+> P[L] g = False   -- it could reduce to a CTyEqCan fsk ~ _ or any fv could become the LHS, thereby unlocked EQSAME interactions
 > ```
 >
 >
@@ -221,7 +230,10 @@ After working through the above examples, I'm considering the following rule. Th
 
 TODO Any other restrictions on `<t>`?
 
-## 20181014
+
+Edit: The givens shallower than L also matter; see the top-level 20181105 section above.
+
+# 20181014 -- work in progress
 
 
 Just using small examples today, no reference to earlier days -- kind of a fresh start.
@@ -475,7 +487,7 @@ forall[4] y. (g : x ~ alpha[tau:1]) =>   -- vec [2,1,1,1,1]     (i.e. levels 4,3
 
 TODO ... I haven't yet thought of anything clever that isn't caught by the inherited attribute test I proposed in the discussion of Example 5, even with type family applications and/or constraint kinds.
 
-## 20181013
+# 20181013 -- narrowing
 
 
 This section distills the narrative of the 20181008 section into narrower observations and questions.
@@ -501,7 +513,7 @@ The reduction of a type family application `F <X>` cannot introduce new free typ
 
 An assignment to a uvar `alpha[tau:j]` that occurs in the givens could directly or indirectly (via enabled given-given interactions) yield the given `g` of WAY2.
 
-## 20181008
+# 20181008 -- first notes, learning a lot
 
 
 I've found a useful perspective on this. Consider this implication tree.
