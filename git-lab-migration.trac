@@ -115,6 +115,8 @@ A few things need to happen here:
 
  * Write a bit of glue to incorporate CircleCI
 
-Nothing particularly difficult
+There is the question of what to about CI during the migration process, however. My current thinking is that we simply try to keep Harbormaster limping along as best we can and keep a close eye on CircleCI.
 
+== Timeline
 
+The goal is to be able to start accepting MRs by December 15th.
