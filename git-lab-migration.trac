@@ -73,6 +73,40 @@ instance is both easier and safer than doing so on a live instance, so I
 would prefer that we move everything at once. However, this does mean
 that we need to have things sorted before migrating.
 
+After migration we intend on keeping a read-only Trac instance around for
+future reference.
+
+=== Markup conversion
+
+The import already has reasonable coverage of Trac markup. In my opinion
+aiming for 100% coverage is unrealistic and unnecessary. We will aim
+for the import to cover the majority of syntax in common use, and collect
+syntax falling outside of this set for manual review.
+
+=== Tickets
+
+Ticket migration absolutely must preserve ticket numbers, which the current
+migration does. Trac maintains a significant amount of metadata in fields.
+We want to ensure that most of this information is captured *somehow* in
+the corresponding GitLab ticket. Towards this end, the import does the following:
+
+ * Trac milestones are represented as GitLab milestones
+ * Trac keywords are represented as GitLab labels; however to avoid cluttering
+   the label space we will first do a bit of spring cleaning of keywords before import
+ * Attachments will be represented as either snippets (in the case of Haskell soource files) or uploaded files (otherwise)
+ * The type of failure, component, operating system and architecture fields will be represented as prefixed labels 
+ * The priority field will be represented as GitLab weight
+ * The version, test case, differential revisions, and wiki page fields will be represented in the ticket text
+ * The related, blocking, and blocked tickets fields will be represented in the ticket text
+
+Much of this logic is already implemented
+
+=== Wiki
+
+GHC's Wiki has a wealth of information. However, much of this information is now out-of-date.
+
+We might consider using this opportunity to clean up the wiki by migrating the Trac wiki to the `Trac` namespace within the GitLab wiki. We can then move still-relevant data out to the top-level after the migration.
+
 == Migrating CI
 
 A few things need to happen here:
