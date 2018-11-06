@@ -32,10 +32,7 @@ can also provide:
 > > GitLab provides:
 
 - Assuming all code goes through MRs: as a CI pipeline job
-- with a \[\[[ https://github.com/gitlabhq/gitlabhq/blob/667c0a909bde1cf71f21d8ec9768e98b1c489030/doc/hooks/custom_hooks.md](https://github.com/gitlabhq/gitlabhq/blob/667c0a909bde1cf71f21d8ec9768e98b1c489030/doc/hooks/custom_hooks.md)
-
-
-\|custom hook\]\]
+- with a [ custom hook](https://github.com/gitlabhq/gitlabhq/blob/667c0a909bde1cf71f21d8ec9768e98b1c489030/doc/hooks/custom_hooks.md)
 
 - Code and commit message style checks (this is probably best done as a
   CI pipeline)
@@ -110,8 +107,9 @@ the corresponding GitLab ticket. Towards this end, the import does the following
 - Attachments will be represented as either snippets (in the case of Haskell soource files) or uploaded files (otherwise)
 - The type of failure, component, operating system and architecture fields will be represented as prefixed labels 
 - The priority field will be represented as GitLab weight
-- The version, test case, differential revisions, and wiki page fields will be represented in the ticket text
+- The version, test case, and wiki page fields will be represented in the ticket text
 - The related, blocking, and blocked tickets fields will be represented by issue relations
+- Phabricator differential references will have to be converted to plain web links (yet to be implemented); this means that we will need to commit to a phabricator base URL at migration time, which will be very difficult to change later.
 
 
 Much of this logic is already implemented
