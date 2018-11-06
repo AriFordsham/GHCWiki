@@ -1,0 +1,86 @@
+= GitLab Migration =
+
+In October 2018 a [[https://mail.haskell.org/pipermail/ghc-devs/2018-October/016425.html|proposal]] was discussed on ghc-devs and ghc-devops suggesting that GHC migrate away from Phabricator and towards GitLab for its code review infrastructure. In addition, we are considering consolidating several additional services. Specifically:
+
+ a. Phabricator for code review
+ b. gitolite, for repository hosting
+ c. Trac, for issue tracking and the Wiki
+
+
+== Code review ==
+
+Nothing particular needs to happen here. We will simply phase out Phabricator
+and start taking MRs via GitLab.
+
+== Git hosting ==
+
+Currently GHC uses Gitolite and a pile of custom hooks to host the `ghc` repository and a 
+
+Our gitolite configuration gives us a few things, most of which GitLab
+can also provide:
+
+ * Mirroring ghc packages to GitHub (GitLab provides this)
+ * Mirroring core libraries from GitHub and elsewhere (GitLab can also
+   do this)
+ * Checks for inconsistent submodule changes.
+
+   There are a few possible ways this can be accomplished with what
+   GitLab provides:
+     * Assuming all code goes through MRs: as a CI pipeline job
+     * with a [[https://github.com/gitlabhq/gitlabhq/blob/667c0a909bde1cf71f21d8ec9768e98b1c489030/doc/hooks/custom_hooks.md
+|custom hook]]
+
+ * Code and commit message style checks (this is probably best done as a
+   CI pipeline)
+ * Branch protection (GitLab provides this, although with slightly reduced granularity. However, this granularity shouldn't be necessary in the case of GitLab since users will largely be working within their own forks).
+ * Repository browsing via gitweb (GitLab provides this)
+
+So, on the whole migrating Git hosting entirely to GitLab seems
+straightforward. It will require that we replace the forward slashes in
+the core library submodules with dashes (`packages/filepath` turns into
+`packages-filepath`) but this has been a long time coming (we have
+struggled with this on GitHub for a long time).
+
+
+== Migrating Trac
+
+This is a more delicate situation. We certainly want to get this right
+since we will only do this migration once. As I pointed out earlier, I
+briefly hacked together a 75% of a migration script a few weeks ago.
+Naturally this means all that remains is the last 90%. Tobias has been
+working on this.
+
+In particular, migrating user accounts is a bit tricky since GitLab
+requires that all users have an associated email address yet in Trac
+accounts are entirely orthogonal to mail. Consequently, I implemented
+the following scheme to migrate accounts:
+
+ a. We manually build a list of users covering the current major
+    contributors, mapping their Trac username(s) to their email address.
+    Create these accounts.
+
+ b. For all remaining users we make up an email address (e.g.
+    trac+USERNAME@haskell.org) and use a dummy `trac-USERNAME` user
+    name.
+
+Users falling into bucket (b) can either create a new account (since
+their usual username will still be available) or, if they want to retain
+attribution of their previous comments, email us to recover their
+`trac-` prefixed account (which they can rename to remove the prefix).
+
+In general, I running the Trac targetting a clean GitLab
+instance is both easier and safer than doing so on a live instance, so I
+would prefer that we move everything at once. However, this does mean
+that we need to have things sorted before migrating.
+
+== Migrating CI
+
+A few things need to happen here:
+
+ * Add a new Appveyor project building against the GitLab project
+
+ * Write a bit of glue to incorporate CircleCI
+
+Nothing particularly difficult
+
+
