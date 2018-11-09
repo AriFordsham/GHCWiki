@@ -59,6 +59,7 @@ Below is an equivalence table between make and hadrian commands, with a short de
 || `make inplace/lib/platformConstants` || `build _build/stage{0,1}/lib/platformConstants` || Generate the `platformConstants` file to be used for stage 1 or stage 2 GHC ||
 || `make libraries/base/dist-install/build/libHSbase-4.12.0.0.a` || `build _build/stage1/libraries/base/build/libHSbase-4.12.0.0.a` || Build static library for `base` with the stage 1 compiler ||
 || `make docs` || `build docs` || Generate haddocks, user guide and more ||
+|| N/A || `build _build/docs/html/libraries/index.html` || Generate haddocks only ||
 || `make clean ; make boot ; make 2>&1 | tee nofib-log` || `build nofib` || Run the nofib suite (building a compiler if necessary) ||
 || ''Setting `BuildFlavour=quickest` in build.mk'' || `build --flavour=quickest` || Build a `quickest`-flavoured stage 2 compiler ||
 || `make test` || `build test` || Run the testsuite ||

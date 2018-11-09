@@ -95,6 +95,10 @@ Below is an equivalence table between make and hadrian commands, with a short de
 <th>`build docs`</th>
 <th> Generate haddocks, user guide and more 
 </th></tr>
+<tr><th> N/A </th>
+<th>`build _build/docs/html/libraries/index.html`</th>
+<th> Generate haddocks only 
+</th></tr>
 <tr><th>`make clean ; make boot ; make 2>&1 | tee nofib-log`</th>
 <th>`build nofib`</th>
 <th> Run the nofib suite (building a compiler if necessary) 
