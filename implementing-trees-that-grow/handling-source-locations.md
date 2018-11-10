@@ -344,6 +344,27 @@ instance ForallX HasSrcSpan x => HasSrcSpan (Exp x) where
 -}par l                 = l
 ```
 
+## Implementation Details
+
+### General Plan
+
+
+We implement Solution A as follows.
+
+1. With one patch per [HsSyn](implementing-trees-that-grow/hs-syn) datatype `E`, we mechanically do the following.
+
+  1. We replace uses of `L` pattern and constructor for `LE` (located `E`) by the `dL` view pattern and the `cL` function.
+  1. We replace `type LE p = Located (E p)` with `type LE p = E p`
+  1. We define `instance HasSrcSpan (LE (GhcPass p))`
+  1. We update some type annotation necessarily (e.g., `E p` --\> `E (GhcPass p)`)
+  1. We update `instance XXE (GhcPass p) = NoNew` to `instance XXE (GhcPass p) = (SrcSpan , E (GhcPass p))`
+  1. We update a few (so far only `Outputable` and `Functor`) class instances so that `XE` case behaves as the one on `Located` (e.g., `ppr` of the old `L sp e` should behave as the new `cl sp e`)
+1. With one patch per a moderate set of modules, we make the code more idiomatic by [the following](implementing-trees-that-grow/handling-source-locations#making-code-more-idiomatic) rewrites. 
+
+### Making Code More Idiomatic
+
+TODO
+
 ## Extra Notes
 
 

@@ -1,3 +1,5 @@
+[[PageOutline(1-3)]]
+
 = Handling of Source Locations in Trees that Grow =
 
 * Relevant ticket: #15495
@@ -461,6 +463,24 @@ par l@(LL sp (App{})) = Par (L sp NoExt) l
 -}
 par l                 = l
 }}}
+
+== Implementation Details ==
+
+=== General Plan ===
+
+We implement Solution A as follows.
+1. With one patch per HsSyn datatype `E`, we mechanically do the following.
+   a. We replace uses of `L` pattern and constructor for `LE` (located `E`) by the `dL` view pattern and the `cL` function.
+   b. We replace `type LE p = Located (E p)` with `type LE p = E p`
+   c. We define `instance HasSrcSpan (LE (GhcPass p))` 
+   d. We update some type annotation necessarily (e.g., `E p` --> `E (GhcPass p)`)
+   e. We update `instance XXE (GhcPass p) = NoNew` to `instance XXE (GhcPass p) = (SrcSpan , E (GhcPass p))`
+   f. We update a few (so far only `Outputable` and `Functor`) class instances so that `XE` case behaves as the one on `Located` (e.g., `ppr` of the old `L sp e` should behave as the new `cl sp e`)
+2. With one patch per a moderate set of modules, we make the code more idiomatic by [#MakingCodeMoreIdiomatic the following] rewrites. 
+
+=== Making Code More Idiomatic ===
+
+TODO
 
 
 == Extra Notes ==
