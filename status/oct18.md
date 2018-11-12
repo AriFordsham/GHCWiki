@@ -23,6 +23,11 @@ should ship with a number of great features.
 
  * The next phase of Trees That Grow, refactoring GHC's treatment of source
   spans in the Haskell AST.
+
+ * `TypeInType` was a major increment, and we are still refactoring type
+   inference to account for it in a robust, modular way.  GHC 8.8 has a
+   lot of consolidation in this area, especially of kind inference for
+   type and class declarations.  
   
  * Continued work on compiler performance
 
