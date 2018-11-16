@@ -103,7 +103,7 @@ Please add: System FC, GADTs, kind polymorphism etc
 
 - [ Vectorisation Avoidance](https://www.microsoft.com/en-us/research/wp-content/uploads/2016/07/vectorisation-avoidance-hw12.pdf), Gabriele Keller, Manuel M. T. Chakravarty, Roman Leshchinskiy, Ben Lippmeier, and Simon Peyton Jones, Proceedings of ACM SIGPLAN Haskell Symposium 2012, ACM Press, 2012. 
 
-- [ Work Efficient Higher-Order Vectorisation](http://www.cse.unsw.edu.au/~chak/papers/replicate.pdf), Ben Lippmeier, Manuel M. T. Chakravarty, Gabriele Keller, Roman Leshchinskiy, and Simon Peyton Jones, The 17th ACM SIGPLAN International Conference on Functional Programming, ACM Press, 2012
+- [ Work Efficient Higher-Order Vectorisation](https://www.microsoft.com/en-us/research/wp-content/uploads/2016/07/icfp60-lippmeier.pdf), Ben Lippmeier, Manuel M. T. Chakravarty, Gabriele Keller, Roman Leshchinskiy, and Simon Peyton Jones, The 17th ACM SIGPLAN International Conference on Functional Programming, ACM Press, 2012
 
 - [ Runtime Support for Multicore Haskell](http://simonmar.github.io/bib/papers/multicore-ghc.pdf) (Simon Marlow, Simon Peyton Jones, Satnam Singh) In ICFP '09: Proceeding of the 14th ACM SIGPLAN International Conference on Functional Programming, Edinburgh, Scotland, August 2009
 
