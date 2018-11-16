@@ -26,7 +26,7 @@ You can now directly jump [#table here] to see the table listing usual make comm
 On Windows:
 
 {{{#!sh
-$ hadrian/build.bat -c -j
+$ hadrian\build.bat -c -j
 }}}
 
 On other systems:
