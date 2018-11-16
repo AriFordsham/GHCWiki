@@ -32,7 +32,7 @@ You can now directly jump [here](building/hadrian/quick-start#) to see the table
 On Windows:
 
 ```
-$ hadrian/build.bat -c -j
+$ hadrian\build.bat -c -j
 ```
 
 
